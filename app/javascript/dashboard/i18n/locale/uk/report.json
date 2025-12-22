@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Останні 7 днів",
+      "LAST_14_DAYS": "Останні 14 днів",
       "LAST_30_DAYS": "Останні 30 днів",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Останні 3 місяці",
       "LAST_6_MONTHS": "Останні 6 місяців",
       "LAST_YEAR": "Минулий рік",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Огляд міток",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_LABEL_REPORTS": "Завантажити звіти по міткам",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_INBOX_REPORTS": "Завантажити звіти вхідних повідомлень",
     "FILTER_DROPDOWN_LABEL": "Вибрати \"Вхідний\" канал",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} бесід",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Немає бесід",
+      "CONVERSATION": "{count} бесід",
+      "CONVERSATIONS": "{count} бесід",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Розмови агентів",
       "LOADING_MESSAGE": "Завантаження метрик агента...",
@@ -559,6 +572,7 @@
     "INBOX": "Вхідні",
     "AGENT": "Агент",
     "TEAM": "Команда",
+    "LABEL": "Мітка",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

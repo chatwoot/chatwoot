@@ -1,0 +1,124 @@
+{
+  "AGENT_MGMT": {
+    "HEADER": "Agents",
+    "HEADER_BTN_TXT": "Add Agent",
+    "LOADING": "Fetching Agent List",
+    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "LEARN_MORE": "Learn about user roles",
+    "AGENT_TYPES": {
+      "ADMINISTRATOR": "Administrator",
+      "AGENT": "Agent"
+    },
+    "LIST": {
+      "404": "There are no agents associated to this account",
+      "TITLE": "Manage agents in your team",
+      "DESC": "You can add/remove agents to/in your team.",
+      "NAME": "Name",
+      "EMAIL": "EMAIL",
+      "STATUS": "Status",
+      "ACTIONS": "Actions",
+      "VERIFIED": "Verified",
+      "VERIFICATION_PENDING": "Verification Pending",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+    },
+    "ADD": {
+      "TITLE": "Add agent to your team",
+      "DESC": "You can add people who will be able to handle support for your inboxes.",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
+        },
+        "EMAIL": {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "SUBMIT": "Add Agent"
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "Agent added successfully",
+        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Delete",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirm Deletion",
+        "MESSAGE": "Are you sure to delete ",
+        "YES": "Yes, Delete ",
+        "NO": "No, Keep "
+      }
+    },
+    "EDIT": {
+      "TITLE": "Edit agent",
+      "FORM": {
+        "NAME": {
+          "LABEL": "Agent Name",
+          "PLACEHOLDER": "Please enter a name of the agent"
+        },
+        "AGENT_TYPE": {
+          "LABEL": "Role",
+          "PLACEHOLDER": "Please select a role",
+          "ERROR": "Role is required"
+        },
+        "EMAIL": {
+          "LABEL": "Email Address",
+          "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "AGENT_AVAILABILITY": {
+          "LABEL": "Availability",
+          "PLACEHOLDER": "Please select an availability status",
+          "ERROR": "Availability is required"
+        },
+        "SUBMIT": "Edit Agent"
+      },
+      "BUTTON_TEXT": "Edit",
+      "CANCEL_BUTTON_TEXT": "Cancel",
+      "API": {
+        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      },
+      "PASSWORD_RESET": {
+        "ADMIN_RESET_BUTTON": "Reset Password",
+        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
+        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      }
+    },
+    "SEARCH": {
+      "NO_RESULTS": "No results found."
+    },
+    "MULTI_SELECTOR": {
+      "PLACEHOLDER": "None",
+      "TITLE": {
+        "AGENT": "Select agent",
+        "TEAM": "Select team"
+      },
+      "LIST": {
+        "NONE": "None"
+      },
+      "SEARCH": {
+        "NO_RESULTS": {
+          "AGENT": "No agents found",
+          "TEAM": "No teams found"
+        },
+        "PLACEHOLDER": {
+          "AGENT": "Search agents",
+          "TEAM": "Search teams",
+          "INPUT": "Search for agents"
+        }
+      }
+    }
+  }
+}

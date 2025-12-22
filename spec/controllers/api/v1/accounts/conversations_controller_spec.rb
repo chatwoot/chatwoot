@@ -926,4 +926,63 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/conversations/:id' do
+    let(:conversation) { create(:conversation, account: account) }
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:administrator) { create(:user, account: account, role: :administrator) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}"
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      before do
+        create(:inbox_member, user: agent, inbox: conversation.inbox)
+      end
+
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        response_body = response.parsed_body
+        expect(response_body['error']).to eq('You are not authorized to do this action')
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      before do
+        create(:inbox_member, user: administrator, inbox: conversation.inbox)
+      end
+
+      it 'successfully deletes the conversation' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'can delete conversations from inboxes without direct access' do
+        other_inbox = create(:inbox, account: account)
+        other_conversation = create(:conversation, account: account, inbox: other_inbox)
+
+        expect do
+          delete "/api/v1/accounts/#{account.id}/conversations/#{other_conversation.display_id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to have_enqueued_job(DeleteObjectJob).with(other_conversation, administrator, anything)
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+  end
 end

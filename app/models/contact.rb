@@ -21,12 +21,15 @@
 #  created_at            :datetime         not null
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
+#  company_id            :bigint
 #
 # Indexes
 #
 #  index_contacts_on_account_id                          (account_id)
+#  index_contacts_on_account_id_and_contact_type         (account_id,contact_type)
 #  index_contacts_on_account_id_and_last_activity_at     (account_id,last_activity_at DESC NULLS LAST)
 #  index_contacts_on_blocked                             (blocked)
+#  index_contacts_on_company_id                          (company_id)
 #  index_contacts_on_lower_email_account_id              (lower((email)::text), account_id)
 #  index_contacts_on_name_email_phone_number_identifier  (name,email,phone_number,identifier) USING gin
 #  index_contacts_on_nonempty_fields                     (account_id,email,phone_number,identifier) WHERE (((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))
@@ -175,8 +178,12 @@ class Contact < ApplicationRecord
     }
   end
 
-  def self.resolved_contacts
-    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+  def self.resolved_contacts(use_crm_v2: false)
+    if use_crm_v2
+      where(contact_type: 'lead')
+    else
+      where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
+    end
   end
 
   def discard_invalid_attrs
@@ -239,3 +246,4 @@ class Contact < ApplicationRecord
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
 end
+Contact.include_mod_with('Concerns::Contact')

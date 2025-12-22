@@ -5,7 +5,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' } } } }
+  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
 
   describe 'POST /api/v1/accounts/{account.id}/integrations/hooks' do
     context 'when it is an unauthenticated user' do

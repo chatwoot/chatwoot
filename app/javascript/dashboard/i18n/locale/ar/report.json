@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "آخر 7 أيام",
+      "LAST_14_DAYS": "آخر 14 يوماً",
       "LAST_30_DAYS": "آخر 30 يوماً",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "آخر 3 أشهر",
       "LAST_6_MONTHS": "آخر 6 أشهر",
       "LAST_YEAR": "العام الماضي",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "نظرة عامة على التسميات",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_LABEL_REPORTS": "تحميل تقارير التسمية",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
     "FILTER_DROPDOWN_LABEL": "اختر صندوق الوارد",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "المحادثات",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "تنزيل التقرير"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
       "LOADING_MESSAGE": "جاري تحميل مقاييس الوكيل...",
@@ -559,6 +572,7 @@
     "INBOX": "صندوق الوارد",
     "AGENT": "وكيل الدعم",
     "TEAM": "الفريق",
+    "LABEL": "الوسم",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

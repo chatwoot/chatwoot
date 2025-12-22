@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Viimeiset 7 päivää",
+      "LAST_14_DAYS": "Viimeiset 14 päivää",
       "LAST_30_DAYS": "Viimeiset 30 päivää",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Ladataan kaaviotietoja...",
     "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Emme ole saaneet tarpeeksi dataa raportin luomiseen, yritä myöhemmin uudelleen.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Keskustelut",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
       "LOADING_MESSAGE": "Loading agent metrics...",
@@ -559,6 +572,7 @@
     "INBOX": "Inbox",
     "AGENT": "Edustajat",
     "TEAM": "Tiimi",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

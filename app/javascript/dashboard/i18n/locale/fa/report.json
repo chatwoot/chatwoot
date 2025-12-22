@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "در ۷ روز گذشته",
+      "LAST_14_DAYS": "Last 14 days",
       "LAST_30_DAYS": "در ۳۰ روز گذشته",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "۳ ماه گذشته",
       "LAST_6_MONTHS": "۶ ماه گذشته",
       "LAST_YEAR": "پارسال",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "نمای کلی برچسب ها",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_LABEL_REPORTS": "دانلود گزارش برچسب ها",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_INBOX_REPORTS": "دانلود گزارش های صندوق ورودی",
     "FILTER_DROPDOWN_LABEL": "انتخاب صندوق ورودی",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "گفتگوها",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} گفتگو",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
+      "CONVERSATION": "{count} گفتگو",
+      "CONVERSATIONS": "{count} گفتگو",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای اپراتور ها",
       "LOADING_MESSAGE": "در حال بارگیری معیارهای اپراتور...",
@@ -559,6 +572,7 @@
     "INBOX": "صندوق ورودی",
     "AGENT": "ایجنت",
     "TEAM": "تیم‌",
+    "LABEL": "برچسب",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

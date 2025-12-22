@@ -4,12 +4,14 @@
       "ALL": "모두",
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
-      "MESSAGES": "메시지"
+      "MESSAGES": "메시지",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
-      "MESSAGES": "메시지"
+      "MESSAGES": "메시지",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

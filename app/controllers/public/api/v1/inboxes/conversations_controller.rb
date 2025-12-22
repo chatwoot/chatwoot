@@ -3,7 +3,7 @@ class Public::Api::V1::Inboxes::ConversationsController < Public::Api::V1::Inbox
   before_action :set_conversation, only: [:toggle_typing, :update_last_seen, :show, :toggle_status]
 
   def index
-    @conversations = @contact_inbox.hmac_verified? ? @contact.conversations : @contact_inbox.conversations
+    @conversations = @contact_inbox.hmac_verified? ? @contact_inbox.contact.conversations : @contact_inbox.conversations
   end
 
   def show; end

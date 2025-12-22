@@ -9,7 +9,7 @@ properties:
   messages:
     type: array
     items:
-      $ref: '#/definitions/message'
+      $ref: '#/components/schemas/message'
     description: Messages in the conversation
   contact:
     type: object

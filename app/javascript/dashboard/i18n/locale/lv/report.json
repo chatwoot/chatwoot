@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Pēdējās 7 dienas",
+      "LAST_14_DAYS": "Pēdējās 14 dienas",
       "LAST_30_DAYS": "Pēdējās 30 dienas",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Pēdējie 3 mēneši",
       "LAST_6_MONTHS": "Pēdējie 6 mēneši",
       "LAST_YEAR": "Pagājušais gads",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Etiķešu Pārskats",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_LABEL_REPORTS": "Lejupielādēt etiķešu pārskatus",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_INBOX_REPORTS": "Lejupielādēt iesūtnes pārskatus",
     "FILTER_DROPDOWN_LABEL": "Izvēlieties Iesūtni",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} sarunas",
       "DOWNLOAD_REPORT": "Lejupielādēt atskaiti"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Nav sarunu",
+      "CONVERSATION": "{count} saruna",
+      "CONVERSATIONS": "{count} sarunas",
+      "DOWNLOAD_REPORT": "Lejupielādēt atskaiti"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Aģentu sarunas",
       "LOADING_MESSAGE": "Notiek aģentu metrikas ielāde...",
@@ -559,6 +572,7 @@
     "INBOX": "Iesūtne",
     "AGENT": "Aģents",
     "TEAM": "Komanda",
+    "LABEL": "Etiķete",
     "AVG_RESOLUTION_TIME": "Vid. Atrisināšanas Laiks",
     "AVG_FIRST_RESPONSE_TIME": "Vid. Pirmās Atbildes Laiks",
     "AVG_REPLY_TIME": "Vid. Klientu Gaidīšanas Laiks",

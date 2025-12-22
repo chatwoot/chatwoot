@@ -1,16 +1,20 @@
 import { adjustColorForContrast } from '../shared/helpers/colorHelper.js';
 
+const getResolvedTheme = theme => {
+  // Helper to get resolved theme (handles 'system' -> 'dark'/'light')
+  if (theme === 'system') {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light';
+  }
+  return theme;
+};
+
 export const setPortalHoverColor = theme => {
   // This function is to set the hover color for the portal
-  if (theme === 'system') {
-    const prefersDarkMode = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    theme = prefersDarkMode ? 'dark' : 'light';
-  }
-
+  const resolvedTheme = getResolvedTheme(theme);
   const portalColor = window.portalConfig.portalColor;
-  const bgColor = theme === 'dark' ? '#151718' : 'white';
+  const bgColor = resolvedTheme === 'dark' ? '#151718' : 'white';
   const hoverColor = adjustColorForContrast(portalColor, bgColor);
 
   // Set hover color for border and text dynamically
@@ -36,67 +40,80 @@ export const removeQueryParamsFromUrl = (queryParam = 'theme') => {
 export const updateThemeInHeader = theme => {
   // This function is to update the theme selection in the header in real time
   const themeToggleButton = document.getElementById('toggle-appearance');
-
   if (!themeToggleButton) return;
-  const allElementInButton =
-    themeToggleButton.querySelectorAll('.theme-button');
 
-  if (!allElementInButton) return;
-  allElementInButton.forEach(button => {
-    button.classList.toggle('hidden', button.dataset.theme !== theme);
-    button.classList.toggle('flex', button.dataset.theme === theme);
+  const allThemeButtons = themeToggleButton.querySelectorAll('.theme-button');
+  if (!allThemeButtons.length) return;
+
+  allThemeButtons.forEach(button => {
+    const isActive = button.dataset.theme === theme;
+    button.classList.toggle('hidden', !isActive);
+    button.classList.toggle('flex', isActive);
   });
 };
 
 export const switchTheme = theme => {
+  // Update localStorage
   if (theme === 'system') {
     localStorage.removeItem('theme');
-    const prefersDarkMode = window.matchMedia(
-      '(prefers-color-scheme: dark)'
-    ).matches;
-    // remove this so that the system theme is used
-
-    document.documentElement.classList.remove('dark', 'light');
-    document.documentElement.classList.add(prefersDarkMode ? 'dark' : 'light');
   } else {
     localStorage.theme = theme;
-
-    document.documentElement.classList.remove('dark', 'light');
-    document.documentElement.classList.add(theme);
   }
+
+  const resolvedTheme = getResolvedTheme(theme);
+  document.documentElement.classList.remove('dark', 'light');
+  document.documentElement.classList.add(resolvedTheme);
 
   setPortalHoverColor(theme);
   updateThemeInHeader(theme);
   removeQueryParamsFromUrl();
-};
-
-export const initializeThemeSwitchButtons = () => {
-  const appearanceDropdown = document.getElementById('appearance-dropdown');
-  appearanceDropdown.dataset.currentTheme = localStorage.theme || 'system';
-
-  appearanceDropdown.addEventListener('click', event => {
-    const target = event.target.closest('button[data-theme]');
-
-    if (target) {
-      const { theme } = target.dataset;
-      // setting this data property will automatically toggle the checkmark using CSS
-      appearanceDropdown.dataset.currentTheme = theme;
-      switchTheme(theme);
-      // wait for a bit before hiding the dropdown
-      appearanceDropdown.style.display = 'none';
-    }
+  // Update both dropdown data attributes
+  document.querySelectorAll('.appearance-menu').forEach(menu => {
+    menu.dataset.currentTheme = theme;
   });
 };
 
-export const initializeToggleButton = () => {
-  const themeToggleButton = document.getElementById('toggle-appearance');
+export const initializeThemeHandlers = () => {
+  const toggle = document.getElementById('toggle-appearance');
+  const dropdown = document.getElementById('appearance-dropdown');
+  if (!toggle || !dropdown) return;
 
-  themeToggleButton?.addEventListener('click', () => {
-    const appearanceDropdown = document.getElementById('appearance-dropdown');
+  // Toggle appearance dropdown
+  toggle.addEventListener('click', e => {
+    e.stopPropagation();
+    dropdown.dataset.dropdownOpen = String(
+      dropdown.dataset.dropdownOpen !== 'true'
+    );
+  });
 
-    const isCurrentlyHidden = appearanceDropdown.style.display === 'none';
-    // Toggle the appearanceDropdown
-    appearanceDropdown.style.display = isCurrentlyHidden ? 'flex' : 'none';
+  document.addEventListener('click', ({ target }) => {
+    if (toggle.contains(target)) return;
+
+    const themeBtn = target.closest('.appearance-menu button[data-theme]');
+    const menu = themeBtn?.closest('.appearance-menu');
+
+    if (themeBtn && menu) {
+      switchTheme(themeBtn.dataset.theme);
+      menu.dataset.dropdownOpen = 'false';
+
+      if (menu.id === 'mobile-appearance-dropdown') {
+        // Set the mobile menu toggle to false after a delay to ensure the transition is completed
+        setTimeout(() => {
+          const mobileToggle = document.getElementById('mobile-menu-toggle');
+          if (mobileToggle) mobileToggle.checked = false;
+        }, 300);
+      }
+
+      return;
+    }
+
+    // Close the desktop appearance dropdown if clicked outside
+    if (
+      dropdown.dataset.dropdownOpen === 'true' &&
+      !dropdown.contains(target)
+    ) {
+      dropdown.dataset.dropdownOpen = 'false';
+    }
   });
 };
 
@@ -114,13 +131,12 @@ export const initializeTheme = () => {
   if (window.portalConfig.isPlainLayoutEnabled === 'true') return;
   // start with updating the theme in the header, this will set the current theme on the button
   // and set the hover color at the start of init, this is set again when the theme is switched
-  setPortalHoverColor(localStorage.theme || 'system');
+  switchTheme(localStorage.theme || 'system');
+
   window.updateThemeInHeader = updateThemeInHeader;
-  updateThemeInHeader(localStorage.theme || 'system');
 
   // add the event listeners for the dropdown toggle and theme buttons
-  initializeToggleButton();
-  initializeThemeSwitchButtons();
+  initializeThemeHandlers();
 
   // add the media query listener to update the theme when the system theme changes
   initializeMediaQueryListener();

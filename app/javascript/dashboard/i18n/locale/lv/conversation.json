@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Notiek sarunu ielāde",
     "CANNOT_REPLY": "Jūs nevarat atbildēt, jo",
     "24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
+    "48_HOURS_WINDOW": "48 stundu ziņojuma loga ierobežojums",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Šī saruna nav Jums piešķirta. Vai vēlaties piešķirt šo sarunu sev?",
     "ASSIGN_TO_ME": "Piešķirt sev",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Jūs varat atbildēt uz šo sarunu, tikai izmantojot veidnes ziņojumu, jo",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 stundu ziņojuma loga ierobežojums",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Rādīt etiķetes",
       "HIDE_LABELS": "Slēpt etiķetes"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Atrisināt",
       "REOPEN_ACTION": "Atkārtoti atvērt",
       "OPEN_ACTION": "Atvērt",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Papildu",
       "CLOSE": "Aizvērt",
       "DETAILS": "detalizēta informācija",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Nākamā nedēļa"
       }
     },
+    "MENTION": {
+      "AGENTS": "Aģenti",
+      "TEAMS": "Komandas"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Atlikt līdz",
       "APPLY": "Atlikt",
@@ -117,6 +139,11 @@
         "FAILED": "Nevarēja nomainīt prioritāti. Lūdzu, mēģiniet vēlreiz."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Dzēst"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Atzīmēt kā neapstiprinātu",
       "RESOLVED": "Atzīmēt kā atrisinātu",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Piešķirt etiķeti",
       "AGENTS_LOADING": "Notiek aģentu ielāde...",
       "ASSIGN_TEAM": "Piešķirt komandu",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sarunas id {conversationId} piešķirts \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Lasīt vairāk",
       "DISMISS_REPLY": "Noraidīt atbildi",
       "REPLYING_TO": "Atbildot uz:",
-      "TIP_FORMAT_ICON": "Rādīt bagātinātā teksta redaktoru",
       "TIP_EMOJI_ICON": "Rādīt emocijzīmju atlasītāju",
       "TIP_ATTACH_ICON": "Pievienot failus",
       "TIP_AUDIORECORDER_ICON": "Ierakstīt audio",
@@ -197,6 +227,13 @@
           "YES": "Nosūtīt",
           "CANCEL": "Atcelt"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privāta Piezīme: Redzama tikai Jums un Jūsu komandai",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiķete ir veiksmīgi piešķirta",
     "ASSIGN_LABEL_FAILED": "Etiķetes piešķiršana neizdevās",
     "CHANGE_TEAM": "Sarunu komanda mainīta",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Fails pārsniedz {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB pielikuma ierobežojumu",
     "MESSAGE_ERROR": "Nevar nosūtīt šo ziņojumu. Lūdzu, vēlāk mēģiniet vēlreiz",
     "SENT_BY": "Sūtīja:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Kontaktpersonas Īpašības",
       "PREVIOUS_CONVERSATION": "Iepriekšējās Sarunas",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

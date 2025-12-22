@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Siste 7 dager",
+      "LAST_14_DAYS": "Siste 14 dager",
       "LAST_30_DAYS": "Siste 30 dager",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
       "LOADING_MESSAGE": "Loading agent metrics...",
@@ -559,6 +572,7 @@
     "INBOX": "Innboks",
     "AGENT": "Agent",
     "TEAM": "Gruppe",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

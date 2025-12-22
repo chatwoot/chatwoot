@@ -2,9 +2,9 @@
   "AGENT_BOTS": {
     "HEADER": "봇",
     "LOADING_EDITOR": "Loading editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "에이전트 봇은 팀에서 가장 뛰어난 멤버와 같습니다. 사소한 일은 봇이 처리해 주니, 중요한 일에 집중하세요. 한번 사용해 보세요. 이 페이지에서 봇을 관리하거나 '봇 추가' 버튼을 통해 새 봇을 생성할 수 있습니다.",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "시스템 봇",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
       "SUCCESS_DELETE": "Bot avatar deleted successfully",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Select bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "Agregar Bot",
       "CANCEL_BUTTON_TEXT": "취소",
       "API": {
         "SUCCESS_MESSAGE": "Bot added successfully.",
@@ -30,10 +30,10 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "Bot no encontrado. Puedes crear uno haciendo click en el botón 'Agregar Bot'.",
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Detalles del Bot",
         "URL": "웹훅 URL"
       }
     },
@@ -58,6 +58,13 @@
         "SUCCESS_MESSAGE": "Bot updated successfully.",
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
+    },
+    "ACCESS_TOKEN": {
+      "TITLE": "엑세스 토큰",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
     },
     "FORM": {
       "AVATAR": {

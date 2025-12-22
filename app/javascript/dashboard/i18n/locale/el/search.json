@@ -4,12 +4,14 @@
       "ALL": "Όλες",
       "CONTACTS": "Επαφές",
       "CONVERSATIONS": "Συζητήσεις",
-      "MESSAGES": "Μηνύματα"
+      "MESSAGES": "Μηνύματα",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Επαφές",
       "CONVERSATIONS": "Συζητήσεις",
-      "MESSAGES": "Μηνύματα"
+      "MESSAGES": "Μηνύματα",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

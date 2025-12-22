@@ -1,6 +1,6 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Help Center",
+    "TITLE": "מרכז עזרה",
     "NEW_PAGE": {
       "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
       "CREATE_PORTAL_BUTTON": "צור פורטל"
@@ -23,10 +23,10 @@
         "ARCHIVED": "מאמרים בארכיון"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "בחר אזור",
+        "PLACEHOLDER": "בחר אזור",
+        "NO_RESULT": "לא נמצא אזור",
+        "SEARCH_PLACEHOLDER": "חפש אזור"
       }
     },
     "EDIT_HEADER": {
@@ -46,7 +46,7 @@
         "UPLOADING": "מעלה...",
         "SUCCESS": "התמונה הועלתה בהצלחה",
         "ERROR": "שגיאה בעת העלאת תמונה",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UN_AUTHORIZED_ERROR": "אינך מורשה להעלות תמונות",
         "ERROR_FILE_SIZE": "גודל התמונה צריך להיות פחות מ-{size}MB",
         "ERROR_FILE_FORMAT": "פורמט התמונה צריך להיות jpg, jpeg או png",
         "ERROR_FILE_DIMENSIONS": "מידות התמונה צריכות להיות פחות מ-2000 x 2000"
@@ -88,15 +88,15 @@
       }
     },
     "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Uncategorized",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Searching...",
-      "INSERT_ARTICLE": "Insert",
-      "NO_RESULT": "No articles found",
-      "COPY_LINK": "Copy article link to clipboard",
-      "OPEN_LINK": "Open article in new tab",
-      "PREVIEW_LINK": "Preview article"
+      "UNCATEGORIZED": "ללא קטגוריה",
+      "SEARCH_RESULTS": "תוצאות חיפוש עבור {query}",
+      "EMPTY_TEXT": "חפש מאמרים כדי להוסיף לתשובות.",
+      "SEARCH_LOADER": "מחפש...",
+      "INSERT_ARTICLE": "הכנס",
+      "NO_RESULT": "לא נמצאו מאמרים",
+      "COPY_LINK": "העתק קישור למאמר ללוח",
+      "OPEN_LINK": "פתח מאמר בכרטיסייה חדשה",
+      "PREVIEW_LINK": "תצוגה מקדימה של מאמר"
     },
     "PORTAL": {
       "HEADER": "פורטלים",
@@ -156,6 +156,12 @@
           "API": {
             "DELETE_SUCCESS": "הפורטל נמחק בהצלחה",
             "DELETE_ERROR": "שגיאה בעת מחיקת הפורטל"
+          }
+        },
+        "SEND_CNAME_INSTRUCTIONS": {
+          "API": {
+            "SUCCESS_MESSAGE": "הוראות CNAME נשלחו בהצלחה",
+            "ERROR_MESSAGE": "שגיאה בשליחת הוראות CNAME"
           }
         }
       },
@@ -231,9 +237,9 @@
           "LABEL": "לוגו",
           "UPLOAD_BUTTON": "העלה לוגו",
           "HELP_TEXT": "לוגו זה יוצג בכותרת הפורטל.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "לוגו הועלה בהצלחה",
+          "IMAGE_UPLOAD_ERROR": "לוגו נמחק בהצלחה",
+          "IMAGE_DELETE_ERROR": "שגיאה במחיקת לוגו"
         },
         "NAME": {
           "LABEL": "שם",
@@ -249,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "תחום מותאם אישית",
           "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "HELP_TEXT": "הוסף רק אם ברצונך להשתמש בדומיין מותאם אישית עבור הפורטלים שלך. לדוגמה: {exampleURL}",
           "ERROR": "הזן כתובת אתר חוקית של דומיין"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "קישור לדף הבית",
           "PLACEHOLDER": "קישור לדף הבית של הפורטל",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "הקישור המשמש לחזרה מהפורטל לדף הבית. לדוגמה: {exampleURL}",
           "ERROR": "הזן כתובת אתר חוקית של דף הבית"
         },
         "THEME_COLOR": {
@@ -319,13 +325,13 @@
       "HEADERS": {
         "TITLE": "כותרת",
         "CATEGORY": "קטגוריה",
-        "READ_COUNT": "Views",
+        "READ_COUNT": "צפיות",
         "STATUS": "מצב",
         "LAST_EDITED": "עריכה אחרונה"
       },
       "COLUMNS": {
         "BY": "על ידי",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "המחבר אינו זמין"
       }
     },
     "EDIT_ARTICLE": {
@@ -350,7 +356,7 @@
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
+        "ERROR": "שגיאה בטיוטת מאמר",
         "SUCCESS": "המאמר נשמר כטיוטה בהצלחה"
       }
     },
@@ -385,7 +391,7 @@
         "NAME": {
           "LABEL": "שם",
           "PLACEHOLDER": "שם קטגוריה",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "שם הקטגוריה והסמל ישמשו בפורטל הפונה לציבור כדי לסווג מאמרים.",
           "ERROR": "שם שדה חובה"
         },
         "SLUG": {
@@ -416,7 +422,7 @@
         "NAME": {
           "LABEL": "שם",
           "PLACEHOLDER": "שם קטגוריה",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "שם הקטגוריה והסמל ישמשו בפורטל הפונה לציבור כדי לסווג מאמרים.",
           "ERROR": "שם שדה חובה"
         },
         "SLUG": {
@@ -447,56 +453,56 @@
       }
     },
     "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "No articles found",
-      "SEARCHING": "Searching...",
+      "TITLE": "חפש מאמרים",
+      "PLACEHOLDER": "חפש מאמרים",
+      "NO_RESULT": "לא נמצאו מאמרים",
+      "SEARCHING": "מחפש...",
       "SEARCH_BUTTON": "חפש",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Preview article",
+      "INSERT_ARTICLE": "הכנס קישור",
+      "IFRAME_ERROR": "כתובת ה-URL ריקה או לא חוקית. לא ניתן להציג תוכן.",
+      "OPEN_ARTICLE_SEARCH": "הכנס מאמר ממרכז העזרה",
+      "SUCCESS_ARTICLE_INSERTED": "המאמר הוחדר בהצלחה",
+      "PREVIEW_LINK": "תצוגה מקדימה של מאמר",
       "CANCEL": "סגור",
       "BACK": "חזור",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "חזור לתוצאות"
     },
     "UPGRADE_PAGE": {
-      "TITLE": "Help Center",
+      "TITLE": "מרכז עזרה",
       "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
       "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
       "BUTTON": {
         "LEARN_MORE": "למד עוד",
-        "UPGRADE": "Upgrade"
+        "UPGRADE": "שדרג"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "פורטלים מרובים",
+          "DESCRIPTION": "צור פורטלים מרובים של מרכז עזרה עבור מוצרים שונים באמצעות אותו חשבון."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "תמיכה מלאה באזורים (Locales)",
+          "DESCRIPTION": "לכסן את הפורטל בשפה שלך. אנו תומכים בכל האזורים ומאפשרים תרגומים עבור כל מאמר."
         },
         "SEO": {
           "TITLE": "SEO-friendly design",
           "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
         },
         "API": {
-          "TITLE": "Full API support",
+          "TITLE": "תמיכה מלאה ב-API",
           "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "טוען...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
-          "VIEWS": "{count} view | {count} views",
+          "VIEWS": "{count} צפייה | {count} צפיות",
           "DROPDOWN_MENU": {
             "PUBLISH": "פרסם",
             "DRAFT": "טיוטה",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "ארכיון",
             "DELETE": "מחק"
           },
           "STATUS": {
@@ -505,51 +511,51 @@
             "ARCHIVED": "בארכיון"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "ללא קטגוריה"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "כל המאמרים",
           "MINE": "שלי",
           "DRAFT": "טיוטה",
           "PUBLISHED": "יצא לאור",
           "ARCHIVED": "בארכיון"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "כל הקטגוריות"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "כל האזורים"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "מאמר חדש"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
+          "TITLE": "כתוב מאמר",
           "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "BUTTON_LABEL": "מאמר חדש"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "לא כתבת כאן מאמרים",
+          "SUBTITLE": "כל המאמרים שנכתבו על ידך מופיעים כאן לגישה מהירה."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "אין מאמרים בטיוטות",
+          "SUBTITLE": "מאמרי טיוטה יופיעו כאן"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "אין מאמרים שפורסמו",
+          "SUBTITLE": "מאמרים שפורסמו יופיעו כאן"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "אין מאמרים בארכיון",
+          "SUBTITLE": "מאמרים בארכיון אינם מופיעים בפורטל, ניתן להשתמש בהם כדי לסמן דפים מיושנים או לא עדכניים"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "אין מאמרים בקטגוריה זו",
+          "SUBTITLE": "מאמרים בקטגוריה זו יופיעו כאן"
         }
       }
     },
@@ -557,18 +563,18 @@
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "קטגוריה חדשה",
         "EDIT_CATEGORY": "ערוך קטגוריה",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
+        "CATEGORIES_COUNT": "{n} קטגוריה | {n} קטגוריות",
         "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
+          "CATEGORY_LOCALE": "קטגוריות ({localeCode})",
+          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} מאמר) | {categoryName} ({categoryCount} מאמרים)"
         }
       },
       "CATEGORY_EMPTY_STATE": {
         "TITLE": "לא נמצאו קטגוריות",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
+        "SUBTITLE": "קטגוריות יופיעו כאן. תוכל להוסיף קטגוריה על ידי לחיצה על כפתור 'קטגוריה חדשה'."
       },
       "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
+        "ARTICLES_COUNT": "{count} מאמר | {count} מאמרים"
       },
       "CATEGORY_DIALOG": {
         "CREATE": {
@@ -622,22 +628,22 @@
       }
     },
     "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "LOCALES_COUNT": "אין אזורים זמינים | {n} אזור | {n} אזורים",
+      "NEW_LOCALE_BUTTON_TEXT": "אזור חדש",
       "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
+        "ARTICLES_COUNT": "{count} מאמר | {count} מאמרים",
+        "CATEGORIES_COUNT": "{count} קטגוריה | {count} קטגוריות",
         "DEFAULT": "ברירת מחדל",
         "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
+          "MAKE_DEFAULT": "הפוך לברירת מחדל",
           "DELETE": "מחק"
         }
       },
       "ADD_LOCALE_DIALOG": {
         "TITLE": "הוסף מקום חדש",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
+        "DESCRIPTION": "בחר את השפה שבה מאמר זה ייכתב. זו תתווסף לרשימת התרגומים שלך, ותוכל להוסיף נוספים מאוחר יותר.",
         "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
+          "PLACEHOLDER": "בחר אזור..."
         },
         "API": {
           "SUCCESS_MESSAGE": "האזור נוסף בהצלחה",
@@ -654,43 +660,43 @@
         "PREVIEW": "תצוגה מקדימה",
         "PUBLISH": "פרסם",
         "DRAFT": "טיוטה",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
+        "ARCHIVE": "ארכיון",
+        "BACK_TO_ARTICLES": "חזור למאמרים"
       },
       "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Uncategorized",
-        "EDITOR_PLACEHOLDER": "Write something..."
+        "MORE_PROPERTIES": "מאפיינים נוספים",
+        "UNCATEGORIZED": "ללא קטגוריה",
+        "EDITOR_PLACEHOLDER": "כתוב משהו..."
       },
       "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
+        "ARTICLE_PROPERTIES": "מאפייני מאמר",
         "META_DESCRIPTION": "מטא תיאור",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
+        "META_DESCRIPTION_PLACEHOLDER": "הוסף תיאור מטא",
         "META_TITLE": "כותרת מטא",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
+        "META_TITLE_PLACEHOLDER": "הוסף כותרת מטא",
         "META_TAGS": "מטא תגים",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
+        "META_TAGS_PLACEHOLDER": "הוסף תגי מטא"
       },
       "API": {
         "ERROR": "שגיאה בעת שמירת מאמר"
       }
     },
     "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
+      "NEW_PORTAL": "פורטל חדש",
       "PORTALS": "פורטלים",
-      "CREATE_PORTAL": "Create and manage multiple portals",
+      "CREATE_PORTAL": "צור ונהל פורטלים מרובים",
       "ARTICLES": "מאמרים",
       "DOMAIN": "דומיין",
       "PORTAL_NAME": "שם הפורטל"
     },
     "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
+      "TITLE": "צור פורטל חדש",
       "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
       "CONFIRM_BUTTON_LABEL": "צור",
       "NAME": {
         "LABEL": "שם",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
+        "PLACEHOLDER": "מדריך למשתמש | Chatwoot",
+        "MESSAGE": "בחר שם לפורטל שלך.",
         "ERROR": "שם שדה חובה"
       },
       "SLUG": {
@@ -705,9 +711,9 @@
         "AVATAR": {
           "LABEL": "לוגו",
           "IMAGE_UPLOAD_ERROR": "לא ניתן להעלות את התמונה! נסה שוב",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
+          "IMAGE_UPLOAD_SUCCESS": "תמונה נוספה בהצלחה. אנא לחץ על שמור שינויים כדי לשמור את הלוגו",
+          "IMAGE_DELETE_SUCCESS": "לוגו נמחק בהצלחה",
+          "IMAGE_DELETE_ERROR": "לא ניתן למחוק לוגו",
           "IMAGE_UPLOAD_SIZE_ERROR": "גודל התמונה צריך להיות פחות מ-{size}MB"
         },
         "NAME": {
@@ -716,78 +722,144 @@
           "ERROR": "שם שדה חובה"
         },
         "HEADER_TEXT": {
-          "LABEL": "Header text",
+          "LABEL": "טקסט כותרת עליונה",
           "PLACEHOLDER": "טקסט כותרת הפורטל"
         },
         "PAGE_TITLE": {
-          "LABEL": "Page title",
+          "LABEL": "כותרת עמוד",
           "PLACEHOLDER": "כותרת דף הפורטל"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
+          "LABEL": "קישור לדף הבית",
           "PLACEHOLDER": "קישור לדף הבית של הפורטל",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
         },
         "SLUG": {
           "LABEL": "שבלול",
-          "PLACEHOLDER": "Portal slug"
+          "PLACEHOLDER": "סלאג פורטל"
         },
         "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
+          "LABEL": "ווידג'ט צ'אט חי",
+          "PLACEHOLDER": "בחר ווידג'ט צ'אט חי",
+          "HELP_TEXT": "בחר ווידג'ט צ'אט חי שיופיע במרכז העזרה שלך",
+          "NONE_OPTION": "אין ווידג'ט"
         },
         "BRAND_COLOR": {
-          "LABEL": "Brand color"
+          "LABEL": "צבע מותג"
         },
-        "SAVE_CHANGES": "Save changes"
+        "SAVE_CHANGES": "שמור שינויים"
       },
       "CONFIGURATION_FORM": {
         "CUSTOM_DOMAIN": {
           "HEADER": "תחום מותאם אישית",
           "LABEL": "תחום מותאם אישית:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
+          "DESCRIPTION": "תוכל לארח את הפורטל שלך בדומיין מותאם אישית. לדוגמה, אם האתר שלך הוא yourdomain.com ואתה רוצה שהפורטל שלך יהיה זמין ב-docs.yourdomain.com, פשוט הזן זאת בשדה זה.",
+          "STATUS_DESCRIPTION": "הפורטל המותאם אישית שלך יתחיל לעבוד ברגע שהוא יאומת.",
           "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
-          "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain",
+          "EDIT_BUTTON": "ערוך",
+          "ADD_BUTTON": "הוסף דומיין מותאם אישית",
+          "STATUS": {
+            "LIVE": "לחיות",
+            "PENDING": "ממתין לאימות",
+            "ERROR": "האימות נכשל"
+          },
           "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
+            "ADD_HEADER": "הוסף דומיין מותאם אישית",
+            "EDIT_HEADER": "ערוך דומיין מותאם אישית",
+            "ADD_CONFIRM_BUTTON_LABEL": "הוסף דומיין",
+            "EDIT_CONFIRM_BUTTON_LABEL": "עדכן דומיין",
             "LABEL": "תחום מותאם אישית",
             "PLACEHOLDER": "דומיין מותאם אישית של פורטל",
-            "ERROR": "Custom domain is required"
+            "ERROR": "דומיין מותאם אישית נדרש",
+            "FORMAT_ERROR": "אנא הזן כתובת URL חוקית של דומיין, לדוגמה docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
+            "HEADER": "הגדרת DNS",
+            "DESCRIPTION": "היכנס לחשבון שלך אצל ספק ה-DNS שלך, והוסף רשומת CNAME עבור תת-הדומיין המצביע על chatwoot.help",
+            "COPY": "CNAME הועתק בהצלחה",
+            "SEND_INSTRUCTIONS": {
+              "HEADER": "שלח הוראות",
+              "DESCRIPTION": "אם אתה מעדיף שמישהו מצוות הפיתוח שלך יטפל בשלב זה, תוכל להזין כתובת דוא\"ל למטה, ואנו נשלח להם את ההוראות הנדרשות.",
+              "PLACEHOLDER": "הזן את הדוא\"ל שלהם",
+              "ERROR": "הזן כתובת דוא\"ל חוקית",
+              "SEND_BUTTON": "שלח"
+            }
           }
         },
         "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
+          "BUTTON": "מחק את {portalName}",
           "HEADER": "מחק את הפורטל",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
+          "DESCRIPTION": "מחק לצמיתות פורטל זה. פעולה זו היא בלתי הפיכה",
           "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
+            "HEADER": "בטוח שברצונך למחוק את {portalName}?",
+            "DESCRIPTION": "זוהי פעולה קבועה שלא ניתנת לביטול.",
             "CONFIRM_BUTTON_LABEL": "מחק"
           }
         },
-        "EDIT_CONFIGURATION": "Edit configuration"
+        "EDIT_CONFIGURATION": "ערוך הגדרה"
       },
       "API": {
         "CREATE_PORTAL": {
           "SUCCESS_MESSAGE": "הפורטל נוצר בהצלחה",
-          "ERROR_MESSAGE": "Unable to create portal"
+          "ERROR_MESSAGE": "לא ניתן ליצור פורטל"
         },
         "UPDATE_PORTAL": {
           "SUCCESS_MESSAGE": "הפורטל עודכן בהצלחה",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "ERROR_MESSAGE": "לא ניתן לעדכן פורטל"
         }
       }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "העלה מסמך PDF",
+      "DESCRIPTION": "העלה מסמך PDF כדי ליצור אוטומטית שאלות נפוצות באמצעות AI",
+      "DRAG_DROP_TEXT": "גרור ושחרר את קובץ ה-PDF שלך כאן, או לחץ כדי לבחור",
+      "SELECT_FILE": "בחר קובץ PDF",
+      "ADDITIONAL_CONTEXT_LABEL": "הקשר נוסף (אופציונלי)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "ספק כל הקשר או הוראות נוספות ליצירת שאלות נפוצות...",
+      "UPLOADING": "מעלה...",
+      "UPLOAD": "העלה וטפל",
+      "CANCEL": "ביטול",
+      "ERROR_INVALID_TYPE": "אנא בחר קובץ PDF חוקי",
+      "ERROR_FILE_TOO_LARGE": "גודל הקובץ חייב להיות קטן מ-512MB",
+      "ERROR_UPLOAD_FAILED": "העלאת ה-PDF נכשלה. אנא נסה שוב."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "מסמכי PDF",
+      "DESCRIPTION": "נהל מסמכי PDF שהועלו וצור מהם שאלות נפוצות",
+      "UPLOAD_PDF": "העלה PDF",
+      "UPLOAD_FIRST_PDF": "העלה את קובץ ה-PDF הראשון שלך",
+      "UPLOADED_BY": "הועלה על ידי",
+      "GENERATE_FAQS": "צור שאלות נפוצות",
+      "GENERATING": "יוצר...",
+      "CONFIRM_DELETE": "האם אתה בטוח שברצונך למחוק את {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "אין עדיין מסמכי PDF",
+        "DESCRIPTION": "העלה מסמכי PDF כדי ליצור אוטומטית שאלות נפוצות באמצעות AI"
+      },
+      "STATUS": {
+        "UPLOADED": "מוכן",
+        "PROCESSING": "מעבד",
+        "PROCESSED": "הושלם",
+        "FAILED": "נכשל"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "יצירת תוכן",
+      "DESCRIPTION": "העלה מסמכי PDF כדי ליצור אוטומטית תוכן שאלות נפוצות באמצעות AI",
+      "UPLOAD_TITLE": "העלה מסמך PDF",
+      "DRAG_DROP": "גרור ושחרר את קובץ ה-PDF שלך כאן, או לחץ כדי לבחור",
+      "SELECT_FILE": "בחר קובץ PDF",
+      "UPLOADING": "מעבד מסמך...",
+      "UPLOAD_SUCCESS": "המסמך עובד בהצלחה!",
+      "UPLOAD_ERROR": "העלאת המסמך נכשלה. אנא נסה שוב.",
+      "INVALID_FILE_TYPE": "אנא בחר קובץ PDF חוקי",
+      "FILE_TOO_LARGE": "גודל הקובץ חייב להיות קטן מ-512MB",
+      "GENERATED_CONTENT": "תוכן שאלות נפוצות שנוצר",
+      "PUBLISH_SELECTED": "פרסם נבחרים",
+      "PUBLISHING": "מפרסם...",
+      "FROM_DOCUMENT": "מתוך מסמך",
+      "NO_CONTENT": "אין תוכן שנוצר זמין. העלה מסמך PDF כדי להתחיל.",
+      "LOADING": "טוען תוכן שנוצר..."
     }
   }
 }

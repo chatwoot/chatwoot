@@ -103,9 +103,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-8 col-span-6">
     <form
       class="flex flex-wrap mx-0 overflow-x-auto"
       @submit.prevent="addAgents"
@@ -119,7 +117,7 @@ export default {
 
       <div class="w-full">
         <div v-if="v$.selectedAgents.$error">
-          <p class="error-message">
+          <p class="error-message pb-2">
             {{ $t('TEAMS_SETTINGS.ADD.AGENT_VALIDATION_ERROR') }}
           </p>
         </div>

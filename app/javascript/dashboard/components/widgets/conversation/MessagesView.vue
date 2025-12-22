@@ -1,17 +1,17 @@
 <script>
-import { ref } from 'vue';
+import { ref, provide } from 'vue';
 // composable
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
+import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -35,47 +35,27 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { FEATURE_FLAGS } from '../../../featureFlags';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
-    Message,
-    NextMessageList,
+    MessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
-    NextButton,
+    Spinner,
   },
   mixins: [inboxMixin],
-  props: {
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
+    const conversationPanelRef = ref(null);
     const { isEnterprise } = useConfig();
-
-    const closePopOutReplyBox = () => {
-      isPopOutReplyBox.value = false;
-    };
-
-    const showPopOutReplyBox = () => {
-      isPopOutReplyBox.value = !isPopOutReplyBox.value;
-    };
 
     const keyboardEvents = {
       Escape: {
-        action: closePopOutReplyBox,
+        action: () => {
+          isPopOutReplyBox.value = false;
+        },
       },
     };
 
@@ -88,26 +68,16 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
-    const currentAccountId = useMapGetter('getCurrentAccountId');
-    const isFeatureEnabledonAccount = useMapGetter(
-      'accounts/isFeatureEnabledonAccount'
-    );
-
-    const showNextBubbles = isFeatureEnabledonAccount.value(
-      currentAccountId.value,
-      FEATURE_FLAGS.CHATWOOT_V4
-    );
+    provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
       isEnterprise,
       isPopOutReplyBox,
-      closePopOutReplyBox,
-      showPopOutReplyBox,
       isAIIntegrationEnabled,
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
-      showNextBubbles,
+      conversationPanelRef,
     };
   },
   data() {
@@ -190,26 +160,6 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-    conversationType() {
-      const { additional_attributes: additionalAttributes } = this.currentChat;
-      const type = additionalAttributes ? additionalAttributes.type : '';
-      return type || '';
-    },
-
-    isATweet() {
-      return this.conversationType === 'tweet';
-    },
-    isRightOrLeftIcon() {
-      if (this.isContactPanelOpen) {
-        return 'arrow-chevron-right';
-      }
-      return 'arrow-chevron-left';
-    },
-    getLastSeenAt() {
-      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-      return contactLastSeenAt;
-    },
-
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
@@ -255,6 +205,9 @@ export default {
       if (this.isAWhatsAppCloudChannel) {
         return REPLY_POLICY.WHATSAPP_CLOUD;
       }
+      if (this.isATiktokChannel) {
+        return REPLY_POLICY.TIKTOK;
+      }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
       }
@@ -267,6 +220,9 @@ export default {
         this.isAnInstagramChannel
       ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
+      }
+      if (this.isATiktokChannel) {
+        return this.$t('CONVERSATION.48_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
@@ -284,9 +240,6 @@ export default {
           ? 'CONVERSATION.UNREAD_MESSAGES'
           : 'CONVERSATION.UNREAD_MESSAGE';
       return `${count} ${this.$t(label)}`;
-    },
-    isInstagramDM() {
-      return this.conversationType === 'instagram_direct_message';
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -311,8 +264,6 @@ export default {
 
   created() {
     emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a new message comes in, we refetch the label suggestions
-    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
     // when a message is sent we set the flag to true this hides the label suggestions,
     // until the chat is changed and the flag is reset in the watch for currentChat
     emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
@@ -343,6 +294,10 @@ export default {
       if (!this.isEnterprise) {
         return;
       }
+
+      // Early exit if conversation already has labels - no need to suggest more
+      const existingLabels = this.currentChat?.labels || [];
+      if (existingLabels.length > 0) return;
 
       // method available in mixin, need to ensure that integrations are present
       await this.fetchIntegrationsIfRequired();
@@ -440,9 +395,6 @@ export default {
         relevantMessages
       );
     },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
@@ -494,17 +446,10 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-    getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
-
-      return this.currentChat?.messages.find(message => {
-        if (message.id === inReplyToMessageId) {
-          return true;
-        }
-        return false;
-      });
+    async handleMessageRetry(message) {
+      if (!message) return;
+      const payload = useSnakeCase(message);
+      await this.$store.dispatch('sendMessageWithData', payload);
     },
   },
 };
@@ -526,39 +471,34 @@ export default {
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
-    <div class="flex justify-end">
-      <NextButton
-        faded
-        xs
-        slate
-        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
-        :icon="
-          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
-        "
-        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        @click="onToggleContactPanel"
-      />
-    </div>
-    <NextMessageList
-      v-if="showNextBubbles"
-      class="conversation-panel"
+    <MessageList
+      ref="conversationPanelRef"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
       :messages="getMessages"
+      @retry="handleMessageRetry"
     >
       <template #beforeAll>
         <transition name="slide-up">
           <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-          <li class="min-h-[4rem]">
-            <span v-if="shouldShowSpinner" class="spinner message" />
+          <li
+            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 items-center flex-auto justify-center max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
+          >
+            <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
       </template>
       <template #unreadBadge>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
+        <li
+          v-show="unreadMessageCount != 0"
+          class="list-none flex justify-center items-center"
+        >
+          <span
+            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+          >
             {{ unreadMessageLabel }}
           </span>
         </li>
@@ -571,65 +511,12 @@ export default {
           :conversation-id="currentChat.id"
         />
       </template>
-    </NextMessageList>
-    <ul v-else class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
+    </MessageList>
     <div
-      class="conversation-footer"
+      class="flex relative flex-col"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+        'bg-n-background': !isPopOutReplyBox,
       }"
     >
       <div
@@ -637,7 +524,7 @@ export default {
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img
@@ -648,8 +535,8 @@ export default {
         </div>
       </div>
       <ReplyBox
-        v-model:popout-reply-box="isPopOutReplyBox"
-        @toggle-popout="showPopOutReplyBox"
+        :pop-out-reply-box="isPopOutReplyBox"
+        @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>
   </div>
@@ -657,7 +544,7 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
-  @apply absolute;
+  @apply fixed;
 
   &::v-deep {
     .ProseMirror-woot-style {
@@ -681,7 +568,7 @@ export default {
     }
 
     .emoji-dialog {
-      @apply absolute left-auto bottom-1;
+      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
     }
   }
 }

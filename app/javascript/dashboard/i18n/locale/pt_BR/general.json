@@ -4,6 +4,9 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Pesquisar",
       "EMPTY_STATE": "Nenhum resultado encontrado"
-    }
+    },
+    "CLOSE": "Fechar",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "Este recurso está em fase BETA e deve sofre alterações assim que Nós melhorarmos ele."
   }
 }

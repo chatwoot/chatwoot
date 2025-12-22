@@ -105,5 +105,29 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         described_class.perform_now(document)
       end
     end
+
+    context 'when document is a PDF' do
+      let(:pdf_document) do
+        doc = create(:captain_document, external_link: 'https://example.com/document')
+        allow(doc).to receive(:pdf_document?).and_return(true)
+        allow(doc).to receive(:update!).and_return(true)
+        doc
+      end
+
+      it 'processes PDF using PdfProcessingService' do
+        pdf_service = instance_double(Captain::Llm::PdfProcessingService)
+        expect(Captain::Llm::PdfProcessingService).to receive(:new).with(pdf_document).and_return(pdf_service)
+        expect(pdf_service).to receive(:process)
+        expect(pdf_document).to receive(:update!).with(status: :available)
+
+        described_class.perform_now(pdf_document)
+      end
+
+      it 'handles PDF processing errors' do
+        allow(Captain::Llm::PdfProcessingService).to receive(:new).and_raise(StandardError, 'Processing failed')
+
+        expect { described_class.perform_now(pdf_document) }.to raise_error(StandardError, 'Processing failed')
+      end
+    end
   end
 end

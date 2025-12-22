@@ -68,7 +68,7 @@ export default {
         :on-mark-all-done-click="onMarkAllDoneClick"
       />
       <TableFooter
-        class="border-t border-slate-75 dark:border-slate-700/50"
+        class="border-t border-n-weak"
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
@@ -77,17 +77,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.notification--page {
-  background: var(--white);
-  overflow-y: auto;
-  width: 100%;
-}
-
-.notification--content {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-</style>

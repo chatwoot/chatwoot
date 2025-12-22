@@ -4,19 +4,22 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
+import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
-import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import WhatsAppOptions from './WhatsAppOptions.vue';
+import ContentTemplateSelector from './ContentTemplateSelector.vue';
 
 const props = defineProps({
   attachedFiles: { type: Array, default: () => [] },
   isWhatsappInbox: { type: Boolean, default: false },
   isEmailOrWebWidgetInbox: { type: Boolean, default: false },
   isTwilioSmsInbox: { type: Boolean, default: false },
+  isTwilioWhatsAppInbox: { type: Boolean, default: false },
   messageTemplates: { type: Array, default: () => [] },
   channelType: { type: String, default: '' },
   isLoading: { type: Boolean, default: false },
@@ -25,12 +28,14 @@ const props = defineProps({
   hasNoInbox: { type: Boolean, default: false },
   isDropdownActive: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
+  inboxId: { type: Number, default: null },
 });
 
 const emit = defineEmits([
   'discard',
   'sendMessage',
   'sendWhatsappMessage',
+  'sendTwilioMessage',
   'insertEmoji',
   'addSignature',
   'removeSignature',
@@ -46,12 +51,6 @@ const EmojiInput = defineAsyncComponent(
   () => import('shared/components/emoji/EmojiInput.vue')
 );
 
-const signatureToApply = computed(() =>
-  props.isEmailOrWebWidgetInbox
-    ? props.messageSignature
-    : extractTextFromMarkdown(props.messageSignature)
-);
-
 const {
   fetchSignatureFlagFromUISettings,
   setSignatureFlagForInbox,
@@ -62,19 +61,40 @@ const sendWithSignature = computed(() => {
   return fetchSignatureFlagFromUISettings(props.channelType);
 });
 
+const showTwilioContentTemplates = computed(() => {
+  return props.isTwilioWhatsAppInbox && props.inboxId;
+});
+
+const shouldShowEmojiButton = computed(() => {
+  return (
+    !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox && !props.hasNoInbox
+  );
+});
+
+const isRegularMessageMode = computed(() => {
+  return !props.isWhatsappInbox && !props.isTwilioWhatsAppInbox;
+});
+
+const isVoiceInbox = computed(() => props.channelType === INBOX_TYPES.VOICE);
+
+const shouldShowSignatureButton = computed(() => {
+  return (
+    props.hasSelectedInbox && isRegularMessageMode.value && !isVoiceInbox.value
+  );
+});
+
 const setSignature = () => {
-  if (signatureToApply.value) {
+  if (props.messageSignature) {
     if (sendWithSignature.value) {
-      emit('addSignature', signatureToApply.value);
+      emit('addSignature', props.messageSignature);
     } else {
-      emit('removeSignature', signatureToApply.value);
+      emit('removeSignature', props.messageSignature);
     }
   }
 };
 
 const toggleMessageSignature = () => {
   setSignatureFlagForInbox(props.channelType, !sendWithSignature.value);
-  setSignature();
 };
 
 // Added this watch to dynamically set signature on target inbox change.
@@ -84,7 +104,7 @@ watch(
   () => props.hasSelectedInbox,
   newValue => {
     nextTick(() => {
-      if (newValue && props.isEmailOrWebWidgetInbox) setSignature();
+      if (newValue && !isVoiceInbox.value) setSignature();
     });
   },
   { immediate: true }
@@ -124,7 +144,7 @@ const keyboardEvents = {
     action: () => {
       if (
         isEditorHotKeyEnabled('enter') &&
-        !props.isWhatsappInbox &&
+        isRegularMessageMode.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -135,7 +155,7 @@ const keyboardEvents = {
     action: () => {
       if (
         isEditorHotKeyEnabled('cmd_enter') &&
-        !props.isWhatsappInbox &&
+        isRegularMessageMode.value &&
         !props.isDropdownActive
       ) {
         emit('sendMessage');
@@ -144,20 +164,40 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const onPaste = e => {
+  if (!props.isEmailOrWebWidgetInbox) return;
+
+  const files = e.clipboardData?.files;
+  if (!files?.length) return;
+
+  Array.from(files).forEach(file => {
+    const { name, type, size } = file;
+    onFileUpload({ file, name, type, size });
+  });
+};
+
+useEventListener(document, 'paste', onPaste);
 </script>
 
 <template>
   <div
     class="flex items-center justify-between w-full h-[3.25rem] gap-2 px-4 py-3"
   >
-    <div class="flex items-center gap-2">
+    <div class="flex gap-2 items-center">
       <WhatsAppOptions
         v-if="isWhatsappInbox"
+        :inbox-id="inboxId"
         :message-templates="messageTemplates"
         @send-message="emit('sendWhatsappMessage', $event)"
       />
+      <ContentTemplateSelector
+        v-if="showTwilioContentTemplates"
+        :inbox-id="inboxId"
+        @send-message="emit('sendTwilioMessage', $event)"
+      />
       <div
-        v-if="!isWhatsappInbox && !hasNoInbox"
+        v-if="shouldShowEmojiButton"
         v-on-click-outside="() => (isEmojiPickerOpen = false)"
         class="relative"
       >
@@ -170,7 +210,7 @@ useKeyboardEvents(keyboardEvents);
         />
         <EmojiInput
           v-if="isEmojiPickerOpen"
-          class="left-0 top-full mt-1.5"
+          class="top-full mt-1.5 ltr:left-0 rtl:right-0"
           :on-click="onClickInsertEmoji"
         />
       </div>
@@ -197,7 +237,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="hasSelectedInbox && !isWhatsappInbox"
+        v-if="shouldShowSignatureButton"
         icon="i-lucide-signature"
         color="slate"
         size="sm"
@@ -206,7 +246,7 @@ useKeyboardEvents(keyboardEvents);
       />
     </div>
 
-    <div class="flex items-center gap-2">
+    <div class="flex gap-2 items-center">
       <Button
         :label="t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.DISCARD')"
         variant="faded"
@@ -216,7 +256,7 @@ useKeyboardEvents(keyboardEvents);
         @click="emit('discard')"
       />
       <Button
-        v-if="!isWhatsappInbox"
+        v-if="isRegularMessageMode"
         :label="sendButtonLabel"
         size="sm"
         class="!text-xs font-medium"

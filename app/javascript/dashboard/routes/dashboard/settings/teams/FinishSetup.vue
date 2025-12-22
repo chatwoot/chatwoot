@@ -11,9 +11,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <EmptyState
       :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
       :message="$t('TEAMS_SETTINGS.FINISH.MESSAGE')"

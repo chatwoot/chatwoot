@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Posledních 7 dní",
+      "LAST_14_DAYS": "Posledních 14 dní",
       "LAST_30_DAYS": "Posledních 30 dní",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Poslední 3 měsíce",
       "LAST_6_MONTHS": "Posledních 6 měsíců",
       "LAST_YEAR": "Poslední rok",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Labels Overview",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Načítání dat mapy...",
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konverzace",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversations by agents",
       "LOADING_MESSAGE": "Loading agent metrics...",
@@ -559,6 +572,7 @@
     "INBOX": "Inbox",
     "AGENT": "Agent",
     "TEAM": "Team",
+    "LABEL": "Label",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

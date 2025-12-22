@@ -10,6 +10,7 @@ import ReportsFiltersRatings from './Filters/Ratings.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
   components: {
@@ -21,6 +22,7 @@ export default {
     ReportsFiltersInboxes,
     ReportsFiltersTeams,
     ReportsFiltersRatings,
+    ToggleSwitch,
   },
   props: {
     showGroupByFilter: {
@@ -104,11 +106,6 @@ export default {
         return this.selectedGroupByFilter;
       }
       return this.validGroupOptions[0];
-    },
-  },
-  watch: {
-    businessHoursSelected() {
-      this.emitChange();
     },
   },
   mounted() {
@@ -224,7 +221,7 @@ export default {
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
-        <woot-switch v-model="businessHoursSelected" />
+        <ToggleSwitch v-model="businessHoursSelected" @change="emitChange" />
       </span>
     </div>
   </div>

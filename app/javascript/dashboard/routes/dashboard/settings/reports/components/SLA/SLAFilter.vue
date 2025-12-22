@@ -179,7 +179,7 @@ export default {
     <!-- Dividing line between Active filters and Add filter button -->
     <div
       v-if="hasActiveFilters && !isAllFilterSelected"
-      class="w-full h-px border md:w-px md:h-5 border-slate-75 dark:border-slate-800"
+      class="w-full h-px border md:w-px md:h-5 border-n-weak"
     />
     <!-- Add filter and clear filter button -->
     <div class="flex items-center gap-2">
@@ -196,10 +196,7 @@ export default {
       />
 
       <!-- Dividing line between Add filter and Clear all filter button -->
-      <div
-        v-if="hasActiveFilters"
-        class="w-px h-5 border border-slate-75 dark:border-slate-800"
-      />
+      <div v-if="hasActiveFilters" class="w-px h-5 border border-n-weak" />
       <!-- Clear all filter button -->
       <FilterButton
         v-if="hasActiveFilters"

@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "会話が作成されました",
       "CONVERSATION_UPDATED": "会話が更新されました",
       "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -146,8 +147,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "優先度を変更",
-      "ADD_SLA": "SLAを追加"
+      "ADD_SLA": "SLAを追加",
+      "OPEN_CONVERSATION": "会話を開く"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "なし",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "緊急"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
@@ -163,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "担当者",
       "TEAM_NAME": "チーム",
-      "PRIORITY": "優先度"
+      "PRIORITY": "優先度",
+      "LABELS": "ラベル"
     }
   }
 }

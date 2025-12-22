@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Ostatnie 7 dni",
+      "LAST_14_DAYS": "Ostatnie 14 dni",
       "LAST_30_DAYS": "Ostatnie 30 dni",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Ostatnie 3 miesiące",
       "LAST_6_MONTHS": "Ostatnie 6 miesięcy",
       "LAST_YEAR": "Ostatni rok",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Przegląd etykiet",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_LABEL_REPORTS": "Pobierz raporty etykiety",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_INBOX_REPORTS": "Pobierz raporty skrzynki odbiorczej",
     "FILTER_DROPDOWN_LABEL": "Wybierz skrzynkę odbiorczą",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Rozmowy",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} rozmowy",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Brak rozmów",
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Rozmowy według agentów",
       "LOADING_MESSAGE": "Ładowanie metryk agentów...",
@@ -559,6 +572,7 @@
     "INBOX": "Skrzynka odbiorcza",
     "AGENT": "Agent",
     "TEAM": "Zespół",
+    "LABEL": "Etykieta",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

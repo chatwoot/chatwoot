@@ -34,3 +34,10 @@ json.meta do
   json.categories_count portal.categories.try(:size)
   json.default_locale portal.default_locale
 end
+
+if portal.ssl_settings.present?
+  json.ssl_settings do
+    json.status portal.ssl_settings['cf_status']
+    json.verification_errors portal.ssl_settings['cf_verification_errors']
+  end
+end

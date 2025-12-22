@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "過去 7 日間",
+      "LAST_14_DAYS": "過去 14 日間",
       "LAST_30_DAYS": "過去 30 日間",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "過去 3 ヶ月",
       "LAST_6_MONTHS": "過去 6 ヶ月",
       "LAST_YEAR": "過去 1 年",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "過去 1 年",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_LABEL_REPORTS": "ラベルレポートをダウンロード",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_INBOX_REPORTS": "受信トレイレポートをダウンロード",
     "FILTER_DROPDOWN_LABEL": "受信トレイを選択",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count}件の会話",
       "DOWNLOAD_REPORT": "レポートをダウンロード"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "会話がありません",
+      "CONVERSATION": "{count}件の会話",
+      "CONVERSATIONS": "{count}件の会話",
+      "DOWNLOAD_REPORT": "レポートをダウンロード"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "担当者ごとの会話",
       "LOADING_MESSAGE": "担当者メトリクスを読み込んでいます...",
@@ -559,6 +572,7 @@
     "INBOX": "受信トレイ",
     "AGENT": "担当者",
     "TEAM": "チーム",
+    "LABEL": "ラベル",
     "AVG_RESOLUTION_TIME": "解決までの平均時間",
     "AVG_FIRST_RESPONSE_TIME": "初回応答の平均時間",
     "AVG_REPLY_TIME": "お客様の平均待ち時間",

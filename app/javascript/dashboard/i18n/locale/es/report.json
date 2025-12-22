@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Últimos 7 días",
+      "LAST_14_DAYS": "Últimos 14 días",
       "LAST_30_DAYS": "Últimos 30 días",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Últimos 3 meses",
       "LAST_6_MONTHS": "Últimos 6 meses",
       "LAST_YEAR": "Último año",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Resumen de etiquetas",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_LABEL_REPORTS": "Descargar reportes de etiquetas",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Descargar reportes de bandeja de entrada",
     "FILTER_DROPDOWN_LABEL": "Seleccione una bandeja de entrada",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversaciones",
       "DOWNLOAD_REPORT": "Descargar reporte"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No hay conversaciones",
+      "CONVERSATION": "{count} conversación",
+      "CONVERSATIONS": "{count} conversaciones",
+      "DOWNLOAD_REPORT": "Descargar reporte"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversaciones por agentes",
       "LOADING_MESSAGE": "Cargando métricas del agente...",
@@ -559,6 +572,7 @@
     "INBOX": "Bandeja de entrada",
     "AGENT": "Agente",
     "TEAM": "Equipo",
+    "LABEL": "Etiqueta",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

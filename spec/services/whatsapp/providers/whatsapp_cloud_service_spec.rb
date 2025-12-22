@@ -124,16 +124,15 @@ describe Whatsapp::Providers::WhatsappCloudService do
       end
 
       it 'calls message endpoints with list payload when number of items is greater than 3' do
+        items = %w[Burito Pasta Sushi Salad].map { |i| { title: i, value: i } }
         message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
-                                   content_type: 'input_select',
-                                   content_attributes: {
-                                     items: [
-                                       { title: 'Burito', value: 'Burito' },
-                                       { title: 'Pasta', value: 'Pasta' },
-                                       { title: 'Sushi', value: 'Sushi' },
-                                       { title: 'Salad', value: 'Salad' }
-                                     ]
-                                   })
+                                   content_type: 'input_select', content_attributes: { items: items })
+
+        expected_action = {
+          button: I18n.t('conversations.messages.whatsapp.list_button_label'),
+          sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
+        }.to_json
+
         stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
           .with(
             body: {
@@ -143,9 +142,9 @@ describe Whatsapp::Providers::WhatsappCloudService do
                 body: {
                   text: 'test'
                 },
-                action: '{"button":"Choose an item","sections":[{"rows":[{"id":"Burito","title":"Burito"},' \
-                        '{"id":"Pasta","title":"Pasta"},{"id":"Sushi","title":"Sushi"},{"id":"Salad","title":"Salad"}]}]}'
-              }, type: 'interactive'
+                action: expected_action
+              },
+              type: 'interactive'
             }.to_json
           ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
@@ -166,19 +165,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
     let(:template_body) do
       {
         messaging_product: 'whatsapp',
+        recipient_type: 'individual', # Added recipient_type field
         to: '+123456789',
+        type: 'template',
         template: {
           name: template_info[:name],
           language: {
             policy: 'deterministic',
             code: template_info[:lang_code]
           },
-          components: [
-            { type: 'body',
-              parameters: template_info[:parameters] }
-          ]
-        },
-        type: 'template'
+          components: template_info[:parameters] # Changed to use parameters directly (enhanced format)
+        }
       }
     end
 
@@ -190,7 +187,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
 
-        expect(service.send_template('+123456789', template_info)).to eq('message_id')
+        expect(service.send_template('+123456789', template_info, message)).to eq('message_id')
       end
     end
   end
@@ -290,7 +287,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
     context 'when there is a message' do
       it 'logs error and updates message status' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
@@ -308,10 +305,98 @@ describe Whatsapp::Providers::WhatsappCloudService do
 
       it 'logs error but does not update message' do
         service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
+        service.send(:handle_error, error_response_object, message)
 
         expect(message.reload.status).not_to eq('failed')
         expect(message.reload.external_error).to be_nil
+      end
+    end
+  end
+
+  describe 'CSAT template methods' do
+    let(:mock_csat_template_service) { instance_double(Whatsapp::CsatTemplateService) }
+    let(:expected_template_name) { "customer_satisfaction_survey_#{whatsapp_channel.inbox.id}" }
+    let(:template_config) do
+      {
+        name: expected_template_name,
+        language: 'en',
+        category: 'UTILITY'
+      }
+    end
+
+    before do
+      allow(Whatsapp::CsatTemplateService).to receive(:new)
+        .with(whatsapp_channel)
+        .and_return(mock_csat_template_service)
+    end
+
+    describe '#create_csat_template' do
+      it 'delegates to csat_template_service with correct config' do
+        allow(mock_csat_template_service).to receive(:create_template)
+          .with(template_config)
+          .and_return({ success: true, template_id: '123' })
+
+        result = service.create_csat_template(template_config)
+
+        expect(mock_csat_template_service).to have_received(:create_template).with(template_config)
+        expect(result).to eq({ success: true, template_id: '123' })
+      end
+    end
+
+    describe '#delete_csat_template' do
+      it 'delegates to csat_template_service with default template name' do
+        allow(mock_csat_template_service).to receive(:delete_template)
+          .with(expected_template_name)
+          .and_return({ success: true })
+
+        result = service.delete_csat_template
+
+        expect(mock_csat_template_service).to have_received(:delete_template).with(expected_template_name)
+        expect(result).to eq({ success: true })
+      end
+
+      it 'delegates to csat_template_service with custom template name' do
+        custom_template_name = 'custom_csat_template'
+        allow(mock_csat_template_service).to receive(:delete_template)
+          .with(custom_template_name)
+          .and_return({ success: true })
+
+        result = service.delete_csat_template(custom_template_name)
+
+        expect(mock_csat_template_service).to have_received(:delete_template).with(custom_template_name)
+        expect(result).to eq({ success: true })
+      end
+    end
+
+    describe '#get_template_status' do
+      it 'delegates to csat_template_service with template name' do
+        template_name = 'customer_survey_template'
+        expected_response = { success: true, template: { status: 'APPROVED' } }
+        allow(mock_csat_template_service).to receive(:get_template_status)
+          .with(template_name)
+          .and_return(expected_response)
+
+        result = service.get_template_status(template_name)
+
+        expect(mock_csat_template_service).to have_received(:get_template_status).with(template_name)
+        expect(result).to eq(expected_response)
+      end
+    end
+
+    describe 'csat_template_service memoization' do
+      it 'creates and memoizes the csat_template_service instance' do
+        allow(Whatsapp::CsatTemplateService).to receive(:new)
+          .with(whatsapp_channel)
+          .and_return(mock_csat_template_service)
+        allow(mock_csat_template_service).to receive(:get_template_status)
+          .and_return({ success: true })
+
+        # Call multiple methods that use the service
+        service.get_template_status('test1')
+        service.get_template_status('test2')
+
+        # Verify the service was only instantiated once
+        expect(Whatsapp::CsatTemplateService).to have_received(:new).once
       end
     end
   end

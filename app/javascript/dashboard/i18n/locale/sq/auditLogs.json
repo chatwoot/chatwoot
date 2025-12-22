@@ -69,6 +69,9 @@
     },
     "ACCOUNT": {
       "EDIT": "{agentName} updated the account configuration (#{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} fshiu bisedën #{id}"
     }
   }
 }

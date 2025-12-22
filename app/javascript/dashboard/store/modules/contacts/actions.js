@@ -75,6 +75,21 @@ export const actions = {
     }
   },
 
+  active: async ({ commit }, { page = 1, sortAttr } = {}) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await ContactAPI.active(page, sortAttr);
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACTS, payload);
+      commit(types.SET_CONTACT_META, meta);
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    }
+  },
+
   show: async ({ commit }, { id }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetchingItem: true });
     try {
@@ -286,5 +301,23 @@ export const actions = {
 
   clearContactFilters({ commit }) {
     commit(types.CLEAR_CONTACT_FILTERS);
+  },
+
+  initiateCall: async ({ commit }, { contactId, inboxId }) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true });
+    try {
+      const response = await ContactAPI.initiateCall(contactId, inboxId);
+      commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
+      return response.data;
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false });
+      if (error.response?.data?.message) {
+        throw new ExceptionWithMessage(error.response.data.message);
+      } else if (error.response?.data?.error) {
+        throw new ExceptionWithMessage(error.response.data.error);
+      } else {
+        throw new Error(error);
+      }
+    }
   },
 };

@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "48_HOURS_WINDOW": "48 hodinové omezení okna",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Tato konverzace vám není přiřazena. Chcete si přiřadit tuto konverzaci?",
     "ASSIGN_TO_ME": "Přiřadit mi",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Na tuto konverzaci můžete odpovědět pouze pomocí šablony zprávy z důvodu",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hodinové omezení okna",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
       "OPEN_ACTION": "Otevřít",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Příští týden"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Týmy"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odložit do",
       "APPLY": "Odložit",
@@ -117,6 +139,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Vymazat"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Přiřadit štítek",
       "AGENTS_LOADING": "Načítání agentů...",
       "ASSIGN_TEAM": "Přiřadit tým",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konverzace id {conversationId} přiřazena \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
       "TIP_AUDIORECORDER_ICON": "Nahrát zvuk",
@@ -197,6 +227,13 @@
           "YES": "Poslat",
           "CANCEL": "Zrušit"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Soukromá poznámka: Viditelné pouze pro vás a váš tým",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
     "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
       "PREVIOUS_CONVERSATION": "Předchozí konverzace",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

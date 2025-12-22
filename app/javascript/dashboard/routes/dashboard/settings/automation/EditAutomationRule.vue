@@ -337,7 +337,7 @@ export default {
     @apply m-0;
   }
   .info-message {
-    @apply text-xs text-green-500 dark:text-green-500 text-right;
+    @apply text-xs text-n-teal-10  text-right;
   }
 
   @apply mb-6;

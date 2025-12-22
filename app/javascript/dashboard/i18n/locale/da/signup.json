@@ -27,15 +27,20 @@
       "LABEL": "Adgangskode",
       "PLACEHOLDER": "Adgangskode",
       "ERROR": "Adgangskoden er for kort",
-      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn"
+      "IS_INVALID_PASSWORD": "Adgangskoden skal indeholde mindst 1 stort bogstav, 1 lille bogstav, 1 nummer og 1 specialtegn",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Bekræft Adgangskode",
       "PLACEHOLDER": "Bekræft Adgangskode",
-      "ERROR": "Adgangskode stemmer ikke overens"
+      "ERROR": "Adgangskoder stemmer ikke overens."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registrering Succesfuld",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Kunne ikke oprette forbindelse til Woot Server, Prøv igen senere"
     },
     "SUBMIT": "Opret en konto",

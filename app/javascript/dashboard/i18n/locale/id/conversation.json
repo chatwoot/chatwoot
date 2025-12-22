@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "48_HOURS_WINDOW": "Pembatasan jendela pesan 48 jam",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Percakapan ini tidak ditugaskan kepada Anda. Apakah Anda ingin menugaskan percakapan ini kepada diri Anda?",
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Anda hanya dapat membalas percakapan ini menggunakan pesan template karena",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Tampilkan label",
       "HIDE_LABELS": "Sembunyikan label"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Menyelesaikan",
       "REOPEN_ACTION": "Buka Kembali",
       "OPEN_ACTION": "Terbuka",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Selebihnya",
       "CLOSE": "Tutup",
       "DETAILS": "detail",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Minggu depan"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agen",
+      "TEAMS": "Tim"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tunda hingga",
       "APPLY": "Tunda",
@@ -117,6 +139,11 @@
         "FAILED": "Gagal mengubah prioritas. Silakan coba lagi."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Hapus"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Tandai sebagai tertunda",
       "RESOLVED": "Tandai sebagai terselesaikan",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Tugaskan label",
       "AGENTS_LOADING": "Sedang memuat agen...",
       "ASSIGN_TEAM": "Tugaskan tim",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Baca lebih lanjut",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
       "TIP_AUDIORECORDER_ICON": "Rekam audio",
@@ -197,6 +227,13 @@
           "YES": "Kirim",
           "CANCEL": "Batalkan"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label berhasil ditugaskan",
     "ASSIGN_LABEL_FAILED": "Gagal menugaskan label",
     "CHANGE_TEAM": "Percakapan diubah oleh tim",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Lampiran melebihi batas ukuran {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Tidak dapat mengirim pesan ini, mohon coba lagi nanti",
     "SENT_BY": "Dikirim oleh:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Atribut Kontak",
       "PREVIOUS_CONVERSATION": "Percakapan Sebelumnya",
       "MACROS": "Makro",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

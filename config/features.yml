@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: true
@@ -169,3 +169,64 @@
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+- name: channel_voice
+  display_name: Voice Channel
+  enabled: false
+  premium: true
+- name: notion_integration
+  display_name: Notion Integration
+  enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
+- name: whatsapp_embedded_signup
+  display_name: WhatsApp Embedded Signup
+  enabled: false
+  deprecated: true
+- name: whatsapp_campaign
+  display_name: WhatsApp Campaign
+  enabled: false
+- name: crm_v2
+  display_name: CRM V2
+  enabled: false
+  chatwoot_internal: true
+- name: assignment_v2
+  display_name: Assignment V2
+  enabled: false
+  chatwoot_internal: true
+- name: twilio_content_templates
+  display_name: Twilio Content Templates
+  enabled: false
+  deprecated: true
+- name: advanced_search
+  display_name: Advanced Search
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: saml
+  display_name: SAML
+  enabled: false
+  premium: true
+- name: advanced_search_indexing
+  display_name: Advanced Search Indexing
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: reply_mailer_migration
+  # This feature is temporary only to migrate reply mailer to new email builder
+  # Once the migration is done, this feature can be removed
+  display_name: Reply Mailer Migration
+  enabled: false
+  chatwoot_internal: true
+- name: quoted_email_reply
+  display_name: Quoted Email Reply
+  enabled: false
+- name: companies
+  display_name: Companies
+  enabled: false
+  premium: true
+  chatwoot_internal: true
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true

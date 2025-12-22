@@ -18,6 +18,7 @@ const state = {
     isFetchingItem: false,
     isUpdating: false,
     isCheckoutInProcess: false,
+    isFetchingLimits: false,
   },
 };
 
@@ -28,12 +29,16 @@ export const getters = {
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isRTL: ($state, _, rootState) => {
-    const accountId = rootState.route?.params?.accountId;
-    if (!accountId) return false;
+  isRTL: ($state, _getters, rootState, rootGetters) => {
+    const accountId = Number(rootState.route?.params?.accountId);
+    const userLocale = rootGetters?.getUISettings?.locale;
+    const accountLocale =
+      accountId && findRecordById($state, accountId)?.locale;
 
-    const { locale } = findRecordById($state, Number(accountId));
-    return locale ? getLanguageDirection(locale) : false;
+    // Prefer user locale; fallback to account locale
+    const effectiveLocale = userLocale ?? accountLocale;
+
+    return effectiveLocale ? getLanguageDirection(effectiveLocale) : false;
   },
   isTrialAccount: $state => id => {
     const account = findRecordById($state, id);
@@ -63,8 +68,11 @@ export const actions = {
       });
     }
   },
-  update: async ({ commit }, updateObj) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+  update: async ({ commit }, { options, ...updateObj }) => {
+    if (options?.silent !== true) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    }
+
     try {
       const response = await AccountAPI.update('', updateObj);
       commit(types.default.EDIT_ACCOUNT, response.data);
@@ -134,11 +142,14 @@ export const actions = {
   },
 
   limits: async ({ commit }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: true });
     try {
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
     } catch (error) {
       // silent error
+    } finally {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingLimits: false });
     }
   },
 

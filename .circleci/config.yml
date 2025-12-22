@@ -1,7 +1,9 @@
 version: 2.1
 orbs:
   node: circleci/node@6.1.0
+  qlty-orb: qltysh/qlty-orb@0.0
 
+# Shared defaults for setup steps
 defaults: &defaults
   working_directory: ~/build
   machine:
@@ -11,10 +13,106 @@ defaults: &defaults
     RAILS_LOG_TO_STDOUT: false
     COVERAGE: true
     LOG_LEVEL: warn
-  parallelism: 4
 
 jobs:
-  build:
+  # Separate job for linting (no parallelism needed)
+  lint:
+    <<: *defaults
+    steps:
+      - checkout
+
+      # Install minimal system dependencies for linting
+      - run:
+          name: Install System Dependencies
+          command: |
+            sudo apt-get update
+            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
+              libpq-dev \
+              build-essential \
+              git \
+              curl \
+              libssl-dev \
+              zlib1g-dev \
+              libreadline-dev \
+              libyaml-dev \
+              openjdk-11-jdk \
+              jq \
+              software-properties-common \
+              ca-certificates \
+              imagemagick \
+              libxml2-dev \
+              libxslt1-dev \
+              file \
+              g++ \
+              gcc \
+              autoconf \
+              gnupg2 \
+              patch \
+              ruby-dev \
+              liblzma-dev \
+              libgmp-dev \
+              libncurses5-dev \
+              libffi-dev \
+              libgdbm6 \
+              libgdbm-dev \
+              libvips
+
+      - run:
+          name: Install RVM and Ruby 3.4.4
+          command: |
+            sudo apt-get install -y gpg
+            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+            \curl -sSL https://get.rvm.io | bash -s stable
+            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
+            source ~/.rvm/scripts/rvm
+            rvm install "3.4.4"
+            rvm use 3.4.4 --default
+            gem install bundler -v 2.5.16
+
+      - run:
+          name: Install Application Dependencies
+          command: |
+            source ~/.rvm/scripts/rvm
+            bundle install
+
+      - node/install:
+          node-version: '23.7'
+      - node/install-pnpm
+      - node/install-packages:
+          pkg-manager: pnpm
+          override-ci-command: pnpm i
+
+      # Swagger verification
+      - run:
+          name: Verify swagger API specification
+          command: |
+            bundle exec rake swagger:build
+            if [[ `git status swagger/swagger.json --porcelain` ]]
+            then
+              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
+              exit 1
+            fi
+            mkdir -p ~/tmp
+            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
+            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
+
+      # Bundle audit
+      - run:
+          name: Bundle audit
+          command: bundle exec bundle audit update && bundle exec bundle audit check -v
+
+      # Rubocop linting
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop --parallel
+
+      # ESLint linting
+      - run:
+          name: eslint
+          command: pnpm run eslint
+
+  # Separate job for frontend tests
+  frontend-tests:
     <<: *defaults
     steps:
       - checkout
@@ -24,8 +122,38 @@ jobs:
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
-      - run: node --version
-      - run: pnpm --version
+
+      - run:
+          name: Run frontend tests (with coverage)
+          command: pnpm run test:coverage
+
+      - run:
+          name: Move coverage files if they exist
+          command: |
+            if [ -d "coverage" ]; then
+              mkdir -p ~/build/coverage
+              cp -r coverage ~/build/coverage/frontend || true
+            fi
+          when: always
+
+      - persist_to_workspace:
+          root: ~/build
+          paths:
+            - coverage
+
+  # Backend tests with parallelization
+  backend-tests:
+    <<: *defaults
+    parallelism: 16
+    steps:
+      - checkout
+      - node/install:
+          node-version: '23.7'
+      - node/install-pnpm
+      - node/install-packages:
+          pkg-manager: pnpm
+          override-ci-command: pnpm i
+
       - run:
           name: Add PostgreSQL repository and update
           command: |
@@ -73,15 +201,15 @@ jobs:
               libvips
 
       - run:
-          name: Install RVM and Ruby 3.3.3
+          name: Install RVM and Ruby 3.4.4
           command: |
             sudo apt-get install -y gpg
             gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
             \curl -sSL https://get.rvm.io | bash -s stable
             echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
             source ~/.rvm/scripts/rvm
-            rvm install "3.3.3"
-            rvm use 3.3.3 --default
+            rvm install "3.4.4"
+            rvm use 3.4.4 --default
             gem install bundler -v 2.5.16
 
       - run:
@@ -89,29 +217,8 @@ jobs:
           command: |
             source ~/.rvm/scripts/rvm
             bundle install
-            # pnpm install
 
-      - run:
-          name: Download cc-test-reporter
-          command: |
-            mkdir -p ~/tmp
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ~/tmp/cc-test-reporter
-            chmod +x ~/tmp/cc-test-reporter
-
-      # Swagger verification
-      - run:
-          name: Verify swagger API specification
-          command: |
-            bundle exec rake swagger:build
-            if [[ `git status swagger/swagger.json --porcelain` ]]
-            then
-              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
-              exit 1
-            fi
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
-      # we remove the FRONTED_URL from the .env before running the tests
+      # Configure environment and database
       - run:
           name: Database Setup and Configure Environment Variables
           command: |
@@ -133,59 +240,91 @@ jobs:
           name: Run DB migrations
           command: bundle exec rails db:chatwoot_prepare
 
-      # Bundle audit
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      # Rubocop linting
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop
-
-      # ESLint linting
-      - run:
-          name: eslint
-          command: pnpm run eslint
-
-      - run:
-          name: Run frontend tests
-          command: |
-            mkdir -p ~/build/coverage/frontend
-            ~/tmp/cc-test-reporter before-build
-            pnpm run test:coverage
-
-      - run:
-          name: Code Climate Test Coverage (Frontend)
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t lcov -o "~/build/coverage/frontend/codeclimate.frontend_$CIRCLE_NODE_INDEX.json"
-
-      # Run backend tests
+      # Run backend tests (parallelized)
       - run:
           name: Run backend tests
           command: |
             mkdir -p ~/tmp/test-results/rspec
             mkdir -p ~/tmp/test-artifacts
             mkdir -p ~/build/coverage/backend
-            ~/tmp/cc-test-reporter before-build
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec --format progress \
+
+            # Use round-robin distribution (same as GitHub Actions) for better test isolation
+            # This prevents tests with similar timing from being grouped on the same runner
+            SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
+            TESTS=""
+
+            for i in "${!SPEC_FILES[@]}"; do
+              if [ $(( i % $CIRCLE_NODE_TOTAL )) -eq $CIRCLE_NODE_INDEX ]; then
+                TESTS="$TESTS ${SPEC_FILES[$i]}"
+              fi
+            done
+
+            bundle exec rspec -I ./spec --require coverage_helper --require spec_helper --format progress \
                               --format RspecJunitFormatter \
                               --out ~/tmp/test-results/rspec.xml \
-                              -- ${TESTFILES}
+                              -- $TESTS
           no_output_timeout: 30m
 
-      - run:
-          name: Code Climate Test Coverage (Backend)
-          command: |
-            ~/tmp/cc-test-reporter format-coverage -t simplecov -o "~/build/coverage/backend/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # Store test results for better splitting in future runs
+      - store_test_results:
+          path: ~/tmp/test-results
 
       - run:
-          name: List coverage directory contents
+          name: Move coverage files if they exist
           command: |
-            ls -R ~/build/coverage
+            if [ -d "coverage" ]; then
+              mkdir -p ~/build/coverage
+              cp -r coverage ~/build/coverage/backend || true
+            fi
+          when: always
 
       - persist_to_workspace:
           root: ~/build
           paths:
+            - coverage
+
+  # Collect coverage from all jobs
+  coverage:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/build
+
+      # Qlty coverage publish
+      - qlty-orb/coverage_publish:
+          files: |
+            coverage/frontend/lcov.info
+
+      - run:
+          name: List coverage directory contents
+          command: |
+            ls -R ~/build/coverage || echo "No coverage directory"
+
+      - store_artifacts:
+          path: coverage
+          destination: coverage
+
+  build:
+      <<: *defaults
+      steps:
+        - run:
+            name: Legacy build aggregator
+            command: |
+              echo "All main jobs passed; build job kept only for GitHub required check compatibility."
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - lint
+      - frontend-tests
+      - backend-tests
+      - coverage:
+          requires:
+            - frontend-tests
+            - backend-tests
+      - build:
+          requires:
+            - lint
             - coverage

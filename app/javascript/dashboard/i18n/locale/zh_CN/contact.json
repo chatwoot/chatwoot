@@ -17,6 +17,12 @@
     "IP_ADDRESS": "IP 地址",
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
+    "CALL": "呼叫",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "选择一个语音收件箱"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此联系人没有关联到以前的会话。",
       "TITLE": "上一次对话"
@@ -285,6 +291,7 @@
     "HEADER": {
       "TITLE": "联系人",
       "SEARCH_TITLE": "搜索联系人",
+      "ACTIVE_TITLE": "活跃的联系人",
       "SEARCH_PLACEHOLDER": "搜索……",
       "MESSAGE_BUTTON": "消息",
       "SEND_MESSAGE": "发送消息",
@@ -450,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "添加 LinkedIn"
           },
@@ -457,6 +467,10 @@
             "PLACEHOLDER": "添加 Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "这一操作是永久且不可逆转的。",
+        "BUTTON": "立即删除"
       }
     },
     "DETAILS": {
@@ -466,7 +480,7 @@
       "DELETE_CONTACT": "删除联系人",
       "DELETE_DIALOG": {
         "TITLE": "确认删除",
-        "DESCRIPTION": "您确定要删除此 {contactName} 联系人吗？",
+        "DESCRIPTION": "您确定要删除此联系人吗？",
         "CONFIRM": "是，删除",
         "API": {
           "SUCCESS_MESSAGE": "联系人删除成功",
@@ -544,10 +558,12 @@
         "WROTE": "写道",
         "YOU": "您",
         "SAVE": "保存备注",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "扩展",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。"
+        "COLLAPSE": "收起",
+        "NO_NOTES": "没有备注，您可以从联系人详细信息页面添加备注。",
+        "EMPTY_STATE": "此联系人没有关联的备注。您可以在上方输入框中添加备注。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -555,7 +571,29 @@
       "SUBTITLE": "点击下方按钮开始添加新联系人",
       "BUTTON_LABEL": "添加联系人",
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
-      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋"
+      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "分配标签",
+    "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} 已选择",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "全选 ({count})",
+    "DELETE_CONTACTS": "删除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "删除联系人"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -595,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp 模板: {templateName}",
           "VARIABLES": "参数",
+          "BACK": "返回",
+          "SEND_MESSAGE": "发送消息"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "选择模板",
+        "SEARCH_PLACEHOLDER": "搜索模板",
+        "EMPTY_STATE": "未找到模板",
+        "TEMPLATE_PARSER": {
           "BACK": "返回",
           "SEND_MESSAGE": "发送消息"
         }

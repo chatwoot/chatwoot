@@ -4,38 +4,14 @@ import { computed, ref, watch, useSlots } from 'vue';
 import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  focusOnMount: {
-    type: Boolean,
-    default: false,
-  },
-  maxLength: {
-    type: Number,
-    default: 200,
-  },
-  showCharacterCount: {
-    type: Boolean,
-    default: true,
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  message: {
-    type: String,
-    default: '',
-  },
+  modelValue: { type: String, default: '' },
+  label: { type: String, default: '' },
+  placeholder: { type: String, default: '' },
+  focusOnMount: { type: Boolean, default: false },
+  maxLength: { type: Number, default: 200 },
+  showCharacterCount: { type: Boolean, default: true },
+  disabled: { type: Boolean, default: false },
+  message: { type: String, default: '' },
   messageType: {
     type: String,
     default: 'info',
@@ -43,6 +19,12 @@ const props = defineProps({
   },
   enableVariables: { type: Boolean, default: false },
   enableCannedResponses: { type: Boolean, default: true },
+  enableCaptainTools: { type: Boolean, default: false },
+  signature: { type: String, default: '' },
+  allowSignature: { type: Boolean, default: false },
+  sendWithSignature: { type: Boolean, default: false },
+  channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -58,7 +40,7 @@ const messageClass = computed(() => {
     case 'error':
       return 'text-n-ruby-9 dark:text-n-ruby-9';
     case 'success':
-      return 'text-green-500 dark:text-green-400';
+      return 'text-n-teal-10 dark:text-n-teal-10';
     default:
       return 'text-n-slate-11 dark:text-n-slate-11';
   }
@@ -120,6 +102,12 @@ watch(
         :disabled="disabled"
         :enable-variables="enableVariables"
         :enable-canned-responses="enableCannedResponses"
+        :enable-captain-tools="enableCaptainTools"
+        :signature="signature"
+        :allow-signature="allowSignature"
+        :send-with-signature="sendWithSignature"
+        :channel-type="channelType"
+        :medium="medium"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -151,19 +139,6 @@ watch(
 .editor-wrapper {
   ::v-deep {
     .ProseMirror-menubar-wrapper {
-      @apply gap-2 !important;
-
-      .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
-
-        .ProseMirror-menuitem {
-          @apply h-5 !important;
-        }
-
-        .ProseMirror-icon {
-          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
-        }
-      }
       .ProseMirror.ProseMirror-woot-style {
         p {
           @apply first:mt-0 !important;

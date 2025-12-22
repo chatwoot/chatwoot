@@ -8,13 +8,22 @@ security:
 parameters:
   - in: path
     name: id
-    type: integer
+    schema:
+      type: integer
     required: true
-    description: The ID of the agent to be deleted
+    description: The ID of the agent to be deleted.
 responses:
   200:
     description: Success
   404:
     description: Agent not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   403:
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

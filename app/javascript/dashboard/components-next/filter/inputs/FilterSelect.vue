@@ -74,6 +74,7 @@ const updateSelected = newValue => {
       <slot name="trigger" :toggle="toggle">
         <Button
           ref="triggerRef"
+          type="button"
           sm
           slate
           :variant
@@ -90,7 +91,7 @@ const updateSelected = newValue => {
       :class="dropdownPosition"
       strong
     >
-      <DropdownSection class="max-h-80 overflow-scroll">
+      <DropdownSection class="[&>ul]:max-h-80">
         <DropdownItem
           v-for="option in options"
           :key="option.value"

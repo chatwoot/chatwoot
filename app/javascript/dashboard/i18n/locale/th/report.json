@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "7 วันที่ผ่านมา",
+      "LAST_14_DAYS": "14 วันที่ผ่านมา",
       "LAST_30_DAYS": "30 วันที่ผ่านมา",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "3 เดือนที่ผ่านมา",
       "LAST_6_MONTHS": "6 เดือนที่ผ่านมา",
       "LAST_YEAR": "ปีที่ผ่านมา",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "ภาพรวมป้ายกำกับ",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_LABEL_REPORTS": "ดาวน์โหลดรายงานป้ายกำกับ",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_INBOX_REPORTS": "ดาวน์โหลดรายงานกล่องข้อความ",
     "FILTER_DROPDOWN_LABEL": "เลือกกล่องข้อความ",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่พนักงานดูแล",
       "LOADING_MESSAGE": "กำลังโหลดตัวชี้วัดพนักงาน",
@@ -559,6 +572,7 @@
     "INBOX": "กล่องข้อความ",
     "AGENT": "พนักงาน",
     "TEAM": "ทีม",
+    "LABEL": "ป้ายกำกับ",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

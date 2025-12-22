@@ -7,6 +7,7 @@ vi.mock('dashboard/api/summaryReports', () => ({
     getInboxReports: vi.fn(),
     getAgentReports: vi.fn(),
     getTeamReports: vi.fn(),
+    getLabelReports: vi.fn(),
   },
 }));
 
@@ -25,10 +26,12 @@ describe('Summary Reports Store', () => {
         inboxSummaryReports: [],
         agentSummaryReports: [],
         teamSummaryReports: [],
+        labelSummaryReports: [],
         uiFlags: {
           isFetchingInboxSummaryReports: false,
           isFetchingAgentSummaryReports: false,
           isFetchingTeamSummaryReports: false,
+          isFetchingLabelSummaryReports: false,
         },
       });
     });
@@ -39,6 +42,7 @@ describe('Summary Reports Store', () => {
       inboxSummaryReports: [{ id: 1 }],
       agentSummaryReports: [{ id: 2 }],
       teamSummaryReports: [{ id: 3 }],
+      labelSummaryReports: [{ id: 4 }],
       uiFlags: { isFetchingInboxSummaryReports: true },
     };
 
@@ -52,6 +56,10 @@ describe('Summary Reports Store', () => {
 
     it('should return team summary reports', () => {
       expect(store.getters.getTeamSummaryReports(state)).toEqual([{ id: 3 }]);
+    });
+
+    it('should return label summary reports', () => {
+      expect(store.getters.getLabelSummaryReports(state)).toEqual([{ id: 4 }]);
     });
 
     it('should return UI flags', () => {
@@ -84,6 +92,14 @@ describe('Summary Reports Store', () => {
 
       store.mutations.setTeamSummaryReport(state, data);
       expect(state.teamSummaryReports).toEqual(data);
+    });
+
+    it('should set label summary report', () => {
+      const state = { ...initialState };
+      const data = [{ id: 4 }];
+
+      store.mutations.setLabelSummaryReport(state, data);
+      expect(state.labelSummaryReports).toEqual(data);
     });
 
     it('should merge UI flags with existing flags', () => {
@@ -182,6 +198,30 @@ describe('Summary Reports Store', () => {
         ]);
         expect(commit).toHaveBeenCalledWith('setUIFlags', {
           isFetchingTeamSummaryReports: false,
+        });
+      });
+    });
+
+    describe('fetchLabelSummaryReports', () => {
+      it('should fetch label reports successfully', async () => {
+        const params = { labelId: 789 };
+        const mockResponse = {
+          data: [{ label_id: 789, label_name: 'Test Label' }],
+        };
+
+        SummaryReportsAPI.getLabelReports.mockResolvedValue(mockResponse);
+
+        await store.actions.fetchLabelSummaryReports({ commit }, params);
+
+        expect(commit).toHaveBeenCalledWith('setUIFlags', {
+          isFetchingLabelSummaryReports: true,
+        });
+        expect(SummaryReportsAPI.getLabelReports).toHaveBeenCalledWith(params);
+        expect(commit).toHaveBeenCalledWith('setLabelSummaryReport', [
+          { labelId: 789, labelName: 'Test Label' },
+        ]);
+        expect(commit).toHaveBeenCalledWith('setUIFlags', {
+          isFetchingLabelSummaryReports: false,
         });
       });
     });

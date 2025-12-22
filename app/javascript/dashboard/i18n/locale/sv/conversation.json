@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
+    "48_HOURS_WINDOW": "48 timmars meddelandebegränsning",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Den här konversationen är inte tilldelad dig. Vill du tilldela dig själv den här konversationen?",
     "ASSIGN_TO_ME": "Tilldela mig",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Du kan bara svara på denna konversation med ett mallmeddelande på grund av",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Visa etiketter",
       "HIDE_LABELS": "Dölj etiketter"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",
       "OPEN_ACTION": "Öppna",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Nästa vecka"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenter",
+      "TEAMS": "Teams"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooza tills",
       "APPLY": "Snooza",
@@ -117,6 +139,11 @@
         "FAILED": "Kunde inte ändra prioritet. Försök igen."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Radera"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markera som väntande",
       "RESOLVED": "Markera som löst",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Tilldela etikett",
       "AGENTS_LOADING": "Laddar agenter...",
       "ASSIGN_TEAM": "Tilldela team",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Läs mer",
       "DISMISS_REPLY": "Avvisa svar",
       "REPLYING_TO": "Svarar till:",
-      "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
       "TIP_AUDIORECORDER_ICON": "Spela in ljud",
@@ -197,6 +227,13 @@
           "YES": "Skicka",
           "CANCEL": "Avbryt"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privat anteckning: Endast synlig för dig och ditt team",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Konversationsteamet har ändrats",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Tidigare konversationer",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

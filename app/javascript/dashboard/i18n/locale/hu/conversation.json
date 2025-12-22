@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "48_HOURS_WINDOW": "48 órás üzeneti ablak megkötés",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ez a beszélgetés nincs hozzádrendelve. Szeretnéd magadhoz rendelni?",
     "ASSIGN_TO_ME": "Hozzárendelés magamhoz",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Erre a beszélgetésre csak konzerv válasszal válaszolhatsz, mert",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Cimkék mutatása",
       "HIDE_LABELS": "Cimkék elrejtése"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
       "REOPEN_ACTION": "Újranyitás",
       "OPEN_ACTION": "Megnyitás",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Tovább",
       "CLOSE": "Bezárás",
       "DETAILS": "részletek",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Jövő héten"
       }
     },
+    "MENTION": {
+      "AGENTS": "Ügynökök",
+      "TEAMS": "Csapatok"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Halasztás eddig",
       "APPLY": "Halasztás",
@@ -117,6 +139,11 @@
         "FAILED": "Nem sikerült megváltoztatni a prioritást. Kérlek, próbáld újra."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Törlés"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Függőben levőként megjelölés",
       "RESOLVED": "Megjelölés megoldottként",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Cimke hozzáadása",
       "AGENTS_LOADING": "Ügynökök betöltése...",
       "ASSIGN_TEAM": "Csapat hozzárendelése",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Tudj meg többet",
       "DISMISS_REPLY": "Válasz elutasítása",
       "REPLYING_TO": "Válaszolva a következőre:",
-      "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
       "TIP_AUDIORECORDER_ICON": "Hangfelvétel",
@@ -197,6 +227,13 @@
           "YES": "Elküldés",
           "CANCEL": "Mégse"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privát megjegyzés: csak Neked és a csapat tagjainak látható",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Címke sikeresen hozzárendelve",
     "ASSIGN_LABEL_FAILED": "Címke hozzárendelése sikertelen",
     "CHANGE_TEAM": "A beszélgetés csapata megváltozott",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} limitet",
     "MESSAGE_ERROR": "Nem tudsz üzenetet küldeni, kérlek, próbáld újra",
     "SENT_BY": "Küldő:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Kontakt Tulajdonságok",
       "PREVIOUS_CONVERSATION": "Korábbi beszélgetések",
       "MACROS": "Makrók",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

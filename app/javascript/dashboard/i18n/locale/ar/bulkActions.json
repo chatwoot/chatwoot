@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "إضافة وسم",
-      "NO_LABELS_FOUND": "لم يتم العثور على تسميات لـ",
+      "NO_LABELS_FOUND": "لم يتم العثور على تصنيفات",
       "ASSIGN_SELECTED_LABELS": "تعيين التسميات المحددة",
       "ASSIGN_SUCCESFUL": "تم تعيين التسميات بنجاح.",
       "ASSIGN_FAILED": "فشل في تعيين التسميات ، الرجاء المحاولة مرة أخرى."

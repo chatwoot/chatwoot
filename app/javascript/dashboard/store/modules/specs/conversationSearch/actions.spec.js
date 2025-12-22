@@ -75,6 +75,7 @@ describe('#actions', () => {
         q: 'test',
       });
       expect(dispatch).toHaveBeenCalledWith('messageSearch', { q: 'test' });
+      expect(dispatch).toHaveBeenCalledWith('articleSearch', { q: 'test' });
     });
   });
 
@@ -146,6 +147,30 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: true }],
         [types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+  });
+
+  describe('#articleSearch', () => {
+    it('should handle successful article search', async () => {
+      axios.get.mockResolvedValue({
+        data: { payload: { articles: [{ id: 1 }] } },
+      });
+
+      await actions.articleSearch({ commit }, { q: 'test', page: 1 });
+      expect(commit.mock.calls).toEqual([
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [types.ARTICLE_SEARCH_SET, [{ id: 1 }]],
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+
+    it('should handle failed article search', async () => {
+      axios.get.mockRejectedValue({});
+      await actions.articleSearch({ commit }, { q: 'test' });
+      expect(commit.mock.calls).toEqual([
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [types.ARTICLE_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
     });
   });

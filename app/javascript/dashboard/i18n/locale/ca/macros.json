@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Canvia la prioritat",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ningú",
+      "LOW": "Baixa",
+      "MEDIUM": "Mitjana",
+      "HIGH": "Alta",
+      "URGENT": "Urgent"
     }
   }
 }

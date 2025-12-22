@@ -10,10 +10,12 @@ import countries from 'shared/constants/countries.js';
 import { isPhoneNumberValid } from 'shared/helpers/Validators';
 import parsePhoneNumber from 'libphonenumber-js';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 
 export default {
   components: {
     NextButton,
+    Avatar,
   },
   props: {
     contact: {
@@ -60,6 +62,7 @@ export default {
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
+        { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
       ],
     };
   },
@@ -274,18 +277,19 @@ export default {
     class="w-full px-8 pt-6 pb-8 contact--form"
     @submit.prevent="handleSubmit"
   >
-    <div>
-      <div class="w-full">
-        <woot-avatar-uploader
-          :label="$t('CONTACT_FORM.FORM.AVATAR.LABEL')"
-          :src="avatarUrl"
-          :username-avatar="name"
-          :delete-avatar="!!avatarUrl"
-          class="settings-item"
-          @on-avatar-select="handleImageUpload"
-          @on-avatar-delete="handleAvatarDelete"
-        />
-      </div>
+    <div class="flex flex-col mb-4 items-start gap-1 w-full">
+      <label class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ $t('CONTACT_FORM.FORM.AVATAR.LABEL') }}
+      </label>
+      <Avatar
+        :src="avatarUrl"
+        :size="72"
+        :name="contact.name"
+        allow-upload
+        rounded-full
+        @upload="handleImageUpload"
+        @delete="handleAvatarDelete"
+      />
     </div>
     <div>
       <div class="w-full">
@@ -346,7 +350,7 @@ export default {
         </label>
         <div
           v-if="isPhoneNumberNotValid || !phoneNumber"
-          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-yellow-500 text-yellow-700 dark:border-yellow-700 bg-yellow-200/60 dark:bg-yellow-200/20 dark:text-yellow-400"
+          class="relative mx-0 mt-0 mb-2.5 p-2 rounded-md text-sm border border-solid border-n-amber-5 text-n-amber-12 bg-n-amber-3"
         >
           {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.HELP') }}
         </div>
@@ -394,13 +398,13 @@ export default {
         class="flex items-stretch w-full mb-4"
       >
         <span
-          class="flex items-center h-10 px-2 text-sm border-solid bg-slate-50 border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md dark:bg-slate-700 text-slate-800 dark:text-slate-100 border-slate-200 dark:border-slate-600"
+          class="flex items-center h-10 px-2 text-sm border-solid border-y ltr:border-l rtl:border-r ltr:rounded-l-md rtl:rounded-r-md bg-n-solid-3 text-n-slate-11 border-n-weak"
         >
           {{ socialProfile.prefixURL }}
         </span>
         <input
           v-model="socialProfileUserNames[socialProfile.key]"
-          class="input-group-field ltr:!rounded-l-none rtl:rounded-r-none !mb-0"
+          class="input-group-field ltr:!rounded-l-none rtl:!rounded-r-none !mb-0"
           type="text"
         />
       </div>

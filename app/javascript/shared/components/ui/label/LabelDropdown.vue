@@ -114,12 +114,12 @@ export default {
   <div class="flex flex-col w-full max-h-[12.5rem]">
     <div class="flex items-center justify-center mb-1">
       <h4
-        class="flex-grow m-0 overflow-hidden text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+        class="flex-grow m-0 overflow-hidden text-sm text-n-slate-12 whitespace-nowrap text-ellipsis"
       >
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
       <Hotkey
-        custom-class="border border-solid text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border-slate-75 dark:border-slate-600 flex-shrink-0"
+        custom-class="border border-solid text-n-slate-12 bg-n-slate-2 text-xxs border-n-strong flex-shrink-0"
       >
         {{ 'L' }}
       </Hotkey>
@@ -150,13 +150,13 @@ export default {
         </woot-dropdown-menu>
         <div
           v-if="noResult"
-          class="flex justify-center py-4 px-2.5 font-medium text-xs text-slate-700 dark:text-slate-200"
+          class="flex justify-center py-4 px-2.5 font-medium text-xs text-n-slate-11"
         >
           {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.NO_RESULT') }}
         </div>
         <div
           v-if="allowCreation && shouldShowCreate"
-          class="flex pt-1 border-t border-solid border-slate-100 dark:border-slate-900"
+          class="flex pt-1 border-t border-solid border-n-weak"
         >
           <NextButton
             icon="i-lucide-plus"

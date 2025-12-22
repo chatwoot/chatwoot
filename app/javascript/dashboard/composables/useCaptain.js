@@ -1,12 +1,15 @@
 import { computed } from 'vue';
-import { useStore } from 'dashboard/composables/store.js';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export function useCaptain() {
   const store = useStore();
   const { isCloudFeatureEnabled, currentAccount } = useAccount();
+  const { isEnterprise } = useConfig();
+  const uiFlags = useMapGetter('accounts/getUIFlags');
 
   const captainEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
@@ -32,8 +35,12 @@ export function useCaptain() {
     return null;
   });
 
+  const isFetchingLimits = computed(() => uiFlags.value.isFetchingLimits);
+
   const fetchLimits = () => {
-    store.dispatch('accounts/limits');
+    if (isEnterprise) {
+      store.dispatch('accounts/limits');
+    }
   };
 
   return {
@@ -42,5 +49,6 @@ export function useCaptain() {
     documentLimits,
     responseLimits,
     fetchLimits,
+    isFetchingLimits,
   };
 }

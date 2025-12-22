@@ -2,33 +2,41 @@
 // utils and composables
 import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
-import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
-// mixins
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { useBranding } from 'shared/composables/useBranding';
 
 // components
+import SimpleDivider from '../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
+  'saml-authentication-failed': 'LOGIN.SAML.API.ERROR_MESSAGE',
+  'saml-not-enabled': 'LOGIN.SAML.API.ERROR_MESSAGE',
 };
+
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 
 export default {
   components: {
     FormInput,
     GoogleOAuthButton,
     Spinner,
-    SubmitButton,
+    NextButton,
+    SimpleDivider,
+    MfaVerification,
+    Icon,
   },
-  mixins: [globalConfigMixin],
   props: {
     ssoAuthToken: { type: String, default: '' },
     ssoAccountId: { type: String, default: '' },
@@ -37,7 +45,11 @@ export default {
     authError: { type: String, default: '' },
   },
   setup() {
-    return { v$: useVuelidate() };
+    const { replaceInstallationName } = useBranding();
+    return {
+      replaceInstallationName,
+      v$: useVuelidate(),
+    };
   },
   data() {
     return {
@@ -53,6 +65,8 @@ export default {
         hasErrored: false,
       },
       error: '',
+      mfaRequired: false,
+      mfaToken: null,
     };
   },
   validations() {
@@ -70,11 +84,20 @@ export default {
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
+      );
     },
     showSignupLink() {
-      return parseBoolean(window.chatwootConfig.signupEnabled);
+      return window.chatwootConfig.signupEnabled === 'true';
+    },
+    showSamlLogin() {
+      return this.allowedLoginMethods.includes('saml');
     },
   },
   created() {
@@ -82,8 +105,10 @@ export default {
       this.submitLogin();
     }
     if (this.authError) {
-      const message = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
-      useAlert(this.$t(message));
+      const messageKey = ERROR_MESSAGES[this.authError] ?? 'LOGIN.API.UNAUTH';
+      // Use a method to get the translated text to avoid dynamic key warning
+      const translatedMessage = this.getTranslatedMessage(messageKey);
+      useAlert(translatedMessage);
       // wait for idle state
       this.requestIdleCallbackPolyfill(() => {
         // Remove the error query param from the url
@@ -93,6 +118,18 @@ export default {
     }
   },
   methods: {
+    getTranslatedMessage(key) {
+      // Avoid dynamic key warning by handling each case explicitly
+      switch (key) {
+        case 'LOGIN.OAUTH.NO_ACCOUNT_FOUND':
+          return this.$t('LOGIN.OAUTH.NO_ACCOUNT_FOUND');
+        case 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY':
+          return this.$t('LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY');
+        case 'LOGIN.API.UNAUTH':
+        default:
+          return this.$t('LOGIN.API.UNAUTH');
+      }
+    },
     // TODO: Remove this when Safari gets wider support
     // Ref: https://caniuse.com/requestidlecallback
     //
@@ -112,6 +149,14 @@ export default {
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
     },
+    handleImpersonation() {
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      if (impersonation) {
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
+    },
     submitLogin() {
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
@@ -127,7 +172,16 @@ export default {
       };
 
       login(credentials)
-        .then(() => {
+        .then(result => {
+          // Check if MFA is required
+          if (result?.mfaRequired) {
+            this.loginApi.showLoading = false;
+            this.mfaRequired = true;
+            this.mfaToken = result.mfaToken;
+            return;
+          }
+
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
@@ -148,6 +202,17 @@ export default {
       }
 
       this.submitLogin();
+    },
+    handleMfaVerified() {
+      // MFA verification successful, continue with login
+      this.handleImpersonation();
+      window.location = '/app';
+    },
+    handleMfaCancel() {
+      // User cancelled MFA, reset state
+      this.mfaRequired = false;
+      this.mfaToken = null;
+      this.credentials.password = '';
     },
   },
 };
@@ -170,9 +235,7 @@ export default {
         class="hidden w-auto h-8 mx-auto dark:block"
       />
       <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{
-          useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
-        }}
+        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
       </h2>
       <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
@@ -181,7 +244,19 @@ export default {
         </router-link>
       </p>
     </section>
+
+    <!-- MFA Verification Section -->
+    <section v-if="mfaRequired" class="mt-11">
+      <MfaVerification
+        :mfa-token="mfaToken"
+        @verified="handleMfaVerified"
+        @cancel="handleMfaCancel"
+      />
+    </section>
+
+    <!-- Regular Login Section -->
     <section
+      v-else
       class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
@@ -189,7 +264,28 @@ export default {
       }"
     >
       <div v-if="!email">
-        <GoogleOAuthButton v-if="showGoogleOAuth" />
+        <div class="flex flex-col gap-4">
+          <GoogleOAuthButton v-if="showGoogleOAuth" />
+          <div v-if="showSamlLogin" class="text-center">
+            <router-link
+              to="/app/login/sso"
+              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+            >
+              <Icon
+                icon="i-lucide-lock-keyhole"
+                class="size-5 text-n-slate-11"
+              />
+              <span class="ml-2 text-base font-medium text-n-slate-12">
+                {{ $t('LOGIN.SAML.LABEL') }}
+              </span>
+            </router-link>
+          </div>
+          <SimpleDivider
+            v-if="showGoogleOAuth || showSamlLogin"
+            :label="$t('COMMON.OR')"
+            class="uppercase"
+          />
+        </div>
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
             v-model="credentials.email"
@@ -225,11 +321,15 @@ export default {
               </router-link>
             </p>
           </FormInput>
-          <SubmitButton
-            :disabled="loginApi.showLoading"
+          <NextButton
+            lg
+            type="submit"
+            data-testid="submit_button"
+            class="w-full"
             :tabindex="3"
-            :button-text="$t('LOGIN.SUBMIT')"
-            :loading="loginApi.showLoading"
+            :label="$t('LOGIN.SUBMIT')"
+            :disabled="loginApi.showLoading"
+            :is-loading="loginApi.showLoading"
           />
         </form>
       </div>

@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Utolsó 7 nap",
+      "LAST_14_DAYS": "Utolsó 14 nap",
       "LAST_30_DAYS": "Utolsó 30 nap",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Elmúlt 3 hónapban",
       "LAST_6_MONTHS": "Elmúlt 6 hónapban",
       "LAST_YEAR": "Elmúlt 1 évben",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Címkék áttekintése",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_LABEL_REPORTS": "Címkejelentések letöltése",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_INBOX_REPORTS": "Beérkezett üzenetek letöltése",
     "FILTER_DROPDOWN_LABEL": "Válassz egy fiókot",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Beszélgetések",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} conversations",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Nincsennek beszélgetések",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Ügynökök által kezelt beszélgetések",
       "LOADING_MESSAGE": "Ügynökök betöltése...",
@@ -559,6 +572,7 @@
     "INBOX": "Fiók",
     "AGENT": "Ügynök",
     "TEAM": "Csapat",
+    "LABEL": "Cimke",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

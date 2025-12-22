@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "Não foi possível atualizar o robô. Por favor, tente novamente mais tarde."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token de acesso",
+      "DESCRIPTION": "Copie o token de acesso e salve-o de forma segura",
+      "COPY_SUCCESSFUL": "Token de acesso copiado para área de transferência",
+      "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+      "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Avatar do robô"

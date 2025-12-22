@@ -1,5 +1,5 @@
 type: object
-properties: 
+properties:
   id:
     type: integer
     description: Id of the contact

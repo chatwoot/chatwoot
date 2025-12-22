@@ -17,6 +17,12 @@
     "IP_ADDRESS": "Dirección IP",
     "CREATED_AT_LABEL": "Creado",
     "NEW_MESSAGE": "Nuevo mensaje",
+    "CALL": "Llamar",
+    "CALL_INITIATED": "Llamando al contacto…",
+    "CALL_FAILED": "No se puede iniciar la llamada. Por favor, inténtelo de nuevo.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Seleccionar un buzón de entrada"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "No hay conversaciones previas asociadas a este contacto.",
       "TITLE": "Conversaciones anteriores"
@@ -285,6 +291,7 @@
     "HEADER": {
       "TITLE": "Contactos",
       "SEARCH_TITLE": "Buscar contactos",
+      "ACTIVE_TITLE": "Contactos activos",
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
@@ -450,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Agregar Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Agregar LinkedIn"
           },
@@ -457,6 +467,10 @@
             "PLACEHOLDER": "Agregar Twitter/X"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Eliminar permanentemente este contacto. Esta acción es irreversible.",
+        "BUTTON": "Eliminar ahora"
       }
     },
     "DETAILS": {
@@ -466,7 +480,7 @@
       "DELETE_CONTACT": "Eliminar contacto",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar eliminación",
-        "DESCRIPTION": "¿Estás seguro de que quieres eliminar este contacto {contactName}?",
+        "DESCRIPTION": "¿Está seguro que desea eliminar este contacto?",
         "CONFIRM": "Sí, eliminar",
         "API": {
           "SUCCESS_MESSAGE": "Contacto eliminado correctamente",
@@ -544,10 +558,12 @@
         "WROTE": "escribió",
         "YOU": "Tú",
         "SAVE": "Guardar nota",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expandir",
-        "COLLAPSE": "Collapse",
-        "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior."
+        "COLLAPSE": "Contraer",
+        "NO_NOTES": "No hay notas, puede agregar notas desde la página de detalles de contacto.",
+        "EMPTY_STATE": "No hay notas asociadas a este contacto. Puede añadir una nota escribiendo en el recuadro superior.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -555,7 +571,29 @@
       "SUBTITLE": "Empieza a añadir nuevos contactos haciendo clic en el botón de abajo",
       "BUTTON_LABEL": "Añadir contacto",
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋"
+      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No hay contactos activos por el momento 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Asignar etiquetas",
+    "ASSIGN_LABELS_SUCCESS": "Etiquetas asignadas correctamente.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Eliminar",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Eliminar contacto"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -595,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "Plantilla de WhatsApp: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "Volver",
+          "SEND_MESSAGE": "Enviar mensaje"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Seleccionar plantilla",
+        "SEARCH_PLACEHOLDER": "Buscar plantillas",
+        "EMPTY_STATE": "No se encontraron plantillas",
+        "TEMPLATE_PARSER": {
           "BACK": "Volver",
           "SEND_MESSAGE": "Enviar mensaje"
         }

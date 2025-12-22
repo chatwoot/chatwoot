@@ -5,4 +5,4 @@ properties:
     description: Contact Inbox Source Id
   inbox:
     type: object
-    $ref: '#/definitions/inbox'
+    $ref: '#/components/schemas/inbox'

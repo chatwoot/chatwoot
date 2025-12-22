@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_14_DAYS": "Ultimele 14 zile",
       "LAST_30_DAYS": "Ultimele 30 zile",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Ultimele 3 luni",
       "LAST_6_MONTHS": "Ultimele 6 luni",
       "LAST_YEAR": "Anul trecut",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Prezentare generală a etichetelor",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_LABEL_REPORTS": "Descărcarea rapoartelor de etichete",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
     "FILTER_DROPDOWN_LABEL": "Selectați Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversații",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "conversații {count}",
       "DOWNLOAD_REPORT": "Download report"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Fără conversații",
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
+      "DOWNLOAD_REPORT": "Download report"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversațiile agenților",
       "LOADING_MESSAGE": "Măsurătorile agentului de încărcare...",
@@ -559,6 +572,7 @@
     "INBOX": "Inbox",
     "AGENT": "Agent",
     "TEAM": "Echipa",
+    "LABEL": "Etichetă",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

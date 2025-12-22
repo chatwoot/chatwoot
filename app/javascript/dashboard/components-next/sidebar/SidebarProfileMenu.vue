@@ -1,11 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import Auth from 'dashboard/api/auth';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import YearInReviewModal from 'dashboard/components-next/year-in-review/YearInReviewModal.vue';
 
 import {
   DropdownContainer,
@@ -22,6 +24,7 @@ defineOptions({
 });
 
 const { t } = useI18n();
+const { uiSettings } = useUISettings();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
@@ -30,6 +33,29 @@ const globalConfig = useMapGetter('globalConfig/get');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+
+const showYearInReviewModal = ref(false);
+
+const bannerClosedKey = computed(() => {
+  return `yir_closed_${accountId.value}_2025`;
+});
+
+const isBannerClosed = computed(() => {
+  return uiSettings.value?.[bannerClosedKey.value] === true;
+});
+
+const showYearInReviewMenuItem = computed(() => {
+  return isBannerClosed.value;
+});
+
+const openYearInReviewModal = () => {
+  showYearInReviewModal.value = true;
+  emit('close');
+};
+
+const closeYearInReviewModal = () => {
+  showYearInReviewModal.value = false;
+};
 
 const showChatSupport = computed(() => {
   return (
@@ -42,6 +68,13 @@ const showChatSupport = computed(() => {
 
 const menuItems = computed(() => {
   return [
+    {
+      show: showYearInReviewMenuItem.value,
+      showOnCustomBrandedInstance: false,
+      label: t('SIDEBAR_ITEMS.YEAR_IN_REVIEW'),
+      icon: 'i-lucide-gift',
+      click: openYearInReviewModal,
+    },
     {
       show: showChatSupport.value,
       showOnCustomBrandedInstance: false,
@@ -87,6 +120,15 @@ const menuItems = computed(() => {
       target: '_blank',
     },
     {
+      show: true,
+      showOnCustomBrandedInstance: false,
+      label: t('SIDEBAR_ITEMS.CHANGELOG'),
+      icon: 'i-lucide-scroll-text',
+      link: 'https://www.chatwoot.com/changelog/',
+      nativeLink: true,
+      target: '_blank',
+    },
+    {
       show: currentUser.value.type === 'SuperAdmin',
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
@@ -111,14 +153,10 @@ const allowedMenuItems = computed(() => {
 </script>
 
 <template>
-  <DropdownContainer
-    class="relative w-full min-w-0"
-    :class="{ 'z-20': isOpen }"
-    @close="emit('close')"
-  >
+  <DropdownContainer class="relative w-full min-w-0" @close="emit('close')">
     <template #trigger="{ toggle, isOpen }">
       <button
-        class="flex gap-2 items-center rounded-lg cursor-pointer text-left w-full hover:bg-n-alpha-1 p-1"
+        class="flex gap-2 items-center p-1 w-full text-left rounded-lg cursor-pointer hover:bg-n-alpha-1"
         :class="{ 'bg-n-alpha-1': isOpen }"
         @click="toggle"
       >
@@ -131,16 +169,16 @@ const allowedMenuItems = computed(() => {
           rounded-full
         />
         <div class="min-w-0">
-          <div class="text-n-slate-12 text-sm leading-4 font-medium truncate">
+          <div class="text-sm font-medium leading-4 truncate text-n-slate-12">
             {{ currentUser.available_name }}
           </div>
-          <div class="text-n-slate-11 text-xs truncate">
+          <div class="text-xs truncate text-n-slate-11">
             {{ currentUser.email }}
           </div>
         </div>
       </button>
     </template>
-    <DropdownBody class="ltr:left-0 rtl:right-0 bottom-12 z-50 w-80 mb-2">
+    <DropdownBody class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0">
       <SidebarProfileMenuStatus />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
@@ -152,4 +190,9 @@ const allowedMenuItems = computed(() => {
       </template>
     </DropdownBody>
   </DropdownContainer>
+
+  <YearInReviewModal
+    :show="showYearInReviewModal"
+    @close="closeYearInReviewModal"
+  />
 </template>

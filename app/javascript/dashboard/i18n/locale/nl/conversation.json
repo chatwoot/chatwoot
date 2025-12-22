@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Conversaties laden",
     "CANNOT_REPLY": "Je kunt niet reageren omdat",
     "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "48_HOURS_WINDOW": "Beperking van 48-uur berichtenvenster",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
     "ASSIGN_TO_ME": "Aan mij toewijzen",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Je kunt dit gesprek alleen beantwoorden met een sjabloon bericht vanwege",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Labels weergeven",
       "HIDE_LABELS": "Labels verbergen"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Oplossen",
       "REOPEN_ACTION": "Heropenen",
       "OPEN_ACTION": "Open",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Meer",
       "CLOSE": "Sluiten",
       "DETAILS": "Details",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Volgende week"
       }
     },
+    "MENTION": {
+      "AGENTS": "Medewerkers",
+      "TEAMS": "Teams"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze tot",
       "APPLY": "Snooze",
@@ -117,6 +139,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Verwijderen"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markeren als in afwachting van",
       "RESOLVED": "Markeer als opgelost",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Label toewijzen",
       "AGENTS_LOADING": "Agents worden geladen...",
       "ASSIGN_TEAM": "Team toewijzen",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Gesprek id {conversationId} toegewezen aan \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Meer lezen",
       "DISMISS_REPLY": "Antwoord afwijzen",
       "REPLYING_TO": "Antwoord op:",
-      "TIP_FORMAT_ICON": "Toon rich text editor",
       "TIP_EMOJI_ICON": "Toon emoji-kiezer",
       "TIP_ATTACH_ICON": "Bestanden toevoegen",
       "TIP_AUDIORECORDER_ICON": "Audio opnemen",
@@ -197,6 +227,13 @@
           "YES": "Verzenden",
           "CANCEL": "Annuleren"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Conversation team changed",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Unable to send this message, please try again later",
     "SENT_BY": "Verzonden door:",
@@ -299,6 +338,7 @@
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Vorige gesprekken",
       "MACROS": "Macro's",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

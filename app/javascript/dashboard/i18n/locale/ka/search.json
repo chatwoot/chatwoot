@@ -4,12 +4,14 @@
       "ALL": "All",
       "CONTACTS": "Contacts",
       "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Messages",
+      "ARTICLES": "სტატიები"
     },
     "SECTION": {
       "CONTACTS": "Contacts",
       "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Messages",
+      "ARTICLES": "სტატიები"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

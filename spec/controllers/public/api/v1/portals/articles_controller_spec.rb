@@ -65,6 +65,14 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
       expect(response_data.length).to eq(2)
+      # Only count articles in the current locale (category.locale is 'en')
+      expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(3)
+    end
+
+    it 'returns articles count from all locales when locale parameter is not present' do
+      get "/hc/#{portal.slug}/articles.json"
+
+      expect(response).to have_http_status(:success)
       expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
     end
 
@@ -82,7 +90,7 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article.slug}"
       expect(response).to have_http_status(:success)
       expect(response.body).to include(ChatwootMarkdownRenderer.new(article.content).render_article)
-      expect(article.reload.views).to eq 1
+      expect(article.reload.views).to eq 0 # View count should not increment on show
     end
 
     it 'does not increment the view count if the article is not published' do
@@ -96,6 +104,44 @@ RSpec.describe 'Public Articles API', type: :request do
       article_in_locale = create(:article, category: category_2, portal: portal, account_id: account.id, author_id: agent.id)
       get "/hc/#{portal.slug}/articles/#{article_in_locale.slug}"
       expect(response).to have_http_status(:success)
+    end
+  end
+
+  describe 'GET /public/api/v1/portals/:slug/articles/:slug.png (tracking pixel)' do
+    it 'serves a PNG image and increments view count for published article' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}.png"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['Content-Type']).to eq('image/png')
+      expect(response.headers['Cache-Control']).to include('max-age=86400')
+      expect(response.headers['Cache-Control']).to include('private')
+      expect(article.reload.views).to eq 1
+    end
+
+    it 'serves a PNG image but does not increment view count for draft article' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}.png"
+
+      expect(response).to have_http_status(:success)
+      expect(response.headers['Content-Type']).to eq('image/png')
+      expect(response.headers['Cache-Control']).to include('max-age=86400')
+      expect(response.headers['Cache-Control']).to include('private')
+      expect(draft_article.reload.views).to eq 0
+    end
+
+    it 'returns 404 if article does not exist' do
+      get "/hc/#{portal.slug}/articles/non-existent-article.png"
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'sets proper cache headers for performance' do
+      get "/hc/#{portal.slug}/articles/#{article.slug}.png"
+
+      expect(response.headers['Cache-Control']).to include('max-age=86400')
+      expect(response.headers['Cache-Control']).to include('private')
+      expect(response.headers['Content-Type']).to eq('image/png')
     end
   end
 end

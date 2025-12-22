@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Sie haben das Konversationslimit überschritten. Der Hacker Plan erlaubt nur 500 Unterhaltungen.",
+      "INBOXES": "Sie haben das Posteingang-Limit überschritten. Der Hacker-Plan unterstützt nur Live-Chat der Webseite. Zusätzliche Posteingänge wie E-Mail, WhatsApp usw. erfordern einen kostenpflichtigen Tarif.",
+      "AGENTS": "Sie haben das Agenten-Limit überschritten. Ihr Plan erlaubt nur {allowedAgents} Agenten.",
+      "NON_ADMIN": "Bitte kontaktieren Sie Ihren Administrator, um den Plan zu upgraden und alle Funktionen weiterzunutzen."
     },
     "TITLE": "Kontoeinstellungen",
     "SUBMIT": "Einstellungen aktualisieren",
@@ -15,23 +15,23 @@
       "SUCCESS": "Kontoeinstellungen erfolgreich aktualisiert"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Löschen Sie Ihr Konto",
+      "NOTE": "Sobald Sie Ihr Konto gelöscht haben, werden alle Ihre Daten gelöscht.",
+      "BUTTON_TEXT": "Löschen Sie Ihr Konto",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Konto löschen",
+        "MESSAGE": "Das Löschen Ihres Kontos ist unwiderruflich. Geben Sie Ihren Kontonamen ein, um zu bestätigen, dass Sie es dauerhaft löschen möchten.",
         "BUTTON_TEXT": "Löschen",
         "DISMISS": "Stornieren",
         "PLACE_HOLDER": "Bitte {accountName} zur Bestätigung eingeben"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Konto zur Löschung markiert",
+      "FAILURE": "Konto konnte nicht gelöscht werden, versuche es erneut!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Konto für Löschung geplant",
+        "MESSAGE_MANUAL": "Dieses Konto ist für das Löschen auf {deletionDate} geplant. Dies wurde von einem Administrator angefordert. Sie können das Löschen vor diesem Datum abbrechen.",
+        "MESSAGE_INACTIVITY": "Dieses Konto ist für die Löschung auf {deletionDate} aufgrund von Kontoinaktivität vorgesehen. Sie können die Löschung vor diesem Datum abbrechen.",
+        "CLEAR_BUTTON": "Geplante Löschung abbrechen"
       }
     },
     "FORM": {
@@ -45,8 +45,32 @@
         "NOTE": "Diese ID ist erforderlich, wenn Sie eine API-basierte Integration erstellen"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
+        "TITLE": "Unterhaltungen automatisch auflösen",
+        "NOTE": "Diese Konfiguration würde es Ihnen ermöglichen, die Unterhaltung nach einer gewissen Zeit der Inaktivität automatisch zu beenden.",
+        "DURATION": {
+          "LABEL": "Dauer der Inaktivität",
+          "HELP": "Zeit der Inaktivität, nach der die Unterhaltung automatisch gelöst wird",
+          "PLACEHOLDER": "30",
+          "ERROR": "Automatische Auflösungsdauer sollte zwischen 10 Minuten und 999 Tagen liegen",
+          "API": {
+            "SUCCESS": "Auto resolve settings updated successfully",
+            "ERROR": "Failed to update auto resolve settings"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "Die Unterhaltung wurde durch das System aufgrund von 15 Tagen Inaktivität geschlossen",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Einstellungen",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "Kontobezeichnung",
@@ -70,20 +94,28 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Automatische Auflösungsdauer sollte zwischen 10 Minuten und 999 Tagen liegen",
         "API": {
           "SUCCESS": "Auto resolve settings updated successfully",
           "ERROR": "Failed to update auto resolve settings"
         },
         "UPDATE_BUTTON": "Aktualisieren",
         "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_PLACEHOLDER": "Die Unterhaltung wurde durch das System aufgrund von 15 Tagen Inaktivität geschlossen",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
@@ -102,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Drücken Sie zur Auswahl die Eingabetaste",
       "ENTER_TO_REMOVE": "Drücken Sie zum Entfernen die Eingabetaste",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Eines wählen",
       "SELECT": "Auswählen"
     }

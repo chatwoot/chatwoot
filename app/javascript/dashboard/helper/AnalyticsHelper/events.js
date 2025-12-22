@@ -6,6 +6,7 @@ export const CONVERSATION_EVENTS = Object.freeze({
   TRANSLATE_A_MESSAGE: 'Translated a message',
   INSERTED_A_VARIABLE: 'Inserted a variable',
   INSERTED_AN_EMOJI: 'Inserted an emoji',
+  INSERTED_A_TOOL: 'Inserted a tool',
   USED_MENTIONS: 'Used mentions',
   SEARCH_CONVERSATION: 'Searched conversations',
   APPLY_FILTER: 'Applied filters in the conversation list',
@@ -129,4 +130,10 @@ export const LINEAR_EVENTS = Object.freeze({
   CREATE_ISSUE: 'Created a linear issue',
   LINK_ISSUE: 'Linked a linear issue',
   UNLINK_ISSUE: 'Unlinked a linear issue',
+});
+
+export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
+  MODAL_OPENED: 'Year in Review: Modal opened',
+  NEXT_CLICKED: 'Year in Review: Next clicked',
+  SHARE_CLICKED: 'Year in Review: Share clicked',
 });

@@ -1,18 +1,18 @@
 <header class="sticky top-0 z-50 w-full bg-white shadow-sm dark:bg-slate-900">
-  <nav class="flex max-w-5xl px-4 mx-auto md:px-8" aria-label="Top">
+  <nav class="hidden sm:flex max-w-5xl px-4 mx-auto md:px-8" aria-label="Top">
     <div class="flex items-center w-full py-5 overflow-hidden">
-      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center h-10 text-lg font-semibold text-slate-900 dark:text-white">
+      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center min-w-0 h-10">
         <% if @portal.logo.present? %>
-          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 mr-2" />
+          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
         <% end %>
-        <%= @portal.name %>
+        <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden lg:block' : 'hidden sm:block' %>"><%= @portal.name %></span>
       </a>
     </div>
 
     <%# Go to homepage link section %>
     <div class="flex items-center justify-between gap-2 sm:gap-5">
       <% if @portal.homepage_link %>
-        <div class="hidden px-1 py-2 ml-8 cursor-pointer border-l-1 border-slate-50 dark:border-slate-800 md:block">
+        <div class="px-1 py-2 ltr:ml-8 rtl:mr-8 cursor-pointer block">
           <div class="flex-grow flex-shrink-0">
             <a id="header-action-button" target="_blank" rel="noopener noreferrer nofollow" href="<%= @portal.homepage_link %>" class="flex flex-row items-center gap-1 text-sm font-medium whitespace-nowrap text-slate-800 dark:text-slate-100 stroke-slate-700 dark:stroke-slate-200">
               <%= render partial: 'icons/redirect' %>
@@ -42,8 +42,12 @@
           </div>
         </button>
         <%# Appearance dropdown section %>
-        <div id="appearance-dropdown" data-current-theme="<%= @theme_from_params %>" class="absolute flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 right-1 border-slate-100 dark:border-slate-800" aria-hidden="true" style="display: none;" data-dropdown="appearance-dropdown">
-          <button id="toggle-theme-button" data-theme="system" class="flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+        <div id="appearance-dropdown" 
+             data-current-theme="<%= @theme_from_params %>" 
+             class="appearance-menu absolute hidden flex-col w-32 h-auto bg-white border border-solid rounded dark:bg-slate-900 top-9 ltr:right-1 rtl:left-1 border-slate-100 dark:border-slate-800 shadow-lg transition-all duration-200 ease-out opacity-0 scale-95 data-[dropdown-open=true]:opacity-100 data-[dropdown-open=true]:scale-100 data-[dropdown-open=true]:flex" 
+             aria-hidden="true" 
+             data-dropdown="appearance-dropdown">
+          <button class="desktop-theme-button flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-theme="system">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/monitor' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.system') %></span>
@@ -52,7 +56,7 @@
               <%= render partial: 'icons/check-mark' %>
             </span>
           </button>
-          <button id="toggle-theme-button" data-theme="light" class="flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+          <button class="desktop-theme-button flex flex-row items-center justify-between gap-1 px-2 py-2 border-b border-solid border-slate-100 dark:border-slate-800 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors" data-theme="light">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/sun' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.light') %></span>
@@ -61,7 +65,7 @@
               <%= render partial: 'icons/check-mark' %>
             </span>
           </button>
-          <button id="toggle-theme-button" data-theme="dark" class="flex flex-row items-center justify-between gap-1 px-2 py-2 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100">
+          <button class="desktop-theme-button flex flex-row items-center justify-between gap-1 px-2 py-2 stroke-slate-700 dark:stroke-slate-200 text-slate-800 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors rounded-b" data-theme="dark">
             <div class="flex flex-row items-center gap-1">
               <%= render partial: 'icons/moon' %>
               <span class="text-xs font-medium"><%= I18n.t('public_portal.header.appearance.dark') %></span>
@@ -90,6 +94,24 @@
           </div>
         </div>
       <% end %>
+    </div>
+  </nav>
+
+  <nav class="flex sm:hidden max-w-5xl px-4 mx-auto" aria-label="Mobile Top">
+    <div class="flex items-center justify-between w-full py-5">
+      <a href="<%= generate_home_link(@portal.slug, @portal.config['default_locale'] || params[:locale], @theme_from_params, @is_plain_layout_enabled) %>" class="flex items-center min-w-0 h-10 text-lg font-semibold text-slate-900 dark:text-white">
+        <% if @portal.logo.present? %>
+          <img src="<%= url_for(@portal.logo) %>" class="w-auto h-10 ltr:mr-2 rtl:ml-2" draggable="false" />
+        <% end %>
+         <span class="text-lg font-semibold text-slate-900 truncate dark:text-white <%= @portal.logo.present? ? 'hidden' : 'sm:hidden block' %>"><%= @portal.name %></span>
+      </a>
+
+      <!-- Mobile Menu Component -->
+      <%= render partial: 'public/api/v1/portals/mobile_menu', locals: { 
+        portal: @portal, 
+        locale: @locale,
+        theme_from_params: @theme_from_params 
+      } %>
     </div>
   </nav>
 </header>

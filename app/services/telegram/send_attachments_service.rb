@@ -71,6 +71,7 @@ class Telegram::SendAttachmentsService
     HTTParty.post("#{channel.telegram_api_url}/sendMediaGroup",
                   body: {
                     chat_id: chat_id,
+                    **business_connection_body,
                     media: attachments.map { |hash| hash.except(:attachment) }.to_json,
                     reply_to_message_id: reply_to_message_id
                   })
@@ -95,11 +96,16 @@ class Telegram::SendAttachmentsService
   # Telegram picks up the file name from original field name, so we need to save the file with the original name.
   # Hence not using Tempfile here.
   def save_attachment_to_tempfile(attachment)
-    raw_data = attachment.file.download
-    temp_dir = Rails.root.join('tmp/uploads')
+    temp_dir = Rails.root.join('tmp/uploads', "telegram-#{attachment.message_id}")
     FileUtils.mkdir_p(temp_dir)
     temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, raw_data, mode: 'wb')
+
+    File.open(temp_file_path, 'wb') do |file|
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
+      end
+    end
+
     temp_file_path
   end
 
@@ -108,6 +114,7 @@ class Telegram::SendAttachmentsService
       HTTParty.post("#{channel.telegram_api_url}/sendDocument",
                     body: {
                       chat_id: chat_id,
+                      **business_connection_body,
                       document: file,
                       reply_to_message_id: reply_to_message_id
                     },
@@ -134,5 +141,15 @@ class Telegram::SendAttachmentsService
 
   def channel
     @channel ||= message.inbox.channel
+  end
+
+  def business_connection_id
+    @business_connection_id ||= channel.business_connection_id(message)
+  end
+
+  def business_connection_body
+    body = {}
+    body[:business_connection_id] = business_connection_id if business_connection_id
+    body
   end
 end

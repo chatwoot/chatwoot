@@ -36,12 +36,13 @@ class AutomationRule < ApplicationRecord
 
   def conditions_attributes
     %w[content email country_code status message_type browser_language assignee_id team_id referer city company inbox_id
-       mail_subject phone_number priority conversation_language]
+       mail_subject phone_number priority conversation_language labels]
   end
 
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+       send_attachment change_status resolve_conversation open_conversation snooze_conversation change_priority send_email_transcript
+       add_private_note].freeze
   end
 
   def file_base_data

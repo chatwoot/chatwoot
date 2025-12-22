@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "例: {webhookExampleURL}",
@@ -318,9 +322,24 @@
         "SUCCESS": "課題のリンクが正常に解除されました",
         "ERROR": "課題のリンク解除中にエラーが発生しました。もう一度お試しください"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the integration?",
         "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "はい、削除します",
+        "CANCEL": "キャンセル"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
         "CONFIRM": "はい、削除します",
         "CANCEL": "キャンセル"
       }
@@ -329,13 +348,24 @@
   "CAPTAIN": {
     "NAME": "キャプテン",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "アシスタント",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
+      "TITLE": "コパイロット",
+      "TRY_THESE_PROMPTS": "これらのプロンプトを試してください",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "メッセージを送信...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -349,6 +379,14 @@
         "RATE": {
           "LABEL": "Rate this conversation",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
     },
@@ -368,7 +406,6 @@
       "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AIは有料プランのみで利用可能です。",
       "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
     },
@@ -383,6 +420,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "アシスタント",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
       "ADD_NEW": "新しいアシスタントを作成",
       "DELETE": {
         "TITLE": "アシスタントを削除してもよろしいですか？",
@@ -410,6 +448,10 @@
           "LABEL": "名前",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "説明",
@@ -440,7 +482,8 @@
         "FEATURES": {
           "TITLE": "機能",
           "ALLOW_CONVERSATION_FAQS": "解決済みの会話からFAQを生成",
-          "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ"
+          "ALLOW_MEMORIES": "顧客とのやり取りから重要な詳細を記憶としてキャプチャ",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
@@ -448,6 +491,36 @@
         "SUCCESS_MESSAGE": "アシスタントが正常に更新されました",
         "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。",
         "NOT_FOUND": "Could not find the assistant. Please try again."
+      },
+      "SETTINGS": {
+        "HEADER": "設定",
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        },
+        "DELETE": {
+          "TITLE": "アシスタントを削除",
+          "DESCRIPTION": "この操作は永久的です。アシスタントを削除すると、すべての接続された受信トレイから削除され、生成されたすべての知識が永久に消去されます。",
+          "BUTTON_TEXT": "{assistantName}を削除"
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "アシスタントを編集",
@@ -460,6 +533,160 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
           "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "作成",
+            "CANCEL": "キャンセル",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "Add and save (↵)",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "作成",
+            "CANCEL": "キャンセル",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "Test all"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "Select all ({count})",
+          "UNSELECT_ALL": "Unselect all ({count})",
+          "BULK_DELETE_BUTTON": "削除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "Add all",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "タイトル",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "説明",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "作成",
+              "CANCEL": "キャンセル"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "キャンセル",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "検索..."
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
         }
       }
     },
@@ -477,15 +704,27 @@
         "ERROR_MESSAGE": "ドキュメントの作成中にエラーが発生しました。もう一度お試しください。"
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "URL",
           "PLACEHOLDER": "ドキュメントのURLを入力",
           "ERROR": "有効なURLを入力してください"
         },
-        "ASSISTANT": {
-          "LABEL": "アシスタント",
-          "PLACEHOLDER": "アシスタントを選択",
-          "ERROR": "アシスタントの選択が必要です"
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         }
       },
       "DELETE": {
@@ -508,13 +747,126 @@
         }
       }
     },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Tools",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "はい、削除します",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "なし",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "APIキー"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "パスワード",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "タイプ"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "数値",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "必須"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
     "RESPONSES": {
       "HEADER": "FAQ",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "新しいFAQを作成",
       "DOCUMENTABLE": {
         "CONVERSATION": "会話 #{id}"
       },
       "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "削除",
       "BULK_APPROVE": {
@@ -546,6 +898,10 @@
         "APPROVED": "承認済み",
         "ALL": "すべて"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "質問とその対応する回答をナレッジベースに追加し、それに関連付けるアシスタントを選択してください。",
       "CREATE": {
         "TITLE": "FAQを追加",
@@ -562,11 +918,6 @@
           "LABEL": "回答",
           "PLACEHOLDER": "ここに回答を入力",
           "ERROR": "有効な回答を入力してください。"
-        },
-        "ASSISTANT": {
-          "LABEL": "アシスタント",
-          "PLACEHOLDER": "アシスタントを選択",
-          "ERROR": "アシスタントを選択してください。"
         }
       },
       "EDIT": {
@@ -576,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "FAQが承認済みとしてマークされました"
       },
       "OPTIONS": {
-        "APPROVE": "承認済みとしてマーク",
-        "EDIT_RESPONSE": "FAQを編集",
-        "DELETE_RESPONSE": "FAQを削除"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "編集",
+        "DELETE_RESPONSE": "削除"
       },
       "EMPTY_STATE": {
         "TITLE": "FAQが見つかりません",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQは、アシスタントがお客様からの質問に迅速かつ正確に回答するのに役立ちます。コンテンツから自動的に生成することも、手動で追加することもできます。",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

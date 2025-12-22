@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Jeton d'accès",
+      "DESCRIPTION": "Copiez le jeton d'accès et enregistrez-le en toute sécurité",
+      "COPY_SUCCESSFUL": "Jeton d'accès copié dans le presse-papier",
+      "RESET_SUCCESS": "Jeton d'accès régénéré avec succès",
+      "RESET_ERROR": "Impossible de régénérer le jeton d'accès. Veuillez réessayer"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Avatar du bot"
@@ -75,11 +82,11 @@
       "WEBHOOK_URL": {
         "LABEL": "URL du Webhook",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "L'URL du webhook est requise"
+        "REQUIRED": "L'URL du Webhook est requise"
       },
       "ERRORS": {
         "NAME": "Le nom du bot est requis",
-        "URL": "L'URL du webhook est requise",
+        "URL": "L'URL du Webhook est requise",
         "VALID_URL": "Veuillez entrer une URL valide commençant par http:// ou https://"
       },
       "CANCEL": "Annuler",

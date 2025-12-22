@@ -1,14 +1,14 @@
 <script>
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
-    Thumbnail,
+    Avatar,
     NextButton,
   },
 
@@ -105,13 +105,14 @@ export default {
                   {{ option.name }}
                 </span>
               </div>
-              <Thumbnail
+              <Avatar
                 v-if="hasThumbnail"
                 :src="option.thumbnail"
-                size="24px"
-                :username="option.name"
+                :name="option.name"
                 :status="option.availability_status"
-                has-border
+                :size="24"
+                hide-offline-status
+                rounded-full
               />
             </NextButton>
           </WootDropdownItem>
@@ -133,7 +134,7 @@ export default {
 }
 
 .search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
+  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-n-slate-12 rounded-md focus:border-n-brand bg-n-background dark:bg-n-background;
 }
 
 .multiselect-dropdown--item {
@@ -144,7 +145,7 @@ export default {
   }
 
   &:hover {
-    @apply bg-n-slate-2 dark:bg-n-solid-3 text-slate-800 dark:text-slate-100;
+    @apply bg-n-slate-2 dark:bg-n-solid-3 text-n-slate-12;
   }
 }
 </style>

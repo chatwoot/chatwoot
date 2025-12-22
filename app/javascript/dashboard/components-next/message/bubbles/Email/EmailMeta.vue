@@ -14,7 +14,8 @@ const fromEmail = computed(() => {
 });
 
 const toEmail = computed(() => {
-  return contentAttributes.value?.email?.to ?? [];
+  const { toEmails, email } = contentAttributes.value;
+  return email?.to ?? toEmails ?? [];
 });
 
 const ccEmail = computed(() => {

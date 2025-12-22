@@ -121,11 +121,7 @@ const handleAction = ({ action, value }) => {
     </div>
     <span
       class="text-sm line-clamp-3"
-      :class="
-        hasDescription
-          ? 'text-slate-500 dark:text-slate-400'
-          : 'text-slate-400 dark:text-slate-700'
-      "
+      :class="hasDescription ? 'text-n-slate-11' : 'text-n-slate-9'"
     >
       {{ description }}
     </span>

@@ -1,0 +1,82 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the inbox
+    example: 'Support'
+  avatar:
+    type: string
+    format: binary
+    description: Image file for avatar
+  greeting_enabled:
+    type: boolean
+    description: Enable greeting message
+    example: true
+  greeting_message:
+    type: string
+    description: Greeting message to be displayed on the widget
+    example: Hello, how can I help you?
+  enable_email_collect:
+    type: boolean
+    description: Enable email collection
+    example: true
+  csat_survey_enabled:
+    type: boolean
+    description: Enable CSAT survey
+    example: true
+  enable_auto_assignment:
+    type: boolean
+    description: Enable Auto Assignment
+    example: true
+  working_hours_enabled:
+    type: boolean
+    description: Enable working hours
+    example: true
+  out_of_office_message:
+    type: string
+    description: Out of office message to be displayed on the widget
+    example: We are currently out of office. Please leave a message and we will get back to you.
+  timezone:
+    type: string
+    description: Timezone of the inbox
+    example: 'America/New_York'
+  allow_messages_after_resolved:
+    type: boolean
+    description: Allow messages after conversation is resolved
+    example: true
+  lock_to_single_conversation:
+    type: boolean
+    description: Lock to single conversation
+    example: true
+  portal_id:
+    type: integer
+    description: Id of the help center portal to attach to the inbox
+    example: 1
+  sender_name_type:
+    type: string
+    description: Sender name type for the inbox
+    enum: ['friendly', 'professional']
+    example: 'friendly'
+  business_name:
+    type: string
+    description: Business name for the inbox
+    example: 'My Business'
+  channel:
+    type: object
+    properties:
+      website_url:
+        type: string
+        description: URL at which the widget will be loaded
+        example: 'https://example.com'
+      welcome_title:
+        type: string
+        description: Welcome title to be displayed on the widget
+        example: 'Welcome to our support'
+      welcome_tagline:
+        type: string
+        description: Welcome tagline to be displayed on the widget
+        example: 'We are here to help you'
+      widget_color:
+        type: string
+        description: A Hex-color string used to customize the widget
+        example: '#FF5733'

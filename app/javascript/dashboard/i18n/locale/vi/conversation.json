@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Đang tải cuộc trò chuyện",
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
+    "48_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 48 giờ",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
     "ASSIGN_TO_ME": "Phân công cho tôi",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi hội thoại này bằng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -66,10 +72,22 @@
       "SHOW_LABELS": "Hiển thị nhãn",
       "HIDE_LABELS": "Ẩn nhãn"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
       "OPEN_ACTION": "Mở",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
@@ -95,6 +113,10 @@
         "NEXT_WEEK": "Tuần sau"
       }
     },
+    "MENTION": {
+      "AGENTS": "Nhà cung cấp",
+      "TEAMS": "Nhóm"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tạm dừng đến khi",
       "APPLY": "Báo lại",
@@ -117,6 +139,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Xoá"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
@@ -133,6 +160,10 @@
       "ASSIGN_LABEL": "Gán nhãn",
       "AGENTS_LOADING": "Đang tải điện thoại viên...",
       "ASSIGN_TEAM": "Gán nhóm",
+      "DELETE": "Delete conversation",
+      "OPEN_IN_NEW_TAB": "Open in new tab",
+      "COPY_LINK": "Copy conversation link",
+      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id hội thoại {conversationId} được gán cho \"{agentName}\"",
@@ -166,7 +197,6 @@
       "INSERT_READ_MORE": "Đọc thêm",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Hiển thị trình soạn thảo văn bản đa dạng thức",
       "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
       "TIP_ATTACH_ICON": "Đính kèm tệp",
       "TIP_AUDIORECORDER_ICON": "Ghi âm thanh",
@@ -197,6 +227,13 @@
           "YES": "Gửi",
           "CANCEL": "Huỷ"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
@@ -207,6 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Đã gán nhãn thành công",
     "ASSIGN_LABEL_FAILED": "Gán nhãn không thành công",
     "CHANGE_TEAM": "Nhóm hội thoại đã được thay đổi",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Tệp vượt quá {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB mức hạn chế",
     "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
     "SENT_BY": "Gửi bởi:",
@@ -295,10 +334,11 @@
       "CONVERSATION_ACTIONS": "Hành động của \bhội thoại",
       "CONVERSATION_LABELS": "Nhãn hội thoại",
       "CONVERSATION_INFO": "Thông tin hội thoại",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Ghi chú liên hệ",
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

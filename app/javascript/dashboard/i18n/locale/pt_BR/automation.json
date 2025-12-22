@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversa Criada",
       "CONVERSATION_UPDATED": "Conversa Atualizada",
       "MESSAGE_CREATED": "Mensagem Criada",
+      "CONVERSATION_RESOLVED": "Conversa Resolvida",
       "CONVERSATION_OPENED": "Conversa Aberta"
     },
     "ACTIONS": {
@@ -146,13 +147,26 @@
       "SEND_WEBHOOK_EVENT": "Enviar evento de Webhook",
       "SEND_ATTACHMENT": "Enviar Anexo",
       "SEND_MESSAGE": "Enviar Mensagem",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
       "CHANGE_PRIORITY": "Alterar Prioridade",
-      "ADD_SLA": "Adicionar SLA"
+      "ADD_SLA": "Adicionar SLA",
+      "OPEN_CONVERSATION": "Abrir conversa"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Mensagem Recebida",
+      "OUTGOING": "Mensagem de Saída"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo da Mensagem",
       "MESSAGE_CONTAINS": "A mensagem contém",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "INBOX": "Caixa de Entrada",
       "CONVERSATION_LANGUAGE": "Idioma da conversa",
       "PHONE_NUMBER": "Número de Telefone",
@@ -163,7 +177,8 @@
       "REFERER_LINK": "Link de origem",
       "ASSIGNEE_NAME": "Agente atribuído",
       "TEAM_NAME": "Time",
-      "PRIORITY": "Prioridade"
+      "PRIORITY": "Prioridade",
+      "LABELS": "Etiquetas"
     }
   }
 }

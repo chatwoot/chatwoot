@@ -103,12 +103,10 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'dashboard/assets/scss/variables';
-
 .fb--login {
   img {
     max-width: 240px;
-    padding: $space-normal 0;
+    padding: 1rem 0;
   }
 }
 </style>

@@ -3,8 +3,9 @@ import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Avatar from 'next/avatar/Avatar.vue';
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 
 import { GROUP_BY_FILTER } from '../constants';
 const CUSTOM_DATE_RANGE_ID = 5;
@@ -12,7 +13,8 @@ const CUSTOM_DATE_RANGE_ID = 5;
 export default {
   components: {
     WootDateRangePicker,
-    Thumbnail,
+    Avatar,
+    ToggleSwitch,
   },
   props: {
     currentFilter: {
@@ -125,9 +127,6 @@ export default {
     groupByFilterItemsList() {
       this.currentSelectedGroupByFilter = this.selectedGroupByFilter;
     },
-    businessHoursSelected() {
-      this.$emit('businessHoursToggle', this.businessHoursSelected);
-    },
   },
   mounted() {
     this.onDateRangeChange();
@@ -139,6 +138,9 @@ export default {
         to: this.to,
         groupBy: this.groupBy,
       });
+    },
+    onBusinessHoursToggle() {
+      this.$emit('businessHoursToggle', this.businessHoursSelected);
     },
     fromCustomDate(date) {
       return getUnixTime(startOfDay(date));
@@ -182,26 +184,30 @@ export default {
       >
         <template #singleLabel="props">
           <div class="flex min-w-0 items-center gap-2">
-            <Thumbnail
+            <Avatar
               :src="props.option.thumbnail"
               :status="props.option.availability_status"
-              :username="props.option.name"
-              size="22px"
+              :name="props.option.name"
+              :size="22"
+              hide-offline-status
+              rounded-full
             />
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">{{
+            <span class="my-0 text-n-slate-12 truncate">{{
               props.option.name
             }}</span>
           </div>
         </template>
         <template #options="props">
           <div class="flex items-center gap-2">
-            <Thumbnail
+            <Avatar
               :src="props.option.thumbnail"
               :status="props.option.availability_status"
-              :username="props.option.name"
-              size="22px"
+              :name="props.option.name"
+              :size="22"
+              hide-offline-status
+              rounded-full
             />
-            <p class="my-0 text-slate-800 dark:text-slate-75">
+            <p class="my-0 text-n-slate-12">
               {{ props.option.name }}
             </p>
           </div>
@@ -230,7 +236,7 @@ export default {
               class="w-5 h-5 rounded-full"
             />
 
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+            <span class="my-0 text-n-slate-12 truncate">
               {{ props.option.title }}
             </span>
           </div>
@@ -239,10 +245,10 @@ export default {
           <div class="flex items-center min-w-0 gap-2">
             <div
               :style="{ backgroundColor: props.option.color }"
-              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-slate-100 dark:border-slate-800"
+              class="flex-shrink-0 w-5 h-5 border border-solid rounded-full border-n-weak"
             />
 
-            <span class="my-0 text-slate-800 truncate dark:text-slate-75">
+            <span class="my-0 text-n-slate-12 truncate">
               {{ props.option.title }}
             </span>
           </div>
@@ -303,7 +309,10 @@ export default {
         {{ $t('REPORT.BUSINESS_HOURS') }}
       </span>
       <span>
-        <woot-switch v-model="businessHoursSelected" />
+        <ToggleSwitch
+          v-model="businessHoursSelected"
+          @change="onBusinessHoursToggle"
+        />
       </span>
     </div>
 

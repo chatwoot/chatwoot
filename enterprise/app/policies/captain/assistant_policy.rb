@@ -7,6 +7,10 @@ class Captain::AssistantPolicy < ApplicationPolicy
     true
   end
 
+  def tools?
+    @account_user.administrator?
+  end
+
   def create?
     @account_user.administrator?
   end

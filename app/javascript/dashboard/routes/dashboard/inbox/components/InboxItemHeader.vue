@@ -109,7 +109,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center justify-between w-full gap-2 py-2 border-b ltr:pl-4 rtl:pl-2 h-14 ltr:pr-2 rtl:pr-4 rtl:border-r border-n-weak"
+    class="flex items-center justify-between w-full gap-2 border-b px-3 h-12 rtl:border-r border-n-weak flex-shrink-0"
   >
     <div class="flex items-center gap-4">
       <BackButton

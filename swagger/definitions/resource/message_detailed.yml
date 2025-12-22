@@ -1,0 +1,47 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the message
+  content:
+    type: string
+    description: The text content of the message
+  inbox_id:
+    type: number
+    description: The ID of the inbox
+  conversation_id:
+    type: number
+    description: The ID of the conversation
+  message_type:
+    type: integer
+    enum: [0, 1, 2, 3]
+    description: "The type of the message (0: incoming, 1: outgoing, 2: activity, 3: template)"
+  content_type:
+    type: string
+    enum: ["text", "input_select", "cards", "form", "input_csat"]
+    description: The type of the message content
+  status:
+    type: string
+    enum: ["sent", "delivered", "read", "failed"]
+    description: The status of the message
+  content_attributes:
+    type: object
+    description: The content attributes for each content_type
+    properties:
+      in_reply_to:
+        type: string
+        description: ID of the message this is replying to
+        nullable: true
+  created_at:
+    type: integer
+    description: The timestamp when message was created
+  private:
+    type: boolean
+    description: The flag which shows whether the message is private or not
+  source_id:
+    type: string
+    description: The source ID of the message
+    nullable: true
+  sender:
+    $ref: '#/components/schemas/contact_detail'
+    description: The sender of the message (only for incoming messages) 

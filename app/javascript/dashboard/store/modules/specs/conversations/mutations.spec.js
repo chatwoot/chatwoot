@@ -753,7 +753,6 @@ describe('#mutations', () => {
       };
 
       mutations[types.UPDATE_CONVERSATION](state, conversation);
-      expect(emitter.emit).toHaveBeenCalledWith('FETCH_LABEL_SUGGESTIONS');
       expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 
@@ -881,6 +880,17 @@ describe('#mutations', () => {
       const conversation = { id: 1, messages: [] };
       mutations[types.ADD_CONVERSATION](state, conversation);
       expect(state.allConversations).toEqual([conversation]);
+    });
+  });
+
+  describe('#DELETE_CONVERSATION', () => {
+    it('should delete a conversation', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [] }],
+      };
+
+      mutations[types.DELETE_CONVERSATION](state, 1);
+      expect(state.allConversations).toEqual([]);
     });
   });
 

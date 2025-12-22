@@ -5,6 +5,8 @@
     "LEARN_MORE": "了解更多关于收件箱的信息",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "此账户没有收件箱。"
     },
@@ -47,13 +49,20 @@
         "CREATE_INBOX": "新增收件箱"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "在 Instagram 中继续",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "连接您的 Instagram 配置文件",
+        "HELP": "若要将您的 Instagram 配置文件添加为通道，您需要点击「继续使用 Instagram」来验证您的 Instagram 配置文件。 ",
+        "ERROR_MESSAGE": "连接到 Instagram 时出错，请重试",
+        "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
+        "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
+        "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。"
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
@@ -222,9 +231,16 @@
         "DESC": "开始通过WhatsApp支持您的客户",
         "PROVIDERS": {
           "LABEL": "API提供商",
+          "WHATSAPP_EMBEDDED": "WhatsApp 商务版",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp 云服务",
+          "WHATSAPP_CLOUD_DESC": "通过 Meta 快速完成设置",
+          "TWILIO_DESC": "通过 Twilio 凭据连接",
           "360_DIALOG": "360Dialog"
+        },
+        "SELECT_PROVIDER": {
+          "TITLE": "选择您的 API 提供商",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
         "INBOX_NAME": {
           "LABEL": "收件箱名称",
@@ -264,8 +280,77 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook 验证令牌"
         },
         "SUBMIT_BUTTON": "创建WhatsApp频道",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "LEARN_MORE": {
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account",
+          "LOADING_SDK": "加载 Facebook SDK...",
+          "CANCELLED": "WhatsApp 注册已取消",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "WAITING_FOR_AUTH": "正在等待认证...",
+          "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
+          "SIGNUP_ERROR": "注册时发生错误",
+          "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "手动设置流程"
+        },
         "API": {
           "ERROR_MESSAGE": "我们无法保存 WhatsApp 通道"
+        }
+      },
+      "VOICE": {
+        "TITLE": "语音频道",
+        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "PHONE_NUMBER": {
+          "LABEL": "电话号码",
+          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
+          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+        },
+        "TWILIO": {
+          "ACCOUNT_SID": {
+            "LABEL": "账户 SID",
+            "PLACEHOLDER": "Enter your Twilio Account SID",
+            "REQUIRED": "Account SID is required"
+          },
+          "AUTH_TOKEN": {
+            "LABEL": "身份验证令牌",
+            "PLACEHOLDER": "Enter your Twilio Auth Token",
+            "REQUIRED": "Auth Token is required"
+          },
+          "API_KEY_SID": {
+            "LABEL": "API 密钥 SID",
+            "PLACEHOLDER": "输入您的 Twilio API 密钥的 SID",
+            "REQUIRED": "API 密钥 SID 未填写"
+          },
+          "API_KEY_SECRET": {
+            "LABEL": "API 密钥密码",
+            "PLACEHOLDER": "Enter your Twilio API Key Secret",
+            "REQUIRED": "API Key Secret is required"
+          }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
+        },
+        "SUBMIT_BUTTON": "创建语音频道",
+        "API": {
+          "ERROR_MESSAGE": "我们无法创建语音频道"
         }
       },
       "API_CHANNEL": {
@@ -303,7 +388,11 @@
         "API": {
           "ERROR_MESSAGE": "我们无法保存电子邮件频道"
         },
-        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
+        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。",
+        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "CONFIGURE_SMTP_IMAP_LINK": "点击这里",
+        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE频道",
@@ -349,7 +438,55 @@
       },
       "AUTH": {
         "TITLE": "选择一个通道",
-        "DESC": "Chatwoot支持实时聊天小部件、Facebook Messenger、Twitter个人资料、WhatsApp、电子邮件等作为通道。如果您想构建自定义通道，可以使用API通道创建。要开始，请从下面的通道中选择一个。"
+        "DESC": "Chatwoot支持实时聊天小部件、Facebook Messenger、Twitter个人资料、WhatsApp、电子邮件等作为通道。如果您想构建自定义通道，可以使用API通道创建。要开始，请从下面的通道中选择一个。",
+        "TITLE_NEXT": "完成设置",
+        "TITLE_FINISH": "搞定！",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "网站",
+            "DESCRIPTION": "创建在线聊天小部件"
+          },
+          "FACEBOOK": {
+            "TITLE": "Facebook",
+            "DESCRIPTION": "连接您的 Facebook 页面"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "在 WhatsApp 上回应您的客户"
+          },
+          "EMAIL": {
+            "TITLE": "Email",
+            "DESCRIPTION": "连接到 Gmail、Outlook，或其他提供商"
+          },
+          "SMS": {
+            "TITLE": "短信",
+            "DESCRIPTION": "将短信频道与Twilio 或 Bandwidth 集成"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "使用我们的 API 创建一个自定义频道"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "使用 Bot 令牌配置 Telegram 频道"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "集成 Line"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "连接您的 instagram 帐户"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
+          },
+          "VOICE": {
+            "TITLE": "语音",
+            "DESCRIPTION": "与 Twilio 语音集成"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "客服代理们",
@@ -403,7 +540,10 @@
       "MESSAGE": "您现在可以通过您的新频道与您的客户联系。快乐支持",
       "BUTTON_TEXT": "带我到这里",
       "MORE_SETTINGS": "更多设置",
-      "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。下次客户使用实时聊天时，对话将自动出现在您的收件箱中。"
+      "WEBSITE_SUCCESS": "您已成功完成创建网站频道。复制下面显示的代码并将其粘贴在您的网站上。下次客户使用实时聊天时，对话将自动出现在您的收件箱中。",
+      "WHATSAPP_QR_INSTRUCTION": "扫描上面的二维码以快速测试您的 WhatsApp 收件箱",
+      "MESSENGER_QR_INSTRUCTION": "扫描上面的二维码以快速测试您的 Facebook Messenger 收件箱",
+      "TELEGRAM_QR_INSTRUCTION": "扫描以上二维码以快速测试您的 Telegram 收件箱"
     },
     "REAUTH": "重新授权",
     "VIEW": "查看",
@@ -482,7 +622,63 @@
       "BUSINESS_HOURS": "工作时间",
       "WIDGET_BUILDER": "小部件生成器",
       "BOT_CONFIGURATION": "机器人配置",
+      "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "客户满意度"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
+        },
+        "STATUSES": {
+          "APPROVED": "已批准",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "实时"
+        }
+      }
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -495,6 +691,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
       "AGENT_ASSIGNMENT": "对话分配",
@@ -521,6 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "使用此处显示的`inbox_identifier`令牌来验证您的API客户端。",
       "FORWARD_EMAIL_TITLE": "转发到电子邮件",
       "FORWARD_EMAIL_SUB_TEXT": "开始将您的电子邮件转发到以下电子邮件地址。",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "允许在对话解决后发送消息",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "允许最终用户在对话解决后发送消息。",
       "WHATSAPP_SECTION_SUBHEADER": "此API密钥用于与WhatsApp API集成。",
@@ -529,8 +731,27 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "更新API密钥",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "在此处输入新的API密钥",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "更新",
+      "WHATSAPP_EMBEDDED_SIGNUP_TITLE": "WhatsApp 嵌入注册",
+      "WHATSAPP_EMBEDDED_SIGNUP_SUBHEADER": "此收件箱已通过嵌入注册的 WhatsApp 连接。",
+      "WHATSAPP_EMBEDDED_SIGNUP_DESCRIPTION": "您可以重新配置此收件箱来更新您的 WhatsApp Business 设置。",
+      "WHATSAPP_RECONFIGURE_BUTTON": "重新配置",
+      "WHATSAPP_CONNECT_TITLE": "连接到 WhatsApp Business",
+      "WHATSAPP_CONNECT_SUBHEADER": "Upgrade to WhatsApp embedded signup for easier management.",
+      "WHATSAPP_CONNECT_DESCRIPTION": "Connect this inbox to WhatsApp Business for enhanced features and easier management.",
+      "WHATSAPP_CONNECT_BUTTON": "连接",
+      "WHATSAPP_CONNECT_SUCCESS": "Successfully connected to WhatsApp Business!",
+      "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
+      "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp ID未配置。请联系您的管理员。",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook 验证令牌",
       "WHATSAPP_WEBHOOK_SUBHEADER": "此令牌用于验证webhook端点的真实性。",
+      "WHATSAPP_TEMPLATES_SYNC_TITLE": "Sync Templates",
+      "WHATSAPP_TEMPLATES_SYNC_SUBHEADER": "Manually sync message templates from WhatsApp to update your available templates.",
+      "WHATSAPP_TEMPLATES_SYNC_BUTTON": "同步模板",
+      "WHATSAPP_TEMPLATES_SYNC_SUCCESS": "Templates sync initiated successfully. It may take a couple of minutes to update.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "更新预聊天表单设置"
     },
     "HELP_CENTER": {
@@ -579,28 +800,28 @@
     },
     "CSAT": {
       "TITLE": "启用CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "SUBTITLE": "在对话结束时自动启动 CSAT 问卷，以了解客户如何感觉到他们的支持体验。 跟踪满意的趋势并查明一段时间内需要改进的领域。",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "显示类型"
       },
       "MESSAGE": {
         "LABEL": "消息",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "请输入一条消息以将此表格显示给用户"
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "问卷规则",
+        "DESCRIPTION_PREFIX": "发送此问卷如果对话",
+        "DESCRIPTION_SUFFIX": "任意标签",
         "OPERATOR": {
           "CONTAINS": "包含",
           "DOES_NOT_CONTAINS": "不包含"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "选择标签"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "NOTE": "注：每次对话只发送一次 CSAT 问卷",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "CSAT 设置更新成功",
+        "ERROR_MESSAGE": "我们无法更新 CSAT 设置。请稍后再试。"
       }
     },
     "BUSINESS_HOURS": {
@@ -774,9 +995,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "其他提供商"
+      "MICROSOFT": {
+        "TITLE": "Microsoft",
+        "DESCRIPTION": "与 Microsoft 关联"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "与 Google 关联"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "其他提供商",
+        "DESCRIPTION": "与其他提供商关联"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
@@ -789,7 +1019,9 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API 频道",
-      "INSTAGRAM": "Instagram"
+      "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
+      "VOICE": "语音"
     }
   }
 }

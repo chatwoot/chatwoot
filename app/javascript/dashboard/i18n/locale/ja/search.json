@@ -4,12 +4,14 @@
       "ALL": "すべて",
       "CONTACTS": "連絡先",
       "CONVERSATIONS": "会話データ",
-      "MESSAGES": "メッセージ"
+      "MESSAGES": "メッセージ",
+      "ARTICLES": "記事"
     },
     "SECTION": {
       "CONTACTS": "連絡先",
       "CONVERSATIONS": "会話データ",
-      "MESSAGES": "メッセージ"
+      "MESSAGES": "メッセージ",
+      "ARTICLES": "記事"
     },
     "VIEW_MORE": "さらに表示",
     "LOAD_MORE": "さらに読み込む",

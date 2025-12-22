@@ -43,27 +43,25 @@ describe('useFontSize', () => {
 
   it('returns fontSizeOptions with correct structure', () => {
     const { fontSizeOptions } = useFontSize();
-    expect(fontSizeOptions).toHaveLength(6);
-    expect(fontSizeOptions[0]).toHaveProperty('value');
-    expect(fontSizeOptions[0]).toHaveProperty('label');
+    expect(fontSizeOptions.value).toHaveLength(5);
+    expect(fontSizeOptions.value[0]).toHaveProperty('value');
+    expect(fontSizeOptions.value[0]).toHaveProperty('label');
 
     // Check specific options
-    expect(fontSizeOptions.find(option => option.value === '16px')).toEqual({
+    expect(
+      fontSizeOptions.value.find(option => option.value === '16px')
+    ).toEqual({
       value: '16px',
       label:
         'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.DEFAULT',
     });
 
-    expect(fontSizeOptions.find(option => option.value === '14px')).toEqual({
+    expect(
+      fontSizeOptions.value.find(option => option.value === '14px')
+    ).toEqual({
       value: '14px',
       label:
         'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.SMALLER',
-    });
-
-    expect(fontSizeOptions.find(option => option.value === '22px')).toEqual({
-      value: '22px',
-      label:
-        'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.EXTRA_LARGE',
     });
   });
 
@@ -83,9 +81,6 @@ describe('useFontSize', () => {
 
     applyFontSize('14px');
     expect(document.documentElement.style.fontSize).toBe('14px');
-
-    applyFontSize('22px');
-    expect(document.documentElement.style.fontSize).toBe('22px');
 
     applyFontSize('16px');
     expect(document.documentElement.style.fontSize).toBe('16px');
@@ -145,8 +140,6 @@ describe('useFontSize', () => {
           'Smaller',
         'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.DEFAULT':
           'Default',
-        'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.OPTIONS.EXTRA_LARGE':
-          'Extra Large',
       };
       return translations[key] || key;
     });
@@ -154,15 +147,12 @@ describe('useFontSize', () => {
     const { fontSizeOptions } = useFontSize();
 
     // Check that translation is applied
-    expect(fontSizeOptions.find(option => option.value === '14px').label).toBe(
-      'Smaller'
-    );
-    expect(fontSizeOptions.find(option => option.value === '16px').label).toBe(
-      'Default'
-    );
-    expect(fontSizeOptions.find(option => option.value === '22px').label).toBe(
-      'Extra Large'
-    );
+    expect(
+      fontSizeOptions.value.find(option => option.value === '14px').label
+    ).toBe('Smaller');
+    expect(
+      fontSizeOptions.value.find(option => option.value === '16px').label
+    ).toBe('Default');
 
     // Verify translation function was called with correct keys
     expect(mockTranslate).toHaveBeenCalledWith(

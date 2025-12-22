@@ -1,5 +1,6 @@
 in: path
 name: account_id
-type: integer
+schema:
+  type: integer
 required: true
 description: The numeric ID of the account

@@ -5,16 +5,22 @@ summary: Create an Account
 description: Create an Account
 security:
   - platformAppApiKey: []
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      $ref: '#/definitions/account_create_update_payload'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/account_create_update_payload'
 responses:
   200:
     description: Success
-    schema:
-      $ref: '#/definitions/platform_account'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/platform_account'
   401:
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

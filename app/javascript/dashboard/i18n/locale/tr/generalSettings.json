@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Konuşma limitini aştınız. Hacker planı yalnızca 500 konuşmaya izin vermektedir.",
+      "INBOXES": "Gelen kutusu limitini aştınız. Hacker planı yalnızca web sitesi canlı sohbetini desteklemektedir. E-posta, WhatsApp gibi ek gelen kutuları ücretli bir plan gerektirir.",
+      "AGENTS": "Temsilci sınırını aştınız. Planınız yalnızca {allowedAgents} temsilciye izin veriyor.",
+      "NON_ADMIN": "Tüm özellikleri kullanmaya devam etmek için lütfen yöneticinizle iletişime geçin ve planı yükseltin."
     },
     "TITLE": "Hesap Ayarları",
     "SUBMIT": "Ayarları Güncelle",
@@ -15,23 +15,23 @@
       "SUCCESS": "Hesap ayarları başarıyla güncellendi"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Hesabınızı silin",
+      "NOTE": "Hesabınızı sildikten sonra tüm verileriniz silinecektir.",
+      "BUTTON_TEXT": "Hesabınızı Silin",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "Hesabı Sil",
+        "MESSAGE": "Hesabınızı silmek geri alınamaz bir işlemdir. Kalıcı olarak silmek istediğinizi onaylamak için aşağıya hesap adınızı girin.",
         "BUTTON_TEXT": "Sil",
         "DISMISS": "İptal Et",
-        "PLACE_HOLDER": "{accountName} yazarak onaylayın"
+        "PLACE_HOLDER": "Onaylamak için lütfen {accountName} yazın"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Hesap silinmek üzere işaretlendi",
+      "FAILURE": "Hesap silinemedi, tekrar deneyin!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Hesap silinmek üzere planlandı",
+        "MESSAGE_MANUAL": "Bu hesap {deletionDate} tarihinde silinmek üzere planlandı. Bu, bir yönetici tarafından talep edildi. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "MESSAGE_INACTIVITY": "Bu hesap, hesap etkinliği olmadığı için {deletionDate} tarihinde silinmek üzere planlandı. Bu tarihten önce silmeyi iptal edebilirsiniz.",
+        "CLEAR_BUTTON": "Planlanan Silmeyi İptal Et"
       }
     },
     "FORM": {
@@ -45,8 +45,32 @@
         "NOTE": "API tabanlı bir entegrasyon oluşturuyorsanız bu kimlik gereklidir"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
+        "TITLE": "Konuşmaları Otomatik Çöz",
+        "NOTE": "Bu yapılandırma, belirli bir hareketsizlik süresinden sonra konuşmayı otomatik olarak çözümlemenize olanak tanır.",
+        "DURATION": {
+          "LABEL": "Hareketsizlik süresi",
+          "HELP": "Konuşmanın otomatik olarak çözümlenmesinden önceki hareketsizlik süresi",
+          "PLACEHOLDER": "30",
+          "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
+          "API": {
+            "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+            "ERROR": "Otomatik çözme ayarları güncellenemedi"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Özel otomatik çözüm mesajı",
+          "PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+          "HELP": "Konuşma otomatik olarak çözüldükten sonra müşteriye gönderilen mesaj"
+        },
+        "PREFERENCES": "Tercihler",
+        "LABEL": {
+          "LABEL": "Otomatik çözümden sonra etiket ekle",
+          "PLACEHOLDER": "Etiket seç"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Temsilci yanıtı bekleyen sohbetleri atla"
+        },
+        "UPDATE_BUTTON": "Değişiklikleri Kaydet"
       },
       "NAME": {
         "LABEL": "Hesap Adı",
@@ -69,22 +93,30 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+        "LABEL": "Yanıtsız sohbetleri hariç tut",
+        "HELP": "Etkinleştirildiğinde, sistem hâlâ bir temsilcinin yanıtını bekleyen konuşmaları çözümlemeyi atlayacaktır."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Sesli Mesajları Metne Çevir",
+        "NOTE": "Konuşmalardaki sesli mesajları otomatik olarak metne çevirin. Bir sesli mesaj gönderildiğinde veya alındığında bir metin dökümü (transkript) oluşturun ve mesajın yanında görüntüleyin.",
+        "API": {
+          "SUCCESS": "Sesli mesaj transkripsiyon ayarı başarıyla güncellendi",
+          "ERROR": "Ses transkripsiyon ayarı güncellenirken hata oluştu"
+        }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Çözümleme için hareketsizlik süresi",
+        "HELP": "Bir konuşmanın, hiçbir etkinlik olmazsa otomatik olarak çözümlenmesi gereken süre",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Otomatik çözme süresi 10 dakika ile 999 gün arasında olmalıdır",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Otomatik çözme ayarları başarıyla güncellendi",
+          "ERROR": "Otomatik çözme ayarları güncellenemedi"
         },
         "UPDATE_BUTTON": "Güncelleme",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_LABEL": "Özel çözüm mesajı",
+        "MESSAGE_PLACEHOLDER": "Konuşma, 15 günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi",
+        "MESSAGE_HELP": "Bu mesaj, bir konuşma hareketsizlik nedeniyle sistem tarafından otomatik olarak çözümlendiğinde müşteriye gönderilir."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Hesabınız için e-posta ile iletişim devre dışı bırakıldı.",
@@ -94,7 +126,7 @@
     "UPDATE_CHATWOOT": "{latestChatwootVersion} chatwoot sürümü indirilebilir. Lütfen sürümü güncelleyin.",
     "LEARN_MORE": "Daha Fazla",
     "PAYMENT_PENDING": "Ödemeniz bekliyor. Devam etmek için ödeme bilgilerinizi güncelleyin.",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "Chatwoot'u kullanmaya devam etmek için yükseltin",
     "LIMITS_UPGRADE": "Hesabınız kullanım sınırlarını aştı, lütfen Chatwoot'u kullanmaya devam etmek için planınızı yükseltin",
     "OPEN_BILLING": "Fatura Detayları"
   },
@@ -102,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Seçmek için enter tuşuna basın",
       "ENTER_TO_REMOVE": "Kaldırmak için enter tuşuna basın",
+      "NO_OPTIONS": "Liste boş",
       "SELECT_ONE": "Birini seç",
       "SELECT": "Seç"
     }

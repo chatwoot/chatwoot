@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "最近7天",
+      "LAST_14_DAYS": "最近14天",
       "LAST_30_DAYS": "最近30天",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "最近3个月",
       "LAST_6_MONTHS": "最近6个月",
       "LAST_YEAR": "最近一年",
@@ -193,6 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "标签概览",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_LABEL_REPORTS": "下载标签报表",
@@ -265,6 +269,8 @@
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_INBOX_REPORTS": "下载收件箱报表",
     "FILTER_DROPDOWN_LABEL": "选择收件箱",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会话",
@@ -466,6 +472,13 @@
       "CONVERSATIONS": "{count} 个会话",
       "DOWNLOAD_REPORT": "下载报告"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "没有会话",
+      "CONVERSATION": "{count} 个会话",
+      "CONVERSATIONS": "{count} 个会话",
+      "DOWNLOAD_REPORT": "下载报告"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "按客服划分的会话",
       "LOADING_MESSAGE": "正在加载客服指标...",
@@ -559,6 +572,7 @@
     "INBOX": "收件箱",
     "AGENT": "客服",
     "TEAM": "团队",
+    "LABEL": "标签",
     "AVG_RESOLUTION_TIME": "平均解决时间",
     "AVG_FIRST_RESPONSE_TIME": "平均首次响应时间",
     "AVG_REPLY_TIME": "平均客户等待时间",

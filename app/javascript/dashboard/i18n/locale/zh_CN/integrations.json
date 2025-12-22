@@ -42,9 +42,13 @@
             "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
             "CONTACT_CREATED": "联系人已创建",
             "CONTACT_UPDATED": "联系人已更新",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_ON": "对话输入开启",
+            "CONVERSATION_TYPING_OFF": "对话输入关闭"
           }
+        },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
         },
         "END_POINT": {
           "LABEL": "Webhook 网址",
@@ -318,10 +322,25 @@
         "SUCCESS": "问题取消链接成功",
         "ERROR": "取消链接问题时出错，请重试"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "您确定要删除该集成吗？",
         "MESSAGE": "您确定要删除该集成吗？",
         "CONFIRM": "是，删除",
+        "CANCEL": "取消"
+      },
+      "CTA": {
+        "TITLE": "连接到 Linear",
+        "AGENT_DESCRIPTION": "Linear 工作区未集成。请通知您的管理员连接一个工作区来使用这个集成。",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "链接 Linear 工作空间"
+      }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "CONFIRM": "是的，删除",
         "CANCEL": "取消"
       }
     }
@@ -329,26 +348,45 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "了解更多",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "助手",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "尝试这些提示信息",
+      "PANEL_TITLE": "开始使用 Copilot",
+      "KICK_OFF_MESSAGE": "需要快速摘要、回顾过往对话，或是优化回复内容？Copilot 可助您一臂之力，全面提升工作效率。",
       "SEND_MESSAGE": "发送消息...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "生成响应时出错。请重试。",
       "LOADER": "Captain 正在思考",
       "YOU": "您",
       "USE": "使用此",
       "RESET": "重置",
+      "SHOW_STEPS": "显示步骤",
       "SELECT_ASSISTANT": "选择助手",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "总结此对话",
+          "CONTENT": "总结客户与客服的对话要点，涵盖客户的主要疑虑、问题，以及客服给出的解决方案或回应"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "建议回答",
+          "CONTENT": "分析客户的咨询，并起草一份有效回应其关切或问题的回复。确保回复内容清晰、简明，并提供有用的信息。"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "为此对话评分",
+          "CONTENT": "请审核对话，评估其在多大程度上满足了客户的需求。根据语气、清晰度和有效性进行 5 分制评分。"
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "高优先级对话",
+          "CONTENT": "请给我所有高优先级未结对话的摘要。包括对话 ID、客户姓名（如有）、最后一条消息内容和分配的客服人员。如有需要，请按状态分组。"
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "列出联系人",
+          "CONTENT": "显示我的前 10 位联系人列表。包括姓名、电子邮件或电话号码（如有）、最后在线时间、标签（如有）。"
         }
       }
     },
@@ -356,9 +394,9 @@
       "USER": "您",
       "ASSISTANT": "助手",
       "MESSAGE_PLACEHOLDER": "输入您的消息...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "试验场",
+      "DESCRIPTION": "使用此试验场向您的助手发送消息，并检查其是否能够准确、快速地以您期望的语气做出回应。",
+      "CREDIT_NOTE": "这里发送的消息将计入您的 Captain 积分。"
     },
     "PAYWALL": {
       "TITLE": "升级以使用 Captain AI",
@@ -368,7 +406,6 @@
       "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI 功能仅在付费计划中可用。",
       "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
       "ASK_ADMIN": "请联系您的管理员进行升级。"
     },
@@ -383,6 +420,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "助手",
+      "NO_ASSISTANTS_AVAILABLE": "您的帐户中没有可用的助手。",
       "ADD_NEW": "创建新的助手",
       "DELETE": {
         "TITLE": "您确定要删除该文档吗？",
@@ -400,54 +438,89 @@
       "FORM": {
         "UPDATE": "更新",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "基本信息",
+          "SYSTEM_MESSAGES": "系统消息",
+          "INSTRUCTIONS": "指令",
           "FEATURES": "特性",
-          "TOOLS": "Tools "
+          "TOOLS": "工具 "
         },
         "NAME": {
           "LABEL": "姓名：",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "输入助手名称",
+          "ERROR": "名称是必需的"
+        },
+        "TEMPERATURE": {
+          "LABEL": "响应温度",
+          "DESCRIPTION": "调整助手回复的创造性或限制程度。较低的数值会产生更专注和确定性的回复，而较高的数值则允许更有创意和多样化的输出。"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "输入助手描述",
+          "ERROR": "描述是必需的"
         },
         "PRODUCT_NAME": {
           "LABEL": "产品名称",
-          "PLACEHOLDER": "Enter product name",
+          "PLACEHOLDER": "输入产品名称",
           "ERROR": "产品名称是必需的"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "欢迎消息",
+          "PLACEHOLDER": "输入欢迎消息"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "交接信息",
+          "PLACEHOLDER": "输入交接消息"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "解决消息",
+          "PLACEHOLDER": "输入解决消息"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "指令",
+          "PLACEHOLDER": "输入用于此助手的指令"
         },
         "FEATURES": {
           "TITLE": "特性",
           "ALLOW_CONVERSATION_FAQS": "从已解决的对话中生成常见问题",
-          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆"
+          "ALLOW_MEMORIES": "从客户互动中捕获关键细节作为记忆",
+          "ALLOW_CITATIONS": "Include source citations in responses"
         }
       },
       "EDIT": {
         "TITLE": "更新助手",
         "SUCCESS_MESSAGE": "助手已成功更新",
         "ERROR_MESSAGE": "更新助手时出错，请重试",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "无法找到助手。请重试。"
+      },
+      "SETTINGS": {
+        "HEADER": "设置",
+        "BASIC_SETTINGS": {
+          "TITLE": "基本设置",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "系统设置",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        },
+        "DELETE": {
+          "TITLE": "删除助手",
+          "DESCRIPTION": "此操作是永久性的。删除此文档将永久删除所有生成的知识。",
+          "BUTTON_TEXT": "删除 {assistantName}"
+        }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "编辑助手",
@@ -460,6 +533,160 @@
         "FEATURE_SPOTLIGHT": {
           "TITLE": "助理队长",
           "NOTE": "助理队长直接与客户互动，从您的帮助文档和过去的对话中学习，并提供即时、准确的回复。它处理初始查询，快速解决问题，在需要时再转接给客服人员。"
+        }
+      },
+      "GUARDRAILS": {
+        "TITLE": "Guardrails",
+        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example guardrails",
+            "ADD": "添加全部",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "添加并保存",
+            "PLACEHOLDER": "Type in another guardrail..."
+          },
+          "NEW": {
+            "TITLE": "Add a guardrail",
+            "CREATE": "创建",
+            "CANCEL": "取消",
+            "PLACEHOLDER": "Type in another guardrail...",
+            "TEST_ALL": "测试全部"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Guardrails added successfully",
+            "ERROR": "There was an error adding guardrails, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Guardrails updated successfully",
+            "ERROR": "There was an error updating guardrails, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Guardrails deleted successfully",
+            "ERROR": "There was an error deleting guardrails, please try again."
+          }
+        }
+      },
+      "RESPONSE_GUIDELINES": {
+        "TITLE": "Response Guidelines",
+        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example response guidelines",
+            "ADD": "添加全部",
+            "ADD_SINGLE": "Add this",
+            "SAVE": "添加并保存",
+            "PLACEHOLDER": "Type in another response guideline..."
+          },
+          "NEW": {
+            "TITLE": "Add a response guideline",
+            "CREATE": "创建",
+            "CANCEL": "取消",
+            "PLACEHOLDER": "Type in another response guideline...",
+            "TEST_ALL": "测试全部"
+          }
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Response Guidelines added successfully",
+            "ERROR": "There was an error adding response guidelines, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Response Guidelines updated successfully",
+            "ERROR": "There was an error updating response guidelines, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Response Guidelines deleted successfully",
+            "ERROR": "There was an error deleting response guidelines, please try again."
+          }
+        }
+      },
+      "SCENARIOS": {
+        "TITLE": "Scenarios",
+        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "BULK_ACTION": {
+          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECT_ALL": "全选 ({count})",
+          "UNSELECT_ALL": "取消全选({count})",
+          "BULK_DELETE_BUTTON": "删除"
+        },
+        "ADD": {
+          "SUGGESTED": {
+            "TITLE": "Example scenarios",
+            "ADD": "添加全部",
+            "ADD_SINGLE": "Add this",
+            "TOOLS_USED": "Tools used :"
+          },
+          "NEW": {
+            "CREATE": "Add a scenario",
+            "TITLE": "Create a scenario",
+            "FORM": {
+              "TITLE": {
+                "LABEL": "标题",
+                "PLACEHOLDER": "Enter a name for the scenario",
+                "ERROR": "Scenario name is required"
+              },
+              "DESCRIPTION": {
+                "LABEL": "描述信息",
+                "PLACEHOLDER": "Describe how and where this scenario will be used",
+                "ERROR": "Scenario description is required"
+              },
+              "INSTRUCTION": {
+                "LABEL": "How to handle",
+                "PLACEHOLDER": "Describe how and where this scenario will be handled",
+                "ERROR": "Scenario content is required"
+              },
+              "CREATE": "创建",
+              "CANCEL": "取消"
+            }
+          }
+        },
+        "UPDATE": {
+          "CANCEL": "取消",
+          "UPDATE": "Update changes"
+        },
+        "LIST": {
+          "SEARCH_PLACEHOLDER": "搜索……"
+        },
+        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
+        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "API": {
+          "ADD": {
+            "SUCCESS": "Scenarios added successfully",
+            "ERROR": "There was an error adding scenarios, please try again."
+          },
+          "UPDATE": {
+            "SUCCESS": "Scenarios updated successfully",
+            "ERROR": "There was an error updating scenarios, please try again."
+          },
+          "DELETE": {
+            "SUCCESS": "Scenarios deleted successfully",
+            "ERROR": "There was an error deleting scenarios, please try again."
+          }
         }
       }
     },
@@ -477,15 +704,27 @@
         "ERROR_MESSAGE": "创建文档时出错，请重试"
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "网址",
+          "PDF": "PDF 文件"
+        },
         "URL": {
           "LABEL": "网址",
           "PLACEHOLDER": "输入文档的 URL",
           "ERROR": "请提供有效的文档 URL"
         },
-        "ASSISTANT": {
-          "LABEL": "助手",
-          "PLACEHOLDER": "选择助手",
-          "ERROR": "助手字段是必需的"
+        "PDF_FILE": {
+          "LABEL": "PDF 文件",
+          "CHOOSE_FILE": "选择 PDF 文件",
+          "ERROR": "请选择一个 PDF 文件",
+          "HELP_TEXT": "最大文件大小: 10MB",
+          "INVALID_TYPE": "请选择一个有效的 PDF 文件",
+          "TOO_LARGE": "文件大小超过 10MB 限制"
+        },
+        "NAME": {
+          "LABEL": "文档名称(可选)",
+          "PLACEHOLDER": "输入文档的名称"
         }
       },
       "DELETE": {
@@ -508,13 +747,126 @@
         }
       }
     },
+    "CUSTOM_TOOLS": {
+      "HEADER": "工具",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "是的，删除",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "啥都没有",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "API 密钥"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "密码",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "类型"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "号码",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "必填项"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
     "RESPONSES": {
       "HEADER": "常见问题",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "创建新常见问题",
       "DOCUMENTABLE": {
         "CONVERSATION": "对话 #{id}"
       },
       "SELECTED": "{count} 已选择",
+      "SELECT_ALL": "全选 ({count})",
+      "UNSELECT_ALL": "取消全选({count})",
+      "SEARCH_PLACEHOLDER": "搜索常见问题...",
       "BULK_APPROVE_BUTTON": "批准",
       "BULK_DELETE_BUTTON": "删除",
       "BULK_APPROVE": {
@@ -546,6 +898,10 @@
         "APPROVED": "已批准",
         "ALL": "所有"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "将问题及其对应的答案添加到知识库，并选择应关联的助手。",
       "CREATE": {
         "TITLE": "添加常见问题",
@@ -562,11 +918,6 @@
           "LABEL": "答案",
           "PLACEHOLDER": "在此输入答案",
           "ERROR": "请提供有效的答案"
-        },
-        "ASSISTANT": {
-          "LABEL": "助手",
-          "PLACEHOLDER": "选择助手",
-          "ERROR": "请选择助手"
         }
       },
       "EDIT": {
@@ -576,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "常见问题已标记为已批准"
       },
       "OPTIONS": {
-        "APPROVE": "标记为已批准",
-        "EDIT_RESPONSE": "编辑常见问题",
-        "DELETE_RESPONSE": "删除常见问题"
+        "APPROVE": "批准",
+        "EDIT_RESPONSE": "编辑",
+        "DELETE_RESPONSE": "删除"
       },
       "EMPTY_STATE": {
         "TITLE": "未找到常见问题",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "常见问题帮助您的助手为客户提供快速准确的答案。它们可以从您的内容自动生成，也可以手动添加。",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain 常见问题",
           "NOTE": "Captain FAQs 检测常见的客户问题——无论是知识库中缺失的问题还是经常被问到的问题——并生成相关的常见问题以改善支持。您可以查看每个建议，并决定是否批准或拒绝它。"

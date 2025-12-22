@@ -4,12 +4,14 @@
       "ALL": "Totes",
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Missatges"
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Missatges"
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

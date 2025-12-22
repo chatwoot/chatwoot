@@ -19,10 +19,13 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/instagram', to: 'dashboard#index', as: 'app_new_instagram_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/tiktok', to: 'dashboard#index', as: 'app_new_tiktok_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_instagram_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_tiktok_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_instagram_inbox_settings'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_tiktok_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
 
     resource :widget, only: [:show]
@@ -56,17 +59,24 @@ Rails.application.routes.draw do
               member do
                 post :playground
               end
+              collection do
+                get :tools
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
+              resources :scenarios
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index] do
-              resources :copilot_messages, only: [:index]
+            resources :copilot_threads, only: [:index, :create] do
+              resources :copilot_messages, only: [:index, :create]
             end
+            resources :custom_tools
             resources :documents, only: [:index, :show, :create, :destroy]
           end
+          resource :saml_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
+            post :reset_access_token, on: :member
           end
           resources :contact_inboxes, only: [] do
             collection do
@@ -92,12 +102,18 @@ Rails.application.routes.draw do
           end
           resources :sla_policies, only: [:index, :create, :show, :update, :destroy]
           resources :custom_roles, only: [:index, :create, :show, :update, :destroy]
+          resources :agent_capacity_policies, only: [:index, :create, :show, :update, :destroy] do
+            scope module: :agent_capacity_policies do
+              resources :users, only: [:index, :create, :destroy]
+              resources :inbox_limits, only: [:create, :update, :destroy]
+            end
+          end
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show, :update] do
+          resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :meta
               get :search
@@ -127,8 +143,8 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
-              post :copilot
               get :inbox_assistant
+              get :reporting_events if ChatwootApp.enterprise?
             end
           end
 
@@ -137,9 +153,15 @@ Rails.application.routes.draw do
               get :conversations
               get :messages
               get :contacts
+              get :articles
             end
           end
 
+          resources :companies, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get :search
+            end
+          end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
@@ -158,6 +180,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -172,6 +195,7 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
@@ -180,7 +204,17 @@ Rails.application.routes.draw do
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
+            post :sync_templates, on: :member
+            get :health, on: :member
+            if ChatwootApp.enterprise?
+              resource :conference, only: %i[create destroy], controller: 'conference' do
+                get :token, on: :member
+              end
+            end
+
+            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
           end
+
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -211,6 +245,15 @@ Rails.application.routes.draw do
             end
           end
 
+          # Assignment V2 Routes
+          resources :assignment_policies do
+            resources :inboxes, only: [:index, :create, :destroy], module: :assignment_policies
+          end
+
+          resources :inboxes, only: [] do
+            resource :assignment_policy, only: [:show, :create, :destroy], module: :inboxes
+          end
+
           namespace :twitter do
             resource :authorization, only: [:create]
           end
@@ -224,6 +267,18 @@ Rails.application.routes.draw do
           end
 
           namespace :instagram do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :tiktok do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :notion do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :whatsapp do
             resource :authorization, only: [:create]
           end
 
@@ -264,6 +319,11 @@ Rails.application.routes.draw do
                 get :linked_issues
               end
             end
+            resource :notion, controller: 'notion', only: [] do
+              collection do
+                delete :destroy
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -271,6 +331,8 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              post :send_instructions
+              get :ssl_status
             end
             resources :categories
             resources :articles do
@@ -288,6 +350,9 @@ Rails.application.routes.draw do
         resources :webhooks, only: [:create]
       end
 
+      # Frontend API endpoint to trigger SAML authentication flow
+      post 'auth/saml_login', to: 'auth#saml_login'
+
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection
         member do
@@ -295,6 +360,15 @@ Rails.application.routes.draw do
           post :auto_offline
           put :set_active_account
           post :resend_confirmation
+          post :reset_access_token
+        end
+
+        # MFA routes
+        scope module: 'profile' do
+          resource :mfa, controller: 'mfa', only: [:show, :create, :destroy] do
+            post :verify
+            post :backup_codes
+          end
         end
       end
 
@@ -342,6 +416,7 @@ Rails.application.routes.draw do
               get :agent
               get :team
               get :inbox
+              get :label
             end
           end
           resources :reports, only: [:index] do
@@ -357,6 +432,7 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resource :year_in_review, only: [:show]
           resources :live_reports, only: [] do
             collection do
               get :conversation_metrics
@@ -378,6 +454,7 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              post :topup_checkout
             end
           end
         end
@@ -396,12 +473,13 @@ Rails.application.routes.draw do
         resources :users, only: [:create, :show, :update, :destroy] do
           member do
             get :login
+            post :token
           end
         end
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
           delete :avatar, on: :member
         end
-        resources :accounts, only: [:create, :show, :update, :destroy] do
+        resources :accounts, only: [:index, :create, :show, :update, :destroy] do
           resources :account_users, only: [:index, :create] do
             collection do
               delete :destroy
@@ -445,6 +523,7 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
   get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
@@ -467,6 +546,7 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
+  post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
@@ -483,16 +563,25 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
+
+    if ChatwootApp.enterprise?
+      post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      post 'voice/status/:phone', to: 'voice#status', as: :voice_status
+      post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
+    end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
+  get 'tiktok/callback', to: 'tiktok/callbacks#show'
+  get 'notion/callback', to: 'notion/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
   get '.well-known/apple-app-site-association' => 'apple_app#site_association'
   get '.well-known/microsoft-identity-association.json' => 'microsoft#identity_association'
+  get '.well-known/cf-custom-hostname-challenge/:id', to: 'custom_domains#verify'
 
   # ----------------------------------------------------------------------
   # Internal Monitoring Routes
@@ -518,7 +607,7 @@ Rails.application.routes.draw do
 
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
@@ -529,7 +618,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

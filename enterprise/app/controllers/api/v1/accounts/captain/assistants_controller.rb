@@ -25,11 +25,16 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      params[:message_content],
-      message_history
+      additional_message: params[:message_content],
+      message_history: message_history
     )
 
     render json: response
+  end
+
+  def tools
+    assistant = Captain::Assistant.new(account: Current.account)
+    @tools = assistant.available_agent_tools
   end
 
   private
@@ -43,12 +48,19 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def assistant_params
-    params.require(:assistant).permit(:name, :description,
-                                      config: [
-                                        :product_name, :feature_faq, :feature_memory,
-                                        :welcome_message, :handoff_message, :resolution_message,
-                                        :instructions
-                                      ])
+    permitted = params.require(:assistant).permit(:name, :description,
+                                                  config: [
+                                                    :product_name, :feature_faq, :feature_memory, :feature_citation,
+                                                    :welcome_message, :handoff_message, :resolution_message,
+                                                    :instructions, :temperature
+                                                  ])
+
+    # Handle array parameters separately to allow partial updates
+    permitted[:response_guidelines] = params[:assistant][:response_guidelines] if params[:assistant].key?(:response_guidelines)
+
+    permitted[:guardrails] = params[:assistant][:guardrails] if params[:assistant].key?(:guardrails)
+
+    permitted
   end
 
   def playground_params

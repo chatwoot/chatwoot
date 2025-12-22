@@ -27,7 +27,12 @@
       "LABEL": "Mật khẩu",
       "PLACEHOLDER": "Mật khẩu",
       "ERROR": "Mật khẩu quá ngắn.",
-      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt."
+      "IS_INVALID_PASSWORD": "Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirm password",
@@ -35,7 +40,7 @@
       "ERROR": "Mật khẩu không khớp."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Đăng Kí Thành Công",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
     },
     "SUBMIT": "Create account",

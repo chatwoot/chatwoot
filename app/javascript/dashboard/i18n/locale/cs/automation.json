@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
       "MESSAGE_CREATED": "Zpráva vytvořena",
+      "CONVERSATION_RESOLVED": "Conversation Resolved",
       "CONVERSATION_OPENED": "Konverzace otevřena"
     },
     "ACTIONS": {
@@ -146,8 +147,21 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Odeslat přílohu",
       "SEND_MESSAGE": "Odeslat zprávu",
+      "ADD_PRIVATE_NOTE": "Přidat soukromou poznámku",
       "CHANGE_PRIORITY": "Change Priority",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Open conversation"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nic",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Typ zprávy",
@@ -163,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Team",
-      "PRIORITY": "Priority"
+      "PRIORITY": "Priority",
+      "LABELS": "Štítky"
     }
   }
 }

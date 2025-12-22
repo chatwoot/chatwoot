@@ -163,8 +163,11 @@ describe Integrations::Slack::SendOnSlackService do
         attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
 
         expect(slack_client).to receive(:files_upload_v2).with(
-          filename: attachment.file.filename,
-          content: anything,
+          files: [{
+            filename: attachment.file.filename.to_s,
+            content: anything,
+            title: attachment.file.filename.to_s
+          }],
           channel_id: hook.reference_id,
           thread_ts: conversation.identifier,
           initial_comment: 'Attached File!'
@@ -176,6 +179,79 @@ describe Integrations::Slack::SendOnSlackService do
 
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
         expect(message.attachments).to be_any
+      end
+
+      it 'sent multiple attachments on slack' do
+        expect(slack_client).to receive(:chat_postMessage).and_return(slack_message)
+
+        attachment1 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment1.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'logo.png', content_type: 'image/png')
+
+        expected_files = [
+          { filename: 'avatar.png', content: anything, title: 'avatar.png' },
+          { filename: 'logo.png', content: anything, title: 'logo.png' }
+        ]
+        expect(slack_client).to receive(:files_upload_v2).with(
+          files: expected_files,
+          channel_id: hook.reference_id,
+          thread_ts: conversation.identifier,
+          initial_comment: 'Attached File!'
+        ).and_return(file_attachment)
+
+        message.save!
+        builder.perform
+
+        expect(message.attachments.count).to eq 2
+      end
+
+      it 'streams attachment blobs and uploads only once' do
+        expect(slack_client).to receive(:chat_postMessage).and_return(slack_message)
+
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+        blob = attachment.file.blob
+        allow(blob).to receive(:open).and_call_original
+
+        expect(blob).to receive(:open).and_call_original
+        expect(slack_client).to receive(:files_upload_v2).once.and_return(file_attachment)
+
+        message.save!
+        builder.perform
+      end
+
+      it 'handles file upload errors gracefully' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          channel: hook.reference_id,
+          text: message.content,
+          username: "#{message.sender.name} (Contact)",
+          thread_ts: conversation.identifier,
+          icon_url: anything,
+          unfurl_links: true
+        ).and_return(slack_message)
+
+        attachment = message.attachments.new(account_id: message.account_id, file_type: :image)
+        attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+
+        expect(slack_client).to receive(:files_upload_v2).with(
+          files: [{
+            filename: attachment.file.filename.to_s,
+            content: anything,
+            title: attachment.file.filename.to_s
+          }],
+          channel_id: hook.reference_id,
+          thread_ts: conversation.identifier,
+          initial_comment: 'Attached File!'
+        ).and_raise(Slack::Web::Api::Errors::SlackError.new('File upload failed'))
+
+        expect(Rails.logger).to receive(:error).with('Failed to upload files: File upload failed')
+
+        message.save!
+
+        builder.perform
+
+        expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
       end
 
       it 'will not call file_upload if attachment does not have a file (e.g facebook - fallback type)' do

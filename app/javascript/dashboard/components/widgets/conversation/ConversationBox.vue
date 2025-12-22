@@ -4,17 +4,14 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
-import ConversationSidebar from './ConversationSidebar.vue';
 
 export default {
   components: {
-    ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
     EmptyState,
     MessagesView,
   },
-
   props: {
     inboxId: {
       type: [Number, String],
@@ -34,7 +31,6 @@ export default {
       default: true,
     },
   },
-  emits: ['contactPanelToggle'],
   data() {
     return { activeIndex: 0 };
   },
@@ -86,9 +82,6 @@ export default {
       }
       this.$store.dispatch('conversationLabels/get', this.currentChat.id);
     },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
     onDashboardAppTabChange(index) {
       this.activeIndex = index;
     },
@@ -98,7 +91,7 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-n-background"
+    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-background relative"
     :class="{
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
@@ -106,15 +99,12 @@ export default {
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"
-      :is-inbox-view="isInboxView"
-      :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="-mt-px bg-white dashboard-app--tabs dark:bg-slate-900"
+      class="-mt-px border-t border-t-n-background"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -123,6 +113,8 @@ export default {
         :index="tab.index"
         :name="tab.name"
         :show-badge="false"
+        is-compact
+        class="[&_a]:pt-1"
       />
     </woot-tabs>
     <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">
@@ -130,18 +122,12 @@ export default {
         v-if="currentChat.id"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
-        :is-contact-panel-open="isContactPanelOpen"
-        @contact-panel-toggle="onToggleContactPanel"
       />
       <EmptyState
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
       />
-      <ConversationSidebar
-        v-if="showContactPanel"
-        :current-chat="currentChat"
-        @toggle-contact-panel="onToggleContactPanel"
-      />
+      <slot />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
@@ -154,19 +140,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.conversation-details-wrap {
-  @apply flex flex-col min-w-0 w-full;
-}
-
-.dashboard-app--tabs {
-  ::v-deep {
-    .tabs-title {
-      a {
-        @apply pb-2 pt-1;
-      }
-    }
-  }
-}
-</style>
