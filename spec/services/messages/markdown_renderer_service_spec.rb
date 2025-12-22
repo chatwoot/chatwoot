@@ -241,10 +241,37 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<a href="https://example.com">link text</a>')
       end
 
-      it 'preserves newlines' do
+      it 'preserves single newlines' do
         content = "line 1\nline 2"
         result = described_class.new(content, channel_type).render
         expect(result).to include("\n")
+        expect(result).to include("line 1\nline 2")
+      end
+
+      it 'preserves double newlines (paragraph breaks)' do
+        content = "para 1\n\npara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(2)
+        expect(result).to include("para 1\n\npara 2")
+      end
+
+      it 'preserves multiple consecutive newlines' do
+        content = "para 1\n\n\n\npara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("para 1\n\n\n\npara 2")
+      end
+
+      it 'preserves newlines with varying amounts of whitespace between them' do
+        # Test with 1 space, 3 spaces, 5 spaces, and tabs to ensure it handles any amount of whitespace
+        content = "hello\n \n   \n     \n\t\nworld"
+        result = described_class.new(content, channel_type).render
+        # Whitespace-only lines are normalized, so we should have at least 5 newlines preserved
+        expect(result.scan("\n").count).to be >= 5
+        expect(result).to include('hello')
+        expect(result).to include('world')
+        # Should not collapse to just 1-2 newlines
+        expect(result.scan("\n").count).to be > 3
       end
 
       it 'converts strikethrough to HTML' do

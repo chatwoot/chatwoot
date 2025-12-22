@@ -127,18 +127,11 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
       end
 
       it 'Saves file in the macros actions to send an attachments' do
-        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
-
-        post "/api/v1/accounts/#{account.id}/upload/",
-             headers: administrator.create_new_auth_token,
-             params: { attachment: file }
-
-        expect(response).to have_http_status(:success)
-
-        blob = response.parsed_body
-
-        expect(blob['blob_key']).to be_present
-        expect(blob['blob_id']).to be_present
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
 
         params[:actions] = [
           {
@@ -147,7 +140,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
           },
           {
             'action_name': :send_attachment,
-            'action_params': [blob['blob_id']]
+            'action_params': [blob.signed_id]
           }
         ]
 
@@ -158,6 +151,46 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         macro = account.macros.last
         expect(macro.files.presence).to be_truthy
         expect(macro.files.count).to eq(1)
+      end
+
+      it 'returns error for invalid attachment blob_id' do
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': ['invalid_blob_id']
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/macros",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      end
+
+      it 'stores the original blob_id in action_params after create' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        params[:actions] = [
+          {
+            'action_name': :send_attachment,
+            'action_params': [blob.signed_id]
+          }
+        ]
+
+        post "/api/v1/accounts/#{account.id}/macros",
+             headers: administrator.create_new_auth_token,
+             params: params
+
+        macro = account.macros.last
+        attachment_action = macro.actions.find { |a| a['action_name'] == 'send_attachment' }
+        expect(attachment_action['action_params'].first).to be_a(Integer)
+        expect(attachment_action['action_params'].first).to eq(macro.files.first.blob_id)
       end
     end
   end
@@ -201,6 +234,47 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
 
         expect(response).to have_http_status(:unauthorized)
         expect(json_response['error']).to eq('You are not authorized to do this action')
+      end
+
+      it 'allows update with existing blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        macro.update!(actions: [{ 'action_name' => 'send_attachment', 'action_params' => [blob.id] }])
+        macro.files.attach(blob)
+
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: { actions: [{ 'action_name': :send_attachment, 'action_params': [blob.id] }] },
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns error for invalid blob_id on update' do
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: { actions: [{ 'action_name': :send_attachment, 'action_params': [999_999] }] },
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.attachments.invalid'))
+      end
+
+      it 'allows adding new attachment on update with signed blob_id' do
+        blob = ActiveStorage::Blob.create_and_upload!(
+          io: Rails.root.join('spec/assets/avatar.png').open,
+          filename: 'avatar.png',
+          content_type: 'image/png'
+        )
+
+        put "/api/v1/accounts/#{account.id}/macros/#{macro.id}",
+            params: { actions: [{ 'action_name': :send_attachment, 'action_params': [blob.signed_id] }] },
+            headers: administrator.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(macro.reload.files.count).to eq(1)
       end
     end
   end

@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.8.0",
+  "version": "4.9.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -53,6 +53,7 @@
     "@sindresorhus/slugify": "2.2.1",
     "@tailwindcss/typography": "^0.5.15",
     "@tanstack/vue-table": "^8.20.5",
+    "@twilio/voice-sdk": "^2.12.4",
     "@vitejs/plugin-vue": "^5.1.4",
     "@vue/compiler-sfc": "^3.5.8",
     "@vuelidate/core": "^2.0.3",
@@ -73,6 +74,8 @@
     "flag-icons": "^7.2.3",
     "floating-vue": "^5.2.2",
     "highlight.js": "^11.10.0",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
     "idb": "^8.0.0",
     "js-cookie": "^3.0.5",
     "json-logic-js": "^2.0.5",
