@@ -449,6 +449,16 @@ The Web Component supports runtime theming via CSS custom properties. These vari
 |----------|-------------|---------|
 | `--chatwoot-bubble-spacing-ratio` | Scale factor for border radius | `1` |
 
+#### Border
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `--chatwoot-bubble-border-width` | Border width (0 = invisible) | `0` |
+| `--chatwoot-bubble-agent-border` | Agent message border color | `--blue-6` |
+| `--chatwoot-bubble-user-border` | User message border color | `--slate-6` |
+| `--chatwoot-bubble-private-border` | Private note border color | `--amber-6` |
+| `--chatwoot-bubble-bot-border` | Bot message border color | `--iris-6` |
+
 ### Usage Examples
 
 #### Option 1: Global CSS
@@ -459,6 +469,8 @@ The Web Component supports runtime theming via CSS custom properties. These vari
   --chatwoot-bubble-agent-bg: 59 130 246;    /* Blue */
   --chatwoot-bubble-user-bg: 243 244 246;    /* Light gray */
   --chatwoot-bubble-spacing-ratio: 1.5;      /* 50% more rounded */
+  --chatwoot-bubble-border-width: 1px;       /* Add borders */
+  --chatwoot-bubble-agent-border: 59 130 246; /* Blue border */
 }
 ```
 
@@ -472,6 +484,8 @@ function App() {
         '--chatwoot-bubble-agent-bg': '59 130 246',
         '--chatwoot-bubble-user-bg': '243 244 246',
         '--chatwoot-bubble-spacing-ratio': '1.5',
+        '--chatwoot-bubble-border-width': '1px',
+        '--chatwoot-bubble-agent-border': '59 130 246',
       }}
     >
       <ChatwootProvider {...props}>
@@ -488,15 +502,41 @@ function App() {
 function App() {
   const [theme, setTheme] = useState({
     '--chatwoot-bubble-agent-bg': '59 130 246',
+    '--chatwoot-bubble-border-width': '1px',
+    '--chatwoot-bubble-agent-border': '59 130 246',
   });
 
   return (
     <div style={theme}>
       <button onClick={() => setTheme({
-        '--chatwoot-bubble-agent-bg': '34 197 94',  // Switch to green
+        '--chatwoot-bubble-agent-bg': '34 197 94',      // Switch to green
+        '--chatwoot-bubble-border-width': '2px',
+        '--chatwoot-bubble-agent-border': '34 197 94',  // Green border
       })}>
         Change Theme
       </button>
+      <ChatwootProvider {...props}>
+        <ChatwootConversation />
+      </ChatwootProvider>
+    </div>
+  );
+}
+```
+
+#### Option 4: Borders Only
+
+```jsx
+function App() {
+  return (
+    <div
+      style={{
+        '--chatwoot-bubble-border-width': '2px',
+        '--chatwoot-bubble-agent-border': '59 130 246',   // Blue border
+        '--chatwoot-bubble-user-border': '156 163 175',   // Gray border
+        '--chatwoot-bubble-private-border': '251 191 36', // Amber border
+        '--chatwoot-bubble-bot-border': '129 140 248',    // Iris border
+      }}
+    >
       <ChatwootProvider {...props}>
         <ChatwootConversation />
       </ChatwootProvider>
@@ -510,7 +550,10 @@ function App() {
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │  Consumer's CSS                                                  │
-│  :root { --chatwoot-bubble-agent-bg: 59 130 246; }             │
+│  :root {                                                         │
+│    --chatwoot-bubble-agent-bg: 59 130 246;                      │
+│    --chatwoot-bubble-border-width: 1px;                         │
+│  }                                                               │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼ (CSS inheritance)
@@ -519,12 +562,16 @@ function App() {
 │  bubble-overrides.css:                                          │
 │    --bubble-agent-bg: var(--chatwoot-bubble-agent-bg,           │
 │                           var(--solid-blue));                   │
+│    --bubble-border-width: var(--chatwoot-bubble-border-width,   │
+│                               0);                               │
 └─────────────────────────────────────────────────────────────────┘
                               │
                               ▼ (used by components)
 ┌─────────────────────────────────────────────────────────────────┐
 │  Base.vue                                                        │
-│  class="bg-[rgb(var(--bubble-agent-bg))]"                       │
+│  class="bg-[rgb(var(--bubble-agent-bg))]                        │
+│         border-[length:var(--bubble-border-width)]              │
+│         border-[rgb(var(--bubble-agent-border))]"               │
 └─────────────────────────────────────────────────────────────────┘
 ```
 

@@ -13,6 +13,13 @@
  *   --chatwoot-bubble-private-text: Private note text
  *   --chatwoot-bubble-bot-bg: Bot message background
  *   --chatwoot-bubble-bot-text: Bot message text
+ *   --chatwoot-bubble-agent-border: Agent message border color
+ *   --chatwoot-bubble-user-border: User message border color
+ *   --chatwoot-bubble-private-border: Private note border color
+ *   --chatwoot-bubble-bot-border: Bot message border color
+ *
+ * BORDER:
+ *   --chatwoot-bubble-border-width: Border width in px (0 = invisible, default: 0)
  *
  * SPACING:
  *   --chatwoot-bubble-spacing-ratio: Scale factor for border radius (1 = default)
@@ -21,6 +28,7 @@
  *   :root {
  *     --chatwoot-bubble-agent-bg: 59 130 246;
  *     --chatwoot-bubble-user-bg: 243 244 246;
+ *     --chatwoot-bubble-border-width: 1px;
  *     --chatwoot-bubble-spacing-ratio: 1.5;
  *   }
  */
@@ -51,6 +59,13 @@
   --bubble-private-status-read: var(--chatwoot-bubble-private-status-read, 126 182 255);
   --bubble-bot-status: var(--chatwoot-bubble-bot-status, var(--slate-10));
   --bubble-bot-status-read: var(--chatwoot-bubble-bot-status-read, 126 182 255);
+
+  /* Border customization */
+  --bubble-border-width: var(--chatwoot-bubble-border-width, 0);
+  --bubble-agent-border: var(--chatwoot-bubble-agent-border, var(--blue-6));
+  --bubble-user-border: var(--chatwoot-bubble-user-border, var(--slate-6));
+  --bubble-private-border: var(--chatwoot-bubble-private-border, var(--amber-6));
+  --bubble-bot-border: var(--chatwoot-bubble-bot-border, var(--iris-6));
 
   /* Spacing - 1 = default */
   --bubble-spacing-ratio: var(--chatwoot-bubble-spacing-ratio, 1);
