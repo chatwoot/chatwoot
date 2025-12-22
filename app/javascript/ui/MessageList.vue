@@ -122,6 +122,7 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
           :is-email-inbox="isAnEmailChannel"
           :group-with-next="shouldGroupWithNext(index, allMessages)"
           :inbox-supports-reply-to="false"
+          force-align-to="left"
         />
       </template>
       <div v-show="isFetching" class="w-full py-4">
