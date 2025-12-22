@@ -130,6 +130,11 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  forceAlignTo: {
+    type: String,
+    default: null,
+    validator: value => value === null || ['left', 'right'].includes(value),
+  },
 });
 
 const emit = defineEmits(['retry']);
@@ -212,11 +217,15 @@ const isBotOrAgentMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
+
+  if (props.forceAlignTo) {
+    return props.forceAlignTo === 'left' ? ORIENTATION.LEFT : ORIENTATION.RIGHT;
+  }
+
   if (isBotOrAgentMessage.value) {
     return ORIENTATION.RIGHT;
   }
-
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
 
   return ORIENTATION.LEFT;
 });
