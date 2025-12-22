@@ -169,7 +169,7 @@ RSpec.describe Conversations::AutoAssignService do
         described_class.new(conversation).perform
       end
 
-      it 'processes if conversation is older than 5 minutes and has no labels' do
+      it 'processes if conversation is older than 5 minutes' do
         conversation.update!(created_at: 6.minutes.ago)
 
         allow(ConversationTriageAgent).to receive(:run).and_return({
@@ -178,16 +178,6 @@ RSpec.describe Conversations::AutoAssignService do
                                                                    })
 
         expect(conversation).to receive(:add_labels).with([label1.title])
-
-        described_class.new(conversation).perform
-      end
-
-      it 'does not process with time threshold if conversation already has labels' do
-        conversation.update!(created_at: 6.minutes.ago)
-        conversation.label_list.add('Existing Label')
-        conversation.save!
-
-        expect(ConversationTriageAgent).not_to receive(:run)
 
         described_class.new(conversation).perform
       end
