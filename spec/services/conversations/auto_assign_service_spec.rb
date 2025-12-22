@@ -43,8 +43,23 @@ RSpec.describe Conversations::AutoAssignService do
         service.perform
       end
 
-      it 'skips label if conversation already has labels' do
+      it 'allows adding labels when conversation has fewer than 3 labels' do
         conversation.label_list.add('Existing Label')
+        conversation.save!
+
+        allow(ConversationTriageAgent).to receive(:run).and_return({
+                                                                     'label_id' => label1.id,
+                                                                     'team_id' => team1.id
+                                                                   })
+
+        expect(conversation).to receive(:add_labels).with([label1.title])
+        expect(conversation).to receive(:update).with(team: team1)
+
+        described_class.new(conversation).perform
+      end
+
+      it 'skips label if conversation already has 3 labels' do
+        conversation.label_list.add('Label1', 'Label2', 'Label3')
         conversation.save!
 
         allow(ConversationTriageAgent).to receive(:run).and_return({
@@ -55,7 +70,7 @@ RSpec.describe Conversations::AutoAssignService do
         expect(conversation).not_to receive(:add_labels)
         expect(conversation).to receive(:update).with(team: team1)
 
-        service.perform
+        described_class.new(conversation).perform
       end
 
       it 'skips team if conversation already has team' do
@@ -148,8 +163,38 @@ RSpec.describe Conversations::AutoAssignService do
         create_list(:message, 2, conversation: conversation, message_type: :incoming, content: 'Message')
       end
 
-      it 'does not process the conversation' do
+      it 'does not process if conversation is less than 5 minutes old' do
         expect(ConversationTriageAgent).not_to receive(:run)
+
+        described_class.new(conversation).perform
+      end
+
+      it 'processes if conversation is older than 5 minutes' do
+        conversation.update!(created_at: 6.minutes.ago)
+
+        allow(ConversationTriageAgent).to receive(:run).and_return({
+                                                                     'label_id' => label1.id,
+                                                                     'team_id' => nil
+                                                                   })
+
+        expect(conversation).to receive(:add_labels).with([label1.title])
+
+        described_class.new(conversation).perform
+      end
+    end
+
+    context 'when excluding already-assigned labels' do
+      it 'excludes already-assigned labels from available labels' do
+        conversation.label_list.add(label1.title)
+        conversation.save!
+
+        expect(ConversationTriageAgent).to receive(:run) do |args|
+          label_ids = args[:labels].map { |l| l['id'] }
+          expect(label_ids).not_to include(label1.id)
+          expect(label_ids).to include(label2.id)
+        end.and_return({ 'label_id' => label2.id, 'team_id' => nil })
+
+        expect(conversation).to receive(:add_labels).with([label2.title])
 
         described_class.new(conversation).perform
       end
@@ -211,7 +256,7 @@ RSpec.describe Conversations::AutoAssignService do
         allow(ConversationTriageAgent).to receive(:run).and_raise(StandardError.new('API Error'))
 
         expect(Rails.logger).to receive(:error)
-          .with("Auto-assign failed for conversation #{conversation.id}: API Error")
+          .with("Auto-classification failed for conversation #{conversation.id}: API Error")
 
         expect { service.perform }.to raise_error(StandardError, 'API Error')
       end

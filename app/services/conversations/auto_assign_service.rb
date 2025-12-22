@@ -6,7 +6,11 @@ class Conversations::AutoAssignService
   def initialize(conversation)
     @conversation = conversation
     @account = conversation.account
-    @labels = account.labels.with_auto_assign_enabled.as_json(only: [:id, :title, :description])
+    existing_labels = conversation.label_list.map(&:downcase)
+    @labels = account.labels
+                     .with_auto_assign_enabled
+                     .where.not('LOWER(title) IN (?)', existing_labels.presence || [''])
+                     .as_json(only: [:id, :title, :description])
     @teams = account.teams.with_auto_assign_enabled.as_json(only: [:id, :name, :description])
   end
 
@@ -33,12 +37,16 @@ class Conversations::AutoAssignService
   end
 
   def threshold_met?
-    threshold = 3
-    conversation.messages.incoming.count >= threshold
+    message_threshold = 3
+    time_threshold = 5.minutes
+
+    conversation.messages.incoming.count >= message_threshold ||
+      conversation.created_at <= time_threshold.ago
   end
 
   def should_apply_label?
-    conversation.label_list.empty?
+    max_auto_labels = 3
+    conversation.label_list.size < max_auto_labels
   end
 
   def should_apply_team?
