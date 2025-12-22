@@ -57,13 +57,6 @@ export default {
       <FluentIcon icon="document" size="28" />
     </div>
     <div class="ltr:pr-1 rtl:pl-1">
-      <div
-        class="m-0 font-medium text-sm"
-        :class="{ 'text-n-slate-12': !isUserBubble }"
-        :style="{ color: textColor }"
-      >
-        {{ title }}
-      </div>
       <div class="leading-none mb-1">
         <a
           class="download"
