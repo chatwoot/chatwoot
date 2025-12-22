@@ -276,6 +276,17 @@
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
     },
+    "AD_SOURCE": {
+      "SOURCE_TYPE": "Source Type",
+      "AD_ID": "Ad ID",
+      "AD_TITLE": "Ad Title",
+      "AD_HEADLINE": "Ad Headline",
+      "AD_REF": "Ad Reference",
+      "SOURCE_ID": "Source ID",
+      "CTWA_CLID": "Click ID",
+      "PRODUCT_ID": "Product ID",
+      "SOURCE_URL": "Source URL"
+    },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Incoming call",
       "OUTGOING_CALL": "Outgoing call",
