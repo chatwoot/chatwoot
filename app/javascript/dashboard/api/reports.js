@@ -109,7 +109,6 @@ class ReportsAPI extends ApiClient {
         since: from,
         until: to,
         group_by: groupBy,
-        timezone_offset: getTimeOffset(),
       },
     });
   }
@@ -121,7 +120,6 @@ class ReportsAPI extends ApiClient {
         until: to,
         group_by: groupBy,
         metric_type: metricType,
-        timezone_offset: getTimeOffset(),
       },
     });
   }

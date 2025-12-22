@@ -59,7 +59,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def booking_stats
     period = determine_period_from_params
-
+    
     service = Dealership::BookingStatsService.new(
       Current.account.dealership_id,
       period: period,
@@ -67,13 +67,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       until_time: params[:until]
     )
     booking_data = service.fetch_stats
-
+    
     filtered_data = filter_by_date_range(booking_data, params[:since], params[:until])
     formatted_data = format_booking_breakdown_data(filtered_data, period)
-
+    
     # Fill in missing dates with zeros to show complete timeline
     formatted_data = fill_missing_dates_with_zeros(formatted_data, params[:since], params[:until], period)
-
+    
     render json: formatted_data
   end
 
@@ -89,8 +89,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     data_array = booking_data[:data] || booking_data['data'] || []
     return booking_data if data_array.empty?
 
-    since_date = date_from_timestamp(since_timestamp)
-    until_date = date_from_timestamp(until_timestamp)
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
     period = booking_data[:period] || booking_data['period']
 
     filtered = data_array.select do |item|
@@ -107,7 +107,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       Date.parse(item['date']) if item['date']
     when 'weekly'
       parts = item['week']&.split('-')
-      Date.parse("#{parts[0]}-#{parts[1]}-#{Time.current.year}") if parts&.size&.>= 2
+      Date.parse("#{parts[0]}-#{parts[1]}-#{Time.current.year}") if parts&.size >= 2
     when 'monthly'
       Date.parse("#{item['month']}-01") if item['month']
     end
@@ -125,12 +125,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def format_booking_breakdown_data(booking_data, period)
     data_array = booking_data[:data] || booking_data['data'] || []
-
+    
     data_array.map do |item|
       breakdown = item['booking_type_breakdown'] || {}
       booking_data = breakdown['booking'] || {}
       handoff_data = breakdown['handoff'] || {}
-
+      
       {
         timestamp: parse_timestamp(item, period),
         booking_links_sent: booking_data['links_sent'] || 0,
@@ -162,9 +162,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def generate_placeholder_data(since_timestamp, until_timestamp, period)
-    since_date = date_from_timestamp(since_timestamp)
-    until_date = date_from_timestamp(until_timestamp)
-
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
+    
     case period
     when 'weekly'
       generate_weekly_placeholders(since_date, until_date)
@@ -176,9 +176,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def generate_placeholder_breakdown_data(since_timestamp, until_timestamp, period)
-    since_date = date_from_timestamp(since_timestamp)
-    until_date = date_from_timestamp(until_timestamp)
-
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
+    
     case period
     when 'weekly'
       generate_weekly_breakdown_placeholders(since_date, until_date)
@@ -238,13 +238,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
     # Generate all expected timestamps for the range
     expected_timestamps = case period
-                          when 'weekly'
-                            generate_weekly_timestamps(since_timestamp, until_timestamp)
-                          when 'monthly'
-                            generate_monthly_timestamps(since_timestamp, until_timestamp)
-                          else
-                            generate_daily_timestamps(since_timestamp, until_timestamp)
-                          end
+                         when 'weekly'
+                           generate_weekly_timestamps(since_timestamp, until_timestamp)
+                         when 'monthly'
+                           generate_monthly_timestamps(since_timestamp, until_timestamp)
+                         else
+                           generate_daily_timestamps(since_timestamp, until_timestamp)
+                         end
 
     # If no data exists, generate all zeros for the range
     if formatted_data.empty?
@@ -261,7 +261,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
     # Create hash map of existing data by timestamp
     data_map = formatted_data.index_by { |item| item[:timestamp] }
-
+    
     # Fill in missing dates with zeros
     expected_timestamps.map do |timestamp|
       data_map[timestamp] || {
@@ -275,39 +275,33 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def generate_daily_timestamps(since_timestamp, until_timestamp)
-    since_date = date_from_timestamp(since_timestamp)
-    until_date = date_from_timestamp(until_timestamp)
-    Time.use_zone(reports_timezone_name) do
-      (since_date..until_date).map { |date| Time.zone.local(date.year, date.month, date.day).to_i }
-    end
+    since_date = Time.at(since_timestamp.to_i).to_date
+    until_date = Time.at(until_timestamp.to_i).to_date
+    (since_date..until_date).map { |date| date.to_time.to_i }
   end
 
   def generate_weekly_timestamps(since_timestamp, until_timestamp)
-    since_date = date_from_timestamp(since_timestamp).beginning_of_week
-    until_date = date_from_timestamp(until_timestamp)
-    Time.use_zone(reports_timezone_name) do
-      timestamps = []
-      current = since_date
-      while current <= until_date
-        timestamps << Time.zone.local(current.year, current.month, current.day).to_i
-        current += 1.week
-      end
-      timestamps
+    since_date = Time.at(since_timestamp.to_i).to_date.beginning_of_week
+    until_date = Time.at(until_timestamp.to_i).to_date
+    timestamps = []
+    current = since_date
+    while current <= until_date
+      timestamps << current.to_time.to_i
+      current += 1.week
     end
+    timestamps
   end
 
   def generate_monthly_timestamps(since_timestamp, until_timestamp)
-    since_date = date_from_timestamp(since_timestamp).beginning_of_month
-    until_date = date_from_timestamp(until_timestamp)
-    Time.use_zone(reports_timezone_name) do
-      timestamps = []
-      current = since_date
-      while current <= until_date
-        timestamps << Time.zone.local(current.year, current.month, current.day).to_i
-        current += 1.month
-      end
-      timestamps
+    since_date = Time.at(since_timestamp.to_i).to_date.beginning_of_month
+    until_date = Time.at(until_timestamp.to_i).to_date
+    timestamps = []
+    current = since_date
+    while current <= until_date
+      timestamps << current.to_time.to_i
+      current += 1.month
     end
+    timestamps
   end
 
   def generate_csv(filename, template)
@@ -389,7 +383,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def build_booking_summary
     period = determine_period_from_params
     metric_type = params[:metric_type] || 'booking'
-
+    
     # Get current period data
     current_service = Dealership::BookingStatsService.new(
       Current.account.dealership_id,
@@ -399,7 +393,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     )
     current_data = current_service.fetch_stats
     current_filtered = filter_by_date_range(current_data, params[:since], params[:until])
-
+    
     # Get previous period data
     previous_service = Dealership::BookingStatsService.new(
       Current.account.dealership_id,
@@ -409,17 +403,17 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     )
     previous_data = previous_service.fetch_stats
     previous_filtered = filter_by_date_range(previous_data, range[:previous][:since], range[:previous][:until])
-
+    
     # Calculate totals for links_sent and forms_completed
     current_links = sum_metric(current_filtered, metric_type, 'links_sent')
     current_forms = sum_metric(current_filtered, metric_type, 'forms_completed')
     previous_links = sum_metric(previous_filtered, metric_type, 'links_sent')
     previous_forms = sum_metric(previous_filtered, metric_type, 'forms_completed')
-
+    
     {
       "#{metric_type}_links_sent".to_sym => current_links,
       "#{metric_type}_forms_completed".to_sym => current_forms,
-      :previous => {
+      previous: {
         "#{metric_type}_links_sent".to_sym => previous_links,
         "#{metric_type}_forms_completed".to_sym => previous_forms
       }
@@ -432,26 +426,6 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       breakdown = item['booking_type_breakdown'] || {}
       type_data = breakdown[metric_type] || {}
       type_data[metric_field] || 0
-    end
-  end
-
-  # ----- Timezone helpers for booking reports -----
-
-  def reports_timezone_name
-    offset = (params[:timezone_offset] || 0).to_f
-    ActiveSupport::TimeZone[offset]&.name || Time.zone.name
-  end
-
-  def date_from_timestamp(timestamp)
-    return nil if timestamp.blank?
-
-    timezone_name = reports_timezone_name
-    Rails.logger.info "🔍 date_from_timestamp: timestamp=#{timestamp}, timezone_offset=#{params[:timezone_offset]}, timezone_name=#{timezone_name}"
-
-    Time.use_zone(timezone_name) do
-      date = Time.zone.at(timestamp.to_i).to_date
-      Rails.logger.info "🔍 Converted date: #{date}"
-      date
     end
   end
 end
