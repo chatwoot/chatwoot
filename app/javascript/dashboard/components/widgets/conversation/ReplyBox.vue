@@ -632,17 +632,15 @@ export default {
     },
     onPaste(e) {
       // Don't handle paste if compose new conversation modal is open
-      if (this.newConversationModalActive) {
-        return;
-      }
-      const data = e.clipboardData.files;
-      if (!data.length || !data[0]) {
-        return;
-      }
-      data.forEach(file => {
-        const { name, type, size } = file;
-        this.onFileUpload({ name, type, size, file: file });
-      });
+      if (this.newConversationModalActive) return;
+
+      // Filter valid files (non-zero size)
+      Array.from(e.clipboardData.files)
+        .filter(file => file.size > 0)
+        .forEach(file => {
+          const { name, type, size } = file;
+          this.onFileUpload({ name, type, size, file });
+        });
     },
     toggleUserMention(currentMentionState) {
       this.showUserMentions = currentMentionState;
