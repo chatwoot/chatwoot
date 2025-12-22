@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "איש קשר משותף"
+      },
+      "embed": {
+        "CONTENT": "Embedded content"
       }
     },
     "CHAT_SORT_BY_FILTER": {

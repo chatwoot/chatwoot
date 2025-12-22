@@ -1,34 +1,21 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
 he:
   hello: 'שלום עולם'
   inbox:
@@ -41,13 +28,12 @@ he:
       invalid_email: 'נא הכנס כתובת דוא"ל תקינה'
       authentication_failed: 'האימות נכשל. אנא בדוק את פרטי ההתחברות שלך ונסה שוב.'
   messages:
-    reset_password_success: 'וואו! הבקשה לאיפוס סיסמה בוצעה בהצלחה. בדוק את תיבת הדואר שלך להוראות.'
-    reset_password_failure: 'אוי! לא מצאנו משתמש עם כתובת הדוא"ל שצוינה.'
-    reset_password_saml_user: 'חשבון זה משתמש באימות SAML. איפוס סיסמה אינו זמין. אנא צור קשר עם המנהל שלך.'
-    login_saml_user: 'חשבון זה משתמש באימות SAML. אנא התחבר דרך ספק SAML של הארגון שלך.'
-    saml_not_available: 'אימות SAML אינו זמין בהתקנה זו.'
-    inbox_deletetion_response: 'בקשת מחיקת תיבת הדואר הנכנס שלך תעובד בקרוב.'
-
+    reset_password_success: וואו! הבקשה לאיפוס סיסמה בוצעה בהצלחה. בדוק את תיבת הדואר שלך להוראות.
+    reset_password_failure: אוי! לא מצאנו משתמש עם כתובת הדוא"ל שצוינה.
+    reset_password_saml_user: חשבון זה משתמש באימות SAML. איפוס סיסמה אינו זמין. אנא צור קשר עם המנהל שלך.
+    login_saml_user: חשבון זה משתמש באימות SAML. אנא התחבר דרך ספק SAML של הארגון שלך.
+    saml_not_available: אימות SAML אינו זמין בהתקנה זו.
+    inbox_deletetion_response: בקשת מחיקת תיבת הדואר הנכנס שלך תעובד בקרוב.
   errors:
     validations:
       presence: לא יכול להיות ריק
@@ -64,6 +50,7 @@ he:
       not_found: מדיניות הקצאה לא נמצאה
     saml:
       feature_not_enabled: תכונת SAML לא מופעלת עבור חשבון זה
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: סוג נתונים לא חוקי
@@ -79,6 +66,8 @@ he:
     companies:
       domain:
         invalid: חייב להיות שם דומיין תקין
+      search:
+        query_missing: Specify search string with parameter q
     categories:
       locale:
         unique: צריך להיות ייחודי בקטגוריה ובפורטל
@@ -119,6 +108,13 @@ he:
       invalid_token: אסימון MFA לא תקין או שפג תוקפו
       invalid_credentials: פרטי התחברות או קוד אימות לא תקינים
       feature_unavailable: תכונת MFA אינה זמינה. אנא הגדר מפתחות הצפנה.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA הופעל בהצלחה
@@ -194,6 +190,8 @@ he:
     messages:
       instagram_story_content: '%{story_sender} הזכיר אותך בסטורי: '
       instagram_deleted_story_content: סטורי זה כבר לא זמין.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: הודעה זו נמחקה
       whatsapp:
         list_button_label: 'בחר פריט'
@@ -269,7 +267,7 @@ he:
     online:
       delete: '%{contact_name} מקוון, אנא נסה שוב מאוחר יותר'
   integration_apps:
-    # Note: webhooks and dashboard_apps don't need short_description as they use different modal components
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'אפליקציות לוח מחוונים'
       description: 'אפליקציות לוח מחוונים מאפשרות לך ליצור ולהטמיע אפליקציות המציגות מידע משתמשים, הזמנות או היסטוריית תשלומים, ומספקות הקשר נוסף לסוכני שירות הלקוחות שלך.'
@@ -391,17 +389,25 @@ he:
     button: פתח שיחה
   time_units:
     days:
-      one: 'יום %{count}'
-      other: '%{count} ימים'
+      one: '%{count} day'
+      two: '%{count} days'
+      many: '%{count} days'
+      other: '%{count} days'
     hours:
-      one: 'שעה %{count}'
-      other: '%{count} שעות'
+      one: '%{count} hour'
+      two: '%{count} hours'
+      many: '%{count} hours'
+      other: '%{count} hours'
     minutes:
-      one: 'דקה %{count}'
-      other: '%{count} דקות'
+      one: '%{count} minute'
+      two: '%{count} minutes'
+      many: '%{count} minutes'
+      other: '%{count} minutes'
     seconds:
-      one: 'שנייה %{count}'
-      other: '%{count} שניות'
+      one: '%{count} second'
+      two: '%{count} seconds'
+      many: '%{count} seconds'
+      other: '%{count} seconds'
   automation:
     system_name: 'מערכת אוטומציה'
   crm:
