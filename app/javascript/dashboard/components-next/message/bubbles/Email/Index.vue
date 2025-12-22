@@ -104,10 +104,12 @@ const handleSeeOriginal = () => {
 
 <template>
   <BaseBubble
-    class="w-full"
+    class="w-full px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
     :class="{
-      'bg-n-slate-4': isIncoming,
-      'bg-n-solid-blue': isOutgoing,
+      'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))]':
+        isIncoming,
+      'bg-[rgb(var(--bubble-agent-bg))] text-[rgb(var(--bubble-agent-text))]':
+        isOutgoing,
     }"
     data-bubble-name="email"
   >
