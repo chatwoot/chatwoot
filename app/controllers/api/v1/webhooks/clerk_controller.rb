@@ -41,7 +41,7 @@ module Api
             Rails.logger.info("Webhook Headers: #{headers}")
             Rails.logger.info("Webhook Payload: #{payload}")
 
-            parsed_event = wh.verify(payload, headers)
+            wh.verify(payload, headers)
             JSON.parse(payload)
           rescue Svix::WebhookVerificationError => e
             Rails.logger.error("Webhook verification failed: #{e.message}")
@@ -60,13 +60,10 @@ module Api
             user.update!(clerk_user_id: user_data['id'])
             render json: { message: 'Existing user linked with Clerk' }, status: :ok
           else
-            password = SecureRandom.hex(8) +
-                       [*'A'..'Z'].sample(2).join +
-                       ['!', '@', '#', '$', '%', '^', '&', '*'].sample(2).join
-            password = password.chars.shuffle.join
+            password = PasswordGeneratorService.generate
 
             # Create new user and account using AccountBuilder
-            user, account = AccountBuilder.new(
+            user, = AccountBuilder.new(
               account_name: "#{user_data['first_name']}'s Account",
               user_full_name: "#{user_data['first_name']} #{user_data['last_name']}".strip,
               email: email,

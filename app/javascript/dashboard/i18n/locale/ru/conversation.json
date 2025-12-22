@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Привет 👋, добро пожаловать в {installationName}!",
-    "DESCRIPTION": "Спасибо за регистрацию. Мы хотим, чтобы вы получили максимум от {installationName}. Вот несколько вещей, которые вы можете сделать в {installationName}, чтобы получить ещё больше приятных впечатлений.",
-    "GREETING_MORNING": "👋 Доброе утро, {name}. Добро пожаловать на {installationName}.",
-    "GREETING_AFTERNOON": "👋 Добрый день, {name}. Добро пожаловать на {installationName}.",
-    "GREETING_EVENING": "👋 Добрый день, {name}. Добро пожаловать на {installationName}.",
+    "TITLE": "Привет 👋, добро пожаловать в AlooChat!",
+    "DESCRIPTION": "Спасибо за регистрацию. Мы хотим, чтобы вы получили максимум от AlooChat. Вот несколько вещей, которые вы можете сделать в AlooChat, чтобы получить ещё больше приятных впечатлений.",
+    "GREETING_MORNING": "👋 Доброе утро, {name}. Добро пожаловать на AlooChat.",
+    "GREETING_AFTERNOON": "👋 Добрый день, {name}. Добро пожаловать на AlooChat.",
+    "GREETING_EVENING": "👋 Добрый день, {name}. Добро пожаловать на AlooChat.",
     "READ_LATEST_UPDATES": "Читайте о наших последних обновлениях",
     "ALL_CONVERSATION": {
       "TITLE": "Все ваши диалоги в одном месте",

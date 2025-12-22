@@ -128,11 +128,21 @@ class Whatsapp::TemplateProcessorService
 
     button_params = processed_params['buttons'].filter_map.with_index do |button, index|
       next if button.blank?
-      next if button['parameter'].blank?
+
+      button_type = button['type']&.downcase
+      is_catalog = button_type == 'catalog'
+
+      # For catalog buttons, we need thumbnail_product_retailer_id OR parameter
+      # For other buttons, we need parameter
+      if is_catalog
+        next if button['parameter'].blank? && button['thumbnail_product_retailer_id'].blank?
+      elsif button['parameter'].blank?
+        next
+      end
 
       {
         type: 'button',
-        sub_type: button['type'] || 'url',
+        sub_type: is_catalog ? 'CATALOG' : (button['type'] || 'url'),
         index: index,
         parameters: [parameter_builder.build_button_parameter(button)]
       }

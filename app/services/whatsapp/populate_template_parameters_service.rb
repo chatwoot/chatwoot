@@ -13,7 +13,7 @@ class Whatsapp::PopulateTemplateParametersService
   def build_button_parameter(button)
     return { type: 'text', text: '' } if button.blank?
 
-    case button['type']
+    case button['type']&.downcase
     when 'copy_code'
       coupon_code = button['parameter'].to_s.strip
       raise ArgumentError, 'Coupon code cannot be empty' if coupon_code.blank?
@@ -22,6 +22,17 @@ class Whatsapp::PopulateTemplateParametersService
       {
         type: 'coupon_code',
         coupon_code: coupon_code
+      }
+    when 'catalog'
+      # Catalog buttons require an action parameter with thumbnail_product_retailer_id
+      product_retailer_id = button['parameter'].to_s.strip
+      product_retailer_id = button['thumbnail_product_retailer_id'].to_s.strip if product_retailer_id.blank?
+
+      {
+        type: 'action',
+        action: {
+          thumbnail_product_retailer_id: product_retailer_id
+        }
       }
     else
       # For URL buttons and other button types, treat parameter as text
@@ -136,6 +147,11 @@ class Whatsapp::PopulateTemplateParametersService
     # Basic sanitization - remove dangerous characters and limit length
     sanitized = value.to_s.strip
     sanitized = sanitized.gsub(/[<>\"']/, '') # Remove potential HTML/JS chars
+    # WhatsApp API rejects newlines, tabs, and more than 4 consecutive spaces
+    # Handle both actual newlines AND escaped newline strings (\\n, \\r, \\t)
+    sanitized = sanitized.gsub(/\\n|\\r|\\t/, ' ') # Replace escaped newlines/tabs with spaces
+    sanitized = sanitized.gsub(/[\n\r\t]/, ' ') # Replace actual newlines and tabs with spaces
+    sanitized = sanitized.gsub(/\s{4,}/, '   ') # Collapse 4+ consecutive spaces to 3
     sanitized[0...1000] # Limit length to prevent DoS
   end
 
