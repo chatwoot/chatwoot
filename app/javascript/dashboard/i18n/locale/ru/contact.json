@@ -23,6 +23,11 @@
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
+    "AUTHORIZATION": {
+      "LABEL": "Авторизация",
+      "AUTHORIZED": "Авторизован",
+      "NOT_AUTHORIZED": "Не авторизован"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Нет предыдущих диалогов, связанных с этим контактом.",
       "TITLE": "Предыдущие диалоги"
