@@ -88,6 +88,11 @@ export default {
         ...(socialProfiles || {}),
       };
     },
+    authorizationStatus() {
+      return this.contact.is_authorize
+        ? this.$t('CONTACT_PANEL.AUTHORIZATION.AUTHORIZED')
+        : this.$t('CONTACT_PANEL.AUTHORIZATION.NOT_AUTHORIZED');
+    },
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
@@ -259,6 +264,14 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
+          />
+          <ContactInfoRow
+            :key="`auth-${contact.id}`"
+            :value="authorizationStatus"
+            icon="lock-closed"
+            emoji="🔓"
+            :title="$t('CONTACT_PANEL.AUTHORIZATION.LABEL')"
+            :class="contact.is_authorize ? 'text-green-500' : 'text-red-500'"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
