@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Sveiki 👋, Sveiki atvykę į {installationName}!",
-    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas {installationName} galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami {installationName}, kad patirtis būtų maloni.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Sveiki 👋, Sveiki atvykę į AlooChat!",
+    "DESCRIPTION": "Ačiū, kad užsiregistravote. Norime, kad išnaudotumėte visas AlooChat galimybes. Štai keletas dalykų, kuriuos galite padaryti naudodami AlooChat, kad patirtis būtų maloni.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Skaitykite mūsų naujausius atnaujinimus",
     "ALL_CONVERSATION": {
       "TITLE": "Visi jūsų pokalbiai vienoje vietoje",

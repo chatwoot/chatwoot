@@ -355,20 +355,30 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    if sender.nil?
-      Rails.logger.warn "[MESSAGE] ⚠️ send_reply called for message #{id} with nil sender - skipping"
+    Rails.logger.info "[MESSAGE] 🔍 send_reply START for message #{id}"
+    Rails.logger.info "[MESSAGE]    - message_type: #{message_type.inspect}"
+    Rails.logger.info "[MESSAGE]    - template?: #{template?}"
+    Rails.logger.info "[MESSAGE]    - content_type: #{content_type.inspect}"
+    Rails.logger.info "[MESSAGE]    - sender: #{sender.inspect}"
+    Rails.logger.info "[MESSAGE]    - sender.nil?: #{sender.nil?}"
+    Rails.logger.info "[MESSAGE]    - condition (sender.nil? && !template?): #{sender.nil? && !template?}"
+
+    # Template messages (CSAT, greeting, out_of_office) don't have a sender - they're system-generated
+    if sender.nil? && !template?
+      Rails.logger.warn '[MESSAGE] ⚠️ SKIPPING - non-template message with nil sender'
       return
     end
 
-    Rails.logger.info "[MESSAGE] 🔍 send_reply called for message #{id}, sender: #{sender.class.name} #{sender.id}, sender.is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
+    Rails.logger.info '[MESSAGE] ✅ Passed nil sender check'
+    Rails.logger.info "[MESSAGE]    - sender class: #{sender&.class&.name}, sender id: #{sender&.id}, is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
 
     # Skip sending reply for AI-generated messages since they're handled by RequestAiResponseJob
     if sender.is_a?(User) && sender.is_ai?
-      Rails.logger.info "[MESSAGE] ✅ Skipping send_reply for AI-generated message #{id} from AI agent #{sender.id}"
+      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - AI-generated message #{id} from AI agent #{sender.id}"
       return
     end
 
-    Rails.logger.info "[MESSAGE] 📤 Proceeding with SendReplyJob for message #{id}"
+    Rails.logger.info "[MESSAGE] 📤 ENQUEUEING SendReplyJob for message #{id}"
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)

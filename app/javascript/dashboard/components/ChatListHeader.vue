@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { formatNumber } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
@@ -27,8 +26,6 @@ const emit = defineEmits([
   'filtersModal',
 ]);
 
-const router = useRouter();
-const route = useRoute();
 const { uiSettings, updateUISettings } = useUISettings();
 
 const onBasicFilterChange = (value, type) => {
@@ -55,23 +52,6 @@ const toggleConversationLayout = () => {
     conversation_display_type: newViewType,
     previously_used_conversation_display_type: newViewType,
   });
-};
-
-const navigateToBoard = () => {
-  const { accountId, inbox_id: inboxId, label, teamId } = route.params;
-
-  if (inboxId) {
-    router.push({
-      name: 'inbox_board',
-      params: { accountId, inbox_id: inboxId },
-    });
-  } else if (label) {
-    router.push({ name: 'label_board', params: { accountId, label } });
-  } else if (teamId) {
-    router.push({ name: 'team_board', params: { accountId, teamId } });
-  } else {
-    router.push({ name: 'conversation_board', params: { accountId } });
-  }
 };
 </script>
 
@@ -178,14 +158,6 @@ const navigateToBoard = () => {
         v-if="!hasAppliedFiltersOrActiveFolders"
         :is-on-expanded-layout="isOnExpandedLayout"
         @change-filter="onBasicFilterChange"
-      />
-      <NextButton
-        v-tooltip.top-end="$t('CHAT_LIST.SWITCH_TO_KANBAN')"
-        icon="i-lucide-kanban"
-        slate
-        xs
-        faded
-        @click="navigateToBoard"
       />
       <SwitchLayout
         :is-on-expanded-layout="isOnExpandedLayout"

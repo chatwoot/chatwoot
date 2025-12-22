@@ -85,7 +85,7 @@
               <tr style="margin: 0;">
                 <td class="content-wrap" style="vertical-align: top; margin: 0; padding: 32px; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1f2937;" valign="top">
                   <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0;">
-                    {{ content_for_layout }}
+                    <%= yield %>
                   </table>
                 </td>
               </tr>
@@ -102,7 +102,7 @@
                     <span style="color: #9ca3af;">Conversations that convert</span>
                   </p>
                   <p style="margin: 0; color: #9ca3af; font-size: 12px;">
-                    © 2025 AlooChat. All rights reserved.
+                    © <%= Time.current.year %> AlooChat. All rights reserved.
                   </p>
                 </td>
               </tr>

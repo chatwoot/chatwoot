@@ -147,7 +147,17 @@ class Messages::MessageBuilder
   end
 
   def template_params
-    @params[:template_params].present? ? { additional_attributes: { template_params: JSON.parse(@params[:template_params].to_json) } } : {}
+    params_hash = convert_to_hash(@params)
+    template_params_value = params_hash[:template_params]
+
+    Rails.logger.info "[MESSAGE_BUILDER] 📋 template_params check - present: #{template_params_value.present?}, value: #{template_params_value.inspect}"
+
+    return {} unless template_params_value.present?
+
+    parsed_params = JSON.parse(template_params_value.to_json)
+    Rails.logger.info "[MESSAGE_BUILDER] ✅ template_params parsed: #{parsed_params.inspect}"
+
+    { additional_attributes: { template_params: parsed_params } }
   end
 
   def message_sender

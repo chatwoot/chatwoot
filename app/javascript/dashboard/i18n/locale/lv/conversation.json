@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Sveicināti 👋, Laipni lūdzam {installationName}!",
-    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no {installationName}. Šeit ir dažas lietas, ko varat darīt {installationName} lai Jūsu pieredze būtu patīkamāka.",
-    "GREETING_MORNING": "👋 Labrīt, {name}. Laipni lūdzam {installationName}.",
-    "GREETING_AFTERNOON": "👋 Labdien, {name}. Laipni lūdzam {installationName}.",
-    "GREETING_EVENING": "👋 Labvakar, {name}. Laipni lūdzam {installationName}.",
+    "TITLE": "Sveicināti 👋, Laipni lūdzam AlooChat!",
+    "DESCRIPTION": "Paldies, ka reģistrējāties. Mēs vēlamies, lai Jūs gūtu maksimālu labumu no AlooChat. Šeit ir dažas lietas, ko varat darīt AlooChat lai Jūsu pieredze būtu patīkamāka.",
+    "GREETING_MORNING": "👋 Labrīt, {name}. Laipni lūdzam AlooChat.",
+    "GREETING_AFTERNOON": "👋 Labdien, {name}. Laipni lūdzam AlooChat.",
+    "GREETING_EVENING": "👋 Labvakar, {name}. Laipni lūdzam AlooChat.",
     "READ_LATEST_UPDATES": "Izlasīt mūsu aktuālākos jaunumus",
     "ALL_CONVERSATION": {
       "TITLE": "Visas Jūsu sarunas vienuviet",
