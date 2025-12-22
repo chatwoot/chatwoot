@@ -1,7 +1,7 @@
 {
   "AUTOMATION": {
     "HEADER": "Otomasyon",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "DESCRIPTION": "Otomasyon, etiket ekleme veya konuşmaları en uygun temsilciye atama gibi manuel çaba gerektiren mevcut süreçleri kolaylaştırabilir ve onların yerine geçebilir. Bu sayede ekip, rutin işlere harcanan zamanı azaltarak güçlü yönlerine odaklanabilir.",
     "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Otomasyon Kuralı Ekle",
     "LOADING": "Otomasyon kuralları getiriliyor",
@@ -121,17 +121,17 @@
       "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
       "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
       "VALUE_REQUIRED": "Değer gereklidir",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır",
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "NONE_OPTION": "Hiç",
     "EVENTS": {
-      "CONVERSATION_CREATED": "Görüşme Oluşturuldu",
-      "CONVERSATION_UPDATED": "Görüşme Güncellendi",
+      "CONVERSATION_CREATED": "Sohbet Oluşturuldu",
+      "CONVERSATION_UPDATED": "Sohbet Güncellendi",
       "MESSAGE_CREATED": "Mesaj Oluşturuldu",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_RESOLVED": "Konuşma Çözüldü",
       "CONVERSATION_OPENED": "Sohbet Açıldı"
     },
     "ACTIONS": {
@@ -147,14 +147,14 @@
       "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder",
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
-      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
+      "ADD_PRIVATE_NOTE": "Özel Not Ekle",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Görüşmeyi aç"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Gelen Mesaj",
+      "OUTGOING": "Giden Mesaj"
     },
     "PRIORITY_TYPES": {
       "NONE": "Hiç",

@@ -36,6 +36,24 @@ describe AgentBotListener do
         expect(AgentBots::WebhookJob).not_to receive(:perform_later)
         listener.message_created(event)
       end
+
+      context 'when conversation has a different assignee agent bot' do
+        let!(:conversation_bot) { create(:agent_bot) }
+
+        before do
+          create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+          conversation.update!(assignee_agent_bot: conversation_bot, assignee: nil)
+        end
+
+        it 'sends message to both bots exactly once' do
+          payload = message.webhook_data.merge(event: 'message_created')
+
+          expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url, payload).once
+          expect(AgentBots::WebhookJob).to receive(:perform_later).with(conversation_bot.outgoing_url, payload).once
+
+          listener.message_created(event)
+        end
+      end
     end
   end
 

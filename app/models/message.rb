@@ -21,7 +21,7 @@
 #  conversation_id           :integer          not null
 #  inbox_id                  :integer          not null
 #  sender_id                 :bigint
-#  source_id                 :string
+#  source_id                 :text
 #
 # Indexes
 #
@@ -156,15 +156,6 @@ class Message < ApplicationRecord
     merge_sender_attributes(data)
   end
 
-  def search_data
-    data = attributes.symbolize_keys
-    data[:conversation] = conversation.present? ? conversation_push_event_data : nil
-    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
-    data[:sender] = sender.push_event_data if sender
-    data[:inbox] = inbox
-    data
-  end
-
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
@@ -262,6 +253,25 @@ class Message < ApplicationRecord
     true
   end
 
+  def search_data
+    Messages::SearchDataPresenter.new(self).search_data
+  end
+
+  # Returns message content suitable for LLM consumption
+  # Falls back to audio transcription or attachment placeholder when content is nil
+  def content_for_llm
+    return content if content.present?
+
+    audio_transcription = attachments
+                          .where(file_type: :audio)
+                          .filter_map { |att| att.meta&.dig('transcribed_text') }
+                          .join(' ')
+                          .presence
+    return "[Voice Message] #{audio_transcription}" if audio_transcription.present?
+
+    '[Attachment]' if attachments.any?
+  end
+
   private
 
   def prevent_message_flooding
@@ -303,7 +313,6 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
-    notify_via_mail
     set_conversation_activity
     dispatch_create_events
     send_reply
@@ -411,48 +420,6 @@ class Message < ApplicationRecord
 
   def execute_message_template_hooks
     ::MessageTemplates::HookExecutionService.new(message: self).perform
-  end
-
-  def email_notifiable_webwidget?
-    inbox.web_widget? && inbox.channel.continuity_via_email
-  end
-
-  def email_notifiable_api_channel?
-    inbox.api? && inbox.account.feature_enabled?('email_continuity_on_api_channel')
-  end
-
-  def email_notifiable_channel?
-    email_notifiable_webwidget? || %w[Email].include?(inbox.inbox_type) || email_notifiable_api_channel?
-  end
-
-  def can_notify_via_mail?
-    return unless email_notifiable_message?
-    return unless email_notifiable_channel?
-    return if conversation.contact.email.blank?
-
-    true
-  end
-
-  def notify_via_mail
-    return unless can_notify_via_mail?
-
-    trigger_notify_via_mail
-  end
-
-  def trigger_notify_via_mail
-    return EmailReplyWorker.perform_in(1.second, id) if inbox.inbox_type == 'Email'
-
-    # will set a redis key for the conversation so that we don't need to send email for every new message
-    # last few messages coupled together is sent every 2 minutes rather than one email for each message
-    # if redis key exists there is an unprocessed job that will take care of delivering the email
-    return if Redis::Alfred.get(conversation_mail_key).present?
-
-    Redis::Alfred.setex(conversation_mail_key, id)
-    ConversationReplyEmailWorker.perform_in(2.minutes, conversation.id, id)
-  end
-
-  def conversation_mail_key
-    format(::Redis::Alfred::CONVERSATION_MAILER_KEY, conversation_id: conversation.id)
   end
 
   def validate_attachments_limit(_attachment)
