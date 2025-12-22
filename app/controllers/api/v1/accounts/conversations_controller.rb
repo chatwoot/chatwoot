@@ -140,33 +140,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def change_inbox
-    @conversation = Current.account.conversations.find(params[:id])
-    authorize @conversation, :update?
-  
-    new_inbox = Current.account.inboxes.find(params[:inbox_id])
-  
-    ActiveRecord::Base.transaction do
-      @conversation.update!(inbox: new_inbox)
-      contact_inbox = @conversation.contact_inbox
-      contact_inbox.update!(inbox: new_inbox)
-    end
-  
-    contact_inbox = @conversation.contact_inbox
-  
-    ActionCable.server.broadcast(
-      contact_inbox.pubsub_token,
-      {
-        event: "inbox.changed",
-        data: {
-          website_token: new_inbox.channel.website_token
-        }
-      }
+    conversation = Current.account.conversations.find_by!(display_id: params[:id])
+    authorize conversation, :update?
+
+    result = Conversations::ChangeInbox.call(
+      conversation: conversation,
+      inbox_id: params[:inbox_id]
     )
-  
+
     render json: {
       success: true,
-      inbox_id: new_inbox.id,
-      website_token: new_inbox.channel.website_token
+      inbox_id: result.inbox.id,
+      website_token: result.inbox.channel.website_token
     }
   end
 
