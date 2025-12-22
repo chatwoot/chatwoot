@@ -241,13 +241,12 @@ const flexOrientationClass = computed(() => {
 });
 
 const gridClass = computed(() => {
-  const shouldShowAvatarInGrid =
-    props.forceAlignTo || orientation.value === ORIENTATION.RIGHT;
+  if (props.forceAlignTo) {
+    return 'grid gap-y-2';
+  }
 
   const map = {
-    [ORIENTATION.LEFT]: shouldShowAvatarInGrid
-      ? 'grid grid-cols-[24px_1fr]'
-      : 'grid grid-cols-1fr',
+    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
     [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
   };
 
@@ -255,19 +254,19 @@ const gridClass = computed(() => {
 });
 
 const gridTemplate = computed(() => {
-  const shouldShowAvatarInGrid =
-    props.forceAlignTo || orientation.value === ORIENTATION.RIGHT;
+  if (props.forceAlignTo) {
+    return `
+      "avatar"
+      "bubble"
+      "meta"
+    `;
+  }
 
   const map = {
-    [ORIENTATION.LEFT]: shouldShowAvatarInGrid
-      ? `
-        "avatar bubble"
-        "spacer meta"
-      `
-      : `
-        "bubble"
-        "meta"
-      `,
+    [ORIENTATION.LEFT]: `
+      "bubble"
+      "meta"
+    `,
     [ORIENTATION.RIGHT]: `
       "bubble avatar"
       "meta spacer"
@@ -287,6 +286,13 @@ const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
   if (props.forceAlignTo) return true;
   if (orientation.value === ORIENTATION.LEFT) return false;
+
+  return true;
+});
+
+const shouldShowSenderName = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+  if (!props.forceAlignTo) return false;
 
   return true;
 });
@@ -537,15 +543,23 @@ provideMessageContext({
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
         v-tooltip.left-end="avatarTooltip"
-        class="[grid-area:avatar] flex items-end"
+        class="[grid-area:avatar] flex items-end gap-2"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
+        <span
+          v-if="shouldShowSenderName"
+          class="text-sm font-semibold text-n-slate-12 pb-0.5"
+        >
+          {{ avatarInfo.name }}
+        </span>
       </div>
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 justify-end':
+            !props.forceAlignTo && orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8':
+            !props.forceAlignTo && orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
