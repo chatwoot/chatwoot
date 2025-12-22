@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { format } from 'date-fns';
 import { getLanguageName } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import ContactDetailsItem from './ContactDetailsItem.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
@@ -17,9 +18,18 @@ const props = defineProps({
 });
 
 const referer = computed(() => props.conversationAttributes.referer);
-const initiatedAt = computed(
-  () => props.conversationAttributes.initiated_at?.timestamp
-);
+
+const initiatedAtDate = computed(() => {
+  const timestamp = props.conversationAttributes.initiated_at?.timestamp;
+  if (!timestamp) return '';
+  return format(new Date(timestamp), 'EEEE, MMM dd, yyyy');
+});
+
+const initiatedAtTime = computed(() => {
+  const timestamp = props.conversationAttributes.initiated_at?.timestamp;
+  if (!timestamp) return '';
+  return format(new Date(timestamp), "HH:mm '('O')'");
+});
 
 const browserInfo = computed(() => props.conversationAttributes.browser);
 
@@ -46,9 +56,16 @@ const createdAtIp = computed(() => props.contactAttributes.created_at_ip);
 const staticElements = computed(() =>
   [
     {
-      content: initiatedAt,
-      title: 'CONTACT_PANEL.INITIATED_AT',
-      key: 'static-initiated-at',
+      content: initiatedAtDate,
+      title: 'CONTACT_PANEL.INITIATED_AT_DATE',
+      key: 'static-initiated-at-date',
+      type: 'static_attribute',
+      icon: 'i-lucide-calendar',
+    },
+    {
+      content: initiatedAtTime,
+      title: 'CONTACT_PANEL.INITIATED_AT_TIME',
+      key: 'static-initiated-at-time',
       type: 'static_attribute',
       icon: 'i-lucide-timer',
     },

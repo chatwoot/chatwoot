@@ -196,9 +196,18 @@ onMounted(() => {
               :more-count-text="moreParticipantsText"
               gap="tight"
             />
+            <div
+              v-else
+              class="size-4 flex items-center justify-center flex-shrink-0"
+            >
+              <Icon
+                icon="i-lucide-users-round"
+                class="size-3.5 text-n-slate-11"
+              />
+            </div>
           </template>
           <div class="grid grid-cols-[1fr_auto] items-center gap-1.5 min-w-0">
-            <span class="truncate min-w-0 font-420">
+            <span class="truncate min-w-0 text-body-main">
               {{ participantsLabel }}
             </span>
             <Icon

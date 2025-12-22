@@ -29,7 +29,7 @@ const onToggle = () => {
       class="flex items-center select-none w-full m-0 cursor-grab justify-between drag-handle px-4 py-0 focus-visible:outline-none outline-none !transition-none"
       @click.stop="onToggle"
     >
-      <h5 class="text-n-slate-12 text-sm font-medium mb-0 py-0 pr-2 pl-0">
+      <h5 class="text-n-slate-12 text-heading-2 mb-0 py-0 pr-2 pl-0">
         {{ title }}
       </h5>
       <div

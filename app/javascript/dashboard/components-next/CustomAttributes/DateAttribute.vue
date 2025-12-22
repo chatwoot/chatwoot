@@ -78,9 +78,9 @@ const handleInputUpdate = async () => {
   <div class="flex items-center w-full min-w-0 gap-1.5 justify-end">
     <span
       v-if="!isEditingValue"
-      class="min-w-0 text-sm"
+      class="min-w-0 text-body-main"
       :class="{
-        'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
+        'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none !font-medium':
           !isEditingView,
         'text-n-slate-12 truncate': isEditingView && attribute.value,
         'text-n-slate-10 truncate': isEditingView && !attribute.value,

@@ -84,7 +84,7 @@ const CurrentAttributeComponent = computed(() => {
         v-if="attribute.attributeDescription"
         :message="attribute.attributeDescription"
       />
-      <span class="text-sm font-420 truncate text-n-slate-12">
+      <span class="text-body-main truncate text-n-slate-12">
         {{ attribute.attributeDisplayName }}
       </span>
     </div>

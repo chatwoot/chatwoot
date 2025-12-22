@@ -76,7 +76,7 @@ const closeMacroPreview = () => {
         class="[&>span]:size-3.5"
         @click="toggleMacroPreview"
       />
-      <span class="font-420 text-ellipsis text-n-slate-12 truncate">
+      <span class="text-body-main text-n-slate-12 truncate">
         {{ macro.name }}
       </span>
     </div>

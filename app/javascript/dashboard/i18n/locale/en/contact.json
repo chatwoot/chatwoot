@@ -14,6 +14,8 @@
     "OS": "Operating System",
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
+    "INITIATED_AT_DATE": "Date",
+    "INITIATED_AT_TIME": "Time",
     "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Created",
     "CALL_INITIATED": "Calling the contact…",
@@ -587,7 +589,7 @@
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet."
       }
     },
     "EMPTY_STATE": {

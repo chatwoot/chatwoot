@@ -24,7 +24,7 @@ defineProps({
     />
     <span
       class="text-n-slate-12 whitespace-nowrap"
-      :class="compact ? 'text-label-small' : 'text-label !font-440'"
+      :class="compact ? 'text-label-small' : 'text-label !font-420'"
     >
       {{ label.title }}
     </span>
