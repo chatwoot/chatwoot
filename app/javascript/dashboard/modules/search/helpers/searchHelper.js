@@ -9,24 +9,43 @@ export const DATE_RANGE_TYPES = {
   BETWEEN: 'between',
 };
 
-export const generateURLParams = ({ from, in: inboxId, dateRange }) => {
+export const generateURLParams = (
+  { from, in: inboxId, dateRange },
+  isAdvancedSearchEnabled = true
+) => {
   const params = {};
 
-  if (from) params.from = from;
-  if (inboxId) params.inbox_id = inboxId;
+  // Only include filter params if advanced search is enabled
+  if (isAdvancedSearchEnabled) {
+    if (from) params.from = from;
+    if (inboxId) params.inbox_id = inboxId;
 
-  if (dateRange?.type) {
-    const { type, from: dateFrom, to: dateTo } = dateRange;
-    params.range = type;
+    if (dateRange?.type) {
+      const { type, from: dateFrom, to: dateTo } = dateRange;
+      params.range = type;
 
-    if (dateFrom) params.since = dateFrom;
-    if (dateTo) params.until = dateTo;
+      if (dateFrom) params.since = dateFrom;
+      if (dateTo) params.until = dateTo;
+    }
   }
 
   return params;
 };
 
-export const parseURLParams = query => {
+export const parseURLParams = (query, isAdvancedSearchEnabled = true) => {
+  // If advanced search is disabled, return empty filters
+  if (!isAdvancedSearchEnabled) {
+    return {
+      from: null,
+      in: null,
+      dateRange: {
+        type: null,
+        from: null,
+        to: null,
+      },
+    };
+  }
+
   const { from, inbox_id, since, until, range } = query;
 
   let type = range;

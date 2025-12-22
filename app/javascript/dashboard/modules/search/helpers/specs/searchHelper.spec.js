@@ -111,6 +111,49 @@ describe('#generateURLParams', () => {
       until: 1672531199,
     });
   });
+
+  describe('when advanced search is disabled', () => {
+    it('returns empty object when isAdvancedSearchEnabled is false', () => {
+      const result = generateURLParams(
+        {
+          from: 'agent:123',
+          in: 456,
+          dateRange: {
+            type: DATE_RANGE_TYPES.BETWEEN,
+            from: 1640995200,
+            to: 1672531199,
+          },
+        },
+        false
+      );
+      expect(result).toEqual({});
+    });
+
+    it('strips all filter params when feature flag is disabled', () => {
+      const result = generateURLParams(
+        {
+          from: 'contact:789',
+          in: 123,
+        },
+        false
+      );
+      expect(result).toEqual({});
+    });
+
+    it('strips date range params when feature flag is disabled', () => {
+      const result = generateURLParams(
+        {
+          dateRange: {
+            type: DATE_RANGE_TYPES.LAST_7_DAYS,
+            from: 1640995200,
+            to: 1672531199,
+          },
+        },
+        false
+      );
+      expect(result).toEqual({});
+    });
+  });
 });
 
 describe('#parseURLParams', () => {
@@ -221,6 +264,69 @@ describe('#parseURLParams', () => {
         from: 1640995200,
         to: 1672531199,
       },
+    });
+  });
+
+  describe('when advanced search is disabled', () => {
+    it('returns empty filters when isAdvancedSearchEnabled is false', () => {
+      const result = parseURLParams(
+        {
+          from: 'agent:123',
+          inbox_id: '456',
+          range: 'between',
+          since: '1640995200',
+          until: '1672531199',
+        },
+        false
+      );
+      expect(result).toEqual({
+        from: null,
+        in: null,
+        dateRange: {
+          type: null,
+          from: null,
+          to: null,
+        },
+      });
+    });
+
+    it('ignores all filter params from URL when feature flag is disabled', () => {
+      const result = parseURLParams(
+        {
+          from: 'contact:789',
+          inbox_id: '123',
+        },
+        false
+      );
+      expect(result).toEqual({
+        from: null,
+        in: null,
+        dateRange: {
+          type: null,
+          from: null,
+          to: null,
+        },
+      });
+    });
+
+    it('ignores date range params from URL when feature flag is disabled', () => {
+      const result = parseURLParams(
+        {
+          range: 'last_7_days',
+          since: '1640995200',
+          until: '1672531199',
+        },
+        false
+      );
+      expect(result).toEqual({
+        from: null,
+        in: null,
+        dateRange: {
+          type: null,
+          from: null,
+          to: null,
+        },
+      });
     });
   });
 });

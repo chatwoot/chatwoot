@@ -246,19 +246,23 @@ const clearSearchResult = () => {
 };
 
 const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
-  const payload = {
-    ...basePayload,
-    // Date filters apply to all search types
-    ...(filters.value.dateRange.from && {
-      since: filters.value.dateRange.from,
-    }),
-    ...(filters.value.dateRange.to && { until: filters.value.dateRange.to }),
-  };
+  const payload = { ...basePayload };
 
-  // Only messages support 'from' and 'inboxId' filters
-  if (searchType === 'message') {
-    if (filters.value.from) payload.from = filters.value.from;
-    if (filters.value.in) payload.inboxId = filters.value.in;
+  // Only include filters if advanced search is enabled
+  if (isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)) {
+    // Date filters apply to all search types
+    if (filters.value.dateRange.from) {
+      payload.since = filters.value.dateRange.from;
+    }
+    if (filters.value.dateRange.to) {
+      payload.until = filters.value.dateRange.to;
+    }
+
+    // Only messages support 'from' and 'inboxId' filters
+    if (searchType === 'message') {
+      if (filters.value.from) payload.from = filters.value.from;
+      if (filters.value.in) payload.inboxId = filters.value.in;
+    }
   }
 
   return payload;
@@ -272,7 +276,10 @@ const updateURL = () => {
 
   const queryParams = {
     ...(query.value?.trim() && { q: query.value.trim() }),
-    ...generateURLParams(filters.value),
+    ...generateURLParams(
+      filters.value,
+      isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)
+    ),
   };
 
   router.replace({ name: 'search', params, query: queryParams });
@@ -332,7 +339,10 @@ onMounted(() => {
   store.dispatch('conversationSearch/clearSearchResults');
   store.dispatch('agents/get');
 
-  const parsedFilters = parseURLParams(route.query);
+  const parsedFilters = parseURLParams(
+    route.query,
+    isFeatureFlagEnabled(FEATURE_FLAGS.ADVANCED_SEARCH)
+  );
   filters.value = parsedFilters;
 
   // Auto-execute search if query parameter exists
