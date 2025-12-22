@@ -184,7 +184,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
-      class="border rounded-xl shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-10 bg-n-alpha-3 backdrop-blur-[100px] absolute block left-auto top-full mt-0.5 start-0 xl:start-auto xl:end-0 max-w-[12.5rem] min-w-[9.75rem] [&_ul>li]:mb-0"
+      class="border rounded-xl shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-10 bg-n-alpha-3 backdrop-blur-[100px] absolute block top-full mt-0.5 start-0 sm:start-auto sm:end-0 xl:start-0 max-w-[12.5rem] min-w-[9.75rem] [&_ul>li]:mb-0"
     >
       <Button
         v-if="!isPending"
