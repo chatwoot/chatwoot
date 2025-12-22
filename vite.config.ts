@@ -28,6 +28,7 @@ const isLibraryMode = process.env.BUILD_MODE === 'library';
 const uiMode = process.env.BUILD_MODE === 'ui';
 const reactComponentMode = process.env.BUILD_MODE === 'react-components';
 const isTestMode = process.env.TEST === 'true';
+const buildTime = new Date().toTimeString().slice(0, 5);
 
 const vueOptions = {
   template: {
@@ -95,6 +96,10 @@ const chunkBuilder = chunkInfo => {
 
 export default defineConfig({
   plugins: plugins,
+  define: {
+    'import.meta.env.VITE_BUILD_TIME': JSON.stringify(buildTime),
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     rollupOptions: {
       ...rollupOptions,
