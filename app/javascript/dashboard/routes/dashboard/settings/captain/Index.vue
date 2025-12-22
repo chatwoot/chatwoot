@@ -101,18 +101,21 @@ onMounted(() => {
 <template>
   <SettingsLayout
     :is-loading="isLoading"
+    :no-records-found="!captainEnabled"
+    :no-records-message="t('CAPTAIN_SETTINGS.NOT_ENABLED')"
     :loading-message="t('CAPTAIN_SETTINGS.LOADING')"
   >
     <template #header>
       <BaseSettingsHeader
         :title="t('CAPTAIN_SETTINGS.TITLE')"
         :description="t('CAPTAIN_SETTINGS.DESCRIPTION')"
+        :link-text="t('CAPTAIN_SETTINGS.LINK_TEXT')"
         icon-name="captain"
-        feature-name="captain"
+        feature-name="captain_billing"
       />
     </template>
     <template #body>
-      <div v-if="captainEnabled" class="flex flex-col gap-1">
+      <div class="flex flex-col gap-1">
         <!-- Model Configuration Section -->
         <SectionLayout
           :title="t('CAPTAIN_SETTINGS.MODEL_CONFIG.TITLE')"
@@ -148,9 +151,6 @@ onMounted(() => {
             />
           </div>
         </SectionLayout>
-      </div>
-      <div v-else class="text-n-slate-11 py-8 text-center">
-        {{ t('CAPTAIN_SETTINGS.NOT_ENABLED') }}
       </div>
     </template>
   </SettingsLayout>

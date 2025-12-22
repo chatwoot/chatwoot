@@ -383,8 +383,9 @@
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
-    "DESCRIPTION": "Configure your AI models and features for Captain in Chatwoot.",
+    "DESCRIPTION": "Configure your AI models and features for Captain. Captain follows a credit based billing, you will be charged credits for every action Captain takes based on the model selected.",
     "LOADING": "Loading Captain configuration...",
+    "LINK_TEXT": "Learn more about Captain Credits",
     "NOT_ENABLED": "Captain is not enabled for your account. Please upgrade your plan to access Captain features.",
     "MODEL_CONFIG": {
       "TITLE": "Model Configuration",
