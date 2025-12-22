@@ -241,8 +241,13 @@ const flexOrientationClass = computed(() => {
 });
 
 const gridClass = computed(() => {
+  const shouldShowAvatarInGrid =
+    props.forceAlignTo || orientation.value === ORIENTATION.RIGHT;
+
   const map = {
-    [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
+    [ORIENTATION.LEFT]: shouldShowAvatarInGrid
+      ? 'grid grid-cols-[24px_1fr]'
+      : 'grid grid-cols-1fr',
     [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
   };
 
@@ -250,11 +255,19 @@ const gridClass = computed(() => {
 });
 
 const gridTemplate = computed(() => {
+  const shouldShowAvatarInGrid =
+    props.forceAlignTo || orientation.value === ORIENTATION.RIGHT;
+
   const map = {
-    [ORIENTATION.LEFT]: `
-      "bubble"
-      "meta"
-    `,
+    [ORIENTATION.LEFT]: shouldShowAvatarInGrid
+      ? `
+        "avatar bubble"
+        "spacer meta"
+      `
+      : `
+        "bubble"
+        "meta"
+      `,
     [ORIENTATION.RIGHT]: `
       "bubble avatar"
       "meta spacer"
@@ -272,6 +285,7 @@ const shouldGroupWithNext = computed(() => {
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+  if (props.forceAlignTo) return true;
   if (orientation.value === ORIENTATION.LEFT) return false;
 
   return true;
