@@ -1,6 +1,7 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
   before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
+  before_action :update_contact_authorization, only: [:index, :create]
 
   def index
     @conversation = conversation
@@ -85,6 +86,13 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       conversation.contact.email
     )&.deliver_later
     conversation.account.increment_email_sent_count
+  end
+  
+  def update_contact_authorization
+    return if @contact.blank?
+
+    has_cw_token = params[:cw_conversation].present?
+    @contact.update(:is_authorize, has_cw_token) if @contact.is_authorize != has_cw_token
   end
 
   def trigger_typing_event(event)

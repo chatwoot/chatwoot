@@ -23,6 +23,11 @@
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
+    "AUTHORIZATION": {
+      "LABEL": "Is Authorized",
+      "AUTHORIZED": "Authorized",
+      "NOT_AUTHORIZED": "Not Authorized"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"

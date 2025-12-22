@@ -22,6 +22,7 @@
 #  updated_at            :datetime         not null
 #  account_id            :integer          not null
 #  company_id            :bigint
+#  is_authorize          :boolean          default(false)
 #
 # Indexes
 #
