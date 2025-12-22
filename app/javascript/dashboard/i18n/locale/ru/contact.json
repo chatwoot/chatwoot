@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Создан",
     "NEW_MESSAGE": "Новое сообщение",
     "CALL": "Вызов",
-    "CALL_UNDER_DEVELOPMENT": "Звонки находятся в разработке",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Выберите голосовую почту"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Добавить Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Добавить LinkedIn"

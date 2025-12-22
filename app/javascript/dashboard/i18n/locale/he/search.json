@@ -5,18 +5,18 @@
       "CONTACTS": "איש קשר",
       "CONVERSATIONS": "שיחות",
       "MESSAGES": "הודעות",
-      "ARTICLES": "Articles"
+      "ARTICLES": "מאמרים"
     },
     "SECTION": {
       "CONTACTS": "איש קשר",
       "CONVERSATIONS": "שיחות",
       "MESSAGES": "הודעות",
-      "ARTICLES": "Articles"
+      "ARTICLES": "מאמרים"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Searching",
-    "LOADING_DATA": "Loading",
+    "VIEW_MORE": "הצג עוד",
+    "LOAD_MORE": "טען עוד",
+    "SEARCHING_DATA": "מחפש",
+    "LOADING_DATA": "טוען",
     "EMPTY_STATE": "לא נמצא {item} עבור השאילתה '{query}'",
     "EMPTY_STATE_FULL": "לא נמצאו תוצאות עבור השאילתה '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ להתמקד",
