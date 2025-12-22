@@ -5,6 +5,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
+import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
@@ -38,6 +39,7 @@ const { accountScopedRoute } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+const router = useRouter();
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -76,6 +78,7 @@ const conversationCustomViews = useMapGetter(
 const currentUser = useMapGetter('getCurrentUser');
 const userACL = useMapGetter('acl/getUserACL');
 
+
 const exibirAcl = computed(() => {
   return userACL.value?.exibir_acl ?? false;
 });
@@ -84,6 +87,20 @@ const exibirAcl = computed(() => {
 const canViewSidePanel = computed(() => {
   return userACL.value?.time_privado ?? true;
 });
+
+watch(userACL, (newAcl) => {
+  // se nao tem valor para a newAcl, sai
+  if (!newAcl || Object.keys(newAcl).length === 0) return
+  const customFolders = Array.from(conversationCustomViews.value)
+  // se o usuario nao tem folders, sai
+  if (customFolders.length === 0) return
+  // se o usuario TEM a acl de time_privado, sai
+  if (newAcl.time_privado) return
+  // se chegou aqui, o user TEM folders e NAO TEM a acl, pega a primeira folder dele e redireciona pra ela
+  const firstFolder = customFolders[0]
+  router.push(accountScopedRoute('folder_conversations', {id: firstFolder.id}))
+}, {immediate: true})
+
 
 onMounted(() => {
   store.dispatch('labels/get');

@@ -75,8 +75,8 @@ export default {
       currentChat: 'getSelectedChat',
       userACL: 'acl/getUserACL'
     }),
-    sidePanel() {
-      return this.userACL.side_panel
+    direcionarConversa() {
+      return this.userACL.direcionar_conversa
     },
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
@@ -219,7 +219,7 @@ export default {
       :inbox-id="inboxId"
       :is-on-expanded-layout="isOnExpandedLayout"
     >
-      <SidepanelSwitch v-if="currentChat.id && sidePanel" />
+      <SidepanelSwitch v-if="currentChat.id && direcionarConversa" />
     </ConversationBox>
     <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
     <CmdBarConversationSnooze />

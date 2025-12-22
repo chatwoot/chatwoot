@@ -145,8 +145,9 @@ export default {
     id="app"
     class="flex flex-col w-full h-screen min-h-0"
     :dir="isRTL ? 'rtl' : 'ltr'"
-  >
-    <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
+  > 
+    <!-- TODO: Descomentar isso aqui, só estamos tirando por enquanto pra sumir o botao de update -->
+    <!-- <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" /> -->
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
