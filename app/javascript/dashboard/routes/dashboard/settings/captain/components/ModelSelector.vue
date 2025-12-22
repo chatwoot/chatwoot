@@ -3,6 +3,9 @@ import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
+import DropdownItem from 'dashboard/components-next/dropdown-menu/base/DropdownItem.vue';
+import { provideDropdownContext } from 'dashboard/components-next/dropdown-menu/base/provider.js';
 
 const props = defineProps({
   featureKey: {
@@ -54,6 +57,13 @@ const selectedModelDetails = computed(() => {
   );
 });
 
+const getCreditLabel = model => {
+  const multiplier = model.credit_multiplier || 1;
+  return t('CAPTAIN_SETTINGS.MODEL_CONFIG.CREDITS_PER_MESSAGE', {
+    credits: multiplier,
+  });
+};
+
 const toggleDropdown = () => {
   isOpen.value = !isOpen.value;
 };
@@ -62,17 +72,16 @@ const closeDropdown = () => {
   isOpen.value = false;
 };
 
+provideDropdownContext({
+  isOpen,
+  toggle: () => toggleDropdown(),
+  closeMenu: closeDropdown,
+});
+
 const selectModel = model => {
   selectedModelId.value = model.id;
   emit('change', { feature: props.featureKey, model: model.id });
   closeDropdown();
-};
-
-const getCreditLabel = model => {
-  const multiplier = model.credit_multiplier || 1;
-  return t('CAPTAIN_SETTINGS.MODEL_CONFIG.CREDITS_PER_MESSAGE', {
-    credits: multiplier,
-  });
 };
 </script>
 
@@ -102,30 +111,27 @@ const getCreditLabel = model => {
           :class="{ 'rotate-180': isOpen }"
         />
       </button>
-      <div
+      <DropdownBody
         v-if="isOpen"
-        class="absolute right-0 z-50 w-56 mt-1 overflow-hidden border rounded-xl border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg"
+        class="absolute right-0 top-full mt-1 min-w-56 z-50"
       >
-        <div class="py-1">
-          <button
-            v-for="model in availableModels"
-            :key="model.id"
-            type="button"
-            class="flex flex-col w-full px-3 py-2 text-left hover:bg-n-alpha-1"
-            :class="{
-              'bg-n-alpha-2': selectedModelId === model.id,
-            }"
-            @click="selectModel(model)"
-          >
+        <DropdownItem
+          v-for="model in availableModels"
+          :key="model.id"
+          :click="() => selectModel(model)"
+          class="rounded-lg hover:bg-n-alpha-1"
+          :class="{ 'bg-n-alpha-2': selectedModelId === model.id }"
+        >
+          <div class="flex flex-col w-full text-left">
             <span class="text-sm font-medium text-n-slate-12">
               {{ model.display_name }}
             </span>
             <span class="text-xs text-n-slate-11">
               {{ getCreditLabel(model) }}
             </span>
-          </button>
-        </div>
-      </div>
+          </div>
+        </DropdownItem>
+      </DropdownBody>
     </div>
   </div>
 </template>
