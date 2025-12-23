@@ -47,13 +47,19 @@ class Messages::MarkdownRendererService
   end
 
   def render_telegram_html
+    # Strip whitespace from whitespace-only lines to normalize newlines
+    normalized_content = @content.gsub(/^[ \t]+$/m, '')
+    content_with_preserved_newlines = preserve_multiple_newlines(normalized_content)
     renderer = Messages::MarkdownRenderers::TelegramRenderer.new
-    doc = CommonMarker.render_doc(@content, [:STRIKETHROUGH_DOUBLE_TILDE], [:strikethrough])
-    renderer.render(doc).gsub(/\n+\z/, '')
+    doc = CommonMarker.render_doc(content_with_preserved_newlines, [:STRIKETHROUGH_DOUBLE_TILDE], [:strikethrough])
+    result = renderer.render(doc).gsub(/\n+\z/, '')
+    restore_multiple_newlines(result)
   end
 
   def render_whatsapp
-    content_with_preserved_newlines = preserve_multiple_newlines(@content)
+    # Strip whitespace from whitespace-only lines to normalize newlines
+    normalized_content = @content.gsub(/^[ \t]+$/m, '')
+    content_with_preserved_newlines = preserve_multiple_newlines(normalized_content)
     renderer = Messages::MarkdownRenderers::WhatsAppRenderer.new
     doc = CommonMarker.render_doc(content_with_preserved_newlines, [:DEFAULT, :STRIKETHROUGH_DOUBLE_TILDE])
     result = renderer.render(doc).gsub(/\n+\z/, '')
@@ -61,7 +67,9 @@ class Messages::MarkdownRendererService
   end
 
   def render_instagram
-    content_with_preserved_newlines = preserve_multiple_newlines(@content)
+    # Strip whitespace from whitespace-only lines to normalize newlines
+    normalized_content = @content.gsub(/^[ \t]+$/m, '')
+    content_with_preserved_newlines = preserve_multiple_newlines(normalized_content)
     renderer = Messages::MarkdownRenderers::InstagramRenderer.new
     doc = CommonMarker.render_doc(content_with_preserved_newlines, [:DEFAULT, :STRIKETHROUGH_DOUBLE_TILDE])
     result = renderer.render(doc).gsub(/\n+\z/, '')
@@ -69,7 +77,9 @@ class Messages::MarkdownRendererService
   end
 
   def render_line
-    content_with_preserved_newlines = preserve_multiple_newlines(@content)
+    # Strip whitespace from whitespace-only lines to normalize newlines
+    normalized_content = @content.gsub(/^[ \t]+$/m, '')
+    content_with_preserved_newlines = preserve_multiple_newlines(normalized_content)
     renderer = Messages::MarkdownRenderers::LineRenderer.new
     doc = CommonMarker.render_doc(content_with_preserved_newlines, [:DEFAULT, :STRIKETHROUGH_DOUBLE_TILDE])
     result = renderer.render(doc).gsub(/\n+\z/, '')
@@ -77,17 +87,19 @@ class Messages::MarkdownRendererService
   end
 
   def render_plain_text
-    content_with_preserved_newlines = preserve_multiple_newlines(@content)
+    # Strip whitespace from whitespace-only lines to normalize newlines
+    normalized_content = @content.gsub(/^[ \t]+$/m, '')
+    content_with_preserved_newlines = preserve_multiple_newlines(normalized_content)
     renderer = Messages::MarkdownRenderers::PlainTextRenderer.new
     doc = CommonMarker.render_doc(content_with_preserved_newlines, [:DEFAULT, :STRIKETHROUGH_DOUBLE_TILDE])
     result = renderer.render(doc).gsub(/\n+\z/, '')
     restore_multiple_newlines(result)
   end
 
-  # Preserve multiple consecutive newlines (3+) by replacing them with placeholders
-  # Standard markdown treats 2 newlines as paragraph break, we preserve 3+
+  # Preserve multiple consecutive newlines (2+) by replacing them with placeholders
+  # Standard markdown treats 2 newlines as paragraph break which collapses to 1 newline, we preserve 2+
   def preserve_multiple_newlines(content)
-    content.gsub(/\n{3,}/) do |match|
+    content.gsub(/\n{2,}/) do |match|
       "{{PRESERVE_#{match.length}_NEWLINES}}"
     end
   end

@@ -126,6 +126,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Instagram'
   end
 
+  def tiktok?
+    channel_type == 'Channel::Tiktok'
+  end
+
   def web_widget?
     channel_type == 'Channel::WebWidget'
   end

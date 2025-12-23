@@ -78,6 +78,12 @@ instagram:
   enabled: true
   icon: 'icon-instagram'
   config_key: 'instagram'
+tiktok:
+  name: 'TikTok'
+  description: 'Stay connected with your customers on TikTok'
+  enabled: true
+  icon: 'icon-tiktok'
+  config_key: 'tiktok'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'
