@@ -18,10 +18,17 @@ const getters = {
     const feature = $state.features[featureKey];
     const models = feature?.models || [];
 
+    const providerOrder = { openai: 0, anthropic: 1, gemini: 2 };
+
     return [...models].sort((a, b) => {
       // Move coming_soon items to the end
       if (a.coming_soon && !b.coming_soon) return 1;
       if (!a.coming_soon && b.coming_soon) return -1;
+
+      // Sort by provider
+      const providerA = providerOrder[a.provider] ?? 999;
+      const providerB = providerOrder[b.provider] ?? 999;
+      if (providerA !== providerB) return providerA - providerB;
 
       // Sort by credit_multiplier (highest first)
       return (b.credit_multiplier || 0) - (a.credit_multiplier || 0);

@@ -28,7 +28,7 @@ const PROVIDER_ICONS = {
   openai: 'i-logos-openai-icon',
   anthropic: 'i-logos-anthropic-icon',
   mistral: 'i-logos-mistral-icon',
-  gemini: 'i-logos-gemini-icon',
+  gemini: 'i-woot-gemini',
 };
 
 const iconForModel = model => {
@@ -128,7 +128,7 @@ const selectModel = model => {
       </button>
       <DropdownBody
         v-if="isOpen"
-        class="absolute right-0 top-full mt-1 min-w-64 z-50"
+        class="absolute right-0 top-full mt-1 min-w-64 z-50 max-h-96 [&>ul]:max-h-96 [&>ul]:overflow-y-scroll"
       >
         <DropdownItem
           v-for="model in availableModels"
