@@ -66,8 +66,7 @@ const selectionModel = computed({
       return;
     }
 
-    const shouldSelectAll =
-      newSet.size === props.visibleContactIds.length && newSet.size > 0;
+    const shouldSelectAll = props.visibleContactIds.every(id => newSet.has(id));
     emit('toggleAll', shouldSelectAll);
   },
 });
