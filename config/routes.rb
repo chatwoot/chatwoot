@@ -104,6 +104,7 @@ Rails.application.routes.draw do
               resources :messages, only: [:index, :create, :destroy, :update] do
                 member do
                   post :translate
+                  post :forward
                   post :retry
                   patch :update_with_source_id
                 end

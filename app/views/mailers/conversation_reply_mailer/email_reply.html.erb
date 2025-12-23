@@ -1,4 +1,13 @@
-<% if @message.content %>
+<%
+  html_content = @message.content_attributes.dig('email', 'html_content', 'full')
+  Rails.logger.info "EMAIL TEMPLATE - Message ID: #{@message.id}"
+  Rails.logger.info "EMAIL TEMPLATE - content_attributes: #{@message.content_attributes.inspect}"
+  Rails.logger.info "EMAIL TEMPLATE - HTML content present: #{html_content.present?}"
+  Rails.logger.info "EMAIL TEMPLATE - HTML content length: #{html_content&.length || 0}"
+%>
+<% if html_content.present? %>
+  <%= html_content.html_safe %>
+<% elsif @message.content %>
   <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
 <% end %>
 <% if @large_attachments.present? %>

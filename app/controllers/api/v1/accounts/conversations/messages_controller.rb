@@ -91,6 +91,23 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { content: translated_content }
   end
 
+  def forward
+    authorize message, :forward?
+
+    Messages::ForwardEmailService.new(
+      message: message,
+      forward_to_emails: forward_params[:to_emails],
+      forward_comment: forward_params[:comment],
+      user: Current.user
+    ).perform
+
+    head :ok
+  rescue ArgumentError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
+  end
+
   private
 
   def message_via_source_id
@@ -107,6 +124,10 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def permitted_params
     params.permit(:id, :target_language)
+  end
+
+  def forward_params
+    params.require(:forward).permit(:to_emails, :comment)
   end
 
   def already_translated_content_available?

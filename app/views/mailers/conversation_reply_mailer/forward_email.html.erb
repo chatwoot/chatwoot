@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
+    .forward-comment {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f7fafc;
+      border-left: 4px solid #1f93ff;
+      border-radius: 4px;
+    }
+    .forward-separator {
+      margin: 30px 0 20px 0;
+      padding: 10px 0;
+      border-top: 2px solid #e2e8f0;
+      font-weight: 600;
+      color: #4a5568;
+    }
+    .original-headers {
+      margin: 15px 0;
+      padding: 15px;
+      background-color: #f9fafb;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .original-headers strong {
+      color: #2d3748;
+      min-width: 80px;
+      display: inline-block;
+    }
+    .original-content {
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid #e2e8f0;
+    }
+    .attachments {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #f7fafc;
+      border-radius: 4px;
+    }
+    .attachments p {
+      margin: 5px 0;
+    }
+    .attachments a {
+      color: #1f93ff;
+      text-decoration: none;
+    }
+    .attachments a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <% if @forward_comment.present? %>
+    <div class="forward-comment">
+      <%= simple_format(@forward_comment) %>
+    </div>
+  <% end %>
+
+  <div class="forward-separator">
+    <%= I18n.t('conversations.reply.forwarded_message') %>
+  </div>
+
+  <div class="original-headers">
+    <% headers = original_email_headers %>
+    <strong><%= I18n.t('conversations.reply.from') %>:</strong> <%= Array(headers[:from]).join(', ') %><br/>
+    <strong><%= I18n.t('conversations.reply.date') %>:</strong> <%= headers[:date] %><br/>
+    <strong><%= I18n.t('conversations.reply.subject') %>:</strong> <%= headers[:subject] %><br/>
+    <strong><%= I18n.t('conversations.reply.to') %>:</strong> <%= Array(headers[:to]).join(', ') %><br/>
+    <% if headers[:cc].present? && headers[:cc].any? %>
+      <strong><%= I18n.t('conversations.reply.cc') %>:</strong> <%= Array(headers[:cc]).join(', ') %><br/>
+    <% end %>
+  </div>
+
+  <div class="original-content">
+    <% if @message.content %>
+      <%= ChatwootMarkdownRenderer.new(@message.content).render_message %>
+    <% end %>
+  </div>
+
+  <% if @large_attachments.present? %>
+    <div class="attachments">
+      <p><strong>Attachments:</strong></p>
+      <% @large_attachments.each do |attachment| %>
+        <p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a></p>
+      <% end %>
+    </div>
+  <% end %>
+</body>
+</html>

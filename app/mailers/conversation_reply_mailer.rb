@@ -1,4 +1,4 @@
-class ConversationReplyMailer < ApplicationMailer
+class ConversationReplyMailer < ApplicationMailer # rubocop:disable Metrics/ClassLength
   # We needs to expose large attachments to the view as links
   # Small attachments are linked as mail attachments directly
   attr_reader :large_attachments
@@ -59,7 +59,64 @@ class ConversationReplyMailer < ApplicationMailer
          })
   end
 
+  def forward_email(message, forward_to_emails, forward_comment = nil) # rubocop:disable Metrics/MethodLength
+    init_conversation_attributes(message.conversation)
+
+    # Check SMTP configuration - allow if channel SMTP is enabled OR global SMTP is set
+    return unless @inbox.inbox_type == 'Email' && (@channel.smtp_enabled || smtp_config_set_or_development?)
+
+    @message = message
+    @forward_to_emails = forward_to_emails
+    @forward_comment = forward_comment
+    @large_attachments = []
+
+    # Set up SMTP based on channel configuration
+    ms_smtp_settings
+    google_smtp_settings
+    set_delivery_method
+
+    Rails.logger.info("Forwarding email from #{from_email_with_name} to #{@forward_to_emails.join(', ')}")
+
+    # Create the mail object first
+    mail_object = mail(
+      to: @forward_to_emails,
+      from: from_email_with_name,
+      reply_to: reply_email,
+      subject: forward_subject,
+      message_id: "<forwarded/#{@conversation.uuid}/#{@message.id}/#{SecureRandom.hex}@#{channel_email_domain}>",
+      template_name: 'forward_email'
+    )
+
+    # Process attachments after mail object is created
+    process_attachments_for_forward(mail_object) if @message.attachments.present?
+
+    mail_object
+  end
+
   private
+
+  def process_attachments_for_forward(mail_object)
+    current_total_size = 0
+    @message.attachments.each do |attachment|
+      raw_data = attachment.file.download
+      attachment_name = attachment.file.filename.to_s
+      file_size = raw_data.bytesize
+
+      if current_total_size + file_size <= 20.megabytes
+        mail_object.attachments[attachment_name] = raw_data
+        current_total_size += file_size
+      else
+        @large_attachments << attachment
+      end
+    end
+  end
+
+  def forward_subject
+    original_subject = @conversation.additional_attributes['mail_subject'] ||
+                       @message.content_attributes.dig('email', 'subject') ||
+                       I18n.t('conversations.reply.email_subject')
+    "Fwd: #{original_subject}"
+  end
 
   def init_conversation_attributes(conversation)
     @conversation = conversation

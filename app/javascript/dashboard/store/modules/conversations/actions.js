@@ -320,6 +320,20 @@ const actions = {
     }
   },
 
+  forwardMessage: async function forwardMessage(
+    _context,
+    { conversationId, messageId, toEmails, comment }
+  ) {
+    try {
+      await MessageApi.forward(conversationId, messageId, {
+        toEmails,
+        comment,
+      });
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
   async addConversation({ commit, state, dispatch, rootState }, conversation) {
     const { currentInbox, appliedFilters } = state;
     const {

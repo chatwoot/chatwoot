@@ -39,6 +39,14 @@
       :message-id="messageId"
       @cancel="closeInstagramDmModal"
     />
+    <!-- Forward Email -->
+    <forward-email-modal
+      v-if="showForwardEmailModal"
+      :show="showForwardEmailModal"
+      :message-id="messageId"
+      :conversation-id="conversationId"
+      @close="closeForwardEmailModal"
+    />
     <woot-button
       icon="more-vertical"
       color-scheme="secondary"
@@ -99,6 +107,15 @@
           @click="copyLinkToMessage"
         />
         <menu-item
+          v-if="isEmailMessage"
+          :option="{
+            icon: 'arrow-forward',
+            label: $t('CONVERSATION.CONTEXT_MENU.FORWARD_EMAIL'),
+          }"
+          variant="icon"
+          @click="openForwardEmailModal"
+        />
+        <menu-item
           v-if="enabledOptions['cannedResponse']"
           :option="{
             icon: 'comment-add',
@@ -137,6 +154,7 @@ import {
 import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import SendInstagramDm from 'dashboard/components/widgets/conversation/bubble/SendInstagramDm.vue';
+import ForwardEmailModal from 'dashboard/components/widgets/conversation/ForwardEmailModal.vue';
 
 export default {
   components: {
@@ -144,6 +162,7 @@ export default {
     TranslateModal,
     MenuItem,
     SendInstagramDm,
+    ForwardEmailModal,
   },
   mixins: [alertMixin, messageFormatterMixin],
   props: {
@@ -170,6 +189,7 @@ export default {
       showTranslateModal: false,
       showDeleteModal: false,
       showInstagramDmModal: false,
+      showForwardEmailModal: false,
     };
   },
   computed: {
@@ -197,6 +217,13 @@ export default {
     },
     instagramCommentId() {
       return this.message.content_attributes.comment_id;
+    },
+    isEmailMessage() {
+      // Check if the message is from an email inbox by looking at content_type or content_attributes
+      return (
+        this.message.content_type === 'incoming_email' ||
+        this.message.content_attributes?.email !== undefined
+      );
     },
   },
   methods: {
@@ -277,6 +304,13 @@ export default {
     },
     closeInstagramDmModal() {
       this.showInstagramDmModal = false;
+    },
+    openForwardEmailModal() {
+      this.handleClose();
+      this.showForwardEmailModal = true;
+    },
+    closeForwardEmailModal() {
+      this.showForwardEmailModal = false;
     },
   },
 };

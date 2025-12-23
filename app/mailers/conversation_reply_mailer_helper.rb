@@ -1,4 +1,4 @@
-module ConversationReplyMailerHelper
+module ConversationReplyMailerHelper # rubocop:disable Metrics/ModuleLength
   def prepare_mail(cc_bcc_enabled)
     @options = {
       to: to_emails,
@@ -132,5 +132,18 @@ module ConversationReplyMailerHelper
 
     email = @inbox.channel.try(:email)
     email.present? ? email.split('@').last : raise(StandardError, 'Channel email domain not present.')
+  end
+
+  def original_email_headers # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    content_attrs = @message.content_attributes
+    email_data = content_attrs['email'] || content_attrs[:email] || {}
+
+    {
+      from: email_data['from'] || [@message.sender&.email],
+      date: email_data['date'] || @message.created_at.strftime('%a, %d %b %Y %H:%M:%S %z'),
+      subject: email_data['subject'] || @conversation.additional_attributes['mail_subject'],
+      to: email_data['to'] || [@contact.email],
+      cc: email_data['cc'] || []
+    }
   end
 end

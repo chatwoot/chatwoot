@@ -5,6 +5,10 @@ class EmailReplyWorker
   def perform(message_id)
     message = Message.find(message_id)
 
+    Rails.logger.info "EmailReplyWorker - Loading message #{message_id}"
+    Rails.logger.info "EmailReplyWorker - content_attributes: #{message.content_attributes.inspect}"
+    Rails.logger.info "EmailReplyWorker - HTML content present: #{message.content_attributes.dig('email', 'html_content', 'full').present?}"
+
     return unless message.email_notifiable_message?
 
     # send the email

@@ -193,6 +193,7 @@ en:
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
+      forwarded_email: '%{agent} forwarded this email to %{emails}'
     templates:
       greeting_message_body: '%{account_name} typically replies in a few hours.'
       ways_to_reach_you_message_body: 'Give the team a way to reach you.'
@@ -211,6 +212,12 @@ en:
           reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
       email_subject: 'New messages on this conversation'
       transcript_subject: 'Conversation Transcript'
+      forwarded_message: '---------- Forwarded message ---------'
+      from: 'From'
+      date: 'Date'
+      subject: 'Subject'
+      to: 'To'
+      cc: 'Cc'
     survey:
       response: 'Please rate this conversation, %{link}'
   contacts:
