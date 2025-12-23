@@ -1,6 +1,7 @@
 module MailboxHelper
   private
 
+  # rubocop:disable Metrics/AbcSize
   def create_message
     Rails.logger.info "[MailboxHelper] Creating message #{processed_mail.message_id}"
     return if @conversation.messages.find_by(source_id: processed_mail.message_id).present?
@@ -13,6 +14,7 @@ module MailboxHelper
       message_type: 'incoming',
       content_type: 'incoming_email',
       source_id: processed_mail.message_id,
+      created_at: processed_mail.date&.utc || Time.current,
       content_attributes: {
         email: processed_mail.serialized_data,
         cc_email: processed_mail.cc,
@@ -20,6 +22,7 @@ module MailboxHelper
       }
     )
   end
+  # rubocop:enable Metrics/AbcSize
 
   def add_attachments_to_message
     return if @message.blank?

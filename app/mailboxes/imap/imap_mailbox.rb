@@ -102,7 +102,7 @@ class Imap::ImapMailbox
           auto_reply: @processed_mail.auto_reply?,
           mail_subject: @processed_mail.subject,
           initiated_at: {
-            timestamp: Time.now.utc
+            timestamp: @processed_mail.date&.utc || Time.now.utc
           }
         }
       }
