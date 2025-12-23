@@ -9,7 +9,7 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   before do
     # Create required installation configs
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-api-key')
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4o-mini')
+    create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4.1-mini')
 
     # Mock usage limits for transcription to be available
     allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })

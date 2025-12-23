@@ -92,8 +92,18 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
-                  conversation_required_attributes: [])
+    permitted = params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label,
+                              conversation_required_attributes: [])
+
+    if params[:captain_models].present?
+      existing_models = @account.captain_models || {}
+      permitted[:captain_models] = existing_models.merge(params[:captain_models].to_unsafe_h)
+    end
+    if params[:captain_features].present?
+      existing_features = @account.captain_features || {}
+      permitted[:captain_features] = existing_features.merge(params[:captain_features].to_unsafe_h)
+    end
+    permitted
   end
 
   def check_signup_enabled

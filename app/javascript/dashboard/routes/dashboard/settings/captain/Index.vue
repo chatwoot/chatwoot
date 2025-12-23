@@ -1,0 +1,155 @@
+<script setup>
+import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
+import { useAlert } from 'dashboard/composables';
+import { useStore } from 'dashboard/composables/store';
+import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useConfig } from 'dashboard/composables/useConfig';
+import { useCaptainConfigStore } from 'dashboard/store/captain/config';
+
+import SettingsLayout from '../SettingsLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SectionLayout from '../account/components/SectionLayout.vue';
+import ModelSelector from './components/ModelSelector.vue';
+import FeatureToggle from './components/FeatureToggle.vue';
+import CaptainPaywall from 'next/captain/pageComponents/Paywall.vue';
+
+const { t } = useI18n();
+const store = useStore();
+const { captainEnabled } = useCaptain();
+const { isEnterprise } = useConfig();
+
+const captainConfigStore = useCaptainConfigStore();
+const { uiFlags, features } = storeToRefs(captainConfigStore);
+
+const isLoading = computed(() => uiFlags.value.isFetching);
+
+const modelFeatures = computed(() => [
+  {
+    key: 'editor',
+    title: t('CAPTAIN_SETTINGS.MODEL_CONFIG.EDITOR.TITLE'),
+    description: t('CAPTAIN_SETTINGS.MODEL_CONFIG.EDITOR.DESCRIPTION'),
+  },
+  {
+    key: 'assistant',
+    title: t('CAPTAIN_SETTINGS.MODEL_CONFIG.ASSISTANT.TITLE'),
+    description: t('CAPTAIN_SETTINGS.MODEL_CONFIG.ASSISTANT.DESCRIPTION'),
+  },
+  {
+    key: 'copilot',
+    title: t('CAPTAIN_SETTINGS.MODEL_CONFIG.COPILOT.TITLE'),
+    description: t('CAPTAIN_SETTINGS.MODEL_CONFIG.COPILOT.DESCRIPTION'),
+  },
+]);
+
+const featureToggles = computed(() => [
+  {
+    key: 'audio_transcription',
+    enterprise: true,
+  },
+  {
+    key: 'help_center_search',
+    enterprise: true,
+  },
+  {
+    key: 'label_suggestion',
+    enterprise: true,
+  },
+]);
+
+const hasFeatureToggle = feature => {
+  const featureExists = features.value[feature.key] !== undefined;
+  const isEnterpriseAllowed = !feature.enterprise || isEnterprise;
+  return featureExists && isEnterpriseAllowed;
+};
+
+async function handleFeatureToggle({ feature, enabled }) {
+  try {
+    await store.dispatch('accounts/update', {
+      captain_features: { [feature]: enabled },
+    });
+    useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
+    // Refetch to revert the toggle state
+    captainConfigStore.fetch();
+  }
+}
+
+async function handleModelChange({ feature, model }) {
+  try {
+    await store.dispatch('accounts/update', {
+      captain_models: { [feature]: model },
+    });
+    useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
+    // Refetch to revert the model selection
+    captainConfigStore.fetch();
+  }
+}
+
+onMounted(() => {
+  captainConfigStore.fetch();
+});
+</script>
+
+<template>
+  <SettingsLayout
+    :is-loading="isLoading"
+    :no-records-message="t('CAPTAIN_SETTINGS.NOT_ENABLED')"
+    :loading-message="t('CAPTAIN_SETTINGS.LOADING')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="t('CAPTAIN_SETTINGS.TITLE')"
+        :description="t('CAPTAIN_SETTINGS.DESCRIPTION')"
+        :link-text="t('CAPTAIN_SETTINGS.LINK_TEXT')"
+        icon-name="captain"
+        feature-name="captain_billing"
+      />
+    </template>
+    <template #body>
+      <div v-if="captainEnabled" class="flex flex-col gap-1">
+        <!-- Model Configuration Section -->
+        <SectionLayout
+          :title="t('CAPTAIN_SETTINGS.MODEL_CONFIG.TITLE')"
+          :description="t('CAPTAIN_SETTINGS.MODEL_CONFIG.DESCRIPTION')"
+        >
+          <div class="grid gap-4">
+            <ModelSelector
+              v-for="feature in modelFeatures"
+              :key="feature.key"
+              :feature-key="feature.key"
+              :title="feature.title"
+              :description="feature.description"
+              @change="handleModelChange"
+            />
+          </div>
+        </SectionLayout>
+
+        <!-- Features Section -->
+        <SectionLayout
+          :title="t('CAPTAIN_SETTINGS.FEATURES.TITLE')"
+          :description="t('CAPTAIN_SETTINGS.FEATURES.DESCRIPTION')"
+          with-border
+        >
+          <div class="grid gap-4">
+            <FeatureToggle
+              v-for="feature in featureToggles"
+              v-show="hasFeatureToggle(feature)"
+              :key="feature.key"
+              :feature-key="feature.key"
+              @change="handleFeatureToggle"
+              @model-change="handleModelChange"
+            />
+          </div>
+        </SectionLayout>
+      </div>
+      <div v-else>
+        <CaptainPaywall />
+      </div>
+    </template>
+  </SettingsLayout>
+</template>

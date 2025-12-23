@@ -1,7 +1,6 @@
 module Enterprise::Integrations::OpenaiProcessorService
-  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion label_suggestion fix_spelling_grammar shorten expand
-                           make_friendly make_formal simplify].freeze
-  CACHEABLE_EVENTS = %w[label_suggestion].freeze
+  ALLOWED_EVENT_NAMES = (Integrations::LlmBaseService::ALLOWED_EVENT_NAMES + Integrations::LlmBaseService::LABEL_SUGGESTION_EVENTS).freeze
+  CACHEABLE_EVENTS = Integrations::LlmBaseService::LABEL_SUGGESTION_EVENTS.freeze
 
   def label_suggestion_message
     payload = label_suggestion_body
@@ -49,7 +48,7 @@ module Enterprise::Integrations::OpenaiProcessorService
 
   def summarize_body
     {
-      model: self.class::GPT_MODEL,
+      model: model_for_event,
       messages: [
         { role: 'system',
           content: prompt_from_file('summary', enterprise: true) },
@@ -65,7 +64,7 @@ module Enterprise::Integrations::OpenaiProcessorService
     return value_from_cache if content.blank?
 
     {
-      model: self.class::GPT_MODEL,
+      model: model_for_event,
       messages: [
         {
           role: 'system',

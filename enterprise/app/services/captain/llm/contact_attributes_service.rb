@@ -33,8 +33,8 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.contact_attributes',
-      model: @model,
-      temperature: @temperature,
+      model: model,
+      temperature: temperature,
       account_id: @conversation.account_id,
       feature_name: 'contact_attributes',
       messages: [
