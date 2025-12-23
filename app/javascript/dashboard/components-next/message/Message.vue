@@ -455,7 +455,8 @@ const avatarTooltip = computed(() => {
 });
 
 const setupHighlightTimer = () => {
-  if (Number(route.query.messageId) !== Number(props.id)) {
+  // This is a defensive check, since in the ISOLATED shell mode, there might be no route.query
+  if (Number(route?.query?.messageId) !== Number(props.id)) {
     return;
   }
 
