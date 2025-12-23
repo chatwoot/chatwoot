@@ -41,12 +41,12 @@ const getPlaceholder = type => {
 const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
     const value = formValues.value?.[attribute.value];
-    
+
     // For checkbox attributes, only check if the key exists (matches composable logic)
     if (attribute.type === 'checkbox') {
       return attribute.value in formValues.value;
     }
-    
+
     // For other attribute types, check for valid non-empty values
     return value !== undefined && value !== null && String(value).trim() !== '';
   })
