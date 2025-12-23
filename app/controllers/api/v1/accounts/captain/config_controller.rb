@@ -3,8 +3,8 @@ class Api::V1::Accounts::Captain::ConfigController < Api::V1::Accounts::BaseCont
 
   def show
     render json: {
-      providers: Llm::ConfigService.providers,
-      models: Llm::ConfigService.models,
+      providers: Llm::Models.providers,
+      models: Llm::Models.models,
       features: features_with_account_preferences
     }
   end
@@ -16,12 +16,12 @@ class Api::V1::Accounts::Captain::ConfigController < Api::V1::Accounts::BaseCont
     account_features = preferences[:features] || {}
     account_models = preferences[:models] || {}
 
-    Llm::ConfigService.all_features_config.transform_keys(&:to_s).to_h do |feature_key, feature_config|
-      selected_model = account_models[feature_key] || feature_config[:default]
-      [feature_key, feature_config.merge(
+    Llm::Models.feature_keys.index_with do |feature_key|
+      config = Llm::Models.feature_config(feature_key)
+      config.merge(
         enabled: account_features[feature_key] == true,
-        selected: selected_model
-      )]
+        selected: account_models[feature_key] || config[:default]
+      )
     end
   end
 end

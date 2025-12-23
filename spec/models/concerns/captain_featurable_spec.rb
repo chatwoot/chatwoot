@@ -7,13 +7,13 @@ RSpec.describe CaptainFeaturable do
 
   describe 'dynamic method generation' do
     it 'generates enabled? methods for all features' do
-      Llm::ConfigService.feature_keys.each do |feature_key|
+      Llm::Models.feature_keys.each do |feature_key|
         expect(account).to respond_to("captain_#{feature_key}_enabled?")
       end
     end
 
     it 'generates model accessor methods for all features' do
-      Llm::ConfigService.feature_keys.each do |feature_key|
+      Llm::Models.feature_keys.each do |feature_key|
         expect(account).to respond_to("captain_#{feature_key}_model")
       end
     end
@@ -22,7 +22,7 @@ RSpec.describe CaptainFeaturable do
   describe 'feature enabled methods' do
     context 'when no features are explicitly enabled' do
       it 'returns false for all features' do
-        Llm::ConfigService.feature_keys.each do |feature_key|
+        Llm::Models.feature_keys.each do |feature_key|
           expect(account.send("captain_#{feature_key}_enabled?")).to be false
         end
       end
@@ -50,7 +50,7 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns false for all features' do
-        Llm::ConfigService.feature_keys.each do |feature_key|
+        Llm::Models.feature_keys.each do |feature_key|
           expect(account.send("captain_#{feature_key}_enabled?")).to be false
         end
       end
@@ -60,8 +60,8 @@ RSpec.describe CaptainFeaturable do
   describe 'model accessor methods' do
     context 'when no models are explicitly configured' do
       it 'returns default models for all features' do
-        Llm::ConfigService.feature_keys.each do |feature_key|
-          expected_default = Llm::ConfigService.default_model_for_feature(feature_key)
+        Llm::Models.feature_keys.each do |feature_key|
+          expected_default = Llm::Models.default_model_for(feature_key)
           expect(account.send("captain_#{feature_key}_model")).to eq(expected_default)
         end
       end
@@ -83,8 +83,8 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns default models for unconfigured features' do
-        expect(account.captain_copilot_model).to eq(Llm::ConfigService.default_model_for_feature('copilot'))
-        expect(account.captain_audio_transcription_model).to eq(Llm::ConfigService.default_model_for_feature('audio_transcription'))
+        expect(account.captain_copilot_model).to eq(Llm::Models.default_model_for('copilot'))
+        expect(account.captain_audio_transcription_model).to eq(Llm::Models.default_model_for('audio_transcription'))
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'falls back to default model' do
-        expect(account.captain_editor_model).to eq(Llm::ConfigService.default_model_for_feature('editor'))
+        expect(account.captain_editor_model).to eq(Llm::Models.default_model_for('editor'))
       end
     end
 
@@ -104,8 +104,8 @@ RSpec.describe CaptainFeaturable do
       end
 
       it 'returns default models for all features' do
-        Llm::ConfigService.feature_keys.each do |feature_key|
-          expected_default = Llm::ConfigService.default_model_for_feature(feature_key)
+        Llm::Models.feature_keys.each do |feature_key|
+          expected_default = Llm::Models.default_model_for(feature_key)
           expect(account.send("captain_#{feature_key}_model")).to eq(expected_default)
         end
       end
@@ -117,7 +117,7 @@ RSpec.describe CaptainFeaturable do
       account.update!(captain_features: { 'editor' => true, 'copilot' => true })
       prefs = account.captain_preferences
 
-      Llm::ConfigService.feature_keys.each do |feature_key|
+      Llm::Models.feature_keys.each do |feature_key|
         expect(account.send("captain_#{feature_key}_enabled?")).to eq(prefs[:features][feature_key])
       end
     end
@@ -126,7 +126,7 @@ RSpec.describe CaptainFeaturable do
       account.update!(captain_models: { 'editor' => 'gpt-4.1-mini', 'assistant' => 'gpt-5.2' })
       prefs = account.captain_preferences
 
-      Llm::ConfigService.feature_keys.each do |feature_key|
+      Llm::Models.feature_keys.each do |feature_key|
         expect(account.send("captain_#{feature_key}_model")).to eq(prefs[:models][feature_key])
       end
     end
