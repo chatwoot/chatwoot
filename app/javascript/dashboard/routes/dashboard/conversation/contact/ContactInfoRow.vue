@@ -1,95 +1,76 @@
-<script>
+<script setup>
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    EmojiOrIcon,
-    NextButton,
+const props = defineProps({
+  href: {
+    type: String,
+    default: '',
   },
-  props: {
-    href: {
-      type: String,
-      default: '',
-    },
-    icon: {
-      type: String,
-      required: true,
-    },
-    emoji: {
-      type: String,
-      required: true,
-    },
-    value: {
-      type: String,
-      default: '',
-    },
-    showCopy: {
-      type: Boolean,
-      default: false,
-    },
+  title: {
+    type: String,
+    required: true,
   },
-  methods: {
-    async onCopy(e) {
-      e.preventDefault();
-      await copyTextToClipboard(this.value);
-      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-    },
+  value: {
+    type: String,
+    default: '',
   },
+  showCopy: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const { t } = useI18n();
+
+const onCopy = async e => {
+  e.preventDefault();
+  await copyTextToClipboard(props.value);
+  useAlert(t('CONTACT_PANEL.COPY_SUCCESSFUL'));
 };
 </script>
 
 <template>
-  <div class="w-full h-5 ltr:-ml-1 rtl:-mr-1">
-    <a
-      v-if="href"
-      :href="href"
-      class="flex items-center gap-2 text-n-slate-11 hover:underline"
-    >
-      <EmojiOrIcon
-        :icon="icon"
-        :emoji="emoji"
-        icon-size="14"
-        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
-      />
-      <span
-        v-if="value"
-        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
+  <div class="grid grid-cols-[30%_1fr] gap-4 w-full items-center h-9">
+    <span class="text-body-main text-n-slate-11 truncate whitespace-nowrap">
+      {{ title }}
+    </span>
+
+    <div class="min-w-0 flex items-center gap-1">
+      <a
+        v-if="href"
+        :href="href"
+        class="hover:underline min-w-0 truncate"
         :title="value"
       >
-        {{ value }}
-      </span>
-      <span v-else class="text-sm text-n-slate-11">
-        {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
-      </span>
+        <span v-if="value" class="text-body-main text-n-slate-12">
+          {{ value }}
+        </span>
+        <span v-else class="text-body-main text-n-slate-10">
+          {{ '---' }}
+        </span>
+      </a>
+
+      <div v-else class="text-body-main text-n-slate-12 min-w-0 truncate">
+        <span
+          v-if="value"
+          v-dompurify-html="value"
+          class="text-body-main text-n-slate-12 [&>span]:ltr:ml-1.5 [&>span]:rtl:mr-1.5"
+        />
+        <span v-else class="text-body-main text-n-slate-10">{{ '---' }}</span>
+      </div>
+
       <NextButton
-        v-if="showCopy"
+        v-if="showCopy && value"
         ghost
         xs
         slate
-        class="ltr:-ml-1 rtl:-mr-1"
         icon="i-lucide-clipboard"
+        class="flex-shrink-0"
         @click="onCopy"
       />
-    </a>
-
-    <div v-else class="flex items-center gap-2 text-n-slate-11">
-      <EmojiOrIcon
-        :icon="icon"
-        :emoji="emoji"
-        icon-size="14"
-        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
-      />
-      <span
-        v-if="value"
-        v-dompurify-html="value"
-        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
-      />
-      <span v-else class="text-sm text-n-slate-11">
-        {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
-      </span>
     </div>
   </div>
 </template>

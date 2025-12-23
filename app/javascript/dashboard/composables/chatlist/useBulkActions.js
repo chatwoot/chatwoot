@@ -20,9 +20,15 @@ export function useBulkActions() {
 
   function deSelectConversation(conversationId, inboxId) {
     store.dispatch('bulkActions/removeSelectedConversationIds', conversationId);
-    selectedInboxes.value = selectedInboxes.value.filter(
-      item => item !== inboxId
-    );
+    // Only remove one instance of the inboxId, not all
+    // This handles the case where multiple conversations from the same inbox are selected
+    const index = selectedInboxes.value.indexOf(inboxId);
+    if (index > -1) {
+      selectedInboxes.value = [
+        ...selectedInboxes.value.slice(0, index),
+        ...selectedInboxes.value.slice(index + 1),
+      ];
+    }
   }
 
   function resetBulkActions() {

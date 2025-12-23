@@ -10,13 +10,10 @@ export default {
 </script>
 
 <template>
-  <kbd class="hotkey p-0.5 min-w-[1rem] uppercase" :class="customClass">
+  <kbd
+    class="hotkey px-1.5 py-1 min-w-9 font-420 h-8 uppercase inline-flex rounded-lg outline outline-1 outline-n-weak bg-n-surface-2 text-sm flex-shrink-0 items-center select-none justify-center"
+    :class="customClass"
+  >
     <slot />
   </kbd>
 </template>
-
-<style lang="scss">
-kbd.hotkey {
-  @apply inline-flex leading-[0.625rem] rounded tracking-wide flex-shrink-0 items-center select-none justify-center;
-}
-</style>

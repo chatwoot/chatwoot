@@ -1,5 +1,6 @@
 <script setup>
 import { computed, inject } from 'vue';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 
 const props = defineProps({
   index: {
@@ -28,11 +29,14 @@ const props = defineProps({
   },
 });
 
+const { formatCompactWithDecimal } = useNumberFormatter();
+
 const activeIndex = inject('activeIndex');
 const updateActiveIndex = inject('updateActiveIndex');
 
 const active = computed(() => props.index === activeIndex.value);
-const getItemCount = computed(() => props.count);
+const count = computed(() => props.count);
+const getItemCount = computed(() => formatCompactWithDecimal(count.value));
 
 const onTabClick = event => {
   event.preventDefault();
@@ -47,23 +51,27 @@ const onTabClick = event => {
     class="flex-shrink-0 my-0 mx-2 ltr:first:ml-0 rtl:first:mr-0 ltr:last:mr-0 rtl:last:ml-0 hover:text-n-slate-12"
   >
     <a
-      class="flex items-center flex-row border-b select-none cursor-pointer text-sm relative top-[1px] transition-[border-color] duration-[150ms] ease-[cubic-bezier(0.37,0,0.63,1)]"
+      class="flex items-center flex-row select-none cursor-pointer relative after:absolute after:bottom-px after:left-0 after:right-0 after:h-[2px] after:rounded-full after:transition-all after:duration-200 text-button"
       :class="[
         active
-          ? 'border-b border-n-brand text-n-blue-text'
-          : 'border-transparent text-n-slate-11',
-        isCompact ? 'py-2 text-sm' : 'text-base py-3',
+          ? 'text-n-blue-11 after:bg-n-brand after:opacity-100'
+          : 'text-n-slate-11 after:bg-transparent after:opacity-0',
+        isCompact ? 'py-2.5' : '!text-base py-3',
       ]"
       @click="onTabClick"
     >
       {{ name }}
       <div
         v-if="showBadge"
-        class="rounded-md h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0 min-w-[20px]"
+        v-tooltip.top="{
+          content: count,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="rounded-full h-5 flex items-center justify-center font-interDisplay text-xs font-medium my-0 ltr:ml-1 rtl:mr-1 px-1.5 py-0 min-w-[20px]"
         :class="[
           active
-            ? 'bg-n-brand/10 dark:bg-n-brand/20 text-n-blue-text'
-            : 'bg-n-alpha-black2 dark:bg-n-solid-3 text-n-slate-11',
+            ? 'bg-n-blue-3 text-n-blue-11'
+            : 'bg-n-alpha-1 text-n-slate-10',
         ]"
       >
         <span>

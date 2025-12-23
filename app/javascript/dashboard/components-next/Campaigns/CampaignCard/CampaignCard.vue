@@ -77,7 +77,7 @@ const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
   const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium);
+  return getInboxIconByType(type, medium, 'line');
 });
 </script>
 

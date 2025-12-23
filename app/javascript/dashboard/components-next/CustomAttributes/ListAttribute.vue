@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   attribute: {
@@ -40,61 +41,56 @@ const handleAttributeAction = async action => {
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full min-w-0 gap-2"
-    :class="{
-      'justify-start': isEditingView,
-      'justify-end': !isEditingView,
-    }"
-  >
+  <div class="flex items-center w-full min-w-0 gap-1.5 justify-end">
     <div
       v-on-clickaway="() => toggleAttributeListDropdown(false)"
-      class="relative flex items-center"
+      class="relative flex items-center min-w-0 flex-1 justify-end gap-2 cursor-pointer"
+      @click="toggleAttributeListDropdown()"
     >
       <span
-        class="min-w-0 text-sm"
-        :class="{
-          'cursor-pointer text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
-            !isEditingView,
-          'text-n-slate-12 truncate flex-1': isEditingView,
+        v-tooltip.top="{
+          content: attribute.value,
+          delay: { show: 1000, hide: 0 },
         }"
-        @click="toggleAttributeListDropdown(!props.isEditingView)"
+        class="min-w-0 text-body-main truncate"
+        :class="{
+          'text-n-slate-11 hover:text-n-slate-12 py-2 select-none !font-medium':
+            !isEditingView,
+          'text-n-slate-12': isEditingView && attribute.value,
+          'text-n-slate-10': isEditingView && !attribute.value,
+        }"
       >
         {{
           attribute.value ||
           t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.TRIGGER.SELECT')
         }}
       </span>
+      <Icon
+        :icon="
+          showAttributeListDropdown
+            ? 'i-lucide-chevron-up'
+            : 'i-lucide-chevron-down'
+        "
+        class="text-n-slate-11 flex-shrink-0 size-4"
+      />
       <DropdownMenu
         v-if="showAttributeListDropdown"
         :menu-items="attributeListMenuItems"
         show-search
-        class="w-48 mt-2 top-full"
-        :class="{
-          'ltr:right-0 rtl:left-0': !isEditingView,
-          'ltr:left-0 rtl:right-0': isEditingView,
-        }"
+        class="w-48 mt-2 top-full ltr:right-0 rtl:left-0"
+        @click.stop
         @action="handleAttributeAction($event)"
       />
     </div>
 
-    <div v-if="isEditingView" class="flex items-center gap-1">
-      <Button
-        variant="faded"
-        color="slate"
-        icon="i-lucide-pencil"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="toggleAttributeListDropdown()"
-      />
-      <Button
-        variant="faded"
-        color="ruby"
-        icon="i-lucide-trash"
-        size="xs"
-        class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-        @click="emit('delete')"
-      />
-    </div>
+    <Button
+      v-if="isEditingView && attribute.value"
+      ghost
+      ruby
+      icon="i-lucide-trash"
+      xs
+      class="flex-shrink-0 !size-5 !rounded"
+      @click="emit('delete')"
+    />
   </div>
 </template>

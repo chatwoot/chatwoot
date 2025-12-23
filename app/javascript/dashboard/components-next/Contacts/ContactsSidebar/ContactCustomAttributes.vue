@@ -108,7 +108,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
 </script>
 
 <template>
-  <div v-if="hasContactAttributes" class="flex flex-col gap-6 px-6 py-6">
+  <div v-if="hasContactAttributes" class="flex flex-col gap-4 px-5 pt-4 pb-6">
     <div v-if="!hasNoUsedAttributes" class="flex flex-col gap-2">
       <ContactCustomAttributeItem
         v-for="attribute in usedAttributes"
@@ -117,16 +117,16 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
         :attribute="attribute"
       />
     </div>
-    <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-3">
+    <div v-if="!hasNoUnusedAttributes" class="flex items-center gap-2">
       <div class="flex-1 h-[1px] bg-n-slate-5" />
-      <span class="text-sm font-medium text-n-slate-10">{{
+      <span class="text-xs font-420 text-n-slate-10">{{
         t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.UNUSED_ATTRIBUTES', {
           count: unusedAttributesCount,
         })
       }}</span>
       <div class="flex-1 h-[1px] bg-n-slate-5" />
     </div>
-    <div class="flex flex-col gap-3">
+    <div class="flex flex-col gap-4">
       <div v-if="!hasNoUnusedAttributes" class="relative">
         <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
         <input
@@ -135,7 +135,7 @@ const hasNoUsedAttributes = computed(() => usedAttributes.value.length === 0);
           :placeholder="
             t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.SEARCH_PLACEHOLDER')
           "
-          class="w-full h-8 py-2 pl-10 pr-2 text-sm reset-base outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          class="w-full h-8 py-2 ltr:pl-10 ltr:pr-2 rtl:pr-10 rtl:pl-2 mb-0 reset-base outline-n-weak outline-1 outline hover:outline-n-slate-6 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12 outline-offset-0"
         />
       </div>
       <div

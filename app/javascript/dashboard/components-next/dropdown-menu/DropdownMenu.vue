@@ -4,13 +4,20 @@ import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   menuItems: {
     type: Array,
     default: () => [],
     validator: value => {
-      return value.every(item => item.action && item.value && item.label);
+      return value.every(
+        item =>
+          item.action &&
+          item.value !== undefined &&
+          item.value !== null &&
+          item.label
+      );
     },
   },
   menuSections: {
@@ -20,6 +27,10 @@ const props = defineProps({
   thumbnailSize: {
     type: Number,
     default: 20,
+  },
+  roundedThumbnail: {
+    type: Boolean,
+    default: true,
   },
   showSearch: {
     type: Boolean,
@@ -37,9 +48,21 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  disableLocalFiltering: {
+    type: Boolean,
+    default: false,
+  },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
+  emptyStateMessage: {
+    type: String,
+    default: 'DROPDOWN_MENU.EMPTY_STATE',
+  },
 });
 
-const emit = defineEmits(['action']);
+const emit = defineEmits(['action', 'search', 'empty']);
 
 const { t } = useI18n();
 
@@ -57,6 +80,7 @@ const flattenedMenuItems = computed(() => {
 });
 
 const filteredMenuItems = computed(() => {
+  if (props.disableLocalFiltering) return props.menuItems;
   if (!searchQuery.value) return flattenedMenuItems.value;
 
   return flattenedMenuItems.value.filter(item =>
@@ -69,7 +93,7 @@ const filteredMenuSections = computed(() => {
     return [];
   }
 
-  if (!searchQuery.value) {
+  if (props.disableLocalFiltering || !searchQuery.value) {
     return props.menuSections;
   }
 
@@ -88,6 +112,16 @@ const filteredMenuSections = computed(() => {
     })
     .filter(section => section.items.length > 0);
 });
+
+const handleSearchInput = event => {
+  emit('search', event.target.value);
+
+  const isEmpty = hasSections.value
+    ? filteredMenuSections.value.length === 0
+    : filteredMenuItems.value.length === 0;
+
+  if (isEmpty) emit('empty');
+};
 
 const handleAction = item => {
   const { action, value, ...rest } = item;
@@ -118,7 +152,7 @@ onMounted(() => {
   >
     <div
       v-if="showSearch"
-      class="sticky top-0 bg-n-alpha-3 backdrop-blur-sm pt-2"
+      class="sticky top-0 bg-n-alpha-3 backdrop-blur-sm pt-2 z-20"
     >
       <div class="relative">
         <span class="absolute i-lucide-search size-3.5 top-2 left-3" />
@@ -130,6 +164,7 @@ onMounted(() => {
             searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
           "
           class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+          @input="handleSearchInput"
         />
       </div>
     </div>
@@ -141,10 +176,23 @@ onMounted(() => {
       >
         <p
           v-if="section.title"
-          class="px-2 pt-2 text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+          class="px-2 py-2 text-xs mb-0 font-medium text-n-slate-11 uppercase tracking-wide sticky z-10 bg-n-alpha-3 backdrop-blur-sm"
+          :class="showSearch ? 'top-10' : 'top-0'"
         >
           {{ section.title }}
         </p>
+        <div
+          v-if="section.isLoading"
+          class="flex items-center justify-center py-2"
+        >
+          <Spinner :size="24" />
+        </div>
+        <div
+          v-else-if="!section.items.length && section.emptyState"
+          class="text-sm text-n-slate-11 px-2 py-1.5"
+        >
+          {{ section.emptyState }}
+        </div>
         <button
           v-for="(item, itemIndex) in section.items"
           :key="item.value || itemIndex"
@@ -164,22 +212,27 @@ onMounted(() => {
               :name="item.thumbnail.name"
               :src="item.thumbnail.src"
               :size="thumbnailSize"
-              rounded-full
+              :rounded-full="roundedThumbnail"
             />
           </slot>
-          <Icon
-            v-if="item.icon"
-            :icon="item.icon"
-            class="flex-shrink-0 size-3.5"
-          />
+          <slot name="icon" :item="item">
+            <Icon
+              v-if="item.icon"
+              :icon="item.icon"
+              class="flex-shrink-0 size-3.5"
+            />
+          </slot>
           <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-          <span
-            v-if="item.label"
-            class="min-w-0 text-sm truncate"
-            :class="labelClass"
-          >
-            {{ item.label }}
-          </span>
+          <slot name="label" :item="item">
+            <span
+              v-if="item.label"
+              class="min-w-0 text-sm font-420 truncate"
+              :class="labelClass"
+            >
+              {{ item.label }}
+            </span>
+          </slot>
+          <slot name="trailing-icon" :item="item" />
         </button>
         <div
           v-if="sectionIndex < filteredMenuSections.length - 1"
@@ -188,6 +241,9 @@ onMounted(() => {
       </div>
     </template>
     <template v-else>
+      <div v-if="isLoading" class="flex items-center justify-center py-2">
+        <Spinner :size="24" />
+      </div>
       <button
         v-for="(item, index) in filteredMenuItems"
         :key="index"
@@ -207,22 +263,27 @@ onMounted(() => {
             :name="item.thumbnail.name"
             :src="item.thumbnail.src"
             :size="thumbnailSize"
-            rounded-full
+            :rounded-full="roundedThumbnail"
           />
         </slot>
-        <Icon
-          v-if="item.icon"
-          :icon="item.icon"
-          class="flex-shrink-0 size-3.5"
-        />
+        <slot name="icon" :item="item">
+          <Icon
+            v-if="item.icon"
+            :icon="item.icon"
+            class="flex-shrink-0 size-3.5"
+          />
+        </slot>
         <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-        <span
-          v-if="item.label"
-          class="min-w-0 text-sm truncate"
-          :class="labelClass"
-        >
-          {{ item.label }}
-        </span>
+        <slot name="label" :item="item">
+          <span
+            v-if="item.label"
+            class="min-w-0 text-sm font-420 truncate"
+            :class="labelClass"
+          >
+            {{ item.label }}
+          </span>
+        </slot>
+        <slot name="trailing-icon" :item="item" />
       </button>
     </template>
     <div
@@ -232,8 +293,11 @@ onMounted(() => {
       {{
         isSearching
           ? t('DROPDOWN_MENU.SEARCHING')
-          : t('DROPDOWN_MENU.EMPTY_STATE')
+          : searchQuery
+            ? t('DROPDOWN_MENU.EMPTY_STATE')
+            : t(emptyStateMessage)
       }}
     </div>
+    <slot name="footer" />
   </div>
 </template>

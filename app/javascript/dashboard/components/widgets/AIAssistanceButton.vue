@@ -133,9 +133,9 @@ export default {
       <NextButton
         v-else
         v-tooltip.top-end="$t('INTEGRATION_SETTINGS.OPEN_AI.AI_ASSIST')"
-        icon="i-ph-magic-wand"
+        icon="i-lucide-wand-sparkles"
         slate
-        faded
+        ghost
         sm
         @click="openAIAssist"
       />

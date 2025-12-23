@@ -152,20 +152,21 @@ defineExpose({ validate });
       <FilterSelect
         v-if="showQueryOperator"
         v-model="queryOperator"
-        variant="faded"
+        variant="solid"
         hide-icon
         class="text-sm"
         :options="queryOperatorOptions"
       />
       <FilterSelect
         v-model="attributeKey"
-        variant="faded"
+        variant="solid"
         :options="filterTypes"
         @update:model-value="resetModelOnAttributeKeyChange"
       />
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
+        class="[&_button>span:first-child]:!text-n-blue-11 [&>button]:px-1.5"
         :options="currentFilter.filterOperators"
       />
       <template v-if="currentOperator.hasInput">

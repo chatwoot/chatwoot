@@ -1,7 +1,8 @@
 <script setup>
+import { useI18n } from 'vue-i18n';
+
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
-import { useI18n } from 'vue-i18n';
 
 defineProps({
   selectedContact: {
@@ -37,13 +38,13 @@ const { t } = useI18n();
 
 <template>
   <div class="flex flex-col">
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center justify-between h-5 gap-2">
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center justify-between h-6 gap-2">
         <label class="text-sm text-n-slate-12">
           {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PRIMARY') }}
         </label>
         <span
-          class="flex items-center justify-center w-24 h-5 text-xs rounded-md text-n-teal-11 bg-n-alpha-2"
+          class="flex items-center justify-center px-1.5 h-6 font-420 text-xs rounded-md text-n-teal-11 outline outline-1 outline-n-weak"
         >
           {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PRIMARY_HELP_LABEL') }}
         </span>
@@ -69,7 +70,7 @@ const { t } = useI18n();
         @search="query => emit('search', query)"
       />
     </div>
-    <div class="relative flex justify-center gap-2 top-4">
+    <div class="relative flex justify-center gap-2 mt-4 mb-3">
       <div v-for="i in 3" :key="i" class="relative w-4 h-8">
         <div
           class="absolute w-0 h-0 border-l-[4px] border-r-[4px] border-b-[6px] border-l-transparent border-r-transparent border-n-strong ltr:translate-x-[4px] rtl:-translate-x-[4px] -translate-y-[4px]"
@@ -79,13 +80,13 @@ const { t } = useI18n();
         />
       </div>
     </div>
-    <div class="flex flex-col gap-2">
-      <div class="flex items-center justify-between h-5 gap-2">
+    <div class="flex flex-col gap-3">
+      <div class="flex items-center justify-between h-6 gap-2">
         <label class="text-sm text-n-slate-12">
           {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PARENT') }}
         </label>
         <span
-          class="flex items-center justify-center w-24 h-5 text-xs rounded-md text-n-ruby-11 bg-n-alpha-2"
+          class="flex items-center justify-center px-1.5 h-6 font-420 text-xs rounded-md text-n-ruby-11 outline outline-1 outline-n-weak"
         >
           {{ t('CONTACTS_LAYOUT.SIDEBAR.MERGE.PARENT_HELP_LABEL') }}
         </span>

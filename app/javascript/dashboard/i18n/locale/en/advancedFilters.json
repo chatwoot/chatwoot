@@ -75,6 +75,11 @@
       "ADDITIONAL_FILTERS": "Additional filters",
       "CUSTOM_ATTRIBUTES": "Custom attributes"
     },
+    "ACTIVE_FILTERS": {
+      "MORE_FILTERS": "+ {count} more filters",
+      "CLEAR_FILTERS": "Clear filters",
+      "EDIT_BUTTON": "Edit"
+    },
     "CUSTOM_VIEWS": {
       "ADD": {
         "TITLE": "Do you want to save this filter?",
@@ -95,8 +100,9 @@
       "EDIT": {
         "EDIT_BUTTON": "Edit folder"
       },
+      "SAVE_VIEW": "Save View",
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "Delete",
         "MODAL": {
           "CONFIRM": {
             "TITLE": "Confirm deletion",

@@ -97,6 +97,6 @@ onMounted(async () => {
 
 <style scoped>
 .key {
-  @apply py-2 px-2.5 font-semibold text-xs text-n-slate-12 bg-n-slate-4 dark:bg-n-slate-2 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-n-strong;
+  @apply py-2 px-2.5 font-semibold text-xs text-n-slate-12;
 }
 </style>

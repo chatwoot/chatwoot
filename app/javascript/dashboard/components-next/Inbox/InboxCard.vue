@@ -12,7 +12,7 @@ import { NOTIFICATION_TYPES_MAPPING } from 'dashboard/routes/dashboard/inbox/hel
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
-import SLACardLabel from 'dashboard/components-next/Conversation/ConversationCard/SLACardLabel.vue';
+import SLACardLabel from 'dashboard/components-next/Inbox/SLACardLabel.vue';
 import InboxContextMenu from 'dashboard/routes/dashboard/inbox/components/InboxContextMenu.vue';
 
 const props = defineProps({
@@ -221,7 +221,6 @@ onBeforeMount(contextMenuActions.close);
         <CardPriorityIcon
           v-if="primaryActor?.priority"
           :priority="primaryActor?.priority"
-          class="[&>svg]:size-4"
         />
         <div
           v-if="inboxIcon"

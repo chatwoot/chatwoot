@@ -37,7 +37,7 @@ defineProps({
       <div
         class="flex flex-col items-center justify-end w-full h-full pb-20"
         :class="{
-          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent':
+          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-surface-1 from-25% to-transparent':
             showBackdrop,
         }"
       >

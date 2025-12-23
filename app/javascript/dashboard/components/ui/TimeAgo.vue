@@ -1,109 +1,106 @@
-<script>
-const MINUTE_IN_MILLI_SECONDS = 60000;
-const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
-const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
-
+<script setup>
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   dynamicTime,
   dateFormat,
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
 
-export default {
-  name: 'TimeAgo',
-  props: {
-    isAutoRefreshEnabled: {
-      type: Boolean,
-      default: true,
-    },
-    lastActivityTimestamp: {
-      type: [String, Date, Number],
-      default: '',
-    },
-    createdAtTimestamp: {
-      type: [String, Date, Number],
-      default: '',
-    },
+const props = defineProps({
+  isAutoRefreshEnabled: {
+    type: Boolean,
+    default: true,
   },
-  data() {
-    return {
-      lastActivityAtTimeAgo: dynamicTime(this.lastActivityTimestamp),
-      createdAtTimeAgo: dynamicTime(this.createdAtTimestamp),
-      timer: null,
-    };
+  lastActivityTimestamp: {
+    type: [String, Date, Number],
+    default: '',
   },
-  computed: {
-    lastActivityTime() {
-      return shortTimestamp(this.lastActivityAtTimeAgo);
-    },
-    createdAtTime() {
-      return shortTimestamp(this.createdAtTimeAgo);
-    },
-    createdAt() {
-      const createdTimeDiff = Date.now() - this.createdAtTimestamp * 1000;
-      const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
-      return !isBeforeAMonth
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${
-            this.createdAtTimeAgo
-          }`
-        : `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(
-            this.createdAtTimestamp
-          )}`;
-    },
-    lastActivity() {
-      const lastActivityTimeDiff =
-        Date.now() - this.lastActivityTimestamp * 1000;
-      const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
-      return !isNotActive
-        ? `${this.$t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${
-            this.lastActivityAtTimeAgo
-          }`
-        : `${this.$t(
-            'CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE'
-          )} ${dateFormat(this.lastActivityTimestamp)}`;
-    },
-    tooltipText() {
-      return `${this.createdAt}
-              ${this.lastActivity}`;
-    },
+  createdAtTimestamp: {
+    type: [String, Date, Number],
+    default: '',
   },
-  watch: {
-    lastActivityTimestamp() {
-      this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
-    },
-    createdAtTimestamp() {
-      this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
-    },
-  },
-  mounted() {
-    if (this.isAutoRefreshEnabled) {
-      this.createTimer();
-    }
-  },
-  unmounted() {
-    clearTimeout(this.timer);
-  },
-  methods: {
-    createTimer() {
-      this.timer = setTimeout(() => {
-        this.lastActivityAtTimeAgo = dynamicTime(this.lastActivityTimestamp);
-        this.createdAtTimeAgo = dynamicTime(this.createdAtTimestamp);
-        this.createTimer();
-      }, this.refreshTime());
-    },
-    refreshTime() {
-      const timeDiff = Date.now() - this.lastActivityTimestamp * 1000;
-      if (timeDiff > DAY_IN_MILLI_SECONDS) {
-        return DAY_IN_MILLI_SECONDS;
-      }
-      if (timeDiff > HOUR_IN_MILLI_SECONDS) {
-        return HOUR_IN_MILLI_SECONDS;
-      }
+});
 
-      return MINUTE_IN_MILLI_SECONDS;
-    },
-  },
+const MINUTE_IN_MILLI_SECONDS = 60000;
+const HOUR_IN_MILLI_SECONDS = MINUTE_IN_MILLI_SECONDS * 60;
+const DAY_IN_MILLI_SECONDS = HOUR_IN_MILLI_SECONDS * 24;
+
+const { t } = useI18n();
+
+const lastActivityAtTimeAgo = ref(dynamicTime(props.lastActivityTimestamp));
+const createdAtTimeAgo = ref(dynamicTime(props.createdAtTimestamp));
+const timer = ref(null);
+
+const lastActivityTime = computed(() =>
+  shortTimestamp(lastActivityAtTimeAgo.value)
+);
+
+const createdAtTime = computed(() => shortTimestamp(createdAtTimeAgo.value));
+
+const createdAt = computed(() => {
+  const createdTimeDiff = Date.now() - props.createdAtTimestamp * 1000;
+  const isBeforeAMonth = createdTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+  return !isBeforeAMonth
+    ? `${t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.LATEST')} ${createdAtTimeAgo.value}`
+    : `${t('CHAT_LIST.CHAT_TIME_STAMP.CREATED.OLDEST')} ${dateFormat(props.createdAtTimestamp)}`;
+});
+
+const lastActivity = computed(() => {
+  const lastActivityTimeDiff = Date.now() - props.lastActivityTimestamp * 1000;
+  const isNotActive = lastActivityTimeDiff > DAY_IN_MILLI_SECONDS * 30;
+  return !isNotActive
+    ? `${t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.ACTIVE')} ${lastActivityAtTimeAgo.value}`
+    : `${t('CHAT_LIST.CHAT_TIME_STAMP.LAST_ACTIVITY.NOT_ACTIVE')} ${dateFormat(props.lastActivityTimestamp)}`;
+});
+
+const tooltipText = computed(() => {
+  return `${createdAt.value}
+${lastActivity.value}`;
+});
+
+const refreshTime = () => {
+  const timeDiff = Date.now() - props.lastActivityTimestamp * 1000;
+  if (timeDiff > DAY_IN_MILLI_SECONDS) {
+    return DAY_IN_MILLI_SECONDS;
+  }
+  if (timeDiff > HOUR_IN_MILLI_SECONDS) {
+    return HOUR_IN_MILLI_SECONDS;
+  }
+  return MINUTE_IN_MILLI_SECONDS;
 };
+
+const createTimer = () => {
+  timer.value = setTimeout(() => {
+    lastActivityAtTimeAgo.value = dynamicTime(props.lastActivityTimestamp);
+    createdAtTimeAgo.value = dynamicTime(props.createdAtTimestamp);
+    createTimer();
+  }, refreshTime());
+};
+
+watch(
+  () => props.lastActivityTimestamp,
+  () => {
+    lastActivityAtTimeAgo.value = dynamicTime(props.lastActivityTimestamp);
+  }
+);
+
+watch(
+  () => props.createdAtTimestamp,
+  () => {
+    createdAtTimeAgo.value = dynamicTime(props.createdAtTimestamp);
+  }
+);
+
+onMounted(() => {
+  if (props.isAutoRefreshEnabled) {
+    createTimer();
+  }
+});
+
+onUnmounted(() => {
+  clearTimeout(timer.value);
+});
 </script>
 
 <template>
@@ -111,9 +108,8 @@ export default {
     v-tooltip.top="{
       content: tooltipText,
       delay: { show: 1000, hide: 0 },
-      hideOnClick: true,
     }"
-    class="ml-auto leading-4 text-xxs text-n-slate-10 hover:text-n-slate-11"
+    class="ml-auto text-label-small text-n-slate-11 hover:text-n-slate-12"
   >
     <span>{{ `${createdAtTime} • ${lastActivityTime}` }}</span>
   </div>

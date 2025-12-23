@@ -1,10 +1,9 @@
 <script setup>
-import { computed, watch, onMounted, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, ref, watch } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-import LabelItem from 'dashboard/components-next/Label/LabelItem.vue';
-import AddLabel from 'dashboard/components-next/Label/AddLabel.vue';
+import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
+import AddLabel from 'dashboard/components-next/label/AddLabel.vue';
 
 const props = defineProps({
   contactId: {
@@ -14,7 +13,6 @@ const props = defineProps({
 });
 
 const store = useStore();
-const route = useRoute();
 
 const showDropdown = ref(false);
 
@@ -24,12 +22,14 @@ const showDropdown = ref(false);
 const hoveredLabel = ref(null);
 
 const allLabels = useMapGetter('labels/getLabels');
-const contactLabels = useMapGetter('contactLabels/getContactLabels');
+const getContactById = useMapGetter('contacts/getContactById');
+const getContactLabels = useMapGetter('contactLabels/getContactLabels');
 
 const savedLabels = computed(() => {
-  const availableContactLabels = contactLabels.value(props.contactId);
+  const contactLabelsList = getContactLabels.value(props.contactId) || [];
+
   return allLabels.value.filter(({ title }) =>
-    availableContactLabels.includes(title)
+    contactLabelsList.includes(title)
   );
 });
 
@@ -46,13 +46,6 @@ const labelMenuItems = computed(() => {
     }))
     .toSorted((a, b) => Number(a.isSelected) - Number(b.isSelected));
 });
-
-const fetchLabels = async contactId => {
-  if (!contactId) {
-    return;
-  }
-  store.dispatch('contactLabels/get', contactId);
-};
 
 const handleLabelAction = async ({ value }) => {
   try {
@@ -80,6 +73,11 @@ const handleLabelAction = async ({ value }) => {
       labels: updatedLabels,
     });
 
+    store.dispatch('contacts/updateContactLabels', {
+      contactId: props.contactId,
+      labels: updatedLabels,
+    });
+
     showDropdown.value = false;
   } catch (error) {
     // error
@@ -90,19 +88,19 @@ const handleRemoveLabel = label => {
   return handleLabelAction({ value: label.id });
 };
 
+// Sync contact labels from contact object to contactLabels store when contact loads
 watch(
-  () => props.contactId,
-  (newVal, oldVal) => {
-    if (newVal !== oldVal) {
-      fetchLabels(newVal);
+  () => getContactById.value(props.contactId),
+  contact => {
+    if (contact?.labels) {
+      store.dispatch('contactLabels/setContactLabel', {
+        id: props.contactId,
+        data: contact.labels,
+      });
     }
-  }
+  },
+  { immediate: true }
 );
-onMounted(() => {
-  if (route.params.contactId) {
-    fetchLabels(route.params.contactId);
-  }
-});
 
 const handleMouseLeave = () => {
   // Reset hover state when mouse leaves the container
@@ -119,12 +117,16 @@ const handleLabelHover = labelId => {
 </script>
 
 <template>
-  <div class="flex flex-wrap items-center gap-2" @mouseleave="handleMouseLeave">
+  <div
+    class="flex flex-wrap items-center gap-2 ltr:mr-10 rtl:ml-10"
+    @mouseleave="handleMouseLeave"
+  >
     <LabelItem
       v-for="label in savedLabels"
       :key="label.id"
       :label="label"
       :is-hovered="hoveredLabel === label.id"
+      class="ltr:!pr-1 rtl:!pl-1"
       @remove="handleRemoveLabel"
       @hover="handleLabelHover(label.id)"
     />
