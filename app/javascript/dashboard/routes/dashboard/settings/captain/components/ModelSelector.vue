@@ -24,6 +24,17 @@ const props = defineProps({
 
 const emit = defineEmits(['change']);
 
+const PROVIDER_ICONS = {
+  openai: 'i-logos-openai-icon',
+  anthropic: 'i-logos-claude-icon',
+  mistral: 'i-logos-mistral-icon',
+  gemini: 'i-logos-gemini-icon',
+};
+
+const iconForModel = model => {
+  return PROVIDER_ICONS[model.provider];
+};
+
 const { t } = useI18n();
 const isOpen = ref(false);
 
@@ -122,13 +133,19 @@ const selectModel = model => {
           class="rounded-lg hover:bg-n-alpha-1"
           :class="{ 'bg-n-alpha-2': selectedModelId === model.id }"
         >
-          <div class="flex flex-col w-full text-left">
-            <span class="text-sm font-medium text-n-slate-12">
-              {{ model.display_name }}
-            </span>
-            <span class="text-xs text-n-slate-11">
-              {{ getCreditLabel(model) }}
-            </span>
+          <div class="flex gap-2">
+            <Icon
+              :icon="iconForModel(model)"
+              class="size-4 flex-shrink-0 text-n-slate-11"
+            />
+            <div class="flex flex-col w-full text-left gap-1">
+              <span class="text-sm font-medium leading-none text-n-slate-12">
+                {{ model.display_name }}
+              </span>
+              <span class="text-xs text-n-slate-11">
+                {{ getCreditLabel(model) }}
+              </span>
+            </div>
           </div>
         </DropdownItem>
       </DropdownBody>
