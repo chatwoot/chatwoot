@@ -1,8 +1,8 @@
-<section class="main-content__body">
- <hr/>
-  <div class="form-actions">
-  <p class="text-color-red">Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [<%= page.resource.name %> ]</p>
-    <a class='button' target='_blank' href='<%= page.resource.generate_sso_link_with_impersonation %>'>Impersonate user </a>
-  </div>
-</section>
+<div class="px-6 py-4">
+  <h3 class="text-sm font-medium text-n-slate-12 mb-2">Impersonate User</h3>
+  <p class="text-xs text-ruby-500 mb-3">Caution: Any actions executed after impersonate will appear as if performed by the impersonated user - [<%= page.resource.name %>]</p>
+  <a target="_blank" href="<%= page.resource.generate_sso_link_with_impersonation %>" class="inline-flex items-center justify-center h-8 px-3 text-sm font-medium text-n-slate-12 bg-n-alpha-2 rounded-lg hover:bg-n-alpha-3 transition-colors">
+    Impersonate user
+  </a>
+</div>
 

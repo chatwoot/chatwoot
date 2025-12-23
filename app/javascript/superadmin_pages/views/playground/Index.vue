@@ -99,37 +99,41 @@ export default {
 </script>
 
 <template>
-  <section class="flex flex-col w-full h-full bg-slate-25">
+  <section class="flex flex-col w-full h-full bg-n-background">
     <PlaygroundHeader
       :response-source-name="componentData.responseSourceName"
       :response-source-path="componentData.responseSourcePath"
     />
-    <div class="flex-1 px-8 py-4 overflow-auto">
-      <div
-        v-for="message in messages"
-        :id="`message-${message.id}`"
-        :key="message.id"
-      >
-        <UserMessage
-          v-if="message.type === 'User'"
-          :message="formatMessage(message.content)"
-        />
-        <BotMessage v-else :message="formatMessage(message.content)" />
+    <div class="flex-1 px-6 py-4 overflow-auto">
+      <div class="w-full mx-auto max-w-[60rem]">
+        <div
+          v-for="message in messages"
+          :id="`message-${message.id}`"
+          :key="message.id"
+        >
+          <UserMessage
+            v-if="message.type === 'User'"
+            :message="formatMessage(message.content)"
+          />
+          <BotMessage v-else :message="formatMessage(message.content)" />
+        </div>
+        <TypingIndicator v-if="isWaiting" />
       </div>
-      <TypingIndicator v-if="isWaiting" />
     </div>
-    <div class="w-full px-8 py-6">
-      <textarea
-        ref="messageInput"
-        v-model="messageContent"
-        :rows="4"
-        class="resize-none block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border !outline-2 border-slate-100 focus:ring-woot-500 focus:border-woot-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-woot-500 dark:focus:border-woot-500"
-        placeholder="Type a message... [CMD/CTRL + Enter to send]"
-        autofocus
-        autocomplete="off"
-        @keydown.meta.enter="onMessageSend"
-        @keydown.ctrl.enter="onMessageSend"
-      />
+    <div class="sticky bottom-0 z-10 px-6 py-6 bg-n-background">
+      <div class="w-full mx-auto max-w-[60rem]">
+        <textarea
+          ref="messageInput"
+          v-model="messageContent"
+          :rows="4"
+          class="resize-none block p-3 w-full text-sm text-n-slate-12 bg-n-solid-2 rounded-xl border border-n-weak focus:ring-2 focus:ring-woot-500 focus:border-woot-500 outline-none"
+          placeholder="Type a message... [CMD/CTRL + Enter to send]"
+          autofocus
+          autocomplete="off"
+          @keydown.meta.enter="onMessageSend"
+          @keydown.ctrl.enter="onMessageSend"
+        />
+      </div>
     </div>
   </section>
 </template>
