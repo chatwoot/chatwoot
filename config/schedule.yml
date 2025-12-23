@@ -2,9 +2,10 @@
 # use https://crontab.guru/ to validate
 # validations for this file exist in /spec/configs/schedule_spec.rb
 
-# executed At 12:00 on every day-of-month.
+# executed At minute 0 of every hour
+# Each installation runs only once per day at their designated hour
 internal_check_new_versions_job:
-  cron: '0 12 */1 * *'
+  cron: '0 * * * *'
   class: 'Internal::CheckNewVersionsJob'
   queue: scheduled_jobs
 # # executed At every 5th minute..
