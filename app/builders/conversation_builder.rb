@@ -14,7 +14,22 @@ class ConversationBuilder
   end
 
   def create_new_conversation
-    ::Conversation.create!(conversation_params)
+    conversation = ::Conversation.create!(conversation_params)
+
+    # Override status if explicitly provided in params
+    # This is required because the Conversation model's determine_conversation_status callback
+    # automatically sets status to :pending when there's an active bot on the inbox.
+    # However, when users manually create conversations (e.g., via the frontend form),
+    # they should be able to explicitly set the status to :open to bypass bot handling.
+    # We use update_column to avoid triggering callbacks and activity logs since this
+    # is just correcting the status to match the user's explicit intent.
+    if params[:status].present?
+      # rubocop:disable Rails/SkipsModelValidations
+      conversation.update_column(:status, params[:status])
+      # rubocop:enable Rails/SkipsModelValidations
+    end
+
+    conversation
   end
 
   def conversation_params
