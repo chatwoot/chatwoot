@@ -16,7 +16,16 @@ const getters = {
   getUIFlags: $state => $state.uiFlags,
   getModelsForFeature: $state => featureKey => {
     const feature = $state.features[featureKey];
-    return feature?.models || [];
+    const models = feature?.models || [];
+
+    return [...models].sort((a, b) => {
+      // Move coming_soon items to the end
+      if (a.coming_soon && !b.coming_soon) return 1;
+      if (!a.coming_soon && b.coming_soon) return -1;
+
+      // Sort by credit_multiplier (highest first)
+      return (b.credit_multiplier || 0) - (a.credit_multiplier || 0);
+    });
   },
   getDefaultModelForFeature: $state => featureKey => {
     const feature = $state.features[featureKey];

@@ -26,7 +26,7 @@ const emit = defineEmits(['change']);
 
 const PROVIDER_ICONS = {
   openai: 'i-logos-openai-icon',
-  anthropic: 'i-logos-claude-icon',
+  anthropic: 'i-logos-anthropic-icon',
   mistral: 'i-logos-mistral-icon',
   gemini: 'i-logos-gemini-icon',
 };
@@ -135,7 +135,10 @@ const selectModel = model => {
           :key="model.id"
           :click="() => selectModel(model)"
           class="rounded-lg hover:bg-n-alpha-1"
-          :class="{ 'bg-n-alpha-2': selectedModelId === model.id }"
+          :class="{
+            'bg-n-alpha-2': selectedModelId === model.id,
+            'pointer-events-none opacity-60': model.coming_soon,
+          }"
         >
           <div class="flex gap-2 w-full">
             <Icon
@@ -154,7 +157,10 @@ const selectModel = model => {
                   {{ t('GENERAL.PREFERRED') }}
                 </span>
               </div>
-              <span class="text-xs text-n-slate-11">
+              <span v-if="model.coming_soon" class="text-xs text-n-slate-11">
+                {{ t('CAPTAIN_SETTINGS.MODEL_CONFIG.COMING_SOON') }}
+              </span>
+              <span v-else class="text-xs text-n-slate-11">
                 {{ getCreditLabel(model) }}
               </span>
             </div>

@@ -2,6 +2,9 @@ providers:
   openai:
     display_name: 'OpenAI'
     logo: openai.png
+  anthropic:
+    display_name: 'Anthropic'
+    logo: anthropic.png
 
 models:
   gpt-4.1:
@@ -23,7 +26,7 @@ models:
   gpt-5.1:
     provider: openai
     display_name: 'GPT-5.1'
-    credit_multiplier: 1
+    credit_multiplier: 1.2
   gpt-5-mini:
     provider: openai
     display_name: 'GPT-5 Mini'
@@ -35,7 +38,17 @@ models:
   gpt-5.2:
     provider: openai
     display_name: 'GPT-5.2'
+    credit_multiplier: 1.5
+  claude-haiku-4.5:
+    provider: anthropic
+    display_name: 'Claude Haiku 4.5'
+    coming_soon: true
     credit_multiplier: 1
+  claude-sonnet-4:
+    provider: anthropic
+    display_name: 'Claude Sonnet 4'
+    coming_soon: true
+    credit_multiplier: 2
   whisper-1:
     provider: openai
     display_name: 'Whisper'
@@ -48,13 +61,40 @@ models:
 features:
   editor:
     models:
-      [gpt-4.1-mini, gpt-4.1-nano, gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+      [
+        gpt-4.1-mini,
+        gpt-4.1-nano,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+      ]
     default: gpt-4.1-mini
   assistant:
-    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+    models:
+      [
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4,
+      ]
     default: gpt-5.2
   copilot:
-    models: [gpt-5-mini, gpt-4.1, gpt-5, gpt-5.1, gpt-5.2]
+    models:
+      [
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4,
+      ]
     default: gpt-5.2
   label_suggestion:
     models: [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini]

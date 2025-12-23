@@ -56,6 +56,7 @@ module Llm::ConfigService
             id: model_name,
             display_name: model['display_name'],
             provider: model['provider'],
+            coming_soon: model['coming_soon'],
             credit_multiplier: model['credit_multiplier']
           }
         end,
