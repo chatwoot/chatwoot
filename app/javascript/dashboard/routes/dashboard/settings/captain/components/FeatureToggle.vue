@@ -1,30 +1,62 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
+import { useFunctionGetter, useMapGetter } from 'dashboard/composables/store';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
+import ModelDropdown from './ModelDropdown.vue';
 
 const props = defineProps({
   featureKey: {
     type: String,
     required: true,
   },
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
 });
 
-const emit = defineEmits(['change']);
+const emit = defineEmits(['change', 'modelChange']);
 
+const { t } = useI18n();
 const features = useMapGetter('captainConfig/getFeatures');
+
+const availableModels = useFunctionGetter(
+  'captainConfig/getModelsForFeature',
+  props.featureKey
+);
 
 const isEnabled = ref(false);
 
 const featureConfig = computed(() => features.value[props.featureKey]);
+
+const hasMultipleModels = computed(() => {
+  return availableModels.value && availableModels.value.length > 1;
+});
+
+const showModelSelector = computed(() => {
+  return isEnabled.value && hasMultipleModels.value;
+});
+
+const title = computed(() => {
+  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.TITLE`;
+  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+  return t(key);
+});
+
+const description = computed(() => {
+  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.DESCRIPTION`;
+  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+  return t(key);
+});
+
+const modelTitle = computed(() => {
+  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.MODEL_TITLE`;
+  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+  return t(key);
+});
+
+const modelDescription = computed(() => {
+  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.MODEL_DESCRIPTION`;
+  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+  return t(key);
+});
 
 watch(
   featureConfig,
@@ -39,18 +71,82 @@ watch(
 const toggleFeature = () => {
   emit('change', { feature: props.featureKey, enabled: isEnabled.value });
 };
+
+const handleModelChange = ({ feature, model }) => {
+  emit('modelChange', { feature, model });
+};
 </script>
 
 <template>
   <div
-    class="flex items-center justify-between gap-4 p-4 rounded-xl border border-n-weak bg-n-solid-1"
+    class="p-4 rounded-xl border border-n-weak bg-n-solid-1"
+    :class="
+      showModelSelector
+        ? 'flex flex-col gap-3'
+        : 'flex items-center justify-between gap-4'
+    "
   >
-    <div class="flex-1 min-w-0">
-      <h4 class="text-sm font-medium text-n-slate-12">{{ title }}</h4>
-      <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
+    <div class="flex items-center justify-between gap-4 flex-1">
+      <div class="flex-1 min-w-0">
+        <h4 class="text-sm font-medium text-n-slate-12">{{ title }}</h4>
+        <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
+      </div>
+      <div class="flex-shrink-0">
+        <Switch v-model="isEnabled" @change="toggleFeature" />
+      </div>
     </div>
-    <div class="flex-shrink-0">
-      <Switch v-model="isEnabled" @change="toggleFeature" />
+    <div v-if="showModelSelector" class="flex gap-2 ps-8 model-selector-item">
+      <div class="flex-1 min-w-0">
+        <h4 class="text-sm font-medium text-n-slate-12">{{ modelTitle }}</h4>
+        <p class="text-sm text-n-slate-11 mt-0.5">{{ modelDescription }}</p>
+      </div>
+      <div class="flex justify-end">
+        <ModelDropdown :feature-key="featureKey" @change="handleModelChange" />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.model-selector-item {
+  position: relative;
+}
+
+.model-selector-item::before {
+  content: '';
+  position: absolute;
+  width: 0.125rem;
+  height: 50%;
+  top: 0;
+  left: 0.75rem;
+  @apply border-n-weak bg-n-weak;
+}
+
+.model-selector-item::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 12px;
+  top: calc(50% - 6px);
+  left: 0.75rem;
+  border-bottom-width: 0.125rem;
+  border-left-width: 0.125rem;
+  border-right-width: 0px;
+  border-top-width: 0px;
+  border-radius: 0 0 0 4px;
+  @apply border-n-weak;
+}
+
+#app[dir='rtl'] .model-selector-item::before {
+  left: auto;
+  right: 0.75rem;
+}
+
+#app[dir='rtl'] .model-selector-item::after {
+  left: auto;
+  right: 0.75rem;
+  border-left-width: 0px;
+  border-right-width: 0.125rem;
+  border-radius: 0 0 4px 0;
+}
+</style>

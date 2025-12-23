@@ -44,20 +44,14 @@ const modelFeatures = computed(() => [
 const featureToggles = computed(() => [
   {
     key: 'audio_transcription',
-    title: t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.TITLE'),
-    description: t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.DESCRIPTION'),
     enterprise: true,
   },
   {
     key: 'help_center_search',
-    title: t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.TITLE'),
-    description: t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.DESCRIPTION'),
     enterprise: true,
   },
   {
     key: 'label_suggestion',
-    title: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.TITLE'),
-    description: t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.DESCRIPTION'),
     enterprise: true,
   },
 ]);
@@ -145,9 +139,8 @@ onMounted(() => {
               v-show="hasFeatureToggle(feature)"
               :key="feature.key"
               :feature-key="feature.key"
-              :title="feature.title"
-              :description="feature.description"
               @change="handleFeatureToggle"
+              @model-change="handleModelChange"
             />
           </div>
         </SectionLayout>
