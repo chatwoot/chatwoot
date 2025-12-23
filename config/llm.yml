@@ -19,10 +19,6 @@ models:
     provider: openai
     display_name: 'GPT-4.1 Nano'
     credit_multiplier: 0.1
-  gpt-5:
-    provider: openai
-    display_name: 'GPT-5'
-    credit_multiplier: 1
   gpt-5.1:
     provider: openai
     display_name: 'GPT-5.1'
@@ -76,7 +72,6 @@ features:
         gpt-4.1-nano,
         gpt-5-mini,
         gpt-4.1,
-        gpt-5,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -89,7 +84,6 @@ features:
       [
         gpt-5-mini,
         gpt-4.1,
-        gpt-5,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
@@ -103,7 +97,6 @@ features:
       [
         gpt-5-mini,
         gpt-4.1,
-        gpt-5,
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
