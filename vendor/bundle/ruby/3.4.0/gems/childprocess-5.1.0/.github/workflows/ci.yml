@@ -1,0 +1,32 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        ruby: [ '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', '3.3', head, jruby, truffleruby ]
+        # CRuby < 2.6 does not support macos-arm64, so test those on amd64 instead
+        # JRuby 9.4.7.0 does not have native console support on macos-arm64: https://github.com/jruby/jruby/issues/8271
+        include:
+        - { os: macos-13, ruby: '2.4' }
+        - { os: macos-13, ruby: '2.5' }
+        - { os: macos-13, ruby: jruby }
+        exclude:
+        - { os: macos-latest, ruby: '2.4' }
+        - { os: macos-latest, ruby: '2.5' }
+        - { os: macos-latest, ruby: jruby }
+        - { os: windows-latest, ruby: truffleruby }
+        # fails to load rspec: RuntimeError: CRITICAL: RUBYGEMS_ACTIVATION_MONITOR.owned?: before false -> after true
+        - { os: windows-latest, ruby: jruby }
+    runs-on: ${{ matrix.os }}
+    env:
+      CHILDPROCESS_UNSET: should-be-unset
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - run: bundle exec rake spec

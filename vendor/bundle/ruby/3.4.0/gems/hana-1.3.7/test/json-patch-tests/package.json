@@ -1,0 +1,15 @@
+{
+  "name": "json-patch-test-suite",
+  "version": "1.1.0",
+  "description": "JSON Patch RFC 6902 test suite",
+  "repository": "github:json-patch/json-patch-tests",
+  "homepage": "https://github.com/json-patch/json-patch-tests",
+  "bugs": "https://github.com/json-patch/json-patch-tests/issues",
+  "keywords": [
+    "JSON",
+    "Patch",
+    "test",
+    "suite"
+  ],
+  "license": "Apache-2.0"
+}

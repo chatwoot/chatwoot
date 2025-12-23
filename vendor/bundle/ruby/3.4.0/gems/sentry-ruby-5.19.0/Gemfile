@@ -1,0 +1,29 @@
+source "https://rubygems.org"
+git_source(:github) { |name| "https://github.com/#{name}.git" }
+
+gem "sentry-ruby", path: "./"
+
+rack_version = ENV["RACK_VERSION"]
+rack_version = "3.0.0" if rack_version.nil?
+gem "rack", "~> #{Gem::Version.new(rack_version)}" unless rack_version == "0"
+
+redis_rb_version = ENV.fetch("REDIS_RB_VERSION", "5.0")
+gem "redis", "~> #{redis_rb_version}"
+
+gem "puma"
+
+gem "timecop"
+gem "stackprof" unless RUBY_PLATFORM == "java"
+
+gem "graphql", ">= 2.2.6" if RUBY_VERSION.to_f >= 2.7
+
+gem "benchmark-ips"
+gem "benchmark_driver"
+gem "benchmark-ipsa"
+gem "benchmark-memory"
+
+gem "yard", github: "lsegal/yard"
+gem "webrick"
+gem "faraday"
+
+eval_gemfile File.expand_path("../Gemfile", __dir__)

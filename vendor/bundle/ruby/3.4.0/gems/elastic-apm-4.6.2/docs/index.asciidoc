@@ -1,0 +1,38 @@
+include::{asciidoc-dir}/../../shared/versions/stack/current.asciidoc[]
+include::{asciidoc-dir}/../../shared/attributes.asciidoc[]
+
+ifdef::env-github[]
+NOTE: For the best reading experience,
+please view this documentation at
+https://www.elastic.co/guide/en/apm/agent/ruby[elastic.co]
+endif::[]
+
+= APM Ruby Agent Reference
+
+include::./introduction.asciidoc[]
+
+include::./set-up.asciidoc[]
+
+include::./supported-technologies.asciidoc[]
+
+include::./configuration.asciidoc[]
+
+include::./advanced.asciidoc[]
+
+include::./api.asciidoc[]
+
+include::./metrics.asciidoc[]
+
+include::./opentracing.asciidoc[]
+
+include::./graphql.asciidoc[]
+
+include::./log-correlation.asciidoc[]
+
+include::./performance-tuning.asciidoc[]
+
+include::./debugging.asciidoc[]
+
+include::./upgrading.asciidoc[]
+
+include::./release-notes.asciidoc[]

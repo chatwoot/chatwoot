@@ -1,0 +1,15 @@
+---
+version: "2"
+services:
+  scenario:
+    build:
+      context: ..
+      dockerfile: scenarios/rails31.dockerfile
+    image: pryrails_scenario_rails31
+    volumes:
+    - "..:/scenario"
+    - "bundle_rails31:/usr/local/bundle"
+    environment:
+      BUNDLE_GEMFILE: scenarios/rails31.gemfile
+volumes:
+  bundle_rails31: {}

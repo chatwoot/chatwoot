@@ -1,0 +1,14 @@
+---
+inherit_gem:
+  rubocop-fnando: .rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  Exclude:
+    - vendor/**/*
+    - gemfiles/**/*
+
+Naming/FileName:
+  Exclude:
+    - lib/email-provider-info.rb

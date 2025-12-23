@@ -1,0 +1,17 @@
+---
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+        - ruby
+  fixme:
+    enabled: true
+  rubocop:
+    enabled: true
+    channel: rubocop-0-78
+ratings:
+  paths:
+    - "**.rb"
+exclude_paths:
+  - "spec/"

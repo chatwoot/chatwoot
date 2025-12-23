@@ -1,0 +1,22 @@
+====== Option +return_headers+
+
+Specifies the boolean that determines whether method #shift
+returns or ignores the header row.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:return_headers) # => false
+
+Examples:
+  str = <<-EOT
+  Name,Count
+  foo,0
+  bar,1
+  bax,2
+  EOT
+  # Without return_headers first row is str.
+  csv = CSV.new(str, headers: true)
+  csv.shift # => #<CSV::Row "Name":"foo" "Count":"0">
+  # With return_headers first row is headers.
+  csv = CSV.new(str, headers: true, return_headers: true)
+  csv.shift # => #<CSV::Row "Name":"Name" "Count":"Count">
+

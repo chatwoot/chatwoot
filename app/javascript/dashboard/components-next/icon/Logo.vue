@@ -1,16 +1,25 @@
 <script setup>
-import { useAttrs } from 'vue';
+import { useAttrs, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useStore } from 'vuex';
 
 const attrs = useAttrs();
+const store = useStore();
 const globalConfig = useMapGetter('globalConfig/get');
+const branding = useMapGetter('branding/get');
+
+// Prefer branding logo, fallback to globalConfig
+const logoUrl = computed(() => {
+  return branding.logoCompactUrl || branding.logoMainUrl || globalConfig.logoThumbnail;
+});
 </script>
 
 <template>
   <img
-    v-if="globalConfig.logoThumbnail"
+    v-if="logoUrl"
     v-bind="attrs"
-    :src="globalConfig.logoThumbnail"
+    :src="logoUrl"
+    :alt="branding.brandName || 'Logo'"
   />
   <svg
     v-else

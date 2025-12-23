@@ -1,0 +1,452 @@
+en:
+  faker:
+    kamen_rider:
+      showa:
+        series: ["Kamen Rider", "Kamen Rider V3", "Kamen Rider X", "Kamen Rider Amazon", "Kamen Rider Stronger", "Kamen Rider (Skyrider)", "Kamen Rider Super-1", "Kamen Rider Black", "Kamen Rider ZX", "Kamen Rider Black RX", "Shin Kamen Rider: Prologue", "Kamen Rider ZO", "Kamen Rider J"]
+        kamen_riders: ["Kamen Rider 1", "Kamen Rider 2", "Kamen Rider V3", "Riderman", "Kamen Rider X", "Kamen Rider Amazon", "Kamen Rider Stronger", "Skyrider", "Kamen Rider Super-1", "Kamen Rider ZX", "Kamen Rider Black", "Kamen Rider Black RX", "Kamen Rider Shin", "Kamen Rider ZO", "Kamen Rider J"]
+        users:
+          - Takeshi Hongo
+          - Hayato Ichimonji
+          - Shiro Kazami
+          - Joji Yuki
+          - Keisuke Jin
+          - Daisuke Yamamoto
+          - Shigeru Jo
+          - Hiroshi Tsukuba
+          - Kazuya Oki
+          - Ryo Murasame
+          - Kohtaro Minami
+          - Kohtaro Minami
+          - Shin Kazamatsuri
+          - Masaru Aso
+          - Kouji Segawa
+        transformation_devices:
+          - Typhoon
+          - Double Typhoon
+          - Ridol
+          - Redizer
+          - Perfecter
+          - GiGi Armlet
+          - Electrer
+          - Tornado
+          - Cyclode
+          - ZX Belt
+          - Vital Charger
+          - Shadow Charger
+          - Sunriser
+      heisei:
+        series: ["Kamen Rider Kuuga", "Kamen Rider Agito", "Kamen Rider Ryuki", "Kamen Rider 555", "Kamen Rider Blade", "Kamen Rider Hibiki", "Kamen Rider Kabuto", "Kamen Rider Den-O", "Kamen Rider Kiva", "Kamen Rider Decade", "Kamen Rider W", "Kamen Rider OOO", "Kamen Rider Fourze", "Kamen Rider Wizard", "Kamen Rider Gaim", "Kamen Rider Drive", "Kamen Rider Ghost", "Kamen Rider Amazons", "Kamen Rider Ex-Aid", "Kamen Rider Build", "Kamen Rider Zi-O"]
+        kamen_riders: ["Kamen Rider Kuuga", "Kamen Rider Agito", "Kamen Rider G3", "Kamen Rider Gills", "Kamen Rider G4", "Another Agito", "Kamen Rider Ryuki", "Kamen Rider Knight", "Kamen Rider Scissors", "Kamen Rider Zolda", "Kamen Rider Raia", "Kamen Rider Gai", "Kamen Rider Ouja", "Kamen Rider Odin", "Kamen Rider Femme", "Kamen Rider Ryuga", "Kamen Rider Tiger", "Kamen Rider Verde", "Kamen Rider Imperer", "Kamen Rider Faiz", "Kamen Rider Kaixa", "Kamen Rider Delta", "Kamen Rider Psyga", "Kamen Rider Orga", "Kamen Rider Blade", "Kamen Rider Garren", "Kamen Rider Chalice", "Kamen Rider Leangle", "Kamen Rider Glaive", "Kamen Rider Lance", "Kamen Rider Larc", "Kamen Rider Hibiki", "Kamen Rider Ibuki", "Kamen Rider Danki", "Kamen Rider Sabaki", "Kamen Rider Todoroki", "Kamen Rider Zanki", "Kamen Rider Eiki", "Kamen Rider Kabuki", "Kamen Rider Touki", "Kamen Rider Kirameki", "Kamen Rider Nishiki", "Kamen Rider Habataki", "Kamen Rider Shouki", "Kamen Rider Gouki", "Kamen Rider Toki", "Kamen Rider Banki", "Kamen Rider Shuki", "Kamen Rider Kabuto", "Kamen Rider TheBee", "Kamen Rider Drake", "Kamen Rider Sasword", "Kamen Rider Gatack", "Kamen Rider Hercus", "Kamen Rider Ketaros", "Kamen Rider Caucasus", "Kamen Rider KickHopper", "Kamen Rider PunchHopper", "Kamen Rider Dark Kabuto", "Kamen Rider Den-O", "Kamen Rider Zeronos", "Kamen Rider Gaoh", "Kamen Rider Nega Den-O", "Kamen Rider Yuuki", "Kamen Rider New Den-O", "Kamen Rider G Den-O", "Kamen Rider Kiva", "Kamen Rider Ixa", "Kamen Rider Rey", "Kamen Rider Arc", "Kamen Rider Saga", "Kamen Rider Dark Kiva", "Kamen Rider Decade", "Kamen Rider Abyss", "Kamen Rider Diend", "Kamen Rider Amaki", "Kamen Rider Kiva-la", "Kamen Rider Double", "Kamen Rider Skull", "Kamen Rider Accel", "Kamen Rider Eternal", "Kamen Rider Joker", "Kamen Rider OOO", "Kamen Rider Birth", "Kamen Rider Core", "Kamen Rider Birth·Proto Type", "Kamen Rider Poseidon", "Kamen Rider Aqua", "Kamen Rider Fourze", "Kamen Rider Nadeshiko", "Kamen Rider Meteor", "Kamen Rider Wizard", "Kamen Rider Wiseman", "Kamen Rider Beast", "Kamen Rider Mage", "Kamen Rider Sorcerer", "Kamen Rider Gaim", "Kamen Rider Zangetsu", "Kamen Rider Baron", "Kamen Rider Ryugen", "Kamen Rider Gridon", "Kamen Rider Kurokage", "Kamen Rider Bravo", "Kamen Rider Bujin Gaim", "Kamen Rider Duke", "Kamen Rider Marika", "Kamen Rider Sigurd", "Kamen Rider Knuckle", "Kamen Rider Fifteen", "Kamen Rider Mars", "Kamen Rider Kamuro", "Kamen Rider Jam", "Kamen Rider Idunn", "Kamen Rider Tyrant", "Kamen Rider Saver", "Kamen Rider Black Baron", "Kamen Rider Sylphi", "Kamen Rider Protodrive", "Kamen Rider Drive", "Kamen Rider Lupin", "Kamen Rider Mach", "Kamen Rider 3", "Kamen Rider 4", "Kamen Rider Chaser", "Kamen Rider Dark Drive", "Kamen Rider Jun", "Kamen Rider Chaser Mach", "Kamen Rider Mach Chaser", "Kamen Rider Heart", "Kamen Rider Brain", "Kamen Rider Ghost", "Kamen Rider Specter", "Kamen Rider Necrom", "Kamen Rider Dark Necrom Pink", "Kamen Rider Dark Ghost", "Kamen Rider Dark Necrom Red", "Kamen Rider Dark Necrom Blue", "Kamen Rider Dark Necrom Yellow", "Kamen Rider Zero Specter", "Kamen Rider Extremer", "Kamen Rider Kanon Specter", "Kamen Rider Amazon Omega", "Kamen Rider Amazon Alpha", "Kamen Rider Amazon Sigma", "Kamen Rider Amazon Neo", "Kamen Rider Amazon Neo Alpha", "Kamen Rider Ex-Aid", "Kamen Rider Genm", "Kamen Rider Brave", "Kamen Rider Snipe", "Kamen Rider Lazer", "Kamen Rider Para-DX", "Kamen Rider True Brave", "Aka-Rider", "Ao-Rider", "Mido-Rider", "Ki-Rider", "Momo-Rider", "Kamen Rider Poppy", "Kamen Rider Cronus", "Kamen Rider Fuma", "Kamen Rider Another Para-DX", "Kamen Rider Build", "Kamen Rider Cross-Z", "Kamen Rider Grease", "Kamen Rider Rogue", "Kamen Rider Evol", "Kamen Rider MadRogue", "Kamen Rider Blood", "Kamen Rider Killbus", "Kamen Rider Metal Build", "Kamen Rider Zi-O", "Kamen Rider Geiz", "Kamen Rider Woz", "Kamen Rider Shinobi", "Kamen Rider Quiz", "Kamen Rider Kikai", "Kamen Rider Hattari", "Kamen Rider Ginga", "Kamen Rider Barlckxs", "Kamen Rider Zonjis", "Kamen Rider Zamonas", "Kamen Rider Tsukuyomi"]
+        users:
+          - Yusuke Godai
+          - Shoichi Tsugami
+          - Makoto Hikawa
+          - Ryo Ashihara
+          - Shiro Mizuki
+          - Kaoru Kino
+          - Shinji Kido
+          - Ren Akiyama
+          - Masashi Sudo
+          - Shuichi Kitaoka
+          - Miyuki Tezuka
+          - Jun Shibaura
+          - Takeshi Asakura
+          - Kamen Rider Odin
+          - Miho Kirishima
+          - Dark Shinji
+          - Satoru Tojo
+          - Itsuro Takamizawa
+          - Mitsuru Sano
+          - Takumi Inui
+          - Masato Kusaka
+          - Syuji Mihara
+          - Leo
+          - Yuji Kiba
+          - Kazuma Kenzaki
+          - Sakuya Tachibana
+          - Hajime Aikawa
+          - Mutsuki Kamijo
+          - Junichi Shimura
+          - Shin Magaki
+          - Natsumi Miwa
+          - Hitoshi Hidaka
+          - Iori Izumi
+          - Daisuke Danda
+          - Sakae Saeki
+          - Tomizo Todayama
+          - Zaomaru Zaitsuhara
+          - Eiki
+          - Kabuki
+          - Touki
+          - Kirameki
+          - Nishiki
+          - Habataki
+          - Shouki
+          - Gouki
+          - Toki
+          - Banki
+          - Shiori Shinagawa
+          - Soji Tendo
+          - Shun Kageyama
+          - Daisuke Kazama
+          - Tsurugi Kamishiro
+          - Arata Kagami
+          - Hidenari Oda
+          - Tetsuki Yamato
+          - Issei Kurosaki
+          - So Yaguruma
+          - Shun Kageyama
+          - Soji Kusakabe
+          - Ryotaro Nogami
+          - Yuto Sakurai
+          - Gaoh
+          - Negataros
+          - Shiro
+          - Kotaro Nogami
+          - Reiji Kurosaki
+          - Wataru Kurenai
+          - Keisuke Nago
+          - Takato Shiramine
+          - Takashi Sugimura
+          - Taiga Nobori
+          - King
+          - Tsukasa Kadoya
+          - Kamata
+          - Daiki Kaito
+          - Akira
+          - Natsumi Hikari
+          - Shotaro Hidari & Philip
+          - Sokichi Narumi
+          - Ryu Terui
+          - Katsumi Daido
+          - Shotaro Hidari
+          - Eiji Hino
+          - Shintaro Goto
+          - Kamen Rider Core
+          - Akira Date
+          - Poseidon
+          - Michal Minato
+          - Gentaro Kisaragi
+          - Nadeshiko Misaki
+          - Ryusei Sakuta
+          - Haruto Soma
+          - Sou Fueki
+          - Kosuke Nitoh
+          - Mayu Inamori
+          - Ogma
+          - Kouta Kazuraba
+          - Takatora Kureshima
+          - Kaito Kumon
+          - Mitsuzane Kureshima
+          - Hideyasu Jonouchi
+          - Ryoji Hase
+          - Oren Pierre Alfonzo
+          - Bujin Gaim
+          - Ryoma Sengoku
+          - Yoko Minato
+          - Lock Dealer Sid
+          - Zack
+          - Ren Aoi
+          - Kohgane
+          - Lapis
+          - Kohgane
+          - Touka Akatsuki
+          - Alfred
+          - Kugai Kudo
+          - Shura
+          - Masako Suzuka
+          - Chase
+          - Shinnosuke Tomari
+          - Zoruku Tojo
+          - Kyoichiro Kuroi
+          - Kamen Rider 4
+          - Chase
+          - Paradox Roidmude
+          - Jun Honganji
+          - Go Shijima
+          - Heart
+          - Brain
+          - Takeru Tenkuji
+          - Makoto Fukami
+          - Alain
+          - Alia
+          - Argos
+          - Jered
+          - Jebil
+          - Jey
+          - Daigo Fukami
+          - Argos
+          - Kanon Fukami
+          - Haruka Mizusawa
+          - Jin Takayama
+          - Jun Maehara
+          - Chihiro
+          - Einosuke Mido
+          - Emu Hojo
+          - Kuroto Dan
+          - Hiiro Kagami
+          - Taiga Hanaya
+          - Kiriya Kujo
+          - Parado
+          - Another Hiiro
+          - Emu Hojo
+          - Yakumo Katou
+          - Shuichi Kitaoka
+          - Masato Jin
+          - Momotaros
+          - Poppy Pipopapo
+          - Masamune Dan
+          - Kagenari Nagumo
+          - Black Parado
+          - Sento Kiryu
+          - Ryuga Banjo
+          - Kazumi Sawatari
+          - Gentoku Himuro
+          - Evolto
+          - Nariaki Utsumi
+          - Kengo Ino
+          - Killbus
+          - Keiji Uraga
+          - Sougo Tokiwa
+          - Geiz Myokoin
+          - Black Woz
+          - Rentaro Kagura
+          - Mondo Douan
+          - Rento Makina
+          - Isamichi Konjo
+          - Kamen Rider Ginga
+          - SOUGO Tokiwa
+          - Kagen
+          - Jogen
+          - Tsukuyomi
+        collectible_devices:
+          - Advent Card
+          - Mission Memory
+          - Rouse Card
+          - Disk Animal
+          - Zecter
+          - Rider Ticket
+          - Fuestle
+          - Rider Car
+          - Gaia Memory
+          - O Medal
+          - Astroswitch
+          - Wizard Ring
+          - Lockseed
+          - Shift Car
+          - Signal Bike
+          - Viral Core
+          - Ghost Eyecon
+          - Rider Gashat
+          - Energy Item
+          - Fullbottle
+          - Sclashjelly
+          - Ridewatch
+          - Miridewatch
+        transformation_devices:
+          - Acceldriver
+          - Altering
+          - Amazons Driver
+          - Ank Point
+          - Aqua Driver
+          - Arc Kivat
+          - Arc Kivat Belt
+          - Arcle
+          - Assault Grip
+          - Beast Driver
+          - Beyondriver
+          - Birth Driver
+          - Blay Buckle
+          - Brain Driver
+          - Break Gunner
+          - Bugster Buckle
+          - Build Driver
+          - Card Decks
+          - Caucasus Zecter
+          - Chalice Rouzer
+          - Cross-Z Magma Knuckle
+          - Dark Kabuto Zecter
+          - Dark Kivat Belt
+          - Decadriver
+          - Den-O Belt
+          - Diendriver
+          - Dooms Driver Buckle
+          - Doubledriver
+          - Drago Timer
+          - Drake Glip
+          - Drake Zecter
+          - Drive Driver
+          - Ecto-Accelerator Belt
+          - Eden Driver
+          - Evol-Driver
+          - Extremer Driver
+          - Eyecon Driver G
+          - Fourze Driver
+          - G Den-O Belt
+          - Gaia Driver
+          - Gaia Driver Rex
+          - Gamer Driver
+          - Ganbaride Driver
+          - Gaoh Belt
+          - Garren Buckle
+          - Gashacon Bugvisor
+          - Gashacon Bugvisor II
+          - Gashat Gear Dual
+          - Gashat Gear Dual Another
+          - Gashat Gear Dual β
+          - Gatack Zecter
+          - Genesis Driver
+          - Ghost Driver
+          - GingaOh Driver
+          - Gingadriver
+          - Glaive Buckle
+          - Golden Khakkhara
+          - Grease Blizzard Knuckle
+          - Grease Perfect Kingdom
+          - Haken Bladriver
+          - Hattaridriver
+          - Henshin Kigen
+          - Henshin Onibue
+          - Henshin Onsa
+          - Hercus Zecter
+          - Hopper Zecter
+          - Hypnos
+          - Ixa Belt
+          - Ixa Knuckle
+          - J-Spirit
+          - Jacorder
+          - Jaken Caliburdriver
+          - K-Taros
+          - K-Touch
+          - Kabutick Zecters
+          - Kabuto Zecter
+          - Ketaros Zecter
+          - Kikaidriver
+          - Killbuspider
+          - Kiva-la
+          - Kivat Belt
+          - Kivat-Bat the 2nd
+          - Kivat-Bat the 3rd
+          - Kivat-Bat the 4th
+          - Krim Steinbelt
+          - Lance Buckle
+          - Larc Buckle
+          - Leangle Buckle
+          - Lostdriver
+          - Lupin Gunner
+          - Mach Driver Honoh
+          - Mach Driver Production Model
+          - Mage's Belt
+          - Mega Ulorder
+          - Meta Factor
+          - Meteor Driver
+          - Militant Amazons Register
+          - Miraidriver
+          - NS-MagPhone
+          - Nadeshiko Driver
+          - Nebulasteam Gun
+          - Neo Amazons Driver
+          - Neo Amazons Register
+          - New Den-O Belt
+          - O Scanner
+          - OOO Driver
+          - Ohma Zi-O Driver
+          - Poseidon Driver
+          - Proto Mega Ulorder
+          - Pure Silver Metal Stick
+          - Quizdriver
+          - Rey Kivat
+          - Rey Kivat Belt
+          - Rider Belt
+          - Rider Brace
+          - Rider Buckle
+          - Riderman Suit
+          - Robo-Accelerator Belt
+          - Rouse Absorber
+          - SB-000B Orga Driver
+          - SB-315B Psyga Driver
+          - SB-315P Psyga Phone
+          - SB-333B Delta Driver
+          - SB-333DV Delta Mover
+          - SB-555B Faiz Driver
+          - SB-555P Faiz Phone
+          - SB-555W Faiz Axel
+          - SB-913B Kaixa Driver
+          - SB-913P Kaixa Phone
+          - Sagarc
+          - Sagarc Belt
+          - Sasword Yaiver
+          - Sasword Zecter
+          - Sclash Driver
+          - Sengoku Driver
+          - Shift Brace
+          - Shinobidriver
+          - Smart Buckle
+          - Sorcerer's Belt
+          - TheBee Zecter
+          - Tokujo-ka Key
+          - Transteam Gun
+          - Zecter
+      reiwa:
+        series: ["Kamen Rider Zero-One", "Kamen Rider Saber", "Kamen Rider Revice"]
+        kamen_riders: ["Kamen Rider Zero-One",  "Kamen Rider Vulcan",  "Kamen Rider Valkyrie",  "Kamen Rider Horobi",  "Kamen Rider Jin",  "Kamen Rider Ikazuchi",  "Kamen Rider ZeroZero-One",  "Kamen Rider Ichi-Gata",  "Kamen Rider Thouser",  "Kamen Rider Ark-Zero",  "Kamen Rider Naki",  "Kamen Rider Eden",  "Kamen Rider Abaddon",  "Kamen Rider Lucifer",  "Kamen Rider Zaia",  "Kamen Rider MetsubouJinrai",  "Kamen Rider Saber",  "Kamen Rider Calibur",  "Kamen Rider Blades",  "Kamen Rider Buster",  "Kamen Rider Espada",  "Kamen Rider Kenzan",  "Kamen Rider Slash",  "Kamen Rider Falchion",  "Kamen Rider Saikou",  "Kamen Rider Sabela",  "Kamen Rider Durendal",  "Kamen Rider Solomon",  "Kamen Rider Storious",  "Kamen Rider Revi",  "Kamen Rider Vice"]
+        users:
+          - Aruto Hiden
+          - Isamu Fuwa
+          - Yua Yaiba
+          - Horobi
+          - Jin
+          - Ikazuchi
+          - Soreo Hiden
+          - Gai Amatsu
+          - Ark
+          - Naki
+          - Rihito Isshiki
+          - Behru
+          - Lyon Arkland
+          - MetsubouJinrai
+          - Touma Kamiyama
+          - Daichi Kamijo
+          - Rintaro Shindo
+          - Ryo Ogami
+          - Kento Fukamiya
+          - Ren Akamichi
+          - Tetsuo Daishinji
+          - Bahato
+          - Yuri
+          - Reika Shindai
+          - Ryoga Shindai
+          - Isaac
+          - Storious
+          - Ikki Igarashi
+          - Vice
+        collectible_devices:
+          - Progrisekey
+          - Wonder Ride Book
+          - Vistamp
+        transformation_devices:
+          - A.I.M.S. Shotriser
+          - Abaddoriser
+          - Cycloneriser
+          - MetsubouJinrai Driver
+          - MetsubouJinrai Forceriser
+          - Raidriser
+          - Suiseiken Nagare
+          - Seiken Saikou Driver
+          - Seiken Swordriver
+          - Fuusouken Hayate
+          - Revice Driver
+          - Ark Driver
+          - Hiden Zero-One Driver
+          - Hiden Zero-Two Driver
+          - Gekkou Raimeiken Ikazuchi
+          - Raimeiken Ikazuchi
+          - Kaenken Rekka
+          - Haouken Xross Saber
+          - Dogouken Gekido
+          - Kougouken Saikou
+          - Mumeiken Kyomu
+          - Jikokuken Kaiji
+          - Eneiken Noroshi
+          - Ankokuken Kurayami
+          - Onjuuken Suzune

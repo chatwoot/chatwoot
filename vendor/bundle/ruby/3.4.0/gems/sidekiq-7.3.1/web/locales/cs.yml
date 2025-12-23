@@ -1,0 +1,78 @@
+# elements like %{queue} are variables and should not be translated
+cs:
+  Actions: Akce
+  AddToQueue: Přidat do fronty
+  AreYouSure: Jste si jisti?
+  AreYouSureDeleteJob: Jste si jisti, že chcete odstranit tento úkol?
+  AreYouSureDeleteQueue: Jste si jisti, že chcete odstranit frontu %{queue}?
+  Arguments: Argumenty
+  Busy: Zaneprázdněné
+  Class: Třída
+  Connections: Připojení
+  CreatedAt: Vytvořeno
+  CurrentMessagesInQueue: Aktuální úkoly ve frontě <span class='title'>%{queue}</span>
+  Dashboard: Kontrolní panel
+  Dead: Mrtvé
+  DeadJobs: Mrtvé úkoly
+  Delete: Odstranit
+  DeleteAll: Odstranit vše
+  Enqueued: Zařazené
+  Error: Chyba
+  ErrorBacktrace: Chybový výstup
+  ErrorClass: Třída chyby
+  ErrorMessage: Chybová zpráva
+  Extras: Doplňky
+  Failed: Nezdařené
+  Failures: Selhání
+  GoBack: ← Zpět
+  History: Historie
+  Job: Úkol
+  Jobs: Úkoly
+  Kill: Zabít
+  LastRetry: Poslední opakování
+  LivePoll: Průběžně aktualizovat
+  MemoryUsage: Využití paměti
+  Namespace: Jmenný prostor
+  NextRetry: Další opakování
+  NoDeadJobsFound: Nebyly nalezeny žádné mrtvé úkoly
+  NoRetriesFound: Nebyla nalezena žádná opakování
+  NoScheduledFound: Nebyly nalezeny žádné naplánované úkoly
+  NotYetEnqueued: Ještě nezařazeno
+  OneMonth: 1 měsíc
+  OneWeek: 1 týden
+  OriginallyFailed: Původně se nezdařilo
+  Paused: Pozastavené
+  PeakMemoryUsage: Nejvyšší využití paměti
+  Plugins: Doplňky
+  PollingInterval: Interval obnovení
+  Processed: Zpracované
+  Processes: Procesy
+  Queue: Fronta
+  Queues: Fronty
+  Quiet: Ztišit
+  QuietAll: Ztišit vše
+  Realtime: V reálném čase
+  Retries: Opakování
+  RetryAll: Opakovat vše
+  RetryCount: Počet opakování
+  RetryNow: Opakovat teď
+  Scheduled: Naplánované
+  ScheduledJobs: Naplánované úkoly
+  ShowAll: Ukázat všechny
+  SixMonths: 6 měsíců
+  Size: Velikost
+  Started: Začal
+  Status: Stav
+  Stop: Zastavit
+  StopAll: Zastavit vše
+  StopPolling: Zastavit průběžnou aktualizaci
+  Thread: Vlákno
+  Threads: Vlákna
+  ThreeMonths: 3 měsíce
+  Time: Čas
+  Uptime: Uptime (dny)
+  Version: Verze
+  When: Kdy
+  Worker: Worker
+  active: aktivní
+  idle: nečinný

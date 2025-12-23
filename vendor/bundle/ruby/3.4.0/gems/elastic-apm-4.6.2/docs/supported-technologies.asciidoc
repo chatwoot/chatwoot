@@ -1,0 +1,157 @@
+ifdef::env-github[]
+NOTE: For the best reading experience,
+please view this documentation at https://www.elastic.co/guide/en/apm/agent/ruby[elastic.co]
+endif::[]
+
+[[supported-technologies]]
+== Supported technologies
+
+The Elastic APM Ruby Agent has built-in support for many frameworks and
+libraries. Generally, we want to support all of the most popular libraries. If your favorite
+is missing, feel free to request it in an issue, or better yet, create a pull
+request.
+
+[float]
+[[supported-technologies-ruby]]
+=== Ruby
+
+We follow Ruby's own maintenance policy and officially support all currently
+maintained versions per
+https://www.ruby-lang.org/en/downloads/branches/[Ruby Maintenance Branches].
+
+[float]
+[[supported-technologies-web]]
+=== Web Frameworks and Libraries
+
+We have automatic support for Ruby on Rails and all Rack compatible web
+frameworks.
+
+We test against all supported minor versions of Rails, Sinatra, and Grape.
+
+[float]
+[[supported-technologies-rails]]
+==== Ruby on Rails
+
+We currently support all versions of Rails since 4.2.
+This follows Rails' own https://rubyonrails.org/security/[Security policy].
+
+See <<getting-started-rails>>.
+
+[float]
+[[supported-technologies-sinatra]]
+==== Sinatra
+
+We currently support all versions of Sinatra since 1.0.
+
+See <<getting-started-rack>>.
+
+[float]
+[[supported-technologies-grape]]
+==== Grape
+
+We currently support all versions of Grape since 1.2.
+
+See <<getting-started-grape>>.
+
+[float]
+[[supported-technologies-databases]]
+=== Databases
+
+We automatically instrument database actions using:
+
+- ActiveRecord (v4.2+)
+- DynamoDB (v1.0+)
+- Elasticsearch (v0.9+)
+- Mongo (v2.1+)
+- Redis (v3.1+)
+- Sequel (v4.35+)
+
+[float]
+[[supported-technologies-http]]
+=== External HTTP requests
+
+We automatically instrument and add support for distributed tracing to external
+requests using these libraries:
+
+- `net/http`
+- Http.rb (v0.6+)
+- Faraday (v0.2.1+)
+
+*Note:* These libraries usually assume `localhost` if no `Host` is specified, so the agent does as well. 
+
+[float]
+[[supported-technologies-backgroud-processing]]
+=== Background Processing
+
+We automatically instrument background processing using:
+
+- DelayedJob
+- Sidekiq
+- Shoryuken
+- Sneakers (v2.12.0+) (Experimental, see https://github.com/elastic/apm-agent-ruby/pull/676[#676])
+- Resque (v2.0.0+)
+- SuckerPunch (v2.0.0+)
+
+[float]
+[[supported-technologies-resque]]
+=== Resque
+
+To make the agent work with Resque, you need to require `elastic_apm/resque` before you boot your Resque worker process.
+
+For example in your `Rakefile`:
+
+[source,ruby]
+----
+require 'resque'
+require 'elastic_apm'
+require 'elastic_apm/resque'
+----
+
+When you start Resque, you should see a series of messages like the following in the Resque logs:
+
+[source,ruby]
+----
+I, [XXX #81227]  INFO -- : Starting worker main
+D, [XXX #81227] DEBUG -- : Registered signals
+I, [XXX #81227]  INFO -- : Running before_first_fork hooks
+D, [XXX #81227] DEBUG -- : Starting ElasticAPM agent
+----
+
+Also be sure to set the Resque environment variable `RUN_AT_EXIT_HOOKS` to `true`. Otherwise, the fork may be
+terminated before the agent has a chance to send all the fork's events to the APM server.
+
+[float]
+[[supported-technologies-sucker-punch]]
+=== SuckerPunch
+
+Asynchronously executed jobs in SuckerPunch are automatically instrumented.
+
+Note that errors raised in the user-defined `JobClass#perform` method will be first handled by the SuckerPunch exception
+handler before being handled by the agent. The handler is accessed/set via `SuckerPunch.exception_handler` in version
+2.0. The agent transaction will be marked as successful unless you re-raise the error in the exception handler.
+You can also explicitly report the error via <<api-agent-report,`ElasticAPM.report`>> in a custom SuckerPunch exception
+handler.
+
+[float]
+[[supported-technologies-grpc]]
+=== gRPC
+
+We automatically instrument gRPC using the `grpc` gem. Note that this is experimental, as the `grpc` gem's
+support for `Interceptors` is experimental as of version 1.27.0.
+
+To instrument a client, add the `ElasticAPM::GRPC::ClientInterceptor` as an `interceptor` at Stub creation.
+
+[source,ruby]
+----
+Helloworld::Greeter::Stub.new(
+  'localhost:50051',
+  interceptors: [ElasticAPM::GRPC::ClientInterceptor.new]
+)
+----
+
+To instrument a server, add the `ElasticAPM::GRPC::ServerInterceptor`.
+
+[source,ruby]
+----
+GRPC::RpcServer.new(interceptors: [ElasticAPM::GRPC::ServerInterceptor.new])
+----

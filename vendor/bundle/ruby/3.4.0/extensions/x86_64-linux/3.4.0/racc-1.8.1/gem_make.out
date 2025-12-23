@@ -1,0 +1,18 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-vxblda sitelibdir\=./.gem.20251220-192266-vxblda clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-vxblda sitelibdir\=./.gem.20251220-192266-vxblda
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-vxblda sitelibdir\=./.gem.20251220-192266-vxblda install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20251220-192266-vxblda/racc
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-vxblda sitelibdir\=./.gem.20251220-192266-vxblda clean

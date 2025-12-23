@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+# These would not be in a real GLI app; we do this so we can easily run this on the command line
+$: << File.expand_path(File.join(File.dirname(__FILE__),'..','..','..','lib'))
+$: << File.expand_path(File.join(File.dirname(__FILE__),'..','lib'))
+
+require 'gli'
+require 'todo/version'
+
+
+if ENV['GLI1_COMPATIBILITY']
+include GLI
+else
+include GLI::App
+end
+
+sort_help (ENV['TODO_SORT_HELP'] || 'alpha').to_sym
+wrap_help_text (ENV['TODO_WRAP_HELP_TEXT'] || 'to_terminal').to_sym
+
+program_desc 'Manages tasks'
+program_long_desc "A test program that has a sophisticated UI that can be used to exercise a lot of GLI's power"
+
+config_file "gli_test_todo.rc"
+
+flag :flag
+switch :switch
+switch :otherswitch, :negatable => true
+
+version Todo::VERSION
+
+commands_from 'todo/commands'
+commands_from File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'todo_plugins', 'commands'))
+
+command :first  do |c| c.action { |g,o,a| puts "first: #{a.join(',')}" } end
+command :second do |c| c.action { |g,o,a| puts "second: #{a.join(',')}" } end
+
+command :chained         => [ :first, :second ]
+command [:chained2,:ch2] => [ :second, :first ]
+
+pre do |global,command,options,args|
+  # Pre logic here
+  # Return true to proceed; false to abort and not call the
+  # chosen command
+  # Use skips_pre before a command to skip this block
+  # on that command only
+  true
+end
+
+post do |global,command,options,args|
+  # Post logic here
+  # Use skips_post before a command to skip this
+  # block on that command only
+end
+
+on_error do |exception|
+  # Error logic here
+  # return false to skip default error handling
+  true
+end
+
+exit run(ARGV)

@@ -1,0 +1,2453 @@
+en:
+  faker:
+    tolkien:
+      poems:
+        - Chip the glasses and crack the plates
+        - Far over the misty mountains cold
+        - O! What are you doing?
+        - Clap! Snap! The black crack!
+        - Fifteen birds in five fir trees
+        - The wind was on the withered heath
+        - Old fat spider spinning in a tree!
+        - Roll-Roll-Roll-Roll
+        - The King beneath the mountains
+        - Under the mountain dark and tall
+        - The dragon is withered
+        - Sing all ye joyful!
+        - Roads go ever, ever on
+        - The Road Goes Ever On and On
+        - Three Rings for the Elven-Kings Under the Sky
+        - A Walking Song
+        - Snow-white! Snow-white! O Lady Clear!
+        - Ho! Ho! Ho! To the Bottle I Go
+        - The Bath Song
+        - Farewell We Call to Hearth and Hall!
+        - O! Wanderers in the Shadowed Land
+        - Hey dol! merry dol! ring a dong dillo!
+        - Hop along, my little friends, up the Withywindle!
+        - O slender as a willow-wand!
+        - 'I Had An Errand There: Gathering Water-Lilies'
+        - Ho! Tom Bombadil, Tom Bombadillo!
+        - Cold Be Hand and Heart and Bone
+        - Get Out! You old Wight! Vanish in the Sunlight!
+        - Wake Now My Merry Lads! Wake and Hear Me Calling!
+        - Hey! Now! Come Hoy Now! Whither Do You Wander?
+        - The Man in the Moon Stayed Up Too Late
+        - All That Is Gold Does Not Glitter
+        - The Fall of Gil-galad
+        - Song of Beren and Lúthien
+        - The Stone Troll
+        - Eärendil was a mariner
+        - A Elbereth Gilthoniel
+        - Seek for the Sword that was broken
+        - When winter first begins to bite
+        - I sit beside the fire and think
+        - The world was young, the mountains green
+        - An Elven-maid there was of old
+        - When evening in the Shire was grey
+        - I sang of leaves, of leaves of gold (Galadriel's Song of Eldamar)
+        - Ai! laurië lantar lassi súrinen (Namárië)
+        - Through Rohan Over Fen and Field Where the Long Grass Grows
+        - Gondor! Gondor, between the Mountains and the Sea!
+        - Arise now, arise, Riders of Theoden!
+        - Learn now the lore of Living Creatures!
+        - In The Willow-meads Of Tasarinan
+        - When Spring unfolds the beechen leaf, and sap is in the bough
+        - O Orofarne Lassemista, Carnimirie!
+        - We come, we come with roll of drum
+        - Where now are the Dunedain, Elessar, Elessar?
+        - Where now the horse and the rider?
+        - In Dwimordene, in Lorien
+        - Ere iron was found or tree was hewn
+        - Long List of the Ents
+        - A Rhyme of Lore
+        - The cold hard lands
+        - Oliphaunt
+        - Over the land there lies a long shadow
+        - From dark Dunharrow in the dim morning
+        - Arise, arise, Riders of Theoden!
+        - Song of the Mounds of Mundburg
+        - When the black breath blows
+        - Silver flow the streams from Celos to Erui
+        - In western lands beneath the Sun
+        - Long live the Halflings! Praise them with great praise!
+        - To the Sea, to the Sea! The white gulls are crying
+        - Sing now, ye people of the Tower of Anor
+        - Out of doubt, out of dark, to the day’s rising
+        - The Road goes ever on and on
+        - Still around the corner there may wait
+      locations:
+        - Abyss
+        - Achad Tarlang
+        - Adorn
+        - Adurant
+        - Aelin-uial
+        - Tarn Aeluin
+        - Afros
+        - Agar
+        - Agathurush
+        - Aglarond
+        - Pass of Aglon
+        - Akallabêth
+        - Aldalómë
+        - Aldburg
+        - Isle of Almaren
+        - Alqualondë
+        - Aman
+        - Ambaróna
+        - Amon Amarth
+        - Amon Anwar
+        - Amon Darthir
+        - Amon Dîn
+        - Amon Ereb
+        - Amon Ethir
+        - Amon Gwareth
+        - Amon Hen
+        - Amon Lanc
+        - Amon Lhaw
+        - Amon Obel
+        - Amon Rûdh
+        - Amon Sûl
+        - Amon Uilos
+        - Pass of Anach
+        - Anadûnê
+        - Ancient West
+        - Andafalassë
+        - Andor
+        - Andram
+        - Andrast
+        - Andrath
+        - Caves of Androth
+        - River of Anduin
+        - Andúne Pelo
+        - Andúnië
+        - Andustar
+        - Anfalas
+        - Anfauglith
+        - Angamando
+        - Angband
+        - Anghabar
+        - Realm of Angmar
+        - Angren
+        - Angrenost
+        - Annon-in-Gelydh
+        - Annúminas
+        - Anórien
+        - Antaro
+        - Araman
+        - Arandor
+        - Archet
+        - Arda
+        - Ard-galen
+        - Argonath
+        - Armenelos
+        - Arnach
+        - Arnor
+        - River of Aros
+        - Arossiach
+        - Arthedain
+        - Arthor na Challonnas
+        - Arthor na Forlonnas
+        - Arthórien
+        - Arvernien
+        - River of Ascar
+        - Ash Mountains
+        - Astulat
+        - Atalantë
+        - Athrad Angren
+        - Avallónë
+        - Avathar
+        - Azanulbizar
+        - Bag End
+        - Bagshot Row
+        - Balar
+        - Bamfurlong
+        - Bandushathûr
+        - Bar-en-Danwedh
+        - Bar-en-Nibin-noeg
+        - Bar-in-Mŷl‎
+        - Bar-erib
+        - Barad-dûr
+        - Barad Eithel
+        - Barad Nimras
+        - Baranduin
+        - Barazinbar
+        - Barrow-downs
+        - Barrowfield
+        - Battle Pit
+        - Battle Plain
+        - Bay of Balar
+        - Bay of Belfalas
+        - Bay of Andúnië
+        - Bay of Eldamar
+        - Bay of Eldanna
+        - Bay of Rómenna
+        - Belegaer
+        - Belegost
+        - Beleriand
+        - Belfalas
+        - Bent Seas
+        - Beorn's House
+        - Bindbale Wood
+        - Birchwoods of Nimbrethil
+        - Black Crack
+        - Black Gate
+        - Black Land
+        - Black Pit
+        - Black Pits
+        - Blackroot
+        - Blessed Realm
+        - Blue Mountains
+        - Bombadil's House
+        - Bonfire Glade
+        - Bony ridge
+        - The Bounds
+        - Branda-nîn
+        - Brandywine Bridge
+        - Bree
+        - Bree Hill
+        - Bree-land
+        - Breredon
+        - Brethil
+        - Bridge of Esgalduin
+        - Bridge of Mitheithel
+        - Bridge of Khazad-dûm
+        - Bridge of Stonebows
+        - Bridgefields
+        - Brilthor
+        - Brithiach
+        - Brithombar
+        - Brithon
+        - Brockenbores
+        - Brodda's hall
+        - Brown Lands
+        - Bruinen
+        - Buck Hill
+        - Buckland
+        - Buckland Gate
+        - Buckland Road
+        - Bucklebury
+        - Bucklebury Ferry
+        - Bucklebury Ford
+        - Budge Ford
+        - Budgeford
+        - Bundushathûr
+        - Bywater
+        - Bywater Pool
+        - Bywater Road
+        - Cabed-en-Aras
+        - Cair Andros
+        - Calacirya
+        - Calacirian
+        - Calembel
+        - Calenardhon
+        - Calenhad
+        - Calmindon
+        - Cape Balar
+        - Cape of Andrast
+        - Cape of Forochel
+        - Carach Angren
+        - Caradhras
+        - Caragdûr
+        - Caras Galadhon
+        - Carchost
+        - Cardolan
+        - Carn Dûm
+        - Carnen
+        - Carrock
+        - Causeway Forts
+        - Caverns of Helm's Deep
+        - Caverns of Narog
+        - Caverns of the Oaritsi
+        - Caves of Androth
+        - Caves of Menegroth
+        - Celduin
+        - Celebdil
+        - Celebrant
+        - Celebros
+        - Celon
+        - Celos
+        - Central Highlands
+        - Cerin Amroth
+        - Chamber of Mazarbul
+        - Chambers of Fire
+        - Chetwood
+        - Chill Gulf
+        - Ciril
+        - Cirith Dúath
+        - Cirith Forn en Andrath
+        - Cirith Gorgor
+        - Cirith Ninniach
+        - Cirith Thoronath
+        - Cirith Ungol
+        - Citadel of Stars
+        - City of the Corsairs
+        - Cloudyhead
+        - Cobas Haven
+        - Côf Belfalas
+        - Coldfells
+        - Combe
+        - Cormallen
+        - Corollairë
+        - Coron Oiolairë
+        - Court of the Fountain
+        - Cracks of Doom
+        - Crickhollow
+        - Crissaegrim
+        - Cristhorn
+        - Crossings of Teiglin
+        - Cross-roads
+        - Cuiviénen
+        - Cûl Bîn
+        - Cûl Veleg
+        - Cûm-nan-Arasaith
+        - Dagorlad
+        - Dale
+        - Dark Door
+        - Dark Gate
+        - Dark Land
+        - Dark Lands
+        - Dark Mountains
+        - Dark Tower
+        - Dead Marshes
+        - Deadmen's Dike
+        - Death Down
+        - Deathless Lands
+        - Deeping
+        - Deephallow
+        - Deeping Coomb
+        - Deeping-road
+        - Deeping Stream
+        - Deeping Wall
+        - Deer's Leap
+        - Deldúwath
+        - Derndingle
+        - Desert of Lostladen
+        - Desolation of Smaug
+        - Desolation of the Morannon
+        - Dimbar
+        - Dimholt
+        - Dimrill Dale
+        - Dimrill Gate
+        - Dimrill Stair
+        - Dimrost
+        - Dingle
+        - Dol Amroth
+        - Dol Baran
+        - Dol Guldur
+        - Dol Tarlang
+        - Dome of Stars
+        - Doors of Night
+        - Doors of Durin
+        - Dor Caranthir
+        - Dor-Cúarthol
+        - Dor Daedeloth
+        - Dor Daidelos
+        - Dor Dínen
+        - Dor-en-Ernil
+        - Dor Firn-i-Guinar
+        - Dor-lómin
+        - Dor-Nu-Fauglith
+        - Doriath
+        - Dorthonion
+        - Dorwinion
+        - Downlands
+        - Drowns
+        - Drengist
+        - Drúadan Forest
+        - Drúwaith Iaur
+        - Dry River
+        - Duilwen
+        - Dungortheb
+        - Dunharrow
+        - Dúnharg
+        - Dunland
+        - Durin's Bridge
+        - Durin's Tower
+        - Durthang
+        - Dwaling
+        - Dwarf-Road
+        - Dwarrowdelf
+        - Dwimorberg
+        - Dwimordene
+        - Eagles' Eyrie
+        - East Beleriand
+        - East Bight
+        - East Emnet
+        - Eastern Eriador
+        - East Farthing
+        - Eastfold
+        - East-gate
+        - East-lands
+        - East Lórien
+        - East March
+        - East Road
+        - East Wall of Rohan
+        - Eastwood
+        - Echad i Sedryn
+        - Echoing Hills
+        - Echoriath
+        - Edge of the Wild
+        - Edhellond
+        - Edoras
+        - Egladil
+        - Eglador
+        - Eglamar
+        - Eglarest
+        - Eilenach
+        - Eilenaer
+        - Eithel Ivrin
+        - Eithel Nínui
+        - Eithel Sirion
+        - Ekkaia
+        - Eldalondë the Green
+        - Eldamar
+        - Elennanórê
+        - Elerrína
+        - Elostirion
+        - Elros' Tower
+        - Elvenhome
+        - Elwing's tower
+        - Emerië
+        - Emyn Arnen
+        - Emyn Beraid
+        - Emyn Duir
+        - Emyn Eglain
+        - Emyn Muil
+        - Emyn-nu-Fuin
+        - Emyn Uial
+        - Enchanted Isles
+        - Enchanted River
+        - Encircling Mountains
+        - Encircling Sea
+        - Endless Stair
+        - Endor
+        - Ened
+        - Enedwaith
+        - Entwade
+        - River Entwash
+        - Entwash Vale
+        - Entwood
+        - Éothéod
+        - Ephel Brandir
+        - Ephel Dúath
+        - Erebor
+        - Erech
+        - Ered Engrin
+        - Ered Gorgoroth
+        - Ered Lindon
+        - Ered Lithui
+        - Ered Lómin
+        - Ered Mithrin
+        - Ered Nimrais
+        - Ered Wethrin
+        - Eregion
+        - Erelas
+        - Erendis
+        - Tol Eressëa
+        - Eriador
+        - Erui
+        - Eryn Fuir
+        - Eryn Galen
+        - Eryn Vorn
+        - Esgalduin
+        - Esgaroth
+        - Estolad
+        - Ethir Anduin
+        - Ethraid Engrin
+        - Ethring
+        - Ettendales
+        - Ettenmoors
+        - Evereven
+        - Everholt
+        - Evernight
+        - Ezellohar
+        - Falas
+        - Falls of Esgalduin
+        - Falls of Irvin
+        - Falls of Rauros
+        - Falls of Sirion
+        - Fangorn Forest
+        - Fanuidhol
+        - Far Downs
+        - Far Harad
+        - Far Shore
+        - Far West
+        - Faskalan
+        - Faskala-númen
+        - Fen Hollen
+        - Fen of Serech
+        - Fenmarch
+        - Fens of Sirion
+        - Ferry Lane
+        - Field of Celebrant
+        - Field of Cormallen
+        - Fingolfin's Cairn
+        - Firienholt
+        - Firien Wood
+        - First Deep
+        - First Hall
+        - Firth of Drengist
+        - Firth of Rómenna
+        - Foen
+        - Folde
+        - Ford of Brithiach
+        - Ford of Bruinen
+        - Ford of Stones
+        - Fords of Isen
+        - Forest Gate
+        - Forest of Brethil
+        - Forest of Neldoreth
+        - Forest of Region
+        - Forest River
+        - Forest Road
+        - Forgotten Villages
+        - Forlindon
+        - Forlond
+        - Formenos
+        - Fornarthan
+        - Fornost Erain
+        - Forochel
+        - Forodwaith
+        - Forostar
+        - Forsaken Inn
+        - Fôs' Almir
+        - Fountain of Tinúviel
+        - Fox Downs
+        - Framsburg
+        - Frogmorton
+        - Front Gate
+        - Front Porch
+        - Gabilgathod
+        - Gamwich
+        - Gap of Calenardhon
+        - Gap of Rohan
+        - Gardens of Lórien
+        - Gate of the Dead
+        - Gate of the Noldor
+        - Gate Stream
+        - Gates of Morning
+        - Gates of Sirion
+        - Gelion
+        - Gilrain
+        - Ginglith
+        - Girdle of Arda
+        - Girdle of Melian
+        - Girdley Island
+        - Gladden Fields
+        - Gladden River
+        - Glanduin
+        - Glanhír
+        - Glithui
+        - Glittering Caves
+        - Goblin-gate
+        - Goblin-town
+        - Golden Gates
+        - Golden Wood
+        - Gollum's Lake
+        - Gondolin
+        - Gondor
+        - Gorbelgod
+        - Gorge of Aglon
+        - Ered Gorgoroth
+        - Plateau of Gorgoroth
+        - great East Road
+        - Great Fens
+        - Great Gulf
+        - Great Hall of Thráin
+        - Great Lakes
+        - Great Lands
+        - Great Mound
+        - Great Plains
+        - Great Rift
+        - Great River
+        - Great Shelf
+        - Great Smials
+        - Great Southern Forests
+        - Great West Road
+        - Great Willow
+        - Greater Gelion
+        - Green Dragon
+        - Green Hill Country
+        - Green Hills
+        - Green Hills
+        - Greenfields
+        - Greenholm
+        - Greenway
+        - Greenwood the Great
+        - Grey Havens
+        - Grey Mountains
+        - Grey Mountains
+        - Grey Wood
+        - Greyflood
+        - Greylin
+        - Grinding Ice
+        - Grindwall
+        - Gruir
+        - Guarded Plain
+        - Gulf of Lhûn
+        - Gundabad
+        - River Gwathló
+        - Hadhodrond
+        - Haeren
+        - Haerast
+        - Halifirien
+        - Hall of Brodda
+        - Hall of Fire
+        - Halls of Aulë
+        - Halls of Durin
+        - Halls of Mandos
+        - Hanstovánen
+        - Harad
+        - Harad Road
+        - Hardbottle
+        - Harlindon
+        - Harlond
+        - Harlond
+        - River Harnen
+        - Harondor
+        - Harrowdale
+        - Haudh-en-Elleth
+        - Haudh-en-Ndengin
+        - Haudh-en-Nirnaeth
+        - Haudh in Gwanûr
+        - Haunted Mountain
+        - Haunted Pass
+        - Haven of the Eldar
+        - Haven of the Swans
+        - Havens of Mithlond
+        - Havens of Sirion
+        - Haven of Umbar
+        - Hay Gate
+        - Haysend
+        - Heats of the South
+        - the Hedge
+        - Sea of Helcar
+        - Helcaraxë
+        - Lake Helevorn
+        - Helm's Deep
+        - Helm's Dike
+        - Helm's Gate
+        - Henneth Annûn
+        - Hidden Ferries
+        - Hidden Way
+        - High Court
+        - High Faroth
+        - High Hay
+        - High Pass
+        - Hildórien
+        - Hill of Awe
+        - Hill of Guard
+        - Hill of Hearing
+        - Hill of Himring
+        - Hill of Ilmarin
+        - Hill of Oromet
+        - Hill of Seeing
+        - Hill of Spies
+        - Hill of the Ear
+        - Hill of the Eye
+        - the Hill
+        - Hills of Eglamar
+        - Hills of Evendim
+        - Hills of Scary
+        - Himlad
+        - Himring
+        - Hírilorn
+        - Hisilómë
+        - Hithaeglir
+        - Hither Lands
+        - Hither Shore
+        - Hithlum
+        - Hoarwell
+        - Hobbiton
+        - Hobbiton Hill
+        - Hobbiton Road
+        - Hollin
+        - Hollin Gate
+        - Hollin Ridge
+        - Hornburg
+        - Hornrock
+        - House of Oromë
+        - House of the Hundred Chimneys
+        - House of the Kings
+        - House of the Stewards
+        - House of Tulkas
+        - Houses of Healing
+        - House of the Dead
+        - Huts of the raft-elves
+        - Hyarastorni
+        - Hyarmentir
+        - Hyarnustar
+        - Hyarrostar
+        - Iant Iaur
+        - Icebay of Forochel
+        - Ice of the North
+        - Idril's secret way
+        - i Drann
+        - Illuin
+        - Ilmarin
+        - Imlad Morgul
+        - Imladris
+        - Imloth Melui
+        - Imrath Gondraith
+        - Inner Seas
+        - Inland Sea
+        - Inland Sea of Helcar
+        - Írensaga
+        - Iron Fortress
+        - Iron Hills
+        - Iron Mountains
+        - Isen
+        - Isengard
+        - Isenmouthe
+        - Ishmalog
+        - Isle of Almaren
+        - Isle of Balar
+        - Isle of Elenna
+        - Isle of Eressëa
+        - Isle of Meneltarma
+        - Isle of Werewolves
+        - Isles of the West
+        - Ithilien
+        - Ivrin
+        - Ivrin's Well
+        - Ivy Bush
+        - N/A
+        - Kalormë
+        - Karningul
+        - Kelos
+        - Khand
+        - Khazad-dûm
+        - Kheled-zâram
+        - Kibil-nâla
+        - Kingdom of the South
+        - Kingdom under the Mountain
+        - King's Court
+        - King's House
+        - Kingsland
+        - Kingsland
+        - Kings' Norbury
+        - Kiril
+        - Kirith Ungol
+        - Kôr
+        - Kortirion
+        - Ladros
+        - Lake Helevorn
+        - Lake Mithrim
+        - Lake Nenuial
+        - Lake-town
+        - Lamedon
+        - Lammoth
+        - Lampwrights' Street
+        - Land of Bow-Helm
+        - Land of the Dead that Live
+        - Lands Under the Wave
+        - Lands Without
+        - Langflood
+        - Langstrand
+        - River Langwell
+        - Lanthir Lamath
+        - Last Bridge
+        - Last Homely House
+        - Last Mountain
+        - Last Shore
+        - Laurelindórenan
+        - Lebennin
+        - River Lefnui
+        - River Legolin
+        - Lhûn
+        - Linaewen
+        - Lindon
+        - Lindórinan
+        - Linhir
+        - Lisgardh
+        - River Lithir
+        - Lithlad
+        - Little Delving
+        - Little River Gelion
+        - Lockholes
+        - Loeg Ningloron
+        - Lond Daer Enedh
+        - Lone-lands
+        - Lonely Isle
+        - Lonely Mountain
+        - Longbottom
+        - Long Cleeve
+        - Long Lake
+        - Long Marshes
+        - Long the Wall
+        - Lórellin
+        - Lórien
+        - Lórinand
+        - Losgar
+        - Lossarnach
+        - Lost Isle
+        - Desert of Lostladen
+        - Lothlann
+        - Lothlórien
+        - Loudwater
+        - Lower Halls
+        - Lugbúrz
+        - Lune
+        - Luvailin
+        - Maggot's Farm
+        - Maggot's Lane
+        - Maglor's Gap
+        - Mahanaxar
+        - River Malduin
+        - Halls of Mandos
+        - Mansions of Aulë
+        - March of Maedhros
+        - The Marish
+        - TheMark
+        - Mar-nu-Falmar
+        - Market-pool
+        - Marshes of Nevrast
+        - Meduseld
+        - Men-i-Naugrim
+        - Menegroth
+        - Meneltarma
+        - Mere of Dead Faces
+        - Meres of Twilight
+        - Merethrond
+        - Mering Stream
+        - Methed-en-glad
+        - Methedras
+        - Michel Delving
+        - Middle-earth
+        - Midgewater Marshes
+        - Sandyman's Mill
+        - Minas Anor
+        - Minas Ithil
+        - Minas Morgul
+        - Minas Tirith
+        - Minas Tirith
+        - RiverMindeb
+        - MountMindolluin
+        - Mindon Eldaliéva
+        - Minhiriath
+        - Min-Rimmon
+        - Mirkwood
+        - Mirrormere
+        - Misty Mountains
+        - Mithe
+        - Mithe Steps
+        - Mitheithel
+        - Mithlond
+        - Mithrim
+        - Mittalmar
+        - Moors of the Neweglu
+        - Moors of the Nibin-noeg
+        - Morannon
+        - Mordor
+        - Morgai
+        - Morgul Pass
+        - Morgul-road
+        - RiverMorgulduin
+        - Moria
+        - Mornan
+        - River Morthond
+        - Mound of Avarice
+        - Mound of Dunlendings
+        - Mound of Riders
+        - Mounds of Mundburg
+        - Mount Dolmed
+        - Mount Doom
+        - Mount Everwhite
+        - Mount Fang
+        - Mount Gram
+        - Mount Gundabad
+        - Mount Mindolluin
+        - Mount of the Pine Tree
+        - Mount Rerir
+        - Mount Taras
+        - Mountain of Fire
+        - Mountains of Aman
+        - Mountains of Angmar
+        - Mountains of Lune
+        - Mountains of Mirkwood
+        - Mountains of Mithrim
+        - Mountains of Shadow
+        - Mountains of Shadow
+        - Mountains of Terror
+        - Mountains of the East
+        - Mouths of Anduin
+        - Mouths of Entwash
+        - Mouths of Sirion
+        - Mundburg
+        - theNaith
+        - Nameless Land
+        - Nan Curunír
+        - Nan Dungortheb
+        - Nan Elmoth
+        - Nan-tathren
+        - Nanduhirrion
+        - Narchost
+        - Nardol
+        - Nargothrond
+        - RiverNarog
+        - Narrows of the Forest
+        - Near Harad
+        - Needlehole
+        - Forest ofNeldoreth
+        - Nen Echui
+        - Nen Girith
+        - Nen Hithoel
+        - Nen Lalaith
+        - RiverNenning
+        - Nenuial
+        - Nether Dark
+        - Nevrast
+        - Nevrast
+        - New Haven
+        - New Lands
+        - Newbury
+        - House ofNienna
+        - Nimbrethil
+        - RiverNimrodel
+        - Nindalf
+        - Nindamos
+        - Ninglor
+        - Nîn-in-Eilph
+        - Nísimaldar
+        - LakeNísinen
+        - Nivrim
+        - Nobottle
+        - Nogrod
+        - Noirinan
+        - Noman-lands
+        - Norbury
+        - North Cape
+        - North Downs
+        - North Farthing
+        - North Gate
+        - North Ithilien
+        - North Kingdom
+        - North Marches
+        - North Moors
+        - North Road
+        - North Road of Ithilien
+        - North Stair
+        - North Undeep
+        - Northerland
+        - Northern Dark
+        - Northern Waste
+        - Novrod
+        - Núath Woods of
+        - Númendor
+        - Númenor
+        - Nunduinë
+        - Nurn
+        - Oatbarton
+        - Obel Halad
+        - Ocean
+        - Oiolossë
+        - Oiomúrë
+        - Old Bridge
+        - Old Ford
+        - Old Forest
+        - Old Forest Road
+        - Old Grange
+        - Old Guesthouse
+        - Old Mill
+        - Old Púkel land
+        - Old Road
+        - Old South Road
+        - Old South Road
+        - Old Winyards
+        - Old World
+        - Ondolindë
+        - Ondoluncanando
+        - Ondonórë
+        - Ondosto
+        - Onodló
+        - Orc-holds
+        - Orfalch Echor
+        - Ormal
+        - Orocarni
+        - Orod-na-Thôn
+        - Orodruin
+        - Oromet
+        - Orrostar
+        - Orthanc
+        - Osgiliath
+        - Ossiriand
+        - Ost-in-Edhil
+        - Otherworld
+        - Outer Dark or Outer Darkness
+        - Outer Lands
+        - Outer Sea
+        - Outlands
+        - Overbourn
+        - Overbourn Marshes
+        - Overhill
+        - Palisor
+        - Parth Celebrant
+        - Parth Galen
+        - Party Field
+        - Pass of Aglon
+        - Pass of Anach
+        - Pastures of Yavanna
+        - Paths of the Dead
+        - Pelargir
+        - Pelennor
+        - Pelóri
+        - Phûrunargian
+        - Pillars of the King
+        - Pincup
+        - Pine-mountain
+        - Pinnath Gelin
+        - Place of the Fountain
+        - Pool of Bywater
+        - Pool-side
+        - Pools of Ivrin
+        - RiverPoros
+        - Prancing thePony
+        - Qerkaringa
+        - Quarry
+        - Radhrim
+        - Rainbow Cleft
+        - Ramdal
+        - Rammas Echor
+        - Ras Mewrim
+        - Ras Morthil
+        - Rath Celerdain
+        - Rath Dínen
+        - Rathlóriel
+        - Rauros
+        - Ravenhill
+        - Ravines of Teiglin
+        - Redhorn
+        - Redhorn PassGate
+        - Redwater
+        - Region
+        - Region of Everlasting Cold
+        - Reunited Kingdom
+        - Rhimdath
+        - Rhosgobel
+        - Rhovanion
+        - Rhudaur
+        - Rhûn
+        - Min-Rimmon
+        - Ring of Doom
+        - Ring of Isengard
+        - Ringil
+        - Sea ofRingil
+        - RiverRingló
+        - RiverRingwil
+        - Rivendell
+        - River Running
+        - RiverRivil
+        - Rivil's Well
+        - Rochand
+        - Rómenna
+        - Rûnaer
+        - Rushdown
+        - Rushock Bog
+        - Rushy
+        - Sammath Naur
+        - Sandyman's Mill
+        - Sarn Athrad
+        - Sarn Ford
+        - Sarn Gebir
+        - Sauron's Isle
+        - Sauron's Road
+        - Sauron's Temple
+        - Scary
+        - theSea
+        - Sea of Helcar
+        - Sea of Núrnen
+        - Sea of Rhûn
+        - Sea of Ringil
+        - Seat of Hearing
+        - Seat of Seeing
+        - Sea-ward Tower
+        - Second Hall
+        - Serni
+        - Seven Gates of Gondolin
+        - Seventh Level
+        - Shadowmere
+        - Shadowy Isles
+        - Shadowy Mountains
+        - Shadowy Mountains
+        - Shadowy Seas
+        - Shadowy Spring
+        - Sharabhund
+        - Shathûr
+        - Shelob's Lair
+        - theShire
+        - RiverShirebourn
+        - Side-door
+        - RiverSilverlode
+        - Silvertine
+        - Sindanórie
+        - Sirannon
+        - RiverSiril
+        - RiverSirion
+        - RiverSirith
+        - Sîr Ninglor
+        - Slag-hills
+        - RiverSnowbourn
+        - Sorontil
+        - South Downs
+        - South Farthing
+        - South Gondor
+        - South Ithilien
+        - South Kingdom
+        - South Lane
+        - South EriadorRoad
+        - South GondorRoad
+        - South Undeep
+        - Southward Road
+        - Spider's Ring
+        - Staddle
+        - Stair Falls
+        - Stair of the Hold
+        - Standelf
+        - Starkhorn
+        - Steward's Door
+        - Stock
+        - Stock Road
+        - Stockbrook
+        - Stonewain Valley
+        - Stoningland
+        - Straight Road
+        - Straight Stair
+        - Straits of the World
+        - Sundering Seas
+        - Sunlands
+        - Sunlendings
+        - Sûthburg
+        - Sûza
+        - Swanfleet
+        - RiverTaeglin
+        - Talath Dirnen
+        - Talath Rhûnen
+        - Taniquetil
+        - Tanyasalpë
+        - Tar-Minastir
+        - Tarlang's Neck
+        - Tarmasundar
+        - Tarn Aeluin
+        - Tarnost
+        - Tasarinan
+        - Tauremorna
+        - Tauremornalómë
+        - Taur e-Ndaedelos
+        - Taur-en-Faroth
+        - Taur-im-Duinath
+        - Taur-na-Foen
+        - Taur-Na-Neldor
+        - Taur-nu-Fuin
+        - Taur-nu-Fuin
+        - Tavrobel
+        - Temple of Sauron
+        - The River Thalos
+        - Thangorodrim
+        - Tharbad
+        - Thargelion
+        - Thistle Brook
+        - Thorin's Halls
+        - Thousand Caves
+        - Three-Farthing Stone
+        - Thrihyrne
+        - Tighfield
+        - Tindrock
+        - Tirion
+        - Tirith Aear
+        - Tol Brandir
+        - Tol Eressëa
+        - Tol Fuin
+        - Tol Galen
+        - Tol-in-Gaurhoth
+        - Tol Morwen
+        - Tol Sirion
+        - Tol Uinen
+        - Tolfalas
+        - Tomb of the Kings
+        - Tongue
+        - Tookbank
+        - Tookland
+        - Torech Ungol
+        - Tower Hills
+        - Tower of Cirith Ungol
+        - Tower of Ecthelion
+        - Tower of Ingwë
+        - Tower of the King
+        - Tower of the Stone
+        - Towers of the Teeth
+        - Town Hole
+        - Treebeard's Hill
+        - Treegarth of Orthanc
+        - Troll's Cave
+        - Trollshaws
+        - Tuckborough
+        - Tumhalad
+        - Tumladen of Gondolin
+        - Tumladen of Gondor
+        - Tumunzahar
+        - Túna
+        - Twenty-First Hall of the North-end
+        - Twilight Meres
+        - Two Watchers
+        - Tyrn Gorthad
+        - Udul
+        - Udûn
+        - Udûn of Mordor
+        - Umbar
+        - Umboth-muilin
+        - Undeeps
+        - Undergate
+        - Underhill
+        - Under-way
+        - Underharrow
+        - Undertowers
+        - Undying Lands
+        - Ungoliant's Lair
+        - Ulmonan
+        - Upbourn
+        - Uttermost West
+        - Utumno
+        - Vale of Sirion
+        - Valandor
+        - Valimar
+        - Valmar
+        - Valinor
+        - Verna
+        - Vinyalondë
+        - Vinyamar
+        - Void
+        - Waking Water
+        - Wall's End
+        - Walls of Moria
+        - Walls of the Night
+        - Walls of the Sun
+        - Walls of the World
+        - Wargs' Clearing
+        - Waste
+        - Watchwood
+        - Water-valley
+        - Water of Awakening
+        - Way of Escape
+        - Way of Running Waters
+        - Waymeet
+        - Weather Hills
+        - Weathertop
+        - Wellinghall
+        - Wells of Ivrin
+        - Wells of Varda
+        - West-door
+        - West-gate of Bree
+        - West-gate of Moria
+        - West-mark
+        - West Beleriand
+        - West of the World
+        - West Pass
+        - West Road
+        - Westemnet
+        - Westermanton
+        - Western Sea
+        - Western Shore
+        - Westernesse
+        - Westfarthing
+        - Westfold
+        - Westfold Vale
+        - Westlands
+        - Westmarch
+        - Wetwang
+        - Whispering Wood
+        - White Downs
+        - White House of Erendis
+        - White Mountain
+        - White Mountains
+        - White Tower
+        - White Towers
+        - Whitfurrows
+        - Whitwell
+        - Wild Wood
+        - Wilderland
+        - Willowbottom
+        - Windle-reach
+        - Winding Stair
+        - Window-Curtain
+        - Window of the West
+        - Withered Heath
+        - Withered Wold
+        - Withywindle Valley
+        - Withywindle River
+        - Withy-path
+        - Withy-weir
+        - Wizard's Isle
+        - Wizard's Vale
+        - Wold of Rohan
+        - Wood of Anwar
+        - Woods of Oromë
+        - Woodhall
+        - Woodland Realm
+        - Woody End
+        - The Yale
+        - Yellow Mountains
+        - Yôzâyan
+        - Zirakzigil
+      races:
+        - Ainur
+        - Balrogs
+        - Barrow-wights
+        - Beorning
+        - Children of Ilúvatar
+        - Demons
+        - Dragons
+        - Dwarves
+        - Elves
+        - Ents
+        - Fairies
+        - Giants
+        - Goblins
+        - Half-elven
+        - Half-orc
+        - Half-trolls
+        - Hobbits
+        - Huorns
+        - Kaukareldar
+        - Lintips
+        - Maiar
+        - Mens
+        - Mewlips
+        - Oarni
+        - Ogres
+        - Orcs
+        - Shape Shifters
+        - Skin-changer
+        - Spiders
+        - Trolls
+        - Uruk-hai
+        - Valar
+        - Vampire
+        - Wargs
+        - Werewolves
+        - Wraiths
+      characters:
+        - Adalbert Bolger
+        - Adaldrida Bolger
+        - Adalgar Bolger
+        - Adalgrim Took
+        - Adam Hornblower
+        - Adamanta Chubb
+        - Adanel
+        - Adelard Took
+        - Adrahil
+        - Aegnor
+        - Aerin
+        - Agathor
+        - Aghan
+        - Aglahad
+        - Ailinel
+        - Aldamir
+        - Aldor
+        - Alfrida of the Yale
+        - Algund
+        - Almarian
+        - Almáriel
+        - Almiel
+        - Alphros
+        - Amandil
+        - Amaranth Brandybuck
+        - Amarië
+        - Amdír
+        - Amethyst Hornblower
+        - Amlach
+        - Amlaith
+        - Amras
+        - Amrod
+        - Amroth
+        - Amrothos
+        - Anairë
+        - Anardil
+        - Anborn
+        - Ancalagon
+        - Andreth
+        - Andróg
+        - Andvír
+        - Andwise Roper
+        - Angamaitë
+        - Angbor
+        - Angelica Baggins
+        - Angelimir
+        - Angrim
+        - Angrod
+        - Annael
+        - Anson Roper
+        - Ar-Adûnakhôr
+        - Ar-Gimilzôr
+        - Ar-Pharazôn
+        - Ar-Sakalthôr
+        - Ar-Zimrathôn
+        - Arachon
+        - Arador
+        - Araglas
+        - Aragorn
+        - Aragost
+        - Arahad
+        - Arahael
+        - Aranarth
+        - Arantar
+        - Aranuir
+        - Aranwë
+        - Araphant
+        - Araphor
+        - Arassuil
+        - Aratan
+        - Arathorn
+        - Araval
+        - Aravir
+        - Aravorn
+        - Arciryas
+        - Ardamir
+        - Aredhel
+        - Argeleb
+        - Argon
+        - Argonui
+        - Arminas
+        - Artamir
+        - Arthad
+        - Arvedui
+        - Arvegil
+        - Arveleg
+        - Arwen
+        - Asgon
+        - Asphodel Brandybuck
+        - Atanalcar
+        - Atanatar
+        - Aulendil
+        - Avranc
+        - Axantur
+        - Azaghâl
+        - Azog
+        - Bain
+        - Balbo Baggins
+        - Baldor
+        - Balin
+        - Ban
+        - Bandobras Took
+        - Barach
+        - Baragund
+        - Barahir
+        - Baran
+        - Baranor
+        - Bard
+        - Barliman Butterbur
+        - Basso Boffin
+        - Beechbone
+        - Belba Baggins
+        - Beldir
+        - Beldis
+        - Belecthor
+        - Beleg
+        - Belegor
+        - Belegorn
+        - Belegund
+        - Belemir
+        - Belen
+        - Beleth
+        - Bell Goodchild
+        - Belladonna Took
+        - Bëor
+        - Beorn
+        - Bereg
+        - Beregar
+        - Beregond
+        - Berelach
+        - Beren
+        - Bergil
+        - Beril
+        - Berilac Brandybuck
+        - Bert
+        - Berúthiel
+        - Berylla Boffin
+        - Bifur
+        - Bilbo Baggins
+        - Bilbo Gardner
+        - Bill Butcher
+        - Bill Ferny
+        - Bingo Baggins
+        - Blanco Bracegirdle
+        - Blodren
+        - Boar of Everholt
+        - Bodo Proudfoot
+        - Bodruith
+        - Bofur
+        - Bolg
+        - Bombur
+        - Bór
+        - Borin
+        - Borlach
+        - Borlad
+        - Borlas
+        - Boromir
+        - Boron
+        - Borondir
+        - Borthand
+        - Bosco Boffin
+        - Bowman Cotton
+        - Brand
+        - Brandir
+        - Bregil
+        - Brego
+        - Bregolas
+        - Bregor
+        - Briffo Boffin
+        - Brodda
+        - Bruno Bracegirdle
+        - Brytta
+        - Bucca of the Marish
+        - Buffo Boffin
+        - Buldar
+        - Bungo Baggins
+        - Calimehtar
+        - Calimmacil
+        - Caliondo
+        - Calmacil
+        - Camellia Sackville
+        - Caranthir
+        - Carc
+        - Carcharoth
+        - Carl Cotton
+        - Castamir
+        - Celeborn
+        - Celebrían
+        - Celebrimbor
+        - Celebrindor
+        - Celegorm
+        - Celepharn
+        - Cemendur
+        - Ceorl
+        - Chica Chubb
+        - Círdan
+        - Cirion
+        - Ciryandil
+        - Ciryatur
+        - Ciryon
+        - Cora Goodbody
+        - Cotman
+        - Cottar
+        - Curufin
+        - Daddy Twofoot
+        - Daeron
+        - Dagnir
+        - Dáin
+        - Dáin Ironfoot
+        - Dairuin
+        - Daisy Baggins
+        - Daisy Gamgee
+        - Daisy Gardner
+        - Damrod
+        - Denethor
+        - Déor
+        - Déorwine
+        - Dernhelm
+        - Derufin
+        - Dervorin
+        - Diamond of Long Cleeve
+        - Dina Diggle
+        - Dinodas Brandybuck
+        - Dior
+        - Dírhael
+        - Dírhaval
+        - Dís
+        - Doderic Brandybuck
+        - Dodinas Brandybuck
+        - Donnamira Took
+        - Dora Baggins
+        - Dori
+        - Dorlas
+        - Draugluin
+        - Drogo Baggins
+        - Druda Burrows
+        - Dudo Baggins
+        - Duilin
+        - Duinhir
+        - Dúnhere
+        - Durin
+        - Durin's Bane
+        - Dwalin
+        - Eärendil
+        - Eärendur
+        - Eärnil
+        - Eärnur
+        - Eärwen
+        - Ebor
+        - Ecthelion
+        - Edrahil
+        - Egalmoth
+        - Eglantine Banks
+        - Eilinel
+        - Elanor Gardner
+        - Elatan
+        - Elboron
+        - Eldacar
+        - Eldalótë
+        - Eldarion
+        - Elemmakil
+        - Elemmírë
+        - Elendil
+        - Elendur
+        - Elentir
+        - Elenwë
+        - Elfhelm
+        - Elfhild
+        - Elfstan Fairbairn
+        - Elfwine
+        - Elladan
+        - Elmar
+        - Elmo
+        - Elphir
+        - Elrohir
+        - Elrond
+        - Elros
+        - Elulindo
+        - Eluréd
+        - Elurín
+        - Elwing
+        - Emeldir
+        - Enel
+        - Enelyë
+        - Enerdhil
+        - Enthor
+        - Eofor
+        - Eöl
+        - Éomer
+        - Éomund
+        - Eorl
+        - Éothain
+        - Éothéod
+        - Éowyn
+        - Eradan
+        - Erchirion
+        - Erendis
+        - Erestor
+        - Erien
+        - Erkenbrand
+        - Erling
+        - Esmeralda Took
+        - Estella Bolger
+        - Estelmo
+        - Everard Took
+        - Falco Chubb-Baggins
+        - Faniel
+        - Faramir
+        - Faramir Took
+        - Farin
+        - Farmer Cotton
+        - Farmer Maggot
+        - Fastolph Bolger
+        - Fastred
+        - Fastred of Greenholm
+        - Fëanor
+        - Fengel
+        - Ferdibrand Took
+        - Ferdinand Took
+        - Ferumbras Took
+        - Fíli
+        - Filibert Bolger
+        - Fimbrethil
+        - Finarfin
+        - Finbor
+        - Findegil
+        - Findis
+        - Finduilas
+        - Fingolfin
+        - Fingon
+        - Finrod
+        - Finwë
+        - Fíriel
+        - Fíriel Fairbairn
+        - Flambard Took
+        - Flói
+        - Folca
+        - Folco Boffin
+        - Folco Burrowes
+        - Folcred
+        - Folcwine
+        - Forhend
+        - Forlong
+        - Forthwini
+        - Fortinbras Took
+        - Forweg
+        - Fosco Baggins
+        - Fram
+        - Frár
+        - Fréa
+        - Fréaláf
+        - Fréawine
+        - Freca
+        - Fredegar Bolger
+        - Frerin
+        - Frodo Baggins
+        - Frodo Gardner
+        - Frór
+        - Frumgar
+        - Fundin
+        - Gaffer Gamgee
+        - Galadhon
+        - Galador
+        - Galadriel
+        - Galathil
+        - Galdor
+        - Galdor of the Havens
+        - Galion
+        - Gálmód
+        - Gamil Zirak
+        - Gamling
+        - Gandalf
+        - Gárulf
+        - Gelmir
+        - Gerda Boffin
+        - Gerontius Took
+        - Gethron
+        - Ghân-buri-Ghân
+        - Gil-galad
+        - Gilbarad
+        - Gildis
+        - Gildor
+        - Gilly Brownlock
+        - Gilmith
+        - Gilraen
+        - Gilwen
+        - Gimilkhâd
+        - Gimilzagar
+        - Gimli
+        - Girion
+        - Glaurung
+        - Gléowine
+        - Glirhuin
+        - Glóin
+        - Glóredhel
+        - Glorfindel
+        - Golasgil
+        - Goldberry
+        - Goldilocks Gardner
+        - Goldwine
+        - Golfimbul
+        - Gollum
+        - Gorbadoc Brandybuck
+        - Gorbulas Brandybuck
+        - Gorgol
+        - Gorhendad Oldbuck
+        - Gorlim
+        - Gormadoc Brandybuck
+        - Gothmog
+        - Gram
+        - Great Eagle
+        - Great Goblin
+        - Griffo Boffin
+        - Grim
+        - Gríma
+        - Grimbeorn
+        - Grimbold
+        - Grishnákh
+        - Grithnir
+        - Gróin
+        - Grór
+        - Gruffo Boffin
+        - Guilin
+        - Gundabald Bolger
+        - Gundahad Bolger
+        - Gundahar Bolger
+        - Gundolpho Bolger
+        - Gundor
+        - Guthláf
+        - Gwaihir
+        - Gwindor
+        - Hador
+        - Halbarad
+        - Haldad
+        - Haldan
+        - Haldar
+        - Haldir
+        - Haleth
+        - Halfast Gamgee
+        - Halfred Gamgee
+        - Halfred Greenhand
+        - Halfred of Overhill
+        - Hallacar
+        - Hallas
+        - Hallatan
+        - Halmir
+        - Háma
+        - Hamfast Gardner
+        - Hamfast of Gamwich
+        - Hamson Gamgee
+        - Handir
+        - Hanna Goldworthy
+        - Hannar
+        - Hardang
+        - Harding
+        - Harding of the Hill
+        - Hareth
+        - Harry Goatleaf
+        - Hathaldir
+        - Hathol
+        - Hatholdir
+        - Hazad
+        - Helm
+        - Henderch
+        - Hending
+        - Herefara
+        - Herendil
+        - Heribald Bolger
+        - Herion
+        - Herubrand
+        - Herugar Bolger
+        - Herumor
+        - Hild
+        - Hilda Bracegirdle
+        - Hildibrand Took
+        - Hildifons Took
+        - Hildigard Took
+        - Hildigrim Took
+        - Hirgon
+        - Hiril
+        - Hirluin
+        - Hirwen
+        - Hob Gammidge
+        - Hob Hayward
+        - Hobson
+        - Holdwine
+        - Holfast Gardner
+        - Holman Cotton
+        - Horn
+        - Huan
+        - Hugo Boffin
+        - Hugo Bracegirdle
+        - Hundad
+        - Hundar
+        - Hunleth
+        - Hunthor
+        - Huor
+        - Húrin
+        - Hyarmendacil
+        - Iago Grubb
+        - Îbal
+        - Ibun
+        - Idis
+        - Idril
+        - Ilberic Brandybuck
+        - Imin
+        - Iminyë
+        - Imlach
+        - Imrahil
+        - Imrazôr
+        - Indis
+        - Indor
+        - Ingold
+        - Ingwë
+        - Ingwion
+        - Inziladûn
+        - Inzilbêth
+        - Ioreth
+        - Iorlas
+        - Írildë
+        - Írimë
+        - Írimon
+        - Irolas
+        - Isembard Took
+        - Isembold Took
+        - Isengar Took
+        - Isengrim
+        - Isildur
+        - Isilmë
+        - Isilmo
+        - Isumbras
+        - Ithilbor
+        - Ivorwen
+        - Ivriniel
+        - Ivy Goodenough
+        - Jago Boffin
+        - Jessamine Boffin
+        - Khamûl
+        - Khîm
+        - Kíli
+        - King of the Dead
+        - Lagduf
+        - Lalaith
+        - Landroval
+        - Largo Baggins
+        - Larnach
+        - Laura Grubb
+        - Lavender Grubb
+        - Leaflock
+        - Legolas
+        - Lenwë
+        - Léod
+        - Lily Baggins
+        - Lily Brown
+        - Linda Baggins
+        - Lindir
+        - Lindissë
+        - Lindórië
+        - Lobelia Sackville-Baggins
+        - Lofar
+        - Lonely Troll
+        - Longo Baggins
+        - Lóni
+        - Lorgan
+        - Lothíriel
+        - Lotho Sackville-Baggins
+        - Lugdush
+        - Lúthien
+        - Mablung
+        - Madoc Brandybuck
+        - Madril
+        - Maedhros
+        - Maeglin
+        - Maglor
+        - Magor
+        - Mahtan
+        - Mairen
+        - Malach
+        - Malantur
+        - Malbeth
+        - Mallor
+        - Malva Headstrong
+        - Malvegil
+        - Manthor
+        - Manwendil
+        - Marach
+        - Marcho
+        - Mardil
+        - Marhari
+        - Marhwini
+        - Marigold Gamgee
+        - Marmadas Brandybuck
+        - Marmadoc Brandybuck
+        - Marroc Brandybuck
+        - Mat Heathertoes
+        - Mauhúr
+        - May Gamgee
+        - Meleth
+        - Melian
+        - Melilot Brandybuck
+        - Menegilda Goold
+        - Meneldil
+        - Meneldor
+        - Mentha Brandybuck
+        - Meriadoc Brandybuck
+        - Merimac Brandybuck
+        - Merimas Brandybuck
+        - Merry Gardner
+        - Milo Burrows
+        - Mîm
+        - Mimosa Bunce
+        - Minardil
+        - Minastan
+        - Minohtar
+        - Minto Burrows
+        - Mirabella Took
+        - Míriel
+        - Mithrellas
+        - Mogru
+        - Moro Burrows
+        - Morwë
+        - Morwen
+        - Morwen Steelsheen
+        - Mosco Burrows
+        - Mouth of Sauron
+        - Mrs. Bunce
+        - Mrs. Maggot
+        - Mungo Baggins
+        - Muzgash
+        - Myrtle Burrows
+        - Náin
+        - Náli
+        - Nar
+        - Nár
+        - Narmacil
+        - Narvi
+        - Nazgûl
+        - Nellas
+        - Nerdanel
+        - Nessanië
+        - Nienor
+        - Nimloth of Doriath
+        - Nimrodel
+        - Nina Lightfoot
+        - Nob
+        - Nolondil
+        - Nora Bolger
+        - Nori
+        - Númendil
+        - Núneth
+        - Nurwë
+        - Odo Proudfoot
+        - Odovacar Bolger
+        - Ohtar
+        - Óin
+        - Old Noakes
+        - Olo Proudfoot
+        - Olwë
+        - Ondoher
+        - Orchaldor
+        - Orgulas Brandybuck
+        - Ori
+        - Orleg
+        - Ornendil
+        - Ornil
+        - Orodreth
+        - Oromendil
+        - Orontor
+        - Oropher
+        - Orophin
+        - Ostoher
+        - Otho Sackville-Baggins
+        - Othrondir
+        - Otto Boffin
+        - Paladin Took
+        - Pansy Baggins
+        - Peeping Jack
+        - Pelendur
+        - Pengolodh
+        - Peony Baggins
+        - Peregrin Took
+        - Pervinca Took
+        - Pimpernel Took
+        - Pippin Gardner
+        - Poldor
+        - Polo Baggins
+        - Ponto Baggins
+        - Poppy Chubb-Baggins
+        - Porto Baggins
+        - Posco Baggins
+        - Pott the Mayor
+        - Primrose Boffin
+        - Primrose Gardner
+        - Primula Brandybuck
+        - Prisca Baggins
+        - Quennar
+        - Quickbeam
+        - Radagast
+        - Radbug
+        - Radhruin
+        - Ragnir
+        - Ragnor
+        - Reginard Took
+        - Rían
+        - Roäc
+        - Robin Gardner
+        - Robin Smallburrow
+        - Rollo Boffin
+        - Rómendacil
+        - Rorimac Brandybuck
+        - Rosa Baggins
+        - Rosamunda Took
+        - Rose Cotton
+        - Rose Gardner
+        - Rowan
+        - Rowlie Appledore
+        - Ruby Bolger
+        - Ruby Gardner
+        - Rudibert Bolger
+        - Rudigar Bolger
+        - Rudolph Bolger
+        - Rufus Burrows
+        - Rúmil
+        - Sador
+        - Saelon
+        - Saeros
+        - Sagroth
+        - Salvia Brandybuck
+        - Samwise Gamgee
+        - Sancho Proudfoot
+        - Sangahyando
+        - Sapphira Brockhouse
+        - Saradas Brandybuck
+        - Saradoc Brandybuck
+        - Saruman
+        - Sauron
+        - Scatha
+        - Seredic Brandybuck
+        - Shagram
+        - Shelob
+        - Sigismond Took
+        - Silmariën
+        - Siriondil
+        - Skinbark
+        - Smaug
+        - Snaga
+        - Soronto
+        - Tal-Elmar
+        - Tanta Hornblower
+        - Tar-Alcarin
+        - Tar-Aldarion
+        - Tar-Amandil
+        - Tar-Anárion
+        - Tar-Ancalimë
+        - Tar-Ancalimon
+        - Tar-Anducal
+        - Tar-Ardamin
+        - Tar-Atanamir
+        - Tar-Calmacil
+        - Tar-Ciryatan
+        - Tar-Elendil
+        - Tar-Meneldur
+        - Tar-Minastir
+        - Tar-Míriel
+        - Tar-Palantir
+        - Tar-Súrion
+        - Tar-Telemmaitë
+        - Tar-Telperiën
+        - Tar-Vanimeldë
+        - Tarannon Falastur
+        - Tarcil
+        - Tarciryan
+        - Targon
+        - Tarondor
+        - Tata
+        - Tatië
+        - Ted Sandyman
+        - Telchar
+        - Telemnar
+        - Telumehtar Umbardacil
+        - Thengel
+        - Theobald Bolger
+        - Théoden
+        - Théodred
+        - Théodwyn
+        - Thingol
+        - Thorin
+        - Thorin Stonehelm
+        - Thorondir
+        - Thorondor
+        - Thráin
+        - Thranduil
+        - Thrór
+        - Tindómiel
+        - Tobold Hornblower
+        - Togo Goodbody
+        - Tolman Cotton Junior
+        - Tolman Gardner
+        - Tom Bombadil
+        - Tom Pickthorn
+        - Torhir Ifant
+        - Tosto Boffin
+        - Treebeard
+        - Tuor
+        - Turambar
+        - Turgon
+        - Túrin
+        - Uffo Boffin
+        - Ufthak
+        - Ulbar
+        - Uldor
+        - Ulfang
+        - Ulfast
+        - Ulrad
+        - Ulwarth
+        - Ungoliant
+        - Urthel
+        - Valacar
+        - Valandil
+        - Valandur
+        - Vardamir
+        - Vardilmë
+        - Vëantur
+        - Vidugavia
+        - Vidumavi
+        - Vigo Boffin
+        - Vinitharya
+        - Vorondil
+        - Voronwë
+        - Walda
+        - Watcher in the Water
+        - Wídfara
+        - Wilcome
+        - Wilibald Bolger
+        - Wilimar Bolger
+        - Will Whitfoot
+        - William
+        - Willie Banks
+        - Wiseman Gamwich
+        - Witch-king
+        - Wulf
+        - Yávien
+        - Zamîn
+        - Zimrahin
+        - Zimraphel
+      lord_of_the_rings:
+        characters:
+          - Frodo Baggins
+          - Gandalf the Grey
+          - Samwise Gamgee
+          - Meriadoc Brandybuck
+          - Peregrin Took
+          - Aragorn
+          - Legolas
+          - Gimli
+          - Boromir
+          - Sauron
+          - Gollum
+          - Bilbo Baggins
+          - Tom Bombadil
+          - Glorfindel
+          - Elrond
+          - Arwen Evenstar
+          - Galadriel
+          - Saruman the White
+          - Éomer
+          - Théoden
+          - Éowyn
+          - Grìma Wormtongue
+          - Shadowfax
+          - Treebeard
+          - Quickbeam
+          - Shelob
+          - Faramir
+          - Denethor
+          - Beregond
+          - Barliman Butterbur
+        locations:
+          - Aglarond
+          - Aldburg
+          - Andustar
+          - Angband
+          - Argonath
+          - Bag End
+          - Barad-dûr
+          - Black Gate
+          - Bridge of Khazad-dûm
+          - Carchost
+          - Cirith Ungol
+          - Coldfells
+          - Crack of Doom
+          - Dark Land
+          - Dol Guldur
+          - Dome of Stars
+          - Doors of Durin
+          - Doriath
+          - East Beleriand
+          - Eastfarthing
+          - East Road
+          - Eithel Sirion
+          - Elostirion
+          - Enchanted Isles
+          - Endless Stair
+          - Eä
+          - Falls of Rauros
+          - Fens of Serech
+          - Field of Celebrant
+          - Fords of Isen
+          - The Forsaken Inn
+          - Gap of Rohan
+          - Gladden Fields
+          - Gorgoroth
+          - Greenway
+          - Haudh-en-Nirnaeth
+          - Haven of the Eldar
+          - Helm's Deep
+          - Henneth Annûn
+          - Hobbit-hole
+          - Houses of Healing
+          - Hyarnustar
+          - Ilmen
+          - Inn of the Prancing Pony
+          - Isengard
+          - Isenmouthe
+          - Isle of Balar
+          - Land of the Sun
+          - Losgar
+          - Luthany
+          - Lothlorièn
+          - Maglor's Gap
+          - Marish
+          - Meduseld
+          - Minas Tirith
+          - Minhiriath
+          - Máhanaxar
+          - Narchost
+          - Nargothrond
+          - Núath
+          - Old Ford
+          - Old Forest
+          - Old Forest Road
+          - Orthanc
+          - Parth Galen
+          - Paths of the Dead
+          - Pelennor Fields
+          - Rath Dínen
+          - Regions of the Shire
+          - Rivendell
+          - The Rivers and Beacon-Hills of Gondor
+          - Sarn Ford
+          - Taur-en-Faroth
+          - Taur-im-Duinath
+          - Timeless Halls
+          - Tol Brandir
+          - Tol Galen
+          - Tol Morwen
+          - Tol-in-Gaurhoth
+          - Tumladen
+          - Utumno
+          - Vaiya
+          - Vista
+          - The Void
+          - Warning beacons of Gondor
+        quotes:
+          - Often does hatred hurt itself!
+          - Go now, and die in what way seems best to you.
+          - Memory is not what the heart desires. That is only a mirror....
+          - Dwarves’ tongues run on when speaking of their handiwork, they say.
+          - But all’s well as ends well
+          - Sing, all ye children of the West
+          - '...and all the stars flowered in the sky.'
+          - Clothes are but little loss, if you escape from drowning.
+          - The wolf that one hears is worse than the orc that one fears. - Boromir
+          - I don't keep water in my pockets.
+          - 'For he gave it up in the end of his own accord: an important point. No,'
+          - I could not 'make' you--except by force, which would break your mind.
+          - Their faces were as a rule good-natured rather than beautiful.
+          - The Lord of the Ringwraiths had met his doom.
+          - Many that live deserve death. And some that die deserve life
+          - Short cuts make delays, but inns make longer ones.
+          - But where the warg howls, there also the orc prowls. - Aragorn
+          - In winter here no heart could mourn for summer or for spring.
+          - his old life lay behind in the mists, dark adventure lay in front.
+          - I sang of leaves, of leaves of gold, and leaves of gold there grew
+          - Someone else always has to carry on the story.
+          - It's the job that's never started as takes longest to finish.
+          - Moonlight drowns out all but the brightest stars.
+          - Fear nothing! Have peace until the morning! Heed no nightly noises!
+          - I’ll get there, if I leave everything but my bones behind,
+          - NO ADMITTANCE EXCEPT ON PARTY BUSINESS.
+          - Real names tell you the story of the things they belong to
+          - Deeds will not be less valiant because they are unpraised.
+          - Even the smallest person can change the course of the future.
+          - Who knows? Have patience. Go where you must go, and hope!
+          - Yet dawn is ever the hope of men,’ said Aragorn.
+          - You will soon be well, if I do not talk you to death.
+          - Memory is not what the heart desires. That is only a mirror,
+          - You have shown your usual cunning in getting up just in time for a meal.
+          - The great storm is coming, but the tide has turned.
+          - '...as young and as ancient as Spring....'
+          - Why couldn’t he stop talking and let them drink his health?
+          - Not all those who wander are lost
+          - 'But in this at least thou shalt not defy my will: to rule my own end.'
+          - I look foul and feel fair.
+          - It's the job that's never started as takes longest to finish.
+          - Moonlight drowns out all but the brightest stars.
+          - I didn't think it would end this way.
+          - Home is behind, the world ahead
+          - All's well that ends better.
+          - I want to be a healer, and love all things that grow and are not barren.
+          - Where there's life there's hope, and need of vittles.
+          - A hunted man sometimes wearies of distrust and longs for friendship.
+          - The leaves were long, the grass was green
+          - Begone, foul dwimmerlaik, lord of carrion! Leave the dead in peace!
+          - The world is indeed full of peril and in it there are many dark places.
+          - To the sea, to the sea! The white gulls are crying
+          - Do not scorn pity that is the gift of a gentle heart, Éowyn!
+          - I wish the Ring had never come to me. I wish none of this had happened.
+      hobbit:
+        character:
+          - Bilbo Baggins
+          - Bungo Baggins
+          - Belladonna Took
+          - Bullroarer Took
+          - Gandalf The Grey
+          - Radagast
+          - Dain
+          - Thorin Oakenshield
+          - Fili
+          - Kili
+          - Balin
+          - Dwalin
+          - Oin
+          - Gloin
+          - Dori
+          - Nori
+          - Ori
+          - Bifur
+          - Bofur
+          - Bombur
+          - Elrond
+          - Galion
+          - Bard the Bowman
+          - Beorn
+          - Tom
+          - Bert
+          - Bill Huggins
+          - Gollum
+          - The Necromancer
+          - Smaug
+          - Carc
+          - Roac
+          - The Lord of the Eagles
+          - The Great Goblin
+          - Bolg
+          - Golfimbul
+        thorins_company:
+          - Thorin Oakenshield
+          - Fili
+          - Kili
+          - Balin
+          - Dwalin
+          - Oin
+          - Gloin
+          - Dori
+          - Nori
+          - Ori
+          - Bifur
+          - Bofur
+          - Bombur
+          - Gandalf
+          - Bilbo Baggins
+        quote:
+          - Do you wish me a good morning, or mean that it is a good morning whether I want it or not; or that you feel good this morning; or that it is a morning to be good on?
+          - There is nothing like looking, if you want to find something. You certainly usually find something, if you look, but it is not always quite the something you were after.
+          - In a hole in the ground there lived a hobbit.
+          - It does not do to leave a live dragon out of your calculations, if you live near him.
+          - May the wind under your wings bear you where the sun sails and the moon walks.
+          - Where there's life there's hope.
+          - So comes snow after fire, and even dragons have their endings.
+          - '"Where did you go to, if I may ask?" said Thorin to Gandalf as they rode along. "To look ahead" said he. "And what brought you back in the nick of time?" "Looking behind" said he.'
+          - '"You have nice manners for a thief and a liar", said the dragon.'
+          - May the hair on your toes never fall out!
+          - The road goes ever on and on...
+          - Never laugh at live dragons, Bilbo you fool!
+        location:
+          - Bree
+          - The Shire
+          - Rivendell
+          - The Misty Mountains
+          - Beorn's Hall
+          - Mirkwood
+          - Esgaroth
+          - Erebor
+          - Bag-End
+          - Under-Hill
+          - Mount Gram
+          - Green Fields
+          - Last Desert
+          - Lonely Mountain
+          - Withered Heath
+          - Country Round
+          - Long Lake
+          - River Running
+          - Mines of Moria
+          - Green Dragon Inn
+          - Bywater
+          - The Great Mill
+          - Wilderland
+          - Gondolin
+          - Land Beyond
+          - Goblin Gate
+          - Carrock
+          - High Pass
+          - Great River
+          - Grey Mountains
+          - Land of the Necromancer
+          - Long Marshes
+          - Forest River
+          - Lake Town
+          - Dorwinion
+          - Ravenhill
+          - Iron Hills
+          - Mount Gundabad

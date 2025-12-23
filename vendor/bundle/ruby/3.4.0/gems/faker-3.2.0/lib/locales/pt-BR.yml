@@ -1,0 +1,726 @@
+pt-BR:
+  faker:
+    address:
+      city: ["Abadia de Goiás", "Abadia dos Dourados", "Abadiânia", "Abaetetuba", "Abaeté", "Abaiara", "Abaré", "Abatiá", "Abaíra", "Abdon Batista", "Abel Figueiredo",
+      "Abelardo Luz", "Abre Campo", "Abreu e Lima", "Abreulândia", "Acaiaca", "Acajutiba", "Acarapé", "Acaraú", "Acari", "Acará", "Acauã", "Aceguá", "Acopiara", "Acorizal",
+      "Acrelândia", "Acreúna", "Adamantina", "Adelândia", "Adolfo", "Adrianópolis", "Adustina", "Afogados da Ingazeira", "Afonso Bezerra", "Afonso Cláudio", "Afonso Cunha",
+      "Afrânio", "Afuá", "Agrestina", "Agricolândia", "Agrolândia", "Agronômica", "Aguanil", "Aguaí", "Agudo", "Agudos", "Agudos do Sul", "Aguiar", "Aguiarnópolis", "Aimorés",
+      "Aiquara", "Aiuaba", "Aiuruoca", "Ajuricaba", "Alagoa", "Alagoa Grande", "Alagoa Nova", "Alagoinha", "Alagoinha do Piauí", "Alagoinhas", "Alambari", "Albertina",
+      "Alcantil", "Alcinópolis", "Alcobaça", "Alcântara", "Alcântaras", "Aldeias Altas", "Alecrim", "Alegre", "Alegrete", "Alegrete do Piauí", "Alegria", "Alenquer", "Alexandria",
+      "Alexânia", "Alfenas", "Alfredo Chaves", "Alfredo Marcondes", "Alfredo Vasconcelos", "Alfredo Wagner", "Algodão de Jandaíra", "Alhandra", "Aliança", "Aliança do Tocantins",
+      "Almadina", "Almas", "Almeirim", "Almenara", "Almino Afonso", "Almirante Tamandaré", "Almirante Tamandaré do Sul", "Aloândia", "Alpercata", "Alpestre", "Alpinópolis",
+      "Alta Floresta", "Alta Floresta d'Oeste", "Altair", "Altamira", "Altamira do Maranhão", "Altamira do Paraná", "Altaneira", "Alterosa", "Altinho", "Altinópolis", "Alto Alegre",
+      "Alto Alegre do Maranhão", "Alto Alegre do Parecis", "Alto Alegre do Pindaré", "Alto Araguaia", "Alto Bela Vista", "Alto Boa Vista",
+      "Alto Caparaó", "Alto Feliz", "Alto Garças", "Alto Horizonte", "Alto Jequitibá", "Alto Longá", "Alto Paraguai", "Alto Paraná", "Alto Paraíso", "Alto Paraíso de Goiás",
+      "Alto Parnaíba", "Alto Piquiri", "Alto Rio Doce", "Alto Rio Novo", "Alto Santo", "Alto Taquari", "Alto do Rodrigues", "Altos", "Altônia", "Alumínio", "Alvarenga",
+      "Alvarães", "Alvinlândia", "Alvinópolis", "Alvorada", "Alvorada d'Oeste", "Alvorada de Minas", "Alvorada do Gurguéia", "Alvorada do Norte", "Alvorada do Sul",
+      "Além Paraíba", "Amajari", "Amambaí", "Amaporã", "Amapá", "Amapá do Maranhão", "Amaraji", "Amaral Ferrador", "Amaralina", "Amarante", "Amarante do Maranhão", "Amargosa",
+      "Amaturá", "Americana", "Americano do Brasil", "Ametista do Sul", "Amontada", "Amorinópolis", "Amparo", "Amparo de São Francisco", "Amparo do Serra", "Ampére",
+      "Amélia Rodrigues", "América Dourada", "Américo Brasiliense", "Américo de Campos", "Anadia", "Anagé", "Anahy", "Anajatuba", "Anajás", "Analândia", "Anamã", "Ananindeua",
+      "Ananás", "Anapu", "Anapurus", "Anastácio", "Anaurilândia", "Anchieta", "Andaraí", "Andirá", "Andorinha", "Andradas", "Andradina", "Andrelândia", "André da Rocha",
+      "Angatuba", "Angelim", "Angelina", "Angelândia", "Angical", "Angical do Piauí", "Angico", "Angicos", "Angra dos Reis", "Anguera", "Angélica", "Anhanguera", "Anhembi", "Anhumas",
+      "Anicuns", "Anita Garibaldi", "Anitápolis", "Anori", "Anta Gorda", "Antas", "Antonina", "Antonina do Norte", "Antônio Almeida", "Antônio Cardoso", "Antônio Carlos",
+      "Antônio Dias", "Antônio Gonçalves", "Antônio João", "Antônio Martins", "Antônio Olinto", "Antônio Prado", "Antônio Prado de Minas", "Anápolis", "Anísio de Abreu",
+      "Aparecida", "Aparecida d'Oeste", "Aparecida de Goiânia", "Aparecida do Rio Doce", "Aparecida do Rio Negro", "Aparecida do Taboado", "Aperibé", "Apiacá", "Apiacás",
+      "Apiaí", "Apicum-Açu", "Apiúna", "Apodi", "Aporá", "Aporé", "Apuarema", "Apucarana", "Apuiarés", "Apuí", "Aquidabã", "Aquidauana", "Aquiraz", "Arabutã", "Aracaju", "Aracati",
+      "Aracatu", "Araci", "Aracitaba", "Aracoiaba", "Aracruz", "Aragarças", "Aragoiânia", "Aragominas", "Araguacema", "Araguaiana", "Araguainha", "Araguanã", "Araguapaz",
+      "Araguari", "Araguatins", "Araguaçu", "Araguaína", "Araioses", "Aral Moreira", "Aramari", "Arambaré", "Arame", "Aramina", "Arandu", "Arantina", "Arapeí", "Arapiraca", "Arapoema",
+      "Araponga", "Arapongas", "Araporã", "Arapoti", "Araputanga", "Arapuá", "Arapuã", "Araquari", "Arara", "Araranguá", "Araraquara", "Araras", "Ararendá", "Arari", "Araricá", "Araripe",
+      "Araripina", "Araruama", "Araruna", "Arataca", "Aratiba", "Aratuba", "Aratuípe", "Araucária", "Arauá", "Araxá", "Araçagi", "Araçariguama", "Araças", "Araçatuba", "Araçaí",
+      "Araçoiaba", "Araçoiaba da Serra", "Araçu", "Araçuaí", "Araújos", "Arceburgo", "Arco-Íris", "Arcos", "Arcoverde", "Areado", "Areal", "Arealva", "Areia", "Areia Branca",
+      "Areia de Baraúnas", "Areial", "Areias", "Areiópolis", "Arenápolis", "Arenópolis", "Argirita", "Aricanduva", "Arinos", "Aripuanã", "Ariquemes", "Ariranha",
+      "Ariranha do Ivaí", "Armazém", "Armação de Búzios", "Arneiroz", "Aroazes", "Aroeiras", "Arraial", "Arraial do Cabo", "Arraias", "Arroio Grande", "Arroio Trinta",
+      "Arroio do Meio", "Arroio do Padre", "Arroio do Sal", "Arroio do Tigre", "Arroio dos Ratos", "Artur Nogueira", "Aruanã", "Arujá", "Arvoredo", "Arvorezinha", "Arês", "Ascurra",
+      "Aspásia", "Assaré", "Assaí", "Assis", "Assis Brasil", "Assis Chateaubriand", "Assunção", "Assunção do Piauí", "Astolfo Dutra", "Astorga", "Atalaia", "Atalaia do Norte",
+      "Atalanta", "Ataléia", "Atibaia", "Atilio Vivacqua", "Augustinópolis", "Augusto Corrêa", "Augusto Pestana", "Augusto Severo", "Augusto de Lima", "Aurelino Leal", "Auriflama",
+      "Aurilândia", "Aurora", "Aurora do Pará", "Aurora do Tocantins", "Autazes", "Avanhandava", "Avaré", "Avaí", "Aveiro", "Avelino Lopes", "Avelinópolis", "Axixá",
+      "Axixá do Tocantins", "Açailândia", "Açu", "Açucena", "Babaçulândia", "Bacabal", "Bacabeira", "Bacuri", "Bacurituba", "Bady Bassitt", "Baependi", "Bagre", "Bagé", "Baianópolis",
+      "Baixa Grande", "Baixa Grande do Ribeiro", "Baixio", "Baixo Guandu", "Baião", "Balbinos", "Baldim", "Baliza", "Balneário Arroio do Silva", "Balneário Barra do Sul",
+      "Balneário Camboriú", "Balneário Gaivota", "Balneário Pinhal", "Balsa Nova", "Balsas", "Bambuí", "Banabuiú", "Bananal", "Bananeiras", "Bandeira", "Bandeira do Sul", "Bandeirante",
+      "Bandeirantes", "Bandeirantes do Tocantins", "Bannach", "Banzaê", "Baraúna", "Barbacena", "Barbalha", "Barbosa", "Barbosa Ferraz", "Barcarena",
+      "Barcelona", "Barcelos", "Bariri", "Barra", "Barra Bonita", "Barra Funda", "Barra Longa", "Barra Mansa", "Barra Velha", "Barra d'Alcântara", "Barra da Estiva",
+      "Barra de Guabiraba", "Barra de Santa Rosa", "Barra de Santana", "Barra de Santo Antônio", "Barra de São Francisco", "Barra de São Miguel", "Barra do Bugres",
+      "Barra do Chapéu", "Barra do Choça", "Barra do Corda", "Barra do Garças", "Barra do Guarita", "Barra do Jacaré", "Barra do Mendes", "Barra do Ouro", "Barra do Piraí",
+      "Barra do Quaraí", "Barra do Ribeiro", "Barra do Rio Azul", "Barra do Rocha", "Barra do Turvo", "Barra dos Coqueiros", "Barracão", "Barras", "Barreira", "Barreiras",
+      "Barreiras do Piauí", "Barreirinha", "Barreirinhas", "Barreiros", "Barretos", "Barrinha", "Barro", "Barro Alto", "Barro Duro", "Barro Preto", "Barrocas", "Barrolândia",
+      "Barroquinha", "Barros Cassal", "Barroso", "Barueri", "Barão", "Barão de Antonina", "Barão de Cocais", "Barão de Cotegipe", "Barão de Grajaú", "Barão de Melgaço", "Barão de Monte Alto",
+      "Barão do Triunfo", "Bastos", "Bataguassu", "Bataiporã", "Batalha", "Batatais", "Baturité", "Bauru", "Bayeux", "Baía Formosa", "Baía da Traição", "Bebedouro", "Beberibe",
+      "Bela Cruz", "Bela Vista", "Bela Vista da Caroba", "Bela Vista de Goiás", "Bela Vista de Minas", "Bela Vista do Maranhão", "Bela Vista do Paraíso", "Bela Vista do Piauí",
+      "Bela Vista do Toldo", "Belford Roxo", "Belmiro Braga", "Belmonte", "Belo Campo", "Belo Horizonte", "Belo Jardim", "Belo Monte", "Belo Oriente", "Belo Vale", "Belterra",
+      "Belágua", "Belém", "Belém de Maria", "Belém de São Francisco", "Belém do Brejo do Cruz", "Belém do Piauí", "Beneditinos", "Benedito Leite", "Benedito Novo",
+      "Benevides", "Benjamin Constan do Sul", "Benjamin Constant", "Bento Fernandes", "Bento Gonçalves", "Bento de Abreu", "Bequimão", "Berilo", "Berizal", "Bernardino Batista",
+      "Bernardino de Campos", "Bernardo Sayão", "Bernardo do Mearim", "Bertioga", "Bertolínia", "Bertópolis", "Beruri", "Betim", "Betânia", "Betânia do Piauí", "Bezerros", "Bias Fortes",
+      "Bicas", "Biguaçu", "Bilac", "Biquinhas", "Birigui", "Biritiba-Mirim", "Biritinga", "Bituruna", "Blumenau", "Boa Esperança", "Boa Esperança do Iguaçu",
+      "Boa Esperança do Sul", "Boa Hora", "Boa Nova", "Boa Ventura", "Boa Ventura de São Roque", "Boa Viagem", "Boa Vista", "Boa Vista da Aparecida", "Boa Vista das Missões",
+      "Boa Vista do Buricá", "Boa Vista do Cadeado", "Boa Vista do Gurupi", "Boa Vista do Incra", "Boa Vista do Ramos", "Boa Vista do Sul", "Boa Vista do Tupim", "Boca da Mata", "Boca do Acre",
+      "Bocaina", "Bocaina de Minas", "Bocaina do Sul", "Bocaiúva", "Bocaiúva do Sul", "Bodocó", "Bodoquena", "Bodó", "Bofete", "Boituva", "Bom Conselho", "Bom Despacho",
+      "Bom Jardim", "Bom Jardim da Serra", "Bom Jardim de Goiás", "Bom Jardim de Minas", "Bom Jesus",
+      "Bom Jesus da Lapa", "Bom Jesus da Penha", "Bom Jesus da Serra", "Bom Jesus das Selvas", "Bom Jesus de Goiás", "Bom Jesus do Amparo", "Bom Jesus do Araguaia", "Bom Jesus do Galho",
+      "Bom Jesus do Itabapoana", "Bom Jesus do Norte", "Bom Jesus do Oeste", "Bom Jesus do Sul", "Bom Jesus do Tocantins", "Bom Jesus dos Perdões", "Bom Lugar",
+      "Bom Princípio", "Bom Princípio do Piauí", "Bom Progresso", "Bom Repouso", "Bom Retiro", "Bom Retiro do Sul", "Bom Sucesso", "Bom Sucesso de Itararé",
+      "Bom Sucesso do Sul", "Bombinhas", "Bonfim", "Bonfim do Piauí", "Bonfinópolis", "Bonfinópolis de Minas", "Boninal", "Bonito", "Bonito de Minas",
+      "Bonito de Santa Fé", "Bonópolis", "Boqueirão", "Boqueirão do Leão", "Boqueirão do Piauí", "Boquim", "Boquira", "Boracéia", "Borba", "Borborema", "Borda da Mata", "Borebi",
+      "Borrazópolis", "Borá", "Bossoroca", "Botelhos", "Botucatu", "Botumirim", "Botuporã", "Botuverá", "Bozano", "Braga", "Braganey", "Bragança", "Bragança Paulista", "Branquinha",
+      "Brasil Novo", "Brasileira", "Brasilândia", "Brasilândia de Minas", "Brasilândia do Sul", "Brasilândia do Tocantins", "Brasiléia", "Brasnorte", "Brasília", "Brasília de Minas",
+      "Brasópolis", "Brazabrantes", "Braço do Norte", "Braço do Trombudo", "Braúna", "Braúnas", "Brejetuba", "Brejinho", "Brejinho de Nazaré", "Brejo", "Brejo Alegre",
+      "Brejo Grande", "Brejo Grande do Araguaia", "Brejo Santo", "Brejo da Madre de Deus", "Brejo de Areia", "Brejo do Cruz", "Brejo do Piauí", "Brejo dos Santos", "Brejolândia", "Brejão",
+      "Brejões", "Breu Branco", "Breves", "Britânia", "Brochier", "Brodowski", "Brotas", "Brotas de Macaúbas", "Brumadinho", "Brumado", "Brunópolis", "Brusque", "Brás Pires", "Bueno Brandão",
+      "Buenos Aires", "Buenópolis", "Buerarema", "Bugre", "Bujari", "Bujaru", "Buri", "Buritama", "Buriti", "Buriti Alegre", "Buriti Bravo", "Buriti de Goiás", "Buriti do Tocantins",
+      "Buriti dos Lopes", "Buriti dos Montes", "Buriticupu", "Buritinópolis", "Buritirama", "Buritirana", "Buritis", "Buritizal", "Buritizeiro", "Butiá", "Buíque", "Bálsamo",
+      "Caapiranga", "Caaporã", "Caarapó", "Caatiba", "Cabaceiras", "Cabaceiras do Paraguaçu", "Cabeceira Grande", "Cabeceiras", "Cabeceiras do Piauí", "Cabedelo", "Cabixi", "Cabo Frio",
+      "Cabo Verde", "Cabo de Santo Agostinho", "Cabreúva", "Cabrobó", "Cabrália Paulista", "Cacaulândia", "Cacequi", "Cachoeira", "Cachoeira Alta", "Cachoeira Dourada",
+      "Cachoeira Grande", "Cachoeira Paulista", "Cachoeira da Prata", "Cachoeira de Goiás", "Cachoeira de Minas", "Cachoeira de Pajeú", "Cachoeira do Arari", "Cachoeira do Piriá",
+      "Cachoeira do Sul", "Cachoeira dos Índios", "Cachoeiras de Macacu", "Cachoeirinha", "Cachoeiro de Itapemirim", "Cacimba de Areia", "Cacimba de Dentro",
+      "Cacimbas", "Cacimbinhas", "Cacique Doble", "Cacoal", "Caconde", "Caculé", "Caetanos", "Caetanópolis", "Caetité", "Caeté", "Caetés", "Cafarnaum", "Cafeara", "Cafelândia",
+      "Cafezal do Sul", "Caiabu", "Caiana", "Caiapônia", "Caibaté", "Caibi", "Caicó", "Caieiras", "Cairu", "Caiuá", "Caiçara", "Caiçara do Norte", "Caiçara do Rio do Vento",
+      "Cajamar", "Cajapió", "Cajari", "Cajati", "Cajazeiras", "Cajazeiras do Piauí", "Cajazeirinhas", "Cajobi", "Cajueiro", "Cajueiro da Praia", "Cajuri", "Cajuru", "Caldas", "Caldas Brandão",
+      "Caldas Novas", "Caldazinha", "Caldeirão Grande", "Caldeirão Grande do Piauí", "Califórnia", "Calmon", "Calumbi", "Calçado", "Calçoene", "Camacan", "Camacho", "Camalaú", "Camamu",
+      "Camanducaia", "Camapuã", "Camaquã", "Camaragibe", "Camargo", "Camaçari", "Cambará", "Cambará do Sul", "Cambira", "Camboriú", "Cambuci", "Cambuquira", "Cambuí", "Cambé", "Cametá",
+      "Camocim", "Camocim de São Félix", "Campanha", "Campanário", "Campestre", "Campestre da Serra", "Campestre de Goiás", "Campestre do Maranhão", "Campina Grande",
+      "Campina Grande do Sul", "Campina Verde", "Campina da Lagoa", "Campina das Missões", "Campina do Monte Alegre", "Campina do Simão", "Campinas", "Campinas do Piauí", "Campinas do Sul",
+      "Campinaçu", "Campinorte", "Campinápolis", "Campo Alegre", "Campo Alegre de Goiás", "Campo Alegre de Lourdes", "Campo Alegre do Fidalgo", "Campo Azul", "Campo Belo",
+      "Campo Belo do Sul", "Campo Bom", "Campo Bonito", "Campo Erê", "Campo Florido", "Campo Formoso", "Campo Grande", "Campo Grande do Piauí", "Campo Largo",
+      "Campo Largo do Piauí", "Campo Limpo Paulista", "Campo Magro", "Campo Maior", "Campo Mourão", "Campo Novo", "Campo Novo de Rondônia", "Campo Novo do Parecis", "Campo Redondo",
+      "Campo Verde", "Campo de Santana", "Campo do Brito", "Campo do Meio", "Campo do Tenente", "Campos Altos", "Campos Belos", "Campos Borges", "Campos Gerais", "Campos Limpo de Goiás",
+      "Campos Lindos", "Campos Novos", "Campos Novos Paulista", "Campos Sales", "Campos Verdes", "Campos de Júlio", "Campos do Jordão", "Campos dos Goytacazes", "Camutanga", "Cana Verde",
+      "Canabrava do Norte", "Cananéia", "Canapi", "Canarana", "Canas", "Canavieira", "Canavieiras", "Canaã", "Canaã dos Carajás", "Candeal", "Candeias",
+      "Candeias do Jamari", "Candelária", "Candiba", "Candiota", "Candói", "Canela", "Canelinha", "Canguaretama", "Canguçu", "Canhoba", "Canhotinho", "Canindé", "Canindé de São Francisco",
+      "Canitar", "Canoas", "Canoinhas", "Cansanção", "Cantagalo", "Cantanhede", "Canto do Buriti", "Cantá", "Canudos", "Canudos do Vale", "Canutama", "Canápolis",
+      "Capanema", "Caparaó", "Capela", "Capela Nova", "Capela de Santana", "Capela do Alto", "Capela do Alto Alegre", "Capelinha", "Capetinga", "Capim",
+      "Capim Branco", "Capim Grosso", "Capinzal", "Capinzal do Norte", "Capinópolis", "Capistrano", "Capitão", "Capitão Andrade", "Capitão Enéas", "Capitão Gervásio Oliveira",
+      "Capitão Leônidas Marques", "Capitão Poço", "Capitão de Campos", "Capitólio", "Capivari", "Capivari de Baixo", "Capivari do Sul", "Capixaba", "Capoeiras", "Caputira", "Capão Alto",
+      "Capão Bonito", "Capão Bonito do Sul", "Capão da Canoa", "Capão do Cipó", "Capão do Leão", "Caracaraí", "Caracol", "Caraguatatuba", "Carambeí", "Caranaíba", "Carandaí",
+      "Carangola", "Carapebus", "Carapicuíba", "Caratinga", "Carauari", "Caravelas", "Carazinho", "Caraá", "Caraí", "Caraíbas", "Caraúbas", "Caraúbas do Piauí", "Carbonita",
+      "Cardeal da Silva", "Cardoso", "Cardoso Moreira", "Careaçu", "Careiro", "Careiro da Várzea", "Cariacica", "Caridade", "Caridade do Piauí", "Carinhanha", "Carira", "Cariri do Tocantins",
+      "Caririaçu", "Cariré", "Cariús", "Carlinda", "Carlos Barbosa", "Carlos Chagas", "Carlos Gomes", "Carlópolis", "Carmo", "Carmo da Cachoeira", "Carmo da Mata", "Carmo de Minas",
+      "Carmo do Cajuru", "Carmo do Paranaíba", "Carmo do Rio Claro", "Carmo do Rio Verde", "Carmolândia", "Carmésia", "Carmópolis", "Carmópolis de Minas", "Carnaubais", "Carnaubal",
+      "Carnaubeira da Penha", "Carnaíba", "Carnaúba dos Dantas", "Carneirinho", "Carneiros", "Caroebe", "Carolina", "Carpina", "Carrancas", "Carrapateira", "Carrasco Bonito", "Caruaru",
+      "Carutapera", "Carvalhos", "Carvalhópolis", "Casa Branca", "Casa Grande", "Casa Nova", "Casca", "Cascalho Rico", "Cascavel", "Caseara", "Caseiros", "Casimiro de Abreu",
+      "Casinhas", "Casserengue", "Cassilândia", "Castanhal", "Castanheira", "Castanheiras", "Castelo", "Castelo do Piauí", "Castelândia", "Castilho", "Castro", "Castro Alves",
+      "Cataguases", "Catalão", "Catanduva", "Catanduvas", "Catarina", "Catas Altas", "Catas Altas da Noruega", "Catende", "Catiguá", "Catingueira", "Catolândia",
+      "Catolé do Rocha", "Catu", "Catuji", "Catunda", "Caturama", "Caturaí", "Caturité", "Catuti", "Catuípe", "Caucaia", "Cavalcante", "Caxambu", "Caxambu do Sul", "Caxias",
+      "Caxias do Sul", "Caxingó", "Caçador", "Caçapava", "Caçapava do Sul", "Caçu", "Caém", "Ceará-Mirim", "Cedral", "Cedro", "Cedro de São João", "Cedro do Abaeté",
+      "Celso Ramos", "Centenário", "Centenário do Sul", "Central", "Central de Minas", "Central do Maranhão", "Centralina", "Centro Novo do Maranhão", "Centro do Guilherme",
+      "Cerejeiras", "Ceres", "Cerqueira César", "Cerquilho", "Cerrito", "Cerro Azul", "Cerro Branco", "Cerro Corá", "Cerro Grande", "Cerro Grande do Sul", "Cerro Largo", "Cerro Negro",
+      "Cesário Lange", "Cezarina", "Chalé", "Chapada", "Chapada Gaúcha", "Chapada da Natividade", "Chapada de Areia", "Chapada do Norte", "Chapada dos Guimarães", "Chapadinha",
+      "Chapadão do Céu", "Chapadão do Lageado", "Chapadão do Sul", "Chapecó", "Charqueada", "Charqueadas", "Charrua", "Chaval", "Chavantes", "Chaves", "Chiador", "Chiapeta", "Chopinzinho",
+      "Chorozinho", "Chorrochó", "Choró", "Chupinguaia", "Chuvisca", "Chuí", "Chácara", "Chã Grande", "Chã Preta", "Chã de Alegria", "Cianorte", "Cidade Gaúcha", "Cidade Ocidental",
+      "Cidelândia", "Cidreira", "Cipotânea", "Cipó", "Ciríaco", "Claraval", "Claro dos Poções", "Clementina", "Clevelândia", "Cláudia", "Cláudio", "Coaraci", "Coari", "Cocal",
+      "Cocal de Telha", "Cocal do Sul", "Cocal dos Alves", "Cocalinho", "Cocalzinho de Goiás", "Cocos", "Codajás", "Codó", "Coelho Neto", "Coimbra", "Coité do Nóia", "Coivaras",
+      "Colares", "Colatina", "Colina", "Colinas", "Colinas do Sul", "Colinas do Tocantins", "Colméia", "Colniza", "Colombo", "Colorado", "Colorado do Oeste",
+      "Coluna", "Colíder", "Colômbia", "Colônia Leopoldina", "Colônia do Gurguéia", "Colônia do Piauí", "Combinado", "Comendador Gomes", "Comendador Levy Gasparian", "Comercinho",
+      "Comodoro", "Conceição", "Conceição da Aparecida", "Conceição da Barra", "Conceição da Barra de Minas", "Conceição da Feira", "Conceição das Alagoas", "Conceição das Pedras",
+      "Conceição de Ipanema", "Conceição de Macabu", "Conceição do Almeida", "Conceição do Araguaia", "Conceição do Canindé", "Conceição do Castelo", "Conceição do Coité",
+      "Conceição do Jacuípe", "Conceição do Lago-Açu", "Conceição do Mato Dentro", "Conceição do Pará", "Conceição do Rio Verde", "Conceição do Tocantins", "Conceição dos Ouros",
+      "Conchal", "Conchas", "Concórdia", "Concórdia do Pará", "Condado", "Conde", "Condeúba", "Condor", "Confins", "Confresa", "Congo", "Congonhal", "Congonhas",
+      "Congonhas do Norte", "Congonhinhas", "Conquista", "Conquista d'Oeste", "Conselheiro Lafaiete", "Conselheiro Mairinck", "Conselheiro Pena", "Consolação", "Constantina", "Contagem",
+      "Contenda", "Contendas do Sincorá", "Coqueiral", "Coqueiro Baixo", "Coqueiro Seco", "Coqueiros do Sul", "Coração de Jesus", "Coração de Maria", "Corbélia", "Cordeiro", "Cordeiros",
+      "Cordeirópolis", "Cordilheira Alta", "Cordisburgo", "Cordislândia", "Coreaú", "Coremas", "Corguinho", "Coribe", "Corinto", "Cornélio Procópio", "Coroaci", "Coroados", "Coroatá",
+      "Coromandel", "Coronel Barros", "Coronel Bicaco", "Coronel Domingos Soares", "Coronel Ezequiel", "Coronel Fabriciano", "Coronel Freitas", "Coronel José Dias", "Coronel João Pessoa",
+      "Coronel João Sá", "Coronel Macedo", "Coronel Martins", "Coronel Murta", "Coronel Pacheco", "Coronel Pilar", "Coronel Sapucaia", "Coronel Vivida", "Coronel Xavier Chaves",
+      "Correia Pinto", "Corrente", "Correntes", "Correntina", "Cortês", "Corumbataí", "Corumbataí do Sul", "Corumbaíba", "Corumbiara", "Corumbá", "Corumbá de Goiás", "Corupá", "Coruripe",
+      "Cosmorama", "Cosmópolis", "Costa Marques", "Costa Rica", "Cotegipe", "Cotia", "Cotiporã", "Cotriguaçu", "Couto de Magalhães", "Couto de Magalhães de Minas", "Coxilha", "Coxim",
+      "Coxixola", "Crateús", "Crato", "Cravinhos", "Cravolândia", "Craíbas", "Criciúma", "Crissiumal", "Cristais", "Cristais Paulista", "Cristal", "Cristal do Sul", "Cristalina", "Cristalândia",
+      "Cristalândia do Piauí", "Cristiano Otoni", "Cristianópolis", "Cristina", "Cristino Castro", "Cristinápolis", "Cristália", "Cristópolis", "Crisólita", "Crisópolis", "Crixás",
+      "Crixás do Tocantins", "Croatá", "Cromínia", "Crucilândia", "Cruz", "Cruz Alta", "Cruz Machado", "Cruz das Almas", "Cruz do Espírito Santo", "Cruzaltense", "Cruzeiro",
+      "Cruzeiro da Fortaleza", "Cruzeiro do Iguaçu", "Cruzeiro do Oeste", "Cruzeiro do Sul", "Cruzeta", "Cruzmaltina", "Cruzália", "Cruzília",
+      "Cubati", "Cubatão", "Cuiabá", "Cuitegi", "Cuité", "Cuité de Mamanguape", "Cujubim", "Cumari", "Cumaru", "Cumaru do Norte", "Cumbe", "Cunha", "Cunha Porã", "Cunhataí",
+      "Cuparaque", "Cupira", "Curaçá", "Curimatá", "Curionópolis", "Curitiba", "Curitibanos", "Curiúva", "Currais", "Currais Novos", "Curral Novo do Piauí", "Curral Velho",
+      "Curral de Cima", "Curral de Dentro", "Curralinho", "Curralinhos", "Cururupu", "Curuá", "Curuçá", "Curvelo", "Curvelândia", "Custódia", "Cutias", "Cáceres", "Cássia",
+      "Cássia dos Coqueiros", "Cândido Godói", "Cândido Mendes", "Cândido Mota", "Cândido Rodrigues", "Cândido Sales", "Cândido de Abreu", "Céu Azul", "Cícero Dantas", "Córrego Danta",
+      "Córrego Fundo", "Córrego Novo", "Córrego do Bom Jesus", "Córrego do Ouro", "Cônego Marinho", "Damianópolis", "Damião", "Damolândia", "Darcinópolis", "Datas", "David Canabarro",
+      "Davinópolis", "Delfim Moreira", "Delfinópolis", "Delmiro Gouveia", "Delta", "Demerval Lobão", "Denise", "Deodápolis", "Deputado Irapuan Pinheiro", "Derrubadas",
+      "Descalvado", "Descanso", "Descoberto", "Desterro", "Desterro de Entre Rios", "Desterro do Melo", "Dezesseis de Novembro", "Diadema", "Diamante", "Diamante d'Oeste",
+      "Diamante do Norte", "Diamante do Sul", "Diamantina", "Diamantino", "Dianópolis", "Dias d'Ávila", "Dilermando de Aguiar", "Diogo de Vasconcelos", "Dionísio", "Dionísio Cerqueira",
+      "Diorama", "Dirce Reis", "Dirceu Arcoverde", "Divina Pastora", "Divino", "Divino das Laranjeiras", "Divino de São Lourenço", "Divinolândia", "Divinolândia de Minas", "Divinésia",
+      "Divinópolis", "Divinópolis de Goiás", "Divinópolis do Tocantins", "Divisa Alegre", "Divisa Nova", "Divisópolis", "Dobrada", "Dois Córregos", "Dois Irmãos", "Dois Irmãos das Missões",
+      "Dois Irmãos do Buriti", "Dois Irmãos do Tocantins", "Dois Lajeados", "Dois Riachos", "Dois Vizinhos", "Dolcinópolis", "Dom Aquino", "Dom Basílio", "Dom Bosco", "Dom Cavati",
+      "Dom Eliseu", "Dom Expedito Lopes", "Dom Feliciano", "Dom Inocêncio", "Dom Joaquim", "Dom Macedo Costa", "Dom Pedrito", "Dom Pedro", "Dom Pedro de Alcântara", "Dom Silvério",
+      "Dom Viçoso", "Domingos Martins", "Domingos Mourão", "Dona Emma", "Dona Euzébia", "Dona Francisca", "Dona Inês", "Dores de Campos", "Dores de Guanhães", "Dores do Indaiá",
+      "Dores do Rio Preto", "Dores do Turvo", "Doresópolis", "Dormentes", "Douradina", "Dourado", "Douradoquara", "Dourados", "Doutor Camargo", "Doutor Maurício Cardoso",
+      "Doutor Pedrinho", "Doutor Ricardo", "Doutor Severiano", "Doutor Ulysses", "Doverlândia", "Dracena", "Duartina", "Duas Barras", "Duas Estradas", "Dueré", "Dumont", "Duque Bacelar",
+      "Duque de Caxias", "Durandé", "Dário Meira", "Echaporã", "Ecoporanga", "Edealina", "Edéia", "Eirunepé", "Eldorado", "Eldorado do Sul", "Eldorado dos Carajás", "Elesbão Veloso",
+      "Elias Fausto", "Eliseu Martins", "Elisiário", "Elísio Medrado", "Elói Mendes", "Emas", "Embaúba", "Embu", "Embu-Guaçu", "Emilianópolis", "Encantado", "Encanto", "Encruzilhada",
+      "Encruzilhada do Sul", "Engenheiro Beltrão", "Engenheiro Caldas", "Engenheiro Coelho", "Engenheiro Navarro", "Engenheiro Paulo de Frontin", "Engenho Velho", "Entre Folhas", "Entre Rios",
+      "Entre Rios de Minas", "Entre Rios do Oeste", "Entre Rios do Sul", "Entre-Ijuís", "Envira", "Enéas Marques", "Epitaciolândia", "Equador", "Erebango", "Erechim",
+      "Ererê", "Ermo", "Ernestina", "Erval Grande", "Erval Seco", "Erval Velho", "Ervália", "Escada", "Esmeralda", "Esmeraldas", "Espera Feliz", "Esperantina", "Esperantinópolis",
+      "Esperança", "Esperança Nova", "Esperança do Sul", "Espigão Alto do Iguaçu", "Espigão d'Oeste", "Espinosa", "Esplanada", "Espumoso", "Espírito Santo", "Espírito Santo do Dourado",
+      "Espírito Santo do Pinhal", "Espírito Santo do Turvo", "Estação", "Esteio", "Estiva", "Estiva Gerbi", "Estreito", "Estrela", "Estrela Dalva", "Estrela Velha", "Estrela d'Oeste",
+      "Estrela de Alagoas", "Estrela do Indaiá", "Estrela do Norte", "Estrela do Sul", "Estância", "Estância Velha", "Euclides da Cunha", "Euclides da Cunha Paulista",
+      "Eugenópolis", "Eugênio de Castro", "Eunápolis", "Eusébio", "Ewbank da Câmara", "Extrema", "Extremoz", "Exu", "Fagundes", "Fagundes Varela", "Faina", "Fama", "Faria Lemos", "Farias Brito",
+      "Faro", "Farol", "Farroupilha", "Fartura", "Fartura do Piauí", "Faxinal", "Faxinal do Soturno", "Faxinal dos Guedes", "Faxinalzinho", "Fazenda Nova", "Fazenda Rio Grande",
+      "Fazenda Vilanova", "Feijó", "Feira Grande", "Feira Nova", "Feira Nova do Maranhão", "Feira da Mata", "Feira de Santana", "Felipe Guerra", "Felisburgo", "Felixlândia",
+      "Feliz", "Feliz Deserto", "Feliz Natal", "Felício dos Santos", "Fernandes Pinheiro", "Fernandes Tourinho", "Fernando Falcão", "Fernando Pedroza", "Fernando Prestes",
+      "Fernando de Noronha", "Fernandópolis", "Fernão", "Ferraz de Vasconcelos", "Ferreira Gomes", "Ferreiros", "Ferros", "Fervedouro", "Figueira", "Figueirópolis", "Figueirópolis d'Oeste",
+      "Filadélfia", "Firmino Alves", "Firminópolis", "Flexeiras", "Flor da Serra do Sul", "Flor do Sertão", "Flora Rica", "Floraí", "Floreal", "Flores", "Flores da Cunha",
+      "Flores de Goiás", "Flores do Piauí", "Floresta", "Floresta Azul", "Floresta do Araguaia", "Floresta do Piauí", "Florestal", "Florestópolis", "Floriano", "Floriano Peixoto",
+      "Florianópolis", "Florânia", "Florínia", "Flórida", "Flórida Paulista", "Fonte Boa", "Fontoura Xavier", "Formiga", "Formigueiro", "Formosa", "Formosa da Serra Negra", "Formosa do Oeste",
+      "Formosa do Rio Preto", "Formosa do Sul", "Formoso", "Formoso do Araguaia", "Forquetinha", "Forquilha", "Forquilhinha", "Fortaleza", "Fortaleza de Minas", "Fortaleza do Tabocão",
+      "Fortaleza dos Nogueiras", "Fortaleza dos Valos", "Fortim", "Fortuna", "Fortuna de Minas", "Foz do Iguaçu", "Foz do Jordão", "Fraiburgo", "Franca", "Francinópolis", "Francisco Alves",
+      "Francisco Ayres", "Francisco Badaró", "Francisco Beltrão", "Francisco Dantas", "Francisco Dumont", "Francisco Macedo", "Francisco Morato", "Francisco Santos", "Francisco Sá",
+      "Franciscópolis", "Franco da Rocha", "Frecheirinha", "Frederico Westphalen", "Frei Gaspar", "Frei Inocêncio", "Frei Lagonegro", "Frei Martinho", "Frei Miguelinho", "Frei Paulo",
+      "Frei Rogério", "Fronteira", "Fronteira dos Vales", "Fronteiras", "Fruta de Leite", "Frutal", "Frutuoso Gomes", "Fundão", "Funilândia", "Fátima", "Fátima do Sul", "Fênix",
+      "Gabriel Monteiro", "Gado Bravo", "Galiléia", "Galinhos", "Galvão", "Gameleira", "Gameleira de Goiás", "Gameleiras", "Gandu", "Garanhuns", "Gararu", "Garibaldi", "Garopaba",
+      "Garrafão do Norte", "Garruchos", "Garuva", "Garça", "Gaspar", "Gastão Vidigal", "Gaurama", "Gavião", "Gavião Peixoto", "Gaúcha do Norte", "Geminiano", "General Carneiro",
+      "General Câmara", "General Maynard", "General Salgado", "General Sampaio", "Gentil", "Gentio do Ouro", "Getulina", "Getúlio Vargas", "Gilbués", "Girau do Ponciano",
+      "Giruá", "Glaucilândia", "Glicério", "Glorinha", "Glória", "Glória d'Oeste", "Glória de Dourados", "Glória do Goitá", "Godofredo Viana", "Godoy Moreira", "Goiabeira", "Goiana", "Goiandira",
+      "Goianinha", "Goianira", "Goianorte", "Goianá", "Goianápolis", "Goianésia", "Goianésia do Pará", "Goiatins", "Goiatuba", "Goioerê", "Goioxim", "Goiás", "Goiânia", "Gongogi", "Gonzaga",
+      "Gonçalves", "Gonçalves Dias", "Gouveia", "Gouvelândia", "Governador Archer", "Governador Celso Ramos", "Governador Dix-Sept Rosado", "Governador Edison Lobão", "Governador Eugênio Barros",
+      "Governador Jorge Teixeira", "Governador Lindenberg", "Governador Luiz Rocha", "Governador Mangabeira", "Governador Newton Bello", "Governador Nunes Freire", "Governador Valadares",
+      "Gracho Cardoso", "Grajaú", "Gramado", "Gramado Xavier", "Gramado dos Loureiros", "Grandes Rios", "Granito", "Granja", "Granjeiro", "Gravatal", "Gravataí", "Gravatá", "Graça",
+      "Graça Aranha", "Groaíras", "Grossos", "Grupiara", "Grão Mogol", "Grão Pará", "Guabiju", "Guabiruba", "Guadalupe", "Guaimbê", "Guairaçá", "Guaiçara", "Guaiúba", "Guajará", "Guajará-Mirim",
+      "Guajeru", "Guamaré", "Guamiranga", "Guanambi", "Guanhães", "Guapiara", "Guapiaçu", "Guapimirim", "Guapirama", "Guaporema", "Guaporé", "Guapé", "Guapó", "Guarabira", "Guaraci",
+      "Guaraciaba", "Guaraciaba do Norte", "Guaraciama", "Guaramiranga", "Guaramirim", "Guarani", "Guarani d'Oeste", "Guarani das Missões", "Guarani de Goiás", "Guaraniaçu",
+      "Guarantã", "Guarantã do Norte", "Guaranésia", "Guarapari", "Guarapuava", "Guaraqueçaba", "Guararapes", "Guararema", "Guarará", "Guaratinga", "Guaratinguetá", "Guaratuba", "Guaraçaí",
+      "Guaraí", "Guaraíta", "Guarda-Mor", "Guareí", "Guariba", "Guaribas", "Guarinos", "Guarujá", "Guarujá do Sul", "Guarulhos", "Guará", "Guatambú", "Guatapará", "Guaxupé", "Guaçuí",
+      "Guaíba", "Guaíra", "Guia Lopes da Laguna", "Guidoval", "Guimarânia", "Guimarães", "Guiratinga", "Guiricema", "Gurinhatã", "Gurinhém", "Gurjão", "Gurupi", "Gurupá", "Guzolândia",
+      "Gália", "Harmonia", "Heitoraí", "Heliodora", "Heliópolis", "Herculândia", "Herval", "Herval d'Oeste", "Herveiras", "Hidrolina", "Hidrolândia", "Holambra", "Honório Serpa",
+      "Horizonte", "Horizontina", "Hortolândia", "Hugo Napoleão", "Hulha Negra", "Humaitá", "Humberto de Campos", "Iacanga", "Iaciara", "Iacri", "Iapu", "Iaras", "Iati", "Iaçu",
+      "Ibaiti", "Ibarama", "Ibaretama", "Ibateguara", "Ibatiba", "Ibaté", "Ibema", "Ibertioga", "Ibiam", "Ibiapina", "Ibiara", "Ibiassucê", "Ibiaçá", "Ibiaí", "Ibicaraí", "Ibicaré", "Ibicoara",
+      "Ibicuitinga", "Ibicuí", "Ibimirim", "Ibipeba", "Ibipitanga", "Ibiporã", "Ibiquera", "Ibiracatu", "Ibiraci", "Ibiraiaras", "Ibirajuba", "Ibirama", "Ibirapitanga", "Ibirapuitã", "Ibirapuã",
+      "Ibirarema", "Ibirataia", "Ibiraçu", "Ibirité", "Ibirubá", "Ibirá", "Ibitiara", "Ibitinga", "Ibitirama", "Ibititá", "Ibitiúra de Minas", "Ibituruna", "Ibiá", "Ibiúna", "Ibotirama", "Icapuí",
+      "Icaraí de Minas", "Icaraíma", "Icatu", "Ichu", "Iconha", "Icém", "Icó", "Ielmo Marinho", "Iepê", "Igaci", "Igaporã", "Igaracy", "Igarapava", "Igarapé", "Igarapé Grande", "Igarapé do Meio",
+      "Igarapé-Açu", "Igarapé-Miri", "Igarassu", "Igaratinga", "Igaratá", "Igaraçu do Tietê", "Igrapiúna", "Igreja Nova", "Igrejinha", "Iguaba Grande", "Iguape", "Iguaraci", "Iguaraçu", "Iguatama",
+      "Iguatemi", "Iguatu", "Iguaí", "Ijaci", "Ijuí", "Ilha Comprida", "Ilha Grande", "Ilha Solteira", "Ilha das Flores", "Ilhabela", "Ilhota", "Ilhéus", "Ilicínea", "Ilópolis",
+      "Imaculada", "Imaruí", "Imbaú", "Imbituba", "Imbituva", "Imbuia", "Imbé", "Imbé de Minas", "Imigrante", "Imperatriz", "Inaciolândia", "Inajá", "Inconfidentes", "Indaiabira",
+      "Indaial", "Indaiatuba", "Independência", "Indiana", "Indianópolis", "Indiaporã", "Indiara", "Indiaroba", "Indiavaí", "Ingazeira", "Ingaí", "Ingá",
+      "Inhacorá", "Inhambupe", "Inhangapi", "Inhapi", "Inhapim", "Inhaúma", "Inhuma", "Inhumas", "Inimutaba", "Inocência", "Inácio Martins", "Inúbia Paulista", "Iomerê", "Ipaba", "Ipameri",
+      "Ipanema", "Ipanguaçu", "Ipaporanga", "Ipatinga", "Ipaumirim", "Ipauçu", "Ipecaetá", "Iperó", "Ipeúna", "Ipiaçu", "Ipiaú", "Ipiguá", "Ipira", "Ipiranga", "Ipiranga de Goiás",
+      "Ipiranga do Piauí", "Ipiranga do Sul", "Ipirá", "Ipixuna", "Ipixuna do Pará", "Ipojuca", "Iporanga", "Iporá", "Iporã", "Iporã do Oeste", "Ipu", "Ipuaçu", "Ipubi", "Ipueira", "Ipueiras",
+      "Ipuiúna", "Ipumirim", "Ipupiara", "Ipuã", "Ipê", "Iracema", "Iracema do Oeste", "Iraceminha", "Iracemápolis", "Irajuba", "Iramaia", "Iranduba", "Irani", "Irapuru",
+      "Irapuã", "Iraquara", "Irará", "Irati", "Irauçuba", "Iraí", "Iraí de Minas", "Irecê", "Iretama", "Irineópolis", "Irituia", "Irupi", "Isaías Coelho", "Israelândia", "Itaara",
+      "Itabaiana", "Itabaianinha", "Itabela", "Itaberaba", "Itaberaí", "Itaberá", "Itabi", "Itabira", "Itabirinha de Mantena", "Itabirito", "Itaboraí", "Itabuna", "Itacajá",
+      "Itacambira", "Itacarambi", "Itacaré", "Itacoatiara", "Itacuruba", "Itacurubi", "Itaeté", "Itagi", "Itagibá", "Itagimirim", "Itaguajé", "Itaguara", "Itaguari", "Itaguaru", "Itaguatins",
+      "Itaguaçu", "Itaguaçu da Bahia", "Itaguaí", "Itainópolis", "Itaipava do Grajaú", "Itaipulândia", "Itaipé", "Itaitinga", "Itaituba", "Itaiçaba", "Itaiópolis", "Itajaí", "Itajobi", "Itaju",
+      "Itaju do Colônia", "Itajubá", "Itajuípe", "Itajá", "Italva", "Itamaracá", "Itamaraju", "Itamarandiba", "Itamarati", "Itamarati de Minas", "Itamari", "Itambacuri", "Itambaracá",
+      "Itambé", "Itambé do Mato Dentro", "Itamogi", "Itamonte", "Itanagra", "Itanhandu", "Itanhaém", "Itanhomi", "Itanhém", "Itaobim", "Itaocara", "Itapaci", "Itapagipe",
+      "Itapagé", "Itaparica", "Itapebi", "Itapecerica", "Itapecerica da Serra", "Itapecuru Mirim", "Itapejara d'Oeste", "Itapema", "Itapemirim", "Itaperuna", "Itaperuçu", "Itapetim", "Itapetinga",
+      "Itapetininga", "Itapeva", "Itapevi", "Itapicuru", "Itapipoca", "Itapira", "Itapiranga", "Itapirapuã", "Itapirapuã Paulista", "Itapiratins", "Itapissuma",
+      "Itapitanga", "Itapiúna", "Itaporanga", "Itaporanga d'Ajuda", "Itapororoca", "Itaporã", "Itaporã do Tocantins", "Itapoá", "Itapuca", "Itapura", "Itapuranga", "Itapuã do Oeste",
+      "Itapuí", "Itapé", "Itaquaquecetuba", "Itaquara", "Itaqui", "Itaquiraí", "Itaquitinga", "Itarana", "Itarantim", "Itararé", "Itarema", "Itariri", "Itarumã", "Itati", "Itatiaia", "Itatiaiuçu",
+      "Itatiba", "Itatiba do Sul", "Itatim", "Itatinga", "Itatira", "Itatuba", "Itaubal", "Itaueira", "Itauçu", "Itaverava", "Itaí", "Itaíba", "Itaóca", "Itaú", "Itaú de Minas", "Itaúba",
+      "Itaúna", "Itaúna do Sul", "Itinga", "Itinga do Maranhão", "Itiquira", "Itirapina", "Itirapuã", "Itiruçu", "Itiúba", "Itobi", "Itororó", "Itu", "Ituaçu", "Ituberá", "Itueta", "Ituiutaba",
+      "Itumbiara", "Itumirim", "Itupeva", "Itupiranga", "Ituporanga", "Iturama", "Itutinga", "Ituverava", "Itá", "Itápolis", "Iuiú", "Ivaiporã", "Ivatuba", "Ivaté", "Ivaí", "Ivinhema", "Ivolândia",
+      "Ivorá", "Ivoti", "Içara", "Iúna", "Jaboatão dos Guararapes", "Jaborandi", "Jaborá", "Jaboti", "Jaboticaba", "Jaboticabal", "Jaboticatubas", "Jacaraci", "Jacaraú",
+      "Jacareacanga", "Jacarezinho", "Jacareí", "Jacaré dos Homens", "Jaci", "Jaciara", "Jacinto", "Jacinto Machado", "Jacobina", "Jacobina do Piauí", "Jacuizinho", "Jacundá", "Jacupiranga",
+      "Jacutinga", "Jacuí", "Jacuípe", "Jaguapitã", "Jaguaquara", "Jaguarari", "Jaguaraçu", "Jaguaretama", "Jaguari", "Jaguariaíva", "Jaguaribara", "Jaguaribe", "Jaguaripe",
+      "Jaguariúna", "Jaguaruana", "Jaguaruna", "Jaguarão", "Jaguaré", "Jaicós", "Jales", "Jambeiro", "Jampruca", "Janaúba", "Jandaia", "Jandaia do Sul", "Jandaíra", "Jandira",
+      "Janduís", "Jangada", "Janiópolis", "Januária", "Januário Cicco", "Japaratinga", "Japaratuba", "Japaraíba", "Japeri", "Japi", "Japira", "Japoatã", "Japonvar", "Japorã", "Japurá",
+      "Jaqueira", "Jaquirana", "Jaraguari", "Jaraguá", "Jaraguá do Sul", "Jaramataia", "Jardim", "Jardim Alegre", "Jardim Olinda", "Jardim de Angicos", "Jardim de Piranhas",
+      "Jardim do Mulato", "Jardim do Seridó", "Jardinópolis", "Jari", "Jarinu", "Jaru", "Jataizinho", "Jataí", "Jataúba", "Jateí", "Jati", "Jatobá", "Jatobá do Piauí",
+      "Jaupaci", "Jauru", "Jaçanã", "Jaíba", "Jaú", "Jaú do Tocantins", "Jeceaba", "Jenipapo de Minas", "Jenipapo dos Vieiras", "Jequeri", "Jequitaí", "Jequitibá", "Jequitinhonha",
+      "Jequiá da Praia", "Jequié", "Jeremoabo", "Jericó", "Jeriquara", "Jerumenha", "Jerônimo Monteiro", "Jesuânia", "Jesuítas", "Jesúpolis", "Ji-Paraná", "Jijoca de Jericoaroara", "Jiquiriçá",
+      "Jitaúna", "Joanésia", "Joanópolis", "Joaquim Felício", "Joaquim Gomes", "Joaquim Nabuco", "Joaquim Pires", "Joaquim Távora", "Joaçaba", "Joaíma", "Joca Marques", "Joinville", "Jordânia",
+      "Jordão", "Joselândia", "Josenópolis", "José Boiteux", "José Bonifácio", "José Gonçalves de Minas", "José Raydan", "José da Penha", "José de Freitas", "Joviânia", "João Alfredo",
+      "João Costa", "João Câmara", "João Dias", "João Dourado", "João Lisboa", "João Monlevade", "João Neiva", "João Pessoa", "João Pinheiro", "João Ramalho", "Juara", "Juarez Távora", "Juarina",
+      "Juatuba", "Juazeirinho", "Juazeiro", "Juazeiro do Norte", "Juazeiro do Piauí", "Jucati", "Jucurutu", "Jucuruçu", "Jucás", "Juiz de Fora", "Jumirim", "Junco do Maranhão", "Junco do Seridó",
+      "Jundiaí", "Jundiaí do Sul", "Jundiá", "Junqueiro", "Junqueirópolis", "Jupi", "Jupiá", "Juquitiba", "Juquiá", "Juramento", "Juranda", "Jurema", "Juripiranga", "Juru",
+      "Juruaia", "Juruena", "Juruti", "Juruá", "Juscimeira", "Jussara", "Jussari", "Jussiape", "Jutaí", "Juti", "Juvenília", "Juína", "Jóia", "Júlio Borges", "Júlio Mesquita",
+      "Júlio de Castilhos", "Kaloré", "Lacerdópolis", "Ladainha", "Ladário", "Lafaiete Coutinho", "Lagamar", "Lagarto", "Lages", "Lago Verde", "Lago da Pedra", "Lago do Junco",
+      "Lago dos Rodrigues", "Lagoa", "Lagoa Alegre", "Lagoa Bonita do Sul", "Lagoa Dourada", "Lagoa Formosa", "Lagoa Grande", "Lagoa Grande do Maranhão", "Lagoa Nova",
+      "Lagoa Real", "Lagoa Salgada", "Lagoa Santa", "Lagoa Seca", "Lagoa Vermelha", "Lagoa d'Anta", "Lagoa da Canoa", "Lagoa da Confusão", "Lagoa da Prata", "Lagoa de Dentro",
+      "Lagoa de Pedras", "Lagoa de São Francisco", "Lagoa de Velhos", "Lagoa do Barro do Piauí", "Lagoa do Carro", "Lagoa do Itaenga", "Lagoa do Mato", "Lagoa do Ouro", "Lagoa do Piauí",
+      "Lagoa do Sítio", "Lagoa do Tocantins", "Lagoa dos Gatos", "Lagoa dos Patos", "Lagoa dos Três Cantos", "Lagoinha", "Lagoinha do Piauí", "Lagoão", "Laguna", "Laguna Carapã", "Laje",
+      "Laje do Muriaé", "Lajeado", "Lajeado Grande", "Lajeado Novo", "Lajeado do Bugre", "Lajedinho", "Lajedo", "Lajedo do Tabocal", "Lajedão", "Lajes", "Lajes Pintadas", "Lajinha",
+      "Lamarão", "Lambari", "Lambari d'Oeste", "Lamim", "Landri Sales", "Lapa", "Lapão", "Laranja da Terra", "Laranjal", "Laranjal Paulista", "Laranjal do Jari", "Laranjeiras",
+      "Laranjeiras do Sul", "Lassance", "Lastro", "Laurentino", "Lauro Muller", "Lauro de Freitas", "Lavandeira", "Lavras", "Lavras da Mangabeira", "Lavras do Sul", "Lavrinhas", "Lavínia",
+      "Leandro Ferreira", "Lebon Régis", "Leme", "Leme do Prado", "Lençóis", "Lençóis Paulista", "Leoberto Leal", "Leopoldina", "Leopoldo de Bulhões", "Leópolis", "Liberato Salzano", "Liberdade",
+      "Licínio de Almeida", "Lidianópolis", "Lima Campos", "Lima Duarte", "Limeira", "Limeira do Oeste", "Limoeiro", "Limoeiro de Anadia", "Limoeiro do Ajuru", "Limoeiro do Norte", "Lindoeste",
+      "Lindolfo Collor", "Lindóia", "Lindóia do Sul", "Linha Nova", "Linhares", "Lins", "Livramento", "Livramento de Nossa Senhora", "Lizarda", "Loanda", "Lobato", "Logradouro", "Londrina",
+      "Lontra", "Lontras", "Lorena", "Loreto", "Lourdes", "Louveira", "Lucas do Rio Verde", "Lucena", "Lucianópolis", "Luciára", "Lucrécia", "Lucélia", "Luisburgo", "Luislândia", "Luiz Alves",
+      "Luiziana", "Luiziânia", "Luminárias", "Lunardelli", "Lupionópolis", "Lupércio", "Lutécia", "Luz", "Luzerna", "Luzilândia", "Luzinópolis", "Luziânia", "Luís Antônio", "Luís Correia",
+      "Luís Domingues", "Luís Eduardo Magalhães", "Luís Gomes", "Lábrea", "Macajuba", "Macambira", "Macaparana", "Macapá", "Macarani", "Macatuba", "Macau", "Macaubal", "Macaé", "Macaíba",
+      "Macaúbas", "Macedônia", "Maceió", "Machacalis", "Machadinho", "Machadinho d'Oeste", "Machado", "Machados", "Macieira", "Macuco", "Macururé", "Madalena", "Madeiro", "Madre de Deus",
+      "Madre de Deus de Minas", "Maetinga", "Mafra", "Magalhães Barata", "Magalhães de Almeida", "Magda", "Magé", "Maiquinique", "Mairi", "Mairinque", "Mairiporã", "Mairipotaba", "Major Gercino",
+      "Major Isidoro", "Major Sales", "Major Vieira", "Malacacheta", "Malhada", "Malhada de Pedras", "Malhada dos Bois", "Malhador", "Mallet", "Malta", "Mamanguape", "Mambaí", "Mamborê",
+      "Mamonas", "Mampituba", "Manacapuru", "Manaquiri", "Manari", "Manaus", "Manaíra", "Mandaguari", "Mandaguaçu", "Mandirituba", "Manduri", "Manfrinópolis", "Manga", "Mangaratiba",
+      "Mangueirinha", "Manhuaçu", "Manhumirim", "Manicoré", "Manoel Emídio", "Manoel Ribas", "Manoel Urbano", "Manoel Viana", "Manoel Vitorino", "Mansidão", "Mantena", "Mantenópolis", "Maquiné",
+      "Mar Vermelho", "Mar de Espanha", "Mara Rosa", "Marabá", "Marabá Paulista", "Maracaju", "Maracajá", "Maracanaú", "Maracanã", "Maracaçumé", "Maracaí", "Maracás", "Maragogi", "Maragogipe",
+      "Maraial", "Marajá do Sena", "Maranguape", "Maranhãozinho", "Marapanim", "Marapoama", "Marataizes", "Maratá", "Marau", "Maravilha", "Maravilhas", "Maraã", "Maraú", "Marcação",
+      "Marcelino Ramos", "Marcelino Vieira", "Marcelândia", "Marcionílio Souza", "Marco", "Marcolândia", "Marcos Parente", "Marechal Cândido Rondon", "Marechal Deodoro", "Marechal Floriano",
+      "Marechal Thaumaturgo", "Marema", "Mari", "Maria Helena", "Maria da Fé", "Marialva", "Mariana", "Mariana Pimentel", "Mariano Moro", "Marianópolis do Tocantins", "Maribondo", "Maricá",
+      "Marilac", "Marilena", "Mariluz", "Marilândia", "Marilândia do Sul", "Maringá", "Marinópolis", "Maripá", "Maripá de Minas", "Marituba", "Marizópolis", "Mariápolis", "Mariópolis",
+      "Marliéria", "Marmeleiro", "Marmelópolis", "Marques de Souza", "Marquinho", "Martinho Campos", "Martins", "Martins Soares", "Martinópole", "Martinópolis", "Maruim", "Marumbi",
+      "Marzagão", "Marília", "Mascote", "Massapê", "Massapê do Piauí", "Massaranduba", "Mata", "Mata Grande", "Mata Roma", "Mata Verde", "Mata de São João", "Mataraca",
+      "Mateiros", "Matelândia", "Materlândia", "Mateus Leme", "Mathias Lobato", "Matias Barbosa", "Matias Cardoso", "Matias Olímpio", "Matina", "Matinha", "Matinhas", "Matinhos", "Matipó",
+      "Mato Castelhano", "Mato Grosso", "Mato Leitão", "Mato Queimado", "Mato Rico", "Mato Verde", "Matos Costa", "Matozinhos", "Matrinchã", "Matriz de Camaragibe", "Matupá", "Maturéia",
+      "Matutina", "Matão", "Matões", "Matões do Norte", "Maurilândia", "Maurilândia do Tocantins", "Mauriti", "Mauá", "Mauá da Serra", "Maués", "Maxaranguape", "Maximiliano de Almeida", "Mazagão",
+      "Maçambara", "Medeiros", "Medeiros Neto", "Medianeira", "Medicilândia", "Medina", "Meleiro", "Melgaço", "Mendes", "Mendes Pimentel", "Mendonça", "Mercedes", "Mercês", "Meridiano", "Meruoca",
+      "Mesquita", "Messias", "Messias Targino", "Mesópolis", "Miguel Alves", "Miguel Calmon", "Miguel Leão", "Miguel Pereira", "Miguelópolis", "Milagres",
+      "Milagres do Maranhão", "Milhã", "Milton Brandão", "Mimoso de Goiás", "Mimoso do Sul", "Minador do Negrão", "Minas Novas", "Minas do Leão", "Minaçu", "Minduri", "Mineiros",
+      "Mineiros do Tietê", "Ministro Andreazza", "Mira Estrela", "Mirabela", "Miracatu", "Miracema", "Miracema do Tocantins", "Mirador", "Miradouro", "Miraguaí", "Miranda",
+      "Miranda do Norte", "Mirandiba", "Mirandópolis", "Mirangaba", "Miranorte", "Mirante", "Mirante da Serra", "Mirante do Paranapanema", "Miraselva", "Mirassol", "Mirassol d'Oeste",
+      "Mirassolândia", "Miravânia", "Miraí", "Miraíma", "Mirim Doce", "Mirinzal", "Missal", "Missão Velha", "Mocajuba", "Mococa", "Modelo", "Moeda", "Moema", "Mogeiro", "Mogi das Cruzes",
+      "Mogi-Guaçu", "Mogi-Mirim", "Moiporá", "Moita Bonita", "Moju", "Mombaça", "Mombuca", "Mondaí", "Mongaguá", "Monjolos", "Monsenhor Gil", "Monsenhor Hipólito", "Monsenhor Paulo",
+      "Monsenhor Tabosa", "Montadas", "Montalvânia", "Montanha", "Montanhas", "Montauri", "Monte Alegre", "Monte Alegre de Goiás", "Monte Alegre de Minas",
+      "Monte Alegre de Sergipe", "Monte Alegre do Piauí", "Monte Alegre do Sul", "Monte Alegre dos Campos", "Monte Alto", "Monte Aprazível", "Monte Azul", "Monte Azul Paulista",
+      "Monte Belo", "Monte Belo do Sul", "Monte Carlo", "Monte Carmelo", "Monte Castelo", "Monte Formoso", "Monte Horebe", "Monte Mor", "Monte Negro", "Monte Santo",
+      "Monte Santo de Minas", "Monte Santo do Tocantins", "Monte Sião", "Monte das Gameleiras", "Monte do Carmo", "Monteiro", "Monteiro Lobato", "Monteirópolis", "Montenegro", "Montes Altos",
+      "Montes Claros", "Montes Claros de Goiás", "Montezuma", "Montividiu", "Montividiu do Norte", "Monção", "Monções", "Morada Nova", "Morada Nova de Minas", "Moraújo", "Moreilândia",
+      "Moreira Sales", "Moreno", "Mormaço", "Morpará", "Morretes", "Morrinhos", "Morrinhos do Sul", "Morro Agudo", "Morro Agudo de Goiás", "Morro Cabeça no Tempo", "Morro Grande",
+      "Morro Redondo", "Morro Reuter", "Morro da Fumaça", "Morro da Garça", "Morro do Chapéu", "Morro do Chapéu do Piauí", "Morro do Pilar", "Morros", "Mortugaba", "Morungaba", "Mossoró",
+      "Mossâmedes", "Mostardas", "Motuca", "Mozarlândia", "Muaná", "Mucajaí", "Mucambo", "Mucugê", "Mucuri", "Mucurici", "Muitos Capões", "Muliterno", "Mulungu", "Mulungu do Morro",
+      "Mundo Novo", "Munhoz", "Munhoz de Melo", "Muniz Ferreira", "Muniz Freire", "Muqui", "Muquém de São Francisco", "Muriaé", "Muribeca", "Murici",
+      "Murici dos Portelas", "Muricilândia", "Muritiba", "Murutinga do Sul", "Mutum", "Mutunópolis", "Mutuípe", "Muzambinho", "Muçum", "Mário Campos", "Mâncio Lima", "Mãe d'Água",
+      "Mãe do Rio", "Nacip Raydan", "Nantes", "Nanuque", "Naque", "Narandiba", "Natal", "Natalândia", "Natividade", "Natividade da Serra", "Natuba", "Natércia", "Navegantes",
+      "Naviraí", "Nazareno", "Nazarezinho", "Nazaré", "Nazaré Paulista", "Nazaré da Mata", "Nazaré do Piauí", "Nazário", "Nepomuceno", "Nerópolis", "Neves Paulista", "Neópolis",
+      "Nhamundá", "Nhandeara", "Nicolau Vergueiro", "Nilo Peçanha", "Nilópolis", "Nina Rodrigues", "Ninheira", "Nioaque", "Nipoã", "Niquelândia", "Niterói", "Nobres", "Nonoai", "Nordestina",
+      "Normandia", "Nortelândia", "Nossa Senhora Aparecida", "Nossa Senhora da Glória", "Nossa Senhora das Dores", "Nossa Senhora das Graças", "Nossa Senhora de Lourdes",
+      "Nossa Senhora de Nazaré", "Nossa Senhora do Livramento", "Nossa Senhora do Socorro", "Nossa Senhora dos Remédios", "Nova Aliança", "Nova Aliança do Ivaí", "Nova Alvorada",
+      "Nova Alvorada do Sul", "Nova América", "Nova América da Colina", "Nova Andradina", "Nova Araçá", "Nova Aurora", "Nova Bandeirantes", "Nova Bassano", "Nova Belém",
+      "Nova Boa Vista", "Nova Brasilândia", "Nova Brasilândia d'Oeste", "Nova Bréscia", "Nova Campina", "Nova Canaã", "Nova Canaã Paulista", "Nova Candelária", "Nova Cantu",
+      "Nova Canãa do Norte", "Nova Castilho", "Nova Colinas", "Nova Crixás", "Nova Cruz", "Nova Era", "Nova Erechim", "Nova Esperança", "Nova Esperança do Piriá", "Nova Esperança do Sudoeste",
+      "Nova Esperança do Sul", "Nova Europa", "Nova Floresta", "Nova Friburgo", "Nova Fátima", "Nova Glória", "Nova Granada", "Nova Guarita", "Nova Guataporanga", "Nova Hartz",
+      "Nova Ibiá", "Nova Iguaçu", "Nova Iguaçu de Goiás", "Nova Independência", "Nova Iorque", "Nova Ipixuna", "Nova Itaberaba", "Nova Itarana", "Nova Lacerda", "Nova Laranjeiras", "Nova Lima",
+      "Nova Londrina", "Nova Luzitânia", "Nova Mamoré", "Nova Marilândia", "Nova Maringá", "Nova Monte Verde", "Nova Mutum", "Nova Módica", "Nova Nazaré", "Nova Odessa", "Nova Olinda",
+      "Nova Olinda do Maranhão", "Nova Olinda do Norte", "Nova Olímpia", "Nova Palma", "Nova Palmeira", "Nova Petrópolis", "Nova Ponte",
+      "Nova Porteirinha", "Nova Prata", "Nova Prata do Iguaçu", "Nova Pádua", "Nova Ramada", "Nova Redenção", "Nova Resende", "Nova Roma", "Nova Roma do Sul", "Nova Rosalândia", "Nova Russas",
+      "Nova Santa Bárbara", "Nova Santa Helena", "Nova Santa Rita", "Nova Santa Rosa", "Nova Serrana", "Nova Soure", "Nova Tebas", "Nova Timboteua", "Nova Trento",
+      "Nova Ubiratã", "Nova União", "Nova Veneza", "Nova Venécia", "Nova Viçosa", "Nova Xavantina", "Novais", "Novo Acordo", "Novo Airão", "Novo Alegre",
+      "Novo Aripuanã", "Novo Barreiro", "Novo Brasil", "Novo Cabrais", "Novo Cruzeiro", "Novo Gama", "Novo Hamburgo", "Novo Horizonte",
+      "Novo Horizonte do Norte", "Novo Horizonte do Oeste", "Novo Horizonte do Sul", "Novo Itacolomi", "Novo Jardim", "Novo Lino", "Novo Machado", "Novo Mundo", "Novo Oriente",
+      "Novo Oriente de Minas", "Novo Oriente do Piauí", "Novo Planalto", "Novo Progresso", "Novo Repartimento", "Novo Santo Antônio", "Novo São Joaquim",
+      "Novo Tiradentes", "Novo Triunfo", "Novo Xingu", "Novorizonte", "Nuporanga", "Não-Me-Toque", "Nísia Floresta", "Ocara", "Ocauçu", "Oeiras", "Oeiras do Pará", "Oiapoque", "Olaria",
+      "Olho d'Água", "Olho d'Água Grande", "Olho d'Água das Cunhãs", "Olho d'Água das Flores", "Olho d'Água do Casado", "Olho d'Água do Piauí", "Olho-d'Água do Borges", "Olhos-d'Água",
+      "Olinda", "Olinda Nova do Maranhão", "Olindina", "Olivedos", "Oliveira", "Oliveira Fortes", "Oliveira de Fátima", "Oliveira dos Brejinhos", "Olivença", "Olímpia", "Olímpio Noronha",
+      "Onda Verde", "Onça de Pitangui", "Oratórios", "Oriente", "Orindiúva", "Oriximiná", "Orizona", "Orizânia", "Orleans", "Orlândia", "Orobó", "Orocó", "Ortigueira", "Orós", "Osasco",
+      "Oscar Bressane", "Osvaldo Cruz", "Osório", "Otacílio Costa", "Ouricuri", "Ourilândia do Norte", "Ourinhos", "Ourizona", "Ouriçangas", "Ouro", "Ouro Branco",
+      "Ouro Fino", "Ouro Preto", "Ouro Preto do Oeste", "Ouro Velho", "Ouro Verde", "Ouro Verde de Goiás", "Ouro Verde de Minas", "Ouro Verde do Oeste", "Ouroeste", "Ourolândia",
+      "Ourém", "Ouvidor", "Pacaembu", "Pacajus", "Pacajá", "Pacaraima", "Pacatuba", "Pacoti", "Pacujá", "Padre Bernardo", "Padre Carvalho", "Padre Marcos", "Padre Paraíso",
+      "Paes Landim", "Pai Pedro", "Paial", "Paim Filho", "Paineiras", "Painel", "Pains", "Paiva", "Paiçandu", "Pajeú do Piauí", "Palestina", "Palestina de Goiás",
+      "Palestina do Pará", "Palhano", "Palhoça", "Palma", "Palma Sola", "Palmares", "Palmares Paulista", "Palmares do Sul", "Palmas", "Palmas de Monte Alto", "Palmeira",
+      "Palmeira d'Oeste", "Palmeira das Missões", "Palmeira do Piauí", "Palmeira dos Índios", "Palmeirais", "Palmeirante", "Palmeiras", "Palmeiras de Goiás",
+      "Palmeiras do Tocantins", "Palmeirina", "Palmeirândia", "Palmeirópolis", "Palmelo", "Palminópolis", "Palmital", "Palmitinho", "Palmitos", "Palmácia", "Palmópolis",
+      "Palotina", "Panambi", "Panamá", "Pancas", "Panelas", "Panorama", "Papagaios", "Papanduva", "Paquetá", "Paracambi", "Paracatu", "Paracuru", "Paragominas", "Paraguaçu",
+      "Paraguaçu Paulista", "Paraibano", "Paraibuna", "Paraipaba", "Paraisópolis", "Parambu", "Paramirim", "Paramoti", "Paranacity", "Paranaguá", "Paranaiguara", "Paranapanema",
+      "Paranapoema", "Paranapuã", "Paranatama", "Paranatinga", "Paranavaí", "Paranaíba", "Paranaíta", "Paranhos", "Paraná", "Paranã", "Paraopeba", "Parapuã", "Parari", "Parati",
+      "Paratinga", "Parauapebas", "Parazinho", "Paraí", "Paraíba do Sul", "Paraíso", "Paraíso do Norte", "Paraíso do Sul", "Paraíso do Tocantins", "Paraú", "Paraúna",
+      "Pardinho", "Pareci Novo", "Parecis", "Parelhas", "Pariconha", "Parintins", "Paripiranga", "Paripueira", "Pariquera-Açu", "Parisi", "Parnaguá", "Parnamirim",
+      "Parnarama", "Parnaíba", "Parobé", "Pará de Minas", "Passa Quatro", "Passa Sete", "Passa Tempo", "Passa e Fica", "Passa-Vinte", "Passabém", "Passagem",
+      "Passagem Franca", "Passagem Franca do Piauí", "Passira", "Passo Fundo", "Passo de Camaragibe", "Passo de Torres", "Passo do Sobrado", "Passos", "Passos Maia", "Pastos Bons",
+      "Patis", "Pato Bragado", "Pato Branco", "Patos", "Patos de Minas", "Patos do Piauí", "Patrocínio", "Patrocínio Paulista", "Patrocínio do Muriaé", "Patu", "Paty do Alferes",
+      "Pau Brasil", "Pau d'Arco", "Pau d'Arco do Piauí", "Pau dos Ferros", "Paudalho", "Pauini", "Paula Cândido", "Paula Freitas", "Paulicéia", "Paulino Neves", "Paulista",
+      "Paulistana", "Paulistas", "Paulistânia", "Paulo Afonso", "Paulo Bento", "Paulo Frontin", "Paulo Jacinto", "Paulo Lopes", "Paulo Ramos", "Paulo de Faria", "Paulínia",
+      "Paverama", "Pavussu", "Pavão", "Paço do Lumiar", "Peabiru", "Pederneiras", "Pedra", "Pedra Azul", "Pedra Bela", "Pedra Bonita", "Pedra Branca", "Pedra Branca do Amapari",
+      "Pedra Dourada", "Pedra Grande", "Pedra Lavrada", "Pedra Mole", "Pedra Preta", "Pedra do Anta", "Pedra do Indaiá", "Pedralva", "Pedranópolis", "Pedras Altas",
+      "Pedras Grandes", "Pedras de Fogo", "Pedras de Maria da Cruz", "Pedregulho", "Pedreira", "Pedreiras", "Pedrinhas", "Pedrinhas Paulista", "Pedrinópolis", "Pedro Afonso",
+      "Pedro Alexandre", "Pedro Avelino", "Pedro Canário", "Pedro Gomes", "Pedro II", "Pedro Laurentino", "Pedro Leopoldo", "Pedro Osório", "Pedro Régis", "Pedro Teixeira", "Pedro Velho",
+      "Pedro de Toledo", "Pedro do Rosário", "Pedrão", "Peixe", "Peixe-Boi", "Peixoto de Azevedo", "Pejuçara", "Pelotas", "Penaforte", "Penalva", "Pendências", "Penedo", "Penha", "Pentecoste",
+      "Penápolis", "Pequeri", "Pequi", "Pequizeiro", "Perdigão", "Perdizes", "Perdões", "Pereira Barreto", "Pereiras", "Pereiro", "Peri Mirim", "Periquito", "Peritiba", "Peritoró", "Perobal",
+      "Perolândia", "Peruíbe", "Pescador", "Pesqueira", "Petrolina", "Petrolina de Goiás", "Petrolândia", "Petrópolis", "Peçanha", "Piacatu", "Piancó", "Piatã", "Piau",
+      "Piaçabuçu", "Picada Café", "Picos", "Picuí", "Piedade", "Piedade de Caratinga", "Piedade de Ponte Nova", "Piedade do Rio Grande", "Piedade dos Gerais", "Pilar", "Pilar de Goiás",
+      "Pilar do Sul", "Pilão Arcado", "Pilões", "Pilõezinhos", "Pimenta", "Pimenta Bueno", "Pimenteiras", "Pimenteiras do Oeste", "Pindamonhangaba", "Pindaré Mirim", "Pindaí", "Pindoba",
+      "Pindobaçu", "Pindorama", "Pindorama do Tocantins", "Pindoretama", "Pingo-d'Água", "Pinhais", "Pinhal", "Pinhal Grande", "Pinhal da Serra", "Pinhal de São Bento", "Pinhalzinho",
+      "Pinhalão", "Pinheiral", "Pinheirinho do Vale", "Pinheiro", "Pinheiro Machado", "Pinheiro Preto", "Pinheiros", "Pinhão", "Pintadas", "Pintópolis", "Pio IX",
+      "Pio XII", "Piquerobi", "Piquet Carneiro", "Piquete", "Piracaia", "Piracanjuba", "Piracema", "Piracicaba", "Piracuruca", "Piraju", "Pirajuba", "Pirajuí", "Pirambu", "Piranga", "Pirangi",
+      "Piranguinho", "Piranguçu", "Piranhas", "Pirapemas", "Pirapetinga", "Pirapora", "Pirapora do Bom Jesus", "Pirapozinho", "Pirapó", "Piraquara", "Piraquê", "Pirassununga",
+      "Piratini", "Piratininga", "Piratuba", "Piraí", "Piraí do Norte", "Piraí do Sul", "Piraúba", "Pirenópolis", "Pires Ferreira", "Pires do Rio", "Piripiri", "Piripá", "Piritiba",
+      "Pirpirituba", "Pitanga", "Pitangueiras", "Pitangui", "Pitimbu", "Pium", "Piumhi", "Piçarra", "Piçarras", "Piên", "Piúma", "Placas", "Planaltina", "Planaltina do Paraná",
+      "Planaltino", "Planalto", "Planalto Alegre", "Planalto da Serra", "Planura", "Platina", "Plácido de Castro", "Pocinhos", "Poconé", "Pocrane", "Pojuca",
+      "Poloni", "Pombal", "Pombos", "Pomerode", "Pompéia", "Pompéu", "Pongaí", "Ponta Grossa", "Ponta Porã", "Ponta de Pedras", "Pontal", "Pontal do Araguaia", "Pontal do Paraná", "Pontalina",
+      "Pontalinda", "Ponte Alta", "Ponte Alta do Bom Jesus", "Ponte Alta do Norte", "Ponte Alta do Tocantins", "Ponte Branca", "Ponte Nova", "Ponte Preta", "Ponte Serrada", "Pontes Gestal",
+      "Pontes e Lacerda", "Ponto Belo", "Ponto Chique", "Ponto Novo", "Ponto dos Volantes", "Pontão", "Populina", "Poranga", "Porangaba", "Porangatu", "Porciúncula", "Porecatu", "Portalegre",
+      "Porteiras", "Porteirinha", "Porteirão", "Portel", "Portelândia", "Porto", "Porto Acre", "Porto Alegre", "Porto Alegre do Norte", "Porto Alegre do Piauí", "Porto Alegre do Tocantins",
+      "Porto Amazonas", "Porto Barreiro", "Porto Belo", "Porto Calvo", "Porto Esperidião", "Porto Estrela", "Porto Feliz", "Porto Ferreira", "Porto Firme", "Porto Franco", "Porto Grande",
+      "Porto Lucena", "Porto Mauá", "Porto Murtinho", "Porto Nacional", "Porto Real", "Porto Real do Colégio", "Porto Rico", "Porto Rico do Maranhão", "Porto Seguro", "Porto União",
+      "Porto Velho", "Porto Vera Cruz", "Porto Vitória", "Porto Walter", "Porto Xavier", "Porto da Folha", "Porto de Moz", "Porto de Pedras", "Porto do Mangue", "Porto dos Gaúchos", "Portão",
+      "Posse", "Potengi", "Potim", "Potiraguá", "Potirendaba", "Potiretama", "Poté", "Pouso Alegre", "Pouso Alto", "Pouso Novo", "Pouso Redondo", "Poxoréo", "Poá", "Poço Branco", "Poço Dantas",
+      "Poço Fundo", "Poço Redondo", "Poço Verde", "Poço das Antas", "Poço das Trincheiras", "Poço de José de Moura", "Poços de Caldas", "Poção", "Poção de Pedras", "Poções", "Pracinha", "Pracuúba",
+      "Prado", "Prado Ferreira", "Prados", "Pradópolis", "Praia Grande", "Praia Norte", "Prainha", "Pranchita", "Prata", "Prata do Piauí", "Pratinha", "Pratápolis",
+      "Pratânia", "Presidente Alves", "Presidente Bernardes", "Presidente Castelo Branco", "Presidente Dutra",
+      "Presidente Epitácio", "Presidente Figueiredo", "Presidente Getúlio", "Presidente Juscelino", "Presidente Jânio Quadros",
+      "Presidente Kennedy", "Presidente Kubitschek", "Presidente Lucena", "Presidente Médici", "Presidente Nereu", "Presidente Olegário",
+      "Presidente Prudente", "Presidente Sarney", "Presidente Tancredo Neves", "Presidente Vargas", "Presidente Venceslau", "Primavera", "Primavera de Rondônia",
+      "Primavera do Leste", "Primeira Cruz", "Primeiro de Maio", "Princesa", "Princesa Isabel", "Professor Jamil", "Progresso", "Promissão", "Propriá", "Protásio Alves", "Prudente de Morais",
+      "Prudentópolis", "Pugmil", "Pureza", "Putinga", "Puxinanã", "Pântano Grande", "Pão de Açúcar", "Pé de Serra", "Pérola", "Pérola d'Oeste", "Quadra", "Quaraí", "Quartel Geral",
+      "Quarto Centenário", "Quatiguá", "Quatipuru", "Quatis", "Quatro Barras", "Quatro Irmãos", "Quatro Pontes", "Quatá", "Quebrangulo", "Quedas do Iguaçu", "Queimada Nova", "Queimadas",
+      "Queimados", "Queiroz", "Queluz", "Queluzito", "Querência", "Querência do Norte", "Quevedos", "Quijingue", "Quilombo", "Quinta do Sol", "Quintana", "Quinze de Novembro",
+      "Quipapá", "Quirinópolis", "Quissamã", "Quitandinha", "Quiterianópolis", "Quixaba", "Quixabeira", "Quixabá", "Quixadá", "Quixelô", "Quixeramobim", "Quixeré", "Rafael Fernandes",
+      "Rafael Godeiro", "Rafael Jambeiro", "Rafard", "Ramilândia", "Rancharia", "Rancho Alegre", "Rancho Alegre d'Oeste", "Rancho Queimado", "Raposa", "Raposos", "Raul Soares", "Realeza",
+      "Rebouças", "Recife", "Recreio", "Recursolândia", "Redentora", "Redenção", "Redenção da Serra", "Redenção do Gurguéia", "Reduto", "Regeneração", "Regente Feijó", "Reginópolis",
+      "Registro", "Relvado", "Remanso", "Remígio", "Renascença", "Reriutaba", "Resende", "Resende Costa", "Reserva", "Reserva do Cabaçal", "Reserva do Iguaçu", "Resplendor", "Ressaquinha",
+      "Restinga", "Restinga Seca", "Retirolândia", "Riachinho", "Riacho Frio", "Riacho da Cruz", "Riacho das Almas", "Riacho de Santana",
+      "Riacho de Santo Antônio", "Riacho dos Cavalos", "Riacho dos Machados", "Riachuelo", "Riachão", "Riachão das Neves", "Riachão do Bacamarte",
+      "Riachão do Dantas", "Riachão do Jacuípe", "Riachão do Poço", "Rialma", "Rianápolis", "Ribamar Fiquene", "Ribas do Rio Pardo", "Ribeira", "Ribeira do Amparo", "Ribeira do Piauí",
+      "Ribeira do Pombal", "Ribeiro Gonçalves", "Ribeirão", "Ribeirão Bonito", "Ribeirão Branco", "Ribeirão Cascalheira", "Ribeirão Claro", "Ribeirão Corrente", "Ribeirão Grande",
+      "Ribeirão Pires", "Ribeirão Preto", "Ribeirão Vermelho", "Ribeirão das Neves", "Ribeirão do Largo", "Ribeirão do Pinhal", "Ribeirão do Sul", "Ribeirão dos Índios", "Ribeirãozinho",
+      "Ribeirópolis", "Rifaina", "Rincão", "Rinópolis", "Rio Acima", "Rio Azul", "Rio Bananal", "Rio Bom", "Rio Bonito", "Rio Bonito do Iguaçu", "Rio Branco",
+      "Rio Branco do Ivaí", "Rio Branco do Sul", "Rio Brilhante", "Rio Casca", "Rio Claro", "Rio Crespo", "Rio Doce", "Rio Espera", "Rio Formoso", "Rio Fortuna", "Rio Grande",
+      "Rio Grande da Serra", "Rio Grande do Piauí", "Rio Largo", "Rio Manso", "Rio Maria", "Rio Negrinho", "Rio Negro", "Rio Novo", "Rio Novo do Sul", "Rio Paranaíba",
+      "Rio Pardo", "Rio Pardo de Minas", "Rio Piracicaba", "Rio Pomba", "Rio Preto", "Rio Preto da Eva", "Rio Quente", "Rio Real", "Rio Rufino", "Rio Sono", "Rio Tinto", "Rio Verde",
+      "Rio Verde de Mato Grosso", "Rio Vermelho", "Rio da Conceição", "Rio das Antas", "Rio das Flores", "Rio das Ostras", "Rio das Pedras", "Rio de Contas", "Rio de Janeiro",
+      "Rio do Antônio", "Rio do Campo", "Rio do Fogo", "Rio do Oeste", "Rio do Pires", "Rio do Prado", "Rio do Sul", "Rio dos Bois", "Rio dos Cedros", "Rio dos Índios", "Riolândia",
+      "Riozinho", "Riqueza", "Ritápolis", "Riversul", "Roca Sales", "Rochedo", "Rochedo de Minas", "Rodeio", "Rodeio Bonito", "Rodeiro", "Rodelas", "Rodolfo Fernandes", "Rodrigues Alves",
+      "Rolador", "Rolante", "Rolim de Moura", "Rolândia", "Romaria", "Romelândia", "Roncador", "Ronda Alta", "Rondinha", "Rondolândia", "Rondon", "Rondon do Pará", "Rondonópolis",
+      "Roque Gonzales", "Rorainópolis", "Rosana", "Roseira", "Rosário", "Rosário Oeste", "Rosário da Limeira", "Rosário do Catete", "Rosário do Ivaí", "Rosário do Sul", "Roteiro",
+      "Rubelita", "Rubiataba", "Rubim", "Rubinéia", "Rubiácea", "Rurópolis", "Russas", "Ruy Barbosa", "Sabará", "Sabino", "Sabinópolis", "Saboeiro", "Sabáudia", "Sacramento",
+      "Sagrada Família", "Sagres", "Sairé", "Saldanha Marinho", "Sales", "Sales Oliveira", "Salesópolis", "Salete", "Salgadinho", "Salgado", "Salgado Filho",
+      "Salgado de São Félix", "Salgueiro", "Salinas", "Salinas da Margarida", "Salinópolis", "Salitre", "Salmourão", "Saloá", "Saltinho", "Salto", "Salto Grande", "Salto Veloso",
+      "Salto da Divisa", "Salto de Pirapora", "Salto do Céu", "Salto do Itararé", "Salto do Jacuí", "Salto do Lontra", "Salvador", "Salvador das Missões", "Salvador do Sul", "Salvaterra",
+      "Sambaíba", "Sampaio", "Sananduva", "Sanclerlândia", "Sandolândia", "Sandovalina", "Sangão", "Sanharó", "Santa Adélia", "Santa Albertina", "Santa Amélia", "Santa Branca",
+      "Santa Brígida", "Santa Bárbara", "Santa Bárbara d'Oeste", "Santa Bárbara de Goiás", "Santa Bárbara do Leste", "Santa Bárbara do Monte Verde", "Santa Bárbara do Pará",
+      "Santa Bárbara do Sul", "Santa Bárbara do Tugúrio", "Santa Carmem", "Santa Cecília", "Santa Cecília do Pavão", "Santa Cecília do Sul", "Santa Clara d'Oeste",
+      "Santa Clara do Sul", "Santa Cruz", "Santa Cruz Cabrália", "Santa Cruz Monte Castelo", "Santa Cruz da Baixa Verde", "Santa Cruz da Conceição",
+      "Santa Cruz da Esperança", "Santa Cruz da Vitória", "Santa Cruz das Palmeiras", "Santa Cruz de Goiás", "Santa Cruz de Minas", "Santa Cruz de Salinas", "Santa Cruz do Arari",
+      "Santa Cruz do Capibaribe", "Santa Cruz do Escalvado", "Santa Cruz do Piauí", "Santa Cruz do Rio Pardo", "Santa Cruz do Sul", "Santa Cruz do Xingu", "Santa Cruz dos Milagres",
+      "Santa Efigênia de Minas", "Santa Ernestina", "Santa Filomena", "Santa Filomena do Maranhão", "Santa Fé", "Santa Fé de Goiás", "Santa Fé de Minas",
+      "Santa Fé do Araguaia", "Santa Fé do Sul", "Santa Gertrudes", "Santa Helena", "Santa Helena de Goiás", "Santa Helena de Minas",
+      "Santa Inês", "Santa Isabel", "Santa Isabel do Ivaí", "Santa Isabel do Pará", "Santa Isabel do Rio Negro",
+      "Santa Izabel do Oeste", "Santa Juliana", "Santa Leopoldina", "Santa Luz", "Santa Luzia", "Santa Luzia d'Oeste", "Santa Luzia do Itanhy",
+      "Santa Luzia do Norte", "Santa Luzia do Paruá", "Santa Luzia do Pará", "Santa Lúcia", "Santa Margarida", "Santa Margarida do Sul", "Santa Maria",
+      "Santa Maria Madalena", "Santa Maria da Boa Vista", "Santa Maria da Serra", "Santa Maria da Vitória", "Santa Maria das Barreiras", "Santa Maria de Itabira", "Santa Maria de Jetibá",
+      "Santa Maria do Cambucá", "Santa Maria do Herval", "Santa Maria do Oeste", "Santa Maria do Pará", "Santa Maria do Salto", "Santa Maria do Suaçuí", "Santa Maria do Tocantins",
+      "Santa Mariana", "Santa Mercedes", "Santa Mônica", "Santa Quitéria", "Santa Quitéria do Maranhão", "Santa Rita", "Santa Rita d'Oeste", "Santa Rita de Caldas",
+      "Santa Rita de Cássia", "Santa Rita de Ibitipoca", "Santa Rita de Jacutinga", "Santa Rita de Minas", "Santa Rita do Araguaia", "Santa Rita do Itueto", "Santa Rita do Novo Destino",
+      "Santa Rita do Pardo", "Santa Rita do Passa Quatro", "Santa Rita do Sapucaí", "Santa Rita do Tocantins", "Santa Rita do Trivelato", "Santa Rosa", "Santa Rosa da Serra",
+      "Santa Rosa de Goiás", "Santa Rosa de Lima", "Santa Rosa de Viterbo", "Santa Rosa do Piauí", "Santa Rosa do Purus", "Santa Rosa do Sul", "Santa Rosa do Tocantins",
+      "Santa Salete", "Santa Teresa", "Santa Teresinha", "Santa Tereza", "Santa Tereza de Goiás", "Santa Tereza do Oeste", "Santa Tereza do Tocantins", "Santa Terezinha",
+      "Santa Terezinha Tocantins", "Santa Terezinha de Goiás", "Santa Terezinha de Itaipu", "Santa Terezinha do Progresso", "Santa Vitória",
+      "Santa Vitória do Palmar", "Santaluz", "Santana", "Santana da Boa Vista", "Santana da Ponte Pensa", "Santana da Vargem", "Santana de Cataguases", "Santana de Mangueira",
+      "Santana de Parnaíba", "Santana de Pirapama", "Santana do Acaraú", "Santana do Araguaia", "Santana do Cariri", "Santana do Deserto", "Santana do Garambéu", "Santana do Ipanema",
+      "Santana do Itararé", "Santana do Jacaré", "Santana do Livramento", "Santana do Manhuaçu", "Santana do Maranhão", "Santana do Matos", "Santana do Mundaú", "Santana do Paraíso",
+      "Santana do Piauí", "Santana do Riacho", "Santana do Seridó", "Santana do São Francisco", "Santana dos Garrotes", "Santana dos Montes", "Santanópolis", "Santarém",
+      "Santarém Novo", "Santiago", "Santiago do Sul", "Santo Afonso", "Santo Amaro", "Santo Amaro da Imperatriz", "Santo Amaro das Brotas", "Santo Amaro do Maranhão", "Santo Anastácio",
+      "Santo André", "Santo Antônio", "Santo Antônio da Alegria", "Santo Antônio da Barra", "Santo Antônio da Patrulha", "Santo Antônio da Platina", "Santo Antônio das Missões",
+      "Santo Antônio de Goiás", "Santo Antônio de Jesus", "Santo Antônio de Lisboa", "Santo Antônio de Posse", "Santo Antônio de Pádua", "Santo Antônio do Amparo", "Santo Antônio do Aracanguá",
+      "Santo Antônio do Aventureiro", "Santo Antônio do Caiuá", "Santo Antônio do Descoberto", "Santo Antônio do Grama", "Santo Antônio do Itambé", "Santo Antônio do Içá",
+      "Santo Antônio do Jacinto", "Santo Antônio do Jardim", "Santo Antônio do Leste", "Santo Antônio do Leverger", "Santo Antônio do Monte", "Santo Antônio do Palma",
+      "Santo Antônio do Paraíso", "Santo Antônio do Pinhal", "Santo Antônio do Planalto", "Santo Antônio do Retiro", "Santo Antônio do Rio Abaixo", "Santo Antônio do Sudoeste",
+      "Santo Antônio do Tauá", "Santo Antônio dos Lopes", "Santo Antônio dos Milagres", "Santo Augusto", "Santo Cristo", "Santo Estêvão", "Santo Expedito", "Santo Expedito do Sul",
+      "Santo Hipólito", "Santo Inácio", "Santo Inácio do Piauí", "Santo Ângelo", "Santos", "Santos Dumont", "Santópolis do Aguapeí", "Sapeaçu", "Sapezal", "Sapiranga", "Sapopema",
+      "Sapucaia", "Sapucaia do Sul", "Sapucaí-Mirim", "Sapé", "Saquarema", "Sarandi", "Sarapuí", "Sardoá", "Sarutaiá", "Sarzedo", "Satuba", "Satubinha", "Saubara",
+      "Saudade do Iguaçu", "Saudades", "Saúde", "Schroeder", "Seabra", "Seara", "Sebastianópolis do Sul", "Sebastião Barros", "Sebastião Laranjeiras", "Sebastião Leal", "Seberi", "Sede Nova",
+      "Segredo", "Selbach", "Selvíria", "Sem-Peixe", "Sena Madureira", "Senador Alexandre Costa", "Senador Amaral", "Senador Canedo", "Senador Cortes", "Senador Elói de Souza",
+      "Senador Firmino", "Senador Georgino Avelino", "Senador Guiomard", "Senador José Bento", "Senador José Porfírio", "Senador La Rocque", "Senador Modestino Gonçalves", "Senador Pompeu",
+      "Senador Rui Palmeira", "Senador Salgado Filho", "Senador Sá", "Sengés", "Senhor do Bonfim", "Senhora de Oliveira", "Senhora do Porto", "Senhora dos Remédios", "Sentinela do Sul",
+      "Sento Sé", "Serafina Corrêa", "Sericita", "Seridó", "Seringueiras", "Seritinga", "Seropédica", "Serra", "Serra Alta", "Serra Azul", "Serra Azul de Minas", "Serra Branca",
+      "Serra Dourada", "Serra Grande", "Serra Negra", "Serra Negra do Norte", "Serra Nova Dourada", "Serra Preta", "Serra Redonda", "Serra Talhada", "Serra da Raiz", "Serra da Saudade",
+      "Serra de São Bento", "Serra do Mel", "Serra do Navio", "Serra do Ramalho", "Serra do Salitre", "Serra dos Aimorés", "Serrana", "Serrania", "Serrano do Maranhão", "Serranos",
+      "Serranópolis", "Serranópolis de Minas", "Serranópolis do Iguaçu", "Serraria", "Serrinha", "Serrinha dos Pintos", "Serrita", "Serro", "Serrolândia", "Sertaneja",
+      "Sertanópolis", "Sertânia", "Sertão", "Sertão Santana", "Sertãozinho", "Sete Barras", "Sete Lagoas", "Sete Quedas", "Sete de Setembro", "Setubinha", "Severiano Melo",
+      "Severiano de Almeida", "Severínia", "Siderópolis", "Sidrolândia", "Sigefredo Pacheco", "Silva Jardim", "Silvanópolis", "Silveira Martins", "Silveiras", "Silveirânia", "Silves",
+      "Silvianópolis", "Silvânia", "Simolândia", "Simonésia", "Simplício Mendes", "Simão Dias", "Simão Pereira", "Simões", "Simões Filho", "Sinimbu", "Sinop", "Siqueira Campos",
+      "Sirinhaém", "Siriri", "Sobradinho", "Sobrado", "Sobral", "Sobrália", "Socorro", "Socorro do Piauí", "Soledade", "Soledade de Minas", "Solidão", "Solonópole",
+      "Solânea", "Sombrio", "Sonora", "Sooretama", "Sorocaba", "Sorriso", "Sossêgo", "Soure", "Sousa", "Souto Soares", "Sucupira", "Sucupira do Norte", "Sucupira do Riachão",
+      "Sud Mennucci", "Sul Brasil", "Sulina", "Sumaré", "Sumidouro", "Sumé", "Surubim", "Sussuapara", "Suzano", "Suzanápolis", "Sátiro Dias", "São Benedito", "São Benedito do Rio Preto",
+      "São Benedito do Sul", "São Bentinho", "São Bento", "São Bento Abade", "São Bento do Norte", "São Bento do Sapucaí", "São Bento do Sul", "São Bento do Tocantins",
+      "São Bento do Trairí", "São Bento do Una", "São Bernardino", "São Bernardo", "São Bernardo do Campo", "São Bonifácio", "São Borja", "São Braz do Piauí", "São Brás", "São Brás do Suaçuí",
+      "São Caetano de Odivela", "São Caetano do Sul", "São Caitano", "São Carlos", "São Carlos do Ivaí", "São Cristovão do Sul", "São Cristóvão", "São Desidério", "São Domingos",
+      "São Domingos das Dores", "São Domingos de Pombal", "São Domingos do Araguaia", "São Domingos do Azeitão", "São Domingos do Capim",
+      "São Domingos do Cariri", "São Domingos do Maranhão", "São Domingos do Norte", "São Domingos do Prata", "São Domingos do Sul", "São Felipe", "São Felipe d'Oeste", "São Fernando",
+      "São Fidélis", "São Francisco", "São Francisco de Assis", "São Francisco de Assis do Piauí", "São Francisco de Goiás",
+      "São Francisco de Itabapoana", "São Francisco de Paula", "São Francisco de Sales", "São Francisco do Brejão", "São Francisco do Conde",
+      "São Francisco do Glória", "São Francisco do Guaporé", "São Francisco do Maranhão", "São Francisco do Oeste", "São Francisco do Pará", "São Francisco do Piauí", "São Francisco do Sul",
+      "São Félix", "São Félix de Balsas", "São Félix de Minas", "São Félix do Araguaia", "São Félix do Coribe", "São Félix do Piauí", "São Félix do Tocantins", "São Félix do Xingu",
+      "São Gabriel", "São Gabriel da Cachoeira", "São Gabriel da Palha", "São Gabriel do Oeste", "São Geraldo", "São Geraldo da Piedade", "São Geraldo do Araguaia",
+      "São Geraldo do Baixio", "São Gonçalo", "São Gonçalo do Abaeté", "São Gonçalo do Amarante", "São Gonçalo do Gurguéia", "São Gonçalo do Pará",
+      "São Gonçalo do Piauí", "São Gonçalo do Rio Abaixo", "São Gonçalo do Rio Preto", "São Gonçalo do Sapucaí", "São Gonçalo dos Campos", "São Gotardo", "São Jerônimo",
+      "São Jerônimo da Serra", "São Joaquim", "São Joaquim da Barra", "São Joaquim de Bicas", "São Joaquim do Monte", "São Jorge", "São Jorge d'Oeste", "São Jorge do Ivaí",
+      "São Jorge do Patrocínio", "São José", "São José da Barra", "São José da Bela Vista", "São José da Boa Vista", "São José da Coroa Grande", "São José da Lagoa Tapada", "São José da Laje",
+      "São José da Lapa", "São José da Safira", "São José da Tapera", "São José da Varginha", "São José da Vitória", "São José das Missões", "São José das Palmeiras", "São José de Caiana",
+      "São José de Espinharas", "São José de Mipibu", "São José de Piranhas", "São José de Princesa", "São José de Ribamar", "São José de Ubá", "São José do Alegre", "São José do Barreiro",
+      "São José do Belmonte", "São José do Bonfim", "São José do Brejo do Cruz", "São José do Calçado", "São José do Campestre", "São José do Cedro", "São José do Cerrito",
+      "São José do Divino", "São José do Egito", "São José do Goiabal", "São José do Herval", "São José do Hortêncio", "São José do Inhacorá",
+      "São José do Jacuri", "São José do Jacuípe", "São José do Mantimento", "São José do Norte", "São José do Ouro", "São José do Peixe", "São José do Piauí", "São José do Povo",
+      "São José do Rio Claro", "São José do Rio Pardo", "São José do Rio Preto", "São José do Sabugi", "São José do Seridó", "São José do Sul", "São José do Vale do Rio Preto",
+      "São José do Xingu", "São José dos Ausentes", "São José dos Basílios", "São José dos Campos", "São José dos Cordeiros", "São José dos Pinhais", "São José dos Quatro Marcos",
+      "São José dos Ramos", "São João", "São João Batista", "São João Batista do Glória", "São João Evangelista", "São João Nepomuceno", "São João d'Aliança",
+      "São João da Baliza", "São João da Barra", "São João da Boa Vista", "São João da Canabrava", "São João da Fronteira", "São João da Lagoa", "São João da Mata", "São João da Paraúna",
+      "São João da Ponta", "São João da Ponte", "São João da Serra", "São João da Urtiga", "São João da Varjota", "São João das Duas Pontes", "São João das Missões", "São João de Iracema",
+      "São João de Meriti", "São João de Pirabas", "São João del Rei", "São João do Araguaia", "São João do Arraial", "São João do Caiuá", "São João do Cariri", "São João do Carú",
+      "São João do Itaperiú", "São João do Ivaí", "São João do Jaguaribe", "São João do Manhuaçu", "São João do Manteninha", "São João do Oeste", "São João do Oriente", "São João do Pacuí",
+      "São João do Paraíso", "São João do Pau d'Alho", "São João do Piauí", "São João do Polêsine", "São João do Rio do Peixe", "São João do Sabugi", "São João do Soter",
+      "São João do Sul", "São João do Tigre", "São João do Triunfo", "São João dos Patos", "São Julião", "São Leopoldo", "São Lourenço", "São Lourenço da Mata", "São Lourenço da Serra",
+      "São Lourenço do Oeste", "São Lourenço do Piauí", "São Lourenço do Sul", "São Ludgero", "São Luis do Piauí", "São Luiz", "São Luiz Gonzaga", "São Luís", "São Luís Gonzaga do Maranhão",
+      "São Luís de Montes Belos", "São Luís do Curu", "São Luís do Paraitinga", "São Luís do Quitunde", "São Luíz do Norte", "São Mamede", "São Manoel do Paraná", "São Manuel", "São Marcos",
+      "São Martinho", "São Martinho da Serra", "São Mateus", "São Mateus do Maranhão", "São Mateus do Sul", "São Miguel", "São Miguel Arcanjo", "São Miguel da Baixa Grande",
+      "São Miguel da Boa Vista", "São Miguel das Matas", "São Miguel das Missões", "São Miguel de Taipu", "São Miguel de Touros", "São Miguel do Aleixo", "São Miguel do Anta",
+      "São Miguel do Araguaia", "São Miguel do Fidalgo", "São Miguel do Guamá", "São Miguel do Guaporé", "São Miguel do Iguaçu", "São Miguel do Oeste", "São Miguel do Passa Quatro",
+      "São Miguel do Tapuio", "São Miguel do Tocantins", "São Miguel dos Campos", "São Miguel dos Milagres", "São Nicolau", "São Patrício", "São Paulo", "São Paulo das Missões",
+      "São Paulo de Olivença", "São Paulo do Potengi", "São Pedro", "São Pedro da Aldeia", "São Pedro da Cipa", "São Pedro da Serra", "São Pedro da União",
+      "São Pedro da Água Branca", "São Pedro das Missões", "São Pedro de Alcântara", "São Pedro do Butiá", "São Pedro do Iguaçu", "São Pedro do Ivaí", "São Pedro do Paraná",
+      "São Pedro do Piauí", "São Pedro do Suaçuí", "São Pedro do Sul", "São Pedro do Turvo", "São Pedro dos Crentes", "São Pedro dos Ferros", "São Rafael", "São Raimundo Nonato",
+      "São Raimundo das Mangabeiras", "São Raimundo do Doca Bezerra", "São Roberto", "São Romão", "São Roque", "São Roque de Minas", "São Roque do Canaã", "São Salvador do Tocantins",
+      "São Sebastião", "São Sebastião da Amoreira", "São Sebastião da Bela Vista", "São Sebastião da Boa Vista", "São Sebastião da Grama", "São Sebastião da Vargem Alegre",
+      "São Sebastião de Lagoa de Roça", "São Sebastião do Alto", "São Sebastião do Anta", "São Sebastião do Caí", "São Sebastião do Maranhão", "São Sebastião do Oeste",
+      "São Sebastião do Paraíso", "São Sebastião do Passé", "São Sebastião do Rio Preto", "São Sebastião do Rio Verde", "São Sebastião do Tocantins", "São Sebastião do Uatumã",
+      "São Sebastião do Umbuzeiro", "São Sepé", "São Simão", "São Thomé das Letras", "São Tiago", "São Tomás de Aquino", "São Tomé", "São Valentim",
+      "São Valentim do Sul", "São Valério da Natividade", "São Valério do Sul", "São Vendelino", "São Vicente", "São Vicente Ferrer", "São Vicente de Minas",
+      "São Vicente do Sul", "Sério", "Sítio Novo", "Sítio Novo do Tocantins", "Sítio d'Abadia", "Sítio do Mato", "Sítio do Quinto", "Tabaporã", "Tabapuã", "Tabatinga",
+      "Tabaí", "Tabira", "Tabocas do Brejo Velho", "Taboleiro Grande", "Taboão da Serra", "Tabuleiro", "Tabuleiro do Norte", "Tacaimbó", "Tacaratu", "Taciba", "Tacuru", "Taguatinga", "Taguaí",
+      "Taiaçu", "Tailândia", "Taiobeiras", "Taipas do Tocantins", "Taipu", "Taió", "Taiúva", "Talismã", "Tamandaré", "Tamarana", "Tambaú", "Tamboara", "Tamboril", "Tamboril do Piauí", "Tanabi",
+      "Tangará", "Tangará da Serra", "Tanguá", "Tanhaçu", "Tanque Novo", "Tanque d'Arca", "Tanque do Piauí", "Tanquinho", "Taparuba", "Tapauá", "Tapejara", "Tapera",
+      "Taperoá", "Tapes", "Tapira", "Tapiramutá", "Tapiratiba", "Tapiraí", "Tapurah", "Taquara", "Taquaral", "Taquaral de Goiás", "Taquarana",
+      "Taquaraçu de Minas", "Taquari", "Taquaritinga", "Taquaritinga do Norte", "Taquarituba", "Taquarivaí", "Taquarussu", "Taquaruçu do Sul", "Tarabai", "Tarauacá", "Tarrafas",
+      "Tartarugalzinho", "Tarumirim", "Tarumã", "Tasso Fragoso", "Tatuí", "Taubaté", "Tauá", "Tavares", "Tefé", "Teixeira", "Teixeira Soares", "Teixeira de Freitas", "Teixeiras",
+      "Teixeirópolis", "Tejupá", "Tejuçuoca", "Telha", "Telêmaco Borba", "Tenente Ananias", "Tenente Laurentino Cruz", "Tenente Portela", "Tenório", "Teodoro Sampaio",
+      "Teofilândia", "Teolândia", "Teotônio Vilela", "Terenos", "Teresina", "Teresina de Goiás", "Teresópolis", "Terezinha", "Terezópolis de Goiás", "Terra Alta", "Terra Boa", "Terra Nova",
+      "Terra Nova do Norte", "Terra Rica", "Terra Roxa", "Terra Santa", "Terra de Areia", "Tesouro", "Teutônia", "Teófilo Otoni", "Theobroma", "Tianguá", "Tibagi",
+      "Tibau", "Tibau do Sul", "Tietê", "Tigrinhos", "Tijucas", "Tijucas do Sul", "Timbaúba", "Timbaúba dos Batistas", "Timbiras", "Timburi", "Timbé do Sul", "Timbó", "Timbó Grande", "Timon",
+      "Timóteo", "Tio Hugo", "Tiradentes", "Tiradentes do Sul", "Tiros", "Tobias Barreto", "Tocantins", "Tocantinópolis", "Tocantínia", "Tocos do Moji", "Toledo", "Tomar do Geru",
+      "Tomazina", "Tombos", "Tomé-Açu", "Tonantins", "Toritama", "Torixoréu", "Toropi", "Torre de Pedra", "Torres", "Torrinha", "Touros", "Trabiju", "Tracuateua", "Tracunhaém", "Traipu",
+      "Trairi", "Trairão", "Trajano de Morais", "Tramandaí", "Travesseiro", "Tremedal", "Tremembé", "Treviso", "Treze Tílias", "Treze de Maio", "Trindade", "Trindade do Sul",
+      "Triunfo", "Triunfo Potiguar", "Trizidela do Vale", "Trombas", "Trombudo Central", "Três Arroios", "Três Barras", "Três Barras do Paraná", "Três Cachoeiras",
+      "Três Corações", "Três Coroas", "Três Forquilhas", "Três Fronteiras", "Três Lagoas", "Três Marias", "Três Palmeiras", "Três Passos", "Três Pontas", "Três Ranchos", "Três Rios",
+      "Três de Maio", "Tubarão", "Tucano", "Tucumã", "Tucunduva", "Tucuruí", "Tufilândia", "Tuiuti", "Tumiritinga", "Tunas", "Tunas do Paraná", "Tuneiras do Oeste", "Tuntum", "Tunápolis",
+      "Tupaciguara", "Tupanatinga", "Tupanci do Sul", "Tupanciretã", "Tupandi", "Tuparendi", "Tuparetama", "Tupi Paulista", "Tupirama", "Tupiratins", "Tupã", "Tupãssi", "Turiaçu", "Turilândia",
+      "Turiúba", "Turmalina", "Tururu", "Turuçu", "Turvelândia", "Turvo", "Turvolândia", "Turvânia", "Tutóia", "Uarini", "Uauá", "Ubaitaba", "Ubajara", "Ubaporanga",
+      "Ubarana", "Ubatuba", "Ubatã", "Ubaí", "Ubaíra", "Uberaba", "Uberlândia", "Ubirajara", "Ubiratã", "Ubiretama", "Ubá", "Uchoa", "Uibaí", "Uiramutã", "Uirapuru", "Uiraúna", "Ulianópolis",
+      "Umari", "Umarizal", "Umbaúba", "Umburanas", "Umburatiba", "Umbuzeiro", "Umirim", "Umuarama", "Una", "Unaí", "Uniflor", "Unistalda", "União", "União Paulista", "União da Serra",
+      "União da Vitória", "União de Minas", "União do Oeste", "União do Sul", "União dos Palmares", "Upanema", "Urandi", "Uraí", "Urbano Santos", "Uru", "Uruana", "Uruana de Minas", "Uruará",
+      "Uruaçu", "Urubici", "Uruburetama", "Urucará", "Urucuia", "Urucurituba", "Urucânia", "Uruguaiana", "Uruoca", "Urupema", "Urupá", "Urupês", "Urussanga", "Urutaí", "Uruçuca", "Uruçuí",
+      "Urânia", "Utinga", "Vacaria", "Vale Real", "Vale Verde", "Vale de São Domingos", "Vale do Anari", "Vale do Paraíso", "Vale do Sol", "Valente", "Valentim Gentil", "Valença",
+      "Valença do Piauí", "Valinhos", "Valparaíso", "Valparaíso de Goiás", "Vanini", "Vargem", "Vargem Alegre", "Vargem Alta", "Vargem Bonita", "Vargem Grande",
+      "Vargem Grande Paulista", "Vargem Grande do Rio Pardo", "Vargem Grande do Sul", "Vargeão", "Varginha", "Varjota", "Varjão", "Varjão de Minas", "Varre-Sai", "Varzedo", "Varzelândia",
+      "Vassouras", "Vazante", "Venda Nova do Imigrante", "Venha-Ver", "Ventania", "Venturosa", "Venâncio Aires", "Vera", "Vera Cruz", "Vera Cruz do Oeste",
+      "Vera Mendes", "Veranópolis", "Verdejante", "Verdelândia", "Vereda", "Veredinha", "Vermelho Novo", "Vertente do Lério", "Vertentes", "Verê", "Veríssimo", "Vespasiano", "Vespasiano Correa",
+      "Viadutos", "Viamão", "Viana", "Vianópolis", "Vicente Dutra", "Vicentina", "Vicentinópolis", "Victor Graeff", "Vicência", "Vidal Ramos", "Videira", "Vieiras", "Vieirópolis",
+      "Vigia", "Vila Alta", "Vila Bela da Santíssima Trindade", "Vila Boa", "Vila Flor", "Vila Flores", "Vila Lângaro", "Vila Maria", "Vila Nova do Piauí", "Vila Nova do Sul",
+      "Vila Nova dos Martírios", "Vila Pavão", "Vila Propício", "Vila Rica", "Vila Valério", "Vila Velha", "Vilhena", "Vinhedo", "Viradouro", "Virgem da Lapa", "Virginópolis", "Virgolândia",
+      "Virgínia", "Virmond", "Visconde do Rio Branco", "Viseu", "Vista Alegre", "Vista Alegre do Alto", "Vista Alegre do Prata", "Vista Gaúcha", "Vista Serrana", "Vitor Meireles", "Vitorino",
+      "Vitorino Freire", "Vitória", "Vitória Brasil", "Vitória da Conquista", "Vitória das Missões", "Vitória de Santo Antão", "Vitória do Jari", "Vitória do Mearim", "Vitória do Xingu",
+      "Viçosa", "Viçosa do Ceará", "Volta Grande", "Volta Redonda", "Votorantim", "Votuporanga", "Várzea", "Várzea Alegre", "Várzea Branca", "Várzea Grande",
+      "Várzea Nova", "Várzea Paulista", "Várzea da Palma", "Várzea da Roça", "Várzea do Poço", "Wagner", "Wall Ferraz", "Wanderley", "Wanderlândia", "Wenceslau Braz",
+      "Wenceslau Guimarães", "Westfália", "Witmarsum", "Xambioá", "Xambrê", "Xangri-lá", "Xanxerê", "Xapuri", "Xavantina", "Xaxim", "Xexéu", "Xinguara", "Xique-Xique",
+      "Zabelê", "Zacarias", "Zortéa", "Zé Doca", "Água Azul do Norte", "Água Boa", "Água Branca", "Água Clara", "Água Comprida", "Água Doce",
+      "Água Doce do Maranhão", "Água Doce do Norte", "Água Fria", "Água Fria de Goiás", "Água Limpa", "Água Nova", "Água Preta", "Água Santa", "Águas Belas", "Águas Formosas", "Águas Frias",
+      "Águas Lindas de Goiás", "Águas Mornas", "Águas Vermelhas", "Águas da Prata", "Águas de Chapecó", "Águas de Lindóia", "Águas de Santa Bárbara", "Águas de São Pedro", "Águia Branca",
+      "Álvares Florence", "Álvares Machado", "Álvaro de Carvalho", "Áurea", "Ângulo", "Érico Cardoso", "Óbidos", "Óleo"]
+
+      country: [ "Afeganistão", "Albânia", "Algéria", "Samoa", "Andorra", "Angola", "Anguilla", "Antígua e Barbuda", "Argentina", "Armênia", "Aruba", "Austrália",
+                 "Áustria", "Azerbaijão", "Bahamas", "Barém", "Bangladesh", "Barbados", "Belgrado", "Bélgica", "Belize", "Benin", "Bermuda", "Butão", "Bolívia",
+                 "Bôsnia", "Batasuna", "Ilha Bouvet", "Brasil", "Arquipélago de Chagos", "Ilhas Virgens", "Brunei", "Bulgária", "Burkina Faso", "Burundi", "Camboja",
+                 "Camarões", "Canadá", "Cabo Verde", "Ilhas Cayman", "República da África Central", "Chade", "Chile", "China", "Ilhas do Natal", "Ilhas Cocos", "Colômbia",
+                 "Comores", "Congo", "Ilhas Cook", "Costa Rica", "Costa do Marfim", "Croácia", "Cuba", "Chipre", "República Checa", "Dinamarca", "Djibouti", "Dominica",
+                 "República Dominicana", "Equador", "Egito", "El Salvador", "Guiné Equatorial", "Eritreia", "Estônia", "Etiópia", "Ilhas Feroe", "Ilhas Malvinas", "Fiji",
+                 "Finlândia", "França", "Guiné Francesa", "Polinésia Francesa", "Gabão", "Gâmbia", "Georgia", "Alemanha", "Gana", "Gibraltar", "Grécia", "Groelândia",
+                 "Granada", "Guadalupe", "Guano", "Guatemala", "Guernsey", "Guiné", "Guiné-Bissau", "Guiana", "Haiti", "Ilha Heard e Ilhas McDonald", "Vaticano",
+                 "Honduras", "Hong Kong", "Hungria", "Islândia", "Índia", "Indonésia", "Irã", "Iraque", "Irlanda", "Ilha de Man", "Israel", "Itália", "Jamaica", "Japão",
+                 "Jersey", "Jordânia", "Cazaquistão", "Quênia", "Kiribati", "Coreia do Norte", "Coreia do Sul", "Kuwait", "Quirguistão", "República Democrática Popular Lau",
+                 "Latvia", "Líbano", "Lesoto", "Libéria", "Líbia", "Liechtenstein", "Lituânia", "Luxemburgo", "Macau", "Macedônia", "Madagascar", "Malawi",
+                 "Malásia", "Maldivas", "Mali", "Malta", "Ilhas Marshall", "Martinica", "Mauritânia", "Maurícia", "Mayotte", "México", "Micronésia", "Moldávia", "Mônaco",
+                 "Mongólia", "Montenegro", "Montserrat", "Marrocos", "Moçambique", "Myanmar", "Namíbia", "Nauru", "Nepal", "Antilhas Holandesas", "Holanda", "Nova Caledónia",
+                 "Nova Zelândia", "Nicarágua", "Nigéria", "Niue", "Ilha Norfolk", "Marianas Setentrionais", "Noruega", "Omã", "Paquistão", "Palau", "Palestina",
+                 "Panamá", "Papua-Nova Guiné", "Paraguai", "Peru", "Filipinas", "Polônia", "Portugal", "Porto Rico", "Catar", "Romênia", "Rússia", "Ruanda", "São Bartolomeu",
+                 "Santa Helena", "Santa Lúcia", "Ilha de São Martinho", "Saint-Pierre e Miquelon", "São Vincente e Granadinas", "Samoa", "San Marino", "Sao Tomé e Príncipe",
+                 "Arábia Saudita", "Senegal", "Sérvia", "Seicheles", "Serra Leoa", "Singapura", "Eslováquia", "Eslovênia", "Ilhas Salomão", "Somália",
+                 "África do Sul", "Geórgia do Sul e Ilhas Sandwich do Sul", "Espanha", "Sri Lanka", "Sudão", "Suriname", "Ilhas Svalbard e Jan Mayen", "Suazilândia",
+                 "Suécia", "Suíça", "Síria", "Taiwan", "Tajiquistão", "Tanzânia", "Tailândia", "Timor-Leste", "Togo", "Tokelau", "Tonga", "Trindade e Tobago", "Tunísia",
+                 "Turquia", "Turcomenistão", "Ilhas Turcas e Caicos", "Tuvalu", "Uganda", "Ucrânia", "Emirados Árabes Unidos", "Reino Unido", "Estados Unidos da América",
+                 "Estados Unidos das Ilhas Virgens", "Uruguai", "Uzbequistão", "Vanuatu", "Venezuela", "Vietnã", "Wallis e Futuna", "Saara Ocidental", "Iémen", "Zâmbia", "Zimbábue"]
+      building_number: ["#####", "####", "###", "s/n"]
+      street_suffix: ["Rua", "Avenida", "Travessa", "Ponte", "Alameda", "Marginal", "Viela", "Rodovia"]
+      street_name:
+        - "#{street_suffix} #{Name.first_name}"
+        - "#{street_suffix} #{Name.first_name} #{Name.last_name}"
+      secondary_address: ["Apto. ###", "Sobrado ##", "Casa #", "Lote ##", "Quadra ##"]
+      # Though these are US-specific, they are here (in the default locale) for backwards compatibility
+      postcode: ["#####-###"]
+      state: ["Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"]
+      state_abbr: [AC, AL, AP, AM, BA, CE, DF, ES, GO, MA, MT, MS, PA, PB, PR, PE, PI, RJ, RN, RS, RO, RR, SC, SP, SE, TO]
+      postcode_by_state:
+        SP: ['0####-###', '1####-###']
+        RJ: ['20###-###', '21###-###', '22###-###', '23###-###', '24###-###', '25###-###', '26###-###', '27###-###', '28###-###']
+        ES: '29###-###'
+        MG: '3####-###'
+        BA: ['40###-###', '41###-###', '42###-###', '43###-###', '44###-###', '45###-###', '46###-###', '47###-###', '48###-###']
+        SE: '49###-###'
+        PE: ['50###-###', '51###-###', '52###-###', '53###-###', '54###-###', '55###-###', '56###-###']
+        AL: '57###-###'
+        PB: '58###-###'
+        RN: '59###-###'
+        CE: ['60###-###', '61###-###', '62###-###', '63###-###']
+        PI: '64###-###'
+        MA: '65###-###'
+        PA: ['66###-###', '67###-###']
+        AP: '68###-###'
+        AM: '69###-###'
+        AC: '69###-###'
+        RR: '69###-###'
+        DF: ['70###-###', '71###-###', '72###-###', '73###-###']
+        GO: ['73###-###', '74###-###', '75###-###', '76###-###']
+        RO: ['768##-###', '769##-###']
+        TO: '77###-###'
+        MT: '78###-###'
+        MS: '79###-###'
+        PR: ['80###-###', '81###-###', '82###-###', '83###-###', '84###-###', '85###-###', '86###-###', '87###-###']
+        SC: ['88###-###', '89###-###']
+        RS: '9####-###'
+      default_country: [Brasil]
+      default_country_code: ["BR"]
+
+    company:
+      suffix: ["S.A.", "LTDA", "e Associados", "Comércio", "EIRELI"]
+      name:
+        - "#{Name.last_name} #{suffix}"
+        - "#{Name.last_name}-#{Name.last_name}"
+        - "#{Name.last_name}, #{Name.last_name} e #{Name.last_name}"
+
+    university:
+      prefix: [Universidade, Faculdade, Centro Tecnológico]
+      region: [Federal, Estadual, Municipal, Rural, Regional, Católica, Metodista]
+      suffix: ['do Sul', 'do Norte', 'a Distância', 'EAD', 'do Leste', 'do Oeste', 'do Nordeste', 'do Suldeste', 'da Floresta Amazônica', 'da Caatinga', 'Atlântica']
+      name:
+              - "#{University.prefix} #{Name.last_name} #{University.suffix}"
+              - "#{University.prefix} do(a) #{Address.state} #{University.suffix}"
+              - "#{University.prefix} do(a) #{Address.state}"
+              - "#{University.prefix} #{University.region} do(a) #{Address.state}"
+              - "#{University.prefix} #{University.region} do(a) #{Address.state} #{University.suffix}"
+              - "#{University.prefix} #{Name.last_name} #{University.suffix}"
+              - "#{University.prefix} #{Name.last_name}"
+
+    internet:
+      free_email: [gmail.com, yahoo.com, hotmail.com, live.com, bol.com.br]
+      domain_suffix: [br, com, biz, info, name, net, org]
+
+    lorem:
+      words: [alias, consequatur, aut, perferendis, sit, voluptatem, accusantium, doloremque, aperiam, eaque, ipsa, quae, ab, illo, inventore, veritatis, et, quasi, architecto, beatae, vitae, dicta, sunt, explicabo, aspernatur, aut, odit, aut, fugit, sed, quia, consequuntur, magni, dolores, eos, qui, ratione, voluptatem, sequi, nesciunt, neque, dolorem, ipsum, quia, dolor, sit, amet, consectetur, adipisci, velit, sed, quia, non, numquam, eius, modi, tempora, incidunt, ut, labore, et, dolore, magnam, aliquam, quaerat, voluptatem, ut, enim, ad, minima, veniam, quis, nostrum, exercitationem, ullam, corporis, nemo, enim, ipsam, voluptatem, quia, voluptas, sit, suscipit, laboriosam, nisi, ut, aliquid, ex, ea, commodi, consequatur, quis, autem, vel, eum, iure, reprehenderit, qui, in, ea, voluptate, velit, esse, quam, nihil, molestiae, et, iusto, odio, dignissimos, ducimus, qui, blanditiis, praesentium, laudantium, totam, rem, voluptatum, deleniti, atque, corrupti, quos, dolores, et, quas, molestias, excepturi, sint, occaecati, cupiditate, non, provident, sed, ut, perspiciatis, unde, omnis, iste, natus, error, similique, sunt, in, culpa, qui, officia, deserunt, mollitia, animi, id, est, laborum, et, dolorum, fuga, et, harum, quidem, rerum, facilis, est, et, expedita, distinctio, nam, libero, tempore, cum, soluta, nobis, est, eligendi, optio, cumque, nihil, impedit, quo, porro, quisquam, est, qui, minus, id, quod, maxime, placeat, facere, possimus, omnis, voluptas, assumenda, est, omnis, dolor, repellendus, temporibus, autem, quibusdam, et, aut, consequatur, vel, illum, qui, dolorem, eum, fugiat, quo, voluptas, nulla, pariatur, at, vero, eos, et, accusamus, officiis, debitis, aut, rerum, necessitatibus, saepe, eveniet, ut, et, voluptates, repudiandae, sint, et, molestiae, non, recusandae, itaque, earum, rerum, hic, tenetur, a, sapiente, delectus, ut, aut, reiciendis, voluptatibus, maiores, doloribus, asperiores, repellat]
+
+    job:
+      field: ["Marketing", "TI", "Contabilidade", "Administração", "Propaganda", "Bancário", "Serviços Comunitários", "Construção", "Consultoria", "Design", "Educação", "Agricultura", "Governamental", "Saúde", "Hospitalidade", "Legal", "Industrial", "Mineração", "Imobiliária", "Varejo", "Vendas", "Tecnologia"]
+      seniority: ["Lead", "Senior", "Nacional", "Regional", "Distrital", "Central", "Global", "Consumidor", "Investidor", "Dinâmico", "Internacional", "Legado", "Frente", "Interno", "Chefe", "Corporativo", "Futuro", "Humano", "Principal", "Junior", "Pleno", "Estagiário", "Trainee"]
+      position: ["Supervisor", "Associado", "Executivo", "Contato", "Oficial", "Gerente", "Engenheiro", "Especialista", "Diretor", "Coordenador", "Administrador", "Arquiteto", "Analista", "Designer", "Planejador", "Orquestrador", "Técnico", "Desenvolvedor", "Fabricante", "Consultor", "Assistente", "Facilitador", "Agente", "Representante", "Estrategista"]
+      key_skills: ["Trabalho em equipe", "Comunicação", "Resolução de problemas", "Liderança", "Organização", "Trabalhar sobre pressão", "Confiança", "Auto motivado", "Habilidades de networking", "Proatividade", "Aprendizado rápido", "Experiência com tecnologia"]
+      employment_type: ["Integral", "Meio período", "Temporário", "Contrato", "Estágio", "Comissão"]
+      education_level: ["Bacharelado", "Mestrado", "Doutorado", "Técnico", "Pós-graduação", "Pós-doutorado", "Licenciatura"]
+      title:
+        - "#{position} de #{field} #{seniority}"
+        - "#{position} #{field} #{seniority}"
+        - "#{seniority} #{position} de #{field}"
+        - "#{position} de #{field}"
+        - "#{position} #{seniority}"
+
+    name:
+      male_first_name: ["Alessandro","Alexandre","Antônio","Arthur","Benício","Benjamin","Bernardo","Breno","Bryan",
+                        "Caio","Carlos","Cauã","César","Daniel","Danilo","Davi","Deneval","Djalma","Eduardo","Elísio",
+                        "Emanuel","Enrico","Enzo","Fabiano","Fábio","Fabrício","Feliciano","Felipe","Félix","Francisco",
+                        "Frederico","Gabriel","Gúbio","Guilherme","Gustavo","Heitor","Hélio","Henrique","Hugo","Ígor","Isaac",
+                        "João","Joaquim","Júlio","Kléber","Ladislau","Leonardo","Lorenzo","Lucas","Lucca","Marcelo","Márcio",
+                        "Marcos","Matheus","Miguel","Murilo","Nataniel","Nicolas","Norberto","Pablo","Paulo","Pedro",
+                        "Pietro","Rafael","Raul","Ricardo","Roberto","Salvador","Samuel","Silas","Sirineu","Tertuliano","Theo",
+                        "Thiago","Thomas","Vicente","Víctor","Vinicius","Vitor","Warley","Washington","Yago","Yango","Yuri",
+                        "André","Anthony","Arthur Gabriel","Arthur Henrique","Arthur Miguel","Augusto","Bento","Bruno","Calebe",
+                        "Carlos Eduardo","Davi Lucas","Davi Luca","Davi Lucca","Davi Ludmer","Davi Luiz","Davi Miguel",
+                        "Enzo Gabriel","Enzo Thiago","Enzo Miguel","Erick","Fernando","Gael","Henry","Ian","Igor","João",
+                        "João Gabriel","João Guilherme","João Lucas","João Luca","João Miguel","João Samuel","João Pedro",
+                        "João Felipe","João Vitor","João Victor","José","Kaique","Kauê","Levi","Luan","Lucas Gabriel","Luiz",
+                        "Luiz Felipe","Luiz Gustavo","Luiz Henrique","Luiz Miguel","Luiz Otávio","Mathias","Nathan","Noah","Oliver",
+                        "Otávio","Pedro Tobias","Pedro Henrique","Pedro Lucas","Pedro Miguel","Rodrigo","Ruan","Ryan","Tiago",
+                        "Tomás","Vinícius","Vitor Hugo"]
+      female_first_name: ["Alice","Alícia","Aline","Amanda","Ana","Beatriz","Bianca","Bruna","Carla","Catarina","Cecília",
+                          "Célia","Clara","Dalila","Eduarda","Emanuelly","Esther","Fabrícia","Felícia","Fernanda","Gabriela",
+                          "Giovanna","Helena","Heloísa","Isabel","Isabela","Isabella","Isabelly","Isadora","Isis","Janaína",
+                          "Joana","Júlia","Karla","Lara","Larissa","Laura","Lavínia","Letícia","Lívia","Lorena","Lorraine",
+                          "Luiza","Manuela","Marcela","Márcia","Margarida","Maria","Mariana","Marina","Marli","Meire","Melissa","Mércia",
+                          "Morgana","Natália","Nicole","Núbia","Ofélia","Paula","Rafaela","Rebeca","Roberta","Sara","Sarah",
+                          "Sílvia","Sophia","Suélen","Talita","Valentina","Vitória","Yasmin","Adriana","Agatha","Alessandra",
+                          "Allana","Ana Beatriz","Ana Cecília","Ana Clara","Ana Júlia","Ana Laura","Ana Lívia","Ana Luiza",
+                          "Ana Sophia","Ana Vitória","Antonella","Antonia","Aurora","Ayla","Bárbara","Camila","Carolina","Clarice",
+                          "Elisa","Eloah","Emilly","Francisca","Gabrielly","Giulia","Juliana","Laís","Liz","Louise","Luana",
+                          "Luna","Maitê","Malu","Marcia","Maria Alice","Maria Cecília","Maria Clara","Maria Eduarda",
+                          "Maria Fernanda","Maria Flor","Maria Helena","Maria Isis","Maria Júlia","Maria Laura","Maria Luiza",
+                          "Maria Sophia","Maria Valentina","Maria Vitória","Mariah","Maya","Milena","Mirella","Olívia","Patricia",
+                          "Pérola","Pietra","Sophie","Stella"]
+      first_name:
+        - "#{female_first_name}"
+        - "#{male_first_name}"
+      last_name: ["Aguiar",  "Albuquerque",  "Almada",  "Almeida",  "Álvares",  "Alves",  "Ambrósio",  "Amoreira",  "Antena",  "Antunes",  "Aparício",  "Aragão",  "Arantes",  "Araújo",  "Aroeira",  "Arriaga",  "Assumpção",  "Banheira",  "Barata",  "Barbosa",  "Barreira",  "Barreto",  "Barros",  "Barroso",  "Batista",  "Beltrão",  "Bentes",  "Bernardes",  "Bittencourt",  "Bomdia",  "Bonfim",  "Bouças",  "Braga",  "Brites",  "Brum",  "Bulhões",  "Cabreira",  "Cachoeira",  "Caldas",  "Caldeira",  "Camacho",  "Campos",  "Cardoso",  "Carneiro",  "Carreira",  "Carvalheira",  "Carvalho",  "Caseira",  "Casqueira",  "Castanheira",  "Castanho",  "Castelo",  "Castro",  "Cavalcanti",  "Cerqueira",  "Chaves",  "Conceição",  "Coqueiro",  "Corrêa",  "Corte",  "Costa",  "Coutinho",  "Crespo",  "Cruz",  "Custódio",  "da Aldeia",  "da Bandeira",  "da Barra",  "da Barranca",  "da Conceição",  "da Costa",  "da Cruz",  "da Cunha",  "da Fonseca",  "da Fontoura",  "da Fronteira",  "da Gama",  "da Luz",  "da Madureira",  "da Maia",  "da Mata",  "da Mota",  "da Nóbrega",  "da Paz",  "da Penha",  "da Rocha",  "da Rosa",  "da Silva",  "da Silveira",  "da Terra",  "da Veiga",  "Dantas",  "das Neves",  "Datena",  "de Assunção",  "de Borba",  "de Lara",  "de Lins",  "de Oliveira",  "de Quadros",  "de Sá",  "Dias",  "Diegues",  "do Prado",  "Domingues",  "Dorneles",  "dos Reis",  "Duarte",  "Espinheira",  "Espinhosa",  "Esteves",  "Farias",  "Fernandes",  "Ferraço",  "Ferreira",  "Figueira",  "Filgueira",  "Fogaça",  "Fontes",  "Fontinhas",  "Franco",  "Freitas",  "Gabeira",  "Galego",  "Galvão",  "Garcês",  "Garcez",  "Gentil",  "Geraldes",  "Godinho",  "Godins",  "Gomes",  "Gomide",  "Gonçalves",  "Goulart",  "Grotas",  "Guedes",  "Guterres",  "Henriques",  "Hermingues",  "Hernandes",  "Jaques",  "Jesus",  "Junqueira",  "Laranjeira",  "Leiria",  "Lessa",  "Lima",  "Limeira",  "Lobos",  "Longuinho",  "Lopes",  "Louzada",  "Macedo",  "Macieira",  "Madeira",  "Mangueira",  "Marcondes",  "Marins",  "Marques",  "Martim",  "Martins",  "Matoso",  "Meira",  "Meireles",  "Melo",  "Mendanha",  "Mendes",  "Menendes",  "Modesto",  "Moniz",  "Monteira",  "Monteiro",  "Moraes",  "Morais",  "Moreira",  "Moreno",  "Moura",  "Munhoz",  "Muniz",  "Nascimento",  "Negrão",  "Neves",  "Nogueira",  "Novaes",  "Nunes",  "Oliveira",  "Ordonhes",  "Ornelas",  "Ouriques",  "Paes",  "Paiva",  "Palhares",  "Palmeira",  "Parreira",  "Passarinho",  "Pedroso",  "Peixoto",  "Pereira",  "Peres",  "Pimenta",  "Pinheira",  "Pinto",  "Pires",  "Porteira",  "Porto",  "Quaresma",  "Quarteira",  "Raia",  "Ramalho",  "Rameira",  "Ramires",  "Ramos",  "Rebouças",  "Rêgo",  "Regueira",  "Reis",  "Resende",  "Rezende",  "Ribas",  "Ribeira",  "Ribeiro",  "Rios",  "Rocha",  "Rodrigues",  "Rolim",  "Roriz",  "Roseira",  "Sá",  "Sais",  "Sales",  "Sanches",  "Santana",  "Santos",  "Saraiva",  "Silva",  "Silveira",  "Simão",  "Simões",  "Siqueira",  "Siqueiro",  "Soares",  "Soeira",  "Solimões",  "Souza",  "Tavares",  "Taveira",  "Teixeira",  "Teles",  "Vasques",  "Velasques",  "Veles",  "Veloso",  "Viana",  "Vidal",  "Videira",  "Vieira",  "Vimaranes",  "Viveiros",  "Xavier",  "Ximenes"]
+      name:
+        - "#{prefix} #{first_name} #{last_name}"
+        - "#{first_name} #{last_name} #{suffix}"
+        - "#{first_name} #{last_name}"
+        - "#{first_name} #{last_name}"
+        - "#{first_name} #{last_name}"
+        - "#{first_name} #{last_name}"
+      name_with_middle:
+        - "#{prefix} #{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{last_name} #{last_name} #{suffix}"
+        - "#{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{last_name} #{last_name}"
+      prefix: ["Sr.", "Sra.", "Srta.", "Dr.", "Dra."]
+      suffix: ["Jr.", "Neto", "Filho"]
+
+    color:
+      name: ["Abóbora", "Amaranto", "Amarelo", "Âmbar", "Ameixa", "Ardósia", "Azul", "Azul-bebê", "Azul-claro", "Azul-cobalto", "Azul-esverdeado", "Azul-marinho", "Azul-persa", "Azul-violeta", "Bege", "Branco", "Carmesim", "Carmim", "Cereja", "Cerúleo", "Champagne", "Chocolate", "Cinza", "Coral", "Escarlate", "Framboesa", "Índigo", "Laranja", "Lavanda", "Lilás", "Lima", "Magenta", "Marfim", "Marrom", "Oliva", "Ouro", "Pêssego", "Prata", "Preto", "Rosa", "rosa-arroxeado", "Rosa-magenta", "Roxo", "Salmão", "Turquesa", "Uva", "Verde", "Verde-água", "Verde-claro", "Verde-jade", "Verde-limão", "Verde-primavera", "Vermelho", "Violeta"]
+
+    team:
+      main_teams: ['Flamengo', 'Fluminense', 'Botafogo', 'Vasco da Gama', 'Corinthians','Grêmio','Flamengo','Palmeiras','Santos','Coritiba','Cruzeiro','Ponte Preta', 'Chapecoense', 'Sport','São Paulo','Bahia', 'Vitória', 'Avaí', 'América']
+      prefix: ['Grêmio', 'Atlético', 'Clube de Regatas', 'Esporte']
+      gentile: ['Acriano', 'Alagoano', 'Amapaense', 'Amazonense', 'Baiano', 'Cearense', 'Brasiliense', 'Capixaba', 'Goiano', 'Maranhense', 'Mato-grossense', 'Sul-mato-grossense', 'Mineiro', 'Paraense', 'Paraibano', 'Paranaense', 'Pernambucano', 'Piauiense', 'Fluminense', 'Carioca', 'Potiguar', 'Gaúcho', 'Rondoniano', 'Roraimense', 'Catarinense', 'Paulista', 'Paulistano', 'Sergipano', 'Tocantinense']
+      name:
+        - "#{Team.prefix} #{Team.gentile}"
+        - "#{Team.main_teams}"
+      sport: ['handebol', 'basquete', 'futebol', 'UFC', 'volêi', 'tênis']
+
+    phone_number:
+      subscriber_number: ['####']
+      area_code: ["11", "12", "13", "14", "15", "16", "17", "18", "19", "21", "22", "24", "27", "28", "31", "32", "33", "34", "35", "37", "38", "41", "42", "43", "44", "45", "46", "47", "48", "49", "51", "53", "54", "55", "61", "62", "63", "64", "65", "66", "67", "68", "69", "71", "73", "74", "75", "77", "79", "81", "82", "83", "84", "85", "86", "87", "88", "89", "91", "92", "93", "94", "95", "96", "97", "98", "99"]
+      formats:
+        - "(#{PhoneNumber.area_code}) #{PhoneNumber.subscriber_number}-#{PhoneNumber.subscriber_number}"
+    country_code: ['55']
+
+
+    cell_phone:
+      formats:
+        - "(#{PhoneNumber.area_code}) 9#{PhoneNumber.subscriber_number}-#{PhoneNumber.subscriber_number}"
+
+    food:
+      ingredients: ["Abacate","Abacaxi","Abóbora","Açafrão","Achacha","Agar","Água De Côco","Água De Rosas","Aipo","Alcachofra","Alcaçuz","Alcaparras","Alecrim","Alface","Alfafa","Alho","Alho-Poró","Amaranto","Ameixa","Ameixas","Amêndoas","Amendoim","Amora","Anchovas","Anis","Araruta","Arroz","Arroz Integral","Arroz Japonês","Arroz Mascavo","Atum","Aveia","Avelã","Azeite","Azeitonas","Bacalhau","Bacon","Banana","Barramundi","Batata","Bérberis","Beringela","Berinjela","Beterraba","Bicarbonato De Sódio","Brócolis","Broto De Feijão","Brotos","Cacau","Cacau Em Pó","Café","Camarão","Camomila","Canela","Caqui","Carambola","Caranguejo","Cardamomo","Carne","Carne De Porco","Cassia Casca","Castanha De Caju","Castanha Do Pará","Castanha Portuguesa","Cebola","Cebolinha","Cebolinhas","Cenoura","Cenoura Roxa","Centeio","Cevada","Chá Verde","Chagas","Cheddar","Chocolate Amargo","Chuchu","Coco","Coentro","Cogumelo","Cogumelos Porcini","Cominho","Cordeiro","Couve","Couve-Flor","Cravo","Creme De Leite","Creme De Queijo","Damasco","Damascos","Dente-De-Leão","Edamame","Erva-Doce","Ervilha","Eschallots","Espargos","Espinafre","Farinha","Farinha De Arroz","Farinha De Batata","Farinha De Grão-De-Bico","Farinha De Rosca","Farinha De Soja","Farinha De Tapioca","Farinha De Trigo","Feijão","Feijão Branco","Feijão Carioca","Fenacho","Fermento Em Pó","Fígado","Figo","Flocos De Milho","Flores De Lavanda","Framboesa","Frango","Fruta Di Conde","Fruta Do Dragão","Fubá","Geléia","Goiaba","Goiabada","Grão-De-Bico","Groselha","Hortelã","Hummus","Jewfish","Kiwi","Kombu","Lagosta","Laranja","Leite","Leite Condensado","Leite De Arroz","Leite De Cabra","Leite De Soja","Lemongrass","Lentilha","Lentilha Vermelha","Lichia","Limão","Linguado","Linguiça","Linhaça","Lula","Maçã","Maçã","Macadâmia","Macarrão","Macarrão De Arroz","Mamão","Mandarins","Manga","Manjerona","Manteiga","Maracujá","Margarina","Massa De Lasanha","Mel","Melaço","Melão","Mexilhão","Mexilhões","Missô","Molho De Ostras","Molho De Peixe","Molho De Soja","Mostarda","Mussarela","Nectarinas","Noodles Asiáticos","Noz-Moscada","Nozes","Óleo De Amêndoa","Óleo De Cártamo","Óleo De Côco","Óleo De Gergelim","Óleo De Linhaça","Óleo De Macadâmia","Óleo De Milho","Óleo De Oliva","Orégano","Ostras","Ovo","Pão","Pão Da Montanha","Pão De Forma","Pão Integral","Papel De Arroz","Pato","Pepino","Pêra","Pêssego","Picanha","Pimenta","Pimenta Chili","Pimenta Da Jamaica","Pimenta Verde","Pimentão","Pistache","Polenta","Polvo","Queijo Cottage","Queijo De Cabra","Queijo Parmesão","Queijo Prato","Queijo Provolone","Quiabo","Quinoa","Rabanete","Raisin","Raspas De Limão","Repolho","Repolho Vermelho","Ricotta","Rins","Romã","Rúcula","Sábio","Sake","Sal Marinho","Salmão","Salsicha","Salsisha","Sardinha","Semente Ajowan","Semente De Abóbora","Semente De Alcaravia","Semente De Mostarda","Semente De Papoila","Semente De Sésamo","Sementes Chia","Sementes De Gergelim","Semolina","Soja","Soletrado","Soro De Leite","Star Anise","Stevi","Suco De Maçã","Tangerina","Tiras De Banbu","Tortilla De Milho","Truta Defumada","Tubarão","Uva","Vagem","Verdes Asiáticos","Vieiras","Vinagre","Vinagre Balsâmico","Vinagre De Arroz Integral","Vinagre De Malte","Vinagre De Vinho Tinto","Vinho","Xarope De Agave","Xarope De Arroz","Xarope De milho"]
+      spices: ["Açafrão", "Açafrão-da-Terra ou Cúrcuma", "Aceto", "Aceto balsamico", "Aipo Marrom", "Aipo ou Salsão", "Aji-no-moto", "Albahaca", "Alcaparra", "Alcarávia", "Alecrim", "Alecrim (ou rosmarinho)", "Alfavaca ou Basilicão", "Alho", "Alho desidratado", "Alho-poró", "Allspice", "Aneto, Dill ou Endro", "Anis", "Araruta", "Azedinha", "Azeite-de-dendê", "Basilico", "Baunilha", "Beldroega", "Benishooga", "Bouquet-garni", "Cajun", "Camomila", "Canela", "Canela em pó", "Cardamomo", "Cari", "Caril", "Casca de canela", "Cássia", "Cebola", "Cebola Frita", "Cebolinha", "Cerefólio", "Cheiro-verde", "Chili", "Chili Powder", "Chipotle", "Ciboulette", "Coentro", "Colorau ou Colorífico", "Cominho", "Cravo", "Cravo-da-Índia", "Cúrcuma", "Curry ou Caril ou Garam Masala", "Dente de Alho", "Dill", "Doenjang", "Endro", "Erva-doce", "Erva-doce de cabeça", "Ervas Finas ou Fines Herbes", "Essência de amêndoa", "Essência de baunilha", "Essência de menta", "Estragão ou Absinto Russo", "Feno Grego", "Fines Herbes", "Folha de aipo", "Folha de coentro", "Funcho ou Erva-doce de cabeça", "Funghi Secchi", "Gengibre", "Gergelim", "Gochu jan", "Herbes de Provence", "Hissopo", "Hondashi", "Hortelã", "Jalapeño", "Lavanda francesa", "Lemon Pepper", "Losna", "Louro", "Ma’ward", "Ma’zahr", "Macis", "Manjericão", "Manjerona", "Marasquino", "Masala (Garam Masala)", "Mirim", "Misk", "Missô", "Mistura de cinco especiarias", "Mistura de especiarias Dhansak", "Molho de ostra", "Mostarda", "Nirá", "Noz-moscada", "Óleo de semente de gergelim", "Orégano", "Papoula", "Paprica", "Páprica", "Pimenta", "Pimenta branca", "Pimenta Caiena", "Pimenta Chili", "Pimenta da Jamaica", "Pimenta do reino", "Pimenta síria ou Bhar", "Pimenta Vermelha ou Calabresa", "Pimenta-do-reino", "Pimento Ground", "Pimentões", "Pimentón", "Pimienta", "Pimiento", "Piripiri", "Pó de mostarda", "Quatre épices", "Raiz Forte", "Raspa de Gendibre", "Raspa de limão", "Raspa de Noz-moscada", "Raspas de laranja", "Rosmarino", "Ruibarbo", "Sal de aipo", "Sal de tempero", "Sal do himalaia", "Sal do mar grosso", "Salsa", "Salsão", "Salsinha", "Sálvia", "Segurelha ou Alfavaca-do-campo", "Semente de aipo", "Semente de alcaravia", "Semente de coentro", "Semente de mostarda Amarelo", "Semente de mostarda branca", "Semente de mostarda marrom", "Semente de mostarda preto", "Semente de papoila", "Shoga (gengibre)", "Shoyu", "Summac", "Tahine", "Tamarindo", "Tempero de churrasco", "Tempero misto", "Tomilho", "Urucum", "Wasabi", "Zeste", "Zimbro"]
+      measurements: ["Colher de Chá", "Colher de Sopa", "Copo Americano", "Xícara", "Litro"]
+      measurement_sizes: ["Pitada", "1/4", "1/3", "1/2", "1", "2", "3"]
+
+    vehicle:
+      license_plate: ['???-####', '???#?##', '???##?#']
+      license_plate_by_state:
+        AC: ["MZ[N-Z]-####", "NA[A-G]-####", "NX[R-T]-####", "OVG-####", "OXP-####", "QL[U-Z]-####"]
+        AL: ["MU?-####", "MV[A-K]-####", "NL[V-Z]-####", "NM[A-O]-####", "OH[B-K]-####", "OR[D-M]-####", "OXN-####", "QL[A-M]-####"]
+        AM: ["JW[F-Z]-####", "JX[A-Y]-####", "NO[I-Z]-####", "NP[A-B]-####", "OA[A-O]-####", "OXM-####", "PH?-####"]
+        AP: ["NE[I-Z]-####", "NF[A-B]-####", "QL[N-T]-####"]
+        BA: ["JK[S-Z]-####", "J[L-S]?-####", "NT[D-W]-####", "NY[H-Z]-####", "NZ?-####", "OK[I-Z]-####", "OL[A-G]-####", "OU[F-Z]-####", "OV[A-D]-####", "OZ[C-V]-####", "P[J-L]?-####"]
+        CE: ["HT[X-Z]-####", "H[U-Y]?-####", "HZA-####", "NQ[L-Z]-####", "NR[A-E]-####", "NU[M-Z]-####", "NV[A-F]-####", "OC[B-U]-####", "OH[X-Z]-####", "OI[A-Q]-####", "OR[N-Z]-####", "OS[A-V]-####", "OZA-####", "P[M-O]?-####"]
+        DF: ["JD[P-Z]-####", "J[E-J]?-####", "JK[A-R]-####", "OV[M-V]-####", "OZ[W-Z]-####", "P[A-B]?-####"]
+        ES: ["MO[X-Z]-####", "M[P-T]?-####", "OC[V-Z]-####", "OD[A-T]-####", "OV[EFH-L]-####", "OY[D-K]-####", "PP?-####", "QR[B-Z]-####"]
+        GO: ["KA[V-Z]-####", "K[B-E]?-####", "KF[A-C]-####", "NF[C-Z]-####", "NG?-####", "NJ[X-Z]-####", "NK?-####", "NL[A-U]-####", "NV[O-Z]-####", "NW[A-R]-####", "OG[H-Z]-####", "OHA-####", "OM[I-Z]-####", "ON?-####", "OO[A-F]-####", "P[QR]?-####"]
+        MA: ["HO[L-Z]-####", "HP?-####", "HQ[A-E]-####", "NH[A-T]-####", "NM[P-Z]-####", "NN[A-I]-####", "NW[S-Z]-####", "NX[A-Q]-####", "OI[R-Z]-####", "OJ[A-Q]-####", "OX[Q-Z]-####", "P[ST]?-####"]
+        MT: ["JXZ-####", "J[YZ]?-####", "KA[A-U]-####", "NI[YZ]-####", "NJ[A-W]-####", "NP[C-Q]-####", "NT[X-Z]-####", "NU[A-G]-####", "OA[A-P]-####", "OB[A-S]-####", "Q[BC]?-####"]
+        MS: ["HQ[F-Z]-####", "H[RS]?-####", "HT[A-W]-####", "NR[F-Z]-####", "NS[A-D]-####", "OO[G-U]-####", "QA?-####"]
+        MG: ["GK[J-Z]-####", "G[L-Z]?-####", "H[A-N]?-####", "HO[A-K]-####", "NX[X-Z]-####", "NY[A-G]-####", "OL[O-Z]-####", "OM[A-G]-####", "OO[V-Z]-####", "OR[A-C]-####", "OW[H-Z]-####", "OX[A-K]-####", "P[U-Z]?-####", "QM[Q-Z]-####", "Q[N-Q]?-####"]
+        PA: ["J[T-V]?-####", "JW[A-E]-####", "NS[E-Z]-####", "NT[A-C]-####", "OB[T-Z]-####", "OCA-####", "OF[I-W]-####", "OS[W-Z]-####", "OTZ-####", "Q[DE]?-####"]
+        PB: ["MM[N-Z]-####", "MN?-####", "MO[A-W]-####", "NP[R-Z]-####", "NQ[A-K]-####", "OE[T-Z]-####", "OF[A-H]-####", "OF[X-Z]-####", "OG[A-G]-####", "OXO-####", "QF?-####", "QS?-####"]
+        PR: ["A??-####", "B[A-E]?-####"]
+        PE: ["KF[D-Z]-####", "K[G-L]?-####", "KM[A-E]-####", "NX[U-W]-####", "P[C-D]?-####", "PE[A-D]-####", "PE[E-Z]-####", "PF[A-Q]-####", "PF[R-Z]-####", "PG?-####", "OY[L-Z]-####"]
+        PI: ["LV[F-Z]-####", "LW[A-Q]-####", "NH[U-Z]-####", "NI[A-X]-####", "OD[I-Z]-####", "OE[A-I]-####", "OU[A-E]-####", "OV[W-Y]-####", "PI?-####"]
+        RJ: ["KM[F-Z]-####", "K[N-Z]?-####", "L[A-U]?-####", "LV[A-E]-####", "RIO-####"]
+        RN: ["MX[H-Z]-####", "MY?-####", "MZ[A-M]-####", "NN[J-Z]-####", "NO[A-H]-####", "OJ[R-Z]-####", "OK[A-C]-####", "OVZ-####", "OW[A-G]-####", "QG?-####"]
+        RS: ["IA[Q-Z]-####", "I[B-Z]?-####", "J[A-C]?-####", "JD[A-O]-####"]
+        RO: ["NB[B-Z]-####", "N[CD]?-####", "NE[A-H]-####", "OH[L-W]-####", "OXL-####", "QRA-####", "QT[A-B]-####"]
+        RR: ["NA[H-Z]-####", "NBA-####", "NU[H-L]-####"]
+        SC: ["LW[R-Z]-####", "L[X-Z]?-####", "M[A-L]?-####", "MM[A-M]-####", "OK[D-H]", "Q[H-J]?-####"]
+        SP: ["B[F-Z]?-####", "[C-F]??-####", "G[A-J]?-####", "GK[A-I]-####", "SAV-####"]
+        SE: ["HZ[B-Z]-####", "IA[A-P]-####", "NV[G-N]-####", "OE[J-S]-####", "OZB-####", "QK[N-Z]-####", "QM[A-P]-####"]
+        TO: ["MV[L-Z]-####", "MW?-####", "MX[A-G]-####", "OL[H-N]-####", "OY[A-C]-####", "QK[A-M]-####"]
+
+    gender:
+      types: ["Feminino", "Masculino", "Não Binário", "Agênero", "Gênero Fluido", "Gênero queer", "Bigênero", "Poligênero"]
+      binary_types: ["Feminino", "Masculino"]
+
+    science:
+      element: ["Hidrogênio", "Hélio", "Lítio", "Berílio", "Boro", "Carbono", "Nitrogênio", "Oxigênio", "Flúor", "Néon", "Sódio", "Magnésio", "Alumínio", "Silício", "Fósforo", "Enxofre", "Cloro", "Argônio", "Potássio", "Cálcio", "Escândio", "Titânio", "Vanádio", "Cromo", "Manganês", "Ferro", "Cobalto", "Níquel", "Cobre", "Zinco", "Gálio", "Germânio", "Arsênico", "Selênio", "Bromo", "Criptônio", "Rubídio", "Estrôncio" ,"Ítrio", "Zircônio", "Nióbio", "Molibdênio", "Tecnécio", "Rutênio", "Ródio", "Paládio", "Prata", "Cádmio", "Índio", "Estanho", "Antimônio", "Telúrio", "Iodo", "Xenônio", "Césio", "Bário", "Lantânio", "Cério", "Praseodímio", "Neodímio", "Promécio", "Samário", "Európio", "Gadolínio", "Térbio", "Disprósio", "Hólmio", "Érbio", "Túlio", "Itérbio", "Lutécio", "Háfnio", "Tântalo", "Tungstênio", "Rênio", "Ósmio", "Irídio", "Platina", "Ouro", "Mercúrio", "Tálio", "Chumbo", "Bismuto", "Polônio", "Astatino", "Radônio", "Frâncio", "Rádio","Actínio", "Tório", "Protactínio", "Urânio", "Neptúnio", "Plutônio", "Amerício", "Cúrio", "Berquélio", "Califórnio", "Einstênio", "Férmio", "Mendelévio", "Nobélio", "Laurêncio", "Rutherfórdio", "Dúbnio", "Seabórgio", "Bóhrio", "Hássio", "Meitnério", "Darmstádtio", "Roentgênio", "Copernício", "Nipónio", "Fleróvio", "Moscóvio", "Livermório", "Tenesso", "Oganesson"]
+
+    space:
+      planet: ["Mercúrio", "Vênus", "Terra", "Marte", "Júpiter", "Saturno", "Urano", "Netuno"]
+      moon: ["Lua", "Fobos", "Deimos", "Europa", "Ganimedes", "Io", "Calisto", "Leda", "Himalia", "Lisiteia", "Mimas", "Tétis", "Encélado", "Dione", "Reia", "Jápeto", "Titã", "Cordélia", "Ofélia", "Miranda", "Umbriel", "Ariel", "Oberon", "Titânia", "Proteu", "Nereida", "Galateia", "Larissa", "Tritão"]
+      distance_measurement: ["anos-luz", "AU", "parsecs", "kiloparsecs", "megaparsecs"]
+
+    electrical_components:
+      active: ["Diodo", "LED", "Retificador", "Transistor", "JFET", "MOSFET", "
+      to Integrado", "LCD", "Tubo de raios catódicos", "Tubo de vácuo", "Bateria", "Célula de combustível", "Fonte de alimentação"]
+      passive: ["Resistor", "Potenciômetro", "TrimPot", "Varistor", "Capacitor", "Diodo Varicap", "Indutor", "Transformador", "Gerador", "Motor", "Solenóide", "Amplificador magnético", "Alto-falante", "Sensor de movimento", "Acelerômetro", "Termopar", "Antena", "Oscilador", "Placa de ensaio"]
+      electromechanical: ["Dispositivo piezoelétrico", "Cristal", "Motor ultrassônico", "Terminal", "Soquete", "Cabo de alimentação", "Chave de alternação", "Chave deslizante", "Chave DIP", "Pedal", "Teclado", "Disjuntor", "Fusível", "Placa de circuito impresso"]
+
+    creature:
+      animal:
+        name: ["Abelha", "Abutre", "Ácaro", "Águia", "Albatroz", "Alce", "Alpaca", "Anaconda", "Anchova", "Andorinha", "Anta", "Antílope", "Aranha", "Arara", "Asno", "Atum", "Avestruz", "Babuíno", "Bacalhau", "Bacuri", "Badejo", "Bagre","Baiacu", "Baleia", "Barata", "Barbo", "Barracuda", "Beija Flor", "Besouro", "Bem Te Vi", "Bezerro", "Bicho da Seda", "Bisonte", "Boa", "Bode", "Boi", "Borboleta", "Boto", "Búfalo", "Burro", "Cabra", "Cachalote", "Cachorro", "Cágado", "Camaleão", "Camarão", "Camelo", "Camundongo", "Canário", "Canguru", "Capivara", "Caracol", "Caranguejo", "Carneiro", "Carrapato", "Cascavel", "Castor", "Cavalo", "Cavalo Marinho", "Cegonha", "Centopeia", "Chimpanzé", "Chinchila", "Chita", "Cigarra", "Cisne", "Coala", "Cobra", "Codorna", "Coelho", "Coiote", "Coruja", "Corvo", "Crocodilo", "Cupim", "Cutia", "Damão", "Dançador", "Degolado", "Degu", "Diablotim", "Diabo da Tasmânia", "Diamante de Gould", "Dingo", "Dinossauro", "Dodô", "Doninha", "Dourado", "Dragão de Komodo", "Dragão do Banhado", "Dragão Voador", "Dromedário", "Dugongo", "Égua", "Elefante", "Elefante Marinho", "Ema", "Enchova", "Enferrujado", "Enguia", "Enho", "Escaravelho", "Escorpião", "Escrevedeira", "Esmerilhão", "Espadarte", "Esponja", "Esquilo", "Estorninho", "Estrela do Mar", "Esturjão", "Faisão", "Falcão", "Ferreirinho", "Flamingo", "Flautim", "Foca", "Formiga", "Fossa", "Fraca da Guiné", "Freirinha", "Fuinha", "Furão", "Gafanhoto", "Gaivota", "Galinha", "Galo", "Gambá", "Gamo", "Ganso", "Garça", "Garoupa", "Gato", "Gavião", "Gazela", "Geco", "Gerbo", "Gibão", "Girafa", "Girino", "Gnu", "Golfinho", "Gorila", "Gralha", "Grifo", "Grilo", "Grou", "Guará:", "Guaxinim", "Hadoque", "Hamster", "Harpia", "Hiena", "Hipopótamo", "Hírax", "Iaque", "Íbex", "Íbis", "Iguana", "Iguanara", "Impala", "Indicador", "Indri", "Inhacoso", "Inhala", "Inhambu", "Irapuã", "Irara", "Iratim", "Itapema", "Jabiru", "Jabuti", "Jaçanã", "Jacaré", "Jacu", "Jacupará", "Jaguar", "Jamanta", "Jararaca", "Javali", "Jegue", "Jiboia", "Joaninha", "João de Barro", "Jumento", "Kakapo", "Kea", "Kinguio", "Kiwi", "Koala", "Kookaburra", "Kowari", "Krill", "Kudu", "Lacraia", "Lagarta", "Lagartixa", "Lagarto", "Lagosta", "Lampreia", "Lavadeira", "Lavagante", "Leão", "Leão Marinho", "Lebre", "Lêmure", "Leopardo", "Lesma", "Lhama", "Libélula", "Lince", "Linguado", "Lobo", "Lombriga", "Lontra", "Lula", "Macaco", "Mamute", "Manatim", "Mandril", "Mangangá", "Maracanã", "Marimbondo", "Mariposa", "Marisco", "Marmota", "Marreco", "Marta", "Massarongo", "Medusa", "Melro", "Mergulhão", "Merluza", "Mexilhão", "Mico", "Milhafre", "Mineirinho", "Minhoca", "Mocho", "Mono", "Morcego", "Moreia", "Morsa", "Mosca", "Mosquito", "Muçurana", "Mula", "Musaranho", "Naja", "Nambu", "Nandaia", "Narceja", "Narval", "Náutilo", "Negrinho", "Neon", "Nhacundá", "Nhandiá", "Niala", "Niquim", "Noitibó", "Numbat", "Nútria", "Ocapi", "Olho de Boi", "Onça", "Orangotango", "Orca", "Órix", "Ornitorrinco", "Osga", "Ostra", "Otária", "Ouriço", "Ouriço do Mar", "Ovelha", "Panda", "Pantera", "Papagaio", "Pardal", "Pássaro", "Pato", "Pavão", "Peixe", "Peixe Boi", "Pelicano", "Percevejo", "Perereca", "Periquito", "Pernilongo", "Peru", "Pescada", "Pica Pau", "Pinguim", "Piolho", "Piranha", "Pirarucu", "Polvo", "Pombo", "Pônei", "Porco", "Porco Espinho", "Porquinho da índia", "Preá", "Preguiça", "Pulga", "Quati", "Quatimirim", "Quatipuru", "Quebra Nozes", "Quebra Ossos", "Queixada", "Quem Te Vestiu", "Quero Quero", "Quetzal", "Quiriquiri", "Rã", "Rabudinho", "Raia", "Raposa", "Ratazana", "Rato", "Rêmora", "Rena", "Rendeira", "Rinoceronte", "Robalo", "Rouxinol", "Sabiá", "Sagui", "Salamandra", "Salmão", "Sanguessuga", "Sapo", "Sardão", "Sardinha", "Saúva", "Seriema", "Serpente", "Siri", "Suçuarana", "Sucuri", "Suiriri", "Suricate", "Surubi", "Surucucu", "Tainha", "Tamanduá", "Tamboril", "Tapir", "Tarântula", "Tartaruga", "Tatu", "Tatuí", "Tentilhão", "Tetra", "Texugo", "Tico Tico", "Tigre", "Tilápia", "Tordo", "Tororó", "Toupeira", "Touro", "Tritão", "Truta", "Tubarão", "Tucano", "Tucuxi", "Uacari", "Unau", "Unha Longa", "Unicórnio", "Urso", "Panda", "Urso", "Uru", "Urubu", "Urutaurana", "Urutu", "Vaca", "Vaca Marinha", "Vaga Lume", "Veado", "Verdilhão", "Verdinho", "Vespa", "Víbora", "Vieira", "Vira Bosta", "Vison", "Vitela", "Viúva", "Viúva Negra", "Wallaby", "Weimaraner", "Wombat", "Xajá", "Xangó", "Xará", "Xarelete", "Xaréu", "Xaru", "Xauim", "Xero", "Xexéu", "Ximango", "Ximburé", "Xixarro", "Xofrango", "Xuri", "Yak", "Ynambu", "Yorkshire", "Zabelê", "Zangão", "Zaragateiro", "Zarro", "Zebra", "Zebu", "Zidedê", "Zombeteiro", "Zorrilho"]

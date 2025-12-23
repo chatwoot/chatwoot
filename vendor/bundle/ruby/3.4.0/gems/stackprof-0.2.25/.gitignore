@@ -1,0 +1,6 @@
+/tmp
+/lib/stackprof/stackprof.bundle
+/lib/stackprof/stackprof.so
+*.sw?
+/pkg
+/Gemfile.lock

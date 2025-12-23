@@ -1,0 +1,60 @@
+fa:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "یک ایمیل تأیید به حساب شما در '%{email}' ارسال شده است. شما باید دستورالعمل‌های موجود در ایمیل را دنبال کنید تا حساب شما فعال شود."
+      bad_credentials: "اطلاعات ورود نامعتبر است. لطفاً دوباره تلاش کنید."
+      not_supported: "برای ورود از POST /sign_in استفاده کنید. GET پشتیبانی نمی‌شود."
+      user_not_found: "کاربر پیدا نشد یا وارد نشده است."
+    token_validations:
+      invalid: "اطلاعات ورود نامعتبر است."
+    registrations:
+      missing_confirm_success_url: "پارامتر 'confirm_success_url' موجود نیست."
+      redirect_url_not_allowed: "انتقال به '%{redirect_url}' مجاز نیست."
+      email_already_exists: "یک حساب برای '%{email}' قبلاً وجود دارد."
+      account_with_uid_destroyed: "حساب با UID '%{uid}' حذف شده است."
+      account_to_destroy_not_found: "نمی‌توان حساب را برای حذف پیدا کرد."
+      user_not_found: "کاربر پیدا نشد."
+    omniauth:
+      not_allowed_redirect_url: "انتقال به '%{redirect_url}' مجاز نیست."
+    passwords:
+      missing_email: "شما باید یک آدرس ایمیل ارائه دهید."
+      missing_redirect_url: "آدرس انتقال موجود نیست."
+      not_allowed_redirect_url: "انتقال به '%{redirect_url}' مجاز نیست."
+      sended: "یک ایمیل به '%{email}' ارسال شده است که شامل دستورالعمل‌های بازنشانی رمز عبور شما است."
+      sended_paranoid: "اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، در چند دقیقه یک لینک بازیابی رمز عبور به آدرس ایمیل شما ارسال خواهد شد."
+      user_not_found: "نمی‌توان کاربری با ایمیل '%{email}' پیدا کرد."
+      password_not_required: "این حساب نیازی به رمز عبور ندارد. به جای آن با حساب '%{provider}' خود وارد شوید."
+      missing_passwords: "شما باید فیلدهای 'رمز عبور' و 'تأیید رمز عبور' را پر کنید."
+      successfully_updated: "رمز عبور شما با موفقیت به‌روزرسانی شد."
+    unlocks:
+      missing_email: "شما باید یک آدرس ایمیل ارائه دهید."
+      sended: "یک ایمیل به '%{email}' ارسال شده است که شامل دستورالعمل‌های باز کردن حساب شما است."
+      sended_paranoid: "اگر حساب شما وجود داشته باشد، در چند دقیقه یک ایمیل با دستورالعمل‌های باز کردن حساب شما ارسال خواهد شد."
+      user_not_found: "نمی‌توان کاربری با ایمیل '%{email}' پیدا کرد."
+    confirmations:
+      sended: "یک ایمیل به '%{email}' ارسال شده است که شامل دستورالعمل‌های تأیید حساب شما است."
+      sended_paranoid: "اگر آدرس ایمیل شما در پایگاه داده ما وجود داشته باشد، در چند دقیقه یک ایمیل با دستورالعمل‌های تأیید آدرس ایمیل شما ارسال خواهد شد."
+      user_not_found: "نمی‌توان کاربری با ایمیل '%{email}' پیدا کرد."
+      missing_email: "شما باید یک آدرس ایمیل ارائه دهید."
+
+  errors:
+    messages:
+      validate_sign_up_params: "لطفاً داده‌های صحیح ثبت نام را در بدنه درخواست ارسال کنید."
+      validate_account_update_params: "لطفاً داده‌های صحیح به‌روزرسانی حساب را در بدنه درخواست ارسال کنید."
+      not_email: "یک ایمیل نیست"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "شما می‌توانید ایمیل حساب خود را از طریق لینک زیر تأیید کنید:"
+        confirm_account_link: "تأیید حساب من"
+      reset_password_instructions:
+        request_reset_link_msg: "شخصی درخواست یک لینک برای تغییر رمز عبور شما کرده است. شما می‌توانید این کار را از طریق لینک زیر انجام دهید."
+        password_change_link: "تغییر رمز عبور من"
+        ignore_mail_msg: "اگر شما این درخواست را نکرده‌اید، لطفاً این ایمیل را نادیده بگیرید."
+        no_changes_msg: "رمز عبور شما تغییر نخواهد کرد تا زمانی که به لینک بالا دسترسی پیدا کنید و یک رمز عبور جدید ایجاد کنید."
+      unlock_instructions:
+        account_lock_msg: "حساب شما به دلیل تعداد زیادی تلاش ناموفق برای ورود قفل شده است."
+        unlock_link_msg: "برای باز کردن حساب خود، روی لینک زیر کلیک کنید:"
+        unlock_link: "باز کردن حساب من"
+  hello: "سلام"
+  welcome: "خوش آمدید"

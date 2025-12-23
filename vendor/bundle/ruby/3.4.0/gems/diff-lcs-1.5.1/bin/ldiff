@@ -1,0 +1,9 @@
+#! /usr/bin/env ruby -w
+# frozen_string_literal: true
+
+require 'diff/lcs'
+require 'diff/lcs/ldiff'
+
+exit Diff::LCS::Ldiff.run(ARGV)
+
+# vim: ft=ruby

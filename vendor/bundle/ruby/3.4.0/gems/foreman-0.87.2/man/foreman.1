@@ -1,0 +1,284 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "FOREMAN" "1" "April 2020" "Foreman 0.87.2" "Foreman Manual"
+.
+.SH "NAME"
+\fBforeman\fR \- manage Procfile\-based applications
+.
+.SH "SYNOPSIS"
+\fBforeman start [process]\fR
+.
+.br
+\fBforeman run <command>\fR
+.
+.br
+\fBforeman export <format> [location]\fR
+.
+.SH "DESCRIPTION"
+Foreman is a manager for Procfile\-based applications\. Its aim is to abstract away the details of the Procfile format, and allow you to either run your application directly or export it to some other process management format\.
+.
+.SH "RUNNING"
+\fBforeman start\fR is used to run your application directly from the command line\.
+.
+.P
+If no additional parameters are passed, foreman will run one instance of each type of process defined in your Procfile\.
+.
+.P
+If a parameter is passed, foreman will run one instance of the specified application type\.
+.
+.P
+The following options control how the application is run:
+.
+.TP
+\fB\-m\fR, \fB\-\-formation\fR
+Specify the number of each process type to run\. The value passed in should be in the format \fBprocess=num,process=num\fR
+.
+.TP
+\fB\-e\fR, \fB\-\-env\fR
+Specify one or more \.env files to load
+.
+.TP
+\fB\-f\fR, \fB\-\-procfile\fR
+Specify an alternate Procfile to load, implies \fB\-d\fR at the Procfile root\.
+.
+.TP
+\fB\-p\fR, \fB\-\-port\fR
+Specify which port to use as the base for this application\. Should be a multiple of 1000\.
+.
+.TP
+\fB\-t\fR, \fB\-\-timeout\fR
+Specify the amount of time (in seconds) processes have to shutdown gracefully before receiving a SIGKILL, defaults to 5\.
+.
+.P
+\fBforeman run\fR is used to run one\-off commands using the same environment as your defined processes\.
+.
+.SH "EXPORTING"
+\fBforeman export\fR is used to export your application to another process management format\.
+.
+.P
+A location to export can be passed as an argument\. This argument may be either required or optional depending on the export format\.
+.
+.P
+The following options control how the application is run:
+.
+.TP
+\fB\-a\fR, \fB\-\-app\fR
+Use this name rather than the application\'s root directory name as the name of the application when exporting\.
+.
+.TP
+\fB\-m\fR, \fB\-\-formation\fR
+Specify the number of each process type to run\. The value passed in should be in the format \fBprocess=num,process=num\fR
+.
+.TP
+\fB\-l\fR, \fB\-\-log\fR
+Specify the directory to place process logs in\.
+.
+.TP
+\fB\-p\fR, \fB\-\-port\fR
+Specify which port to use as the base for this application\. Should be a multiple of 1000\.
+.
+.TP
+\fB\-t\fR, \fB\-\-template\fR
+Specify an alternate template to use for creating export files\. See \fIhttps://github\.com/ddollar/foreman/tree/master/data/export\fR for examples\.
+.
+.TP
+\fB\-u\fR, \fB\-\-user\fR
+Specify the user the application should be run as\. Defaults to the app name
+.
+.SH "GLOBAL OPTIONS"
+These options control all modes of foreman\'s operation\.
+.
+.TP
+\fB\-d\fR, \fB\-\-root\fR
+Specify an alternate application root\. This defaults to the directory containing the Procfile\.
+.
+.TP
+\fB\-e\fR, \fB\-\-env\fR
+Specify an alternate environment file\. You can specify more than one file by using: \fB\-\-env file1,file2\fR\.
+.
+.TP
+\fB\-f\fR, \fB\-\-procfile\fR
+Specify an alternate location for the application\'s Procfile\. This file\'s containing directory will be assumed to be the root directory of the application\.
+.
+.SH "EXPORT FORMATS"
+foreman currently supports the following output formats:
+.
+.IP "\(bu" 4
+bluepill
+.
+.IP "\(bu" 4
+inittab
+.
+.IP "\(bu" 4
+launchd
+.
+.IP "\(bu" 4
+runit
+.
+.IP "\(bu" 4
+supervisord
+.
+.IP "\(bu" 4
+systemd
+.
+.IP "\(bu" 4
+upstart
+.
+.IP "" 0
+.
+.SH "INITTAB EXPORT"
+Will export a chunk of inittab\-compatible configuration:
+.
+.IP "" 4
+.
+.nf
+
+# \-\-\-\-\- foreman example processes \-\-\-\-\-
+EX01:4:respawn:/bin/su \- example \-c \'PORT=5000 bundle exec thin start >> /var/log/web\-1\.log 2>&1\'
+EX02:4:respawn:/bin/su \- example \-c \'PORT=5100 bundle exec rake jobs:work >> /var/log/job\-1\.log 2>&1\'
+# \-\-\-\-\- end foreman example processes \-\-\-\-\-
+.
+.fi
+.
+.IP "" 0
+.
+.SH "SYSTEMD EXPORT"
+Will create a series of systemd scripts in the location you specify\. Scripts will be structured to make the following commands valid:
+.
+.P
+\fBsystemctl start appname\.target\fR
+.
+.P
+\fBsystemctl stop appname\-processname\.target\fR
+.
+.P
+\fBsystemctl restart appname\-processname\-3\.service\fR
+.
+.SH "UPSTART EXPORT"
+Will create a series of upstart scripts in the location you specify\. Scripts will be structured to make the following commands valid:
+.
+.P
+\fBstart appname\fR
+.
+.P
+\fBstop appname\-processname\fR
+.
+.P
+\fBrestart appname\-processname\-3\fR
+.
+.SH "PROCFILE"
+A Procfile should contain both a name for the process and the command used to run it\.
+.
+.IP "" 4
+.
+.nf
+
+web: bundle exec thin start
+job: bundle exec rake jobs:work
+.
+.fi
+.
+.IP "" 0
+.
+.P
+A process name may contain letters, numbers and the underscore character\. You can validate your Procfile format using the \fBcheck\fR command:
+.
+.IP "" 4
+.
+.nf
+
+$ foreman check
+.
+.fi
+.
+.IP "" 0
+.
+.P
+The special environment variables \fB$PORT\fR and \fB$PS\fR are available within the Procfile\. \fB$PORT\fR is the port selected for that process\. \fB$PS\fR is the name of the process for the line\.
+.
+.P
+The \fB$PORT\fR value starts as the base port as specified by \fB\-p\fR, then increments by 100 for each new process line\. Multiple instances of the same process are assigned \fB$PORT\fR values that increment by 1\.
+.
+.SH "ENVIRONMENT"
+If a \fB\.env\fR file exists in the current directory, the default environment will be read from it\. This file should contain key/value pairs, separated by \fB=\fR, with one key/value pair per line\.
+.
+.IP "" 4
+.
+.nf
+
+FOO=bar
+BAZ=qux
+.
+.fi
+.
+.IP "" 0
+.
+.SH "DEFAULT OPTIONS"
+If a \fB\.foreman\fR file exists in the current directory, default options will be read from it\. This file should be in YAML format with the long option name as keys\. Example:
+.
+.IP "" 4
+.
+.nf
+
+formation: alpha=0,bravo=1
+port: 15000
+.
+.fi
+.
+.IP "" 0
+.
+.SH "EXAMPLES"
+Start one instance of each process type, interleave the output on stdout:
+.
+.IP "" 4
+.
+.nf
+
+$ foreman start
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Export the application in upstart format:
+.
+.IP "" 4
+.
+.nf
+
+$ foreman export upstart /etc/init
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Run one process type from the application defined in a specific Procfile:
+.
+.IP "" 4
+.
+.nf
+
+$ foreman start alpha \-f ~/myapp/Procfile
+.
+.fi
+.
+.IP "" 0
+.
+.P
+Start all processes except the one named worker:
+.
+.IP "" 4
+.
+.nf
+
+$ foreman start \-m all=1,worker=0
+.
+.fi
+.
+.IP "" 0
+.
+.SH "COPYRIGHT"
+Foreman is Copyright (C) 2010 David Dollar \fIhttp://daviddollar\.org\fR

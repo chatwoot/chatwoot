@@ -1,0 +1,63 @@
+# Testing data
+
+# IMPORTANT NOTE: live tests will run against a test users automatically
+# If you want to run them against a real user or test users on a different account, you can
+# by enter an OAuth token, code, and session_key (for real users) or changing the app_id and secret (for test users)
+# (note for real users: this will leave some photos and videos posted to your wall, since they can't be deleted through the API)
+
+# These values are configured to work with a test app. If you want, you can change this to work with your own app.
+
+# Your OAuth token should have the read_stream, publish_stream, user_photos, user_videos, and read_insights permissions.
+oauth_token:
+
+# for testing the OAuth class
+# baseline app
+oauth_test_data:
+  # the following two values are not needed for most of the test suite, but the relevant tests will not run if they're not present
+  code:
+  session_key:
+
+  # These values will work out of the box
+  app_id: 119908831367602
+  secret: e45e55a333eec232d4206d2703de1307
+  callback_url: http://testdomain.koalatest.test/
+  app_access_token: 119908831367602|o3wswWQ88LYjEC9-ukR_gjRIOMw.
+  raw_token_string: "access_token=119908831367602|2.6GneoQbnEqtSiPppZzDU4Q__.3600.1273366800-2905623|3OLa3w0x1K4C1S5cOgbs07TytAk.&expires=6621"
+  raw_offline_access_token_string: access_token=119908831367602|2.6GneoQbnEqtSiPppZzDU4Q__.3600.1273366800-2905623|3OLa3w0x1K4C1S5cOgbs07TytAk.
+  valid_cookies:
+    # note: the tests stub the time class so these default cookies are always valid (if you're using the default app)
+    # if not you may want to remove the stubbing to test expiration
+    fbs_119908831367602: '"access_token=119908831367602|2.LKE7ksSPOx0V_8mHPr2NHQ__.3600.1273363200-2905623|CMpi0AYbn03Oukzv94AUha2qbO4.&expires=1273363200&secret=lT_9zm5r5IbJ6Aa5O54nFw__&session_key=2.LKE7ksSPOx0V_8mHPr2NHQ__.3600.1273363200-2905623&sig=9515e93113921f9476a4efbdd4a3c746&uid=2905623"'
+  offline_access_cookies:
+    # note: I've revoked the offline access for security reasons, so you can't make calls against this :)
+    fbs_119908831367602: '"access_token=119908831367602|08170230801eb225068e7a70-2905623|Q3LDCYYF8CX9cstxnZLsxiR0nwg.&expires=0&secret=78abaee300b392e275072a9f2727d436&session_key=08170230801eb225068e7a70-2905623&sig=423b8aa4b6fa1f9a571955f8e929d567&uid=2905623"'
+  valid_signed_cookies:
+    "fbsr_119908831367602": "f1--LHwjHVCxfs97hRHL-4cF-0jNxZRc6MGzo1qHLb0.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiIyLkFRQm90a0pBWlhVY1l3RkMuMzYwMC4xMzE0ODEzNjAwLjEtMjkwNTYyM3x4V2xya0d0UmJIZlpIclRnVWwxQmxJcVhRbjQiLCJpc3N1ZWRfYXQiOjEzMTQ4MDY2NTUsInVzZXJfaWQiOiIyOTA1NjIzIn0"
+
+
+  # These values from the OAuth Playground (see above) will work out of the box
+  # You can update this to live data if desired
+  # request_secret is optional and will fall back to the secret above if absent
+  signed_params: "zWRm0gd5oHW_jzXP_WA9CirO7c5CLHotn-SKRqH2NmU.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImV4cGlyZXMiOjEzMDE5MjIwMDAsImlzc3VlZF9hdCI6MTMwMTkxNzI5OSwib2F1dGhfdG9rZW4iOiIxMTk5MDg4MzEzNjc2MDJ8Mi56VkZfNk5yTUVMSHVKYTRnSVU5dEt3X18uMzYwMC4xMzAxOTIyMDAwLTI5MDU2MjN8emdxUHNyMkJHOUxvT0s5a2VrR2dSVVJaeDBrIiwidXNlciI6eyJjb3VudHJ5IjoiZGUiLCJsb2NhbGUiOiJkZV9ERSIsImFnZSI6eyJtaW4iOjIxfX0sInVzZXJfaWQiOiIyOTA1NjIzIn0"
+  signed_params_result:
+      expires: 1301922000
+      algorithm: HMAC-SHA256
+      user_id: "2905623"
+      oauth_token: 119908831367602|2.zVF_6NrMELHuJa4gIU9tKw__.3600.1301922000-2905623|zgqPsr2BG9LoOK9kekGgRURZx0k
+      user:
+        country: de
+        locale: de_DE
+        age:
+          min: 21
+      issued_at: 1301917299
+
+subscription_test_data:
+  subscription_path: https://testdomain.koalatest.test/subscriptions
+  verify_token: "myverificationtoken|1f54545d5f722733e17faae15377928f"
+  challenge_data:
+    "hub.challenge": "1290024882"
+    "hub.verify_token": "myverificationtoken|1f54545d5f722733e17faae15377928f"
+    "hub.mode": "subscribe"
+
+vcr_data:
+  oauth_token: CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD

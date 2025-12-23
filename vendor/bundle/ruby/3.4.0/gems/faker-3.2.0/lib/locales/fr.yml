@@ -1,0 +1,3 @@
+fr:
+  faker:
+    country_code: ['33']

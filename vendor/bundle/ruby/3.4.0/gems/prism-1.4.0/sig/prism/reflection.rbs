@@ -1,0 +1,50 @@
+module Prism
+  module Reflection
+    class Field
+      attr_reader name: Symbol
+
+      def initialize: (Symbol name) -> void
+    end
+
+    class NodeField < Field
+    end
+
+    class OptionalNodeField < Field
+    end
+
+    class NodeListField < Field
+    end
+
+    class ConstantField < Field
+    end
+
+    class OptionalConstantField < Field
+    end
+
+    class ConstantListField < Field
+    end
+
+    class StringField < Field
+    end
+
+    class LocationField < Field
+    end
+
+    class OptionalLocationField < Field
+    end
+
+    class IntegerField < Field
+    end
+
+    class FloatField < Field
+    end
+
+    class FlagsField < Field
+      attr_reader flags: Array[Symbol]
+
+      def initialize: (Symbol name, Array[Symbol] flags) -> void
+    end
+
+    def self.fields_for: (node_singleton node) -> Array[Field]
+  end
+end

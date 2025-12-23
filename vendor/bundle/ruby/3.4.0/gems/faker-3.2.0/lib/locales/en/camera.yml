@@ -1,0 +1,611 @@
+en:
+  faker:
+    camera:
+      brand:
+        - Canon
+        - Benq
+        - Casio
+        - Fujifilm
+        - Hasselblad
+        - Kodak
+        - Leica
+        - Nikon
+        - Olympus
+        - Panasonic
+        - Pentax
+        - Polaroid
+        - Ricoh
+        - Samsung
+        - Sigma
+        - Sony
+        - YI
+      model:
+        - 450D
+        - EOS 5D Mark IV
+        - EOS 5DS
+        - EOS 5DS R
+        - EOS 700D
+        - EOS 70D
+        - EOS 750D
+        - EOS 760D
+        - EOS 7D Mark II
+        - EOS 80D
+        - EOS M10
+        - EOS M3
+        - EOS M5
+        - IXUS 132 HS
+        - IXUS 140
+        - IXUS 145
+        - IXUS 150
+        - IXUS 155
+        - IXUS 160
+        - IXUS 165
+        - IXUS 170
+        - IXUS 175
+        - IXUS 180
+        - IXUS 255 HS
+        - IXUS 265 HS
+        - IXUS 275 HS
+        - IXUS 285 HS
+        - PowerShot A1400
+        - PowerShot A2500
+        - PowerShot A3500 IS
+        - PowerShot D30
+        - PowerShot G1 X Mark II
+        - PowerShot G16
+        - PowerShot G3 X
+        - PowerShot G5 X
+        - PowerShot G7 X
+        - PowerShot G7 X Mark II
+        - PowerShot G9 X
+        - PowerShot G9 X Mark II
+        - PowerShot N100
+        - PowerShot S120
+        - PowerShot S200
+        - PowerShot SX170 IS
+        - PowerShot SX270 HS
+        - PowerShot SX280 HS
+        - PowerShot SX400 IS
+        - PowerShot SX410 IS
+        - PowerShot SX420 IS
+        - PowerShot SX510 HS
+        - PowerShot SX520 HS
+        - PowerShot SX530 HS
+        - PowerShot SX540 HS
+        - PowerShot SX60 HS
+        - PowerShot SX600 HS
+        - PowerShot SX610 HS
+        - PowerShot SX620 HS
+        - PowerShot SX700 HS
+        - PowerShot SX710 HS
+        - PowerShot SX720 HS
+        - XC10
+        - Exilim EX-10
+        - Exilim EX-100
+        - Exilim EX-H30
+        - Exilim EX-TR50
+        - Exilim EX-ZR100
+        - Exilim EX-ZR1000
+        - Exilim EX-ZR15
+        - Exilim EX-ZR200
+        - Exilim EX-ZR300
+        - Exilim EX-ZR400
+        - Exilim EX-ZR700
+        - Exilim EX-ZR800
+        - Exilim EX-ZS15
+        - FinePix AX200
+        - FinePix S1
+        - FinePix S9800
+        - FinePix S9900W
+        - FinePix XP80
+        - FinePix XP90
+        - GFX 50S
+        - X-A10
+        - X-A2
+        - X-A3
+        - X-E2
+        - X-E2S
+        - X-Pro2
+        - X-T1
+        - X-T10
+        - X-T2
+        - X100T
+        - X30
+        - X70
+        - XQ2
+        - X1D
+        - EasyShare M530
+        - EasyShare M550
+        - EasyShare M575
+        - EasyShare M590
+        - EasyShare M750
+        - EasyShare Max Z990
+        - EasyShare Mini M200
+        - EasyShare Sport C123
+        - EasyShare Sport C135
+        - EasyShare Touch M5370
+        - EasyShare Touch M577
+        - EasyShare Z5120
+        - EasyShare Z981
+        - Pixpro Astro Zoom AZ651
+        - Pixpro S-1
+        - C
+        - D-Lux
+        - M
+        - M Edition 60
+        - M Monochrom
+        - Q
+        - SL
+        - T
+        - TL
+        - V-Lux
+        - X
+        - X Vario
+        - X-U
+        - 1 AW1
+        - 1 J4
+        - 1 J5
+        - 1 S2
+        - 1 V3
+        - Coolpix A10
+        - Coolpix A100
+        - Coolpix A900
+        - Coolpix AW120
+        - Coolpix AW130
+        - Coolpix B500
+        - Coolpix B700
+        - Coolpix L31
+        - Coolpix L32
+        - Coolpix L830
+        - Coolpix L840
+        - Coolpix P340
+        - Coolpix P530
+        - Coolpix P600
+        - Coolpix P610
+        - Coolpix P900
+        - Coolpix S2900
+        - Coolpix S32
+        - Coolpix S33
+        - Coolpix S3600
+        - Coolpix S3700
+        - Coolpix S5300
+        - Coolpix S6800
+        - Coolpix S6900
+        - Coolpix S7000
+        - Coolpix S810c
+        - Coolpix S9700
+        - Coolpix S9900
+        - Coolpix W100
+        - D3100
+        - D3200
+        - D3300
+        - D3400
+        - D3S
+        - D4
+        - D4S
+        - D5
+        - D5
+        - D500
+        - D5300
+        - D5500
+        - D5600
+        - D610
+        - D6Nikon D810
+        - D7200
+        - D750
+        - D810A
+        - Df
+        - DL18-50
+        - DL24-500
+        - DL24-85
+        - OM-D E-M1 Mark II
+        - OM-D E-M10
+        - OM-D E-M10 II
+        - OM-D E-M5 II
+        - PEN E-PL7
+        - PEN E-PL8
+        - PEN-F
+        - Stylus 1s
+        - Stylus SH-1
+        - Stylus SH-2
+        - Stylus SH-3
+        - Stylus SP-100
+        - Stylus Tough TG-3
+        - Stylus Tough TG-4
+        - Stylus Tough TG-850 iHS
+        - Stylus Tough TG-860
+        - Stylus Tough TG-870
+        - Lumix DC-FZ80
+        - Lumix DC-GH5
+        - Lumix DMC-FZ1000
+        - Lumix DMC-FZ300
+        - Lumix DMC-G7
+        - Lumix DMC-GF7
+        - Lumix DMC-GF8
+        - Lumix DMC-GH4
+        - Lumix DMC-GM5
+        - Lumix DMC-GX8
+        - Lumix DMC-GX85
+        - Lumix DMC-LX10
+        - Lumix DMC-LX100
+        - Lumix DMC-LZ40
+        - Lumix DMC-SZ10
+        - Lumix DMC-SZ8
+        - Lumix DMC-TS30
+        - Lumix DMC-TS6
+        - Lumix DMC-ZS100
+        - Lumix DMC-ZS35
+        - Lumix DMC-ZS40
+        - Lumix DMC-ZS45
+        - Lumix DMC-ZS50
+        - Lumix DMC-ZS60
+        - Lumix FZ2500
+        - Lumix G85
+        - 645Z
+        - Efina
+        - K-1
+        - K-3
+        - K-3 II
+        - K-5 II
+        - K-5 IIs
+        - K-50
+        - K-500
+        - K-70
+        - K-S1
+        - K-S2
+        - MX-1
+        - Q-S1
+        - Q7
+        - WG-10
+        - WG-3
+        - WG-3 GPS
+        - WG-30
+        - XG-1
+        - IS2132
+        - CX3
+        - CX4
+        - CX5
+        - CX6
+        - G700SE
+        - GR
+        - GR Digital IV
+        - GXR Mount A12
+        - PX
+        - WG-4
+        - WG-4 GPS
+        - NX Mini
+        - NX1
+        - NX30
+        - NX300
+        - NX3000
+        - NX500
+        - WB1100F
+        - WB2200F
+        - WB350F
+        - WB35F
+        - WB50F
+        - dp0 Quattro
+        - dp1 Quattro
+        - dp2 Quattro
+        - dp3 Quattro
+        - sd Quattro
+        - sd Quattro H
+        - Alpha 5100
+        - Alpha 6300
+        - Alpha 6500
+        - Alpha 68
+        - Alpha 7 II
+        - Alpha 77 II
+        - Alpha 7R II
+        - Alpha 7S
+        - Alpha 7S II
+        - Alpha 99 II
+        - Cyber-shot DSC-H400
+        - Cyber-shot DSC-HX350
+        - Cyber-shot DSC-HX80
+        - Cyber-shot DSC-HX90V
+        - Cyber-shot DSC-RX10 II
+        - Cyber-shot DSC-RX10 III
+        - Cyber-shot DSC-RX100 III
+        - Cyber-shot DSC-RX100 IV
+        - Cyber-shot DSC-RX100 V
+        - Cyber-shot DSC-RX1R II
+        - Cyber-shot DSC-W800
+        - Cyber-shot DSC-WX350
+        - Cyber-shot DSC-WX500
+        - M1
+      brand_with_model:
+        - Benq G2F
+        - Canon 450D
+        - Canon EOS 5D Mark IV
+        - Canon EOS 5DS
+        - Canon EOS 5DS R
+        - Canon EOS 700D
+        - Canon EOS 70D
+        - Canon EOS 750D
+        - Canon EOS 760D
+        - Canon EOS 7D Mark II
+        - Canon EOS 80D
+        - Canon EOS M10
+        - Canon EOS M3
+        - Canon EOS M5
+        - Canon IXUS 132 HS
+        - Canon IXUS 140
+        - Canon IXUS 145
+        - Canon IXUS 150
+        - Canon IXUS 155
+        - Canon IXUS 160
+        - Canon IXUS 165
+        - Canon IXUS 170
+        - Canon IXUS 175
+        - Canon IXUS 180
+        - Canon IXUS 255 HS
+        - Canon IXUS 265 HS
+        - Canon IXUS 275 HS
+        - Canon IXUS 285 HS
+        - Canon PowerShot A1400
+        - Canon PowerShot A2500
+        - Canon PowerShot A3500 IS
+        - Canon PowerShot D30
+        - Canon PowerShot G1 X Mark II
+        - Canon PowerShot G16
+        - Canon PowerShot G3 X
+        - Canon PowerShot G5 X
+        - Canon PowerShot G7 X
+        - Canon PowerShot G7 X Mark II
+        - Canon PowerShot G9 X
+        - Canon PowerShot G9 X Mark II
+        - Canon PowerShot N100
+        - Canon PowerShot S120
+        - Canon PowerShot S200
+        - Canon PowerShot SX170 IS
+        - Canon PowerShot SX270 HS
+        - Canon PowerShot SX280 HS
+        - Canon PowerShot SX400 IS
+        - Canon PowerShot SX410 IS
+        - Canon PowerShot SX420 IS
+        - Canon PowerShot SX510 HS
+        - Canon PowerShot SX520 HS
+        - Canon PowerShot SX530 HS
+        - Canon PowerShot SX540 HS
+        - Canon PowerShot SX60 HS
+        - Canon PowerShot SX600 HS
+        - Canon PowerShot SX610 HS
+        - Canon PowerShot SX620 HS
+        - Canon PowerShot SX700 HS
+        - Canon PowerShot SX710 HS
+        - Canon PowerShot SX720 HS
+        - Canon XC10
+        - Casio Exilim EX-10
+        - Casio Exilim EX-100
+        - Casio Exilim EX-H30
+        - Casio Exilim EX-TR50
+        - Casio Exilim EX-ZR100
+        - Casio Exilim EX-ZR1000
+        - Casio Exilim EX-ZR15
+        - Casio Exilim EX-ZR200
+        - Casio Exilim EX-ZR300
+        - Casio Exilim EX-ZR400
+        - Casio Exilim EX-ZR700
+        - Casio Exilim EX-ZR800
+        - Casio Exilim EX-ZS15
+        - Fujifilm FinePix AX200
+        - Fujifilm FinePix S1
+        - Fujifilm FinePix S9800
+        - Fujifilm FinePix S9900W
+        - Fujifilm FinePix XP80
+        - Fujifilm FinePix XP90
+        - Fujifilm GFX 50S
+        - Fujifilm X-A10
+        - Fujifilm X-A2
+        - Fujifilm X-A3
+        - Fujifilm X-E2
+        - Fujifilm X-E2S
+        - Fujifilm X-Pro2
+        - Fujifilm X-T1
+        - Fujifilm X-T10
+        - Fujifilm X-T2
+        - Fujifilm X100T
+        - Fujifilm X30
+        - Fujifilm X70
+        - Fujifilm XQ2
+        - Hasselblad X1D
+        - Kodak EasyShare M530
+        - Kodak EasyShare M550
+        - Kodak EasyShare M575
+        - Kodak EasyShare M590
+        - Kodak EasyShare M750
+        - Kodak EasyShare Max Z990
+        - Kodak EasyShare Mini M200
+        - Kodak EasyShare Sport C123
+        - Kodak EasyShare Sport C135
+        - Kodak EasyShare Touch M5370
+        - Kodak EasyShare Touch M577
+        - Kodak EasyShare Z5120
+        - Kodak EasyShare Z981
+        - Kodak Pixpro Astro Zoom AZ651
+        - Kodak Pixpro S-1
+        - Leica C
+        - Leica D-Lux
+        - Leica M
+        - Leica M Edition 60
+        - Leica M Monochrom
+        - Leica Q
+        - Leica SL
+        - Leica T
+        - Leica TL
+        - Leica V-Lux
+        - Leica X
+        - Leica X Vario
+        - Leica X-U
+        - Nikon 1 AW1
+        - Nikon 1 J4
+        - Nikon 1 J5
+        - Nikon 1 S2
+        - Nikon 1 V3
+        - Nikon Coolpix A10
+        - Nikon Coolpix A100
+        - Nikon Coolpix A900
+        - Nikon Coolpix AW120
+        - Nikon Coolpix AW130
+        - Nikon Coolpix B500
+        - Nikon Coolpix B700
+        - Nikon Coolpix L31
+        - Nikon Coolpix L32
+        - Nikon Coolpix L830
+        - Nikon Coolpix L840
+        - Nikon Coolpix P340
+        - Nikon Coolpix P530
+        - Nikon Coolpix P600
+        - Nikon Coolpix P610
+        - Nikon Coolpix P900
+        - Nikon Coolpix S2900
+        - Nikon Coolpix S32
+        - Nikon Coolpix S33
+        - Nikon Coolpix S3600
+        - Nikon Coolpix S3700
+        - Nikon Coolpix S5300
+        - Nikon Coolpix S6800
+        - Nikon Coolpix S6900
+        - Nikon Coolpix S7000
+        - Nikon Coolpix S810c
+        - Nikon Coolpix S9700
+        - Nikon Coolpix S9900
+        - Nikon Coolpix W100
+        - Nikon D3100
+        - Nikon D3200
+        - Nikon D3300
+        - Nikon D3400
+        - Nikon D3S
+        - Nikon D4
+        - Nikon D4S
+        - Nikon D5
+        - Nikon D5
+        - Nikon D500
+        - Nikon D5300
+        - Nikon D5500
+        - Nikon D5600
+        - Nikon D610
+        - Nikon D6Nikon D810
+        - Nikon D7200
+        - Nikon D750
+        - Nikon D810A
+        - Nikon Df
+        - Nikon DL18-50
+        - Nikon DL24-500
+        - Nikon DL24-85
+        - Olympus OM-D E-M1 Mark II
+        - Olympus OM-D E-M10
+        - Olympus OM-D E-M10 II
+        - Olympus OM-D E-M5 II
+        - Olympus PEN E-PL7
+        - Olympus PEN E-PL8
+        - Olympus PEN-F
+        - Olympus Stylus 1s
+        - Olympus Stylus SH-1
+        - Olympus Stylus SH-2
+        - Olympus Stylus SH-3
+        - Olympus Stylus SP-100
+        - Olympus Stylus Tough TG-3
+        - Olympus Stylus Tough TG-4
+        - Olympus Stylus Tough TG-850 iHS
+        - Olympus Stylus Tough TG-860
+        - Olympus Stylus Tough TG-870
+        - Panasonic Lumix DC-FZ80
+        - Panasonic Lumix DC-GH5
+        - Panasonic Lumix DMC-FZ1000
+        - Panasonic Lumix DMC-FZ300
+        - Panasonic Lumix DMC-G7
+        - Panasonic Lumix DMC-GF7
+        - Panasonic Lumix DMC-GF8
+        - Panasonic Lumix DMC-GH4
+        - Panasonic Lumix DMC-GM5
+        - Panasonic Lumix DMC-GX8
+        - Panasonic Lumix DMC-GX85
+        - Panasonic Lumix DMC-LX10
+        - Panasonic Lumix DMC-LX100
+        - Panasonic Lumix DMC-LZ40
+        - Panasonic Lumix DMC-SZ10
+        - Panasonic Lumix DMC-SZ8
+        - Panasonic Lumix DMC-TS30
+        - Panasonic Lumix DMC-TS6
+        - Panasonic Lumix DMC-ZS100
+        - Panasonic Lumix DMC-ZS35
+        - Panasonic Lumix DMC-ZS40
+        - Panasonic Lumix DMC-ZS45
+        - Panasonic Lumix DMC-ZS50
+        - Panasonic Lumix DMC-ZS60
+        - Panasonic Lumix FZ2500
+        - Panasonic Lumix G85
+        - Pentax 645Z
+        - Pentax Efina
+        - Pentax K-1
+        - Pentax K-3
+        - Pentax K-3 II
+        - Pentax K-5 II
+        - Pentax K-5 IIs
+        - Pentax K-50
+        - Pentax K-500
+        - Pentax K-70
+        - Pentax K-S1
+        - Pentax K-S2
+        - Pentax MX-1
+        - Pentax Q-S1
+        - Pentax Q7
+        - Pentax WG-10
+        - Pentax WG-3
+        - Pentax WG-3 GPS
+        - Pentax WG-30
+        - Pentax XG-1
+        - POLAROID IS2132
+        - Ricoh CX3
+        - Ricoh CX4
+        - Ricoh CX5
+        - Ricoh CX6
+        - Ricoh G700SE
+        - Ricoh GR
+        - Ricoh GR Digital IV
+        - Ricoh GXR Mount A12
+        - Ricoh PX
+        - Ricoh WG-4
+        - Ricoh WG-4 GPS
+        - Samsung NX Mini
+        - Samsung NX1
+        - Samsung NX30
+        - Samsung NX300
+        - Samsung NX3000
+        - Samsung NX500
+        - Samsung WB1100F
+        - Samsung WB2200F
+        - Samsung WB350F
+        - Samsung WB35F
+        - Samsung WB50F
+        - Sigma dp0 Quattro
+        - Sigma dp1 Quattro
+        - Sigma dp2 Quattro
+        - Sigma dp3 Quattro
+        - Sigma sd Quattro
+        - Sigma sd Quattro H
+        - Sony Alpha 5100
+        - Sony Alpha 6300
+        - Sony Alpha 6500
+        - Sony Alpha 68
+        - Sony Alpha 7 II
+        - Sony Alpha 77 II
+        - Sony Alpha 7R II
+        - Sony Alpha 7S
+        - Sony Alpha 7S II
+        - Sony Alpha 99 II
+        - Sony Cyber-shot DSC-H400
+        - Sony Cyber-shot DSC-HX350
+        - Sony Cyber-shot DSC-HX80
+        - Sony Cyber-shot DSC-HX90V
+        - Sony Cyber-shot DSC-RX10 II
+        - Sony Cyber-shot DSC-RX10 III
+        - Sony Cyber-shot DSC-RX100 III
+        - Sony Cyber-shot DSC-RX100 IV
+        - Sony Cyber-shot DSC-RX100 V
+        - Sony Cyber-shot DSC-RX1R II
+        - Sony Cyber-shot DSC-W800
+        - Sony Cyber-shot DSC-WX350
+        - Sony Cyber-shot DSC-WX500 - YI M1 -

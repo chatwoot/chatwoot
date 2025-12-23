@@ -1,0 +1,101 @@
+# elements like %{queue} are variables and should not be translated
+en:
+  Actions: Actions
+  AddToQueue: Add to queue
+  AreYouSure: Are you sure?
+  AreYouSureDeleteJob: Are you sure you want to delete this job?
+  AreYouSureDeleteQueue: Are you sure you want to delete the %{queue} queue? This will delete all jobs within the queue, it will reappear if you push more jobs to it in the future.
+  Arguments: Arguments
+  BackToApp: Back to App
+  Busy: Busy
+  Class: Class
+  Connections: Connections
+  CreatedAt: Created At
+  CurrentMessagesInQueue: Current jobs in <span class='title'>%{queue}</span>
+  Dashboard: Dashboard
+  Dead: Dead
+  DeadJobs: Dead Jobs
+  Delete: Delete
+  DeleteAll: Delete All
+  Deploy: Deploy
+  Enqueued: Enqueued
+  Error: Error
+  ErrorBacktrace: Error Backtrace
+  ErrorClass: Error Class
+  ErrorMessage: Error Message
+  ExecutionTime: Execution Time
+  Extras: Extras
+  Failed: Failed
+  Failures: Failures
+  Failure: Failure
+  GoBack: ← Back
+  History: History
+  Job: Job
+  Jobs: Jobs
+  Kill: Kill
+  KillAll: Kill All
+  LastRetry: Last Retry
+  Latency: Latency
+  LivePoll: Live Poll
+  MemoryUsage: Memory Usage
+  Name: Name
+  Namespace: Namespace
+  NextRetry: Next Retry
+  NoDeadJobsFound: No dead jobs were found
+  NoRetriesFound: No retries were found
+  NoScheduledFound: No scheduled jobs were found
+  NotYetEnqueued: Not yet enqueued
+  OneMonth: 1 month
+  OneWeek: 1 week
+  OriginallyFailed: Originally Failed
+  Pause: Pause
+  Paused: Paused
+  PeakMemoryUsage: Peak Memory Usage
+  Plugins: Plugins
+  PollingInterval: Polling interval
+  Process: Process
+  Processed: Processed
+  Processes: Processes
+  Queue: Queue
+  Queues: Queues
+  Quiet: Quiet
+  QuietAll: Quiet All
+  Realtime: Real-time
+  Retries: Retries
+  RetryAll: Retry All
+  RetryCount: Retry Count
+  RetryNow: Retry Now
+  Scheduled: Scheduled
+  ScheduledJobs: Scheduled Jobs
+  Seconds: Seconds
+  ShowAll: Show All
+  SixMonths: 6 months
+  Size: Size
+  Started: Started
+  Status: Status
+  Stop: Stop
+  StopAll: Stop All
+  StopPolling: Stop Polling
+  Success: Success
+  Summary: Summary
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 months
+  Time: Time
+  Unpause: Unpause
+  Uptime: Uptime (days)
+  Utilization: Utilization
+  Version: Version
+  When: When
+  Worker: Worker
+  active: active
+  idle: idle
+  Metrics: Metrics
+  NoDataFound: No data found
+  TotalExecutionTime: Total Execution Time
+  AvgExecutionTime: Average Execution Time
+  Context: Context
+  Bucket: Bucket
+  NoJobMetricsFound: No recent job metrics were found
+  Filter: Filter
+  AnyJobContent: Any job content

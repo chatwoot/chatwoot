@@ -1,0 +1,16 @@
+<%#
+# Select Index Partial
+
+This partial renders a selectable text attribute,
+to be displayed on a resource's index page.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Select][1].
+  A wrapper around the attribute pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Select
+%>
+
+<%= field.data %>

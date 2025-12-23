@@ -1,0 +1,63 @@
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  rspec:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        ruby-version:
+          - '2.6'
+          - '2.7'
+          - '3.0'
+        redis-version:
+          - '6.2'
+
+    services:
+      redis:
+          image: redis:${{ matrix.redis-version }}-alpine
+          options: >-
+            --health-cmd "redis-cli ping"
+            --health-interval 10s
+            --health-timeout 5s
+            --health-retries 5
+          ports:
+            - 6379:6379
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby ${{ matrix.ruby-version }}
+        uses: ruby/setup-ruby@v1.97.0
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Run tests
+        run: bundle exec rspec
+
+      - name: Code coverage reporting
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          flag-name: ruby${{ matrix.ruby-version }}-${{ matrix.redis-version }}
+          parallel: true
+
+  finish:
+    needs: rspec
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Finalize code coverage report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.github_token }}
+          parallel-finished: true

@@ -1,0 +1,29 @@
+module Datadog
+  module AppSec
+    module WAF
+      class Context
+        @context_ptr: ::FFI::Pointer
+
+        @retained: Array[untyped]
+
+        RESULT_CODE: ::Hash[::Symbol, ::Symbol]
+
+        def initialize: (::FFI::Pointer context_ptr) -> void
+
+        def finalize!: () -> void
+
+        def run: (WAF::data persistent_data, WAF::data ephemeral_data, ?::Integer timeout) -> Result
+
+        private
+
+        def ensure_pointer_presence!: () -> void
+
+        def retained: () -> Array[untyped]
+
+        def retain: (top object) -> void
+
+        def release: (top object) -> void
+      end
+    end
+  end
+end

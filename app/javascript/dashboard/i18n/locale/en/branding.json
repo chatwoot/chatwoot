@@ -1,0 +1,34 @@
+{
+  "BRANDING": {
+    "TITLE": "Branding",
+    "DESCRIPTION": "Configure your brand name, website, support email, and upload logos and favicons.",
+    "BRAND_NAME": "Brand Name",
+    "BRAND_NAME_PLACEHOLDER": "SynkiCRM",
+    "BRAND_NAME_REQUIRED": "Brand name is required",
+    "BRAND_WEBSITE": "Brand Website",
+    "BRAND_WEBSITE_PLACEHOLDER": "https://synkicrm.com.br/",
+    "BRAND_WEBSITE_INVALID": "Please enter a valid URL",
+    "SUPPORT_EMAIL": "Support Email",
+    "SUPPORT_EMAIL_PLACEHOLDER": "suporte@synkicrm.com.br",
+    "SUPPORT_EMAIL_INVALID": "Please enter a valid email address",
+    "ASSETS": "Brand Assets",
+    "LOGO_MAIN": "Main Logo",
+    "LOGO_MAIN_HELP": "Upload your main logo (PNG, JPG, SVG, GIF, or WebP, max 2MB). This will be used in the header and sidebar.",
+    "LOGO_COMPACT": "Compact Logo",
+    "LOGO_COMPACT_HELP": "Upload a compact version of your logo (PNG, JPG, SVG, GIF, or WebP, max 2MB). This will be used in smaller spaces.",
+    "FAVICON": "Favicon",
+    "FAVICON_HELP": "Upload your favicon (PNG, ICO, or SVG, max 1MB). This appears in browser tabs.",
+    "APPLE_TOUCH_ICON": "Apple Touch Icon",
+    "APPLE_TOUCH_ICON_HELP": "Upload an Apple Touch Icon (PNG or JPG, max 1MB). This is used when users add your site to their iOS home screen.",
+    "CHOOSE_FILE": "Choose File",
+    "PREVIEW": "Preview",
+    "SAVE": "Save Changes",
+    "FETCH_ERROR": "Failed to load branding configuration",
+    "UPDATE_SUCCESS": "Branding updated successfully",
+    "UPDATE_ERROR": "Failed to update branding configuration"
+  },
+  "SIDEBAR": {
+    "BRANDING": "Branding"
+  }
+}
+

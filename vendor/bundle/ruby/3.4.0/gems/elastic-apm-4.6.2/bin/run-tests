@@ -1,0 +1,33 @@
+#!/bin/bash
+set -e
+
+runRspec(){
+  local case=${1:-""}
+  local bn=${case}
+
+  if [ -n "${case}" ]; then
+    bn="$(basename ${case} _spec.rb)/"
+  fi
+  bundle exec rspec \
+    -f progress \
+    -r yarjuf -f JUnit -o spec/junit-reports/${bn}ruby-agent-junit.xml \
+    ${case}
+}
+specific_spec=$1
+
+if [[ $specific_spec = '' ]]; then
+  echo 'Running all specs, including integration'
+
+  runRspec
+  for i in $(find spec/integration -name '*_spec.rb')
+  do
+    echo "========================================"
+    echo $i
+    echo "========================================"
+    runRspec "$i"
+  done
+else
+  echo "Running only $specific_spec"
+
+  runRspec $specific_spec
+fi

@@ -1,0 +1,22 @@
+<h2>Controllers</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Parent</th>
+      <th>Includes</th>
+      <th>Routes</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% controller_rows.each do |row| %>
+    <tr>
+      <td><%= row['Name'] %></td>
+      <td><%= row['Parent'] %></td>
+      <td><%= row['Includes'] %></td>
+      <td><%= row['Routes'] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

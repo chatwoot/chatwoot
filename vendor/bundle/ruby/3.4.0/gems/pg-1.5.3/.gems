@@ -1,0 +1,6 @@
+# .gems generated gem export file. Note that any env variable settings will be missing. Append these after using a ';' field separator
+rake-compiler -v1.1.0
+rake-compiler-dock -v1.0.0
+hoe-deveiate -v0.10.0
+hoe-bundler -v1.3.0
+

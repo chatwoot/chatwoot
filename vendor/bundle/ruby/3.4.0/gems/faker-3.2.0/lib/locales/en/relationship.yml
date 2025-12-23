@@ -1,0 +1,10 @@
+en:
+  faker:
+    relationship:
+      familial:
+        direct: ['Father', 'Mother', 'Sister', 'Brother']
+        extended: ['Grandfather', 'Grandmother', 'Uncle', 'Aunt', 'Cousin', 'Niece', 'Nephew', 'Grandson', 'Granddaughter']
+      in_law: ['Father-in-law', 'Mother-in-law', 'Sister-in-law', 'Brother-in-law']
+      spouse: ['Husband', 'Wife']
+      parent: ['Father', 'Mother']
+      sibling: ['Sister', 'Brother']

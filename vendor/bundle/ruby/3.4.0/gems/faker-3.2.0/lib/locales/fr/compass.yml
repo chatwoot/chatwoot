@@ -1,0 +1,23 @@
+fr:
+  faker:
+    compass:
+      cardinal:
+        word: ['nord', 'est', 'sud', 'ouest']
+        abbreviation:  ['N', 'E', 'S', 'O']
+        azimuth:  ['0', '90', '180', '270']
+      ordinal:
+        word:  ['nord-est', 'sud-est', 'sud-ouest', 'nord-ouest']
+        abbreviation:  ['NE', 'SE', 'SO', 'NO']
+        azimuth:  ['45', '135', '225', '315']
+      half-wind:
+        word:  ['nord-nord-est', 'est-nord-est', 'est-sud-est', 'sud-sud-est', 'sud-sud-ouest', 'ouest-sud-ouest', 'ouest-nord-ouest', 'nord-nord-ouest']
+        abbreviation:  ['NNE', 'ENE', 'ESE', 'SSE', 'SSO', 'OSO', 'ONO', 'NNO']
+        azimuth:  ['22.5', '67.5', '112.5', '157.5', '202.5', '247.5', '292.5', '337.5']
+      direction:
+        - "#{cardinal}"
+        - "#{ordinal}"
+        - "#{half_wind}"
+      abbreviation:
+        - "#{cardinal_abbreviation}"
+        - "#{ordinal_abbreviation}"
+        - "#{half_wind_abbreviation}"

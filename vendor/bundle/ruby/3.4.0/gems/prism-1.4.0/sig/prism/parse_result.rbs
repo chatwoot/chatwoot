@@ -1,0 +1,192 @@
+module Prism
+  interface _CodeUnitsCache
+    def []: (Integer byte_offset) -> Integer
+  end
+
+  class Source
+    attr_reader source: String
+    attr_reader start_line: Integer
+    attr_reader offsets: Array[Integer]
+
+    def initialize: (String source, ?Integer start_line, ?Array[Integer] offsets) -> void
+    def replace_start_line: (Integer start_line) -> void
+    def replace_offsets: (Array[Integer] offsets) -> void
+    def encoding: () -> Encoding
+    def lines: () -> Array[String]
+    def slice: (Integer byte_offset, Integer length) -> String
+    def line: (Integer byte_offset) -> Integer
+    def line_start: (Integer byte_offset) -> Integer
+    def line_end: (Integer byte_offset) -> Integer
+    def line_offset: (Integer byte_offset) -> Integer
+    def column: (Integer byte_offset) -> Integer
+    def character_offset: (Integer byte_offset) -> Integer
+    def character_column: (Integer byte_offset) -> Integer
+    def code_units_offset: (Integer byte_offset, Encoding encoding) -> Integer
+    def code_units_cache: (Encoding encoding) -> _CodeUnitsCache
+    def code_units_column: (Integer byte_offset, Encoding encoding) -> Integer
+
+    def self.for: (String source) -> Source
+  end
+
+  class CodeUnitsCache
+    def initialize: (String source, Encoding encoding) -> void
+    def []: (Integer byte_offset) -> Integer
+  end
+
+  class ASCIISource < Source
+    def character_offset: (Integer byte_offset) -> Integer
+    def character_column: (Integer byte_offset) -> Integer
+    def code_units_offset: (Integer byte_offset, Encoding encoding) -> Integer
+    def code_units_cache: (Encoding encoding) -> _CodeUnitsCache
+    def code_units_column: (Integer byte_offset, Encoding encoding) -> Integer
+  end
+
+  class Location
+    attr_reader source: Source
+    attr_reader start_offset: Integer
+    attr_reader length: Integer
+
+    def initialize: (Source source, Integer start_offset, Integer length) -> void
+    def leading_comments: () -> Array[comment]
+    def leading_comment: (comment) -> void
+    def trailing_comments: () -> Array[comment]
+    def trailing_comment: (comment) -> void
+    def comments: () -> Array[comment]
+    def copy: (?source: Source, ?start_offset: Integer, ?length: Integer) -> Location
+    def chop: () -> Location
+    def source_lines: () -> Array[String]
+    def slice: () -> String
+    def slice_lines: () -> String
+    def start_character_offset: () -> Integer
+    def start_code_units_offset: (Encoding encoding) -> Integer
+    def cached_start_code_units_offset: (_CodeUnitsCache cache) -> Integer
+    def end_offset: () -> Integer
+    def end_character_offset: () -> Integer
+    def end_code_units_offset: (Encoding encoding) -> Integer
+    def cached_end_code_units_offset: (_CodeUnitsCache cache) -> Integer
+    def start_line: () -> Integer
+    def start_line_slice: () -> String
+    def end_line: () -> Integer
+    def start_column: () -> Integer
+    def start_character_column: () -> Integer
+    def start_code_units_column: (Encoding encoding) -> Integer
+    def cached_start_code_units_column: (_CodeUnitsCache cache) -> Integer
+    def end_column: () -> Integer
+    def end_character_column: () -> Integer
+    def end_code_units_column: (Encoding encoding) -> Integer
+    def cached_end_code_units_column: (_CodeUnitsCache cache) -> Integer
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+    def pretty_print: (untyped q) -> untyped
+    def join: (Location other) -> Location
+    def adjoin: (String string) -> Location
+  end
+
+  class Comment
+    attr_reader location: Location
+
+    def initialize: (Location location) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+    def slice: () -> String
+  end
+
+  interface _Comment
+    def trailing?: () -> bool
+  end
+
+  type comment = Comment & _Comment
+
+  class InlineComment < Comment
+    include _Comment
+  end
+
+  class EmbDocComment < Comment
+    include _Comment
+  end
+
+  class MagicComment
+    attr_reader key_loc: Location
+    attr_reader value_loc: Location
+
+    def initialize: (Location key_loc, Location value_loc) -> void
+
+    def key: () -> String
+    def value: () -> String
+
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class ParseError
+    attr_reader type: Symbol
+    attr_reader message: String
+    attr_reader location: Location
+    attr_reader level: Symbol
+
+    def initialize: (Symbol type, String message, Location location, Symbol level) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class ParseWarning
+    attr_reader type: Symbol
+    attr_reader message: String
+    attr_reader location: Location
+    attr_reader level: Symbol
+
+    def initialize: (Symbol type, String message, Location location, Symbol level) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class Result
+    attr_reader comments: Array[comment]
+    attr_reader magic_comments: Array[MagicComment]
+    attr_reader data_loc: Location?
+    attr_reader errors: Array[ParseError]
+    attr_reader warnings: Array[ParseWarning]
+    attr_reader source: Source
+
+    def initialize: (Array[comment] comments, Array[MagicComment] magic_comments, Location? data_loc, Array[ParseError] errors, Array[ParseWarning] warnings, Source source) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+    def success?: () -> bool
+    def failure?: () -> bool
+    def code_units_cache: (Encoding encoding) -> _CodeUnitsCache
+  end
+
+  class ParseResult < Result
+    attr_reader value: ProgramNode
+
+    def initialize: (ProgramNode value, Array[comment] comments, Array[MagicComment] magic_comments, Location? data_loc, Array[ParseError] errors, Array[ParseWarning] warnings, Source source) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class LexResult < Result
+    attr_reader value: Array[[Token, Integer]]
+
+    def initialize: (Array[[Token, Integer]] value, Array[comment] comments, Array[MagicComment] magic_comments, Location? data_loc, Array[ParseError] errors, Array[ParseWarning] warnings, Source source) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class ParseLexResult < Result
+    attr_reader value: [ProgramNode, Array[[Token, Integer]]]
+
+    def initialize: ([ProgramNode, Array[[Token, Integer]]] value, Array[comment] comments, Array[MagicComment] magic_comments, Location? data_loc, Array[ParseError] errors, Array[ParseWarning] warnings, Source source) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+  end
+
+  class Token
+    attr_reader source: Source
+    attr_reader type: Symbol
+    attr_reader value: String
+    attr_reader location: Location
+
+    def initialize: (Source source, Symbol type, String value, Location location) -> void
+    def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+    def pretty_print: (untyped q) -> untyped
+    def ==: (untyped other) -> bool
+  end
+
+  class Scope
+    attr_reader locals: Array[Symbol]
+    attr_reader forwarding: Array[Symbol]
+
+    def initialize: (Array[Symbol] locals, Array[Symbol] forwarding) -> void
+  end
+end

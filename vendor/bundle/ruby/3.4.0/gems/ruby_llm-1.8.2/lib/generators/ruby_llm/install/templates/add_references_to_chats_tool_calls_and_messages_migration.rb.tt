@@ -1,0 +1,9 @@
+class AddReferencesTo<%= "#{chat_model_name.gsub('::', '').pluralize}#{tool_call_model_name.gsub('::', '').pluralize}And#{message_model_name.gsub('::', '').pluralize}" %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    add_reference :<%= chat_table_name %>, :<%= model_table_name.singularize %>, foreign_key: true
+    add_reference :<%= tool_call_table_name %>, :<%= message_table_name.singularize %>, null: false, foreign_key: true
+    add_reference :<%= message_table_name %>, :<%= chat_table_name.singularize %>, null: false, foreign_key: true
+    add_reference :<%= message_table_name %>, :<%= model_table_name.singularize %>, foreign_key: true
+    add_reference :<%= message_table_name %>, :<%= tool_call_table_name.singularize %>, foreign_key: true
+  end
+end

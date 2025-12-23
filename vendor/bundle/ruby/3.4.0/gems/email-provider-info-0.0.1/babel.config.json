@@ -1,0 +1,15 @@
+{
+  "presets": ["@babel/preset-env"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "extensions": [".js", ".ts"],
+        "root": ["./src"],
+        "alias": {
+          "~": "./src"
+        }
+      }
+    ]
+  ]
+}

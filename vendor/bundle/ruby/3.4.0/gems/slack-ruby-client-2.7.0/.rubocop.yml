@@ -1,0 +1,47 @@
+inherit_from: .rubocop_todo.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  DisplayCopNames: true
+  Exclude:
+    - bin/**/*
+    - vendor/**/*
+    - lib/slack/web/api/slack-api-ref/**/*
+    - lib/slack/web/api/endpoints/* # Auto-generated
+    - lib/slack/web/api/errors.rb # Auto-generated
+    - spec/slack/web/api/endpoints/* # Auto-generated
+
+Layout/EmptyLineAfterMagicComment:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 250
+
+Layout/LineLength:
+  Max: 128
+
+Style/Documentation:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+Style/NumericLiterals:
+  Exclude:
+    - 'spec/**/*'
+
+RSpec/InstanceVariable:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - lib/slack-ruby-client.rb # Required to match gemspec name

@@ -1,0 +1,81 @@
+# elements like %{queue} are variables and should not be translated
+de:
+  Actions: Aktionen
+  AddToQueue: In Warteschlange einreihen
+  AreYouSure: Bist du sicher?
+  AreYouSureDeleteJob: Möchtest du diesen Job wirklich löschen?
+  AreYouSureDeleteQueue: Möchtest du %{queue} wirklich löschen?
+  Arguments: Argumente
+  BackToApp: Zurück zur Anwendung
+  Busy: Beschäftigt
+  Class: Klasse
+  Connections: Verbindungen
+  CreatedAt: Erstellt
+  CurrentMessagesInQueue: Aktuelle Nachrichten in <span class='title'>%{queue}</span>
+  Dashboard: Dashboard
+  Dead: Tot
+  DeadJobs: Gestorbene Jobs
+  Delete: Löschen
+  DeleteAll: Alle löschen
+  Enqueued: In der Warteschlange
+  Error: Fehler
+  ErrorBacktrace: Fehlerbericht
+  ErrorClass: Fehlerklasse
+  ErrorMessage: Fehlernachricht
+  Extras: Extras
+  Failed: Fehlgeschlagen
+  Failures: Ausfälle
+  GoBack: ← Zurück
+  History: Verlauf
+  Job: Job
+  Jobs: Jobs
+  Kill: Vernichten
+  KillAll: Alle vernichten
+  LastRetry: Letzter Versuch
+  Latency: Latenz
+  LivePoll: Echtzeitabfrage
+  MemoryUsage: RAM-Nutzung
+  Namespace: Namensraum
+  NextRetry: Nächster Versuch
+  NoDeadJobsFound: Keine toten Jobs gefunden
+  NoRetriesFound: Keine erneuten Versuche gefunden
+  NoScheduledFound: Keine geplanten Jobs gefunden
+  NotYetEnqueued: Noch nicht in der Warteschlange
+  OneMonth: 1 Monat
+  OneWeek: 1 Woche
+  OriginallyFailed: Ursprünglich fehlgeschlagen
+  Paused: Pausiert
+  PeakMemoryUsage: Maximale RAM-Nutzung
+  Plugins: Erweiterungen
+  PollingInterval: Abfrageintervall
+  Processed: Verarbeitet
+  Processes: Prozesse
+  Queue: Warteschlange
+  Queues: Warteschlangen
+  Quiet: Leise
+  QuietAll: Alle leise
+  Realtime: Echtzeit
+  Retries: Versuche
+  RetryAll: Alle erneut versuchen
+  RetryCount: Anzahl der Versuche
+  RetryNow: Jetzt erneut versuchen
+  Scheduled: Geplant
+  ScheduledJobs: Jobs in der Warteschlange
+  ShowAll: Alle anzeigen
+  SixMonths: 6 Monate
+  Size: Größe
+  Started: Gestartet
+  Status: Status
+  Stop: Stopp
+  StopAll: Alle stoppen
+  StopPolling: Abfrage stoppen
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 Monate
+  Time: Zeit
+  Uptime: Laufzeit
+  Version: Version
+  When: Wann
+  Worker: Arbeiter
+  active: aktiv
+  idle: untätig

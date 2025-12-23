@@ -1,0 +1,143 @@
+---
+FactoryBot:
+  Enabled: true
+  Include:
+    - "**/spec/factories.rb"
+    - "**/spec/factories/**/*.rb"
+    - "**/test/factories.rb"
+    - "**/test/factories/**/*.rb"
+    - "**/features/support/factories/**/*.rb"
+  DocumentationBaseURL: https://docs.rubocop.org/rubocop-factory_bot
+
+FactoryBot/AssociationStyle:
+  Description: Use a consistent style to define associations.
+  Enabled: pending
+  Safe: false
+  VersionAdded: '2.23'
+  VersionChanged: '2.24'
+  EnforcedStyle: implicit
+  SupportedStyles:
+    - explicit
+    - implicit
+  NonImplicitAssociationMethodNames: ~
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AssociationStyle
+
+FactoryBot/AttributeDefinedStatically:
+  Description: Always declare attribute values as blocks.
+  Enabled: true
+  VersionAdded: '1.28'
+  VersionChanged: '2.24'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/AttributeDefinedStatically
+
+FactoryBot/ConsistentParenthesesStyle:
+  Description: Use a consistent style for parentheses in factory_bot calls.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  EnforcedStyle: require_parentheses
+  SupportedStyles:
+    - require_parentheses
+    - omit_parentheses
+  ExplicitOnly: false
+  VersionAdded: '2.14'
+  VersionChanged: '2.23'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ConsistentParenthesesStyle
+
+FactoryBot/CreateList:
+  Description: Checks for create_list usage.
+  Enabled: true
+  AutoCorrect: contextual
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  EnforcedStyle: create_list
+  SupportedStyles:
+    - create_list
+    - n_times
+  ExplicitOnly: false
+  SafeAutoCorrect: false
+  VersionAdded: '1.25'
+  VersionChanged: '2.26'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/CreateList
+
+FactoryBot/ExcessiveCreateList:
+  Description: Check for excessive model creation in a list.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  MaxAmount: 10
+  VersionAdded: '2.25'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/ExcessiveCreateList
+
+FactoryBot/FactoryAssociationWithStrategy:
+  Description: Use definition in factory association instead of hard coding a strategy.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  VersionAdded: '2.23'
+  VersionChanged: '2.23'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryAssociationWithStrategy
+
+FactoryBot/FactoryClassName:
+  Description: Use string value when setting the class attribute explicitly.
+  Enabled: true
+  VersionAdded: '1.37'
+  VersionChanged: '2.24'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryClassName
+
+FactoryBot/FactoryNameStyle:
+  Description: Checks for name style for argument of FactoryBot::Syntax::Methods.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  EnforcedStyle: symbol
+  SupportedStyles:
+    - symbol
+    - string
+  ExplicitOnly: false
+  VersionAdded: '2.16'
+  VersionChanged: '2.23'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/FactoryNameStyle
+
+FactoryBot/IdSequence:
+  Description: Do not create a FactoryBot sequence for an id column.
+  Enabled: pending
+  VersionAdded: '2.24'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/IdSequence
+
+FactoryBot/RedundantFactoryOption:
+  Description: Checks for redundant `factory` option.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  VersionAdded: '2.23'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/RedundantFactoryOption
+
+FactoryBot/SyntaxMethods:
+  Description: Use shorthands from `FactoryBot::Syntax::Methods` in your specs.
+  Enabled: pending
+  Include:
+    - "**/*_spec.rb"
+    - "**/spec/**/*"
+    - "**/test/**/*"
+    - "**/features/support/factories/**/*.rb"
+  SafeAutoCorrect: false
+  VersionAdded: '2.7'
+  Reference: https://www.rubydoc.info/gems/rubocop-factory_bot/RuboCop/Cop/FactoryBot/SyntaxMethods

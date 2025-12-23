@@ -1,0 +1,736 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/byebug-11.1.3/ext/byebug
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/byebug-11.1.3/ext/byebug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-q7bi7o sitelibdir\=./.gem.20251220-192266-q7bi7o clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/byebug-11.1.3/ext/byebug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-q7bi7o sitelibdir\=./.gem.20251220-192266-q7bi7o
+compiling breakpoint.c
+breakpoint.c: In function ‘brkpt_enabled’:
+breakpoint.c:35:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   35 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_set_enabled’:
+breakpoint.c:50:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   50 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_expr’:
+breakpoint.c:66:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   66 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_set_expr’:
+breakpoint.c:82:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   82 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_hit_condition’:
+breakpoint.c:99:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   99 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_set_hit_condition’:
+breakpoint.c:130:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  130 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_hit_count’:
+breakpoint.c:155:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  155 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_hit_value’:
+breakpoint.c:171:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  171 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_set_hit_value’:
+breakpoint.c:187:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  187 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_id’:
+breakpoint.c:203:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  203 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_pos’:
+breakpoint.c:219:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  219 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_source’:
+breakpoint.c:237:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  237 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_create’:
+breakpoint.c:253:3: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  253 |   return Data_Wrap_Struct(klass, mark_breakpoint, xfree, breakpoint);
+      |   ^~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘brkpt_initialize’:
+breakpoint.c:261:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  261 |   Data_Get_Struct(self, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘check_breakpoint_by_hit_condition’:
+breakpoint.c:356:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  356 |   Data_Get_Struct(rb_breakpoint, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘check_breakpoint_by_pos’:
+breakpoint.c:396:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  396 |   Data_Get_Struct(rb_breakpoint, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘check_breakpoint_by_method’:
+breakpoint.c:413:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  413 |   Data_Get_Struct(rb_breakpoint, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: In function ‘check_breakpoint_by_expr’:
+breakpoint.c:436:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  436 |   Data_Get_Struct(rb_breakpoint, breakpoint_t, breakpoint);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from breakpoint.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+breakpoint.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling byebug.c
+byebug.c: In function ‘check_started’:
+byebug.c:69:1: warning: old-style function definition [-Wold-style-definition]
+   69 | check_started()
+      | ^~~~~~~~~~~~~
+byebug.c: In function ‘line_event’:
+byebug.c:260:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  260 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘call_event’:
+byebug.c:301:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  301 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘return_event’:
+byebug.c:334:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  334 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘end_event’:
+byebug.c:385:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  385 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘raw_call_event’:
+byebug.c:404:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  404 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘raw_return_event’:
+byebug.c:414:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  414 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘raise_event’:
+byebug.c:430:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  430 |   EVENT_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c:439:5: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  439 |     Data_Get_Struct(pm_context, debug_context_t, new_dc);
+      |     ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘Contexts’:
+byebug.c:565:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  565 |   Data_Get_Struct(threads, threads_table_t, t_tbl);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c:571:5: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  571 |     Data_Get_Struct(context, debug_context_t, dc);
+      |     ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘Stoppable’:
+byebug.c:680:5: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  680 |     Data_Get_Struct(context, debug_context_t, dc);
+      |     ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘Debug_load’:
+byebug.c:734:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  734 |   Data_Get_Struct(context, debug_context_t, dc);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from byebug.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+byebug.c: In function ‘Init_byebug’:
+byebug.c:865:1: warning: old-style function definition [-Wold-style-definition]
+  865 | Init_byebug()
+      | ^~~~~~~~~~~
+byebug.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling context.c
+context.c: In function ‘Context_dead’:
+context.c:30:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   30 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘byebug_context_create’:
+context.c:75:3: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   75 |   return Data_Wrap_Struct(cContext, context_mark, 0, context);
+      |   ^~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘context_dup’:
+context.c:88:3: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   88 |   return Data_Wrap_Struct(cContext, context_mark, 0, new_context);
+      |   ^~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_binding’:
+context.c:226:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  226 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_class’:
+context.c:240:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  240 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_file’:
+context.c:256:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  256 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_line’:
+context.c:279:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  279 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_method’:
+context.c:297:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  297 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_frame_self’:
+context.c:313:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  313 |   FRAME_SETUP;
+      |   ^~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_ignored’:
+context.c:330:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  330 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_resume’:
+context.c:345:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  345 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_backtrace’:
+context.c:369:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  369 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_stop_reason’:
+context.c:380:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  380 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_step_into’:
+context.c:417:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  417 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_step_out’:
+context.c:460:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  460 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_step_over’:
+context.c:490:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  490 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_suspend’:
+context.c:520:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  520 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_switch’:
+context.c:547:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  547 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_is_suspended’:
+context.c:569:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  569 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_thnum’:
+context.c:585:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  585 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_thread’:
+context.c:600:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  600 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_tracing’:
+context.c:615:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  615 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: In function ‘Context_set_tracing’:
+context.c:630:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  630 |   Data_Get_Struct(self, debug_context_t, context);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from context.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+context.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling locker.c
+locker.c: In function ‘byebug_pop_from_locked’:
+locker.c:53:1: warning: old-style function definition [-Wold-style-definition]
+   53 | byebug_pop_from_locked()
+      | ^~~~~~~~~~~~~~~~~~~~~~
+locker.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling threads.c
+threads.c: In function ‘create_threads_table’:
+threads.c:56:3: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+   56 |   return Data_Wrap_Struct(cThreadsTable, t_tbl_mark, t_tbl_free, t_tbl);
+      |   ^~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from threads.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+threads.c: In function ‘cleanup_dead_threads’:
+threads.c:105:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  105 |   Data_Get_Struct(threads, threads_table_t, t_tbl);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from threads.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+threads.c: In function ‘thread_context_lookup’:
+threads.c:117:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  117 |   Data_Get_Struct(threads, threads_table_t, t_tbl);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from threads.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+threads.c: In function ‘Lock’:
+threads.c:208:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  208 |   Data_Get_Struct(context, debug_context_t, dc);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from byebug.h:4,
+                 from threads.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+threads.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object byebug/byebug.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/byebug-11.1.3/ext/byebug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-q7bi7o sitelibdir\=./.gem.20251220-192266-q7bi7o install
+/usr/bin/install -c -m 0755 byebug.so ./.gem.20251220-192266-q7bi7o/byebug
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/byebug-11.1.3/ext/byebug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-q7bi7o sitelibdir\=./.gem.20251220-192266-q7bi7o clean

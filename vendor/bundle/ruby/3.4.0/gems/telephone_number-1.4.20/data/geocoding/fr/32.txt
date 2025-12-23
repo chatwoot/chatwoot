@@ -1,0 +1,59 @@
+# Copyright (C) 2013 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Data from http://mijntelefoon.be/telefoonzones/ translated into French by
+# wikipedia. The prefix for Liège was restricted beyond one digit to stop it
+# being applied to all mobile phone numbers as well.
+
+3210|Wavre
+3211|Hasselt
+3212|Tongres
+3213|Diest
+3214|Herentals
+3215|Malines
+3216|Louvain
+3219|Waremme
+322|Bruxelles
+323|Anvers
+3242|Liège
+3243|Liège
+3250|Bruges
+3251|Roulers
+3252|Termonde
+3253|Alost
+3254|Ninove
+3255|Renaix
+3256|Courtrai
+3257|Ypres
+3258|Furnes
+3259|Ostende
+3260|Chimay
+3261|Libramont-Chevigny
+3263|Arlon
+3264|La Louvière
+3265|Mons
+3267|Nivelles
+3268|Ath
+3269|Tournai
+3271|Charleroi
+3280|Stavelot
+3281|Namur
+3282|Dinant
+3283|Ciney
+3284|Marche-en-Famenne
+3285|Huy
+3286|Durbuy
+3287|Verviers
+3289|Genk
+329|Gand

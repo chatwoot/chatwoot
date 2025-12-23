@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+<head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/> 
+  <title>HTTParty by John Nunemaker</title> 
+  <link rel="stylesheet" href="css/common.css" type="text/css" /> 
+</head> 
+<body> 
+ 
+<div id="wrapper"> 
+  <div id="header"> 
+    <h1>HTTParty</h1> 
+    <p>Tonight we're gonna HTTParty like it's 1999!</p> 
+    
+    <ul id="nav">
+      <li><a href="rdoc/">Docs</a></li> 
+      <li><a href="http://github.com/jnunemaker/httparty">Github</a></li>
+      <li><a href="http://rubyforge.org/projects/httparty/">Rubyforge</a></li> 
+    </ul> 
+  </div> 
+  
+  <div id="content"> 
+    <h2>Install</h2> 
+    <pre><code>$ sudo gem install httparty</code></pre> 
+    
+    <h2>Some Quick Examples</h2>
+    
+    <p>The following is a simple example of wrapping Twitter's API for posting updates.</p>
+
+<pre><code>class Twitter
+  include HTTParty
+  base_uri 'twitter.com'
+  basic_auth 'username', 'password'
+end
+
+Twitter.post('/statuses/update.json', query: {status: "It's an HTTParty and everyone is invited!"})</code></pre>
+
+    <p>That is really it! The object returned is a ruby hash that is decoded from Twitter's json response. JSON parsing is used because of the .json extension in the path of the request. You can also explicitly set a format (see the examples). </p>
+
+    <p>That works and all but what if you don't want to embed your username and password in the class? Below is an example to fix that:</p>
+
+<pre><code>class Twitter
+  include HTTParty
+  base_uri 'twitter.com'
+
+  def initialize(u, p)
+    @auth = {username: u, password: p}
+  end
+
+  def post(text)
+    options = { query: {status: text}, basic_auth: @auth }
+    self.class.post('/statuses/update.json', options)
+  end
+end
+
+Twitter.new('username', 'password').post("It's an HTTParty and everyone is invited!")</code></pre>
+    
+    <p><strong>More Examples:</strong> There are <a href="http://github.com/jnunemaker/httparty/tree/master/examples/">several examples in the gem itself</a>.</p>
+    
+    <h2>Support</h2> 
+    <p>Conversations welcome in the <a href="http://groups.google.com/group/httparty-gem">google group</a> and bugs/features over at <a href="http://github.com/jnunemaker/httparty">Github</a>.</p> 
+    
+    
+  </div> 
+ 
+  <div id="footer"> 
+    <p>Created by <a href="http://addictedtonew.com/about/">John Nunemaker</a> | 
+      <a href="http://orderedlist.com/">Hire Me at Ordered List</a></p> 
+  </div> 
+</div> 
+ 
+</body> 
+</html>

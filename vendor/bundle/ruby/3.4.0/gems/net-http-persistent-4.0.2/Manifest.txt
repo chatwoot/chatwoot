@@ -1,0 +1,13 @@
+.autotest
+.gemtest
+Gemfile
+History.txt
+Manifest.txt
+README.rdoc
+Rakefile
+lib/net/http/persistent.rb
+lib/net/http/persistent/connection.rb
+lib/net/http/persistent/pool.rb
+lib/net/http/persistent/timed_stack_multi.rb
+test/test_net_http_persistent.rb
+test/test_net_http_persistent_timed_stack_multi.rb

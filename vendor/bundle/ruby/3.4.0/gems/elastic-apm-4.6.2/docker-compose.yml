@@ -1,0 +1,45 @@
+---
+version: '3.4'
+
+services:
+  mongodb:
+    image: mongo:latest
+    volumes: ['mongodata:/data/db']
+    ports: ['27017:27017']
+    security_opt:
+      - no-new-privileges
+
+  specs:
+    build:
+      context: .
+      args:
+        BUNDLER_VERSION: '2.2.21'
+    image: '$IMAGE_NAME'
+    environment:
+      HOME: '/tmp'
+      MONGODB_URL: 'mongodb:27017'
+    entrypoint:
+      'spec/entrypoint.sh'
+    tty: true
+    volumes:
+      - .:/app:cached
+      - ./vendor:/vendor
+    tmpfs:
+      - /tmp:exec,mode=1777
+    depends_on:
+      - mongodb
+    user: ${USER_ID}
+    security_opt:
+      - no-new-privileges
+
+  ruby_rspec:
+    image: apm-agent-ruby:${RUBY_VERSION}
+    environment:
+      MONGODB_URL: 'mongodb:27017'
+    user: ${USER_ID}
+    security_opt:
+      - no-new-privileges
+
+volumes:
+  vendor:
+  mongodata:

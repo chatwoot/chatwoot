@@ -1,0 +1,442 @@
+=== 4.0.2 / 2023-03-29
+
+Bug fixes:
+
+* Fix compatibility with `connection_pool 2.4+`
+
+=== 4.0.1 / 2021-01-12
+
+Bug fixes:
+
+* Loosen Ruby version requirement so Ruby 3.0 will work.
+
+=== 4.0.0 / 2020-04-30
+
+Breaking changes:
+
+* Removed built-in support for retrying failed requests as Net::HTTP has this
+  built-in for all supported versions.  Pull request #100 by Michael Grosser.
+* Dropped support for EoL ruby versions (< 2.4).  Future feature releases may
+  drop support for ruby versions that are at end-of-life or in security-only
+  maintenance mode with any release.  Pull request #113 by David Rodríguez
+
+New features:
+
+* Added Net::HTTP::Persistent#max_retries= to configure the number of retries
+  performed on a request for ruby versions that support it (2.5+).
+* URI-ness is determined through #respond_to? to allow compatibility with
+  Addressable::URI.  Pull request #67 by Ryan McKern.
+* Use require_relative to reduce patch burden for vendored versions.  Pull
+  Request #106 by David Rodríguez
+
+Bug fixes:
+
+* Stop wasting a connection when the keep-alive timeout is less than the idle
+  timeout.  Pull request #115 by Yap Sok Ann.
+* Improved use of URI#hostname for IPv6 connections.  Pull request #76 by
+  Tomas Koutsky.
+* Improved check for Process::RLIMIT_NOFILE support.  Pull request #109 by Vít
+  Ondruch.
+* Fix namespace in comments for escape/unescape wrappers.  Pull request #114
+  by David Rodríguez.
+* Fix History.txt timestamp for 3.0.0 release.  Pull request #107 by Joe Van
+  Dyk.
+* Fix link to PR #98 in 3.1.0 release notes.  Pull request #110 by Justin
+  Reid.
+
+Other:
+
+* Updated Net::HTTP::Persistent#reconnect documentation to indicate that all
+  connections are reset.  Issue #117 by Taisuke Miyazaki.
+
+=== 3.1.0 / 2019-07-24
+
+New features:
+* Support ruby 2.6 Net::HTTP#write_timeout=.  Pull request #99 by Víctor
+  Roldán Betancort.
+* Support setting TLS min/max version.  Pull request #94 by Bart.
+
+Bug fixes:
+* Reduce potential for memory leak through Hash default proc bindings.  Pull
+  request #64 by Dominic Metzger.
+* Test proxy auto detection from no_proxy in ENV.  Pull request #60 by
+  HINOHARA Hiroshi.
+* Add missing timestamp for 3.0 release.  Pull request #78 by Joe Van Dyk.
+* Support IPv6 URLs in proxy checks.  Pull request #82 by Nicolás Sanguinetti.
+* Use Net::HTTPGenericRequest#method to check idempotence for improved
+  compatibility.  Pull request #83 by Fotos Georgiadis.
+* Run net-http-pipeline tests in travis.  Pull request #86 by T.J. Schuck.
+* Correct +no_proxy+ support to override Net::HTTP proxy fallback.  Pull
+  request #88 by Jared Kauppila.
+* Mitigate memory leak when combined with faraday.  Pull request #105 by Yohei
+  Kitamura.
+* Set default connection pool size for Windows.  Pull request #90 by Jared
+  Kauppila.
+* Fix missing +name:+ argument in documentation.  Pull requests #85 by T.J.
+  Schuck, #84 by James White.
+* Fix memory leak from connection pooling.  Pull request #98 by Aaron
+  Patterson.
+* Update tests for minitest assert_equal deprecation.  Pull request #92 by
+  Olle Jonsson.
+* Fix typo in Net::HTTP::Persistent#pipeline.  Pull request #91 by Kazuma
+  Furuhashi.
+
+Other:
+* Added bundler hoe plugin.  Pull request #103 by Michael Grosser.
+* Updated ruby versions in Travis CI.  Pull request #93 by Olle Jonsson.  Pull
+  request #103 by Michael Grosser.
+
+=== 3.0 / 2016-10-05
+
+Breaking changes:
+
+* No longer supports ruby 2.0 and earlier
+* Net::HTTP::Persistent::new now uses keyword arguments for +name+ and
+  +proxy+.
+* Removed #max_age, use #expired?
+
+New features:
+
+* Uses connection_pool to manage all connections for a Net::HTTP::Persistent
+  instance.
+
+Bug fixes:
+
+* Add missing SSL options ca_path, ciphers, ssl_timeout, verify_depth.
+  Issue #63 by Johnneylee Jack Rollins.
+
+=== 2.9.4 / 2014-02-10
+
+* Bug fixes
+  * Improve proxy escaping from 2.9.2.  Pull request #59 by Mislav Marohnić.
+
+=== 2.9.3 / 2014-02-06
+
+* Bug fixes
+  * Fix breakage in 2.9.2 for users without proxies.  Pull request #56 by
+    Yoshihiro TAKAHARA (merged), #57 by ChuckLin, #58 by Kenny Meyer.
+
+=== 2.9.2 / 2014-02-05
+
+* Bug fixes
+  * Special characters in proxy passwords are now handled correctly.  Issue
+    #48 by Mislav Marohnić.  Pull request #54 by Juha Kajava
+
+=== 2.9.1 / 2014-01-22
+
+* Bug fixes
+  * Added license to gemspec.  Issue #47 by Benjamin Fleischer
+  * Set Net::HTTP#keep_alive_timeout when supported by ruby.  Pull request #53
+    by Dylan Thacker-Smith.
+  * The backtrace is preserved for errors in #reset to help with debugging.
+    Issue #41 by Andrew Cholakian.
+
+=== 2.9 / 2013-07-24
+
+* Minor enhancement
+  * Added Net::HTTP::Persistent#max_requests to avoid ECONNRESET for a server
+    that allows a limited number of requests on a connection.  Pull request
+    #42 by James Tucker.
+  * Request failures are now raised with the backtrace of the original
+    exception.  This gives better insight into the reason for the failure.
+    See #41 by Andrew Cholakian.
+  * OpenSSL is no longer required.  If OpenSSL is not available an exception
+    will be raised when attempting to access HTTPS resources.  Feature request
+    by André Arko
+
+* Bug fixes
+  * Explain the proper way of sending parameters depending upon the request
+    method.  Issue #35 by André Arko.
+  * Handle Errno::ETIMEDOUT by retrying the request.  Issue #36 by André Arko.
+  * Requests retried by ruby 2.x are no longer retried by net-http-persistent.
+  * Finish the connection if an otherwise unhandled exception happens during a
+    request.  Bug #46 by Mark Oude Veldhuis.
+  * Net::HTTP::Persistent::detect_idle_timeout now assumes a StandardError
+    indicates the idle timeout has been found.  Bug #43 by James Tucker.
+
+=== 2.8 / 2012-10-17
+
+* Minor enhancements
+  * Added Net::HTTP::Persistent::detect_idle_timeout which can be used to
+    determine the idle timeout for a host.
+  * The read timeout may now be updated for every request.  Issue #33 by
+    Mislav Marohnić
+  * Added NO_PROXY support.  Pull Request #31 by Laurence Rowe.
+  * Added #cert and #key aliases for Net::HTTP compatibility.  Pull request
+    #26 by dlee.
+  * The artifice gem now disables SSL session reuse to prevent breakage of
+    testing frameworks.  Pull Request #29 by Christopher Cooke.
+  * Disabled Net::HTTP::Persistent::SSLReuse on Ruby 2+.  This feature is now
+    built-in to Net::HTTP.
+* Bug fixes
+  * Socket options are set again following connection reset.  Pull request #28
+    by cmaion.
+  * #shutdown now works even if no connections were made.  Pull Request #24 by
+    James Tucker.
+  * Updated test RSA key size to 1024 bits.  Bug #25 by Gunnar Wolf.
+  * The correct host:port are shown in the exception when a proxy connection
+    fails.  Bug #30 by glebtv.
+
+=== 2.7 / 2012-06-06
+
+* Minor enhancement
+  * Added JRuby compatibility by default for HTTPS connections.  (JRuby lacks
+    OpenSSL::SSL::Session.)
+
+=== 2.6 / 2012-03-26
+
+* Minor enhancement
+  * Net::HTTP::Persistent#idle_timeout may be set to nil to disable expiration
+    of connections.  Pull Request #21 by Aaron Stone
+
+=== 2.5.2 / 2012-02-13
+
+* Bug fix
+  * Fix variable shadowing warning.
+
+=== 2.5.1 / 2012-02-10
+
+* Bug fix
+  * Reusing SSL connections with HTTP proxies now works.  Issue #15 by Paul
+    Ingham and mcrmfc
+
+=== 2.5 / 2012-02-07
+
+* Minor enhancements
+  * The proxy may be changed at any time.
+  * The allowed SSL version may now be set via #ssl_version.
+    Issue #16 by astera
+  * Added Net::HTTP::Persistent#override_headers which allows overriding
+  * Net::HTTP default headers like User-Agent.  See
+    Net::HTTP::Persistent@Headers for details.  Issue #17 by andkerosine
+
+* Bug fixes
+  * The ruby 1.8 speed monkeypatch now handles EAGAIN for windows users.
+    Issue #12 by Alwyn Schoeman
+  * Fixed POST example in README.  Submitted by injekt.
+  * Fixed various bugs in the shutdown of connections especially cross-thread
+    (which you shouldn't be doing anyways).
+
+=== 2.4.1 / 2012-02-03
+
+* Bug fixes
+  * When FakeWeb or WebMock are loaded SSL sessions will not be reused to
+    prevent breakage of testing frameworks.  Issue #13 by Matt Brictson, pull
+    request #14 by Zachary Scott
+  * SSL connections are reset when the SSL parameters change.
+    Mechanize issue #194 by dsisnero
+  * Last-use times are now cleaned up in #shutdown.
+
+=== 2.4 / 2012-01-31
+
+* Minor enhancement
+  * net-http-persistent now complains if OpenSSL::SSL::VERIFY_PEER is equal to
+    OpenSSL::SSL::VERIFY_NONE.  If you have a platform that is broken this way
+    you must define the constant:
+
+      I_KNOW_THAT_OPENSSL_VERIFY_PEER_EQUALS_VERIFY_NONE_IS_WRONG = nil
+
+    at the top level of your application to disable the warning.
+
+* Bug fix
+  * Fix persisting SSL sessions through HTTP proxies.  Mechanize issue #178 by
+    Robert Poor, net-http-persistent issues #10, #11.
+
+=== 2.3.2 / 2011-12-21
+
+* Bug fix
+  * Finish connections that were closed by Net::HTTP so they can be restarted.
+
+=== 2.3.1 / 2011-10-26
+
+* Bug fix
+  * If a request object already contains a Connection header it will no longer
+    be overridden.  This allows keep-alive connections to be disabled on a
+    per-request basis.
+
+=== 2.3 / 2011-10-25
+
+* Minor Enhancement
+  * The time since last use for a connection is now recorded in error
+    messages for the connection.
+
+=== 2.2 / 2011-10-24
+
+* Minor Enhancements
+  * Added timeouts for idle connections which are set through #idle_timeout.
+    The default timeout is 5 seconds.  Reducing the idle timeout is preferred
+    over setting #retry_change_requests to true if you wish to avoid the "too
+    many connection resets" error when POSTing data.
+  * Documented tunables and settings in one place in Net::HTTP::Persistent
+
+=== 2.1 / 2011-09-19
+
+* Minor Enhancement
+  * For HTTPS connections, SSL sessions are now reused avoiding the extra
+    round trips and computations of extra SSL handshakes.  If you have
+    problems with SSL session reuse it can be disabled by
+    Net::HTTP::Persistent#reuse_ssl_sessions
+
+* Bug Fixes
+  * The default certificate store is now used even if #verify_mode was not
+    set.  Issue #7, Pull Request #8 by Matthew M. Boedicker
+
+=== 2.0 / 2011-08-26
+
+* Incompatibility
+  * Net::HTTP::Persistent#verify_mode now defaults to
+    OpenSSL::SSL::VERIFY_PEER.  This may cause HTTPS request failures if your
+    default certificate store lacks the correct certificates.
+
+=== 1.9 / 2011-08-26
+
+* Minor Enhancement
+  * Added Net::HTTP::Persistent#cert_store to set an SSL certificate store
+    which defaults to the OpenSSL default certificate store.
+
+    HTTPS server certificates will be validated when this option is combined
+    with setting Net::HTTP::Persistent#verify_mode to
+    OpenSSL::SSL::VERIFY_PEER.
+
+=== 1.8.1 / 2011-08-08
+
+* Bug Fix
+  * Requests with OpenSSL errors are retried now.  Pull Request #5 by James
+    Tucker.
+
+=== 1.8 / 2011-06-27
+
+* Minor Enhancement
+  * Added Net::HTTP::Persistent#retry_change_requests which allows POST and
+    other non-idempotent requests to be retried automatically.  Take care when
+    enabling this option to ensure the server will handle multiple POSTs with
+    the same data in a sane manner.
+
+=== 1.7 / 2011-04-17
+
+* Minor Enhancement
+  * Added Net::HTTP::Persistent#pipeline which integrates with
+    net-http-pipeline when it is present.
+* Bug Fix
+  * Perform a case-insensitive check of the URI scheme for HTTPS URIs
+
+=== 1.6.1 / 2011-03-08
+
+* Bug Fix
+  * Net::HTTP::Persistent#request now handles Errno::EINVAL as a connection
+    reset and will be retried for idempotent requests.  Reported by Aaron
+    Qian.
+
+=== 1.6 / 2011-03-01
+
+* Minor Enhancement
+  * Added Net::HTTP::Persistent#socket_options to set multiple socket options
+    at socket startup.
+
+=== 1.5.2 / 2011-02-24
+
+* Bug Fix
+  * Only set TCP_NODELAY if the connection has an @socket.  Allows
+    net-http-persistent to be used with fake_web.  Reported by Sathish
+    Pasupunuri.
+
+=== 1.5.1 / 2011-02-10
+
+* Bug fix
+  * Only set TCP_NODELAY at connection start.  Reported by Brian Henderson.
+
+=== 1.5 / 2011-01-25
+
+* Minor Enhancements
+  * Set TCP_NODELAY on created socket if possible.  (This will only help for
+    requests that send bodies.)
+
+=== 1.4.1 / 2010-10-13
+
+* Bug Fixes
+  * Don't finish the connection when we're retrying, reset it.  Patch by James
+    Tucker.
+
+=== 1.4 / 2010-09-29
+
+* Minor Enhancements
+  * Added the very dangerous #shutdown_in_all_threads.  IT IS DANGEROUS!.
+    Patch by Torsten Schönebaum.
+
+=== 1.3.1 / 2010-09-13
+
+* Bug Fixes
+  * #connection_for no longer tries to ssl-enable an existing connection.
+    Patch by Joseph West.
+
+=== 1.3 / 2010-09-08
+
+* Minor Enhancements
+  * HTTP versions are now recorded.  This information is not currently used.
+
+* Bug Fixes
+  * #shutdown no longer fails when an unstarted HTTP connection is shut down.
+
+=== 1.2.5 / 2010-07-27
+
+* Bug Fixes
+  * Fix duplicated test name.  Noted by Peter Higgins.
+  * #shutdown now works even when no connections were made.
+
+=== 1.2.4 / 2010-07-26
+
+* Bug Fixes
+  * Actually have #request only finish a connection.  Somehow this got
+    missed.
+
+=== 1.2.3 / 2010-06-29
+
+* Bug Fixes
+  * Fix example code (pointed out by Alex Stahl)
+
+=== 1.2.2 / 2010-06-22
+
+* Bug Fixes
+  * #request only finishes a connection instead of restarting it.  This helps
+    prevents errors on non-idempotent HTTP requests after errors.
+  * #connection_for handles EHOSTDOWN like #reset
+
+=== 1.2.1 / 2010-05-25
+
+* Bug Fixes
+  * Don't alter Net::BufferedIO#rbuf_fill on 1.9+
+
+=== 1.2 / 2010-05-20
+
+* Minor Enhancements
+  * Net::HTTP#read_timeout is now supported
+  * Net::HTTP#open_timeout is now supported
+  * Net::HTTP::Persistent#request now supports a block like Net::HTTP#request
+
+=== 1.1 / 2010-05-18
+
+* Minor Enhancements
+  * Proxy support, see Net::HTTP::Persistent::new,
+    Net::HTTP::Persistent#proxy_from_env
+  * Added +name+ parameter to Net::HTTP::Persistent::new for separation of
+    connection pools.
+  * Added Net::HTTP::Persistent#shutdown so you can clean up after yourself
+  * Net::HTTP::Persistent now suppresses "peer certificate won't be verified
+    in this SSL session" warning.
+
+* Bug Fixes
+  * Net::HTTP::Persistent retries requests in accordance with RFC 2616.
+
+=== 1.0.1 / 2010-05-05
+
+* Minor Enhancements
+  * Added #debug_output
+  * Now uses Hoe minitest plugin
+* Bug Fixes
+  * Tests pass on 1.9
+
+=== 1.0.0 / 2010-05-04
+
+* Major Enhancements
+  * Birthday!
+

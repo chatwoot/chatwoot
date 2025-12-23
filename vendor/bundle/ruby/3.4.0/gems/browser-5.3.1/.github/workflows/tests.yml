@@ -1,0 +1,57 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+  schedule:
+    - cron: "0 10 * * *"
+
+jobs:
+  build:
+    name: Tests with Ruby ${{ matrix.ruby }} and ${{ matrix.gemfile }}
+    runs-on: "ubuntu-latest"
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["3.0.x", "2.7.x", "2.6.x", "2.5.x"]
+        gemfile:
+          - Gemfile
+          - gemfiles/rails6_1.gemfile
+          - gemfiles/rails6_0.gemfile
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: >
+            ${{ runner.os }}-${{ matrix.ruby }}-gems-${{ hashFiles(matrix.gemfile) }}
+          restore-keys: >
+            ${{ runner.os }}-${{ matrix.ruby }}-gems-${{ hashFiles(matrix.gemfile) }}
+
+      - name: Set up Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Install gem dependencies
+        env:
+          RAILS_ENV: test
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle update --jobs 4 --retry 3
+
+      - name: Run Tests
+        env:
+          RAILS_ENV: test
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        run: |
+          bundle exec rake

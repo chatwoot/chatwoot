@@ -1,0 +1,68 @@
+# elements like %{queue} are variables and should not be translated
+sv:
+  Actions: Åtgärder
+  AddToQueue: Lägg till i kö
+  AreYouSure: Är du säker?
+  AreYouSureDeleteJob: Är du säker på att du vill ta bort detta jobb?
+  AreYouSureDeleteQueue: Är du säker på att du vill ta bort kön %{queue}?
+  Arguments: Argument
+  Busy: Upptagen
+  Class: Klass
+  Connections: Anslutningar
+  CurrentMessagesInQueue: Jobb i <span class='title'>%{queue}</span>
+  Dashboard: Panel
+  Dead: Död
+  DeadJobs: Döda jobb
+  Delete: Ta bort
+  DeleteAll: Ta bort alla
+  Enqueued: Köad
+  Error: Fel
+  ErrorBacktrace: Backtrace för fel
+  ErrorClass: Felklass
+  ErrorMessage: Felmeddelande
+  Extras: Extra
+  Failed: Misslyckad
+  Failures: Failures
+  GoBack: ← Bakåt
+  History: Historik
+  Job: Jobb
+  Jobs: Jobb
+  LastRetry: Senaste försök
+  LivePoll: Live poll
+  MemoryUsage: Minnesanvändning
+  Namespace: Namnrymd
+  NextRetry: Nästa försök
+  NoDeadJobsFound: Inga döda jobb hittades
+  NoRetriesFound: Inga försök hittades
+  NoScheduledFound: Inga schemalagda jobb hittades
+  OneMonth: 1 månad
+  OneWeek: 1 vecka
+  OriginallyFailed: Misslyckades ursprungligen
+  PeakMemoryUsage: Minnesanvändning (peak)
+  Processed: Processerad
+  Processes: Processer
+  Queue: Kö
+  Queues: Köer
+  Realtime: Realtid
+  Retries: Försök
+  RetryAll: Försök alla igen
+  RetryCount: Antal försök
+  RetryNow: Försök nu
+  Scheduled: Schemalagd
+  ScheduledJobs: Schemalagda jobb
+  ShowAll: Visa alla
+  SixMonths: 6 månader
+  Size: Storlek
+  Started: Startad
+  Status: Status
+  StopPolling: Stoppa polling
+  Thread: Tråd
+  Threads: Trådar
+  ThreeMonths: 3 månader
+  Time: Tid
+  Uptime: Upptid (dagar)
+  Version: Version
+  When: När
+  Worker: Worker
+  active: aktiv
+  idle: avvaktande

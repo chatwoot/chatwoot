@@ -1,0 +1,22 @@
+module Prism
+  class InspectVisitor < Visitor
+    class Replace
+      attr_reader value: String
+
+      def initialize: (String value) -> void
+    end
+
+    attr_reader indent: String
+    attr_reader commands: Array[[String | node | Replace, String]]
+
+    def initialize: (?String indent) -> void
+    def compose: () -> String
+
+    def self.compose: (node node) -> String
+
+    private
+
+    def inspect_node: (String name, node node) -> String
+    def inspect_location: (Location? location) -> String
+  end
+end

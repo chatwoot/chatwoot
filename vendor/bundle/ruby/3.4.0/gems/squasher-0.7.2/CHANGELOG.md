@@ -1,0 +1,31 @@
+- 0.7.0
+  - Support the presence of multiverse ([@mlohbihler](https://github.com/mlohbihler))
+- 0.6.1
+  - Escape regexp in sql mode ([@mpospelov](https://github.com/mpospelov))
+- 0.6.0
+  - Support apps with sql schema ([@mpospelov](https://github.com/mpospelov))
+- 0.5.1
+  - Fix work on Windows machines ([@tobmatth](https://github.com/tobmatth))
+- 0.5.0
+  - Rework command line integration. Fix clean process with Rails 5
+- 0.4.0
+  - Support rails versioned migrations which were introduced in Rails 5
+- 0.3.1
+  - fix init migration generation
+- 0.3.0
+  - **rails engines support** ([@JakeTheSnake3p0](https://github.com/JakeTheSnake3p0))
+  - move messages from JSON file to YAML
+  - allow to use a db config with a "soft" parsing errors
+- 0.2.2
+  - strip white spaces in init migrations
+- 0.2.1
+  - support rails 5
+- 0.2.0
+  - add **dry** mode and ability to reuse the previous squasher database
+  - improve database config processing
+  - raise the minimum supported version of Ruby
+- 0.1.7
+  - a regression fix of the log output ([@lime](https://github.com/lime))
+  - improve a multi-platform support ([@johncarney](https://github.com/johncarney))
+- 0.1.6
+  - support multiple database settings ([@ppworks](https://github.com/ppworks))

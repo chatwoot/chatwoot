@@ -1,0 +1,22 @@
+development:
+  database: app_development
+  encoding: <%= "8-ftu".reverse %>
+  user: root
+  password: password
+test:
+  database: app_test
+  user: root
+  password: password
+another_development:
+  database: another_development
+  encoding: <%= "8-ftu".reverse %>
+  user: root
+  password: password
+another_test:
+  database: another_test
+  user: root
+  password: password
+multiverse-database:
+  database: multiverse-database
+  user: multiverse-user
+  password: multiverse-password

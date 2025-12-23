@@ -1,0 +1,20 @@
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.0
+  - 2.1
+  - 2.2
+  - 2.3
+  - 2.4.0
+  - 2.5.1
+  - 2.6.0-preview2
+  - jruby-19mode
+
+script: bundle exec rake
+
+before_install:
+  - gem update bundler
+
+cache:
+  directories:
+    - spec/cache

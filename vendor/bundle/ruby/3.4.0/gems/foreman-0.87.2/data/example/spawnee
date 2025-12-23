@@ -1,0 +1,14 @@
+#!/bin/sh
+
+NAME="$1"
+
+sigterm() {
+  echo "$NAME: got sigterm"
+}
+
+#trap sigterm SIGTERM
+
+while true; do
+  echo "$NAME: ping $$"
+  sleep 1
+done

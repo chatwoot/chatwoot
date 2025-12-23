@@ -1,0 +1,15 @@
+From: Arpit Jalan <arpit.jalan@discourse.org<mailto:arpit.jalan@discourse.org>>
+Sent: Thursday, February 4, 2016 10:05 AM
+Subject: Meta Discourse update
+To: Some One <foo@bar.com<mailto:foo@bar.com>>, Discourse Team <team@discourse.org<mailto:team@discourse.org>>
+
+
+
+Hi Some One,
+
+Time to update meta to the latest Discourse version!
+
+Do you want me to take care of it?
+
+Regards,
+Arpit

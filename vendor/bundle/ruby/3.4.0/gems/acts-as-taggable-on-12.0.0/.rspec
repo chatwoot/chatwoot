@@ -1,0 +1,2 @@
+--colour
+--backtrace

@@ -1,0 +1,18 @@
+module FFI
+  class Buffer < AbstractMemory
+    def initialize: (AbstractMemory::type_size, ?Integer count, boolish clear) -> self
+    alias self.alloc_inout self.new
+    alias self.new_inout self.alloc_inout
+    alias self.alloc_in self.alloc_inout
+    alias self.new_in self.alloc_in
+    alias self.alloc_out self.alloc_inout
+    alias self.new_out self.alloc_out
+
+    def +: (Integer) -> Buffer
+    def inspect: ...
+    def order: () -> AbstractMemory::order_out
+             | (AbstractMemory::order_in order) -> Buffer
+             | (untyped order) -> (self | Buffer)
+    def slice: (Integer offset, Integer length) -> Buffer
+  end
+end

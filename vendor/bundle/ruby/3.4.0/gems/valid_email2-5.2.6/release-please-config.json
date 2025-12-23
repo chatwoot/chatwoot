@@ -1,0 +1,11 @@
+{
+  "release-type": "ruby",
+  "include-component-in-tag": false,
+  "last-release-sha": "b327e76f71e764f6d76351425e11d1563e04f188",
+  "packages": {
+    ".": {
+      "release-type": "ruby",
+      "package-name": "valid_email2"
+    }
+  }
+}

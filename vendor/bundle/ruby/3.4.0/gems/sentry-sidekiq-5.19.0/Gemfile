@@ -1,0 +1,29 @@
+source "https://rubygems.org"
+git_source(:github) { |name| "https://github.com/#{name}.git" }
+
+# Specify your gem's dependencies in sentry-ruby.gemspec
+gemspec
+gem "sentry-ruby", path: "../sentry-ruby"
+gem "sentry-rails", path: "../sentry-rails"
+
+# https://github.com/flavorjones/loofah/pull/267
+# loofah changed the required ruby version in a patch so we need to explicitly pin it
+gem "loofah", "2.20.0" if RUBY_VERSION.to_f < 2.5
+
+# For https://github.com/ruby/psych/issues/655
+gem "psych", "5.1.0"
+
+sidekiq_version = ENV["SIDEKIQ_VERSION"]
+sidekiq_version = "7.0" if sidekiq_version.nil?
+sidekiq_version = Gem::Version.new(sidekiq_version)
+
+gem "sidekiq", "~> #{sidekiq_version}"
+
+if RUBY_VERSION.to_f >= 2.7 && sidekiq_version >= Gem::Version.new("6.0")
+  gem "sidekiq-cron"
+  gem "sidekiq-scheduler"
+end
+
+gem "rails", "> 5.0.0"
+
+eval_gemfile File.expand_path("../Gemfile", __dir__)

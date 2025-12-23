@@ -79,6 +79,9 @@ export default {
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
+    this.applyBrandTheme();
+    // Load branding configuration
+    this.loadBranding();
     // If user locale is set, use it; otherwise use account locale
     this.setLocale(
       this.uiSettings?.locale || window.chatwootConfig.selectedLocale
@@ -97,8 +100,22 @@ export default {
       const mql = window.matchMedia('(prefers-color-scheme: dark)');
       mql.onchange = e => setColorTheme(e.matches);
     },
+    applyBrandTheme() {
+      // Apply theme class to body
+      const themeName = window.globalConfig?.THEME_NAME || 'synkicrm';
+      document.body.classList.add(`theme-${themeName}`);
+      // Also apply to html for better coverage
+      document.documentElement.classList.add(`theme-${themeName}`);
+    },
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
+    },
+    async loadBranding() {
+      try {
+        await this.$store.dispatch('branding/fetch');
+      } catch (error) {
+        console.error('Failed to load branding:', error);
+      }
     },
     async initializeAccount() {
       await this.$store.dispatch('accounts/get');

@@ -1,0 +1,3 @@
+#!/usr/bin/env ruby
+
+load File.expand_path('../bundle-audit', __FILE__)

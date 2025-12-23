@@ -1,0 +1,15 @@
+en:
+  errors:
+    unavailable_session: |
+      Session %{id} is no longer available in memory.
+
+      If you happen to run on a multi-process server (like Unicorn or Puma) the process
+      this request hit doesn't store %{id} in memory. Consider turning the number of
+      processes/workers to one (1) or using a different server in development.
+
+    unacceptable_request: |
+      A supported version is expected in the Accept header.
+
+    connection_refused: |
+      Oops! Failed to connect to the Web Console middleware.
+      Please make sure a rails development server is running.

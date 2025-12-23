@@ -1,0 +1,83 @@
+# elements like %{queue} are variables and should not be translated
+ru:
+  Actions: Действия
+  AddToQueue: Добавить в очередь
+  AreYouSure: Вы уверены?
+  AreYouSureDeleteJob: Вы уверены, что хотите удалить эту задачу?
+  AreYouSureDeleteQueue: Вы уверены, что хотите удалить очередь %{queue}?
+  Arguments: Аргументы
+  BackToApp: Назад
+  Busy: Занят
+  Class: Класс
+  Connections: Соединения
+  CreatedAt: Создан
+  CurrentMessagesInQueue: Текущие задачи в очереди <span class='title'>%{queue}</span>
+  Dashboard: Панель управления
+  Dead: Убито
+  DeadJobs: Убитые задачи
+  Delete: Удалить
+  DeleteAll: Удалить все
+  Enqueued: В очереди
+  Error: Ошибка
+  ErrorBacktrace: Трассировка ошибки
+  ErrorClass: Класс ошибки
+  ErrorMessage: Сообщение об ошибке
+  Extras: Дополнительно
+  Failed: Провалено
+  Failures: Провалы
+  GoBack: ← Назад
+  History: История
+  Job: Задача
+  Jobs: Задачи
+  Kill: Убиваем
+  KillAll: Убить всё
+  LastRetry: Последняя попытка
+  Latency: Задержка
+  LivePoll: Постоянный опрос
+  MemoryUsage: Использование памяти
+  Namespace: Пространство имен
+  NextRetry: Следующая попытка
+  NoDeadJobsFound: Нет убитых задач
+  NoRetriesFound: Нет попыток
+  NoScheduledFound: Нет запланированных задач
+  NotYetEnqueued: Пока не в очереди
+  OneMonth: 1 месяц
+  OneWeek: 1 неделя
+  OriginallyFailed: Первый провал
+  Pause: Пауза
+  Paused: Приостановлено
+  PeakMemoryUsage: Максимальный расход памяти
+  Plugins: Плагины
+  PollingInterval: Интервал опроса
+  Processed: Обработано
+  Processes: Процессы
+  Queue: Очередь
+  Queues: Очереди
+  Quiet: Отдыхать
+  QuietAll: Отдыхать всем
+  Realtime: Сейчас
+  Retries: Попытки
+  RetryAll: Повторить все
+  RetryCount: Кол-во попыток
+  RetryNow: Повторить сейчас
+  Scheduled: Запланировано
+  ScheduledJobs: Запланированные задачи
+  ShowAll: Показать все
+  SixMonths: 6 месяцев
+  Size: Размер
+  Started: Запущено
+  Status: Статус
+  Stop: Остановить
+  StopAll: Остановить все
+  StopPolling: Остановить опрос
+  Thread: Поток
+  Threads: Потоки
+  ThreeMonths: 3 месяца
+  Time: Время
+  Unpause: Возобновить
+  Uptime: Дня(ей) бесперебойной работы
+  Version: Версия
+  When: Когда
+  Worker: Обработчик
+  active: активен
+  idle: отдыхает

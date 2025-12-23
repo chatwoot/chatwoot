@@ -1,0 +1,24 @@
+name: automerge-dependencies
+on:
+  pull_request_review:
+    types:
+      - submitted
+  check_suite:
+    types:
+      - completed
+  label:
+    types:
+      - created
+  status: {}
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: automerge-dependencies
+        uses: pascalgn/automerge-action@v0.15.6
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          MERGE_METHOD: squash
+          MERGE_DELETE_BRANCH: true
+          MERGE_LABELS: dependencies
+          MERGE_REMOVE_LABELS: ""

@@ -1,0 +1,48 @@
+sq:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Një email konfirmues është dërguar tek llogaria juaj '%{email}'. Ju duhet të ndiqni udhëzimet në email përpara se të bëhet aktivizimi i llogarisë tuaj."
+      bad_credentials: "Kredencialet e qasjes nuk janë në rregull. Ju lutemi, provoni përsëri."
+      not_supported: "Përdorni POST/sign_in për t'u kyçur. GET nuk lejohet në këtë rast."
+      user_not_found: "Përdoruesi nuk u gjet ose nuk është i kyçur."
+    token_validations:
+      invalid: "Kredencialet për kyçje nuk janë në rregull."
+    registrations:
+      missing_confirm_success_url: "Mungon parametri 'confirm_success_url'."
+      redirect_url_not_allowed: "Nuk lejohet shkuarja tek adresa '%{redirect_url}'."
+      email_already_exists: "Një llogari është regjistruar më parë me adresën '%{email}'"
+      account_with_uid_destroyed: "Llogaria me UID-në '%{uid}' është fshirë."
+      account_to_destroy_not_found: "Nuk u gjet llogaria për fshirje."
+      user_not_found: "Përdoruesi nuk u gjet."
+    omniauth:
+      not_allowed_redirect_url: "Nuk lejohet shkuarja tek URL-ja '%{redirect_url}'."
+    passwords:
+      missing_email: "Ju duhet të jepni një email adresë."
+      missing_redirect_url: "Mungon URL-ja për ridërgim."
+      not_allowed_redirect_url: "Nuk lejohet shkuarja tek URL-ja '%{redirect_url}'."
+      sended: "Një email është dërguar tek email adresa '%{email}' që përmban udhëzime për rikthim të fjalëkalimit tuaj."
+      user_not_found: "Nuk u gjet përdoruesi me email adresën '%{email}'."
+      password_not_required: "Kjo llogari nuk kërkon fjalëkalim. Në vend të fjalëkalimit, përdorni llogarinë '%{provider}'."
+      missing_passwords: "Ju duhet t'i mbushni fushat e etiketuara si 'Fjalëkalimi' dhe 'Konfirmo fjalëkalimin'."
+      successfully_updated: "Fjalëkalimi juaj është ndryshuar me sukses."
+  errors:
+    messages:
+      validate_sign_up_params: "Ju lutemi, dërgoni të dhëna të duhura në trupin e kërkesës."
+      validate_account_update_params: "Ju lutemi, dërgoni të dhëna të duhura për ndryshim në trupin e kërkesës."
+      not_email: "nuk është email"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Ju mund ta konfirmoni email adresën e llogarisë tuaj përmes lidhjes më poshtë:"
+        confirm_account_link: "Konfirmo llogarinë time"
+      reset_password_instructions:
+        request_reset_link_msg: "Dikush ka kërkuar një lidhje për të ndryshuar fjalëkalimin tuaj. Ju mund ta bëni këtë përmes lidhjes më poshtë."
+        password_change_link: "Ndrysho fjalëkalimin tim"
+        ignore_mail_msg: "Nëse nuk e keni kërkuar këtë, ju lutemi injorojeni këtë email."
+        no_changes_msg: "Fjalëkalimi juaj nuk do të ndryshohet derisa t'i qaseni lidhjes më sipër dhe ta krijoni një fjalëkalim të ri."
+      unlock_instructions:
+        account_lock_msg: "Llogaria juaj është bllokuar për shkak të numrit të tepërt të përpjekjeve të pa suksesshme për t'u kyçur."
+        unlock_link_msg: "Klikoni lidhjen më poshtë për të zhbllokuar llogarinë tuaj:"
+        unlock_link: "Zhblloko llogarinë time"
+  hello: "tungjatjeta"
+  welcome: "mirësevini"

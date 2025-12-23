@@ -1,0 +1,32 @@
+El jueves, 21 de noviembre de 2013, codinghorror escribió:
+
+>    codinghorror <http://meta.discourse.org/users/codinghorror>
+> November 21
+>
+> How are you creating this user? Describe it step by step.
+>
+> To respond, reply to this email or visit
+> http://meta.discourse.org/t/error-creating-new-users-pg-numericvalueoutofrange/11046/2in your browser.
+>  ------------------------------
+> Previous Replies    PabloC <http://meta.discourse.org/users/pabloc>
+> November 21
+>
+> Hi guys,
+>
+> While I create a new user, I'm finding this error in the logs :
+>
+> Processing by UsersController#create as */*
+>   Parameters: {"name"=>"Ps4 Support Forum", "email"=>"pablocorral+ps4@gmail.com <javascript:_e({}, 'cvml', 'pablocorral%2Bps4@gmail.com');>", "username"=>"PS4SupportForum", "password_confirmation"=>"[FILTERED]", "challenge"=>"11a4ebe83d9b2a9e0d45bc50b457ee17"}
+> PG::NumericValueOutOfRange: ERROR:  value "2201945804" is out of range for type integer
+>
+> Any idea?
+>
+> Tks!
+>   ------------------------------
+>
+> To respond, reply to this email or visit
+> http://meta.discourse.org/t/error-creating-new-users-pg-numericvalueoutofrange/11046/2in your browser.
+>
+> To unsubscribe from these emails, visit your user preferences<http://meta.discourse.org/user_preferences>
+> .
+>

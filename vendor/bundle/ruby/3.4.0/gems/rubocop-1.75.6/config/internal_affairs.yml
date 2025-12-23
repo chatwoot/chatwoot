@@ -1,0 +1,31 @@
+# Configuration for InternalAffairs cops. This file will be
+# automatically loaded when `rubocop/cop/internal_affairs` is required.
+# Only do this when developing custom cops or a RuboCop extension.
+
+InternalAffairs/CopDescription:
+  Include:
+    - 'lib/rubocop/cop/**/*.rb'
+
+InternalAffairs/ExampleHeredocDelimiter:
+  Include:
+    - 'spec/rubocop/cop/**/*.rb'
+
+InternalAffairs/ExampleDescription:
+  Include:
+    - 'spec/rubocop/cop/**/*.rb'
+
+InternalAffairs/NodeTypeGroup:
+  Include:
+    - 'lib/rubocop/cop/**/*.rb'
+
+InternalAffairs/OnSendWithoutOnCSend:
+  Include:
+    - 'lib/rubocop/cop/**/*.rb'
+
+InternalAffairs/UndefinedConfig:
+  Include:
+    - 'lib/rubocop/cop/**/*.rb'
+
+InternalAffairs/UselessMessageAssertion:
+  Include:
+    - '**/*_spec.rb'

@@ -1,0 +1,30 @@
+---
+sl:
+  administrate:
+    actions:
+      confirm: Ali ste preričani?
+      destroy: Izbriši
+      edit: Uredi
+      edit_resource: Uredi %{name}
+      show_resource: Prikaži %{name}
+      new_resource: Dodaj %{name}
+      back: Nazaj
+    controller:
+      create:
+        success: "%{resource} je dodan."
+      destroy:
+        success: "%{resource} je izbrisan."
+      update:
+        success: "%{resource} je posodobljen."
+    fields:
+      has_many:
+        more: Prikazanih %{count} od %{total_count}
+        none: Nobene
+    form:
+      error: napaka
+      errors: "%{resource_name} ni mogoče shraniti zaradi:"
+    navigation:
+      back_to_app: Nazaj v aplikacijo
+    search:
+      clear: Počisti iskanje
+      label: Išči %{resource}

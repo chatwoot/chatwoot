@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+
+require "sidekiq/monitor"
+
+# disable the Redis connection pool logging
+Sidekiq.default_configuration.logger.level = :warn
+
+section = "all"
+section = ARGV[0] if ARGV.size == 1
+
+Sidekiq::Monitor::Status.new.display(section)

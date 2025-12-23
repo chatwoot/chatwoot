@@ -1,0 +1,7 @@
+Description:
+    Adds a rake task into your Rails app's lib/tasks directory, that
+    automatically annotates models when you do a db:migrate in
+    development mode.
+
+Example:
+    `rails generate annotate_rb:hook`

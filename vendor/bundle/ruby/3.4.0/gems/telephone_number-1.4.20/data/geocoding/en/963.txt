@@ -1,0 +1,35 @@
+# Copyright (C) 2020 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from: https://www.itu.int/oth/T02020000C9/en
+
+96311|Damascus and rural areas
+96312|Al-Nebek
+96313|Al-Zabadani
+96314|Al-Quneitra
+96315|Dara
+96316|Al-Swedaa
+96321|Aleppo
+96322|Al-Rakkah
+96323|Edleb
+96325|Menbej
+96331|Homs
+96333|Hamah
+96334|Palmyra
+96341|Lattakia
+96343|Tartous
+96344|Hamah
+96351|Deir Ezzour
+96352|Alhasakah
+96353|Al-Kameshli

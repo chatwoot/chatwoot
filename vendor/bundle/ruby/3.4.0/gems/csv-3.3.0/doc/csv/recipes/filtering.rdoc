@@ -1,0 +1,158 @@
+== Recipes for Filtering \CSV
+
+These recipes are specific code examples for specific \CSV filtering tasks.
+
+For other recipes, see {Recipes for CSV}[./recipes_rdoc.html].
+
+All code snippets on this page assume that the following has been executed:
+  require 'csv'
+
+=== Contents
+
+- {Source and Output Formats}[#label-Source+and+Output+Formats]
+  - {Filtering String to String}[#label-Filtering+String+to+String]
+    - {Recipe: Filter String to String with Headers}[#label-Recipe-3A+Filter+String+to+String+with+Headers]
+    - {Recipe: Filter String to String Without Headers}[#label-Recipe-3A+Filter+String+to+String+Without+Headers]
+  - {Filtering String to IO Stream}[#label-Filtering+String+to+IO+Stream]
+    - {Recipe: Filter String to IO Stream with Headers}[#label-Recipe-3A+Filter+String+to+IO+Stream+with+Headers]
+    - {Recipe: Filter String to IO Stream Without Headers}[#label-Recipe-3A+Filter+String+to+IO+Stream+Without+Headers]
+  - {Filtering IO Stream to String}[#label-Filtering+IO+Stream+to+String]
+    - {Recipe: Filter IO Stream to String with Headers}[#label-Recipe-3A+Filter+IO+Stream+to+String+with+Headers]
+    - {Recipe: Filter IO Stream to String Without Headers}[#label-Recipe-3A+Filter+IO+Stream+to+String+Without+Headers]
+  - {Filtering IO Stream to IO Stream}[#label-Filtering+IO+Stream+to+IO+Stream]
+    - {Recipe: Filter IO Stream to IO Stream with Headers}[#label-Recipe-3A+Filter+IO+Stream+to+IO+Stream+with+Headers]
+    - {Recipe: Filter IO Stream to IO Stream Without Headers}[#label-Recipe-3A+Filter+IO+Stream+to+IO+Stream+Without+Headers]
+
+=== Source and Output Formats
+
+You can use a Unix-style "filter" for \CSV data.
+The filter reads source \CSV data and writes output \CSV data as modified by the filter.
+The input and output \CSV data may be any mixture of \Strings and \IO streams.
+
+==== Filtering \String to \String
+
+You can filter one \String to another, with or without headers.
+
+===== Recipe: Filter \String to \String with Headers
+
+Use class method CSV.filter with option +headers+ to filter a \String to another \String:
+  in_string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
+  out_string = ''
+  CSV.filter(in_string, out_string, headers: true) do |row|
+    row[0] = row[0].upcase
+    row[1] *= 4
+  end
+  out_string # => "Name,Value\nFOO,0000\nBAR,1111\nBAZ,2222\n"
+
+===== Recipe: Filter \String to \String Without Headers
+
+Use class method CSV.filter without option +headers+ to filter a \String to another \String:
+  in_string = "foo,0\nbar,1\nbaz,2\n"
+  out_string = ''
+  CSV.filter(in_string, out_string) do |row|
+    row[0] = row[0].upcase
+    row[1] *= 4
+  end
+  out_string # => "FOO,0000\nBAR,1111\nBAZ,2222\n"
+
+==== Filtering \String to \IO Stream
+
+You can filter a \String to an \IO stream, with or without headers.
+
+===== Recipe: Filter \String to \IO Stream with Headers
+
+Use class method CSV.filter with option +headers+ to filter a \String to an \IO stream:
+  in_string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
+  path = 't.csv'
+  File.open(path, 'w') do |out_io|
+    CSV.filter(in_string, out_io, headers: true) do |row|
+      row[0] = row[0].upcase
+      row[1] *= 4
+    end
+  end
+  p File.read(path) # => "Name,Value\nFOO,0000\nBAR,1111\nBAZ,2222\n"
+
+===== Recipe: Filter \String to \IO Stream Without Headers
+
+Use class method CSV.filter without option +headers+ to filter a \String to an \IO stream:
+  in_string = "foo,0\nbar,1\nbaz,2\n"
+  path = 't.csv'
+  File.open(path, 'w') do |out_io|
+    CSV.filter(in_string, out_io) do |row|
+      row[0] = row[0].upcase
+      row[1] *= 4
+    end
+  end
+  p File.read(path) # => "FOO,0000\nBAR,1111\nBAZ,2222\n"
+
+==== Filtering \IO Stream to \String
+
+You can filter an \IO stream to a \String, with or without headers.
+
+===== Recipe: Filter \IO Stream to \String with Headers
+
+Use class method CSV.filter with option +headers+ to filter an \IO stream to a \String:
+  in_string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
+  path = 't.csv'
+  File.write(path, in_string)
+  out_string = ''
+  File.open(path, headers: true) do |in_io|
+    CSV.filter(in_io, out_string, headers: true) do |row|
+      row[0] = row[0].upcase
+      row[1] *= 4
+    end
+  end
+  out_string # => "Name,Value\nFOO,0000\nBAR,1111\nBAZ,2222\n"
+
+===== Recipe: Filter \IO Stream to \String Without Headers
+
+Use class method CSV.filter without option +headers+ to filter an \IO stream to a \String:
+  in_string = "foo,0\nbar,1\nbaz,2\n"
+  path = 't.csv'
+  File.write(path, in_string)
+  out_string = ''
+  File.open(path) do |in_io|
+    CSV.filter(in_io, out_string) do |row|
+      row[0] = row[0].upcase
+      row[1] *= 4
+    end
+  end
+  out_string # => "FOO,0000\nBAR,1111\nBAZ,2222\n"
+
+==== Filtering \IO Stream to \IO Stream
+
+You can filter an \IO stream to another \IO stream, with or without headers.
+
+===== Recipe: Filter \IO Stream to \IO Stream with Headers
+
+Use class method CSV.filter with option +headers+ to filter an \IO stream to another \IO stream:
+  in_path = 't.csv'
+  in_string = "Name,Value\nfoo,0\nbar,1\nbaz,2\n"
+  File.write(in_path, in_string)
+  out_path = 'u.csv'
+  File.open(in_path) do |in_io|
+    File.open(out_path, 'w') do |out_io|
+      CSV.filter(in_io, out_io, headers: true) do |row|
+        row[0] = row[0].upcase
+        row[1] *= 4
+      end
+    end
+  end
+  p File.read(out_path) # => "Name,Value\nFOO,0000\nBAR,1111\nBAZ,2222\n"
+
+===== Recipe: Filter \IO Stream to \IO Stream Without Headers
+
+Use class method CSV.filter without option +headers+ to filter an \IO stream to another \IO stream:
+  in_path = 't.csv'
+  in_string = "foo,0\nbar,1\nbaz,2\n"
+  File.write(in_path, in_string)
+  out_path = 'u.csv'
+  File.open(in_path) do |in_io|
+    File.open(out_path, 'w') do |out_io|
+      CSV.filter(in_io, out_io) do |row|
+        row[0] = row[0].upcase
+        row[1] *= 4
+      end
+    end
+  end
+  p File.read(out_path) # => "FOO,0000\nBAR,1111\nBAZ,2222\n"

@@ -5,8 +5,24 @@ import dashboard from './dashboard/dashboard.routes';
 import store from 'dashboard/store';
 import { validateLoggedInRoutes } from '../helper/routeHelpers';
 import AnalyticsHelper from '../helper/AnalyticsHelper';
+import EmbeddedInbox from './dashboard/embed/EmbeddedInbox.vue';
 
-const routes = [...dashboard.routes];
+const routes = [
+  ...dashboard.routes,
+  // Embedded inbox route (no sidebar, minimal layout)
+  {
+    path: '/app/embed/inbox',
+    name: 'embed_inbox',
+    component: EmbeddedInbox,
+    props: route => ({
+      inboxId: route.query.inbox_id || null,
+    }),
+    meta: {
+      embedMode: true,
+      permissions: ['administrator', 'agent', 'custom_role'],
+    },
+  },
+];
 
 export const router = createRouter({ history: createWebHistory(), routes });
 

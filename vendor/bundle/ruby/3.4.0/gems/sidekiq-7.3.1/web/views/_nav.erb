@@ -1,0 +1,52 @@
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header" data-navbar="static">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="navbar-menu" data-target="#navbar-menu">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <div class="navbar-toggle collapsed navbar-livereload">
+        <%= erb :_poll_link %>
+        <% if Sidekiq::Web.app_url %>
+          <a class="btn btn-inverse" href="<%= Sidekiq::Web.app_url %>"><%= t('BackToApp') %></a>
+        <% end %>
+      </div>
+      <a class="navbar-brand" href="<%= root_path %>">
+        <%= Sidekiq::NAME %>
+        <%= erb :_status %>
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-menu">
+      <ul class="nav navbar-nav" data-navbar="static">
+        <% Sidekiq::Web.default_tabs.each do |title, url| %>
+          <% if url == '' %>
+            <li class="<%= current_path == url ? 'active' : '' %>">
+            <a href="<%= root_path %><%= url %>"><%= t(title) %></a>
+            </li>
+          <% else %>
+            <li class="<%= current_path.start_with?(url) ? 'active' : '' %>">
+            <a href="<%= root_path %><%= url %>"><%= t(title) %></a>
+            </li>
+          <% end %>
+        <% end %>
+
+        <% Sidekiq::Web.custom_tabs.each do |title, url| %>
+          <li class="<%= current_path.start_with?(url) ? 'active' : '' %>" data-navbar="custom-tab">
+            <a href="<%= root_path %><%= url %>"><%= t(title) %></a>
+          </li>
+        <% end %>
+
+        <li class="navbar-livereload">
+          <div class="poll-wrapper">
+            <%= erb :_poll_link %>
+            <% if Sidekiq::Web.app_url %>
+              <a class="btn btn-inverse" href="<%= Sidekiq::Web.app_url %>"><%= t('BackToApp') %></a>
+            <% end %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

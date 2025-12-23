@@ -1,0 +1,21 @@
+name: CI
+
+on: [push,pull_request]
+
+env:
+  RAILS_MASTER_KEY: ca18e029a12884a87e96cf6a64a12fb5
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+    - uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
+        restore-keys: |
+          bundle-use-ruby-${{ matrix.os }}-${{ matrix.ruby }}-
+    - run: test_app/bin/setup
+    - run: cd test_app && bundle exec rails test

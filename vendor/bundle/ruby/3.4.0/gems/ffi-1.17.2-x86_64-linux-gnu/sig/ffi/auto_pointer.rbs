@@ -1,0 +1,26 @@
+module FFI
+  class AutoPointer < Pointer
+    class Releaser
+      attr_accessor autorelease: boolish
+      interface _Proc[P < Pointer]
+        def call: (P) -> void
+      end
+      def initialize: [P < Pointer] (P ptr, _Proc[P] proc) -> void
+
+      def call: (*untyped) -> void
+      def free: () -> nil
+      def release: (Pointer ptr) -> void
+    end
+
+    def initialize: (Pointer pointer, Method | ^(self) -> void | Releaser::_Proc[self] callable) -> self
+                  | (Pointer pointer) -> self # where class < `def self.release: (instance pointer) -> void`
+
+    extend DataConverter[Pointer, instance, nil]
+    def self.from_native: ...
+    def self.native_type: () -> Type::Builtin
+
+    def autorelease?: ...
+    def autorelease=: ...
+    def free: () -> nil
+  end
+end

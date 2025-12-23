@@ -1,0 +1,34 @@
+---
+
+# Version of configuration to use
+version: '1.0'
+
+# You can define a Google Cloud Account to use
+account:
+  # Project id of the service account
+  project: '${GCS_PROJECT}'
+  # Private key id of the service account
+  private_key_id: '${GCS_PRIVATE_KEY_ID}'
+  # Private key of the service account
+  private_key: '${GCS_PRIVATE_KEY}'
+  # Email of the service account
+  client_email: '${GCS_CLIENT_EMAIL}'
+  # URI token
+  token_uri: 'https://oauth2.googleapis.com/token'
+
+# List of artifacts
+artifacts:
+  # Path to use for artifacts discovery 
+  - path: './pkg'
+    # Files pattern to match
+    files_pattern: 'elastic-apm-(?P<app_version>\d+\.\d+\.\d+)\.gem'
+    # File layout on GCS bucket
+    output_pattern: '{project}/{jenkins_branch_name}/elastic-apm-ruby-{app_version}-{jenkins_git_commit_short}.gem'
+    # List of metadata processors to use.
+    metadata:
+      # Define static custom metadata
+      - name: 'custom'
+        data:
+          project: 'apm-agent-ruby'
+      # Add jenkins metadata
+      - name: 'jenkins'

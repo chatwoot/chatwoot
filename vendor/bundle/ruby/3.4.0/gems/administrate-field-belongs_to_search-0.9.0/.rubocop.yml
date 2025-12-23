@@ -1,0 +1,38 @@
+Rails:
+  Enabled: true
+
+Metrics/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 20
+Metrics/ClassLength:
+  Max: 220
+
+Metrics/AbcSize:
+  Max: 35
+
+Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# allow multiline `expect { ... }.to do_something`
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
+
+# specs tend to get long
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Rails/ApplicationRecord:
+  Exclude:
+    - 'spec/**/*'
+
+Style/TrailingCommaInHashLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArrayLiteral:
+  EnforcedStyleForMultiline: comma

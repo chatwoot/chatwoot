@@ -1,0 +1,33 @@
+break:
+  created: "Created breakpoint {id} at {file}:{line}"
+
+display:
+  result: "{n}: {exp} = {result}"
+
+eval:
+  exception: "{text_message}"
+  result: "{result}"
+
+frame:
+  line: "{mark} #{pos} {call} at {file}:{line}"
+
+method:
+  methods: "{name}|c"
+
+restart:
+  success: "Re exec'ing:\n  {cmd}"
+
+thread:
+  context: "{status_flag}{debug_flag}{id} {thread} {file_line}"
+
+trace:
+  messages:
+    success: "Tracing global variable \"{var}\"."
+    on_change: "traced global variable '{name}' has value '{value}'"
+    undo: "Not tracing global variable \"{var}\" anymore."
+  errors:
+    var_is_not_global: "'{name}' is not a global variable."
+    needs_global_variable: "tracevar needs a global variable name"
+
+variable:
+  variable: "{key} = {value}"

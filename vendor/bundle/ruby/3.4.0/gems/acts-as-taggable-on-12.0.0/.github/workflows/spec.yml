@@ -1,0 +1,73 @@
+name: spec
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    continue-on-error: ${{ matrix.ruby == 'head' }}
+    env:
+      DB: ${{ matrix.db }}
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - 3.3
+          - 3.2
+        gemfile:
+          - gemfiles/activerecord_8.0.gemfile
+          - gemfiles/activerecord_7.2.gemfile
+          - gemfiles/activerecord_7.1.gemfile
+        db:
+          - mysql
+          - postgresql
+          - sqlite3
+        include:
+          - ruby: truffleruby-head
+            db: postgresql
+            gemfile: gemfiles/activerecord_8.0.gemfile
+          - ruby: truffleruby-head
+            db: postgresql
+            gemfile: gemfiles/activerecord_7.1.gemfile
+          - ruby: truffleruby-head
+            db: postgresql
+            gemfile: gemfiles/activerecord_7.2.gemfile
+
+    services:
+      postgres:
+        image: postgres:10
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: acts_as_taggable_on
+          POSTGRES_PASSWORD: postgres
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - name: Create MySQL test database with utf8mb4 charset
+      if: ${{ matrix.db == 'mysql' }}
+      run: |
+        mysql -uroot --host=127.0.0.1 -e "CREATE DATABASE acts_as_taggable_on CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci"
+    - name: Build and test with Rake
+      run: |
+        bundle exec rake

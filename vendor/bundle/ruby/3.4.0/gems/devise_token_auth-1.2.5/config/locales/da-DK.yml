@@ -1,0 +1,52 @@
+da-DK:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Der er sendt en bekræftelsesemail til din konto på '%{email}'. Følg venligst instruktionerne i emailen for at aktivere din konto."
+      bad_credentials: "Ugyldig kombination af brugernavn og kodeord. Prøv venligst igen."
+      not_supported: "Brug POST /sign_in for at logge ind. GET er ikke supporteret."
+      user_not_found: "Brugeren er ikke fundet eller er ikke logget ind."
+    token_validations:
+      invalid: "Ugyldige legitimationsoplysninger."
+    registrations:
+      missing_confirm_success_url: "Der mangler et 'confirm_success_url' parameter."
+      redirect_url_not_allowed: "Omdirigering til '%{redirect_url}' er ikke tilladt."
+      email_already_exists: "Der eksisterer allerede en konto med '%{email}'"
+      account_with_uid_destroyed: "Kontoen med UID '%{uid}' er slettet."
+      account_to_destroy_not_found: "Kan ikke finde kontoen som skal slettes."
+      user_not_found: "Brugeren ikke fundet."
+    omniauth:
+      not_allowed_redirect_url: "Omdirigering til '%{redirect_url}' er ikke tilladt."
+    passwords:
+      missing_email: "Du skal udfylde email feltet."
+      missing_redirect_url: "Der er ingen omdirigeringsadresse."
+      redirect_url_not_allowed: "Omdirigering til '%{redirect_url}' er ikke tilladt."
+      sended: "En email er blevet sendt til '%{email}' med instruktioner for at nulstille dit kodeord."
+      user_not_found: "Kan ikke finde en bruger med '%{email}'."
+      password_not_required: "Denne bruger kræver ikke et kodeord. Log ind med '%{provider}' konto i stedet."
+      missing_passwords: "Du skal udfylde både kodeord og bekræftelse af kodeord."
+      successfully_updated: "Dit kodeord er opdateret."
+    unlocks:
+      missing_email: "Du skal udfylde en email."
+      sended: "En email er blevet sendt til '%{email}', som indeholder instruktioner for at låse kontoen op."
+      user_not_found: "Kan ikke finde en bruger med email '%{email}'."
+  errors:
+    messages:
+      validate_sign_up_params: "Angiv venligst passende registeringsdata i request body."
+      validate_account_update_params: "Angiv venligst en passende konto opdatering i request body."
+      not_email: "er ikke en email"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Du kan bekræfte din kontos email gennem linket herunder:"
+        confirm_account_link: "Bekræft min konto"
+      reset_password_instructions:
+        request_reset_link_msg: "Nogen har anmodet om et link til at ændre dit kodeord. Det kan du gøre via linket nedenfor."
+        password_change_link: "Skift mit kodeord."
+        ignore_mail_msg: "Hvis du ikke anmodede om dette, ignorer venligst denne email."
+        no_changes_msg: "Dit kodeord ændres først når du følger linket ovenfor og skaber et nyt."
+      unlock_instructions:
+        account_lock_msg: "Din konto er blevet låst fordi der har været for mange ugyldige log ind-forsøg."
+        unlock_link_msg: "Klik linket nedenfor, for at låse din konto op:"
+        unlock_link: "Lås min konto op"
+  hello: "hej"
+  welcome: "velkommen"

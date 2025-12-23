@@ -1,0 +1,51 @@
+pl:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Wiadomość z potwierdzeniem Twojego konta została wysłana na '%{email}'. Proszę postępować zgodnie z wskazówkami znajdującymi się w wiadomości celem aktywacji konta."
+      bad_credentials: "Nieprawidłowe dane logowania. Proszę spróbować ponownie."
+      not_supported: "Proszę użyć POST /sign_in do zalogowania. GET nie jest obsługiwany."
+      user_not_found: "Użytkownik nie został odnaleziony lub nie jest zalogowany."
+    token_validations:
+      invalid: "Nieprawidłowe dane logowania."
+    registrations:
+      missing_confirm_success_url: "Brak parametru 'confirm_success_url'."
+      redirect_url_not_allowed: "Przekierowanie na adres '%{redirect_url}' nie jest dozwolone."
+      email_already_exists: "Konto z adresem '%{email}' już istnieje."
+      account_with_uid_destroyed: "Konto z uid '%{uid}' zostało usunięte."
+      account_to_destroy_not_found: "Nie odnaleziono konta do usunięcia."
+      user_not_found: "Użytkownik nie został odnaleziony."
+    omniauth:
+      not_allowed_redirect_url: "Przekierowanie na adres '%{redirect_url}' nie jest dozwolone."
+    passwords:
+      missing_email: "Musisz wprowadzić adres e-mail."
+      missing_redirect_url: "Brak adresu zwrotnego."
+      not_allowed_redirect_url: "Przekierowanie na adres '%{redirect_url}' nie jest dozwolone."
+      sended: "Wiadomość wysłana na adres '%{email}' zawiera instrukcje dotyczące zmiany hasła."
+      user_not_found: "Nie odnaleziono użytkownika o adresie '%{email}'."
+      password_not_required: "To konto nie wymaga podania hasła. Zaloguj się używając konta '%{provider}'."
+      missing_passwords: "Musisz wypełnić wszystkie pola z etykietą 'Hasło' oraz 'Potwierdzenie hasła'."
+      successfully_updated: "Twoje hasło zostało zaktualizowane."
+  errors:
+    messages:
+      validate_sign_up_params: "Proszę dostarczyć odpowiednie dane logowania w ciele zapytania."
+      validate_account_update_params: "Proszę dostarczyć odpowiednie dane aktualizacji konta w ciele zapytania."
+      not_email: "nie jest prawidłowym adresem e-mail"
+  devise:
+    mailer:
+      confirmation_instructions:
+        subject: "Instrukcja potwierdzania"
+        confirm_link_msg: "Możesz potwierdzić swój e-mail poprzez link poniżej:"
+        confirm_account_link: "Potwierdź swoje konto"
+      reset_password_instructions:
+        subject: "Instrukcje resetowania hasła"
+        request_reset_link_msg: "Otrzymaliśmy prośbę o zmianę Twojego hasła. Możesz tego dokonać poprzez link poniżej:"
+        password_change_link: "Zmień hasło"
+        ignore_mail_msg: "Jeśli to nie Ty próbowałeś zmienić swoje hasło to zignoruj ten email."
+        no_changes_msg: "Twoje hasło nie zmieni się do momentu ustawienia nowego."
+      unlock_instructions:
+        subject: "Instrukcje do odblokowania"
+        account_lock_msg: "Twoje konto zostało zablokowane z powodu zbyt dużej liczby nieudanych prób logowania."
+        unlock_link_msg: "Kliknij poniższy link, aby odblokować konto:"
+        unlock_link: "Odblokuj konto"
+  hello: "Witaj"
+  welcome: "Witaj"

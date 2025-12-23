@@ -1,0 +1,6 @@
+require_relative 'racc/compat'
+require_relative 'racc/debugflags'
+require_relative 'racc/grammar'
+require_relative 'racc/state'
+require_relative 'racc/exception'
+require_relative 'racc/info'

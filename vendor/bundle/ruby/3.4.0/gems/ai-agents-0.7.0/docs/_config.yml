@@ -1,0 +1,55 @@
+title: AI Agents
+description: A Ruby SDK for building multi-agent AI workflows
+baseurl: ""
+url: ""
+logo: "/assets/images/ai-agents.png"
+favicon_ico: "/assets/images/favicon.png"
+
+# Theme
+theme: just-the-docs
+
+# Color scheme
+color_scheme: ruby
+
+# Search
+search_enabled: true
+search:
+  heading_level: 3
+  rel_url: true
+  focus_shortcut_key: "k"
+
+# Navigation
+nav_sort: case_insensitive
+nav_external_links:
+  - title: GitHub
+    url: https://github.com/chatwoot/ai-agents
+  - title: RubyLLM
+    url: https://rubyllm.com
+  - title: Chatwoot
+    url: https://chatwoot.com/
+
+# Footer
+footer_content: "Copyright © 2025 Chatwoot Inc."
+
+# Plugins
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# Markdown
+markdown: kramdown
+highlighter: rouge
+
+# Exclude from processing
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

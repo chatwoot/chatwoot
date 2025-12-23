@@ -1,0 +1,36 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [ '2.7', '3.0', '3.1', 'head' ]
+        rails: [ '6.0', '6.1', '7.0', 'edge' ]
+        exclude:
+          - ruby: '3.1'
+            rails: '6.0'
+          - ruby: '3.1'
+            rails: '6.1'
+
+    env:
+      RAILS_VERSION: ${{ matrix.rails }}
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Run unit tests
+        run: bundle exec rake test:unit
+        timeout-minutes: 3
+
+      - name: Run acceptance tests
+        run: bundle exec rake test:acceptance
+        timeout-minutes: 10
+        if: ${{ matrix.rails != 'edge' && matrix.ruby != 'head' }} # Acceptance tests use `gem install rails && rails new`

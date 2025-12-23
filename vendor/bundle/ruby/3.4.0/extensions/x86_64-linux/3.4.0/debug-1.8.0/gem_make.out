@@ -1,0 +1,19 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/debug-1.8.0/ext/debug
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kxfgj0 sitelibdir\=./.gem.20251220-192266-kxfgj0 clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kxfgj0 sitelibdir\=./.gem.20251220-192266-kxfgj0
+compiling debug.c
+compiling iseq_collector.c
+linking shared-object debug/debug.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kxfgj0 sitelibdir\=./.gem.20251220-192266-kxfgj0 install
+/usr/bin/install -c -m 0755 debug.so ./.gem.20251220-192266-kxfgj0/debug
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/debug-1.8.0/ext/debug
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kxfgj0 sitelibdir\=./.gem.20251220-192266-kxfgj0 clean

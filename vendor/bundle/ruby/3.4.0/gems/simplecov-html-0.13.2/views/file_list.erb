@@ -1,0 +1,78 @@
+<div class="file_list_container" id="<%= title_id %>">
+  <h2>
+    <span class="group_name"><%= title %></span>
+    (<span class="covered_percent">
+      <%= covered_percent(source_files.covered_percent) %>
+     </span>
+     covered at
+     <span class="covered_strength">
+       <span class="<%= strength_css_class(source_files.covered_strength) %>">
+         <%= source_files.covered_strength.round(2) %>
+       </span>
+    </span> hits/line
+    )
+  </h2>
+
+  <a name="<%= title_id %>"></a>
+
+  <div>
+    <b><%= source_files.length %></b> files in total.
+  </div>
+
+  <div class="t-line-summary">
+    <b><%= source_files.lines_of_code %></b> relevant lines,
+    <span class="green"><b><%= source_files.covered_lines %></b> lines covered</span> and
+    <span class="red"><b><%= source_files.missed_lines %></b> lines missed. </span>
+    (<%= covered_percent(source_files.covered_percent) %>)
+  </div>
+
+  <% if branchable_result? %>
+    <div class="t-branch-summary">
+      <span><b><%= source_files.total_branches %></b> total branches, </span>
+      <span class="green"><b><%= source_files.covered_branches %></b> branches covered</span> and
+      <span class="red"><b><%= source_files.missed_branches %></b> branches missed.</span>
+      (<%= covered_percent(source_files.branch_covered_percent) %>)
+    </div>
+  <% end %>
+
+  <div class="file_list--responsive">
+    <table class="file_list">
+      <thead>
+        <tr>
+          <th>File</th>
+          <th class="cell--number">% covered</th>
+          <th class="cell--number">Lines</th>
+          <th class="cell--number">Relevant Lines</th>
+          <th class="cell--number">Lines covered</th>
+          <th class="cell--number">Lines missed</th>
+          <th class="cell--number">Avg. Hits / Line</th>
+          <% if branchable_result? %>
+            <th class="cell--number">Branch Coverage</th>
+            <th class="cell--number">Branches</th>
+            <th class="cell--number">Covered branches</th>
+            <th class="cell--number">Missed branches </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+        <% source_files.each do |source_file| %>
+          <tr class="t-file">
+            <td class="strong t-file__name"><%= link_to_source_file(source_file) %></td>
+            <td class="<%= coverage_css_class(source_file.covered_percent) %> strong cell--number t-file__coverage"><%= sprintf("%.2f", source_file.covered_percent.round(2)) %> %</td>
+            <td class="cell--number"><%= source_file.lines.count %></td>
+            <td class="cell--number"><%= source_file.covered_lines.count + source_file.missed_lines.count %></td>
+            <td class="cell--number"><%= source_file.covered_lines.count %></td>
+            <td class="cell--number"><%= source_file.missed_lines.count %></td>
+            <td class="cell--number"><%= sprintf("%.2f", source_file.covered_strength.round(2)) %></td>
+            <% if branchable_result? %>
+              <td class="<%= coverage_css_class(source_file.branches_coverage_percent) %> strong cell--number t-file__branch-coverage"><%= sprintf("%.2f", source_file.branches_coverage_percent.round(2)) %> %</td>
+              <td class="cell--number"><%= source_file.total_branches.count %></td>
+              <td class="cell--number"><%= source_file.covered_branches.count %></td>
+              <td class="cell--number"><%= source_file.missed_branches.count %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

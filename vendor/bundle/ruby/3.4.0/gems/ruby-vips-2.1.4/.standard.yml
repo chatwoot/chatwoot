@@ -1,0 +1,17 @@
+fix: false              # default: false
+parallel: true          # default: false
+format: progress        # default: Standard::Formatter
+ruby_version: 2.0       # default: RUBY_VERSION
+default_ignores: false  # default: true
+
+ignore:                 # default: []
+  - '**/*':
+    - Standard/SemanticBlocks
+  - 'lib/vips/methods.rb'
+  - '{lib,example}/**/*':
+    - Lint/IneffectiveAccessModifier
+    - Lint/RescueException
+    - Style/GlobalVars
+  - 'spec/**/*':
+      - Lint/BinaryOperatorWithIdenticalOperands
+  - 'vendor/**/*'

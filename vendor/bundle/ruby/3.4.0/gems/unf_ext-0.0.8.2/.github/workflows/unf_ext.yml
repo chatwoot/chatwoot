@@ -1,0 +1,43 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: >-
+      ${{ matrix.os }} ${{ matrix.ruby }}
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-20.04, macos-11.0, windows-2019 ]
+        ruby: [ 2.7, "3.0", 3.1, head ]
+        include:
+          - { os: windows-2019, ruby: mingw }
+        exclude:
+          - { os: windows-2019, ruby: head }
+
+    steps:
+      - name: repo checkout
+        uses: actions/checkout@v2
+
+      - name: load ruby cross-compilation toolkit
+        uses: MSP-Greg/setup-ruby-pkgs@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          mingw: _upgrade_
+
+      - name:  bundle install
+        shell: pwsh
+        run: |
+          bundle config set --local path .bundle/vendor
+          bundle install --jobs 4 --retry 3
+
+      - name: compile
+        timeout-minutes: 5
+        run: bundle exec rake compile
+
+      - name: test
+        timeout-minutes: 5
+        run: bundle exec rake test

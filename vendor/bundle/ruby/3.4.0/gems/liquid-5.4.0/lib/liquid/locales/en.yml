@@ -1,0 +1,29 @@
+---
+  errors:
+    syntax:
+      tag_unexpected_args: "Syntax Error in '%{tag}' - Valid syntax: %{tag}"
+      assign: "Syntax Error in 'assign' - Valid syntax: assign [var] = [source]"
+      capture: "Syntax Error in 'capture' - Valid syntax: capture [var]"
+      case: "Syntax Error in 'case' - Valid syntax: case [condition]"
+      case_invalid_when: "Syntax Error in tag 'case' - Valid when condition: {% when [condition] [or condition2...] %}"
+      case_invalid_else: "Syntax Error in tag 'case' - Valid else condition: {% else %} (no parameters) "
+      cycle: "Syntax Error in 'cycle' - Valid syntax: cycle [name :] var [, var2, var3 ...]"
+      for: "Syntax Error in 'for loop' - Valid syntax: for [item] in [collection]"
+      for_invalid_in: "For loops require an 'in' clause"
+      for_invalid_attribute: "Invalid attribute in for loop. Valid attributes are limit and offset"
+      if: "Syntax Error in tag 'if' - Valid syntax: if [expression]"
+      include: "Error in tag 'include' - Valid syntax: include '[template]' (with|for) [object|collection]"
+      inline_comment_invalid: "Syntax error in tag '#' - Each line of comments must be prefixed by the '#' character"
+      invalid_delimiter: "'%{tag}' is not a valid delimiter for %{block_name} tags. use %{block_delimiter}"
+      render: "Syntax error in tag 'render' - Template name must be a quoted string"
+      table_row: "Syntax Error in 'table_row loop' - Valid syntax: table_row [item] in [collection] cols=3"
+      tag_never_closed: "'%{block_name}' tag was never closed"
+      tag_termination: "Tag '%{token}' was not properly terminated with regexp: %{tag_end}"
+      unexpected_else: "%{block_name} tag does not expect 'else' tag"
+      unexpected_outer_tag: "Unexpected outer '%{tag}' tag"
+      unknown_tag: "Unknown tag '%{tag}'"
+      variable_termination: "Variable '%{token}' was not properly terminated with regexp: %{tag_end}"
+    argument:
+      include: "Argument error in tag 'include' - Illegal template name"
+    disabled:
+      tag: "usage is not allowed in this context"

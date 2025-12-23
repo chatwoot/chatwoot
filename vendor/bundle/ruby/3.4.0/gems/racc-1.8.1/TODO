@@ -1,0 +1,5 @@
+* check 'error' token handling.
+* interactive transition table monitor.
+* support backtracking.
+* output Ruby extension library?
+* LL(k)? (But it should not be called Racc)

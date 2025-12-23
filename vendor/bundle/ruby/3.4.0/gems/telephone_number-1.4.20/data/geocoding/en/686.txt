@@ -1,0 +1,64 @@
+# Copyright (C) 2013 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from: http://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000710001PDFE.pdf
+
+68621|Bairiki
+68622|Bairiki
+68623|Bairiki
+68624|Bairiki
+68625|Betio
+68626|Betio
+68627|Tarawa
+68628|Bikenibeu
+68629|Bikenibeu
+68631|North Tarawa
+68632|North Tarawa
+68633|Abaiang
+68634|Marakei
+68635|Butaritari
+68636|Makin
+68637|Banaba
+68638|Maiana
+68639|Kuria
+68640|Aranuka
+68641|Abemama
+68642|Nonouti
+68643|Tabiteuea North
+68644|Tabiteuea South
+68645|Onotoa
+68646|Beru
+68647|Nikunau
+68648|Tamana
+68649|Arorae
+686650|Bairiki
+686651|Betio
+686652|Bikenibeu
+686653|Gilbert Islands
+686654|Gilbert Islands
+686655|Phoenix Islands
+68672700|Gilbert Islands
+686750|Bairiki
+686751|Betio
+686752|Bikenibeu
+6867530|Gilbert Islands
+6867538|Line Islands
+6867540|Phoenix Islands
+6867548|Line Islands
+686755|Phoenix Islands
+68681|Kiritimati
+68682|Kiritimati
+68683|Fanning
+68684|Washington
+68685|Kanton

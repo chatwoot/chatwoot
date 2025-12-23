@@ -1,0 +1,67 @@
+# elements like %{queue} are variables and should not be translated
+pt:
+  Actions: Acções
+  AddToQueue: Adicionar à fila
+  AreYouSure: Tem a certeza?
+  AreYouSureDeleteJob: Tem a certeza que deseja eliminar esta tarefa?
+  AreYouSureDeleteQueue: Tem a certeza que deseja eliminar a fila %{queue}?
+  Arguments: Argumentos
+  Busy: Ocupado
+  Class: Classe
+  Connections: Conexões
+  CurrentMessagesInQueue: Mensagens na fila <span class='title'>%{queue}</span>
+  Dashboard: Dashboard
+  Dead: Morto
+  DeadJobs: Tarefas mortas
+  Delete: Apagar
+  DeleteAll: Eliminar todos
+  Enqueued: Em espera
+  Error: Erro
+  ErrorBacktrace: Backtrace do Erro
+  ErrorClass: Classe de Erro
+  ErrorMessage: Mensagem de erro
+  Failed: Falhados
+  Failures: Falhas
+  GoBack: ← Voltar
+  History: Histórico
+  Job: Tarefa
+  Jobs: Tarefas
+  LastRetry: Última Tentativa
+  LivePoll: Live Poll
+  MemoryUsage: Utilização de Memória
+  Namespace: Namespace
+  NextRetry: Próxima Tentativa
+  NoDeadJobsFound: Não foram encontradas tarefas mortas
+  NoRetriesFound: Não foram encontradas tentativas
+  NoScheduledFound: Não foram encontradas tarefas agendadas
+  OneMonth: 1 mês
+  OneWeek: 1 semana
+  OriginallyFailed: Falhou inicialmente
+  PeakMemoryUsage: Pico de utilização de memória
+  Processed: Processados
+  Processes: Processos
+  Queue: Fila
+  Queues: Filas
+  Realtime: Tempo real
+  Retries: Tentativas
+  RetryAll: Tentar tudo novamente
+  RetryCount: Tentativas efectuadas
+  RetryNow: Tentar novamente
+  Scheduled: Agendados
+  ScheduledJobs: Tarefas agendadas
+  ShowAll: Mostrar todos
+  SixMonths: 6 meses
+  Size: Tamanho
+  Started: Iniciados
+  Status: Estado
+  StopPolling: Desactivar Live Poll
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 meses
+  Time: Tempo
+  Uptime: Uptime (em dias)
+  Version: Versão
+  When: Quando
+  Worker: Worker
+  active: activo
+  idle: livre

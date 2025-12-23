@@ -1,0 +1,36 @@
+<p>View Warnings</p>
+<table>
+  <thead>
+    <tr>
+      <th>Confidence</th>
+      <th>Template</th>
+      <th>Warning Type</th>
+      <th>CWE ID</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% warnings.each_with_index do |warning, i| %>
+    <tr>
+      <td><%= warning['Confidence']%></td>
+      <td>
+        <% if warning['Called From'] and warning['Called From'].length > 1 %>
+          <div class="template_name" onClick="toggle('callers<%= i %>')" >
+            <div>
+              <%= warning['Template'] %>
+            </div>
+            <div class="render_path" id="callers<%= i %>" >
+              <%= warning['Called From'].join(' &rarr; ') %> &rarr; <%= warning['Template Name'] %>
+            </div>
+          </div>
+        <% else %>
+          <%= warning['Template']%>
+        <% end %>
+      </td>
+      <td><%= warning['Warning Type']%></td>
+      <td><%= warning['CWE ID']%></td>
+      <td><%= warning['Message']%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

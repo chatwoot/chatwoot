@@ -1,0 +1,58 @@
+{
+  "articles": {
+    "ART-001": {
+      "id": "ART-001",
+      "title": "How to Clear Browser Cache",
+      "category": "troubleshooting",
+      "content": "To clear your browser cache:\n\n**Chrome:**\n1. Press Ctrl+Shift+Delete (Cmd+Shift+Delete on Mac)\n2. Select 'All time' from the time range\n3. Check 'Cached images and files'\n4. Click 'Clear data'\n\n**Firefox:**\n1. Press Ctrl+Shift+Delete (Cmd+Shift+Delete on Mac)\n2. Select 'Everything' from time range\n3. Check 'Cache'\n4. Click 'Clear Now'\n\n**Safari:**\n1. Go to Safari menu > Clear History\n2. Select 'All History'\n3. Click 'Clear History'",
+      "tags": ["browser", "cache", "troubleshooting", "login-issues"],
+      "created_at": "2023-08-15T10:00:00Z",
+      "updated_at": "2024-01-10T14:30:00Z"
+    },
+    "ART-002": {
+      "id": "ART-002", 
+      "title": "Password Reset Instructions",
+      "category": "account",
+      "content": "If you're unable to log in, try resetting your password:\n\n1. Go to the login page\n2. Click 'Forgot Password?'\n3. Enter your email address\n4. Check your email for reset instructions\n5. Click the reset link (valid for 24 hours)\n6. Create a new strong password\n\n**Password Requirements:**\n- At least 8 characters\n- One uppercase letter\n- One lowercase letter  \n- One number\n- One special character\n\nIf you don't receive the reset email, check your spam folder or contact support.",
+      "tags": ["password", "reset", "login", "account"],
+      "created_at": "2023-08-15T10:15:00Z",
+      "updated_at": "2024-01-05T09:20:00Z"
+    },
+    "ART-003": {
+      "id": "ART-003",
+      "title": "API Rate Limits and Error Handling",
+      "category": "development",
+      "content": "Our API has the following rate limits:\n\n**Standard Plan:** 1,000 requests/hour\n**Pro Plan:** 5,000 requests/hour  \n**Enterprise Plan:** 50,000 requests/hour\n\n**Common Error Codes:**\n- 429: Rate limit exceeded\n- 500: Internal server error\n- 503: Service temporarily unavailable\n\n**Best Practices:**\n- Implement exponential backoff for 5xx errors\n- Cache responses when possible\n- Use pagination for large datasets\n- Monitor your usage in the dashboard\n\nIf you're experiencing consistent 500 errors, please contact our engineering team.",
+      "tags": ["api", "rate-limits", "errors", "development"],
+      "created_at": "2023-09-01T11:00:00Z",
+      "updated_at": "2024-01-12T16:45:00Z"
+    },
+    "ART-004": {
+      "id": "ART-004",
+      "title": "Billing and Refund Policy",
+      "category": "billing",
+      "content": "**Billing Cycle:**\nAll plans are billed monthly on the date you signed up.\n\n**Refund Policy:**\n- Full refund within 30 days of signup\n- Partial refunds for downgrades (prorated)\n- No refunds for accounts terminated for policy violations\n\n**Common Billing Issues:**\n- Duplicate charges: Usually resolved within 24 hours\n- Failed payments: Update payment method in settings\n- Upgrade/downgrade: Changes take effect immediately\n\n**Contacting Billing:**\nFor billing questions, include your account email and approximate charge date.",
+      "tags": ["billing", "refunds", "charges", "payment"],
+      "created_at": "2023-08-20T14:00:00Z",
+      "updated_at": "2024-01-08T10:30:00Z"
+    }
+  },
+  "categories": [
+    {
+      "name": "troubleshooting",
+      "description": "Technical issues and problem resolution"
+    },
+    {
+      "name": "account", 
+      "description": "Account management and login issues"
+    },
+    {
+      "name": "development",
+      "description": "API documentation and developer resources"
+    },
+    {
+      "name": "billing",
+      "description": "Billing, payments, and subscription management"
+    }
+  ]
+}

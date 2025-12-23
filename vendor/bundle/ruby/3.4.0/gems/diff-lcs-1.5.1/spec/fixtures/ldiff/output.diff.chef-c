@@ -1,0 +1,15 @@
+*** spec/fixtures/old-chef	2020-06-23 23:18:20.000000000 -0400
+--- spec/fixtures/new-chef	2020-06-23 23:18:20.000000000 -0400
+***************
+*** 1,4 ****
+  {
+    "name": "x",
+!   "description": "hi"
+  }
+\ No newline at end of file
+--- 1,4 ----
+  {
+    "name": "x",
+!   "description": "lo"
+  }
+\ No newline at end of file

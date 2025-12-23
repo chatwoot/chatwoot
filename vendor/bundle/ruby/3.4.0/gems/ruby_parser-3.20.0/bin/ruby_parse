@@ -1,0 +1,98 @@
+#!/usr/bin/ruby -s
+
+$q ||= false
+$g ||= false
+
+require 'rubygems'
+require 'ruby_parser'
+require 'pp'
+
+good = bad = 0
+
+multi = ARGV.size != 1
+total_time = 0
+total_loc = 0
+total_kbytes = 0
+times = {}
+locs = {}
+kbytes = {}
+
+class File
+  RUBY19 = "<3".respond_to? :encoding
+
+  class << self
+    alias :binread :read unless RUBY19
+  end
+end
+
+begin
+  time = (ENV["RP_TIMEOUT"] || 10).to_i
+
+  ARGV.each do |file|
+    rp = RubyParser.new
+    loc = `wc -l #{file}`.strip.to_i
+    size = `wc -c #{file}`.strip.to_i / 1024.0
+    locs[file] = loc
+    kbytes[file] = size
+    total_loc += loc
+    total_kbytes += size
+    if $q then
+      $stderr.print "."
+    else
+      warn "# file = #{file} loc = #{loc}"
+    end
+    GC.start if $g
+
+    t = Time.now
+    begin
+      begin
+        rp.reset
+        r = rp.process(File.binread(file), file, time)
+        pp r unless $q
+        good += 1
+      rescue SyntaxError => e
+        warn "SyntaxError for #{file}: #{e.message}"
+        bad += 1
+      end
+    rescue => e
+      warn "#{e.backtrace.first} #{e.inspect.gsub(/\n/, ' ')} for #{file}"
+      warn "  #{e.backtrace.join("\n  ")}"
+      bad += 1
+    end
+
+    t = Time.now - t
+    times[file] = t
+    total_time += t
+  end
+rescue Interrupt
+  # do nothing
+end
+
+warn "done"
+
+total = 0
+times.values.each do |t|
+  total += t
+end
+
+puts
+puts "good = #{good} bad = #{bad}" if multi
+puts
+
+format = "%5.2fs:%9.2f l/s:%8.2f Kb/s:%5d Kb:%5d loc:%s"
+
+times.sort_by { |f, t| -t }.each do |f, t|
+  next if t < 0.005
+  loc = locs[f]
+  size = kbytes[f]
+  puts format % [t, loc / t, size / t, size, loc, f]
+end
+
+puts
+
+puts format % [total_time,
+               total_loc / total_time,
+               total_kbytes / total_time,
+               total_kbytes,
+               total_loc,
+               "TOTAL"] unless total_time == 0

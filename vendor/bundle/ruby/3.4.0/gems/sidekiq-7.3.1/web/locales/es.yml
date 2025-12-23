@@ -1,0 +1,86 @@
+# elements like %{queue} are variables and should not be translated
+es:
+  Actions: Acciones
+  AddToQueue: Añadir a la cola
+  AreYouSure: ¿Estás seguro?
+  AreYouSureDeleteJob: ¿Estás seguro de eliminar este trabajo?
+  AreYouSureDeleteQueue: ¿Estás seguro de eliminar la cola %{queue}?
+  Arguments: Argumentos
+  BackToApp: Volver a la Aplicación
+  Busy: Ocupado
+  Class: Clase
+  Connections: Conexiones
+  CreatedAt: Creado en
+  CurrentMessagesInQueue: Mensajes actualmente en <span class='title'>%{queue}</span>
+  Dashboard: Panel de Control
+  Dead: Muerto
+  DeadJobs: Trabajos muertos
+  Delete: Eliminar
+  DeleteAll: Borrar Todo
+  Enqueued: En Cola
+  Error: Error
+  ErrorBacktrace: Trazado del Error
+  ErrorClass: Clase del Error
+  ErrorMessage: Mensaje de Error
+  Extras: Extras
+  Failed: Fallidas
+  Failures: Fallas
+  GoBack: ← Regresar
+  History: Historial
+  Job: Trabajo
+  Jobs: Trabajos
+  Kill: Matar
+  KillAll: Matar Todo
+  LastRetry: Último Reintento
+  Latency: Latencia
+  LivePoll: Sondeo en Vivo
+  MemoryUsage: Uso de Memoria
+  Name: Nombre
+  Namespace: Espacio de Nombre
+  NextRetry: Siguiente Intento
+  NoDeadJobsFound: No hay trabajos muertos
+  NoRetriesFound: No se encontraron reintentos
+  NoScheduledFound: No se encontraron trabajos pendientes
+  NotYetEnqueued: Aún no en cola
+  OneMonth: 1 mes
+  OneWeek: 1 semana
+  OriginallyFailed: Falló Originalmente
+  Pause: Pausar
+  Paused: Pausado
+  PeakMemoryUsage: Máximo Uso de Memoria
+  Plugins: Plugins
+  PollingInterval: Intervalo de Sondeo
+  Process: Proceso
+  Processed: Procesadas
+  Processes: Procesos
+  Queue: Cola
+  Queues: Colas
+  Quiet: Silenciar
+  QuietAll: Silenciar Todo
+  Realtime: Tiempo Real
+  Retries: Reintentos
+  RetryAll: Reintentar Todo
+  RetryCount: Numero de Reintentos
+  RetryNow: Reintentar Ahora
+  Scheduled: Programadas
+  ScheduledJobs: Trabajos programados
+  ShowAll: Mostrar Todo
+  SixMonths: 6 meses
+  Size: Tamaño
+  Started: Hora de Inicio
+  Status: Estatus
+  Stop: Detener
+  StopAll: Detener Todo
+  StopPolling: Detener Sondeo
+  Thread: Hilo
+  Threads: Hilos
+  ThreeMonths: 3 meses
+  Time: Tiempo
+  Unpause: Reanudar
+  Uptime: Tiempo de Funcionamiento (días)
+  Utilization: Utilización
+  Version: Versión
+  When: Cuando
+  Worker: Trabajador
+  active: activo
+  idle: inactivo

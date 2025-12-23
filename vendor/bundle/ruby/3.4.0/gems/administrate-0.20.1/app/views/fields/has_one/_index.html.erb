@@ -1,0 +1,24 @@
+<%#
+# HasOne Index Partial
+
+This partial renders a has_one relationship,
+to be displayed on a resource's index page.
+
+By default, the relationship is rendered as a link to the associated object.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::HasOne][1].
+  A wrapper around the has_one relationship pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/HasOne
+%>
+
+<% if field.linkable? %>
+  <%= link_to_if(
+    accessible_action?(field.data, :show),
+    field.display_associated_resource,
+    [namespace, field.data],
+  ) %>
+<% end %>

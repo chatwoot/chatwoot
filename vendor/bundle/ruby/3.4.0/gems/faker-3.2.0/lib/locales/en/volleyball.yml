@@ -1,0 +1,501 @@
+en:
+  faker:
+    volleyball:
+      team:
+      - A.S.D. Pallavolo Torino
+      - ACH Volley Ljubljana
+      - ADC Pirelli
+      - AERO Odolena Voda
+      - Al Rayyan
+      - Al-Ahly SC
+      - Al-Arabi Doha
+      - Aris Thessaloniki
+      - Arkas Spor Izmir
+      - AS Cannes
+      - Asnieres Volley 92
+      - Avtomobilist Saint Petersburg
+      - AZS AWF Warszawa
+      - Belogorie Belgorod
+      - Berlin Recycling Volleys
+      - Cerrad Enea Czarni Radom
+      - Club Sportif Sfaxien
+      - Crvena Zvezda Belgrade
+      - Csepel Budapest
+      - CSKA Moscow
+      - CSKA Sofia
+      - Cucine Lube Civitanova
+      - Diamant Odessa
+      - Draisma Dynamo Apeldoorn
+      - Dynamo Moscow
+      - EC Banespa
+      - Fakel Novy Urengoy
+      - Gabeca Pallavolo Spa
+      - Galatasaray Istanbul
+      - Halkbank Ankara
+      - Hamburger SV
+      - HAOK Mladost Zagreb
+      - hotVolleys Vienna
+      - Indykpol AZS Olsztyn
+      - Iraklis Thessaloniki
+      - Iskra Odintsovo
+      - Istanbul BBSK
+      - Itas Trentino
+      - JT Thunders Hiroshima
+      - Kioene Padova
+      - Knack Roeselare
+      - Lausanne UC
+      - Legia Warszawa
+      - Leo Shoes Modena
+      - Levski Sofia
+      - Lindemans Aalst
+      - Lokomotiv Ekaterinburg
+      - Lokomotiv Novosibirsk
+      - Lokomotyv - Zbirna Kharkivskoi Oblasti-1
+      - Lokomotyv Kyiv
+      - MGTU Moscow
+      - Moerser SC
+      - Montpellier UC
+      - Olympiacos Piraeus
+      - Osaka Blazers Sakai
+      - P.A.O.K. Thessaloniki
+      - Pallavolo Gonzaga Giovani Milano
+      - Pallavolo Parma
+      - Panasonic Panthers
+      - Panathinaikos Athens
+      - Paris UC
+      - Paris Volley
+      - Partizan Belgrade
+      - Paykan Tehran
+      - Piemonte Volley
+      - Porto Robur Costa 2030
+      - Racing Club de France
+      - Radiotechnik Riga
+      - Real Madrid
+      - Rembert Torhout
+      - SC Dynamo Berlin
+      - Schweriner SC
+      - Slavia Sofia
+      - Sport Lisboa e Benfica
+      - Sporting Clube de Espinho
+      - Stade Poitevin Poitiers
+      - Suntory Sunbirds
+      - SV Bayer Wuppertal
+      - Toray Arrows
+      - Tours VB
+      - UPCN Voley Club
+      - VC Greenyard Maaseik
+      - VC Leipzig
+      - VfB Friedrichshafen
+      - VK Dukla Liberec
+      - VKP Bratislava
+      - Vojvodina Novi Sad
+      - Volejbal Brno
+      - Volley Piacenza
+      - Volley Treviso
+      - Volleybalvereniging Visade Voorburg
+      - Zamalek
+      - Zenit Kazan
+      - Zinella Volley Bologna
+      player:
+      - Aaron Russell
+      - Abdul Basith
+      - Adel Gholami
+      - Agnieszka Bednarek-Kasza
+      - Ai Inden
+      - Ai Otomo
+      - Aiza Maizo
+      - Aki Shibata
+      - Akiko Ino
+      - Akiko Uchida
+      - Alaina Bergsma
+      - Albert Cristina
+      - Aleona Denise Santiago
+      - Alyssa Valdez
+      - Amir Ghafour
+      - Amporn Hyapha
+      - Ana Ida Alvares
+      - Andrea Anastasi
+      - Andrea Bari
+      - Andrea Giani
+      - Andrea Zorzi
+      - Andrey Zhekov
+      - Andrzej Wrona
+      - Angeli Tabaquero
+      - Anna Podolec
+      - Annerys Vargas
+      - Annie Drews
+      - Antonin Rouzier
+      - Antonina Zetova
+      - Arisa Takada
+      - Asako Tajimi
+      - Aurea Francesca Racraquin
+      - Avital Selinger
+      - Aya Mikami
+      - Ayako Sana
+      - Ballu
+      - Barbara Niemczyk
+      - Bartosz Kurek
+      - Bas van de Goor
+      - Berenika Tomsia
+      - Bernardo Rezende
+      - Bethania de la Cruz
+      - Boyan Yordanov
+      - Brecht Rodenburg
+      - Bruno Rezende
+      - Camila Brait
+      - Carolina Albuquerque
+      - Celeste Plak
+      - Charo Soriano
+      - Chiaka Ogbogu
+      - Chie Tsuji
+      - Chihiro Kato
+      - Chono Penchev
+      - Christina Bauer
+      - Clayton Stanley
+      - Cyril C. Valloor
+      - Damian Wojtaszek
+      - Dani Lins
+      - Dante Amaral
+      - Dante Boninfante
+      - Dawid Murek
+      - Dax Holdren
+      - Denden Lazaro
+      - Dimitar Zlatanov
+      - Dirk-Jan van Gendt
+      - Dobriana Rabadzhieva
+      - Dominik Witczak
+      - Dragan Travica
+      - Dzi Gervacio
+      - Earvin N'Gapeth
+      - Edward Skorek
+      - Edwin Benne
+      - Ekaterina Gamova
+      - Elitsa Vasileva
+      - Emanuele Birarelli
+      - Eri Hosoda
+      - Esteban de Palma
+      - Eugene Selznick
+      - Eva Yaneva
+      - Evgeni Ivanov
+      - Fabian Drzyzga
+      - Facundo Conte
+      - Farhad Ghaemi
+      - Farhad Zarif
+      - Ferdinand Tille
+      - Fernanda Garay
+      - Fille Saint Merced Cainglet
+      - Foluke Akinradewo
+      - Franco Bertoli
+      - Georg Grozer
+      - Georgi Bratoev
+      - Georgi Seganov
+      - Gergana Dimitrova
+      - Giba
+      - Gina del Rosario
+      - Gretchen Ho
+      - Grit Lehmann
+      - Grzegorz Bociek
+      - Grzegorz Kosok
+      - Gustavo Endres
+      - Hamzeh Zarini
+      - Hanna Busz
+      - Haruka Sunada
+      - Henk-Jan Held
+      - Hiroko Matsuura
+      - Hitomi Nakamichi
+      - Honami Tsukiji
+      - Hristina Ruseva
+      - Hristo Tsvetanov
+      - Hristo Zlatanov
+      - Hugo Conte
+      - Ikumi Narita
+      - Isa Molde
+      - Ivan Zaytsev
+      - Jaja Santiago
+      - Jakub Jarosz
+      - Jakub Kochanowski
+      - Jan Posthuma
+      - Janne Heikkinen
+      - Jaqueline Carvalho
+      - Jem Ferrer
+      - Jenia Grebennikov
+      - Jennifer Martz
+      - Jeoselyna Rodriguez Santos
+      - Jeroen Trommel
+      - Jessica Margarett Galanza
+      - Jimmy George
+      - Joanna Kaczor
+      - Joanna Mirek
+      - Joel Despaigne
+      - Jon Uriarte
+      - Jordan Larson
+      - Jorella Marie de Jesus
+      - Jovelyn Gonzaga
+      - Julia Melissa Morado
+      - Jungo Morita
+      - Juri Yokoyama
+      - Justine Wong-Orantes
+      - K. J. Kapil Dev
+      - K. Udayakumar
+      - Kalei Mau
+      - Kana Kawakami
+      - Kana Oyama
+      - Kanako Hirai
+      - Kanako Omura
+      - Kanari Hamaguchi
+      - Kaori Inoue
+      - Kaoru Sugayama
+      - Karch Kiraly
+      - Karla Echenique
+      - Katsutoshi Nekoda
+      - Kay van Dijk
+      - Keiki Nishiyama
+      - Kerri Walsh Jennings
+      - Kim Fajardo
+      - Kim Oden
+      - Kim Staelens
+      - Kim Yeon-koung
+      - Klaudia Kaczorowska
+      - Kotoe Inoue
+      - Kotomi Tosaki
+      - Kristina Guncheva
+      - Kristyna Pastulova
+      - Krystyna Czajkowska
+      - Krzysztof Ignaczak
+      - Kumi Nakada
+      - Kumiko Sakino
+      - Kyoko Katashita
+      - Laura Dijkema
+      - Lauren Carlini
+      - Laurent Tillie
+      - Leandro Vissotto
+      - Leonel Marshall Jr.
+      - Lidia Chmielnicka
+      - Lina Yanchulova
+      - Lisvel Elisa Eve
+      - Lloy Ball
+      - Logan Tom
+      - Lorenzo Bernardi
+      - Luiz Felipe Fonteles
+      - Lukas Kampa
+      - Lyubov Sokolova (volleyball)
+      - Maciej Zajder
+      - Mai Fujii
+      - Mai Uemura
+      - Maiko Kano
+      - Makiko Horai
+      - Malika Kanthong
+      - Marcel Gromadowski
+      - Marcin Wika
+      - Marco Bonitta
+      - Marek Karbarz
+      - Maria Liktoras
+      - Maria Paulina Soriano
+      - Marie Wada
+      - Mariko Nishiwaki
+      - Mariola Zenik
+      - Mariya Karakasheva
+      - Marko Klok
+      - Marrit Leenstra
+      - Martin Teffer
+      - Masae Kasai
+      - Masami Taniguchi
+      - Masami Yokoyama
+      - Mateusz Bieniek
+      - Mateusz Mika
+      - Matey Kaziyski
+      - Matt Anderson
+      - Megumi Kawamura
+      - Megumi Kurihara
+      - Micah Christenson
+      - Micha Hancock
+      - Michele Baranowicz
+      - Michelle Bartsch-Hackley
+      - Midori Takahashi
+      - Mika Reyes
+      - Mike van de Goor
+      - Miki Oyama
+      - Milena Rosner
+      - Mira Todorova
+      - Mireya Luis
+      - Misha Latuhihin
+      - Misty May-Treanor
+      - Miya Sato
+      - Miyu Nagaoka
+      - Miyuki Kano
+      - Miyuki Takahashi
+      - Mohammad Mousavi (volleyball)
+      - Mohammadjavad Manavinezhad
+      - Motoko Obayashi
+      - Murilo Endres
+      - Nana Iwasaka
+      - Nanae Takizawa
+      - Nanami Inoue
+      - Naoko Hashimoto
+      - Nasya Dimitrova
+      - Nene Tomita
+      - Neslihan Darnel
+      - Nico Freriks
+      - Nicolas Marechal
+      - Nikolay Nikolov
+      - Nikolay Penchev
+      - Nikolay Uchikov
+      - Niverka Marte
+      - Nootsara Tomkom
+      - Olof van der Meulen
+      - Onuma Sittirak
+      - Pasquale Gravina
+      - Patcharee Sangmuang
+      - Patrick Hernandez
+      - Patryk Czarnowski
+      - Paula Pequeno
+      - Petia Yanchulova
+      - Petya Barakova
+      - Pieter Verhees
+      - Piotr Gacek
+      - Piotr Gruszka
+      - Piotr Nowakowski
+      - Plamen Konstantinov
+      - Pleumjit Thinkaow
+      - Prisilla Rivera
+      - Rachael Adams
+      - Rachel Anne Daquis
+      - Regla Bell
+      - Reinder Nummerdor
+      - Rhea Katrina Dimaculangan
+      - Richard Schuil
+      - Risa Sato
+      - Rob Bontje
+      - Rob Grabert
+      - Robert Horstink
+      - Robert Milczarek
+      - Robert Prygiel
+      - Ron Boudrie
+      - Ron Zwerver
+      - Ronald Zoodsma
+      - Rongomaipapa Amy Ahomiro
+      - Rozalin Penchev
+      - Ryszard Bosek
+      - Sachiko Sugiyama
+      - Saeid Marouf
+      - Saki Minemura
+      - Samuel Tuia
+      - Saori Kimura
+      - Saori Sakoda
+      - Sarra Belhocine
+      - Seiji Oko
+      - Seiko Kawamura
+      - Shahram Mahmoudi
+      - Sheilla Castro
+      - Shuka Oyama
+      - Simone Giannelli
+      - Strashimira Filipova
+      - Svetoslav Gotsev
+      - Takako Shirai
+      - Tayyiba Haneef
+      - Teodor Salparov
+      - Thaisa Menezes
+      - Thiago Soares Alves
+      - Thomas Jarmoc
+      - Todor Aleksiev
+      - Todor Skrimov
+      - Tom Joseph
+      - Tomoko Okano
+      - Tomomi Nakao
+      - Tots Carlos
+      - Tsvetan Sokolov
+      - Valentin Bratoev
+      - Victonara Galang
+      - Viktor Yosifov
+      - Vladimir Nikolov
+      - Wanda Wiecha
+      - Wanitchaya Luangtonglang
+      - Wanna Buakaew
+      - Wilavan Apinyapong
+      - Wilfredo Leon
+      - William Priddy
+      - Wojciech Grzyb
+      - Wytze Kooistra
+      - Yevgeniya Estes
+      - Yoko Zetterlund
+      - Yoshie Takeshita
+      - Yoshiko Yano
+      - Yuji Nishida
+      - Yuka Sakurai
+      - Yukari Miyata
+      - Yuki Ishikawa
+      - Yuki Kawai
+      - Yuki Tanaka
+      - Yukiko Ebata
+      - Yuko Maruyama
+      - Yuko Mitsuya
+      - Yuko Sano
+      - Yuko Suzuki
+      - Yumiko Tsuzuki
+      - Zbigniew Bartman
+      - Zhana Todorova
+      - Zhu Ting
+      coach:
+      - Al Scates
+      - Aleksander Skiba
+      - Andrea Anastasi
+      - Andrzej Niemczyk
+      - Andy Banachowski
+      - Bernardo Rezende
+      - Cathy George
+      - Daniel Castellani
+      - Dave Shoji
+      - Dave Shondell
+      - Don Shondell
+      - Edward Skorek
+      - Ferdinando De Giorgi
+      - Gwidon Grochowski
+      - Hubert Jerzy Wagner
+      - Hubert Jerzy Wagner
+      - Hubert Jerzy Wagner
+      - Hubert Wagner
+      - Hugh McCutcheon
+      - Ireneusz Mazur
+      - Jacek Busz
+      - Jerzy Welcz
+      - John Cook
+      - Julio Velasco
+      - Laurie Corbelli
+      - Leonard Michniewski
+      - Leszek Milewski
+      - Mauro Berruto
+      - Michael Sealy
+      - Mick Haley
+      - Pete Waite
+      - Radostin Stojczew
+      - Russ Rose
+      - Ryan McGuyre
+      - Ryszard Bosek
+      - Ryszard Kruk
+      - Siergiej Owczinnikow
+      - Siergiej Szlapnikow
+      - Steve Shondell
+      - Tadeusz Szlagor
+      - Terry Liskevych
+      - Terry Pettit
+      - Vital Heynen
+      - Vladimir Kuzyutkin
+      - Wayne Kreklow
+      - Wiktor Krebok
+      - Wojciech Drzyzga
+      - Zbigniew Zarzycki
+      - Zygmunt Kraus
+      - Zygmunt Kraus
+      - Zygmunt Kraus
+      position:
+      - Defensive Specialist
+      - Libero
+      - Middle blocker
+      - Opposite hitter
+      - Outside hitter
+      - Right side hitter
+      - Setter
+      formation:
+      - 4-2
+      - 5-1
+      - 6-2

@@ -1,0 +1,14 @@
+<%#- # Migration for creating tool_calls table with database-specific JSON handling -%>
+class Create<%= tool_call_model_name.gsub('::', '').pluralize %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :<%= tool_call_table_name %> do |t|
+      t.string :tool_call_id, null: false
+      t.string :name, null: false
+      t.<%= postgresql? ? 'jsonb' : 'json' %> :arguments, default: {}
+      t.timestamps
+    end
+
+    add_index :<%= tool_call_table_name %>, :tool_call_id, unique: true
+    add_index :<%= tool_call_table_name %>, :name
+  end
+end

@@ -1,0 +1,37 @@
+language: ruby
+bundler_args: --binstubs
+cache: bundler
+
+rvm:
+  - 3.0.1
+  - 2.7.3
+  - 2.6.7
+
+services:
+  - postgresql
+
+env:
+  jobs:
+    - ACTIVE_RECORD_BRANCH="main"
+    - ACTIVE_RECORD_BRANCH="6-1-stable"
+    - ACTIVE_RECORD_BRANCH="6-0-stable"
+    - ACTIVE_RECORD_VERSION="~> 6.1.0"
+    - ACTIVE_RECORD_VERSION="~> 6.0.0"
+    - ACTIVE_RECORD_VERSION="~> 5.2.0"
+
+jobs:
+  allow_failures:
+    - env: ACTIVE_RECORD_BRANCH="main"
+    - env: ACTIVE_RECORD_BRANCH="6-0-stable"
+    - env: ACTIVE_RECORD_BRANCH="6-1-stable"
+  exclude:
+    - rvm: 3.0.1
+      env: ACTIVE_RECORD_VERSION="~> 5.2.0"
+    - rvm: 2.6.7
+      env: ACTIVE_RECORD_BRANCH="main"
+
+before_script:
+  - psql --version
+  - psql -c 'create database pg_search_test;' -U postgres >/dev/null
+
+script: bin/rake

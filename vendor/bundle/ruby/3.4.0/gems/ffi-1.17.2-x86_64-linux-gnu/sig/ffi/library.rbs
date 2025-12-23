@@ -1,0 +1,42 @@
+module FFI
+  module Library
+    type convention = :default | :stdcall
+    type ffi_lib_flag = :global | :local | :lazy | :now
+    type ffi_lib_type = ffi_auto_type | singleton(Struct)
+
+    CURRENT_PROCESS: current_process
+    LIBC: String
+    FlagsMap: Hash[ffi_lib_flag, Integer]
+
+    def self.extended: ...
+
+    def attach_function: (           _ToS func, Array[ffi_lib_type] args,  ffi_lib_type? returns, ?blocking: boolish, ?convention: convention, ?enums: Enums, ?type_map: type_map) -> (Function | VariadicInvoker)
+                       | (_ToS name, _ToS func, Array[ffi_lib_type] args, ?ffi_lib_type? returns, ?blocking: boolish, ?convention: convention, ?enums: Enums, ?type_map: type_map) -> (Function | VariadicInvoker)
+    def attach_variable: (?_ToS mname, _ToS cname, ffi_lib_type type) -> DynamicLibrary::Symbol
+    def attached_functions: () -> Hash[Symbol, Function | VariadicInvoker]
+    def attached_variables: () -> Hash[Symbol, Type | singleton(Struct)]
+
+    def bitmask: (?Type native_type, Symbol name, Array[Symbol | Integer] values) -> Bitmask
+               | (?Type native_type, *Symbol | Integer args) -> Bitmask
+               | (?Type native_type, Array[Symbol | Integer] values) -> Bitmask
+    def enum: (?Type native_type, Symbol name, Array[Symbol | Integer] values) -> Enum
+            | (?Type native_type, *Symbol | Integer args) -> Enum
+            | (?Type native_type, Array[Symbol | Integer] values) -> Enum
+    def enum_type: (Symbol name) -> Enum?
+    def enum_for: (Symbol name) -> Integer?
+
+    def callback: (?Symbol name, Array[ffi_lib_type] params, ffi_lib_type ret) -> CallbackInfo
+    def ffi_convention: (?convention? convention) -> convention
+    def ffi_lib: (*_ToS names) -> Array[DynamicLibrary]
+    def ffi_lib_flags: (*ffi_lib_flag flags) -> Integer
+    def ffi_libraries: () -> Array[DynamicLibrary]
+    def find_type: (ffi_lib_type t) -> Type
+    def freeze: () -> void
+    def function_names: (_ToS name, Array[Type | singleton(Struct)] arg_types) -> Array[String]
+    def typedef: [T < Type, N, R, C] (T old, Symbol | DataConverter[N, R, C] add, ?untyped) -> T
+               | (Symbol old, Symbol add, ?untyped) -> (Type | Enum)
+               | [X < DataConverter[N, R, C], N, R, C] (X old, Symbol add, ?untyped) -> Type::Mapped[X, N, R, C]
+               | (:enum old, Array[Symbol | Integer] add, ?untyped) -> Enum
+               | (:enum old, Symbol | Type add, Array[Symbol | Integer] info) -> Enum
+  end
+end

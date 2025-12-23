@@ -1,0 +1,51 @@
+ko:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "'%{email}'로 주소 인증 메일을 발송했습니다. 계정을 활성화하기 위해서는 반드시 메일의 안내를 따라야 합니다."
+      bad_credentials: "계정 정보가 맞지 않습니다. 다시 시도해 주세요."
+      not_supported: "POST /sign_in to sign in을 사용해주세요. GET은 지원하지 않습니다."
+      user_not_found: "유저를 찾을 수 없습니다."
+      invalid: "계정 정보가 맞지 않습니다."
+    registrations:
+      missing_confirm_success_url: "'confirm_success_url' 파라미터가 없습니다."
+      redirect_url_not_allowed: "'%{redirect_url}' 주소로 리다이렉트는 허용하지 않습니다."
+      email_already_exists: "'%{email}'을 사용하는 계정이 이미 있습니다."
+      account_with_uid_destroyed: " UID가 '%{uid}'인 계정을 삭제했습니다."
+      account_to_destroy_not_found: "삭제할 계정을 찾을 수 없습니다."
+      user_not_found: "유저를 찾을 수 없습니다."
+    omniauth:
+      not_allowed_redirect_url: "'%{redirect_url}' 주소로 리다이렉트는 허용하지 않습니다."
+    passwords:
+      missing_email: "이메일 주소를 입력해야 합니다."
+      missing_redirect_url: "redirect URL이 없습니다."
+      not_allowed_redirect_url: "'%{redirect_url}' 주소로 리다이렉트는 허용하지 않습니다."
+      sended: "'%{email}'로 비밀번호를 재설정하기 위한 안내 메일을 발송했습니다."
+      user_not_found: "'%{email}'을 사용하는 유저를 찾을 수 없습니다."
+      password_not_required: "이 계정은 비밀번호가 필요하지 않습니다. '%{provider}'으로 로그인을 진행해 주세요."
+      missing_passwords: "비밀번호와 비밀번호 확인 필드를 반드시 입력해야 합니다."
+      successfully_updated: "비밀번호를 성공적으로 업데이트 했습니다."
+    unlocks:
+      missing_email: "이메일 주소를 반드시 입력해야 합니다."
+      sended: "'%{email}'로 계정 잠금 해제를 위한 안내 메일을 발송했습니다."
+      user_not_found: "'%{email}'을 사용하는 유저를 찾을 수 없습니다."
+  errors:
+    messages:
+      validate_sign_up_params: "요청 값에 알맞은 로그인 데이터를 입력하세요."
+      validate_account_update_params: "요청 값에 알맞은 업데이트 데이터를 입력하세요."
+      not_email: "이메일이 아닙니다."
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "아래의 링크를 이용해 계정 인증을 할 수 있습니다."
+        confirm_account_link: "본인 계정 인증"
+      reset_password_instructions:
+        request_reset_link_msg: "누군가 당신의 비밀번호를 변경하는 링크를 요청했으며, 다음의 링크에서 비밀번호 변경이 가능합니다."
+        password_change_link: "비밀번호 변경"
+        ignore_mail_msg: "비밀번호 변경을 요청하지 않으셨다면 이 메일을 무시하십시오."
+        no_changes_msg: "위 링크에 접속하여 새로운 비밀번호를 생성하기 전까지 귀하의 비밀번호는 변경되지 않습니다."
+      unlock_instructions:
+        account_lock_msg: "로그인 실패 횟수 초과로 귀하의 계정이 잠금 처리되었습니다."
+        unlock_link_msg: "계정 잠금을 해제하려면 아래 링크를 클릭하세요."
+        unlock_link: "계정 잠금 해제"
+  hello: "안녕하세요"
+  welcome: "환영합니다"

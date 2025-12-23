@@ -1,0 +1,48 @@
+it:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Un'email di conferma è stata mandata al tuo account '%{email}'. Segui le istruzioni nell'email per attivare il tuo account."
+      bad_credentials: "Credenziali di login non valide. Riprova."
+      not_supported: "Usa POST /sign_in per eseguire il login. GET non è supportato."
+      user_not_found: "Utente non trovato o non autenticato."
+    token_validations:
+      invalid: "Credenziali di login non valide"
+    registrations:
+      missing_confirm_success_url: "Parametro 'confirm_success_url' mancante."
+      redirect_url_not_allowed: "Redirezione a '%{redirect_url}' non consentita."
+      email_already_exists: "Esiste già un account per '%{email}'"
+      account_with_uid_destroyed: "L'account con UID '%{uid}' è stato eliminato."
+      account_to_destroy_not_found: "Impossibile trovare l'account da eliminare."
+      user_not_found: "Utente non trovato."
+    omniauth:
+      not_allowed_redirect_url: "Redirezione a '%{redirect_url}' non consentita."
+    passwords:
+      missing_email: "Devi fornire un indirizzo email."
+      missing_redirect_url: "Redirect URL mancante."
+      not_allowed_redirect_url: "Redirezione a '%{redirect_url}' non consentita."
+      sended: "E' stata inviata un'email a '%{email}' contenente le istruzioni per reimpostare la password."
+      user_not_found: "Impossibile trovare un utente con email '%{email}'."
+      password_not_required: "Questo account non richiede una password. Accedi utilizzando l'account di '%{provider}'."
+      missing_passwords: "Devi riempire i campi 'Password' e 'Password confirmation'."
+      successfully_updated: "La tua password è stata aggiornata correttamente."
+  errors:
+    messages:
+      validate_sign_up_params: "Dati di registrazione non validi."
+      validate_account_update_params: "Dati di aggiornamento dell'account non validi."
+      not_email: "non è un'email"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Puoi confermare il tuo account email cliccando sul seguente link:"
+        confirm_account_link: "Conferma il mio account"
+      reset_password_instructions:
+        request_reset_link_msg: "Qualcuno ha richiesto un link per cambiare la tua password. Puoi farlo cliccando sul seguente link."
+        password_change_link: "Cambia la mia password"
+        ignore_mail_msg: "Se non hai richiesto questa operazione, puoi ignorare l'email."
+        no_changes_msg: "La tua password non cambierà finchè non cliccherai sul link sopra per crearne una nuova."
+      unlock_instructions:
+        account_lock_msg: "Il tuo account è stato bloccato a causa di un numero eccessivo di tentativi di accesso non validi."
+        unlock_link_msg: "Clicca sul seguente link per sbloccare il tuo account:"
+        unlock_link: "Sblocca il mio account"
+  hello: "ciao"
+  welcome: "benvenuto"

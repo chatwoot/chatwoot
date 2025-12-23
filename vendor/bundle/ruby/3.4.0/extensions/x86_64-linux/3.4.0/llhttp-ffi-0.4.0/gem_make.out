@@ -1,0 +1,8 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/llhttp-ffi-0.4.0/ext
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -rrubygems /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/rake-13.2.1/exe/rake RUBYARCHDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/llhttp-ffi-0.4.0 RUBYLIBDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/llhttp-ffi-0.4.0
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -fPIC   -o x86_64-linux/llhttp/api.o -c ./llhttp/api.c
+mkdir -p x86_64-linux/llhttp
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -fPIC   -o x86_64-linux/llhttp/http.o -c ./llhttp/http.c
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -fPIC   -o x86_64-linux/llhttp/llhttp.o -c ./llhttp/llhttp.c
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -fPIC   -o x86_64-linux/llhttp/llhttp_ext.o -c ./llhttp/llhttp_ext.c
+gcc -shared -o x86_64-linux/libllhttp-ext.so x86_64-linux/llhttp/api.o x86_64-linux/llhttp/http.o x86_64-linux/llhttp/llhttp.o x86_64-linux/llhttp/llhttp_ext.o -fexceptions 

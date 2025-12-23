@@ -1,0 +1,8 @@
+        # <%= desc %>
+        # @see https://api.slack.com/events/<%= name %>
+        # @see https://github.com/slack-ruby/slack-api-ref/blob/master/events/<%= name %>.json
+<% if hook %>
+<%= hook %>
+<% else %>
+          # on :<%= name %> do |data|
+<% end %>

@@ -1,0 +1,59 @@
+# Copyright (C) 2013 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Data from http://mijntelefoon.be/telefoonzones/ with the accent re-added in La
+# Louvière and spelling fixed for Charleroi. The prefix for Liège was restricted
+# beyond one digit to stop it being applied to all mobile phone numbers as well.
+
+3210|Waver
+3211|Hasselt
+3212|Tongeren
+3213|Diest
+3214|Herentals
+3215|Mechelen
+3216|Leuven
+3219|Borgworm
+322|Brussel
+323|Antwerpen
+3242|Luik
+3243|Luik
+3250|Brugge
+3251|Roeselare
+3252|Dendermonde
+3253|Aalst
+3254|Ninove
+3255|Ronse
+3256|Kortrijk
+3257|Ieper
+3258|Veurne
+3259|Oostende
+3260|Chimay
+3261|Libramont-Chevigny
+3263|Aarlen
+3264|La Louvière
+3265|Bergen
+3267|Nijvel
+3268|Aat
+3269|Doornik
+3271|Charleroi
+3280|Stavelot
+3281|Namen
+3282|Dinant
+3283|Ciney
+3284|Marche-en-Famenne
+3285|Hoei
+3286|Durbuy
+3287|Verviers
+3289|Genk
+329|Gent

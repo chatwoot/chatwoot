@@ -1,0 +1,172 @@
+en:
+  faker:
+    tea:
+      variety:
+        black:
+          - Assam
+          - Ceylon
+          - Congou
+          - Darjeeling
+          - Dianhong
+          - Earl Grey
+          - English Afternoon
+          - English Breakfast
+          - Irish Breakfast
+          - Jaekseol
+          - Jiu Qu Hong Mei
+          - Kangra
+          - Keemun
+          - Lady Grey
+          - Lahijan
+          - Lapsang Souchong
+          - Masala Chai
+          - Munnar
+          - Nepali
+          - Nilgiri
+          - Rize
+          - Scottish Breakfast
+          - Sun Moon Lake
+          - Yingdehong
+        oolong:
+          - Alishan
+          - Bai Jiguan
+          - Da Hong Pao
+          - Dancong
+          - Dongding
+          - Dongfang Meiren
+          - Fujian
+          - Gaoshan
+          - Huangjin Gui
+          - Ji Xuan
+          - Lishan
+          - Pouchong
+          - Rougui
+          - Ruan Zhi
+          - Shui Jin Gui
+          - Shui Xian
+          - Tieguanyin
+          - Tieluohan
+          - Tienguanyin
+          - Vietnamese
+        green:
+          - Bancha
+          - Biluochun
+          - Chun Mee
+          - Daejak
+          - Garucha
+          - Genmaicha
+          - Gunpowder
+          - Gyokuro
+          - Hojicha
+          - Huangshan Maofeng
+          - Ipcha
+          - Jungjak
+          - Kabusecha
+          - Kukicha
+          - Longjing
+          - Lu'an Melon Seed
+          - Matcha
+          - Sejak
+          - Sencha
+          - Shincha
+          - Taipin Houkui
+          - Ujeon
+          - Xinyang Maojian
+        white:
+          - Bai Mu Dan
+          - Fujian New Craft
+          - Gongmei
+          - Shou Mei
+          - Yi Zhen Bai Hao
+        herbal:
+          - Anise
+          - Asiatic Penny-Wort
+          - Bael Fruit
+          - Barley
+          - Bee Balm
+          - Boldo
+          - Burdock
+          - Cacao
+          - Caraway
+          - Cat's Claw
+          - Catnip
+          - Cerasse
+          - Chamomile
+          - Che Dang
+          - Chinese Knot-Weed
+          - Chrysanthemum
+          - Cinnamon
+          - Citrus Peel
+          - Dandelion
+          - Dill
+          - Dried Lime
+          - Echinacea
+          - Elderberry
+          - Essiac
+          - European Mistletoe
+          - Fennel
+          - Gentian
+          - Ginger Root
+          - Ginseng
+          - Goji
+          - Hawthorn
+          - Hibiscus
+          - Honeybush
+          - Horehound
+          - Houttuynia
+          - Jiaogulan
+          - Kapor
+          - Kuzuyu
+          - Labrador
+          - Lemon Balm
+          - Lemon Ginger
+          - Lemon Grass
+          - Licorice Root
+          - Lime Blossom
+          - Luo Han Guo
+          - Mint
+          - Moringa
+          - Mountain Tea
+          - Neem
+          - Nettle
+          - New Jersey Tea
+          - Noni
+          - Oksusu Cha
+          - Olive Leaf
+          - Osmanthus
+          - Pandan
+          - Patchouli
+          - Pine
+          - Qishr
+          - Red Clover
+          - Red Raspberry
+          - Roasted Wheat
+          - Rooibos
+          - Rose Hip
+          - Roselle
+          - Rosemary
+          - Sage
+          - Sagebrush
+          - Serendib
+          - Skurayu
+          - Sobacha
+          - Spearmint
+          - Spicebush
+          - Spruce
+          - St. John's Wort
+          - Thyme
+          - Tulsi
+          - Turmeric
+          - Valerian
+          - Verbena
+          - Vetiver
+          - Wax Gourd
+          - Wong Lo Kat
+          - Woodruff
+          - Yarrow
+      type:
+        - Black
+        - Oolong
+        - Green
+        - White
+        - Herbal

@@ -1,0 +1,1130 @@
+---
+- !ruby/object:MIME::Type
+  content-type: video/1d-interleaved-parityfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6015
+    template:
+    - video/1d-interleaved-parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/3gpp
+  friendly:
+    en: 3GP
+  encoding: base64
+  extensions:
+  - 3gp
+  - 3gpp
+  xrefs:
+    rfc:
+    - rfc3839
+    - rfc6381
+    template:
+    - video/3gpp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/3gpp-tt
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4396
+    template:
+    - video/3gpp-tt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/3gpp2
+  friendly:
+    en: 3GP2
+  encoding: base64
+  extensions:
+  - 3g2
+  - 3gpp2
+  xrefs:
+    rfc:
+    - rfc4393
+    - rfc6381
+    template:
+    - video/3gpp2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/AV1
+  encoding: base64
+  xrefs:
+    person:
+    - Alliance_for_Open_Media
+    template:
+    - video/AV1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/BMPEG
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/BMPEG
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/BT656
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/BT656
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/CelB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/CelB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/dl
+  encoding: base64
+  extensions:
+  - dl
+  obsolete: true
+  use-instead: video/x-dl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/DV
+  encoding: base64
+  extensions:
+  - dv
+  xrefs:
+    rfc:
+    - rfc6469
+    template:
+    - video/DV
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/encaprtp
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - video/encaprtp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/example
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4735
+    template:
+    - video/example
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/FFV1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc9043
+    template:
+    - video/FFV1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/flexfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8627
+    template:
+    - video/flexfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/gl
+  encoding: base64
+  extensions:
+  - gl
+  obsolete: true
+  use-instead: video/x-gl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/H261
+  friendly:
+    en: H.261
+  encoding: base64
+  extensions:
+  - h261
+  xrefs:
+    rfc:
+    - rfc4587
+    template:
+    - video/H261
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H263
+  friendly:
+    en: H.263
+  encoding: base64
+  extensions:
+  - h263
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/H263
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H263-1998
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4629
+    template:
+    - video/H263-1998
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H263-2000
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4629
+    template:
+    - video/H263-2000
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H264
+  friendly:
+    en: H.264
+  encoding: base64
+  extensions:
+  - h264
+  xrefs:
+    rfc:
+    - rfc6184
+    template:
+    - video/H264
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H264-RCDO
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6185
+    template:
+    - video/H264-RCDO
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H264-SVC
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6190
+    template:
+    - video/H264-SVC
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H265
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc7798
+    template:
+    - video/H265
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/H266
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc9328
+    template:
+    - video/H266
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/iso.segment
+  encoding: base64
+  xrefs:
+    person:
+    - David_Singer
+    - ISO-IEC_JTC1
+    template:
+    - video/iso.segment
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/JPEG
+  friendly:
+    en: JPGVideo
+  encoding: base64
+  extensions:
+  - jpgv
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/JPEG
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/jpeg2000
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5371
+    - rfc5372
+    template:
+    - video/jpeg2000
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/jpm
+  friendly:
+    en: JPEG 2000 Compound Image File Format
+  encoding: base64
+  extensions:
+  - jpgm
+  - jpm
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/jxsv
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc9134
+    template:
+    - video/jxsv
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MJ2
+  friendly:
+    en: Motion JPEG 2000
+  encoding: base64
+  extensions:
+  - mj2
+  - mjp2
+  xrefs:
+    rfc:
+    - rfc3745
+    template:
+    - video/mj2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MP1S
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/MP1S
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MP2P
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/MP2P
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MP2T
+  encoding: base64
+  extensions:
+  - ts
+  - mts
+  - m2ts
+  - cpi
+  - clpi
+  - mpl
+  - mpls
+  - bdm
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/MP2T
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/mp4
+  friendly:
+    en: MPEG-4 Video
+  encoding: base64
+  extensions:
+  - mp4
+  - mpg4
+  - f4v
+  - f4p
+  - mp4v
+  xrefs:
+    rfc:
+    - rfc4337
+    - rfc6381
+    template:
+    - video/mp4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MP4V-ES
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6416
+    template:
+    - video/MP4V-ES
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/mpeg
+  friendly:
+    en: MPEG Video
+  encoding: base64
+  extensions:
+  - mp2
+  - mp3g
+  - mpe
+  - mpeg
+  - mpg
+  - m1v
+  - m2v
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/mpeg4-generic
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3640
+    template:
+    - video/mpeg4-generic
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/MPV
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - video/MPV
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/nv
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - video/nv
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/ogg
+  friendly:
+    en: Ogg Video
+  encoding: base64
+  extensions:
+  - ogg
+  - ogv
+  xrefs:
+    rfc:
+    - rfc5334
+    - rfc7845
+    template:
+    - video/ogg
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/parityfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3009
+    template:
+    - video/parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/pointer
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc2862
+    template:
+    - video/pointer
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/quicktime
+  friendly:
+    en: Quicktime Video
+  encoding: base64
+  extensions:
+  - qt
+  - mov
+  xrefs:
+    rfc:
+    - rfc6381
+    person:
+    - Paul_Lindner
+    template:
+    - video/quicktime
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/raptorfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6682
+    template:
+    - video/raptorfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/raw
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4175
+    template:
+    - video/raw
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/rtp-enc-aescm128
+  encoding: base64
+  xrefs:
+    person:
+    - _3GPP
+    template:
+    - video/rtp-enc-aescm128
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/rtploopback
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - video/rtploopback
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/rtx
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4588
+    template:
+    - video/rtx
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/scip
+  encoding: base64
+  xrefs:
+    person:
+    - Daniel_Hanson
+    - Michael_Faller
+    - SCIP
+    template:
+    - video/scip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/smpte291
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8331
+    template:
+    - video/smpte291
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/SMPTE292M
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3497
+    template:
+    - video/SMPTE292M
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/ulpfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5109
+    template:
+    - video/ulpfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vc1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4425
+    template:
+    - video/vc1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vc2
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8450
+    template:
+    - video/vc2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.CCTV
+  encoding: base64
+  xrefs:
+    person:
+    - Frank_Rottmann
+    template:
+    - video/vnd.CCTV
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.hd
+  friendly:
+    en: DECE High Definition Video
+  encoding: base64
+  extensions:
+  - uvh
+  - uvvh
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.hd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.mobile
+  friendly:
+    en: DECE Mobile Video
+  encoding: base64
+  extensions:
+  - uvm
+  - uvvm
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.mobile
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.mp4
+  encoding: base64
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.mp4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.pd
+  friendly:
+    en: DECE PD Video
+  encoding: base64
+  extensions:
+  - uvp
+  - uvvp
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.pd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.sd
+  friendly:
+    en: DECE SD Video
+  encoding: base64
+  extensions:
+  - uvs
+  - uvvs
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.sd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dece.video
+  friendly:
+    en: DECE Video
+  encoding: base64
+  extensions:
+  - uvv
+  - uvvv
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.dece.video
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.directv.mpeg
+  encoding: base64
+  xrefs:
+    person:
+    - Nathan_Zerbe
+    template:
+    - video/vnd.directv.mpeg
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.directv.mpeg-tts
+  encoding: base64
+  xrefs:
+    person:
+    - Nathan_Zerbe
+    template:
+    - video/vnd.directv.mpeg-tts
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dlna.mpeg-tts
+  encoding: base64
+  xrefs:
+    person:
+    - Edwin_Heredia
+    template:
+    - video/vnd.dlna.mpeg-tts
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.dvb.file
+  encoding: base64
+  extensions:
+  - dvb
+  xrefs:
+    person:
+    - Kevin_Murray
+    - Peter_Siebert
+    template:
+    - video/vnd.dvb.file
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.fvt
+  friendly:
+    en: FAST Search & Transfer ASA
+  encoding: base64
+  extensions:
+  - fvt
+  xrefs:
+    person:
+    - Arild_Fuldseth
+    template:
+    - video/vnd.fvt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.hns.video
+  encoding: base64
+  xrefs:
+    person:
+    - Swaminathan
+    template:
+    - video/vnd.hns.video
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.1dparityfec-1010
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.1dparityfec-1010
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.1dparityfec-2005
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.1dparityfec-2005
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.2dparityfec-1010
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.2dparityfec-1010
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.2dparityfec-2005
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.2dparityfec-2005
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.ttsavc
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.ttsavc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.iptvforum.ttsmpeg2
+  encoding: base64
+  xrefs:
+    person:
+    - Shuji_Nakamura
+    template:
+    - video/vnd.iptvforum.ttsmpeg2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.motorola.video
+  encoding: base64
+  xrefs:
+    person:
+    - Tom_McGinty
+    template:
+    - video/vnd.motorola.video
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.motorola.videop
+  encoding: base64
+  xrefs:
+    person:
+    - Tom_McGinty
+    template:
+    - video/vnd.motorola.videop
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.mpegurl
+  friendly:
+    en: MPEG Url
+  encoding: 8bit
+  extensions:
+  - mxu
+  - m4u
+  xrefs:
+    person:
+    - Heiko_Recktenwald
+    template:
+    - video/vnd.mpegurl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.ms-playready.media.pyv
+  friendly:
+    en: Microsoft PlayReady Ecosystem Video
+  encoding: base64
+  extensions:
+  - pyv
+  xrefs:
+    person:
+    - Steve_DiAcetis
+    template:
+    - video/vnd.ms-playready.media.pyv
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.nokia.interleaved-multimedia
+  encoding: base64
+  extensions:
+  - nim
+  xrefs:
+    person:
+    - Petteri_Kangaslampi
+    template:
+    - video/vnd.nokia.interleaved-multimedia
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.nokia.mp4vr
+  encoding: base64
+  xrefs:
+    person:
+    - Miska_M._Hannuksela
+    template:
+    - video/vnd.nokia.mp4vr
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.nokia.videovoip
+  encoding: base64
+  xrefs:
+    person:
+    - Nokia
+    template:
+    - video/vnd.nokia.videovoip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.objectvideo
+  encoding: base64
+  extensions:
+  - mp4
+  - m4v
+  xrefs:
+    person:
+    - John_Clark
+    template:
+    - video/vnd.objectvideo
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.radgamettools.bink
+  encoding: base64
+  xrefs:
+    person:
+    - Henrik_Andersson
+    template:
+    - video/vnd.radgamettools.bink
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.radgamettools.smacker
+  encoding: base64
+  xrefs:
+    person:
+    - Henrik_Andersson
+    template:
+    - video/vnd.radgamettools.smacker
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.sealed.mpeg1
+  encoding: base64
+  extensions:
+  - s11
+  xrefs:
+    person:
+    - David_Petersen
+    template:
+    - video/vnd.sealed.mpeg1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.sealed.mpeg4
+  encoding: base64
+  extensions:
+  - smpg
+  - s14
+  xrefs:
+    person:
+    - David_Petersen
+    template:
+    - video/vnd.sealed.mpeg4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.sealed.swf
+  encoding: base64
+  extensions:
+  - sswf
+  - ssw
+  xrefs:
+    person:
+    - David_Petersen
+    template:
+    - video/vnd.sealed.swf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.sealedmedia.softseal.mov
+  encoding: base64
+  extensions:
+  - smov
+  - smo
+  - s1q
+  xrefs:
+    person:
+    - David_Petersen
+    template:
+    - video/vnd.sealedmedia.softseal.mov
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.uvvu.mp4
+  friendly:
+    en: DECE MP4
+  encoding: base64
+  extensions:
+  - uvu
+  - uvvu
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - video/vnd.uvvu.mp4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.vivo
+  friendly:
+    en: Vivo
+  encoding: base64
+  extensions:
+  - viv
+  - vivo
+  xrefs:
+    person:
+    - John_Wolfe
+    template:
+    - video/vnd.vivo
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/vnd.youtube.yt
+  encoding: base64
+  xrefs:
+    person:
+    - Google
+    template:
+    - video/vnd.youtube.yt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/VP8
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc7741
+    template:
+    - video/VP8
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/VP9
+  encoding: base64
+  xrefs:
+    draft:
+    - RFC-ietf-payload-vp9-16
+    template:
+    - video/VP9
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: video/webm
+  friendly:
+    en: Open Web Media Project - Video
+  encoding: base64
+  extensions:
+  - webm
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-dl
+  encoding: base64
+  extensions:
+  - dl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-dv
+  encoding: base64
+  extensions:
+  - dv
+  obsolete: true
+  use-instead: video/DV
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-f4v
+  friendly:
+    en: Flash Video
+  encoding: base64
+  extensions:
+  - f4v
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-fli
+  friendly:
+    en: FLI/FLC Animation Format
+  encoding: base64
+  extensions:
+  - fli
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-flv
+  friendly:
+    en: Flash Video
+  encoding: base64
+  extensions:
+  - flv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-gl
+  encoding: base64
+  extensions:
+  - gl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ivf
+  encoding: base64
+  extensions:
+  - ivf
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-m4v
+  friendly:
+    en: M4v
+  encoding: base64
+  extensions:
+  - m4v
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-matroska
+  encoding: base64
+  extensions:
+  - mk3d
+  - mks
+  - mkv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-mng
+  encoding: base64
+  extensions:
+  - mng
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-motion-jpeg
+  encoding: base64
+  extensions:
+  - mjpg
+  - mjpeg
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-asf
+  friendly:
+    en: Microsoft Advanced Systems Format (ASF)
+  encoding: base64
+  extensions:
+  - asf
+  - asx
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-vob
+  encoding: base64
+  extensions:
+  - vob
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-wm
+  friendly:
+    en: Microsoft Windows Media
+  encoding: base64
+  extensions:
+  - wm
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-wmv
+  friendly:
+    en: Microsoft Windows Media Video
+  encoding: base64
+  extensions:
+  - wmv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-wmx
+  friendly:
+    en: Microsoft Windows Media Audio/Video Playlist
+  encoding: base64
+  extensions:
+  - wmx
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-ms-wvx
+  friendly:
+    en: Microsoft Windows Media Video Playlist
+  encoding: base64
+  extensions:
+  - wvx
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-msvideo
+  friendly:
+    en: Audio Video Interleave (AVI)
+  encoding: base64
+  extensions:
+  - avi
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-sgi-movie
+  friendly:
+    en: SGI Movie
+  encoding: base64
+  extensions:
+  - movie
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: video/x-smv
+  encoding: base64
+  extensions:
+  - smv
+  registered: false

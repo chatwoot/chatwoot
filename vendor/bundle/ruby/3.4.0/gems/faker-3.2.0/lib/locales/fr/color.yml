@@ -1,0 +1,4 @@
+fr:
+  faker:
+    color:
+      name: ["rouge", "vert", "bleu", "jaune", "violet", "vert menthe", "bleu sarcelle", "blanc", "noir", "orange", "rose", "gris", "marron", "turquoise", "brun", "bleu ciel", "saumon", "prune", "orchidée", "olive", "magenta", "vert citron", "ivoire", "indigo", "or", "fuchsia", "cyan", "azur", "lavande", "argent"]

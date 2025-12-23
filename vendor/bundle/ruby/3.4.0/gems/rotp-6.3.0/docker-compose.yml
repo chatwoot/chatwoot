@@ -1,0 +1,37 @@
+version: "3.8"
+services:
+  ruby_2_3:
+    build:
+      context: .
+      dockerfile: Dockerfile-2.3
+    volumes:
+      - "./lib:/usr/src/app/lib"
+      - "./spec:/usr/src/app/spec"
+  ruby_2_5:
+    build:
+      context: .
+      dockerfile: Dockerfile-2.5
+    volumes:
+      - "./lib:/usr/src/app/lib"
+      - "./spec:/usr/src/app/spec"
+  ruby_2_6:
+    build:
+      context: .
+      dockerfile: Dockerfile-2.6
+    volumes:
+      - "./lib:/usr/src/app/lib"
+      - "./spec:/usr/src/app/spec"
+  ruby_2_7:
+    build:
+      context: .
+      dockerfile: Dockerfile-2.7
+    volumes:
+      - "./lib:/usr/src/app/lib"
+      - "./spec:/usr/src/app/spec"
+  ruby_3_0:
+    build:
+      context: .
+      dockerfile: Dockerfile-3.0
+    volumes:
+      - "./lib:/usr/src/app/lib"
+      - "./spec:/usr/src/app/spec"

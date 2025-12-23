@@ -1,0 +1,5 @@
+* Argument +io+ should be an IO object that is:
+  * Open for reading; on return, the IO object will be closed.
+  * Positioned at the beginning.
+    To position at the end, for appending, use method CSV.generate.
+    For any other positioning, pass a preset \StringIO object instead.

@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  BUNDLE_WITHOUT: "development"
+  JRUBY_OPTS: "--dev --debug"
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        ruby: [ ruby-2.6, ruby-2.7, ruby-3.0, ruby-3.1 ]
+        os: [ ubuntu-latest ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: bundle exec rspec
+        run: bundle exec rspec --format progress --force-colour
+
+      - name: Prepare Coveralls test coverage report
+        uses: coverallsapp/github-action@v1.1.2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: "${{ matrix.ruby }} @${{ matrix.os }}"
+          path-to-lcov: ./coverage/lcov/lcov.info
+          parallel: true
+
+  test-flaky:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        ruby: [ jruby-9.3 ]
+        os: [ ubuntu-latest ]
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: bundle exec rspec
+        continue-on-error: true
+        run: bundle exec rspec --format progress --force-colour
+
+  coveralls:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Finalize Coveralls test coverage report
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.6
+          bundler-cache: true
+
+      - name: bundle exec rubocop
+        run: bundle exec rubocop --format progress --color
+
+      - run: bundle exec rake verify_measurements

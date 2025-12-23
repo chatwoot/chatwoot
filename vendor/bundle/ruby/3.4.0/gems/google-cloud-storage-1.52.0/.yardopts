@@ -1,0 +1,16 @@
+--no-private
+--title=Google Cloud Storage
+--markup markdown
+--markup-provider redcarpet
+--main OVERVIEW.md
+
+./lib/**/*.rb
+-
+OVERVIEW.md
+AUTHENTICATION.md
+LOGGING.md
+CONTRIBUTING.md
+TROUBLESHOOTING.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+LICENSE

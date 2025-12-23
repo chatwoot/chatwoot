@@ -1,0 +1,7 @@
+class Gem::Platform
+  def self.local: () -> Gem::Platform
+
+  def os: () -> String
+  def cpu: () -> String
+  def version: () -> String
+end

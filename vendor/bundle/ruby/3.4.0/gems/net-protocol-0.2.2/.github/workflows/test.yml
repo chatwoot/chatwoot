@@ -1,0 +1,30 @@
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  ruby-verions:
+    uses: ruby/actions/.github/workflows/ruby_versions.yml@master
+    with:
+      min_version: 2.6
+
+  test:
+    needs: ruby-verions
+    name: build (${{ matrix.ruby }} / ${{ matrix.os }})
+    strategy:
+      matrix:
+        ruby: ${{ fromJson(needs.ruby-verions.outputs.versions) }}
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        exclude:
+          - { os: windows-latest, ruby: truffleruby-head }
+          - { os: windows-latest, ruby: truffleruby }
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true # 'bundle install' and cache gems
+    - name: Run test
+      run: bundle exec rake test

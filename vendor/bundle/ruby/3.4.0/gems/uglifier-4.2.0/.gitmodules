@@ -1,0 +1,12 @@
+[submodule "vendor/uglifyjs"]
+	path = vendor/uglifyjs
+	url = https://github.com/mishoo/UglifyJS2.git
+[submodule "vendor/source-map"]
+	path = vendor/source-map
+	url = https://github.com/mozilla/source-map.git
+[submodule "vendor/split"]
+	path = vendor/split
+	url = https://gist.github.com/2048056.git
+[submodule "vendor/uglifyjs-harmony"]
+	path = vendor/uglifyjs-harmony
+	url = https://github.com/mishoo/UglifyJS2.git

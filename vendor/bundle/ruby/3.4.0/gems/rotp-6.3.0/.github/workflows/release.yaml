@@ -1,0 +1,36 @@
+name: Release
+
+on:
+  push:
+    branches:    
+      - 'main'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: ruby
+          package-name: rotp
+          version-file: "lib/rotp/version.rb"
+      # Checkout code if release was created
+      - uses: actions/checkout@v2
+        if: ${{ steps.release.outputs.release_created }}
+      # Setup ruby if a release was created
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.2
+          bundler-cache: true
+        if: ${{ steps.release.outputs.release_created }}
+      - name: Run tests
+        run: bundle exec rspec
+        if: ${{ steps.release.outputs.release_created }}
+      # build gem and add to release
+      - name: Upload Release Artifact
+        if: ${{ steps.release.outputs.release_created }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          gem build *.gemspec
+          gh release upload ${{ steps.release.outputs.tag_name }} *.gem

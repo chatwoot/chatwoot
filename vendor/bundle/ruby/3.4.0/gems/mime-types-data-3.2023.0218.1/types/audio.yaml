@@ -1,0 +1,1716 @@
+---
+- !ruby/object:MIME::Type
+  content-type: audio/1d-interleaved-parityfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6015
+    template:
+    - audio/1d-interleaved-parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/32kadpcm
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc2421
+    - rfc3802
+    template:
+    - audio/32kadpcm
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/3gpp
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3839
+    - rfc6381
+    template:
+    - audio/3gpp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/3gpp2
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4393
+    - rfc6381
+    template:
+    - audio/3gpp2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/aac
+  encoding: base64
+  xrefs:
+    person:
+    - ISO-IEC_JTC1
+    - Max_Neuendorf
+    template:
+    - audio/aac
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ac3
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4184
+    template:
+    - audio/ac3
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/adpcm
+  friendly:
+    en: Adaptive differential pulse-code modulation
+  encoding: base64
+  extensions:
+  - adp
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/AMR
+  encoding: base64
+  extensions:
+  - amr
+  xrefs:
+    rfc:
+    - rfc4867
+    template:
+    - audio/AMR
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/AMR-WB
+  encoding: base64
+  extensions:
+  - awb
+  xrefs:
+    rfc:
+    - rfc4867
+    template:
+    - audio/AMR-WB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/amr-wb+
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4352
+    template:
+    - audio/amr-wb+
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/aptx
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc7310
+    template:
+    - audio/aptx
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/asc
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6295
+    template:
+    - audio/asc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ATRAC-ADVANCED-LOSSLESS
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5584
+    template:
+    - audio/ATRAC-ADVANCED-LOSSLESS
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ATRAC-X
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5584
+    template:
+    - audio/ATRAC-X
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ATRAC3
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5584
+    template:
+    - audio/ATRAC3
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/basic
+  friendly:
+    en: Sun Audio - Au file format
+  encoding: base64
+  extensions:
+  - au
+  - snd
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+    template:
+    - audio/basic
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/BV16
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4298
+    template:
+    - audio/BV16
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/BV32
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4298
+    template:
+    - audio/BV32
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/clearmode
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4040
+    template:
+    - audio/clearmode
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/CN
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3389
+    template:
+    - audio/CN
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/DAT12
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3190
+    template:
+    - audio/DAT12
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/dls
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4613
+    template:
+    - audio/dls
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/dsr-es201108
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3557
+    template:
+    - audio/dsr-es201108
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/dsr-es202050
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4060
+    template:
+    - audio/dsr-es202050
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/dsr-es202211
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4060
+    template:
+    - audio/dsr-es202211
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/dsr-es202212
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4060
+    template:
+    - audio/dsr-es202212
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/DV
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6469
+    template:
+    - audio/DV
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/DVI4
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/DVI4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/eac3
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4598
+    template:
+    - audio/eac3
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/encaprtp
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - audio/encaprtp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRC
+  encoding: base64
+  extensions:
+  - evc
+  xrefs:
+    rfc:
+    - rfc4788
+    template:
+    - audio/EVRC
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRC-QCP
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3625
+    template:
+    - audio/EVRC-QCP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRC0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4788
+    template:
+    - audio/EVRC0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRC1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4788
+    template:
+    - audio/EVRC1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5188
+    template:
+    - audio/EVRCB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCB0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5188
+    template:
+    - audio/EVRCB0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCB1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4788
+    template:
+    - audio/EVRCB1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCNW
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6884
+    template:
+    - audio/EVRCNW
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCNW0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6884
+    template:
+    - audio/EVRCNW0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCNW1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6884
+    template:
+    - audio/EVRCNW1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCWB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5188
+    template:
+    - audio/EVRCWB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCWB0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5188
+    template:
+    - audio/EVRCWB0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVRCWB1
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5188
+    template:
+    - audio/EVRCWB1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/EVS
+  encoding: base64
+  xrefs:
+    person:
+    - Kyunghun_Jung
+    - _3GPP
+    template:
+    - audio/EVS
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/example
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4735
+    template:
+    - audio/example
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/flexfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8627
+    template:
+    - audio/flexfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/fwdred
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6354
+    template:
+    - audio/fwdred
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G711-0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc7655
+    template:
+    - audio/G711-0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G719
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5404
+    rfc-errata:
+    - '3245'
+    template:
+    - audio/G719
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G722
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G722
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G7221
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5577
+    template:
+    - audio/G7221
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G723
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G723
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G726-16
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G726-16
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G726-24
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G726-24
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G726-32
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G726-32
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G726-40
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G726-40
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G728
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G728
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G729
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G729
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G7291
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4749
+    - rfc5459
+    template:
+    - audio/G7291
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G729D
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G729D
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/G729E
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/G729E
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/GSM
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/GSM
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/GSM-EFR
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/GSM-EFR
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/GSM-HR-08
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5993
+    template:
+    - audio/GSM-HR-08
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/iLBC
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3952
+    template:
+    - audio/iLBC
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ip-mr_v2.5
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6262
+    template:
+    - audio/ip-mr_v2.5
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/L16
+  encoding: base64
+  extensions:
+  - l16
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/L16
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/L20
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3190
+    template:
+    - audio/L20
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/L24
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3190
+    template:
+    - audio/L24
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/L8
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/L8
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/LPC
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/LPC
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MELP
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8130
+    template:
+    - audio/MELP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MELP1200
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8130
+    template:
+    - audio/MELP1200
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MELP2400
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8130
+    template:
+    - audio/MELP2400
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MELP600
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8130
+    template:
+    - audio/MELP600
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/mhas
+  encoding: base64
+  xrefs:
+    person:
+    - ISO-IEC_JTC1
+    - Ingo_Hofmann
+    - Nils_Peters
+    template:
+    - audio/mhas
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/midi
+  friendly:
+    en: MIDI - Musical Instrument Digital Interface
+  encoding: base64
+  extensions:
+  - kar
+  - mid
+  - midi
+  - rmi
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/mobile-xmf
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4723
+    template:
+    - audio/mobile-xmf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/mp4
+  friendly:
+    en: MPEG-4 Audio
+  encoding: base64
+  extensions:
+  - mp4
+  - mpg4
+  - f4a
+  - f4b
+  - mp4a
+  - m4a
+  xrefs:
+    rfc:
+    - rfc4337
+    - rfc6381
+    template:
+    - audio/mp4
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MP4A-LATM
+  encoding: base64
+  extensions:
+  - m4a
+  xrefs:
+    rfc:
+    - rfc6416
+    template:
+    - audio/MP4A-LATM
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/MPA
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - audio/MPA
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/mpa-robust
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5219
+    template:
+    - audio/mpa-robust
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/mpeg
+  friendly:
+    en: MPEG Audio
+  encoding: base64
+  extensions:
+  - mpga
+  - mp2
+  - mp3
+  - m2a
+  - m3a
+  - mp2a
+  xrefs:
+    rfc:
+    - rfc3003
+    template:
+    - audio/mpeg
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/mpeg4-generic
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3640
+    - rfc5691
+    - rfc6295
+    template:
+    - audio/mpeg4-generic
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ogg
+  friendly:
+    en: Ogg Audio
+  encoding: base64
+  extensions:
+  - oga
+  - ogg
+  - spx
+  - opus
+  xrefs:
+    rfc:
+    - rfc5334
+    - rfc7845
+    template:
+    - audio/ogg
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/opus
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc7587
+    template:
+    - audio/opus
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/parityfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3009
+    template:
+    - audio/parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/PCMA
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/PCMA
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/PCMA-WB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5391
+    template:
+    - audio/PCMA-WB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/PCMU
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/PCMU
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/PCMU-WB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5391
+    template:
+    - audio/PCMU-WB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/prs.sid
+  encoding: base64
+  xrefs:
+    person:
+    - Linus_Walleij
+    template:
+    - audio/prs.sid
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/QCELP
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    - rfc3625
+    template:
+    - audio/QCELP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/raptorfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6682
+    template:
+    - audio/raptorfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/RED
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3555
+    template:
+    - audio/RED
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/rtp-enc-aescm128
+  encoding: base64
+  xrefs:
+    person:
+    - _3GPP
+    template:
+    - audio/rtp-enc-aescm128
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/rtp-midi
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6295
+    template:
+    - audio/rtp-midi
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/rtploopback
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - audio/rtploopback
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/rtx
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4588
+    template:
+    - audio/rtx
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/s3m
+  encoding: base64
+  extensions:
+  - s3m
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/scip
+  encoding: base64
+  xrefs:
+    person:
+    - Daniel_Hanson
+    - Michael_Faller
+    - SCIP
+    template:
+    - audio/scip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/silk
+  encoding: base64
+  extensions:
+  - sil
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/SMV
+  encoding: base64
+  extensions:
+  - smv
+  xrefs:
+    rfc:
+    - rfc3558
+    template:
+    - audio/SMV
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/SMV-QCP
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3625
+    template:
+    - audio/SMV-QCP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/SMV0
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3558
+    template:
+    - audio/SMV0
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/sofa
+  encoding: base64
+  xrefs:
+    person:
+    - AES
+    - Piotr_Majdak
+    template:
+    - audio/sofa
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/sp-midi
+  encoding: base64
+  xrefs:
+    person:
+    - Athan_Billias
+    - MIDI_Association
+    template:
+    - audio/sp-midi
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/speex
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5574
+    template:
+    - audio/speex
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/t140c
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4351
+    template:
+    - audio/t140c
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/t38
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4612
+    template:
+    - audio/t38
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/telephone-event
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4733
+    template:
+    - audio/telephone-event
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/TETRA_ACELP
+  encoding: base64
+  xrefs:
+    person:
+    - ETSI
+    - Miguel_Angel_Reina_Ortega
+    template:
+    - audio/TETRA_ACELP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/TETRA_ACELP_BB
+  encoding: base64
+  xrefs:
+    person:
+    - ETSI
+    - Miguel_Angel_Reina_Ortega
+    template:
+    - audio/TETRA_ACELP_BB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/tone
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4733
+    template:
+    - audio/tone
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/TSVCIS
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8817
+    template:
+    - audio/TSVCIS
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/UEMCLIP
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5686
+    template:
+    - audio/UEMCLIP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/ulpfec
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5109
+    template:
+    - audio/ulpfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/usac
+  encoding: base64
+  xrefs:
+    person:
+    - ISO-IEC_JTC1
+    - Max_Neuendorf
+    template:
+    - audio/usac
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/VDVI
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4856
+    template:
+    - audio/VDVI
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/VMR-WB
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4348
+    - rfc4424
+    template:
+    - audio/VMR-WB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.3gpp.iufp
+  encoding: base64
+  xrefs:
+    person:
+    - Thomas_Belling
+    template:
+    - audio/vnd.3gpp.iufp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.4SB
+  encoding: base64
+  xrefs:
+    person:
+    - Serge_De_Jaham
+    template:
+    - audio/vnd.4SB
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.audiokoz
+  encoding: base64
+  xrefs:
+    person:
+    - Vicki_DeBarros
+    template:
+    - audio/vnd.audiokoz
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.CELP
+  encoding: base64
+  xrefs:
+    person:
+    - Serge_De_Jaham
+    template:
+    - audio/vnd.CELP
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.cisco.nse
+  encoding: base64
+  xrefs:
+    person:
+    - Rajesh_Kumar
+    template:
+    - audio/vnd.cisco.nse
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.cmles.radio-events
+  encoding: base64
+  xrefs:
+    person:
+    - Jean-Philippe_Goulet
+    template:
+    - audio/vnd.cmles.radio-events
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.cns.anp1
+  encoding: base64
+  xrefs:
+    person:
+    - Ann_McLaughlin
+    template:
+    - audio/vnd.cns.anp1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.cns.inf1
+  encoding: base64
+  xrefs:
+    person:
+    - Ann_McLaughlin
+    template:
+    - audio/vnd.cns.inf1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dece.audio
+  friendly:
+    en: DECE Audio
+  encoding: base64
+  extensions:
+  - uva
+  - uvva
+  xrefs:
+    person:
+    - Michael_A_Dolan
+    template:
+    - audio/vnd.dece.audio
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.digital-winds
+  friendly:
+    en: Digital Winds Music
+  encoding: 7bit
+  extensions:
+  - eol
+  xrefs:
+    person:
+    - Armands_Strazds
+    template:
+    - audio/vnd.digital-winds
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dlna.adts
+  encoding: base64
+  xrefs:
+    person:
+    - Edwin_Heredia
+    template:
+    - audio/vnd.dlna.adts
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.heaac.1
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.heaac.1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.heaac.2
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.heaac.2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.mlp
+  encoding: base64
+  xrefs:
+    person:
+    - Mike_Ward
+    template:
+    - audio/vnd.dolby.mlp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.mps
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.mps
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.pl2
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.pl2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.pl2x
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.pl2x
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.pl2z
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.pl2z
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dolby.pulse.1
+  encoding: base64
+  xrefs:
+    person:
+    - Steve_Hattersley
+    template:
+    - audio/vnd.dolby.pulse.1
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dra
+  friendly:
+    en: DRA Audio
+  encoding: base64
+  extensions:
+  - dra
+  xrefs:
+    person:
+    - Jiang_Tian
+    template:
+    - audio/vnd.dra
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dts
+  friendly:
+    en: DTS Audio
+  encoding: base64
+  extensions:
+  - dts
+  xrefs:
+    person:
+    - William_Zou
+    template:
+    - audio/vnd.dts
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dts.hd
+  friendly:
+    en: DTS High Definition Audio
+  encoding: base64
+  extensions:
+  - dtshd
+  xrefs:
+    person:
+    - William_Zou
+    template:
+    - audio/vnd.dts.hd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dts.uhd
+  encoding: base64
+  xrefs:
+    person:
+    - Phillip_Maness
+    template:
+    - audio/vnd.dts.uhd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.dvb.file
+  encoding: base64
+  xrefs:
+    person:
+    - Peter_Siebert
+    template:
+    - audio/vnd.dvb.file
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.everad.plj
+  encoding: base64
+  extensions:
+  - plj
+  xrefs:
+    person:
+    - Shay_Cicelsky
+    template:
+    - audio/vnd.everad.plj
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.hns.audio
+  encoding: base64
+  xrefs:
+    person:
+    - Swaminathan
+    template:
+    - audio/vnd.hns.audio
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.lucent.voice
+  friendly:
+    en: Lucent Voice
+  encoding: base64
+  extensions:
+  - lvp
+  xrefs:
+    person:
+    - Greg_Vaudreuil
+    template:
+    - audio/vnd.lucent.voice
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.ms-playready.media.pya
+  friendly:
+    en: Microsoft PlayReady Ecosystem
+  encoding: base64
+  extensions:
+  - pya
+  xrefs:
+    person:
+    - Steve_DiAcetis
+    template:
+    - audio/vnd.ms-playready.media.pya
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.nokia.mobile-xmf
+  encoding: base64
+  extensions:
+  - mxmf
+  xrefs:
+    person:
+    - Nokia
+    template:
+    - audio/vnd.nokia.mobile-xmf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.nortel.vbk
+  encoding: base64
+  extensions:
+  - vbk
+  xrefs:
+    person:
+    - Glenn_Parsons
+    template:
+    - audio/vnd.nortel.vbk
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.nuera.ecelp4800
+  friendly:
+    en: Nuera ECELP 4800
+  encoding: base64
+  extensions:
+  - ecelp4800
+  xrefs:
+    person:
+    - Michael_Fox
+    template:
+    - audio/vnd.nuera.ecelp4800
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.nuera.ecelp7470
+  friendly:
+    en: Nuera ECELP 7470
+  encoding: base64
+  extensions:
+  - ecelp7470
+  xrefs:
+    person:
+    - Michael_Fox
+    template:
+    - audio/vnd.nuera.ecelp7470
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.nuera.ecelp9600
+  friendly:
+    en: Nuera ECELP 9600
+  encoding: base64
+  extensions:
+  - ecelp9600
+  xrefs:
+    person:
+    - Michael_Fox
+    template:
+    - audio/vnd.nuera.ecelp9600
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.octel.sbc
+  encoding: base64
+  xrefs:
+    person:
+    - Greg_Vaudreuil
+    template:
+    - audio/vnd.octel.sbc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.presonus.multitrack
+  encoding: base64
+  xrefs:
+    person:
+    - Matthias_Juwan
+    template:
+    - audio/vnd.presonus.multitrack
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.qcelp
+  encoding: base64
+  extensions:
+  - qcp
+  obsolete: true
+  use-instead: audio/qcelp
+  xrefs:
+    rfc:
+    - rfc3625
+    template:
+    - audio/vnd.qcelp
+    notes:
+    - "- DEPRECATED in favor of audio/qcelp"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.rhetorex.32kadpcm
+  encoding: base64
+  xrefs:
+    person:
+    - Greg_Vaudreuil
+    template:
+    - audio/vnd.rhetorex.32kadpcm
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.rip
+  friendly:
+    en: Hit'n'Mix
+  encoding: base64
+  extensions:
+  - rip
+  xrefs:
+    person:
+    - Martin_Dawe
+    template:
+    - audio/vnd.rip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.sealedmedia.softseal.mpeg
+  encoding: base64
+  extensions:
+  - smp3
+  - smp
+  - s1m
+  xrefs:
+    person:
+    - David_Petersen
+    template:
+    - audio/vnd.sealedmedia.softseal.mpeg
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vnd.vmx.cvsd
+  encoding: base64
+  xrefs:
+    person:
+    - Greg_Vaudreuil
+    template:
+    - audio/vnd.vmx.cvsd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vorbis
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5215
+    template:
+    - audio/vorbis
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/vorbis-config
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5215
+    template:
+    - audio/vorbis-config
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: audio/wav
+  friendly:
+    en: Waveform Audio File Format (WAV)
+  encoding: base64
+  extensions:
+  - wav
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/webm
+  friendly:
+    en: Open Web Media Project - Audio
+  encoding: base64
+  extensions:
+  - weba
+  - webm
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-aac
+  friendly:
+    en: Advanced Audio Coding (AAC)
+  encoding: base64
+  extensions:
+  - aac
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-aiff
+  friendly:
+    en: Audio Interchange File Format
+  encoding: base64
+  extensions:
+  - aif
+  - aifc
+  - aiff
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-caf
+  encoding: base64
+  extensions:
+  - caf
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-flac
+  encoding: base64
+  extensions:
+  - flac
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-m4a
+  encoding: base64
+  extensions:
+  - m4a
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-matroska
+  encoding: base64
+  extensions:
+  - mka
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-midi
+  encoding: base64
+  extensions:
+  - mid
+  - midi
+  - kar
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-mpegurl
+  friendly:
+    en: M3U (Multimedia Playlist)
+  encoding: base64
+  extensions:
+  - m3u
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-ms-wax
+  friendly:
+    en: Microsoft Windows Media Audio Redirector
+  encoding: base64
+  extensions:
+  - wax
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-ms-wma
+  friendly:
+    en: Microsoft Windows Media Audio
+  encoding: base64
+  extensions:
+  - wma
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-ms-wmv
+  encoding: base64
+  extensions:
+  - wmv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-pn-realaudio
+  friendly:
+    en: Real Audio Sound
+  encoding: base64
+  extensions:
+  - ra
+  - ram
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-pn-realaudio-plugin
+  friendly:
+    en: Real Audio Sound
+  encoding: base64
+  extensions:
+  - rmp
+  - rpm
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-realaudio
+  encoding: base64
+  extensions:
+  - ra
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/x-wav
+  friendly:
+    en: Waveform Audio File Format (WAV)
+  encoding: base64
+  extensions:
+  - wav
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: audio/xm
+  encoding: base64
+  extensions:
+  - xm
+  registered: false

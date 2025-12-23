@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift("#{__dir__}/../lib")
+
+require 'rubocop/server'
+server_cli = RuboCop::Server::CLI.new
+exit_status = server_cli.run
+exit exit_status if server_cli.exit?
+
+if RuboCop::Server.running?
+  exit_status = RuboCop::Server::ClientCommand::Exec.new.run
+else
+  require 'rubocop'
+
+  cli = RuboCop::CLI.new
+
+  time_start = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+  exit_status = cli.run
+  elapsed_time = Process.clock_gettime(Process::CLOCK_MONOTONIC) - time_start
+
+  puts "Finished in #{elapsed_time} seconds" if cli.options[:debug] || cli.options[:display_time]
+end
+exit exit_status

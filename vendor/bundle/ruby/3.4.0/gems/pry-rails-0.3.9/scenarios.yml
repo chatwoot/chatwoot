@@ -1,0 +1,30 @@
+project: pryrails
+
+shared:
+  from: ruby:2.4
+  cmd: "(bundle check || (gem install bundler && bundle install)) && bundle exec rake"
+  service:
+    volumes:
+      - bundle_{{scenario_name}}:/usr/local/bundle
+    environment:
+      BUNDLE_GEMFILE: scenarios/{{scenario_name}}.gemfile
+  volumes:
+    bundle_{{scenario_name}}:
+
+scenarios:
+  rails30:
+    from: ruby:2.0
+  rails31:
+    from: ruby:2.0
+  rails32:
+    from: ruby:2.0
+  rails40:
+    from: ruby:2.3
+  rails41:
+    from: ruby:2.3
+  rails42: {}
+  rails50: {}
+  rails51: {}
+  rails52: {}
+  rails60:
+    from: ruby:2.5

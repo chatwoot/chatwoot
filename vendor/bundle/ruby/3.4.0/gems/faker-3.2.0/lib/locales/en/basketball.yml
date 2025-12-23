@@ -1,0 +1,99 @@
+en:
+  faker:
+    basketball:
+      teams:
+        - Atlanta Hawks
+        - Boston Celtics
+        - Brooklyn Nets
+        - Charlotte Hornets
+        - Chicago Bulls
+        - Cleveland Cavaliers
+        - Dallas Mavericks
+        - Denver Nuggets
+        - Detroit Pistons
+        - Golden State Warriors
+        - Houston Rockets
+        - Indiana Pacers
+        - Los Angeles Clippers
+        - Los Angeles Lakers
+        - Memphis Grizzlies
+        - Miami Heat
+        - Milwaukee Bucks
+        - Minnesota Timberwolves
+        - New Orleans Pelicans
+        - New York Knicks
+        - Oklahoma City Thunder
+        - Orlando Magic
+        - Philadelphia 76ers
+        - Phoenix Suns
+        - Portland Trail Blazers
+        - Sacramento Kings
+        - San Antonio Spurs
+        - Toronto Raptors
+        - Utah Jazz
+        - Washington Wizards
+      players:
+        - Kemba Walker
+        - Kyrie Irving
+        - Kawhi Leonard
+        - Giannis Antetokounmpo
+        - Joel Embiid
+        - Kyle Lowry
+        - Victor Oladipo
+        - Khris Middleton
+        - Bradley Beal
+        - Ben Simmons
+        - Blake Griffin
+        - Nikola Vučević
+        - Dwayne Wade
+        - D'Angelo Russell
+        - Stephen Curry
+        - James Harden
+        - Kevin Durant
+        - Paul George
+        - LeBron James
+        - Russell Westbrook
+        - Damian Lillard
+        - Klay Thompson
+        - Anthony Davis
+        - LaMarcus Aldridge
+        - Nikola Jokić
+        - Karl-Anthony Towns
+        - Dirk Nowitzki
+      coaches:
+        - Kenny Atkinson
+        - J.B. Bickerstaff
+        - James Borrego
+        - Jim Boylen
+        - Scott Brooks
+        - Brett Brown
+        - Mike Budenholzer
+        - Rick Carlisle
+        - Dwane Casey
+        - Steve Clifford
+        - Mike D'Antoni
+        - Billy Donovan
+        - Larry Drew
+        - David Fizdale
+        - Alvin Gentry
+        - Dave Joerger
+        - Steve Kerr
+        - Igor Kokoškov
+        - Michael Malone
+        - Nate McMillan
+        - Nick Nurse
+        - Lloyd Pierce
+        - Gregg Popovich
+        - Doc Rivers
+        - Ryan Saunders
+        - Quin Snyder
+        - Erik Spoelstra
+        - Brad Stevens
+        - Terry Stotts
+        - Luke Walton
+      positions:
+        - Point Guard
+        - Shooting Guard
+        - Small Forward
+        - Power Forward
+        - Center

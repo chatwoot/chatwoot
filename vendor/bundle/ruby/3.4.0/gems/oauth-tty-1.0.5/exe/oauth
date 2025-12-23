@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "oauth"
+require "oauth_tty"
+
+# don't dump a backtrace on a ^C
+Signal.trap("INT") do
+  puts
+  exit(1)
+end
+ARGV << "help" if ARGV.empty?
+command = ARGV.shift
+
+OAuth::TTY::CLI.new($stdout, $stdin, $stderr, command, ARGV).run

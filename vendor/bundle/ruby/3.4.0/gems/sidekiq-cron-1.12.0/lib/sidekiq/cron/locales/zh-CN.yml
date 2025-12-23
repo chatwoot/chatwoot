@@ -1,0 +1,19 @@
+zh-CN:
+  Job: 任务
+  Cron: 定时任务
+  CronJobs: 定时任务列表
+  EnqueueNow: 立刻执行
+  EnableAll: 启用所有
+  DisableAll: 禁用所有
+  EnqueueAll: 执行所有
+  DeleteAll: 删除所有
+  'Cron string': 定时策略
+  AreYouSureDeleteCronJobs: 你确定删除所有的定时任务吗？
+  AreYouSureDeleteCronJob: 你确定删除定时任务（%{job}）吗？
+  NoCronJobsWereFound: 没有定时任务
+  Enable: 启用
+  Disable: 禁用
+  'Last enqueued': 放入队列时间
+  disabled: 已禁用
+  enabled: 已启用
+

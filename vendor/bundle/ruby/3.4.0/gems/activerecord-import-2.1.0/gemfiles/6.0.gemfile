@@ -1,0 +1,4 @@
+# frozen_string_literal: true
+
+gem 'activerecord', '~> 6.0.0'
+gem 'composite_primary_keys', '~> 12.0'

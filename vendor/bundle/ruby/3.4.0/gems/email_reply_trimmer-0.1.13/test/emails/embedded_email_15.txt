@@ -1,0 +1,9 @@
+[message body]
+
+/ Greetings
+
+2017-02-05 13:29 GMT+02:00 Very long author name <
+notifications@forum.some-discourse-host.local>:
+
+> [Original Messages is quoted here]
+> [...]

@@ -1,0 +1,846 @@
+Tue Feb 20 18:45:45 2007  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb (separated_by): last commit was wrong.  use
+	  optional default return value of #option.
+
+Tue Feb 20 18:27:48 2007  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb (separated_by): return [] for empty list.
+
+Tue Nov  7 07:13:47 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb (Rule#prec): rule.prec{...} should set
+	  action.
+
+Tue Nov  7 06:38:57 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb: system call error on writing log file
+	  should be ignored.
+
+	* lib/racc/grammar.rb: never define lvar which have same name with
+	  block local variable.
+
+	* lib/racc/iset.rb: ditto.
+
+	* lib/racc/logfilegenerator.rb: ditto.
+
+	* lib/racc/parser.rb: ditto.
+
+	* lib/racc/state.rb: ditto.
+
+	* lib/racc/statetransitiontable.rb: ditto.
+
+	* test/test.rb: racc -c is obsolete, use --line-convert-all.
+
+Sun Oct 29 13:27:30 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammarfileparser.rb: use String#lines instead of
+	  #to_a.
+
+	* lib/racc/parserfilegenerator.rb: ditto.
+
+	* lib/racc/compat.rb: provide Object#__send.
+
+	* lib/racc/compat.rb: provide Object#__send!.
+
+	* lib/racc/compat.rb: provide String#lines.
+
+Thu Aug 24 23:14:16 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb: report conflicts/useless if $DEBUG.
+
+	* lib/racc/statetransitiontable.rb: remove code for Ruby 1.4
+	  compatibility.
+
+Fri Aug  4 01:02:36 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb: #should_terminal should be called in
+	  #check_terminals.
+
+Fri Aug  4 00:44:56 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: getopts -> optparse.
+
+	* lib/racc/grammar.rb: value of error symbol is :error.
+
+	* lib/racc/grammar.rb (check_terminals): string symbols are
+	  terminal.
+
+	* lib/racc/grammarfileparser.rb (add_rule_block): specified-prec
+	  did not work.
+
+Fri Aug  4 00:29:53 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/parserfilegenerator.rb
+	  (serialize_integer_list_compressed): fix typo.
+
+Thu Aug  3 22:20:34 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/y2racc: fix filename.
+
+Thu Aug  3 21:10:48 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/y2racc: getopts -> optparse.
+
+Thu Aug  3 19:35:34 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* setup.rb: updated.
+
+Thu Aug  3 19:34:55 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc2y: getopts -> optparse.
+
+	* bin/racc2y: rewrite code for new generator.
+
+	* lib/racc/grammar.rb (_regist): did not check @delayed rules (it
+	  causes registering same dummy rules many times).
+
+	* lib/racc/grammarfileparser.rb: refactoring: simplify syntax.
+
+	* lib/racc/grammarfileparser.rb: new method
+	  GrammarFileParser.parse.
+
+	* lib/racc/grammarfileparser.rb: new method
+	  GrammarFileParser.parse_file.
+
+Sat Jul 29 04:51:42 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/pre-setup: We need not make grammarfileparser.rb.
+
+Sat Jul 29 04:30:33 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb: allow '|' operation with meta rules
+	  (many, option...).
+
+Sat Jul 29 03:17:20 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb (Grammar#parser_class): write log file when
+	  $DEBUG=true.
+
+	* lib/racc/grammar.rb (Grammar.define): run block on a
+	  Racc::Grammar::DefinitionEnv object, instead of a Racc::Grammar
+	  object.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #null.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #many.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #many1.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #option.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #seperated_by.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #seperated_by1.
+
+	* lib/racc/grammar.rb (DefinitionEnv): new method #action.
+
+Sat Jul 29 03:13:22 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/compat.rb: reduce warning.
+
+Sun Jul 16 05:07:12 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/compat.rb: implement Enumerable#each_slice for Ruby
+	  1.8.
+
+	* lib/racc/parserfilegenerator.rb: better output.
+
+	* ext/racc/cparse/cparse.c: always use VALUE instead of struct
+	  cparse_params.
+
+	* ext/racc/cparse/cparse.c: mark params->value_v.
+
+Thu Jul  6 20:44:48 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb: on-the-fly generator implemented.
+
+	* lib/racc/generator.rb -> statetransitiontable.rb,
+	  parserfilegenerator.rb, logfilegenerator.rb.
+
+	* lib/racc/statetransitiontable.rb: new file.
+
+	* lib/racc/parserfilegenerator.rb: new file.
+
+	* lib/racc/logfilegenerator.rb: new file.
+
+	* lib/racc/grammarfileparser.rb.in: removed.
+
+	* lib/racc/grammarfileparser.rb: new file. uses on-the-fly
+	  generator.
+
+	* misc/boot.rb: removed.
+
+	* lib/racc/static.rb: new file, to import static generator
+	  (lib/racc.rb provides dynamic generator).
+
+	* lib/racc/grammar.rb: grand refactoring.
+
+	* lib/racc/sourcetext.rb: new method #to_s, #location.
+
+	* lib/racc/state.rb: compute NFA/DFA on demand.
+
+	* bin/racc: follow these changes.
+
+Thu Jul  6 20:39:42 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* ext/racc/cparse/cparse.so: should mark VALUEs in cparse_params.
+
+Tue Jul  4 02:24:27 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: simplify report code.
+
+	* lib/racc/grammar.rb: introduce new methods for racc command.
+
+	* lib/racc/states.rb: ditto.
+
+	* lib/racc/generator.rb: class CodeGenerator ->
+	  ParserFileGenerator.
+
+	* lib/racc/generator.rb: new class ParserFileGenerator::Params.
+
+	* bin/racc: ditto.
+
+	* misc/boot.rb: ditto.
+
+	* lib/racc/grammarfileparser.rb.in: ditto.
+
+	* lib/racc/grammarfileparser.rb.in: merge grammarfilescanner.rb.
+
+	* lib/racc/grammarfilescanner.rb: removed.
+
+	* lib/racc/grammarfileparser.rb.in: parses user code blocks.
+
+	* lib/racc/usercodeparser.rb: removed.
+
+	* lib/racc/generator.rb: remove user code parsing code.
+
+	* lib/racc/grammarfileparser.rb.in: passes user code block by a
+	  SourceText object.
+
+	* lib/racc/generator.rb: ditto.
+
+	* lib/racc/sourcetext.rb: new file.
+
+	* lib/racc/generator.rb: introduce DSL to describe file contents.
+
+Tue Jul  4 02:15:36 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/debugflags.rb: remove unused class GenerationOptions.
+
+Tue Jul  4 02:14:48 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/compat.rb: update coding style.
+
+Mon Jul  3 04:34:32 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/compiler.rb: do not export Grammar/SymbolTable/States.
+
+	* lib/racc/compiler.rb: make a new class for debug flags
+	  (Racc::DebugFlags).
+
+	* lib/racc/compiler.rb: removed.
+
+	* bin/racc: eliminate Racc::Compiler class.
+
+	* bin/racc: refactor profiling code.
+
+	* bin/racc: move file generation code to racc/generator.rb.
+
+	* misc/boot.rb: does not emulate Racc::Compiler interface.
+
+	* lib/racc.rb: new file to require whole generator.
+
+	* lib/racc/grammar.rb: class RuleTable -> Grammar.
+
+	* lib/racc/grammar.rb: Grammar.new does not accept a Compiler.
+
+	* lib/racc/grammar.rb: refactoring.
+
+	* lib/racc/grammarfileparser.rb.in: GrammarFileParser.new does not
+	  accept a Compiler.
+
+	* lib/racc/grammarfileparser.rb.in: #parser takes more 2 args, a
+	  filename and a base line number.
+
+	* lib/racc/grammarfileparser.rb.in: refactoring.
+
+	* lib/racc/output.rb -> generate.rb
+
+	* lib/racc/generate.rb: class Formatter -> CodeGenerator.
+
+	* lib/racc/generate.rb: CodeGenerator.new does not accept a
+	  Compiler.
+
+	* lib/racc/generate.rb: a CodeGenerator got many parameters via
+	  setter method.
+
+	* lib/racc/generate.rb: class VerboseOutputter ->
+	  LogFileGenerator.
+
+	* lib/racc/generate.rb: LogFileGenerator.new does not accept a
+	  Compiler.
+
+	* lib/racc/generate.rb: refactoring.
+
+	* lib/racc/state.rb: class StateTable -> States.
+
+	* lib/racc/state.rb: States.new does not accept a Compiler.
+
+	* lib/racc/state.rb: refactoring.
+
+	* test/test.rb: -Da is obsolete (I forgot what this flag is).
+
+	* test/test.rb: allow replacing racc via environment variable
+	  $RACC.
+
+Mon Jul  3 04:18:49 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: new task bootstrap-force.
+
+Sun Jul  2 19:46:58 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* test/ichk.y: update coding style.
+
+Sun Jul  2 19:01:55 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* ext/racc/cparse/cparse.c: must require version.h to get
+	  RUBY_VERSION_CODE.
+
+Sun Jul  2 18:33:32 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* ext/racc/cparse/cparse.c: do not use rb_iterate to give a block
+	  to the method, use rb_block_call instead. [ruby-dev:28445]
+
+Mon Jun 19 02:38:18 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: -g option is now -t.  -g option is obsolete and is an
+	  alias of -t.
+
+Mon Jun 19 02:35:59 2006  Minero Aoki  <aamine@loveruby.net>
+
+	* ext/racc/cparse/cparse.c: K&R -> ANSI C.
+
+Mon Nov 21 02:37:10 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* version 1.4.5 released.
+
+Mon Nov 21 02:31:18 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: shebang line should include file extension.
+
+	* lib/racc/compat.rb: method removed: bug!.
+
+	* lib/racc/*.rb: racc compiler should not depend on
+	  Racc::ParseError.
+
+	* lib/racc/*.rb: update copyright year.
+
+	* lib/racc/*.rb: update coding style.
+
+	* lib/racc/exception.rb: new file.
+
+Mon Nov 21 00:49:18 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: remove useless target `import'.
+
+	* Makefile: generate parser-text.rb.
+
+	* misc/dist.sh: setup.rb and COPYING is now in repository.
+
+	* misc/dist.sh: generate parser-text.rb.
+
+Mon Nov 21 00:14:21 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: read racc/parser.rb from parser-text.rb.
+
+	* lib/racc/rubyloader.rb: no longer needed.
+
+	* lib/racc/pre-setup: new file.
+
+	* lib/racc/pre-setup: generate parser-text.rb.
+
+	* lib/racc/pre-setup: generate grammarfileparser.rb.
+
+	* misc/boot.rb: new method BootstrapCompiler.main.
+
+	* misc/boot.rb: new method BootstrapCompiler.generate, which is
+	  used from pre-setup.
+
+Mon Nov 21 00:09:04 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc2y: refactoring.
+
+	* bin/y2racc: refactoring.
+
+Sun Nov 20 23:46:42 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/pre-setup: new file.
+
+Sun Nov 20 22:46:21 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* COPYING: new file.
+
+Sun Nov 20 22:25:15 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* setup.rb: import setup.rb 3.4.1.
+
+Thu Sep 29 02:51:56 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile (clean): invoke `make clean' in ext.
+
+Thu Sep 29 02:50:56 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/.cvsignore: removed.
+
+Thu Sep 29 02:46:30 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: use .makeparams system.
+
+	* Makefile: unify lib/racc/Makefile.
+
+	* Makefile: new target lib/racc/grammarfileparser.rb.
+
+	* lib/racc/Makefile: unified by ./Makefile.
+
+	* lib/racc/boot: removed (moved under misc).
+
+	* misc/boot.rb: new file.
+
+Thu Sep 29 02:43:30 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* setup.rb: new file.
+
+Tue Jul 26 23:37:46 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: --no-omit-actions did not work (This patch is
+	  contributed by OHKUBO Takuya).
+
+Sun Jan  2 11:48:19 2005  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/grammar.rb (once_writer): bug! needs argument.
+
+Mon Feb 16 16:14:16 2004  Minero Aoki  <aamine@loveruby.net>
+
+	* test/echk.y: fix typo.
+
+	* test/ichk.y: does not use amstd.
+
+	* test/opt.y: untabify.
+
+Mon Feb 16 16:10:46 2004  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/boot: update coding style.
+
+	* lib/racc/compat.rb: ditto.
+
+	* lib/racc/compiler.rb: ditto.
+
+	* lib/racc/grammar.rb: ditto.
+
+	* lib/racc/grammarfileparser.rb.in: ditto.
+
+	* lib/racc/grammarfilescanner.rb: ditto.
+
+	* lib/racc/info.rb: ditto.
+
+	* lib/racc/iset.rb: ditto.
+
+	* lib/racc/output.rb: ditto.
+
+	* lib/racc/parser.rb: ditto.
+
+	* lib/racc/state.rb: ditto.
+
+	* lib/racc/usercodeparser.rb: ditto.
+
+Mon Feb 16 16:01:34 2004  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/rubyloader.rb: imported rev1.6.
+
+Fri Dec 12 01:57:47 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* sample/hash.y: use no_result_var option.
+
+	* sample/array.y: use latest (my) coding style.
+
+	* sample/array2.y: ditto.
+
+	* sample/hash.y: ditto.
+
+	* sample/lists.y: ditto.
+
+Wed Nov  5 19:50:35 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* test/bench.y: remove dependency on amstd.
+
+	* test/chk.y: ditto.
+
+	* test/echk.y: ditto.
+
+	* test/ichk.y: ditto.
+
+	* test/intp.y: ditto.
+
+	* test/opt.y: ditto.
+
+	* test/percent.y: ditto.
+
+Wed Nov  5 19:11:15 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc (get_options): remove --no-extensions option;
+	  racc/parser is preloaded, Racc_No_Extension does not work.
+
+Mon Nov  3 22:41:42 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: apply latest coding style.
+
+	* lib/racc/parser.rb: ditto.
+
+	* lib/racc/compat.rb: add File.read.
+
+Mon Nov  3 21:20:25 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* ext/racc/cparse/cparse.c (parse_main): abort if length of state
+	  stack <=1, not ==0.
+
+	* lib/racc/parser.rb: use <=1, not <2.
+
+	* ext/racc/cparse/cparse.c: check_*() -> assert_*()
+
+	* ext/racc/cparse/cparse.c (racc_cparse): define lvar `v' for
+	  debugging.
+
+	* ext/racc/cparse/cparse.c (racc_yyparse): ditto.
+
+Mon Nov  3 17:21:55 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile (all): make cparse.so.
+
+Mon Nov  3 17:19:26 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/parser.rb: update version.
+
+	* ext/racc/cparse/cparse.c: update version.
+
+Mon Nov  3 17:19:01 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: update version in parser.rb, cparse.c.
+
+Sun Oct 12 23:49:58 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* version 1.4.4.
+
+Sun Oct 12 23:49:40 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/y2racc: did not work.
+
+	* bin/y2racc: -u options did not work.
+
+Sun Oct 12 23:41:46 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* misc/dist.sh: cd before make.
+
+Sun Oct 12 23:38:04 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile (site): create $siteroot/{ja,en}/man/racc/*.html.
+
+Sun Oct 12 23:37:18 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* doc/parser.rrd.m: missing 'j'.
+
+Sun Oct 12 23:29:11 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: new target `doc'.
+
+	* Makefile: new target `clean'.
+
+	* lib/racc/Makefile: new target `clean'.
+
+	* misc/dist.sh: create documents before pack.
+
+Sun Oct 12 23:27:58 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* doc/debug.rd.m: junk char was inserted.
+
+	* doc/index.html.m: en/ja text were mixed.
+
+	* doc/parser.rrd.m: add return values.
+
+	* doc/usage.html.m: fix hyper link.
+
+Sun Oct 12 22:57:28 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* doc.en/changes.html, doc.ja/changes.html -> doc/NEWS.rd.m
+
+	* doc.en/command.html, doc.ja/command.html -> doc/command.html.m
+
+	* doc.en/debug.html,   doc.ja/debug.html   -> doc/debug.rd.m
+
+	* doc.en/grammar.html, doc.ja/grammar.html -> doc/grammar.rd.m
+
+	* doc.en/index.html,   doc.ja/index.html   -> doc/index.html.m
+
+	* doc.en/parser.html,  doc.ja/parser.html  -> doc/parser.rrd.m
+
+	* doc.en/usage.html,   doc.ja/usage.html   -> doc/usage.html.m
+
+Sun Oct 12 18:46:21 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* web/racc.ja.html: update descriptions.
+
+	* web/racc.en.html: ditto.
+
+Sun Oct 12 18:43:45 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* misc/dist.sh: remove web/ directory before distribute.
+
+Sun Oct 12 18:37:29 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: new target `site'.
+
+	* web/racc.ja.html: new file.
+
+	* web/racc.en.html: new file.
+
+Sun Oct 12 18:30:55 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* misc/dist.sh: forgot to remove tmp comment out.
+
+Sun Oct 12 18:12:09 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/info.rb: version 1.4.4.
+
+Sun Oct 12 18:11:42 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile (dist): split out misc/dist.sh.
+
+	* misc/dist.sh: new file.
+
+Sun Oct 12 17:18:47 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* README.en: update documents.
+
+	* README.ja: ditto.
+
+	* doc.en/changes.html: ditto.
+
+	* doc.en/command.html: ditto.
+
+	* doc.en/debug.html: ditto.
+
+	* doc.en/grammar.html: ditto.
+
+	* doc.en/index.html: ditto.
+
+	* doc.en/parser.html: ditto.
+
+	* doc.en/usage.html: ditto.
+
+	* doc.ja/changes.html: ditto.
+
+	* doc.ja/command.html: ditto.
+
+	* doc.ja/debug.html: ditto.
+
+	* doc.ja/index.html: ditto.
+
+	* doc.ja/parser.html: ditto.
+
+	* doc.ja/usage.html: ditto.
+
+Sun Oct 12 16:24:46 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* sameple/calc-ja.y: simplify.
+
+Sun Oct 12 16:24:16 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* misc/y2racc -> bin/y2racc
+
+	* misc/racc2y -> bin/racc2y
+
+Sun Oct 12 15:56:30 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* bin/racc: follow method name change.
+
+Sun Oct 12 15:34:14 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: new target `test'.
+
+	* Makefile: missing $datadir.
+
+Sun Oct 12 15:33:02 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* README.ja: update description.
+
+	* README.en: ditto.
+
+Sun Oct 12 15:25:23 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* lib/racc/compiler.rb: adjust file names.
+
+	* lib/racc/grammarfileparser.rb.in: ditto.
+
+	* lib/racc/grammarfilescanner.rb: ditto.
+
+Sun Oct 12 15:24:53 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* Makefile: new file.
+
+Sun Oct 12 15:19:57 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* BUGS.en: removed.
+
+	* BUGS.ja: removed.
+
+Sun Oct 12 15:10:38 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* racc              -> bin/racc
+
+	* .cvsignore        -> lib/racc/.cvsignore
+
+	* lib/racc/Makefile: new file.
+
+	* boot.rb           -> lib/racc/boot
+
+	* compat.rb         -> lib/racc/compat.rb
+
+	* compiler.rb       -> lib/racc/compiler.rb
+
+	* grammar.rb        -> lib/racc/grammar.rb
+
+	* in.raccp.rb       -> lib/racc/grammarfileparser.rb.in
+
+	* raccs.rb          -> lib/racc/grammarfilescanner.rb
+
+	* info.rb           -> lib/racc/info.rb
+
+	* iset.rb           -> lib/racc/iset.rb
+
+	* outpur.rb         -> lib/racc/output.rb
+
+	* parser.rb         -> lib/racc/parser.rb
+
+	* rubyloader.rb     -> lib/racc/rubyloader.rb
+
+	* state.rb          -> lib/racc/state.rb
+
+	* ucodep.rb         -> lib/racc/usercodeparser.rb
+
+	* cparse/MANIFEST   -> ext/racc/cparse/MANIFEST
+
+	* cparse/cparse.c   -> ext/racc/cparse/cparse.c
+
+	* cparse/depend     -> ext/racc/cparse/depend
+
+	* cparse/extconf.rb -> ext/racc/cparse/extconf.rb
+
+	* cparse/.cvsignore -> ext/racc/cparse/.cvsignore
+
+Sun Oct 12 15:10:13 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* test/test.rb: use /bin/rm if exists.
+
+Sun Oct 12 14:33:29 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* rubyloader.rb: imported from amstd, rev 1.5.
+
+Sun Oct 12 14:24:47 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* boot.rb: reformat only.
+
+	* compiler.rb: ditto.
+
+	* grammar.rb: ditto.
+
+	* in.raccp.rb: ditto.
+
+	* iset.rb: ditto.
+
+	* output.rb: ditto.
+
+	* raccs.rb: ditto.
+
+	* state.rb: ditto.
+
+Sun Oct 12 14:17:22 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* test/test.rb: refactoring.
+
+Tue Jun 24 03:14:01 2003  Minero Aoki  <aamine@as600.loveruby.net>
+
+	* ucodep.rb: typo: Grammer -> Grammar
+
+Mon May 26 23:06:58 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* compiler.rb: update copyright year.
+
+	* grammar.rb: ditto.
+
+	* in.raccp.rb: ditto.
+
+	* info.rb: ditto.
+
+	* iset.rb: ditto.
+
+	* output.rb: ditto.
+
+	* parser.rb: ditto.
+
+	* raccs.rb: ditto.
+
+	* state.rb: ditto.
+
+	* ucodep.rb: ditto.
+
+Sun May 25 13:21:27 2003  Minero Aoki  <aamine@loveruby.net>
+
+	* raccs.rb: update coding style.
+
+Fri Nov 15 17:53:12 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* racc: changes style.
+
+	* parser.rb: ditto.
+
+Fri Nov 15 17:11:52 2002  Minero Aoki  <aamine@loveruby.net>
+
+	version 1.4.3.
+
+Fri Nov 15 17:08:01 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* boot.rb, compiler.rb, grammar.rb, in.raccp.rb, iset.rb,
+	  output.rb, parser.rb, racc, raccs.rb, state.rb, ucodep.rb,
+	  misc/racc2y, misc/y2racc: follows (my) latest coding styles.
+
+Thu Nov 14 14:39:53 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* raccs.rb: explicit method call for VCALL.
+
+Wed Oct 16 15:45:11 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* parser.rb: reformat.
+
+Fri Aug  9 18:21:01 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* cparse/cparse.c: use better variable/macro names.
+
+Wed Aug  7 08:39:19 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* cparse/cparse.c: goto label requires stmt.
+
+Mon Aug  5 21:53:07 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* cparse/cparse.c: grand refine.
+
+	* cparse/depend: re-added from ruby/ext/racc/cparse.
+
+Tue Jun  4 00:15:28 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* boot.rb: allow to omit last 'end'.
+
+Mon Jun  3 23:29:45 2002  Minero Aoki  <aamine@loveruby.net>
+
+	* racc (write_table_file): shebang must placed on first line.
+          (reported by Hiroyuki Sato)
+

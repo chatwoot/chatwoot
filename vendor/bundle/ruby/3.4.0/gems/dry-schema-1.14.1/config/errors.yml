@@ -1,0 +1,121 @@
+en:
+  dry_schema:
+    or: "or"
+
+    errors:
+      unexpected_key: "is not allowed"
+
+      array?: "must be an array"
+
+      empty?: "must be empty"
+
+      excludes?: "must not include %{value}"
+
+      excluded_from?:
+        arg:
+          default: "must not be one of: %{list}"
+          range: "must not be one of: %{list_left} - %{list_right}"
+
+      exclusion?: "must not be one of: %{list}"
+
+      eql?: "must be equal to %{left}"
+
+      not_eql?: "must not be equal to %{left}"
+
+      filled?: "must be filled"
+
+      format?: "is in invalid format"
+
+      number?: "must be a number"
+
+      odd?: "must be odd"
+
+      even?: "must be even"
+
+      gt?: "must be greater than %{num}"
+
+      gteq?: "must be greater than or equal to %{num}"
+
+      hash?: "must be a hash"
+
+      included_in?:
+        arg:
+          default: "must be one of: %{list}"
+          range: "must be one of: %{list_left} - %{list_right}"
+
+      inclusion?: "must be one of: %{list}"
+
+      includes?: "must include %{value}"
+
+      bool?: "must be boolean"
+
+      true?: "must be true"
+
+      false?: "must be false"
+
+      int?: "must be an integer"
+
+      float?: "must be a float"
+
+      decimal?: "must be a decimal"
+
+      date?: "must be a date"
+
+      date_time?: "must be a date time"
+
+      time?: "must be a time"
+
+      key?: "is missing"
+
+      attr?: "is missing"
+
+      lt?: "must be less than %{num}"
+
+      lteq?: "must be less than or equal to %{num}"
+
+      max_size?: "size cannot be greater than %{num}"
+
+      max_bytesize?: "bytesize cannot be greater than %{num}"
+
+      min_size?: "size cannot be less than %{num}"
+
+      min_bytesize?: "bytesize cannot be less than %{num}"
+
+      nil?: "cannot be defined"
+
+      str?: "must be a string"
+
+      type?: "must be %{type}"
+
+      respond_to?: "must respond to %{method}"
+
+      size?:
+        arg:
+          default: "size must be %{size}"
+          range: "size must be within %{size_left} - %{size_right}"
+
+        value:
+          string:
+            arg:
+              default: "length must be %{size}"
+              range: "length must be within %{size_left} - %{size_right}"
+
+      bytesize?:
+        arg:
+          default: "must be %{size} bytes long"
+          range: "must be within %{size_left} - %{size_right} bytes long"
+
+      uri?: "is not a valid URI"
+      
+      uuid_v1?: "is not a valid UUID"
+
+      uuid_v2?: "is not a valid UUID"
+
+      uuid_v3?: "is not a valid UUID"
+
+      uuid_v4?: "is not a valid UUID"
+
+      uuid_v5?: "is not a valid UUID"
+
+      not:
+        empty?: "cannot be empty"

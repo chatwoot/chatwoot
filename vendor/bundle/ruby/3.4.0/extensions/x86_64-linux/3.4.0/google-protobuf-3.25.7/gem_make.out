@@ -1,0 +1,1447 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/google-protobuf-3.25.7/ext/google/protobuf_c
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -rrubygems /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/rake-13.2.1/exe/rake RUBYARCHDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/google-protobuf-3.25.7 RUBYLIBDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/google-protobuf-3.25.7
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fvisibility=hidden -fPIC -Ithird_party/utf8_range -DNDEBUG=1 -DUPB_BUILD_API=1   -o x86_64-linux/third_party/utf8_range/range2-sse.o -c ./third_party/utf8_range/range2-sse.c
+mkdir -p x86_64-linux/third_party/utf8_range
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fvisibility=hidden -fPIC -Ithird_party/utf8_range -DNDEBUG=1 -DUPB_BUILD_API=1   -o x86_64-linux/third_party/utf8_range/range2-neon.o -c ./third_party/utf8_range/range2-neon.c
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fvisibility=hidden -fPIC -Ithird_party/utf8_range -DNDEBUG=1 -DUPB_BUILD_API=1   -o x86_64-linux/third_party/utf8_range/naive.o -c ./third_party/utf8_range/naive.c
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fvisibility=hidden -fPIC -Ithird_party/utf8_range -DNDEBUG=1 -DUPB_BUILD_API=1   -o x86_64-linux/ruby-upb.o -c ./ruby-upb.c
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetBool’ at ./ruby-upb.h:2649:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetUInt32’ at ./ruby-upb.h:2691:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetUInt32’ at ./ruby-upb.h:2691:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetUInt32’ at ./ruby-upb.h:2691:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetUInt32’ at ./ruby-upb.h:2691:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘upb_Message_SetClosedEnum’ at ./ruby-upb.h:2712:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetClosedEnum’:
+./ruby-upb.h:2706:46: note: source object ‘value’ of size 4
+ 2706 |     const upb_MiniTableField* field, int32_t value) {
+      |                                      ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘upb_Message_SetClosedEnum’ at ./ruby-upb.h:2712:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetClosedEnum’:
+./ruby-upb.h:2706:46: note: source object ‘value’ of size 4
+ 2706 |     const upb_MiniTableField* field, int32_t value) {
+      |                                      ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetInt64’ at ./ruby-upb.h:2722:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetInt64’ at ./ruby-upb.h:2722:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetUInt64’ at ./ruby-upb.h:2742:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetUInt64’ at ./ruby-upb.h:2742:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetFloat’ at ./ruby-upb.h:2762:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetFloat’ at ./ruby-upb.h:2762:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetFloat’ at ./ruby-upb.h:2762:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetFloat’ at ./ruby-upb.h:2762:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetExtensionField’ at ./ruby-upb.h:2381:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2391:5,
+    inlined from ‘upb_Message_GetDouble’ at ./ruby-upb.h:2782:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2394:5,
+    inlined from ‘_upb_Message_GetField’ at ./ruby-upb.h:2387:17,
+    inlined from ‘upb_Message_GetDouble’ at ./ruby-upb.h:2782:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘upb_Message_GetTaggedMessagePtr’ at ./ruby-upb.h:2825:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetTaggedMessagePtr’ at ./ruby-upb.h:2848:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘_upb_Message_SetTaggedMessagePtr’:
+./ruby-upb.h:2842:59: note: source object ‘sub_message’ of size 8
+ 2842 |     const upb_MiniTableField* field, upb_TaggedMessagePtr sub_message) {
+      |                                      ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘upb_Message_GetArray’ at ./ruby-upb.h:2881:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘upb_Message_GetMap’ at ./ruby-upb.h:2920:3:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘_upb_Message_GetOrCreateMutableMap’ at ./ruby-upb.h:2476:3,
+    inlined from ‘upb_Message_GetOrCreateMutableMap’ at ./ruby-upb.h:2937:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+./ruby-upb.c: In function ‘upb_Map_Delete’:
+./ruby-upb.h:1482:12: warning: ‘v.val’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 1482 |     return (type_t)(converter)val.val;                               \
+      |            ^
+./ruby-upb.c:5561:13: note: ‘v.val’ was declared here
+ 5561 |   upb_value v;
+      |             ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetUInt32’ at ./ruby-upb.h:2701:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt32’:
+./ruby-upb.h:2697:52: note: source object ‘value’ of size 4
+ 2697 |                                           uint32_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetUInt32’ at ./ruby-upb.h:2701:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt32’:
+./ruby-upb.h:2697:52: note: source object ‘value’ of size 4
+ 2697 |                                           uint32_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetUInt32’ at ./ruby-upb.h:2701:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt32’:
+./ruby-upb.h:2697:52: note: source object ‘value’ of size 4
+ 2697 |                                           uint32_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetUInt32’ at ./ruby-upb.h:2701:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt32’:
+./ruby-upb.h:2697:52: note: source object ‘value’ of size 4
+ 2697 |                                           uint32_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetInt64’ at ./ruby-upb.h:2732:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt64’:
+./ruby-upb.h:2728:50: note: source object ‘value’ of size 8
+ 2728 |                                          int64_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetInt64’ at ./ruby-upb.h:2732:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt64’:
+./ruby-upb.h:2728:50: note: source object ‘value’ of size 8
+ 2728 |                                          int64_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetUInt64’ at ./ruby-upb.h:2752:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt64’:
+./ruby-upb.h:2748:52: note: source object ‘value’ of size 8
+ 2748 |                                           uint64_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetUInt64’ at ./ruby-upb.h:2752:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetUInt64’:
+./ruby-upb.h:2748:52: note: source object ‘value’ of size 8
+ 2748 |                                           uint64_t value, upb_Arena* a) {
+      |                                           ~~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetFloat’ at ./ruby-upb.h:2772:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetFloat’:
+./ruby-upb.h:2768:48: note: source object ‘value’ of size 4
+ 2768 |                                          float value, upb_Arena* a) {
+      |                                          ~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetFloat’ at ./ruby-upb.h:2772:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetFloat’:
+./ruby-upb.h:2768:48: note: source object ‘value’ of size 4
+ 2768 |                                          float value, upb_Arena* a) {
+      |                                          ~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetFloat’ at ./ruby-upb.h:2772:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetFloat’:
+./ruby-upb.h:2768:48: note: source object ‘value’ of size 4
+ 2768 |                                          float value, upb_Arena* a) {
+      |                                          ~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetFloat’ at ./ruby-upb.h:2772:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetFloat’:
+./ruby-upb.h:2768:48: note: source object ‘value’ of size 4
+ 2768 |                                          float value, upb_Arena* a) {
+      |                                          ~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 4 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 4 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetBool’ at ./ruby-upb.h:2659:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 1 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetBool’:
+./ruby-upb.h:2655:46: note: source object ‘value’ of size 1
+ 2655 |                                         bool value, upb_Arena* a) {
+      |                                              ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetDouble’ at ./ruby-upb.h:2792:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetDouble’:
+./ruby-upb.h:2788:50: note: source object ‘value’ of size 8
+ 2788 |                                           double value, upb_Arena* a) {
+      |                                           ~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetDouble’ at ./ruby-upb.h:2792:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 8 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetDouble’:
+./ruby-upb.h:2788:50: note: source object ‘value’ of size 8
+ 2788 |                                           double value, upb_Arena* a) {
+      |                                           ~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetInt32’ at ./ruby-upb.h:2681:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt32’:
+./ruby-upb.h:2676:50: note: source object ‘value’ of size 4
+ 2676 |                                          int32_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetExtensionField’ at ./ruby-upb.h:2413:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2422:12,
+    inlined from ‘upb_Message_SetInt32’ at ./ruby-upb.h:2681:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt32’:
+./ruby-upb.h:2676:50: note: source object ‘value’ of size 4
+ 2676 |                                          int32_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetInt32’ at ./ruby-upb.h:2681:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 8 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt32’:
+./ruby-upb.h:2676:50: note: source object ‘value’ of size 4
+ 2676 |                                          int32_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_SetNonExtensionField’ at ./ruby-upb.h:2402:3,
+    inlined from ‘_upb_Message_SetField’ at ./ruby-upb.h:2424:5,
+    inlined from ‘upb_Message_SetInt32’ at ./ruby-upb.h:2681:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin_memcpy’ reading 16 bytes from a region of size 4 [-Wstringop-overread]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h: In function ‘upb_Message_SetInt32’:
+./ruby-upb.h:2676:50: note: source object ‘value’ of size 4
+ 2676 |                                          int32_t value, upb_Arena* a) {
+      |                                          ~~~~~~~~^~~~~
+In file included from ./ruby-upb.c:2:
+./ruby-upb.c: In function ‘upb_DefPool_FindExtensionByMiniTable’:
+./ruby-upb.h:1482:12: warning: ‘v.val’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 1482 |     return (type_t)(converter)val.val;                               \
+      |            ^
+./ruby-upb.c:7876:13: note: ‘v.val’ was declared here
+ 7876 |   upb_value v;
+      |             ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8275:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8275:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8275:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8275:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8277:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8277:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8277:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_EnumReservedRanges_New’ at ./ruby-upb.c:8277:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from ./ruby-upb.c:2:
+./ruby-upb.c: In function ‘upb_DefPool_FindExtensionByNumber’:
+./ruby-upb.h:1482:12: warning: ‘v.val’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 1482 |     return (type_t)(converter)val.val;                               \
+      |            ^
+./ruby-upb.c:7876:13: note: ‘v.val’ was declared here
+ 7876 |   upb_value v;
+      |             ^
+In file included from ./ruby-upb.c:2:
+./ruby-upb.c: In function ‘upb_Message_Next’:
+./ruby-upb.h:1482:12: warning: ‘v.val’ may be used uninitialized in this function [-Wmaybe-uninitialized]
+ 1482 |     return (type_t)(converter)val.val;                               \
+      |            ^
+./ruby-upb.c:7876:13: note: ‘v.val’ was declared here
+ 7876 |   upb_value v;
+      |             ^
+In file included from /usr/include/string.h:535,
+                 from ./ruby-upb.h:473,
+                 from ./ruby-upb.c:2:
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘upb_MessageDef_IsMessageSet’ at ./ruby-upb.c:10580:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘upb_MessageDef_IsMessageSet’ at ./ruby-upb.c:10580:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘upb_MessageDef_IsMessageSet’ at ./ruby-upb.c:10580:10:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11017:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11017:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11017:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11017:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11018:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11018:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11018:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_MessageReservedRanges_New’ at ./ruby-upb.c:11018:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10,
+    inlined from ‘upb_MessageDef_MiniDescriptorEncode’ at ./ruby-upb.c:10856:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10,
+    inlined from ‘upb_MessageDef_MiniDescriptorEncode’ at ./ruby-upb.c:10856:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_map_entry’ at ./ruby-upb.h:7853:3,
+    inlined from ‘upb_MessageDef_IsMapEntry’ at ./ruby-upb.c:10576:10,
+    inlined from ‘upb_MessageDef_MiniDescriptorEncode’ at ./ruby-upb.c:10856:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_EnumValueDescriptorProto_number’ at ./ruby-upb.h:6909:3,
+    inlined from ‘create_enumvaldef’ at ./ruby-upb.c:8369:15,
+    inlined from ‘_upb_EnumValueDefs_New’ at ./ruby-upb.c:8393:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_EnumValueDescriptorProto_number’ at ./ruby-upb.h:6909:3,
+    inlined from ‘create_enumvaldef’ at ./ruby-upb.c:8369:15,
+    inlined from ‘_upb_EnumValueDefs_New’ at ./ruby-upb.c:8393:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_EnumValueDescriptorProto_number’ at ./ruby-upb.h:6909:3,
+    inlined from ‘create_enumvaldef’ at ./ruby-upb.c:8369:15,
+    inlined from ‘_upb_EnumValueDefs_New’ at ./ruby-upb.c:8393:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_EnumValueDescriptorProto_number’ at ./ruby-upb.h:6909:3,
+    inlined from ‘create_enumvaldef’ at ./ruby-upb.c:8369:15,
+    inlined from ‘_upb_EnumValueDefs_New’ at ./ruby-upb.c:8393:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_EnumValueDescriptorProto_options’ at ./ruby-upb.h:6924:3,
+    inlined from ‘create_enumvaldef’ at ./ruby-upb.c:8373:3,
+    inlined from ‘_upb_EnumValueDefs_New’ at ./ruby-upb.c:8393:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_EnumDescriptorProto_options’ at ./ruby-upb.h:6601:3,
+    inlined from ‘create_enumdef’ at ./ruby-upb.c:8210:3,
+    inlined from ‘_upb_EnumDefs_New’ at ./ruby-upb.c:8239:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8448:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8448:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8448:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_start’ at ./ruby-upb.h:5694:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8448:9:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8449:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8449:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8449:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_end’ at ./ruby-upb.h:5709:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8449:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 4 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MessageOptions_message_set_wire_format’ at ./ruby-upb.h:7808:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8450:25:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2368:5,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_options’ at ./ruby-upb.h:5724:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8466:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_DescriptorProto_ExtensionRange_options’ at ./ruby-upb.h:5724:3,
+    inlined from ‘_upb_ExtensionRanges_New’ at ./ruby-upb.c:8466:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_client_streaming’ at ./ruby-upb.h:7202:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11103:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_client_streaming’ at ./ruby-upb.h:7202:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11103:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_client_streaming’ at ./ruby-upb.h:7202:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11103:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2273:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_server_streaming’ at ./ruby-upb.h:7217:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11105:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 4 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2276:7,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2266:17,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_server_streaming’ at ./ruby-upb.h:7217:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11105:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 8 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_MethodDescriptorProto_server_streaming’ at ./ruby-upb.h:7217:3,
+    inlined from ‘create_method’ at ./ruby-upb.c:11105:7:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 1 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_OneofDescriptorProto_options’ at ./ruby-upb.h:6481:3,
+    inlined from ‘create_oneofdef’ at ./ruby-upb.c:11295:3,
+    inlined from ‘_upb_OneofDefs_New’ at ./ruby-upb.c:11320:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+In function ‘memcpy’,
+    inlined from ‘_upb_MiniTable_CopyFieldData’ at ./ruby-upb.h:2279:7,
+    inlined from ‘_upb_Message_GetNonExtensionField’ at ./ruby-upb.h:2371:3,
+    inlined from ‘google_protobuf_ServiceDescriptorProto_options’ at ./ruby-upb.h:7048:3,
+    inlined from ‘create_service’ at ./ruby-upb.c:11405:3,
+    inlined from ‘_upb_ServiceDefs_New’ at ./ruby-upb.c:11416:5:
+/usr/include/x86_64-linux-gnu/bits/string_fortified.h:29:10: warning: ‘__builtin___memcpy_chk’ writing 16 bytes into a region of size 8 overflows the destination [-Wstringop-overflow=]
+   29 |   return __builtin___memcpy_chk (__dest, __src, __len,
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   30 |                                  __glibc_objsize0 (__dest));
+      |                                  ~~~~~~~~~~~~~~~~~~~~~~~~~~
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fPIC -Ithird_party/utf8_range -DNDEBUG=1   -o x86_64-linux/glue.o -c ./glue.c
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fPIC -Ithird_party/utf8_range -DNDEBUG=1   -o x86_64-linux/shared_convert.o -c ./shared_convert.c
+./shared_convert.c: In function ‘shared_Msgval_IsEqual’:
+./shared_convert.c:39:1: warning: control reaches end of non-void function [-Wreturn-type]
+   39 | }
+      | ^
+./shared_convert.c: In function ‘shared_Msgval_GetHash’:
+./shared_convert.c:64:1: warning: control reaches end of non-void function [-Wreturn-type]
+   64 | }
+      | ^
+gcc -fexceptions -O -fno-omit-frame-pointer -fno-strict-aliasing -std=gnu99 -O3 -Wall -Wsign-compare -Wno-declaration-after-statement -fPIC -Ithird_party/utf8_range -DNDEBUG=1   -o x86_64-linux/shared_message.o -c ./shared_message.c
+./shared_message.c: In function ‘shared_Message_Equal’:
+./shared_message.c:66:1: warning: control reaches end of non-void function [-Wreturn-type]
+   66 | }
+      | ^
+gcc -shared -o x86_64-linux/libprotobuf_c_ffi.so x86_64-linux/third_party/utf8_range/range2-sse.o x86_64-linux/third_party/utf8_range/range2-neon.o x86_64-linux/third_party/utf8_range/naive.o x86_64-linux/ruby-upb.o x86_64-linux/glue.o x86_64-linux/shared_convert.o x86_64-linux/shared_message.o -fexceptions 

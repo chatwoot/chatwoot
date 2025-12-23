@@ -1,0 +1,306 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/io-console-0.6.0/ext/io/console
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for termios.h... yes
+checking for cfmakeraw() in termios.h... yes
+checking for sys/ioctl.h... yes
+checking for HAVE_RUBY_FIBER_SCHEDULER_H... yes
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kas5os sitelibdir\=./.gem.20251220-192266-kas5os clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kas5os sitelibdir\=./.gem.20251220-192266-kas5os
+compiling console.c
+console.c: In function ‘get_write_fd’:
+console.c:301:5: warning: ‘tied_io_for_writing’ is deprecated: rb_io_get_write_io [-Wdeprecated-declarations]
+  301 |     VALUE wio = fptr->tied_io_for_writing;
+      |     ^~~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:193:11: note: declared here
+  193 |     VALUE tied_io_for_writing;
+      |           ^~~~~~~~~~~~~~~~~~~
+console.c:303:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  303 |     if (!wio) return fptr->fd;
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:305:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  305 |     return ofptr->fd;
+      |     ^~~~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c: In function ‘ttymode’:
+console.c:322:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  322 |     fd[0] = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:346:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  346 |     if (fd[0] != -1 && fd[0] == GetReadFD(fptr)) {
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c: In function ‘console_set_raw’:
+console.c:443:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  443 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:444:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  444 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:446:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  446 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_set_cooked’:
+console.c:486:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  486 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:487:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  487 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:489:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  489 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_set_echo’:
+console.c:645:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  645 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:646:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  646 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:651:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  651 |     if (!setattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_echo_p’:
+console.c:671:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  671 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:672:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  672 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_conmode_get’:
+console.c:755:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  755 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:756:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  756 |     if (!getattr(fd, &t)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_conmode_set’:
+console.c:779:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  779 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:780:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  780 |     if (!setattr(fd, &r)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_winsize’:
+console.c:822:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  822 |     if (!getwinsize(fd, &ws)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_set_winsize’:
+console.c:869:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  869 |     if (!setwinsize(fd, &ws)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_iflush’:
+console.c:942:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  942 |     fd = GetReadFD(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:944:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  944 |     if (tcflush(fd, TCIFLUSH)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_oflush’:
+console.c:967:5: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  967 |     if (tcflush(fd, TCOFLUSH)) sys_fail_fptr(fptr);
+      |     ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_ioflush’:
+console.c:991:5: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+  991 |     fd1 = GetReadFD(fptr);
+      |     ^~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:994:9: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  994 |         if (tcflush(fd1, TCIFLUSH)) sys_fail_fptr(fptr);
+      |         ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:995:9: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  995 |         if (tcflush(fd2, TCOFLUSH)) sys_fail_fptr(fptr);
+      |         ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:998:9: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+  998 |         if (tcflush(fd1, TCIOFLUSH)) sys_fail_fptr(fptr);
+      |         ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘console_beep’:
+console.c:1017:9: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+ 1017 |         sys_fail_fptr(fptr);
+      |         ^~~~~~~~~~~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c: In function ‘direct_query’:
+console.c:1262:9: warning: ‘tied_io_for_writing’ is deprecated: rb_io_get_write_io [-Wdeprecated-declarations]
+ 1262 |         wio = fptr->tied_io_for_writing;
+      |         ^~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:193:11: note: declared here
+  193 |     VALUE tied_io_for_writing;
+      |           ^~~~~~~~~~~~~~~~~~~
+console.c:1269:9: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+ 1269 |         if (write(fptr->fd, query->qstr, strlen(query->qstr)) != -1) {
+      |         ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:1272:9: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+ 1272 |         if (fptr->fd == 0 &&
+      |         ^~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/assume.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/backward/2/assume.h:24,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/defines.h:72,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:25,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from console.c:5:
+console.c: In function ‘console_dev’:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rfile.h:50:40: warning: ‘fd’ is deprecated: rb_io_descriptor [-Wdeprecated-declarations]
+   50 | #define RFILE(obj) RBIMPL_CAST((struct RFile *)(obj))
+      |                                        ^~~~~
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/cast.h:31:29: note: in definition of macro ‘RBIMPL_CAST’
+   31 | # define RBIMPL_CAST(expr) (expr)
+      |                             ^~~~
+console.c:1482:23: note: in expansion of macro ‘RFILE’
+ 1482 |             (!(fptr = RFILE(con)->fptr) || GetReadFD(fptr) == -1)) {
+      |                       ^~~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:154:9: note: declared here
+  154 |     int fd;
+      |         ^~
+console.c:1535:9: warning: ‘pathv’ is deprecated: rb_io_path [-Wdeprecated-declarations]
+ 1535 |         fptr->pathv = rb_obj_freeze(rb_str_new2(CONSOLE_DEVICE));
+      |         ^~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:170:11: note: declared here
+  170 |     VALUE pathv;
+      |           ^~~~~
+console.c:1542:9: warning: ‘mode’ is deprecated: rb_io_mode [-Wdeprecated-declarations]
+ 1542 |         fptr->mode |= FMODE_SYNC;
+      |         ^~~~
+In file included from console.c:6:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/io.h:158:9: note: declared here
+  158 |     int mode;
+      |         ^~~~
+console.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object io/console.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kas5os sitelibdir\=./.gem.20251220-192266-kas5os install
+/usr/bin/install -c -m 0755 console.so ./.gem.20251220-192266-kas5os/io
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/io-console-0.6.0/ext/io/console
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-kas5os sitelibdir\=./.gem.20251220-192266-kas5os clean

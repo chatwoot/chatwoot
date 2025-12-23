@@ -1,0 +1,72 @@
+PATH
+  remote: .
+  specs:
+    redis-client (0.22.2)
+      connection_pool
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    benchmark-ips (2.13.0)
+    byebug (11.1.3)
+    connection_pool (2.4.1)
+    hiredis (0.6.3)
+    hiredis (0.6.3-java)
+    json (2.7.1)
+    json (2.7.1-java)
+    minitest (5.23.0)
+    parallel (1.24.0)
+    parser (3.3.0.5)
+      ast (~> 2.4.1)
+      racc
+    racc (1.7.3)
+    racc (1.7.3-java)
+    rainbow (3.1.1)
+    rake (13.2.1)
+    rake-compiler (1.2.7)
+      rake
+    redis (4.6.0)
+    regexp_parser (2.9.0)
+    rexml (3.2.6)
+    rubocop (1.50.2)
+      json (~> 2.3)
+      parallel (~> 1.10)
+      parser (>= 3.2.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.28.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.30.0)
+      parser (>= 3.2.1.0)
+    rubocop-minitest (0.30.0)
+      rubocop (>= 1.39, < 2.0)
+    ruby-progressbar (1.13.0)
+    stackprof (0.2.26)
+    toxiproxy (2.0.2)
+    unicode-display_width (2.5.0)
+
+PLATFORMS
+  ruby
+  universal-java-18
+  x86_64-darwin-20
+  x86_64-linux
+
+DEPENDENCIES
+  benchmark-ips
+  byebug
+  hiredis
+  minitest
+  rake (~> 13.2)
+  rake-compiler
+  redis (~> 4.6)
+  redis-client!
+  rubocop
+  rubocop-minitest
+  stackprof
+  toxiproxy
+
+BUNDLED WITH
+   2.3.13

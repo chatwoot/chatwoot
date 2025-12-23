@@ -1,0 +1,441 @@
+---
+- !ruby/object:MIME::Type
+  content-type: model/3mf
+  encoding: base64
+  xrefs:
+    uri:
+    - http://www.3mf.io/specification
+    person:
+    - Michael_Sweet
+    - _3MF
+    template:
+    - model/3mf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/e57
+  encoding: base64
+  xrefs:
+    person:
+    - ASTM
+    template:
+    - model/e57
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/example
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4735
+    template:
+    - model/example
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/gltf+json
+  encoding: base64
+  xrefs:
+    person:
+    - Khronos
+    - Uli_Klumpp
+    template:
+    - model/gltf+json
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/gltf-binary
+  encoding: base64
+  xrefs:
+    person:
+    - Khronos
+    - Saurabh_Bhatia
+    template:
+    - model/gltf-binary
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/iges
+  friendly:
+    en: Initial Graphics Exchange Specification (IGES)
+  encoding: base64
+  extensions:
+  - igs
+  - iges
+  xrefs:
+    person:
+    - Curtis_Parks
+    template:
+    - model/iges
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/JT
+  encoding: base64
+  xrefs:
+    person:
+    - ISO-TC_184-SC_4
+    - Michael_Zink
+    template:
+    - model/JT
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/mesh
+  friendly:
+    en: Mesh Data Type
+  encoding: base64
+  extensions:
+  - msh
+  - mesh
+  - silo
+  xrefs:
+    rfc:
+    - rfc2077
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/mtl
+  encoding: base64
+  xrefs:
+    person:
+    - Carolyn_Hull
+    - DICOM_Standard_Committee
+    - DICOM_WG_17
+    template:
+    - model/mtl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/obj
+  encoding: base64
+  xrefs:
+    person:
+    - Carolyn_Hull
+    - DICOM_Standard_Committee
+    - DICOM_WG_17
+    template:
+    - model/obj
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/prc
+  encoding: base64
+  xrefs:
+    person:
+    - Betsy_Fanning
+    - ISO-TC_171-SC_2
+    template:
+    - model/prc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/step
+  encoding: base64
+  xrefs:
+    person:
+    - Dana_Tripp
+    - ISO-TC_184-SC_4
+    template:
+    - model/step
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/step+xml
+  encoding: base64
+  xrefs:
+    person:
+    - Dana_Tripp
+    - ISO-TC_184-SC_4
+    template:
+    - model/step+xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/step+zip
+  encoding: base64
+  xrefs:
+    person:
+    - Dana_Tripp
+    - ISO-TC_184-SC_4
+    template:
+    - model/step+zip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/step-xml+zip
+  encoding: base64
+  xrefs:
+    person:
+    - Dana_Tripp
+    - ISO-TC_184-SC_4
+    template:
+    - model/step-xml+zip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/stl
+  encoding: base64
+  xrefs:
+    person:
+    - Carolyn_Hull
+    - DICOM_Standard_Committee
+    - DICOM_WG_17
+    template:
+    - model/stl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/u3d
+  encoding: base64
+  xrefs:
+    person:
+    - PDF_Association
+    - Peter_Wyatt
+    template:
+    - model/u3d
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.cld
+  encoding: base64
+  xrefs:
+    person:
+    - Robert_Monaghan
+    template:
+    - model/vnd.cld
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.collada+xml
+  friendly:
+    en: COLLADA
+  encoding: base64
+  extensions:
+  - dae
+  xrefs:
+    person:
+    - James_Riordon
+    template:
+    - model/vnd.collada+xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.dwf
+  friendly:
+    en: Autodesk Design Web Format (DWF)
+  encoding: base64
+  extensions:
+  - dwf
+  xrefs:
+    person:
+    - Jason_Pratt
+    template:
+    - model/vnd.dwf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.flatland.3dml
+  encoding: base64
+  xrefs:
+    person:
+    - Michael_Powers
+    template:
+    - model/vnd.flatland.3dml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.gdl
+  friendly:
+    en: Geometric Description Language (GDL)
+  encoding: base64
+  extensions:
+  - gdl
+  xrefs:
+    person:
+    - Attila_Babits
+    template:
+    - model/vnd.gdl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.gs-gdl
+  encoding: base64
+  xrefs:
+    person:
+    - Attila_Babits
+    template:
+    - model/vnd.gs-gdl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.gtw
+  friendly:
+    en: Gen-Trix Studio
+  encoding: base64
+  extensions:
+  - gtw
+  xrefs:
+    person:
+    - Yutaka_Ozaki
+    template:
+    - model/vnd.gtw
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.moml+xml
+  encoding: base64
+  xrefs:
+    person:
+    - Christopher_Brooks
+    template:
+    - model/vnd.moml+xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.mts
+  friendly:
+    en: Virtue MTS
+  encoding: base64
+  extensions:
+  - mts
+  xrefs:
+    person:
+    - Boris_Rabinovitch
+    template:
+    - model/vnd.mts
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.opengex
+  encoding: base64
+  xrefs:
+    person:
+    - Eric_Lengyel
+    template:
+    - model/vnd.opengex
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.parasolid.transmit.binary
+  encoding: base64
+  extensions:
+  - x_b
+  - xmt_bin
+  xrefs:
+    person:
+    - Parasolid
+    template:
+    - model/vnd.parasolid.transmit.binary
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.parasolid.transmit.text
+  encoding: quoted-printable
+  extensions:
+  - x_t
+  - xmt_txt
+  xrefs:
+    person:
+    - Parasolid
+    template:
+    - model/vnd.parasolid.transmit.text
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.pytha.pyox
+  encoding: base64
+  xrefs:
+    person:
+    - Daniel_Flassig
+    template:
+    - model/vnd.pytha.pyox
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.rosette.annotated-data-model
+  encoding: base64
+  xrefs:
+    person:
+    - Benson_Margulies
+    template:
+    - model/vnd.rosette.annotated-data-model
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.sap.vds
+  encoding: base64
+  xrefs:
+    person:
+    - Igor_Afanasyev
+    - SAP_SE
+    template:
+    - model/vnd.sap.vds
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.usda
+  encoding: base64
+  xrefs:
+    person:
+    - Sebastian_Grassia
+    template:
+    - model/vnd.usda
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.usdz+zip
+  encoding: base64
+  xrefs:
+    person:
+    - Sebastian_Grassia
+    template:
+    - model/vnd.usdz+zip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.valve.source.compiled-map
+  encoding: base64
+  xrefs:
+    person:
+    - Henrik_Andersson
+    template:
+    - model/vnd.valve.source.compiled-map
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vnd.vtu
+  friendly:
+    en: Virtue VTU
+  encoding: base64
+  extensions:
+  - vtu
+  xrefs:
+    person:
+    - Boris_Rabinovitch
+    template:
+    - model/vnd.vtu
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/vrml
+  friendly:
+    en: Virtual Reality Modeling Language
+  encoding: base64
+  extensions:
+  - wrl
+  - vrml
+  xrefs:
+    rfc:
+    - rfc2077
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/x3d+binary
+  encoding: base64
+  extensions:
+  - x3db
+  - x3dbz
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: model/x3d+fastinfoset
+  encoding: base64
+  xrefs:
+    person:
+    - Web3D_X3D
+    template:
+    - model/x3d+fastinfoset
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/x3d+vrml
+  encoding: base64
+  extensions:
+  - x3dv
+  - x3dvz
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: model/x3d+xml
+  encoding: base64
+  extensions:
+  - x3d
+  - x3dz
+  xrefs:
+    person:
+    - Web3D
+    - Web3D_X3D
+    template:
+    - model/x3d+xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: model/x3d-vrml
+  encoding: base64
+  xrefs:
+    person:
+    - Web3D
+    - Web3D_X3D
+    template:
+    - model/x3d-vrml
+  registered: true

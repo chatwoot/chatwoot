@@ -1,0 +1,52 @@
+vi:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Mail xác nhận tài khoản đã được gửi tới tài khoản của bạn tại '%{email}'. Bận cần phải làm theo những hướng dẫn trong email để tài khoản có thể xác nhận"
+      bad_credentials: "Thông tin đăng nhập không hợp lệ. Xin thử lại."
+      not_supported: "Sử dụng POST /sign_in để đăng nhập. Phương thức GET không được hỗ trợ."
+      user_not_found: "Người dùng đã không được tìm thấy hoặc không đăng nhập."
+    token_validations:
+      invalid: "Thông tin đăng nhập không hợp lệ."
+    registrations:
+      missing_confirm_success_url: "Thiếu 'confirm_success_url' tham số."
+      redirect_url_not_allowed: "Chuyển hướng tới '%{redirect_url}' không được phép."
+      email_already_exists: "Tài khoản đã tồn tại của '%{email}'"
+      account_with_uid_destroyed: "Tài khoản với UID '%{uid}' vừa bị phá hủy."
+      account_to_destroy_not_found: "Không thể xác định tài khoản cho việc phá hủy."
+      user_not_found: "Người dùng không tìm thấy."
+    omniauth:
+      not_allowed_redirect_url: "Chuyển hướng tới '%{redirect_url}' không được phép."
+    passwords:
+      missing_email: "Bạn cần cung cấp địa chỉ email."
+      missing_redirect_url: "Thiếu đường đẫn URL."
+      not_allowed_redirect_url: "Chuyển hướng tới '%{redirect_url}' không được phép."
+      sended: "Mail đã được gửi tới '%{email}' tiếp tục làm theo những hướng dẫn để khởi tạo lại mật khẩu."
+      user_not_found: "Không thể tìm ra người dùng với email '%{email}'."
+      password_not_required: "Tài khoản này không yêu cầu mật khẩu. Thay thế đăng nhập bằng cách sử dụng '%{provider}' của tài khoản ."
+      missing_passwords: "Bạn cần điền đủ những trường như 'mật khẩu' và 'xác nhận mật khẩu'."
+      successfully_updated: "Mật khẩu của bạn vừa được cập nhật thành công."
+    unlocks:
+      missing_email: "Bạn cần phải cung cấp địa chỉ email."
+      sended: "Mail đã được gửi tới '%{email}' tiếp tục làm theo những hướng đẫn để mở khóa tài khoản."
+      user_not_found: "Không thể tìm ra người dùng với email '%{email}'."
+  errors:
+    messages:
+      validate_sign_up_params: "Vui lòng gửi đúng dữ liệu đăng ký trong phần dữ liệu gửi lên."
+      validate_account_update_params: "Vui lòng gửi đúng dữ liệu cập nhật tài khoản trong phần dữ liệu gửi lên ."
+      not_email: "không phải là email"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Bạn có thể xác nhận tài khoản email bằng đường link dưới đây:"
+        confirm_account_link: "Xác nhận tài khoản"
+      reset_password_instructions:
+        request_reset_link_msg: "Ai đó đã gửi yêu cầu để đổi mật khẩu của bạn. Bạn có thể thực hiện điều này thông qua đường dẫn bên dưới."
+        password_change_link: "Đổi mật khẩu của tôi"
+        ignore_mail_msg: "Nếu bạn đã không gửi yêu cầu này, thì vui lòng bỏ qua email này."
+        no_changes_msg: "Mật khẩu của bạn sẽ không thay đổi cho đến khi bạn truy cập liên kết ở trên và tạo một mật khẩu mới."
+      unlock_instructions:
+        account_lock_msg: "Tài khoản của bạn đã bị khóa do có quá nhiều lần đăng nhập không thành công."
+        unlock_link_msg: "Chọn vào đường dẫn bên dưới để mở khóa tài khoản:"
+        unlock_link: "Mở khóa tài khoản"
+  hello: "xin chào"
+  welcome: "chào mừng"

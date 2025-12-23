@@ -1,0 +1,30 @@
+---
+sq:
+  administrate:
+    actions:
+      confirm: A jeni te sigurtë?
+      destroy: Fshij
+      edit: Ndrysho
+      edit_resource: Ndrysho %{name}
+      show_resource: Trego %{name}
+      new_resource: Të re %{name}
+      back: Prapa
+    controller:
+      create:
+        success: "%{resource} është krijuar me sukses."
+      destroy:
+        success: "%{resource} është fshirë me sukses."
+      update:
+        success: "%{resource} është azhurnuar me sukses."
+    fields:
+      has_many:
+        more: Duke treguar %{count} nga %{total_count}
+        none: Asnjë
+    form:
+      error: gabim
+      errors: "%{pluralized_errors} nuk e lejoj %{resource_name} të ruhet:"
+    navigation:
+      back_to_app: Kthehu tek aplikacioni
+    search:
+      clear: Pastro kërkimin
+      label: Kërko %{resource}

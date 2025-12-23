@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+
+if defined?(Spring)
+  $stderr.puts "You've tried to invoke Spring when it's already loaded (i.e. the Spring " \
+               "constant is defined)."
+  $stderr.puts
+  $stderr.puts "This is probably because you generated binstubs with " \
+               "Spring 1.0, and you now have a Spring version > 1.0 on your system. To solve " \
+               "this, upgrade your bundle to the latest Spring version and then run " \
+               "`bundle exec spring binstub --all` to regenerate your binstubs. This is a one-time " \
+               "step necessary to upgrade from 1.0 to 1.1."
+  $stderr.puts
+  $stderr.puts "Here's the backtrace:"
+  $stderr.puts
+  $stderr.puts caller
+  exit 1
+end
+
+if defined?(Gem)
+  if Gem::Version.new(Gem::VERSION) < Gem::Version.new("2.1.0")
+    warn "Warning: You're using Rubygems #{Gem::VERSION} with Spring. " \
+         "Upgrade to at least Rubygems 2.1.0 and run `gem pristine --all` for better " \
+         "startup performance."
+  else
+    stubs = Gem::Specification.stubs.grep(Gem::StubSpecification)
+
+    # stubbed? method added in https://github.com/rubygems/rubygems/pull/694
+    if Gem::Specification.stubs.first.respond_to?(:stubbed?)
+      unstubbed = stubs.reject(&:stubbed?)
+    else
+      unstubbed = stubs.reject { |s| s.send(:data).is_a?(Gem::StubSpecification::StubLine) }
+    end
+
+    # `gem pristine --all` ignores default gems. it doesn't really matter,
+    # as there are probably not many of them on the system.
+    unstubbed.reject!(&:default_gem?)
+
+    if unstubbed.any?
+      warn "Warning: Running `gem pristine --all` to regenerate your installed gemspecs " \
+           "(and deleting then reinstalling your bundle if you use bundle --path) " \
+           "will improve the startup performance of Spring."
+    end
+  end
+end
+
+lib = File.expand_path("../../lib", __FILE__)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib) # enable local development
+require 'spring/client'
+Spring::Client.run(ARGV)

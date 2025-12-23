@@ -1,0 +1,6 @@
+en:
+  faker:
+    coin:
+      flip:
+        - Heads
+        - Tails

@@ -1,0 +1,108 @@
+name: Ruby test
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    name: Ruby ${{ matrix.ruby }} (${{ matrix.gemfile }})
+    runs-on: ubuntu-20.04
+    continue-on-error: ${{ matrix.experimental }}
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/${{ matrix.gemfile }}.gemfile
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: 
+          - "2.2"
+          - "2.3"
+          - "2.4"
+          - "2.5"
+          - "2.6"
+          - "2.7"
+          - "3.0"
+
+        gemfile:
+          - "rails_5_0"
+          - "rails_5_1"
+          - "rails_5_2"
+          - "rails_6_0"
+          - "rails_6_1"
+          - "rails_head"
+        
+        experimental: [false]
+        exclude:
+          - ruby: 2.7
+            gemfile: rails_5_0
+          - ruby: '3.0'
+            gemfile: rails_5_0
+          - ruby: head
+            gemfile: rails_5_0
+          - ruby: 2.7
+            gemfile: rails_5_1
+          - ruby: '3.0'
+            gemfile: rails_5_1
+          - ruby: head
+            gemfile: rails_5_1
+          - ruby: 2.2
+            gemfile: rails_5_2
+          - ruby: 2.7
+            gemfile: rails_5_2
+          - ruby: '3.0'
+            gemfile: rails_5_2
+          - ruby: head
+            gemfile: rails_5_2
+          - ruby: 2.2
+            gemfile: rails_6_0
+          - ruby: 2.3
+            gemfile: rails_6_0
+          - ruby: 2.4
+            gemfile: rails_6_0
+          - ruby: '3.0'
+            gemfile: rails_6_0
+          - ruby: head
+            gemfile: rails_6_0
+          - ruby: 2.2
+            gemfile: rails_6_1
+          - ruby: 2.3
+            gemfile: rails_6_1
+          - ruby: 2.4
+            gemfile: rails_6_1
+          - ruby: 2.2
+            gemfile: rails_head
+          - ruby: 2.3
+            gemfile: rails_head
+          - ruby: 2.4
+            gemfile: rails_head
+          - ruby: 2.5
+            gemfile: rails_head
+          - ruby: 2.6
+            gemfile: rails_head
+          - ruby: 2.7
+            gemfile: rails_head
+            experimental: false
+          - ruby: '3.0'
+            gemfile: rails_head
+            experimental: false
+        include:
+          - ruby: 2.7
+            gemfile: rails_head
+            experimental: true
+          - ruby: '3.0'
+            gemfile: rails_head
+            experimental: true
+          - ruby: head
+            gemfile: rails_head
+            experimental: true
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      - name: Ruby test
+        run: bundle exec rake

@@ -1,0 +1,24 @@
+Sure, [Bitnami](http://bitnami.com/stack/discourse) supports EC2 and there
+are several topics here about it.
+
+Our [official install guide](
+https://github.com/discourse/discourse/blob/master/docs/INSTALL-ubuntu.md)
+also works great on an Amazon EC2 provisioned virtual machine with very
+little change.
+
+
+On Thu, Jun 20, 2013 at 4:18 PM, matt2 via Discourse Meta <
+info@discourse.org> wrote:
+
+> matt2 posted in 'Discourse on Ubuntu: Video Walkthrough' on Discourse Meta:
+> ------------------------------
+>
+> Has anyone tried on AWS? a public AMI would be awesome.
+> ------------------------------
+>
+> Please visit this link to respond:
+> http://meta.discourse.org/t/discourse-on-ubuntu-video-walkthrough/7478/4
+>
+> To unsubscribe from these emails, visit your user preferences<http://meta.discourse.org/user_preferences>
+> .
+>

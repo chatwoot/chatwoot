@@ -1,0 +1,30 @@
+---
+tr:
+  administrate:
+    actions:
+      confirm: Emin misiniz?
+      destroy: Sil
+      edit: Düzenle
+      edit_resource: "%{name} Kaydını Düzenle"
+      show_resource: "%{name} Kaydını Göster"
+      new_resource: Yeni %{name}
+      back: Geri
+    controller:
+      create:
+        success: "%{resource} kaydı başarıyla yaratıldı."
+      destroy:
+        success: "%{resource} kaydı başarıyla silindi."
+      update:
+        success: "%{resource} kaydı başarıyla düzenlendi."
+    fields:
+      has_many:
+        more: Toplam %{total_count} kayıttan %{count} adedi gösteriliyor
+        none: Yok
+    form:
+      error: Hata
+      errors: "%{resource_name} kaydedilemedi: %{pluralized_errors}"
+    navigation:
+      back_to_app: Uygulamaya geri dön
+    search:
+      clear: Temizle
+      label: "%{resource} içerisinde ara"

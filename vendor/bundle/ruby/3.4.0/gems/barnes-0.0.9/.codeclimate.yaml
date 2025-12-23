@@ -1,0 +1,3 @@
+engines:
+  brakeman:
+    enabled: false

@@ -1,0 +1,13 @@
+de:
+  Job: Job
+  Cron: Cron
+  CronJobs: Cronjobs
+  EnqueueNow: In Warteschlange
+  'Cron string': Cron
+  AreYouSureDeleteCronJob: Sind Sie sicher, dass sie den Cronjob %{job} löschen wollen?
+  NoCronJobsWereFound: Keine Cronjobs gefunden
+  Enable: Aktivieren
+  Disable: Deaktivieren
+  'Last enqueued': Eingereiht
+  disabled: deaktiviert
+  enabled: aktiviert

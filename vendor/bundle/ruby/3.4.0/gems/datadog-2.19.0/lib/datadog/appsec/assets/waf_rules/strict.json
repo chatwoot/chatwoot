@@ -1,0 +1,3025 @@
+{
+  "version": "2.2",
+  "metadata": {
+    "rules_version": "1.14.2"
+  },
+  "rules": [
+    {
+      "id": "crs-913-100",
+      "name": "Found User-Agent associated with security scanner",
+      "tags": {
+        "type": "security_scanner",
+        "crs_id": "913100",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "user-agent"
+                ]
+              }
+            ],
+            "list": [
+              "(hydra)",
+              "absinthe",
+              "autogetcontent",
+              "bilbo",
+              "bfac",
+              "cisco-torch",
+              "core-project/1.0",
+              "crimscanner/",
+              "datacha0s",
+              "domino hunter",
+              "dotdotpwn",
+              "email extractor",
+              "fhscan core 1.",
+              "floodgate",
+              "f-secure radar",
+              "get-minimal",
+              "gootkit auto-rooter scanner",
+              "grabber",
+              "grendel-scan",
+              "inspath",
+              "internet ninja",
+              "masscan",
+              "morfeus fucking scanner",
+              "mysqloit",
+              "prog.customcrawler",
+              "qqgamehall",
+              "s.t.a.l.k.e.r.",
+              "springenwerk",
+              "sql power injector",
+              "struts-pwn",
+              "sysscan",
+              "tbi-webscanner",
+              "teh forest lobster",
+              "toata dragostea",
+              "uil2pn",
+              "user-agent:",
+              "vega/",
+              "voideye",
+              "webbandit",
+              "webshag",
+              "webvulnscan",
+              "whatweb",
+              "whcc/",
+              "wordpress hash grabber",
+              "xmlrpc exploit"
+            ]
+          },
+          "operator": "phrase_match"
+        }
+      ],
+      "transformers": [
+        "lowercase"
+      ]
+    },
+    {
+      "id": "crs-921-120",
+      "name": "HTTP Response Splitting Attack",
+      "tags": {
+        "type": "http_protocol_violation",
+        "crs_id": "921120",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "[\\r\\n]\\W*?(?:content-(?:type|length)|set-cookie|location):\\s*\\w",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 11
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "lowercase"
+      ]
+    },
+    {
+      "id": "crs-921-140",
+      "name": "HTTP Header Injection Attack via headers",
+      "tags": {
+        "type": "http_protocol_violation",
+        "crs_id": "921140",
+        "category": "attack_attempt",
+        "capec": "1000/210/272/220/273",
+        "cwe": "113",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "regex": "[\\n\\r]",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 1
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-932-100",
+      "name": "Remote Command Execution: Unix Command Injection",
+      "tags": {
+        "type": "command_injection",
+        "crs_id": "932100",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:[;\\n\\r`]|\\$(?:\\(?\\(|{)|(?:\\|)?\\||\\(\\s*\\)|[<>]\\(|&?&|\\{)\\s*(?:(?:\\w+=(?:[^\\s]*|\\$.*|\\$.*|<.*|>.*|\\'.*\\'|\\\".*\\\")\\s+|(?:\\s*\\(|!)\\s*|\\{|\\$))*\\s*(?:['\\\"])*(?:[\\?\\*\\[\\]\\(\\)\\-\\|+\\w'\\\"\\./\\x5c]+/)?[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*(?:w[\\x5c'\\\"]*p[\\x5c'\\\"]*-[\\x5c'\\\"]*(?:d[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*w[\\x5c'\\\"]*n[\\x5c'\\\"]*l[\\x5c'\\\"]*o[\\x5c'\\\"]*a[\\x5c'\\\"]*d|u[\\x5c'\\\"]*m[\\x5c'\\\"]*p)|r[\\x5c'\\\"]*e[\\x5c'\\\"]*q[\\x5c'\\\"]*u[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*t|m[\\x5c'\\\"]*i[\\x5c'\\\"]*r[\\x5c'\\\"]*r[\\x5c'\\\"]*o[\\x5c'\\\"]*r)|s(?:[\\x5c'\\\"]*(?:b[\\x5c'\\\"]*_[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*l[\\x5c'\\\"]*e[\\x5c'\\\"]*a[\\x5c'\\\"]*s[\\x5c'\\\"]*e|c[\\x5c'\\\"]*p[\\x5c'\\\"]*u|m[\\x5c'\\\"]*o[\\x5c'\\\"]*d|p[\\x5c'\\\"]*c[\\x5c'\\\"]*i|u[\\x5c'\\\"]*s[\\x5c'\\\"]*b|-[\\x5c'\\\"]*F|h[\\x5c'\\\"]*w|o[\\x5c'\\\"]*f))?|z[\\x5c'\\\"]*(?:(?:[ef][\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|c[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*t|m[\\x5c'\\\"]*p)|m[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*r[\\x5c'\\\"]*e|a)|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s)|o[\\x5c'\\\"]*(?:g[\\x5c'\\\"]*(?:(?:n[\\x5c'\\\"]*a[\\x5c'\\\"]*m|s[\\x5c'\\\"]*a[\\x5c'\\\"]*v)[\\x5c'\\\"]*e|i[\\x5c'\\\"]*n[\\x5c'\\\"]*c[\\x5c'\\\"]*t[\\x5c'\\\"]*l)|c[\\x5c'\\\"]*a[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*e|l)[\\x5c'\\\"]*(?:\\s|<|>).*)|e[\\x5c'\\\"]*s[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:(?:f[\\x5c'\\\"]*i[\\x5c'\\\"]*l|p[\\x5c'\\\"]*i[\\x5c'\\\"]*p)[\\x5c'\\\"]*e|e[\\x5c'\\\"]*c[\\x5c'\\\"]*h[\\x5c'\\\"]*o|(?:\\s|<|>).*)|a[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*o[\\x5c'\\\"]*g(?:[\\x5c'\\\"]*i[\\x5c'\\\"]*n)?|c[\\x5c'\\\"]*o[\\x5c'\\\"]*m[\\x5c'\\\"]*m|(?:\\s|<|>).*)|d[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*f[\\x5c'\\\"]*i[\\x5c'\\\"]*g|d[\\x5c'\\\"]*(?:\\s|<|>).*)|(?:[np]|i[\\x5c'\\\"]*n[\\x5c'\\\"]*k[\\x5c'\\\"]*s|y[\\x5c'\\\"]*n[\\x5c'\\\"]*x)[\\x5c'\\\"]*(?:\\s|<|>).*|u[\\x5c'\\\"]*a[\\x5c'\\\"]*(?:5[\\x5c'\\\"]*\\.[\\x5c'\\\"]*[1234]|(?:\\s|<|>).*)|f[\\x5c'\\\"]*t[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*g[\\x5c'\\\"]*e[\\x5c'\\\"]*t)?|t[\\x5c'\\\"]*r[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*e)|c[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*(?:m[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*(?:r[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:\\s|<|>).*|o[\\x5c'\\\"]*s[\\x5c'\\\"]*e[\\x5c'\\\"]*r)|m[\\x5c'\\\"]*a[\\x5c'\\\"]*n[\\x5c'\\\"]*d[\\x5c'\\\"]*(?:\\s|<|>).*)|p[\\x5c'\\\"]*r[\\x5c'\\\"]*o[\\x5c'\\\"]*c)|h[\\x5c'\\\"]*(?:d[\\x5c'\\\"]*i[\\x5c'\\\"]*r[\\x5c'\\\"]*(?:\\s|<|>).*|f[\\x5c'\\\"]*l[\\x5c'\\\"]*a[\\x5c'\\\"]*g[\\x5c'\\\"]*s|a[\\x5c'\\\"]*t[\\x5c'\\\"]*t[\\x5c'\\\"]*r|m[\\x5c'\\\"]*o[\\x5c'\\\"]*d)|p[\\x5c'\\\"]*(?:u[\\x5c'\\\"]*l[\\x5c'\\\"]*i[\\x5c'\\\"]*m[\\x5c'\\\"]*i[\\x5c'\\\"]*t|(?:\\s|<|>).*|a[\\x5c'\\\"]*n|i[\\x5c'\\\"]*o)|(?:a[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*s[\\x5c'\\\"]*h|t)|c)[\\x5c'\\\"]*(?:\\s|<|>).*|e[\\x5c'\\\"]*r[\\x5c'\\\"]*t[\\x5c'\\\"]*b[\\x5c'\\\"]*o[\\x5c'\\\"]*t|r[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*b|u[\\x5c'\\\"]*r[\\x5c'\\\"]*l|[89][\\x5c'\\\"]*9|s[\\x5c'\\\"]*h)|b[\\x5c'\\\"]*(?:z[\\x5c'\\\"]*(?:(?:[ef][\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|m[\\x5c'\\\"]*o[\\x5c'\\\"]*r[\\x5c'\\\"]*e|c[\\x5c'\\\"]*a[\\x5c'\\\"]*t|i[\\x5c'\\\"]*p[\\x5c'\\\"]*2)|u[\\x5c'\\\"]*(?:s[\\x5c'\\\"]*(?:y[\\x5c'\\\"]*b[\\x5c'\\\"]*o[\\x5c'\\\"]*x|c[\\x5c'\\\"]*t[\\x5c'\\\"]*l)|n[\\x5c'\\\"]*d[\\x5c'\\\"]*l[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*(?:\\s|<|>).*|i[\\x5c'\\\"]*l[\\x5c'\\\"]*t[\\x5c'\\\"]*i[\\x5c'\\\"]*n)|s[\\x5c'\\\"]*d[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*a[\\x5c'\\\"]*t|i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|t[\\x5c'\\\"]*a[\\x5c'\\\"]*r)|a[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*c[\\x5c'\\\"]*h[\\x5c'\\\"]*(?:\\s|<|>).*|s[\\x5c'\\\"]*h)|r[\\x5c'\\\"]*e[\\x5c'\\\"]*a[\\x5c'\\\"]*k[\\x5c'\\\"]*s[\\x5c'\\\"]*w)|e[\\x5c'\\\"]*(?:x[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*c[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:\\s|<|>).*|a[\\x5c'\\\"]*n[\\x5c'\\\"]*d|o[\\x5c'\\\"]*r[\\x5c'\\\"]*t|r)|(?:e[\\x5c'\\\"]*c[\\x5c'\\\"]*)?(?:\\s|<|>).*)|n[\\x5c'\\\"]*(?:v(?:[\\x5c'\\\"]*-[\\x5c'\\\"]*u[\\x5c'\\\"]*p[\\x5c'\\\"]*d[\\x5c'\\\"]*a[\\x5c'\\\"]*t[\\x5c'\\\"]*e)?|d[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*f|s[\\x5c'\\\"]*w))|(?:a[\\x5c'\\\"]*s[\\x5c'\\\"]*y[\\x5c'\\\"]*_[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*l|v[\\x5c'\\\"]*a)[\\x5c'\\\"]*l|(?:c[\\x5c'\\\"]*h[\\x5c'\\\"]*o|d)[\\x5c'\\\"]*(?:\\s|<|>).*|g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|m[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*s|s[\\x5c'\\\"]*a[\\x5c'\\\"]*c)|f[\\x5c'\\\"]*(?:i(?:[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*e[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*t|(?:\\s|<|>).*)|n[\\x5c'\\\"]*d[\\x5c'\\\"]*(?:\\s|<|>).*|s[\\x5c'\\\"]*h))?|t[\\x5c'\\\"]*p[\\x5c'\\\"]*(?:s[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*t[\\x5c'\\\"]*s|w[\\x5c'\\\"]*h[\\x5c'\\\"]*o|(?:\\s|<|>).*)|(?:e[\\x5c'\\\"]*t[\\x5c'\\\"]*c[\\x5c'\\\"]*h|l[\\x5c'\\\"]*o[\\x5c'\\\"]*c[\\x5c'\\\"]*k|c)[\\x5c'\\\"]*(?:\\s|<|>).*|u[\\x5c'\\\"]*n[\\x5c'\\\"]*c[\\x5c'\\\"]*t[\\x5c'\\\"]*i[\\x5c'\\\"]*o[\\x5c'\\\"]*n|o[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*h|g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p)|i[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*(?:(?:6[\\x5c'\\\"]*)?t[\\x5c'\\\"]*a[\\x5c'\\\"]*b[\\x5c'\\\"]*l[\\x5c'\\\"]*e[\\x5c'\\\"]*s|c[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*f[\\x5c'\\\"]*i[\\x5c'\\\"]*g)|r[\\x5c'\\\"]*b(?:[\\x5c'\\\"]*(?:2[\\x5c'\\\"]*[01234567]|1(?:[\\x5c'\\\"]*[89])?|3[\\x5c'\\\"]*0))?|f[\\x5c'\\\"]*c[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*f[\\x5c'\\\"]*i[\\x5c'\\\"]*g|o[\\x5c'\\\"]*n[\\x5c'\\\"]*i[\\x5c'\\\"]*c[\\x5c'\\\"]*e|d[\\x5c'\\\"]*(?:\\s|<|>).*)|h[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*(?:d[\\x5c'\\\"]*i[\\x5c'\\\"]*g[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*t|p[\\x5c'\\\"]*a[\\x5c'\\\"]*s[\\x5c'\\\"]*s[\\x5c'\\\"]*w[\\x5c'\\\"]*d)|o[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:n[\\x5c'\\\"]*a[\\x5c'\\\"]*m[\\x5c'\\\"]*e|i[\\x5c'\\\"]*d)|(?:e[\\x5c'\\\"]*a[\\x5c'\\\"]*d|u[\\x5c'\\\"]*p)[\\x5c'\\\"]*(?:\\s|<|>).*|i[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*o[\\x5c'\\\"]*r[\\x5c'\\\"]*y)|a[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*a[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:\\s|<|>).*|p[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*e)|p[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:-[\\x5c'\\\"]*g[\\x5c'\\\"]*e[\\x5c'\\\"]*t|(?:\\s|<|>).*)|d[\\x5c'\\\"]*d[\\x5c'\\\"]*u[\\x5c'\\\"]*s[\\x5c'\\\"]*e[\\x5c'\\\"]*r|r[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*h[\\x5c'\\\"]*(?:\\s|<|>).*|p)|(?:w[\\x5c'\\\"]*[ks]|t)[\\x5c'\\\"]*(?:\\s|<|>).*)|g[\\x5c'\\\"]*(?:(?:e[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*f[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*l|m)|r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|o)[\\x5c'\\\"]*(?:\\s|<|>).*|z[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*a[\\x5c'\\\"]*t|i[\\x5c'\\\"]*p)|u[\\x5c'\\\"]*n[\\x5c'\\\"]*z[\\x5c'\\\"]*i[\\x5c'\\\"]*p|c[\\x5c'\\\"]*c(?:[\\x5c'\\\"]*(?:\\s|<|>).*)?|i[\\x5c'\\\"]*t(?:[\\x5c'\\\"]*(?:\\s|<|>).*)?|d[\\x5c'\\\"]*b)|d[\\x5c'\\\"]*(?:h[\\x5c'\\\"]*c[\\x5c'\\\"]*l[\\x5c'\\\"]*i[\\x5c'\\\"]*e[\\x5c'\\\"]*n[\\x5c'\\\"]*t|(?:i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|u)[\\x5c'\\\"]*(?:\\s|<|>).*|(?:m[\\x5c'\\\"]*e[\\x5c'\\\"]*s|p[\\x5c'\\\"]*k)[\\x5c'\\\"]*g|o[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*s|n[\\x5c'\\\"]*e)|a[\\x5c'\\\"]*s[\\x5c'\\\"]*h)|j[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*(?:u[\\x5c'\\\"]*r[\\x5c'\\\"]*n[\\x5c'\\\"]*a[\\x5c'\\\"]*l[\\x5c'\\\"]*c[\\x5c'\\\"]*t[\\x5c'\\\"]*l|b[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:\\s|<|>).*)|a[\\x5c'\\\"]*v[\\x5c'\\\"]*a[\\x5c'\\\"]*(?:\\s|<|>).*|e[\\x5c'\\\"]*x[\\x5c'\\\"]*e[\\x5c'\\\"]*c)|k[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*l[\\x5c'\\\"]*l[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*l[\\x5c'\\\"]*l|(?:\\s|<|>).*)|s[\\x5c'\\\"]*h)|G[\\x5c'\\\"]*E[\\x5c'\\\"]*T[\\x5c'\\\"]*(?:\\s|<|>).*|7[\\x5c'\\\"]*z(?:[\\x5c'\\\"]*[ar])?)\\b",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 3
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-932-115",
+      "name": "Remote Command Execution: Windows Command Injection",
+      "tags": {
+        "type": "command_injection",
+        "crs_id": "932115",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:[;\\n\\r`]|(?:$\\(|<)\\(|(?:\\|)?\\||\\(\\s*\\)|\\$[(?:{]|&?&|>\\|\\{)\\s*(?:(?:\\w+=(?:[^\\s]*|\\$.*|\\$.*|<.*|>.*|\\'.*\\'|\\\".*\\\")\\s+|(?:\\s*\\(|!)\\s*|\\{|\\$))*\\s*(?:['\\\"])*(?:[\\?\\*\\[\\]\\(\\)\\-\\|+\\w'\\\"\\./\\x5c]+/)?[\\x5c'\\\"]*(?:s[\\\"\\^]*(?:y[\\\"\\^]*s[\\\"\\^]*(?:t[\\\"\\^]*e[\\\"\\^]*m[\\\"\\^]*(?:p[\\\"\\^]*r[\\\"\\^]*o[\\\"\\^]*p[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*t[\\\"\\^]*i[\\\"\\^]*e[\\\"\\^]*s[\\\"\\^]*(?:d[\\\"\\^]*a[\\\"\\^]*t[\\\"\\^]*a[\\\"\\^]*e[\\\"\\^]*x[\\\"\\^]*e[\\\"\\^]*c[\\\"\\^]*u[\\\"\\^]*t[\\\"\\^]*i[\\\"\\^]*o[\\\"\\^]*n[\\\"\\^]*p[\\\"\\^]*r[\\\"\\^]*e[\\\"\\^]*v[\\\"\\^]*e[\\\"\\^]*n[\\\"\\^]*t[\\\"\\^]*i[\\\"\\^]*o[\\\"\\^]*n|(?:p[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*f[\\\"\\^]*o[\\\"\\^]*r[\\\"\\^]*m[\\\"\\^]*a[\\\"\\^]*n[\\\"\\^]*c|h[\\\"\\^]*a[\\\"\\^]*r[\\\"\\^]*d[\\\"\\^]*w[\\\"\\^]*a[\\\"\\^]*r)[\\\"\\^]*e|a[\\\"\\^]*d[\\\"\\^]*v[\\\"\\^]*a[\\\"\\^]*n[\\\"\\^]*c[\\\"\\^]*e[\\\"\\^]*d)|i[\\\"\\^]*n[\\\"\\^]*f[\\\"\\^]*o)|k[\\\"\\^]*e[\\\"\\^]*y|d[\\\"\\^]*m)|h[\\\"\\^]*(?:o[\\\"\\^]*(?:w[\\\"\\^]*(?:g[\\\"\\^]*r[\\\"\\^]*p|m[\\\"\\^]*b[\\\"\\^]*r)[\\\"\\^]*s|r[\\\"\\^]*t[\\\"\\^]*c[\\\"\\^]*u[\\\"\\^]*t)|e[\\\"\\^]*l[\\\"\\^]*l[\\\"\\^]*r[\\\"\\^]*u[\\\"\\^]*n[\\\"\\^]*a[\\\"\\^]*s|u[\\\"\\^]*t[\\\"\\^]*d[\\\"\\^]*o[\\\"\\^]*w[\\\"\\^]*n|r[\\\"\\^]*p[\\\"\\^]*u[\\\"\\^]*b[\\\"\\^]*w|a[\\\"\\^]*r[\\\"\\^]*e|i[\\\"\\^]*f[\\\"\\^]*t)|e[\\\"\\^]*(?:t[\\\"\\^]*(?:(?:x[\\\"\\^]*)?(?:[\\s,;]|\\.|/|<|>).*|l[\\\"\\^]*o[\\\"\\^]*c[\\\"\\^]*a[\\\"\\^]*l)|c[\\\"\\^]*p[\\\"\\^]*o[\\\"\\^]*l|l[\\\"\\^]*e[\\\"\\^]*c[\\\"\\^]*t)|c[\\\"\\^]*(?:h[\\\"\\^]*t[\\\"\\^]*a[\\\"\\^]*s[\\\"\\^]*k[\\\"\\^]*s|l[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*t)|u[\\\"\\^]*b[\\\"\\^]*(?:i[\\\"\\^]*n[\\\"\\^]*a[\\\"\\^]*c[\\\"\\^]*l|s[\\\"\\^]*t)|(?:t[\\\"\\^]*a|o)[\\\"\\^]*r[\\\"\\^]*t[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*|i[\\\"\\^]*g[\\\"\\^]*v[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*i[\\\"\\^]*f|l[\\\"\\^]*(?:e[\\\"\\^]*e[\\\"\\^]*p|m[\\\"\\^]*g[\\\"\\^]*r)|f[\\\"\\^]*c|v[\\\"\\^]*n)|p[\\\"\\^]*(?:s[\\\"\\^]*(?:s[\\\"\\^]*(?:h[\\\"\\^]*u[\\\"\\^]*t[\\\"\\^]*d[\\\"\\^]*o[\\\"\\^]*w[\\\"\\^]*n|e[\\\"\\^]*r[\\\"\\^]*v[\\\"\\^]*i[\\\"\\^]*c[\\\"\\^]*e|u[\\\"\\^]*s[\\\"\\^]*p[\\\"\\^]*e[\\\"\\^]*n[\\\"\\^]*d)|l[\\\"\\^]*(?:o[\\\"\\^]*g[\\\"\\^]*(?:g[\\\"\\^]*e[\\\"\\^]*d[\\\"\\^]*o[\\\"\\^]*n|l[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*t)|i[\\\"\\^]*s[\\\"\\^]*t)|p[\\\"\\^]*(?:a[\\\"\\^]*s[\\\"\\^]*s[\\\"\\^]*w[\\\"\\^]*d|i[\\\"\\^]*n[\\\"\\^]*g)|g[\\\"\\^]*e[\\\"\\^]*t[\\\"\\^]*s[\\\"\\^]*i[\\\"\\^]*d|e[\\\"\\^]*x[\\\"\\^]*e[\\\"\\^]*c|f[\\\"\\^]*i[\\\"\\^]*l[\\\"\\^]*e|i[\\\"\\^]*n[\\\"\\^]*f[\\\"\\^]*o|k[\\\"\\^]*i[\\\"\\^]*l[\\\"\\^]*l)|o[\\\"\\^]*(?:w[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*(?:s[\\\"\\^]*h[\\\"\\^]*e[\\\"\\^]*l[\\\"\\^]*l(?:[\\\"\\^]*_[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*e)?|c[\\\"\\^]*f[\\\"\\^]*g)|r[\\\"\\^]*t[\\\"\\^]*q[\\\"\\^]*r[\\\"\\^]*y|p[\\\"\\^]*d)|r[\\\"\\^]*(?:i[\\\"\\^]*n[\\\"\\^]*t[\\\"\\^]*(?:(?:[\\s,;]|\\.|/|<|>).*|b[\\\"\\^]*r[\\\"\\^]*m)|n[\\\"\\^]*(?:c[\\\"\\^]*n[\\\"\\^]*f[\\\"\\^]*g|m[\\\"\\^]*n[\\\"\\^]*g[\\\"\\^]*r)|o[\\\"\\^]*m[\\\"\\^]*p[\\\"\\^]*t)|a[\\\"\\^]*t[\\\"\\^]*h[\\\"\\^]*(?:p[\\\"\\^]*i[\\\"\\^]*n[\\\"\\^]*g|(?:[\\s,;]|\\.|/|<|>).*)|e[\\\"\\^]*r[\\\"\\^]*(?:l(?:[\\\"\\^]*(?:s[\\\"\\^]*h|5))?|f[\\\"\\^]*m[\\\"\\^]*o[\\\"\\^]*n)|y[\\\"\\^]*t[\\\"\\^]*h[\\\"\\^]*o[\\\"\\^]*n(?:[\\\"\\^]*(?:3(?:[\\\"\\^]*m)?|2))?|k[\\\"\\^]*g[\\\"\\^]*m[\\\"\\^]*g[\\\"\\^]*r|h[\\\"\\^]*p(?:[\\\"\\^]*[57])?|u[\\\"\\^]*s[\\\"\\^]*h[\\\"\\^]*d|i[\\\"\\^]*n[\\\"\\^]*g)|r[\\\"\\^]*(?:e[\\\"\\^]*(?:(?:p[\\\"\\^]*l[\\\"\\^]*a[\\\"\\^]*c[\\\"\\^]*e|n(?:[\\\"\\^]*a[\\\"\\^]*m[\\\"\\^]*e)?|s[\\\"\\^]*e[\\\"\\^]*t)[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*|g[\\\"\\^]*(?:s[\\\"\\^]*v[\\\"\\^]*r[\\\"\\^]*3[\\\"\\^]*2|e[\\\"\\^]*d[\\\"\\^]*i[\\\"\\^]*t|(?:[\\s,;]|\\.|/|<|>).*|i[\\\"\\^]*n[\\\"\\^]*i)|c[\\\"\\^]*(?:d[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*c|o[\\\"\\^]*v[\\\"\\^]*e[\\\"\\^]*r)|k[\\\"\\^]*e[\\\"\\^]*y[\\\"\\^]*w[\\\"\\^]*i[\\\"\\^]*z)|u[\\\"\\^]*(?:n[\\\"\\^]*(?:d[\\\"\\^]*l[\\\"\\^]*l[\\\"\\^]*3[\\\"\\^]*2|a[\\\"\\^]*s)|b[\\\"\\^]*y[\\\"\\^]*(?:1(?:[\\\"\\^]*[89])?|2[\\\"\\^]*[012]))|a[\\\"\\^]*(?:s[\\\"\\^]*(?:p[\\\"\\^]*h[\\\"\\^]*o[\\\"\\^]*n[\\\"\\^]*e|d[\\\"\\^]*i[\\\"\\^]*a[\\\"\\^]*l)|r[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*)|m[\\\"\\^]*(?:(?:d[\\\"\\^]*i[\\\"\\^]*r[\\\"\\^]*)?(?:[\\s,;]|\\.|/|<|>).*|t[\\\"\\^]*s[\\\"\\^]*h[\\\"\\^]*a[\\\"\\^]*r[\\\"\\^]*e)|o[\\\"\\^]*(?:u[\\\"\\^]*t[\\\"\\^]*e[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*|b[\\\"\\^]*o[\\\"\\^]*c[\\\"\\^]*o[\\\"\\^]*p[\\\"\\^]*y)|s[\\\"\\^]*(?:t[\\\"\\^]*r[\\\"\\^]*u[\\\"\\^]*i|y[\\\"\\^]*n[\\\"\\^]*c)|d[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*)|t[\\\"\\^]*(?:a[\\\"\\^]*(?:s[\\\"\\^]*k[\\\"\\^]*(?:k[\\\"\\^]*i[\\\"\\^]*l[\\\"\\^]*l|l[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*t|s[\\\"\\^]*c[\\\"\\^]*h[\\\"\\^]*d|m[\\\"\\^]*g[\\\"\\^]*r)|k[\\\"\\^]*e[\\\"\\^]*o[\\\"\\^]*w[\\\"\\^]*n)|(?:i[\\\"\\^]*m[\\\"\\^]*e[\\\"\\^]*o[\\\"\\^]*u|p[\\\"\\^]*m[\\\"\\^]*i[\\\"\\^]*n[\\\"\\^]*i|e[\\\"\\^]*l[\\\"\\^]*n[\\\"\\^]*e|l[\\\"\\^]*i[\\\"\\^]*s)[\\\"\\^]*t|s[\\\"\\^]*(?:d[\\\"\\^]*i[\\\"\\^]*s[\\\"\\^]*c[\\\"\\^]*o|s[\\\"\\^]*h[\\\"\\^]*u[\\\"\\^]*t[\\\"\\^]*d)[\\\"\\^]*n|y[\\\"\\^]*p[\\\"\\^]*e[\\\"\\^]*(?:p[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*f|(?:[\\s,;]|\\.|/|<|>).*)|r[\\\"\\^]*(?:a[\\\"\\^]*c[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*t|e[\\\"\\^]*e))|w[\\\"\\^]*(?:i[\\\"\\^]*n[\\\"\\^]*(?:d[\\\"\\^]*i[\\\"\\^]*f[\\\"\\^]*f|m[\\\"\\^]*s[\\\"\\^]*d[\\\"\\^]*p|v[\\\"\\^]*a[\\\"\\^]*r|r[\\\"\\^]*[ms])|u[\\\"\\^]*(?:a[\\\"\\^]*(?:u[\\\"\\^]*c[\\\"\\^]*l[\\\"\\^]*t|p[\\\"\\^]*p)|s[\\\"\\^]*a)|s[\\\"\\^]*c[\\\"\\^]*(?:r[\\\"\\^]*i[\\\"\\^]*p[\\\"\\^]*t|u[\\\"\\^]*i)|e[\\\"\\^]*v[\\\"\\^]*t[\\\"\\^]*u[\\\"\\^]*t[\\\"\\^]*i[\\\"\\^]*l|m[\\\"\\^]*i[\\\"\\^]*(?:m[\\\"\\^]*g[\\\"\\^]*m[\\\"\\^]*t|c)|a[\\\"\\^]*i[\\\"\\^]*t[\\\"\\^]*f[\\\"\\^]*o[\\\"\\^]*r|h[\\\"\\^]*o[\\\"\\^]*a[\\\"\\^]*m[\\\"\\^]*i|g[\\\"\\^]*e[\\\"\\^]*t)|u[\\\"\\^]*(?:s[\\\"\\^]*(?:e[\\\"\\^]*r[\\\"\\^]*a[\\\"\\^]*c[\\\"\\^]*c[\\\"\\^]*o[\\\"\\^]*u[\\\"\\^]*n[\\\"\\^]*t[\\\"\\^]*c[\\\"\\^]*o[\\\"\\^]*n[\\\"\\^]*t[\\\"\\^]*r[\\\"\\^]*o[\\\"\\^]*l[\\\"\\^]*s[\\\"\\^]*e[\\\"\\^]*t[\\\"\\^]*t[\\\"\\^]*i[\\\"\\^]*n[\\\"\\^]*g[\\\"\\^]*s|r[\\\"\\^]*s[\\\"\\^]*t[\\\"\\^]*a[\\\"\\^]*t)|n[\\\"\\^]*(?:r[\\\"\\^]*a[\\\"\\^]*r|z[\\\"\\^]*i[\\\"\\^]*p))|q[\\\"\\^]*(?:u[\\\"\\^]*e[\\\"\\^]*r[\\\"\\^]*y[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*|p[\\\"\\^]*r[\\\"\\^]*o[\\\"\\^]*c[\\\"\\^]*e[\\\"\\^]*s[\\\"\\^]*s|w[\\\"\\^]*i[\\\"\\^]*n[\\\"\\^]*s[\\\"\\^]*t[\\\"\\^]*a|g[\\\"\\^]*r[\\\"\\^]*e[\\\"\\^]*p)|o[\\\"\\^]*(?:d[\\\"\\^]*b[\\\"\\^]*c[\\\"\\^]*(?:a[\\\"\\^]*d[\\\"\\^]*3[\\\"\\^]*2|c[\\\"\\^]*o[\\\"\\^]*n[\\\"\\^]*f)|p[\\\"\\^]*e[\\\"\\^]*n[\\\"\\^]*f[\\\"\\^]*i[\\\"\\^]*l[\\\"\\^]*e[\\\"\\^]*s)|v[\\\"\\^]*(?:o[\\\"\\^]*l[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*|e[\\\"\\^]*r[\\\"\\^]*i[\\\"\\^]*f[\\\"\\^]*y)|x[\\\"\\^]*c[\\\"\\^]*(?:a[\\\"\\^]*c[\\\"\\^]*l[\\\"\\^]*s|o[\\\"\\^]*p[\\\"\\^]*y)|z[\\\"\\^]*i[\\\"\\^]*p[\\\"\\^]*(?:[\\s,;]|\\.|/|<|>).*)",
+            "options": {
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-932-120",
+      "name": "Remote Command Execution: Windows PowerShell Command Found",
+      "tags": {
+        "type": "command_injection",
+        "crs_id": "932120",
+        "category": "attack_attempt"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "options": {
+              "enforce_word_boundary": true
+            },
+            "list": [
+              "powershell",
+              "add-computer",
+              "add-content",
+              "add-history",
+              "add-jobtrigger",
+              "add-localgroupmember",
+              "add-member",
+              "add-pssnapin",
+              "add-type",
+              "checkpoint-computer",
+              "clear-content",
+              "clear-eventlog",
+              "clear-history",
+              "clear-host",
+              "clear-item",
+              "clear-itemproperty",
+              "clear-recyclebin",
+              "clear-variable",
+              "compare-object",
+              "complete-transaction",
+              "compress-archive",
+              "connect-pssession",
+              "connect-wsman",
+              "convert-path",
+              "convert-string",
+              "convertfrom-csv",
+              "convertfrom-json",
+              "convertfrom-markdown",
+              "convertfrom-sddlstring",
+              "convertfrom-securestring",
+              "convertfrom-string",
+              "convertfrom-stringdata",
+              "convertto-csv",
+              "convertto-html",
+              "convertto-json",
+              "convertto-securestring",
+              "convertto-xml",
+              "copy-item",
+              "copy-itemproperty",
+              "debug-job",
+              "debug-process",
+              "debug-runspace",
+              "disable-computerrestore",
+              "disable-experimentalfeature",
+              "disable-jobtrigger",
+              "disable-localuser",
+              "disable-psbreakpoint",
+              "disable-psremoting",
+              "disable-pssessionconfiguration",
+              "disable-pstrace",
+              "disable-pswsmancombinedtrace",
+              "disable-runspacedebug",
+              "disable-scheduledjob",
+              "disable-wsmancredssp",
+              "disable-wsmantrace",
+              "disconnect-pssession",
+              "disconnect-wsman",
+              "enable-computerrestore",
+              "enable-experimentalfeature",
+              "enable-jobtrigger",
+              "enable-localuser",
+              "enable-psbreakpoint",
+              "enable-psremoting",
+              "enable-pssessionconfiguration",
+              "enable-pstrace",
+              "enable-pswsmancombinedtrace",
+              "enable-runspacedebug",
+              "enable-scheduledjob",
+              "enable-wsmancredssp",
+              "enable-wsmantrace",
+              "enter-pshostprocess",
+              "enter-pssession",
+              "exit-pshostprocess",
+              "exit-pssession",
+              "expand-archive",
+              "export-alias",
+              "export-binarymilog",
+              "export-clixml",
+              "export-console",
+              "export-counter",
+              "export-csv",
+              "export-formatdata",
+              "export-modulemember",
+              "export-odataendpointproxy",
+              "export-pssession",
+              "find-command",
+              "find-dscresource",
+              "find-module",
+              "find-package",
+              "find-packageprovider",
+              "find-rolecapability",
+              "find-script",
+              "foreach-object",
+              "format-custom",
+              "format-hex",
+              "format-list",
+              "format-table",
+              "format-wide",
+              "get-acl",
+              "get-alias",
+              "get-authenticodesignature",
+              "get-childitem",
+              "get-cimassociatedinstance",
+              "get-cimclass",
+              "get-ciminstance",
+              "get-cimsession",
+              "get-clipboard",
+              "get-cmsmessage",
+              "get-command",
+              "get-computerinfo",
+              "get-computerrestorepoint",
+              "get-content",
+              "get-controlpanelitem",
+              "get-counter",
+              "get-credential",
+              "get-date",
+              "get-error",
+              "get-event",
+              "get-eventlog",
+              "get-eventsubscriber",
+              "get-executionpolicy",
+              "get-experimentalfeature",
+              "get-filehash",
+              "get-formatdata",
+              "get-help",
+              "get-history",
+              "get-host",
+              "get-hotfix",
+              "get-installedmodule",
+              "get-installedscript",
+              "get-isesnippet",
+              "get-item",
+              "get-itemproperty",
+              "get-itempropertyvalue",
+              "get-job",
+              "get-jobtrigger",
+              "get-localgroup",
+              "get-localgroupmember",
+              "get-localuser",
+              "get-location",
+              "get-logproperties",
+              "get-markdownoption",
+              "get-module",
+              "get-operationvalidation",
+              "get-psbreakpoint",
+              "get-pscallstack",
+              "get-psdrive",
+              "get-pshostprocessinfo",
+              "get-psprovider",
+              "get-psreadlinekeyhandler",
+              "get-psreadlineoption",
+              "get-psrepository",
+              "get-pssession",
+              "get-pssessioncapability",
+              "get-pssessionconfiguration",
+              "get-pssnapin",
+              "get-pssubsystem",
+              "get-package",
+              "get-packageprovider",
+              "get-packagesource",
+              "get-pfxcertificate",
+              "get-process",
+              "get-random",
+              "get-runspace",
+              "get-runspacedebug",
+              "get-scheduledjob",
+              "get-scheduledjoboption",
+              "get-service",
+              "get-timezone",
+              "get-tracesource",
+              "get-transaction",
+              "get-typedata",
+              "get-uiculture",
+              "get-unique",
+              "get-uptime",
+              "get-variable",
+              "get-verb",
+              "get-wsmancredssp",
+              "get-wsmaninstance",
+              "get-winevent",
+              "get-wmiobject",
+              "group-object",
+              "import-alias",
+              "import-binarymilog",
+              "import-clixml",
+              "import-counter",
+              "import-csv",
+              "import-isesnippet",
+              "import-localizeddata",
+              "import-module",
+              "import-pssession",
+              "import-packageprovider",
+              "import-powershelldatafile",
+              "install-module",
+              "install-package",
+              "install-packageprovider",
+              "install-script",
+              "invoke-asworkflow",
+              "invoke-cimmethod",
+              "invoke-command",
+              "invoke-expression",
+              "invoke-history",
+              "invoke-item",
+              "invoke-operationvalidation",
+              "invoke-restmethod",
+              "invoke-wsmanaction",
+              "invoke-webrequest",
+              "invoke-wmimethod",
+              "join-path",
+              "join-string",
+              "limit-eventlog",
+              "measure-command",
+              "measure-object",
+              "move-item",
+              "move-itemproperty",
+              "new-alias",
+              "new-ciminstance",
+              "new-cimsession",
+              "new-cimsessionoption",
+              "new-event",
+              "new-eventlog",
+              "new-filecatalog",
+              "new-guid",
+              "new-isesnippet",
+              "new-item",
+              "new-itemproperty",
+              "new-jobtrigger",
+              "new-localgroup",
+              "new-localuser",
+              "new-module",
+              "new-modulemanifest",
+              "new-object",
+              "new-psdrive",
+              "new-psrolecapabilityfile",
+              "new-pssession",
+              "new-pssessionconfigurationfile",
+              "new-pssessionoption",
+              "new-pstransportoption",
+              "new-psworkflowexecutionoption",
+              "new-psworkflowsession",
+              "new-scheduledjoboption",
+              "new-scriptfileinfo",
+              "new-service",
+              "new-temporaryfile",
+              "new-timespan",
+              "new-variable",
+              "new-wsmaninstance",
+              "new-wsmansessionoption",
+              "new-webserviceproxy",
+              "new-winevent",
+              "out-default",
+              "out-file",
+              "out-gridview",
+              "out-host",
+              "out-null",
+              "out-printer",
+              "out-string",
+              "pop-location",
+              "protect-cmsmessage",
+              "publish-module",
+              "publish-script",
+              "push-location",
+              "read-host",
+              "receive-job",
+              "receive-pssession",
+              "register-argumentcompleter",
+              "register-cimindicationevent",
+              "register-engineevent",
+              "register-objectevent",
+              "register-psrepository",
+              "register-pssessionconfiguration",
+              "register-packagesource",
+              "register-scheduledjob",
+              "register-wmievent",
+              "remove-alias",
+              "remove-ciminstance",
+              "remove-cimsession",
+              "remove-computer",
+              "remove-event",
+              "remove-eventlog",
+              "remove-item",
+              "remove-itemproperty",
+              "remove-job",
+              "remove-jobtrigger",
+              "remove-localgroup",
+              "remove-localgroupmember",
+              "remove-localuser",
+              "remove-module",
+              "remove-psbreakpoint",
+              "remove-psdrive",
+              "remove-psreadlinekeyhandler",
+              "remove-pssession",
+              "remove-pssnapin",
+              "remove-service",
+              "remove-typedata",
+              "remove-variable",
+              "remove-wsmaninstance",
+              "remove-wmiobject",
+              "rename-computer",
+              "rename-item",
+              "rename-itemproperty",
+              "rename-localgroup",
+              "rename-localuser",
+              "reset-computermachinepassword",
+              "resolve-path",
+              "restart-computer",
+              "restart-service",
+              "restore-computer",
+              "resume-job",
+              "resume-service",
+              "save-help",
+              "save-module",
+              "save-package",
+              "save-script",
+              "select-object",
+              "select-string",
+              "select-xml",
+              "send-mailmessage",
+              "set-acl",
+              "set-alias",
+              "set-authenticodesignature",
+              "set-ciminstance",
+              "set-clipboard",
+              "set-content",
+              "set-date",
+              "set-executionpolicy",
+              "set-item",
+              "set-itemproperty",
+              "set-jobtrigger",
+              "set-localgroup",
+              "set-localuser",
+              "set-location",
+              "set-logproperties",
+              "set-markdownoption",
+              "set-psbreakpoint",
+              "set-psdebug",
+              "set-psreadlinekeyhandler",
+              "set-psreadlineoption",
+              "set-psrepository",
+              "set-pssessionconfiguration",
+              "set-packagesource",
+              "set-scheduledjob",
+              "set-scheduledjoboption",
+              "set-service",
+              "set-strictmode",
+              "set-timezone",
+              "set-tracesource",
+              "set-variable",
+              "set-wsmaninstance",
+              "set-wsmanquickconfig",
+              "set-wmiinstance",
+              "show-command",
+              "show-controlpanelitem",
+              "show-eventlog",
+              "show-markdown",
+              "sort-object",
+              "split-path",
+              "start-job",
+              "start-process",
+              "start-service",
+              "start-sleep",
+              "start-threadjob",
+              "start-trace",
+              "start-transaction",
+              "stop-computer",
+              "stop-job",
+              "stop-process",
+              "stop-service",
+              "stop-trace",
+              "stop-transcript",
+              "suspend-job",
+              "suspend-service",
+              "switch-process",
+              "tee-object",
+              "test-computersecurechannel",
+              "test-connection",
+              "test-filecatalog",
+              "test-json",
+              "test-modulemanifest",
+              "test-pssessionconfigurationfile",
+              "test-path",
+              "test-scriptfileinfo",
+              "test-wsman",
+              "trace-command",
+              "unblock-file",
+              "undo-transaction",
+              "uninstall-module",
+              "uninstall-package",
+              "uninstall-script",
+              "unprotect-cmsmessage",
+              "unregister-event",
+              "unregister-psrepository",
+              "unregister-pssessionconfiguration",
+              "unregister-packagesource",
+              "unregister-scheduledjob",
+              "update-formatdata",
+              "update-help",
+              "update-list",
+              "update-module",
+              "update-modulemanifest",
+              "update-script",
+              "update-scriptfileinfo",
+              "update-typedata",
+              "use-transaction",
+              "wait-debugger",
+              "wait-event",
+              "wait-job",
+              "wait-process",
+              "where-object",
+              "write-debug",
+              "write-error",
+              "write-eventlog",
+              "write-host",
+              "write-information",
+              "write-output",
+              "write-progress",
+              "write-verbose",
+              "write-warning"
+            ]
+          },
+          "operator": "phrase_match"
+        }
+      ],
+      "transformers": [
+        "lowercase"
+      ]
+    },
+    {
+      "id": "crs-932-130",
+      "name": "Remote Command Execution: Unix Shell Expression Found",
+      "tags": {
+        "type": "command_injection",
+        "crs_id": "932130",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:\\$(?:\\((?:\\(.*\\)|.*)\\)|\\{.*})|\\/\\w*\\[!?.+\\]|[<>]\\(.*\\))",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 3
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-932-150",
+      "name": "Remote Command Execution: Direct Unix Command Execution",
+      "tags": {
+        "type": "command_injection",
+        "crs_id": "932150",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:(?:^|=)\\s*(?:(?:\\w+=(?:[^\\s]*|\\$.*|\\$.*|<.*|>.*|\\'.*\\'|\\\".*\\\")\\s+|(?:\\s*\\(|!)\\s*|\\{|\\$))*\\s*(?:[\\\"'])*(?:[\\?\\*\\[\\]\\(\\)\\-\\|+\\w'\\\"\\./\\x5c]+/)?[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*(?:z(?:[\\x5c'\\\"]*(?:m[\\x5c'\\\"]*(?:a(?:[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*n[\\x5c'\\\"]*f[\\x5c'\\\"]*o|d[\\x5c'\\\"]*e[\\x5c'\\\"]*c))?|o[\\x5c'\\\"]*r[\\x5c'\\\"]*e)|(?:[ef][\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|4(?:[\\x5c'\\\"]*c(?:[\\x5c'\\\"]*a[\\x5c'\\\"]*t)?)?|c[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*t|m[\\x5c'\\\"]*p)|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s))?|s(?:[\\x5c'\\\"]*(?:b[\\x5c'\\\"]*_[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*l[\\x5c'\\\"]*e[\\x5c'\\\"]*a[\\x5c'\\\"]*s[\\x5c'\\\"]*e|c[\\x5c'\\\"]*p[\\x5c'\\\"]*u|m[\\x5c'\\\"]*o[\\x5c'\\\"]*d|p[\\x5c'\\\"]*c[\\x5c'\\\"]*i|u[\\x5c'\\\"]*s[\\x5c'\\\"]*b|-[\\x5c'\\\"]*F|o[\\x5c'\\\"]*f))?|e[\\x5c'\\\"]*s[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:(?:f[\\x5c'\\\"]*i[\\x5c'\\\"]*l|p[\\x5c'\\\"]*i[\\x5c'\\\"]*p)[\\x5c'\\\"]*e|e[\\x5c'\\\"]*c[\\x5c'\\\"]*h[\\x5c'\\\"]*o)|a[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*o[\\x5c'\\\"]*g(?:[\\x5c'\\\"]*i[\\x5c'\\\"]*n)?|c[\\x5c'\\\"]*o[\\x5c'\\\"]*m[\\x5c'\\\"]*m)|w[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*-[\\x5c'\\\"]*d[\\x5c'\\\"]*o[\\x5c'\\\"]*w[\\x5c'\\\"]*n[\\x5c'\\\"]*l[\\x5c'\\\"]*o[\\x5c'\\\"]*a[\\x5c'\\\"]*d)?|f[\\x5c'\\\"]*t[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*g[\\x5c'\\\"]*e[\\x5c'\\\"]*t)?|y[\\x5c'\\\"]*n[\\x5c'\\\"]*x)|z[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*(?:(?:m[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*g|n[\\x5c'\\\"]*o[\\x5c'\\\"]*t)[\\x5c'\\\"]*e|d[\\x5c'\\\"]*e[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*i[\\x5c'\\\"]*l[\\x5c'\\\"]*s|c[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*o[\\x5c'\\\"]*a[\\x5c'\\\"]*k|m[\\x5c'\\\"]*p)|s[\\x5c'\\\"]*p[\\x5c'\\\"]*l[\\x5c'\\\"]*i[\\x5c'\\\"]*t|g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|i[\\x5c'\\\"]*n[\\x5c'\\\"]*f[\\x5c'\\\"]*o|t[\\x5c'\\\"]*o[\\x5c'\\\"]*o[\\x5c'\\\"]*l))?|s[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*d(?:[\\x5c'\\\"]*(?:g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|(?:c[\\x5c'\\\"]*a|m)[\\x5c'\\\"]*t))?|h)|(?:[ef][\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|c[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*t|m[\\x5c'\\\"]*p)|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|m[\\x5c'\\\"]*o[\\x5c'\\\"]*r[\\x5c'\\\"]*e|r[\\x5c'\\\"]*u[\\x5c'\\\"]*n)|b[\\x5c'\\\"]*(?:z[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*p[\\x5c'\\\"]*2(?:[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*c[\\x5c'\\\"]*o[\\x5c'\\\"]*v[\\x5c'\\\"]*e[\\x5c'\\\"]*r)?|e[\\x5c'\\\"]*(?:g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|x[\\x5c'\\\"]*e)|(?:f[\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|c[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*t|m[\\x5c'\\\"]*p)|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|m[\\x5c'\\\"]*o[\\x5c'\\\"]*r[\\x5c'\\\"]*e|z)|u[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*l[\\x5c'\\\"]*t[\\x5c'\\\"]*i[\\x5c'\\\"]*n|n[\\x5c'\\\"]*z[\\x5c'\\\"]*i[\\x5c'\\\"]*p[\\x5c'\\\"]*2|s[\\x5c'\\\"]*y[\\x5c'\\\"]*b[\\x5c'\\\"]*o[\\x5c'\\\"]*x)|s[\\x5c'\\\"]*d[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*a[\\x5c'\\\"]*t|i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|t[\\x5c'\\\"]*a[\\x5c'\\\"]*r)|a[\\x5c'\\\"]*s[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*(?:3[\\x5c'\\\"]*2|6[\\x5c'\\\"]*4|n[\\x5c'\\\"]*c)|h))|s[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*n[\\x5c'\\\"]*v|s[\\x5c'\\\"]*i[\\x5c'\\\"]*d)|n[\\x5c'\\\"]*d[\\x5c'\\\"]*m[\\x5c'\\\"]*a[\\x5c'\\\"]*i[\\x5c'\\\"]*l|d)|h(?:[\\x5c'\\\"]*\\.[\\x5c'\\\"]*d[\\x5c'\\\"]*i[\\x5c'\\\"]*s[\\x5c'\\\"]*t[\\x5c'\\\"]*r[\\x5c'\\\"]*i[\\x5c'\\\"]*b)?|o[\\x5c'\\\"]*(?:u[\\x5c'\\\"]*r[\\x5c'\\\"]*c[\\x5c'\\\"]*e|c[\\x5c'\\\"]*a[\\x5c'\\\"]*t)|t[\\x5c'\\\"]*r[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*g[\\x5c'\\\"]*s|y[\\x5c'\\\"]*s[\\x5c'\\\"]*c[\\x5c'\\\"]*t[\\x5c'\\\"]*l|c[\\x5c'\\\"]*(?:h[\\x5c'\\\"]*e[\\x5c'\\\"]*d|p)|d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|f[\\x5c'\\\"]*t[\\x5c'\\\"]*p|u[\\x5c'\\\"]*d[\\x5c'\\\"]*o|s[\\x5c'\\\"]*h|v[\\x5c'\\\"]*n)|p[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*a[\\x5c'\\\"]*r(?:[\\x5c'\\\"]*(?:d[\\x5c'\\\"]*i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p))?|y[\\x5c'\\\"]*t[\\x5c'\\\"]*h[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*[23]?[\\x5c'\\\"]*(?:\\.[0-9.\\x5c'\\\"]+)?(?:[dmu]+)?|k[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*x[\\x5c'\\\"]*e[\\x5c'\\\"]*c|i[\\x5c'\\\"]*l[\\x5c'\\\"]*l)|r[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*n[\\x5c'\\\"]*v|f)|(?:g[\\x5c'\\\"]*r[\\x5c'\\\"]*e|f[\\x5c'\\\"]*t)[\\x5c'\\\"]*p|e[\\x5c'\\\"]*r[\\x5c'\\\"]*l(?:[\\x5c'\\\"]*5)?|h[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*[57])?|(?:i[\\x5c'\\\"]*g|x)[\\x5c'\\\"]*z|o[\\x5c'\\\"]*p[\\x5c'\\\"]*d)|n[\\x5c'\\\"]*(?:c(?:[\\x5c'\\\"]*(?:\\.[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*r[\\x5c'\\\"]*a[\\x5c'\\\"]*d[\\x5c'\\\"]*i[\\x5c'\\\"]*t[\\x5c'\\\"]*i[\\x5c'\\\"]*o[\\x5c'\\\"]*n[\\x5c'\\\"]*a[\\x5c'\\\"]*l|o[\\x5c'\\\"]*p[\\x5c'\\\"]*e[\\x5c'\\\"]*n[\\x5c'\\\"]*b[\\x5c'\\\"]*s[\\x5c'\\\"]*d)|a[\\x5c'\\\"]*t))?|e[\\x5c'\\\"]*t[\\x5c'\\\"]*(?:k[\\x5c'\\\"]*i[\\x5c'\\\"]*t[\\x5c'\\\"]*-[\\x5c'\\\"]*f[\\x5c'\\\"]*t[\\x5c'\\\"]*p|(?:s[\\x5c'\\\"]*t|c)[\\x5c'\\\"]*a[\\x5c'\\\"]*t)|o[\\x5c'\\\"]*h[\\x5c'\\\"]*u[\\x5c'\\\"]*p|p[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*g|s[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*t)|t[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*r[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*o[\\x5c'\\\"]*u[\\x5c'\\\"]*t[\\x5c'\\\"]*e|i[\\x5c'\\\"]*n[\\x5c'\\\"]*g)|s[\\x5c'\\\"]*h)|r[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*o[\\x5c'\\\"]*u[\\x5c'\\\"]*t[\\x5c'\\\"]*e(?:[\\x5c'\\\"]*6)?|(?:i[\\x5c'\\\"]*m[\\x5c'\\\"]*e[\\x5c'\\\"]*o[\\x5c'\\\"]*u|e[\\x5c'\\\"]*l[\\x5c'\\\"]*n[\\x5c'\\\"]*e)[\\x5c'\\\"]*t|a[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*l(?:[\\x5c'\\\"]*f)?|r))|r[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*(?:p[\\x5c'\\\"]*(?:l[\\x5c'\\\"]*a[\\x5c'\\\"]*c[\\x5c'\\\"]*e|e[\\x5c'\\\"]*a[\\x5c'\\\"]*t)|a[\\x5c'\\\"]*l[\\x5c'\\\"]*p[\\x5c'\\\"]*a[\\x5c'\\\"]*t[\\x5c'\\\"]*h|n[\\x5c'\\\"]*a[\\x5c'\\\"]*m[\\x5c'\\\"]*e)|u[\\x5c'\\\"]*b[\\x5c'\\\"]*y(?:[\\x5c'\\\"]*(?:1(?:[\\x5c'\\\"]*[89])?|2[\\x5c'\\\"]*[012]))?|m[\\x5c'\\\"]*(?:u[\\x5c'\\\"]*s[\\x5c'\\\"]*e|d[\\x5c'\\\"]*i)[\\x5c'\\\"]*r|n[\\x5c'\\\"]*a[\\x5c'\\\"]*n[\\x5c'\\\"]*o|s[\\x5c'\\\"]*y[\\x5c'\\\"]*n[\\x5c'\\\"]*c|c[\\x5c'\\\"]*p)|u[\\x5c'\\\"]*(?:n[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*o[\\x5c'\\\"]*m[\\x5c'\\\"]*p[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|z[\\x5c'\\\"]*(?:s[\\x5c'\\\"]*t[\\x5c'\\\"]*d|i[\\x5c'\\\"]*p)|(?:p[\\x5c'\\\"]*i[\\x5c'\\\"]*g|x)[\\x5c'\\\"]*z|l[\\x5c'\\\"]*z[\\x5c'\\\"]*(?:m[\\x5c'\\\"]*a|4)|a[\\x5c'\\\"]*m[\\x5c'\\\"]*e|r[\\x5c'\\\"]*a[\\x5c'\\\"]*r|s[\\x5c'\\\"]*e[\\x5c'\\\"]*t)|s[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*(?:(?:a[\\x5c'\\\"]*d|m[\\x5c'\\\"]*o)[\\x5c'\\\"]*d|d[\\x5c'\\\"]*e[\\x5c'\\\"]*l))|m[\\x5c'\\\"]*(?:y[\\x5c'\\\"]*s[\\x5c'\\\"]*q[\\x5c'\\\"]*l[\\x5c'\\\"]*(?:d[\\x5c'\\\"]*u[\\x5c'\\\"]*m[\\x5c'\\\"]*p(?:[\\x5c'\\\"]*s[\\x5c'\\\"]*l[\\x5c'\\\"]*o[\\x5c'\\\"]*w)?|h[\\x5c'\\\"]*o[\\x5c'\\\"]*t[\\x5c'\\\"]*c[\\x5c'\\\"]*o[\\x5c'\\\"]*p[\\x5c'\\\"]*y|a[\\x5c'\\\"]*d[\\x5c'\\\"]*m[\\x5c'\\\"]*i[\\x5c'\\\"]*n|s[\\x5c'\\\"]*h[\\x5c'\\\"]*o[\\x5c'\\\"]*w)|l[\\x5c'\\\"]*o[\\x5c'\\\"]*c[\\x5c'\\\"]*a[\\x5c'\\\"]*t[\\x5c'\\\"]*e|a[\\x5c'\\\"]*i[\\x5c'\\\"]*l[\\x5c'\\\"]*q)|c[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*(?:r[\\x5c'\\\"]*e[\\x5c'\\\"]*_[\\x5c'\\\"]*p[\\x5c'\\\"]*e[\\x5c'\\\"]*r[\\x5c'\\\"]*l[\\x5c'\\\"]*\\/[\\x5c'\\\"]*z[\\x5c'\\\"]*i[\\x5c'\\\"]*p[\\x5c'\\\"]*d[\\x5c'\\\"]*e[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*i[\\x5c'\\\"]*l[\\x5c'\\\"]*s|m[\\x5c'\\\"]*m[\\x5c'\\\"]*a[\\x5c'\\\"]*n[\\x5c'\\\"]*d|p[\\x5c'\\\"]*r[\\x5c'\\\"]*o[\\x5c'\\\"]*c)|u[\\x5c'\\\"]*r[\\x5c'\\\"]*l|9[\\x5c'\\\"]*9|s[\\x5c'\\\"]*h|c)|x[\\x5c'\\\"]*(?:z(?:[\\x5c'\\\"]*(?:(?:[ef][\\x5c'\\\"]*)?g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|d[\\x5c'\\\"]*(?:i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|e[\\x5c'\\\"]*c)|c[\\x5c'\\\"]*(?:a[\\x5c'\\\"]*t|m[\\x5c'\\\"]*p)|l[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*s|m[\\x5c'\\\"]*o[\\x5c'\\\"]*r[\\x5c'\\\"]*e))?|a[\\x5c'\\\"]*r[\\x5c'\\\"]*g[\\x5c'\\\"]*s)|f[\\x5c'\\\"]*(?:t[\\x5c'\\\"]*p[\\x5c'\\\"]*(?:s[\\x5c'\\\"]*t[\\x5c'\\\"]*a[\\x5c'\\\"]*t[\\x5c'\\\"]*s|w[\\x5c'\\\"]*h[\\x5c'\\\"]*o)|i[\\x5c'\\\"]*l[\\x5c'\\\"]*e[\\x5c'\\\"]*t[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*t|e[\\x5c'\\\"]*t[\\x5c'\\\"]*c[\\x5c'\\\"]*h|g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p)|g[\\x5c'\\\"]*(?:z[\\x5c'\\\"]*(?:c[\\x5c'\\\"]*a[\\x5c'\\\"]*t|e[\\x5c'\\\"]*x[\\x5c'\\\"]*e|i[\\x5c'\\\"]*p)|(?:u[\\x5c'\\\"]*n[\\x5c'\\\"]*z[\\x5c'\\\"]*i|r[\\x5c'\\\"]*e)[\\x5c'\\\"]*p|c[\\x5c'\\\"]*c)|e[\\x5c'\\\"]*(?:g[\\x5c'\\\"]*r[\\x5c'\\\"]*e[\\x5c'\\\"]*p|c[\\x5c'\\\"]*h[\\x5c'\\\"]*o|v[\\x5c'\\\"]*a[\\x5c'\\\"]*l|x[\\x5c'\\\"]*e[\\x5c'\\\"]*c|n[\\x5c'\\\"]*v)|d[\\x5c'\\\"]*(?:m[\\x5c'\\\"]*e[\\x5c'\\\"]*s[\\x5c'\\\"]*g|a[\\x5c'\\\"]*s[\\x5c'\\\"]*h|i[\\x5c'\\\"]*f[\\x5c'\\\"]*f|o[\\x5c'\\\"]*a[\\x5c'\\\"]*s)|j[\\x5c'\\\"]*(?:o[\\x5c'\\\"]*b[\\x5c'\\\"]*s[\\x5c'\\\"]*\\s+[\\x5c'\\\"]*-[\\x5c'\\\"]*x|a[\\x5c'\\\"]*v[\\x5c'\\\"]*a)|w[\\x5c'\\\"]*(?:h[\\x5c'\\\"]*o[\\x5c'\\\"]*a[\\x5c'\\\"]*m[\\x5c'\\\"]*i|g[\\x5c'\\\"]*e[\\x5c'\\\"]*t|3[\\x5c'\\\"]*m)|i[\\x5c'\\\"]*r[\\x5c'\\\"]*b(?:[\\x5c'\\\"]*(?:1(?:[\\x5c'\\\"]*[89])?|2[\\x5c'\\\"]*[012]))?|o[\\x5c'\\\"]*n[\\x5c'\\\"]*i[\\x5c'\\\"]*n[\\x5c'\\\"]*t[\\x5c'\\\"]*r|h[\\x5c'\\\"]*(?:e[\\x5c'\\\"]*a[\\x5c'\\\"]*d|u[\\x5c'\\\"]*p)|v[\\x5c'\\\"]*i[\\x5c'\\\"]*(?:g[\\x5c'\\\"]*r|p[\\x5c'\\\"]*w)|7[\\x5c'\\\"]*z(?:[\\x5c'\\\"]*[ar])?|G[\\x5c'\\\"]*E[\\x5c'\\\"]*T|k[\\x5c'\\\"]*s[\\x5c'\\\"]*h)|\\$[\\x5c'\\\"]*(?:\\{[\\x5c'\\\"]*S[\\x5c'\\\"]*H[\\x5c'\\\"]*E[\\x5c'\\\"]*L[\\x5c'\\\"]*L[\\x5c'\\\"]*}|S[\\x5c'\\\"]*H[\\x5c'\\\"]*E[\\x5c'\\\"]*L[\\x5c'\\\"]*L))[\\x5c'\\\"]*(?:\\s|;|\\||&|<|>)",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 3
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-933-110",
+      "name": "PHP Injection Attack: PHP Script File Upload Found",
+      "tags": {
+        "type": "php_code_injection",
+        "crs_id": "933110",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "x-filename"
+                ]
+              },
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "x_filename"
+                ]
+              },
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "x.filename"
+                ]
+              },
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "x-file-name"
+                ]
+              }
+            ],
+            "regex": ".*\\.ph(?:p\\d*|tml|ar|ps|t|pt)\\.*$",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "lowercase"
+      ]
+    },
+    {
+      "id": "crs-933-180",
+      "name": "PHP Injection Attack: Variable Function Call Found",
+      "tags": {
+        "type": "php_code_injection",
+        "crs_id": "933180",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "\\$+(?:[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*|\\s*{.+})(?:\\s|\\[.+\\]|{.+}|/\\*.*\\*/|//.*|#.*)*\\(.*\\)",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-933-210",
+      "name": "PHP Injection Attack: Variable Function Call Found",
+      "tags": {
+        "type": "php_code_injection",
+        "crs_id": "933210",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:\\(.+\\)\\(.+\\)|\\(.+\\)['\\\"][a-zA-Z-_0-9]+['\\\"]\\(.+\\)|\\[\\d+\\]\\(.+\\)|\\{\\d+\\}\\(.+\\)|\\$[^(?:\\),.;\\x5c/]+\\(.+\\)|[\\\"'][a-zA-Z0-9-_\\x5c]+[\\\"']\\(.+\\)|\\([^\\)]*string[^\\)]*\\)[a-zA-Z-_0-9\\\"'.{}\\[\\]\\s]+\\([^\\)]*\\));",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 6
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-941-100",
+      "name": "XSS Attack Detected via libinjection",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941100",
+        "category": "attack_attempt",
+        "cwe": "79",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "user-agent"
+                ]
+              },
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "referer"
+                ]
+              },
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "grpc.server.request.message"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ]
+          },
+          "operator": "is_xss"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-130",
+      "name": "XSS Filter - Category 3: Attribute Vector",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941130",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "user-agent"
+                ]
+              },
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "[\\s\\S](?:\\b(?:x(?:link:href|html|mlns)|data:text\\/html|pattern\\b.*?=|formaction)|!ENTITY\\s+(?:\\S+|%\\s+\\S+)\\s+(?:PUBLIC|SYSTEM)|;base64|@import)\\b",
+            "options": {
+              "min_length": 6
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-150",
+      "name": "XSS Filter - Category 5: Disallowed HTML Attributes",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941150",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "user-agent"
+                ]
+              },
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "\\b(?:s(?:tyle|rc)|href)\\b\\s*?=",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-160",
+      "name": "NoScript XSS InjectionChecker: HTML Injection",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941160",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "user-agent"
+                ]
+              },
+              {
+                "address": "server.request.headers.no_cookies",
+                "key_path": [
+                  "referer"
+                ]
+              },
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:(?:<\\w[\\s\\S]*[\\s/]|['\\\"](?:[\\s\\S]*[\\s/])?)(?:on(?:d(?:e(?:vice(?:(?:orienta|mo)tion|proximity|found|light)|livery(?:success|error)|activate)|r(?:ag(?:e(?:n(?:ter|d)|xit)|(?:gestur|leav)e|start|drop|over)|op)|i(?:s(?:c(?:hargingtimechange|onnect(?:ing|ed))|abled)|aling)|ata(?:setc(?:omplete|hanged)|(?:availabl|chang)e|error)|urationchange|ownloading|blclick)|Moz(?:M(?:agnifyGesture(?:Update|Start)?|ouse(?:PixelScroll|Hittest))|S(?:wipeGesture(?:Update|Start|End)?|crolledAreaChanged)|(?:(?:Press)?TapGestur|BeforeResiz)e|EdgeUI(?:C(?:omplet|ancel)|Start)ed|RotateGesture(?:Update|Start)?|A(?:udioAvailable|fterPaint))|c(?:o(?:m(?:p(?:osition(?:update|start|end)|lete)|mand(?:update)?)|n(?:t(?:rolselect|extmenu)|nect(?:ing|ed))|py)|a(?:(?:llschang|ch)ed|nplay(?:through)?|rdstatechange)|h(?:(?:arging(?:time)?ch)?ange|ecking)|(?:fstate|ell)change|u(?:echange|t)|l(?:ick|ose))|s(?:t(?:a(?:t(?:uschanged|echange)|lled|rt)|k(?:sessione|comma)nd|op)|e(?:ek(?:complete|ing|ed)|(?:lec(?:tstar)?)?t|n(?:ding|t))|(?:peech|ound)(?:start|end)|u(?:ccess|spend|bmit)|croll|how)|m(?:o(?:z(?:(?:pointerlock|fullscreen)(?:change|error)|(?:orientation|time)change|network(?:down|up)load)|use(?:(?:lea|mo)ve|o(?:ver|ut)|enter|wheel|down|up)|ve(?:start|end)?)|essage|ark)|a(?:n(?:imation(?:iteration|start|end)|tennastatechange)|fter(?:(?:scriptexecu|upda)te|print)|udio(?:process|start|end)|d(?:apteradded|dtrack)|ctivate|lerting|bort)|b(?:e(?:fore(?:(?:(?:de)?activa|scriptexecu)te|u(?:nload|pdate)|p(?:aste|rint)|c(?:opy|ut)|editfocus)|gin(?:Event)?)|oun(?:dary|ce)|l(?:ocked|ur)|roadcast|usy)|DOM(?:Node(?:Inserted(?:IntoDocument)?|Removed(?:FromDocument)?)|(?:CharacterData|Subtree)Modified|A(?:ttrModified|ctivate)|Focus(?:Out|In)|MouseScroll)|r(?:e(?:s(?:u(?:m(?:ing|e)|lt)|ize|et)|adystatechange|pea(?:tEven)?t|movetrack|trieving|ceived)|ow(?:s(?:inserted|delete)|e(?:nter|xit))|atechange)|p(?:op(?:up(?:hid(?:den|ing)|show(?:ing|n))|state)|a(?:ge(?:hide|show)|(?:st|us)e|int)|ro(?:pertychange|gress)|lay(?:ing)?)|t(?:ouch(?:(?:lea|mo)ve|en(?:ter|d)|cancel|start)|ransition(?:cancel|end|run)|ime(?:update|out)|ext)|u(?:s(?:erproximity|sdreceived)|p(?:gradeneeded|dateready)|n(?:derflow|load))|f(?:o(?:rm(?:change|input)|cus(?:out|in)?)|i(?:lterchange|nish)|ailed)|l(?:o(?:ad(?:e(?:d(?:meta)?data|nd)|start)|secapture)|evelchange|y)|g(?:amepad(?:(?:dis)?connected|button(?:down|up)|axismove)|et)|e(?:n(?:d(?:Event|ed)?|abled|ter)|rror(?:update)?|mptied|xit)|i(?:cc(?:cardlockerror|infochange)|n(?:coming|valid|put))|o(?:(?:(?:ff|n)lin|bsolet)e|verflow(?:changed)?|pen)|SVG(?:(?:Unl|L)oad|Resize|Scroll|Abort|Error|Zoom)|h(?:e(?:adphoneschange|l[dp])|ashchange|olding)|v(?:o(?:lum|ic)e|ersion)change|w(?:a(?:it|rn)ing|heel)|key(?:press|down|up)|(?:AppComman|Loa)d|no(?:update|match)|Request|zoom)|s(?:tyle|rc)|background|formaction|lowsrc|ping)[\\s\\x08]*?=|<[^\\w<>]*(?:[^<>\\\"'\\s]*:)?[^\\w<>]*\\W*?(?:(?:a\\W*?(?:n\\W*?i\\W*?m\\W*?a\\W*?t\\W*?e|p\\W*?p\\W*?l\\W*?e\\W*?t|u\\W*?d\\W*?i\\W*?o)|b\\W*?(?:i\\W*?n\\W*?d\\W*?i\\W*?n\\W*?g\\W*?s|a\\W*?s\\W*?e|o\\W*?d\\W*?y)|i?\\W*?f\\W*?r\\W*?a\\W*?m\\W*?e|o\\W*?b\\W*?j\\W*?e\\W*?c\\W*?t|i\\W*?m\\W*?a?\\W*?g\\W*?e?|e\\W*?m\\W*?b\\W*?e\\W*?d|p\\W*?a\\W*?r\\W*?a\\W*?m|v\\W*?i\\W*?d\\W*?e\\W*?o|l\\W*?i\\W*?n\\W*?k)[^>\\w]|s\\W*?(?:c\\W*?r\\W*?i\\W*?p\\W*?t|t\\W*?y\\W*?l\\W*?e|e\\W*?t[^>\\w]|v\\W*?g)|m\\W*?(?:a\\W*?r\\W*?q\\W*?u\\W*?e\\W*?e|e\\W*?t\\W*?a[^>\\w])|f\\W*?o\\W*?r\\W*?m))",
+            "options": {
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-190",
+      "name": "IE XSS Filters - Attack Detected",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941190",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?i:<style.*?>.*?(?:@[i\\x5c]|(?:[:=]|&#x?0*(?:58|3A|61|3D);?).*?(?:[(?:\\x5c]|&#x?0*(?:40|28|92|5C);?)))",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 9
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-250",
+      "name": "IE XSS Filters - Attack Detected",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941250",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?i:<META[\\s/+].*?http-equiv[\\s/+]*=[\\s/+]*[\\\"'`]?(?:(?:c|&#x?0*(?:67|43|99|63);?)|(?:r|&#x?0*(?:82|52|114|72);?)|(?:s|&#x?0*(?:83|53|115|73);?)))",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 18
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-260",
+      "name": "IE XSS Filters - Attack Detected",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941260",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?i:<META[\\s/+].*?charset[\\s/+]*=)",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 14
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "crs-941-370",
+      "name": "JavaScript global variable found",
+      "tags": {
+        "type": "xss",
+        "crs_id": "941370",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:self|document|this|top|window)\\s*(?:/\\*|[\\[)]).+?(?:\\]|\\*/)",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 6
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-941-380",
+      "name": "AngularJS client side template injection detected",
+      "tags": {
+        "type": "js_code_injection",
+        "crs_id": "941380",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "^{{[\\w\\s\\.]*[^\\w\\.\\s}][^}]*}}$",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 5
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-151",
+      "name": "SQL function injection Attack",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942151",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "\\b(?:s(?:q(?:lite_(?:compileoption_(?:used|get)|source_id)|rt)|t(?:d(?:dev_(?:sam|po)p)?|r(?:_to_date|cmp))|ub(?:str(?:ing(?:_index)?)?|(?:dat|tim)e)|e(?:ssion_user|c_to_time)|ys(?:tem_user|date)|ha[12]?|oundex|chema|pace|in)|c(?:o(?:n(?:v(?:ert(?:_tz)?)?|cat(?:_ws)?|nection_id)|(?:mpres)?s|ercibility|llation|alesce|t)|ur(?:rent_(?:time(?:stamp)?|date|user)|(?:dat|tim)e)|ha(?:racte)?r_length|iel(?:ing)?|r32)|i(?:s(?:_(?:ipv(?:4(?:_(?:compat|mapped))?|6)|n(?:ot(?:_null)?|ull)|(?:free|used)_lock)|null)|n(?:et(?:6_(?:aton|ntoa)|_(?:aton|ntoa))|s(?:ert|tr)|terval)|fnull)|l(?:o(?:ca(?:ltimestamp|te)|g(?:10|2)|ad_file|wer)|i(?:kel(?:ihood|y)|nestring)|ast_(?:inser_id|day)|e(?:as|f)t|case|trim|pad)|d(?:a(?:t(?:e(?:_(?:format|add|sub)|diff)|abase)|y(?:of(?:month|week|year)|name))|e(?:s_(?:de|en)crypt|grees|code)|count|ump)|u(?:n(?:compress(?:ed_length)?|ix_timestamp|likely|hex)|tc_(?:time(?:stamp)?|date)|uid(?:_short)?|pdatexml|case)|t(?:ime(?:_(?:format|to_sec)|stamp(?:diff|add)?|diff)|o(?:(?:second|day)s|_base64|n?char)|r(?:uncate|im))|m(?:a(?:ke(?:_set|date)|ster_pos_wait)|ulti(?:po(?:lygon|int)|linestring)|i(?:crosecon)?d|onthname|d5)|g(?:e(?:t_(?:format|lock)|ometrycollection)|(?:r(?:oup_conca|eates)|tid_subse)t)|p(?:o(?:(?:siti|lyg)on|w)|eriod_(?:diff|add)|rocedure_analyse|g_sleep)|a(?:s(?:cii(?:str)?|in)|es_(?:de|en)crypt|dd(?:dat|tim)e|tan2?)|f(?:rom_(?:unixtime|base64|days)|i(?:el|n)d_in_set|ound_rows)|e(?:x(?:tract(?:value)?|p(?:ort_set)?)|nc(?:rypt|ode)|lt)|b(?:i(?:t_(?:length|count|x?or|and)|n_to_num)|enchmark)|r(?:a(?:wtohex|dians|nd)|elease_lock|ow_count|trim|pad)|o(?:(?:ld_passwo)?rd|ct(?:et_length)?)|we(?:ek(?:ofyear|day)|ight_string)|json(?:_(?:object|array))?|n(?:ame_const|ot_in|ullif)|var(?:_(?:sam|po)p|iance)|qu(?:arter|ote)|hex(?:toraw)?|yearweek|xmltype)\\W*\\(",
+            "options": {
+              "case_sensitive": false,
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-170",
+      "name": "Detects SQL benchmark and sleep injection attempts including conditional queries",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942170",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:select|;)\\s+(?:benchmark|sleep|if)\\s*?\\(\\s*?\\(?\\s*?\\w+",
+            "options": {
+              "min_length": 6
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-190",
+      "name": "Detects MSSQL code execution and information gathering attempts",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942190",
+        "category": "attack_attempt",
+        "cwe": "89",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "grpc.server.request.message"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:\\b(?:u(?:nion(?:[\\w(?:\\s]*?select|\\sselect\\s@)|ser\\s*?\\([^\\)]*?)|(?:c(?:onnection_id|urrent_user)|database)\\s*?\\([^\\)]*?|s(?:chema\\s*?\\([^\\)]*?|elect.*?\\w?user\\()|into[\\s+]+(?:dump|out)file\\s*?[\\\"'`]|from\\W+information_schema\\W|exec(?:ute)?\\s+master\\.)|[\\\"'`](?:;?\\s*?(?:union\\b\\s*?(?:(?:distin|sele)ct|all)|having|select)\\b\\s*?[^\\s]|\\s*?!\\s*?[\\\"'`\\w])|\\s*?exec(?:ute)?.*?\\Wxp_cmdshell|\\Wiif\\s*?\\()",
+            "options": {
+              "min_length": 3
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-230",
+      "name": "Detects conditional SQL injection attempts",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942230",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:select.*?having\\s*?[^\\s]+\\s*?[^\\w\\s]|[\\s(?:)]case\\s+when.*?then|\\)\\s*?like\\s*?\\()",
+            "options": {
+              "case_sensitive": false,
+              "min_length": 5
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-320",
+      "name": "Detects MySQL and PostgreSQL stored procedure/function injections",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942320",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:create\\s+(?:procedure|function)\\s*?\\w+\\s*?\\(\\s*?\\)\\s*?-|;\\s*?(?:declare|open)\\s+[\\w-]+|procedure\\s+analyse\\s*?\\(|declare[^\\w]+[@#]\\s*?\\w+|exec\\s*?\\(\\s*?@)",
+            "options": {
+              "min_length": 6
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-942-350",
+      "name": "Detects MySQL UDF injection and other data/structure manipulation attempts",
+      "tags": {
+        "type": "sql_injection",
+        "crs_id": "942350",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:;\\s*?(?:(?:(?:trunc|cre|upd)at|renam)e|d(?:e(?:lete|sc)|rop)|(?:inser|selec)t|alter|load)\\b\\s*?[\\[(?:]?\\w{2,}|create\\s+function\\s.+\\sreturns)",
+            "options": {
+              "min_length": 7
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "crs-944-240",
+      "name": "Remote Command Execution: Java serialization (CVE-2015-4852)",
+      "tags": {
+        "type": "java_code_injection",
+        "crs_id": "944240",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              },
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "regex": "(?:clonetransformer|forclosure|instantiatefactory|instantiatetransformer|invokertransformer|prototypeclonefactory|prototypeserializationfactory|whileclosure|getproperty|filewriter|xmldecoder)",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 10
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "lowercase"
+      ]
+    },
+    {
+      "id": "sqr-000-003",
+      "name": "Obfuscated Path Traversal Attack (/../) on any parameter",
+      "tags": {
+        "type": "lfi",
+        "category": "attack_attempt",
+        "cwe": "22",
+        "capec": "1000/255/153/126",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:%(?:c(?:0%(?:[2aq]f|5c|9v)|1%(?:[19p]c|8s|af))|2(?:5(?:c(?:0%25af|1%259c)|2f|5c)|%46|f)|(?:(?:f(?:8%8)?0%8|e)0%80%a|bg%q)f|%3(?:2(?:%(?:%6|4)6|F)|5%%63)|u(?:221[56]|002f|EFC8|F025)|1u|5c)|0x(?:2f|5c)|\\/|\\x5c)(?:%(?:(?:f(?:(?:c%80|8)%8)?0%8|e)0%80%ae|2(?:(?:5(?:c0%25a|2))?e|%45)|u(?:(?:002|ff0)e|2024)|%32(?:%(?:%6|4)5|E)|c0(?:%[256aef]e|\\.))|\\.(?:%0[01]|\\?)?|\\?\\.?|0x2e){2,3}(?:%(?:c(?:0%(?:[2aq]f|5c|9v)|1%(?:[19p]c|8s|af))|2(?:5(?:c(?:0%25af|1%259c)|2f|5c)|%46|f)|(?:(?:f(?:8%8)?0%8|e)0%80%a|bg%q)f|%3(?:2(?:%(?:%6|4)6|F)|5%%63)|u(?:221[56]|002f|EFC8|F025)|1u|5c)|0x(?:2f|5c)|\\/|\\x5c)",
+            "options": {
+              "min_length": 4
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    },
+    {
+      "id": "sqr-000-004",
+      "name": "Obfuscated Path Traversal Attack (/../) on any parameter",
+      "tags": {
+        "type": "lfi",
+        "category": "attack_attempt",
+        "cwe": "22",
+        "capec": "1000/255/153/126",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "(?:(?:^|[\\x5c/])\\.{2,3}[\\x5c/]|[\\x5c/]\\.{2,3}(?:[\\x5c/]|$))",
+            "options": {
+              "case_sensitive": true,
+              "min_length": 3
+            }
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "removeNulls"
+      ]
+    },
+    {
+      "id": "sqr-000-007",
+      "name": "NoSQL: Detect common exploitation strategy",
+      "tags": {
+        "type": "nosql_injection",
+        "category": "attack_attempt",
+        "cwe": "943",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "graphql.server.all_resolvers"
+              },
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "regex": "^\\$(eq|ne|(l|g)te?|n?in|not|(n|x|)or|and|regex|where|expr|exists)$"
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": [
+        "keys_only"
+      ]
+    },
+    {
+      "id": "sqr-000-011",
+      "name": "Node.js: Prototype pollution",
+      "tags": {
+        "type": "js_code_injection",
+        "category": "attack_attempt",
+        "module": "waf"
+      },
+      "conditions": [
+        {
+          "parameters": {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              },
+              {
+                "address": "server.request.body"
+              },
+              {
+                "address": "server.request.path_params"
+              },
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "regex": "__proto__[\\.\\[]"
+          },
+          "operator": "match_regex"
+        }
+      ],
+      "transformers": []
+    }
+  ],
+  "processors": [
+    {
+      "id": "http-endpoint-fingerprint",
+      "generator": "http_endpoint_fingerprint",
+      "conditions": [],
+      "parameters": {
+        "mappings": [
+          {
+            "method": [
+              {
+                "address": "server.request.method"
+              }
+            ],
+            "uri_raw": [
+              {
+                "address": "server.request.uri.raw"
+              }
+            ],
+            "body": [
+              {
+                "address": "server.request.body"
+              }
+            ],
+            "query": [
+              {
+                "address": "server.request.query"
+              }
+            ],
+            "output": "_dd.appsec.fp.http.endpoint"
+          }
+        ]
+      },
+      "evaluate": true,
+      "output": true
+    },
+    {
+      "id": "extract-content",
+      "generator": "extract_schema",
+      "conditions": [
+        {
+          "operator": "equals",
+          "parameters": {
+            "inputs": [
+              {
+                "address": "waf.context.processor",
+                "key_path": [
+                  "extract-schema"
+                ]
+              }
+            ],
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ],
+      "parameters": {
+        "mappings": [
+          {
+            "inputs": [
+              {
+                "address": "server.request.body"
+              }
+            ],
+            "output": "_dd.appsec.s.req.body"
+          },
+          {
+            "inputs": [
+              {
+                "address": "server.request.cookies"
+              }
+            ],
+            "output": "_dd.appsec.s.req.cookies"
+          },
+          {
+            "inputs": [
+              {
+                "address": "server.request.query"
+              }
+            ],
+            "output": "_dd.appsec.s.req.query"
+          },
+          {
+            "inputs": [
+              {
+                "address": "server.request.path_params"
+              }
+            ],
+            "output": "_dd.appsec.s.req.params"
+          },
+          {
+            "inputs": [
+              {
+                "address": "server.response.body"
+              }
+            ],
+            "output": "_dd.appsec.s.res.body"
+          },
+          {
+            "inputs": [
+              {
+                "address": "graphql.server.all_resolvers"
+              }
+            ],
+            "output": "_dd.appsec.s.graphql.all_resolvers"
+          },
+          {
+            "inputs": [
+              {
+                "address": "graphql.server.resolver"
+              }
+            ],
+            "output": "_dd.appsec.s.graphql.resolver"
+          }
+        ],
+        "scanners": [
+          {
+            "tags": {
+              "category": "payment"
+            }
+          },
+          {
+            "tags": {
+              "category": "pii"
+            }
+          }
+        ]
+      },
+      "evaluate": false,
+      "output": true
+    },
+    {
+      "id": "extract-headers",
+      "generator": "extract_schema",
+      "conditions": [
+        {
+          "operator": "equals",
+          "parameters": {
+            "inputs": [
+              {
+                "address": "waf.context.processor",
+                "key_path": [
+                  "extract-schema"
+                ]
+              }
+            ],
+            "type": "boolean",
+            "value": true
+          }
+        }
+      ],
+      "parameters": {
+        "mappings": [
+          {
+            "inputs": [
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "output": "_dd.appsec.s.req.headers"
+          },
+          {
+            "inputs": [
+              {
+                "address": "server.response.headers.no_cookies"
+              }
+            ],
+            "output": "_dd.appsec.s.res.headers"
+          }
+        ],
+        "scanners": [
+          {
+            "tags": {
+              "category": "credentials"
+            }
+          },
+          {
+            "tags": {
+              "category": "pii"
+            }
+          }
+        ]
+      },
+      "evaluate": false,
+      "output": true
+    },
+    {
+      "id": "http-header-fingerprint",
+      "generator": "http_header_fingerprint",
+      "conditions": [],
+      "parameters": {
+        "mappings": [
+          {
+            "headers": [
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "output": "_dd.appsec.fp.http.header"
+          }
+        ]
+      },
+      "evaluate": true,
+      "output": true
+    },
+    {
+      "id": "http-network-fingerprint",
+      "generator": "http_network_fingerprint",
+      "conditions": [],
+      "parameters": {
+        "mappings": [
+          {
+            "headers": [
+              {
+                "address": "server.request.headers.no_cookies"
+              }
+            ],
+            "output": "_dd.appsec.fp.http.network"
+          }
+        ]
+      },
+      "evaluate": true,
+      "output": true
+    },
+    {
+      "id": "session-fingerprint",
+      "generator": "session_fingerprint",
+      "conditions": [],
+      "parameters": {
+        "mappings": [
+          {
+            "cookies": [
+              {
+                "address": "server.request.cookies"
+              }
+            ],
+            "session_id": [
+              {
+                "address": "usr.session_id"
+              }
+            ],
+            "user_id": [
+              {
+                "address": "usr.id"
+              }
+            ],
+            "output": "_dd.appsec.fp.session"
+          }
+        ]
+      },
+      "evaluate": true,
+      "output": true
+    }
+  ],
+  "scanners": [
+    {
+      "id": "406f8606-52c4-4663-8db9-df70f9e8766c",
+      "name": "ZIP Code",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:zip|postal)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^[0-9]{5}(?:-[0-9]{4})?$",
+          "options": {
+            "case_sensitive": true,
+            "min_length": 5
+          }
+        }
+      },
+      "tags": {
+        "type": "zipcode",
+        "category": "address"
+      }
+    },
+    {
+      "id": "JU1sRk3mSzqSUJn6GrVn7g",
+      "name": "American Express Card Scanner (4+4+4+3 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b3[47]\\d{2}(?:(?:\\s\\d{4}\\s\\d{4}\\s\\d{3})|(?:\\,\\d{4}\\,\\d{4}\\,\\d{3})|(?:-\\d{4}-\\d{4}-\\d{3})|(?:\\.\\d{4}\\.\\d{4}\\.\\d{3}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "amex",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "edmH513UTQWcRiQ9UnzHlw-mod",
+      "name": "American Express Card Scanner (4+6|5+5|6 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b3[47]\\d{2}(?:(?:\\s\\d{5,6}\\s\\d{5,6})|(?:\\.\\d{5,6}\\.\\d{5,6})|(?:-\\d{5,6}-\\d{5,6})|(?:,\\d{5,6},\\d{5,6}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 17
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "amex",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "e6K4h_7qTLaMiAbaNXoSZA",
+      "name": "American Express Card Scanner (8+7 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b3[47]\\d{6}(?:(?:\\s\\d{7})|(?:\\,\\d{7})|(?:-\\d{7})|(?:\\.\\d{7}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "amex",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "K2rZflWzRhGM9HiTc6whyQ",
+      "name": "American Express Card Scanner (1x15 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b3[47]\\d{13}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 15
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "amex",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "9d7756e343cefa22a5c098e1092590f806eb5446",
+      "name": "Basic Authentication Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bauthorization\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 13
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^basic\\s+[A-Za-z0-9+/=]+",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 7
+          }
+        }
+      },
+      "tags": {
+        "type": "basic_auth",
+        "category": "credentials"
+      }
+    },
+    {
+      "id": "mZy8XjZLReC9smpERXWnnw",
+      "name": "Bearer Authentication Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bauthorization\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 13
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^bearer\\s+[-a-z0-9._~+/]{4,}",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 11
+          }
+        }
+      },
+      "tags": {
+        "type": "bearer_token",
+        "category": "credentials"
+      }
+    },
+    {
+      "id": "450239afc250a19799b6c03dc0e16fd6a4b2a1af",
+      "name": "Canadian Social Insurance Number Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:social[\\s_]?(?:insurance(?:\\s+number)?)?|SIN|Canadian[\\s_]?(?:social[\\s_]?(?:insurance)?|insurance[\\s_]?number)?)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b\\d{3}-\\d{3}-\\d{3}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 11
+          }
+        }
+      },
+      "tags": {
+        "type": "canadian_sin",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "87a879ff33693b46c8a614d8211f5a2c289beca0",
+      "name": "Digest Authentication Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bauthorization\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 13
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^digest\\s+",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 7
+          }
+        }
+      },
+      "tags": {
+        "type": "digest_auth",
+        "category": "credentials"
+      }
+    },
+    {
+      "id": "qWumeP1GQUa_E4ffAnT-Yg",
+      "name": "American Express Card Scanner (1x14 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "(?:30[0-59]\\d|3[689]\\d{2})(?:\\d{10})",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 14
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "diners",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "NlTWWM5LS6W0GSqBLuvtRw",
+      "name": "Diners Card Scanner (4+4+4+2 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:30[0-59]\\d|3[689]\\d{2})(?:(?:\\s\\d{4}\\s\\d{4}\\s\\d{2})|(?:\\,\\d{4}\\,\\d{4}\\,\\d{2})|(?:-\\d{4}-\\d{4}-\\d{2})|(?:\\.\\d{4}\\.\\d{4}\\.\\d{2}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 17
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "diners",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "Xr5VdbQSTXitYGGiTfxBpw",
+      "name": "Diners Card Scanner (4+6+4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:30[0-59]\\d|3[689]\\d{2})(?:(?:\\s\\d{6}\\s\\d{4})|(?:\\.\\d{6}\\.\\d{4})|(?:-\\d{6}-\\d{4})|(?:,\\d{6},\\d{4}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "diners",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "gAbunN_WQNytxu54DjcbAA-mod",
+      "name": "Diners Card Scanner (8+6 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:30[0-59]\\d{5}|3[689]\\d{6})\\s?(?:(?:\\s\\d{6})|(?:\\,\\d{6})|(?:-\\d{6})|(?:\\.\\d{6}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 14
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "diners",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "9cs4qCfEQBeX17U7AepOvQ",
+      "name": "MasterCard Scanner (2x8 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:6221(?:2[6-9]|[3-9][0-9])\\d{2}(?:,\\d{8}|\\s\\d{8}|-\\d{8}|\\.\\d{8})|6229(?:[01][0-9]|2[0-5])\\d{2}(?:,\\d{8}|\\s\\d{8}|-\\d{8}|\\.\\d{8})|(?:6011|65\\d{2}|64[4-9]\\d|622[2-8])\\d{4}(?:,\\d{8}|\\s\\d{8}|-\\d{8}|\\.\\d{8}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "discover",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "YBIDWJIvQWW_TFOyU0CGJg",
+      "name": "Discover Card Scanner (4x4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:(?:(?:6221(?:2[6-9]|[3-9][0-9])\\d{2}(?:,\\d{4}){2})|(?:6221\\s(?:2[6-9]|[3-9][0-9])\\d{2}(?:\\s\\d{4}){2})|(?:6221\\.(?:2[6-9]|[3-9][0-9])\\d{2}(?:\\.\\d{4}){2})|(?:6221-(?:2[6-9]|[3-9][0-9])\\d{2}(?:-\\d{4}){2}))|(?:(?:6229(?:[01][0-9]|2[0-5])\\d{2}(?:,\\d{4}){2})|(?:6229\\s(?:[01][0-9]|2[0-5])\\d{2}(?:\\s\\d{4}){2})|(?:6229\\.(?:[01][0-9]|2[0-5])\\d{2}(?:\\.\\d{4}){2})|(?:6229-(?:[01][0-9]|2[0-5])\\d{2}(?:-\\d{4}){2}))|(?:(?:6011|65\\d{2}|64[4-9]\\d|622[2-8])(?:(?:\\s\\d{4}){3}|(?:\\.\\d{4}){3}|(?:-\\d{4}){3}|(?:,\\d{4}){3})))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "discover",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "12cpbjtVTMaMutFhh9sojQ",
+      "name": "Discover Card Scanner (1x16 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:6221(?:2[6-9]|[3-9][0-9])\\d{10}|6229(?:[01][0-9]|2[0-5])\\d{10}|(?:6011|65\\d{2}|64[4-9]\\d|622[2-8])\\d{12})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "discover",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "PuXiVTCkTHOtj0Yad1ppsw",
+      "name": "Standard E-mail Address",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:(?:e[-\\s]?)?mail|address|sender|\\bto\\b|from|recipient)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 2
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*(%40|@)(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 5
+          }
+        }
+      },
+      "tags": {
+        "type": "email",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "8VS2RKxzR8a_95L5fuwaXQ",
+      "name": "IBAN",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:iban|account|sender|receiver)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:NO\\d{2}(?:[ \\-]?\\d{4}){2}[ \\-]?\\d{3}|BE\\d{2}(?:[ \\-]?\\d{4}){3}|(?:DK|FO|FI|GL|SD)\\d{2}(?:[ \\-]?\\d{4}){3}[ \\-]?\\d{2}|NL\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?\\d{4}){2}[ \\-]?\\d{2}|MK\\d{2}[ \\-]?\\d{3}[A-Z0-9](?:[ \\-]?[A-Z0-9]{4}){2}[ \\-]?[A-Z0-9]\\d{2}|SI\\d{17}|(?:AT|BA|EE|LT|XK)\\d{18}|(?:LU|KZ|EE|LT)\\d{5}[A-Z0-9]{13}|LV\\d{2}[A-Z]{4}[A-Z0-9]{13}|(?:LI|CH)\\d{2}[ \\-]?\\d{4}[ \\-]?\\d[A-Z0-9]{3}(?:[ \\-]?[A-Z0-9]{4}){2}[ \\-]?[A-Z0-9]|HR\\d{2}(?:[ \\-]?\\d{4}){4}[ \\-]?\\d|GE\\d{2}[ \\-]?[A-Z0-9]{2}\\d{2}\\d{14}|VA\\d{20}|BG\\d{2}[A-Z]{4}\\d{6}[A-Z0-9]{8}|BH\\d{2}[A-Z]{4}[A-Z0-9]{14}|GB\\d{2}[A-Z]{4}(?:[ \\-]?\\d{4}){3}[ \\-]?\\d{2}|IE\\d{2}[ \\-]?[A-Z0-9]{4}(?:[ \\-]?\\d{4}){3}[ \\-]?\\d{2}|(?:CR|DE|ME|RS)\\d{2}(?:[ \\-]?\\d{4}){4}[ \\-]?\\d{2}|(?:AE|TL|IL)\\d{2}(?:[ \\-]?\\d{4}){4}[ \\-]?\\d{3}|GI\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?[A-Z0-9]{4}){3}[ \\-]?[A-Z0-9]{3}|IQ\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?\\d{4}){3}[ \\-]?\\d{3}|MD\\d{2}(?:[ \\-]?[A-Z0-9]{4}){5}|SA\\d{2}[ \\-]?\\d{2}[A-Z0-9]{2}(?:[ \\-]?[A-Z0-9]{4}){4}|RO\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?[A-Z0-9]{4}){4}|(?:PK|VG)\\d{2}[ \\-]?[A-Z0-9]{4}(?:[ \\-]?\\d{4}){4}|AD\\d{2}(?:[ \\-]?\\d{4}){2}(?:[ \\-]?[A-Z0-9]{4}){3}|(?:CZ|SK|ES|SE|TN)\\d{2}(?:[ \\-]?\\d{4}){5}|(?:LY|PT|ST)\\d{2}(?:[ \\-]?\\d{4}){5}[ \\-]?\\d|TR\\d{2}[ \\-]?\\d{4}[ \\-]?\\d[A-Z0-9]{3}(?:[ \\-]?[A-Z0-9]{4}){3}[ \\-]?[A-Z0-9]{2}|IS\\d{2}(?:[ \\-]?\\d{4}){5}[ \\-]?\\d{2}|(?:IT|SM)\\d{2}[ \\-]?[A-Z]\\d{3}[ \\-]?\\d{4}[ \\-]?\\d{3}[A-Z0-9](?:[ \\-]?[A-Z0-9]{4}){2}[ \\-]?[A-Z0-9]{3}|GR\\d{2}[ \\-]?\\d{4}[ \\-]?\\d{3}[A-Z0-9](?:[ \\-]?[A-Z0-9]{4}){3}[A-Z0-9]{3}|(?:FR|MC)\\d{2}(?:[ \\-]?\\d{4}){2}[ \\-]?\\d{2}[A-Z0-9]{2}(?:[ \\-]?[A-Z0-9]{4}){2}[ \\-]?[A-Z0-9]\\d{2}|MR\\d{2}(?:[ \\-]?\\d{4}){5}[ \\-]?\\d{3}|(?:SV|DO)\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?\\d{4}){5}|BY\\d{2}[ \\-]?[A-Z]{4}[ \\-]?\\d{4}(?:[ \\-]?[A-Z0-9]{4}){4}|GT\\d{2}(?:[ \\-]?[A-Z0-9]{4}){6}|AZ\\d{2}[ \\-]?[A-Z0-9]{4}(?:[ \\-]?\\d{5}){4}|LB\\d{2}[ \\-]?\\d{4}(?:[ \\-]?[A-Z0-9]{5}){4}|(?:AL|CY)\\d{2}(?:[ \\-]?\\d{4}){2}(?:[ \\-]?[A-Z0-9]{4}){4}|(?:HU|PL)\\d{2}(?:[ \\-]?\\d{4}){6}|QA\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?[A-Z0-9]{4}){5}[ \\-]?[A-Z0-9]|PS\\d{2}[ \\-]?[A-Z0-9]{4}(?:[ \\-]?\\d{4}){5}[ \\-]?\\d|UA\\d{2}[ \\-]?\\d{4}[ \\-]?\\d{2}[A-Z0-9]{2}(?:[ \\-]?[A-Z0-9]{4}){4}[ \\-]?[A-Z0-9]|BR\\d{2}(?:[ \\-]?\\d{4}){5}[ \\-]?\\d{3}[A-Z0-9][ \\-]?[A-Z0-9]|EG\\d{2}(?:[ \\-]?\\d{4}){6}\\d|MU\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?\\d{4}){4}\\d{3}[A-Z][ \\-]?[A-Z]{2}|(?:KW|JO)\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?[A-Z0-9]{4}){5}[ \\-]?[A-Z0-9]{2}|MT\\d{2}[ \\-]?[A-Z]{4}[ \\-]?\\d{4}[ \\-]?\\d[A-Z0-9]{3}(?:[ \\-]?[A-Z0-9]{3}){4}[ \\-]?[A-Z0-9]{3}|SC\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?\\d{4}){5}[ \\-]?[A-Z]{3}|LC\\d{2}[ \\-]?[A-Z]{4}(?:[ \\-]?[A-Z0-9]{4}){6})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 15
+          }
+        }
+      },
+      "tags": {
+        "type": "iban",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "h6WJcecQTwqvN9KeEtwDvg",
+      "name": "JCB Card Scanner (1x16 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b35(?:2[89]|[3-9][0-9])(?:\\d{12})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "jcb",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "gcEaMu_VSJ2-bGCEkgyC0w",
+      "name": "JCB Card Scanner (2x8 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b35(?:2[89]|[3-9][0-9])\\d{4}(?:(?:,\\d{8})|(?:-\\d{8})|(?:\\s\\d{8})|(?:\\.\\d{8}))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 17
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "jcb",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "imTliuhXT5GAeRNhqChXQQ",
+      "name": "JCB Card Scanner (4x4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b35(?:2[89]|[3-9][0-9])(?:(?:\\s\\d{4}){3}|(?:\\.\\d{4}){3}|(?:-\\d{4}){3}|(?:,\\d{4}){3})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "jcb",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "9osY3xc9Q7ONAV0zw9Uz4A",
+      "name": "JSON Web Token",
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bey[I-L][\\w=-]+\\.ey[I-L][\\w=-]+(\\.[\\w.+\\/=-]+)?\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 20
+          }
+        }
+      },
+      "tags": {
+        "type": "json_web_token",
+        "category": "credentials"
+      }
+    },
+    {
+      "id": "d1Q9D3YMRxuVKf6CZInJPw",
+      "name": "Maestro Card Scanner (1x16 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:5[06-9]\\d{2}|6\\d{3})(?:\\d{12})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "maestro",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "M3YIQKKjRVmoeQuM3pjzrw",
+      "name": "Maestro Card Scanner (2x8 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:5[06-9]\\d{6}|6\\d{7})(?:\\s\\d{8}|\\.\\d{8}|-\\d{8}|,\\d{8})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 17
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "maestro",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "hRxiQBlSSVKcjh5U7LZYLA",
+      "name": "Maestro Card Scanner (4x4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:5[06-9]\\d{2}|6\\d{3})(?:(?:\\s\\d{4}){3}|(?:\\.\\d{4}){3}|(?:-\\d{4}){3}|(?:,\\d{4}){3})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "maestro",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "NwhIYNS4STqZys37WlaIKA",
+      "name": "MasterCard Scanner (2x8 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:(?:5[1-5]\\d{2})|(?:222[1-9])|(?:22[3-9]\\d)|(?:2[3-6]\\d{2})|(?:27[0-1]\\d)|(?:2720))(?:(?:\\d{4}(?:(?:,\\d{8})|(?:-\\d{8})|(?:\\s\\d{8})|(?:\\.\\d{8}))))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "mastercard",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "axxJkyjhRTOuhjwlsA35Vw",
+      "name": "MasterCard Scanner (4x4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:(?:5[1-5]\\d{2})|(?:222[1-9])|(?:22[3-9]\\d)|(?:2[3-6]\\d{2})|(?:27[0-1]\\d)|(?:2720))(?:(?:\\s\\d{4}){3}|(?:\\.\\d{4}){3}|(?:-\\d{4}){3}|(?:,\\d{4}){3})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "mastercard",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "76EhmoK3TPqJcpM-fK0pLw",
+      "name": "MasterCard Scanner (1x16 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:(?:5[1-5]\\d{2})|(?:222[1-9])|(?:22[3-9]\\d)|(?:2[3-6]\\d{2})|(?:27[0-1]\\d)|(?:2720))(?:\\d{12})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "mastercard",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "18b608bd7a764bff5b2344c0",
+      "name": "Phone number",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bphone|number|mobile\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^(?:\\(\\+\\d{1,3}\\)|\\+\\d{1,3}|00\\d{1,3})?[-\\s\\.]?(?:\\(\\d{3}\\)[-\\s\\.]?)?(?:\\d[-\\s\\.]?){6,10}$",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 6
+          }
+        }
+      },
+      "tags": {
+        "type": "phone",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "de0899e0cbaaa812bb624cf04c912071012f616d-mod",
+      "name": "UK National Insurance Number Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "^nin$|\\binsurance\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b[A-Z]{2}[\\s-]?\\d{6}[\\s-]?[A-Z]?\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 8
+          }
+        }
+      },
+      "tags": {
+        "type": "uk_nin",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "d962f7ddb3f55041e39195a60ff79d4814a7c331",
+      "name": "US Passport Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\bpassport\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 8
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b[0-9A-Z]{9}\\b|\\b[0-9]{6}[A-Z][0-9]{2}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 8
+          }
+        }
+      },
+      "tags": {
+        "type": "passport_number",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "7771fc3b-b205-4b93-bcef-28608c5c1b54",
+      "name": "United States Social Security Number Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:SSN|(?:(?:social)?[\\s_]?(?:security)?[\\s_]?(?:number)?)?)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b\\d{3}[-\\s\\.]{1}\\d{2}[-\\s\\.]{1}\\d{4}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 11
+          }
+        }
+      },
+      "tags": {
+        "type": "us_ssn",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "ac6d683cbac77f6e399a14990793dd8fd0fca333",
+      "name": "US Vehicle Identification Number Scanner",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:vehicle[_\\s-]*identification[_\\s-]*number|vin)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b[A-HJ-NPR-Z0-9]{17}\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 17
+          }
+        }
+      },
+      "tags": {
+        "type": "vin",
+        "category": "pii"
+      }
+    },
+    {
+      "id": "wJIgOygRQhKkR69b_9XbRQ",
+      "name": "Visa Card Scanner (2x8 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b4\\d{3}(?:(?:\\d{4}(?:(?:,\\d{8})|(?:-\\d{8})|(?:\\s\\d{8})|(?:\\.\\d{8}))))\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "visa",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "0o71SJxXQNK7Q6gMbBesFQ",
+      "name": "Visa Card Scanner (4x4 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b4\\d{3}(?:(?:,\\d{4}){3}|(?:\\s\\d{4}){3}|(?:\\.\\d{4}){3}|(?:-\\d{4}){3})\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 16
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "visa",
+        "category": "payment"
+      }
+    },
+    {
+      "id": "QrHD6AfgQm6z-j0wStxTvA",
+      "name": "Visa Card Scanner (1x15 & 1x16 & 1x19 digits)",
+      "key": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "\\b(?:card|cc|credit|debit|payment|amex|visa|mastercard|maestro|discover|jcb|diner)\\b",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 3
+          }
+        }
+      },
+      "value": {
+        "operator": "match_regex",
+        "parameters": {
+          "regex": "4[0-9]{12}(?:[0-9]{3})?",
+          "options": {
+            "case_sensitive": false,
+            "min_length": 13
+          }
+        }
+      },
+      "tags": {
+        "type": "card",
+        "card_type": "visa",
+        "category": "payment"
+      }
+    }
+  ]
+}

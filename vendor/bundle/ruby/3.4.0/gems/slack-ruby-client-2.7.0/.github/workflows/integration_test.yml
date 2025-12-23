@@ -1,0 +1,45 @@
+name: Integration Tests
+on: push
+jobs:
+  check-slack-api-token:
+    runs-on: ubuntu-latest
+    outputs:
+      SLACK_API_TOKEN_EXISTS: ${{ steps.check-slack-api-token.outputs.SLACK_API_TOKEN_EXISTS }}
+    steps:
+      - name: Check for SLACK_API_TOKEN availability
+        id: check-slack-api-token
+        shell: bash
+        run: |
+          if [ "${{ secrets.SLACK_API_TOKEN }}" != '' ]; then
+            echo "SLACK_API_TOKEN_EXISTS=true" >> $GITHUB_OUTPUT;
+          else
+            echo "SLACK_API_TOKEN_EXISTS=false" >> $GITHUB_OUTPUT;
+          fi
+
+  test:
+    runs-on: ubuntu-latest
+    needs: [check-slack-api-token]
+    if: needs.check-slack-api-token.outputs.SLACK_API_TOKEN_EXISTS == 'true'
+    strategy:
+      matrix:
+        entry:
+          - { ruby: 2.7, concurrency: async-websocket }
+    name: test (ruby=${{ matrix.entry.ruby }}, concurrency=${{ matrix.entry.concurrency || 'none' }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.entry.ruby }}
+          bundler-cache: true
+      - name: Run Tests
+        env:
+          CONCURRENCY: ${{ matrix.entry.concurrency }}
+          SLACK_API_TOKEN: ${{ secrets.SLACK_API_TOKEN }}
+          RACK_ENV: test
+          SPEC: "--pattern spec/**/integration/*_spec.rb"
+          SPEC_OPTS: "--pattern spec/**/integration/*_spec.rb"
+        run: |
+          bundle install
+          bundle exec rake

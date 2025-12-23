@@ -1,0 +1,27 @@
+<%#
+# BelongsToSearch Form Partial
+
+This partial renders an search input element for belongs_to relationships.
+By default, the input is a collection select box
+that displays all possible records to associate with.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [BelongsToWithSearchField].
+  Contains helper methods for displaying a collection select box.
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.permitted_attribute %>
+</div>
+<div class="field-unit__field">
+  <%= f.select(field.permitted_attribute,
+               nil,
+               {},
+               'data-url': polymorphic_url([namespace, field.associated_class], format: :json)) do %>
+    <%= options_for_select(field.associated_resource_options, field.selected_option) %>
+  <% end %>
+</div>

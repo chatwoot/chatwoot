@@ -1,0 +1,17 @@
+<table>
+  <thead>
+    <tr>
+      <th>Warning Type</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% types.sort.each do |warning_type| %>
+    <tr>
+      <td><%= warning_type %></td>
+      <td><%= warnings_summary[warning_type] %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br>

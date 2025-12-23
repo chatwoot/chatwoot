@@ -1,0 +1,133 @@
+{
+  "troubleshooting": [
+    {
+      "id": "internet-slow",
+      "title": "Internet Connection is Slow",
+      "category": "connectivity",
+      "keywords": ["slow", "speed", "performance", "bandwidth"],
+      "steps": [
+        "Check if multiple devices are using the internet simultaneously",
+        "Run a speed test at speedtest.net to measure current speeds",
+        "Restart your modem by unplugging for 30 seconds, then plug back in",
+        "Restart your router by unplugging for 30 seconds, then plug back in",
+        "Check for background downloads or streaming on connected devices",
+        "Move closer to your router if using WiFi",
+        "Try connecting directly to modem with ethernet cable",
+        "If speeds are still below plan specifications, contact support"
+      ],
+      "expected_resolution_time": "15 minutes"
+    },
+    {
+      "id": "no-internet",
+      "title": "No Internet Connection",
+      "category": "connectivity",
+      "keywords": ["no internet", "down", "offline", "disconnected", "outage"],
+      "steps": [
+        "Check if modem power light is solid green (not blinking)",
+        "Check if router power light is solid (color varies by model)",
+        "Look for service outage notifications at status.isp.com",
+        "Unplug modem power cord for 30 seconds, then plug back in",
+        "Wait 2-3 minutes for modem to fully restart",
+        "Unplug router power cord for 30 seconds, then plug back in",
+        "Wait 2-3 minutes for router to fully restart",
+        "Check ethernet cable connections are secure",
+        "Try connecting device directly to modem with ethernet",
+        "If still no connection, check for local outages or contact support"
+      ],
+      "expected_resolution_time": "10 minutes"
+    },
+    {
+      "id": "wifi-not-working",
+      "title": "WiFi Not Working",
+      "category": "wifi",
+      "keywords": ["wifi", "wireless", "password", "network", "connection"],
+      "steps": [
+        "Check if WiFi is enabled on your device",
+        "Look for your network name in available networks list",
+        "Verify you're using the correct WiFi password (check router label)",
+        "Move closer to the router to ensure strong signal",
+        "Restart your device's WiFi by turning off and on",
+        "Forget and reconnect to the WiFi network",
+        "Restart your router by unplugging for 30 seconds",
+        "Check if ethernet connection works (isolates WiFi vs internet issue)",
+        "Try connecting a different device to verify WiFi functionality"
+      ],
+      "expected_resolution_time": "10 minutes"
+    },
+    {
+      "id": "intermittent-connection",
+      "title": "Intermittent Connection Issues",
+      "category": "connectivity",
+      "keywords": [
+        "intermittent",
+        "drops",
+        "disconnects",
+        "unstable",
+        "cutting out"
+      ],
+      "steps": [
+        "Note the frequency and timing of disconnections",
+        "Check all cable connections for loose fittings",
+        "Look for damaged coaxial or ethernet cables",
+        "Check if the issue affects all devices or just one",
+        "Monitor modem lights during disconnections",
+        "Check for interference from other electronics",
+        "Update network drivers on affected devices",
+        "Power cycle both modem and router",
+        "Document exact symptoms and contact support if persists"
+      ],
+      "expected_resolution_time": "20 minutes"
+    },
+    {
+      "id": "email-setup",
+      "title": "Email Setup and Configuration",
+      "category": "email",
+      "keywords": ["email", "setup", "configuration", "smtp", "imap", "pop"],
+      "steps": [
+        "Use these settings for email configuration:",
+        "Incoming Mail Server (IMAP): mail.isp.com, Port 993, SSL enabled",
+        "Outgoing Mail Server (SMTP): smtp.isp.com, Port 587, TLS enabled",
+        "Username: your full email address",
+        "Password: your email password",
+        "For mobile devices, enable 'Use SSL' for both incoming and outgoing",
+        "For Outlook, choose 'More settings' and verify port numbers",
+        "Test sending and receiving after setup"
+      ],
+      "expected_resolution_time": "15 minutes"
+    },
+    {
+      "id": "tv-no-signal",
+      "title": "TV Shows No Signal",
+      "category": "tv",
+      "keywords": ["tv", "signal", "cable", "channels", "black screen"],
+      "steps": [
+        "Check that TV is on correct input (Cable/HDMI)",
+        "Ensure cable box is powered on",
+        "Check all coaxial cable connections are tight",
+        "Unplug cable box for 30 seconds, then plug back in",
+        "Wait 3-5 minutes for cable box to fully restart",
+        "Press 'Guide' button to verify signal reception",
+        "Try changing channels to test multiple frequencies",
+        "Check for service outages in your area",
+        "Verify account is current and not suspended"
+      ],
+      "expected_resolution_time": "10 minutes"
+    }
+  ],
+  "billing": [
+    {
+      "id": "payment-methods",
+      "title": "Available Payment Methods",
+      "category": "billing",
+      "keywords": ["payment", "billing", "autopay", "credit card"],
+      "content": "We accept: Credit/Debit Cards (Visa, MasterCard, American Express), Bank Transfer/ACH, Online Banking, Phone payments, Mail-in checks. AutoPay available with 5% discount."
+    },
+    {
+      "id": "billing-cycle",
+      "title": "Understanding Your Billing Cycle",
+      "category": "billing",
+      "keywords": ["billing cycle", "bill date", "due date"],
+      "content": "Bills are generated monthly on your billing date. Payment is due 15 days after bill date. Late fees apply after 30 days. Service may be suspended after 45 days past due."
+    }
+  ]
+}

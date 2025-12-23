@@ -1,0 +1,16 @@
+name: Remove Stale or Waiting Labels
+on:
+  issue_comment:
+    types: [created]
+  workflow_dispatch:
+jobs:
+  remove-labels-on-activity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-ecosystem/action-remove-labels@v1
+        if: contains(github.event.issue.labels.*.name, 'Waiting for Response')
+        with:
+          labels: |
+            Waiting for Response
+

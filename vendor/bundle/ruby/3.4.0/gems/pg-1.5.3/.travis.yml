@@ -1,0 +1,49 @@
+sudo: required
+dist: focal
+services:
+  - docker
+language: ruby
+matrix:
+  include:
+    # i386: Intel 32-bit
+    - name: i386
+
+      language: generic
+      env:
+        - PGPATH="/usr/lib/postgresql/10/bin"
+      before_install: |
+        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes &&
+          docker build --rm --build-arg PGPATH="${PGPATH}" -t ruby-pg -f spec/env/Dockerfile.i386 .
+      script: |
+        docker run --rm -t --network=host ruby-pg
+
+    - rvm: "2.5"
+      env:
+        - "PGVERSION=9.3"
+      # Use Ubuntu-16.04 since postgresql-9.3 depends on openssl-1.0.0, which isn't available in 20.04
+      dist: xenial
+    - rvm: ruby-head
+      env:
+        - "PGVERSION=14"
+    - rvm: truffleruby
+      env:
+        - "PGVERSION=14"
+
+  allow_failures:
+    - rvm: ruby-head
+  fast_finish: true
+
+before_install:
+  - bundle install
+  # Download and install postgresql version to test against in /opt (for non-cross compile only)
+  - echo "deb http://apt.postgresql.org/pub/repos/apt/ ${TRAVIS_DIST}-pgdg main $PGVERSION" | sudo tee -a /etc/apt/sources.list.d/pgdg.list
+  - wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+  - sudo apt-get -y update
+  - sudo apt-get -y --allow-downgrades install postgresql-$PGVERSION libpq5=$PGVERSION* libpq-dev=$PGVERSION*
+  - export PATH=/usr/lib/postgresql/$PGVERSION/bin:$PATH
+
+script:
+  - bundle exec rake compile test PG_DEBUG=0
+
+after_failure:
+  - "find tmp -name mkmf.log | xargs cat"

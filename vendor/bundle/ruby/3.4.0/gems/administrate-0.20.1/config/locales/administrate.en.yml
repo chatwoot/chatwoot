@@ -1,0 +1,30 @@
+---
+en:
+  administrate:
+    actions:
+      confirm: Are you sure?
+      destroy: Destroy
+      edit: Edit
+      edit_resource: Edit %{name}
+      show_resource: Show %{name}
+      new_resource: New %{name}
+      back: Back
+    controller:
+      create:
+        success: "%{resource} was successfully created."
+      destroy:
+        success: "%{resource} was successfully destroyed."
+      update:
+        success: "%{resource} was successfully updated."
+    fields:
+      has_many:
+        more: Showing %{count} of %{total_count}
+        none: None
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: Back to app
+    search:
+      clear: Clear search
+      label: Search %{resource}

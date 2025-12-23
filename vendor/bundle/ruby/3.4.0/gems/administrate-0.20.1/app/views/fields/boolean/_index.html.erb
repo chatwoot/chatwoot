@@ -1,0 +1,19 @@
+<%#
+# Boolean Index Partial
+
+This partial renders a boolean attribute,
+to be displayed on a resource's index page.
+
+By default, the attribute is rendered
+as a string representation of the boolean value.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Boolean][1].
+  A wrapper around the boolean value pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Boolean
+%>
+
+<%= field.to_s %>

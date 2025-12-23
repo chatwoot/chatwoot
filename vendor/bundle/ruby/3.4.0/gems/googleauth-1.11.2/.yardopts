@@ -1,0 +1,11 @@
+--no-private
+--title=Google Auth
+--markup markdown
+--markup-provider redcarpet
+
+./lib/**/*.rb
+-
+README.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+LICENSE

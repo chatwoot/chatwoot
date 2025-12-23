@@ -1,0 +1,4 @@
+--readme          README.md
+--markup          markdown
+--markup-provider maruku
+--no-private

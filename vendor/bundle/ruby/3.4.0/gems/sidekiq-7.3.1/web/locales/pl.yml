@@ -1,0 +1,59 @@
+# elements like %{queue} are variables and should not be translated
+pl:
+  Actions: Akcje
+  AddToQueue: dodaj do kolejki
+  AreYouSure: Na pewno?
+  AreYouSureDeleteJob: Czy na pewno usunąć to zadanie?
+  AreYouSureDeleteQueue: Czy na pewno usunąć kolejkę %{queue}?
+  Arguments: Argumenty
+  Busy: Zajęte
+  Class: Klasa
+  Connections: Połączenia
+  CurrentMessagesInQueue: Aktualne wiadomości w kolejce <span class='title'>%{queue}</span>
+  Dashboard: Kokpit
+  Delete: Usuń
+  DeleteAll: Usuń wszystko
+  Enqueued: Zakolejkowane
+  Error: Błąd
+  ErrorBacktrace: Wyjście błędu
+  ErrorClass: Klasa błędu
+  ErrorMessage: Wiadomosć błędu
+  Failed: Nieudane
+  GoBack: ← Wróć
+  History: Historia
+  Job: Zadanie
+  LastRetry: Ostatnie ponowienie
+  LivePoll: Wczytuj na żywo
+  MemoryUsage: Wykorzystanie pamięci
+  Namespace: Przestrzeń nazw
+  NextRetry: Następne ponowienie
+  NoRetriesFound: Brak zadań do ponowienia
+  NoScheduledFound: Brak zaplanowanych zadań
+  OneMonth: 1 miesiąc
+  OneWeek: 1 tydzień
+  OriginallyFailed: Ostatnio nieudane
+  PeakMemoryUsage: Największe wykorzystanie pamięci
+  Processed: Ukończone
+  Queue: Kolejka
+  Queues: Kolejki
+  Realtime: Czas rzeczywisty
+  Retries: Do ponowienia
+  RetryAll: Powtórz wszystko
+  RetryCount: Ilość ponowień
+  RetryNow: Ponów teraz
+  Scheduled: Zaplanowane
+  ScheduledJobs: Zaplanowane zadania
+  ShowAll: Pokaż wszystko
+  SixMonths: 6 miesięcy
+  Size: Rozmiar
+  Started: Rozpoczęte
+  Status: Status
+  StopPolling: Zatrzymaj wczytywanie na żywo
+  ThreeMonths: 3 miesiące
+  Time: Czas
+  Uptime: Uptime (dni)
+  Version: Wersja
+  When: Kiedy
+  Worker: Worker
+  active: aktywne
+  idle: bezczynne

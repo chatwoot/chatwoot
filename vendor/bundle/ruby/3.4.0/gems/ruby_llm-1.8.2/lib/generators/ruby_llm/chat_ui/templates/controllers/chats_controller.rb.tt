@@ -1,0 +1,39 @@
+class <%= chat_controller_class_name %> < ApplicationController
+  before_action :set_<%= chat_variable_name %>, only: [:show]
+
+  def index
+    @<%= chat_table_name %> = <%= chat_model_name %>.order(created_at: :desc)
+  end
+
+  def new
+    @<%= chat_variable_name %> = <%= chat_model_name %>.new
+    @selected_model = params[:model]
+  end
+
+  def create
+    return unless prompt.present?
+
+    @<%= chat_variable_name %> = <%= chat_model_name %>.create!(model: model)
+    <%= chat_job_class_name %>.perform_later(@<%= chat_variable_name %>.id, prompt)
+
+    redirect_to @<%= chat_variable_name %>, notice: '<%= chat_model_name.humanize %> was successfully created.'
+  end
+
+  def show
+    @<%= message_variable_name %> = @<%= chat_variable_name %>.<%= message_table_name %>.build
+  end
+
+  private
+
+  def set_<%= chat_variable_name %>
+    @<%= chat_variable_name %> = <%= chat_model_name %>.find(params[:id])
+  end
+
+  def model
+    params[:<%= chat_variable_name %>][:model].presence
+  end
+
+  def prompt
+    params[:<%= chat_variable_name %>][:prompt]
+  end
+end

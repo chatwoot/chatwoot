@@ -1,0 +1,32 @@
+name: test
+
+on: [push, pull_request]
+
+jobs:
+  ruby-versions:
+    uses: ruby/actions/.github/workflows/ruby_versions.yml@master
+    with:
+      min_version: 2.5
+
+  test:
+    needs: ruby-versions
+    name: build (${{ matrix.ruby }} / ${{ matrix.os }})
+    strategy:
+      matrix:
+        ruby: ${{ fromJson(needs.ruby-versions.outputs.versions) }}
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        exclude:
+          - { os: macos-latest, ruby: 2.5 }
+          - { os: windows-latest, ruby: truffleruby-head }
+          - { os: windows-latest, ruby: truffleruby }
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+    - name: Install dependencies
+      run: bundle install
+    - name: Run test
+      run: rake test

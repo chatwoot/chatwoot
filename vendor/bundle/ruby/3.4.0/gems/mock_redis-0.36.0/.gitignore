@@ -1,0 +1,5 @@
+coverage/
+pkg/*
+.bundle
+Gemfile.lock
+.rvmrc

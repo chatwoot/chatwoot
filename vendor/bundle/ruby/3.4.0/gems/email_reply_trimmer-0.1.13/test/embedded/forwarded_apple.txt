@@ -1,0 +1,13 @@
+From: Foo Discourse <foo@discourse.org>
+Subject: This email is going to be forwarded
+Date: 01 January 2019 at 12:00:00 EET
+To: bar@discourse.org
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi auctor
+lacus in metus vehicula, non dictum mi consequat. Nunc eget quam sit
+amet dolor scelerisque cursus. Etiam laoreet lectus a rutrum
+sollicitudin. Nullam sit amet lorem id ante lobortis fringilla. Duis
+dictum tempus sem et ultrices. Sed ac lectus ante. Vivamus interdum,
+risus non tincidunt accumsan, purus mi accumsan dolor, vitae euismod
+turpis orci ut est. Integer ut ante eu velit dignissim ullamcorper non
+id nibh. Nulla auctor magna erat, et posuere sapien gravida convallis.

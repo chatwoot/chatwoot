@@ -1,0 +1,17 @@
+class AddPgSearchDmetaphoneSupportFunctions < ActiveRecord::Migration<%= migration_version %>
+  def up
+    say_with_time("Adding support functions for pg_search :dmetaphone") do
+      execute <<~'SQL'.squish
+<%= indent(read_sql_file("dmetaphone"), 8) %>
+      SQL
+    end
+  end
+
+  def down
+    say_with_time("Dropping support functions for pg_search :dmetaphone") do
+      execute <<~'SQL'.squish
+<%= indent(read_sql_file("uninstall_dmetaphone"), 8) %>
+      SQL
+    end
+  end
+end

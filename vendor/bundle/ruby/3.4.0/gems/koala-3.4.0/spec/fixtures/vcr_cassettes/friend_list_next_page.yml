@@ -1,0 +1,121 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://graph.facebook.com/v2.2/me/friends?access_token=CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Facebook-Api-Version:
+      - v2.2
+      Etag:
+      - "\"405645cb180f38f9c1e373a1fe301c47c2a763db\""
+      Content-Type:
+      - application/json; charset=UTF-8
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fb-Rev:
+      - '1543964'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Debug:
+      - sR8XVZI7FA7B7iZBo18REPDIaoeLkIbkg06WTYKMmJ/wzV/Gr5wYOYE47wIIgvnLBMgTe2D3RKvGo668AMWYXw==
+      Date:
+      - Fri, 26 Dec 2014 14:54:14 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '834'
+    body:
+      encoding: UTF-8
+      string: "{\"data\":[{\"name\":\"Brian Rosenthal\",\"id\":\"6580\"},{\"name\":\"Waynn
+        Lue\",\"id\":\"202035\"},{\"name\":\"Chris Baclig\",\"id\":\"216743\"},{\"name\":\"Scott
+        Kleper\",\"id\":\"219493\"},{\"name\":\"Nick Elser\",\"id\":\"429772\"},{\"name\":\"Ian
+        Spivey\",\"id\":\"700103\"},{\"name\":\"Hong Dave\",\"id\":\"1215057\"},{\"name\":\"Trek
+        Glowacki\",\"id\":\"2203865\"},{\"name\":\"Tung Bach Ly\",\"id\":\"2803850\"},{\"name\":\"Isaac
+        Wolkerstorfer\",\"id\":\"2900100\"},{\"name\":\"Avishai Weiss\",\"id\":\"2900461\"},{\"name\":\"Harold
+        Liss\",\"id\":\"2900570\"},{\"name\":\"Ryo Chijiiwa\",\"id\":\"2901026\"},{\"name\":\"Luke
+        Shepard\",\"id\":\"2901279\"},{\"name\":\"Daniela Wellisz\",\"id\":\"2903998\"},{\"name\":\"Daniel
+        Hirschberg\",\"id\":\"2904437\"},{\"name\":\"Borja Sotomayor\",\"id\":\"2905626\"},{\"name\":\"David
+        Underwood\",\"id\":\"2906370\"},{\"name\":\"Avi Schwab\",\"id\":\"2908086\"},{\"name\":\"Kathleen
+        Burnett\",\"id\":\"6827168\"},{\"name\":\"Solomon Hursey\",\"id\":\"6857763\"},{\"name\":\"Sarah
+        Allen\",\"id\":\"10100146\"},{\"name\":\"Zach Wolfenbarger\",\"id\":\"10115065\"},{\"name\":\"JT
+        Archie\",\"id\":\"10603565\"},{\"name\":\"Colin McCloskey\",\"id\":\"11308679\"}],\"paging\":{\"next\":\"https:\\/\\/graph.facebook.com\\/v2.2\\/2905623\\/friends?access_token=CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD&limit=25&offset=25&__after_id=enc_Aez9Lwck5wLvRR_mHYNCzYNGmnYunJfnA3Z8hYXQ0xOluJfy4KVv4YYD1I4Im036hrA\"},\"summary\":{\"total_count\":821}}"
+    http_version: 
+  recorded_at: Fri, 26 Dec 2014 14:54:14 GMT
+- request:
+    method: get
+    uri: https://graph.facebook.com/v2.2/2905623/friends?__after_id=enc_Aez9Lwck5wLvRR_mHYNCzYNGmnYunJfnA3Z8hYXQ0xOluJfy4KVv4YYD1I4Im036hrA&access_token=CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD&limit=25&offset=25
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.9.0
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Facebook-Api-Version:
+      - v2.2
+      Etag:
+      - "\"ad597c7482d414a109407197c49d9c102b245fec\""
+      Content-Type:
+      - application/json; charset=UTF-8
+      Pragma:
+      - no-cache
+      Access-Control-Allow-Origin:
+      - "*"
+      X-Fb-Rev:
+      - '1543964'
+      Cache-Control:
+      - private, no-cache, no-store, must-revalidate
+      Expires:
+      - Sat, 01 Jan 2000 00:00:00 GMT
+      X-Fb-Debug:
+      - 4rfPGqFD0OuxktinjEn9le7gO3aRg+E1a6367E4h3cFk3O/vsYMACfGJFCAgsLakTiOMJaaNj4ep+CkgFPnFiw==
+      Date:
+      - Fri, 26 Dec 2014 14:54:15 GMT
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '972'
+    body:
+      encoding: UTF-8
+      string: "{\"data\":[{\"name\":\"Andrew Kane\",\"id\":\"12460925\"},{\"name\":\"Robin
+        Greenwood\",\"id\":\"34602916\"},{\"name\":\"Tom Elliott\",\"id\":\"36902548\"},{\"name\":\"Brian
+        Maula\",\"id\":\"77800072\"},{\"name\":\"Brian Wis\",\"id\":\"78500422\"},{\"name\":\"Ryan
+        Merket\",\"id\":\"136300045\"},{\"name\":\"Alex Coles\",\"id\":\"202905335\"},{\"name\":\"Chris
+        Vincent\",\"id\":\"205300220\"},{\"name\":\"Craig Stoe\",\"id\":\"500388531\"},{\"name\":\"Alex
+        Neill\",\"id\":\"504120418\"},{\"name\":\"Riste\\u00e1rd Br\\u00e9anainn\",\"id\":\"10152350043011181\"},{\"name\":\"Rafi
+        Jacoby\",\"id\":\"518938454\"},{\"name\":\"Marc Blinder\",\"id\":\"519467425\"},{\"name\":\"Erik
+        Ogan\",\"id\":\"542404932\"},{\"name\":\"Nigel Benito Griffin\",\"id\":\"566130340\"},{\"name\":\"Karla
+        Geci\",\"id\":\"569882615\"},{\"name\":\"Dennis Schneider\",\"id\":\"582757122\"},{\"name\":\"Chad
+        Krsek\",\"id\":\"605431196\"},{\"name\":\"Simon Cross\",\"id\":\"605665581\"},{\"name\":\"Matt
+        Patterson\",\"id\":\"629514342\"},{\"name\":\"Adeel Ahmad\",\"id\":\"630665156\"},{\"name\":\"Nicholas
+        Solter\",\"id\":\"647473136\"},{\"name\":\"David Morcillo Mu\\u00f1oz\",\"id\":\"674832191\"},{\"name\":\"Ana
+        Luisa Santos\",\"id\":\"685010072\"},{\"name\":\"Matthias Wiemann\",\"id\":\"693274202\"}],\"paging\":{\"next\":\"https:\\/\\/graph.facebook.com\\/v2.2\\/2905623\\/friends?limit=25&offset=50&access_token=CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD&__after_id=enc_Aez79XsNc6mXAfVDW2zvCkfHWTRTl_YprQ2VgrtLMqPa71dSOCoC34H-6YHCCNonr-w\",\"previous\":\"https:\\/\\/graph.facebook.com\\/v2.2\\/2905623\\/friends?limit=25&offset=0&access_token=CAACEdEose0cBAKuiUM40KZBEsq2l0iggaMGZBPI74svGQRMmZCPXb7eZCYPhNUbVXnnYZCjXKFKIc7HgYllr4RDIKrANHm6kKncOx0Y3UpDqLliRGZAnSEUypyFworUnBMOQJBlAuB1wlwYJZB7LIZCobCcnT2q9QwrZBpK3qAZB3u7ZAJaZAdsMZBsyALkAXatoj75leWXhgXfT1QiJHZBGoRlz07Q85z1dZBReK4ZD&__before_id=enc_Aey0OlxZalVBlh623QavOqlYyEOlclWjZMQ_7Hv2x4BHFV_JzG9H2j-_nOikaW5PsyY\"},\"summary\":{\"total_count\":821}}"
+    http_version: 
+  recorded_at: Fri, 26 Dec 2014 14:54:15 GMT
+recorded_with: VCR 2.9.3

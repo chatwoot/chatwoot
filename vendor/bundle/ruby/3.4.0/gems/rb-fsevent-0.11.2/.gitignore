@@ -1,0 +1,13 @@
+*.gem
+.DS_Store
+.Trashes
+.bundle
+.com.apple.timemachine.supported
+.fseventsd
+.idea
+.rbx
+/ext/build
+Desktop DB
+Desktop DF
+Gemfile.lock
+pkg/*

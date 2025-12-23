@@ -1,0 +1,21 @@
+# Settings
+projectDirectory     = "$CWD"
+windowTitle          = "${CWD/^.*\///} «$TM_DISPLAYNAME»"
+excludeInFileChooser = {$exclude,.hg}
+exclude              = {$exclude,tmp,tmp_test_specs}
+
+TM_MAKE      = 'rake'
+TM_MAKE_FILE = '${projectDirectory}/Rakefile'
+
+[ source ]
+softTabs         = false
+tabSize          = 4
+
+[ source.ruby ]
+softTabs         = false
+tabSize          = 4
+
+[ source.ruby.rspec ]
+softTabs         = false
+tabSize          = 4
+

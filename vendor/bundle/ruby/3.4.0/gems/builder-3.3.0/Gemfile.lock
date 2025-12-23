@@ -1,0 +1,22 @@
+PATH
+  remote: .
+  specs:
+    builder (3.3.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    minitest (5.23.1)
+    rake (13.2.1)
+
+PLATFORMS
+  arm64-darwin-23
+  ruby
+
+DEPENDENCIES
+  builder!
+  minitest
+  rake
+
+BUNDLED WITH
+   2.5.9

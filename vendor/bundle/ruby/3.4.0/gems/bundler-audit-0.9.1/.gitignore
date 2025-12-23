@@ -1,0 +1,11 @@
+.ruby-version
+.ruby-gemset
+Gemfile.lock
+doc/
+.yardoc/
+coverage/
+pkg/
+spec/bundle/*/.bundle/
+spec/fixtures/database
+vendor/bundle/
+tmp/

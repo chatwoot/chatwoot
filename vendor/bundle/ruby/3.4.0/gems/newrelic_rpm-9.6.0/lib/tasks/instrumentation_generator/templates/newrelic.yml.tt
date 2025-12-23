@@ -1,0 +1,19 @@
+---
+development:
+  error_collector:
+    enabled: true
+  apdex_t: 0.5
+  monitor_mode: true
+  license_key: bootstrap_newrelic_admin_license_key_000
+  instrumentation:
+    <%= @name.downcase %>: <%= @instrumentation_method_global_erb_snippet %>
+  app_name: test
+  log_level: debug
+  host: 127.0.0.1
+  api_host: 127.0.0.1
+  transaction_trace:
+    record_sql: obfuscated
+    enabled: true
+    stack_trace_threshold: 0.5
+    transaction_threshold: 1.0
+  capture_params: false

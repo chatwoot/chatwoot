@@ -1,0 +1,96 @@
+"pt-br":
+  Actions: Ações
+  AddToQueue: Adicionar à fila
+  AreYouSure: Tem certeza?
+  AreYouSureDeleteJob: Deseja deletar esta tarefa?
+  AreYouSureDeleteQueue: Deseja deletar a fila %{queue}? Isso irá deletar todas as tarefas desta fila.
+  Arguments: Argumentos
+  AvgExecutionTime: Tempo médio de execução
+  BackToApp: De volta ao aplicativo
+  Bucket: Bucket
+  Busy: Ocupados
+  Class: Classe
+  Connections: Conexões
+  Context: Contexto
+  CreatedAt: Criado em
+  CurrentMessagesInQueue: Mensagens atualmente na <span class='title'>%{queue}</span>
+  Dashboard: Painel
+  Dead: Morta
+  DeadJobs: Tarefas mortas
+  Delete: Apagar
+  DeleteAll: Apagar tudo
+  Deploy: Deploy
+  Enqueued: Na fila
+  Error: Erro
+  ErrorBacktrace: Rastreamento do erro
+  ErrorClass: Classe de erro
+  ErrorMessage: Mensagem de erro
+  ExecutionTime: Tempo de execução
+  Extras: Extras
+  Failed: Falhas
+  Failure: Falha
+  Failures: Falhas
+  GoBack: ← Voltar
+  History: Histórico
+  Job: Tarefa
+  Jobs: Tarefas
+  Kill: Matar
+  KillAll: Matar todas
+  LastRetry: Última tentativa
+  Latency: Latência
+  LivePoll: Live Poll
+  MemoryUsage: Uso de memória
+  Metrics: Métricas
+  Name: Nome
+  Namespace: Namespace
+  NextRetry: Próxima Tentativa
+  NoDataFound: Nenhum dado encontrado
+  NoDeadJobsFound: Nenhuma tarefa morta foi encontrada
+  NoJobMetricsFound: Nenhuma métrica de tarefa encontrada
+  NoRetriesFound: Nenhuma tentativa encontrada
+  NoScheduledFound: Nenhuma tarefa agendada foi encontrada
+  NotYetEnqueued: Ainda não enfileirado
+  OneMonth: 1 mês
+  OneWeek: 1 semana
+  OriginallyFailed: Falhou originalmente
+  Pause: Pausar
+  Paused: Pausado
+  PeakMemoryUsage: Pico de uso de memória
+  Uptime: Tempo de atividade
+  Plugins: Plug-ins
+  PollingInterval: Intervalo de Polling
+  Process: Processo
+  Processed: Processados
+  Processes: Processos
+  Queue: Fila
+  Queues: Filas
+  Quiet: Silenciar
+  QuietAll: Silenciar Todos
+  Realtime: Tempo real
+  Retries: Tentativas
+  RetryAll: Tentar tudo novamente
+  RetryCount: Número de Tentativas
+  RetryNow: Tentar novamente agora
+  Scheduled: Agendados
+  ScheduledJobs: Tarefas agendadas
+  idle: Ocioso
+  active: Ativo
+  Seconds: Segundos
+  ShowAll: Mostrar todos
+  SixMonths: 6 meses
+  Size: Tamanho
+  Started: Iniciado
+  Stop: Parar
+  StopAll: Parar Todos
+  StopPolling: Parar Polling
+  Success: Sucesso
+  Summary: Resumo
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 meses
+  TotalExecutionTime: Tempo total de execução
+  Unpause: Despausar
+  Utilization: Utilização
+  Version: Versão
+  When: Quando
+  Worker: Trabalhador

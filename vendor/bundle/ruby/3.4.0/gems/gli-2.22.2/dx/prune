@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+require_command "docker"
+load_docker_compose_env
+
+usage_on_help "Prune containers for this repo" "" "" "" "${@}"
+
+for container_id in $(docker container ls -a -f "name=^${PROJECT_NAME}-.*-1$" --format="{{.ID}}"); do
+  log "🗑" "Removing container with id '${container_id}'"
+  docker container rm "${container_id}"
+done
+echo "🧼" "Containers removed"
+
+# vim: ft=bash

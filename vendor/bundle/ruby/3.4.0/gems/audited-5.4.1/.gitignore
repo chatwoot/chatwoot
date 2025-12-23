@@ -1,0 +1,17 @@
+*.iml
+*.ipr
+*.iws
+*.log
+*.swp
+.bundle
+.rakeTasks
+.ruby-gemset
+.ruby-version
+.rvmrc
+.yardoc
+doc/
+Gemfile.lock
+gemfiles/*.lock
+pkg
+tmp/*
+audited_test.sqlite3.db

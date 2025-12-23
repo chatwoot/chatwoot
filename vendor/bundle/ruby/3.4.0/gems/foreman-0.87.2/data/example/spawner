@@ -1,0 +1,7 @@
+#!/bin/sh
+
+./spawnee A &
+./spawnee B &
+./spawnee C &
+
+wait

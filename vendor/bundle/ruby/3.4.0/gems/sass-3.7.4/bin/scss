@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+# The command line Sass parser.
+
+THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+begin
+  require File.dirname(THIS_FILE) + '/../lib/sass'
+rescue LoadError
+  require 'sass'
+end
+require 'sass/exec'
+
+opts = Sass::Exec::SassScss.new(ARGV, :scss)
+opts.parse!

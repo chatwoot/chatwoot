@@ -1,0 +1,81 @@
+Bluepill.application("app", :foreground => false, :log_file => "/var/log/bluepill.log") do |app|
+
+  app.uid = "app"
+  app.gid = "app"
+
+
+
+
+  app.process("alpha-1") do |process|
+    process.start_command = %Q{./alpha}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5000"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-alpha-1.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+
+    process.group = "app-alpha"
+  end
+
+  app.process("bravo-1") do |process|
+    process.start_command = %Q{./bravo}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5100"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-bravo-1.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+
+    process.group = "app-bravo"
+  end
+
+  app.process("foo_bar-1") do |process|
+    process.start_command = %Q{./foo_bar}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5200"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-foo_bar-1.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+
+    process.group = "app-foo_bar"
+  end
+
+  app.process("foo-bar-1") do |process|
+    process.start_command = %Q{./foo-bar}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5300"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-foo-bar-1.log"
+
+    process.monitor_children do |children|
+
+    children.stop_command "kill {{PID}}"
+    end
+
+    process.group = "app-foo-bar"
+  end
+end

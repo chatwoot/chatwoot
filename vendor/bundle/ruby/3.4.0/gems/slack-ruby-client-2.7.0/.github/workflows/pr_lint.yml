@@ -1,0 +1,21 @@
+name: PR Lint
+on: pull_request
+jobs:
+  danger:
+    name: Dangerfile
+    runs-on: ubuntu-latest
+    env:
+      BUNDLE_GEMFILE: ${{ github.workspace }}/Gemfile.danger
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - run: |
+          # Personal access token for dangerpr-bot - public, but base64 encoded to avoid tripping up GitHub
+          TOKEN=$(echo -n Z2hwX0xNQ3VmanBFeTBvYkZVTWh6NVNqVFFBOEUxU25abzBqRUVuaAo= | base64 --decode)
+          DANGER_GITHUB_API_TOKEN=$TOKEN bundle exec danger --verbose

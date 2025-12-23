@@ -1,0 +1,31 @@
+Ok, will do. As a test, this is a reply from a webmail client.
+
+
+> Il 26 marzo 2016 alle 13.16 Sam Saffron <info@discourse.org> ha scritto:
+>
+>
+>
+>
+>
+> We need specific examples of failures, PM full source of emails to
+> @zogstrip
+>
+> Posted by sam on 03/26/2016
+>
+>
+>
+>
+>
+>
+> ---
+> [Visit Topic](https://meta.discourse.org/t/email-reply-parsing/41597/2)
+> or reply to this email to respond
+>
+> To stop receiving notifications for this particular topic, [click
+> here](https://meta.discourse.org/t/email-reply-parsing/41597/unsubscribe).
+> To unsubscribe from these emails, change your [user
+> preferences](https://meta.discourse.org/my/preferences)
+
+--
+Stefano Costa @stekosteko
+Editor, Journal of Open Archaeology Data

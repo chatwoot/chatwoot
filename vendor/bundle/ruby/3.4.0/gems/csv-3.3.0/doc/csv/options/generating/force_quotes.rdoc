@@ -1,0 +1,17 @@
+====== Option +force_quotes+
+
+Specifies the boolean that determines whether each output field is to be double-quoted.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:force_quotes) # => false
+
+For examples in this section:
+  ary = ['foo', 0, nil]
+
+Using the default, +false+:
+  str = CSV.generate_line(ary)
+  str # => "foo,0,\n"
+
+Using +true+:
+  str = CSV.generate_line(ary, force_quotes: true)
+  str # => "\"foo\",\"0\",\"\"\n"

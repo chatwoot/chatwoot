@@ -1,0 +1,35 @@
+<div class="navbar navbar-fixed-bottom navbar-inverse ltr">
+  <div class="navbar-inner">
+    <div class="container text-center">
+        <ul class="nav">
+          <li>
+            <p class="navbar-text product-version"><%= product_version %></p>
+          </li>
+          <li>
+            <p class="navbar-text redis-url" title="<%= redis_url %>"><%= redis_url %></p>
+          </li>
+          <li>
+            <p id="serverUtcTime" class="navbar-text server-utc-time"><%= server_utc_time %></p>
+          </li>
+          <li>
+            <p class="navbar-text"><a rel=help href="https://github.com/sidekiq/sidekiq/wiki">docs</a></p>
+          </li>
+          <li>
+            <form id="locale-form" class="form-inline" action="<%= root_path %>change_locale" method="post">
+              <%= csrf_tag %>
+              <label class="sr-only" for="locale">Language</label>
+              <select id="locale-select" class="form-control" name="locale">
+                <% available_locales.each do |locale_option| %>
+                  <% if locale_option == locale %>
+                    <option selected value="<%= locale_option %>"><%= locale_option %></option>
+                  <% else %>
+                    <option value="<%= locale_option %>"><%= locale_option %></option>
+                  <% end %>
+                <% end %>
+              </select>
+            </form>
+          </li>
+        </ul>
+    </div>
+  </div>
+</div>

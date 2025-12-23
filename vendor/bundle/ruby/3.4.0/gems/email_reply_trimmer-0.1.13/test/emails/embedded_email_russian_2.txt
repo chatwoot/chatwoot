@@ -1,0 +1,26 @@
+Yes.
+
+20 окт. 2016 г. 19:37 пользователь "Rafael dos Santos Silva" <
+meta@discoursemail.com> написал:
+
+> Falco <https://meta.discourse.org/users/falco> Rafael dos Santos Silva
+> <https://meta.discourse.org/users/falco> team
+> October 20
+>
+> Are you using our official docker install?
+>
+> If you are, try a rebuild:
+>
+> ssh root@server
+> cd /var/discourse
+> ./launcher rebuild app
+>
+> ------------------------------
+>
+> Visit Topic <https://meta.discourse.org/t/error-upgrading/51797/2> or
+> reply to this email to respond.
+>
+> To unsubscribe from these emails, click here
+> <https://meta.discourse.org/email/unsubscribe/184ce11578cd0abaddcb6e7460708971afed7278523347d3184a421229d87d08>
+> .
+>

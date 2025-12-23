@@ -1,0 +1,75 @@
+# elements like %{queue} are variables and should not be translated
+hi:
+  Actions: कार्रवाई
+  AddToQueue: कतार मे जोड़ें
+  AreYouSure: क्या आपको यकीन है?
+  AreYouSureDeleteJob: क्या आप इस कार्य को हटाना चाहते है?
+  AreYouSureDeleteQueue: क्या आप %{queue} कतार को हटाना चाहते है?
+  Arguments: अर्गुमेन्ट्स्
+  Busy: व्यस्थ
+  Class: क्लास
+  Connections: कनेक्श्न
+  CurrentMessagesInQueue: <span class='title'>%{queue}</span> कतार मे वर्तमान कार्य
+  Dashboard: डैशबोर्ड
+  Dead: निष्प्राण
+  DeadJobs: निष्प्राण कार्य
+  Delete: हटाओ
+  DeleteAll: सब हटाओ
+  Enqueued: कतारबद्ध
+  Error: एरर
+  ErrorBacktrace: एरर बैकट्रेस
+  ErrorClass: एरर क्लास
+  ErrorMessage: एरर संदेश
+  Extras: अतिरिक्त
+  Failed: असफल
+  Failures: असफलता
+  GoBack: ← पीछे
+  History: वृत्तान्त
+  Job: कार्य
+  Jobs: कार्य
+  Kill: नष्ट करे
+  LastRetry: अंतिम पुन:प्रयास
+  LivePoll: लाईव सर्वेक्षण
+  MemoryUsage: मेमरी उपयोग
+  Namespace: नामस्थान
+  NextRetry: अगला पुन:प्रयास
+  NoDeadJobsFound: कोई निष्प्राण कार्य नही पाए गए
+  NoRetriesFound: कोई पुनर्प्रयास नही पाए गए
+  NoScheduledFound: कोई परिगणित कार्य नही पाए गए
+  OneMonth: १ महीना
+  OneWeek: १ सप्ताह
+  OriginallyFailed: पहिले से विफल
+  Paused: थमे हुए
+  PeakMemoryUsage: अधिकतम मेमरी उपयोग
+  PollingInterval: सर्वेक्षण अंतराल
+  Processed: कार्रवाई कृत
+  Processes: प्रोसेसेस्
+  Queue: कतार
+  Queues: कतारे
+  Quiet: शांत करो
+  QuietAll: सब शांत करो
+  Realtime: रिअल टाईम
+  Retries: पुनर्प्रयास
+  RetryAll: सब पुन:प्रयास करे
+  RetryCount: पुन:प्रयास संख्या
+  RetryNow: पुन:प्रयास करे
+  Scheduled: परिगणित
+  ScheduledJobs: परिगणित कार्य
+  ShowAll: सब दिखाएं
+  SixMonths: ६ महीने
+  Size: आकार
+  Started: शुरु हुआ
+  Status: स्थिती
+  Stop: रोको
+  StopAll: सब रोको
+  StopPolling: सर्वेक्षण रोको
+  Thread: थ्रेड
+  Threads: थ्रेड्स्
+  ThreeMonths: ३ महीने
+  Time: समय
+  Uptime: उपरिकाल (दिवस)
+  Version: वर्जन
+  When: कब
+  Worker: वर्कर
+  active: सक्रिय
+  idle: निष्क्रिय

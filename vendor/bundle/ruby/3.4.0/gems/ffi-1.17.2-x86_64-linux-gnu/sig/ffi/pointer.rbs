@@ -1,0 +1,42 @@
+module FFI
+  type pointer = Pointer::_ToPtr? | Integer
+  class Pointer < AbstractMemory
+    interface _ToPtr
+      def to_ptr: () -> Pointer
+    end
+    include _ToPtr
+
+    SIZE: Integer
+    NULL: Pointer
+    def self.size: () -> Integer
+
+    def initialize: (?AbstractMemory::type_size type, (Pointer | Integer) address) -> void
+    def +: (Integer offset) -> Pointer
+    def ==: (Pointer? other) -> bool
+    def address: () -> Integer
+    alias to_i address
+    def autorelease?: () -> bool
+    def autorelease=: (boolish autorelease) -> boolish
+    def free: () -> self
+    def inspect: ...
+    def null?: () -> bool
+    def order: () -> AbstractMemory::order_out
+             | (AbstractMemory::order_in) -> Pointer
+    def read: (ffi_type type) -> top
+    def read_array_of_type: (ffi_auto_type type, Symbol reader, Integer length) -> Array[top]
+    def read_string: (?Integer? len) -> String
+    def read_string_length: (Integer len) -> String
+    def read_string_to_null: () -> String
+    def slice: (Integer offset, Integer length) -> Pointer
+    def type_size: () -> Integer
+    def write: (ffi_type type, top value) -> nil
+    def write_array_of_type: (ffi_auto_type type, Symbol writer, Array[top]) -> self
+    def write_string: (String str, ?Integer? len) -> self
+    def write_string_length: (String str, Integer len) -> self
+  end
+
+  class MemoryPointer < Pointer
+    def initialize: (AbstractMemory::type_size size, ?Integer count, ?boolish clear) -> self
+    def self.from_string: (String s) -> instance
+  end
+end

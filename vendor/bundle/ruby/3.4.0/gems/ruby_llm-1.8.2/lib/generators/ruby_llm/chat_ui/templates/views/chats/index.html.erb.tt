@@ -1,0 +1,16 @@
+<p style="color: green"><%%= notice %></p>
+
+<%% content_for :title, "<%= chat_model_name.pluralize %>" %>
+
+<h1><%= chat_model_name.pluralize %></h1>
+
+<div id="<%= chat_table_name %>">
+  <%% @<%= chat_table_name %>.each do |<%= chat_variable_name %>| %>
+    <%%= render <%= chat_variable_name %> %>
+    <p>
+      <%%= link_to "Show this <%= chat_table_name.singularize.humanize.downcase %>", <%= chat_variable_name %> %>
+    </p>
+  <%% end %>
+</div>
+
+<%%= link_to "New <%= chat_table_name.singularize.humanize.downcase %>", new_<%= chat_variable_name %>_path %>

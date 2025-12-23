@@ -1,0 +1,30 @@
+---
+ar:
+  administrate:
+    actions:
+      confirm: "هل أنت متأكد ؟"
+      destroy: "حذف"
+      edit: "تعديل"
+      edit_resource: "تعديل %{name}"
+      show_resource: "إظهار %{name}"
+      new_resource: "جديد  %{name}"
+      back: "الى الخلف"
+    controller:
+      create:
+        success: ".بنجاح %{resource} لقد تم إنشاء"
+      destroy:
+        success: ".بنجاح %{resource} لقد تم حذف"
+      update:
+        success: ".بنجاح %{resource} لقد تم تحديث"
+    fields:
+      has_many:
+        more: إظهار %{count} من %{total_count}
+        none: "لا يوجد"
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: العودة إلى التطبيق
+    search:
+      clear: مسح البحث
+      label: بحث %{resource}

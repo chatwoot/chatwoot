@@ -1,0 +1,129 @@
+#!/usr/bin/env ruby
+require 'optparse'
+require 'stackprof'
+
+banner = <<-END
+Usage: stackprof run [--mode=MODE|--out=FILE|--interval=INTERVAL|--format=FORMAT] -- COMMAND
+Usage: stackprof [file.dump]+ [--text|--method=NAME|--callgrind|--graphviz]
+END
+
+if ARGV.first == "run"
+  ARGV.shift
+  env = {}
+  parser = OptionParser.new(banner) do |o|
+    o.on('--mode [MODE]', String, 'Mode of sampling: cpu, wall, object, default to wall') do |mode|
+      env["STACKPROF_MODE"] = mode
+    end
+
+    o.on('--out [FILENAME]', String, 'The target file, which will be overwritten. Defaults to a random temporary file') do |out|
+      env['STACKPROF_OUT'] = out
+    end
+
+    o.on('--interval [MILLISECONDS]', Integer, 'Mode-relative sample rate') do |interval|
+      env['STACKPROF_INTERVAL'] = interval.to_s
+    end
+
+    o.on('--raw', 'collects the extra data required by the --flamegraph and --stackcollapse report types') do |raw|
+      env['STACKPROF_RAW'] = raw.to_s
+    end
+
+    o.on('--ignore-gc', 'Ignore garbage collection frames') do |gc|
+      env['STACKPROF_IGNORE_GC'] = gc.to_s
+    end
+  end
+  parser.parse!
+  parser.abort(parser.help) if ARGV.empty?
+  stackprof_path = File.expand_path('../lib', __dir__)
+  env['RUBYOPT'] = "-I #{stackprof_path} -r stackprof/autorun #{ENV['RUBYOPT']}"
+  Kernel.exec(env, *ARGV)
+else
+  options = {}
+
+  parser = OptionParser.new(banner) do |o|
+    o.on('--text', 'Text summary per method (default)'){ options[:format] = :text }
+    o.on('--json', 'JSON output (use with web viewers)'){ options[:format] = :json }
+    o.on('--files', 'List of files'){ |f| options[:format] = :files }
+    o.on('--limit [num]', Integer, 'Limit --text, --files, or --graphviz output to N entries'){ |n| options[:limit] = n }
+    o.on('--sort-total', "Sort --text or --files output on total samples\n\n"){ options[:sort] = true }
+    o.on('--method [grep]', 'Zoom into specified method'){ |f| options[:format] = :method; options[:filter] = f }
+    o.on('--file [grep]', "Show annotated code for specified file"){ |f| options[:format] = :file; options[:filter] = f }
+    o.on('--walk', "Walk the stacktrace interactively\n\n"){ |f| options[:walk] = true }
+    o.on('--callgrind', 'Callgrind output (use with kcachegrind, stackprof-gprof2dot.py)'){ options[:format] = :callgrind }
+    o.on('--graphviz', "Graphviz output (use with dot)"){ options[:format] = :graphviz }
+    o.on('--node-fraction [frac]', OptionParser::DecimalNumeric, 'Drop nodes representing less than [frac] fraction of samples'){ |n| options[:node_fraction] = n }
+    o.on('--stackcollapse', 'stackcollapse.pl compatible output (use with stackprof-flamegraph.pl)'){ options[:format] = :stackcollapse }
+    o.on('--timeline-flamegraph', "timeline-flamegraph output (js)"){ options[:format] = :timeline_flamegraph }
+    o.on('--alphabetical-flamegraph', "alphabetical-flamegraph output (js)"){ options[:format] = :alphabetical_flamegraph }
+    o.on('--flamegraph', "alias to --timeline-flamegraph"){ options[:format] = :timeline_flamegraph }
+    o.on('--flamegraph-viewer [f.js]', String, "open html viewer for flamegraph output"){ |file|
+      puts("open file://#{File.expand_path('../../lib/stackprof/flamegraph/viewer.html', __FILE__)}?data=#{File.expand_path(file)}")
+      exit
+    }
+    o.on('--d3-flamegraph', "flamegraph output (html using d3-flame-graph)\n\n"){ options[:format] = :d3_flamegraph }
+    o.on('--select-files []', String, 'Show results of matching files'){ |path| (options[:select_files] ||= []) << File.expand_path(path) }
+    o.on('--reject-files []', String, 'Exclude results of matching files'){ |path| (options[:reject_files] ||= []) << File.expand_path(path) }
+    o.on('--select-names []', Regexp, 'Show results of matching method names'){ |regexp| (options[:select_names] ||= []) << regexp }
+    o.on('--reject-names []', Regexp, 'Exclude results of matching method names'){ |regexp| (options[:reject_names] ||= []) << regexp }
+    o.on('--dump', 'Print marshaled profile dump (combine multiple profiles)'){ options[:format] = :dump }
+    o.on('--debug', 'Pretty print raw profile data'){ options[:format] = :debug }
+  end
+
+  parser.parse!
+  parser.abort(parser.help) if ARGV.empty?
+
+  reports = []
+  while ARGV.size > 0
+    begin
+      file = ARGV.pop
+      reports << StackProf::Report.from_file(file)
+    rescue TypeError => e
+      STDERR.puts "** error parsing #{file}: #{e.inspect}"
+    end
+  end
+  report = reports.inject(:+)
+
+  default_options = {
+    :format => :text,
+    :sort => false,
+    :limit => 30
+  }
+
+  if options[:format] == :graphviz
+    default_options[:limit] = 120
+    default_options[:node_fraction] = 0.005
+  end
+
+  options = default_options.merge(options)
+  options.delete(:limit) if options[:limit] == 0
+
+  case options[:format]
+  when :text
+    report.print_text(options[:sort], options[:limit], options[:select_files], options[:reject_files], options[:select_names], options[:reject_names])
+  when :json
+    report.print_json
+  when :debug
+    report.print_debug
+  when :dump
+    report.print_dump
+  when :callgrind
+    report.print_callgrind
+  when :graphviz
+    report.print_graphviz(options)
+  when :stackcollapse
+    report.print_stackcollapse
+  when :timeline_flamegraph
+    report.print_timeline_flamegraph
+  when :alphabetical_flamegraph
+    report.print_alphabetical_flamegraph
+  when :d3_flamegraph
+    report.print_d3_flamegraph
+  when :method
+    options[:walk] ? report.walk_method(options[:filter]) : report.print_method(options[:filter])
+  when :file
+    report.print_file(options[:filter])
+  when :files
+    report.print_files(options[:sort], options[:limit])
+  else
+    raise ArgumentError, "unknown format: #{options[:format]}"
+  end
+end

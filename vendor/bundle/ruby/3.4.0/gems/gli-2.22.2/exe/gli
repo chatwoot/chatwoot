@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+
+require 'gli'
+require 'gli/commands/scaffold'
+
+class App
+  extend GLI::App
+
+  program_desc 'create scaffolding for a GLI-powered application'
+
+  version GLI::VERSION
+
+  # Can't use these without changing the current behavior of gli
+  # arguments :strict
+  # subcommand_option_handling :normal
+
+  switch :v, :desc => 'Be verbose'
+
+  switch :n, :desc => 'Dry run; don''t change the disk'
+
+  desc 'Root dir of project'
+long_desc <<EOS
+  This is the directory where the project''s directory will be made, so if you
+  specify a project name ''foo'' and the root dir of ''.'', the directory
+  ''./foo'' will be created'
+EOS
+
+  flag :r,:root, :default_value => '.'
+
+  desc 'Create a new GLI-based project'
+long_desc <<EOS
+  This will create a scaffold command line project that uses GLI
+  for command line processing.  Specifically, this will create
+  an executable ready to go, as well as a lib and test directory, all
+  inside the directory named for your project
+EOS
+  arg :project_name
+  arg :command_name, [:optional, :multiple]
+  arg_name "project_name [command_name]..."
+  command [:init,:scaffold] do |c|
+
+    c.switch :e,:ext, :desc => 'Create an ext dir'
+
+    c.switch :notest, :desc => 'Do not create a test or features dir', :negatable => false
+
+    c.switch :force, :desc => 'Overwrite/ignore existing files and directories'
+
+    c.switch :rvmrc, :desc => 'Create an .rvmrc based on your current RVM setup'
+
+    c.action do |g,o,args|
+      if args.length < 1
+        raise 'You must specify the name of your project'
+      end
+      GLI::Commands::Scaffold.create_scaffold(g[:r],!o[:notest],o[:e],args[0],args[1..-1],o[:force],g[:n],o[:rvmrc])
+    end
+  end
+
+  pre do |global,command,options,args|
+    puts "Executing #{command.name}" if global[:v]
+    true
+  end
+
+  post do |global,command,options,args|
+    puts "Executed #{command.name}" if global[:v]
+  end
+end
+
+exit App.run(ARGV)

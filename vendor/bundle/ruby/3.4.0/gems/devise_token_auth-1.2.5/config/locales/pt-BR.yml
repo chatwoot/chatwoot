@@ -1,0 +1,48 @@
+pt-BR:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Uma mensagem com um link de confirmação foi enviado para seu endereço de e-mail. Você precisa confirmar sua conta antes de continuar."
+      bad_credentials: "E-mail ou senha inválidos."
+      not_supported: "Use POST /sign_in para efetuar o login. GET não é suportado."
+      user_not_found: "Usuário não existe ou não está logado."
+    token_validations:
+      invalid: "Dados de login inválidos."
+    registrations:
+      missing_confirm_success_url: "Parâmetro 'confirm_success_url' não informado."
+      redirect_url_not_allowed: "Redirecionamento para '%{redirect_url}' não permitido."
+      email_already_exists: "Já existe uma conta com o email '%{email}'."
+      account_with_uid_destroyed: "A conta com uid '%{uid}' foi excluída."
+      account_to_destroy_not_found: "Não foi possível encontrar a conta para exclusão."
+      user_not_found: "Usuário não encontrado."
+    omniauth:
+      not_allowed_redirect_url: "Redirecionamento para '%{redirect_url}' não permitido."
+    passwords:
+      missing_email: "Informe o endereço de e-mail."
+      missing_redirect_url: "URL para redirecionamento não informada."
+      not_allowed_redirect_url: "Redirecionamento para '%{redirect_url}' não permitido."
+      sended: "Você receberá um e-mail com instruções sobre como redefinir sua senha."
+      user_not_found: "Não existe um usuário com o e-mail '%{email}'."
+      password_not_required: "Esta conta não necessita de uma senha. Faça login utilizando '%{provider}'."
+      missing_passwords: 'Preencha a senha e a confirmação de senha.'
+      successfully_updated: "Senha atualizada com sucesso."
+  errors:
+    messages:
+      validate_sign_up_params: "Os dados submetidos na requisição de cadastro são inválidos."
+      validate_account_update_params: "Os dados submetidos para atualização de conta são inválidos."
+      not_email: "não é um e-mail"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Você pode confirmar a sua conta de e-mail através do link abaixo :"
+        confirm_account_link: "Confirme conta"
+      reset_password_instructions:
+        request_reset_link_msg: "Alguém pediu um link para mudar sua senha. Você pode fazer isso através do link abaixo "
+        password_change_link: "Alterar a senha"
+        ignore_mail_msg: "Se você não pediu isso, por favor, ignore este e-mail."
+        no_changes_msg: "Sua senha não será alterada até que você acessar o link acima e criar um novo."
+      unlock_instructions:
+        account_lock_msg: "A sua conta foi bloqueada devido a um número excessivo de sinal de sucesso em tentativas."
+        unlock_link_msg: "Clique no link abaixo para desbloquear sua conta:"
+        unlock_link: "Desbloquear minha conta"
+  hello: "olá"
+  welcome: "bem-vindo"

@@ -1,0 +1,46 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://en.wikipedia.org/wiki/+20 [439782121]
+# with spelling changes for Qunea -> Qena and Damiette -> Damietta.
+
+2013|Banha
+2015|10th of Ramadan
+202|Cairo/Giza/Qalyubia
+203|Alexandria
+2040|Tanta
+2045|Damanhur
+2046|Marsa Matruh
+2047|Kafr El-Sheikh
+2048|Monufia
+2050|Mansoura
+2055|Zagazig
+20554|10th of Ramadan
+2057|Damietta
+2062|Suez
+2064|Ismailia
+2065|Red Sea
+2066|Port Said
+2068|El-Arish
+2069|El-Tor
+2082|Beni Suef
+2084|Fayoum
+2086|Minia
+2088|Assiout
+2092|Wadi El-Gedid
+2093|Sohag
+2095|Luxor
+2096|Qena
+2097|Aswan

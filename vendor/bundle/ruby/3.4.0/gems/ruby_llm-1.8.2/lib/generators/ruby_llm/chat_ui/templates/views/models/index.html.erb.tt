@@ -1,0 +1,28 @@
+<p style="color: green"><%%= notice %></p>
+
+<%% content_for :title, "<%= model_model_name.pluralize %>" %>
+
+<h1><%= model_model_name.pluralize %></h1>
+
+<p>
+  <%%= button_to "Refresh <%= model_model_name.pluralize %>", refresh_<%= model_table_name %>_path, method: :post %>
+</p>
+
+<div id="<%= model_table_name %>">
+  <table>
+    <thead>
+      <tr>
+        <th>Provider</th>
+        <th>Model</th>
+        <th>Context Window</th>
+        <th>$/1M tokens (In/Out)</th>
+        <th colspan="2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%%= render @<%= model_variable_name.pluralize %> %>
+    </tbody>
+  </table>
+</div>
+
+<%%= link_to "Back to <%= chat_table_name.humanize.downcase %>", <%= chat_table_name %>_path %>

@@ -1,0 +1,48 @@
+zh-CN:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "您将在几分钟后收到一封电子邮件'%{email}',内有验证账号的步骤说明"
+      bad_credentials: "不正确的登录信息，请重试"
+      not_supported: "请使用 POST /sign_in 进行登录. GET 是不支持的."
+      user_not_found: "没有找到账号或没有成功登录"
+    token_validations:
+      invalid: "不正确的登录资料"
+    registrations:
+      missing_confirm_success_url: "缺少数据 'confirm_success_url'"
+      redirect_url_not_allowed: "不支持转向到 '%{redirect_url}'"
+      email_already_exists: "邮箱'%{email}'已被使用"
+      account_with_uid_destroyed: "账号 '%{uid}' 已被移除。"
+      account_to_destroy_not_found: "无法找到目标帐号。"
+      user_not_found: "找不到帐号。"
+    omniauth:
+      not_allowed_redirect_url: "不支持转向到 '%{redirect_url}'"
+    passwords:
+      missing_email: "必需提供邮箱。"
+      missing_redirect_url: "欠缺 redirect URL."
+      not_allowed_redirect_url: "不支持转向到 '%{redirect_url}'"
+      sended: "您将在几分钟后收到一封电子邮件'%{email}，内含可重新设定密码的链接。"
+      user_not_found: "找不到帐号 '%{email}'。"
+      password_not_required: "这不是一个需要密码的帐号. 请使用 '%{provider}' 进行登入"
+      missing_passwords: "必需填写'密码'与'确认密码'。"
+      successfully_updated: "您的密码已被修改。"
+  errors:
+    messages:
+      validate_sign_up_params: "请在request body中填入有效的注册内容"
+      validate_account_update_params: "请在request body中填入有效的更新帐号资料"
+      not_email: "这不是一个合适的邮箱。"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "可以使用下面的链接确定你的邮箱"
+        confirm_account_link: "确定你的帐号"
+      reset_password_instructions:
+        request_reset_link_msg: "已申请修改您的密码，你可以用下面的链接进入"
+        password_change_link: "修改我的密码"
+        ignore_mail_msg: "如你没有申请，请忽略"
+        no_changes_msg: "在你点击上面链接前，你的密码都没有改变"
+      unlock_instructions:
+        account_lock_msg: "由于多次登入失败，我们已锁定你的帐号"
+        unlock_link_msg: "可以使用下面的链接解锁你的帐号"
+        unlock_link: "解锁帐号"
+  hello: "你好"
+  welcome: "欢迎"

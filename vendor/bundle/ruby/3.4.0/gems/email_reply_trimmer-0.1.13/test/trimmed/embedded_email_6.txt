@@ -1,0 +1,7 @@
+Ensuring that ON_DATE_SOMEONE_WROTE_REGEXES is not greedy.
+
+On this day
+
+I wrote something
+
+which was very interesting.

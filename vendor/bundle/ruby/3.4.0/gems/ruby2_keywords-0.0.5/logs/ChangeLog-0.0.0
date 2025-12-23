@@ -1,0 +1,25 @@
+-*- coding: utf-8 -*-
+
+commit 33787f35f09e26f4c1ca716fafc81144d5d21333
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2019-10-22 23:57:24 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2019-10-22 23:57:24 +0900
+
+    Added readme to files in gemspec
+
+commit 53b25f66cffa09e2c2b6730fd49241bb359f33db
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2019-10-22 23:55:26 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2019-10-22 23:55:26 +0900
+
+    authors may not be empty
+
+commit 6e6756bfa47bcf15ecc10ce07237886339edc415
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2019-10-17 00:18:01 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2019-10-17 00:18:01 +0900
+
+    Initial version

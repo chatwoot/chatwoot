@@ -1,0 +1,68 @@
+# elements like %{queue} are variables and should not be translated
+nl:
+  Actions: Acties
+  AddToQueue: Toevoegen aan wachtrij
+  AreYouSure: Weet u het zeker?
+  AreYouSureDeleteJob: Weet u zeker dat u deze taak wilt verwijderen?
+  AreYouSureDeleteQueue: Weet u zeker dat u wachtrij %{queue} wilt verwijderen?
+  Arguments: Argumenten
+  Busy: Bezet
+  Class: Klasse
+  Connections: Verbindingen
+  CurrentMessagesInQueue: Aantal berichten in <span class='title'>%{queue}</span>
+  Dashboard: Dashboard
+  Dead: Overleden
+  DeadJobs: Overleden taken
+  Delete: Verwijderen
+  DeleteAll: Alle verwijderen
+  Enqueued: In de wachtrij
+  Error: Fout
+  ErrorBacktrace: Fout Backtrace
+  ErrorClass: Fout Klasse
+  ErrorMessage: Foutmelding
+  Extras: Extra's
+  Failed: Mislukt
+  Failures: Mislukt
+  GoBack: ← Terug
+  History: Geschiedenis
+  Job: Taak
+  Jobs: Taken
+  LastRetry: Laatste poging
+  LivePoll: Live bijwerken
+  MemoryUsage: Geheugengebruik
+  Namespace: Namespace
+  NextRetry: Volgende opnieuw proberen
+  NoDeadJobsFound: Geen overleden taken gevonden
+  NoRetriesFound: Geen opnieuw te proberen taken gevonden
+  NoScheduledFound: Geen geplande taken gevonden
+  OneMonth: 1 maand
+  OneWeek: 1 week
+  OriginallyFailed: Oorspronkelijk mislukt
+  PeakMemoryUsage: Piek geheugengebruik
+  Processed: Verwerkt
+  Processes: Processen
+  Queue: Wachtrij
+  Queues: Wachtrijen
+  Realtime: Real-time
+  Retries: Opnieuw proberen
+  RetryAll: Alle opnieuw proberen
+  RetryCount: Aantal opnieuw geprobeerd
+  RetryNow: Nu opnieuw proberen
+  Scheduled: Gepland
+  ScheduledJobs: Geplande taken
+  ShowAll: Toon alle
+  SixMonths: 6 maanden
+  Size: Grootte
+  Started: Gestart
+  Status: Status
+  StopPolling: Stop live bijwerken
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 maanden
+  Time: Tijd
+  Uptime: Looptijd (dagen)
+  Version: Versie
+  When: Wanneer
+  Worker: Werker
+  active: actief
+  idle: inactief

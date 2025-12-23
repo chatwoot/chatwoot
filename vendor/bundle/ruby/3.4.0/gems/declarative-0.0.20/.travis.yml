@@ -1,0 +1,12 @@
+language: ruby
+before_install: gem install bundler
+cache: bundler
+rvm:
+  - ruby-head
+  - 2.7
+  - 2.6
+  - 2.5
+  - 2.4
+jobs:
+  allow_failures:
+    - rvm: ruby-head

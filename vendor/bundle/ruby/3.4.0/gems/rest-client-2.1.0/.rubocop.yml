@@ -1,0 +1,8 @@
+---
+inherit_from:
+- .rubocop-disables.yml
+
+AllCops:
+  Exclude:
+    - 'tmp/*.rb'
+    - 'vendor/**/*'

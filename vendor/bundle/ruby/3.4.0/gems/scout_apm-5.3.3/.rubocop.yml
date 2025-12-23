@@ -1,0 +1,13 @@
+# Disable all cops by default
+AllCops:
+  DisabledByDefault: true
+  Exclude:
+    - 'test/unit/auto_instrument/*'
+    - vendor/bundle/**/*
+  SuggestExtensions: false
+
+# 80 is stifling, especially with a few levels of nesting before we even start.
+# So bump it to 100 to keep really long lines from creeping in.
+Layout/LineLength:
+  Enabled: false
+  Max: 100

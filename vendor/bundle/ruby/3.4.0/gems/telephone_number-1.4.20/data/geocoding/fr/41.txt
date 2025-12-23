@@ -1,0 +1,37 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.bakom.admin.ch/themen/telekom/00479/00604/index.html?lang=fr [2009-11-06]
+
+4121|Lausanne
+4122|Genève
+4124|Yverdon/Aigle
+4126|Fribourg
+4127|Sion
+4131|Berne
+4132|Bienne/Neuchâtel/Soleure/Jura
+4133|Thoune
+4134|Burgdorf/Langnau i.E.
+4141|Lucerne
+4143|Zurich
+4144|Zurich
+4152|Winterthour
+4155|Rapperswil
+4156|Baden
+4161|Bâle
+4162|Olten
+4171|St. Gall
+4181|Coire
+4191|Bellinzona

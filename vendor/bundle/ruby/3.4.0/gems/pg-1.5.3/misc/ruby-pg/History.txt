@@ -1,0 +1,9 @@
+== v0.8.0 [2012-02-09] Michael Granger <ged@FaerieMUD.org>
+
+This placeholder version.
+
+
+== v0.7.9.2008.01.28 [2008-01-28] Jeff Davis <<ruby-pg@j-davis.com>>
+
+The last actual version.
+

@@ -1,0 +1,46 @@
+====== Option +converters+
+
+Specifies converters to be used in parsing fields.
+See {Field Converters}[#class-CSV-label-Field+Converters]
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:converters) # => nil
+
+The value may be a field converter name
+(see {Stored Converters}[#class-CSV-label-Stored+Converters]):
+  str = '1,2,3'
+  # Without a converter
+  array = CSV.parse_line(str)
+  array # => ["1", "2", "3"]
+  # With built-in converter :integer
+  array = CSV.parse_line(str, converters: :integer)
+  array # => [1, 2, 3]
+
+The value may be a converter list
+(see {Converter Lists}[#class-CSV-label-Converter+Lists]):
+  str = '1,3.14159'
+  # Without converters
+  array = CSV.parse_line(str)
+  array # => ["1", "3.14159"]
+  # With built-in converters
+  array = CSV.parse_line(str, converters: [:integer, :float])
+  array # => [1, 3.14159]
+
+The value may be a \Proc custom converter:
+(see {Custom Field Converters}[#class-CSV-label-Custom+Field+Converters]):
+  str = ' foo  ,  bar  ,  baz  '
+  # Without a converter
+  array = CSV.parse_line(str)
+  array # => [" foo  ", "  bar  ", "  baz  "]
+  # With a custom converter
+  array = CSV.parse_line(str, converters: proc {|field| field.strip })
+  array # => ["foo", "bar", "baz"]
+
+See also {Custom Field Converters}[#class-CSV-label-Custom+Field+Converters]
+
+---
+
+Raises an exception if the converter is not a converter name or a \Proc:
+  str = 'foo,0'
+  # Raises NoMethodError (undefined method `arity' for nil:NilClass)
+  CSV.parse(str, converters: :foo)

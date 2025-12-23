@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require_relative '../lib/tilt/cli'
+
+exit Tilt::CLI.run

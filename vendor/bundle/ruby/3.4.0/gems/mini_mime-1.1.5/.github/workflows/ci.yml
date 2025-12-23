@@ -1,0 +1,51 @@
+name: Mini Mime Tests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}-latest
+    name: "Ruby ${{ matrix.ruby }} / ${{ matrix.os }} / Failure allowed: ${{ matrix.experimental }}"
+    continue-on-error: ${{ matrix.experimental }}
+    timeout-minutes: 5
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu"]
+        ruby: ["2.6", "2.7", "3.0", "3.1", "3.2"]
+        experimental: [false]
+        include:
+          - ruby: "3.2"
+            os: "windows"
+            experimental: false
+          - ruby: "ruby-head"
+            os: "ubuntu"
+            experimental: true
+          - ruby: "truffleruby-head"
+            os: "ubuntu"
+            experimental: true
+          - ruby: "jruby-head"
+            os: "ubuntu"
+            experimental: true
+          - ruby: "jruby-9.3.9.0"
+            os: "ubuntu"
+            experimental: true
+          - ruby: "jruby-9.4.0.0"
+            os: "ubuntu"
+            experimental: true
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Rubocop
+        run: bundle exec rubocop
+        if: "!contains(matrix.ruby, 'jruby')"
+      - name: Tests
+        run: bundle exec rake test

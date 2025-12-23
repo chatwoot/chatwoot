@@ -1,0 +1,8 @@
+ja:
+  faker:
+    games:
+      super_smash_bros:
+        fighter:
+          - ソラ
+        stage:
+          - ホロウバスティオン

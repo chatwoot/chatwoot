@@ -1,0 +1,86 @@
+{
+  "residential": [
+    {
+      "id": "basic-cable",
+      "name": "Basic Cable",
+      "speed_down": "100 Mbps",
+      "speed_up": "10 Mbps",
+      "price": 39.99,
+      "data_limit": "1TB",
+      "features": ["Cable TV included", "Basic support"],
+      "available": true
+    },
+    {
+      "id": "standard-internet",
+      "name": "Standard Internet",
+      "speed_down": "200 Mbps",
+      "speed_up": "20 Mbps",
+      "price": 59.99,
+      "data_limit": "unlimited",
+      "features": ["No data caps", "24/7 support"],
+      "available": true
+    },
+    {
+      "id": "premium-fiber",
+      "name": "Premium Fiber",
+      "speed_down": "1000 Mbps",
+      "speed_up": "500 Mbps",
+      "price": 79.99,
+      "data_limit": "unlimited",
+      "features": ["Fiber optic", "Priority support", "Static IP option"],
+      "available": true
+    },
+    {
+      "id": "ultra-fiber",
+      "name": "Ultra Fiber",
+      "speed_down": "2000 Mbps",
+      "speed_up": "1000 Mbps",
+      "price": 99.99,
+      "data_limit": "unlimited",
+      "features": ["Ultra-fast fiber", "Premium support", "Free installation"],
+      "available": true
+    }
+  ],
+  "business": [
+    {
+      "id": "business-starter",
+      "name": "Business Starter",
+      "speed_down": "200 Mbps",
+      "speed_up": "50 Mbps",
+      "price": 89.99,
+      "data_limit": "unlimited",
+      "features": ["Business support", "Static IP", "99.5% SLA"],
+      "available": true
+    },
+    {
+      "id": "business-pro",
+      "name": "Business Pro",
+      "speed_down": "500 Mbps",
+      "speed_up": "500 Mbps",
+      "price": 129.99,
+      "data_limit": "unlimited",
+      "features": [
+        "Symmetric speeds",
+        "Priority support",
+        "99.9% SLA",
+        "Dedicated account manager"
+      ],
+      "available": true
+    },
+    {
+      "id": "enterprise",
+      "name": "Enterprise",
+      "speed_down": "1000 Mbps",
+      "speed_up": "1000 Mbps",
+      "price": 199.99,
+      "data_limit": "unlimited",
+      "features": [
+        "Enterprise-grade",
+        "24/7 premium support",
+        "99.99% SLA",
+        "Custom solutions"
+      ],
+      "available": true
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+<header class="row">
+  <div class="span col-sm-5 pull-left">
+    <h3>
+      <%= "#{t('Cron')} #{t('Job')}" %>
+      <small><%= @job.name %></small>
+    </h3>
+  </div>
+  <div class="span col-sm-7 pull-right" style="margin-top: 20px; margin-bottom: 10px;">
+    <% cron_job_path = "#{root_path}cron/#{CGI.escape(@job.name).gsub('+', '%20')}" %>
+    <form action="<%= cron_job_path %>/enque?redirect=<%= cron_job_path %>" method="post">
+      <%= csrf_tag if respond_to?(:csrf_tag) %>
+      <input class="btn btn-warn pull-left" name="enque" type="submit" value="<%= t('EnqueueNow') %>" data-confirm="<%= t('AreYouSureEnqueueCronJob', :job => @job.name) %>" />
+    </form>
+    <% if @job.status == 'enabled' %>
+      <form action="<%= cron_job_path %>/disable?redirect=<%= cron_job_path %>" method="post">
+        <%= csrf_tag if respond_to?(:csrf_tag) %>
+        <input class="btn btn-warn pull-left" name="disable" type="submit" value="<%= t('Disable') %>" />
+      </form>
+    <% else %>
+      <form action="<%= cron_job_path %>/enable?redirect=<%= cron_job_path %>" method="post">
+        <%= csrf_tag if respond_to?(:csrf_tag) %>
+        <input class="btn btn-warn pull-left" name="enable" type="submit" value="<%= t('Enable') %>" />
+      </form>
+      <form action="<%= cron_job_path %>/delete" method="post">
+        <%= csrf_tag if respond_to?(:csrf_tag) %>
+        <input class="btn btn-danger" data-confirm="<%= t('AreYouSureDeleteCronJob', :job => @job.name) %>" name="delete" type="submit" value="<%= t('Delete') %>" />
+      </form>
+    <% end %>
+  </div>
+</header>
+
+<table class="table table-bordered table-striped">
+  <tbody>
+  <tr>
+    <th><%= t 'Status' %></th>
+    <td><%= @job.status %></td>
+  </tr>
+  <tr>
+    <th><%= t 'Name' %></th>
+    <td><%= @job.name %></td>
+  </tr>
+  <tr>
+    <th><%= t 'Description' %></th>
+    <td><%= @job.description %></td>
+  </tr>
+  <tr>
+    <th><%= t 'Message' %></th>
+    <td><pre><%= @job.pretty_message %></pre></td>
+  </tr>
+  <tr>
+    <th><%= t 'Cron' %></th>
+    <td><%= @job.cron.gsub(" ", "&nbsp;") %></td>
+  </tr>
+  <tr>
+    <th><%= t 'Last enqueued' %></th>
+    <td><%= @job.last_enqueue_time ? relative_time(@job.last_enqueue_time) : "-" %></td>
+  </tr>
+  </tbody>
+</table>
+
+<header class="row">
+  <div class="col-sm-12">
+    <h4>
+      <%= t 'History' %>
+    </h4>
+  </div>
+</header>
+
+<% if @job.jid_history_from_redis.size > 0 %>
+  <table class="table table-hover table-bordered table-striped">
+    <thead>
+    <tr>
+      <th><%= t 'Enqueued' %></th>
+      <th><%= t 'JID' %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @job.jid_history_from_redis.each do |jid_history| %>
+      <tr>
+        <td><%= jid_history['enqueued'] %></td>
+        <td><%= jid_history['jid'] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class='alert alert-success'><%= t 'NoHistoryWereFound' %></div>
+<% end %>

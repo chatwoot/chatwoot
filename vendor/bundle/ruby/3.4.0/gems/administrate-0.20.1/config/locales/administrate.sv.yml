@@ -1,0 +1,30 @@
+---
+sv:
+  administrate:
+    actions:
+      confirm: Är du säker?
+      destroy: Ta bort
+      edit: Ändra
+      edit_resource: Ändra %{name}
+      show_resource: Visa %{name}
+      new_resource: Ny %{name}
+      back: Tillbaka
+    controller:
+      create:
+        success: "%{resource} har skapats."
+      destroy:
+        success: "%{resource} har tagits bort."
+      update:
+        success: "%{resource} har uppdaterats."
+    fields:
+      has_many:
+        more: "%{count} av %{total_count}"
+        none: Inga
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: Tillbaka till appen
+    search:
+      clear: Rensa sökningen
+      label: Sök %{resource}

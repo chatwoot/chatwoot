@@ -1,0 +1,19 @@
+If I do exactly that, then the test group won't be saved after a refresh of
+the page.
+
+
+2013/7/20 sam via Discourse Meta <info@discourse.org>
+
+| sam replied to your post in 'Unable to create group' on Discourse Meta:
+| ------------------------------
+|
+| Is this an error handling thing, if you name the group "test" and only
+| place yourself in it, does it persist?
+| ------------------------------
+|
+| To respond, reply to this email or visit
+| http://meta.discourse.org/t/unable-to-create-group/8198/6 in your browser.
+|
+| To unsubscribe from these emails, visit your user preferences<http://meta.discourse.org/user_preferences>
+| .
+|

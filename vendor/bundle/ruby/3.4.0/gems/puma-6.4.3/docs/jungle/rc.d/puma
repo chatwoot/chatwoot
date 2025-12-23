@@ -1,0 +1,61 @@
+#!/bin/sh
+#
+
+# PROVIDE: puma
+
+. /etc/rc.subr
+
+name="puma"
+start_cmd="puma_start"
+stop_cmd="puma_stop"
+restart_cmd="puma_restart"
+rcvar=puma_enable
+required_files=/usr/local/etc/puma.conf
+
+puma_start()
+{
+	server_count=$(/usr/local/bin/jq ".servers[] .ruby_env" /usr/local/etc/puma.conf | wc -l)
+	i=0	
+	while [ "$i" -lt "$server_count" ]; do
+		rb_env=$(/usr/local/bin/jq -r ".servers[$i].ruby_env" /usr/local/etc/puma.conf)
+		dir=$(/usr/local/bin/jq -r ".servers[$i].dir" /usr/local/etc/puma.conf)
+		user=$(/usr/local/bin/jq -r ".servers[$i].user" /usr/local/etc/puma.conf)
+		rb_ver=$(/usr/local/bin/jq -r ".servers[$i].ruby_version" /usr/local/etc/puma.conf)
+		case $rb_env in
+			"rbenv")
+				cd $dir && rbenv shell $rb_ver && /usr/sbin/daemon -u $user bundle exec puma -C $dir/config/puma.rb
+				;;
+			*)
+				;;
+		esac
+		i=$(( i + 1 ))
+	done
+}
+
+puma_stop()
+{
+    pkill ruby
+}
+
+puma_restart()
+{
+	server_count=$(/usr/local/bin/jq ".servers[] .ruby_env" /usr/local/etc/puma.conf | wc -l)
+	i=0	
+	while [ "$i" -lt "$server_count" ]; do
+		rb_env=$(/usr/local/bin/jq -r ".servers[$i].ruby_env" /usr/local/etc/puma.conf)
+		dir=$(/usr/local/bin/jq -r ".servers[$i].dir" /usr/local/etc/puma.conf)
+		user=$(/usr/local/bin/jq -r ".servers[$i].user" /usr/local/etc/puma.conf)
+		rb_ver=$(/usr/local/bin/jq -r ".servers[$i].ruby_version" /usr/local/etc/puma.conf)
+		case $rb_env in
+			"rbenv")
+				cd $dir && rbenv shell $rb_ver && /usr/sbin/daemon -u $user bundle exec puma -C $dir/config/puma.rb
+				;;
+			*)
+				;;
+		esac
+		i=$(( i + 1 ))
+	done
+}
+
+load_rc_config $name
+run_rc_command "$1"

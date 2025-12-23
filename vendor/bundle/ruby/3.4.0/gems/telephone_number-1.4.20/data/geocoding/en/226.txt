@@ -1,0 +1,44 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://en.wikipedia.org/wiki/+226 [482669671] Except where overruled by
+# http://www.onatel.bf/onatelsa/plandenumerotation_burkina.pdf
+# Where there are many cities for a prefix, we only kept the more significant
+# ones.
+
+226204|Kaya
+2262052|Dédougou
+2262053|Boromo/Djibasso/Nouna
+2262090|Gaoua
+2262091|Banfora
+2262096|Orodara
+2262097|Bobo-Dioulasso
+2262098|Bobo-Dioulasso
+2262099|Béréba/Fo/Houndé
+2262445|Kaya
+2262446|Falagountou/Dori
+2262449|Falagountou/Dori
+2262454|Yako
+2262455|Ouahigouya
+2262456|Djibo
+2262470|Pouytenga/Koupéla
+2262471|Tenkodogo
+2262477|Fada/Diabo
+2262479|Kantchari
+226253|Ouagadougou
+226254|Ouagadougou
+2262540|Pô/Kombissiri/Koubri
+2262541|Léo/Sapouy
+2262544|Koudougou

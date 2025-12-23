@@ -1,0 +1,46 @@
+[[context]]
+=== Adding additional context
+
+[float]
+==== Adding custom context
+
+You can add your own custom, nested JSON-compatible data to the current
+transaction using `ElasticAPM.set_custom_context(hash)` eg.:
+
+[source,ruby]
+----
+class ThingsController < ApplicationController
+  before_action do
+    ElasticAPM.set_custom_context(company: current_user.company)
+  end
+
+  # ...
+end
+----
+
+[float]
+==== Adding labels
+
+Labels are special in that they are indexed in your Elasticsearch database and
+therefore queryable.
+
+[source,ruby]
+----
+ElasticAPM.set_label(:company_name, 'Acme, Inc.')
+----
+
+Note that `.`, `*` and `"` in keys are converted to `_`.
+
+[float]
+==== Providing info about the user
+
+You can provide ElasticAPM with info about the current user.
+
+[source,ruby]
+----
+class ApplicationController < ActionController::Base
+  before_action do
+    current_user && ElasticAPM.set_user(current_user)
+  end
+end
+----

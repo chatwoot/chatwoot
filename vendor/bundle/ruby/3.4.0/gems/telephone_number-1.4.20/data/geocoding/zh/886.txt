@@ -1,0 +1,70 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://zh.wikipedia.org/zh-cn/中華民國長途電話區號表 [16772295]
+
+8862|台北
+8863|桃园、新竹、花莲、宜兰
+88637|苗栗
+8864001|台中、彰化
+8864002|台中、彰化
+8864003|台中、彰化
+8864004|台中、彰化
+8864005|台中、彰化
+8864006|台中、彰化
+8864007|台中、彰化
+8864008|台中、彰化
+8864009|台中、彰化
+886402|台中、彰化
+886403|台中、彰化
+886404|台中、彰化
+886408|台中、彰化
+88641|台中、彰化
+88642|台中、彰化
+88643|台中、彰化
+88644|台中、彰化
+88647|台中、彰化
+88648|台中、彰化
+88649|南投
+88652|嘉义、云林
+88653|嘉义、云林
+88654|嘉义、云林
+88655|嘉义、云林
+88656|嘉义、云林
+88657|嘉义、云林
+88658|嘉义、云林
+8866|台南、澎湖
+88671|高雄
+88672|高雄
+88673|高雄
+88674|高雄
+88675|高雄
+88676|高雄
+88677|高雄
+88678|高雄
+88679|高雄
+88680|屏东
+886823|金门
+8868230|屏东
+886824|金门
+886825|金门
+886826|乌丘
+886827|金门
+886828|金门
+88683|马祖
+88684|屏东
+88687|屏东
+88688|屏东
+88689|台东

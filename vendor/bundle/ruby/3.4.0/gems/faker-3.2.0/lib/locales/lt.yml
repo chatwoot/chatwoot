@@ -1,0 +1,34 @@
+lt:
+  faker:
+    address:
+      postcode: ["LT-#####"]
+      building_number: ["####", "###", "##", "#"]
+      street_name: [Algirdo, Gedimino, Goštauto, Kaštonų, Laisvės, Liepų, Mindaugo, Olandų, Ozo, Sanatorijos, Šermukšnių, Šešuolių, Šešupės, Teatro, Upės, Žalioji, Žukausko]
+      street_suffix: [gatvė, prospektas, alėja, aikštė, plentas, skersgatvis, skveras, takas, kelias, aplinkkelis, vieškelis, krantinė]
+      street:
+        - "#{street} #{street_suffix}"
+      city_name: [Akmenė, Alytus, Anykščiai, Ariogala, Baltoji Vokė, Birštonas, Biržai, Daugai, Druskininkai, Dūkštas, Dusetos, Eišiškės, Elektrėnai, Ežerėlis, Gargždai, Garliava, Gelgaudiškis, Grigiškės, Ignalina, Jieznas, Jonava, Joniškėlis, Joniškis, Jurbarkas, Kaišiadorys, Kalvarija, Kaunas, Kavarskas, Kazlų Rūda, Kėdainiai, Kelmė, Kybartai, Klaipėda, Kretinga, Kudirkos Naumiestis, Kupiškis, Kuršėnai, Lazdijai, Lentvaris, Linkuva, Marijampolė, Mažeikiai, Molėtai, Naujoji Akmenė, Nemenčinė, Neringa, Obeliai, Pabradė, Pagėgiai, Pakruojis, Palanga, Pandėlys, Panemunė, Panevėžys, Pasvalys, Plungė, Priekulė, Prienai, Radviliškis, Ramygala, Raseiniai, Rietavas, Rokiškis, Rūdiškės, Salantai, Seda, Simnas, Skaudvilė, Skuodas, Smalininkai, Subačius, Šakiai, Šalčininkai, Šeduva, Šiauliai, Šilalė, Šilutė, Širvintos, Švenčionėliai, Švenčionys, Tauragė, Telšiai, Tytuvėnai, Trakai, Troškūnai, Ukmergė, Utena, Užventis, Vabalninkas, Varėna, Varniai, Veisiejai, Venta, Viekšniai, Vievis, Vilkaviškis, Vilkija, Vilnius, Virbalis, Visaginas, Zarasai, Žagarė, Žiežmariai]
+      city:
+        - "#{city_name}"
+      street_address:
+        - "#{street_name} #{street_suffix} #{building_number}"
+    country_code: ['370']
+
+    company:
+      suffix: [AB, UAB, IĮ, KB, VŠĮ, MB]
+
+    internet:
+      free_email: [gmail.com, yahoo.com, hotmail.com]
+      domain_suffix: [lt, com, net]
+
+    name:
+      male_first_name: [Adolfas, Aleksandras, Alfonsas, Alius, Algirdas, Algimantas, Algis, Andrius, Antanas, Arminas, Arnas, Audrius, Aurelijus, Aurimas, Benas, Benediktas, Boleslovas, Dainius, Danielius, Egidijus, Enrikas, Ernestas, Florijonas, Gintaras, Henrikas, Jogaila, Jokūbas, Jomantas, Jonas, Juozapas, Juozas, Justas, Justinas, Karolis, Kazimieras, Kazys, Laurynas, Liutauras, Mantas, Mečislovas, Mykolas, Modestas, Nojus, Paulius, Prančiškus, Renatas, Rimantas, Rimas, Robertas, Rokas, Romas, Simas, Simonas, Titas, Tomas, Vaidas, Vaidotas, Valdemaras, Valys, Vidas, Viktoras, Vygantas, Vigilijus, Vitalijus, Zenonas, Žilvinas, Žygimantas]
+      female_first_name: [Agnė, Austėja, Barbora, Beatričė, Benedikta, Brigita, Cecilija, Dalia, Elžbieta, Enrika, Eugenija, Genovaitė, Gintarė, Gintė, Jomantė, Jonė, Jūratė, Karolina, Kristina, Laura, Liepa, Loreta, Milda, Modesta, Nomeda, Olga, Renata, Rimantė, Roberta, Rožė, Saulė, Silvija, Simona, Stasė, Stefanija, Teresė, Tatjana, Toma, Vida, Viktorija, Vitalija, Živilė]
+      first_name:
+        - "#{female_first_name}"
+        - "#{male_first_name}"
+      male_last_name: [Kazlauskas, Stankevičius, Petrauskas, Jankauskas, Žukauskas, Butkus, Balčiūnas, Paulauskas, Vasiliauskas, Baranauskas]
+      female_last_name: [Kazlauskienė, Kazlauskaitė, Stankevičienė, Stankevičiūtė, Petrauskienė, Petrauksaitė, Jankauskienė, Jankauskaitė, Žukauskas, Žukauskienė, Butkuvienė Baličūnienė, Balčiūnaitė, Paulauskienė, Paulauskaitė, Vasiliauskienė, Vasiliauskaitė, Baranauskienė, Baranauskaitė]
+      name:
+        - "#{male_first_name} #{male_last_name}"
+        - "#{female_first_name} #{female_last_name}"

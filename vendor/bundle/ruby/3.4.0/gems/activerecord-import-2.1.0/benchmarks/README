@@ -1,0 +1,32 @@
+To run the benchmarks, from within the benchmarks run:
+   ruby benchmark.rb [options]
+
+The following options are supported:
+  --adapter [String]   The database adapter to use. IE: mysql, postgresql, oracle
+             
+  --do-not-delete       By default all records in the benchmark tables will be deleted at the end of the benchmark. This flag indicates not to delete the benchmark data.
+  --num [Integer]      The number of objects to benchmark. (Required!)
+  --table-type [String]  The table type to test. This can be used multiple times. By default it is all table types.
+  --to-csv [String]      Print results in a CSV file format
+  --to-html [String]     Print results in HTML format (String filename must be supplied)
+
+See "ruby benchmark.rb -h" for the complete listing of options.
+
+EXAMPLES
+--------
+To output to html format:
+  ruby benchmark.rb --adapter=mysql2 --to-html=results.html
+
+To output to csv format:
+  ruby benchmark.rb --adapter=mysql2 --to-csv=results.csv
+
+LIMITATIONS
+-----------
+Currently MySQL is the only supported adapter to benchmark.
+
+AUTHOR
+------
+Zach Dennis
+zach.dennis@gmail.com
+http://www.continuousthinking.com
+

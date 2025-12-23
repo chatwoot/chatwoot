@@ -1,0 +1,71 @@
+= time_diff
+Gem which calculates the difference between two time
+
+== Installation
+
+    gem install time_diff
+
+== Usage
+
+    require 'time_diff'
+
+    time_diff_components = Time.diff(start_date_time, end_date_time)
+
+This will return the hash of time difference in terms of years, month, week, day, hour, minute and second.
+
+You can use the difference like:
+
+    time_diff_components[:year], time_diff_components[:month], time_diff_components[:week]
+
+== Formatted Time difference
+
+    %y - year
+
+    %M - month
+
+    %w - week
+
+    %d - day
+
+    %H - hour
+
+    %N - minute
+
+    %S - second
+
+    %h - hour (without adding 'hour' text to the hours. eg: 3 for 3 hours)
+
+    %m - minute (without adding 'minute' text)
+
+    %s - second (without adding 'second' text)
+
+By default the format is 
+
+    '%y, %M, %w, %d and %h:%m:%s' 
+
+this will return 
+
+    '1 year, 2 months, 3 weeks, 4 days and 12:05:52'.
+
+You will get the result from the output hash, time_diff_components[:diff] 
+
+You can pass your own format as third parameter to this function.
+
+If you give '%d %h' as the third parameter to the Time.diff() method, then the difference(time_diff_components[:diff]) will be calculated only in days and hours.
+
+== Examples
+
+    > Time.diff(Time.parse('2011-03-06'), Time.parse('2011-03-07'))
+    => {:year => 0, :month => 0, :week => 0, :day => 1, :hour => 0, :minute => 0, :second => 0, :diff => '1 day and 00:00:00'}
+    > Time.diff(Time.parse('2010-03-06 12:30:00'), Time.parse('2011-03-07 12:30:30'), '%y, %d and %h:%m:%s')
+    => {:year => 1, :month => 0, :week => 0, :day => 0, :hour => 18, :minute => 0, :second => 30, :diff => '1 year and 18:00:30'}
+    > Time.diff(Time.parse('2011-03-06 12:30:00'), Time.parse('2011-03-07 12:30:30'), '%H %N %S')
+    => {:year => 0, :month => 0, :week => 0, :day => 1, :hour => 0, :minute => 0, :second => 30, :diff => '24 hours 0 minute 30 seconds'} 
+
+== i18n support
+
+   Add locales for day, days, week, weeks, year, hour, hours, minute, minutes, second, and seconds in your YAML file. For eg:
+
+   en:
+     day: divasam
+     days: divasangal

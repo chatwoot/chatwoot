@@ -1,0 +1,64 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/oj-3.16.10/ext/oj
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+>>>>> Creating Makefile for ruby version 3.4.4 on x86_64-linux <<<<<
+checking for rb_gc_mark_movable()... yes
+checking for stpcpy()... yes
+checking for pthread_mutex_init()... yes
+checking for getrlimit() in sys/resource.h... yes
+checking for rb_enc_interned_str()... yes
+checking for rb_ext_ractor_safe() in ruby.h... yes
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/oj-3.16.10/ext/oj
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-775ycs sitelibdir\=./.gem.20251220-192266-775ycs clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/oj-3.16.10/ext/oj
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-775ycs sitelibdir\=./.gem.20251220-192266-775ycs
+compiling cache.c
+compiling cache8.c
+compiling circarray.c
+compiling code.c
+compiling compat.c
+compiling custom.c
+compiling debug.c
+compiling dump.c
+compiling dump_compat.c
+compiling dump_leaf.c
+compiling dump_object.c
+compiling dump_strict.c
+compiling encoder.c
+compiling err.c
+compiling fast.c
+compiling intern.c
+compiling mem.c
+compiling mimic_json.c
+compiling object.c
+compiling odd.c
+compiling oj.c
+compiling parse.c
+compiling parser.c
+compiling rails.c
+compiling reader.c
+compiling resolve.c
+compiling rxclass.c
+compiling saj.c
+compiling saj2.c
+compiling scp.c
+compiling sparse.c
+compiling stream_writer.c
+compiling strict.c
+compiling string_writer.c
+compiling trace.c
+compiling usual.c
+compiling util.c
+compiling val_stack.c
+compiling validate.c
+compiling wab.c
+linking shared-object oj/oj.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/oj-3.16.10/ext/oj
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-775ycs sitelibdir\=./.gem.20251220-192266-775ycs install
+/usr/bin/install -c -m 0755 oj.so ./.gem.20251220-192266-775ycs/oj
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/oj-3.16.10/ext/oj
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-775ycs sitelibdir\=./.gem.20251220-192266-775ycs clean

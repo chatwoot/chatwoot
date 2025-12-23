@@ -1,0 +1,52 @@
+---
+name: ruby-tests
+
+on:
+  pull_request_target:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  build:
+    name: Tests with Ruby ${{ matrix.ruby }} and ${{ matrix.gemfile }}
+    runs-on: "ubuntu-latest"
+    if: |
+      github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target' ||
+      github.actor != 'dependabot[bot]'
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: ["2.7", "3.0", "3.1"]
+        gemfile:
+          - Gemfile
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: >
+            ${{ runner.os }}-${{ matrix.ruby }}-gems-${{ hashFiles(matrix.gemfile) }}
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Install gem dependencies
+        env:
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
+          bundle update --jobs 4 --retry 3
+
+      - name: Run Tests
+        env:
+          BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+        run: |
+          bundle exec rake

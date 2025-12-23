@@ -1,0 +1,97 @@
+- **2.4.0**
+  - [Update libsass to 3.6.4](https://github.com/sass/sassc-ruby/pull/199)
+  - [Use FFI::MemoryPointer instead of libc's malloc()](https://github.com/sass/sassc-ruby/pull/205)
+  - [Test against Ruby 2.7.0](https://github.com/sass/sassc-ruby/pull/193)
+
+- **2.3.0**
+  - [Fix rake gem:native task](https://github.com/sass/sassc-ruby/pull/196)
+  - [disable lto flag for darwin + nix](https://github.com/sass/sassc-ruby/pull/166)
+  - [Sort input file list](https://github.com/sass/sassc-ruby/pull/178)
+  - [Set appropriate encoding for source_map](https://github.com/sass/sassc-ruby/pull/152)
+  - [allow passing functions directly](https://github.com/sass/sassc-ruby/pull/162)
+  - [always dispose data context](https://github.com/sass/sassc-ruby/pull/161)
+  - [Update libsass to 3.6.3](https://github.com/sass/sassc-ruby/pull/164)
+  - [Restore strip symbols](https://github.com/sass/sassc-ruby/pull/184)
+  - [Default --march-tune-native to false](https://github.com/sass/sassc-ruby/pull/158)
+  - [Fix compile issue on Mac OS X](https://github.com/sass/sassc-ruby/pull/174)
+  - [Test on TruffleRuby in TravisCI](https://github.com/sass/sassc-ruby/pull/171)
+  - [Use RbConfig::MAKEFILE_CONFIG['DLEXT'] instead of hardcoding extensions](https://github.com/sass/sassc-ruby/pull/173)
+- **2.2.1**
+  - [Fix LoadError on some non-rvm environments](https://github.com/sass/sassc-ruby/pull/156)
+- **2.2.0**
+  - [Do not build precompiled gems for Linux](https://github.com/sass/sassc-ruby/pull/145)
+- **2.1.0**
+  - Equivalent to 2.1.0.pre3
+- **2.1.0.pre3**
+  - [extconf.rb: Always write VERSION if we have .git](https://github.com/sass/sassc-ruby/pull/131)
+  - [Update libsass to 3.6.1](https://github.com/sass/sassc-ruby/pull/130)
+- **2.1.0.pre2**
+  - [Reduce Ruby warnings](https://github.com/sass/sassc-ruby/pull/124)
+  - [prefer equal? to determine object identity](https://github.com/sass/sassc-ruby/pull/122)
+  - [Link C/C++ stdlib statically for binary gems](https://github.com/sass/sassc-ruby/pull/127)
+- **2.1.0.pre1**
+  - [Update Libsass to 3.6.0](https://github.com/sass/sassc-ruby/pull/96/files)
+  - [Support old Ruby versions](https://github.com/sass/sassc-ruby/pull/117/files)
+- **2.0.1**
+  - [Relax FFI dependency](https://github.com/sass/sassc-ruby/pull/102)
+- **2.0.0**
+  - [Remove dependency on Ruby Sass](https://github.com/sass/sassc-ruby/pull/85)
+  - [frozen_string_literal all files](https://github.com/sass/sassc-ruby/pull/85)
+- **1.12.1**
+  - [Downgrade to libsass 3.5.2 to fix css imports](https://github.com/sass/sassc-ruby/pull/81)
+- **1.12.0**
+  - [Update Libsass to 3.5.4](https://github.com/sass/sassc-ruby/pull/78)
+  - [bundler is a development dependency](https://github.com/sass/sassc-ruby/pull/51)
+- **1.11.4**
+  - Fix `Value::List` related issue with sass 3.5.0
+- **1.11.3**
+  - [Require Sass::Deprecation module](https://github.com/sass/sassc-ruby/pull/68)
+- **1.11.2**
+  - [Update to libsass 3.4.3](https://github.com/sass/sassc-ruby/pull/65)
+- **1.11.1**
+  - [Update to libsass 3.4.1](https://github.com/sass/sassc-ruby/pull/61)
+- **1.11.0**
+  - [Add support for lists in functions](https://github.com/sass/sassc-ruby/pull/55)
+  - [Update to libsass 3.4.0](https://github.com/sass/sassc-ruby/pull/57)
+- **1.10.1**
+  - [Add sourcemap getter](https://github.com/sass/sassc-ruby/pull/48)
+- **1.10.0**
+  - [Improved error messages](https://github.com/sass/sassc-ruby/pull/34)
+  - Update to Libsass 3.3.6
+- **1.9.0**
+  - Support boolean script support
+- **1.8.5**
+  - Update to Libsass 3.3.4
+- **1.8.4**
+  - Update to Libsass 3.3.3
+- **1.8.3**
+  - [Passing empty string into engine does not raise error](https://github.com/sass/sassc-ruby/pull/31)
+- **1.8.2**
+  - Update to Libsass 3.3.2
+- **1.8.1**
+  - Update to Libsass 3.3.1
+- **1.8.0**
+  - Update to Libsass 3.3.0
+- **1.8.0.pre2**
+  - Fix bug with looking up gem_path
+- **1.8.0.pre1**
+  - [Update to Libsass 3.3.0-beta3](https://github.com/sass/sassc-ruby/pull/20)
+- **1.7.1**
+  - Some updates to `Engine` API.
+- **1.7.0**
+  - [Support Precision](https://github.com/sass/sassc-ruby/pull/19)
+- **1.6.0**
+  - [Support Sass Color types](https://github.com/bolandrm/sassc-ruby/pull/14)
+  - [Support quoted strings](https://github.com/bolandrm/sassc-ruby/pull/13)
+  - [Improve custom function error handling](https://github.com/bolandrm/sassc-ruby/pull/15)
+- **1.5.1**
+  - 2nd attempt at fixing compilation bug (issue [#12](https://github.com/bolandrm/sassc-ruby/issues/12))
+- **1.5.0**
+  - Add support for inline source maps
+  - Fix compilation bug (issue [#12](https://github.com/bolandrm/sassc-ruby/issues/12))
+- **1.4.0**
+  - Add support for line number comments
+- **1.3.0**
+  - Support Sass color custom function arguments
+  - Adds error handling for exceptions in custom functions
+  - Custom functions may have optional/default arguments

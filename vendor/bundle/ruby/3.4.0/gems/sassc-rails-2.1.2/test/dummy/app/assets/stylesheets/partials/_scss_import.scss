@@ -1,0 +1,9 @@
+.partial-scss {
+  color: blue; }
+
+@mixin background-from-partial($color) {
+  background-color: $color
+}
+
+@import "subfolder/relative_sass";
+@import "subfolder/relative_not_a_partial";

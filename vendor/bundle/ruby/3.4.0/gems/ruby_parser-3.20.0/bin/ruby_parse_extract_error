@@ -1,0 +1,139 @@
+#!/usr/bin/ruby -ws
+
+$d ||= ENV["DELETE"]         || false
+$t ||= ENV["DELETE_TIMEOUT"] || false
+$m ||= ENV["MOVE_TIMEOUT"]   || false
+$q ||= ENV["QUIET"]          || false
+$s ||= ENV["SPEED"]          || false
+
+require 'rubygems'
+require 'ruby_parser'
+require 'fileutils'
+
+ARGV.push "-" if ARGV.empty?
+
+class RubyParser
+  def extract_defs
+    ss = current.lexer.ss
+
+    raise "can't access source. possible encoding issue" unless ss
+
+    src = ss.string
+    pre_error = src[0...ss.pos]
+
+    defs = pre_error.lines.grep(/^ *(?:def|it)/)
+
+    raise "can't figure out where the bad code starts" unless defs.last
+
+    last_def_indent = defs.last[/^ */]
+
+    post_error = src[ss.pos..-1]
+    idx = post_error =~ /^#{last_def_indent}end.*/
+
+    raise "can't figure out where the bad code ends" unless idx
+
+    src = pre_error + post_error[0..idx+$&.length]
+
+    src.scan(/^(( *)(?:def|it) .*?^\2end)/m)
+  end
+
+  def retest_for_errors defs
+    parser = self.class.new
+
+    parser.process(defs.join("\n\n"))
+  rescue SyntaxError, StandardError
+    nil
+  end
+end
+
+def expand path
+  if File.directory? path then
+    require 'find'
+
+    files = []
+
+    Find.find(*Dir[path]) do |f|
+      files << f if File.file? f
+    end
+
+    files.sort
+  else
+    Dir.glob path
+  end
+end
+
+def process_error parser
+  defs = parser.extract_defs
+
+  if parser.retest_for_errors defs then
+    warn "Can't reproduce error with just methods, punting..."
+    return
+  end
+
+  catch :extract_done do
+    (1..defs.size).each do |perm_size|
+      defs.combination(perm_size).each do |trial|
+        unless parser.retest_for_errors trial then
+          puts trial.join "\n"
+          throw :extract_done
+        end
+      end
+    end
+  end
+rescue RuntimeError, Racc::ParseError => e
+  warn "# process error: #{e.message.strip}"
+  warn "#   #{e.backtrace.first}"
+end
+
+def process file
+  ruby = file == "-" ? $stdin.binread : File.binread(file)
+  time = (ENV["RP_TIMEOUT"] || 10).to_i
+
+  $stderr.print "# Validating #{file}: "
+  parser = RubyParser.new
+  t0 = Time.now if $s
+  parser.process(ruby, file, time)
+  if $s then
+    warn "good: #{Time.now - t0}"
+  else
+    warn "good"
+  end
+  File.unlink file if $d
+rescue Timeout::Error
+  $exit = 1
+  warn "TIMEOUT parsing #{file}. Skipping."
+
+  if $m then
+    base_dir, *rest = file.split("/")
+    base_dir.sub!(/\.slow\.?.*/, "")
+    base_dir += ".slow.#{time}"
+
+    new_file = File.join(base_dir, *rest)
+
+    FileUtils.mkdir_p File.dirname(new_file)
+    FileUtils.move file, new_file, verbose:true
+  elsif $t then
+    File.unlink file
+  end
+rescue StandardError, SyntaxError, Racc::ParseError => e
+  $exit = 1
+  warn ""
+  warn "# error: #{e.message.strip}" unless $q
+  warn "#   #{e.backtrace.first}"
+  warn ""
+  return if $q
+
+  process_error parser
+end
+
+$exit = 0
+$stdout.sync = true
+
+ARGV.each do |path|
+  expand(path).each do |file|
+    next unless File.file? file # omg... why would you name a dir support.rb?
+    process file
+  end
+end
+
+exit $exit

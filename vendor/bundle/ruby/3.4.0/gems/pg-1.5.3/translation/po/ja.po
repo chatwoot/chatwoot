@@ -1,0 +1,1047 @@
+# Pgの日本語訳
+# Copyright (C) 2023 gemmaro.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Pg 1.4.5\n"
+"POT-Creation-Date: 2023-03-28 08:27+0200\n"
+"PO-Revision-Date: 2023-02-28 21:24+0900\n"
+"Last-Translator: gemmaro <gemmaro.dev@gmail.com>\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title #
+#: ../README.md:1
+#, no-wrap
+msgid "pg"
+msgstr "pg"
+
+#. type: Bullet: '* '
+#: ../README.md:7
+msgid "home :: https://github.com/ged/ruby-pg"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:7
+#, no-wrap
+msgid ""
+"* docs :: http://deveiate.org/code/pg (English) ,\n"
+"          https://deveiate.org/code/pg/README_ja_md.html (Japanese)\n"
+"* clog :: link:/History.md\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:9
+msgid ""
+"[![Join the chat at https://gitter.im/ged/ruby-pg](https://badges.gitter.im/"
+"Join%20Chat.svg)](https://gitter.im/ged/ruby-pg?"
+"utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)"
+msgstr ""
+"[![https://gitter.im/ged/ruby-pg でチャットに参加](https://badges.gitter.im/"
+"Join%20Chat.svg)](https://gitter.im/ged/ruby-pg?"
+"utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)"
+
+#. type: Title ##
+#: ../README.md:11
+#, no-wrap
+msgid "Description"
+msgstr "説明"
+
+#. type: Plain text
+#: ../README.md:15
+msgid ""
+"Pg is the Ruby interface to the [PostgreSQL RDBMS](http://www.postgresql."
+"org/).  It works with [PostgreSQL 9.3 and later](http://www.postgresql.org/"
+"support/versioning/)."
+msgstr ""
+"Pgは[PostgreSQL RDBMS](http://www.postgresql.org/)へのRubyのインターフェース"
+"です。[PostgreSQL 9.3以降](http://www.postgresql.org/support/versioning/)で動"
+"作します。"
+
+#. type: Plain text
+#: ../README.md:17
+msgid "A small example usage:"
+msgstr "簡単な使用例は次の通りです。"
+
+#. type: Fenced code block (ruby)
+#: ../README.md:17
+#, no-wrap
+msgid ""
+"  #!/usr/bin/env ruby\n"
+"\n"
+"  require 'pg'\n"
+"\n"
+"  # Output a table of current connections to the DB\n"
+"  conn = PG.connect( dbname: 'sales' )\n"
+"  conn.exec( \"SELECT * FROM pg_stat_activity\" ) do |result|\n"
+"    puts \"     PID | User             | Query\"\n"
+"    result.each do |row|\n"
+"      puts \" %7d | %-16s | %s \" %\n"
+"        row.values_at('pid', 'usename', 'query')\n"
+"    end\n"
+"  end\n"
+msgstr ""
+"  #!/usr/bin/env ruby\n"
+"\n"
+"  require 'pg'\n"
+"\n"
+"  # データベースへの現在の接続を表に出力します\n"
+"  conn = PG.connect( dbname: 'sales' )\n"
+"  conn.exec( \"SELECT * FROM pg_stat_activity\" ) do |result|\n"
+"    puts \"     PID | User             | Query\"\n"
+"    result.each do |row|\n"
+"      puts \" %7d | %-16s | %s \" %\n"
+"        row.values_at('pid', 'usename', 'query')\n"
+"    end\n"
+"  end\n"
+
+#. type: Title ##
+#: ../README.md:33
+#, no-wrap
+msgid "Build Status"
+msgstr "ビルド状況"
+
+#. type: Plain text
+#: ../README.md:38
+msgid ""
+"[![Build Status Github Actions](https://github.com/ged/ruby-pg/actions/"
+"workflows/source-gem.yml/badge.svg?branch=master)](https://github.com/ged/"
+"ruby-pg/actions/workflows/source-gem.yml)  [![Binary gems](https://github."
+"com/ged/ruby-pg/actions/workflows/binary-gems.yml/badge.svg?branch=master)]"
+"(https://github.com/ged/ruby-pg/actions/workflows/binary-gems.yml)  [![Build "
+"Status Appveyor](https://ci.appveyor.com/api/projects/status/"
+"gjx5axouf3b1wicp?svg=true)](https://ci.appveyor.com/project/ged/ruby-"
+"pg-9j8l3)"
+msgstr ""
+"[![Github Actionsのビルド状況](https://github.com/ged/ruby-pg/actions/"
+"workflows/source-gem.yml/badge.svg?branch=master)](https://github.com/ged/"
+"ruby-pg/actions/workflows/source-gem.yml)  [![バイナリgem](https://github."
+"com/ged/ruby-pg/actions/workflows/binary-gems.yml/badge.svg?branch=master)]"
+"(https://github.com/ged/ruby-pg/actions/workflows/binary-gems.yml)  [!"
+"[Appveyorのビルド状況](https://ci.appveyor.com/api/projects/status/"
+"gjx5axouf3b1wicp?svg=true)](https://ci.appveyor.com/project/ged/ruby-"
+"pg-9j8l3)"
+
+#. type: Title ##
+#: ../README.md:40
+#, no-wrap
+msgid "Requirements"
+msgstr "要件"
+
+#. type: Bullet: '* '
+#: ../README.md:44
+msgid "Ruby 2.5 or newer"
+msgstr "Ruby 2.5かそれより新しいバージョン"
+
+#. type: Bullet: '* '
+#: ../README.md:44
+msgid "PostgreSQL 9.3.x or later (with headers, -dev packages, etc)."
+msgstr ""
+"PostgreSQL 9.3.xかそれ以降のバージョン（ヘッダー付属のもの、例えば-devの名前"
+"のパッケージ）。"
+
+#. type: Plain text
+#: ../README.md:47
+msgid ""
+"It usually works with earlier versions of Ruby/PostgreSQL as well, but those "
+"are not regularly tested."
+msgstr ""
+"それより前のバージョンのRubyやPostgreSQLでも通常は同様に動作しますが、定期的"
+"なテストはされていません。"
+
+#. type: Title ##
+#: ../README.md:49
+#, no-wrap
+msgid "Versioning"
+msgstr "バージョン管理"
+
+#. type: Plain text
+#: ../README.md:52
+msgid ""
+"We tag and release gems according to the [Semantic Versioning](http://semver."
+"org/) principle."
+msgstr ""
+"[セマンティックバージョニング](http://semver.org/)の原則にしたがってgemをタグ"
+"付けしてリリースしています。"
+
+#. type: Plain text
+#: ../README.md:54
+msgid ""
+"As a result of this policy, you can (and should) specify a dependency on "
+"this gem using the [Pessimistic Version Constraint](http://guides.rubygems."
+"org/patterns/#pessimistic-version-constraint) with two digits of precision."
+msgstr ""
+"この方針の結果として、2つの数字を指定する[悲観的バージョン制約](http://"
+"guides.rubygems.org/patterns/#pessimistic-version-constraint)を使ってこのgem"
+"への依存関係を指定することができます（またそうすべきです）。"
+
+#. type: Plain text
+#: ../README.md:56
+msgid "For example:"
+msgstr "例えば次の通りです。"
+
+#. type: Fenced code block (ruby)
+#: ../README.md:57
+#, no-wrap
+msgid "  spec.add_dependency 'pg', '~> 1.0'\n"
+msgstr "  spec.add_dependency 'pg', '~> 1.0'\n"
+
+#. type: Title ##
+#: ../README.md:61
+#, no-wrap
+msgid "How To Install"
+msgstr "インストール方法"
+
+#. type: Plain text
+#: ../README.md:64
+msgid "Install via RubyGems:"
+msgstr "RubyGemsを経由してインストールするには以下とします。"
+
+#. type: Plain text
+#: ../README.md:66
+#, no-wrap
+msgid "    gem install pg\n"
+msgstr "    gem install pg\n"
+
+#. type: Plain text
+#: ../README.md:69
+msgid ""
+"You may need to specify the path to the 'pg_config' program installed with "
+"Postgres:"
+msgstr ""
+"Postgresと一緒にインストールされた'pg_config'プログラムへのパスを指定する必要"
+"があるかもしれません。"
+
+#. type: Plain text
+#: ../README.md:71
+#, no-wrap
+msgid "    gem install pg -- --with-pg-config=<path to pg_config>\n"
+msgstr "    gem install pg -- --with-pg-config=<path to pg_config>\n"
+
+#. type: Plain text
+#: ../README.md:73
+msgid ""
+"If you're installing via Bundler, you can provide compile hints like so:"
+msgstr ""
+"Bundlerを介してインストールした場合は次のようにコンパイルのためのヒントを与え"
+"られます。"
+
+#. type: Plain text
+#: ../README.md:75
+#, no-wrap
+msgid "    bundle config build.pg --with-pg-config=<path to pg_config>\n"
+msgstr "    bundle config build.pg --with-pg-config=<path to pg_config>\n"
+
+#. type: Plain text
+#: ../README.md:78
+msgid ""
+"See README-OS_X.rdoc for more information about installing under MacOS X, "
+"and README-Windows.rdoc for Windows build/installation instructions."
+msgstr ""
+"MacOS Xへインストールする詳しい情報については README-OS_X.rdoc を、Windows用"
+"のビルドやインストールの説明については README-Windows.rdoc を参照してくださ"
+"い。"
+
+#. type: Plain text
+#: ../README.md:82
+msgid ""
+"There's also [a Google+ group](http://goo.gl/TFy1U) and a [mailing list]"
+"(http://groups.google.com/group/ruby-pg) if you get stuck, or just want to "
+"chat about something."
+msgstr ""
+"詰まったときやただ何か喋りたいときのために[Google+グループ](http://goo.gl/"
+"TFy1U)と[メーリングリスト](http://groups.google.com/group/ruby-pg)もありま"
+"す。"
+
+#. type: Plain text
+#: ../README.md:86
+msgid ""
+"If you want to install as a signed gem, the public certs of the gem signers "
+"can be found in [the `certs` directory](https://github.com/ged/ruby-pg/tree/"
+"master/certs)  of the repository."
+msgstr ""
+"署名されたgemとしてインストールしたい場合は、リポジトリの[`certs`ディレクト"
+"リ](https://github.com/ged/ruby-pg/tree/master/certs)にgemの署名をする公開証"
+"明書があります。"
+
+#. type: Title ##
+#: ../README.md:88
+#, no-wrap
+msgid "Type Casts"
+msgstr "型変換"
+
+#. type: Plain text
+#: ../README.md:94
+msgid ""
+"Pg can optionally type cast result values and query parameters in Ruby or "
+"native C code. This can speed up data transfers to and from the database, "
+"because String allocations are reduced and conversions in (slower) Ruby code "
+"can be omitted."
+msgstr ""
+"PgにはおまけとしてRubyとネイティブCコードにある結果の値やクエリ引数の型変換が"
+"できます。\n"
+"こうすることでデータベースとのデータの往来を加速させられますが、それは文字列"
+"のアロケーションが減り、（より遅い）Rubyのコードでの変換部分が除かれるからで"
+"す。"
+
+#. type: Plain text
+#: ../README.md:96
+msgid "Very basic type casting can be enabled by:"
+msgstr "とても基本的な型変換は次のようにできます。"
+
+#. type: Fenced code block (ruby)
+#: ../README.md:96
+#, no-wrap
+msgid ""
+"    conn.type_map_for_results = PG::BasicTypeMapForResults.new conn\n"
+"    # ... this works for result value mapping:\n"
+"    conn.exec(\"select 1, now(), '{2,3}'::int[]\").values\n"
+"        # => [[1, 2014-09-21 20:51:56 +0200, [2, 3]]]\n"
+"\n"
+"    conn.type_map_for_queries = PG::BasicTypeMapForQueries.new conn\n"
+"    # ... and this for param value mapping:\n"
+"    conn.exec_params(\"SELECT $1::text, $2::text, $3::text\", [1, 1.23, [2,3]]).values\n"
+"        # => [[\"1\", \"1.2300000000000000E+00\", \"{2,3}\"]]\n"
+msgstr ""
+"    conn.type_map_for_results = PG::BasicTypeMapForResults.new conn\n"
+"    # ……これは結果の値の対応付けに作用します。\n"
+"    conn.exec(\"select 1, now(), '{2,3}'::int[]\").values\n"
+"        # => [[1, 2014-09-21 20:51:56 +0200, [2, 3]]]\n"
+"\n"
+"    conn.type_map_for_queries = PG::BasicTypeMapForQueries.new conn\n"
+"    # ……そしてこれは引数値の対応付けのためのものです。\n"
+"    conn.exec_params(\"SELECT $1::text, $2::text, $3::text\", [1, 1.23, [2,3]]).values\n"
+"        # => [[\"1\", \"1.2300000000000000E+00\", \"{2,3}\"]]\n"
+
+#. type: Plain text
+#: ../README.md:110
+msgid ""
+"But Pg's type casting is highly customizable. That's why it's divided into 2 "
+"layers:"
+msgstr ""
+"しかしPgの型変換はかなり調整が効きます。2層に分かれているのがその理由です。"
+
+#. type: Title ###
+#: ../README.md:111
+#, no-wrap
+msgid "Encoders / Decoders (ext/pg_*coder.c, lib/pg/*coder.rb)"
+msgstr "エンコーダーとデコーダー (ext/pg_*coder.c, lib/pg/*coder.rb)"
+
+#. type: Plain text
+#: ../README.md:118
+msgid ""
+"This is the lower layer, containing encoding classes that convert Ruby "
+"objects for transmission to the DBMS and decoding classes to convert "
+"received data back to Ruby objects. The classes are namespaced according to "
+"their format and direction in PG::TextEncoder, PG::TextDecoder, PG::"
+"BinaryEncoder and PG::BinaryDecoder."
+msgstr ""
+"こちらはより低層で、DBMSへ転送するためにRubyのオブジェクトを変換するエンコー"
+"ディングクラスと取得してきたデータをRubyのオブジェクトに変換し戻すデコーディ"
+"ングクラスが含まれています。クラスはそれぞれの形式によって名前空間PG::"
+"TextEncoder、PG::TextDecoder、PG::BinaryEncoder、そしてPG::BinaryDecoderに分"
+"かれています。"
+
+# 以下によるとcomposite typeは複合型と訳すのが良さそうです。
+#
+# PostgreSQL 15.0文書
+# 第8章 データ型
+# 8.16. 複合型
+# https://pgsql-jp.github.io/current/html/rowtypes.html
+#
+# また、type OIDはOIDデータ型としました。
+#
+# PostgreSQL 15.0文書
+# 第8章 データ型
+# 8.19. オブジェクト識別子データ型
+# https://pgsql-jp.github.io/current/html/datatype-oid.html
+#. type: Plain text
+#: ../README.md:124
+msgid ""
+"It is possible to assign a type OID, format code (text or binary) and "
+"optionally a name to an encoder or decoder object. It's also possible to "
+"build composite types by assigning an element encoder/decoder.  PG::Coder "
+"objects can be used to set up a PG::TypeMap or alternatively to convert "
+"single values to/from their string representation."
+msgstr ""
+"エンコーダーないしデコーダーオブジェクトにOIDデータ型や形式コード（テキストな"
+"いしバイナリ）や任意で名前を割り当てることができます。要素のエンコーダーない"
+"しデコーダーを割り当てることによって複合型を構築することもできます。PG::Coder"
+"オブジェクトはPG::TypeMapをセットアップしたりその代わりに単一の値と文字列表現"
+"とを相互に変換したりするのに使えます。"
+
+#. type: Plain text
+#: ../README.md:126
+msgid ""
+"The following PostgreSQL column types are supported by ruby-pg (TE = Text "
+"Encoder, TD = Text Decoder, BE = Binary Encoder, BD = Binary Decoder):"
+msgstr ""
+"ruby-pgでは以下のPostgreSQLカラム型に対応しています（TE = Text Encoder、TD = "
+"Text Decoder、BE = Binary Encoder、BD = Binary Decoder）。"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Integer: [TE](rdoc-ref:PG::TextEncoder::Integer), [TD](rdoc-ref:PG::"
+"TextDecoder::Integer), [BD](rdoc-ref:PG::BinaryDecoder::Integer) 💡 No "
+"links? Switch to [here](https://deveiate.org/code/pg/README_md.html#label-"
+"Type+Casts) 💡"
+msgstr ""
+"Integer: [TE](rdoc-ref:PG::TextEncoder::Integer)、[TD](rdoc-ref:PG::"
+"TextDecoder::Integer)、[BD](rdoc-ref:PG::BinaryDecoder::Integer) 💡 リンクが"
+"ないでしょうか。[こちら](https://deveiate.org/code/pg/README_ja_md."
+"html#label-E5-9E-8B-E5-A4-89-E6-8F-9B)を代わりに見てください 💡"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+msgid ""
+"BE: [Int2](rdoc-ref:PG::BinaryEncoder::Int2), [Int4](rdoc-ref:PG::"
+"BinaryEncoder::Int4), [Int8](rdoc-ref:PG::BinaryEncoder::Int8)"
+msgstr ""
+"BE: [Int2](rdoc-ref:PG::BinaryEncoder::Int2)、[Int4](rdoc-ref:PG::"
+"BinaryEncoder::Int4)、[Int8](rdoc-ref:PG::BinaryEncoder::Int8)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Float: [TE](rdoc-ref:PG::TextEncoder::Float), [TD](rdoc-ref:PG::TextDecoder::"
+"Float), [BD](rdoc-ref:PG::BinaryDecoder::Float)"
+msgstr ""
+"Float: [TE](rdoc-ref:PG::TextEncoder::Float)、[TD](rdoc-ref:PG::TextDecoder::"
+"Float)、[BD](rdoc-ref:PG::BinaryDecoder::Float)"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, fuzzy
+#| msgid ""
+#| "BE: [Int2](rdoc-ref:PG::BinaryEncoder::Int2), [Int4](rdoc-ref:PG::"
+#| "BinaryEncoder::Int4), [Int8](rdoc-ref:PG::BinaryEncoder::Int8)"
+msgid ""
+"BE: [Float4](rdoc-ref:PG::BinaryEncoder::Float4), [Float8](rdoc-ref:PG::"
+"BinaryEncoder::Float8)"
+msgstr ""
+"BE: [Int2](rdoc-ref:PG::BinaryEncoder::Int2)、[Int4](rdoc-ref:PG::"
+"BinaryEncoder::Int4)、[Int8](rdoc-ref:PG::BinaryEncoder::Int8)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Numeric: [TE](rdoc-ref:PG::TextEncoder::Numeric), [TD](rdoc-ref:PG::"
+"TextDecoder::Numeric)"
+msgstr ""
+"Numeric: [TE](rdoc-ref:PG::TextEncoder::Numeric)、[TD](rdoc-ref:PG::"
+"TextDecoder::Numeric)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Boolean: [TE](rdoc-ref:PG::TextEncoder::Boolean), [TD](rdoc-ref:PG::"
+"TextDecoder::Boolean), [BE](rdoc-ref:PG::BinaryEncoder::Boolean), [BD](rdoc-"
+"ref:PG::BinaryDecoder::Boolean)"
+msgstr ""
+"Boolean: [TE](rdoc-ref:PG::TextEncoder::Boolean)、[TD](rdoc-ref:PG::"
+"TextDecoder::Boolean)、[BE](rdoc-ref:PG::BinaryEncoder::Boolean)、[BD](rdoc-"
+"ref:PG::BinaryDecoder::Boolean)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"String: [TE](rdoc-ref:PG::TextEncoder::String), [TD](rdoc-ref:PG::"
+"TextDecoder::String), [BE](rdoc-ref:PG::BinaryEncoder::String), [BD](rdoc-"
+"ref:PG::BinaryDecoder::String)"
+msgstr ""
+"String: [TE](rdoc-ref:PG::TextEncoder::String)、[TD](rdoc-ref:PG::"
+"TextDecoder::String)、[BE](rdoc-ref:PG::BinaryEncoder::String)、[BD](rdoc-"
+"ref:PG::BinaryDecoder::String)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Bytea: [TE](rdoc-ref:PG::TextEncoder::Bytea), [TD](rdoc-ref:PG::TextDecoder::"
+"Bytea), [BE](rdoc-ref:PG::BinaryEncoder::Bytea), [BD](rdoc-ref:PG::"
+"BinaryDecoder::Bytea)"
+msgstr ""
+"Bytea: [TE](rdoc-ref:PG::TextEncoder::Bytea)、[TD](rdoc-ref:PG::TextDecoder::"
+"Bytea)、[BE](rdoc-ref:PG::BinaryEncoder::Bytea)、[BD](rdoc-ref:PG::"
+"BinaryDecoder::Bytea)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Base64: [TE](rdoc-ref:PG::TextEncoder::ToBase64), [TD](rdoc-ref:PG::"
+"TextDecoder::FromBase64), [BE](rdoc-ref:PG::BinaryEncoder::FromBase64), [BD]"
+"(rdoc-ref:PG::BinaryDecoder::ToBase64)"
+msgstr ""
+"Base64: [TE](rdoc-ref:PG::TextEncoder::ToBase64)、[TD](rdoc-ref:PG::"
+"TextDecoder::FromBase64)、[BE](rdoc-ref:PG::BinaryEncoder::FromBase64)、[BD]"
+"(rdoc-ref:PG::BinaryDecoder::ToBase64)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid "Timestamp:"
+msgstr "Timestamp:"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+msgid ""
+"TE: [local](rdoc-ref:PG::TextEncoder::TimestampWithoutTimeZone), [UTC](rdoc-"
+"ref:PG::TextEncoder::TimestampUtc), [with-TZ](rdoc-ref:PG::TextEncoder::"
+"TimestampWithTimeZone)"
+msgstr ""
+"TE: [現地時間](rdoc-ref:PG::TextEncoder::TimestampWithoutTimeZone)、[UTC]"
+"(rdoc-ref:PG::TextEncoder::TimestampUtc)、[タイムゾーン付き](rdoc-ref:PG::"
+"TextEncoder::TimestampWithTimeZone)"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+msgid ""
+"TD: [local](rdoc-ref:PG::TextDecoder::TimestampLocal), [UTC](rdoc-ref:PG::"
+"TextDecoder::TimestampUtc), [UTC-to-local](rdoc-ref:PG::TextDecoder::"
+"TimestampUtcToLocal)"
+msgstr ""
+"TD: [現地時間](rdoc-ref:PG::TextDecoder::TimestampLocal)、[UTC](rdoc-ref:PG::"
+"TextDecoder::TimestampUtc)、[UTCから現地時間へ](rdoc-ref:PG::TextDecoder::"
+"TimestampUtcToLocal)"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, fuzzy
+#| msgid ""
+#| "BD: [local](rdoc-ref:PG::BinaryDecoder::TimestampLocal), [UTC](rdoc-ref:"
+#| "PG::BinaryDecoder::TimestampUtc), [UTC-to-local](rdoc-ref:PG::"
+#| "BinaryDecoder::TimestampUtcToLocal)"
+msgid ""
+"BE: [local](rdoc-ref:PG::BinaryEncoder::TimestampLocal), [UTC](rdoc-ref:PG::"
+"BinaryEncoder::TimestampUtc)"
+msgstr ""
+"BD: [現地時間](rdoc-ref:PG::BinaryDecoder::TimestampLocal)、[UTC](rdoc-ref:"
+"PG::BinaryDecoder::TimestampUtc)、[UTCから現地時間へ](rdoc-ref:PG::"
+"BinaryDecoder::TimestampUtcToLocal)"
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+msgid ""
+"BD: [local](rdoc-ref:PG::BinaryDecoder::TimestampLocal), [UTC](rdoc-ref:PG::"
+"BinaryDecoder::TimestampUtc), [UTC-to-local](rdoc-ref:PG::BinaryDecoder::"
+"TimestampUtcToLocal)"
+msgstr ""
+"BD: [現地時間](rdoc-ref:PG::BinaryDecoder::TimestampLocal)、[UTC](rdoc-ref:"
+"PG::BinaryDecoder::TimestampUtc)、[UTCから現地時間へ](rdoc-ref:PG::"
+"BinaryDecoder::TimestampUtcToLocal)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, fuzzy
+#| msgid ""
+#| "Bytea: [TE](rdoc-ref:PG::TextEncoder::Bytea), [TD](rdoc-ref:PG::"
+#| "TextDecoder::Bytea), [BE](rdoc-ref:PG::BinaryEncoder::Bytea), [BD](rdoc-"
+#| "ref:PG::BinaryDecoder::Bytea)"
+msgid ""
+"Date: [TE](rdoc-ref:PG::TextEncoder::Date), [TD](rdoc-ref:PG::TextDecoder::"
+"Date), [BE](rdoc-ref:PG::BinaryEncoder::Date), [BD](rdoc-ref:PG::"
+"BinaryDecoder::Date)"
+msgstr ""
+"Bytea: [TE](rdoc-ref:PG::TextEncoder::Bytea)、[TD](rdoc-ref:PG::TextDecoder::"
+"Bytea)、[BE](rdoc-ref:PG::BinaryEncoder::Bytea)、[BD](rdoc-ref:PG::"
+"BinaryDecoder::Bytea)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"JSON and JSONB: [TE](rdoc-ref:PG::TextEncoder::JSON), [TD](rdoc-ref:PG::"
+"TextDecoder::JSON)"
+msgstr ""
+"JSONとJSONB: [TE](rdoc-ref:PG::TextEncoder::JSON)、[TD](rdoc-ref:PG::"
+"TextDecoder::JSON)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Inet: [TE](rdoc-ref:PG::TextEncoder::Inet), [TD](rdoc-ref:PG::TextDecoder::"
+"Inet)"
+msgstr ""
+"Inet: [TE](rdoc-ref:PG::TextEncoder::Inet)、[TD](rdoc-ref:PG::TextDecoder::"
+"Inet)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Array: [TE](rdoc-ref:PG::TextEncoder::Array), [TD](rdoc-ref:PG::TextDecoder::"
+"Array)"
+msgstr ""
+"Array: [TE](rdoc-ref:PG::TextEncoder::Array)、[TD](rdoc-ref:PG::TextDecoder::"
+"Array)"
+
+#. type: Bullet: '* '
+#: ../README.md:146
+msgid ""
+"Composite Type (also called \"Row\" or \"Record\"): [TE](rdoc-ref:PG::"
+"TextEncoder::Record), [TD](rdoc-ref:PG::TextDecoder::Record)"
+msgstr ""
+"複合型（「行」や「レコード」などとも言います）：[TE](rdoc-ref:PG::"
+"TextEncoder::Record)、[TD](rdoc-ref:PG::TextDecoder::Record)"
+
+#. type: Plain text
+#: ../README.md:148
+#, fuzzy
+#| msgid ""
+#| "The following text formats can also be encoded although they are not used "
+#| "as column type:"
+msgid ""
+"The following text and binary formats can also be encoded although they are "
+"not used as column type:"
+msgstr ""
+"カラム型として使われていませんが以下のテキスト形式もエンコードできます。"
+
+#. type: Bullet: '* '
+#: ../README.md:152
+msgid ""
+"COPY input and output data: [TE](rdoc-ref:PG::TextEncoder::CopyRow), [TD]"
+"(rdoc-ref:PG::TextDecoder::CopyRow), [BE](rdoc-ref:PG::BinaryEncoder::"
+"CopyRow), [BD](rdoc-ref:PG::BinaryDecoder::CopyRow)"
+msgstr ""
+"COPYの入出力データ：[TE](rdoc-ref:PG::TextEncoder::CopyRow)、[TD](rdoc-ref:"
+"PG::TextDecoder::CopyRow), [BE](rdoc-ref:PG::BinaryEncoder::CopyRow), [BD]"
+"(rdoc-ref:PG::BinaryDecoder::CopyRow)"
+
+#. type: Bullet: '* '
+#: ../README.md:152
+msgid ""
+"Literal for insertion into SQL string: [TE](rdoc-ref:PG::TextEncoder::"
+"QuotedLiteral)"
+msgstr ""
+"SQL文字列に挿入するリテラル：[TE](rdoc-ref:PG::TextEncoder::QuotedLiteral)"
+
+#. type: Bullet: '* '
+#: ../README.md:152
+msgid ""
+"SQL-Identifier: [TE](rdoc-ref:PG::TextEncoder::Identifier), [TD](rdoc-ref:"
+"PG::TextDecoder::Identifier)"
+msgstr ""
+"SQLの識別子: [TE](rdoc-ref:PG::TextEncoder::Identifier)、[TD](rdoc-ref:PG::"
+"TextDecoder::Identifier)"
+
+#. type: Title ###
+#: ../README.md:153
+#, no-wrap
+msgid "PG::TypeMap and derivations (ext/pg_type_map*.c, lib/pg/type_map*.rb)"
+msgstr "PG::TypeMapとその派生 (ext/pg_type_map*.c, lib/pg/type_map*.rb)"
+
+#. type: Plain text
+#: ../README.md:159
+msgid ""
+"A TypeMap defines which value will be converted by which encoder/decoder.  "
+"There are different type map strategies, implemented by several derivations "
+"of this class. They can be chosen and configured according to the particular "
+"needs for type casting. The default type map is PG::TypeMapAllStrings."
+msgstr ""
+"TypeMapはエンコーダーまたはデコーダーのどちらによってどの値を変換するかを定義"
+"します。様々な型の対応付け戦略があるので、このクラスにはいくつかの派生が実装"
+"されています。型変換の特有の需要に合わせてそれらの派生から選んで調整を加える"
+"ことができます。既定の型の対応付けはPG::TypeMapAllStringsです。"
+
+#. type: Plain text
+#: ../README.md:163
+msgid ""
+"A type map can be assigned per connection or per query respectively per "
+"result set. Type maps can also be used for COPY in and out data streaming.  "
+"See PG::Connection#copy_data ."
+msgstr ""
+"型の対応付けは、結果の集合それぞれに対し、接続毎ないしクエリ毎に割り当てるこ"
+"とができます。型の対応付けはCOPYの入出力データストリーミングでも使うことがで"
+"きます。PG::Connection#copy_dataを参照してください。"
+
+#. type: Plain text
+#: ../README.md:165
+msgid "The following base type maps are available:"
+msgstr "以下の基底となる型の対応付けが使えます。"
+
+#. type: Bullet: '* '
+#: ../README.md:171
+msgid ""
+"PG::TypeMapAllStrings - encodes and decodes all values to and from strings "
+"(default)"
+msgstr ""
+"PG::TypeMapAllStrings - 全ての値と文字列について相互にエンコードとデコードを"
+"行います（既定）"
+
+#. type: Bullet: '* '
+#: ../README.md:171
+msgid ""
+"PG::TypeMapByClass - selects encoder based on the class of the value to be "
+"sent"
+msgstr ""
+"PG::TypeMapByClass - 送信する値のクラスに基づいてエンコーダーを選択します"
+
+#. type: Bullet: '* '
+#: ../README.md:171
+msgid "PG::TypeMapByColumn - selects encoder and decoder by column order"
+msgstr ""
+"PG::TypeMapByColumn - カラムの順番によってエンコーダーとデコーダーを選択しま"
+"す"
+
+#. type: Bullet: '* '
+#: ../README.md:171
+msgid "PG::TypeMapByOid - selects decoder by PostgreSQL type OID"
+msgstr ""
+"PG::TypeMapByOid - PostgreSQLのOIDデータ型によってデコーダーを選択します"
+
+#. type: Bullet: '* '
+#: ../README.md:171
+msgid "PG::TypeMapInRuby - define a custom type map in ruby"
+msgstr "PG::TypeMapInRuby - Rubyで独自の型の対応付けを定義します"
+
+#. type: Plain text
+#: ../README.md:173
+msgid ""
+"The following type maps are prefilled with type mappings from the PG::"
+"BasicTypeRegistry :"
+msgstr ""
+"以下の型の対応付けはPG::BasicTypeRegistry由来の型の対応付けが入った状態になっ"
+"ています。"
+
+#. type: Bullet: '* '
+#: ../README.md:177
+msgid ""
+"PG::BasicTypeMapForResults - a PG::TypeMapByOid prefilled with decoders for "
+"common PostgreSQL column types"
+msgstr ""
+"PG::BasicTypeMapForResults - PG::TypeMapByOidによくあるPostgreSQLカラム型用に"
+"デコーダーが入った状態になっています"
+
+#. type: Bullet: '* '
+#: ../README.md:177
+msgid ""
+"PG::BasicTypeMapBasedOnResult - a PG::TypeMapByOid prefilled with encoders "
+"for common PostgreSQL column types"
+msgstr ""
+"PG::BasicTypeMapBasedOnResult - PG::TypeMapByOidによくあるPostgreSQLカラム型"
+"用のエンコーダーが入った状態になっています"
+
+#. type: Bullet: '* '
+#: ../README.md:177
+msgid ""
+"PG::BasicTypeMapForQueries - a PG::TypeMapByClass prefilled with encoders "
+"for common Ruby value classes"
+msgstr ""
+"PG::BasicTypeMapForQueries - PG::TypeMapByClassによくあるRubyの値クラス用にエ"
+"ンコーダーが入った状態になっています"
+
+#. type: Title ##
+#: ../README.md:179
+#, no-wrap
+msgid "Thread support"
+msgstr "スレッド対応"
+
+#. type: Plain text
+#: ../README.md:184
+msgid ""
+"PG is thread safe in such a way that different threads can use different PG::"
+"Connection objects concurrently.  However it is not safe to access any Pg "
+"objects simultaneously from more than one thread.  So make sure to open a "
+"new database server connection for every new thread or use a wrapper library "
+"like ActiveRecord that manages connections in a thread safe way."
+msgstr ""
+"PGには個々のスレッドが別々のPG::Connectionオブジェクトを同時に使えるという点"
+"でスレッド安全性があります。しかし1つ以上のスレッドから同時にPgのオブジェクト"
+"にアクセスすると安全ではありません。そのため必ず、毎回新しいスレッドを作ると"
+"きに新しいデータベースサーバー接続を開くか、スレッド安全性のある方法で接続を"
+"管理するActiveRecordのようなラッパーライブラリを使うようにしてください。"
+
+#. type: Plain text
+#: ../README.md:186
+msgid ""
+"If messages like the following are printed to stderr, you're probably using "
+"one connection from several threads:"
+msgstr ""
+"以下のようなメッセージが標準エラー出力に表示された場合、恐らく複数のスレッド"
+"が1つの接続を使っています。"
+
+#. type: Plain text
+#: ../README.md:192
+#, no-wrap
+msgid ""
+"    message type 0x31 arrived from server while idle\n"
+"    message type 0x32 arrived from server while idle\n"
+"    message type 0x54 arrived from server while idle\n"
+"    message type 0x43 arrived from server while idle\n"
+"    message type 0x5a arrived from server while idle\n"
+msgstr ""
+"    message type 0x31 arrived from server while idle\n"
+"    message type 0x32 arrived from server while idle\n"
+"    message type 0x54 arrived from server while idle\n"
+"    message type 0x43 arrived from server while idle\n"
+"    message type 0x5a arrived from server while idle\n"
+
+#. type: Title ##
+#: ../README.md:194
+#, no-wrap
+msgid "Fiber IO scheduler support"
+msgstr "Fiber IOスケジューラー対応"
+
+#. type: Plain text
+#: ../README.md:201
+msgid ""
+"Pg is fully compatible with `Fiber.scheduler` introduced in Ruby-3.0.  On "
+"Windows support for `Fiber.scheduler` is available on Ruby-3.1 or newer.  "
+"All possibly blocking IO operations are routed through the `Fiber.scheduler` "
+"if one is registered for the running thread.  That is why pg internally uses "
+"the asynchronous libpq interface even for synchronous/blocking method "
+"calls.  It also uses Ruby's DNS resolution instead of libpq's builtin "
+"functions."
+msgstr ""
+"PgはRuby-3.0で導入された`Fiber.scheduler`に完全に対応しています。`Fiber."
+"scheduler`のWindows対応についてはRuby-3.1以降で使えます。`Fiber.scheduler`が"
+"走らせているスレッドに登録されている場合、起こりうる全てのブロッキングIO操作"
+"はそのスケジューラーを経由します。同期的であったりブロックしたりするメソッド"
+"呼び出しについてもpgが内部的に非同期のlibpqインターフェースを使っているのはそ"
+"れが理由です。またlibpqの組み込み関数に代えてRubyのDNS解決を使っています。"
+
+#. type: Plain text
+#: ../README.md:205
+msgid ""
+"Internally Pg always uses the nonblocking connection mode of libpq.  It then "
+"behaves like running in blocking mode but ensures, that all blocking IO is "
+"handled in Ruby through a possibly registered `Fiber.scheduler`.  When `PG::"
+"Connection.setnonblocking(true)` is called then the nonblocking state stays "
+"enabled, but the additional handling of blocking states is disabled, so that "
+"the calling program has to handle blocking states on its own."
+msgstr ""
+"内部的にPgは常にlibpqのノンブロッキング接続モードを使います。それからブロッキ"
+"ングモードで走っているように振舞いますが、もし`Fiber.scheduler`が登録されてい"
+"れば全てのブロッキングIOはそのスケジューラーを通じてRubyで制御されます。`PG::"
+"Connection.setnonblocking(true)`が呼ばれたらノンブロッキング状態が有効になっ"
+"たままになりますが、それ以降のブロッキング状態の制御が無効になるので、呼び出"
+"しているプログラムはブロッキング状態を自力で制御しなければなりません。"
+
+#. type: Plain text
+#: ../README.md:209
+msgid ""
+"An exception to this rule are the methods for large objects like `PG::"
+"Connection#lo_create` and authentication methods using external libraries "
+"(like GSSAPI authentication).  They are not compatible with `Fiber."
+"scheduler`, so that blocking states are not passed to the registered IO "
+"scheduler.  That means the operation will work properly, but IO waiting "
+"states can not be used to switch to another Fiber doing IO."
+msgstr ""
+"この規則の1つの例外には、`PG::Connection#lo_create`や外部ライブラリを使う認証"
+"メソッド（GSSAPI認証など）のような、大きめのオブジェクト用のメソッドがありま"
+"す。これらは`Fiber.scheduler`と互換性がないため、ブロッキング状態は登録された"
+"IOスケジューラに渡されません。つまり操作は適切に実行されますが、IO待ち状態に"
+"別のIOを扱うFiberから使用を切り替えてくることができなくなります。"
+
+#. type: Title ##
+#: ../README.md:211
+#, no-wrap
+msgid "Contributing"
+msgstr "貢献"
+
+#. type: Plain text
+#: ../README.md:215
+msgid ""
+"To report bugs, suggest features, or check out the source with Git, [check "
+"out the project page](https://github.com/ged/ruby-pg)."
+msgstr ""
+"バグを報告したり機能を提案したりGitでソースをチェックアウトしたりするには[プ"
+"ロジェクトページをご確認ください](https://github.com/ged/ruby-pg)。"
+
+#. type: Plain text
+#: ../README.md:217
+msgid "After checking out the source, install all dependencies:"
+msgstr "ソースをチェックアウトしたあとは全ての依存関係をインストールします。"
+
+#. type: Plain text
+#: ../README.md:219
+#, no-wrap
+msgid "    $ bundle install\n"
+msgstr "    $ bundle install\n"
+
+#. type: Plain text
+#: ../README.md:222
+msgid ""
+"Cleanup extension files, packaging files, test databases.  Run this to "
+"change between PostgreSQL versions:"
+msgstr ""
+"拡張ファイル、パッケージファイル、テストデータベースを一掃するには、このコマ"
+"ンドを走らせてください。PostgreSQLのバージョンも切り替わります。"
+
+#. type: Plain text
+#: ../README.md:224
+#, no-wrap
+msgid "    $ rake clean\n"
+msgstr "    $ rake clean\n"
+
+#. type: Plain text
+#: ../README.md:226
+msgid "Compile extension:"
+msgstr "拡張をコンパイルするには次のようにします。"
+
+#. type: Plain text
+#: ../README.md:228
+#, no-wrap
+msgid "    $ rake compile\n"
+msgstr "    $ rake compile\n"
+
+#. type: Plain text
+#: ../README.md:230
+msgid ""
+"Run tests/specs on the PostgreSQL version that `pg_config --bindir` points "
+"to:"
+msgstr ""
+"`pg_config --bindir`が指すPostgreSQLのバージョンでテストやスペックを走らせる"
+"には次のようにします。"
+
+#. type: Plain text
+#: ../README.md:232
+#, no-wrap
+msgid "    $ rake test\n"
+msgstr "    $ rake test\n"
+
+#. type: Plain text
+#: ../README.md:234
+msgid ""
+"Or run a specific test per file and line number on a specific PostgreSQL "
+"version:"
+msgstr ""
+"あるいは特定のPostgreSQLのバージョンで、ファイル中の行番号を使って特定のテス"
+"トを走らせるには次のようにします。"
+
+#. type: Plain text
+#: ../README.md:236
+#, no-wrap
+msgid "    $ PATH=/usr/lib/postgresql/14/bin:$PATH rspec -Ilib -fd spec/pg/connection_spec.rb:455\n"
+msgstr "    $ PATH=/usr/lib/postgresql/14/bin:$PATH rspec -Ilib -fd spec/pg/connection_spec.rb:455\n"
+
+#. type: Plain text
+#: ../README.md:238
+msgid "Generate the API documentation:"
+msgstr "APIドキュメントを生成するには次のようにします。"
+
+#. type: Plain text
+#: ../README.md:240
+#, no-wrap
+msgid "    $ rake docs\n"
+msgstr "    $ rake docs\n"
+
+#. type: Plain text
+#: ../README.md:242
+msgid "Make sure, that all bugs and new features are verified by tests."
+msgstr "必ず全てのバグと新機能についてテストを使って検証してください。"
+
+#. type: Plain text
+#: ../README.md:245
+msgid ""
+"The current maintainers are Michael Granger <ged@FaerieMUD.org> and Lars "
+"Kanis <lars@greiz-reinsdorf.de>."
+msgstr ""
+"現在のメンテナはMichael Granger <ged@FaerieMUD.org>とLars Kanis <lars@greiz-"
+"reinsdorf.de>です。"
+
+#. type: Title ##
+#: ../README.md:247
+#, no-wrap
+msgid "Copying"
+msgstr "著作権"
+
+#. type: Plain text
+#: ../README.md:250
+msgid "Copyright (c) 1997-2022 by the authors."
+msgstr "Copyright (c) 1997-2022 by the authors."
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Jeff Davis <ruby-pg@j-davis.com>"
+msgstr "Jeff Davis <ruby-pg@j-davis.com>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Guy Decoux (ts) <decoux@moulon.inra.fr>"
+msgstr "Guy Decoux (ts) <decoux@moulon.inra.fr>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Michael Granger <ged@FaerieMUD.org>"
+msgstr "Michael Granger <ged@FaerieMUD.org>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Lars Kanis <lars@greiz-reinsdorf.de>"
+msgstr "Lars Kanis <lars@greiz-reinsdorf.de>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Dave Lee"
+msgstr "Dave Lee"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Eiji Matsumoto <usagi@ruby.club.or.jp>"
+msgstr "Eiji Matsumoto <usagi@ruby.club.or.jp>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Yukihiro Matsumoto <matz@ruby-lang.org>"
+msgstr "Yukihiro Matsumoto <matz@ruby-lang.org>"
+
+#. type: Bullet: '* '
+#: ../README.md:259
+msgid "Noboru Saitou <noborus@netlab.jp>"
+msgstr "Noboru Saitou <noborus@netlab.jp>"
+
+#. type: Plain text
+#: ../README.md:263
+msgid ""
+"You may redistribute this software under the same terms as Ruby itself; see "
+"https://www.ruby-lang.org/en/about/license.txt or the BSDL file in the "
+"source for details."
+msgstr ""
+"You may redistribute this software under the same terms as Ruby itself; see "
+"https://www.ruby-lang.org/en/about/license.txt or the BSDL file in the "
+"source for details.\n"
+"（参考訳：このソフトウェアはRuby自体と同じ条件の元で再配布することができま"
+"す。詳細については https://www.ruby-lang.org/en/about/license.txt やソース中"
+"のBSDLファイルを参照してください）"
+
+#. type: Plain text
+#: ../README.md:266
+msgid ""
+"Portions of the code are from the PostgreSQL project, and are distributed "
+"under the terms of the PostgreSQL license, included in the file POSTGRES."
+msgstr ""
+"Portions of the code are from the PostgreSQL project, and are distributed "
+"\"\n"
+"\"under the terms of the PostgreSQL license, included in the file POSTGRES.\n"
+"（参考訳：コードの一部はPostgreSQLプロジェクトから来ており、PostgreSQLの使用"
+"許諾の条件の元で配布されます。ファイルPOSTGRESに含まれています）"
+
+#. type: Plain text
+#: ../README.md:268
+msgid "Portions copyright LAIKA, Inc."
+msgstr "Portions copyright LAIKA, Inc."
+
+#. type: Title ##
+#: ../README.md:270
+#, no-wrap
+msgid "Acknowledgments"
+msgstr "謝辞"
+
+#. type: Plain text
+#: ../README.md:274
+msgid ""
+"See Contributors.rdoc for the many additional fine people that have "
+"contributed to this library over the years."
+msgstr ""
+"長年にわたって貢献してくださった方々についてはContributors.rdocを参照してくだ"
+"さい。"
+
+#. type: Plain text
+#: ../README.md:276
+msgid ""
+"We are thankful to the people at the ruby-list and ruby-dev mailing lists.  "
+"And to the people who developed PostgreSQL."
+msgstr ""
+"ruby-listとruby-devメーリングリストの方々に感謝します。またPostgreSQLを開発さ"
+"れた方々へも謝意を表します。"

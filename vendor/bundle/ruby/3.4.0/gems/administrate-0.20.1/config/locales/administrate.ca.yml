@@ -1,0 +1,30 @@
+---
+ca:
+  administrate:
+    actions:
+      confirm: Estàs segur?
+      destroy: Destruir
+      edit: Editar
+      edit_resource: Edita %{name}
+      show_resource: Mostra %{name}
+      new_resource: Nou %{name}
+      back: Tornar
+    controller:
+      create:
+        success: "%{resource} s'ha creat amb èxit."
+      destroy:
+        success: "%{resource} s'ha destruït amb èxit."
+      update:
+        success: "%{resource} s'ha actualitzat amb èxit."
+    fields:
+      has_many:
+        more: Mostrant %{count} de %{total_count}
+        none: Cap
+    form:
+      error: error
+      errors: "%{pluralized_errors} han impedit que %{resource_name} es guardés amb èxit:"
+    navigation:
+      back_to_app: Torna a l'aplicació
+    search:
+      clear: Esborrar la cerca
+      label: Cerca %{resource}

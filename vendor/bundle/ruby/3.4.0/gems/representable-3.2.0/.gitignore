@@ -1,0 +1,12 @@
+spec/**/*.xml
+rdoc
+build
+doc
+Rake.config
+pkg
+.project
+.bundle
+Gemfile.lock
+*.swp
+*.swo
+bin

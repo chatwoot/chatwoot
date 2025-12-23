@@ -1,0 +1,107 @@
+name: build
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    services:
+      postgresql:
+        image: postgres:9.6
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_PASSWORD: postgres
+    strategy:
+      fail-fast: true
+      matrix:
+        ruby_version:
+          - '3.0'
+          - '2.7'
+          - '2.6'
+          - '2.5'
+          - 'jruby-9.3.2.0'
+        gemfile:
+          - gemfiles/active_record_70.gemfile
+          - gemfiles/active_record_61.gemfile
+          - gemfiles/active_record_60.gemfile
+          - gemfiles/active_record_52.gemfile
+          - gemfiles/active_record_51.gemfile
+          - gemfiles/active_record_50.gemfile
+          - gemfiles/active_record_edge.gemfile
+        db:
+          - sqlite3
+          - postgresql
+          - mysql
+        exclude:
+          - ruby_version: '3.0'
+            gemfile: gemfiles/active_record_52.gemfile
+          - ruby_version: '3.0'
+            gemfile: gemfiles/active_record_51.gemfile
+          - ruby_version: '3.0'
+            gemfile: gemfiles/active_record_50.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/active_record_52.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/active_record_51.gemfile
+          - ruby_version: '2.7'
+            gemfile: gemfiles/active_record_50.gemfile
+          - ruby_version: '2.6'
+            gemfile: gemfiles/active_record_edge.gemfile
+          - ruby_version: '2.6'
+            gemfile: gemfiles/active_record_70.gemfile
+          - ruby_version: '2.5'
+            gemfile: gemfiles/active_record_edge.gemfile
+          - ruby_version: '2.5'
+            gemfile: gemfiles/active_record_70.gemfile
+          - ruby_version: 'jruby-9.3.2.0'
+            gemfile: gemfiles/active_record_edge.gemfile
+        include:
+          - ruby_version: 'ruby-head'
+            gemfile: gemfiles/active_record_edge.gemfile
+            db: sqlite3
+          - ruby_version: 'ruby-head'
+            gemfile: gemfiles/active_record_edge.gemfile
+            db: postgresql
+          - ruby_version: 'ruby-head'
+            gemfile: gemfiles/active_record_edge.gemfile
+            db: mysql
+          - ruby_version: '2.4'
+            gemfile: gemfiles/active_record_52.gemfile
+            db: sqlite3
+          - ruby_version: '2.3'
+            gemfile: gemfiles/active_record_52.gemfile
+            db: sqlite3
+          - ruby_version: '2.3'
+            gemfile: gemfiles/active_record_42.gemfile
+            db: sqlite3
+          - ruby_version: '2.3'
+            gemfile: gemfiles/active_record_41.gemfile
+            db: sqlite3
+          - ruby_version: '2.2'
+            gemfile: gemfiles/active_record_52.gemfile
+            db: sqlite3
+          - ruby_version: '2.1'
+            gemfile: gemfiles/active_record_42.gemfile
+            db: sqlite3
+    runs-on: ubuntu-18.04
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
+      DB: ${{ matrix.db }}
+      POSTGRES_PASSWORD: postgres  # for passing the password to the Rails process
+      MYSQL_PASSWORD: root  # for passing the password to the Rails process
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install libmysqld-dev
+        run: sudo apt-get install libmysqld-dev
+      - name: Start local MySQL
+        run: sudo /etc/init.d/mysql start
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby_version }}
+          bundler-cache: true
+        continue-on-error: ${{ matrix.ruby_version == 'ruby-head' || matrix.ruby_version == 'jruby-9.3.2.0' || matrix.gemfile == 'gemfiles/active_record_edge.gemfile' }}
+      - run: bundle exec rake test
+        continue-on-error: ${{ matrix.ruby_version == 'ruby-head' || matrix.ruby_version == 'jruby-9.3.2.0' || matrix.gemfile == 'gemfiles/active_record_edge.gemfile' }}

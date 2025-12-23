@@ -1,0 +1,5 @@
+---
+- ruby build
+- pinterest/android
+- pinterest/ios
+- yandexsearchbrowser

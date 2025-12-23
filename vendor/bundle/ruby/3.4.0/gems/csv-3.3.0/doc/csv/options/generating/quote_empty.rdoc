@@ -1,0 +1,12 @@
+====== Option +quote_empty+
+
+Specifies the boolean that determines whether an empty value is to be double-quoted.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:quote_empty) # => true
+
+With the default +true+:
+  CSV.generate_line(['"', ""]) # => "\"\"\"\",\"\"\n"
+
+With +false+:
+    CSV.generate_line(['"', ""], quote_empty: false) # => "\"\"\"\",\n"

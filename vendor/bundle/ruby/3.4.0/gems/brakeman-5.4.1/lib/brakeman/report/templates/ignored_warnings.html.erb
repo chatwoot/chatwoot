@@ -1,0 +1,27 @@
+<div onClick="toggle('ignored_table');">  <h2><%= warnings.length %> Ignored Warnings (click to see them)</h2 ></div>
+<div>
+  <table style="display:none" id="ignored_table">
+    <thead>
+      <tr>
+        <th>Confidence</th>
+        <th>File</th>
+        <th>Warning Type</th>
+        <th>CWE ID</th>
+        <th>Message</th>
+        <th>Note</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% warnings.each do |warning| %>
+      <tr>
+        <td><%= warning['Confidence']%></td>
+        <td><%= warning['File']%></td>
+        <td><%= warning['Warning Type']%></td>
+        <td><%= warning['CWE ID']%></td>
+        <td><%= warning['Message']%></td>
+        <td><%= warning['Note']%></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

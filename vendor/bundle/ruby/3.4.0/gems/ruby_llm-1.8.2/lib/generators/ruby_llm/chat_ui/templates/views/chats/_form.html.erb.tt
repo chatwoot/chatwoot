@@ -1,0 +1,29 @@
+<%%= form_with(model: <%= chat_variable_name %>, url: <%= chat_table_name %>_path) do |form| %>
+  <%% if <%= chat_variable_name %>.errors.any? %>
+    <div style="color: red">
+      <h2><%%= pluralize(<%= chat_variable_name %>.errors.count, "error") %> prohibited this <%= chat_table_name.singularize.humanize.downcase %> from being saved:</h2>
+
+      <ul>
+        <%% <%= chat_variable_name %>.errors.each do |error| %>
+          <li><%%= error.full_message %></li>
+        <%% end %>
+      </ul>
+    </div>
+  <%% end %>
+
+  <div>
+    <%%= form.label :model, "Select AI model:", style: "display: block" %>
+    <%%= form.select :model,
+        options_for_select(<%= model_model_name %>.pluck(:name, :model_id).unshift(["Default (#{RubyLLM.config.default_model})", nil]), @selected_model),
+        {},
+        style: "width: 100%; max-width: 600px; padding: 5px;" %>
+  </div>
+
+  <div style="margin-top: 15px;">
+    <%%= form.text_field :prompt, style: "width: 100%; max-width: 600px;", placeholder: "What would you like to discuss?", autofocus: true %>
+  </div>
+
+  <div>
+    <%%= form.submit "Start new <%= chat_table_name.singularize.humanize.downcase %>" %>
+  </div>
+<%% end %>

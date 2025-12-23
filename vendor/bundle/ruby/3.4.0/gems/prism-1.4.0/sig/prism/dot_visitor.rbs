@@ -1,0 +1,6 @@
+module Prism
+  class DotVisitor < Visitor
+    def initialize: () -> void
+    def to_dot: () -> String
+  end
+end

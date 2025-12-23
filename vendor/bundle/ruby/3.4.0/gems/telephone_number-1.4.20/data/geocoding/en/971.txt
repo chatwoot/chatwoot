@@ -1,0 +1,49 @@
+# Copyright (C) 2019 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/dms_pub/itu-t/oth/02/02/T020200006E0001PDFE.pdf
+# It seems that the first 3 digits of the national significant number indicate
+# the location. The association of 6 with Amman comes from Wikipedia.
+
+9712|Abu dhabi
+9713|Al Ain
+97142|Dubai
+97143|Dubai
+97144|Dubai
+97145|Dubai
+97146|Dubai
+97147|Dubai
+97148|Dubai
+97162|Sharjah, Ajman, Umm Al-Qaiwain
+97163|Sharjah, Ajman, Umm Al-Qaiwain
+97164|Sharjah, Ajman, Umm Al-Qaiwain
+97165|Sharjah, Ajman, Umm Al-Qaiwain
+97166|Sharjah, Ajman, Umm Al-Qaiwain
+97167|Sharjah, Ajman, Umm Al-Qaiwain
+97168|Sharjah, Ajman, Umm Al-Qaiwain
+97172|Ras Alkhaimah
+97173|Ras Alkhaimah
+97174|Ras Alkhaimah
+97175|Ras Alkhaimah
+97176|Ras Alkhaimah
+97177|Ras Alkhaimah
+97178|Ras Alkhaimah
+97192|Fujairah
+97193|Fujairah
+97194|Fujairah
+97195|Fujairah
+97196|Fujairah
+97197|Fujairah
+97198|Fujairah

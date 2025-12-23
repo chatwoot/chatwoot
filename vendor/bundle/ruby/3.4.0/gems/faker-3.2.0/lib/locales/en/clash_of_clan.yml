@@ -1,0 +1,101 @@
+en:
+  faker:
+    games:
+      clash_of_clans:
+        troops:
+          - Barbarian
+          - Archer
+          - Giant
+          - Goblin
+          - Wall Breaker
+          - Balloon
+          - Wizard
+          - Healer
+          - Dragon
+          - P.E.K.K.A
+          - Baby Dragon
+          - Miner
+          - Electro Dragon
+          - Yeti (Yetimite)
+          - Ice Wizard
+          - Battle Ram (Barbarian)
+          - Pumpkin Barbarian (Barbarian)
+          - Giant Skeleton
+          - Skeleton Barrel (Skeleton)
+          - El Primo
+          - Party Wizard
+          - Royal Ghost
+          - Minion
+          - Hog Rider
+          - Valkyrie
+          - Golem (Golemite)
+          - Witch (Skeleton)
+          - Lava Hound (Lava Pup)
+          - Bowler
+          - Ice Golem
+          - Headhunter
+          - Raged Barbarian
+          - Sneaky Archer
+          - Boxer Giant
+          - Beta Minion
+          - Bomber
+          - Baby Dragon
+          - Cannon Cart
+          - Night Witch (Bat)
+          - Drop Ship (Skeleton)
+          - Super P.E.K.K.A
+          - Hog Glider (Hog Rider)
+
+        ranks:
+          - Unranked
+          - Bronze III
+          - Bronze II
+          - Bronze I
+          - Silver III
+          - Silver II
+          - Silver I
+          - Gold III
+          - Gold II
+          - Gold I
+          - Crystal III
+          - Crystal II
+          - Crystal I
+          - Master III
+          - Master II
+          - Master I
+          - Champion III
+          - Champion II
+          - Champion I
+          - Titan III
+          - Titan II
+          - Titan I
+          - Legend
+
+        defensive_buildings:
+          - Cannon
+          - Archer Tower
+          - Mortar
+          - Air Defense
+          - Wizard Tower
+          - Air Sweeper
+          - Hidden Tesla
+          - Bomb Tower
+          - X-Bow
+          - Inferno Tower
+          - Eagle Artillery
+          - Giga Tesla
+          - Giga Inferno
+          - Scattershot
+          - Walls
+          - Traps
+          - Double Cannon
+          - Firecrackers
+          - Crusher
+          - Guard Post
+          - Air Bombs
+          - Multi Mortar
+          - Roaster
+          - Giant Cannon
+          - Mega Tesla
+          - Lava Launcher
+          - Traps

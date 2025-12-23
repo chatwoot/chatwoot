@@ -1,0 +1,32 @@
+Style/Documentation:
+  Enabled: false
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: true
+  Exclude:
+    - 'spec/**/*.rb'
+
+Style/FormatStringToken:
+  Enabled: true
+  EnforcedStyle: unannotated
+
+Style/HashSyntax:
+  Enabled: true
+  EnforcedStyle: hash_rockets
+
+Style/OptionHash:
+  Enabled: true
+
+Style/RescueStandardError:
+  Enabled: true
+  EnforcedStyle: implicit
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes
+
+Style/WordArray:
+  Enabled: true
+
+Style/YodaCondition:
+  Enabled: false

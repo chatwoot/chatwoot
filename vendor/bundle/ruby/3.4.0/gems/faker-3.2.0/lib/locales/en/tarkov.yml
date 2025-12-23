@@ -1,0 +1,593 @@
+en:
+  faker:
+    tarkov:
+      locations:
+        - Customs
+        - Factory
+        - Interchange
+        - Lighthouse
+        - Reserve
+        - Shoreline
+        - The Lab
+        - Woods
+        - Arena
+        - Private Sector
+        - Streets of Tarkov
+        - Suburbs
+        - Terminal
+        - Town
+      traders:
+        - Prapor
+        - Therapist
+        - Fence
+        - Skier
+        - Peacekeeper
+        - Mechanic
+        - Ragman
+        - Jaeger
+      weapons:
+        - SIG MCX
+        - M4A1
+        - HK416
+        - DT MDR 5.56
+        - HK G36
+        - FN SCAR-L
+        - AK101
+        - AK102
+        - AK(S)74(N)
+        - AK74M
+        - AK105
+        - AK103
+        - AK104
+        - AKM(S)(N)
+        - RD704
+        - MK47
+        - SAG AK Short
+        - SAG AK Long
+        - AKS74U
+        - AKS74UN
+        - AKS74UB
+        - RPK16
+        - AS VAL
+        - VSS
+        - ASH-12
+        - SA58
+        - SCAR-H
+        - DT MDR .308
+        - ADAR-2-15
+        - TX15
+        - VPO-136
+        - SKS
+        - OP-SKS
+        - VPO-209
+        - KAC SR25
+        - RSASS
+        - G28
+        - M1A
+        - SVD
+        - RFB
+        - VPO-101
+        - MK.18
+        - Stm-9
+        - Saiga-9
+        - PP19-01
+        - MP5
+        - MP5k
+        - MPX
+        - MP9(n)
+        - Vector 9x19
+        - Vector 11x43
+        - UMP-45
+        - PP-91 Kedr
+        - PP-9 Klin
+        - PP-91-01
+        - HK MP7A1 (A2)
+        - FN P90
+        - PPSH-41
+        - FN Five-Seven
+        - Beretta M9A3
+        - Glock 17
+        - Glock 18C
+        - MP443
+        - PL-15
+        - P226
+        - Colt M1911
+        - Colt M45A1
+        - USP .45
+        - SR-1MP
+        - PM
+        - PB
+        - APS(APB)
+        - TT33
+        - Rhino 50DS
+        - Rhino 200DS
+        - MP43
+        - MP133
+        - M870
+        - M590
+        - MP153
+        - MP155
+        - Beneli M3
+        - MTs-255
+        - Ssiga-12
+        - Toz-106
+        - MP-18
+        - Mosin
+        - VPO-215
+        - SV-98
+        - DVL-10
+        - Orsis T500
+        - Remington 700
+        - AXMC
+        - FN GL40
+        - NSV Utes
+        - AGS-30
+      items:
+        - 42 Signature Blend English Tea
+        - Apollo Soyuz cigarettes
+        - Aramid fiber fabric
+        - BEAR Buddy plush toy
+        - Can of Dr. Lupo's coffee beans
+        - Can of Majaica coffee beans
+        - Cordura polyamide fabric
+        - Dogtag
+        - Fleece fabric
+        - FP-100 filter absorber
+        - Gas mask air filter
+        - Malboro Cigarettes
+        - OFZ 30x160mm shell
+        - Paracord
+        - Press pass (issued for NoiceGuy)
+        - Ripstop fabric
+        - Strike Cigarettes
+        - UZRGM grenade fuze
+        - Water filter
+        - Weapon parts
+        - Wilston cigarettes
+        - Analog thermometer
+        - Bolts
+        - Corrugated hose
+        - Duct tape
+        - Insulating tape
+        - KEKTAPE duct tape
+        - Metal spare parts
+        - Military corrugated tube
+        - Pack of nails
+        - Pack of screws
+        - Piece of plexiglass
+        - Pressure gauge
+        - Screw nuts
+        - Shustrilo sealing foam
+        - Silicone tube
+        - Tube of Poxeram cold welding
+        - Xenomorph sealing foam
+        - Broken GPhone X smartphone
+        - Broken GPhone smartphone
+        - Broken LCD
+        - Bundle of wires
+        - Capacitors
+        - CPU fan
+        - Damaged hard drive
+        - DVD drive
+        - Electric drill
+        - Electric motor
+        - Energy-saving lamp
+        - Gas analyzer
+        - Geiger-Muller counter
+        - Golden 1GPhone smartphone
+        - Graphics card
+        - Iridium military thermal vision module
+        - Light bulb
+        - Magnet
+        - Military cable
+        - Military circuit board
+        - Military COFDM Wireless Signal Transmitter
+        - Military gyrotachometer
+        - Military power filter
+        - NIXXOR lens
+        - PC CPU
+        - Phase control relay
+        - Phased array element
+        - Power cord
+        - Power supply unit
+        - Printed circuit board
+        - Radiator helix
+        - RAM
+        - Spark plug
+        - T-Shaped plug
+        - Tetriz portable game console
+        - UHF RFID Reader
+        - Ultraviolet lamp
+        - USB Adapter
+        - Virtex programmable processor
+        - VPX Flash Storage Module
+        - Working LCD
+        - 6-STEN-140-M military battery
+        - AA Battery
+        - Car battery
+        - Cyclon rechargeable battery
+        - D Size battery
+        - GreenBat lithium battery
+        - Portable Powerbank
+        - Rechargeable battery
+        - Can of thermite
+        - Classic matches
+        - Crickent lighter
+        - Dry fuel
+        - Expeditionary fuel tank
+        - FireKlean gun lube
+        - Fuel conditioner
+        - Gunpowder "Eagle"
+        - Gunpowder "Hawk"
+        - Gunpowder "Kite"
+        - Hunting matches
+        - Metal fuel tank
+        - Propane tank (5L)
+        - SurvL Survivor Lighter
+        - TP-200 TNT brick
+        - WD-40 (400ml)
+        - WD-40 100ml
+        - Zibbo lighter
+        - Alkaline cleaner for heat exchangers
+        - Can of white salt
+        - Clin window cleaner
+        - Deadlyslob's beard oil
+        - LVNDMARK's rat poison
+        - Ortodontox toothpaste
+        - Ox bleach
+        - Pack of chlorine
+        - Pack of sodium bicarbonate
+        - PAID AntiRoach spray
+        - Printer paper
+        - Repellent
+        - Schaman shampoo
+        - Smoked Chimney drain cleaner
+        - Soap
+        - Toilet paper
+        - Toothpaste
+        - Bottle of hydrogen peroxide
+        - Bottle of OLOLO Multivitamins
+        - Bottle of saline solution
+        - Disposable syringe
+        - LEDX Skin Transilluminator
+        - Medical bloodset
+        - Medical tools
+        - Ophthalmoscope
+        - Pile of meds
+        - Portable defibrillator
+        - Awl
+        - Bulbex cable cutter
+        - Construction measuring tape
+        - Flat screwdriver
+        - Flat screwdriver (Long)
+        - Hand drill
+        - Metal cutting scissors
+        - Nippers
+        - Pipe grip wrench
+        - Pliers
+        - Pliers Elite
+        - Ratchet wrench
+        - Round pliers
+        - Screwdriver
+        - Set of files "Master"
+        - Sewing kit
+        - Toolset
+        - Wrench
+        - Antique teapot
+        - Antique vase
+        - Axel parrot figurine
+        - Battered antique book
+        - Bronze lion
+        - Cat figurine
+        - Chain with Prokill medallion
+        - Chainlet
+        - Christmas tree ornament (Red)
+        - Christmas tree ornament (Silver)
+        - Christmas tree ornament (Violet)
+        - Gold skull ring
+        - Golden egg
+        - Golden neck chain
+        - Golden rooster
+        - GP coin
+        - Horse figurine
+        - Loot Lord plushie
+        - Old firesteel
+        - Physical bitcoin
+        - Raven figurine
+        - Roler Submariner gold wrist watch
+        - Silver Badge
+        - Veritas guitar pick
+        - Wooden clock
+        - BakeEzy cook book
+        - Diary
+        - Intelligence folder
+        - Military flash drive
+        - SAS drive
+        - Secure Flash drive
+        - Secured magnetic tape cassette
+        - Slim diary
+        - SSD drive
+        - Tech manual
+        - Topographic survey maps
+        - Video cassette with the Cyborg Killer movie
+      factions:
+        - USEC
+        - BEAR
+        - Scav
+        - Raider
+        - Cultist
+        - Rogue
+      bosses:
+        - Big Pipe
+        - Birdeye
+        - Cultist priest
+        - Glukhar
+        - Killa
+        - Knight
+        - Reshala
+        - Sanitar
+        - Shturman
+        - Tagilla
+      quests:
+        prapor:
+          - Debut
+          - Search Mission
+          - Checking
+          - Shootout Picnic
+          - Delivery from the Past
+          - BP Depot
+          - The Bunker - Part 1
+          - The Bunker - Part 2
+          - Bad Rep Evidence
+          - Ice Cream Cones
+          - No Place for Renegades
+          - Documents
+          - Postman Pat - Part 1
+          - Shaking up the Teller
+          - The Punisher - Part 1
+          - The Punisher - Part 2
+          - The Punisher - Part 3
+          - The Punisher - Part 4
+          - The Punisher - Part 5
+          - The Punisher - Part 6
+          - Anesthesia
+          - Grenadier
+          - Insomnia
+          - Test Drive - Part 1
+          - Perfect Mediator
+          - Polikhim Hobo
+          - Regulated Materials
+          - Big Customer
+          - No Offence
+          - Capturing Outposts
+          - Intimidator
+          - Escort
+          - Easy Job - Part 1
+          - Easy Job - Part 2
+          - Our Own Land
+          - Reconnaissance
+        therapist:
+          - Shortage
+          - Operation Aquarius - Part 1
+          - Operation Aquarius - Part 2
+          - Sanitary Standards - Part 1
+          - Sanitary Standards - Part 2
+          - Painkiller
+          - Pharmacist
+          - Car Repair
+          - Hippocratic Oath
+          - Disease History
+          - Supply Plans
+          - Health Care Privacy - Part 1
+          - Health Care Privacy - Part 2
+          - Health Care Privacy - Part 3
+          - An Apple a Day Keeps the Doctor Away
+          - Health Care Privacy - Part 4
+          - Athlete
+          - Private Clinic
+          - Health Care Privacy - Part 5
+          - Decontamination Service
+          - General Wares
+          - Colleagues - Part 1
+          - Colleagues - Part 2
+          - Colleagues - Part 3
+          - Postman Pat - Part 2
+          - Out of Curiosity
+          - Trust Regain
+          - Crisis
+          - Seaside Vacation
+          - Lost Contact
+          - Drug Trafficking
+        skier:
+          - Supplier
+          - The Extortionist
+          - Stirrup
+          - What’s on the Flash Drive?
+          - Golden Swag
+          - Chemical - Part 1
+          - Chemical - Part 2
+          - Chemical - Part 3
+          - Chemical - Part 4
+          - Loyalty Buyout
+          - Vitamins - Part 1
+          - Vitamins - Part 2
+          - Friend from the West - Part 1
+          - Friend from the West - Part 2
+          - Informed Means Armed
+          - Chumming
+          - Silent Caliber
+          - Bullshit
+          - Setup
+          - Flint
+          - Lend-Lease - Part 1
+          - Kind of Sabotage
+          - Rigged Game
+          - Safe Corridor
+          - Night Sweep
+          - Long Road
+          - Missing Cargo
+          - Top Secret
+        peacekeeper:
+          - Fishing Gear
+          - Tigr Safari
+          - Scrap Metal
+          - Eagle Eye
+          - Humanitarian Supplies
+          - The Cult - Part 1
+          - The Cult - Part 2
+          - Spa Tour - Part 1
+          - Spa Tour - Part 2
+          - Spa Tour - Part 3
+          - Spa Tour - Part 4
+          - Spa Tour - Part 5
+          - Spa Tour - Part 6
+          - Spa Tour - Part 7
+          - Cargo X - Part 1
+          - Cargo X - Part 2
+          - Cargo X - Part 3
+          - Wet Job - Part 1
+          - Wet Job - Part 2
+          - Wet Job - Part 3
+          - Wet Job - Part 4
+          - Wet Job - Part 5
+          - Mentor
+          - Wet Job - Part 6
+          - The Guide
+          - Samples
+          - TerraGroup Employee
+          - Lend-Lease - Part 2
+          - Peacekeeping Mission
+          - Classified Technologies
+          - Revision - Part 1
+          - The Cleaner
+          - Special Equipment
+          - Cargo X - Part 4
+          - Counteraction
+          - Overpopulation
+          - Revision - Part 2
+          - Trophies
+        mechanic:
+          - Gunsmith - Part 1
+          - Gunsmith - Part 2
+          - Gunsmith - Part 3
+          - Gunsmith - Part 4
+          - Gunsmith - Part 5
+          - Gunsmith - Part 6
+          - Gunsmith - Part 7
+          - Gunsmith - Part 8
+          - Gunsmith - Part 9
+          - Gunsmith - Part 10
+          - Gunsmith - Part 11
+          - Gunsmith - Part 12
+          - Gunsmith - Part 13
+          - Gunsmith - Part 14
+          - Gunsmith - Part 15
+          - Gunsmith - Part 16
+          - Signal - Part 1
+          - Insider
+          - Signal - Part 2
+          - Scout
+          - Surplus Goods
+          - Back Door
+          - Signal - Part 3
+          - Signal - Part 4
+          - Farming - Part 1
+          - Farming - Part 2
+          - Bad Habit
+          - Farming - Part 3
+          - Farming - Part 4
+          - Psycho Sniper
+          - A Shooter Born in Heaven
+          - Fertilizers
+          - Import
+          - Chemistry Closet
+          - Calibration
+          - The Courier
+          - Corporate Secrets
+          - Energy Crisis
+          - Broadcast
+        ragman:
+          - Only Business
+          - Make ULTRA Great Again
+          - Big Sale
+          - A Fuel Matter
+          - Inventory Check
+          - The Blood of War - Part 1
+          - Dressed to Kill
+          - Gratitude
+          - Hot Delivery
+          - Scavenger
+          - Sales Night
+          - Database - Part 1
+          - Database - Part 2
+          - Minibus
+          - Sew it Good - Part 1
+          - The Blood of War - Part 2
+          - The Blood of War - Part 3
+          - Living High is Not a Crime - Part 2
+          - Sew it Good - Part 2
+          - The Key to Success
+          - No Fuss Needed
+          - The Stylish One
+          - Supervisor
+          - Sew it Good - Part 3
+          - Living High is Not a Crime - Part 1
+          - Sew it Good - Part 4
+          - Charisma Brings Success
+          - Textile - Part 1
+          - Textile - Part 2
+          - Long Line
+          - Booze
+        jaeger:
+          - Acquaintance
+          - The Survivalist Path - Unprotected but Dangerous
+          - The Survivalist Path - Thrifty
+          - The Survivalist Path - Zhivchik
+          - The Survivalist Path - Wounded Beast
+          - The Survivalist Path - Tough Guy
+          - Courtesy Visit
+          - Nostalgia
+          - The Survivalist Path - Cold Blooded
+          - The Survivalist Path - Junkie
+          - The Survivalist Path - Eagle-Owl
+          - The Survivalist Path - Combat Medic
+          - Ambulance
+          - The Huntsman Path - Secured Perimeter
+          - Reserve
+          - The Huntsman Path - Forest Cleaning
+          - The Huntsman Path - Controller
+          - The Huntsman Path - Evil Watchman
+          - Fishing Place
+          - The Huntsman Path - Trophy
+          - The Huntsman Path - Justice
+          - The Huntsman Path - Sellout
+          - The Huntsman Path - Woods Keeper
+          - Hunting Trip
+          - The Huntsman Path - Factory Chief
+          - The Huntsman Path - Eraser - Part 1
+          - The Huntsman Path - Eraser - Part 2
+          - The Tarkov Shooter - Part 1
+          - The Tarkov Shooter - Part 2
+          - The Tarkov Shooter - Part 3
+          - The Tarkov Shooter - Part 4
+          - The Tarkov Shooter - Part 5
+          - The Tarkov Shooter - Part 6
+          - The Tarkov Shooter - Part 7
+          - The Tarkov Shooter - Part 8
+          - Shady Business
+          - The Huntsman Path - Sadist
+          - Hunter
+          - Pest Control
+          - Swift One
+          - The Huntsman Path - Relentless
+          - The Hermit
+          - The Huntsman Path - Outcasts
+          - Stray Dogs
+        fence:
+          - Collector
+          - The Choice
+          - Compensation for Damage - Wager
+          - Compensation for Damage - Trust
+          - Compensation for Damage - Wergild
+          - Compensation for Damage - Barkeep
+          - Compensation for Damage - Collection

@@ -1,0 +1,9 @@
+<%%= turbo_stream.append "<%= message_table_name %>" do %>
+  <%% @<%= chat_variable_name %>.<%= message_table_name %>.last(2).each do |<%= message_variable_name %>| %>
+    <%%= render <%= message_variable_name %> %>
+  <%% end %>
+<%% end %>
+
+<%%= turbo_stream.replace "new_<%= message_variable_name %>" do %>
+  <%%= render "<%= message_model_name.underscore.pluralize %>/form", <%= chat_variable_name %>: @<%= chat_variable_name %>, <%= message_variable_name %>: @<%= chat_variable_name %>.<%= message_table_name %>.build %>
+<%% end %>

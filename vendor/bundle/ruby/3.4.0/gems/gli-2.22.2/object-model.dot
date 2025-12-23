@@ -1,0 +1,29 @@
+digraph G {
+
+  rankdir="BT"
+  nodesep=0.5
+
+  node[shape=record fontname=courier fontsize=18]
+  edge[fontname=avenir fontsize=12]
+
+  CommandLineToken  [ label="{ CommandLineToken | #name\l | #description\l | #long_description\l | #aliases\l}"]
+  CommandLineOption [ label="{ CommandLineOption | #default_value \l }"]
+  DSL
+  Command
+  Flag              [ label="{ Flag | #argument_name\l }"]
+  Switch
+  App
+  TopLevel          [ label="top level?" shape=diamond fontname=avenir fontsize=12]
+
+  Command           -> DSL               [ arrowhead=oarrow   label="  includes" minlen=3]
+  Command           -> CommandLineToken  [ arrowhead=oarrow   label="inherits"]
+  CommandLineOption -> CommandLineToken  [ arrowhead=oarrow   label="inherits"]
+  Flag              -> CommandLineOption [ arrowhead=oarrow   label="inherits"]
+  Switch            -> CommandLineOption [ arrowhead=oarrow   label="inherits"]
+  Command           -> TopLevel          [ arrowhead=none     label="parent" style=dotted]
+  TopLevel          -> App               [ arrowhead=odiamond label="YES"    style=dotted ]
+  TopLevel          -> Command           [ arrowhead=odiamond label="NO"     style=dotted ]
+  CommandLineOption -> Command           [ arrowhead=odiamond style=dotted label="associated_command"]
+
+  { rank=same; DSL; App }
+}

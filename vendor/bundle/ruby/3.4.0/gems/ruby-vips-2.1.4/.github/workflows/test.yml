@@ -1,0 +1,80 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+  pull_request_target:
+    branches:
+      - master
+
+env:
+  NOKOGIRI_USE_SYSTEM_LIBRARIES: true
+  SPEC_OPTS: '--backtrace'
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7'
+          bundler-cache: true
+
+      - name: Run standard Ruby linter
+        run: bundle exec standardrb --no-fix --fail-fast
+
+  test:
+    name: Functional testing
+
+    strategy:
+      matrix:
+        os-version: [ 'ubuntu-20.04' ]
+        ruby-version:
+          - 2.0
+          - 2.1
+          - 2.2
+          - 2.3
+          - 2.4
+          - 2.5
+          - 2.6
+          - 2.7
+          - 3.0
+          - jruby
+      fail-fast: true
+
+    runs-on: ${{ matrix.os-version }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
+
+      - name: Update apt
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run: 
+          sudo apt-get update -qq -o Acquire::Retries=3
+
+      - name: Install libvips
+        env:
+          DEBIAN_FRONTEND: noninteractive
+        run:
+          # we only need the library
+          sudo apt-get install --fix-missing -qq -o Acquire::Retries=3
+            libvips 
+
+      - name: Run Tests
+        run: bundle exec rake spec

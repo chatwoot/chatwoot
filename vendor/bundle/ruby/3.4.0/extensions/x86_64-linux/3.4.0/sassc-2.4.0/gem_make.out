@@ -1,0 +1,83 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/sassc-2.4.0/ext
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/sassc-2.4.0/ext
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-i6r4v2 sitelibdir\=./.gem.20251220-192266-i6r4v2 clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/sassc-2.4.0/ext
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-i6r4v2 sitelibdir\=./.gem.20251220-192266-i6r4v2
+compiling ./libsass/src/ast.cpp
+compiling ./libsass/src/ast2c.cpp
+compiling ./libsass/src/ast_fwd_decl.cpp
+compiling ./libsass/src/ast_sel_cmp.cpp
+compiling ./libsass/src/ast_sel_super.cpp
+compiling ./libsass/src/ast_sel_unify.cpp
+compiling ./libsass/src/ast_sel_weave.cpp
+compiling ./libsass/src/ast_selectors.cpp
+compiling ./libsass/src/ast_supports.cpp
+compiling ./libsass/src/ast_values.cpp
+compiling ./libsass/src/backtrace.cpp
+compiling ./libsass/src/base64vlq.cpp
+compiling ./libsass/src/bind.cpp
+compiling ./libsass/src/c2ast.cpp
+compiling ./libsass/src/c99func.c
+compiling ./libsass/src/cencode.c
+compiling ./libsass/src/check_nesting.cpp
+compiling ./libsass/src/color_maps.cpp
+compiling ./libsass/src/constants.cpp
+compiling ./libsass/src/context.cpp
+compiling ./libsass/src/cssize.cpp
+compiling ./libsass/src/emitter.cpp
+compiling ./libsass/src/environment.cpp
+compiling ./libsass/src/error_handling.cpp
+compiling ./libsass/src/eval.cpp
+compiling ./libsass/src/eval_selectors.cpp
+compiling ./libsass/src/expand.cpp
+compiling ./libsass/src/extender.cpp
+compiling ./libsass/src/extension.cpp
+compiling ./libsass/src/file.cpp
+compiling ./libsass/src/fn_colors.cpp
+compiling ./libsass/src/fn_lists.cpp
+compiling ./libsass/src/fn_maps.cpp
+compiling ./libsass/src/fn_miscs.cpp
+compiling ./libsass/src/fn_numbers.cpp
+compiling ./libsass/src/fn_selectors.cpp
+compiling ./libsass/src/fn_strings.cpp
+compiling ./libsass/src/fn_utils.cpp
+compiling ./libsass/src/inspect.cpp
+compiling ./libsass/src/json.cpp
+compiling ./libsass/src/lexer.cpp
+compiling ./libsass/src/listize.cpp
+compiling ./libsass/src/memory/allocator.cpp
+compiling ./libsass/src/memory/shared_ptr.cpp
+compiling ./libsass/src/operators.cpp
+compiling ./libsass/src/output.cpp
+compiling ./libsass/src/parser.cpp
+compiling ./libsass/src/parser_selectors.cpp
+compiling ./libsass/src/plugins.cpp
+compiling ./libsass/src/position.cpp
+compiling ./libsass/src/prelexer.cpp
+compiling ./libsass/src/remove_placeholders.cpp
+compiling ./libsass/src/sass.cpp
+compiling ./libsass/src/sass2scss.cpp
+compiling ./libsass/src/sass_context.cpp
+compiling ./libsass/src/sass_functions.cpp
+compiling ./libsass/src/sass_values.cpp
+compiling ./libsass/src/source.cpp
+compiling ./libsass/src/source_map.cpp
+compiling ./libsass/src/stylesheet.cpp
+compiling ./libsass/src/to_value.cpp
+compiling ./libsass/src/units.cpp
+compiling ./libsass/src/utf8_string.cpp
+compiling ./libsass/src/util.cpp
+compiling ./libsass/src/util_string.cpp
+compiling ./libsass/src/values.cpp
+linking shared-object sassc/libsass.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/sassc-2.4.0/ext
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-i6r4v2 sitelibdir\=./.gem.20251220-192266-i6r4v2 install
+/usr/bin/install -c -m 0755 libsass.so ./.gem.20251220-192266-i6r4v2/sassc
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/sassc-2.4.0/ext
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-i6r4v2 sitelibdir\=./.gem.20251220-192266-i6r4v2 clean

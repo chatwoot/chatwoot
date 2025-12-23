@@ -1,0 +1,2618 @@
+# Copyright (C) 2015 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Originally sourced from:
+# http://en.wikipedia.org/wiki/Telephone_numbers_in_New_Zealand#Landlines
+
+6424|Scott Base
+64320|Gore
+643206|Edendale
+643211|Invercargill
+643212|Invercargill
+643213|Invercargill
+643214|Invercargill
+643215|Invercargill
+643216|Invercargill
+643217|Invercargill
+643218|Invercargill
+643219|Invercargill
+643221|Invercargill
+6432220|Dunedin
+6432221|Nelson
+6432222|Christchurch
+6432223|Akaroa
+6432224|Invercargill
+6432225|Greymouth
+6432226|Timaru
+6432227|Queenstown
+6432228|Wanaka
+6432229|Dunedin
+643224|Invercargill
+643225|Otautau
+643226|Otautau
+643230|Invercargill
+643231|Invercargill
+643232|Riverton/Winton
+643233|Riverton/Winton
+643234|Riverton
+643235|Invercargill
+643236|Winton
+643237|Riverton/Winton
+643238|Riverton/Winton
+643239|Invercargill
+643240|Tokanui/Lumsden/Te Anau
+643241|Tokanui/Lumsden/Te Anau
+6432420|Christchurch
+6432421|Tokanui/Lumsden/Te Anau
+6432422|Tokanui/Lumsden/Te Anau
+6432423|Dunedin
+6432424|Nelson
+6432425|Invercargill
+6432426|Blenheim
+6432427|Greymouth
+6432428|Queenstown
+6432429|Timaru
+643243|Tokanui/Lumsden/Te Anau
+6432440|Christchurch
+6432441|Christchurch
+6432442|Christchurch
+6432443|Christchurch
+6432444|Nelson
+6432445|Greymouth
+6432446|Blenheim
+6432447|Timaru
+6432448|Dunedin
+6432449|Queenstown
+643245|Tokanui/Lumsden/Te Anau
+643246|Tokanui
+643247|Tokanui/Lumsden/Te Anau
+643248|Lumsden
+643249|Te Anau
+64325|South Island
+643250|Christchurch
+643260|Christchurch
+6432606|Dunedin
+6432607|Dunedin
+6432608|Dunedin
+6432609|Mt Cook
+6432610|Darfield
+6432611|Kaikoura
+6432612|Rangiora
+6432613|Waitangi (Chatham Is.)
+6432614|South Island
+6432615|Amberley
+6432616|Ashburton
+6432617|Cheviot
+6432618|Culverden
+6432619|Christchurch
+6432620|Palmerston
+6432621|Oamaru
+6432622|Balclutha
+6432623|Lawrence
+6432624|Milton
+6432625|Twizel
+6432626|Kurow
+6432627|Alexandra
+6432628|Ranfurly
+6432629|Roxburgh
+6432630|Christchurch
+6432631|Gore
+6432632|Lumsden
+6432633|Otautau
+6432634|Invercargill
+6432635|Riverton
+6432636|Te Anau
+6432637|Winton
+6432638|Tokanui
+6432639|Edendale
+6432640|Hokitika
+6432641|Franz Josef
+6432642|Fox Glacier
+6432643|Haast
+6432644|Westport
+6432645|Greymouth
+6432646|Timaru
+6432647|Fairlie
+6432648|Geraldine
+6432649|Waimate
+6432650|Christchurch
+6432651|Queenstown
+6432652|Cromwell
+6432653|Wanaka
+6432654|Blenheim
+6432655|Nelson
+6432656|Nelson
+6432657|Motueka
+6432658|Murchison
+6432659|Takaka
+6432660|Christchurch
+6432661|Christchurch
+6432662|Christchurch
+6432663|Christchurch
+6432664|Christchurch
+6432665|South Island
+6432666|South Island
+6432667|South Island
+6432668|Blenheim
+6432669|Rangiora
+643267|South Island
+643268|South Island
+643269|South Island
+643270|Christchurch
+6432710|Christchurch
+6432711|Akaroa
+6432712|Amberley
+6432713|Ashburton
+6432714|Cheviot
+6432715|Culverden
+6432716|Darfield
+6432717|Kaikoura
+6432718|Rangiora
+6432719|Waitangi (Chatham Is.)
+6432720|Nelson
+6432721|Motueka
+6432722|Murchison
+6432723|Takaka
+6432724|Greymouth
+6432725|Hokitika
+6432726|Franz Josef
+6432727|Fox Glacier
+6432728|Haast
+6432729|Westport
+6432730|Blenheim
+6432731|Timaru
+6432732|Fairlie
+6432733|Geraldine
+6432734|Waimate
+6432735|Mt Cook
+6432736|Dunedin
+6432737|Palmerston
+6432738|Oamaru
+6432739|Balclutha
+6432740|Lawrence
+6432741|Milton
+6432742|Twizel
+6432743|Kurow
+6432744|Ranfurly
+6432745|Roxburgh
+6432746|Alexandra
+6432747|Queenstown
+6432748|Cromwell
+6432749|Wanaka
+6432750|Invercargill
+6432751|Riverton
+6432752|Te Anau
+6432753|Winton
+6432754|Tokanui
+6432755|Edendale
+6432756|Gore
+6432757|Lumsden
+6432758|Otautau
+6432759|South Island
+643276|South Island
+643277|South Island
+643278|South Island
+643279|South Island
+64328|South Island
+6432800|Te Anau
+6432801|Lumsden
+6432802|Gore
+6432803|Otautau
+6432804|Riverton
+6432805|Winton
+6432806|Edendale
+6432807|Tokanui
+6432808|Westport
+6432809|Hokitika
+6432810|Franz Josef
+6432811|Fox Glacier
+6432812|Haast
+6432813|Geraldine
+6432814|Mt Cook
+6432815|Fairlie
+6432816|Waimate
+6432817|Christchurch
+6432818|Christchurch
+6432819|Christchurch
+643288|Christchurch
+6432887|Nelson
+6432888|Nelson
+6432889|Blenheim
+64329|South Island
+6432990|Lumsden
+6432991|Milton
+6432992|Gore
+6432993|Balclutha
+6432994|Otautau
+6432995|Winton
+6432996|Riverton
+6432997|Edendale
+6432998|Tokanui
+6432999|Invercargill
+64330|Ashburton/Akaroa/Chatham Islands
+64331|Rangiora/Amberley/Culverden/Darfield/Cheviot/Kaikoura
+64332|Christchurch
+643331|Christchurch
+643332|Christchurch
+643334|Christchurch
+643335|Christchurch
+643336|Christchurch
+643337|Christchurch
+643338|Christchurch
+643339|Christchurch
+64334|Christchurch
+64335|Christchurch
+64336|South Island
+64337|Christchurch
+64338|Christchurch
+643390|Christchurch
+6433910|Nelson
+6433911|Nelson
+6433912|Motueka
+6433913|Murchison
+6433914|Takaka
+6433915|Greymouth
+6433916|Hokitika
+6433917|Franz Josef
+6433918|Fox Glacier
+6433919|Haast
+643392|South Island
+643393|Christchurch
+6433940|Westport
+6433941|Blenheim
+6433942|Akaroa
+6433943|Amberley
+6433944|Ashburton
+6433945|Cheviot
+6433946|Culverden
+6433947|Darfield
+6433948|Kaikoura
+6433949|Rangiora
+6433950|Waitangi (Chatham Is.)
+6433951|Timaru
+6433952|Fairlie
+6433953|Geraldine
+6433954|Lawrence
+6433955|Mt Cook
+6433956|Dunedin
+6433957|Palmerston
+6433958|Oamaru
+6433959|Balclutha
+643396|South Island
+643397|South Island
+6433980|Milton
+6433981|Twizel
+6433982|Kurow
+6433983|Ranfurly
+6433984|Roxburgh
+6433985|Alexandra
+6433986|Queenstown
+6433987|Cromwell
+6433988|Wanaka
+6433989|Waimate
+6433990|South Island
+6433991|Invercargill
+6433992|Riverton
+6433993|Te Anau
+6433994|Winton
+6433995|Tokanui
+6433996|Edendale
+6433997|Gore
+6433998|Lumsden
+6433999|Otautau
+64340|South Island
+643409|Queenstown
+643410|Balclutha/Milton
+643411|Balclutha/Milton
+643412|Balclutha
+643413|Balclutha
+643414|Balclutha/Milton
+643415|Balclutha
+643416|Balclutha/Milton
+643417|Milton
+643418|Balclutha
+643419|Balclutha
+643420|Christchurch
+643421|Christchurch
+6434220|Invercargill
+6434221|Invercargill
+6434222|Gore
+6434223|Otautau
+6434224|Te Anau
+6434225|Edendale
+6434226|Lumsden
+6434227|Riverton
+6434228|Tokanui
+6434229|Winton
+6434230|Christchurch
+6434231|Christchurch
+6434232|Ashburton
+6434233|Rangiora
+6434234|Darfield
+6434235|Akaroa
+6434236|Amberley
+6434237|Culverden
+6434238|Waitangi (Chatham Is.)
+6434239|Christchurch
+6434240|Ashburton
+6434241|Rangiora
+6434242|Darfield
+6434243|Akaroa
+6434244|Amberley
+6434245|Culverden
+6434246|Waitangi (Chatham Is.)
+6434247|Kaikoura
+6434248|Cheviot
+6434249|Kaikoura
+643425|Dunedin
+6434260|Oamaru
+6434261|Balclutha
+6434262|Alexandra
+6434263|Lawrence
+6434264|Kurow
+6434265|Milton
+6434266|Palmerston
+6434267|Ranfurly
+6434268|Roxburgh
+6434269|Twizel
+6434270|Oamaru
+6434271|Balclutha
+6434272|Alexandra
+6434273|Lawrence
+6434274|Kurow
+6434275|Milton
+6434276|Palmerston
+6434277|Ranfurly
+6434278|Roxburgh
+6434279|Twizel
+6434280|Queenstown
+6434281|Queenstown
+6434282|Queenstown
+6434283|Cromwell
+6434284|Wanaka
+6434285|Cheviot
+6434286|Christchurch
+6434287|Queenstown
+6434288|Cromwell
+6434289|Wanaka
+6434290|Greymouth
+6434291|Westport
+6434292|Hokitika
+6434293|Haast
+6434294|Franz Josef
+6434295|Fox Glacier
+6434296|Greymouth
+6434297|Westport
+6434298|Hokitika
+6434299|Haast
+64343|Oamaru
+643430|Mt Cook
+643435|Oamaru/Mount Cook/Twizel/Kurow
+6434350|Twizel
+6434351|Mt Cook
+6434353|Twizel
+6434359|Twizel
+643436|Kurow
+643438|Kurow
+6434400|Alexandra
+6434401|Cromwell
+6434402|Alexandra
+6434403|Queenstown/Cromwell/Alexandra/Wanaka/Ranfurly/Roxburgh
+6434404|Alexandra
+6434405|Alexandra
+6434406|Queenstown/Cromwell/Alexandra/Wanaka/Ranfurly/Roxburgh
+6434407|Queenstown/Cromwell/Alexandra/Wanaka/Ranfurly/Roxburgh
+6434408|Queenstown/Cromwell/Alexandra/Wanaka/Ranfurly/Roxburgh
+6434409|Queenstown/Cromwell/Alexandra/Wanaka/Ranfurly/Roxburgh
+643441|Queenstown
+643442|Queenstown
+643443|Wanaka
+643444|Ranfurly
+643445|Cromwell
+643446|Roxburgh
+643447|Alexandra
+643448|Alexandra
+643449|Alexandra
+643450|Queenstown
+643451|Queenstown
+643452|Wanaka
+643453|Dunedin
+643454|Dunedin
+643455|Dunedin
+643456|Dunedin
+643457|Dunedin
+643458|Dunedin/Queenstown
+643459|Dunedin/Queenstown
+643460|Dunedin/Palmerston
+643461|Dunedin/Palmerston
+643462|Dunedin/Palmerston
+643463|Palmerston
+643464|Dunedin
+643465|Palmerston
+643466|Dunedin
+643467|Dunedin
+643468|Dunedin
+643469|Dunedin
+64347|Dunedin
+64348|Dunedin
+643480|Dunedin/Lawrence/Mosgiel
+643483|Dunedin/Lawrence/Mosgiel
+643485|Lawrence
+64349|South Island
+6434990|Queenstown
+6434991|Cromwell
+6434992|Ranfurly
+6434993|Alexandra
+6434994|Palmerston
+6434995|Te Anau
+6434996|Roxburgh
+6434997|Lawrence
+6434998|Dunedin
+6434999|Dunedin
+6435|South Island
+643520|Blenheim
+643521|Nelson
+643522|Nelson
+643523|Murchison
+643524|Takaka
+643525|Takaka
+643526|Motueka
+643527|Motueka
+643528|Motueka
+643529|Nelson
+643538|Nelson
+643539|Nelson
+64354|Nelson
+6435500|Christchurch
+6435501|Christchurch
+6435502|Christchurch
+6435503|Christchurch
+6435504|Christchurch
+6435505|Akaroa
+6435506|Amberley
+6435507|Ashburton
+6435508|Cheviot
+6435509|Culverden
+6435510|Darfield
+6435511|Kaikoura
+6435512|Rangiora
+6435513|Waitangi (Chatham Is.)
+6435514|Palmerston
+6435515|Oamaru
+6435516|Balclutha
+6435517|Lawrence
+6435518|Milton
+6435519|Twizel
+643552|Dunedin
+6435526|Kurow
+6435527|Alexandra
+6435528|Ranfurly
+6435529|Roxburgh
+6435530|Nelson
+6435531|Nelson
+6435532|Motueka
+6435533|Murchison
+6435534|Takaka
+6435535|Invercargill
+6435536|Invercargill
+6435537|Winton
+6435538|Lumsden
+6435539|Otautau
+6435540|Edendale
+6435541|Te Anau
+6435542|Riverton
+6435543|Tokanui
+6435544|Winton
+6435545|Gore
+6435546|Greymouth
+6435547|Blenheim
+6435548|Westport
+6435549|Hokitika
+6435550|Fox Glacier
+6435551|Franz Josef
+6435552|Queenstown
+6435553|Wanaka
+6435554|Cromwell
+6435555|Timaru
+6435556|Fairlie
+6435557|Geraldine
+6435558|Waimate
+6435559|Haast
+6435560|Mt Cook
+6435561|Dunedin
+6435562|Invercargill
+6435563|Queenstown
+6435650|Greymouth
+6435660|Haast
+6435661|Fairlie
+6435662|Geraldine
+6435663|Twizel
+6435664|Timaru
+6435665|Waimate
+6435666|Oamaru
+6435667|Waitangi (Chatham Is.)
+6435668|Kurow
+6435669|Wanaka
+6435670|Palmerston
+6435671|Oamaru
+6435672|Balclutha
+6435673|Lawrence
+6435674|Milton
+6435675|Twizel
+6435676|Kurow
+6435677|Ranfurly
+6435678|Roxburgh
+6435679|Alexandra
+6435680|Dunedin
+6435681|Invercargill
+6435682|Riverton
+6435683|Te Anau
+6435684|Winton
+6435685|Tokanui
+6435686|Gore
+6435687|Lumsden
+6435688|Queenstown
+6435689|Otautau
+6435690|Motueka
+6435691|Murchison
+6435692|Takaka
+6435693|Nelson
+6435694|Franz Josef
+6435695|Fox Glacier
+6435696|Haast
+6435697|Westport
+6435698|Hokitika
+6435699|Amberley
+64357|Blenheim
+643571|Nelson
+643576|Nelson
+6435880|Dunedin
+6435881|Dunedin
+6435882|Dunedin
+6435883|Dunedin
+6435884|Dunedin
+6435885|Invercargill
+6435886|Invercargill
+6435887|Invercargill
+6435888|Timaru
+6435889|Timaru
+643590|Christchurch
+643595|Christchurch
+6435990|Hokitika
+6435991|Franz Josef
+6435992|Fox Glacier
+6435993|Mt Cook
+6435994|Ashburton
+6435995|Darfield
+6435996|Akaroa
+6435997|Amberley
+6435998|Rangiora
+6435999|Christchurch
+64360|South Island
+64361|Timaru
+64362|South Island
+64363|South Island
+64364|South Island
+6436500|Christchurch
+6436501|Akaroa
+6436502|Amberley
+6436503|Ashburton
+6436504|Cheviot
+6436505|Culverden
+6436506|Darfield
+6436507|Kaikoura
+6436508|Rangiora
+6436509|Waitangi (Chatham Is.)
+643651|Nelson
+6436517|Motueka
+6436518|Murchison
+6436519|Takaka
+6436520|Greymouth
+6436521|Greymouth
+6436522|Greymouth
+6436523|Hokitika
+6436524|Hokitika
+6436525|Franz Josef
+6436526|Fox Glacier
+6436527|Haast
+6436528|Westport
+6436529|Westport
+643653|Blenheim
+643654|Timaru
+6436546|Fairlie
+6436547|Geraldine
+6436548|Waimate
+6436549|Mt Cook
+643655|Dunedin
+6436560|Palmerston
+6436561|Oamaru
+6436562|Balclutha
+6436563|Lawrence
+6436564|Milton
+6436565|Twizel
+6436566|Kurow
+6436567|Ranfurly
+6436568|Roxburgh
+6436569|Alexandra
+643657|Queenstown
+6436576|Cromwell
+6436577|Cromwell
+6436578|Wanaka
+6436579|Wanaka
+6436580|Invercargill
+6436581|Invercargill
+6436582|Riverton
+6436583|Te Anau
+6436584|Winton
+6436585|Tokanui
+6436586|Edendale
+6436587|Gore
+6436588|Lumsden
+6436589|Otautau
+6436590|Nelson
+6436591|Nelson
+6436592|Nelson
+6436593|Nelson
+6436594|Waimate
+6436595|Mt Cook
+6436596|Queenstown
+6436597|Cromwell
+6436598|Wanaka
+6436599|Blenheim
+643660|Christchurch
+6436610|Kaikoura
+6436611|Rangiora
+6436612|Akaroa
+6436613|Wanaka
+6436614|Timaru
+6436615|Ashburton
+6436616|Geraldine
+6436617|Cromwell
+6436618|Blenheim
+6436619|Cheviot
+6436620|Kaikoura
+6436621|Culverden
+6436622|Cheviot
+6436623|Amberley
+6436624|Darfield
+6436625|Rangiora
+6436626|Akaroa
+6436627|Waitangi (Chatham Is.)
+6436628|Ashburton
+6436629|Christchurch
+6436630|Takaka
+6436631|Motueka
+6436632|Murchison
+6436633|Geraldine
+6436634|Mt Cook
+6436635|Fairlie
+6436636|Waimate
+6436637|Twizel
+6436638|Kurow
+6436639|Oamaru
+6436640|Palmerston
+6436641|Lawrence
+6436642|Milton
+6436643|Balclutha
+6436644|Alexandra
+6436645|Ranfurly
+6436646|Roxburgh
+6436647|Te Anau
+6436648|Lumsden
+6436649|Gore
+6436650|Otautau
+6436651|Riverton
+6436652|Winton
+6436653|Edendale
+6436654|Tokanui
+6436655|Westport
+6436656|Hokitika
+6436657|Franz Josef
+6436658|Fox Glacier
+6436659|Haast
+643666|Christchurch
+643667|Christchurch
+6436680|Akaroa
+6436681|Dunedin
+6436682|Dunedin
+6436683|Rangiora
+6436684|Dunedin
+6436685|Nelson
+6436686|Invercargill
+6436687|Nelson
+6436688|Waitangi (Chatham Is.)
+6436689|Christchurch
+643669|Christchurch
+64367|South Island
+64368|Timaru
+643680|Fairlie
+643682|Timaru/Waimate/Fairlie
+643685|Fairlie
+643689|Waimate
+64369|Geraldine
+643690|Waimate
+6436990|Cheviot
+6436991|Culverden
+6436992|Greymouth
+6436993|Kaikoura
+6436994|Murchison
+6436995|Westport
+6436996|Takaka
+6436997|Motueka
+6436998|Blenheim
+6436999|Nelson
+64370|South Island
+64371|South Island
+64372|South Island
+64373|Greymouth
+643740|Christchurch
+643741|Christchurch
+643742|Dunedin
+643743|Christchurch
+6437440|Nelson
+6437441|Motueka
+6437442|Murchison
+6437443|Nelson
+6437444|Takaka
+6437445|Fox Glacier
+6437446|Franz Josef
+6437447|Greymouth
+6437448|Haast
+6437449|Hokitika
+6437450|Westport
+6437451|Blenheim
+6437452|Akaroa
+6437453|Amberley
+6437454|Ashburton
+6437455|Cheviot
+6437456|Culverden
+6437457|Darfield
+6437458|Kaikoura
+6437459|Rangiora
+6437460|Waitangi (Chatham Is.)
+6437461|Fairlie
+6437462|Geraldine
+6437463|Mt Cook
+6437464|Timaru
+6437465|Waimate
+6437466|Cromwell
+6437467|Queenstown
+6437468|Wanaka
+6437469|Alexandra
+6437470|Balclutha
+6437471|Kurow
+6437472|Lawrence
+6437473|Milton
+6437474|Oamaru
+6437475|Palmerston
+6437476|Ranfurly
+6437477|Roxburgh
+6437478|Twizel
+6437479|Edendale
+6437480|Gore
+6437481|Invercargill
+6437482|Lumsden
+6437483|Otautau
+6437484|Riverton
+6437485|Te Anau
+6437486|Tokanui
+6437487|Winton
+6437488|South Island
+6437489|South Island
+643749|Christchurch
+643750|Haast
+643751|Fox Glacier
+643752|Franz Josef
+643753|Hokitika
+643754|Hokitika/Franz Josef Glacier/Fox Glacier/Haast
+643755|Hokitika
+643756|Hokitika
+643757|Hokitika/Franz Josef Glacier/Fox Glacier/Haast
+643758|Hokitika/Franz Josef Glacier/Fox Glacier/Haast
+643759|Hokitika/Franz Josef Glacier/Fox Glacier/Haast
+64376|Greymouth
+64377|South Island
+6437770|Nelson
+6437771|Blenheim
+6437772|Timaru
+6437773|Dunedin
+6437774|Queenstown
+6437775|Wanaka
+6437776|Cromwell
+6437777|Christchurch
+6437778|Greymouth
+6437779|Invercargill
+64378|Westport
+64379|South Island
+6439000|Christchurch
+6439001|Christchurch
+6439002|Rangiora
+6439003|Ashburton
+6439004|Gore
+6439005|Invercargill
+6439006|Nelson
+6439007|Dunedin
+6439008|Timaru
+6439009|Greymouth
+6439010|Queenstown
+6439011|Queenstown
+6439012|Queenstown
+6439013|Ashburton
+6439014|Ashburton
+6439015|Wanaka
+6439016|Alexandra
+6439017|Cromwell
+6439018|Ranfurly
+6439019|Roxburgh
+6439020|Gore
+6439021|Ashburton
+6439022|Ashburton
+6439023|Te Anau
+6439024|Lumsden
+6439025|Otautau
+6439026|Riverton
+6439027|Winton
+6439028|Edendale
+6439029|Tokanui
+643903|Christchurch
+6439040|Balclutha
+6439041|Ashburton
+6439042|Oamaru
+6439043|Ashburton
+6439044|Milton
+6439045|Twizel
+6439046|Kurow
+6439047|Alexandra
+6439048|Lawrence
+6439049|Palmerston
+643905|Ashburton
+6439050|Geraldine
+6439052|Mt Cook
+6439055|Fairlie
+6439057|Waimate
+6439060|Greymouth
+6439061|Greymouth
+6439062|Ashburton
+6439063|Westport
+6439064|Ashburton
+6439065|Ashburton
+6439066|Hokitika
+6439067|Franz Josef
+6439068|Fox Glacier
+6439069|Haast
+6439070|Motueka
+6439071|Motueka
+6439072|Ashburton
+6439073|Motueka
+6439074|Ashburton
+6439075|Takaka
+6439076|Ashburton
+6439077|Ashburton
+6439078|Ashburton
+6439079|Murchison
+643908|Ashburton
+6439082|Culverden
+6439083|Cheviot
+6439084|Amberley
+6439085|Waitangi (Chatham Is.)
+6439090|Rangiora
+6439091|Rangiora
+6439092|Rangiora
+6439093|Ashburton
+6439094|Ashburton
+6439095|Ashburton
+6439096|Ashburton
+6439097|Darfield
+6439098|Akaroa
+6439099|Kaikoura
+64391|South Island
+643920|Rangiora
+643921|Blenheim
+643922|Nelson
+643923|Nelson
+643924|Christchurch
+643925|Christchurch
+643926|Christchurch
+6439266|Dunedin
+6439267|Dunedin
+6439268|Dunedin
+6439269|Dunedin
+6439270|Greymouth
+6439271|Westport
+6439272|Timaru
+6439273|Blenheim
+6439274|Queenstown
+6439275|Nelson
+6439276|Nelson
+6439277|Invercargill
+6439278|Invercargill
+6439279|Christchurch
+6439280|Nelson
+6439281|Christchurch
+6439282|Christchurch
+6439283|Rangiora
+6439284|Blenheim
+6439285|Invercargill
+6439286|Cromwell
+6439287|Oamaru
+6439288|Ashburton
+6439289|Akaroa
+6439290|Christchurch
+6439291|Dunedin
+6439292|Timaru
+6439293|Blenheim
+6439294|Dunedin
+6439295|Nelson
+6439296|Invercargill
+6439297|Takaka
+6439298|Motueka
+6439299|Murchison
+643930|Christchurch
+6439310|Invercargill
+6439311|Invercargill
+6439312|Riverton
+6439313|Te Anau
+6439314|Winton
+6439315|Tokanui
+6439316|Edendale
+6439317|Gore
+6439318|Lumsden
+6439319|Otautau
+6439320|Akaroa
+6439321|Amberley
+6439322|Culverden
+6439323|Cheviot
+6439324|Darfield
+6439325|Kaikoura
+6439326|Rangiora
+6439327|Ashburton
+6439328|South Island
+6439329|South Island
+6439330|Westport
+6439331|Greymouth
+6439332|Hokitika
+6439333|Franz Josef
+6439334|Fox Glacier
+6439335|Haast
+6439336|Cromwell
+6439337|Wanaka
+6439338|Queenstown
+6439339|South Island
+6439340|Mt Cook
+6439341|Fairlie
+6439342|Geraldine
+6439343|Waimate
+6439344|Timaru
+6439345|Christchurch
+6439346|Christchurch
+6439347|Christchurch
+6439348|South Island
+6439349|South Island
+643935|South Island
+643936|South Island
+643937|South Island
+643938|South Island
+643939|South Island
+643940|Christchurch
+643941|Christchurch
+643942|Christchurch
+643943|Christchurch
+643944|Christchurch
+6439450|Invercargill
+6439451|Invercargill
+6439452|Gore
+6439453|Te Anau
+6439454|Lumsden
+6439455|Otautau
+6439456|Riverton
+6439457|Winton
+6439458|Edendale
+6439459|Tokanui
+643946|Invercargill
+643947|Invercargill
+643948|Invercargill
+643949|Dunedin
+643950|Dunedin
+643951|Dunedin
+6439520|Dunedin
+6439521|Dunedin
+6439522|Dunedin
+6439523|Balclutha
+6439524|Oamaru
+6439525|Milton
+6439526|Twizel
+6439527|Kurow
+6439528|Lawrence
+6439529|Palmerston
+6439530|Timaru
+6439531|Timaru
+6439532|Timaru
+6439533|Geraldine
+6439534|Mt Cook
+6439535|Fairlie
+6439536|Waimate
+6439537|Dunedin/Timaru
+6439538|Dunedin/Timaru
+6439539|Dunedin/Timaru
+643954|Dunedin/Timaru
+643955|Dunedin
+643956|Timaru
+643957|Timaru
+643958|Dunedin/Timaru
+643959|Dunedin/Timaru
+64396|Christchurch
+6439700|Nelson
+6439701|Nelson
+6439702|Nelson
+6439703|Takaka
+6439704|Murchison
+6439705|Motueka
+6439706|Nelson
+6439707|Takaka
+6439708|Murchison
+6439709|Motueka
+6439710|Timaru
+6439711|Geraldine
+6439712|Fairlie
+6439713|Mt Cook
+6439714|Waimate
+6439715|Timaru
+6439716|Geraldine
+6439717|Fairlie
+6439718|Mt Cook
+6439719|Waimate
+6439720|Blenheim
+6439721|Blenheim
+6439722|Blenheim
+6439723|Blenheim
+6439724|Blenheim
+6439725|Christchurch
+6439726|Timaru
+6439727|Dunedin
+6439728|Franz Josef
+6439729|Fox Glacier
+6439730|Invercargill
+6439731|Gore
+6439732|Otautau
+6439733|Te Anau
+6439734|Edendale
+6439735|Lumsden
+6439736|Riverton
+6439737|Tokanui
+6439738|Winton
+6439739|Invercargill
+6439740|Christchurch
+6439741|Christchurch
+6439742|Christchurch
+6439743|Christchurch
+6439744|Queenstown
+6439745|Greymouth
+6439746|Dunedin
+6439747|Wanaka
+6439748|Dunedin
+6439749|Christchurch
+6439750|Kaikoura
+6439751|Culverden
+6439752|Cheviot
+6439753|Amberley
+6439754|Darfield
+6439755|Rangiora
+6439756|Akaroa
+6439757|Waitangi (Chatham Is.)
+6439758|Ashburton
+6439759|Cromwell
+6439760|Twizel
+6439761|Kurow
+6439762|Oamaru
+6439763|Palmerston
+6439764|Lawrence
+6439765|Milton
+6439766|Balclutha
+6439767|Alexandra
+6439768|Ranfurly
+6439769|Roxburgh
+643977|Christchurch
+643978|Christchurch
+643979|Christchurch
+643980|Christchurch
+643981|Christchurch
+643982|Christchurch
+643983|Christchurch
+643984|Blenheim
+6439850|Ashburton
+6439851|Culverden
+6439852|Cheviot
+6439853|Amberley
+6439854|Waitangi (Chatham Is.)
+6439855|Rangiora
+6439856|Darfield
+6439857|Akaroa
+6439858|Kaikoura
+6439859|Christchurch/Blenheim/Nelson
+6439860|Nelson
+6439861|Nelson
+6439862|Nelson
+6439863|Motueka
+6439864|Takaka
+6439865|Murchison
+6439866|Christchurch/Blenheim/Nelson
+6439867|Christchurch/Blenheim/Nelson
+6439868|Blenheim
+6439869|Blenheim
+6439870|Queenstown
+6439871|Queenstown
+6439872|Alexandra
+6439873|Wanaka
+6439874|Cromwell
+6439875|Ranfurly
+6439876|Roxburgh
+6439877|Christchurch/Blenheim/Nelson
+6439878|Christchurch/Blenheim/Nelson
+6439879|Christchurch/Blenheim/Nelson
+6439880|Greymouth
+6439881|Greymouth
+6439882|Westport
+6439883|Hokitika
+6439884|Franz Josef
+6439885|Fox Glacier
+6439886|Christchurch/Blenheim/Nelson
+6439887|Christchurch/Blenheim/Nelson
+6439888|Christchurch/Blenheim/Nelson
+6439889|Christchurch/Blenheim/Nelson
+643989|Nelson
+64399|South Island
+644202|Wellington
+644203|Wellington
+644204|Wellington
+644205|Wellington
+644209|Wellington
+644210|Wellington
+644211|Wellington
+644212|Wellington
+6442125|Paraparaumu
+6442127|Paraparaumu
+6442128|Paraparaumu
+6442129|Paraparaumu
+644213|Wellington
+644219|Wellington
+6442197|Paraparaumu
+6442198|Paraparaumu
+6442199|Paraparaumu
+64423|Wellington
+644240|Wellington
+6442420|Wellington
+6442429|Paraparaumu
+644245|Wellington
+644250|Wellington
+644260|Wellington
+6442608|Paraparaumu
+6442609|Paraparaumu
+644280|Wellington
+644281|Wellington
+6442820|Wellington
+6442821|Wellington
+64429|Paraparaumu
+6443|Wellington
+6443333|Paraparaumu
+6443708|Paraparaumu
+6443709|Paraparaumu
+644393|Paraparaumu
+6443990|Paraparaumu
+6444|Wellington
+6444887|Paraparaumu
+6444888|Paraparaumu
+6444889|Paraparaumu
+6445|Wellington/Hutt Valley
+64452|Wellington
+644550|Wellington
+644551|Paraparaumu
+644555|Wellington
+64456|Wellington
+644570|Wellington
+644571|Wellington
+644572|Wellington
+644576|Wellington
+644577|Wellington
+644586|Wellington
+644587|Wellington
+644589|Wellington
+644590|Wellington
+644595|Wellington
+644619|Wellington
+644650|Wellington
+6446509|Paraparaumu
+644666|Wellington
+644777|Wellington
+6447770|Paraparaumu
+6447771|Paraparaumu
+64480|Wellington
+644810|Wellington
+644815|Wellington
+644816|Wellington
+644817|Wellington
+644818|Wellington
+644819|Wellington
+64483|Wellington
+644834|Paraparaumu
+644886|Wellington
+644887|Wellington
+644888|Wellington
+6448880|Paraparaumu
+644889|Wellington
+644890|Wellington
+644891|Wellington
+644892|Paraparaumu
+644893|Wellington
+644894|Wellington
+644895|Paraparaumu
+644896|Wellington
+644897|Wellington
+6449|Wellington
+6449008|Paraparaumu
+644902|Paraparaumu
+6449030|Paraparaumu
+6449031|Paraparaumu
+644904|Paraparaumu
+644905|Paraparaumu
+644906|Paraparaumu
+644908|Paraparaumu
+6449740|Paraparaumu
+6449741|Paraparaumu
+644975|Paraparaumu
+6462100|Levin
+6462101|Levin
+6462102|Levin
+6462103|Levin
+6462104|Marton
+6462105|Taihape
+6462106|Pahiatua
+6462107|Dannevirke
+6462108|Ohakune
+6462109|Waiouru
+646211|Napier
+6462114|Waipukurau
+6462115|Wairoa
+6462118|Waipukurau
+6462119|Wairoa
+6462120|Palmerston North
+6462121|Palmerston North
+6462122|Palmerston North
+6462123|Palmerston North
+6462124|Marton
+6462125|Taihape
+6462126|Pahiatua
+6462127|Dannevirke
+6462128|Ohakune
+6462129|Waiouru
+646213|Wanganui
+6462137|Palmerston North
+6462138|Palmerston North
+6462139|Palmerston North
+646214|Gisborne
+6462144|Ruatoria
+6462149|Ruatoria
+6462150|New Plymouth
+6462151|New Plymouth
+6462152|New Plymouth
+6462153|New Plymouth
+6462154|New Plymouth
+6462155|Hawera
+6462156|Hawera
+6462157|Stratford
+6462158|Opunake
+6462159|Mokau
+6462160|Masterton
+6462161|Masterton
+6462162|Masterton
+6462163|New Plymouth
+6462164|New Plymouth
+6462165|Stratford
+6462166|Opunake
+6462167|Mokau
+6462168|Featherston
+6462169|Featherston
+6462220|New Plymouth
+6462221|Gisborne
+6462222|Ohakune
+6462223|Palmerston North
+6462224|Masterton
+6462225|Levin
+6462226|Napier
+6462227|Napier
+6462228|Wanganui
+6462410|New Plymouth
+6462411|New Plymouth
+6462412|Gisborne
+6462413|Gisborne
+6462414|Napier
+6462416|Waipukurau
+6462417|Wanganui
+6462418|Palmerston North
+6462419|Masterton
+6462420|Palmerston North
+6462421|New Plymouth
+6462422|Napier/Hastings
+6462423|Gisborne
+6462424|Wanganui
+6462425|Masterton
+6462426|Levin
+6462600|Palmerston North
+6462601|Palmerston North
+6462602|Palmerston North
+6462603|Palmerston North
+6462604|Ohakune
+6462605|Marton
+6462606|Waiouru
+6462607|Taihape
+6462608|Dannevirke
+6462609|Pahiatua
+6462610|Napier
+6462611|Napier
+6462613|Waipukurau
+6462614|Wairoa
+6462615|Gisborne
+6462616|Ruatoria
+6462617|Masterton
+6462618|Masterton
+6462619|Featherston
+6462620|New Plymouth
+6462621|New Plymouth
+6462623|Stratford
+6462624|Opunake
+6462625|Hawera
+6462626|Mokau
+6462627|Wanganui
+6462628|Wanganui
+6462629|Levin
+64627|Hawera
+6462800|Palmerston North
+6462801|Palmerston North
+6462802|Palmerston North
+6462803|Palmerston North
+6462804|Palmerston North
+6462805|Napier/Hastings
+6462806|Napier/Hastings
+6462807|Napier/Hastings
+6462808|Napier/Hastings
+6462809|Napier/Hastings
+6462810|Gisborne
+6462811|New Plymouth
+6462812|Napier/Hastings
+6462813|Wanganui
+6462814|Hawera
+6462815|Wairoa
+6462816|Gisborne
+6462817|Napier
+6462818|New Plymouth
+6462819|Levin
+64630|Featherston
+64632|Palmerston North
+646320|Palmerston North/Marton
+646321|Marton
+646322|Marton
+646327|Marton
+64634|Wanganui
+64635|Palmerston North
+64636|Levin
+646365|Palmerston North
+64637|Masterton
+646371|Masterton/Dannevirke/Pahiatua
+646374|Dannevirke
+646375|Pahiatua
+646376|Pahiatua
+64638|Taihape/Ohakune/Waiouru
+646382|Taihape
+646385|Ohakune
+646387|Waiouru
+646388|Taihape
+6463900|Gisborne
+6463901|Gisborne
+6463902|Gisborne
+6463903|Ruatoria
+6463904|Napier
+6463905|Napier
+6463906|Napier
+6463907|Waipukurau
+6463908|Wairoa
+6463911|New Plymouth
+6463912|New Plymouth
+6463913|Hawera
+6463914|Stratford
+6463915|Opunake
+6463916|Mokau
+6463917|Wanganui
+6463918|Wanganui
+6463920|Palmerston North
+6463921|Palmerston North
+6463922|Palmerston North
+6463923|Ohakune
+6463924|Marton
+6463925|Waiouru
+6463926|Taihape
+6463927|Dannevirke
+6463928|Pahiatua
+6463940|Levin
+6463941|Masterton
+6463942|Masterton
+6463943|Masterton
+6463944|Featherston
+6463990|Featherston
+6463991|Masterton
+6463992|Levin
+6463993|Pahiatua
+6463994|Dannevirke
+6463995|Marton
+6463996|Palmerston North
+6463997|Palmerston North
+6463998|Palmerston North
+6463999|Palmerston North
+6465600|Palmerston North
+6465601|Palmerston North
+6465602|Palmerston North
+6465603|Palmerston North
+6465604|Ohakune
+6465605|Marton
+6465606|Waiouru
+6465607|Taihape
+6465608|Dannevirke
+6465609|Pahiatua
+6465610|Napier
+6465611|Napier
+6465612|Waipukurau
+6465613|Wairoa
+6465614|Wanganui
+6465615|Wanganui
+6465616|Hawera
+6465617|Mokau
+6465618|Masterton
+6465619|Masterton
+6465620|New Plymouth
+6465621|New Plymouth
+6465622|Stratford
+6465623|Opunake
+6465624|Featherston
+6465625|Gisborne
+6465626|Ruatoria
+6465627|Levin
+646590|Palmerston North
+6465950|Palmerston North
+6466000|Napier
+6466001|Napier
+6466002|Napier
+6466003|Ruatoria
+6466004|Waipukurau
+6466005|Mokau
+6466006|Opunake
+6466007|Stratford
+6466008|Ohakune
+6466009|Waiouru
+6466010|Taihape
+6466011|Marton
+6466013|Featherston
+6466014|Napier
+6466015|Napier
+6466016|Napier
+6466017|Napier
+6466018|Napier
+6466019|Napier
+646650|Napier
+6466508|Napier/Wairoa
+6466509|Napier/Waipukurau
+646651|Napier
+6466520|Palmerston North
+6466521|Palmerston North
+6466522|Palmerston North
+6466523|Palmerston North
+6466524|Ohakune
+6466525|Marton
+6466526|Waiouru
+6466527|Taihape
+6466528|Dannevirke
+6466529|Pahiatua
+646653|Wanganui
+646654|Gisborne
+6466548|Ruatoria
+6466549|Ruatoria
+6466550|New Plymouth
+6466551|New Plymouth
+6466552|New Plymouth
+6466553|New Plymouth
+6466554|Hawera
+6466555|Hawera
+6466556|Stratford
+6466557|Stratford
+6466558|Opunake
+6466559|Mokau
+646656|Levin
+646657|Masterton
+6466579|Featherston
+6466990|Mokau
+6466991|Wanganui
+6466992|Hawera
+6466993|Waiouru
+6466994|Ohakune
+6466995|Opunake
+6466996|Stratford
+6466997|New Plymouth
+6466998|New Plymouth
+6466999|New Plymouth
+64675|New Plymouth
+646750|Mokau
+6467525|Mokau
+6467529|Mokau
+6467556|New Plymouth/Mokau
+646760|New Plymouth/Opunake/Stratford
+646761|Opunake
+646762|Stratford
+646763|Opunake
+646764|Stratford
+646765|Stratford
+646766|New Plymouth
+646767|New Plymouth/Opunake/Stratford
+646768|New Plymouth
+646769|New Plymouth
+6467770|Gisborne
+6467771|New Plymouth
+6467772|Hawera
+6467773|Wanganui
+6467774|Dannevirke
+6467775|Palmerston North
+6467776|Levin
+6467777|Napier
+6467778|Wairoa
+6467779|Masterton
+6468241|Gisborne
+6468242|Ruatoria
+6468243|Napier
+6468244|Waipukurau
+6468245|Wairoa
+6468246|Hawera
+6468247|Mokau
+6468248|New Plymouth
+6468249|Opunake
+6468250|Stratford
+6468251|Wanganui
+6468252|Dannevirke
+6468253|Marton
+6468254|Ohakune
+6468255|Pahiatua
+6468256|Palmerston North
+6468257|Taihape
+6468258|Waiouru
+6468259|Levin
+6468260|Featherston
+6468261|Masterton
+6468262|Napier
+6468263|Napier
+6468264|Palmerston North
+6468268|New Plymouth
+6468269|New Plymouth
+64683|Napier/Hastings
+646830|Napier
+6468304|Napier/Wairoa
+6468305|Napier/Wairoa
+6468306|Napier/Wairoa
+6468307|Napier/Wairoa
+646832|Napier/Wairoa
+646837|Wairoa
+646838|Wairoa
+646840|Napier City
+646841|Napier City
+646842|Napier/Hastings
+646843|Napier/Hastings
+646844|Napier/Hastings
+646845|Napier/Hastings
+646846|Napier City
+646847|Napier/Hastings
+646848|Napier City
+646849|Napier City
+64685|Waipukurau
+64686|Gisborne
+646860|Gisborne/Ruatoria
+646864|Ruatoria
+646866|Gisborne/Ruatoria
+646869|Gisborne/Ruatoria
+64687|Napier/Hastings
+6468800|Napier/Hastings
+6468801|Wanganui
+6468802|New Plymouth
+6468803|Gisborne
+6468804|Napier
+6468805|Wanganui
+6468806|New Plymouth
+6468807|Gisborne
+6468808|Palmerston North
+6468809|Masterton
+6468810|Ohakune
+6468811|Marton
+6468812|Waiouru
+6468813|Taihape
+6468814|Dannevirke
+6468815|Pahiatua
+6468816|Hawera
+6468817|Stratford
+6468818|Opunake
+6468819|Mokau
+6468820|Palmerston North
+6468821|Featherston
+6468822|Masterton
+6468823|Napier/Hastings
+6468824|Wanganui
+6468825|Gisborne
+6468826|Levin
+6468827|New Plymouth
+6468880|Napier/Hastings
+6468881|Napier/Hastings
+6468882|Napier/Hastings
+6468883|Palmerston North
+6468884|Palmerston North
+6468885|New Plymouth
+6468886|Wanganui
+6468887|Gisborne
+6468888|Masterton
+6468889|Levin
+6468990|Ruatoria
+6468991|Gisborne
+6468992|Wairoa
+6468993|Taihape
+6468994|Waipukurau
+6468995|Napier
+6468996|Napier
+6468997|Napier
+6468998|Napier
+6468999|Napier
+6469000|New Plymouth
+6469001|New Plymouth
+6469002|Hawera
+6469003|Napier/Hastings
+6469004|Napier/Hastings
+6469005|Wanganui
+6469006|Gisborne
+6469007|Masterton
+6469008|Palmerston North
+6469009|Palmerston North
+6469010|Taihape
+6469012|Waiouru
+6469014|Dannevirke
+6469016|Ohakune
+6469017|Marton
+6469019|Pahiatua
+6469020|Stratford
+6469022|Hawera
+6469025|Mokau
+6469029|Opunake
+646903|Palmerston North
+6469040|Wairoa
+6469045|Waipukurau
+6469200|Gisborne
+6469201|Ruatoria
+6469202|Levin
+6469203|New Plymouth
+6469240|Gisborne
+6469241|Napier
+6469242|Levin
+6469243|New Plymouth
+6469246|Palmerston North
+6469247|Wanganui
+6469249|Masterton
+6469270|Marton
+6469271|Pahiatua
+6469272|Featherston
+6469273|New Plymouth
+6469274|New Plymouth
+6469275|Wanganui
+6469276|Wanganui
+6469277|Gisborne
+6469278|Gisborne
+6469279|Levin
+6469280|Waipukurau
+6469281|Wairoa
+6469282|Mokau
+6469283|Opunake
+6469284|Stratford
+6469285|Hawera
+6469286|Dannevirke
+6469287|Ohakune
+6469288|Waiouru
+6469289|Taihape
+6469290|Napier/Hastings
+6469291|Gisborne
+6469292|Ruatoria
+6469293|New Plymouth
+6469294|Palmerston North
+6469295|Wanganui
+6469296|Levin
+6469297|Masterton
+6469298|Masterton
+6469299|Napier/Hastings
+6469300|Gisborne
+6469301|Ruatoria
+6469302|Napier
+6469303|Waipukurau
+6469304|Wairoa
+6469305|New Plymouth
+6469306|Hawera
+6469307|Stratford
+6469308|Opunake
+6469309|Mokau
+6469310|Wanganui
+6469311|Palmerston North
+6469312|Ohakune
+6469313|Marton
+6469314|Waiouru
+6469315|Taihape
+6469316|Dannevirke
+6469317|Pahiatua
+6469318|Levin
+6469319|Masterton
+64694|Masterton/Levin
+646946|Masterton
+6469468|Featherston
+646949|Levin W100
+646950|Palmerston North/New Plymouth
+646951|Palmerston North
+646952|Palmerston North W100
+646953|Palmerston North W100
+646954|Palmerston North W100
+646955|Palmerston North/New Plymouth
+646956|Palmerston North/New Plymouth
+6469570|Palmerston North
+6469571|Palmerston North
+6469572|Palmerston North
+6469573|Palmerston North
+6469574|Taihape
+6469575|Waiouru
+6469576|Dannevirke
+6469577|Ohakune
+6469578|Marton
+6469579|Pahiatua
+646958|Palmerston North/New Plymouth
+646959|Palmerston North/New Plymouth
+646960|Wanganui/New Plymouth
+6469610|Wanganui
+6469611|Wanganui
+6469612|Wanganui/New Plymouth
+6469613|Levin
+6469614|Levin
+6469615|Masterton
+6469616|Featherston
+6469617|Wanganui/New Plymouth
+6469618|Wanganui/New Plymouth
+6469619|Wanganui/New Plymouth
+646962|Wanganui/New Plymouth
+646963|Wanganui/New Plymouth
+646964|Wanganui
+646965|Wanganui W100
+646966|Wanganui/New Plymouth
+646967|New Plymouth
+646968|New Plymouth W100
+646969|New Plymouth
+64697|Napier
+6469710|New Plymouth
+6469711|New Plymouth
+6469712|New Plymouth
+6469713|Stratford
+6469714|Hawera
+6469715|Mokau
+6469716|Opunake
+64698|Gisborne
+6469850|Napier
+6469851|Napier
+6469852|Napier
+6469853|Waiouru
+6469854|Waipukurau
+6469869|Ruatoria
+6469893|Ruatoria
+647210|Hamilton
+647211|Hamilton
+6472115|Taumarunui
+6472116|Thames
+6472118|Taumarunui
+6472119|Thames
+6472120|Putaruru/Tokoroa
+6472121|Te Kuiti
+6472122|Te Awamutu
+6472123|Morrinsville
+6472124|Matamata
+6472125|Huntly
+6472126|Otorohanga
+6472127|Paeroa
+6472128|Waihi
+6472129|Whangamata
+647213|Hamilton
+6472130|Tauranga
+6472131|Rotorua
+6472132|Taupo
+6472133|Taupo
+6472140|Putaruru/Tokoroa
+6472141|Te Kuiti
+6472142|Te Awamutu
+6472143|Morrinsville
+6472144|Matamata
+6472145|Huntly
+6472146|Otorohanga
+6472147|Paeroa
+6472148|Waihi
+6472149|Whangamata
+647215|Rotorua
+647216|Rotorua
+647217|Taupo
+647218|Tauranga
+6472190|Whakatane
+6472191|Whakatane
+6472192|Whakatane
+6472193|Whakatane
+6472194|Whakatane
+6472195|Rotorua
+6472196|Taupo
+6472197|Tauranga
+6472198|Opotiki
+6472199|Opotiki
+647220|Tauranga
+6472220|Tauranga
+6472221|Tauranga
+6472222|Hamilton
+6472223|Hamilton
+6472224|Taupo
+6472225|Rotorua
+6472226|Te Kuiti
+6472420|Hamilton
+6472424|Tauranga
+6472427|Rotorua
+6472428|Taupo
+6472429|Whakatane
+647245|Hamilton
+6472457|Rotorua
+6472458|Rotorua
+6472459|Rotorua
+6472600|Hamilton
+6472601|Hamilton
+6472602|Hamilton
+6472603|Hamilton
+6472604|Hamilton
+6472605|Thames
+6472606|Huntly
+6472607|Paeroa
+6472608|Waihi
+6472609|Whangamata
+6472610|Morrinsville
+6472611|Matamata
+6472612|Te Awamutu
+6472613|Putaruru/Tokoroa
+6472614|Otorohanga
+6472615|Te Kuiti
+6472616|Taumarunui
+6472620|Tauranga
+6472621|Tauranga
+6472622|Tauranga
+6472623|Tauranga
+6472624|Whakatane
+6472625|Opotiki
+6472626|Rotorua
+6472627|Rotorua
+6472628|Taupo
+6472629|Taupo
+6472800|Thames
+6472801|Huntly
+6472802|Paeroa
+6472803|Waihi
+6472804|Whangamata
+6472805|Morrinsville
+6472806|Matamata
+6472807|Te Awamutu
+6472808|Putaruru/Tokoroa
+6472809|Otorohanga
+6472810|Tauranga
+6472811|Tauranga
+6472812|Tauranga
+6472813|Waihi
+6472814|Putaruru/Tokoroa
+6472815|Whakatane
+6472816|Morrinsville
+6472817|Taupo
+6472818|Rotorua
+6472819|Rotorua
+6472820|Hamilton
+6472821|Hamilton
+6472822|Rotorua
+6472823|Whakatane
+6472826|Matamata
+6472827|Tauranga
+6472828|Tauranga
+6472829|Tauranga
+64730|Whakatane
+64731|Whakatane/Opotiki
+647312|Whakatane
+647315|Opotiki
+64732|Whakatane
+647325|Opotiki
+64733|Rotorua/Taupo
+647332|Rotorua
+6473331|Rotorua
+6473332|Rotorua
+6473337|Rotorua
+6473338|Rotorua
+6473339|Taupo
+647334|Rotorua
+64734|Rotorua
+64735|Rotorua
+64736|Rotorua
+64737|Taupo
+64738|Taupo
+647390|Hamilton
+647391|Hamilton
+6473920|Huntly
+6473921|Matamata
+6473922|Morrinsville
+6473923|Otorohanga
+6473924|Paeroa
+6473925|Putaruru/Tokoroa
+6473926|Taumarunui
+6473927|Te Kuiti
+6473928|Te Awamutu
+6473929|Thames
+6473930|Waihi
+6473931|Whangamata
+6473932|Rotorua
+6473933|Rotorua
+6473934|Rotorua
+6473935|Rotorua
+6473944|Tauranga
+6473945|Tauranga
+6473946|Taupo
+6473947|Whakatane
+6473948|Opotiki
+6473949|Taupo
+6473990|Te Awamutu
+6473991|Whakatane
+6473992|Opotiki
+6473993|Te Awamutu
+6473994|Rotorua
+6473995|Putaruru/Tokoroa
+6473996|Otorohanga
+6473997|Te Kuiti
+6473998|Taumarunui
+6473999|Taupo
+6474440|Paeroa
+6474441|Waihi
+6474442|Morrinsville
+6474443|Matamata
+6474444|Hamilton
+6474445|Hamilton
+6474446|Otorohanga
+6474447|Te Kuiti
+6474448|Taumarunui
+6474449|Opotiki
+647460|Rotorua
+647462|Taupo
+647463|Whakatane
+6474637|Opotiki
+6474638|Opotiki
+6474639|Opotiki
+647464|Hamilton
+6474648|Huntly
+6474649|Matamata
+6474650|Morrinsville
+6474651|Otorohanga
+6474652|Paeroa
+6474653|Putaruru/Tokoroa
+6474654|Taumarunui
+6474655|Te Kuiti
+6474656|Te Awamutu
+6474657|Thames
+6474658|Waihi
+6474659|Whangamata
+647466|Tauranga
+647533|Tauranga
+64754|Tauranga
+647551|Tauranga
+647552|Tauranga
+647557|Tauranga
+6475600|Hamilton
+6475601|Hamilton
+6475602|Hamilton
+6475603|Hamilton
+6475604|Hamilton
+6475605|Huntly
+6475606|Matamata
+6475607|Morrinsville
+6475608|Otorohanga
+6475609|Paeroa
+6475610|Putaruru/Tokoroa
+6475611|Taumarunui
+6475612|Te Kuiti
+6475613|Te Awamutu
+6475614|Thames
+6475615|Waihi
+6475616|Whangamata
+6475617|Whakatane
+6475618|Opotiki
+6475619|Hamilton
+6475620|Tauranga
+6475621|Tauranga
+6475622|Tauranga
+6475623|Tauranga
+6475624|Rotorua
+6475625|Rotorua
+6475626|Taupo
+6475627|Taupo
+6475628|Tauranga
+64757|Tauranga
+6475820|Hamilton
+6475821|Hamilton
+6475823|Hamilton
+6475824|Hamilton
+6475825|Hamilton
+6475826|Hamilton
+6475827|Hamilton
+6475828|Hamilton
+6475829|Hamilton
+647589|Hamilton
+647590|Hamilton
+6475950|Hamilton
+6475958|Taupo
+6477770|Tauranga
+6477771|Whakatane
+6477772|Rotorua
+6477773|Taupo
+6477774|Thames
+6477775|Huntly
+6477776|Whangamata
+6477777|Hamilton
+6477778|Te Awamutu
+6477779|Putaruru/Tokoroa
+6477880|Hamilton
+6477881|Hamilton
+6477882|Hamilton
+6477883|Hamilton
+6477884|Tauranga
+6477885|Tauranga
+6477886|Rotorua
+6477887|Te Awamutu
+6477888|Taupo
+6477889|Whakatane
+6478070|Morrinsville
+6478071|Otorohanga
+6478072|Paeroa
+6478073|Putaruru/Tokoroa
+6478074|Taumarunui
+6478075|Te Kuiti
+6478076|Te Awamutu
+6478077|Waihi
+6478078|Whangamata
+6478079|Hamilton
+6478080|Hamilton
+6478081|Rotorua
+6478082|Tauranga
+6478083|Hamilton
+6478084|Hamilton
+6478085|Tauranga
+6478086|Hamilton
+6478090|Thames
+6478091|Matamata
+6478092|Huntly
+6478093|Rotorua
+6478094|Tauranga
+6478095|Taupo
+6478097|Whakatane
+647812|Hamilton
+6478128|Huntly
+6478129|Matamata
+6478130|Morrinsville
+6478131|Otorohanga
+6478132|Paeroa
+6478133|Putaruru/Tokoroa
+6478134|Taumarunui
+6478135|Te Kuiti
+6478136|Te Awamutu
+6478137|Thames
+6478138|Waihi
+6478139|Whangamata
+6478140|Rotorua
+6478141|Taupo
+6478142|Whakatane
+6478143|Opotiki
+6478144|Tauranga
+647820|Hamilton/Huntly
+647821|Hamilton/Huntly
+647822|Hamilton/Huntly
+647823|Hamilton
+647824|Hamilton
+647825|Hamilton
+647826|Huntly
+647827|Hamilton
+647828|Huntly
+647829|Hamilton
+64783|Hamilton
+64784|Hamilton
+64785|Hamilton
+647860|Paeroa/Waihi/Thames/Whangamata
+647861|Paeroa/Waihi/Thames/Whangamata
+647862|Paeroa
+647863|Waihi
+647864|Thames
+647865|Whangamata
+647866|Thames
+647867|Thames
+647868|Thames
+647869|Thames
+647870|Te Awamutu
+647871|Te Awamutu
+647872|Te Awamutu
+647873|Otorohanga
+647874|Te Awamutu/Otorohanga/Te Kuiti
+647875|Te Awamutu/Otorohanga/Te Kuiti
+647876|Te Kuiti
+647877|Te Kuiti
+647878|Te Kuiti
+647879|Te Awamutu/Otorohanga/Te Kuiti
+647880|Matamata
+647881|Matamata
+647882|Putaruru/Tokoroa
+647883|Putaruru/Tokoroa
+647884|Morrinsville
+647885|Putaruru/Tokoroa
+647886|Putaruru/Tokoroa
+647887|Morrinsville
+647888|Matamata
+647889|Morrinsville
+64789|Taumarunui
+6478990|Thames
+6478991|Whangamata
+6478992|Paeroa
+6478993|Waihi
+6478994|Tauranga
+6478995|Matamata
+6478996|Huntly
+6478997|Morrinsville
+6478998|Hamilton
+6478999|Hamilton
+64790|Taupo
+6479000|Hamilton
+6479001|Hamilton
+6479002|Matamata
+6479003|Thames
+6479004|Te Awamutu
+6479005|Tauranga
+6479007|Whakatane
+6479008|Rotorua
+6479009|Hamilton
+6479010|Thames
+6479014|Matamata
+6479018|Putaruru/Tokoroa
+6479019|Whangamata
+6479020|Te Awamutu
+6479021|Te Awamutu
+6479022|Morrinsville
+6479025|Huntly
+6479026|Paeroa
+6479027|Paeroa
+6479029|Waihi
+647903|Hamilton
+6479040|Otorohanga
+6479045|Taumarunui
+6479049|Te Kuiti
+6479100|Rotorua
+6479101|Rotorua
+6479102|Rotorua
+6479107|Whakatane
+6479108|Whakatane
+6479109|Opotiki
+647920|Rotorua
+647921|Rotorua
+647922|Whakatane
+6479229|Opotiki
+647923|Whakatane
+6479230|Opotiki
+6479240|Taupo
+6479241|Whakatane
+6479242|Rotorua
+6479243|Rotorua/Whakatane/Tauranga
+6479244|Tauranga
+6479245|Matamata
+6479246|Thames
+6479247|Hamilton
+6479248|Rotorua/Whakatane/Tauranga
+6479249|Huntly
+647925|Tauranga
+647926|Tauranga
+647927|Tauranga
+647928|Tauranga
+6479290|Hamilton
+6479291|Hamilton
+6479292|Hamilton
+6479293|Hamilton
+6479294|Hamilton
+6479295|Whakatane
+6479296|Tauranga
+6479297|Tauranga
+6479298|Taupo
+6479299|Rotorua
+64793|Tauranga
+6479420|Tauranga
+6479421|Tauranga
+6479422|Tauranga
+647949|Hamilton
+64795|Hamilton
+6479500|Whakatane
+6479501|Opotiki
+64796|Hamilton
+647970|Hamilton
+6479708|Thames
+6479709|Matamata
+6479710|Putaruru/Tokoroa
+6479711|Whangamata
+6479712|Te Awamutu
+6479713|Morrinsville
+6479714|Huntly
+6479715|Paeroa
+6479716|Waihi
+6479717|Otorohanga
+6479718|Taumarunui
+6479719|Te Kuiti
+647974|Hamilton
+6479746|Opotiki
+6479747|Te Kuiti
+6479748|Taumarunui
+6479750|Tauranga
+6479751|Tauranga
+6479752|Rotorua
+6479753|Taupo
+6479754|Tauranga
+647980|Hamilton
+647981|Hamilton
+647982|Hamilton
+647983|Hamilton
+6479841|Huntly
+6479842|Matamata
+6479843|Morrinsville
+6479844|Otorohanga
+6479845|Paeroa
+6479846|Taumarunui
+6479847|Te Awamutu
+6479848|Te Kuiti
+6479849|Thames
+6479850|Tokoroa
+6479851|Waihi
+6479852|Whangamata
+6479853|Putaruru
+6479854|Rotorua
+6479855|Taupo
+6479856|Tauranga
+6479857|Opotiki
+6479858|Whakatane
+6479859|Tauranga
+647986|Hamilton
+647987|Tauranga
+647988|Rotorua
+647989|Taupo
+6492|Auckland
+6492006|Helensville
+6492007|Warkworth
+6492008|Hibiscus Coast
+6492009|Pukekohe
+6492225|Pukekohe
+6492226|Helensville
+6492227|Whangarei
+6492228|Warkworth
+6492229|Hibiscus Coast
+64923|Pukekohe
+6492426|Whangarei
+6492427|Warkworth
+6492428|Hibiscus Coast
+6492429|Pukekohe
+6492807|Helensville
+6492808|Great Barrier Island
+6492809|Maungaturoto
+6492831|Maungaturoto
+6492832|Dargaville
+6492833|Warkworth
+6492834|Kawakawa
+6492835|Kaikohe
+6492836|Kaitaia
+6492837|Hibiscus Coast
+6492838|Pukekohe
+6492839|Whangarei
+64930|Auckland
+64931|Auckland/Waiheke Island
+64932|Auckland/Waiheke Island
+649320|Auckland
+6493206|Pukekohe
+6493207|Hibiscus Coast
+6493208|Helensville
+6493209|Great Barrier Island
+64933|Auckland
+64934|Auckland/Waiheke Island
+649347|Auckland
+649348|Auckland
+649349|Auckland
+64935|Auckland
+64936|Auckland
+64937|Auckland
+64938|Auckland/Waiheke Island
+649390|Auckland
+649391|Auckland
+649392|Auckland
+6493930|Whangarei
+6493931|Whangarei
+6493932|Dargaville
+6493933|Kaikohe
+6493934|Kaitaia
+6493935|Kawakawa
+6493936|Maungaturoto
+6493937|Warkworth
+6493938|Auckland
+6493939|Auckland
+649394|Auckland
+6493942|Great Barrier Island
+6493943|Helensville
+6493944|Hibiscus Coast
+649395|Auckland/Waiheke Island
+649396|Auckland/Waiheke Island
+649397|Auckland/Waiheke Island
+649398|Auckland/Waiheke Island
+649399|Auckland
+6493990|Great Barrier Island
+6493991|Pukekohe
+649400|Kaikohe
+649401|Kaikohe
+649402|Kawakawa
+649403|Kawakawa
+649404|Kawakawa
+649405|Kaikohe
+649406|Kaitaia
+649407|Kaikohe
+649408|Kaitaia
+649409|Kaitaia
+64941|Auckland
+649420|Helensville
+649421|Hibiscus Coast
+649422|Warkworth
+649423|Warkworth
+649424|Hibiscus Coast
+649425|Warkworth
+649426|Hibiscus Coast
+649427|Hibiscus Coast
+649428|Hibiscus Coast
+649429|Great Barrier Island
+64943|Whangarei
+649431|Maungaturoto
+6494312|Warkworth
+6494313|Warkworth
+6494314|Warkworth
+6494315|Warkworth
+649439|Dargaville
+64944|Auckland
+649451|Auckland
+649452|Auckland
+649458|Dargaville
+649459|Whangarei
+64947|Auckland
+649470|Whangarei
+64948|Auckland
+6495|Auckland
+649552|Pukekohe
+6495530|Great Barrier Island
+6495531|Helensville
+6495532|Warkworth
+6495533|Whangarei
+649554|Hibiscus Coast
+6495560|Whangarei
+6495561|Whangarei
+6495562|Whangarei
+6495563|Whangarei
+6495564|Whangarei
+6495565|Dargaville
+6495566|Kaikohe
+6495567|Kaitaia
+6495568|Kawakawa
+6495569|Maungaturoto
+6495588|Hibiscus Coast
+6495589|Pukekohe
+6496|Auckland
+6496007|Helensville
+6496008|Hibiscus Coast
+6496009|Pukekohe
+6496010|Kaitaia
+6496012|Kawakawa
+6496013|Whangarei
+6496014|Dargaville
+6496015|Maungaturoto
+6496016|Warkworth
+6496017|Great Barrier Island
+6496100|Pukekohe
+6496507|Helensville
+6496508|Hibiscus Coast
+6496509|Pukekohe
+6496510|Whangarei
+6496511|Whangarei
+6496512|Whangarei
+6496513|Whangarei
+6496514|Whangarei
+6496515|Dargaville
+6496516|Kaikohe
+6496517|Kaitaia
+6496518|Kawakawa
+6496519|Maungaturoto
+649652|Warkworth
+6496990|Kaitaia
+6496991|Kaikohe
+6496992|Kawakawa
+6496993|Whangarei
+6496994|Dargaville
+6496995|Maungaturoto
+6496996|Warkworth
+6496997|Hibiscus Coast
+6496998|Helensville
+6497770|Whangarei
+6497771|Kaikohe
+6497772|Kaitaia
+6497773|Dargaville
+6497774|Warkworth
+6497775|Helensville
+6497776|Hibiscus Coast
+6497777|Auckland
+6497778|Pukekohe
+6497779|Great Barrier Island
+6498|Auckland
+6498016|Hibiscus Coast
+6498017|Hibiscus Coast
+6498018|Whangarei
+6498019|Pukekohe
+6498690|Kawakawa
+6498691|Maungaturoto
+6498814|Pukekohe
+6498815|Helensville
+6498816|Great Barrier Island
+6498817|Hibiscus Coast
+6498820|Whangarei
+6498821|Dargaville
+6498822|Kaikohe
+6498823|Kaitaia
+6498824|Kawakawa
+6498825|Maungaturoto
+6498826|Warkworth
+6498850|Great Barrier Island
+6498851|Pukekohe
+6498852|Warkworth
+6498853|Whangarei
+6498854|Hibiscus Coast
+6498855|Kawakawa
+6498856|Maungaturoto
+6498857|Dargaville
+6498858|Kaikohe
+6498859|Kaitaia
+6498880|Helensville
+6498881|Hibiscus Coast
+6498882|Whangarei
+6498883|Whangarei
+6498900|Pukekohe
+6498901|Pukekohe
+6499|Auckland
+6499003|Warkworth
+6499004|Hibiscus Coast
+6499006|Whangarei
+6499007|Kaikohe
+6499008|Pukekohe
+6499010|Kaitaia
+6499011|Kaitaia
+6499012|Kawakawa
+6499013|Kawakawa
+6499014|Dargaville
+6499015|Dargaville
+6499016|Kaikohe
+6499017|Kaikohe
+6499018|Maungaturoto
+6499019|Maungaturoto
+649902|Warkworth
+6499040|Helensville
+6499041|Helensville
+6499042|Hibiscus Coast
+6499043|Hibiscus Coast
+6499044|Hibiscus Coast
+6499045|Hibiscus Coast
+6499046|Pukekohe
+6499047|Pukekohe
+6499048|Pukekohe
+6499049|Great Barrier Island
+6499060|Warkworth
+6499061|Hibiscus Coast
+6499062|Hibiscus Coast
+6499063|Hibiscus Coast
+6499064|Helensville
+6499065|Helensville
+6499066|Helensville
+6499067|Pukekohe
+6499068|Pukekohe
+6499069|Pukekohe
+649907|Warkworth
+6499100|Pukekohe
+6499101|Pukekohe
+6499295|Kaikohe
+6499296|Kaitaia
+6499297|Hibiscus Coast
+6499298|Pukekohe
+6499299|Whangarei
+6499420|Pukekohe
+6499421|Hibiscus Coast
+6499422|Helensville
+6499423|Great Barrier Island
+6499428|Warkworth
+6499450|Warkworth
+6499451|Warkworth
+6499452|Warkworth
+6499453|Warkworth
+6499454|Whangarei
+6499455|Dargaville
+6499456|Kaikohe
+6499457|Kaitaia
+6499458|Kawakawa
+6499459|Maungaturoto
+6499460|Whangarei
+6499461|Whangarei
+6499462|Whangarei
+6499463|Whangarei
+6499464|Whangarei
+6499465|Dargaville
+6499466|Kaikohe
+6499467|Kaitaia
+6499468|Kawakawa
+6499469|Maungaturoto
+6499470|Hibiscus Coast
+6499471|Hibiscus Coast
+6499472|Great Barrier Island
+6499473|Helensville
+6499474|Helensville
+6499475|Hibiscus Coast
+6499477|Pukekohe
+6499478|Pukekohe
+6499479|Pukekohe
+6499551|Whangarei
+6499552|Dargaville
+6499553|Kaikohe
+6499554|Kaitaia
+6499555|Kawakawa
+6499556|Maungaturoto
+6499557|Warkworth
+6499558|Great Barrier Island
+6499559|Whangarei
+649957|Pukekohe
+649958|Helensville
+649959|Hibiscus Coast
+6499630|Pukekohe
+6499631|Pukekohe
+6499716|Helensville
+6499717|Whangarei
+6499718|Whangarei
+6499719|Whangarei
+6499725|Hibiscus Coast
+6499726|Kawakawa
+6499727|Whangarei
+6499728|Dargaville
+6499733|Warkworth
+6499746|Kawakawa
+6499747|Dargaville
+6499748|Whangarei
+64998|Whangarei
+6499810|Hibiscus Coast
+6499811|Hibiscus Coast
+6499818|Great Barrier Island
+6499819|Helensville
+6499873|Kaitaia
+6499874|Kawakawa
+6499875|Dargaville
+6499876|Kaikohe
+6499877|Maungaturoto
+6499878|Warkworth
+6499879|Warkworth

@@ -1,0 +1,150 @@
+env:
+    global:
+        - JRUBY_OPTS="-Xcli.debug=true --debug"
+        - CC_TEST_REPORTER_ID=4c2a52b278d6f4b4cbd204d68d8f023af85fe284d6a73ca1d522479c0b8e987c
+
+before_script:
+    - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+    - chmod +x ./cc-test-reporter
+    - ./cc-test-reporter before-build
+
+after_script:
+    - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+before_install:
+    - gem update --system
+    - gem install bundler
+
+install:
+    - bundle install
+
+bundler_args: --no-deployment --jobs 3 --retry 3
+
+cache: bundler
+
+language: ruby
+sudo: false
+
+rvm:
+  - ruby-1.9.3-p551
+  - ruby-2.0.0-p648
+  - ruby-2.1.10
+  - ruby-2.2.10
+  - ruby-2.3.7
+  - ruby-2.4.4
+  - ruby-2.5.1
+  - jruby-1.7.26
+  - jruby-9.1.9.0
+gemfile:
+  - gemfiles/ar-2.3.x
+  - gemfiles/ar-3.0.x
+  - gemfiles/ar-3.1.x
+  - gemfiles/ar-3.2.x
+  - gemfiles/ar-4.0.x
+  - gemfiles/ar-4.1.x
+  - gemfiles/ar-4.2.x
+  - gemfiles/ar-5.0.x
+  - gemfiles/ar-5.1.x
+  - gemfiles/ar-5.2.x
+matrix:
+  exclude:
+    - rvm: jruby-9.1.9.0
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: jruby-9.1.9.0
+      gemfile: gemfiles/ar-3.0.x
+
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-3.1.x
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-3.2.x
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-4.0.x
+    - rvm: ruby-2.5.1
+      gemfile: gemfiles/ar-4.1.x
+
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-3.1.x
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-3.2.x
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-4.0.x
+    - rvm: ruby-2.4.4
+      gemfile: gemfiles/ar-4.1.x
+
+    - rvm: ruby-2.3.7
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: ruby-2.3.7
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: ruby-2.3.7
+      gemfile: gemfiles/ar-3.1.x
+    - rvm: ruby-2.3.7
+      gemfile: gemfiles/ar-3.2.x
+    - rvm: ruby-2.3.7
+      gemfile: gemfiles/ar-4.0.x
+
+    - rvm: ruby-2.2.10
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: ruby-2.2.10
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: ruby-2.2.10
+      gemfile: gemfiles/ar-3.1.x
+    - rvm: ruby-2.2.10
+      gemfile: gemfiles/ar-3.2.x
+    - rvm: ruby-2.2.10
+      gemfile: gemfiles/ar-4.0.x
+
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-2.3.x
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-3.1.x
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-5.0.x
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-5.1.x
+    - rvm: ruby-2.1.10
+      gemfile: gemfiles/ar-5.2.x
+
+    - rvm: ruby-2.0.0-p648
+      gemfile: gemfiles/ar-5.2.x
+    - rvm: ruby-2.0.0-p648
+      gemfile: gemfiles/ar-5.1.x
+    - rvm: ruby-2.0.0-p648
+      gemfile: gemfiles/ar-5.0.x
+    - rvm: ruby-2.0.0-p648
+      gemfile: gemfiles/ar-4.2.x
+    - rvm: ruby-2.0.0-p648
+      gemfile: gemfiles/ar-2.3.x
+
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-5.2.x
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-5.1.x
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-5.0.x
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-4.2.x
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-4.1.x
+    - rvm: ruby-1.9.3-p551
+      gemfile: gemfiles/ar-4.0.x
+
+    - rvm: jruby-1.7.26
+      gemfile: gemfiles/ar-5.2.x
+    - rvm: jruby-1.7.26
+      gemfile: gemfiles/ar-5.1.x
+    - rvm: jruby-1.7.26
+      gemfile: gemfiles/ar-5.0.x
+    - rvm: jruby-1.7.26
+      gemfile: gemfiles/ar-3.0.x
+    - rvm: jruby-1.7.26
+      gemfile: gemfiles/ar-2.3.x

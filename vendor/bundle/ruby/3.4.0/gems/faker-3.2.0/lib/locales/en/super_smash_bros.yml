@@ -1,0 +1,223 @@
+en:
+  faker:
+    games:
+      super_smash_bros:
+        fighter:
+          - Alex
+          - Banjo & Kazooie
+          - Bayonetta
+          - Bowser
+          - Bowser Jr.
+          - Byleth
+          - Captain Falcon
+          - Charizard
+          - Chrom
+          - Cloud
+          - Corrin
+          - Daisy
+          - Dark Pit
+          - Dark Samus
+          - Diddy Kong
+          - Donkey Kong
+          - Dr. Mario
+          - Duck Hunt Duo
+          - Enderman
+          - Falco
+          - Fox
+          - Ganondorf
+          - Greninja
+          - Hero
+          - Ice Climbers
+          - Ike
+          - Incineroar
+          - Inkling
+          - Isabelle
+          - Ivysaur
+          - Jigglypuff
+          - Joker
+          - Kazuya
+          - Ken
+          - King Dedede
+          - King K. Rool
+          - Kirby
+          - Link
+          - Little Mac
+          - Lucario
+          - Lucas
+          - Lucina
+          - Luigi
+          - Mario
+          - Marth
+          - Mega Man
+          - Meta Knight
+          - Mewtwo
+          - Mii Fighter
+          - Mii Gunner
+          - Mii Sword Fighter
+          - Min Min
+          - Mr. Game & Watch
+          - Ness
+          - Olimar
+          - Pac-Man
+          - Palutena
+          - Peach
+          - Pichu
+          - Pikachu
+          - Piranha Plant
+          - Pit
+          - Pokémon Trainer
+          - R.O.B.
+          - Richter
+          - Ridley
+          - Robin
+          - Rosalina
+          - Roy
+          - Ryu
+          - Samus
+          - Sephiroth
+          - Sheik
+          - Shulk
+          - Simon
+          - Snake
+          - Sonic
+          - Sora
+          - Squirtle
+          - Steve
+          - Terry
+          - Toon Link
+          - Villager
+          - Wario
+          - Wii Fit Trainer
+          - Wolf
+          - Yoshi
+          - Young Link
+          - Zelda
+          - Zero Suit Samus
+          - Zombie
+        stage:
+          - 3D Land
+          - 75m
+          - Arena Ferox
+          - Balloon Fight
+          - Battlefield
+          - Big Battlefield
+          - Big Blue
+          - Boxing Ring
+          - Bridge of Eldin
+          - Brinstar
+          - Brinstar Depths
+          - Castle Siege
+          - Coliseum
+          - Corneria
+          - Delfino Plaza
+          - Distant Planet
+          - Dracula's Castle
+          - Dream Land
+          - Duck Hunt
+          - Figure-8 Circuit
+          - Final Destination
+          - Find Mii
+          - Flat Zone
+          - Flat Zone 2
+          - Flat Zone X
+          - Fountain of Dreams
+          - Fourside
+          - Frigate Orpheon
+          - Gamer
+          - Garden of Hope
+          - Garreg Mach Monastery
+          - Gaur Plain
+          - Gerudo Valley
+          - Golden Plains
+          - Great Bay
+          - The Great Cave Offensive
+          - Great Plateau Tower
+          - Green Greens
+          - Green Hill Zone
+          - Halberd
+          - Hanenbow
+          - Hollow Bastion
+          - Hyrule Castle
+          - Icicle Mountain
+          - Jungle Hijinxs
+          - Jungle Japes
+          - Kalos Pokémon League
+          - King of Fighters Stadium
+          - Kongo Falls
+          - Kongo Jungle
+          - Living Room
+          - Luigi's Mansion
+          - Lylat Cruise
+          - Magicant
+          - Mario Bros.
+          - Mario Circuit
+          - Mario Galaxy
+          - Mementos
+          - Midgar
+          - Miiverse
+          - Minecraft World
+          - Moray Towers
+          - Mushroom Kingdom
+          - Mushroom Kingdom II
+          - Mushroomy Kingdom
+          - Mushroom Kingdom U
+          - Mute City
+          - New Donk City Hall
+          - New Pork City
+          - Norfair
+          - Northern Cave
+          - Onett
+          - Orbital Gate Assault
+          - Pac-Land
+          - Pac-Maze
+          - Palutena's Temple
+          - Paper Mario
+          - Peach's Castle
+          - Princess Peach's Castle
+          - PictoChat
+          - PictoChat 2
+          - Pilotwings
+          - Pirate Ship
+          - Planet Zebes
+          - Poké Floats
+          - Pokémon Stadium
+          - Pokémon Stadium 2
+          - Port Town Aero Dive
+          - Prism Tower
+          - Pyrosphere
+          - Rainbow Cruise
+          - Rainbow Road
+          - Reset Bomb Forest
+          - Rumble Falls
+          - Saffron City
+          - Sector Z
+          - Shadow Moses Island
+          - Skyloft
+          - Skyworld
+          - Small Battlefield
+          - Smashville
+          - Spear Pillar
+          - Spiral Mountain
+          - Spirit Train
+          - Spring Stadium
+          - Summit
+          - Super Happy Tree
+          - Super Mario Maker
+          - Suzaku Castle
+          - Temple
+          - Tomodachi Life
+          - Tortimer Island
+          - Town and City
+          - Umbra Clock Tower
+          - Unova Pokémon League
+          - Venom
+          - WarioWare, Inc.
+          - Wii Fit Studio
+          - Wily Castle
+          - Windy Hill Zone
+          - Woolly World
+          - Wrecking Crew
+          - Wuhu Island
+          - Yoshi's Island
+          - Yoshi's Story
+          - Yggdrasil's Altar

@@ -1,0 +1,4 @@
+test:
+  database: app_test
+  user: root
+  password: password

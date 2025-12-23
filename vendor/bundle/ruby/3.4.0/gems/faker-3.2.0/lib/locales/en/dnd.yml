@@ -1,0 +1,636 @@
+en:
+  faker:
+    dnd:
+      alignments:
+        - Chaotic Evil
+        - Chaotic Good
+        - Chaotic Neutral
+        - Lawful Evil
+        - Lawful Good
+        - Lawful Neutral
+        - Neutral Evil
+        - Neutral Good
+        - True Neutral
+      backgrounds:
+        - Acolyte
+        - Anthropologist
+        - Archaeologist
+        - Black Fist Double Agent
+        - Caravan Specialist
+        - Charlatan
+        - City Watch
+        - Clan Crafter
+        - Cloistered Scholar
+        - Cormanthor Refugee
+        - Courtier
+        - Criminal
+        - Dragon Casualty
+        - Earthspur Miner
+        - Entertainer
+        - Faction Agent
+        - Far Traveler
+        - Folk Hero
+        - Gate Urchin
+        - Gladiator
+        - Guild Artisan
+        - Guild Merchant
+        - Harborfolk
+        - Haunted One
+        - Heretic
+        - Hermit
+        - Hillsfar Merchant
+        - Hillsfar Smuggler
+        - Initiate
+        - Inquisitor
+        - Investigator
+        - Iron Route Bandit
+        - Knight
+        - Knight of the Order
+        - Mercenary Veteran
+        - Mulmaster Aristocrat
+        - Noble
+        - Outlander
+        - Phlan Insurgent
+        - Phlan Refugee
+        - Pirate
+        - Sage
+        - Sailor
+        - Secret Identity
+        - Shade Fanatic
+        - Soldier
+        - Spy
+        - Stojanow Prisoner
+        - Ticklebelly Nomad
+        - Trade Sheriff
+        - Urban Bounty Hunter
+        - Urchin
+        - Uthgardt Tribe Member
+        - Vizier
+        - Waterdhavian Noble
+      cities:
+        - Almraiven
+        - Berdusk
+        - Bildoobaris
+        - Chethel
+        - Citadel Adbar
+        - Citadel of Ten Thousand Pearls
+        - Crimmor
+        - Derlusk
+        - Dhaztanar
+        - Drik Hargunen
+        - Earthfast
+        - Elbulder
+        - Elturel
+        - Escalant
+        - Eshpurta
+        - Esmeltaran
+        - Everlund
+        - Fireshear
+        - Hlammach
+        - Hlath
+        - Iljak
+        - Immilmar
+        - Iriaebor
+        - Keltar
+        - Kuda
+        - Lushpool
+        - Luskan
+        - Mintar
+        - Nathlekh
+        - Neverwinter
+        - Nimpeth
+        - Ormpur
+        - Orvyltar
+        - Phsant
+        - Procampur
+        - Proskur
+        - Reth
+        - Sammaresh
+        - Scornubel
+        - Sloopdilmonpolop
+        - Sundabar
+        - Tamanokuni
+        - Tantras
+        - Telflamm
+        - Telos
+        - Teshburl
+        - Trailsend
+        - Tsurlagol
+        - Tukan
+        - Ubar
+        - Ulatos
+        - Urmlaspyr
+        - Vilkstead
+        - Waterdeep
+        - Yeshpek
+        - Yhaunn
+        - Zhentil Keep
+      klasses:
+        - Artificer
+        - Barbarian
+        - Bard
+        - Blood Hunter
+        - Cleric
+        - Druid
+        - Fighter
+        - Monk
+        - Paladin
+        - Ranger
+        - Rogue
+        - Sorcerer
+        - Warlock
+        - Wizard
+      languages:
+        - Abyssal
+        - Celestial
+        - Common
+        - Deep Speech
+        - Draconic
+        - Dwarvish
+        - Elvish
+        - Giant
+        - Gnomish
+        - Goblin
+        - Halfling
+        - Infernal
+        - Orc
+        - Primordial
+        - Sylvan
+        - Undercommon
+      melee_weapons:
+        - Battleaxe
+        - Club
+        - Dagger
+        - Flail
+        - Glaive
+        - Greatclub
+        - Greatsword
+        - Halberd
+        - Handaxe
+        - Javelin
+        - Lance
+        - Light hammer
+        - Longsword
+        - Mace
+        - Maul
+        - Morningstar
+        - Pike
+        - Quarterstaff
+        - Rapier
+        - Scimitar
+        - Shortsword
+        - Sickle
+        - Spear
+        - Trident
+        - War Pick
+        - Warhammer
+        - Whip
+      monsters:
+        - Aarakocra
+        - Aboleth
+        - Adult Black Dragon
+        - Adult Blue Dragon
+        - Adult Brass Dragon
+        - Adult Bronze Dragon
+        - Adult Copper Dragon
+        - Adult Gold Dragon
+        - Adult Green Dragon
+        - Adult Red Dragon
+        - Adult Silver Dragon
+        - Adult White Dragon
+        - Air Elemental
+        - Allosaurus
+        - Ancient Black Dragon
+        - Ancient Blue Dragon
+        - Ancient Brass Dragon
+        - Ancient Bronze Dragon
+        - Ancient Copper Dragon
+        - Ancient Gold Dragon
+        - Ancient Green Dragon
+        - Ancient Red Dragon
+        - Ancient Silver Dragon
+        - Ancient White Dragon
+        - Androsphinx
+        - Animated Armor
+        - Animated Objects
+        - Ankheg
+        - Ankylosaurus
+        - Azer
+        - Balor
+        - Barbed Devil
+        - Basilisk
+        - Bearded Devil
+        - Behir
+        - Black Dragon Wyrmling
+        - Black Pudding
+        - Blue Dragon Wyrmling
+        - Bone Devil
+        - Brass Dragon Wyrmling
+        - Bronze Dragon Wyrmling
+        - Bugbear
+        - Bulette
+        - Bullywug
+        - Centaur
+        - Chain Devil
+        - Chimera
+        - Chuul
+        - Clay Golem
+        - Cloaker
+        - Cloud Giant
+        - Cockatrice
+        - Copper Dragon Wyrmling
+        - Couatl
+        - Darkmantle
+        - Deck of Many Things
+        - Demons
+        - Deva
+        - Dinosaurs
+        - Djinni
+        - Doppelganger
+        - Dragon Turtle
+        - Dretch
+        - Drider
+        - Drow
+        - Dryad
+        - Duergar
+        - Dust Mephit
+        - Earth Elemental
+        - Efreeti
+        - Elf
+        - Erinyes
+        - Ettercap
+        - Ettin
+        - Figurine of Wondrous Power
+        - Fire Elemental
+        - Fire Giant
+        - Flesh Golem
+        - Flying Sword
+        - Frost Giant
+        - Fungi
+        - Gargoyle
+        - Gelatinous Cube
+        - Ghast
+        - Ghost
+        - Ghoul
+        - Gibbering Mouther
+        - Glabrezu
+        - Gnoll
+        - Goblin
+        - Gold Dragon Wyrmling
+        - Gorgon
+        - Gray Ooze
+        - Green Dragon Wyrmling
+        - Green Hag
+        - Grick
+        - Griffon
+        - Grimlock
+        - Guardian Naga
+        - Gynosphinx
+        - Half-Red Dragon Veteran
+        - Harpy
+        - Hell Hound
+        - Hezrou
+        - Hill Giant
+        - Hippogriff
+        - Hobgoblin
+        - Homunculus
+        - Horned Devil
+        - Hydra
+        - Ice Devil
+        - Ice Mephit
+        - Imp
+        - Invisible Stalker
+        - Iron Golem
+        - Kobold
+        - Kraken
+        - Lamia
+        - Lemure
+        - Lich
+        - Lizardfolk
+        - Lycanthropes
+        - Magma Mephit
+        - Magmin
+        - Manticore
+        - Marilith
+        - Medusa
+        - Merfolk
+        - Merrow
+        - Mimic
+        - Minotaur
+        - Minotaur Skeleton
+        - Mummy
+        - Mummy Lord
+        - Nagas
+        - Nalfeshnee
+        - Night Hag
+        - Nightmare
+        - Ochre Jelly
+        - Ogre
+        - Ogre Zombie
+        - Oni
+        - Orc
+        - Otyugh
+        - Owlbear
+        - Pegasus
+        - Pit Fiend
+        - Planetar
+        - Plesiosaurus
+        - Pseudodragon
+        - Pteranodon
+        - Purple Worm
+        - Quasit
+        - Rakshasa
+        - Red Dragon Wyrmling
+        - Remorhaz
+        - Roc
+        - Roper
+        - Rug of Smothering
+        - Rust Monster
+        - Sahuagin
+        - Salamander
+        - Satyr
+        - Sea Hag
+        - Shadow
+        - Shambling Mound
+        - Shield Guardian
+        - Shrieker
+        - Silver Dragon Wyrmling
+        - Skeleton
+        - Solar
+        - Specter
+        - Sphinxes
+        - Spirit Naga
+        - Sprite
+        - Steam Mephit
+        - Stirge
+        - Stone Giant
+        - Stone Golem
+        - Storm Giant
+        - Succubus/Incubus
+        - Tarrasque
+        - Treant
+        - Triceratops
+        - Troll
+        - Tyrannosaurus Rex
+        - Unicorn
+        - Vampire
+        - Vampire Spawn
+        - Violet Fungus
+        - Vrock
+        - Warhorse Skeleton
+        - Water Elemental
+        - Werebear
+        - Wereboar
+        - Wererat
+        - Weretiger
+        - Werewolf
+        - White Dragon Wyrmling
+        - Wight
+        - Will-o'-Wisp
+        - Wraith
+        - Wyvern
+        - Xorn
+        - Young Black Dragon
+        - Young Blue Dragon
+        - Young Brass Dragon
+        - Young Bronze Dragon
+        - Young Copper Dragon
+        - Young Gold Dragon
+        - Young Green Dragon
+        - Young Red Dragon
+        - Young Silver Dragon
+        - Young White Dragon
+        - Zombie
+      races:
+        - Aarakocra
+        - Aasimar
+        - Bugbear
+        - Centaur
+        - Changeling
+        - Dragonborn
+        - Dwarf
+        - Elf
+        - Firbolg
+        - Genasi
+        - Gith
+        - Gnome
+        - Goblin
+        - Goliath
+        - Grung
+        - Half-Elf
+        - Half-Orc
+        - Halfling
+        - Hobgoblin
+        - Human
+        - Kalashtar
+        - Kenku
+        - Kobold
+        - Lizardfolk
+        - Locathah
+        - Loxodon
+        - Minotaur
+        - Orc
+        - Shifter
+        - Simic Hybrid
+        - Tabaxi
+        - Tiefling
+        - Tortle
+        - Triton
+        - Vedalken
+        - Verdan
+        - Warforged
+        - Yuan-Ti
+      name:
+        first_name:
+          - Aeliana
+          - Alaric
+          - Aldric
+          - Alessia
+          - Alistair
+          - Althea
+          - Amonar
+          - Andros
+          - Anya
+          - Aria
+          - Ariadne
+          - Ariella
+          - Azarion
+          - Baelgor
+          - Baelin
+          - Belmorn
+          - Brondar
+          - Caelum
+          - Calista
+          - Cassandra
+          - Celestia
+          - Celestine
+          - Corvus
+          - Delara
+          - Drakon
+          - Drust
+          - Eamon
+          - Eilonwy
+          - Elara
+          - Eldric
+          - Elowen
+          - Elyria
+          - Emeric
+          - Faelina
+          - Fionna
+          - Freya
+          - Galen
+          - Garrick
+          - Gavric
+          - Gideon
+          - Gruffudd
+          - Illiana
+          - Isolde
+          - Kael
+          - Kael'thas
+          - Kaela
+          - Kaelis
+          - Kaldris
+          - Kethric
+          - Kyros
+          - Leilani
+          - Liora
+          - Lorimar
+          - Lucius
+          - Lysandra
+          - Lysara
+          - Maelis
+          - Magnus
+          - Marik
+          - Melisandra
+          - Nymeria
+          - Nymira
+          - Oriana
+          - Orianna
+          - Osric
+          - Ragnor
+          - Rendal
+          - Rhovaniel
+          - Rurik
+          - Selene
+          - Seraphina
+          - Seraphine
+          - Seren
+          - Sylvaria
+          - Taryn
+          - Thalia
+          - Thane
+          - Tharivol
+          - Thorgrim
+          - Throrin
+          - Tordek
+          - Torvald
+          - Uldar
+          - Ulfgar
+          - Valthor
+          - Vespera
+          - Xander
+          - Xanthe
+          - Ygritte
+          - Yondalla
+          - Zara
+          - Zarathos
+          - Zephyra
+          - Zoltan
+        last_name:
+          - Axebreaker
+          - Blackthorn
+          - Brightsong
+          - Dawnbringer
+          - Dreamweaver
+          - Earthshaker
+          - Fireheart
+          - Ironfoot
+          - Ironheart
+          - Leafwhisper
+          - Lightbringer
+          - Lightfoot
+          - Mistwalker
+          - Moonfall
+          - Moonshadow
+          - Moonsong
+          - Moonwhisper
+          - Nightbreeze
+          - Nightshade
+          - Nightstalker
+          - Ravenscar
+          - Ravenshadow
+          - Shadowbane
+          - Shadowdancer
+          - Silverhand
+          - Silverveil
+          - Starborn
+          - Starweaver
+          - Starwhisper
+          - Stonewarden
+          - Stormborn
+          - Stormbringer
+          - Stormcloak
+          - Stormrider
+          - Sunweaver
+          - Swiftwind
+          - Wildheart
+          - Willowbrook
+          - Winddancer
+        title:
+          - the Arcane
+          - the Bard
+          - the Beautiful
+          - the Bold
+          - the Brave
+          - the Clever
+          - the Cunning
+          - the Defender
+          - the Dreamer
+          - the Elegant
+          - the Enchanted
+          - the Enchanter
+          - the Enchantress
+          - the Fair
+          - the Fearless
+          - the Fierce
+          - the Gentle
+          - the Graceful
+          - the Healer
+          - the Huntress
+          - the Illusionist
+          - the Just
+          - the Kind
+          - the Loyal
+          - the Mighty
+          - the Moonlit
+          - the Poet
+          - the Protector
+          - the Radiant
+          - the Relentless
+          - the Resolute
+          - the Scribe
+          - the Seeker
+          - the Silent
+          - the Slayer
+          - the Stalwart
+          - the Stoic
+          - the Strong
+          - the Swift
+          - the Unbreakable
+          - the Unbroken
+          - the Unconquered
+          - the Unseen
+          - the Unyielding
+          - the Vindicator
+          - the Wanderer
+          - the Wild
+          - the Wise
+      ranged_weapons:
+        - Blowgun
+        - Boomerang
+        - Crossbow
+        - Dart
+        - Longbow
+        - Net
+        - Shortbow
+        - Sling

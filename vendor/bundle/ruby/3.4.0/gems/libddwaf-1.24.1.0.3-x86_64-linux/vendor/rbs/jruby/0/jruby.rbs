@@ -1,0 +1,3 @@
+module Kernel
+  def java: () -> untyped
+end

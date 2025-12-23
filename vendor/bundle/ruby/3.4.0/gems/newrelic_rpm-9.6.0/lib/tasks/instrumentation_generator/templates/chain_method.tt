@@ -1,0 +1,8 @@
+alias_method(:<%= @method.downcase %>_without_new_relic, :<%= @method.downcase %>)
+alias_method(:<%= @method.downcase %>, :<%= @method.downcase %>_with_new_relic)
+
+def <%= @method.downcase %><%= "(#{@args})" unless @args.empty? %>
+  <%= @method.downcase %>_with_new_relic<%= "(#{@args})" unless @args.empty? %> do
+    <%= @method.downcase %>_without_new_relic<%= "(#{@args})" unless @args.empty? %>
+  end
+end

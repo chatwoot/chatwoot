@@ -1,0 +1,5 @@
+echo: bin/echo echoing
+env:  bin/env  FOO
+test: bin/test
+utf8: bin/utf8
+ps:   bin/echo PS env var is $PS

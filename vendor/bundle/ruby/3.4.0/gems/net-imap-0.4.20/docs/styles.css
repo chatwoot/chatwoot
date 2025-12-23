@@ -1,0 +1,24 @@
+/* this is a work in progress. :) */
+
+main .method-header {
+  background: rgba(27,31,35,0.05);
+  border: 1px solid #6C8C22;
+  padding: 0.5em;
+  border-radius: 4px;
+  /* padding: 0 0.5em; */
+  /* border-width: 0 1px; */
+  /* border-color: #6C8C22; */
+  /* border-style: solid; */
+}
+
+main .method-description, main .aliases {
+  padding-left: 1em;
+}
+
+body {
+  /*
+   * The default (300) can be too low contrast.  Also, many fonts don't
+   * distinguish between 300->400, so <em>...</em> had no effect.
+   */
+  font-weight: 400;
+}

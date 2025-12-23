@@ -1,0 +1,44 @@
+# Notes
+
+- We should support complex constants, eg: 
+
+	Complex(1, 2)
+	=> (1+2i)
+
+# Common operations
+
+- Lint.
+
+	bundle exec standardrb
+
+- Reinstall local copy of gem after a change.
+
+	bundle exec rake install
+
+- Run test suite.
+
+	bundle exec rake 
+
+- Version bump.
+
+	edit lib/vips/version.rb 
+	edit VERSION
+
+- Regenerate autodocs.
+
+	cd lib/vips
+	ruby > methods.rb
+	require "vips"; Vips::Yard.generate
+	^D
+
+- Regenerate docs.
+
+	bundle exec rake yard
+
+- Push new gem to rubygems, tag repository with version.
+
+	gem signin --otp 111111 
+	bundle exec rake release
+
+  The otp is from authy / google authenticator / etc. 
+

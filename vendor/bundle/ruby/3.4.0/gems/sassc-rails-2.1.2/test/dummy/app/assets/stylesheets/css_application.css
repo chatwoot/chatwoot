@@ -1,0 +1,11 @@
+/*
+ *= require partials/_sass_import
+ *= require partials/_scss_import
+ *= require_tree ./globbed
+ *= require subfolder/plain
+ *= require subfolder/second_level
+ */
+
+ .css-application {
+   background: #fff;
+ }

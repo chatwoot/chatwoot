@@ -1,0 +1,6 @@
+RSpec:
+  Language:
+    Helpers:
+      - let_it_be
+    Hooks:
+      - before_all

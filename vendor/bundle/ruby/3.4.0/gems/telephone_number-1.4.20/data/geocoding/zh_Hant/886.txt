@@ -1,0 +1,35 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://zh.wikipedia.org/wiki/中華民國長途電話區號表 [16772295]
+
+8862|臺北
+8863|桃園、新竹、花蓮、宜蘭
+88637|苗栗
+88642|臺中、彰化
+88643|臺中、彰化
+88647|臺中、彰化
+88648|臺中、彰化
+88649|南投
+8865|嘉義、雲林
+8866|臺南、澎湖
+8867|高雄
+88680|屏東
+886823|金門
+886826|烏坵
+88683|馬祖
+88687|屏東
+88688|屏東
+88689|臺東

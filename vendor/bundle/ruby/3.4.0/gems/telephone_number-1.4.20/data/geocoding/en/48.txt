@@ -1,0 +1,65 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Translated from pl/48.txt using Freebase and Wikipedia.
+
+4812|Kraków
+4813|Krosno
+4814|Tarnów
+4815|Tarnobrzeg
+4816|Przemyśl
+4817|Rzeszów
+4818|Nowy Sącz
+4822|Warsaw
+4823|Ciechanów
+4824|Plock
+4825|Siedlce
+4829|Ostrolęka
+4832|Katowice
+4833|Bielsko-Biala
+4834|Częstochowa
+4841|Kielce
+4842|Lódź
+4843|Sieradz
+4844|Piotrków Trybunalski
+4846|Skierniewice
+4848|Radom
+4852|Bydgoszcz
+4854|Wloclawek
+4855|Elbląg
+4856|Toruń
+4858|Gdańsk
+4859|Slupsk
+4861|Poznań
+4862|Kalisz
+4863|Konin
+4865|Leszno
+4867|Pila
+4868|Zielona Góra
+4871|Wroclaw
+4874|Walbrzych
+4875|Jelenia Góra
+4876|Legnica
+4877|Opole
+4881|Lublin
+4882|Chelm
+4883|Biala Podlaska
+4884|Zamość
+4885|Bialystok
+4886|Lomża
+4887|Suwalki
+4889|Olsztyn
+4891|Szczecin
+4894|Koszalin
+4895|Gorzów Wielkopolski

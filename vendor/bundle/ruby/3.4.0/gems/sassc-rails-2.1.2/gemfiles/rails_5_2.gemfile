@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+
+gem "rails", "~> 5.2.1"
+
+# Specify your gem's dependencies in sassc-rails.gemspec
+gemspec path: "../"

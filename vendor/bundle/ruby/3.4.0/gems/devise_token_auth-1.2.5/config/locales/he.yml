@@ -1,0 +1,52 @@
+he:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "הודעת אישור נשלחה לחשבון שלך בכתובת '%{email}'. עליך לפעול לפי ההנחיות שבדוא\"ל לפני הפעלת החשבון שלך"
+      bad_credentials: "נתוני כניסה שגויים. בבקשה נסה שוב."
+      not_supported: "השתמש ב- POST / sign_in כדי להיכנס. GET אינו נתמך."
+      user_not_found: "המשתמש לא נמצא או לא היה מחובר."
+    token_validations:
+      invalid: "נתוני כניסה שגויים"
+    registrations:
+      missing_confirm_success_url: "חסר פרמטר 'confirm_success_url'."
+      redirect_url_not_allowed: "הפניה אל '%{redirect_url}' אינה מותרת."
+      email_already_exists: "כבר קיים חשבון עבור '%{email}'"
+      account_with_uid_destroyed: "חשבון עם UID '%{uid}' הושמד."
+      account_to_destroy_not_found: "לא ניתן לאתר חשבון להשמדה."
+      user_not_found: "המשתמש לא נמצא."
+    omniauth:
+      not_allowed_redirect_url: "הפניה אל '%{redirect_url}' אינה מותרת."
+    passwords:
+      missing_email: "עליך לספק כתובת דוא\"ל."
+      missing_redirect_url: "כתובת אתר להפניה מחדש חסרה."
+      not_allowed_redirect_url: "הפניה אל '%{redirect_url}' אינה מותרת."
+      sended: "אימייל נשלח ל '%{email}' המכיל הוראות לאיפוס הסיסמה שלך."
+      user_not_found: "לא ניתן למצוא משתמש עם הדוא\"ל '%{email}'."
+      password_not_required: "חשבון זה אינו דורש סיסמה. במקום זאת, השתמש בחשבון '%{provider}' שלך."
+      missing_passwords: "עליך למלא את השדות 'סיסמה' ו'אישור סיסמה'."
+      successfully_updated: "הסיסמה שלך עודכנה בהצלחה."
+    unlocks:
+      missing_email: "עליך לספק כתובת דוא\"ל."
+      sended: "הודעת אימייל נשלחה אל '%{email}' המכילה הוראות לביטול הנעילה של חשבונך."
+      user_not_found: "ניתן למצוא את המשתמש עם הדוא\"ל '%{email}'"
+  errors:
+    messages:
+      validate_sign_up_params: "שלח נתוני רישום תקינים בגוף הבקשה."
+      validate_account_update_params: "שלחו בבקשה נתוני עדכון חשבון תקינים בגוף הבקשה."
+      not_email: "אינו דוא\"ל"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "תוכל לאשר את כתובת הדוא\"ל של החשבון שלך באמצעות הקישור הבא:"
+        confirm_account_link: "אשר את החשבון שלי"
+      reset_password_instructions:
+        request_reset_link_msg: "מישהו ביקש קישור לשינוי הסיסמה שלך. תוכל לעשות זאת באמצעות הקישור הבא."
+        password_change_link: "שנה את הסיסמה שלי"
+        ignore_mail_msg: "אם לא ביקשת זאת, התעלם מדוא\"ל זה."
+        no_changes_msg: "הסיסמה שלך לא תשתנה עד שתגיע לקישור שלמעלה ותיצור סיסמה חדשה."
+      unlock_instructions:
+        account_lock_msg: "החשבון שלך ננעל עקב מספר מופרז של ניסיונות כניסה לא מוצלחים."
+        unlock_link_msg: "לחץ על הקישור למטה כדי לבטל את נעילת החשבון שלך:"
+        unlock_link: "בטל את הנעילה של החשבון שלי"
+  hello: "שלום"
+  welcome: "ברוך הבא"

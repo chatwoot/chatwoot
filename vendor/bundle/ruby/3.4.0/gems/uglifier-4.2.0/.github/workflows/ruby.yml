@@ -1,0 +1,14 @@
+name: Ruby
+
+on: [push]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: lautis/rubocop-action@master
+        name: Lint
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

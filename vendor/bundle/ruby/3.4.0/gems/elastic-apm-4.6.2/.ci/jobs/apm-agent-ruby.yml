@@ -1,0 +1,4 @@
+---
+- job:
+    name: apm-agent-ruby
+    project-type: folder

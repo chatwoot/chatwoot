@@ -1,0 +1,40 @@
+require: rubocop-rspec
+AllCops:
+  TargetRubyVersion: 2.0 # always the lowest version we support
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
+Metrics/ClassLength:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
+Style/CaseLikeIf:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+Style/OptionalBooleanParameter:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/RedundantFreeze:
+  Enabled: false
+Style/RedundantReturn:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/DescribeClass:
+  Enabled: false
+RSpec/FilePath:
+  Enabled: false

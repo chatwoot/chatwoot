@@ -1,0 +1,91 @@
+<script type="text/javascript" src="<%= root_path %>javascripts/chart.min.js" nonce="<%= csp_nonce %>"></script>
+<script type="text/javascript" src="<%= root_path %>javascripts/chartjs-plugin-annotation.min.js" nonce="<%= csp_nonce %>"></script>
+<script type="text/javascript" src="<%= root_path %>javascripts/base-charts.js" nonce="<%= csp_nonce %>"></script>
+
+<div class="header-container">
+  <div class="page-title-container">
+    <h1><%= t('Metrics') %></h1>
+    <a target="blank" href="https://github.com/sidekiq/sidekiq/wiki/Metrics"><span class="info-circle" title="Click to learn more about metrics">?</span></a>
+  </div>
+
+  <div>
+    <form id="metrics-form" class="form-inline" action="<%= root_path %>filter/metrics" method="post">
+      <%= csrf_tag %>
+      <label for="substr"><%= t('Filter') %></label>
+      <input id="class-filter" class="form-control" type="text" name="substr" placeholder="<%= t('Name') %>" value="<%= h params[:substr] %>">
+      <select id="period-selector" class="form-control" name="period">
+        <% @periods.each_key do |code| %>
+          <% if code == @period %>
+            <option selected value="<%= code %>"><%= code %></option>
+          <% else %>
+            <option value="<%= code %>"><%= code %></option>
+          <% end %>
+        <% end %>
+      </select>
+    </form>
+  </div>
+</div>
+
+<%
+  table_limit = 20
+  chart_limit = 5
+  job_results = @query_result.job_results.sort_by { |(kls, jr)| jr.totals["s"] }.reverse.first(table_limit)
+  visible_kls = job_results.first(chart_limit).map(&:first)
+%>
+
+<% if job_results.any? %>
+  <canvas id="job-metrics-overview-chart">
+    <%= to_json({
+      series: job_results.map { |(kls, jr)| [kls, jr.dig("series", "s")] }.to_h,
+      marks: @query_result.marks.map { |m| [m.bucket, m.label] },
+      labels: @query_result.buckets,
+      visibleKls: visible_kls,
+      yLabel: t('TotalExecutionTime'),
+      units: t('Seconds').downcase,
+      markLabel: t('Deploy'),
+    }) %>
+  </canvas>
+<% end %>
+
+<div class="table_container">
+  <table class="table table-bordered table-striped table-hover">
+    <tbody>
+      <tr>
+        <th><%= t('Name') %></th>
+        <th><%= t('Success') %></th>
+        <th><%= t('Failure') %></th>
+        <th><%= t('TotalExecutionTime') %> (Seconds)</th>
+        <th><%= t('AvgExecutionTime') %> (Seconds)</th>
+      </tr>
+      <% if job_results.any? %>
+        <% job_results.each_with_index do |(kls, jr), i| %>
+          <tr>
+            <td>
+              <div class="metrics-swatch-wrapper">
+                <% id = "metrics-swatch-#{kls}" %>
+                <input
+                  type="checkbox"
+                  id="<%= id %>"
+                  class="metrics-swatch"
+                  value="<%= kls %>"
+                  <%= visible_kls.include?(kls) ? 'checked' : '' %>
+                />
+                <code><a href="<%= root_path %>metrics/<%= kls %>?period=<%= @period %>"><%= kls %></a></code>
+              </div>
+            </td>
+            <td class="num"><%= number_with_delimiter(jr.dig("totals", "p") - jr.dig("totals", "f")) %></td>
+            <td class="num"><%= number_with_delimiter(jr.dig("totals", "f")) %></td>
+            <td class="num"><%= number_with_delimiter(jr.dig("totals", "s"), precision: 2) %></td>
+            <td class="num"><%= number_with_delimiter(jr.total_avg("s"), precision: 2) %></td>
+          </tr>
+        <% end %>
+      <% else %>
+          <tr><td colspan=5><%= t("NoDataFound") %></td></tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+<!--p><small>Data from <%= @query_result.starts_at %> to <%= @query_result.ends_at %></small></p-->
+
+<script type="text/javascript" src="<%= root_path %>javascripts/metrics.js" nonce="<%= csp_nonce %>"></script>

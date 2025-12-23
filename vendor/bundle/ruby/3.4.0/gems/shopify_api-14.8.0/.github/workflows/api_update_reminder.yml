@@ -1,0 +1,16 @@
+on:
+  workflow_dispatch: ~
+  schedule:
+    - cron: "0 0 1 3,6,9,12 *" # At 00:00 on 1st of March, June, September, and December
+
+name: API update reminder
+jobs:
+  reminder:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: JasonEtco/create-an-issue@v2.4.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          filename: .github/api_update_reminder.md

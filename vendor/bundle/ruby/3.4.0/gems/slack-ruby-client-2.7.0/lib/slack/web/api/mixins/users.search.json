@@ -1,0 +1,19 @@
+{
+  "mixin": true,
+  "group": "users",
+  "name": "users.seaerch",
+  "desc": "This method searches for users.",
+  "args": {
+    "user": {
+      "required": true,
+      "example": "bob",
+      "desc": "User to search for.",
+      "type": "user"
+    }
+  },
+  "errors": {
+    "not_authed": "No authentication token provided.",
+    "invalid_auth": "Invalid authentication token.",
+    "account_inactive": "Authentication token is for a deleted user or team."
+  }
+}

@@ -1,0 +1,91 @@
+# elements like %{queue} are variables and should not be translated
+ja:
+  Actions: アクション
+  AddToQueue: キューに追加
+  AreYouSure: よろしいですか？
+  AreYouSureDeleteJob: このジョブを削除しますか？
+  AreYouSureDeleteQueue: この %{queue} キューを削除しますか?
+  Arguments: 引数
+  BackToApp: アプリに戻る
+  Busy: 実行中
+  Class: クラス
+  Connections: 接続
+  CreatedAt: 作成日時
+  CurrentMessagesInQueue: <span class='title'>%{queue}</span>に メッセージがあります
+  Dashboard: ダッシュボード
+  Dead: デッド
+  DeadJobs: デッドジョブ
+  Delete: 削除
+  DeleteAll: 全て削除
+  Deploy: デプロイ
+  Enqueued: 待機状態
+  Error: エラー
+  ErrorBacktrace: エラーバックトレース
+  ErrorClass: エラークラス
+  ErrorMessage: エラーメッセージ
+  ExecutionTime: 実行時間
+  Extras: エクストラ
+  Failed: 失敗
+  Failures: 失敗
+  Failure: 失敗
+  GoBack: ← 戻る
+  History: 履歴
+  Job: ジョブ
+  Jobs: ジョブ
+  Kill: 強制終了
+  KillAll: 全て強制終了
+  LastRetry: 再試行履歴
+  Latency: レイテンシ
+  LivePoll: ポーリング開始
+  MemoryUsage: メモリー使用量
+  Name: 名前
+  Namespace: ネームスペース
+  NextRetry: 再試行
+  NoDeadJobsFound: デッドジョブはありません
+  NoRetriesFound: 再試行するジョブはありません
+  NoScheduledFound: 予定されたジョブはありません
+  NotYetEnqueued: キューに入っていません
+  OneMonth: 1 ヶ月
+  OneWeek: 1 週
+  OriginallyFailed: 失敗
+  Pause: 一時停止
+  Paused: 一時停止中
+  PeakMemoryUsage: 最大メモリー使用量
+  Plugins: プラグイン
+  PollingInterval: ポーリング間隔
+  Process: プロセス
+  Processed: 完了
+  Processes: プロセス
+  Queue: キュー
+  Queues: キュー
+  Quiet: 処理終了
+  QuietAll: すべて処理終了
+  Realtime: リアルタイム
+  Retries: 再試行
+  RetryAll: 全て再試行
+  RetryCount: 再試行
+  RetryNow: 今すぐ再試行
+  Scheduled: 予定
+  ScheduledJobs: 予定されたジョブ
+  Seconds: 秒
+  ShowAll: 全て見せる
+  SixMonths: 6 ヶ月
+  Size: サイズ
+  Started: 開始
+  Status: 状態
+  Stop: 停止
+  StopAll: すべて停止
+  StopPolling: ポーリング停止
+  Success: 成功
+  Thread: スレッド
+  Threads: スレッド
+  ThreeMonths: 3 ヶ月
+  Time: 時間
+  Unpause: 一時停止を解除
+  Metrics: メトリクス
+  NoDataFound: データが見つかりませんでした
+  TotalExecutionTime: 合計実行時間
+  AvgExecutionTime: 平均実行時間
+  Context: コンテキスト
+  Bucket: バケット
+  NoJobMetricsFound: 直近のジョブメトリクスが見つかりませんでした

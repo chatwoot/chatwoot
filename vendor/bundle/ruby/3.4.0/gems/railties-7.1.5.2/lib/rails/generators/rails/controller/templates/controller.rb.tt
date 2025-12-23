@@ -1,0 +1,9 @@
+<% module_namespacing do -%>
+class <%= class_name %>Controller < <%= parent_class_name.classify %>
+<% actions.each do |action| -%>
+  def <%= action %>
+  end
+<%= "\n" unless action == actions.last -%>
+<% end -%>
+end
+<% end -%>

@@ -1,0 +1,56 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T0202000031/en [2009-02-17]
+# http://en.wikipedia.org/wiki/+225 [451649778]
+
+2252120|Plateau, Abidjan
+2252121|Abidjan-sud
+2252122|Cocody, Abidjan
+2252123|Banco, Abidjan
+2252124|Abobo, Abidjan
+2252130|Yamoussoukro
+2252131|Bouaké
+2252132|Daloa
+2252133|Man
+2252134|San-Pédro
+2252135|Abengourou
+2252136|Korhogo
+2252520|Plateau, Abidjan
+2252521|Abidjan-sud
+2252522|Cocody, Abidjan
+2252523|Banco, Abidjan
+2252524|Abobo, Abidjan
+2252530|Yamoussoukro
+2252531|Bouaké
+2252532|Daloa
+2252533|Man
+2252534|San-Pédro
+2252535|Abengourou
+2252536|Korhogo
+2252720|Plateau, Abidjan
+2252721|Abidjan-sud
+22527222|Abidjan-sud
+22527224|Cocody, Abidjan
+22527225|Cocody, Abidjan
+2252723|Banco, Abidjan
+2252724|Abobo, Abidjan
+2252730|Yamoussoukro
+2252731|Bouaké
+2252732|Daloa
+2252733|Man
+2252734|San-Pédro
+2252735|Abengourou
+2252736|Korhogo

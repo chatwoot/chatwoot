@@ -1,0 +1,23 @@
+<%#
+# Number Form Partial
+
+This partial renders an input element for number attributes.
+By default, the input is a text field.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [Administrate::Field::Number][1].
+  A wrapper around the number pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Number
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <%= f.number_field field.attribute, step: "any" %>
+</div>

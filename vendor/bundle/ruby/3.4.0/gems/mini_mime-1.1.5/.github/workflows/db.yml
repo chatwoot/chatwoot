@@ -1,0 +1,26 @@
+name: Update MIME type DB
+
+on:
+  schedule:
+    # 10am on the 1st every month https://crontab.guru/#0_10_1_*_*
+    - cron: "0 10 1 * *"
+  workflow_dispatch:
+
+jobs:
+  update_db:
+    runs-on: ubuntu-latest
+    name: "Update MIME type DB"
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "2.7"
+          bundler-cache: true
+      - name: Update mime-types-data
+        run: bundle update mime-types-data
+      - name: Update DB
+        run: bundle exec rake rebuild_db
+      - name: Create PR
+        run: bin/db_pull_request
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

@@ -1,0 +1,8 @@
+---
+inherit_from: ../.rubocop.yml
+
+# Disables
+Style/ClassAndModuleChildren:
+  Enabled: false
+Security/Eval:
+  Enabled: false

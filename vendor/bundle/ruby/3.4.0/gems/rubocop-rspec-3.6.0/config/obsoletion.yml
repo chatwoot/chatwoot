@@ -1,0 +1,35 @@
+#
+# Configuration of obsolete/deprecated cops used by `ConfigObsoletion`.
+#
+# See: https://docs.rubocop.org/rubocop/extensions.html#config-obsoletions
+#
+
+# Cop parameters that have been changed
+# Can be treated as a warning instead of a failure with `severity: warning`
+changed_parameters:
+  - cops:
+      - RSpec/VariableName
+    parameters: IgnoredPatterns
+    alternative: AllowedPatterns
+    severity: warning
+  - cops: RSpec/VerifiedDoubleReference
+    parameters: EnforcedStyle
+    reason: String references are not verifying unless the class is loaded.
+
+split:
+  RSpec/FilePath:
+    alternatives:
+      - RSpec/SpecFilePathFormat
+      - RSpec/SpecFilePathSuffix
+
+removed:
+  RSpec/Capybara/FeatureMethods:
+    reason: >
+      this cop has migrated to `RSpec/Dialect`. Please use `RSpec/Dialect` instead
+  RSpec/StringAsInstanceDoubleConstant:
+    reason: Please use `RSpec/VerifiedDoubleReference` instead
+
+extracted:
+  RSpec/Rails/*: rubocop-rspec_rails
+  RSpec/FactoryBot/*: rubocop-factory_bot
+  RSpec/Capybara/*: rubocop-capybara

@@ -1,0 +1,7 @@
+#
+# Configuration for obsoletion.
+#
+# See: https://docs.rubocop.org/rubocop/extensions.html#config-obsoletions
+#
+extracted:
+  Performance/*: ~

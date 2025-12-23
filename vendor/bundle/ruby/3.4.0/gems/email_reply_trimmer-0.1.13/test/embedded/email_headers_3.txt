@@ -1,0 +1,16 @@
+From: Some One <discuss@foo.bar<mailto:discuss@foo.bar>>
+Reply-To: "For.bar" <reply+275e18486b01289e3250bebe85ef6496@members.foo.bar<mailto:reply+275e18486b01289e3250bebe85ef6496@members.foo.bar>>
+Date: Monday, February 8, 2016 11:44 AM
+To: Discourse <discourse@discourse.org<mailto:discourse@discourse.org>>
+Subject: VIS
+
+
+        Here's an email with some very important stuff.
+
+
+________________________________
+Reply here<http://foo.bar> or hit reply from your inbox to help members by sharing your ideas.
+Mute this topic<http://42.wat> to stop getting updates, we'll send you the next one.
+
+
+DO NOT FORWARD THIS EMAIL!

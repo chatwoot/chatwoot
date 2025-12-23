@@ -1,0 +1,16 @@
+module Prism
+  class Dispatcher < Visitor
+    attr_reader listeners: Hash[Symbol, Array[untyped]]
+
+    def initialize: () -> void
+    def register: (untyped, *Symbol) -> void
+    def dispatch: (Prism::node) -> void
+    def dispatch_once: (Prism::node) -> void
+
+    class DispatchOnce < Visitor
+      attr_reader listeners: Hash[Symbol, Array[untyped]]
+
+      def initialize: (Hash[Symbol, Array[untyped]]) -> void
+    end
+  end
+end

@@ -1,0 +1,26 @@
+1.1.4
+  Fix circular dependency
+
+1.1.2
+  Make rss_bytes return bytes in linux/OS X, like it always should have
+
+1.1.1
+  fix skip blank lines in OS#parse_os_release
+
+1.1.0
+  Add app_config_path method
+  Cleans up dev dependency specs
+  Detect underlying Docker containers method
+  Add Linux-specific OS#parse_os_release method
+
+1.0.1
+  add within docker method
+
+0.10.0
+  freebsd? also some cleanup
+
+0.9.7 use same version number in VERSION and os.gemspec
+
+0.9.6 add changelog, license
+
+0.9.5 don't count hyper thread by default windows [TODO check linux ]

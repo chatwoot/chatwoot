@@ -1,0 +1,35 @@
+<%#
+# Image Index Partial
+
+This partial renders an image attribute
+to be displayed on a resource's index page.
+
+By default, the attribute is rendered as an image tag.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Image][1].
+  A wrapper around the image url pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Image
+%>
+
+<% if field.attached? %>
+  <%= render partial: "fields/active_storage/items",
+              locals: {
+                  field: field,
+                  variant: field.index_preview_variant,
+                  size: field.index_preview_size,
+                  display_preview: field.index_display_preview?,
+                  preview_only: field.index_preview_only?
+              } %>
+  <% if field.index_display_count? %>
+    <div class="attachments-count">
+      <%= pluralize(field.attachments.count,
+                    I18n.t("administrate.fields.active_storage.attachment", default: 'Attachment')
+          )
+      %>
+    </div>
+  <% end %>
+<% end %>

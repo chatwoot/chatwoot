@@ -1,0 +1,17 @@
+#!/bin/bash
+set -e
+
+specific_feature=$1
+
+export CUCUMBER_PUBLISH_QUIET=true
+
+if [[ $specific_feature = '' ]]; then
+  echo 'Running all features'
+
+  echo "========================================"
+  cucumber
+else
+  echo "Running only $specific_feature"
+
+  cucumber $specific_feature
+fi

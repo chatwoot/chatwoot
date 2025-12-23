@@ -1,0 +1,8 @@
+module Prism
+  module Serialize
+    def self.load_parse: (String, String, bool) -> ParseResult
+    def self.load_lex: (String, String, bool) -> LexResult
+    def self.load_parse_comments: (String, String, bool) -> Array[comment]
+    def self.load_parse_lex: (String, String, bool) -> ParseLexResult
+  end
+end

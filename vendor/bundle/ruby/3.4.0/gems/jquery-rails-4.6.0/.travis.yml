@@ -1,0 +1,32 @@
+sudo: false
+cache: bundler
+language: ruby
+rvm:
+  - 1.9.3
+  - 2.0.0
+  - 2.1.10
+  - 2.2.9
+  - 2.3.6
+  - 2.4.10
+  - 2.5.8
+  - 2.6.6
+  - 2.7.1
+  - jruby
+  - ruby-head
+matrix:
+  fast_finish: true
+  allow_failures:
+    - rvm: jruby
+    - rvm: ruby-head
+notifications:
+  email: false
+  irc:
+    on_success: change
+    on_failure: always
+    channels:
+      - "irc.freenode.org#rails-contrib"
+  campfire:
+    on_success: change
+    on_failure: always
+    rooms:
+      - secure: "p58t43P+64c1g0Av88DNM9XxMnmXM/PzRFU4yeo53i7lDY77PqKOVY+swc8eibn6cMgfyw2vqI7UFri4WLxwdN5jN5QaByHtXT2STFaJV4ORyyOBqQLuJTFWzMn8+Zil3rW/0Xv6tHoeAjsToZyYFefyjM3qemAmUqI8jLqU1sM="

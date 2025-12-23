@@ -1,7 +1,16 @@
 class ApplicationMailer < ActionMailer::Base
   include ActionView::Helpers::SanitizeHelper
 
-  default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
+  default from: lambda {
+    branding = BrandingConfig.instance rescue nil
+    if branding
+      ENV.fetch('MAILER_SENDER_EMAIL', "#{branding.brand_name} <#{branding.support_email}>")
+    elsif defined?(Brand)
+      ENV.fetch('MAILER_SENDER_EMAIL', "#{Brand::BRAND_NAME} <#{Brand::SUPPORT_EMAIL}>")
+    else
+      ENV.fetch('MAILER_SENDER_EMAIL', 'SynkiCRM <suporte@synkicrm.com.br>')
+    end
+  }
   before_action { ensure_current_account(params.try(:[], :account)) }
   around_action :switch_locale
   layout 'mailer/base'

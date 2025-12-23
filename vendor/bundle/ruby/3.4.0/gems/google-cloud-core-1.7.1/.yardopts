@@ -1,0 +1,12 @@
+--no-private
+--title=Google Cloud Core
+--markup markdown
+--markup-provider redcarpet
+
+./lib/**/*.rb
+-
+README.md
+AUTHENTICATION.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+LICENSE

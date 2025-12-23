@@ -1,0 +1,122 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/openssl-3.2.0/ext/openssl
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for rb_io_descriptor()... yes
+checking for rb_io_maybe_wait(0, Qnil, Qnil, Qnil) in ruby/io.h... yes
+checking for t_open() in -lnsl... no
+checking for socket() in -lsocket... no
+checking for pkg-config for openssl... [" ", "", "-lssl -lcrypto"]
+checking for openssl/ssl.h... yes
+checking for LIBRESSL_VERSION_NUMBER in openssl/opensslv.h... no
+checking for OpenSSL version >= 1.0.2... yes
+checking for RAND_egd() in openssl/rand.h... no
+checking for ENGINE_load_dynamic() in openssl/engine.h... yes
+checking for ENGINE_load_4758cca() in openssl/engine.h... no
+checking for ENGINE_load_aep() in openssl/engine.h... no
+checking for ENGINE_load_atalla() in openssl/engine.h... no
+checking for ENGINE_load_chil() in openssl/engine.h... no
+checking for ENGINE_load_cswift() in openssl/engine.h... no
+checking for ENGINE_load_nuron() in openssl/engine.h... no
+checking for ENGINE_load_sureware() in openssl/engine.h... no
+checking for ENGINE_load_ubsec() in openssl/engine.h... no
+checking for ENGINE_load_padlock() in openssl/engine.h... no
+checking for ENGINE_load_capi() in openssl/engine.h... no
+checking for ENGINE_load_gmp() in openssl/engine.h... no
+checking for ENGINE_load_gost() in openssl/engine.h... no
+checking for ENGINE_load_cryptodev() in openssl/engine.h... yes
+checking for SSL.ctx in openssl/ssl.h... no
+checking for EVP_MD_CTX_new() in openssl/evp.h... yes
+checking for EVP_MD_CTX_free(NULL) in openssl/evp.h... yes
+checking for EVP_MD_CTX_pkey_ctx(NULL) in openssl/evp.h... yes
+checking for X509_STORE_get_ex_data(NULL, 0) in openssl/x509.h... yes
+checking for X509_STORE_set_ex_data(NULL, 0, NULL) in openssl/x509.h... yes
+checking for X509_STORE_get_ex_new_index(0, NULL, NULL, NULL, NULL) in openssl/x509.h... yes
+checking for X509_CRL_get0_signature(NULL, NULL, NULL) in openssl/x509.h... yes
+checking for X509_REQ_get0_signature(NULL, NULL, NULL) in openssl/x509.h... yes
+checking for X509_REVOKED_get0_serialNumber(NULL) in openssl/x509.h... yes
+checking for X509_REVOKED_get0_revocationDate(NULL) in openssl/x509.h... yes
+checking for X509_get0_tbs_sigalg(NULL) in openssl/x509.h... yes
+checking for X509_STORE_CTX_get0_untrusted(NULL) in openssl/x509.h... yes
+checking for X509_STORE_CTX_get0_cert(NULL) in openssl/x509.h... yes
+checking for X509_STORE_CTX_get0_chain(NULL) in openssl/x509.h... yes
+checking for OCSP_SINGLERESP_get0_id(NULL) in openssl/ocsp.h... yes
+checking for SSL_CTX_get_ciphers(NULL) in openssl/ssl.h... yes
+checking for X509_up_ref(NULL) in openssl/x509.h... yes
+checking for X509_CRL_up_ref(NULL) in openssl/x509.h... yes
+checking for X509_STORE_up_ref(NULL) in openssl/x509.h... yes
+checking for SSL_SESSION_up_ref(NULL) in openssl/ssl.h... yes
+checking for EVP_PKEY_up_ref(NULL) in openssl/evp.h... yes
+checking for SSL_CTX_set_min_proto_version(NULL, 0) in openssl/ssl.h... yes
+checking for SSL_CTX_get_security_level(NULL) in openssl/ssl.h... yes
+checking for X509_get0_notBefore(NULL) in openssl/x509.h... yes
+checking for SSL_SESSION_get_protocol_version(NULL) in openssl/ssl.h... yes
+checking for TS_STATUS_INFO_get0_status(NULL) in openssl/ts.h... yes
+checking for TS_STATUS_INFO_get0_text(NULL) in openssl/ts.h... yes
+checking for TS_STATUS_INFO_get0_failure_info(NULL) in openssl/ts.h... yes
+checking for TS_VERIFY_CTS_set_certs(NULL, NULL) in openssl/ts.h... yes
+checking for TS_VERIFY_CTX_set_store(NULL, NULL) in openssl/ts.h... yes
+checking for TS_VERIFY_CTX_add_flags(NULL, 0) in openssl/ts.h... yes
+checking for TS_RESP_CTX_set_time_cb(NULL, NULL, NULL) in openssl/ts.h... yes
+checking for EVP_PBE_scrypt("", 0, (unsigned char *)"", 0, 0, 0, 0, 0, NULL, 0) in openssl/evp.h... yes
+checking for SSL_CTX_set_post_handshake_auth(NULL, 0) in openssl/ssl.h... yes
+checking for EVP_PKEY_check(NULL) in openssl/evp.h... yes
+checking for EVP_PKEY_new_raw_private_key(0, NULL, (unsigned char *)"", 0) in openssl/evp.h... yes
+checking for SSL_CTX_set_ciphersuites(NULL, "") in openssl/ssl.h... yes
+checking for SSL_set0_tmp_dh_pkey(NULL, NULL) in openssl/ssl.h... yes
+checking for ERR_get_error_all(NULL, NULL, NULL, NULL, NULL) in openssl/err.h... yes
+checking for TS_VERIFY_CTX_set_certs(NULL, NULL) in openssl/ts.h... yes
+checking for SSL_CTX_load_verify_file(NULL, "") in openssl/ssl.h... yes
+checking for BN_check_prime(NULL, NULL, NULL) in openssl/bn.h... yes
+checking for EVP_MD_CTX_get0_md(NULL) in openssl/evp.h... yes
+checking for EVP_MD_CTX_get_pkey_ctx(NULL) in openssl/evp.h... yes
+checking for EVP_PKEY_eq(NULL, NULL) in openssl/evp.h... yes
+checking for EVP_PKEY_dup(NULL) in openssl/evp.h... yes
+creating extconf.h
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/openssl-3.2.0/ext/openssl
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-lk996i sitelibdir\=./.gem.20251220-192266-lk996i clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/openssl-3.2.0/ext/openssl
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-lk996i sitelibdir\=./.gem.20251220-192266-lk996i
+compiling openssl_missing.c
+compiling ossl.c
+compiling ossl_asn1.c
+compiling ossl_bio.c
+compiling ossl_bn.c
+compiling ossl_cipher.c
+compiling ossl_config.c
+compiling ossl_digest.c
+compiling ossl_engine.c
+compiling ossl_hmac.c
+compiling ossl_kdf.c
+compiling ossl_ns_spki.c
+compiling ossl_ocsp.c
+compiling ossl_pkcs12.c
+compiling ossl_pkcs7.c
+compiling ossl_pkey.c
+compiling ossl_pkey_dh.c
+compiling ossl_pkey_dsa.c
+compiling ossl_pkey_ec.c
+compiling ossl_pkey_rsa.c
+compiling ossl_provider.c
+compiling ossl_rand.c
+compiling ossl_ssl.c
+compiling ossl_ssl_session.c
+compiling ossl_ts.c
+compiling ossl_x509.c
+compiling ossl_x509attr.c
+compiling ossl_x509cert.c
+compiling ossl_x509crl.c
+compiling ossl_x509ext.c
+compiling ossl_x509name.c
+compiling ossl_x509req.c
+compiling ossl_x509revoked.c
+compiling ossl_x509store.c
+linking shared-object openssl.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/openssl-3.2.0/ext/openssl
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-lk996i sitelibdir\=./.gem.20251220-192266-lk996i install
+/usr/bin/install -c -m 0755 openssl.so ./.gem.20251220-192266-lk996i
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/openssl-3.2.0/ext/openssl
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-lk996i sitelibdir\=./.gem.20251220-192266-lk996i clean

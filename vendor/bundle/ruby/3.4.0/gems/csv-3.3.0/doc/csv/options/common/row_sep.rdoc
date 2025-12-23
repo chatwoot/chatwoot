@@ -1,0 +1,91 @@
+====== Option +row_sep+
+
+Specifies the row separator, a \String or the \Symbol <tt>:auto</tt> (see below),
+to be used for both parsing and generating.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:row_sep) # => :auto
+
+---
+
+When +row_sep+ is a \String, that \String becomes the row separator.
+The String will be transcoded into the data's Encoding before use.
+
+Using <tt>"\n"</tt>:
+  row_sep = "\n"
+  str = CSV.generate(row_sep: row_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0\nbar,1\nbaz,2\n"
+  ary = CSV.parse(str)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using <tt>|</tt> (pipe):
+  row_sep = '|'
+  str = CSV.generate(row_sep: row_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0|bar,1|baz,2|"
+  ary = CSV.parse(str, row_sep: row_sep)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using <tt>--</tt> (two hyphens):
+  row_sep = '--'
+  str = CSV.generate(row_sep: row_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0--bar,1--baz,2--"
+  ary = CSV.parse(str, row_sep: row_sep)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using <tt>''</tt> (empty string):
+  row_sep = ''
+  str = CSV.generate(row_sep: row_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0bar,1baz,2"
+  ary = CSV.parse(str, row_sep: row_sep)
+  ary # => [["foo", "0bar", "1baz", "2"]]
+
+---
+
+When +row_sep+ is the \Symbol +:auto+ (the default),
+generating uses <tt>"\n"</tt> as the row separator:
+  str = CSV.generate do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0\nbar,1\nbaz,2\n"
+
+Parsing, on the other hand, invokes auto-discovery of the row separator.
+
+Auto-discovery reads ahead in the data looking for the next <tt>\r\n</tt>, +\n+, or +\r+ sequence.
+The sequence will be selected even if it occurs in a quoted field,
+assuming that you would have the same line endings there.
+
+Example:
+  str = CSV.generate do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0\nbar,1\nbaz,2\n"
+  ary = CSV.parse(str)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+The default <tt>$INPUT_RECORD_SEPARATOR</tt> (<tt>$/</tt>) is used
+if any of the following is true:
+* None of those sequences is found.
+* Data is +ARGF+, +STDIN+, +STDOUT+, or +STDERR+.
+* The stream is only available for output.
+
+Obviously, discovery takes a little time. Set manually if speed is important. Also note that IO objects should be opened in binary mode on Windows if this feature will be used as the line-ending translation can cause problems with resetting the document position to where it was before the read ahead.

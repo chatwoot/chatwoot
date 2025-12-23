@@ -1,0 +1,8 @@
+From: Some One <foo@bar.com>
+Date: Thu, Jan 28, 2016 at 4:00 PM
+Subject: Some subject that
+spans over 2 lines
+To: infod@discourse.org
+
+
+This is a forwarded email. And just that.

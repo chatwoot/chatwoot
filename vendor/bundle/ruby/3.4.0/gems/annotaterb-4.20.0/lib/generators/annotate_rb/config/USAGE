@@ -1,0 +1,6 @@
+Description:
+    Generates a default configuration file, `.annotaterb.yml` in your
+    Rails app project root.
+
+Example:
+    `rails generate annotate_rb:config`

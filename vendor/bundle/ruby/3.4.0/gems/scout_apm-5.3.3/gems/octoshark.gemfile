@@ -1,0 +1,4 @@
+eval_gemfile("../Gemfile")
+
+# https://github.com/scoutapp/scout_apm_ruby/issues/217
+gem 'octoshark'

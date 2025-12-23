@@ -1,0 +1,6 @@
+fr:
+  faker:
+    gender:
+      types: ["Masculin", "Féminin", "Agenre", "Androgyne", "Au genre non conforme", "Aucun", "Bigenre", "En questionnement", "Polygenre", "Transmasculin", "Transféminin"]
+      short_binary_types: ["f", "m"]
+      binary_types: ["Masculin", "Féminin"]

@@ -1,0 +1,99 @@
+# elements like %{queue} are variables and should not be translated
+fr:
+  Actions: Actions
+  AddToQueue: Ajouter à la queue
+  AreYouSure: Êtes-vous certain ?
+  AreYouSureDeleteJob: Êtes-vous certain de vouloir supprimer cette tâche ?
+  AreYouSureDeleteQueue: Êtes-vous certain de vouloir supprimer la queue %{queue} ?
+  Arguments: Arguments
+  Back to App: Retour à l'application
+  Busy: En cours
+  Class: Classe
+  Connections: Connexions
+  CreatedAt: Créée le
+  CurrentMessagesInQueue: Messages actuellement dans <span class='title'>%{queue}</span>
+  Dashboard: Tableau de Bord
+  Dead: Mortes
+  DeadJobs: Tâches mortes
+  Delete: Supprimer
+  DeleteAll: Tout supprimer
+  Deploy: Déploiement
+  Enqueued: En attente
+  Error: Erreur
+  ErrorBacktrace: Backtrace d’erreur
+  ErrorClass: Classe d’erreur
+  ErrorMessage: Message d’erreur
+  ExecutionTime: Temps d'exécution
+  Extras: Extras
+  Failed: Échouées
+  Failures: Echecs
+  Failure: Echec
+  GoBack: ← Retour
+  History: Historique
+  Job: Tâche
+  Jobs: Tâches
+  Kill: Tuer
+  KillAll: Tout tuer
+  LastRetry: Dernier essai
+  Latency: Latence
+  LivePoll: Temps réel
+  MemoryUsage: Mémoire utilisée
+  Name: Nom
+  Namespace: Namespace
+  NextRetry: Prochain essai
+  NoDeadJobsFound: Aucune tâche morte n'a été trouvée
+  NoRetriesFound: Aucune tâche à réessayer n’a été trouvée
+  NoScheduledFound: Aucune tâche planifiée n'a été trouvée
+  NotYetEnqueued: Pas encore en file d'attente
+  OneMonth: 1 mois
+  OneWeek: 1 semaine
+  OriginallyFailed: Échec initial
+  Pause: Pause
+  Paused: Mise en pause
+  PeakMemoryUsage: Mémoire utilisée (max.)
+  Plugins: Plugins
+  PollingInterval: Intervalle de rafraîchissement
+  Process: Processus
+  Processed: Traitées
+  Processes: Processus
+  Queue: Queue
+  Queues: Queues
+  Quiet: Clore
+  QuietAll: Tout clore
+  Realtime: Temps réel
+  Retries: Tentatives
+  RetryAll: Tout réessayer
+  RetryCount: Nombre d'essais
+  RetryNow: Réessayer maintenant
+  Scheduled: Planifiées
+  ScheduledJobs: Tâches planifiées
+  Seconds: Secondes
+  ShowAll: Tout montrer
+  SixMonths: 6 mois
+  Size: Taille
+  Started: Démarrée
+  Status: État
+  Stop: Arrêter
+  StopAll: Tout arrêter
+  StopPolling: Arrêt du temps réel
+  Success: Succès
+  Summary: Résumé
+  Thread: Thread
+  Threads: Threads
+  ThreeMonths: 3 mois
+  Time: Heure
+  Unpause: Unpause
+  Uptime: Uptime (jours)
+  Utilization: Utilisation
+  Version: Version
+  When: Quand
+  Worker: Travailleur
+  active: actif
+  idle: inactif
+  Metrics: Métriques
+  NoDataFound: Aucune donnée disponible
+  TotalExecutionTime: Temps d'exécution total
+  AvgExecutionTime: Temps d'exécution moyen
+  Context: Contexte
+  Bucket: Bucket
+  NoJobMetricsFound: Aucune statistique de tâche récente n'a été trouvée

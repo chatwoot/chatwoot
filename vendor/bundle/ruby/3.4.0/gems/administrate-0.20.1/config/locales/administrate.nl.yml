@@ -1,0 +1,30 @@
+---
+nl:
+  administrate:
+    actions:
+      confirm: Weet u het zeker?
+      destroy: Verwijder
+      edit: Bewerk
+      edit_resource: Bewerk %{name}
+      show_resource: Toon %{name}
+      new_resource: Nieuw %{name}
+      back: Terug
+    controller:
+      create:
+        success: "%{resource} is succesvol aangemaakt."
+      destroy:
+        success: "%{resource} is succesvol verwijderd."
+      update:
+        success: "%{resource} is succesvol geupdated."
+    fields:
+      has_many:
+        more: Resultaat %{count} van %{total_count}
+        none: Geen
+    form:
+      error: error
+      errors: "%{pluralized_errors} maakten het onmogelijk %{resource_name} op:"
+    navigation:
+      back_to_app: Terug naar app
+    search:
+      clear: Wissen
+      label: Zoeken %{resource}

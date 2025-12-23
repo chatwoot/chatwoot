@@ -1,0 +1,15 @@
+sqlite3:
+  adapter: sqlite3
+  database: ':memory:'
+
+mysql:
+  adapter: mysql2
+  host: 127.0.0.1
+  username: root
+  password:
+  database: acts_as_taggable_on
+  encoding: utf8
+  
+postgresql:
+  # Needs to be given as a URL to force connection via TCP
+  url: postgresql://postgres:postgres@127.0.0.1:5432/acts_as_taggable_on?encoding=utf8

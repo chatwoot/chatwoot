@@ -1,0 +1,11 @@
+inherit_from:
+  - ../.rubocop.yml
+
+RSpec/DescribeClass:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false

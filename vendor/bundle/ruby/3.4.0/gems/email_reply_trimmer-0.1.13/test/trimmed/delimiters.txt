@@ -1,0 +1,3 @@
+This is not a ---------- delimiter.
+
+But there should be no delimiter after this line

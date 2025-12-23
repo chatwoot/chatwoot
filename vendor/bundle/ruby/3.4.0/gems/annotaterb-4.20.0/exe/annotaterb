@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+if !File.exist?("./Rakefile") && !File.exist?("./Gemfile")
+  abort "Please run annotaterb from the root of the project."
+end
+
+begin
+  require "bundler"
+  Bundler.setup
+rescue
+end
+
+$LOAD_PATH.unshift("#{__dir__}/../lib")
+
+require "annotate_rb"
+
+_exit_status = ::AnnotateRb::Runner.run(ARGV)
+
+# TODO: Return exit status
+# exit exit_status

@@ -1,0 +1,39 @@
+<%#
+# HasMany Show Partial
+
+This partial renders a has_many relationship,
+to be displayed on a resource's show page.
+
+By default, the relationship is rendered
+as a table of the first few associated resources.
+The columns of the table are taken
+from the associated resource class's dashboard.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::HasMany][1].
+  Contains methods to help display a table of associated resources.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/HasMany
+%>
+
+<% if field.resources.any? %>
+  <% order = field.order_from_params(params.fetch(field.name, {})) %>
+  <% page_number = params.fetch(field.name, {}).fetch(:page, nil) %>
+  <%= render(
+    "collection",
+    collection_presenter: field.associated_collection(order),
+    collection_field_name: field.name,
+    page: page,
+    resources: field.resources(page_number, order),
+    table_title: field.name,
+    resource_class: field.associated_class,
+  ) %>
+  <% if field.more_than_limit? %>
+    <%= render("pagination", resources: field.resources(page_number), param_name: "#{field.name}[page]") %>
+  <% end %>
+
+<% else %>
+  <%= t("administrate.fields.has_many.none", default: "–") %>
+<% end %>

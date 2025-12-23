@@ -1,0 +1,21 @@
+<h2>Templates</h2>
+
+<% template_rows.each do |template| %>
+
+<p><%= template[0] %></p>
+<table>
+  <thead>
+    <tr>
+      <th>Output</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% template[1].each do |call| %>
+    <tr>
+      <td><%= call %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<% end %>

@@ -1,0 +1,9 @@
+Description:
+    Generates a Dashboard object for a model,
+    pulling the attributes from database columns.
+
+Example:
+    rails generate administrate:dashboard FooBar [--namespace admin]
+
+    This will create:
+        app/dashboards/foo_bar_dashboard.rb

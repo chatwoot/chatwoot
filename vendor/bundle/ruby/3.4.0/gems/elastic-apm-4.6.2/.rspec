@@ -1,0 +1,2 @@
+--color
+--exclude-pattern spec/integration/**/*_spec.rb

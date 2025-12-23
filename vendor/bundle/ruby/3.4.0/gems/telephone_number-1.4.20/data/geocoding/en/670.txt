@@ -1,0 +1,31 @@
+# Copyright (C) 2020 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+67021|Manufahi
+67022|Cova Lima
+67023|Bobonaro
+67024|Ainaro
+67025|Dekuse
+67031|Dili
+67032|Dili
+67033|Dili
+67036|Liquica
+67037|Aileu
+67038|Ermera
+67039|Oekusi
+67041|Baucau
+67042|Manatuto
+67043|Viqueque
+67044|Lautem

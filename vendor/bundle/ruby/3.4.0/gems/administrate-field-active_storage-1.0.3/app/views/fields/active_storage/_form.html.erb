@@ -1,0 +1,34 @@
+<%#
+# Image Form Partial
+
+This partial renders an input element for image attributes.
+By default, the input is a text field for the image's URL.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [Administrate::Field::Image][1].
+  A wrapper around the image url pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Image
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+
+<div class="field-unit__field">
+  <% if field.attached? %>
+    <%= render partial: 'fields/active_storage/items', locals: { field: field } %>
+  <% end %>
+
+  <div>
+    <%= field.can_add_attachment? ?
+          I18n.t("administrate.fields.active_storage.add", default: 'Add') :
+          I18n.t("administrate.fields.active_storage.replace", default: 'Replace')
+    %>
+    <%= f.file_field field.attribute, multiple: field.many?, direct_upload: field.direct? %>
+  </div>
+</div>

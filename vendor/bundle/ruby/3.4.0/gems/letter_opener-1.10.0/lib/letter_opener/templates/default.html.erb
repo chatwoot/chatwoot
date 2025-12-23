@@ -1,0 +1,138 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=<%= encoding %>">
+    <% if mail.subject %>
+      <title><%= h mail.subject %></title>
+    <% end %>
+
+    <style type="text/css">
+      #container {
+        margin: 10px auto;
+      }
+      #message_headers {
+        background: #fff;
+        font-size: 12px;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+        border-bottom: 1px solid #dedede;
+        margin-bottom: 10px;
+        overflow: auto;
+      }
+
+      #message_headers dl {
+        float: left;
+        line-height: 1.3em;
+        padding: 0;
+      }
+
+      #message_headers dt {
+        width: 92px;
+        margin: 0;
+        float: left;
+        text-align: right;
+        font-weight: bold;
+        color: #7f7f7f;
+      }
+
+      #message_headers dd {
+        margin: 0 0 0 102px;
+      }
+
+      #message_headers p.alternate {
+        float: right;
+        margin: 0;
+      }
+
+      #message_headers p.alternate a {
+        color: #09c;
+      }
+
+      pre#message_body {
+        padding: 4px;
+        white-space: pre-wrap;
+        border: 1px solid #eee;
+        background-color: #fcfcfc;
+      }
+
+      iframe {
+        border: 0;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div id="message_headers">
+        <dl>
+          <dt>From:</dt>
+          <dd><%= h from %></dd>
+
+          <% unless sender.empty? %>
+            <dt>Sender:</dt>
+            <dd><%= h sender %></dd>
+          <% end %>
+
+          <% unless reply_to.empty? %>
+            <dt>Reply-To:</dt>
+            <dd><%= h reply_to %></dd>
+          <% end %>
+
+          <% if mail.subject %>
+            <dt>Subject:</dt>
+            <dd><strong><%= h mail.subject %></strong></dd>
+          <% end %>
+
+          <dt>Date:</dt>
+          <dd><%= Time.now.strftime("%b %e, %Y %I:%M:%S %p %Z") %></dd>
+
+          <% unless to.empty? %>
+            <dt>To:</dt>
+            <dd><%= h to %></dd>
+          <% end %>
+
+          <% unless cc.empty? %>
+            <dt>CC:</dt>
+            <dd><%= h cc %></dd>
+          <% end %>
+
+          <% unless bcc.empty? %>
+            <dt>BCC:</dt>
+            <dd><%= h bcc %></dd>
+          <% end %>
+
+          <% if @attachments.any? %>
+            <dt>Attachments:</dt>
+            <dd>
+            <% @attachments.each do |filename, path| %>
+              <a href="<%= path %>"><%= filename %></a>&nbsp;
+            <% end %>
+            </dd>
+          <% end %>
+        </dl>
+
+        <% if mail.multipart? %>
+          <p class="alternate">
+            <% if type == "plain" && mail.html_part %>
+              <a href="rich.html">View HTML version</a>
+            <% elsif type == "rich" && mail.text_part %>
+              <a href="plain.html">View plain text version</a>
+            <% end %>
+          </p>
+        <% end %>
+      </div>
+
+      <% if type == "plain" %>
+        <pre id="message_body"><%= auto_link(h(body)) %></pre>
+      <% else %>
+        <iframe seamless="seamless" srcdoc="<base target='_top'><%= h(body) %>"></iframe>
+      <% end %>
+    </div>
+
+    <script type="text/javascript">
+      /*! srcdoc-polyfill - v0.1.1 - 2013-03-01
+      * http://github.com/jugglinmike/srcdoc-polyfill/
+      * Copyright (c) 2013 Mike Pennisi; Licensed MIT */
+      (function(t,e){var c,n,o=t.srcDoc,r=!!("srcdoc"in e.createElement("iframe")),i={compliant:function(t,e){e&&t.setAttribute("srcdoc",e)},legacy:function(t,e){var c;t&&t.getAttribute&&(e?t.setAttribute("srcdoc",e):e=t.getAttribute("srcdoc"),e&&(c="javascript: window.frameElement.getAttribute('srcdoc');",t.setAttribute("src",c),t.contentWindow&&(t.contentWindow.location=c)))}},s=t.srcDoc={set:i.compliant,noConflict:function(){return t.srcDoc=o,s}};if(!r)for(s.set=i.legacy,n=e.getElementsByTagName("iframe"),c=n.length;c--;)s.set(n[c])})(this,this.document);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+<div>
+  <form method="post" class="form-inline" action='<%= root_path %>filter/<%= which %>'>
+    <%= csrf_tag %>
+    <label for="substr"><%= t('Filter') %></label>
+    <input class="search form-control" type="search" name="substr" value="<%= h params[:substr] %>" placeholder="<%= t('AnyJobContent') %>"/>
+  </form>
+</div>

@@ -1,0 +1,450 @@
+#!/usr/bin/env groovy
+@Library('apm@current') _
+
+import co.elastic.matrix.*
+import groovy.transform.Field
+
+/**
+This is the parallel tasks generator,
+it is need as field to store the results of the tests.
+*/
+@Field def rubyTasksGen
+
+pipeline {
+  agent { label 'linux && immutable' }
+  environment {
+    REPO = 'apm-agent-ruby'
+    BASE_DIR = "src/github.com/elastic/${env.REPO}"
+    PIPELINE_LOG_LEVEL = 'INFO'
+    NOTIFY_TO = credentials('notify-to')
+    JOB_GCS_BUCKET = credentials('gcs-bucket')
+    CODECOV_SECRET = 'secret/apm-team/ci/apm-agent-ruby-codecov'
+    DOCKER_REGISTRY = 'docker.elastic.co'
+    DOCKER_SECRET = 'secret/apm-team/ci/docker-registry/prod'
+    RELEASE_SECRET = 'secret/apm-team/ci/apm-agent-ruby-rubygems-release'
+    OPBEANS_REPO = 'opbeans-ruby'
+    REFERENCE_REPO = '/var/lib/jenkins/.git-references/apm-agent-ruby.git'
+    SLACK_CHANNEL = '#apm-agent-ruby'
+    RUBY_DOCKER_TAG = 'ruby:2.6'
+  }
+  options {
+    timeout(time: 2, unit: 'HOURS')
+    buildDiscarder(logRotator(numToKeepStr: '20', artifactNumToKeepStr: '20', daysToKeepStr: '30'))
+    timestamps()
+    ansiColor('xterm')
+    disableResume()
+    durabilityHint('PERFORMANCE_OPTIMIZED')
+    rateLimitBuilds(throttle: [count: 60, durationName: 'hour', userBoost: true])
+    quietPeriod(10)
+  }
+  triggers {
+    issueCommentTrigger("(${obltGitHubComments()}|^run benchmark tests)")
+  }
+  parameters {
+    booleanParam(name: 'Run_As_Main_Branch', defaultValue: false, description: 'Allow to run any steps on a PR, some steps normally only run on main branch.')
+    booleanParam(name: 'bench_ci', defaultValue: true, description: 'Enable run benchmarks.')
+  }
+  stages {
+    /**
+    Checkout the code and stash it, to use it on other stages.
+    */
+    stage('Checkout') {
+      options { skipDefaultCheckout() }
+      steps {
+        pipelineManager([ cancelPreviousRunningBuilds: [ when: 'PR' ] ])
+        deleteDir()
+        gitCheckout(basedir: "${BASE_DIR}", githubNotifyFirstTimeContributor: true, reference: "${env.REFERENCE_REPO}")
+        stash allowEmpty: true, name: 'source', useDefaultExcludes: false
+        script {
+          dir("${BASE_DIR}"){
+            // Skip all the stages except docs for PR's with asciidoc and md changes only
+            env.ONLY_DOCS = isGitRegionMatch(patterns: [ '.*\\.(asciidoc|md)' ], shouldMatchAll: true)
+          }
+        }
+      }
+    }
+    stage('Sanity checks') {
+      when {
+        beforeAgent true
+        allOf {
+          expression { return env.ONLY_DOCS == "false" }
+          anyOf {
+            not { changeRequest() }
+            expression { return params.Run_As_Main_Branch }
+          }
+        }
+      }
+      options { skipDefaultCheckout() }
+      environment {
+        HOME = "${env.WORKSPACE}"
+        PATH = "${env.WORKSPACE}/bin:${env.PATH}"
+      }
+      steps {
+        withGithubNotify(context: 'Sanity checks') {
+          deleteDir()
+          unstash 'source'
+          dir(BASE_DIR) {
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE', message: 'Sanity checks failed but keep running the build') {
+              preCommit(commit: "${GIT_BASE_COMMIT}", junit: true)
+            }
+          }
+        }
+      }
+    }
+    /**
+    Execute unit tests.
+    */
+    stage('Tests') {
+      when {
+        beforeAgent true
+        expression { return env.ONLY_DOCS == "false" }
+      }
+      failFast false
+      parallel {
+        stage('Tests') {
+          options { skipDefaultCheckout() }
+          steps {
+            withGithubNotify(context: 'Tests', tab: 'tests') {
+              runTests('.ci/.jenkins_framework.yml')
+            }
+          }
+          post {
+            always {
+              convergeCoverage()
+            }
+          }
+        }
+        stage('Main Tests frameworks') {
+          options { skipDefaultCheckout() }
+          steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE', message: "The tests for the main framework have failed. Let's warn instead.") {
+              runTests('.ci/.jenkins_main_framework.yml')
+            }
+          }
+        }
+      }
+    }
+    stage('Publish snapshot packages') {
+      options { skipDefaultCheckout() }
+      environment {
+        PATH = "${env.WORKSPACE}/.local/bin:${env.WORKSPACE}/bin:${env.PATH}"
+        BUCKET_NAME = 'oblt-artifacts'
+        DOCKER_REGISTRY = 'docker.elastic.co'
+        DOCKER_REGISTRY_SECRET = 'secret/observability-team/ci/docker-registry/prod'
+        GCS_ACCOUNT_SECRET = 'secret/observability-team/ci/snapshoty'
+      }
+      when { branch 'main' }
+      steps {
+        withGithubNotify(context: 'Publish snapshot packages') {
+          deleteDir()
+          unstash 'source'
+          dir(env.BASE_DIR) {
+            script {
+              docker.image(env.RUBY_DOCKER_TAG).inside() {
+                sh(label: 'install build system', script: 'gem install rake yard rspec')
+                sh(label: 'create gem', script: 'rake build')
+              }
+              snapshoty(
+                bucket: env.BUCKET_NAME,
+                gcsAccountSecret: env.GCS_ACCOUNT_SECRET,
+                dockerRegistry: env.DOCKER_REGISTRY,
+                dockerSecret: env.DOCKER_REGISTRY_SECRET
+              )
+            }
+          }
+        }
+      }
+    }
+    stage('Benchmarks') {
+      options { skipDefaultCheckout() }
+      when {
+        beforeAgent true
+        allOf {
+          anyOf {
+            branch 'main'
+            branch "\\d+\\.\\d+"
+            branch "v\\d?"
+            tag pattern: 'v\\d+.*', comparator: "REGEXP"
+            expression { return params.Run_As_Main_Branch }
+            expression { return env.GITHUB_COMMENT?.contains('benchmark tests') }
+          }
+          expression { return params.bench_ci }
+        }
+      }
+      stages {
+        stage('Clean Workspace') {
+          agent { label 'microbenchmarks-pool' }
+          steps {
+            echo "Cleaning Workspace"
+          }
+          post {
+            always {
+              cleanWs(notFailBuild: true)
+            }
+          }
+        }
+        /**
+          Run the benchmarks and store the results on ES.
+          The result JSON files are also archive into Jenkins.
+        */
+        stage('Run Benchmarks') {
+          steps {
+            withGithubNotify(context: 'Run Benchmarks') {
+              deleteDir()
+              unstash 'source'
+              dir("${BASE_DIR}"){
+                script {
+                  def versions = readYaml(file: ".ci/.jenkins_ruby_benchmarks.yml")
+                  def benchmarkTask = [:]
+                  versions['RUBY_VERSION'].each{ v ->
+                    benchmarkTask[v] = runBenchmark(v)
+                  }
+                  parallel(benchmarkTask)
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    stage('Release') {
+      options { skipDefaultCheckout() }
+      environment {
+        HOME = '/var/lib/jenkins'
+      }
+      when {
+        beforeAgent true
+        tag pattern: 'v\\d+.*', comparator: 'REGEXP'
+      }
+      stages {
+        stage('Notify') {
+          steps {
+            notifyStatus(slackStatus: 'warning', subject: "[${env.REPO}] Release *${env.TAG_NAME}* ready to be pushed",
+                         body: "(<${env.RUN_DISPLAY_URL}|Open>).\n Changes: ${env.TAG_NAME}")
+          }
+        }
+        stage('Release') {
+          steps {
+            deleteDir()
+            unstash 'source'
+            prepareRelease(){
+              sh 'rake release'
+            }
+          }
+        }
+        stage('Update Branch') {
+          steps {
+            deleteDir()
+            unstash 'source'
+            prepareRelease(){
+              catchError(buildResult: 'SUCCESS', message: 'Update branch task failed', stageResult: 'UNSTABLE') {
+                sh 'rake release:update_branch'
+              }
+            }
+          }
+          post {
+            success {
+              notifyStatus(slackStatus: 'good', subject: "[${env.REPO}] Release *${env.TAG_NAME}* published",
+                           body: "Great news, the release has been done successfully. (<${env.RUN_DISPLAY_URL}|Open>).")
+            }
+            unsuccessful {
+              notifyStatus(slackStatus: 'warning', subject: "[${env.REPO}] Release *${env.TAG_NAME}* has some sync-up post-release failures.",
+                           body: "Please go to ${env.BUILD_URL} to review the logs. Most likely you need to update the branch manually. (<${env.RUN_DISPLAY_URL}|Open>)")
+            }
+          }
+        }
+        stage('Opbeans') {
+          environment {
+            REPO_NAME = "${OPBEANS_REPO}"
+            VERSION = "${env.BRANCH_NAME.replaceAll('^v', '')}"
+          }
+          steps {
+            deleteDir()
+            // Let's wait for the Gem to be available
+            sh label: 'Wait for gem', script: """#!/usr/bin/env bash
+              source /usr/local/bin/bash_standard_lib.sh
+              (retry 10 curl --silent --show-error --fail -I https://rubygems.org/gems/elastic-apm/versions/${env.VERSION})
+            """
+            dir("${OPBEANS_REPO}"){
+              git(credentialsId: 'f6c7695a-671e-4f4f-a331-acdce44ff9ba',
+                  url: "git@github.com:elastic/${OPBEANS_REPO}.git",
+                  branch: 'main')
+              // It's required to transform the tag value to the gem version
+              sh script: ".ci/bump-version.sh ${env.VERSION}", label: 'Bump version'
+              // The opbeans pipeline will trigger a release for the main branch
+              gitPush()
+              // The opbeans pipeline will trigger a release for the release tag
+              gitCreateTag(tag: "${env.BRANCH_NAME}")
+            }
+          }
+        }
+      }
+    }
+  }
+  post {
+    cleanup {
+      notifyBuildResult()
+    }
+  }
+}
+
+/**
+  Run benchmarks for a Ruby version, then report the results to the Elasticsearch server.
+*/
+def runBenchmark(version){
+  return {
+    node('microbenchmarks-pool'){
+      // Transform the versions like:
+      //  - docker.elastic.co/observability-ci/jruby:9.2-12-jdk to jruby-9.2-12-jdk
+      //  - jruby:9.1 to jruby-9.1
+      def transformedVersion = version.replaceAll('.*/', '').replaceAll(':', '-')
+      withEnv(["HOME=${env.WORKSPACE}/${transformedVersion}"]){
+        dir("${transformedVersion}"){
+          deleteDir()
+          unstash 'source'
+          dir("${BASE_DIR}"){
+            retry(2){
+              sleep randomNumber(min:10, max: 30)
+              dockerLogin(secret: "${DOCKER_SECRET}", registry: "${DOCKER_REGISTRY}")
+            }
+            try{
+              sh """./spec/scripts/benchmarks.sh "${version}" "${REFERENCE_REPO}" """
+            } finally {
+              archiveArtifacts(
+                allowEmptyArchive: true,
+                artifacts: "**/benchmark-${transformedVersion}.raw,**/benchmark-${transformedVersion}.error",
+                onlyIfSuccessful: false)
+              sendBenchmarks(file: "benchmark-${transformedVersion}.bulk",
+                index: "benchmark-ruby", archive: true)
+              cleanWs(notFailBuild: true)
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+class RubyParallelTaskGenerator extends DefaultParallelTaskGenerator {
+
+  public RubyParallelTaskGenerator(Map params){
+    super(params)
+  }
+
+  /**
+  build a clousure that launch and agent and execute the corresponding test script,
+  then store the results.
+  */
+  public Closure generateStep(x, y){
+    return {
+      steps.sleep steps.randomNumber(min:10, max: 30)
+      steps.node('linux && immutable'){
+        // Label is transformed to avoid using the internal docker registry in the x coordinate
+        // TODO: def label = "${tag}:${x?.drop(x?.lastIndexOf('/')+1)}#${y}"
+        def label = "${tag}:${x}#${y}"
+        try {
+          steps.runScript(label: label, ruby: x, framework: y)
+          saveResult(x, y, 1)
+        } catch(e){
+          saveResult(x, y, 0)
+          steps.error("${label} tests failed : ${e.toString()}\n")
+        } finally {
+          steps.junit(allowEmptyResults: false,
+            keepLongStdio: true,
+            testResults: "**/spec/junit-reports/**/ruby-agent-junit.xml")
+          steps.dir("${steps.env.BASE_DIR}"){
+            steps.archiveArtifacts(artifacts: 'coverage/matrix_results/', defaultExcludes: false)
+            steps.stash(name: steps.normalise("coverage-${x}-${y}"), includes: 'coverage/matrix_results/', allowEmpty: true)
+          }
+        }
+      }
+    }
+  }
+}
+
+/**
+  Run all the tests for the given file with the frameworks to test
+*/
+def runTests(frameworkFile) {
+  deleteDir()
+  unstash "source"
+  dir("${BASE_DIR}"){
+    rubyTasksGen = new RubyParallelTaskGenerator(
+      xKey: 'RUBY_VERSION',
+      yKey: 'FRAMEWORK',
+      xFile: ".ci/.jenkins_ruby.yml",
+      yFile: frameworkFile,
+      exclusionFile: ".ci/.jenkins_exclude.yml",
+      tag: "Ruby",
+      name: "Ruby",
+      steps: this
+    )
+    def testTasks = rubyTasksGen.generateParallelTests()
+    parallel(testTasks)
+  }
+}
+
+/**
+  Run tests for a Ruby version and framework version.
+*/
+def runScript(Map params = [:]){
+  def label = params.label
+  def ruby = params.ruby
+  def framework = params.framework
+  log(level: 'INFO', text: "${label}")
+  retry(2){
+    withEnv(["HOME=${env.WORKSPACE}", "PATH=${env.PATH}:${env.WORKSPACE}/bin"]) {
+      deleteDir()
+      unstash 'source'
+      dir("${BASE_DIR}"){
+        sleep randomNumber(min:10, max: 30)
+        dockerLogin(secret: "${DOCKER_SECRET}", registry: "${DOCKER_REGISTRY}")
+        sh(label: "Run BDD tests", script: "./spec/scripts/features.sh ${ruby}")
+        sh("./spec/scripts/spec.sh ${ruby} ${framework}")
+      }
+    }
+  }
+}
+
+def convergeCoverage() {
+  deleteDir()
+  unstash('source')
+  dir("${BASE_DIR}"){
+    rubyTasksGen.dumpMatrix('-')?.each {
+      unstash(normalise("coverage-${it}"))
+    }
+    sh(script: './spec/scripts/coverage_converge.sh')
+    cobertura coberturaReportFile: 'coverage/coverage.xml', onlyStable: false
+  }
+}
+
+def prepareRelease(Closure body){
+  dir("${env.BASE_DIR}"){
+    docker.image(env.RUBY_DOCKER_TAG).inside('-v ${REFERENCE_REPO}:${REFERENCE_REPO} -v /etc/passwd:/etc/passwd -v ${HOME}/.ssh:${HOME}/.ssh') {
+      withEnv(["HOME=${env.WORKSPACE}/${env.BASE_DIR ?: ''}"]) {
+        rubygemsLogin.withApi(secret: "${env.RELEASE_SECRET}") {
+          withGitRelease(credentialsId: '2a9602aa-ab9f-4e52-baf3-b71ca88469c7-UserAndToken') {
+            sh 'gem install rake yard rspec'
+            body()
+          }
+        }
+      }
+    }
+  }
+}
+
+// Transform the versions like:
+//  - docker.elastic.co/observability-ci/jruby:9.2-12-jdk to jruby-9.2-12-jdk
+//  - jruby:9.1 to jruby-9.1
+def normalise(def what) {
+  return what.replaceAll('.*/', '').replaceAll(':', '-')
+}
+
+def notifyStatus(def args = [:]) {
+  releaseNotification(slackChannel: "${env.SLACK_CHANNEL}",
+                      slackColor: args.slackStatus,
+                      slackCredentialsId: 'jenkins-slack-integration-token',
+                      to: "${env.NOTIFY_TO}",
+                      subject: args.subject,
+                      body: args.body)
+}

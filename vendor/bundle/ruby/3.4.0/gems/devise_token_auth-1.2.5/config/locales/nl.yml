@@ -1,0 +1,32 @@
+nl:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Een bevestingsmail is verzonden naar het adres '%{email}'. Volg de instructies in de mail om uw account te activeren."
+      bad_credentials: 'Ongeldige logingegevens.'
+      not_supported: "Gebruik POST /sign_in om in te loggen. GET wordt niet ondersteund."
+      user_not_found: "Gebruiker is niet gevonden of niet ingelogd."
+    token_validations:
+      invalid: "Ongeldige logingegevens."
+    registrations:
+      missing_confirm_success_url: "Parameter 'confirm_success_url' ontbreekt."
+      redirect_url_not_allowed: "Redirect naar '%{redirect_url}' niet toegestaan."
+      email_already_exists: "Er bestaat al een account voor het adres '%{email}'"
+      account_with_uid_destroyed: "Account met id '%{uid}' is verwijderd."
+      account_to_destroy_not_found: "Te verwijderen account niet gevonden."
+      user_not_found: "Gebruiker niet gevonden."
+    omniauth:
+      not_allowed_redirect_url: "Redirect naar '%{redirect_url}' niet toegestaan."
+    passwords:
+      missing_email: "Je moet een e-mailadres opgeven."
+      missing_redirect_url: "Redirect URL ontbreekt."
+      not_allowed_redirect_url: "Redirect naar '%{redirect_url}' niet toegestaan."
+      sended: "Er is een e-mail naar '%{email}' verstuurd met instructies om uw wachtwoord te resetten."
+      user_not_found: "Kan gebruiker met e-mail '%{email}' niet vinden."
+      password_not_required: "Voor dit account is geen wachtwoord nodig. Log in met uw '%{provider}' account."
+      missing_passwords: "De velden 'Wachtwoord' en 'Wachtwoord bevestiging' zijn verplicht."
+      successfully_updated: "Uw wachtwoord is aangepast."
+  errors:
+    messages:
+      validate_sign_up_params: "Gegevens voor aanmaken van het account zijn niet geldig."
+      validate_account_update_params: "Gegevens voor updaten van het account zijn niet geldig."
+      not_email: "is geen geldig e-emailadres"

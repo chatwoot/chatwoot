@@ -1,0 +1,7 @@
+.yardoc
+*.swp
+doc
+pkg/*.gem
+
+# skip Gemfile.lock since this is a gem
+Gemfile.lock

@@ -1,0 +1,35 @@
+The intent was to return nil when the first value was nil.
+That was the op's issue.
+If one of the values was nil, she/he wanted nil.
+
+Nil && anything_else will always return nil, and I will not evaluate the
+second clause.
+
+
+> >>>>>>>>
+> It should be:
+>     2.0 && 2.0 + 12.0
+> <<<<<<<<<
+>
+> Ah! Yes, that works.
+>
+>
+People are intent on not understanding, aren't they.
+
+    def nil_add_12 f
+      f && f + 12.0
+    end
+
+Generalised to two parameters:
+
+    def nil_add a, b
+      a && b && a + b
+    end
+
+The only quirk is the way they handle `false`.
+
+This is not tested, but it may be possible to do this, too:
+
+    f&.+ b
+
+Cheers

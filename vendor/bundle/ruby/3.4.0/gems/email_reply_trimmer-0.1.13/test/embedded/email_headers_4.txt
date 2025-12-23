@@ -1,0 +1,15 @@
+Da: Sally54721
+Risposta: Testy McTesterson / Test
+Data: giovedì 8 ottobre 2015 15:26
+A: Testy McTesterson
+Oggetto: Test | Issue (#3)
+
+[@example](http://example.com/u/example)
+
+—
+Reply to this email directly or [view it on GitLab](http://git.example.com/example/Test/issues/3).  {"@context":"[http://schema.org","@type":"EmailMessage","action":{"@type":"ViewAction","name":"View](http://schema.org%22,%22@type%22:%22EmailMessage%22,%22action%22:%7B%22@type%22:%22ViewAction%22,%22name%22:%22View) Issue","url":"[http://git.example.com/example/Test/issues/3"}](http://git.example.com/example/Test/issues/3%22%7D)} You're receiving this notification because you are a member of the Testy McTesterson / Test project team.
+
+--
+Questo messaggio e' stato analizzato con Libra ESVA ed e' risultato non infetto.
+[Clicca qui per segnalarlo come spam.](http://esva.example.com/cgi-bin/learn-msg.cgi?id=1234567890.ABCDEF)
+[Clicca qui per metterlo in blacklist](http://esva.example.com/cgi-bin/learn-msg.cgi?blacklist=1&id=1234567890.ABCDEF)

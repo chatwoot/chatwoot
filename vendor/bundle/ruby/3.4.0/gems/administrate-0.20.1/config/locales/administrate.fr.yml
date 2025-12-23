@@ -1,0 +1,30 @@
+---
+fr:
+  administrate:
+    actions:
+      confirm: Êtes-vous sûr(e) ?
+      destroy: Supprimer
+      edit: Modifier
+      edit_resource: Modifier %{name}
+      show_resource: Détails %{name}
+      new_resource: Création %{name}
+      back: Précédent
+    controller:
+      create:
+        success: "%{resource} a été correctement créé(e)."
+      destroy:
+        success: "%{resource} a été correctement supprimé(e)."
+      update:
+        success: "%{resource} a été correctement modifié(e)."
+    fields:
+      has_many:
+        more: "%{count} sur %{total_count}"
+        none: Aucun
+    form:
+      error: erreur
+      errors: "%{pluralized_errors} ont empêché %{resource_name} d'être sauvegardé(e) :"
+    navigation:
+      back_to_app: Retour à l'application
+    search:
+      clear: Effacer la recherche
+      label: Chercher %{resource}

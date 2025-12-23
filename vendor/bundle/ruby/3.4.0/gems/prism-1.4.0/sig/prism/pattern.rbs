@@ -1,0 +1,13 @@
+module Prism
+  class Pattern
+    class CompilationError < StandardError
+    end
+
+    attr_reader query: String
+
+    def initialize: (String query) -> void
+    def compile: () -> Proc
+    def scan: (Prism::node root) { (Prism::node) -> void } -> void
+            | (Prism::node root) -> ::Enumerator[Prism::node, void]
+  end
+end

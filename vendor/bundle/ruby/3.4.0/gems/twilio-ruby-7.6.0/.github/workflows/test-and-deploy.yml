@@ -1,0 +1,147 @@
+name: Test and Deploy
+on:
+  push:
+    branches: [ '*' ]
+    tags: [ '*' ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run automatically at 8AM PST Monday-Friday
+    - cron: '0 15 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      matrix:
+        ruby: [ '2.4', '2.5', '2.6', '2.7', '3.0', '3.1', '3.2', 'ruby-head', 'jruby-9.3', 'jruby-9.4' ]
+    steps:
+      - name: Checkout twilio-ruby
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+
+      # Excludes incompatible versions of ruby
+      - name: Set up linter
+        run: bundle add rubocop --version "~> 1.24.1" --group "development" --skip-install
+        if: ${{ matrix.ruby != '2.4' }}
+
+      - run: bundle install --with development
+      - run: bundle exec rake install
+
+      - name: Run linter
+        run: bundle exec rubocop -d --cache true --parallel
+        if: ${{ matrix.ruby != '2.4' }}
+
+      - name: Run Unit Tests
+        run: make test
+
+      - name: Run Cluster Test
+        if: (!github.event.pull_request.head.repo.fork)
+        env:
+         TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+         TWILIO_API_KEY: ${{ secrets.TWILIO_CLUSTER_TEST_API_KEY}}
+         TWILIO_API_SECRET: ${{ secrets.TWILIO_CLUSTER_TEST_API_KEY_SECRET }}
+         TWILIO_FROM_NUMBER: ${{ secrets.TWILIO_FROM_NUMBER }}
+         TWILIO_TO_NUMBER: ${{ secrets.TWILIO_TO_NUMBER }}
+         TWILIO_ORGS_ACCOUNT_SID: ${{ secrets.TWILIO_ORGS_ACCOUNT_SID }}
+         TWILIO_ORGS_CLIENT_SECRET: ${{ secrets.TWILIO_ORGS_CLIENT_SECRET }}
+         TWILIO_ORGS_CLIENT_ID: ${{ secrets.TWILIO_ORGS_CLIENT_ID }}
+         TWILIO_ORG_SID: ${{ secrets.TWILIO_ORG_SID }}
+         TWILIO_USER_SID: ${{ secrets.TWILIO_USER_SID }}
+         TWILIO_CLIENT_SECRET: ${{ secrets.TWILIO_CLIENT_SECRET }}
+         TWILIO_CLIENT_ID: ${{ secrets.TWILIO_CLIENT_ID }}
+         TWILIO_MESSAGE_SID: ${{ secrets.TWILIO_MESSAGE_SID }}
+        run: make cluster-test
+
+      - name: Fix code coverage paths
+        if: ${{ (github.event_name == 'pull_request' || github.ref_type == 'branch') && matrix.ruby == '3.0' && !github.event.pull_request.head.repo.fork }}
+        working-directory: ./coverage
+        run: |
+          sed -i 's@'$GITHUB_WORKSPACE'@/github/workspace/@g' coverage.json
+
+      - name: SonarCloud Scan
+        if: ${{ (github.event_name == 'pull_request' || github.ref_type == 'branch') && matrix.ruby == '3.0' && !github.event.pull_request.head.repo.fork }}
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  deploy:
+    name: Deploy
+    if: success() && github.ref_type == 'tag'
+    needs: [ test ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout twilio-ruby
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.4
+          bundler-cache: true
+
+      - run: bundle install
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_AUTH_TOKEN }}
+
+      # The expression strips off the shortest match from the front of the string to yield just the tag name as the output
+      - name: Get tagged version
+        run: echo "GITHUB_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Create GitHub Release
+        uses: sendgrid/dx-automator/actions/release@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push image
+        run: make docker-build && make docker-push
+      - name: Publish to Rubygems
+        env:
+          GEM_HOST_API_KEY: ${{ secrets.RUBYGEMS_AUTH_TOKEN }}
+        run: |
+          mkdir -p $HOME/.gem
+          touch $HOME/.gem/credentials
+          chmod 0600 $HOME/.gem/credentials
+          printf -- "---\n:rubygems_api_key: ${GEM_HOST_API_KEY}\n" > $HOME/.gem/credentials
+          gem build *.gemspec
+          gem push *.gem
+
+      - name: Submit metric to Datadog
+        uses: sendgrid/dx-automator/actions/datadog-release-metric@main
+        env:
+          DD_API_KEY: ${{ secrets.DATADOG_API_KEY }}
+
+  notify-on-failure:
+    name: Slack notify on failure
+    if: failure() && github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.ref_type == 'tag')
+    needs: [ test, deploy ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_COLOR: failure
+          SLACK_ICON_EMOJI: ':github:'
+          SLACK_MESSAGE: ${{ format('Test *{0}*, Deploy *{1}*, {2}/{3}/actions/runs/{4}', needs.test.result, needs.deploy.result, github.server_url, github.repository, github.run_id) }}
+          SLACK_TITLE: Action Failure - ${{ github.repository }}
+          SLACK_USERNAME: GitHub Actions
+          SLACK_MSG_AUTHOR: twilio-dx
+          SLACK_FOOTER: Posted automatically using GitHub Actions
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          MSG_MINIMAL: true

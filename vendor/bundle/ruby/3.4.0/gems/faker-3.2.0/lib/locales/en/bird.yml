@@ -1,0 +1,1281 @@
+---
+en:
+  faker:
+    creature:
+      bird:
+        order_common_map:
+          Accipitriformes:
+          - Bateleur
+          - Baza
+          - Besra
+          - Buzzard
+          - Eagle
+          - Goshawk
+          - Griffon
+          - Harrier
+          - Hawk
+          - Kite
+          - Osprey
+          - Secretarybird
+          - Shikra
+          - Sparrowhawk
+          - Vulture
+          Anseriformes:
+          - Brant
+          - Bufflehead
+          - Canvasback
+          - Duck
+          - Eider
+          - Gadwall
+          - Garganey
+          - Goldeneye
+          - Goose
+          - Hardhead
+          - Mallard
+          - Merganser
+          - Pintail
+          - Pochard
+          - Redhead
+          - Scaup
+          - Scoter
+          - Screamer
+          - Shelduck
+          - Shoveler
+          - Smew
+          - Swan
+          - Teal
+          - Wigeon
+          Apterygiformes:
+          - Kiwi
+          Bucerotiformes:
+          - Hoopoe
+          - Hornbill
+          - Scimitarbill
+          - Woodhoopoe
+          Caprimulgiformes:
+          - Avocetbill
+          - Awlbill
+          - Barbthroat
+          - Blossomcrown
+          - Brilliant
+          - Carib
+          - Comet
+          - Coquette
+          - Coronet
+          - Daggerbill
+          - Emerald
+          - Fairy
+          - Firecrown
+          - Frogmouth
+          - Goldentail
+          - Goldenthroat
+          - Helmetcrest
+          - Hermit
+          - Hillstar
+          - Hummingbird
+          - Inca
+          - Jacobin
+          - Jewelfront
+          - Lancebill
+          - Mango
+          - Metaltail
+          - Mountaineer
+          - Needletail
+          - Nighthawk
+          - Nightjar
+          - Oilbird
+          - Pauraque
+          - Piedtail
+          - Plovercrest
+          - Plumeleteer
+          - Poorwill
+          - Potoo
+          - Puffleg
+          - Ruby
+          - Sabrewing
+          - Sapphire
+          - Sapphirewing
+          - Sheartail
+          - Sicklebill
+          - Snowcap
+          - Spatuletail
+          - Spinetail
+          - Starfrontlet
+          - Starthroat
+          - Streamertail
+          - Sunangel
+          - Sunbeam
+          - Sungem
+          - Swift
+          - Swiftlet
+          - Sylph
+          - Thornbill
+          - Thorntail
+          - Topaz
+          - Trainbearer
+          - Treeswift
+          - Velvetbreast
+          - Violetear
+          - Visorbearer
+          - Whitetip
+          - Woodnymph
+          - Woodstar
+          Cariamiformes:
+          - Seriema
+          Casuariiformes:
+          - Cassowary
+          - Emu
+          Cathartiformes:
+          - Condor
+          - Vulture
+          Charadriiformes:
+          - Auk
+          - Auklet
+          - Avocet
+          - Buttonquail
+          - Courser
+          - Curlew
+          - Dotterel
+          - Dovekie
+          - Dowitcher
+          - Dunlin
+          - Godwit
+          - Greenshank
+          - Guillemot
+          - Gull
+          - Ibisbill
+          - Jacana
+          - Jaeger
+          - Killdeer
+          - Kittiwake
+          - Knot
+          - Lapwing
+          - Murre
+          - Murrelet
+          - Noddy
+          - Oystercatcher
+          - Phalarope
+          - Plover
+          - Pratincole
+          - Puffin
+          - Razorbill
+          - Redshank
+          - Ruff
+          - Sanderling
+          - Sandpiper
+          - Seedsnipe
+          - Sheathbill
+          - Skimmer
+          - Skua
+          - Snipe
+          - Stilt
+          - Stint
+          - Surfbird
+          - Tattler
+          - Tern
+          - Turnstone
+          - Whimbrel
+          - Willet
+          - Woodcock
+          - Wrybill
+          - Yellowlegs
+          Ciconiiformes:
+          - Adjutant
+          - Jabiru
+          - Openbill
+          - Stork
+          Coliiformes:
+          - Mousebird
+          Columbiformes:
+          - Bronzewing
+          - Dodo
+          - Dove
+          - Pigeon
+          - Solitaire
+          Coraciiformes:
+          - Dollarbird
+          - Kingfisher
+          - Kookaburra
+          - Motmot
+          - Roller
+          - Tody
+          Cuculiformes:
+          - Ani
+          - Coua
+          - Coucal
+          - Cuckoo
+          - Koel
+          - Malkoha
+          - Roadrunner
+          Eurypygiformes:
+          - Kagu
+          - Sunbittern
+          Falconiformes:
+          - Caracara
+          - Falcon
+          - Falconet
+          - Gyrfalcon
+          - Hobby
+          - Kestrel
+          - Merlin
+          Galbuliformes:
+          - Jacamar
+          - Monklet
+          - Nunbird
+          - Nunlet
+          - Puffbird
+          Galliformes:
+          - Argus
+          - Bobwhite
+          - Brushturkey
+          - Capercaillie
+          - Chachalaca
+          - Chukar
+          - Curassow
+          - Fireback
+          - Francolin
+          - Grouse
+          - Guan
+          - Guineafowl
+          - Junglefowl
+          - Maleo
+          - Malleefowl
+          - Monal
+          - Partridge
+          - Peacock
+          - Peafowl
+          - Pheasant
+          - Ptarmigan
+          - Quail
+          - Scrubfowl
+          - Snowcock
+          - Spurfowl
+          - Tragopan
+          - Turkey
+          Gaviiformes:
+          - Loon
+          Gruiformes:
+          - Brolga
+          - Coot
+          - Crake
+          - Crane
+          - Finfoot
+          - Flufftail
+          - Gallinule
+          - Limpkin
+          - Moorhen
+          - Nativehen
+          - Rail
+          - Sora
+          - Sungrebe
+          - Swamphen
+          - Takahe
+          - Trumpeter
+          - Watercock
+          - Waterhen
+          - Weka
+          Mesitornithiformes:
+          - Mesite
+          Musophagiformes:
+          - Turaco
+          Opisthocomiformes:
+          - Hoatzin
+          Otidiformes:
+          - Bustard
+          - Florican
+          Passeriformes:
+          - Accentor
+          - Akalat
+          - Akekee
+          - Akepa
+          - Akialoa
+          - Akiapolaau
+          - Akikiki
+          - Akohekohe
+          - Alauahio
+          - Alethe
+          - Amakihi
+          - Amaui
+          - Anianiau
+          - Antbird
+          - Antpecker
+          - Antpipit
+          - Antpitta
+          - Antshrike
+          - Antthrush
+          - Antvireo
+          - Antwren
+          - Apalis
+          - Apapane
+          - Apostlebird
+          - Asity
+          - Astrapia
+          - Attila
+          - Avadavat
+          - Babax
+          - Babbler
+          - Balicassiao
+          - Bamboowren
+          - Bananaquit
+          - Barbtail
+          - Barwing
+          - Batis
+          - Baywing
+          - Becard
+          - Bellbird
+          - Bentbill
+          - Bernieria
+          - Berryeater
+          - Berryhunter
+          - Berrypecker
+          - Bishop
+          - Blackbird
+          - Blackcap
+          - Blackstart
+          - Blackthroat
+          - Bluebill
+          - Bluebird
+          - Bluetail
+          - Bluethroat
+          - Boatbill
+          - Bobolink
+          - Bokmakierie
+          - Boubou
+          - Bowerbird
+          - Brambling
+          - Bristlebill
+          - Bristlebird
+          - Bristlefront
+          - Bristlehead
+          - Broadbill
+          - Brownbul
+          - Brubru
+          - Brushfinch
+          - Brushrunner
+          - Bulbul
+          - Bullfinch
+          - Bunting
+          - Bushbird
+          - Bushchat
+          - Bushlark
+          - Bushshrike
+          - Bushtit
+          - Butcherbird
+          - Cacholote
+          - Cacique
+          - Calyptura
+          - Camaroptera
+          - Canary
+          - Canastero
+          - Capuchinbird
+          - Cardinal
+          - Casiornis
+          - Catbird
+          - Chaffinch
+          - Chat
+          - Chatterer
+          - Chickadee
+          - Chiffchaff
+          - Chilia
+          - Chlorophonia
+          - Chlorospingus
+          - Chough
+          - Chowchilla
+          - Cicadabird
+          - Cinclodes
+          - Cisticola
+          - Citril
+          - Cochoa
+          - Coleto
+          - Conebill
+          - Cordonbleu
+          - Cotinga
+          - Cowbird
+          - Creeper
+          - Crescentchest
+          - Crimsonwing
+          - Crocias
+          - Crombec
+          - Crossbill
+          - Crow
+          - Cuckooshrike
+          - Cupwing
+          - Currawong
+          - Cutia
+          - Dacnis
+          - Dickcissel
+          - Dipper
+          - Diucon
+          - Donacobius
+          - Doradito
+          - Drongo
+          - Dunnock
+          - Earthcreeper
+          - Elachura
+          - Elaenia
+          - Elepaio
+          - Emutail
+          - Emuwren
+          - Eremomela
+          - Erpornis
+          - Euphonia
+          - Fairywren
+          - Fantail
+          - Fernbird
+          - Fernwren
+          - Fieldfare
+          - Fieldwren
+          - Figbird
+          - Finch
+          - Finchbill
+          - Firecrest
+          - Firefinch
+          - Firetail
+          - Firethroat
+          - Fiscal
+          - Flamecrest
+          - Flatbill
+          - Flowerpecker
+          - Flowerpiercer
+          - Flycatcher
+          - Flyrobin
+          - Fody
+          - Forktail
+          - Friarbird
+          - Fruitcrow
+          - Fruiteater
+          - Fulvetta
+          - Gallito
+          - Geomalia
+          - Gerygone
+          - Gnatcatcher
+          - Gnateater
+          - Gnatwren
+          - Goldcrest
+          - Goldenface
+          - Goldfinch
+          - Gonolek
+          - Grackle
+          - Grandala
+          - Grassbird
+          - Grassquit
+          - Grasswren
+          - Graveteiro
+          - Graytail
+          - Greenbul
+          - Greenfinch
+          - Greenlet
+          - Grenadier
+          - Grosbeak
+          - Groundcreeper
+          - Hawfinch
+          - Heathwren
+          - Helmetshrike
+          - Hemispingus
+          - Honeycreeper
+          - Honeyeater
+          - Hookbill
+          - Hornero
+          - Huia
+          - Hwamei
+          - Hylia
+          - Hyliota
+          - Hylocitrea
+          - Hypocolius
+          - Ibon
+          - Ifrita
+          - Iiwi
+          - Illadopsis
+          - Indigobird
+          - Iora
+          - Jackdaw
+          - Jay
+          - Jery
+          - Junco
+          - Kakawahie
+          - Kamao
+          - Kingbird
+          - Kinglet
+          - Kioea
+          - Kiskadee
+          - Kokako
+          - Lark
+          - Laughingthrush
+          - Leafbird
+          - Leaftosser
+          - Leiothrix
+          - Linnet
+          - Liocichla
+          - Locustfinch
+          - Logrunner
+          - Longbill
+          - Longclaw
+          - Longspur
+          - Longtail
+          - Lophorina
+          - Lyrebird
+          - Madanga
+          - Magpie
+          - Malia
+          - Malimbe
+          - Mamo
+          - Manakin
+          - Mannikin
+          - Manucode
+          - Mao
+          - Marshbird
+          - Martin
+          - Meadowlark
+          - Melampitta
+          - Melidectes
+          - Meliphaga
+          - Mesia
+          - Millerbird
+          - Miner
+          - Minivet
+          - Minla
+          - Mistletoebird
+          - Mockingbird
+          - Monarch
+          - Monjita
+          - Morningbird
+          - Mourner
+          - Munia
+          - Myna
+          - Myza
+          - Myzomela
+          - Myzornis
+          - Negrito
+          - Newtonia
+          - Nicator
+          - Nightingale
+          - Nigrita
+          - Niltava
+          - Nukupuu
+          - Nutcracker
+          - Nuthatch
+          - Odedi
+          - Oliveback
+          - Olomao
+          - Omao
+          - Oo
+          - Orangequit
+          - Oriole
+          - Oropendola
+          - Ou
+          - Ouzel
+          - Ovenbird
+          - Oxpecker
+          - Oxylabes
+          - Palila
+          - Palmchat
+          - Palmcreeper
+          - Paradigalla
+          - Pardalote
+          - Pardusco
+          - Parisoma
+          - Parotia
+          - Parrotbill
+          - Parrotfinch
+          - Parula
+          - Peltops
+          - Peppershrike
+          - Pewee
+          - Phainopepla
+          - Philentoma
+          - Phoebe
+          - Piapiac
+          - Piha
+          - Pilotbird
+          - Pinktail
+          - Piopio
+          - Pipipi
+          - Pipit
+          - Piprites
+          - Pitohui
+          - Pitta
+          - Plantcutter
+          - Ploughbill
+          - Plushcap
+          - Plushcrown
+          - Prickletail
+          - Prinia
+          - Puaiohi
+          - Puffback
+          - Purpletuft
+          - Pyrrhuloxia
+          - Pytilia
+          - Quailfinch
+          - Quelea
+          - Raven
+          - Rayadito
+          - Recurvebill
+          - Redpoll
+          - Redstart
+          - Redthroat
+          - Redwing
+          - Reedhaunter
+          - Reedling
+          - Rhabdornis
+          - Riflebird
+          - Rifleman
+          - Robin
+          - Rockfinch
+          - Rockfowl
+          - Rockjumper
+          - Rockrunner
+          - Rockwarbler
+          - Rook
+          - Rosefinch
+          - Rubythroat
+          - Rushbird
+          - Saddleback
+          - Saltator
+          - Sapayoa
+          - Satinbird
+          - Sawwing
+          - Schiffornis
+          - Scrubtit
+          - Scrubwren
+          - Scythebill
+          - Seedcracker
+          - Seedeater
+          - Serin
+          - Shama
+          - Sharpbill
+          - Sholakili
+          - Shortwing
+          - Shrike
+          - Shrikebill
+          - Shrikejay
+          - Shrikethrush
+          - Sibia
+          - Sicklebill
+          - Silktail
+          - Silverbill
+          - Silverbird
+          - Silvereye
+          - Sirystes
+          - Siskin
+          - Sittella
+          - Skylark
+          - Snowfinch
+          - Softtail
+          - Solitaire
+          - Songlark
+          - Spadebill
+          - Sparrow
+          - Speirops
+          - Spiderhunter
+          - Spindalis
+          - Spinebill
+          - Spinetail
+          - Spinifexbird
+          - Starling
+          - Stipplethroat
+          - Stitchbird
+          - Stonechat
+          - Straightbill
+          - Streamcreeper
+          - Stubtail
+          - Sugarbird
+          - Sunbird
+          - Swallow
+          - Tachuri
+          - Tailorbird
+          - Tanager
+          - Tapaculo
+          - Tchagra
+          - Tesia
+          - Tetraka
+          - Thamnornis
+          - Thicketbird
+          - Thistletail
+          - Thornbill
+          - Thornbird
+          - Thrasher
+          - Thrush
+          - Tit
+          - Titmouse
+          - Tityra
+          - Tomtit
+          - Towhee
+          - Treecreeper
+          - Treehunter
+          - Treepie
+          - Treerunner
+          - Trembler
+          - Triller
+          - Troupial
+          - Tuftedcheek
+          - Tui
+          - Turca
+          - Twinspot
+          - Twistwing
+          - Twite
+          - Tyrannulet
+          - Tyrant
+          - Umbrellabird
+          - Vanga
+          - Veery
+          - Verdin
+          - Vireo
+          - Wagtail
+          - Wallcreeper
+          - Warbler
+          - Waterthrush
+          - Wattlebird
+          - Waxbill
+          - Waxwing
+          - Weaver
+          - Wedgebill
+          - Weebill
+          - Wheatear
+          - Whinchat
+          - Whipbird
+          - Whistler
+          - Whiteface
+          - Whitehead
+          - Whitethroat
+          - Whydah
+          - Widowbird
+          - Wiretail
+          - Woodcreeper
+          - Woodhaunter
+          - Woodshrike
+          - Woodswallow
+          - Wren
+          - Wrenthrush
+          - Wrentit
+          - Xenops
+          - Xenopsaris
+          - Yellowhammer
+          - Yellowhead
+          - Yellowthroat
+          - Yuhina
+          Pelecaniformes:
+          - Bittern
+          - Egret
+          - Hamerkop
+          - Heron
+          - Ibis
+          - Pelican
+          - Shoebill
+          - Spoonbill
+          Phaethontiformes:
+          - Tropicbird
+          Phoenicopteriformes:
+          - Flamingo
+          Piciformes:
+          - Aracari
+          - Barbet
+          - Flameback
+          - Flicker
+          - Honeyguide
+          - Piculet
+          - Sapsucker
+          - Tinkerbird
+          - Toucan
+          - Toucanet
+          - Woodpecker
+          - Wryneck
+          - Yellownape
+          Podicipediformes:
+          - Grebe
+          Procellariiformes:
+          - Albatross
+          - Fulmar
+          - Petrel
+          - Prion
+          - Shearwater
+          Psittaciformes:
+          - Bluebonnet
+          - Budgerigar
+          - Cockatiel
+          - Cockatoo
+          - Corella
+          - Galah
+          - Guaiabero
+          - Kaka
+          - Kakapo
+          - Kea
+          - Lorikeet
+          - Lory
+          - Lovebird
+          - Macaw
+          - Parakeet
+          - Parrot
+          - Parrotlet
+          - Ringneck
+          - Rosella
+          Pterocliformes:
+          - Sandgrouse
+          Rheiformes:
+          - Rhea
+          Sphenisciformes:
+          - Penguin
+          Strigiformes:
+          - Boobook
+          - Morepork
+          - Owl
+          - Owlet
+          Struthioniformes:
+          - Ostrich
+          Suliformes:
+          - Anhinga
+          - Booby
+          - Cormorant
+          - Darter
+          - Frigatebird
+          - Gannet
+          - Shag
+          Tinamiformes:
+          - Nothura
+          - Tinamou
+          Trogoniformes:
+          - Quetzal
+          - Trogon
+        anatomy:
+        - back
+        - beak
+        - belly
+        - bill
+        - breast
+        - cap
+        - chin
+        - collar
+        - crest
+        - crown
+        - eye
+        - face
+        - head
+        - neck
+        - rump
+        - shoulder
+        - tail
+        - throat
+        - wing
+        anatomy_past_tense:
+        - backed
+        - beaked
+        - bearded
+        - bellied
+        - breasted
+        - capped
+        - chinned
+        - collared
+        - crested
+        - crowned
+        - eared
+        - eyed
+        - faced
+        - fronted
+        - headed
+        - hooded
+        - naped
+        - necked
+        - rumped
+        - shouldered
+        - tailed
+        - throated
+        - winged
+        geo:
+        - African
+        - American
+        - Arabian
+        - Arctic
+        - Asian
+        - Atlantic
+        - Australian
+        - Baltimore
+        - Brazilian
+        - California
+        - Canada
+        - Carolina
+        - Chihuahua
+        - Chinese
+        - Congo
+        - Colombian
+        - eastern
+        - Egyptian
+        - Eurasian
+        - Inca
+        - Iranian
+        - Japanese
+        - Kentucky
+        - Madagascar
+        - Mexican
+        - Mississippi
+        - Mongolian
+        - mountain
+        - New Zeland
+        - northern
+        - Pacific
+        - Papuan
+        - prarie
+        - sandhill
+        - Savannah
+        - southern
+        - Spanish
+        - swamp
+        - tropical
+        - western
+        colors:
+        - ash
+        - black
+        - blue
+        - bronze
+        - brown
+        - cerulean
+        - chestnut
+        - dusky
+        - ferruginous
+        - fulvous
+        - gold
+        - gray
+        - green
+        - indigo
+        - lazuli
+        - purple
+        - red
+        - roze
+        - roseate
+        - ruby
+        - ruddy
+        - rufous
+        - smoky
+        - snooty
+        - snowy
+        - tawny
+        - violet
+        - white
+        - yellow
+        emotional_adjectives:
+        - angry
+        - aggrieved
+        - agitated
+        - anxious
+        - cantankerous
+        - demented
+        - depressed
+        - flirty
+        - furious
+        - gloomy
+        - gregarious
+        - irritated
+        - lonely
+        - manic
+        - moody
+        - morbid
+        - murderous
+        - needy
+        - nervous
+        - ornery
+        - panicked
+        - quizzical
+        - sad
+        - sleepy
+        - terrified
+        silly_adjectives:
+        - anarchist
+        - bloated
+        - communist
+        - conservative
+        - dangerous
+        - drunk
+        - dumb
+        - enchanted
+        - flatulent
+        - idiotic
+        - impotent
+        - incompotent
+        - insufferable
+        - liberal
+        - Masonic
+        - noxious
+        - obnoxious
+        - pansexual
+        - racist
+        - sexist
+        - silly
+        - vegan
+        adjectives:
+        - banded
+        - common
+        - dwarf
+        - giant
+        - great
+        - greater
+        - lesser
+        - lined
+        - painted
+        - rough
+        - smooth
+        - spotted
+        plausible_common_names:
+        - "#{Name.last_name}'s #{common_name}"
+        - "#{adjective} #{anatomy} #{common_name}"
+        - "#{adjective}-#{anatomy_past_tense} #{common_name}"
+        - "#{color}-#{anatomy_past_tense} #{common_name}"
+        - "#{adjective} #{common_name}"
+        - "#{geo} #{common_name}"
+        - "#{geo} #{color} #{common_name}"
+        implausible_common_names:
+        - "#{Name.last_name}'s #{emotional_adjective} #{common_name}"
+        - "#{Name.last_name}'s #{silly_adjective} #{common_name}"
+        - "#{adjective} #{silly_adjective} #{common_name}"
+        - "#{adjective} #{emotional_adjective} #{common_name}"
+        - "#{geo} #{silly_adjective} #{common_name}"
+        - "#{geo} #{emotional_adjective} #{common_name}"
+        - "#{color}-#{anatomy_past_tense} #{silly_adjective} #{common_name}"
+        - "#{color}-#{anatomy_past_tense} #{emotional_adjective} #{common_name}"
+        common_family_name:
+        - Accentors
+        - African Barbets
+        - African Warblers
+        - African and Green Broadbills
+        - Albatrosses
+        - Anhingas
+        - Antpittas
+        - Antthrushes
+        - Asian Barbets
+        - Asian and Grauer's Broadbills
+        - Asities
+        - Auks, Murres, and Puffins
+        - Australasian Robins
+        - Australasian Treecreepers
+        - Australo-Papuan Bellbirds
+        - Barn-Owls
+        - Bearded Reedling
+        - Bee-eaters
+        - Berrypeckers and Longbills
+        - Birds-of-Paradise
+        - Boatbills
+        - Boobies and Gannets
+        - Bowerbirds
+        - Bristlebirds
+        - Bristlehead
+        - Bulbuls
+        - Bush Warblers and Allies
+        - Bushshrikes and Allies
+        - Bustards
+        - Buttonquail
+        - Cardinals and Allies
+        - Cassowaries and Emu
+        - Chat-Tanagers
+        - Cisticolas and Allies
+        - Cockatoos
+        - Cormorants and Shags
+        - Cotingas
+        - Crab-Plover
+        - Cranes
+        - Crescentchests
+        - Crested Shrikejay
+        - Crows, Jays, and Magpies
+        - Cuban Warblers
+        - Cuckoo-roller
+        - Cuckoos
+        - Cuckooshrikes
+        - Cupwings
+        - Dapple-throat and Allies
+        - Dippers
+        - Donacobius
+        - Drongos
+        - Ducks, Geese, and Waterfowl
+        - Egyptian Plover
+        - Fairy Flycatchers
+        - Fairy-bluebirds
+        - Fairywrens
+        - Falcons and Caracaras
+        - Fantails
+        - Finches, Euphonias, and Allies
+        - Finfoots
+        - Flamingos
+        - Flowerpeckers
+        - Flufftails
+        - Frigatebirds
+        - Frogmouths
+        - Gnatcatchers
+        - Gnateaters
+        - Grassbirds and Allies
+        - Grebes
+        - Ground Babblers and Allies
+        - Ground-Hornbills
+        - Ground-Rollers
+        - Guans, Chachalacas, and Curassows
+        - Guineafowl
+        - Gulls, Terns, and Skimmers
+        - Hamerkop
+        - Hawaiian Honeyeaters
+        - Hawks, Eagles, and Kites
+        - Herons, Egrets, and Bitterns
+        - Hispaniolan Tanagers
+        - Hoatzin
+        - Honeyeaters
+        - Honeyguides
+        - Hoopoes
+        - Hornbills
+        - Hummingbirds
+        - Hyliotas
+        - Hylocitrea
+        - Hypocolius
+        - Ibisbill
+        - Ibises and Spoonbills
+        - Ifrita
+        - Indigobirds
+        - Ioras
+        - Jacamars
+        - Jacanas
+        - Kagu
+        - Kingfishers
+        - Kinglets
+        - Kiwis
+        - Larks
+        - Laughingthrushes and Allies
+        - Leaf Warblers
+        - Leafbirds
+        - Limpkin
+        - Logrunners
+        - Long-tailed Tits
+        - Longspurs and Snow Buntings
+        - Loons
+        - Lyrebirds
+        - Magellanic Plover
+        - Magpie Goose
+        - Malagasy Warblers
+        - Manakins
+        - Megapodes
+        - Melampittas
+        - Mesites
+        - Mitrospingid Tanagers
+        - Mockingbirds and Thrashers
+        - Monarch Flycatchers
+        - Motmots
+        - Mottled Berryhunter
+        - Mousebirds
+        - New World Barbets
+        - New World Quail
+        - New World Sparrows
+        - New World Vultures
+        - New World Warblers
+        - New World and African Parrots
+        - New Zealand Parrots
+        - New Zealand Wrens
+        - Nicators
+        - Nightjars and Allies
+        - Northern Storm-Petrels
+        - Nuthatches
+        - Oilbird
+        - Old World Buntings
+        - Old World Flycatchers
+        - Old World Orioles
+        - Old World Parrots
+        - Old World Sparrows
+        - Olive Warbler
+        - Osprey
+        - Ostriches
+        - Ovenbirds and Woodcreepers
+        - Owlet-nightjars
+        - Owls
+        - Oxpeckers
+        - Oystercatchers
+        - Painted-Snipes
+        - Palmchat
+        - Pardalotes
+        - Pelicans
+        - Penduline-Tits
+        - Penguins
+        - Pheasants, Grouse, and Allies
+        - Pigeons and Doves
+        - Pittas
+        - Plains-wanderer
+        - Ploughbill
+        - Plovers and Lapwings
+        - Potoos
+        - Pratincoles and Coursers
+        - Przevalski's Pinktail
+        - Pseudo-Babblers
+        - Puerto Rican Tanager
+        - Puffbirds
+        - Quail-thrushes and Jewel-babblers
+        - Rail-babbler
+        - Rails, Gallinules, and Coots
+        - Reed Warblers and Allies
+        - Rheas
+        - Rockfowl
+        - Rockjumpers
+        - Rollers
+        - Sandgrouse
+        - Sandpipers and Allies
+        - Sapayoa
+        - Satinbirds
+        - Screamers
+        - Scrub-birds
+        - Secretarybird
+        - Seedsnipes
+        - Seriemas
+        - Sharpbill, Royal Flycatcher, and Allies
+        - Shearwaters and Petrels
+        - Sheathbills
+        - Shoebill
+        - Shrike-tit
+        - Shrikes
+        - Silky-flycatchers
+        - Sittellas
+        - Skuas and Jaegers
+        - Southern Storm-Petrels
+        - Spindalises
+        - Spotted Elachura
+        - Starlings
+        - Stilts and Avocets
+        - Stitchbird
+        - Storks
+        - Sugarbirds
+        - Sunbirds and Spiderhunters
+        - Sunbittern
+        - Swallows
+        - Swifts
+        - Sylviid Warblers, Parrotbills, and Allies
+        - Tanagers and Allies
+        - Tapaculos
+        - Thick-knees
+        - Thornbills and Allies
+        - Thrush-Tanager
+        - Thrushes and Allies
+        - Tinamous
+        - Tit Berrypecker and Crested Berrypecker
+        - Tits, Chickadees, and Titmice
+        - Tityras and Allies
+        - Todies
+        - Toucan-Barbets
+        - Toucans
+        - Tree-Babblers, Scimitar-Babblers, and Allies
+        - Treecreepers
+        - Treeswifts
+        - Trogons
+        - Tropicbirds
+        - Troupials and Allies
+        - Trumpeters
+        - Turacos
+        - Typical Antbirds
+        - Tyrant Flycatchers
+        - Vangas, Helmetshrikes, and Allies
+        - Vireos, Shrike-Babblers, and Erpornis
+        - Wagtails and Pipits
+        - Wallcreeper
+        - Wattle-eyes and Batises
+        - Wattlebirds
+        - Waxbills and Allies
+        - Waxwings
+        - Weavers and Allies
+        - Whipbirds and Wedgebills
+        - Whistlers and Allies
+        - White-eyes, Yuhinas, and Allies
+        - White-winged Chough and Apostlebird
+        - Whiteheads
+        - Woodhoopoes and Scimitarbills
+        - Woodpeckers
+        - Woodswallows, Bellmagpies, and Allies
+        - Wrens
+        - Wrenthrush
+        - Yellow-breasted Chat

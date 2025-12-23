@@ -1,0 +1,46 @@
+version: 2.1 # Use 2.1 to enable using orbs and other features.
+
+# Declare the orbs that we'll use in our config.
+orbs:
+  ruby: circleci/ruby@1.0
+
+jobs:
+  rubocop:
+    parallelism: 1
+    docker:
+      - image: cimg/ruby:3.2-node
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          name: Run Rubocop
+          command: bundle exec rubocop
+  test:
+    parameters:
+      ruby-image:
+        type: string
+    parallelism: 1
+    docker:
+      - image: << parameters.ruby-image >>
+    steps:
+      - checkout
+      - ruby/install-deps
+      - run:
+          name: Run tests
+          command: bundle exec rspec -fd
+
+workflows:
+  version: 2
+  checks:
+    jobs:
+      - rubocop
+      - test:
+          matrix:
+            parameters:
+              ruby-image:
+                - cimg/ruby:2.6-node
+                - cimg/ruby:2.7-node
+                - cimg/ruby:3.0-node
+                - cimg/ruby:3.1-node
+                - cimg/ruby:3.2-node
+                - cimg/ruby:3.3-node

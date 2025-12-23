@@ -1,0 +1,26 @@
+module FFI
+  type ffi_type = Type | Symbol
+  type ffi_auto_type = ffi_type | DataConverter[untyped, untyped, untyped]
+  type type_map = Hash[Symbol | DataConverter[untyped, untyped, untyped], Type]
+
+  class CallbackInfo = FunctionType
+  class FunctionInfo = FunctionType
+  class NativeLibrary = DynamicLibrary
+
+  VERSION: String
+  TypeDefs: type_map
+
+  type current_process = Object
+  CURRENT_PROCESS: current_process
+  USE_THIS_PROCESS_AS_LIBRARY: current_process
+
+  private def self.custom_typedefs: () -> type_map
+  def self.errno: () -> Integer
+  def self.errno=: (Integer) -> nil
+  def self.find_type: (ffi_auto_type name, ?type_map? type_map) -> Type
+  def self.make_shareable: [T] (T obj) -> T
+  def self.map_library_name: (_ToS lib) -> String
+  def self.type_size: (ffi_auto_type type) -> Integer
+  def self.typedef: (ffi_auto_type old, Symbol add) -> Type
+  alias self.add_typedef self.typedef
+end

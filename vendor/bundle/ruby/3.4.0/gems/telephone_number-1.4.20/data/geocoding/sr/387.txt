@@ -1,0 +1,37 @@
+# Copyright (C) 2017 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Data taken from ITU doc: https://www.itu.int/oth/T020200001B/en
+# Translated names are taken from Wikipedia page of respective cities (when
+# available).
+
+38730|Средњoбосански кантон
+38731|Посавски кантон
+38732|Зеничко-добојски кантон
+38733|Сарајевски кантон
+38734|Кантон 10
+38735|Тузлански кантон
+38737|Унско-сански кантон
+38738|Босанско-подрињски кантон Горажде
+3874|Брчко Дистрикт
+38750|Мркоњић Град
+38751|Бања Лука
+38752|Приједор
+38753|Добој
+38754|Шамац
+38755|Бијељина
+38756|Зворник
+38757|Источно Сарајево
+38758|Фоча
+38759|Требиње

@@ -1,0 +1,27 @@
+require:
+  - rubocop-rake
+  - rubocop-rspec
+AllCops:
+  Exclude:
+    - "gemfiles/**/*"
+  TargetRubyVersion: 2.5
+  NewCops: enable
+Bundler/OrderedGems:
+  Include:
+    - "Appraisals"
+Metrics/BlockLength:
+  Enabled: false
+Layout/LineLength:
+  Enabled: false
+Metrics/MethodLength:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+RSpec/ContextWording:
+  Enabled: false

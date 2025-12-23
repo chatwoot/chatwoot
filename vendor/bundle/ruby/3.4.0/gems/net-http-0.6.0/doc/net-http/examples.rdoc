@@ -1,0 +1,31 @@
+Examples here assume that <tt>net/http</tt> has been required
+(which also requires +uri+):
+
+  require 'net/http'
+
+Many code examples here use these example websites:
+
+- https://jsonplaceholder.typicode.com.
+- http://example.com.
+
+Some examples also assume these variables:
+
+  uri = URI('https://jsonplaceholder.typicode.com/')
+  uri.freeze # Examples may not modify.
+  hostname = uri.hostname # => "jsonplaceholder.typicode.com"
+  path = uri.path         # => "/"
+  port = uri.port         # => 443
+
+So that example requests may be written as:
+
+  Net::HTTP.get(uri)
+  Net::HTTP.get(hostname, '/index.html')
+  Net::HTTP.start(hostname) do |http|
+    http.get('/todos/1')
+    http.get('/todos/2')
+  end
+
+An example that needs a modified URI first duplicates +uri+, then modifies the duplicate:
+
+  _uri = uri.dup
+  _uri.path = '/todos/1'

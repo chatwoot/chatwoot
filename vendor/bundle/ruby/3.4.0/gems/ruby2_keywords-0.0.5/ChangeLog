@@ -1,0 +1,214 @@
+-*- coding: utf-8 -*-
+
+commit 92ad9c5c3fff591b8383ada8b93c3da1279d24ad
+  Author:     Benoit Daloze <eregontp@gmail.com>
+  AuthorDate: 2021-01-19 16:15:55 +0100
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-13 09:02:24 +0900
+
+    Add TruffleRuby in CI
+
+commit 07d7fa17e4c61102597280bd31a6b5972d8e5588
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-11 17:23:30 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-11 21:51:58 +0900
+
+    bundle-install only on ruby 2.1
+
+commit 5f993b84a469cdc1995077dc0d8391928bb7ac1a
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-11 12:18:26 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-11 21:39:44 +0900
+
+    Split Rakefile into rakelib
+
+commit 8e4d9a8de92e9f1f3690fbc224aac1e0d102c36e
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-11 21:38:24 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-11 21:38:24 +0900
+
+    Ignore lock file and generated logs
+
+commit 03b864c09e657c130a66c7ab68d962a31df3b819
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-10 21:37:20 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 21:44:29 +0900
+
+    Do not use gemspec for gem dependecy
+
+commit 636c350c0a10ec75a9b01dd4db983abe6310136f
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-10 12:26:30 +0900
+  Commit:     GitHub <noreply@github.com>
+  CommitDate: 2021-02-10 12:26:30 +0900
+
+    Reduced tests
+
+    Target only the currently maintained versions and the oldest available version, omitting the in-betweens.
+
+commit 97b4de75c83c927eca773e689ecb49557a972024
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 11:58:41 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 11:54:45 +0900
+
+    Add docker-compose.yml for easy testing of older rubies
+
+commit 6974495d294cd59b8c0dba78a26b391f25154050
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 11:39:26 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 11:54:45 +0900
+
+    Explicitly declare support for Ruby >= 2.0.0
+
+    This can be used to clarify support, as well as in the future to drop
+    support for rubies, if so desired.
+
+commit 64aad913e16d7e6008aa6ca06cf3f1b6fa864c4a
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-10 00:42:59 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:42:59 +0900
+
+    Separated install from test
+
+commit 74cb318db44a3851f724ac72624f1509bbf1bdd4
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 12:09:11 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:39:31 +0900
+
+    Add older Rubies to CI as well
+
+commit 098295f4e9510a751097a6fc0e76c278ae9a1ff0
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 11:20:19 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:25:20 +0900
+
+    Avoid built-in old `test-unit`
+
+    In Ruby <= 2.1, `test-unit` was shipped with Ruby itself (unbundling
+    was done for 2.2 -- see <https://bugs.ruby-lang.org/issues/9711>).
+
+    The `test-unit` version shipped with 2.1 breaks some of the tests.
+    To fix this, I've added the minimum needed version explicitly to the
+    `gemspec`, as well as added a `gems.rb` for allowing the use of
+    `bundler` to run the tests and ensure the correct `test-unit` is used.
+
+commit 1773502b1c445ae0ca1c31960a1b64b2f040f8c1
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 10:43:18 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:22:22 +0900
+
+    Avoid using `Binding#receiver`
+
+    This feature is only available on Ruby 2.2+ and breaks older rubies.
+
+    See <https://docs.ruby-lang.org/en/2.2.0/NEWS.html> for more details.
+
+commit 0784ef08e280a5eb3c08fd9198b381af0ec027f6
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-09 23:46:24 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:22:22 +0900
+
+    Strip the source directory from globbed paths
+
+commit 7f5f4f8cd9c605741bec1cdabece0dd7e53afd9a
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 10:15:27 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:22:22 +0900
+
+    Avoid using `base:` option for `Dir.glob`
+
+    This option is only available on Ruby 2.5+ and breaks older rubies.
+
+    See <https://rubyreferences.github.io/rubychanges/2.5.html#dirglob-base-argument>
+    for more details.
+
+commit f40159f5a66fff7bed873d68e06439ec960bc3f9
+  Author:     Ivo Anjo <ivo.anjo@datadoghq.com>
+  AuthorDate: 2021-02-04 10:35:42 +0000
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:22:21 +0900
+
+    Avoid using numbered block parameters
+
+    This feature is only available on Ruby 2.7+ and breaks older rubies.
+
+    See <https://rubyreferences.github.io/rubychanges/2.7.html#numbered-block-parameters>
+    for more details.
+
+commit c898163464e896d63698f19a49bc0ab8cc593081
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-09 23:50:56 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-10 00:21:21 +0900
+
+    Revert "Add TruffleRuby in CI"
+
+    This reverts commit 294d9e79171b1b954f223f08acc6144f0fc6efd4.
+
+commit 88867dc48b9f0ec139cd349af40ae9dbea677b93
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-02-09 23:37:17 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-09 23:37:17 +0900
+
+    Moved the mandatory argument first
+
+commit 294d9e79171b1b954f223f08acc6144f0fc6efd4
+  Author:     Benoit Daloze <eregontp@gmail.com>
+  AuthorDate: 2021-01-19 16:15:55 +0100
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-02-09 23:09:57 +0900
+
+    Add TruffleRuby in CI
+
+commit 2f7e9000b4a64240616b1cbfbcff5e9174fdf6b1
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-20 13:19:12 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-24 20:01:28 +0900
+
+    Include ChangeLogs for old versions
+
+commit 4c54e01675202ad0a69bbd39a790290b9870e125
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-20 10:52:47 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-24 19:58:45 +0900
+
+    Added ChangeLog rule
+
+commit 9e5b2a4ba56d61a2b59f9db52c98155c0c449152
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-20 10:24:47 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-20 10:54:31 +0900
+
+    Added extra_rdoc_files to make README.md the main page
+
+commit 75927b417a79377770cddfe219b34aa87280a5e7
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-20 10:21:52 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-20 10:54:25 +0900
+
+    Separate tagging from version bump
+
+commit c353a3fffc323982d829275c82ae09fdbad94816
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-20 10:20:25 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-20 10:20:45 +0900
+
+    bump up to 0.0.5

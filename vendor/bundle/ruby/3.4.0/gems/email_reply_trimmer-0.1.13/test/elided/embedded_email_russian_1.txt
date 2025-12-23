@@ -1,0 +1,25 @@
+понедельник, 6 октября 2014 г. пользователь lidel написал:
+
+>     lidel <https://meta.discourse.org/users/lidel>
+> October 6
+>  winterbox:
+>
+> Do you have any plan to make this plugin?
+>
+>  discourse-locale-override
+> <https://github.com/lidel/discourse-locale-override> is just a hack, and
+> as @sam <https://meta.discourse.org/users/sam> pointed out, it only works
+> if you update your instance via commandline. I created it to speed up my
+> work on pl_PL translation only.
+>
+> I see there is a need for a proper plugin (this and other threads), but
+> until such plugin appears this is a semi-working workaround.
+>   ------------------------------
+>
+> To respond, reply to this email or visit
+> https://meta.discourse.org/t/use-custom-translation-file/13786/41 in your
+> browser.
+>
+> To unsubscribe from these emails, visit your user preferences
+> <https://meta.discourse.org/my/preferences>.
+>

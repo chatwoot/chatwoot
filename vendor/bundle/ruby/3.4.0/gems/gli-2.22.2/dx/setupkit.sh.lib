@@ -1,0 +1,144 @@
+# shellcheck shell=bash
+
+fatal() {
+  remainder=${*:2}
+  if [ -z "$remainder" ]; then
+    log "🛑" "${@}"
+  else
+    log "${@}"
+  fi
+  exit 1
+}
+
+log() {
+  emoji=$1
+  remainder=${*:2}
+  if [ -z "${NO_EMOJI}" ]; then
+    echo "[ ${0} ] ${*}"
+  else
+    # if remainder is empty that means no emoji was passed
+    if [ -z "$remainder" ]; then
+      echo "[ ${0} ] ${*}"
+    else # emoji was passed, but we ignore it
+      echo "[ ${0} ] ${remainder}"
+    fi
+  fi
+}
+
+debug() {
+  message=$1
+  if [ -z "${DOCKBOX_DEBUG}" ]; then
+    return
+  fi
+  log "🐛" "${message}"
+}
+
+usage() {
+  description=$1
+  arg_names=$2
+  pre_hook=$3
+  post_hook=$4
+  echo "usage: ${0} [-h] ${arg_names}"
+  if [ -n "${description}" ]; then
+    echo
+    echo "DESCRIPTION"
+    echo "    ${description}"
+  fi
+  if [ -n "${pre_hook}" ] || [ -n "${post_hook}" ]; then
+    echo
+    echo "HOOKS"
+    if [ -n "${pre_hook}" ]; then
+      echo "    ${pre_hook} - if present, called before the main action"
+    fi
+    if [ -n "${post_hook}" ]; then
+      echo "    ${post_hook} - if present, called after the main action"
+    fi
+  fi
+  exit 0
+}
+
+usage_on_help() {
+  description=$1
+  arg_names=$2
+  pre_hook=$3
+  post_hook=$4
+  # These are the args passed to the invocation so this
+  # function can determine if the user requested help
+  cli_args=( "${@:5}" ) 
+
+  for arg in "${cli_args[@]}"; do
+    if [ "${arg}" = "-h" ] || [ "${arg}" = "--help" ]; then
+      usage "${description}" "${arg_names}" "${pre_hook}" "${post_hook}"
+    fi
+  done
+}
+
+# Read user input into the variable 'INPUT'
+#
+# Args:
+#
+# [1] - an emoji to use for messages
+# [2] - the message explaining what input is being requested
+# [3] - a default value to use if no value is provided
+#
+# Respects NO_EMOJI when outputing messages to the user
+user_input() {
+  emoji=$1
+  message=$2
+  default=$3
+  prompt=$4
+
+  if [ -z "$message" ]; then
+    echo "user_input requires a message"
+    exit 1
+  fi
+
+  INPUT=
+
+  if [ -z "${prompt}" ]; then
+    prompt=$(log "${emoji}" "Value: ")
+    if [ -n "${default}" ]; then
+      prompt=$(log "${emoji}" "Value (or hit return to use '${default}'): ")
+    fi
+  fi
+
+  while [ -z "${INPUT}" ]; do
+
+    log "$emoji" "$message"
+    read -r -p "${prompt}" INPUT
+    if [ -z "$INPUT" ]; then
+      INPUT=$default
+    fi
+    if [ -z "$INPUT" ]; then
+      log "😶", "You must provide a value"
+    fi
+  done
+}
+
+user_confirm() {
+  user_input "$1" "$2" "$3" "y/n> "
+}
+
+require_not_exist() {
+  file=$1
+  message=$2
+  if [ -e "${file}" ]; then
+    fatal "$message"
+  fi
+}
+require_exist() {
+  file=$1
+  message=$2
+  if [ ! -e "${file}" ]; then
+    fatal "$message"
+  fi
+}
+
+require_command() {
+  command_name=$1
+  if ! command -v "${command_name}" >/dev/null 2>&1; then
+    fatal "Command '${command_name}' not found - it is required for this script to run"
+  fi
+}
+
+# vim: ft=bash

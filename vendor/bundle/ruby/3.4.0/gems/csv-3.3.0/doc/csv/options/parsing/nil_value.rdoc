@@ -1,0 +1,12 @@
+====== Option +nil_value+
+
+Specifies the object that is to be substituted for each null (no-text) field.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:nil_value) # => nil
+
+With the default, +nil+:
+  CSV.parse_line('a,,b,,c') # => ["a", nil, "b", nil, "c"]
+
+With a different object:
+  CSV.parse_line('a,,b,,c', nil_value: 0) # => ["a", 0, "b", 0, "c"]

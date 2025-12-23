@@ -1,0 +1,5 @@
+[Unit]
+Wants=<%= service_names.join(' ') %>
+
+[Install]
+WantedBy=multi-user.target

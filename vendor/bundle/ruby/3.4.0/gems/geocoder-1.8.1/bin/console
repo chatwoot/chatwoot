@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'geocoder'
+
+if File.exist?("api_keys.yml")
+  require 'yaml'
+  @api_keys = YAML.load(File.read("api_keys.yml"), symbolize_names: true)
+  Geocoder.configure(@api_keys)
+end
+
+require 'irb'
+IRB.start

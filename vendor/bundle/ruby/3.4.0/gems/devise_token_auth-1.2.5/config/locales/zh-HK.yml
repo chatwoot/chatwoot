@@ -1,0 +1,50 @@
+# Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+
+zh-TW:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "您將在幾分鐘後收到一封電子郵件'%{email}'，內有驗證帳號的步驟說明。"
+      bad_credentials: "不正確的登入資料。請重試。"
+      not_supported: "請使用 POST /sign_in 進行登入. GET 是不支援的."
+      user_not_found: "未能找到帳號或未能成功登入。"
+    token_validations:
+      invalid: "不正確的登入資料。"
+    registrations:
+      missing_confirm_success_url: "欠缺數值 'confirm_success_url'"
+      redirect_url_not_allowed: "不支援轉向到'%{redirect_url}'"
+      email_already_exists: "電郵'%{email}'已被使用"
+      account_with_uid_destroyed: "帳號 '%{uid}' 已被移除。"
+      account_to_destroy_not_found: "無法找到目標帳號。"
+      user_not_found: "找不到帳號。"
+    omniauth:
+      not_allowed_redirect_url: "不支援轉向到 '%{redirect_url}'"
+    passwords:
+      missing_email: "必需提供電郵。"
+      missing_redirect_url: "欠缺 redirect URL."
+      not_allowed_redirect_url: "不支援轉向到 '%{redirect_url}'"
+      sended: "您將在幾分鐘後收到一封電子郵件'%{email}，內含可重新設定密碼連結的電子郵件。"
+      user_not_found: "找不到帳號 '%{email}'。"
+      password_not_required: "這不是一個需要密碼的帳號. 請使用 '%{provider}' 進行登入"
+      missing_passwords: "必需填寫'密碼'與'確認密碼'。"
+      successfully_updated: "您的密碼已被修改。"
+  errors:
+    messages:
+      validate_sign_up_params: "請在request body中填入有效的註冊內容"
+      validate_account_update_params: "請在request body中填入有效的更新帳號資料"
+      not_email: "這不是一個合適的電郵。"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "可以使用下面連結確定你的電郵"
+        confirm_account_link: "確定你的帳號"
+      reset_password_instructions:
+        request_reset_link_msg: "已申請修改您的密碼，你可以用下面連結進入"
+        password_change_link: "修改我的密碼"
+        ignore_mail_msg: "如你沒有申請，請忽略"
+        no_changes_msg: "在你點擊上面連結前，你的密碼都沒有改變"
+      unlock_instructions:
+        account_lock_msg: "由於多失敗登入，我們已鎖定你的帳號"
+        unlock_link_msg: "可以使用下面連結解鎖你的帳號"
+        unlock_link: "解鎖帳號"
+  hello: "你好"
+  welcome: "歡迎"

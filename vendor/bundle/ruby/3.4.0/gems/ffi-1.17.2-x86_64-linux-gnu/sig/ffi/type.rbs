@@ -1,0 +1,39 @@
+module FFI
+  class Type
+    class Array = ArrayType
+    class Function = FunctionType
+    class Struct = StructByValue
+
+    include AbstractMemory::_Size
+    def initialize: (Integer | Type value) -> self
+    def alignment: () -> Integer
+    def inspect: ...
+
+    class Builtin < Type
+      def inspect: ...
+    end
+
+    class Mapped[X < _DataConverter[N, R, C], N, R, C]
+      include _DataConverter[N, R, C]
+
+      def initialize: (X converter) -> self
+      def converter: () -> X
+    end
+  end
+
+  class ArrayType
+    def initialize: (Type component_type, Integer length) -> self
+    def element_type: -> Type
+    def length: -> Integer
+  end
+
+  class FunctionType < Type
+    def initialize:
+      (
+        ffi_type return_type, Array[ffi_type] param_types,
+        ?blocking: boolish, ?convention: Library::convention, ?enums: Enums
+      ) -> self
+    def param_types: () -> Array[Type]
+    def return_type: () -> Type
+  end
+end

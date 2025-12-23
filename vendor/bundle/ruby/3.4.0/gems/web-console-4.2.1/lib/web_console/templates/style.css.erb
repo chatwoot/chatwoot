@@ -1,0 +1,182 @@
+.console .pos-absolute {
+  position: absolute;
+}
+
+.console .pos-fixed {
+  position: fixed;
+}
+
+.console .pos-right {
+  right: 0;
+}
+
+.console .border-box {
+  box-sizing: border-box;
+}
+
+.console .layer {
+  width: 100%;
+  height: 100%;
+}
+
+.console .layer.console-outer {
+  z-index: 1;
+}
+
+.console .layer.resizer {
+  z-index: 2;
+}
+
+.console {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 148px;
+  padding: 0;
+  margin: 0;
+  background: none repeat scroll 0% 0% #333;
+  z-index: 9999;
+}
+
+.console .console-outer {
+  overflow: auto;
+  padding-top: 4px;
+}
+
+.console .console-inner {
+  font-family: monospace;
+  font-size: 11px;
+  width: 100%;
+  height: 100%;
+  overflow: unset;
+  background: #333;
+}
+
+.console .console-prompt-box {
+  color: #fff;
+}
+
+.console .console-message {
+  color: #1ad027;
+  margin: 0;
+  border: 0;
+  white-space: pre-wrap;
+  background-color: #333;
+  padding: 0;
+}
+
+.console .console-message.error-message {
+  color: #fc9;
+}
+
+.console .console-message.notification-message {
+  color: #99f;
+}
+
+.console .console-message.auto-complete {
+  word-break: break-all;
+}
+
+.console .console-message.auto-complete .keyword {
+  margin-right: 11px;
+}
+
+.console .console-message.auto-complete .keyword.selected {
+  background: #fff;
+  color: #000;
+}
+
+.console .console-message.auto-complete .hidden {
+  display: none;
+}
+
+.console .console-message.auto-complete .trimmed {
+  display: none;
+}
+
+.console .console-hint {
+  color: #096;
+}
+
+.console .console-focus .console-cursor {
+  background: #fefefe;
+  color: #333;
+  font-weight: bold;
+}
+
+.console .resizer {
+  background: #333;
+  width: 100%;
+  height: 4px;
+  cursor: ns-resize;
+}
+
+.console .console-actions {
+  padding-right: 3px;
+}
+
+.console .console-actions .button {
+  float: left;
+}
+
+.console .button {
+  cursor: pointer;
+  border-radius: 1px;
+  font-family: monospace;
+  font-size: 13px;
+  width: 14px;
+  height: 14px;
+  line-height: 14px;
+  text-align: center;
+  color: #ccc;
+}
+
+.console .button:hover {
+  background: #666;
+  color: #fff;
+}
+
+.console .button.close-button:hover {
+  background: #966;
+}
+
+.console .clipboard {
+  height: 0px;
+  padding: 0px;
+  margin: 0px;
+  width: 0px;
+  margin-left: -1000px;
+}
+
+.console .console-prompt-label {
+  display: inline;
+  color: #fff;
+  background: none repeat scroll 0% 0% #333;
+  border: 0;
+  padding: 0;
+}
+
+.console .console-prompt-display {
+  display: inline;
+  color: #fff;
+  background: none repeat scroll 0% 0% #333;
+  border: 0;
+  padding: 0;
+}
+
+.console.full-screen {
+  height: 100%;
+}
+
+.console.full-screen .console-outer {
+  padding-top: 3px;
+}
+
+.console.full-screen .resizer {
+  display: none;
+}
+
+.console.full-screen .close-button {
+  display: none;
+}

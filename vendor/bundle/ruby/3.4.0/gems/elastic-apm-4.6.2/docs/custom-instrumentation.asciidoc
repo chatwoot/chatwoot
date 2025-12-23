@@ -1,0 +1,80 @@
+[[custom-instrumentation]]
+=== Custom instrumentation
+
+When installed and properly configured,
+ElasticAPM will automatically wrap your app's request/responses in transactions
+and report its errors.
+It also wraps each background job if you use Sidekiq or DelayedJob.
+
+But it is also possible to create your own transactions as well as provide spans for
+any automatic or custom transaction.
+
+See <<api-agent-start_transaction,`ElasticAPM.start_transaction`>> and
+<<api-agent-start_span,`ElasticAPM.start_span`>>.
+
+[float]
+==== Helpers
+
+ElasticAPM includes some nifty helpers if you just want to instrument a regular
+method.
+
+[source,ruby]
+----
+class Thing
+  include ElasticAPM::SpanHelpers
+
+  def do_the_work
+    # ...
+  end
+  span_method :do_hard_work # takes optional `name` and `type`
+
+  def self.do_all_the_work
+    # ...
+  end
+  span_class_method :do_hard_work, 'Custom name', 'custom.work_thing'
+end
+----
+
+[float]
+==== Custom span example
+
+If you are already inside a Transaction (most likely) and you want to instrument
+some work inside it, add a custom span:
+
+[source,ruby]
+----
+class ThingsController < ApplicationController
+  def index
+    @result_of_work = ElasticAPM.with_span "Heavy work" do
+      do_the_heavy_work
+    end
+  end
+end
+----
+
+[float]
+==== Custom transaction example
+
+If you are **not** inside a Transaction already (eg. outside of your common web
+application) start and manage your own transactions like so:
+
+[source,ruby]
+----
+class Something
+  def do_work
+    transaction = ElasticAPM.start_transaction 'Something#do_work'
+
+    begin
+      Sequel[:users] # many third party libs will be automatically instrumented
+    rescue Exception => e
+      ElasticAPM.report(e)
+      raise
+    ensure
+      ElasticAPM.end_transaction('result')
+    end
+  end
+end
+----
+
+**Note:** If the agent isn't started beforehand this will do nothing.
+See <<api-agent-start,ElasticAPM.start>>.

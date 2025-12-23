@@ -1,0 +1,34 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T020200002D/en [2008-04-30]
+# http://en.wikipedia.org/wiki/+269 [444350726]
+
+269760|Domoni
+269761|Mutsamudu
+269762|Mohéli
+269763|Moroni
+269767|Mbéni
+269768|Mitsamiouli
+269769|Foumbouni
+269770|Domoni
+269771|Mutsamudu
+269772|Mohéli
+269773|Moroni
+269774|Moroni
+269775|Moroni
+269777|Mbéni
+269778|Mitsamiouli
+269779|Foumbouni

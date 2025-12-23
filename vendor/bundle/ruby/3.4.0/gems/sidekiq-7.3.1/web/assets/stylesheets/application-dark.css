@@ -1,0 +1,147 @@
+html, body {
+  background-color: #171717 !important;
+  color: #DEDEDE;
+}
+
+a,
+.title,
+.summary_bar ul .count,
+span.current-interval,
+.navbar .navbar-brand {
+  color: #d04;
+}
+
+.history-graph.active,
+.beacon .dot {
+  background-color: #d04;
+}
+
+.navbar .navbar-brand:hover {
+  color: #ddd;
+}
+
+.navbar .navbar-brand .status {
+  color: #ddd;
+}
+
+.navbar-default .navbar-nav > li > a {
+  color: #ddd;
+}
+
+.navbar-inverse {
+  background-color: #222;
+  border-color: #444;
+}
+
+table {
+  background-color: #1D1D1D;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #2E2E2E;
+}
+
+.table-bordered,
+.table-bordered > tbody > tr > td,
+.table-bordered > tbody > tr > th,
+.table-bordered > tfoot > tr > td,
+.table-bordered > tfoot > tr > th,
+.table-bordered > thead > tr > td,
+.table-bordered > thead > tr > th {
+  border: 1px solid #444;
+}
+
+.table-hover > tbody > tr:hover {
+  background-color: #444;
+}
+
+.alert {
+  border: none;
+  color: #ddd;
+}
+
+.alert-success {
+  background-color: #484;
+}
+
+.alert-danger {
+  background-color: #980035;
+}
+
+.alert-info {
+  background-color: #31708f;
+}
+
+.alert-warning {
+  background-color: #c47612;
+}
+
+a:link, a:active, a:hover, a:visited {
+  color: #ddd;
+}
+
+input {
+  background-color: #444;
+  color: #ccc;
+  padding: 3px;
+}
+
+.summary_bar .summary {
+  background-color: #232323;
+  border: 1px solid #444;
+}
+
+.navbar-default {
+  background-color: #0F0F0F;
+  border-color: #444;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:focus,
+.navbar-default .navbar-nav > .active > a:hover {
+  color: #ddd;
+  background-color: #333;
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+  color: #ddd;
+}
+
+.pagination > li > a,
+.pagination > li > a:hover,
+.pagination > li > span {
+  color: #ddd;
+  background-color: #333;
+  border-color: #444;
+}
+.pagination > .disabled > a,
+.pagination > .disabled > a:focus,
+.pagination > .disabled > a:hover,
+.pagination > .disabled > span,
+.pagination > .disabled > span:focus,
+.pagination > .disabled > span:hover {
+  color: #ddd;
+  background-color: #333;
+  border-color: #444;
+}
+
+.stat {
+  border: 1px solid #888;
+}
+
+.rickshaw_graph .detail {
+  background: #888;
+}
+.rickshaw_graph .x_tick {
+  border-color: #888;
+}
+
+.rickshaw_graph .y_ticks.glow text {
+  fill: #ddd;
+  color: #ddd;
+}
+
+.info-circle {
+  color: #222;
+  background-color: #888;
+}

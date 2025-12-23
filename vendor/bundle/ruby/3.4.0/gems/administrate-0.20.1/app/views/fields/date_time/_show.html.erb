@@ -1,0 +1,21 @@
+<%#
+# DateTime Show Partial
+
+This partial renders a datetime attribute,
+to be displayed on a resource's show page.
+
+By default, the attribute is rendered
+as a localized date & time string.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::DateTime][1].
+  A wrapper around the DateTime value pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/DateTime
+%>
+
+<% if field.data %>
+  <%= field.datetime %>
+<% end %>

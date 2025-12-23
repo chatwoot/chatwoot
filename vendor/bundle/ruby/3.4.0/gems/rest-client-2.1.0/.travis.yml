@@ -1,0 +1,62 @@
+# Available ruby versions: http://rubies.travis-ci.org/
+
+language: ruby
+sudo: false
+
+os:
+  - linux
+#  - osx
+
+rvm:
+  - "2.1" # latest 2.1.x
+  - "2.2.10"
+  - "2.3.8"
+  - "2.4.6"
+  - "2.5.5"
+  - "2.6.3"
+  - "ruby-head"
+  - "jruby-9.1.9.0"
+  - "jruby-head"
+
+cache: bundler
+
+script:
+  - bundle exec rake test
+  - bundle exec rake rubocop
+
+branches:
+  except:
+    - "readme-edits"
+
+before_install:
+  # Install rubygems < 3.0 so that we can support ruby < 2.3
+  # https://github.com/rubygems/rubygems/issues/2534
+  - gem install rubygems-update -v '<3' && update_rubygems
+  # bundler installation needed for jruby-head
+  # https://github.com/travis-ci/travis-ci/issues/5861
+  # stick to bundler 1.x in order to support ruby < 2.3
+  - gem install bundler -v '~> 1.17'
+
+# Travis macOS support is pretty janky. These are some hacks to include tests
+# only on versions that actually work. We test on macOS because Apple monkey
+# patches OpenSSL to have different behavior, and we want to ensure that SSL
+# verification at least is broken in the expected ways on macOS.
+# (last tested: 2019-08)
+matrix:
+  # exclude: {}
+  include:
+    # test only a few versions on mac
+    - os: osx
+      rvm: 2.6.3
+    - os: osx
+      rvm: ruby-head
+    - os: osx
+      rvm: jruby-9.1.9.0
+    - os: osx
+      rvm: jruby-head
+
+  allow_failures:
+    - rvm: 'ruby-head'
+
+  # return results as soon as mandatory versions are done
+  fast_finish: true

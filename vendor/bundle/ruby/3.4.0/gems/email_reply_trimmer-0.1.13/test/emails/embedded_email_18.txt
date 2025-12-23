@@ -1,0 +1,7 @@
+On 8 May 2017 17:34, "Andy Jones" <Andy.Jones@jameshall.co.uk> wrote:
+
+    nil && 2.0 + 12.0
+
+It should be:
+
+    2.0 && 2.0 + 12.0

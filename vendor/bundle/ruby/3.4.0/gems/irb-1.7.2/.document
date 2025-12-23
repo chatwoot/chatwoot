@@ -1,0 +1,4 @@
+LICENSE.txt
+README.md
+doc
+lib/**/*.rb

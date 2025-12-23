@@ -1,0 +1,56 @@
+en:
+  faker:
+    books:
+      the_kingkiller_chronicle:
+        books:
+          - The Name of the Wind
+          - The Wise Man's Fear
+          - The Doors of Stone
+        characters:
+          - Abenthy
+          - Auri
+          - Bast
+          - Brandeur
+          - Bredon
+          - Cinder
+          - Denna
+          - Devi
+          - Elodin
+          - Felurian
+          - Haliax
+          - Kvothe
+          - Laurian
+          - Lanre
+          - Marten
+          - Master Ash
+          - Skarpi
+          - Shehyn
+          - Simmon
+          - Tehlu
+          - Tempi
+          - Vashet
+          - Wilem
+        creatures:
+          - Angel
+          - Demon
+          - Draccus
+          - Keth-Selhan
+          - Scrael
+          - Sipquick
+          - Skin dancer
+        locations:
+          - Ademre
+          - Aryen
+          - Baedn-Bryt
+          - Crosson
+          - Eld
+          - Evesdown
+          - Hallowfell
+          - Imre
+          - Levinshir
+          - Newarre
+          - Severen
+          - Tarbean
+          - Temerant
+          - Waystone Inn
+          - Yll
