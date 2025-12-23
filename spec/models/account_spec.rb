@@ -242,7 +242,7 @@ RSpec.describe Account do
 
         expect(prefs[:models]['editor']).to eq('gpt-4.1-mini')
         expect(prefs[:models]['assistant']).to eq('gpt-5.2')
-        expect(prefs[:models]['copilot']).to eq(Llm::ConfigService.default_model_for_feature('copilot'))
+        expect(prefs[:models]['copilot']).to eq(Llm::Models.default_model_for('copilot'))
       end
     end
 
