@@ -10,11 +10,10 @@ class Integrations::LlmBaseService
   CACHEABLE_EVENTS = %w[].freeze
 
   # Maps event names to feature keys in config/llm.yml
-  EDITOR_EVENTS = %w[rephrase fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
-  ASSISTANT_EVENTS = %w[summarize reply_suggestion].freeze
+  EDITOR_EVENTS = %w[rephrase fix_spelling_grammar shorten expand make_friendly make_formal simplify summarize reply_suggestion].freeze
   LABEL_SUGGESTION_EVENTS = %w[label_suggestion].freeze
 
-  ALLOWED_EVENT_NAMES = (EDITOR_EVENTS + ASSISTANT_EVENTS).freeze
+  ALLOWED_EVENT_NAMES = EDITOR_EVENTS.freeze
 
   pattr_initialize [:hook!, :event!]
 
@@ -41,7 +40,6 @@ class Integrations::LlmBaseService
 
   def feature_name_for_event
     return 'editor' if EDITOR_EVENTS.include?(event_name)
-    return 'assistant' if ASSISTANT_EVENTS.include?(event_name)
     return 'label_suggestion' if LABEL_SUGGESTION_EVENTS.include?(event_name)
 
     nil
