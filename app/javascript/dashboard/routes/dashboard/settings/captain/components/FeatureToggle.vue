@@ -1,7 +1,8 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useFunctionGetter, useMapGetter } from 'dashboard/composables/store';
+import { storeToRefs } from 'pinia';
+import { useCaptainConfigStore } from 'dashboard/store/captain/config';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ModelDropdown from './ModelDropdown.vue';
 
@@ -15,11 +16,11 @@ const props = defineProps({
 const emit = defineEmits(['change', 'modelChange']);
 
 const { t } = useI18n();
-const features = useMapGetter('captainConfig/getFeatures');
+const captainConfigStore = useCaptainConfigStore();
+const { features } = storeToRefs(captainConfigStore);
 
-const availableModels = useFunctionGetter(
-  'captainConfig/getModelsForFeature',
-  props.featureKey
+const availableModels = computed(() =>
+  captainConfigStore.getModelsForFeature(props.featureKey)
 );
 
 const isEnabled = ref(false);

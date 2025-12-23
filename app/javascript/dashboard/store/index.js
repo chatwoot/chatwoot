@@ -58,7 +58,6 @@ import copilotMessages from './captain/copilotMessages';
 import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
-import captainConfig from './captain/config';
 
 const plugins = [];
 
@@ -122,7 +121,6 @@ export default createStore({
     captainScenarios,
     captainTools,
     captainCustomTools,
-    captainConfig,
   },
   plugins,
 });

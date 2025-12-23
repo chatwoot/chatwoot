@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useFunctionGetter } from 'dashboard/composables/store';
+import { useCaptainConfigStore } from 'dashboard/store/captain/config';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'dashboard/components-next/dropdown-menu/base/DropdownItem.vue';
@@ -28,21 +28,19 @@ const iconForModel = model => {
 };
 
 const { t } = useI18n();
+const captainConfigStore = useCaptainConfigStore();
 const isOpen = ref(false);
 
-const availableModels = useFunctionGetter(
-  'captainConfig/getModelsForFeature',
-  props.featureKey
+const availableModels = computed(() =>
+  captainConfigStore.getModelsForFeature(props.featureKey)
 );
 
-const recommendedModelId = useFunctionGetter(
-  'captainConfig/getDefaultModelForFeature',
-  props.featureKey
+const recommendedModelId = computed(() =>
+  captainConfigStore.getDefaultModelForFeature(props.featureKey)
 );
 
-const selectedModel = useFunctionGetter(
-  'captainConfig/getSelectedModelForFeature',
-  props.featureKey
+const selectedModel = computed(() =>
+  captainConfigStore.getSelectedModelForFeature(props.featureKey)
 );
 
 const selectedModelId = ref(null);

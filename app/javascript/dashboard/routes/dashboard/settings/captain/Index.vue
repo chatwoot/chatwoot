@@ -1,10 +1,12 @@
 <script setup>
 import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { storeToRefs } from 'pinia';
 import { useAlert } from 'dashboard/composables';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useStore } from 'dashboard/composables/store';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useConfig } from 'dashboard/composables/useConfig';
+import { useCaptainConfigStore } from 'dashboard/store/captain/config';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -18,8 +20,8 @@ const store = useStore();
 const { captainEnabled } = useCaptain();
 const { isEnterprise } = useConfig();
 
-const uiFlags = useMapGetter('captainConfig/getUIFlags');
-const features = useMapGetter('captainConfig/getFeatures');
+const captainConfigStore = useCaptainConfigStore();
+const { uiFlags, features } = storeToRefs(captainConfigStore);
 
 const isLoading = computed(() => uiFlags.value.isFetching);
 
@@ -71,7 +73,7 @@ async function handleFeatureToggle({ feature, enabled }) {
   } catch (error) {
     useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
     // Refetch to revert the toggle state
-    store.dispatch('captainConfig/fetch');
+    captainConfigStore.fetch();
   }
 }
 
@@ -84,12 +86,12 @@ async function handleModelChange({ feature, model }) {
   } catch (error) {
     useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
     // Refetch to revert the model selection
-    store.dispatch('captainConfig/fetch');
+    captainConfigStore.fetch();
   }
 }
 
 onMounted(() => {
-  store.dispatch('captainConfig/fetch');
+  captainConfigStore.fetch();
 });
 </script>
 
