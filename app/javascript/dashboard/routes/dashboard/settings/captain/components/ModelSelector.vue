@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useFunctionGetter } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
 import DropdownItem from 'dashboard/components-next/dropdown-menu/base/DropdownItem.vue';
@@ -38,17 +38,21 @@ const iconForModel = model => {
 const { t } = useI18n();
 const isOpen = ref(false);
 
-const getModelsForFeature = useMapGetter('captainConfig/getModelsForFeature');
-const getSelectedModelForFeature = useMapGetter(
-  'captainConfig/getSelectedModelForFeature'
+const availableModels = useFunctionGetter(
+  'captainConfig/getModelsForFeature',
+  props.featureKey
 );
 
-const availableModels = computed(() =>
-  getModelsForFeature.value(props.featureKey)
+const recommendedModelId = useFunctionGetter(
+  'captainConfig/getDefaultModelForFeature',
+  props.featureKey
 );
-const selectedModel = computed(() =>
-  getSelectedModelForFeature.value(props.featureKey)
+
+const selectedModel = useFunctionGetter(
+  'captainConfig/getSelectedModelForFeature',
+  props.featureKey
 );
+
 const selectedModelId = ref(null);
 
 watch(
@@ -124,7 +128,7 @@ const selectModel = model => {
       </button>
       <DropdownBody
         v-if="isOpen"
-        class="absolute right-0 top-full mt-1 min-w-56 z-50"
+        class="absolute right-0 top-full mt-1 min-w-64 z-50"
       >
         <DropdownItem
           v-for="model in availableModels"
@@ -133,15 +137,23 @@ const selectModel = model => {
           class="rounded-lg hover:bg-n-alpha-1"
           :class="{ 'bg-n-alpha-2': selectedModelId === model.id }"
         >
-          <div class="flex gap-2">
+          <div class="flex gap-2 w-full">
             <Icon
               :icon="iconForModel(model)"
               class="size-4 flex-shrink-0 text-n-slate-11"
             />
             <div class="flex flex-col w-full text-left gap-1">
-              <span class="text-sm font-medium leading-none text-n-slate-12">
+              <div
+                class="text-sm w-full font-medium leading-none text-n-slate-12 flex items-baseline justify-between"
+              >
                 {{ model.display_name }}
-              </span>
+                <span
+                  v-if="model.id === recommendedModelId"
+                  class="text-[10px] uppercase text-n-iris-11 border border-1 border-n-iris-10 leading-none rounded-lg px-1 py-0.5"
+                >
+                  {{ t('GENERAL.PREFERRED') }}
+                </span>
+              </div>
               <span class="text-xs text-n-slate-11">
                 {{ getCreditLabel(model) }}
               </span>
