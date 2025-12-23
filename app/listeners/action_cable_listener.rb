@@ -14,11 +14,20 @@ class ActionCableListener < BaseListener
   end
 
   def notification_deleted(event)
-    return if event.data[:notification].user.blank?
+    notification_data = event.data[:notification_data]
+    return if notification_data[:user_pubsub_token].blank?
 
-    notification, account, unread_count, count = extract_notification_and_account(event)
-    tokens = [event.data[:notification].user.pubsub_token]
-    broadcast(account, tokens, NOTIFICATION_DELETED, { notification: { id: notification.id }, unread_count: unread_count, count: count })
+    user = User.find_by(id: notification_data[:user_id])
+    account = Account.find_by(id: notification_data[:account_id])
+    return if user.blank? || account.blank?
+
+    notification_finder = NotificationFinder.new(user, account)
+    tokens = [notification_data[:user_pubsub_token]]
+    broadcast(account, tokens, NOTIFICATION_DELETED, {
+                notification: { id: notification_data[:id] },
+                unread_count: notification_finder.unread_count,
+                count: notification_finder.count
+              })
   end
 
   def account_cache_invalidated(event)
