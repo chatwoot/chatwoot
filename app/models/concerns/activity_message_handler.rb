@@ -67,7 +67,11 @@ module ActivityMessageHandler
                 user_status_change_activity_content(user_name)
               end
 
-    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
+    return unless content
+
+    # Capture the current user/executor for background job
+    current_user_id = Current.user&.id || (Current.executed_by.is_a?(User) ? Current.executed_by.id : nil)
+    ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content), current_user_id)
   end
 
   def calling_status_change_activity(user_name)

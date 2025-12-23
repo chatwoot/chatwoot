@@ -9,17 +9,12 @@ class MessageTemplates::Template::CsatSurvey
 
   private
 
-  delegate :contact, :account, to: :conversation
+  delegate :contact, :account, :inbox, to: :conversation
 
   def csat_survey_message_params
-    inbox = @conversation.inbox
-    content_text = if inbox.csat_yes_no_format? && inbox.csat_question_text.present?
-                     inbox.csat_question_text
-                   else
-                     I18n.t('conversations.templates.csat_input_message_body')
-                   end
+    content_text = csat_content_text
 
-    {
+    params = {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: :template,
@@ -30,5 +25,30 @@ class MessageTemplates::Template::CsatSurvey
         question_text: content_text
       }
     }
+
+    add_sender_info(params)
+    params
+  end
+
+  def csat_content_text
+    if inbox.csat_yes_no_format? && inbox.csat_question_text.present?
+      inbox.csat_question_text
+    else
+      I18n.t('conversations.templates.csat_input_message_body')
+    end
+  end
+
+  def add_sender_info(params)
+    sender = resolving_agent
+    return unless sender
+
+    params[:sender_type] = sender.class.name
+    params[:sender_id] = sender.id
+  end
+
+  def resolving_agent
+    # Try to get the current user (agent who is resolving the conversation)
+    # Fall back to conversation assignee if Current.user is not available
+    Current.user || @conversation.assignee
   end
 end

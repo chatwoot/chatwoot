@@ -2,11 +2,8 @@ class MessageTemplates::HookExecutionService
   pattr_initialize [:message!]
 
   def perform
-    Rails.logger.info("conversation.last_incoming_message.blank?, #{conversation.last_incoming_message.blank?}")
     return if conversation.campaign.present?
     return if conversation.last_incoming_message.blank?
-
-    Rails.logger.info("MessageAllInfo, #{message.inspect}")
     # Prevent CSAT messages from triggering more CSAT logic to avoid loops
     return if message.content_type == 'input_csat'
 

@@ -30,7 +30,28 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   def set_total_sent_messages_count
     @csat_messages = Current.account.messages.input_csat
     @csat_messages = @csat_messages.where(created_at: range) if range.present?
+    @csat_messages = filter_csat_messages_by_agent(@csat_messages)
+    @csat_messages = filter_csat_messages_by_inbox(@csat_messages)
+    @csat_messages = filter_csat_messages_by_team(@csat_messages)
     @total_sent_messages_count = @csat_messages.count
+  end
+
+  def filter_csat_messages_by_agent(messages)
+    return messages if params[:user_ids].blank?
+
+    messages.where(sender_type: 'User', sender_id: params[:user_ids])
+  end
+
+  def filter_csat_messages_by_inbox(messages)
+    return messages if params[:inbox_id].blank?
+
+    messages.where(inbox_id: params[:inbox_id])
+  end
+
+  def filter_csat_messages_by_team(messages)
+    return messages if params[:team_id].blank?
+
+    messages.joins(:conversation).where(conversations: { team_id: params[:team_id] })
   end
 
   def set_csat_survey_responses
