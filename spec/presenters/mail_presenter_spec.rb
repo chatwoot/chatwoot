@@ -65,7 +65,7 @@ RSpec.describe MailPresenter do
       mail_with_headers = Mail.new do
         from 'Sender <sender@example.com>'
         to 'Inbox <inbox@example.com>'
-        subject :'Header test'
+        subject :header
         body 'Hi'
         header['X-Original-From'] = 'Original <original@example.com>'
         header['X-Original-Sender'] = 'original@example.com'
@@ -85,7 +85,7 @@ RSpec.describe MailPresenter do
       mail_without_headers = Mail.new do
         from 'Sender <sender@example.com>'
         to 'Inbox <inbox@example.com>'
-        subject :'Header test'
+        subject :header
         body 'Hi'
       end
 
