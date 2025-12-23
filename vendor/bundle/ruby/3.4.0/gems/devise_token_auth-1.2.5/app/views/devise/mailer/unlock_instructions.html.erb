@@ -1,0 +1,7 @@
+<p><%= t :hello %> <%= @resource.email %>!</p>
+
+<p><%= t '.account_lock_msg' %></p>
+
+<p><%= t '.unlock_link_msg' %></p>
+
+<p><%= link_to t('.unlock_link'), unlock_url(@resource, unlock_token: @token, config: message['client-config'].to_s) %></p>

@@ -1,0 +1,18 @@
+; This file is for unifying the coding style for different editors and IDEs.
+; More information at http://EditorConfig.org
+
+root = true
+[*]
+end_of_line = lf
+trim_trailing_whitespace = true
+
+[**.rb]
+indent_size = 2
+indent_style = spaces
+insert_final_newline = true
+
+[**.xml]
+trim_trailing_whitespace = false
+
+[**.html]
+trim_trailing_whitespace = false

@@ -1,0 +1,62 @@
+#!/usr/bin/env ruby
+
+require 'json'
+require 'optparse'
+require 'pathname'
+require 'json_schemer'
+
+parser = OptionParser.new('Usage:', 32, '  ')
+parser.separator("  #{parser.program_name} [options] <schema> <data>...")
+parser.separator("  #{parser.program_name} [options] <schema> -")
+parser.separator("  #{parser.program_name} [options] - <data>...")
+parser.separator("  #{parser.program_name} -h | --help")
+parser.separator("  #{parser.program_name} --version")
+parser.separator('')
+parser.separator('Options:')
+parser.on('-e', '--errors MAX', Integer, 'Maximum number of errors to output', 'Use "0" to validate with no output')
+parser.on_tail('-h', '--help', 'Show help')
+parser.on_tail('-v', '--version', 'Show version')
+
+options = {}
+parser.parse!(:into => options)
+
+if options[:help]
+  $stdout.puts(parser)
+  exit
+end
+
+if options[:version]
+  $stdout.puts("#{parser.program_name} #{JSONSchemer::VERSION}")
+  exit
+end
+
+if ARGV.size == 0
+  $stderr.puts("#{parser.program_name}: no schema or data")
+  exit(false)
+end
+
+if ARGV.size == 1
+  $stderr.puts("#{parser.program_name}: no data")
+  exit(false)
+end
+
+if ARGV.count('-') > 1
+  $stderr.puts("#{parser.program_name}: multiple stdin")
+  exit(false)
+end
+
+errors = 0
+schema = ARGF.file.is_a?(File) ? Pathname.new(ARGF.file.path) : ARGF.file.read
+schemer = JSONSchemer.schema(schema)
+
+while ARGV.any?
+  data = JSON.parse(ARGF.skip.file.read)
+  schemer.validate(data).each do |error|
+    exit(false) if options[:errors] == 0
+    errors += 1
+    $stdout.puts(JSON.generate(error))
+    exit(false) if options[:errors] == errors
+  end
+end
+
+exit(errors.zero?)

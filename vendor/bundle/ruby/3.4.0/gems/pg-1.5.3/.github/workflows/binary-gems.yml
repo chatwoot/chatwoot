@@ -1,0 +1,117 @@
+name: Binary gems
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 3" # At 05:00 on Wednesday # https://crontab.guru/#0_5_*_*_3
+
+jobs:
+  job_build_x64:
+    name: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: "x64-mingw-ucrt"
+          - platform: "x64-mingw32"
+          - platform: "x86-mingw32"
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.2"
+      - run: bundle install
+
+      - name: Create a dummy cert to satisfy the build
+        run: |
+          mkdir -p ~/.gem/
+          ruby -ropenssl -e "puts OpenSSL::PKey::RSA.new(2048).to_pem" > ~/.gem/gem-private_key.pem
+          gem cert --build travis-ci@dummy.org --private-key ~/.gem/gem-private_key.pem
+          cp gem-public_cert.pem ~/.gem/gem-public_cert.pem
+
+      - name: Build binary gem
+        run: bundle exec rake gem:windows:${{ matrix.platform }}
+
+      - name: Upload binary gem
+        uses: actions/upload-artifact@v3
+        with:
+          name: binary-gem
+          path: pkg/*.gem
+
+  job_test_binary:
+    name: Test on Windows
+    needs: job_build_x64
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            ruby: "3.2"
+            platform: "x64-mingw-ucrt"
+            PGVERSION: 15.1-1-windows-x64
+          - os: windows-latest
+            ruby: "3.1.3-1"
+            platform: "x86-mingw32"
+            PGVERSION: 10.20-1-windows
+          - os: windows-latest
+            ruby: "2.5"
+            platform: "x64-mingw32"
+            PGVERSION: 10.20-1-windows
+
+    runs-on: ${{ matrix.os }}
+    env:
+      PGVERSION: ${{ matrix.PGVERSION }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Ruby
+        if: matrix.platform != 'x86-mingw32'
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+
+      - name: Set up 32 bit x86 Ruby
+        if: matrix.platform == 'x86-mingw32'
+        run: |
+          $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/RubyInstaller-${{ matrix.ruby }}/rubyinstaller-${{ matrix.ruby }}-x86.exe", "$pwd/ruby-setup.exe")
+          cmd /c ruby-setup.exe /currentuser /verysilent /dir=C:/Ruby-${{ matrix.ruby }}
+          echo "c:/ruby-${{ matrix.ruby }}/bin"  | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+          c:/ruby-${{ matrix.ruby }}/bin/ridk enable
+          c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed make `${MINGW_PACKAGE_PREFIX}-pkgconf `${MINGW_PACKAGE_PREFIX}-libyaml `${MINGW_PACKAGE_PREFIX}-gcc `${MINGW_PACKAGE_PREFIX}-make"
+          echo "C:/msys64/$env:MSYSTEM_PREFIX/bin"  | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Download gem from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: binary-gem
+
+      - name: Download PostgreSQL
+        run: |
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          function Unzip {
+              param([string]$zipfile, [string]$outpath)
+              [System.IO.Compression.ZipFile]::ExtractToDirectory($zipfile, $outpath)
+          }
+
+          $(new-object net.webclient).DownloadFile("http://get.enterprisedb.com/postgresql/postgresql-$env:PGVERSION-binaries.zip", "postgresql-binaries.zip")
+          Unzip "postgresql-binaries.zip" "."
+          echo "$pwd/pgsql/bin"  | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo "PGUSER=$env:USERNAME"  | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "PGPASSWORD="  | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - run: echo $env:PATH
+      - run: gem update --system 3.3.26
+      - run: bundle install
+      - run: gem install --local pg-*${{ matrix.platform }}.gem --verbose
+      - name: Run specs
+        run: ruby -rpg -S rspec -fd spec/**/*_spec.rb
+
+      - name: Print logs if job failed
+        if: ${{ failure() && matrix.os == 'windows-latest' }}
+        run: |
+          ridk enable
+          find "$(ruby -e"puts RbConfig::CONFIG[%q[libdir]]")" -name mkmf.log -print0 | xargs -0 cat

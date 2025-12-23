@@ -1,0 +1,48 @@
+ro:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Un email de confirmare a fost trimis către contul tău la '%{email}'. Pentru a-ți activa contul este necesar să urmezi instrucțiunile din acesta."
+      bad_credentials: "Datele introduse sunt incorecte. Te rugăm să incerci din nou."
+      not_supported: "Folosește functionalitatea POST /sign_in pentru a te autentifica. GET nu este suportat."
+      user_not_found: "Utilizatorul nu a fost găsit sau nu este logat în cont."
+    token_validations:
+      invalid: "Datele introduse pentru autentificare sunt invalide."
+    registrations:
+      missing_confirm_success_url: "Parametrul 'confirm_success_url' lipsește."
+      redirect_url_not_allowed: "Redirecționarea către '%{redirect_url}' nu este permisă."
+      email_already_exists: "Un cont cu email '%{email} deja există.'"
+      account_with_uid_destroyed: "Contul cu UID '%{uid}' a fost șters."
+      account_to_destroy_not_found: "Nu se poate localiza contul pentru ștergere."
+      user_not_found: "Utilizatorul nu a fost găsit."
+    omniauth:
+      not_allowed_redirect_url: "Redirecționarea către '%{redirect_url}' nu este permisă."
+    passwords:
+      missing_email: "Trebuie să introduci o adresă de e-mail."
+      missing_redirect_url: "URL-ul pentru redirecționare lipsește."
+      not_allowed_redirect_url: "Redirecționarea către '%{redirect_url}' nu este permisă."
+      sended: "Un e-mail cu instrucțiuni pentru resetare a parolei a fost trimis către '%{email}'."
+      user_not_found: "Utilizatorul cu email-ul '%{email}' nu a fost găsit."
+      password_not_required: "Acest cont nu necesită parolă. Autentifică-te in schimb cu '%{provider}'."
+      missing_passwords: "Cămpurile 'Parolă' și 'Confirmare parolă' trebuiesc completate."
+      successfully_updated: "Parola contului a fost schimbată cu succes."
+  errors:
+    messages:
+      validate_sign_up_params: "Trimite credențiale valide în body-ul request-ului."
+      validate_account_update_params: "Trimite credențiale valide în body-ul request-ului."
+      not_email: "nu este un email"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Poți confirma contul accesănd link-ul de mai jos:"
+        confirm_account_link: "Confirmă cont"
+      reset_password_instructions:
+        request_reset_link_msg: "Cineva a solicitat un link pentru schimbarea parolei contului tău. Poți face această schimbare accesând link-ul de mai jos."
+        password_change_link: "Schimbă parola"
+        ignore_mail_msg: "Dacă nu ai solicitat această schimbare ignoră acest e-mail."
+        no_changes_msg: "Parola ta nu se va schimba până când nu vei accesa link-ul de mai sus și vei crea o nouă parolă."
+      unlock_instructions:
+        account_lock_msg: "Contul tău a fost blocat din cauză că cineva a încercat accesarea lui de mai mult ori într-un timp foarte scurt."
+        unlock_link_msg: "Click pe acest link pentru a debloca contul:"
+        unlock_link: "Deblochează contul."
+  hello: "salut"
+  welcome: "bun venit"

@@ -1,0 +1,20 @@
+name: Close Waiting for Response Issues
+on:
+  schedule:
+    - cron: "30 1 * * *"
+  workflow_dispatch:
+jobs:
+  check-need-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: close-issues
+        uses: actions-cool/issues-helper@v3
+        with:
+          actions: 'close-issues'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          labels: 'Waiting for Response'
+          inactive-day: 7
+          body: |
+            We are closing this issue because we did not hear back regarding additional details we needed to resolve this issue. If the issue persists and you are able to provide the missing clarification we need, feel free to respond and reopen this issue.
+
+            We appreciate your understanding as we try to manage our number of open issues.

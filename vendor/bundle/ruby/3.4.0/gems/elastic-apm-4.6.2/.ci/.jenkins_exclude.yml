@@ -1,0 +1,191 @@
+exclude:
+  # Ruby 2.4
+  # Only test on rails-5.2, sinatra-1.4
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-6.1
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-6.0
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: sinatra-2.2
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-1.6
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.0
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-master
+
+  # rails-4.2 exclusions
+  # Only test on ruby 2.6, 2.5, 2.4
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: ruby:2.7
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: rails-4.2
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: rails-4.2
+  # sinatra-1.4 exclusions
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: ruby:2.7
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: sinatra-1.4
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: sinatra-1.4
+
+  # rails-6.0 and rails-6.1 exclusions
+  # Don't test on ruby 2.4
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-6.1
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-6.0
+
+  # Only test rails main on ruby 3.1
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: ruby:2.7
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: rails-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: rails-main
+
+  # Only test rails 7.0 on ruby >= 2.7
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: rails-7.0
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: rails-7.0
+
+  # Only test sinatra main on ruby 2.7 and ruby 3.1
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: sinatra-main
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: sinatra-main
+
+  # Only test grape master on ruby 2.7 and ruby 3.0
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: grape-master
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: grape-master
+
+  # grape 1.5 doesn't support ruby 3.0
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: grape-1.6
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: grape-1.6
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+
+  # only test ruby >= 3.0 with rails 6.0 and rails 6.1
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: rails-5.2
+  - RUBY_VERSION: ruby:3.1
+    FRAMEWORK: rails-5.1
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: rails-5.2
+  - RUBY_VERSION: ruby:3.0
+    FRAMEWORK: rails-5.1
+
+  # Unsupported
+  # Ruby 2.6
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: ruby:2.6
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # Ruby 2.5
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: ruby:2.5
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # Ruby 2.4
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: ruby:2.4
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # JRuby 9.2
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: jruby:9.2
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # JRuby 9.2-13-jdk
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # JRuby 9.2-11-jdk
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0
+  # JRuby 9.2-8-jdk
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-6.1
+  - RUBY_VERSION: docker.elastic.co/observability-ci/jruby:9.2-8-jdk
+    FRAMEWORK: grape-1.6,sinatra-2.2,rails-7.0

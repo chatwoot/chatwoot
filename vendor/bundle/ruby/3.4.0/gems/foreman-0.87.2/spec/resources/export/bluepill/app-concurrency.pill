@@ -1,0 +1,49 @@
+Bluepill.application("app", :foreground => false, :log_file => "/var/log/bluepill.log") do |app|
+
+  app.uid = "app"
+  app.gid = "app"
+
+
+
+
+  app.process("alpha-1") do |process|
+    process.start_command = %Q{./alpha}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5000"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-alpha-1.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+    
+    process.group = "app-alpha"
+  end
+
+
+  app.process("alpha-2") do |process|
+    process.start_command = %Q{./alpha}
+
+    process.working_dir = "/tmp/app"
+    process.daemonize = true
+    process.environment = {"PORT"=>"5001"}
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "/var/log/app/app-alpha-2.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+    
+    process.group = "app-alpha"
+  end
+
+
+
+
+end

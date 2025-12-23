@@ -1,0 +1,10 @@
+---
+ru:
+  administrate:
+    fields:
+      active_storage:
+        add: Добавить
+        attachment: Вложение
+        no_attachment: Нет
+        remove: Удалить
+        replace: Заменить

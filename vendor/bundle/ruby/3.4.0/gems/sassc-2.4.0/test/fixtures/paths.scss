@@ -1,0 +1,10 @@
+div {
+   url: url(asset-path("foo.svg"));
+   url: url(image-path("foo.png"));
+   url: url(video-path("foo.mov"));
+   url: url(audio-path("foo.mp3"));
+   url: url(font-path("foo.woff"));
+   url: url(javascript-path('foo.js'));
+   url: url(javascript-path("foo.js"));
+   url: url(stylesheet-path("foo.css"));
+}

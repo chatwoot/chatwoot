@@ -1,0 +1,214 @@
+---
+- !ruby/object:MIME::Type
+  content-type: message/bhttp
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc9292
+    template:
+    - message/bhttp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/CPIM
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3862
+    template:
+    - message/CPIM
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/delivery-status
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc1894
+    template:
+    - message/delivery-status
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/disposition-notification
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8098
+    template:
+    - message/disposition-notification
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/example
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc4735
+    template:
+    - message/example
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/external-body
+  encoding: 8bit
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/feedback-report
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5965
+    template:
+    - message/feedback-report
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/global
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6532
+    template:
+    - message/global
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/global-delivery-status
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6533
+    template:
+    - message/global-delivery-status
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/global-disposition-notification
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6533
+    template:
+    - message/global-disposition-notification
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/global-headers
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc6533
+    template:
+    - message/global-headers
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/http
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc9112
+    template:
+    - message/http
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/imdn+xml
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc5438
+    template:
+    - message/imdn+xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/news
+  encoding: 8bit
+  obsolete: true
+  xrefs:
+    rfc:
+    - rfc5537
+    person:
+    - Henry_Spencer
+    template:
+    - message/news
+    notes:
+    - "(OBSOLETED by )"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/partial
+  encoding: 8bit
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/rfc822
+  friendly:
+    en: Email Message
+  encoding: 8bit
+  extensions:
+  - eml
+  - mime
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/s-http
+  encoding: base64
+  obsolete: true
+  xrefs:
+    rfc:
+    - rfc2660
+    uri:
+    - https://datatracker.ietf.org/doc/status-change-http-experiments-to-historic
+    template:
+    - message/s-http
+    notes:
+    - "(OBSOLETE)"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/sip
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3261
+    template:
+    - message/sip
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/sipfrag
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3420
+    template:
+    - message/sipfrag
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/tracking-status
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc3886
+    template:
+    - message/tracking-status
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/vnd.si.simp
+  encoding: base64
+  obsolete: true
+  xrefs:
+    person:
+    - Nicholas_Parks_Young
+    template:
+    - message/vnd.si.simp
+    notes:
+    - "(OBSOLETED by request)"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: message/vnd.wfa.wsc
+  encoding: base64
+  xrefs:
+    person:
+    - Mick_Conley
+    template:
+    - message/vnd.wfa.wsc
+  registered: true

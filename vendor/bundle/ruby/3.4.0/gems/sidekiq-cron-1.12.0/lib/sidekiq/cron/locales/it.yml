@@ -1,0 +1,23 @@
+it:
+  Job: Job
+  Cron: Cron
+  CronJobs: Cron job
+  EnqueueNow: Accoda
+  EnableAll: Attiva tutto
+  DisableAll: Disattiva tutto
+  EnqueueAll: Accoda tutto
+  DeleteAll: Cancella tutto
+  "Cron string": Cron
+  AreYouSureEnqueueCronJobs: Vuoi accodare TUTTI i cron job?
+  AreYouSureEnqueueCronJob: "Vuoi accodare il cron job '%{job}'?"
+  AreYouSureDeleteCronJobs: Vuoi cancellare TUTTI i cron job?
+  AreYouSureDeleteCronJob: "Vuoi cancellare il cron job '%{job}'?"
+  NoCronJobsWereFound: Nessun cron job trovato
+  Enable: Attiva
+  Disable: Disattiva
+  "Last enqueued": Ultimo accodamento
+  disabled: disattivato
+  enabled: attivato
+  NoHistoryWereFound: Nessun evento in cronologia
+  Description: Descrizione
+  Message: Payload

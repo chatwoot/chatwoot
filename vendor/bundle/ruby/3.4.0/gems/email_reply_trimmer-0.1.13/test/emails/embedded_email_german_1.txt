@@ -1,0 +1,26 @@
+alright, no big deal - I assume in this case the code needs some refactoring to better support I18N anyway.
+
+
+
+codinghorror via Discourse Meta <info@discourse.org> schrieb:
+>codinghorror posted in 'Visually separate "Like it too" / "Undo like"'
+>on Discourse Meta:
+>
+>---
+>So turns out this is sort of a complex change for something so small.
+>Our code at that location assumes all phrases end in periods. Changing
+>that conditionally to sometimes an em-dash, sometimes not, is kind of..
+>a pain in the butt.
+>
+>Will keep an eye on it, but low priority given the work required.
+>
+>---
+>To respond, reply to this email or visit
+>http://meta.discourse.org/t/visually-separate-like-it-too-undo-like/8464/3
+>in your browser.
+>
+>To unsubscribe from these emails, visit your [user
+>preferences](http://meta.discourse.org/user_preferences).
+
+--
+Diese Nachricht wurde von meinem Android-Mobiltelefon mit K-9 Mail gesendet.

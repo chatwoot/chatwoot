@@ -1,0 +1,76 @@
+module FFI
+  class Struct[out P < AbstractMemory, unchecked out E]
+    type layout = Library::ffi_lib_type | singleton(StructLayout::Field) | [layout, Integer]
+
+    type ptr = Type::Mapped[
+      StructByReference[Struct[AbstractMemory, untyped], AbstractMemory],
+      AbstractMemory, instance, untyped
+    ]
+    def self.ptr: (?untyped flags) -> ptr # https://github.com/ffi/ffi/issues/1073
+    alias self.by_ref self.ptr
+    def self.in: () -> ptr
+    def self.out: () -> ptr
+    def self.val: () -> StructByValue[singleton(Struct)]
+    alias self.by_value self.val
+
+    alias self.alloc_inout self.new
+    alias self.alloc_in self.new
+    alias self.alloc_out self.new
+    alias self.new_inout self.new
+    alias self.new_in self.new
+    alias self.new_out self.new
+
+    def self.auto_ptr: () -> Type::Mapped[
+        ManagedStructConverter[ManagedStruct[AutoPointer, untyped], AutoPointer],
+        Pointer, instance, untyped
+      ]
+    def self.layout: (*layout | Integer) -> StructLayout
+              | (Hash[Symbol, layout]) -> StructLayout
+    def self.size=: (Integer size) -> Integer
+
+    def self?.alignment: () -> Integer
+    def self?.members: () -> Array[Symbol]
+    def self?.offset_of: (Symbol name) -> Integer
+    def self?.offsets: () -> Array[[Symbol, Integer]]
+    def self?.size: -> Integer
+
+    def initialize: (?P pointer, *layout args) -> void
+    def []: (Symbol field_name) -> E
+    def []=: (Symbol field_name, E value) -> E
+    alias align alignment
+    def clear: () -> self
+    def layout: () -> StructLayout
+    def null?: () -> bool
+    def order: (AbstractMemory::order_in order) -> Struct[P, E]
+              | () -> AbstractMemory::order_out
+    def pointer: () -> P
+    alias to_ptr pointer
+    def values: () -> Array[E]
+
+    class InlineArray[out P < AbstractMemory, unchecked out E]
+      include Enumerable[E]
+      include AbstractMemory::_Size
+
+      def initialize: (P memory, StructLayout::Field field) -> self
+      def []: (Integer index) -> E
+      def []=: (Integer index, E value) -> E
+      def each: () { (E) -> void } -> self
+      def to_a: () -> Array[E]
+      def to_ptr: () -> P
+    end
+
+    class ManagedStructConverter[S < ManagedStruct[P, untyped], P < AutoPointer] < StructByReference[S, P]
+      def initialize: ...
+      def from_native: (Pointer ptr, untyped ctx) -> S
+    end
+  end
+
+  class ManagedStruct[out P < AutoPointer, unchecked out E] < Struct[P, E]
+    def self.release: (AbstractMemory ptr) -> void
+    def initialize: (Pointer pointer) -> self
+  end
+
+  class Union[out P < AbstractMemory, unchecked out E] < Struct[P, E]
+    def self.builder: () -> StructLayoutBuilder
+  end
+end

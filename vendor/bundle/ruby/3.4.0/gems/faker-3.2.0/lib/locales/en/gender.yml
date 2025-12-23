@@ -1,0 +1,6 @@
+en:
+  faker:
+    gender:
+      types: ["Female", "Male", "Non-binary", "Agender", "Genderfluid", "Genderqueer", "Bigender", "Polygender"]
+      binary_types: ["Female", "Male"]
+      short_binary_types: ["f", "m"]

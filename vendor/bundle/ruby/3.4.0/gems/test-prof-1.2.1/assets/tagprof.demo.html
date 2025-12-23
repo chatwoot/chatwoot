@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TestProf: TagProf report</title>
+    <meta name="viewport" content="width=device-width">
+    <meta charset="UTF-8">
+    <style>
+    html, body {
+      height: 100%;
+      width: 100%;
+      min-width: 300px;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #363636;
+      font: 18px/30px "Arial",sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    a {
+      text-decoration: none;
+      color: #ff5e5e
+    }
+
+    a:visited, a:active{
+      color: #ff5e5e;
+    }
+
+    a:hover{
+      opacity: 0.8;
+    }
+
+    h1 {
+      font-size: 30px;
+      line-height: 32px;
+      letter-spacing: 2px;
+      font-weight: bold;
+      padding: 30px 0 30px 0;
+      margin: 0;
+    }
+
+    .main {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      position: relative;
+      text-align: center;
+      background: #fff;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    .chart {
+      display: flex;
+      justify-content: center;
+      position: relative;
+      box-sizing: border-box;
+      flex-direction: row;
+      padding: 20px;
+    }
+
+    .tooltip {
+      background: #eee;
+      box-shadow: 0 0 5px #999999;
+      color: #333;
+      display: none;
+      font-size: 14px;
+      left: 130px;
+      padding: 10px;
+      position: absolute;
+      text-align: left;
+      top: 95px;
+      z-index: 10;
+    }
+    
+    .tooltip .label.active {
+      color: #ff5e5e;
+    }
+
+    .tooltip .value-label {
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .legend, .totals {
+      font-size: 14px;
+    }
+
+    #selector {
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      position: relative;
+      box-sizing: border-box;
+      flex-direction: column;
+      padding: 20px;
+    }
+
+    rect {
+      stroke-width: 2;
+    }
+
+    rect.disabled {                                                 /* NEW */
+      fill: transparent !important;                                 /* NEW */
+    }       
+
+    .d3-donut-path {
+      transition: opacity 200ms;
+      opacity: 1;
+      cursor: pointer;
+    }
+
+    .d3-donut-path:hover {
+      opacity: 0.8;
+    }
+
+    .humanoids__link {
+      width: 130px;
+    }
+
+    .humanoids{
+      position: absolute;
+      bottom: -23px;
+      width: 150px;
+      height: 60px;
+      margin: 0 auto 0 -10px;
+      font-size: 0;
+      transform: scale(0.6);
+    }
+    .humanoids circle{
+      transform: scaleY(1);
+      transform-origin: 50%;
+      animation-duration: 8s;
+      animation-name: humanoids-blink;
+      animation-iteration-count: infinite;
+    }
+    .humanoids svg{
+      height: 60px;
+    }
+    .humanoids__human, .humanoids__martian{
+      position: absolute;
+      width: 80px;
+      height: 90px;
+      transition: transform 300ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform: translateY(0);
+    }
+    .humanoids__human:hover, .humanoids__martian:hover{
+      transform: translateY(-12px);
+    }
+    .humanoids__martian{
+      left: 0;
+    }
+    .humanoids__human{
+      right: 0;
+    }
+    .humanoids__human circle{
+      animation-delay: 0.5s;
+    }
+
+    [name="root"] .label {
+      text-align: center;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="main">
+      <header>
+        <h1>TagProf Report</h1>
+        <a class="humanoids__link" href="https://evilmartians.com">
+          <div class="humanoids">
+            <div class="humanoids__martian"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 92"><path fill="#f64242" d="M26 88L8 78l18-10"/><path fill="#f64242" d="M94 92v-6H44c-5.5 0-10-4.5-10-10s4.5-10 10-10h50V32c0-14-7.9-22-22-22H48c-14.1 0-22 8-22 22v60h68z"/><circle fill="#FFF" cx="48" cy="50" r="8"/><circle fill="#FFF" cx="72" cy="50" r="8"/><circle fill="#BF6C35" cx="48" cy="50" r="4"/><circle fill="#BF6C35" cx="72" cy="50" r="4"/><g fill="#663F4C"><path d="M48 60c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10zm0-16c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM82 50c0 5.5-4.5 10-10 10s-10-4.5-10-10 4.5-10 10-10 10 4.5 10 10zm-16 0c0 3.3 2.7 6 6 6s6-2.7 6-6-2.7-6-6-6-6 2.7-6 6z"/><path d="M102 8c-3.8 0-6-2.2-6-6 0-1.1-.9-2-2-2s-2 .9-2 2c0 2.2.5 4.1 1.5 5.7L88.2 13c-4-3.3-9.5-5-16.2-5H48c-6.7 0-12.2 1.7-16.2 4.9l-5.3-5.3C27.5 6.1 28 4.2 28 2c0-1.1-.9-2-2-2s-2 .9-2 2c0 3.8-2.2 6-6 6-1.1 0-2 .9-2 2s.9 2 2 2c2.2 0 4.1-.5 5.7-1.5l5.3 5.3c-3.2 4-4.9 9.5-4.9 16.2v34.8L3.9 78 24 89v3h4V32c0-12.9 7.1-20 20-20h24c12.9 0 20 7.1 20 20v32H44c-6.6 0-12 5.4-12 12s5.4 12 12 12h48v4h4v-8h-2l-4-8-4 8h-4l-4-8-4 8h-4l-4-8-4 8h-4l-4-8-4 8h-4l-4-8-3.1 6.2C37.1 80.7 36 78.5 36 76c0-4.4 3.6-8 8-8l4 8 4-8h4l4 8 4-8h4l4 8 4-8h4l4 8 4-8h8V32c0-6.7-1.7-12.2-4.9-16.2l5.3-5.3c1.6 1 3.5 1.5 5.7 1.5 1.1 0 2-.9 2-2s-1-2-2.1-2zM24 84.4L12.1 78 24 71.4v13z"/></g></svg></div>
+            <div class="humanoids__human"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 92"><path fill="#FFFFFF" d="M14 62v30h68v-6H32c-5.5 0-10-4.5-10-10s4.5-10 10-10h50v-4c4 0 8-3.6 8-8s-4-8-8-8V32c0-14-7.9-22-22-22H36c-14.1 0-22 8-22 22v14c-4 0-8 3.6-8 8s4 8 8 8z"/><circle fill="#FFF" cx="36" cy="50" r="8"/><circle fill="#FFF" cx="60" cy="50" r="8"/><circle fill="#f64242" cx="36" cy="50" r="4"/><circle fill="#f64242" cx="60" cy="50" r="4"/><path fill="#f64242" d="M60 10H36c-14.1 0-22 8-22 22v2l4-4 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 6 6 6-6 4 4v-2c0-14-7.9-22-22-22z"/><g fill="#663F4C"><path d="M36 60c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10zm0-16c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zM60 60c-5.5 0-10-4.5-10-10s4.5-10 10-10 10 4.5 10 10-4.5 10-10 10zm0-16c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6z"/><path d="M12 63.8V92h4V32c0-12.9 7.1-20 20-20h24c12.9 0 20 7.1 20 20v32H32c-6.6 0-12 5.4-12 12s5.4 12 12 12h48v4h4v-8H74v-1c0-1.7-1.3-3-3-3s-3 1.3-3 3v1h-6v-1c0-1.7-1.3-3-3-3s-3 1.3-3 3v1h-6v-1c0-1.7-1.3-3-3-3s-3 1.3-3 3v1h-6v-1c0-1.7-1.3-3-3-3s-3 1.3-3 3v1c-4 0-8-3.6-8-8s3.6-8 8-8h6v1c0 1.7 1.3 3 3 3s3-1.3 3-3v-1h6v1c0 1.7 1.3 3 3 3s3-1.3 3-3v-1h6v1c0 1.7 1.3 3 3 3s3-1.3 3-3v-1h6v1c0 1.7 1.3 3 3 3s3-1.3 3-3v-1h4v-4.2c5-.9 8-5 8-9.8s-3-8.9-8-9.8V32c0-15.3-8.7-24-24-24H36c-15.3 0-24 8.7-24 24v12.2c-5 .9-8 5-8 9.8s3 8.9 8 9.8zm72-15.5c2 .8 4 3 4 5.7s-2 4.8-4 5.7V48.3zm-72 0v11.3c-2-.8-4-3-4-5.7s2-4.7 4-5.6z"/></g></svg></div>
+          </div>
+        </a>
+      </header>
+      <div class="chart">
+        <form id="selector">
+        </form>
+        <div id="chart">
+        </div>
+        <div id="legend">
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="src/d3.v4.min.js"></script>
+
+    <script>
+      var report_data;
+      var width = 360;
+      var legendWidth = 240;
+      var height = 360;
+      var radius = Math.min(width, height) / 2;
+      var donutWidth = 75;
+      var legendRectSize = 18;
+      var legendSpacing = 4;
+
+      var color = d3.scaleOrdinal(d3.schemeCategory20);
+
+      function pad(n, size) {
+        if(size == void 0) size = 2;
+        
+        var str = n.toString();
+
+        while(str.length < size){
+          str = "0" + str;
+        }
+
+        return str;
+      }
+
+      function duration(t) {
+        return pad(t / 60|0) + ':' +  pad((t % 60) |0) + '.' + pad(((t * 1000) % 1000)|0, 3);
+      }
+
+      var svg = d3.select('#chart')
+        .append('svg')
+        .attr('width', width)
+        .attr('height', height)
+        .append('g')
+        .attr('transform', 'translate(' + (width / 2) +
+          ',' + (height / 2) + ')');
+
+      var arc = d3.arc()
+        .innerRadius(radius - donutWidth)
+        .outerRadius(radius);
+
+      var labelArc = d3.arc()
+        .outerRadius(radius - donutWidth)
+        .innerRadius(radius);
+
+      var pie = d3.pie()
+        .value(function(d) { return d.time; })
+        .sort(function(a, b) {
+          return b.time - a.time;
+        });
+
+      var tooltip = d3.select('#chart')
+        .append('div')
+        .attr('class', 'tooltip');
+
+      tooltip.append('div')
+        .attr('class', 'label');
+
+      tooltip.append('div')
+        .attr('class', 'stats');
+
+      // var report_data = JSON.parse('{/**REPORT-DATA**/}');
+      var report_data = {
+        tag: "type",
+        events: [
+          "sql.active_record"
+        ],
+        data: [
+          { value: "model", count: 123, time: 324.2, "sql.active_record": 21.54 },
+          { value: "controller", count: 44, time: 514, "sql.active_record": 121 },
+          { value: "job", count: 33, time: 122.2 },
+          { value: "__unknown__", count: 2, time: 44, "sql.active_record": 0 }
+        ]
+      };
+
+      var dataset = report_data.data;
+
+      dataset.sort(function(a, b){
+        return b.time - a.time;
+      });
+
+      var totals = {};
+
+      ["count", "time"].concat(report_data.events).forEach(function(event) {
+        totals[event] = d3.sum(dataset.map(function(d){
+          return d[event] || 0;
+        }));
+      });
+
+      dataset.forEach(function(d) {
+        d.labels = {};
+  
+        if (d.value == "__unknown__") {
+          d.color = "#cccccc";
+        };
+        
+        d.labels.count = {
+          value: d.count,
+          percent: Math.round(1000 * d.count / totals.count) / 10
+        };
+
+        ["time"].concat(report_data.events).forEach(function(event){
+          d.labels[event] = {
+            value: duration(d[event]),
+            percent: d[event] ? Math.round(1000 * d[event] / totals[event]) / 10 : 0
+          }
+        });
+      });
+
+      var path = svg.selectAll('path')
+        .data(pie(dataset))
+        .enter()
+        .append('path')
+        .attr('d', arc)
+        .attr('class', 'd3-donut-path')
+        .attr('fill', function(d, i) {
+          return d.data.color || color(d.data.value);
+        })
+        .each(function(d) { this._current = d; });
+
+      var currentMeasure = "time";
+
+      pie.value(function(d) {
+        return d[currentMeasure];
+      });
+
+      path.on('mouseover', function(d) {
+        tooltip.select('.label').html("<span class='value-label'>" + report_data.tag + ":</span><span class='value-data'>" + d.data.value + "</span>");
+
+        var str = "";
+
+        ["count", "time"].concat(report_data.events).forEach(function(event) {
+          str += "<div class='label " + (event == currentMeasure ? 'active' : '') + "'><span class='value-label'>" + event + ":</span><span class='value-data'>" + d.data.labels[event].value + " ("+d.data.labels[event].percent + "%)</span></div>";
+        });
+        tooltip.select('.stats').html(str);
+        tooltip.style('display', 'block');
+      });
+
+      path.on('mousemove', function(d) {
+        tooltip.style('top', (d3.event.layerY + 10) + 'px')
+          .style('left', (d3.event.layerX + 10) + 'px');
+      });
+
+      path.on('mouseout', function() {
+        tooltip.style('display', 'none');
+      });
+
+      if(report_data.events && report_data.events.length) {
+        var selectOptions = ["time"].concat(report_data.events);
+
+        var selector = d3.select("form").selectAll("label")
+          .data(selectOptions)
+          .enter().append("label");
+
+        selector.append("input")
+          .attr("type", "radio")
+          .attr("name", "measurement")
+          .attr("value", function(d) { return d; })
+          .property("checked", function(d, i) { return i === 0 });
+
+        d3.select("form").style('width', legendWidth + 'px');
+
+        d3.selectAll(("input[name='measurement']")).on("change", function(e) {
+          render(e);
+        });
+
+        selector.append("span")
+          .text(function(d) { return d; });
+      } else {
+        d3.select("form").remove();
+      }
+
+      var legendContainer = d3.select('#legend')
+        .append('svg')
+        .attr('height', height)
+        .attr('width', legendWidth);
+
+      var legend = legendContainer.selectAll('legend')
+        .data(color.domain())
+        .enter()
+        .append('g')
+        .attr('class', 'legend')
+        .attr('transform', function(d, i) {
+          var height = legendRectSize + legendSpacing;
+          var horz = 2 * legendRectSize;
+          var vert = i * height;
+          return 'translate(' + horz + ',' + vert + ')';
+        });
+
+      legend.append('rect')
+        .attr('width', legendRectSize)
+        .attr('height', legendRectSize)
+        .style('fill', color)
+        .style('stroke', color);
+      
+      legend.append('text')
+        .attr('x', legendRectSize + legendSpacing)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function(d) { return d; });
+
+      var totalsContainer = svg.append('g')
+        .attr('class', 'totals')
+        .attr('transform', 'translate(-' + (radius - 100) +', -'+ (radius - 120) + ')');
+
+      var totalsArray = d3.keys(totals).map(function(key){
+        if(key == "count"){
+          return { key: key, value: totals[key] };
+        } else {
+          return { key: key, value: duration(totals[key]) };
+        }
+      });
+
+      totalsContainer.append('text')
+        .text("TOTALS")
+        .attr('x', 50);
+
+      var totalsLegend = totalsContainer.selectAll('total')
+        .data(totalsArray)
+        .enter()
+        .append('g')
+        .attr('class', 'total')
+        .attr('transform', function(d, i) {
+          var height = legendRectSize + legendSpacing;
+          var horz = 0;
+          var vert = i * height + 20;
+          return 'translate(' + horz + ',' + vert + ')';
+        });
+
+      totalsLegend.append('text')
+        .attr('x', 0)
+        .attr('y', legendRectSize - legendSpacing)
+        .text(function(d) { 
+          return d.key + ": " + d.value;
+        });
+
+      var render = function(measurement) {
+        currentMeasure = measurement;
+
+        path = path.data(pie(dataset));
+
+        path.transition()
+        .duration(750)
+        .attrTween('d', function(d) {
+          var interpolate = d3.interpolate(this._current, d);
+          this._current = interpolate(0);
+          return function(t) {
+            return arc(interpolate(t));
+          };
+        });
+      }
+    </script>
+  </body>
+</html>

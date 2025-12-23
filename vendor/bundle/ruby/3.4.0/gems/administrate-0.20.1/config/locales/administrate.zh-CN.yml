@@ -1,0 +1,30 @@
+---
+zh-CN:
+  administrate:
+    actions:
+      confirm: 确定?
+      destroy: 删除
+      edit: 编辑
+      edit_resource: 编辑 %{name}
+      show_resource: 查看 %{name}
+      new_resource: 新建 %{name}
+      back: 返回
+    controller:
+      create:
+        success: "%{resource} 创建成功."
+      destroy:
+        success: "%{resource} 删除成功."
+      update:
+        success: "%{resource} 更新成功."
+    fields:
+      has_many:
+        more: 显示所有 %{total_count} 中 %{count} 条
+        none: 无
+    form:
+      error: 错误
+      errors: "%{resource_name} 保存前出现了 %{pluralized_errors} 个错误："
+    navigation:
+      back_to_app: 返回应用
+    search:
+      clear: 清除搜索
+      label: 搜索 %{resource}

@@ -1,0 +1,18 @@
+<%#
+# Text Show Partial
+
+This partial renders a text attribute,
+to be displayed on a resource's show page.
+
+By default, the attribute is rendered as text with whitespace preserved.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Text][1].
+  A wrapper around the Text pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Text
+%>
+
+<div class="preserve-whitespace"><%= field.data %></div>

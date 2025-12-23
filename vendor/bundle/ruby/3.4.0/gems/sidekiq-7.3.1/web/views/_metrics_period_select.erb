@@ -1,0 +1,12 @@
+<div>
+  <select class="form-control" data-metric-period="<%= path %>">
+    <% periods.each_key do |code| %>
+
+      <% if code == period %>
+        <option selected value="<%= code %>"><%= code %></option>
+      <% else %>
+        <option value="<%= code %>"><%= code %></option>
+      <% end %>
+    <% end %>
+  </select>
+</div>

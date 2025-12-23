@@ -1,0 +1,9 @@
+module FFI
+  class StructLayout
+    #TODO
+
+    class Field
+      #TODO
+    end
+  end
+end

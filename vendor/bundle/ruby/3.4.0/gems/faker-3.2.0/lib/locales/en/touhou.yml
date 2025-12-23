@@ -1,0 +1,839 @@
+en:
+  faker:
+    games:
+      touhou:
+        games:
+          - Highly Responsive to Prayers
+          - Story of Eastern Wonderland
+          - Phantasmagoria of Dim. Dream
+          - Lotus Land Story
+          - Mystic Square
+          - Embodiment of Scarlet Devil
+          - Perfect Cherry Blossom
+          - Imperishable Night
+          - Immaterial and Missing Power
+          - Phantasmagoria of Flower View
+          - Shoot the Bullet
+          - Mountain of Faith
+          - Scarlet Weather Rhapsody
+          - Subterranean Animism
+          - Undefined Fantastic Object
+          - Touhou Hisoutensoku
+          - Double Spoiler
+          - Fairy Wars
+          - Ten Desires
+          - Hopeless Masquerade
+          - Double Dealing Character
+          - Impossible Spell Card
+          - Urban Legend in Limbo
+          - Legacy of Lunatic Kingdom
+          - Hidden Star in Four Seasons
+          - Antinomy of Common Flowers
+          - Violet Detector
+          - Wily Beast and Weakest Creature
+        characters:
+          - Alice Margatroid
+          - Aya Shameimaru
+          - Aya Shameimaru
+          - Benben Tsukumo
+          - Byakuren Hijiri
+          - Chen
+          - Cirno
+          - Clownpiece
+          - Daiyousei
+          - Doremy Sweet
+          - Eika Ebisu
+          - Eirin Yagokoro
+          - Flandre Scarlet
+          - Fujiwara no Mokou
+          - Hata no Kokoro
+          - Hatate Himekaidou
+          - Hecatia Lapislazuli
+          - Hieda no Akyu
+          - Hina Kagiyama
+          - Hong Meiling
+          - Ichirin Kumoi
+          - Iku Nagae
+          - Junko
+          - Kagerou Imaizumi
+          - Kaguya Houraisan
+          - Kana Anaberal
+          - Kanako Yasaka
+          - Kasen Ibaraki
+          - Keiki Haniyasushin
+          - Keine Kamishirasawa
+          - Kikuri
+          - Kisume
+          - Koakuma
+          - Kogasa Tatara
+          - Koishi Komeiji
+          - Komachi Onozuka
+          - Konngara
+          - Kosuzu Motoori
+          - Kotohime
+          - Kurumi
+          - Kutaka Niwatari
+          - Layla Prismriver
+          - Letty Whiterock
+          - Lily White
+          - Luna Child
+          - Lunasa Prismriver
+          - Lyrica Prismriver
+          - Mai
+          - Mamizou Futatsuiwa
+          - Maribel Hearn
+          - Marisa Kirisame
+          - Mayumi Joutouguu
+          - Medicine Melancholy
+          - Merlin Prismriver
+          - Minamitsu Murasa
+          - Minoriko Aki
+          - Momiji Inubashiri
+          - Mononobe no Futo
+          - Mystia Lorelei
+          - Nazrin
+          - Nitori Kawashiro
+          - Nue Houjuu
+          - Parsee Mizuhashi
+          - Patchouli Knowledge
+          - Raiko Horikawa
+          - Ran Yakumo
+          - Reimu Hakurei
+          - Reisen Udongein Inaba
+          - Remilia Scarlet
+          - Renko Usami
+          - Rin Kaenbyou
+          - Rin Satsuki
+          - Ringo
+          - Rinnosuke Morichika
+          - Rumia
+          - Sagume Kishin
+          - Saki Kurokoma
+          - Sakuya Izayoi
+          - Sanae Kochiya
+          - Satori Komeiji
+          - Seiga Kaku
+          - Seija Kijin
+          - Seiran
+          - Sekibanki
+          - Shikieiki Yamaxanadu
+          - Shinmyoumaru Sukuna
+          - Shizuha Aki
+          - Shou Toramaru
+          - Soga no Tojiko
+          - Star Sapphire
+          - Suika Ibuki
+          - Sumireko Usami
+          - Sunny Milk
+          - Suwako Moriya
+          - Tenshi Hinanawi
+          - Tewi Inaba
+          - Toyosatomimi no Miko
+          - Utsuho Reiuji
+          - Wakasagihime
+          - Watatsuki no Toyohime
+          - Watatsuki no Yorihime
+          - Wriggle Nightbug
+          - Yachie Kicchou
+          - Yamame Kurodani
+          - Yatsuhashi Tsukumo
+          - Yoshika Miyako
+          - Youmu Konpaku
+          - Yukari Yakumo
+          - Yuugi Hoshiguma
+          - Yuuka Kazami
+          - Yuyuko Saigyouji
+        spell_cards:
+          - Spirit Sign "Yin-Yang Sign"
+          - Spirit Sign "Fantasy Seal"
+          - Spirit Sign "Hakurei Illusion"
+          - Magic Sign "Stardust"
+          - Magic Sign "Stardust Reverie"
+          - Magic Sign "Illusion Star"
+          - Time Sign "Private Vision"
+          - Time Sign "Mysterious Jack"
+          - Hesitation Sign "Sword of Binding Desires"
+          - Hesitation Sign "Half Body Disillusion"
+          - Wave Sign "Lunar Surface Ripple (Luna Wave)"
+          - Scatter Sign "Dream of Prosperity (Luna Megalopolis)"
+          - Freeze Sign "Perfect Freeze"
+          - Freeze Sign "Cold Divinity"
+          - Noise Sign "Soul Noise Flow"
+          - Noise Sign "Lyrica Solo Live"
+          - Bird Sign "Human Cage"
+          - Bird Sign "Human Cage Double"
+          - Bird Sign "Mysterious Song"
+          - Rabbit Sign "Great Fortune Crest"
+          - Rabbit Sign "Bare White Rabbit of Inaba"
+          - Flower Sign "Blossoming of Gensokyo"
+          - Fantasy "The Beauties of Nature"
+          - Wind Sign "Wind God's Fan"
+          - Gust "Wind God Girl"
+          - Poison Sign "Nerve Poison"
+          - Poison Sign "A Poison for Melancholy"
+          - Thrown Coins "Yesterday's Money"
+          - Shinigami "Higan Retour"
+          - Guilt Sign "Wandering Sin"
+          - Judgement "Last Judgement"
+          - Noise Sign "Soul Go Happy"
+          - Noise Sign "Merlin Happy Live"
+          - Noise Sign "Noise Melancholy"
+          - Noise Sign "Lunasa Solo Live"
+          - Leaf Sign "Falling Leaves of Madness"
+          - Fall Sign "Fall Sky"
+          - Fall Sign "The Fall Sky and a Maiden's Heart"
+          - Plenty Sign "Owotoshi Harvester"
+          - Bumper Crop "Promise of the Wheat God"
+          - Bad Luck Sign "Bad Fortune"
+          - Bad Luck Sign "Biorhythm of the Misfortune God"
+          - Flawed Sign "Broken Amulet"
+          - Scar "Broken Charm of Protection"
+          - Evil Spirit "Misfortune's Wheel"
+          - Fate "Old Lady Ohgane's Fire"
+          - Wound Sign "Pain Flow"
+          - Wound Sign "Exiled Doll"
+          - Optics "Optical Camouflage"
+          - Optics "Hydro Camouflage"
+          - Flood "Ooze Fooding"
+          - Flood "Diluvial Mere"
+          - Drown "Trauma in the Glimmering Depths"
+          - Water Sign "Kappa's Pororoca"
+          - Water Sign "Kappa's Flash Flood"
+          - Water Sign "Kappa's Great Illusionary Waterfall"
+          - Kappa "Monster Cucumber"
+          - Kappa "Exteeeending Aaaaarm"
+          - Kappa "Spin the Cephalic Plate"
+          - Crossroad Sign "Crossroads of Heaven"
+          - Crossroad Sign "Saruta Cross"
+          - Wind God "Wind God's Leaf-Veiling"
+          - Wind God "Tengu's Fall Wind"
+          - Wind God "Storm Day"
+          - "Illusionary Dominance"
+          - "Peerless Wind God"
+          - Blockade Sign "Mountain God's Procession"
+          - Blockade Sign "Advent of the Divine Grandson"
+          - Blockade Sign "Terukuni Shining Through Heaven and Earth"
+          - Esoterica "Gray Thaumaturgy"
+          - Esoterica "Forgotten Ritual"
+          - Esoterica "Secretly Inherited Art of Danmaku"
+          - Miracle "Daytime Guest Stars"
+          - Miracle "Night with Bright Guest Stars"
+          - Miracle "Night with Overly Bright Guest Stars"
+          - Sea Parting "The Day the Sea Split"
+          - Sea Parting "Moses' Miracle"
+          - Preparation "Star Ritual to Call the Godly Winds"
+          - Preparation "Summon Takeminakata"
+          - Miracle "God's Wind"
+          - Great Miracle "Yasaka's Divine Wind"
+          - Divine Festival "Expanded Onbashira"
+          - Weird Festival "Medoteko Boisterous Dance"
+          - Rice Porridge in Tube "God's Rice Porridge"
+          - Forgotten Grain "Unremembered Crop"
+          - Divine Grain "Divining Crop"
+          - Sacrifice Sign "Misayama Hunting Shrine Ritual"
+          - Mystery "Kuzui Clear Water"
+          - Mystery "Yamato Torus"
+          - Heaven's Stream "Miracle of Otensui"
+          - Heaven's Dragon "Source of Rains"
+          - "Mountain of Faith"
+          - "Divine Virtues of Wind God"
+          - God Sign "Beautiful Spring like Suiga"
+          - God Sign "Ancient Fate Linked by Cedars"
+          - God Sign "Omiwatari that God Walked"
+          - Party Start "Two Bows, Two Claps, and One Bow"
+          - Native God "Lord Long-Arm and Lord Long-Leg"
+          - Divine Tool "Moriya's Iron Ring"
+          - Spring Sign "Jade of the Horrid River"
+          - Frog Hunt "The Snake Eats the Croaking Frog"
+          - Native God "Seven Stones and Seven Trees"
+          - Native God "Froggy Braves the Wind and Rain"
+          - Native God "Red Frogs of Houei Four"
+          - "Suwa War ~ Native Myth vs. Central Myth"
+          - Scourge Sign "Mishaguji-sama"
+          - Trap Sign "Capture Web"
+          - Spider "Cave Spider's Nest"
+          - Miasma Sign "Filled Miasma"
+          - Miasma "Unexplained Fever"
+          - Jealousy Sign "Green-Eyed Monster"
+          - Envy "Green-Eyed Invisible Monster"
+          - Grandpa Hanasaka "Jealousy of the Kind & Lovely"
+          - Grandpa Hanasaka "Shiro's Ashes"
+          - Tongue-Cut Sparrow "Hate for the Humble & Rich"
+          - Tongue-Cut Sparrow "Large Box & Small Box"
+          - Malice Sign "Shrine Visit in the Dead of Night"
+          - Malice Sign "Day 7 of the Shrine Visits in the Dead of Night"
+          - Oni Sign "Anomalies, Strength, Disorder, & Spirits"
+          - Mysterious Ring "Hell's Wheel of Pain"
+          - Shackles Sign "Shackles a Criminal Can't Take Off"
+          - Feat of Strength "Storm on Mt. Ooe"
+          - Feat of Strength "Wind Blowing Down from Mt. Ooe"
+          - Big Four Arcanum "Knock Out In Three Steps"
+          - Recollection "Terrible Souvenir"
+          - Recollection "Terrifying Hypnotism"
+          - Recollection "Double Black Death Butterfly"
+          - Recollection "Flying Insect's Nest"
+          - Recollection "Border of Wave & Particle"
+          - Recollection "Mt. Togakushi Toss"
+          - Recollection "Night Parade of a Million Demons"
+          - Recollection "Deep Fog Labyrinth"
+          - Recollection "Wind God's Leaf-Veiling"
+          - Recollection "Tengu's Macroburst"
+          - Recollection "Torii Whorl-Wind"
+          - Recollection "Spring Kyoto Dolls"
+          - Recollection "Straw Doll Kamikaze"
+          - Recollection "Return Inanimateness"
+          - Recollection "Mercury Poison"
+          - Recollection "Princess Undine"
+          - Recollection "Philosopher's Stone"
+          - Recollection "Extending Arm"
+          - Recollection "Kappa's Pororoca"
+          - Recollection "Trauma in the Glimmering Depths"
+          - Cat Sign "Cat's Walk"
+          - Cat Sign "Vengeful Cat Spirit's Erratic Step"
+          - Cursed Sprite "Zombie Fairy"
+          - 'Cursed Sprite "Vengeful Spirit: Possessed Fairy"'
+          - Malicious Spirit "Spleen Eater"
+          - Corpse Spirit "Vengeful Cannibal Spirit"
+          - Atonement "Needle Mountain of a Former Hell"
+          - Atonement "The Needles of Yore & the Vengeful Spirits in Pain"
+          - "Rekindling of Dead Ashes"
+          - "Small Demon's Revival"
+          - Youkai "Blazing Wheel"
+          - Atomic Fire "Nuclear Fusion"
+          - Atomic Fire "Nuclear Excursion"
+          - Atomic Fire "Uncontainable Nuclear Reaction"
+          - Explosion Sign "Petit Flare"
+          - Explosion Sign "Mega Flare"
+          - Explosion Sign "Giga Flare"
+          - Explosion Sign "Peta Flare"
+          - Blazing Star "Fixed Star"
+          - Blazing Star "Planetary Revolution"
+          - Blazing Star "Ten Evil Stars"
+          - "Hell & Heaven Meltdown"
+          - "Hell's Tokamak"
+          - "Hell's Artificial Sun"
+          - "Subterranean Sun"
+          - Esoterica "Nine Syllable Stabs"
+          - Miracle "Miracle Fruit"
+          - Divine Virtue "Bumper Crop Rice Shower"
+          - Image "All Ancestors Standing Beside Your Bed"
+          - Image "Danmaku Paranoia"
+          - Instinct "Release of the Id"
+          - Suppression "Super-Ego"
+          - Response "Youkai Polygraph"
+          - Unconscious "Rorschach in Danmaku"
+          - Rekindled "The Embers of Love"
+          - Depths "Genetics of the Unconscious"
+          - "Philosophy of a Hated Person"
+          - "Subterranean Rose"
+          - Rod Sign "Busy Rod"
+          - Search Sign "Rare Metal Detector"
+          - Search Sign "Gold Detector"
+          - Vision Sign "Nazrin Pendulum"
+          - Vision Sign "High Sensitivity Nazrin Pendulum"
+          - Defense Sign "Pendulum Guard"
+          - Large Ring "Umbrella Halo"
+          - Large Ring "Hello Forgotten World"
+          - Umbrella Sign "Parasol Star Symphony"
+          - Umbrella Sign "Parasol Star Memories"
+          - Rain Sign "A Rainy Night's Ghost Story"
+          - Umbrella "Super Water-Repelling Bone-Dry Monster"
+          - Monster Sign "A Forgotten Umbrella's Night Train"
+          - Monster Train "Spare Umbrella Express Night Carnival"
+          - Iron Fist "An Unarguable Youkai Punch"
+          - Divine Fist "Hell Thrust from Above the Clouds"
+          - Divine Fist "Hell Thrust from the Heavenly Seas"
+          - Fist Sign "Heavenly Net Sandbag"
+          - Barrage "Cloud World Kraken Strike"
+          - Barrage "King Kraken Strike"
+          - Hand Strike "Fist Smash"
+          - Annihilation "Consecutive Hooks Throughout Heaven & Earth"
+          - Thunderous Yell "A Scolding from a Traditional Old Man"
+          - Rage "Calamity Scolding Scorch"
+          - Rage "First & Last of Its Kind Scolding Scorch"
+          - Capsize "Dragging Anchor"
+          - Capsize "Foundering Anchor"
+          - Capsize "Sinking Anchor"
+          - Drowning Sign "Deep Vortex"
+          - Drowning Sign "Sinkable Vortex"
+          - Harbor Sign "Phantom Ship Harbor"
+          - Harbor Sign "Phantom Ship's Port"
+          - Harbor Sign "Eternally Anchored Phantom Ship"
+          - Phantom "Sinker Ghost"
+          - Phantom "Dipper Creeping Close"
+          - Jeweled Pagoda "Greatest Treasure"
+          - Jeweled Pagoda "Radiant Treasure"
+          - Jeweled Pagoda "Radiant Treasure Gun"
+          - Light Sign "Absolute Justice"
+          - Light Sign "Aura of Justice"
+          - Buddhist Art "Most Valuable Vajra"
+          - Buddha's Light "Vajra of Perfect Buddhism"
+          - Light Sign "Demon of Purification"
+          - "Complete Clarification"
+          - Magic "Omen of Purple Clouds"
+          - Good Omen "Cloudy Way in Purple"
+          - Good Omen "Nirvana's Cloudy Way in Purple"
+          - Magic "Mystic Fragrance of a Makai Butterfly"
+          - Magic "Magic Butterfly"
+          - Light Magic "Star Maelstrom"
+          - Light Magic "Magic Milky Way"
+          - Great Magic "Devil's Recitation"
+          - "Amagimi Hijiri's Air Scroll"
+          - Superhuman "Byakuren Hijiri"
+          - Flying Bowls "Flying Fantastica"
+          - Flying Bowls "Legendary Flying Saucers"
+          - Umbrella Sign "Lightly Falling Large Raindrops"
+          - Surprising Rain "Guerrilla Typhoon"
+          - Halo "Karakasa Surprising Flash"
+          - Ominous Clouds "Heian Dark Clouds"
+          - Unidentified "Red UFO Invasion of Rage"
+          - Nue Sign "Mysterious Snake Show"
+          - Unidentified "Blue UFO Invasion of Grief"
+          - Nue Sign "Danmaku Chimera"
+          - Unidentified "Green UFO Invasion of Justice"
+          - Nue Sign "Undefined Darkness"
+          - Unidentified "Rainbow UFO Invasion of Terror"
+          - "Nightmare of Heiankyou"
+          - Grudge Bow "The Bow of Genzanmi Yorimasa"
+          - Symbol "Dance of the Dead Butterflies"
+          - Symbol "Dance of the Dead Butterflies - Cherry Blossoms -"
+          - Ghostly Butterfly "Ghost Spot"
+          - Ghostly Butterfly "Ghost Spot - Cherry Blossoms -"
+          - Nether Sign "Endless Evening Cherry Blossoms"
+          - Cherry Blossom Sign "Saigyou Cherry Blossom Blizzard"
+          - Echo Sign "Mountain Echo"
+          - Echo Sign "Mountain Echo Scramble"
+          - Echo Sign "Power Resonance"
+          - Mountain Echo "Long-Range Echo"
+          - Mountain Echo "Amplify Echo"
+          - Great Voice "Charged Cry"
+          - Great Voice "Charged Yahoo!"
+          - Rainbow Sign "Umbrella Cyclone"
+          - Recovery "Heal By Desire"
+          - Poison Nail "Poison Raze"
+          - Poison Nail "Poison Murder"
+          - Desire Sign "Saved Up Desire Spirit Invitation"
+          - Desire Spirit "Score Desire Eater"
+          - Evil Sign "Yǎng Xiǎoguǐ"
+          - Evil Sign "Gūhún Yěguǐ"
+          - Demonify "Zǒuhuǒ Rùmó"
+          - Possession "Corpse Tóngjī"
+          - Spirit Link "Tōnglíng Yoshika"
+          - Taoist Sign "Tao Fetal Movement"
+          - Thunder Arrow "Gagouji's Cyclone"
+          - Thunder Arrow "Gagouji's Tornado"
+          - Heaven Sign "Rainy Iwafune"
+          - Heaven Sign "Ame-no-Iwafune, Ascend to Heaven"
+          - Throwing Dishes "Mononobe's Eighty Saké Cups"
+          - Blaze Sign "Blazing Winds of Haibutsu"
+          - Blaze Sign "Sakurai-ji in Flames"
+          - Saint Girl "Oomonoimi's Dinner"
+          - Honor "Colors of Twelve Levels"
+          - Honor "Ranks of Twelve Levels"
+          - Hermit Sign "Taoist of the Land of the Rising Sun"
+          - Hermit Sign "Emperor of the Land of the Rising Sun"
+          - Summon "Royal Clan's Chaotic Dance"
+          - Secret Treasure "Armillary Sphere of Ikaruga-dera"
+          - Secret Treasure "Prince Shotoku's Out-of-Place Artifact"
+          - Light Sign "Halo of the Guse Kannon"
+          - Light Sign "Guse Flash"
+          - Discernment "Lasers of Seventeen Articles"
+          - Divine Light "Honor the Avoidance of Defiance"
+          - "Falling Stars on Divine Spirit Mausoleum"
+          - "Newborn Divine Spirits"
+          - Unknown "Will-o'-wisps in Unknown Orbit"
+          - Unknown "Skyfish with Unknown Shape"
+          - Unknown "Youkai Orb of Unknown Mechanics"
+          - First Duel "Primate Danmaku Transformation"
+          - Second Duel "Carnivorous Danmaku Transformation"
+          - Third Duel "Avian Danmaku Transformation"
+          - Fourth Duel "Amphibian Danmaku Transformation"
+          - Fifth Duel "Scrolls of Frolicking Animals"
+          - Sixth Duel "Tanuki's Monstrous School"
+          - Seventh Duel "Wild Deserted Island"
+          - Transformation "Pseudo-Exorcism of the Stupid Shrine Maiden"
+          - "Mamizou Danmaku in Ten Transformations"
+          - Raccoon Sign "Full Moon Pompokolin"
+          - Cherry Blossom Sign "Cherry Blossom Blizzard Hell"
+          - Mountain Echo "Yamabiko's Specialty Echo Demonstration"
+          - Poison Nail "Undead Murderer"
+          - Taoist Sign "TAO Fetal Movement ~Dao~"
+          - Vengeful Spirit "Iruka's Thunder"
+          - Saint Girl "Sun Goddess's Sacrifice"
+          - "Divine Spirits' Universe"
+          - "Wild Carpet"
+          - Ice Sign "Ultimate Blizzard"
+          - Water Sign "Tail Fin Slap"
+          - Scale Sign "Scale Wave"
+          - Scale Sign "Raging Waves of the Reversed Scale"
+          - Scale Sign "Great Raging Waves of the Reversed Scale"
+          - Flight Sign "Flying Head"
+          - Neck Sign "Close-Eye Shot"
+          - Neck Sign "Rokurokubi Flight"
+          - Flying Head "Multiplicative Head"
+          - Flying Head "Seventh Head"
+          - Flying Head "Ninth Head"
+          - Flying Head "Dullahan Night"
+          - Fang Sign "Moonlit Canine Teeth"
+          - Transformation "Triangle Fang"
+          - Transformation "Star Fang"
+          - Roar "Strange Roar"
+          - Roar "Full Moon Howling"
+          - Wolf Sign "Star Ring Pounce"
+          - Sirius "High-Speed Pounce"
+          - Heikyoku "Sounds of Jetavana's Bell"
+          - Vengeful Spirit "Hoichi the Earless"
+          - Vengeful Spirit "Great Vengeful Spirit of Taira"
+          - Music Sign "Wicked Musical Score"
+          - Music Sign "Malicious Musical Score"
+          - Music Sign "Double Score"
+          - Koto Sign "Sounds of Anicca's Koto"
+          - Echo Sign "Heian's Reverberation"
+          - Echo Sign "Echo Chamber"
+          - Koto Music "Social Upheaval Koto Music Complement"
+          - Koto Music "Social Upheaval Requiem"
+          - Deceit Sign "Reverse Needle Attack"
+          - Reverse Sign "Danmaku Through the Looking-Glass"
+          - Reverse Sign "Evil in the Mirror"
+          - Reverse Sign "This Side Down"
+          - Reverse Sign "Overturning All Under Heaven"
+          - Reverse Bow "Dream Bow of Heaven & Earth"
+          - Reverse Bow "Decree of the Dream Bow of Heaven & Earth"
+          - Turnabout "Reverse Hierarchy"
+          - Turnabout "Change Air Brave"
+          - Small Bullet "Inchling's Path"
+          - Small Bullet "Inchling's Thorny Path"
+          - Mallet "Grow Bigger!"
+          - Mallet "Grow Even Bigger!"
+          - Bewitched Sword "Shining Needle Sword"
+          - Mallet "You Grow Bigger!"
+          - "Attack on Dwarf"
+          - "Wall of Issun"
+          - "Hop-o'-My-Thumb Seven"
+          - "The Seven Issun-Boshi"
+          - String Music "Storm Ensemble"
+          - String Music "Joururi World"
+          - First Drum "Raging Temple Taiko"
+          - Second Drum "Vengeful Spirit Aya-no-Tsuzumi"
+          - Third Drum "Three Strikes at Midnight"
+          - Death Drum "Land Percuss"
+          - Fifth Drum "Den-Den Daiko"
+          - Sixth Drum "Alternate Sticking"
+          - Seventh Drum "High Speed Taiko Rocket"
+          - Eighth Drum "Thunder God's Anger"
+          - "Blue Lady Show"
+          - "Pristine Beat"
+          - Evil Bullet "Speed Strike"
+          - Bullet Sign "Eagle Shooting"
+          - Bullet Sign "The Eagle Has Shot Its Target"
+          - Gun Sign "Lunatic Gun"
+          - Gun Sign "Lunatic Gun"
+          - Rabbit Sign "Strawberry Dango"
+          - Rabbit Sign "Berry Berry Dango"
+          - Rabbit Sign "Dango Influence"
+          - Moon-Viewing "September Full Moon"
+          - Moon-Viewing Saké "Lunatic September"
+          - Dream Sign "Scarlet Nightmare"
+          - Dream Sign "Scarlet Oppressive Nightmare"
+          - Dream Sign "Indigo Dream of Anxiety"
+          - Dream Sign "Indigo Three-Layered Dream of Anxiety"
+          - Dream Sign "Eternally Anxious Dream"
+          - Dream Sign "Ochre Confusion"
+          - Dream Sign "Ochre Labyrinthine Confusion"
+          - Dream Sign "Dream Catcher"
+          - Dream Sign "Azure Dream Catcher"
+          - Dream Sign "Losing Oneself in a Dream"
+          - Moon Sign "Ultramarine Lunatic Dream"
+          - Orb Sign "Disorderly Flock's Curse"
+          - Orb Sign "Disorderly Flock's Reverse Curse"
+          - Orb Sign "Disorderly Flock's Duplex Curse"
+          - Orb Sign "Impure Body Detection Mines"
+          - Orb Sign "Impure Body Detection Mines V2"
+          - Orb Sign "Shotgun Coronation of the Gods"
+          - Orb Sign "Shining Shotgun Coronation of the Gods"
+          - "One-Winged White Heron"
+          - Hell Sign "Hell Eclipse"
+          - Hell Sign "Eclipse of Hell"
+          - Hell Sign "Flash and Stripe"
+          - Hell Sign "Star and Stripe"
+          - Hellfire "Graze Inferno"
+          - Hellfire "Infernal Essence of Grazing"
+          - Inferno "Striped Abyss"
+          - "Fake Apollo"
+          - "Apollo Hoax Theory"
+          - "Pure Light of the Palm"
+          - "Murderous Lilies"
+          - "Primordial Divine Spirit World"
+          - "Modern Divine Spirit World"
+          - "Trembling, Shivering Star"
+          - "Pristine Lunacy"
+          - "Overflowing Blemishes"
+          - "Refinement of Earthen Impurity"
+          - Pure Sign "Purely Bullet Hell"
+          - Pure Sign "A Pristine Danmaku Hell"
+          - Butterfly "Butterfly Supplantation"
+          - Super-Express "Dream Express"
+          - Crawling Dream "Creeping Bullet"
+          - Otherworld "Ōmagatoki"
+          - Earth "Impurity Within One's Body"
+          - Moon "Apollo Reflection Mirror"
+          - "Simple Danmaku for Cornering a Trapped Rat"
+          - Otherworld "Hell's Non-Ideal Danmaku"
+          - Earth "Rain Falling in Hell"
+          - Moon "Lunatic Impact"
+          - "Pristine Danmaku for Killing a Person"
+          - "Trinitarian Rhapsody"
+          - "First and Last Nameless Danmaku"
+          - Butterfly Sign "Minute Scales"
+          - Butterfly Sign "Swallowtail's Scales"
+          - Butterfly Sign "Fluttering Summer"
+          - Butterfly Sign "Midsummer Wingbeats"
+          - Rain Sign "Imprisoning Autumn Rain"
+          - Rain Sign "Cursed Torrential Rain"
+          - Blade Sign "Yamanba's Kitchen Knife Sharpening"
+          - Blade Sign "Yamanba's Oni Kitchen Knife Sharpening"
+          - Blade Exhaustion Sign "Mountain Murder"
+          - Blade Exhaustion Sign "Bloody Mountain Murder"
+          - Spring Sign "Surprise Spring"
+          - Dog Sign "Stray Dog's Walk"
+          - Hound Sign "Mountain Hound's Walk"
+          - Spinning Top "Koma-Inu Spin"
+          - Spinning Top "Curl Up and Die"
+          - Koma Sign "Solitary A-Um Breathing"
+          - Magic Sign "Instant Bodhi"
+          - Magic Sign "Bodhi in an Instant"
+          - Magic Sign "Bullet Golem"
+          - Magic Sign "Gigantic Pet Bullet Lifeform"
+          - Jizo "Criminal Salvation"
+          - Jizo "Hellfire Salvation"
+          - Bamboo Sign "Bamboo Spear Dance"
+          - Bamboo Sign "Bamboo Crazy Dance"
+          - Myōga Ginger "Forget Your Name"
+          - Broadleaf Sign "Tanabata Star Festival"
+          - Myōga Blessing "Behind You"
+          - Dance Sign "Behind Festival"
+          - Mad Dance "Tengu-odoshi"
+          - Mad Dance "Frenzied Tengu-Frightening"
+          - Back Sign "Halo of the Secret God"
+          - Back Sign "Halo of the Absolute Secret God"
+          - Hidden Summer "Scorch By Hot Summer"
+          - Hidden Summer "Scorched Earth of Abnormal Intense Heat"
+          - Hidden Fall "Die of Famine"
+          - Hidden Fall "Preta of Abnormal Blight"
+          - Hidden Winter "Black Snowman"
+          - Hidden Winter "Snowman of Abnormal Snowfall"
+          - Hidden Spring "April Wizard"
+          - Hidden Spring "Black Magician of Abnormal Falling Petals"
+          - "Hidden Breezy Cherry Blossom"
+          - "Hidden Perfect Summer Ice"
+          - "Hidden Crazy Fall Wind"
+          - "Hidden Extreme Winter"
+          - Drum Dance "Powerful Cheers"
+          - Mad Dance "Crazy Backup Dance"
+          - Bullet Dance "Twin Typhoons"
+          - Secret Ceremony "Reverse Invoker"
+          - Secret Ceremony "Rear Shots of Betrayal"
+          - Secret Ceremony "Danmaku Dupion"
+          - Secret Ceremony "Fire of Ena"
+          - Secret Ceremony "Kyōgen of the Back Door"
+          - Secret Ceremony "Matarah Dukkha"
+          - Secret Ceremony "Sword of the Seven Stars"
+          - Secret Ceremony "Performers Unattached to Society"
+          - "The Back Face's Dark Sarugaku"
+          - "Anarchy Bullet Hell"
+          - Stone Sign "Stone Woods"
+          - Stone Sign "Stone Conifers"
+          - Stone Sign "Children's Limbo"
+          - Stone Sign "Adult Children's Limbo"
+          - Stone Sign "Stone Baby"
+          - Stone Sign "Heavy Stone Baby"
+          - Drowning Sign "Drowning in the Sanzu"
+          - Oni Sign "Demon Siege"
+          - Oni Sign "Hungry Demon Siege"
+          - Water Sign "Ordeal of Water Distribution"
+          - Water Sign "High-Level Purgatordeal of Water Distribution"
+          - Water Sign "Ultimate Purgatordeal of Water Distribution"
+          - Light Sign "Ordeal of Surveying"
+          - Light Sign "High-Level Purgatordeal of Surveying"
+          - Light Sign "Ultimate Purgatordeal of Surveying"
+          - Oni Sign "Purgatordeal of Oniwatari"
+          - Oni Sign "Hell-Level Purgatordeal of Oniwatari"
+          - Tortoise Sign "Tortoiseshell Hell"
+          - Oni Sign "Beasts Attacking from the Rear"
+          - Oni Sign "Mangy Beasts Attacking from the Rear"
+          - Oni Sign "Devilish Beasts Attacking from the Rear"
+          - Dragon Sign "Dragon Crest Bullets"
+          - Haniwa "Archer Haniwa"
+          - Haniwa "Skilled Archer Haniwa"
+          - Haniwa "Fencer Haniwa"
+          - Haniwa "Skilled Fencer Haniwa"
+          - Haniwa "Cavalry Haniwa"
+          - Haniwa "Skilled Cavalry Haniwa"
+          - Haniwa "Hollow Inexhaustible Troops"
+          - Haniwa "Undefeated Inexhaustible Troops"
+          - Square Shape "Square-Shaped Sculpting Art"
+          - Square Shape "Square Creature"
+          - Circular Shape "Perfect Circle Sculpting Art"
+          - Circular Shape "Circle Creature"
+          - Linear Shape "Line-Shaped Sculpting Art"
+          - Linear Shape "Linear Creature"
+          - Haniwa "Horse-and-Rider Idol Sculpting Art"
+          - Haniwa "Idol Creature"
+          - "Oni-Shaped Sculpting Art"
+          - "Geometric Creature"
+          - "Idola Diabolus"
+          - Bloody Battle "Watershed of Blood"
+          - Bloody Battle "Hell Realm Sight-Line"
+          - Bloody Battle "All-Spirit Oniwatari"
+          - Agile Skill "Thrilling Shot"
+          - Agile Skill "Lightning Neigh"
+          - Agile Skill "Dense Crowd"
+          - Agile Skill "Beast Epidemicity"
+          - Agile Skill "Triangle Chase"
+          - Agile Skill "Black Pegasus Meteor Shot"
+          - Agile Skill "Muscle Explosion"
+          - "Follow Me, Unafraid"
+          - "Oni-Shaped Hoi Polloi"
+          - "Deeds of Devilish Beasts"
+        locations:
+          - Abandon Pond
+          - Animal Realm
+          - Bamboo Forest of the Lost
+          - Barrier of Life & Death
+          - Canal of Willows
+          - Deep Road to Hell
+          - Dream World
+          - Eientei
+          - Forest of Magic
+          - Former Hell
+          - Garden of the Sun
+          - Geidontei
+          - Genbu Ravine
+          - Gensokyo
+          - Giant Toad's Pond
+          - Hakugyokurou
+          - Hakurei Shrine
+          - Hall of Dreams' Great Mausoleum
+          - Heaven
+          - Higan
+          - Hokkai
+          - Hot Spring Town
+          - Human Village
+          - Kourindou
+          - Land of the Back Door
+          - Lunar Capital
+          - Makai
+          - Mayohiga
+          - Misty Lake
+          - Moriya Shrine
+          - Muenzuka
+          - Myouren Temple
+          - Nameless Hill
+          - Netherworld
+          - Nuclear Furnace
+          - Outside World
+          - Palace of the Earth Spirits
+          - Phantom Meadow
+          - Primate Spirit Garden
+          - Rainbow Cavern of Earth Spirits
+          - Remains of Blazing Hell
+          - Road of Liminality
+          - Road of Lingering Snow
+          - Road of Reconsideration
+          - Sanzu River
+          - Scarlet Devil Mansion
+          - Sea of Tranquility
+          - Senkai
+          - Shining Needle Castle
+          - Suzunaan
+          - The Great Youkai Forest
+          - TORIFUNE
+          - Underground Geyser Center
+          - Underworld
+          - Untrodden Valley
+          - Waterfall of Nine Heavens
+          - Wind God's Lake
+          - Youkai Mountain
+        songs:
+          - Welcome to the Moon Tour
+          - Greenwich in the Sky
+          - Sleepless Night of the Eastern Country
+          - The Wheelchair's Future in Space
+          - Demystify Feast
+          - Satellite Café Terrace
+          - G Free
+          - Celestial Wizardry ~ Magical Astronomy
+          - Necrofantasia
+          - The Far Side of the Moon
+          - Sealed Gods
+          - A God That Misses People ~ Romantic Fall
+          - Because Princess Inada Is Scolding Me
+          - The Road of the Misfortune God ~ Dark Road
+          - Dark Side of Fate
+          - The Gensokyo the Gods Loved
+          - Akutagawa Ryuunosuke's "Kappa" ~ Candid Friend
+          - Fall of Fall ~ Autumnal Waterfall
+          - Youkai Mountain ~ Mysterious Mountain
+          - The Primal Scene of Japan the Girl Saw
+          - Faith Is for the Transient People
+          - Cemetery of Onbashira ~ Grave of Being
+          - The Venerable Ancient Battlefield ~ Suwa Foughten Field
+          - Tomorrow Will Be Special, Yesterday Was Not
+          - Native Faith
+          - Shrine at the Foot of the Mountain
+          - The Gods Give Us Blessed Rain ~ Sylphid Dream
+          - Eternal Night Vignette ~ Eastern Night
+          - Illusionary Night ~ Ghostly Eyes
+          - Stirring an Autumn Moon ~ Mooned Insect
+          - Song of the Night Sparrow ~ Night Bird
+          - Deaf to All but the Song
+          - Nostalgic Blood of the East ~ Old World
+          - Plain Asia
+          - Retribution for the Eternal Night ~ Imperishable Night
+          - Maiden's Capriccio ~ Dream Battle
+          - Love-Colored Master Spark
+          - Cinderella Cage ~ Kagome-Kagome
+          - Lunatic Eyes ~ Invisible Full Moon
+          - Voyage 1969
+          - Gensokyo Millennium ~ History of the Moon
+          - Flight of the Bamboo Cutter ~ Lunatic Princess
+          - Voyage 1970
+          - Extend Ash ~ Person of Hourai
+          - Reach for the Moon, Immortal Smoke
+          - Evening Primrose
+          - Eternal Dream ~ Mystical Maple
+          - Eastern Youkai Beauty
+          - Spirit of Avarice
+          - Night Sakura of Dead Spirits
+          - Ghost Lead
+          - Welcome to Youkai Temple
+          - Youkai Girl at the Gate
+          - Let’s Live in a Lovely Cemetery
+          - Rigid Paradise
+          - Desire Drive
+          - Old Yuanxian
+          - The Hall of Dreams' Great Mausoleum
+          - Omiwa Legend
+          - Starry Sky of Small Desires
+          - Shoutoku Legend ~ True Administrator
+          - Youkai Back Shrine Road
+          - Futatsuiwa from Sado
+          - A New Wind at the Shrine
+          - Desire Dream
+          - Silent Beast Spirits
+          - The Lamentations Known Only by Jizo
+          - Jelly Stone
+          - Lost River
+          - The Stone Baby and the Submerged Bovine
+          - Everlasting Red Spider Lily
+          - Seraphic Chicken
+          - Unlocated Hell
+          - Tortoise Dragon ~ Fortune and Misfortune
+          - Beast Metropolis
+          - Joutoujin of Ceramics
+          - Electric Heritage
+          - Entrust this World to Idols ~ Idolatrize World
+          - The Shining Law of the Strong Eating the Weak
+          - Prince Shoutoku's Pegasus ~ Dark Pegasus
+          - The Animals' Rest
+          - Returning Home from the Underground

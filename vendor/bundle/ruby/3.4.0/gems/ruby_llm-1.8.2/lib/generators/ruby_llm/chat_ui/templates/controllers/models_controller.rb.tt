@@ -1,0 +1,14 @@
+class <%= model_controller_class_name %> < ApplicationController
+  def index
+    @<%= model_table_name %> = <%= model_model_name %>.all
+  end
+
+  def show
+    @<%= model_variable_name %> = <%= model_model_name %>.find(params[:id])
+  end
+
+  def refresh
+    <%= model_model_name %>.refresh!
+    redirect_to <%= model_table_name %>_path, notice: "<%= model_model_name.pluralize %> refreshed successfully"
+  end
+end

@@ -1,0 +1,52 @@
+ru:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Письмо с подтверждением Вашей учетной записи '%{email}' отправлено на электронную почту. Вы должны следовать инструкциям, приведенным в письме, прежде чем Ваша учетная запись сможет быть активирована"
+      bad_credentials: "Неверные логин или пароль. Пожалуйста, попробуйте еще раз."
+      not_supported: "Используйте POST /sign_in для входа. GET запросы не поддерживаются."
+      user_not_found: "Пользователь не найден или не вошел."
+    token_validations:
+      invalid: "Неверные логин или пароль."
+    registrations:
+      missing_confirm_success_url: "Отсутствует параметр 'confirm_success_url'."
+      redirect_url_not_allowed: "Переадресация на '%{redirect_url}' не разрешена."
+      email_already_exists: "Учетная запись для '%{email}' уже существует"
+      account_with_uid_destroyed: "Учетная запись с uid '%{uid}' удалена."
+      account_to_destroy_not_found: "Не удается найти учетную запись для удаления."
+      user_not_found: "Пользователь не найден."
+    omniauth:
+      not_allowed_redirect_url: "Переадресация на '%{redirect_url}' не разрешена."
+    passwords:
+      missing_email: "Вы должны указать адрес электронной почты."
+      missing_redirect_url: "Отсутствует адрес переадресации."
+      not_allowed_redirect_url: "Переадресация на '%{redirect_url}' не разрешена."
+      sended: "Инструкция по восстановлению пароля отправлена на Вашу электронную почту '%{email}'."
+      user_not_found: "Не удается найти пользователя с электронной почтой '%{email}'."
+      password_not_required: "Эта учетная запись не требует пароля. Войдите используя учетную запись '%{provider}'."
+      missing_passwords: "Вы должны заполнить поля 'пароль' и 'повторите пароль'."
+      successfully_updated: "Ваш пароль успешно обновлён."
+  errors:
+    messages:
+      validate_sign_up_params: "Пожалуйста, укажите надлежащие данные для регистрации в теле запроса."
+      validate_account_update_params: "Пожалуйста, укажите надлежащие данные для обновления учетной записи в теле запроса."
+      not_email: "не является электронной почтой"
+  devise:
+    mailer:
+      confirmation_instructions:
+        subject: "Инструкции подтверждения"
+        confirm_link_msg: "Вы можете подтвердить ваш адрес электронной почты через ссылку ниже :"
+        confirm_account_link: "Подтвердить свою учетную запись"
+      reset_password_instructions:
+        subject: "Инструкции для восстановления пароля"
+        request_reset_link_msg: "Кто-то запросил ссылку на изменение пароля. Вы можете сделать это через ссылку ниже."
+        password_change_link: "Изменить пароль"
+        ignore_mail_msg: "Если Вы не запрашивали это, Вы можете проигнорировать это письмо." 
+        no_changes_msg: "Ваш пароль не изменится, пока вы не откроете ссылку выше и не создадите новый пароль."
+      unlock_instructions:
+        subject: "Разблокировать Инструкции"
+        account_lock_msg: "Ваш аккаунт был заблокирован из-за чрезмерного количества неудачных попыток входа."
+        unlock_link_msg: "Нажмите на ссылку ниже, чтобы разблокировать свой аккаунт:"
+        unlock_link: "Разблокировать мою учетную запись"
+  hello: "Здравствуйте"
+  welcome: "Добро пожаловать"
+

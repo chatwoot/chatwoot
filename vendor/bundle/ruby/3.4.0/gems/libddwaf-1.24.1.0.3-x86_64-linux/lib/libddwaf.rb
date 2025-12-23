@@ -1,0 +1,1 @@
+require "datadog/appsec/waf"

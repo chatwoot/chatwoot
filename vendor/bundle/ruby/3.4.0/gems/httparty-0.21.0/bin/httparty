@@ -1,0 +1,123 @@
+#!/usr/bin/env ruby
+
+require "optparse"
+require "pp"
+
+$LOAD_PATH.unshift(File.join(File.dirname(__FILE__), "/../lib"))
+require "httparty"
+
+opts = {
+  action: :get,
+  headers: {},
+  verbose: false
+}
+
+OptionParser.new do |o|
+  o.banner = "USAGE: #{$PROGRAM_NAME} [options] [url]"
+
+  o.on("-f",
+       "--format [FORMAT]",
+       "Output format to use instead of pretty-print ruby: " \
+       "plain, csv, json or xml") do |f|
+    opts[:output_format] = f.downcase.to_sym
+  end
+
+  o.on("-a",
+       "--action [ACTION]",
+       "HTTP action: get (default), post, put, delete, head, or options") do |a|
+    opts[:action] = a.downcase.to_sym
+  end
+
+  o.on("-d",
+       "--data [BODY]",
+       "Data to put in request body (prefix with '@' for file)") do |d|
+    if d =~ /^@/
+      opts[:body] = open(d[1..-1]).read
+    else
+      opts[:body] = d
+    end
+  end
+
+  o.on("-H", "--header [NAME:VALUE]", "Additional HTTP headers in NAME:VALUE form") do |h|
+    abort "Invalid header specification, should be Name:Value" unless h =~ /.+:.+/
+    name, value = h.split(':')
+    opts[:headers][name.strip] = value.strip
+  end
+
+  o.on("-v", "--verbose", "If set, print verbose output") do |v|
+    opts[:verbose] = true
+  end
+
+  o.on("-u", "--user [CREDS]", "Use basic authentication. Value should be user:password") do |u|
+    abort "Invalid credentials format. Must be user:password" unless u =~ /.*:.+/
+    user, password = u.split(':')
+    opts[:basic_auth] = { username: user, password: password }
+  end
+
+  o.on("-r", "--response-code", "Command fails if response code >= 400") do
+    opts[:response_code] = true
+  end
+
+  o.on("-h", "--help", "Show help documentation") do |h|
+    puts o
+    exit
+  end
+
+  o.on("--version", "Show HTTParty version") do |ver|
+    puts "Version: #{HTTParty::VERSION}"
+    exit
+  end
+end.parse!
+
+if ARGV.empty?
+  STDERR.puts "You need to provide a URL"
+  STDERR.puts "USAGE: #{$PROGRAM_NAME} [options] [url]"
+end
+
+def dump_headers(response)
+  resp_type = Net::HTTPResponse::CODE_TO_OBJ[response.code.to_s]
+  puts "#{response.code} #{resp_type.to_s.sub(/^Net::HTTP/, '')}"
+  response.headers.each do |n, v|
+    puts "#{n}: #{v}"
+  end
+  puts
+end
+
+if opts[:verbose]
+  puts "#{opts[:action].to_s.upcase} #{ARGV.first}"
+  opts[:headers].each do |n, v|
+    puts "#{n}: #{v}"
+  end
+  puts
+end
+
+response = HTTParty.send(opts[:action], ARGV.first, opts)
+if opts[:output_format].nil?
+  dump_headers(response) if opts[:verbose]
+  pp response
+else
+  print_format = opts[:output_format]
+  dump_headers(response) if opts[:verbose]
+
+  case opts[:output_format]
+    when :json
+      begin
+        require 'json'
+        puts JSON.pretty_generate(response.parsed_response)
+      rescue LoadError
+        puts YAML.dump(response)
+      rescue JSON::JSONError
+        puts response.inspect
+      end
+    when :xml
+      require 'rexml/document'
+      REXML::Document.new(response.body).write(STDOUT, 2)
+      puts
+    when :csv
+      require 'csv'
+      puts CSV.parse(response.body).map(&:to_s)
+    else
+      puts response
+  end
+end
+exit false if opts[:response_code] && response.code >= 400

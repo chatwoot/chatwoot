@@ -1,0 +1,185 @@
+module Prism
+  module Relocation
+    interface _Value
+      def start_line: () -> Integer
+      def end_line: () -> Integer
+      def start_offset: () -> Integer
+      def end_offset: () -> Integer
+      def start_character_offset: () -> Integer
+      def end_character_offset: () -> Integer
+      def cached_start_code_units_offset: (_CodeUnitsCache cache) -> Integer
+      def cached_end_code_units_offset: (_CodeUnitsCache cache) -> Integer
+      def start_column: () -> Integer
+      def end_column: () -> Integer
+      def start_character_column: () -> Integer
+      def end_character_column: () -> Integer
+      def cached_start_code_units_column: (_CodeUnitsCache cache) -> Integer
+      def cached_end_code_units_column: (_CodeUnitsCache cache) -> Integer
+      def leading_comments: () -> Array[Comment]
+      def trailing_comments: () -> Array[Comment]
+    end
+
+    interface _Field
+      def fields: (_Value value) -> entry_values
+    end
+
+    type entry_value = untyped
+    type entry_values = Hash[Symbol, entry_value]
+
+    class Entry
+      class MissingValueError < StandardError
+      end
+
+      def initialize: (Repository repository) -> void
+
+      def filepath: () -> String
+
+      def start_line: () -> Integer
+      def end_line: () -> Integer
+
+      def start_offset: () -> Integer
+      def end_offset: () -> Integer
+      def start_character_offset: () -> Integer
+      def end_character_offset: () -> Integer
+      def start_code_units_offset: () -> Integer
+      def end_code_units_offset: () -> Integer
+
+      def start_column: () -> Integer
+      def end_column: () -> Integer
+      def start_character_column: () -> Integer
+      def end_character_column: () -> Integer
+      def start_code_units_column: () -> Integer
+      def end_code_units_column: () -> Integer
+
+      def leading_comments: () -> Array[CommentsField::Comment]
+      def trailing_comments: () -> Array[CommentsField::Comment]
+      def comments: () -> Array[CommentsField::Comment]
+
+      private
+
+      def fetch_value: (Symbol name) -> entry_value
+      def values: () -> entry_values
+    end
+
+    class Source
+      attr_reader value: untyped
+
+      def initialize: (untyped value) -> void
+
+      def result: () -> ParseResult
+      def code_units_cache: (Encoding encoding) -> _CodeUnitsCache
+    end
+
+    class SourceFilepath < Source
+      def result: () -> ParseResult
+    end
+
+    class SourceString < Source
+      def result: () -> ParseResult
+    end
+
+    class FilepathField
+      attr_reader value: String
+
+      def initialize: (String value) -> void
+
+      def fields: (_Value value) -> entry_values
+    end
+
+    class LinesField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class OffsetsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class CharacterOffsetsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class CodeUnitOffsetsField
+      attr_reader repository: Repository
+      attr_reader encoding: Encoding
+
+      def initialize: (Repository repository, Encoding encoding) -> void
+      def fields: (_Value value) -> entry_values
+
+      private
+
+      def cache: () -> _CodeUnitsCache
+    end
+
+    class ColumnsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class CharacterColumnsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class CodeUnitColumnsField
+      attr_reader repository: Repository
+      attr_reader encoding: Encoding
+
+      def initialize: (Repository repository, Encoding encoding) -> void
+      def fields: (_Value value) -> entry_values
+
+      private
+
+      def cache: () -> _CodeUnitsCache
+    end
+
+    class CommentsField
+      class Comment
+        attr_reader slice: String
+
+        def initialize: (String slice) -> void
+      end
+
+      private
+
+      def comments: (entry_value value) -> Array[Comment]
+    end
+
+    class LeadingCommentsField < CommentsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class TrailingCommentsField < CommentsField
+      def fields: (_Value value) -> entry_values
+    end
+
+    class Repository
+      class ConfigurationError < StandardError
+      end
+
+      attr_reader source: Source
+      attr_reader fields: Hash[Symbol, _Field]
+      attr_reader entries: Hash[Integer, Hash[Symbol, Entry]]
+
+      def initialize: (Source source) -> void
+
+      def code_units_cache: (Encoding encoding) -> _CodeUnitsCache
+
+      def filepath: () -> self
+      def lines: () -> self
+      def offsets: () -> self
+      def character_offsets: () -> self
+      def code_unit_offsets: (Encoding encoding) -> self
+      def columns: () -> self
+      def character_columns: () -> self
+      def code_unit_columns: (Encoding encoding) -> self
+      def leading_comments: () -> self
+      def trailing_comments: () -> self
+      def comments: () -> self
+
+      private
+
+      def field: (Symbol name, _Field) -> self
+    end
+
+    def self.filepath: (String value) -> Repository
+    def self.string: (String value) -> Repository
+  end
+end

@@ -1,0 +1,67 @@
+# -*- ruby -*-
+
+require 'autotest/restart'
+# require 'autotest/isolate'
+require 'autotest/rcov' if ENV['RCOV']
+
+Autotest.add_hook :initialize do |at|
+  at.extra_files << "../../sexp_processor/dev/lib/pt_testcase.rb"
+  at.libs << ":../../sexp_processor/dev/lib"
+  at.add_exception ".diff"
+  at.add_exception ".rdoc"
+  at.add_exception ".yml"
+  at.add_exception ".txt"
+  at.add_exception ".output"
+  at.add_exception "bin"
+  at.add_exception "compare"
+  at.add_exception "coverage"
+  at.add_exception "coverage.info"
+  at.add_exception "misc"
+
+  Dir["lib/ruby??_parser.{rb,y}"].each do |f|
+    at.add_exception f
+  end
+
+  Dir["gauntlet*"].each do |f|
+    at.add_exception f
+  end
+
+  at.libs << ':../../minitest/dev/lib'
+  at.testlib = "minitest/autorun"
+
+  at.add_mapping(/^lib\/.*\.y$/) do |f, _|
+    g = File.basename(f, ".y").gsub("_", "_?").gsub(/2\d/, '')
+    at.files_matching %r%^test/.*#{g}.rb$%
+  end
+
+  at.add_mapping(/^lib\/.*\.yy$/) do |f, _|
+    g = File.basename(f, ".yy").gsub("_", "_?")
+    at.files_matching %r%^test/.*#{g}.rb$%
+  end
+
+  at.add_mapping(/^lib\/ruby_lexer\.rex\.rb$/) do |f, _|
+    at.files_matching %r%^test/.*ruby_lexer\.rb$%
+  end
+
+  at.add_mapping(/^lib\/.*\.rex$/) do |f, _|
+    g = File.basename(f, ".rex").gsub("_", "_?")
+    at.files_matching %r%^test/.*#{g}.rb$%
+  end
+
+  at.add_mapping(/pt_testcase.rb/) do |f, _|
+    at.files_matching(/test_.*rb$/)
+  end
+
+  %w(TestEnvironment TestStackState TestValueExpr).each do |klass|
+    at.extra_class_map[klass] = "test/test_ruby_parser_extras.rb"
+  end
+
+  Dir["lib/ruby??_parser.rb"].each do |s|
+    n = s[/\d+/]
+    at.extra_class_map["TestRubyParserV#{n}"] = "test/test_ruby_parser.rb"
+  end
+end
+
+Autotest.add_hook :run_command do |at, _|
+  system "rake parser lexer DEBUG=1"
+end

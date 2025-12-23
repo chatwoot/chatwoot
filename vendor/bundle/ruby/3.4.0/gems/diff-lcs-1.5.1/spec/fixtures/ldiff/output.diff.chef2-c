@@ -1,0 +1,20 @@
+*** spec/fixtures/old-chef2	2020-06-30 09:43:35.000000000 -0400
+--- spec/fixtures/new-chef2	2020-06-30 09:44:32.000000000 -0400
+***************
+*** 1,5 ****
+  recipe[a::default]
+- recipe[b::default]
+  recipe[c::default]
+  recipe[d::default]
+  recipe[e::default]
+--- 1,4 ----
+***************
+*** 12,14 ****
+--- 11,17 ----
+  recipe[l::default]
+  recipe[m::default]
+  recipe[n::default]
++ recipe[o::new]
++ recipe[p::new]
++ recipe[q::new]
++ recipe[r::new]

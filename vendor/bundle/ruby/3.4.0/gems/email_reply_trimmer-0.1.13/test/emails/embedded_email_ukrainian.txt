@@ -1,0 +1,19 @@
+Спасибо еще раз.
+
+30 серп. 2016 р. 20:45 "Arpit" <no-reply@example.com> пише:
+
+> meg <http://forum.example.com/users/foo> Foo
+> <http://forum.example.com/users/foo>
+> Август 30
+>
+> Когда будет точное название, напишите в личку и мы поменяем название.
+> ------------------------------
+>
+> Visit Message
+> <http://forum.example.com/t/slug/24>
+> or reply to this email to respond.
+>
+> To unsubscribe from these emails, click here
+> <http://forum.example.com/email/unsubscribe/0123456789>
+> .
+>

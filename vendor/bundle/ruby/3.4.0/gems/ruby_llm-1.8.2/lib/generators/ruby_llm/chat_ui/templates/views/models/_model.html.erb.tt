@@ -1,0 +1,16 @@
+<tr id="<%%= dom_id <%= model_model_name.demodulize.underscore %> %>">
+  <td><%%= <%= model_model_name.demodulize.underscore %>.provider %></td>
+  <td><%%= <%= model_model_name.demodulize.underscore %>.name %></td>
+  <td><%%= number_with_delimiter(<%= model_model_name.demodulize.underscore %>.context_window) if <%= model_model_name.demodulize.underscore %>.context_window %></td>
+  <td>
+    <%% if <%= model_model_name.demodulize.underscore %>.pricing && <%= model_model_name.demodulize.underscore %>.pricing['text_tokens'] && <%= model_model_name.demodulize.underscore %>.pricing['text_tokens']['standard'] %>
+      <%% input = <%= model_model_name.demodulize.underscore %>.pricing['text_tokens']['standard']['input_per_million'] %>
+      <%% output = <%= model_model_name.demodulize.underscore %>.pricing['text_tokens']['standard']['output_per_million'] %>
+      <%% if input && output %>
+        $<%%= "%.2f" % input %> / $<%%= "%.2f" % output %>
+      <%% end %>
+    <%% end %>
+  </td>
+  <td><%%= link_to "Show", <%= model_model_name.demodulize.underscore %> %></td>
+  <td><%%= link_to "Start <%= chat_table_name.singularize.humanize.downcase %>", new_<%= chat_variable_name %>_path(model: <%= model_model_name.demodulize.underscore %>.model_id) %></td>
+</tr>

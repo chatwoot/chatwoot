@@ -1,5 +1,6 @@
 <script>
 import { useBranding } from 'shared/composables/useBranding';
+import BRAND from 'shared/brand';
 
 const {
   LOGO_THUMBNAIL: logoThumbnail,
@@ -15,17 +16,17 @@ export default {
     },
   },
   setup() {
-    const { replaceInstallationName } = useBranding();
+    const { getBrandName } = useBranding();
     return {
-      replaceInstallationName,
+      getBrandName,
     };
   },
   data() {
     return {
       globalConfig: {
-        brandName,
-        logoThumbnail,
-        widgetBrandURL,
+        brandName: brandName || BRAND.brandName,
+        logoThumbnail: logoThumbnail || BRAND.logoThumbnail,
+        widgetBrandURL: widgetBrandURL || BRAND.website,
       },
     };
   },
@@ -68,7 +69,7 @@ export default {
         :src="globalConfig.logoThumbnail"
       />
       <span>
-        {{ replaceInstallationName($t('POWERED_BY')) }}
+        {{ $t('POWERED_BY', { brand: globalConfig.brandName }) }}
       </span>
     </a>
   </div>

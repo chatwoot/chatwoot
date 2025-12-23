@@ -1,0 +1,13 @@
+en:
+  faker:
+    blood:
+      type:
+        - O
+        - A
+        - B
+        - AB
+      rh_factor:
+        - +
+        - '-'
+      group:
+        - "#{type}#{rh_factor}"

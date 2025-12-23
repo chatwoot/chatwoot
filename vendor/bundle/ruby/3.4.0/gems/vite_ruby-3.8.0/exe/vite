@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+ENV['RAILS_ENV'] ||= ENV['RACK_ENV']
+
+require 'bundler/setup'
+require 'vite_ruby'
+
+cli = ViteRuby::CLI
+cli.require_framework_libraries
+
+Dry::CLI.new(cli).call

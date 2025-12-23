@@ -1,0 +1,5 @@
+ruby_version: 2.3
+ignore:
+  - lib/generators/audited/templates/**/*
+  - vendor/bundle/**/*
+  - gemfiles/vendor/bundle/**/*

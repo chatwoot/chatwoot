@@ -1,0 +1,69 @@
+# elements like %{queue} are variables and should not be translated
+it:
+  Actions: Azioni
+  AddToQueue: Aggiungi alla coda
+  AreYouSure: Sei sicuro?
+  AreYouSureDeleteJob: Sei sicuro di voler cancellare questo lavoro?
+  AreYouSureDeleteQueue: Sei sicuro di voler cancellare la coda %{queue}?
+  Arguments: Argomenti
+  Busy: Occupato
+  Class: Classe
+  Connections: Connessioni
+  CurrentMessagesInQueue: Messaggi in <span class='title'>%{queue}</span>
+  Dashboard: Dashboard
+  Dead: Arrestato
+  DeadJobs: Lavori arrestati
+  Delete: Cancella
+  DeleteAll: Cancella tutti
+  Enqueued: In coda
+  Error: Errore
+  ErrorBacktrace: Backtrace dell'errore
+  ErrorClass: Classe dell'errore
+  ErrorMessage: Messaggio di errore
+  Extras: Extra
+  Failed: Fallito
+  Failures: Fallimenti
+  GoBack: ← Indietro
+  History: Storia
+  Job: Lavoro
+  Jobs: Lavori
+  Kill: Uccidere
+  LastRetry: Ultimo tentativo
+  LivePoll: Live poll
+  MemoryUsage: Memoria utilizzata
+  Namespace: Namespace
+  NextRetry: Prossimo tentativo
+  NoDeadJobsFound: Non ci sono lavori arrestati
+  NoRetriesFound: Non sono stati trovati nuovi tentativi
+  NoScheduledFound: Non ci sono lavori pianificati
+  OneMonth: 1 mese
+  OneWeek: 1 settimana
+  OriginallyFailed: Primo fallimento
+  PeakMemoryUsage: Memoria utilizzata (max.)
+  Processed: Processato
+  Processes: Processi
+  Queue: Coda
+  Queues: Code
+  Realtime: Tempo reale
+  Retries: Nuovi tentativi
+  RetryAll: Riprova tutti
+  RetryCount: Totale tentativi
+  RetryNow: Riprova
+  Scheduled: Pianificato
+  ScheduledJobs: Lavori pianificati
+  ShowAll: Mostra tutti
+  SixMonths: 6 mesi
+  Size: Dimensione
+  Started: Iniziato
+  Status: Stato
+  StopPolling: Ferma il polling
+  Thread: Thread
+  Threads: Thread
+  ThreeMonths: 3 mesi
+  Time: Ora
+  Uptime: Uptime (giorni)
+  Version: Versione
+  When: Quando
+  Worker: Lavoratore
+  active: attivo
+  idle: inattivo

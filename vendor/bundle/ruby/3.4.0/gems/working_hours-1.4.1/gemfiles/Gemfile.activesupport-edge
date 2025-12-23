@@ -1,0 +1,5 @@
+source 'https://rubygems.org'
+
+gemspec :path => '..'
+
+gem 'activesupport', github: 'rails/rails', branch: 'main'

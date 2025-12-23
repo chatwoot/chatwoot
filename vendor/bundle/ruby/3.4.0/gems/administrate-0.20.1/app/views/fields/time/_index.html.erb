@@ -1,0 +1,19 @@
+<%#
+# Time Index Partial
+
+This partial renders an time attribute
+to be displayed on a resource's index page.
+
+By default, the attribute is rendered as a text tag.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Time][1].
+  A wrapper around the time attributes pulled from the model.
+
+%>
+
+<% if field.data %>
+  <%= field.time %>
+<% end %>

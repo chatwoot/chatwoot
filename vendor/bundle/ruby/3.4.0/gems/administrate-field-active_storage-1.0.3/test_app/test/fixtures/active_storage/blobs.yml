@@ -1,0 +1,2 @@
+cover_image:
+  <%= ActiveStorage::FixtureSet.blob filename: "cover_image.jpg" %>

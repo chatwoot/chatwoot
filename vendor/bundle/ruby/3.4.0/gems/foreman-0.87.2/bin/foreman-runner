@@ -1,0 +1,41 @@
+#!/bin/sh
+#
+#/ Usage: foreman-runner [-d <dir>] [-p] <command> [<args>...]
+#/
+#/ Run a command with exec, optionally changing directory first
+
+set -e
+
+error() {
+  echo $@ >&2
+  exit 1
+}
+
+usage() {
+  cat $0 | grep '^#/' | cut -c4-
+  exit
+}
+
+read_profile=""
+
+while getopts ":hd:p" OPT; do
+  case $OPT in
+     d) cd "$OPTARG" ;;
+     p) read_profile="1" ;;
+     h) usage ;;
+    \?) error "invalid option: -$OPTARG" ;;
+     :) error "option -$OPTARG requires an argument" ;;
+  esac
+done
+
+shift $((OPTIND-1))
+
+[ -z "$1" ] && usage
+
+if [ "$read_profile" = "1" ]; then
+  if [ -f .profile ]; then
+    . ./.profile
+  fi
+fi
+
+exec "$@"

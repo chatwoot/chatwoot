@@ -1,0 +1,42 @@
+#!/bin/sh
+#/ Usage: release
+#/
+#/ Tag the version in the repo and push the gem.
+#/
+
+set -e
+cd $(dirname "$0")/..
+
+[ "$1" = "--help" -o "$1" = "-h" -o "$1" = "help" ] && {
+    grep '^#/' <"$0"| cut -c4-
+    exit 0
+}
+
+gem_name=httparty
+
+# Build a new gem archive.
+rm -rf $gem_name-*.gem
+gem build -q $gem_name.gemspec
+
+# Make sure we're on the master branch.
+(git branch | grep -q '* master') || {
+  echo "Only release from the master branch."
+  exit 1
+}
+
+# Figure out what version we're releasing.
+tag=v`ls $gem_name-*.gem | sed "s/^$gem_name-\(.*\)\.gem$/\1/"`
+
+echo "Releasing $tag"
+
+# Make sure we haven't released this version before.
+git fetch -t origin
+
+(git tag -l | grep -q "$tag") && {
+  echo "Whoops, there's already a '${tag}' tag."
+  exit 1
+}
+
+# Tag it and bag it.
+gem push $gem_name-*.gem && git tag "$tag" &&
+  git push origin master && git push origin "$tag"

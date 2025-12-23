@@ -1,0 +1,4004 @@
+# Copyright (C) 2018 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# https://www.mcmc.gov.my/sectors/celco/numbering-management/numbering-management/numbers-assignment
+
+6032011|Kuala Lumpur
+6032020|Kuala Lumpur
+6032021|Kuala Lumpur
+6032022|Kuala Lumpur
+6032023|Kuala Lumpur
+6032024|Kuala Lumpur
+6032025|Kuala Lumpur
+6032026|Kuala Lumpur
+6032027|Kuala Lumpur
+6032028|Kuala Lumpur
+6032030|Kuala Lumpur
+6032031|Kuala Lumpur
+6032032|Kuala Lumpur
+6032034|Kuala Lumpur
+6032035|Kuala Lumpur
+6032036|Kuala Lumpur
+6032037|Kuala Lumpur
+6032039|Kuala Lumpur
+603205|Kuala Lumpur
+603207|Kuala Lumpur
+6032080|Kuala Lumpur
+6032081|Kuala Lumpur
+6032082|Kuala Lumpur
+6032083|Kuala Lumpur
+6032084|Kuala Lumpur
+6032085|Kuala Lumpur
+6032087|Kuala Lumpur
+6032088|Kuala Lumpur
+6032089|Kuala Lumpur
+603209|Kuala Lumpur
+6032106|Kuala Lumpur
+6032107|Kuala Lumpur
+6032108|Kuala Lumpur
+6032109|Kuala Lumpur
+6032110|Kuala Lumpur
+6032113|Kuala Lumpur
+6032114|Kuala Lumpur
+6032115|Kuala Lumpur
+6032116|Kuala Lumpur
+6032117|Kuala Lumpur
+6032118|Kuala Lumpur
+6032119|Kuala Lumpur
+603214|Kuala Lumpur
+603216|Kuala Lumpur
+603217|Kuala Lumpur
+6032180|Kuala Lumpur
+6032181|Kuala Lumpur
+6032182|Kuala Lumpur
+6032191|Kuala Lumpur
+6032193|Kuala Lumpur
+6032201|Kuala Lumpur
+6032202|Kuala Lumpur
+6032203|Kuala Lumpur
+6032222|Kuala Lumpur
+6032223|Kuala Lumpur
+6032224|Kuala Lumpur
+6032240|Kuala Lumpur
+6032241|Kuala Lumpur
+6032242|Kuala Lumpur
+6032245|Kuala Lumpur
+6032246|Kuala Lumpur
+6032247|Kuala Lumpur
+6032260|Kuala Lumpur
+6032261|Kuala Lumpur
+6032262|Kuala Lumpur
+6032263|Kuala Lumpur
+6032264|Kuala Lumpur
+6032265|Kuala Lumpur
+6032266|Kuala Lumpur
+6032267|Kuala Lumpur
+6032268|Kuala Lumpur
+6032270|Kuala Lumpur
+6032272|Kuala Lumpur
+6032273|Kuala Lumpur
+6032274|Kuala Lumpur
+6032275|Kuala Lumpur
+6032276|Kuala Lumpur
+6032278|Kuala Lumpur
+6032279|Kuala Lumpur
+603228|Kuala Lumpur
+6032295|Kuala Lumpur
+6032296|Kuala Lumpur
+6032297|Kuala Lumpur
+6032298|Kuala Lumpur
+6032299|Kuala Lumpur
+6032300|Kuala Lumpur
+6032301|Kuala Lumpur
+6032302|Kuala Lumpur
+6032303|Kuala Lumpur
+6032330|Kuala Lumpur
+6032331|Kuala Lumpur
+6032332|Kuala Lumpur
+6032333|Kuala Lumpur
+6032336|Kuala Lumpur
+6032380|Kuala Lumpur
+6032381|Kuala Lumpur
+6032382|Kuala Lumpur
+6032383|Kuala Lumpur
+6032385|Kuala Lumpur
+6032386|Kuala Lumpur
+6032387|Kuala Lumpur
+6032388|Kuala Lumpur
+6032389|Kuala Lumpur
+6032391|Kuala Lumpur
+6032392|Kuala Lumpur
+6032393|Kuala Lumpur
+6032600|Kuala Lumpur
+6032601|Kuala Lumpur
+6032602|Kuala Lumpur
+6032603|Kuala Lumpur
+6032604|Kuala Lumpur
+6032605|Kuala Lumpur
+603261|Kuala Lumpur
+603263|Kuala Lumpur
+6032681|Kuala Lumpur
+6032685|Kuala Lumpur
+6032686|Kuala Lumpur
+6032687|Kuala Lumpur
+6032688|Kuala Lumpur
+603269|Kuala Lumpur
+603271|Kuala Lumpur
+6032720|Kuala Lumpur
+6032721|Kuala Lumpur
+6032722|Kuala Lumpur
+6032723|Kuala Lumpur
+6032724|Kuala Lumpur
+6032725|Kuala Lumpur
+6032726|Kuala Lumpur
+6032727|Kuala Lumpur
+6032730|Kuala Lumpur
+6032731|Kuala Lumpur
+6032732|Kuala Lumpur
+6032733|Kuala Lumpur
+6032742|Kuala Lumpur
+6032770|Kuala Lumpur
+6032771|Kuala Lumpur
+6032772|Kuala Lumpur
+6032773|Kuala Lumpur
+6032775|Kuala Lumpur
+6032776|Kuala Lumpur
+6032780|Kuala Lumpur
+6032781|Kuala Lumpur
+6032782|Kuala Lumpur
+6032783|Kuala Lumpur
+6032785|Kuala Lumpur
+6032786|Kuala Lumpur
+6032787|Kuala Lumpur
+6032788|Kuala Lumpur
+6032800|Kuala Lumpur
+6032847|Kuala Lumpur
+6032848|Kuala Lumpur
+6032856|Kuala Lumpur
+6032857|Kuala Lumpur
+6032858|Kuala Lumpur
+6032859|Kuala Lumpur
+6032935|Kuala Lumpur
+6032938|Kuala Lumpur
+603300|Kelang
+6033006|Sabak Bernam
+6033007|Kuala Selangor
+6033008|Banting
+6033010|Pulau Ketam
+6033050|Kelang
+6033051|Kelang
+6033080|Kelang
+6033081|Kelang
+6033082|Kelang
+6033083|Kelang
+6033084|Kelang
+6033085|Kelang
+6033086|Kelang
+6033093|Pulau Ketam
+6033099|Pulau Ketam
+6033101|Pulau Ketam
+6033102|Pulau Ketam
+6033103|Pulau Ketam
+6033109|Pulau Ketam
+6033110|Pulau Ketam
+6033120|Tk Panglima Garang
+6033122|Tk Panglima Garang
+6033123|Tk Panglima Garang
+6033124|Tk Panglima Garang
+6033126|Tk Panglima Garang
+6033129|Tk Panglima Garang
+6033132|Tk Panglima Garang
+6033134|Kelang
+6033135|Kelang
+6033140|Banting
+6033141|Sepang
+6033142|Sepang
+6033143|Sepang
+6033145|Banting
+6033148|Banting
+6033149|Banting
+6033160|Kelang
+6033161|Kelang
+6033162|Kelang
+6033163|Kelang
+6033165|Kelang
+6033166|Kelang
+6033167|Kelang
+6033168|Kelang
+6033169|Kelang
+6033170|Kelang
+6033176|Kelang
+6033177|Kelang
+6033179|Kelang
+6033180|Banting
+6033181|Banting
+6033182|Banting
+6033183|Banting
+6033184|Banting
+6033185|Banting
+6033187|Banting
+6033190|Banting
+6033191|Banting
+6033192|Banting
+6033197|Banting
+6033198|Banting
+6033213|Hutan Melintang
+6033214|Sabak Bernam
+6033216|Sabak Bernam
+6033217|Sabak Bernam
+6033224|Sabak Bernam
+6033225|Sabak Bernam
+6033241|Sekinchan
+6033242|Sekinchan
+6033243|Sekinchan
+6033250|Kelang
+6033256|Kelang
+6033258|Kelang
+6033259|Kelang
+6033260|Kuala Selangor
+6033264|Kuala Selangor
+6033265|Kuala Selangor
+6033268|Kuala Selangor
+6033269|Kuala Selangor
+6033270|Batang Berjuntai
+6033271|Batang Berjuntai
+6033272|Batang Berjuntai
+6033273|Batang Berjuntai
+6033275|Batang Berjuntai
+6033277|Kuala Selangor
+6033279|Batang Berjuntai
+6033280|Kuala Selangor
+6033281|Kuala Selangor
+6033282|Kuala Selangor
+6033283|Kuala Selangor
+6033284|Kuala Selangor
+6033288|Kuala Selangor
+6033289|Kuala Selangor
+6033290|Kelang
+6033291|Kelang
+6033292|Kelang
+6033297|Kelang
+6033317|Kelang
+6033318|Kelang
+6033319|Kelang
+6033321|Kelang
+6033322|Kelang
+6033323|Kelang
+6033324|Kelang
+6033325|Kelang
+6033326|Kelang
+6033341|Kelang
+6033342|Kelang
+6033343|Kelang
+6033344|Kelang
+6033345|Kelang
+6033346|Kelang
+6033348|Kelang
+6033349|Kelang
+6033358|Kelang
+6033359|Kelang
+6033361|Kelang
+6033362|Kelang
+6033363|Kelang
+603337|Kelang
+6033381|Kelang
+6033382|Kelang
+6033385|Kelang
+6033392|Kelang
+6033393|Kelang
+6033396|Kelang
+6033610|Kuala Selangor
+6033620|Kelang
+6033630|Banting
+6033831|Semenyih
+6033850|Banting
+6033851|Banting
+6033852|Banting
+6033855|Sabak Bernam
+6033856|Sabak Bernam
+6033860|Sekinchan
+6033868|Batang Berjuntai
+6033884|Kelang
+6033885|Kelang
+6034009|Kuala Lumpur
+603401|Kuala Lumpur
+6034020|Kuala Lumpur
+6034021|Kuala Lumpur
+6034022|Kuala Lumpur
+6034023|Kuala Lumpur
+6034024|Kuala Lumpur
+6034025|Kuala Lumpur
+6034026|Kuala Lumpur
+6034027|Kuala Lumpur
+6034028|Kuala Lumpur
+6034031|Kuala Lumpur
+6034032|Kuala Lumpur
+603404|Kuala Lumpur
+6034050|Kuala Lumpur
+6034051|Kuala Lumpur
+6034065|Kuala Lumpur
+6034100|Kuala Lumpur
+6034101|Kuala Lumpur
+6034102|Kuala Lumpur
+6034103|Kuala Lumpur
+6034104|Kuala Lumpur
+6034105|Kuala Lumpur
+6034106|Kuala Lumpur
+6034107|Kuala Lumpur
+6034108|Kuala Lumpur
+6034131|Kuala Lumpur
+603414|Kuala Lumpur
+6034161|Kuala Lumpur
+6034162|Kuala Lumpur
+6034217|Kuala Lumpur
+6034250|Kuala Lumpur
+6034251|Kuala Lumpur
+6034252|Kuala Lumpur
+6034253|Kuala Lumpur
+6034255|Kuala Lumpur
+6034256|Kuala Lumpur
+6034257|Kuala Lumpur
+6034258|Kuala Lumpur
+6034259|Kuala Lumpur
+6034260|Kuala Lumpur
+6034262|Kuala Lumpur
+6034264|Kuala Lumpur
+6034265|Kuala Lumpur
+6034266|Kuala Lumpur
+6034270|Kuala Lumpur
+6034271|Kuala Lumpur
+6034278|Kuala Lumpur
+6034279|Kuala Lumpur
+6034280|Kuala Lumpur
+6034285|Kuala Lumpur
+6034287|Kuala Lumpur
+6034288|Kuala Lumpur
+6034289|Kuala Lumpur
+6034290|Kuala Lumpur
+6034291|Kuala Lumpur
+6034292|Kuala Lumpur
+6034293|Kuala Lumpur
+6034294|Kuala Lumpur
+6034295|Kuala Lumpur
+6034296|Kuala Lumpur
+6034297|Kuala Lumpur
+6034299|Kuala Lumpur
+6034770|Kuala Lumpur
+6034800|Kuala Lumpur
+6034801|Kuala Lumpur
+6034802|Kuala Lumpur
+6034810|Kuala Lumpur
+6034811|Kuala Lumpur
+6034812|Kuala Lumpur
+6034813|Kuala Lumpur
+6034815|Kuala Lumpur
+6034816|Kuala Lumpur
+6034819|Kuala Lumpur
+6034820|Kuala Lumpur
+6034821|Kuala Lumpur
+6035020|Kinrara
+6035021|Kinrara
+6035022|Kinrara
+6035030|Kinrara
+6035031|Kinrara
+6035032|Kinrara
+6035033|Kinrara
+6035035|Kinrara
+6035036|Kinrara
+6035039|Kinrara
+6035101|Kinrara
+6035102|Kinrara
+6035103|Kinrara
+6035110|Kinrara
+6035115|Kinrara
+6035120|Kinrara
+6035121|Kinrara
+6035122|Kinrara
+6035123|Kinrara
+6035124|Kinrara
+6035125|Kinrara
+6035126|Kinrara
+6035131|Kinrara
+6035161|Kinrara
+6035162|Kinrara
+6035163|Kinrara
+6035164|Kinrara
+6035165|Kinrara
+6035166|Kinrara
+6035167|Kinrara
+6035191|Kinrara
+6035192|Kinrara
+6035195|Kinrara
+6035198|Kinrara
+6035270|Kinrara
+6035480|Kinrara
+6035481|Kinrara
+6035482|Kinrara
+6035483|Kinrara
+6035484|Kinrara
+6035485|Kinrara
+603551|Kinrara
+6035520|Kinrara
+6035521|Kinrara
+6035522|Kinrara
+6035523|Kinrara
+6035524|Kinrara
+6035525|Kinrara
+6035526|Kinrara
+6035540|Kinrara
+6035541|Kinrara
+6035542|Kinrara
+6035543|Kinrara
+6035544|Kinrara
+6035545|Kinrara
+6035548|Kinrara
+6035549|Kinrara
+6035561|Kinrara
+6035562|Kinrara
+6035565|Kinrara
+6035566|Kinrara
+6035567|Kinrara
+6035568|Kinrara
+6035569|Kinrara
+6035590|Kinrara
+6035591|Kinrara
+6035611|Kinrara
+6035612|Kinrara
+6035613|Kinrara
+6035614|Kinrara
+6035620|Kinrara
+6035621|Kinrara
+6035622|Kinrara
+6035623|Kinrara
+6035624|Kinrara
+6035625|Kinrara
+6035628|Kinrara
+6035629|Kinrara
+603563|Kinrara
+6035650|Kinrara
+6035651|Kinrara
+6035652|Kinrara
+6035653|Kinrara
+6035721|Kinrara
+6035740|Kinrara
+6035878|Kinrara
+6035879|Kinrara
+6035880|Kinrara
+6035882|Kinrara
+6035885|Kinrara
+6035886|Kinrara
+6035887|Kinrara
+6035888|Kuala Lumpur
+6035889|Kinrara
+6035891|Kinrara
+6035892|Kinrara
+6036020|Batu Arang
+6036021|Batuarang
+6036022|Batu Arang
+6036028|Batu Arang
+6036032|Rawang
+6036034|Rawang
+6036035|Batuarang
+6036036|Batuarang
+6036037|Rawang
+6036038|Kuala Lumpur
+6036039|Kuala Lumpur
+6036042|Kampong Suharto
+6036044|Kampong Suharto
+6036046|Kampong Suharto
+6036047|Kerling
+6036048|Kerling
+6036049|Kerling
+6036055|Kuala Kubu Baru
+6036057|Kuala Kubu Baru
+6036061|Kuala Kubu Baru
+6036063|Kuala Kubu Baru
+6036064|Kuala Kubu Baru
+6036065|Kuala Kubu Baru
+6036066|Kuala Kubu Baru
+6036073|Kuala Kubu Baru
+6036075|Kuala Kubu Baru
+6036078|Batu Arang
+6036081|Batu Arang
+6036084|Batu Arang
+6036087|Rawang
+6036090|Rawang
+6036091|Rawang
+6036092|Rawang
+6036093|Rawang
+6036094|Rawang
+6036095|Rawang
+6036099|Rawang
+6036100|Genting
+6036101|Genting
+6036102|Genting
+6036103|Genting
+6036104|Genting
+6036105|Genting
+6036108|Genting
+6036120|Kuala Lumpur
+6036122|Kuala Lumpur
+6036123|Kuala Lumpur
+6036124|Kuala Lumpur
+6036125|Kuala Lumpur
+6036126|Kuala Lumpur
+6036127|Kuala Lumpur
+6036128|Kuala Lumpur
+6036130|Kuala Lumpur
+6036131|Kuala Lumpur
+6036135|Kuala Lumpur
+6036136|Kuala Lumpur
+6036137|Kuala Lumpur
+6036138|Kuala Lumpur
+6036139|Kuala Lumpur
+6036140|Kuala Lumpur
+6036141|Kuala Lumpur
+6036142|Kuala Lumpur
+6036143|Kuala Lumpur
+6036144|Kuala Lumpur
+6036145|Kuala Lumpur
+6036148|Kuala Lumpur
+6036150|Kuala Lumpur
+6036151|Kuala Lumpur
+6036156|Kuala Lumpur
+6036157|Kuala Lumpur
+6036158|Kuala Lumpur
+6036177|Kuala Lumpur
+6036178|Kuala Lumpur
+6036179|Kuala Lumpur
+6036181|Kuala Lumpur
+6036184|Kuala Lumpur
+6036185|Kuala Lumpur
+6036186|Kuala Lumpur
+6036187|Kuala Lumpur
+6036188|Kuala Lumpur
+6036189|Kuala Lumpur
+6036191|Kuala Lumpur
+6036192|Kuala Lumpur
+6036193|Kuala Lumpur
+6036195|Kuala Lumpur
+6036196|Kuala Lumpur
+603620|Kuala Lumpur
+6036211|Kuala Lumpur
+6036241|Kuala Lumpur
+6036242|Kuala Lumpur
+6036243|Kuala Lumpur
+603625|Kuala Lumpur
+6036261|Kuala Lumpur
+6036262|Kuala Lumpur
+6036263|Kuala Lumpur
+6036270|Kuala Lumpur
+6036272|Kuala Lumpur
+6036273|Kuala Lumpur
+6036274|Kuala Lumpur
+6036275|Kuala Lumpur
+6036276|Kuala Lumpur
+6036277|Kuala Lumpur
+6036279|Kuala Lumpur
+6036280|Kuala Lumpur
+6036281|Kuala Lumpur
+6036285|Kuala Lumpur
+6036286|Kuala Lumpur
+6036287|Kuala Lumpur
+6036303|Genting
+6036411|Kuala Lumpur
+6036412|Kuala Lumpur
+6036419|Kuala Lumpur
+6036420|Rawang
+6036421|Rawang
+6036433|Genting
+6036436|Genting
+6036460|Kerling
+6036461|Kerling
+6036462|Kerling
+6036690|Batuarang
+603673|Kuala Lumpur
+6036736|Batu Arang
+6036737|Kuala Kubu Baru
+6036738|Kuala Kubu Baru
+6036739|Kuala Kubu Baru
+6036789|Genting
+6037118|Kuala Lumpur
+6037200|Kuala Lumpur
+6037202|Kuala Lumpur
+6037260|Kuala Lumpur
+6037261|Kuala Lumpur
+603745|Kuala Lumpur
+6037480|Kuala Lumpur
+6037481|Kuala Lumpur
+603749|Kuala Lumpur
+6037610|Kuala Lumpur
+6037611|Kuala Lumpur
+603762|Kuala Lumpur
+6037650|Kuala Lumpur
+6037651|Kuala Lumpur
+6037652|Kuala Lumpur
+6037660|Kuala Lumpur
+6037661|Kuala Lumpur
+6037662|Kuala Lumpur
+6037663|Kuala Lumpur
+6037664|Kuala Lumpur
+6037665|Kuala Lumpur
+6037666|Kuala Lumpur
+6037669|Kuala Lumpur
+6037710|Kuala Lumpur
+6037711|Kuala Lumpur
+6037712|Kuala Lumpur
+6037713|Kuala Lumpur
+6037717|Kuala Lumpur
+6037718|Kuala Lumpur
+6037719|Kuala Lumpur
+603772|Kuala Lumpur
+6037731|Kuala Lumpur
+6037732|Kuala Lumpur
+6037733|Kuala Lumpur
+6037734|Kuala Lumpur
+6037735|Kuala Lumpur
+6037770|Kuala Lumpur
+6037771|Kuala Lumpur
+6037772|Kuala Lumpur
+6037773|Kuala Lumpur
+603778|Kuala Lumpur
+603780|Kuala Lumpur
+6037831|Kuala Lumpur
+6037832|Kuala Lumpur
+6037839|Kuala Lumpur
+603784|Kuala Lumpur
+6037859|Kuala Lumpur
+6037861|Kuala Lumpur
+6037862|Kuala Lumpur
+6037863|Kuala Lumpur
+6037865|Kuala Lumpur
+6037866|Kuala Lumpur
+6037870|Kuala Lumpur
+6037872|Kuala Lumpur
+6037873|Kuala Lumpur
+6037874|Kuala Lumpur
+6037875|Kuala Lumpur
+6037876|Kuala Lumpur
+6037877|Kuala Lumpur
+6037879|Kuala Lumpur
+6037880|Kuala Lumpur
+6037882|Kuala Lumpur
+6037883|Kuala Lumpur
+6037884|Kuala Lumpur
+6037885|Kuala Lumpur
+6037886|Kuala Lumpur
+6037887|Kuala Lumpur
+6037890|Kuala Lumpur
+6037910|Kuala Lumpur
+6037931|Kuala Lumpur
+6037932|Kuala Lumpur
+6037933|Kuala Lumpur
+6037940|Kuala Lumpur
+6037941|Kuala Lumpur
+6037946|Kuala Lumpur
+6037947|Kuala Lumpur
+6037948|Kuala Lumpur
+6037949|Kuala Lumpur
+603795|Kuala Lumpur
+603796|Kuala Lumpur
+6037971|Kuala Lumpur
+6037972|Kuala Lumpur
+603798|Kuala Lumpur
+6038000|Putrajaya
+6038008|Putrajaya
+6038011|Kinrara
+6038020|Kinrara
+6038021|Kinrara
+6038022|Kinrara
+6038023|Kinrara
+6038024|Kinrara
+6038025|Kinrara
+6038026|Kinrara
+6038027|Kinrara
+6038051|Kinrara
+6038052|Kinrara
+603806|Kinrara
+6038070|Kinrara
+6038071|Kinrara
+6038073|Kinrara
+6038074|Kinrara
+6038075|Kinrara
+6038076|Kinrara
+6038079|Kinrara
+6038080|Kinrara
+6038081|Kinrara
+6038082|Kinrara
+6038084|Kinrara
+6038090|Kinrara
+6038091|Kinrara
+6038092|Kinrara
+6038093|Kinrara
+6038094|Kinrara
+6038095|Kinrara
+6038100|Kinrara
+6038210|Semenyih
+6038211|Semenyih
+6038213|Putrajaya
+6038216|Kuala Lumpur
+6038308|Putrajaya
+603831|Putrajaya
+6038320|Putrajaya
+6038321|Putrajaya
+6038322|Putrajaya
+6038323|Putrajaya
+6038324|Putrajaya
+6038325|Putrajaya
+6038328|Putrajaya
+6038329|Putrajaya
+6038331|Putrajaya
+6038408|Cheras
+6038520|Kinrara
+6038521|Sepang
+6038522|Semenyih
+6038523|Kinrara
+6038525|Mantin
+6038526|Mantin
+6038527|Mantin
+6038529|Mantin
+6038588|Putrajaya
+6038600|Kinrara
+6038601|Kinrara
+6038602|Kinrara
+6038605|Kinrara
+6038609|Kinrara
+6038655|Cheras
+6038656|Cheras
+6038657|Cheras
+6038659|Cheras
+6038660|Mantin
+6038661|Mantin
+6038684|Putrajaya
+6038686|Putrajaya
+6038687|Putrajaya
+6038688|Putrajaya
+6038689|Putrajaya
+6038690|Semenyih
+6038691|Semenyih
+6038699|Semenyih
+6038703|Mantin
+6038705|Mantin
+6038706|Mantin
+6038707|Mantin
+6038708|Mantin
+6038723|Semenyih
+6038724|Semenyih
+6038725|Semenyih
+6038726|Semenyih
+6038727|Semenyih
+603873|Semenyih
+6038740|Semenyih
+6038741|Semenyih
+6038744|Semenyih
+6038749|Semenyih
+6038750|Semenyih
+6038751|Semenyih
+6038752|Semenyih
+6038760|Semenyih
+6038761|Semenyih
+6038766|Semenyih
+6038767|Semenyih
+6038768|Semenyih
+6038769|Semenyih
+6038775|Mantin
+6038776|Mantin
+6038777|Mantin
+6038778|Mantin
+6038779|Mantin
+6038780|Mantin
+6038783|Mantin
+6038787|Mantin
+6038790|Mantin
+6038800|Putrajaya/Cyberjaya
+6038861|Putrajaya
+6038870|Putrajaya
+6038871|Putrajaya
+6038872|Putrajaya
+6038873|Putrajaya
+603888|Putrajaya
+6038890|Putrajaya
+6038891|Putrajaya
+6038892|Putrajaya
+6038893|Putrajaya
+6038894|Putrajaya
+6038911|Semenyih
+6038912|Semenyih
+6038913|Semenyih
+603892|Semenyih
+603893|Cheras
+603894|Cheras
+6038950|Cheras
+6038951|Cheras
+6038952|Cheras
+6038953|Cheras
+6038955|Serdang
+6038956|Serdang
+6038957|Cheras
+6038958|Cheras
+6038959|Cheras
+6038961|Cheras
+6038962|Cheras
+6038963|Cheras
+6038964|Cheras
+6038966|Cheras
+6038988|Cheras
+6038989|Cheras
+6038990|Cheras
+6038991|Cheras
+6038992|Cheras
+6038993|Cheras
+6038994|Cheras
+6038995|Cheras
+6038996|Cheras
+6038998|Cheras
+6038999|Cheras
+6039010|Cheras
+6039011|Cheras
+6039012|Cheras
+6039018|Cheras
+6039019|Cheras
+6039021|Kuala Lumpur
+6039025|Kuala Lumpur
+6039050|Cheras
+6039051|Cheras
+6039054|Cheras
+6039055|Cheras
+6039056|Cheras
+6039057|Cheras
+6039058|Cheras
+6039059|Cheras
+6039070|Cheras
+6039074|Cheras
+6039075|Cheras
+6039076|Cheras
+6039078|Cheras
+6039080|Cheras
+6039081|Cheras
+6039082|Cheras
+6039085|Cheras
+6039086|Cheras
+6039100|Cheras
+6039101|Cheras
+6039102|Cheras
+6039103|Cheras
+6039105|Cheras
+6039106|Cheras
+6039130|Kuala Lumpur
+6039131|Kuala Lumpur
+6039132|Kuala Lumpur
+6039133|Kuala Lumpur
+6039134|Kuala Lumpur
+6039139|Kuala Lumpur
+6039140|Kuala Lumpur
+6039141|Kuala Lumpur
+6039145|Kuala Lumpur
+6039170|Kuala Lumpur
+6039171|Kuala Lumpur
+6039172|Kuala Lumpur
+6039173|Kuala Lumpur
+6039174|Kuala Lumpur
+6039175|Kuala Lumpur
+6039179|Kuala Lumpur
+6039191|Kuala Lumpur
+6039195|Kuala Lumpur
+6039200|Kuala Lumpur
+6039201|Kuala Lumpur
+6039202|Kuala Lumpur
+6039205|Kuala Lumpur
+6039206|Kuala Lumpur
+6039207|Kuala Lumpur
+6039212|Kuala Lumpur
+6039221|Kuala Lumpur
+6039222|Kuala Lumpur
+6039223|Kuala Lumpur
+6039224|Kuala Lumpur
+6039225|Kuala Lumpur
+6039226|Kuala Lumpur
+6039231|Kuala Lumpur
+6039232|Kuala Lumpur
+6039235|Kuala Lumpur
+6039236|Kuala Lumpur
+6039271|Kuala Lumpur
+6039274|Kuala Lumpur
+603928|Kuala Lumpur
+6039368|Kuala Lumpur
+6039388|Cheras
+6039410|Cheras
+6039411|Cheras
+6039514|Kuala Lumpur
+6039520|Kuala Lumpur
+6039521|Kuala Lumpur
+6039540|Kuala Lumpur
+6039543|Cheras
+6039544|Cheras
+6039545|Kuala Lumpur
+6039546|Cheras
+6039547|Cheras
+6039548|Cheras
+6039549|Cheras
+6039765|Cheras
+6039766|Cheras
+6039767|Cheras
+6039769|Cheras
+6039770|Kuala Lumpur
+6039771|Kuala Lumpur
+6039772|Kuala Lumpur
+6039775|Kuala Lumpur
+6039776|Kuala Lumpur
+6039779|Kuala Lumpur
+604200|Penang
+604201|Penang
+604210|Penang
+604217|Penang
+604218|Penang
+604219|Penang
+604220|Penang
+604222|Penang
+604223|Penang
+604224|Penang
+604226|Penang
+604227|Penang
+604228|Penang
+604229|Penang
+604238|Penang
+604240|Penang
+604241|Penang
+604242|Penang
+604248|Penang
+604250|Penang
+604251|Penang
+604252|Penang
+604253|Penang
+604254|Penang
+604255|Penang
+604258|Penang
+604259|Penang
+604260|Penang
+604261|Penang
+604262|Penang
+604263|Penang
+604264|Penang
+604267|Penang
+604268|Penang
+604269|Penang
+604280|Penang
+604281|Penang
+604282|Penang
+604283|Penang
+604288|Penang
+604289|Penang
+604290|Penang
+604291|Penang
+604292|Penang
+604293|Penang
+604298|Penang
+604305|Penang
+604306|Penang
+604307|Penang
+604308|Tasek Gelugor
+604309|Sungai Petani
+604310|Penang
+604313|Penang
+604314|Penang
+604320|Penang
+604323|Penang
+604324|Penang
+604330|Penang
+604331|Penang
+604332|Penang
+604333|Penang
+604347|Penang
+604351|Kepala Batas
+604356|Tasek Gelugor
+604358|Tasek Gelugor
+604367|Serdang
+604368|Kepala Batas
+604369|Serdang
+604370|Penang
+604371|Penang
+604373|Penang
+604375|Penang
+604376|Penang
+604377|Penang
+604378|Penang
+60438|Penang
+604390|Penang
+604391|Penang
+604392|Penang
+604397|Penang
+604398|Penang
+604399|Penang
+604400|Padang Serai
+604401|Kulim
+604402|Kulim
+604403|Kulim
+604404|Mahang
+604405|Padang Serai
+604406|Padang Serai
+604407|Serdang
+604408|Kulim
+604409|Kulim
+604410|Kulim
+6044110|Serdang
+604412|Penang
+604413|Sungai Petani
+604414|Serdang
+604415|Sungai Petani
+604416|Sungai Petani
+604417|Mahang
+604418|Mahang
+604419|Sungai Petani
+60442|Sungai Petani
+604427|Kulim
+60443|Sungai Petani
+604432|Kulim
+604434|Padang Serai
+60444|Sungai Petani
+604447|Bedong
+604449|Baling
+60445|Bedong
+604451|Jeniang
+604453|Kulim
+604454|Sungai Petani
+604455|Sungai Petani
+604460|Bedong
+604461|Bedong
+604462|Jeniang
+604463|Jeniang
+604464|Jeniang
+604465|Bedong
+604466|Bedong
+604467|Jeniang
+604468|Bedong
+604469|Jeniang
+60447|Baling
+604471|Sungai Bakap
+604475|Kupang
+604476|Kupang
+60448|Kulim
+604483|Baling
+604485|Padang Serai
+604487|Sungai Bakap
+604488|Padang Serai
+60449|Kulim
+604497|Bedong
+604499|Baling
+60450|Tasek Gelugor
+604500|Kulim
+604510|Tasek Gelugor
+604511|Padang Serai
+604512|Penang
+604513|Padang Serai
+604515|Tasekgelugor
+604518|Tasekgelugor
+604521|Tasek Gelugor
+604522|Tasek Gelugor
+604524|Tasek Gelugor
+604526|Kulim
+604530|Tasek Gelugor
+604536|Tasek Gelugor
+604537|Tasek Gelugor
+604538|Tasek Gelugor
+604539|Tasek Gelugor
+604540|Tasek Gelugor
+604545|Sungai Bakap
+604548|Tasek Gelugor
+604549|Tasek Gelugor
+604551|Tasek Gelugor
+604552|Tasek Gelugor
+604554|Tasek Gelugor
+604555|Tasek Gelugor
+604557|Tasek Gelugor
+604558|Tasek Gelugor
+604559|Tasek Gelugor
+604560|Kepala Batas
+604561|Kepala Batas
+604562|Kepala Batas
+604563|Sungai Bakap
+604564|Kepala Batas
+604565|Kepala Batas
+604566|Tasekgelugor
+604568|Sungai Bakap
+604569|Kepala Batas
+60457|Kepala Batas
+604570|Tasek Gelugor
+604571|Tasek Gelugor
+604572|Tasek Gelugor
+604573|Tasek Gelugor
+60458|Sungai Bakap
+604592|Parit Buntar
+604593|Parit Buntar
+604594|Parit Buntar
+604595|Parit Buntar
+6045960|Parit Buntar
+604597|Parit Buntar
+604598|Parit Buntar
+604599|Parit Buntar
+604607|Penang
+604609|Penang
+604610|Penang
+604611|Penang
+604612|Penang
+604613|Penang
+604614|Penang
+604615|Penang
+604616|Penang
+604618|Penang
+604619|Penang
+604620|Penang
+604621|Penang
+604623|Penang
+604625|Penang
+604626|Penang
+604627|Penang
+604628|Penang
+604629|Penang
+60463|Penang
+60464|Penang
+60465|Penang
+604660|Penang
+604667|Penang
+604668|Penang
+604669|Penang
+604672|Penang
+604673|Penang
+604680|Penang
+604683|Penang
+604684|Penang
+604685|Penang
+604686|Penang
+604687|Penang
+604688|Penang
+604699|Alor Setar
+604700|Alor Setar
+604701|Bedong
+604702|Alor Setar
+604703|Bedong
+604704|Pokok Sena
+604705|Alor Setar
+604709|Alor Setar
+604710|Alor Setar
+604714|Alor Setar
+604716|Alor Setar
+604717|Pokok Sena
+604719|Sungai Petani
+60472|Alor Setar
+6047210|Sungai Petani
+604722|Kulim
+604727|Bedong
+60473|Alor Setar
+604740|Alor Setar
+604741|Alor Setar
+604744|Alor Setar
+6047450|Alor Setar
+6047451|Alor Setar
+6047452|Alor Setar
+6047453|Alor Setar
+6047454|Alor Setar
+6047455|Alor Setar
+6047456|Alor Setar
+604747|Alor Setar
+604748|Alor Setar
+60475|Lubuk Merbau
+604757|Alor Setar
+604758|Alor Setar
+604759|Alor Setar
+604760|Alor Setar
+604762|Alor Setar
+604764|Alor Setar
+604765|Alor Setar
+604766|Alor Setar
+604768|Alor Setar
+604769|Alor Setar
+60477|Alor Setar
+604778|Pokok Sena
+604779|Pokok Sena
+60478|Pokok Sena
+604783|Lubuk Merbau
+604784|Lubuk Merbau
+604787|Alor Setar
+604789|Alor Setar
+604790|Pokok Sena
+6047930|Pokok Sena
+6047931|Pokok Sena
+604794|Ayer Hitam
+604797|Ayer Hitam
+604799|Pokok Sena
+604810|Penang
+604811|Penang
+604818|Penang
+604819|Penang
+604820|Penang
+604824|Penang
+604826|Penang
+604827|Penang
+604828|Penang
+604829|Penang
+604830|Penang
+604835|Penang
+604838|Penang
+604850|Penang
+604852|Penang
+604859|Penang
+604860|Penang
+6048640|Penang
+604866|Penang
+604868|Penang
+604869|Penang
+604881|Penang
+604884|Penang
+604885|Penang
+604886|Penang
+604888|Penang
+604890|Penang
+604891|Penang
+604892|Penang
+604893|Penang
+604898|Penang
+604899|Penang
+604901|Changlon
+604903|Kuah
+604906|Changlon
+604908|Kangar
+604911|Alor Setar
+604913|Alor Setar
+604914|Alor Setar
+604915|Changlon
+604916|Alor Setar
+604917|Alor Setar
+604918|Alor Setar
+604919|Alor Setar
+604920|Kangar
+604921|Kangar
+604922|Kangar
+604923|Changlon
+604924|Changlon
+604925|Ayer Hitam
+604926|Ayer Hitam
+604927|Ayer Hitam
+604928|Changlon
+604929|Alor Setar
+604930|Alor Setar
+604931|Changlon
+604932|Ayer Hitam
+604933|Kuah
+604936|Kangar
+6049370|Kangar
+6049371|Kangar
+6049372|Kangar
+6049373|Kangar
+604938|Kangar
+604940|Kangar
+604941|Kangar
+604943|Kangar
+604944|Kangar
+604945|Kangar
+604946|Kangar
+604947|Kangar
+604949|Kangar
+604950|Kuah
+604951|Kuah
+604952|Kuah
+604953|Kuah
+604955|Kuah
+604956|Kuah
+604958|Kuah
+604959|Kuah
+604960|Kuah
+604961|Kuah
+604962|Kuah
+604963|Kuah
+604964|Kuah
+604966|Kuah
+604967|Kuah
+604968|Kuah
+604969|Kuah
+60497|Kangar
+604980|Kangar
+604981|Kangar
+604982|Kangar
+604984|Kangar
+604985|Kangar
+604986|Kangar
+604987|Kangar
+604988|Kangar
+604989|Kangar
+604997|Kangar
+605201|Chemor
+605203|Chemor
+605205|Ipoh
+605208|Ipoh
+605209|Ipoh
+605210|Ipoh
+605211|Ipoh
+605212|Ipoh
+605220|Ipoh
+605225|Ipoh
+605226|Ipoh
+605230|Ipoh
+6052320|Ipoh
+6052321|Ipoh
+605236|Ipoh
+605237|Ipoh
+605240|Ipoh
+605241|Ipoh
+605242|Ipoh
+605243|Ipoh
+605244|Ipoh
+605245|Ipoh
+605246|Ipoh
+605249|Ipoh
+605253|Ipoh
+605254|Ipoh
+605255|Ipoh
+605256|Ipoh
+605280|Ipoh
+605281|Ipoh
+605282|Ipoh
+605285|Ipoh
+605286|Ipoh
+605287|Pusing
+605288|Pusing
+605289|Pusing
+605290|Tanjung Rambutan
+605291|Tanjung Rambutan
+605292|Tanjung Rambutan
+605293|Tanjung Rambutan
+605294|Tanjung Rambutan
+605296|Tanjung Rambutan
+605299|Tanjung Rambutan
+605310|Ipoh
+605311|Ipoh
+605312|Ipoh
+605313|Ipoh
+605318|Ipoh
+605320|Ipoh
+605321|Ipoh
+605322|Ipoh
+605323|Ipoh
+605328|Ipoh
+605348|Batu Gajah
+605349|Batu Gajah
+605350|Batu Gajah
+605351|Batu Gajah
+605353|Ipoh
+605354|Ipoh
+605356|Ipoh
+605357|Ipoh
+605358|Batu Gajah
+605359|Batu Gajah
+60536|Batu Gajah
+605367|Pusing
+605368|Pusing
+605369|Pusing
+60537|Pusing
+605370|Batu Gajah
+605375|Bota
+605376|Bota
+605379|Batu Gajah
+605380|Pusing
+605381|Batugajah
+605385|Bota
+605388|Bota
+605389|Bota
+605395|Besout
+605401|Tapah
+605403|Tapah
+605404|Tapah
+605406|Tapah
+605410|Tapah
+605412|Trolak
+605413|Cameron Highland
+605415|Tapah
+605416|Tapah
+605417|Tapah
+605418|Tapah
+605419|Tapah
+605421|Besout
+605423|Tapah
+605427|Tapah
+605429|Trolak
+605430|Besout
+605431|Besout
+605432|Trolak
+605433|Tapah
+605434|Tapah
+605436|Tapah
+605437|Tapah
+605438|Tapah
+605439|Tapah
+605440|Tapah
+605441|Trolak
+605443|Tapah
+605446|Tapah
+605448|Tanjung Malim
+605449|Tanjung Malim
+60545|Tanjung Malim
+605461|Tapah
+6054620|Kampar
+605465|Kampar
+605466|Kampar
+605467|Kampar
+605468|Kampar
+605469|Kampar
+605470|Kampar
+605473|Bagan Datoh
+605476|Kampar
+605477|Kampar
+605478|Tapah
+605479|Tapah
+605480|Tanjung Malim
+605481|Tanjung Malim
+605485|Cameron Highland
+605486|Cameron Highland
+605487|Cameron Highland
+605488|Tanjung Malim
+60549|Cameron Highland
+605501|Ipoh
+605506|Ipoh
+605507|Ipoh
+605517|Tanjung Rambutan
+605520|Ipoh
+605522|Ipoh
+605525|Ipoh
+605526|Ipoh
+605527|Ipoh
+605528|Ipoh
+605529|Ipoh
+605530|Tanjung Rambutan
+605533|Tanjung Rambutan
+605535|Tanjung Rambutan
+605536|Tanjung Rambutan
+605537|Tanjung Rambutan
+605540|Ipoh
+605541|Ipoh
+605542|Ipoh
+605543|Ipoh
+605545|Ipoh
+605546|Ipoh
+605547|Ipoh
+605548|Ipoh
+605549|Ipoh
+605581|Chemor
+605583|Chemor
+605591|Lintang
+605592|Lintang
+605594|Chemor
+605595|Chemor
+605596|Chemor
+605597|Chemor
+605598|Chemor
+605599|Chemor
+605608|Teluk Intan
+605609|Teluk Intan
+605610|Telukintan
+605612|Sitiawan
+605613|Teluk Intan
+605614|Sitiawan
+605616|Bruas
+605617|Telukintan
+605618|Changkat Keruing
+605620|Telukintan
+605621|Telukintan
+605622|Telukintan
+605623|Telukintan
+605624|Hutan Melintang
+605625|Telukintan
+605626|Telukintan
+605629|Telukintan
+605631|Kampong Gajah
+605632|Kampong Gajah
+605633|Kampong Gajah
+6056340|Kampong Gajah
+605636|Sabak Bernam
+605637|Sabak Bernam
+605640|Hutan Melintang
+605641|Hutan Melintang
+605642|Hutan Melintang
+605643|Hutan Melintang
+605644|Hutan Melintang
+605645|Bagan Datoh
+605646|Bagan Datoh
+605648|Hutan Melintang
+605649|Hutan Melintang
+60565|Langkap
+605654|Kampong Gajah
+605655|Kampong Gajah
+605661|Ipoh
+605664|Sitiawan
+605665|Sitiawan
+605667|Bruas
+605668|Sitiawan
+605669|Sitiawan
+605670|Sitiawan
+605671|Sitiawan
+605672|Sitiawan
+605673|Bruas
+605674|Bruas
+605675|Changkat Keruing
+605676|Changkat Keruing
+605677|Bruas
+605678|Bruas
+605679|Sitiawan
+605680|Sitiawan
+605681|Sitiawan
+605682|Changkat Keruing
+605683|Sitiawan
+605684|Sitiawan
+605685|Sitiawan
+605687|Sitiawan
+605688|Sitiawan
+605689|Sitiawan
+605690|Sitiawan
+605691|Sitiawan
+605692|Sitiawan
+605693|Sitiawan
+605698|Sitiawan
+605699|Sitiawan
+605710|Parit Buntar
+605712|Parit Buntar
+605714|Parit Buntar
+605716|Parit Buntar
+605717|Parit Buntar
+6057180|Parit Buntar
+605719|Parit Buntar
+605720|Parit Buntar
+605721|Parit Buntar
+605722|Parit Buntar
+605723|Parit Buntar
+605725|Parit Buntar
+605726|Parit Buntar
+605727|Parit Buntar
+605728|Parit Buntar
+605732|Parit Buntar
+605733|Parit Buntar
+605743|Manong
+605744|Manong
+605750|Kuala Kangsar
+605751|Kuala Kangsar
+605752|Kuala Kangsar
+605753|Kuala Kangsar
+605756|Kuala Kangsar
+605757|Kuala Kangsar
+605758|Kuala Kangsar
+605759|Kuala Kangsar
+605763|Lenggong
+605765|Lenggong
+605766|Lenggong
+605767|Lenggong
+605768|Lenggong
+605769|Lenggong
+60577|Kuala Kangsar
+605771|Grik
+605782|Kuala Kangsar
+605783|Kuala Kangsar
+605791|Grik
+605792|Grik
+605793|Grik
+605794|Grik
+605795|Grik
+605796|Grik
+6057970|Grik
+605798|Lenggong
+605799|Lenggong
+605801|Taiping
+605804|Taiping
+605805|Taiping
+605806|Taiping
+605807|Taiping
+605808|Taiping
+605809|Taiping
+605810|Taiping
+605811|Taiping
+605812|Taiping
+605820|Taiping
+605829|Taiping
+6058300|Taiping
+6058301|Taiping
+6058307|Selama
+605831|Selama
+605834|Taiping
+605836|Selama
+605837|Selama
+605838|Selama
+605839|Selama
+605840|Taiping
+605841|Taiping
+605846|Taiping
+605847|Taiping
+605848|Taiping
+605849|Taiping
+605850|Sungai Nyior
+605852|Taiping
+605853|Sungai Nyior
+605854|Sungai Nyior
+605855|Taiping
+605856|Taiping
+605857|Taiping
+605858|Taiping
+605859|Taiping
+6058710|Semanggol
+605872|Semanggol
+605880|Selama
+605881|Selama
+605883|Taiping
+605885|Taiping
+605888|Taiping
+605889|Taiping
+605890|Semanggol
+605891|Taiping
+605892|Semanggol
+605893|Taiping
+605894|Taiping
+605895|Taiping
+605897|Semanggol
+605898|Semanggol
+605899|Semanggol
+605920|Sitiawan
+605930|Sitiawan
+606221|Melaka
+606222|Melaka
+606224|Melaka
+606226|Melaka
+606227|Melaka
+606228|Melaka
+606229|Melaka
+606230|Melaka
+606231|Melaka
+606232|Melaka
+606233|Melaka
+606234|Melaka
+606235|Melaka
+606240|Melaka
+606242|Melaka
+606251|Melaka
+606252|Melaka
+606253|Melaka
+60626|Melaka
+606265|Sungai Rambai
+606266|Sungai Rambai
+606270|Melaka
+6062710|Sungai Rambai
+606274|Melaka
+606275|Melaka
+606276|Melaka
+606277|Melaka
+606278|Melaka
+60628|Melaka
+606292|Melaka
+606293|Melaka
+606294|Melaka
+606295|Melaka
+606311|Melaka
+606312|Melaka
+6063130|Melaka
+6063131|Melaka
+606315|Melaka
+606316|Durian Tunggal
+606317|Melaka
+606318|Melaka
+606319|Melaka
+606330|Melaka
+606331|Melaka
+606332|Melaka
+606333|Melaka
+606334|Melaka
+606335|Melaka
+606336|Melaka
+606337|Melaka
+606350|Tangga Batu
+606351|Tangga Batu
+606352|Tangga Batu
+606353|Tangga Batu
+606354|Tangga Batu
+606357|Tangga Batu
+606358|Tangga Batu
+606379|Tangga Batu
+606383|Tangga Batu
+606384|Tangga Batu
+606385|Tangga Batu
+606387|Kuala Sungai Baru
+606388|Kuala Sungai Baru
+606390|Tangga Batu
+606391|Tangga Batu
+606398|Tangga Batu
+606410|Tampin
+606411|Simpang Empat
+606415|Tampin
+606420|Johol
+606421|Bahau
+606422|Tampin
+606423|Simpang Durian
+606424|Batu Kikir
+606425|Tampin
+606426|Ayer Hitam
+606427|Kuala Pilah
+606428|Kuala Pilah
+606429|Bahau
+606430|Gemencheh
+606431|Gemencheh
+606432|Gemencheh
+606433|Jelai
+606434|Jelai
+606435|Tampin
+606436|Johol
+606437|Johol
+606438|Simpang Empat
+606439|Simpang Empat
+60644|Tampin
+60645|Bahau
+606458|Serting
+606459|Serting
+606460|Bahau
+606461|Ladanggeddes
+606462|Palong
+606463|Palong
+606464|Ladang Geddes
+606465|Ayer Hitam
+606466|Palong
+606467|Ayer Hitam
+606468|Ayer Hitam
+606469|Kemavan
+606471|Simpang Durian
+606472|Kuala Klawang
+606473|Kemavan
+606474|Palong
+606475|Ayer Hitam
+606476|Ladang Geddes
+606477|Palong
+606479|Ayer Hitam
+60648|Kuala Pilah
+606480|Ayer Hitam
+606486|Simpang Durian
+606489|Kuala Klawang
+606490|Rembau
+606491|Simpang Durian
+606492|Kuala Klawang
+606493|Kuala Klawang
+606494|Kuala Klawang
+606495|Simpang Durian
+606496|Kuala Klawang
+606497|Rembau
+606498|Batu Kikir
+606499|Batu Kikir
+606509|Jasin
+6065110|Jasin
+606512|Jasin
+606514|Jasin
+606517|Jasin
+606519|Jasin
+606521|Jasin
+606522|Jasin
+606523|Jasin
+606524|Jasin
+606525|Jasin
+606527|Jasin
+606529|Jasin
+606530|Jasin
+606531|Jasin
+606532|Jasin
+606533|Jasin
+606534|Jasin
+6065350|Jasin
+606536|Jasin
+606537|Jasin
+606540|Durian Tunggal
+606541|Durian Tunggal
+606542|Durian Tunggal
+606544|Durian Tunggal
+606545|Durian Tunggal
+606546|Durian Tunggal
+606547|Durian Tunggal
+606549|Durian Tunggal
+60655|Durian Tunggal
+606550|Tampin
+606551|Simpang Empat
+606552|Simpang Empat
+606554|Tampin
+606560|Simpang Empat
+606601|Seremban
+606603|Seremban
+606611|Kuala Klawang
+606612|Kuala Klawang
+606613|Kuala Klawang
+606614|Kuala Klawang
+606615|Kuala Klawang
+606617|Kuala Klawang
+606620|Port Dickson
+606630|Seremban
+606631|Seremban
+606632|Seremban
+606633|Seremban
+606634|Seremban
+606637|Seremban
+606638|Kuala Pilah
+606640|Port Dickson
+606641|Port Dickson
+606642|Port Dickson
+606643|Port Dickson
+606644|Port Dickson
+606645|Port Dickson
+606646|Port Dickson
+606647|Port Dickson
+606648|Port Dickson
+606650|Port Dickson
+606651|Port Dickson
+606653|Port Dickson
+606654|Port Dickson
+606655|Port Dickson
+606656|Port Dickson
+606658|Sepang
+606659|Sepang
+606660|Tekok Kemang
+606661|Tekok Kemang
+606662|Tekok Kemang
+606663|Tekok Kemang
+606664|Tekok Kemang
+606666|Sepang
+606667|Sepang
+60667|Seremban
+60668|Rembau
+606681|Seremban
+606682|Seremban
+606691|Linggi
+6066920|Linggi
+606693|Rantau
+606694|Rantau
+606695|Linggi
+606696|Linggi
+606697|Linggi
+606698|Linggi
+606699|Linggi
+606701|Linggi
+606720|Seremban
+606726|Seremban
+606727|Seremban
+606728|Seremban
+606729|Seremban
+606733|Mantin
+606736|Mantin
+606737|Mantin
+606757|Mantin
+606758|Mantin
+606759|Mantin
+60676|Seremban
+606770|Seremban
+606771|Seremban
+606775|Seremban
+606776|Seremban
+606781|Sepang
+606782|Seremban
+606790|Mantin
+606791|Seremban
+606792|Sepang
+606793|Mantin
+606794|Mantin
+606797|Mantin
+606798|Mantin
+606799|Mantin
+606850|Mantin
+606851|Seremban
+606852|Melaka
+606856|Mantin
+606901|Muar
+606906|Muar
+606907|Muar
+606910|Muar
+60695|Muar
+606958|Bukit Gambir
+606960|Bukit Gambir
+606962|Bakri
+606963|Tangkak
+606964|Tangkak
+606965|Tangkak
+606966|Bakri
+606967|Bakri
+606968|Pagoh
+606969|Bukit Kepong
+606970|Muar
+606971|Bukit Kepong
+606972|Bukit Gambir
+606973|Bukit Gambir
+606974|Pagoh
+606975|Muar
+606976|Bukit Gambir
+606977|Tangkak
+606978|Tangkak
+606979|Tangkak
+606980|Bukit Gambir
+606981|Bakri
+606983|Bakri
+606984|Bukit Gambir
+606985|Muar
+606986|Bakri
+606987|Bakri
+606988|Bakri
+606989|Bakri
+607207|Johor Bahru
+607208|Johor Bahru
+607209|Johor Bahru
+607210|Johor Bahru
+607211|Johor Bahru
+607216|Johor Bahru
+607217|Johor Bahru
+607218|Johor Bahru
+607219|Johor Bahru
+607220|Johor Bahru
+607221|Johor Bahru
+607222|Johor Bahru
+607223|Johor Bahru
+607224|Johor Bahru
+607225|Johor Bahru
+607226|Johor Bahru
+607227|Johor Bahru
+607228|Johor Bahru
+60723|Johor Bahru
+607240|Johor Bahru
+607241|Johor Bahru
+607244|Johor Bahru
+607250|Johor Bahru
+607251|Johor Bahru
+607252|Johor Bahru
+607253|Johor Bahru
+607254|Johor Bahru
+607255|Johor Bahru
+607256|Johor Bahru
+607257|Johor Bharu
+607259|Johor Bahru
+607261|Johor Bahru
+607262|Johor Bahru
+607265|Johor Bahru
+607266|Johor Bahru
+607267|Johor Bahru
+607268|Johor Bahru
+607271|Johor Bahru
+607272|Johor Bahru
+607274|Johor Bahru
+607276|Johor Bahru
+607277|Johor Bahru
+607278|Johor Bahru
+607279|Johor Bahru
+607283|Johor Bahru
+607288|Johor Bahru
+607289|Johor Bahru
+607295|Johor Bahru
+607296|Johor Bahru
+607297|Johor Bahru
+607298|Johor Bahru
+607299|Johor Bahru
+607300|Johor Bahru
+607301|Johor Bahru
+607302|Johor Bahru
+607303|Johor Bahru
+607304|Johor Bahru
+607305|Johor Bahru
+60733|Johor Bahru
+607340|Johor Bahru
+60735|Johor Bahru
+607360|Johor Bahru
+607361|Johor Bharu
+607362|Johor Bharu
+607363|Johor Bahru
+607364|Johor Bahru
+607365|Johor Bahru
+607380|Johor Bahru
+607381|Johor Bahru
+607382|Johor Bahru
+607386|Johor Bahru
+607387|Johor Bahru
+607388|Johor Bahru
+607400|Rengit
+607407|Parit Sulong
+607408|Kampong Parit Tengah
+607409|Parit Sulong
+60741|Parit Sulong
+607412|Batu Pahat
+607413|Batu Pahat
+607414|Rengit
+607415|Batu Pahat
+607420|Senggarang
+607421|Kampung Parit Tengah
+607422|Kampung Parit Tengah
+607423|Rengit
+607424|Rengit
+607425|Parit Betak
+607426|Parit Betak
+607427|Senggarang
+607428|Senggarang
+607429|Senggarang
+60743|Batu Pahat
+607440|Batu Pahat
+607441|Senggarang
+607442|Senggarang
+607443|Rengit
+607444|Senggarang
+607445|Batu Pahat
+607446|Senggarang
+607447|Batu Pahat
+607448|Batu Pahat
+60745|Sri Gading
+607450|Senggarang
+607451|Batu Pahat
+607467|Sri Gading
+607468|Sri Gading
+607469|Sri Gading
+607475|Sri Gading
+607477|Sri Gading
+607481|Kangkar Baru
+607482|Kangkar Baru
+607483|Batu Pahat
+607484|Batu Pahat
+607485|Batu Pahat
+607486|Batu Pahat
+607488|Batu Pahat
+607500|Tanjung Kupang
+607504|Tanjung Kupang
+607505|Tanjung Kupang
+607506|Senai
+607507|Tanjung Kupang
+607508|Tanjung Kupang
+607509|Senai
+607510|Senai
+607511|Senai
+607512|Senai
+607513|Tanjung Kupang
+607514|Tanjung Kupang
+607515|Tanjung Kupang
+607516|Tanjung Kupang
+607518|Senai
+607520|Senai
+607521|Senai
+607522|Senai
+607523|Senai
+607527|Kangkar Pulai
+607528|Kangkar Pulai
+607530|Senai
+607531|Senai
+607532|Senai
+607533|Senai
+60755|Senai
+607560|Senai
+607561|Senai
+607562|Senai
+607570|Senai
+607571|Senai
+607578|Senai
+607585|Senai
+607586|Senai
+607587|Senai
+607590|Senai
+607595|Senai
+607596|Senai
+607597|Senai
+607598|Senai
+607599|Senai
+607650|Layang-Layang
+607651|Layang-Layang
+607652|Kulai
+607654|Linggiu
+607655|Kulai
+607656|Kulai
+607657|Kulai
+607658|Kulai
+607659|Linggiu
+607660|Kulai
+607661|Kulai
+607662|Kulai
+607663|Kulai
+607665|Kulai
+607666|Kulai
+607668|Kulai
+607670|Kulai
+607674|Pontian
+607675|Pontian
+607677|Pontian
+607678|Pontian
+607679|Pontian
+607680|Pontian
+607682|Air Baloi
+607683|Pontian
+607684|Pontian
+607685|Pontian
+607686|Pontian
+607687|Pontian
+607688|Pontian
+607689|Pontian
+60769|Air Baloi
+607696|Pontian
+607697|Pontian
+607699|Pontian
+607705|Keluang
+607706|Keluang
+607707|Keluang
+607708|Keluang
+607710|Keluang
+607711|Keluang
+6077120|Keluang
+607720|Mersing
+607721|Renggam
+607722|Renggam
+607734|Ayer Hitam
+607738|Lavang-Lavang
+607739|Kluang
+607740|Kahang
+607741|Felda Kahang Timur
+607742|Lavang-Lavang
+607743|Keluang
+607744|Ayer Hitam
+607745|Renggam
+607746|Renggam
+607747|Ayer Hitam
+607748|Keluang
+607749|Ayer Hitam
+607750|Lavang-Lavang
+607751|Lavang-Lavang
+607752|Lavang-Lavang
+607753|Renggam
+607754|Ayer Hitam
+607755|Renggam
+607756|Renggam
+607757|Renggam
+607758|Ayer Hitam
+607759|Ayer Hitam
+607760|Keluang
+607761|Ayer Hitam
+607762|Renggam
+607763|Ayer Hitam
+607764|Felda Tenggaroh
+607765|Endau
+607766|Mersing
+607767|Mersing
+607768|Paloh
+6077690|Paloh
+60777|Keluang
+607780|Kahang
+607781|Paloh
+607782|Paloh
+607783|Keluang
+607784|Kahang
+607785|Keluang
+607786|Felda Kahang Timur
+607787|Keluang
+607788|Kahang
+607789|Keluang
+60779|Mersing
+607791|Felda Tenggaroh
+607793|Endau
+607794|Endau
+607795|Felda Tenggaroh
+6078010|Mersing
+6078011|Mersing
+607810|Paloh
+60782|Penggerang
+607822|Penawar
+607823|Penawar
+607828|Penawar
+607830|Penggerang
+607832|Penawar
+607838|Penawar
+607850|Tiram
+607860|Senai
+607861|Tiram
+607862|Tiram
+607863|Tiram
+607865|Tiram
+607867|Tiram
+607868|Tiram
+607869|Senai
+60787|Kota Tinggi
+6078710|Tiram
+607879|Linggiu
+607880|Kota Tinggi
+607881|Air Tawar
+607882|Kota Tinggi
+607883|Kota Tinggi
+607884|Kota Tinggi
+607885|Kota Tinggi
+607886|Penawar
+607887|Kota Tinggi
+607889|Kota Tinggi
+607890|Linggiu
+607891|Kota Tinggi
+607892|Kota Tinggi
+607893|Kota Tinggi
+607894|Kota Tinggi
+607895|Air Tawar
+607896|Tenggara
+607897|Tiram
+607898|Tenggara
+607899|Tiram
+607900|Tenggara
+6079010|Tenggara
+607902|Tangkak
+607904|Tenang
+607906|Segamat
+607907|Labis
+607908|Bekok
+607910|Tenang
+607911|Aver Panas
+607912|Aver Panas
+607913|Labis
+607914|Tenang
+607915|Bukit Kepong
+607916|Bekok
+607917|Tenang
+607918|Aver Panas
+607919|Labis
+607920|Segamat
+607921|Labis
+607922|Bekok
+607923|Bukit Kepong
+607924|Labis
+607925|Labis
+607926|Labis
+607927|Tenang
+607928|Aver Panas
+607929|Aver Panas
+60793|Segamat
+607930|Labis
+607934|Labis
+607938|Tenang
+60794|Gemas
+607940|Segamat
+607943|Tenang
+607944|Segamat
+607945|Tenang
+607950|Aver Panas
+607960|Gemas
+607961|Segamat
+607964|Bukit Gambir
+607965|Kota Tinggi
+607968|Gemas
+607969|Bukit Gambir
+607970|Segamat
+607980|Bakri
+607990|Bakri
+608220|Kuching
+608221|Kuching
+6082220|Kuching
+6082221|Kuching
+6082222|Kuching
+6082223|Kuching
+6082224|Kuching
+6082225|Kuching
+6082226|Kuching
+6082227|Kuching
+6082228|Kuching
+608223|Kuching
+608224|Kuching
+608225|Kuching
+6082260|Kuching
+6082261|Kuching
+6082270|Kuching
+6082271|Kuching
+6082272|Kuching
+6082273|Kuching
+6082274|Kuching
+6082275|Kuching
+6082278|Kuching
+6082279|Kuching
+6082280|Kuching
+6082281|Kuching
+6082282|Kuching
+6082283|Kuching
+6082284|Kuching
+6082285|Kuching
+6082286|Kuching
+6082287|Damai Beach
+6082288|Kuching
+6082290|Kuching
+6082291|Kuching
+6082292|Kuching
+6082293|Kuching
+6082294|Kuching
+6082299|Kuching
+6082300|Kuching
+6082301|Kuching
+6082302|Kuching
+6082303|Kuching
+6082304|Kota Samarahan
+6082305|Kuching
+6082306|Kuching
+6082308|Kuching
+6082309|Kuching
+6082311|Kuching
+6082312|Kuching
+6082313|Kuching
+6082314|Kuching
+6082315|Kuching
+6082319|Kuching
+6082320|Semantan
+6082321|Kuching
+6082322|Kuching
+6082323|Damai Beach
+6082324|Asajaya
+6082325|Serian
+6082326|Kuching
+6082328|Serian
+6082329|Serian
+608233|Kuching
+608234|Kuching
+608235|Kuching
+608236|Kuching
+608237|Kuching
+6082380|Kuching
+6082381|Kuching
+6082382|Kuching
+6082383|Kuching
+6082388|Kuching
+6082389|Kuching
+6082391|Kuching
+6082393|Sejingkat
+6082401|Kuching
+6082402|Kuching
+6082403|Kuching
+608241|Kuching
+608242|Kuching
+608243|Sejingkat
+608244|Kuching
+608245|Kuching
+608246|Kuching
+608247|Sejingkat
+6082471|Kuching
+6082472|Kuching
+6082473|Kuching
+6082474|Kuching
+608248|Kuching
+6082491|Kuching
+6082492|Kuching
+6082493|Kuching
+6082495|Kuching
+6082499|Kuching
+6082501|Kuching
+6082502|Kuching
+6082503|Kuching
+6082504|Kuching
+6082505|Kuching
+6082506|Kuching
+6082507|Kuching
+608251|Kuching
+6082520|Kuching
+6082530|Kuching
+6082531|Kuching
+6082532|Kuching
+6082536|Kuching
+6082537|Kuching
+6082538|Kuching
+6082539|Kuching
+6082541|Sejingkat
+6082542|Sejingkat
+6082543|Kuching
+6082544|Kuching
+6082545|Kuching
+6082546|Kuching
+6082547|Kuching
+6082548|Kuching
+6082549|Kuching
+6082550|Kuching
+6082551|Kuching
+6082552|Kuching
+6082553|Kuching
+6082555|Kuching
+608257|Kuching
+608258|Kuching
+6082580|Kota Samarahan
+6082581|Kota Samarahan
+6082582|Kota Samarahan
+6082583|Kota Samarahan
+6082590|Kuching
+6082592|Kota Samarahan
+6082593|Kuching
+6082596|Kuching
+6082597|Kuching
+608261|Kuching
+6082620|Kuching
+6082621|Kuching
+6082622|Kuching
+6082625|Kuching
+6082626|Kuching
+6082627|Kuching
+6082628|Kuching
+6082629|Kuching
+6082639|Kuching
+608264|Kuching
+6082650|Kuching
+6082651|Kuching
+6082658|Kuching
+6082659|Kota Samarahan
+6082661|Kota Samarahan
+6082662|Kota Samarahan
+6082663|Kota Samarahan
+6082664|Kota Samarahan
+6082665|Kota Samarahan
+6082666|Kota Samarahan
+6082667|Kota Samarahan
+6082668|Kota Samarahan
+6082669|Kota Samarahan
+608267|Kota Samarahan
+6082681|Kuching
+6082682|Kuching
+6082683|Kuching
+6082684|Kuching
+6082685|Kuching
+6082686|Kuching
+6082687|Kuching
+6082688|Kuching
+6082690|Kuching
+6082698|Kuching
+6082699|Kuching
+6082700|Lundu
+6082701|Lundu
+6082707|Kota Samarahan
+6082708|Kota Samarahan
+6082709|Kota Samarahan
+6082711|Semantan
+6082712|Semantan
+6082713|Semantan
+6082715|Semantan
+6082716|Semantan
+6082720|Lundu
+6082730|Lundu
+6082731|Lundu
+6082734|Lundu
+6082735|Lundu
+6082737|Lundu
+6082739|Lundu
+6082741|Lundu
+6082750|Kota Samarahan
+6082751|Bau
+6082752|Kuching
+6082755|Kuching
+6082760|Bau
+6082761|Bau
+6082762|Bau
+6082763|Bau
+6082764|Bau
+6082765|Bau
+6082766|Bau
+6082770|Bau
+6082780|Gedong
+6082781|Gedong
+6082782|Gedong
+6082790|Tebedu
+6082791|Tebedu
+6082793|Tebedu
+6082797|Tebedu
+6082798|Tebedu
+6082803|Simunjan
+6082804|Simunjan
+6082805|Simunjan
+6082807|Simunjan
+6082808|Simunjan
+6082809|Simunjan
+6082810|Asajaya
+6082821|Asajaya
+6082822|Asajaya
+6082824|Asajaya
+6082825|Asajaya
+6082826|Asajaya
+6082827|Asajaya
+6082828|Asajaya
+6082829|Asajaya
+6082830|Sebangan
+6082831|Sebangan
+6082840|Damai Beach
+6082842|Damai Beach
+6082843|Damai Beach
+6082844|Damai Beach
+6082845|Damai Beach
+6082846|Damai Beach
+6082850|Serian
+6082860|Kota Samarahan
+6082862|Kota Samarahan
+6082863|Kota Samarahan
+6082864|Kota Samarahan
+6082865|Kota Samarahan
+6082867|Kota Samarahan
+6082868|Kota Samarahan
+608287|Serian
+6082871|Baki
+6082878|Baki
+6082882|Serian
+6082885|Serian
+6082886|Serian
+6082887|Serian
+6082888|Serian
+6082889|Serian
+6082890|Serian
+6082894|Serian
+6082895|Serian
+6082896|Serian
+6082898|Serian
+6082899|Serian
+6083220|Bandar Sri Aman
+6083300|Bandar Sri Aman
+6083308|Bandar Sri Aman
+6083309|Bandar Sri Aman
+6083310|Bandar Sri Aman
+6083320|Bandar Sri Aman
+6083321|Bandar Sri Aman
+6083322|Bandar Sri Aman
+6083323|Bandar Sri Aman
+6083324|Bandar Sri Aman
+6083325|Bandar Sri Aman
+6083326|Bandar Sri Aman
+6083327|Bandar Sri Aman
+6083337|Bandar Sri Aman
+6083338|Bandar Sri Aman
+6083339|Bandar Sri Aman
+6083340|Bandar Sri Aman
+6083341|Bandar Sri Aman
+6083342|Bandar Sri Aman
+6083343|Bandar Sri Aman
+6083344|Bandar Sri Aman
+6083348|Bandar Sri Aman
+6083406|Maludam
+6083408|Maludam
+6083410|Kabong
+6083411|Kabong
+6083413|Kabong
+6083414|Kabong
+6083417|Betong
+6083418|Bandar Sri Aman
+6083425|Roban
+6083427|Roban
+6083430|Saratok
+6083435|Saratok
+6083436|Saratok
+6083437|Saratok
+6083438|Saratok
+6083439|Saratok
+6083450|Saratok
+6083460|Sebuyau
+6083461|Debak
+6083463|Debak
+6083464|Debak
+6083465|Debak
+6083466|Debak
+6083467|Sebuyau
+6083468|Sebuyau
+6083469|Sebuyau
+6083470|Betong
+6083471|Betong
+6083472|Betong
+6083473|Betong
+6083474|Debak
+6083475|Debak
+6083477|Betong
+6083480|Betong
+6083485|Betong
+6083496|Lingga
+6083545|Pantu
+6083547|Maludam
+6083548|Maludam
+6083549|Pantu
+6083555|Bandar Sri Aman
+6083562|Roban
+6083563|Engkilili
+6083564|Engkilili
+6083566|Pantu
+6083567|Lingga
+6083568|Engkilili
+6083569|Engkilili
+6083570|Lingga
+6083584|Lubukantu
+6083585|Lubukantu
+6083589|Lubukantu
+6083592|Lubuk Antu
+608421|Sibu
+6084220|Sibu
+6084221|Sibu
+6084222|Sibu
+6084223|Sibu
+6084224|Sibu
+6084228|Sibu
+6084229|Sibu
+6084231|Sibu
+6084232|Sibu
+6084234|Sibu
+6084235|Sibu
+6084236|Sibu
+6084237|Sibu
+6084238|Sibu
+6084239|Sibu
+608425|Sibu
+6084301|Sibu
+6084302|Sibu
+6084303|Sibu
+6084304|Sibu
+6084305|Sibu
+6084306|Sibu
+6084307|Sibu
+6084308|Sibu
+608431|Sibu
+608432|Sibu
+608433|Sibu
+608434|Sibu
+6084350|Sibu
+6084351|Miri
+6084352|Sibu
+6084353|Sibu
+6084361|Sibu
+6084362|Sibu
+6084363|Sibu
+6084364|Sibu
+6084365|Sibu
+6084366|Sibu
+6084367|Sibu
+6084375|Sibu
+6084380|Sibu
+6084381|Sibu
+6084382|Sibu
+6084383|Sibu
+6084384|Sibu
+6084391|Sibu
+6084392|Sibu
+6084393|Sibu
+6084394|Sibu
+6084395|Sibu
+6084398|Sibu
+6084405|Sibu
+6084480|Sibu
+6084555|Sibu
+6084610|Rejang
+6084612|Rejang
+6084613|Selalang
+6084614|Rejang
+6084620|Sarikei
+6084631|Selalang
+6084632|Selalang
+6084633|Selalang
+6084634|Pakan
+6084640|Sarikei
+6084641|Sarikei
+6084642|Sarikei
+6084644|Sarikei
+6084645|Sarikei
+6084646|Sarikei
+6084647|Sarikei
+608465|Sarikei
+6084660|Sarikei
+6084661|Sarikei
+6084662|Sarikei
+6084671|Sarikei
+6084680|Sarikei
+6084681|Sarikei
+6084682|Sarikei
+6084683|Sarikei
+6084684|Sarikei
+6084687|Sarikei
+6084689|Bintangor
+6084690|Bintangor
+6084691|Bintangor
+6084692|Bintangor
+6084693|Bintangor
+6084694|Bintangor
+6084695|Bintangor
+6084696|Bintangor
+6084698|Bintangor
+6084699|Bintangor
+6084702|Bintangor
+6084717|Pakan
+6084719|Pakan
+6084730|Julau
+6084731|Julau
+6084734|Julau
+6084736|Julau
+6084738|Julau
+6084750|Kanowit
+6084751|Kanowit
+6084752|Kanowit
+6084753|Kanowit
+6084754|Kanowit
+6084755|Kanowit
+6084760|Kanowit
+6084762|Kanowit
+6084765|Kanowit
+6084766|Kanowit
+6084770|Song
+6084772|Song
+6084773|Song
+6084777|Song
+6084780|Kapit
+6084788|Kapit
+6084789|Kapit
+6084790|Kapit
+6084796|Kapit
+6084797|Kapit
+6084798|Kapit
+6084799|Kapit
+6084801|Sibu
+6084802|Sibu
+6084803|Sibu
+6084804|Sarikei
+6084805|Kuala Igan
+6084806|Kapit
+6084807|Sibu
+6084808|Sibu
+6084809|Sibu
+6084810|Julau
+6084811|Mukah
+6084812|Stapang
+6084815|Rejang
+6084816|Rejang
+6084818|Daro
+6084820|Daro
+6084821|Daro
+6084823|Daro
+6084828|Daro
+6084830|Matu
+6084831|Matu
+6084832|Matu
+6084833|Matu
+6084834|Matu
+6084840|Kuala Igan
+6084844|Mukah
+6084848|Kuala Igan
+6084850|Dalat
+608486|Dalat
+6084869|Kuala Igan
+6084870|Mukah
+6084871|Mukah
+6084872|Mukah
+6084873|Mukah
+6084874|Mukah
+6084875|Mukah
+6084877|Mukah
+6084879|Dalat
+6084880|Daro
+6084891|Selangau
+6084892|Selangau
+6084893|Selangau
+6084894|Stapang
+6084895|Kuala Igan
+6084896|Stapang
+6084897|Stapang
+6084898|Sibu
+6085200|Limbang
+6085201|Limbang
+6085202|Limbang
+6085206|Kampung Pahlawan
+608521|Limbang
+6085220|Limbang
+6085221|Limbang
+6085222|Limbang
+6085223|Limbang
+6085224|Limbang
+6085225|Limbang
+6085231|Kampung Pahlawan
+6085238|Limbang
+6085240|Kampung Pahlawan
+6085241|Kampung Pahlawan
+6085242|Limbang
+6085263|Sundar
+6085264|Sundar
+6085265|Sundar
+6085266|Lawas
+6085268|Sundar
+6085270|Lawas
+6085280|Lawas
+6085282|Lawas
+6085283|Lawas
+6085284|Lawas
+6085285|Lawas
+6085286|Lawas
+6085287|Lawas
+6085288|Lawas
+6085290|Lawas
+6085295|Lawas
+6085296|Lawas
+6085297|Lawas
+6085298|Lawas
+6085299|Lawas
+6085310|Limbang
+608532|Miri
+6085331|Miri
+6085395|Miri
+6085401|Miri
+6085402|Miri
+6085403|Miri
+6085404|Miri
+6085405|Miri
+6085406|Miri
+6085407|Miri
+608541|Miri
+608542|Miri
+608543|Miri
+608544|Miri
+6085450|Miri
+6085452|Miri
+6085453|Miri
+6085454|Miri
+6085455|Miri
+6085456|Miri
+6085460|Miri
+6085461|Miri
+6085462|Miri
+6085463|Miri
+6085470|Miri
+6085471|Miri
+6085472|Miri
+6085474|Miri
+6085475|Miri
+6085481|Bekenu
+6085482|Kampung Bakam
+6085485|Kampung Bakam
+6085491|Miri
+6085492|Bekenu
+6085493|Sundar
+6085494|Bekenu
+6085495|Miri
+6085496|Ladang Tiga
+6085540|Miri
+6085555|Miri
+6085601|Miri
+6085604|Miri
+6085605|Miri
+6085609|Miri
+6085610|Miri
+6085611|Miri
+6085612|Miri
+6085613|Miri
+6085614|Miri
+6085615|Miri
+6085616|Miri
+6085617|Miri
+6085618|Miri
+6085620|Miri
+6085621|Miri
+6085622|Miri
+6085626|Miri
+6085627|Miri
+6085628|Miri
+6085630|Miri
+6085631|Miri
+6085632|Miri
+6085633|Miri
+6085635|Miri
+6085636|Miri
+6085637|Miri
+6085638|Miri
+608564|Miri
+608565|Miri
+6085660|Miri
+6085661|Miri
+6085662|Miri
+6085663|Miri
+6085664|Miri
+6085665|Miri
+6085666|Limbang
+6085667|Miri
+6085668|Miri
+6085680|Miri
+6085710|Bekenu
+6085717|Bekenu
+6085718|Bekenu
+6085719|Bekenu
+6085720|Batu Niah
+6085733|Batu Niah
+6085735|Batu Niah
+6085736|Batu Niah
+6085737|Batu Niah
+6085738|Batu Niah
+6085739|Batu Niah
+6085740|Mu
+6085742|Beluru
+6085743|Beluru
+6085744|Beluru
+6085750|Marudi
+6085755|Marudi
+6085756|Marudi
+6085758|Marudi
+6085759|Marudi
+6085760|Marudi
+6085761|Layang-Layang
+6085765|Marudi
+6085766|Marudi
+6085767|Marudi
+6085768|Marudi
+6085769|Marudi
+6085770|Long Lama
+6085771|Long Lama
+6085779|Long Lama
+6085784|Bakun
+6085785|Marudi
+6085790|Miri
+6085791|Miri
+6085792|Mulu
+6086201|Bintulu
+6086231|Bintulu
+6086232|Bintulu
+6086251|Bintulu
+6086252|Bintulu
+6086253|Bintulu
+6086254|Bintulu
+6086255|Bintulu
+6086256|Bintulu
+6086257|Bintulu
+6086260|Bintulu
+6086281|Bintulu
+6086282|Bintulu
+6086283|Bintulu
+6086284|Bintulu
+6086285|Bintulu
+6086286|Bintulu
+6086290|Bintulu
+6086291|Bintulu
+6086292|Bintulu
+6086293|Bintulu
+6086294|Bintulu
+6086295|Bintulu
+6086296|Bintulu
+6086297|Bintulu
+6086298|Bintulu
+6086300|Bintulu
+6086301|Bintulu
+6086303|Bintulu
+6086307|Bintulu
+608631|Bintulu
+6086320|Bintulu
+6086321|Bintulu
+6086322|Bintulu
+6086323|Bintulu
+6086324|Bintulu
+6086325|Bintulu
+6086326|Bintulu
+6086327|Bintulu
+6086328|Bintulu
+608633|Bintulu
+608634|Bintulu
+6086350|Bintulu
+6086351|Bintulu
+6086360|Bintulu
+6086371|Sebauh
+6086381|Tatau
+6086390|Bintulu
+6086391|Bintulu
+6086422|Sebauh
+6086423|Sebauh
+6086424|Sebauh
+6086449|Pelagus
+6086457|Belaga
+6086460|Belaga
+6086461|Belaga
+6086462|Bakun
+6086466|Sebauh
+6086468|Belaga
+6086469|Belaga
+6086480|Balingan
+6086483|Pelagus
+6086484|Balingan
+6086485|Belaga
+6086486|Balingan
+6086488|Balingan
+6086506|Bintulu
+6086507|Bintulu
+6086508|Bintulu
+6086555|Bintulu
+6086580|Tatau
+6086581|Tatau
+6086584|Tatau
+6086590|Tatau
+608685|Bintulu
+6086860|Bintulu
+6086880|Bakun
+6086951|Bintulu
+6086952|Bintulu
+6087201|Beaufort
+6087208|Beaufort
+6087209|Beaufort
+6087211|Beaufort
+6087212|Beaufort
+6087213|Beaufort
+6087214|Beaufort
+6087215|Beaufort
+6087216|Beaufort
+6087217|Beaufort
+6087218|Beaufort
+6087219|Beaufort
+6087221|Beaufort
+6087222|Beaufort
+6087223|Beaufort
+6087224|Beaufort
+6087225|Beaufort
+6087226|Beaufort
+6087227|Beaufort
+6087228|Beaufort
+6087229|Beaufort
+6087230|Beaufort
+6087231|Beaufort
+6087232|Beaufort
+6087233|Beaufort
+6087234|Beaufort
+6087237|Beaufort
+6087250|Beaufort
+6087301|Keningau
+6087302|Keningau
+6087303|Keningau
+6087304|Keningau
+6087311|Keningau
+6087312|Keningau
+6087313|Keningau
+6087314|Keningau
+6087315|Keningau
+6087316|Keningau
+6087317|Keningau
+6087318|Keningau
+6087319|Keningau
+608733|Keningau
+6087340|Keningau
+6087341|Keningau
+6087342|Keningau
+6087344|Keningau
+6087391|Keningau
+6087392|Keningau
+6087401|Labuan
+6087402|Labuan
+6087403|Labuan
+6087404|Labuan
+6087405|Labuan
+6087406|Labuan
+6087407|Labuan
+6087408|Labuan
+6087409|Labuan
+608741|Labuan
+608742|Labuan
+6087431|Labuan
+6087436|Labuan
+6087437|Labuan
+6087438|Labuan
+6087439|Labuan
+6087440|Labuan
+6087441|Labuan
+6087442|Labuan
+6087443|Labuan
+6087450|Labuan
+6087451|Labuan
+6087452|Labuan
+6087453|Labuan
+6087459|Labuan
+6087460|Labuan
+6087461|Labuan
+6087462|Labuan
+6087463|Labuan
+6087464|Labuan
+6087465|Labuan
+6087466|Labuan
+6087467|Labuan
+6087468|Labuan
+6087472|Labuan
+6087475|Labuan
+6087476|Labuan
+6087477|Labuan
+6087478|Labuan
+6087479|Labuan
+6087480|Labuan
+6087481|Labuan
+6087482|Labuan
+6087483|Labuan
+6087484|Labuan
+6087485|Labuan
+6087486|Labuan
+6087490|Labuan
+6087501|Labuan
+6087502|Labuan
+6087503|Labuan
+6087504|Labuan
+6087505|Labuan
+6087506|Labuan
+6087507|Labuan
+6087508|Labuan
+6087509|Labuan
+608758|Labuan
+608759|Labuan
+6087718|Tenom
+6087725|Tenom
+6087726|Tenom
+6087727|Tenom
+6087728|Tenom
+6087729|Tenom
+6087730|Tenom
+6087731|Tenom
+6087733|Tenom
+6087734|Tenom
+6087735|Tenom
+6087736|Tenom
+6087737|Tenom
+6087738|Tenom
+6087739|Tenom
+6087750|Tenom
+6087760|Tenom
+6087761|Tenom
+6087765|Tambunan
+6087766|Tambunan
+6087768|Tambunan
+6087770|Tambunan
+6087771|Tambunan
+6087772|Tambunan
+6087773|Tambunan
+6087774|Tambunan
+6087775|Tambunan
+6087776|Keningau
+6087777|Tambunan
+6087782|Tambunan
+6087801|Sipitang
+6087802|Sipitang
+6087803|Sipitang
+6087810|Sipitang
+6087811|Sipitang
+6087812|Sipitang
+6087818|Sipitang
+6087820|Sipitang
+6087821|Sipitang
+6087822|Sipitang
+6087823|Sipitang
+6087828|Kuala Penyu
+6087831|Menumbok
+6087832|Menumbok
+6087833|Menumbok
+6087848|Sipitang
+6087850|Kuala Penyu
+6087851|Kuala Penyu
+6087852|Menumbok
+6087853|Kuala Penyu
+6087854|Bongawan
+6087861|Bongawan
+6087862|Bongawan
+6087863|Bongawan
+6087871|Weston
+6087872|Weston
+6087874|Weston
+6087880|Membakut
+6087881|Kuala Penyu
+6087883|Kuala Penyu
+6087884|Kuala Penyu
+6087885|Kuala Penyu
+6087887|Membakut
+6087888|Membakut
+6087889|Membakut
+6088201|Kota Kinabalu
+6088203|Kota Kinabalu
+6088204|Kota Kinabalu
+6088205|Kota Kinabalu
+6088206|Kota Kinabalu
+6088207|Kota Kinabalu
+608821|Kota Kinabalu
+608822|Kota Kinabalu
+608823|Kota Kinabalu
+608824|Kota Kinabalu
+608825|Kota Kinabalu
+608826|Kota Kinabalu
+608827|Kota Kinabalu
+608828|Kota Kinabalu
+608829|Kota Kinabalu
+6088301|Kota Kinabalu
+6088302|Kota Kinabalu
+6088303|Kota Kinabalu
+6088304|Kota Kinabalu
+6088307|Kota Kinabalu
+6088308|Kota Kinabalu
+6088309|Kota Kinabalu
+608831|Kota Kinabalu
+608832|Kota Kinabalu
+6088330|Kota Kinabalu
+6088331|Kota Kinabalu
+6088332|Kota Kinabalu
+6088333|Kota Kinabalu
+6088334|Kota Kinabalu
+6088341|Kota Kinabalu
+6088342|Kota Kinabalu
+6088343|Kota Kinabalu
+6088344|Kota Kinabalu
+6088345|Kota Kinabalu
+6088346|Kota Kinabalu
+6088347|Kota Kinabalu
+6088348|Kota Kinabalu
+6088349|Kota Kinabalu
+6088350|Kota Kinabalu
+6088351|Kota Kinabalu
+6088352|Kota Kinabalu
+6088353|Kota Kinabalu
+6088355|Kota Kinabalu
+6088356|Kota Kinabalu
+6088357|Kota Kinabalu
+6088360|Kota Kinabalu
+6088361|Kota Kinabalu
+6088362|Kota Kinabalu
+6088363|Kota Kinabalu
+6088364|Kota Kinabalu
+6088366|Kota Kinabalu
+6088367|Kota Kinabalu
+6088368|Kota Kinabalu
+6088369|Kota Kinabalu
+608838|Kota Kinabalu
+6088393|Kota Kinabalu
+6088394|Kota Kinabalu
+6088395|Kota Kinabalu
+6088396|Kota Kinabalu
+6088397|Kota Kinabalu
+6088401|Kota Kinabalu
+6088402|Kota Kinabalu
+6088403|Kota Kinabalu
+6088404|Kota Kinabalu
+6088405|Kota Kinabalu
+6088408|Kota Kinabalu
+6088411|Kota Kinabalu
+6088412|Kota Kinabalu
+6088413|Kota Kinabalu
+6088414|Kota Kinabalu
+6088415|Kota Kinabalu
+608842|Kota Kinabalu
+608843|Kota Kinabalu
+608844|Kota Kinabalu
+608845|Kota Kinabalu
+6088451|Kinarut
+6088469|Kota Kinabalu
+608847|Kota Kinabalu
+608848|Kota Kinabalu
+608849|Kota Kinabalu
+6088511|Kota Kinabalu
+6088512|Kota Kinabalu
+6088513|Kota Kinabalu
+6088515|Kota Kinabalu
+6088516|Kota Kinabalu
+6088517|Kota Kinabalu
+6088518|Kota Kinabalu
+6088519|Kota Kinabalu
+608852|Kota Kinabalu
+6088532|Kota Kinabalu
+6088533|Kota Kinabalu
+6088534|Kota Kinabalu
+6088535|Kota Kinabalu
+6088536|Kota Kinabalu
+6088537|Kota Kinabalu
+6088538|Kota Kinabalu
+6088552|Telupid
+6088602|Kudat
+6088605|Kudat
+6088606|Kudat
+6088607|Kudat
+6088608|Kudat
+6088609|Kudat
+6088611|Kudat
+6088612|Kudat
+6088613|Kudat
+6088614|Kudat
+6088615|Kudat
+6088616|Kudat
+6088617|Kudat
+6088618|Kudat
+608862|Kudat
+6088641|Kudat
+6088652|Kotamarudu
+6088653|Kotamarudu
+6088656|Kotamarudu
+6088657|Kotamarudu
+6088661|Kotamarudu
+6088662|Kota Marudu
+6088663|Kotamarudu
+6088664|Kota Marudu
+6088665|Kotamarudu
+6088667|Kota Marudu
+6088668|Kota Marudu
+6088669|Kota Marudu
+6088671|Kudat
+6088674|Kudat
+6088675|Pantai Pitas
+6088690|Kota Marudu
+6088695|Kudat
+6088701|Kinarut
+6088702|Kinarut
+6088703|Kinarut
+6088704|Kota Kinabalu
+6088705|Kota Kinabalu
+6088709|Kinarut
+608871|Kinarut
+608872|Kinarut
+608873|Kinarut
+6088740|Kinarut
+6088741|Kinarut
+6088742|Kinarut
+6088743|Kinarut
+6088744|Kinarut
+6088745|Kinarut
+6088746|Kinarut
+6088747|Kinarut
+608875|Kinarut
+608876|Kinarut
+608877|Kinarut
+6088780|Kota Kinabalu
+6088781|Tuaran
+6088782|Tuaran
+6088783|Tuaran
+6088784|Tuaran
+6088785|Tuaran
+6088786|Tuaran
+6088787|Tuaran
+6088788|Tuaran
+6088790|Tuaran
+6088791|Tuaran
+6088792|Tuaran
+6088793|Tuaran
+6088794|Tuaran
+6088796|Tuaran
+6088797|Tuaran
+6088798|Tuaran
+6088799|Tuaran
+6088801|Tuaran
+6088830|Tuaran
+6088850|Ranau
+6088851|Ranau
+6088852|Ranau
+6088853|Ranau
+6088854|Ranau
+6088858|Ranau
+6088861|Bongawan
+6088863|Bongawan
+608887|Ranau
+6088880|Ranau
+6088881|Ranau
+6088885|Ranau
+6088886|Ranau
+6088888|Ranau
+6088889|Ranau
+6088902|Papar
+6088903|Papar
+6088904|Papar
+6088906|Papar
+6088908|Papar
+6088909|Papar
+608891|Papar
+6088920|Papar
+6088928|Papar
+6088931|Kota Belud
+6088938|Kota Belud
+6088940|Kota Belud
+6088943|Kota Belud
+6088960|Tenghilan
+6088961|Kota Belud
+6088962|Papar
+6088966|Kota Belud
+6088967|Tenghilan
+6088968|Kota Belud
+6088969|Kota Belud
+6088970|Kota Belud
+6088971|Kota Belud
+6088972|Kota Belud
+6088973|Kota Belud
+6088975|Kota Belud
+6088976|Kota Belud
+6088977|Kota Belud
+6088979|Kota Belud
+6088981|Tenghilan
+6088982|Tenghilan
+6089201|Elopura
+6089202|Elopura
+6089203|Elopura
+6089204|Elopura
+6089205|Elopura
+6089206|Elopura
+6089207|Elopura
+6089208|Elopura
+6089209|Elopura
+608921|Elopura
+608922|Elopura
+608923|Elopura
+6089240|Elopura
+6089241|Elopura
+6089242|Elopura
+6089243|Elopura
+6089244|Elopura
+6089246|Elopura
+6089247|Elopura
+6089248|Elopura
+6089271|Elopura
+6089272|Elopura
+6089273|Elopura
+6089274|Elopura
+6089275|Elopura
+6089276|Elopura
+6089277|Elopura
+6089278|Elopura
+6089279|Elopura
+6089280|Elopura
+6089281|Elopura
+6089285|Elopura
+6089286|Elopura
+6089287|Elopura
+6089288|Elopura
+6089289|Elopura
+6089290|Elopura
+6089295|Elopura
+6089296|Elopura
+6089436|Kinabatangan
+6089461|Elopura
+6089462|Elopura
+6089463|Elopura
+6089464|Elopura
+6089465|Elopura
+6089466|Elopura
+6089491|Beluran
+6089492|Beluran
+6089505|Beluran
+6089506|Beluran
+6089510|Beluran
+6089511|Beluran
+6089512|Beluran
+6089513|Beluran
+6089514|Beluran
+6089515|Beluran
+6089517|Beluran
+6089518|Beluran
+6089519|Beluran
+6089520|Telupid
+6089521|Telupid
+6089523|Telupid
+6089524|Telupid
+6089531|Elopura
+6089532|Elopura
+6089533|Elopura
+6089534|Elopura
+6089535|Elopura
+6089536|Elopura
+6089537|Elopura
+6089538|Elopura
+6089557|Kinabatangan
+6089560|Kinabatangan
+6089561|Kinabatangan
+6089562|Kinabatangan
+6089563|Kinabatangan
+6089565|Kinabatangan
+6089566|Kinabatangan
+6089567|Kinabatangan
+6089568|Kinabatangan
+6089569|Kinabatangan
+6089570|Kinabatangan
+6089591|Telupid
+6089611|Elopura
+6089612|Elopura
+6089613|Elopura
+6089614|Elopura
+6089615|Elopura
+6089616|Elopura
+6089617|Elopura
+6089618|Elopura
+6089619|Elopura
+6089622|Elopura
+6089623|Elopura
+6089630|Elopura
+6089631|Elopura
+6089632|Elopura
+6089633|Elopura
+6089634|Elopura
+6089660|Elopura
+6089663|Elopura
+6089664|Elopura
+6089665|Elopura
+6089666|Elopura
+6089667|Elopura
+6089668|Elopura
+6089669|Elopura
+6089670|Elopura
+6089671|Elopura
+6089672|Elopura
+6089673|Elopura
+6089674|Elopura
+6089675|Elopura
+6089676|Elopura
+6089677|Elopura
+6089701|Tawau
+6089702|Tawau
+6089703|Tawau
+6089704|Tawau
+6089705|Tawau
+6089706|Tawau
+6089708|Tawau
+6089711|Tawau
+6089712|Tawau
+6089713|Tawau
+6089714|Tawau
+6089715|Tawau
+6089716|Tawau
+6089717|Tawau
+6089718|Tawau
+6089722|Tawau
+6089725|Tawau
+6089726|Tawau
+6089727|Tawau
+6089728|Tawau
+6089729|Tawau
+6089730|Tawau
+6089735|Semporna
+6089736|Tawau
+6089745|Merotai
+6089746|Tawau
+6089747|Tawau
+6089748|Tawau
+6089749|Tawau
+608975|Tawau
+608976|Tawau
+608977|Tawau
+608978|Semporna
+6089790|Merotai
+6089792|Semporna
+6089796|Merotai
+6089798|Tawau
+6089805|Lahad Datu
+608981|Felda Sahabat
+6089814|Tungku
+6089817|Lahatdatu
+6089818|Lahad Datu
+6089843|Kunak
+6089848|Kunak
+6089849|Kunak
+6089850|Kunak
+6089851|Kunak
+6089852|Kunak
+6089853|Kunak
+6089854|Kunak
+6089855|Kunak
+6089856|Kunak
+6089859|Kunak
+6089861|Lahad Datu
+6089862|Lahad Datu
+6089863|Lahad Datu
+6089864|Lahad Datu
+6089865|Lahad Datu
+6089866|Lahad Datu
+6089867|Lahad Datu
+6089868|Lahad Datu
+6089869|Lahad Datu
+6089871|Tungku
+608988|Lahad Datu
+608989|Lahad Datu
+6089894|Kunak
+6089901|Merotai
+6089902|Merotai
+6089903|Merotai
+608991|Tawau
+6089920|Tawau
+6089921|Balung
+6089922|Tawau
+6089923|Tawau
+6089925|Tawau
+6089926|Tawau
+6089927|Tawau
+6089936|Luasong
+6089937|Luasong
+6089941|Tawau
+6089942|Tawau
+6089950|Balung
+6089951|Balung
+6089952|Balung
+6089954|Balung
+6089959|Lahad Datu
+6089965|Lahad Datu
+6089966|Lahad Datu
+6089967|Lahad Datu
+6089968|Lahad Datu
+6089969|Lahad Datu
+6089981|Tawau
+6089982|Tawau
+6089983|Tawau
+6089984|Tawau
+6089985|Tawau
+6089986|Tawau
+609204|Jerantut
+609205|Jerantut
+609208|Sungai Tekam
+609212|Maran
+609213|Jengka Lapan Belas
+609214|Bentong
+609215|Genting
+609217|Mentakab
+609220|Bentong
+609221|Bentong
+609222|Bentong
+609223|Bentong
+609224|Bentong
+609225|Bentong
+609228|Bilut Valley
+609229|Bilut Valley
+609231|Karak
+609232|Karak
+609233|Genting
+609234|Karak
+609235|Genting
+609236|Bilut Valley
+609237|Bilut Valley
+609238|Karak
+609239|Telemong
+609240|Kemayan
+6092410|Telemong
+609242|Bera
+609243|Triang
+609244|Triang
+609245|Triang
+609246|Bera
+609247|Bera
+609248|Bera
+609249|Bera
+609250|Triang
+609252|Triang
+609254|Triang
+609255|Triang
+609256|Triang
+6092590|Karak
+609260|Jerantut
+6092620|Jerantut
+609263|Damak
+609264|Mentakab
+609265|Jerantut
+609266|Jerantut
+609267|Jerantut
+609268|Damak
+609269|Damak
+609270|Mentakab
+609271|Mentakab
+609272|Lanchang
+609276|Mentakab
+609277|Mentakab
+609278|Mentakab
+609279|Mentakab
+609280|Lanchang
+609281|Kuala Krau
+609282|Lanchang
+609284|Mentakab
+609285|Mentakab
+609286|Kuala Krau
+6092870|Kuala Krau
+6092871|Kuala Krau
+609288|Bukit Tinggi
+60929|Mentakab
+609294|Kuala Krau
+609300|Mentakab
+609301|Jerantut
+609310|Kuala Lipis
+609312|Kuala Lipis
+6093140|Kuala Lipis
+6093141|Kuala Lipis
+609315|Kuala Lipis
+609321|Kuala Lipis
+609322|Kuala Lipis
+609323|Kuala Lipis
+609324|Kuala Lipis
+6093260|Padang Tengku
+6093261|Padang Tengku
+6093262|Padang Tengku
+609327|Padang Tengku
+609328|Kuala Lipis
+609329|Padangtengku
+609340|Sungai Koyan
+609345|Raub
+609350|Raub
+609351|Raub
+609352|Sungai Koyan
+609353|Raub
+609355|Raub
+609356|Raub
+609358|Raub
+609361|Raub
+609362|Fraser Hill
+609363|Fraser Hill
+609365|Dong
+609367|Dong
+609368|Raub
+609369|Dong
+609370|Dong
+609380|Jerantut
+609402|Chini
+609404|Pekan
+609405|Pekan
+609408|Kuala Rompin
+609410|Pekan
+609412|Kuala Rompin
+609413|Kuala Rompin
+609414|Kuala Rompin
+609415|Kuala Rompin
+609417|Nenasi
+609418|Nenasi
+609419|Kuala Rompin
+60942|Pekan
+609423|Chini
+609430|Pekan
+6094310|Pekan
+6094311|Pekan
+609437|Perwira Jaya
+609438|Perwira Jaya
+609440|Bandar Tun Razak
+609443|Bandar Tun Razak
+609445|Bandar Tun Razak
+609447|Bandar Tun Razak
+609450|Bukit Ibam
+609451|Bandar Tun Razak
+609452|Bukit Ibam
+609453|Bukit Ibam
+609454|Bukit Ibam
+609455|Bukit Ibam
+609456|Chini
+609457|Chini
+609458|Bukit Ibam
+609460|Maran
+609466|Maran
+609467|Maran
+609468|Maran
+609470|Bukit Ibam
+609471|Sungai Tekam
+609473|Bukit Ibam
+609474|Kota Gelangi
+609475|Maran
+609476|Maran
+609477|Maran
+609478|Maran
+609479|Maran
+609480|Maran
+609481|Kota Gelangi
+609485|Jengka Lapan Belas
+609486|Jengka Tiga Belas
+609489|Maran
+609505|Kuantan
+6095070|Kuantan
+6095071|Kuantan
+609508|Teruntum
+609509|Kuantan
+60951|Kuantan
+609520|Kuantan
+609521|Kuantan
+609525|Kuantan
+609529|Kuantan
+609531|Kuantan
+609534|Kuantan
+609536|Kuantan
+609538|Kuantan
+609539|Kuantan
+609540|Kuantan
+609541|Sungai Lembing
+609542|Sungai Lembing
+609543|Sungai Lembing
+609544|Kuantan
+609546|Gambang
+609547|Kuantan
+609548|Gambang
+609549|Gambang
+609550|Kuantan
+609551|Kuantan
+609552|Kuantan
+609553|Kuantan
+609555|Kuantan
+609556|Kuantan
+609557|Kuantan
+609558|Kuantan
+609559|Kuantan
+609560|Kuantan
+609561|Kuantan
+609565|Kuantan
+609566|Kuantan
+609567|Kuantan
+609568|Kuantan
+609570|Kuantan
+609571|Kuantan
+609572|Kuantan
+609573|Kuantan
+609575|Kuantan
+609580|Gebeng
+609581|Gebeng
+609582|Gebeng
+609583|Gebeng
+609584|Gebeng
+609585|Gebeng
+609586|Gebeng
+609587|Gebeng
+609590|Kuantan
+609591|Kuantan
+609592|Kuantan
+609593|Gambang
+609595|Gebeng
+609598|Gambang
+609599|Gambang
+609602|Bandar Permaisuri
+609606|Tenang
+609609|Bandar Permaisuri
+60961|Kuala Brang
+609610|Bandar Permaisuri
+609611|Bandar Permaisuri
+60962|Kuala Brang
+609630|Kuala Brang
+609631|Kuala Brang
+609632|Kuala Brang
+609633|Bandar Permaisuri
+609634|Bandar Permaisuri
+609635|Kuala Brang
+609637|Kuala Brang
+609638|Kuala Berang
+609639|Kuala Brang
+609650|Batu Rakit
+609651|Batu Rakit
+609653|Batu Rakit
+609659|Batu Rakit
+609660|Kuala Brang
+609662|Kuala Brang
+609663|Batu Rakit
+609664|Batu Rakit
+609665|Kuala Brang
+609666|Kuala Brang
+609667|Kuala Brang
+609668|Batu Rakit
+609669|Batu Rakit
+609679|Jerteh
+609680|Kuala Brang
+609681|Kuala Brang
+609682|Kuala Brang
+6096830|Kuala Brang
+609684|Bukit Bading
+609685|Kuala Brang
+609686|Kuala Brang
+609687|Bukit Bading
+609688|Kuala Brang
+60969|Jerteh
+609700|Kota Bharu
+609701|Kota Bharu
+609703|Kota Bharu
+609706|Kota Bharu
+609707|Kota Bharu
+609708|Kota Bharu
+609710|Kota Bharu
+609712|Kota Bharu
+609713|Kota Bharu
+609714|Kota Bharu
+609718|Kota Bharu
+609719|Kota Bharu
+609721|Kota Bharu
+609725|Kota Bharu
+609726|Kota Bharu
+609732|Kota Bharu
+609735|Kota Bharu
+609738|Kota Bharu
+60974|Kota Bharu
+609750|Kota Bharu
+609751|Kota Bharu
+609752|Pasir Putih
+609753|Bachok
+609754|Bachok
+609755|Kota Bharu
+609758|Pasir Putih
+609759|Pasirputih
+609760|Bachok
+609762|Pasir Putih
+609764|Bachok
+609765|Bachok
+609766|Bachok
+609767|Bachok
+609768|Bachok
+609769|Bachok
+609770|Bachok
+609771|Kota Bharu
+609772|Kok Lanas
+609773|Kota Bharu
+609774|Kota Bharu
+609775|Kota Bharu
+609776|Bachok
+609778|Bachok
+609779|Bachok
+609780|Kok Lanas
+609781|Machang
+609782|Bachok
+609783|Bachok
+609784|Pasirputih
+609785|Pasirputih
+609786|Pasirputih
+609787|Machang
+609788|Kok Lanas
+609789|Pasir Putih
+60979|Kota Bharu
+609794|Kok Lanas
+6098000|Kerteh
+6098001|Kerteh
+609801|Paka
+609813|Paka
+609814|Paka
+609815|Kerteh
+609816|Dungun
+609817|Dungun
+609818|Kerteh
+609819|Paka
+609820|Paka
+609821|Sri Gading
+609822|Al Muktafi Billa H Shah
+609823|Al Muktafi Billa H Shah
+609824|Kerteh
+609825|Kerteh
+609826|Kerteh
+609827|Paka
+609828|Paka
+609829|Paka
+609830|Paka
+609831|Paka
+609832|Merchang
+609833|Bukit Besi
+609834|Bukit Besi
+609835|Dungun
+609838|Merchang
+609839|Merchang
+609840|Dungun
+609841|Dungun
+609842|Dungun
+609844|Dungun
+609845|Dungun
+609846|Kuala Brang
+609848|Dungun
+609849|Dungun
+609850|Chukai
+609851|Chukai
+609852|Chukai
+609853|Chukai
+609854|Chukai
+609855|Chukai
+609856|Chukai
+609858|Chukai
+609859|Chukai
+609860|Chukai
+609862|Chukai
+609863|Chukai
+609864|Kemasik
+609865|Kemasik
+609866|Kemasik
+609867|Kemasik
+609868|Chukai
+609869|Kemasik
+6098700|Kemasik
+6098710|Cheneh
+609872|Cheneh
+609873|Cheneh
+609874|Kemasik
+609888|Kemasik
+609900|Gua Musang
+609912|Gua Musang
+609913|Gua Musang
+609914|Gua Musang
+609915|Gua Musang
+609918|Gua Musang
+609919|Ayer Lanas
+6099200|Ayer Lanas
+609928|Gua Musang
+609936|Kuala Balah
+609937|Kuala Balah
+609944|Ayer Lanas
+609945|Ayer Lanas
+609946|Ayer Lanas
+609947|Ayer Lanas
+609949|Ayer Lanas
+609950|Machang
+609951|Machang
+609952|Machang
+609954|Machang
+609955|Machang
+6099560|Batu Gajah
+609957|Batu Gajah
+609958|Batu Gajah
+609959|Batu Gajah
+609960|Kuala Krai
+609961|Kuala Krai
+609965|Kuala Krai
+609966|Kuala Krai
+609970|Machang
+609974|Machang
+609975|Machang
+609976|Machang
+609977|Machang
+609978|Kuala Krai
+609979|Machang
+609980|Kuala Krai
+609981|Kuala Krai

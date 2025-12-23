@@ -1,0 +1,10 @@
+On Mon, Aug 19, 2013 at 2:36 AM, SomeOne via Discourse Meta <
+info@discourse.org> wrote:
+
+> This seems like a problem that would be better solved at the web server
+> level, rather than by the application. If nothing else, adding an instance
+> of Nginx as an SSL/TLS reverse-proxy would very quickly take care of this.
+>
+
+when I said looks possible, I pointed to rack because that's still the web
+server level

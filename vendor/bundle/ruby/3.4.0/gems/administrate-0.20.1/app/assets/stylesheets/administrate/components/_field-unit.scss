@@ -1,0 +1,56 @@
+.field-unit {
+  @include administrate-clearfix;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: $base-spacing;
+  position: relative;
+  width: 100%;
+}
+
+.field-unit__label {
+  float: left;
+  margin-left: 1rem;
+  text-align: right;
+  width: calc(15% - 1rem);
+}
+
+.field-unit__field {
+  float: left;
+  margin-left: 2rem;
+  max-width: 50rem;
+  width: 100%;
+
+  .optgroup-header {
+    font-weight: $bold-font-weight;
+  }
+}
+
+.field-unit__hint {
+  font-size: 90%;
+  margin-left: calc(15% + 2rem);
+  width: 100%;
+}
+
+.field-unit--nested {
+  border: $base-border;
+  margin-left: 7.5%;
+  max-width: 60rem;
+  padding: $small-spacing;
+  width: 100%;
+
+  .field-unit__field {
+    width: 100%;
+  }
+
+  .field-unit__label {
+    width: 10rem;
+  }
+}
+
+.field-unit--required {
+  label::after {
+    color: $red;
+    content: " *";
+  }
+}

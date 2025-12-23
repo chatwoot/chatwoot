@@ -1,0 +1,45 @@
+{
+  "type": "object",
+  "required": [
+    "desc",
+    "args",
+    "errors"
+  ],
+  "properties": {
+    "desc": {
+      "type": "string"
+    },
+    "args": {
+      "type": "object",
+      "default": {},
+      "patternProperties": {
+        "^.+$": {
+          "properties": {
+            "required": {
+              "type": "bool",
+              "default": false
+            },
+            "example": {
+              "type": "any",
+              "required": false,
+              "default": ""
+            },
+            "type": {
+              "type": "any",
+              "required": false,
+              "default": "Object"
+            },
+            "desc": {
+              "type": "string",
+              "required": true
+            }
+          }
+        }
+      }
+    },
+    "errors": {
+      "type": "object",
+      "default": {}
+    }
+  }
+}

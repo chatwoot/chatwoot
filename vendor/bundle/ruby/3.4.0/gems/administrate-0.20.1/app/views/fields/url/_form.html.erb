@@ -1,0 +1,23 @@
+<%#
+# Url Form Partial
+
+This partial renders an input element for URL.
+By default, the input is a text box.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [Administrate::Field::Url][1].
+  A wrapper around the URL pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Url
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <%= f.url_field field.attribute %>
+</div>

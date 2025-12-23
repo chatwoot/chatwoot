@@ -1,0 +1,28 @@
+Bluepill.application("<%= app %>", :foreground => false, :log_file => "/var/log/bluepill.log") do |app|
+
+  app.uid = "<%= user %>"
+  app.gid = "<%= user %>"
+
+<% engine.each_process do |name, process| %>
+<% 1.upto(engine.formation[name]) do |num| %>
+  <% port = engine.port_for(process, num) %>
+  app.process("<%= name %>-<%= num %>") do |process|
+    process.start_command = %Q{<%= process.command %>}
+
+    process.working_dir = "<%= engine.root %>"
+    process.daemonize = true
+    process.environment = <%= engine.env.merge("PORT" => port.to_s).inspect %>
+    process.stop_signals = [:quit, 30.seconds, :term, 5.seconds, :kill]
+    process.stop_grace_time = 45.seconds
+
+    process.stdout = process.stderr = "<%= log %>/<%= app %>-<%= name %>-<%= num %>.log"
+
+    process.monitor_children do |children|
+      children.stop_command "kill {{PID}}"
+    end
+
+    process.group = "<%= app %>-<%= name %>"
+  end
+<% end %>
+<% end %>
+end

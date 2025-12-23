@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   else
     root to: 'dashboard#index'
 
+    # Embed authentication route (must be before catch-all)
+    get '/embed/auth', to: 'embed_auth#auth', as: 'embed_auth'
+
     get '/app', to: 'dashboard#index'
+    get '/app/embed/inbox', to: 'dashboard#embed_inbox', as: 'app_embed_inbox'
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
@@ -352,6 +356,17 @@ Rails.application.routes.draw do
 
       # Frontend API endpoint to trigger SAML authentication flow
       post 'auth/saml_login', to: 'auth#saml_login'
+
+      # Embed tokens management (admin only)
+      resources :embed_tokens, only: [:index, :show, :create] do
+        member do
+          post :revoke
+        end
+      end
+
+      # Branding configuration (admin only)
+      # Explicit controller to match singular controller name
+      resource :branding, only: [:show, :update], controller: 'branding'
 
       resource :profile, only: [:show, :update] do
         delete :avatar, on: :collection

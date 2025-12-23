@@ -1,0 +1,53 @@
+# Copyright (C) 2016 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# https://www.itu.int/dms_pub/itu-t/oth/02/02/T02020000010002PDFE.pdf
+# Starting Page 2 [2008-08-28]
+# en/93.txt translated directly
+
+9320|کابل
+9321|پروان
+9322|کاپیسا
+9323|بامیان
+9324|وردک
+9325|لوگر
+9326|دایکندی
+9327|خوست
+9328|پنجشیر
+9330|قندهار
+9331|غزنی
+9332|ارزگان
+9333|زابل
+9334|هلمند
+9340|هرات
+9341|بادغیس
+9342|غور
+9343|فراه
+9344|نیمروز
+9350|بلخ
+9351|قندوز
+9352|بدخشان
+9353|تخار
+9354|جوزجان
+9355|سمنگان
+9356|سر پل
+9357|فاریاب
+9358|بغلان
+9360|ننگرهار
+9361|نورستان
+9362|کنرها
+9363|لغمان
+9364|پکتیا
+9365|پکتیکا

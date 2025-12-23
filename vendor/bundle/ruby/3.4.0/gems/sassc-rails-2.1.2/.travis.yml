@@ -1,0 +1,31 @@
+language: ruby
+
+bundler_args: "--binstubs --standalone --without documentation --path ../bundle"
+
+script: "bundle exec rake test"
+
+before_install:
+  - rvm @global do gem uninstall bundler -x
+  - gem install bundler --version '< 2'
+
+gemfile:
+  - gemfiles/sprockets-rails_3_0.gemfile
+  - gemfiles/sprockets-rails_2_3.gemfile
+  - gemfiles/sprockets_3_0.gemfile
+  - gemfiles/sprockets_4_0.gemfile
+  - gemfiles/rails_4_2.gemfile
+  - gemfiles/rails_5_2.gemfile
+
+rvm:
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
+  - jruby
+
+matrix:
+  allow_failures:
+    - gemfile: gemfiles/rails_4_2.gemfile
+      rvm: jruby
+
+notifications:
+  email: false

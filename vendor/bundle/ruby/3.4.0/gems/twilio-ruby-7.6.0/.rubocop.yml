@@ -1,0 +1,60 @@
+inherit_from: .rubocop_todo.yml
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - 'lib/twilio-ruby/rest/**/*'
+    - 'spec/integration/**/*'
+    - 'lib/twilio-ruby/version.rb'
+    - 'lib/twilio-ruby/twiml/**/*'
+    - 'lib/twilio-ruby/util/configuration.rb'
+    - 'vendor/**/*'
+
+Layout/LineLength:
+  Max: 120
+  Exclude:
+    - 'spec/**/*'
+
+Style/BlockDelimiters:
+  Exclude:
+    - 'spec/**/*'
+
+Lint/AmbiguousBlockAssociation:
+  Exclude:
+    - 'spec/**/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'cluster/*'
+    - twilio-ruby.gemspec
+
+Layout/HeredocIndentation:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 175
+
+Metrics/MethodLength:
+  Max: 25
+
+Metrics/ParameterLists:
+  Max: 20
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: false
+
+Style/HashTransformValues:
+  Enabled: false

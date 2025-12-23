@@ -1,0 +1,13 @@
+module Datadog
+  module AppSec
+    module WAF
+      module VERSION
+        BASE_STRING: ::String
+
+        STRING: ::String
+
+        MINIMUM_RUBY_VERSION: ::String
+      end
+    end
+  end
+end

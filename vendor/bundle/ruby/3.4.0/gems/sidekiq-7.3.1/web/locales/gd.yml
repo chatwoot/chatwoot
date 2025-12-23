@@ -1,0 +1,99 @@
+﻿# elements like %{queue} are variables and should not be translated
+gd:
+  Actions: Gnìomhan
+  AddToQueue: Cuir ris a’ chiutha
+  AreYouSure: A bheil thu cinnteach?
+  AreYouSureDeleteJob: A bheil thu cinnteach gu bheil thu airson an obair seo a sguabadh às?
+  AreYouSureDeleteQueue: A bheil thu cinnteach gu bheil thu airson ciutha %{queue} a sguabadh às? Sguabaidh seo às gach obair sa chiutha seo, nochdaidh e a-rithist nuair a phutas tu barrachd obraichean dha an uairsin.
+  Arguments: Argamaidean
+  BackToApp: Till dhan aplacaid
+  Busy: Trang
+  Class: Clas
+  Connections: Ceanglaichean
+  CreatedAt: Air a chruthachadh
+  CurrentMessagesInQueue: Obraichean làithreach am broinn <span class='title'>%{queue}</span>
+  Dashboard: Deas-bhòrd
+  Dead: Marbh
+  DeadJobs: Obraichean marbh
+  Delete: Sguab às
+  DeleteAll: Sguab às na h-uile
+  Deploy: Cuir an gnìomh
+  Enqueued: Sa chiutha
+  Error: Mearachd
+  ErrorBacktrace: Backtrace na mearachd
+  ErrorClass: Clas na mearachd
+  ErrorMessage: Teachdaireachd na mearachd
+  ExecutionTime: Àm a’ ghnìomha
+  Extras: Nithean a bharrachd
+  Failed: Air fàilligeadh
+  Failures: Fàilligidhean
+  Failure: Fàilligeadh
+  GoBack: ← Air ais
+  History: Eachdraidh
+  Job: Obair
+  Jobs: Obraichean
+  Kill: Marbh
+  KillAll: Marbh na h-uile
+  LastRetry: An oidhirp mu dheireadh
+  Latency: Foillidheachd
+  LivePoll: Ath-nuadhachadh beò
+  MemoryUsage: Cleachdadh a’ chuimhne
+  Name: Ainm
+  Namespace: Ainm-spàs
+  NextRetry: An ath-oidhirp
+  NoDeadJobsFound: Cha deach obair mharbh a lorg
+  NoRetriesFound: Cha deach ath-oidhirp a lorg
+  NoScheduledFound: Cha deach obair air an sgeideal a lorg
+  NotYetEnqueued: Chan eil seo sa chiutha fhathast
+  OneMonth: Mìos
+  OneWeek: Seachdain
+  OriginallyFailed: Dh’fhàillig e o thùs
+  Pause: Cuir ’na stad
+  Paused: ’Na stad
+  PeakMemoryUsage: Bàrr cleachdadh a’ chuimhne
+  Plugins: Plugain
+  PollingInterval: Eadaramh an ath-nuadhachaidh
+  Process: Pròiseas
+  Processed: Air pròiseasadh
+  Processes: Pròiseasan
+  Queue: Ciutha
+  Queues: Ciuthan
+  Quiet: Mùch
+  QuietAll: Mùch na h-uile
+  Realtime: Fìor-àm
+  Retries: Oidhirpean
+  RetryAll: Feuch ris na h-uile a-rithist
+  RetryCount: Cunntas nan oidhirpean
+  RetryNow: Feuch ris a-rithist an-dràsta
+  Scheduled: Air an sgeideal
+  ScheduledJobs: Obraichean air an sgeideal
+  Seconds: Diogan
+  ShowAll: Seall na h-uile
+  SixMonths: Leth-bhliadhna
+  Size: Meud
+  Started: Air a thòiseachadh
+  Status: Staid
+  Stop: Cuir stad air
+  StopAll: Cuir stad air na h-uile
+  StopPolling: Sguir dhen ath-nuadhachadh
+  Success: Chaidh leis
+  Summary: Geàrr-chunntas
+  Thread: Snàithlean
+  Threads: Snàithleanan
+  ThreeMonths: 3 mìosan
+  Time: Àm
+  Unpause: Lean air
+  Uptime: Beò fad (làithean)
+  Utilization: Cleachdadh
+  Version: Tionndadh
+  When: Cuin
+  Worker: Obraiche
+  active: gnìomhach
+  idle: ’na thàmh
+  Metrics: Meatraigeachd
+  NoDataFound: Cha deach dàta a lorg
+  TotalExecutionTime: Ùine iomlan nan gnìomhan
+  AvgExecutionTime: Ùine cuibheasach nan gnìomhan
+  Context: Co-theacsa
+  Bucket: Bucaid
+  NoJobMetricsFound: Cha deach meatraigeachd o chionn goirid air obair a lorg

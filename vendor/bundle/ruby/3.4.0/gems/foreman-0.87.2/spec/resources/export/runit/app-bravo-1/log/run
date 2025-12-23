@@ -1,0 +1,7 @@
+#!/bin/sh
+set -e
+
+LOG=/var/log/app/bravo-1
+
+test -d "$LOG" || mkdir -p -m 2750 "$LOG" && chown app "$LOG"
+exec chpst -u app svlogd "$LOG"

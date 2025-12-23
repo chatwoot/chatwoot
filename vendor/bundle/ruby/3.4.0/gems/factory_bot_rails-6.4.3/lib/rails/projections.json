@@ -1,0 +1,26 @@
+{
+  "spec/factories/*.rb": {
+    "alternate": "app/models/{singular}.rb",
+    "collection": "model",
+    "command": "factory",
+    "template": [
+      "FactoryBot.define do",
+      "  factory :{singular} do",
+      "  end",
+      "end"
+    ],
+    "test": "spec/models/{singular}_spec.rb"
+  },
+  "test/factories/*.rb": {
+    "alternate": "app/models/{singular}.rb",
+    "collection": "model",
+    "command": "factory",
+    "template": [
+      "FactoryBot.define do",
+      "  factory :{singular} do",
+      "  end",
+      "end"
+    ],
+    "test": "test/models/{singular}_test.rb"
+  }
+}

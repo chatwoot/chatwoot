@@ -1,0 +1,11 @@
+module Prism
+  class StringQuery
+    attr_reader string: String
+
+    def initialize: (String string) -> void
+
+    def local?: () -> bool
+    def constant?: () -> bool
+    def method_name?: () -> bool
+  end
+end

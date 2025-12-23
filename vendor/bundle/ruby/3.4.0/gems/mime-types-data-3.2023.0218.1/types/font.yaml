@@ -1,0 +1,65 @@
+---
+- !ruby/object:MIME::Type
+  content-type: font/collection
+  encoding: base64
+  extensions:
+  - ttc
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/collection
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: font/otf
+  encoding: base64
+  extensions:
+  - otf
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/otf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: font/sfnt
+  encoding: base64
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/sfnt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: font/ttf
+  encoding: base64
+  extensions:
+  - ttf
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/ttf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: font/woff
+  encoding: base64
+  extensions:
+  - woff
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/woff
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: font/woff2
+  encoding: base64
+  extensions:
+  - woff2
+  xrefs:
+    rfc:
+    - rfc8081
+    template:
+    - font/woff2
+  registered: true

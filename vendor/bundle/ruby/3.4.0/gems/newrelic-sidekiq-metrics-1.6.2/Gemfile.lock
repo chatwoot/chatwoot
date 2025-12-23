@@ -1,0 +1,99 @@
+PATH
+  remote: .
+  specs:
+    newrelic-sidekiq-metrics (1.6.2)
+      newrelic_rpm (>= 8.0.0)
+      sidekiq
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    coderay (1.1.3)
+    concurrent-ruby (1.2.2)
+    connection_pool (2.4.1)
+    diff-lcs (1.5.0)
+    json (2.6.3)
+    language_server-protocol (3.17.0.3)
+    method_source (1.0.0)
+    newrelic_rpm (9.5.0)
+    parallel (1.23.0)
+    parser (3.2.2.4)
+      ast (~> 2.4.1)
+      racc
+    pry (0.14.2)
+      coderay (~> 1.1)
+      method_source (~> 1.0)
+    racc (1.7.1)
+    rack (3.0.8)
+    rainbow (3.1.1)
+    rake (13.1.0)
+    redis-client (0.18.0)
+      connection_pool
+    regexp_parser (2.8.2)
+    rexml (3.2.6)
+    rspec (3.12.0)
+      rspec-core (~> 3.12.0)
+      rspec-expectations (~> 3.12.0)
+      rspec-mocks (~> 3.12.0)
+    rspec-core (3.12.2)
+      rspec-support (~> 3.12.0)
+    rspec-expectations (3.12.3)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-mocks (3.12.6)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.12.0)
+    rspec-support (3.12.1)
+    rubocop (1.57.2)
+      json (~> 2.3)
+      language_server-protocol (>= 3.17.0)
+      parallel (~> 1.10)
+      parser (>= 3.2.2.4)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.28.1, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.30.0)
+      parser (>= 3.2.1.0)
+    rubocop-capybara (2.19.0)
+      rubocop (~> 1.41)
+    rubocop-factory_bot (2.24.0)
+      rubocop (~> 1.33)
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
+    rubocop-rspec (2.25.0)
+      rubocop (~> 1.40)
+      rubocop-capybara (~> 2.17)
+      rubocop-factory_bot (~> 2.22)
+    ruby-progressbar (1.13.0)
+    sidekiq (7.1.6)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      rack (>= 2.2.4)
+      redis-client (>= 0.14.0)
+    unicode-display_width (2.5.0)
+
+PLATFORMS
+  aarch64-linux-musl
+  ruby
+  x86_64-darwin-18
+  x86_64-darwin-19
+  x86_64-darwin-20
+  x86_64-darwin-21
+  x86_64-linux
+
+DEPENDENCIES
+  bundler
+  newrelic-sidekiq-metrics!
+  pry
+  rake
+  rspec
+  rubocop
+  rubocop-rake
+  rubocop-rspec
+
+BUNDLED WITH
+   2.4.21

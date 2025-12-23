@@ -1,0 +1,30 @@
+---
+es:
+  administrate:
+    actions:
+      confirm: ¿Estás seguro?
+      destroy: Destruir
+      edit: Editar
+      edit_resource: Editar %{name}
+      show_resource: Mostrar %{name}
+      new_resource: Nuevo %{name}
+      back: Volver
+    controller:
+      create:
+        success: "%{resource} fue creado exitosamente."
+      destroy:
+        success: "%{resource} fue destruido exitosamente."
+      update:
+        success: "%{resource} fue actualizado exitosamente."
+    fields:
+      has_many:
+        more: Mostrando %{count} de %{total_count}
+        none: Ninguno
+    form:
+      error: error
+      errors: "%{pluralized_errors} no permitieron guardar este %{resource_name}:"
+    navigation:
+      back_to_app: Regresar a la aplicación
+    search:
+      clear: Borrar búsqueda
+      label: Buscar %{resource}

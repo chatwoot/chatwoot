@@ -1,0 +1,33 @@
+module Datadog
+  module AppSec
+    module WAF
+      class Result
+        @status: ::Symbol
+
+        @events: WAF::data
+
+        @total_runtime: ::Float
+
+        @timeout: bool
+
+        @actions: WAF::data
+
+        @derivatives: WAF::data
+
+        attr_reader status: ::Symbol
+
+        attr_reader events: WAF::data
+
+        attr_reader total_runtime: ::Float
+
+        attr_reader timeout: bool
+
+        attr_reader actions: WAF::data
+
+        attr_reader derivatives: WAF::data
+
+        def initialize: (::Symbol status, WAF::data events, ::Float total_runtime, bool timeout, WAF::data actions, WAF::data derivatives) -> void
+      end
+    end
+  end
+end

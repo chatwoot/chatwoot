@@ -1,0 +1,360 @@
+en-TH:
+  faker:
+    name:
+      first_name:
+      - A-gun
+      - A-wut
+      - Aat
+      - Aawut
+      - Achara
+      - Adranuch
+      - Ambhom
+      - Anada
+      - Ananada
+      - Anchali
+      - Anuman
+      - Anurak
+      - Apasra
+      - Apsara
+      - Aran
+      - Aroon
+      - Asnee
+      - Atid
+      - Benjakalyani
+      - Boon-Mee
+      - Boon-Nam
+      - Boribun
+      - Bun Ma
+      - Buppha
+      - Busaba
+      - Bussaba
+      - Chaem Choi
+      - Chai Charoen
+      - Chai Son
+      - Chailai
+      - Chaisai
+      - Chaisee
+      - Chaiya
+      - Chaiyo
+      - Chakan
+      - Chalerm
+      - Chalermchai
+      - Chalermwan
+      - Chaloem Chai
+      - Chaloem
+      - Channarong
+      - Chantana
+      - Chanthira
+      - Chao Fah
+      - Charanya
+      - Chariya
+      - Charn Chai
+      - Charoen
+      - Charoenrasamee
+      - Charong
+      - Charunee
+      - Chatalerm
+      - Chatchada
+      - Chatchom
+      - Chatmanee
+      - Chatrasuda
+      - Chatri
+      - Chaveevan
+      - Chayan
+      - Chet
+      - Chimlin
+      - Chinda
+      - Chintana
+      - Chirawan
+      - Chomechai
+      - Chomesri
+      - Chompoo
+      - Chongrak
+      - Choochai
+      - Chuachai
+      - Chuachan
+      - Chuanchen
+      - Chuasiri
+      - Chuenchai
+      - Chula
+      - Chulamai
+      - Churai
+      - Dao
+      - Dara
+      - Daw
+      - Decha
+      - Dok Mai
+      - Dok Phi Sua
+      - Dok Rak
+      - Dok-Ban-Yen
+      - Dusadi
+      - Fa Ying
+      - Han
+      - Hansa
+      - Hanuman
+      - Hom
+      - Isra
+      - Ittiporn
+      - Kaew
+      - Kalaya
+      - Kamala
+      - Kamlai
+      - Kamnan
+      - Kanchana
+      - Kannika
+      - Kanok
+      - Kanya
+      - Karawek
+      - Karnchana
+      - Kasem
+      - Kasemchai
+      - Khemkhaeng
+      - Khiew Wan
+      - Khun Mae
+      - Kiet
+      - Kit
+      - Kitti
+      - Kittibun
+      - Kittichai
+      - Kittichat
+      - Kla Han
+      - Kla
+      - Klaew Kla
+      - Klahan
+      - Kob Chai
+      - Kob Khun
+      - Kob Sinn
+      - Kob Sook
+      - Kohsoom
+      - Kosum
+      - Kovit
+      - Kraisee
+      - Kraisingha
+      - Kriang Krai
+      - Kriang Sak
+      - Kris
+      - Kukrit
+      - Kulap
+      - Kusa
+      - Kwanchai
+      - Kwang
+      - Kwanjai
+      - Lamai
+      - Lamon
+      - Lawan
+      - Lek
+      - Madee
+      - Mae Noi
+      - Malee
+      - Mali
+      - Malivalaya
+      - Maliwan
+      - Mani
+      - Mayuree
+      - Mee Noi
+      - Mekhala
+      - Mongkut
+      - Muan Nang
+      - Narong
+      - Ngam-Chit
+      - Ngoen
+      - Nin
+      - Niran
+      - Nong Yao
+      - On Choi
+      - 'On'
+      - Paitoon
+      - Pakpao
+      - Pen-Chan
+      - Pensri
+      - Phaibun
+      - Phailin
+      - Phairoh
+      - Phanumas
+      - Phassakorn
+      - Phawta
+      - Phet
+      - Phichai
+      - Phichit
+      - Phitsamai
+      - Phloi
+      - Phueng
+      - Pichai
+      - Pimchan
+      - Piyabutr
+      - Pravat
+      - Prayut
+      - Pricha
+      - Prija
+      - Prisana
+      - Pu Yai Bahn
+      - Puenthai
+      - Pundit
+      - Rama
+      - Ratana
+      - Ratanaporn
+      - Ritthirong
+      - Rochana
+      - Rom Ran
+      - Ruang Rit
+      - Ruang Sak
+      - Runrot
+      - Saengdao
+      - Sajja
+      - Sakda
+      - Samorn
+      - Sanan Nam
+      - Sanoh
+      - Sanouk
+      - Santichai
+      - Sanun
+      - Sanya
+      - Sap
+      - Sarai
+      - Sarakit
+      - Sataheep
+      - Satra
+      - Sawatdi
+      - Seni
+      - Si Fah
+      - Si Mok
+      - Si
+      - Sin
+      - Sinn
+      - Solada
+      - Som Chai
+      - Som Kid
+      - Som Phon
+      - Som Phong
+      - Som Wang
+      - Som
+      - Somchair
+      - Son Chai
+      - Sonchai
+      - Songsuda
+      - Sopa
+      - Sroy
+      - Su Suk
+      - Suchada
+      - Suchin
+      - Sud Saming
+      - Sud
+      - Suda
+      - Sukhon
+      - Sukonta
+      - Sum
+      - Sumalee
+      - Sumana
+      - Sumatra
+      - Sunan
+      - Sunee
+      - Sunstra
+      - Sunti
+      - Sup
+      - Taeng
+      - Tansanee
+      - Tha Kai Bok
+      - Thahan
+      - Thai
+      - Thaklaew
+      - Tham-Boon
+      - Thanom
+      - Thapthim
+      - Thinnakorn
+      - Thong Daeng
+      - Thong Dam
+      - Thong Di
+      - Thong Khao
+      - Thong Kon
+      - Thong Thaem
+      - Thong Thaeng
+      - Thong Thao
+      - Thong
+      - Thuanthong
+      - Ti Nung Cha
+      - Tida
+      - Totsaken
+      - Tukata
+      - Ubol
+      - Udom
+      - Vanida
+      - Vidura
+      - Virote
+      - Waan
+      - Waen
+      - Wila
+      - Winai
+      - Wipa
+      - Xuwicha
+      - Ya Chai
+      - Yindee
+      - Ying
+      - Yod Rak
+      - Yong-Yut
+      - Yu-Pha
+      - Yu-Phin
+      - Yuthakon
+      last_name:
+      - Aromdee
+      - Atitarn
+      - Bunyasarn
+      - Chaiprasit
+      - Chaisurivirat
+      - Chiawat
+      - Jetatikarn
+      - Jetjirawat
+      - Juntasa
+      - Kadesadayurat
+      - Kaewburesai
+      - Kaouthai
+      - Kasamsun
+      - Kitjakarn
+      - Kongkatitum
+      - Kongpaisarn
+      - Kongsangchai
+      - Kraiputra
+      - Kunakorn
+      - Kunchai
+      - Kurusarttra
+      - Leekpai
+      - Leelapun
+      - Lertkunakorn
+      - Maleenon
+      - Maneerattana
+      - Meesang
+      - Narkbunnum
+      - Narkhirunkanok
+      - Nimitwanitch
+      - Ornlamai
+      - Paowsong
+      - Parnpradub
+      - Parnthong
+      - Pornpipatpong
+      - Prasongsanti
+      - Puntasrima
+      - Punyawong
+      - Rojjanasukchai
+      - Rojumanong
+      - Saenamuang
+      - Sakda
+      - Sangsorn
+      - Shinawatra
+      - Sirisopa
+      - Somwan
+      - Songprawati
+      - Sripituksakul
+      - Srisati
+      - Sriwarunyu
+      - Sukbunsung
+      - Suntornnitikul
+      - Suppamongkon
+      - Suttirat
+      - Tawisuwan
+      - Thumying
+      - Tuntayakul
+      - Udomprecha
+      - Vipavakit
+      - Visalyaputra
+      - Wattanapanit
+      - Wattanasin
+      - Yongjaiyut

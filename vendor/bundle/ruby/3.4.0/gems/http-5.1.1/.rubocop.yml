@@ -1,0 +1,10 @@
+inherit_from:
+  - .rubocop_todo.yml
+  - .rubocop/layout.yml
+  - .rubocop/style.yml
+
+AllCops:
+  DefaultFormatter: fuubar
+  DisplayCopNames: true
+  NewCops: enable
+  TargetRubyVersion: 2.6

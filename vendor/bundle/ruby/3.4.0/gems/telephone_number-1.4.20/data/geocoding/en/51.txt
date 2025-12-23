@@ -1,0 +1,42 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T02020000A6/en [2003-01-27]
+# http://en.wikipedia.org/wiki/+51 [428258284] (identical)
+
+511|Lima/Callao
+5141|Amazonas
+5142|San Martín
+5143|Ancash
+5144|La Libertad
+5151|Puno
+5152|Tacna
+5153|Moquegua
+5154|Arequipa
+5156|Ica
+5161|Ucayali
+5162|Huánuco
+5163|Pasco
+5164|Junín
+5165|Loreto
+5166|Ayacucho
+5167|Huancavelica
+5172|Tumbes
+5173|Piura
+5174|Lambayeque
+5176|Cajamarca
+5182|Madre de Dios
+5183|Apurímac
+5184|Cusco

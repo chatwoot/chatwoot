@@ -1,0 +1,7 @@
+*.gem
+.bundle
+Gemfile.lock
+pkg/*
+spec/log
+spec/tmp
+scenarios/*.lock

@@ -1,0 +1,240 @@
+# Configuration of obsolete/deprecated cops used by `ConfigObsoletion`
+
+# Cops that were renamed
+renamed:
+  Layout/AlignArguments: Layout/ArgumentAlignment
+  Layout/AlignArray: Layout/ArrayAlignment
+  Layout/AlignHash: Layout/HashAlignment
+  Layout/AlignParameters: Layout/ParameterAlignment
+  Layout/IndentArray: Layout/FirstArrayElementIndentation
+  Layout/IndentAssignment: Layout/AssignmentIndentation
+  Layout/IndentFirstArgument: Layout/FirstArgumentIndentation
+  Layout/IndentFirstArrayElement: Layout/FirstArrayElementIndentation
+  Layout/IndentFirstHashElement: Layout/FirstHashElementIndentation
+  Layout/IndentFirstParameter: Layout/FirstParameterIndentation
+  Layout/IndentHash: Layout/FirstHashElementIndentation
+  Layout/IndentHeredoc: Layout/HeredocIndentation
+  Layout/LeadingBlankLines: Layout/LeadingEmptyLines
+  Layout/Tab: Layout/IndentationStyle
+  Layout/TrailingBlankLines: Layout/TrailingEmptyLines
+  Lint/BlockAlignment: Layout/BlockAlignment
+  Lint/DefEndAlignment: Layout/DefEndAlignment
+  Lint/DuplicatedKey: Lint/DuplicateHashKey
+  Lint/EndAlignment: Layout/EndAlignment
+  Lint/EndInMethod: Style/EndBlock
+  Lint/Eval: Security/Eval
+  Lint/HandleExceptions: Lint/SuppressedException
+  Lint/MultipleCompare: Lint/MultipleComparison
+  Lint/StringConversionInInterpolation: Lint/RedundantStringCoercion
+  Lint/UnneededCopDisableDirective: Lint/RedundantCopDisableDirective
+  Lint/UnneededCopEnableDirective: Lint/RedundantCopEnableDirective
+  Lint/UnneededRequireStatement: Lint/RedundantRequireStatement
+  Lint/UnneededSplatExpansion: Lint/RedundantSplatExpansion
+  Metrics/LineLength: Layout/LineLength
+  Naming/UncommunicativeBlockParamName: Naming/BlockParameterName
+  Naming/UncommunicativeMethodParamName: Naming/MethodParameterName
+  Style/AccessorMethodName: Naming/AccessorMethodName
+  Style/AsciiIdentifiers: Naming/AsciiIdentifiers
+  Style/ClassAndModuleCamelCase: Naming/ClassAndModuleCamelCase
+  Style/ConstantName: Naming/ConstantName
+  Style/DeprecatedHashMethods: Style/PreferredHashMethods
+  Style/FileName: Naming/FileName
+  Style/FlipFlop: Lint/FlipFlop
+  Style/MethodCallParentheses: Style/MethodCallWithoutArgsParentheses
+  Style/MethodName: Naming/MethodName
+  Style/OpMethod: Naming/BinaryOperatorParameterName
+  Style/PredicateName:
+    new_name: Naming/PredicateName
+    severity: warning
+  Style/SingleSpaceBeforeFirstArg: Layout/SpaceBeforeFirstArg
+  Style/UnneededCapitalW: Style/RedundantCapitalW
+  Style/UnneededCondition: Style/RedundantCondition
+  Style/UnneededInterpolation: Style/RedundantInterpolation
+  Style/UnneededPercentQ: Style/RedundantPercentQ
+  Style/UnneededSort: Style/RedundantSort
+  Style/VariableName: Naming/VariableName
+  Style/VariableNumber: Naming/VariableNumber
+
+# Cops that were removed
+removed:
+  Gemspec/DateAssignment:
+    alternatives: Gemspec/DeprecatedAttributeAssignment
+  Layout/SpaceAfterControlKeyword:
+    alternatives: Layout/SpaceAroundKeyword
+  Layout/SpaceBeforeModifierKeyword:
+    alternatives: Layout/SpaceAroundKeyword
+  Lint/InvalidCharacterLiteral:
+    reason: it was never being actually triggered
+  Lint/RescueWithoutErrorClass:
+    alternatives: Style/RescueStandardError
+  Lint/SpaceBeforeFirstArg:
+    reason: >
+      it was a duplicate of `Layout/SpaceBeforeFirstArg`. Please use
+      `Layout/SpaceBeforeFirstArg` instead
+  Lint/UselessComparison:
+    reason: >
+      it has been superseded by
+      `Lint/BinaryOperatorWithIdenticalOperands`. Please use
+      `Lint/BinaryOperatorWithIdenticalOperands` instead
+  Style/BracesAroundHashParameters: true
+  Style/MethodMissingSuper:
+    reason: >
+      it has been superseded by `Lint/MissingSuper`. Please use
+      `Lint/MissingSuper` instead
+  Style/SpaceAfterControlKeyword:
+    alternatives: Layout/SpaceAroundKeyword
+  Style/SpaceBeforeModifierKeyword:
+    alternatives: Layout/SpaceAroundKeyword
+  Style/TrailingComma:
+    alternatives:
+      - Style/TrailingCommaInArguments
+      - Style/TrailingCommaInArrayLiteral
+      - Style/TrailingCommaInHashLiteral
+  Style/TrailingCommaInLiteral:
+    alternatives:
+      - Style/TrailingCommaInArrayLiteral
+      - Style/TrailingCommaInHashLiteral
+
+# Cops split into multiple other cops
+split:
+  Style/MethodMissing:
+    alternatives:
+      - Style/MethodMissingSuper
+      - Style/MissingRespondToMissing
+
+# Cops that were extracted into a different gem
+extracted:
+  Performance/*: rubocop-performance
+  Rails/*: rubocop-rails
+
+# Cop parameters that have been changed
+# Can be treated as a warning instead of a failure with `severity: warning`
+changed_parameters:
+  - cops:
+      - Layout/SpaceAroundOperators
+      - Style/SpaceAroundOperators
+    parameters: MultiSpaceAllowedForOperators
+    reason: >
+      If your intention was to allow extra spaces for alignment, please
+      use `AllowForAlignment: true` instead.
+  - cops: Style/Encoding
+    parameters:
+      - EnforcedStyle
+      - SupportedStyles
+      - AutoCorrectEncodingComment
+    reason: '`Style/Encoding` no longer supports styles. The "never" behavior is always assumed.'
+  - cops: Style/IfUnlessModifier
+    parameters: MaxLineLength
+    reason: >
+      `Style/IfUnlessModifier: MaxLineLength` has been removed.
+      Use `Layout/LineLength: Max` instead
+  - cops: Style/WhileUntilModifier
+    parameters: MaxLineLength
+    reason: >
+      `Style/WhileUntilModifier: MaxLineLength` has been removed.
+      Use `Layout/LineLength: Max` instead
+  - cops: AllCops
+    parameters: RunRailsCops
+    reason: |-
+      Use the following configuration instead:
+      Rails:
+        Enabled: true
+  - cops: Layout/CaseIndentation
+    parameters: IndentWhenRelativeTo
+    alternative: EnforcedStyle
+  - cops:
+      - Lint/BlockAlignment
+      - Layout/BlockAlignment
+      - Lint/EndAlignment
+      - Layout/EndAlignment
+      - Lint/DefEndAlignment
+      - Layout/DefEndAlignment
+    parameters: AlignWith
+    alternative: EnforcedStyleAlignWith
+  - cops: Rails/UniqBeforePluck
+    parameters: EnforcedMode
+    alternative: EnforcedStyle
+  - cops: Style/MethodCallWithArgsParentheses
+    parameters: IgnoredMethodPatterns
+    alternative: AllowedPatterns
+  - cops:
+      - Performance/Count
+      - Performance/Detect
+    parameters: SafeMode
+    reason: "`SafeMode` has been removed. Use `SafeAutoCorrect` instead."
+  - cops: Bundler/GemComment
+    parameters: Whitelist
+    alternative: IgnoredGems
+  - cops:
+      - Lint/SafeNavigationChain
+      - Lint/SafeNavigationConsistency
+      - Style/NestedParenthesizedCalls
+      - Style/SafeNavigation
+      - Style/TrivialAccessors
+    parameters: Whitelist
+    alternative: AllowedMethods
+  - cops: Style/IpAddresses
+    parameters: Whitelist
+    alternative: AllowedAddresses
+  - cops: Naming/HeredocDelimiterNaming
+    parameters: Blacklist
+    alternative: ForbiddenDelimiters
+  - cops: Naming/PredicateName
+    parameters: NamePrefixBlacklist
+    alternative: ForbiddenPrefixes
+  - cops: Naming/PredicateName
+    parameters: NameWhitelist
+    alternative: AllowedMethods
+  - cops:
+      - Metrics/BlockLength
+      - Metrics/MethodLength
+    parameters: ExcludedMethods
+    alternatives:
+      - AllowedMethods
+      - AllowedPatterns
+    severity: warning
+  - cops: Lint/Debugger
+    parameters: DebuggerReceivers
+    reason: "`DebuggerReceivers` is no longer necessary, method receivers should be specified in `DebuggerMethods` instead."
+    severity: warning
+  - cops:
+      - Layout/IndentationWidth
+      - Layout/LineLength
+      - Lint/UnreachableLoop
+      - Naming/MethodName
+      - Style/MethodCallWithArgsParentheses
+    parameters: IgnoredPatterns
+    alternative: AllowedPatterns
+    severity: warning
+  - cops:
+      - Lint/AmbiguousBlockAssociation
+      - Lint/NumberConversion
+      - Metrics/AbcSize
+      - Metrics/BlockLength
+      - Metrics/CyclomaticComplexity
+      - Metrics/MethodLength
+      - Metrics/PerceivedComplexity
+      - Style/BlockDelimiters
+      - Style/ClassEqualityComparison
+      - Style/FormatStringToken
+      - Style/MethodCallWithArgsParentheses
+      - Style/MethodCallWithoutArgsParentheses
+      - Style/NumericPredicate
+      - Style/SymbolLiteral
+    parameters: IgnoredMethods
+    alternatives:
+      - AllowedMethods
+      - AllowedPatterns
+    severity: warning
+  - cops: Style/ArgumentsForwarding
+    parameters: AllowOnlyRestArgument
+    reason: "`AllowOnlyRestArgument` has no effect with TargetRubyVersion >= 3.2."
+    severity: warning
+    minimum_ruby_version: 3.2
+
+# Enforced styles that have been removed or replaced
+changed_enforced_styles:
+  - cops: Layout/IndentationConsistency
+    parameters: EnforcedStyle
+    value: rails
+    alternative: indented_internal_methods

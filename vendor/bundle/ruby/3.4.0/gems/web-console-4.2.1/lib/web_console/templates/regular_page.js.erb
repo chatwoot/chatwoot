@@ -1,0 +1,24 @@
+// Push the error page body upwards the size of the console.
+document.addEventListener('DOMContentLoaded', function() {
+  var consoleElement = document.getElementById('console');
+  var resizerElement = consoleElement.getElementsByClassName('resizer')[0];
+  var bodyElement = document.body;
+
+  function setBodyElementBottomMargin(pixels) {
+    bodyElement.style.marginBottom = pixels + 'px';
+  }
+
+  var currentConsoleElementHeight = consoleElement.offsetHeight;
+  setBodyElementBottomMargin(currentConsoleElementHeight);
+
+  resizerElement.addEventListener('mousedown', function(event) {
+    function recordConsoleElementHeight(event) {
+      resizerElement.removeEventListener('mouseup', recordConsoleElementHeight);
+
+      var currentConsoleElementHeight = consoleElement.offsetHeight;
+      setBodyElementBottomMargin(currentConsoleElementHeight);
+    }
+
+    resizerElement.addEventListener('mouseup', recordConsoleElementHeight);
+  });
+});

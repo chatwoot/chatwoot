@@ -1,0 +1,80 @@
+# elements like %{queue} are variables and should not be translated
+he:
+  Actions: פעולות
+  AddToQueue: הוסף לתור
+  AreYouSure: אתם בטוחים?
+  AreYouSureDeleteJob: האם אתם בטוחים שברצונכם למחוק את העבודה הזאת?
+  AreYouSureDeleteQueue: האם אתם בטוחים שברצונכם למחוק את התור %{queue}?
+  Arguments: ארגומנטים
+  BackToApp: חזרה לאפליקציה
+  Busy: עסוקים
+  Class: מחלקה
+  Connections: חיבורים
+  CreatedAt: נוצר ב
+  CurrentMessagesInQueue: עבודות נוכחיות בתור <span class='title'>%{queue}</span>
+  Dashboard: לוח מחוונים
+  Dead: מתים
+  DeadJobs: עבודות מתות
+  Delete: מחק
+  DeleteAll: מחק הכל
+  Enqueued: בתור
+  Error: שגיאה
+  ErrorBacktrace: מעקב לאחור של השגיאה
+  ErrorClass: סוג השגיאה
+  ErrorMessage: הודעת השגיאה
+  Extras: תוספות
+  Failed: נכשלו
+  Failures: כשלונות
+  GoBack: ← אחורה
+  History: היסטוריה
+  Job: עבודה
+  Jobs: עבודות
+  Kill: הרוג
+  LastRetry: ניסיון חוזר אחרון
+  LivePoll: תשאול חי
+  MemoryUsage: שימוש בזיכרון
+  Namespace: מרחב שם
+  NextRetry: ניסיון חוזר הבא
+  NoDeadJobsFound: לא נמצאו עבודות מתות
+  NoRetriesFound: לא נמצאו נסיונות חוזרים
+  NoScheduledFound: לא נמצאו עבודות מתוכננות
+  NotYetEnqueued: עוד לא בתור
+  OneMonth: חודש 1
+  OneWeek: שבוע 1
+  OriginallyFailed: נכשל בניסיון הראשון
+  Paused: הופסקו
+  PeakMemoryUsage: שיא השימוש בזיכרון
+  Plugins: תוספים
+  PollingInterval: מרווח זמן בין תשאולים
+  Processed: עובדו
+  Processes: תהליכים
+  Queue: תור
+  Queues: תורים
+  Quiet: שקט
+  QuietAll: השקט את כולם
+  Realtime: זמן אמת
+  Retries: נסיונות חוזרים
+  RetryAll: נסה שוב את הכל
+  RetryCount: מספר נסיונות חוזרים
+  RetryNow: נסה שוב עכשיו
+  Scheduled: מתוכננים
+  ScheduledJobs: עבודות מתוכננות
+  ShowAll: הצג את הכל
+  SixMonths: 6 חדשים
+  Size: אורך
+  Started: הותחלו
+  Status: מצב
+  Stop: עצור
+  StopAll: עצור הכל
+  StopPolling: עצור תשאול
+  TextDirection: 'rtl'
+  Thread: חוט
+  Threads: חוטים
+  ThreeMonths: 3 חדשים
+  Time: שעה
+  Uptime: זמן פעילות (ימים)
+  Version: גירסה
+  When: מתי
+  Worker: עובד
+  active: פעיל
+  idle: במנוחה

@@ -1,0 +1,10 @@
+module FFI
+  interface _DataConverter[N, R, in C]
+    def from_native: (N value, C ctx) -> R
+    def native_type: (?ffi_auto_type? type) -> Type
+    def to_native: (R value, C ctx) -> N
+  end
+  module DataConverter[N, R, in C]
+    include _DataConverter[N, R, C]
+  end
+end

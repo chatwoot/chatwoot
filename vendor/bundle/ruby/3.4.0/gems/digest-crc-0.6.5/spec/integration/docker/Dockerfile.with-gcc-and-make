@@ -1,0 +1,3 @@
+FROM test-digest-crc-with-gcc
+
+RUN apt-get install -y -qq make

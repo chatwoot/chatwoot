@@ -1,0 +1,605 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/commonmarker-0.23.10/ext/commonmarker
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/commonmarker-0.23.10/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-y7l5mr sitelibdir\=./.gem.20251220-192266-y7l5mr clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/commonmarker-0.23.10/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-y7l5mr sitelibdir\=./.gem.20251220-192266-y7l5mr
+compiling arena.c
+compiling autolink.c
+compiling blocks.c
+blocks.c: In function ‘cmark_parser_finish’:
+blocks.c:1540:5: warning: "CMARK_DEBUG_NODES" is not defined, evaluates to 0 [-Wundef]
+ 1540 | #if CMARK_DEBUG_NODES
+      |     ^~~~~~~~~~~~~~~~~
+blocks.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling buffer.c
+compiling cmark.c
+compiling cmark_ctype.c
+compiling commonmark.c
+compiling commonmarker.c
+In file included from houdini.h:9,
+                 from commonmarker.c:3:
+config.h:8: warning: "HAVE_STDBOOL_H" redefined
+    8 | #define HAVE_STDBOOL_H
+      | 
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/config.h:22,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:15,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/x86_64-linux/ruby/config.h:44: note: this is the location of the previous definition
+   44 | #define HAVE_STDBOOL_H 1
+      | 
+commonmarker.c: In function ‘rb_node_to_value’:
+commonmarker.c:104:3: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  104 |   val = Data_Wrap_Struct(rb_cNode, rb_mark_c_struct, free_func, node);
+      |   ^~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_string_content’:
+commonmarker.c:328:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  328 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_string_content’:
+commonmarker.c:350:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  350 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_type’:
+commonmarker.c:371:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  371 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_sourcepos’:
+commonmarker.c:458:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  458 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_type_string’:
+commonmarker.c:481:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  481 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_unlink’:
+commonmarker.c:492:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  492 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_first_child’:
+commonmarker.c:507:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  507 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_next’:
+commonmarker.c:520:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  520 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_insert_before’:
+commonmarker.c:537:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  537 |   Data_Get_Struct(self, cmark_node, node1);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c:539:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  539 |   Data_Get_Struct(sibling, cmark_node, node2);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_render_html’:
+commonmarker.c:567:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  567 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_render_xml’:
+commonmarker.c:608:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  608 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_render_commonmark’:
+commonmarker.c:637:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  637 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_render_plaintext’:
+commonmarker.c:665:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  665 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_insert_after’:
+commonmarker.c:684:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  684 |   Data_Get_Struct(self, cmark_node, node1);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c:686:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  686 |   Data_Get_Struct(sibling, cmark_node, node2);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_prepend_child’:
+commonmarker.c:707:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  707 |   Data_Get_Struct(self, cmark_node, node1);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c:709:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  709 |   Data_Get_Struct(child, cmark_node, node2);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_append_child’:
+commonmarker.c:730:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  730 |   Data_Get_Struct(self, cmark_node, node1);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c:732:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  732 |   Data_Get_Struct(child, cmark_node, node2);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_last_child’:
+commonmarker.c:749:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  749 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_parent’:
+commonmarker.c:762:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  762 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_previous’:
+commonmarker.c:775:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  775 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_url’:
+commonmarker.c:791:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  791 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_url’:
+commonmarker.c:813:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  813 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_title’:
+commonmarker.c:832:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  832 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_title’:
+commonmarker.c:854:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  854 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_header_level’:
+commonmarker.c:873:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  873 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_header_level’:
+commonmarker.c:896:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  896 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_list_type’:
+commonmarker.c:916:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  916 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_list_type’:
+commonmarker.c:943:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  943 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_list_start’:
+commonmarker.c:969:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  969 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_list_start’:
+commonmarker.c:993:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  993 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_list_tight’:
+commonmarker.c:1012:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1012 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_list_tight’:
+commonmarker.c:1033:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1033 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_fence_info’:
+commonmarker.c:1052:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1052 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_fence_info’:
+commonmarker.c:1075:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1075 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_tasklist_item_checked’:
+commonmarker.c:1088:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1088 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_set_tasklist_item_checked’:
+commonmarker.c:1110:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1110 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_tasklist_state’:
+commonmarker.c:1128:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1128 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_node_get_table_alignments’:
+commonmarker.c:1144:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1144 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_html_escape_href’:
+commonmarker.c:1173:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1173 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘rb_html_escape_html’:
+commonmarker.c:1194:3: warning: ‘rb_data_object_get_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+ 1194 |   Data_Get_Struct(self, cmark_node, node);
+      |   ^~~~~~~~~~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby.h:38,
+                 from commonmarker.h:9,
+                 from commonmarker.c:1:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:325:1: note: declared here
+  325 | rb_data_object_get_warning(VALUE obj)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+commonmarker.c: In function ‘Init_commonmarker’:
+commonmarker.c:1224:45: warning: old-style function definition [-Wold-style-definition]
+ 1224 | __attribute__((visibility("default"))) void Init_commonmarker() {
+      |                                             ^~~~~~~~~~~~~~~~~
+commonmarker.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling core-extensions.c
+compiling ext_scanners.c
+compiling footnotes.c
+compiling houdini_href_e.c
+compiling houdini_html_e.c
+compiling houdini_html_u.c
+compiling html.c
+compiling inlines.c
+compiling iterator.c
+compiling latex.c
+compiling linked_list.c
+compiling man.c
+compiling map.c
+compiling node.c
+compiling plaintext.c
+compiling plugin.c
+compiling references.c
+compiling registry.c
+compiling render.c
+compiling scanners.c
+compiling strikethrough.c
+compiling syntax_extension.c
+compiling table.c
+compiling tagfilter.c
+compiling tasklist.c
+compiling utf8.c
+compiling xml.c
+linking shared-object commonmarker/commonmarker.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/commonmarker-0.23.10/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-y7l5mr sitelibdir\=./.gem.20251220-192266-y7l5mr install
+/usr/bin/install -c -m 0755 commonmarker.so ./.gem.20251220-192266-y7l5mr/commonmarker
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/commonmarker-0.23.10/ext/commonmarker
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-y7l5mr sitelibdir\=./.gem.20251220-192266-y7l5mr clean

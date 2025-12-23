@@ -1,0 +1,83 @@
+# elements like %{queue} are variables and should not be translated
+vi:
+  Actions: Những hành động
+  AddToQueue: Thêm vào hàng đợi
+  AreYouSure: Bạn chắc chứ?
+  AreYouSureDeleteJob: Bạn có chắc là muốn xóa tác vụ này?
+  AreYouSureDeleteQueue: Bạn có chắc là muốn xóa %{queue} này?
+  Arguments: Tham số
+  BackToApp: Trở về ứng dụng
+  Busy: Bận rộn
+  Class: Lớp
+  Connections: Các kết nối
+  CreatedAt: Được tạo vào lúc
+  CurrentMessagesInQueue: Số lượng công việc trong <span class='title'>%{queue}</span>
+  Dashboard: Bảng điều khiển
+  Dead: Chết
+  DeadJobs: Những tác vụ đã chết
+  Delete: Xóa
+  DeleteAll: Xóa hết
+  Enqueued: Đã xếp hàng đợi
+  Error: Lỗi
+  ErrorBacktrace: Dấu vết của lỗi
+  ErrorClass: Lớp lỗi
+  ErrorMessage: Tin nhắn lỗi
+  Extras: Thêm
+  Failed: Đã thất bại
+  Failures: Các thất bại
+  GoBack: ← Trở lại
+  History: Lịch sử
+  Job: Tác vụ
+  Jobs: Các tác vụ
+  Kill: Giết
+  KillAll: Giết hết
+  LastRetry: Lần thử cuối
+  Latency: Độ trễ
+  LivePoll: Thăm dò trực tiếp
+  MemoryUsage: Lượng bộ nhớ sử dụng
+  Namespace: Không gian tên
+  NextRetry: Lần thử lại tiếp theo
+  NoDeadJobsFound: Không có tác vụ đã chết nào được tìm thấy
+  NoRetriesFound: Không có lần thử nào được tìm thấy
+  NoScheduledFound: Không có tác vụ đã lên lịch nào được tìm thấy
+  NotYetEnqueued: Chưa được bỏ vào hàng đợi
+  OneMonth: 1 tháng
+  OneWeek: 1 tuần
+  OriginallyFailed: Đã thất bại từ đầu
+  Pause: Tạm dừng
+  Paused: Đã tạm dừng
+  PeakMemoryUsage: Lượng bộ nhớ sử dụng đỉnh điểm
+  Plugins: Hệ thống đính kèm
+  PollingInterval: Khoảng thời gian giữa các lần thăm dò
+  Processed: Đã xử lí
+  Processes: Tiến trình xử lí
+  Queue: Hàng đợi
+  Queues: Các hàng đợi
+  Quiet: Im lặng
+  QuietAll: Làm cho tất cả im lặng
+  Realtime: Thời gian thực
+  Retries: Số lần thử
+  RetryAll: Thử lại tất cả
+  RetryCount: Số lần thử lại
+  RetryNow: Thử lại ngay bây giờ
+  Scheduled: Đã lên lịch
+  ScheduledJobs: Những Tác Vụ Được Hẹn
+  ShowAll: Hiện tất cả
+  SixMonths: 6 tháng
+  Size: Kích thước
+  Started: Đã bắt đầu
+  Status: Trạng thái
+  Stop: Dừng Lại
+  StopAll: Dừng lại tất cả
+  StopPolling: Ngừng thăm dò
+  Thread: Luồng xử lí
+  Threads: Những luồng xử lí
+  ThreeMonths: 3 tháng
+  Time: Thời gian
+  Unpause: Hủy tạm dừng
+  Uptime: Thời gian hệ thống đã online (days)
+  Version: Phiên bản
+  When: Khi nào
+  Worker: Máy xử lí
+  active: Đang hoạt động
+  idle: Đang chờ

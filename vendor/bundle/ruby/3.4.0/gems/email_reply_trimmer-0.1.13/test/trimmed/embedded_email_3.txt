@@ -1,0 +1,7 @@
+Sure, [Bitnami](http://bitnami.com/stack/discourse) supports EC2 and there
+are several topics here about it.
+
+Our [official install guide](
+https://github.com/discourse/discourse/blob/master/docs/INSTALL-ubuntu.md)
+also works great on an Amazon EC2 provisioned virtual machine with very
+little change.

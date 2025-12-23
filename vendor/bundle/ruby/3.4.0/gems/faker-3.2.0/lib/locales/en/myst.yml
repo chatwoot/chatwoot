@@ -1,0 +1,104 @@
+en:
+  faker:
+    games:
+      myst:
+        games:
+          - 'Myst III: Exile'
+          - 'Myst IV: Revelation'
+          - 'Myst V: End of Ages'
+          - 'Riven: The Sequel to Myst'
+          - 'Uru: Ages Beyond Myst'
+          - Myst
+        creatures:
+          - bahro
+          - karnaks
+          - Mangree
+          - scarab beetles
+          - squee
+          - sunner
+          - wahrks
+          - ytrams
+          - Zeftyr
+        characters:
+          - Achenar
+          - Atrius
+          - Atrus
+          - Catherine
+          - Esher
+          - Gehn
+          - Saavedro
+          - Sirrus
+          - The Stranger
+          - Ti'ana
+          - Yeesha
+        ages:
+          # Myst
+          - Channelwood
+          - Earth
+          - Mechanical
+          - Myst Stoneship
+          - Rime
+          - Selenitic
+          # Riven
+          - Age 233
+          - Riven
+          - Tay
+          # Exile
+          - Amateria
+          - Edanna
+          - J'nanin
+          - Narayan
+          - Voltanic
+          # Revelation
+          - Haven
+          - Serenia
+          - Spire
+          # Uru (all versions)
+          - Ahnonay
+          - Eder Delin
+          - Eder Gira
+          - Eder Kemo
+          - Eder Tsogal
+          - Er'cana
+          - Gahreesen
+          - Jalak Dador
+          - Kadish Tolesa
+          - Minkata
+          - Nexus
+          - Pod Age
+          - Relto
+          - Teledahn
+          # End of Ages
+          - Direbo
+          - Laki'ahn
+          - Noloben
+          - Tahgira
+          - Todelmer
+          # Books
+          - Age 37
+          - Averone
+          - Chroma'agana
+          - Gemedet
+          - Inception
+          - Ko'ah
+          - Terahnee
+          - Torus Age
+        quotes:
+          # Atrus
+          - The ending has not yet been written.
+          - I realized, the moment I fell into the fissure, that the Book would not be destroyed as I had planned.
+          - Try moving the slider.
+          - Remember the tower rotation.
+          # Gehn
+          - Who the devil are you?
+          - One thing I know about linking books is that the doors they open don't close behind you.
+          # Achenar
+          - Find the blue pages.
+          - Bring me blue pages.
+          # Sirrus
+          - Find the red pages.
+          - Bring me the red pages.
+          # Saavedro
+          - Atrus? Is that you? Come to rescue your Book so soon? Not yet, old friend... not yet.
+          # Ti'ana
+          - Atrus... what do you see?

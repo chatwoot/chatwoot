@@ -1,0 +1,101 @@
+# elements like %{queue} are variables and should not be translated
+tr:
+  Actions: Eylemler
+  AddToQueue: Kuyruğa ekle
+  AreYouSure: Emin misiniz?
+  AreYouSureDeleteJob: Bu işi silmek istediğinizden emin misiniz?
+  AreYouSureDeleteQueue: "%{queue} kuyruğunu silmek istediğinizden emin misiniz?"
+  Arguments: Argümanlar
+  BackToApp: Uygulamaya geri dön
+  Busy: Meşgul
+  Class: Sınıf
+  Connections: Bağlantılar
+  CreatedAt: Oluşturulma Tarihi
+  CurrentMessagesInQueue: Şu anki işler <span class='title'>%{queue}</span>
+  Dashboard: Gösterge Paneli
+  Dead: Ölü
+  DeadJobs: Ölü İşler
+  Delete: Sil
+  DeleteAll: Hepsini Sil
+  Deploy: Dağıt
+  Enqueued: Kuyruğa Alındı
+  Error: Hata
+  ErrorBacktrace: Hata Geri İzleme
+  ErrorClass: Hata Sınıfı
+  ErrorMessage: Hata Mesajı
+  ExecutionTime: Yürütme Süresi
+  Extras: Ekstralar
+  Failed: Başarısız
+  Failures: Başarısızlıklar
+  Failure: Başarısızlık
+  GoBack: ← Geri Dön
+  History: Geçmiş
+  Job: İş
+  Jobs: İşler
+  Kill: Sonlandır
+  KillAll: Hepsini Sonlandır
+  LastRetry: Son Yeniden Deneme
+  Latency: Gecikme
+  LivePoll: Canlı Anket
+  MemoryUsage: Bellek Kullanımı
+  Name: İsim
+  Namespace: Ad Alanı
+  NextRetry: Bir Sonraki Yeniden Deneme
+  NoDeadJobsFound: Ölü iş bulunamadı
+  NoRetriesFound: Yeniden deneme bulunamadı
+  NoScheduledFound: Zamanlanmış iş bulunamadı
+  NotYetEnqueued: Henüz kuyruğa alınmadı
+  OneMonth: 1 ay
+  OneWeek: 1 hafta
+  OriginallyFailed: İlk Başarısızlık
+  Pause: Duraklat
+  Paused: Duraklatıldı
+  PeakMemoryUsage: Maksimum Bellek Kullanımı
+  Plugins: Eklentiler
+  PollingInterval: Anket Aralığı
+  Process: Süreç
+  Processed: İşlendi
+  Processes: Süreçler
+  Queue: Kuyruk
+  Queues: Kuyruklar
+  Quiet: Sessiz
+  QuietAll: Hepsini Sessiz Yap
+  Realtime: Gerçek Zamanlı
+  Retries: Yeniden Denemeler
+  RetryAll: Hepsini Yeniden Dene
+  RetryCount: Yeniden Deneme Sayısı
+  RetryNow: Şimdi Yeniden Dene
+  Scheduled: Zamanlanmış
+  ScheduledJobs: Zamanlanmış İşler
+  Seconds: Saniye
+  ShowAll: Hepsini Göster
+  SixMonths: 6 ay
+  Size: Boyut
+  Started: Başlatıldı
+  Status: Durum
+  Stop: Durdur
+  StopAll: Hepsini Durdur
+  StopPolling: Anketi Durdur
+  Success: Başarı
+  Summary: Özet
+  Thread: İplik
+  Threads: İplikler
+  ThreeMonths: 3 ay
+  Time: Zaman
+  Unpause: Duraklatmayı Kaldır
+  Uptime: Çalışma Süresi (gün)
+  Utilization: Kullanım
+  Version: Sürüm
+  When: Ne Zaman
+  Worker: İşçi
+  active: aktif
+  idle: boşta
+  Metrics: Metrikler
+  NoDataFound: Veri bulunamadı
+  TotalExecutionTime: Toplam Yürütme Süresi
+  AvgExecutionTime: Ortalama Yürütme Süresi
+  Context: Bağlam
+  Bucket: Kova
+  NoJobMetricsFound: Son iş metrikleri bulunamadı
+  Filter: Filtre
+  AnyJobContent: Herhangi bir iş içeriği

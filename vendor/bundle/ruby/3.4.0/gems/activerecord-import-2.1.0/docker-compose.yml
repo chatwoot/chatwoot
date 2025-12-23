@@ -1,0 +1,34 @@
+version: "3.5"
+
+services:
+  mysql:
+    platform: linux/x86_64
+    image: mysql:5.7
+    volumes:
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  postgresql:
+    image: postgres:latest
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build:
+      context: .
+    environment:
+      DB_HOST: mysql
+      AR_VERSION: 7.0
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - mysql
+      - postgresql
+    command: tail -f /dev/null
+
+volumes:
+  mysql-data:
+  postgresql-data:

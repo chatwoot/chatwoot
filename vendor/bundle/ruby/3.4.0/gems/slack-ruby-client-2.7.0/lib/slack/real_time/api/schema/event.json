@@ -1,0 +1,23 @@
+{
+  "type": "object",
+  "required": [
+    "name",
+    "desc"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "desc": {
+      "type": "string"
+    },
+    "long_desc": {
+      "type": "string"
+    },
+    "example": {
+      "type": "object",
+      "default": {}
+    }
+  }
+}
+

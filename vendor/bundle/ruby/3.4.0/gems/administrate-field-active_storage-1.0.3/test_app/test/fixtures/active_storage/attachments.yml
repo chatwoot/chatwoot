@@ -1,0 +1,4 @@
+post_cover_image:
+  name: cover_image
+  record: one (Post)
+  blob: cover_image

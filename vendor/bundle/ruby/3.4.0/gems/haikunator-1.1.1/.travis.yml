@@ -1,0 +1,17 @@
+language: ruby
+cache: bundler
+
+rvm:
+  - 2.2.0
+  - 2.1.2
+  - 2.1.0
+  - 2.0.0
+
+script: 'bundle exec rake'
+
+notifications:
+  email:
+    on_failure: change
+    on_success: never
+  slack:
+    secure: j0pMnM5JiBxiNsFf1n4DtsNSSkmaSW6w8KRy9D5V0ArxPEr7GdlAVfmsgqFIsOCEnm7CvREvUDGEQqx2Y9oIUxjxtnKYhQgru+DG+dONZQIEtOyRGL4UQKYDms/843DnXKuHuFUVeAu7alL9sKFTXFqaVT/r+YRk79cGt4vdfYg=

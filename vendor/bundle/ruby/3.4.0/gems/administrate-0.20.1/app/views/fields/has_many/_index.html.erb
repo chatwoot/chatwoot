@@ -1,0 +1,19 @@
+<%#
+# HasMany Index Partial
+
+This partial renders a has_many relationship,
+to be displayed on a resource's index page.
+
+By default, the relationship is rendered
+as a count of how many objects are associated through the relationship.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::HasMany][1].
+  A wrapper around the has_many relationship pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/HasMany
+%>
+
+<%= pluralize(field.data.size, t("activerecord.models.#{field.attribute.to_s.singularize}", default: field.attribute.to_s.humanize.downcase.singularize, count: field.data.size)) %>

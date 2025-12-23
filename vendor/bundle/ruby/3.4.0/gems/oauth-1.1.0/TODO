@@ -1,0 +1,32 @@
+Common use-cases should be streamlined:
+
+* I have a URL that I want to sign (given consumer key/secret, optional
+  token/secret, optional nonce/timestamp).
+* I have a URL that I want to sign AND I want to see what the components
+  (e.g. signature base string, etc.) are while it's being signed (i.e. verbose
+  signing).
+* I have a URL that I want to sign and I only want the signature.
+* I have a URL that I want to sign and I want something suitable to put in
+  {the header, the querystring, XMPP}.
+* I want to make a query to an OAuth-enabled web service (with sensible
+  errors, if available).
+* I want to host an OAuth-enabled web service.
+* I want to test my OAuth-enabled web service (i.e. test helpers)
+
+Example applications for:
+* Ning
+* Fire Eagle
+* Google (blogger, contacts)
+* Twitter
+* YOS / YQL
+* Netflix
+
+In addition to providing best practices of use, these can also be part of
+the pre-release checks to make sure that there have been no regressions.
+
+Random TODOs:
+* finish CLI
+* sensible Exception hierarchy
+* Tokens as Modules
+* don't tie to Net::HTTP
+* Take a look at Curb HTTP Verbs

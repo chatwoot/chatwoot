@@ -1,0 +1,61 @@
+uk:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Будь ласка підтвердіть реєстрацію згідно інструкціям як ми вислали на Вашу пошту %{email}"
+      bad_credentials: "Логін або пароль введені невірно. Будь ласка, спробуйте ще"
+      not_supported: "Використовуйте POST /sign_in для входу. GET запити не пітримуються."
+      user_not_found: "Користувач не знайдений або не увійшов в систему"
+    token_validations:
+      invalid: "Помилкові дані"
+    registrations:
+      missing_confirm_success_url: "Немає параметру 'confirm_success_url'"
+      redirect_url_not_allowed: "Перенаправлення до '%{redirect_url}' не дозволено."
+      email_already_exists: "Акаунт для емейлу '%{email}' вже існує"
+      account_with_uid_destroyed: "Акаунт з UID '%{uid}' було видалено."
+      account_to_destroy_not_found: "Неможливо знайти акаунт для видалення."
+      user_not_found: "Користувача не знайдено"
+    omniauth:
+      not_allowed_redirect_url: "Перенаправлення до '%{redirect_url}' не дозволено."
+    passwords:
+      missing_email: "Ви маєте ввести email адресу."
+      missing_redirect_url: "Немає URL для перенаправлення."
+      not_allowed_redirect_url: "Перенаправлення до '%{redirect_url}' не дозволено."
+      sended: "Лист з інструкціями для скидання паролю відправлено на '%{email}'."
+      user_not_found: "Неможливо знайти користувача по email '%{email}'."
+      password_not_required: "Цей акаунт не потребує паролю. Увійдіть використовуючи натомість акаунт провайдера '%{provider}'."
+      missing_passwords: "Ви маєте заповнити поля з назвами 'Пароль' та 'Підтвердження паролю'."
+      successfully_updated: "Ваш пароль було успішно оновлено."
+    unlocks:
+      missing_email: "Ви маєте вказати адресу електронної пошти."
+      missing_redirect_url: "Відсутня адреса переадресації."
+      not_allowed_redirect_url: "Переадресація до %{redirect_url} не дозволена."
+      sended: "Інструкція по відновленню паролю відправлена на Вашу електронну адресу."
+      user_not_found: "Не виходить знайти користувача з електронною адресою %{email}."
+      password_not_required: "Цей обліковий запис не потребує паролю. Увійдіть використовуючи обліковий запис '%{provider}'."
+      missing_passwords: "Ви маєте заповнити поля 'пароль' і 'підтвердіть пароль'."
+      successfully_updated: "Ваш пароль успішно оновлено."
+  errors:
+    messages:
+      validate_sign_up_params: "Будь ласка, відправте вірні дані для реєстрації в тілі запиту."
+      validate_account_update_params: "Будь ласка, відправте вірні дані для оновлення акаунту в тілі запиту."
+      not_email: "не є електронною адресою"
+  devise:
+    mailer:
+      confirmation_instructions:
+        subject: "Інструкції підтвердження"
+        confirm_link_msg: "Ви можете підтвердити вашу адресу електронної пошти через посилання нижче:"
+        confirm_account_link: "Підтвердіть свій обліковий запис"
+      reset_password_instructions:
+        subject: "Інструкція по скиданню паролю"
+        request_reset_link_msg: "Хтось зробив запит на зміну паролю. Ви можете зробити це через посилання нижче."
+        password_change_link: "Змінити пароль"
+        ignore_mail_msg: "Якщо Ви не робили запит на це, Ви можете проігнорувати цей лист."
+        no_changes_msg: "Ваш пароль не зміниться, доки Ви не відкриєте посилання вище і не створите новий пароль."
+      unlock_instructions:
+        subject: "Інструкції з розблокування"
+        account_lock_msg: "Ваш акаунт було заблоковано через надмірну кількість невдалих спроб входу."
+        unlock_link_msg: "Перейдіть за посиланням нижче, щоб розблокувати свій акаунт:"
+        unlock_link: "Розблокувати мій обліковий запис"
+  hello: "привіт"
+  welcome: "вітаємо"
+  

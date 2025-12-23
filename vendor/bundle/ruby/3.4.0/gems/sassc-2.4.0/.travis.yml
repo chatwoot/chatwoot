@@ -1,0 +1,16 @@
+language: ruby
+
+bundler_args: "--binstubs --standalone --without documentation --path ../bundle"
+script: "bundle exec rake test"
+rvm:
+  - 2.0.0
+  - 2.1.10
+  - 2.2.10
+  - 2.3.8
+  - 2.4.6
+  - 2.5.5
+  - 2.6.3
+  - 2.7.0
+  - truffleruby
+notifications:
+  email: false

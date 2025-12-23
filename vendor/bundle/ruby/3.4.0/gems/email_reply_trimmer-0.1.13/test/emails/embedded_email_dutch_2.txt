@@ -1,0 +1,62 @@
+The adblocker idea from @elberet might be it. Regretfully I only have time
+to test this in 2 weeks. I will let you know then...
+Op 16 aug. 2014 05:13 schreef "codinghorror" <info@discourse.org> het
+volgende geschreven:
+
+>     codinghorror <https://meta.discourse.org/users/codinghorror>
+> August 15
+>
+> Hmm, if that is true we need to fix that somehow.
+>
+> To respond, reply to this email or visit
+> https://meta.discourse.org/t/configuring-google-oauth2-login-for-discourse/15858/38
+> in your browser.
+>  ------------------------------
+> Previous Replies    elberet <https://meta.discourse.org/users/elberet>
+> August 15
+>
+> Are you using an ad blocker? Adblock Plus, for instance, removes the login
+> buttons.
+>      bwvanmanen <https://meta.discourse.org/users/bwvanmanen>
+> August 15
+>
+> The 'Sign in with Google' button does appear when I try to log in from
+> another pc. However the button does not appear on my pc using another
+> browser.
+>      bwvanmanen <https://meta.discourse.org/users/bwvanmanen>
+> August 15
+>
+> I followed the steps from the opening post, but I don't get a google login
+> option when users try to log in. There is just the normal user/password,
+> the word OR, and nothing next to that. Any clues?
+>
+>       neil <https://meta.discourse.org/users/neil>
+> August 1
+>
+> Glad you got it fixed. It's good to have the resolution in this topic too.
+> I added a link to your topic in the first post.
+>      jgehrcke <https://meta.discourse.org/users/jgehrcke>
+> July 31
+>
+> Sorry, that was kind of a cross-posting. Indeed, I got that fixed as you
+> say, as reported here:
+>   jgehrcke said:
+>
+> I understand the solution you are proposing. The proper fix, without
+> customizing the disource.conf in the container, however, would be to inform
+> the web application about the protocol used via an HTTP header, as you are
+> also suggesting. The question is: does Discourse respect/support
+> X-Forwarded-Protocol? Then I can easily configure the nginx reverse proxy
+> with proxy_set_header X-Forwarded-Protocol $scheme; Edit: I can confirm
+> that properly setting the X-Forwarded-Proto header in the nginx …
+>
+>  Thanks and sorry for not reporting back here!
+>   ------------------------------
+>
+> To respond, reply to this email or visit
+> https://meta.discourse.org/t/configuring-google-oauth2-login-for-discourse/15858/38
+> in your browser.
+>
+> To unsubscribe from these emails, visit your user preferences
+> <https://meta.discourse.org/my/preferences>.
+>

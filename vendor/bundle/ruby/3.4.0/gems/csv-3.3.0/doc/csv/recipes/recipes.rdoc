@@ -1,0 +1,6 @@
+== Recipes for \CSV
+
+The recipes are specific code examples for specific tasks. See:
+- {Recipes for Parsing CSV}[./parsing_rdoc.html]
+- {Recipes for Generating CSV}[./generating_rdoc.html]
+- {Recipes for Filtering CSV}[./filtering_rdoc.html]

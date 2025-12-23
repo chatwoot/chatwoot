@@ -1,0 +1,24 @@
+# shellcheck shell=bash
+
+. "${SCRIPT_DIR}/setupkit.sh.lib"
+
+require_command "realpath"
+require_command "cat"
+
+ENV_FILE=$(realpath "${SCRIPT_DIR}")/docker-compose.env
+
+load_docker_compose_env() {
+  . "${ENV_FILE}"
+}
+
+exec_hook_if_exists() {
+  script_name=$1
+  shift
+  if [ -x "${SCRIPT_DIR}"/"${script_name}" ]; then
+    log "🪝" "${script_name} exists - executing"
+    "${SCRIPT_DIR}"/"${script_name}" "${@}"
+  else
+    debug "${script_name} does not exist"
+  fi
+}
+# vim: ft=bash

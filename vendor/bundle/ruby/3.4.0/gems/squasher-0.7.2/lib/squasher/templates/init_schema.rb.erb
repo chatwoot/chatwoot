@@ -1,0 +1,12 @@
+class InitSchema < ActiveRecord::Migration<%= @config.migration_version %>
+  def up
+<%- each_schema_line do |line| -%>
+<%- next if line.strip.empty?  -%>
+<%= "    #{line}" %>
+<%- end -%>
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration, "The initial migration is not revertable"
+  end
+end

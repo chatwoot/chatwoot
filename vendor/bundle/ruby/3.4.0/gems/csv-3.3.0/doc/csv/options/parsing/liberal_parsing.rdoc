@@ -1,0 +1,38 @@
+====== Option +liberal_parsing+
+
+Specifies the boolean or hash value that determines whether
+CSV will attempt to parse input not conformant with RFC 4180,
+such as double quotes in unquoted fields.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:liberal_parsing) # => false
+
+For the next two examples:
+  str = 'is,this "three, or four",fields'
+
+Without +liberal_parsing+:
+  # Raises CSV::MalformedCSVError (Illegal quoting in str 1.)
+  CSV.parse_line(str)
+
+With +liberal_parsing+:
+  ary = CSV.parse_line(str, liberal_parsing: true)
+  ary # => ["is", "this \"three", " or four\"", "fields"]
+
+Use the +backslash_quote+ sub-option to parse values that use
+a backslash to escape a double-quote character.  This
+causes the parser to treat <code>\"</code> as if it were
+<code>""</code>.
+
+For the next two examples:
+  str = 'Show,"Harry \"Handcuff\" Houdini, the one and only","Tampa Theater"'
+
+With +liberal_parsing+, but without the +backslash_quote+ sub-option:
+  # Incorrect interpretation of backslash; incorrectly interprets the quoted comma as a field separator.
+  ary = CSV.parse_line(str, liberal_parsing: true)
+  ary # => ["Show", "\"Harry \\\"Handcuff\\\" Houdini", " the one and only\"", "Tampa Theater"]
+  puts ary[1] # => "Harry \"Handcuff\" Houdini
+
+With +liberal_parsing+ and its +backslash_quote+ sub-option:
+  ary = CSV.parse_line(str, liberal_parsing: { backslash_quote: true })
+  ary # => ["Show", "Harry \"Handcuff\" Houdini, the one and only", "Tampa Theater"]
+  puts ary[1] # => Harry "Handcuff" Houdini, the one and only

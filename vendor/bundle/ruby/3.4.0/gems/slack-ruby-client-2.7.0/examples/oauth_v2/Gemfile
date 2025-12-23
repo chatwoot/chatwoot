@@ -1,0 +1,7 @@
+# frozen_string_literal: true
+source 'http://rubygems.org'
+
+gem 'activesupport'
+gem 'dotenv'
+gem 'slack-ruby-client', path: '../..'
+gem 'webrick'

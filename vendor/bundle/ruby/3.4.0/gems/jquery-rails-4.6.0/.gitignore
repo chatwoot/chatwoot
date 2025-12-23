@@ -1,0 +1,8 @@
+pkg/*
+tmp
+spec/support/*/Gemfile.lock
+spec/support/*/public/javascripts
+.ruby-version
+.bundle
+imports/*
+Gemfile.lock

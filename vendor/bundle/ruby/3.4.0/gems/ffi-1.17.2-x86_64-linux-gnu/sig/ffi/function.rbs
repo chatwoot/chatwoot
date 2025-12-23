@@ -1,0 +1,39 @@
+module FFI
+  interface _Function
+    # TODO: leads to a endless recursion when used with -rrbs/test/setup
+    # def attach: (Module mod, String name) -> self
+    def call: (*untyped args) -> untyped
+    def param_types: () -> Array[Type]
+    def return_type: () -> Type
+  end
+
+  class Function < Pointer
+    include _Function
+    # ?blocking: boolish?, ?convention: Library::convention?, ?enums: Enums?
+    def initialize:
+      (
+        ffi_type return_type, Array[ffi_type] param_types,
+        ?Hash[Symbol, untyped] options
+      ) { (*untyped) -> untyped } -> self
+    | (
+        ffi_type return_type, Array[ffi_type] param_types, Proc | Pointer proc,
+        ?Hash[Symbol, untyped] options
+      ) -> self
+
+    def autorelease?: ...
+    alias autorelease autorelease?
+    def autorelease=: ...
+    def free: () -> self
+  end
+
+  class VariadicInvoker
+    include _Function
+    def initialize:
+      (
+        Pointer function, Array[ffi_type] parameter_types, ffi_type return_type,
+        Hash[Symbol, untyped] options #TODO
+      ) -> void
+
+    def invoke: (Array[Type] parameter_types, Array[untyped] parameter_values) -> untyped
+  end
+end

@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# This command has been renamed "newrelic"
+# executes one of the commands in the new_relic/commands directory
+# pass the name of the command as an argument
+load File.dirname(__FILE__) + '/newrelic'

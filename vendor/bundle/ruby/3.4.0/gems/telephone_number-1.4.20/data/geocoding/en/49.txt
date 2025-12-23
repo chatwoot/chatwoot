@@ -1,0 +1,5218 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Translated from de/49.txt using Freebase and Wikipedia.
+
+49201|Essen
+49202|Wuppertal
+49203|Duisburg
+492041|Bottrop
+492043|Gladbeck
+492045|Bottrop-Kirchhellen
+492051|Velbert
+492052|Velbert-Langenberg
+492053|Velbert-Neviges
+492054|Essen-Kettwig
+492056|Heiligenhaus
+492058|Wülfrath
+492064|Dinslaken
+492065|Duisburg-Rheinhausen
+492066|Duisburg-Homberg
+49208|Oberhausen Rheinland
+49209|Gelsenkirchen
+492102|Ratingen
+492103|Hilden
+492104|Mettmann
+49211|Düsseldorf
+49212|Solingen
+492129|Haan Rheinland
+492131|Neuss
+492132|Meerbusch-Büderich
+492133|Dormagen
+492137|Neuss-Norf
+49214|Leverkusen
+492150|Meerbusch-Lank
+492151|Krefeld
+492152|Kempen
+492153|Nettetal-Lobberich
+492154|Willich
+492156|Willich-Anrath
+492157|Nettetal-Kaldenkirchen
+492158|Grefrath bei Krefeld
+492159|Meerbusch-Osterath
+492161|Mönchengladbach
+492162|Viersen
+492163|Schwalmtal Niederrhein
+492164|Jüchen-Otzenrath
+492165|Jüchen
+492166|Mönchengladbach-Rheydt
+492171|Leverkusen-Opladen
+492173|Langenfeld Rheinland
+492174|Burscheid Rheinland
+492175|Leichlingen Rheinland
+492181|Grevenbroich
+492182|Grevenbroich-Kapellen
+492183|Rommerskirchen
+492191|Remscheid
+492192|Hückeswagen
+492193|Dabringhausen
+492195|Radevormwald
+492196|Wermelskirchen
+492202|Bergisch Gladbach
+492203|Cologne-Porz
+492204|Bensberg
+492205|Rösrath
+492206|Overath
+492207|Kürten-Dürscheid
+492208|Niederkassel
+49221|Cologne
+492222|Bornheim Rheinland
+492223|Königswinter
+492224|Bad Honnef
+492225|Meckenheim Rheinland
+492226|Rheinbach
+492227|Bornheim-Merten
+492228|Remagen-Rolandseck
+492232|Brühl Rheinland
+492233|Hürth Rheinland
+492234|Frechen
+492235|Erftstadt
+492236|Wesseling Rheinland
+492237|Kerpen Rheinland-Türnich
+492238|Pulheim
+492241|Siegburg
+492242|Hennef Sieg
+492243|Eitorf
+492244|Königswinter-Oberpleis
+492245|Much
+492246|Lohmar Rheinland
+492247|Neunkirchen-Seelscheid
+492248|Hennef-Uckerath
+492251|Euskirchen
+492252|Zülpich
+492253|Bad Münstereifel
+492254|Weilerswist
+492255|Euskirchen-Flamersheim
+492256|Mechernich-Satzvey
+492257|Reckerscheid
+492261|Gummersbach
+492262|Wiehl
+492263|Engelskirchen
+492264|Marienheide
+492265|Reichshof-Eckenhagen
+492266|Lindlar
+492267|Wipperfürth
+492268|Kürten
+492269|Kierspe-Rönsahl
+492271|Bergheim Erft
+492272|Bedburg Erft
+492273|Kerpen-Horrem
+492274|Elsdorf Rheinland
+492275|Kerpen-Buir
+49228|Bonn
+492291|Waldbröl
+492292|Windeck Sieg
+492293|Nümbrecht
+492294|Morsbach Sieg
+492295|Ruppichteroth
+492296|Reichshof-Brüchermühle
+492297|Wildbergerhütte
+492301|Holzwickede
+492302|Witten
+492303|Unna
+492304|Schwerte
+492305|Castrop-Rauxel
+492306|Lünen
+492307|Kamen
+492308|Unna-Hemmerde
+492309|Waltrop
+49231|Dortmund
+492323|Herne
+492324|Hattingen Ruhr
+492325|Wanne-Eickel
+492327|Bochum-Wattenscheid
+492330|Herdecke
+492331|Hagen Westfalen
+492332|Gevelsberg
+492333|Ennepetal
+492334|Hagen-Hohenlimburg
+492335|Wetter Ruhr
+492336|Schwelm
+492337|Hagen-Dahl
+492338|Breckerfeld
+492339|Sprockhövel-Hasslinghausen
+49234|Bochum
+492351|Lüdenscheid
+492352|Altena Westfalen
+492353|Halver
+492354|Meinerzhagen
+492355|Schalksmühle
+492357|Herscheid Westfalen
+492358|Meinerzhagen-Valbert
+492359|Kierspe
+492360|Haltern-Lippramsdorf
+492361|Recklinghausen
+492362|Dorsten
+492363|Datteln
+492364|Haltern Westfalen
+492365|Marl
+492366|Herten Westfalen
+492367|Henrichenburg
+492368|Oer-Erkenschwick
+492369|Dorsten-Wulfen
+492371|Iserlohn
+492372|Hemer
+492373|Menden Sauerland
+492374|Iserlohn-Letmathe
+492375|Balve
+492377|Wickede Ruhr
+492378|Fröndenberg-Langschede
+492379|Menden-Asbeck
+492381|Hamm Westfalen
+492382|Ahlen Westfalen
+492383|Bönen
+492384|Welver
+492385|Hamm-Rhynern
+492387|Drensteinfurt-Walstedde
+492388|Hamm-Uentrop
+492389|Werne
+492391|Plettenberg
+492392|Werdohl
+492393|Sundern-Allendorf
+492394|Neuenrade-Affeln
+492395|Finnentrop-Rönkhausen
+492401|Baesweiler
+492402|Stolberg Rheinland
+492403|Eschweiler Rheinland
+492404|Alsdorf Rheinland
+492405|Würselen
+492406|Herzogenrath
+492407|Herzogenrath-Kohlscheid
+492408|Aachen-Kornelimünster
+492409|Stolberg-Gressenich
+49241|Aachen
+492421|Düren
+492422|Kreuzau
+492423|Langerwehe
+492424|Vettweiss
+492425|Nideggen-Embken
+492426|Nörvenich
+492427|Nideggen
+492428|Niederzier
+492429|Hürtgenwald
+492431|Erkelenz
+492432|Wassenberg
+492433|Hückelhoven
+492434|Wegberg
+492435|Erkelenz-Lövenich
+492436|Wegberg-Rödgen
+492440|Nettersheim-Tondorf
+492441|Kall
+492443|Mechernich
+492444|Schleiden-Gemünd
+492445|Schleiden Eifel
+492446|Heimbach Eifel
+492447|Dahlem bei Kall
+492448|Hellenthal-Rescheid
+492449|Blankenheim Ahr
+492451|Geilenkirchen
+492452|Heinsberg Rheinland
+492453|Heinsberg-Randerath
+492454|Gangelt
+492455|Waldfeucht
+492456|Selfkant
+492461|Jülich
+492462|Linnich
+492463|Titz
+492464|Aldenhoven bei Jülich
+492465|Inden
+492471|Roetgen Eifel
+492472|Monschau
+492473|Simmerath
+492474|Nideggen-Schmidt
+492482|Hellenthal
+492484|Mechernich-Eiserfey
+492485|Schleiden-Dreiborn
+492486|Nettersheim
+492501|Münster-Hiltrup
+492502|Nottuln
+492504|Telgte
+492505|Altenberge Westfalen
+492506|Münster-Wolbeck
+492507|Havixbeck
+492508|Drensteinfurt
+492509|Nottuln-Appelhülsen
+49251|Münster
+492520|Wadersloh-Diestedde
+492521|Beckum
+492522|Oelde
+492523|Wadersloh
+492524|Ennigerloh
+492525|Beckum-Neubeckum
+492526|Sendenhorst
+492527|Lippetal-Lippborg
+492528|Ennigerloh-Enniger
+492529|Oelde-Stromberg
+492532|Ostbevern
+492533|Münster-Nienberge
+492534|Münster-Roxel
+492535|Sendenhorst-Albersloh
+492536|Münster-Albachten
+492538|Drensteinfurt-Rinkerode
+492541|Coesfeld
+492542|Gescher
+492543|Billerbeck Westfalen
+492545|Rosendahl-Darfeld
+492546|Coesfeld-Lette
+492547|Rosendahl-Osterwick
+492548|Dülmen-Rorup
+492551|Steinfurt-Burgsteinfurt
+492552|Steinfurt-Borghorst
+492553|Ochtrup
+492554|Laer Kreis Steinfurt
+492555|Schöppingen
+492556|Metelen
+492557|Wettringen Kreis Steinfurt
+492558|Horstmar
+492561|Ahaus
+492562|Gronau Westfalen
+492563|Stadtlohn
+492564|Vreden
+492565|Gronau-Epe
+492566|Legden
+492567|Ahaus-Alstätte
+492568|Heek
+492571|Greven Westfalen
+492572|Emsdetten
+492573|Nordwalde
+492574|Saerbeck
+492575|Greven-Reckenfeld
+492581|Warendorf
+492582|Everswinkel
+492583|Sassenberg
+492584|Warendorf-Milte
+492585|Warendorf-Hoetmar
+492586|Beelen
+492587|Ennigerloh-Westkirchen
+492588|Harsewinkel-Greffen
+492590|Dülmen-Buldern
+492591|Lüdinghausen
+492592|Selm
+492593|Ascheberg Westfalen
+492594|Dülmen
+492595|Olfen
+492596|Nordkirchen
+492597|Senden Westfalen
+492598|Senden-Ottmarsbocholt
+492599|Ascheberg-Herbern
+492601|Nauort
+492602|Montabaur
+492603|Bad Ems
+492604|Nassau Lahn
+492605|Löf
+492606|Winningen Mosel
+492607|Kobern-Gondorf
+492608|Welschneudorf
+49261|Koblenz am Rhein
+492620|Neuhäusel Westerwald
+492621|Lahnstein
+492622|Bendorf am Rhein
+492623|Ransbach-Baumbach
+492624|Höhr-Grenzhausen
+492625|Ochtendung
+492626|Selters Westferwald
+492627|Braubach
+492628|Rhens
+492630|Mülheim-Kärlich
+492631|Neuwied
+492632|Andernach
+492633|Brohl-Lützing
+492634|Rengsdorf
+492635|Rheinbrohl
+492636|Burgbrohl
+492637|Weissenthurm
+492638|Waldbreitbach
+492639|Anhausen Kreis Neuwied
+492641|Bad Neuenahr-Ahrweiler
+492642|Remagen
+492643|Altenahr
+492644|Linz am Rhein
+492645|Vettelschoss
+492646|Königsfeld Eifel
+492647|Kesseling
+492651|Mayen
+492652|Mendig
+492653|Kaisersesch
+492654|Polch
+492655|Weibern
+492656|Virneburg
+492657|Uersfeld
+492661|Bad Marienberg Westerwald
+492662|Hachenburg
+492663|Westerburg Westerwald
+492664|Rennerod
+492666|Freilingen Westerwald
+492667|Stein-Neukirch
+492671|Cochem
+492672|Treis-Karden
+492673|Ellenz-Poltersdorf
+492674|Bad Bertrich
+492675|Ediger-Eller
+492676|Ulmen
+492677|Lutzerath
+492678|Büchel bei Cochem
+492680|Mündersbach
+492681|Altenkirchen Westerwald
+492682|Hamm Sieg
+492683|Asbach Westerwald
+492684|Puderbach Westerwald
+492685|Flammersfeld
+492686|Weyerbusch
+492687|Horhausen Westerwald
+492688|Kroppach
+492689|Dierdorf
+492691|Adenau
+492692|Kelberg
+492693|Antweiler
+492694|Wershofen
+492695|Insul
+492696|Nohn Eifel
+492697|Blankenheim-Ahrhütte
+49271|Siegen
+492721|Lennestadt
+492722|Attendorn
+492723|Kirchhundem
+492724|Finnentrop-Serkenrode
+492725|Lennestadt-Oedingen
+492732|Kreuztal
+492733|Hilchenbach
+492734|Freudenberg Westfalen
+492735|Neunkirchen Siegerl
+492736|Burbach Siegerl
+492737|Netphen-Deuz
+492738|Netphen
+492739|Wilnsdorf
+492741|Betzdorf
+492742|Wissen
+492743|Daaden
+492744|Herdorf
+492745|Brachbach Sieg
+492747|Molzhain
+492750|Diedenshausen
+492751|Bad Berleburg
+492752|Bad Laasphe
+492753|Erndtebrück
+492754|Bad Laasphe-Feudingen
+492755|Bad Berleburg-Schwarzenau
+492758|Bad Berleburg-Girkhausen
+492759|Bad Berleburg-Aue
+492761|Olpe Biggesee
+492762|Wenden Südsauerland
+492763|Drolshagen-Bleche
+492764|Welschen Ennest
+492770|Eschenburg
+492771|Dillenburg
+492772|Herborn Hessen
+492773|Haiger
+492774|Dietzhölztal
+492775|Driedorf
+492776|Bad Endbach-Hartenrod
+492777|Breitscheid Hessen
+492778|Siegbach
+492779|Greifenstein-Beilstein
+492801|Xanten
+492802|Alpen
+492803|Wesel-Büderich
+492804|Xanten-Marienbaum
+49281|Wesel
+492821|Kleve Niederrhein
+492822|Emmerich
+492823|Goch
+492824|Kalkar
+492825|Uedem
+492826|Kranenburg Niederrhein
+492827|Goch-Hassum
+492828|Emmerich-Elten
+492831|Geldern
+492832|Kevelaer
+492833|Kerken
+492834|Straelen
+492835|Issum
+492836|Wachtendonk
+492837|Weeze
+492838|Sonsbeck
+492839|Straelen-Herongen
+492841|Moers
+492842|Kamp-Lintfort
+492843|Rheinberg
+492844|Rheinberg-Orsoy
+492845|Neukirchen-Vluyn
+492850|Rees-Haldern
+492851|Rees
+492852|Hamminkeln
+492853|Schermbeck
+492855|Voerde Niederrhein
+492856|Hamminkeln-Brünen
+492857|Rees-Mehr
+492858|Hünxe
+492859|Wesel-Bislich
+492861|Borken Westfalen
+492862|Südlohn
+492863|Velen
+492864|Reken
+492865|Raesfeld
+492866|Dorsten-Rhade
+492867|Heiden Kreis Borken
+492871|Bocholt
+492872|Rhede Westfalen
+492873|Isselburg-Werth
+492874|Isselburg
+492902|Warstein
+492903|Meschede-Freienohl
+492904|Bestwig
+492905|Bestwig-Ramsbeck
+49291|Meschede
+492921|Soest
+492922|Werl
+492923|Lippetal-Herzfeld
+492924|Möhnesee
+492925|Warstein-Allagen
+492927|Neuengeseke
+492928|Soest-Ostönnen
+492931|Arnsberg
+492932|Neheim-Hüsten
+492933|Sundern Sauerland
+492934|Sundern-Altenhellefeld
+492935|Sundern-Hachen
+492937|Arnsberg-Oeventrop
+492938|Ense
+492941|Lippstadt
+492942|Geseke
+492943|Erwitte
+492944|Rietberg-Mastholte
+492945|Lippstadt-Benninghausen
+492947|Anröchte
+492948|Lippstadt-Rebbeke
+492951|Büren
+492952|Rüthen
+492953|Wünnenberg
+492954|Rüthen-Oestereiden
+492955|Büren-Wewelsburg
+492957|Wünnenberg-Haaren
+492958|Büren-Harth
+492961|Brilon
+492962|Olsberg
+492963|Brilon-Messinghausen
+492964|Brilon-Alme
+492971|Schmallenberg-Dorlar
+492972|Schmallenberg
+492973|Eslohe Sauerland
+492974|Schmallenberg-Fredeburg
+492975|Schmallenberg-Oberkirchen
+492977|Schmallenberg-Bödefeld
+492981|Winterberg Westfalen
+492982|Medebach
+492983|Winterberg-Siedlinghausen
+492984|Hallenberg
+492985|Winterberg-Niedersfeld
+492991|Marsberg-Bredelar
+492992|Marsberg
+492993|Marsberg-Canstein
+492994|Marsberg-Westheim
+4930|Berlin
+493301|Oranienburg
+493302|Hennigsdorf
+493303|Birkenwerder
+493304|Velten
+4933051|Nassenheide
+4933052|Leegebruch
+4933053|Zehlendorf Kreis Oberhavel
+4933054|Liebenwalde
+4933055|Kremmen
+4933056|Mühlenbeck Kreis Oberhavel
+493306|Gransee
+493307|Zehdenick
+4933080|Marienthal Kreis Oberhavel
+4933082|Menz Kreis Oberhavel
+4933083|Schulzendorf Kreis Oberhavel
+4933084|Gutengermendorf
+4933085|Seilershof
+4933086|Grieben Kreis Oberhavel
+4933087|Bredereiche
+4933088|Falkenthal
+4933089|Himmelpfort
+4933093|Fürstenberg Havel
+4933094|Löwenberg
+49331|Potsdam
+4933200|Bergholz-Rehbrücke
+4933201|Gross Glienicke
+4933202|Töplitz
+4933203|Kleinmachnow
+4933204|Beelitz Mark
+4933205|Michendorf
+4933206|Fichtenwalde
+4933207|Gross Kreutz
+4933208|Fahrland
+4933209|Caputh
+493321|Nauen Brandenburg
+493322|Falkensee
+4933230|Börnicke Kreis Havelland
+4933231|Pausin
+4933232|Brieselang
+4933233|Ketzin
+4933234|Wustermark
+4933235|Friesack
+4933237|Paulinenaue
+4933238|Senzke
+4933239|Gross Behnitz
+493327|Werder Havel
+493328|Teltow
+493329|Stahnsdorf
+493331|Angermünde
+493332|Schwedt/Oder
+4933331|Casekow
+4933332|Gartz Oder
+4933333|Tantow
+4933334|Greiffenberg
+4933335|Pinnow Kreis Uckermark
+4933336|Passow Kreis Uckermark
+4933337|Altkünkendorf
+4933338|Stolpe/Oder
+493334|Eberswalde
+493335|Finowfurt
+4933361|Joachimsthal
+4933362|Liepe Kreis Barnim
+4933363|Altenhof Kreis Barnim
+4933364|Gross Ziethen Kreis Barnim
+4933365|Lüdersdorf Kreis Barnim
+4933366|Chorin
+4933367|Friedrichswalde Brandenburg
+4933368|Hohensaaten
+4933369|Oderberg
+493337|Biesenthal Brandenburg
+493338|Bernau Brandenburg
+4933393|Gross Schönebeck Kreis Barnim
+4933394|Blumberg Kreis Barnim
+4933395|Zerpenschleuse
+4933396|Klosterfelde
+4933397|Wandlitz
+4933398|Werneuchen
+493341|Strausberg
+493342|Neuenhagen bei Berlin
+4933432|Müncheberg
+4933433|Buckow Märkische Schweiz
+4933434|Herzfelde bei Strausberg
+4933435|Rehfelde
+4933436|Prötzel
+4933437|Reichenberg bei Strausberg
+4933438|Altlandsberg
+4933439|Fredersdorf-Vogelsdorf
+493344|Bad Freienwalde
+4933451|Heckelberg
+4933452|Neulewin
+4933454|Wölsickendorf/Wollenberg
+4933456|Wriezen
+4933457|Altreetz
+4933458|Falkenberg Mark
+493346|Seelow
+4933470|Lietzen
+4933472|Golzow bei Seelow
+4933473|Zechin
+4933474|Neutrebbin
+4933475|Letschin
+4933476|Neuhardenberg
+4933477|Trebnitz bei Müncheberg
+4933478|Gross Neuendorf
+4933479|Küstrin-Kietz
+49335|Frankfurt (Oder)
+4933601|Podelzig
+4933602|Alt Zeschdorf
+4933603|Falkenhagen bei Seelow
+4933604|Lebus
+4933605|Boossen
+4933606|Müllrose
+4933607|Briesen Mark
+4933608|Jacobsdorf Mark
+4933609|Brieskow-Finkenheerd
+493361|Fürstenwalde Spree
+493362|Erkner
+4933631|Bad Saarow-Pieskow
+4933632|Hangelsberg
+4933633|Spreenhagen
+4933634|Berkenbrück Kreis Oder-Spree
+4933635|Arensdorf Kreis Oder-Spree
+4933636|Steinhöfel Kreis Oder-Spree
+4933637|Beerfelde
+4933638|Rüdersdorf bei Berlin
+493364|Eisenhüttenstadt
+4933652|Neuzelle
+4933653|Ziltendorf
+4933654|Fünfeichen
+4933655|Grunow Kreis Oder-Spree
+4933656|Bahro
+4933657|Steinsdorf Brandenburg
+493366|Beeskow
+4933671|Lieberose
+4933672|Pfaffendorfb Beeskow
+4933673|Weichensdorf
+4933674|Trebatsch
+4933675|Tauche
+4933676|Friedland bei Beeskow
+4933677|Glienicke bei Beeskow
+4933678|Storkow Mark
+4933679|Wendisch Rietz
+4933701|Grossbeeren
+4933702|Wünsdorf
+4933703|Sperenberg
+4933704|Baruth Mark
+4933708|Rangsdorf
+493371|Luckenwalde
+493372|Jüterbog
+4933731|Trebbin
+4933732|Hennickendorf bei Luckenwalde
+4933733|Stülpe
+4933734|Felgentreu
+4933741|Niedergörsdorf
+4933742|Oehna Brandenburg
+4933743|Blönsdorf
+4933744|Hohenseefeld
+4933745|Petkus
+4933746|Werbig bei Jüterbog
+4933747|Marzahna
+4933748|Treuenbrietzen
+493375|Königs Wusterhausen
+4933760|Münchehofe Kreis Dahme-Spreewald
+4933762|Zeuthen
+4933763|Bestensee
+4933764|Mittenwalde Mark
+4933765|Märkisch Buchholz
+4933766|Teupitz
+4933767|Friedersdorf bei Berlin
+4933768|Prieros
+4933769|Töpchin
+493377|Zossen Brandenburg
+493378|Ludwigsfelde
+493379|Mahlow
+493381|Brandenburg an der Havel
+493382|Lehnin
+4933830|Ziesar
+4933831|Weseram
+4933832|Rogäsen
+4933833|Wollin bei Brandenburg
+4933834|Pritzerbe
+4933835|Golzow bei Brandenburg
+4933836|Butzow bei Brandenburg
+4933837|Brielow
+4933838|Päwesin
+4933839|Wusterwitz
+4933841|Belzig
+4933843|Niemegk
+4933844|Brück Brandenburg
+4933845|Borkheide
+4933846|Dippmannsdorf
+4933847|Görzke
+4933848|Raben
+4933849|Wiesenburg Mark
+493385|Rathenow
+493386|Premnitz
+4933870|Zollchow bei Rathenow
+4933872|Hohennauen
+4933873|Grosswudicke
+4933874|Stechow Brandenburg
+4933875|Rhinow
+4933876|Buschow
+4933877|Nitzahn
+4933878|Nennhausen
+493391|Neuruppin
+4933920|Walsleben bei Neuruppin
+4933921|Zechlinerhütte
+4933922|Karwesee
+4933923|Flecken Zechlin
+4933924|Rägelin
+4933925|Wustrau-Altfriesack
+4933926|Herzberg Mark
+4933927|Linum
+4933928|Wildberg Brandenburg
+4933929|Gühlen-Glienicke
+4933931|Rheinsberg Mark
+4933932|Fehrbellin
+4933933|Lindow Mark
+493394|Wittstock Dosse
+493395|Pritzwalk
+4933962|Heiligengrabe
+4933963|Wulfersdorf bei Wittstock
+4933964|Fretzdorf
+4933965|Herzsprung bei Wittstock
+4933966|Dranse
+4933967|Freyenstein
+4933968|Meyenburg Kreis Prignitz
+4933969|Stepenitz
+4933970|Neustadt Dosse
+4933971|Kyritz Brandenburg
+4933972|Breddin
+4933973|Zernitz bei Neustadt Dosse
+4933974|Dessow
+4933975|Dannenwalde Kreis Prignitz
+4933976|Wutike
+4933977|Gumtow
+4933978|Segeletz
+4933979|Wusterhausen Dosse
+4933981|Putlitz
+4933982|Hoppenrade Kreis Prignitz
+4933983|Gross Pankow Kreis Prignitz
+4933984|Blumenthal bei Pritzwalk
+4933986|Falkenhagen Kreis Prignitz
+4933989|Sadenbeck
+49340|Dessau Anh
+49341|Leipzig
+4934202|Delitzsch
+4934203|Zwenkau
+4934204|Schkeuditz
+4934205|Markranstädt
+4934206|Rötha
+4934207|Zwochau
+4934208|Löbnitz bei Delitzsch
+493421|Torgau
+4934221|Schildau Gneisenaustadt
+4934222|Arzberg bei Torgau
+4934223|Dommitzsch
+4934224|Belgern Sachsen
+493423|Eilenburg
+4934241|Jesewitz
+4934242|Hohenpriessnitz
+4934243|Bad Düben
+4934244|Mockrehna
+493425|Wurzen
+4934261|Kühren bei Wurzen
+4934262|Falkenhain bei Wurzen
+4934263|Hohburg
+4934291|Borsdorf
+4934292|Brandis bei Wurzen
+4934293|Naunhof bei Grimma
+4934294|Rackwitz
+4934295|Krensitz
+4934296|Groitzsch bei Pegau
+4934297|Liebertwolkwitz
+4934298|Taucha bei Leipzig
+4934299|Gaschwitz
+493431|Döbeln
+4934321|Leisnig
+4934322|Rosswein
+4934324|Ostrau Sachsen
+4934325|Mochau-Lüttewitz
+4934327|Waldheim Sachsen
+4934328|Hartha bei Döbeln
+493433|Borna Stadt
+4934341|Geithain
+4934342|Neukieritzsch
+4934343|Regis-Breitingen
+4934344|Kohren-Sahlis
+4934345|Bad Lausick
+4934346|Narsdorf
+4934347|Oelzschau bei Borna
+4934348|Frohburg
+493435|Oschatz
+4934361|Dahlen Sachsen
+4934362|Mügeln bei Oschatz
+4934363|Cavertitz
+4934364|Wermsdorf
+493437|Grimma
+4934381|Colditz
+4934382|Nerchau
+4934383|Trebsen Mulde
+4934384|Grossbothen
+4934385|Mutzschen
+4934386|Dürrweitzschen bei Grimma
+493441|Zeitz
+4934422|Osterfeld
+4934423|Heuckewalde
+4934424|Reuden bei Zeitz
+4934425|Droyssig
+4934426|Kayna
+493443|Weissenfels Sachsen-Anhalt
+4934441|Hohenmölsen
+4934443|Teuchern
+4934444|Lützen
+4934445|Stössen
+4934446|Grosskorbetha
+493445|Naumburg Saale
+4934461|Nebra Unstrut
+4934462|Laucha Unstrut
+4934463|Bad Kösen
+4934464|Freyburg Unstrut
+4934465|Bad Bibra
+4934466|Janisroda
+4934467|Eckartsberga
+493447|Altenburg Thüringen
+493448|Meuselwitz Thüringen
+4934491|Schmölln Thüringen
+4934492|Lucka
+4934493|Gössnitz Thüringen
+4934494|Ehrenhain
+4934495|Dobitschen
+4934496|Nöbdenitz
+4934497|Langenleuba-Niederhain
+4934498|Rositz
+49345|Halle Saale
+4934600|Ostrau Saalkreis
+4934601|Teutschenthal
+4934602|Landsberg Sachsen-Anhalt
+4934603|Nauendorf Sachsen-Anhalt
+4934604|Niemberg
+4934605|Gröbers
+4934606|Teicha Sachsen-Anhalt
+4934607|Wettin
+4934609|Salzmünde
+493461|Merseburg Saale
+493462|Bad Dürrenberg
+4934632|Mücheln Geiseltal
+4934633|Braunsbedra
+4934635|Bad Lauchstädt
+4934636|Schafstädt
+4934637|Frankleben
+4934638|Zöschen
+4934639|Wallendorf Luppe
+493464|Sangerhausen
+4934651|Rossla
+4934652|Allstedt
+4934653|Rottleberode
+4934654|Stolberg Harz
+4934656|Wallhausen Sachsen-Anhalt
+4934658|Hayn Harz
+4934659|Blankenheim bei Sangerhausen
+493466|Artern Unstrut
+4934671|Bad Frankenhausen Kyffhäuser
+4934672|Rossleben
+4934673|Heldrungen
+4934691|Könnern
+4934692|Alsleben Saale
+493471|Bernburg Saale
+4934721|Nienburg Saale
+4934722|Preusslitz
+493473|Aschersleben Sachsen-Anhalt
+4934741|Frose
+4934742|Sylda
+4934743|Ermsleben
+4934745|Winningen Sachsen-Anhalt
+4934746|Giersleben
+493475|Lutherstadt Eisleben
+493476|Hettstedt Sachsen-Anhalt
+4934771|Querfurt
+4934772|Helbra
+4934773|Schwittersdorf
+4934774|Röblingen am See
+4934775|Wippra
+4934776|Rothenschirmbach
+4934779|Abberode
+4934781|Greifenhagen
+4934782|Mansfeld Südharz
+4934783|Gerbstedt
+4934785|Sandersleben
+4934901|Rosslau Elbe
+4934903|Coswig Anhalt
+4934904|Oranienbaum
+4934905|Wörlitz
+4934906|Raguhn
+4934907|Jeber-Bergfrieden
+4934909|Aken Elbe
+493491|Lutherstadt Wittenberg
+4934920|Kropstädt
+4934921|Kemberg
+4934922|Mühlanger
+4934923|Cobbelsdorf
+4934924|Zahna
+4934925|Bad Schmiedeberg
+4934926|Pretzsch Elbe
+4934927|Globig-Bleddin
+4934928|Seegrehna
+4934929|Straach
+493493|Bitterfeld
+493494|Wolfen
+4934953|Gräfenhainichen
+4934954|Roitzsch bei Bitterfeld
+4934955|Gossa
+4934956|Zörbig
+493496|Köthen Anhalt
+4934973|Osternienburg
+4934975|Görzig Kreis Köthen
+4934976|Gröbzig
+4934977|Quellendorf
+4934978|Radegast Kreis Köthen
+4934979|Wulfen Sachsen-Anhalt
+493501|Pirna
+4935020|Struppen
+4935021|Königstein Sächsische Schweiz
+4935022|Bad Schandau
+4935023|Bad Gottleuba
+4935024|Stadt Wehlen
+4935025|Liebstadt
+4935026|Dürrröhrsdorf-Dittersbach
+4935027|Weesenstein
+4935028|Krippen
+4935032|Langenhennersdorf
+4935033|Rosenthal Sächsische Schweiz
+493504|Dippoldiswalde
+4935052|Kipsdorf Kurort
+4935053|Glashütte Sachsen
+4935054|Lauenstein Sachsen
+4935055|Höckendorf bei Dippoldiswalde
+4935056|Altenberg Sachsen
+4935057|Hermsdorf Erzgebirge
+4935058|Pretzschendorf
+49351|Dresden
+4935200|Arnsdorf bei Dresden
+4935201|Langebrück
+4935202|Klingenberg Sachsen
+4935203|Tharandt
+4935204|Wilsdruff
+4935205|Ottendorf-Okrilla
+4935206|Kreischa bei Dresden
+4935207|Moritzburg
+4935208|Radeburg
+4935209|Mohorn
+493521|Meissen
+493522|Grossenhain Sachsen
+493523|Coswig bei Dresden
+4935240|Tauscha bei Grossenhain
+4935241|Lommatzsch
+4935242|Nossen
+4935243|Weinböhla
+4935244|Krögis
+4935245|Burkhardswalde-Munzig
+4935246|Ziegenhain Sachsen
+4935247|Zehren Sachsen
+4935248|Schönfeld bei Grossenhain
+4935249|Basslitz
+493525|Riesa
+4935263|Gröditz bei Riesa
+4935264|Strehla
+4935265|Glaubitz
+4935266|Heyda bei Riesa
+4935267|Diesbar-Seusslitz
+4935268|Stauchitz
+493528|Radeberg
+493529|Heidenau Sachsen
+493531|Finsterwalde
+4935322|Doberlug-Kirchhain
+4935323|Sonnewalde
+4935324|Crinitz
+4935325|Rückersdorf bei Finsterwalde
+4935326|Schönborn Kreis Elbe-Elster
+4935327|Priessen
+4935329|Dollenchen
+493533|Elsterwerda
+4935341|Bad Liebenwerda
+4935342|Mühlberg Elbe
+4935343|Hirschfeld bei Elsterwerda
+493535|Herzberg Elster
+4935361|Schlieben
+4935362|Schönewalde bei Herzberg
+4935363|Fermerswalde
+4935364|Lebusa
+4935365|Falkenberg Elster
+493537|Jessen Elster
+4935383|Elster Elbe
+4935384|Steinsdorf bei Jessen
+4935385|Annaburg
+4935386|Prettin
+4935387|Seyda
+4935388|Klöden
+4935389|Holzdorf Elster
+493541|Calau
+493542|Lübbenau Spreewald
+4935433|Vetschau
+4935434|Altdöbern
+4935435|Gollmitz bei Calau
+4935436|Laasow bei Calau
+4935439|Zinnitz
+493544|Luckau Brandenburg
+4935451|Dahme Brandenburg
+4935452|Golssen
+4935453|Drahnsdorf
+4935454|Uckro
+4935455|Walddrehna
+4935456|Terpt
+493546|Lübben Spreewald
+4935471|Birkenhainchen
+4935472|Schlepzig
+4935473|Neu Lübbenau
+4935474|Schönwalde bei Lübben
+4935475|Straupitz
+4935476|Wittmannsdorf-Bückchen
+4935477|Rietzneuendorf-Friedrichshof
+4935478|Goyatz
+49355|Cottbus
+4935600|Döbern NL
+4935601|Peitz
+4935602|Drebkau
+4935603|Burg Spreewald
+4935604|Krieschow
+4935605|Komptendorf
+4935606|Briesen bei Cottbus
+4935607|Jänschwalde
+4935608|Gross Ossnig
+4935609|Drachhausen
+493561|Guben
+493562|Forst Lausitz
+493563|Spremberg
+493564|Schwarze Pumpe
+4935691|Bärenklau NL
+4935692|Kerkwitz
+4935693|Lauschütz
+4935694|Gosda bei Klinge
+4935695|Simmersdorf
+4935696|Briesnig
+4935697|Bagenz
+4935698|Hornow
+493571|Hoyerswerda
+4935722|Lauta bei Hoyerswerda
+4935723|Bernsdorf OL
+4935724|Lohsa
+4935725|Wittichenau
+4935726|Gross Särchen
+4935727|Burghammer
+4935728|Uhyst Spree
+493573|Senftenberg
+493574|Lauchhammer
+4935751|Welzow
+4935752|Ruhland
+4935753|Grossräschen
+4935754|Klettwitz
+4935755|Ortrand
+4935756|Hosena
+493576|Weisswasser
+4935771|Bad Muskau
+4935772|Rietschen
+4935773|Schleife
+4935774|Boxberg Sachsen
+4935775|Pechern
+493578|Kamenz
+4935792|Ossling
+4935793|Elstra
+4935795|Königsbrück
+4935796|Panschwitz-Kuckau
+4935797|Schwepnitz
+493581|Görlitz
+4935820|Zodel
+4935822|Hagenwerder
+4935823|Ostritz
+4935825|Kodersdorf
+4935826|Königshain bei Görlitz
+4935827|Nieder-Seifersdorf
+4935828|Reichenbach OL
+4935829|Gersdorf bei Görlitz
+493583|Zittau
+4935841|Grossschönau Sachsen
+4935842|Oderwitz
+4935843|Hirschfelde bei Zittau
+4935844|Oybin Kurort
+493585|Löbau
+493586|Neugersdorf Sachsen
+4935872|Neusalza-Spremberg
+4935873|Herrnhut
+4935874|Bernstadt an der Eigen
+4935875|Obercunnersdorf bei Löbau
+4935876|Weissenberg Sachsen
+4935877|Cunewalde
+493588|Niesky
+4935891|Rothenburg OL
+4935892|Horka OL
+4935893|Mücka
+4935894|Hähnichen
+4935895|Klitten
+493591|Bautzen
+493592|Kirschau
+4935930|Seitschen
+4935931|Königswartha
+4935932|Guttau
+4935933|Neschwitz
+4935934|Grossdubrau
+4935935|Kleinwelka
+4935936|Sohland Spree
+4935937|Prischwitz
+4935938|Grosspostwitz OL
+4935939|Hochkirch
+493594|Bischofswerda
+4935951|Neukirch Lausitz
+4935952|Grossröhrsdorf OL
+4935953|Burkau
+4935954|Grossharthau
+4935955|Pulsnitz
+493596|Neustadt in Sachsen
+4935971|Sebnitz
+4935973|Stolpen
+4935974|Hinterhermsdorf
+4935975|Hohnstein
+493601|Mühlhausen Thüringen
+4936020|Ebeleben
+4936021|Schlotheim
+4936022|Grossengottern
+4936023|Horsmar
+4936024|Diedorf bei Mühlhausen
+4936025|Körner
+4936026|Struth bei Mühlhausen
+4936027|Lengenfeld Unterm Stein
+4936028|Kammerforst Thüringen
+4936029|Menteroda
+493603|Bad Langensalza
+4936041|Bad Tennstedt
+4936042|Tonna
+4936043|Kirchheilingen
+493605|Leinefelde
+493606|Heiligenstadt Heilbad
+4936071|Teistungen
+4936072|Weissenborn-Lüderode
+4936074|Worbis
+4936075|Dingelstädt Eichsfeld
+4936076|Niederorschel
+4936077|Grossbodungen
+4936081|Arenshausen
+4936082|Ershausen
+4936083|Uder
+4936084|Heuthen
+4936085|Reinholterode
+4936087|Wüstheuterode
+49361|Erfurt
+4936200|Elxleben bei Arnstadt
+4936201|Walschleben
+4936202|Neudietendorf
+4936203|Vieselbach
+4936204|Stotternheim
+4936205|Gräfenroda
+4936206|Grossfahner
+4936207|Plaue Thüringen
+4936208|Ermstedt
+4936209|Klettbach
+493621|Gotha Thüringen
+493622|Waltershausen Thüringen
+493623|Friedrichroda
+493624|Ohrdruf
+4936252|Tambach-Dietharz
+4936253|Georgenthal Thüringer Wald
+4936254|Friedrichswerth
+4936255|Goldbach bei Gotha
+4936256|Wechmar
+4936257|Luisenthal Thüringen
+4936258|Friemar
+4936259|Tabarz Thüringer Wald
+493628|Arnstadt
+493629|Stadtilm
+493631|Nordhausen Thüringen
+493632|Sondershausen
+4936330|Grossberndten
+4936331|Ilfeld
+4936332|Ellrich
+4936333|Heringen Helme
+4936334|Wolkramshausen
+4936335|Grosswechsungen
+4936336|Klettenberg
+4936337|Schiedungen
+4936338|Bleicherode
+493634|Sömmerda
+493635|Kölleda
+493636|Greussen
+4936370|Grossenehrich
+4936371|Schlossvippach
+4936372|Kleinneuhausen
+4936373|Buttstädt
+4936374|Weissensee
+4936375|Kindelbrück
+4936376|Straussfurt
+4936377|Rastenberg
+4936378|Ostramondra
+4936379|Holzengel
+493641|Jena
+4936421|Camburg
+4936422|Reinstädt Thüringen
+4936423|Orlamünde
+4936424|Kahla Thüringen
+4936425|Isserstedt
+4936426|Ottendorf bei Stadtroda
+4936427|Dornburg Saale
+4936428|Stadtroda
+493643|Weimar Thüringen
+493644|Apolda
+4936450|Kranichfeld
+4936451|Buttelstedt
+4936452|Berlstedt
+4936453|Mellingen
+4936454|Magdala
+4936458|Bad Berka
+4936459|Blankenhain Thüringen
+4936461|Bad Sulza
+4936462|Ossmannstedt
+4936463|Gebstedt
+4936464|Wormstedt
+4936465|Oberndorf bei Apolda
+493647|Pössneck
+4936481|Neustadt an der Orla
+4936482|Triptis
+4936483|Ziegenrück
+4936484|Knau bei Pössneck
+49365|Gera
+4936601|Hermsdorf Thüringen
+4936602|Ronneburg Thüringen
+4936603|Weida
+4936604|Münchenbernsdorf
+4936605|Bad Köstritz
+4936606|Kraftsdorf
+4936607|Niederpöllnitz
+4936608|Seelingstädt bei Gera
+493661|Greiz
+4936621|Elsterberg bei Plauen
+4936622|Triebes
+4936623|Berga Elster
+4936624|Teichwolframsdorf
+4936625|Langenwetzendorf
+4936626|Auma
+4936628|Zeulenroda
+493663|Schleiz
+4936640|Remptendorf
+4936642|Harra
+4936643|Thimmendorf
+4936644|Hirschberg Saale
+4936645|Mühltroff
+4936646|Tanna bei Schleiz
+4936647|Saalburg Thüringen
+4936648|Dittersdorf bei Schleiz
+4936649|Gefell bei Schleiz
+4936651|Lobenstein
+4936652|Wurzbach
+4936653|Lehesten Thüringer Wald
+4936691|Eisenberg Thüringen
+4936692|Bürgel
+4936693|Crossen an der Elster
+4936694|Schkölen Thüringen
+4936695|Söllmnitz
+4936701|Lichte
+4936702|Lauscha
+4936703|Gräfenthal
+4936704|Steinheid
+4936705|Oberweissbach Thüringer Wald
+493671|Saalfeld Saale
+493672|Rudolstadt
+4936730|Sitzendorf
+4936731|Unterloquitz
+4936732|Könitz
+4936733|Kaulsdorf
+4936734|Leutenberg
+4936735|Probstzella
+4936736|Arnsgereuth
+4936737|Drognitz
+4936738|Königsee
+4936739|Rottenbach
+4936741|Bad Blankenburg
+4936742|Uhlstädt
+4936743|Teichel
+4936744|Remda
+493675|Sonneberg Thüringen
+4936761|Heubisch
+4936762|Steinach Thüringen
+4936764|Neuhaus-Schierschnitz
+4936766|Schalkau
+493677|Ilmenau Thüringen
+4936781|Grossbreitenbach
+4936782|Schmiedefeld am Rennsteig
+4936783|Gehren Thüringen
+4936784|Stützerbach
+4936785|Gräfinau-Angstedt
+493679|Neuhaus am Rennweg
+493681|Suhl
+493682|Zella-Mehlis
+493683|Schmalkalden
+4936840|Trusetal
+4936841|Schleusingen
+4936842|Oberhof Thüringen
+4936843|Benshausen
+4936844|Rohr Thüringen
+4936845|Gehlberg
+4936846|Suhl-Dietzhausen
+4936847|Steinbach-Hallenberg
+4936848|Wernshausen
+4936849|Kleinschmalkalden
+493685|Hildburghausen
+493686|Eisfeld
+4936870|Masserberg
+4936871|Bad Colberg-Heldburg
+4936873|Themar
+4936874|Schönbrunn bei Hildburghaus
+4936875|Straufhain-Streufdorf
+4936878|Oberland
+493691|Eisenach Thüringen
+4936920|Grossenlupnitz
+4936921|Wutha-Farnroda
+4936922|Gerstungen
+4936923|Treffurt
+4936924|Mihla
+4936925|Marksuhl
+4936926|Creuzburg
+4936927|Unterellen
+4936928|Neuenhof Thüringen
+4936929|Ruhla
+493693|Meiningen
+4936940|Oepfershausen
+4936941|Wasungen
+4936943|Bettenhausen Thüringen
+4936944|Rentwertshausen
+4936945|Henneberg
+4936946|Erbenhausen Thüringen
+4936947|Jüchsen
+4936948|Römhild
+4936949|Obermassfeld-Grimmenthal
+493695|Bad Salzungen
+4936961|Bad Liebenstein
+4936962|Vacha
+4936963|Dorndorf Rhön
+4936964|Dermbach Rhön
+4936965|Stadtlengsfeld
+4936966|Kaltennordheim
+4936967|Geisa
+4936968|Rossdorf Rhön
+4936969|Merkers
+49371|Chemnitz Sachsen
+4937200|Wittgensdorf bei Chemnitz
+4937202|Claussnitz bei Chemnitz
+4937203|Gersdorf bei Chemnitz
+4937204|Lichtenstein Sachsen
+4937206|Frankenberg Sachsen
+4937207|Hainichen Sachsen
+4937208|Auerswalde
+4937209|Einsiedel bei Chemnitz
+493721|Meinersdorf
+493722|Limbach-Oberfrohna
+493723|Hohenstein-Ernstthal
+493724|Burgstädt
+493725|Zschopau
+493726|Flöha
+493727|Mittweida
+4937291|Augustusburg
+4937292|Oederan
+4937293|Eppendorf Sachsen
+4937294|Grünhainichen
+4937295|Lugau Erzgebirge
+4937296|Stollberg Erzgebirge
+4937297|Thum Sachsen
+4937298|Oelsnitz Erzgebirge
+493731|Freiberg Sachsen
+4937320|Mulda Sachsen
+4937321|Frankenstein Sachsen
+4937322|Brand-Erbisdorf
+4937323|Lichtenberg Erzgebirge
+4937324|Reinsberg Sachsen
+4937325|Niederbobritzsch
+4937326|Frauenstein Sachsen
+4937327|Rechenberg-Bienenmühle
+4937328|Grossschirma
+4937329|Grosshartmannsdorf
+493733|Annaberg-Buchholz
+4937341|Ehrenfriedersdorf
+4937342|Cranzahl
+4937343|Jöhstadt
+4937344|Crottendorf Sachsen
+4937346|Geyer
+4937347|Bärenstein Kreis Annaberg
+4937348|Oberwiesenthal Kurort
+4937349|Scheibenberg
+493735|Marienberg Sachsen
+4937360|Olbernhau
+4937361|Neuhausen Erzgebirge
+4937362|Seiffen Erzgebirge
+4937363|Zöblitz
+4937364|Reitzenhain Erzgebirge
+4937365|Sayda
+4937366|Rübenau
+4937367|Lengefeld Erzgebirge
+4937368|Deutschneudorf
+4937369|Wolkenstein
+493737|Rochlitz
+4937381|Penig
+4937382|Geringswalde
+4937383|Lunzenau
+4937384|Wechselburg
+493741|Plauen
+4937421|Oelsnitz Vogtland
+4937422|Markneukirchen
+4937423|Adorf Vogtland
+4937430|Eichigt
+4937431|Mehltheuer Vogtland
+4937432|Pausa Vogtland
+4937433|Gutenfürst
+4937434|Bobenneukirchen
+4937435|Reuth bei Plauen
+4937436|Weischlitz
+4937437|Bad Elster
+4937438|Bad Brambach
+4937439|Jocketa
+493744|Auerbach Vogtland
+493745|Falkenstein Vogtland
+4937462|Rothenkirchen Vogtland
+4937463|Bergen Vogtland
+4937464|Schöneck Vogtland
+4937465|Tannenbergsthal Vogtland
+4937467|Klingenthal Sachsen
+4937468|Treuen Vogtland
+49375|Zwickau
+4937600|Neumark Sachsen
+4937601|Mülsen Skt Jacob
+4937602|Kirchberg Sachsen
+4937603|Wildenfels
+4937604|Mosel
+4937605|Hartenstein Sachsen
+4937606|Lengenfeld Vogtland
+4937607|Ebersbrunn Sachsen
+4937608|Waldenburg Sachsen
+4937609|Wolkenburg Mulde
+493761|Werdau Sachsen
+493762|Crimmitschau
+493763|Glauchau
+493764|Meerane
+493765|Reichenbach Vogtland
+493771|Aue Sachsen
+493772|Schneeberg Erzgebirge
+493773|Johanngeorgenstadt
+493774|Schwarzenberg
+4937752|Eibenstock
+4937754|Zwönitz
+4937755|Schönheide Erzgebirge
+4937756|Breitenbrunn Erzgebirge
+4937757|Rittersgrün
+49381|Rostock
+4938201|Gelbensande
+4938202|Volkenshagen
+4938203|Bad Doberan
+4938204|Broderstorf
+4938205|Tessin bei Rostock
+4938206|Graal-Müritz Seeheilbad
+4938207|Stäbelow
+4938208|Kavelstorf
+4938209|Sanitz bei Rostock
+493821|Ribnitz-Damgarten
+4938220|Wustrow Ostseebad
+4938221|Marlow
+4938222|Semlow
+4938223|Saal Vorpom
+4938224|Gresenhorst
+4938225|Trinwillershagen
+4938226|Dierhagen Ostseebad
+4938227|Lüdershagen bei Barth
+4938228|Dettmannsdorf-Kölzow
+4938229|Bad Sülze
+4938231|Barth
+4938232|Zingst Ostseebad
+4938233|Prerow Ostseebad
+4938234|Born Darss
+4938292|Kröpelin
+4938293|Kühlungsborn Ostseebad
+4938294|Neubukow
+4938295|Satow bei Bad Doberan
+4938296|Rerik Ostseebad
+4938297|Moitin
+4938300|Insel Hiddensee
+4938301|Putbus
+4938302|Sagard
+4938303|Sellin Ostseebad
+4938304|Garz Rügen
+4938305|Gingst
+4938306|Samtens
+4938307|Poseritz
+4938308|Göhren Rügen
+4938309|Trent
+493831|Stralsund
+4938320|Tribsees
+4938321|Martensdorf bei Stralsund
+4938322|Richtenberg
+4938323|Prohn
+4938324|Velgast
+4938325|Rolofshagen
+4938326|Grimmen
+4938327|Elmenhorst Vorpom
+4938328|Miltzow
+4938331|Rakow Vorpom
+4938332|Gross Bisdorf
+4938333|Horst bei Grimmen
+4938334|Grammendorf
+493834|Greifswald
+4938351|Mesekenhagen
+4938352|Kemnitz bei Greifswald
+4938353|Gützkow bei Greifswald
+4938354|Wusterhusen
+4938355|Züssow
+4938356|Behrenhoff
+493836|Wolgast
+4938370|Kröslin
+4938371|Karlshagen
+4938372|Usedom
+4938373|Katzow
+4938374|Lassan bei Wolgast
+4938375|Koserow
+4938376|Zirchow
+4938377|Zinnowitz
+4938378|Heringsdorf Seebad
+4938379|Benz Usedom
+493838|Bergen auf Rügen
+4938391|Altenkirchen Rügen
+4938392|Sassnitz
+4938393|Binz Ostseebad
+493841|Wismar
+4938422|Neukloster
+4938423|Bad Kleinen
+4938424|Bobitz
+4938425|Kirchdorf Poel
+4938426|Neuburg-Steinhausen
+4938427|Blowatz
+4938428|Hohenkirchen bei Wismar
+4938429|Glasin
+493843|Güstrow
+493844|Schwaan
+4938450|Tarnow bei Bützow
+4938451|Hoppenrade bei Güstrow
+4938452|Lalendorf
+4938453|Mistorf
+4938454|Kritzkow
+4938455|Plaaz
+4938456|Langhagen bei Güstrow
+4938457|Krakow am See
+4938458|Zehna
+4938459|Laage
+4938461|Bützow
+4938462|Baumgarten
+4938464|Bernitt
+4938466|Jürgenshagen
+493847|Sternberg
+4938481|Witzin
+4938482|Warin
+4938483|Brüel
+4938484|Ventschow
+4938485|Dabel
+4938486|Gustävel
+4938488|Demen
+49385|Schwerin
+493860|Raben Steinfeld
+493861|Plate
+493863|Crivitz
+493865|Holthusen
+493866|Cambs
+493867|Lübstorf
+493868|Rastow
+493869|Dümmer
+493871|Parchim
+4938720|Grebbin
+4938721|Ziegendorf
+4938722|Raduhn
+4938723|Kladrum
+4938724|Siggelkow
+4938725|Gross Godems
+4938726|Spornitz
+4938727|Mestlin
+4938728|Domsühl
+4938729|Marnitz
+4938731|Lübz
+4938732|Gallin bei Lübz
+4938733|Karbow-Vietlübbe
+4938735|Plau am See
+4938736|Goldberg
+4938737|Ganzlin
+4938738|Karow bei Lübz
+493874|Ludwigslust
+4938750|Malliss
+4938751|Picher
+4938752|Zierzow bei Ludwigslust
+4938753|Wöbbelin
+4938754|Leussow bei Ludwigslust
+4938755|Eldena
+4938756|Grabow
+4938757|Neustadt-Glewe
+4938758|Dömitz
+4938759|Tewswoos
+493876|Perleberg
+493877|Wittenberge
+4938780|Lanz Brandenburg
+4938781|Mellen
+4938782|Reetz bei Perleberg
+4938783|Dallmin
+4938784|Kleinow Kreis Prignitz
+4938785|Berge bei Perleberg
+4938787|Glöwen
+4938788|Gross Warnow
+4938789|Wolfshagen bei Perleberg
+4938791|Bad Wilsnack
+4938792|Lenzen (Elbe)
+4938793|Dergenthin
+4938794|Cumlosen
+4938796|Viesecke
+4938797|Karstädt Kreis Prignitz
+493881|Grevesmühlen
+4938821|Lüdersdorf
+4938822|Diedrichshagen bei Grevesmühlen
+4938823|Selmsdorf
+4938824|Mallentin
+4938825|Klütz
+4938826|Dassow
+4938827|Kalkhorst
+4938828|Schönberg
+493883|Hagenow
+4938841|Neuhaus Elbe
+4938842|Lüttenmark
+4938843|Bennin
+4938844|Gülze
+4938845|Kaarssen
+4938847|Boizenburg Elbe
+4938848|Vellahn
+4938850|Gammelin
+4938851|Zarrentin
+4938852|Wittenburg
+4938853|Drönnewitz bei Hagenow
+4938854|Redefin
+4938855|Lübtheen
+4938856|Pritzier bei Hagenow
+4938858|Lassahn
+4938859|Alt Zachun
+493886|Gadebusch
+4938871|Mühlen Eichsen
+4938872|Rehna
+4938873|Carlow
+4938874|Lützow
+4938875|Schlagsdorf bei Gadebusch
+4938876|Roggendorf
+4939000|Beetzendorf
+4939001|Apenburg
+4939002|Oebisfelde
+4939003|Jübar
+4939004|Köckte bei Gardelegen
+4939005|Kusey
+4939006|Miesterhorst
+4939007|Tangeln
+4939008|Kunrau
+4939009|Badel
+493901|Salzwedel
+493902|Diesdorf Altm
+4939030|Brunau
+4939031|Dähre
+4939032|Mahlsdorf bei Salzwedel
+4939033|Wallstawe
+4939034|Fleetmark
+4939035|Kuhfelde
+4939036|Binde
+4939037|Pretzier
+4939038|Henningen
+4939039|Bonese
+493904|Haldensleben
+4939050|Bartensleben
+4939051|Calvörde
+4939052|Erxleben bei Haldensleben
+4939053|Süplingen
+4939054|Flechtingen
+4939055|Hörsingen
+4939056|Klüden
+4939057|Rätzlingen Sachsen-Anhalt
+4939058|Uthmöden
+4939059|Wegenstedt
+4939061|Weferlingen
+4939062|Bebertal
+493907|Gardelegen
+4939080|Kalbe Milde
+4939081|Kakerbeck Sachsen-Anhalt
+4939082|Mieste
+4939083|Messdorf
+4939084|Lindstedt
+4939085|Zichtau
+4939086|Jävenitz
+4939087|Jerchel Altmark
+4939088|Letzlingen
+4939089|Bismark Altmark
+493909|Klötze Altmark
+49391|Magdeburg
+4939200|Gommern
+4939201|Wolmirstedt
+4939202|Gross Ammensleben
+4939203|Barleben
+4939204|Niederndodeleben
+4939205|Langenweddingen
+4939206|Eichenbarleben
+4939207|Colbitz
+4939208|Loitsche
+4939209|Wanzleben
+493921|Burg bei Magdeburg
+4939221|Möckern bei Magdeburg
+4939222|Möser
+4939223|Theessen
+4939224|Büden
+4939225|Altengrabow
+4939226|Hohenziatz
+493923|Zerbst
+4939241|Leitzkau
+4939242|Prödel
+4939243|Nedlitz bei Zerbst
+4939244|Steutz
+4939245|Loburg
+4939246|Lindau Anh
+4939247|Güterglück
+4939248|Dobritz
+493925|Stassfurt
+4939262|Güsten Anh
+4939263|Unseburg
+4939264|Kroppenstedt
+4939265|Löderburg
+4939266|Förderstedt
+4939267|Schneidlingen
+4939268|Egeln
+493928|Schönebeck Elbe
+4939291|Calbe Saale
+4939292|Biederitz
+4939293|Dreileben
+4939294|Gross Rosenburg
+4939295|Zuchau
+4939296|Welsleben
+4939297|Eickendorf Kreis Schönebeck
+4939298|Barby Elbe
+493931|Stendal
+4939320|Schinne
+4939321|Arneburg
+4939322|Tangermünde
+4939323|Schönhausen Elbe
+4939324|Kläden bei Stendal
+4939325|Vinzelberg
+4939327|Klietz
+4939328|Rochau
+4939329|Möringen
+493933|Genthin
+4939341|Redekin
+4939342|Gladau
+4939343|Jerichow
+4939344|Güsen
+4939345|Parchen
+4939346|Tucheim
+4939347|Kade
+4939348|Klitsche
+4939349|Parey Elbe
+493935|Tangerhütte
+4939361|Lüderitz
+4939362|Grieben bei Tangerhütte
+4939363|Angern
+4939364|Dolle
+4939365|Bellingen bei Stendal
+4939366|Kehnert
+493937|Osterburg Altmark
+4939382|Kamern
+4939383|Sandau Elbe
+4939384|Arendsee Altmark
+4939386|Seehausen Altmark
+4939387|Havelberg
+4939388|Goldbeck Altm
+4939389|Schollene
+4939390|Iden
+4939391|Lückstedt
+4939392|Rönnebeck Sachsen-Anhalt
+4939393|Werben Elbe
+4939394|Hohenberg-Krusemark
+4939395|Wanzer
+4939396|Neukirchen Altmark
+4939397|Geestgottberg
+4939398|Gross Garz
+4939399|Kleinau
+4939400|Wefensleben
+4939401|Neuwegersleben
+4939402|Völpke
+4939403|Gröningen Sachsen-Anhalt
+4939404|Ausleben
+4939405|Hötensleben
+4939406|Harbke
+4939407|Seehausen Börde
+4939408|Hadmersleben
+4939409|Eilsleben
+493941|Halberstadt
+4939421|Osterwieck
+4939422|Badersleben
+4939423|Wegeleben
+4939424|Schwanebeck Sachsen-Anhalt
+4939425|Dingelstedt am Huy
+4939426|Hessen
+4939427|Ströbeck
+4939428|Pabstorf
+493943|Wernigerode
+493944|Blankenburg Harz
+4939451|Wasserleben
+4939452|Ilsenburg
+4939453|Derenburg
+4939454|Elbingerode Harz
+4939455|Schierke
+4939456|Altenbrak
+4939457|Benneckenstein Harz
+4939458|Heudeber
+4939459|Hasselfelde
+493946|Quedlinburg
+493947|Thale
+4939481|Hedersleben bei Aschersleben
+4939482|Gatersleben
+4939483|Ballenstedt
+4939484|Harzgerode
+4939485|Gernrode Harz
+4939487|Friedrichsbrunn
+4939488|Güntersberge
+4939489|Strassberg Harz
+493949|Oschersleben Bode
+49395|Neubrandenburg
+4939600|Zwiedorf
+4939601|Friedland
+4939602|Kleeth
+4939603|Burg Stargard
+4939604|Wildberg bei Altentreptow
+4939605|Gross Nemerow
+4939606|Glienke
+4939607|Kotelow
+4939608|Staven
+493961|Altentreptow
+493962|Penzlin bei Waren
+493963|Woldegk
+493964|Bredenfelde bei Strasburg
+493965|Burow bei Altentreptow
+493966|Cölpin
+493967|Oertzenhof bei Strasburg
+493968|Schönbeck
+493969|Siedenbollentin
+493971|Anklam
+4939721|Liepen bei Anklam
+4939722|Sarnow bei Anklam
+4939723|Krien
+4939724|Klein Bünzow
+4939726|Ducherow
+4939727|Spantekow
+4939728|Medow bei Anklam
+493973|Pasewalk
+4939740|Nechlin
+4939741|Jatznick
+4939742|Brüssow bei Pasewalk
+4939743|Zerrenthin
+4939744|Rothenklempenow
+4939745|Hetzdorf bei Strasburg
+4939746|Krackow
+4939747|Züsedom
+4939748|Viereck
+4939749|Grambow bei Pasewalk
+4939751|Penkun
+4939752|Blumenhagen bei Strasburg
+4939753|Strasburg
+4939754|Löcknitz Vorpom
+493976|Torgelow bei Ueckermünde
+4939771|Ueckermünde
+4939772|Rothemühl
+4939773|Altwarp
+4939774|Mönkebude
+4939775|Ahlbeck bei Torgelow
+4939776|Hintersee
+4939777|Borkenfriede
+4939778|Ferdinandshof bei Torgelow
+4939779|Eggesin
+493981|Neustrelitz
+4939820|Triepkendorf
+4939821|Carpin
+4939822|Kratzeburg
+4939823|Rechlin
+4939824|Hohenzieritz
+4939825|Wokuhl
+4939826|Blankensee bei Neustrelitz
+4939827|Schwarz bei Neustrelitz
+4939828|Wustrow Kreis Mecklenburg-Strelitz
+4939829|Blankenförde
+4939831|Feldberg
+4939832|Wesenberg
+4939833|Mirow Kreis Neustrelitz
+493984|Prenzlau
+4939851|Göritz bei Prenzlau
+4939852|Schönermark bei Prenzlau
+4939853|Holzendorf bei Prenzlau
+4939854|Kleptow
+4939855|Parmen-Weggun
+4939856|Beenz bei Prenzlau
+4939857|Drense
+4939858|Bietikow
+4939859|Fürstenwerder
+4939861|Gramzow bei Prenzlau
+4939862|Schmölln bei Prenzlau
+4939863|Seehausen bei Prenzlau
+493987|Templin
+4939881|Ringenwalde bei Templin
+4939882|Gollin
+4939883|Gross Dölln
+4939884|Hassleben bei Prenzlau
+4939885|Jakobshagen
+4939886|Milmersdorf
+4939887|Gerswalde
+4939888|Lychen
+4939889|Boitzenburg
+493991|Waren Müritz
+4939921|Ankershagen
+4939922|Dambeck bei Röbel
+4939923|Priborn
+4939924|Stuer
+4939925|Wredenhagen
+4939926|Grabowhöfe
+4939927|Nossentiner Hütte
+4939928|Möllenhagen
+4939929|Jabel bei Waren
+4939931|Röbel Müritz
+4939932|Malchow bei Waren
+4939933|Vollrathsruhe
+4939934|Gross Plasten
+493994|Malchin
+4939951|Faulenrost
+4939952|Grammentin
+4939953|Schwinkendorf
+4939954|Stavenhagen Reuterstadt
+4939955|Jürgenstorf
+4939956|Neukalen
+4939957|Gielow
+4939959|Dargun
+493996|Teterow
+4939971|Gnoien
+4939972|Walkendorf
+4939973|Altkalen
+4939975|Thürkow
+4939976|Gross Bützin
+4939977|Jördenstorf
+4939978|Gross Roge
+493998|Demmin
+4939991|Daberkow
+4939992|Görmin
+4939993|Hohenmocker
+4939994|Metschow
+4939995|Nossendorf
+4939996|Törpin
+4939997|Jarmen
+4939998|Loitz bei Demmin
+4939999|Tutow
+4940|Hamburg
+494101|Pinneberg
+494102|Ahrensburg
+494103|Wedel
+494104|Aumühle bei Hamburg
+494105|Seevetal
+494106|Quickborn Kreis Pinneberg
+494107|Siek Kreis Stormarn
+494108|Rosengarten Kreis Harburg
+494109|Tangstedt Bz Hamburg
+494120|Ellerhoop
+494121|Elmshorn
+494122|Uetersen
+494123|Barmstedt
+494124|Glückstadt
+494125|Seestermühe
+494126|Horst Holstein
+494127|Westerhorn
+494128|Kollmar
+494129|Haseldorf
+494131|Lüneburg
+494132|Amelinghausen
+494133|Wittorf Kreis Lüneburg
+494134|Embsen Kreis Lüneburg
+494135|Kirchgellersen
+494136|Scharnebeck
+494137|Barendorf
+494138|Betzendorf Kreis Lüneburg
+494139|Hohnstorf Elbe
+494140|Estorf Kreis Stade
+494141|Stade
+494142|Steinkirchen Kreis Stade
+494143|Drochtersen
+494144|Himmelpforten
+494146|Stade-Bützfleth
+494148|Drochtersen-Assel
+494149|Fredenbeck
+494151|Schwarzenbek
+494152|Geesthacht
+494153|Lauenburg Elbe
+494154|Trittau
+494155|Büchen
+494156|Talkau
+494158|Roseburg
+494159|Basthorst
+494161|Buxtehude
+494162|Jork
+494163|Horneburg Niederelbe
+494164|Harsefeld
+494165|Hollenstedt Nordheide
+494166|Ahlerstedt
+494167|Apensen
+494168|Neu Wulmstorf-Elstorf
+494169|Sauensiek
+494171|Winsen Luhe
+494172|Salzhausen
+494173|Wulfsen
+494174|Stelle Kreis Harburg
+494175|Egestorf Nordheide
+494176|Marschacht
+494177|Drage Elbe
+494178|Radbruch
+494179|Winsen-Tönnhausen
+494180|Königsmoor
+494181|Buchholz in der Nordheide
+494182|Tostedt
+494183|Jesteburg
+494184|Hanstedt Nordheide
+494185|Marxen Auetal
+494186|Buchholz-Trelde
+494187|Holm-Seppensen
+494188|Welle Nordheide
+494189|Undeloh
+494191|Kaltenkirchen Holstein
+494192|Bad Bramstedt
+494193|Henstedt-Ulzburg
+494194|Sievershütten
+494195|Hartenholm
+494202|Achim bei Bremen
+494203|Weyhe bei Bremen
+494204|Thedinghausen
+494205|Ottersberg
+494206|Stuhr-Heiligenrode
+494207|Oyten
+494208|Grasberg
+494209|Schwanewede
+49421|Bremen
+494221|Delmenhorst
+494222|Ganderkesee
+494223|Ganderkesee-Bookholzberg
+494224|Gross Ippener
+494230|Verden-Walle
+494231|Verden Aller
+494232|Langwedel Kreis Verden
+494233|Blender
+494234|Dörverden
+494235|Langwedel-Etelsen
+494236|Kirchlinteln
+494237|Bendingbostel
+494238|Neddenaverbergen
+494239|Dörverden-Westen
+494240|Syke-Heiligenfelde
+494241|Bassum
+494242|Syke
+494243|Twistringen
+494244|Harpstedt
+494245|Neuenkirchen bei Bassum
+494246|Twistringen-Heiligenloh
+494247|Affinghausen
+494248|Bassum-Neubruchhausen
+494249|Bassum-Nordwohlde
+494251|Hoya
+494252|Bruchhausen-Vilsen
+494253|Asendorf Kreis Diepholz
+494254|Eystrup
+494255|Martfeld
+494256|Hilgermissen
+494257|Schweringen
+494258|Schwarme
+494260|Visselhövede-Wittorf
+494261|Rotenburg Wümme
+494262|Visselhövede
+494263|Scheessel
+494264|Sottrum Kreis Rotenburg
+494265|Fintel
+494266|Brockel
+494267|Lauenbrück
+494268|Bötersen
+494269|Ahausen-Kirchwalsede
+494271|Sulingen
+494272|Siedenburg
+494273|Kirchdorf bei Sulingen
+494274|Varrel bei Sulingen
+494275|Ehrenburg
+494276|Borstel bei Sulingen
+494277|Schwaförden
+494281|Zeven
+494282|Sittensen
+494283|Tarmstedt
+494284|Selsingen
+494285|Rhade bei Zeven
+494286|Gyhum
+494287|Heeslingen-Boitzen
+494288|Horstedt Kreis Rotenburg
+494289|Kirchtimke
+494292|Ritterhude
+494293|Ottersberg-Fischerhude
+494294|Riede Kreis Verden
+494295|Emtinghausen
+494296|Schwanewede-Aschwarden
+494297|Ottersberg-Posthausen
+494298|Lilienthal
+494302|Kirchbarkau
+494303|Schlesen
+494305|Westensee
+494307|Raisdorf
+494308|Schwedeneck
+49431|Kiel
+494320|Heidmühlen
+494321|Neumünster
+494322|Bordesholm
+494323|Bornhöved
+494324|Brokstedt
+494326|Wankendorf
+494327|Grossenaspe
+494328|Rickling
+494329|Langwedel Holstein
+494330|Emkendorf
+494331|Rendsburg
+494332|Hamdorf bei Rendsburg
+494333|Erfde
+494334|Bredenbek bei Rendsburg
+494335|Hohn bei Rendsburg
+494336|Owschlag
+494337|Jevenstedt
+494338|Alt Duvenstedt
+494339|Christiansholm
+494340|Achterwehr
+494342|Preetz Kreis Plön
+494343|Laboe
+494344|Schönberg Holstein
+494346|Gettorf
+494347|Flintbek
+494348|Schönkirchen
+494349|Dänischenhagen
+494351|Eckernförde
+494352|Damp
+494353|Ascheffel
+494354|Fleckeby
+494355|Rieseby
+494356|Gross Wittensee
+494357|Sehestedt Eider
+494358|Loose bei Eckernförde
+494361|Oldenburg in Holstein
+494362|Heiligenhafen
+494363|Lensahn
+494364|Dahme Kreis Ostholstein
+494365|Heringsdorf Holstein
+494366|Grömitz-Cismar
+494367|Grossenbrode
+494371|Burg auf Fehmarn
+494372|Westfehmarn
+494381|Lütjenburg
+494382|Wangels
+494383|Grebin
+494384|Selent
+494385|Hohenfelde bei Kiel
+494392|Nortorf bei Neumünster
+494393|Boostedt
+494394|Bokhorst
+494401|Brake Unterweser
+494402|Rastede
+494403|Bad Zwischenahn
+494404|Elsfleth
+494405|Edewecht
+494406|Berne
+494407|Wardenburg
+494408|Hude Oldenburg
+494409|Westerstede-Ocholt
+49441|Oldenburg
+494421|Wilhelmshaven
+494422|Sande Kreis Friesl
+494423|Fedderwarden
+494425|Wangerland-Hooksiel
+494426|Wangerland-Horumersiel
+494431|Wildeshausen
+494432|Dötlingen-Brettorf
+494433|Dötlingen
+494434|Colnrade
+494435|Grossenkneten
+494441|Vechta
+494442|Lohne Oldenburg
+494443|Dinklage
+494444|Goldenstedt
+494445|Visbek Kreis Vechta
+494446|Bakum Kreis Vechta
+494447|Vechta-Langförden
+494451|Varel Jadebusen
+494452|Zetel-Neuenburg
+494453|Zetel
+494454|Jade
+494455|Jade-Schweiburg
+494456|Varel-Altjührden
+494458|Wiefelstede-Spohle
+494461|Jever
+494462|Wittmund
+494463|Wangerland
+494464|Wittmund-Carolinensiel
+494465|Friedeburg Ostfriesland
+494466|Wittmund-Ardorf
+494467|Wittmund-Funnix
+494468|Friedeburg-Reepsholt
+494469|Wangerooge
+494471|Cloppenburg
+494472|Lastrup
+494473|Emstek
+494474|Garrel
+494475|Molbergen
+494477|Lastrup-Hemmelte
+494478|Cappeln Oldenburg
+494479|Molbergen-Peheim
+494480|Ovelgönne-Strückhausen
+494481|Hatten-Sandkrug
+494482|Hatten
+494483|Ovelgönne-Grossenmeer
+494484|Hude-Wüsting
+494485|Elsfleth-Huntorf
+494486|Edewecht-Friedrichsfehn
+494487|Grossenkneten-Huntlosen
+494488|Westerstede
+494489|Apen
+494491|Friesoythe
+494492|Saterland
+494493|Friesoythe-Gehlenberg
+494494|Bösel Oldenburg
+494495|Friesoythe-Thüle
+494496|Friesoythe-Markhausen
+494497|Barssel-Harkebrügge
+494498|Saterland-Ramsloh
+494499|Barssel
+494501|Kastorf Holstein
+494502|Lübeck-Travemünde
+494503|Timmendorfer Strand
+494504|Ratekau
+494505|Stockelsdorf-Curau
+494506|Stockelsdorf-Krumbeck
+494508|Krummesse
+494509|Gross Grönau
+49451|Lübeck
+494521|Eutin
+494522|Plön
+494523|Malente
+494524|Scharbeutz-Pönitz
+494525|Ahrensbök
+494526|Ascheberg Holstein
+494527|Bosau
+494528|Schönwalde am Bungsberg
+494529|Süsel-Bujendorf
+494531|Bad Oldesloe
+494532|Bargteheide
+494533|Reinfeld Holstein
+494534|Steinburg Kreis Storman
+494535|Nahe
+494536|Steinhorst Lauenburg
+494537|Sülfeld Holstein
+494539|Westerau
+494541|Ratzeburg
+494542|Mölln Lauenburg
+494543|Nusse
+494544|Berkenthin
+494545|Seedorf Lauenburg
+494546|Mustin Lauenburg
+494547|Gudow Lauenburg
+494550|Bühnsdorf
+494551|Bad Segeberg
+494552|Leezen
+494553|Geschendorf
+494554|Wahlstedt
+494555|Seedorf bei Bad Segeberg
+494556|Ahrensbök-Gnissau
+494557|Blunk
+494558|Todesfelde
+494559|Wensin
+494561|Neustadt in Holstein
+494562|Grömitz
+494563|Scharbeutz-Haffkrug
+494564|Schashagen
+494602|Freienwill
+494603|Havetoft
+494604|Grossenwiehe
+494605|Medelby
+494606|Wanderup
+494607|Janneby
+494608|Handewitt
+494609|Eggebek
+49461|Flensburg
+494621|Schleswig
+494622|Taarstedt
+494623|Böklund
+494624|Kropp
+494625|Jübek
+494626|Treia
+494627|Dörpstedt
+494630|Barderup
+494631|Glücksburg Ostsee
+494632|Steinbergkirche
+494633|Satrup
+494634|Husby
+494635|Sörup
+494636|Langballig
+494637|Sterup
+494638|Tarp
+494639|Schafflund
+494641|Süderbrarup
+494642|Kappeln Schlei
+494643|Gelting Angeln
+494644|Karby
+494646|Mohrkirch
+49465|Sylt
+494661|Niebüll
+494662|Leck
+494663|Süderlügum
+494664|Neukirchen bei Niebüll
+494665|Emmelsbüll-Horsbüll
+494666|Ladelund
+494667|Dagebüll
+494668|Klanxbüll
+494671|Bredstedt
+494672|Langenhorn
+494673|Joldelund
+494674|Ockholm
+494681|Wyk auf Föhr
+494682|Amrum
+494683|Oldsum
+494684|Langeness Hallig
+494702|Sandstedt
+494703|Loxstedt-Donnern
+494704|Drangstedt
+494705|Wremen
+494706|Schiffdorf
+494707|Langen-Neuenwalde
+494708|Ringstedt
+49471|Bremerhaven
+494721|Cuxhaven
+494722|Cuxhaven-Altenbruch
+494723|Cuxhaven-Altenwalde
+494724|Cuxhaven-Lüdingworth
+494725|Helgoland
+494731|Nordenham
+494732|Stadland-Rodenkirchen
+494733|Butjadingen-Burhave
+494734|Stadland-Seefeld
+494735|Butjadingen-Stollhamm
+494736|Butjadingen-Tossens
+494737|Stadland-Schwei
+494740|Loxstedt-Dedesdorf
+494741|Nordholz bei Bremerhaven
+494742|Dorum
+494743|Langen bei Bremerhaven
+494744|Loxstedt
+494745|Bad Bederkesa
+494746|Hagen bei Bremerhaven
+494747|Beverstedt
+494748|Stubben bei Bremerhaven
+494749|Schiffdorf-Geestenseth
+494751|Otterndorf
+494752|Neuhaus Oste
+494753|Balje
+494754|Bülkau
+494755|Ihlienworth
+494756|Odisheim
+494757|Wanna
+494758|Nordleda
+494761|Bremervörde
+494762|Kutenholz
+494763|Gnarrenburg
+494764|Gnarrenburg-Klenkendorf
+494765|Ebersdorf bei Bremervörde
+494766|Basdahl
+494767|Bremervörde-Bevern
+494768|Hipstedt
+494769|Bremervörde-Iselersheim
+494770|Wischhafen
+494771|Hemmoor
+494772|Oberndorf Oste
+494773|Lamstedt
+494774|Hechthausen
+494775|Grossenwörden
+494776|Osten-Altendorf
+494777|Cadenberge
+494778|Wingst
+494779|Freiburg Elbe
+494791|Osterholz-Scharmbeck
+494792|Worpswede
+494793|Hambergen
+494794|Worpswede-Ostersode
+494795|Garlstedt
+494796|Teufelsmoor
+494802|Wrohm
+494803|Pahlen
+494804|Nordhastedt
+494805|Schafstedt
+494806|Sarzbüttel
+49481|Heide Holstein
+494821|Itzehoe
+494822|Kellinghusen
+494823|Wilster
+494824|Krempe
+494825|Burg Dithmarschen
+494826|Hohenlockstedt
+494827|Wacken
+494828|Lägerdorf
+494829|Wewelsfleth
+494830|Süderhastedt
+494832|Meldorf
+494833|Wesselburen
+494834|Büsum
+494835|Albersdorf Holstein
+494836|Hennstedt Dithmarschen
+494837|Neuenkirchen Dithmarschen
+494838|Tellingstedt
+494839|Wöhrden Dithmarschen
+494841|Husum Nordsee
+494842|Nordstrand
+494843|Viöl
+494844|Pellworm
+494845|Ostenfeld Husum
+494846|Hattstedt
+494847|Oster-Ohrstedt
+494848|Rantrum
+494849|Hooge
+494851|Marne
+494852|Brunsbüttel
+494853|Sankt Michaelisdonn
+494854|Friedrichskoog
+494855|Eddelak
+494856|Kronprinzenkoog
+494857|Barlt
+494858|Sankt Margarethen Holstein
+494859|Windbergen
+494861|Tönning
+494862|Garding
+494863|Sankt Peter-Ording
+494864|Oldenswort
+494865|Osterhever
+494871|Hohenwestedt
+494872|Hanerau-Hademarschen
+494873|Aukrug
+494874|Todenbüttel
+494875|Stafstedt
+494876|Reher Holstein
+494877|Hennstedt bei Itzehoe
+494881|Friedrichstadt
+494882|Lunden
+494883|Süderstapel
+494884|Schwabstedt
+494885|Bergenhusen
+494892|Schenefeld Mittelholstein
+494893|Hohenaspe
+494902|Jemgum-Ditzum
+494903|Wymeer
+49491|Leer Ostfriesland
+494920|Wirdum
+494921|Emden Stadt
+494922|Borkum
+494923|Krummhörn-Pewsum
+494924|Moormerland-Oldersum
+494925|Hinte
+494926|Krummhörn-Greetsiel
+494927|Krummhörn-Loquard
+494928|Ihlow-Riepe
+494929|Ihlow Kreis Aurich
+494931|Norden
+494932|Norderney
+494933|Dornum Ostfriesland
+494934|Marienhafe
+494935|Juist
+494936|Grossheide
+494938|Hagermarsch
+494939|Baltrum
+494941|Aurich
+494942|Südbrookmerland
+494943|Grossefehn
+494944|Wiesmoor
+494945|Grossefehn-Timmel
+494946|Grossefehn-Bagband
+494947|Aurich-Ogenbargen
+494948|Wiesmoor-Marcardsmoor
+494950|Holtland
+494951|Weener
+494952|Rhauderfehn
+494953|Bunde
+494954|Moormerland
+494955|Westoverledingen
+494956|Uplengen
+494957|Detern
+494958|Jemgum
+494959|Dollart
+494961|Papenburg
+494962|Papenburg-Aschendorf
+494963|Dörpen
+494964|Rhede Ems
+494965|Surwold
+494966|Neubörger
+494967|Rhauderfehn-Burlage
+494968|Neulehe
+494971|Esens
+494972|Langeoog
+494973|Wittmund-Burhafe
+494974|Neuharlingersiel
+494975|Westerholt Ostfriesland
+494976|Spiekeroog
+494977|Blomberg Ostfriesland
+495021|Nienburg Weser
+495022|Wietzen
+495023|Liebenau Kreis Nieburg Weser
+495024|Rohrsen Kreis Nienburg Weser
+495025|Estorf Weser
+495026|Steimbke
+495027|Linsburg
+495028|Pennigsehl
+495031|Wunstorf
+495032|Neustadt am Rübenberge
+495033|Wunstorf-Grossenheidorn
+495034|Neustadt-Hagen
+495035|Gross Munzel
+495036|Neustadt-Schneeren
+495037|Bad Rehburg
+495041|Springe Deister
+495042|Bad Münder am Deister
+495043|Lauenau
+495044|Springe-Eldagsen
+495045|Springe-Bennigsen
+495051|Bergen Kreis Celle
+495052|Hermannsburg
+495053|Fassberg-Müden
+495054|Bergen-Sülze
+495055|Fassberg
+495056|Winsen-Meissendorf
+495060|Bodenburg
+495062|Holle bei Hildesheim
+495063|Bad Salzdetfurth
+495064|Gross Düngen
+495065|Sibbesse
+495066|Sarstedt
+495067|Bockenem
+495068|Elze Leine
+495069|Nordstemmen
+495071|Schwarmstedt
+495072|Neustadt-Mandelsloh
+495073|Neustadt-Esperke
+495074|Rodewald
+495082|Langlingen
+495083|Hohne bei Celle
+495084|Hambühren
+495085|Burgdorf-Ehlershausen
+495086|Celle-Scheuen
+495101|Pattensen
+495102|Laatzen
+495103|Wennigsen Deister
+495105|Barsinghausen
+495108|Gehrden Han
+495109|Ronnenberg
+49511|Hannover
+495121|Hildesheim
+495123|Schellerten
+495126|Algermissen
+495127|Harsum
+495128|Hohenhameln
+495129|Söhlde
+495130|Wedemark
+495131|Garbsen
+495132|Lehrte
+495135|Burgwedel-Fuhrberg
+495136|Burgdorf Kreis Hannover
+495137|Seelze
+495138|Sehnde
+495139|Burgwedel
+495141|Celle
+495142|Eschede
+495143|Winsen Aller
+495144|Wathlingen
+495145|Beedenbostel
+495146|Wietze
+495147|Uetze-Hänigsen
+495148|Steinhorst Niedersachsen
+495149|Wienhausen
+495151|Hameln
+495152|Hessisch Oldendorf
+495153|Salzhemmendorf
+495154|Aerzen
+495155|Emmerthal
+495156|Coppenbrügge
+495157|Emmerthal-Börry
+495158|Hemeringen
+495159|Coppenbrügge-Bisperode
+495161|Walsrode
+495162|Fallingbostel
+495163|Fallingbostel-Dorfmark
+495164|Hodenhagen
+495165|Rethem Aller
+495166|Walsrode-Kirchboitzen
+495167|Walsrode-Westenholz
+495168|Walsrode-Stellichte
+495171|Peine
+495172|Ilsede
+495173|Uetze
+495174|Lahstedt
+495175|Lehrte-Arpke
+495176|Edemissen
+495177|Edemissen-Abbensen
+495181|Alfeld Leine
+495182|Gronau Leine
+495183|Lamspringe
+495184|Freden Leine
+495185|Duingen
+495186|Salzhemmendorf-Wallensen
+495187|Delligsen
+495190|Soltau-Emmingen
+495191|Soltau
+495192|Munster
+495193|Schneverdingen
+495194|Bispingen
+495195|Neuenkirchen bei Soltau
+495196|Wietzendorf
+495197|Soltau-Frielingen
+495198|Schneverdingen-Wintermoor
+495199|Schneverdingen-Heber
+495201|Halle Westfalen
+495202|Oerlinghausen
+495203|Werther Westfalen
+495204|Steinhagen Westfalen
+495205|Bielefeld-Sennestadt
+495206|Bielefeld-Jöllenbeck
+495207|Schloss Holte-Stukenbrock
+495208|Leopoldshöhe
+495209|Gütersloh-Friedrichsdorf
+49521|Bielefeld
+495221|Herford
+495222|Bad Salzuflen
+495223|Bünde
+495224|Enger Westfalen
+495225|Spenge
+495226|Bruchmühlen Westfalen
+495228|Vlotho-Exter
+495231|Detmold
+495232|Lage Lippe
+495233|Steinheim Westfalen
+495234|Horn-Bad Meinberg
+495235|Blomberg Lippe
+495236|Blomberg-Grossenmarpe
+495237|Augustdorf
+495238|Nieheim-Himmighausen
+495241|Gütersloh
+495242|Rheda-Wiedenbrück
+495244|Rietberg
+495245|Herzebrock-Clarholz
+495246|Verl
+495247|Harsewinkel
+495248|Langenberg Kreis Gütersloh
+495250|Delbrück Westfalen
+495251|Paderborn
+495252|Bad Lippspringe
+495253|Bad Driburg
+495254|Paderborn-Schloss Neuhaus
+495255|Altenbeken
+495257|Hövelhof
+495258|Salzkotten
+495259|Bad Driburg-Neuenheerse
+495261|Lemgo
+495262|Extertal
+495263|Barntrup
+495264|Kalletal
+495265|Dörentrup
+495266|Lemgo-Kirchheide
+495271|Höxter
+495272|Brakel Westfalen
+495273|Beverungen
+495274|Nieheim
+495275|Höxter-Ottbergen
+495276|Marienmünster
+495277|Höxter-Fürstenau
+495278|Höxter-Ovenhausen
+495281|Bad Pyrmont
+495282|Schieder-Schwalenberg
+495283|Lügde-Rischenau
+495284|Schwalenberg
+495285|Bad Pyrmont-Kleinenberg
+495286|Ottenstein Niedersachsen
+495292|Lichtenau-Atteln
+495293|Paderborn-Dahl
+495294|Hövelhof-Espeln
+495295|Lichtenau Westfalen
+495300|Salzgitter-Üfingen
+495301|Lehre-Essenrode
+495302|Vechelde
+495303|Wendeburg
+495304|Meine
+495305|Sickte
+495306|Cremlingen
+495307|Braunschweig-Wenden
+495308|Lehre
+495309|Lehre-Wendhausen
+49531|Braunschweig
+495320|Torfhaus
+495321|Goslar
+495322|Bad Harzburg
+495323|Clausthal-Zellerfeld
+495324|Vienenburg
+495325|Goslar-Hahnenklee
+495326|Langelsheim
+495327|Bad Grund Harz
+495328|Altenau Harz
+495329|Schulenberg im Oberharz
+495331|Wolfenbüttel
+495332|Schöppenstedt
+495333|Dettum
+495334|Hornburg Kreis Wolfenbüttel
+495335|Schladen
+495336|Semmenstedt
+495337|Kissenbrück
+495339|Gielde
+495341|Salzgitter
+495344|Lengede
+495345|Baddeckenstedt
+495346|Liebenburg
+495347|Burgdorf bei Salzgitter
+495351|Helmstedt
+495352|Schöningen
+495353|Königslutter am Elm
+495354|Jerxheim
+495355|Frellstedt
+495356|Helmstedt-Barmke
+495357|Grasleben
+495358|Bahrdorf-Mackendorf
+495361|Wolfsburg
+495362|Wolfsburg-Fallersleben
+495363|Wolfsburg-Vorsfelde
+495364|Velpke
+495365|Wolfsburg-Neindorf
+495366|Jembke
+495367|Rühen
+495368|Parsau
+495371|Gifhorn
+495372|Meinersen
+495373|Hillerse Kreis Gifhorn
+495374|Isenbüttel
+495375|Müden Aller
+495376|Wesendorf Kreis Gifhorn
+495377|Ehra-Lessien
+495378|Sassenburg-Platendorf
+495379|Sassenburg-Grussendorf
+495381|Seesen
+495382|Bad Gandersheim
+495383|Lutter am Barenberge
+495384|Seesen-Gross Rhüden
+495401|Georgsmarienhütte
+495402|Bissendorf Kreis Osnabrück
+495403|Bad Iburg
+495404|Westerkappeln
+495405|Hasbergen Kreis Osnabrück
+495406|Belm
+495407|Wallenhorst
+495409|Hilter am Teutoburger Wald
+49541|Osnabrück
+495421|Dissen am Teutoburger Wald
+495422|Melle
+495423|Versmold
+495424|Bad Rothenfelde
+495425|Borgholzhausen
+495426|Glandorf
+495427|Melle-Buer
+495428|Melle-Neuenkirchen
+495429|Melle-Wellingholzhausen
+495431|Quakenbrück
+495432|Löningen
+495433|Badbergen
+495434|Essen Oldenburg
+495435|Berge bei Quakenbrück
+495436|Nortrup
+495437|Menslage
+495438|Bakum-Lüsche
+495439|Bersenbrück
+495441|Diepholz
+495442|Barnstorf Kreis Diepholz
+495443|Lemförde
+495444|Wagenfeld
+495445|Drebber
+495446|Rehden
+495447|Lembruch
+495448|Barver
+495451|Ibbenbüren
+495452|Mettingen Westfalen
+495453|Recke
+495454|Hörstel-Riesenbeck
+495455|Tecklenburg-Brochterbeck
+495456|Westerkappeln-Velpe
+495457|Hopsten-Schale
+495458|Hopsten
+495459|Hörstel
+495461|Bramsche Hase
+495462|Ankum
+495464|Alfhausen
+495465|Neuenkirchen bei Bramsche
+495466|Merzen
+495467|Voltlage
+495468|Bramsche-Engter
+495471|Bohmte
+495472|Bad Essen
+495473|Ostercappeln
+495474|Stemwede-Dielingen
+495475|Bohmte-Hunteburg
+495476|Ostercappeln-Venne
+495481|Lengerich Westfalen
+495482|Tecklenburg
+495483|Lienen
+495484|Lienen-Kattenvenne
+495485|Ladbergen
+495491|Damme Dümmer
+495492|Steinfeld Oldenburg
+495493|Neuenkirchen Kreis Vechta
+495494|Holdorf Niedersachsen
+495495|Vörden Kreis Vechta
+495502|Dransfeld
+495503|Nörten-Hardenberg
+495504|Friedland Kreis Göttingen
+495505|Hardegsen
+495506|Adelebsen
+495507|Ebergötzen
+495508|Gleichen-Rittmarshausen
+495509|Rosdorf Kreis Göttingen
+49551|Göttingen
+495520|Braunlage
+495521|Herzberg am Harz
+495522|Osterode am Harz
+495523|Bad Sachsa
+495524|Bad Lauterberg im Harz
+495525|Walkenried
+495527|Duderstadt
+495528|Gieboldehausen
+495529|Rhumspringe
+495531|Holzminden
+495532|Stadtoldendorf
+495533|Bodenwerder
+495534|Eschershausen an der Lenne
+495535|Polle
+495536|Holzminden-Neuhaus
+495541|Hann. Münden
+495542|Witzenhausen
+495543|Staufenberg Niedersachsen
+495544|Reinhardshagen
+495545|Hedemünden
+495546|Scheden
+495551|Northeim
+495552|Katlenburg
+495553|Kalefeld
+495554|Moringen
+495555|Moringen-Fredelsloh
+495556|Lindau Harz
+495561|Einbeck
+495562|Dassel-Markoldendorf
+495563|Kreiensen
+495564|Dassel
+495565|Einbeck-Wenzen
+495571|Uslar
+495572|Bodenfelde
+495573|Uslar-Volpriehausen
+495574|Oberweser
+495582|Sankt Andreasberg
+495583|Braunlage-Hohegeiss
+495584|Hattorf am Harz
+495585|Herzberg-Sieber
+495586|Wieda
+495592|Gleichen-Bremke
+495593|Bovenden-Lenglern
+495594|Bovenden-Reyershausen
+495601|Schauenburg
+495602|Hessisch Lichtenau
+495603|Gudensberg
+495604|Grossalmerode
+495605|Kaufungen Hessen
+495606|Zierenberg
+495607|Fuldatal
+495608|Söhrewald
+495609|Ahnatal
+49561|Kassel
+495621|Bad Wildungen
+495622|Fritzlar
+495623|Edertal
+495624|Bad Emstal
+495625|Naumburg Hessen
+495626|Bad Zwesten
+495631|Korbach
+495632|Willingen Upland
+495633|Diemelsee
+495634|Waldeck-Sachsenhausen
+495635|Vöhl
+495636|Lichtenfels-Goddelsheim
+495641|Warburg
+495642|Warburg-Scherfede
+495643|Borgentreich
+495644|Willebadessen-Peckelsheim
+495645|Borgentreich-Borgholz
+495646|Willebadessen
+495647|Lichtenau-Kleinenberg
+495648|Brakel-Gehrden
+495650|Cornberg
+495651|Eschwege
+495652|Bad Sooden-Allendorf
+495653|Sontra
+495654|Herleshausen
+495655|Wanfried
+495656|Waldkappel
+495657|Meissner
+495658|Wehretal
+495659|Ringgau
+495661|Melsungen
+495662|Felsberg Hessen
+495663|Spangenberg
+495664|Morschen
+495665|Guxhagen
+495671|Hofgeismar
+495672|Bad Karlshafen
+495673|Immenhausen Hessen
+495674|Grebenstein
+495675|Trendelburg
+495676|Liebenau Hessen
+495677|Calden-Westuffeln
+495681|Homberg Efze
+495682|Borken Hessen
+495683|Wabern Hessen
+495684|Frielendorf
+495685|Knüllwald
+495686|Schwarzenborn Knüll
+495691|Bad Arolsen
+495692|Wolfhagen
+495693|Volkmarsen
+495694|Diemelstadt
+495695|Twistetal
+495696|Bad Arolsen-Landau
+495702|Petershagen-Lahde
+495703|Hille
+495704|Petershagen-Friedewalde
+495705|Petershagen-Windheim
+495706|Porta Westfalica
+495707|Petershagen Weser
+49571|Minden Westfalen
+495721|Stadthagen
+495722|Bückeburg
+495723|Bad Nenndorf
+495724|Obernkirchen
+495725|Lindhorst bei Stadthagen
+495726|Wiedensahl
+495731|Bad Oeynhausen
+495732|Löhne
+495733|Vlotho
+495734|Bergkirchen Westfalen
+495741|Lübbecke
+495742|Preussisch Oldendorf
+495743|Espelkamp-Gestringen
+495744|Hüllhorst
+495745|Stemwede-Levern
+495746|Rödinghausen
+495751|Rinteln
+495752|Auetal-Hattendorf
+495753|Auetal-Bernsen
+495754|Extertal-Bremke
+495755|Kalletal-Varenholz
+495761|Stolzenau
+495763|Uchte
+495764|Steyerberg
+495765|Raddestorf
+495766|Rehburg-Loccum
+495767|Warmsen
+495768|Petershagen-Heimsen
+495769|Steyerberg-Voigtei
+495771|Rahden Westfalen
+495772|Espelkamp
+495773|Stemwede-Wehdem
+495774|Wagenfeld-Ströhen
+495775|Diepenau
+495776|Preussisch Ströhen
+495777|Diepenau-Essern
+495802|Wrestedt
+495803|Rosche
+495804|Rätzlingen Kreis Uelzen
+495805|Oetzen
+495806|Barum bei Bad Bevensen
+495807|Altenmedingen
+495808|Gerdau
+49581|Uelzen
+495820|Suhlendorf
+495821|Bad Bevensen
+495822|Ebstorf
+495823|Bienenbüttel
+495824|Bad Bodenteich
+495825|Wieren
+495826|Suderburg
+495827|Unterlüss
+495828|Himbergen
+495829|Wriedel
+495831|Wittingen
+495832|Hankensbüttel
+495833|Brome
+495834|Wittingen-Knesebeck
+495835|Wahrenholz
+495836|Wittingen-Radenbeck
+495837|Sprakensehl
+495838|Gross Oesingen
+495839|Wittingen-Ohrdorf
+495840|Schnackenburg
+495841|Lüchow Wendland
+495842|Schnega
+495843|Wustrow Wendland
+495844|Clenze
+495845|Bergen Dumme
+495846|Gartow Niedersachsen
+495848|Trebel
+495849|Waddeweitz
+495850|Neetze
+495851|Dahlenburg
+495852|Bleckede
+495853|Neu Darchau
+495854|Bleckede-Barskamp
+495855|Nahrendorf
+495857|Bleckede-Brackede
+495858|Hitzacker-Wietzetze
+495859|Thomasburg
+495861|Dannenberg Elbe
+495862|Hitzacker Elbe
+495863|Zernien
+495864|Jameln
+495865|Gusborn
+495872|Stoetze
+495873|Eimke
+495874|Soltendieck
+495875|Emmendorf
+495882|Gorleben
+495883|Lemgow
+495901|Fürstenau bei Bramsche
+495902|Freren
+495903|Emsbüren
+495904|Lengerich Emsl
+495905|Beesten
+495906|Lünne
+495907|Geeste
+495908|Wietmarschen-Lohne
+495909|Wettrup
+49591|Lingen (Ems)
+495921|Nordhorn
+495922|Bad Bentheim
+495923|Schüttorf
+495924|Bad Bentheim-Gildehaus
+495925|Wietmarschen
+495926|Engden
+495931|Meppen
+495932|Haren Ems
+495933|Lathen
+495934|Haren-Rütenbrock
+495935|Twist-Schöninghsdorf
+495936|Twist
+495937|Geeste-Gross Hesepe
+495939|Sustrum
+495941|Neuenhaus Dinkel
+495942|Uelsen
+495943|Emlichheim
+495944|Hoogstede
+495945|Wilsum
+495946|Georgsdorf
+495947|Laar Vechte
+495948|Itterbeck
+495951|Werlte
+495952|Sögel
+495953|Börger
+495954|Lorup
+495955|Esterwegen
+495956|Rastdorf
+495957|Lindern Oldenburg
+495961|Haselünne
+495962|Herzlake
+495963|Bawinkel
+495964|Lähden
+495965|Klein Berssen
+495966|Meppen-Apeldorn
+495971|Rheine
+495973|Neuenkirchen Kreis Steinfurt
+495975|Rheine-Mesum
+495976|Salzbergen
+495977|Spelle
+495978|Hörstel-Dreierwalde
+496002|Ober-Mörlen
+496003|Rosbach von der Höhe
+496004|Lich-Eberstadt
+496007|Rosbach-Rodheim
+496008|Echzell
+496020|Heigenbrücken
+496021|Aschaffenburg
+496022|Obernburg am Main
+496023|Alzenau in Unterfranken
+496024|Schöllkrippen
+496026|Grossostheim
+496027|Stockstadt am Main
+496028|Sulzbach am Main
+496029|Mömbris
+496031|Friedberg Hessen
+496032|Bad Nauheim
+496033|Butzbach
+496034|Wöllstadt
+496035|Reichelsheim Wetterau
+496036|Wölfersheim
+496039|Karben
+496041|Glauburg
+496042|Büdingen Hessen
+496043|Nidda
+496044|Schotten Hessen
+496045|Gedern
+496046|Ortenberg Hessen
+496047|Altenstadt Hessen
+496048|Büdingen-Eckartshausen
+496049|Kefenrod
+496050|Biebergemünd
+496051|Gelnhausen
+496052|Bad Orb
+496053|Wächtersbach
+496054|Birstein
+496055|Freigericht
+496056|Bad Soden-Salmünster
+496057|Flörsbachtal
+496058|Gründau
+496059|Jossgrund
+496061|Michelstadt
+496062|Erbach Odenwald
+496063|Bad König
+496066|Michelstadt-Vielbrunn
+496068|Beerfelden
+496071|Dieburg
+496073|Babenhausen Hessen
+496074|Rödermark
+496078|Gross-Umstadt
+496081|Usingen
+496082|Niederreifenberg
+496083|Weilrod
+496084|Schmitten Taunus
+496085|Waldsolms
+496086|Grävenwiesbach
+496087|Waldems
+496092|Heimbuchenthal
+496093|Laufach
+496094|Weibersbrunn
+496095|Bessenbach
+496096|Wiesen Unterfranken
+496101|Bad Vilbel
+496102|Neu-Isenburg
+496103|Langen Hessen
+496104|Heusenstamm
+496105|Mörfelden-Walldorf
+496106|Rodgau
+496107|Kelsterbach
+496108|Mühlheim am Main
+496109|Frankfurt-Bergen-Enkheim
+49611|Wiesbaden
+496120|Aarbergen
+496122|Hofheim-Wallau
+496123|Eltville am Rhein
+496124|Bad Schwalbach
+496126|Idstein
+496127|Niedernhausen Taunus
+496128|Taunusstein
+496129|Schlangenbad
+496130|Schwabenheim an der Selz
+496131|Mainz
+496132|Ingelheim am Rhein
+496133|Oppenheim
+496134|Mainz-Kastel
+496135|Bodenheim Rhein
+496136|Nieder-Olm
+496138|Mommenheim
+496139|Budenheim
+496142|Rüsselsheim
+496144|Bischofsheim bei Rüsselsheim
+496145|Flörsheim am Main
+496146|Hochheim am Main
+496147|Trebur
+496150|Weiterstadt
+496151|Darmstadt
+496152|Gross-Gerau
+496154|Ober-Ramstadt
+496155|Griesheim Hessen
+496157|Pfungstadt
+496158|Riedstadt
+496159|Messel
+496161|Brensbach
+496162|Reinheim Odenwald
+496163|Höchst im Odenwald
+496164|Reichelsheim Odenwald
+496165|Breuberg
+496166|Fischbachtal
+496167|Modautal
+496171|Oberursel Taunus
+496172|Bad Homburg von der Höhe
+496173|Kronberg im Taunus
+496174|Königstein im Taunus
+496175|Friedrichsdorf Taunus
+496181|Hanau
+496182|Seligenstadt
+496183|Erlensee
+496184|Langenselbold
+496185|Hammersbach Hessen
+496186|Grosskrotzenburg
+496187|Schöneck
+496188|Kahl am Main
+496190|Hattersheim am Main
+496192|Hofheim am Taunus
+496195|Kelkheim Taunus
+496196|Bad Soden am Taunus
+496198|Eppstein
+496201|Weinheim Bergstr
+496202|Schwetzingen
+496203|Ladenburg
+496204|Viernheim
+496205|Hockenheim
+496206|Lampertheim
+496207|Wald-Michelbach
+496209|Mörlenbach
+49621|Mannheim
+496220|Wilhelmsfeld
+496221|Heidelberg
+496222|Wiesloch
+496223|Neckargemünd
+496224|Sandhausen Baden
+496226|Meckesheim
+496227|Walldorf Baden
+496228|Schönau Odenwald
+496229|Neckarsteinach
+496231|Hochdorf-Assenheim
+496232|Speyer
+496233|Frankenthal Pfalz
+496234|Mutterstadt
+496235|Schifferstadt
+496236|Neuhofen Pfalz
+496237|Maxdorf
+496238|Dirmstein
+496239|Bobenheim-Roxheim
+496241|Worms
+496242|Osthofen
+496243|Monsheim
+496244|Westhofen Rheinhessenen
+496245|Biblis
+496246|Eich Rheinhessen
+496247|Worms-Pfeddersheim
+496249|Guntersblum
+496251|Bensheim
+496252|Heppenheim Bergstrasse
+496253|Fürth Odenwald
+496254|Lautertal Odenwald
+496255|Lindenfels
+496256|Lampertheim-Hüttenfeld
+496257|Seeheim-Jugenheim
+496258|Gernsheim
+496261|Mosbach Baden
+496262|Aglasterhausen
+496263|Neckargerach
+496264|Neudenau
+496265|Billigheim Baden
+496266|Hassmersheim
+496267|Fahrenbach Baden
+496268|Hüffenhardt
+496269|Gundelsheim Württemberg
+496271|Eberbach Baden
+496272|Hirschhorn Neckar
+496274|Waldbrunn Odenwald
+496275|Rothenberg Odenwald
+496276|Hesseneck
+496281|Buchen Odenwald
+496282|Walldürn
+496283|Hardheim Odenwald
+496284|Mudau
+496285|Walldürn-Altheim
+496286|Walldürn-Rippberg
+496287|Limbach Baden
+496291|Adelsheim
+496292|Seckach
+496293|Schefflenz
+496294|Krautheim Jagst
+496295|Rosenberg Baden
+496296|Ahorn Baden
+496297|Ravenstein Baden
+496298|Möckmühl
+496301|Otterbach Pfalz
+496302|Winnweiler
+496303|Enkenbach-Alsenborn
+496304|Wolfstein Pfalz
+496305|Hochspeyer
+496306|Trippstadt
+496307|Schopp
+496308|Olsbrücken
+49631|Kaiserslautern
+496321|Neustadt an der Weinstrasse
+496322|Bad Dürkheim
+496323|Edenkoben
+496324|Hassloch
+496325|Lambrecht Pfalz
+496326|Deidesheim
+496327|Neustadt-Lachen
+496328|Elmstein
+496329|Weidenthal Pfalz
+496331|Pirmasens
+496332|Zweibrücken
+496333|Waldfischbach-Burgalben
+496334|Thaleischweiler-Fröschen
+496335|Trulben
+496336|Dellfeld
+496337|Grossbundenbach
+496338|Hornbach Pfalz
+496339|Grosssteinhausen
+496340|Wörth-Schaidt
+496341|Landau in der Pfalz
+496342|Schweigen-Rechtenbach
+496343|Bad Bergzabern
+496344|Schwegenheim
+496345|Albersweiler
+496346|Annweiler am Trifels
+496347|Hochstadt Pfalz
+496348|Offenbach an der Queich
+496349|Billigheim-Ingenheim
+496351|Eisenberg Pfalz
+496352|Kirchheimbolanden
+496353|Freinsheim
+496355|Albisheim Pfrimm
+496356|Carlsberg Pfalz
+496357|Standenbühl
+496358|Kriegsfeld
+496359|Grünstadt
+496361|Rockenhausen
+496362|Alsenz
+496363|Niederkirchen
+496364|Nussbach Pfalz
+496371|Landstuhl
+496372|Bruchmühlbach-Miesau
+496373|Schönenberg-Kübelberg
+496374|Weilerbach
+496375|Wallhalben
+496381|Kusel
+496382|Lauterecken
+496383|Glan-Münchweiler
+496384|Konken
+496385|Reichenbach-Steegen
+496386|Altenkirchen Pfalz
+496387|Sankt Julian
+496391|Dahn
+496392|Hauenstein Pfalz
+496393|Fischbach bei Dahn
+496394|Bundenthal
+496395|Münchweiler an der Rodalb
+496396|Hinterweidenthal
+496397|Leimen Pfalz
+496398|Vorderweidenthal
+496400|Mücke
+496401|Grünberg Hessen
+496402|Hungen
+496403|Linden Hessen
+496404|Lich Hessen
+496405|Laubach Hessen
+496406|Lollar
+496407|Rabenau Hessen
+496408|Buseck
+496409|Biebertal
+49641|Giessen
+496420|Lahntal
+496421|Marburg
+496422|Kirchhain
+496423|Wetter Hessen
+496424|Ebsdorfergrund
+496425|Rauschenberg Hessen
+496426|Fronhausen
+496427|Cölbe-Schönstadt
+496428|Stadtallendorf
+496429|Schweinsberg Hessen
+496430|Hahnstätten
+496431|Limburg an der Lahn
+496432|Diez
+496433|Hadamar
+496434|Bad Camberg
+496435|Wallmerod
+496436|Dornburg Hessen
+496438|Hünfelden
+496439|Holzappel
+496440|Kölschhausen
+496441|Wetzlar
+496442|Braunfels
+496443|Ehringshausen Dill
+496444|Bischoffen
+496445|Schöffengrund
+496446|Hohenahr
+496447|Langgöns-Niederkleen
+496449|Ehringshausen-Katzenfurt
+496451|Frankenberg Eder
+496452|Battenberg Eder
+496453|Gemünden Wohra
+496454|Lichtenfels-Sachsenberg
+496455|Frankenau Hessen
+496456|Haina Kloster
+496457|Burgwald Eder
+496458|Rosenthal Hessen
+496461|Biedenkopf
+496462|Gladenbach
+496464|Angelburg
+496465|Breidenbach bei Biedenkopf
+496466|Dautphetal-Friedensdorf
+496467|Hatzfeld Eder
+496468|Dautphetal-Mornshausen
+496471|Weilburg
+496472|Weilmünster
+496473|Leun
+496474|Villmar-Aumenau
+496475|Weilmünster-Wolfenhausen
+496476|Mengerskirchen
+496477|Greifenstein-Nenderoth
+496478|Greifenstein-Ulm
+496479|Waldbrunn Westerwald
+496482|Runkel
+496483|Selters Taunus
+496484|Beselich
+496485|Nentershausen Westerwald
+496486|Katzenelnbogen
+496500|Waldrach
+496501|Konz
+496502|Schweich
+496503|Hermeskeil
+496504|Thalfang
+496505|Kordel
+496506|Welschbillig
+496507|Neumagen-Dhron
+496508|Hetzerath Mosel
+496509|Büdlich
+49651|Trier
+496522|Mettendorf
+496523|Holsthum
+496524|Rodershausen
+496525|Irrel
+496526|Bollendorf
+496527|Oberweis
+496531|Bernkastel-Kues
+496532|Zeltingen-Rachtig
+496533|Morbach Hunsrück
+496534|Mülheim Mosel
+496535|Osann-Monzel
+496536|Kleinich
+496541|Traben-Trarbach
+496542|Bullay
+496543|Büchenbeuren
+496544|Rhaunen
+496545|Blankenrath
+496550|Irrhausen
+496551|Prüm
+496552|Olzheim
+496553|Schönecken
+496554|Waxweiler
+496555|Bleialf
+496556|Pronsfeld
+496557|Hallschlag
+496558|Büdesheim Eifel
+496559|Leidenborn
+496561|Bitburg
+496562|Speicher
+496563|Kyllburg
+496564|Neuerburg Eifel
+496565|Dudeldorf
+496566|Körperich
+496567|Oberkail
+496568|Wolsfeld
+496569|Bickendorf
+496571|Wittlich
+496572|Manderscheid Eifel
+496573|Gillenfeld
+496574|Hasborn
+496575|Landscheid
+496578|Salmtal
+496580|Zemmer
+496581|Saarburg
+496582|Freudenburg
+496583|Palzem
+496584|Wellen Mosel
+496585|Ralingen
+496586|Beuren Hochwald
+496587|Zerf
+496588|Pluwig
+496589|Kell am See
+496591|Gerolstein
+496592|Daun
+496593|Hillesheim Eifel
+496594|Birresborn
+496595|Dockweiler
+496596|Üdersdorf
+496597|Jünkerath
+496599|Weidenbach bei Gerolstein
+49661|Fulda
+496620|Philippsthal Werra
+496621|Bad Hersfeld
+496622|Bebra
+496623|Rotenburg an der Fulda
+496624|Heringen Werra
+496625|Niederaula
+496626|Wildeck-Obersuhl
+496627|Nentershausen Hessen
+496628|Oberaula
+496629|Schenklengsfeld
+496630|Schwalmtal-Storndorf
+496631|Alsfeld
+496633|Homberg Ohm
+496634|Gemünden Felda
+496635|Kirtorf
+496636|Romrod
+496637|Feldatal
+496638|Schwalmtal-Renzendorf
+496639|Ottrau
+496641|Lauterbach Hessen
+496642|Schlitz
+496643|Herbstein
+496644|Grebenhain
+496645|Ulrichstein
+496646|Grebenau
+496647|Herbstein-Stockhausen
+496648|Bad Salzschlirf
+496650|Hosenfeld
+496651|Rasdorf
+496652|Hünfeld
+496653|Burghaun
+496654|Gersfeld Rhön
+496655|Neuhof Kreis Fulda
+496656|Ebersburg
+496657|Hofbieber
+496658|Poppenhausen Wasserkuppe
+496659|Eichenzell
+496660|Steinau-Marjoss
+496661|Schlüchtern
+496663|Steinau an der Strasse
+496664|Sinntal-Sterbfritz
+496665|Sinntal-Altengronau
+496666|Freiensteinau
+496667|Steinau-Ulmbach
+496668|Birstein-Lichenroth
+496669|Neuhof-Hauswurz
+496670|Ludwigsau Hessen
+496672|Eiterfeld
+496673|Haunetal
+496674|Friedewald Hessen
+496675|Breitenbach am Herzberg
+496676|Hohenroda Hessen
+496677|Neuenstein Hessen
+496678|Wildeck-Hönebach
+496681|Hilders
+496682|Tann Rhön
+496683|Ehrenberg Rhön
+496684|Hofbieber-Schwarzbach
+496691|Schwalmstadt
+496692|Neustadt Hessen
+496693|Neuental
+496694|Neukirchen Knüll
+496695|Jesberg
+496696|Gilserberg
+496697|Willingshausen
+496698|Schrecksbach
+496701|Sprendlingen Rheinhessen
+496703|Wöllstein Rheinhessen
+496704|Langenlonsheim
+496706|Wallhausen Nahe
+496707|Windesheim
+496708|Bad Münster am Stein-Ebernburg
+496709|Fürfeld Kreis Bad Kreuznach
+49671|Bad Kreuznach
+496721|Bingen am Rhein
+496722|Rüdesheim am Rhein
+496723|Oestrich-Winkel
+496724|Stromberg Hunsrück
+496725|Gau-Algesheim
+496726|Lorch Rheingau
+496727|Gensingen
+496728|Ober-Hilbersheim
+496731|Alzey
+496732|Wörrstadt
+496733|Gau-Odernheim
+496734|Flonheim
+496735|Eppelsheim
+496736|Bechenheim
+496737|Köngernheim
+496741|St Goar
+496742|Boppard
+496743|Bacharach
+496744|Oberwesel
+496745|Gondershausen
+496746|Pfalzfeld
+496747|Emmelshausen
+496751|Bad Sobernheim
+496752|Kirn Nahe
+496753|Meisenheim
+496754|Martinstein
+496755|Odernheim am Glan
+496756|Winterbach Soonwald
+496757|Becherbach bei Kirn
+496758|Waldböckelheim
+496761|Simmern Hunsrück
+496762|Kastellaun
+496763|Kirchberg Hunsrück
+496764|Rheinböllen
+496765|Gemünden Hunsrück
+496766|Kisselbach
+496771|St Goarshausen
+496772|Nastätten
+496773|Kamp-Bornhofen
+496774|Kaub
+496775|Strüth Taunus
+496776|Dachsenhausen
+496781|Idar-Oberstein
+496782|Birkenfeld Nahe
+496783|Baumholder
+496784|Weierbach
+496785|Herrstein
+496786|Kempfeld
+496787|Niederbrombach
+496788|Sien
+496789|Heimbach Nahe
+496802|Völklingen-Lauterbach
+496803|Mandelbachtal-Ommersheim
+496804|Mandelbachtal
+496805|Kleinblittersdorf
+496806|Heusweiler
+496809|Grossrosseln
+49681|Saarbrücken
+496821|Neunkirchen Saar
+496824|Ottweiler
+496825|Illingen Saar
+496826|Bexbach
+496827|Eppelborn
+496831|Saarlouis
+496832|Beckingen-Reimsbach
+496833|Rehlingen-Siersburg
+496834|Bous
+496835|Beckingen
+496836|Überherrn
+496837|Wallerfangen
+496838|Saarwellingen
+496841|Homburg Saar
+496842|Blieskastel
+496843|Gersheim
+496844|Blieskastel-Altheim
+496848|Homburg-Einöd
+496849|Kirkel
+496851|St Wendel
+496852|Nohfelden
+496853|Marpingen
+496854|Oberthal Saar
+496855|Freisen
+496856|St Wendel-Niederkirchen
+496857|Namborn
+496858|Ottweiler-Fürth
+496861|Merzig
+496864|Mettlach
+496865|Mettlach-Orscholz
+496866|Perl-Nennig
+496867|Perl
+496868|Mettlach-Tünsdorf
+496869|Merzig-Silwingen
+496871|Wadern
+496872|Losheim am See
+496873|Nonnweiler
+496874|Wadern-Nunkirchen
+496875|Nonnweiler-Primstal
+496876|Weiskirchen Saar
+496881|Lebach
+496887|Schmelz Saar
+496888|Lebach-Steinbach
+496893|Saarbrücken-Ensheim
+496894|St Ingbert
+496897|Sulzbach Saar
+496898|Völklingen
+4969|Frankfurt am Main
+497021|Kirchheim unter Teck
+497022|Nürtingen
+497023|Weilheim an der Teck
+497024|Wendlingen am Neckar
+497025|Neuffen
+497026|Lenningen
+497031|Böblingen
+497032|Herrenberg
+497033|Weil Der Stadt
+497034|Ehningen
+497041|Mühlacker
+497042|Vaihingen an der Enz
+497043|Maulbronn
+497044|Mönsheim
+497045|Oberderdingen
+497046|Zaberfeld
+497051|Calw
+497052|Bad Liebenzell
+497053|Bad Teinach-Zavelstein
+497054|Wildberg Württemberg
+497055|Neuweiler Kreis Calw
+497056|Gechingen
+497062|Beilstein Württemberg
+497063|Bad Wimpfen
+497066|Bad Rappenau-Bonfeld
+497071|Tübingen
+497072|Gomaringen
+497073|Ammerbuch
+497081|Bad Wildbad
+497082|Neuenbürg Württemberg
+497083|Bad Herrenalb
+497084|Schömberg bei Neuenbürg
+497085|Enzklösterle
+49711|Stuttgart
+497121|Reutlingen
+497122|St Johann Württemberg
+497123|Metzingen Württemberg
+497124|Trochtelfingen Hohenz
+497125|Bad Urach
+497126|Burladingen-Melchingen
+497127|Neckartenzlingen
+497128|Sonnenbühl
+497129|Lichtenstein Württemberg
+497130|Löwenstein Württemberg
+497131|Heilbronn Neckar
+497132|Neckarsulm
+497133|Lauffen am Neckar
+497134|Weinsberg
+497135|Brackenheim
+497136|Bad Friedrichshall
+497138|Schwaigern
+497139|Neuenstadt am Kocher
+497141|Ludwigsburg Württemberg
+497142|Bietigheim-Bissingen
+497143|Besigheim
+497144|Marbach am Neckar
+497145|Markgröningen
+497146|Remseck am Neckar
+497147|Sachsenheim Württemberg
+497148|Grossbottwar
+497150|Korntal-Münchingen
+497151|Waiblingen
+497152|Leonberg Württemberg
+497153|Plochingen
+497154|Kornwestheim
+497156|Ditzingen
+497157|Waldenbuch
+497158|Neuhausen auf den Fildern
+497159|Renningen
+497161|Göppingen
+497162|Süssen
+497163|Ebersbach an der Fils
+497164|Boll Kreis Göppingen
+497165|Göppingen-Hohenstaufen
+497166|Adelberg
+497171|Schwäbisch Gmünd
+497172|Lorch Württemberg
+497173|Heubach
+497174|Mögglingen
+497175|Leinzell
+497176|Spraitbach
+497181|Schorndorf Württemberg
+497182|Welzheim
+497183|Rudersberg Württemberg
+497184|Kaisersbach
+497191|Backnang
+497192|Murrhardt
+497193|Sulzbach an der Murr
+497194|Spiegelberg
+497195|Winnenden
+497202|Karlsbad
+497203|Walzbachtal
+497204|Malsch-Völkersbach
+49721|Karlsruhe
+497220|Forbach-Hundsbach
+497221|Baden-Baden
+497222|Rastatt
+497223|Bühl Baden
+497224|Gernsbach
+497225|Gaggenau
+497226|Bühl-Sand
+497227|Lichtenau Baden
+497228|Forbach
+497229|Iffezheim
+497231|Pforzheim
+497232|Königsbach-Stein
+497233|Niefern-Öschelbronn
+497234|Tiefenbronn
+497235|Unterreichenbach Kreis Calw
+497236|Keltern
+497237|Neulingen Enzkreis
+497240|Pfinztal
+497242|Rheinstetten
+497243|Ettlingen
+497244|Weingarten Baden
+497245|Durmersheim
+497246|Malsch Kreis Karlsruhe
+497247|Linkenheim-Hochstetten
+497248|Marxzell
+497249|Stutensee
+497250|Kraichtal
+497251|Bruchsal
+497252|Bretten
+497253|Bad Schönborn
+497254|Waghäusel
+497255|Graben-Neudorf
+497256|Philippsburg
+497257|Bruchsal-Untergrombach
+497258|Oberderdingen-Flehingen
+497259|Östringen-Odenheim
+497260|Sinsheim-Hilsbach
+497261|Sinsheim
+497262|Eppingen
+497263|Waibstadt
+497264|Bad Rappenau
+497265|Angelbachtal
+497266|Kirchardt
+497267|Gemmingen
+497268|Bad Rappenau-Obergimpern
+497269|Sulzfeld Baden
+497271|Wörth am Rhein
+497272|Rülzheim
+497273|Hagenbach Pfalz
+497274|Germersheim
+497275|Kandel
+497276|Herxheim bei Landau Pfalz
+497277|Wörth-Büchelberg
+497300|Roggenburg
+497302|Pfaffenhofen an der Roth
+497303|Illertissen
+497304|Blaustein Württemberg
+497305|Erbach Donau
+497306|Vöhringen Iller
+497307|Senden Iller
+497308|Nersingen
+497309|Weissenhorn
+49731|Ulm Donau
+497321|Heidenheim an der Brenz
+497322|Giengen an der Brenz
+497323|Gerstetten
+497324|Herbrechtingen
+497325|Sontheim an der Brenz
+497326|Neresheim
+497327|Dischingen
+497328|Königsbronn
+497329|Steinheim am Albuch
+497331|Geislingen an der Steige
+497332|Lauterstein
+497333|Laichingen
+497334|Deggingen
+497335|Wiesensteig
+497336|Lonsee
+497337|Nellingen Alb
+497340|Neenstetten
+497343|Buch bei Illertissen
+497344|Blaubeuren
+497345|Langenau Württemberg
+497346|Illerkirchberg
+497347|Dietenheim
+497348|Beimerstetten
+497351|Biberach an der Riss
+497352|Ochsenhausen
+497353|Schwendi
+497354|Erolzheim
+497355|Hochdorf Riss
+497356|Schemmerhofen
+497357|Attenweiler
+497358|Eberhardzell-Füramoos
+497361|Aalen
+497362|Bopfingen
+497363|Lauchheim
+497364|Oberkochen
+497365|Essingen Württemberg
+497366|Abtsgmünd
+497367|Aalen-Ebnat
+497371|Riedlingen Württemberg
+497373|Zwiefalten
+497374|Uttenweiler
+497375|Obermarchtal
+497376|Langenenslingen
+497381|Münsingen
+497382|Römerstein
+497383|Münsingen-Buttenhausen
+497384|Schelklingen-Hütten
+497385|Gomadingen
+497386|Hayingen
+497387|Hohenstein Württemberg
+497388|Pfronstetten
+497389|Heroldstatt
+497391|Ehingen Donau
+497392|Laupheim
+497393|Munderkingen
+497394|Schelklingen
+497395|Ehingen-Dächingen
+497402|Fluorn-Winzeln
+497403|Dunningen
+497404|Epfendorf
+49741|Rottweil
+497420|Deisslingen
+497422|Schramberg
+497423|Oberndorf am Neckar
+497424|Spaichingen
+497425|Trossingen
+497426|Gosheim
+497427|Schömberg bei Balingen
+497428|Rosenfeld
+497429|Egesheim
+497431|Albstadt-Ebingen
+497432|Albstadt-Tailfingen
+497433|Balingen
+497434|Winterlingen
+497435|Albstadt-Laufen
+497436|Messstetten-Oberdigisheim
+497440|Bad Rippoldsau
+497441|Freudenstadt
+497442|Baiersbronn
+497443|Dornstetten
+497444|Alpirsbach
+497445|Pfalzgrafenweiler
+497446|Lossburg
+497447|Baiersbronn-Schwarzenberg
+497448|Seewald
+497449|Baiersbronn-Obertal
+497451|Horb am Neckar
+497452|Nagold
+497453|Altensteig Württemberg
+497454|Sulz am Neckar
+497455|Dornhan
+497456|Haiterbach
+497457|Rottenburg-Ergenzingen
+497458|Ebhausen
+497459|Nagold-Hochdorf
+497461|Tuttlingen
+497462|Immendingen
+497463|Mühlheim an der Donau
+497464|Talheim Kreis Tuttlingen
+497465|Emmingen-Liptingen
+497466|Beuron
+497467|Neuhausen ob Eck
+497471|Hechingen
+497472|Rottenburg am Neckar
+497473|Mössingen
+497474|Haigerloch
+497475|Burladingen
+497476|Bisingen
+497477|Jungingen bei Hechingen
+497478|Hirrlingen
+497482|Horb-Dettingen
+497483|Horb-Mühringen
+497484|Simmersfeld
+497485|Empfingen
+497486|Horb-Altheim
+497502|Wolpertswende
+497503|Wilhelmsdorf Württemberg
+497504|Horgenzell
+497505|Fronreute
+497506|Wangen-Leupolz
+49751|Ravensburg
+497520|Bodnegg
+497522|Wangen im Allgäu
+497524|Bad Waldsee
+497525|Aulendorf
+497527|Wolfegg
+497528|Neukirch bei Tettnang
+497529|Waldburg Württemberg
+497531|Konstanz
+497532|Meersburg
+497533|Allensbach
+497534|Reichenau Baden
+497541|Friedrichshafen
+497542|Tettnang
+497543|Kressbronn am Bodensee
+497544|Markdorf
+497545|Immenstaad am Bodensee
+497546|Oberteuringen
+497551|Überlingen Bodensee
+497552|Pfullendorf
+497553|Salem Baden
+497554|Heiligenberg Baden
+497555|Deggenhausertal
+497556|Uhldingen-Mühlhofen
+497557|Herdwangen-Schönach
+497558|Illmensee
+497561|Leutkirch im Allgäu
+497562|Isny im Allgäu
+497563|Kisslegg
+497564|Bad Wurzach
+497565|Aichstetten Kreis Ravensburg
+497566|Argenbühl
+497567|Leutkirch-Friesenhofen
+497568|Bad Wurzach-Hauerz
+497569|Isny-Eisenbach
+497570|Sigmaringen-Gutenstein
+497571|Sigmaringen
+497572|Mengen Württemberg
+497573|Stetten am kalten Markt
+497574|Gammertingen
+497575|Messkirch
+497576|Krauchenwies
+497577|Veringenstadt
+497578|Wald Hohenz
+497579|Schwenningen Baden
+497581|Saulgau
+497582|Bad Buchau
+497583|Bad Schussenried
+497584|Altshausen
+497585|Ostrach
+497586|Herbertingen
+497587|Hosskirch
+49760|Oberried Breisgau
+49761|Freiburg im Breisgau
+497620|Schopfheim-Gersbach
+497621|Lörrach
+497622|Schopfheim
+497623|Rheinfelden Baden
+497624|Grenzach-Wyhlen
+497625|Zell im Wiesental
+497626|Kandern
+497627|Steinen Kreis Lörrach
+497628|Efringen-Kirchen
+497629|Tegernau Baden
+497631|Müllheim Baden
+497632|Badenweiler
+497633|Staufen im Breisgau
+497634|Sulzburg
+497635|Schliengen
+497636|Münstertal Schwarzwald
+497641|Emmendingen
+497642|Endingen Kaiserstuhl
+497643|Herbolzheim Breisgau
+497644|Kenzingen
+497645|Freiamt
+497646|Weisweil Breisgau
+497651|Titisee-Neustadt
+497652|Hinterzarten
+497653|Lenzkirch
+497654|Löffingen
+497655|Feldberg-Altglashütten
+497656|Schluchsee
+497657|Eisenbach Hochschwarzwald
+497660|St Peter Schwarzwald
+497661|Kirchzarten
+497662|Vogtsburg im Kaiserstuhl
+497663|Eichstetten
+497664|Freiburg-Tiengen
+497665|March Breisgau
+497666|Denzlingen
+497667|Breisach am Rhein
+497668|Ihringen
+497669|St Märgen
+497671|Todtnau
+497672|St Blasien
+497673|Schönau im Schwarzwald
+497674|Todtmoos
+497675|Bernau Baden
+497676|Feldberg Schwarzwald
+497681|Waldkirch Breisgau
+497682|Elzach
+497683|Simonswald
+497684|Glottertal
+497685|Gutach-Bleibach
+497702|Blumberg Baden
+497703|Bonndorf im Schwarzwald
+497704|Geisingen Baden
+497705|Wolterdingen Schwarzw
+497706|Oberbaldingen
+497707|Bräunlingen
+497708|Geisingen-Leipferdingen
+497709|Wutach
+49771|Donaueschingen
+497720|Schwenningen am Neckar
+497721|Villingen im Schwarzwald
+497722|Triberg im Schwarzwald
+497723|Furtwangen im Schwarzwald
+497724|St Georgen im Schwarzwald
+497725|Königsfeld im Schwarzwald
+497726|Bad Dürrheim
+497727|Vöhrenbach
+497728|Niedereschach
+497729|Tennenbronn
+497731|Singen Hohentwiel
+497732|Radolfzell am Bodensee
+497733|Engen Hegau
+497734|Gailingen
+497735|Öhningen
+497736|Tengen
+497738|Steisslingen
+497739|Hilzingen
+497741|Tiengen Hochrhein
+497742|Klettgau
+497743|Ühlingen-Birkendorf
+497744|Stühlingen
+497745|Jestetten
+497746|Wutöschingen
+497747|Berau
+497748|Grafenhausen Hochschwarzwald
+497751|Waldshut
+497753|Albbruck
+497754|Görwihl
+497755|Weilheim Kreis Waldshut
+497761|Bad Säckingen
+497762|Wehr Baden
+497763|Murg
+497764|Herrischried
+497765|Rickenbach Hotzenwald
+497771|Stockach
+497773|Bodman-Ludwigshafen
+497774|Eigeltingen
+497775|Mühlingen
+497777|Sauldorf
+497802|Oberkirch Baden
+497803|Gengenbach
+497804|Oppenau
+497805|Appenweier
+497806|Bad Peterstal-Griesbach
+497807|Neuried Ortenaukreis
+497808|Hohberg bei Offenburg
+49781|Offenburg
+497821|Lahr Schwarzwald
+497822|Ettenheim
+497823|Seelbach Schutter
+497824|Schwanau
+497825|Kippenheim
+497826|Schuttertal
+497831|Hausach
+497832|Haslach im Kinzigtal
+497833|Hornberg Schwarzwaldbahn
+497834|Wolfach
+497835|Zell am Harmersbach
+497836|Schiltach
+497837|Oberharmersbach
+497838|Nordrach
+497839|Schapbach
+497841|Achern
+497842|Kappelrodeck
+497843|Renchen
+497844|Rheinau
+497851|Kehl
+497852|Willstätt
+497853|Kehl-Bodersweier
+497854|Kehl-Goldscheuer
+497903|Mainhardt
+497904|Ilshofen
+497905|Langenburg
+497906|Braunsbach
+497907|Schwäbisch Hall-Sulzdorf
+49791|Schwäbisch Hall
+497930|Boxberg Baden
+497931|Bad Mergentheim
+497932|Niederstetten Württemberg
+497933|Creglingen
+497934|Weikersheim
+497935|Schrozberg
+497936|Schrozberg-Bartenstein
+497937|Dörzbach
+497938|Mulfingen Jagst
+497939|Schrozberg-Spielbach
+497940|Künzelsau
+497941|Öhringen
+497942|Neuenstein Württemberg
+497943|Schöntal Jagst
+497944|Kupferzell
+497945|Wüstenrot
+497946|Bretzfeld
+497947|Forchtenberg
+497948|Öhringen-Ohrnberg
+497949|Pfedelbach-Untersteinbach
+497950|Schnelldorf
+497951|Crailsheim
+497952|Gerabronn
+497953|Blaufelden
+497954|Kirchberg an der Jagst
+497955|Wallhausen Württemberg
+497957|Kressberg
+497958|Rot Am See-Brettheim
+497959|Frankenhardt
+497961|Ellwangen Jagst
+497962|Fichtenau
+497963|Adelmannsfelden
+497964|Stödtlen
+497965|Ellwangen-Röhlingen
+497966|Unterschneidheim
+497967|Jagstzell
+497971|Gaildorf
+497972|Gschwend bei Gaildorf
+497973|Obersontheim
+497974|Bühlerzell
+497975|Untergröningen
+497976|Sulzbach-Laufen
+497977|Oberrot bei Gaildorf
+498020|Weyarn
+498021|Waakirchen
+498022|Tegernsee
+498023|Bayrischzell
+498024|Holzkirchen
+498025|Miesbach
+498026|Hausham
+498027|Dietramszell
+498028|Fischbachau
+498029|Kreuth bei Tegernsee
+498031|Rosenheim Oberbayern
+498032|Rohrdorf Kreis Rosenheim
+498033|Oberaudorf
+498034|Brannenburg
+498035|Raubling
+498036|Stephanskirchen Simssee
+498038|Vogtareuth
+498039|Rott am Inn
+498041|Bad Tölz
+498042|Lenggries
+498043|Jachenau
+498045|Lenggries-Fall
+498046|Bad Heilbrunn
+498051|Prien am Chiemsee
+498052|Aschau im Chiemgau
+498053|Bad Endorf
+498054|Breitbrunn am Chiemsee
+498055|Halfing
+498056|Eggstätt
+498057|Aschau-Sachrang
+498061|Bad Aibling
+498062|Bruckmühl Mangfall
+498063|Feldkirchen-Westerham
+498064|Au bei Bad Aibling
+498065|Tuntenhausen-Schönau
+498066|Bad Feilnbach
+498067|Tuntenhausen
+498071|Wasserburg am Inn
+498072|Haag in Oberbayern
+498073|Gars am Inn
+498074|Schnaitsee
+498075|Amerang
+498076|Pfaffing
+498081|Dorfen Stadt
+498082|Schwindegg
+498083|Isen
+498084|Taufkirchen Vils
+498085|Sankt Wolfgang
+498086|Buchbach Oberbayern
+498091|Kirchseeon
+498092|Grafing bei München
+498093|Glonn Kreis Ebersberg
+498094|Steinhöring
+498095|Aying
+498102|Höhenkirchen-Siegertsbrunn
+498104|Sauerlach
+498105|Gilching
+498106|Vaterstetten
+49811|Hallbergmoos
+498121|Markt Schwaben
+498122|Erding
+498123|Moosinning
+498124|Forstern Oberbayern
+498131|Dachau
+498133|Haimhausen Oberbayern
+498134|Odelzhausen
+498135|Sulzemoos
+498136|Markt Indersdorf
+498137|Petershausen
+498138|Schwabhausen bei Dachau
+498139|Röhrmoos
+498141|Fürstenfeldbruck
+498142|Olching
+498143|Inning am Ammersee
+498144|Grafrath
+498145|Mammendorf
+498146|Moorenweis
+498151|Starnberg
+498152|Herrsching am Ammersee
+498153|Wessling
+498157|Feldafing
+498158|Tutzing
+498161|Freising
+498165|Neufahrn bei Freising
+498166|Allershausen Oberbayern
+498167|Zolling
+498168|Attenkirchen
+498170|Strasslach-Dingharting
+498171|Wolfratshausen
+498176|Egling bei Wolfratshausen
+498177|Münsing Starnberger See
+498178|Icking
+498179|Eurasburg an der Loisach
+498191|Landsberg am Lech
+498192|Schondorf am Ammersee
+498193|Geltendorf
+498194|Vilgertshofen
+498195|Weil Kreis Landsberg am Lech
+498196|Pürgen
+498202|Althegnenberg
+498203|Grossaitingen
+498204|Mickhausen
+498205|Dasing
+498206|Egling an der Paar
+498207|Affing
+498208|Eurasburg bei Augsburg
+49821|Augsburg
+498221|Günzburg
+498222|Burgau Schwaben
+498223|Ichenhausen
+498224|Offingen Donau
+498225|Jettingen-Scheppach
+498226|Bibertal
+498230|Gablingen
+498231|Königsbrunn bei Augsburg
+498232|Schwabmünchen
+498233|Kissing
+498234|Bobingen
+498236|Fischach
+498237|Aindling
+498238|Gessertshausen
+498239|Langenneufnach
+498241|Buchloe
+498243|Fuchstal
+498245|Türkheim Wertach
+498246|Waal
+498247|Bad Wörishofen
+498248|Lamerdingen
+498249|Ettringen Wertach
+498250|Hilgertshausen-Tandern
+498251|Aichach
+498252|Schrobenhausen
+498253|Pöttmes
+498254|Altomünster
+498257|Inchenhofen
+498258|Sielenbach
+498259|Schiltberg
+498261|Mindelheim
+498262|Mittelneufnach
+498263|Breitenbrunn Schwaben
+498265|Pfaffenhausen Schwaben
+498266|Kirchheim in Schwaben
+498267|Dirlewang
+498268|Tussenhausen
+498269|Unteregg bei Mindelheim
+498271|Meitingen
+498272|Wertingen
+498273|Nordendorf
+498274|Buttenwiesen
+498276|Baar Schwaben
+498281|Thannhausen Schwaben
+498282|Krumbach Schwaben
+498283|Neuburg an der Kammel
+498284|Ziemetshausen
+498285|Burtenbach
+498291|Zusmarshausen
+498292|Dinkelscherben
+498293|Welden bei Augsburg
+498294|Horgau
+498295|Altenmünster Schwaben
+498296|Villenbach
+498302|Görisried
+498303|Waltenhofen
+498304|Wildpoldsried
+498306|Ronsberg
+49831|Kempten Allgäu
+498320|Missen-Wilhams
+498321|Sonthofen
+498322|Oberstdorf
+498323|Immenstadt im Allgäu
+498324|Hindelang
+498325|Oberstaufen-Thalkirchdorf
+498326|Fischen im Allgäu
+498327|Rettenberg
+498328|Balderschwang
+498330|Legau
+498331|Memmingen
+498332|Ottobeuren
+498333|Babenhausen Schwaben
+498334|Bad Grönenbach
+498335|Fellheim
+498336|Erkheim
+498337|Altenstadt Iller
+498338|Böhen
+498340|Baisweil
+498341|Kaufbeuren
+498342|Marktoberdorf
+498343|Aitrang
+498344|Westendorf bei Kaufbeuren
+498345|Stöttwang
+498346|Pforzen
+498347|Friesenried
+498348|Bidingen
+498349|Stötten am Auerberg
+498361|Nesselwang
+498362|Füssen
+498363|Pfronten
+498364|Seeg
+498365|Wertach
+498366|Oy-Mittelberg
+498367|Rosshaupten Forggensee
+498368|Halblech
+498369|Rückholz
+498370|Wiggensbach
+498372|Obergünzburg
+498373|Altusried
+498374|Dietmannsried
+498375|Weitnau
+498376|Sulzberg Allgäu
+498377|Unterthingau
+498378|Buchenberg bei Kempten
+498379|Waltenhofen-Oberdorf
+498380|Achberg
+498381|Lindenberg im Allgäu
+498382|Lindau Bodensee
+498383|Grünenbach Allgäu
+498384|Röthenbach Allgäu
+498385|Hergatz
+498386|Oberstaufen
+498387|Weiler-Simmerberg
+498388|Hergensweiler
+498389|Weissensberg
+498392|Markt Rettenbach
+498393|Holzgünz
+498394|Lautrach
+498395|Tannheim Württemberg
+498402|Münchsmünster
+498403|Pförring
+498404|Oberdolling
+498405|Stammham bei Ingolstadt
+498406|Böhmfeld
+498407|Grossmehring
+49841|Ingolstadt Donau
+498421|Eichstätt Bayern
+498422|Dollnstein
+498423|Titting
+498424|Nassenfels
+498426|Walting Kreis Eichstätt
+498427|Wellheim
+498431|Neuburg an der Donau
+498432|Burgheim
+498433|Königsmoos
+498434|Rennertshofen
+498435|Ehekirchen
+498441|Pfaffenhofen an der Ilm
+498442|Wolnzach
+498443|Hohenwart Paar
+498444|Schweitenkirchen
+498445|Gerolsbach
+498446|Pörnbach
+498450|Ingolstadt-Zuchering
+498452|Geisenfeld
+498453|Reichertshofen Oberbayern
+498454|Karlshuld
+498456|Lenting
+498457|Vohburg an der Donau
+498458|Gaimersheim
+498459|Manching
+498460|Berching-Holnstein
+498461|Beilngries
+498462|Berching
+498463|Greding
+498464|Dietfurt an der Altmühl
+498465|Kipfenberg
+498466|Denkendorf Oberbayern
+498467|Kinding
+498468|Altmannstein-Pondorf
+498469|Freystadt-Burggriesbach
+498501|Thyrnau
+498502|Fürstenzell
+498503|Neuhaus am Inn
+498504|Tittling
+498505|Hutthurm
+498506|Bad Höhenstadt
+498507|Neuburg am Inn
+498509|Ruderting
+49851|Passau
+498531|Pocking
+498532|Griesbach im Rottal
+498533|Rotthalmünster
+498534|Tettenweis
+498535|Haarbach
+498536|Kösslarn
+498537|Bad Füssing-Aigen
+498538|Pocking-Hartkirchen
+498541|Vilshofen Niederbayern
+498542|Ortenburg
+498543|Aidenbach
+498544|Eging am See
+498545|Hofkirchen Bayern
+498546|Windorf-Otterskirchen
+498547|Osterhofen-Gergweis
+498548|Vilshofen-Sandbach
+498549|Vilshofen-Pleinting
+498550|Philippsreut
+498551|Freyung
+498552|Grafenau Niederbayern
+498553|Spiegelau
+498554|Schönberg Niederbayern
+498555|Perlesreut
+498556|Haidmühle
+498557|Mauth
+498558|Hohenau Niederbayern
+498561|Pfarrkirchen Niederbayern
+498562|Triftern
+498563|Bad Birnbach Rottal
+498564|Johanniskirchen
+498565|Dietersburg-Baumgarten
+498571|Simbach am Inn
+498572|Tann Niederbayern
+498573|Ering
+498574|Wittibreut
+498581|Waldkirchen Niederbayern
+498582|Röhrnbach
+498583|Neureichenau
+498584|Breitenberg Niederbayern
+498585|Grainet
+498586|Hauzenberg
+498591|Obernzell
+498592|Wegscheid Niederbayern
+498593|Untergriesbach
+49861|Traunstein
+498621|Trostberg
+498622|Tacherting-Peterskirchen
+498623|Kirchweidach
+498624|Obing
+498628|Kienberg Oberbayern
+498629|Palling
+498630|Oberneukirchen
+498631|Mühldorf am Inn
+498633|Tüssling
+498634|Garching an der Alz
+498635|Pleiskirchen
+498636|Ampfing
+498637|Lohkirchen
+498638|Waldkraiburg
+498639|Neumarkt-Sankt Veit
+498640|Reit Im Winkl
+498641|Grassau Kreis Traunstein
+498642|Übersee
+498649|Schleching
+498650|Marktschellenberg
+498651|Bad Reichenhall
+498652|Berchtesgaden
+498654|Freilassing
+498656|Anger
+498657|Ramsau bei Berchtesgaden
+498661|Grabenstätt Chiemsee
+498662|Siegsdorf Kreis Traunstein
+498663|Ruhpolding
+498664|Chieming
+498665|Inzell
+498666|Teisendorf
+498667|Seeon-Seebruck
+498669|Traunreut
+498670|Reischach Kreis Altötting
+498671|Altötting
+498677|Burghausen Salzach
+498678|Marktl
+498679|Burgkirchen an der Alz
+498681|Waging am See
+498682|Laufen Salzach
+498683|Tittmoning
+498684|Fridolfing
+498685|Kirchanschöring
+498686|Petting
+498687|Taching-Tengling
+498702|Wörth an der Isar
+498703|Essenbach
+498704|Altdorf-Pfettrach
+498705|Altfraunhofen
+498706|Vilsheim
+498707|Adlkofen
+498708|Weihmichl-Unterneuhausen
+498709|Eching Niederbayern
+49871|Landshut
+498721|Eggenfelden
+498722|Gangkofen
+498723|Arnstorf
+498724|Massing
+498725|Wurmannsquick
+498726|Schönau Niederbayern
+498727|Falkenberg Niederbayern
+498728|Geratskirchen
+498731|Dingolfing
+498732|Frontenhausen
+498733|Mengkofen
+498734|Reisbach Niederbayern
+498735|Gangkofen-Kollbach
+498741|Vilsbiburg
+498742|Velden Vils
+498743|Geisenhausen
+498744|Gerzen
+498745|Bodenkirchen
+498751|Mainburg
+498752|Au in der Hallertau
+498753|Elsendorf Niederbayern
+498754|Volkenschwand
+498756|Nandlstadt
+498761|Moosburg an der Isar
+498762|Wartenberg Oberbayern
+498764|Mauern Kreis Freising
+498765|Bruckberg Niederbayern
+498766|Gammelsdorf
+498771|Ergoldsbach
+498772|Mallersdorf-Pfaffenberg
+498773|Neufahrn in Niederbayern
+498774|Bayerbach bei Ergoldsbach
+498781|Rottenburg an der Laaber
+498782|Pfeffenhausen
+498783|Rohr in Niederbayern
+498784|Hohenthann
+498785|Rottenburg-Oberroning
+498801|Seeshaupt
+498802|Huglfing
+498803|Peissenberg
+498805|Hohenpeissenberg
+498806|Utting am Ammersee
+498807|Diessen am Ammersee
+498808|Pähl
+498809|Wessobrunn
+49881|Weilheim in Oberbayern
+498821|Garmisch-Partenkirchen
+498822|Oberammergau
+498823|Mittenwald
+498824|Oberau Loisach
+498825|Krün
+498841|Murnau am Staffelsee
+498845|Bad Kohlgrub
+498846|Uffing am Staffelsee
+498847|Obersöchering
+498851|Kochel am See
+498856|Penzberg
+498857|Benediktbeuern
+498858|Kochel-Walchensee
+498860|Bernbeuren
+498861|Schongau
+498862|Steingaden Oberbayern
+498867|Rottenbuch Oberbayern
+498868|Schwabsoien
+498869|Kinsau
+4989|Munich
+49906|Donauwörth
+499070|Tapfheim
+499071|Dillingen an der Donau
+499072|Lauingen Donau
+499073|Gundelfingen an der Donau
+499074|Höchstädt an der Donau
+499075|Glött
+499076|Wittislingen
+499077|Bachhagel
+499078|Mertingen
+499080|Harburg Schwaben
+499081|Nördlingen
+499082|Oettingen in Bayern
+499083|Möttingen
+499084|Bissingen Schwaben
+499085|Alerheim
+499086|Fremdingen
+499087|Marktoffingen
+499088|Mönchsdeggingen
+499089|Bissingen-Unterringingen
+499090|Rain Lech
+499091|Monheim Schwaben
+499092|Wemding
+499093|Polsingen
+499094|Tagmersheim
+499097|Marxheim
+499099|Kaisheim
+499101|Langenzenn
+499102|Wilhermsdorf
+499103|Cadolzburg
+499104|Emskirchen
+499105|Grosshabersdorf
+499106|Markt Erlbach
+499107|Trautskirchen
+49911|Nuremberg
+499120|Leinburg
+499122|Schwabach
+499123|Lauf an der Pegnitz
+499126|Eckental
+499127|Rosstal Mittelfranken
+499128|Feucht
+499129|Wendelstein
+499131|Erlangen
+499132|Herzogenaurach
+499133|Baiersdorf Mittelfranken
+499134|Neunkirchen am Brand
+499135|Hessdorf Mittelfranken
+499141|Weissenburg in Bayern
+499142|Treuchtlingen
+499143|Pappenheim Mittelfranken
+499144|Pleinfeld
+499145|Solnhofen
+499146|Markt Berolzheim
+499147|Nennslingen
+499148|Ettenstatt
+499149|Weissenburg-Suffersheim
+499151|Hersbruck
+499152|Hartenstein Mittelfranken
+499153|Schnaittach
+499154|Pommelsbrunn
+499155|Simmelsdorf
+499156|Neuhaus an der Pegnitz
+499157|Alfeld Mittelfranken
+499158|Offenhausen Mittelfranken
+499161|Neustadt an der Aisch
+499162|Scheinfeld
+499163|Dachsbach
+499164|Langenfeld Mittelfranken
+499165|Sugenheim
+499166|Münchsteinach
+499167|Oberscheinfeld
+499170|Schwanstetten
+499171|Roth Mittelfranken
+499172|Georgensgmünd
+499173|Thalmässing
+499174|Hilpoltstein
+499175|Spalt
+499176|Allersberg
+499177|Heideck
+499178|Abenberg Mittelfranken
+499179|Freystadt
+499180|Pyrbaum
+499181|Neumarkt in der Oberpfalz
+499182|Velburg
+499183|Burgthann
+499184|Deining Oberpfalz
+499185|Mühlhausen Oberpfalz
+499186|Lauterhofen Oberpfalz
+499187|Altdorf bei Nürnberg
+499188|Postbauer-Heng
+499189|Berg bei Neumarkt in der Oberpfalz
+499190|Heroldsbach
+499191|Forchheim Oberfranken
+499192|Gräfenberg
+499193|Höchstadt an der Aisch
+499194|Ebermannstadt
+499195|Adelsdorf Mittelfranken
+499196|Wiesenttal
+499197|Egloffstein
+499198|Heiligenstadt in Oberfranken
+499199|Kunreuth
+499201|Gesees
+499202|Waischenfeld
+499203|Neudrossenfeld
+499204|Plankenfels
+499205|Vorbach
+499206|Mistelgau-Obernsees
+499207|Königsfeld Oberfranken
+499208|Bindlach
+499209|Emtmannsberg
+49921|Bayreuth
+499220|Kasendorf-Azendorf
+499221|Kulmbach
+499222|Presseck
+499223|Rugendorf
+499225|Stadtsteinach
+499227|Neuenmarkt
+499228|Thurnau
+499229|Mainleus
+499231|Marktredwitz
+499232|Wunsiedel
+499233|Arzberg Oberfranken
+499234|Neusorg
+499235|Thierstein
+499236|Nagel
+499238|Röslau
+499241|Pegnitz
+499242|Gössweinstein
+499243|Pottenstein
+499244|Betzenstein
+499245|Obertrubach
+499246|Pegnitz-Trockau
+499251|Münchberg
+499252|Helmbrechts
+499253|Weissenstadt
+499254|Gefrees
+499255|Marktleugast
+499256|Stammbach
+499257|Zell Oberfranken
+499260|Wilhelmsthal Oberfranken
+499261|Kronach
+499262|Wallenfels
+499263|Ludwigsstadt
+499264|Küps
+499265|Pressig
+499266|Mitwitz
+499267|Nordhalben
+499268|Teuschnitz
+499269|Tettau Kreis Kronach
+499270|Creussen
+499271|Thurnau-Alladorf
+499272|Fichtelberg
+499273|Bad Berneck im Fichtelgebirge
+499274|Hollfeld
+499275|Speichersdorf
+499276|Bischofsgrün
+499277|Warmensteinach
+499278|Weidenberg
+499279|Mistelgau
+499280|Selbitz Oberfranken
+499281|Hof Saale
+499282|Naila
+499283|Rehau
+499284|Schwarzenbach an der Saale
+499285|Kirchenlamitz
+499286|Oberkotzau
+499287|Selb
+499288|Bad Steben
+499289|Schwarzenbach am Wald
+499292|Konradsreuth
+499293|Berg Oberfranken
+499294|Regnitzlosau
+499295|Töpen
+499302|Rottendorf Unterfranken
+499303|Eibelstadt
+499305|Estenfeld
+499306|Kist
+499307|Altertheim
+49931|Würzburg
+499321|Kitzingen
+499323|Iphofen
+499324|Dettelbach
+499325|Kleinlangheim
+499326|Markt Einersheim
+499331|Ochsenfurt
+499332|Marktbreit
+499333|Sommerhausen
+499334|Giebelstadt
+499335|Aub Kreis Würzburg
+499336|Bütthard
+499337|Gaukönigshofen
+499338|Röttingen Unterfranken
+499339|Ippesheim
+499340|Königheim-Brehmen
+499341|Tauberbischofsheim
+499342|Wertheim
+499343|Lauda-Königshofen
+499344|Gerchsheim
+499345|Külsheim Baden
+499346|Grünsfeld
+499347|Wittighausen
+499348|Werbach-Gamburg
+499349|Werbach-Wenkheim
+499350|Eussenheim-Hundsbach
+499351|Gemünden am Main
+499352|Lohr am Main
+499353|Karlstadt
+499354|Rieneck
+499355|Frammersbach
+499356|Burgsinn
+499357|Gräfendorf Bayern
+499358|Gössenheim
+499359|Karlstadt-Wiesenfeld
+499360|Thüngen
+499363|Arnstein Unterfranken
+499364|Zellingen
+499365|Rimpar
+499366|Geroldshausen Unterfranken
+499367|Unterpleichfeld
+499369|Uettingen
+499371|Miltenberg
+499372|Klingenberg am Main
+499373|Amorbach
+499374|Eschau
+499375|Freudenberg Baden
+499376|Collenberg
+499377|Freudenberg-Boxtal
+499378|Eichenbühl-Riedern
+499381|Volkach
+499382|Gerolzhofen
+499383|Wiesentheid
+499384|Schwanfeld
+499385|Kolitzheim
+499386|Prosselsheim
+499391|Marktheidenfeld
+499392|Faulbach Unterfranken
+499393|Rothenfels Unterfranken
+499394|Esselbach
+499395|Triefenstein
+499396|Urspringen bei Lohr
+499397|Wertheim-Dertingen
+499398|Birkenfeld bei Würzburg
+499401|Neutraubling
+499402|Regenstauf
+499403|Donaustauf
+499404|Nittendorf
+499405|Bad Abbach
+499406|Mintraching
+499407|Wenzenbach
+499408|Altenthann
+499409|Pielenhofen
+49941|Regensburg
+499420|Feldkirchen Niederbayern
+499421|Straubing
+499422|Bogen Niederbayern
+499423|Geiselhöring
+499424|Strasskirchen
+499426|Oberschneiding
+499427|Leiblfing
+499428|Kirchroth
+499429|Rain Niederbayern
+499431|Schwandorf
+499433|Nabburg
+499434|Bodenwöhr
+499435|Schwarzenfeld
+499436|Nittenau
+499438|Fensterbach
+499439|Neunburg-Kemnath
+499441|Kelheim
+499442|Riedenburg
+499443|Abensberg
+499444|Siegenburg
+499445|Neustadt an der Donau
+499446|Altmannstein
+499447|Essing
+499448|Hausen Niederbayern
+499451|Schierling
+499452|Langquaid
+499453|Thalmassing
+499454|Aufhausen Oberpfalz
+499461|Roding
+499462|Falkenstein Oberpfalz
+499463|Wald Oberpfalz
+499464|Walderbach
+499465|Neukirchen-Balbini
+499466|Stamsried
+499467|Michelsneukirchen
+499468|Zell Oberpfalz
+499469|Roding-Neubäu
+499471|Burglengenfeld
+499472|Hohenfels Oberpfalz
+499473|Kallmünz
+499474|Schmidmühlen
+499480|Sünching
+499481|Pfatter
+499482|Wörth an der Donau
+499484|Brennberg
+499491|Hemau
+499492|Parsberg
+499493|Beratzhausen
+499495|Breitenbrunn Oberpfalz
+499497|Seubersdorf in der Oberpfalz
+499498|Laaber
+499499|Painten
+499502|Frensdorf
+499503|Oberhaid Oberfranken
+499504|Stadelhofen
+499505|Litzendorf
+49951|Bamberg
+499521|Hassfurt
+499522|Eltmann
+499523|Hofheim in Unterfranken
+499524|Zeil am Main
+499525|Königsberg in Bayern
+499526|Riedbach
+499527|Knetzgau
+499528|Donnersdorf
+499529|Oberaurach
+499531|Ebern
+499532|Maroldsweisach
+499533|Untermerzbach
+499534|Burgpreppach
+499535|Pfarrweisach
+499536|Kirchlauter
+499542|Schesslitz
+499543|Hirschaid
+499544|Baunach
+499545|Buttenheim
+499546|Burgebrach
+499547|Zapfendorf
+499548|Mühlhausen Mittelfranken
+499549|Lisberg
+499551|Burgwindheim
+499552|Burghaslach
+499553|Ebrach Oberfranken
+499554|Untersteinbach Unterfranken
+499555|Schlüsselfeld-Aschbach
+499556|Geiselwind
+499560|Grub am Forst
+499561|Coburg
+499562|Sonnefeld
+499563|Rödental
+499564|Bad Rodach
+499565|Untersiemau
+499566|Meeder
+499567|Sesslach-Gemünda
+499568|Neustadt bei Coburg
+499569|Sesslach
+499571|Lichtenfels Bayern
+499572|Burgkunstadt
+499573|Staffelstein Oberfranken
+499574|Marktzeuln
+499575|Weismain
+499576|Lichtenfels-Isling
+499602|Neustadt an der Waldnaab
+499603|Floss
+499604|Wernberg-Köblitz
+499605|Weiherhammer
+499606|Pfreimd
+499607|Luhe-Wildenau
+499608|Kohlberg Oberpfalz
+49961|Weiden in der Oberpfalz
+499621|Amberg Oberpfalz
+499622|Hirschau Oberpfalz
+499624|Ensdorf Oberpfalz
+499625|Kastl bei Amberg
+499626|Hohenburg
+499627|Freudenberg Oberpfalz
+499628|Ursensollen
+499631|Tirschenreuth
+499632|Waldsassen
+499633|Mitterteich
+499634|Wiesau
+499635|Bärnau
+499636|Plössberg
+499637|Falkenberg Oberpfalz
+499638|Neualbenreuth
+499639|Mähring
+499641|Grafenwöhr
+499642|Kemnath Stadt
+499643|Auerbach in der Oberpfalz
+499644|Pressath
+499645|Eschenbach in der Oberpfalz
+499646|Freihung
+499647|Kirchenthumbach
+499648|Neustadt am Kulm
+499651|Vohenstrauss
+499652|Waidhaus
+499653|Eslarn
+499654|Pleystein
+499655|Tännesberg
+499656|Moosbach bei Vohenstrauss
+499657|Waldthurn
+499658|Georgenberg
+499659|Leuchtenberg
+499661|Sulzbach-Rosenberg
+499662|Vilseck
+499663|Neukirchen bei Sulzbach-Rosenberg
+499664|Hahnbach
+499665|Königstein Oberpfalz
+499666|Illschwang
+499671|Oberviechtach
+499672|Neunburg vorm Wald
+499673|Tiefenbach Oberpfalz
+499674|Schönsee
+499675|Altendorf am Nabburg
+499676|Winklarn
+499677|Oberviechtach-Pullenried
+499681|Windischeschenbach
+499682|Erbendorf
+499683|Friedenfels
+499701|Sandberg Unterfranken
+499704|Euerdorf
+499708|Bad Bocklet
+49971|Bad Kissingen
+499720|Üchtelhausen
+499721|Schweinfurt
+499722|Werneck
+499723|Röthlein
+499724|Stadtlauringen
+499725|Poppenhausen Unterfranken
+499726|Euerbach
+499727|Schonungen-Marktsteinach
+499728|Wülfershausen Unterfranken
+499729|Grettstadt
+499732|Hammelburg
+499733|Münnerstadt
+499734|Burkardroth
+499735|Massbach
+499736|Oberthulba
+499737|Wartmannsroth
+499738|Rottershausen
+499741|Bad Brückenau
+499742|Kalbach Rhön
+499744|Zeitlofs-Detter
+499745|Wildflecken
+499746|Zeitlofs
+499747|Geroda Bayern
+499748|Motten
+499749|Oberbach Unterfranken
+499761|Bad Königshofen im Grabfeld
+499762|Saal an der Saale
+499763|Sulzdorf an der Lederhecke
+499764|Höchheim
+499765|Trappstadt
+499766|Grosswenkheim
+499771|Bad Neustadt an der Saale
+499772|Bischofsheim an der Rhön
+499773|Unsleben
+499774|Oberelsbach
+499775|Schönau an der Brend
+499776|Mellrichstadt
+499777|Ostheim von der Rhön
+499778|Fladungen
+499779|Nordheim von der Rhön
+499802|Ansbach-Katterbach
+499803|Colmberg
+499804|Aurach
+499805|Burgoberbach
+49981|Ansbach
+499820|Lehrberg
+499822|Bechhofen an der Heide
+499823|Leutershausen
+499824|Dietenhofen
+499825|Herrieden
+499826|Weidenbach Mittelfranken
+499827|Lichtenau Mittelfranken
+499828|Rügland
+499829|Flachslanden
+499831|Gunzenhausen
+499832|Wassertrüdingen
+499833|Heidenheim Mittelfranken
+499834|Theilenhofen
+499835|Ehingen Mittelfranken
+499836|Gunzenhausen-Cronheim
+499837|Haundorf
+499841|Bad Windsheim
+499842|Uffenheim
+499843|Burgbernheim
+499844|Obernzenn
+499845|Oberdachstetten
+499846|Ipsheim
+499847|Ergersheim
+499848|Simmershofen
+499851|Dinkelsbühl
+499852|Feuchtwangen
+499853|Wilburgstetten
+499854|Wittelshofen
+499855|Dentlein am Forst
+499856|Dürrwangen
+499857|Schopfloch Mittelfranken
+499861|Rothenburg ob der Tauber
+499865|Adelshofen Mittelfranken
+499867|Geslau
+499868|Schillingsfürst
+499869|Wettringen Mittelfranken
+499871|Windsbach
+499872|Heilsbronn
+499873|Abenberg-Wassermungenau
+499874|Neuendettelsau
+499875|Wolframs-Eschenbach
+499876|Rohr Mittelfranken
+499901|Hengersberg Bayern
+499903|Schöllnach
+499904|Lalling
+499905|Bernried Niederbayern
+499906|Mariaposching
+499907|Zenting
+499908|Schöfweg
+49991|Deggendorf
+499920|Bischofsmais
+499921|Regen
+499922|Zwiesel
+499923|Teisnach
+499924|Bodenmais
+499925|Bayerisch Eisenstein
+499926|Frauenau
+499927|Kirchberg Wald
+499928|Kirchdorf im Wald
+499929|Ruhmannsfelden
+499931|Plattling
+499932|Osterhofen
+499933|Wallersdorf
+499935|Stephansposching
+499936|Wallerfing
+499937|Oberpöring
+499938|Moos Niederbayern
+499941|Kötzting
+499942|Viechtach
+499943|Lam Oberpfalz
+499944|Miltach
+499945|Arnbruck
+499946|Hohenwarth bei Kötzing
+499947|Neukirchen bei Hl Blut
+499948|Eschlkam
+499951|Landau an der Isar
+499952|Eichendorf
+499953|Pilsting
+499954|Simbach Niederbayern
+499955|Mamming
+499956|Eichendorf-Aufhausen
+499961|Mitterfels
+499962|Schwarzach Niederbayern
+499963|Konzell
+499964|Stallwang
+499965|Sankt Englmar
+499966|Wiesenfelden
+499971|Cham
+499972|Waldmünchen
+499973|Furth im Wald
+499974|Traitsching
+499975|Waldmünchen-Geigant
+499976|Rötz
+499977|Arnschwang
+499978|Schönthal Oberpfalz

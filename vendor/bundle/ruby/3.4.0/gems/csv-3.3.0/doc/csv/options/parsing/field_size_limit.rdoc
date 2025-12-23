@@ -1,0 +1,39 @@
+====== Option +field_size_limit+
+
+Specifies the \Integer field size limit.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:field_size_limit) # => nil
+
+This is a maximum size CSV will read ahead looking for the closing quote for a field.
+(In truth, it reads to the first line ending beyond this size.)
+If a quote cannot be found within the limit CSV will raise a MalformedCSVError,
+assuming the data is faulty.
+You can use this limit to prevent what are effectively DoS attacks on the parser.
+However, this limit can cause a legitimate parse to fail;
+therefore the default value is +nil+ (no limit).
+
+For the examples in this section:
+  str = <<~EOT
+    "a","b"
+    "
+    2345
+    ",""
+  EOT
+  str # => "\"a\",\"b\"\n\"\n2345\n\",\"\"\n"
+
+Using the default +nil+:
+  ary = CSV.parse(str)
+  ary # => [["a", "b"], ["\n2345\n", ""]]
+
+Using <tt>50</tt>:
+  field_size_limit = 50
+  ary = CSV.parse(str, field_size_limit: field_size_limit)
+  ary # => [["a", "b"], ["\n2345\n", ""]]
+
+---
+
+Raises an exception if a field is too long:
+  big_str = "123456789\n" * 1024
+  # Raises CSV::MalformedCSVError (Field size exceeded in line 1.)
+  CSV.parse('valid,fields,"' + big_str + '"', field_size_limit: 2048)

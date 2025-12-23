@@ -1,0 +1,71 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://en.wikipedia.org/wiki/+36 [426160815]
+
+361|Budapest
+3622|Székesfehérvár
+3623|Biatorbágy
+3624|Szigetszentmiklós
+3625|Dunaújváros
+3626|Szentendre
+3627|Vác
+3628|Gödöllő
+3629|Monor
+3632|Salgótarján
+3633|Esztergom
+3634|Tatabánya
+3635|Balassagyarmat
+3636|Eger
+3637|Gyöngyös
+3642|Nyíregyháza
+3644|Mátészalka
+3645|Kisvárda
+3646|Miskolc
+3647|Szerencs
+3648|Ózd
+3649|Mezőkövesd
+3652|Debrecen
+3653|Cegléd
+3654|Berettyóújfalu
+3656|Szolnok
+3657|Jászberény
+3659|Karcag
+3662|Szeged
+3663|Szentes
+3666|Békéscsaba
+3668|Orosháza
+3669|Mohács
+3672|Pécs
+3673|Szigetvár
+3674|Szekszárd
+3675|Paks
+3676|Kecskemét
+3677|Kiskunhalas
+3678|Kiskőrös
+3679|Baja
+3682|Kaposvár
+3683|Keszthely
+3684|Siófok
+3685|Marcali
+3687|Tapolca
+3688|Veszprém
+3689|Pápa
+3692|Zalaegerszeg
+3693|Nagykanizsa
+3694|Szombathely
+3695|Sárvár
+3696|Győr
+3699|Sopron

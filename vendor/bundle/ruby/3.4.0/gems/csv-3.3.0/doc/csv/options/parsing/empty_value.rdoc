@@ -1,0 +1,13 @@
+====== Option +empty_value+
+
+Specifies the object that is to be substituted
+for each field that has an empty \String.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:empty_value) # => "" (empty string)
+
+With the default, <tt>""</tt>:
+  CSV.parse_line('a,"",b,"",c') # => ["a", "", "b", "", "c"]
+
+With a different object:
+  CSV.parse_line('a,"",b,"",c', empty_value: 'x') # => ["a", "x", "b", "x", "c"]

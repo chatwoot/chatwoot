@@ -1,0 +1,24 @@
+---
+
+##### GLOBAL METADATA
+
+- meta:
+    cluster: apm-ci
+
+##### JOB DEFAULTS
+
+- job:
+    view: APM-CI
+    project-type: multibranch
+    logrotate:
+      daysToKeep: 30
+      numToKeep: 300
+    number-to-keep: '100'
+    days-to-keep: '30'
+    concurrent: true
+    node: linux
+    periodic-folder-trigger: 1w
+    prune-dead-branches: true
+    publishers:
+    - email:
+        recipients: infra-root+build@elastic.co

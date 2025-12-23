@@ -1,0 +1,29 @@
+bs:
+  administrate:
+    actions:
+      confirm: Jeste li sigurni?
+      destroy: Izbrisati
+      edit: Izmjena
+      edit_resource: Izmjena %{name}
+      show_resource: Pregled %{name}
+      new_resource: Novi %{name}
+      back: Nazad
+    controller:
+      create:
+        success: "%{resource} je uspješno kreiran."
+      destroy:
+        success: "%{resource} je uspješno izbrisan."
+      update:
+        success: "%{resource} je uspješno izmijenjen."
+    fields:
+      has_many:
+        more: Prikazuje %{count} od %{total_count}
+        none: Niko
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: Natrag na aplikaciju
+    search:
+      clear: Izbriši pretraživanje
+      label: Pretraga %{resource}

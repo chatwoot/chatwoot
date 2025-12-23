@@ -1,0 +1,25 @@
+<%#
+# Polymorphic Index Partial
+
+This partial renders a polymorphic relationship,
+to be displayed on a resource's index page.
+
+By default, the relationship is rendered as a link to the associated object.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Polymorphic][1].
+  A wrapper around the polymorphic belongs_to relationship
+  pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Polymorphic
+%>
+
+<% if field.data %>
+  <%= link_to_if(
+    accessible_action?(field.data, :show),
+    field.display_associated_resource,
+    [namespace, field.data]
+  ) %>
+<% end %>

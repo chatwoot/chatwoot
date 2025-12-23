@@ -1,0 +1,159 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-size: 62.5%;
+}
+body {
+  background-color: #ecedf0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  margin: 0;
+}
+code {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-size: 85%;
+}
+#header {
+  background: #f9f9f9;
+  color: #333;
+  border-bottom: 3px solid #ccc;
+  height: 50px;
+  padding: 0;
+}
+#header .logo {
+  float: left;
+  margin: 5px 12px 7px 20px;
+  width: 38px;
+  height: 38px;
+}
+#header .title {
+  display: inline-block;
+  float: left;
+  height: 50px;
+  font-size: 2.4rem;
+  letter-spacing: normal;
+  line-height: 50px;
+  margin: 0;
+}
+
+.information, #offenses {
+  width: 100%;
+  padding: 20px;
+  color: #333;
+}
+#offenses {
+  padding: 0 20px;
+}
+
+.information .infobox {
+  border-left: 3px solid;
+  border-radius: 4px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  padding: 15px;
+  border-color: #0088cc;
+  font-size: 1.4rem;
+}
+.information .infobox .info-title {
+  font-size: 1.8rem;
+  line-height: 2.2rem;
+  margin: 0 0 0.5em;
+}
+.information .offenses-list li {
+  line-height: 1.8rem
+}
+.information .offenses-list {
+  padding-left: 20px;
+  margin-bottom: 0;
+}
+
+#offenses .offense-box {
+  border-radius: 4px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+}
+.fixed .box-title {
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+}
+.box-title-placeholder {
+  display: none;
+}
+.fixed .box-title-placeholder {
+  display: block;
+}
+#offenses .offense-box .box-title h3, #offenses .offense-box .box-title-placeholder h3 {
+  color: #33353f;
+  background-color: #f6f6f6;
+  font-size: 2rem;
+  line-height: 2rem;
+  display: block;
+  padding: 15px;
+  border-radius: 5px;
+  margin: 0;
+}
+#offenses .offense-box .offense-reports  {
+  padding: 0 15px;
+}
+#offenses .offense-box .offense-reports .report {
+  border-bottom: 1px dotted #ddd;
+  padding: 15px 0px;
+  position: relative;
+  font-size: 1.3rem;
+}
+#offenses .offense-box .offense-reports .report:last-child {
+  border-bottom: none;
+}
+#offenses .offense-box .offense-reports .report pre code {
+  display: block;
+  background: #000;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  line-height: 1.6rem;
+}
+#offenses .offense-box .offense-reports .report .location {
+  font-weight: bold;
+}
+#offenses .offense-box .offense-reports .report .message code {
+  padding: 0.3em;
+  background-color: rgba(0,0,0,0.07);
+  border-radius: 3px;
+}
+.severity {
+  text-transform: capitalize;
+  font-weight: bold;
+}
+.highlight {
+  padding: 2px;
+  border-radius: 2px;
+  font-weight: bold;
+}
+<%- SEVERITY_COLORS.each do |severity, color| %>
+.severity.<%= severity %> {
+  color: <%= color %>;
+}
+.highlight.<%= severity %> {
+  background-color: <%= color.fade_out(0.4) %>;
+  border: 1px solid <%= color.fade_out(0.6) %>;
+}
+<%- end %>
+footer {
+  margin-bottom: 20px;
+  margin-right: 20px;
+  font-size: 1.3rem;
+  color: #777;
+  text-align: right;
+}
+.extra-code {
+  color: #ED9C28
+}
+

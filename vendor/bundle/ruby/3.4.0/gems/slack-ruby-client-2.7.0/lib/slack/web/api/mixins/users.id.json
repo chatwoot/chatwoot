@@ -1,0 +1,20 @@
+{
+  "mixin": true,
+  "group": "users",
+  "name": "users.id",
+  "desc": "This method returns the ID of a team user.",
+  "args": {
+    "user": {
+      "required": true,
+      "example": "#general",
+      "desc": "User to get ID for, prefixed with @.",
+      "type": "user"
+    }
+  },
+  "errors": {
+    "user_not_found": "Value passed for user was invalid.",
+    "not_authed": "No authentication token provided.",
+    "invalid_auth": "Invalid authentication token.",
+    "account_inactive": "Authentication token is for a deleted user or team."
+  }
+}

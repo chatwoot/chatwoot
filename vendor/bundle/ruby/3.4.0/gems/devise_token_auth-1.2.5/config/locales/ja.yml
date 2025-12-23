@@ -1,0 +1,60 @@
+ja:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "'%{email}' に確認用のメールを送信しました。メール内の説明を読み、アカウントの有効化をしてください。"
+      bad_credentials: "ログイン用の認証情報が正しくありません。再度お試しください。"
+      not_supported: "/sign_in に GET はサポートされていません。POST をお使いください。"
+      user_not_found: "ユーザーが見つからないか、ログインしていません。"
+    token_validations:
+      invalid: "ログイン用の認証情報が正しくありません。"
+    registrations:
+      missing_confirm_success_url: "'confirm_success_url' パラメータが与えられていません。"
+      redirect_url_not_allowed: "'%{redirect_url}' へのリダイレクトは許可されていません。"
+      email_already_exists: "'%{email}' のアカウントはすでに存在しています。"
+      account_with_uid_destroyed: "'%{uid}' のアカウントは削除されました。"
+      account_to_destroy_not_found: "削除するアカウントが見つかりません。"
+      user_not_found: "ユーザーが見つかりません。"
+    omniauth:
+      not_allowed_redirect_url:  "'%{redirect_url}' へのリダイレクトは許可されていません。"
+    passwords:
+      missing_email: "メールアドレスが与えられていません。"
+      missing_redirect_url: "リダイレクト URL が与えられていません。"
+      not_allowed_redirect_url: "'%{redirect_url}' へのリダイレクトは許可されていません。"
+      sended: "'%{email}' にパスワードリセットの案内が送信されました。"
+      sended_paranoid: "すでにメールアドレスがデータベースに登録されている場合、 数分後にパスワード再発行用のリンクを記載したメールをお送りします。"
+      user_not_found: "メールアドレス '%{email}' のユーザーが見つかりません。"
+      password_not_required: "このアカウントはパスワードを要求していません。'%{provider}' を利用してログインしてください。"
+      missing_passwords: "'Password', 'Password confirmation' パラメータが与えられていません。"
+      successfully_updated: "パスワードの更新に成功しました。"
+    unlocks:
+      missing_email: "メールアドレスが与えられていません。"
+      sended: "%{email}' にアカウントのロックを解除する方法を記載したメールが送信されました。"
+      sended_paranoid: "アカウントが存在する場合、数分後にロックを解除する方法を記載したメールをお送りします。"
+      user_not_found: "メールアドレス '%{email}' を持つユーザーが見つかりません。"
+    confirmations:
+      sended: "'%{email}' にアカウントの確認方法を記載したメールが送信されました。"
+      sended_paranoid: "すでにメールアドレスがデータベースに登録されている場合、数分後にメールアドレスの確認方法を記載したメールをお送りします。"
+      user_not_found: "メールアドレス '%{email}' を持つユーザーが見つかりません。"
+      missing_email: "メールアドレスが与えられていません。"
+
+  errors:
+    messages:
+      validate_sign_up_params: "リクエストボディに適切なアカウント新規登録データを送信してください。"
+      validate_account_update_params: "リクエストボディに適切なアカウント更新のデータを送信してください。"
+      not_email: "は有効ではありません"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "下記のリンクからアカウントを有効化できます:"
+        confirm_account_link: "アカウントを有効化する"
+      reset_password_instructions:
+        request_reset_link_msg: "パスワード変更のリクエストが送信されました。下記のリンクからパスワードの変更ができます。"
+        password_change_link: "パスワードを変更する"
+        ignore_mail_msg: "もしこの内容に覚えがない場合は、このメールを無視してください。"
+        no_changes_msg: "上記のリンクにアクセスして新しいパスワードを作成するまで、現在のパスワードは変更されません。"
+      unlock_instructions:
+        account_lock_msg: "連続してログインに失敗したため、あなたのアカウントはロックされました。"
+        unlock_link_msg: "下記のリンクをクリックしてアカウントを有効化してください:"
+        unlock_link: "アカウントを有効化する"
+  hello: "こんにちは"
+  welcome: "ようこそ"

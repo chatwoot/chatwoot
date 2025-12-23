@@ -1,0 +1,53 @@
+-*- coding: utf-8 -*-
+
+commit 31766f4327e6e4555543b44fc6a5dc252c8ff6d9
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 23:49:55 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:49:55 +0900
+
+    bump up to 0.0.4
+
+commit 8bf4b5b4169545ef5be46dec8cd6502d902a3e4a
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 23:49:51 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:49:51 +0900
+
+    Added bump target
+
+commit fba8eb45d6b2db2d0f829b0d20300e7d19268146
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 23:29:46 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:35:44 +0900
+
+    Build package
+
+commit 403ff84d12c9fe1f34397b3a164b0b2f73a560d1
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 23:25:17 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:33:35 +0900
+
+    Set SOURCE_DATE_EPOCH to make builds reproducible
+
+commit 956156ba793330928280c5301b093300a1a9f792
+  Author:     Nazar Matus <funkyloverone@gmail.com>
+  AuthorDate: 2021-01-19 16:07:37 +0200
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:33:11 +0900
+
+    Add Ruby 2.5 to the CI matrix
+
+commit d6d1775d793bcaf206af700120b0b4bd2dc3842d
+  Author:     Nazar Matus <funkyloverone@gmail.com>
+  AuthorDate: 2021-01-19 15:47:38 +0200
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 23:33:11 +0900
+
+    Fix Ruby 2.5 incopatibility
+
+    We don't really need that second optional argument,
+    as its default value is just what we need
+    https://ruby-doc.org/core-2.7.2/Module.html#method-i-private_method_defined-3F

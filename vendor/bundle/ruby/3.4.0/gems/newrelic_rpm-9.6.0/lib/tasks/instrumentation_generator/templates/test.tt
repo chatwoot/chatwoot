@@ -1,0 +1,15 @@
+# This file is distributed under New Relic's license terms.
+# See https://github.com/newrelic/newrelic-ruby-agent/blob/main/LICENSE for complete details.
+# frozen_string_literal: true
+
+class <%= @class_name %>InstrumentationTest < Minitest::Test
+  def setup
+    @stats_engine = NewRelic::Agent.instance.stats_engine
+  end
+
+  def teardown
+    NewRelic::Agent.instance.stats_engine.clear_stats
+  end
+
+  # Add tests here
+end

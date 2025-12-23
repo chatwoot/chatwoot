@@ -1,0 +1,3 @@
+[submodule "lib/slack/web/api/slack-api-ref"]
+	path = lib/slack/web/api/slack-api-ref
+	url = git@github.com:slack-ruby/slack-api-ref.git

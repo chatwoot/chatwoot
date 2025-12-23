@@ -1,0 +1,19 @@
+<%#
+# Number Index Partial
+
+This partial renders a number attribute,
+to be displayed on a resource's index page.
+
+By default, the attribute is rendered
+using the formatting options given in the resource's dashboard.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Number][1].
+  A wrapper around the number pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Number
+%>
+
+<%= field.to_s %>

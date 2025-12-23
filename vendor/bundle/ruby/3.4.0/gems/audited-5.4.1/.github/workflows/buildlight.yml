@@ -1,0 +1,15 @@
+name: Buildlight
+
+on:
+  workflow_run:
+    workflows:
+      - CI
+    branches:
+      - main
+
+jobs:
+  webhook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Webhook
+        uses: collectiveidea/buildlight@main

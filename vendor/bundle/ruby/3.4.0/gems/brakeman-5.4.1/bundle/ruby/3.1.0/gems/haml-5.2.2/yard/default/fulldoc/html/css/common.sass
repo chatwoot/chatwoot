@@ -1,0 +1,15 @@
+#filecontents
+  *:target, dt:target + dd
+    background-color: #ccf
+    border: 1px solid #88b
+  dt
+    font-weight: bold
+  dd
+    margin:
+      left: 0
+      bottom: 0.7em
+    padding-left: 3em
+  dt:target
+    border-bottom-style: none
+    & + dd
+      border-top-style: none

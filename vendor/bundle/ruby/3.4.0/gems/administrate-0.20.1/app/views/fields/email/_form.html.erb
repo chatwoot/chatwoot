@@ -1,0 +1,23 @@
+<%#
+# Email Form Partial
+
+This partial renders an input element for email addresses.
+By default, the input is a text box.
+
+## Local variables:
+
+- `f`:
+  A Rails form generator, used to help create the appropriate input fields.
+- `field`:
+  An instance of [Administrate::Field::Email][1].
+  A wrapper around the email pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Email
+%>
+
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field">
+  <%= f.email_field field.attribute %>
+</div>

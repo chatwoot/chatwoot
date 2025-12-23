@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "time"
+
+if `git status --porcelain lib/db`.empty?
+  puts "Skipping, no DB changes to commit..."
+  return
+end
+
+moment = Time.now.utc
+branch_name = "db-updates-#{moment.strftime("%Y%m%d%H%M%S")}"
+
+system("git", "checkout", "-b", branch_name) || abort("Unable to create branch")
+system("git", "add", "lib/db")
+system("git", "config", "--local", "user.email", "actions@github.com")
+system("git", "config", "--local", "user.name", "github-actions")
+system("git", "commit", "-m", "DB updates #{moment.iso8601}") || abort("Unable to commit changes")
+system("git", "push", "-u", "origin", branch_name) || abort("Unable to push branch")
+system("gh", "pr", "create", "--title", "DB updates #{moment.iso8601}", "--body", "From Github Actions") || abort("Unable to create PR")

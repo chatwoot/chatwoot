@@ -1,0 +1,302 @@
+#!/usr/bin/env ruby
+
+# This file is distributed under New Relic's license terms.
+# See https://github.com/newrelic/newrelic-ruby-agent/blob/main/LICENSE for complete details.
+# frozen_string_literal: true
+
+require 'tempfile'
+require 'rbconfig'
+
+def fail(msg, opts = {})
+  $stderr.puts(msg)
+  usage() if opts[:usage]
+  exit(-1)
+end
+
+def usage
+  $stderr.puts("Usage: #{$0} <target_pid>")
+end
+
+class Logger
+  def self.log(msg)
+    @messages ||= []
+    @messages << [Time.now, msg]
+  end
+
+  def self.messages
+    @messages
+  end
+end
+
+class ShellWrapper
+  def self.execute(cmd)
+    Logger.log("Executing '#{cmd}'")
+    `#{cmd} 2>&1`
+  end
+end
+
+class ProcessDataProvider
+  attr_reader :pid
+
+  def initialize(pid)
+    @pid = pid
+  end
+
+  def attachable?
+    begin
+      my_uid = Process.uid
+      (my_uid == 0 || uid == my_uid)
+    rescue
+      return false
+    end
+  end
+
+  def alive?
+    Process.kill(0, @pid.to_i)
+    return true
+  rescue Errno::ESRCH
+    return false
+  end
+
+  def uid
+    ShellWrapper.execute("ps -o uid #{pid}").split("\n").last.strip.to_i
+  end
+
+  def user
+    ShellWrapper.execute("ps -o user #{pid}").split("\n").last.strip
+  end
+
+  def ppid
+    ShellWrapper.execute("ps -o ppid #{pid}").split("\n").last
+  end
+
+  def rss
+    ShellWrapper.execute("ps -o rss #{pid}").split("\n").last.to_i
+  end
+
+  def cpu
+    ShellWrapper.execute("ps -o cpu #{pid}").split("\n").last
+  end
+
+  def open_files
+    ShellWrapper.execute("lsof -p #{pid}")
+  end
+
+  def self.for_process(pid)
+    case RbConfig::CONFIG['target_os']
+    when /linux/ then LinuxProcessDataProvider.new(pid)
+    when /darwin/ then DarwinProcessDataProvider.new(pid)
+    end
+  end
+end
+
+class LinuxProcessDataProvider < ProcessDataProvider
+  def proc_path(item)
+    File.join("/proc/#{pid}", item)
+  end
+
+  def procline
+    File.read(proc_path('cmdline')).tr("\000", ' ')
+  end
+
+  def environment
+    File.read(proc_path('environ')).tr("\000", "\n")
+  end
+end
+
+class DarwinProcessDataProvider < ProcessDataProvider
+  def procline
+    ShellWrapper.execute("ps -o command #{pid}").split("\n").last
+  end
+
+  def environment
+    cmd = "ps -o command -E #{pid}"
+    ShellWrapper.execute(cmd).split("\n").last.gsub(procline, '').strip
+  end
+end
+
+class RubyProcess
+  attr_accessor :pid
+
+  def initialize(pid)
+    @pid = pid
+    @provider = ProcessDataProvider.for_process(pid)
+  end
+
+  [:uid, :ppid, :rss, :cpu, :open_files, :procline, :environment, :alive?, :attachable?].each do |m|
+    define_method(m) do
+      @provider.send(m)
+    end
+  end
+
+  def gather_backtraces
+    backtrace_file = Tempfile.new('nrdebug_ruby_bt')
+    File.chmod(0666, backtrace_file.path)
+
+    body = gdb_script_body(backtrace_file)
+
+    script_file = write_script_file(body)
+
+    gdb_stderr = Tempfile.new('nrdebug_gdb_stderr')
+
+    gdb_cmd = "gdb -batch -x #{script_file.path} 2>#{gdb_stderr.path}"
+    gdb_output = ShellWrapper.execute(gdb_cmd)
+    ruby_backtrace = File.read(backtrace_file.path)
+
+    script_file.close!
+    backtrace_file.close!
+    gdb_stderr.close!
+
+    [gdb_output, ruby_backtrace]
+  end
+
+  private
+
+  def gdb_script_body(backtrace_file)
+    backtrace_gathering_code = 'Thread.list.each { |t| bt = t.backtrace rescue nil; ' \
+      'puts \"#{t.inspect}\n#{bt && bt.join(\"\n\")}\n\n\" }'
+    <<~END
+      attach #{pid}
+      t a a bt
+      call (void)close(1)
+      call (void)close(2)
+      call (int)open("#{backtrace_file.path}", 2, 0)
+      call (int)open("#{backtrace_file.path}", 2, 0)
+      call (void)rb_backtrace()
+      call (void)fflush(0)
+      call (void)rb_eval_string_protect("#{backtrace_gathering_code}",(int*)0)
+      call (void)fflush(0)
+      quit
+    END
+  end
+
+  def write_script_file(body)
+    Logger.log("Using gdb script:\n#{body}")
+    script_file = Tempfile.new('nrdebug_gdb_script')
+    script_file.write(body)
+    script_file.close
+    script_file
+  end
+end
+
+class ProcessReport
+  attr_reader :target, :path
+
+  def initialize(target, path = nil)
+    @target = target
+    @path = path
+  end
+
+  def open
+    if @path
+      File.open(@path, 'w') do |f|
+        yield(f)
+      end
+    else
+      yield($stdout)
+    end
+  end
+
+  def section(f, name = nil)
+    content = begin
+      yield
+    rescue StandardError => e
+      "<Error: #{e}>, backtrace =\n#{e.backtrace.join("\n")}"
+    end
+    if name
+      f.puts("#{name}:")
+      f.puts(content)
+      f.puts ''
+    end
+  end
+
+  def generate
+    open do |f|
+      add_environment_sections(f)
+
+      section(f) do
+        c_backtraces, ruby_backtraces = @target.gather_backtraces
+        if /could not attach/i.match?(c_backtraces)
+          fail('Failed to attach to target process. Please try again with sudo.')
+        end
+
+        section(f, 'C Backtraces') { c_backtraces }
+        section(f, 'Ruby Backtrace(s)') { ruby_backtraces }
+      end
+
+      section(f, 'Open files') { @target.open_files }
+      section(f, 'Log') do
+        commands = Logger.messages.map { |(_, msg)| msg }
+        commands.join("\n")
+      end
+    end
+  end
+
+  private
+
+  def add_environment_sections(handle)
+    section(handle, 'Time') { Time.now }
+    section(handle, 'PID') { @target.pid }
+    section(handle, 'Command') { @target.procline }
+    section(handle, 'RSS') { @target.rss }
+    section(handle, 'CPU') { @target.cpu }
+    section(handle, 'Parent PID') { @target.ppid }
+    section(handle, 'OS') { ShellWrapper.execute('uname -a') }
+    section(handle, 'Environment') { @target.environment }
+  end
+end
+
+def prompt_for_confirmation(target_pid, target_cmd)
+  puts <<~PROMPT
+    Are you sure you want to attach to PID #{target_pid} ('#{target_cmd}')}?
+
+    ************************** !WARNING! **************************
+    Extracting debug information from this process may cause it to CRASH OR HANG.
+
+    It is highly recommended that you only run this script against processes that
+    are already unresponsive.
+
+    Additionally, the output may contain sensitive information from the program's
+    command line arguments, environment, or open file list. Please examine the
+    output before sharing it.
+    ************************** !WARNING! **************************
+
+    To continue, type 'continue':
+  PROMPT
+
+  until $stdin.gets.strip == 'continue'
+    puts "Please type 'continue' to continue, or ctrl-c to abort."
+  end
+end
+
+target_pid = ARGV[0]
+fail('Please provide a PID for the target process', :usage => true) unless target_pid
+
+gdb_path = `which gdb`
+fail('Could not find gdb, please ensure it is installed and in your PATH') if gdb_path.empty?
+
+target = RubyProcess.new(target_pid)
+if !target.attachable?
+  fail("You do not appear to have permissions to attach to the target process.\nPlease check the process owner " \
+    'and try again with sudo if necessary')
+end
+if !target.alive?
+  fail("Could not find process with PID #{target_pid}")
+end
+
+target_cmd = target.procline
+
+prompt_for_confirmation(target_pid, target_cmd)
+
+puts ''
+puts "Attaching to PID #{target_pid} ('#{target_cmd}')"
+
+timestamp = Time.now.to_i
+report_filename = "nrdebug-#{target_pid}-#{timestamp}.log"
+report = ProcessReport.new(target, report_filename)
+report.generate
+
+puts "Generated '#{report_filename}'"
+puts ''
+puts 'Please examine the output file for potentially sensitive information and'
+puts 'remove it before sharing this file with anyone.'

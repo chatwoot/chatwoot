@@ -1,0 +1,22 @@
+en:
+  Job: Job
+  Cron: Cron
+  CronJobs: Cron Jobs
+  EnqueueNow: Enqueue Now
+  EnableAll: Enable All
+  DisableAll: Disable All
+  EnqueueAll: Enqueue All
+  DeleteAll: Delete All
+  'Cron string': Cron
+  AreYouSureEnqueueCronJobs: Are you sure you want to enqueue ALL cron jobs?
+  AreYouSureEnqueueCronJob: Are you sure you want to enqueue the %{job} cron job?
+  AreYouSureDeleteCronJobs: Are you sure you want to delete ALL cron jobs?
+  AreYouSureDeleteCronJob: Are you sure you want to delete the %{job} cron job?
+  NoCronJobsWereFound: No cron jobs were found
+  Enable: Enable
+  Disable: Disable
+  'Last enqueued': Last enqueued
+  disabled: disabled
+  enabled: enabled
+  NoHistoryWereFound: No history were found
+  Description: Description

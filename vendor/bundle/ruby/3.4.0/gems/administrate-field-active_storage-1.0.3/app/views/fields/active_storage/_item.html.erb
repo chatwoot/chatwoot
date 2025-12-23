@@ -1,0 +1,48 @@
+<%#
+# Item Partial
+
+This partial renders attached items.
+
+Attachments of type image, video and audio are emedded.  For all other types
+we try use it's preview.  If all else fails we simply link to the attached file.
+
+This partial will optionally show a `remove` link next to each attachment which is
+controlled via a boolean local variable.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Image].
+  A wrapper around the image url pulled from the database.
+- `attachment`:
+  Reference to the file
+- `size`:
+  [x, y]
+  Maximum size of the ActiveStorage preview.
+- `preview_only`:
+  If true, show only the previous and not the name or destroy link
+%>
+<% preview_only = local_assigns.fetch(:preview_only, false)
+   display_preview = local_assigns.fetch(:display_preview, field.show_display_preview?) %>
+<% if display_preview && attachment.persisted? %>
+  <div>
+    <%= render partial: 'fields/active_storage/preview', locals: local_assigns %>
+  </div>
+<% end %>
+
+<% unless preview_only %>
+<% if attachment.persisted? %>
+  <div>
+    <%= link_to attachment.filename, field.blob_url(attachment), title: attachment.filename %>
+  </div>
+<% end %>
+
+<% if field.destroy_url.present? %>
+  <% destroy_url = field.destroy_url.call(namespace, field.data.record, attachment) %>
+  <div>
+    <%= link_to I18n.t("administrate.fields.active_storage.remove", default: 'Remove'),
+                destroy_url, method: :delete, class: 'remove-attachment-link', data: { confirm: t("administrate.actions.confirm") } %>
+  </div>
+  <hr>
+<% end %>
+<% end %>

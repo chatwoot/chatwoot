@@ -1,0 +1,42 @@
+====== Option +quote_char+
+
+Specifies the character (\String of length 1) used used to quote fields
+in both parsing and generating.
+This String will be transcoded into the data's \Encoding before use.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:quote_char) # => "\"" (double quote)
+
+This is useful for an application that incorrectly uses <tt>'</tt> (single-quote)
+to quote fields, instead of the correct <tt>"</tt> (double-quote).
+
+Using the default (double quote):
+  str = CSV.generate do |csv|
+    csv << ['foo', 0]
+    csv << ["'bar'", 1]
+    csv << ['"baz"', 2]
+  end
+  str # => "foo,0\n'bar',1\n\"\"\"baz\"\"\",2\n"
+  ary = CSV.parse(str)
+  ary # => [["foo", "0"], ["'bar'", "1"], ["\"baz\"", "2"]]
+
+Using <tt>'</tt> (single-quote):
+  quote_char = "'"
+  str = CSV.generate(quote_char: quote_char) do |csv|
+    csv << ['foo', 0]
+    csv << ["'bar'", 1]
+    csv << ['"baz"', 2]
+  end
+  str # => "foo,0\n'''bar''',1\n\"baz\",2\n"
+  ary = CSV.parse(str, quote_char: quote_char)
+  ary # => [["foo", "0"], ["'bar'", "1"], ["\"baz\"", "2"]]
+
+---
+
+Raises an exception if the \String length is greater than 1:
+  # Raises ArgumentError (:quote_char has to be nil or a single character String)
+  CSV.new('', quote_char: 'xx')
+
+Raises an exception if the value is not a \String:
+  # Raises ArgumentError (:quote_char has to be nil or a single character String)
+  CSV.new('', quote_char: :foo)

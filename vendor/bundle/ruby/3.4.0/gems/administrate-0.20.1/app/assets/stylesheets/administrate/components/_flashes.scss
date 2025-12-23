@@ -1,0 +1,20 @@
+@each $flash-type, $color in $flashes {
+  .flash-#{$flash-type} {
+    background-color: $color;
+    color: mix($black, $color, 60%);
+    display: block;
+    margin-bottom: $base-spacing * 0.5;
+    padding: $base-spacing * 0.5;
+    text-align: center;
+
+    a {
+      color: mix($black, $color, 70%);
+      text-decoration: underline;
+
+      &:focus,
+      &:hover {
+        color: mix($black, $color, 90%);
+      }
+    }
+  }
+}

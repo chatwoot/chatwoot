@@ -1,0 +1,14 @@
+====== Option +write_nil_value+
+
+Specifies the object that is to be substituted for each +nil+-valued field.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:write_nil_value) # => nil
+
+Without the option:
+  str = CSV.generate_line(['a', nil, 'c', nil])
+  str # => "a,,c,\n"
+
+With the option:
+  str = CSV.generate_line(['a', nil, 'c', nil], write_nil_value: "x")
+  str # => "a,x,c,x\n"

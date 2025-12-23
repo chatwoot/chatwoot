@@ -1,0 +1,14 @@
+pre-start script
+
+bash << "EOF"
+mkdir -p <%= log %>
+chown -R <%= user %> <%= log %>
+mkdir -p <%= run %>
+chown -R <%= user %> <%= run %>
+EOF
+
+end script
+
+start on runlevel [2345]
+
+stop on runlevel [016]

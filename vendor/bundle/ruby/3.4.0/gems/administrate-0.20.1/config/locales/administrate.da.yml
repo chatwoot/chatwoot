@@ -1,0 +1,30 @@
+---
+da:
+  administrate:
+    actions:
+      confirm: Er du sikker?
+      destroy: Slet
+      edit: Rediger
+      edit_resource: Rediger %{name}
+      show_resource: Vis %{name}
+      new_resource: Ny %{name}
+      back: Tilbage
+    controller:
+      create:
+        success: "%{resource} blev oprettet."
+      destroy:
+        success: "%{resource} er nu slettet."
+      update:
+        success: "%{resource} blev opdateret."
+    fields:
+      has_many:
+        more: "Viser %{count} af %{total_count}"
+        none: Ingen
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: Tilbage til app
+    search:
+      clear: Ryd søgning
+      label: Søg %{resource}

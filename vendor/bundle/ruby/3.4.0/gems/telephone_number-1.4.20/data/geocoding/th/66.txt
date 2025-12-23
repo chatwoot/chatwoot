@@ -1,0 +1,43 @@
+# Copyright (C) 2012 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Translated from en/66.txt by opensource contributor.
+
+6610|กรุงเทพ/นนทบุรี/ปทุมธานี/สมุทรปราการ
+6616|กรุงเทพ/นนทบุรี/ปทุมธานี/สมุทรปราการ
+6618|กรุงเทพ/นนทบุรี/ปทุมธานี/สมุทรปราการ
+6619|กรุงเทพ/นนทบุรี/ปทุมธานี/สมุทรปราการ
+662|กรุงเทพ/นนทบุรี/ปทุมธานี/สมุทรปราการ
+6632|เพชรบุรี/ประจวบคีรีขันธ์/ราชบุรี
+6633|ฉะเชิงเทรา/ชลบุรี/ระยอง
+6634|กาญจนบุรี/นครปฐม/สมุทรสาคร/สมุทรสงคราม
+6635|อ่างทอง/พระนครศรีอยุธยา/สุพรรณบุรี
+6636|ลพบุรี/สระบุรี/สิงห์บุรี
+6637|นครนายก/ปราจีนบุรี/สระแก้ว
+6638|ฉะเชิงเทรา/ชลบุรี/ระยอง
+6639|จันทบุรี/ตราด
+6642|เลย/มุกดาหาร/นครพนม/หนองคาย/สกลนคร/อุดรธานี
+6643|กาฬสินธุ์/ขอนแก่น/มหาสารคาม/ร้อยเอ็ด
+6644|บุรีรัมย์/ชัยภูมิ/นครราชสีมา/สุรินทร์
+6645|อำนาจเจริญ/ศรีสะเกษ/อุบลราชธานี/ยโสธร
+6652|เชียงใหม่/เชียงราย/ลำพูน/แม่ฮ่องสอน
+6653|เชียงใหม่/เชียงราย/ลำพูน/แม่ฮ่องสอน
+6654|ลำปาง/น่าน/พะเยา/แพร่
+6655|กำแพงเพชร/พิษณุโลก/สุโขทัย/ตาก/อุตรดิตถ์
+6656|ชัยนาท/นครสวรรค์/เพชรบูรณ์/พิจิตร/อุทัยธานี
+6673|นราธิวาส/ปัตตานี/ยะลา
+6674|พัทลุง/สตูล/สงขลา
+6675|กระบี่/นครศรีธรรมราช/ตรัง
+6676|พังงา/ภูเก็ต
+6677|ชุมพร/ระนอง/สุราษฎร์ธานี

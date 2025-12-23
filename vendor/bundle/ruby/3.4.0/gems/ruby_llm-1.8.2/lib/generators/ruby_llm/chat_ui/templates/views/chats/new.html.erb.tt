@@ -1,0 +1,11 @@
+<%% content_for :title, "New <%= chat_table_name.singularize.humanize.downcase %>" %>
+
+<h1>New <%= chat_table_name.singularize.humanize.downcase %></h1>
+
+<%%= render "form", <%= chat_variable_name %>: @<%= chat_variable_name %> %>
+
+<br>
+
+<div>
+  <%%= link_to "Back to <%= chat_table_name.humanize.downcase %>", <%= chat_table_name %>_path %>
+</div>

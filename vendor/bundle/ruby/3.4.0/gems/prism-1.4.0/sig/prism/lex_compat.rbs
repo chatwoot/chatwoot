@@ -1,0 +1,10 @@
+module Prism
+  class LexCompat
+    class Result < Prism::Result
+      attr_reader value: Array[[[Integer, Integer], Symbol, String, untyped]]
+
+      def initialize: (Array[[[Integer, Integer], Symbol, String, untyped]] value, Array[comment] comments, Array[MagicComment] magic_comments, Location? data_loc, Array[ParseError] errors, Array[ParseWarning] warnings, Source source) -> void  
+      def deconstruct_keys: (Array[Symbol]? keys) -> Hash[Symbol, untyped]
+    end
+  end
+end

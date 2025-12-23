@@ -1,0 +1,10 @@
+RUBY_VERSION:
+  - ruby:3.1
+  - ruby:3.0
+  - ruby:2.7
+  - ruby:2.6
+  - ruby:2.4
+  - jruby:9.2
+  - docker.elastic.co/observability-ci/jruby:9.2-13-jdk
+  - docker.elastic.co/observability-ci/jruby:9.2-11-jdk
+  - docker.elastic.co/observability-ci/jruby:9.2-8-jdk

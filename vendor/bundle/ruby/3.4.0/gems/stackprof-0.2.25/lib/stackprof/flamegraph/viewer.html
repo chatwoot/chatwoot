@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>flamegraph</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-size: 10pt;
+  }
+  .overview-container {
+    position: relative;
+  }
+  .overview {
+    cursor: col-resize;
+  }
+  .overview-viewport-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1;
+    height: 1;
+    background-color: rgba(0, 0, 0, 0.25);
+    transform-origin: top left;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+    cursor: grab;
+  }
+  .moving {
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+  }
+  .info {
+    display: block;
+    height: 40px;
+    margin: 3px 6px;
+    margin-right: 206px;
+    padding: 3px 6px;
+    line-height: 18px;
+  }
+  .legend {
+    display: block;
+    float: right;
+    width: 195px;
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+  .legend > div {
+    padding: 6px;
+    clear: right;
+  }
+  .legend > div span {
+    opacity: 0.75;
+    display: block;
+    text-align: right;
+  }
+  .legend > div .name {
+    max-width: 70%;
+    word-wrap: break-word;
+  }
+</style>
+<script src="flamegraph.js"></script>
+</head>
+<body>
+  <div class="legend"></div>
+  <div class="overview-container">
+    <canvas class="overview"></canvas>
+    <div class="overview-viewport-overlay"></div>
+  </div>
+  <div class="info">
+    <div style="float: right; text-align: right">
+      <div class="samples"></div>
+      <div class="exclusive"></div>
+    </div>
+    <div class="frame"></div>
+    <div class="file"></div>
+  </div>
+  <canvas class="flamegraph"></canvas>
+  <script type="text/javascript">
+    var queryDict = {}
+    location.search.substr(1).split("&").forEach(function(item) {queryDict[item.split("=")[0]] = decodeURIComponent(item.split("=")[1])})
+
+    if (queryDict.data) {
+      s = document.createElement('script')
+      s.setAttribute('src', queryDict.data)
+      document.body.appendChild(s)
+    }
+  </script>
+</body>
+</html>

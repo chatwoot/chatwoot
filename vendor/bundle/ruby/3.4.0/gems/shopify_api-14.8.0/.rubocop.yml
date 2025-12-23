@@ -1,0 +1,63 @@
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+require:
+  - rubocop-sorbet
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - "sorbet/**/*"
+    - "bin/**/*"
+    - "lib/shopify_api/rest/resources/**/*"
+    - "test/rest/**/*"
+
+Sorbet:
+  Enabled: true
+Sorbet/HasSigil:
+  Enabled: true
+  Exclude:
+    - Gemfile*
+Sorbet/StrictSigil:
+  Enabled: true
+  Exclude:
+    - Gemfile*
+    - "lib/shopify_api/auth/session.rb"
+    - Rakefile
+    - "test/**/*"
+Sorbet/TrueSigil:
+  Enabled: true
+  Exclude:
+    - Gemfile*
+    - Rakefile
+    - "test/**/*"
+Sorbet/ValidSigil:
+  Enabled: true
+Sorbet/EnforceSigilOrder:
+  Enabled: true
+Sorbet/AllowIncompatibleOverride:
+  Enabled: true
+Sorbet/CheckedTrueInSignature:
+  Enabled: true
+Sorbet/KeywordArgumentOrdering:
+  Enabled: true
+Sorbet/SignatureBuildOrder:
+  Enabled: true
+Sorbet/BindingConstantWithoutTypeAlias:
+  Enabled: true
+Sorbet/ConstantsFromStrings:
+  Enabled: true
+Sorbet/ForbidIncludeConstLiteral:
+  Enabled: true
+Sorbet/ForbidSuperclassConstLiteral:
+  Enabled: true
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: true
+Style/GlobalStdStream:
+  Enabled: true
+Style/OpenStructUse:
+  Enabled: false
+Layout/LineLength:
+  Exclude:
+    - "test/clients/*"

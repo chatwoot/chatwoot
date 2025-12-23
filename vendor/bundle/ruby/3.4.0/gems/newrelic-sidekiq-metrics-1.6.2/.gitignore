@@ -1,0 +1,15 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+/log/
+
+# rspec failure tracking
+.rspec_status
+
+# Cached rubocop config files
+.rubocop-http*

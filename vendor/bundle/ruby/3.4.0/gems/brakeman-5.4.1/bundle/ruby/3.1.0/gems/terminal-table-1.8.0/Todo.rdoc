@@ -1,0 +1,14 @@
+
+== Major:
+
+* Nothing
+
+== Minor:
+
+* Programmatically add separator rows
+* Add multi-column sorting
+* Change; pre-create Cell and Heading objects to clean up Table a bit
+
+== Brainstorming:
+
+* Nothing

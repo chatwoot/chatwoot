@@ -1,0 +1,38 @@
+module FFI
+  class Enums
+    def initialize: () -> void
+
+    def <<: (Enum enum) -> void
+    def __map_symbol: (Symbol symbol) -> Integer?
+    def find: (Symbol query) -> Enum
+  end
+
+  class Enum
+    include DataConverter[Integer, Symbol | Integer, untyped]
+
+    attr_reader native_type: Type
+    attr_reader tag: Symbol?
+    def initialize: (Enumerable[Symbol | Integer], ?Symbol? tag, *untyped) -> void
+                  | (Type native_type, Enumerable[Symbol | Integer], ?Symbol? tag, *untyped) -> void
+
+    def []: (Symbol query) -> Integer?
+          | (Integer query) -> Symbol?
+    def symbol_map: () -> Hash[Symbol, Integer]
+    alias to_h symbol_map
+    alias to_hash symbol_map
+    def symbols: () -> Array[Symbol]
+    def to_native: (Symbol | int value, untyped ctx) -> Integer
+  end
+
+  class Bitmask < Enum
+    def initialize: ...
+
+    def []: (*Symbol query) -> Integer
+          | (Array[Symbol] query) -> Integer
+          | (*Integer query) -> Array[Symbol]
+          | (Array[Integer] query) -> Array[Symbol]
+    def from_native: (Integer, untyped ctx) -> Array[Symbol | Integer]
+    def to_native: (Array[Symbol | int] value, untyped ctx) -> Integer
+                 | ...
+  end
+end

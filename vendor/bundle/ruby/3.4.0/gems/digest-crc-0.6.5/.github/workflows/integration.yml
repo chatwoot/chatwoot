@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  push:
+    tags: [ 'v0.*' ]
+  pull_request:
+    paths: [ 'ext/**' ]
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    name: Integration Testing
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Docker
+        uses: docker-practice/actions-setup-docker@master
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+      - name: Run integration tests
+        run: bundle exec rake spec:integration

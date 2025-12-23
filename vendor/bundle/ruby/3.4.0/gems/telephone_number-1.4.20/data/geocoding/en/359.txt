@@ -1,0 +1,2127 @@
+# Copyright (C) 2012 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# Transliterated from bg/359.txt, except where a name in English exists.
+
+3592|Sofia
+359301|Smolyan
+3593019|Pisanitsa
+3593020|Davidkovo
+35930200|Zagrazhden, Smol.
+35930205|Starnitsa
+3593022|Vievo
+3593023|Momchilovtsi
+3593024|Taran
+3593025|Banite
+35930256|Galabovo, Smol.
+35930257|Vishnevo
+3593026|Smilyan
+3593027|Slaveyno
+3593028|Arda
+3593029|Petkovo, Smol.
+3593030|Shiroka laka
+3593032|Srednogortsi
+3593034|Levochevo
+3593035|Varbina
+3593036|Mogilitsa
+3593037|Sivino
+3593038|Chokmanovo
+3593039|Polkovnik Serafimovo
+3593040|Trigrad
+35930410|Breze, Smol.
+35930411|Devin
+35930412|Devin
+35930413|Devin
+35930414|Devin
+35930415|Devin
+35930416|Gyovren
+35930417|Grohotno
+35930418|Buynovo, Smol.
+35930419|Yagodina
+3593042|Borino
+3593043|Zmeitsa
+3593044|Lyaskovo, Smol.
+3593045|Dospat
+35930456|Chavdar, Smol.
+35930457|Kasak
+35930458|Lyubcha
+35930459|Brashten
+3593046|Barutin
+35930472|Mihalkovo
+35930475|Stomanevo
+35930476|Selcha
+3593049|Beden
+3593050|Bukova polyana
+3593051|Chepelare
+35930517|Zabardo
+3593052|Laki, Plovdiv
+35930528|Manastir, Plovdiv
+3593053|Hvoyna
+3593054|Podvis, Smol.
+3593055|Elhovets
+3593056|Chepintsi, Smol.
+3593057|Plovdivtsi
+3593058|Mugla
+3593059|Kutela
+359306|Rudozem
+3593071|Zlatograd
+3593072|Nedelino
+3593073|Startsevo
+3593074|Erma reka
+3593075|Dolen, Smol.
+3593076|Tsatsarovtsi
+3593077|Sredets, Smol.
+3593079|Kozarka
+359308|Madan, Smol.
+359309|Pamporovo
+3593100|Belashtitsa
+3593101|Voyvodinovo
+3593102|Karadzhovo
+3593103|Milevo
+3593104|Yagodovo, Plovdiv
+3593105|Manolsko Konare
+3593106|Stroevo
+3593107|Graf Ignatievo
+3593108|Boykovo
+3593109|Lilkovo
+3593110|Popovitsa
+35931108|Bogdanitsa
+3593111|Parvenets, Plovdiv
+3593112|Markovo, Plovdiv
+3593113|Branipole
+3593114|Brestnik
+3593115|Kuklen
+3593116|Krumovo, Plovdiv
+3593117|Katunitsa
+3593118|Sadovo, Plovdiv
+3593119|Galabovo, Plovdiv
+3593120|Hrabrino
+3593121|Rogosh
+3593122|Manole
+3593123|Kaloyanovo, Plovdiv
+3593124|Kalekovets
+3593125|Razhevo Konare
+35931258|Glavatar
+3593126|Trud
+3593127|Tsaratsovo
+3593128|Zlatitrap
+3593129|Skutare
+3593130|Karavelovo, Plovdiv
+35931308|Bogdan, Plovdiv
+35931309|Kliment, Plovdiv
+3593132|Banya, Plovdiv
+35931324|Mrachenik
+3593133|Kalofer
+3593134|Sopot, Plovdiv
+3593135|Karnare
+3593136|Rozino, Plovdiv
+3593137|Klisura, Plovdiv
+3593138|Vedrare
+35931387|Prolom
+35931388|Beguntsi
+35931390|Moskovets
+35931392|Dabene
+35931393|Voynyagovo
+35931394|Vasil Levski, Plovdiv
+35931395|Iganovo
+35931396|Domlyan
+35931397|Hristo Danovo
+35931398|Slatina, Plovdiv
+35931401|Kadievo
+35931402|Skobelevo, Plovdiv
+35931403|Trivoditsi
+3593142|Brestovitsa, Plovdiv
+3593143|Perushtitsa
+3593145|Krichim
+3593146|Kurtovo Konare
+3593147|Novo selo, Plovdiv
+3593148|Yoakim Gruevo
+3593149|Tsalapitsa
+3593151|Rakovski, Plovdiv
+3593153|Stryama
+3593154|Chalakovi
+3593155|Momino selo
+3593156|Shishmantsi
+3593157|Bolyarino
+3593159|Belozem
+35931602|Tatarevo, Plovdiv
+35931603|Vinitsa
+35931604|Dragoynovo
+35931605|Bukovo, Plovdiv
+35931606|Voden, Plovdiv
+3593162|Gradina, Plovdiv
+35931620|Dobri dol, Plovdiv
+35931627|Krushevo, Plovdiv
+3593163|Iskra, Plovdiv
+3593164|Dalbok izvor
+3593165|Karadzhalovo
+3593166|Byala reka, Plovdiv
+3593167|Bryagovo, Plovdiv
+3593168|Ezerovo, Plovdiv
+35931700|Belovitsa
+35931701|Krastevich
+35931702|Dolna mahala, Plovdiv
+35931703|Zhitnitsa, Plovdiv
+35931704|Ivan Vazovo
+35931705|Gorna mahala
+35931706|Suhozem
+35931707|Chernozemen
+35931708|Pesnopoy, Plovdiv
+35931709|Mihiltsi
+3593173|Panicheri
+3593174|Staro Zhelezare
+3593175|Dalgo pole, Plovdiv
+3593176|Starosel
+3593177|Novo Zhelezare
+3593178|Krasnovo
+35931791|Begovo
+35931792|Chernichevo, Plovdiv
+359318|Saedinenie, Plovdiv
+3593190|Varben, Plovdiv
+3593191|Brezovo, Plovdiv
+3593192|Babek
+3593193|Borets
+3593194|Zelenikovo, Plovdiv
+3593195|Rozovets
+3593196|Drangovo, Plovdiv
+3593197|Tyurkmen
+3593198|Chehlare
+35931992|Padarsko
+35931993|Sarnegor
+35931995|Streltsi, Plovdiv
+35931996|Svezhen
+35931997|Zlatosel
+35931998|Choba
+35932|Plovdiv
+359331|Asenovgrad
+3593320|Oreshets, Plovdiv
+3593321|Topolovo, Plovdiv
+3593322|Zlatovrah
+3593323|Bolyartsi, Plovdiv
+3593324|Izbeglii
+3593325|Cherven, Plovdiv
+3593326|Patriarh Evtimovo
+3593327|Bachkovo
+3593328|Dolnoslav
+3593340|Novi izvor
+3593341|Konush, Plovdiv
+3593342|Narechenski bani
+3593343|Kozanovo
+3593344|Novakovo, Plovdiv
+3593345|Lyaskovo, Plovdiv
+3593346|Muldava
+3593347|Lenovo
+3593348|Dobralak
+3593349|Boyantsi
+359335|Karlovo
+359336|Parvomay, Plovdiv
+359337|Hisarya
+359339|Stamboliyski, Plovdiv
+35934|Pazardzhik
+359350|Peshtera, Pazardzhik
+3593510|Ovchepoltsi
+3593511|Ognyanovo, Pazardzhik
+3593512|Hadzhievo
+3593513|Malo Konare
+3593514|Chernogorovo, Pazardzhik
+3593515|Kalugerovo, Pazardzhik
+3593516|Tsrancha, Pazardzhik
+3593517|Lesichovo
+3593518|Dragor
+3593519|Velichkovo, Pazardzhik
+3593520|Miryantsi
+3593521|Zvanichevo
+3593522|Gelemenovo
+3593523|Sinitevo
+3593524|Apriltsi, Pazardzhik
+35935251|Bratanitsa
+35935252|Topoli dol
+35935254|Dobrovnitsa
+35935255|Rosen, Pazardzhik
+35935256|Sbor, Pazardzhik
+35935257|Saraya
+35935258|Tsar Asen, Pazardzhik
+3593526|Dinkata
+3593527|Aleko Konstantinovo
+3593528|Govedare
+3593529|Mokrishte
+3593530|Poibrene
+3593532|Strelcha
+3593533|Bata
+3593534|Popintsi
+3593535|Levski, Pazardzhik
+3593536|Banya, Pazardzhik
+3593537|Panagyurski kolonii
+3593538|Elshitsa
+35935391|Blatnitsa
+35935392|Dyulevo, Pazardzhik
+35935393|Smilets, Pazardzhik
+35935394|Oborishte, Pazardzhik
+35935418|Krastava
+35935419|Sveta Petka
+3593542|Rakitovo
+3593543|Dorkovo
+3593544|Kostandovo
+3593545|Draginovo
+3593547|Sarnitsa, Pazardzhik
+3593548|Pashovo
+3593549|Grashevo
+35935501|Ravnogor
+35935502|Fotinovo, Pazardzhik
+3593552|Bratsigovo
+3593553|Batak, Pazardzhik
+3593554|Kozarsko
+3593555|Nova mahala, Pazardzhik
+3593556|Radilovo
+3593557|Byaga
+3593558|Isperihovo
+3593559|Kapitan Dimitrievo
+3593561|Septemvri
+3593562|Slavovitsa, Pazardzhik
+3593563|Varvara, Pazardzhik
+3593564|Semchinovo
+3593566|Boshulya
+3593567|Kovachevo, Pazardzhik
+3593568|Vinogradets
+3593569|Karabunar
+359357|Panagyurishte
+3593581|Belovo
+3593582|Momina klisura
+3593583|Gabrovitsa
+3593584|Vetren, Pazardzhik
+3593585|Akandzhievo
+3593586|Borimechkovo
+3593587|Sestrimo
+3593588|Menenkyovo
+3593589|Tserovo, Pazardzhik
+359359|Velingrad
+359361|Kardzhali
+3593622|Stremtsi
+3593623|Boyno
+3593624|Chiflik, Kardzh.
+3593625|Shiroko pole
+3593626|Perperek
+3593628|Miladinovo
+3593629|Most
+3593631|Momchilgrad
+3593632|Dzhebel
+3593633|Rogozche
+3593634|Pripek, Kardzh.
+3593636|Raven
+3593637|Gruevo
+3593638|Zvezdel
+3593639|Nanovitsa, Kardzh.
+35936401|Strandzhevo
+35936402|Gorna kula
+3593641|Krumovgrad
+3593642|Potochnitsa
+3593643|Golyama Chinka
+3593644|Egrek
+3593645|Avren, Kardzh.
+3593646|Tokachka
+3593647|Chernichevo, Kardzh.
+3593648|Golyamo Kamenyane
+3593651|Ardino
+3593652|Byal izvor, Kardzh.
+3593653|Mlechino
+3593657|Zhaltusha
+3593658|Padina, Kardzh.
+3593661|Ivaylovgrad
+3593662|Zhelezino
+3593664|Plevun
+3593665|Svirachi
+3593666|Popsko
+3593667|Pokrovan
+35936700|Shoptsi
+35936702|Gorski izvor, Kardzh.
+3593671|Podkova
+3593672|Chorbadzhiysko
+3593673|Tihomir
+3593674|Samodiva
+3593675|Fotinovo, Kardzh.
+3593676|Benkovski, Kardzh.
+3593677|Drangovo, Kardzh.
+3593678|Chakalarovo
+3593679|Kirkovo
+3593691|Chernoochene
+3593693|Lyaskovo, Kardzh.
+3593695|Komuniga
+3593696|Pchelarovo, Kardzh.
+3593699|Gabrovo, Kardzh.
+3593700|Trakiets
+3593701|Elena, Hask.
+3593702|Tsareva polyana
+3593703|Zhalti bryag
+3593704|Bryagovo, Hask.
+3593705|Vaglarovo
+3593706|Tankovo, Hask.
+3593707|Nikolovo, Hask.
+3593708|Orlovo, Hask.
+3593709|Karamantsi
+3593710|Uzundzhovo
+3593711|Dolno Botevo
+3593712|Malevo, Hask.
+3593713|Dinevo
+3593717|Konush, Hask.
+3593718|Voyvodovo, Hask.
+3593719|Knizhovnik
+3593720|Madzharovo
+3593721|Stambolovo, Hask.
+3593722|Mineralni bani, Hask.
+3593724|Susam
+3593725|Stamboliyski, Hask.
+3593726|Klokotnitsa
+3593727|Nova Nadezhda
+3593728|Slavyanovo, Hask.
+3593729|Krivo pole
+359373|Harmanli
+3593740|Pchelari
+3593741|Mandra
+35937420|Podkrepa
+35937421|Dolno pole
+35937422|Dolni Glavanak
+35937423|Golemantsi
+35937424|Kozlets
+3593743|Silen
+3593744|Sarnitsa, Hask.
+3593745|Malak izvor, Hask.
+3593746|Sirakovo, Hask.
+3593747|Tatarevo, Hask.
+3593748|Lyaskovets, Hask.
+3593749|Garvanovo
+3593751|Lyubimets
+3593752|Malko gradishte
+3593753|Oryahovo, Hask.
+3593754|Lozen, Hask.
+3593755|Belitsa, Hask.
+3593756|Valche pole
+3593757|Georgi Dobrevo
+3593758|Yerusalimovo
+3593759|Borislavtsi
+35937602|Cherna mogila, Hask.
+35937603|Rogozinovo
+35937604|Varbovo, Hask.
+35937606|Shishmanovo
+3593762|Izvorovo, Hask.
+3593763|Balgarin
+3593764|Polyanovo, Hask.
+3593765|Ivanovo, Hask.
+3593766|Biser
+3593767|Branitsa
+3593768|Dositeevo
+3593769|Oreshets, Hask.
+35937701|Sladun
+35937702|Mustrak
+35937703|Dimitrovche
+35937704|Mladinovo
+35937705|Pastrogor
+35937706|Chernodab
+35937707|Shtit
+3593772|Momkovo
+3593773|Kapitan Andreevo
+3593774|Levka
+3593775|Generalovo
+3593776|Raykova mogila
+3593777|Mezek
+3593778|Studena, Hask.
+3593779|Siva reka
+3593781|Simeonovgrad
+3593782|Kalugerovo, Hask.
+3593783|Svirkovo
+3593784|Konstantinovo, Hask.
+3593785|Dryanovo, Hask.
+3593786|Navasen
+3593787|Tyanevo, Hask.
+359379|Svilengrad
+35938|Haskovo
+359391|Dimitrovgrad
+3593920|Zlatopole
+3593921|Merichleri
+3593922|Brod
+3593923|Radievo
+3593924|Krepost
+3593925|Krum
+3593926|Dobrich, Hask.
+3593927|Chernogorovo, Hask.
+3593928|Dolno Belevo
+3593929|Golyamo Asenovo
+3593931|Kasnakovo
+3593932|Bodrovo
+3593933|Stransko
+3593934|Skobelevo, Hask.
+3593935|Varbitsa, Hask.
+3593936|Gorski izvor, Hask.
+3593937|Yabalkovo, Hask.
+3594100|Stoletovo, St. Zagora
+3594101|Opan
+35941018|Knyazhevsko
+35941019|Venets, St. Zagora
+3594102|Yastrebovo, St. Zagora
+3594103|Byal izvor, St. Zagora
+3594104|Kravino
+3594105|Byalo pole
+3594106|Pastren
+3594107|Sredets, St. Zagora
+3594108|Vasil Levski, St. Zagora
+3594109|Trakia
+35941110|Starozagorski bani
+35941111|Starozagorski bani
+35941112|Starozagorski bani
+35941113|Pryaporets, St. Zagora
+35941114|Lozen, St. Zagora
+35941115|Borilovo
+35941116|Sladak Kladenets
+35941117|Kazanka
+35941118|Ostra mogila, St. Zagora
+35941119|Elhovo, St. Zagora
+3594112|Badeshte
+3594113|Preslaven
+35941144|Kaloyanovets
+35941145|Arnautito
+35941146|Hristianovo
+35941149|Lovets, St. Zagora
+3594115|Kirilovo, St. Zagora
+3594116|Rakitnitsa, St. Zagora
+35941171|Dalboki
+35941172|Gorno Botevo
+35941173|Bratya Kunchevi
+35941174|Podslon, St. Zagora
+35941175|Kolena
+35941178|Oryahovitsa, St. Zagora
+35941179|Han Asparuhovo
+3594118|Pamukchii, St. Zagora
+3594121|Lyulyak
+3594122|Elenino
+3594123|Bogomilovo
+3594124|Zmeyovo
+3594125|Mihaylovo, St. Zagora
+3594126|Hrishteni
+35941270|Malka Vereya
+35941274|Samuilovo, St. Zagora
+35941275|Lyaskovo, St. Zagora
+35941276|Mogila, St. Zagora
+35941277|Zagore
+35941279|Strelets, St. Zagora
+3594129|Madzherito
+3594130|Spasovo, St. Zagora
+3594132|Orizovo
+35941330|Tsenovo, St. Zagora
+35941331|Granit
+35941332|Naydenovo
+35941333|Sredno gradishte
+35941334|Saedinenie, St. Zagora
+35941335|Mogilovo
+35941336|Yazdach
+35941337|Sarnevets
+35941338|Tselina
+35941339|Dimitrievo
+3594134|Bratya Daskalovi
+35941350|Mirovo, St. Zagora
+35941351|Partizanin
+35941352|Vinarovo, St. Zagora
+35941353|Plodovitovo
+35941354|Malko Tranovo
+35941355|Yavorovo
+35941356|Rupkite
+35941357|Zetyovo, St. Zagora
+35941358|Opalchenets
+35941359|Izvorovo, St. Zagora
+3594136|Cherna gora, St. Zagora
+3594137|Veren
+3594138|Gita
+3594139|Svoboda, St. Zagora
+3594140|Polski Gradets
+3594142|Troyanovo, St. Zagora
+3594143|Sarnevo, St. Zagora
+3594144|Kovachevo, St. Zagora
+3594145|Znamenosets
+3594146|Dinya
+3594147|Lyubenovo, St. Zagora
+35941480|Kolarovo, St. Zagora
+35941484|Zemlen
+35941489|Bozduganovo
+3594149|Trankovo, St. Zagora
+3594152|Obruchishte
+3594153|Madrets, St. Zagora
+3594154|Mednikarovo
+3594155|Glavan, St. Zagora
+3594156|Aprilovo, St. Zagora
+3594157|Razdelna, St. Zagora
+3594158|Iskritsa
+359416|Chirpan
+359417|Radnevo
+359418|Galabovo, St. Zagora
+35942|Stara Zagora
+359431|Kazanlak
+3594321|Maglizh
+3594322|Yagoda
+3594323|Tulovo
+3594324|Shipka
+3594325|Kanchevo
+3594326|Enina
+3594327|Sheynovo
+3594329|Dolno Sahrane
+3594330|Nikolaevo, St. Zagora
+3594331|Gurkovo, St. Zagora
+3594332|Vetren, St. Zagora
+3594333|Dabovo, St. Zagora
+3594334|Elhovo, St. Zagora, mun. Nikolaevo
+3594335|Razhena
+3594336|Dolno Izvorovo
+3594337|Yasenovo, St. Zagora
+3594338|Kran
+3594339|Yulievo
+3594340|Panicherevo
+3594341|Cherganovo
+3594342|Ovoshtnik
+3594343|Konare, St. Zagora
+3594344|Shanovo
+3594345|Raduntsi
+3594346|Golyamo Dryanovo
+3594347|Rozovo, St. Zagora
+3594348|Dunavtsi, St. Zagora
+3594350|Gorno Izvorovo
+3594351|Koprinka
+3594352|Gorno Cherkovishte
+3594353|Srednogorovo
+3594354|Zimnitsa, St. Zagora
+3594355|Buzovgrad
+3594356|Hadzhidimitrovo, St. Zagora
+3594357|Gorno Sahrane
+3594358|Skobelevo, St. Zagora
+3594359|Asen, St. Zagora
+3594361|Pavel banya
+35943616|Turia
+3594362|Manolovo
+3594363|Gabarevo
+3594364|Osetenovo
+3594367|Tazha
+3594368|Tarnicheni
+3594369|Aleksandrovo, St. Zagora
+35944|Sliven
+3594510|Zhelyu voyvoda
+3594511|Slivenski mineralni bani
+3594512|Blatets, Sliven
+3594513|Gavrailovoc
+3594514|Krushare
+3594515|Mokren
+3594516|Kermen
+3594517|Ichera
+3594518|Topolchane
+3594519|Samuilovo, Sliven
+3594520|Konyovo
+3594522|Korten
+3594523|Stoil voyvoda
+3594524|Kamenovo, Sliven
+3594525|Omarchevo, Sliven
+3594526|Mlekarevo
+3594527|Zagortsi, Sliven
+3594528|Lyubenova mahala
+3594529|Sadievo, Sliven
+359453|Kotel
+359454|Tvarditsa, Sliven
+3594551|Byala, Sliven
+3594552|Stara reka, Sliven
+3594553|Rakovo, Sliven
+3594554|Trapoklovo
+3594556|Sotirya
+3594557|Bikovo
+3594562|Kriva krusha
+3594564|Novoselets
+3594566|Pitovo
+3594567|Banya, Sliven
+359457|Nova Zagora
+3594580|Borintsi
+3594582|Gradets, Sliven
+3594583|Kipilovo
+3594584|Ticha
+3594585|Zheravna
+3594586|Neykovo, Sliven
+3594587|Yablanovo
+3594588|Filaretovo
+3594592|Byala palanka
+3594593|Shivachevo
+3594595|Sborishte
+3594597|Borov dol
+3594599|Chervenakovo
+35946|Yambol
+359470|Topolovgrad
+3594710|Bolyarsko
+3594711|Bezmer, Yambol
+3594712|Kabile
+3594713|Stara reka, Yambol
+3594714|Drazhevo
+3594715|Kalchevo
+3594716|Veselinovo, Yambol
+3594717|Chargan
+3594718|Roza
+35947192|Zavoy
+35947193|Mogila, Yambol
+35947201|Izgrev, Yambol
+35947202|Zhrebino
+35947203|Trankovo, Yambol
+35947204|Pchela
+3594722|Granitovo, Yambol
+3594723|Boyanovo, Yambol
+3594724|Razdel, Yambol
+3594725|Lesovo
+3594726|Malomirovo
+3594727|Malak manastir
+3594728|Melnitsa
+3594729|Kirilovo, Yambol
+3594730|Knyazhevo
+3594732|Ustrem
+3594733|Orlov dol
+3594734|Srem
+35947353|Balgarska polyana
+35947354|Kamenna reka
+35947356|Mramor, Yambol
+3594736|Svetlina
+3594737|Sinapovo
+3594738|Hlyabovo
+3594739|Radovets
+3594741|Bolyarovo
+3594742|Stefan Karadzhovo
+3594743|Mamarchevo
+3594744|Golyamo Krushevo
+3594745|Sharkovo
+3594746|Popovo, Yambol
+3594747|Dennitsa, Yambol
+3594748|Voden, Yambol
+3594749|Ruzhitsa, Yambol
+3594751|Voynika
+3594752|Parvenets, Yambol
+3594753|Zornitsa, Yambol
+3594754|Kamenets, Yambol
+3594755|Tamarino
+3594756|Polyana, Yambol
+3594757|Nedyalsko
+3594761|Straldzha
+3594762|Vodenichane
+3594763|Irechekovo
+3594764|Malenovo
+3594768|Zimnitsa, Yambol
+3594770|General Inzovo
+3594771|Malomir, Yambol
+3594772|Simeonovo, Yambol
+3594773|Okop
+3594774|Krumovo, Yambol
+3594775|Karavelovo, Yambol
+3594777|Tenevo
+3594778|Pobeda, Yambol
+3594779|Hanovo
+359478|Elhovo, Yambol
+3594792|Botevo, Yambol
+3594793|Boyadzhik
+3594794|Ovchi kladenets
+3594795|Skalitsa
+3594796|General Toshevo, Yambol
+3594797|Galabintsi
+3594798|Savino
+3594799|Golyam manastir
+3595100|Sindel
+3595101|Dabravino
+3595102|Padina, Varna
+3595105|Priseltsi, Varna
+3595106|Avren, Varna
+3595108|Sadovo, Varna
+35951103|Lyuben Karavelovo
+35951104|Dolishte, Varna
+35951106|Osenovo, Varna
+35951108|Izvorsko
+3595112|Beloslav
+35951125|Konstantinovo, Varna
+35951127|Razdelna, Varna
+3595114|Ezerovo, Varna
+3595115|General Kantardzhievo
+3595116|Krumovo, Varna
+3595117|Botevo, Varna
+3595118|Voditsa, Varna
+3595119|Ignatievo
+3595120|Bozveliysko
+3595121|Tutrakantsi
+3595122|Slaveykovo, Varna
+3595123|Ravna, Varna
+3595124|Komarevo, Varna
+3595125|Gradinarovo
+3595126|Cherkovna, Varna
+3595127|Manastir, Varna
+3595128|Zhitnitsa, Varna
+3595129|Blaskovo
+3595130|General Kiselovo
+3595131|Valchi dol
+35951314|Voyvodino
+3595132|Mihalich, Varna
+3595133|General Kolevo, Varna
+3595134|Cherventsi
+3595135|Stefan Karadzha, Varna
+3595136|Brestak
+3595137|Kaloyan
+3595138|Dobrotich
+3595139|Oborishte, Varna
+3595140|Shkorpilovtsi
+3595141|Staro Oryahovo
+3595142|Dolni chiflik
+35951428|Gospodinovo, Varna
+35951429|Solnik
+3595143|Byala, Varna
+3595144|Kamchia
+3595145|Grozdyovo
+3595146|Goren chiflik
+3595147|Pchelnik, Varna
+3595148|Rudnik, Varna
+3595149|Golitsa
+3595153|Suvorovo
+35951536|Nikolaevka
+35951537|Chernevo
+35951538|Izgrev, Varna
+35951539|Levski, Varna
+3595161|Vetrino
+3595162|Belogradets
+3595163|Mlada gvardia
+3595164|Neofit Rilski
+3595165|Nevsha
+3595166|Dobroplodno
+3595167|Venchan
+3595168|Petrov dol, Varna
+3595169|Momchilovo
+359517|Dalgopol
+359518|Provadia
+359519|Devnya
+35952|Varna
+3595310|Radko Dimitrievo
+3595311|Gradishte, Shumen
+3595312|Dibich
+3595313|Madara
+3595314|Belokopitovo
+3595315|Tsarev brod
+3595316|Salmanovo
+3595317|Ivanski
+3595318|Srednya
+3595319|Drumevo
+3595320|Pet mogili, Shumen
+3595321|Praventsi
+35953220|Pamukchii, Shumen
+35953221|Stoyan Mihaylovski
+35953222|Markovo, Shumen
+35953223|Tsarkvitsa
+3595323|Pliska
+35953234|Zlatna niva
+3595324|Harsovo, Shumen
+3595325|Voyvoda
+3595326|Varbyane
+3595327|Kaspichan, Shumen
+3595328|Nikola Kozlevo
+3595329|Mirovtsi
+3595330|Zlatar
+3595332|Dragoevo
+3595333|Han Krum
+3595334|Osmar
+3595335|Milanovo, Shumen
+3595336|Imrenchevo
+3595337|Kochovo
+3595338|Troitsa
+3595340|Visoka polyana, Shumen
+3595341|Hitrino
+3595342|Kapitan Petko
+3595343|Venets, Shumen
+35953434|Yasenkovo
+35953435|Izgrev, Shumen
+35953436|Chernoglavtsi
+35953437|Gabritsa, Shumen
+3595344|Velino
+3595345|Razvigorovo
+3595346|Kamenyak, Shumen
+3595347|Zhivkovo, Shumen
+3595348|Trem
+3595349|Studenitsa
+3595351|Smyadovo
+3595352|Yankovo
+3595353|Veselinovo, Shumen
+3595354|Rish
+3595361|Kaolinovo
+3595362|Kliment, Shumen
+3595363|Gusla
+3595365|Lyatno
+3595366|Branichevo
+3595367|Todor Ikonomovo
+3595368|Takach
+359537|Novi pazar, Shumen
+359538|Veliki Preslav
+3595391|Varbitsa, Shumen
+3595392|Mengishevo
+3595393|Ivanovo, Shumen
+3595394|Byala reka, Shumen
+3595395|Chernookovo, Shumen
+3595396|Lovets, Shumen
+3595397|Metodievo, Shumen
+35954|Shumen
+359550|Sozopol
+3595511|Lukoil Neftochim
+3595513|Gabar
+3595515|Kameno
+3595516|Indzhe voyvoda
+3595517|Ravnets, Burgas
+3595518|Rudnik, Burgas
+3595519|Zidarovo
+3595520|Cherkovo
+3595521|Venets, Burgas
+3595522|Iskra, Burgas
+3595523|Krumovo gradishte
+3595524|Ekzarh Antimovo
+3595525|Devetak
+3595526|Klikach
+3595527|Sokolovo, Burgas
+3595528|Nevestino, Burgas
+3595529|Krushovo, Burgas
+3595530|Peshtersko
+3595532|Topolitsa
+3595533|Pirne
+3595534|Karageorgievo
+3595535|Lyaskovo, Burgas
+3595536|Maglen
+3595537|Sadievo, Burgas
+3595538|Karanovo, Burgas
+3595539|Chernograd
+359554|Sunny Beach
+35955502|Suhodol, Burgas
+35955504|Bogdanovo, Burgas
+35955505|Drachevo
+3595551|Sredets, Burgas
+3595552|Dyulevo, Burgas
+3595553|Orlintsi
+3595554|Momina tsarkva
+3595555|Fakia
+3595556|Golyamo Bukovo
+3595557|Bistrets, Burgas
+3595558|Debelt
+3595559|Kubadin
+359556|Obzor
+3595570|Manolich
+3595571|Sungurlare
+3595572|Beronovo
+3595573|Vezenkovo
+3595574|Saedinenie, Burgas
+3595575|Prilep, Burgas
+3595576|Lozarevo
+3595577|Podvis, Burgas
+3595578|Terziysko, Burgas
+3595579|Vedrovo
+359558|Aytos
+3595580|Troyanovo, Burgas
+3595589|Vinarsko
+359559|Karnobat
+3595590|Zhitosvyat
+3595599|Hadzhiite
+35956|Burgas
+359570|Kavarna
+3595710|Pobeda, Dobr.
+3595711|Ovcharovo, Dobr.
+3595712|Stozher
+3595713|Stefanovo, Dobr.
+3595714|Karapelit
+3595715|Popgrigorovo
+3595716|Paskalevo
+3595717|Vedrina
+3595718|Smolnitsa
+3595719|Donchevo
+3595723|Gurkovo, Dobr.
+3595724|Dropla, Dobr.
+3595726|Tsarichino
+3595727|Senokos, Dobr.
+35957304|Dabovik
+35957305|Rositsa, Dobr.
+35957306|Izvorovo, Dobr.
+35957307|Zhiten, Dobr.
+35957308|Chernookovo, Dobr.
+3595731|General Toshevo, Dobr.
+3595732|Petleshkovo
+3595733|Kardam, Dobr.
+3595734|Preselentsi
+3595735|Krasen, Dobr.
+3595736|Vasilevo
+3595737|Lyulyakovo, Dobr.
+3595738|Spasovo, Dobr.
+3595739|Pchelarovo, Dobr.
+3595740|Gorichane
+3595742|Rakovski, Dobr.
+3595743|Shabla
+3595745|Vranino
+3595746|Belgun
+3595747|Vaklino
+3595748|Durankulak
+3595749|Krapets, Dobr.
+3595750|Kableshkovo, Dobr.
+3595751|Tervel, Dobr.
+3595752|Nova Kamena
+3595753|Orlyak
+3595754|Zarnevo
+3595755|Kolartsi
+3595756|Bozhan
+3595757|Bezmer, Dobr.
+3595758|Kladentsi
+3595759|Kochmar
+3595760|Bozhurovo, Dobr.
+3595761|Batovo
+3595762|Stefan Karadzha, Dobr.
+3595763|Plachidol
+3595764|Vladimirovo, Dobr.
+3595765|Lovchantsi
+3595766|Metodievo, Dobr.
+3595767|Zhitnitsa, Dobr.
+3595768|Odrintsi, Dobr.
+3595769|Hitovo
+3595771|Krushari
+3595772|Telerig
+3595773|Lozenets, Dobr.
+3595774|Koriten
+3595775|Polkovnik Dyakovo
+3595776|Cherna, Dobr.
+3595781|Svoboda, Dobr.
+3595782|Benkovski, Dobr.
+3595783|Kotlentsi
+3595784|Vrachantsi
+359579|Albena
+35958|Dobrich
+359590|Tsarevo
+3595910|Cherni vrah, Burgas
+3595912|Polski izvor
+3595913|Krushevets
+3595914|Atia
+3595915|Balgarovo
+3595916|Rosen, Burgas
+3595917|Izvor, Burgas
+3595918|Rusokastro
+3595919|Marinka
+35959400|Daskotna
+35959403|Rechitsa
+35959404|Yasenovo, Burgas
+35959405|Zaychar
+35959406|Razboyna, Burgas
+35959407|Sini rid
+35959408|Razhitsa
+35959409|Cheresha
+3595941|Skalak, Burgas
+3595942|Lyulyakovo, Burgas
+3595943|Vresovo
+3595944|Ruen, Burgas
+3595945|Dobromir
+3595946|Tranak
+3595947|Prosenik
+3595948|Snyagovo, Burgas
+3595949|Planinitsa, Burgas
+3595952|Malko Tarnovo
+3595958|Gramatikovo
+3595959|Zvezdets
+359596|Pomorie
+3595967|Bata
+3595968|Kableshkovo, Burgas
+3595969|Galabets, Burgas
+35959694|Gaberovo
+3596001|Cherkovna, Targ.
+3596002|Saedinenie, Targ.
+3596003|Preselets
+3596004|Makovo
+3596006|Presian
+3596007|Ralitsa
+359601|Targovishte
+3596020|Lilyak
+3596021|Buhovtsi
+3596022|Probuda, Targ.
+3596023|Podgoritsa
+3596024|Ruets
+3596025|Alvanovo
+3596026|Makariopolsko
+3596027|Dralfa
+3596028|Vardun
+3596029|Nadarevo
+3596030|Svetlen, Targ.
+3596032|Zaraevo
+3596033|Medovina
+3596034|Slavyanovo, Targ.
+3596035|Palamartsa
+3596036|Sadina
+35960370|Golyamo gradishte
+35960372|Krepcha
+35960373|Posabina
+35960374|Gorsko Ablanovo
+35960375|Garchinovo
+35960376|Lyublen
+35960377|Aprilovo, Targ.
+35960378|Tsar Asen, Targ.
+35960380|Drinovo
+35960382|Kovachevets
+35960383|Berkovski
+35960384|Gagovo
+35960385|Lomtsi
+35960386|Voditsa, Targ.
+35960387|Gloginka
+35960388|Goritsa, Targ.
+35960389|Kardam, Targ.
+3596039|Opaka
+3596042|Iliyno
+3596043|Dolno Novkovo
+3596044|Dolno Kozarevo
+35960450|Dolna Hubavka
+35960451|Obitel
+35960453|Moravka
+35960454|Zmeyno
+35960458|Verentsi
+3596046|Vrani kon
+3596047|Zelena morava
+3596048|Izvorovo, Targ.
+3596049|Kamburovo
+359605|Omurtag
+3596060|Ovcharovo, Targ.
+3596061|Golyamo Sokolovo
+3596062|Strazha, Targ.
+3596063|Bayachevo
+3596064|Golyamo Novo
+3596065|Bistra, Targ.
+3596066|Buynovo, Targ.
+3596067|Kralevo, Targ.
+3596068|Bozhurka
+3596069|Vasil Levski, Targ.
+3596071|Antonovo
+3596072|Dobrotitsa, Targ.
+3596074|Lyubichevo
+3596076|Taymishte
+3596077|Stevrek
+359608|Popovo, Targ.
+359610|Pavlikeni, V. Tarnovo
+35961101|Velchevo, V. Tarnovo
+35961102|Pchelishte
+35961103|Rusalya
+35961104|Vodoley
+35961105|Prisovo
+35961106|Novo selo, V. Tarnovo
+35961107|Momin sbor
+35961108|Plakovo
+35961109|Vaglevtsi
+3596111|Kapinovo, V. Tarnovo
+3596112|Samovodene
+3596113|Balvan
+3596114|Kilifarevo
+3596115|Resen
+3596116|Golemanite
+3596117|Debelets, V. Tarnovo
+3596118|Voneshta voda
+3596119|Dichin
+35961203|Emen
+3596121|Nikyup
+3596122|Belyakovets
+3596123|Bukovets, V. Tarnovo
+3596124|Ledenik
+3596125|Pushevo
+3596126|Tserova koria
+3596128|Hotnitsa
+3596129|Gabrovtsi
+35961301|Byala reka, V. Tarnovo
+35961302|Batak, V. Tarnovo
+35961303|Gorna Lipnitsa
+35961304|Dimcha
+35961305|Lesicheri
+35961306|Patresh
+35961307|Stambolovo, V. Tarnovo
+35961308|Vishovgrad
+35961309|Gorsko Kalugerovo
+3596132|Karaisen
+3596133|Mihaltsi
+3596134|Byala cherkva, V. Tarnovo
+3596135|Varbovka
+3596136|Suhindol
+3596137|Butovo
+3596138|Nedan
+35961391|Slomer
+35961393|Gorsko Kosovo
+35961394|Daskot
+35961395|Paskalevets
+35961397|Musina
+35961402|Stefan Stambolovo
+35961403|Orlovets
+35961405|Petko Karavelovo
+35961406|Karantsi
+3596141|Polski Trambesh
+3596142|Obedinenie
+3596143|Maslarevo
+3596144|Dolna Lipnitsa
+3596145|Strahilovo
+3596146|Polski Senovets
+3596147|Ivancha, V. Tarnovo
+3596148|Pavel
+3596149|Kutsina
+3596150|Zlataritsa
+35961502|Gorsko Novo Selo
+35961503|Chakali
+3596151|Elena, V. Tarnovo
+3596152|Bebrovo
+3596153|Zlataritsa
+3596154|Buynovtsi
+3596155|Konstantin
+3596156|Rodina
+3596157|Slivovitsa
+3596158|Sredni kolibi
+3596159|Zlataritsa
+35961602|Tsarski izvor
+35961603|Lozen, V. Tarnovo
+35961604|Mirovo, V. Tarnovo
+35961605|Novo gradishte
+35961606|Vladislav
+35961607|Balkantsi, V. Tarnovo
+35961608|Gorski Senovets
+3596161|Strazhitsa, V. Tarnovo
+3596163|Kamen, V. Tarnovo
+3596164|Bryagovitsa
+3596165|Asenovo, V. Tarnovo
+3596166|Vinograd
+3596167|Kesarevo
+3596168|Sushitsa, V. Tarnovo
+3596169|Blagoevo, V. Tarnovo
+35961703|Varbitsa, V. Tarnovo
+35961704|Pravda, V. Tarnovo
+35961705|Gorski dolen Trambesh
+35961706|Pisarevo, V. Tarnovo
+3596173|Dolna Oryahovitsa
+3596174|Draganovo, V. Tarnovo
+3596175|Parvomaytsi
+3596176|Polikraishte
+3596177|Yantra, V. Tarnovo
+3596178|Strelets, V. Tarnovo
+3596179|Krusheto
+359618|Gorna Oryahovitsa
+359619|Lyaskovets, V. Tarnovo
+35962|Veliko Tarnovo
+359631|Svishtov
+35963202|Dragomirovo, V. Tarnovo
+35963203|Hadzhidimitrovo, V. Tarnovo
+35963204|Delyanovtsi
+35963205|Chervena
+3596321|Gorna Studena
+3596322|Alekovo, V. Tarnovo
+3596323|Balgarsko slivovo
+3596324|Vardim
+3596325|Kozlovets
+3596326|Morava
+3596327|Ovcha mogila
+3596328|Oresh
+3596329|Tsarevets, V. Tarnovo
+3596352|Dolni Lukovit
+35963560|Radishevo
+35963561|Grivitsa
+35963562|Komarevo, Pleven
+35963563|Borislav
+35963564|Bivolare
+35963565|Mechka, Pleven
+35963566|Brashlyanitsa
+35963567|Gradina, Pleven
+35963568|Bukovlak
+35963569|Kamenets, Pleven
+35963570|Staroseltsi
+35963571|Brestovets
+35963572|Yasen, Pleven
+35963573|Disevitsa
+35963574|Todorovo, Pleven
+35963575|Bohot
+35963576|Tuchenitsa
+35963577|Pelishat
+35963578|Opanets, Pleven
+35963579|Ralevo
+3596359|Glava
+35964|Pleven
+359650|Levski, Pleven
+3596510|Totleben
+3596511|Pobeda, Pleven
+3596512|Gorni Dabnik
+3596513|Pordim
+3596514|Dolni Dabnik
+3596515|Slavyanovo, Pleven
+3596516|Iskar, Pleven
+35965165|Pisarovo, Pleven
+3596517|Podem
+3596518|Riben
+3596519|Beglezh
+3596520|Nikolaevo, Pleven
+3596521|Sadovets
+3596522|Zgalevo
+3596523|Krushovitsa, Pleven
+3596524|Petarnitsa
+3596525|Barkach
+3596526|Varbitsa, Pleven
+3596527|Odarne
+3596528|Valchitran
+3596529|Koilovtsi
+3596530|Tranchovitsa
+3596531|Izgrev, Pleven
+3596532|Balgarene, Pleven
+3596533|Stezherovo
+3596534|Malchika
+3596535|Kozar Belene
+3596536|Asparuhovo, Pleven
+3596537|Asenovtsi
+3596538|Obnova
+3596539|Gradishte, Pleven
+3596540|Asenovo, Pleven
+3596541|Nikopol
+3596542|Vabel, Pleven
+3596543|Muselievo
+3596544|Novachene, Pleven
+3596545|Lyubenovo, Pleven
+3596546|Lozitsa, Pleven
+3596547|Dragash voyvoda
+3596548|Debovo
+3596549|Sanadinovo
+3596550|Stavertsi
+3596551|Trastenik, Pleven
+3596552|Dolna Mitropolia
+3596553|Oryahovitsa, Pleven
+3596554|Krushovene
+3596555|Baykal
+3596556|Gorna Mitropolia
+3596557|Bregare
+3596558|Slavovitsa, Pleven
+3596559|Gostilya
+3596560|Kreta, Pleven
+3596561|Gulyantsi
+35965617|Iskar, Pleven
+3596562|Gigen
+3596563|Brest, Pleven
+3596564|Zagrazhden, Pleven
+3596565|Milkovitsa
+3596566|Dolni Vit
+3596567|Somovit
+3596568|Dabovan
+3596569|Lenkovo
+3596570|Deventsi
+3596571|Lepitsa
+3596572|Suhache
+3596573|Koynare
+3596574|Chomakovtsi
+3596575|Telish
+3596576|Radomirtsi
+3596577|Breste
+3596578|Reselets
+3596579|Ruptsi, Pleven
+3596580|Tatari
+3596581|Byala voda, Pleven
+3596582|Belene
+3596583|Belene
+3596584|Belene
+3596585|Belene
+3596586|Belene
+3596587|Petokladentsi
+3596588|Dekov
+3596589|Kulina voda
+359659|Cherven bryag
+3596590|Rakita, Pleven
+3596591|Gornik
+35966|Gabrovo
+359670|Troyan, Lovech
+3596710|Donino
+3596711|Kozi rog
+3596712|Gabene
+3596713|Vranilovtsi
+3596714|Popovtsi
+3596716|Zhaltesh
+3596717|Lesicharka
+3596718|Draganovtsi
+35967193|Kmetovtsi
+35967194|Grablevtsi
+3596720|Kereka
+3596722|Sokolovo, Gabr.
+3596723|Tsareva livada
+3596724|Yantra, Gabr.
+3596725|Gostilitsa
+3596726|Skalsko
+3596727|Ganchovets
+3596728|Burya
+35967301|Idilevo
+35967302|Kravenik
+35967303|Batoshevo
+35967304|Kramolin
+35967305|Stokite
+35967306|Gradishte, Gabr.
+35967307|Mlechevo
+35967308|Lovnidol
+35967309|Agatovo
+3596732|Sennik
+3596733|Kormyansko
+3596734|Petko Slaveykov
+3596736|Gradnitsa, Gabr.
+3596737|Krushevo, Gabr.
+3596738|Dobromirka
+35967390|Shumata
+35967391|Stolat
+35967392|Yavorets
+35967393|Dushevo
+35967394|Bogatovo
+35967395|Gorna Rositsa
+35967396|Berievo
+35967397|Ryahovtsite
+35967398|Damyanovo
+35967399|Malki Varshets
+359675|Sevlievo
+359676|Dryanovo, Gabr.
+359677|Tryavna
+3596770|Plachkovtsi
+35967774|Belitsa, Gabr.
+359678|Teteven
+35968|Lovech
+3596900|Vasilyovo
+3596901|Glozhene, Lovech
+3596902|Ribaritsa, Lovech
+35969031|Galata
+35969032|Balgarski izvor
+3596905|Divchovoto
+3596906|Cherni Vit
+3596907|Gradezhnitsa
+3596908|Glogovo
+3596909|Malka Zhelyazna
+3596910|Malinovo
+3596911|Lisets, Lovech
+3596912|Bahovitsa
+3596913|Slavyani
+3596914|Slivek
+3596915|Smochan
+3596916|Brestovo, Lovech
+3596917|Balgarene, Lovech
+3596918|Drenov
+3596919|Slatina, Lovech
+3596920|Lesidren
+3596921|Ablanitsa, Lovech
+3596922|Leshnitsa, Lovech
+3596923|Goran
+35969240|Hlevene
+35969241|Yoglav
+35969242|Presyaka
+35969243|Kazachevo
+35969244|Tepava
+35969245|Devetaki
+35969247|Gostinya
+35969248|Skobelevo, Lovech
+35969249|Doyrentsi
+3596925|Vladinya
+3596926|Gorno Pavlikene
+3596927|Umarevtsi
+3596928|Kakrina
+3596929|Radyuvene
+3596930|Slavshtitsa
+3596931|Ugarchin
+3596932|Mikre
+3596933|Golets
+3596934|Katunets
+3596935|Sopot, Lovech
+3596937|Sokolovo, Lovech
+3596938|Kalenik, Lovech
+3596939|Dragana
+3596941|Letnitsa
+3596942|Aleksandrovo, Lovech
+3596943|Gorsko Slivovo
+3596944|Krushuna
+3596946|Chavdartsi
+3596948|Karpachevo
+3596950|Gumoshtnik
+3596952|Oreshak, Lovech
+3596953|Borima
+3596954|Vrabevo
+3596955|Dalbok dol
+3596956|Lomets, Lovech
+3596957|Golyama Zhelyazna
+3596958|Apriltsi, Lovech
+3596959|Debnevo
+3596960|Belish
+35969612|Terziysko, Lovech
+35969613|Chiflik, Lovech
+35969614|Gorno trape
+35969615|Balabansko
+35969616|Staro selo, Lovech
+3596962|Cherni Osam
+3596963|Balkanets
+3596964|Velchevo, Lovech
+3596965|Beli Osam
+3596966|Shipkovo
+3596967|Kaleytsa
+3596968|Dobrodan
+3596969|Beklemeto
+359697|Lukovit
+3596980|Belentsi
+3596981|Petrevene
+3596982|aglen
+3596983|Dermantsi
+3596984|Bezhanovo, Lovech
+3596985|Rumyantsevo
+3596986|Daben
+3596987|Karlukovo
+3596988|Peshterna
+3596989|Toros
+3596990|Malak izvor, Lovech
+3596991|Yablanitsa
+3596992|Zlatna Panega
+3596994|Brestnitsa, Lovech
+3596997|Dobrevtsi, Lovech
+3596998|Golyam izvor, Lovech
+359701|Dupnitsa
+359702|Bobov dol
+3597030|Resilovo
+3597031|Gorna Koznitsa
+3597032|Yahinovo
+3597033|Kraynitsi
+3597034|Dzherman
+3597035|Cherven breg
+3597036|Balanovo
+3597039|Samoranovo
+3597041|Shatrovo
+3597042|Korkina
+3597043|Golemo selo
+3597044|Babino
+3597045|Golem Varbovnik
+3597046|Boboshevo
+3597047|Usoyka
+3597048|Blazhievo
+3597052|Pastra
+3597053|Kocherinovo
+3597054|Rila
+3597056|Mursalevo
+3597057|Malo selo
+3597058|Stob
+359707|Sapareva banya
+3597102|Lopyan
+3597103|Brusen, Sofia
+3597104|Laga
+3597105|Malki Iskar
+3597106|Yamna
+3597110|Opitsvet
+3597116|Petarch
+3597117|Gradets, Sofia
+3597118|Dragovishtitsa, Sofia
+3597119|Dramsha
+3597120|Dolna banya
+35971220|Gutsal
+35971221|Yarlovo
+35971224|Shipochane
+35971225|Novo selo, Sofia
+35971227|Beli Iskar
+35971228|Maritsa
+3597123|Kovachevtsi, Sofia
+3597124|Belchinski bani
+3597125|Govedartsi
+3597126|Gorni Okol
+3597127|Shiroki dol
+3597129|Raduil
+35971302|Bozhenitsa
+35971304|Lipnitsa, Sofia
+35971306|Rashkovo
+3597132|Radotina
+3597133|Pravets
+35971337|Kalugerovo, Sofia
+35971338|Osikovska Lakavitsa
+3597134|Vrachesh
+3597135|Trudovets
+3597136|Novachene, Sofia
+3597137|Skravena
+3597138|Litakovo
+3597139|Dzhurovo
+35971398|Osikovitsa
+3597142|Kostenets
+3597143|Vakarel
+3597144|Kostenets
+3597145|Mirovo, Sofia
+3597146|Chernyovo
+3597147|Pchelin, Sofia
+35971471|Ochusha
+3597148|Muhovo
+3597149|Zhivkovo, Sofia
+35971502|Eleshnitsa, Sofia
+35971503|Dolno Kamartsi
+35971504|Belopoptsi
+35971505|Churek
+35971506|Gabra
+3597152|Gorna Malina
+3597154|Stolnik
+3597155|Lesnovo
+3597156|Ravno pole
+3597157|Sarantsi
+3597158|Doganovo
+35971587|Golema Rakovitsa
+3597159|Aprilovo, Sofia
+3597162|Lakatnik
+3597163|Iskrets
+3597164|Rebrovo
+3597165|Milanovo, Sofia
+3597166|Vlado Trichkov
+3597167|Tserovo, Sofia
+3597168|Bov
+3597169|Tompsan
+3597172|Dragoman
+3597174|Kalotina
+3597175|Gaber
+3597176|Hrabarsko
+3597177|Aldomirovtsi
+3597178|Prolesha
+3597179|Golemo Malovo
+35971798|Vasilovtsi,Sof.
+3597181|Pirdop
+3597182|Mirkovo
+3597183|Dushantsi
+3597184|Koprivshtitsa
+3597185|Chelopech
+3597186|Anton
+3597187|Bunovo, Sofia
+3597188|Petrich, Sofia
+3597189|Chavdar, Sofia
+3597192|Gintsi
+3597193|Golesh, Sofia
+359720|Etropole
+359721|Kostinbrod
+359722|Samokov
+359723|Botevgrad
+359724|Ihtiman
+359725|Elin Pelin
+359726|Svoge
+359727|Slivnitsa, Sofia
+359728|Zlatitsa
+359729|Godech
+35973|Blagoevgrad
+3597415|Selishte, Blag.
+35974201|Kapatovo
+35974202|Klyuch
+35974203|Rupite
+35974204|Gega
+35974207|General Todorov
+3597422|Topolnitsa, Blag.
+3597423|Kolarovo, Blag.
+3597424|Karnalovo
+3597425|Kulata
+3597426|Marikostinovo
+3597427|Parvomay, Blag.
+3597428|Gabrene
+3597430|Damyanitsa
+35974321|Harsovo, Blag.
+35974322|Petrovo, Blag.
+35974323|Lozenitsa
+35974324|Struma
+35974325|Lilyanovo
+35974327|Novo Delchevo
+3597433|Kresna
+3597434|Strumyani
+35974346|Tsaparevo
+35974347|Razdol
+35974348|Igralishte
+3597435|Sklave
+3597436|Levunovo
+3597437|Melnik
+3597438|Katuntsi
+35974386|Pirin
+35974388|Gorno Spanchevo
+3597439|Ploski
+35974401|Gorno Draglishte
+35974402|Godlevo
+35974403|Dolno Draglishte
+35974404|Babyak
+35974405|Kraishte, Blag.
+35974406|Dobarsko
+35974407|Kremen, Blag.
+35974408|Obidim
+35974409|Mesta
+3597442|Yakoruda
+3597444|Belitsa, Blag.
+3597445|Banya, Blag.
+3597446|Eleshnitsa, Blag.
+3597447|Dobrinishte
+3597448|Bachevo
+35974495|Yurukovo
+35974496|Filipovo, Blag.
+359745|Petrich, Blag.
+359746|Sandanski
+359747|Razlog
+359748|Simitli
+359749|Bansko
+359750|Borovets, Sofia
+359751|Gotse Delchev
+3597520|Kornitsa
+3597521|Koprivlen
+35975214|Gaytaninovo
+35975215|Teshovo
+3597522|Dabnitsa
+3597523|Garmen
+3597524|Ablanitsa, Blag.
+3597525|Banichan
+3597526|Ribnovo
+3597527|Gorno Dryanovo
+3597528|Hadzhidimovo
+3597529|Breznitsa
+3597531|Dolno Dryanovo
+3597532|Bukovo, Blag.
+3597533|Osikovo, Blag.
+3597541|Satovcha
+3597544|Osina
+3597545|Kochan
+3597546|Slashten
+3597547|Valkosel
+3597548|Godeshevo
+3597549|Dolen, Blag.
+35976|Pernik
+3597711|Kladnitsa
+3597712|Batanovtsi
+3597713|Rudartsi
+3597714|Meshtitsa
+3597715|Studena, Pernik
+3597717|Divotino
+3597718|Dragichevo
+3597719|Yardzhilovtsi
+3597720|Priboy
+35977221|Kondofrey
+35977222|Gorna Dikanya
+35977226|Debeli lag
+35977229|Galabnik
+3597723|Dolni Rakovets
+3597724|Izvor, Pernik
+3597725|Klenovik
+3597726|Dren
+3597727|Kovachevtsi, Pernik
+3597728|Drugan
+3597729|Dolna Dikanya
+3597731|Tran
+3597732|Vukan
+3597733|Filipovtsi
+3597734|Glavanovtsi, Pernik
+3597735|Leva reka
+3597741|Zemen
+3597742|Kalishte
+3597743|Divlya
+3597744|Elovdol, Pernik
+3597745|Egalnitsa
+3597751|Breznik
+3597752|Rezhantsi
+3597753|Noevtsi
+3597754|Kosharevo
+3597755|Velkovtsi, Pernik
+359777|Radomir
+35978|Kyustendil
+3597910|Bersin
+3597911|Granitsa
+3597912|Gorna Grashtitsa
+3597913|Rashka Grashtitsa
+3597914|Vaksevo
+3597915|Nevestino, Kyust.
+3597916|Bagrentsi
+3597917|Tavalichevo
+3597918|Yabalkovo, Kyust.
+3597920|Skrinyano
+3597921|Zhilentsi
+3597922|Dragovishtitsa, Kyust.
+3597923|Vrattsa
+3597924|Shishkovtsi
+3597925|Gyueshevo
+3597926|Konyavo
+3597927|Treklyano
+3597928|Garlyano
+3597929|Sovolyano
+3597930|Eremia
+3597932|Shipochano
+3597933|Gramazhdano
+3597934|Bunovo, Kyust.
+3597935|Dolno selo
+3597936|Slokoshtitsa
+3597937|Razhdavitsa
+3597938|Dolno Uyno
+3597939|Tsarvaritsa
+3598111|Shtraklevo
+3598113|Novo selo, Ruse
+3598114|Pirgovo
+3598115|Chervena voda
+3598116|Ivanovo, Ruse
+3598117|Marten
+3598118|Nikolovo, Ruse
+3598122|Tsenovo, Ruse
+3598123|Bosilkovtsi
+3598124|Novgrad
+3598125|Koprivets
+35981262|Bistrentsi
+35981264|Piperkovo
+35981266|Starmen, Ruse
+35981268|Krivina, Ruse
+3598127|Karamanovo
+3598128|Polsko Kosovo
+3598129|Lom Cherkovna
+3598131|Borisovo, Ruse
+3598132|Yudelnik
+3598133|Ryahovo
+3598134|Malko Vranovo
+3598135|Babovo
+3598136|Stambolovo, Ruse
+3598137|Golyamo Vranovo
+3598138|Brashlen
+3598140|Borovo, Ruse
+3598141|Dve mogili
+3598142|Bazovets, Ruse
+3598143|Obretenik
+3598144|Batishnitsa
+3598145|Trastenik, Ruse
+35981461|Karan Varbovka
+35981462|Volovo
+35981463|Mogilino
+35981464|Ostritsa, Ruse
+35981465|Batin
+35981466|Pomen
+3598147|Baniska
+3598148|Gorno Ablanovo
+3598149|Katselovo
+3598150|Semerdzhievo
+3598151|Prosena
+3598152|Krasen, Ruse
+3598156|Cherven, Ruse
+3598158|Mechka, Ruse
+3598159|Koshov
+3598161|Vetovo
+3598163|Bazan
+3598164|Pisanets
+3598165|Smirnenski, Ruse
+3598166|Svalenik
+3598167|Tserovets
+359817|Byala, Ruse
+3598184|Glodzhevo
+3598185|Senovo
+3598187|Tetovo
+35981886|Chereshovo, Ruse
+3598192|Hotantsa
+3598194|Sandrovo
+3598196|Nisovo
+35982|Ruse
+35984|Razgrad
+3598424|Tsar Kaloyan, Razgrad
+35984266|Prostorno
+35984269|Nedoklan
+3598431|Isperih
+35984392|Belintsi
+35984393|Vazovo
+35984394|Duhovets
+3598442|Zavet, Razgrad
+3598445|Yuper
+35984462|Ostrovo
+35984463|Prelez
+35984464|Veselets, Razgrad
+35984465|Savin
+35984466|Zvanartsi
+35984467|Seslav
+35984469|Bozhurovo, Razgrad
+3598448|Terter
+35984710|Osenets
+35984711|Mortagonovo
+35984712|Kostandenets
+35984713|Blagoevo, Razgrad
+35984717|Pobit kamak, Razgrad
+35984718|Dryanovets, Razgrad
+35984719|Balkanski
+35984720|Topchii
+35984721|Lipnik
+35984722|Yasenovets
+35984723|Dyankovo
+35984725|Kichenitsa
+35984726|Ushintsi
+35984727|Kamenovo, Razgrad
+35984728|Rakovski, Razgrad
+35984729|Ezerche
+35984730|Golyam Porovets
+35984732|Yonkovo
+35984733|Ludogortsi
+35984734|Todorovo, Razgrad
+35984735|Sveshtari
+35984736|Podayva
+35984737|Raynino
+35984738|Kitanchevo
+35984740|Bisertsi
+35984743|Brestovene
+35984744|Belovets
+35984745|Vladimirovtsi
+35984749|Sevar
+3598475|Loznitsa, Razgrad
+35984760|Trapishte
+35984761|Gradina, Razgrad
+35984763|Beli Lom
+35984764|Seydol
+35984765|Veselina
+35984766|Kamenar, Razgrad
+35984768|Sinya voda
+35984769|Gorotsvet
+3598477|Samuil
+35984774|Golyam izvor, Razgrad
+35984776|Harsovo, Razgrad
+35984778|Bogdantsi, Razgrad
+35984779|Zdravets, Razgrad
+359848|Kubrat
+359860|Silistra
+359861|Silistra
+3598620|Silistra
+3598621|Silistra
+3598622|Alekovo, Silistra
+3598623|Golesh, Silistra
+3598624|Kalipetrovo
+3598625|Oven
+3598626|Sredishte, Silistra
+3598627|Babuk
+3598628|Tsar Asen, Silistra
+3598629|Smilets, Silistra
+3598630|Silistra
+3598631|Silistra
+3598632|Zafirovo
+3598633|Staro selo, Silistra
+3598634|Nova Cherna
+3598635|Tsar Samuil
+3598636|Glavinitsa, Silistra
+3598637|Malak Preslavets
+3598638|Bogdantsi, Silistra
+3598639|Kolarovo, Silistra
+3598640|Pravda, Silistra
+3598641|Okorsh
+3598642|Dulovo
+3598643|Zlatoklas
+3598644|Chernolik
+3598645|Mezhden
+3598646|Vokil
+3598647|Paisievo
+3598648|Sekulovo
+3598649|Yarebitsa
+359865|Silistra
+3598660|Tutrakan
+3598661|Tutrakan
+3598662|Dobrotitsa, Silistra
+3598663|Sitovo, Silistra
+3598664|Polyana, Silistra
+3598665|Iskra, Silistra
+3598666|Tutrakan
+3598667|Belitsa, Silistra
+3598668|Popina
+3598669|Garvan, Silistra
+3598670|Silistra
+3598671|Silistra
+3598672|Bradvari
+3598673|Alfatar
+3598674|Profesor Ishirkovo
+3598675|Aydemir
+3598676|Vetren, Silistra
+3598677|Srebarna
+3598678|Sratsimir, Silistra
+3598679|Kaynardzha
+359868|Silistra
+3598690|Silistra
+3598691|Silistra
+3598692|Stefan Karadzha, Silistra
+3598693|Zvenimir
+3598694|Zebil
+3598695|Nozharevo
+3598696|Suhodol, Silistra
+3598697|Sokol, Silistra
+3598698|Shumentsi
+3598699|Tarnovtsi, Silistra
+359910|Mezdra
+3599110|Virovsko
+3599111|Chelopek
+3599112|Banitsa
+3599113|Mramoren
+3599115|Chiren
+3599116|Kostelevo
+3599117|Krivodol
+35991180|Lesura
+35991182|Osen, Vratsa
+35991183|Furen
+35991184|Rakevo
+35991185|Pudria
+35991186|Baurene
+35991188|Galatin
+35991189|Tri kladentsi
+3599119|Tishevitsa
+35991201|Lyuti brod
+35991202|Kunino
+35991203|Lik
+3599121|Tsarevets, Vratsa
+3599122|Zverino
+3599123|Roman
+3599124|Tipchenitsa
+3599125|Gorna Beshovitsa
+3599126|Kameno pole
+3599127|Lyutidol
+3599128|Eliseyna
+3599129|Sinyo bardo
+3599130|Tlachene
+3599131|Dobrolevo
+3599132|Knezha
+3599133|Komarevo, Vratsa
+3599134|Tarnak
+3599135|Bardarski geran
+3599136|Galiche
+3599137|Popitsa
+3599138|Altimir
+3599139|Tarnava, Vratsa
+3599140|Gabare
+35991401|Vranyak
+3599141|Malorad
+3599142|Lazarovo
+3599143|Enitsa
+3599144|Nivyanin
+3599145|Brenitsa, Vratsa
+3599146|Sokolare
+3599147|Borovan
+3599148|Barkachevo
+3599149|Bukovets, Vratsa
+359915|Byala Slatina
+3599160|Glozhene, Vratsa
+3599161|Mizia
+3599162|Mihaylovo, Vratsa
+3599163|Harlets
+3599164|Krushovitsa, Vratsa
+3599165|Sofronievo
+3599166|Hayredin
+35991668|Manastirishte
+3599167|Lipnitsa, Vratsa
+3599168|Butan
+3599169|Rogozen
+3599171|Oryahovo, Vratsa
+3599172|Selanovtsi
+3599173|Galovo
+3599174|Gorni Vadin
+3599175|Ostrov
+3599176|Leskovets, Vratsa
+3599180|Golyamo Peshtene
+3599181|Kravoder
+3599182|Devene
+3599183|Lilyache
+3599184|Ohoden
+3599185|Beli Izvor
+3599186|Zgorigrad
+3599187|Lyutadzhik
+3599188|Gorno Peshtene
+35991888|Veslets, Vratsa
+3599189|Pavolche
+35992|Vratsa
+3599311|Kutovo
+3599312|Bregovo, Vidin
+3599313|Kapitanovtsi
+3599314|Dunavtsi, Vidin
+3599315|Gradets, Vidin
+3599316|Novo selo, Vidin
+3599317|Archar
+3599318|Bukovets, Vidin
+3599319|Gamzovo
+3599320|Stakevtsi
+35993212|Karbintsi
+3599322|Oreshets, Vidin
+3599323|Drenovets
+3599324|Ruzhintsi
+3599325|Belo pole, Vidin
+3599326|Gorni Lom
+3599327|Chuprene
+3599328|Dolni Lom
+3599329|Rabisha
+3599330|Rabrovo
+3599332|Rakovitsa
+3599333|Boynitsa
+35993342|Kireevo
+3599335|Tsar Petrovo
+3599336|Staropatitsa
+3599337|Gramada
+3599338|Shishentsi
+3599339|Makresh
+3599340|Septemvriytsi, Vidin
+3599341|Dimovo, Vidin
+3599342|Inovo
+3599343|Gomotartsi
+3599344|Vrav
+3599345|Vinarovo, Vidin
+3599346|Sinagovtsi
+3599347|Bela Rada
+3599348|Negovanovtsi
+3599349|Slanotran
+3599351|Izvor, Vidin
+3599352|Druzhba
+3599353|Koshava
+3599354|Antimovo, Vidin
+3599355|Kosovo, Vidin
+3599356|Kalenik, Vidin
+359936|Belogradchik
+359938|Kula
+35994|Vidin
+3599512|Beli breg
+3599513|Boychinovtsi
+3599514|Vladimirovo, Mont.
+3599515|Madan, Mont.
+3599516|Lehchevo
+3599517|Kobilyak
+3599518|Marchevo
+3599520|Gorno Ozirovo
+3599521|Zamfirovo
+3599522|Kotenovtsi
+3599523|Barzia
+3599524|Yagodovo, Mont.
+3599525|Dolno Ozirovo
+3599526|Slatina, Mont.
+3599527|Varshets
+35995276|Draganitsa
+35995277|Cherkaski
+3599528|Gaganitsa
+3599529|Borovtsi
+359953|Berkovitsa
+3599540|Belotintsi
+3599541|Doktor Yosifovo
+3599542|Smolyanovtsi
+3599544|Studeno buche
+3599545|Gabrovnitsa
+3599546|Slavotin
+3599547|Vinishte
+3599548|Krapchene
+3599549|Dolna Riksa
+3599550|Mitrovtsi
+3599551|Georgi Damyanovo
+3599552|Belimel
+3599553|Prevala
+3599554|Chiprovtsi
+3599555|Kopilovtsi, Mont.
+3599556|Govezhda
+3599557|Gorno Tserovene
+3599558|Gavril Genovo
+3599559|Gorna Kovachitsa
+3599560|Bezdenitsa
+3599561|Sumer
+3599564|Stubel
+3599567|Dolna Verenitsa
+3599568|Blagovo, Mont.
+3599569|Lipen
+35996|Montana
+359971|Lom
+3599719|Asparuhovo, Mont.
+3599720|Kovachitsa
+3599721|Dolno Tserovene
+3599722|Staliyska mahala
+3599723|Traykovo
+3599724|Stanevo
+3599725|Komoshtitsa
+3599726|Zamfir
+3599727|Medkovets
+3599728|Slivata
+3599729|Rasovo
+359973|Kozloduy
+3599740|Septemvriytsi, Mont.
+3599741|Dolni Tsibar
+3599742|Yakimovo
+3599744|Valchedram
+3599745|Zlatia, Mont.
+3599746|Razgrad, Mont.
+3599747|Mokresh, Mont.
+3599748|Dalgodeltsi
+3599749|Cherni vrah, Mont.
+3599782|Bukovets, Mont.
+3599783|Brusartsi
+3599784|Kiselevo
+3599785|Vasilovtsi, Mont.
+3599787|Smirnenski, Mont.

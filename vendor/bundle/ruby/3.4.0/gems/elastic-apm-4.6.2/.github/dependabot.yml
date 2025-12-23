@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: sucker_punch
+    versions:
+    - "> 2.0"
+  - dependency-name: i18n
+    versions:
+    - 1.8.10
+    - 1.8.8
+    - 1.8.9

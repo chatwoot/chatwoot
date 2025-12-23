@@ -1,0 +1,1 @@
+require 'line/bot'

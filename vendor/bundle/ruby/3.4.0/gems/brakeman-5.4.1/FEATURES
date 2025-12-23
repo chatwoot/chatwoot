@@ -1,0 +1,16 @@
+Can detect:
+-Possibly unescaped model attributes or parameters in views (Cross-Site Scripting)
+-Bad string interpolation in calls to Model.find, Model.last, Model.first, etc., as well as chained calls (SQL Injection)
+-String interpolation in find_by_sql (SQL Injection)
+-String interpolation or params in calls to system, exec, and syscall and `` (Command Injection)
+-Unrestricted mass assignments
+-Global restriction of mass assignment
+-Missing call to protect_from_forgery in ApplicationController (CSRF protection)
+-Default routes, per-controller and globally
+-Redirects based on params (probably too broad currently)
+-Validation regexes not using \A and \z
+-Calls to render with dynamic paths
+
+General capabilities:
+-Search for method calls based on target class and/or method name
+-Determine 'output' of templates using ERB, Erubis, or HAML. Can handle automatic escaping

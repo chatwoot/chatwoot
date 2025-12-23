@@ -1,0 +1,34 @@
+name: Ruby
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu
+          - macos
+        ruby:
+          - 2.4
+          - 2.5
+          - 2.6
+          # TODO: - 2.7
+          # TODO: jruby, rbx
+
+    runs-on: ${{ matrix.os }}-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Set up Ruby
+      uses: actions/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        architecture: x64
+
+    - name: Build and test with Rake
+      run: |
+        gem install bundler
+        bundle install
+        bundle exec rake

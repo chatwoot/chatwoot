@@ -1,0 +1,83 @@
+{
+  "issues": {
+    "ENG-445": {
+      "id": "ENG-445",
+      "title": "API /users endpoint returning 500 errors intermittently",
+      "status": "in_progress",
+      "priority": "high",
+      "assignee": "alex.dev@company.com",
+      "labels": ["bug", "api", "production"],
+      "created_at": "2024-01-12T11:15:00Z",
+      "updated_at": "2024-01-12T15:30:00Z",
+      "description": "Customer reports 20% failure rate on /users endpoint with 500 errors. Investigation shows database connection pool exhaustion during peak traffic.",
+      "comments": [
+        {
+          "author": "alex.dev@company.com",
+          "content": "Reproduced locally. Issue appears to be connection pool size too small for current load.",
+          "timestamp": "2024-01-12T13:20:00Z"
+        },
+        {
+          "author": "sarah.lead@company.com", 
+          "content": "Increasing pool size from 10 to 25 connections. Testing in staging.",
+          "timestamp": "2024-01-12T15:30:00Z"
+        }
+      ]
+    },
+    "ENG-442": {
+      "id": "ENG-442",
+      "title": "Add dark mode support to web application",
+      "status": "backlog",
+      "priority": "medium", 
+      "assignee": null,
+      "labels": ["feature", "ui", "accessibility"],
+      "created_at": "2024-01-05T10:00:00Z",
+      "updated_at": "2024-01-08T14:15:00Z",
+      "description": "Multiple customers have requested dark mode. This would improve accessibility and user experience, especially for users who work in low-light environments.",
+      "comments": [
+        {
+          "author": "product.manager@company.com",
+          "content": "Added to Q1 roadmap. Design team will create mockups first.",
+          "timestamp": "2024-01-08T14:15:00Z"
+        }
+      ]
+    },
+    "ENG-440": {
+      "id": "ENG-440",
+      "title": "Login page occasionally shows white screen",
+      "status": "resolved",
+      "priority": "medium",
+      "assignee": "mike.frontend@company.com",
+      "labels": ["bug", "frontend", "login"],
+      "created_at": "2024-01-03T09:30:00Z",
+      "updated_at": "2024-01-10T16:00:00Z",
+      "description": "Some users report seeing a white screen when navigating to login page. Appears to be related to JavaScript bundle loading issues.",
+      "resolution": "Fixed race condition in bundle loading. Deployed fix in v2.1.3",
+      "comments": [
+        {
+          "author": "mike.frontend@company.com",
+          "content": "Issue was caused by missing error boundary. Added proper loading states.",
+          "timestamp": "2024-01-10T16:00:00Z"
+        }
+      ]
+    },
+    "ENG-438": {
+      "id": "ENG-438",
+      "title": "Implement password strength indicator", 
+      "status": "completed",
+      "priority": "low",
+      "assignee": "jane.security@company.com",
+      "labels": ["security", "enhancement", "password"],
+      "created_at": "2024-01-01T11:00:00Z",
+      "updated_at": "2024-01-07T13:45:00Z",
+      "description": "Add real-time password strength indicator to signup and password reset forms to help users create secure passwords.",
+      "resolution": "Implemented using zxcvbn library. Shows strength meter and helpful suggestions.",
+      "comments": [
+        {
+          "author": "jane.security@company.com",
+          "content": "Added strength meter with color coding and actionable feedback.",
+          "timestamp": "2024-01-07T13:45:00Z"
+        }
+      ]
+    }
+  }
+}

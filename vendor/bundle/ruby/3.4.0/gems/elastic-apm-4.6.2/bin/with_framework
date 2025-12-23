@@ -1,0 +1,7 @@
+#!/bin/bash -x
+set -e
+
+framework=$1
+
+FRAMEWORK=$framework bundle update
+FRAMEWORK=$framework ${@:2}

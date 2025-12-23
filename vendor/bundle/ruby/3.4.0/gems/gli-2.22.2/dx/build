@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+
+require_command "docker"
+load_docker_compose_env
+
+usage_on_help "Builds the Docker image based on the Dockerfile" "" "build.pre" "build.post" "${@}"
+
+for ruby_version in ${RUBY_VERSIONS[@]}; do
+  dockerfile="Dockerfile.dx"
+  docker_image_name="${IMAGE}:ruby-${ruby_version}"
+
+  log "Building for Ruby '${ruby_version}' using Docker image name '${docker_image_name}'"
+
+  exec_hook_if_exists "build.pre" "${dockerfile}" "${docker_image_name}"
+
+  docker build \
+    --file "${dockerfile}" \
+    --build-arg="RUBY_VERSION=${ruby_version}" \
+    --tag "${docker_image_name}" \
+    ./
+
+  exec_hook_if_exists "build.post" "${dockerfile}" "${docker_image_name}"
+  log "🌈" "Your Docker image has been built tagged '${docker_image_name}'"
+done
+
+log "✅" "All images built"
+
+log "✨" "Creating docker-compose.dx.yml"
+compose_file="docker-compose.dx.yml"
+log "🗑️" "Deleting previous ${compose_file}"
+
+rm -f "${compose_file}"
+echo "# THIS IS GENERATED - DO NOT EDIT" > "${compose_file}"
+echo "# To make changes see dx/build or dx/docker-compose.env" >> "${compose_file}"
+echo "" >> "${compose_file}"
+echo "services:" >> "${compose_file}"
+
+for ruby_version in ${RUBY_VERSIONS[@]}; do
+  log "Generating stanza for version '${ruby_version}'"
+  docker_image_name="${IMAGE}:ruby-${ruby_version}"
+  echo "  gli-${ruby_version}:" >> "${compose_file}"
+  echo "    image: ${docker_image_name}" >> "${compose_file}"
+  echo "    init: true" >> "${compose_file}"
+  echo "    volumes:" >> "${compose_file}"
+  echo "      - type: bind" >> "${compose_file}"
+  echo "        source: \"./\"" >> "${compose_file}"
+  echo "        target: \"/root/work\"" >> "${compose_file}"
+  echo "        consistency: \"consistent\"" >> "${compose_file}"
+  echo "    entrypoint: /root/show-help-in-app-container-then-wait.sh" >> "${compose_file}"
+  echo "    working_dir: /root/work" >> "${compose_file}"
+done
+log "🎼" "${compose_file} is now created"
+log "🔄" "You can run dx/start to start it up, though you may need to stop it first with Ctrl-C"
+
+# vim: ft=bash

@@ -1,0 +1,4 @@
+<% [existing_action?(collection_presenter.resource_name, :edit),
+    existing_action?(collection_presenter.resource_name, :destroy)].count(true).times do %>
+  <th scope="col"></th>
+<% end %>

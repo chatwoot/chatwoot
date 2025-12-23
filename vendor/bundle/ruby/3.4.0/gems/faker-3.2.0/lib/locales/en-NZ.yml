@@ -1,0 +1,166 @@
+# New Zealand formatted data types
+# Using Top 20 New Zealand Māori baby boys names of 2015
+# Using Top 20 New Zealand baby boys names of 2015
+# Using Top 20 New Zealand Māori baby girls names of 2015
+# Using Top 20 New Zealand baby girls names of 2015
+# Top 50 boys and girls names from 1973, 1989, and 1999
+# plus some common names with accents, macrons, and apostrophes
+# Using commonly used domain suffixes in New Zealand
+# Using surnames familiar to New Zealand population
+# Using popular New Zealand Sport & National Team Names
+
+# Addresses:
+# https://www.nzpost.co.nz/tools/address-postcode-finder/help/examples
+
+en-NZ:
+  faker:
+    name:
+      first_name: [
+        Aaria, Aaron, Abigail, Adam, Adrian, Adrienne, Aimee, Alan, Alana, Alex, Alexander, Alexandra, Alice, Alicia, Alison, Allan, Alyssa,
+        Amaia, Amanda, Amber, Amelia, Amy, Ana, Anahera, Andrea, Andrew, Angel, Angela, Anita, Ann, Anna, Anne, Annette, Anthony, Antony,
+        Ari, Aroha, Arthur, Ashleigh, Ashley, Ataahua, Ava, Awhina, Bailey, Barbara, Barry, Belinda, Ben, Benjamin, Bernard, Bevan, Beverley,
+        Blair, Bradley, Brenda, Brendan, Brendon, Brent, Brett, Brian, Briana, Brianna, Bridget, Britney, Brittany, Bronwyn, Brooke, Brooklyn,
+        Bruce, Bryan, Caitlin, Caitlyn, Caleb, Callum, Cameron, Carl, Carmen, Carol, Caroline, Carolyn, Casey, Cassandra, Catherine, Charles,
+        Charlie, Charlotte, Chelsea, Cherie, Cheryl, Cheyenne, Chloe, Chloé, Christina, Christine, Christopher, Claire, Claudia, Clinton, Cody, Colin,
+        Colleen, Cooper, Corey, Courtney, Craig, Crystal, Damian, Damon, Daniel, Danielle, Darren, Darryl, David, Dean, Debbie, Deborah, Debra,
+        Denis, Denise, Dennis, Derek, Desmond, Destiny, Diana, Diane, Dianne, Dion, Donald, Donna, Dorothy, Douglas, Duncan, Dylan, Eden, Edward,
+        Elaine, Elizabeth, Ella, Emily, Emma, Eric, Erin, Ethan, Faith, Fiona, Frances, Francis, Frederick, Gabrielle, Gail, Gareth, Garry, Gary, Gavin,
+        Gemma, Geoffrey, George, Georgia, Gerard, Gillian, Gina, Glen, Glenda, Glenn, Glenys, Gloria, Gordon, Grace, Graeme, Graham, Grant, Gregory, Hamish,
+        Hana, Hannah, Harley, Harper, Hayden, Hayley, Heather, Helen, Henry, Holly, Hope, Hunter, Ian, Ihaia, Ihaka, Irene, Isaac, Isabella, Isla, Ivan,
+        Jack, Jacob, Jacqueline, Jade, James, Jamie, Jan, Jane, Janet, Janice, Janine, Jared, Jasmine, Jason, Jeanette, Jeffrey, Jenna, Jennifer, Jeremy,
+        Jesse, Jessica, Jessie, Jill, Jillian, Joan, Joanna, Joanne, Jocelyn, Joel, John, Jonathan, Jonathon, Jordan, Joseph, Josephine, Joshua, Joy,
+        Judith, Julia, Julie, Junior, Justin, Justine, Kahurangi, Kai, Kaia, Kaitlin, Kane, Kara, Karen, Karl, Kate, Katelyn, Katherine, Kathleen,
+        Kathryn, Katie, Katrina, Kauri, Kay, Kayla, Keith, Kellie, Kelly, Kelsey, Kelvin, Kenneth, Kerry, Kevin, Kieran, Kim, Kimberley, Kirsten,
+        Kirsty, Kora, Krystal, Kurt, Kyle, Kylie, Lance, Laura, Lauren, Lawrence, Leah, Leanne, Lee, Leon, Leonie, Lesley, Leslie, Liam, Lily, Linda,
+        Lindsay, Lisa, Logan, Lois, Lorraine, Louise, Lucas, Lucy, Luke, Lydia, Lynda, Lynette, Lynn, Lynne, Lynnette, Maddison, Madeleine, Madison,
+        Maia, Malcolm, Manaaki, Manaia, Manawa, Marcus, Maree, Margaret, Maria, Marian, Marie, Marilyn, Marion, Mark, Martin, Mary, Mason,
+        Matai, Mathew, Matthew, Maureen, Maurice, Max, Meg, Megan, Melanie, Melissa, Mervyn, Mia, Michael, Michaela, Michelle, Mikaere, Mikayla,
+        Mila, Mitchell, Moana, Molly, Monique, Morgan, Murray, Mārama, Nadine, Natalie, Natasha, Nathan, Neil, Neville, Ngaire, Niamh, Nicholas,
+        Nicola, Nicole, Nigel, Nikau, Nikita, Noah, Noel, Norman, Oliver, Olivia, Owen, Paige, Pamela, Paris, Patricia, Patrick, Paul, Paula,
+        Pauline, Penelope, Peter, Philip, Philippa, Phillip, Phoebe, Rachael, Rachel, Rachelle, Raewyn, Rawiri, Raymond, Rebecca, Rebekah,
+        Renee, Renée, Rex, Rhys, Richard, Ricky, Robert, Robin, Robyn, Rochelle, Rodney, Roger, Ronald, Rory, Rose, Rosemary, Ross, Roy, Ruby, Rui,
+        Russell, Ruth, Ryan, Rāwiri, Sally, Sam, Samantha, Samuel, Sandra, Sapa'u, Sara, Sarah, Scott, Sean, Shane, Shania, Shannon, Sharlene, Sharon,
+        Shaun, Shelley, Sheryl, Shirley, Shona, Simon, Sione, Sophia, Sophie, Stacey, Stephanie, Stephen, Steven, Stewart, Stuart, Summer,
+        Susan, Suzanne, Tai, Taika, Tama, Tamara, Tamati, Tane, Tangaroa, Tania, Tanya, Tara, Tawhiri, Tayla, Taylor, Te Ao, Te Ariki, Te Aroha,
+        Te Whiti, Terence, Teresa, Tessa, Thomas, Tia, Tiana, Timothy, Tina, Todd, Toni, Tony, Tracey, Tracy, Trent, Trevor, Troy, Tui, Tyla,
+        Tyson, Valerie, Vanessa, Vicki, Victoria, Vincent, Virginia, Vivienne, Warren, Wayne, Wendy, William, Wiremu, Yvonne, Zachary, Zane, Zoe, Zoë
+      ]
+      surname: [
+        Smith, Jones, Williams, Brown, Wilson, Taylor, Johnson, White, Martin, Anderson, Thompson, Nguyen, Thomas, Walker, Harris, Lee, Ryan, Robinson,
+        Kelly, King, Davis, Wright, Evans, Roberts, Green, Hall, Wood, Jackson, Clarke, Patel, Khan, Lewis, James, Phillips, Mason, Mitchell, Rose, Davies,
+        Rodriguez, Cox, Alexander, Garden, Campbell, Johnston, Moore, Smyth, Oneill, Doherty, Stewart, Quinn, Murphy, Graham, Mclaughlin, Hamilton, Murray,
+        Hughes, Robertson, Thomson, Scott, Macdonald, Reid, Clark, Ross, Young, Watson, Paterson, Morrison, Morgan, Griffiths, Edwards, Rees, Jenkins, Owen,
+        Price, Moss, Richards, Abbott, Adams, Armstrong, Bahringer, Bailey, Barrows, Bartell, Bartoletti, Barton, Bauch, Baumbach, Bayer, Beahan, Beatty, Becker,
+        Beier, Berge, Bergstrom, Bode, Bogan, Borer, Bosco, Botsford, Boyer, Boyle, Braun, Bruen, Carroll, Carter, Cartwright, Casper, Cassin, Champlin, Christiansen,
+        Cole, Collier, Collins, Connelly, Conroy, Corkery, Cormier, Corwin, Cronin, Crooks, Cruickshank, Cummings, Damore, Daniel, Dare, Daugherty, Dickens, Dickinson,
+        Dietrich, Donnelly, Dooley, Douglas, Doyle, Durgan, Ebert, Emard, Emmerich, Erdman, Ernser, Fadel, Fahey, Farrell, Fay, Feeney, Feil, Ferry, Fisher, Flatley,
+        Gibson, Gleason, Glover, Goldner, Goodwin, Grady, Grant, Greenfelder, Greenholt, Grimes, Gutmann, Hackett, Hahn, Haley, Hammes, Hand, Hane, Hansen, Harber,
+        Hartmann, Harvey, Hayes, Heaney, Heathcote, Heller, Hermann, Hermiston, Hessel, Hettinger, Hickle, Hill, Hills, Hoppe, Howe, Howell, Hudson, Huel, Hyatt,
+        Jacobi, Jacobs, Jacobson, Jerde, Johns, Keeling, Kemmer, Kessler, Kiehn, Kirlin, Klein, Koch, Koelpin, Kohler, Koss, Kovacek, Kreiger, Kris, Kuhlman, Kuhn,
+        Kulas, Kunde, Kutch, Lakin, Lang, Langworth, Larkin, Larson, Leannon, Lee, Leffler, Li, Little, Lockman, Lowe, Lynch, Mann, Marks, Marvin, Mayer, McCullough,
+        McDermott, McLean, Maclean, McPherson, Macpherson, MacPherson, McCann, McLeod, Macleod, McKenzie, Mackenzie, MacKenzie,
+        Mckenzie, Miller, Mills, Monahan, Morissette, Mueller, Muller, Nader, Ng, Nicolas, Nolan, O'Connell, O'Conner, O'Hara, O'Keefe, Olson, O'Reilly, Parisian, Parker,
+        Quigley, Reilly, Reynolds, Rice, Ritchie, Rohan, Rolfson, Rowe, Russel, Rutherford, Sanford, Sauer, Schmidt, Schmitt, Schneider, Schroeder, Schultz, Shields, Smitham,
+        Spencer, Stanton, Stark, Stokes, Swift, Tillman, Towne, Tremblay, Tromp, Turcotte, Turner, Walsh, Walter, Ward, Waters, Weber, Welch, West, Wilderman, Wilkinson,
+        Williamson, Windler, Wolf, Henare, Ngata, Parata, Turei, Taumata, Te Whiti, Ka'ai, Ruakere, Te Kanawa, Tamahori, Curtis, Arahanga, Waititi,
+        Vainu'upo, Feu'u, Tagaloa, Laga'aia, Iosefo, Lotu-Iiga, Taule'alo, Singh, Wang, Montgomery, Zhang, Kumar, Liu, Chen, Huang, Wu, Yang, Wong, Xu, Kim,
+        Zhou,
+      ]
+      last_name:
+        - "#{surname}"
+        - "#{surname}-#{surname}"
+        - "#{surname} #{surname}"
+      name_with_middle:
+        - "#{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{first_name} #{last_name}"
+      suffix: [Jr., Sr., I, II, III, IV, V, ONZM, OBE, GNZM, KNZM, CNZM, MNZM]
+    company:
+      suffix: [Ltd, Ltc, and Sons, Group, Brothers, Partners]
+    internet:
+      domain_suffix: [co.nz, com, net.nz, net, org.nz, org, govt.nz, iwi.nz]
+    address:
+      region_abbr: [NTL, AUK, WKO, BOP, GIS, HKB, TKI, MWT, WGN, TAS, NSN, MBH, WTC, CAN, OTA, STL]
+      region: [Northland, Auckland, Waikato, Bay of Plenty, Gisborne, Hawkes Bay, Taranaki, Manawatu, Wellington, Tasman, Nelson, Marlborough, West Coast, Canterbury, Otago, Southland]
+      postcode: ['0###', '2###', '3###', '4###', '5###', '6###', '7###', '8###', '9###']
+      building_number: ['####', '###', '##', '#/##', '#/#', '#?', '?/##', '?/##?']
+      secondary_address: ['RD #', 'Apt #', 'Unit #', 'Level #']
+      place_names: [
+        Kauri, Tōtara, Kowhai, Rata, Pohutakawa, Tawa, Pine, Koromiko, Redwood, Hinau, Manuka, Kanuka, Kawakawa, Ngaio, Karo, Puriri, Rewarewa, Karamu, Ti Kouka,
+        Hospital, School, College, Tip, Landfill, Railway, Station, Wharf, Aerodrome,
+        Boundary, Ridgeway, Golf, Bridge, Coach, Airport,
+        Chapel, Church, Cathedral,
+        Green, Blue, White, Black, Yellow, Short, Long,
+        Kereru, Kiwi, Weka, Pukeko, Morepork, Ruru, Fantail, Pīwakawaka, Kea, Kaka, Kakariki, Kakapō,
+        Kumara, Potato, Rabbit
+      ]
+      landscape_elements: [
+        Beach, Sea, Ocean, Lake, Moana, River, Roto, Awa, Hill, Mountain, Mount, Pa, Maunga, Gardens,
+        Island, Bay, Park, Cave, Glacier, Creek, Panorama, Valley, Flat
+      ]
+      community_prefix: [
+        South, North, East, West
+      ]
+      community_suffix: [
+        ton, toun, town
+      ]
+      colonialism: [
+        Queen, Queens, Victoria, London, Dominion, Albert, Tudor, Windsor, Shakespeare, Oxford, Cambridge, Trafalgar
+      ]
+      the: [
+        The, New, Old, Main
+      ]
+      community:
+        - "#{Name.surname}#{community_suffix}"
+        - "#{place_names}#{community_suffix}"
+        - "#{place_names} #{landscape_elements}"
+        - "#{community_prefix} #{place_names}"
+      street_name:
+        - "#{Name.first_name} #{street_suffix}"
+        - "St #{Name.first_name} #{street_suffix}"
+        - "#{Name.last_name} #{street_suffix}"
+        - "#{the} #{street_suffix}"
+        - "#{colonialism} #{street_suffix}"
+        - "#{colonialism} #{landscape_elements} #{street_suffix}"
+        - "#{landscape_elements} #{street_suffix}"
+        - "#{the} #{landscape_elements} #{street_suffix}"
+        - "#{the} #{place_names}"
+        - "#{place_names} #{street_suffix}"
+      street_suffix: [
+        Avenue, Boulevard, Circle, Circuit, Court, Crescent, Crest, Drive, Estate Dr, Grove, Hill, Junction, Knoll, Lane, Loop, Mall, Manor, Meadow,
+        Mews, Parade, Pass, Place, Plaza, Ridge, Road, Run, Square, Street, St, Summit, Terrace, Track, Trail, View Road, Way, Esplanade
+      ]
+      default_country: [New Zealand]
+      default_country_code: ["NZ"]
+      city: [
+        Auckland, Wellington, Christchurch, Hamilton, Tauranga, Napier, Hastings, Dunedin,
+        Palmerston North, Nelson, Rotorua, Whangarei, New Plymouth,
+        Invercargill, Whanganui, Gisborne, Ngāruawahia, Manukau, Kāpiti, Kaikōura, Ōamaru, Rānui, Waiharakeke,
+        Greymouth, Hokitika, Franz Josef, Fox Glacier, Winton, Kaitaia,
+      ]
+      mail_box:
+        - "PO Box ##"
+        - "PO Box #####"
+        - "CMB ##"
+        - "CMB C#"
+      street_address:
+        - "#{building_number} #{street_name}"
+      full_address:
+        - "#{street_address}, #{city} #{postcode}"
+        - "#{street_address}, #{secondary_address}, #{city} #{postcode}"
+        - "#{street_address}, #{community}, #{city} #{postcode}"
+        - "#{street_address}, #{community}, #{city} #{postcode}"
+        - "#{mail_box} #{community} #{postcode}"
+        - "#{mail_box}, #{community}, #{city} #{postcode}"
+
+    country_code: ['64']
+    phone_number:
+      formats: ['0# ### ####', '# ### ####']
+    cell_phone:
+      formats: ['02##-###-###', '02## ### ###', '02# ### ###', '02#-###-####']
+
+    university:
+      name: [Auckland University of Technology, Lincoln University, Massey University, University of Auckland, University of Canterbury, University of Otago, University of Waikato, Victoria University of Wellington]
+
+    team:
+      sport: [basketball, football, rugby league, netball, rugby union, hockey, cricket, golf, boxing, rowing, motorsport, tennis, athletics, sailing, surf life saving, squash]
+      name: [Tall Blacks, All Whites, Warriors, Silver Ferns, All Blacks, Black Sticks, Black Caps]

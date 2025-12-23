@@ -1,0 +1,29 @@
+keep_database:
+- "Squasher's created the `:green<squasher>` database for its needs."
+- It might be useful to keep it if any of your deleted migrations inserts data or
+- you squash migrations in a few steps (look at -r option).
+- "Keep it (:green<yes> / :red<no>)?"
+apply_clean: "Do you want to clean your database from the old schema migration records(:red<yes>/:green<no>)?"
+migration_folder_missing:
+- The folder with migrations is missing.
+- "Are you sure that you're in the :red<root of a rails> application?"
+no_migrations: "There are no migrations in the folder prior to :red<%{date}>"
+use_dbconfig: "There were problems in parsing `:green<database.yml>`. Do you want to use the config below (:green<yes>/:red<no>)?\n\n%{config}\n"
+dbconfig_invalid: "Squasher couldn't load `:green<database.yml>`. Please, make sure that it's present and doesn't include any ruby code."
+db_create: Squasher is creating a tmp database
+db_migrate: Squasher is applying migrations on a tmp database
+db_cleaning: Squasher is applying the clean migration
+db_reuse: Squasher is reusing the database from the previous squashing
+usage:
+- "Squasher %{version}"
+- ""
+- "Examples of usage:"
+- "  :green<squasher> [options] :yellow<year[/month][/day]> squash migrations prior to a specified date"
+- "  :green<squasher> [options] :yellow<clean>              generate or update a cleaning migration and apply it"
+
+wrong_option: "You provided a wrong option :red<%{arg}>\n\n"
+invalid_param: "You provided a wrong param :red<%{arg}>\n\n"
+dry_mode_finished: "The `dry` mode is finished. Below the init schema's content:"
+cannot_find_dummy: "Squasher can't find a dummy app inside :yellow<%{base}>"
+multi_dummy_case: "Squasher found a few config/application.rb inside :yellow<%{base}>. Please specify the path more precisely"
+invalid_migration_version: The provided rails migration version `%{value}` is invalid. It should be like `5.0`

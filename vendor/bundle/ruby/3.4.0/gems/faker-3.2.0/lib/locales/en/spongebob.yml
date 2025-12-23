@@ -1,0 +1,489 @@
+en:
+  faker:
+    spongebob:
+      characters:
+        - SpongeBob SquarePants
+        - Patrick Star
+        - Squidward Tentacles
+        - Mr. Krabs
+        - Sheldon Plankton
+        - Karen Plankton
+        - Sandy Cheeks
+        - Mrs. Puff
+        - Pearl Krabs
+        - Gary
+      quotes:
+        - I'm ready! I'm ready!
+        - Look at all the hip young people eating sal-ads.
+        - The best time to wear a striped sweater is all the time.
+        - Can I be excused for the rest of my life?
+        - I'm ugly and I'm proud!
+        - F is for friends who do stuff together!
+        - All I know is fine dining and breathing.
+        - Ravioli, ravioli. Give me the formuoli.
+        - Krusty Krab Pizza, it's the pizza for you and meeeeee!
+        - If you believe in yourself, with a tiny pinch of magic all your dreams can come true!
+        - The inner machinations of my mind are an enigma.
+        - Is mayonnaise an instrument?
+        - I can't see my forehead!
+        - Once upon a time there was an ugly barnacle. He was so ugly that everyone died. The end!
+        - Two words, SpongeBob. Na. Chos.
+        - I wumbo, you wumbo, he she we wumbo.
+        - Wake me up when I care.
+        - I have no soul.
+        - It's just a cruel reminder that I'm single and likely to remain that way forever.
+        - Future!!!
+        - I knew I shouldn't have gotten out of bed today.
+        - But it's my only night to be fancy!
+        - I might as well sleep for 100 years or so.
+        - Goodbye everyone, I'll remember you all in therapy.
+        - Did you smell it? That smell. A kind of smelly smell. The smelly smell that smells...smelly.
+        - NO! This is Patrick!
+      episodes:
+        - Help Wanted
+        - Reef Blower
+        - Tea at the Treedome
+        - Bubblestand
+        - Ripped Pants
+        - Jellyfishing
+        - Plankton!
+        - Naughty Nautical Neighbors
+        - Boating School
+        - Pizza Delivery
+        - Home Sweet Pineapple
+        - Mermaid Man and Barnacle Boy
+        - Pickles
+        - Hall Monitor
+        - Jellyfish Jam
+        - Sandy's Rocket
+        - Squeaky Boots
+        - Nature Pants
+        - Opposite Day
+        - Culture Shock
+        - F.U.N.
+        - MuscleBob BuffPants
+        - Squidward the Unfriendly Ghost
+        - The Chaperone
+        - Employee of the Month
+        - Scaredy Pants
+        - I Was a Teenage Gary
+        - SB-129
+        - Karate Choppers
+        - Sleepy Time
+        - Suds
+        - Valentine's Day
+        - The Paper
+        - Arrgh!
+        - Rock Bottom
+        - Texas
+        - Walking Small
+        - Fools in April
+        - Neptune's Spatula
+        - Hooky
+        - Mermaid Man and Barnacle Boy II
+        - Something Smells
+        - Bossy Boots
+        - Your Shoe's Untied
+        - Squid's Day Off
+        - Big Pink Loser
+        - Bubble Buddy
+        - Mermaid Man and Barnacle Boy III
+        - Squirrel Jokes
+        - Dying for Pie
+        - Imitation Krabs
+        - Wormy
+        - Patty Hype
+        - Survival of the Idiots
+        - Dumped
+        - Grandma's Kisses
+        - Squidville
+        - No Free Rides
+        - I'm Your Biggest Fanatic
+        - Shanghaied
+        - Gary Takes a Bath
+        - Pressure
+        - The Smoking Peanut
+        - Pre-Hibernation Week
+        - Life of Crime
+        - The Secret Box
+        - Band Geeks
+        - Sailor Mouth
+        - Artist Unknown
+        - Jellyfish Hunter
+        - The Fry Cook Games
+        - Just One Bite
+        - The Bully
+        - Sandy, SpongeBob, & the Worm
+        - Squid on Strike
+        - Procrastination
+        - I'm with Stupid
+        - Mermaid Man and Barnacle Boy IV
+        - Doing Time
+        - Welcome to the Chum Bucket
+        - Frankendoodle
+        - The Snowball Effect
+        - One Krab's Trash
+        - Nasty Patty
+        - The Idiot Box
+        - As Seen on TV
+        - Can You Spare a Dime?
+        - No Weenies Allowed
+        - Squilliam Returns
+        - The Algae's Always Greener
+        - SpongeGuard on Duty
+        - Krab Borg
+        - Rock-a-Bye Bivalve
+        - Wet Painters
+        - Krusty Krab Training Video
+        - Chocolate with Nuts
+        - Mermaid Man and Barnacle Boy V
+        - Club SpongeBob
+        - My Pretty Seahorse
+        - Graveyard Shift
+        - Krusty Love
+        - New Student Starfish
+        - Clams
+        - The Great Snail Race
+        - Mid-Life Crustacean
+        - The Sponge Who Could Fly
+        - Born Again Krabs
+        - I Had an Accident
+        - Plankton's Army
+        - Missing Identity
+        - Krabby Land
+        - The Camping Episode
+        - SpongeBob Meets the Strangler
+        - Pranks a Lot
+        - Fear of a Krabby Patty
+        - Shell of a Man
+        - The Lost Mattress
+        - Krabs vs. Plankton
+        - Skill Crane
+        - Good Neighbors
+        - Selling Out
+        - Funny Pants
+        - Mermaid Man & Barnacle Boy VI - The Motion Picture
+        - Enemy In-Law
+        - Patrick SmartPants
+        - SquidBob TentaclePants
+        - Krusty Towers
+        - Mrs. Puff, You're Fired
+        - Ghost Host
+        - Chimps Ahoy!
+        - Whale of a Birthday
+        - Karate Island
+        - All That Glitters
+        - Wishing You Well
+        - New Leaf
+        - Once Bitten
+        - Squidtastic Voyage
+        - Bummer Vacation
+        - Best Day Ever
+        - Wigstruck
+        - That's No Lady
+        - The Thing
+        - Hocus Pocus
+        - Driven to Tears
+        - Rule of Dumb
+        - The Pink Purloiner
+        - The Gift of Gum
+        - Rise and Shine
+        - Waiting
+        - Sing a Song of Patrick
+        - Born to Be Wild
+        - Best Frenemies
+        - Spy Buddies
+        - Boat Smarts
+        - Good Ol' Whatshisname
+        - The Krusty Sponge
+        - Squid Wood
+        - New Digs
+        - Krabs à La Mode
+        - To Love a Patty
+        - Breath of Fresh Squidward
+        - Roller Cowards
+        - Bucket Sweet Bucket
+        - The Original Fry Cook
+        - Night Light
+        - Money Talks
+        - SpongeBob vs. The Patty Gadget
+        - Slimy Dancing
+        - A Flea in Her Dome
+        - The Donut of Shame
+        - The Krusty Plate
+        - Picture Day
+        - Pat No Pay
+        - BlackJack
+        - Blackened Sponge
+        - Mermaid Man vs. SpongeBob
+        - Fungus Among Us
+        - Le Big Switch
+        - The Inmates of Summer
+        - The Two Faces of Squidward
+        - The Battle of Bikini Bottom
+        - Banned in Bikini Bottom
+        - SpongeHenge
+        - 20,000 Patties Under the Sea
+        - Stanley S. SquarePants
+        - To Save a Squirrel
+        - Krabby Road
+        - Not Normal
+        - Gone
+        - Suction Cup Symphony
+        - Penny Foolish
+        - Nautical Novice
+        - Spongicus
+        - The Splinter
+        - Giant Squidward
+        - A Life in a Day
+        - Sun Bleached
+        - House Fancy
+        - No Nose Knows
+        - Patty Caper
+        - Plankton's Regular
+        - Boating Buddies
+        - The Krabby Kronicle
+        - The Slumber Party
+        - Grooming Gary
+        - Porous Pockets
+        - Krusty Krushers
+        - The Card
+        - Ditchin'
+        - Dear Vikings
+        - Shuffleboarding
+        - Slide Whistle Stooges
+        - Cephalopod Lodge
+        - Grandpappy the Pirate
+        - Professor Squidward
+        - Sand Castles in the Sand
+        - Toy Store of Doom
+        - Pets or Pests
+        - Komputer Overload
+        - Choir Boys
+        - Shell Shocked
+        - Pineapple Fever
+        - Single Cell Anniversary
+        - Squid's Visit
+        - Gullible Pants
+        - To SquarePants or Not to SquarePants
+        - Chum Caverns
+        - I Heart Dancing
+        - Goo Goo Gas
+        - No Hat for Pat
+        - Chum Bucket Supreme
+        - Someone's in the Kitchen with Sandy
+        - Growth Spout
+        - Tentacle-Vision
+        - The Inside Job
+        - Stuck in the Wringer
+        - Overbooked
+        - The Curse of Bikini Bottom
+        - Greasy Buffoons
+        - Model Sponge
+        - Keep Bikini Bottom Beautiful
+        - A Pal for Gary
+        - Gary in Love
+        - Rodeo Daze
+        - Back to the Past
+        - The Bad Guy Club for Villains
+        - A Day Without Tears
+        - Summer Job
+        - Squidward in Clarinetland
+        - One Coarse Meal
+        - The Play's the Thing
+        - SpongeBob's Last Stand
+        - Enchanted Tiki Dreams
+        - Gramma's Secret Recipe
+        - The Cent of Money
+        - That Sinking Feeling
+        - Karate Star
+        - Hide and Then What Happens?
+        - You Don't Know Sponge
+        - Yours, Mine and Mine
+        - Kracked Krabs
+        - Buried in Time
+        - Shellback Shenanigans
+        - The Masterpiece
+        - Whelk Attack
+        - Krusty Dogs
+        - The Wreck of the Mauna Loa
+        - The Great Patty Caper
+        - The Abrasive Side
+        - Earworm
+        - New Fish in Town
+        - Big Sister Sam
+        - 'Legends of Bikini Bottom: Sponge-Cano'
+        - 'Legends of Bikini Bottom: The Main Drain'
+        - 'Legends of Bikini Bottom: The Monster Who Came to Bikini Bottom'
+        - 'Legends of Bikini Bottom: Welcome to the Bikini Bottom Triangle'
+        - 'Legends of Bikini Bottom: Trenchbillies'
+        - 'Legends of Bikini Bottom: The Curse of the Hex'
+        - Love That Squid
+        - Tunnel of Glove
+        - Perfect Chemistry
+        - A Friendly Game
+        - Sentimental Sponge
+        - Squidward's School for Grown-Ups
+        - Oral Report
+        - The Hot Shot
+        - The Other Patty
+        - Frozen Face-Off
+        - Accidents Will Happen
+        - Drive Thru
+        - Sweet and Sour Squid
+        - The Googly Artiste
+        - Barnacle Face
+        - Pet Sitter Pat
+        - Mermaid Man Begins
+        - Plankton's Good Eye
+        - House Sittin' for Sandy
+        - Smoothe Jazz at Bikini Bottom
+        - Ghoul Fools
+        - Walking the Plankton
+        - Patrick's Staycation
+        - Mr. Krabs Takes a Vacation
+        - Mooncation
+        - A SquarePants Family Vacation
+        - The Krabby Patty That Ate Bikini Bottom
+        - Bubble Buddy Returns
+        - Bubble Troubles
+        - Way of the Sponge
+        - Planet of the Jellyfish
+        - Are You Happy Now?
+        - Restraining SpongeBob
+        - Glove World R.I.P.
+        - Home Sweet Rubble
+        - Fiasco!
+        - Free Samples
+        - inSPONGEiac
+        - Treats!
+        - Squiditis
+        - For Here or to Go?
+        - It's a SpongeBob Christmas!
+        - Karen 2.0
+        - Demolition Doofus
+        - Face Freeze!
+        - Extreme Spots
+        - Squirrel Record
+        - Squid Baby
+        - The Good Krabby Name
+        - License to Milkshake
+        - Hello Bikini Bottom!
+        - Gary's New Toy
+        - Super Evil Villain Aquatic Team Up is Go
+        - Chum Fricassee
+        - Move It or Lose It
+        - Eek! An Urchin
+        - Patrick-Man!
+        - Bumper to Bumper
+        - Squid's Defense
+        - Plankton's Pet
+        - Little Yellow Book
+        - Evil Spatula
+        - Jailbreak!
+        - Safe Depo­sit Krabs
+        - Don't Look Now
+        - Séance Shméance
+        - SpongeBob, You're Fired!
+        - It Came from Goo Lagoon
+        - Kenny the Cat
+        - Yeti Krabs
+        - Lost in Bikini Bottom
+        - Tutor Sauce
+        - Squid Plus One
+        - The Executive Treatment
+        - Company Picnic
+        - Pull Up a Barrel
+        - What's Eating Patrick?
+        - Sanctuary
+        - Patrick! the Game
+        - The Sewers of Bikini Bottom
+        - SpongeBob LongPants
+        - Larry's Gym
+        - Mall Girl Pearl
+        - Two Thumbs Down
+        - The Fish Bowl
+        - Married to Money
+        - Sharks vs. Pods
+        - CopyBob DittoPants
+        - Sold!
+        - Lame and Fortune
+        - Sandy's Nutmare
+        - Food Con Castaways
+        - Pineapple Invasion
+        - Salsa Imbecilicus
+        - Bulletin Board
+        - Mutiny on the Krusty
+        - Whirlybrains
+        - Snail Mail
+        - MermaidPants
+        - The Whole Tooth
+        - Mimic Madness
+        - House Worming
+        - Snooze You Lose
+        - Krusty Katering
+        - Spongebob's Place
+        - Plankton Gets the Boot
+        - Life Insurance
+        - Burst Your Bubble
+        - Plankton Retires
+        - Trident Trouble
+        - Unreal Estate
+        - Code Yellow
+        - The Getaway
+        - Lost and Found
+        - Patrick's Coupon
+        - Out of the Picture
+        - Spot Returns
+        - The Checkup
+        - Spin The Bottle
+        - Sportz?
+        - Cave Dwelling Sponge
+        - The Clam Whisperer
+        - Man Ray Returns
+        - Larry The Floor Manager
+        - Feral Friends
+        - Don't Wake Patrick
+        - The Legend Of Boo-kini Bottom
+        - Krabby Patty Creature Feature
+        - Teacher's Pests
+        - No Pictures, Please
+        - Stuck on the Roof
+        - There's A Sponge In My Soup
+        - Cuddle E. Hugs
+        - Scavengerpants
+        - Squid Noir
+        - The Incredible Shrinking Sponge
+        - Pat the Horse
+        - Chatterbox Gary
+        - Don't Feed the Clowns
+        - Drive Happy
+        - Old Man Patrick
+        - Fun-Sized Friends
+        - Grandmum's the Word
+        - Doodle Dimension
+        - Moving Bubble Bass
+        - Bunny Hunt
+        - High Sea Diving
+        - The Tidal Zone
+        - Atlantis SquarePantis
+        - Truth or Square
+        - It's a SpongeBob Christmas!
+        - Goodbye, Krabby Patty?
+        - SpongeBob's Big Birthday Blowout
+        - 'The SpongeBob Musical: Live on Stage!'
+        - SpongeBob's Road to Christmas
+        - 'The SpongeBob Movie: Sponge on the Run'
+        - Behind the Pantis
+        - 'Square Roots: The Story of SpongeBob SquarePants'
+        - Blackened Sponge / Krusty Krushers / Dunces and Dragons / Karate Choppers / Karate Island / Karate Star / The Way of the Sponge
+        - SpongeBob's Best of the Worst
+        - 'SpongeBob''s Greatest Grilling Moments: F.U.N. / Ripped Pants / The Chaperone / The Camping Episode / The Best Day Ever / Wishing You Well / Hello Bikini'
+        - SpongeBob's Winter Wonderland
+        - SpongeBob's Squad Goals
+        - The Stars of SpongeBob Fan Favorites Special
+        - SpongeBob's Spookiest Scenes Countdown Special
+        - The Spongebob Sportspants Countdown Special
+        - Camping Episode' - Puppet Edition!
+        - Arrgh' - Puppet Edition!
+        - The Patrick Star Fan Favorites Special

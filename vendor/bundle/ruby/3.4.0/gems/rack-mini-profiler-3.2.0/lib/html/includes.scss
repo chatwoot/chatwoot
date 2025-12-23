@@ -1,0 +1,642 @@
+@mixin box-shadow($dx, $dy, $radius, $color) {
+  box-shadow: $dx $dy $radius $color;
+}
+
+$anchorColor: #0077cc;
+$buttonBorderColor: #888;
+$numberColor: #111;
+$textColor: #555;
+$mutedColor: #767676;
+$normalFonts: Helvetica, Arial, sans-serif;
+$codeFonts: Consolas, monospace, serif;
+$zindex: 2147483640; // near 32bit max 2147483647
+
+// do some resets
+.mp-snapshots,
+.profiler-result,
+.profiler-queries {
+  color: $textColor;
+  line-height: 1;
+  font-size: 12px;
+
+  pre,
+  code,
+  label,
+  table,
+  tbody,
+  thead,
+  tfoot,
+  tr,
+  th,
+  td {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    background-color: transparent;
+    overflow: visible;
+    max-height: none;
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  a,
+  a:hover {
+    cursor: pointer;
+    color: $anchorColor;
+  }
+  a {
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  .custom-fields-title {
+    color: $textColor;
+    font-family: $normalFonts;
+    font-size: 14px;
+  }
+  .ta-left  { text-align: left;  }
+  .ta-right { text-align: right; }
+}
+
+// styles shared between popup view and full view
+.profiler-result {
+  .profiler-toggle-duration-with-children {
+    float: right;
+  }
+  .profiler-snapshots-page-link {
+    float: left;
+  }
+  table.profiler-client-timings {
+    margin-top: 10px;
+  }
+  font-family: $normalFonts;
+
+  .profiler-label {
+    color: $textColor;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .profiler-unit {
+    color: $mutedColor;
+  }
+
+  .profiler-trivial {
+    display: none;
+    td,
+    td * {
+      color: $mutedColor !important;
+    }
+  }
+
+  pre,
+  code,
+  .profiler-number,
+  .profiler-unit {
+    font-family: $codeFonts;
+  }
+
+  .profiler-number {
+    color: $numberColor;
+  }
+
+  .profiler-info {
+    text-align: right;
+    .profiler-name {
+      float: left;
+    }
+    .profiler-server-time {
+      white-space: nowrap;
+    }
+  }
+
+  .profiler-timings {
+    th {
+      background-color: #fff;
+      color: $mutedColor;
+      text-align: right;
+    }
+    th,
+    td {
+      white-space: nowrap;
+    }
+    .profiler-duration-with-children {
+      display: none;
+    }
+    .profiler-duration {
+      color: $numberColor;
+      text-align: right;
+    }
+    .profiler-indent {
+      letter-spacing: 4px;
+    }
+    .profiler-queries-show {
+      .profiler-number,
+      .profiler-unit {
+        color: $anchorColor;
+      }
+    }
+    .profiler-queries-duration {
+      padding-left: 6px;
+    }
+    .profiler-percent-in-sql {
+      white-space: nowrap;
+      text-align: right;
+    }
+
+    tfoot {
+      td {
+        padding-top: 10px;
+        text-align: right;
+
+        a {
+          font-size: 95%;
+          display: inline-block;
+          margin-left: 12px;
+
+          &:first-child {
+            float: left;
+            margin-left: 0px;
+          }
+          &.profiler-custom-link {
+            float: left;
+          }
+        }
+      }
+    }
+  }
+
+  .profiler-queries {
+    font-family: $normalFonts;
+
+    .profiler-stack-trace {
+      margin-bottom: 15px;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid #f1f1f1;
+    }
+
+    tr {
+      background-color: #fff;
+      &.higlight-animate {
+        animation: highlight-in 3s;
+      }
+    }
+
+    tr.slow {
+      background-color: #fee;
+    }
+
+    tr.very-slow {
+      background-color: #fdd;
+    }
+
+    tr.very-very-slow {
+      background-color: #fcc;
+    }
+
+    pre {
+      font-family: $codeFonts;
+      white-space: pre-wrap;
+    }
+
+    th {
+      background-color: #fff;
+      border-bottom: 1px solid $textColor;
+      font-weight: bold;
+      padding: 15px;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px;
+      text-align: left;
+
+      &:last-child {
+        padding-right: 25px; // compensate for scrollbars
+      }
+    }
+
+    .profiler-since-start,
+    .profiler-duration {
+      text-align: right;
+    }
+
+    .profiler-info div {
+      text-align: right;
+      margin-bottom: 5px;
+    }
+
+    .profiler-gap-info,
+    .profiler-gap-info td {
+      background-color: #ccc;
+    }
+    .profiler-gap-info {
+      .profiler-unit {
+        color: #777;
+      }
+      .profiler-info {
+        text-align: right;
+      }
+      &.profiler-trivial-gaps {
+        display: none;
+      }
+    }
+
+    .profiler-trivial-gap-container {
+      text-align: center;
+    }
+
+    // prettify colors
+    .str {
+      color: maroon;
+    }
+    .kwd {
+      color: #00008b;
+    }
+    .com {
+      color: gray;
+    }
+    .typ {
+      color: #2b91af;
+    }
+    .lit {
+      color: maroon;
+    }
+    .pun {
+      color: #000;
+    }
+    .pln {
+      color: #000;
+    }
+    .tag {
+      color: maroon;
+    }
+    .atn {
+      color: red;
+    }
+    .atv {
+      color: blue;
+    }
+    .dec {
+      color: purple;
+    }
+  }
+
+  .profiler-warning,
+  .profiler-warning *,
+  .profiler-warning .profiler-queries-show,
+  .profiler-warning .profiler-queries-show .profiler-unit {
+    // i'm no good at css
+    color: #f00;
+    &:hover {
+      color: #f00;
+    }
+  }
+
+  .profiler-nuclear {
+    color: #f00;
+    &:hover {
+      color: #f00;
+    }
+    font-weight: bold;
+    padding-right: 2px;
+  }
+}
+
+// ajaxed-in results will be appended to this
+.profiler-results {
+  z-index: $zindex + 3;
+  position: fixed;
+
+  $radius: 10px;
+
+  &.profiler-top {
+    top: 0px;
+
+    &.profiler-left {
+      left: 0px;
+
+      &.profiler-no-controls .profiler-totals,
+      &.profiler-no-controls .profiler-result:last-child .profiler-button,
+      .profiler-controls {
+        border-bottom-right-radius: $radius;
+      }
+
+      .profiler-button,
+      .profiler-controls {
+        border-right: 1px solid $buttonBorderColor;
+      }
+    }
+
+    &.profiler-right {
+      right: 0px;
+
+      &.profiler-no-controls .profiler-totals,
+      &.profiler-no-controls .profiler-result:last-child .profiler-button,
+      .profiler-controls {
+        border-bottom-left-radius: $radius;
+      }
+
+      .profiler-button,
+      .profiler-controls {
+        border-left: 1px solid $buttonBorderColor;
+      }
+    }
+  }
+
+  &.profiler-bottom {
+    bottom: 0px;
+
+    &.profiler-left {
+      left: 0px;
+
+      &.profiler-no-controls .profiler-totals,
+      &.profiler-no-controls .profiler-result:first-child .profiler-button,
+      .profiler-controls {
+        border-top-right-radius: $radius;
+      }
+
+      .profiler-button,
+      .profiler-controls {
+        border-right: 1px solid $buttonBorderColor;
+      }
+    }
+
+    &.profiler-right {
+      right: 0px;
+
+      &.profiler-no-controls .profiler-totals,
+      &.profiler-no-controls .profiler-result:first-child .profiler-button,
+      .profiler-controls {
+        border-top-left-radius: $radius;
+      }
+
+      .profiler-button,
+      .profiler-controls {
+        border-left: 1px solid $buttonBorderColor;
+      }
+    }
+  }
+
+  .profiler-button,
+  .profiler-controls {
+    display: none;
+    z-index: $zindex;
+    border-bottom: 1px solid $buttonBorderColor;
+    background-color: #fff;
+    padding: 4px 7px;
+    text-align: right;
+    cursor: pointer;
+
+    &.profiler-button-active {
+      background-color: maroon;
+
+      .profiler-number,
+      .profiler-nuclear {
+        color: #fff;
+        font-weight: bold;
+      }
+      .profiler-unit {
+        color: #fff;
+        font-weight: normal;
+      }
+    }
+  }
+
+  .profiler-totals {
+    .profiler-reqs {
+      font-family: $codeFonts;
+      font-size: 10px;
+      margin-left: 6px;
+      &:before {
+        font-family: $codeFonts;
+        content: "×";
+        margin-right: 1px;
+      }
+    }
+  }
+
+  .profiler-controls {
+    display: block;
+    font-size: 12px;
+    font-family: $codeFonts;
+    cursor: default;
+    text-align: center;
+
+    span {
+      border-right: 1px solid $mutedColor;
+      padding-right: 5px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+
+    span:last-child {
+      border-right: none;
+    }
+  }
+
+  .profiler-popup {
+    display: none;
+    z-index: $zindex + 1;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #aaa;
+    padding: 5px 10px;
+    text-align: left;
+    line-height: 18px;
+    overflow: auto;
+
+    @include box-shadow(0px, 1px, 15px, $textColor);
+
+    .profiler-info {
+      margin-bottom: 3px;
+      padding-bottom: 2px;
+      border-bottom: 1px solid #ddd;
+
+      .profiler-name {
+        font-size: 110%;
+        font-weight: bold;
+        .profiler-overall-duration {
+          display: none;
+        }
+      }
+      .profiler-server-time {
+        font-size: 95%;
+      }
+    }
+
+    .profiler-timings {
+      th,
+      td {
+        padding-left: 6px;
+        padding-right: 6px;
+      }
+
+      th {
+        font-size: 95%;
+        padding-bottom: 3px;
+      }
+
+      .profiler-label {
+        max-width: 275px;
+      }
+    }
+  }
+
+  .profiler-queries {
+    display: none;
+    z-index: $zindex + 3;
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: auto;
+    background-color: #fff;
+
+    th {
+      font-size: 17px;
+    }
+  }
+
+  &.profiler-min .profiler-result {
+    display: none;
+  }
+
+  &.profiler-min .profiler-controls span {
+    display: none;
+  }
+
+  &.profiler-min .profiler-controls .profiler-min-max {
+    border-right: none;
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .profiler-more-actions {
+    float: left;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+// popup results' queries will be displayed in front of this
+.profiler-queries-bg {
+  z-index: $zindex + 2;
+  display: none;
+  background: #000;
+  opacity: 0.7;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  min-width: 100%;
+}
+
+// used when viewing a shared, full page result
+.profiler-result-full {
+  .profiler-result {
+    width: 950px;
+    margin: 30px auto;
+
+    .profiler-button {
+      display: none;
+    }
+
+    .profiler-popup {
+      .profiler-info {
+        font-size: 25px;
+        border-bottom: 1px solid $mutedColor;
+        padding-bottom: 3px;
+        margin-bottom: 25px;
+
+        .profiler-overall-duration {
+          padding-right: 20px;
+          font-size: 80%;
+          color: #888;
+        }
+      }
+
+      .profiler-timings {
+        td,
+        th {
+          padding-left: 8px;
+          padding-right: 8px;
+        }
+        th {
+          padding-bottom: 7px;
+        }
+        td {
+          font-size: 14px;
+          padding-bottom: 4px;
+
+          &:first-child {
+            padding-left: 10px;
+          }
+        }
+
+        .profiler-label {
+          max-width: 550px;
+        }
+      }
+    }
+
+    .profiler-queries {
+      margin: 25px 0;
+      table {
+        width: 100%;
+      }
+      th {
+        font-size: 16px;
+        color: $textColor;
+        line-height: 20px;
+      }
+
+      td {
+        padding: 15px 10px;
+        text-align: left;
+      }
+
+      .profiler-info div {
+        text-align: right;
+        margin-bottom: 5px;
+      }
+    }
+  }
+}
+
+@keyframes highlight-in {
+  0% {
+    background: #ffffbb;
+  }
+  100% {
+    background: #fff;
+  }
+}
+
+.mp-snapshots {
+  font-family: $normalFonts;
+  font-size: 16px;
+
+  .snapshots-table {
+    thead {
+      background: #6a737c;
+      color: #ffffff;
+    }
+    th, td {
+      padding: 5px 10px;
+      box-sizing: border-box;
+      &:not(.request-group) {
+        text-align: center;
+      }
+    }
+    th {
+      border-right: 1px solid #ffffff;
+    }
+  }
+}

@@ -1,0 +1,95 @@
+gli - create command-suite apps, a la git, using this awesome Ruby DSL
+======================================================================
+
+Setup and Usage
+---------------
+
+Installation:
+$ gem install gli
+
+Show list of commands
+$ gli help [command]
+
+Show help for one command
+$ gli help init
+
+Create a new GLI-based project with the commands foo and bar
+$ gli init project_name foo bar
+
+Create a new GLI-based project with an ext directory
+$ gli init -e project_name foo bar
+
+Create a new GLI-based project without a test directory (bad!)
+$ gli init --notest project_name foo bar
+
+Create a new GLI-based project somewhere else than .
+$ gli -r /tmp init project_name foo bar
+
+Just see what GLI would create
+$ gli -n init -e project_name foo bar
+
+
+Using GLI's DSL
+---------------
+
+Create a switch (option that takes no args)
+
+  desc 'Dry-run; don't change the disk
+  switch [:n,'dry-run']
+  # Both -n and --dry-run will work
+  * --no-dry-run will set the switch to false
+  # Access in code via global_options[:n]
+  # or global_options[:'dry-run']
+
+Create it on one line
+  switch :n,'dry-run', :desc => 'Dry-run; don't change the disk
+
+Don't create a negatable version
+  switch :n,'dry-run', :negatable => false, :desc => 'Dry-run; don't change the disk
+  # --no-dry-run is not accepted 
+
+Create a flag (option that takes an argument)
+
+  desc 'Location of the config file'
+  arg_name 'path_to_file'
+  default_value '~/.glirc'
+  flag [:c,:conf], :must_match => /^\..*rc$/
+  # Both -c and --conf work, if this flag is omitted
+  # then the default of ~/.glirc is avaialble to the code
+  # The argument must match the given regex
+  # Access in code via global_options[:c] (or :conf)
+
+Create a flag in a more compact style
+
+  flag :c,:conf, :desc => 'Location of the config file', 
+                 :arg_name => 'path_to_file', :default_value =>  '~/.glirc'
+
+Create a command
+
+  desc 'Get the list of open tickets'
+  command [:tickets] do |c|
+    c.desc 'Only assigned to me'
+    c.switch [:m,:me]
+
+    c.desc 'Show only tickets for one project'
+    c.flag [:p,:project,'only-project']
+
+    c.action do |global_options,options,args|
+      # global_options has the global options as a hash
+      # options are the command specific ones (e.g. options[:p])
+      # args are the command line arguments that weren't parsed
+      # raise an exception or exit_now! if things go wrong
+    end
+  end
+
+Set up stuff ahead of time
+
+  pre do |global_options,command,options,args|
+    return true if things_are_ok
+    return false if we_should_abort_the_command
+  end
+
+Use GLI
+
+  exit run(ARGV)
+  # run returns a suitable exit status

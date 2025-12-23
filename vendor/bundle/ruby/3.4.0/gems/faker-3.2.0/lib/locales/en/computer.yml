@@ -1,0 +1,55 @@
+en:
+  faker:
+    computer:
+      type:
+        - server
+        - workstation
+      platform:
+        - Linux
+        - macOS
+        - Windows
+        - OpenBSD
+        - TempleOS
+        - Plan 9
+      os:
+        linux:
+          - RHEL 9.0
+          - RHEL 7.7
+          - RHEL 6.10
+          - CentOS 8.5
+          - CentOS 7
+          - CentOS 6
+          - Debian 11.4.0
+          - Debian 10.10.3
+          - Debian 9.9.10
+          - Ubuntu Server 22.04
+          - Ubuntu Server 20.04
+          - Ubuntu Server 19.10
+          - Ubuntu Server 18.04
+          - ArchLinux 2022.08.05
+          - ArchLinux 2020.02.01
+          - openSUSE Leap 15.4
+          - openSUSE Leap 15.1
+          - Ubuntu Desktop 22.04
+          - Ubuntu Desktop 20.04
+          - Ubuntu Desktop 18.04
+          - Ubuntu Desktop 19.10
+        openbsd:
+          - OpenBSD 7.1
+          - OpenBSD 6
+        templeos:
+          - TempleOS 5.03
+        plan 9:
+          - Plan 9 Fourth Edition
+        macos:
+          - Catalina (10.15)
+          - Mojave (10.14)
+          - High Sierra (10.13)
+        windows:
+          - Windows 11
+          - Windows 10
+          - Windows 8.1
+          - Windows 7
+          - Windows Server 2019
+          - Windows Server 2016
+          - Windows Server 2012 R2

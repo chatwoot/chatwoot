@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>
-      <%= @global_config['INSTALLATION_NAME'] %>
+      <%= @global_config['BRAND_NAME'] || @global_config['INSTALLATION_NAME'] %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
     <% if @global_config['DISPLAY_MANIFEST'] %>
@@ -28,7 +28,14 @@
       <link class="favicon" rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
       <link rel="manifest" href="/manifest.json">
     <% end %>
-    <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
+    <% if @global_config['BRAND_FAVICON_URL'].present? %>
+      <link rel="icon" type="image/png" href="<%= @global_config['BRAND_FAVICON_URL'] %>">
+    <% else %>
+      <link rel="icon" type="image/png" sizes="512x512" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
+    <% end %>
+    <% if @global_config['BRAND_APPLE_TOUCH_ICON_URL'].present? %>
+      <link rel="apple-touch-icon" href="<%= @global_config['BRAND_APPLE_TOUCH_ICON_URL'] %>">
+    <% end %>
     <%= csrf_meta_tags %>
     <script>
       window.chatwootConfig = {
@@ -73,7 +80,7 @@
     <%= vite_client_tag %>
     <%= vite_javascript_tag @application_pack %>
   </head>
-  <body class="text-slate-600">
+  <body class="text-slate-600 theme-synkicrm">
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>

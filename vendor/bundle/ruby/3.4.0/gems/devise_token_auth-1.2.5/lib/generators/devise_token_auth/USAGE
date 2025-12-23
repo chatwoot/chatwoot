@@ -1,0 +1,31 @@
+Description:
+  This generator will install all the necessary configuration and migration
+  files for the devise_token_auth gem. See
+  https://github.com/lynndylanhurley/devise_token_auth for more information.
+
+Arguments:
+  USER_CLASS # The name of the class to use for user authentication. Default is
+             # 'User'
+  MOUNT_PATH # The path at which to mount the authentication routes. Default is
+             # 'auth'. More detail documentation is here:
+             # https://devise-token-auth.gitbook.io/devise-token-auth/usage
+
+Example:
+  rails generate devise_token_auth:install User auth
+
+  This will create:
+      config/initializers/devise_token_auth.rb
+      db/migrate/<%= Time.zone.now.utc.strftime("%Y%m%d%H%M%S") %>_create_devise_token_auth_create_users.rb
+      app/models/user.rb
+
+  If 'app/models/user.rb' already exists, the following line will be inserted
+  after the class definition:
+      include DeviseTokenAuth::Concerns::User
+
+  The following line will be inserted into your application controller at
+  app/controllers/application_controller.rb:
+      include DeviseTokenAuth::Concerns::SetUserByToken
+
+  The following line will be inserted at the top of 'config/routes.rb' if it
+  does not already exist:
+      mount_devise_token_auth_for "User", at: 'auth'

@@ -1,0 +1,330 @@
+%{
+#define GPERF_DOWNCASE 1
+#define GPERF_CASE_STRNCMP 1
+#define gperf_case_strncmp strncasecmp
+struct zone {
+    int name;
+    int offset;
+};
+static const struct zone *zonetab(register const char *str, register size_t len);
+%}
+
+struct zone;
+%%
+ut,   0*3600
+gmt,  0*3600
+est, -5*3600
+edt, -4*3600
+cst, -6*3600
+cdt, -5*3600
+mst, -7*3600
+mdt, -6*3600
+pst, -8*3600
+pdt, -7*3600
+a,    1*3600
+b,    2*3600
+c,    3*3600
+d,    4*3600
+e,    5*3600
+f,    6*3600
+g,    7*3600
+h,    8*3600
+i,    9*3600
+k,   10*3600
+l,   11*3600
+m,   12*3600
+n,   -1*3600
+o,   -2*3600
+p,   -3*3600
+q,   -4*3600
+r,   -5*3600
+s,   -6*3600
+t,   -7*3600
+u,   -8*3600
+v,   -9*3600
+w,  -10*3600
+x,  -11*3600
+y,  -12*3600
+z,    0*3600
+utc,  0*3600
+wet,  0*3600
+at,  -2*3600
+brst,-2*3600
+ndt, -(1*3600+1800)
+art, -3*3600
+adt, -3*3600
+brt, -3*3600
+clst,-3*3600
+nst, -(2*3600+1800)
+ast, -4*3600
+clt, -4*3600
+akdt,-8*3600
+ydt, -8*3600
+akst,-9*3600
+hadt,-9*3600
+hdt, -9*3600
+yst, -9*3600
+ahst,-10*3600
+cat,2*3600
+hast,-10*3600
+hst,-10*3600
+nt,  -11*3600
+idlw,-12*3600
+bst,  1*3600
+cet,  1*3600
+fwt,  1*3600
+met,  1*3600
+mewt, 1*3600
+mez,  1*3600
+swt,  1*3600
+wat,  1*3600
+west, 1*3600
+cest, 2*3600
+eet,  2*3600
+fst,  2*3600
+mest, 2*3600
+mesz, 2*3600
+sast, 2*3600
+sst,  -11*3600
+bt,   3*3600
+eat,  3*3600
+eest, 3*3600
+msk,  3*3600
+msd,  4*3600
+zp4,  4*3600
+zp5,  5*3600
+ist,  (5*3600+1800)
+zp6,  6*3600
+wast, 2*3600
+cct,  (6*3600+1800)
+sgt,  8*3600
+wadt, 8*3600
+jst,  9*3600
+kst,  9*3600
+east,-6*3600
+gst, 10*3600
+eadt,11*3600
+idle,12*3600
+nzst,12*3600
+nzt, 12*3600
+nzdt,13*3600
+afghanistan,             16200
+alaskan,                -32400
+arab,                    10800
+arabian,                 14400
+arabic,                  10800
+atlantic,               -14400
+aus central,             34200
+aus eastern,             36000
+azores,                  -3600
+canada central,         -21600
+cape verde,              -3600
+caucasus,                14400
+cen. australia,          34200
+central america,        -21600
+central asia,            21600
+central europe,           3600
+central european,         3600
+central pacific,         39600
+central,                -21600
+china,                   28800
+dateline,               -43200
+e. africa,               10800
+e. australia,            36000
+e. europe,                7200
+e. south america,       -10800
+eastern,                -18000
+egypt,                    7200
+ekaterinburg,            18000
+fiji,                    43200
+fle,                      7200
+greenland,              -10800
+greenwich,                   0
+gtb,                      7200
+hawaiian,               -36000
+india,                   19800
+iran,                    12600
+jerusalem,                7200
+korea,                   32400
+mexico,                 -21600
+mid-atlantic,            -7200
+mountain,               -25200
+myanmar,                 23400
+n. central asia,         21600
+nepal,                   20700
+new zealand,             43200
+newfoundland,           -12600
+north asia east,         28800
+north asia,              25200
+pacific sa,             -14400
+pacific,                -28800
+romance,                  3600
+russian,                 10800
+sa eastern,             -10800
+sa pacific,             -18000
+sa western,             -14400
+samoa,                  -39600
+se asia,                 25200
+malay peninsula,         28800
+south africa,             7200
+sri lanka,               21600
+taipei,                  28800
+tasmania,                36000
+tokyo,                   32400
+tonga,                   46800
+us eastern,             -18000
+us mountain,            -25200
+vladivostok,             36000
+w. australia,            28800
+w. central africa,        3600
+w. europe,                3600
+west asia,               18000
+west pacific,            36000
+yakutsk,                 32400
+acdt,37800
+acst,34200
+act,-18000
+acwst,31500
+aedt,39600
+aest,36000
+aft,16200
+almt,21600
+anast,43200
+anat,43200
+aoe,-43200
+aqtt,18000
+awdt,32400
+awst,28800
+azost,0
+azot,-3600
+azst,18000
+azt,14400
+bnt,28800
+bot,-14400
+btt,21600
+cast,28800
+chadt,49500
+chast,45900
+chost,32400
+chot,28800
+chst,36000
+chut,36000
+cidst,-14400
+cist,-18000
+ckt,-36000
+cot,-18000
+cvt,-3600
+cxt,25200
+davt,25200
+ddut,36000
+easst,-18000
+ect,-18000
+egst,0
+egt,-3600
+fet,10800
+fjst,46800
+fjt,43200
+fkst,-10800
+fkt,-14400
+fnt,-7200
+galt,-21600
+gamt,-32400
+get,14400
+gft,-10800
+gilt,43200
+gyt,-14400
+hkt,28800
+hovst,28800
+hovt,25200
+ict,25200
+idt,10800
+iot,21600
+irdt,16200
+irkst,32400
+irkt,28800
+irst,12600
+kgt,21600
+kost,39600
+krast,28800
+krat,25200
+kuyt,14400
+lhdt,39600
+lhst,37800
+lint,50400
+magst,43200
+magt,39600
+mart,-30600
+mawt,18000
+mht,43200
+mmt,23400
+mut,14400
+mvt,18000
+myt,28800
+nct,39600
+nfdt,43200
+nft,39600
+novst,25200
+novt,25200
+npt,20700
+nrt,43200
+nut,-39600
+omsst,25200
+omst,21600
+orat,18000
+pet,-18000
+petst,43200
+pett,43200
+pgt,36000
+phot,46800
+pht,28800
+pkt,18000
+pmdt,-7200
+pmst,-10800
+pont,39600
+pwt,32400
+pyst,-10800
+qyzt,21600
+ret,14400
+rott,-10800
+sakt,39600
+samt,14400
+sbt,39600
+sct,14400
+sret,39600
+srt,-10800
+syot,10800
+taht,-36000
+tft,18000
+tjt,18000
+tkt,46800
+tlt,32400
+tmt,18000
+tost,50400
+tot,46800
+trt,10800
+tvt,43200
+ulast,32400
+ulat,28800
+uyst,-7200
+uyt,-10800
+uzt,18000
+vet,-14400
+vlast,39600
+vlat,36000
+vost,21600
+vut,39600
+wakt,43200
+warst,-10800
+wft,43200
+wgst,-3600
+wgt,-7200
+wib,25200
+wit,32400
+wita,28800
+wt,0
+yakst,36000
+yakt,32400
+yapt,36000
+yekst,21600
+yekt,18000
+%%

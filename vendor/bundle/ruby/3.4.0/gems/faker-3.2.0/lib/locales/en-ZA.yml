@@ -1,0 +1,148 @@
+en-ZA:
+  faker:
+    internet:
+      domain_suffix: [org.za, co.za, com]
+    address:
+      default_country: [South Africa, The Replublic of South Africa, SA, Afrique du Sud, Zuid-Afrika]
+      default_country_code: ["ZA"]
+      postcode: ['####', '#####']
+      provinces: [Limpopo, Gauteng, Free State, North West, Northern Cape, Western Cape, KwaZulu-Natal, Mpumalanga, Eastern Cape]
+      province:
+        - "#{provinces}"
+      state:
+        - "#{provinces}"
+      cities: [Alice, Bellville, Benoni, Bethlehem, Bloemfontein, Boksburg, Brakpan, Butterworth, Cape Town, Carletonville, Constantia, Durban, East London, Emalahleni, Empangeni, George, Germiston, Giyani, Graaff-Reinet, Grahamstown, Hopefield, Jagersfontein, Johannesburg, Kimberley, King William's Town, Klerksdorp, Kroonstad, Krugersdorp, Kuruman, Ladysmith, Lebowakgomo, Mahikeng, Mmabatho, Mthatha, Musina, Nelspruit, Newcastle, Odendaalsrus, Oudtshoorn, Paarl, Parys, Phalaborwa, Phuthaditjhaba, Pietermaritzburg, Pinetown, Polokwane, Port Elizabeth, Port Nolloth, Potchefstroom, Pretoria, Queenstown, Randburg, Randfontein, Roodepoort, Rustenburg, Sasolburg, Secunda, Seshego, Sibasa, Simon's Town, Soweto, Springs, Stellenbosch, Swellendam, Thabazimbi, Tshwane, Uitenhage, Ulundi, Umlazi, Vanderbijlpark, Vereeniging, Virginia, Welkom, Worcester, Zwelitsha]
+      city:
+          - "#{cities}"
+    company:
+      company_names: [Ab-block Imgrin, ACASA, ACASA Bank, Africa-Host, Aspon Pharmaceuticals, Automobile Associates, Bardrays Africa, Boat-Net Ports, BusConneX, c.tv, Caspers, Cell B, Choose 'n Loose, Diabettovo Sugar, Dimdata Division, Eishkom, EX-acto, Gojira Group, Harmony Au, Helkom, Helkom Mobile, Holland Group, Impi Platinum, Inglow Platinum, Leadbank, LITE Healthcare, Lithotel, Medical-Clinics 'R Us, Merckers, Met 'n Care, Mobile Telecoms, Nasmal, NOVA Busses Pty Ltd, NeetWEB, Petrom, Phlegm-Net, Pie Foods, Prime Media Circuit, Rooster Record Company, Second Rand, Sewiz Gold Mines, Shmapitec Bank, Shop-a-right, Silver Bolt Bus Services, Silver Fields, Simba Iron Ore, SingleChoice, South African Brewing Company, South African Broadcast Company, Spam Digital Media, Substandard Bank, Third Nation Bank, TNB Connect, Trains-Net, Tyger Branding, Yodakom]
+      suffix: [Pty Ltd, CC, Group, and Sons, Sole Proprietor, Trust]
+      name:
+        - "#{company_names}"
+        - "#{Name.last_name} #{suffix}"
+        - "#{Name.last_name}-#{Name.last_name}"
+        - "#{Name.last_name}, #{Name.last_name} and #{Name.last_name}"
+      type: [Pty Ltd, Close Corporation, Sole Proprietor, Trust, Non Profit Organisation, Listed Company]
+    phone_number:
+      # https://en.wikipedia.org/wiki/Telephone_numbers_in_South_Africa
+      formats:
+        # National Dialling codes
+        - "010 ### ####" # New overlay plan for Johannesburg
+        - "011 ### ####" # Witwatersrand region around Johannesburg, currently code for entire Greater Johannesburg
+        - "012 ### ####" # Pretoria and surrounding towns (also includes Brits)
+        - "013 ### ####" # Eastern Gauteng (Bronkhorstspruit) and Western and northern Mpumalanga: Middelburg, Witbank and Nelspruit
+        - "014 ### ####" # Northern North West and Southwestern Limpopo: Rustenburg and Modimolle
+        - "015 ### ####" # Northern and Eastern Limpopo: Polokwane
+        - "016 ### ####" # Vaal Triangle: Vereeniging, Vanderbijlpark and Sasolburg, which constitutes an anomaly, since Sasolburg isn't the old Transvaal.
+        - "017 ### ####" # Southern Mpumalanga: Ermelo
+        - "018 ### ####" # Southern North West: Lichtenburg, Potchefstroom and Klerksdorp
+        - "021 ### ####" # Cape Town metropole and surrounds, including Stellenbosch, Somerset West and Gordon's Bay
+        - "022 ### ####" # Boland and West Coast: Malmesbury
+        - "023 ### ####" # Worcester and greater Karoo, including Beaufort West
+        - "024 ### ####" # Somerset West (Became 021 in 1996)
+        - "027 ### ####" # Namaqualand (Northern Cape): Vredendal, Calvinia, Clanwilliam, Springbok, Alexander Bay, Port Nolloth
+        - "028 ### ####" # Southern region: Swellendam and Caledon / Hermanus region.
+        - "031 ### ####" # Durban
+        - "032 ### ####" # KZN North coast region: Verulam, Tongaat, Ballito and Stanger
+        - "033 ### ####" # Pietermaritzburg and KwaZulu-Natal Midlands
+        - "034 ### ####" # Vryheid, Newcastle and Northern KZN
+        - "035 ### ####" # Zululand region: St. Lucia, Richards Bay, Ulundi
+        - "036 ### ####" # Drakensberg region: Ladysmith
+        - "039 ### ####" # South coast: Port Shepstone and interior, and Eastern Pondoland (in Eastern Cape)
+        - "040 ### ####" # Bhisho
+        - "041 ### ####" # Port Elizabeth and Uitenhage
+        - "042 ### ####" # Southern region: Humansdorp
+        - "043 ### ####" # East London and surrounds
+        - "044 ### ####" # Garden Route, including Oudtshoorn, Knysna, Plettenberg Bay, Mossel Bay and George
+        - "045 ### ####" # Central region: Queenstown
+        - "046 ### ####" # Southern region: Grahamstown, Bathurst, Port Alfred, Kenton-on-Sea
+        - "047 ### ####" # Mthatha / most of previous Transkei
+        - "048 ### ####" # Northern region: Steynsburg
+        - "049 ### ####" # Western region: Graaff-Reinet
+        - "051 ### ####" # Central and southern region: Bloemfontein, and Aliwal North in E Cape
+        - "053 ### ####" # Kimberley, eastern part of Northern Cape, far west of NW province
+        - "054 ### ####" # Upington, Gordonia region
+        - "056 ### ####" # Northern Free State: Kroonstad
+        - "057 ### ####" # Northern Free State: Welkom (Goldfields region)
+        - "058 ### ####" # Eastern Free State: Bethlehem
+        # International Dialling codes
+        - "+2710 ### ####" # New overlay plan for Johannesburg
+        - "+2711 ### ####" # Witwatersrand region around Johannesburg, currently code for entire Greater Johannesburg
+        - "+2712 ### ####" # Pretoria and surrounding towns (also includes Brits)
+        - "+2713 ### ####" # Eastern Gauteng (Bronkhorstspruit) and Western and northern Mpumalanga: Middelburg, Witbank and Nelspruit
+        - "+2714 ### ####" # Northern North West and Southwestern Limpopo: Rustenburg and Modimolle
+        - "+2715 ### ####" # Northern and Eastern Limpopo: Polokwane
+        - "+2716 ### ####" # Vaal Triangle: Vereeniging, Vanderbijlpark and Sasolburg, which constitutes an anomaly, since Sasolburg isn't the old Transvaal.
+        - "+2717 ### ####" # Southern Mpumalanga: Ermelo
+        - "+2718 ### ####" # Southern North West: Lichtenburg, Potchefstroom and Klerksdorp
+        - "+2721 ### ####" # Cape Town metropole and surrounds, including Stellenbosch, Somerset West and Gordon's Bay
+        - "+2722 ### ####" # Boland and West Coast: Malmesbury
+        - "+2723 ### ####" # Worcester and greater Karoo, including Beaufort West
+        - "+2724 ### ####" # Somerset West (Became 021 in 1996)
+        - "+2727 ### ####" # Namaqualand (Northern Cape): Vredendal, Calvinia, Clanwilliam, Springbok, Alexander Bay, Port Nolloth
+        - "+2728 ### ####" # Southern region: Swellendam and Caledon / Hermanus region.
+        - "+2731 ### ####" # Durban
+        - "+2732 ### ####" # KZN North coast region: Verulam, Tongaat, Ballito and Stanger
+        - "+2733 ### ####" # Pietermaritzburg and KwaZulu-Natal Midlands
+        - "+2734 ### ####" # Vryheid, Newcastle and Northern KZN
+        - "+2735 ### ####" # Zululand region: St. Lucia, Richards Bay, Ulundi
+        - "+2736 ### ####" # Drakensberg region: Ladysmith
+        - "+2739 ### ####" # South coast: Port Shepstone and interior, and Eastern Pondoland (in Eastern Cape)
+        - "+2740 ### ####" # Bhisho
+        - "+2741 ### ####" # Port Elizabeth and Uitenhage
+        - "+2742 ### ####" # Southern region: Humansdorp
+        - "+2743 ### ####" # East London and surrounds
+        - "+2744 ### ####" # Garden Route, including Oudtshoorn, Knysna, Plettenberg Bay, Mossel Bay and George
+        - "+2745 ### ####" # Central region: Queenstown
+        - "+2746 ### ####" # Southern region: Grahamstown, Bathurst, Port Alfred, Kenton-on-Sea
+        - "+2747 ### ####" # Mthatha / most of previous Transkei
+        - "+2748 ### ####" # Northern region: Steynsburg
+        - "+2749 ### ####" # Western region: Graaff-Reinet
+        - "+2751 ### ####" # Central and southern region: Bloemfontein, and Aliwal North in E Cape
+        - "+2753 ### ####" # Kimberley, eastern part of Northern Cape, far west of NW province
+        - "+2754 ### ####" # Upington, Gordonia region
+        - "+2756 ### ####" # Northern Free State: Kroonstad
+        - "+2757 ### ####" # Northern Free State: Welkom (Goldfields region)
+        - "+2758 ### ####" # Eastern Free State: Bethlehem
+    cell_phone:
+      formats:
+        # vodacom
+        - "+2782 ### ####"
+        - "+2772 ### ####"
+        - "+2776 ### ####"
+        - "+2779 ### ####"
+        - "+2760 ### ####"
+        - "+2761 ### ####"
+        - "082 ### ####"
+        - "072 ### ####"
+        - "076 ### ####"
+        - "079 ### ####"
+        - "060 ### ####"
+        - "061 ### ####"
+        # mtn
+        - "+2783 ### ####"
+        - "+2773 ### ####"
+        - "+2763 ### ####"
+        - "083 ### ####"
+        - "073 ### ####"
+        - "063 ### ####"
+        # 8ta
+        - "+2781 ### ####"
+        - "+2761 ### ####"
+        - "081 ### ####"
+        - "061 ### ####"
+        # cell-c
+        - "+2784 ### ####"
+        - "+2774 ### ####"
+        - "084 ### ####"
+        - "074 ### ####"
+    name:
+      last_name: [Abraham, Abrahams, Ackerman, Ackermann, Adam, Adams, Adendorff, Adonis, Adriaan, Africa, Ahmed, Alberts, Albertus, Albertyn, Aletta, Alexander, Allan, Allen, Allie, Allison, Ally, Amanda, Amod, Anderson, Andrew, Andrews, Andries, Ann, Annandale, Anthony, Antoinette, April, Arendse, Armstrong, Arnold, Arthur, Aucamp, Austin, Badenhorst, Bailey, Baker, Baloyi, Bam, Barker, Barkhuizen, Barnard, Barnes, Barry, Bartlett, Basson, Beck, Becker, Beetge, Bekker, Bell, Benade, Beneke, Benjamin, Bennett, Bergh, Berry, Bester, Beukes, Beyers, Bezuidenhout, Bhana, Bhengu, Bierman, Blaauw, Black, Blake, Blignaut, Bloem, Blom, Booi, Booyens, Booysen, Bornman, Bosch, Boshoff, Bosman, Botes, Botha, Bothma, Boucher, Bouwer, Bowers, Bradley, Brand, Brandt, Bredenkamp, Breedt, Breytenbach, Brink, Brits, Britz, Bronkhorst, Broodryk, Brooks, Brown, Bruce, Brummer, Bruwer, Buitendag, Burger, Burgess, Burns, Buthelezi, Butler, Buys, Calitz, Cameron, Campbell, Campher, Carelse, Caroline, Carr, Carstens, Carter, Cassim, Cecilia, Cele, Chapman, Charles, Charlotte, Charmaine, Chauke, Chetty, Christiaan, Christian, Christie, Christina, Christoffel, Christopher, Cilliers, Claasen, Claassen, Claassens, Clark, Clarke, Cloete, Coertze, Coetsee, Coetser, Coetzee, Coetzer, Cohen, Cole, Coleman, Collins, Combrinck, Combrink, Conradie, Constance, Cook, Cooper, Cornelia, Cornelius, Correia, Cox, Crafford, Craig, Crawford, Cronje, Cross, Crous, Cunningham, Cupido, Cynthia, Damons, Daniel, Daniels, David, Davids, Davidson, Davies, Davis, Dawood, Dawson, Daya, De Beer, Dean, Deetlefs, Delport, Dennis, Desai, Deysel, Deyzel, Dhlamini, Dicks, Dickson, Diedericks, Dippenaar, Dixon, Dladla, Dlamini, Dollie, Domingo, Dorfling, Dorothea, Douglas, Dreyer, Du Plessis, Du Toit, Dube, Duma, Duncan, Dunn, Duvenage, Duvenhage, Ebrahim, Edward, Edwards, Ehlers, Eksteen, Elliott, Ellis, Eloff, Els, Emmanuel, Engelbrecht, Enslin, Erasmus, Erwee, Essack, Essop, Esterhuizen, Esterhuyse, Evans, Eybers, Faber, Faith, Fakier, Farrell, Ferguson, Fernandes, Ferreira, Fick, Fisher, Fletcher, Forbes, Ford, Fortuin, Fortune, Foster, Fouche, Fourie, Fox, Francis, Francois, Frank, Fraser, Frederick, Fredericks, Freeman, Fritz, Frost, Fynn, Gabriel, Gama, Geldenhuys, George, Gerber, Gerhardus, Gericke, Geyer, Geyser, Gibson, Gilbert, Godfrey, Goliath, Gomes, Goodman, Goosen, Gordon, Gounden, Gounder, Gouws, Govender, Govindasamy, Govindsamy, Grace, Graham, Grant, Gray, Greeff, Green, Gregory, Greyling, Greyvenstein, Griffin, Griffiths, Grobbelaar, Grobler, Groenewald, Grove, Gumede, Haasbroek, Hadebe, Hall, Hamilton, Hamman, Hammond, Hanekom, Hansen, Harding, Harmse, Harper, Harris, Harrison, Hart, Hartley, Hartman, Hartzenberg, Harvey, Hassen, Hassim, Hattingh, Haupt, Havenga, Hayes, Hayward, Heath, Hefer, Helena, Henderson, Hendricks, Henning, Henry, Herbert, Herbst, Herholdt, Herman, Hermanus, Herselman, Heunis, Heydenrych, Heyns, Hill, Hlatshwayo, Hlongwane, Hlophe, Hoffman, Hoffmann, Holmes, Holtzhausen, Hoosain, Hoosen, Hope, Horn, Horne, Hough, Howard, Hudson, Hughes, Hugo, Human, Hunt, Hunter, Hurter, Immelman, Isaac, Isaacs, Ismail, Jack, Jackson, Jacob, Jacoba, Jacobs, Jacobus, James, Jane, Janse Van Rensburg, Jansen, January, Jappie, Jardim, Jardine, Jean, Jenkins, Johan, John, Johnson, Johnston, Johnstone, Jonas, Jonathan, Jones, Jonker, Jooste, Jordaan, Jordan, Joseph, Joubert, Joy, Joyce, Julius, Kader, Kahn, Kapp, Kay, Kekana, Kelly, Kemp, Kennedy, Kent, Keyser, Khan, Khanyile, Khoza, Khumalo, Khuzwayo, Kilian, King, Kirsten, Kisten, Kitching, Klein, Kleinhans, Kleynhans, Klopper, Kloppers, Knight, Knoetze, Koch, Kock, Koekemoer, Koen, Kok, Koopman, Kotze, Krause, Kriek, Kriel, Krige, Kritzinger, Kruger, Kubheka, Kuhn, Kumalo, Kunene, Labuschagne, Lambrechts, Lamprecht, Landman, Landsberg, Langa, Lange, Langenhoven, Lategan, Laubscher, Lawrence, Lawson, Lazarus, Le Roux, Leach, Ledwaba, Lee, Legodi, Leigh, Leonard, Lessing, Letsoalo, Levin, Levy, Lewis, Liebenberg, Lindeque, Lloyd, Lombaard, Lombard, Long, Loots, Lorraine, Lotter, Lottering, Lotz, Loubser, Louis, Louisa, Louise, Lourens, Louw, Louwrens, Lubbe, Lucas, Ludick, Lutchman, Luthuli, Maartens, Mabasa, Mabaso, Mabena, Mabunda, Mabuza, Macdonald, Mackay, Mackenzie, Madonsela, Magagula, Magrietha, Mahabeer, Maharaj, Mahlangu, Mahomed, Maistry, Majola, Makhanya, Malan, Malatji, Maleka, Malherbe, Malinga, Maluleka, Maluleke, Mamabolo, Mann, Mans, Manuel, Marais, Mare, Maree, Margaret, Margaretha, Marie, Maritz, Mark, Marshall, Marthinus, Martin, Martins, Marx, Mary, Masango, Maseko, Masemola, Mashaba, Mashego, Mason, Masuku, Mathe, Mathebula, Mathews, Matthee, Matthews, Matthysen, May, Mazibuko, Mbatha, Mbele, Mbhele, Mccarthy, Mcdonald, Mchunu, Mckenzie, Mclean, Mdlalose, Mdluli, Meintjes, Meiring, Meyer, Mhlanga, Mhlongo, Mia, Michael, Michelle, Miles, Miller, Mills, Minnaar, Minnie, Mitchell, Mkhize, Mkhwanazi, Mlambo, Mngomezulu, Mnguni, Mnisi, Modiba, Modise, Moeketsi, Mofokeng, Mogale, Mohamed, Mokoena, Mokone, Mokwena, Molefe, Moller, Moloi, Moloto, Momberg, Moodley, Moola, Moolla, Moolman, Moonsamy, Moore, Moosa, More, Morgan, Morkel, Morris, Morrison, Moses, Moss, Mostert, Motala, Motaung, Motloung, Motsepe, Mouton, Mphahlele, Mpho, Msibi, Msomi, Mthembu, Mthethwa, Mthombeni, Mtshali, Mudau, Muir, Mulaudzi, Mulder, Muller, Munro, Munsami, Munsamy, Murphy, Murray, Murugan, Myburgh, Mynhardt, Nagel, Naicker, Naidoo, Naidu, Naiker, Nair, Narainsamy, Naude, Ncube, Ndaba, Ndlela, Ndlovu, Neethling, Nel, Nell, Nelson, Nene, Newman, Ngcobo, Ngema, Ngidi, Ngobeni, Ngobese, Ngubane, Ngwenya, Nhlapo, Nicholas, Nicholson, Niemand, Niemann, Nienaber, Nieuwoudt, Nkabinde, Nkomo, Nkosi, Nkuna, Nolte, Norman, Norris, Nortje, Nothnagel, Ntombela, Ntuli, Nunes, Nxumalo, Nzimande, Oberholzer, October, Odendaal, Oelofse, Olckers, Oliphant, Oliver, Omar, Oosthuizen, Oosthuysen, Opperman, Osman, Otto, Owen, Padayachee, Page, Palmer, Panday, Parbhoo, Parker, Parsons, Paruk, Patel, Paterson, Pather, Patience, Patricia, Patrick, Paul, Paulse, Paulsen, Payne, Pearce, Pearl, Pearson, Pelser, Pereira, Perumal, Peter, Peters, Petersen, Peterson, Petrus, Petzer, Pheiffer, Philander, Phillip, Phillips, Phiri, Pienaar, Pieter, Pieters, Pieterse, Pietersen, Pillay, Pistorius, Porter, Portia, Posthumus, Potgieter, Powell, Precious, Pretorius, Price, Prince, Prins, Prinsloo, Prudence, Pule, Putter, Raath, Rabe, Rabie, Radebe, Rademan, Rademeyer, Rajah, Rampersad, Ramsamy, Randall, Ras, Raubenheimer, Rautenbach, Raymond, Reddy, Redelinghuys, Reed, Reid, Retief, Reyneke, Reynolds, Rheeder, Ribeiro, Richard, Richards, Richardson, Richter, Riekert, Rikhotso, Riley, Robert, Roberts, Robertson, Robinson, Rodrigues, Roets, Rogers, Roodt, Roos, Rose, Ross, Rossouw, Rousseau, Roux, Rowe, Rudman, Rudolph, Ruiters, Russell, Ruth, Ryan, Saayman, Salie, Sampson, Samsodien, Samuel, Samuels, Sanders, Sauls, Saunders, Sayed, Scheepers, Schmidt, Schoeman, Scholtz, Schreuder, Schroeder, Schultz, Schutte, Schwartz, Scott, Seedat, Selepe, Senekal, September, Serfontein, Shabangu, Shaik, Shange, Sharon, Shaw, Sheik, Shezi, Shongwe, Sibanyoni, Sibeko, Sibisi, Sibiya, Simelane, Simon, Simons, Simpson, Sinclair, Singh, Sithole, Skosana, Slabber, Slabbert, Smal, Small, Smit, Smith, Smuts, Snyders, Snyman, Solomon, Solomons, Soobramoney, Sophia, Spangenberg, Spies, Stander, Stanley, Stapelberg, Stassen, Steenberg, Steenekamp, Steenkamp, Stemmet, Stephanus, Stephen, Stephens, Stevens, Stevenson, Stewart, Steyl, Steyn, Steynberg, Stols, Stoltz, Stone, Storm, Strauss, Struwig, Strydom, Stuart, Subramoney, Suliman, Susan, Sutherland, Swanepoel, Swart, Swarts, Swartz, Tait, Taljaard, Tau, Taylor, Tebogo, Teixeira, Terblanche, Theart, Theresa, Theron, Theunissen, Thiart, Thomas, Thompson, Thomson, Thwala, Titus, Trollip, Truter, Tshabalala, Tsotetsi, Tucker, Turner, Twala, Ungerer, Uys, Valentine, Van Der Merwe, Van Niekerk, Van Rooyen, Van Wyk, Van Zyl, Venter, Vermaak, Vermeulen, Veronica, Verster, Verwey, Victor, Vilakazi, Viljoen, Vincent, Visagie, Visser, Viviers, Vlok, Vogel, Voges, Volschenk, Vorster, Vos, Vosloo, Wagner, Walker, Wallace, Walsh, Walter, Walters, Ward, Warren, Watkins, Watson, Watt, Webb, Webber, Weber, Webster, Weideman, Welgemoed, Welman, Wentzel, Wepener, Wessels, West, Weyers, Wheeler, White, Whitehead, Wiese, Wiid, Wilhelmina, Wilken, Wilkinson, Willem, Willemse, William, Williams, Williamson, Wilson, Witbooi, Wolfaardt, Wolmarans, Wood, Woods, Wright, Xaba, Xulu, Young, Yvonne, Zeelie, Zietsman, Zondi, Zondo, Zulu, Zuma, Zungu, Zwane]
+      first_name: [Abbi, Abel, Abigail, Agmad, Alexandra, Alexi, Ally, Amahle, Amber, Ammaarah, Amogelang, Amos, Amy, Andre, Anita, Anmari, Anneke, Anthony, Armand, Arnauld, Ashley, Ashwin, Aurelia, Bandile, Banele, Bayron, Bella, Beth, Bianca, Bokamoso, Brendan, Brett, Buhle, Caitlin, Calvin, Cameron, Candice, Caressa, Carla, Chantelle, Charlotte, Chloë, Christina, Christopher, Claire, Claudia, Courtney, Cullen, Daniel, Danielia, Danielle, Deby, Declan, Devlin, Duncan, Ebrahim, Elijah, Elizabeth, Elvis mbuya, Emershan, Emily, Emma, Emmanuel, Enock, Erin, Ethan, Eugene, Ferdinand, Francois, Frans, Gabriel, Gavin, Gemma, Godwin, Gugulethu, Haajarah, Haco, Hannah, Iminathi, Is-haque, Isaac, Jade, James holly mwase, James, Jandre, Jayden, Jemondre, Jennifer, Jess, Jessica, Joanna, Jodi, Joshua, Juan, Junior, Justine, Kamogelo, Karabou, Kauthar, Kayla, Kayleigh, Keagan, Keanu, Kendal, Khayone, Kim, Kimberley, Kirsten, Kungawo, Laetitia, Laila, Laiq, Lanchesester, Lara, Larey, Lawrence, Leah, Lee-Ann, Lerato, Leroux, Lesedi, Lesego, Lethabo, Liberty, Lily, Lisa, Logan, Lolli, Luke, Lungelo, Malaika, Maria, Marita, Matthew, Mbali, Megan, Melissa, Meyer Bosman, Mia, Michael, Michelle, Mikayla, Minenhle, Mishka, Momo, Mounir, Mpho, Mpu, Munashe, Natalie, Ndumiso, Neil, Nicholas, Nicola, Nicole, Niel, Nqobile, Ntokozo, Ofentse, Ole, Oliver, Olivia, Patrick, Princess, Rachel, Raeesah, Raven, Reiner, René, Rethabile, Retief, Reuben, Ricardo, Ronald, Ruben, Ruth, Ryan, Saajidah, Sam, Sameera, Sarah, Savannah, Sego, Seth, Shane, Sharon, Sikhumbuzo, Simoné, Siyabonga, Spectra, Stan, Sue, Sylvester, Taahir, Tajah, Talia, Tanja, Tasneem, Ted, Thabani, Thandolweth, Thato, Theolin, Thomas, Tim, Tshegofatso, Vaness, Vanessa, William, Winslo, Xavier, Yash, Zam, Zama, Zenzo, Zoe, Zolani]
+      name_with_middle:
+        - "#{first_name} #{last_name} #{last_name}"
+    
+    # Can produce an invalid South African ID Number
+    # (See Faker::SouthAfrica.valid_id_number for alternative)
+    id_number:
+      formats: ["##########08#"]

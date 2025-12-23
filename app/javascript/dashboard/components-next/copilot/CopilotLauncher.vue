@@ -6,6 +6,8 @@ import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+
 const route = useRoute();
 
 const { uiSettings, updateUISettings } = useUISettings();
@@ -29,8 +31,15 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+const { isAdmin } = useAdmin();
+const adminFirst = useMapGetter('globalConfig/adminFirst');
 
 const showCopilotLauncher = computed(() => {
+  // Hide CopilotLauncher if admin-first mode is enabled and user is admin
+  if (isAdmin.value && adminFirst.value) {
+    return false;
+  }
+
   const isCaptainEnabled = isFeatureEnabledonAccount.value(
     currentAccountId.value,
     FEATURE_FLAGS.CAPTAIN

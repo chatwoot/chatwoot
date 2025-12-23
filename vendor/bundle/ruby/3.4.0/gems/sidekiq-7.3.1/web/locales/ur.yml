@@ -1,0 +1,80 @@
+# elements like %{queue} are variables and should not be translated
+ur:
+  Actions: ﻋﻮاﻣﻞ
+  AddToQueue: ﻗﻄﺎﺭ ميں شامل کريں
+  AreYouSure: کيا یقین ؟
+  AreYouSureDeleteJob: کيا آپ یقین جاب حتم کرنا چاھتے ہيں ؟
+  AreYouSureDeleteQueue: کيا آپ یقین قطار حتم کرنا چاھتے ہيں ؟
+  Arguments: دلائل
+  BackToApp: ﻭاپﺱ صفحۂ اﻭﻝ پر
+  Busy: مصروف
+  Class: کلاس
+  Connections: کنکشنز
+  CreatedAt: ﺗﺎﺭﻳﺢ آﻏﺎﺯ
+  CurrentMessagesInQueue: قطار ميں موجود تمام پيغامات <span class='title'>%{queue}</span>
+  Dashboard: صفحۂ اول
+  Dead: ختم شدہ
+  DeadJobs: ختم شدہ جاب
+  Delete: ﺣﺬﻑ
+  DeleteAll: ﺗﻤﺎﻡ ﺣﺬﻑ کر ديں
+  Enqueued: قطار ميں شامل
+  Error: مسئلہ
+  ErrorBacktrace: مسئلہ کی کی تحقیقات کريں
+  ErrorClass: مسئلہ کی کلاس
+  ErrorMessage: مسئلہ کی وجہ
+  Extras: اﺻﺎﻑی
+  Failed: ﻧﺎکاﻡ ﺷﺪﮦ
+  Failures: ناکامیاں
+  GoBack: واپس جايں
+  History: ﺗﺎﺭﻳﺦ
+  Job: جاب
+  Jobs: جابز
+  Kill: ختم کرديں
+  LastRetry: گزشتہ کوشش
+  LivePoll: ﺑﺮاﮦ ﺭاﺳﺖ
+  MemoryUsage: یاداشت کا استعمال
+  Namespace: Namespace
+  NextRetry: اگلی کﻭﺷﻴﺶ
+  NoDeadJobsFound: کویٔ ختم شدہ جاب نہيی ملی
+  NoRetriesFound: کویٔ ﺩﻭﺑﺎﺭﮦ کﻭﺷﻴﺶ نھيں ملی
+  NoScheduledFound: کویٔ ﻁےﺷﺪﮦچيز نہیں ملی
+  NotYetEnqueued: ﻗﺘﺎﺭميں شامل نھيں
+  OneMonth: ایک مہینہ
+  OneWeek: ایک ہفتہ
+  OriginallyFailed: ابتادائ ناکامی
+  Paused: موقوف
+  PeakMemoryUsage: سب سے زيادہ یاداشت کا استعمال
+  Plugins: پلگ انز
+  PollingInterval: ﺑﺮاﮦ ﺭاﺳﺖ کا ﺩﻭﺭاﻧﻴﮧ
+  Processed: مکمل شدہ
+  Processes: ﻋﻤﻠﻴﺎﺕ
+  Queue: قطار
+  Queues: قطاريں
+  Quiet: ﺣﺘﻢ کﺭﻭ
+  QuietAll: ﺗﻤﺎﻡ ﺣﺘﻢ کﺭﻭ
+  Realtime: ﺑﺮاﮦ ﺭاﺳﺖ
+  Retries: ﺩﻭﺑﺎﺭﮦ کﻭﺷﻴﺶ
+  RetryAll: ﺗﻤﺎﻡ کی ﺩﻭﺑﺎﺭﮦ کﻭﺷﻴﺶ کﺭيں
+  RetryCount: دوبارہ کوشش کا مکمل شمار
+  RetryNow: ابھی دوبارہ کوشش
+  Scheduled: ﻁےﺷﺪﮦ
+  ScheduledJobs: ﻁےﺷﺪﮦجاب
+  ShowAll: سارے دکھاو
+  SixMonths: چھ ماہ
+  Size: ﺣﺠﻢ
+  Started: شروع
+  Status: اسٹیٹس
+  Stop: بند کرو
+  StopAll: ﺗﻤﺎﻡ ﺑﻨﺪ کﺭﻭ
+  StopPolling: ﺑﺮاﮦ ﺭاﺳﺖ روکيے
+  TextDirection: 'rtl'
+  Thread: موضوع
+  Threads: موضوع
+  ThreeMonths: تین ماہ
+  Time: ﻭﻗﺖ
+  Uptime: اپ ٹائم
+  Version: ورژن
+  When: ﺏک
+  Worker: ورکر
+  active: فعال
+  idle: بیکار

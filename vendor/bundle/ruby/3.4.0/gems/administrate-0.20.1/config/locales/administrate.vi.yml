@@ -1,0 +1,30 @@
+---
+vi:
+  administrate:
+    actions:
+      confirm: Bạn có chắc không?
+      destroy: Xóa
+      edit: Sửa
+      edit_resource: Sửa %{name}
+      show_resource: Xem %{name}
+      new_resource: Mới %{name}
+      back: Trở lại
+    controller:
+      create:
+        success: "%{resource} đã được tạo thành công."
+      destroy:
+        success: "%{resource} đã được xóa thành công."
+      update:
+        success: "%{resource} đã được cập nhật thành công."
+    fields:
+      has_many:
+        more: "%{count} trên %{total_count}"
+        none: Không
+    form:
+      error: error
+      errors: "%{pluralized_errors} prohibited this %{resource_name} from being saved:"
+    navigation:
+      back_to_app: Quay lại ứng dụng
+    search:
+      clear: Tìm kiếm rõ ràng
+      label: Tìm kiếm %{resource}

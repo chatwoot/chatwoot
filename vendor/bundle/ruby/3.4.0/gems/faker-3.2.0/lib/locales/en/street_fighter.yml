@@ -1,0 +1,1524 @@
+en:
+  faker:
+    games:
+      street_fighter:
+        characters:
+          - Abel
+          - Abigail
+          - Adon
+          - Akuma
+          - Alex
+          - Balrog
+          - Birdie
+          - Blanka
+          - C. Viper
+          - Cammy
+          - Charlie
+          - Chun-Li
+          - Cody
+          - Dan
+          - Decapre
+          - Dee Jay
+          - Dhalsim
+          - Dudley
+          - E. Honda
+          - Eagle
+          - Ed
+          - El Fuerte
+          - Elena
+          - Evil Ryu
+          - F.A.N.G
+          - Falke
+          - Fei Long
+          - G
+          - Gen
+          - Gill
+          - Gouken
+          - Guile
+          - Guy
+          - Hakan
+          - Hugo
+          - Ibuki
+          - Ingrid
+          - Juli
+          - Juni
+          - Juri
+          - Kage
+          - Karin
+          - Ken
+          - Kolin
+          - Laura
+          - Lucia
+          - M. Bison
+          - Maki
+          - Makoto
+          - Menat
+          - Necalli
+          - Necro
+          - Oni
+          - Oro
+          - Poison
+          - Q
+          - R. Mika
+          - Rashid
+          - Remy
+          - Rolento
+          - Rose
+          - Rufus
+          - Ryu
+          - Sagat
+          - Sakura
+          - Sean
+          - Seth
+          - Shin Akum
+          - Sodom
+          - T. Hawk
+          - Twelve
+          - Urien
+          - Vega
+          - Violent Ken
+          - Yang
+          - Yun
+          - Zangief
+          - Zeku
+        stages:
+          - A Shadow Falls stages
+          - Air Force Base
+          - Amazon River Basin
+          - Antarctica
+          - Apprentice Alley
+          - Ayutthaya Ruins
+          - Battle Harbor
+          - Beautiful Bay
+          - Big Factory
+          - Blast Furnace
+          - Bonus Stage
+          - Bustling Side Street
+          - City in Chaos
+          - Cosmic Elevator
+          - Crowded Downtown
+          - Cruise Ship Stern
+          - Crumbling Laboratory
+          - Deserted Temple
+          - Dojo
+          - Drive-in At Night
+          - English Manor
+          - Exciting Street Scene
+          - Festival At The Old Temple
+          - Field of Fate
+          - Flamenco Tavern
+          - Forgotten Waterfall
+          - High Roller Casino
+          - Hillside Plaza
+          - Historic Distillery
+          - Holly Jolly Beatdown
+          - Inland Jungle
+          - Jurassic Era Research Facility
+          - Kanzuki Beach
+          - Kanzuki Estate
+          - Kapukon Yu
+          - Kasugano Residence
+          - King's Court
+          - Kousyu Street
+          - Lair of the Four Kings
+          - Las Vegas
+          - Mad Gear Hideout
+          - Maharaja's Palace
+          - Metro City Bay Area
+          - Mishima Estate
+          - Old Temple
+          - Overpass
+          - Palazzo Mistero
+          - Pandora's Box
+          - Pitch-black Jungle
+          - Port of Genoa
+          - Ring of Destiny
+          - Ring of Justice
+          - Ring of Power
+          - Ring of Pride
+          - Rising Dragoon
+          - Run-down Back Alley
+          - Secret Laboratory
+          - Shadaloo Base
+          - Shopping District, Taiping Road
+          - Skies of Honor
+          - Skyscraper Under Construction
+          - Small Airfield
+          - Snowy Rail Yard
+          - Solar Eclipse
+          - Sun Chase Moon
+          - Suzaku Castle
+          - Temple Hideout
+          - The Dojo of Rindo-Kan
+          - The Half Pipe
+          - The Lemony
+          - The Lemony
+          - Tokyo
+          - Training Stage
+          - Underground Arena
+          - Union Station
+          - Urban War Zone
+          - Volcanic Rim
+        quotes:
+          - Go home and be a family man.
+          - On the battlefield its important to retreat at the first sign of Defeat.
+          - Street fighting is all about analysis, predictions and reaction Thats it.
+          - My adopted father and his friends kept me from being lonley I should be happy.
+          - I need to pick up a dog collar on the way back, I wonder which color is the best?
+          - He has to be somewhere. I must continue my search!
+          - You're strong! You'd make quite a mercenary.
+          - That was a close one listen, do you mind if I ask you about shadaolo?
+          - Sorry, but I don't have time for a rematch. I'm in a hurry right now.
+          - Was it all a dream?
+          - I'm sorry...
+          - Muay Thai is the single most powerful art on the face of the planet!
+          - Like the mighty jaguar, I grow more powerful with each victory!
+          - No one is strong enough to face me! No one!
+          - There is no value in allowing the weak to live!
+          - A new legend is born this day! All hail the mighty Adon!
+          - Feast your eyes on the new King of Muay Thai!
+          - Not bad, but not good enough to dethrone the king!
+          - Annoying worm! Begone with you!
+          - Remember this day, for it is the day you truly understood your own weakness!
+          - I am the king!
+          - Fool!
+          - The true fighter can stare death in the face and lash out in rage against it!
+          - My blows penetrate flesh and contaminate the very bones within!
+          - Never step into the ring unless you are ready to leave this mortal coil!
+          - My destiny is to defeat all challengers who wander the earth!
+          - The moment you challenged me was the moment you sealed your fate!
+          - My fists know no equal!
+          - This battle is not yet over!
+          - The weak do not deserve a rematch, but an open grave bearing their name.
+          - Such pitiful insolence!
+          - Messatsu!
+          - Fool!
+          - Nothin' feels as satisyin' as knockin' chumps out with these here fists!
+          - I'm tired of wastin' my talents on third rate chumps like you!
+          - You should be grateful you even had a chance to step into the ring with me!
+          - So, you go any information I can sell? Spill it before I split your head open!
+          - I don't need nothin' I can't buy with cold, hard cash!
+          - Damn! My fists have your blood on them!
+          - You tried to hit me just now, didn't ya? I'll make you pay for that!
+          - I don't have time to waste on losers like you!
+          - Gimme all your money before I punch your lights out, chump!
+          - Hah ha ha ha ha ha ha
+          - Beat it, chump!
+          - My psycho power feeds on hatred and death!
+          - I demand an opponent worthy of my strength!
+          - When I control the planet, I shall purge it of all hope!
+          - Anyone who defies me willingly invites thier own death!
+          - Close your eyes! An endless nightmare awaits!
+          - Embrace your fear as you are enveloped by an eternal nightmare!
+          - Kneel before me or die beneath my heal. The choice is yours to make freely!
+          - Pledge your allegiance to Shadaloo and I will let you live!
+          - One as weak as you has nothing to offer! Your life ends now!
+          - Kneel before me!
+          - Worm!
+          - The king of the Jungle is the King of the world.
+          - I've gotta get stronger! I can't go home until I'm good enough for my mama!
+          - Until you forget mankind's rules and fight like a beast, you can't beat me!
+          - Crocodiles are good, but I prefer the taste of a nice pirarucu!
+          - I liked living in the jungle, but I'd rather be with my moma now.
+          - You can't defeat me with moves like that!
+          - You're stong! We should hang out!
+          - You didn't keep your mind on the fight. That's why you lost!
+          - I'm stronger than you! I'm better than you!
+          - Ogwow! Oh! Oh!
+          - Arooooo!
+          - Size and strength are no use if you can't hit me.
+          - My friends are not my weakness, but my strength.
+          - You wont get anywhere until you learn a thing or two about fighting.
+          - Off to find my next target!
+          - I'm thinking about adopting a cat when I get home.
+          - How does it feel getting beaten by a tiny girl like me?
+          - A rematch? Maybe some other time when I dont have a mission to worry about.
+          - I've no time to waste teaching amateurs to fight.
+          - Fighting amateurs like you is a waste of my precious time.
+          - Mission accomplshed!
+          - How dreadfully dull!
+          - Keep an eye on my father, I wont let you down.
+          - I feel even stronger than usual. That special training really paid off!
+          - Phew! That was no picinic, I guess I need to build up more muscle mass!
+          - Compared to the scum I deal with as a cop, fighting you was a piece of cake!
+          - I'm tired. Maybe I'll eat some sweets to recharge.
+          - All men bow before me! I'm the strongest woman in the world!
+          - Not bad we should do this again sometime.
+          - You were out of breath towards the end. You need to work on your stamina.
+          - Sorry to be blunt, but you just don't have what it takes to beat me.
+          - Fighting like this brings back lots of memories.
+          - I don't need a reason. I just like to fight.
+          - The only thing that doesnt change, is the excitment of the fight.
+          - This is gettin' boring. Maybe I oughta head home.
+          - I prefer my fights quick an' easy.
+          - I've got time. You up for a rematch?
+          - A fighter that goes down that easy ain't worth a thing. Beat it!
+          - You sure you wanna be goin' around startin' fights with guys like me?
+          - If I'da known it'd be this boring on the outside, I'da stayed in prison.
+          - Let's get this over with.
+          - You were awfully reckless back there. Are you looking to get hazard pay?
+          - If I could change careers, I'd go for something that allows more time at home.
+          - I don't care about pride or ego. I'm just here to do my job.
+          - You should be more careful. There's no worker's comp if you get hurt.
+          - Lauren's birthday is comping up. I wonder what she'd like...
+          - I'm pretty good at the rough studd. Housework, not so much.
+          - You're not bad. You should try to get a contract offer and make some cash.
+          - I'm here for work. I don't have time to mess around with the likes of you!
+          - If you're not going to take this seriously, don't step into the ring.
+          - This is just business. Nothing personal.
+          - What a pain!
+          - Keep an eye on my father, I won't let the Saikyo arts down!
+          - Whoever's still standing wins! I almost tripped, but I didn't, so I win!
+          - I just thought of a great new taunt! Better write it down before I forget!
+          - If you let instant noodles soak long enough, they feel more filling!
+          - Dinner? I usually eat beans fight from the can while standing over the sink.
+          - Underestimating me is a sure fire way to get hurt!
+          - For a second, I thought I might lose...Aw, who am I kidding? I was sure of it!
+          - I stubbed my toe! I hope you have good insurance, bub!
+          - Now you have to join my dojo! Just write your name and credit card number here...
+          - Yahoo!
+          - No problem!
+          - Hey! We're just gettin' started! Stand up and let's go!
+          - Fantastic! Show me that move again!
+          - Are you OK? Was my dance too much for you?
+          - You're not hurt, are you? C'mon! Let's do it again!
+          - No regrets! Don't look back!
+          - Bravo! Feelin' good!
+          - Try not to get knocked out so quick next time, OK?
+          - Not bad!
+          - You've gotta try and feel your inner rhythm more. Like this! Get it?
+          - Feel the rhythm! Feel the rhyme! Get on up, it's Dee Jay time!
+          - OK!
+          - O, Agni, please accpet my humble thanks for the power you have granted me.
+          - I mustn't stop as long as there are forces who seek to do harm.
+          - My purifying flames wash my foes one by one as they fall before me.
+          - The road our souls travel is a long and winding one.
+          - Through meditation, we are able to touch the very fabric of space and time.
+          - You have lost because it was your destiny to do so. Do not resist.
+          - we may worship different gods, but your strength is to be praised.
+          - Give up. Your short limbs have no chance of reaching me.
+          - I do not like to fight without reason. Leave this place at once.
+          - This is destiny.
+          - Yoga yoga yoga yoga.
+          - Boxing is the most refined of the fighting arts.
+          - There is no shortcut to perfection. Hard training is the only way.
+          - There is a difference between refined strength and uncouth violence.
+          - I believe it's tea time now. Please excuse me...
+          - I'm afraid that fine roses are as rare as respectable fighters.
+          - I like you. Please allow me to buy you a pint.
+          - That was an exciting match. You have my gratitude.
+          - There isn't much variety in your routine, is there?
+          - You aren't ready to face me just yet. Contact me once you've trained harder.
+          - You have no dignity!
+          - Down for the count!
+          - I'm just getting started I have'nt showed you half of what I can do!
+          - Nothin' like a good fight to make you feel all warm an' fuzzy inside!
+          - Gah hah ha ha! I love seeing new moves in the ring!
+          - Man, I'm starving! I could go for some chanko stew!
+          - Sumo is fun to watch, but even more fun to try out for yourself!
+          - I'm the best Japan has to offer! And I'm off to conquer the world!
+          - Phew! Not bad! I almost thew in the towel!
+          - You'd better pack on the pounds or I'll be able to knock you over with a touch!
+          - You need to go back and start your training over again, bub!
+          - Victory is mine!
+          - Oh, yeah!
+          - That was one volcanic battle! Thanks for the memories amigo!
+          - Try the frijoles to test a restaurant! Try the special moves to test a fighter!
+          - Fighting is like cebollita! Add a little heat, and it gets a whole lot better!
+          - If you're feeling down, put some color in your cheeks with a bowl of red beets!
+          - How about a nice cactus pear? You can even eat the seeds!
+          - Nothing beats a heaping helping of paella, amigo! Want some?
+          - Looks like I made a new friend! We should go out and eat to celebrate!
+          - That was a great fight! I'll whip up a meal to celebrate! Any requests?
+          - Stay right where you are! I'll let you know when dinner is ready!
+          - Gracias!
+          - Rico!
+          - May the power of Bushin-ryu be etched forever into your retinas!
+          - Bushin-ryu allows me to pierce the sky and split the earth with my blows!
+          - Never attempt the same move after you have been once thwarted!
+          - Most fighters could not have lasted as long as you did.
+          - Sneakers are well-suited to swift-footed techniques!
+          - A restless spirit is no good in battle. Always meditate in preparation for war.
+          - This fight is over! Leave this place at once!
+          - What good is your defense if you cannot keep up with my speed?
+          - I am not your enemy! You must overcome yourself before you take on others!
+          - Sayonara!
+          - This is Bushinryu!
+          - I went easy on ya, amateur. You won't be so lucky next time!
+          - If you like oil, you'll love my brand of cooking oil! Care for a free sample?
+          - Using oil isn't cheating. You're welcome to oil up yourself, you know.
+          - Never fought a Turkish wrestler before? Glad I could enlighten you!
+          - Nothing makes me angrier than smokers. Don't they know fire is dangerous?
+          - No, no Stay down! Don't get up on my account! Just relax!
+          - Don't let it get to you. We all have days like this! You'll feel better soon!
+          - Not bad! But you've got plenty of room for improvement!
+          - Sorry about that! You're not hurt, are ya?
+          - How about some oil?
+          - I guess victory "slipped" from your grasp, eh? Wah hah ha ha ha!
+          - You've never seen a kunai throwing knife before? You've got to be kidding me!
+          - No rematch today! I'm in a hurry! Hit me up next time!
+          - Ninjas use to be cool, but now everyone is into pirates and robots and stuff.
+          - If that's the best you can do, you might wanna hire an after school tutor.
+          - I'm starved! what's a girl hafta do to get some cake around here?
+          - You'd flunk outta my ninja school in about 5 minutes...
+          - You're pretty strong! That was really fun!
+          - You should probably head home now. You really don't look so good.
+          - No sweat! That was nothing compared to the tests at my school!
+          - I'm starving!
+          - Train harder!
+          - You'll have to do better than that if you want to get me excited.
+          - Next time, I'll take my time and make things REALLY hurt.
+          - Damn! My eye's acting up! Doesn't matter against a loser like you, though.
+          - Don't think we're finished here. We have all night, baby...
+          - Don't worry. I'll let you live long enough to have a little fun with you.
+          - Learn to fight like me, and you'll realize how boring everything else is.
+          - How does it feel to know that your death is just a few heartbeats away?
+          - I didn't even need to use my eyes for the likes of you!
+          - You'll have to try harder than that. Come at me ready to kill!
+          - Now comes the fun part...
+          - Farewell!
+          - See? The stronger fighter always wins! As easy to understand as a flowchart!
+          - The whole American champion thing seems petty. I should aim even higher!
+          - I could really improve if I could find someone strong enough to beat me!
+          - Uh-oh! I'd better check with Eliza!
+          - Phew! I bet that would make for one exciting replay!
+          - Get back up and I'll just knock you down again!
+          - Not bad! Looks like I just earned myself a new rival!
+          - You know my moves, don't you? Why'd you just walk into 'em like that?
+          - Natural ability is great, but it takes work to use it!
+          - Yeah!
+          - Got it!
+          - Rindo-kan karate is the best! Who's next!
+          - Did you see that, Daddy? I'm gonna fix our dojo up good!
+          - Yeah! Looks like my moves work just as well on real world opponents!
+          - I know I'm still young, but fighters in training really have the desire to win!
+          - I'm gonna keep winning like this and get stronger and stronger!
+          - Whoah! You're pretty strong!
+          - You just haven't trained enough. You may as well quit the tournament now.
+          - You're to weak to use your loss to promote my dojo...
+          - I knew exactly what you'd try! Better luck next time!
+          - Don't underestimate me!
+          - Didja see that?
+          - True power is not just physical. Still, that hurt, didn't it?
+          - I have inflicted no grave injuries. Go now and recover.
+          - I used to think of this power as a curse, but now I appreciate it.
+          - I believe in the power of humanity.
+          - I'm so tired... I can hardly wait to relax with a nice bubble bath.
+          - That's all for today's lesson.
+          - I sense a strength within you. We will meet again.
+          - Victory is mine, but there is always next time. Shall I foresee the outcome?
+          - You are not cut out to be a fighter. It would be wise to seek another path.
+          - Embrace your destiny.
+          - Are you hurt?
+          - Man, I've gotten so famous lately that I can't even walk around outside anymore without people tryin' to ask for my autograph! I'm thinkin' maybe I need a bodyguard or somethin'! For real!
+          - So I was wonderin'... What's the difference between an ocean an' a sea, anyway? Is it just about size? Does the location matter? Can a sea get promoted to an ocean if it tries really hard?
+          - There ain't nothin I like more than a nice custom bike. It ain't just about the obvious stuff like color and shape, either. Ya gotta worry about the overall balance an' make sure it looks...
+          - I drove to China on my bike the other day. What? I ain't lyin', man! I never lie! I totally drove there on my bike! Don't belive me? Check a map! I'll retrace my steps for ya!
+          - Hobbies? Karaoke, baby! Can't get enough of it! One time Candy an' me, we rented out a karaoke box for a whole week! That was a blast! We're still payin' the owner for the busted speakers...
+          - I ain't just a legend in the fighting world, ya know. I'm also well-known in biker circles! Prolly considered the top biker in America! But I got my sights set even higher! One day, I'll...
+          - Candy's really into gardening lately. Ya know those little onion-lookin' things? They kinda look like me? Oh yeah! Bulbs! So, she planted a buncha bulbs in the garden, see? An' before long...
+          - Wanna know what I like most about Candy? Too bad! That's top secret privileged information, bub! I don't want you fallin' in love with her, too! Not that you could compete, but still...
+          - Why do women take so long to shop, anyway? Don't tell Candy I said this, but that girl took like 2 hours to decide between a couple of blouses that were the exact same color! No difference!
+          - Wataaah!
+          - Achoo!
+          - My journey to become the ultimate fighter has only just begun.
+          - Each time I fight, I learn something new. This journey has been fruitful.
+          - Even if my fists were to turn to dust, I would not give up in my quest!
+          - The more I learn, the more I realize how far I am from the end of my journey.
+          - The power I am after is the power to win - not the power to destroy!
+          - You must defeat my Shoryuken to stand a chance!
+          - No need to speak. Your fists told me everything I need to know about you.
+          - If you go into the ring expecting to fail, you will. Believe in yourself!
+          - Power alone is no guarantee of victory. Keep your eyes on your opponent!
+          - Give it your all!
+          - These two fists are everything to me!
+          - Do not place so much importance on winning. The fight itself has value.
+          - A strong fighter is not one who always wins, but one who stands after defeat.
+          - All the worlds fighters must bow before the undisputed king!
+          - I'm inspired by the courage of those who have fallen before my mighty fist.
+          - I will not rest until I know the meaning of the fight!
+          - They call me the king for a reason fool! You never stood a chance!
+          - Have you tested him in battle as well? Impressive, I shall remember you.
+          - You are not strong enough to go toe to toe with the undisputed king!
+          - You are not a warrior, you're a beginner.
+          - Stand up!
+          - Now you know the power of the king!
+          - Training is fun if you set your mind to a specific goal to work toward!
+          - Yes! I'm doing great! Gotta keep this up!
+          - Awesome fight! I'm on top of my game today!
+          - Oh no! I almost forgot I'm s'posed to meet Kei today! I'm gonna be late!
+          - I got some kind of invitation in the mail from Karin. I'd better reply!
+          - Yeah! That was great!
+          - That was so fun! We have to do it again soon!
+          - Phew! That was a close one! Wanna go again?
+          - You're pretty strong, but you need to mix up your moves a bit more.
+          - Thanks for fighting me!
+          - That's a wrap!
+          - Evil? Like the concept of gods, this is a meaningless human construct.
+          - No need to contemplate your future. That is for me to determine. Not you.
+          - My name, my consciousness, my power...Everything I have, I earned for myself!
+          - I was just looking for a test subject to assist in augmenting my engine...
+          - Before long, a new age will dawn upon the earth and I shall rule over all!
+          - Fear in the face of such power is only natural. No need to hide it.
+          - I am impressed. Now stand so that I may assimilate your data!
+          - I did not expect you to put up such a fight. You have impressed me.
+          - This has been a complete waste of time. Prepare for data deletion!
+          - My name is Seth. Remember it!
+          - I am ruler of all I survey!
+          - You cannot defeat me if you fight only for yourself.
+          - These fists fight for life. They are protected by benevolent spirits.
+          - Let us go to the ends of the earth!
+          - True warriors know no fear. This is not pride, but merely confidence.
+          - My power is bestowed upon me by the spirits. You have no such power!
+          - Spirits and men are both engaged in a constant journey.
+          - I do not fear death. But do not confuse this for resignation.
+          - Do not lament over your loss, for the spirits will heal and rejuvenate you.
+          - I will not stop until I have found my beloved and hold her in my arms!
+          - Let us depart.
+          - The wind speaks to us.
+          - No one compares to my beauty. Nor my strength.
+          - Not even the gods could create something that compares to my beauty.
+          - Blood is the most beautiful color known to mankind.
+          - Power and wealth are meaningless in the face of blinding beauty.
+          - I look the most beautiful when glimpsed in the moment of your demise.
+          - I am at my most beautiful when I am dealing the victory blow.
+          - The least I could do is defeat you with unmatched beauty and grace.
+          - Fighting ugly opponents depresses me to no end.
+          - The weak have nothing to offer and should be culled from the population.
+          - I am beautiful.
+          - Victory is beautiful.
+          - Choosing to fight me means that you are prepared to face defeat!
+          - My muscles are my shield and this shield can withstand any attack!
+          - Compared to my training in Siberia, street fights are mere child's play!
+          - Fans are what drive a wrestler's spirit! With support from my fans, I can't lose!
+          - If you want to build your leg muscles, you should try the Cossack Dance!
+          - I am the Red Cylcone and I destroy anything in my path!
+          - You'd better not try to stand up right away. I threw you awfully hard...
+          - That last move was impressive, comrade. But it was too little, too late!
+          - You need more muscle mass!
+          - You have to want victory!
+          - Khorosho I win!
+        moves:
+          - A.X.E.
+          - Abare Tosanami
+          - Abigail Punch
+          - Abigail Smash
+          - Abigail Special
+          - Absolute Zero
+          - Aegis Reflector
+          - Aeolus Edge
+          - Aerial Russian Slam
+          - Air Knee Smash
+          - Air Slasher
+          - Air Stampede
+          - Air Taunt
+          - Airbone Eagle Spike
+          - Airborne Dankukyaku
+          - Airborne Jaguar Kick
+          - Airborne Snake Strike
+          - Ajaratengu
+          - Alegrias
+          - Altair
+          - Angry Charge
+          - Annihilate Sword
+          - Arakuma Inashi
+          - Ascension
+          - Ashikari
+          - Ashura Senku
+          - Assault Roll
+          - Atomic Suplex
+          - Aura Soul Spark
+          - Aura Soul Spark Due
+          - Aura Soul Throw
+          - Aurora Spin Edge
+          - Avalanche Press
+          - Avant Line
+          - Axle Spin Knuckle
+          - B3
+          - Back Crusher
+          - Back Slash
+          - Back-Carry Throw
+          - Backstep Roll
+          - Bad Spray
+          - Bad Stone
+          - Bandit Chain
+          - Banishing Flat
+          - Batsuzan Gaisei
+          - Bay Area Sunrise
+          - Beak Assault
+          - Bean Ball
+          - Big Bang Typhoon
+          - Big Boot
+          - Birdie Time
+          - Bison Warp
+          - Black Widow
+          - Blitz Combination
+          - Bloody High Claw
+          - Bloody Kiss
+          - Bloody Rain
+          - Blue Nocturne
+          - Bolshoi Russian Suplex
+          - Bolt Charge
+          - Boomerang Raid
+          - Borscht Dynamite
+          - Brave Dance
+          - Break
+          - Break Dive
+          - Break Time
+          - Breathless
+          - Brimstone
+          - Brutal Impact
+          - Buffalo Headbutt
+          - Buffalo Pressure Crazy Rush
+          - Buffalo Swing
+          - Bull Head
+          - Bull Horn
+          - Bull Revenger
+          - Bullet Clear
+          - Burning Dance
+          - Burning Fight
+          - Burning Kick
+          - Burst Heel
+          - Burst Time
+          - Bursting Buffalo
+          - Bushin Bakujasho
+          - Bushin Gekirinchu
+          - Bushin Gokusaken
+          - Bushin Gokusanage
+          - Bushin Gokusanken Ni
+          - Bushin Gokusanken San
+          - Bushin Gokusanken Shu
+          - Bushin Goraikyaku
+          - Bushin Goraisenpujin
+          - Bushin Gram Ban
+          - Bushin Gram Koku
+          - Bushin Gram Teki
+          - Bushin Guraiha
+          - Bushin Hasoken
+          - Bushin Izuna Otoshi
+          - Bushin Jakura
+          - Bushin Kirinkyaku
+          - Bushin Muso Renge
+          - Bushin Sangoku Otoshi
+          - Bushin Seiryukyaku
+          - Bushin Senpukyaku
+          - Bushin Shidenkyaku
+          - Bushin Sho
+          - Bushin Soukosou
+          - Bushin Tengen
+          - Bushinryu Shingekiko
+          - Butsu-metsu Buster
+          - Byakko Soshoda
+          - C'mon
+          - Cage Climb
+          - Cancel
+          - Cannon Revenge
+          - Cannon Spike
+          - Cannon Strike
+          - Canterbury Blue
+          - Capture & Deadly Blow
+          - Cartwheel
+          - Ceremony of Honor
+          - Change of Direction
+          - Charging Buffalo
+          - Chariot Tackle
+          - Choke Sleeper
+          - Choke Whip
+          - Climax Beat
+          - Clouded Mirror
+          - Cold Blue Kick
+          - Condor Dive
+          - Condor Spire
+          - Corkscrew Blow
+          - Corkscrew Cross
+          - Cosmic Heel
+          - Coward Crouch
+          - Crack Kick
+          - Crazy Buffalo
+          - Crime Sway
+          - Criminal Punisher
+          - Criminal Upper
+          - Crimson Crucify
+          - Crimson Terror
+          - Critical Combo Attack
+          - Cross Counter
+          - Cross Scissors Pressure
+          - Cross Stinger Assault
+          - Crossfire Blitz
+          - Cruel Disaster
+          - Culminated Power
+          - Cyber Lariat
+          - Cyclone Lariat
+          - D.R.A.
+          - DCM
+          - Daikyo Burning
+          - Dangerous Headbutt
+          - Dangerous President
+          - Dankukyaku
+          - Danretsuken
+          - Dash Eagle Spike
+          - Dash Low Smash
+          - Dash Low Straight
+          - Dash Spinning Mixer
+          - Dash Straight
+          - Dash Swing Blow
+          - Dash Upper
+          - Dashing Head Attack
+          - Dashing Leg Attack
+          - Dashing Straight
+          - Daydream Headlock
+          - Dead End Irony
+          - Deadly Double Combination
+          - Death Cross Dance
+          - Death Flutter
+          - Delta Advance
+          - Delta Ambush
+          - Delta Drive
+          - Delta Step
+          - Delta Twist
+          - Demon Armageddon
+          - Denjin Hadoken
+          - Denjin Renki
+          - Devil Reverse
+          - Diamond Body
+          - Diamond Dust
+          - Dirty Bull
+          - Dirty Coach
+          - Dohatsu Shoten
+          - Dokunomu
+          - Dominant Crush
+          - Double Dread Kick
+          - Double Flash
+          - Double Kick
+          - Double Knee Press
+          - Double Lariat
+          - Double Slap
+          - Double Typhoon
+          - Dragon Smash
+          - Drop Back
+          - Drop Kick
+          - Dynamic Rolling
+          - Dynamite Punch
+          - Dynasty Dash
+          - EX Yoga Teleport
+          - Eagle Spike
+          - Earth Direct
+          - Easifa
+          - Easy Step
+          - El Fuerte Dynamite
+          - El Fuerte Flying Giga Buster
+          - El Fuerte Ultra Spark
+          - Elbow Drop
+          - Elbow Drop/Hiji Otoshi
+          - Electric Blaster
+          - Electric Snake
+          - Electric Thunder
+          - Emergency Combination
+          - Enchilada Jump
+          - Enhanced Snatcher
+          - Enjoy Time
+          - Eruption of Power
+          - Evil Stomp
+          - Fajita Buster
+          - Falling Arc
+          - Falling Sky
+          - Fatal Leg Twister
+          - Feng Shui Engine
+          - Feng Shui Engine Beta
+          - Feng Shui Engine type alpha
+          - Fightin' Dirty
+          - Final Atomic Buster
+          - Final Combination
+          - Final Destruction
+          - Fire Spinner
+          - Fire Squall
+          - Firecracker
+          - Flap Spin
+          - Flash Chop
+          - Flash Explosion
+          - Flash Kick
+          - Flower Kick
+          - Flying Barcelona Attack
+          - Flying Barcelona Special
+          - Flying Body Press
+          - Flying Cross Chop
+          - Flying Nachos
+          - Flying Oil Spin
+          - Flying Peach
+          - Flying Power Bomb
+          - Flying Viper
+          - Forbidden Shoryuken
+          - Fox Tail
+          - Front Flip
+          - Frost Edge
+          - Frost Touch
+          - Frost Tower
+          - Fudoshin
+          - Fuha Enzan
+          - Fuhajin
+          - Fuharenjin
+          - Fuharenkyaku
+          - Fuji Drop
+          - Fuji Otoshi
+          - Fukiage
+          - Fukuma Gohado
+          - Fukuro
+          - Fuma Shuriken
+          - Fusatsusen
+          - G Barrier
+          - G Burst
+          - G Charge
+          - G Explosion
+          - G Impact
+          - G Rage
+          - G Revenge
+          - G Smash Over
+          - G Smash Under
+          - G Spin Kick
+          - Gadoken
+          - Galactic Tornado
+          - Gekirinken
+          - Gekiro
+          - Gekkou
+          - Genei Jin
+          - Genko
+          - Gentle Swing
+          - German Suplex
+          - Giant Flip
+          - Giant Palm Bomber
+          - Gigas Breaker
+          - Gigaton Blow
+          - Giraffe Neck
+          - Gohadoken
+          - Gorai Hadoken
+          - Goshoryuken
+          - Grand Izuna Drop
+          - Ground Shave Roll
+          - Guacamole Leg Throw
+          - Guardian of the Sun
+          - Gun Smoke
+          - Guren Enjinkyaku
+          - Guren Ken
+          - Guren Senpukyaku
+          - Gyro Drive Smasher
+          - Habanero Back Dash
+          - Habanero Dash
+          - Hado Burst
+          - Hadoken
+          - Hadosho
+          - Hailstorm
+          - Hammer Knuckle
+          - Hammer Mountain
+          - Hanagashi
+          - Hanagasumi
+          - Hanging Chain
+          - Haoh Gadoken
+          - Hard Hit Knee
+          - Haru Arashi
+          - Haru Ichiban
+          - Haru Kaze
+          - Haru Ranman
+          - Hashinsho
+          - Hassou Tobi
+          - Hassoukyaku
+          - Hayagake
+          - Hayate
+          - Hazan Tenshou Kyaku
+          - Hazanshu
+          - Head Crush
+          - Head Press
+          - Healing
+          - Heart Raid
+          - Heart of Gold
+          - Heartless
+          - Heat Rush
+          - Heavenly Dynamite
+          - Heavy Hammer
+          - Hecatoncheires
+          - Hell Attack
+          - Hidden Dive
+          - Hien
+          - High Speed Barrage
+          - Hissho Buraiken
+          - Hitobashira Nobori
+          - Honey Trap
+          - Honshin
+          - Hooligan Combination
+          - Horn Breaker
+          - Hosenka
+          - Hou Shou
+          - Houyoku Sen
+          - Hozanto
+          - Hundred Hand Slap
+          - Hungabee
+          - Hurricane Spinner
+          - Hyakkishu
+          - Hyakurenko
+          - Hyakuretsukyaku
+          - Hybrid Charge
+          - Hyper Bomb
+          - Hyper Tornado
+          - Idaten
+          - Illusion Spark
+          - Inazuma Spin Hold
+          - Insanity Gaze
+          - Inside Slash
+          - Invisible Ray
+          - Iron Muscle
+          - Isana
+          - Isshin
+          - Izuna Drop
+          - Jackknife Maximum
+          - Jaguar Avalanche
+          - Jaguar Crunch
+          - Jaguar Kick
+          - Jaguar Revolver
+          - Jaguar Tooth
+          - Jaguar Varied Assault
+          - Jaw Crusher
+          - Jet Upper
+          - Jigoku Scrape
+          - Jinchuu Watari
+          - Jiraiya
+          - Joudan Sokutogeri
+          - Judgement Saber
+          - Judgement of Thoth
+          - Jungle Dynamo
+          - Justice Corridor
+          - Justice Shell
+          - Jyafuten
+          - Jyakoha
+          - Jyasen
+          - KKB
+          - Kachofugetsu
+          - Kaeshi Saiha
+          - Kaeshi Urasaiha
+          - Kagenui
+          - Kagerou
+          - Kaihou
+          - Kaisen Dankairaku
+          - Kaisenrenkyaku
+          - Kaiten Izuna Otoshi
+          - Kakko Fubatsu
+          - Kamabaraigeri
+          - Kamaitachi
+          - Kamigashima
+          - Kanzuki-Ryu Guren No Kata
+          - Kanzuki-Ryu Hadorokushiki Hasha no Kata
+          - Kanzuki-Ryu Hokojutsu Seppo
+          - Kanzuki-ryuu Kou'ou Ken
+          - Kanzuki-ryuu Shinpikaibyaku
+          - Karakusa
+          - Kasatsushu
+          - Kasatushi
+          - Kashinfu
+          - Kasumi Gake
+          - Kasumi Suzaku
+          - Katapult
+          - Kazekiri
+          - Kikoken
+          - Kikosho
+          - Kill Step
+          - Killer Bee Assault
+          - Killer Bee Stinger
+          - Killer Choke Whip
+          - Killer Scythe Kick
+          - Killing Head
+          - Kimonkai
+          - Kishin Riki
+          - Kishin Tsui
+          - Kissed by a Goddess
+          - Knee Bullet
+          - Knee Drop
+          - Knee Press Nightmare
+          - Knee Slam
+          - Knife Edge
+          - Knife Pickup
+          - Kobokushi
+          - Kongoshin
+          - Kongou Kokuretsuzan
+          - Koryo Dokuda
+          - Koryuken
+          - Koryuu Rekka
+          - Koten Okiagari
+          - Kouga
+          - Kubi Kudaki
+          - Kunai
+          - Kunai Hoju
+          - Kunai Ikkinage
+          - Kurekijin
+          - Kuuchuu Tatsumaki Senpukyaku
+          - Kuzuryu Reppa
+          - Kyoseijin
+          - Last Dread Dust
+          - Left Eye of the Lion
+          - Legendary Taunt
+          - Lift Combination
+          - Lift Upper
+          - Light of Justice
+          - Light of Virtue
+          - Lightning Beast
+          - Lightning Cannonball
+          - Lightning Grenade
+          - Lightning Mole
+          - Linear Movement
+          - Linear Movement Avante
+          - Linear Movement Esquiva
+          - Linear Movement Finta
+          - Liverpool White
+          - Love Hurricane
+          - Love Me Tender
+          - Love Storm
+          - Lynx Tail
+          - Mach Back Knuckle
+          - Mach Slide
+          - Machine Gun Upper
+          - Machinegun Blow
+          - Mad Cradle
+          - Magnetic Storm
+          - Mallet Smash
+          - Manchester Black
+          - Manchester Gold
+          - Marseilles Roll
+          - Mask of Tlalli
+          - Matador Turn
+          - Matsuda Sway
+          - Max Power
+          - Maximum President
+          - Meat Squasher
+          - Mega Crash
+          - Megaton Press
+          - Meido Gohado
+          - Meido no Miyage
+          - Meioken
+          - Mekong Delta Air Raid
+          - Mekong Delta Attack
+          - Mekong Delta Escape
+          - Message To The People
+          - Messatsu Gohado
+          - Messatsu Gorasen
+          - Messatsu Goshoryu
+          - Messatsu Gou Hadou
+          - Messatsu Gou Rasen
+          - Messatsu Gou Senpuu
+          - Messatsu-Goshoryu
+          - Messiah Kick
+          - Metallic Aura
+          - Metallic Sphere
+          - Meteor Strike
+          - Metro Crash
+          - Metsu Hadoken
+          - Metsu Shoryuken
+          - Mexican Typhoon
+          - Mic Performance
+          - Midare Zakura
+          - Mikoshi
+          - Mind's Eye
+          - Mine Sweeper
+          - Misogi
+          - Monster Lariat
+          - Moonsault Knee Drop
+          - Moonsault Press
+          - Moonsault Slash
+          - Mu
+          - Mujinkyaku
+          - Murderer Chain
+          - Mythical Taunt
+          - N.D.L.
+          - Nadeshiko
+          - Nail Assault
+          - Neck Breaker
+          - Nefertem
+          - Nekketsu Hadoken
+          - Nichirin Shou
+          - Nightmare Booster
+          - Nikaiho
+          - Nikyoushu Nikankyaku
+          - Niou Riki
+          - Nirenko
+          - Nishikyu
+          - Nishodoku
+          - Nishokyaku
+          - Nitro Charge
+          - No Mercy
+          - Nouten Wari
+          - Oga
+          - Oicho Throw
+          - Oil Coaster
+          - Oil Combination Hold
+          - Oil Dive
+          - Oil Rocket
+          - Oil Shower
+          - Oil Slide
+          - Okakyaku
+          - Oni Muso
+          - Oni Yanma
+          - Ontario Drop
+          - Opening Dagger
+          - Opening Gambit
+          - Orochi
+          - Orochi Breaker
+          - Orochi Crush
+          - Oroshi
+          - Otoko Michi
+          - Oukakyaku
+          - Overhaul
+          - Oxford Red
+          - Oyokukyaku
+          - Pangaea Burst
+          - Parabellum
+          - Paradise Hold
+          - Patriot Circle
+          - Patriot Sweeper
+          - Peach Assault
+          - Peach Gator
+          - Peerless Palm
+          - Pendulum Upper
+          - Perfume Swing
+          - Poison Cocktail
+          - Poison Kiss
+          - Poison Rana
+          - Power Bomb
+          - Power Drop
+          - Premium Tackle
+          - Prophecy of Thoth
+          - Psycho Angriff
+          - Psycho Barrage
+          - Psycho Blast
+          - Psycho Cannon
+          - Psycho Charge
+          - Psycho Charge Alpha
+          - Psycho Charge Beta
+          - Psycho Charge Gama
+          - Psycho Crusher
+          - Psycho Crusher Omega
+          - Psycho Feder
+          - Psycho Field
+          - Psycho Flicker
+          - Psycho Fluegel
+          - Psycho Headbutt
+          - Psycho Inferno
+          - Psycho Jaeger
+          - Psycho Judgement
+          - Psycho Kanonen
+          - Psycho Klinge
+          - Psycho Knuckle
+          - Psycho Kugel
+          - Psycho Nightmare
+          - Psycho Panzer
+          - Psycho Power
+          - Psycho Punisher
+          - Psycho Reflect
+          - Psycho Rising
+          - Psycho Roll
+          - Psycho Schneide
+          - Psycho Sever
+          - Psycho Shield
+          - Psycho Shot
+          - Psycho Shrot
+          - Psycho Snatcher
+          - Psycho Spark
+          - Psycho Splash
+          - Psycho Sting
+          - Psycho Streak
+          - Psycho Stream
+          - Psycho Sturm
+          - Psycho Transaction
+          - Psycho Trombe
+          - Psycho Upper
+          - Psycho Vanish
+          - Pyrokinesis/Cryokinesis
+          - Quick Rolling
+          - Quick Spin Knuckle
+          - Quick Step
+          - Rage Boost
+          - Rage Shift
+          - Raging Demon
+          - Raging Light
+          - Raging Slash
+          - Raging Typhoon
+          - Raida
+          - Raiju
+          - Raikou Nataotoshi
+          - Rainbow Hip Rush
+          - Rainbow Typhoon
+          - Raishin Mahhaken
+          - Rakan
+          - Rakan Dantojin
+          - Rakuyo Hadoken
+          - Rankyaku
+          - Rapid Dagger
+          - Rapid Fire
+          - Rasetsu Kyaku
+          - Razor Edge Slicer
+          - Red Impact
+          - Rekkaken
+          - Rekkashingeki
+          - Rekkashinken
+          - Rekkukyaku
+          - Remove Claw/Mask
+          - Rengeki Tourouha
+          - Renkiko
+          - Reppu Hadoken
+          - Reppukyaku
+          - Ressen Chou
+          - Ressen Ha
+          - Resurrection
+          - Reverse Edge
+          - Reverse Javelin
+          - Reverse Shaft Breaker
+          - Rhino Horn
+          - Rikudo Osatsu
+          - Rising Cobra
+          - Rising Jaguar
+          - Rising Rage Flash
+          - Road of the Sun
+          - Rochumou
+          - Rocket Upper
+          - Rodeo Break
+          - Rokushaku Horokudama
+          - Roll
+          - Rolling Attack
+          - Rolling Crystal Flash
+          - Rolling Izuna Drop
+          - Rolling Kick
+          - Rolling Taunt
+          - Rolling Thunder
+          - Rose Thorn
+          - Roundhouse Kick
+          - Ruffian Kick
+          - Russian Stomping
+          - Ryobenda
+          - Ryodansatsu
+          - Ryubi Kyaku
+          - Ryukoha
+          - Ryukosai
+          - Ryuogeki
+          - Ryusokyaku
+          - Ryuu Yassai
+          - Sacrificial Altar
+          - Saikyo Defense
+          - Saikyo Tenjinsai
+          - Saka Hayagake
+          - Sakkai Fuhazan
+          - Sakura Fubuki
+          - Sakura Otoshi
+          - Sakura Rain
+          - Sakura Senpu
+          - Salt Toss
+          - Sankaku Tobi
+          - Sardine Beach Special
+          - Scarlet Mirage
+          - Scarlet Terror
+          - Scramble
+          - Scratch Wheel
+          - Sean Tackle
+          - Seichusen Godanzuki
+          - Seiei Enbu
+          - Seismic Hammer
+          - Sekia Kuretsuha
+          - Sekieiken
+          - Sekisei Jiraiken
+          - Sekku
+          - Sen'en Shuu
+          - Senha Kassatsu
+          - Senha Kusabi
+          - Senha Resshu
+          - Senkugoshoha
+          - Senkyutai
+          - Senpu Nataotoshi
+          - Senpukuga
+          - Senpusha
+          - Senretsukyaku
+          - Seraphic Wing
+          - Setsunasen
+          - Shadow Needle
+          - Shakunetsu Hadoken
+          - Shichisei Senkuu Kyaku
+          - Shien Renkyaku
+          - Shienkyaku
+          - Shikusen
+          - Shin Shoryuken
+          - Shinbu Messatsu
+          - Shinku Gadoken
+          - Shinku Hadoken
+          - Shinku Tatsumaki Senpukyaku
+          - Shinku Tengyo Hadoken
+          - Shinryuken
+          - Shippu Jinraikyaku
+          - Shiraha Catch
+          - Shishigari
+          - Shishiruirui
+          - Shishisho
+          - Shisso Buraiken
+          - Shitenketsu
+          - Shitenshuu
+          - Shock Choke
+          - Shock Stance
+          - Shocking Heel
+          - Shoenryu
+          - Shootdown Backbreaker
+          - Shooting Peach
+          - Short Back Slash
+          - Short Swing Blow
+          - Shoryu Cannon
+          - Shoryuken
+          - Shoryureppa
+          - Shotenha
+          - Shoulder Tackle
+          - Shouoken
+          - Shout of Earth
+          - Shukuchi Rimon Chochu
+          - Shukumyo
+          - Shun Goku Satsu
+          - Shunka Shuutou
+          - Shunpukyaku
+          - Shunpurenkyaku
+          - Shura Rengoku
+          - Siberian Blizzard
+          - Siberian Express
+          - Side Arm
+          - Silver Edge
+          - Skip To My Chain
+          - Sky High Claw
+          - Slam Dance
+          - Slash Elbow
+          - Sledge Hammer
+          - Sliding Roll
+          - Snake Fang
+          - Snake Strike
+          - Sobat Carnival
+          - Sobat Festival
+          - Solid Puncher
+          - Somersault Justice
+          - Somersault Strike
+          - Sonic Boom
+          - Sonic Break
+          - Sonic Cross
+          - Sonic Hurricane
+          - Sonic Move
+          - Sonic Scythe
+          - Sonic Tempest
+          - Sonic Typhoon
+          - Sorai Rengeki
+          - Sotoja
+          - Sou Hakkei
+          - Soul Illusion
+          - Soul Offering
+          - Soul Passing
+          - Soul Piede
+          - Soul Reflect
+          - "Soul Reflect: Kamal"
+          - "Soul Reflect: Stella"
+          - Soul Satellite
+          - Soul Spark
+          - Soul Sphere
+          - "Soul Sphere: Ankh"
+          - Soul Spiral
+          - Soul Throw
+          - Soulless
+          - Space Opera Symphony
+          - Spark Show
+          - Spectacle Romance
+          - Spin Drive Smasher
+          - Spin Scythe
+          - Spinning Arrow
+          - Spinning Attack
+          - Spinning Beat
+          - Spinning Bird Kick
+          - Spinning Mixer
+          - Spinning Piledriver
+          - Spinning Piledriver Special
+          - Spiral Arrow
+          - Spiral DDT
+          - Splendid Claw
+          - Split River
+          - St. Andrew's Green
+          - Staerken
+          - Stealth Dash
+          - Steel Chair
+          - Steel Rain
+          - Steel Saber
+          - Stinger
+          - Strafe Dagger
+          - Strike Back
+          - Strike Eagle
+          - Stun Gun Headbutt
+          - Sumo Headbutt
+          - Sumo Smash
+          - Sun Arch
+          - Sun Delta
+          - Sun Dive
+          - Sun Lower
+          - Sun Upper
+          - Sunburst
+          - Sunrise
+          - Sunset Wheel
+          - Sunshine
+          - Sunshot
+          - Super Cage Climb
+          - Super Killer Head Ram
+          - Supreme Rising Rage Flash
+          - Switching Claw
+          - Sylph Amulet
+          - Taigyaku Mudo
+          - Take No Prisoners
+          - Tanden Booster
+          - Tanden Destruction
+          - Tanden Engine
+          - Tanden Extreme
+          - Tanden Ignition
+          - Tanden Maneuver
+          - Tanden Renki
+          - Tanden Storm
+          - Tanden Stream
+          - Tanden Typhoon
+          - Tap-Kick
+          - Target Strike
+          - Tatsumaki
+          - Tatsumaki Gorasen
+          - Tatsumaki Senpukyaku
+          - Tatsumaki Zankukyaku
+          - Teiga
+          - Temporal Thunder
+          - Tenchi Sokaigen
+          - Tenchuu Satsu
+          - Tengu Daoshi
+          - Tengu Midareishi
+          - Tengu Stone
+          - Tengu Walking
+          - Tengyo Hadoken
+          - Tenha No Kata
+          - Tenko
+          - Tenma Gou Zankuu
+          - Tenma Gozanku
+          - Tenma Hadoken
+          - Tenma Shurettou
+          - Tenmakujinkyaku
+          - Tenmarakuseikyaku
+          - Tenpo Kari
+          - Tenrai
+          - Tensei Ranka
+          - Tensenrin
+          - Tenshin
+          - Tenshin Senkyutai
+          - Tenshokyaku
+          - Tesshin
+          - Tesshinhou
+          - Tesso
+          - Tetsuzanko
+          - The Birdie
+          - The Calling
+          - The Disc's Guidance
+          - Third Eye
+          - Thrust Strike
+          - Thunder Clap
+          - Thunder Fist
+          - Thunder Knuckle
+          - Thunder Whip
+          - Thunderbolt
+          - Tiger Assault
+          - Tiger Cannon
+          - Tiger Charge
+          - Tiger Claw
+          - Tiger Destruction
+          - Tiger Genocide
+          - Tiger Knee
+          - Tiger Raid
+          - Tiger Rampage
+          - Tiger Rush
+          - Tiger Shot
+          - Tiger Spike
+          - Tiger Uppercut
+          - Tojushu
+          - Tomahawk Buster
+          - Tornado
+          - Tornado Hook
+          - Tornado Spinner
+          - Tornado Sweep
+          - Tornado Throw
+          - Torrent of Power
+          - Toss & Smash
+          - Tostada Press
+          - Total Destruction
+          - Tourouzan
+          - Toushi
+          - Toxic Bind
+          - Toxic Glamor
+          - Toxic Hold
+          - Tozetsu
+          - Tragedy Assault
+          - Tropical Hazard
+          - Tsujigoe
+          - Tsumuji
+          - Tsurigane Otoshi
+          - Tsurugi
+          - Turn Punch
+          - Tyrant Pressure
+          - Tyrant Slaughter
+          - Ultimate Atomic Buster
+          - Ultimate Killer Head Ram
+          - Ultimate Psycho Crusher
+          - Ultra Snatcher
+          - Ultra Throw
+          - Union Jack Platinum
+          - Urakagerou
+          - Utsusemi
+          - Valiant Rebellion
+          - Vanity Step
+          - Vertical Roll
+          - Victory Column
+          - Violence Knee Drop
+          - Violent Buffalo
+          - Viper Blade
+          - Viper Elbow
+          - Volty Line
+          - Wall Jump
+          - Weapon Fury
+          - Wheel Kick
+          - Whip of Love
+          - Whirlwind Shot
+          - Wild Hunt
+          - Wingless Airplane
+          - Wisdom of Thoth
+          - Wrath of the Raging Demon
+          - X.C.O.P.Y.
+          - X.F.L.A.T.
+          - X.N.D.L.
+          - Yagura Reverse
+          - Yagyou Dama
+          - Yagyou-Odama
+          - Yami Shigure
+          - Yasha Gaeshi
+          - Yoga Blast
+          - Yoga Bringer
+          - Yoga Burner
+          - Yoga Catastrophe
+          - Yoga Escape
+          - Yoga Fire
+          - Yoga Flame
+          - Yoga Float
+          - Yoga Gale
+          - Yoga Inferno
+          - Yoga Legend1
+          - Yoga Sansara
+          - Yoga Shangri-La
+          - Yoga Stream
+          - Yoga Strike
+          - Yoga Sunburst
+          - Yoga Teleport
+          - Yoga Tempest
+          - Yoga Volcano
+          - Yoroitoshi
+          - You Hou
+          - Ysaar
+          - Zan'ei
+          - Zanku Hadoken
+          - Zanku Hadosho
+          - Zenpou Tenshin
+          - Zenten
+          - Zesshou Hohou
+          - Zetsuei
+          - Zonk Knuckle
+          - Zugai Hasatsu
+          - Zuri Fugaku

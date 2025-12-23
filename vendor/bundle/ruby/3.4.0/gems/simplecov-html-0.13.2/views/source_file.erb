@@ -1,0 +1,57 @@
+<div class="source_table" id="<%= id source_file %>">
+  <div class="header">
+    <h3><%= shortened_filename source_file %></h3>
+    <h4>
+      <%= covered_percent(source_file.covered_percent) %>
+      lines covered
+    </h4>
+
+    <% if branchable_result? %>
+      <h4>
+        <%= covered_percent(source_file.branches_coverage_percent) %>
+        branches covered
+      </h4>
+    <% end %>
+
+    <div class="t-line-summary">
+      <b><%= source_file.lines_of_code %></b> relevant lines.
+      <span class="green"><b><%= source_file.covered_lines.count %></b> lines covered</span> and
+      <span class="red"><b><%= source_file.missed_lines.count %></b> lines missed.</span>
+    </div>
+
+    <% if branchable_result? %>
+      <div class="t-branch-summary">
+          <span><b><%= source_file.total_branches.count %></b> total branches, </span>
+          <span class="green"><b><%= source_file.covered_branches.count %></b> branches covered</span> and
+          <span class="red"><b><%= source_file.missed_branches.count %></b> branches missed.</span>
+      </div>
+    <% end %>
+
+  </div>
+
+  <pre>
+    <ol>
+      <% source_file.lines.each do |line| %>
+        <div>
+          <li class="<%= line_status?(source_file, line) %>" data-hits="<%= line.coverage ? line.coverage : '' %>" data-linenumber="<%= line.number %>">
+            <% if line.covered? %>
+              <span class="hits"><%= line.coverage %></span>
+            <% elsif line.skipped? %>
+              <span class="hits">skipped</span>
+            <% end %>
+
+            <% if branchable_result? %>
+              <% source_file.branches_for_line(line.number).each do |branch_type, hit_count| %>
+                <span class="hits" title="<%= branch_type%> branch hit <%= hit_count %> times">
+                  <%= branch_type %>: <%= hit_count %>
+                </span>
+              <% end %>
+            <% end %>
+
+            <code class="ruby"><%= ERB::Util.html_escape(line.src.chomp) %></code>
+          </li>
+        </div>
+      <% end %>
+    </ol>
+  </pre>
+</div>

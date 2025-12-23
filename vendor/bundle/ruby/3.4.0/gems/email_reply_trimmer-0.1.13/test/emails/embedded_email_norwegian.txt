@@ -1,0 +1,11 @@
+Thanx :-)
+
+Sendt fra min iPad
+
+Den 15. jun. 2016 kl. 20.42 skrev Jeff Atwood <info@discourse.org<mailto:info@discourse.org>>:
+
+        codinghorror<https://meta.discourse.org/users/codinghorror> Jeff Atwood<https://meta.discourse.org/users/codinghorror> co-founder
+June 15
+
+
+Enable tags in your admin, site settings.

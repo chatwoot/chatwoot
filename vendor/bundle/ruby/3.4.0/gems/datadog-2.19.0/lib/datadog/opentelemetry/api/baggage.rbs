@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+module Datadog
+  module OpenTelemetry
+    module API
+      module Baggage
+        def initialize: (?trace: Datadog::Tracing::TraceOperation?) -> void
+
+        # Returns a new context with empty baggage
+        def clear: (?context: OpenTelemetry::Context) -> OpenTelemetry::Context
+
+        # Returns the corresponding value for key
+        def value: (String key, ?context: OpenTelemetry::Context) -> String?
+
+        # Returns all baggage values
+        def values: (?context: OpenTelemetry::Context) -> Hash[String, String]
+
+        # Returns a new context with key-value pair
+        def set_value: (String key, String value, ?metadata: String?, ?context: OpenTelemetry::Context) -> OpenTelemetry::Context
+
+        # Returns a new context with value at key removed
+        def remove_value: (String key, ?context: OpenTelemetry::Context) -> OpenTelemetry::Context
+      end
+    end
+  end
+end 

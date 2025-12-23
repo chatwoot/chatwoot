@@ -1,0 +1,71 @@
+{
+  "john.smith@example.com": {
+    "customer_id": "cus_123abc",
+    "subscription_status": "active",
+    "current_plan": "Pro Plan",
+    "monthly_amount": 2999,
+    "currency": "usd",
+    "next_billing_date": "2024-02-15",
+    "payment_method": "card_ending_4242",
+    "recent_charges": [
+      {
+        "date": "2024-01-15",
+        "amount": 2999,
+        "status": "succeeded",
+        "description": "Pro Plan subscription"
+      },
+      {
+        "date": "2024-01-10", 
+        "amount": 2999,
+        "status": "failed",
+        "description": "Pro Plan subscription - duplicate charge refunded"
+      }
+    ],
+    "total_paid": 89970,
+    "customer_since": "2023-12-01"
+  },
+  "sarah.j@startup.io": {
+    "customer_id": "cus_456def",
+    "subscription_status": "active",
+    "current_plan": "Basic Plan", 
+    "monthly_amount": 999,
+    "currency": "usd",
+    "next_billing_date": "2024-02-01",
+    "payment_method": "card_ending_1234",
+    "recent_charges": [
+      {
+        "date": "2024-01-01",
+        "amount": 999,
+        "status": "succeeded", 
+        "description": "Basic Plan subscription"
+      }
+    ],
+    "total_paid": 999,
+    "customer_since": "2024-01-01"
+  },
+  "mike.chen@techfirm.com": {
+    "customer_id": "cus_789ghi",
+    "subscription_status": "active",
+    "current_plan": "Enterprise Plan",
+    "monthly_amount": 9999,
+    "currency": "usd", 
+    "next_billing_date": "2024-02-15",
+    "payment_method": "card_ending_5678",
+    "recent_charges": [
+      {
+        "date": "2024-01-15",
+        "amount": 9999,
+        "status": "succeeded",
+        "description": "Enterprise Plan subscription"
+      },
+      {
+        "date": "2023-12-15",
+        "amount": 9999,
+        "status": "succeeded", 
+        "description": "Enterprise Plan subscription"
+      }
+    ],
+    "total_paid": 79992,
+    "customer_since": "2023-06-15"
+  }
+}

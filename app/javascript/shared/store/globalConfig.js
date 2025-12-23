@@ -24,6 +24,7 @@ const {
   WIDGET_BRAND_URL: widgetBrandURL,
   DISABLE_USER_PROFILE_UPDATE: disableUserProfileUpdate,
   DEPLOYMENT_ENV: deploymentEnv,
+  ADMIN_FIRST: adminFirst,
 } = window.globalConfig || {};
 
 const state = {
@@ -49,13 +50,22 @@ const state = {
   termsURL,
   widgetBrandURL,
   isEnterprise: parseBoolean(isEnterprise),
+  adminFirst: parseBoolean(adminFirst),
 };
 
 export const getters = {
   get: $state => $state,
   isOnChatwootCloud: $state => $state.deploymentEnv === 'cloud',
-  isACustomBrandedInstance: $state => $state.installationName !== 'Chatwoot',
-  isAChatwootInstance: $state => $state.installationName === 'Chatwoot',
+  isACustomBrandedInstance: $state => {
+    // Check if installation name differs from default brand
+    const defaultBrand = 'SynkiCRM';
+    return $state.installationName && $state.installationName !== defaultBrand;
+  },
+  isAChatwootInstance: $state => {
+    // Legacy check - now checks for SynkiCRM
+    const defaultBrand = 'SynkiCRM';
+    return $state.installationName === defaultBrand;
+  },
 };
 
 export const actions = {};

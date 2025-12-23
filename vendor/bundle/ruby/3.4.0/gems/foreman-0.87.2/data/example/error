@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+$stdout.sync = true
+
+puts "will error in 10s"
+sleep 5
+raise "Dying"

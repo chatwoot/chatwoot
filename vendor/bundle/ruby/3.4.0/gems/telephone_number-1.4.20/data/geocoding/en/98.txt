@@ -1,0 +1,51 @@
+# Copyright (C) 2012 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T0202000066/en [2012-07-24]
+# Numbering Plan received from Sony Ericsson [2012-04]
+# Some prefixes were changed/removed based on http://www.tct.ir/?siteid=1&pageid=195
+# Some names were changed to the more common English spelling.
+
+9811|Mazandaran
+9813|Gilan
+9817|Golestan
+9821|Tehran province
+9823|Semnan province
+9824|Zanjan province
+9825|Qom province
+9826|Alborz
+9828|Qazvin province
+9831|Isfahan province
+9834|Kerman province
+9835|Yazd province
+9838|Chahar-mahal and Bakhtiari
+9841|East Azarbaijan
+9844|West Azarbaijan
+9845|Ardabil province
+9851|Razavi Khorasan
+9854|Sistan and Baluchestan
+9856|South Khorasan
+9858|North Khorasan
+9861|Khuzestan
+9866|Lorestan
+9871|Fars
+9874|Kohgiluyeh and Boyer-Ahmad
+9876|Hormozgan
+9877|Bushehr province
+9881|Hamadan province
+9883|Kermanshah province
+9884|Ilam province
+9886|Markazi
+9887|Kurdistan

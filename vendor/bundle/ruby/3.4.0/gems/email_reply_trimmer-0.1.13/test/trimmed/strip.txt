@@ -1,0 +1,1 @@
+Strip leading and trailing empty lines.

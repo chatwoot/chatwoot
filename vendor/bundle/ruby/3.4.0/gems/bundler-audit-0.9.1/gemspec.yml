@@ -1,0 +1,21 @@
+name: bundler-audit
+summary: Patch-level verification for Bundler
+description: bundler-audit provides patch-level verification for Bundled apps.
+license: GPL-3.0+
+authors: Postmodern
+email: postmodern.mod3@gmail.com
+homepage: https://github.com/rubysec/bundler-audit#readme
+
+metadata:
+  documentation_uri: https://rubydoc.info/gems/bundler-audit
+  source_code_uri:   https://github.com/rubysec/bundler-audit.rb
+  bug_tracker_uri:   https://github.com/rubysec/bundler-audit.rb/issues
+  changelog_uri:     https://github.com/rubysec/bundler-audit.rb/blob/master/ChangeLog.md
+  rubygems_mfa_required: 'true'
+
+required_ruby_version: ">= 2.0.0"
+required_rubygems_version: ">= 1.8.0"
+
+dependencies:
+  thor: "~> 1.0"
+  bundler: ">= 1.2.0, < 3"

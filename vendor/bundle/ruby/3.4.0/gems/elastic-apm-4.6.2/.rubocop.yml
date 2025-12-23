@@ -1,0 +1,134 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  NewCops: enable
+  Exclude:
+    - 'elastic-apm.gemspec'
+    - 'vendor/**/*'
+    - 'bench/*'
+    - 'spec/support/helloworld_pb.rb'
+    - 'spec/support/helloworld_services_pb.rb'
+    - 'features/**/*'
+
+require:
+  - rubocop-performance
+
+# Layout/
+
+Layout/ArgumentAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/ParameterAlignment:
+  EnforcedStyle: with_fixed_indentation
+
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+# Lint/
+
+Lint/RescueException:
+  Enabled: false
+
+Lint/SuppressedException:
+  Enabled: false
+
+Lint/ConstantDefinitionInBlock: # So we can define a class in an rspec block
+  Enabled: false
+
+Lint/EmptyClass:
+  Enabled: false
+
+Lint/NoReturnInBeginEndBlocks:
+  Enabled: false
+
+# Metrics /
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+# Naming/
+
+Naming/PredicateName:
+  Enabled: false
+
+Naming/FileName:
+  Exclude: ['lib/elastic-apm.rb']
+
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
+# Style/
+
+Style/Alias:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/DoubleNegation:
+  Enabled: false
+
+Style/EmptyMethod:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/MissingRespondToMissing:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+Style/SoleNestedConditional:
+  Enabled: false
+
+Style/StringConcatenation:
+  Enabled: false
+
+Style/DocumentDynamicEvalDefinition:
+  Enabled: false

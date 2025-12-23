@@ -1,0 +1,8 @@
+start on starting <%= app %>-<%= name.gsub('_', '-') %>
+stop on stopping <%= app %>-<%= name.gsub('_', '-') %>
+respawn
+
+env PORT=<%= port %><% engine.env.each_pair do |var, env| %>
+env <%= var %>=<%= env %><% end %>
+
+exec start-stop-daemon --start --chuid <%= user %> --chdir <%= engine.root %> --make-pidfile --pidfile <%= run %>/<%= app %>-<%= name %>-<%= num %>.pid --exec <%= executable %><%= arguments %> >> <%= log %>/<%= app %>-<%= name %>-<%= num %>.log 2>&1

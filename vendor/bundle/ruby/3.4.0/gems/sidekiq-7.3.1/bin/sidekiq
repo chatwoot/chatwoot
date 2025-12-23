@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+
+# Quiet some warnings we see when running in warning mode:
+# RUBYOPT=-w bundle exec sidekiq
+$TESTING = false
+
+require_relative "../lib/sidekiq/cli"
+
+def integrate_with_systemd
+  return unless ENV["NOTIFY_SOCKET"]
+
+  Sidekiq.configure_server do |config|
+    config.logger.info "Enabling systemd notification integration"
+    require "sidekiq/sd_notify"
+    config.on(:startup) do
+      Sidekiq::SdNotify.ready
+    end
+    config.on(:shutdown) do
+      Sidekiq::SdNotify.stopping
+    end
+    Sidekiq.start_watchdog if Sidekiq::SdNotify.watchdog?
+  end
+end
+
+begin
+  cli = Sidekiq::CLI.instance
+  cli.parse
+
+  integrate_with_systemd
+
+  cli.run
+rescue => e
+  raise e if $DEBUG
+  warn e.message
+  warn e.backtrace.join("\n")
+  exit 1
+end

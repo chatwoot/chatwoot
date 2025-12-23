@@ -1,0 +1,36 @@
+<%#
+# Items Partial
+
+This partial renders one or more attachments
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Image].
+  A wrapper around the image url pulled from the database.
+- `size`:
+  [x, y]
+  Maximum size of the ActiveStorage preview.
+  Defaults to `field.show_preview_size`.
+%>
+
+<%
+  variant = local_assigns.fetch(:variant, field.show_preview_variant)
+  size = local_assigns.fetch(:size, field.show_preview_size)
+  display_preview = local_assigns.fetch(:display_preview, field.show_display_preview?)
+  preview_only = local_assigns.fetch(:preview_only, false)
+%>
+
+<% field.attachments.each do |attachment| %>
+  <div class="attachments-listing">
+    <%= render partial: 'fields/active_storage/item',
+               locals: {
+                   field: field,
+                   attachment: attachment,
+                   variant: variant,
+                   size: size,
+                   display_preview: display_preview,
+                   preview_only: preview_only
+               } %>
+  </div>
+<% end %>

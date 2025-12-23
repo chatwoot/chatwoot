@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script>
+      /*
+        The data is accessible in two ways:
+
+        1. Using the postMessage api, this window will respond to a
+            'message' event with a post of all the data. (This can
+            be used by browsers other than IE if this window was
+            opened with window.open())
+        2. This window has a function called requestCredentials which,
+            when called, will return the data. (This can be
+            used if this window was opened in an inAppBrowser using
+            Cordova / PhoneGap)
+      */
+
+      var data = JSON.parse(decodeURIComponent('<%= ERB::Util.url_encode( @data.to_json ) %>'));
+
+      window.addEventListener("message", function(ev) {
+        if (ev.data === "requestCredentials") {
+          ev.source.postMessage(data, '*');
+          window.close();
+        }
+      });
+      function requestCredentials() {
+        return data;
+      }
+      setTimeout(function() {
+        document.getElementById('text').innerHTML = (data && data.error) || 'Redirecting...';
+      }, 1000);
+    </script>
+  </head>
+  <body>
+    <pre id="text">
+    </pre>
+  </body>
+</html>

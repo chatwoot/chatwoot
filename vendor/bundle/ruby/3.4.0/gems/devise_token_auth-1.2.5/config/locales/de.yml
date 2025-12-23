@@ -1,0 +1,51 @@
+de:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Eine Bestätigungs-E-Mail wurde an Ihre Adresse '%{email}' gesendet. Sie müssen der Anleitung in der E-Mail folgen, um Ihren Account zu aktivieren."
+      bad_credentials: "Ungültige Anmeldeinformationen. Bitte versuchen Sie es erneut."
+      not_supported: "Verwenden Sie POST /sign_in zur Anmeldung. GET wird nicht unterstützt."
+      user_not_found: "Benutzer wurde nicht gefunden oder konnte nicht angemeldet werden."
+    token_validations:
+      invalid: "Ungültige Anmeldeinformationen"
+    registrations:
+      missing_confirm_success_url: "Fehlender Paramter 'confirm_success_url'."
+      redirect_url_not_allowed: "Weiterleitung zu '%{redirect_url}' ist nicht gestattet."
+      email_already_exists: "Es gibt bereits einen Account für '%{email}'."
+      account_with_uid_destroyed: "Account mit der uid '%{uid}' wurde gelöscht."
+      account_to_destroy_not_found: "Der zu löschende Account kann nicht gefunden werden."
+      user_not_found: "Benutzer kann nicht gefunden werden."
+    omniauth:
+      not_allowed_redirect_url: "Weiterleitung zu '%{redirect_url}' ist nicht gestattet."
+    passwords:
+      missing_email: "Sie müssen eine E-Mail-Adresse angeben."
+      missing_redirect_url: "Es fehlt die URL zu Weiterleitung."
+      not_allowed_redirect_url: "Weiterleitung zu '%{redirect_url}' ist nicht gestattet."
+      sended: "Ein E-Mail mit der Anleitung zum Zurücksetzen Ihres Passwortes wurde an '%{email}' gesendet."
+      user_not_found: "Der Benutzer mit der E-Mail-Adresse '%{email}' kann nicht gefunden werden."
+      password_not_required: "Dieser Account benötigt kein Passwort. Melden Sie sich stattdessen über Ihren Account bei '%{provider}' an."
+      missing_passwords: "Sie müssen die Felder 'Passwort' und 'Passwortbestätigung' ausfüllen."
+      successfully_updated: "Ihr Passwort wurde erfolgreich aktualisiert."
+  errors:
+    messages:
+      validate_sign_up_params: "Bitte übermitteln sie vollständige Anmeldeinformationen im Body des Requests."
+      validate_account_update_params: "Bitte übermitteln sie vollständige Informationen zur Aktualisierung im Body des Requests."
+      not_email: "ist keine E-Mail-Adresse"
+  devise:
+    mailer:
+      confirmation_instructions:
+        subject: "Bestätigung Ihres Kontos"
+        confirm_link_msg: "Sie können Ihr Konto über den untenstehenden Link bestätigen:"
+        confirm_account_link: "Konto bestätigen"
+      reset_password_instructions:
+        subject: "Passwort zurücksetzen"
+        request_reset_link_msg: "Jemand hat einen Link zur Änderungen Ihres Passwortes angefordert. Sie können dies durch den folgenden Link tun:"
+        password_change_link: "Passwort ändern"
+        ignore_mail_msg: "Wenn Sie keine Änderung Ihres Passwortes angefordert haben, ignorieren Sie bitte diese E-Mail:"
+        no_changes_msg: "Ihr Passwort wird nicht geändert, bis Sie auf den obigen Link zugreifen und eine neues Passwort erstellen."
+      unlock_instructions:
+        subject: "Anweisungen zum Entsperren Ihres Kontos"
+        account_lock_msg: "Ihr Konto wurde aufgrund einer übermäßigen Anzahl von erfolglosen Anmeldeversuchen gesperrt."
+        unlock_link_msg: "Klicken Sie auf den Link unten, um Ihr Konto zu entsperren:"
+        unlock_link: "Entsperren Sie Ihr Konto"
+  hello: "hallo"
+  welcome: "willkommen"

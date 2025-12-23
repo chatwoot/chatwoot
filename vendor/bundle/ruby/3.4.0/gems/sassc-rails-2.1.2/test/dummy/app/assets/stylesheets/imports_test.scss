@@ -1,0 +1,23 @@
+@import "partials/css_sass_import";
+@import "partials/sass_import";
+@import "partials/scss_import";
+@import "partials/explicit_extension_import.foo";
+@import "globbed/**/*";
+@import "subfolder/plain";
+@import "subfolder/second_level";
+@import "partials/without_css_ext";
+@import "css_erb_handler";
+@import "scss_erb_handler";
+@import "sass_erb_handler";
+@import "css_scss_handler";
+@import "css_sass_handler";
+@import "css_scss_erb_handler";
+@import "css_sass_erb_handler";
+@import 'partial_in_load_paths';
+
+.main {
+  color: yellow;
+  @include background-from-partial(red);
+}
+
+@include without-css-ext;

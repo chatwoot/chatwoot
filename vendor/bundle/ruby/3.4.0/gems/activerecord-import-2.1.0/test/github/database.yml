@@ -1,0 +1,78 @@
+common: &common
+  username: root
+  password: root
+  encoding: utf8
+  collation: utf8_general_ci
+  host: 127.0.0.1
+  database: activerecord_import_test
+
+jdbcpostgresql: &postgresql
+  <<: *common
+  username: postgres
+  adapter: jdbcpostgresql
+  min_messages: warning
+
+jdbcmysql: &mysql2
+  <<: *common
+  adapter: jdbcmysql
+
+jdbcsqlite3: &sqlite3
+  <<: *common
+  adapter: jdbcsqlite3
+
+mysql2: &mysql2
+  <<: *common
+  adapter: mysql2
+
+mysql2spatial:
+  <<: *mysql2
+
+mysql2_makara:
+  <<: *mysql2
+
+mysql2_proxy:
+  <<: *mysql2
+
+oracle:
+  <<: *common
+  adapter: oracle
+  min_messages: debug
+
+postgresql: &postgresql
+  <<: *common
+  username: postgres
+  password: postgres
+  adapter: postgresql
+  min_messages: warning
+
+postresql_makara:
+  <<: *postgresql
+
+postresql_proxy:
+  <<: *postgresql
+
+postgis:
+  <<: *postgresql
+
+seamless_database_pool:
+  <<: *common
+  adapter: seamless_database_pool
+  pool_adapter: mysql2
+  prepared_statements: false
+  master:
+    host: 127.0.0.1
+
+sqlite:
+  adapter: sqlite
+  dbfile: test.db
+
+sqlite3: &sqlite3
+  adapter: sqlite3
+  database: ":memory:"
+
+spatialite:
+  <<: *sqlite3
+
+trilogy:
+  <<: *common
+  adapter: trilogy

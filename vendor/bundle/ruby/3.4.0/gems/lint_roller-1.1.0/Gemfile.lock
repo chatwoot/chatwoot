@@ -1,0 +1,58 @@
+PATH
+  remote: .
+  specs:
+    lint_roller (1.1.0)
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ast (2.4.2)
+    json (2.6.3)
+    language_server-protocol (3.17.0.3)
+    m (1.6.1)
+      method_source (>= 0.6.7)
+      rake (>= 0.9.2.2)
+    method_source (1.0.0)
+    minitest (5.18.0)
+    parallel (1.22.1)
+    parser (3.2.2.0)
+      ast (~> 2.4.1)
+    rainbow (3.1.1)
+    rake (13.0.6)
+    regexp_parser (2.7.0)
+    rexml (3.2.5)
+    rubocop (1.48.1)
+      json (~> 2.3)
+      parallel (~> 1.10)
+      parser (>= 3.2.0.0)
+      rainbow (>= 2.2.2, < 4.0)
+      regexp_parser (>= 1.8, < 3.0)
+      rexml (>= 3.2.5, < 4.0)
+      rubocop-ast (>= 1.26.0, < 2.0)
+      ruby-progressbar (~> 1.7)
+      unicode-display_width (>= 2.4.0, < 3.0)
+    rubocop-ast (1.28.0)
+      parser (>= 3.2.1.0)
+    rubocop-performance (1.16.0)
+      rubocop (>= 1.7.0, < 2.0)
+      rubocop-ast (>= 0.4.0)
+    ruby-progressbar (1.13.0)
+    standard (1.26.0)
+      language_server-protocol (~> 3.17.0.2)
+      rubocop (~> 1.48.1)
+      rubocop-performance (~> 1.16.0)
+    unicode-display_width (2.4.2)
+
+PLATFORMS
+  arm64-darwin-22
+  x86_64-linux
+
+DEPENDENCIES
+  lint_roller!
+  m
+  minitest
+  rake
+  standard
+
+BUNDLED WITH
+   2.4.10

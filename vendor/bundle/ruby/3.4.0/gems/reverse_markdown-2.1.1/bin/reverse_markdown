@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# Usage: reverse_markdown [FILE]...
+# Usage: cat FILE | reverse_markdown
+require 'reverse_markdown'
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: reverse_markdown [options] <file>"
+
+  opts.on('-u', '--unknown_tags [pass_through, drop, bypass, raise]', 'Unknown tag handling (default: pass_through)') { |v| ReverseMarkdown.config.unknown_tags = v }
+  opts.on('-g', '--github_flavored bool', 'use github flavored markdown (default: false)') { |v| ReverseMarkdown.config.github_flavored = v }
+end.parse!
+
+puts ReverseMarkdown.convert(ARGF.read)

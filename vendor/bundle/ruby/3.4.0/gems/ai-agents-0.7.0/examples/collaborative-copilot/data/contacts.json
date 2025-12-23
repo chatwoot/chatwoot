@@ -1,0 +1,47 @@
+{
+  "CONTACT-123": {
+    "id": "CONTACT-123",
+    "name": "John Smith",
+    "email": "john.smith@example.com",
+    "phone": "+1-555-0123",
+    "company": "Acme Corp",
+    "plan": "Pro",
+    "created_at": "2023-12-01T08:00:00Z",
+    "total_conversations": 5,
+    "satisfaction_score": 4.2,
+    "tags": ["enterprise", "frequent-user"],
+    "notes": "Long-time customer, usually has technical questions",
+    "last_login": "2024-01-14T16:30:00Z",
+    "account_status": "active"
+  },
+  "CONTACT-456": {
+    "id": "CONTACT-456",
+    "name": "Sarah Johnson", 
+    "email": "sarah.j@startup.io",
+    "phone": "+1-555-0456",
+    "company": "StartupCo",
+    "plan": "Basic",
+    "created_at": "2024-01-01T12:00:00Z",
+    "total_conversations": 2,
+    "satisfaction_score": 4.8,
+    "tags": ["new-customer", "billing"],
+    "notes": "New customer, had billing confusion initially",
+    "last_login": "2024-01-11T10:15:00Z",
+    "account_status": "active"
+  },
+  "CONTACT-789": {
+    "id": "CONTACT-789",
+    "name": "Mike Chen",
+    "email": "mike.chen@techfirm.com", 
+    "phone": "+1-555-0789",
+    "company": "TechFirm Inc",
+    "plan": "Enterprise",
+    "created_at": "2023-06-15T14:30:00Z",
+    "total_conversations": 12,
+    "satisfaction_score": 3.9,
+    "tags": ["enterprise", "integration-issues"],
+    "notes": "Technical lead, often reports bugs and requests features",
+    "last_login": "2024-01-13T11:45:00Z",
+    "account_status": "active"
+  }
+}

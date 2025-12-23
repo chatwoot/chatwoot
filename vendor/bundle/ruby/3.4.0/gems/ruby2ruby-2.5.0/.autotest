@@ -1,0 +1,25 @@
+# -*- ruby -*-
+
+require 'autotest/restart'
+
+Autotest.add_hook :initialize do |at|
+  at.libs << ':../../minitest/dev/lib'
+  at.testlib = "minitest/autorun"
+
+  at.extra_files << "../../sexp_processor/dev/lib/pt_testcase.rb"
+  at.libs << ":../../sexp_processor/dev/lib:../../ruby_parser/dev/lib"
+
+  (1..4).each do |n|
+    at.extra_class_map["TestRuby2Ruby#{n}"] = "test/test_ruby2ruby.rb"
+  end
+
+  at.add_mapping(/unified|pt_testcase/) do |f, _|
+    at.files_matching(/test.*rb$/)
+  end
+end
+
+if ENV['RCOV'] then
+  require 'autotest/rcov'
+  Autotest::RCov.command = 'rcov_info'
+  Autotest::RCov.pattern = 'test/test_ruby2ruby.rb'
+end

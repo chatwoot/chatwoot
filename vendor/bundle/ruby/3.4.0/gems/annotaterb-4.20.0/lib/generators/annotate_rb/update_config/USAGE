@@ -1,0 +1,6 @@
+Description:
+    Appends to .annotaterb.yml any missing default configuration
+    key-value pairs.
+
+Example:
+    `rails generate annotate_rb:update_config`

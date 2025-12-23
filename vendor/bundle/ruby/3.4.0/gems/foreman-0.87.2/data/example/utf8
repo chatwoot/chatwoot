@@ -1,0 +1,11 @@
+#!/usr/bin/env ruby
+# encoding: BINARY
+
+$stdout.sync = true
+
+while true
+  puts "\u65e5\u672c\u8a9e\u6587\u5b57\u5217"
+  puts "\u0915\u0932\u094d\u0907\u0928\u0643\u0637\u0628\u041a\u0430\u043b\u0438\u043d\u0430"
+  puts "\xff\x03"
+  sleep 1
+end

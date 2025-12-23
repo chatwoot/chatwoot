@@ -1,0 +1,20 @@
+require "rake/clean"
+CLOBBER.include "pkg"
+
+require "bundler/gem_helper"
+Bundler::GemHelper.install_tasks(name: "sentry-ruby")
+
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec).tap do |task|
+  task.rspec_opts = "--order rand"
+  task.exclude_pattern = "spec/isolated/**/*_spec.rb"
+end
+
+task :isolated_specs do
+  Dir["spec/isolated/*"].each do |file|
+    sh "bundle exec rspec #{file}"
+  end
+end
+
+task default: [:spec, :isolated_specs]

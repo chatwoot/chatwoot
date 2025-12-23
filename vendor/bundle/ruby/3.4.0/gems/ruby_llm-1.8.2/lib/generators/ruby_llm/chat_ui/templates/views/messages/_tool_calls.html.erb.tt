@@ -1,0 +1,7 @@
+<div style="display: flex; flex-direction: column; gap: 3px; align-items: flex-start; font-family: monospace;">
+  <%% <%= message_model_name.demodulize.underscore %>.<%= tool_call_variable_name.pluralize %>.each do |tool_call| %>
+    <div style="background: #eee; padding: 5px; border-radius: 4px;">
+      <%%= tool_call.name %>(<%%= tool_call.arguments.map { |k, v| "#{k}: #{v.inspect}" }.join(", ") %>)
+    </div>
+  <%% end %>
+</div>

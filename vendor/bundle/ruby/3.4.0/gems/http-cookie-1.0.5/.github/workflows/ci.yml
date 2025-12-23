@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu]
+        # We still kind of support Ruby 1.8.7
+        ruby: [2.7, "3.0", 3.1, head, jruby]
+
+    name: >-
+      ${{matrix.os}}:ruby-${{matrix.ruby}}
+    runs-on: ${{matrix.os}}-latest
+    continue-on-error: ${{matrix.ruby == 'head' || matrix.ruby == 'jruby'}}
+
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+
+      - name: Set up ruby and bundle
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{matrix.ruby}}
+          bundler-cache: true
+
+      - name: Run rake
+        run: |
+          bundle exec rake

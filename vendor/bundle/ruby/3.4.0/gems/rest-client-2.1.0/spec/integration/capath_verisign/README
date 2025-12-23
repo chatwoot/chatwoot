@@ -1,0 +1,8 @@
+The CA path symlinks can be created by c_rehash(1ssl).
+
+But in order for the tests to work on Windows, they have to be regular files.
+You can turn them all into regular files by running this on a GNU system:
+
+    for file in $(find . -type l); do
+        cp -iv --remove-destination $(readlink -e $file) $file
+    done

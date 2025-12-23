@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=<%= encoding %>">
+    <% if mail.subject %>
+      <title><%= h mail.subject %></title>
+    <% end %>
+  </head>
+  <body>
+    <%= body %>
+  </body>
+</html>

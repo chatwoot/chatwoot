@@ -1,0 +1,20 @@
+---
+AllCops:
+  RSpec:
+    Patterns:
+    - _spec.rb
+    - "(?:^|/)spec/"
+
+RSpec/AggregateExamples:
+  Description: Checks if example group contains two or more aggregatable examples.
+  Enabled: true
+  StyleGuide: https://rspec.rubystyle.guide/#expectation-per-example
+  AddAggregateFailuresMetadata: true
+  MatchersWithSideEffects:
+    - allow_value
+    - allow_values
+    - validate_presence_of
+    - validate_absence_of
+    - validate_length_of
+    - validate_inclusion_of
+    - validates_exclusion_of

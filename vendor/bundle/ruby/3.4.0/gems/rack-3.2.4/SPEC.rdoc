@@ -1,0 +1,258 @@
+= Rack Specification
+
+This specification aims to formalize the Rack protocol. You can (and should) use +Rack::Lint+ to enforce it. When you develop middleware, be sure to test with +Rack::Lint+ to catch possible violations of this specification.
+
+== The Application
+
+A Rack application is a Ruby object that responds to +call+. It takes exactly one argument, the +environment+ (representing an HTTP request) and returns a non-frozen +Array+ of exactly three elements: the +status+, the +headers+, and the +body+ (representing an HTTP response).
+
+== The Request Environment
+
+Incoming HTTP requests are represented using an environment. The environment must be an unfrozen +Hash+. The Rack application is free to modify the environment, but the modified environment should also comply with this specification. All environment keys must be strings.
+
+=== CGI Variables
+
+The environment is required to include these variables, adopted from {The Common Gateway Interface}[https://datatracker.ietf.org/doc/html/rfc3875] (CGI), except when they'd be empty, but see below.
+
+The CGI keys (named without a period) must have +String+ values and are reserved for the Rack specification. If the values for CGI keys contain non-ASCII characters, they should use <tt>ASCII-8BIT</tt> encoding.
+
+The server and application can store their own data in the environment, too. The keys must contain at least one dot, and should be prefixed uniquely. The prefix <tt>rack.</tt> is reserved for use with the Rack specification and the classes that ship with Rack.
+
+==== <tt>REQUEST_METHOD</tt>
+
+The HTTP request method, such as "GET" or "POST". This cannot ever be an empty string, and so is always required.
+
+==== <tt>SCRIPT_NAME</tt>
+
+The initial portion of the request URL's path that corresponds to the application object, so that the application knows its virtual location. This may be an empty string, if the application corresponds to the root of the server. If non-empty, the string must start with <tt>/</tt>, but should not end with <tt>/</tt>.
+
+In addition, <tt>SCRIPT_NAME</tt> MUST not be <tt>/</tt>, but instead be empty, and one of <tt>SCRIPT_NAME</tt> or <tt>PATH_INFO</tt> must be set, e.g. <tt>PATH_INFO</tt> can be <tt>/</tt> if <tt>SCRIPT_NAME</tt> is empty.
+
+==== <tt>PATH_INFO</tt>
+
+The remainder of the request URL's "path", designating the virtual "location" of the request's target within the application. This may be an empty string, if the request URL targets the application root and does not have a trailing slash. This value may be percent-encoded when originating from a URL.
+
+The <tt>PATH_INFO</tt>, if provided, must be a valid request target or an empty string, as defined by {RFC9110}[https://datatracker.ietf.org/doc/html/rfc9110#target.resource].
+* Only <tt>OPTIONS</tt> requests may have <tt>PATH_INFO</tt> set to <tt>*</tt> (asterisk-form).
+* Only <tt>CONNECT</tt> requests may have <tt>PATH_INFO</tt> set to an authority (authority-form). Note that in HTTP/2+, the authority-form is not a valid request target.
+* <tt>CONNECT</tt> and <tt>OPTIONS</tt> requests must not have <tt>PATH_INFO</tt> set to a URI (absolute-form).
+* Otherwise, <tt>PATH_INFO</tt> must start with a <tt>/</tt> and must not include a fragment part starting with <tt>#</tt> (origin-form).
+
+==== <tt>QUERY_STRING</tt>
+
+The portion of the request URL that follows the <tt>?</tt>, if any. May be empty, but is always required!
+
+==== <tt>SERVER_NAME</tt>
+
+Must be a valid host, as defined by {RFC3986}[https://datatracker.ietf.org/doc/html/rfc3986#section-3.2.2].
+
+When combined with <tt>SCRIPT_NAME</tt>, <tt>PATH_INFO</tt>, and <tt>QUERY_STRING</tt>, these variables can be used to reconstruct the original the request URL. Note, however, that <tt>HTTP_HOST</tt>, if present, should be used in preference to <tt>SERVER_NAME</tt> for reconstructing the request URL.
+
+==== <tt>SERVER_PROTOCOL</tt>
+
+The HTTP version used for the request. It must match the regular expression <tt>HTTP\/\d(\.\d)?</tt>.
+
+==== <tt>SERVER_PORT</tt>
+
+The port the server is running on, if the server is running on a non-standard port. It must consist of digits only.
+
+The standard ports are:
+* 80 for HTTP
+* 443 for HTTPS
+
+==== <tt>CONTENT_TYPE</tt>
+
+The optional MIME type of the request body, if any.
+
+==== <tt>CONTENT_LENGTH</tt>
+
+The length of the request body, if any. It must consist of digits only.
+
+==== <tt>HTTP_HOST</tt>
+
+An optional HTTP authority, as defined by {RFC9110}[https://datatracker.ietf.org/doc/html/rfc9110#name-host-and-authority].
+
+==== <tt>HTTP_</tt> Headers
+
+Unless specified above, the environment can contain any number of additional headers, each starting with <tt>HTTP_</tt>. The presence or absence of these variables should correspond with the presence or absence of the appropriate HTTP header in the request, and those headers have no specific interpretation or validation by the Rack specification. However, there are many standard HTTP headers that have a specific meaning in the context of a request; see {RFC3875 section 4.1.18}[https://tools.ietf.org/html/rfc3875#section-4.1.18] for more details.
+
+For compatibility with the CGI specifiction, the environment must not contain the keys <tt>HTTP_CONTENT_TYPE</tt> or <tt>HTTP_CONTENT_LENGTH</tt>. Instead, the keys <tt>CONTENT_TYPE</tt> and <tt>CONTENT_LENGTH</tt> must be used.
+
+=== Rack-Specific Variables
+
+In addition to CGI variables, the Rack environment includes Rack-specific variables. These variables are prefixed with <tt>rack.</tt> and are reserved for use by the Rack specification, or by the classes that ship with Rack.
+
+==== <tt>rack.url_scheme</tt>
+
+The URL scheme, which must be one of <tt>http</tt>, <tt>https</tt>, <tt>ws</tt> or <tt>wss</tt>. This can never be an empty string, and so is always required. The scheme should be set according to the last hop. For example, if a client makes a request to a reverse proxy over HTTPS, but the connection between the reverse proxy and the server is over plain HTTP, the reverse proxy should set <tt>rack.url_scheme</tt> to <tt>http</tt>.
+
+==== <tt>rack.protocol</tt>
+
+An optional +Array+ of +String+ values, containing the protocols advertised by the client in the <tt>upgrade</tt> header (HTTP/1) or the <tt>:protocol</tt> pseudo-header (HTTP/2+).
+
+==== <tt>rack.session</tt>
+
+An optional +Hash+-like interface for storing request session data. The store must implement:
+* <tt>store(key, value)</tt> (aliased as <tt>[]=</tt>) to set a value for a key,
+* <tt>fetch(key, default = nil)</tt> (aliased as <tt>[]</tt>) to retrieve a value for a key,
+* <tt>delete(key)</tt> to delete a key,
+* <tt>clear</tt> to clear the session,
+* <tt>to_hash</tt> (optional) to retrieve the session as a Hash.
+
+==== <tt>rack.logger</tt>
+
+An optional +Logger+-like interface for logging messages. The logger must implement:
+* <tt>info(message, &block)</tt>,
+* <tt>debug(message, &block)</tt>,
+* <tt>warn(message, &block)</tt>,
+* <tt>error(message, &block)</tt>,
+* <tt>fatal(message, &block)</tt>.
+
+==== <tt>rack.multipart.buffer_size</tt>
+
+An optional +Integer+ hint to the multipart parser as to what chunk size to use for reads and writes.
+
+==== <tt>rack.multipart.tempfile_factory</tt>
+
+An optional object for constructing temporary files for multipart form data. The factory must implement:
+* <tt>call(filename, content_type)</tt> to create a temporary file for a multipart form field.
+The factory must return an +IO+-like object that responds to <tt><<</tt> and optionally <tt>rewind</tt>.
+
+==== <tt>rack.hijack?</tt>
+
+If present and truthy, indicates that the server supports partial hijacking. See the section below on hijacking for more information.
+
+==== <tt>rack.hijack</tt>
+
+If present, an object responding to +call+ that is used to perform a full hijack. See the section below on hijacking for more information.
+
+==== <tt>rack.early_hints</tt>
+
+If present, an object responding to +call+ that is used to send early hints. See the section below on early hints for more information.
+
+==== <tt>rack.input</tt>
+
+If present, the input stream. See the section below on the input stream for more information.
+
+==== <tt>rack.errors</tt>
+
+The error stream. See the section below on the error stream for more information.
+
+==== <tt>rack.response_finished</tt>
+
+If present, an array of callables that will be run by the server after the response has been processed. The callables are called with <tt>environment, status, headers, error</tt> arguments and should not raise any exceptions. The callables would typically be called after sending the response to the client, but it could also be called if an error occurs while generating the response or sending the response (in that case, the +error+ argument will be a kind of +Exception+). The callables will be called in reverse order.
+
+=== The Input Stream
+
+The input stream is an +IO+-like object which contains the raw HTTP request data. When applicable, its external encoding must be <tt>ASCII-8BIT</tt> and it must be opened in binary mode. The input stream must respond to +gets+, +each+, and +read+:
+* +gets+ must be called without arguments and return a +String+, or +nil+ on EOF (end-of-file).
+* +read+ behaves like <tt>IO#read</tt>. Its signature is <tt>read([length, [buffer]])</tt>.
+  * If given, +length+ must be a non-negative Integer (>= 0) or +nil+, and +buffer+ must be a +String+ and may not be +nil+.
+  * If +length+ is given and not +nil+, then this method reads at most +length+ bytes from the input stream.
+  * If +length+ is not given or +nil+, then this method reads all data until EOF.
+  * When EOF is reached, this method returns +nil+ if +length+ is given and not +nil+, or +""+ if +length+ is not given or is +nil+.
+  * If +buffer+ is given, then the read data will be placed into +buffer+ instead of a newly created +String+.
+* +each+ must be called without arguments and only yield +String+ values.
+* +close+ can be called on the input stream to indicate that any remaining input is not needed.
+
+=== The Error Stream
+
+The error stream must respond to +puts+, +write+ and +flush+:
+* +puts+ must be called with a single argument that responds to +to_s+.
+* +write+ must be called with a single argument that is a +String+.
+* +flush+ must be called without arguments and must be called in order to make the error appear for sure.
+* +close+ must never be called on the error stream.
+
+=== Hijacking
+
+The hijacking interfaces provides a means for an application to take control of the HTTP connection. There are two distinct hijack interfaces: full hijacking where the application takes over the raw connection, and partial hijacking where the application takes over just the response body stream. In both cases, the application is responsible for closing the hijacked stream.
+
+Full hijacking only works with HTTP/1. Partial hijacking is functionally equivalent to streaming bodies, and is still optionally supported for backwards compatibility with older Rack versions.
+
+==== Full Hijack
+
+Full hijack is used to completely take over an HTTP/1 connection. It occurs before any headers are written and causes the server to ignore any response generated by the application. It is intended to be used when applications need access to the raw HTTP/1 connection.
+
+If <tt>rack.hijack</tt> is present in +env+, it must respond to +call+ and return an +IO+ object which can be used to read and write to the underlying connection using HTTP/1 semantics and formatting.
+
+==== Partial Hijack
+
+Partial hijack is used for bi-directional streaming of the request and response body. It occurs after the status and headers are written by the server and causes the server to ignore the Body of the response. It is intended to be used when applications need bi-directional streaming.
+
+If <tt>rack.hijack?</tt> is present in +env+ and truthy, an application may set the special response header <tt>rack.hijack</tt> to an object that responds to +call+, accepting a +stream+ argument.
+
+After the response status and headers have been sent, this hijack callback will be called with a +stream+ argument which follows the same interface as outlined in "Streaming Body". Servers must ignore the +body+ part of the response tuple when the <tt>rack.hijack</tt> response header is present. Using an empty +Array+ is recommended.
+
+If <tt>rack.hijack?</tt> is not present and truthy, the special response header <tt>rack.hijack</tt> must not be present in the response headers.
+
+=== Early Hints
+
+The application or any middleware may call the <tt>rack.early_hints</tt> with an object which would be valid as the headers of a Rack response.
+
+If <tt>rack.early_hints</tt> is present, it must respond to +call+.
+If <tt>rack.early_hints</tt> is called, it must be called with valid Rack response headers.
+
+== The Response
+
+Outgoing HTTP responses are generated from the response tuple generated by the application. The response tuple is an +Array+ of three elements, which are: the HTTP status, the headers, and the response body. The Rack application is responsible for ensuring that the response tuple is well-formed and should follow the rules set out in this specification.
+
+=== The Status
+
+This is an HTTP status. It must be an Integer greater than or equal to 100.
+
+=== The Headers
+
+The headers must be an unfrozen +Hash+. The header keys must be +String+ values. Special headers starting <tt>rack.</tt> are for communicating with the server, and must not be sent back to the client.
+
+* The headers must not contain a <tt>"status"</tt> key.
+* Header keys must conform to {RFC7230}[https://tools.ietf.org/html/rfc7230] token specification, i.e. cannot contain non-printable ASCII, <tt>DQUOTE</tt> or <tt>(),/:;<=>?@[\]{}</tt>.
+* Header keys must not contain uppercase ASCII characters (A-Z).
+* Header values must be either a +String+, or an +Array+ of +String+ values, such that each +String+ must not contain <tt>NUL</tt> (<tt>\0</tt>), <tt>CR</tt> (<tt>\r</tt>), or <tt>LF</tt> (<tt>\n</tt>).
+
+==== The <tt>content-type</tt> Header
+
+There must not be a <tt>content-type</tt> header key when the status is <tt>1xx</tt>, <tt>204</tt>, or <tt>304</tt>.
+
+==== The <tt>content-length</tt> Header
+
+There must not be a <tt>content-length</tt> header key when the status is <tt>1xx</tt>, <tt>204</tt>, or <tt>304</tt>.
+
+==== The <tt>rack.protocol</tt> Header
+
+If the <tt>rack.protocol</tt> header is present, it must be a +String+, and must be one of the values from the <tt>rack.protocol</tt> array from the environment.
+
+Setting this value informs the server that it should perform a connection upgrade. In HTTP/1, this is done using the +upgrade+ header. In HTTP/2+, this is done by accepting the request.
+
+=== The Body
+
+The Body is typically an +Array+ of +String+ values, an enumerable that yields +String+ values, a +Proc+, or an +IO+-like object.
+
+The Body must respond to +each+ or +call+. It may optionally respond to +to_path+ or +to_ary+. A Body that responds to +each+ is considered to be an Enumerable Body. A Body that responds to +call+ is considered to be a Streaming Body.
+
+A Body that responds to both +each+ and +call+ must be treated as an Enumerable Body, not a Streaming Body. If it responds to +each+, you must call +each+ and not +call+. If the Body doesn't respond to +each+, then you can assume it responds to +call+.
+
+The Body must either be consumed or returned. The Body is consumed by optionally calling either +each+ or +call+. Then, if the Body responds to +close+, it must be called to release any resources associated with the generation of the body. In other words, +close+ must always be called at least once; typically after the web server has sent the response to the client, but also in cases where the Rack application makes internal/virtual requests and discards the response.
+
+After calling +close+, the Body is considered closed and should not be consumed again. If the original Body is replaced by a new Body, the new Body must also consume the original Body by calling +close+ if possible.
+
+If the Body responds to +to_path+, it must return either +nil+ or a +String+. If a +String+ is returned, it must be a path for the local file system whose contents are identical to that produced by calling +each+; this may be used by the server as an alternative, possibly more efficient way to transport the response. The +to_path+ method does not consume the body.
+
+==== Enumerable Body
+
+The Enumerable Body must respond to +each+, which must only be called once, must not be called after being closed, and must only yield +String+ values.
+
+Middleware must not call +each+ directly on the Body. Instead, middleware can return a new Body that calls +each+ on the original Body, yielding at least once per iteration.
+
+If the Body responds to +to_ary+, it must return an +Array+ whose contents are identical to that produced by calling +each+. Middleware may call +to_ary+ directly on the Body and return a new Body in its place. In other words, middleware can only process the Body directly if it responds to +to_ary+. If the Body responds to both +to_ary+ and +close+, its implementation of +to_ary+ must call +close+.
+
+==== Streaming Body
+
+The Streaming Body must respond to +call+, which must only be called once, must not be called after being closed, and accept a +stream+ argument.
+
+The +stream+ argument must respond to: +read+, +write+, <tt><<</tt>, +flush+, +close+, +close_read+, +close_write+, and +closed?+. The semantics of these +IO+ methods must be a best effort match to those of a normal Ruby +IO+ or +Socket+ object, using standard arguments and raising standard exceptions. Servers may simply pass on real +IO+ objects to the Streaming Body. In some cases (e.g. when using <tt>transfer-encoding</tt> or HTTP/2+), the server may need to provide a wrapper that implements the required methods, in order to provide the correct semantics.
+
+== Thanks
+
+We'd like to thank everyone who has contributed to the Rack project over the years. Your work has made this specification possible. That includes everyone who has contributed code, documentation, bug reports, and feedback. We'd also like to thank the authors of the various web servers, frameworks, and libraries that have implemented the Rack specification. Your work has helped to make the web a better place.
+
+Some parts of this specification are adapted from {PEP 333 – Python Web Server Gateway Interface v1.0}[https://peps.python.org/pep-0333/]. We'd like to thank everyone involved in that effort.

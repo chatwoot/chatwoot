@@ -1,0 +1,41 @@
+---
+inherit_gem:
+  rubocop-fnando: .rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.5
+  Exclude:
+    - bin/**/*
+    - gemfiles/**/*
+    - vendor/**/*
+    - Gemfile
+    - Rakefile
+    - "*.gemspec"
+    - config.ru
+
+Metrics/ClassLength:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 80
+
+Metrics/MethodLength:
+  Enabled: false
+
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
+
+Lint/RedundantCopDisableDirective:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false

@@ -1,0 +1,27 @@
+name: builder
+document: http://builder.rubyforge.org
+download: http://rubyforge.org/frs/?group_id=415
+description: >
+    <p>This package contains Builder, a simple ruby library for
+    building XML document quickly and easily.</p>
+
+    <p>Here's an example:</p>
+
+    <pre>
+      xml = Builder::XmlMarkup.new(:indent=>2)
+      xml.person {
+        xml.first_name("Jim")
+        xml.last_name("Weirich")
+      }
+      puts xml.target!
+    </pre>
+
+    <p>Produces:</p>
+    
+    <pre>
+      &lt;person&gt;
+        &lt;first_name&gt;Jim&lt;/first_name&gt;
+        &lt;last_name&gt;Weirich&lt;/last_name&gt;
+      &lt;/person&gt;
+    </pre>
+

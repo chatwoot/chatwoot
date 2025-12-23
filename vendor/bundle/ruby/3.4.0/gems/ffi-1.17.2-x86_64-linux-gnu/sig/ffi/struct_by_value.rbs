@@ -1,0 +1,7 @@
+module FFI
+  class StructByValue[C < singleton(Struct)] < Type
+    def initialize: (C) -> self
+    def layout: () -> StructLayout
+    def struct_class: () -> C
+  end
+end

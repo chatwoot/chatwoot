@@ -1,0 +1,87 @@
+# elements like %{queue} are variables and should not be translated
+ar:
+  Actions: إجراءات
+  AddToQueue: إضافة إلى الرتل
+  AreYouSure: هل انت متأكد؟
+  AreYouSureDeleteJob: هل أنت متأكد من حذف الوظيفة؟
+  AreYouSureDeleteQueue: هل أنت متأكد من حذف الرتل %{queue}؟
+  Arguments: مدخلات
+  BackToApp: العودة إلى التطبيق
+  Busy: مشغول
+  Class: نوع
+  Connections: اتصالات
+  CreatedAt: أنشئت في
+  CurrentMessagesInQueue: الرسائل الحالية في الرتل <span class='title'>%{queue}</span>
+  Dashboard: لوحة التحكم
+  Dead: ميتة
+  DeadJobs: وظائف ميتة
+  Delete: حذف
+  DeleteAll: حذف الكل
+  Enqueued: في الرتل
+  Error: خطأ
+  ErrorBacktrace: تتبع الخطأ
+  ErrorClass: نوع الخطأ
+  ErrorMessage: رسالة الخطأ
+  Extras: إضافات
+  Failed: فشل
+  Failures: فشل
+  GoBack: إلى الخلف
+  History: تاريخ
+  Job: وظيفة
+  Jobs: وظائف
+  Kill: إبطال
+  KillAll: إبطال الكل
+  LastRetry: إعادة المحاولة الأخيرة
+  Latency: زمن الانتظار
+  LivePoll: استعلام مباشر
+  MemoryUsage: استخدام الذاكرة
+  Name: الاسم
+  Namespace: مساحة الاسم
+  NextRetry: إعادة المحاولة القادمة
+  NoDeadJobsFound: لاتوجد وظائف ميتة
+  NoRetriesFound: لاتوجد أي إعادة محاولة
+  NoScheduledFound: لايوجد وظائف مجدولة
+  NotYetEnqueued: لم تدخل الرتل بعد
+  OneMonth: شهر
+  OneWeek: أسبوع
+  OriginallyFailed: فشل أصلا
+  Pause: إيقاف مؤقت
+  Paused: موقفة مؤقتاً
+  PeakMemoryUsage: ذروة استخدام الذاكرة
+  Plugins: الإضافات
+  PollingInterval: الفاصل الزمني بين الاستعلامات
+  Process: عملية
+  Processed: تمت المعالجة
+  Processes: عمليات
+  Queue: رتل
+  Queues: أرتال
+  Quiet: هدوء
+  QuietAll: هدوء الكل
+  Realtime: الزمن الفعلي
+  Retries: إعادة محاولة
+  RetryAll: إعادة المحاولة للكل
+  RetryCount: عدد مرات إعادة المحاولة
+  RetryNow: إعادة المحاولة الآن
+  Scheduled: مجدول
+  ScheduledJobs: وظائف مجدولة
+  ShowAll: عرض الكل
+  SixMonths: ستة أشهر
+  Size: حجم
+  Started: بدأت
+  Status: حالة
+  Stop: إيقاف
+  StopAll: إيقاف الكل
+  StopPolling: إيقاف الاستعلامات
+  TextDirection: 'rtl'
+  Thread: نيسب
+  Threads: نياسب
+  ThreeMonths: ثلاثة أشهر
+  Time: وقت
+  Unpause: متابعة
+  Uptime: زمن العمل
+  Utilization: الاستخدام
+  Version: إصدار
+  When: متى
+  Worker: عامل
+  active: نشيط
+  idle: خامل

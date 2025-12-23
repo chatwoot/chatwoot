@@ -1,0 +1,8 @@
+<% sections.each do |(section_key, section_name, section_description, configs)| %><% configs.each do |config| %>
+<%= config[:key] %>
+<%= config[:description] %>
+
+Type:        <%= config[:type] %>
+Default:     <%= config[:default] %>
+Environ var: <%= config[:env_var] %>
+------------------------------<% end %><% end %>

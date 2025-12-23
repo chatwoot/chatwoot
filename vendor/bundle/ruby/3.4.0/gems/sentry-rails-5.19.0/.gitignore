@@ -1,0 +1,12 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/spec/dummy/test_rails_app/db*
+/tmp/
+
+# rspec failure tracking
+.rspec_status

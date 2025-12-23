@@ -1,0 +1,39 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/msgpack-1.8.0/ext/msgpack
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for rb_enc_interned_str() in ruby.h... yes
+checking for rb_hash_new_capa() in ruby.h... yes
+checking for rb_proc_call_with_block() in ruby.h... yes
+checking for rb_gc_mark_locations() in ruby.h... yes
+checking for whether -fvisibility=hidden is accepted as CFLAGS... yes
+checking for whether -I.. is accepted as CFLAGS... yes
+checking for whether -Wall is accepted as CFLAGS... yes
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+checking for whether -DHASH_ASET_DEDUPE=1 is accepted as CFLAGS... yes
+checking for whether -DSTR_UMINUS_DEDUPE_FROZEN=1 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/msgpack-1.8.0/ext/msgpack
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-67nbiw sitelibdir\=./.gem.20251220-192266-67nbiw clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/msgpack-1.8.0/ext/msgpack
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-67nbiw sitelibdir\=./.gem.20251220-192266-67nbiw
+compiling buffer.c
+compiling buffer_class.c
+compiling extension_value_class.c
+compiling factory_class.c
+compiling packer.c
+compiling packer_class.c
+compiling packer_ext_registry.c
+compiling rbinit.c
+compiling rmem.c
+compiling unpacker.c
+compiling unpacker_class.c
+compiling unpacker_ext_registry.c
+linking shared-object msgpack/msgpack.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/msgpack-1.8.0/ext/msgpack
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-67nbiw sitelibdir\=./.gem.20251220-192266-67nbiw install
+/usr/bin/install -c -m 0755 msgpack.so ./.gem.20251220-192266-67nbiw/msgpack
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/msgpack-1.8.0/ext/msgpack
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-67nbiw sitelibdir\=./.gem.20251220-192266-67nbiw clean

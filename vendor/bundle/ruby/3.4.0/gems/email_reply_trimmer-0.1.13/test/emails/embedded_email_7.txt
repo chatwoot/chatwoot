@@ -1,0 +1,20 @@
+This is a line before the embedded email.
+On Tue, 2011-03-01 at 18:02 +0530, Some One wrote:
+> Hello
+>
+> This is the embedded email.
+
+This is some text
+
+after the
+
+embedded email.
+
+C>
+C> This is another part of the embedded email.
+C>
+C>
+
+
+_______________________
+And here's my signature.

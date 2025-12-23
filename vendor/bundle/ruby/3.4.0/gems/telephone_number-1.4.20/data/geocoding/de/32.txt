@@ -1,0 +1,59 @@
+# Copyright (C) 2014 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Data from http://mijntelefoon.be/telefoonzones/ translated into German by
+# wikipedia. The prefix for Lüttich was restricted beyond one digit to stop it
+# being applied to all mobile phone numbers as well.
+
+3210|Wavre
+3211|Hasselt
+3212|Tongern
+3213|Diest
+3214|Herentals
+3215|Mecheln
+3216|Löwen
+3219|Waremme
+322|Brüssel
+323|Antwerpen
+3242|Lüttich
+3243|Lüttich
+3250|Brügge
+3251|Roeselare
+3252|Dendermonde
+3253|Aalst
+3254|Ninove
+3255|Ronse
+3256|Kortrijk
+3257|Ypern
+3258|Veurne
+3259|Ostende
+3260|Chimay
+3261|Libramont-Chevigny
+3263|Arel
+3264|La Louvière
+3265|Bergen
+3267|Nivelles
+3268|Ath
+3269|Tournai
+3271|Charleroi
+3280|Stablo
+3281|Namür
+3282|Dinant
+3283|Ciney
+3284|Marche-en-Famenne
+3285|Huy
+3286|Durbuy
+3287|Verviers
+3289|Genk
+329|Gent

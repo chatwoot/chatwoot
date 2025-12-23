@@ -1,0 +1,115 @@
+base:
+  errors:
+    only_local: "Command is available only in local mode."
+
+break:
+  errors:
+    line: "Line {line} is not a valid breakpoint in file {file}.\n\nValid break points are:\n{valid_breakpoints}"
+    location: "Invalid breakpoint location"
+    state: "We are not in a state that has an associated file"
+    class: "Unknown class {klass}"
+    far_line: "There are only {lines} lines in file {file}"
+    source: "No file named {file}"
+    expression: "Incorrect expression \"{expr}\"; breakpoint disabled"
+    no_breakpoint: "Invalid breakpoint id. Use \"info breakpoint\" to find out the correct id"
+    no_breakpoint_delete: "No breakpoint number {pos}"
+    not_changed: "Incorrect expression \"{expr}\", breakpoint not changed"
+  confirmations:
+    delete_all: "Delete all breakpoints?"
+  messages:
+    breakpoint_deleted: "Deleted breakpoint {pos}"
+
+catch:
+  added: "Catching exception {exception}."
+  removed: "Catch for exception {exception} removed"
+  errors:
+    off: "Off expected. Got {off}"
+    not_class: "Warning {class} is not known to be a Class"
+    not_found: "Catch for exception {exception} not found"
+  confirmations:
+    delete_all: "Delete all catchpoints? (y or n) "
+
+condition:
+  errors:
+    no_breakpoints: "No breakpoints have been set"
+
+continue:
+  errors:
+    unstopped_line: "Line {line} is not a valid stopping point in file"
+
+display:
+  confirmations:
+    clear_all: "Clear all expressions?"
+  errors:
+    undefined: "Display expression {expr} is not defined"
+
+edit:
+  errors:
+    state: "We are not in a state that has an associated file"
+    file_line: "Invalid file[:line] number specification: {file_line}"
+    not_readable: "File {file} is not readable."
+    not_exist: "File {file} does not exist."
+
+frame:
+  errors:
+    too_low: "Can't navigate beyond the oldest frame"
+    too_high: "Can't navigate beyond the newest frame"
+    c_frame: "Can't navigate to c-frame"
+
+info:
+  errors:
+    undefined_file: "{file} is not a valid source file"
+
+pry:
+  errors:
+    not_installed: "You need to install pry in order to run this command"
+
+quit:
+  confirmations:
+    really: "Really quit?"
+
+save:
+  messages:
+    done: "Saved to '{path}'"
+
+set:
+  errors:
+    unknown_setting: "Unknown setting :{key}"
+    must_specify_value: "You must specify a value for setting :{key}"
+    on_off: "Expecting 'on', 1, true, 'off', 0, false. Got: {arg}."
+
+show:
+  errors:
+    unknown_setting: "Unknown setting :{key}"
+
+source:
+  errors:
+    not_found: "File \"{file}\" not found"
+
+thread:
+  errors:
+    no_thread: "No such thread"
+    current_thread: "It's the current thread"
+    wrong_action: "Can't {subcmd} thread {arg}"
+    already_running: "Already running"
+
+toggle:
+  errors:
+    no_breakpoints: "No breakpoints have been set"
+    no_display: "No display expressions have been set"
+    syntax: "\"{toggle}\" must be followed by \"display\", \"breakpoints\" or breakpoint ids"
+    expression: "Expression \"{expr}\" syntactically incorrect; breakpoint remains disabled."
+  messages:
+    toggled: "Breakpoint {bpnum} {endis}abled"
+
+parse:
+  errors:
+    int:
+      too_low: "\"{cmd}\" argument \"{str}\" needs to be at least {min}"
+      too_high: "\"{cmd}\" argument \"{str}\" needs to be at most {max}"
+      not_number: "\"{cmd}\" argument \"{str}\" needs to be a number"
+
+variable:
+  errors:
+    not_module: "Should be Class/Module: {object}"
+    cant_get_class_vars: "can't get class variables here.\n"

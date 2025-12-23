@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_21_032529) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -258,6 +258,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "updated_at", null: false
     t.boolean "active", default: true, null: false
     t.index ["account_id"], name: "index_automation_rules_on_account_id"
+  end
+
+  create_table "branding_configs", force: :cascade do |t|
+    t.string "brand_name", default: "SynkiCRM", null: false
+    t.string "brand_website", default: "https://synkicrm.com.br/", null: false
+    t.string "support_email", default: "suporte@synkicrm.com.br", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "campaigns", force: :cascade do |t|
@@ -589,7 +597,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
@@ -811,6 +819,29 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "account_id"], name: "index_email_templates_on_name_and_account_id", unique: true
+  end
+
+  create_table "embed_tokens", force: :cascade do |t|
+    t.string "jti", null: false
+    t.string "token_digest", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id"
+    t.bigint "created_by_id"
+    t.datetime "revoked_at"
+    t.datetime "last_used_at"
+    t.integer "usage_count", default: 0, null: false
+    t.string "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_embed_tokens_on_account_id"
+    t.index ["created_by_id"], name: "index_embed_tokens_on_created_by_id"
+    t.index ["inbox_id"], name: "index_embed_tokens_on_inbox_id"
+    t.index ["jti"], name: "index_embed_tokens_on_jti", unique: true
+    t.index ["revoked_at"], name: "index_embed_tokens_on_revoked_at"
+    t.index ["token_digest"], name: "index_embed_tokens_on_token_digest", unique: true
+    t.index ["user_id", "account_id"], name: "index_embed_tokens_on_user_id_and_account_id"
+    t.index ["user_id"], name: "index_embed_tokens_on_user_id"
   end
 
   create_table "folders", force: :cascade do |t|
@@ -1226,7 +1257,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
@@ -1266,6 +1297,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "embed_tokens", "accounts"
+  add_foreign_key "embed_tokens", "inboxes"
+  add_foreign_key "embed_tokens", "users"
+  add_foreign_key "embed_tokens", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

@@ -1,0 +1,10 @@
+ja:
+  faker:
+    relationship:
+      familial:
+        direct: ['父', '母', '姉', '兄']
+        extended: ['祖父', '祖母', '叔父', '叔母', '従兄弟', '姪', '甥', '孫息子', '孫娘']
+      in_law: ['義父', '義母', '義姉', '義兄']
+      spouse: ['夫', '妻']
+      parent: ['父', '母']
+      sibling: ['姉', '兄']

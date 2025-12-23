@@ -1,0 +1,1199 @@
+---
+- !ruby/object:MIME::Type
+  content-type: text/1d-interleaved-parityfec
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6015
+    template:
+    - text/1d-interleaved-parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/cache-manifest
+  encoding: quoted-printable
+  extensions:
+  - appcache
+  - manifest
+  xrefs:
+    person:
+    - Robin_Berjon
+    - W3C
+    template:
+    - text/cache-manifest
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/calendar
+  friendly:
+    en: iCalendar
+  encoding: quoted-printable
+  extensions:
+  - ics
+  - ifb
+  xrefs:
+    rfc:
+    - rfc5545
+    template:
+    - text/calendar
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/comma-separated-values
+  encoding: 8bit
+  extensions:
+  - csv
+  obsolete: true
+  use-instead: text/csv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/cql
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Bryn_Rhodes
+    - HL7
+    template:
+    - text/cql
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/cql-expression
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Bryn_Rhodes
+    - HL7
+    template:
+    - text/cql-expression
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/cql-identifier
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Bryn_Rhodes
+    - HL7
+    template:
+    - text/cql-identifier
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/css
+  friendly:
+    en: Cascading Style Sheets (CSS)
+  encoding: 8bit
+  extensions:
+  - css
+  xrefs:
+    rfc:
+    - rfc2318
+    template:
+    - text/css
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/csv
+  friendly:
+    en: Comma-Separated Values
+  encoding: 8bit
+  extensions:
+  - csv
+  xrefs:
+    rfc:
+    - rfc4180
+    - rfc7111
+    template:
+    - text/csv
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/csv-schema
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - David_Underdown
+    - National_Archives_UK
+    template:
+    - text/csv-schema
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/directory
+  encoding: quoted-printable
+  obsolete: true
+  xrefs:
+    rfc:
+    - rfc2425
+    - rfc6350
+    template:
+    - text/directory
+    notes:
+    - "- DEPRECATED by RFC6350"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/dns
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc4027
+    template:
+    - text/dns
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/ecmascript
+  encoding: quoted-printable
+  extensions:
+  - es
+  - ecma
+  obsolete: true
+  use-instead: text/javascript
+  xrefs:
+    rfc:
+    - rfc9239
+    template:
+    - text/ecmascript
+    notes:
+    - "(OBSOLETED in favor of text/javascript)"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/encaprtp
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - text/encaprtp
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/enriched
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc1896
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/example
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc4735
+    template:
+    - text/example
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/fhirpath
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Bryn_Rhodes
+    - HL7
+    template:
+    - text/fhirpath
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/flexfec
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc8627
+    template:
+    - text/flexfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/fwdred
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6354
+    template:
+    - text/fwdred
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/gff3
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Sequence_Ontology
+    template:
+    - text/gff3
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/grammar-ref-list
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6787
+    template:
+    - text/grammar-ref-list
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/hl7v2
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - HL7
+    - Marc_Duteau
+    template:
+    - text/hl7v2
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/html
+  friendly:
+    en: HyperText Markup Language (HTML)
+  encoding: 8bit
+  extensions:
+  - html
+  - htm
+  - htmlx
+  - shtml
+  - htx
+  xrefs:
+    person:
+    - Robin_Berjon
+    - W3C
+    template:
+    - text/html
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/javascript
+  encoding: quoted-printable
+  extensions:
+  - js
+  - mjs
+  xrefs:
+    rfc:
+    - rfc9239
+    template:
+    - text/javascript
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/jcr-cnd
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Peeter_Piegaze
+    template:
+    - text/jcr-cnd
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/markdown
+  encoding: quoted-printable
+  extensions:
+  - markdown
+  - md
+  - mkd
+  xrefs:
+    rfc:
+    - rfc7763
+    template:
+    - text/markdown
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/mizar
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Jesse_Alama
+    template:
+    - text/mizar
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/n3
+  friendly:
+    en: Notation3
+  encoding: quoted-printable
+  extensions:
+  - n3
+  xrefs:
+    person:
+    - Eric_Prudhommeaux
+    - W3C
+    template:
+    - text/n3
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/nfo
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Sean_Leonard
+  registered: true
+  provisional: true
+- !ruby/object:MIME::Type
+  content-type: text/parameters
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc7826
+    template:
+    - text/parameters
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/parityfec
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc3009
+    template:
+    - text/parityfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/plain
+  friendly:
+    en: Text File
+  encoding: quoted-printable
+  extensions:
+  - txt
+  - asc
+  - c
+  - cc
+  - h
+  - hh
+  - cpp
+  - hpp
+  - dat
+  - hlp
+  - conf
+  - def
+  - doc
+  - in
+  - list
+  - log
+  - rst
+  - text
+  - textile
+  xrefs:
+    rfc:
+    - rfc2046
+    - rfc3676
+    - rfc5147
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/provenance-notation
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Ivan_Herman
+    - W3C
+    template:
+    - text/provenance-notation
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/prs.fallenstein.rst
+  encoding: quoted-printable
+  extensions:
+  - rst
+  xrefs:
+    person:
+    - Benja_Fallenstein
+    template:
+    - text/prs.fallenstein.rst
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/prs.lines.tag
+  friendly:
+    en: PRS Lines Tag
+  encoding: quoted-printable
+  extensions:
+  - dsc
+  xrefs:
+    person:
+    - John_Lines
+    template:
+    - text/prs.lines.tag
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/prs.prop.logic
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Hans-Dieter_A._Hiep
+    template:
+    - text/prs.prop.logic
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/raptorfec
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6682
+    template:
+    - text/raptorfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/RED
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc4102
+    template:
+    - text/RED
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/rfc822-headers
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6522
+    template:
+    - text/rfc822-headers
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/richtext
+  friendly:
+    en: Rich Text Format (RTF)
+  encoding: 8bit
+  extensions:
+  - rtx
+  xrefs:
+    rfc:
+    - rfc2045
+    - rfc2046
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/rtf
+  encoding: 8bit
+  extensions:
+  - rtf
+  xrefs:
+    person:
+    - Paul_Lindner
+    template:
+    - text/rtf
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/rtp-enc-aescm128
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - _3GPP
+    template:
+    - text/rtp-enc-aescm128
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/rtploopback
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc6849
+    template:
+    - text/rtploopback
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/rtx
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc4588
+    template:
+    - text/rtx
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/sgml
+  friendly:
+    en: Standard Generalized Markup Language (SGML)
+  encoding: quoted-printable
+  extensions:
+  - sgml
+  - sgm
+  xrefs:
+    rfc:
+    - rfc1874
+    template:
+    - text/SGML
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/shaclc
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Vladimir_Alexiev
+    - W3C_SHACL_Community_Group
+    template:
+    - text/shaclc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/shex
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Eric_Prudhommeaux
+    - W3C
+    template:
+    - text/shex
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/spdx
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Linux_Foundation
+    - Rose_Judge
+    template:
+    - text/spdx
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/strings
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - IEEE-ISTO-PWG-PPP
+    template:
+    - text/strings
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/t140
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc4103
+    template:
+    - text/t140
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/tab-separated-values
+  friendly:
+    en: Tab Separated Values
+  encoding: quoted-printable
+  extensions:
+  - tsv
+  xrefs:
+    person:
+    - Paul_Lindner
+    template:
+    - text/tab-separated-values
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/troff
+  friendly:
+    en: troff
+  encoding: 8bit
+  extensions:
+  - t
+  - tr
+  - roff
+  - troff
+  - man
+  - me
+  - ms
+  xrefs:
+    rfc:
+    - rfc4263
+    template:
+    - text/troff
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/turtle
+  friendly:
+    en: Turtle (Terse RDF Triple Language)
+  encoding: quoted-printable
+  extensions:
+  - ttl
+  xrefs:
+    person:
+    - Eric_Prudhommeaux
+    - W3C
+    template:
+    - text/turtle
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/ulpfec
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc5109
+    template:
+    - text/ulpfec
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/uri-list
+  friendly:
+    en: URI Resolution Services
+  encoding: quoted-printable
+  extensions:
+  - uri
+  - uris
+  - urls
+  xrefs:
+    rfc:
+    - rfc2483
+    template:
+    - text/uri-list
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vcard
+  encoding: quoted-printable
+  extensions:
+  - vcard
+  xrefs:
+    rfc:
+    - rfc6350
+    template:
+    - text/vcard
+  registered: true
+  signature: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.a
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Regis_Dehoux
+    template:
+    - text/vnd.a
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.abc
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Steve_Allen
+    template:
+    - text/vnd.abc
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.ascii-art
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Kim_Scarborough
+    template:
+    - text/vnd.ascii-art
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.curl
+  friendly:
+    en: Curl - Applet
+  encoding: quoted-printable
+  extensions:
+  - curl
+  xrefs:
+    person:
+    - Robert_Byrnes
+    template:
+    - text/vnd.curl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.curl.dcurl
+  friendly:
+    en: Curl - Detached Applet
+  encoding: quoted-printable
+  extensions:
+  - dcurl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/vnd.curl.mcurl
+  friendly:
+    en: Curl - Manifest File
+  encoding: quoted-printable
+  extensions:
+  - mcurl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/vnd.curl.scurl
+  friendly:
+    en: Curl - Source Code
+  encoding: quoted-printable
+  extensions:
+  - scurl
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/vnd.debian.copyright
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Charles_Plessy
+    template:
+    - text/vnd.debian.copyright
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.DMClientScript
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Dan_Bradley
+    template:
+    - text/vnd.DMClientScript
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.dvb.subtitle
+  encoding: quoted-printable
+  extensions:
+  - sub
+  xrefs:
+    person:
+    - Michael_Lagally
+    - Peter_Siebert
+    template:
+    - text/vnd.dvb.subtitle
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.esmertec.theme-descriptor
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Stefan_Eilemann
+    template:
+    - text/vnd.esmertec.theme-descriptor
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.exchangeable
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Martin_Cizek
+    template:
+    - text/vnd.exchangeable
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.familysearch.gedcom
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Gordon_Clarke
+    template:
+    - text/vnd.familysearch.gedcom
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.ficlab.flt
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Steve_Gilberd
+    template:
+    - text/vnd.ficlab.flt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.flatland.3dml
+  encoding: quoted-printable
+  obsolete: true
+  use-instead: model/vnd.flatland.3dml
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/vnd.fly
+  friendly:
+    en: mod_fly / fly.cgi
+  encoding: quoted-printable
+  extensions:
+  - fly
+  xrefs:
+    person:
+    - John-Mark_Gurney
+    template:
+    - text/vnd.fly
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.fmi.flexstor
+  friendly:
+    en: FLEXSTOR
+  encoding: quoted-printable
+  extensions:
+  - flx
+  xrefs:
+    person:
+    - Kari_E._Hurtta
+    template:
+    - text/vnd.fmi.flexstor
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.gml
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Mi_Tar
+    template:
+    - text/vnd.gml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.graphviz
+  friendly:
+    en: Graphviz
+  encoding: quoted-printable
+  extensions:
+  - gv
+  xrefs:
+    person:
+    - John_Ellson
+    template:
+    - text/vnd.graphviz
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.hans
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Hill_Hanxv
+    template:
+    - text/vnd.hans
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.hgl
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Heungsub_Lee
+    template:
+    - text/vnd.hgl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.in3d.3dml
+  friendly:
+    en: In3D - 3DML
+  encoding: quoted-printable
+  extensions:
+  - 3dml
+  xrefs:
+    person:
+    - Michael_Powers
+    template:
+    - text/vnd.in3d.3dml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.in3d.spot
+  friendly:
+    en: In3D - 3DML
+  encoding: quoted-printable
+  extensions:
+  - spot
+  xrefs:
+    person:
+    - Michael_Powers
+    template:
+    - text/vnd.in3d.spot
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.IPTC.NewsML
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - IPTC
+    template:
+    - text/vnd.IPTC.NewsML
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.IPTC.NITF
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - IPTC
+    template:
+    - text/vnd.IPTC.NITF
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.latex-z
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Mikusiak_Lubos
+    template:
+    - text/vnd.latex-z
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.motorola.reflex
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Mark_Patton
+    template:
+    - text/vnd.motorola.reflex
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.ms-mediapackage
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Jan_Nelson
+    template:
+    - text/vnd.ms-mediapackage
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.net2phone.commcenter.command
+  encoding: quoted-printable
+  extensions:
+  - ccc
+  xrefs:
+    person:
+    - Feiyu_Xie
+    template:
+    - text/vnd.net2phone.commcenter.command
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.radisys.msml-basic-layout
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc5707
+    template:
+    - text/vnd.radisys.msml-basic-layout
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.senx.warpscript
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Pierre_Papin
+    template:
+    - text/vnd.senx.warpscript
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.si.uricatalogue
+  encoding: quoted-printable
+  obsolete: true
+  xrefs:
+    person:
+    - Nicholas_Parks_Young
+    template:
+    - text/vnd.si.uricatalogue
+    notes:
+    - "(OBSOLETED by request)"
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.sosi
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - Petter_Reinholdtsen
+    template:
+    - text/vnd.sosi
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.sun.j2me.app-descriptor
+  friendly:
+    en: J2ME App Descriptor
+  encoding: 8bit
+  extensions:
+  - jad
+  xrefs:
+    person:
+    - Gary_Adams
+    template:
+    - text/vnd.sun.j2me.app-descriptor
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.trolltech.linguist
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - David_Lee_Lambert
+    template:
+    - text/vnd.trolltech.linguist
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.wap.si
+  encoding: quoted-printable
+  extensions:
+  - si
+  xrefs:
+    person:
+    - WAP-Forum
+    template:
+    - text/vnd.wap.si
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.wap.sl
+  encoding: quoted-printable
+  extensions:
+  - sl
+  xrefs:
+    person:
+    - WAP-Forum
+    template:
+    - text/vnd.wap.sl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.wap.wml
+  friendly:
+    en: Wireless Markup Language (WML)
+  encoding: quoted-printable
+  extensions:
+  - wml
+  xrefs:
+    person:
+    - Peter_Stark
+    template:
+    - text/vnd.wap.wml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vnd.wap.wmlscript
+  friendly:
+    en: Wireless Markup Language Script (WMLScript)
+  encoding: quoted-printable
+  extensions:
+  - wmls
+  xrefs:
+    person:
+    - Peter_Stark
+    template:
+    - text/vnd.wap.wmlscript
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/vtt
+  encoding: quoted-printable
+  extensions:
+  - vtt
+  xrefs:
+    person:
+    - Silvia_Pfeiffer
+    - W3C
+    template:
+    - text/vtt
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/wgsl
+  encoding: quoted-printable
+  xrefs:
+    person:
+    - David_Neto
+    - W3C
+    template:
+    - text/wgsl
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/x-asm
+  friendly:
+    en: Assembler Source File
+  encoding: quoted-printable
+  extensions:
+  - asm
+  - s
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-c
+  friendly:
+    en: C Source File
+  encoding: quoted-printable
+  extensions:
+  - c
+  - cc
+  - cpp
+  - cxx
+  - dic
+  - h
+  - hh
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-coffescript
+  encoding: 8bit
+  extensions:
+  - coffee
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-component
+  encoding: 8bit
+  extensions:
+  - htc
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-fortran
+  friendly:
+    en: Fortran Source File
+  encoding: quoted-printable
+  extensions:
+  - f
+  - f77
+  - f90
+  - for
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-java-source
+  friendly:
+    en: Java Source File
+  encoding: quoted-printable
+  extensions:
+  - java
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-nfo
+  encoding: quoted-printable
+  extensions:
+  - nfo
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-opml
+  encoding: quoted-printable
+  extensions:
+  - opml
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-pascal
+  friendly:
+    en: Pascal Source File
+  encoding: quoted-printable
+  extensions:
+  - p
+  - pas
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-rtf
+  encoding: 8bit
+  extensions:
+  - rtf
+  obsolete: true
+  use-instead: text/rtf
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-setext
+  friendly:
+    en: Setext
+  encoding: quoted-printable
+  extensions:
+  - etx
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-sfv
+  encoding: quoted-printable
+  extensions:
+  - sfv
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-uuencode
+  friendly:
+    en: UUEncode
+  encoding: quoted-printable
+  extensions:
+  - uu
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-vcalendar
+  friendly:
+    en: vCalendar
+  encoding: 8bit
+  extensions:
+  - vcs
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-vcard
+  friendly:
+    en: vCard
+  encoding: 8bit
+  extensions:
+  - vcf
+  registered: false
+  signature: true
+- !ruby/object:MIME::Type
+  content-type: text/x-vnd.flatland.3dml
+  encoding: quoted-printable
+  obsolete: true
+  use-instead: model/vnd.flatland.3dml
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/x-yaml
+  encoding: 8bit
+  extensions:
+  - yaml
+  - yml
+  registered: false
+- !ruby/object:MIME::Type
+  content-type: text/xml
+  encoding: 8bit
+  extensions:
+  - xml
+  - dtd
+  - xsd
+  xrefs:
+    rfc:
+    - rfc7303
+    template:
+    - text/xml
+  registered: true
+- !ruby/object:MIME::Type
+  content-type: text/xml-external-parsed-entity
+  encoding: quoted-printable
+  xrefs:
+    rfc:
+    - rfc7303
+    template:
+    - text/xml-external-parsed-entity
+  registered: true

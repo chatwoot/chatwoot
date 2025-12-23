@@ -1,0 +1,51 @@
+#!/usr/bin/env ruby
+lib = File.expand_path('../../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'optparse'
+require 'squasher'
+
+options = {}
+parser = OptionParser.new do |config|
+  config.banner = 'Supported options:'
+
+  config.on('-d', '--dry', 'execute in "dry" mode(a test squashing without removing old migrations)') do
+    options[:dry] = true
+  end
+
+  config.on('-s', '--sql', 'run squasher in the app with sql schema') do
+    options[:sql] = true
+  end
+
+  config.on('-m', '--migration', '=VERSION', 'define the rails migration version(since Rails 5)') do |value|
+    options[:migration] = value
+  end
+
+  config.on('-r', '--reuse', 'reuse the database from a previous squashing') do
+    options[:reuse] = true
+  end
+
+  config.on('-e', 'run squasher in the engine(requires the dummy app inside)') do
+    options[:engine] = nil
+  end
+
+  config.on('--engine=PATH', 'run squasher in the engine with a custom path to the dummy app') do |value|
+    options[:engine] = value
+  end
+
+  config.on('--databases=DB_KEY,...', 'alternate database configuration keys to be included dbconfig (for multiverse)') do |value|
+    options[:databases] = value&.split(",")
+  end
+
+  config.on('-v', '--version', '-h', '--help', 'show this message')
+end
+parser.parse!
+
+Squasher.setup(options)
+case ARGV.first
+when /\A\d{4}/ then Squasher.squash(ARGV.first)
+when 'clean' then Squasher.clean
+else
+  Squasher.tell(:usage, version: Squasher::VERSION)
+  puts ''
+  puts parser
+end

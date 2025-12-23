@@ -1,0 +1,39 @@
+name: CI
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # Due to https://github.com/actions/runner/issues/849, we should quote versions
+        ruby: ['3.1', '3.2', '3.3', 'truffleruby-head']
+        rails: ['7.0', '7.1', '7.2', '8.0']
+        exclude:
+          - ruby: '3.1'
+            rails: '8.0'
+
+    name: Ruby ${{ matrix.ruby }}, Rails ${{ matrix.rails }}
+    env: # $BUNDLE_GEMFILE must be set at the job level, so it is set for all steps
+      BUNDLE_GEMFILE: ${{ github.workspace }}/gemfiles/rails_${{ matrix.rails }}.gemfile
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Print versions
+        continue-on-error: true
+        run: |
+          ruby --version
+          bundle --version
+          echo "RubyGems version `gem --version`"
+          bundle exec rails --version
+      - name: Run tests
+        run: bundle exec rake

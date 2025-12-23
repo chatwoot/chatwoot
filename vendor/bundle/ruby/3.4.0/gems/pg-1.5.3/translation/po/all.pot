@@ -1,0 +1,910 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Pg authors
+# This file is distributed under the same license as the Pg package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Pg 1.4.6\n"
+"POT-Creation-Date: 2023-03-28 08:27+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: Title #
+#: ../README.md:1
+#, markdown-text, no-wrap
+msgid "pg"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:7
+#, markdown-text
+msgid "home :: https://github.com/ged/ruby-pg"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:7
+#, markdown-text, no-wrap
+msgid ""
+"* docs :: http://deveiate.org/code/pg (English) ,\n"
+"          https://deveiate.org/code/pg/README_ja_md.html (Japanese)\n"
+"* clog :: link:/History.md\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:9
+#, markdown-text
+msgid ""
+"[![Join the chat at "
+"https://gitter.im/ged/ruby-pg](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ged/ruby-pg?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:11
+#, markdown-text, no-wrap
+msgid "Description"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:15
+#, markdown-text
+msgid ""
+"Pg is the Ruby interface to the [PostgreSQL "
+"RDBMS](http://www.postgresql.org/).  It works with [PostgreSQL 9.3 and "
+"later](http://www.postgresql.org/support/versioning/)."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:17
+#, markdown-text
+msgid "A small example usage:"
+msgstr ""
+
+#. type: Fenced code block (ruby)
+#: ../README.md:17
+#, no-wrap
+msgid ""
+"  #!/usr/bin/env ruby\n"
+"\n"
+"  require 'pg'\n"
+"\n"
+"  # Output a table of current connections to the DB\n"
+"  conn = PG.connect( dbname: 'sales' )\n"
+"  conn.exec( \"SELECT * FROM pg_stat_activity\" ) do |result|\n"
+"    puts \"     PID | User             | Query\"\n"
+"    result.each do |row|\n"
+"      puts \" %7d | %-16s | %s \" %\n"
+"        row.values_at('pid', 'usename', 'query')\n"
+"    end\n"
+"  end\n"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:33
+#, markdown-text, no-wrap
+msgid "Build Status"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:38
+#, markdown-text
+msgid ""
+"[![Build Status Github "
+"Actions](https://github.com/ged/ruby-pg/actions/workflows/source-gem.yml/badge.svg?branch=master)](https://github.com/ged/ruby-pg/actions/workflows/source-gem.yml)  "
+"[![Binary "
+"gems](https://github.com/ged/ruby-pg/actions/workflows/binary-gems.yml/badge.svg?branch=master)](https://github.com/ged/ruby-pg/actions/workflows/binary-gems.yml)  "
+"[![Build Status "
+"Appveyor](https://ci.appveyor.com/api/projects/status/gjx5axouf3b1wicp?svg=true)](https://ci.appveyor.com/project/ged/ruby-pg-9j8l3)"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:40
+#, markdown-text, no-wrap
+msgid "Requirements"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:44
+#, markdown-text
+msgid "Ruby 2.5 or newer"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:44
+#, markdown-text
+msgid "PostgreSQL 9.3.x or later (with headers, -dev packages, etc)."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:47
+#, markdown-text
+msgid ""
+"It usually works with earlier versions of Ruby/PostgreSQL as well, but those "
+"are not regularly tested."
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:49
+#, markdown-text, no-wrap
+msgid "Versioning"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:52
+#, markdown-text
+msgid ""
+"We tag and release gems according to the [Semantic "
+"Versioning](http://semver.org/) principle."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:54
+#, markdown-text
+msgid ""
+"As a result of this policy, you can (and should) specify a dependency on "
+"this gem using the [Pessimistic Version "
+"Constraint](http://guides.rubygems.org/patterns/#pessimistic-version-constraint) "
+"with two digits of precision."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:56
+#, markdown-text
+msgid "For example:"
+msgstr ""
+
+#. type: Fenced code block (ruby)
+#: ../README.md:57
+#, no-wrap
+msgid "  spec.add_dependency 'pg', '~> 1.0'\n"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:61
+#, markdown-text, no-wrap
+msgid "How To Install"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:64
+#, markdown-text
+msgid "Install via RubyGems:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:66
+#, markdown-text, no-wrap
+msgid "    gem install pg\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:69
+#, markdown-text
+msgid ""
+"You may need to specify the path to the 'pg_config' program installed with "
+"Postgres:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:71
+#, markdown-text, no-wrap
+msgid "    gem install pg -- --with-pg-config=<path to pg_config>\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:73
+#, markdown-text
+msgid "If you're installing via Bundler, you can provide compile hints like so:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:75
+#, markdown-text, no-wrap
+msgid "    bundle config build.pg --with-pg-config=<path to pg_config>\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:78
+#, markdown-text
+msgid ""
+"See README-OS_X.rdoc for more information about installing under MacOS X, "
+"and README-Windows.rdoc for Windows build/installation instructions."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:82
+#, markdown-text
+msgid ""
+"There's also [a Google+ group](http://goo.gl/TFy1U) and a [mailing "
+"list](http://groups.google.com/group/ruby-pg) if you get stuck, or just want "
+"to chat about something."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:86
+#, markdown-text
+msgid ""
+"If you want to install as a signed gem, the public certs of the gem signers "
+"can be found in [the `certs` "
+"directory](https://github.com/ged/ruby-pg/tree/master/certs)  of the "
+"repository."
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:88
+#, markdown-text, no-wrap
+msgid "Type Casts"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:94
+#, markdown-text
+msgid ""
+"Pg can optionally type cast result values and query parameters in Ruby or "
+"native C code. This can speed up data transfers to and from the database, "
+"because String allocations are reduced and conversions in (slower) Ruby code "
+"can be omitted."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:96
+#, markdown-text
+msgid "Very basic type casting can be enabled by:"
+msgstr ""
+
+#. type: Fenced code block (ruby)
+#: ../README.md:96
+#, no-wrap
+msgid ""
+"    conn.type_map_for_results = PG::BasicTypeMapForResults.new conn\n"
+"    # ... this works for result value mapping:\n"
+"    conn.exec(\"select 1, now(), '{2,3}'::int[]\").values\n"
+"        # => [[1, 2014-09-21 20:51:56 +0200, [2, 3]]]\n"
+"\n"
+"    conn.type_map_for_queries = PG::BasicTypeMapForQueries.new conn\n"
+"    # ... and this for param value mapping:\n"
+"    conn.exec_params(\"SELECT $1::text, $2::text, $3::text\", [1, 1.23, "
+"[2,3]]).values\n"
+"        # => [[\"1\", \"1.2300000000000000E+00\", \"{2,3}\"]]\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:110
+#, markdown-text
+msgid ""
+"But Pg's type casting is highly customizable. That's why it's divided into 2 "
+"layers:"
+msgstr ""
+
+#. type: Title ###
+#: ../README.md:111
+#, markdown-text, no-wrap
+msgid "Encoders / Decoders (ext/pg_*coder.c, lib/pg/*coder.rb)"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:118
+#, markdown-text
+msgid ""
+"This is the lower layer, containing encoding classes that convert Ruby "
+"objects for transmission to the DBMS and decoding classes to convert "
+"received data back to Ruby objects. The classes are namespaced according to "
+"their format and direction in PG::TextEncoder, PG::TextDecoder, "
+"PG::BinaryEncoder and PG::BinaryDecoder."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:124
+#, markdown-text
+msgid ""
+"It is possible to assign a type OID, format code (text or binary) and "
+"optionally a name to an encoder or decoder object. It's also possible to "
+"build composite types by assigning an element encoder/decoder.  PG::Coder "
+"objects can be used to set up a PG::TypeMap or alternatively to convert "
+"single values to/from their string representation."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:126
+#, markdown-text
+msgid ""
+"The following PostgreSQL column types are supported by ruby-pg (TE = Text "
+"Encoder, TD = Text Decoder, BE = Binary Encoder, BD = Binary Decoder):"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Integer: [TE](rdoc-ref:PG::TextEncoder::Integer), "
+"[TD](rdoc-ref:PG::TextDecoder::Integer), "
+"[BD](rdoc-ref:PG::BinaryDecoder::Integer) 💡 No links? Switch to "
+"[here](https://deveiate.org/code/pg/README_md.html#label-Type+Casts) 💡"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"BE: [Int2](rdoc-ref:PG::BinaryEncoder::Int2), "
+"[Int4](rdoc-ref:PG::BinaryEncoder::Int4), "
+"[Int8](rdoc-ref:PG::BinaryEncoder::Int8)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Float: [TE](rdoc-ref:PG::TextEncoder::Float), "
+"[TD](rdoc-ref:PG::TextDecoder::Float), "
+"[BD](rdoc-ref:PG::BinaryDecoder::Float)"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"BE: [Float4](rdoc-ref:PG::BinaryEncoder::Float4), "
+"[Float8](rdoc-ref:PG::BinaryEncoder::Float8)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Numeric: [TE](rdoc-ref:PG::TextEncoder::Numeric), "
+"[TD](rdoc-ref:PG::TextDecoder::Numeric)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Boolean: [TE](rdoc-ref:PG::TextEncoder::Boolean), "
+"[TD](rdoc-ref:PG::TextDecoder::Boolean), "
+"[BE](rdoc-ref:PG::BinaryEncoder::Boolean), "
+"[BD](rdoc-ref:PG::BinaryDecoder::Boolean)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"String: [TE](rdoc-ref:PG::TextEncoder::String), "
+"[TD](rdoc-ref:PG::TextDecoder::String), "
+"[BE](rdoc-ref:PG::BinaryEncoder::String), "
+"[BD](rdoc-ref:PG::BinaryDecoder::String)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Bytea: [TE](rdoc-ref:PG::TextEncoder::Bytea), "
+"[TD](rdoc-ref:PG::TextDecoder::Bytea), "
+"[BE](rdoc-ref:PG::BinaryEncoder::Bytea), "
+"[BD](rdoc-ref:PG::BinaryDecoder::Bytea)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Base64: [TE](rdoc-ref:PG::TextEncoder::ToBase64), "
+"[TD](rdoc-ref:PG::TextDecoder::FromBase64), "
+"[BE](rdoc-ref:PG::BinaryEncoder::FromBase64), "
+"[BD](rdoc-ref:PG::BinaryDecoder::ToBase64)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid "Timestamp:"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"TE: [local](rdoc-ref:PG::TextEncoder::TimestampWithoutTimeZone), "
+"[UTC](rdoc-ref:PG::TextEncoder::TimestampUtc), "
+"[with-TZ](rdoc-ref:PG::TextEncoder::TimestampWithTimeZone)"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"TD: [local](rdoc-ref:PG::TextDecoder::TimestampLocal), "
+"[UTC](rdoc-ref:PG::TextDecoder::TimestampUtc), "
+"[UTC-to-local](rdoc-ref:PG::TextDecoder::TimestampUtcToLocal)"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"BE: [local](rdoc-ref:PG::BinaryEncoder::TimestampLocal), "
+"[UTC](rdoc-ref:PG::BinaryEncoder::TimestampUtc)"
+msgstr ""
+
+#. type: Bullet: '    * '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"BD: [local](rdoc-ref:PG::BinaryDecoder::TimestampLocal), "
+"[UTC](rdoc-ref:PG::BinaryDecoder::TimestampUtc), "
+"[UTC-to-local](rdoc-ref:PG::BinaryDecoder::TimestampUtcToLocal)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Date: [TE](rdoc-ref:PG::TextEncoder::Date), "
+"[TD](rdoc-ref:PG::TextDecoder::Date), "
+"[BE](rdoc-ref:PG::BinaryEncoder::Date), "
+"[BD](rdoc-ref:PG::BinaryDecoder::Date)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"JSON and JSONB: [TE](rdoc-ref:PG::TextEncoder::JSON), "
+"[TD](rdoc-ref:PG::TextDecoder::JSON)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Inet: [TE](rdoc-ref:PG::TextEncoder::Inet), "
+"[TD](rdoc-ref:PG::TextDecoder::Inet)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Array: [TE](rdoc-ref:PG::TextEncoder::Array), "
+"[TD](rdoc-ref:PG::TextDecoder::Array)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:146
+#, markdown-text
+msgid ""
+"Composite Type (also called \"Row\" or \"Record\"): "
+"[TE](rdoc-ref:PG::TextEncoder::Record), "
+"[TD](rdoc-ref:PG::TextDecoder::Record)"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:148
+#, markdown-text
+msgid ""
+"The following text and binary formats can also be encoded although they are "
+"not used as column type:"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:152
+#, markdown-text
+msgid ""
+"COPY input and output data: [TE](rdoc-ref:PG::TextEncoder::CopyRow), "
+"[TD](rdoc-ref:PG::TextDecoder::CopyRow), "
+"[BE](rdoc-ref:PG::BinaryEncoder::CopyRow), "
+"[BD](rdoc-ref:PG::BinaryDecoder::CopyRow)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:152
+#, markdown-text
+msgid ""
+"Literal for insertion into SQL string: "
+"[TE](rdoc-ref:PG::TextEncoder::QuotedLiteral)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:152
+#, markdown-text
+msgid ""
+"SQL-Identifier: [TE](rdoc-ref:PG::TextEncoder::Identifier), "
+"[TD](rdoc-ref:PG::TextDecoder::Identifier)"
+msgstr ""
+
+#. type: Title ###
+#: ../README.md:153
+#, markdown-text, no-wrap
+msgid "PG::TypeMap and derivations (ext/pg_type_map*.c, lib/pg/type_map*.rb)"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:159
+#, markdown-text
+msgid ""
+"A TypeMap defines which value will be converted by which encoder/decoder.  "
+"There are different type map strategies, implemented by several derivations "
+"of this class. They can be chosen and configured according to the particular "
+"needs for type casting. The default type map is PG::TypeMapAllStrings."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:163
+#, markdown-text
+msgid ""
+"A type map can be assigned per connection or per query respectively per "
+"result set. Type maps can also be used for COPY in and out data streaming.  "
+"See PG::Connection#copy_data ."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:165
+#, markdown-text
+msgid "The following base type maps are available:"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:171
+#, markdown-text
+msgid ""
+"PG::TypeMapAllStrings - encodes and decodes all values to and from strings "
+"(default)"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:171
+#, markdown-text
+msgid ""
+"PG::TypeMapByClass - selects encoder based on the class of the value to be "
+"sent"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:171
+#, markdown-text
+msgid "PG::TypeMapByColumn - selects encoder and decoder by column order"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:171
+#, markdown-text
+msgid "PG::TypeMapByOid - selects decoder by PostgreSQL type OID"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:171
+#, markdown-text
+msgid "PG::TypeMapInRuby - define a custom type map in ruby"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:173
+#, markdown-text
+msgid ""
+"The following type maps are prefilled with type mappings from the "
+"PG::BasicTypeRegistry :"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:177
+#, markdown-text
+msgid ""
+"PG::BasicTypeMapForResults - a PG::TypeMapByOid prefilled with decoders for "
+"common PostgreSQL column types"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:177
+#, markdown-text
+msgid ""
+"PG::BasicTypeMapBasedOnResult - a PG::TypeMapByOid prefilled with encoders "
+"for common PostgreSQL column types"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:177
+#, markdown-text
+msgid ""
+"PG::BasicTypeMapForQueries - a PG::TypeMapByClass prefilled with encoders "
+"for common Ruby value classes"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:179
+#, markdown-text, no-wrap
+msgid "Thread support"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:184
+#, markdown-text
+msgid ""
+"PG is thread safe in such a way that different threads can use different "
+"PG::Connection objects concurrently.  However it is not safe to access any "
+"Pg objects simultaneously from more than one thread.  So make sure to open a "
+"new database server connection for every new thread or use a wrapper library "
+"like ActiveRecord that manages connections in a thread safe way."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:186
+#, markdown-text
+msgid ""
+"If messages like the following are printed to stderr, you're probably using "
+"one connection from several threads:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:192
+#, markdown-text, no-wrap
+msgid ""
+"    message type 0x31 arrived from server while idle\n"
+"    message type 0x32 arrived from server while idle\n"
+"    message type 0x54 arrived from server while idle\n"
+"    message type 0x43 arrived from server while idle\n"
+"    message type 0x5a arrived from server while idle\n"
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:194
+#, markdown-text, no-wrap
+msgid "Fiber IO scheduler support"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:201
+#, markdown-text
+msgid ""
+"Pg is fully compatible with `Fiber.scheduler` introduced in Ruby-3.0.  On "
+"Windows support for `Fiber.scheduler` is available on Ruby-3.1 or newer.  "
+"All possibly blocking IO operations are routed through the `Fiber.scheduler` "
+"if one is registered for the running thread.  That is why pg internally uses "
+"the asynchronous libpq interface even for synchronous/blocking method "
+"calls.  It also uses Ruby's DNS resolution instead of libpq's builtin "
+"functions."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:205
+#, markdown-text
+msgid ""
+"Internally Pg always uses the nonblocking connection mode of libpq.  It then "
+"behaves like running in blocking mode but ensures, that all blocking IO is "
+"handled in Ruby through a possibly registered `Fiber.scheduler`.  When "
+"`PG::Connection.setnonblocking(true)` is called then the nonblocking state "
+"stays enabled, but the additional handling of blocking states is disabled, "
+"so that the calling program has to handle blocking states on its own."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:209
+#, markdown-text
+msgid ""
+"An exception to this rule are the methods for large objects like "
+"`PG::Connection#lo_create` and authentication methods using external "
+"libraries (like GSSAPI authentication).  They are not compatible with "
+"`Fiber.scheduler`, so that blocking states are not passed to the registered "
+"IO scheduler.  That means the operation will work properly, but IO waiting "
+"states can not be used to switch to another Fiber doing IO."
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:211
+#, markdown-text, no-wrap
+msgid "Contributing"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:215
+#, markdown-text
+msgid ""
+"To report bugs, suggest features, or check out the source with Git, [check "
+"out the project page](https://github.com/ged/ruby-pg)."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:217
+#, markdown-text
+msgid "After checking out the source, install all dependencies:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:219
+#, markdown-text, no-wrap
+msgid "    $ bundle install\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:222
+#, markdown-text
+msgid ""
+"Cleanup extension files, packaging files, test databases.  Run this to "
+"change between PostgreSQL versions:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:224
+#, markdown-text, no-wrap
+msgid "    $ rake clean\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:226
+#, markdown-text
+msgid "Compile extension:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:228
+#, markdown-text, no-wrap
+msgid "    $ rake compile\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:230
+#, markdown-text
+msgid ""
+"Run tests/specs on the PostgreSQL version that `pg_config --bindir` points "
+"to:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:232
+#, markdown-text, no-wrap
+msgid "    $ rake test\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:234
+#, markdown-text
+msgid ""
+"Or run a specific test per file and line number on a specific PostgreSQL "
+"version:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:236
+#, markdown-text, no-wrap
+msgid ""
+"    $ PATH=/usr/lib/postgresql/14/bin:$PATH rspec -Ilib -fd "
+"spec/pg/connection_spec.rb:455\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:238
+#, markdown-text
+msgid "Generate the API documentation:"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:240
+#, markdown-text, no-wrap
+msgid "    $ rake docs\n"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:242
+#, markdown-text
+msgid "Make sure, that all bugs and new features are verified by tests."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:245
+#, markdown-text
+msgid ""
+"The current maintainers are Michael Granger <ged@FaerieMUD.org> and Lars "
+"Kanis <lars@greiz-reinsdorf.de>."
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:247
+#, markdown-text, no-wrap
+msgid "Copying"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:250
+#, markdown-text
+msgid "Copyright (c) 1997-2022 by the authors."
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Jeff Davis <ruby-pg@j-davis.com>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Guy Decoux (ts) <decoux@moulon.inra.fr>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Michael Granger <ged@FaerieMUD.org>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Lars Kanis <lars@greiz-reinsdorf.de>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Dave Lee"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Eiji Matsumoto <usagi@ruby.club.or.jp>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Yukihiro Matsumoto <matz@ruby-lang.org>"
+msgstr ""
+
+#. type: Bullet: '* '
+#: ../README.md:259
+#, markdown-text
+msgid "Noboru Saitou <noborus@netlab.jp>"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:263
+#, markdown-text
+msgid ""
+"You may redistribute this software under the same terms as Ruby itself; see "
+"https://www.ruby-lang.org/en/about/license.txt or the BSDL file in the "
+"source for details."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:266
+#, markdown-text
+msgid ""
+"Portions of the code are from the PostgreSQL project, and are distributed "
+"under the terms of the PostgreSQL license, included in the file POSTGRES."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:268
+#, markdown-text
+msgid "Portions copyright LAIKA, Inc."
+msgstr ""
+
+#. type: Title ##
+#: ../README.md:270
+#, markdown-text, no-wrap
+msgid "Acknowledgments"
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:274
+#, markdown-text
+msgid ""
+"See Contributors.rdoc for the many additional fine people that have "
+"contributed to this library over the years."
+msgstr ""
+
+#. type: Plain text
+#: ../README.md:276
+#, markdown-text
+msgid ""
+"We are thankful to the people at the ruby-list and ruby-dev mailing lists.  "
+"And to the people who developed PostgreSQL."
+msgstr ""

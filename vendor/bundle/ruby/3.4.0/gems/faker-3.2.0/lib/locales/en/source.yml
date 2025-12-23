@@ -1,0 +1,51 @@
+en:
+  faker:
+    source:
+      hello_world:
+        ruby: "puts 'Hello World!'"
+        javascript: "alert('Hello World!');"
+        c: "printf('Hello World!');"
+        php: "echo 'Hello World!';"
+        python: "print('Hello World!')"
+        java: "System.out.println('Hello World!');"
+        elixir: "IO.puts 'Hello World!'"
+        clojure: "(print 'Hello World!')"
+      print:
+        ruby: "puts 'faker_string_to_print'"
+        javascript: "console.log('faker_string_to_print');"
+        c: "printf('faker_string_to_print');"
+        php: "echo 'faker_string_to_print';"
+        python: "print('faker_string_to_print')"
+        java: "System.out.println('faker_string_to_print');"
+        elixir: "IO.puts 'faker_string_to_print'"
+        clojure: "(print 'faker_string_to_print')"
+      print_1_to_10:
+        ruby: "
+              (1..10).each { |i| puts i }"
+        javascript: "
+              for (let i=0; i<10; i++) {
+                console.log(i);
+              }"
+        c: "
+           for(int i=0; i<10; i++)
+           {
+             printf('%d', i);
+           }"
+        php: "
+             for ($i=1; $i<10; $i++) {
+              echo $i;
+             }"
+        python: "
+                for i in range(10):
+                  print(i)"
+        java: "
+              for (int i=0; i<10; i++) {
+                System.out.println(i);
+              }"
+        elixir: "
+                Enum.each(1..10, fn(x) ->
+                  IO.puts x
+                end)"
+        clojure: "
+                (for [i (range 1 11)]
+                  (println i))"

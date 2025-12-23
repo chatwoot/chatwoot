@@ -1,0 +1,82 @@
+module Prism
+  class InterpolatedMatchLastLineNode < Node
+    # Returns a numeric value that represents the flags that were used to create
+    # the regular expression.
+    def options: () -> Integer
+  end
+
+  class InterpolatedRegularExpressionNode < Node
+    # Returns a numeric value that represents the flags that were used to create
+    # the regular expression.
+    def options: () -> Integer
+  end
+
+  class MatchLastLineNode < Node
+    # Returns a numeric value that represents the flags that were used to create
+    # the regular expression.
+    def options: () -> Integer
+  end
+
+  class RegularExpressionNode < Node
+    # Returns a numeric value that represents the flags that were used to create
+    # the regular expression.
+    def options: () -> Integer
+  end
+
+  class InterpolatedStringNode < Node
+    # Returns true if this node was represented as a heredoc in the source code.
+    def heredoc?: () -> bool?
+  end
+
+  class InterpolatedXStringNode < Node
+    # Returns true if this node was represented as a heredoc in the source code.
+    def heredoc?: () -> bool?
+  end
+
+  class StringNode < Node
+    # Returns true if this node was represented as a heredoc in the source code.
+    def heredoc?: () -> bool?
+  end
+
+  class XStringNode < Node
+    # Returns true if this node was represented as a heredoc in the source code.
+    def heredoc?: () -> bool?
+  end
+
+  class ImaginaryNode < Node
+    def value: () -> Complex
+  end
+
+  class RationalNode < Node
+    def value: () -> Rational
+  end
+
+  class ConstantReadNode < Node
+    def full_name_parts: () -> [Symbol]
+    def full_name: () -> String
+  end
+
+  class ConstantPathNode < Node
+    class DynamicPartsInConstantPathError < StandardError
+    end
+
+    class MissingNodesInConstantPathError < StandardError
+    end
+
+    def full_name_parts: () -> Array[Symbol]
+    def full_name: () -> String
+  end
+
+  class ConstantPathTargetNode < Node
+    def full_name_parts: () -> Array[Symbol]
+    def full_name: () -> String
+  end
+
+  class ParametersNode < Node
+    def signature: () -> Array[[Symbol, Symbol] | [Symbol]]
+  end
+
+  class CallNode < Node
+    def full_message_loc: () -> Location?
+  end
+end

@@ -1,0 +1,101 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T02020000D6/en [2009-07-07]
+# http://en.wikipedia.org/wiki/+90 [428576481]
+
+90212|Istanbul (Avrupa)
+90216|Istanbul (Anatolia)
+90222|Eskisehir
+90224|Bursa
+90226|Yalova
+90228|Bilecik
+90232|İzmir
+90236|Manisa
+90242|Antalya
+90246|Isparta
+90248|Burdur
+90252|Muğla
+90256|Aydın
+90258|Denizli
+90262|Kocaeli (İzmit)
+90264|Sakarya (Adapazarı)
+90266|Balıkesir
+90272|Afyon
+90274|Kütahya
+90276|Uşak
+90282|Tekirdağ
+90284|Edirne
+90286|Çanakkale
+90288|Kırklareli
+90312|Ankara
+90318|Kırıkkale
+90322|Adana
+90324|Mersin
+90326|Hatay
+90328|Osmaniye
+90332|Konya
+90338|Karaman
+90342|Gaziantep
+90344|Kahramanmaraş
+90346|Sivas
+90348|Kilis
+90352|Kayseri
+90354|Yozgat
+90356|Tokat
+90358|Amasya
+90362|Samsun
+90364|Çorum
+90366|Kastamonu
+90368|Sinop
+90370|Karabük
+90372|Zonguldak
+90374|Bolu
+90376|Çankırı
+90378|Bartın
+90380|Düzce
+90382|Aksaray
+90384|Nevşehir
+90386|Kırşehir
+90388|Niğde
+9039|Kuzey Kıbrıs
+90412|Diyarbakır
+90414|Şanlıurfa
+90416|Adıyaman
+90422|Malatya
+90424|Elazığ
+90426|Bingöl
+90428|Tunceli
+90432|Van
+90434|Bitlis
+90436|Muş
+90438|Hakkari
+90442|Erzurum
+90446|Erzincan
+90452|Ordu
+90454|Giresun
+90456|Gümüşhane
+90458|Bayburt
+90462|Trabzon
+90464|Rize
+90466|Artvin
+90472|Ağrı
+90474|Kars
+90476|Iğdır
+90478|Ardahan
+90482|Mardin
+90484|Siirt
+90486|Şırnak
+90488|Batman

@@ -1,0 +1,41 @@
+# Copyright (C) 2019 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+67320|Brunei Muara
+67321|Brunei Muara
+673220|Brunei Muara
+673221|Brunei Muara
+673222|Brunei Muara
+673223|Brunei Muara
+673224|Brunei Muara
+673225|Brunei Muara
+673226|Brunei Muara
+673227|Brunei Muara
+67323|Brunei Muara
+67324|Brunei Muara
+67325|Brunei Muara
+67326|Brunei Muara
+67327|Brunei Muara
+67328|Brunei Muara
+67329|Brunei Muara
+6733|Beliat
+6734|Tutong
+67350|Temburong
+67351|Temburong
+67352|Temburong
+67355|Temburong
+67356|Temburong
+67357|Temburong
+67358|Temburong
+67359|Temburong

@@ -1,0 +1,7 @@
+-----Ursprüngliche Nachricht-----
+Von: Discourse Team <team@discourse.org>
+Gesendet: Don 11 Februar 2016 11:23
+An: Some One <foo@bar.com>
+Betreff: Some Subject
+
+Hallo! Wie geht es Ihnen heute?

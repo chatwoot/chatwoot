@@ -1,0 +1,58 @@
+en:
+  faker:
+    games:
+      super_mario:
+        characters:
+          - Mario
+          - Luigi
+          - Princess Peach
+          - Toad
+          - Bowser
+          - Yoshi
+          - Princess Daisy
+          - Rosalina
+          - Donkey Kong
+          - Diddy Kong
+          - Toadette
+          - Birdo
+          - Toadsworth
+          - Captain Toad
+          - Pauline
+          - Wario
+          - Waluigi
+          - Bowser Jr.
+          - Koopalings
+          - Kamek
+          - Boom Boom
+          - Pom Pom
+          - King Boo
+        games:
+          - Luigi's Mansion
+          - Super Mario Bros.
+          - Super Mario World
+          - Super Mario Kart
+          - Super Mario 64
+          - Super Mario Party
+          - Super Smash Bros.
+          - Super Mario Galaxy
+          - Super Mario Odyssey
+          - Super Mario Maker
+          - Paper Mario
+        locations:
+          - Bonneton
+          - Fossil Falls
+          - Tostarena
+          - Lake Lamode
+          - Steam Gardens
+          - Nimbus Arena
+          - Forgoten Isle
+          - Kong City
+          - Shiveria
+          - Bubblaine
+          - Mount Volbono
+          - Crumbleden
+          - Bowser's Castle
+          - Honeylune Ridge
+          - Peach's Castle
+          - Rabbit Ridge
+          - Culmina Crater

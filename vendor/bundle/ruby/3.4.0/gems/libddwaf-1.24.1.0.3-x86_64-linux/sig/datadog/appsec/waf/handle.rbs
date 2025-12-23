@@ -1,0 +1,21 @@
+module Datadog
+  module AppSec
+    module WAF
+      class Handle
+        @handle_ptr: ::FFI::Pointer
+
+        def initialize: (::FFI::Pointer handle_ptr) -> void
+
+        def finalize!: () -> void
+
+        def build_context: () -> Context
+
+        def known_addresses: () -> ::Array[::String?]
+
+        private
+
+        def ensure_pointer_presence!: () -> void
+      end
+    end
+  end
+end

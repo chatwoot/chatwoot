@@ -1,0 +1,13 @@
+--no-private
+--title=GAPIC common library
+--markup markdown
+--markup-provider redcarpet
+--main README.md
+
+./lib/**/*.rb
+-
+CONTRIBUTING.md
+CHANGELOG.md
+CODE_OF_CONDUCT.md
+LICENSE
+README.md

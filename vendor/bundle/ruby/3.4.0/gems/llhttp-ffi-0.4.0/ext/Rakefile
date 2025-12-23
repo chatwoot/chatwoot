@@ -1,0 +1,5 @@
+# frozen_string_literal: true
+
+require "ffi-compiler/compile_task"
+
+FFI::Compiler::CompileTask.new("llhttp-ext")

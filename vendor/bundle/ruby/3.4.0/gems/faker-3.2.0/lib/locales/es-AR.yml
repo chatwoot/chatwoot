@@ -1,0 +1,4601 @@
+# encoding: utf-8
+es-AR:
+    faker:
+        name:
+            male_first_name:
+                - Aaron
+                - Adalberto
+                - Adolfo
+                - Adrián
+                - Agustín
+                - Alan
+                - Alberto
+                - Alejandro
+                - Alejo
+                - Alfredo
+                - Álvaro
+                - Amadeo
+                - Andrés
+                - Ángel
+                - Antonio
+                - Ariel
+                - Armando
+                - Arnaldo
+                - Arturo
+                - Augusto
+                - Baltazar
+                - Bastian
+                - Bautista
+                - Benicio
+                - Benjamín
+                - Bernardo
+                - Brian
+                - Bruno
+                - Camilo
+                - Carlos
+                - César
+                - Ciro
+                - Cristian
+                - Damián
+                - Daniel
+                - Dante
+                - Darío
+                - David
+                - Diego
+                - Diego Armando
+                - Domingo
+                - Donato
+                - Dylan
+                - Eduardo
+                - Elías
+                - Eliseo
+                - Emanuel
+                - Emiliano
+                - Emilio
+                - Enrique
+                - Enzo
+                - Eric
+                - Ernesto
+                - Esteban
+                - Ezequiel
+                - Fabián
+                - Facundo
+                - Fausto
+                - Federico
+                - Felipe
+                - Félix
+                - Fermín
+                - Fernando
+                - Francisco
+                - Franco
+                - Gabriel
+                - Gael
+                - Gaspar
+                - Gastón
+                - Genaro
+                - Gerardo
+                - Germán
+                - Gerónimo
+                - Gianluca
+                - Gino
+                - Giovanni
+                - Gonzalo
+                - Gregorio
+                - Guido
+                - Guillermo
+                - Gustavo
+                - Héctor
+                - Hernán
+                - Hugo
+                - Humberto
+                - Ian
+                - Ignacio
+                - Iñaki
+                - Iván
+                - Javier
+                - Jeremías
+                - Joaquín
+                - Jonathan
+                - Jorge
+                - Jorge Luis
+                - José
+                - José Antonio
+                - José Ignacio
+                - José Luis
+                - José María
+                - José Oscar
+                - Juan
+                - Juan Alberto
+                - Juan Antonio
+                - Juan Bautista
+                - Juan Carlos
+                - Juan Cruz
+                - Juan David
+                - Juan de Dios
+                - Juan Domingo
+                - Juan Francisco
+                - Juan Franco
+                - Juan Gabriel
+                - Juan Ignacio
+                - Juan José
+                - Juan Manuel
+                - Juan Martín
+                - Juan Pablo
+                - Juan Román
+                - Julián
+                - Julio
+                - Julio Argentino
+                - Julio César
+                - Kevin
+                - Laureano
+                - Lautaro
+                - Leandro
+                - León
+                - Leonardo
+                - Leonel
+                - Lionel
+                - Lorenzo
+                - Luca
+                - Lucas
+                - Luciano
+                - Lucio
+                - Luis
+                - Luis Alberto
+                - Luis Miguel
+                - Manuel
+                - Marcelo
+                - Marco Antonio
+                - Marcos
+                - Mariano
+                - Mario
+                - Martín
+                - Mateo
+                - Matías
+                - Mauricio
+                - Maximiliano
+                - Máximo
+                - Miguel
+                - Miguel Ángel
+                - Mirko
+                - Nahuel
+                - Nazareno
+                - Néstor
+                - Nicolás
+                - Omar
+                - Oscar
+                - Osvaldo
+                - Pablo
+                - Patricio
+                - Pedro
+                - Rafael
+                - Ramiro
+                - Ramón
+                - Raúl
+                - Reinaldo
+                - Renato
+                - René
+                - Renzo
+                - Ricardo
+                - Roberto
+                - Rodolfo
+                - Rodrigo
+                - Rolando
+                - Román
+                - Rubén
+                - Salvador
+                - Santiago
+                - Santino
+                - Sebastián
+                - Sergio
+                - Simón
+                - Sixto
+                - Stéfano
+                - Tahiel
+                - Teodoro
+                - Theo
+                - Thiago
+                - Tiziano
+                - Tobías
+                - Tomás
+                - Ulises
+                - Uriel
+                - Valentín
+                - Valentino
+                - Vicente
+                - Víctor
+                - Víctor Hugo
+                - Víctor Manuel
+                - Walter
+            female_first_name:
+                - Abigail
+                - Abril
+                - Adela
+                - Adriana
+                - Agostina
+                - Agustina
+                - Alejandra
+                - Alfonsina
+                - Alicia
+                - Alma
+                - Amalia
+                - Amanda
+                - Ana
+                - Ana María
+                - Analía
+                - Andrea
+                - Angélica
+                - Antonella
+                - Ayelén
+                - Azul
+                - Bárbara
+                - Beatríz
+                - Belén
+                - Bianca
+                - Briana
+                - Brisa
+                - Camila
+                - Candela
+                - Carmela
+                - Carmen
+                - Carolina
+                - Catalina
+                - Cecilia
+                - Celeste
+                - Chiara
+                - Clara
+                - Claudia
+                - Clotilde
+                - Constanza
+                - Daiana
+                - Daniela
+                - Delfina
+                - Dolores
+                - Dora
+                - Elizabeth
+                - Elsa
+                - Elvira
+                - Emma
+                - Ernestina
+                - Estefanía
+                - Estela
+                - Esther
+                - Eva
+                - Fabiana
+                - Faustina
+                - Felicitas
+                - Fernanda
+                - Fiorella
+                - Flora
+                - Florencia
+                - Francesca
+                - Gabriela
+                - Gisela
+                - Giselle
+                - Giuliana
+                - Gladys
+                - Gloria
+                - Graciela
+                - Guadalupe
+                - Guillermina
+                - Haydée
+                - Helena
+                - Inés
+                - Irene
+                - Isabel
+                - Isabella
+                - Jazmín
+                - Jimena
+                - Josefina
+                - Juana
+                - Julia
+                - Julieta
+                - Justina
+                - Karen
+                - Karina
+                - Lara
+                - Laura
+                - Liliana
+                - Lorena
+                - Lourdes
+                - Luana
+                - Lucía
+                - Luciana
+                - Lucrecia
+                - Ludmila
+                - Luisina
+                - Luján
+                - Macarena
+                - Magalí
+                - Magdalena
+                - Maia
+                - Maite
+                - Maitena
+                - Malena
+                - Marcela
+                - Margarita
+                - María
+                - María Belén
+                - María Cristina
+                - María de los Ángeles
+                - María del Carmen
+                - María del Rosario
+                - María Dolores
+                - María Elena
+                - María Elisa
+                - María Emilia
+                - María Eugenia
+                - María Fabiana
+                - María Fernanda
+                - María Inés
+                - María Isabel
+                - María José
+                - María Laura
+                - María Luisa
+                - María Luz
+                - María Magdalena
+                - María Marta
+                - María Mercedes
+                - María Paula
+                - María Paz
+                - María Pilar
+                - María Rosa
+                - María Sol
+                - María Victoria
+                - María Yolanda
+                - Mariana
+                - Marianela
+                - Marina
+                - Marta
+                - Martina
+                - Matilde
+                - Mayra
+                - Melina
+                - Mercedes
+                - Mia
+                - Micaela
+                - Milagros
+                - Mirta
+                - Mónica
+                - Morena
+                - Nadia
+                - Nahiara
+                - Natalia
+                - Nazarena
+                - Nélida
+                - Nelly
+                - Nicole
+                - Noelia
+                - Noemí
+                - Norma
+                - Olivia
+                - Oriana
+                - Paloma
+                - Pamela
+                - Paola
+                - Patricia
+                - Paula
+                - Paulina
+                - Pia
+                - Pilar
+                - Priscila
+                - Raquel
+                - Regina
+                - Renata
+                - Rita
+                - Rocío
+                - Romina
+                - Rosa
+                - Sabrina
+                - Sandra
+                - Sara
+                - Silvia
+                - Simona
+                - Sofía
+                - Soledad
+                - Stella Maris
+                - Susana
+                - Teresa
+                - Trinidad
+                - Uma
+                - Valentina
+                - Valeria
+                - Vanesa
+                - Verónica
+                - Victoria
+                - Vilma
+                - Violeta
+                - Virginia
+                - Ximena
+                - Xiomara
+                - Yamila
+                - Yanina
+                - Zoe
+            neutral_first_name: ""
+            first_name:
+                - "#{female_first_name}"
+                - "#{male_first_name}"
+            last_name:
+                - Acevedo
+                - Acosta
+                - Acuña
+                - Agüero
+                - Aguilar
+                - Aguilera
+                - Aguirre
+                - Alarcón
+                - Albornoz
+                - Alegre
+                - Almirón
+                - Alonso
+                - Altamirano
+                - Álvarez
+                - Andrada
+                - Aquino
+                - Aranda
+                - Arce
+                - Arias
+                - Avalos
+                - Ávila
+                - Ayala
+                - Báez
+                - Barbieri
+                - Barrera
+                - Barrionuevo
+                - Barrios
+                - Bazán
+                - Benítez
+                - Bianchi
+                - Bianco
+                - Blanco
+                - Bravo
+                - Brizuela
+                - Bruno
+                - Burgos
+                - Bustamante
+                - Bustos
+                - Caballero
+                - Cabral
+                - Cabrera
+                - Cáceres
+                - Calderón
+                - Campos
+                - Carabajal
+                - Cardozo
+                - Carrizo
+                - Caruso
+                - Castillo
+                - Castro
+                - Cattaneo
+                - Ceballos
+                - Cejas
+                - Chávez
+                - Colombo
+                - Conti
+                - Contreras
+                - Coppola
+                - Córdoba
+                - Coria
+                - Coronel
+                - Correa
+                - Cortéz
+                - Costa
+                - Cruz
+                - Cuello
+                - D'Angelo
+                - Dalla
+                - Delgado
+                - Díaz
+                - Domínguez
+                - Duarte
+                - Escobar
+                - Espíndola
+                - Esposito
+                - Fabbri
+                - Farías
+                - Fernández
+                - Ferrara
+                - Ferrari
+                - Ferraro
+                - Ferreyra
+                - Ferri
+                - Figueroa
+                - Flores
+                - Fontana
+                - Franco
+                - Frías
+                - Fuentes
+                - Funes
+                - Galarza
+                - Gallardo
+                - Galli
+                - Gallo
+                - Galván
+                - Garay
+                - García
+                - Gatti
+                - Gauna
+                - Gentile
+                - Gil
+                - Giménez
+                - Giordano
+                - Godoy
+                - Gómez
+                - González
+                - Grasso
+                - Greco
+                - Guerrero
+                - Gutiérrez
+                - Guzmán
+                - Heredia
+                - Hernández
+                - Herrera
+                - Ibáñez
+                - Ibarra
+                - Jara
+                - Jiménez
+                - Juárez
+                - Ledesma
+                - Leguizamón
+                - Leiva
+                - Leone
+                - Lescano
+                - Lezcano
+                - Lombardi
+                - Lombardo
+                - Longo
+                - López
+                - Lucero
+                - Luna
+                - Maciel
+                - Maidana
+                - Maldonado
+                - Mamani
+                - Mancini
+                - Mansilla
+                - Marchetti
+                - Mariani
+                - Marini
+                - Marino
+                - Márquez
+                - Martín
+                - Martinelli
+                - Martínez
+                - Martini
+                - Medina
+                - Méndez
+                - Mendoza
+                - Mercado
+                - Messina
+                - Meza
+                - Miño
+                - Miranda
+                - Molina
+                - Montenegro
+                - Monti
+                - Monzón
+                - Morales
+                - Moreno
+                - Moretti
+                - Moyano
+                - Muñoz
+                - Navarro
+                - Nieto
+                - Nieva
+                - Núñez
+                - Ocampo
+                - Ojeda
+                - Oliva
+                - Olivera
+                - Orellana
+                - Ortega
+                - Ortiz
+                - Oviedo
+                - Pacheco
+                - Páez
+                - Palacios
+                - Palavecino
+                - Paredes
+                - Paz
+                - Pellegrini
+                - Peralta
+                - Pereira
+                - Pereyra
+                - Pérez
+                - Ponce
+                - Quintana
+                - Quinteros
+                - Quiroga
+                - Ramírez
+                - Ramos
+                - Reyes
+                - Reynoso
+                - Ricci
+                - Rinaldi
+                - Ríos
+                - Rivas
+                - Rivero
+                - Rizzo
+                - Robledo
+                - Robles
+                - Rodríguez
+                - Rojas
+                - Roldán
+                - Romano
+                - Romero
+                - Rosales
+                - Rossi
+                - Ruiz
+                - Russo
+                - Sala
+                - Salas
+                - Salinas
+                - Sánchez
+                - Sandoval
+                - Santillán
+                - Santoro
+                - Segovia
+                - Serra
+                - Silva
+                - Soria
+                - Sosa
+                - Sotelo
+                - Soto
+                - Suárez
+                - Tapia
+                - Testa
+                - Toledo
+                - Torres
+                - Valdéz
+                - Valenzuela
+                - Vallejos
+                - Varela
+                - Vargas
+                - Vázquez
+                - Vega
+                - Velázquez
+                - Vera
+                - Vergara
+                - Verón
+                - Villa
+                - Villalba
+                - Villarreal
+                - Villegas
+                - Vitale
+                - Zalazar
+                - Zapata
+                - Zárate
+            prefix:
+                - Sr.
+                - Sra.
+                - Dr.
+                - Dra.
+                - Ing.
+            male_suffix:
+                - padre
+                - hijo
+                - segundo
+            female_suffix:
+                - madre
+                - hija
+                - segunda
+            suffix:
+                - Jr.
+                - I
+                - II
+                - III
+                - IV
+                - V
+            name:
+                - "#{first_name} #{last_name}"
+                - "#{first_name} #{last_name}"
+                - "#{first_name} #{last_name}"
+                - "#{first_name} #{last_name} #{last_name}"
+            name_with_middle:
+                - "#{female_first_name} #{female_first_name} #{last_name}"
+                - "#{male_first_name} #{male_first_name} #{last_name}"
+
+        address:
+            # -- city
+
+            city_prefix:
+                - Villa
+                - Campo
+                - Pampa de
+                - Colonia
+            army_city_prefix:
+                - General
+                - Gral.
+                - Coronel
+                - Cnel.
+                - Capitán
+                - Cap.
+                - Ingeniero
+                - Ing.
+            male_city_saint_prefix: San
+            female_city_saint_prefix: Santa
+            city_suffix:
+                - de la Sierra
+                - del Mar
+                - del Río Grande
+                - del Chañar
+                - del Palmar
+                - de los Andes
+                - del Valle
+                - de las Salinas
+            city_names:
+                - 25 de Mayo
+                - 9 de Julio
+                - Abra Pampa
+                - Adolfo Gonzales Chaves
+                - Aguilares
+                - Aimogasta
+                - Alba Posse
+                - Alberti
+                - Alderetes
+                - Algarrobo del Águila
+                - Almirante Brown
+                - Alta Gracia
+                - Alto Río Senguer
+                - Alto Verde
+                - Aluminé
+                - Alvear
+                - América
+                - Aminga
+                - Ancasti
+                - Andacollo
+                - Andalgalá
+                - Antofagasta de la Sierra
+                - Añatuya
+                - Añelo
+                - Apóstoles
+                - Arelauquen
+                - Árraga
+                - Arrecifes
+                - Avellaneda
+                - Ayacucho
+                - Azul
+                - Bahía Blanca
+                - Balcarce
+                - Banda del Río Salí
+                - Bandera
+                - Bañado de Ovanta
+                - Baradero
+                - Barra Concepción
+                - Belén
+                - Bell Ville
+                - Bella Vista
+                - Benito Juárez
+                - Berazategui
+                - Berisso
+                - Bernardo de Irigoyen
+                - Bernasconi
+                - Berón de Astrada
+                - Bragado
+                - Brea Pozo
+                - Buena Esperanza
+                - Buta Ranquil
+                - Cachi
+                - Cafayate
+                - Camarones
+                - Campana
+                - Campo Afuera
+                - Campo de Herrera
+                - Campo Gallo
+                - Campo Grande
+                - Campo Largo
+                - Cañada de Gómez
+                - Cañuelas
+                - Capilla de los Remedios
+                - Capilla del Señor
+                - Capitán General Bernardo O'Higgins
+                - Capitán Sarmiento
+                - Carhué
+                - Carlos Casares
+                - Carlos Tejedor
+                - Carmen de Areco
+                - Carmen de Patagones
+                - Casilda
+                - Castelli
+                - Catriló
+                - Caucete
+                - Cerrillos
+                - Chacabuco
+                - Chamical
+                - Charadai
+                - Charata
+                - Chascomús
+                - Chepes
+                - Chicoana
+                - Chilecito
+                - Chimbas
+                - Chivilcoy
+                - Choele Choel
+                - Chos Malal
+                - Ciudad Autónoma de Buenos Aires
+                - Clorinda
+                - Colón
+                - Colonia Campo Villafañe
+                - Colonia Carlos Pellegrini
+                - Colonia Elisa
+                - Colonia Suiza
+                - Comandante Fontana
+                - Comodoro Rivadavia
+                - Concarán
+                - Concepción
+                - Concepción de la Sierra
+                - Concepción del Uruguay
+                - Concordia
+                - Córdoba
+                - Coronda
+                - Coronel Brandsen
+                - Coronel Dorrego
+                - Coronel Pringles
+                - Coronel Suárez
+                - Coronel Vidal
+                - Corrientes
+                - Corzuela
+                - Cosquín
+                - Cruz del Eje
+                - Cuchillo Co
+                - Curuzú Cuatiá
+                - Daireaux
+                - Deán Funes
+                - Diagonal Norte
+                - Diamante
+                - Dique Florentino Ameghino
+                - Doctor Oscar Atilio Viglione
+                - Dolores
+                - Eduardo Castex
+                - El Alto
+                - El Calafate
+                - El Carmen
+                - El Colmenar
+                - El Cuy
+                - El Durazno
+                - El Espinillo
+                - El Huecú
+                - El Naranjo
+                - El Pantanillo
+                - El Soberbio
+                - Eldorado
+                - Empalme Villa Constitución
+                - Empedrado
+                - Ensenada
+                - Escobar
+                - Esperanza
+                - Esquel
+                - Esquina
+                - Esquina del Alambre
+                - Estación Aráoz
+                - Esteban Echeverría
+                - Ezeiza
+                - Famaillá
+                - Famatina
+                - Federación
+                - Federal
+                - Fernández
+                - Florencio Varela
+                - Florentino Ameghino
+                - Formosa
+                - Frías
+                - Gaiman
+                - Garza
+                - Gastre
+                - General Acha
+                - General Alvear
+                - General Arenales
+                - General Belgrano
+                - General Conesa
+                - General Güemes
+                - General Guido
+                - General José de San Martín
+                - General Juan Madariaga
+                - General La Madrid
+                - General Las Heras
+                - General Lavalle
+                - General Lucio V. Mansilla
+                - General Mosconi
+                - General Pico
+                - General Pinedo
+                - General Pinto
+                - General Roca
+                - General Rodríguez
+                - General San Martín
+                - General Villegas
+                - Gobernador Gregores
+                - Gobernador Igr. Valentín Virasoro
+                - Godoy Cruz
+                - Goya
+                - Graneros
+                - Gregoria Pérez de Denis
+                - Guachipas
+                - Gualeguay
+                - Gualeguaychú
+                - Guaminí
+                - Guatraché
+                - Guaymallén
+                - Helvecia
+                - Henderson
+                - Hermoso Campo
+                - Herrera
+                - Huillapima
+                - Humahuaca
+                - Hurlingham
+                - Iltico
+                - Ingeniero Guillermo N. Juárez
+                - Ingenio Fronterita
+                - Ingenio San Pablo
+                - Intendente Alvear
+                - Iruya
+                - Itatí
+                - Ituzaingó
+                - Jacipunco
+                - Jesús María
+                - Joaquín V. González
+                - José C. Paz
+                - José de San Martín
+                - Juan Bautista Alberdi
+                - Juan José Castelli
+                - Junín
+                - Junín de los Andes
+                - La Adela
+                - La Banda
+                - La Caldera
+                - La Candelaria
+                - La Cañada
+                - La Carlota
+                - La Carolina
+                - La Cocha
+                - La Cruz
+                - La Leonesa
+                - La Matanza
+                - La Merced
+                - La Paz
+                - La Plata
+                - La Poma
+                - La Puerta
+                - La Quiaca
+                - La Rinconada
+                - La Rioja
+                - La Toma
+                - La Viña
+                - Laboulaye
+                - Laguna Escondida
+                - Laguna Yema
+                - Lanús
+                - Laprida
+                - Las Breñas
+                - Las Coloradas
+                - Las Flores
+                - Las Heras
+                - Las Jarillas
+                - Las Lajas
+                - Las Plumas
+                - Las Rosas
+                - Leandro N. Alem
+                - Leleque
+                - Libertador General San Martín
+                - Limay Mahuida
+                - Lincoln
+                - Lobería
+                - Lobos
+                - Lomas de Zamora
+                - Loncopué
+                - Los Chañaritos
+                - Los Pocitos
+                - Los Sarmientos
+                - Los Telares
+                - Los Toldos
+                - Los Zapallos
+                - Luján
+                - Luján de Cuyo
+                - Lules
+                - Luz y Fuerza
+                - Macachín
+                - Machagai
+                - Magdalena
+                - Maipú
+                - Makallé
+                - Malanzán
+                - Malargüe
+                - Malvinas Argentinas
+                - Manuel García Fernández
+                - Maquinchao
+                - Mar del Plata
+                - Mar del Tuyú
+                - Marcos Juárez
+                - Marcos Paz
+                - Margarita Belén
+                - Mburucuyá
+                - Médanos
+                - Melincué
+                - Mendoza
+                - Mercedes
+                - Merlo
+                - Miramar
+                - Molinos
+                - Monte Caseros
+                - Monte Hermoso
+                - Monte Quemado
+                - Montecarlo
+                - Monteros
+                - Moreno
+                - Morón
+                - Navarro
+                - Necochea
+                - Neuquén
+                - Nogoyá
+                - Nuestra Señora del Rosario de Caá Catí
+                - Nueva Esperanza
+                - Nueva Trinidad
+                - Ñorquincó
+                - Oberá
+                - Olavarría
+                - Oliva
+                - Olivares de San Nicolás
+                - Olta
+                - Pacará
+                - Palpalá
+                - Pampa del Infierno
+                - Paraná
+                - Parera
+                - Paso de Indios
+                - Paso de los Libres
+                - Patquía
+                - Paulina
+                - Pehuajó
+                - Pellegrini
+                - Pergamino
+                - Perito Moreno
+                - Picún Leufú
+                - Piedra del Águila
+                - Pigüé
+                - Pila
+                - Pilar
+                - Pilcaniyeu
+                - Pinamar
+                - Pirané
+                - Posadas
+                - Pozo Hondo
+                - Presidencia de la Plaza
+                - Presidencia Roque Sáenz Peña
+                - Presidente Perón
+                - Puán
+                - Pueblo Independencia
+                - Puelches
+                - Puerta de Corral Quemado
+                - Puerto Deseado
+                - Puerto Esperanza
+                - Puerto Madryn
+                - Puerto Rico
+                - Puerto San Julián
+                - Puerto Santa Cruz
+                - Puerto Tirol
+                - Punta Alta
+                - Quemú Quemú
+                - Quequén
+                - Quilmes
+                - Quimili
+                - Quitilipi
+                - Rafaela
+                - Ramallo
+                - Ranchillos
+                - Ranchos
+                - Rauch
+                - Rawson
+                - Realicó
+                - Reconquista
+                - Resistencia
+                - Rinconada
+                - Río Colorado
+                - Río Cuarto
+                - Río Gallegos
+                - Río Grande
+                - Rivadavia
+                - Rodeo
+                - Rojas
+                - Roque Pérez
+                - Rosario
+                - Rosario de la Frontera
+                - Rosario de Lerma
+                - Rosario del Tala
+                - Saladas
+                - Saladillo
+                - Salinas Grandes
+                - Salliqueló
+                - Salsacate
+                - Salta
+                - Salto
+                - San Agustín
+                - San Andrés de Giles
+                - San Antonio
+                - San Antonio de Areco
+                - San Antonio de Arredondo
+                - San Antonio de los Cobres
+                - San Antonio de Obligado
+                - San Antonio Oeste
+                - San Bernardo
+                - San Blas
+                - San Carlos
+                - San Carlos de Bariloche
+                - San Carlos de Bolívar
+                - San Carlos Minas
+                - San Cayetano
+                - San Cosme
+                - San Cristóbal
+                - San Fernando
+                - San Fernando del Valle de Catamarca
+                - San Francisco
+                - San Francisco de Laishi
+                - San Francisco de Santa Fe
+                - San Francisco del Chañar
+                - San Francisco del Monte de Oro
+                - San Ignacio
+                - San Isidro
+                - San Javier
+                - San José
+                - San José de Feliciano
+                - San José de Jáchal
+                - San José de las Salinas
+                - San José de Metán
+                - San Juan
+                - San Justo
+                - San Lorenzo
+                - San Luis
+                - San Luis del Palmar
+                - San Martín
+                - San Martín de los Andes
+                - San Miguel
+                - San Miguel de Tucumán
+                - San Miguel del Monte
+                - San Nicolás de los Arroyos
+                - San Patricio del Chañar
+                - San Pedro
+                - San Rafael
+                - San Ramón de la Nueva Orán
+                - San Roque
+                - San Salvador
+                - San Salvador de Jujuy
+                - San Vicente
+                - Santa Ana
+                - Santa Catalina
+                - Santa Clara
+                - Santa Clara de Buena Vista
+                - Santa Fe
+                - Santa Isabel
+                - Santa Lucía
+                - Santa María
+                - Santa Rita de Catuna
+                - Santa Rosa
+                - Santa Rosa de Calamuchita
+                - Santa Rosa de Calchines
+                - Santa Rosa de Leales
+                - Santa Rosa de los Pastos Grandes
+                - Santa Rosa de Río Primero
+                - Santa Rosa del Conlara
+                - Santa Sylvina
+                - Santa Teresita
+                - Santa Victoria
+                - Santiago del Estero
+                - Santo Tomé
+                - Sarmiento
+                - Sastre
+                - Saturnino María Laspiur
+                - Sauce
+                - Saujil
+                - Selva
+                - Sierra Colorada
+                - Simoca
+                - Solar de los Molinos
+                - Suipacha
+                - Sumampa
+                - Suncho Corral
+                - Susques
+                - Tafí del Valle
+                - Tafí Viejo
+                - Tama
+                - Tamberías
+                - Tandil
+                - Tapalqué
+                - Tartagal
+                - Tecka
+                - Telsen
+                - Termas de Río Hondo
+                - Tigre
+                - Tilcara
+                - Tinogasta
+                - Toay
+                - Tolhuin
+                - Tornquist
+                - Tostado
+                - Trenel
+                - Trenque Lauquen
+                - Tres Arroyos
+                - Tres de Febrero
+                - Tres Isletas
+                - Tres Lomas
+                - Tumbaya
+                - Tunuyán
+                - Tupungato
+                - Ulapes
+                - Ushuaia
+                - Valcheta
+                - Valle Grande
+                - Varvarco
+                - Vedia
+                - Vera
+                - Verónica
+                - Vicente López
+                - Victoria
+                - Victorica
+                - Viedma
+                - Villa Aberastain
+                - Villa Angela
+                - Villa Atamisqui
+                - Villa Basilio Nievas
+                - Villa Benjamín Aráoz
+                - Villa Berthet
+                - Villa Burruyacú
+                - Villa Castelli
+                - Villa Catedral
+                - Villa Ciudad de América
+                - Villa Ciudad Parque Los Reartes
+                - Villa Concepción del Tío
+                - Villa Constitución
+                - Villa Cura Brochero
+                - Villa de María
+                - Villa de Trancas
+                - Villa del Rosario
+                - Villa del Totoral
+                - Villa Dolores
+                - Villa El Salvador
+                - Villa General Mitre
+                - Villa General Roca
+                - Villa General San Martín
+                - Villa Gesell
+                - Villa Gobernador Gálvez
+                - Villa Huidobro
+                - Villa Ibáñez
+                - Villa La Angostura
+                - Villa Lago Azul
+                - Villa Las Flores
+                - Villa Los Coihues
+                - Villa María
+                - Villa Mariano Moreno
+                - Villa Media Agua
+                - Villa Mercedes
+                - Villa Nueva Italia
+                - Villa Ojo de Agua
+                - Villa Paranacito
+                - Villa San Agustín
+                - Villa San José de Vinchina
+                - Villa San Martín
+                - Villa San Martín (Est. Loreto)
+                - Villa Sanagasta
+                - Villa Santa Cruz del Lago
+                - Villa Santa Rosa
+                - Villa Sarmiento
+                - Villa Sefair
+                - Villa Tulumaya
+                - Villa Tulumba
+                - Villa Unión
+                - Villaguay
+                - Yerba Buena
+                - Zapala
+                - Zárate
+            city:
+                - "#{city_names}"
+                - "#{male_city_saint_prefix} #{Name.male_first_name}"
+                - "#{female_city_saint_prefix} #{Name.female_first_name}"
+                - "#{city_prefix} #{male_city_saint_prefix} #{Name.male_first_name}"
+                - "#{city_prefix} #{female_city_saint_prefix} #{Name.female_first_name}"
+                - "#{male_city_saint_prefix} #{Name.male_first_name} #{city_suffix}"
+                - "#{female_city_saint_prefix} #{Name.female_first_name} #{city_suffix}"
+                - "#{army_city_prefix} #{Name.last_name}"
+                - "#{army_city_prefix} #{Name.last_name}"
+                - "#{city_prefix} #{army_city_prefix} #{Name.last_name}"
+
+            # -- state
+
+            state:
+                - Buenos Aires
+                - Ciudad Autónoma de Buenos Aires
+                - Catamarca
+                - Córdoba
+                - Corrientes
+                - Chaco
+                - Chubut
+                - Entre Ríos
+                - Formosa
+                - Jujuy
+                - La Pampa
+                - La Rioja
+                - Mendoza
+                - Misiones
+                - Neuquén
+                - Río Negro
+                - Salta
+                - San Juan
+                - San Luis
+                - Santa Cruz
+                - Santa Fe
+                - Santiago del Estero
+                - Tucumán
+                - Tierra del Fuego
+            state_abbr:
+                - BA
+                - CABA
+                - Cat.
+                - Cba.
+                - Ctes.
+                - Chaco
+                - Chubut
+                - ER
+                - Form.
+                - Juj.
+                - LP
+                - LR
+                - Mza.
+                - Mnes.
+                - Nqn.
+                - RN
+                - Salta
+                - SJ
+                - SL
+                - SC
+                - SF
+                - SdE
+                - Tuc.
+                - TdF
+            state_abbr_iata:
+                - BA
+                - CABA
+                - CA
+                - CB
+                - CR
+                - CH
+                - CT
+                - ER
+                - FO
+                - JY
+                - LP
+                - LR
+                - MZ
+                - MI
+                - NQN
+                - RN
+                - SA
+                - SJ
+                - SL
+                - SC
+                - SF
+                - SE
+                - TU
+                - TF
+            city_with_state:
+                - "#{city}, #{state}"
+                - "#{city}, #{state_abbr}"
+                - "#{city} (#{state})"
+                - "#{city} (#{state_abbr})"
+
+            # -- address
+
+            building_number:
+                - S/N
+                - "##"
+                - "###"
+                - "####"
+                - "#####"
+            secondary_address:
+                - "Departamento #?"
+                - "Depto. #?"
+                - "Piso #"
+                - "Piso ##"
+                - PB
+                - PA
+                - "Manzana ?#"
+                - "Lote #?"
+                - "Lote ##?"
+                - "UF N° #"
+                - "UF N° ##"
+            street:
+                - 1° de Mayo
+                - 12 de Octubre
+                - 25 de Mayo
+                - 3 de Febrero
+                - 9 de Julio
+                - Alberti
+                - Alem
+                - Alfonsina Storni
+                - Alfredo Palacios
+                - Alicia M. de Justo
+                - Almafuerte
+                - Alsina
+                - Alte. Brown
+                - Ameghino
+                - América
+                - Antártida Argentina
+                - Arenales
+                - Aristóbulo del Valle
+                - Aristóteles
+                - Arturo Illia
+                - Avellaneda
+                - Ayacucho
+                - Azcuénaga
+                - Azopardo
+                - Azucena Villaflor
+                - B. de Irigoyen
+                - Balcarce
+                - Belgrano
+                - Bernardo Houssay
+                - Beruti
+                - Bicentenario
+                - Blas Parera
+                - Bolívar
+                - Bolivia
+                - Boquerón
+                - Bouchard
+                - Brandsen
+                - Brasil
+                - Buenos Aires
+                - C. Pellegrini
+                - Cabildo
+                - Cangallo
+                - Carabobo
+                - Carlos M. de Alvear
+                - Carlos Tejedor
+                - Carrasco
+                - Caseros
+                - Castelli
+                - Catamarca
+                - Centenario
+                - Cerrito
+                - Cervantes
+                - Chaco
+                - Charcas
+                - Chile
+                - Chubut
+                - Colombia
+                - Colón
+                - Constitución
+                - Córdoba
+                - Coronel Vidal
+                - Corrientes
+                - Cortázar
+                - Crucero Gral. Belgrano
+                - Dardo Rocha
+                - Darwin
+                - Deán Funes
+                - Del Valle Iberlucea
+                - Diego A. Maradona
+                - Don Bosco
+                - Dorrego
+                - E. Carriego
+                - E. Finocchieto
+                - Echeverría
+                - Ecuador
+                - Ejército Argentino
+                - Ejército del Norte
+                - Emilio Mitre
+                - Entre Ríos
+                - Esmeralda
+                - España
+                - Estanislao Zeballos
+                - Estrada
+                - Eva Perón
+                - Falucho
+                - Fleming
+                - Florencio Sánchez
+                - Florida
+                - Formosa
+                - Francia
+                - Fray Luis Beltrán
+                - Fray M. Esquiú
+                - French
+                - G. Posadas
+                - Gaboto
+                - Garibaldi
+                - Gascón
+                - Godoy Cruz
+                - Gral. Conesa
+                - Gral. Guido
+                - Gral. Mosconi
+                - Gral. Paz
+                - Gral. Savio
+                - Granaderos
+                - Guatemala
+                - Güemes
+                - Guido Spano
+                - H. Vieytes
+                - H. Yrigoyen
+                - Hernandarias
+                - Humaitá
+                - Humberto 1°
+                - Independencia
+                - Islas Malvinas
+                - Italia
+                - Ituzaingó
+                - J.A. Roca
+                - J.B. Alberdi
+                - J.L. Borges
+                - Jorge Newbery
+                - José Hernández
+                - José Ingenieros
+                - Juan B. Justo
+                - Juan de Garay
+                - Juan J. Paso
+                - Juan M. de Rosas
+                - Juan XXIII
+                - Juana Azurduy
+                - Juana Manso
+                - Jujuy
+                - Juncal
+                - Juramento
+                - Justo Daract
+                - L. de la Torre
+                - La Pampa
+                - La Paz
+                - La Rioja
+                - Lamadrid
+                - Laprida
+                - Larrea
+                - Las Heras
+                - Lavalle
+                - Libertad
+                - Libertador
+                - Libres del sud
+                - Liniers
+                - Lola Mora
+                - Los Andes
+                - Luis Agote
+                - Luis M. Drago
+                - Luis M. Leloir
+                - M. Moreno
+                - Magallanes
+                - Maipú
+                - Mansilla
+                - Manuela Pedraza
+                - Marcelo T. de Alvear
+                - Mariano Acosta
+                - Mario Bravo
+                - Martín Rodríguez
+                - Matheu
+                - Mendoza
+                - México
+                - Misiones
+                - Mitre
+                - Montevideo
+                - Neuquén
+                - O. Andrade
+                - O’Higgins
+                - Olazábal
+                - Olleros
+                - Panamá
+                - Paraguay
+                - Pasco
+                - Pasteur
+                - Patricios
+                - Perito Moreno
+                - Perón
+                - Perú
+                - Pichincha
+                - Platón
+                - Primera Junta
+                - Pringles
+                - Pueyrredón
+                - Quintana
+                - R. de Escalada
+                - R. Falcón
+                - Rafael Obligado
+                - Raúl Alfonsín
+                - Rawson
+                - Reconquista
+                - René Favaloro
+                - Ricardo Balbín
+                - Ricardo Güiraldes
+                - Rincón
+                - Río Negro
+                - Riobamba
+                - Rivadavia
+                - Rivera Indarte
+                - Rocha
+                - Rondeau
+                - Saavedra
+                - Sáenz Peña
+                - Salta
+                - San Ceferino
+                - San José
+                - San Juan
+                - San Lorenzo
+                - San Luis
+                - San Martín
+                - San Rafael
+                - San Roque
+                - San Sebastián
+                - Santa Clara
+                - Santa Cruz
+                - Santa Elena
+                - Santa Fe
+                - Santa Rita
+                - Santa Rosalía
+                - Santa Sofía
+                - Santa Teresa
+                - Santiago del Estero
+                - Sarandí
+                - Sarmiento
+                - Sarratea
+                - Scalabrini Ortíz
+                - Sgto. Cabral
+                - Sócrates
+                - Solis
+                - Sucre
+                - Suipacha
+                - Thames
+                - Tierra del Fuego
+                - Triunvirato
+                - Tucumán
+                - Urquiza
+                - Uruguay
+                - Vélez Sársfield
+                - Venezuela
+                - Viamonte
+                - Vicente López
+                - Victorino de la Plaza
+                - Virrey Cevallos
+                - Virrey Cisneros
+                - Virrey del Pino
+                - Virrey Sobremonte
+                - Vuelta de Obligado
+                - Warnes
+                - Zapata
+                - Zapiola
+            street_prefix:
+                - Av.
+                - Avenida
+                - Av. Costanera
+                - Bv.
+                - Boulevard
+                - Costanera
+                - Circunvalación
+                - Paseo
+                - Peatonal
+                - Camino
+            street_suffix: ""
+            street_name:
+                - "#{street_prefix} #{street}"
+                - "#{street}"
+                - "#{street}"
+                - "#{street}"
+                - "#{street}"
+            road_prefix:
+                - "Camino a"
+                - "Acceso a"
+            road_suffix:
+                - "Km. #"
+                - "Km. ##"
+                - "Km. #,#"
+                - "Km. ##,#"
+            road_name:
+                - "Ruta #"
+                - "Ruta ##"
+                - "Ruta ###"
+            street_address:
+                - "#{road_name}, #{road_suffix}"
+                - "#{road_prefix} #{city}, #{road_suffix}"
+                - "#{street_name} #{building_number}"
+                - "#{street_name} #{building_number}"
+                - "#{street_name} #{building_number}"
+                - "#{street_name} #{building_number}"
+                - "#{street_name} #{building_number}"
+                - "#{street_name} #{building_number}"
+            postcode:
+                - "####"
+                - "?####???"
+            postcode_by_state:
+                BA: "B####???"
+                CABA: "C####???"
+                CA: "K####???"
+                CB: "X####???"
+                CR: "W####???"
+                CH: "H####???"
+                CT: "U####???"
+                ER: "E####???"
+                FO: "P####???"
+                JY: "Y####???"
+                LP: "L####???"
+                LR: "F####???"
+                MZ: "M####???"
+                MI: "N####???"
+                NQN: "Q####???"
+                RN: "R####???"
+                SA: "A####???"
+                SJ: "J####???"
+                SL: "D####???"
+                SC: "Z####???"
+                SF: "S####???"
+                SE: "G####???"
+                TU: "T####???"
+                TF: "V####???"
+            full_address:
+                - "#{street_address}, (#{postcode}) #{city}, #{state}"
+                - "#{street_address}, (#{postcode}) #{city}, #{state_abbr}"
+
+            # -- country
+
+            country:
+                - Afganistán
+                - Albania
+                - Argelia
+                - Samoa Americana
+                - Andorra
+                - Angola
+                - Anguila
+                - Antárctida
+                - Antigua y Barbuda
+                - Argentina
+                - Armenia
+                - Aruba
+                - Australia
+                - Austria
+                - Islas Aland
+                - Azerbaiyán
+                - Bahamas
+                - Baréin
+                - Bangladesh
+                - Barbados
+                - Belarus
+                - Bélgica
+                - Belice
+                - Benín
+                - Bermuda
+                - Bután
+                - Bolivia
+                - Bonaire
+                - Bosnia y Herzegovina
+                - Botswana
+                - Isla Bouvet
+                - Brasil
+                - Territorio Británico del Océano Índico
+                - Brunei
+                - Bulgaria
+                - Burkina Faso
+                - Burundi
+                - Camboya
+                - Camerún
+                - Canadá
+                - Cabo Verde
+                - Islas Caimán
+                - República Centroafricana
+                - Chad
+                - Chile
+                - China
+                - Isla de Navidad
+                - Islas Cocos
+                - Colombia
+                - Comoras
+                - Congo
+                - República Democrática del Congo
+                - Islas Cook
+                - Costa Rica
+                - Costa de Marfil
+                - Croacia
+                - Cuba
+                - Curazao
+                - Chipre
+                - República Checa
+                - Dinamarca
+                - Yibuti
+                - Dominica
+                - República Dominicana
+                - Timor Occidental
+                - Ecuador
+                - Egipto
+                - El Salvador
+                - Guinea Ecuatorial
+                - Eritrea
+                - Estonia
+                - Etiopía
+                - Islas Malvinas
+                - Islas Faroe
+                - Fiji
+                - Finlandia
+                - Francia
+                - Guayana Francesa
+                - Polinesia Francesa
+                - Tierras Australes y Antárticas Francesas
+                - Gabón
+                - Gambia
+                - Georgia
+                - Alemania
+                - Ghana
+                - Gibraltar
+                - Grecia
+                - Groenlandia
+                - Granada
+                - Guadalupe
+                - Guam
+                - Guatemala
+                - Guernsey
+                - Guinea
+                - Guinea Bissau
+                - Guyana
+                - Haití
+                - Islas Heard y Mcdonald
+                - Ciudad del Vaticano
+                - Honduras
+                - Hong Kong
+                - Hungría
+                - Islandia
+                - India
+                - Indonesia
+                - Irán
+                - Irak
+                - Irlanda
+                - Isla de Man
+                - Israel
+                - Italia
+                - Jamaica
+                - Japón
+                - Jersey
+                - Jordania
+                - Kazajistán
+                - Kenia
+                - Kiribati
+                - Corea del Norte
+                - Corea del Sur
+                - Kosovo
+                - Kuwait
+                - Kirguistán
+                - Laos
+                - Letonia
+                - Líbano
+                - Lesoto
+                - Liberia
+                - Libia
+                - Liechtenstein
+                - Lituania
+                - Luxemburgo
+                - Macao
+                - Macedonia del Norte
+                - Madagascar
+                - Malawi
+                - Malasia
+                - Maldivas
+                - Mali
+                - Malta
+                - Islas Marshall
+                - Martinica
+                - Mauritania
+                - Mauricio
+                - Mayotte
+                - México
+                - Estados Federados de Micronesia
+                - Moldavia
+                - Mónaco
+                - Mongolia
+                - Montserrat
+                - Montenegro
+                - Marruecos
+                - Mozambique
+                - Myanmar
+                - Namibia
+                - Nauru
+                - Nepal
+                - Holanda
+                - Antillas Holandesas
+                - Nueva Caledonia
+                - Nueva Zelanda
+                - Nicaragua
+                - Níger
+                - Nigeria
+                - Niue
+                - Isla Norfolk
+                - Islas Marianas del Norte
+                - Noruega
+                - Omán
+                - Pakistpan
+                - Palau
+                - Palestina
+                - Panamá
+                - Papua Nueva Guinea
+                - Paraguay
+                - Perú
+                - Filipinas
+                - Pitcairn
+                - Polonia
+                - Portugal
+                - Puerto Rico
+                - Qatar
+                - Reunión
+                - Rumania
+                - Rusia
+                - Ruanda
+                - San Bartolomé
+                - Santa Elena
+                - San Cristóbal y Nieves
+                - Santa Lucia
+                - San Martín
+                - San Pedro y Miquelón
+                - San Vincente y las Grenadinas
+                - Samoa
+                - San Marino
+                - Santo Tomé y Principe
+                - Arabia Saudita
+                - Senegal
+                - Serbia
+                - Seychelles
+                - Sierra Leona
+                - Singapur
+                - San Martín
+                - Eslovaquia
+                - Eslovenia
+                - Islas Salomón
+                - Somalia
+                - Sudáfrica
+                - Islas Georgia y Sandwich del Sur
+                - Sudán del Sur
+                - España
+                - Sri Lanka
+                - Sudán
+                - Surinam
+                - Svalbard y Jan Mayen
+                - Swazilandia
+                - Suecia
+                - Suiza
+                - Siria
+                - Taiwan
+                - Tajikistán
+                - Tanzania
+                - Tailandia
+                - Timor Oriental
+                - Togo
+                - Tokelau
+                - Tonga
+                - Trinidad y Tobago
+                - Túnez
+                - Turquía
+                - Turkmenistán
+                - Islas Turcas y Caicos
+                - Tuvalu
+                - Uganda
+                - Ucrania
+                - Emiratos Árabes Unidos
+                - Reino Unido
+                - Estados Unidos
+                - Islas Ultramarinas Menores de Estados Unidos
+                - Uruguay
+                - Uzbekistán
+                - Vanuatu
+                - Venezuela
+                - Vietnam
+                - Islas Vírgenes Británicas
+                - Islas Vírgenes Americanas
+                - Wallis y Futuna
+                - Sahara Occidental
+                - Yemen
+                - Zambia
+                - Zimbabwe
+            country_by_code:
+                AF: Afganistán
+                AL: Albania
+                DZ: Argelia
+                AS: Samoa Americana
+                AD: Andorra
+                AO: Angola
+                AI: Anguila
+                AQ: Antárctida
+                AG: Antigua y Barbuda
+                AR: Argentina
+                AM: Armenia
+                AW: Aruba
+                AU: Australia
+                AT: Austria
+                AX: Islas Aland
+                AZ: Azerbaiyán
+                BS: Bahamas
+                BH: Baréin
+                BD: Bangladesh
+                BB: Barbados
+                BY: Belarus
+                BE: Bélgica
+                BZ: Belice
+                BJ: Benín
+                BM: Bermuda
+                BT: Bután
+                BO: Bolivia
+                BQ: Bonaire
+                BA: Bosnia y Herzegovina
+                BW: Botswana
+                BV: Isla Bouvet
+                BR: Brasil
+                IO: Territorio Británico del Océano Índico
+                BN: Brunei
+                BG: Bulgaria
+                BF: Burkina Faso
+                BI: Burundi
+                KH: Camboya
+                CM: Camerún
+                CA: Canadá
+                CV: Cabo Verde
+                KY: Islas Caimán
+                CF: República Centroafricana
+                TD: Chad
+                CL: Chile
+                CN: China
+                CX: Isla de Navidad
+                CC: Islas Cocos
+                CO: Colombia
+                KM: Comoras
+                CG: Congo
+                CD: República Democrática del Congo
+                CK: Islas Cook
+                CR: Costa Rica
+                CI: Costa de Marfil
+                HR: Croacia
+                CU: Cuba
+                CW: Curazao
+                CY: Chipre
+                CZ: República Checa
+                DK: Dinamarca
+                DJ: Yibuti
+                DM: Dominica
+                DO: República Dominicana
+                TP: Timor Occidental
+                EC: Ecuador
+                EG: Egipto
+                SV: El Salvador
+                GQ: Guinea Ecuatorial
+                ER: Eritrea
+                EE: Estonia
+                ET: Etiopía
+                FK: Islas Malvinas
+                FO: Islas Faroe
+                FJ: Fiji
+                FI: Finlandia
+                FR: Francia
+                GF: Guayana Francesa
+                PF: Polinesia Francesa
+                TF: Tierras Australes y Antárticas Francesas
+                GA: Gabón
+                GM: Gambia
+                GE: Georgia
+                DE: Alemania
+                GH: Ghana
+                GI: Gibraltar
+                GR: Grecia
+                GL: Groenlandia
+                GD: Granada
+                GP: Guadalupe
+                GU: Guam
+                GT: Guatemala
+                GG: Guernsey
+                GN: Guinea
+                GW: Guinea Bissau
+                GY: Guyana
+                HT: Haití
+                HM: Islas Heard y Mcdonald
+                VA: Ciudad del Vaticano
+                HN: Honduras
+                HK: Hong Kong
+                HU: Hungría
+                IS: Islandia
+                IN: India
+                ID: Indonesia
+                IR: Irán
+                IQ: Irak
+                IE: Irlanda
+                IM: Isla de Man
+                IL: Israel
+                IT: Italia
+                JM: Jamaica
+                JP: Japón
+                JE: Jersey
+                JO: Jordania
+                KZ: Kazajistán
+                KE: Kenia
+                KI: Kiribati
+                KP: Corea del Norte
+                KR: Corea del Sur
+                KV: Kosovo
+                KW: Kuwait
+                KG: Kirguistán
+                LA: Laos
+                LV: Letonia
+                LB: Líbano
+                LS: Lesoto
+                LR: Liberia
+                LY: Libia
+                LI: Liechtenstein
+                LT: Lituania
+                LU: Luxemburgo
+                MO: Macao
+                MK: Macedonia del Norte
+                MG: Madagascar
+                MW: Malawi
+                MY: Malasia
+                MV: Maldivas
+                ML: Mali
+                MT: Malta
+                MH: Islas Marshall
+                MQ: Martinica
+                MR: Mauritania
+                MU: Mauricio
+                YT: Mayotte
+                MX: México
+                FM: Estados Federados de Micronesia
+                MD: Moldavia
+                MC: Mónaco
+                MN: Mongolia
+                MS: Montserrat
+                ME: Montenegro
+                MA: Marruecos
+                MZ: Mozambique
+                MM: Myanmar
+                NA: Namibia
+                NR: Nauru
+                NP: Nepal
+                NL: Holanda
+                AN: Antillas Holandesas
+                NC: Nueva Caledonia
+                NZ: Nueva Zelanda
+                NI: Nicaragua
+                NE: Níger
+                NG: Nigeria
+                NU: Niue
+                NF: Isla Norfolk
+                MP: Islas Marianas del Norte
+                "NO": Noruega
+                OM: Omán
+                PK: Pakistpan
+                PW: Palau
+                PS: Palestina
+                PA: Panamá
+                PG: Papua Nueva Guinea
+                PY: Paraguay
+                PE: Perú
+                PH: Filipinas
+                PN: Pitcairn
+                PL: Polonia
+                PT: Portugal
+                PR: Puerto Rico
+                QA: Qatar
+                RE: Reunión
+                RO: Rumania
+                RU: Rusia
+                RW: Ruanda
+                BL: San Bartolomé
+                SH: Santa Elena
+                KN: San Cristóbal y Nieves
+                LC: Santa Lucia
+                MF: San Martín
+                PM: San Pedro y Miquelón
+                VC: San Vincente y las Grenadinas
+                WS: Samoa
+                SM: San Marino
+                ST: Santo Tomé y Principe
+                SA: Arabia Saudita
+                SN: Senegal
+                RS: Serbia
+                SC: Seychelles
+                SL: Sierra Leona
+                SG: Singapur
+                SX: San Martín
+                SK: Eslovaquia
+                SI: Eslovenia
+                SB: Islas Salomón
+                SO: Somalia
+                ZA: Sudáfrica
+                GS: Islas Georgia y Sandwich del Sur
+                SS: Sudán del Sur
+                ES: España
+                LK: Sri Lanka
+                SD: Sudán
+                SR: Surinam
+                SJ: Svalbard y Jan Mayen
+                SZ: Swazilandia
+                SE: Suecia
+                CH: Suiza
+                SY: Siria
+                TW: Taiwan
+                TJ: Tajikistán
+                TZ: Tanzania
+                TH: Tailandia
+                TL: Timor Oriental
+                TG: Togo
+                TK: Tokelau
+                TO: Tonga
+                TT: Trinidad y Tobago
+                TN: Túnez
+                TR: Turquía
+                TM: Turkmenistán
+                TC: Islas Turcas y Caicos
+                TV: Tuvalu
+                UG: Uganda
+                UA: Ucrania
+                AE: Emiratos Árabes Unidos
+                GB: Reino Unido
+                US: Estados Unidos
+                UM: Islas Ultramarinas Menores de Estados Unidos
+                UY: Uruguay
+                UZ: Uzbekistán
+                VU: Vanuatu
+                VE: Venezuela
+                VN: Vietnam
+                VG: Islas Vírgenes Británicas
+                VI: Islas Vírgenes Americanas
+                WF: Wallis y Futuna
+                EH: Sahara Occidental
+                YE: Yemen
+                ZM: Zambia
+                ZW: Zimbabwe
+            country_by_name:
+                afganistan: AF
+                albania: AL
+                argelia: DZ
+                samoa_americana: AS
+                andorra: AD
+                angola: AO
+                anguila: AI
+                antarctida: AQ
+                antigua_y_barbuda: AG
+                argentina: AR
+                armenia: AM
+                aruba: AW
+                australia: AU
+                austria: AT
+                islas_aland: AX
+                azerbaiyan: AZ
+                bahamas: BS
+                barein: BH
+                bangladesh: BD
+                barbados: BB
+                belarus: BY
+                belgica: BE
+                belice: BZ
+                benin: BJ
+                bermuda: BM
+                butan: BT
+                bolivia: BO
+                bonaire: BQ
+                bosnia_y_herzegovina: BA
+                botswana: BW
+                isla_bouvet: BV
+                brasil: BR
+                territorio_britanico_del_oceano_indico: IO
+                brunei: BN
+                bulgaria: BG
+                burkina_faso: BF
+                burundi: BI
+                camboya: KH
+                camerun: CM
+                canada: CA
+                cabo_verde: CV
+                islas_caiman: KY
+                republica_centroafricana: CF
+                chad: TD
+                chile: CL
+                china: CN
+                isla_de_navidad: CX
+                islas_cocos: CC
+                colombia: CO
+                comoras: KM
+                congo: CG
+                republica_democratica_del_congo: CD
+                islas_cook: CK
+                costa_rica: CR
+                costa_de_marfil: CI
+                croacia: HR
+                cuba: CU
+                curazao: CW
+                chipre: CY
+                republica_checa: CZ
+                dinamarca: DK
+                yibuti: DJ
+                dominica: DM
+                republica_dominicana: DO
+                timor_occidental: TP
+                ecuador: EC
+                egipto: EG
+                el_salvador: SV
+                guinea_ecuatorial: GQ
+                eritrea: ER
+                estonia: EE
+                etiopia: ET
+                islas_malvinas: FK
+                islas_faroe: FO
+                fiji: FJ
+                finlandia: FI
+                francia: FR
+                guayana_francesa: GF
+                polinesia_francesa: PF
+                tierras_australes_y_antarticas_francesas: TF
+                gabon: GA
+                gambia: GM
+                georgia: GE
+                alemania: DE
+                ghana: GH
+                gibraltar: GI
+                grecia: GR
+                groenlandia: GL
+                granada: GD
+                guadalupe: GP
+                guam: GU
+                guatemala: GT
+                guernsey: GG
+                guinea: GN
+                guinea_bissau: GW
+                guyana: GY
+                haiti: HT
+                islas_heard_y_mcdonald: HM
+                ciudad_del_vaticano: VA
+                honduras: HN
+                hong_kong: HK
+                hungria: HU
+                islandia: IS
+                india: IN
+                indonesia: ID
+                iran: IR
+                irak: IQ
+                irlanda: IE
+                isla_de_man: IM
+                israel: IL
+                italia: IT
+                jamaica: JM
+                japon: JP
+                jersey: JE
+                jordania: JO
+                kazajistan: KZ
+                kenia: KE
+                kiribati: KI
+                corea_del_norte: KP
+                corea_del_sur: KR
+                kosovo: KV
+                kuwait: KW
+                kirguistan: KG
+                laos: LA
+                letonia: LV
+                libano: LB
+                lesoto: LS
+                liberia: LR
+                libia: LY
+                liechtenstein: LI
+                lituania: LT
+                luxemburgo: LU
+                macao: MO
+                macedonia_del_norte: MK
+                madagascar: MG
+                malawi: MW
+                malasia: MY
+                maldivas: MV
+                mali: ML
+                malta: MT
+                islas_marshall: MH
+                martinica: MQ
+                mauritania: MR
+                mauricio: MU
+                mayotte: YT
+                mexico: MX
+                estados_federados_de_micronesia: FM
+                moldavia: MD
+                monaco: MC
+                mongolia: MN
+                montserrat: MS
+                montenegro: ME
+                marruecos: MA
+                mozambique: MZ
+                myanmar: MM
+                namibia: NA
+                nauru: NR
+                nepal: NP
+                holanda: NL
+                antillas_holandesas: AN
+                nueva_caledonia: NC
+                nueva_zelanda: NZ
+                nicaragua: NI
+                niger: NE
+                nigeria: NG
+                niue: NU
+                isla_norfolk: NF
+                islas_marianas_del_norte: MP
+                noruega: NO
+                oman: OM
+                pakistpan: PK
+                palau: PW
+                palestina: PS
+                panama: PA
+                papua_nueva_guinea: PG
+                paraguay: PY
+                peru: PE
+                filipinas: PH
+                pitcairn: PN
+                polonia: PL
+                portugal: PT
+                puerto_rico: PR
+                qatar: QA
+                reunion: RE
+                rumania: RO
+                rusia: RU
+                ruanda: RW
+                san_bartolome: BL
+                santa_elena: SH
+                san_cristobal_y_nieves: KN
+                santa_lucia: LC
+                san_pedro_y_miquelon: PM
+                san_vincente_y_las_grenadinas: VC
+                samoa: WS
+                san_marino: SM
+                santo_tome_y_principe: ST
+                arabia_saudita: SA
+                senegal: SN
+                serbia: RS
+                seychelles: SC
+                sierra_leona: SL
+                singapur: SG
+                san_martin: SX
+                eslovaquia: SK
+                eslovenia: SI
+                islas_salomon: SB
+                somalia: SO
+                sudafrica: ZA
+                islas_georgia_y_sandwich_del_sur: GS
+                sudan_del_sur: SS
+                españa: ES
+                sri_lanka: LK
+                sudan: SD
+                surinam: SR
+                svalbard_y_jan_mayen: SJ
+                swazilandia: SZ
+                suecia: SE
+                suiza: CH
+                siria: SY
+                taiwan: TW
+                tajikistan: TJ
+                tanzania: TZ
+                tailandia: TH
+                timor_oriental: TL
+                togo: TG
+                tokelau: TK
+                tonga: TO
+                trinidad_y_tobago: TT
+                tunez: TN
+                turquia: TR
+                turkmenistan: TM
+                islas_turcas_y_caicos: TC
+                tuvalu: TV
+                uganda: UG
+                ucrania: UA
+                emiratos_arabes_unidos: AE
+                reino_unido: GB
+                estados_unidos: US
+                islas_ultramarinas_menores_de_estados_unidos: UM
+                uruguay: UY
+                uzbekistan: UZ
+                vanuatu: VU
+                venezuela: VE
+                vietnam: VN
+                islas_virgenes_britanicas: VG
+                islas_virgenes_americanas: VI
+                wallis_y_futuna: WF
+                sahara_occidental: EH
+                yemen: YE
+                zambia: ZM
+                zimbabwe: ZW
+            default_country: [Argentina]
+            default_country_code: ["AR"]
+
+        football:
+            teams:
+                - Acassuso
+                - Agropecuario de Carlos Casares
+                - Aldosivi
+                - All Boys
+                - Almagro
+                - Almirante Brown
+                - Alvarado
+                - Argentino de Quilmes
+                - Argentinos
+                - Arsenal
+                - Atlanta
+                - Atlético Rafaela
+                - Atlético Tucumán
+                - Banfield
+                - Barracas Central
+                - Belgrano de Córdoba
+                - Boca Juniors
+                - Boca Unidos
+                - Brown de Adrogué
+                - Brown de Puerto Madryn
+                - Central Córdoba de Santiago del Estero
+                - Central Norte
+                - Chacarita
+                - Chaco For Ever
+                - Colegiales
+                - Colón de Santa Fe
+                - Comunicaciones
+                - Defensa y Justicia
+                - Defensores de Belgrano
+                - Defensores Unidos
+                - Deportivo Morón
+                - Deportivo Armenio
+                - Desamparados de San Juan
+                - Douglas Haig de Pergamino
+                - Estudiantes de Buenos Aires
+                - Estudiantes de La Plata
+                - Estudiantes de Río Cuarto
+                - Estudiantes de San Luis
+                - Fénix
+                - Ferro
+                - Flandria
+                - Gimnasia de Jujuy
+                - Gimnasia de La Plata
+                - Gimnasia de Mendoza
+                - Godoy Cruz
+                - Huracán
+                - Independiente
+                - Independiente Rivadavia
+                - Instituto de Córdoba
+                - JJ. Urquiza
+                - Lanús
+                - Los Andes
+                - Mitre de Santiago del Estero
+                - Newell's Old Boys
+                - Nueva Chicago
+                - Olimpo
+                - Patronato
+                - Platense
+                - Quilmes
+                - Racing Club
+                - Riestra
+                - River Plate
+                - Rosario Central
+                - Sacachispas
+                - San Lorenzo
+                - San Martín de San Juan
+                - San Martín de Tucumán
+                - San Miguel
+                - San Telmo
+                - Santamarina de Tandil
+                - Sarmiento de Junín
+                - Sarmiento de Resistencia
+                - Sportivo Belgrano
+                - Sportivo Las Parejas
+                - Talleres de Córdoba
+                - Talleres de Remedios de Escalada
+                - Temperley
+                - Tigre
+                - Tristán Suarez
+                - UAI Urquiza
+                - Unión de Santa Fe
+                - Unión de Sunchales
+                - Vélez
+                - Villa Dálmine
+                - Villa Mitre
+                - Villa San Carlos
+            players:
+                - "Marcos 'Anguila' Gutiérrez"
+                - "Gustavo 'Cachete' Oberman"
+                - "Carlos 'El Chino' Luna"
+                - "Carlos 'Discoteca' Núñez"
+                - "Claudio 'El Mugre' Corvalán"
+                - "Fernando 'El Rifle' Pandolfi"
+                - "Jorge 'La Chancha' Rinaldi"
+                - "Gastón 'La Gata' Fernández"
+                - "Reinaldo 'Mostaza' Merlo"
+                - "Pablo 'El Payaso' Lugüercio"
+                - "César 'El Picante' Pereyra"
+                - "Fabián 'Poroto' Cubero"
+                - "Hernán 'El Sapito' Encina"
+                - "Sebastián 'Terremoto' Cejas"
+                - "Tomás 'El Trinche' Carlovich"
+                - "Nicolás 'Uvita' Fernández"
+                - Abel Balbo
+                - Agustín Orión
+                - "Alberto 'Beto' Márcico"
+                - Alberto Tarantini
+                - Aldo Pedro Poy
+                - Aldo Visconti
+                - Alejandro Mancuso
+                - "Alfio 'Coco' Basile"
+                - Alfredo Rojas
+                - "Américo 'Tolo' Gallego"
+                - Ángel Bargas
+                - Ángel David Comizzo
+                - "Ángel 'Fideo' Di María"
+                - Antonio Rattín
+                - Antonio Roma
+                - "Ariel 'El Chino' Garcé"
+                - "Ariel 'El Burrito' Ortega"
+                - Augusto Fernández
+                - Carlos Alfaro Moreno
+                - Carlos Babington
+                - Carlos Bianchi
+                - Carlos Daniel Tapia
+                - "Carlos 'Lechuga' Roa"
+                - Carlos Squeo
+                - Carlos Tévez
+                - "Carmelo 'Cholo' Simeone"
+                - "Claudio 'Bichi' Borghi"
+                - Claudio Caniggia
+                - "Claudio 'Turco' Husaín"
+                - "Claudio 'Piojo' López"
+                - Clemente Rodríguez
+                - "Cristian 'El Kily' González"
+                - Cristian Pavón
+                - Daniel Bertoni
+                - Daniel Carnevali
+                - Daniel Killer
+                - Daniel Passarella
+                - Darío Benedetto
+                - Diego Armando Maradona
+                - Diego Milito
+                - Diego Placente
+                - Diego Pozo
+                - "Diego 'Cholo' Simeone"
+                - "Edgardo 'Patón' Bauza"
+                - "Eduardo 'Toto' Salvio"
+                - Enrique Chazarreta
+                - "Enrique 'Quique' Wolff"
+                - Enzo Pérez
+                - Ermindo Onega
+                - "Esteban 'Cuchu' Cambiasso"
+                - Éver Banega
+                - Ezequiel Garay
+                - Ezequiel Lavezzi
+                - Fabián Cancelarich
+                - Fabricio Coloccini
+                - Fernando Belluschi
+                - "Fernando 'El Negro' Cáceres"
+                - Fernando Gago
+                - Fernando Redondo
+                - "Francisco 'Pancho' Sa"
+                - Franco Armani
+                - Gabriel Batistuta
+                - Gabriel Calderon
+                - Gabriel Heinze
+                - Gabriel Mercado
+                - Gabriel Milito
+                - "Germán 'El Mono' Burgos"
+                - Giovani Lo Celso
+                - "Gonzalo 'Pipita' Higuaín"
+                - "Gonzalo 'Pity' Martínez"
+                - Guillermo Barros Schelotto
+                - Guillermo Stábile
+                - "Héctor 'El Negro' Enrique"
+                - Héctor Yazalde
+                - Hernán Crespo
+                - Hernán Díaz
+                - Hugo Orlando Gatti
+                - Hugo Pérez
+                - Javier Mascherano
+                - Javier Pastore
+                - Javier Saviola
+                - Javier Zanetti
+                - "Jonás 'El Galgo' Gutiérrez"
+                - Jorge Borelli
+                - Jorge Burruchaga
+                - Jorge Carrascosa
+                - Jorge Mario Olguín
+                - Jorge Solari
+                - Jorge Valdano
+                - José Basualdo
+                - José Chamot
+                - "José 'Pepe' Chatruc"
+                - José Daniel Valencia
+                - "José Luis 'Tata' Brown"
+                - José Luis Cuciuffo
+                - José Omar Pastoriza
+                - José Serrizuela
+                - "Juan 'Pichi' Mercier"
+                - Juan Pablo Sorín
+                - Juan Román Riquelme
+                - Juan Sebastián Verón
+                - Juan Simón
+                - "Julio 'El Vasco' Olarticoechea"
+                - "Julio Ricardo 'El Jardinero' Cruz"
+                - Leandro Cufré
+                - Leonardo Franco
+                - Leonardo Astrada
+                - Leonardo Rodríguez
+                - Leopoldo Jacinto Luque
+                - Lionel Messi
+                - Lionel Scaloni
+                - Lisandro López
+                - Lucas Biglia
+                - "'Lucho' González"
+                - Luis Artime
+                - Luis Islas
+                - "Marcelo 'El Chelo' Delgado"
+                - Marcelo Gallardo
+                - Marcelo Trobbiani
+                - Marco Ruben
+                - Marcos Acuña
+                - Marcos Rojo
+                - Mariano Andújar
+                - Mario Alberto Kempes
+                - Martín Demichelis
+                - Martín Palermo
+                - Matías Almeyda
+                - Mauricio Pochettino
+                - Mauro Laspada
+                - Maxi Rodríguez
+                - Miguel Ángel Brindisi
+                - "Miguel 'Pepé' Santoro"
+                - Nelson Vivas
+                - Nereo Fernández
+                - Nery Pumpido
+                - Néstor Clausen
+                - "Néstor 'La Tota' Fabbri"
+                - Néstor Ortigoza
+                - Nicolás Burdisso
+                - Nicolás Otamendi
+                - Nicolás Tagliafico
+                - "Norberto 'Beto' Alonso"
+                - "Norberto 'El Gringo' Scoponi"
+                - Omar Larrosa
+                - Oscar Garré
+                - Oscar Ruggeri
+                - Osvaldo Ardiles
+                - Pablo Aimar
+                - Pablo Cavallero
+                - Pablo Zabaleta
+                - Paulo Dybala
+                - Pedro Damián Monzón
+                - Pedro Pasculli
+                - Pedro Troglio
+                - Ramón Heredia
+                - Ramón Medina Bello
+                - René Houseman
+                - Ricardo Álvarez
+                - Ricardo Bochini
+                - Ricardo Giusti
+                - Ricardo Villa
+                - "Roberto 'Pato' Abbondanzieri"
+                - Roberto Ayala
+                - Roberto Bonano
+                - Roberto Perfumo
+                - Roberto Sensini
+                - Rodrigo Palacio
+                - Rolando Hugo Irusta
+                - Rolando Schiavi
+                - "Sergio 'Kun' Agüero"
+                - Sergio Almirón
+                - "Sergio 'Checho' Batista"
+                - "Sergio 'La Bruja' Berti"
+                - Sergio Goycochea
+                - Sergio Romero
+                - Silvio Marzolini
+                - Ubaldo Fillol
+                - Walter Samuel
+            coaches:
+                - Adolfo Pedernera
+                - Alberto Pascutti
+                - Alejandro Sabella
+                - "Alfio 'Coco' Basile"
+                - Alfredo Berti
+                - Alfredo Di Stéfano
+                - Alfredo Grelak
+                - "Américo 'Tolo' Gallego"
+                - Ángel Cappa
+                - Ángel Tulio Zof
+                - Ariel Cuffaro Russo
+                - Ariel Holan
+                - Blas Giunta
+                - Carlos Babington
+                - Carlos Bianchi
+                - Carlos 'Cai' Aimar
+                - Carlos Leeb
+                - Carlos Ischia
+                - Carlos Pachamé
+                - Carlos Ramacciotti
+                - Carlos Salvador Bilardo
+                - Carlos Timoteo Griguol
+                - Carlos Trullet
+                - César Luis Menotti
+                - "'El Chocho' Llop"
+                - "Claudio 'Bichi' Borghi"
+                - "Daniel 'El Indio' Bazán Vera"
+                - Daniel Bertoni
+                - Daniel Oldrá
+                - Daniel Passarella
+                - Darío Franco
+                - Diego Armando Maradona
+                - Diego Cagna
+                - Diego Cocca
+                - Diego Dabove
+                - Diego Monarriz
+                - Diego Osella
+                - Diego Simeone
+                - "Edgardo 'Patón' Bauza"
+                - "Eduardo 'Toto' Berizzo"
+                - "Eduardo 'Chacho' Coudet"
+                - Eduardo Domínguez
+                - Eduardo Luján Manera
+                - Facundo Sava
+                - Fernando Gamboa
+                - "Fernando 'Teté' Quiroz"
+                - "Francisco 'Pancho' Ferraro"
+                - Frank Darío Kudelka
+                - Gabriel Heinze
+                - Gabriel Milito
+                - Gabriel Schürrer
+                - "Gerardo 'Tata' Martino"
+                - Guillermo Barros Schelotto
+                - Guillermo Stábile
+                - Gustavo Alfaro
+                - Gustavo Álvarez
+                - Gustavo Costas
+                - Gustavo 'El Sapito' Coleoni
+                - Gustavo Quinteros
+                - Héctor Cúper
+                - "Héctor 'El Chulo' Rivoira"
+                - "Héctor 'El Bambino' Veira"
+                - Helenio Herrera
+                - Hernán Crespo
+                - "Hernán Darío 'El Indio' Ortiz"
+                - Hugo Tocalli
+                - Humberto Maschio
+                - Jaime Sarlanga
+                - Jorge Almirón
+                - Jorge Burruchaga
+                - Jorge Sampaoli
+                - Jorge Solari
+                - Jorge Valdano
+                - "Jorge 'El Flaco' Vivaldo"
+                - José D'Amico
+                - José María 'El Chaucha' Bianco
+                - José María Minella
+                - José Néstor Pékerman
+                - José Yudica
+                - Juan Amador Sánchez
+                - Juan Antonio Pizzi
+                - Juan Carlos Kopriva
+                - Juan Carlos 'El Toto' Lorenzo
+                - Juan José Pizzuti
+                - Juan José Serrizuela
+                - Juan Pablo Pumpido
+                - Juan Pablo Vojvoda
+                - Julio César Falcioni
+                - Leonardo Astrada
+                - Leonardo Madelón
+                - Lionel Scaloni
+                - Lucas Bernardi
+                - Lucas Pusineri
+                - Luis Islas
+                - Luis Ventura
+                - Luis Zubeldía
+                - Marcelo Bielsa
+                - Marcelo Gallardo
+                - Mariano Soso
+                - Mario Gómez
+                - Mario Sciacqua
+                - Mario Zanabria
+                - Martín Palermo
+                - Matías Almeyda
+                - Mauricio Pellegrino
+                - Mauricio Pochettino
+                - Miguel Ángel Russo
+                - Miguel Brindisi
+                - Nelson Vivas
+                - Nery Pumpido
+                - Néstor Apuzzo
+                - Néstor Craviotto
+                - "Néstor 'Pipo' Gorosito"
+                - Omar De Felippe
+                - Omar Labruna
+                - Omar Sívori
+                - Oscar Malbernat
+                - Oscar Ruggeri
+                - Osvaldo Piazza
+                - "Osvaldo 'Chiche' Sosa"
+                - Osvaldo Zubeldía
+                - Pablo Guede
+                - Pablo Marini
+                - Patricio Hernández
+                - Pedro Marchetta
+                - Pedro Monzón
+                - Pedro Troglio
+                - Ramón Cabrero
+                - Ramón Díaz
+                - "Reinaldo 'Mostaza' Merlo"
+                - Renato Cesarini
+                - Ricardo Caruso Lombardi
+                - Ricardo Gareca
+                - Ricardo La Volpe
+                - Ricardo Rezza
+                - Ricardo Zielinski
+                - Roberto Marcos Saporiti
+                - Roberto Perfumo
+                - Roberto Pompei
+                - Rodolfo de Paoli
+                - Rodolfo Motta
+                - Rodolfo 'El Vasco' Arruabarrena
+                - Rubén Darío Insúa
+                - Rubén Forestello
+                - Salvador Pasini
+                - Sebastián Beccacece
+                - "Sebastián 'El Gallego' Méndez"
+                - Sergio Batista
+                - "Sergio 'El Huevo' Rondina"
+                - Silvio Marzolini
+                - Vladislao Cap
+                - Walter Lemma
+                - Walter Otta
+                - Wálter Perazzo
+            competitions:
+                - "Copa Mundial de Fútbol"
+                - "Copa América"
+                - "Sudamericano Sub-20"
+                - "Copa Libertadores"
+                - "Copa Sudamericana"
+                - "Mundial de Clubes"
+                - "Copa Suruga Bank"
+                - "Copa África"
+                - "Copa de Oro de la Concacaf"
+                - "Copa Asiática"
+                - "Eurocopa"
+                - "Liga de Campeones de África"
+                - "Liga de Campeones de Asia"
+                - "Liga de Campeones de la Concacaf"
+                - "UEFA Champions League"
+                - "UEFA Europa League"
+                - "Supercopa de Europa"
+                - "Recopa Sudamericana"
+                - "Superliga Argentina"
+                - "Copa Diego Armando Maradona"
+                - "Torneo Apertura"
+                - "Torneo Clausura"
+                - "Primera División Argentina"
+                - "Primera Nacional"
+                - "Primera B Metropolitana"
+                - "Primera C"
+                - "Primera D"
+                - "Federal A"
+                - "Federal B"
+                - "Copa Argentina"
+                - "Supercopa Argentina"
+                - "Copa de la Liga Profesional"
+                - "Copa del Bicentenario"
+                - "Copa de la Superliga"
+                - "Trofeo de Campeones de la Superliga"
+            positions:
+                - Arquero
+                - Defensor
+                - Mediocampista
+                - Delantero
+                - Lateral
+                - Central
+                - "4"
+                - "2"
+                - "6"
+                - "3"
+                - "5"
+                - Doble 5
+                - "8"
+                - Lateral Izquierdo
+                - Lateral Derecho
+                - Central por la Izquierda
+                - Central por la Derecha
+                - Líbero
+                - 5 de Marca
+                - 5 de Quite
+                - 5 de Juego
+                - 5 Habilidoso
+                - "7"
+                - Volante por la Derecha
+                - Volante por la Izquierda
+                - "10"
+                - "9"
+                - "11"
+                - Delantero Salidor
+                - Delantero Centro
+                - Enganche
+                - Wing
+                - Centrohalf
+                - Centroforward
+                - Volante con Llegada
+                - Armador
+                - Wing Izquierdo
+                - Wing Derecho
+                - Doble 9
+                - 9 retrasado
+
+        basketball:
+            teams:
+                - 9 de Julio de Río Tercero
+                - Almagro de Esperanza
+                - Andino de La Rioja
+                - Argentino de Firmat
+                - Argentino de Junín
+                - Asociación Española de Córdoba
+                - Atenas de Córdoba
+                - Bahía Basket
+                - Banco de Córdoba
+                - Belgrano de San Nicolás
+                - Belgrano de Tucumán
+                - Ben Hur de Rafaela
+                - Caja Popular de Tucumán
+                - Central Entrerriano
+                - Ciclista Juninense
+                - Ciclista Olímpico de La Banda
+                - Boca Juniors
+                - Club Morón
+                - Comunicaciones de Mercedes
+                - Deportivo Madryn
+                - Deportivo Roca
+                - Echagüe de Paraná
+                - El Nacional de Monte Hermoso
+                - Estudiantes de Concordia
+                - Estudiantes de Bahía Blanca
+                - Estudiantes de Olavarría
+                - Ferro Carril Oeste
+                - Firmat Football Club
+                - Gimnasia de Comodoro Rivadavia
+                - Gimnasia de La Plata
+                - Gimnasia de Pergamino
+                - Gimnasia y Esgrima Pedernera Unidos
+                - Hispano Americano de Río Gallegos
+                - Independiente de General Pico
+                - Independiente de Neuquén
+                - Independiente de Tucumán
+                - Instituto de Córdoba
+                - La Unión de Formosa
+                - Lanús
+                - Libertad de Sunchales
+                - Luz y Fuerza de Posadas
+                - Oberá TC
+                - Obras Sanitarias
+                - Olimpia de Venado Tuerto
+                - Olimpo de Bahía Blanca
+                - Pacífico de Bahía Blanca
+                - Peñarol de Mar del Plata
+                - Pico Football Club
+                - Platense
+                - Provincial de Rosario
+                - Quilmes de Mar del Plata
+                - Quimsa
+                - Racing Club de Avellaneda
+                - Regatas Corrientes
+                - Regatas de San Nicolás
+                - River Plate
+                - Salta Basket
+                - San Andrés
+                - San Lorenzo
+                - San Martín de Corrientes
+                - San Martín de Marcos Juárez
+                - Santa Paula de Gálvez
+                - Sionista de Paraná
+                - Sport Club de Cañada de Gómez
+                - Unión de Santa Fe
+                - Unión de Sunchales
+                - Unión Progresista de Villa Ángela
+                - Valle Inferior de Viedma
+            players:
+                - Manu Ginóbili
+                - Luis Scola
+                - "Andrés 'Chapu' Nocioni"
+                - Pablo Prigioni
+                - Fabricio Oberto
+                - "Juan Ignacio 'Pepe' Sánchez"
+                - Walter Herrman
+                - Carlos Delfino
+                - Marcelo Milanesio
+                - "Héctor 'Pichi' Campana"
+                - Oscar Furlong
+                - Alejandro Montecchia
+                - Hugo Sconochini
+                - Miguel Cortijo
+                - Leonardo Gutiérrez
+                - Juan Alberto Espil
+                - Hernán Montenegro
+                - Diego Osella
+                - Esteban de la Fuente
+                - Jorge Racca
+                - Daniel Farabello
+                - Esteban Pérez
+                - Carlos Romano
+                - Jorge González
+                - Eduardo Cadillac
+                - Marcelo Nicola
+                - Luis Villar
+                - Gabriel Fernández
+                - Román González
+                - Martín Leiva
+                - Hernán Jasen
+                - Federico Kammerichs
+                - Leandro Palladino
+                - Marcelo Richotti
+                - Leopoldo Contarbio
+                - Roberto Viau
+                - Antonio Porta
+                - Facundo Campazzo
+                - Rubén Wolkowyski
+                - Nicolás Laprovittola
+                - Nicolás Brussino
+                - Patricio Garino
+            coaches:
+                - Víctor Caamaño
+                - Juan Fava
+                - Saúl Ramírez Manfredi
+                - Pedro Busso
+                - Jorge Canavesi
+                - Pedro Pasquinelli
+                - Alberto Andrizzi
+                - Miguel Ángel Ripullone
+                - Alberto López
+                - Caimiro González Trilla
+                - Jorge Martínez
+                - Abelardo Dasso
+                - Heriberto Schonwies
+                - Raúl García
+                - Alberto Finguer
+                - León Najnudel
+                - Carlos Boismené
+                - Walter Garrone
+                - Guillermo Vecchio
+                - Julio Lamas
+                - Rubén Magnano
+                - Sergio Hernández
+                - Sebastián Ginóbili
+                - Leonardo Gutiérrez
+                - Pablo Prigioni
+            positions:
+                - Base
+                - Escolta
+                - Alero
+                - Ala-Pivot
+                - Pivot
+
+        team:
+            sport:
+                - fútbol
+                - basquet
+                - vóley
+                - handball
+                - ténis
+                - paddle
+                - rugby
+                - ping-pong
+                - waterpolo
+                - hockey
+                - truco
+            team_prefix:
+                - 25 de Mayo de
+                - 9 de Julio de
+                - A.A.
+                - Argentino de
+                - Asociación Atlética
+                - Atenas de
+                - Atlético
+                - Belgrano de
+                - C.A.
+                - Club Atlético
+                - Comunicaciones
+                - Defensores de
+                - Deportivo
+                - Estudiantes de
+                - Gimnasia de
+                - Gimnasia y Esgrima de
+                - Independiente de
+                - Libertad de
+                - Luz y Fuerza de
+                - Mitre de
+                - Olímpico de
+                - Peñarol de
+                - Quilmes de
+                - Rivadavia de
+                - San Martín
+                - San Martín de
+                - Sportivo
+                - Unión de
+            team_suffix:
+                - FC.
+                - Fútbol Club
+                - Athletic Club
+                - A.C.
+                - Tennis Club
+                - Rugby Club
+                - Basket
+            name:
+                - "#{team_prefix} #{Address.city}"
+                - "#{Address.city} #{team_suffix}"
+
+        military:
+            army_rank:
+                - Teniente General
+                - General de División
+                - General de Brigada
+                - Coronel Mayor
+                - Coronel
+                - Teniente Coronel
+                - Mayor
+                - Capitán
+                - Teniente Primero
+                - Teniente
+                - Subteniente
+                - Suboficial Mayor
+                - Suboficial Principal
+                - Sargento Ayudante
+                - Sargento Primero
+                - Sargento
+                - Cabo Primero
+                - Cabo
+                - Voluntario de Primera
+                - Voluntario de Segunda
+                - Voluntario de Segunda Comisión
+            marines_rank: ""
+            navy_rank:
+                - Almirante
+                - Vicealmirante
+                - Contraalmirante
+                - Comodoro de Marina
+                - Capitán de Navío
+                - Capitán de Fragata
+                - Capitán de Corbeta
+                - Teniente de Navío
+                - Teniente de Fragata
+                - Teniente de Corbeta
+                - Guardiamarina
+                - Suboficial Mayor
+                - Suboficial Principal
+                - Suboficial Primero
+                - Suboficial Segundo
+                - Cabo Principal
+                - Cabo Primero
+                - Cabo Segundo
+                - Marinero de Primera
+                - Marinero de Segunda
+            coast_guard_rank:
+                - Prefecto General - Prefecto Nacional Naval
+                - Prefecto General - Subprefecto Nacional Naval
+                - Prefecto General
+                - Prefecto Mayor
+                - Prefecto Principal
+                - Prefecto
+                - Subprefecto
+                - Oficial Principal
+                - Oficial Auxiliar
+                - Oficial Ayudante
+                - Ayudante Mayor
+                - Ayudante Principal
+                - Ayudante de Primera
+                - Ayudante de Segunda
+                - Ayudante de Tercera
+                - Cabo Primero
+                - Cabo Segundo
+                - Marinero
+            air_force_rank:
+                - Brigadier General
+                - Brigadier Mayor
+                - Brigadier
+                - Comodoro Mayor
+                - Comodoro
+                - Vicecomodoro
+                - Mayor
+                - Capitán
+                - Primer Teniente
+                - Teniente
+                - Alferez
+                - Suboficial Mayor
+                - Suboficial Principal
+                - Suboficial Ayudante
+                - Suboficial Auxiliar
+                - Cabo Principal
+                - Cabo Primero
+                - Cabo
+                - Voluntario de Primera
+                - Voluntario de Segunda
+            space_force_rank: ""
+
+        compass:
+            cardinal:
+                word:
+                    - norte
+                    - este
+                    - sur
+                    - oeste
+                abbreviation:
+                    - "N"
+                    - E
+                    - S
+                    - O
+            ordinal:
+                word:
+                    - noreste
+                    - sureste
+                    - suroeste
+                    - noroeste
+                abbreviation:
+                    - NE
+                    - SE
+                    - SO
+                    - "NO"
+            half-wind:
+                word:
+                    - nornoreste
+                    - estenoreste
+                    - estesureste
+                    - sursureste
+                    - sursuroeste
+                    - oestesuroeste
+                    - oesenoroeste
+                    - nornoroeste
+                abbreviation:
+                    - NNE
+                    - ENE
+                    - ESE
+                    - SSE
+                    - SSO
+                    - OSO
+                    - ONO
+                    - NNO
+            quarter-wind:
+                word:
+                    - norte por el noreste
+                    - noreste por el norte
+                    - noreste por el este
+                    - este por el noreste
+                    - este por el sureste
+                    - sureste por el este
+                    - sureste por el sur
+                    - sur por el sureste
+                    - sur por el suroeste
+                    - suoreste por el sur
+                    - suroeste por el oeste
+                    - oeste por el suroeste
+                    - oeste por el noroeste
+                    - noroeste por el oeste
+                    - noroeste por el norte
+                    - norte por el noroeste
+                abbreviation:
+                    - NpNE
+                    - NEpN
+                    - NEpE
+                    - EpNE
+                    - EpSE
+                    - SEpE
+                    - SEpS
+                    - SpSE
+                    - SpSO
+                    - SOpS
+                    - SOpO
+                    - OpSO
+                    - OpNO
+                    - NOpO
+                    - NOpN
+                    - NpNO
+
+        phone_number:
+            formats:
+                - "(011) 4### ####"
+                - "(02##) 4##-####"
+                - "(03##) 4##-####"
+                - "(02###) 4#####"
+                - "(03###) 4#####"
+                - "(011) 5### ####"
+                - "(02##) 5##-####"
+                - "(03##) 5##-####"
+                - "(02###) 5#####"
+                - "(03###) 5#####"
+                - "(011) 6### ####"
+        cell_phone:
+            formats:
+                - "11-4###-####"
+                - "2## 4##-####"
+                - "3## 4##-####"
+                - "2### 4#####"
+                - "3### 4#####"
+                - "11-5###-####"
+                - "2## 5##-####"
+                - "3## 5##-####"
+                - "2### 5#####"
+                - "3### 5#####"
+                - "11-6###-####"
+                - "2## 6##-####"
+                - "3## 6##-####"
+                - "2### 6#####"
+                - "3### 6#####"
+                - "11-7###-####"
+        country_code: ["54"]
+
+        bank:
+            name:
+                - Banco Galicia
+                - Banco Nación
+                - Banco de la Provincia de Buenos Aires
+                - ICBC
+                - Citibank
+                - BBVA Argentina
+                - BanCor
+                - Banco Supervielle
+                - Banco Ciudad
+                - Banco Patagonia
+                - Banco Hipotecario
+                - Banco de San Juan
+                - Banco Municipal de Rosario
+                - Banco Santander Río
+                - Banco del Chubut
+                - Banco de Santa Cruz
+                - Banco de La PAmpa
+                - Banco de Corrientes
+                - Banco Provincia del Neuquén
+                - Brubank
+                - Banco Interfinanzas
+                - HSBC
+                - Banco Credicoop
+                - Banco Itaú
+                - BNP Paribas
+                - Banco de la Provincia de Tierra del Fuego
+                - Banco de la República Oriental del Uruguay
+                - Banco Macro
+                - Banco Comafi
+                - BICE
+                - Banco Piano
+                - Banco Rioja
+                - Banco del Sol
+                - Nuevo Banco del Chaco
+                - Banco Voii
+                - Banco de Formosa
+                - Banco de Santiago del Estero
+                - Banco Industrial
+                - Nuevo Banco de Santa Fe
+                - Banco Bradesco
+                - Wilobank
+                - Nuevo Banco de Entre Ríos
+                - Banco Columbia
+
+        color:
+            name:
+                - aguamarina
+                - amaranto
+                - amarillo
+                - amarillo limón
+                - amatista
+                - ámbar
+                - añil
+                - azul
+                - azul cobalto
+                - azul de Prusia
+                - azul francia
+                - azul marino
+                - azul petróleo
+                - beige
+                - bermellón
+                - blanco
+                - bordó
+                - borgoña
+                - café
+                - caqui
+                - carmesí
+                - carmín
+                - castaño
+                - celeste
+                - chocolate
+                - cian
+                - colorado
+                - dorado
+                - durazno
+                - escarlata
+                - esmeralda
+                - frutilla
+                - fúcsia
+                - granate
+                - gris
+                - hueso
+                - índigo
+                - jade
+                - lavanda
+                - lavanda
+                - lila
+                - magenta
+                - malva
+                - marfil
+                - marrón
+                - morado
+                - naranja
+                - negro
+                - ocre
+                - plateado
+                - púrpura
+                - rojo
+                - rosa
+                - rubí
+                - salmón
+                - siena
+                - siena pálido
+                - topacio
+                - turquesa
+                - verde
+                - verde agua
+                - verde militar
+                - verde oliva
+                - violeta
+                - zafiro
+                - zanahoria
+
+        currency:
+            name:
+                - Afgani afgano
+                - Ariary malgache
+                - Baht tailandés
+                - Balboa panameño
+                - Birr etíope
+                - Boliviano
+                - Cedi ghanés
+                - Chelín keniano
+                - Chelín somalí
+                - Chelín tanzano
+                - Chelín ugandés
+                - Colón costarricense
+                - Córdoba nicaragüense
+                - Corona checa
+                - Corona danesa
+                - Corona islandesa
+                - Corona noruega
+                - Corona sueca
+                - Dalasi gambiano
+                - Denar macedonio
+                - Dinar argelino
+                - Dinar bareiní
+                - Dinar iraquí
+                - Dinar jordano
+                - Dinar kuwaití
+                - Dinar libio
+                - Dinar serbio
+                - Dinar tunecino
+                - Dírham de los Emiratos Árabes Unidos
+                - Dírham marroquí
+                - Dólar australiano
+                - Dólar bahameño
+                - Dólar beliceño
+                - Dólar bermudeño
+                - Dólar canadiense
+                - Dólar de Barbados
+                - Dólar de Brunéi
+                - Dólar de Hong Kong
+                - Dólar de las Islas Caimán
+                - Dólar de las Islas Salomón
+                - Dólar de Singapur
+                - Dólar de Trinidad y Tobago
+                - Dólar del Caribe Oriental
+                - Dólar estadounidense
+                - Dólar fiyiano
+                - Dólar guyanés
+                - Dólar jamaiquino
+                - Dólar liberiano
+                - Dólar namibio
+                - Dólar neozelandés
+                - Dólar surinamés
+                - Dong vietnamita
+                - Dram armenio
+                - Escudo caboverdiano
+                - Euro
+                - Florín arubeño
+                - Florín de las antillas neerlandesas
+                - Forinto húngaro
+                - Franco CFA de África Central
+                - Franco CFA de África Occidental
+                - Franco CFP
+                - Franco comorense
+                - Franco congoleño
+                - Franco de Burundi
+                - Franco guineano
+                - Franco ruandés
+                - Franco suizo
+                - Franco yibutiano
+                - Gourde haitiano
+                - Grivna ucraniana
+                - Guaraní paraguayo
+                - Kina papuana
+                - Kip laosiano
+                - Kuna croata
+                - Kwacha malau
+                - Kwacha zambiano
+                - Kwanza angoleño
+                - Kyat birmano
+                - Lari georgiano
+                - Lek albanés
+                - Lempira hondureña
+                - Leone sierraleonés
+                - Leu moldavo
+                - Leu rumano
+                - Lev búlgaro
+                - Libra de Gibraltar
+                - Libra de Santa Elena
+                - Libra egipcia
+                - Libra esterlina
+                - Libra libanesa
+                - Libra malvinense
+                - Libra siria
+                - Libra sudanesa
+                - Libra sursudanesa
+                - Lilangeni de Suazilandia
+                - Lira turca
+                - Loti lesotense
+                - Manat azerbaiyano
+                - Manat turcomano
+                - Marco bosnioherzegovino
+                - Metical mozambiqueño
+                - Naira nigeriana
+                - Nakfa eritreo
+                - Ngultrum butanés
+                - Nuevo dólar taiwanés
+                - Nuevo shéquel israelí
+                - Pa'anga tongano
+                - Pataca macaense
+                - Peso argentino
+                - Peso chileno
+                - Peso colombiano
+                - Peso cubano
+                - Peso cubano convertible
+                - Peso dominicano
+                - Peso filipino
+                - Peso mexicano
+                - Peso uruguayo
+                - Pula botsuanés
+                - Quetzal guatemalteco
+                - Rand sudafricano
+                - Real brasileño
+                - Rial catarí
+                - Rial iraní
+                - Rial omaní
+                - Rial saudí
+                - Rial yemení
+                - Riel camboyano
+                - Ringgit malayo
+                - Rublo bielorruso
+                - Rublo ruso
+                - Rupia de Maldivas
+                - Rupia de Mauricio
+                - Rupia de Sri Lanka
+                - Rupia india
+                - Rupia indonesia
+                - Rupia nepalí
+                - Rupia pakistaní
+                - Rupia seychelense
+                - Sol peruano
+                - Som kirguíz
+                - Som uzbeko
+                - Somoni tayiko
+                - Taka bangladesí
+                - Tala samoano
+                - Tenge kazajo
+                - Tugrik mongol
+                - Vatu vanuatuense
+                - Won norcoreano
+                - Won surcoreano
+                - Yen japonés
+                - Yuan chino
+                - Złoty polaco
+
+        nation:
+            # This list is taken from https://es.wikipedia.org/wiki/Anexo:Gentilicios
+            nationality:
+                - afgano
+                - albanés
+                - alemán
+                - andorrano
+                - angoleño
+                - anguilense
+                - antiguano
+                - saudí
+                - argelino
+                - argentino
+                - armenio
+                - arubeño
+                - australiano
+                - austriaco
+                - azerbaiyano
+                - bahameño
+                - bangladesí
+                - barbadense
+                - bareiní
+                - belga
+                - beliceño
+                - beninés
+                - bermudeño
+                - bielorruso
+                - birmano
+                - boliviano
+                - bosnio
+                - botsuano
+                - brasileño
+                - bruneano
+                - búlgaro
+                - burkinés
+                - burundés
+                - butanés
+                - caboverdiano
+                - camboyano
+                - camerunés
+                - canadiense
+                - catarí
+                - chadiano
+                - chileno
+                - chino
+                - chipriota
+                - vaticano
+                - colombiano
+                - comorense
+                - norcoreano
+                - surcoreano
+                - marfileño
+                - costarricense
+                - croata
+                - cubano
+                - curazoleño
+                - danés
+                - dominiqués
+                - ecuatoriano
+                - egipcio
+                - salvadoreño
+                - emiratí
+                - eritreo
+                - eslovaco
+                - esloveno
+                - español
+                - micronesio
+                - estadounidense
+                - estonio
+                - etíope
+                - filipino
+                - finlandés
+                - fiyiano
+                - francés
+                - gabonés
+                - gambiano
+                - georgiano
+                - ghanés
+                - gibraltareño
+                - granadino
+                - griego
+                - groenlandés
+                - guameño
+                - guatemalteco
+                - guerneseyés
+                - guineano
+                - guineano
+                - guineano
+                - guyanés
+                - haitiano
+                - hondureño
+                - hongkonés
+                - húngaro
+                - indio
+                - indonesio
+                - iraquí
+                - iraní
+                - irlandés
+                - manés
+                - navideño
+                - norfolkense
+                - islandés
+                - caimanés
+                - cocano
+                - cookiano
+                - feroés
+                - malvinense
+                - chamorro
+                - marshalés
+                - pitcairnés
+                - salomonense
+                - turcocaiqueño
+                - virgenense británico
+                - virgenense estadounidense
+                - israelí
+                - italiano
+                - jamaicano
+                - japonés
+                - jerseyés
+                - jordano
+                - kazajo
+                - keniano
+                - kirguís
+                - kiribatiano
+                - kosovar
+                - kuwaití
+                - laosiano
+                - lesotense
+                - letón
+                - libanés
+                - liberiano
+                - libio
+                - liechtensteiniano
+                - lituano
+                - luxemburgués
+                - macaense
+                - macedonio
+                - malgache
+                - malasio
+                - malauí
+                - maldivo
+                - maliense
+                - maltés
+                - marroquí
+                - mauriciano
+                - mauritano
+                - mexicano
+                - moldavo
+                - monegasco
+                - mongol
+                - montenegrino
+                - monserratino
+                - mozambiqueño
+                - namibio
+                - nauruano
+                - nepalés
+                - nicaragüense
+                - nigerino
+                - nigeriano
+                - niueño
+                - noruego
+                - neocaledonio
+                - neocelandés
+                - omaní
+                - surosetio
+                - holandés
+                - pakistaní
+                - palauano
+                - palestino
+                - panameño
+                - papuano
+                - paraguayo
+                - peruano
+                - francopolinesio
+                - polaco
+                - portugués
+                - puertorriqueño
+                - británico
+                - centroafricano
+                - checo
+                - taiwanés
+                - congoleño
+                - congoleño
+                - dominicano
+                - ruandés
+                - rumano
+                - ruso
+                - saharaui
+                - samoano
+                - samoamericano
+                - sanbartolomeano
+                - sancristobaleño
+                - sanmarinense
+                - sanmartitense
+                - sanpedrino
+                - sanvicentino
+                - santaheleno
+                - santalucense
+                - santotomense
+                - senegalés
+                - serbio
+                - seychellense
+                - sierraleonés
+                - singapurense
+                - sirio
+                - somalí
+                - somalilandés
+                - ceilanés
+                - suazi
+                - sudafricano
+                - sudanés
+                - sursudanés
+                - sueco
+                - suizo
+                - surinamés
+                - svalbarense
+                - tailandés
+                - tanzano
+                - tayiko
+                - timorense
+                - togolés
+                - tokelauense
+                - tongano
+                - transnistrio
+                - trinitense
+                - tunecino
+                - turcomano
+                - turco
+                - tuvaluano
+                - ucraniano
+                - ugandés
+                - uruguayo
+                - uzbeko
+                - vanuatuense
+                - venezolano
+                - vietnamita
+                - walisiano
+                - yemení
+                - yibutiano
+                - zambiano
+                - zimbabuense
+            # This list is taken from https://es.wikipedia.org/wiki/Anexo:Gentilicios
+            capital_city:
+                - Abiyán
+                - Abu Dabi
+                - Abuya
+                - Acra
+                - Adamstown
+                - Adís Abeba
+                - Agaña
+                - Alofi
+                - Amán
+                - Ámsterdam
+                - Andorra la Vieja
+                - Ankara
+                - Antananarivo
+                - Apia
+                - Argel
+                - Asjabad
+                - Asmara
+                - Asunción
+                - Atafu
+                - Atenas
+                - Avarua
+                - Bagdad
+                - Bakú
+                - Bamako
+                - Bandar Seri Begawan
+                - Bangkok
+                - Bangui
+                - Banjul
+                - Basseterre
+                - Beirut
+                - Belgrado
+                - Belmopán
+                - Berlín
+                - Berna
+                - Bisau
+                - Biskek
+                - Bogotá
+                - Brades
+                - Brasilia
+                - Bratislava
+                - Brazzaville
+                - Bridgetown
+                - Bruselas
+                - Bucarest
+                - Budapest
+                - Buenos Aires
+                - Buyumbura
+                - Canberra
+                - Caracas
+                - Castries
+                - Charlotte Amalie
+                - Chisinau
+                - Ciudad de Guatemala
+                - Ciudad de Kuwait
+                - Ciudad de México
+                - Ciudad de San Marino
+                - Ciudad del Vaticano
+                - Cockburn Town
+                - Colombo
+                - Conakri
+                - Copenhague
+                - Daca
+                - Dakar
+                - Damasco
+                - Dili
+                - Dodoma
+                - Doha
+                - Donetsk
+                - Douglas
+                - Dublín
+                - Dusambé
+                - El Aaiún
+                - El Cairo
+                - El Valle
+                - Ereván
+                - Estocolmo
+                - Flying Fish Cove
+                - Freetown
+                - Funafuti
+                - Gaborone
+                - Gaza
+                - George Town
+                - Georgetown
+                - Gibraltar
+                - Gustavia
+                - Hamilton
+                - Hanói
+                - Harare
+                - Hargeisa
+                - Helsinki
+                - Hong Kong
+                - Honiara
+                - Islamabad
+                - Jamestown
+                - Jartum
+                - Jerusalén
+                - Kabul
+                - Kampala
+                - Katmandú
+                - Kiev
+                - Kigali
+                - Kingston
+                - Kingstown
+                - Kinsasa
+                - Kuala Lumpur
+                - La Habana
+                - La Paz
+                - La Valeta
+                - Libreville
+                - Lilongüe
+                - Lima
+                - Lisboa
+                - Liubliana
+                - Lobamba
+                - Lomé
+                - Londres
+                - Longyearbyen
+                - Luanda
+                - Lusaka
+                - Luxemburgo
+                - Macao
+                - Madrid
+                - Majuro
+                - Malabo
+                - Malé
+                - Managua
+                - Manama
+                - Manila
+                - Maputo
+                - Marigot
+                - Mascate
+                - Maseru
+                - Mata-Utu
+                - Melekeok
+                - Minsk
+                - Mogadiscio
+                - Mónaco
+                - Monrovia
+                - Montevideo
+                - Moroni
+                - Moscú
+                - Naipyidó
+                - Nairobi
+                - Nasáu
+                - Niamey
+                - Nicosia
+                - Nom Pen
+                - Nuakchot
+                - Nueva Delhi
+                - Nukualofa
+                - Numea
+                - Nur-Sultán
+                - Nuuk
+                - Oranjestad
+                - Oslo
+                - Ottawa
+                - Pago Pago
+                - Palikir
+                - Panamá
+                - Papeete
+                - Paramaribo
+                - París
+                - Pekín
+                - Pionyang
+                - Podgorica
+                - Port Louis
+                - Port Moresby
+                - Port Vila
+                - Porto Novo
+                - Praga
+                - Praia
+                - Pretoria
+                - Pristina
+                - Puerto Argentino
+                - Puerto España
+                - Puerto Príncipe
+                - Quito
+                - Rabat
+                - Reikiavik
+                - Riad
+                - Riga
+                - Road Town
+                - Roma
+                - Roseau
+                - Saint George's
+                - Saint Helier
+                - Saint John
+                - Saint Peter Port
+                - Saipán
+                - San José
+                - San Juan
+                - San Pedro
+                - San Salvador
+                - Saná
+                - Santiago de Chile
+                - Santo Domingo
+                - Santo Tomé
+                - Sarajevo
+                - Seúl
+                - Singapur
+                - Skopie
+                - Sofía
+                - Suva
+                - Taipéi
+                - Tallin
+                - Tarawa
+                - Taskent
+                - Tegucigalpa
+                - Teherán
+                - Tiflis
+                - Timbu
+                - Tirana
+                - Tiráspol
+                - Tokio
+                - Tórshavn
+                - Trípoli
+                - Tsjinval
+                - Túnez
+                - Uagadugú
+                - Ulán Bator
+                - Vaduz
+                - Varsovia
+                - Victoria
+                - Viena
+                - Vientián
+                - Vilna
+                - Washington DC.
+                - Wellington
+                - West Island
+                - Willemstad
+                - Windhoek
+                - Yakarta
+                - Yamena
+                - Yaren
+                - Yaundé
+                - Yibuti
+                - Yuba
+                - Zagreb
+            # This list is taken from https://es.wikipedia.org/wiki/Anexo:Idiomas_por_el_total_de_hablantes
+            # Spanish languages added to that list
+            language:
+                - Alemán​
+                - Amárico​
+                - Árabe
+                - Árabe egipcio​
+                - Aragonés
+                - Asturleonés
+                - Bengalí
+                - Bhoshpuri​
+                - Canarés​
+                - Catalán
+                - Chino cantonés​
+                - Chino mandarín
+                - Chino Mǐn Nán​
+                - Chino Wu​
+                - Coreano​
+                - Castellano
+                - Euskera/Vasco
+                - Francés
+                - Gallego
+                - Guyarati​
+                - Hausa​
+                - Hindi
+                - Indonesio​
+                - Inglés
+                - Italiano​
+                - Japonés​
+                - Javanés​
+                - Maratí​
+                - Occitano-Aranés
+                - Panyabí occidental​
+                - Persa iraní​
+                - Portugués
+                - Ruso
+                - Suajili​
+                - Tailandés​
+                - Tamil​
+                - Telugú​
+                - Turco​
+                - Urdu​
+                - Valenciano
+                - Vietnamita​
+
+        company:
+            prefix:
+                - Grupo
+                - Comercializadora
+            suffix:
+                - SA
+                - e Hijos
+                - SRL
+                - Group
+            bs:
+                - [
+                      "implementar",
+                      "utilizar",
+                      "integrar",
+                      "aerodinamizar",
+                      "optimizar",
+                      "evolucionar",
+                      "transformar",
+                      "adoptar",
+                      "habilitar",
+                      "orquestrar",
+                      "apalancar",
+                      "reinventar",
+                      "sumar",
+                      "arquitectar",
+                      "realzar",
+                      "incentivar",
+                      "mutar",
+                      "empoderar",
+                      "visualizar",
+                      "monetizar",
+                      "aprovechar",
+                      "facilitar",
+                      "sujetar",
+                      "desintermediar",
+                      "sinergizar",
+                      "estrategizar",
+                      "desplegar",
+                      "marcar",
+                      "crecer",
+                      "apuntar",
+                      "vender",
+                      "sintetizar",
+                      "entregar",
+                      "interconectar",
+                      "incubar",
+                      "involucrar",
+                      "maximizar",
+                      "comparar",
+                      "expedir",
+                      "reintermediar",
+                      "diagramar",
+                      "visualizar",
+                      "reconvertir",
+                      "innovar",
+                      "escalar",
+                      "desatar",
+                      "impulsar",
+                      "extender",
+                      "construir",
+                      "revolucionar",
+                      "generar",
+                      "explotar",
+                      "transicionar",
+                      "habilitar digitalmente",
+                      "iterar",
+                      "cultivar",
+                      "conglomerar",
+                      "productizar",
+                      "redefinir",
+                      "recontextualizar",
+                  ]
+                - [
+                      "la fisicalidad",
+                      "el valor agregado",
+                      "la verticalidad",
+                      "la proactividad",
+                      "la robustez",
+                      "la revolucionaridad",
+                      "la escalabilidad",
+                      "la modernidad",
+                      "la innovación",
+                      "la intuitividad",
+                      "la estrategicidad",
+                      "el desarrollo comercial web",
+                      "la cualidad crítica de las misiones",
+                      "la adherencia",
+                      "la individualidad",
+                      "la disponibilidad 24/7",
+                      "la disponibilidad punta a punta",
+                      "la globalidad",
+                      "la conexión negocio a negocios",
+                      "la conexión negocio a cliente",
+                      "la granularidad",
+                      "la falta de fricción",
+                      "la virtualidad",
+                      "la viralidad",
+                      "el dinamismo",
+                      "la disponibilidad 24/365",
+                      "la ejemplaridad",
+                      "la superioridad",
+                      "el magnetismo",
+                      "el atractivo",
+                      "la performance en el back-end",
+                      "la simultaneidad",
+                      "la eficiecia",
+                      "la performance en el front-end",
+                      "la distributividad",
+                      "la continuidad",
+                      "la extensibilidad",
+                      "la preconfiguración",
+                      "la clase mundial",
+                      "la apertura",
+                      "la interoperabilidad",
+                      "la disponibilidad mediática",
+                      "la originalidad",
+                      "la cualidad empresarial",
+                      "la integración",
+                      "el impacto",
+                      "la libertad",
+                      "la transparencia",
+                      "la cualidad de avanzada",
+                      "la tecnología de punta",
+                      "la experiencia centrada en el usuario",
+                      "la visión",
+                      "la adaptabilidad",
+                      "la presencia contínua",
+                      "la rápidez",
+                      "la colaboratividad",
+                      "la persuasión",
+                      "la integralidad",
+                      "la riqueza",
+                  ]
+                - [
+                      "de las sinergias",
+                      "de la disposición web",
+                      "de los paradigmas",
+                      "de los mercados",
+                      "de las sociedades",
+                      "de las infraestructuras",
+                      "de las plataformas",
+                      "de las iniciativas",
+                      "de los canales",
+                      "de las visiones",
+                      "de las comunidades",
+                      "de los retornos",
+                      "de las soluciones",
+                      "de las ventas digiales",
+                      "de los servicios digitales",
+                      "de los puntos de acción",
+                      "de los portales",
+                      "de los nichos",
+                      "de las tecnologías",
+                      "de los contenidos",
+                      "de los portales virtuales",
+                      "de las cadenas de abastecimiento",
+                      "de la convergencia",
+                      "de las relaciones",
+                      "de las arquitecturas",
+                      "de las interfaces",
+                      "de los mercados digitales",
+                      "de el comercio digital",
+                      "de los sistemas",
+                      "de el ancho de banda",
+                      "de los intermediarios",
+                      "de los modelos",
+                      "de el mindshare",
+                      "de las entregas",
+                      "de los usuarios",
+                      "de los esquemas",
+                      "de las redes",
+                      "de las aplicaciones",
+                      "de las métricas",
+                      "de los negocios digitales",
+                      "de las funcionalidades",
+                      "de las experiencias",
+                      "de los servicios web",
+                      "de las metodologías",
+                  ]
+            name:
+                - "#{prefix} #{Name.last_name}"
+                - "#{Name.last_name} #{suffix}"
+                - "#{Name.last_name}-#{Name.last_name}"
+                - "#{Name.last_name}, #{Name.last_name} y asociados"
+                - "#{Name.last_name} y #{Name.last_name} #{suffix}"
+            industry:
+                - Defensa y Aeroespacial
+                - Hardware
+                - Desarrollo de Software
+                - Internet
+                - Semiconductores
+                - Telecomunicaciones
+                - Servicios legales
+                - Consultoría
+                - Biotecnología
+                - Medicina
+                - Cuidado de la Salud
+                - Farmacéutica
+                - Veterinaria
+                - Dispositivos Médicos
+                - Cosméticos
+                - Moda
+                - Productos deportivos
+                - Tabaco
+                - Supermercado
+                - Alimenticio
+                - Electrónica
+                - Mueblería
+                - Retail
+                - Entretenimiento
+                - Apuestas y Casinos
+                - Turismo
+                - Hospitalidad
+                - Restaurants
+                - Deportes
+                - Comida y Bebida
+                - Audiovisual
+                - Medios de Comunicación
+                - Museos e Instituciones
+                - Artes plásticas
+                - Actuación
+                - Servicios e instalaciones de Recreación
+                - Bancos
+                - Seguros
+                - Servicios Financieros
+                - Real Estate
+                - Banca de Inversión
+                - Administración de Inversiones
+                - Contabilidad
+                - Construcción
+                - Materiales de Construcción
+                - Arquitectura y Planeamiento
+                - Ingeniería Civil
+                - Aviación
+                - Automotriz
+                - Química
+                - Maquinaria
+                - Minería
+                - Petróleo y Energía
+                - Astilleros
+                - Textiles
+                - Productos Forestales y de Papel
+                - Manufactura Ferroviaria
+                - Agricultura
+                - Ganadería
+                - Lácteos
+                - Pesca
+                - Educación Primaria / Secundaria
+                - Education Universitaria
+                - Investigación
+                - Militar
+                - Poder Legislativo
+                - Poder Judicial
+                - Relaciones Internacionales
+                - Administración y Gobierno
+                - Poder Ejecutivo
+                - Fuerzas de Seguridad
+                - Políticas Públicas
+                - Marketing y Publicidad
+                - Periódicos
+                - Imprentas
+                - Servicios de Información
+                - Librerías
+                - Servicios del Medio Ambiente
+                - Logística
+                - Servicios Individuales y Familiares
+                - Instituciones Religiosas
+                - Organizaciones Cívicas y Sociales
+                - Servicios al Consumidor
+                - Almacenamiento
+                - Servicios Marítimos
+                - Tecnologías y Servicios de la Información
+                - Investigación de Mercados
+                - Relaciones Públicas y Comunicaciones
+                - Diseño
+                - ONGs
+                - Editorial
+                - Recursos Humanos
+                - Entrenamiento Profesional y Coaching
+                - Capital de Riesgo
+                - Organización Política
+                - Traducción
+                - Juegos Electrónicos
+                - Eventos
+                - Artesanías
+                - Manufactura Eléctrica y Electrónica
+                - Medios en línea
+                - Nanotecnología
+                - Música
+                - Plásticos
+                - Seguridad Digital
+                - Resolución de Disputas
+                - Investigaciones y Seguridad
+                - Servicios de Instalaciones
+                - Servicios Tercerizados
+                - Gimnasios
+                - Medicina Alternativa
+                - Producción de Medios
+                - Animación
+                - Inmuebles Comerciales
+                - Mercados de Capitales
+                - Think Tanks
+                - Filantropía
+                - Aprendizaje en línea
+                - Mayorista
+                - Comercio Exterior
+                - Ingeniería Mecánica o Industrial
+                - Fotografía
+                - Equipamiento Industrial
+                - Salud Mental
+                - Diseño Gráfico
+                - Bebidas Alcohólicas
+                - Joyería y Bienes de Lujo
+                - Energías Renovables
+                - Vidrio y Cerámica
+                - Empaques y Contenedores
+                - Automatización Industrial
+            profession:
+                - maestro
+                - actor
+                - músico
+                - filósofo
+                - escritor
+                - doctor
+                - contador
+                - agricultor
+                - arquitecto
+                - economista
+                - ingeniero
+                - intérprete
+                - abogado
+                - libreri
+                - estadístico
+                - responsable de recursos humanos
+                - bombero
+                - juez
+                - policía
+                - astrónomo
+                - biólogo
+                - químico
+                - físico
+                - programador
+                - desarrollador web
+                - diseñador
+                - actriz
+                - controlador de tráfico aéreo
+                - artista
+                - banquero
+                - bartender
+                - peluquero
+                - administrador
+                - constructor
+                - empresario
+                - carnicero
+                - carpintero
+                - cajero
+                - chef
+                - coach
+                - dentista
+                - desarrollador
+                - nutricionista
+                - editor
+                - electricista
+                - operario
+                - granjero
+                - pescador
+                - jardinero
+                - estilista
+                - periodista
+                - legislador
+                - profesor
+                - guardavidas
+                - mecánico
+                - modelo
+                - presentador de noticias
+                - enfermero
+                - óptico
+                - pintor
+                - farmacista
+                - fotógrafo
+                - piloto
+                - plomero
+                - político
+                - cartero
+                - recepcionista
+                - científico
+                - secretario
+                - vendedor
+                - soldado
+                - sastre
+                - tachero
+                - traductor
+                - zorro
+                - agente de turismo
+                - veterinario
+                - mozo
+                - limpiador de ventanas
+            type:
+                - Compañía Pública
+                - Institución Educativa
+                - Autónomo
+                - Monotributista
+                - Empleado en negro
+                - Agencia de Gobierno
+                - ONG
+                - Sociedad

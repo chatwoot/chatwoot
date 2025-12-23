@@ -1,0 +1,16 @@
+---
+Language: Cpp
+BasedOnStyle: WebKit
+AllowAllParametersOfDeclarationOnNextLine: false
+BinPackArguments: false
+BinPackParameters: false
+AlignConsecutiveMacros: false
+AlignConsecutiveAssignments: false
+BreakBeforeBraces: Linux
+BraceWrapping:
+  AfterControlStatement: Never
+IndentCaseLabels: true
+PointerAlignment: Right
+SpaceBeforeParens: ControlStatements
+IndentWidth: 4
+...

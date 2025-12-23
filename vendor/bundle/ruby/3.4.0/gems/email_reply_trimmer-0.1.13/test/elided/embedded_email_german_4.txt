@@ -1,0 +1,15 @@
+Max Mustermann <try_discourse@discoursemail.com> schrieb am Fr., 28. Apr. 2017 um 11:53 Uhr:
+
+> max_2 <http://try.discourse.org/u/cfstras_2>
+> April 28
+
+> Hi there! you should be getting a mail.
+> ------------------------------
+
+> Visit Topic <http://try.discourse.org/t/this-is-my-internal-test/716/2>
+> or reply to this email to respond.
+
+> To unsubscribe from these emails, click here
+> <http://try.discourse.org/email/unsubscribe/badf00d>
+> .
+

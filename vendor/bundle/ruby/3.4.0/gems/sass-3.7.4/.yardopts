@@ -1,0 +1,13 @@
+--readme          README.md
+--markup          markdown
+--markup-provider redcarpet
+--default-return  ""
+--title           "Sass Documentation"
+--query           'object.type != :classvariable'
+--query           'object.type != :constant || @api && @api.text == "public"'
+--hide-void-return
+--protected
+--no-private
+--no-highlight
+--tag             comment
+--hide-tag        comment

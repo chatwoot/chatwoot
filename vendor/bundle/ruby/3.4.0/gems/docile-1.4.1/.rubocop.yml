@@ -1,0 +1,5 @@
+inherit_gem:
+  panolint: panolint-rubocop.yml
+
+require:
+  - rubocop-rake

@@ -1,0 +1,11 @@
+Thanks for submitting a pull request to Koala! A huge portion of the gem has been built by awesome people (like you) from the Ruby community.
+
+Here are a few things that will help get your pull request merged in quickly. None of this is required -- you can delete anything not relevant. If in doubt, open the PR! I want to help.
+
+[ ] My PR has tests and they pass!
+[ ] The live tests pass for my changes (`LIVE=true rspec` -- unrelated failures are okay).
+[ ] The PR is based on the most recent master commit and has no merge conflicts.
+
+If you have any questions, feel free to open an issue or comment on your PR!
+
+Note: Koala has a [code of conduct](https://github.com/arsduo/koala/blob/master/code_of_conduct.md). Check it out.

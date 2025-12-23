@@ -1,0 +1,32 @@
+#!/usr/bin/ruby -ws
+
+require 'rubygems'
+require 'ruby2ruby'
+require 'ruby_parser'
+
+$h ||= false
+$s ||= false
+
+if $h then
+  puts "usage: #{File.basename $0} [options] [file...]"
+  puts "options:"
+  puts "-h     : display usage"
+  puts "-s     : print the sexp before displaying the translated ruby"
+
+  exit 1
+end
+
+ARGV.push "-" if ARGV.empty?
+
+parser    = RubyParser.new
+ruby2ruby = Ruby2Ruby.new
+
+ARGV.each do |file|
+  ruby = file == "-" ? $stdin.read : File.read(file)
+
+  sexp = parser.process(ruby, file)
+
+  p sexp if $s
+
+  puts ruby2ruby.process(sexp)
+end

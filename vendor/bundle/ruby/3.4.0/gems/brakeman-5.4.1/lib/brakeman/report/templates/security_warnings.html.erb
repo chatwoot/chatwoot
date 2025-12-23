@@ -1,0 +1,25 @@
+<h2>Security Warnings</h2>  
+<table>
+  <thead>
+    <tr>
+      <th>Confidence</th>
+      <th>Class</th>
+      <th>Method</th>
+      <th>Warning Type</th>
+      <th>CWE ID</th>
+      <th>Message</th>
+    </tr>
+  </thead>
+  <tbody>
+  <% warnings.each do |warning| %>
+    <tr>
+      <td><%= warning['Confidence']%></td>
+      <td><%= warning['Class']%></td>
+      <td><%= warning['Method']%></td>
+      <td><%= warning['Warning Type']%></td>
+      <td><%= warning['CWE ID']%></td>
+      <td><%= warning['Message']%></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

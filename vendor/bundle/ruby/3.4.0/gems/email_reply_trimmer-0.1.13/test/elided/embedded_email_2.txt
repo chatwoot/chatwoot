@@ -1,0 +1,9 @@
+---- On Tue, 22 Dec 2015 14:17:36 +0530 Sam Saffron&lt;info@discourse.org&gt; wrote ----
+
+
+         sam Sam Saffron co-founder
+ December 22
+   You are not using the right endpoint, go to user profile / badges, have a look at dev tools to see what it calls
+ There is a discrete endpoint to get all the badges a user has
+
+   To respond, reply to this email or visit the topic.

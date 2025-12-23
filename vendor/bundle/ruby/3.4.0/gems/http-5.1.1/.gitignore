@@ -1,0 +1,15 @@
+*.gem
+.config
+.rvmrc
+.yardoc
+InstalledFiles
+_yardoc
+
+.bundle
+.ruby-version
+doc
+coverage
+pkg
+spec/examples.txt
+tmp
+Gemfile.lock

@@ -1,0 +1,25 @@
+language: ruby
+services:
+  - mysql
+  - postgresql
+rvm:
+  - 2.5
+  - 2.6
+  - 2.7
+  - 3.0
+gemfile:
+  - gemfiles/rails_5.1.gemfile
+  - gemfiles/rails_5.2.gemfile
+  - gemfiles/rails_6.0.gemfile
+  - gemfiles/rails_6.1.gemfile
+jobs:
+  exclude: # Unsupported combos: https://www.fastruby.io/blog/ruby/rails/versions/compatibility-table.html
+  - rvm: 3.0
+    gemfile: gemfiles/rails_5.1.gemfile
+  - rvm: 3.0
+    gemfile: gemfiles/rails_5.2.gemfile
+
+before_install:
+  - bin/setup
+cache:
+  bundler: true

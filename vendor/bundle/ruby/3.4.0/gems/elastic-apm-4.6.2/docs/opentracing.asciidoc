@@ -1,0 +1,94 @@
+ifdef::env-github[]
+NOTE: For the best reading experience,
+please view this documentation at https://www.elastic.co/guide/en/apm/agent/ruby[elastic.co]
+endif::[]
+
+[[opentracing]]
+== OpenTracing API
+
+The Elastic APM OpenTracing bridge allows to create Elastic APM `Transactions` and `Spans`,
+using the OpenTracing API.
+In other words,
+it translates the calls to the OpenTracing API to Elastic APM and thus allows for reusing existing instrumentation.
+
+The first span of a service will be converted to an Elastic APM `Transaction`,
+subsequent spans are mapped to Elastic APM `Span`.
+
+[float]
+[[operation-modes]]
+== Operation Modes
+
+This bridge allows for different operation modes in combination with the Elastic APM Agent.
+
+- Noop +
+  If no Elastic APM agent is running, the bridge is in noop mode and does not actually record and report spans.
+- Mix and Match +
+  If you want to leverage the auto instrumentation of Elastic APM,
+  but also want do create custom spans or use the OpenTracing API to add custom tags to the spans created by Elastic APM,
+  you can just do that.
+  The OpenTracing bridge and the standard Elastic APM API interact seamlessly.
+- Manual instrumentation +
+  If you don't want Elastic APM to auto-instrument known frameworks,
+  but instead only rely on manual instrumentation,
+  disable the auto instrumentation setting the configuration option <<config-instrument,`instrument`>> to `false`.
+
+[float]
+[[getting-started]]
+== Getting started
+Either `require 'elastic_apm/opentracing'` during the boot of your app or specify the `require:` argument to your `Gemfile`, eg. `gem 'elastic_apm', require: 'elastic_apm/opentracing'`.
+
+[float]
+[[init-tracer]]
+== Set Elastic APM as the global tracer
+
+[source,ruby]
+----
+::OpenTracing.global_tracer = ElasticAPM::OpenTracing::Tracer.new
+----
+
+[float]
+[[elastic-apm-tags]]
+== Elastic APM specific tags
+
+Elastic APM defines some tags which are not included in the OpenTracing API but are relevant in the context of Elastic APM.
+
+- `type` - sets the type of the transaction,
+  for example `request`, `ext` or `db`
+- `user.id` - sets the user id,
+  appears in the "User" tab in the transaction details in the Elastic APM app
+- `user.email` - sets the user email,
+  appears in the "User" tab in the transaction details in the Elastic APM app
+- `user.username` - sets the user name,
+  appears in the "User" tab in the transaction details in the Elastic APM app
+- `result` - sets the result of the transaction. Overrides the default value of `success`.
+  If the `error` tag is set to `true`, the default value is `error`.
+
+[float]
+[[unsupported]]
+== Caveats
+Not all features of the OpenTracing API are supported.
+
+[float]
+[[propagation]]
+=== Context propagation
+This bridge only supports the format `OpenTracing::FORMAT_RACK`, using HTTP headers with capitalized names, prefixed with `HTTP_` as Rack does it.
+
+`OpenTracing::FORMAT_BINARY` is currently not supported.
+
+[float]
+[[references]]
+=== Span References
+Currently, this bridge only supports `child_of` references.
+Other references,
+like `follows_from` are not supported yet.
+
+[float]
+[[baggage]]
+=== Baggage
+The `Span.set_baggage` method is not supported.
+Baggage items are dropped with a warning log message.
+
+[float]
+[[logs]]
+=== Logs
+Logs are currently not supported.

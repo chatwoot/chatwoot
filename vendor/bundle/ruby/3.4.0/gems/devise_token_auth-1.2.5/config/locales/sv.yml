@@ -1,0 +1,52 @@
+sv:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Ett bekräftelse-email har skickats till '%{email}'. Följ instruktionerna i emailet så kan ditt konto aktiveras"
+      bad_credentials: "Ogiltig login-information. Vänligen försök igen."
+      not_supported: "Använd POST /sign_in för att logga in. GET stöds inte."
+      user_not_found: "Användaren hittades inte eller var inte inloggad."
+    token_validations:
+      invalid: "Ogiltig token-information"
+    registrations:
+      missing_confirm_success_url: "Saknar 'confirm_success_url'-parameter."
+      redirect_url_not_allowed: "Omdirigering till '%{redirect_url}' ej tillåten."
+      email_already_exists: "Det finns redan ett konto för '%{email}'"
+      account_with_uid_destroyed: "Kontot med UID '%{uid}' har tagits bort."
+      account_to_destroy_not_found: "Kunde inte hitta kontot för borttagning."
+      user_not_found: "Användaren hittades ej."
+    omniauth:
+      not_allowed_redirect_url: "Omdirigering till '%{redirect_url}' ej tillåten."
+    passwords:
+      missing_email: "Du måste ange en emailadress."
+      missing_redirect_url: "Saknar en omdirigerings-URL."
+      not_allowed_redirect_url: "Omdirigering till '%{redirect_url}' ej tillåten."
+      sended: "Ett email har skickats till '%{email}' med instruktioner för hur du skapar ett nytt lösenord."
+      user_not_found: "Kunde inte hitta användaren med email '%{email}'."
+      password_not_required: "Det har kontot kräver inget lösenord. Logga in via ditt '%{provider}'-konto istället."
+      missing_passwords: "Du måste fylla i fälten 'Lösenord' och 'Upprepa lösenord'."
+      successfully_updated: "Ditt lösenord har ändrats."
+    unlocks:
+      missing_email: "Du måste ange en emailadress."
+      sended: "Ett email har skickats till '%{email}' med instruktioner för hur du låser upp ditt konto."
+      user_not_found: "Kunde inte hitta användaren med emailadressen '%{email}'."
+  errors:
+    messages:
+      validate_sign_up_params: "Vänligen skicka giltig data för att skapa konto i request-bodyn."
+      validate_account_update_params: "Vänligen skicka giltig data för att uppdatera konto i request-bodyn."
+      not_email: "är inte en emailadress"
+  devise:
+    mailer:
+      confirmation_instructions:
+        confirm_link_msg: "Du kan bekräfta ditt kontos emailadress genom att besöka länken nedan:"
+        confirm_account_link: "Bekräfta mitt konto"
+      reset_password_instructions:
+        request_reset_link_msg: "Någon har begärt en länk för att ändra ditt lösenord. Du kan göra detta via länken nedan."
+        password_change_link: "Byt mitt lösenord"
+        ignore_mail_msg: "Om du inte begärt detta, vänligen bortse från detta mail."
+        no_changes_msg: "Ditt lösenord kommer inte att ändras förrän du använder länken ovan och skapar ett nytt."
+      unlock_instructions:
+        account_lock_msg: "Ditt konto har låsts efter för många misslyckade loginförsök."
+        unlock_link_msg: "Klicka på länken nedan för att låsa upp ditt konto:"
+        unlock_link: "Lås upp mitt konto"
+  hello: "hej"
+  welcome: "välkommen"

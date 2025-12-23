@@ -1,0 +1,410 @@
+en:
+  faker:
+    games:
+      sonic_the_hedgehog:
+        zone:
+          - Aerobase Zone
+          - Angel Island Zone
+          - Aqua Lake Zone
+          - Aqua Planet Zone
+          - Aquatic Relix Zone
+          - Aquatic Ruin Zone
+          - Atomic Destroyer Zone
+          - Azure Lake Zone
+          - Balloon Park Zone
+          - Beach Zone
+          - Blue Coast Zone
+          - Blue Marine Zone
+          - Blue Ridge Zone
+          - Blue Sky Zone
+          - Bonus Zone
+          - Boss Attack Zone
+          - Bridge Zone
+          - Carnival Night Zone
+          - Carrier Zone
+          - Casino Night Zone
+          - Casino Paradise Zone
+          - Casino Street Zone
+          - Chaotic Inferno Zone
+          - Chaotic Space Zone
+          - Chemical Plant Zone
+          - Chrome Gadget Zone
+          - Colosseum Highway Zone
+          - Cosmic Angel Zone
+          - Cosmic Casino Zone
+          - Cosmic Zone
+          - Crystal Egg Zone
+          - Crystal Mountain Zone
+          - Cyber City Zone
+          - Death Egg Zone
+          - Death Egg mk.II Zone
+          - Death Yard Zone
+          - Desert Palace Zone
+          - Diamond Dust Zone
+          - Dust Hill Zone
+          - E.G.G. Station Zone
+          - Egg Gauntlet Zone
+          - Egg Reverie Zone
+          - Egg Rocket Zone
+          - Electric Egg Zone
+          - Emerald Hill Zone
+          - Endless Mine Zone
+          - Final Zone
+          - Flying Battery Zone
+          - Forest Falls Zone
+          - Frontier Canyon Zone
+          - Gene Gadget Zone
+          - Genocide City Zone
+          - Gigalopolis Zone
+          - Gigantic Angel Zone
+          - Gimmick Mountain Zone
+          - Great Turquoise Zone
+          - Green Grove Zone
+          - Green Hill Zone
+          - Green Hills Zone
+          - Hidden Palace Zone
+          - Hill Top Zone
+          - Hydrocity Zone
+          - Ice Mountain Zone
+          - IceCap Zone
+          - Jungle Zone
+          - Labyrinth Zone
+          - Last Utopia Zone
+          - Launch Base Zone
+          - Lava Reef Zone
+          - Lost Labyrinth Zone
+          - Mad Gear Zone
+          - Marble Garden Zone
+          - Marble Zone
+          - Mecha Green Hill Zone
+          - Mechanical Zone
+          - Meta Junglira Zone
+          - Metallic Madness Zone
+          - Meteor Base Zone
+          - Metropolis Zone
+          - Mirage Saloon Zone
+          - Mountain Zone
+          - Mushroom Hill Zone
+          - Mystic Cave Zone
+          - Mystic Haunt Zone
+          - Nature Zone
+          - Neo Green Hill Zone
+          - Neo South Island Zone
+          - Neon Palace Zone
+          - Nightmare Zone
+          - Oil Desert Zone
+          - Oil Ocean Zone
+          - Panic Puppet Zone
+          - Press Garden Zone
+          - Proto Palace Zone
+          - Red Volcano Zone
+          - Robotnik Winter Zone
+          - Rusty Ruin Zone
+          - Sandopolis Zone
+          - Scrambled Egg Zone
+          - Scrap Brain Zone
+          - Seaside Hill Zone
+          - Secret Base Zone
+          - Secret Plant Zone
+          - Silver Castle Zone
+          - Sky Base Zone
+          - Sky Chase Zone
+          - Sky Fortress Zone
+          - Sky High Zone
+          - Sky Park Zone
+          - Sky Sanctuary Zone
+          - Sleeping Egg Zone
+          - Splash Hill Zone
+          - Spring Stadium Zone
+          - Spring Yard Zone
+          - Star Light Zone
+          - Stardust Speedway Zone
+          - Studiopolis Zone
+          - Sunset Forest Zone
+          - Sunset Park Zone
+          - Sylvania Castle Zone
+          - Temple Zone
+          - The Doomsday Zone
+          - The Legend of Zelda Zone
+          - The Moon Zone
+          - Tidal Plant Zone
+          - Titanic Monarch Zone
+          - Turquoise Hill Zone
+          - Under Ground Zone
+          - Volcano Valley Zone
+          - White Park Zone
+          - Wing Fortress Zone
+          - Wood Zone
+          - X-Zone
+          - Yellow Desert Zone
+          - Yoshi's Island Zone
+        character:
+          - Alf-Layla-wa-Layla
+          - Ali Baba
+          - Amy Rose
+          - Ashura
+          - Avatar
+          - Badnik
+          - Bark the Polar Bear
+          - Battle Kukku 16th
+          - Bean the Dynamite
+          - Bearenger
+          - Big the Cat
+          - Biolizard
+          - Black Doom
+          - Blacksmith
+          - Blaze the Cat
+          - Caliburn
+          - Captain Whisker
+          - Carrotia
+          - Chaos
+          - Chaos Gamma
+          - Charmy Bee
+          - Cheese the Chao
+          - Chip
+          - Chocola the Chao
+          - Cream the Rabbit
+          - Cubot
+          - Dark Gaia
+          - Dark Super Sonic
+          - Darkspine Sonic
+          - Doctor Fukurokov
+          - Doctor Zachary
+          - Don Fachio
+          - Dr. Eggman
+          - Duke of Soleanna
+          - E-10000B
+          - E-10000G
+          - E-10000R
+          - E-101 β
+          - E-101mkII
+          - E-102 γ
+          - E-103 δ
+          - E-104 ε
+          - E-105 ζ
+          - E-121 Phi
+          - E-123 Ω
+          - Edmund
+          - Eggman Nega
+          - Eggrobo
+          - Princess Elise the Third
+          - Emerl
+          - Erazor Djinn
+          - Espio the Chameleon
+          - Fang the Sniper
+          - Focke-Wulf
+          - Froggy
+          - G-merl
+          - G.U.N. Commander
+          - Gaia Colossus
+          - Gerald Robotnik
+          - Grand Battle Kukku 15th
+          - Has Bean
+          - Heavy
+          - Bomb
+          - Honey the Cat
+          - Iblis
+          - Ifrit
+          - Ifrit Golem
+          - Illumina
+          - Infinite
+          - Ix
+          - Jet the Hawk
+          - Johnny
+          - Julie-su
+          - King Arthur
+          - King Boom Boo
+          - King Shahryār
+          - Knuckles the Echidna
+          - Lily
+          - Luigi
+          - Lumina Flowlight
+          - Maria Robotnik
+          - Marine the Raccoon
+          - Mario
+          - Master Core ABIS
+          - Master Zik
+          - Mecha Knuckles
+          - Mecha Sonic
+          - Mephiles the Dark
+          - Merlin
+          - Merlina the Wizard
+          - Metal Knuckles
+          - Metal Sonic
+          - Metal Sonic 3.0
+          - Mighty the Armadillo
+          - Mii
+          - Miles "Tails" Prower
+          - Mr. Needlemouse
+          - Neo Metal Sonic
+          - NiGHTS
+          - Nimue, Lady of the Lake
+          - Omochao
+          - Orbot
+          - Pachacamac
+          - Perfect Chaos
+          - President of the United Federation
+          - Professor Pickle
+          - Ray the Flying Squirrel
+          - Rocket Metal
+          - Rouge the Bat
+          - Scourge the Hedgehog
+          - SCR-GP
+          - SCR-HD
+          - Shade
+          - Shadow Android
+          - Shadow the Hedgehog
+          - Shahra, the Genie of the Ring
+          - Shugo-hei
+          - Silver the Hedgehog
+          - Sinbad
+          - Sir Galahad
+          - Sir Gawain
+          - Sir Lamorak
+          - Sir Lancelot
+          - Sir Percival
+          - Solaris
+          - Sonic the Hedgehog
+          - Sticks the Badger
+          - Storm the Albatross
+          - Tails Doll
+          - Tiara Boobowski
+          - Tikal
+          - Vanilla the Rabbit
+          - Vector the Crocodile
+          - Wave the Swallow
+          - Wentos
+          - Witchcart
+          - Xbox Live Avatar
+          - Yacker
+          - Zavok
+          - Zazz
+          - Zeena
+          - ZERO
+          - Zomom
+          - Zor
+        game:
+          - Sonic the Hedgehog
+          - Sonic the Hedgehog
+          - Sonic the Hedgehog 2
+          - Sonic the Hedgehog 2
+          - Sonic the Hedgehog Spinball
+          - Sonic the Hedgehog CD
+          - Sonic Chaos
+          - Sonic the Hedgehog 3
+          - Sonic & Knuckles
+          - Sonic the Hedgehog Triple Trouble
+          - Knuckles' Chaotix
+          - Tails' Skypatrol
+          - Tails Adventure
+          - Sonic Labyrinth
+          - Sonic Blast
+          - Sonic Advance
+          - Sonic Advance 2
+          - Sonic Advance 3
+          - Sonic Rush
+          - Sonic Rivals
+          - Sonic Rush Adventure
+          - Sonic Rivals 2
+          - "Sonic the Hedgehog 4: Episode I"
+          - Sonic Colors
+          - Sonic Generations
+          - "Sonic the Hedgehog 4: Episode II"
+          - Sonic Jump
+          - "Sonic Boom: Shattered Crystal"
+          - "Sonic Boom: Fire & Ice"
+          - Sonic Mania
+          - Sonic Mania Plus (2018) 
+          - SegaSonic the Hedgehog
+          - Sonic 3D Blast
+          - Sonic Adventure
+          - Sonic Adventure 2
+          - Sonic Heroes
+          - Shadow the Hedgehog
+          - Sonic the Hedgehog
+          - Sonic and the Secret Rings
+          - Sonic Unleashed
+          - Sonic and the Black Knight
+          - Sonic Colors
+          - Sonic Generations
+          - Sonic Lost World
+          - "Sonic Boom: Rise of Lyric"
+          - Sonic Forces
+          - Sonic Eraser
+          - Dr. Robotnik's Mean Bean Machine
+          - Sonic the Hedgehog's Gameworld
+          - Sonic Labyrinth
+          - Sonic Shuffle
+          - Sonic Pinball Party
+          - Sega Superstars
+          - Sonic and the Secret Rings
+          - Mario & Sonic at the Olympic Games
+          - Sega Superstars Tennis
+          - Mario & Sonic at the Olympic Winter Games
+          - Mario & Sonic at the London 2012 Olympic Games
+          - Mario & Sonic at the Sochi 2014 Olympic Winter Games
+          - Mario & Sonic at the Rio 2016 Olympic Games (2016) 
+          - Waku Waku Sonic Patrol Car
+          - SegaSonic Cosmo Fighter
+          - Sonic Drift
+          - Sonic Drift 2
+          - Sonic R
+          - Sonic Riders
+          - Sonic Rivals
+          - Sonic Rivals 2
+          - "Sonic Riders: Zero Gravity"
+          - Sonic & Sega All-Stars Racing
+          - Sonic Free Riders
+          - Sonic & All-Stars Racing Transformed
+          - "Sonic Forces: Speed Battle"
+          - Wacky Worlds Creativity Studio
+          - Tails and the Music Maker
+          - Sonic the Hedgehog's Gameworld
+          - Sonic's Schoolhouse
+          - Sonic X
+          - Sonic the Fighters
+          - Sonic Battle
+          - Super Smash Bros. Brawl
+          - Super Smash Bros. for Nintendo 3DS and Wii U
+          - Sonic Battle
+          - "Sonic Chronicles: The Dark Brotherhood"
+          - Mario & Sonic at the Olympic Winter Games
+          - Mario & Sonic at the London 2012 Olympic Games
+          - Sonic Dash
+          - Sonic Runners
+          - "Sonic Dash 2: Sonic Boom"
+          - Sonic Runners Adventure
+          - Sonic the Hedgehog 3D Chess
+          - Sonic Monopoly
+          - Sonic Boom Monopoly
+          - Sonic the Hedgehog Spinball
+          - Dr. Robotnik's Mean Bean Machine
+          - Sonic 2 in 1
+          - Sonic Compilation
+          - Sonic CD
+          - "Sonic 3D Blast: Flickies' Island"
+          - Sonic Blast
+          - Sonic & Knuckles Collection
+          - Sonic Jam
+          - Sonic R
+          - Sonic the Hedgehog Pocket Adventure
+          - "Sonic Adventure 2: Battle"
+          - Sonic Mega Collection
+          - Sonic N
+          - "Sonic Adventure DX: Director's Cut"
+          - Sonic Heroes
+          - Sonic Gems Collection
+          - Sonic the Hedgehog Genesis
+          - Sega Genesis Collection
+          - Sonic's Ultimate Genesis Collection
+          - Sonic Classic Collection
+          - Sonic & Sega All-Stars Racing Arcade
+          - Sonic the Fighters
+          - 3D Sonic the Hedgehog
+          - Sonic the Hedgehog
+          - Sonic the Hedgehog 2
+          - 3D Sonic the Hedgehog 2
+          - Sega 3D Classics Collection
+          - Team Sonic Racing
+          - Super Smash Bros. Ultimate
+          - Sega Heroes

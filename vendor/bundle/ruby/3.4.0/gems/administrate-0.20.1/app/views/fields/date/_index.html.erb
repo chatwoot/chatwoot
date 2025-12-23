@@ -1,0 +1,21 @@
+<%#
+# Date Index Partial
+
+This partial renders a date attribute,
+to be displayed on a resource's index page.
+
+By default, the attribute is rendered
+as a localized date string.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Date][1].
+  A wrapper around the Date value pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Date
+%>
+
+<% if field.data %>
+  <%= field.date %>
+<% end %>

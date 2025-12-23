@@ -1,0 +1,16 @@
+<div id="<%%= dom_id <%= chat_model_name.demodulize.underscore %> %>">
+  <div>
+    <strong>Model:</strong>
+    <%%= <%= chat_model_name.demodulize.underscore %>.<%= model_table_name.singularize %>&.name || 'Default' %>
+  </div>
+
+  <div>
+    <strong>Messages:</strong>
+    <%%= <%= chat_model_name.demodulize.underscore %>.<%= message_table_name %>.count %>
+  </div>
+
+  <div>
+    <strong>Created:</strong>
+    <%%= <%= chat_model_name.demodulize.underscore %>.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+  </div>
+</div>

@@ -1,0 +1,582 @@
+en:
+  faker:
+    games:
+      warhammer_fantasy:
+        heros:
+        - Aenarion the Defender
+        - Caledor the Dragontamer
+        - Alarielle the Radiant
+        - Alith Anar
+        - Eltharion the Grim
+        - Asarnil the Dragonlord
+        - Finubar the Seafarer
+        - Imrik
+        - Selafyn of the Annulii
+        - Teclis
+        - Tyrion
+        - Caradryan
+        - Malekith
+        - Malus Darkblade
+        - Morathi
+        - Shadowblade
+        - Hellebron
+        - Lokhir Fellheart
+        - Kouran Darkhand
+        - Tullaris Dreadbringer
+        - Hubris Rakarth
+        - Ariel
+        - Araloth
+        - Drycha
+        - Durthu
+        - Naestra & Arahan
+        - Orion
+        - Scarloc
+        - Aekold Helbrass
+        - An'ggrath the Unbound
+        - Arbaal the Undefeated
+        - Archaon
+        - Azazel, Prince of Damnation
+        - Be'lakor
+        - Crom the Conqueror
+        - Dechala the Denied One
+        - Egrimm von Horstmann
+        - Feytor the Tainted
+        - Festus the Leechlord
+        - Galrauch
+        - Gorthor
+        - Ghorros Warhoof
+        - Haargroth the Blooded One
+        - Harald Hammerstorm
+        - Khazrak the One-Eye
+        - Kholek Suneater
+        - Malagor, the Dark Omen
+        - Morghur, Master of Skulls
+        - Sigvald the Magnificant
+        - Skarbrand the Exiled One
+        - Throg
+        - U'Zuhl the Skulltaker
+        - Valkia the Blooded
+        - Vilitch the Curseling
+        - Wulfrik the Wanderer
+        - Azhag the Slaughterer
+        - Borgut Facebeater
+        - Gorbad Ironclaw
+        - Gorfang Rotgut
+        - Grimgor Ironhide
+        - Grom the Paunch
+        - Morglum Necksnapper
+        - Skarsnik & Gobbla
+        - Alaric the Man
+        - Alrik Ranulfsson
+        - Garagrim Ironfist
+        - Gotrek Gurnisson
+        - Grimnir
+        - Grombrindal, the White Dwarf
+        - Josef Bugman
+        - King Kazador
+        - Malakai Makaisson
+        - Snorri Nosebiter
+        - Thorek Ironbrow
+        - Thorgrim Grudgebearer
+        - Ungrim Ironfist
+        - Alberic d'Bordeleau
+        - Armand d'Aquitaine
+        - Bohemond Beastslayer
+        - Chilfroy d'Artois
+        - Fay Enchantress
+        - The Green Knight
+        - Louen Leoncoeur
+        - Repanse de Lyonesse
+        - Roland le Marechal
+        - Borgio the Besieger
+        - Detlef Sierc
+        - Lietpold the Black
+        - Lorenzo Lupo
+        - Lucrezzia Belladonna
+        - Marco Colombo
+        - Aldebrand Ludenhof
+        - Balthasar Gelt
+        - Boris Todbringer
+        - Brunner the bounty hunter
+        - Constant Drachenfel
+        - Detlef Sierc
+        - Karl Franz
+        - Kurt Helborg
+        - Ludwig Schwarzhelm
+        - Luthor Huss
+        - Magnus the Pious
+        - Mathias Thulmann
+        - Markus Wulfhart
+        - Marius Leitdorf
+        - Morgan Bernhard
+        - Sigmar Heldenhammer
+        - Thyrus Gormann
+        - Valten
+        - Valmir von Raukov
+        - Volkmar 'the Grim' von Hindenstern
+        - Tzarina Katarin
+        - Tzar Boris
+        - Abhorash
+        - Arkhan the Black
+        - Dieter Hellsnicht
+        - Doomlord of Middenheim
+        - Dread King
+        - Genevieve Dieudonnè
+        - Hand of Ualapt
+        - Heinrich Kemmler the Lichemaster
+        - High Priest Herak
+        - Khalida Neferher
+        - Krell, Lord of Undeath
+        - Lady Melissa d'Arque
+        - Melkhior
+        - Luthor Harkon
+        - Nagash
+        - Neferata
+        - The Red Duke
+        - Settra
+        - Ushoran
+        - Usirian's Keeper
+        - Vlad Von Carstein
+        - Walach
+        - W'soran
+        - Melchior
+        - Zacharias the Everliving
+        - Deathmaster Snikch
+        - Grey Seer Thanquol
+        - Ikit Claw
+        - Lurk Snitchtongue
+        - Plague Lord Nurglitch
+        - Lord Skrolk
+        - Skweel Gnawtooth
+        - Thrott the Unclean
+        - Tretch Craventail
+        - Warlord Queek
+        - Greasus Goldtooth
+        - Skrag the Slaughterer
+        - Jhared the Red
+        - Golgfag Maneater
+        - Bragg the Gutsman
+        - Ghark Ironskin
+        - Lord Mazdamundi
+        - Venerable Lord Kroak
+        - Kroq-gar
+        - Grymloq
+        - Nakai
+        - Tehenauin
+        - Adohi-Tehga Lord of Tlaxtlan
+        - Chakax the eternity warden
+        - Oxyotl
+        - Tetto'Eko
+        - Tiktaq'To
+        - Ten Zlati
+        - Yin-tuan
+        quotes:
+        - If the battlements are carried, throw all your strength there. Such an advantage
+          is allways darely won.
+        - Walls can't dodge!
+        - The softest part of a castle is the belly of the man inside.
+        - The gods have seen fit to populate the Old World with all manner of foul
+          monsters. They've also seen fit to grant me with a keen eye and a strong
+          bow to hunt them with.
+        - Grimgor iz da best!
+        - The only good stunty is a dead stunty, and the only thing better than a
+          dead stunty is a dyin' stunty who tells yer where to find 'is mates.
+        - Stamp and trample! Gore and crush!
+        - Then came one they called Gibberkin. No fouler thing have I ever witnessed.
+        - Tear down their totems, befoul their colours! Kill the kings and burn the
+          priests! Into the mud with them, break their skulls and eat their hearts!
+        - Their walls will fall. Their faith will fail. Their flesh will tear.
+        - 'Manling coins are like their words: never trust them. Use your weighing
+          scales and keep your axe handy!'
+        - No Rest until the Blood of Greenskins flows like Dark Ale upon the Earth!
+        - We are the chosen of Asuryan, beloved of the gods and heirs to the world.
+          Our armies are the finest in creation; swift where our foes are lumbering,
+          cultured where they are barbaric. Give no thought to failure, nor defeat
+          – we are the Children of Ulthuan and we shall prevail.
+        - Before Elves, before Dwarfs, before Men, the Old Ones arrived upon this
+          world. Then came Chaos and the Great Plan of the Old Ones was unmade. We
+          are the last of their servants, and only by our hand shall the Great Plan
+          be restored, with the total defeat of the usurping younger races.
+        - At the time of the three hundredth cycle of this world, the two moons shall
+          unite and summon forth the Rodent God and his evil spawn to deliver plague
+          and pestilence upon the land named Lustria
+        - The more we study our inner light, the more profound becomes the outer darkness.
+        - There is wisdom and there is ignorance, and in between are the gateways
+          to eternity through which the Old Ones so long ago passed.
+        - Pass me another Itxi grub.
+        - Your doom is coming, man-things.
+        - Skaven society is a tyranny moderated by assassination.
+        - Yes-yes Warlord Krizk - for a treaty-pledge of just 200 Slaves, 12 claws
+          of warptokens, a Breeder and certain alliances and pledges, one of our very-very
+          finest Clan Moulder Rat Ogres can be yours...
+        - Kill-Kill!
+        - All tunnels lead to Skavenblight
+        - Please, come in and join me for dinner. I can see from the way you dress,
+          you are a man of exquisite...taste
+        - Surrender and serve me in life, or die and slave for me in death.
+        - Awake O Dead, for there can be no rest for ye beneath the earth. Let the
+          splintered bones burrow from the grave pall. Let cold fingers grip time-worn
+          blades, and unseeing eyes survey the fields of slaughter. For your time
+          has come once more. And the dead shall walk.
+        - Athel Loren shall not suffer the presence of Men, nor Orcs, nor Dwarfs,
+          nor Beastmen. If a foe takes a single step upon such sacred soil, they shall
+          not take another.
+        - The new mountains gave us shelter... We made fire in their mouths... The
+          tribes split the lands... The Tyrants roared and fought... There were many
+          kingdoms... It was good for many winters... The tribes grew and grew too
+          much. Now we follow the sun once more...
+        - The Ogres were born long ago... Big, strong and fat... The little round
+          ones by our side... We ate and drank till our guts filled...
+        - Then came the plains and the tribes... Beast, sun, grass, wind, earth...
+          The Sunrisers gave us fire... We fought for them and ate their young...
+        - A great tooth comet came... It grew closer by the day... Fire roared in
+          the sky... Killed the night and drove the beast mad...
+        - The Maw was born from the fire... The earth shook at its coming... The flames
+          ate many tribes... To the mountains some fled...
+        - The hungry flame sat in our guts...We ate the mountains to put it out...
+          but the fire was still there...We climbed further still...We ate the Tall
+          Ones' herds... Cavebeast was good meat... We climbed the peaks... Above
+          the skies the giants dwell...
+        - Thinlings came in great wheel huts... We ate them and took the shinny things...
+        locations:
+        - Averland
+        - Hochland
+        - Middenland
+        - Nordland
+        - Ostermark
+        - Ostland
+        - Reikland
+        - Stirland
+        - Tilea
+        - Estalia
+        - Kislev
+        - Lustria
+        - Ulthuan
+        - Naggaroth
+        - The Hinterlands of Khuresh
+        - Nippon
+        - Cathay
+        - The Ind
+        - Araby
+        - Talabecland
+        - The Chaos Wastes
+        - The Badlands
+        - Karaz Ankor
+        - The Southlands
+        - Lustria
+        - Troll Country
+        - Norsca
+        - The Dragon Isles
+        - Khemri
+        - Zorn Uzkul
+        - The Dark Lands
+        - Altdorf
+        - Mordheim
+        - Nuln
+        - Middenheim
+        - The Moot
+        - Talabheim
+        - Wissenland
+        - Barak Varr
+        - Grimhold
+        - Karaz-a-Karak
+        - Karak Angazbar
+        - Karak Angkul
+        - Karak Azgal
+        - Karak Azgaraz
+        - Karak Azul
+        - Karak Bhufdar
+        - Karak Eight Peaks
+        - Karak Eksfilaz
+        - Karak Gantuk
+        - Karak Grom
+        - Karak Hirn
+        - Karak Izor
+        - Karak Kadrin
+        - Karak Kaferkammaz
+        - Karak Norn
+        - Karak Ziflin
+        - Karak Zorn
+        - Zhufbar
+        - Kraka Dorden
+        - Kraka Drak
+        - Kraka Ornsmotek
+        - Kraka Ravnsvake
+        - Black Fortress
+        - The Daemon's Stump
+        - Gash Kadrak
+        - The Gates of Zharr
+        - The Tower of Gorgoth
+        - Uzkulak
+        - Zharr-Naggrund
+        - Karak Dum
+        - Karak Vlag
+        - Karak Varn
+        - Red Eye Mountain
+        - Black Crag
+        - Ekrund
+        - Mount Silverspear
+        - Silver Pinnacle
+        - Karak Zorn
+        - Couronne
+        - L'Anguille
+        - Lyonesse
+        - Artois
+        - Gisoreux
+        - Mousilion
+        - Bordeleaux
+        - Bastonne
+        - Montfort
+        - Aquitaine
+        - Brionne
+        - Quenelles
+        - Parravon
+        - Carcassone
+        - Forest of Loren
+        - The Marches of Couronne
+        - Naggarond
+        - Ghrond
+        - Karond Kar
+        - Hag Graef
+        - Har Ganeth
+        - Clar Karond
+        - Palace of Joyous Oblivion
+        - Ravager of Souls
+        - Talon of Agony
+        - Fortress of Eternal Torture
+        - Citadel of Ecstatic Damnation
+        - Citadel of Desolation
+        - Temple of Spite
+        - Ultimate Oblivion
+        - Tower of Oblivion
+        - Claw of Dominion
+        - Tower of Blessed Dread
+        - Ark of Naggor
+        - Eataine
+        - Avelorn
+        - Cothique
+        - Yvresse
+        - Chrace
+        - Ellyrion
+        - Tiranoc
+        - Saphery
+        - Caledor
+        - Shadowlands
+        - Arnheim
+        - Fortress of Dawn
+        - Citadel of Dusk
+        - Hexoatl
+        - Tlaxtlan
+        - Xlanhuapec
+        - Itza
+        - Zlatlan
+        - Chaqua
+        - Xhotl
+        - Quetza
+        - Chupayotl
+        - Culchan Plains
+        - Nuevo Luccini
+        - Santa Magritta
+        - Skeggi
+        - Cactus Coast
+        - The Isthmus of Pahaux
+        - Iron Mountains
+        - Altar of Ultimate Darkness
+        - Cold Water Lakes
+        - Plain of Spiders
+        - Broken Lands
+        - Pits of Zardok
+        - Doom Glades
+        - Athel Loren
+        - Forest of Arnheim
+        - Ironsand Desert
+        - Isle of Great Beasts
+        - Plain of Dogs
+        - Kraken Lake
+        - Wyvern Lake
+        - Witch Sea
+        - Tyrant Peak
+        - Ashen Coast
+        - Boiling Sea
+        - Red Desert
+        - Sea of Malice
+        - The Monoliths
+        - Hotek's Column
+        - Granite Hills
+        - Spine of Sotek
+        - Copper Desert
+        - Bogenhafen
+        - Bechafen
+        - Essen
+        - Feifdorf
+        - Hergig
+        - Praag
+        - Erengrad
+        - Remas
+        - Miragliano
+        - Luciano
+        - Mountains of Mourn
+        - The Great Bastion
+        - Nan-Gau
+        - Weijin
+        - Warpstone Desert
+        - Reikwald
+        - Dreikwald
+        - The Gryphon Wood
+        - The Grey Mountains
+        - Black Fire Pass
+        - Mad Dog Pass
+        - The Silver Peaks
+        - The Brass Keep
+        - The City of Spires
+        - Isle of Wights
+        - Forge of the Old Ones
+        - Bel Aliad
+        - Copher
+        - El-Haikk
+        - El-Kalabad
+        - Lashiek
+        - Martek
+        - Palace of the Wizard Caliph
+        - Sudenberg
+        - Gulf of Medes
+        - The Great Mortis River
+        - Khemri
+        - Zandri
+        - Numas
+        - Quatar
+        - Bhagar
+        - Rasetra
+        - Mahrak
+        - Lybaras
+        - Lahmia
+        - Ka-Sabar
+        factions:
+        - The Empire
+        - Bretonnia
+        - Kislev
+        - Dwarfs
+        - Chaos Dwarfs
+        - High Elves
+        - Wood Elves
+        - Dark Elves
+        - Lizardmen
+        - Ogre Kingdoms
+        - Orcs & Goblins
+        - Tomb Kings
+        - Vampire Counts
+        - Skaven
+        - Dogs of War
+        - Daemons of Chaos
+        - Warriors of Chaos
+        - Beasts of Chaos
+        creatures:
+        - Chaos Beastman
+        - Centaur
+        - Dragon Ogre
+        - Dryad
+        - Dwarf
+        - Chaos Dwarf
+        - Elf
+        - Dark Elf
+        - Fimir
+        - Giant
+        - Goblin
+        - Gorgon
+        - Halfling
+        - Hobgoblin
+        - Human
+        - Saurus Warrior
+        - Minotaur
+        - Mutant
+        - Ogre
+        - Orc
+        - Black Orc
+        - Skaven
+        - Skaven Grey Seer
+        - Slann
+        - Snotling
+        - Treeman
+        - Troll
+        - Warrior Of Chaos
+        - Zoat
+        - Amoeba
+        - Amphisbaena
+        - Basilisk
+        - Bat
+        - Giant Bat
+        - Bear
+        - Giant Beetle
+        - Bloodsedge
+        - Boar
+        - Bog Octopus
+        - Carnivorous Snapper
+        - Cat
+        - Wild Cat
+        - Chameleoleech
+        - Chaos Hound
+        - Chaos Spawn
+        - Chaos Steed
+        - Chimera
+        - Coatl
+        - Cockatrice
+        - Cold One
+        - Cold One Warhound
+        - Dog
+        - War Dog
+        - Hobhound
+        - Doppelganger
+        - Dragon
+        - Dragon Turtle
+        - Eagle
+        - Fen Worm
+        - Giant Frog
+        - Goldworm
+        - Griffon
+        - Harpy
+        - Hippogriff
+        - Horse
+        - Hydra
+        - Jabberwock
+        - Lashworm
+        - Giant Leech
+        - Mammoth
+        - Manticore
+        - Pegasus
+        - Rat
+        - Giant Rat
+        - Razorbill
+        - Sand Clam
+        - Giant Scorpion
+        - Giant Snail
+        - Snake
+        - Giant Spider
+        - Sunworm
+        - Swarm
+        - Unicorn
+        - Werecreature
+        - Wolf
+        - Wyvern
+        - Bloodthirster
+        - Keeper Of Secrets
+        - Great Unclean One
+        - Lord Of Change
+        - Bloodletter of Khorne
+        - Daemonette of Slaanesh
+        - Plaguebearer of Nurgle
+        - Horror of Tzeentch
+        - Daemonic Hound
+        - Fleshhound of Khorne
+        - Fiend of Slaanesh
+        - Beast of Nurgle
+        - Flamer of Tzeentch
+        - Daemonic Steed
+        - Juggernaut of Khorne
+        - Mount of Slaanesh
+        - Nurglings
+        - Disc of Tzeentch
+        - Daemon Prince
+        - Skink Warrior
+        - Kroxigor
+        - Stegadon
+        - Carnosaur

@@ -1,0 +1,18 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bootsnap-1.16.0/ext/bootsnap
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-fnuyhb sitelibdir\=./.gem.20251220-192266-fnuyhb clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-fnuyhb sitelibdir\=./.gem.20251220-192266-fnuyhb
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-fnuyhb sitelibdir\=./.gem.20251220-192266-fnuyhb install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20251220-192266-fnuyhb/bootsnap
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bootsnap-1.16.0/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-fnuyhb sitelibdir\=./.gem.20251220-192266-fnuyhb clean

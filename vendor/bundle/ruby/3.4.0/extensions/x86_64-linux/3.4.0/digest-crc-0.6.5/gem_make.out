@@ -1,0 +1,470 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/digest-crc-0.6.5/ext/digest
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -rrubygems /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/rake-13.2.1/exe/rake RUBYARCHDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/digest-crc-0.6.5 RUBYLIBDIR\=/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/extensions/x86_64-linux/3.4.0/digest-crc-0.6.5
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc12_3gpp.c
+compiling crc12_3gpp_ext.c
+crc12_3gpp_ext.c: In function ‘Init_crc12_3gpp_ext’:
+crc12_3gpp_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc12_3gpp_ext()
+      |      ^~~~~~~~~~~~~~~~~~~
+crc12_3gpp_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc12_3gpp_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc15.c
+compiling crc15_ext.c
+crc15_ext.c: In function ‘Init_crc15_ext’:
+crc15_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc15_ext()
+      |      ^~~~~~~~~~~~~~
+crc15_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc15_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16.c
+compiling crc16_ext.c
+crc16_ext.c: In function ‘Init_crc16_ext’:
+crc16_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_ext()
+      |      ^~~~~~~~~~~~~~
+crc16_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_ccitt.c
+compiling crc16_ccitt_ext.c
+crc16_ccitt_ext.c: In function ‘Init_crc16_ccitt_ext’:
+crc16_ccitt_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_ccitt_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~
+crc16_ccitt_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_ccitt_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_dnp.c
+compiling crc16_dnp_ext.c
+crc16_dnp_ext.c: In function ‘Init_crc16_dnp_ext’:
+crc16_dnp_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_dnp_ext()
+      |      ^~~~~~~~~~~~~~~~~~
+crc16_dnp_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_dnp_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_genibus.c
+compiling crc16_genibus_ext.c
+crc16_genibus_ext.c: In function ‘Init_crc16_genibus_ext’:
+crc16_genibus_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_genibus_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~~~
+crc16_genibus_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_genibus_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_kermit.c
+compiling crc16_kermit_ext.c
+crc16_kermit_ext.c: In function ‘Init_crc16_kermit_ext’:
+crc16_kermit_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_kermit_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~~
+crc16_kermit_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_kermit_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_modbus.c
+compiling crc16_modbus_ext.c
+crc16_modbus_ext.c: In function ‘Init_crc16_modbus_ext’:
+crc16_modbus_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_modbus_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~~
+crc16_modbus_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_modbus_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_usb.c
+compiling crc16_usb_ext.c
+crc16_usb_ext.c: In function ‘Init_crc16_usb_ext’:
+crc16_usb_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_usb_ext()
+      |      ^~~~~~~~~~~~~~~~~~
+crc16_usb_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_usb_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_x_25.c
+compiling crc16_x_25_ext.c
+crc16_x_25_ext.c: In function ‘Init_crc16_x_25_ext’:
+crc16_x_25_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_x_25_ext()
+      |      ^~~~~~~~~~~~~~~~~~~
+crc16_x_25_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_x_25_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_xmodem.c
+compiling crc16_xmodem_ext.c
+crc16_xmodem_ext.c: In function ‘Init_crc16_xmodem_ext’:
+crc16_xmodem_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_xmodem_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~~
+crc16_xmodem_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_xmodem_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc16_zmodem.c
+compiling crc16_zmodem_ext.c
+crc16_zmodem_ext.c: In function ‘Init_crc16_zmodem_ext’:
+crc16_zmodem_ext.c:22:6: warning: old-style function definition [-Wold-style-definition]
+   22 | void Init_crc16_zmodem_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~~
+crc16_zmodem_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc16_zmodem_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc24.c
+compiling crc24_ext.c
+crc24_ext.c: In function ‘Init_crc24_ext’:
+crc24_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc24_ext()
+      |      ^~~~~~~~~~~~~~
+crc24_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc24_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32.c
+compiling crc32_ext.c
+crc32_ext.c: In function ‘Init_crc32_ext’:
+crc32_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_ext()
+      |      ^~~~~~~~~~~~~~
+crc32_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32_bzip2.c
+compiling crc32_bzip2_ext.c
+crc32_bzip2_ext.c: In function ‘Init_crc32_bzip2_ext’:
+crc32_bzip2_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_bzip2_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~
+crc32_bzip2_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_bzip2_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32_jam.c
+compiling crc32_jam_ext.c
+crc32_jam_ext.c: In function ‘Init_crc32_jam_ext’:
+crc32_jam_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_jam_ext()
+      |      ^~~~~~~~~~~~~~~~~~
+crc32_jam_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_jam_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32_mpeg.c
+compiling crc32_mpeg_ext.c
+crc32_mpeg_ext.c: In function ‘Init_crc32_mpeg_ext’:
+crc32_mpeg_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_mpeg_ext()
+      |      ^~~~~~~~~~~~~~~~~~~
+crc32_mpeg_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_mpeg_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32_posix.c
+compiling crc32_posix_ext.c
+crc32_posix_ext.c: In function ‘Init_crc32_posix_ext’:
+crc32_posix_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_posix_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~
+crc32_posix_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_posix_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32_xfer.c
+compiling crc32_xfer_ext.c
+crc32_xfer_ext.c: In function ‘Init_crc32_xfer_ext’:
+crc32_xfer_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32_xfer_ext()
+      |      ^~~~~~~~~~~~~~~~~~~
+crc32_xfer_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32_xfer_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc32c.c
+compiling crc32c_ext.c
+crc32c_ext.c: In function ‘Init_crc32c_ext’:
+crc32c_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc32c_ext()
+      |      ^~~~~~~~~~~~~~~
+crc32c_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc32c_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc5.c
+compiling crc5_ext.c
+crc5_ext.c: In function ‘Init_crc5_ext’:
+crc5_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc5_ext()
+      |      ^~~~~~~~~~~~~
+crc5_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc5_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc64.c
+compiling crc64_ext.c
+crc64_ext.c: In function ‘Init_crc64_ext’:
+crc64_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc64_ext()
+      |      ^~~~~~~~~~~~~~
+crc64_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc64_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc64_jones.c
+compiling crc64_jones_ext.c
+crc64_jones_ext.c: In function ‘Init_crc64_jones_ext’:
+crc64_jones_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc64_jones_ext()
+      |      ^~~~~~~~~~~~~~~~~~~~
+crc64_jones_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc64_jones_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc64_xz.c
+compiling crc64_xz_ext.c
+crc64_xz_ext.c: In function ‘Init_crc64_xz_ext’:
+crc64_xz_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc64_xz_ext()
+      |      ^~~~~~~~~~~~~~~~~
+crc64_xz_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc64_xz_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc8.c
+compiling crc8_ext.c
+crc8_ext.c: In function ‘Init_crc8_ext’:
+crc8_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc8_ext()
+      |      ^~~~~~~~~~~~~
+crc8_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc8_ext.so
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby -S extconf.rb
+checking for stdint.h... yes
+checking for stddef.h... yes
+creating extconf.h
+creating Makefile
+make clean
+make
+compiling crc8_1wire.c
+compiling crc8_1wire_ext.c
+crc8_1wire_ext.c: In function ‘Init_crc8_1wire_ext’:
+crc8_1wire_ext.c:21:6: warning: old-style function definition [-Wold-style-definition]
+   21 | void Init_crc8_1wire_ext()
+      |      ^~~~~~~~~~~~~~~~~~~
+crc8_1wire_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object crc8_1wire_ext.so

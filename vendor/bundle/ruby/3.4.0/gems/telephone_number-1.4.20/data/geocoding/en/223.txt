@@ -1,0 +1,36 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# https://www.itu.int/oth/T0202000083/en [2016-02-17]
+
+223202|Bamako
+2232070|Bamako
+2232071|Bamako
+2232072|Bamako
+2232073|Bamako
+2232074|Bamako
+2232075|Bamako
+2232076|Bamako
+2232077|Bamako
+2232078|Bamako
+223212|Koulikoro
+223214|Mopti
+223215|Kayes
+223216|Sikasso
+223218|Gao/Kidal
+223219|Tombouctou
+223442|Bamako
+223443|Bamako
+223449|Bamako

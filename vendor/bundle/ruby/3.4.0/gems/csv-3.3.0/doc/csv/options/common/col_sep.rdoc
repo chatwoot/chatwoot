@@ -1,0 +1,57 @@
+====== Option +col_sep+
+
+Specifies the \String column separator to be used
+for both parsing and generating.
+The \String will be transcoded into the data's \Encoding before use.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:col_sep) # => "," (comma)
+
+Using the default (comma):
+  str = CSV.generate do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo,0\nbar,1\nbaz,2\n"
+  ary = CSV.parse(str)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using +:+ (colon):
+  col_sep = ':'
+  str = CSV.generate(col_sep: col_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo:0\nbar:1\nbaz:2\n"
+  ary = CSV.parse(str, col_sep: col_sep)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using +::+ (two colons):
+  col_sep = '::'
+  str = CSV.generate(col_sep: col_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo::0\nbar::1\nbaz::2\n"
+  ary = CSV.parse(str, col_sep: col_sep)
+  ary # => [["foo", "0"], ["bar", "1"], ["baz", "2"]]
+
+Using <tt>''</tt> (empty string):
+  col_sep = ''
+  str = CSV.generate(col_sep: col_sep) do |csv|
+    csv << [:foo, 0]
+    csv << [:bar, 1]
+    csv << [:baz, 2]
+  end
+  str # => "foo0\nbar1\nbaz2\n"
+
+---
+
+Raises an exception if parsing with the empty \String:
+  col_sep = ''
+  # Raises ArgumentError (:col_sep must be 1 or more characters: "")
+  CSV.parse("foo0\nbar1\nbaz2\n", col_sep: col_sep)
+

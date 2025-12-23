@@ -1,0 +1,75 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+      - github-actions
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    env:
+      CI: true
+      PGHOST: 127.0.0.1
+      PGUSER: postgres
+      PGPASS: postgres
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ['2.6', '2.7', '3.0', '3.1']
+        active-record-version-env:
+          - ACTIVE_RECORD_VERSION="~> 5.2.0"
+          - ACTIVE_RECORD_VERSION="~> 6.0.0"
+          - ACTIVE_RECORD_VERSION="~> 6.1.0"
+          - ACTIVE_RECORD_VERSION="~> 7.0.0"
+        allow-failure: [false]
+        include:
+          - ruby-version: '3.1'
+            active-record-version-env: ACTIVE_RECORD_BRANCH="7-0-stable"
+            allow-failure: true
+          - ruby-version: '3.1'
+            active-record-version-env: ACTIVE_RECORD_BRANCH="6-1-stable"
+            allow-failure: true
+        exclude:
+          - ruby-version: '3.0'
+            active-record-version-env: ACTIVE_RECORD_VERSION="~> 5.2.0"
+            allow-failure: false
+          - ruby-version: '3.1'
+            active-record-version-env: ACTIVE_RECORD_VERSION="~> 5.2.0"
+            allow-failure: false
+          - ruby-version: '2.6'
+            active-record-version-env: ACTIVE_RECORD_VERSION="~> 7.0.0"
+            allow-failure: false
+    continue-on-error: ${{ matrix.allow-failure }}
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Set up test database
+      env:
+        PGPASSWORD: postgres
+      run: createdb pg_search_test
+    - name: Update bundle
+      run: ${{ matrix.active-record-version-env }} bundle update
+    - name: Run tests
+      run: ${{ matrix.active-record-version-env }} bundle exec rake

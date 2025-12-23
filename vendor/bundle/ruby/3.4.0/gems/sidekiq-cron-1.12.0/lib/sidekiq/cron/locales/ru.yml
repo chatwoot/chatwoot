@@ -1,0 +1,14 @@
+ru:
+  Job: Задача
+  Cron: Cron
+  CronJobs: Периодические задачи
+  Name: Название
+  'Cron string': Периодичность (синтаксис Cron)
+  EnqueueNow: Запустить
+  AreYouSureDeleteCronJob: Вы действительно хотите удалить задачу «%{job}»?
+  NoCronJobsWereFound: Не найдено периодических задач
+  Enable: Включить
+  Disable: Отключить
+  'Last enqueued': Последний запуск
+  disabled: отключено
+  enabled: включено

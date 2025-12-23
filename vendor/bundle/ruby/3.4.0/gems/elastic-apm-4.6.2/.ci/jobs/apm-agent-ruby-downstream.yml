@@ -1,0 +1,38 @@
+---
+- job:
+    name: apm-agent-ruby/apm-agent-ruby-downstream
+    display-name: APM Agent Ruby Downstream
+    description: APM Agent Ruby Downstream .
+    script-path: .ci/downstreamTests.groovy
+    scm:
+    - github:
+        branch-discovery: no-pr
+        discover-pr-forks-strategy: merge-current
+        discover-pr-forks-trust: permission
+        discover-pr-origin: merge-current
+        discover-tags: true
+        notification-context: 'apm-ci/downstream'
+        property-strategies:
+          all-branches:
+          - suppress-scm-triggering: true
+        repo: apm-agent-ruby
+        repo-owner: elastic
+        credentials-id: 2a9602aa-ab9f-4e52-baf3-b71ca88469c7-UserAndToken
+        ssh-checkout:
+          credentials: f6c7695a-671e-4f4f-a331-acdce44ff9ba
+        clean:
+          after: true
+          before: true
+        prune: true
+        shallow-clone: true
+        depth: 3
+        do-not-fetch-tags: true
+        submodule:
+          disable: false
+          recursive: true
+          parent-credentials: true
+          timeout: 100
+          reference-repo: /var/lib/jenkins/.git-references/apm-agent-ruby.git
+        timeout: '15'
+        use-author: true
+        wipe-workspace: 'True'

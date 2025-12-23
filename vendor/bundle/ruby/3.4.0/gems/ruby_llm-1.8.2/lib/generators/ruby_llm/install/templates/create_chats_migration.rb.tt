@@ -1,0 +1,7 @@
+class Create<%= chat_model_name.gsub('::', '').pluralize %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :<%= chat_table_name %> do |t|
+      t.timestamps
+    end
+  end
+end

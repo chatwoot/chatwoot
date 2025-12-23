@@ -1,0 +1,7 @@
+fr:
+  faker:
+    measurement:
+      metric_height: ["millimètre", "centimètre", "mètre"]
+      metric_length: ["millimètre", "centimètre", "décimètre", "mètre", "décamètre", "hectomètre", "kilomètre"]
+      metric_volume: ["millilitre", "centilitre", "décilitre", "litre", "décalitre", "hectolitre", "décimètre cube", "mètre cube"]
+      metric_weight: ["milligramme", "centigramme", "décigramme", "gramme", "décagramme", "hectogramme", "kilogramme", "tonne", "kilotonne"]

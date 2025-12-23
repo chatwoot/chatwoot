@@ -1,0 +1,59 @@
+<script type="text/javascript" src="<%= root_path %>javascripts/chart.min.js" nonce="<%= csp_nonce %>"></script>
+<script type="text/javascript" src="<%= root_path %>javascripts/chartjs-plugin-annotation.min.js" nonce="<%= csp_nonce %>"></script>
+<script type="text/javascript" src="<%= root_path %>javascripts/base-charts.js" nonce="<%= csp_nonce %>"></script>
+
+<%
+  job_result = @query_result.job_results[@name]
+  hist_totals = job_result.hist.values.first.zip(*job_result.hist.values[1..-1]).map(&:sum).reverse
+  bucket_labels = Sidekiq::Metrics::Histogram::LABELS
+  bucket_intervals = Sidekiq::Metrics::Histogram::BUCKET_INTERVALS
+%>
+
+<% if job_result.totals["s"] > 0 %>
+  <div class="header-container">
+    <div class="page-title-container">
+      <h1>
+        <a href="<%= root_path %>metrics?period=<%= @period %>"><%= t('Metrics') %></a> /
+        <%= h @name %>
+      </h1>
+
+      <a target="blank" href="https://github.com/sidekiq/sidekiq/wiki/Metrics"><span class="info-circle" title="Click to learn more about metrics">?</span></a>
+    </div>
+
+    <%= erb :_metrics_period_select, locals: { periods: @periods, period: @period, path: "#{root_path}metrics/#{@name}" } %>
+  </div>
+
+  <canvas id="hist-totals-chart">
+    <%= to_json({
+      series: hist_totals,
+      labels: bucket_labels,
+      xLabel: t('ExecutionTime'),
+      yLabel: t('Jobs'),
+      units: t('Jobs').downcase,
+    }) %>
+  </canvas>
+
+  <canvas id="hist-bubble-chart">
+    <%= to_json({
+      hist: job_result.hist,
+      marks: @query_result.marks.map { |m| [m.bucket, m.label] },
+      labels: @query_result.buckets,
+      histIntervals: bucket_intervals,
+      yLabel: t('ExecutionTime'),
+      markLabel: t('Deploy'),
+      yUnits: t('Seconds').downcase,
+      zUnits: t('Jobs').downcase,
+    }) %>
+  </canvas>
+
+  <!--p><small>Data from <%= @query_result.starts_at %> to <%= @query_result.ends_at %></small></p-->
+<% else %>
+  <h1>
+    <a href="<%= root_path %>/metrics"><%= t('Metrics') %></a> /
+    <%= h @name %>
+  </h1>
+
+  <div class="alert alert-success"><%= t('NoJobMetricsFound') %></div>
+<% end %>
+
+<script type="text/javascript" src="<%= root_path %>javascripts/metrics.js" nonce="<%= csp_nonce %>"></script>

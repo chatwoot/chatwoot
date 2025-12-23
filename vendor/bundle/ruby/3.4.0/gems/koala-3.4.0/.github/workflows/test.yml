@@ -1,0 +1,32 @@
+name: Test
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: on ruby ${{matrix.ruby}}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby: [2.7, "3.0", 3.1, head]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{matrix.ruby}}
+
+    - name: Install dependencies
+      run: bundle install --jobs 4 --retry 3
+
+    - name: Specs & Coverage
+      uses: paambaati/codeclimate-action@v3.0.0
+      env:
+        CC_TEST_REPORTER_ID: 7af99d9225b4c14640f9ec3cb2e24d2f7103ac49417b0bd989188fb6c25f2909
+      with:
+        coverageCommand: bundle exec rspec

@@ -1,0 +1,108 @@
+name: update-specs
+
+title: synchronize schema specs
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: '{{ requiredEnv "GIT_USER" }}'
+      email: '{{ requiredEnv "GIT_EMAIL" }}'
+      owner: elastic
+      repository: apm-agent-ruby
+      token: '{{ requiredEnv "GITHUB_TOKEN" }}'
+      username: '{{ requiredEnv "GIT_USER" }}'
+      branch: main
+
+sources:
+  sha:
+    kind: file
+    spec:
+      file: 'https://github.com/elastic/apm-data/commit/main.patch'
+      matchpattern: "^From\\s([0-9a-f]{40})\\s"
+    transformers:
+      - findsubmatch:
+          pattern: "[0-9a-f]{40}"
+  error.json:
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/elastic/apm-data/main/input/elasticapm/docs/spec/v2/error.json
+  metadata.json:
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/elastic/apm-data/main/input/elasticapm/docs/spec/v2/metadata.json
+  metricset.json:
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/elastic/apm-data/main/input/elasticapm/docs/spec/v2/metricset.json
+  span.json:
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/elastic/apm-data/main/input/elasticapm/docs/spec/v2/span.json
+  transaction.json:
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/elastic/apm-data/main/input/elasticapm/docs/spec/v2/transaction.json
+
+
+
+
+
+actions:
+  pr:
+    kind: "github/pullrequest"
+    scmid: default
+    sourceid: sha
+    spec:
+      automerge: false
+      draft: false
+      labels:
+        - "automation"
+      description: |-
+        ### What
+        APM agent json schema automatic sync
+        ### Why
+        *Changeset*
+        * https://github.com/elastic/apm-data/commit/{{ source "sha" }}
+
+targets:
+  error.json:
+    name: error.json
+    scmid: default
+    sourceid: error.json
+    kind: file
+    spec:
+      file: spec/fixtures/error.json
+      forcecreate: true
+  metadata.json:
+    name: metadata.json
+    scmid: default
+    sourceid: metadata.json
+    kind: file
+    spec:
+      file: spec/fixtures/metadata.json
+      forcecreate: true
+  metricset.json:
+    name: metricset.json
+    scmid: default
+    sourceid: metricset.json
+    kind: file
+    spec:
+      file: spec/fixtures/metricset.json
+      forcecreate: true
+  span.json:
+    name: span.json
+    scmid: default
+    sourceid: span.json
+    kind: file
+    spec:
+      file: spec/fixtures/span.json
+      forcecreate: true
+  transaction.json:
+    name: transaction.json
+    scmid: default
+    sourceid: transaction.json
+    kind: file
+    spec:
+      file: spec/fixtures/transaction.json
+      forcecreate: true

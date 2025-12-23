@@ -1,0 +1,283 @@
+mi-NZ:
+  faker:
+    name:
+      first_name:
+        - Anahera
+        - Aroha
+        - Ataahua
+        - Awhina
+        - Hana
+        - Hoani
+        - Hohepa
+        - Hone
+        - Ihaia
+        - Ihaka
+        - Kara
+        - Kauri
+        - Maia
+        - Manaaki
+        - Manaia
+        - Manawa
+        - Mārama
+        - Matai
+        - Mikaere
+        - Moana
+        - Ngaire
+        - Nikau
+        - Rangi
+        - Rawiri
+        - Ripeka
+        - Tai
+        - Taika
+        - Tama
+        - Tamati
+        - Tane
+        - Tangaroa
+        - Tawhiri
+        - Te Ao
+        - Te Ariki
+        - Te Aroha
+        - Te Whiti
+        - Tu
+        - Tui
+        - Whina
+        - Wiremu
+      surname:
+        - Arahanga
+        - Heke
+        - Henare
+        - Hiko
+        - Houra
+        - Karaka
+        - Mahia
+        - Mako
+        - Manawaiti
+        - Matene
+        - Mihaere
+        - Mikaere
+        - Ngata
+        - Parata
+        - Paratene
+        - Ruakere
+        - Tahere
+        - Tamahori
+        - Taumata
+        - Tawhiao
+        - Te Kanawa
+        - Te Whiti
+        - Timutimu
+        - Tuhaka
+        - Turei
+        - Waikari
+        - Waititi
+        - Wharerau
+        - Wikaira
+        - Winiata
+        - Wiparata
+      last_name:
+        - "#{surname}"
+        - "#{surname}-#{surname}"
+        - "#{surname} #{surname}"
+      name_with_middle:
+        - "#{first_name} #{last_name} #{last_name}"
+        - "#{first_name} #{first_name} #{last_name}"
+    address:
+      region_abbr:
+        - TTH
+        - TTR
+        - TTT
+        - TT-TK
+      region:
+        - Te Tai Hauāuru
+        - Te Tai Rāwhiti
+        - Te Tai Tonga
+        - Te Tai Tokerau
+      postcode:
+        - 0###
+        - 2###
+        - 3###
+        - 4###
+        - 5###
+        - 6###
+        - 7###
+        - 8###
+        - 9###
+      building_number:
+        - "####"
+        - "###"
+        - "##"
+        - "#/##"
+        - "#/#"
+        - "#?"
+        - "?/##"
+        - "?/##?"
+      secondary_address:
+        - 'RD #'
+        - 'Apt #'
+        - 'Unit #'
+        - 'Level #'
+      place_names:
+        - Kauri
+        - Tōtara
+        - Kowhai
+        - Rata
+        - Pohutakawa
+        - Tawa
+        - Koromiko
+        - Hinau
+        - Manuka
+        - Kanuka
+        - Kawakawa
+        - Ngaio
+        - Karo
+        - Puriri
+        - Rewarewa
+        - Karamu
+        - Ti Kouka
+        - Hōhipera
+        - Kura
+        - Kāreti
+        - Ruapara
+        - Rerewhenua
+        - Teihana
+        - Wāpu
+        - Golf
+        - Arawhiti
+        - Papa Rererangi
+        - Whare Karakia Kakariki
+        - Kahurangi
+        - Mā
+        - Pango
+        - Kōwhai
+        - Poto
+        - Roa
+        - Kereru
+        - Kiwi
+        - Weka
+        - Pukeko
+        - Ruru
+        - Pīwakawaka
+        - Kea
+        - Kaka
+        - Kakariki
+        - Kakapō
+        - Kumara
+        - Riwai
+        - Rapeti
+      landscape_elements:
+        - Tātahi
+        - Roto
+        - Moana
+        - Awa
+        - Pa
+        - Maunga
+        - Māra
+        - Motu
+        - Ngāhere
+      community:
+        - "#{Name.surname}"
+        - "#{place_names}"
+        - "#{place_names} #{landscape_elements}"
+      street_name:
+        - "#{Name.first_name} #{street_suffix}"
+        - "#{Name.last_name} #{street_suffix}"
+        - "#{landscape_elements} #{street_suffix}"
+        - "#{place_names} #{street_suffix}"
+      street_suffix:
+        - Avenue
+        - Boulevard
+        - Circle
+        - Circuit
+        - Court
+        - Crescent
+        - Crest
+        - Drive
+        - Estate Dr
+        - Grove
+        - Hill
+        - Junction
+        - Knoll
+        - Lane
+        - Loop
+        - Mall
+        - Manor
+        - Meadow
+        - Mews
+        - Parade
+        - Pass
+        - Place
+        - Plaza
+        - Ridge
+        - Road
+        - Run
+        - Square
+        - Street
+        - St
+        - Summit
+        - Terrace
+        - Track
+        - Trail
+        - View Road
+        - Way
+        - Esplanade
+      default_country:
+        - Aotearoa
+      default_country_code:
+        - NZ
+      city:
+        - Ahuriri
+        - Awaroa
+        - Heretaunga
+        - Hokitika
+        - Kā Roimata o Hine Hukatere
+        - Kaikōura
+        - Kaitaia
+        - Kaiwaewae
+        - Kapanga
+        - Kāpiti
+        - Manawatu
+        - Manukau
+        - Māwhera
+        - Ngāmotu
+        - Ngāruawahia
+        - Ngāruawahia
+        - Ōamaru
+        - Ōtaki
+        - Otautahi
+        - Ōtepoti
+        - Papawai
+        - Pā nui o Hau
+        - Rānui
+        - Rotorua-nui-a-Kahumatamomoe
+        - Tāmaki Makaurau
+        - Taranaki
+        - Taupo-nui-a-Tia
+        - Tauranga-Moana
+        - Te Moeka o Tūawe
+        - Te Tai Poutini
+        - Te Waipounamu
+        - Te Whanganui-a-Tara
+        - Te Tihi-o-MaruTōtaranui
+        - Tūranganui-a-Kiwa
+        - Waiharakeke
+        - Waihōpai
+        - Waikato
+        - Whakatāne
+        - Whakatū
+        - Whanganui
+        - Whangarei
+        - Wharekākā
+      mail_box:
+        - "PO Box ##"
+        - "PO Box #####"
+        - "CMB ##"
+        - "CMB C#"
+      street_address:
+        - "#{building_number} #{street_name}"
+      full_address:
+        - "#{street_address}, #{city} #{postcode}"
+        - "#{street_address}, #{secondary_address}, #{city} #{postcode}"
+        - "#{street_address}, #{community}, #{city} #{postcode}"
+        - "#{street_address}, #{community}, #{city} #{postcode}"
+        - "#{mail_box} #{community} #{postcode}"
+        - "#{mail_box}, #{community}, #{city} #{postcode}"

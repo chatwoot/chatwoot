@@ -1,0 +1,58 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/stackprof-0.2.25/ext/stackprof
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for rb_postponed_job_register_one()... yes
+checking for rb_profile_frames()... yes
+checking for rb_tracepoint_new()... yes
+checking for RUBY_INTERNAL_EVENT_NEWOBJ... yes
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-66v3um sitelibdir\=./.gem.20251220-192266-66v3um clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-66v3um sitelibdir\=./.gem.20251220-192266-66v3um
+compiling stackprof.c
+stackprof.c: In function ‘stackprof_signal_handler’:
+stackprof.c:760:9: warning: ‘rb_postponed_job_register_one’ is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  760 |         rb_postponed_job_register_one(0, stackprof_job_record_gc, (void*)0);
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stackprof.c:11:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:770:5: note: declared here
+  770 | int rb_postponed_job_register_one(unsigned int flags, rb_postponed_job_func_t func, void *data);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stackprof.c:763:13: warning: ‘rb_postponed_job_register_one’ is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  763 |             rb_postponed_job_register_one(0, stackprof_job_sample_and_record, (void*)0);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stackprof.c:11:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:770:5: note: declared here
+  770 | int rb_postponed_job_register_one(unsigned int flags, rb_postponed_job_func_t func, void *data);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stackprof.c:769:13: warning: ‘rb_postponed_job_register_one’ is deprecated: use rb_postponed_job_preregister and rb_postponed_job_trigger [-Wdeprecated-declarations]
+  769 |             rb_postponed_job_register_one(0, stackprof_job_record_buffer, (void*)0);
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from stackprof.c:11:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/debug.h:770:5: note: declared here
+  770 | int rb_postponed_job_register_one(unsigned int flags, rb_postponed_job_func_t func, void *data);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+stackprof.c: In function ‘Init_stackprof’:
+stackprof.c:911:5: warning: ‘rb_data_object_wrap_warning’ is deprecated: by TypedData [-Wdeprecated-declarations]
+  911 |     gc_hook = Data_Wrap_Struct(rb_cObject, stackprof_gc_mark, NULL, &_stackprof);
+      |     ^~~~~~~
+In file included from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core.h:27,
+                 from /home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/ruby.h:29,
+                 from stackprof.c:9:
+/home/aurelio/.rbenv/versions/3.4.4/include/ruby-3.4.0/ruby/internal/core/rdata.h:293:1: note: declared here
+  293 | rb_data_object_wrap_warning(VALUE klass, void *ptr, RUBY_DATA_FUNC mark, RUBY_DATA_FUNC free)
+      | ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+stackprof.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object stackprof/stackprof.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-66v3um sitelibdir\=./.gem.20251220-192266-66v3um install
+/usr/bin/install -c -m 0755 stackprof.so ./.gem.20251220-192266-66v3um/stackprof
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/stackprof-0.2.25/ext/stackprof
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-66v3um sitelibdir\=./.gem.20251220-192266-66v3um clean

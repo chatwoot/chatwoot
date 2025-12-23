@@ -1,0 +1,9 @@
+<!-- Added by Scout DevTrace -->
+<script language="JavaScript">
+  (function(){var open=window.XMLHttpRequest.prototype.open;var send=window.XMLHttpRequest.prototype.send;function openReplacement(method,url,async,user,password){this._url=url;return open.apply(this,arguments);}
+    function sendReplacement(data){if(this.onload){this._onload=this.onload;}
+      this.onload=onLoadReplacement;return send.apply(this,arguments);}
+    function onLoadReplacement(){if(this._url.startsWith(window.location.protocol+"//"+window.location.host)||!this._url.startsWith("http")){try{var traceText=this.getResponseHeader("X-scoutapminstant");if(traceText){setTimeout(function(){window.scoutInstant("addTrace",traceText)},0);}}catch(e){console.debug("Problem getting X-scoutapminstant header");}}
+      if(this._onload){return this._onload.apply(this,arguments);}}
+    window.XMLHttpRequest.prototype.open=openReplacement;window.XMLHttpRequest.prototype.send=sendReplacement;})();
+</script>

@@ -1,0 +1,32 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/datadog-2.19.0/ext/libdatadog_api
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for whether -std=gnu99 is accepted as CFLAGS... yes
+checking for whether -Wno-declaration-after-statement is accepted as CFLAGS... yes
+checking for whether -Werror-implicit-function-declaration is accepted as CFLAGS... yes
+checking for whether -Wunused-parameter is accepted as CFLAGS... no
+checking for whether -fvisibility=hidden is accepted as CFLAGS... yes
+checking for whether -Wold-style-definition is accepted as CFLAGS... yes
+checking for whether -Wall is accepted as CFLAGS... yes
+checking for whether -Wextra is accepted as CFLAGS... yes
+Using libdatadog 18.1.0.1.0 from /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/libdatadog-18.1.0.1.0-x86_64-linux/vendor/libdatadog-18.1.0/x86_64-linux/libdatadog-x86_64-unknown-linux-gnu/lib/pkgconfig
+checking for pkg-config for datadog_profiling_with_rpath... ["-I/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/libdatadog-18.1.0.1.0-x86_64-linux/vendor/libdatadog-18.1.0/x86_64-linux/libdatadog-x86_64-unknown-linux-gnu/lib/pkgconfig/../../include ", "-L/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/libdatadog-18.1.0.1.0-x86_64-linux/vendor/libdatadog-18.1.0/x86_64-linux/libdatadog-x86_64-unknown-linux-gnu/lib/pkgconfig/../../lib -Wl,-rpath,/home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/libdatadog-18.1.0.1.0-x86_64-linux/vendor/libdatadog-18.1.0/x86_64-linux/libdatadog-x86_64-unknown-linux-gnu/lib/pkgconfig/../../lib", "-ldatadog_profiling"]
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-m1d6eh sitelibdir\=./.gem.20251220-192266-m1d6eh clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-m1d6eh sitelibdir\=./.gem.20251220-192266-m1d6eh
+compiling crashtracker.c
+compiling datadog_ruby_common.c
+compiling init.c
+compiling library_config.c
+compiling process_discovery.c
+linking shared-object libdatadog_api.3.4_x86_64-linux.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-m1d6eh sitelibdir\=./.gem.20251220-192266-m1d6eh install
+/usr/bin/install -c -m 0755 libdatadog_api.3.4_x86_64-linux.so ./.gem.20251220-192266-m1d6eh
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/datadog-2.19.0/ext/libdatadog_api
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-m1d6eh sitelibdir\=./.gem.20251220-192266-m1d6eh clean

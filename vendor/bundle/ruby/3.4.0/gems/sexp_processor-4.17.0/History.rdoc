@@ -1,0 +1,467 @@
+=== 4.17.0 / 2023-05-03
+
+* 2 minor enhancements:
+
+  * Added Sexp#line_max=.
+  * Will load strict_sexp if $SP_DEBUG is set.
+
+* 3 bug fixes:
+
+  * Sexp#line_max lazy accessor now compacts.
+  * Sexp#new copies line_max if defined.
+  * strict_sexp.rb: #first can take an int arg. Fixed mutator wrappers to pass args.
+
+=== 4.16.1 / 2022-04-09
+
+* 1 minor enhancement:
+
+  * Reworked ParseTreeTestCase's notion of versions to make it easier to extend.
+
+=== 4.16.0 / 2021-10-27
+
+* 4 minor enhancements:
+
+  * Added Sexp#value (pushed up from ruby_parser).
+  * Aliased Sexp#concat to #_concat and use that so it can be overridden.
+  * Cache the #hash result.
+  * StrictSexp mode (4) now covers concat.
+
+* 3 bug fixes:
+
+  * Fix some doco on each_sexp to clarify that it is not recursive.
+  * Fixed a bug calling enum_for when using each_of_type w/ no block.
+  * Minor fixes to pt_testcase.rb for custom timeouts and better error handling.
+
+=== 4.15.3 / 2021-05-15
+
+* 1 minor enhancement:
+
+  * Added 3.0 to pt_testcase.rb
+
+=== 4.15.2 / 2021-01-10
+
+* 1 bug fix:
+
+  * Bumped ruby version to include < 4 (trunk).
+
+=== 4.15.1 / 2020-08-31
+
+* 1 bug fix:
+
+  * Bumped ruby version to include 3.0 (trunk).
+
+=== 4.15.0 / 2020-06-09
+
+* 1 minor enhancement:
+
+  * Added `child` and `include` to Sexp::Matcher.parse language.
+
+=== 4.14.1 / 2020-02-09
+
+* 2 bug fixes:
+
+  * Declared support for ruby 2.2+ to gemspec.
+  * Fixed alias for `not?` to `-` for ruby <= 2.4. (nard-tech).
+
+=== 4.14.0 / 2020-02-06
+
+* 4 minor enhancements:
+
+  * Added '-' as an alias for the 'not?' pattern matching command.
+  * Added Klass matcher to match on types.
+  * Added `k` shortcut for Klass & hooked into Sexp::Matcher.parse.
+  * Added any matcher to pattern parser.
+
+=== 4.13.0 / 2019-09-24
+
+* 4 minor enhancements:
+
+  * Added Sexp.q (query) and deprecated Sexp.s to distinguish better and match inspect output.
+  * Extended Sexp::Matcher::Parser to allow `not?` patterns.
+  * Extended Sexp::Matcher::Parser to cover more method names.
+  * Split out all pattern-oriented code to sexp_matcher.rb.
+
+* 1 bug fix:
+
+  * Fixed bug w/ ruby's Array#eql? and #hash not looking at ivars.
+
+=== 4.12.1 / 2019-06-03
+
+* 1 minor enhancement:
+
+  * Sexp#line now raises if setting w/ non-integer (eg nil).
+
+* 3 bug fixes:
+
+  * Fixed pt_testcase.rb for block args w/ trailing commas.
+  * Fixed pt_testcase.rb for stabby proc sexps.
+  * Simple fixes for STRICT_SEXP=1.
+
+=== 4.12.0 / 2019-03-12
+
+* 3 bug fixes:
+
+  * Fixed sexp_body to return empty sexp instead of nil when using STRICT_SEXP.
+  * STRICT_SEXP=4+ fails w/ current use of concat. Removed concat from strictness for now.
+  * Use concat internally instead of splat. Some people have 20000 node sexps! (presidentbeef)
+
+=== 4.11.0 / 2018-04-05
+
+* 1 minor enhancement:
+
+  * Extended deep_each to skip subtrees if block returns :skip.
+
+=== 4.10.1 / 2018-02-15
+
+* 1 minor enhancement:
+
+  * Tweaked pt_testcase for ruby 2.5 and better ruby2ruby test data.
+
+=== 4.10.0 / 2017-07-17
+
+* 2 major enhancements:
+
+  * Added experimental pattern matcher to Sexp. Forked from sexp_path.
+  * Extended s to take a block and return a matcher: eg s{ s(:defn, atom, _, ___) }
+
+* 23 minor enhancements:
+
+  * Added $STRICT_SEXP to crank down Sexp.[] and friends.
+  * Added Matcher#/ w/ real functionality.
+  * Added Sexp#/ to search with new patterns.
+  * Added Sexp#map to ensure you get a Sexp back.
+  * Added Sexp#new to create a new sexp with the same file/line/comment info.
+  * Added Sexp#search_each to recursively search w/ new patterns. Returns enum if no block.
+  * Added Sexp#sexp_body=
+  * Added Sexp::Matcher.match_subs? and .match_subs= to extend =~ so you can match strictly.
+  * Added Sexp::Matcher.parse to convert lispy string to safe matcher: "(defn atom _ ___)"
+  * Added all mutation methods to STRICT_SEXP >= 4
+  * Added deprecation message to Sexp#structure for [s(...)] forms.
+  * Added strict_sexp.rb to help you clamp down for future changes. STRICT_SEXP=1+
+  * Auto-require strict_sexp if $STRICT_SEXP is > 0.
+  * Converted a lot of indexed access to sexp_type/sexp_body, etc.
+  * Finally enforced SexpProcessor#process to only process sexps, not bare arrays.
+  * Made Sexp#/ double-dispatch to Matcher#/.
+  * Made Sexp#gsub work with new patterns.
+  * Made Sexp#sub work with new patterns.
+  * Made SexpProcessor STRICT_SEXP=4 compliant.
+  * Retired SexpMatchSpecial & SexpAny. Never used by anything AFAICT.
+  * Sexp#=== goes back to default.
+  * Sexp#=~(pat) calls pat =~ self.
+  * Sexp#sexp_body now takes optional offset. Use instead of sexp[n..-1].
+
+* 9 bug fixes:
+
+  * Extended Sexp::Matcher::Parser.parse to lex more forms of regexp.
+  * Finished off all missing doco.
+  * Fixed == methods on all Matcher classes to include ivars.
+  * Fixed Child#satisfy? to properly return false if failed.
+  * Fixed Sexp#sexp_body to return a sexp using Sexp#new.
+  * Fixed map to use Sexp#new.
+  * Only try to set c_type if it responds to it. Make STRICT_SEXP safe.
+  * R2C has a hack in SexpProcessor to call sexp_type=. Renamed to c_type= in R2C.
+  * Removed very obsolete attrset test from pt_testcase.rb
+
+=== 4.10.0b1 / 2017-06-13
+
+Beta of the above.
+
+=== 4.9.0 / 2017-04-13
+
+* 9 minor enhancements:
+
+  * Added Sexp.depth
+  * Added Sexp.sexp_type=
+  * Cache Sexp.line_max. Massively speeds up large flay runs.
+  * Cleaned up SexpProcessor.process handling of result node type.
+  * Extend pt_testcase for ruby 2.4 tests.
+  * Extended Sexp.method_missing to only print on every invocation if $VERBOSE=1
+  * Extended Sexp.method_missing to warn if the expected sub-sexp is not found.
+  * Rewrote Sexp.mass to be MUCH faster. Helps tremendously with flay on large files.
+  * Warn that Sexp#method_missing was tripped if $DEBUG.
+
+=== 4.8.0 / 2017-02-01
+
+* 2 minor enhancements:
+
+  * Added Sexp#line_max
+  * Extended MethodBasedSexpProcessor#in_method to take line_max and record span.
+
+=== 4.7.0 / 2016-02-18
+
+* 2 minor enhancements:
+
+  * Expand to support 2.3 in tests. (presidentbeef)
+  * Return enumerable for deep_each, each_sexp, and each_of_type. (ridiculous)
+
+=== 4.6.1 / 2016-01-21
+
+* 1 bug fix:
+
+  * defs should have a nil node if body is empty.
+
+=== 4.6.0 / 2015-05-28
+
+* 2 minor enhancements:
+
+  * Extended generate_test to deal with 19 and up.
+  * Extended pt_testcase.rb so add_19tests means 19 and up.
+
+* 1 bug fix:
+
+  * Added and normalized tests to deal with canonicalized block args from ruby_parser.
+
+=== 4.5.1 / 2015-04-27
+
+* 1 minor enhancement:
+
+  * Cache processors and rewriters. Significant speedup. (presidentbeef)
+
+=== 4.5.0 / 2015-03-09
+
+* 1 minor enhancement:
+
+  * Added SexpProcessor::expand_dirs_to_files as a utility to cmdline tools.
+
+=== 4.4.5 / 2015-01-16
+
+* 1 bug fix:
+
+  * Removed shebangs in tests because of bugs (aka 'features') in RPM packaging tools.
+
+=== 4.4.4 / 2014-08-14
+
+* 1 bug fix:
+
+  * MethodBasedSexpProcessor#in_klass clears out the method_stack for the duration of the block.
+
+=== 4.4.3 / 2014-03-24
+
+* 1 bug fix:
+
+  * Fixed a bunch of pt_testcase entries for 1.9/2.0 wrt ruby2ruby.
+
+=== 4.4.2 / 2014-03-14
+
+* 2 minor enhancements:
+
+  * Changed skipped versioned tests to return, not skip. Reduces noise so you can focus on real skips.
+  * Extended versioned tests to include 2.0 and 2.1.
+
+=== 4.4.1 / 2013-12-13
+
+* 1 bug fix:
+
+  * Added parenthesis to fix the structure_remove_begin_1 testcase. (bocete)
+
+=== 4.4.0 / 2013-10-18
+
+* 1 minor enhancement:
+
+  * Added MethodBasedSexpProcessor, extracted from Flog.
+
+=== 4.3.0 / 2013-08-19
+
+* 1 minor enhancement:
+
+  * Switched ParseTreeTestCase to minitest 5.
+
+=== 4.2.1 / 2013-04-09
+
+* 1 bug fix:
+
+  * Removed structure_unused_literal_wwtt because I just don't care anymore
+
+=== 4.2.0 / 2013-03-18
+
+* 2 minor enhancements:
+
+  * Added SexpInterpreter since it is such a common pattern
+  * Added aliases Sexp#head & Sexp#rest for readability
+
+=== 4.1.5 / 2013-02-14
+
+* 2 bug fixes:
+
+  * Clarified role of s method. Fixes #12.
+  * maglev: Workaround for bug in Array#shift
+
+=== 4.1.4 / 2013-01-22
+
+* 1 minor enhancement:
+
+  * Gave Sexp#structure a ~10% boost
+
+* 2 bug fixes:
+
+  * Fixed Sexp#mass lying when using auto_shifted sexps.
+  * Stupid fix for ruby 2.0 method_missing 'bug'.
+
+=== 4.1.3 / 2012-12-06
+
+* 2 bug fixes:
+
+  * Code cleanup... what was I thinking???
+  * Explicitly setting pt_testcase.rb to US-ASCII to avoid encoding hell
+
+=== 4.1.2 / 2012-11-03
+
+* 1 bug fix:
+
+  * Sexp#structure should grep for Sexps, not Arrays
+
+=== 4.1.1 / 2012-11-02
+
+* 1 minor enhancement:
+
+  * iter args revamp for ruby_parser 3 changes.
+
+=== 4.1.0 / 2012-10-22
+
+* 1 minor enhancement:
+
+  * Added Environment#current so you can explicitly shadow variables. (meh)
+
+=== 4.0.1 / 2012-07-03
+
+* 4 minor enhancements:
+
+  * 1.9: Had to version split all my 'not' tests since 1.9 is insane.
+  * 1.9: f (args) is not allowed in 1.9.
+  * 1.9: f(hash, *splat) is not allowed in 1.9.
+  * Added module2 test to verify module w/ 2+ entities
+
+* 2 bug fixes:
+
+  * 1.9: Changed !@ to ! since that is what you implement
+  * True to my wtf comment, there was a bug in my case_splat test
+
+=== 4.0.0 / 2012-06-07
+
+* 5 major enhancements:
+
+  * Removed :arglist from everything except :op_asgn1.
+  * Removed block from resbody
+  * Removed block from when node
+  * Removed block nodes inside of scope nodes (defn/defs/class/sclass).
+  * Removed scope nodes in defn/defs/class/sclass nodes.
+
+* 1 minor enhancement:
+
+  * Added Sexp#deep_each and Sexp#each_sexp. Refactored from Flay
+
+=== 3.2.0 / 2012-04-15
+
+* 5 minor enhancements:
+
+  * Added a ton of block arg tests.
+  * Added add19_edgecases to help refactor a bunch of tests that all have the same output.
+  * Added better debugging output for rewrites.
+  * Cleaned and added a bunch of stabby proc tests.
+  * Moved RawParseTree test data to ParseTree project.
+
+* 2 bug fixes:
+
+  * Fixed a bunch of entries for r2r changes against edgecase parse/lex tests
+  * Fixes for R2R
+
+=== 3.1.0 / 2012-02-29
+
+* 4 minor enhancements:
+
+  * Added test_call_arglist_trailing_comma__19 (presidentbeef)
+  * Added test_fcall_inside_parens. (presidentbeef)
+  * Added test_if_args_no_space_symbol__18. (presidentbeef)
+  * Added tests for new hash syntax and ternaries in 1.9 (lastobelus)
+
+=== 3.0.10 / 2012-01-04
+
+* 1 minor enhancement:
+
+  * Added test for bare hash at end of array in 1.9. (presidentbeef)
+
+* 1 bug fix:
+
+  * Fixed 1.9.3 warnings
+
+=== 3.0.9 / 2011-12-07
+
+* 1 minor enhancement:
+
+  * Add missing test for a ternary with nil without a space before the colon (brynary)
+
+=== 3.0.8 / 2011-11-16
+
+* 4 minor enhancements:
+
+  * Add 6 missing ruby 1.9 tests (brynary)
+  * Added new 1.9 hash tests to pt_testcase.rb
+  * Version specific tests are now skipped at runtime, not test creation time
+  * Added new block arg tests.
+
+=== 3.0.7 / 2011-09-21
+
+* 2 bug fixes:
+
+  * Fixed and test to not have mandatory parens
+  * Fixed r2r's handling of dregexp options
+
+=== 3.0.6 / 2011-08-16
+
+* 5 minor enhancements:
+
+  * Added ParseTreeTestCase#add_19tests
+  * Added a bunch of FAILING 1.9 tests stolen from presidentbeef's repo! yay!
+  * Added add_19tests and add_18tests to segregate version specific parsing.
+  * Moved pt_testcase.rb to sexp_processor
+  * Segregated a bunch of 1.8 specific tests using add_18tests.
+
+=== 3.0.5 / 2010-09-01
+
+* 2 minor enhancements:
+
+  * Added in_context to clean up code.
+  * optimize inspect to avoid needlessly caching @line
+
+=== 3.0.4 / 2010-03-27
+
+* 1 minor enhancement:
+
+  * Added line number to pretty_print output if $VERBOSE
+
+=== 3.0.3 / 2009-08-14
+
+* 1 minor enhancement:
+
+  * Pulled #mass up from flog/flay
+
+=== 3.0.2 / 2009-06-23
+
+* 2 minor enhancements:
+
+  * Pulled unique.rb from ParseTree to sexp_processor.
+  * Switched to minitest.
+
+=== 3.0.1 / 2009-01-20
+
+* 3 minor enhancements:
+
+  * Filled out README
+  * Promoted file/line/comments from ruby_parser.
+  * Added sexp_type to compliment sexp_body.
+
+=== 3.0.0 / 2008-10-22
+
+* 2 major enhancements:
+
+  * Released as its own project, splitting from ParseTree
+  * Added Environment to SexpProcessor and built it in. YAY!
+
+* 6 minor enhancements:
+
+  * Allowed CompositeSexpProcessor to be more ducktypey.
+  * Refactored Sexp#method_missing into find_node and find_nodes.
+  * Removed Sexp#for and other PT specific code.
+  * SexpProcessor#process now runs rewriters before everything else.
+  * SexpProcessor#rewrite context only for subs, EMPTY for top level rewrites.
+  * SexpProcessor#rewrite will stop iterating if the result isn't another Sexp.

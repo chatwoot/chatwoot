@@ -1,0 +1,30 @@
+---
+id:
+  administrate:
+    actions:
+      confirm: Anda yakin?
+      destroy: Hapus
+      edit: Perbarui
+      edit_resource: Perbarui %{name}
+      show_resource: Tampilkan %{name}
+      new_resource: "%{name} baru"
+      back: Kembali
+    controller:
+      create:
+        success: "%{resource} telah berhasil dibuat."
+      destroy:
+        success: "%{resource} telah berhasil dihapus."
+      update:
+        success: "%{resource} telah berhasil diperbarui."
+    fields:
+      has_many:
+        more: Menampilkan %{count} dari %{total_count}
+        none: Kosong
+    form:
+      error: error
+      errors: "%{pluralized_errors} membuat %{resource_name} tidak bisa tersimpan:"
+    navigation:
+      back_to_app: Kembali ke aplikasi
+    search:
+      clear: Kosongkan pencarian
+      label: Cari %{resource}

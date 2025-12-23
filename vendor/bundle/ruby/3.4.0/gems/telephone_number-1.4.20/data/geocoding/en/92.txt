@@ -1,0 +1,760 @@
+# Copyright (C) 2019 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# AJK is Azad Jammu and Kashmir & FATA is Federally Administered Tribal Area.
+
+92212|Karachi
+92213|Karachi
+92214|Karachi
+92215|Karachi
+92216|Karachi
+92217|Karachi
+92218|Karachi
+92219|Karachi
+92222|Hyderabad
+92223|Hyderabad
+92224|Hyderabad
+92225|Hyderabad
+92226|Hyderabad
+92227|Hyderabad
+92228|Hyderabad
+92229|Hyderabad
+922322|Tharparkar
+922323|Tharparkar
+922324|Tharparkar
+922325|Tharparkar
+922326|Tharparkar
+922327|Tharparkar
+922328|Tharparkar
+922329|Tharparkar
+922332|Mirpur Khas
+922333|Mirpur Khas
+922334|Mirpur Khas
+922335|Mirpur Khas
+922336|Mirpur Khas
+922337|Mirpur Khas
+922338|Mirpur Khas
+922339|Mirpur Khas
+922352|Sanghar
+922353|Sanghar
+922354|Sanghar
+922355|Sanghar
+922356|Sanghar
+922357|Sanghar
+922358|Sanghar
+922359|Sanghar
+922382|Umerkot
+922383|Umerkot
+922384|Umerkot
+922385|Umerkot
+922386|Umerkot
+922387|Umerkot
+922388|Umerkot
+922389|Umerkot
+922422|Naushero Feroze
+922423|Naushero Feroze
+922424|Naushero Feroze
+922425|Naushero Feroze
+922426|Naushero Feroze
+922427|Naushero Feroze
+922428|Naushero Feroze
+922429|Naushero Feroze
+922432|Khairpur
+922433|Khairpur
+922434|Khairpur
+922435|Khairpur
+922436|Khairpur
+922437|Khairpur
+922438|Khairpur
+922439|Khairpur
+922442|Nawabshah
+922443|Nawabshah
+922444|Nawabshah
+922445|Nawabshah
+922446|Nawabshah
+922447|Nawabshah
+922448|Nawabshah
+922449|Nawabshah
+92252|Dadu
+92253|Dadu
+92254|Dadu
+92255|Dadu
+92256|Dadu
+92257|Dadu
+92258|Dadu
+92259|Dadu
+922972|Badin
+922973|Badin
+922974|Badin
+922975|Badin
+922976|Badin
+922977|Badin
+922978|Badin
+922979|Badin
+922982|Thatta
+922983|Thatta
+922984|Thatta
+922985|Thatta
+922986|Thatta
+922987|Thatta
+922988|Thatta
+922989|Thatta
+92402|Sahiwal
+92403|Sahiwal
+92404|Sahiwal
+92405|Sahiwal
+92406|Sahiwal
+92407|Sahiwal
+92408|Sahiwal
+92409|Sahiwal
+92412|Faisalabad
+92413|Faisalabad
+92414|Faisalabad
+92415|Faisalabad
+92416|Faisalabad
+92417|Faisalabad
+92418|Faisalabad
+92419|Faisalabad
+92422|Lahore
+92423|Lahore
+92424|Lahore
+92425|Lahore
+92426|Lahore
+92427|Lahore
+92428|Lahore
+92429|Lahore
+92442|Okara
+92443|Okara
+92444|Okara
+92445|Okara
+92446|Okara
+92447|Okara
+92448|Okara
+92449|Okara
+924532|Bhakkar
+924533|Bhakkar
+924534|Bhakkar
+924535|Bhakkar
+924536|Bhakkar
+924537|Bhakkar
+924538|Bhakkar
+924539|Bhakkar
+924542|Khushab
+924543|Khushab
+924544|Khushab
+924545|Khushab
+924546|Khushab
+924547|Khushab
+924548|Khushab
+924549|Khushab
+924572|Pakpattan
+924573|Pakpattan
+924574|Pakpattan
+924575|Pakpattan
+924576|Pakpattan
+924577|Pakpattan
+924578|Pakpattan
+924579|Pakpattan
+924592|Mianwali
+924593|Mianwali
+924594|Mianwali
+924595|Mianwali
+924596|Mianwali
+924597|Mianwali
+924598|Mianwali
+924599|Mianwali
+92462|Toba Tek Singh
+92463|Toba Tek Singh
+92464|Toba Tek Singh
+92465|Toba Tek Singh
+92466|Toba Tek Singh
+92467|Toba Tek Singh
+92468|Toba Tek Singh
+92469|Toba Tek Singh
+92472|Jhang
+92473|Jhang
+92474|Jhang
+92475|Jhang
+92476|Jhang
+92477|Jhang
+92478|Jhang
+92479|Jhang
+92482|Sargodha
+92483|Sargodha
+92484|Sargodha
+92485|Sargodha
+92486|Sargodha
+92487|Sargodha
+92488|Sargodha
+92489|Sargodha
+92492|Kasur
+92493|Kasur
+92494|Kasur
+92495|Kasur
+92496|Kasur
+92497|Kasur
+92498|Kasur
+92499|Kasur
+92512|Islamabad/Rawalpindi
+92513|Islamabad/Rawalpindi
+92514|Islamabad/Rawalpindi
+92515|Islamabad/Rawalpindi
+92516|Islamabad/Rawalpindi
+92517|Islamabad/Rawalpindi
+92518|Islamabad/Rawalpindi
+92519|Islamabad/Rawalpindi
+92522|Sialkot
+92523|Sialkot
+92524|Sialkot
+92525|Sialkot
+92526|Sialkot
+92527|Sialkot
+92528|Sialkot
+92529|Sialkot
+92532|Gujrat
+92533|Gujrat
+92534|Gujrat
+92535|Gujrat
+92536|Gujrat
+92537|Gujrat
+92538|Gujrat
+92539|Gujrat
+925422|Narowal
+925423|Narowal
+925424|Narowal
+925425|Narowal
+925426|Narowal
+925427|Narowal
+925428|Narowal
+925429|Narowal
+925432|Chakwal
+925433|Chakwal
+925434|Chakwal
+925435|Chakwal
+925436|Chakwal
+925437|Chakwal
+925438|Chakwal
+925439|Chakwal
+925442|Jhelum
+925443|Jhelum
+925444|Jhelum
+925445|Jhelum
+925446|Jhelum
+925447|Jhelum
+925448|Jhelum
+925449|Jhelum
+925462|Mandi Bahauddin
+925463|Mandi Bahauddin
+925464|Mandi Bahauddin
+925465|Mandi Bahauddin
+925466|Mandi Bahauddin
+925467|Mandi Bahauddin
+925468|Mandi Bahauddin
+925469|Mandi Bahauddin
+925472|Hafizabad
+925473|Hafizabad
+925474|Hafizabad
+925475|Hafizabad
+925476|Hafizabad
+925477|Hafizabad
+925478|Hafizabad
+925479|Hafizabad
+92552|Gujranwala
+92553|Gujranwala
+92554|Gujranwala
+92555|Gujranwala
+92556|Gujranwala
+92557|Gujranwala
+92558|Gujranwala
+92559|Gujranwala
+92562|Sheikhupura
+92563|Sheikhupura
+92564|Sheikhupura
+92565|Sheikhupura
+92566|Sheikhupura
+92567|Sheikhupura
+92568|Sheikhupura
+92569|Sheikhupura
+92572|Attock
+92573|Attock
+92574|Attock
+92575|Attock
+92576|Attock
+92577|Attock
+92578|Attock
+92579|Attock
+9258|AJK/FATA
+926042|Rajanpur
+926043|Rajanpur
+926044|Rajanpur
+926045|Rajanpur
+926046|Rajanpur
+926047|Rajanpur
+926048|Rajanpur
+926049|Rajanpur
+926062|Layyah
+926063|Layyah
+926064|Layyah
+926065|Layyah
+926066|Layyah
+926067|Layyah
+926068|Layyah
+926069|Layyah
+926082|Lodhran
+926083|Lodhran
+926084|Lodhran
+926085|Lodhran
+926086|Lodhran
+926087|Lodhran
+926088|Lodhran
+926089|Lodhran
+92612|Multan
+92613|Multan
+92614|Multan
+92615|Multan
+92616|Multan
+92617|Multan
+92618|Multan
+92619|Multan
+92622|Bahawalpur
+92623|Bahawalpur
+92624|Bahawalpur
+92625|Bahawalpur
+92626|Bahawalpur
+92627|Bahawalpur
+92628|Bahawalpur
+92629|Bahawalpur
+92632|Bahawalnagar
+92633|Bahawalnagar
+92634|Bahawalnagar
+92635|Bahawalnagar
+92636|Bahawalnagar
+92637|Bahawalnagar
+92638|Bahawalnagar
+92639|Bahawalnagar
+92642|Dera Ghazi Khan
+92643|Dera Ghazi Khan
+92644|Dera Ghazi Khan
+92645|Dera Ghazi Khan
+92646|Dera Ghazi Khan
+92647|Dera Ghazi Khan
+92648|Dera Ghazi Khan
+92649|Dera Ghazi Khan
+92652|Khanewal
+92653|Khanewal
+92654|Khanewal
+92655|Khanewal
+92656|Khanewal
+92657|Khanewal
+92658|Khanewal
+92659|Khanewal
+92662|Muzaffargarh
+92663|Muzaffargarh
+92664|Muzaffargarh
+92665|Muzaffargarh
+92666|Muzaffargarh
+92667|Muzaffargarh
+92668|Muzaffargarh
+92669|Muzaffargarh
+92672|Vehari
+92673|Vehari
+92674|Vehari
+92675|Vehari
+92676|Vehari
+92677|Vehari
+92678|Vehari
+92679|Vehari
+92682|Rahim Yar Khan
+92683|Rahim Yar Khan
+92684|Rahim Yar Khan
+92685|Rahim Yar Khan
+92686|Rahim Yar Khan
+92687|Rahim Yar Khan
+92688|Rahim Yar Khan
+92689|Rahim Yar Khan
+92712|Sukkur
+92713|Sukkur
+92714|Sukkur
+92715|Sukkur
+92716|Sukkur
+92717|Sukkur
+92718|Sukkur
+92719|Sukkur
+927222|Jacobabad
+927223|Jacobabad
+927224|Jacobabad
+927225|Jacobabad
+927226|Jacobabad
+927227|Jacobabad
+927228|Jacobabad
+927229|Jacobabad
+927232|Ghotki
+927233|Ghotki
+927234|Ghotki
+927235|Ghotki
+927236|Ghotki
+927237|Ghotki
+927238|Ghotki
+927239|Ghotki
+927262|Shikarpur
+927263|Shikarpur
+927264|Shikarpur
+927265|Shikarpur
+927266|Shikarpur
+927267|Shikarpur
+927268|Shikarpur
+927269|Shikarpur
+92742|Larkana
+92743|Larkana
+92744|Larkana
+92745|Larkana
+92746|Larkana
+92747|Larkana
+92748|Larkana
+92749|Larkana
+92812|Quetta
+92813|Quetta
+92814|Quetta
+92815|Quetta
+92816|Quetta
+92817|Quetta
+92818|Quetta
+92819|Quetta
+928222|Zhob
+928223|Zhob
+928224|Zhob
+928225|Zhob
+928226|Zhob
+928227|Zhob
+928228|Zhob
+928229|Zhob
+928232|Killa Saifullah
+928233|Killa Saifullah
+928234|Killa Saifullah
+928235|Killa Saifullah
+928236|Killa Saifullah
+928237|Killa Saifullah
+928238|Killa Saifullah
+928239|Killa Saifullah
+928242|Loralai
+928243|Loralai
+928244|Loralai
+928245|Loralai
+928246|Loralai
+928247|Loralai
+928248|Loralai
+928249|Loralai
+928252|Chagai
+928253|Chagai
+928254|Chagai
+928255|Chagai
+928256|Chagai
+928257|Chagai
+928258|Chagai
+928259|Chagai
+928262|K.Abdullah/Pishin
+928263|K.Abdullah/Pishin
+928264|K.Abdullah/Pishin
+928265|K.Abdullah/Pishin
+928266|K.Abdullah/Pishin
+928267|K.Abdullah/Pishin
+928268|K.Abdullah/Pishin
+928269|K.Abdullah/Pishin
+928282|Musakhel
+928283|Musakhel
+928284|Musakhel
+928285|Musakhel
+928286|Musakhel
+928287|Musakhel
+928288|Musakhel
+928289|Musakhel
+928292|Barkhan/Kohlu
+928293|Barkhan/Kohlu
+928294|Barkhan/Kohlu
+928295|Barkhan/Kohlu
+928296|Barkhan/Kohlu
+928297|Barkhan/Kohlu
+928298|Barkhan/Kohlu
+928299|Barkhan/Kohlu
+928322|Bolan
+928323|Bolan
+928324|Bolan
+928325|Bolan
+928326|Bolan
+928327|Bolan
+928328|Bolan
+928329|Bolan
+928332|Sibi/Ziarat
+928333|Sibi/Ziarat
+928334|Sibi/Ziarat
+928335|Sibi/Ziarat
+928336|Sibi/Ziarat
+928337|Sibi/Ziarat
+928338|Sibi/Ziarat
+928339|Sibi/Ziarat
+928352|Dera Bugti
+928353|Dera Bugti
+928354|Dera Bugti
+928355|Dera Bugti
+928356|Dera Bugti
+928357|Dera Bugti
+928358|Dera Bugti
+928359|Dera Bugti
+928372|Jhal Magsi
+928373|Jhal Magsi
+928374|Jhal Magsi
+928375|Jhal Magsi
+928376|Jhal Magsi
+928377|Jhal Magsi
+928378|Jhal Magsi
+928379|Jhal Magsi
+928382|Jaffarabad/Nasirabad
+928383|Jaffarabad/Nasirabad
+928384|Jaffarabad/Nasirabad
+928385|Jaffarabad/Nasirabad
+928386|Jaffarabad/Nasirabad
+928387|Jaffarabad/Nasirabad
+928388|Jaffarabad/Nasirabad
+928389|Jaffarabad/Nasirabad
+928432|Mastung
+928433|Mastung
+928434|Mastung
+928435|Mastung
+928436|Mastung
+928437|Mastung
+928438|Mastung
+928439|Mastung
+928442|Kalat
+928443|Kalat
+928444|Kalat
+928445|Kalat
+928446|Kalat
+928447|Kalat
+928448|Kalat
+928449|Kalat
+928472|Kharan
+928473|Kharan
+928474|Kharan
+928475|Kharan
+928476|Kharan
+928477|Kharan
+928478|Kharan
+928479|Kharan
+928482|Khuzdar
+928483|Khuzdar
+928484|Khuzdar
+928485|Khuzdar
+928486|Khuzdar
+928487|Khuzdar
+928488|Khuzdar
+928489|Khuzdar
+928522|Kech
+928523|Kech
+928524|Kech
+928525|Kech
+928526|Kech
+928527|Kech
+928528|Kech
+928529|Kech
+928532|Lasbela
+928533|Lasbela
+928534|Lasbela
+928535|Lasbela
+928536|Lasbela
+928537|Lasbela
+928538|Lasbela
+928539|Lasbela
+928552|Panjgur
+928553|Panjgur
+928554|Panjgur
+928555|Panjgur
+928556|Panjgur
+928557|Panjgur
+928558|Panjgur
+928559|Panjgur
+928562|Awaran
+928563|Awaran
+928564|Awaran
+928565|Awaran
+928566|Awaran
+928567|Awaran
+928568|Awaran
+928569|Awaran
+92862|Gwadar
+92863|Gwadar
+92864|Gwadar
+92865|Gwadar
+92866|Gwadar
+92867|Gwadar
+92868|Gwadar
+92869|Gwadar
+92912|Peshawar/Charsadda
+92913|Peshawar/Charsadda
+92914|Peshawar/Charsadda
+92915|Peshawar/Charsadda
+92916|Peshawar/Charsadda
+92917|Peshawar/Charsadda
+92918|Peshawar/Charsadda
+92919|Peshawar/Charsadda
+929222|Kohat
+929223|Kohat
+929224|Kohat
+929225|Kohat
+929226|Kohat
+929227|Kohat
+929228|Kohat
+929229|Kohat
+92923|Nowshera
+92924|Khyber/Mohmand Agy
+92925|Hangu/Orakzai Agy
+92926|Kurram Agency
+92927|Karak
+92928|Bannu/N. Waziristan
+929322|Malakand
+929323|Malakand
+929324|Malakand
+929325|Malakand
+929326|Malakand
+929327|Malakand
+929328|Malakand
+929329|Malakand
+929372|Mardan
+929373|Mardan
+929374|Mardan
+929375|Mardan
+929376|Mardan
+929377|Mardan
+929378|Mardan
+929379|Mardan
+929382|Swabi
+929383|Swabi
+929384|Swabi
+929385|Swabi
+929386|Swabi
+929387|Swabi
+929388|Swabi
+929389|Swabi
+929392|Buner
+929393|Buner
+929394|Buner
+929395|Buner
+929396|Buner
+929397|Buner
+929398|Buner
+929399|Buner
+929422|Bajaur Agency
+929423|Bajaur Agency
+929424|Bajaur Agency
+929425|Bajaur Agency
+929426|Bajaur Agency
+929427|Bajaur Agency
+929428|Bajaur Agency
+929429|Bajaur Agency
+929432|Chitral
+929433|Chitral
+929434|Chitral
+929435|Chitral
+929436|Chitral
+929437|Chitral
+929438|Chitral
+929439|Chitral
+929442|Upper Dir
+929443|Upper Dir
+929444|Upper Dir
+929445|Upper Dir
+929446|Upper Dir
+929447|Upper Dir
+929448|Upper Dir
+929449|Upper Dir
+929452|Lower Dir
+929453|Lower Dir
+929454|Lower Dir
+929455|Lower Dir
+929456|Lower Dir
+929457|Lower Dir
+929458|Lower Dir
+929459|Lower Dir
+929462|Swat
+929463|Swat
+929464|Swat
+929465|Swat
+929466|Swat
+929467|Swat
+929468|Swat
+929469|Swat
+929632|Tank
+929633|Tank
+929634|Tank
+929635|Tank
+929636|Tank
+929637|Tank
+929638|Tank
+929639|Tank
+929652|South Waziristan
+929653|South Waziristan
+929654|South Waziristan
+929655|South Waziristan
+929656|South Waziristan
+929657|South Waziristan
+929658|South Waziristan
+929659|South Waziristan
+929662|D.I. Khan
+929663|D.I. Khan
+929664|D.I. Khan
+929665|D.I. Khan
+929666|D.I. Khan
+929667|D.I. Khan
+929668|D.I. Khan
+929669|D.I. Khan
+929692|Lakki Marwat
+929693|Lakki Marwat
+929694|Lakki Marwat
+929695|Lakki Marwat
+929696|Lakki Marwat
+929697|Lakki Marwat
+929698|Lakki Marwat
+929699|Lakki Marwat
+929922|Abottabad
+929923|Abottabad
+929924|Abottabad
+929925|Abottabad
+929926|Abottabad
+929927|Abottabad
+929928|Abottabad
+929929|Abottabad
+929952|Haripur
+929953|Haripur
+929954|Haripur
+929955|Haripur
+929956|Haripur
+929957|Haripur
+929958|Haripur
+929959|Haripur
+929962|Shangla
+929963|Shangla
+929964|Shangla
+929965|Shangla
+929966|Shangla
+929967|Shangla
+929968|Shangla
+929969|Shangla
+929972|Mansehra/Batagram
+929973|Mansehra/Batagram
+929974|Mansehra/Batagram
+929975|Mansehra/Batagram
+929976|Mansehra/Batagram
+929977|Mansehra/Batagram
+929978|Mansehra/Batagram
+929979|Mansehra/Batagram
+92998|Kohistan

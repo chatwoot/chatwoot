@@ -1,0 +1,663 @@
+en:
+  faker:
+    games:
+      minecraft:
+        achievement:
+          - Acquire Hardware
+          - Adventuring Time
+          - Ahoy!
+          - Alternative Fuel
+          - Archer
+          - Artificial Selection
+          - Atlantis?
+          - Bake Bread
+          - Beam Me Up
+          - Bee our guest
+          - Benchmaking
+          - Body Guard
+          - Bullseye
+          - Buy Low, Sell High
+          - Camouflage
+          - Castaway
+          - Cheating Death
+          - Chestful of Cobblestone
+          - Cover me in debris
+          - Cow Tipper
+          - Delicious Fish
+          - Diamonds to you!
+          - DIAMONDS!
+          - Disenchanted
+          - Dispense With This
+          - Do a Barrel Roll!
+          - Dry Spell
+          - Echolocation
+          - Enchanter
+          - Feeling Ill
+          - Free Diver
+          - Freight Station
+          - Fruit on the Loom
+          - Getting an Upgrade
+          - Getting Wood
+          - Great View From Up Here
+          - Have a Shearful Day
+          - Hot Topic
+          - Hot tourist destination
+          - I am a Marine Biologist
+          - I've got a bad feeling about this
+          - Inception
+          - Into Fire
+          - Into the Nether
+          - Iron Belly
+          - Iron Man
+          - It's a Sign!
+          - Kill the Beast!
+          - Leader Of The Pack
+          - Let it Go!
+          - Librarian
+          - Lion Hunter
+          - Local Brewery
+          - Map Room
+          - Master Trader
+          - Me Gold!
+          - MOAR Tools
+          - Monster Hunter
+          - Moskstraumen
+          - On A Rail
+          - One Pickle, Two Pickle, Sea Pickle, Four
+          - Oooh, shiny!
+          - Organizational Wizard
+          - Overkill
+          - Overpowered
+          - Passing the Time
+          - Plethora of Cats
+          - Pork Chop
+          - Pot Planter
+          - Rabbit Season
+          - Rainbow Collection
+          - Renewable Energy
+          - Repopulation
+          - Return to Sender
+          - Saddle Up
+          - Sail the 7 Seas
+          - Sleep with the Fishes
+          - Smelt Everything!
+          - Sniper Duel
+          - So I Got That Going for Me
+          - Sound the Alarm!
+          - Stayin' Frosty
+          - Sticky Situation
+          - Super Fuel
+          - Super Sonic
+          - Taking Inventory
+          - Taste of Your Own Medicine
+          - The Beaconator
+          - The Beginning?
+          - The Beginning.
+          - The Deep End
+          - The End?
+          - The End.
+          - The End... Again...
+          - The Haggler
+          - The Lie
+          - Tie Dye Outfit
+          - Time for Stew
+          - Time to Farm!
+          - Time to Mine!
+          - Time to Strike!
+          - Top of the World
+          - Total Beelocation
+          - Trampoline
+          - Treasure Hunter
+          - We're being attacked!
+          - When Pigs Fly
+          - Where Have You Been?
+          - You Need a Mint
+          - Zombie Doctor
+          - Zoologist
+        biome:
+          - Badlands
+          - Badlands Plateau
+          - Bamboo Jungle
+          - Bamboo Jungle Hills
+          - Basalt Deltas
+          - Beach
+          - Birch Forest
+          - Birch Forest Hills
+          - Cold Ocean
+          - Crimson Forest
+          - Dark Forest
+          - Dark Forest Hills
+          - Deep Cold Ocean
+          - Deep Frozen Ocean
+          - Deep Lukewarm Ocean
+          - Deep Ocean
+          - Deep Warm Ocean
+          - Desert
+          - Desert Hills
+          - Desert Lakes
+          - End Barrens
+          - End Highlands
+          - End Midlands
+          - Eroded Badlands
+          - Flower Forest
+          - Forest
+          - Frozen Ocean
+          - Frozen River
+          - Giant Spruce Taiga
+          - Giant Spruce Taiga Hills
+          - Giant Tree Taiga
+          - Giant Tree Taiga Hills
+          - Gravelly Mountains
+          - Gravelly Mountains+
+          - Ice Spikes
+          - Jungle
+          - Jungle Edge
+          - Jungle Hills
+          - Lukewarm Ocean
+          - Modified Badlands Plateau
+          - Modified Jungle
+          - Modified Jungle Edge
+          - Modified Wooded Badlands Plateau
+          - Mountain Edge
+          - Mountains
+          - Mushroom Field Shore
+          - Mushroom Fields
+          - Nether Wastes
+          - Ocean
+          - Plains
+          - River
+          - Savanna
+          - Savanna Plateau
+          - Shattered Savanna
+          - Shattered Savanna Plateau
+          - Small End Islands
+          - Snowy Beach
+          - Snowy Mountains
+          - Snowy Taiga
+          - Snowy Taiga Hills
+          - Snowy Taiga Mountains
+          - Snowy Tundra
+          - Soul Sand Valley
+          - Stone Shore
+          - Sunflower Plains
+          - Swamp
+          - Swamp Hills
+          - Taiga
+          - Taiga Hills
+          - Taiga Mountains
+          - Tall Birch Forest
+          - Tall Birch Hills
+          - The End
+          - The Voi
+          - Warm Ocean
+          - Warped Forest
+          - Wooded Badlands Plateau
+          - Wooded Hills
+          - Wooded Mountains
+        blocks:
+          - Stone
+          - Granite
+          - Polished Granite
+          - Diorite
+          - Polished Diorite
+          - Andesite
+          - Polished Andesite
+          - Grass
+          - Dirt
+          - Coarse Dirt
+          - Podzol
+          - Cobblestone
+          - Oak Wood Plank
+          - Spruce Wood Plank
+          - Birch Wood Plank
+          - Jungle Wood Plank
+          - Acacia Wood Plank
+          - Dark Oak Wood Plank
+          - Oak Sapling
+          - Spruce Sapling
+          - Birch Sapling
+          - Jungle Sapling
+          - Acacia Sapling
+          - Dark Oak Sapling
+          - Bedrock
+          - Flowing Water
+          - Still Water
+          - Flowing Lava
+          - Still Lava
+          - Sand
+          - Red Sand
+          - Gravel
+          - Gold Ore
+          - Iron Ore
+          - Coal Ore
+          - Oak Wood
+          - Spruce Wood
+          - Birch Wood
+          - Jungle Wood
+          - Oak Leaves
+          - Spruce Leaves
+          - Birch Leaves
+          - Jungle Leaves
+          - Sponge
+          - Wet Sponge
+          - Glass
+          - Lapis Lazuli Ore
+          - Lapis Lazuli Block
+          - Dispenser
+          - Sandstone
+          - Chiseled Sandstone
+          - Smooth Sandstone
+          - Note Block
+          - Bed
+          - Powered Rail
+          - Detector Rail
+          - Sticky Piston
+          - Cobweb
+          - Dead Shrub
+          - Grass
+          - Fern
+          - Dead Bush
+          - Piston
+          - Piston Head
+          - White Wool
+          - Orange Wool
+          - Magenta Wool
+          - Light Blue Wool
+          - Yellow Wool
+          - Lime Wool
+          - Pink Wool
+          - Gray Wool
+          - Light Gray Wool
+          - Cyan Wool
+          - Purple Wool
+          - Blue Wool
+          - Brown Wool
+          - Green Wool
+          - Red Wool
+          - Black Wool
+          - Dandelion
+          - Poppy
+          - Blue Orchid
+          - Allium
+          - Azure Bluet
+          - Red Tulip
+          - Orange Tulip
+          - White Tulip
+          - Pink Tulip
+          - Oxeye Daisy
+          - Brown Mushroom
+          - Red Mushroom
+          - Gold Block
+          - Iron Block
+          - Double Stone Slab
+          - Double Sandstone Slab
+          - Double Wooden Slab
+          - Double Cobblestone Slab
+          - Double Brick Slab
+          - Double Stone Brick Slab
+          - Double Nether Brick Slab
+          - Double Quartz Slab
+          - Stone Slab
+          - Sandstone Slab
+          - Wooden Slab
+          - Cobblestone Slab
+          - Brick Slab
+          - Stone Brick Slab
+          - Nether Brick Slab
+          - Quartz Slab
+          - Bricks
+          - TNT
+          - Bookshelf
+          - Moss Stone
+          - Obsidian
+          - Torch
+          - Fire
+          - Monster Spawner
+          - Oak Wood Stairs
+          - Chest
+          - Redstone Wire
+          - Diamond Ore
+          - Diamond Block
+          - Crafting Table
+          - Wheat Crops
+          - Farmland
+          - Furnace
+          - Burning Furnace
+          - Standing Sign Block
+          - Oak Door Block
+          - Ladder
+          - Rail
+          - Cobblestone Stairs
+          - Wall-mounted Sign Block
+          - Lever
+          - Stone Pressure Plate
+          - Iron Door Block
+          - Wooden Pressure Plate
+          - Redstone Ore
+          - Glowing Redstone Ore
+          - Stone Button
+          - Snow
+          - Ice
+          - Snow Block
+          - Cactus
+          - Clay
+          - Sugar Canes
+          - Jukebox
+          - Oak Fence
+          - Pumpkin
+          - Netherrack
+          - Soul Sand
+          - Glowstone
+          - Nether Portal
+          - Jack o'Lantern
+          - Cake Block
+          - Redstone Repeater Block off)
+          - Redstone Repeater Block on)
+          - White Stained Glass
+          - Orange Stained Glass
+          - Magenta Stained Glass
+          - Light Blue Stained Glass
+          - Yellow Stained Glass
+          - Lime Stained Glass
+          - Pink Stained Glass
+          - Gray Stained Glass
+          - Light Gray Stained Glass
+          - Cyan Stained Glass
+          - Purple Stained Glass
+          - Blue Stained Glass
+          - Brown Stained Glass
+          - Green Stained Glass
+          - Red Stained Glass
+          - Black Stained Glass
+          - Wooden Trapdoor
+          - Stone Monster Egg
+          - Cobblestone Monster Egg
+          - Stone Brick Monster Egg
+          - Mossy Stone Brick Monster Egg
+          - Cracked Stone Brick Monster Egg
+          - Chiseled Stone Brick Monster Egg
+          - Stone Bricks
+          - Mossy Stone Bricks
+          - Cracked Stone Bricks
+          - Chiseled Stone Bricks
+          - Brown Mushroom Block
+          - Red Mushroom Block
+          - Iron Bars
+          - Glass Pane
+          - Melon Block
+          - Pumpkin Stem
+          - Melon Stem
+          - Vines
+          - Oak Fence Gate
+          - Brick Stairs
+          - Stone Brick Stairs
+          - Mycelium
+          - Lily Pad
+          - Nether Brick
+          - Nether Brick Fence
+        enchantment:
+          - Aqua Affinity
+          - Bane of Arthropods
+          - Blast Protection
+          - Channeling
+          - Cleaving
+          - Curse of Binding
+          - Curse of Vanishing
+          - Depth Strider
+          - Efficiency
+          - Feather Falling
+          - Fire Aspect
+          - Fire Protection
+          - Flame
+          - Fortune
+          - Frost Walker
+          - Impaling
+          - Infinity
+          - Knockback
+          - Looting
+          - Loyalty
+          - Luck of the Sea
+          - Lure
+          - Mending
+          - Multishot
+          - Piercing
+          - Power
+          - Projectile Protection
+          - Protection
+          - Punch
+          - Quick Charge
+          - Respiration
+          - Riptide
+          - Sharpness
+          - Silk Touch
+          - Smite
+          - Soul Speed
+          - Sweeping Edge
+          - Thorns
+          - Unbreaking
+        game_mode:
+          - Adventure
+          - Creative
+          - Demo
+          - Hardcore
+          - Spectator
+          - Survival
+        items:
+          - Iron Shovel
+          - Iron Pickaxe
+          - Iron Axe
+          - Flint and Steel
+          - Apple
+          - Bow
+          - Arrow
+          - Coal
+          - Charcoal
+          - Diamond
+          - Iron Ingot
+          - Gold Ingot
+          - Iron Sword
+          - Wooden Sword
+          - Wooden Shovel
+          - Wooden Pickaxe
+          - Wooden Axe
+          - Stone Sword
+          - Stone Shovel
+          - Stone Pickaxe
+          - Stone Axe
+          - Diamond Sword
+          - Diamond Shovel
+          - Diamond Pickaxe
+          - Diamond Axe
+          - Stick
+          - Bowl
+          - Mushroom Stew
+          - Golden Sword
+          - Golden Shovel
+          - Golden Pickaxe
+          - Golden Axe
+          - String
+          - Feather
+          - Gunpowder
+          - Wooden Hoe
+          - Stone Hoe
+          - Iron Hoe
+          - Diamond Hoe
+          - Golden Hoe
+          - Wheat Seeds
+          - Wheat
+          - Bread
+          - Leather Helmet
+          - Leather Tunic
+          - Leather Pants
+          - Leather Boots
+          - Chainmail Helmet
+          - Chainmail Chestplate
+          - Chainmail Leggings
+          - Chainmail Boots
+          - Iron Helmet
+          - Iron Chestplate
+          - Iron Leggings
+          - Iron Boots
+          - Diamond Helmet
+          - Diamond Chestplate
+          - Diamond Leggings
+          - Diamond Boots
+          - Golden Helmet
+          - Golden Chestplate
+          - Golden Leggings
+          - Golden Boots
+          - Flint
+          - Raw Porkchop
+          - Cooked Porkchop
+          - Painting
+          - Golden Apple
+          - Enchanted Golden Apple
+          - Sign
+          - Oak Door
+          - Bucket
+          - Water Bucket
+          - Lava Bucket
+          - Minecart
+          - Saddle
+          - Iron Door
+          - Redstone
+          - Snowball
+          - Oak Boat
+          - Leather
+          - Milk Bucket
+          - Brick
+          - Clay
+          - Sugar Canes
+          - Paper
+          - Book
+          - Slimeball
+          - Minecart with Chest
+          - Minecart with Furnace
+          - Egg
+          - Compass
+          - Fishing Rod
+          - Clock
+          - Glowstone Dust
+          - Raw Fish
+          - Raw Salmon
+          - Clownfish
+          - Pufferfish
+          - Cooked Fish
+          - Cooked Salmon
+          - Ink Sack
+          - Rose Red
+          - Cactus Green
+          - Coco Beans
+          - Lapis Lazuli
+          - Purple Dye
+          - Cyan Dye
+          - Light Gray Dye
+          - Gray Dye
+          - Pink Dye
+          - Lime Dye
+          - Dandelion Yellow
+          - Light Blue Dye
+          - Magenta Dye
+          - Orange Dye
+          - Bone Meal
+          - Bone
+          - Sugar
+        mobs:
+          - Sheep
+          - Cow
+          - Fox
+          - Bat
+          - Chicken
+          - Cod
+          - Ocelot
+          - Pig
+          - Rabbit
+          - Salmon
+          - Mooshroom
+          - Squid
+          - Tropical fish
+          - Turtle
+          - Villager
+          - Wandering trader
+          - Pufferfish
+          - Donkey
+          - Horse
+          - Cat
+          - Parrot
+          - Mule
+          - Skeleton horse
+          - Dolphin
+          - Polar bear
+          - Trader llama
+          - Llama
+          - Panda
+          - Wolf
+          - Bee
+          - Iron golem
+          - Spider
+          - Cave Spider
+          - Enderman
+          - Zombie Pigman
+          - Evoker
+          - Vindicator
+          - Pillager
+          - Ravager
+          - Vex
+          - Chicken Jockey
+          - Endermite
+          - Guardian
+          - Elder Guardian
+          - Shulker
+          - Skeleton Horseman
+          - Husk
+          - Stray
+          - Phantom
+          - Blaze
+          - Creeper
+          - Ghast
+          - Magma Cube
+          - Silverfish
+          - Skeleton
+          - Slime
+          - Spider Jockey
+          - Zombie
+          - Zombie Villager
+          - Drowned
+          - Wither Skeleton
+          - Witch
+          - Hoglin
+          - Piglin
+        status_effect:
+          - Absorption
+          - Bad Luck ‌
+          - Bad Omen
+          - Blindness
+          - Conduit Power
+          - Dolphin's Grace‌
+          - Fatal Poison‌
+          - Fire Resistance
+          - Glowing‌
+          - Haste
+          - Health Boost
+          - Hero of the Village
+          - Hunger
+          - Instant Damage
+          - Instant Health
+          - Invisibility
+          - Jump Boost
+          - Levitation
+          - Luck
+          - Mining Fatigue
+          - Nausea
+          - Night Vision
+          - Poison
+          - Regeneration
+          - Resistance
+          - Saturation
+          - Slow Falling
+          - Slowness
+          - Speed
+          - Strength
+          - Water Breathing
+          - Weakness
+          - Wither

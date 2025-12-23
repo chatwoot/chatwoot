@@ -1,0 +1,26 @@
+sqlite3mem: &SQLITE3MEM
+  adapter: sqlite3
+  database: ":memory:"
+
+sqlite3: &SQLITE
+  adapter: sqlite3
+  database: audited_test.sqlite3.db
+
+postgresql: &POSTGRES
+  adapter: postgresql
+  username: postgres
+  password: postgres
+  host: localhost
+  database: audited_test
+  min_messages: ERROR
+
+mysql: &MYSQL
+  adapter: mysql2
+  host: localhost
+  username: root
+  password: root
+  database: audited_test
+  charset: utf8
+
+test:
+  <<: *<%= ENV['DB'] || 'SQLITE3MEM' %>

@@ -1,0 +1,28 @@
+name: JRuby
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu, macos]
+        jruby: [jruby, jruby-head]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.jruby }}
+        bundler-cache: true
+      env:
+        JRUBY_OPTS: --debug
+    - name: Run tests
+      env:
+        JRUBY_OPTS: --debug
+      run: bundle exec rake

@@ -1,0 +1,80 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://vi.wikipedia.org/wiki/Mã_điện_thoại_Việt_Nam [4627778]
+
+84203|Quảng Ninh
+84204|Bắc Giang
+84205|Lạng Sơn
+84206|Cao Bằng
+84207|Tuyên Quang
+84208|Thái Nguyên
+84209|Tỉnh Bắc Kạn
+84210|Phú Thọ
+84211|Vĩnh Phúc
+84212|Sơn La
+84213|Lai Châu
+84214|Lào Cai
+84215|Điện Biên
+84216|Yên Bái
+84218|Hòa Bình
+84219|Hà Giang
+84220|Hải Dương
+84221|Hưng Yên
+84222|Bắc Ninh
+84225|Thành phố Hải Phòng
+84226|Hà Nam
+84227|Thái Bình
+84228|Nam Định
+84229|Ninh Bình
+84232|Quảng Bình
+84233|Quảng Trị
+84234|Thừa Thiên-Huế
+84235|Quảng Nam
+84236|TP Đà Nẵng
+84237|Thanh Hóa
+84238|Nghệ An
+84239|Hà Tĩnh
+8424|Thủ đô Hà Nội
+84251|Đồng Nai
+84252|Bình Thuận
+84254|Bà Rịa-Vũng Tàu
+84255|Quảng Ngãi
+84256|Bình Định
+84257|Phú Yên
+84258|Khánh Hòa
+84259|Ninh Thuận
+84260|Kon Tum
+84261|Đăk Nông
+84262|Đăk Lăk
+84263|Lâm Đồng
+84269|Gia Lai
+84270|Vĩnh Long
+84271|Bình Phước
+84272|Long An
+84273|Tiền Giang
+84274|Bình Dương
+84275|Bến Tre
+84276|Tây Ninh
+84277|Đồng Tháp
+8428|Thành phố Hồ Chí Minh
+84290|Cà Mau
+84291|Bạc Liêu
+84292|Thành phố Cần Thơ
+84293|Hậu Giang
+84294|Trà Vinh
+84296|An Giang
+84297|Kiên Giang
+84299|Sóc Trăng

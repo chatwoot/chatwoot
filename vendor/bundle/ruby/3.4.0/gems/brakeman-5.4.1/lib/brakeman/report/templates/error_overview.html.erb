@@ -1,0 +1,29 @@
+<div onClick="toggle('errors_table');">  <h2>Exceptions raised during the analysis (click to see them)</h2 ></div>
+  <div>
+    <div id='errors_table' style='display:none'> 
+      <table>
+        <thead>
+          <tr>
+            <th>Error</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+        <% tracker.errors.each do |warning| %>
+          <tr>
+            <td><%= CGI.escapeHTML warning[:error] %></td>
+            <td>
+              <% if tracker.options[:debug] %>
+                <% warning[:backtrace].each do |line| %>
+                  <%= line %><br/>
+                <% end %>
+              <% else %>
+                <%= warning[:backtrace][0] %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>

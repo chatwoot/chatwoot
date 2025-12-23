@@ -1,0 +1,8 @@
+en:
+  time:
+    formats:
+      us: "%m/%d/%Y %I:%M %p"
+    am: "AM"
+    pm: "PM"
+  faker:
+    separator: ' & '

@@ -1,0 +1,2 @@
+when I said looks possible, I pointed to rack because that's still the web
+server level

@@ -1,0 +1,10 @@
+*.gem
+.bundle
+.rvmrc
+.ruby-version
+.ruby-gemset
+.codeclimate
+Gemfile.lock
+pkg/*
+coverage/*
+TODO

@@ -1,0 +1,9 @@
+---
+- !ruby/object:MIME::Type
+  content-type: x-conference/x-cooltalk
+  friendly:
+    en: CoolTalk
+  encoding: base64
+  extensions:
+  - ice
+  registered: false

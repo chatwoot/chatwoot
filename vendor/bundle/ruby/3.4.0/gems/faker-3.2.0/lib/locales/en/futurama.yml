@@ -1,0 +1,344 @@
+en:
+  faker:
+    futurama:
+      characters:
+        - Abner Doubledeal
+        - Al Gore's Head
+        - Amy Wong
+        - Antonio Calculon
+        - Barbados Slim
+        - Bender Bending Rodriguez
+        - Boxy
+        - Brain Slugs
+        - Brain Spawn
+        - Bubblegum Tate
+        - Calculon
+        - Chanukah Zombie
+        - Clamps
+        - Cubert Farnsworth
+        - Doctor John Zoidberg
+        - Donbot
+        - Dr. Ogden Wernstrom
+        - Dwight Conrad
+        - Elzar
+        - Father Changstein-El-Gamal
+        - Flexo
+        - Gypsy-bot
+        - Hattie McDoogal
+        - Headless Body of Agnew
+        - Hedonismbot
+        - Hermes Conrad
+        - Horrible Gelatinous Blob
+        - Hyperchicken
+        - Hypnotoad
+        - Inez Wong
+        - Joey Mousepad
+        - Kif Kroker
+        - Kwanzaabot
+        - LaBarbara Conrad
+        - Leo Wong
+        - Linda van Schoonhoven
+        - Lord Nibbler
+        - Lrrr
+        - Michelle
+        - Mom
+        - Morbo the Annihilator
+        - Mr. Panucci
+        - Pazuzu
+        - Petunia
+        - Philip J. Fry
+        - Professor Hubert J. Farnsworth
+        - Randy Munchnik
+        - Reverend Lionel Preacherbot
+        - Richard Nixon's Head
+        - Roberto
+        - Robot Devil
+        - Robot Santa
+        - Sal
+        - Scruffy
+        - Smitty
+        - Stephen Hawking
+        - The Crushinator
+        - Tinny Tim
+        - Turanga Leela
+        - Turanga Morris
+        - Turanga Munda
+        - URL
+        - Warden Vogel
+        - Zapp Brannigan
+      locations:
+        - 7¹¹
+        - Akbar
+        - Aldrin's Gulch
+        - Alien Overlord & Taylor
+        - Alien Zoo
+        - Amazonia
+        - Amish Homeworld
+        - Amphibios 9
+        - Antares System
+        - Anti-Chrysler building
+        - Apartment 00100100
+        - Apollo Theatre
+        - Applied Cryogenics
+        - Assisted Living Nebula
+        - Atlanta
+        - Atlantic City
+        - Atlantic Ocean
+        - Bender Statue
+        - Big Apple Bank
+        - Blernsball Hall of Fame
+        - Bogad
+        - Boston
+        - Brain Slug Planet
+        - Brooklyn
+        - Brooklyn Bridge
+        - Build-a-Bot
+        - Bumbase Alpha
+        - Cave of Hopelessness
+        - Cavern on the Green
+        - Central Bureaucracy
+        - Chapek 9
+        - Chrysler building
+        - Cineplex 14
+        - Circuit City
+        - CitiHall
+        - Coney Island Community College
+        - Cookieville Minimum-Security Orphanarium
+        - Cornwood
+        - Crack mansion
+        - CrindStar, Inc.
+        - Cyberia
+        - Cyclopia
+        - Cygnus 5
+        - DOOP Headquarters
+        - Decapod 10
+        - Decapodian Embassy
+        - Devil's Island
+        - Dogdoo 7
+        - Dogdoo 8
+        - Doohan 6
+        - Earth
+        - Ebola 9
+        - Eden 7
+        - Egypt
+        - Electric Ladyland
+        - Elzar's Fine Cuisine
+        - Empire State Building
+        - Eternium
+        - Eye Robot
+        - EyePhone Store
+        - Face on Mars
+        - Fishy Joe's
+        - Forbidden Zone
+        - Fountain of Aging
+        - Fronty's Meat Market
+        - Fry family house
+        - Future-Roma
+        - Galaxy of Terror
+        - Galápagos Islands
+        - Gandhi Nebula
+        - Gateway Arch
+        - GeneWorks, S.K.G.
+        - Geysers of Gygax
+        - Giza
+        - Globetrotter Homeworld Embassy
+        - Globetrotter Planet
+        - Glorianimous 3
+        - Hacking Jack's Fine Smokables
+        - Hal Institute for Criminally Insane Robots
+        - Halley's Comet
+        - Head Museum
+        - Intergalactic Stock Exchange
+        - Jupiter
+        - Keeler Canyon
+        - Kyoto
+        - Land Titanic
+        - Le Palm D'Orbit
+        - Leo Wong's "Miniature" Golf Course
+        - Little Bitaly
+        - Little Neptune
+        - Los Angeles
+        - Luna Park
+        - Madison Cube Garden
+        - Malfunctioning Eddie's Rocket-Car Emporium
+        - Manhattan
+        - Maple Craters
+        - Mars
+        - Mars University (location)
+        - Mars Vegas
+        - Mercury
+        - Mexico
+        - Milwaukee
+        - Milwaukee Mom's dark matter mine
+        - Mobile Oppression Palace
+        - Mom's Friendly Robot Company
+        - Mom's dark matter mine
+        - Monsanto Yokel Dome
+        - Monument Beach
+        - Moon
+        - Mount Rushmore
+        - Museum of Natural History
+        - NBC
+        - Nation of Joe
+        - Near Death Star
+        - Neptune
+        - Neutral Planet
+        - Neutropolis
+        - New New Jersey
+        - New New York
+        - New New York's Famous Original Ray's Superior Court
+        - Nigel 7
+        - Nintenduu 64
+        - Norway
+        - Nude Beach Planet
+        - Nukevada
+        - Nylar IV
+        - O'Cyris IV
+        - O'Grady's Pub
+        - O'Zorgnax's Pub
+        - Old New York
+        - Old New York Subway
+        - Omega 3
+        - Omicron Persei 8
+        - Orbiting Meadows National Cemetery
+        - Original lunar landing site
+        - Panucci's Pizza
+        - Parallel Universe
+        - Paris
+        - Past-O-Rama
+        - Peoples α
+        - Pet Shop
+        - Pisa
+        - Planet Earth
+        - Planet Express building
+        - Planet XXX
+        - Pluto
+        - Poopiter
+        - Reckless Ted's Funland
+        - Republic of French Stereotypes
+        - Robo-Hungarian Empire
+        - Robonia
+        - Robot Arms Apts
+        - Robot Hell
+        - Rockefeller Center
+        - Roswell
+        - Rumbledy-Hump (Planet)
+        - Sargaseous Sea
+        - Sewers of New New York
+        - Simian 7
+        - Simian 7 Zoo
+        - Slurm Factory
+        - Spa 5
+        - Spheron I
+        - Spleef Nebula
+        - St. Louis
+        - Starbabe's Cocoffee
+        - State of New New York
+        - Statue of Liberty
+        - Studio 1²2¹3³
+        - Stumbos IV
+        - Sub-sewer
+        - Svalvard Global Seed Vault
+        - Sweden
+        - Taco Bellevue Hospital
+        - Tarantulon 6
+        - Temple of Robotology
+        - That world that can't be mentioned in polite company
+        - The Hip Joint
+        - The Leaning Tower of Pisa
+        - The Robo-Hungarian Empir
+        - The Sewers of New New York
+        - The World
+        - Thermostadt
+        - Thermostadt Castle
+        - Third World of the Antares System
+        - Thuban 9
+        - Tokyo
+        - Tornadus
+        - Trisol
+        - Tweenis 12
+        - United States
+        - Universe Gamma
+        - Urectum
+        - V-GINY
+        - Venus
+        - Vergon 6
+        - Viga 4
+        - Vinci
+        - Violet Dwarf Star
+        - Washington, D.C.
+        - Wipe Castle
+        - Wong ranch
+        - Wormulon
+      quotes:
+        - A fancy dress gala? I'll wear my formal shell.
+        - Ah, Xmas Eve. Another pointless day where I accomplish nothing.
+        - Bite my shiny metal ass.
+        - Blackmail is such an ugly word. I prefer extortion. The ‘x' makes it sound
+          cool.
+        - Dammit Kif, where's the little umbrella? That's what makes it a scotch on
+          the rocks!
+        - Did everything just taste purple for a second?
+        - Excuse my language but I have had it with you ruffling my petticoats!
+        - Fry, it's been years since medical school, so remind me. Disemboweling in
+          your species, fatal or non-fatal?
+        - Gimme your biggest, strongest, cheapest drink!
+        - Have you ever tried simply turning off your TV, sitting down with your child,
+          and hitting them?
+        - Hey sexy mama. Wanna kill all humans?
+        - Hey! I got a busted ass here and I don't see anyone kissing it!
+        - Honey, I wouldn't talk about taste if I was wearing a lime green tank top.
+        - Hot diggity daffodil!
+        - I don't have emotions & sometimes that makes me very sad.
+        - I don't remember ever fighting Godzilla… But that is so what I would have
+          done!
+        - I don't want to live on this planet anymore.
+        - I got ants in my butt, and I needs to strut.
+        - I really ought to do something but I am already in my pyjamas.
+        - I took the liberty of fertilizing your caviar.
+        - It's when women are polite to each other you know there's a problem.
+        - I'm so embarrassed. I wish everybody else was dead.
+        - Men who call too much are the worst…I bet.
+        - My story is a lot like yours, only more interesting ‘cause it involves robots.
+        - Oh, no room for Bender, huh? Fine! I'll go build my own lunar lander, with
+          blackjack and hookers. In fact, forget the lunar lander and the blackjack.
+          Ahh, screw the whole thing!
+        - Shut up and take my money!
+        - Sweet llamas of the Bahamas!
+        - That's what they said about being alive!
+        - Ugh, it's like a party in my mouth & everyone's throwing up.
+        - Valentine's Day is coming up? Oh Crap, I forgot to get a girlfriend again!
+        - Well, if jacking on will make strangers think I'm cool, I'll do it
+        - We'll soon stage an attack on technology worthy of being chronicled in an
+          anthem by Rush!
+        - We're making beer. I'm the brewery!
+        - When you look this good, you don't have to know anything!
+        - Wow! Sporty go-cart, Leela! So hip and sexy. Not like you at all.
+        - You know what cheers me up? Other people's misfortune.
+      hermes_catchphrases:
+        - Cursed bacteria of Liberia!
+        - Great bonda of Uganda!
+        - Great cow of Moscow!
+        - Sacred boa of West and Eastern Samoa!
+        - Sacred hog of Prague!
+        - Sweet bongo of the Congo!
+        - Sweet candelabra of Le Havre, LaBarbara!
+        - Sweet coincidence of Port-au-Prince!
+        - Sweet fireball of Montreal!
+        - Sweet freak of Mozambique!
+        - Sweet ghost of Babylon!
+        - Sweet giant anteater of Santa Anita!
+        - Sweet gorilla of Manila!
+        - Sweet guinea pig of Winnipeg!
+        - Sweet honey bee of infinity!
+        - Sweet kookaburra of Edinburgh!
+        - Sweet lion of Zion!
+        - Sweet llamas of the Bahamas!
+        - Sweet manatee of Galilee!
+        - Sweet orca of Mallorca!
+        - Sweet reawakening of jamaicaing!
+        - Sweet something... of... someplace...!
+        - Sweet squid of Madrid!
+        - Sweet three-toed sloth of the ice planet Hoth!
+        - Sweet topology of cosmology!
+        - Sweet yeti of the Serengeti!

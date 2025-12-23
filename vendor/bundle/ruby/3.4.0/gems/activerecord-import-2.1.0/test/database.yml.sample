@@ -1,0 +1,65 @@
+common: &common
+  username: root
+  password:
+  encoding: utf8
+  host:     localhost
+  database: activerecord_import_test
+
+mysql2: &mysql2
+  <<: *common
+  adapter: mysql2
+  host: mysql
+
+mysql2spatial:
+  <<: *mysql2
+
+mysql2_makara:
+  <<: *mysql2
+
+mysql2_proxy:
+  <<: *mysql2
+
+postgresql: &postgresql
+  <<: *common
+  username: postgres
+  adapter: postgresql
+  host: postgresql
+  min_messages: warning
+
+postresql_makara:
+  <<: *postgresql
+
+postresql_proxy:
+  <<: *postgresql
+
+postgis:
+  <<: *postgresql
+
+oracle:
+  <<: *common
+  adapter: oracle
+  min_messages: debug
+
+seamless_database_pool:
+  <<: *common
+  adapter: seamless_database_pool
+  prepared_statements: false
+  pool_adapter: mysql2
+  master:
+    host: localhost
+
+sqlite:
+  adapter: sqlite
+  dbfile: test.db
+
+sqlite3: &sqlite3
+  adapter: sqlite3
+  database: test.db
+
+spatialite:
+  <<: *sqlite3
+
+trilogy:
+  <<: *common
+  adapter: trilogy
+  host: mysql

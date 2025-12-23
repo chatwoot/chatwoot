@@ -1,0 +1,38 @@
+<h2 id='summary'>Summary</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Scanned/Reported</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Controllers</td>
+      <td><%= tracker.controllers.length %></td>
+    </tr>
+    <tr>
+      <td>Models</td>
+      <td><%= tracker.models.length - 1 %></td>
+    </tr>
+    <tr>
+      <td>Templates</td>
+      <td><%= number_of_templates %></td>
+    </tr>
+    <tr>
+      <td>Errors</td>
+      <td><%= tracker.errors.length %></td>
+    </tr>
+    <tr>
+      <td>Security Warnings</td>
+      <td><%= warnings %> <span class='high-confidence'>(<%= warnings_summary[:high_confidence] %>)</span></td>
+    </tr>
+  <% if warnings_summary['Ignored Warnings'] %>
+    <tr>
+      <td>Ignored Warnings</td>
+      <td><%= ignored_warnings %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br>

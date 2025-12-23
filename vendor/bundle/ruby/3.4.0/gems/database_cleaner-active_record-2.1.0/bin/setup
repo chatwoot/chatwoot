@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+bundle check || bundle install
+cp spec/support/sample.config.yml spec/support/config.yml

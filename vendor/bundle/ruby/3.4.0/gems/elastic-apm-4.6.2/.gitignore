@@ -1,0 +1,27 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+# rspec failure tracking
+.rspec_status
+
+Gemfile.lock
+/html_docs/
+spec/elastic_apm.log
+spec/junit-reports
+.gem
+*.bulk
+vendor/
+
+.idea/
+log/
+
+benchmark-*.error
+benchmark-*.raw
+
+.ci/docker/jruby/output.log

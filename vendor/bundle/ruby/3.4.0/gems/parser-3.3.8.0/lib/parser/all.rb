@@ -1,0 +1,17 @@
+# frozen_string_literal: true
+
+require_relative 'ruby18'
+require_relative 'ruby19'
+require_relative 'ruby20'
+require_relative 'ruby21'
+require_relative 'ruby22'
+require_relative 'ruby23'
+require_relative 'ruby24'
+require_relative 'ruby25'
+require_relative 'ruby26'
+require_relative 'ruby27'
+require_relative 'ruby30'
+require_relative 'ruby31'
+require_relative 'ruby32'
+require_relative 'ruby33'
+require_relative 'ruby34'

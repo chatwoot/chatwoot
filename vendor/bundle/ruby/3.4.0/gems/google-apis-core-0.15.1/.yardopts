@@ -1,0 +1,13 @@
+--hide-void-return
+--no-private
+--verbose
+--title=google-apis-core
+--markup-provider=redcarpet
+--markup=markdown
+--main OVERVIEW.md
+
+lib/**/*.rb
+-
+OVERVIEW.md
+CHANGELOG.md
+LICENSE.md

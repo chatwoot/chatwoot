@@ -1,0 +1,30 @@
+---
+ko:
+  administrate:
+    actions:
+      confirm: 괜찮습니까?
+      destroy: 삭제
+      edit: 수정
+      edit_resource: 수정 %{name}
+      show_resource: "%{name}"
+      new_resource: 새 %{name}
+      back: 뒤로
+    controller:
+      create:
+        success: "%{resource}가 성공적으로 생성되었습니다."
+      destroy:
+        success: "%{resource}가 성공적으로 삭제되었습니다."
+      update:
+        success: "%{resource}가 성공적으로 수정되었습니다."
+    fields:
+      has_many:
+        more: "%{total_count}개 중에서 %{count}개"
+        none: 없음
+    form:
+      error: 에러
+      errors: "%{pluralized_errors}로 인하여 %{resource_name}을(를) 저장하는데 실패하였습니다."
+    navigation:
+      back_to_app: 앱으로 돌아 가기
+    search:
+      clear: 검색 초기화
+      label: "%{resource} 검색"

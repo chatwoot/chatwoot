@@ -1,0 +1,6 @@
+I've configured Twitter Authentication, so this error happends on the
+application, after twitter posts to my discourse install via the callback.
+
+In the front error I can get a correct message saying "Something waa wrong,
+check you usename and password" and in the backend I see that error in the
+logs.

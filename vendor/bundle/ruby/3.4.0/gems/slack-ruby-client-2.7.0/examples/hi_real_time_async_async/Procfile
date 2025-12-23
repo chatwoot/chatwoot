@@ -1,0 +1,2 @@
+console: bundle exec ruby hi.rb
+

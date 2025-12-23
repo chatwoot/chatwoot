@@ -1,0 +1,7 @@
+source "https://rubygems.org"
+
+gem "sidekiq"
+gem "sentry-sidekiq", path: "../"
+gem "sentry-ruby", path: "../../sentry-ruby"
+
+gem "debug", github: "ruby/debug"

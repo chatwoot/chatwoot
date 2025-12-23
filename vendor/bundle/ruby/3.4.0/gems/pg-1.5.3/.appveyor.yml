@@ -1,0 +1,42 @@
+image: Visual Studio 2022
+
+init:
+  - set PATH=C:/Ruby%ruby_version%/bin;c:/Program Files/Git/cmd;c:/Windows/system32;C:/Windows/System32/WindowsPowerShell/v1.0;C:/Program Files/Mercurial
+  - set RUBYOPT=--verbose
+install:
+  - ps: |
+      if ($env:RUBYDOWNLOAD -ne $null) {
+        $(new-object net.webclient).DownloadFile("https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-head/rubyinstaller-head-$env:RUBYDOWNLOAD.exe", "$pwd/ruby-setup.exe")
+        cmd /c ruby-setup.exe /currentuser /verysilent /dir=C:/Ruby$env:ruby_version
+      }
+  - cmd: |
+      ridk enable
+      c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed ${MINGW_PACKAGE_PREFIX}-pkgconf ${MINGW_PACKAGE_PREFIX}-libyaml ${MINGW_PACKAGE_PREFIX}-gcc"
+  - ruby --version
+  - gem --version
+  - gem install bundler --conservative
+  - bundle install
+  - ps: |
+      if ($env:PGVERSION -ne $null)
+      {
+        $(new-object net.webclient).DownloadFile('http://get.enterprisedb.com/postgresql/postgresql-' + $env:PGVERSION + '.exe', 'C:/postgresql-setup.exe')
+        cmd /c "C:/postgresql-setup.exe" --mode unattended --extract-only 1
+
+        $env:PATH = 'C:/Program Files/PostgreSQL/' + $env:PGVER + '/bin;' + $env:PATH
+        $env:PATH = 'C:/Program Files (x86)/PostgreSQL/' + $env:PGVER + '/bin;' + $env:PATH
+      } else {
+        c:/msys64/usr/bin/bash -lc "pacman -S --noconfirm --needed `${MINGW_PACKAGE_PREFIX}-postgresql"
+      }
+  - echo %PATH%
+  - pg_config
+build_script:
+  - bundle exec rake -rdevkit compile --trace
+test_script:
+  - bundle exec rake test PG_DEBUG=0
+on_failure:
+  - find -name mkmf.log | xargs cat
+environment:
+  matrix:
+    - ruby_version: "head"
+      RUBYDOWNLOAD: x86
+    - ruby_version: "30-x64"

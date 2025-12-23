@@ -1,0 +1,311 @@
+<script id="profilerTemplate" type="text/x-dot-tmpl">
+  <div class="profiler-result">
+    <div class="profiler-button {{? it.has_duplicate_sql_timings}}profiler-warning{{?}}">
+    {{? it.has_duplicate_sql_timings}}<span class="profiler-nuclear">!</span>{{?}}
+      <span class="profiler-number">
+        {{= MiniProfiler.formatDuration(it.duration_milliseconds)}} <span class="profiler-unit">ms</span>
+      </span>
+      {{? MiniProfiler.showTotalSqlCount()}}
+        <span class="profiler-number">
+          {{= it.sql_count}} <span class="profiler-unit">sql</span>
+        </span>
+      {{?}}
+    </div>
+
+    <div class="profiler-popup">
+      <div class="profiler-info">
+        <span class="profiler-name">
+          {{= it.name}} <span class="profiler-overall-duration">({{= MiniProfiler.formatDuration(it.duration_milliseconds)}} ms)</span>
+        </span>
+        <span class="profiler-server-time">{{= it.machine_name}} on {{= MiniProfiler.renderDate(it.started_formatted)}}</span>
+      </div>
+      <div class="profiler-output">
+        <table class="profiler-timings">
+          <thead>
+            <tr>
+              <th>event</th>
+              <th>duration (ms)</th>
+              <th class="profiler-duration-with-children">with children (ms)</th>
+              <th class="time-from-start">from start (ms)</th>
+            {{? it.has_sql_timings}}
+              <th colspan="2">query time (ms)</th>
+            {{?}}
+            {{~ it.custom_timing_names :value}}
+              <th colspan="2">{{= value.toLowerCase() }} (ms)</th>
+            {{~}}
+            </tr>
+          </thead>
+          <tbody>
+            {{= MiniProfiler.templates.timingTemplate({timing: it.root, page: it}) }}
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">
+                {{? !it.client_timings}}
+                   {{= MiniProfiler.templates.linksTemplate({timing: it.root, page: it}) }}
+                {{?}}
+                <a class="profiler-toggle-duration-with-children" title="toggles column with aggregate child durations">show time with children</a>
+                <a
+                  class="profiler-snapshots-page-link"
+                  title="Go to snapshots page"
+                  href="{{= MiniProfiler.options.path }}snapshots">snapshots</a>
+              </td>
+              {{? it.has_sql_timings}}
+                <td colspan="2" class="profiler-number profiler-percent-in-sql" title="{{= MiniProfiler.getSqlTimingsCount(it.root) }} queries spent {{= MiniProfiler.formatDuration(it.duration_milliseconds_in_sql) }} ms of total request time">
+                  {{= MiniProfiler.formatDuration(it.duration_milliseconds_in_sql / it.duration_milliseconds * 100) }}
+                  <span class="profiler-unit">% in sql</span>
+                </td>
+              {{?}}
+              {{~ it.custom_timing_names :value}}
+                <td colspan="2" class="profiler-number profiler-percentage-in-sql" title="{{= it.custom_timing_stats[value].count }} {{= value.toLowerCase() }} invocations spent {{= MiniProfiler.formatDuration(it.custom_timing_stats[value].duration) }} ms of total request time">
+                  {{= MiniProfiler.formatDuration(it.custom_timing_stats[value].duration / it.duration_milliseconds * 100) }}
+                  <span class="profiler-unit">% in {{= value.toLowerCase() }}</span>
+                </td>
+              {{~}}
+            </tr>
+          </tfoot>
+        </table>
+        {{? it.client_timings}}
+          <table class="profiler-timings profiler-client-timings">
+            <thead>
+              <tr>
+                <th>client event</th>
+                <th>duration (ms)</th>
+                <th>from start (ms)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{~ MiniProfiler.getClientTimings(it.client_timings) :value}}
+                <tr class="{{? value.isTrivial }}profiler-trivial{{?}}">
+                  <td class="profiler-label">{{= value.name }}</td>
+                  <td class="profiler-duration">
+                    {{? value.duration >= 0}}
+                      <span class="profiler-unit"></span>{{= MiniProfiler.formatDuration(value.duration) }}
+                    {{?}}
+                  </td>
+                  <td class="profiler-duration time-from-start">
+                    <span class="profiler-unit">+</span>{{= MiniProfiler.formatDuration(value.start) }}
+                  </td>
+                </tr>
+              {{~}}
+            </tbody>
+            <tfoot>
+              <td colspan="3">
+                 {{= MiniProfiler.templates.linksTemplate({timing: it.root, page: it}) }}
+              </td>
+            </tfoot>
+          </table>
+        {{?}}
+        {{? it.custom_fields && Object.keys(it.custom_fields).length > 0 }}
+          <p class="custom-fields-title">Snapshot custom fields</p>
+          <table class="profiler-timings">
+            <tbody>
+              {{~ Object.keys(it.custom_fields) :key }}
+                <tr>
+                  <td class="profiler-label">{{= key }}</td>
+                  <td class="profiler-label">{{= it.custom_fields[key] }}</td>
+                </tr>
+              {{~}}
+            </tbody>
+          </table>
+        {{?}}
+      </div>
+    </div>
+
+    {{? it.has_sql_timings}}
+      <div class="profiler-queries">
+        <table>
+        <thead>
+          <tr>
+            <th class="ta-right">step<br />time from start<br />query type<br />duration</th>
+            <th class="ta-left">call stack<br />query</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{~ MiniProfiler.getSqlTimings(it.root) :value:index}}
+            {{= MiniProfiler.templates.sqlGapTemplate({g: value.prevGap}) }}
+            {{= MiniProfiler.templates.sqlTimingTemplate({i: index, s: value}) }}
+            {{? value.nextGap}}
+              {{= MiniProfiler.templates.sqlGapTemplate({g: value.nextGap}) }}
+            {{?}}
+          {{~}}
+        </tbody>
+        </table>
+        <p class="profiler-trivial-gap-container">
+          <a class="profiler-toggle-trivial-gaps">show trivial gaps</a>
+        </p>
+      </div>
+    {{?}}
+  </div>
+</script>
+
+<script id="linksTemplate" type="text/x-dot-tmpl">
+  <a href="{{= MiniProfiler.shareUrl(it.page.id) }}" class="profiler-share-profiler-results" target="_blank">share</a>
+  <a href="{{= MiniProfiler.moreUrl(it.page.name) }}" class="profiler-more-actions">more</a>
+  {{? it.page.has_flamegraph}}
+    <a href="{{= MiniProfiler.flamegraphUrl(it.page.id) }}" class="profiler-show-flamegraph" target="_blank">flamegraph</a>
+  {{?}}
+  {{? it.custom_link}}
+    <a href="{{= it.custom_link }}" class="profiler-custom-link" target="_blank">{{= it.custom_link_name }}</a>
+  {{?}}
+  {{? it.page.has_trivial_timings}}
+    <a class="profiler-toggle-trivial" data-show-on-load="{{= it.page.has_all_trivial_timings }}" title="toggles any rows with &lt; {{= it.page.trivial_duration_threshold_milliseconds }} ms">
+      show trivial
+    </a>
+  {{?}}
+</script>
+
+<script id="timingTemplate" type="text/x-dot-tmpl">
+  <tr class="{{? it.timing.is_trivial }}profiler-trivial{{?}}" data-timing-id="{{= it.timing.id }}">
+    <td class="profiler-label" title="{{? it.timing.name && it.timing.name.length > 45 }}{{= it.timing.name }}{{?}}">
+      <span class="profiler-indent">{{= MiniProfiler.renderIndent(it.timing.depth) }}</span> {{= it.timing.name.slice(0,45) }}{{? it.timing.name && it.timing.name.length > 45 }}...{{?}}
+    </td>
+    <td class="profiler-duration" title="duration of this step without any children's durations">
+      {{= MiniProfiler.formatDuration(it.timing.duration_without_children_milliseconds) }}
+    </td>
+    <td class="profiler-duration profiler-duration-with-children" title="duration of this step and its children">
+      {{= MiniProfiler.formatDuration(it.timing.duration_milliseconds) }}
+    </td>
+    <td class="profiler-duration time-from-start" title="time elapsed since profiling started">
+      <span class="profiler-unit">+</span>{{= MiniProfiler.formatDuration(it.timing.start_milliseconds) }}
+    </td>
+
+  {{? it.timing.has_sql_timings}}
+    <td class="profiler-duration {{? it.timing.has_duplicate_sql_timings}}profiler-warning{{?}}" title="{{? it.timing.has_duplicate_sql_timings}}duplicate queries detected - {{?}}{{? it.timing.executed_readers > 0 || it.timing.executed_scalars > 0 || it.timing.executed_non_queries > 0}}{{= it.timing.executed_readers }} reader, {{= it.timing.executed_scalars }} scalar, {{= it.timing.executed_non_queries }} non-query statements executed{{?}}">
+      <a class="profiler-queries-show">
+        {{? it.timing.has_duplicate_sql_timings}}<span class="profiler-nuclear">!</span>{{?}}
+        {{= it.timing.sql_timings.length }} <span class="profiler-unit">sql</span>
+      </a>
+    </td>
+    <td class="profiler-duration" title="aggregate duration of all queries in this step (excludes children)">
+      {{= MiniProfiler.formatDuration(it.timing.sql_timings_duration_milliseconds) }}
+    </td>
+  {{??}}
+    <td colspan="2"></td>
+  {{?}}
+
+  {{~ it.page.custom_timing_names :value}}
+    {{? it.timing.custom_timings && it.timing.custom_timings[value]}}
+      <td class="profiler-duration" title="aggregate number of all {{= value.toLowerCase() }} invocations in this step (excludes children)">
+        {{= it.timing.custom_timings[value].length }} {{= value.toLowerCase() }}
+      </td>
+      <td class="profiler-duration" title="aggregate duration of all {{= value.toLowerCase() }} invocations in this step (excludes children)">
+        {{= MiniProfiler.formatDuration(it.timing.custom_timing_stats[value].duration) }}
+      </td>
+    {{??}}
+      <td colspan="2"></td>
+    {{?}}
+  {{~}}
+
+  </tr>
+
+  {{? it.timing.has_children}}
+    {{~ it.timing.children :value}}
+      {{= MiniProfiler.templates.timingTemplate({timing: value, page: it.page}) }}
+    {{~}}
+  {{?}}
+</script>
+
+<script id="sqlTimingTemplate" type="text/x-dot-tmpl">
+  <tr class="{{= it.s.row_class || '' }}" data-timing-id="{{= it.s.parent_timing_id }}">
+    <td class="profiler-info">
+      <div>{{= it.s.parent_timing_name }}</div>
+      <div class="profiler-number"><span class="profiler-unit">T+</span>{{= MiniProfiler.formatDuration(it.s.start_milliseconds) }} <span class="profiler-unit">ms</span></div>
+      <div>
+        {{? it.s.is_duplicate}}<span class="profiler-warning">DUPLICATE</span>{{?}}
+        {{= MiniProfiler.renderExecuteType(it.s.execute_type) }}
+      </div>
+      <div title="{{? it.s.execute_type == 3}}first result fetched: {{= it.s.first_fetch_duration_milliseconds }}ms{{?}}">{{= MiniProfiler.formatDuration(it.s.duration_milliseconds) }} <span class="profiler-unit">ms</span></div>
+    </td>
+    <td>
+      <div class="query">
+        <pre class="profiler-stack-trace">{{= it.s.stack_trace_snippet }}</pre>
+        {{? it.s.formatted_command_string}}
+          <pre class="prettyprint lang-sql"><code>{{= it.s.formatted_command_string }}; {{= MiniProfiler.formatParameters(it.s.parameters) }}</code></pre>
+        {{??}}
+          <i>Query redacted</i>
+        {{?}}
+      </div>
+    </td>
+  </tr>
+</script>
+
+<script id="sqlGapTemplate" type="text/x-dot-tmpl">
+  <tr class="profiler-gap-info{{? it.g.duration < 4}} profiler-trivial-gaps{{?}}">
+    <td class="profiler-info">
+      {{= it.g.duration }} <span class="profiler-unit">ms</span>
+    </td>
+    <td class="query">
+      <div>{{= it.g.topReason.name }} &mdash; {{= it.g.topReason.duration.toFixed(2) }} <span class="profiler-unit">ms</span></div>
+    </td>
+  </tr>
+</script>
+
+<script id="snapshotsGroupsList" type="text/x-dot-tmpl">
+  {{? it.list && it.list.length }}
+    <table class="snapshots-table">
+      <thead>
+        <tr>
+          <th>Requests Group</th>
+          <th>Worst Time (ms)</th>
+          <th>Best Time (ms)</th>
+          <th>No. of Snapshots</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{~ it.list :row}}
+          <tr>
+            <td class="request-group"><a href="{{= row.url }}">{{= row.name }}</a></td>
+            <td>{{= MiniProfiler.formatDuration(row.worst_score) }}</td>
+            <td>{{= MiniProfiler.formatDuration(row.best_score) }}</td>
+            <td>{{= row.snapshots_count }}</td>
+          </tr>
+        {{~}}
+      </tbody>
+    </table>
+  {{??}}
+    <h2>No snapshots exist</h2>
+  {{?}}
+</script>
+
+<script id="snapshotsList" type="text/x-dot-tmpl">
+  {{ var data = it.data; }}
+  {{ var customFieldsNames = it.allCustomFieldsNames; }}
+  {{? data.list && data.list.length }}
+    <h2>Snapshots for {{= data.group_name }}</h2>
+    <table class="snapshots-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Duration (ms)</th>
+          <th>SQL Count</th>
+          {{~ customFieldsNames :name }}
+            <th>{{= name }}</th>
+          {{~}}
+          <th>Age</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{~ data.list :row}}
+          <tr>
+            <td><a href="{{= row.url }}">
+              {{= row.id }}
+            </a></td>
+            <td>{{= MiniProfiler.formatDuration(row.duration) }}</td>
+            <td>{{= row.sql_count }}</td>
+            {{~ customFieldsNames :name }}
+              <td>{{= row.custom_fields[name] || "" }}</td>
+            {{~}}
+            <td>
+              {{? row.timestamp }}
+                {{= MiniProfiler.timestampToRelative(row.timestamp) }}
+              {{?}}
+            </td>
+          </tr>
+        {{~}}
+      </tbody>
+    </table>
+  {{??}}
+    <h2>No snapshots for {{= data.group_name }}</h2>
+  {{?}}
+</script>

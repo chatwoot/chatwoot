@@ -1,0 +1,50 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Translated from sr/381.txt using Wikipedia and Freebase.
+
+38110|Pirot
+38111|Belgrade
+38112|Pozarevac
+38113|Pancevo
+38114|Valjevo
+38115|Sabac
+38116|Leskovac
+38117|Vranje
+38118|Nis
+38119|Zajecar
+38120|Novi Pazar
+38121|Novi Sad
+38122|Sremska Mitrovica
+38123|Zrenjanin
+381230|Kikinda
+38124|Subotica
+38125|Sombor
+38126|Smederevo
+38127|Prokuplje
+38128|Kosovska Mitrovica
+381280|Gnjilane
+38129|Prizren
+381290|Urosevac
+38130|Bor
+38131|Uzice
+38132|Cacak
+38133|Prijepolje
+38134|Kragujevac
+38135|Jagodina
+38136|Kraljevo
+38137|Krusevac
+38138|Pristina
+38139|Pec
+381390|Dakovica

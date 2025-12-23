@@ -1,0 +1,9 @@
+Description:
+    Generates an initializer for rack-mini-profiler. Use an initializer when manually
+    requiring rack-mini-profiler in your application (using require: false in your Gemfile).
+
+Example:
+    `bin/rails generate rack_mini_profiler:install`
+
+    This generates a an initializer that requires and initializes
+    rack-mini-profiler in development mode.

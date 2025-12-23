@@ -1,0 +1,1024 @@
+/**
+ * Constructor for command storage.
+ * It uses localStorage if available. Otherwise fallback to normal JS array.
+ */
+function CommandStorage() {
+  this.previousCommands = [];
+  var previousCommandOffset = 0;
+  var hasLocalStorage = typeof window.localStorage !== 'undefined';
+  var STORAGE_KEY = "web_console_previous_commands";
+  var MAX_STORAGE = 100;
+
+  if (hasLocalStorage) {
+    this.previousCommands = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    previousCommandOffset = this.previousCommands.length;
+  }
+
+  this.addCommand = function(command) {
+    previousCommandOffset = this.previousCommands.push(command);
+
+    if (previousCommandOffset > MAX_STORAGE) {
+      this.previousCommands.splice(0, 1);
+      previousCommandOffset = MAX_STORAGE;
+    }
+
+    if (hasLocalStorage) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(this.previousCommands));
+    }
+  };
+
+  this.navigate = function(offset) {
+    previousCommandOffset += offset;
+
+    if (previousCommandOffset < 0) {
+      previousCommandOffset = -1;
+      return null;
+    }
+
+    if (previousCommandOffset >= this.previousCommands.length) {
+      previousCommandOffset = this.previousCommands.length;
+      return null;
+    }
+
+    return this.previousCommands[previousCommandOffset];
+  }
+}
+
+function Autocomplete(_words, prefix) {
+  this.words = prepareWords(_words);
+  this.current = -1;
+  this.left = 0; // [left, right)
+  this.right = this.words.length;
+  this.confirmed = false;
+
+  function createSpan(label, className) {
+    var el = document.createElement('span');
+    addClass(el, className);
+    el.innerText = label;
+    return el;
+  }
+
+  function prepareWords(words) {
+    // convert into an object with priority and element
+    var res = new Array(words.length);
+    for (var i = 0, ind = 0; i < words.length; ++i) {
+      res[i] = new Array(words[i].length);
+      for (var j = 0; j < words[i].length; ++j) {
+        res[i][j] = {
+          word: words[i][j],
+          priority: i,
+          element: createSpan(words[i][j], 'trimmed keyword')
+        };
+      }
+    }
+    // flatten and sort by alphabetical order to refine incrementally
+    res = flatten(res);
+    res.sort(function(a, b) { return a.word == b.word ? 0 : (a.word < b.word ? -1 : 1); });
+    for (var i = 0; i < res.length; ++i) res[i].element.dataset.index = i;
+    return res;
+  }
+
+  this.view = document.createElement('pre');
+  addClass(this.view, 'auto-complete console-message');
+  this.view.appendChild(this.prefix = createSpan('...', 'trimmed keyword'));
+  this.view.appendChild(this.stage = document.createElement('span'));
+  this.elements = this.stage.children;
+  this.view.appendChild(this.suffix = createSpan('...', 'trimmed keyword'));
+
+  this.refine(prefix || '');
+}
+
+Autocomplete.prototype.getSelectedWord = function() {
+  return this.lastSelected && this.lastSelected.innerText;
+};
+
+Autocomplete.prototype.onFinished = function(callback) {
+  this.onFinishedCallback = callback;
+  if (this.confirmed) callback(this.confirmed);
+};
+
+Autocomplete.prototype.onKeyDown = function(ev) {
+  var self = this;
+  if (!this.elements.length) return;
+
+  function move(nextCurrent) {
+    if (self.lastSelected) removeClass(self.lastSelected, 'selected');
+    addClass(self.lastSelected = self.elements[nextCurrent], 'selected');
+    self.trim(self.current, true);
+    self.trim(nextCurrent, false);
+    self.current = nextCurrent;
+  }
+
+  switch (ev.keyCode) {
+    case 69:
+      if (ev.ctrlKey) {
+        move(this.current + 1 >= this.elements.length ? 0 : this.current + 1);
+        return true;
+      }
+      return false;
+    case 9: // Tab
+      if (ev.shiftKey) { // move back
+        move(this.current - 1 < 0 ? this.elements.length - 1 : this.current - 1);
+      } else { // move next
+        move(this.current + 1 >= this.elements.length ? 0 : this.current + 1);
+      }
+      return true;
+    case 13: // Enter
+      this.finish();
+      return true;
+    case 27: // Esc
+      this.cancel();
+      return true;
+    case 37: case 38: case 39: case 40: // disable using arrow keys on completing
+      return true;
+  }
+
+  return false;
+};
+
+Autocomplete.prototype.trim = function(from, needToTrim) {
+  var self = this;
+  var num = 5;
+
+  if (this.elements.length > num) {
+    (0 < from ? removeClass : addClass)(this.prefix, 'trimmed');
+    (from + num < this.elements.length ? removeClass : addClass)(this.suffix, 'trimmed');
+  } else {
+    addClass(this.prefix, 'trimmed');
+    addClass(this.suffix, 'trimmed');
+  }
+
+  function iterate(x) {
+    for (var i = 0; i < num; ++i, ++x) if (0 <= x && x < self.elements.length) {
+      toggleClass(self.elements[x], 'trimmed');
+    }
+  }
+
+  var toggleClass = needToTrim ? addClass : removeClass;
+  if (from < 0) {
+    iterate(0);
+  } else if (from + num - 1 >= this.elements.length) {
+    iterate(this.elements.length - num);
+  } else {
+    iterate(from);
+  }
+};
+
+Autocomplete.prototype.refine = function(prefix) {
+  if (this.confirmed) return;
+  var inc = !this.prev || (prefix.length >= this.prev.length);
+  this.prev = prefix;
+  var self = this;
+
+  function remove(parent, child) {
+    if (parent == child.parentNode) parent.removeChild(child);
+  }
+
+  function toggle(el) {
+    return inc ? remove(self.stage, el) : self.stage.appendChild(el);
+  }
+
+  function startsWith(str, prefix) {
+    return !prefix || str.substr(0, prefix.length) === prefix;
+  }
+
+  function moveRight(l, r) {
+    while (l < r && inc !== startsWith(self.words[l].word, prefix)) toggle(self.words[l++].element);
+    return l;
+  }
+
+  function moveLeft(l, r) {
+    while (l < r - 1 && inc !== startsWith(self.words[r-1].word, prefix)) toggle(self.words[--r].element);
+    return r;
+  }
+
+  self.trim(self.current, true); // reset trimming
+
+  // Refine the range of words having same prefix
+  if (inc) {
+    self.left = moveRight(self.left, self.right);
+    self.right = moveLeft(self.left, self.right);
+  } else {
+    self.left = moveLeft(-1, self.left);
+    self.right = moveRight(self.right, self.words.length);
+  }
+
+  // Render elements with sorting by scope groups
+  var words = this.words.slice(this.left, this.right);
+  words.sort(function(a, b) { return a.priority == b.priority ? (a.word < b.word ? -1 : 1) : (a.priority < b.priority ? -1 : 1); });
+  removeAllChildren(this.elements);
+  for (var i = 0; i < words.length; ++i) {
+    this.stage.appendChild(words[i].element);
+  }
+
+  // Keep a previous selected element if the refined range includes the element
+  if (this.lastSelected && this.left <= this.lastSelected.dataset.index && this.lastSelected.dataset.index < this.right) {
+    this.current = Array.prototype.indexOf.call(this.elements, this.lastSelected);
+    this.trim(this.current, false);
+  } else {
+    if (this.lastSelected) removeClass(this.lastSelected, 'selected');
+    this.lastSelected = null;
+    this.current = -1;
+    this.trim(0, false);
+  }
+
+  if (self.left + 1 == self.right) {
+    self.current = 0;
+    self.finish();
+  } else if (self.left == self.right) {
+    self.cancel();
+  }
+};
+
+Autocomplete.prototype.finish = function() {
+  if (0 <= this.current && this.current < this.elements.length) {
+    this.confirmed = this.elements[this.current].innerText;
+    if (this.onFinishedCallback) this.onFinishedCallback(this.confirmed);
+    this.removeView();
+  } else {
+    this.cancel();
+  }
+};
+
+Autocomplete.prototype.cancel = function() {
+  if (this.onFinishedCallback) this.onFinishedCallback();
+  this.removeView();
+};
+
+Autocomplete.prototype.removeView = function() {
+  if (this.view.parentNode) this.view.parentNode.removeChild(this.view);
+  removeAllChildren(this.view);
+}
+
+// HTML strings for dynamic elements.
+var consoleInnerHtml = <%= render_inlined_string '_inner_console_markup' %>;
+var promptBoxHtml = <%= render_inlined_string '_prompt_box_markup' %>;
+// CSS
+var consoleStyleCss = <%= render_inlined_string 'style' %>;
+// Insert a style element with the unique ID
+var styleElementId = 'sr02459pvbvrmhco';
+// Nonce to use for CSP
+var styleElementNonce = '<%= @nonce %>';
+
+// REPLConsole Constructor
+function REPLConsole(config) {
+  function getConfig(key, defaultValue) {
+    return config && config[key] || defaultValue;
+  }
+
+  this.commandStorage = new CommandStorage();
+  this.prompt = getConfig('promptLabel', ' >>');
+  this.mountPoint = getConfig('mountPoint');
+  this.sessionId = getConfig('sessionId');
+  this.autocomplete = false;
+}
+
+REPLConsole.prototype.getSessionUrl = function(path) {
+  var parts = [ this.mountPoint, 'repl_sessions', this.sessionId ];
+  if (path) {
+    parts.push(path);
+  }
+  // Join and remove duplicate slashes.
+  return parts.join('/').replace(/([^:]\/)\/+/g, '$1');
+};
+
+REPLConsole.prototype.contextRequest = function(keyword, callback) {
+  putRequest(this.getSessionUrl(), 'context=' + getContext(keyword), function(xhr) {
+    if (xhr.status == 200) {
+      callback(null, JSON.parse(xhr.responseText));
+    } else {
+      callback(xhr.statusText);
+    }
+  });
+};
+
+REPLConsole.prototype.commandHandle = function(line, callback) {
+  var self = this;
+  var params = 'input=' + encodeURIComponent(line);
+  callback = callback || function() {};
+
+  function isSuccess(status) {
+    return status >= 200 && status < 300 || status === 304;
+  }
+
+  function parseJSON(text) {
+    try {
+      return JSON.parse(text);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function getErrorText(xhr) {
+    if (!xhr.status) {
+      return "Connection Refused";
+    } else {
+      return xhr.status + ' ' + xhr.statusText;
+    }
+  }
+
+  putRequest(self.getSessionUrl(), params, function(xhr) {
+    var response = parseJSON(xhr.responseText);
+    var result   = isSuccess(xhr.status);
+    if (result) {
+      self.writeOutput(response.output);
+    } else {
+      if (response && response.output) {
+        self.writeError(response.output);
+      } else {
+        self.writeError(getErrorText(xhr));
+      }
+    }
+    callback(result, response);
+  });
+};
+
+REPLConsole.prototype.uninstall = function() {
+  this.container.parentNode.removeChild(this.container);
+};
+
+REPLConsole.prototype.install = function(container) {
+  var _this = this;
+
+  document.onkeydown = function(ev) {
+    if (_this.focused) { _this.onKeyDown(ev); }
+  };
+
+  document.onkeypress = function(ev) {
+    if (_this.focused) { _this.onKeyPress(ev); }
+  };
+
+  document.addEventListener('mousedown', function(ev) {
+    var el = ev.target || ev.srcElement;
+
+    if (el) {
+      do {
+        if (el === container) {
+          _this.focus();
+          return;
+        }
+      } while (el = el.parentNode);
+
+      _this.blur();
+    }
+  });
+
+  // Render the console.
+  container.innerHTML = consoleInnerHtml;
+
+  var consoleOuter = findChild(container, 'console-outer');
+  var consoleActions = findChild(consoleOuter, 'console-actions');
+
+  addClass(container, 'console');
+  addClass(container.getElementsByClassName('layer'), 'pos-absolute border-box');
+  addClass(container.getElementsByClassName('button'), 'border-box');
+  addClass(consoleActions, 'pos-fixed pos-right');
+
+  // Make the console resizable.
+  function resizeContainer(ev) {
+    var startY              = ev.clientY;
+    var startHeight         = parseInt(document.defaultView.getComputedStyle(container).height, 10);
+    var scrollTopStart      = consoleOuter.scrollTop;
+    var clientHeightStart   = consoleOuter.clientHeight;
+
+    var doDrag = function(e) {
+      var height = startHeight + startY - e.clientY;
+      consoleOuter.scrollTop = scrollTopStart + (clientHeightStart - consoleOuter.clientHeight);
+      if (height > document.documentElement.clientHeight) {
+        container.style.height = document.documentElement.clientHeight;
+      } else {
+        container.style.height = height + 'px';
+      }
+      shiftConsoleActions();
+    };
+
+    var stopDrag = function(e) {
+      document.documentElement.removeEventListener('mousemove', doDrag, false);
+      document.documentElement.removeEventListener('mouseup', stopDrag, false);
+    };
+
+    document.documentElement.addEventListener('mousemove', doDrag, false);
+    document.documentElement.addEventListener('mouseup', stopDrag, false);
+  }
+
+  function closeContainer(ev) {
+    container.parentNode.removeChild(container);
+  }
+
+  var shifted = false;
+  function shiftConsoleActions() {
+    if (consoleOuter.scrollHeight > consoleOuter.clientHeight) {
+      var widthDiff = document.documentElement.clientWidth - consoleOuter.clientWidth;
+      if (shifted || ! widthDiff) return;
+      shifted = true;
+      consoleActions.style.marginRight = widthDiff + 'px';
+    } else if (shifted) {
+      shifted = false;
+      consoleActions.style.marginRight = '0px';
+    }
+  }
+
+  var observer = new MutationObserver(function(mutationsList) {
+    for (let mutation of mutationsList) {
+      if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
+        shiftConsoleActions();
+      }
+    }
+  });
+
+  // Initialize
+  this.container = container;
+  this.outer = consoleOuter;
+  this.inner = findChild(this.outer, 'console-inner');
+  this.clipboard = findChild(container, 'clipboard');
+  this.suggestWait = 1500;
+  this.newPromptBox();
+  this.insertCss();
+
+  findChild(container, 'resizer').addEventListener('mousedown', resizeContainer);
+  findChild(consoleActions, 'close-button').addEventListener('click', closeContainer);
+  observer.observe(consoleOuter, { childList: true, subtree: true });
+
+  REPLConsole.currentSession = this;
+};
+
+// Add CSS styles dynamically. This probably doesnt work for IE <8.
+REPLConsole.prototype.insertCss = function() {
+  if (document.getElementById(styleElementId)) {
+    return; // already inserted
+  }
+  var style = document.createElement('style');
+  style.type = 'text/css';
+  style.innerHTML = consoleStyleCss;
+  style.id = styleElementId;
+  if (styleElementNonce.length > 0) {
+    style.nonce = styleElementNonce;
+  }
+  document.getElementsByTagName('head')[0].appendChild(style);
+};
+
+REPLConsole.prototype.focus = function() {
+  if (! this.focused) {
+    this.focused = true;
+    if (! hasClass(this.inner, "console-focus")) {
+      addClass(this.inner, "console-focus");
+    }
+    this.scrollToBottom();
+  }
+};
+
+REPLConsole.prototype.blur = function() {
+  this.focused = false;
+  removeClass(this.inner, "console-focus");
+};
+
+/**
+ * Add a new empty prompt box to the console.
+ */
+REPLConsole.prototype.newPromptBox = function() {
+  // Remove the caret from previous prompt display if any.
+  if (this.promptDisplay) {
+    this.removeCaretFromPrompt();
+  }
+
+  var promptBox = document.createElement('div');
+  promptBox.className = "console-prompt-box";
+  promptBox.innerHTML = promptBoxHtml;
+  this.promptLabel = promptBox.getElementsByClassName('console-prompt-label')[0];
+  this.promptDisplay = promptBox.getElementsByClassName('console-prompt-display')[0];
+  // Render the prompt box
+  this.setInput("");
+  this.promptLabel.innerHTML = this.prompt;
+  this.inner.appendChild(promptBox);
+  this.scrollToBottom();
+};
+
+/**
+ * Remove the caret from the prompt box,
+ * mainly before adding a new prompt box.
+ * For simplicity, just re-render the prompt box
+ * with caret position -1.
+ */
+REPLConsole.prototype.removeCaretFromPrompt = function() {
+  this.setInput(this._input, -1);
+};
+
+REPLConsole.prototype.getSuggestion = function(keyword) {
+  var self = this;
+
+  function show(found) {
+    if (!found) return;
+    var hint = self.promptDisplay.childNodes[1];
+    hint.className = 'console-hint';
+    hint.dataset.keyword = found;
+    hint.innerText = found.substr(self.suggestKeyword.length);
+    // clear hinting information after timeout in a few time
+    if (self.suggestTimeout) clearTimeout(self.suggestTimeout);
+    self.suggestTimeout = setTimeout(function() { self.renderInput() }, self.suggestWait);
+  }
+
+  function find(context) {
+    var k = self.suggestKeyword;
+    for (var i = 0; i < context.length; ++i) if (context[i].substr(0, k.length) === k) {
+      if (context[i] === k) return;
+      return context[i];
+    }
+  }
+
+  function request(keyword, callback) {
+    self.contextRequest(keyword, function(err, res) {
+      if (err) throw new Error(err);
+      var c = flatten(res['context']);
+      c.sort();
+      callback(c);
+    });
+  }
+
+  self.suggestKeyword = keyword;
+  var input = getContext(keyword);
+  if (keyword.length - input.length < 3) return;
+
+  if (self.suggestInput !== input) {
+    self.suggestInput = input;
+    request(keyword, function(c) {
+      show(find(self.suggestContext = c));
+    });
+  } else if (self.suggestContext) {
+    show(find(self.suggestContext));
+  }
+};
+
+REPLConsole.prototype.getHintKeyword = function() {
+  var hint = this.promptDisplay.childNodes[1];
+  return hint.className === 'console-hint' && hint.dataset.keyword;
+};
+
+REPLConsole.prototype.setInput = function(input, caretPos) {
+  if (input == null) return; // keep value if input is undefined
+  this._caretPos = caretPos === undefined ? input.length : caretPos;
+  this._input = input;
+  if (this.autocomplete) this.autocomplete.refine(this.getCurrentWord());
+  this.renderInput();
+  if (!this.autocomplete && input.length == this._caretPos) this.getSuggestion(this.getCurrentWord());
+};
+
+/**
+ * Add some text to the existing input.
+ */
+REPLConsole.prototype.addToInput = function(val, caretPos) {
+  caretPos = caretPos || this._caretPos;
+  var before = this._input.substring(0, caretPos);
+  var after = this._input.substring(caretPos, this._input.length);
+  var newInput =  before + val + after;
+  this.setInput(newInput, caretPos + val.length);
+};
+
+/**
+ * Render the input prompt. This is called whenever
+ * the user input changes, sometimes not very efficient.
+ */
+REPLConsole.prototype.renderInput = function() {
+  // Clear the current input.
+  removeAllChildren(this.promptDisplay);
+
+  var before, current, after;
+  var center = document.createElement('span');
+
+  if (this._caretPos < 0) {
+    before = this._input;
+    current = after = "";
+  } else if (this._caretPos === this._input.length) {
+    before = this._input;
+    current = "\u00A0";
+    after = "";
+  } else {
+    before = this._input.substring(0, this._caretPos);
+    current = this._input.charAt(this._caretPos);
+    after = this._input.substring(this._caretPos + 1, this._input.length);
+  }
+
+  this.promptDisplay.appendChild(document.createTextNode(before));
+  this.promptDisplay.appendChild(center);
+  this.promptDisplay.appendChild(document.createTextNode(after));
+
+  var hint = this.autocomplete && this.autocomplete.getSelectedWord();
+  addClass(center, hint ? 'console-hint' : 'console-cursor');
+  center.appendChild(document.createTextNode(hint ? hint.substr(this.getCurrentWord().length) : current));
+};
+
+REPLConsole.prototype.writeOutput = function(output) {
+  var consoleMessage = document.createElement('pre');
+  consoleMessage.className = "console-message";
+  consoleMessage.innerHTML = escapeHTML(output);
+  this.inner.appendChild(consoleMessage);
+  this.newPromptBox();
+  return consoleMessage;
+};
+
+REPLConsole.prototype.writeError = function(output) {
+  var consoleMessage = this.writeOutput(output);
+  addClass(consoleMessage, "error-message");
+  return consoleMessage;
+};
+
+REPLConsole.prototype.writeNotification = function(output) {
+  var consoleMessage = this.writeOutput(output);
+  addClass(consoleMessage, "notification-message");
+  return consoleMessage;
+};
+
+REPLConsole.prototype.onEnterKey = function() {
+  var input = this._input;
+
+  if(input != "" && input !== undefined) {
+    this.commandStorage.addCommand(input);
+  }
+
+  this.commandHandle(input);
+};
+
+REPLConsole.prototype.onTabKey = function() {
+  var self = this;
+
+  var hintKeyword;
+  if (hintKeyword = self.getHintKeyword()) {
+    self.swapCurrentWord(hintKeyword);
+    return;
+  }
+
+  if (self.autocomplete) return;
+  self.autocomplete = new Autocomplete([]);
+
+  self.contextRequest(self.getCurrentWord(), function(err, obj) {
+    if (err) return self.autocomplete = false;
+    self.autocomplete = new Autocomplete(obj['context'], self.getCurrentWord());
+    self.inner.appendChild(self.autocomplete.view);
+    self.autocomplete.onFinished(function(word) {
+      self.swapCurrentWord(word);
+      self.autocomplete = false;
+    });
+    self.scrollToBottom();
+  });
+};
+
+REPLConsole.prototype.onNavigateHistory = function(offset) {
+  var command = this.commandStorage.navigate(offset) || "";
+  this.setInput(command);
+};
+
+/**
+ * Handle control keys like up, down, left, right.
+ */
+REPLConsole.prototype.onKeyDown = function(ev) {
+  if (this.autocomplete && this.autocomplete.onKeyDown(ev)) {
+    this.renderInput();
+    ev.preventDefault();
+    ev.stopPropagation();
+    return;
+  }
+
+  switch (ev.keyCode) {
+    case 65: // Ctrl-A
+      if (ev.ctrlKey) {
+        this.setInput(this._input, 0);
+        ev.preventDefault();
+      }
+      break;
+
+    case 69: // Ctrl-E
+      if (ev.ctrlKey) {
+        this.onTabKey();
+        ev.preventDefault();
+      }
+      break;
+
+    case 87: // Ctrl-W
+      if (ev.ctrlKey) {
+        this.deleteWord();
+        ev.preventDefault();
+      }
+      break;
+
+    case 85: // Ctrl-U
+      if (ev.ctrlKey) {
+        this.deleteLine();
+        ev.preventDefault();
+      }
+      break;
+
+    case 69: // Ctrl-E
+      if (ev.ctrlKey) {
+        this.onTabKey();
+        ev.preventDefault();
+      }
+      break;
+
+    case 80: // Ctrl-P
+      if (! ev.ctrlKey) break;
+
+    case 78: // Ctrl-N
+      if (! ev.ctrlKey) break;
+
+    case 9: // Tab
+      this.onTabKey();
+      ev.preventDefault();
+      break;
+
+    case 13: // Enter key
+      this.onEnterKey();
+      ev.preventDefault();
+      break;
+
+    case 38: // Up arrow
+      this.onNavigateHistory(-1);
+      ev.preventDefault();
+      break;
+
+    case 40: // Down arrow
+      this.onNavigateHistory(1);
+      ev.preventDefault();
+      break;
+
+    case 37: // Left arrow
+      var caretPos = this._caretPos > 0 ? this._caretPos - 1 : this._caretPos;
+      this.setInput(this._input, caretPos);
+      ev.preventDefault();
+      break;
+
+    case 39: // Right arrow
+      var length = this._input.length;
+      var caretPos = this._caretPos < length ? this._caretPos + 1 : this._caretPos;
+      this.setInput(this._input, caretPos);
+      ev.preventDefault();
+      break;
+
+    case 8: // Delete
+      this.deleteAtCurrent();
+      ev.preventDefault();
+      break;
+
+    default:
+      break;
+  }
+
+  if (ev.ctrlKey || ev.metaKey) {
+    if (ev.keyCode == 86) {
+      // Set focus to our clipboard when they hit the "v" key
+      this.clipboard.focus();
+
+      // Pasting to clipboard doesn't happen immediately,
+      // so we have to wait for a while to get the pasted text.
+      var _this = this;
+      setTimeout(function() {
+        _this.addToInput(_this.clipboard.value);
+        _this.clipboard.value = "";
+        _this.clipboard.blur();
+      }, 100);
+    }
+  }
+
+  ev.stopPropagation();
+};
+
+/**
+ * Handle input key press.
+ */
+REPLConsole.prototype.onKeyPress = function(ev) {
+  // Only write to the console if it's a single key press.
+  if (ev.ctrlKey && !ev.altKey || ev.metaKey) { return; }
+  var keyCode = ev.keyCode || ev.which;
+  this.insertAtCurrent(String.fromCharCode(keyCode));
+  ev.stopPropagation();
+  ev.preventDefault();
+};
+
+/**
+ * Delete a character at the current position.
+ */
+REPLConsole.prototype.deleteAtCurrent = function() {
+  if (this._caretPos > 0) {
+    var caretPos = this._caretPos - 1;
+    var before = this._input.substring(0, caretPos);
+    var after = this._input.substring(this._caretPos, this._input.length);
+    this.setInput(before + after, caretPos);
+
+    if (!this._input) {
+      this.autocomplete && this.autocomplete.cancel();
+      this.autocomplete = false;
+    }
+  }
+};
+
+/**
+ * Deletes the current line.
+ */
+REPLConsole.prototype.deleteLine = function() {
+  if (this._caretPos > 0) {
+    this.setInput("", 0);
+
+    if (!this._input) {
+      this.autocomplete && this.autocomplete.cancel();
+      this.autocomplete = false;
+    }
+  }
+};
+
+/**
+ * Deletes the current word.
+ */
+REPLConsole.prototype.deleteWord = function() {
+  if (this._caretPos > 0) {
+    var i = 1, current = this._caretPos;
+    while (this._input[current - i++] == " ");
+
+    var deleteIndex = 0;
+    for (; current - i > 0; i++) {
+      if (this._input[current - i] == " ") {
+        deleteIndex = current - i;
+        break;
+      }
+    }
+
+    var before = this._input.substring(0, deleteIndex);
+    var after = this._input.substring(current, this._input.length);
+    this.setInput(before + after, deleteIndex);
+
+    if (!this._input) {
+      this.autocomplete && this.autocomplete.cancel();
+      this.autocomplete = false;
+    }
+  }
+};
+
+/**
+ * Insert a character at the current position.
+ */
+REPLConsole.prototype.insertAtCurrent = function(char) {
+  var before = this._input.substring(0, this._caretPos);
+  var after = this._input.substring(this._caretPos, this._input.length);
+  this.setInput(before + char + after, this._caretPos + 1);
+};
+
+REPLConsole.prototype.swapCurrentWord = function(next) {
+  function right(s, pos) {
+    var x = s.indexOf(' ', pos);
+    return x === -1 ? s.length : x;
+  }
+
+  function swap(s, pos) {
+    return s.substr(0, s.lastIndexOf(' ', pos) + 1) + next + s.substr(right(s, pos))
+  }
+
+  if (!next) return;
+  var swapped = swap(this._input, this._caretPos);
+  this.setInput(swapped, this._caretPos + swapped.length - this._input.length);
+};
+
+REPLConsole.prototype.getCurrentWord = function() {
+  return (function(s, pos) {
+    var left = s.lastIndexOf(' ', pos);
+    if (left === -1) left = 0;
+    var right = s.indexOf(' ', pos)
+    if (right === -1) right = s.length - 1;
+    return s.substr(left, right - left + 1).replace(/^\s+|\s+$/g,'');
+  })(this._input, this._caretPos);
+};
+
+REPLConsole.prototype.scrollToBottom = function() {
+  this.outer.scrollTop = this.outer.scrollHeight;
+};
+
+// Change the binding of the console.
+REPLConsole.prototype.switchBindingTo = function(frameId, exceptionObjectId, callback) {
+  var url = this.getSessionUrl('trace');
+  var params = "frame_id=" + encodeURIComponent(frameId);
+
+  if (exceptionObjectId) {
+    params = params + "&exception_object_id=" + encodeURIComponent(exceptionObjectId);
+  }
+
+  var _this = this;
+  postRequest(url, params, function() {
+    var text = "Context has changed to: " + callback();
+    _this.writeNotification(text);
+  });
+};
+
+/**
+ * Install the console into the element with a specific ID.
+ * Example: REPLConsole.installInto("target-id")
+ */
+REPLConsole.installInto = function(id, options) {
+  var consoleElement = document.getElementById(id);
+
+  options = options || {};
+
+  for (var prop in consoleElement.dataset) {
+    options[prop] = options[prop] || consoleElement.dataset[prop];
+  }
+
+  var replConsole = new REPLConsole(options);
+  replConsole.install(consoleElement);
+  return replConsole;
+};
+
+// This is to store the latest single session, and the stored session
+// is updated by the REPLConsole#install() method.
+// It allows to operate the current session from the other scripts.
+REPLConsole.currentSession = null;
+
+// This line is for the Firefox Add-on, because it doesn't have XMLHttpRequest as default.
+// And so we need to require a module compatible with XMLHttpRequest from SDK.
+REPLConsole.XMLHttpRequest = typeof XMLHttpRequest === 'undefined' ? null : XMLHttpRequest;
+
+REPLConsole.request = function request(method, url, params, callback) {
+  var xhr = new REPLConsole.XMLHttpRequest();
+
+  xhr.open(method, url, true);
+  xhr.setRequestHeader("content-type", "application/x-www-form-urlencoded");
+  xhr.setRequestHeader("x-requested-with", "XMLHttpRequest");
+  xhr.send(params);
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === 4) {
+      callback(xhr);
+    }
+  };
+};
+
+// DOM helpers
+function hasClass(el, className) {
+  var regex = new RegExp('(?:^|\\s)' + className + '(?!\\S)', 'g');
+  return el.className && el.className.match(regex);
+}
+
+function isNodeList(el) {
+  return typeof el.length === 'number' &&
+    typeof el.item === 'function';
+}
+
+function addClass(el, className) {
+  if (isNodeList(el)) {
+    for (var i = 0; i < el.length; ++ i) {
+      addClass(el[i], className);
+    }
+  } else if (!hasClass(el, className)) {
+    el.className += " " + className;
+  }
+}
+
+function removeClass(el, className) {
+  var regex = new RegExp('(?:^|\\s)' + className + '(?!\\S)', 'g');
+  el.className = el.className.replace(regex, '');
+}
+
+function removeAllChildren(el) {
+  while (el.firstChild) {
+    el.removeChild(el.firstChild);
+  }
+}
+
+function findChild(el, className) {
+  for (var i = 0; i < el.childNodes.length; ++ i) {
+    if (hasClass(el.childNodes[i], className)) {
+      return el.childNodes[i];
+    }
+  }
+}
+
+function escapeHTML(html) {
+  return html
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/`/g, '&#x60;');
+}
+
+// XHR helpers
+function postRequest() {
+  REPLConsole.request.apply(this, ["POST"].concat([].slice.call(arguments)));
+}
+
+function putRequest() {
+  REPLConsole.request.apply(this, ["PUT"].concat([].slice.call(arguments)));
+}
+
+if (typeof exports === 'object') {
+  exports.REPLConsole = REPLConsole;
+} else {
+  window.REPLConsole = REPLConsole;
+}
+
+// Split string by module operators of ruby
+function getContext(s) {
+  var methodOp = s.lastIndexOf('.');
+  var moduleOp = s.lastIndexOf('::');
+  var x = methodOp > moduleOp ? methodOp : moduleOp;
+  return x !== -1 ? s.substr(0, x) : '';
+}
+
+function flatten(arrays) {
+  return Array.prototype.concat.apply([], arrays);
+}

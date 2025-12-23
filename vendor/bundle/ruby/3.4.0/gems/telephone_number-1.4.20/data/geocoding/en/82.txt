@@ -1,0 +1,35 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.itu.int/oth/T0202000072/en [2004-03-01]
+# http://en.wikipedia.org/wiki/+82 [390794641]
+
+822|Seoul
+8231|Gyeonggi
+8232|Incheon
+8233|Gangwon
+8241|Chungnam
+8242|Daejeon
+8243|Chungbuk
+8244|Sejong City
+8251|Busan
+8252|Ulsan
+8253|Daegu
+8254|Gyeongbuk
+8255|Gyeongnam
+8261|Jeonnam
+8262|Gwangju
+8263|Jeonbuk
+8264|Jeju

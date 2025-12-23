@@ -1,0 +1,158 @@
+module Datadog
+  module AppSec
+    module WAF
+      module LibDDWAF
+        DEFAULT_MAX_CONTAINER_SIZE: ::Integer
+        DEFAULT_MAX_CONTAINER_DEPTH: ::Integer
+        DEFAULT_MAX_STRING_LENGTH: ::Integer
+
+        DDWAF_MAX_CONTAINER_SIZE: ::Integer
+        DDWAF_MAX_CONTAINER_DEPTH: ::Integer
+        DDWAF_MAX_STRING_LENGTH: ::Integer
+
+        DDWAF_RUN_TIMEOUT: ::Integer
+
+        extend ::FFI::Library
+
+        def self.typedef: [T < ::FFI::Type, N, R, C] (T old, Symbol | ::FFI::DataConverter[N, R, C] add, ?untyped) -> T
+           | (Symbol old, Symbol add, ?untyped) -> (::FFI::Type | ::FFI::Enum)
+           | [X < ::FFI::DataConverter[N, R, C], N, R, C] (X old, Symbol add, ?untyped) -> ::FFI::Type::Mapped[X, N, R, C]
+           | (:enum old, Array[Symbol | Integer] add, ?untyped) -> ::FFI::Enum
+           | (:enum old, Symbol | ::FFI::Type add, Array[Symbol | Integer] info) -> ::FFI::Enum
+           | (untyped, ::Symbol) -> void
+
+        def self.callback: (::Symbol name, Array[::FFI::Library::ffi_lib_type] params, ::FFI::Library::ffi_lib_type ret) -> ::FFI::CallbackInfo
+
+        def self.enum: (*(Symbol | Integer) args) -> ::FFI::Enum
+                     | (Array[Symbol | Integer] values) -> ::FFI::Enum
+
+        def self.local_os: () -> ::String
+        def self.local_cpu: () -> ::String
+        def self.local_version: () -> (::String | nil)
+        def self.source_dir: () -> ::String
+        def self.vendor_dir: () -> ::String
+        def self.libddwaf_vendor_dir: () -> ::String
+        def self.shared_lib_triplet: (?version: ::String?) -> ::String
+        def self.libddwaf_dir: () -> ::String
+        def self.shared_lib_extname: () -> ::String
+        def self.shared_lib_path: () -> ::String
+
+        # version
+
+        def self.ddwaf_get_version: () -> ::String
+
+        # ddwaf::object data structure
+
+        DDWAF_OBJ_TYPE: ::FFI::Enum
+
+        class UInt32Ptr < ::FFI::Struct[::FFI::AbstractMemory, ::Integer]
+        end
+
+        class UInt64Ptr < ::FFI::Struct[::FFI::AbstractMemory, ::Integer]
+        end
+
+        class SizeTPtr < ::FFI::Struct[::FFI::AbstractMemory, ::Integer]
+        end
+
+        class ObjectValueUnion < ::FFI::Union[::FFI::AbstractMemory, untyped]
+        end
+
+        class Object < ::FFI::Struct[::FFI::AbstractMemory, untyped]
+        end
+
+        # setters
+
+        def self.ddwaf_object_invalid: (LibDDWAF::Object) -> ::FFI::Pointer
+        def self.ddwaf_object_string: (LibDDWAF::Object, ::String) -> ::FFI::Pointer
+        def self.ddwaf_object_stringl: (LibDDWAF::Object, ::String, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_stringl_nc: (LibDDWAF::Object, ::String, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_unsigned: (LibDDWAF::Object, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_signed: (LibDDWAF::Object, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_string_from_unsigned: (LibDDWAF::Object, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_string_from_signed: (LibDDWAF::Object, ::Integer) -> ::FFI::Pointer
+        def self.ddwaf_object_bool: (LibDDWAF::Object, bool) -> ::FFI::Pointer
+        def self.ddwaf_object_float: (LibDDWAF::Object, ::Float) -> ::FFI::Pointer
+        def self.ddwaf_object_null: (LibDDWAF::Object) -> ::FFI::Pointer
+
+        def self.ddwaf_object_array: (LibDDWAF::Object) -> ::FFI::Pointer
+        def self.ddwaf_object_array_add: (LibDDWAF::Object, LibDDWAF::Object) -> bool
+
+        def self.ddwaf_object_map: (LibDDWAF::Object) -> ::FFI::Pointer
+        def self.ddwaf_object_map_add: (LibDDWAF::Object, ::String, LibDDWAF::Object) -> bool
+        def self.ddwaf_object_map_addl: (LibDDWAF::Object, ::String, ::Integer, LibDDWAF::Object) -> bool
+        def self.ddwaf_object_map_addl_nc: (LibDDWAF::Object, ::String, ::Integer, LibDDWAF::Object) -> bool
+
+        # getters
+
+        def self.ddwaf_object_type: (LibDDWAF::Object) -> ::FFI::Enum
+        def self.ddwaf_object_size: (LibDDWAF::Object) -> ::Integer
+        def self.ddwaf_object_length: (LibDDWAF::Object) -> ::Integer
+        def self.ddwaf_object_get_key: (LibDDWAF::Object, SizeTPtr) -> ::String
+        def self.ddwaf_object_get_string: (LibDDWAF::Object, SizeTPtr) -> ::String
+        def self.ddwaf_object_get_unsigned: (LibDDWAF::Object, SizeTPtr) -> ::Integer
+        def self.ddwaf_object_get_signed: (LibDDWAF::Object, SizeTPtr) -> ::Integer
+        def self.ddwaf_object_get_index: (LibDDWAF::Object, ::Integer) -> LibDDWAF::Object
+        def self.ddwaf_object_get_bool: (LibDDWAF::Object) -> bool
+        def self.ddwaf_object_get_float: (LibDDWAF::Object) -> ::Float
+
+        # freeers
+
+        def self.ddwaf_object_free: (LibDDWAF::Object) -> void
+
+        ObjectFree: ::FFI::Function
+        ObjectNoFree: ::FFI::Pointer
+
+        # handle builder
+
+        def self.ddwaf_builder_init: (HandleBuilderConfig) -> ::FFI::Pointer
+        def self.ddwaf_builder_destroy: (::FFI::Pointer) -> void
+
+        def self.ddwaf_builder_add_or_update_config: (::FFI::Pointer, ::String, ::Integer, LibDDWAF::Object, LibDDWAF::Object) -> bool
+        def self.ddwaf_builder_remove_config: (::FFI::Pointer, ::String, ::Integer) -> bool
+
+        def self.ddwaf_builder_build_instance: (::FFI::Pointer) -> ::FFI::Pointer
+
+        # main handle
+
+        class HandleBuilderConfig < ::FFI::Struct[::FFI::AbstractMemory, untyped]
+          class Limits < ::FFI::Struct[::FFI::AbstractMemory, ::Integer]
+          end
+
+          class Obfuscator < ::FFI::Struct[::FFI::AbstractMemory, ::FFI::Pointer]
+          end
+        end
+
+        def self.ddwaf_destroy: (::FFI::Pointer) -> void
+
+        def self.ddwaf_known_addresses: (::FFI::Pointer, UInt32Ptr) -> ::FFI::Pointer
+        def self.ddwaf_rule_data_ids: (::FFI::Pointer, UInt32Ptr) -> ::FFI::Pointer
+
+        # updating
+
+        DDWAF_RET_CODE: ::FFI::Enum
+
+        # running
+
+        def self.ddwaf_context_init: (::FFI::Pointer) -> ::FFI::Pointer
+        def self.ddwaf_context_destroy: (::FFI::Pointer) -> void
+
+        class Result < ::FFI::Struct[::FFI::AbstractMemory, untyped]
+        end
+
+        def self.ddwaf_run: (::FFI::Pointer, Object, Object, Result, ::Integer) -> ::Symbol
+        def self.ddwaf_result_free: (Result) -> void
+
+        # logging
+
+        DDWAF_LOG_LEVEL: ::FFI::Enum
+
+        type ddwaf_log_level = ::Symbol
+
+        # TODO: signature is as below but steep 1.1 does not yet support method/proc/block mapping
+        # type ddwaf_log_cb = ^(ddwaf_log_level, ::String, ::String, ::Integer, ::FFI::Pointer, ::Integer) -> void
+        type ddwaf_log_cb = ::Method | ::Proc
+        def self.ddwaf_set_log_cb: (ddwaf_log_cb, ddwaf_log_level) -> bool
+      end
+    end
+  end
+end

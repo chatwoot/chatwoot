@@ -1,0 +1,15 @@
+====== Option +strip+
+
+Specifies the boolean value that determines whether
+whitespace is stripped from each input field.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:strip) # => false
+
+With default value +false+:
+  ary = CSV.parse_line(' a , b ')
+  ary # => [" a ", " b "]
+
+With value +true+:
+  ary = CSV.parse_line(' a , b ', strip: true)
+  ary # => ["a", "b"]

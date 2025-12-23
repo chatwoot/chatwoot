@@ -1,0 +1,15 @@
+# Copyright 2021-Present Datadog, Inc. https://www.datadoghq.com/
+# SPDX-License-Identifier: Apache-2.0
+
+prefix=${pcfiledir}/../..
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: datadog_profiling
+Description: Contains common code used to implement Datadog's Continuous Profilers. (Dynamic linking variant, sets rpath)
+Version: 
+Requires:
+Libs: -L${libdir} -ldatadog_profiling -Wl,-rpath,${libdir}
+Libs.private:
+Cflags: -I${includedir}

@@ -1,0 +1,56 @@
+name: Tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        entry:
+          - { ruby: "2.7" }
+          - { ruby: "2.7", concurrency: async-websocket }
+          - { ruby: "3.0" }
+          - { ruby: "3.1" }
+          - { ruby: "3.2" }
+          - { ruby: "3.3" }
+          - { ruby: "3.4" }
+          - { ruby: ruby-head, ignore: true }
+          - { ruby: jruby-head, ignore: true }
+    name: test (ruby=${{ matrix.entry.ruby }}${{ matrix.entry.concurrency && ', concurrency=' }}${{ matrix.entry.concurrency }})
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set Concurrency
+        run: |
+          if [[ ! -z "${{ matrix.entry.concurrency }}" ]]; then
+            echo "Setting concurrency to ${{ matrix.entry.concurrency }}."
+            echo "CONCURRENCY=${{ matrix.entry.concurrency }}" >> $GITHUB_ENV
+          fi
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.entry.ruby }}
+          bundler-cache: true # 'bundle install' and cache gems
+        continue-on-error: ${{ matrix.entry.ignore || false }}
+      - name: Run Tests
+        continue-on-error: ${{ matrix.entry.ignore || false }}
+        env:
+          RACK_ENV: test
+        run: bundle exec rake
+      - name: Coveralls
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.entry.ruby }}${{ matrix.entry.concurrency && '-'}}${{ matrix.entry.concurrency }}
+          allow-empty: ${{ matrix.entry.ignore || false }}
+
+  finish:
+    name: coveralls
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Close Parallel Build
+        uses: coverallsapp/github-action@v2
+        with:
+          parallel-finished: true
+          carryforward: 'run-2.7,run-2.7-async-websocket,run-3.0,run-3.1,run-3.2,run-3.3'

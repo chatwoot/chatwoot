@@ -1,0 +1,28 @@
+name: Push Gem
+
+on:
+  push:
+    tags:
+      - v*
+
+jobs:
+  deployment:
+    name: Push gem to RubyGems.org
+    environment: RubyGems
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write # IMPORTANT: this permission is mandatory for trusted publishing
+      contents: write # IMPORTANT: this permission is required for `rake release` to push the release tag
+
+    steps:
+      # Set up
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+          ruby-version: ruby
+
+      # Release
+      - uses: rubygems/release-gem@v1

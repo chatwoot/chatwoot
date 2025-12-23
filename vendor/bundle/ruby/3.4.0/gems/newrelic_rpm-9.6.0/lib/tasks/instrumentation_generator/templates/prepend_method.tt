@@ -1,0 +1,3 @@
+def <%= @method.downcase %><%= "(#{@args})" unless @args.empty? %>
+  <%= @method.downcase %>_with_new_relic<%= "(#{@args})" unless @args.empty? %> { super }
+end

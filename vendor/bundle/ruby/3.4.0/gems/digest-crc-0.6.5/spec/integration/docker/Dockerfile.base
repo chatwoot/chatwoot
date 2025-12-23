@@ -1,0 +1,9 @@
+ARG RUBY_VERSION=2.7.0
+FROM ruby:${RUBY_VERSION}-slim
+
+RUN apt-get update -y -qq
+RUN apt-get install -y -qq bash
+
+COPY ./digest-crc.gem .
+
+ENTRYPOINT gem install ./digest-crc.gem

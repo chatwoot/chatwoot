@@ -1,0 +1,171 @@
+en:
+  faker:
+    conan:
+      characters:
+        - Shinichi Kudo
+        - Conan Edogawa
+        - Ran Mouri
+        - Kogoro Mouri
+        - Ai Haibara
+        - Ayumi Yoshida
+        - Mitsuhiko Tsuburaya
+        - Genta Kojima
+        - Hiroshi Agasa
+        - Sonoko Suzuki
+        - Eri Kisaki
+        - Yusaku Kudo
+        - Yukiko Kudo
+        - Heiji Hattori
+        - Kazuha Toyama
+        - Yoko Okino
+        - Sumiko Kobayashi
+        - Tomoaki Araide
+        - Makoto Kyogoku
+        - Shizuka Hattori
+        - Jirokichi Suzuki
+        - Eisuke Hondou
+        - Azusa Enomoto
+        - Subaru Okiya
+        - Masumi Sera
+        - Shukichi Haneda
+        - Sakurako Yonehara
+        - Juzo Megure
+        - Ninzaburo Shiratori
+        - Miwako Sato
+        - Wataru Takagi
+        - Kazunobu Chiba
+        - Yumi Miyamoto
+        - Naeko Miike
+        - Kiyonaga Matsumoto
+        - Inspector Yuminaga
+        - Shintaro Chaki
+        - Hyoue Kuroda
+        - Heizo Hattori
+        - Ginshiro Toyama
+        - Goro Otaki
+        - Kansuke Yamato
+        - Yui Uehara
+        - Taka'aki Morofushi (Komei)
+        - Sango Yokomizo
+        - Misao Yamamura
+        - Jugo Yokomizo
+        - Fumimaro Ayanokoji
+        - Rei Furuya (Bourbon)
+        - Hiromitsu Morofushi (Scotch)
+        - Yuya Kazami
+        - Shuichi Akai
+        - Jodie Starling (Jodie Saintemillion)
+        - James Black
+        - Andre Camel
+        - Hidemi Hondou (Kir)
+        - Ethan Hondou
+        - Mary Sera
+        - Tsutomu Akai
+        - Gin
+        - Vodka
+        - Chris Vineyard (Vermouth)
+        - Chianti
+        - Korn
+        - Shiho Miyano (Sherry)
+        - Akemi Miyano
+        - Elena Miyano
+        - Atsushi Miyano
+        - Tequila
+        - Kenzo Masuyama (Pisco)
+        - Calvados
+        - Rikumichi Kusuda
+        - Ki'ichiro Numabuchi
+        - Kaito Kuroba
+        - Kaitou Kid
+        - Aoko Nakamori
+        - Ginzo Nakamori
+        - Toichi Kuroba
+        - Chikage Kuroba
+        - Konosuke Jii
+        - Kaitou Corbeau
+        - Akako Koizumi
+        - Saguru Hakuba
+        - Snake
+        - Spider
+        - Scar Akai
+        - Kohji Haneda
+        - Asaka
+        - Momiji Ooka
+        - Rumi Wakasa
+        - Kanenori Wakita
+        - Muga Iori
+
+      gadgets:
+        - Voice-Changing Bowtie
+        - Power-Enhancing Kick Shoes
+        - Glasses Modification (Microphone)
+        - Stun-Gun Wristwatch
+        - Portable Bento Box Fax
+        - Detective Boys Badge
+        - Turbo Engine Skateboard
+        - Criminal Tracking Glasses
+        - Transmitter
+        - Elasticity Suspenders
+        - Button Speaker
+        - Earring Cellphone
+        - Electronic Notebook Map
+        - Wristwatch Flashlight
+        - Kamen Yaiba Voice Changer/Pen Voice Changer
+        - Voice-Changing Face Mask
+        - Anywhere Ball Dispensing Belt
+        - Voice-Changing Choker
+        - Glasses Modification (Bullet Proof Lenses)
+        - Glasses Modification (Telescopic Lenses)
+        - Hang Glider/Paraglider
+        - Cuff Link Speakers
+        - Mini Air Tank
+        - Turbo Engine Snowboard
+        - Satellite-Telephone Wristwatch
+        - Drone
+        - Card Gun
+        - Hang Glider Cape
+        - Turbo Engine Scooter
+        - Turbo Engine Skates
+
+      vehicles:
+        - Agasa's Volkswagen Beetle
+        - Yukiko's Jaguar E-Type
+        - Masumi's Yamaha Artesia XT400
+        - Jirokichi's Harley Davidson Electra Glide
+        - Okiya's Subaru 360
+        - Eri's Mini Cooper
+        - Baya's Cobra
+        - Jii's Vanden Plas Princess 1100
+        - Fusae's Jaguar Mark 2
+        - Sato's Mazda RX-7
+        - Takagi's Nissan Tiida Latio
+        - Takagi's Skyline ER34
+        - Chiba's Fiat 500
+        - Chiba's Nissan GT-R R35 (2017)
+        - Uehara's Honda Inspire
+        - Gin's Porsche 356 A
+        - Chianti's Dodge Viper
+        - Vermouth's Harley-Davidson V-Rod
+        - Rei's Mazda RX-7
+        - Vodka's Porsche 914
+        - Chianti's Ducati 1098
+        - Araide's Toyota Prius (XW10)
+        - Vermouth's De Tomaso Pantera
+        - Shuichi's Chevrolet C-1500
+        - Shuichi's Ford Mustang
+        - James' Mercedes CLK320
+        - Jodie's Peugeot 607
+        - Hidemi's Citroën BX
+        - FBI's Toyota HiAce/Regius Ace
+        - FBI's Volvo S40
+        - FBI's Lexus GS
+        - FBI's Mercedes CLK320
+        - Isuzu Cubic bus
+        - Nissan X-Trail
+        - Toichi's Car
+        - Hidemi's Motorcycle
+        - Heiji's Motorcycle
+        - Snake's car
+        - Shiratori's car
+        - Kusuda's Nissan
+        - Yukiko's Motorcycle

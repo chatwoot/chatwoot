@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+DX_DIR="${SCRIPT_DIR}/../dx"
+
+. "${DX_DIR}/docker-compose.env"
+. "${DX_DIR}/setupkit.sh.lib"
+
+for ruby_version in ${RUBY_VERSIONS[@]}; do
+  log "Setting up for Ruby version '${ruby_version}'"
+  dx/exec -v ${ruby_version} bin/setup
+  log "Running tests for Ruby version '${ruby_version}'"
+  dx/exec -v ${ruby_version} bin/rake
+done
+

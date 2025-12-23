@@ -1,0 +1,43 @@
+version: 2
+references:
+  unit: &unit
+    run:
+      name: Run test suite
+      command: bundle exec rspec
+  restore: &restore
+    restore_cache:
+      keys:
+        - v1-dependencies-{{ checksum "Gemfile.lock" }}
+        # fallback to using the latest cache if no exact match is found
+        - v1-dependencies-
+  bundle: &bundle
+    run:
+      name: install dependencies
+      command: |
+        bundle install --jobs=4 --retry=3 --path vendor/bundle
+  save: &save
+    save_cache:
+      paths:
+        - ./vendor/bundle
+      key: v1-dependencies-{{ checksum "Gemfile.lock" }}
+  rubocop: &rubocop
+    run:
+      name: Run rubocop
+      command: bundle exec rubocop
+jobs:
+  "ruby-2.7":
+    docker:
+      - image: circleci/ruby:2.7
+    steps:
+      - checkout
+      - <<: *restore
+      - <<: *bundle
+      - <<: *save
+      - <<: *rubocop
+      - <<: *unit
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "ruby-2.7"

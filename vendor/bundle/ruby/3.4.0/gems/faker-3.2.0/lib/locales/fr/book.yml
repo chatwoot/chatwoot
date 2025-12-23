@@ -1,0 +1,7 @@
+fr:
+  faker:
+    book:
+      title: ['La Discipline des orphelins', 'Le Couloir de tous les mépris', "L'Odeur du sanglier", 'La Promise du voyeur', "L'Odyssée invisible", 'La Soumission comme passion', 'Le Siècle de la rue voisine', 'Le Désir des femmes fortes', 'Pourquoi je mens ?', 'La Peau des savants', 'La progéniture du mal']
+      author: "#{Name.name}"
+      publisher: ['Éditions du Soleil', 'La Perdrix', 'Les Éditions jaune turquoise', 'Bordel père et fils', 'Au lecteur éclairé', 'Lire en dormant']
+      quote: ['Qui vivra verra', 'L’habit ne fait pas le moine', 'Chacun voit midi à sa porte', 'Mieux vaut prévenir que guérir', 'Petit a petit, l’oiseau fait son nid', 'Qui court deux lievres a la fois, n’en prend aucun', 'Qui n’avance pas, recule']

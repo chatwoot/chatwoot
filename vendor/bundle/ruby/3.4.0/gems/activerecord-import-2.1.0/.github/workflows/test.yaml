@@ -1,0 +1,161 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    services:
+      postgres:
+        image: postgis/postgis:10-2.5
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_USER: github
+          MYSQL_PASSWORD: github
+          MYSQL_DATABASE: activerecord_import_test
+        options: >-
+          --health-cmd "mysqladmin ping -h localhost"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby:
+          - 3.3
+        env:
+          - AR_VERSION: '8.0'
+            RUBYOPT: --enable-frozen-string-literal
+          - AR_VERSION: '7.2'
+            RUBYOPT: --enable-frozen-string-literal
+          - AR_VERSION: '7.1'
+            RUBYOPT: --enable-frozen-string-literal
+          - AR_VERSION: '7.0'
+            RUBYOPT: --enable-frozen-string-literal
+          - AR_VERSION: 6.1
+            RUBYOPT: --enable-frozen-string-literal
+        include:
+          - ruby: 3.2
+            env:
+              AR_VERSION: '8.0'
+          - ruby: 3.2
+            env:
+              AR_VERSION: '7.2'
+          - ruby: 3.2
+            env:
+              AR_VERSION: '7.1'
+          - ruby: 3.2
+            env:
+              AR_VERSION: '7.0'
+          - ruby: 3.2
+            env:
+              AR_VERSION: 6.1
+          - ruby: 3.1
+            env:
+              AR_VERSION: '7.1'
+          - ruby: 3.1
+            env:
+              AR_VERSION: '7.0'
+          - ruby: 3.1
+            env:
+              AR_VERSION: 6.1
+          - ruby: '3.0'
+            env:
+              AR_VERSION: '7.0'
+          - ruby: '3.0'
+            env:
+              AR_VERSION: 6.1
+          - ruby: jruby-9.4.8.0
+            env:
+              AR_VERSION: '7.0'
+          - ruby: 2.7
+            env:
+              AR_VERSION: '7.0'
+          - ruby: 2.7
+            env:
+              AR_VERSION: 6.1
+          - ruby: 2.7
+            env:
+              AR_VERSION: '6.0'
+          - ruby: jruby-9.3.15.0
+            env:
+              AR_VERSION: '6.1'
+          - ruby: 2.6
+            env:
+              AR_VERSION: 5.2
+    runs-on: ubuntu-latest
+    env:
+      AR_VERSION: ${{ matrix.env.AR_VERSION }}
+      DB_DATABASE: activerecord_import_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SQLite3 Development Library
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsqlite3-dev
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+          rubygems: latest
+      - name: Set up databases
+        run: |
+          psql -h localhost -U postgres -c 'create database ${{ env.DB_DATABASE }};'
+          psql -h localhost -U postgres -d ${{ env.DB_DATABASE }} -c 'create extension if not exists hstore;'
+          psql -h localhost -U postgres -c 'create extension if not exists postgis;'
+          psql -h localhost -U postgres -c 'create extension if not exists "uuid-ossp";'
+          cp test/github/database.yml test/database.yml
+        env:
+          PGPASSWORD: postgres
+      - name: Run tests with mysql2
+        run: |
+          bundle exec rake test:mysql2
+          bundle exec rake test:mysql2_makara
+          bundle exec rake test:mysql2spatial
+          bundle exec rake test:mysql2_proxy
+      - name: Run tests with postgresql
+        run: |
+          bundle exec rake test:postgis
+          bundle exec rake test:postgresql
+          bundle exec rake test:postgresql_makara
+          bundle exec rake test:postgresql_proxy
+      - name: Run tests with seamless_database_pool
+        run: |
+          bundle exec rake test:seamless_database_pool
+        if: ${{ matrix.ruby < '3.0' }}
+      - name: Run tests with sqlite
+        run: |
+          bundle exec rake test:spatialite
+          bundle exec rake test:sqlite3
+      - name: Run trilogy tests
+        if: ${{ matrix.env.AR_VERSION >= '7.0' && !startsWith(matrix.ruby, 'jruby') }}
+        run: bundle exec rake test:trilogy
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      AR_VERSION: '7.0'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install SQLite3 Development Library
+        run: |
+          sudo apt-get update
+          sudo apt-get install libsqlite3-dev
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rubocop

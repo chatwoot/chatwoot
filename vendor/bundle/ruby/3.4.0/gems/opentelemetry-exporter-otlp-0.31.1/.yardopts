@@ -1,0 +1,9 @@
+--no-private
+--title=OpenTelemetry OTLP Exporter
+--markup=markdown
+--main=README.md
+./lib/opentelemetry/exporter/otlp/**/*.rb
+./lib/opentelemetry/exporter/otlp.rb
+-
+README.md
+CHANGELOG.md

@@ -1,0 +1,15 @@
+====== Option +write_empty_value+
+
+Specifies the object that is to be substituted for each field
+that has an empty \String.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:write_empty_value) # => ""
+
+Without the option:
+  str = CSV.generate_line(['a', '', 'c', ''])
+  str # => "a,\"\",c,\"\"\n"
+
+With the option:
+  str = CSV.generate_line(['a', '', 'c', ''], write_empty_value: "x")
+  str # => "a,x,c,x\n"

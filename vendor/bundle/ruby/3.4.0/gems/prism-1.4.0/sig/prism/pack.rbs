@@ -1,0 +1,43 @@
+module Prism
+  module Pack
+    type variant = :pack | :unpack
+
+    def self.parse: (Symbol version, variant variant, String source) -> Format
+
+    class Directive
+      type directive_type = :SPACE | :COMMENT | :INTEGER | :UTF8 | :BER | :FLOAT | :STRING_SPACE_PADDED |
+                            :STRING_NULL_PADDED | :STRING_NULL_TERMINATED | :STRING_MSB | :STRING_LSB |
+                            :STRING_HEX_HIGH | :STRING_HEX_LOW | :STRING_UU | :STRING_MIME | :STRING_BASE64 |
+                            :STRING_FIXED | :STRING_POINTER | :MOVE | :BACK | :NULL
+
+      type signness = :UNSIGNED | :SIGNED | :SIGNED_NA
+
+      type endianness = :AGNOSTIC_ENDIAN | :LITTLE_ENDIAN | :BIG_ENDIAN | :NATIVE_ENDIAN | :ENDIAN_NA
+
+      type size = :SIZE_SHORT | :SIZE_INT | :SIZE_LONG | :SIZE_LONG_LONG | :SIZE_8 | :SIZE_16 | :SIZE_32 |
+                  :SIZE_64 | :SIZE_P | :SIZE_NA
+
+      type length_type = :LENGTH_FIXED | :LENGTH_MAX | :LENGTH_RELATIVE | :LENGTH_NA
+
+
+      attr_reader version: Symbol
+      attr_reader variant: variant
+      attr_reader source: String
+      attr_reader type: directive_type
+      attr_reader signed: signness
+      attr_reader endian: endianness
+      attr_reader size: size
+      attr_reader length_type: length_type
+      attr_reader length: Integer
+
+      def describe: () -> String
+    end
+
+    class Format
+      attr_reader directives: Array[Directive]
+      attr_reader encoding: Encoding
+
+      def describe: () -> String
+    end
+  end
+end

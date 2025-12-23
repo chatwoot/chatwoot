@@ -1,0 +1,133 @@
+{
+  "CUST001": {
+    "id": "CUST001",
+    "name": "John Smith",
+    "email": "john.smith@email.com",
+    "phone": "+1-555-0123",
+    "address": "123 Main St, Anytown, ST 12345",
+    "account_status": "active",
+    "plan": {
+      "name": "Premium Fiber",
+      "speed_down": "1000 Mbps",
+      "speed_up": "500 Mbps",
+      "price": 79.99,
+      "data_limit": "unlimited"
+    },
+    "billing": {
+      "next_bill_date": "2025-07-15",
+      "last_payment": "2025-06-15",
+      "payment_method": "Auto-pay (Credit Card)",
+      "balance": 0.0
+    },
+    "service_history": [
+      {
+        "date": "2025-01-15",
+        "action": "Upgraded to Premium Fiber",
+        "agent": "Sales"
+      },
+      {
+        "date": "2025-03-22",
+        "action": "Support ticket: Intermittent connection",
+        "agent": "Support",
+        "status": "resolved"
+      }
+    ]
+  },
+  "CUST002": {
+    "id": "CUST002",
+    "name": "Sarah Johnson",
+    "email": "sarah.j@email.com",
+    "phone": "+1-555-0456",
+    "address": "456 Oak Ave, Springfield, ST 67890",
+    "account_status": "active",
+    "plan": {
+      "name": "Basic Cable",
+      "speed_down": "100 Mbps",
+      "speed_up": "10 Mbps",
+      "price": 39.99,
+      "data_limit": "1TB"
+    },
+    "billing": {
+      "next_bill_date": "2025-07-20",
+      "last_payment": "2025-06-20",
+      "payment_method": "Monthly Invoice",
+      "balance": 39.99
+    },
+    "service_history": [
+      {
+        "date": "2024-08-10",
+        "action": "New customer signup",
+        "agent": "Sales"
+      }
+    ]
+  },
+  "CUST003": {
+    "id": "CUST003",
+    "name": "Mike Rodriguez",
+    "email": "m.rodriguez@company.com",
+    "phone": "+1-555-0789",
+    "address": "789 Business Blvd, Metro City, ST 13579",
+    "account_status": "active",
+    "plan": {
+      "name": "Business Pro",
+      "speed_down": "500 Mbps",
+      "speed_up": "500 Mbps",
+      "price": 129.99,
+      "data_limit": "unlimited",
+      "sla": "99.9% uptime guarantee"
+    },
+    "billing": {
+      "next_bill_date": "2025-07-01",
+      "last_payment": "2025-06-01",
+      "payment_method": "Corporate Account",
+      "balance": 0.0
+    },
+    "service_history": [
+      {
+        "date": "2024-12-01",
+        "action": "Business account setup",
+        "agent": "Sales"
+      },
+      {
+        "date": "2025-05-15",
+        "action": "Static IP configuration",
+        "agent": "Support",
+        "status": "completed"
+      }
+    ]
+  },
+  "CUST004": {
+    "id": "CUST004",
+    "name": "Lisa Chen",
+    "email": "lisa.chen@email.com",
+    "phone": "+1-555-0321",
+    "address": "321 Pine St, Riverside, ST 24680",
+    "account_status": "suspended",
+    "plan": {
+      "name": "Standard Internet",
+      "speed_down": "200 Mbps",
+      "speed_up": "20 Mbps",
+      "price": 59.99,
+      "data_limit": "unlimited"
+    },
+    "billing": {
+      "next_bill_date": "2025-07-10",
+      "last_payment": "2025-05-10",
+      "payment_method": "Credit Card",
+      "balance": 119.98,
+      "past_due": true
+    },
+    "service_history": [
+      {
+        "date": "2025-06-10",
+        "action": "Service suspended - payment overdue",
+        "agent": "Billing"
+      },
+      {
+        "date": "2025-04-18",
+        "action": "Payment failed notification sent",
+        "agent": "Billing"
+      }
+    ]
+  }
+}

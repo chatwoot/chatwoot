@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+
+gem "sprockets", "~> 3.0.3"
+
+# Specify your gem's dependencies in sassc-rails.gemspec
+gemspec path: "../"

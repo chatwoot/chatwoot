@@ -1,0 +1,315 @@
+en:
+  faker:
+    games:
+      fallout:
+        characters:
+          - Abel
+          - Ada
+          - Agatha
+          - Alan
+          - Alex
+          - Alya
+          - Amber
+          - Andrew
+          - Angela Bishop
+          - Anthony
+          - Aradesh
+          - Barry
+          - Beth
+          - Billy
+          - Boone
+          - Brenden
+          - Butch Harris
+          - Cabbot
+          - Caesar
+          - Cait
+          - Calder
+          - Caleb
+          - Children of the Cathedral member
+          - Christine
+          - Christine Royce
+          - Chuck
+          - Cindy
+          - Cleo
+          - Codsworth
+          - Cougar
+          - Curie
+          - Curtis
+          - Daecon
+          - Dan
+          - Dane
+          - Daren Hightower
+          - Darrel
+          - Decker
+          - Demetre Romara
+          - Diana
+          - DiMA
+          - Doc Morbid
+          - Dog
+          - Dogmeat
+          - Dominic Moore
+          - Dr. Wu
+          - Dugan
+          - Ed
+          - Elder
+          - Elder Maxon
+          - Flash
+          - Flip
+          - Francis
+          - Gabriel
+          - Garl Death-Hand
+          - Garret
+          - Gary
+          - George
+          - Ghoul leader
+          - Ghoul prisoner
+          - Gizmo
+          - Greg
+          - Gretch
+          - Guido
+          - Gunther
+          - Gustofer
+          - Gwen
+          - Harold
+          - Harry
+          - Heather
+          - Henry
+          - Herion
+          - Hernandez
+          - Ian
+          - Iguana Bob Frazier
+          - Irwin
+          - Ismarc
+          - Izo
+          - Jacoren
+          - Jain
+          - Jake
+          - Jarvis
+          - Jasmine
+          - Jason Zimmerman
+          - Jelissa
+          - Jennifer
+          - Jeremiah
+          - Jerry
+          - Jessica
+          - John
+          - John Hancock
+          - John Maxson
+          - Jon Zimmerman
+          - Joshua Graham
+          - Justin Greene
+          - Kalnor
+          - Kane
+          - Katja
+          - Katrina
+          - Kenji
+          - Kenny
+          - Keri Lee
+          - Killian Darkwater
+          - Krupper
+          - Kyle
+          - Larry
+          - Lars
+          - Lasher
+          - Laura
+          - Legate Lanius
+          - Lemmy
+          - Lenny
+          - Leon
+          - Leone
+          - Leslie Ann Bishop
+          - Lex
+          - Liberty Prime
+          - Lieutenant
+          - Lorenzo Giovanni
+          - Lorraine
+          - Lorri
+          - Lox
+          - Loxley
+          - Lucas Simms
+          - Lucy
+          - Luke
+          - Lyle
+          - Lynda
+          - MacRae
+          - Madison Lee
+          - Marcelles
+          - Martha Rastello
+          - Master
+          - Mat
+          - Mathia
+          - Michael
+          - Miles
+          - Miria
+          - Mitch
+          - Mohandki
+          - Morpheus
+          - Myron
+          - Nancy
+          - Neal
+          - Nick Valentine
+          - Nicole
+          - Old Longfellow
+          - Paladin Danse
+          - Patrick the Celt
+          - Paul
+          - Percy
+          - Petrox
+          - Phil
+          - Phillips
+          - Piper Wright
+          - Porter Gage
+          - Preston Garvey
+          - Rayze
+          - Razlo
+          - Razor
+          - Rhombus
+          - Rick
+          - Robert Joseph Mac Cready
+          - Rock
+          - Rose of Sharon Cassidy
+          - Rutger
+          - Sally
+          - Sammael
+          - Sarah
+          - Sasha
+          - Saul
+          - Savil
+          - Set
+          - Seth
+          - Shannon
+          - Shark
+          - Sherry
+          - Shopkeeper
+          - Sid
+          - Sinthia
+          - Skizzer
+          - Slappy
+          - Slummer
+          - Smitty
+          - Sophia
+          - Stapleton
+          - Strong
+          - Sulik
+          - Talius
+          - Talus
+          - Tandi
+          - Terry
+          - The Master
+          - Theresa
+          - Thomas
+          - Thorndyke
+          - Three Dog
+          - Tine Taylor
+          - Tolya
+          - Ton Barracus
+          - Tony Fry
+          - Trish
+          - Tycho
+          - Unit 462
+          - Van Hagan
+          - Vance
+          - Victor
+          - Vincent
+          - Vinnie
+          - Viola
+          - Vree
+          - Wiggum
+          - X6-88
+          - Yes Man
+          - Zack
+          - Zack Barstow
+          - Zark
+          - ZAX 1.2
+        factions:
+          - Boomers
+          - Brotherhood of Steel
+          - Caesar's Legion
+          - Chinese remnants
+          - Diamond City security
+          - Enclave
+          - Followers of the Apocalypse
+          - Gunners
+          - Kings
+          - Master's Army
+          - Mojave Express
+          - New California Republic
+          - Nuka World Triumvirate
+          - Powder Gangers
+          - Raiders
+          - State of Utobitha
+          - Talon Company
+          - Triggermen
+          - United States Armed Forces
+          - Van Graffs
+        locations:
+          - Anchorage
+          - Big MT
+          - Big town
+          - Cambridge
+          - Capital Wasteland
+          - Concord
+          - Diamond City
+          - Dog City
+          - Goodsprings
+          - Hoover Dam
+          - Lexington
+          - Little Lamplight
+          - Megaton
+          - Nellis Air Force Base
+          - New Reno
+          - New Vegas
+          - Nipton
+          - Primm
+          - Raven Rock
+          - Red Rock Canyon
+          - Sloan
+          - The Commonwealth
+          - The Institute
+          - Vault 101
+          - Vault 11
+          - Vault 111
+          - Vault 13
+          - Vault 15
+          - Vault 19
+          - Vault 22
+          - Vault 3
+          - Vault 81
+          - Vault City
+        quotes:
+          - Ad Victoriam!
+          - Calm is what you have to be when people look to you, and it's all you can be when things are out of your hands.
+          - Democracy is non-negotiable
+          - Hi, I'm Jean Baptiste. And you're about to stop being a pain in my ass.
+          - I'm a synth. Synthetic man. All the parts, minus a few red blood cells.
+          - I'm dying.... so that democracy... can live.
+          - I'm gonna run some diagnostics while you're tinkering. Take your time.
+          - I've seen soldiers come and go. Some were brave. Some were honest. Some were even heroic. But I've never called any of them a friend.
+          - If you want to see the fate of democracies, just look out the window
+          - Let's go, pal.
+          - 'Liberty Prime is online. All systems nominal. Weapons hot. Mission: the destruction of any and all Chinese communists.'
+          - Ngh. Hi. I'm Mahsofabish ang I gob ko keep fiebs gaeg.
+          - Nobody has a Dick that long, not eve Long-Dick Johnson, and he had a fuckin long dick, thus the name.
+          - Nothing to impede progress. If you want to see the fate of democracies, look out the windows.
+          - Patrolling the Mojave almost makes you wish for a nuclear winter.
+          - Please step out of the fountain
+          - 'Revised stratagem: Initiate photonic resonance overcharge.'
+          - Stimpaks are a marvelous invention, don't you think?
+          - Strange rumors from across the river indicate that a secret underground robot army has been destroyed before anyone had a chance to use it.
+          - Success depends on forethought, dispassionate calculation of probabilities, accounting for every stray variable.
+          - Sure. Be glad to take...I mean hold some stuff for you.
+          - That chip of yours, I wouldn't wager it on Blackjack...Unless the dealer has a five of six showing.
+          - That means you're, erm... two centuries late for dinner! Perhaps I could whip you up a snack? You must be famished!
+          - The past, the present, and the future walked into a bar. It was tense.
+          - The women of New Vegas ask me a lot if there's a Mrs. New Vegas. Well, of course there is. You're her. And you're still as perfect as the day we met.
+          - Though dangerous, combat is quite vigorous exercise.
+          - Today's forecast calls for a 99%chance of clear skies being ruined by artillery fire.
+          - 'Voice module online. Audio functionality test initialized. Designation: Liberty Prime. Mission: the liberation of Anchorage, Alaska.'
+          - We must find the men of science and institutes of learning, surely they are out there still.
+          - We'd move faster if you'd keep your eyes on the road and off me arse.
+          - Well, ain't we all, right? That was a long time ago. I don't pay it much mind anymore.
+          - What did you... did you put a plug in his cocktube and make him explode?
+          - Who do you think actually won the war? No one, I guess.
+          - You stood up to Elder Maxson for me. I'll never forget that for as long as I live.
+          - You think I inject myself with all that shite and drink myself drunk because I’m a tough Irish gal?
+          - You'd be shocked how many people I've managed to convince I'm just a really sick ghoul.

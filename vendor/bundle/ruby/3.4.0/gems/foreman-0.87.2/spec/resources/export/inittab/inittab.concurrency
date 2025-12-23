@@ -1,0 +1,4 @@
+# ----- foreman app processes -----
+AP01:4:respawn:/bin/su - app -c 'cd /tmp/app;export PORT=5000;./alpha >> /var/log/app/alpha-1.log 2>&1'
+AP02:4:respawn:/bin/su - app -c 'cd /tmp/app;export PORT=5001;./alpha >> /var/log/app/alpha-2.log 2>&1'
+# ----- end foreman app processes -----

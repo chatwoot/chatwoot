@@ -1,0 +1,32 @@
+--
+Łukasz Jan Niemier
+
+Dnia 14 lip 2015 o godz. 00:25 Michael Downey <info@discourse.org> napisał(a):
+
+>
+>   downey Michael Downey Senior Tester
+> July 13
+> Sounds interesting. What is the license?
+>
+> To respond, reply to this email or visit https://meta.discourse.org/t/static-pages-plugin/31027/2 in your browser.
+>
+> Previous Replies
+>
+>   hauleth
+> July 13
+> WIP
+>
+> Location: https://github.com/hauleth/low_voltage
+>
+> Authors: @hauleth
+>
+> Simple plugin to add "static" pages to Discourse instance. For now usage is kind of complicated at it needs to fetch static pages from app/views/pages. Ideas for future implements:
+>
+> Create DB model to hold pages
+> Adding admin page that will allow editing that pages
+> Custom styles for static pages
+> Any help appreciated.
+>
+> To respond, reply to this email or visit https://meta.discourse.org/t/static-pages-plugin/31027/2 in your browser.
+>
+> To unsubscribe from these emails, visit your user preferences.

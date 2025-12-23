@@ -1,0 +1,46 @@
+def fail_gracefully(message)
+  warn "#{message}. Failing gracefully ..."
+  exit
+end
+
+unless RUBY_ENGINE == 'ruby'
+  fail_gracefully "C extensions for #{RUBY_ENGINE} currently not supported"
+end
+
+begin
+  require "mkmf"
+rescue LoadError
+  fail_gracefully "mkmf is not installed"
+end
+
+CRCS  = Dir['crc*']
+DLEXT = MakeMakefile::CONFIG['DLEXT']
+
+CRCS.each do |crc|
+  crc_ext = "#{crc}_ext"
+
+  file "#{crc}/Makefile" => "#{crc}/extconf.rb" do
+    Dir.chdir(crc) do
+      begin
+        ruby '-S', 'extconf.rb'
+      rescue
+        fail_gracefully "extconf.rb failed"
+      end
+    end
+  end
+
+  crc_ext_lib = "#{crc}_ext.#{DLEXT}"
+
+  file "#{crc}/#{crc_ext_lib}" => "#{crc}/Makefile" do
+    Dir.chdir(crc) do
+      begin
+        sh 'make', 'clean'
+        sh 'make'
+      rescue
+        fail_gracefully "Unable to build C extensions"
+      end
+    end
+  end
+
+  task :default => "#{crc}/#{crc_ext_lib}"
+end

@@ -1,0 +1,7 @@
+#! /usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.expand_path('../../lib', __FILE__))
+require 'parser/runner/ruby_parse'
+
+Parser::Runner::RubyParse.go(ARGV)

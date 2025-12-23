@@ -1,0 +1,25 @@
+Thanks for using Koala! Sorry you've run into an issue 😓  Here are some questions to help get things figured out as quickly as possible.
+
+You don't have to fill this all out -- it's more of a guide. If in doubt, delete any sections that aren't relevant and open the issue. I want to help.
+
+[ ] This is a Koala bug/issue/documentation problem.
+
+Koala is a labor of love both from me and from the awesome community members who answer questions here. Much as we'd love to be able to help with everything, I have to focus my time on issues with the gem itself and can't help with questions on how to _use_ Facebook. (Plus, Facebook is huge!)
+
+If you have questions about using the Facebook API, [facebook.stackoverflow.com](http://facebook.stackoverflow.com) is a great resource.
+
+_For code issues:_
+
+[ ] What I'm doing works on the [Graph API explorer](https://developers.facebook.com/tools/explorer/)/curl/another tool.
+
+Seeing an example of what works helps diagnose what doesn't work.
+
+[ ] I'm using the newest version
+[ ] Here's code to replicate the issue:
+
+Obviously not all code can be shared -- feel free to put variables in place of any sensitive information and describe what should be used to replicate it.
+
+Thanks for submitting an issue! Looking forward to working with you to figure it out.
+
+
+Note: Koala has a [code of conduct](https://github.com/arsduo/koala/blob/master/code_of_conduct.md). Check it out.

@@ -1,0 +1,31 @@
+# encoding: UTF-8
+---
+pt:
+  administrate:
+    actions:
+      confirm: Tem certeza?
+      destroy: Remover
+      edit: Editar
+      edit_resource: Editar %{name}
+      show_resource: Visualizar %{name}
+      new_resource: Novo %{name}
+      back: Voltar atrás
+    controller:
+      create:
+        success: "%{resource} foi criado com sucesso."
+      destroy:
+        success: "%{resource} foi removido com sucesso."
+      update:
+        success: "%{resource} foi actualizado com sucesso."
+    fields:
+      has_many:
+        more: "Mostrando %{count} de %{total_count}"
+        none: Nenhum
+    form:
+      error: erro
+      errors: "%{pluralized_errors} impediram %{resource_name} de ser gravado:"
+    navigation:
+      back_to_app: Voltar à aplicação
+    search:
+      clear: Limpar pesquisa
+      label: Pesquisa %{resource}

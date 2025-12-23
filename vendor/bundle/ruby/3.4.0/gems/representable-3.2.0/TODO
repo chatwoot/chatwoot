@@ -1,0 +1,38 @@
+* Pass key/index as first block arg to :class and :extend
+class: |key, hsh|
+
+
+document `XML::AttributeHash` etc
+
+* cleanup ReadableWriteable
+* deprecate Representable::*::ClassMethods (::from_hash and friends)
+
+* Song < OpenStruct in test_helper
+
+* have representable-options (:include, :exclude) and user-options
+
+* make all properties "Object-like", even arrays of strings etc. This saves us from having `extend ObjectBinding if typed?` and we could just call to_hash/from_hash on all attributes. performance issues here? otherwise: implement!
+
+
+def compile_fragment(doc)
+module ReaderWriter
+  def compile_fragment(doc)
+    do whatever
+    super
+  end
+=> do that for all "features" (what parts would that be?: getter/setter, reader/writer, readable/writeable )?
+
+* make lambda options optional (arity == 0)
+
+* pass args to methods when arity matches
+
+* DISCUSS if Decorator.new.representable_attrs != Decorator.representable_attrs ? (what about performance?)
+* REMOVE :from, make :a(lia)s authorative.
+
+* does :instance not work with :decorator ?
+* make it easy to override Binding#options via #to_hash(whatever: {hit: {decorator: HitDecorator}})
+
+* DISCUSS: should inline representers be created at runtime, so we don't need ::representer_engine?
+* deprecate `Decorator::Coercion`.
+
+* cleanup XML so it matches the current #serialize standard.

@@ -1,0 +1,7 @@
+"Component","Origin","License","Copyright"
+"debase-ruby_core_source","https://rubygems.org/gems/debase-ruby_core_source","MIT for gem and BSD-2-Clause for Ruby sources","Copyright (c) 2012 Gabriel Horner. Files from Ruby sources are Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved."
+"ext/datadog_profiling_native_extension/private_vm_api_access","https://github.com/ruby/ruby","BSD-2-Clause","Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved."
+"lib/datadog/core/vendor/multipart-post","https://github.com/socketry/multipart-post","MIT","Copyright (c) 2007-2013 Nick Sieger."
+"lib/datadog/tracing/contrib/active_record/vendor","https://github.com/rails/rails/","MIT","Copyright (c) 2005-2018 David Heinemeier Hansson"
+"lib/datadog/tracing/contrib/utils/quantization/http.rb","https://github.com/ruby/uri","BSD-2-Clause","Copyright (C) 1993-2013 Yukihiro Matsumoto. All rights reserved."
+"msgpack","https://rubygems.org/gems/msgpack","Apache-2.0","Copyright (c) 2008-2015 Sadayuki Furuhashi"

@@ -1,0 +1,3 @@
+FROM test-digest-crc-base
+
+RUN apt-get install -y -qq gcc

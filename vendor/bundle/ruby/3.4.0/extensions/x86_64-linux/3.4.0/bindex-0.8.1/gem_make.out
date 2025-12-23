@@ -1,0 +1,18 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bindex-0.8.1/ext/skiptrace
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-faisrj sitelibdir\=./.gem.20251220-192266-faisrj clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-faisrj sitelibdir\=./.gem.20251220-192266-faisrj
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-faisrj sitelibdir\=./.gem.20251220-192266-faisrj install
+/usr/bin/install -c -m 0755 cruby.so ./.gem.20251220-192266-faisrj/skiptrace/internal
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-faisrj sitelibdir\=./.gem.20251220-192266-faisrj clean

@@ -1,0 +1,17 @@
+<% if existing_action?(collection_presenter.resource_name, :edit) %>
+  <td><%= link_to(
+    t("administrate.actions.edit"),
+    [:edit, namespace, resource],
+    class: "action-edit",
+  ) if accessible_action?(resource, :edit) %></td>
+<% end %>
+
+<% if existing_action?(collection_presenter.resource_name, :destroy) %>
+  <td><%= link_to(
+    t("administrate.actions.destroy"),
+    [namespace, resource],
+    class: "text-color-red",
+    method: :delete,
+    data: { confirm: t("administrate.actions.confirm") }
+  ) if accessible_action?(resource, :destroy) %></td>
+<% end %>

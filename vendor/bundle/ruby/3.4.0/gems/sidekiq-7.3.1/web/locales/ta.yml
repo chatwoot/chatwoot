@@ -1,0 +1,75 @@
+# elements like %{queue} are variables and should not be translated
+ta:
+  Actions: செயல்கள்
+  AddToQueue: வரிசையில் சேர்
+  AreYouSure: நீங்கள் உறுதியாக இருக்கிறீர்களா?
+  AreYouSureDeleteJob: நீ இந்த வேலையை நீக்க வேண்டும் என்று உறுதியாக இருக்கிறீர்களா?
+  AreYouSureDeleteQueue: நீங்கள் %{queue} வரிசையில் நீக்க வேண்டும் என்பதில் உறுதியாக இருக்கிறீர்களா?
+  Arguments: வாதங்கள்,
+  Busy: பணிமிகுதி
+  Class: வகுப்பு
+  Connections: இணைப்புகள்
+  CurrentMessagesInQueue: தற்போதைய வேலைகள் <span class='title'>%{queue}</span>
+  Dashboard: டாஷ்போர்டு
+  Dead: இறந்துபோன
+  DeadJobs: டெட் வேலைகள்
+  Delete: நீக்கு
+  DeleteAll: அனைத்து நீக்கு
+  Enqueued: வரிசைப்படுத்தப்பட்டவை
+  Error: பிழை
+  ErrorBacktrace: பிழை பின்தேடுலை
+  ErrorClass: பிழை வகுப்பு
+  ErrorMessage: பிழை செய்தி
+  Extras: உபரி
+  Failed: தோல்வி
+  Failures: தோல்விகள்
+  GoBack: பின்புறம்
+  History: வரலாறு
+  Job: வேலை
+  Jobs: வேலை வாய்ப்புகள்
+  Kill: கொல்
+  LastRetry: கடைசியாக, மீண்டும் முயற்சிக்கவும்
+  LivePoll: நேரடி கணிப்பு
+  MemoryUsage: நினைவக பயன்பாடு
+  Namespace: பெயர்வெளி
+  NextRetry: அடுத்த, மீண்டும் முயற்சிக்கவும்
+  NoDeadJobsFound: இறந்த வேலை எதுவும் இல்லை
+  NoRetriesFound: இல்லை மீண்டும் காணப்படவில்லை
+  NoScheduledFound: திட்டமிட்ட வேலைகள் காணப்படவில்லை
+  OneMonth: 1 மாதம்
+  OneWeek: 1 வாரம்
+  OriginallyFailed: முதலில் தோல்வி
+  Paused: தற்காலிக பணிநிறுத்தம்
+  PeakMemoryUsage: உச்ச நினைவக பயன்பாடு
+  PollingInterval: வாக்குப்பதிவு இடைவெளி
+  Processed: நிறையுற்றது
+  Processes: செயல்முறைகள்
+  Queue: வரிசை
+  Queues: வரிசை
+  Quiet: அமைதியான
+  QuietAll: அமைதியான அனைத்து
+  Realtime: நேரலை
+  Retries: மீண்டும் முயற்சிக்க,
+  RetryAll: அனைத்து, மீண்டும் முயற்சிக்கவும்
+  RetryCount: கணிப்பீடு, மீண்டும் முயற்சிக்கவும்
+  RetryNow: இப்போது மீண்டும் முயற்சி செய்க
+  Scheduled: திட்டமிடப்பட்ட
+  ScheduledJobs: திட்டமிட்ட வேலைகள்
+  ShowAll: அனைத்து காட்டு
+  SixMonths: 6 மாதங்கள்
+  Size: அளவு
+  Started: தொடங்குதல்
+  Status: நிலைமை
+  Stop: நிறுத்து
+  StopAll: நிறுத்து அனைத்து
+  StopPolling: நிறுத்து வாக்குப்பதிவு
+  Thread: நூல்
+  Threads: நூல்கள்
+  ThreeMonths: 3 மாதங்கள்
+  Time: நேரம்
+  Uptime: இயக்க நேரம் (நாட்கள்)
+  Version: பதிப்பு
+  When: எப்பொழுது?
+  Worker: பணியாளர்
+  active: செயலில்
+  idle: முடங்கு நேரம்

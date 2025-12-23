@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+require_command "docker"
+load_docker_compose_env
+
+usage_on_help "Starts all services, including a container in which to run your app" "" "" "" "${@}"
+
+log "🚀" "Starting docker-compose.dx.yml"
+
+BUILD=--build
+if [ "${1}" == "--no-build" ]; then
+    BUILD=
+fi
+
+docker \
+  compose \
+    --file docker-compose.dx.yml \
+    --project-name "${PROJECT_NAME}" \
+    --env-file "${ENV_FILE}" \
+  up \
+    "${BUILD}" \
+    --timestamps \
+    --force-recreate
+
+# vim: ft=bash

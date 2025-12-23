@@ -1,0 +1,15 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: acts_as_taggable_on
+      POSTGRES_PASSWORD: postgres
+    ports: ['5432:5432']
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_DATABASE: acts_as_taggable_on
+    ports: ['3306:3306']

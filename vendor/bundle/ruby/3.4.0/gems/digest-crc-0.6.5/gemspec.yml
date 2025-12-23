@@ -1,0 +1,28 @@
+name: digest-crc
+version: 0.6.5
+summary: A Cyclic Redundancy Check (CRC) library for Ruby.
+description:
+  Adds support for calculating Cyclic Redundancy Check (CRC) to the Digest
+  module.
+
+license: MIT
+authors: Postmodern
+email: postmodern.mod3@gmail.com
+homepage: https://github.com/postmodern/digest-crc#readme
+
+metadata:
+  documentation_uri: https://rubydoc.info/gems/digest-crc
+  source_code_uri:   https://github.com/postmodern/digest-crc
+  bug_tracker_uri:   https://github.com/postmodern/digest-crc/issues
+  changelog_uri:     https://github.com/postmodern/digest-crc/blob/master/ChangeLog.md
+
+extensions:
+ - ext/digest/Rakefile
+
+has_yard: true
+
+dependencies:
+  rake: ">= 12.0.0, < 14.0.0"
+
+development_dependencies:
+  bundler: ~> 2.0

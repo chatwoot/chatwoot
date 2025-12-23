@@ -1,0 +1,69 @@
+// Try intercept traces links in Rails 4.2.
+var traceFrames = document.getElementsByClassName('trace-frames');
+var selectedFrame, currentSource = document.getElementById('frame-source-0');
+
+// Add click listeners for all stack frames
+for (var i = 0; i < traceFrames.length; i++) {
+  traceFrames[i].addEventListener('click', function(e) {
+    e.preventDefault();
+    var target = e.target;
+    var frameId = target.dataset.frameId;
+    var exceptionObjectId = target.dataset.exceptionObjectId;
+
+    // Change the binding of the console.
+    changeBinding(frameId, exceptionObjectId, function() {
+      // Rails already handles toggling the select class
+      selectedFrame = target;
+      return target.innerHTML;
+    });
+
+    // Change the extracted source code
+    changeSourceExtract(frameId);
+  });
+}
+
+// Change the binding of the current session and prompt the user.
+function changeBinding(frameId, exceptionObjectId, callback) {
+  REPLConsole.currentSession.switchBindingTo(frameId, exceptionObjectId, callback);
+}
+
+function changeSourceExtract(frameId) {
+  var el = document.getElementById('frame-source-' + frameId);
+  if (currentSource && el) {
+    currentSource.className += " hidden";
+    el.className = el.className.replace(" hidden", "");
+    currentSource = el;
+  }
+}
+
+// Push the error page body upwards the size of the console.
+//
+// While, I wouldn't like to do that on every custom page (so I don't screw
+// user's layouts), I think a lot of developers want to see all of the content
+// on the default Rails error page.
+//
+// Since it's quite special as is now, being a bit more special in the name of
+// better user experience, won't hurt.
+document.addEventListener('DOMContentLoaded', function() {
+  var consoleElement = document.getElementById('console');
+  var resizerElement = consoleElement.getElementsByClassName('resizer')[0];
+  var containerElement = document.getElementById('container');
+
+  function setContainerElementBottomMargin(pixels) {
+    containerElement.style.marginBottom = pixels + 'px';
+  }
+
+  var currentConsoleElementHeight = consoleElement.offsetHeight;
+  setContainerElementBottomMargin(currentConsoleElementHeight);
+
+  resizerElement.addEventListener('mousedown', function(event) {
+    function recordConsoleElementHeight(event) {
+      resizerElement.removeEventListener('mouseup', recordConsoleElementHeight);
+
+      var currentConsoleElementHeight = consoleElement.offsetHeight;
+      setContainerElementBottomMargin(currentConsoleElementHeight);
+    }
+
+    resizerElement.addEventListener('mouseup', recordConsoleElementHeight);
+  });
+});

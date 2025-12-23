@@ -1,0 +1,19 @@
+language: ruby
+cache: bundler
+
+matrix:
+  include:
+    - rvm: 2.3
+    - rvm: 2.4
+    - rvm: 2.5
+    - rvm: 2.6
+    - rvm: jruby
+    - rvm: truffleruby
+    - rvm: jruby-head
+    - rvm: ruby-head
+  allow_failures:
+    - rvm: truffleruby
+    - rvm: jruby
+    - rvm: ruby-head
+    - rvm: jruby-head
+  fast_finish: true

@@ -1,0 +1,124 @@
+-*- coding: utf-8 -*-
+
+commit 396cc7991604632bc686e3c363504db42337cca3
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 20:57:52 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 21:10:28 +0900
+
+    Added tests
+
+commit aa06490df9efa905ef17c143e96edee547c4ffad
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 20:20:31 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 20:20:31 +0900
+
+    Fixed RDoc location
+
+commit 9603fec096b257d382776c09ab1f5fe88d289307
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 20:19:09 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 20:19:09 +0900
+
+    Make README.md the main page
+
+commit 5093cd212b44d1fbd8ef1c6b3f2bfa8f3427de16
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 19:21:06 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 19:21:06 +0900
+
+    Added least documents
+
+commit 52b8acf6a89de00f44c8854f0e30c2be4a3d7cb3
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 19:19:59 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 19:19:59 +0900
+
+    Define Hash.ruby2_keywords_hash singleton method
+
+commit 51c47c060d9678ae2c28bcf415bc87346cba1860
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 19:19:09 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 19:19:09 +0900
+
+    Define Hash.ruby2_keywords_hash? singleton method
+
+commit 2ee450c041cb1a3b15580c3963b778b33926503c
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 18:53:19 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 18:53:19 +0900
+
+    Package LICENSE file
+
+    The source gemspec file is useless after building the gem file.
+
+commit a841a82a1ff485ab6dd5759f6f31dff17de45b65
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 14:41:53 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 14:51:06 +0900
+
+    README: fix Contributing and License
+
+commit cbecd4307612f6794962a701cb16ac620872c1f9
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2021-01-19 12:13:21 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-19 12:13:21 +0900
+
+    Added version guard against the default gem
+
+commit 52c15f0e55dfdcb8204e92c85a4dd5d524549533
+  Author:     Yusuke Endoh <mame@ruby-lang.org>
+  AuthorDate: 2021-01-07 17:39:52 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2021-01-07 19:56:19 +0900
+
+    Use private_method_defined? instead of respond_to?
+
+    `Module.respond_to?(:ruby2_keywords, true)` does NOT check if
+    `Module#ruby2_keywords` is available. It worked well because there is
+    toplevel `ruby2_keywords` method, but using `private_method_defined?` is
+    better, I think.
+
+    Also, this fixes a syntactic error.
+
+commit 23981c5296aec6c5dbe104b8adc7ca0e85cb4313
+  Author:     Yusuke Endoh <mame@ruby-lang.org>
+  AuthorDate: 2020-12-28 14:07:40 +0900
+  Commit:     GitHub <noreply@github.com>
+  CommitDate: 2020-12-28 14:07:40 +0900
+
+    Add an example for Module#define_method (#7)
+
+commit 92e74341dffc9a41d7671ea82709ba2e091ef4e8
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2020-12-27 17:43:35 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2020-12-27 17:43:35 +0900
+
+    Added BSD-2-Clause to the licenses of the gemspec
+
+commit 46ed72d40db163f9edbddbe6e5706794484ac5bb
+  Author:     Antonio Terceiro <asa@terceiro.xyz>
+  AuthorDate: 2020-04-03 14:50:29 -0300
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2020-12-27 17:06:49 +0900
+
+    Add explicit license file
+
+    Fixes #4
+
+commit 53833c0f660239eeb572dd33d4a1fac503c4834a
+  Author:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  AuthorDate: 2020-12-27 17:05:37 +0900
+  Commit:     Nobuyoshi Nakada <nobu@ruby-lang.org>
+  CommitDate: 2020-12-27 17:05:37 +0900
+
+    Support Hash.ruby2_keywords_hash?

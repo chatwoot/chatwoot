@@ -1,0 +1,54 @@
+AllCops:
+  DisplayCopNames: true
+  Exclude:
+    - uglifier.gemspec
+    - lib/uglifier/version.rb
+    - "vendor/**/*"
+    - "gemfiles/vendor/**/*"
+
+Metrics/AbcSize:
+  Max: 20
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - "spec/**/*_spec.rb"
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+
+Metrics/MethodLength:
+  Max: 20
+
+Style/Encoding:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedStyle: hash_rockets
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/PreferredHashMethods:
+  Enabled: false
+
+Style/SignalException:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/Alias:
+  Enabled: false
+
+Style/MutableConstant:
+  Enabled: false
+
+Style/ExpandPathArguments:
+  Enabled: false

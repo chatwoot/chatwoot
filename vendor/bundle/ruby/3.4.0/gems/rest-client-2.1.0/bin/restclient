@@ -1,0 +1,92 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.dirname(__FILE__) + "/../lib"
+
+require 'rubygems'
+require 'restclient'
+require 'yaml'
+
+def usage(why = nil)
+  puts "failed for reason: #{why}" if why
+  puts "usage: restclient [get|put|post|delete] url|name [username] [password]"
+  puts "  The verb is optional, if you leave it off you'll get an interactive shell."
+  puts "  put and post both take the input body on stdin."
+  exit(1)
+end
+
+POSSIBLE_VERBS = ['get', 'put', 'post', 'delete']
+
+if POSSIBLE_VERBS.include? ARGV.first
+  @verb = ARGV.shift
+else
+  @verb = nil
+end
+
+@url = ARGV.shift || 'http://localhost:4567'
+
+config = YAML.load(File.read(ENV['HOME'] + "/.restclient")) rescue {}
+
+if (c = config[@url])
+  @url, @username, @password = [c['url'], c['username'], c['password']]
+else
+  @url, @username, @password = [@url, * ARGV]
+end
+
+usage("invalid url '#{@url}") unless @url =~ /^https?/
+usage("too few args") unless ARGV.size < 3
+
+def r
+  @r ||= RestClient::Resource.new(@url, @username, @password)
+end
+
+r # force rc to load
+
+if @verb
+  begin
+    if %w( put post ).include? @verb
+      puts r.send(@verb, STDIN.read)
+    else
+      puts r.send(@verb)
+    end
+    exit 0
+  rescue RestClient::Exception => e
+    puts e.response.body if e.respond_to?(:response) && e.response
+    raise
+  end
+end
+
+POSSIBLE_VERBS.each do |m|
+  define_method(m.to_sym) do |path, *args, &b|
+    r[path].public_send(m.to_sym, *args, &b)
+  end
+end
+
+def method_missing(s, * args, & b)
+  if POSSIBLE_VERBS.include? s
+    begin
+      r.send(s, *args, & b)
+    rescue RestClient::RequestFailed => e
+      print STDERR, e.response.body
+      raise e
+    end
+  else
+    super
+  end
+end
+
+require 'irb'
+require 'irb/completion'
+
+if File.exist? ".irbrc"
+  ENV['IRBRC'] = ".irbrc"
+end
+
+rcfile = File.expand_path("~/.restclientrc")
+if File.exist?(rcfile)
+  load(rcfile)
+end
+
+ARGV.clear
+
+IRB.start
+exit!

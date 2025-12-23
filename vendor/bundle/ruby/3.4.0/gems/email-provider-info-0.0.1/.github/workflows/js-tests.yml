@@ -1,0 +1,46 @@
+---
+name: js-tests
+
+on:
+  pull_request_target:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs: {}
+
+jobs:
+  build:
+    name: Tests with Node ${{ matrix.node }}
+    runs-on: "ubuntu-latest"
+    if: |
+      github.actor == 'dependabot[bot]' && github.event_name == 'pull_request_target' ||
+      github.actor != 'dependabot[bot]'
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["16", "17"]
+
+    steps:
+      - uses: actions/checkout@v2.4.0
+
+      - uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: >
+            ${{ runner.os }}-${{ matrix.node }}-npm-${{
+            hashFiles('package.json') }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v2.5.1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install npm dependencies
+        run: |
+          yarn install
+
+      - name: Run Tests
+        run: |
+          yarn test:ci
+          yarn lint

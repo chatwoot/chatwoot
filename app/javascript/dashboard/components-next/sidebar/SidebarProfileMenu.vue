@@ -4,6 +4,7 @@ import Auth from 'dashboard/api/auth';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -25,6 +26,7 @@ defineOptions({
 
 const { t } = useI18n();
 const { uiSettings } = useUISettings();
+const { isAdmin } = useAdmin();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
@@ -94,7 +96,7 @@ const menuItems = computed(() => {
       },
     },
     {
-      show: true,
+      show: isAdmin.value,
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
       icon: 'i-lucide-user-pen',
@@ -137,13 +139,7 @@ const menuItems = computed(() => {
       nativeLink: true,
       target: '_blank',
     },
-    {
-      show: true,
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.LOGOUT'),
-      icon: 'i-lucide-power',
-      click: Auth.logout,
-    },
+    // Removido: LOGOUT (Sair)
   ];
 });
 

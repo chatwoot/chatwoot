@@ -1,0 +1,124 @@
+= GLI, the Git-Like Interface Command Line Parser
+
+GLI allows you to create command-line app in Ruby that behaves like <tt>git</tt> in that it takes subcommands to perform a series of complex action, e.g. <tt>git remote add</tt>.
+
+* {Overview}[http://davetron5000.github.io/gli]
+* {Source on Github}[http://github.com/davetron5000/gli]
+* RDoc[http://davetron5000.github.io/gli/rdoc/index.html]
+
+{<img src="https://secure.travis-ci.org/davetron5000/gli.svg?branch=gli-2" alt="Build Status" />}[https://travis-ci.org/davetron5000/gli]
+
+== What Problem does GLI Solve?
+
+Creating a command-line app that uses subcommands, each of which might accept different command-line options, is somewhat difficult with Ruby's built-in <tt>OptionParser</tt>.  GLI provides an API that wraps <tt>OptionParser</tt> so that you can create a subcommand-based command-line app with minimal boilerplate. This API also produces complete documentation for your command-line app.
+
+== Why is GLI's solution different from others?
+
+There are other RubyGems that allow you to create a command-line app that takes subcommands.  These solutions are often quite limited (e.g. they don't allow deeply nested subcommand structures or sophisticated command-line options per subcommand), or require more code that we think is needed. Some solutions make it difficult or impossible to properly document your command-line  app.
+
+== What you need to know to use GLI
+
+You should know Ruby, and have a basic understanding of how the UNIX command line works: standard input, standard output, standard error, and exit codes.
+
+== Use
+
+Install if you need to:
+
+    gem install gli
+
+You can validate you have installed it correctly by running <tt>gli help</tt>. You should see formatted help output.
+
+If you are using GLI in another application, add it to your <tt>Gemfile</tt>:
+
+    gem "gli"
+
+You can test your install via Bundler by running <tt>bundle exec gli help</tt>. This should produce formatted help output from GLI.
+
+== Getting Started
+
+The simplest way to get started is to create a scaffold project
+
+    gli init todo list add complete
+
+(note if you installed via Bundler you will need to execute <tt>bundle exec gli init todo list add complete</tt>)
+
+This will create a basic scaffold project in <tt>./todo</tt> with:
+
+* executable in <tt>./todo/bin/todo</tt>.  This file demonstrates most of what you need to describe your command line interface.
+* an empty test in <tt>./todo/test/default_test.rb</tt> that can bootstrap your tests
+* a gemspec shell
+* a README shell
+* Rakefile that can generate RDoc, package your Gem and run tests
+* A <tt>Gemfile</tt> suitable for use with Bundler to manage development-time dependencies
+
+Now, you are ready to go:
+
+    > cd todo
+    > bundle exec bin/todo help
+    NAME
+        todo - Describe your application here
+
+    SYNOPSIS
+        todo [global options] command [command options] [arguments...]
+
+    VERSION
+        0.0.1
+
+    GLOBAL OPTIONS
+        -f, --flagname=The name of the argument - Describe some flag here (default: the default)
+        --help                                  - Show this message
+        -s, --[no-]switch                       - Describe some switch here
+
+    COMMANDS
+        add      - Describe add here
+        complete - Describe complete here
+        help     - Shows a list of commands or help for one command
+        list     - Describe list here
+
+    > bundle exec bin/todo help list
+    NAME
+        list - Describe list here
+
+    SYNOPSIS
+        todo [global options] list [command options] Describe arguments to list here
+
+    COMMAND OPTIONS
+        -f arg - Describe a flag to list (default: default)
+        -s     - Describe a switch to list
+
+All you need to do is fill in the documentation and your code; the help system, command-line parsing and many other awesome features are all handled for you.
+
+Get a more detailed walkthrough on the {main site}[http://davetron5000.github.io/gli]
+
+== Supported Platforms
+
+See `dx/docker-compose.env` and the variable `RUBY_VERSIONS` for the versions that are supported.  This should generally track with the supported version of Ruby from Ruby's maintainers.
+
+That said, GLI should generally work on other Rubies as it doesn't have any runtime dependencies and there are no plans to use more modern features of Ruby in the codebase.
+
+== Documentation
+
+Extensive documentation is {available at the wiki}[https://github.com/davetron5000/gli/wiki].
+
+API Documentation is available {here}[http://davetron5000.github.io/gli/rdoc/index.html].  Recommend starting with GLI::DSL or GLI::App.
+
+== Developing
+
+See `CONTRIBUTING.md`
+
+== Credits
+
+Author::  Dave Copeland (mailto:davetron5000 at g mail dot com)
+Copyright:: Copyright (c) 2010 by Dave Copeland
+License:: Distributes under the Apache License, see LICENSE.txt in the source distro
+
+== Links
+
+* [http://davetron5000.github.io/gli] - RubyDoc
+* [http://www.github.com/davetron5000/gli] - Source on GitHub
+* [http://www.github.com/davetron5000/gli/wiki] - Documentation Wiki
+* [http://www.github.com/davetron5000/gli/wiki/Changelog] - Changelog
+
+= <code>gli</code> CLI documentation
+
+:include:gli.rdoc

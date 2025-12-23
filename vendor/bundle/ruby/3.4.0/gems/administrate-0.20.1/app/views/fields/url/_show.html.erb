@@ -1,0 +1,20 @@
+<%#
+# Url Show Partial
+
+This partial renders a URL address,
+to be displayed on a resource's show page.
+
+By default, the value is rendered as an `a` element.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Url][1].
+  A wrapper around the email pulled from the database.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Url
+%>
+
+<%= content_tag :a, href: field.data, **field.html_options do %>
+  <%= field.data %>
+<% end %>

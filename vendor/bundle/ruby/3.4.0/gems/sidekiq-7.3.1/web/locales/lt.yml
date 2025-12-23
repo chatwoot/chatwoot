@@ -1,0 +1,83 @@
+# elements like %{queue} are variables and should not be translated
+lt:
+  Actions: Veiksmai
+  AddToQueue: Pridėti į eilę
+  AreYouSure: Ar jūs įsitikinę?
+  AreYouSureDeleteJob: Ar tikrai norite pašalinti šį darbą?
+  AreYouSureDeleteQueue: Ar tikrai norite pašalinti šią eilę %{queue}?
+  Arguments: Parametrai
+  BackToApp: Atgal į Aplikaciją
+  Busy: Užimti
+  Class: Klasė
+  Connections: Ryšiai
+  CreatedAt: Sukurta
+  CurrentMessagesInQueue: Esami darbai eilėje <span class='title'>%{queue}</span>
+  Dashboard: Valdymo skydas
+  Dead: Negyvi
+  DeadJobs: Negyvi Darbai
+  Delete: Pašalinti
+  DeleteAll: Pašalinti Visus
+  Enqueued: Eilėje
+  Error: Klaida
+  ErrorBacktrace: Klaidos Pėdsakai
+  ErrorClass: Klaidos Klasė
+  ErrorMessage: Klaidos Žinutė
+  Extras: Papildomi
+  Failed: Nepavykę
+  Failures: Nesėkmingi vykdymai
+  GoBack: ← Atgal
+  History: Istorija
+  Job: Darbas
+  Jobs: Darbai
+  Kill: Priverstinai Nutraukti
+  KillAll: Priverstinai Nutraukti Visus
+  LastRetry: Paskutinis Kartojimas
+  Latency: Vėlavimas
+  LivePoll: Užklausti gyvai
+  MemoryUsage: Atminties Vartojimas
+  Namespace: Vardų erdvė
+  NextRetry: Sekantis Kartojimas
+  NoDeadJobsFound: Negyvų darbų nerasta
+  NoRetriesFound: Nerasta kartojimų
+  NoScheduledFound: Planuojamų darbų nerasta
+  NotYetEnqueued: Dar neįtraukti į eilę
+  OneMonth: 1 mėnuo
+  OneWeek: 1 savaitė
+  OriginallyFailed: Iš pradžių Nepavykę
+  Pause: Pristabdyti
+  Paused: Pristabdytas
+  PeakMemoryUsage: Atminties Vartojimo Pikas
+  Plugins: Įskiepiai
+  PollingInterval: Užklausimų intervalas
+  Processed: Įvykdyti
+  Processes: Procesai
+  Queue: Eilė
+  Queues: Eilės
+  Quiet: Nutildyti
+  QuietAll: Nutildyti Visus
+  Realtime: Realiu laiku
+  Retries: Kartojami
+  RetryAll: Kartoti Visus
+  RetryCount: Kartojimų Skaičius
+  RetryNow: Kartoti Dabar
+  Scheduled: Suplanuoti
+  ScheduledJobs: Planuojami Darbai
+  ShowAll: Rodyti Visus
+  SixMonths: 6 mėnesiai
+  Size: Dydis
+  Started: Pradėti
+  Status: Būsena
+  Stop: Sustabdyti
+  StopAll: Sustabdyti Visus
+  StopPolling: Stabdyti užklausas
+  Thread: Gija
+  Threads: Gijos
+  ThreeMonths: 3 mėnesiai
+  Time: Laikas
+  Unpause: Pratęsti
+  Uptime: Gyvavimo laikas (dienomis)
+  Version: Versija
+  When: Kada
+  Worker: Darbuotojas
+  active: aktyvus
+  idle: neveiksnus

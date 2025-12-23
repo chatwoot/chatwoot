@@ -1,0 +1,4 @@
+#!/bin/sh
+cd /tmp/app
+exec 2>&1
+exec chpst -u app -e /tmp/init/app-alpha-2/env ./alpha bar=baz

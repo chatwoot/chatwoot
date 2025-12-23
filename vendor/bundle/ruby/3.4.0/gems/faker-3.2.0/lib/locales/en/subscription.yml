@@ -1,0 +1,8 @@
+en:
+  faker:
+    subscription:
+      plans: ["Free Trial", "Basic", "Starter", "Essential", "Student", "Bronze", "Standard", "Silver", "Gold", "Platinum", "Professional", "Business", "Diamond", "Premium"]
+      statuses: ["Active", "Idle", "Blocked", "Pending"]
+      payment_methods: ["Credit card", "Debit card", "Paypal", "Cash", "Money transfer", "Bitcoins", "Cheque", "Apple Pay", "Google Pay", "WeChat Pay", "Alipay", "Visa checkout"]
+      subscription_terms: ["Daily", "Weekly", "Monthly", "Annual", "Biennal", "Triennal", "Quinquennal", "Lifetime"]
+      payment_terms: ["Payment in advance", "Monthly", "Annual", "Full subscription"]

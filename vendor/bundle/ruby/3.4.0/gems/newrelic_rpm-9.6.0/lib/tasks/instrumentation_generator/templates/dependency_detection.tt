@@ -1,0 +1,29 @@
+# This file is distributed under New Relic's license terms.
+# See https://github.com/newrelic/newrelic-ruby-agent/blob/main/LICENSE for complete details.
+# frozen_string_literal: true
+
+require_relative '<%= @name.downcase %>/instrumentation'
+require_relative '<%= @name.downcase %>/chain'
+require_relative '<%= @name.downcase %>/prepend'
+
+DependencyDetection.defer do
+  named :<%= @name.match?(/\-|\_/) ? "'#{@name.downcase}'" : @name.downcase %>
+
+  depends_on do
+    # The class that needs to be defined to prepend/chain onto. This can be used
+    # to determine whether the library is installed.
+    defined?(::<%= @class_name %>)
+    # Add any additional requirements to verify whether this instrumentation
+    # should be installed
+  end
+
+  executes do
+    ::NewRelic::Agent.logger.info('Installing <%= @name.downcase %> instrumentation')
+
+    if use_prepend?
+      prepend_instrument ::<%= @class_name %>, NewRelic::Agent::Instrumentation::<%= @class_name %>::Prepend
+    else
+      chain_instrument NewRelic::Agent::Instrumentation::<%= @class_name %>::Chain
+    end
+  end
+end

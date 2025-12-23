@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+require 'datadog/profiling/tasks/exec'
+require 'datadog/profiling/tasks/help'
+
+command = ARGV.shift
+
+case command
+when 'exec'
+  Datadog::Profiling::Tasks::Exec.new(ARGV).run
+when 'help', '--help'
+  Datadog::Profiling::Tasks::Help.new.run
+else
+  puts "Command '#{command}' is not valid for ddprofrb."
+  Datadog::Profiling::Tasks::Help.new.run
+end

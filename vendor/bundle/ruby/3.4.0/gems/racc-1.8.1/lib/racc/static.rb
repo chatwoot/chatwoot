@@ -1,0 +1,5 @@
+require_relative '../racc'
+require_relative 'parser'
+require_relative 'grammarfileparser'
+require_relative 'parserfilegenerator'
+require_relative 'logfilegenerator'

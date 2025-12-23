@@ -1,0 +1,30 @@
+---
+fi:
+  administrate:
+    actions:
+      confirm: Oletko varma?
+      destroy: Poista
+      edit: Muokkaa
+      edit_resource: Muokkaa %{name}
+      show_resource: Näytä %{name}
+      new_resource: Uusi %{name}
+      back: Takaisin
+    controller:
+      create:
+        success: "%{resource} luotiin onnistuneesti."
+      destroy:
+        success: "%{resource} poistettiin onnistuneesti."
+      update:
+        success: "%{resource} päivitettiin onnistuneesti."
+    fields:
+      has_many:
+        more: Näytetään %{count}/%{total_count}
+        none: Ei yhtään
+    form:
+      error: virhe
+      errors: "%{pluralized_errors} estivät tätä %{resource_name} tallentumasta:"
+    navigation:
+      back_to_app: Takaisin sovellukseen
+    search:
+      clear: Tyhjennä haku
+      label: Etsi %{resource}

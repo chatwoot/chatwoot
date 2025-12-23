@@ -1,0 +1,10 @@
+---
+en:
+  administrate:
+    fields:
+      active_storage:
+        add: Add
+        attachment: Attachment
+        no_attachment: No attachment
+        remove: Remove
+        replace: Replace

@@ -1,0 +1,93 @@
+$blue: #53adc6;
+$red: #cf726e;
+$green: #5bc89e;
+$white: #f0f0f0;
+
+$code-black: #202020;
+$code-white: #e0e0dc;
+$code-green: #b0bf82;
+$code-blue: #8fbdcc;
+$code-yellow: #f8d29d;
+$code-red: #b95c56;
+
+html,
+body {
+  font-family: 'Lato', serif;
+  font-size: 18px;
+  line-height: 1.62em;
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: 'Fjalla One', sans-serif;
+  margin-top: 2em;
+}
+
+a {
+  color: $blue;
+  text-decoration: none;
+}
+
+.content {
+  margin-bottom: 2em;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em;
+  width: 60em;
+
+  .sidebar {
+    float: left;
+    width: 20em;
+
+    &-links {
+      list-style: none;
+      padding-left: 0;
+    }
+  }
+
+  .main {
+    float: right;
+    width: 40em;
+  }
+}
+
+.flash-wrapper {
+  background-color: $red;
+  color: $white;
+  padding: 1em;
+
+  .flash {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40em;
+  }
+}
+
+code {
+  font-family: "Source Code Pro";
+  font-size: 0.8rem;
+  padding: 0.4em 0.2em 0;
+
+  &.hljs {
+    background-color: $code-black;
+    color: $code-white;
+    padding-left: 1rem;
+
+    .hljs-string { color: $code-green; }
+    .hljs-subst { color: $code-white; }
+    .hljs-constant { color: $code-blue; }
+    .hljs-symbol { color: $code-red; }
+    .hljs-keyword { color: $code-yellow; }
+
+    .hljs-title,
+    .hljs-parent { color: $code-blue; }
+
+    .hljs-tag { color: $code-yellow; }
+  }
+}

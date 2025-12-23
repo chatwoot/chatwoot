@@ -1,0 +1,4 @@
+source 'http://rubygems.org'
+
+gem 'rails'
+gem 'jquery-rails', git: 'git://github.com/rails/jquery-rails.git'

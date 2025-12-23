@@ -1,0 +1,23 @@
+module Datadog
+  module AppSec
+    module WAF
+      class HandleBuilder
+        @builder_ptr: ::FFI::Pointer
+
+        def initialize: (?limits: ::Hash[::Symbol, ::Integer], ?obfuscator: ::Hash[::Symbol, ::String]) -> void
+
+        def finalize!: () -> void
+
+        def build_handle: () -> Handle
+
+        def add_or_update_config: (data config, path: ::String) -> data
+
+        def remove_config_at_path: (::String path) -> bool
+
+        private
+
+        def ensure_pointer_presence!: () -> void
+      end
+    end
+  end
+end

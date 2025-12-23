@@ -1,0 +1,483 @@
+# Responses by MockHTTPService are taken directly from
+# this file.
+#
+# Structure
+# ----------
+#
+# path:
+#   arguments:    # sorted by key
+#     method:     # HTTP method (GET, POST, DELETE, etc.)
+#       with_token:
+#       no_token:
+
+# ====== GRAPH API =====
+graph_api:
+
+# -- Common Responses --
+
+  # Error responses for when a token is required, but not given
+  token_required_responses: &token_required
+    no_token:
+      code: 400
+      body: '{"error":{"type":"OAuthAccessTokenException", "message":"An access token is required to request this resource."}}'
+
+  # Common mock item responses
+  item_deleted: &item_deleted
+    delete:
+      with_token: '{"success":true}'
+
+  # OAuth error response
+  oauth_error: &oauth_error
+    no_token:
+      code: 400
+      body: '{"error": {"code"=>2500, "type": "OAuthException", "message": "Error validating verification code."}}'
+
+  # Subscription error response
+  verification_error: &verification_error
+    with_token:
+      code: 400
+      body: '{"error": {"code"=>2500, "type": "OAuthException", "message": "Error validating verification code."}}'
+
+  test_user_uninstalled: &test_user_uninstalled
+    post:
+      with_token: '{"id": "777777777", "access_token":"<%= APP_ACCESS_TOKEN %>", "login_url":"https://www.facebook.com/platform/test_account.."}'
+
+  test_user_installed: &test_user_installed
+    post:
+      with_token: '{"id": "999999999", "access_token":"<%= ACCESS_TOKEN %>", "login_url":"https://www.facebook.com/platform/test_account.."}'
+
+  test_user_befriended: &test_user_befriended
+    post:
+      with_token: 'true'
+
+# -- Stubbed Responses --
+  root:
+    ids=facebook,barackobama:
+      get:
+        with_token: '{"facebook":"{}","barackobama":"{}"}'
+        no_token: '{"facebook":"{}","barackobama":"{}"}'
+
+    # Ruby 1.8.7 and 1.9.2 generate JSON with different key ordering, hence we have to dynamically generate it here
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me"},{"method" => "get", "relative_url" => "barackobama"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body":"{\"id\":\"123\"}"}, {"code": 200, "body":"{\"id\":\"456\"}"}]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me/picture"}]) %>:
+      post:
+        with_token: '[{"code": 302, "headers":[{"name":"Location","value":"https://google.com"}]}]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me/picture?redirect=false"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body":"{\"data\":{\"is_silhouette\":false,\"url\":\"https:\/\/google.com\"}}"}]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me"},{"method" => "get", "relative_url" => "me/friends"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body":"{\"id\":\"barackobama\"}"}, {"code": 200, "body":"{\"data\":[{\"id\":\"koppel\"}],\"paging\":{}}"}]'
+    batch=<%= JSON.dump([{"method"=>"get", "relative_url"=>"me"}, {"method"=>"get", "relative_url"=>"#{OAUTH_DATA["app_id"]}/app_event_types?access_token=#{CGI.escape APP_ACCESS_TOKEN}"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body":"{\"id\":\"123\"}"}, {"code": 200, "body":"{\"data\":[],\"paging\":{}}"}]'
+    batch=<%= JSON.dump([{"method"=>"get", "relative_url"=>"2/invalidconnection"}, {"method"=>"get", "relative_url"=>"barackobama?access_token=#{CGI.escape APP_ACCESS_TOKEN}"}]) %>:
+      post:
+        with_token: '[{"code": 400, "body": "{\"error\":{\"type\":\"AnError\", \"message\":\"An error occurred!.\"}}"},{"code": 200, "body":"{\"id\":\"123\"}"}]'
+    batch=<%= JSON.dump([{"method"=>"post", "relative_url"=>"FEED_ITEM_BATCH/likes"}, {"method"=>"delete", "relative_url"=> "FEED_ITEM_BATCH"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body": "{\"id\": \"MOCK_LIKE\"}"},{"code": 200, "body":"{\"success\":true}"}]'
+
+    # dependencies
+    batch=<%= JSON.dump([{"method"=>"get", "relative_url"=>"me", "name" => "getme"}, {"method"=>"get", "relative_url"=>"barackobama", "depends_on" => "getme"}]) %>:
+      post:
+        with_token: '[null,{"code": 200, "body":"{\"id\":\"123\"}"}]'
+    batch=<%= JSON.dump([{"method"=>"get", "relative_url"=>"2/invalidconnection", "name" => "getdata"}, {"method"=>"get", "relative_url"=>"barackobama", "depends_on" => "getdata"}]) %>:
+      post:
+        with_token: '[{"code": 400, "body": "{\"error\":{\"type\":\"AnError\", \"message\":\"An error occurred!.\"}}"},null]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me/friends?limit=5", "name" => "get-friends"}, {"method" => "get", "relative_url" => "?ids=#{CGI.escape "{result=get-friends:$.data.*.id}"}"}]) %>:
+      post:
+        with_token: '[null,{"code": 200, "body":"{}"}]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me/friends?limit=5", "name" => "get-friends", "omit_response_on_success" => false}, {"method" => "get", "relative_url" => "?ids=#{CGI.escape "{result=get-friends:$.data.*.id}"}"}]) %>:
+      post:
+        with_token: '[{"code": 200, "body":"{\"data\":[],\"paging\":{}}"},{"code": 200, "body":"{}"}]'
+    batch=<%= JSON.dump([{"method" => "get", "relative_url" => "me/friends?limit=5"}, {"method" => "get", "relative_url" => "?ids=#{CGI.escape "{result=i-dont-exist:$.data.*.id}"}"}]) %>:
+      post:
+        with_token:
+          code: 400
+          body: '{"error_code":190,"error_description":"Error validating access token."}'
+
+    # attached files tests
+    batch=<%= JSON.dump([{"method"=>"post", "relative_url"=>"me/photos", "attached_files" => "op1_file0"}]) %>&op1_file0=[FILE]:
+      post:
+        with_token: '[{"code": 400, body": "{\"error\":{\"type\":\"AnError\", \"message\":\"An error occurred!.\"}}"},null]'
+    batch=<%= JSON.dump([{"method"=>"post", "relative_url"=>"me/photos", "attached_files" => "op1_file0"}]) %>&op1_file0=[FILE]:
+      post:
+        with_token: '[{"code": 200, "body":"{\"id\": \"MOCK_PHOTO\"}"}]'
+    batch=<%= JSON.dump([{"method"=>"post", "relative_url"=>"me/photos", "attached_files" => "op1_file0"}, {"method"=>"post", "relative_url"=>"barackobama/photos", "attached_files" => "op2_file0"}]) %>&op1_file0=[FILE]&op2_file0=[FILE]:
+      post:
+        with_token: '[{"code": 200, "body":"{\"id\": \"MOCK_PHOTO\"}"}, {"code": 200, "body":"{\"id\": \"MOCK_PHOTO\"}"}]'
+
+  /me:
+    no_args:
+      get:
+        <<: *token_required
+        with_token: '{"updated_time": 1}'
+    fields=id:
+      get:
+        with_token: '{"id": "2901279"}'
+
+  /me/feed:
+    message=Hello, world, from the test suite!:
+      post:
+        with_token: '{"id": "MOCK_FEED_ITEM"}'
+    message=Hello, world, from the test suite, testing comments!:
+      post:
+        with_token: '{"id": "MOCK_FEED_ITEM"}'
+    message=Hello, world, from the test suite, testing comments again!:
+      post:
+        with_token: '{"id": "MOCK_FEED_ITEM"}'
+    message=Hello, world, from the test suite, testing liking!:
+      post:
+        with_token: '{"id": "MOCK_FEED_ITEM"}'
+    message=the cats are asleep:
+      post:
+        with_token: '{"id": "FEED_ITEM_CATS"}'
+    message=Hello, world, from the test suite delete method!:
+      post:
+        with_token: '{"id": "FEED_ITEM_DELETE"}'
+    message=Hello, world, from the test suite delete like method!:
+      post:
+        with_token: '{"id": "FEED_ITEM_DELETE"}'
+    message=Hello, world, from the test suite batch API!:
+      post:
+        with_token: '{"id": "FEED_ITEM_BATCH"}'
+    link=http://testdomain.koalatest.test/&message=Hello, world, from the test suite again!&name=OAuth Playground:
+      post:
+        with_token: '{"id": "FEED_ITEM_CONTEXT"}'
+    link=http://testdomain.koalatest.test/&message=body&name=It's a big question&picture=http://testdomain.koalatest.test//images/logo.png&properties=<%= JSON.dump({"Link1"=>{"text"=>"Left", "href"=>"http://testdomain.koalatest.test/"}, "other" => {"text"=>"Straight ahead", "href"=>"http://testdomain.koalatest.test/?"}}) %>&type=link:
+      post:
+        with_token: '{"id": "FEED_ITEM_DICTIONARY"}'
+
+  /me/picture:
+    redirect=false:
+      no_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com" } }'
+      with_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com" } }'
+
+  /me/photos:
+    source=[FILE]:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO"}'
+    message=This is the test message&source=[FILE]:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO"}'
+    url=http://img.slate.com/images/redesign2008/slate_logo.gif:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO_FROM_URL"}'
+    message=my message&url=http://img.slate.com/images/redesign2008/slate_logo.gif:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO_FROM_URL"}'
+
+  /me/videos:
+    source=[FILE]:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO"}'
+    message=This is the test message&source=[FILE]:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO"}'
+    file_url=http://techslides.com/demos/sample-videos/small.mp4:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO_FROM_URL"}'
+    description=my message&file_url=http://techslides.com/demos/sample-videos/small.mp4:
+      post:
+        <<: *token_required
+        with_token: '{"id": "MOCK_PHOTO_FROM_URL"}'
+
+  /barackobama:
+    no_args:
+      get:
+        with_token: '{"id": 1, "name": 1, "updated_time": 1}'
+        no_token: '{"id": 1, "name": 1}'
+    metadata=1:
+      get:
+        with_token: '{"name": "Barack Obama","metadata": {"fields": [{"name": "id"}],"type": "user","connections": {}},"id": "44"}'
+
+  /facebook:
+    no_args:
+      get:
+        with_token: '{"id": 1, "name": 1}'
+        no_token: '{"id": 1, "name": 1}'
+
+  /facebook/events:
+    no_args:
+      get:
+        with_token: '{"data": [{}], "paging": {"previous": "https:\/\/graph.facebook.com\/7204941866\/events?limit=25&until=2008-09-15T18%3A30%3A25%2B0000", "next": "https:\/\/graph.facebook.com\/7204941866\/events?limit=25&until=2008-09-15T18%3A30%3A25%2B0000"}}'
+        no_token: '{"data": [{}], "paging": {"previous": "https:\/\/graph.facebook.com\/7204941866\/events?limit=25&until=2008-09-15T18%3A30%3A25%2B0000", "next": "https:\/\/graph.facebook.com\/7204941866\/events?limit=25&until=2008-09-15T18%3A30%3A25%2B0000"}}'
+
+  /koppel/likes:
+    no_args:
+      get:
+        <<: *token_required
+        with_token: '{"data": [{}], "paging": {}}'
+
+  /koppel/picture:
+    no_args:
+      get:
+        no_token:
+          code: 302
+          headers:
+            Location: http://facebook.com/
+        with_token:
+          code: 302
+          headers:
+            Location: http://facebook.com/
+    type=large:
+      get:
+        no_token:
+          code: 302
+          headers:
+            Location: https://facebook.com/large
+        with_token:
+          code: 302
+          headers:
+            Location: https://facebook.com/large
+    redirect=false:
+      get:
+        no_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com" } }'
+        with_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com" } }'
+    redirect=false&type=large:
+      get:
+        no_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com/large" } }'
+        with_token: '{ "data": { "is_silhouette": true, "url": "https://facebook.com/large" } }'
+
+  /comments:
+    ids=http://developers.facebook.com/blog/post/472:
+      get:
+        with_token: '{"http://developers.facebook.com/blog/post/472": []}'
+        no_token: '{"http://developers.facebook.com/blog/post/472": []}'
+    ids=http://developers.facebook.com/blog/post/490,http://developers.facebook.com/blog/post/472:
+      get:
+        with_token: '{"http://developers.facebook.com/blog/post/490": [], "http://developers.facebook.com/blog/post/472": []}'
+        no_token: '{"http://developers.facebook.com/blog/post/490": [], "http://developers.facebook.com/blog/post/472": []}'
+    ids=:
+      get:
+        code: 400
+        body: '{"error": {"type": "OAuthException","message": "Cannot specify an empty identifier"}}'
+    no_args:
+      get:
+        code: 500
+        body: '{"error": {"type": "Exception","message": "No node specified"}}'
+
+  /search:
+    q=facebook&type=page:
+      get:
+        with_token: '{"data": [{"id": "507731521_100412693339488"}], "paging": {"previous": "https:\/\/graph.facebook.com\/7204941866\/photos?limit=25&until=2008-09-15T18%3A30%3A25%2B0000", "next": "https:\/\/graph.facebook.com\/7204941866\/photos?limit=25&until=2008-09-15T18%3A30%3A25%2B0000"}}'
+    "limit=25&q=facebook&type=page&until=<%= TEST_DATA['search_time'] %>":
+      get:
+        with_token: '{"data": [{"id": "507731521_100412693339488"}], "paging": {"previous": "https:\/\/graph.facebook.com\/7204941866\/photos?limit=25&until=2008-09-15T18%3A30%3A25%2B0000", "next": "https:\/\/graph.facebook.com\/7204941866\/photos?limit=25&until=2008-09-15T18%3A30%3A25%2B0000"}}'
+
+  '/115349521819193_113815981982767':
+    no_args:
+      delete:
+        <<: *token_required
+
+  /my_page:
+    fields=access_token:
+      get:
+        <<: *token_required
+        with_token: '{"access_token": "<%= APP_ACCESS_TOKEN %>"}'
+
+
+  '/<%= APP_ID %>':
+    restrictions=<%= JSON.dump({"age_distr" => "13+"}) %>:
+      post:
+        with_token: "true"
+
+  /debug_token:
+    input_token=<%= APP_ACCESS_TOKEN %>:
+      get:
+        with_token: '{ "data": { "app_id": <%= APP_ID %>, "application": "Social Cafe", "expires_at": 1352419328, "is_valid": true, "issued_at": 1347235328, "metadata": { "sso": "iphone-safari" }, "scopes": [ "email", "publish_actions" ], "user_id": 1207059 } }'
+
+  # -- OAuth responses --
+  /oauth/access_token:
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&code=<%= OAUTH_CODE %>&redirect_uri=<%= OAUTH_DATA["callback_url"] %>:
+      get:
+        no_token: access_token=<%= ACCESS_TOKEN %>
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&code=foo&redirect_uri=<%= OAUTH_DATA["callback_url"] %>:
+      get:
+        <<: *oauth_error
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&grant_type=client_credentials:
+      post:
+        no_token: access_token=<%= APP_ACCESS_TOKEN %>
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&fb_exchange_token=<%= ACCESS_TOKEN %>&grant_type=fb_exchange_token:
+      post:
+        no_token: access_token=<%= ACCESS_TOKEN %>&expires=5184000
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&fb_exchange_token=foo&grant_type=fb_exchange_token:
+      post:
+        <<: *oauth_error
+  /oauth/exchange_sessions:
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&sessions=<%= OAUTH_DATA["session_key"] %>&type=client_cred:
+      post:
+        no_token: '[{"access_token":"<%= ACCESS_TOKEN %>","expires":4315}]'
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&sessions=<%= [OAUTH_DATA["session_key"], OAUTH_DATA["session_key"]].join(",") %>&type=client_cred:
+      post:
+        no_token: '[{"access_token":"<%= ACCESS_TOKEN %>","expires":4315}, {"access_token":"<%= ACCESS_TOKEN %>","expires":4315}]'
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&sessions=<%= ["foo"].concat([OAUTH_DATA["session_key"], OAUTH_DATA["session_key"]]).join(",") %>&type=client_cred:
+      post:
+        no_token: '[null, {"access_token":"<%= ACCESS_TOKEN %>","expires":4315}, {"access_token":"<%= ACCESS_TOKEN %>","expires":4315}]'
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&sessions=foo,bar&type=client_cred:
+      post:
+        no_token: '[null, null]'
+    client_id=<%= APP_ID %>&client_secret=<%= SECRET %>&sessions=foo&type=client_cred:
+      post:
+        no_token: '[null]'
+
+
+
+# -- Subscription Responses --
+  /<%= APP_ID %>/subscriptions:
+    callback_url=<%= SUBSCRIPTION_DATA["subscription_path"] %>&fields=name&object=user&verify_token=<%= SUBSCRIPTION_DATA["verify_token"] %>:
+      post:
+        with_token:
+          code: 200
+    callback_url=<%= SUBSCRIPTION_DATA["subscription_path"] %>&fields=name&object=user:
+      post:
+        with_token:
+          code: 200
+    callback_url=<%= SUBSCRIPTION_DATA["subscription_path"] %>foo&fields=name&object=user&verify_token=<%= SUBSCRIPTION_DATA["verify_token"] %>:
+      post:
+        with_token:
+          code: 400
+          body: '{"error":{"type":"Exception","message":"(#2200) subscription validation failed"}}'
+    callback_url=foo&fields=name&object=user&verify_token=<%= SUBSCRIPTION_DATA["verify_token"] %>:
+      post:
+        with_token:
+          code: 400
+          body: '{"error":{"type":"Exception","message":"(#100) callback_url URL is not properly formatted"}}'
+    object=user:
+      delete:
+        with_token:
+          code: 200
+    object=kittens:
+      delete:
+        with_token:
+          code: 400
+          body: '{"error":{"type":"Exception","message":"(#100) Invalid parameter"}}'
+    no_args:
+      delete:
+        with_token:
+          code: 200
+      get:
+        with_token: '{"data":[{"callback_url":"https://testdomain.koalatest.test/subscriptions", "fields":["name"], "object":"user", "active":true}]}'
+
+
+    callback_url=<%= SUBSCRIPTION_DATA["subscription_path"] %>:
+      get:
+        with_token: '{"data":[{"callback_url":"https://testdomain.koalatest.test/subscriptions", "fields":["name"], "object":"user", "active":true}]}'
+
+# -- Mock Item Responses --
+
+  /MOCK_FEED_ITEM/likes:
+    no_args:
+      post:
+        with_token: '{"id": "MOCK_LIKE"}'
+
+  /MOCK_FEED_ITEM/comments:
+    message=it's my comment!:
+      post:
+        with_token: '{"id": "MOCK_COMMENT"}'
+
+  /MOCK_FEED_ITEM:
+    no_args:
+      <<: *item_deleted
+
+  /FEED_ITEM_CONTEXT:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: '{"link":"http://testdomain.koalatest.test/", "name": "OAuth Playground"}'
+
+  /FEED_ITEM_DICTIONARY:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: '{"link":"http://testdomain.koalatest.test/", "name": "OAuth Playground", "properties": {}}'
+
+  /FEED_ITEM_CATS:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: '{"message": "the cats are asleep"}'
+
+  /FEED_ITEM_DELETE:
+    no_args:
+      <<: *item_deleted
+
+  /FEED_ITEM_DELETE/likes:
+    no_args:
+      <<: *item_deleted
+      post:
+        with_token: 'true'
+
+  /MOCK_COMMENT:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: "{\"message\": \"it's my comment!\"}"
+  /MOCK_PHOTO:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: "{\"name\": \"This is the test message\"}"
+
+# -- Mock Test User Responses --
+  /<%= APP_ID %>/accounts/test-users:
+    installed=false:
+      <<: *test_user_uninstalled
+    installed=false&permissions=read_stream:
+      <<: *test_user_uninstalled
+    installed=true&permissions=:
+      <<: *test_user_installed
+    installed=true&permissions=read_stream:
+      <<: *test_user_installed
+    installed=true&permissions=read_stream,user_interests:
+      post:
+        with_token: '{"id": "888888888", "access_token":"<%= ACCESS_TOKEN %>", "login_url":"https://www.facebook.com/platform/test_account.."}'
+    no_args:
+      get:
+        with_token: '{"data":[{"id": "999999999", "access_token":"<%= ACCESS_TOKEN %>", "login_url":"https://www.facebook.com/platform/test_account.."}, {"id": "888888888", "access_token":"119908831367602|o3wswWQ88LYjEC9-ukR_gjRIOMw.", "login_url":"https://www.facebook.com/platform/test_account.."}], "paging":{"next":"https://graph.facebook.com/119908831367602/accounts/test-users?access_token=119908831367602|o3wswWQ88LYjEC9-ukR_gjRIOMw&limit=50&offset=50&__after_id=100003241848740"}}'
+
+  /999999999:
+    no_args:
+      <<: *item_deleted
+      get:
+        with_token: '{"name":"Foo Baz"}'
+    name=Foo Baz:
+      post:
+        with_token: 'true'
+
+
+  /999999999/friends/888888888:
+    no_args:
+      post:
+        with_token: 'true'
+
+
+  /9999999991:
+    no_args:
+      delete:
+        with_token:
+          code: 400
+          body: '{"error": {"type": "OAuthException", "message": "Error validating verification code."}}'
+
+  /888888888:
+    no_args:
+      <<: *item_deleted
+
+  /888888888/friends/999999999:
+    no_args:
+      <<: *test_user_befriended
+
+
+  /777777777:
+    no_args:
+      <<: *item_deleted

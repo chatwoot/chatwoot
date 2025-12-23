@@ -1,0 +1,29 @@
+====== Option +write_headers+
+
+Specifies the boolean that determines whether a header row is included in the output;
+ignored if there are no headers.
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:write_headers) # => nil
+
+Without +write_headers+:
+  file_path = 't.csv'
+  CSV.open(file_path,'w',
+      :headers => ['Name','Value']
+    ) do |csv|
+      csv << ['foo', '0']
+  end
+  CSV.open(file_path) do |csv|
+    csv.shift
+  end # => ["foo", "0"]
+
+With +write_headers+":
+  CSV.open(file_path,'w',
+      :write_headers => true,
+      :headers => ['Name','Value']
+    ) do |csv|
+      csv << ['foo', '0']
+  end
+  CSV.open(file_path) do |csv|
+    csv.shift
+  end # => ["Name", "Value"]

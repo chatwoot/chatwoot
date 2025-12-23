@@ -1,0 +1,59 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${0}" )" > /dev/null 2>&1 && pwd )
+
+. "${SCRIPT_DIR}/dx.sh.lib"
+
+require_command "docker"
+load_docker_compose_env
+
+usage_description="Execute a command inside the app's container."
+usage_args="[-s service] [-v ruby_version] command"
+usage_pre="exec.pre"
+usage_on_help "${usage_description}" "${usage_args}" "${usage_pre}" "" "${@}"
+
+LATEST_RUBY=${RUBY_VERSIONS[0]}
+DEFAULT_SERVICE=gli-${LATEST_RUBY}
+SERVICE="${SERVICE_NAME:-${DEFAULT_SERVICE}}"
+while getopts "v:s:" opt "${@}"; do
+  case ${opt} in
+    v )
+      SERVICE="gli-${OPTARG}"
+      ;;
+    s )
+      SERVICE="${OPTARG}"
+      ;;
+    \? )
+      log "🛑" "Unknown option: ${opt}"
+      usage "${description}" "${usage_args}" "${usage_pre}"
+      ;;
+    : )
+      log "🛑" "Invalid option: ${opt} requires an argument"
+      usage "${description}" "${usage_args}" "${usage_pre}"
+      ;;
+  esac
+done
+shift $((OPTIND -1))
+
+if [ $# -eq 0 ]; then
+  log "🛑" "You must provide a command e.g. bash or ls -l"
+  usage "${description}" "${usage_args}" "${usage_pre}"
+fi
+
+
+exec_hook_if_exists "exec.pre"
+
+log "🚂" "Running '${*}' inside container with service name '${SERVICE}'"
+
+docker \
+  compose \
+    --file docker-compose.dx.yaml \
+    --project-name "${PROJECT_NAME}" \
+    --env-file "${ENV_FILE}" \
+  exec \
+    "${SERVICE}" \
+    "${@}"
+
+# vim: ft=bash

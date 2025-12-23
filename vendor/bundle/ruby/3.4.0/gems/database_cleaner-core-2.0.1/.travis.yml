@@ -1,0 +1,13 @@
+dist: bionic
+language: ruby
+services:
+  - redis
+rvm:
+  - 2.5
+  - 2.6
+  - 2.7
+before_script:
+  - bin/setup
+cache:
+  bundler: true
+

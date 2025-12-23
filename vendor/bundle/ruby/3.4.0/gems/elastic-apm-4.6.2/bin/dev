@@ -1,0 +1,54 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = 'Usage: bin/dev [options] [command]'
+
+  opts.on(
+    '-iIMAGE', '--image=IMAGE',
+    'Specify Docker image (eg. ruby:latest)'
+  ) { |val| options[:image] = val }
+
+  opts.on(
+    '-fFRAMEWORKS', '--frameworks=FRAMEWORKS',
+    'Specify frameworks to test (eg. rails:master,sinatra)'
+  ) { |val| options[:frameworks] = val }
+
+  opts.on(
+    '-s', '--skip-build',
+    'Skip building image'
+  ) { |val| options[:skip_build] = val }
+end.parse!
+
+USER_ID_GROUP = %w[u g].map { |f| `id -#{f}`.chomp }.join(':')
+
+RUBY_IMAGE = options.fetch(:image, 'ruby:latest')
+FRAMEWORKS = options.fetch(:frameworks, 'rails,sinatra,grape')
+
+IMAGE_PATH_SAFE = RUBY_IMAGE.tr(':', '_')
+IMAGE_NAME = "apm-agent-ruby:#{IMAGE_PATH_SAFE}"
+VENDOR_PATH = "/vendor/#{IMAGE_PATH_SAFE}"
+
+def run(cmd)
+  "IMAGE_NAME=#{IMAGE_NAME} #{cmd}".tap do |str|
+    puts str
+    system str
+  end
+end
+
+unless options[:skip_build]
+  run 'docker-compose build ' \
+    " --build-arg RUBY_IMAGE=#{RUBY_IMAGE}" \
+    " --build-arg USER_ID_GROUP=#{USER_ID_GROUP}" \
+    " --build-arg FRAMEWORKS=#{FRAMEWORKS}" \
+    " --build-arg VENDOR_PATH=#{VENDOR_PATH}"
+  exit $?.exitstatus unless $?.success?
+end
+
+run 'docker-compose run' \
+  " -u #{USER_ID_GROUP}" \
+  ' --rm' \
+  " specs #{ARGV.join}"

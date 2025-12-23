@@ -1,0 +1,30 @@
+---
+zh-TW:
+  administrate:
+    actions:
+      confirm: 確定？
+      destroy: 刪除
+      edit: 編輯
+      edit_resource: 編輯 %{name}
+      show_resource: 檢視 %{name}
+      new_resource: 新增 %{name}
+      back: 返回
+    controller:
+      create:
+        success: "已成功新增 %{resource}。"
+      destroy:
+        success: "已成功刪除 %{resource}。"
+      update:
+        success: "已成功更新 %{resource}。"
+    fields:
+      has_many:
+        more: 顯示 %{total_count} 筆中的 %{count} 筆資料
+        none: 無
+    form:
+      error: 錯誤
+      errors: "%{pluralized_errors} 導致此 %{resource_name} 不能被儲存："
+    navigation:
+      back_to_app: 返回首頁
+    search:
+      clear: 清除搜尋
+      label: 搜尋 %{resource}

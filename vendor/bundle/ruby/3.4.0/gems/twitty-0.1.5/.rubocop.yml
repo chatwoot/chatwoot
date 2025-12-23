@@ -1,0 +1,35 @@
+require:
+  - rubocop-performance
+  - rubocop-rspec
+inherit_from: .rubocop_todo.yml
+
+Layout/LineLength:
+  Max: 150
+Metrics/ClassLength:
+  Max: 125
+RSpec/ExampleLength:
+  Max: 25
+Style/Documentation:
+  Enabled: false
+Style/ExponentialNotation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/SymbolArray:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+RSpec/NestedGroups:
+  Enabled: true
+  Max: 4
+RSpec/MessageSpies:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Max: 7
+RSpec/NamedSubject:
+  Enabled: false
+# we should bring this down
+RSpec/MultipleMemoizedHelpers:
+  Max: 12
+AllCops:
+  NewCops: enable

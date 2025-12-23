@@ -1,0 +1,26 @@
+version: 2
+registries:
+  rubygems-server-gems-graphql-pro:
+    type: rubygems-server
+    url: https://gems.graphql.pro
+    username: "${{secrets.RUBYGEMS_SERVER_GEMS_GRAPHQL_PRO_USERNAME}}"
+    password: "${{secrets.RUBYGEMS_SERVER_GEMS_GRAPHQL_PRO_PASSWORD}}"
+
+updates:
+- package-ecosystem: bundler
+  directory: "/"
+  schedule:
+    interval: daily
+    time: "04:00"
+  open-pull-requests-limit: 10
+  ignore:
+  - dependency-name: rubocop
+    versions:
+    - 1.10.0
+    - 1.11.0
+    - 1.12.0
+    - 1.12.1
+    - 1.9.0
+    - 1.9.1
+  registries:
+  - rubygems-server-gems-graphql-pro

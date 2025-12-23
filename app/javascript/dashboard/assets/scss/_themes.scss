@@ -1,0 +1,114 @@
+/**
+ * Theme System for SynkiCRM
+ * 
+ * This file defines CSS variables for theming.
+ * Themes are applied via classes on the root element (html/body).
+ * 
+ * Usage:
+ * - Apply class "theme-synkicrm" to html or body element
+ * - Use CSS variables throughout the application
+ * - Override variables per theme as needed
+ */
+
+:root {
+  /* Default theme (SynkiCRM) */
+  --brand-primary: #1f93ff;
+  --brand-primary-dark: #0080f8;
+  --brand-primary-light: #4da6ff;
+  --brand-accent: #00d4aa;
+  --brand-accent-dark: #00b894;
+  
+  /* Sidebar */
+  --bg-sidebar: #1e293b;
+  --bg-sidebar-hover: #334155;
+  --text-sidebar: #f1f5f9;
+  --text-sidebar-muted: #94a3b8;
+  --border-sidebar: #334155;
+  
+  /* Surface & Backgrounds */
+  --bg-surface: #ffffff;
+  --bg-surface-secondary: #f8fafc;
+  --bg-surface-tertiary: #f1f5f9;
+  
+  /* Text Colors */
+  --text-default: #1e293b;
+  --text-muted: #64748b;
+  --text-disabled: #94a3b8;
+  --text-inverse: #ffffff;
+  
+  /* Borders */
+  --border-default: #e2e8f0;
+  --border-muted: #f1f5f9;
+  --border-focus: var(--brand-primary);
+  
+  /* Interactive Elements */
+  --bg-button-primary: var(--brand-primary);
+  --bg-button-primary-hover: var(--brand-primary-dark);
+  --text-button-primary: #ffffff;
+  
+  --bg-button-secondary: var(--bg-surface);
+  --bg-button-secondary-hover: var(--bg-surface-secondary);
+  --text-button-secondary: var(--text-default);
+  --border-button-secondary: var(--border-default);
+  
+  /* Inputs */
+  --bg-input: #ffffff;
+  --bg-input-focus: #ffffff;
+  --border-input: var(--border-default);
+  --border-input-focus: var(--brand-primary);
+  --text-input: var(--text-default);
+  --text-input-placeholder: var(--text-muted);
+  
+  /* Cards & Containers */
+  --bg-card: #ffffff;
+  --border-card: var(--border-default);
+  --shadow-card: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  
+  /* Status Colors */
+  --color-success: #10b981;
+  --color-warning: #f59e0b;
+  --color-error: #ef4444;
+  --color-info: var(--brand-primary);
+  
+  /* Spacing & Sizing */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-base: 200ms ease;
+  --transition-slow: 300ms ease;
+}
+
+/* SynkiCRM Theme (default) */
+.theme-synkicrm {
+  --brand-primary: #1f93ff;
+  --brand-primary-dark: #0080f8;
+  --brand-primary-light: #4da6ff;
+  --brand-accent: #00d4aa;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .theme-synkicrm {
+    --bg-sidebar: #0f172a;
+    --bg-surface: #1e293b;
+    --bg-surface-secondary: #334155;
+    --text-default: #f1f5f9;
+    --text-muted: #94a3b8;
+    --border-default: #334155;
+    --bg-card: #1e293b;
+  }
+}
+
+/* Apply theme class to body for global theming */
+body.theme-synkicrm {
+  /* Theme is applied via CSS variables above */
+}
+

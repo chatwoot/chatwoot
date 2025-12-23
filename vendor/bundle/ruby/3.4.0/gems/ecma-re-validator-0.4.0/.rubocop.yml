@@ -1,0 +1,6 @@
+inherit_gem:
+  rubocop-standard:
+    - config/default.yml
+
+Naming/FileName:
+  Enabled: false

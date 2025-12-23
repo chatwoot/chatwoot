@@ -1,5 +1,8 @@
 class DashboardController < ActionController::Base
   include SwitchLocale
+  include EmbedSessionVerification
+
+  before_action :set_embed_headers, if: :embed_mode?
 
   GLOBAL_CONFIG_KEYS = %w[
     LOGO
@@ -24,6 +27,7 @@ class DashboardController < ActionController::Base
     DISABLE_USER_PROFILE_UPDATE
     DEPLOYMENT_ENV
     INSTALLATION_PRICING_PLAN
+    ADMIN_FIRST
   ].freeze
 
   before_action :set_application_pack
@@ -37,6 +41,8 @@ class DashboardController < ActionController::Base
 
   def index; end
 
+  def embed_inbox; end
+
   private
 
   def ensure_html_format
@@ -44,7 +50,33 @@ class DashboardController < ActionController::Base
   end
 
   def set_global_config
-    @global_config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
+    config = GlobalConfig.get(*GLOBAL_CONFIG_KEYS).merge(app_config)
+    
+    # Load branding from BrandingConfig (preferred) or fallback to ENV/Brand module
+    branding = BrandingConfig.instance rescue nil
+    if branding
+      config['BRAND_NAME'] = branding.brand_name
+      config['BRAND_WEBSITE'] = branding.brand_website
+      config['BRAND_SUPPORT_EMAIL'] = branding.support_email
+      config['BRAND_LOGO_MAIN_URL'] = branding.logo_main_url if branding.logo_main.attached?
+      config['BRAND_LOGO_COMPACT_URL'] = branding.logo_compact_url if branding.logo_compact.attached?
+      config['BRAND_FAVICON_URL'] = branding.favicon_url if branding.favicon.attached?
+      config['BRAND_APPLE_TOUCH_ICON_URL'] = branding.apple_touch_icon_url if branding.apple_touch_icon.attached?
+    else
+      # Fallback to Brand module or ENV
+      if defined?(Brand)
+        config['BRAND_NAME'] ||= Brand::BRAND_NAME
+        config['BRAND_WEBSITE'] ||= Brand::WEBSITE
+        config['BRAND_SUPPORT_EMAIL'] ||= Brand::SUPPORT_EMAIL
+      else
+        config['BRAND_NAME'] ||= ENV.fetch('BRAND_NAME', 'SynkiCRM')
+        config['BRAND_WEBSITE'] ||= ENV.fetch('BRAND_WEBSITE', 'https://synkicrm.com.br/')
+        config['BRAND_SUPPORT_EMAIL'] ||= ENV.fetch('BRAND_SUPPORT_EMAIL', 'suporte@synkicrm.com.br')
+      end
+    end
+    
+    config['THEME_NAME'] ||= ENV.fetch('THEME_NAME', 'synkicrm')
+    @global_config = config
   end
 
   def set_dashboard_scripts
@@ -107,5 +139,18 @@ class DashboardController < ActionController::Base
     current_path = request.path.gsub(%r{^/app}, '')
 
     sensitive_paths.include?(current_path)
+  end
+
+  def embed_mode?
+    request.path.start_with?('/app/embed')
+  end
+
+  def set_embed_headers
+    # Allow embedding from synkicrm.com.br (same domain)
+    # Remove X-Frame-Options to allow same-origin embedding
+    response.headers.delete('X-Frame-Options')
+    # Set CSP to allow same-origin and synkicrm.com.br
+    csp = "frame-ancestors 'self' https://synkicrm.com.br https://*.synkicrm.com.br http://localhost:* http://127.0.0.1:*"
+    response.headers['Content-Security-Policy'] = csp
   end
 end

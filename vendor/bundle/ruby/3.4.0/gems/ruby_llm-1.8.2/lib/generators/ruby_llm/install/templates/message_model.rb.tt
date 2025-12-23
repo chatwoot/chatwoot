@@ -1,0 +1,4 @@
+class <%= message_model_name %> < ApplicationRecord
+  <%= acts_as_message_declaration %><% unless options[:skip_active_storage] %>
+  has_many_attached :attachments<% end %>
+end

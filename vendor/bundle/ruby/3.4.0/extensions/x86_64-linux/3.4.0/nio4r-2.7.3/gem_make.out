@@ -1,0 +1,292 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/nio4r-2.7.3/ext/nio4r
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+checking for unistd.h... yes
+checking for rb_io_descriptor()... yes
+checking for linux/aio_abi.h... yes
+checking for linux/io_uring.h... yes
+checking for sys/select.h... yes
+checking for port_event_t in poll.h... no
+checking for sys/epoll.h... yes
+checking for sys/event.h... no
+checking for port_event_t in port.h... no
+checking for sys/resource.h... yes
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/nio4r-2.7.3/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-tjhm4p sitelibdir\=./.gem.20251220-192266-tjhm4p clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/nio4r-2.7.3/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-tjhm4p sitelibdir\=./.gem.20251220-192266-tjhm4p
+compiling bytebuffer.c
+bytebuffer.c: In function ‘Init_NIO_ByteBuffer’:
+bytebuffer.c:59:6: warning: old-style function definition [-Wold-style-definition]
+   59 | void Init_NIO_ByteBuffer()
+      |      ^~~~~~~~~~~~~~~~~~~
+bytebuffer.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling monitor.c
+monitor.c: In function ‘Init_NIO_Monitor’:
+monitor.c:50:6: warning: old-style function definition [-Wold-style-definition]
+   50 | void Init_NIO_Monitor()
+      |      ^~~~~~~~~~~~~~~~
+monitor.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling nio4r_ext.c
+In file included from nio4r_ext.c:6:
+../libev/ev.c:234:5: warning: "EV_NO_THREADS" is not defined, evaluates to 0 [-Wundef]
+  234 | #if EV_NO_THREADS
+      |     ^~~~~~~~~~~~~
+../libev/ev.c:240:5: warning: "EV_NO_SMP" is not defined, evaluates to 0 [-Wundef]
+  240 | #if EV_NO_SMP
+      |     ^~~~~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c:573:48: warning: "/*" within comment [-Wcomment]
+  573 | /*#define MIN_INTERVAL  0.00000095367431640625 /* 1/2**20, good till 2200 */
+      |                                                 
+../libev/ev.c:691:7: warning: "__OPTIMIZE_SIZE__" is not defined, evaluates to 0 [-Wundef]
+  691 |   #if __OPTIMIZE_SIZE__
+      |       ^~~~~~~~~~~~~~~~~
+../libev/ev.c:700:7: warning: "_ILP32" is not defined, evaluates to 0 [-Wundef]
+  700 |   #if _ILP32
+      |       ^~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c:722:5: warning: "__clang__" is not defined, evaluates to 0 [-Wundef]
+  722 | #if __clang__ && defined __has_builtin
+      |     ^~~~~~~~~
+../libev/ev.c:728:5: warning: "__clang__" is not defined, evaluates to 0 [-Wundef]
+  728 | #if __clang__ && defined __has_extension
+      |     ^~~~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:739:5: note: in expansion of macro ‘ECB_CPP’
+  739 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:751:5: note: in expansion of macro ‘ECB_CPP’
+  751 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:766:5: warning: "ECB_NO_THREADS" is not defined, evaluates to 0 [-Wundef]
+  766 | #if ECB_NO_THREADS
+      |     ^~~~~~~~~~~~~~
+../libev/ev.c:770:5: warning: "ECB_NO_SMP" is not defined, evaluates to 0 [-Wundef]
+  770 | #if ECB_NO_SMP
+      |     ^~~~~~~~~~
+../libev/ev.c:775:5: warning: "__xlC__" is not defined, evaluates to 0 [-Wundef]
+  775 | #if __xlC__ && ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:779:13: warning: "_MSC_VER" is not defined, evaluates to 0 [-Wundef]
+  779 | #if 1400 <= _MSC_VER
+      |             ^~~~~~~~
+../libev/ev.c:786:9: warning: "__i386" is not defined, evaluates to 0 [-Wundef]
+  786 |     #if __i386 || __i386__
+      |         ^~~~~~
+../libev/ev.c:786:19: warning: "__i386__" is not defined, evaluates to 0 [-Wundef]
+  786 |     #if __i386 || __i386__
+      |                   ^~~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:924:5: note: in expansion of macro ‘ECB_CPP’
+  924 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:735:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  735 | #define ECB_CPP11 (__cplusplus >= 201103L)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:981:5: note: in expansion of macro ‘ECB_CPP11’
+  981 | #if ECB_CPP11
+      |     ^~~~~~~~~
+../libev/ev.c:989:5: warning: "_MSC_VER" is not defined, evaluates to 0 [-Wundef]
+  989 | #if _MSC_VER >= 1300
+      |     ^~~~~~~~
+../libev/ev.c:995:5: warning: "_MSC_VER" is not defined, evaluates to 0 [-Wundef]
+  995 | #if _MSC_VER >= 1500
+      |     ^~~~~~~~
+../libev/ev.c:1003:5: warning: "_MSC_VER" is not defined, evaluates to 0 [-Wundef]
+ 1003 | #if _MSC_VER >= 1400
+      |     ^~~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:1213:5: note: in expansion of macro ‘ECB_CPP’
+ 1213 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:1374:5: note: in expansion of macro ‘ECB_CPP’
+ 1374 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:734:20: warning: "__cplusplus" is not defined, evaluates to 0 [-Wundef]
+  734 | #define ECB_CPP   (__cplusplus+0)
+      |                    ^~~~~~~~~~~
+../libev/ev.c:1409:5: note: in expansion of macro ‘ECB_CPP’
+ 1409 | #if ECB_CPP
+      |     ^~~~~~~
+../libev/ev.c:1425:5: warning: "ecb_cplusplus_does_not_suck" is not defined, evaluates to 0 [-Wundef]
+ 1425 | #if ecb_cplusplus_does_not_suck
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c: In function ‘ecb_binary32_to_binary16’:
+../libev/ev.c:1510:13: warning: comparison of integer expressions of different signedness: ‘unsigned int’ and ‘int’ [-Wsign-compare]
+ 1510 |       if (e < (14 - 24)) /* might not be sharp, but is good enough */
+      |             ^
+../libev/ev.c: At top level:
+../libev/ev.c:1540:8: warning: "__i386" is not defined, evaluates to 0 [-Wundef]
+ 1540 |     || __i386 || __i386__ \
+      |        ^~~~~~
+../libev/ev.c:1540:18: warning: "__i386__" is not defined, evaluates to 0 [-Wundef]
+ 1540 |     || __i386 || __i386__ \
+      |                  ^~~~~~~~
+../libev/ev.c:1746:5: warning: "ECB_MEMORY_FENCE_NEEDS_PTHREADS" is not defined, evaluates to 0 [-Wundef]
+ 1746 | #if ECB_MEMORY_FENCE_NEEDS_PTHREADS
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c:1976:5: warning: "EV_AVOID_STDIO" is not defined, evaluates to 0 [-Wundef]
+ 1976 | #if EV_AVOID_STDIO
+      |     ^~~~~~~~~~~~~~
+../libev/ev.c: In function ‘ev_syserr’:
+../libev/ev.c:2005:5: warning: "EV_AVOID_STDIO" is not defined, evaluates to 0 [-Wundef]
+ 2005 | #if EV_AVOID_STDIO
+      |     ^~~~~~~~~~~~~~
+../libev/ev.c: In function ‘ev_realloc’:
+../libev/ev.c:2050:5: warning: "EV_AVOID_STDIO" is not defined, evaluates to 0 [-Wundef]
+ 2050 | #if EV_AVOID_STDIO
+      |     ^~~~~~~~~~~~~~
+../libev/ev.c: At top level:
+../libev/ev.c:2080:5: warning: "EV_SELECT_IS_WINSOCKET" is not defined, evaluates to 0 [-Wundef]
+ 2080 | #if EV_SELECT_IS_WINSOCKET || EV_USE_IOCP
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c:2080:31: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 2080 | #if EV_SELECT_IS_WINSOCKET || EV_USE_IOCP
+      |                               ^~~~~~~~~~~
+../libev/ev.c:2083:5: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 2083 | #if EV_USE_IOCP
+      |     ^~~~~~~~~~~
+In file included from ../libev/ev.c:2130,
+                 from nio4r_ext.c:6:
+../libev/ev_vars.h:88:24: warning: "EV_GENWRAP" is not defined, evaluates to 0 [-Wundef]
+   88 | #if defined(_WIN32) || EV_GENWRAP
+      |                        ^~~~~~~~~~
+../libev/ev_vars.h:150:22: warning: "EV_GENWRAP" is not defined, evaluates to 0 [-Wundef]
+  150 | #if EV_USE_KQUEUE || EV_GENWRAP
+      |                      ^~~~~~~~~~
+../libev/ev_vars.h:159:20: warning: "EV_GENWRAP" is not defined, evaluates to 0 [-Wundef]
+  159 | #if EV_USE_PORT || EV_GENWRAP
+      |                    ^~~~~~~~~~
+../libev/ev_vars.h:164:5: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+  164 | #if EV_USE_IOCP || EV_GENWRAP
+      |     ^~~~~~~~~~~
+../libev/ev_vars.h:164:20: warning: "EV_GENWRAP" is not defined, evaluates to 0 [-Wundef]
+  164 | #if EV_USE_IOCP || EV_GENWRAP
+      |                    ^~~~~~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c:2136:31: warning: ‘ev_default_loop_ptr’ initialized and declared ‘extern’
+ 2136 |   EV_API_DECL struct ev_loop *ev_default_loop_ptr = 0; /* needs to be initialised to make it a definition despite extern */
+      |                               ^~~~~~~~~~~~~~~~~~~
+../libev/ev.c: In function ‘array_nextsize’:
+../libev/ev.c:2249:19: warning: comparison of integer expressions of different signedness: ‘int’ and ‘long unsigned int’ [-Wsign-compare]
+ 2249 |   if (elem * ncur > MALLOC_ROUND - sizeof (void *) * 4)
+      |                   ^
+../libev/ev.c: In function ‘fd_reify’:
+../libev/ev.c:2402:5: warning: "EV_SELECT_IS_WINSOCKET" is not defined, evaluates to 0 [-Wundef]
+ 2402 | #if EV_SELECT_IS_WINSOCKET || EV_USE_IOCP
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c:2402:31: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 2402 | #if EV_SELECT_IS_WINSOCKET || EV_USE_IOCP
+      |                               ^~~~~~~~~~~
+../libev/ev.c: At top level:
+../libev/ev.c:3073:5: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 3073 | #if EV_USE_IOCP
+      |     ^~~~~~~~~~~
+In file included from ../libev/ev.c:3086,
+                 from nio4r_ext.c:6:
+../libev/ev_linuxaio.c: In function ‘linuxaio_poll’:
+../libev/ev_linuxaio.c:467:10: warning: suggest explicit braces to avoid ambiguous ‘else’ [-Wdangling-else]
+  467 |       if (ecb_expect_false (res < 0))
+      |          ^
+In file included from ../libev/ev.c:3089,
+                 from nio4r_ext.c:6:
+../libev/ev_iouring.c: In function ‘iouring_sqe_submit’:
+../libev/ev_iouring.c:298:31: warning: "/*" within comment [-Wcomment]
+  298 |   /*ECB_MEMORY_FENCE_RELEASE; /* for the time being we assume this is not needed */
+      |                                
+../libev/ev_iouring.c: In function ‘iouring_internal_init’:
+../libev/ev_iouring.c:359:5: warning: "TODO" is not defined, evaluates to 0 [-Wundef]
+  359 | #if TODO
+      |     ^~~~
+In file included from ../libev/ev.c:3095,
+                 from nio4r_ext.c:6:
+../libev/ev_select.c: At top level:
+../libev/ev_select.c:57:5: warning: "EV_SELECT_IS_WINSOCKET" is not defined, evaluates to 0 [-Wundef]
+   57 | #if EV_SELECT_IS_WINSOCKET
+      |     ^~~~~~~~~~~~~~~~~~~~~~
+../libev/ev_select.c: In function ‘select_poll’:
+../libev/ev_select.c:176:11: warning: "EV_SELECT_IS_WINSOCKET" is not defined, evaluates to 0 [-Wundef]
+  176 |       #if EV_SELECT_IS_WINSOCKET
+      |           ^~~~~~~~~~~~~~~~~~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c: In function ‘loop_init’:
+../libev/ev.c:3318:5: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 3318 | #if EV_USE_IOCP
+      |     ^~~~~~~~~~~
+../libev/ev.c: In function ‘ev_loop_destroy’:
+../libev/ev.c:3409:5: warning: "EV_USE_IOCP" is not defined, evaluates to 0 [-Wundef]
+ 3409 | #if EV_USE_IOCP
+      |     ^~~~~~~~~~~
+../libev/ev.c: In function ‘ev_io_start’:
+../libev/ev.c:4417:34: warning: suggest parentheses around arithmetic in operand of ‘|’ [-Wparentheses]
+ 4417 |   fd_change (EV_A_ fd, w->events & EV__IOFDSET | EV_ANFD_REIFY);
+      |                        ~~~~~~~~~~^~~~~~~~~~~~~
+../libev/ev.c: At top level:
+../libev/ev.c:5682:27: warning: "/*" within comment [-Wcomment]
+ 5682 | /* EV_STAT     0x00001000 /* stat data changed */
+      |                            
+../libev/ev.c:5683:27: warning: "/*" within comment [-Wcomment]
+ 5683 | /* EV_EMBED    0x00010000 /* embedded event loop needs sweep */
+      |                            
+nio4r_ext.c: In function ‘Init_nio4r_ext’:
+nio4r_ext.c:13:6: warning: old-style function definition [-Wold-style-definition]
+   13 | void Init_nio4r_ext()
+      |      ^~~~~~~~~~~~~~
+In file included from nio4r_ext.c:6:
+../libev/ev.c: In function ‘evpipe_write’:
+../libev/ev.c:2798:11: warning: ignoring return value of ‘write’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+ 2798 |           write (evpipe [1], &counter, sizeof (uint64_t));
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c:2810:11: warning: ignoring return value of ‘write’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+ 2810 |           write (evpipe [1], &(evpipe [1]), 1);
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c: In function ‘pipecb’:
+../libev/ev.c:2831:11: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+ 2831 |           read (evpipe [1], &counter, sizeof (uint64_t));
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+../libev/ev.c:2845:11: warning: ignoring return value of ‘read’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+ 2845 |           read (evpipe [0], &dummy, sizeof (dummy));
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+nio4r_ext.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+compiling selector.c
+selector.c: In function ‘NIO_Selector_wakeup’:
+selector.c:525:5: warning: ignoring return value of ‘write’ declared with attribute ‘warn_unused_result’ [-Wunused-result]
+  525 |     write(selector->wakeup_writer, "\0", 1);
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+selector.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object nio4r_ext.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/nio4r-2.7.3/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-tjhm4p sitelibdir\=./.gem.20251220-192266-tjhm4p install
+/usr/bin/install -c -m 0755 nio4r_ext.so ./.gem.20251220-192266-tjhm4p
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/nio4r-2.7.3/ext/nio4r
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-tjhm4p sitelibdir\=./.gem.20251220-192266-tjhm4p clean

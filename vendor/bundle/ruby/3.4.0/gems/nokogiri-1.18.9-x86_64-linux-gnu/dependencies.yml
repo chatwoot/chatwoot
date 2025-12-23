@@ -1,0 +1,42 @@
+---
+libxml2:
+  version: "2.13.8"
+  sha256: "277294cb33119ab71b2bc81f2f445e9bc9435b893ad15bb2cd2b0e859a0ee84a"
+  # sha-256 hash provided in https://download.gnome.org/sources/libxml2/2.13/libxml2-2.13.8.sha256sum
+
+libxslt:
+  version: "1.1.43"
+  sha256: "5a3d6b383ca5afc235b171118e90f5ff6aa27e9fea3303065231a6d403f0183a"
+  # sha-256 hash provided in https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.43.sha256sum
+
+zlib:
+  version: "1.3.1"
+  sha256: "9a93b2b7dfdac77ceba5a558a580e74667dd6fede4585b91eefb60f03b72df23"
+  # SHA-256 hash provided on http://zlib.net/
+
+libiconv:
+  version: "1.17"
+  sha256: "8f74213b56238c85a50a5329f77e06198771e70dd9a739779f4c02f65d971313"
+  # signature verified by following this path:
+  # - release announced at https://savannah.gnu.org/forum/forum.php?forum_id=10175
+  # - which links to https://savannah.gnu.org/users/haible as the releaser
+  # - which links to https://savannah.gnu.org/people/viewgpg.php?user_id=1871 as the gpg key
+  #
+  # So:
+  # - wget -q -O - https://savannah.gnu.org/people/viewgpg.php?user_id=1871 | gpg --import
+  #     gpg: key F5BE8B267C6A406D: 1 signature not checked due to a missing key
+  #     gpg: key F5BE8B267C6A406D: public key "Bruno Haible (Open Source Development) <bruno@clisp.org>" imported
+  #     gpg: Total number processed: 1
+  #     gpg:               imported: 1
+  #     gpg: marginals needed: 3  completes needed: 1  trust model: pgp
+  #     gpg: depth: 0  valid:   4  signed:   0  trust: 0-, 0q, 0n, 0m, 0f, 4u
+  #     gpg: next trustdb check due at 2024-05-09
+  # - gpg --verify libiconv-1.17.tar.gz.sig ports/archives/libiconv-1.17.tar.gz
+  #     gpg: Signature made Sun 15 May 2022 11:26:42 AM EDT
+  #     gpg:                using RSA key 9001B85AF9E1B83DF1BDA942F5BE8B267C6A406D
+  #     gpg: Good signature from "Bruno Haible (Open Source Development) <bruno@clisp.org>" [unknown]
+  #     gpg: WARNING: This key is not certified with a trusted signature!
+  #     gpg:          There is no indication that the signature belongs to the owner.
+  #     Primary key fingerprint: 9001 B85A F9E1 B83D F1BD  A942 F5BE 8B26 7C6A 406D
+  #
+  # And this sha256sum is calculated from that verified tarball.

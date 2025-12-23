@@ -1,0 +1,43 @@
+====== Option +header_converters+
+
+Specifies converters to be used in parsing headers.
+See {Header Converters}[#class-CSV-label-Header+Converters]
+
+Default value:
+  CSV::DEFAULT_OPTIONS.fetch(:header_converters) # => nil
+
+Identical in functionality to option {converters}[#class-CSV-label-Option+converters]
+except that:
+- The converters apply only to the header row.
+- The built-in header converters are +:downcase+ and +:symbol+.
+
+This section assumes prior execution of:
+  str = <<-EOT
+  Name,Value
+  foo,0
+  bar,1
+  baz,2
+  EOT
+  # With no header converter
+  table = CSV.parse(str, headers: true)
+  table.headers # => ["Name", "Value"]
+
+The value may be a header converter name
+(see {Stored Converters}[#class-CSV-label-Stored+Converters]):
+  table = CSV.parse(str, headers: true, header_converters: :downcase)
+  table.headers # => ["name", "value"]
+
+The value may be a converter list
+(see {Converter Lists}[#class-CSV-label-Converter+Lists]):
+  header_converters = [:downcase, :symbol]
+  table = CSV.parse(str, headers: true, header_converters: header_converters)
+  table.headers # => [:name, :value]
+
+The value may be a \Proc custom converter
+(see {Custom Header Converters}[#class-CSV-label-Custom+Header+Converters]):
+  upcase_converter = proc {|field| field.upcase }
+  table = CSV.parse(str, headers: true, header_converters: upcase_converter)
+  table.headers # => ["NAME", "VALUE"]
+
+See also {Custom Header Converters}[#class-CSV-label-Custom+Header+Converters]
+

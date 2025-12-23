@@ -1,0 +1,10 @@
+language: ruby
+rvm:
+  - 2.5.1
+  - 2.4.1
+  - 2.3.4
+cache: bundler
+install: bundle install
+script:
+  - bundle exec rubocop -D
+  - bundle exec rake

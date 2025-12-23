@@ -1,0 +1,12 @@
+FROM ruby:3.0
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+COPY Gemfile /usr/src/app/
+COPY . /usr/src/app
+RUN gem install bundler
+RUN bundle install
+
+CMD ["bundle", "exec", "rspec"]
+

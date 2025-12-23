@@ -1,0 +1,298 @@
+== Recipes for Generating \CSV
+
+These recipes are specific code examples for specific \CSV generating tasks.
+
+For other recipes, see {Recipes for CSV}[./recipes_rdoc.html].
+
+All code snippets on this page assume that the following has been executed:
+  require 'csv'
+
+=== Contents
+
+- {Output Formats}[#label-Output+Formats]
+  - {Generating to a String}[#label-Generating+to+a+String]
+    - {Recipe: Generate to String with Headers}[#label-Recipe-3A+Generate+to+String+with+Headers]
+    - {Recipe: Generate to String Without Headers}[#label-Recipe-3A+Generate+to+String+Without+Headers]
+  - {Generating to a File}[#label-Generating+to+a+File]
+    - {Recipe: Generate to File with Headers}[#label-Recipe-3A+Generate+to+File+with+Headers]
+    - {Recipe: Generate to File Without Headers}[#label-Recipe-3A+Generate+to+File+Without+Headers]
+  - {Generating to IO an Stream}[#label-Generating+to+an+IO+Stream]
+    - {Recipe: Generate to IO Stream with Headers}[#label-Recipe-3A+Generate+to+IO+Stream+with+Headers]
+    - {Recipe: Generate to IO Stream Without Headers}[#label-Recipe-3A+Generate+to+IO+Stream+Without+Headers]
+- {Converting Fields}[#label-Converting+Fields]
+  - {Recipe: Filter Generated Field Strings}[#label-Recipe-3A+Filter+Generated+Field+Strings]
+  - {Recipe: Specify Multiple Write Converters}[#label-Recipe-3A+Specify+Multiple+Write+Converters]
+- {RFC 4180 Compliance}[#label-RFC+4180+Compliance]
+  - {Row Separator}[#label-Row+Separator]
+    - {Recipe: Generate Compliant Row Separator}[#label-Recipe-3A+Generate+Compliant+Row+Separator]
+    - {Recipe: Generate Non-Compliant Row Separator}[#label-Recipe-3A+Generate+Non-Compliant+Row+Separator]
+  - {Column Separator}[#label-Column+Separator]
+    - {Recipe: Generate Compliant Column Separator}[#label-Recipe-3A+Generate+Compliant+Column+Separator]
+    - {Recipe: Generate Non-Compliant Column Separator}[#label-Recipe-3A+Generate+Non-Compliant+Column+Separator]
+  - {Quotes}[#label-Quotes]
+    - {Recipe: Quote All Fields}[#label-Recipe-3A+Quote+All+Fields]
+    - {Recipe: Quote Empty Fields}[#label-Recipe-3A+Quote+Empty+Fields]
+    - {Recipe: Generate Compliant Quote Character}[#label-Recipe-3A+Generate+Compliant+Quote+Character]
+    - {Recipe: Generate Non-Compliant Quote Character}[#label-Recipe-3A+Generate+Non-Compliant+Quote+Character]
+
+=== Output Formats
+
+You can generate \CSV output to a \String, to a \File (via its path), or to an \IO stream.
+
+==== Generating to a \String
+
+You can generate \CSV output to a \String, with or without headers.
+
+===== Recipe: Generate to \String with Headers
+
+Use class method CSV.generate with option +headers+ to generate to a \String.
+
+This example uses method CSV#<< to append the rows
+that are to be generated:
+  output_string = CSV.generate('', headers: ['Name', 'Value'], write_headers: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Name,Value\nFoo,0\nBar,1\nBaz,2\n"
+
+===== Recipe: Generate to \String Without Headers
+
+Use class method CSV.generate without option +headers+ to generate to a \String.
+
+This example uses method CSV#<< to append the rows
+that are to be generated:
+  output_string = CSV.generate do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Foo,0\nBar,1\nBaz,2\n"
+
+==== Generating to a \File
+
+You can generate /CSV data to a \File, with or without headers.
+
+===== Recipe: Generate to \File with Headers
+
+Use class method CSV.open with option +headers+ generate to a \File.
+
+This example uses method CSV#<< to append the rows
+that are to be generated:
+  path = 't.csv'
+  CSV.open(path, 'w', headers: ['Name', 'Value'], write_headers: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  p File.read(path) # => "Name,Value\nFoo,0\nBar,1\nBaz,2\n"
+
+===== Recipe: Generate to \File Without Headers
+
+Use class method CSV.open without option +headers+ to generate to a \File.
+
+This example uses method CSV#<< to append the rows
+that are to be generated:
+  path = 't.csv'
+  CSV.open(path, 'w') do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  p File.read(path) # => "Foo,0\nBar,1\nBaz,2\n"
+
+==== Generating to an \IO Stream
+
+You can generate \CSV data to an \IO stream, with or without headers.
+
+==== Recipe: Generate to \IO Stream with Headers
+
+Use class method CSV.new with option +headers+ to generate \CSV data to an \IO stream:
+  path = 't.csv'
+  File.open(path, 'w') do |file|
+    csv = CSV.new(file, headers: ['Name', 'Value'], write_headers: true)
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  p File.read(path) # => "Name,Value\nFoo,0\nBar,1\nBaz,2\n"
+
+===== Recipe: Generate to \IO Stream Without Headers
+
+Use class method CSV.new without option +headers+ to generate \CSV data to an \IO stream:
+  path = 't.csv'
+  File.open(path, 'w') do |file|
+    csv = CSV.new(file)
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  p File.read(path) # => "Foo,0\nBar,1\nBaz,2\n"
+
+=== Converting Fields
+
+You can use _write_ _converters_ to convert fields when generating \CSV.
+
+==== Recipe: Filter Generated Field Strings
+
+Use option <tt>:write_converters</tt> and a custom converter to convert field values when generating \CSV.
+
+This example defines and uses a custom write converter to strip whitespace from generated fields:
+  strip_converter = proc {|field| field.respond_to?(:strip) ? field.strip : field }
+  output_string = CSV.generate(write_converters: strip_converter) do |csv|
+    csv << [' foo ', 0]
+    csv << [' bar ', 1]
+    csv << [' baz ', 2]
+  end
+  output_string # => "foo,0\nbar,1\nbaz,2\n"
+
+==== Recipe: Specify Multiple Write Converters
+
+Use option <tt>:write_converters</tt> and multiple custom converters
+to convert field values when generating \CSV.
+
+This example defines and uses two custom write converters to strip and upcase generated fields:
+  strip_converter = proc {|field| field.respond_to?(:strip) ? field.strip : field }
+  upcase_converter = proc {|field| field.respond_to?(:upcase) ? field.upcase : field }
+  converters = [strip_converter, upcase_converter]
+  output_string = CSV.generate(write_converters: converters) do |csv|
+    csv << [' foo ', 0]
+    csv << [' bar ', 1]
+    csv << [' baz ', 2]
+  end
+  output_string # => "FOO,0\nBAR,1\nBAZ,2\n"
+
+=== RFC 4180 Compliance
+
+By default, \CSV generates data that is compliant with
+{RFC 4180}[https://tools.ietf.org/html/rfc4180]
+with respect to:
+- Column separator.
+- Quote character.
+
+==== Row Separator
+
+RFC 4180 specifies the row separator CRLF (Ruby <tt>"\r\n"</tt>).
+
+===== Recipe: Generate Compliant Row Separator
+
+For strict compliance, use option +:row_sep+ to specify row separator <tt>"\r\n"</tt>:
+  output_string = CSV.generate('', row_sep: "\r\n") do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Foo,0\r\nBar,1\r\nBaz,2\r\n"
+
+===== Recipe: Generate Non-Compliant Row Separator
+
+For data with non-compliant row separators, use option +:row_sep+ with a different value:
+This example source uses semicolon (<tt>";'</tt>) as its row separator:
+  output_string = CSV.generate('', row_sep: ";") do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Foo,0;Bar,1;Baz,2;"
+
+==== Column Separator
+
+RFC 4180 specifies column separator COMMA (Ruby <tt>","</tt>).
+
+===== Recipe: Generate Compliant Column Separator
+
+Because the \CSV default comma separator is <tt>","</tt>,
+you need not specify option +:col_sep+ for compliant data:
+  output_string = CSV.generate('') do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Foo,0\nBar,1\nBaz,2\n"
+
+===== Recipe: Generate Non-Compliant Column Separator
+
+For data with non-compliant column separators, use option +:col_sep+.
+This example source uses TAB (<tt>"\t"</tt>) as its column separator:
+  output_string = CSV.generate('', col_sep: "\t") do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "Foo\t0\nBar\t1\nBaz\t2\n"
+
+==== Quotes
+
+IFC 4180 allows most fields to be quoted or not.
+By default, \CSV does not quote most fields.
+
+However, a field containing the current row separator, column separator,
+or quote character is automatically quoted, producing IFC 4180 compliance:
+  # Field contains row separator.
+  output_string = CSV.generate('') do |csv|
+    row_sep = csv.row_sep
+    csv << ["Foo#{row_sep}Foo", 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "\"Foo\nFoo\",0\nBar,1\nBaz,2\n"
+  # Field contains column separator.
+  output_string = CSV.generate('') do |csv|
+    col_sep = csv.col_sep
+    csv << ["Foo#{col_sep}Foo", 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "\"Foo,Foo\",0\nBar,1\nBaz,2\n"
+  # Field contains quote character.
+  output_string = CSV.generate('') do |csv|
+    quote_char = csv.quote_char
+    csv << ["Foo#{quote_char}Foo", 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "\"Foo\"\"Foo\",0\nBar,1\nBaz,2\n"
+
+===== Recipe: Quote All Fields
+
+Use option +:force_quotes+ to force quoted fields:
+  output_string = CSV.generate('', force_quotes: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "\"Foo\",\"0\"\n\"Bar\",\"1\"\n\"Baz\",\"2\"\n"
+
+===== Recipe: Quote Empty Fields
+
+Use option +:quote_empty+ to force quoting for empty fields:
+  output_string = CSV.generate('', quote_empty: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['', 2]
+  end
+  output_string # => "Foo,0\nBar,1\n\"\",2\n"
+
+===== Recipe: Generate Compliant Quote Character
+
+RFC 4180 specifies quote character DQUOTE (Ruby <tt>"\""</tt>).
+
+Because the \CSV default quote character is also <tt>"\""</tt>,
+you need not specify option +:quote_char+ for compliant data:
+  output_string = CSV.generate('', force_quotes: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "\"Foo\",\"0\"\n\"Bar\",\"1\"\n\"Baz\",\"2\"\n"
+
+===== Recipe: Generate Non-Compliant Quote Character
+
+For data with non-compliant quote characters, use option +:quote_char+.
+This example source uses SQUOTE (<tt>"'"</tt>) as its quote character:
+  output_string = CSV.generate('', quote_char: "'", force_quotes: true) do |csv|
+    csv << ['Foo', 0]
+    csv << ['Bar', 1]
+    csv << ['Baz', 2]
+  end
+  output_string # => "'Foo','0'\n'Bar','1'\n'Baz','2'\n"

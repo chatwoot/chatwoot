@@ -1,0 +1,73 @@
+== gli - create scaffolding for a GLI-powered application
+
+v2.19.2
+
+=== Global Options
+=== -r|--root arg
+
+Root dir of project
+
+[Default Value] .
+This is the directory where the project''s directory will be made, so if you
+  specify a project name ''foo'' and the root dir of ''.'', the directory
+  ''./foo'' will be created'
+
+=== --help
+Show this message
+
+
+
+=== -n
+Dry run; dont change the disk
+
+
+
+=== -v
+Be verbose
+
+
+
+=== --version
+Display the program version
+
+
+
+=== Commands
+==== Command: <tt>help  command</tt>
+Shows a list of commands or help for one command
+
+Gets help for the application or its commands. Can also list the commands in a way helpful to creating a bash-style completion function
+===== Options
+===== -c
+List commands one per line, to assist with shell completion
+
+
+
+==== Command: <tt>init|scaffold  project_name [command_name]...</tt>
+Create a new GLI-based project
+
+This will create a scaffold command line project that uses GLI
+  for command line processing.  Specifically, this will create
+  an executable ready to go, as well as a lib and test directory, all
+  inside the directory named for your project
+===== Options
+===== -e|--[no-]ext
+Create an ext dir
+
+
+
+===== --[no-]force
+Overwrite/ignore existing files and directories
+
+
+
+===== --notest
+Do not create a test or features dir
+
+
+
+===== --[no-]rvmrc
+Create an .rvmrc based on your current RVM setup
+
+
+

@@ -1,0 +1,118 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'optparse'
+
+$LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
+require 'commonmarker'
+
+root = File.expand_path('..', __dir__)
+$LOAD_PATH.unshift File.expand_path('lib', root)
+
+def parse_options
+  options = Struct.new(:active_extensions, :active_parse_options, :active_render_options, :output_format, :renderer)
+                  .new([], [:DEFAULT], [:DEFAULT], :html)
+  extensions = CommonMarker.extensions
+  parse_options = CommonMarker::Config::OPTS.fetch(:parse)
+  render_options = CommonMarker::Config::OPTS.fetch(:render)
+  format_options = CommonMarker::Config::OPTS.fetch(:format)
+
+  option_parser = OptionParser.new do |opts|
+    opts.banner = 'Usage: commonmarker [--html-renderer] [--extension=EXTENSION]'
+    opts.separator '                    [--to=FORMAT]'
+    opts.separator '                    [--parse-option=OPTION]'
+    opts.separator '                    [--render-option=OPTION]'
+    opts.separator '                    [FILE..]'
+    opts.separator ''
+    opts.separator 'Convert one or more CommonMark files to HTML and write to standard output.'
+    opts.separator 'If no FILE argument is provided, text will be read from STDIN.'
+    opts.separator ''
+
+    opts.on('--extension=EXTENSION', Array, 'Use EXTENSION for parsing and HTML output (unless --html-renderer is specified)') do |values|
+      values.each do |value|
+        if extensions.include?(value)
+          options.active_extensions << value.to_sym
+        else
+          abort("extension '#{value}' not found")
+        end
+      end
+    end
+
+    opts.on('-h', '--help', 'Prints this help') do
+      puts opts
+      puts
+      puts "Available formats: #{format_options.join(', ')}"
+      puts "Available extentions: #{extensions.join(', ')}"
+      puts "Available parse options: #{parse_options.keys.join(', ')}"
+      puts "Available render options: #{render_options.keys.join(', ')}"
+      puts
+      puts 'See the README for more information on these.'
+      exit
+    end
+
+    opts.on('-tFORMAT', '--to=FORMAT', String, 'Specify output FORMAT') do |value|
+      value = value.to_sym
+      if format_options.include?(value)
+        options.output_format = value
+      else
+        abort("format '#{value}' not found")
+      end
+    end
+
+    opts.on('--html-renderer', 'Use the HtmlRenderer renderer rather than the native C renderer (only valid when format is html)') do
+      options.renderer = true
+    end
+
+    opts.on('--parse-option=OPTION', Array, 'OPTION passed during parsing') do |values|
+      values.each do |value|
+        if parse_options.key?(value.to_sym)
+          options.active_parse_options << value.to_sym
+        else
+          abort("parse-option '#{value}' not found")
+        end
+      end
+    end
+
+    opts.on('--render-option=OPTION', Array, 'OPTION passed during rendering') do |values|
+      values.each do |value|
+        if render_options.key?(value.to_sym)
+          options.active_render_options << value.to_sym
+        else
+          abort("render-option '#{value}' not found")
+        end
+      end
+    end
+
+    opts.on('-v', '--version', 'Version information') do
+      puts "commonmarker #{CommonMarker::VERSION}"
+      exit
+    end
+  end
+
+  option_parser.parse!
+
+  options
+end
+
+options = parse_options
+
+abort("format '#{options.output_format}' does not support using the HtmlRenderer renderer") if
+  options.renderer && options.output_format != :html
+
+doc = CommonMarker.render_doc(ARGF.read, options.active_parse_options, options.active_extensions)
+
+case options.output_format
+when :html
+  if options.renderer
+    renderer = CommonMarker::HtmlRenderer.new(options: options.active_render_options, extensions: options.active_extensions)
+    $stdout.write(renderer.render(doc))
+  else
+    $stdout.write(doc.to_html(options.active_render_options, options.active_extensions))
+  end
+when :xml
+  $stdout.write(doc.to_xml(options.active_render_options))
+when :commonmark
+  $stdout.write(doc.to_commonmark(options.active_render_options))
+when :plaintext
+  $stdout.write(doc.to_plaintext(options.active_render_options))
+end

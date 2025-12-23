@@ -1,0 +1,24 @@
+# -*- mode: org -*-
+#+STARTUP: nofold
+
+* Documentation
+  Redo tutorial?
+  Using helpers
+    haml_concat and haml_tag in particular
+  Syntax highlighting?
+
+* Code
+  Keep track of error offsets everywhere
+    Use this to show error location in messages
+** Haml
+   Support finer-grained HTML-escaping in filters
+   Speed
+     Make tags with dynamic attributes pre-render as much as possible
+     Including the attribute name where doable
+   :html improvements
+     Ignore closing tags where we can
+       http://code.google.com/speed/articles/optimizing-html.html
+       Requires Haml parsing refactor
+     Don't quote attributes that don't require it
+       http://www.w3.org/TR/REC-html40/intro/sgmltut.html#h-3.2.2
+       http://www.w3.org/TR/html5/syntax.html#attributes

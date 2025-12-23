@@ -1,0 +1,40 @@
+<ul class="list-unstyled summary row">
+  <li class="processed col-sm-1">
+    <span id="txtProcessed" class="count" data-nwp><%= stats.processed %></span>
+    <span class="desc"><%= t('Processed') %></span>
+  </li>
+  <li class="failed col-sm-1">
+    <span id="txtFailed" class="count" data-nwp><%= stats.failed %></span>
+    <span class="desc"><%= t('Failed') %></span>
+  </li>
+  <li class="busy col-sm-1">
+    <a href="<%= root_path %>busy">
+      <span id="txtBusy" class="count" data-nwp><%= workset.size %></span>
+      <span class="desc"><%= t('Busy') %></span>
+    </a>
+  </li>
+  <li class="enqueued col-sm-1">
+    <a href="<%= root_path %>queues">
+      <span id="txtEnqueued" class="count" data-nwp><%= stats.enqueued %></span>
+      <span class="desc"><%= t('Enqueued') %></span>
+    </a>
+  </li>
+  <li class="retries col-sm-1">
+    <a href="<%= root_path %>retries">
+      <span id="txtRetries" class="count" data-nwp><%= stats.retry_size %></span>
+      <span class="desc"><%= t('Retries') %></span>
+    </a>
+  </li>
+  <li class="scheduled col-sm-1">
+    <a href="<%= root_path %>scheduled">
+      <span id="txtScheduled" class="count" data-nwp><%= stats.scheduled_size %></span>
+      <span class="desc"><%= t('Scheduled') %></span>
+    </a>
+  </li>
+  <li class="dead col-sm-1">
+    <a href="<%= root_path %>morgue">
+      <span id="txtDead" class="count" data-nwp><%= stats.dead_size %></span>
+      <span class="desc"><%= t('Dead') %></span>
+    </a>
+  </li>
+</ul>

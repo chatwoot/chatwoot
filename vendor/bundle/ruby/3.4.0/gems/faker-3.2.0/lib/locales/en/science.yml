@@ -1,0 +1,484 @@
+en:
+  faker:
+    science:
+      branch:
+        empirical_natural_basic:
+          - Physics
+          - Chemistry
+          - Biology
+          - Earth Science
+          - Space Science
+        empirical_natural_applied:
+          - Engineering
+          - Agricultural Science
+          - Medicine
+          - Materials Science
+        empirical_social_basic:
+          - Antropology
+          - Economics
+          - Political Science
+          - Human Geography
+          - Psychology
+          - Sociology
+        empirical_social_applied:
+          - Business Administration
+          - Public Policy
+          - Marketing
+          - Law
+          - Pedagogy
+          - International Development
+        formal_basic:
+          - Logic
+          - Mathematics
+          - Statistics
+        formal_applied:
+          - Computer Science
+      element: 
+      - Actinium
+      - Aluminum
+      - Americium
+      - Antimony
+      - Argon
+      - Arsenic
+      - Astatine
+      - Barium
+      - Berkelium
+      - Beryllium
+      - Bismuth
+      - Bohrium
+      - Boron
+      - Bromine
+      - Cadmium
+      - Calcium
+      - Californium
+      - Carbon
+      - Cerium
+      - Cesium
+      - Chlorine
+      - Chromium
+      - Cobalt
+      - Copernicium
+      - Copper
+      - Curium
+      - Darmstadtium
+      - Dubnium
+      - Dysprosium
+      - Einsteinium
+      - Erbium
+      - Europium
+      - Fermium
+      - Flerovium
+      - Fluorine
+      - Francium
+      - Gadolinium
+      - Gallium
+      - Germanium
+      - Gold
+      - Hafnium
+      - Hassium
+      - Helium
+      - Holmium
+      - Hydrogen
+      - Indium
+      - Iodine
+      - Iridium
+      - Iron
+      - Krypton
+      - Lanthanum
+      - Lawrencium
+      - Lead
+      - Lithium
+      - Livermorium
+      - Lutetium
+      - Magnesium
+      - Manganese
+      - Meitnerium
+      - Mendelevium
+      - Mercury
+      - Molybdenum
+      - Moscovium
+      - Neodymium
+      - Neon
+      - Neptunium
+      - Nickel
+      - Nihonium
+      - Niobium
+      - Nitrogen
+      - Nobelium
+      - Oganesson
+      - Osmium
+      - Oxygen
+      - Palladium
+      - Phosphorus
+      - Platinum
+      - Plutonium
+      - Polonium
+      - Potassium
+      - Praseodymium
+      - Promethium
+      - Protactinium
+      - Radium
+      - Radon
+      - Rhenium
+      - Rhodium
+      - Roentgenium
+      - Rubidium
+      - Ruthenium
+      - Rutherfordium
+      - Samarium
+      - Scandium
+      - Seaborgium
+      - Selenium
+      - Silicon
+      - Silver
+      - Sodium
+      - Strontium
+      - Sulfur
+      - Tantalum
+      - Technetium
+      - Tellurium
+      - Tennessine
+      - Terbium
+      - Thallium
+      - Thorium
+      - Thulium
+      - Tin
+      - Titanium
+      - Tungsten
+      - Uranium
+      - Vanadium
+      - Xenon
+      - Ytterbium
+      - Yttrium
+      - Zinc
+      - Zirconium
+      element_symbol: 
+      - H
+      - He
+      - Li
+      - Be
+      - B
+      - C
+      - "N"
+      - O
+      - F
+      - Ne
+      - Na
+      - Mg
+      - Al
+      - Si
+      - P
+      - S
+      - Cl
+      - Ar
+      - K
+      - Ca
+      - Sc
+      - Ti
+      - V
+      - Cr
+      - Mn
+      - Fe
+      - Co
+      - Ni
+      - Cu
+      - Zn
+      - Ga
+      - Ge
+      - As
+      - Se
+      - Br
+      - Kr
+      - Rb
+      - Sr
+      - "Y"
+      - Zr
+      - Nb
+      - Mo
+      - Tc
+      - Ru
+      - Rh
+      - Pd
+      - Ag
+      - Cd
+      - In
+      - Sn
+      - Sb
+      - Te
+      - I
+      - Xe
+      - Cs
+      - Ba
+      - La
+      - Ce
+      - Pr
+      - Nd
+      - Pm
+      - Sm
+      - Eu
+      - Gd
+      - Tb
+      - Dy
+      - Ho
+      - Er
+      - Tm
+      - Yb
+      - Lu
+      - Hf
+      - Ta
+      - W
+      - Re
+      - Os
+      - Ir
+      - Pt
+      - Au
+      - Hg
+      - Tl
+      - Pb
+      - Bi
+      - Po
+      - At
+      - Rn
+      - Fr
+      - Ra
+      - Ac
+      - Th
+      - Pa
+      - U
+      - Np
+      - Pu
+      - Am
+      - Cm
+      - Bk
+      - Cf
+      - Es
+      - Fm
+      - Md
+      - "No"
+      - Lr
+      - Rf
+      - Db
+      - Sg
+      - Bh
+      - Hs
+      - Mt
+      - Ds
+      - Rg
+      - Cn
+      - Nh
+      - Fl
+      - Mc
+      - Lv
+      - Ts
+      - Og
+      element_state:
+      - Gas
+      - Liquid
+      - Plasma
+      - Solid
+      - Unknown
+      element_subcategory:
+      - Alkali metal
+      - Alkaline earth metal
+      - Lan­thanide	Actinide
+      - Metalloid
+      - Noble gas
+      - Post-​transition metal
+      - Reactive nonmetal
+      - Transition metal
+      - Unknown chemical properties
+      modifier:
+        - Quantum
+        - Laser
+        - Radio
+        - Vacuum
+        - Gas
+        - Solid
+        - Liquid
+        - Fluid
+        - Microfluidic
+        - Mass
+        - Gamma
+        - X-ray
+        - Electon
+        - Proton
+        - Subatomic
+        - UV
+        - Visual
+        - Infrared
+        - Supercooled
+        - Superconductive
+        - Mobile
+        - Portable
+        - Stationary
+        - Inverted
+        - Continuous
+        - Luminescence
+        - Vibration
+        - Scanning
+        - Linear
+        - Circular
+        - Monofocal
+        - Confocal
+        - Trifocal
+        - Thermal
+        - Small
+        - Large
+        - Polar
+        - Conductive
+        - Semiconductive
+        - Non-conductive
+        - Particle
+        - Microparticle
+      scientist: 
+      - Albert Einstein
+      - Albrecht von Haller
+      - Alexander Fleming
+      - Alfred Binet
+      - Alfred Kinsey
+      - Alfred Wegener
+      - Andreas Vesalius
+      - Antoine Laurent Lavoisier
+      - Anton van Leeuwenhoek
+      - Archimedes
+      - Arthur Eddington
+      - August Kekule
+      - B. F. Skinner
+      - Carl Gauss (Karl Friedrich Gauss)
+      - Carl Linnaeus
+      - Charles Darwin
+      - Charles Lyell
+      - Charles Sherrington
+      - Christiaan Huygens
+      - Claude Bernard
+      - Claude Levi-Strauss
+      - Comte de Buffon
+      - Dmitri Mendeleev
+      - Edward O. Wilson
+      - Edward Teller
+      - Edwin Hubble
+      - Emil Fischer
+      - Emil Kraepelin
+      - Enrico Fermi
+      - Ernest Rutherford
+      - Ernst Haeckel
+      - Ernst Mayr
+      - Erwin Schrodinger
+      - Euclid
+      - Francis Crick
+      - Francis Galton
+      - Franz Boas
+      - Frederick Gowland Hopkins
+      - Frederick Sanger
+      - Galileo Galilei
+      - George Gaylord Simpson
+      - Gertrude Belle Elion
+      - Gregor Mendel
+      - Gustav Kirchhoff
+      - Hans Bethe
+      - Hans Selye
+      - Heike Kamerlingh Onnes
+      - Hermann von Helmholtz
+      - Isaac Newton
+      - J. Robert Oppenheimer
+      - James Clerk Maxwell
+      - James Watson
+      - Jean Baptiste Lamarck
+      - Jean Piaget
+      - Johannes Kepler
+      - John Bardeen
+      - John Dalton
+      - John von Neumann
+      - Jonas Salk
+      - Joseph J. Thomson
+      - Justus Liebig
+      - Karl Landsteiner
+      - Konrad Lorenz
+      - Leonard Euler
+      - Linus Pauling
+      - Louis Pasteur
+      - Louis Victor de Broglie
+      - Lucretius
+      - Ludwig Boltzmann
+      - Lynn Margulis
+      - Marcello Malpighi
+      - Marie Curie
+      - Max Born
+      - Max Delbruck
+      - Max Planck
+      - Max von Laue
+      - Michael Faraday
+      - Murray Gell-Mann
+      - Neils Bohr
+      - Nicolaus Copernicus
+      - Noam Chomsky
+      - Paul Dirac
+      - Paul Ehrlich
+      - Pierre Simon de Laplace
+      - Richard Feynman
+      - Robert Koch
+      - Rudolf Virchow
+      - Sheldon Glashow
+      - Sigmund Freud
+      - Stephen Hawking
+      - Theodosius Dobzhansky
+      - Thomas Hunt Morgan
+      - Trofim Lysenko
+      - Tycho Brahe
+      - Werner Heisenberg
+      - Wilhelm Wundt
+      - Willard Libby
+      - William Bayliss
+      - William Harvey
+      - William Herschel
+      tool:
+        - Microscope
+        - Stereomicroscope
+        - Laser
+        - Interferometer
+        - Spectrophotometer
+        - Spectrometer
+        - Mass Spectrometer
+        - NMR Spectrometer
+        - Homogeniser
+        - PCR
+        - NMR
+        - SDR
+        - Electrophoresis
+        - Simulator
+        - Centrifuge
+        - Microcentrifuge
+        - Transducer
+        - Calorimeter
+        - Glucometers
+        - Bioreactor
+        - Telescope
+        - Autoclave
+        - Microwave
+        - Computer
+        - Supercomputer
+        - Analyzer
+        - Imager
+        - Fumehood
+        - Cleanroom
+        - Mastersizer
+        - Accelerator
+        - Microphone
+        - Fluorimeter
+        - 3D Scanner
+        - Data Logger
+        - Freezer
+        - Furnace
+        - Synthesiser
+        - Reflector
+        - Cryostat
+        - Diffractometer
+        - Manifold
+        - Pump
+        - Incubator
+        - Regulator
+        - Sonicator
+        - Chromatographer
+        - Viscometer
+        - Generator
+        - Reactor

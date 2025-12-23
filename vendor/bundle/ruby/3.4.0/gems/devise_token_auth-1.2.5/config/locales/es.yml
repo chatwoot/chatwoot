@@ -1,0 +1,51 @@
+es:
+  devise_token_auth:
+    sessions:
+      not_confirmed: "Un correo electrónico de confirmación de su cuenta ha sido enviado a '%{email}'. Por favor, siga las instrucciones para validar su cuenta"
+      bad_credentials: "Identidad o contraseña no válida."
+      not_supported: "Use POST /sign_in para la conexión. GET no esta disponible."
+      user_not_found: "Usuario desconocido o no está conectado."
+    token_validations:
+      invalid: "Identidad o contraseña no válida."
+    registrations:
+      missing_confirm_success_url: "El parámetro 'confirm_success_url' no esta presente."
+      redirect_url_not_allowed: "Redirección hacia '%{redirect_url}' no esta permitida."
+      email_already_exists: "Una cuenta ya existe con este correo electrónico '%{email}'"
+      account_with_uid_destroyed: "La cuenta con el identificador '%{uid}' se ha eliminado."
+      account_to_destroy_not_found: "No se puede encontrar la cuenta a borrar."
+      user_not_found: "Usuario no encontrado."
+    omniauth:
+      not_allowed_redirect_url: "Redirección hacia '%{redirect_url}' no esta permitida."
+    passwords:
+      missing_email: "Debe incluir un correo electrónico."
+      missing_redirect_url: "Falta el Url de redirección."
+      not_allowed_redirect_url: "Redirección hacia '%{redirect_url}' no esta permitida."
+      sended: "Un correo electrónico ha sido enviado a '%{email}' con las instrucciones para restablecer su contraseña."
+      user_not_found: "No se pudo encontrar un usuario con este correo electrónico '%{email}'."
+      password_not_required: "Esta cuenta no requiere contraseña. Iniciar sesión utilizando '%{provider}'."
+      missing_passwords: "Debe llenar los campos 'Contraseña' y 'Confirmación de contraseña'."
+      successfully_updated: "Su contraseña ha sido actualizada con éxito."
+  errors:
+    messages:
+      validate_sign_up_params: "Los datos introducidos en la solicitud de acceso no son válidos."
+      validate_account_update_params: "Los datos introducidos en la solicitud de actualización no son válidos."
+      not_email: "no es un correo electrónico"
+  devise:
+    mailer:
+      confirmation_instructions:
+        subject: "Instrucciones de confirmación"
+        confirm_link_msg: "Para confirmar su cuenta ingrese en el siguiente link:"
+        confirm_account_link: "Confirmar cuenta"
+      reset_password_instructions:
+        subject: "Instrucciones para restablecer su contraseña"
+        request_reset_link_msg: "Ha solicitado un cambio de contraseña. Para continuar ingrese en el siguiente link:"
+        password_change_link: "Cambiar contraseña"
+        ignore_mail_msg: "Por favor ignore este mensaje si no ha solicitado esta acción."
+        no_changes_msg: "Importante: Su contraseña no será actualizada a menos que ingrese en el link."
+      unlock_instructions:
+        subject: "Instrucciones de desbloqueo"
+        account_lock_msg: "Su cuenta ha sido bloqueada debido a sucesivos intentos de ingresos fallidos"
+        unlock_link_msg: "Para desbloquear su cuenta ingrese en el siguiente link:"
+        unlock_link: "Desbloquear cuenta"
+  hello: "hola"
+  welcome: "bienvenido"

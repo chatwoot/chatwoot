@@ -1,0 +1,31 @@
+<div class="as-field as-field-<%= action_name %>">
+  <% if attachment.image? %>
+    <% if attachment.variable? %>
+      <% if variant.nil? %>
+        <%= image_tag(field.variant(attachment, resize_to_limit: size)) %>
+      <% elsif variant == false %>
+        <%= image_tag(field.url(attachment)) %>
+      <% else %>
+        <%= image_tag(attachment.variant(variant)) %>
+      <% end %>
+    <% else %>
+      <%= image_tag(field.url(attachment)) %>
+    <% end %>
+  <% elsif attachment.video? %>
+    <% if attachment.previewable? %>
+      <%= video_tag(field.url(attachment),
+                    poster: field.preview(attachment, resize_to_limit: size),
+                    controls: true,
+                    autobuffer: true,
+                    class: "as-field-video") %>
+    <% else %>
+      <%= video_tag(field.url(attachment), controls: true, autobuffer: true, class: "as-field-video") %>
+    <% end %>
+  <% elsif attachment.audio? %>
+    <%= audio_tag(field.url(attachment), autoplay: false, controls: true) %>
+  <% elsif attachment.previewable? %>
+    <%= image_tag(field.preview(attachment, resize_to_limit: size)) %>
+  <% else %>
+    <%= attachment.filename %>
+  <% end %>
+</div>

@@ -1,0 +1,48 @@
+# Copyright (C) 2012 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# en/98.txt and translated and edited manually.
+
+9811|مازندران
+9813|گیلان
+9817|گلستان
+9821|استان تهران
+9823|استان سمنان
+9824|استان زنجان
+9825|استان قم
+9826|البرز
+9828|استان قزوین
+9831|استان اصفهان
+9834|استان کرمان
+9835|استان یزد
+9838|چهارمحال و بختیاری
+9841|آذربایجان شرقی
+9844|آذربایجان غربی
+9845|استان اردبیل
+9851|خراسان رضوی
+9854|سیستان و بلوچستان
+9856|خراسان جنوبی
+9858|خراسان شمالی
+9861|خوزستان
+9866|لرستان
+9871|فارس
+9874|کهگیلویه و بویراحمد
+9876|هرمزگان
+9877|استان بوشهر
+9881|استان همدان
+9883|استان کرمانشاه
+9884|استان ایلام
+9886|مرکزی
+9887|کردستان

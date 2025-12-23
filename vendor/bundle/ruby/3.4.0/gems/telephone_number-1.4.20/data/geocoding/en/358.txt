@@ -1,0 +1,66 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.viestintavirasto.fi/attachments/maaraykset/Regulation_32.pdf [2015-04-15]
+# http://en.wikipedia.org/wiki/+358 [437010438]
+# Some prefixes expanded to exclude mobile/nationwide numbers.
+
+35813|North Karelia
+35814|Central Finland
+35815|Mikkeli
+35816|Lapland
+35817|Kuopio
+35819|Uusimaa
+35821|Turku/Pori
+35822|Turku/Pori
+35823|Turku/Pori
+35824|Turku/Pori
+35825|Turku/Pori
+35826|Turku/Pori
+35827|Turku/Pori
+35828|Turku/Pori
+35831|Häme
+35832|Häme
+35833|Häme
+35834|Häme
+35835|Häme
+35836|Häme
+35837|Häme
+35838|Häme
+35851|Kymi
+35852|Kymi
+35853|Kymi
+35854|Kymi
+35855|Kymi
+35856|Kymi
+35857|Kymi
+35858|Kymi
+35861|Vaasa
+35862|Vaasa
+35863|Vaasa
+35864|Vaasa
+35865|Vaasa
+35866|Vaasa
+35867|Vaasa
+35868|Vaasa
+35881|Oulu
+35882|Oulu
+35883|Oulu
+35884|Oulu
+35885|Oulu
+35886|Oulu
+35887|Oulu
+35888|Oulu
+3589|Helsinki

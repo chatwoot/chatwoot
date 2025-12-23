@@ -1,0 +1,193 @@
+# Copyright (C) 2011 The Libphonenumber Authors
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+
+# http://www.apache.org/licenses/LICENSE-2.0
+
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# Generated from:
+# http://www.mityc.es/telecomunicaciones/es-ES/Servicios/Numeracion/Documents/Presentation_E164_Numbering_Plan_20101118_%20English.pdf [2011-11-18]
+
+3481|Madrid
+34820|Ávila
+34821|Segovia
+34822|Tenerife
+34823|Salamanca
+34824|Badajoz
+34825|Toledo
+34826|Ciudad Real
+34827|Cáceres
+34828|Las Palmas
+3483|Barcelona
+34841|La Rioja
+34842|Cantabria
+34843|Guipúzcoa
+34844|Vizcaya
+34845|Álava
+34846|Vizcaya
+34847|Burgos
+34848|Navarra
+34849|Guadalajara
+34850|Álmería
+34851|Málaga
+34852|Málaga
+34853|Jaén
+34854|Sevilla
+34855|Seville
+34856|Cádiz
+34857|Córdoba
+34858|Granada
+34859|Huelva
+34860|Valencia
+34861|Valencia
+34862|Valencia
+34863|Valencia
+34864|Castellón
+34865|Alicante
+34866|Alicante
+34867|Albacete
+34868|Murcia
+34869|Cuenca
+34871|Baleares
+34872|Gerona
+34873|Lérida
+34874|Huesca
+34875|Soria
+34876|Zaragoza
+34877|Tarragona
+34878|Teruel
+34879|Palencia
+34880|Zamora
+34881|La Coruña
+34882|Lugo
+34883|Valladolid
+34884|Asturias
+34885|Asturias
+34886|Pontevedra
+34887|León
+34888|Orense
+3491|Madrid
+34920|Ávila
+34921|Segovia
+34922|Tenerife
+34923|Salamanca
+34924|Badajoz
+34925|Toledo
+34926|Ciudad Real
+34927|Cáceres
+34928|Las Palmas
+3493|Barcelona
+34941|La Rioja
+34942|Cantabria
+34943|Guipúzcoa
+34944|Vizcaya
+34945|Álava
+34946|Vizcaya
+34947|Burgos
+34948|Navarra
+34949|Guadalajara
+34950|Almería
+34951|Málaga
+34952|Málaga
+34953|Jaén
+34954|Sevilla
+34955|Sevilla
+34956|Cádiz
+34957|Córdoba
+34958|Granada
+34959|Huelva
+34960|Valencia
+34961|Valencia
+34962|Valencia
+34963|Valencia
+34964|Castellón
+34965|Alicante
+34966|Alicante
+34967|Albacete
+34968|Murcia
+3496900|Cuenca
+3496901|Cuenca
+3496902|Cuenca
+3496903|Cuenca
+3496904|Cuenca
+3496905|Cuenca
+349690600|Cuenca
+349690601|Cuenca
+349690602|Cuenca
+349690603|Cuenca
+349690604|Cuenca
+349690605|Cuenca
+349690606|Cuenca
+349690607|Cuenca
+349690608|Cuenca
+349690611|Cuenca
+349690612|Cuenca
+349690613|Cuenca
+349690614|Cuenca
+349690615|Cuenca
+349690616|Cuenca
+349690617|Cuenca
+349690618|Cuenca
+349690619|Cuenca
+34969062|Cuenca
+34969063|Cuenca
+34969064|Cuenca
+34969065|Cuenca
+34969066|Cuenca
+34969067|Cuenca
+34969068|Cuenca
+34969069|Cuenca
+3496907|Cuenca
+3496908|Cuenca
+3496909|Cuenca
+349691|Cuenca
+349692|Cuenca
+349693|Cuenca
+349694|Cuenca
+349695|Cuenca
+349696|Cuenca
+349697|Cuenca
+349698|Cuenca
+349699|Cuenca
+34971|Baleares
+34972|Gerona
+349730|Lérida
+349731|Lérida
+349732|Lérida
+349733|Lérida
+349734|Lérida
+349735|Lérida
+349736|Lérida
+349737|Lérida
+349738|Lérida
+3497391|Lérida
+3497392|Lérida
+3497393|Lérida
+3497394|Lérida
+3497395|Lérida
+3497396|Lérida
+3497397|Lérida
+3497398|Lérida
+3497399|Lérida
+34974|Huesca
+34975|Soria
+34976|Zaragoza
+34977|Tarragona
+34978|Teruel
+34979|Palencia
+34980|Zamora
+34981|A Coruña
+34982|Lugo
+34983|Valladolid
+34984|Asturias
+34985|Asturias
+34986|Pontevedra
+34987|León
+34988|Orense

@@ -1,0 +1,31 @@
+name: ci
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        ruby: [2.4, 2.5, 2.6, 2.7, 3.0, 3.1, head, jruby, jruby-head, truffleruby, truffleruby-head]
+        exclude:
+          - os: windows-latest
+            ruby: jruby
+          - os: windows-latest
+            ruby: jruby-head
+          - os: windows-latest
+            ruby: truffleruby
+          - os: windows-latest
+            ruby: truffleruby-head
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v2
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby }}
+        bundler-cache: true
+    - run: |
+        mkdir -p tmp/gems
+        gem build json_schemer.gemspec
+        gem install --local --ignore-dependencies --no-document --install-dir tmp/gems json_schemer-*.gem
+        rm json_schemer-*.gem
+        bin/rake test

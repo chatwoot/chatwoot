@@ -1,0 +1,9 @@
+Description:
+    Generates a new Rake task. Pass the namespace name, and a list of tasks as arguments.
+
+    This generates a task file in lib/tasks.
+
+Example:
+    `bin/rails generate task feeds fetch erase add`
+
+        Task:      lib/tasks/feeds.rake

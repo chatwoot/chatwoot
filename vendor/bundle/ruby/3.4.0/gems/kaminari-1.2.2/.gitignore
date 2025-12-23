@@ -1,0 +1,11 @@
+*.gem
+.bundle
+Gemfile.lock
+gemfiles/*.lock
+coverage/*
+pkg/*
+
+doc
+log
+*.sqlite3
+*.sqlite3-journal

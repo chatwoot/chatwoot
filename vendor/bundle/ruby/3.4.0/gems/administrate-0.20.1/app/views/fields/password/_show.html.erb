@@ -1,0 +1,18 @@
+<%#
+# Password Show Partial
+
+This partial renders a password attribute,
+to be displayed on a resource's show page.
+
+By default, the attribute is rendered as an truncate string.
+
+## Local variables:
+
+- `field`:
+  An instance of [Administrate::Field::Password][1].
+  A wrapper around the Password.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Field/Password
+%>
+
+<%= field.truncate %>

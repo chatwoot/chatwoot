@@ -1,0 +1,16 @@
+> From: "Albert Wagner" <alwagner@tcac.net>
+>
+> > Some guy at ibraheem@localhost(?) needs to be unsubscribed.  I
+> > keep getting bounces from his ISP everytime I post.  Surely,
+> > everyone else is getting the same?
+>
+> Surely it doesn't need to be said anymore, but I *still* am.
+> What's happening with this?
+
+Yep, me too, although I bet due to RubyConf/OOPSLA, it may be a little
+longer yet...
+
+--
+Eric Hodel - drbrain@segment7.net - http://segment7.net
+All messages signed with fingerprint:
+FEC2 57F1 D465 EB15 5D6E  7C11 332A 551C 796C 9F04

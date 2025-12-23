@@ -1,0 +1,13 @@
+I had a really hard time with the official guide, so when I finally
+figured it out, I wrote one of my own:
+
+
+http://ryanlue.com/posts/2017-02-18-how-to-publish-a-gem
+
+
+
+Let me know if you like it (or if you don't) – any feedback is highly
+appreciated!
+
+
+—Ryan

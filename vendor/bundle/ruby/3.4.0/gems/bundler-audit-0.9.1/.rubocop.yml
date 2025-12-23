@@ -1,0 +1,86 @@
+AllCops:
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 2.7
+  Exclude:
+    - 'spec/bundle/**/*'
+    - 'spec/fixtures/database/**/*'
+    - 'vendor/**/*'
+
+#
+# Style
+#
+Layout/FirstArrayElementIndentation: { EnforcedStyle: consistent }
+Layout/FirstHashElementIndentation: { EnforcedStyle: consistent }
+Layout/SpaceAroundEqualsInParameterDefault: { EnforcedStyle: no_space }
+Style/SymbolArray: { EnforcedStyle: brackets }
+Style/PercentLiteralDelimiters:
+  Enabled: true
+  PreferredDelimiters:
+    default: '{}'
+    '%i': '[]'
+    '%I': '[]'
+    '%w': '[]'
+    '%W': '[]'
+
+# 
+# Rules that conflict with my style.
+#
+Metrics: { Enabled: false }
+Layout/BeginEndAlignment: { Enabled: false } # Offense count: 1
+Layout/BlockAlignment: { Enabled: false } # Offense count: 1
+Layout/EmptyLinesAroundClassBody: { Enabled: false } # Offense count: 15
+Layout/ExtraSpacing: { Enabled: false } # Offense count: 9
+Layout/HashAlignment: { Enabled: false  } # Offense count: 3
+Layout/SpaceAfterComma: { Enabled: false } # Offense count: 122
+Layout/SpaceInsideHashLiteralBraces: { Enabled: false } # Offense count: 8
+Lint/MissingSuper: { Enabled: false } # Offense count: 3
+Lint/ShadowingOuterLocalVariable: { Enabled: false }
+Lint/ConstantDefinitionInBlock: { Exclude: ['spec/cli/formats_spec.rb'] }
+Lint/SuppressedException: { Exclude: ['spec/cli_spec.rb'] }
+Lint/UnusedBlockArgument: { Enabled: false } # Offense count: 4
+Lint/UnusedMethodArgument: { Enabled: false } # Offense count: 6
+Naming/RescuedExceptionsVariableName: { Enabled: false } # Offense count: 2
+Style/BlockDelimiters: { Enabled: false } # Offense count: 20
+Style/CaseEquality: { Exclude: ['lib/bundler/audit/advisory.rb'] }
+Style/ClassCheck: { Enabled: false } # Offense count: 4
+Style/Documentation: { Enabled: false } # Offense count: 12
+Style/GuardClause: { Enabled: false } # Offense count: 1
+Style/HashSyntax:
+  Exclude:
+    - 'Rakefile'
+    - 'lib/bundler/audit/task.rb'
+Style/IfUnlessModifier: { Enabled: false } # Offense count: 14
+Style/MethodCallWithoutArgsParentheses: { Enabled: false } # Offense count: 1
+Style/MultilineBlockChain: { Exclude: ['spec/**/*'] } # Offense count: 6
+Style/MutableConstant: { Enabled: false } # Offense count: 4
+Style/ParenthesesAroundCondition: { Enabled: false } # Offense count: 1
+Style/RedundantBegin: { Exclude: ['spec/cli_spec.rb'] } # Offense count: 1
+Style/RedundantReturn: { Enabled: false } # Offense count: 6
+Style/SpecialGlobalVars: { Enabled: false } # Offense count: 5
+Style/StringLiterals: { Enabled: false } # Offense count: 333
+Style/StructInheritance: { Enabled: false } # Offense count: 1
+Style/UnlessElse: { Enabled: false } # Offense count: 1
+Style/WordArray: { Enabled: false } # Offense count: 1
+Style/Lambda: { Enabled: false } # Offense count: 2
+Style/SafeNavigation: { Enabled: false } # Offense count: 2
+Lint/IneffectiveAccessModifier: { Enabled: false } # Offense count: 1
+Gemspec/DuplicatedAssignment:
+  Exclude:
+    - 'bundler-audit.gemspec'
+
+#
+# Rules that may be disabled in the future.
+#
+# Layout/SpaceInsideParens: { Enabled: false }
+# Layout/TrailingWhitespace: { Enabled: false }
+
+#
+# Rules that I want to fully enabled in the future.
+#
+Style/DoubleNegation: { Exclude: ['spec/spec_helper.rb'] } # Offense count: 1
+Style/EmptyMethod: { Exclude: ['spec/cli/formats_spec.rb'] } # Offense count: 2
+Style/ExpandPathArguments: { Enabled: false } # Offense count: 5
+Style/FrozenStringLiteralComment: { Enabled: false } # Offense count: 42
+Style/MixinUsage: { Exclude: ['spec/spec_helper.rb'] } # Offense count: 1
+Layout/LineLength: { Enabled: false }

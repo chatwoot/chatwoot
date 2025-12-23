@@ -1,0 +1,11 @@
+module Datadog
+  module AppSec
+    module WAF
+      module Converter
+        def self.ruby_to_object: (top val, ?max_container_size: ::Integer?, ?max_container_depth: ::Integer?, ?max_string_length: ::Integer?, ?coerce: bool?) -> LibDDWAF::Object
+
+        def self.object_to_ruby: (LibDDWAF::Object obj) -> WAF::data
+      end
+    end
+  end
+end

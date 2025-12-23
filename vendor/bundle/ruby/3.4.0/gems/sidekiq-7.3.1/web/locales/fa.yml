@@ -1,0 +1,80 @@
+# elements like %{queue} are variables and should not be translated
+fa:
+  Actions: اعمال
+  AddToQueue: افزودن به صف
+  AreYouSure: آیا مطمعن هستید?
+  AreYouSureDeleteJob: آیا شما مطمعن هستید از حذف این کار ؟
+  AreYouSureDeleteQueue: ایا شما مطمعنید از حذف %{queue} ?
+  Arguments: آرگومنت
+  BackToApp: برگشت به برنامه
+  Busy: مشغول
+  Class: کلاس
+  Connections: ارتباطات
+  CreatedAt: ساخته شده در
+  CurrentMessagesInQueue: کار فعلی در <span class='title'>%{queue}</span>
+  Dashboard: داشبورد
+  Dead: مرده
+  DeadJobs: کار مرده
+  Delete: حذف
+  DeleteAll: حذف همه
+  Enqueued: صف بندی نشدند
+  Error: خطا
+  ErrorBacktrace: خطای معکوس
+  ErrorClass: خطا کلاس
+  ErrorMessage: پیغام خطا
+  Extras: اضافی
+  Failed: ناموفق
+  Failures: شکست ها
+  GoBack: ← برگشت
+  History: تاریخچه
+  Job: کار
+  Jobs: کار ها
+  Kill: کشتن
+  LastRetry: آخرین تلاش
+  LivePoll: Live Poll
+  MemoryUsage: حافظه استفاده شده
+  Namespace: فضای نام
+  NextRetry: بار دیگر تلاش کنید
+  NoDeadJobsFound: کار مرده ای یافت نشد
+  NoRetriesFound: هیچ تلاش پیدا نشد
+  NoScheduledFound: هیچ کار برنامه ریزی شده ای یافت نشد
+  NotYetEnqueued: بدون صف بندی
+  OneMonth: ۱ ماه
+  OneWeek: ۱ هفته
+  OriginallyFailed: Originally Failed
+  Paused: مکث
+  PeakMemoryUsage: اوج حافظه استفاده شده
+  Plugins: پلاگین ها
+  PollingInterval: Polling interval
+  Processed: پردازش شده
+  Processes: پردازش ها
+  Queue: صف
+  Queues: صف ها
+  Quiet: خروج
+  QuietAll: خروج همه
+  Realtime: زنده
+  Retries: تکرار
+  RetryAll: تلاش مجدد برای همه
+  RetryCount: تعداد تلاش ها
+  RetryNow: تلاش مجدد
+  Scheduled: زمان بندی
+  ScheduledJobs: کار برنامه ریزی شده
+  ShowAll: نمایش همه
+  SixMonths: ۶ ماه
+  Size: سایز
+  Started: شروع شده
+  Status: اعلان
+  Stop: توقف
+  StopAll: توقف همه
+  StopPolling: Stop Polling
+  TextDirection: 'rtl'
+  Thread: رشته
+  Threads: رشته ها
+  ThreeMonths: ۳ ماه
+  Time: رمان
+  Uptime: آپ تایم (روز)
+  Version: ورژن
+  When: وقتی که
+  Worker: کارگزار
+  active: فعال
+  idle: بیهودی

@@ -1,0 +1,8 @@
+---
+- !ruby/object:MIME::Type
+  content-type: x-world/x-vrml
+  encoding: base64
+  extensions:
+  - wrl
+  - vrml
+  registered: false

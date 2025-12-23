@@ -1,0 +1,26 @@
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/scout_apm-5.3.3/ext/rusage
+/home/aurelio/.rbenv/versions/3.4.4/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-2vn4kj sitelibdir\=./.gem.20251220-192266-2vn4kj clean
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-2vn4kj sitelibdir\=./.gem.20251220-192266-2vn4kj
+compiling rusage.c
+rusage.c: In function ‘Init_rusage’:
+rusage.c:69:6: warning: old-style function definition [-Wold-style-definition]
+   69 | void Init_rusage(){
+      |      ^~~~~~~~~~~
+rusage.c: At top level:
+cc1: note: unrecognized command-line option ‘-Wno-self-assign’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-parentheses-equality’ may have been intended to silence earlier diagnostics
+cc1: note: unrecognized command-line option ‘-Wno-constant-logical-operand’ may have been intended to silence earlier diagnostics
+linking shared-object rusage.so
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-2vn4kj sitelibdir\=./.gem.20251220-192266-2vn4kj install
+/usr/bin/install -c -m 0755 rusage.so ./.gem.20251220-192266-2vn4kj
+
+current directory: /home/aurelio/FONTES/inbox/chatwoot/vendor/bundle/ruby/3.4.0/gems/scout_apm-5.3.3/ext/rusage
+make DESTDIR\= sitearchdir\=./.gem.20251220-192266-2vn4kj sitelibdir\=./.gem.20251220-192266-2vn4kj clean

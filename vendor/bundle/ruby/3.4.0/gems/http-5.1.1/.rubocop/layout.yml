@@ -1,0 +1,8 @@
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: leading
+
+Layout/HashAlignment:
+  Enabled: true
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table

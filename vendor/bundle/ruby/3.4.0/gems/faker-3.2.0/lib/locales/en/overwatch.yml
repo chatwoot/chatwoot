@@ -1,0 +1,2652 @@
+en:
+  faker:
+    games:
+      overwatch:
+        heroes:
+          - Ana
+          - Ashe
+          - Baptiste
+          - Bastion
+          - Brigitte
+          - Cassidy
+          - D.va
+          - Doomfist
+          - Genji
+          - Hanzo
+          - Junkrat
+          - Lucio
+          - Mei
+          - Mercy
+          - Moira
+          - Orisa
+          - Pharah
+          - Reaper
+          - Reinhardt
+          - Roadhog
+          - Sigma
+          - Soldier 76
+          - Sombra
+          - Symmetra
+          - Torbjorn
+          - Tracer
+          - Widowmaker
+          - Winston
+          - Wrecking Ball
+          - Zarya
+          - Zenyatta
+        locations:
+          - Adlersbrunn
+          - Ayutthaya
+          - Black Forest
+          - Blizzard World
+          - Busan
+          - Busan Stadium
+          - Castillo
+          - Château Guillard
+          - Dorado
+          - 'Ecopoint: Antarctica'
+          - Eichenwalde
+          - Hanamura
+          - Estádio das Rãs
+          - Hanamura
+          - Havana
+          - Hollywood
+          - Horizon Lunar Colony
+          - Ilios
+          - Junkertown
+          - King's Row
+          - Lijiang Tower
+          - Necropolis
+          - Nepal
+          - Numbani
+          - Oasis
+          - Paris
+          - Petra
+          - Rialto
+          - Route 66
+          - Temple of Anubis
+          - Volskaya Industries
+          - 'Watchpoint: Gibraltar'
+        quotes:
+          - Get back in the fight
+          - I have you covered
+          - I have your back
+          - Take your medicine
+          - Watching your back
+          - Go to sleep
+          - Sleep
+          - "(Arabic) Sleep (Male)"
+          - "(Arabic) Sleep (Female)"
+          - Lights out
+          - Oh, you look tired
+          - Feeling sleepy
+          - Bedtime, habibti
+          - I think justice could use a little nap
+          - This will help
+          - "(Arabic) This will help"
+          - Walk it off
+          - This will only hurt for a minute
+          - Heal up
+          - This is going to hurt
+          - The pain is coming
+          - "(Arabic) Show them your strength!"
+          - "(Arabic) Show them your strength! (Female)"
+          - Nano Boost administered
+          - Never stop fighting for what you believe in
+          - Stick to the plan, and if you get in trouble...
+          - Look after yourselves out there...
+          - Lissa fi nas lazem ahmehom
+          - "(Arabic) Repetition teaches the smart"
+          - Old soldiers are hard to kill
+          - This is much better than a cabana on the beach
+          - Patched up
+          - My shots find their mark
+          - Correct choice
+          - You made the right decision
+          - Thank you, Angela
+          - Ana checking in
+          - Sniper, keep moving
+          - Enemy in my sights
+          - Enemy contact
+          - Enemy turret sighted
+          - Locate their teleporter
+          - They have a teleporter. Find and destroy it
+          - Enemy teleporter at my location
+          - I found the shield generator
+          - Behind you
+          - Watch your back!
+          - Locking down the objective
+          - Someone get that payload moving
+          - You need adult supervision
+          - Who taught you to fight like that
+          - Enemy down
+          - Back off
+          - Experience always wins in the end
+          - Learn from the pain (Arabic)
+          - Mother knows best
+          - Settle down old man
+          - Speed isnt everything
+          - One shot, one kill
+          - Someday Reinhardt, but not today
+          - Enemy turret destroyed
+          - Enemy teleporter destroyed
+          - Hands off
+          - Fareeha! My daughter!
+          - Reinhardt!
+          - Jack, I was supposed to protect you
+          - Hello
+          - "(Arabic) Hello"
+          - Azayak
+          - Hello there
+          - Thanks
+          - "(Arabic) I am thankful"
+          - "(Arabic) Thanks"
+          - Understood
+          - Acknowledged
+          - I need healing
+          - Need healing
+          - Group up at my position
+          - Group up with me
+          - Rendez-vous at my position
+          - My ultimate is charging
+          - Nano boost is charging
+          - Nano boost is ready to deploy
+          - My ultimate is ready
+          - Justice delivered
+          - Children, behave
+          - Everyone dies
+          - Go on, I can wait
+          - It takes a woman to know it
+          - Mother knows best
+          - No scope needed
+          - Need someone to tuck you in
+          - What are you thinking
+          - Witness me
+          - You know nothing
+          - Learn from the pain
+          - This is much better than retirement
+          - Are you scared
+          - More lost than the moon in winter
+          - I make my own luck
+          - Damn
+          - The Ghost watches
+          - Follow me, if you want to live
+          - Shh. The adults are talking
+          - You need to learn to relax
+          - Heh, you always were a charmer
+          - Wanting a better life for you is all I ever...
+          - What happened to you, Gabriel
+          - You never gave me much choice
+          - Right. Except for the part where you became a...
+          - Reinhardt, I must say you are looking quite...
+          - You of all people are going to ask me that
+          - Seems like neither of us like being dead very much
+          - That one time
+          - Well, I had to come back. I was worried...
+          - Gerard was a fool to love someone like you
+          - It feels good to be home
+          - Captain Amari, reporting for duty
+          - Fire in the hole!
+          - Here it comes!
+          - Take a step back!
+          - Get outta here!
+          - Back off!
+          - Get in there, B.O.B
+          - My business, my rules.ogg
+          - Nice to spend some time in a clubhouse.ogg
+          - Not my idea of a good life.
+          - Follow my lead
+          - Get in the saddle and lets ride
+          - Time to change things up
+          - That was not in the plan
+          - Nothing wrong with a little self improvement
+          - Patched up
+          - Much better
+          - Let me handle it
+          - I get the idea
+          - Just point me in the right direction
+          - I am feeling UNSTOPPABLE!
+          - Oh, come on!
+          - Damn!
+          - Hallelujah
+          - Woo. I owe you one
+          - Ashe here
+          - Enemy sniper! Get ya head down!
+          - Enemy sniper! Keep your eyes open.
+          - Watch out for that sniper!
+          - Spotted them
+          - Eyes on the bad guys
+          - Enemy turret up ahead!
+          - We need to take out that turret!
+          - You need to learn the rules
+          - Right on schedule
+          - You have to watch out for the one percent
+          - Courtesy of the Deadlock Gang
+          - Poser
+          - I stick up for my crew
+          - See ya, space cowboy
+          - Squid needs more seasoning
+          - Woo! that was fun!
+          - Wanna try again
+          - Gets the job done
+          - Better safe than sorry
+          - See ya later
+          - Outta my space
+          - You just went boom!
+          - Woohoo!
+          - Now that gets the blood pumping!
+          - Leave this to me
+          - Do I have to do everything myself
+          - You can all just take it easy!
+          - You picked the wrong fight
+          - You should join my crew
+          - Hey
+          - Hello
+          - Thanks
+          - Thank you
+          - Understood
+          - I got it
+          - Stop the payload
+          - Get over here
+          - Everybody come over here
+          - My ultimate is almost ready
+          - My ultimate is ready
+          - Get ready for B.O.B
+          - We have an understanding
+          - Burn it all down
+          - How do you even live
+          - I run this show
+          - Just taking out the trash
+          - Need me to repeat myself
+          - This is a stick up
+          - Try and keep it together
+          - Watch your language
+          - Girl who has everything
+          - No one likes a squealer
+          - Ready for the fireworks
+          - You that sound like a bad thing
+          - Brave of you to show your face around here, Cole
+          - On the dartboard
+          - Too competent
+          - Ultimate - Light Em Up
+          - Ultimate - Vide Bal Sou Yo
+          - No wasted effort
+          - I call that a professional courtesy
+          - I think we got off on the wrong foot
+          - Have you considered a different line of work
+          - Well, you tried your best
+          - That was satisfying
+          - Was you or me, brother
+          - Was you or me, sister
+          - Felt good when I woke up in the morning
+          - Ultimate - Woo Woo Woo Whee Woo Whee
+          - '15227'
+          - '4543'
+          - Time Running Out Attack - Wooooooo Woo Dee Doo Woo
+          - Boo doo boo doo
+          - '15303'
+          - Doo-woo
+          - Beeple
+          - Boo boo doo de doo
+          - Bweeeeeeeeeee
+          - Chirr chirr chirr
+          - Dah-dah weeeee
+          - Dun dun boop boop
+          - Dweet dweet dweet
+          - Hee hoo hoo
+          - Sh-sh-sh dwee!
+          - Zwee
+          - Dwee wee woh
+          - Family Vacation
+          - APM jom ollyo bolkka
+          - Defense Matrix activated
+          - Get through this
+          - Time to raise my APM
+          - Boosters engaged
+          - Bunny hop
+          - Buseuteo on
+          - Taking off
+          - Nal ra gan da
+          - Nerf this!
+          - Activating Self Destruct Sequence
+          - All systems checked out
+          - MEKA activated
+          - Suiting up
+          - Game on
+          - Bailing out
+          - BRB
+          - Ejecting
+          - I play to win!
+          - Gameface on
+          - Think you can keep up with me
+          - MEKA leads the way!
+          - Ready, player 1
+          - D.Va reengaging!
+          - Jjajeungna
+          - Igeon Sagiya
+          - Press start to continue
+          - Extra life!
+          - Healed up
+          - Fully operational
+          - Im on fire
+          - Weapon Systems Overloaded
+          - Weapons Optimised
+          - Damn It
+          - Ding
+          - Thanks For The Love
+          - Thanks For Your Support
+          - Save That For The Hall Of Fame
+          - Gasp
+          - Aww, No fair!
+          - D.Va online
+          - Enemy Spotted
+          - Enemy turret ahead
+          - Hey! They have a teleporter!
+          - Enemy teleporter located
+          - Behind you!
+          - You Better Get Out Of The Way
+          - I Am Unstoppable
+          - Looks Like Another Victory, Just A Little Longer
+          - Enemies Taking The Point, Time To Show My Skills
+          - Check Me Out, Securing The Point
+          - This Objective Has My Name Written All Over It
+          - Enemy down
+          - Target eliminated
+          - Are you even trying
+          - I thought you were going to be a challenge
+          - Get owned
+          - One For My Highlight Reel
+          - MVP D.Va
+          - Assa
+          - I still love you
+          - Shut down
+          - Kill streak
+          - High score for sure
+          - Enemy turret destroyed
+          - Ouch
+          - Pow
+          - Nice shot
+          - Revenge is sweet
+          - Hi
+          - Hiya!
+          - Annyeong
+          - Thanks
+          - Thank you
+          - Gam sa
+          - Got it
+          - Okay
+          - Understood
+          - Roger
+          - Attack the objective
+          - Defend the objective
+          - Move the payload
+          - Stop the payload
+          - Need healing
+          - I need healing
+          - I need armor
+          - I need shields
+          - Group up
+          - Group up here
+          - Group up with me!
+          - Join me!
+          - Ultimate charging
+          - Ultimate almost ready
+          - Ultimate ready
+          - Love D.Va
+          - AFK
+          - Aw yeah
+          - D.Va 1 bad guys 0
+          - GG
+          - I play to win korean
+          - Easy mode
+          - Lol
+          - No hacks required
+          - Winky face
+          - Haepi hallowin
+          - Its me Someone must be hacking
+          - I hope we dont get banned
+          - Only if I can get yours too! I love your new album!
+          - 16-bit hero
+          - Of course
+          - Hey! Hands Off
+          - If you wanna give me some upgrades
+          - Who are you calling a child
+          - A giant gorilla Just like in those old...
+          - The Destruction Caused By The Omnics Here, It Reminds Me Of Home
+          - Blizzard games
+          - This is my kind of city
+          - All systems buzzing!
+          - Bzzzzzz!
+          - I am not the Easter Bunny
+          - Rising Uppercut
+          - Rising fist
+          - Meteor Strike!
+          - Incoming!
+          - Only through conflict do we evolve
+          - Once the mission starts, no more messing around
+          - My work is not done
+          - The battle goes on
+          - Defeat makes me stronger
+          - Lose the battle, win the war
+          - Much better
+          - Just what I needed
+          - I am on fire!
+          - Move, or get run over
+          - As though I needed the help
+          - I like how that feels
+          - This will be over quickly
+          - Damn!
+          - Is that all (Voted Epic)
+          - You know my name
+          - What did you expect
+          - Doomfist here
+          - Sniper, keep your head down
+          - I found the enemy
+          - Spotted a turret
+          - Enemy turret ahead!
+          - Behind you
+          - Take cover
+          - I am unstoppable!
+          - Our enemies defeat is on hand, do not let up
+          - Time, our enemies are out of time
+          - Time is running out, we can not fail!
+          - Get them off our objective, now!
+          - I am securing the objective
+          - Everyone, get on the objective!
+          - Why is the payload stopped
+          - I am personally seeing to the payload
+          - Moving the payload and nothing is going to stop it
+          - Winners stay on the payload
+          - Stop the payload!
+          - Stop the payload, now!
+          - History will forget you
+          - Rethinking your life decisions
+          - Stay out of my way
+          - Is that all (Final Blow)
+          - Come at the king, you better not miss
+          - Not strong enough
+          - Does anyone else want to try me
+          - Enemy turret destroyed
+          - Well done!
+          - Less work for me!
+          - Hello!
+          - Hello there
+          - Hey there
+          - Thank you
+          - Thanks
+          - I heard you
+          - Understood
+          - I need healing!
+          - Heal me!
+          - Group up with me
+          - On me!
+          - My ultimate is charging
+          - Meteor Strike is charging
+          - Meteor Strike is almost ready!
+          - My ultimate is almost ready!
+          - Meteor Strike ready to be unleashed
+          - Ready to meteor drop!
+          - My ultimate is ready
+          - Meteor Drop is ready. Get in position!
+          - Meteor Strike is ready. Get in position!
+          - Try me
+          - Go and sit down
+          - K.O.
+          - One punch is all I need
+          - Spare me the commentary
+          - Talk to the fist
+          - Combo breaker!
+          - You Must be Joking
+          - I hope that the girl gave you more than a new coat of paint
+          - Have you ever been hit by a giant, genetically engineered gorilla I could arrange it for you...
+          - Human strength will only get you so far
+          - Omnics will not be kept down forever. The ashes of the crisis still smolder
+          - This city is a powder keg that could ignite the world. And Talon is the flame
+          - I think your flight is delayed
+          - The world changed after the crisis. It is due for another test
+          - I am ready
+          - Try Me
+          - Hajime
+          - Sono teido ka
+          - Honki o misete miro
+          - The dragon becomes me!
+          - Flow Like Water
+          - again
+          - I return to the fight
+          - I will not falter
+          - I will not waste this chance
+          - Let us hope for a different outcome
+          - Tatakai wa owaran
+          - Much Better
+          - I am healed
+          - I am repaired
+          - My warrior spirit burns
+          - The advantage is mine
+          - wa ga kokoro ha ryuu no kokoro
+          - Strength flows through me
+          - Chikara ga minagitte kuru
+          - I am unstoppable
+          - kuso!
+          - It was nothing
+          - Our enemies return
+          - Genji here
+          - Genji is with you
+          - Sniper
+          - Enemy turret
+          - Enemy teleporter detected
+          - heh i found the teleporter
+          - Our enemies have deployed a shield generator
+          - Behind you
+          - Watch yourself
+          - Victory draws near
+          - Defend as one
+          - The battle draws to its conclusion
+          - Time is against us
+          - Our point is under attack guests
+          - We are losing the objective
+          - Our enemies have the upper
+          - I am taking the objective
+          - The objective is mine
+          - We must press our
+          - The payload is stopped
+          - Push the payload
+          - Push forward
+          - The payload moves
+          - Keep the payload in motion
+          - Stop the payload
+          - The payload is moving
+          - We need to stop the payload
+          - I Learned That From My Brother
+          - Like cutting through silk
+          - Know yourself in the face of death
+          - Think upon your actions
+          - An excellent fight
+          - Kono teido ka
+          - Yoshi!
+          - Kamai Tachi
+          - Kaze Yo
+          - Oitsukeru kana
+          - I am victorious this time
+          - Mock death at your own peril
+          - My aim is unerring
+          - Enemy turret destroyed
+          - Enemy teleporter destroyed
+          - The enemy teleporter
+          - Angela!
+          - I wiill avenge you
+          - Hello
+          - Yo
+          - Greetings
+          - Thank you
+          - I understand
+          - Very well
+          - Understood
+          - I need healing
+          - I Require Healing
+          - Group Up
+          - Group Up Here
+          - Join me
+          - My ultimate is charging
+          - My ultimate is almost ready
+          - My ult is ready
+          - The dragon and I are one
+          - A steady blade balances the soul
+          - Kuso
+          - Kakugo
+          - Measure twice, cut once
+          - Mada mada!
+          - Hah! Simple
+          - Yoshi!
+          - You are only human
+          - I was hoping for a challenge
+          - My halloween costume, cyborg ninja
+          - Happy Halloween.oga
+          - Merry Christmas
+          - To know yourself, is to be at peace
+          - Kaedama
+          - Life and death balance on the edge of my blade
+          - You Seem Nice
+          - An elegant weapon
+          - It is not too late to change your course, brother
+          - So this is what has become of you. A pity
+          - That was your dream. Not mine
+          - We shall see, brother
+          - I am certain of it
+          - What would our father think
+          - I find the company more agreeable these days
+          - I am a different man now. I am whole
+          - I am at peace with who I was
+          - Our paths cross for now
+          - I always liked working with you
+          - The heart of a man still beats
+          - Does-the-suffering-of-the-omnics-here
+          - And you, master
+          - That was another life
+          - Fukushu
+          - I passed many an hour
+          - Even here I feel an outcast
+          - Fantastic Technique
+          - Break the limit
+          - Unbreakable Body
+          - Henshin
+          - Arigato gozaimashita
+          - Any chocolates brother
+          - Akemashite Omedetou Gozaimasu
+          - The winds of death are strong
+          - I still have much to learn
+          - Marked
+          - Marked by the dragon
+          - See that which is unseen
+          - Unleash the storm
+          - Strike like lightning
+          - Have a taste of this
+          - The storm breaks
+          - Swift as the wind
+          - The noose tightens
+          - My arrows find their marks
+          - Focusing
+          - Let the dragon consume you!
+          - The dragon is sated
+          - You have been judged
+          - The dragon consumes
+          - With every death, comes honor. With honor, redemption
+          - I grow tired of waiting
+          - If you sit by the river long enough
+          - It is time to act
+          - Try to keep up
+          - The dragon awakens
+          - My brother is dead
+          - Again
+          - A minor setback
+          - I am not deterred
+          - I will not be defeated so easily
+          - I must redeem myself
+          - I must reclaim my honor
+          - Start over at the beginning
+          - Never surrender
+          - Nothing ventured, nothing gained
+          - I am healed
+          - I am restored
+          - My warrior spirit burns
+          - The dragon rages within me
+          - The dragon stirs within me!
+          - My power grows stronger
+          - The Dragon Awakens
+          - You honor me
+          - Strive for perfection
+          - They have returned from death
+          - Hanzo at your service
+          - Sniper
+          - The enemy is here
+          - Enemy turret ahead
+          - They possess a teleporter
+          - Time is running out Attack
+          - We cannot lose Attack
+          - Time grows short
+          - Keep pushing forward
+          - They are taking the objective stop them
+          - Stop them now clear the point
+          - Get the payload moving
+          - We must move the payload
+          - We cannot stop now move the payload
+          - I have taken the payload
+          - I am moving the payload
+          - The payload is moving join me
+          - Stop the payload
+          - Haha perfect
+          - Hardly a challenge
+          - Is that the best you can do
+          - So predictable
+          - Never second best!
+          - Target practice
+          - Unworthy
+          - Hm, weakling
+          - You are nothing
+          - You will never amount to anything
+          - You do not want me for your enemy
+          - Just as when we were boys
+          - You were never my equal!
+          - So much death
+          - They fall before me
+          - Again! And Again!
+          - The dragon hungers
+          - An inspired perfomance
+          - Enemy turret destroyed
+          - Uncouth
+          - Pest
+          - Pfe
+          - You have some skill
+          - Hello
+          - I greet you
+          - Greetings
+          - Thank you
+          - You have my thanks
+          - Understood
+          - I understand
+          - Very well
+          - I need healing
+          - Need healing
+          - I need armor
+          - I need shields
+          - Group up
+          - Group up here
+          - Group up with me
+          - Join me
+          - My ultimate is charging
+          - My ultimate is almost ready
+          - My ultimate is ready
+          - I am ready to unleash the dragon
+          - Expect nothing less
+          - Flow like water
+          - From one thing know ten thousand things
+          - Hm
+          - I do what I must
+          - The outcome was never in doubt
+          - Never second best!
+          - Remember this moment
+          - Sake
+          - I choose you spirit dragon
+          - Step into the dojo
+          - Ignore all distractions
+          - You are already dead
+          - a gift for you
+          - You may call yourself my brother...
+          - you are mistaken brother
+          - You will never amount to anything
+          - Where did you hide your treasure
+          - Unsofisticated Taste
+          - I would wager on my bow against your rifle any day
+          - But at what cost
+          - We are nothing alike
+          - All of this was to be mine
+          - I will take back what is mine by birthright
+          - The master of the Shimada Clan has returned
+          - This is the home of the Shimada Clan. My home
+          - This was once my home. No longer
+          - My enemies fall like cherry blossoms
+          - such beauty is wasted
+          - The wolf stirs from his den
+          - The wolf marks his prey
+          - Lone wolf ultimate
+          - The wolf hunts for his prey
+          - The wolf is sated
+          - The wolf feasts
+          - The wolf awakens
+          - The wolf howls within me
+          - The wolf stirs within me
+          - I am ready to unleash the wolf
+          - I choose you, Spirit Wolf
+          - The wolf hungers
+          - Scatter
+          - Simple geometry
+          - Strike at the heart
+          - The art of deception
+          - My arrow finds its mark
+          - My aim is true
+          - Perfect
+          - Surprise!
+          - Here we go
+          - The hunter lays a trap for his prey
+          - giggles - 13015
+          - Dont move
+          - Hold Still
+          - Stepped in it
+          - Watch your step
+          - Fire in the hole!
+          - Ladies and gentlemen, start your engines
+          - come out and play
+          - i love my job
+          - Rest in pieces
+          - Hard to just sit around
+          - just taking five
+          - misfits and freaks
+          - Remember, Remember, What The Heck Was I Saying Again
+          - I Would Kill For Some Boba, Milk Tea, Half Sweet
+          - new years resolution
+          - Back for more
+          - Blow it up again1
+          - You wont get rid of me
+          - I love it when that happens
+          - Holy dooley..
+          - takes a lickin keeps on tickin
+          - All patched up
+          - much better
+          - Im on fire more than usual
+          - Piece of junk!
+          - Damn It
+          - My Genius Is Finally Recognized
+          - sniff brings a tear to my eye
+          - thank you thank you
+          - Looks Like They Were Just Playing Dead
+          - Junkrat primed and ready
+          - sniper
+          - enemy turret up ahead
+          - find the teleporter
+          - Found Their Teleporter, Time To Blow It Up
+          - point belongs to us ya dingus
+          - Mine, mine, mine. This is my point
+          - The Point Is Mine
+          - Whys the payload stopped
+          - Moving The Payload, Clear A Path
+          - we need to pump the brakes on the payload
+          - brings tears to me eyes
+          - everything is going up in flames
+          - hole in one
+          - stay outta the kitchen
+          - ya dipstick
+          - Back To The Scrapheap
+          - Why so serious
+          - humming
+          - Enemy Turret Just Blew Up
+          - enemy teleporter scrapped
+          - Hands off the merchandise!
+          - Out Of My Face You Drongo
+          - That Must Have Hurt
+          - I knew there was a reason
+          - i can always count on you mate
+          - Hey Im the only one who gets to kill the big lug
+          - Revenge is a dish best served flaming hot!
+          - Gday
+          - Gday cobber
+          - Cheers mate
+          - Ta
+          - Thanks, mate
+          - Gotcha
+          - Sure
+          - Okay
+          - I need healing
+          - Join up with me
+          - RIP-Tire Ready To Roll!
+          - Tick Tock, Tick Tock, Tick Tock
+          - Blow it up again2
+          - Anyone want some BBQ
+          - Brrring!
+          - Coming up explodey
+          - good morning
+          - Happy birthday
+          - Have a nice day
+          - Its the little things
+          - Kaboom!
+          - Shiny
+          - Smile!
+          - I Give It A Ten
+          - happy halloween
+          - merry christmas
+          - gong xi fa cai
+          - Get cold just looking at ya
+          - Thats cold
+          - You hook em
+          - Joke ol pigface
+          - Try not to get us killed out there
+          - cheers mate the cavalrys here
+          - Look at one of those bombs
+          - comic relief
+          - Me old tunnel
+          - party time
+          - Stole crown jewels
+          - this place makes me sick
+          - Bots into the light
+          - Be an Atheist
+          - this place is a bit posh for me
+          - you think theres something worth stealing
+          - fire usually would not be a good thing
+          - fire not good
+          - early bird gets the worm
+          - get ready for a shock
+          - Ladies and gentlemen he working on a century
+          - just look at this thing!
+          - finders keepers
+          - God save the king
+          - Be an Atheist
+          - Pardon me
+          - Easy
+          - Hold up now
+          - Excuse Me
+          - Now, hold on
+          - Whoa there
+          - Draw!
+          - Step right up
+          - Did someone call the undertaker
+          - Get it done
+          - Back In The Saddle Again
+          - Back Into The Mix
+          - All Patched Up
+          - Just What The Doctor Ordered
+          - Much better
+          - I Feel Like A Man Possessed
+          - Sniper, Keep Your Eyes Peeled
+          - Enemy Turret Here
+          - Enemy Teleporter Spotted
+          - Taking the point
+          - Payload Stopped
+          - Payload Secure, Move Out
+          - Bang
+          - Bullseye
+          - Dead to rights
+          - Gotcha
+          - Happy trails
+          - Never had a chance
+          - Never Much Liked You
+          - No payment required
+          - Too slow
+          - You need to work on that aim
+          - Thought I Saw A Ghost
+          - Enemy Turret Destroyed
+          - Enemy Teleporter Destroyed
+          - Nice One
+          - Remind Me To Stay Off Your Bad Side
+          - Just A Matter Of Time
+          - Hello
+          - Hey There
+          - Howdy
+          - Hey
+          - Achknowledged
+          - I Need A Doctor
+          - Form Up Here
+          - My Ultimate Is Ready, Saddle Up
+          - You Know What Time It Is
+          - Watch and learn
+          - After you
+          - Happens To The Best Of Us
+          - Reach for the sky
+          - Wanted Dead or alive
+          - You Done
+          - Boom goes the dynamite
+          - I hear you pumpkin
+          - Trick or Treat
+          - This calls for a celebration
+          - Hair of the dog
+          - How do you like me now
+          - D.Va, just tell me one thing whered
+          - Ice wall, coming up
+          - This will stop them
+          - Haha, watch this
+          - Blocking Them Off
+          - Yikes!
+          - Oh my gosh
+          - Anyone want a popsicle
+          - You got iced
+          - Our world is worth fighting for
+          - I have to get back in the fight
+          - Woah, That Was Going Great, Until The End
+          - Everyone is counting on me
+          - Wait For Me
+          - That could have gone better
+          - This fight is not over yet
+          - Healed up
+          - Much better
+          - Whoa! Look out. Here I come
+          - Grrr
+          - Thumbs up to that
+          - Thanks everyone
+          - Oh, it was nothing really
+          - Sometimes I surprise myself
+          - Stunned
+          - Mei checking in
+          - Sniper! Look out
+          - Enemies here
+          - Enemy turret ahead
+          - Hey, They Have A Teleporter, Help Me Find It
+          - Find The Teleporter
+          - Hey, I Found Their Teleporter
+          - Get to cover
+          - Behind you
+          - Everyone! Stay out of my way
+          - Nothing can stop me
+          - Nothing can stop Mei
+          - Come on everyone, just a little bit longer
+          - Our hard work will be for nothing
+          - Our point is under attack
+          - Setting Up On The Objective
+          - Push the payload
+          - Payload stopped, all hands on deck
+          - Hey! The payload stopped
+          - Moving the payload. Backup requested
+          - Is Nothing Personal
+          - I Can Take Care Of Myself
+          - Serves You Right
+          - You were asking for it
+          - Cold as ice!
+          - Hey! Be reasonable
+          - Ooh, sorry about that
+          - Oops, sorry
+          - Hey! Stay out of my way
+          - Enemy turret down
+          - Enemy teleporter down
+          - Shield generator destroyed
+          - Final Blow - You Were Asking For It
+          - Enemy team is down! Now is our chance
+          - Hi 1
+          - Hi 2
+          - Hiya
+          - Thank you!
+          - Thanks
+          - Understood
+          - Okay 2
+          - I Need Healing
+          - Need Health
+          - Group Up With Me
+          - Group Up
+          - Group Up Here
+          - Join Me
+          - My ultimate is ready!
+          - Hang In There
+          - A-Mei-Zing
+          - Hey, chill out!
+          - I Hope You Learned Your Lesson
+          - Okay 1
+          - Ouch, Are You Okay
+          - That Was Great
+          - Yay 1
+          - You have to let it go
+          - Overcome All Obstacles
+          - Scary
+          - I got you something
+          - I was only trying to help
+          - So mean... honestly
+          - Bastion, you would make the perfect research assistant
+          - Youre just no good bully
+          - Look somewhere else
+          - Hey, Cole, do you know what time it is
+          - I love your glasses, so cute!
+          - We should compare notes some time
+          - Zarya How can you even pick up all that weight
+          - I love it here in the mountains. I wish I could go climbing!
+          - I Think I Might Be A Little Overdressed For This Place
+          - Look at all the snow!
+          - Winston. I think one of these equations is wrong
+          - Mei on duty
+          - Happy holidays
+          - Home sweet home
+          - Do you think
+          - Ouch that stings
+          - The Struggle for martial superiority
+          - When faced with a setback, we must challenge our assumptions.
+          - We must all make sacrifices in the name of science.flac
+          - My power is overwhelming!
+          - Slowly they realize that failure is all that awaits them
+          - Our enemies believe that they can take our objective. They are mistaken
+          - The payload moves towards our desired outcome.flac
+          - That we should fail in stopping the payload has no reasonable explanation
+          - We must keep our enemies from further progress towards their goal
+          - Situational awareness could save your life-- I recommend it
+          - Perhaps, next time, you should not stand in the way of the orb
+          - Your contributions to the furtherance of science are to be commended
+          - My keen analytical mind detects a pattern forming
+          - Much more talkative now arent you Genji
+          - Your body seems to be adapting well
+          - Started any wars
+          - Look at this world Symmetra
+          - Your state of Chronal Uncertainty
+          - A dreamer
+          - We are all in the gutter, but some of us are looking at the stars
+          - The government here has such a medieval view towards omnics
+          - If only the world could see the wonders that science has built.flac
+          - This is now my home... as much as any other.flac
+          - Fortifying defenses
+          - Standing ground
+          - Holding position
+          - Establishing defense point
+          - Navigation systems to defense
+          - Engaging fortifications
+          - Defense mode activated
+          - Not budging
+          - Digging in
+          - Dont move
+          - Stop right there
+          - Not so fast
+          - Halt
+          - Youre not getting away
+          - Stop
+          - You are advised to move behind my barrier
+          - Barrier activated
+          - For your own safety, get behind the barrier
+          - Please move behind the barrier
+          - I recommend moving behind my barrier
+          - This will be your shield!
+          - Please move behind the barrier2
+          - Barrier status critical
+          - Caution. Barrier has taken heavy damage
+          - My barrier is failing. Recommend
+          - Warning barrier failing
+          - Barrier integrity compromised
+          - Barrier destroyed. Please move to safety
+          - Barrier destroyed.
+          - Cease your resistance!
+          - Team up for special attack
+          - Your safety is my primary concern
+          - For optimal chance
+          - Executing pre-combat
+          - I will simulate our
+          - I must rejoin my team
+          - I still have a job
+          - Rebooting
+          - Archiving combat data
+          - System restart init
+          - Analyzing previous combat
+          - I am not ready to be
+          - Installing Updates
+          - Updates installed
+          - System health stabilizing
+          - Systems restored
+          - Systems repaired
+          - System integrity restored
+          - Your aid is appreciated
+          - Thank you(healed)
+          - Exceeding expected combat values
+          - Weapon systems optimized
+          - Damage output increased
+          - Lethality level increased
+          - I feel unstoppable
+          - System output overloaded
+          - Thank you. But I still have
+          - I was only following my programming
+          - Running post-match diagnostics
+          - Performance analysis Epic!
+          - Performance analysis Legendary!
+          - Saving record of exceptional combat
+          - Enemies reviving. Prepare
+          - Was that the Iris
+          - Orisa online
+          - Alert! Sniper located.
+          - Sniper detected. Threat level
+          - Enemy detected straigth ahead
+          - Enemy detected to our rear
+          - Enemy dected on the left
+          - Enemy dected on the right
+          - Enemy detected above us
+          - Enemy detected below us
+          - Behind you
+          - enemy turrent located
+          - Priority task find the enemy tele
+          - Enemy teleporter located
+          - Enemy teleported destroyed
+          - Enemy shield generator located
+          - Enemy shield generator destroyed
+          - Current combat simulations
+          - Analysis of recent performance trends
+          - If we continue upon this trajectory
+          - We have no choice
+          - Mission window closing
+          - A repeat of our past performance
+          - We must improve or we
+          - The enemy is taking the objective
+          - Unauthoried personnel detected
+          - Intruders have breached
+          - Our objective is under attack
+          - Taking possession of the objective
+          - Taking control of the objective
+          - Securing the objective. Backup
+          - Initiating objective capture routine
+          - Payload stopped in a no-stop zone
+          - We must get the payload
+          - Payload has stalled
+          - Commandeering the payload
+          - I am moving with the payload
+          - Moving the payload
+          - I am escorting the payload
+          - The payload is moving. Reroute
+          - The payload must be halted
+          - We must capture and impound
+          - Enemy is moving the payload
+          - I have the flag. Heading
+          - I have taken the flag. Initiating
+          - We must ge our flag back
+          - Recover our flag
+          - We must secure our flag immediately
+          - The enemy has taken possession
+          - Flag capture protocol completed
+          - Enemy flag captured. New instructions
+          - We need to increase our flag security
+          - We must not let that happened again
+          - Enemy has lost possession of our
+          - Priority objective recover the flag
+          - Dropping the flag
+          - Relinquishing the flag
+          - I have sent our flag back to base
+          - Our flag is safe
+          - I told you to stop resisting
+          - Vital signs negative
+          - Threat neutralized
+          - Goodbye
+          - You were warned
+          - I am programmed to avoid
+          - For Numbani
+          - You are advised to cease
+          - Stay there. The authorities
+          - Saving record for future
+          - Are you in distress
+          - System operating at maximum
+          - Empathy module not responding
+          - Exceeding standard performance
+          - Enemy turret neutralized
+          - Fist bump!
+          - Stand back!
+          - Excuse me!
+          - Reinhardt, you are
+          - Reinhardt,I will
+          - Zarya, I wish to
+          - Now I can delete you
+          - Hello
+          - Greetings
+          - Thanks
+          - Thank you
+          - Affirmative2
+          - Understood
+          - Requesting healing
+          - Healing would be appreciated
+          - I need healing
+          - I believe we need a healer.
+          - Requesting shields
+          - Armor would be appreciated
+          - Requesting armor
+          - Rally at my position
+          - Group up with me
+          - Group up
+          - My ultimate is charging
+          - Supercharger powering up
+          - My ultimate is almost ready
+          - Supercharger is almost ready to be deployed
+          - My ultimate is ready
+          - Supercharger is ready to be deployed
+          - My ultimate is ready, come to
+          - My Supercharger is ready to be deployed
+          - Current outlook
+          - Do you need a hug
+          - Efi will not be happy about this
+          - Error 404. Sarcasm module not found
+          - Medical assistance has been requested
+          - Would you like my analysis of the situation
+          - No parking
+          - Shine your eyes
+          - That does not compute
+          - Who is ready to party
+          - Some functionality may still be in beta
+          - I have a bad feeling about this
+          - Are you satisfied with your protection
+          - Thank you for your compliance
+          - golden
+          - Be careful when crossing the street
+          - Thank you E54
+          - It is remarkable
+          - Scanning E54
+          - Doomfist, you will be brought
+          - My artificial intelligence makes
+          - Actually, Efi spent most of her
+          - I do not know about this Viskar
+          - Reinhardt I have allocated
+          - Reinhardt - What an odd compliment
+          - Reinhardt - Why is your shield
+          - My systems protected
+          - I consider Reinhardt to be
+          - Tracer, is it wrong
+          - Efi would be honored
+          - Zarya I have learned
+          - Tekharta Zenyatta
+          - Before Efi
+          - I will protect this city
+          - I wish Efi
+          - Catchphrase
+          - One electric sheep
+          - I must ask Efi
+          - System restarting
+          - Systems rebooted
+          - Virus detected
+          - Systems compromised
+          - On a scale
+          - I consider Reinhardt
+          - Clearing The Area
+          - Get Back!
+          - Move back
+          - Justice rains from above!
+          - Rocket Barrage incoming!
+          - Justice is done
+          - I will protect the innocent
+          - All Systems Checked Out, Ready For Combat Maneuvers
+          - System Check Initiated, Green Across The Board, And Ready For Action
+          - Back Into The Fray
+          - Back In Action
+          - I Will Not Fail Again
+          - My Team Needs Me
+          - Raptora Systems Online
+          - Back online
+          - Health Restored
+          - Much Better
+          - I Am On Fire
+          - Operating at maximum efficiency
+          - I Will Not Waste This Opportunity
+          - I Am Empowered
+          - Damn
+          - Clear Skies Ahead
+          - After Action Report, Unstoppable
+          - I Served With Distinction
+          - Pharah, reporting
+          - Sniper detected
+          - Contact
+          - Turret Detected
+          - Locate The Teleporter
+          - They Have A Teleporter
+          - Friendly Down
+          - Systems At Max 1
+          - I am unstoppable
+          - Time Is Running Out, Press The Attack
+          - Defend The Point, Strike As One
+          - In Range Of The Objective, Form Up On Me
+          - Moving the Payload, fall in behind me
+          - We Need To Stop The Payload
+          - Tango, Down
+          - Right On Target
+          - Target Eliminated
+          - Final Blow - You Got Served
+          - Sorry, Reinhardt
+          - You made a tactical error
+          - I Always Get My Prey
+          - Operating At Maximum Efficiency
+          - Hostiles eliminated
+          - Targets neutralized
+          - Clearing the board
+          - Enemy turret down
+          - Enemy turret destroyed
+          - Enemy Teleporter Destroyed
+          - Down
+          - Stay Down
+          - Cretin
+          - Reinhardt, You still got it!
+          - Enemy team neutralized
+          - Hello 1
+          - Hello 2
+          - Greetings
+          - Thank You 1
+          - Thank You 2
+          - Thanks
+          - You Have My Thanks
+          - I Copy
+          - Understood
+          - Achknowledged
+          - I Require Healing
+          - I Need Healing
+          - Form Up
+          - Group Up
+          - Group Up With Me
+          - Group up here
+          - My ultimate is charging
+          - My ultimate is almost ready
+          - Barrage Ready
+          - My Ultimate Is Ready
+          - Put your security in my hands
+          - Aerial superiority achieved
+          - Fly like an Egyptian
+          - Flying the friendly skies
+          - Leave This To A Professional
+          - Not A Chance
+          - Play nice, play Pharah
+          - Rocket jump. That sounds dangerous
+          - Shot Down
+          - Sorry, but I need to jet
+          - We Are In This Together
+          - Want to know the forecast
+          - I keep the peace
+          - I am the Rocket Queen
+          - Fly casual
+          - Try me
+          - Then I have nothing to worry about
+          - I always dreamed of the day we would fight together
+          - Cassidy, where did you learn to shoot like that?
+          - See you in the air
+          - I had a poster of you on my wall when I was younger
+          - I lost many good soldiers here
+          - I Always Dreamed Of Being Stationed Here
+          - Thunderbird systems online
+          - Death comes
+          - Die die die
+          - clearing the area
+          - Hero Selected - Death Walks Among You
+          - During Set Up - The Reckoning Draws Near
+          - During Set Up - Time, To Kill
+          - Respawn - Vengeance Shall Be Mine
+          - Respawn - The Grave Cannot Hold Me
+          - Voted Epic - Menacing Laughter
+          - Voted Legendary - Finally Some Recognition
+          - Sniper
+          - enemy turret ahead
+          - Unstoppable
+          - The Darkness Consumes You
+          - Death becomes you
+          - You never were a good student
+          - Never liked you much
+          - This is how it should have been
+          - You always did have a high opinion of yourself
+          - Another one off the list
+          - Stupid monkey
+          - thanks
+          - Get me some armor
+          - group up
+          - My ultimate is ready
+          - What are you looking at
+          - Dead man walking
+          - Havent I Killed You
+          - If it Lives I can kill it
+          - next
+          - moving on
+          - I taught you everything you know
+          - You Look Ridiculous
+          - You tell me, Doc
+          - And you sure know how to play boy scout
+          - I need to pay visit to a friend
+          - This is where I picked up the ingrate
+          - my mistake
+          - Come out and face me
+          - Is That The Best You Can Do
+          - Get Behind Me
+          - I will hold the line
+          - Bring it on
+          - Barrier activated
+          - Barrier is giving out!
+          - Barrier is failing!
+          - Barrier destroyed!
+          - Hammer Down!
+          - No lying down on the job!
+          - And stay down!
+          - Justice will be done
+          - We shall prove ourselves in glorious combat!
+          - Again! Again!
+          - Back into the fray
+          - This is not over
+          - I will not give up the fight
+          - Back, and ready for more!
+          - There is still more to my tale!
+          - Haha! Still kicking!
+          - Wait for me!
+          - Ah
+          - Ah, I feel like a new man!
+          - Much better!
+          - You honor me
+          - Yes!
+          - Are you ready, Here I come!
+          - I feel powerful!
+          - I am unstoppable!
+          - Unacceptable
+          - Ah, impressive, if I do say so myself!
+          - One hundred percent German power!
+          - What A Performance
+          - I Am The Champion
+          - They Are Back For More
+          - Reinhardt at your service
+          - Sniper!
+          - Sniper! Fight toe-to-toe you coward!
+          - i have found the enemy
+          - Enemy Turret Ahead
+          - Our enemies have a teleporter!
+          - Steel yourselves
+          - Make Every Second Count, Crush Their Defences
+          - We Are Out Of Time, Attack
+          - The Enemy Is At Our Doorstep, Drive Them Back
+          - They Are Taking Our Point, Throw Them Back
+          - I Am Capturing The Objective, Try And Stop Me
+          - The Objective Is Mine, Join Me If You Will
+          - Taking The Objective, Join Me In Glory
+          - The Payload Has Come To A Halt, Get It Moving
+          - Moving The Payload, Join Me
+          - They Are Moving The Payload, We Must Stop Them
+          - Do i have your attention yet
+          - Too Strong
+          - This old dog
+          - Splendid!
+          - Got You
+          - Feel my power!
+          - When All You Have Is A Hammer, Everyone Else Is A Nail
+          - Out Of My Way
+          - Im not even close to done
+          - Enemy turret destroyed
+          - Enemy Teleporter Destroyed
+          - I Slay Dragons
+          - Traitor
+          - Not Strong Enough
+          - Leave Some Glory To Me
+          - Well Done My Friend
+          - Ana Would Be Proud
+          - Well Done My Diminutive Swedish Friend
+          - I Owed You One
+          - Challenge accepted
+          - The Enemy Team Is Eliminated, We Have The Advantage
+          - Greetings
+          - Hello
+          - Hello!
+          - Thank you
+          - Thank you, my friend!
+          - Much obliged!
+          - Acknowledged!
+          - Understood
+          - Right away!
+          - Need healing
+          - I need healing!
+          - I need armor! Ehh... more armor
+          - Join me!
+          - Group up with me!
+          - Group up!
+          - Group up here!
+          - I Stand With You
+          - My ultimate is charging
+          - My ultimate is almost ready!
+          - My ultimate is ready!
+          - Earthshatter, ready!
+          - I salute you
+          - Are you afraid
+          - Bring Me Another
+          - Catch phrase
+          - Crusader online
+          - Crushing Machine
+          - German Engineering
+          - Honor and glory
+          - Respect your elders
+          - This old dog
+          - Smashing
+          - Are you chicken
+          - Easy does it
+          - Unstoppable
+          - Beer!
+          - Honor, justice, reinhardt
+          - And You Are Looking As Lovely As Ever
+          - We Old-Timers Must Stick Together, Teach These Kids A Thing Or Two
+          - Ana, How Can This Be, I Thought You Were Dead
+          - I killed many of your kind here Bastion
+          - You kids today with your techno music. You should enjoy the classics, like Hasselhoff!
+          - Never, I Will Fight To My Last Breath
+          - Brigitte Has Made Her Choice, I Would Have Her At My Side
+          - I remember that poster
+          - You always did take good care of my armor!
+          - Nervous. Me. Never!
+          - Keep Training, And Maybe Some Day You Could Learn To Handle A Real Weapon
+          - This Is The Home Town Of My Master, Balderich, He Was Born Here, And He Died Here
+          - Too Much Blood Was Spilt In My Country During The War
+          - We Fought A Terrible Battle Here, Many Crusaders Lost Their Lives
+          - I remember being posted here. It was good for my tan
+          - For Balderich
+          - I am purified
+          - Fall back
+          - Is my hero
+          - Come here
+          - get down
+          - Grounded
+          - Here Little Piggy
+          - Squeal For Me
+          - Ultimate - Maniacal Laughter
+          - fired up
+          - what are you lookin at
+          - stay out of my way
+          - Roadhog, Rides Again
+          - back for more
+          - Muahahaha, Yeah!
+          - oh goodie
+          - No Way
+          - easy
+          - only thing you can count on
+          - Roadhog time
+          - sniper
+          - enemy turret here
+          - find their teleporter
+          - Found their teleporter
+          - i am unstoppable
+          - come over here
+          - Out Of Time, Attack
+          - Point Is Mine, Property Of Roadhog
+          - get on the attack now
+          - payload moving out
+          - stop the payload
+          - stop that payload
+          - stop them
+          - Sit Down
+          - hurts so good
+          - no pain no gain
+          - peace and quiet
+          - Nice Mask
+          - enemy turret destroyed
+          - Enemy teleporter destroyed
+          - go on ask me what the other one says
+          - it says left
+          - About time you did something useful
+          - someone finally shut him up
+          - less work for me
+          - Hey
+          - hi
+          - Thanks
+          - Thank You
+          - Need healing
+          - Bleeding Like A Stuck Pig
+          - group up with me
+          - join me
+          - My ultimate is ready Come on!
+          - Ready To Go Whole Hog
+          - Ultimate Ready
+          - Welcome, To The Apocalypse
+          - Like Taking Candy From A Baby
+          - Got Something To Say
+          - Hook, Line And Sinker
+          - Life Is Pain, So Is Death
+          - Piece Of Cake
+          - Push Off
+          - Say Bacon One More Time
+          - Violence Is Usually The Answer
+          - want some candy
+          - ho ho ho
+          - you chicken
+          - shut up
+          - Hey. Stay out of trouble
+          - try and stay out of trouble
+          - try me
+          - Mm... Pretty place Be a shame to have to kill someone here
+          - God Save The King
+          - Pretty sure theyre still mad
+          - Now I know why they call this place dorado
+          - woop woop
+          - anchors away
+          - gone fishin
+          - arrr matey
+          - come closer
+          - Ultimate - Eat This
+          - Oooh, they stocked up again
+          - idiot
+          - everyone has a plan til they get punched in the mouth
+          - a reward fit for a king
+          - whatever you say
+          - shiny
+          - No job too big, no score too small
+          - so much drama
+          - Activating the barrier!
+          - Barrier in place!
+          - Observe the barrier!
+          - Back to me!
+          - Retrieving the barrier!
+          - Barrier integrity failing!
+          - Barrier is about to break!
+          - Barrier is fracturing!
+          - Barrier is under attack!
+          - Barrier is under heavy fire!
+          - Barrier is unstable!
+          - Barrier experiment failed!
+          - Barrier is out of existence!
+          - My barrier is destroyed! 2
+          - The barrier no longer exists!
+          - Give me a moment! One moment!!
+          - Give me a moment to think!
+          - Look at this pattern!
+          - This pattern!
+          - The equation... what was that equation again
+          - The dragon has been consumed
+          - Draw
+          - I felt a chill
+          - Justice has embraced me
+          - Not fast enough
+          - Gravity is shackled!
+          - I have harnessed the harness
+          - Impact!
+          - What an impact!
+          - Wholly predictable!
+          - "(Dutch) The universe sings to me!"
+          - "(Ultimate) What is that melody"
+          - And they all fall down!
+          - Fall!
+          - No one escapes gravity!
+          - To dust you shall return!
+          - There is no obligation
+          - A lovely day for field research
+          - "(distracted humming) Oh! I see. (clears throat)"
+          - Double... triple... quadruple check your math!
+          - Soon we will see if the hypotheses are correct
+          - We need a moment to ensure all our equations are correct
+          - Begin the experiment
+          - "(Dutch) (laughs) You never know how things will turn out"
+          - An unexpected but not unwelcome development
+          - If only the answers were simple
+          - Stardust to stardust
+          - The breakthrough was near... I-I could feel it
+          - The equations were correct... the problem must lie elsewhere
+          - A marked improvement
+          - Condition restored
+          - "(Dutch) I feel much better"
+          - Much better
+          - Everything is falling into place!
+          - Not to be academic, but I believe that one would call this being on fire
+          - The universe flows through me
+          - What a curious feeling!
+          - What is this power
+          - It cannot be stopped
+          - With power such possibility
+          - No no no!
+          - This does not compute!
+          - "(Dutch) Gosh darn it!"
+          - It seems we have a consensus
+          - Simple arithmetic
+          - "(chuckle) My theories are confirmed"
+          - Peer reviewed
+          - Impossible! An enemy returns
+          - A scientific miracle
+          - Where was I
+          - Sigma present
+          - Evidence suggests a sniper ahead
+          - Enemies in our orbit
+          - Enemy turret ahead
+          - The enemy has a teleporter
+          - Behind you!
+          - If we continue upon this trajectory, a less than satisfying outcome is a certainty
+          - This may yield a positive outcome. We must hurry!
+          - Entity terminated
+          - "(Dutch) Jackpot!"
+          - Like Newton and the apple
+          - Surely there is a more elegant solution
+          - The mysteries of the universe are open to you now
+          - The theories are correct!
+          - Poor practices
+          - Give Dr. Winston my regards
+          - "(Dutch) (laughs) The monkey is out of the bag"
+          - An elementary application!
+          - "(sighs) Like the impression of a dying star"
+          - Revolutionary
+          - What is this... violence
+          - Ah! The results are reproducible!
+          - "(laughs) A welcome recurrence. "
+          - The experiment produces consistent results! We should continue
+          - "(Dutch) Calling the shots for now!"
+          - The data pool increases
+          - Enemy turret theory disproven
+          - Enemy teleporter eliminated
+          - Back!
+          - 'Oh, pardon '
+          - Unfortunate
+          - Always nice to see a colleague at work
+          - Simply brilliant!
+          - "(Dutch) Hello"
+          - Hello
+          - "(Dutch) Hi!"
+          - Oh, hello
+          - "(Dutch) Thank you"
+          - Thank you
+          - Acknowledged
+          - Confirmed
+          - Understood
+          - Defend the objective!
+          - Keep them from the objective!
+          - Onto the objective
+          - Take the objective!
+          - To succeed, the objective must be taken
+          - Aid the payload on its trajectory!
+          - Bring the payload to a stop!
+          - The payload most move!
+          - Capture the enemy flag!
+          - Defend the flag!
+          - Do not let the flag fall into their hands!
+          - Take the enemy flag!
+          - I require healing
+          - Need Healing 2
+          - Need Healing
+          - Assemble at this location
+          - Assemble at this location 2
+          - Group up here
+          - Group up here 2
+          - Following your lead
+          - Ult Charging 3
+          - Ult Charging
+          - Ult Charging 2
+          - Ult Almost Ready 2
+          - Ult Almost Ready
+          - Ult Ready
+          - Ult Ready 2
+          - dr odeorain
+          - i saw you at lunas cabaret
+          - "(laughs) Get down with Sigma tonight, like a stroopwafel!"
+          - By looking far out into space we are also looking far back into time, back toward the horizon of the universe
+          - This is all Greek to me
+          - Tempus fugit
+          - Initiating the hack
+          - Iniciando el hackeo
+          - Here I am
+          - Looking for me
+          - Been here all along
+          - Hey there
+          - Miss me
+          - Gotcha
+          - He vuelto
+          - Be right back
+          - Beacon in place
+          - Always leave yourself a back door
+          - I might need this later
+          - Ahorita regreso
+          - Translocating
+          - See you later
+          - Cheers, love
+          - Apagando las luces
+          - EMP activated!
+          - Reboot and try again
+          - We all make mistakes
+          - Ya estoy lista para ese trago
+          - Hora de empezar de nuevo
+          - No manches
+          - Intentamos otra vez
+          - Feeling much better
+          - Mucho mejor
+          - Much better
+          - You have good taste
+          - Damn it
+          - Someone has to pull their weight around here
+          - I thought so
+          - Do I win a prize
+          - It was nothing
+          - Sombra online
+          - Sniper! Ten cuidado
+          - Enemies on my radar
+          - El enemigo esta aqui.flac
+          - Enemigo detectado
+          - Enemy turret here
+          - Find the teleporter
+          - Someone find their teleporter!
+          - Located their teleporter
+          - They have a shield generator.
+          - Found the shield generator.
+          - Get to cover!
+          - I am unstoppable!
+          - The objective is compromised
+          - Taking the objective. A little help would be appreciated!
+          - Someone needs to get the payload moving!
+          - We need to get the payload back on track
+          - Payload Defense
+          - Lighten up
+          - Oh, pobrecita
+          - Oh, pobrecito
+          - Lo siento
+          - Buenas noches
+          - Taradita
+          - Sorry Gabe
+          - Huy! Que Miedo!.flac
+          - Amateur hour
+          - Te pasas de lanza.
+          - Que triste
+          - Enemy Turret offline
+          - I blew up the tire, if anyone was wondering
+          - Down for the count!
+          - Back off!
+          - I know Kung Fu
+          - I knew you were good for something.flac
+          - Must be some reason I keep you around
+          - Buen Tiro!
+          - Hey
+          - Yonda
+          - Thanks!
+          - Thank you!
+          - Got you!
+          - I got it
+          - I need healing!
+          - Need healing over here!
+          - Shields por favor!
+          - I could use some shields!
+          - Armor por favor!
+          - Come over here!
+          - EMP charged
+          - My ultimate is ready
+          - My ultimate is ready. Get in there!
+          - My EMP is almost charged
+          - My ultimate is almost ready
+          - Boop!
+          - De pelos
+          - Did you mean to do that
+          - Good one
+          - Hack the planet
+          - Just squishing a bug
+          - Mess with the best and die like the rest
+          - If you hold the information, you hold all the cards
+          - You trying to be scary
+          - I can be nice
+          - Pleasure working with you, Cassidy... if that is your real name
+          - So what are we doing here, boss
+          - What can I say. A girl just has to have the latest tech
+          - Your friend, Katya Volskaya. What will you say when you learn the truth
+          - Back home... I should go drop by the bakery
+          - Do you ever stop and just look up at the sky. I hear you can see all sorts of things
+          - I wonder how my friend is doing
+          - Aloha
+          - Hey dude
+          - We need that payload to make a 180
+          - Damn ankle busters
+          - Mine deployed
+          - Hasta luego
+          - Too close for comfort
+          - Cinco cuatro tres dos uno
+          - Five, four, three, two, one
+          - From light into being
+          - Turret deployed
+          - Turret online
+          - Aligning defense system
+          - Defenses in place
+          - Turret in place
+          - Sentry deployed
+          - Sentry Turret placed
+          - Turret was destroyed
+          - My defenses are weakened
+          - Intruder detected
+          - My sentry was destroyed
+          - The true enemy of humanity is disorder
+          - If everyone performs their function
+          - Do not deviate from the plan
+          - I will shape order from chaos
+          - Order will be restored
+          - A momentary lapse
+          - Death is an illusion
+          - My work is not complete
+          - I will correct my mistakes
+          - I will follow my path
+          - There is still much to be done
+          - Much better
+          - I am restored
+          - I have reached peak performance levels
+          - My full potential is unlocked
+          - My power grows
+          - System Optimized
+          - Our fates are entwined
+          - Perfect alignment
+          - Damn
+          - A performance worthy of repetition
+          - Ah, that is the way!
+          - As it should be
+          - I will show you the path
+          - They have revived
+          - Symmetra reporting
+          - Sniper
+          - I have located the enemy
+          - Enemy turret ahead
+          - The enemy possesses a teleporter, we must locate it
+          - We must locate their teleporter
+          - Enemy teleporter located. We must destroy it
+          - Behind you!
+          - Do not let up, victory will soon be ours
+          - If we work in unison, our defense will be impenetrable
+          - Defend together! It will not be long now
+          - Attack now or we are defeated!
+          - Secure the objective!
+          - Time grows short but we must fight to the end
+          - Time is running out, we must not fail
+          - Align our attack, move the payload
+          - I am at the objective, we must take it quickly
+          - I am claiming the objective, support me
+          - I am taking the objective, all is going according to plan
+          - We must hold the point against their attack!
+          - Reinforce our defenses, we must hold them back!
+          - Consolidate our defenses on the point!
+          - The payload moves, as must we
+          - The payload moves to its destination all according to plan
+          - The payload is moving, converge upon it
+          - The payload is moving, we must pull together
+          - Together we must stop the payload, this is the way it must be
+          - We must stop the payload!
+          - The payload has stopped, we must get it moving
+          - The payload has stopped, we must get our plan back on track
+          - Just as expected
+          - Order is restored
+          - The balance shifts in my favor
+          - Perception is your weakness
+          - Why do you struggle against your fate
+          - You are unworthy of the true reality
+          - Know your place
+          - Perfection
+          - You are trapped in your own mind
+          - This is the order of things
+          - That was for your own good
+          - You lack imagination
+          - You were not meant for greatness
+          - All according to plan.
+          - A punishment for your crimes
+          - Everything in its place
+          - The pattern develops
+          - This is the shape of things to come
+          - Enemy turret destroyed An inferior design
+          - Enemy turret destroyed
+          - Enemy teleporter destroyed. Hm
+          - Get back
+          - Know your place2
+          - Shameful
+          - You perform your function admirably
+          - Well executed
+          - I had not forgotten you
+          - The enemy team has been eliminated
+          - All enemies eliminated
+          - Hello
+          - Hello 2
+          - Greetings
+          - Thank you
+          - You have my thanks
+          - Understood
+          - I understand
+          - Acknowledged
+          - I need healing
+          - I require healing
+          - Form up
+          - Group up
+          - Group up with me
+          - Group up here
+          - My ultimate is charging
+          - My Teleporter is almost ready to deploy
+          - My ultimate is almost ready
+          - My ultimate ability is ready
+          - Teleporter ready for deployment
+          - My teleporter is ready to deploy
+          - Such a lack of imagination
+          - Everything by design
+          - Exquisite
+          - How unsightly
+          - Impressive
+          - Perfect harmony
+          - Precisely
+          - I will put you in your place
+          - Welcome to my reality
+          - Why do you struggle
+          - Hard work and dedication pays off
+          - Work with a street ruffian
+          - What you call freedom is an illusion that causes more harm than good
+          - What you call freedom, I call anarchy.
+          - Vishkar is building a better future
+          - You should return what you stole
+          - Of course science obeys the laws of nature
+          - Armor How positively medieval
+          - This would be a perfect location for a Vishkar development
+          - Creating a barrier
+          - Projecting a barrier
+          - Projecting barrier
+          - I will shield you Photon Barrier
+          - I will shield us
+          - This will protect you
+          - This will protect us
+          - Barrier is on its way
+          - Photon Barrier Deployed
+          - Instancing Photon Barrier
+          - Shield engaged
+          - I will shield you
+          - Be shielded
+          - You are shielded
+          - Shield matrix established
+          - Everyone is protected
+          - Turret available for deployment
+          - Defensive matrix established.ogg
+          - There is a gap in my defense matrix
+          - Teleporter on-line. I have opened the path
+          - Teleporter on-line. We move swiftly
+          - Shield generator online. You are protected
+          - Shield generator online. Defense matrix established
+          - Shield matrix established Shield Generator
+          - Protect the teleporter.
+          - Teleporter is under attack
+          - My shield generator is under attack
+          - Teleporter destroyed
+          - My teleporter has been destroyed
+          - My teleporter has been destroyed. The path is closed
+          - My teleporter has been destroyed. The way is closed
+          - Teleporter offline
+          - My teleporter is offline
+          - Teleporter offline. The path is closed
+          - My teleporter is offline. The path is closed
+          - My teleporter is offline. The way is closed
+          - My shield generator has been destroyed
+          - My shield generator is offline
+          - Blink laugh
+          - Whee!
+          - Whoa
+          - Blink Wicked
+          - yeah
+          - Just in time
+          - Now, where were we
+          - Got ya!
+          - Gotcha
+          - Nailed it!
+          - Right on target
+          - Bombs away!
+          - Here ya go!
+          - Wait for it...
+          - You need a time out
+          - Cracking
+          - Oi this is no time for standing around
+          - Wait for me
+          - Well that just happened
+          - Back to work
+          - Back in the fight!
+          - All eyes on me!
+          - im in the zone
+          - Sensational!
+          - Aww thanks loves
+          - Excelsior
+          - Aww yeah
+          - nice save
+          - Tracer here
+          - Sniper
+          - There they are
+          - Enemy turret ahead
+          - Find their teleporter
+          - Found their teleporter!
+          - Behind you
+          - Recall Gasp
+          - The objective is mine
+          - defend the objective
+          - payloads moving
+          - payloads stopped
+          - This time stay down
+          - Speed Kills
+          - Sorry, cap!
+          - Death comes!
+          - No one likes a thief
+          - That felt good
+          - squished
+          - Sorry, big guy!
+          - Looks like you need a time out!
+          - Get stuffed!
+          - Ha! Bet that smarts!
+          - Ha! Fantastic!
+          - Ha! Tip-Top!
+          - Brilliant!
+          - Wicked!
+          - Nice one!
+          - Enemy turret down
+          - Enemy teleporter destroyed
+          - pow
+          - And stay down
+          - down for the count
+          - Take that!
+          - you can be my wingman
+          - nice one rein
+          - enemy team eliminated
+          - Hiya
+          - heya
+          - Hi
+          - Thank you
+          - Thanks
+          - Thanks love
+          - Understood
+          - I need healing
+          - I could use some healing
+          - hey doc
+          - I need shields
+          - I could use some shields
+          - I need armor
+          - group up
+          - Group up here
+          - Group up with me
+          - My ultimate is charging
+          - My ultimate is almost ready
+          - Pulse bomb ready
+          - you got it2
+          - Aww rubbish
+          - Be right back
+          - Check me out
+          - Keep calm and Tracer on
+          - She shoots she scores
+          - The world could always use more heroes
+          - I have this under control
+          - Looks like you need a time out
+          - Eat my dust
+          - Time Out
+          - Ooh scary
+          - Boo!
+          - Ho ho ho!
+          - dont be daft
+          - sorry im late
+          - Time is on my side
+          - did I miss something
+          - I knew I forgot something
+          - Over my dead body
+          - lucio ill race ya
+          - Then stay out of our way!
+          - mei youre the real hero
+          - Okay, Dad!
+          - wont be a problem if you just disappear
+          - dont think i dont recognize
+          - dont think im happy about that
+          - Oh, Winston! Got your favorite!
+          - I think static noises
+          - honor to meet
+          - Back in my old stomping ground
+          - Pub anyone
+          - Should we nip to the pub
+          - I could murder a chippie
+          - I could murder a chip sarnie
+          - i wonder if i left anything
+          - tosser
+          - False start
+          - I got my second wind
+          - Whew I think I hit the wall
+          - On your marks get set go
+          - here comes t racer
+          - Dashing through the snow
+          - Ho ho ho
+          - Got ya something
+          - I think I heard some slay bells
+          - You were on the naughty list
+          - Ohh sorry Santa
+          - Cheers love the holidays are here
+          - youre going on my nice list
+          - Get out of there
+          - Ive got you covered
+          - Dans ma ligne de mire
+          - I see you, do you see me
+          - Allez, montre-toi
+          - Ah, je te vois
+          - My gift to you
+          - Oh. Did that sting
+          - Watch your step
+          - La veuve tisse sa toile
+          - No one can hide from my sight
+          - One shot, one kill
+          - Huh, here I am
+          - Now You have my attention
+          - Rendez-vous avec la mort
+          - I needed that
+          - Much better
+          - You must like me
+          - Merci
+          - be alert they are back
+          - havent had enough
+          - Widowmaker here
+          - Widowmaker, au rapport
+          - Sniper. Leave this to me
+          - Sniper... amateur
+          - We need to defend the objective
+          - Goodbye Adieu
+          - A beautiful death
+          - Americans
+          - Like mother, like daughter
+          - Death becomes you
+          - Pathetic
+          - Shameful
+          - Please
+          - such artistry
+          - Talon strikes
+          - Hello there
+          - Hello
+          - Merci
+          - Understood
+          - Acknowledged
+          - i need healing
+          - I need shields
+          - Need armor
+          - Group up here
+          - A single death can change everything
+          - Encore
+          - Let them eat cake
+          - Cherchez la femme
+          - Magnifique
+          - une balle un mort
+          - Step into my parlor. said the spider to the fly
+          - the perfomance is about to
+          - your emotions make you
+          - 'You were once a legend, but what are you now. Just a shell of a woman '
+          - This is no place for children
+          - that would be the last mistake
+          - it would be a shame if something
+          - An annoyance
+          - so predictable tracer
+          - i dont even feel the cold
+          - no one can hide from the huntress
+          - the huntress gets her prey
+          - Coming through
+          - Pardon me
+          - Excuse me for dropping in
+          - Hello there
+          - Barrier activated
+          - Barrier up
+          - This will protect us
+          - Barrier failing!
+          - Ultimate - Roar
+          - I seem to have, uh, lost my temper
+          - I, uh, appear to have lost control
+          - Ahem, uh, where were we
+          - Ahem, um, pardon me
+          - Imagination is the essence of discovery
+          - Together, we can solve any problem
+          - Further experimentation required
+          - Hmm, once more unto the breach
+          - Onward and upward!
+          - Reengaging
+          - Through the miracle of science!
+          - Vital signs normalizing
+          - Damage output increased
+          - Weapon system optimized!
+          - Feeling drained
+          - Every little bit counts
+          - Enemies reengaging!
+          - Winston reporting
+          - Sniper! Be careful
+          - Enemy detected
+          - Enemies detected!
+          - Turret ahead, use caution
+          - They have a teleporter somewhere
+          - We need to locate their teleporter!
+          - Behind you!
+          - Take cover!
+          - I need a hand here!
+          - I could use some help!
+          - Uh, little help here
+          - Feeling powerful!
+          - By my calculations, our defenses will hold
+          - Haha, countdown to defensive victory initiated
+          - Uh, cursory evaluation suggests time is running out
+          - If we work together
+          - The odds are in our favor, press the attack!
+          - Our enemies are taking the point!
+          - Payload stalled!
+          - Uh, we have to get this thing moving again
+          - We need to move the payload!
+          - Escorting the payload
+          - You know what they say, a payload in motion stays in motion
+          - Payload in transit
+          - It appears the payload is moving!
+          - We must intercept the payload
+          - We need to stop the payload!
+          - One for the archives
+          - Would you like to donate your body to science
+          - You, stay away from my computer systems
+          - Enemy turret neutralized
+          - Enemy teleporter destroyed
+          - Nice shot!
+          - Tracer, no!
+          - Hello
+          - Hey
+          - Hi there
+          - Thanks
+          - Thank you
+          - Thank you!
+          - Acknowledged
+          - Absolutely!
+          - Got it
+          - You got it!
+          - Need healing!
+          - I need healing
+          - I could use some healing
+          - Need armour
+          - I need armour!
+          - Need shields
+          - I could use some shields
+          - We could use a healer
+          - Group up!
+          - Group up with me
+          - Form up!
+          - My ultimate is charging
+          - My ultimate is almost ready!
+          - My ultimate is ready!
+          - Curious
+          - How embarrassing!
+          - No, I do not want a banana
+          - Natural selection!
+          - No monkey business
+          - Did someone say peanut butter
+          - Sorry about that!
+          - The power of science!
+          - Houston, we have a problem
+          - This is not a costume
+          - I, uh, got you something
+          - That was awesome!
+          - I Get That A Lot
+          - Uhm, okay, I guess. We got this big mission coming up-- Oh, I get it
+          - Genji, this is just like old times
+          - Oh, uhm, thanks, I like yours, too
+          - Someone has to
+          - Need any adjustments to your chronal accelerator
+          - For the last time, no more bananas!
+          - I would kill for some tacos
+          - You know, they asked me to be in a movie once
+          - Horizon Lunar Colony Map - The First Day Or So
+          - A city run by scientists, smart
+          - Now is the winter of our discontent
+          - Happy holidays!
+          - Overwatch made mistakes in the past, I hope that we can fix them
+          - Five, four, three, two, one
+          - In five, four, three, two, one
+          - Always liked working with you too
+          - I like to leave the heavy lifting
+          - Barrier activated
+          - Bring it
+          - Give me your best shot
+          - Ready for battle
+          - Is that all youve got
+          - That tickles
+          - Maximum charge
+          - Fire at will!
+          - Gravity kills
+          - Do you even lift
+          - Together we are strong
+          - Be sure to stretch
+          - During Set Up - Just Like In Training Visualize Then Execute
+          - Give me another shot
+          - Respawn - I Will Never Surrender
+          - Much better
+          - I am on fire Everyone follow me
+          - I am even stronger
+          - Now see what I can do
+          - Laugh
+          - Voted Epic - Hard Work Is Its Own Reward
+          - Voted Legendary - I Do It For My Country
+          - A second chance
+          - They have been revived
+          - Zarya, ready for duty
+          - Sniper, be wary
+          - Enemy contact
+          - Enemy turret ahead
+          - They must have a teleporter
+          - Teleporter located
+          - We are out of time attack
+          - This is it, push forward!
+          - Push forward
+          - They are running out of time, we must hold them back
+          - They must not get past
+          - Just a little longer, turn them back
+          - Turn them back
+          - I am taking the objective, reinforce this position
+          - I claim this objective, stand with me
+          - Everyone, on the objective
+          - Get on the objective, we cannot let it fall into their hands
+          - Push them back
+          - Escorting the payload
+          - I am moving the payload fall in with me
+          - Let us stop the payload together
+          - The payload is moving, halt their progress
+          - They are moving the payload, stop them!
+          - The payload stopped get it moving
+          - We need to get the payload moving
+          - Primary objective, move the payload
+          - Final Blow - I Am The Champion
+          - Your team was depending on you
+          - I am just getting warmed up
+          - Final Blow - Check Out This Gun
+          - Final Blow - Promising..... But Not Good Enough
+          - Never Trust
+          - Enemy turret eliminated
+          - The enemy teleporter is destroyed
+          - Take the pain
+          - Weak
+          - Nice shot
+          - Remember me
+          - Hello - Privet
+          - Thank you
+          - Thank - Spasibo
+          - Acknowledged
+          - I am injured
+          - Need armour
+          - Join me
+          - Get down give me twenty
+          - I can bench more than you
+          - I will break you
+          - Are you in need of personal training
+          - Big, fuzzy Siberian bear
+          - Born in Battle
+          - I have destroyed more of your kind than I can count
+          - How do I trust a man who is half machine
+          - Reinhardt. You said you would arm wrestle me. Nervous
+          - I will not let the fate that befell this place happen to my country!
+          - The humans who live here are fools to trust the omnics
+          - Katya is a hero to my people. We must protect what she has built
+          - Be one with the Universe
+          - Be reborn
+          - Embrace tranquility
+          - Free your mind
+          - Gaze into the Iris
+          - Open your mind
+          - Walk in harmony
+          - We walk in harmony my student
+          - We are as one my sister
+          - Bask in the shadow of doubt
+          - Darkness falls
+          - There is chaos within you
+          - There is disquiet in your soul
+          - You are your own worst enemy
+          - I know the doubts that plague you
+          - You have much to learn
+          - Experience tranquility
+          - Pass into the Iris
+          - True self is without form
+          - A chance to focus
+          - A closed mind is already defeated
+          - A disciplined mind is your most dependable ally
+          - Consider only victory, make defeat an impossibility in your mind
+          - A momentary setback
+          - A temporary setback
+          - Adversity is an opportunity for change
+          - Overconfidence is a flimsy shield
+          - Pain is an excellent teacher
+          - Repetition is the path to mastery
+          - The cycle begins anew
+          - The outcome is not preordained
+          - I am made whole
+          - I am restored
+          - My systems are restored
+          - I am on fire
+          - I am on fire, but an extinguisher is not required
+          - I feel the warmth of the Iris flowing through me
+          - Energy flows through me
+          - My spirit is strong
+          - Now to strike
+          - I feel greatly empowered
+          - I feel unstoppable!
+          - I welcome adversity
+          - Excellence is its own reward
+          - Wonderful
+          - The gods have selected me
+          - Our enemies return
+          - I return
+          - Zenyatta is here
+          - I see a sniper
+          - Sniper
+          - Enemy detected
+          - The enemy is here
+          - A turret lies before us, it is quite real
+          - A turret lies in our way
+          - The enemy possesses a teleporter
+          - We must locate their teleporter
+          - Behind you
+          - Get out of there!
+          - I need help
+          - I require assistance
+          - Falter now, and we will succumb to defeat
+          - Victory is within our grasp hold strong
+          - Time grows short attack
+          - Time is an illusion
+          - We must focus our attack upon the payload
+          - We must wrest victory from the jaws of time
+          - Our objective will soon belong to the enemy
+          - Destiny has drawn me to the objective
+          - I am becoming one with the objective
+          - I am taking the objective, join me
+          - The payload must be moved
+          - The payload rests idle
+          - My path has converged with that of the payload
+          - The payload and I move as one
+          - The payload proceeds on its path
+          - The payload moves closer to the threshold of our defeat
+          - The payload moves like a stone
+          - A lesson in humility
+          - Do not be discouraged everyone begins in ignorance
+          - Hatred is not strategy
+          - If you do not bend, you break
+          - In anger you defeat only yourself
+          - One cannot survive on strength alone
+          - You must learn from your mistakes
+          - You refuse to learn
+          - Your weakness is revealed
+          - I win this round, Genji
+          - The master still has a few tricks
+          - Move too quickly and you overlook much
+          - Justice is defined by the hand that claims it
+          - Eager to Learn
+          - Revenge is not justice
+          - All-Knowing
+          - I feel neither joy nor remorse amidst such death
+          - A glimpse of mastery
+          - The turret is no more
+          - The turret no longer exists
+          - Impressive
+          - Well done Genji
+          - To hold a grudge is unhealthy- for you
+          - Our enemies have been eliminated but they will return
+          - The enemy team has been eliminated
+          - The enemy team is not in existence for now
+          - Greetings
+          - Peace be upon you
+          - My thanks
+          - Thank you
+          - You have my thanks
+          - Acknowledged
+          - I am in agreement
+          - I understand
+          - Understood
+          - I need healing
+          - I require healing
+          - I need armor
+          - I require armor
+          - I need shields
+          - I require shields
+          - Come here for healing
+          - Come to me for healing
+          - Form Up
+          - Group up
+          - Group up here
+          - Group up with me
+          - Join me
+          - My ultimate ability is ready
+          - My ultimate is ready, proceed without fear
+          - Ready for Transcendence
+          - We are in harmony
+          - Death is whimsical today
+          - Do I think, does a submarine swim
+          - Free your mind
+          - Hello world
+          - I dreamt I was a butterfly
+          - I think, therefore I am
+          - I will not juggle
+          - Life is more than a series of ones and zeroes
+          - Peace and blessings be upon you all
+          - The Iris embraces you
+          - Always strive for improvement
+          - Trick or treat
+          - No snowflake ever falls in the wrong place
+          - Every rooster crows in its own pen
+          - How Disappointing
+          - Tell me your thoughts, my friend
+          - It is good to fight alongside one of my brightest pupils
+          - Even the teacher can learn from his student
+          - I sense within you the same rage that once consumed your brother
+          - Do you have any dreams
+          - I would be happy to teach you
+          - To us all, I miss him greatly
+          - And I will watch your back in turn
+          - So this is where you grew up. You must show me around
+          - If only human and omnic could learn to live in peace here
+          - It does, my brother Mondatta gave much to improve their lives, but it was not to be
+          - It is good to return, but am I still welcome here
+          - I can feel the embrace of the Iris so strongly here
+          - How wonderful, a place where omnic and human live as equals
+          - What a fascinating place
+          - Be one with the darkness
+          - Walk in shadow
+          - Embrace oblivion
+          - We walk in the shadows, my apprentice
+          - Darkness envelops all
+          - Be consumed by the shadows
+          - Listen to the whispers of madness
+          - Experience nothingness
+          - Pass into the unknown
+          - Zenyatta is everywhere
+          - Curses and Madness be upon you all
+          - The Iris consumes you
+          - Trick or Treat

@@ -1,0 +1,80 @@
+en:
+  faker:
+    educator:
+      school_name:
+        - Bluemeadow
+        - Brighthurst
+        - Brookville
+        - Clearcourt
+        - Falconholt
+        - Flowerlake
+        - Iceborough
+        - Icelyn
+        - Ironbarrow
+        - Ironston
+        - Lakeacre
+        - Mallowpond
+        - Mallowtown
+        - Marblewald
+        - Ostbarrow
+        - Vertapple
+      secondary:
+        - High
+        - High School
+        - Secondary College
+      primary:
+        - Elementary School
+        - Grade School
+        - Primary School
+      university:
+        - "#{Educator.school_name} #{Educator.tertiary.university_type}"
+      secondary_school:
+        - "#{Educator.school_name} #{secondary}"
+      primary_school:
+        - "#{school_name} #{primary}"
+      campus:
+        - "#{Educator.school_name} Campus"
+      subject:
+        - Applied Science (Psychology)
+        - Architectural Technology
+        - Arts
+        - Biological Science
+        - Biomedical Science
+        - Business
+        - Commerce
+        - Communications
+        - Computer Science
+        - Creative Arts
+        - Criminology
+        - Design
+        - Education
+        - Engineering
+        - Forensic Science
+        - Health Science
+        - Information Systems
+        - Law
+        - Medicine
+        - Nursing
+        - Psychology
+        - Teaching
+      degree:
+        - "#{Educator.tertiary.degree.type} #{subject}"
+      course_name:
+        - "#{subject} #{Educator.tertiary.degree.course_number}"
+      tertiary:
+        university_type:
+          - College
+          - TAFE
+          - Technical College
+          - University
+        degree:
+          type:
+            - Associate Degree in
+            - Bachelor of
+            - Master of
+          course_number:
+            - 1##
+            - 2##
+            - 3##
+            - 4##
+            - 5##

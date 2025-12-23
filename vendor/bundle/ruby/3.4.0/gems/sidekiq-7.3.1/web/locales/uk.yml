@@ -1,0 +1,77 @@
+# elements like %{queue} are variables and should not be translated
+uk:
+  Actions: Дії
+  AddToQueue: Додати до черги
+  AreYouSure: Ви впевнені?
+  AreYouSureDeleteJob: Ви впевнені у тому, що хочете видалити задачу?
+  AreYouSureDeleteQueue: Ви впевнені у тому, що хочете видалити чергу %{queue}?
+  Arguments: Аргументи
+  Busy: Зайнятих
+  Class: Клас
+  Connections: З'єднань
+  CurrentMessagesInQueue: Поточні задачі у черзі <span class='title'>%{queue}</span>
+  Dashboard: Панель керування
+  Dead: Вбитих
+  DeadJobs: Вбиті задачі
+  Delete: Видалити
+  DeleteAll: Видалити усі
+  Enqueued: У черзі
+  Error: Помилка
+  ErrorBacktrace: Трасування помилки
+  ErrorClass: Клас помилки
+  ErrorMessage: Повідомлення про помилку
+  Extras: Додатково
+  Failed: Невдалих
+  Failures: Невдачі
+  GoBack: ← Назад
+  History: Історія
+  Job: Задача
+  Jobs: Задачі
+  Kill: Вбиваємо
+  LastRetry: Остання спроба
+  LivePoll: Постійне опитування
+  MemoryUsage: Використання пам'яті
+  Namespace: Простір імен
+  NextRetry: Наступна спроба
+  NoDeadJobsFound: Вбитих задач не знайдено
+  NoRetriesFound: Спроб не знайдено
+  NoScheduledFound: Запланованих задач не знайдено
+  NotYetEnqueued: Ще не в черзі
+  OneMonth: 1 місяць
+  OneWeek: 1 тиждень
+  OriginallyFailed: Перша невдала спроба
+  Paused: Призупинено
+  PeakMemoryUsage: Максимальне використання пам'яті
+  Plugins: Плагіни
+  PollingInterval: Інтервал опитування
+  Processed: Опрацьовано
+  Processes: Процеси
+  Queue: Черга
+  Queues: Черги
+  Quiet: Призупинити
+  QuietAll: Призупинити усі
+  Realtime: Зараз
+  Retries: Спроби
+  RetryAll: Повторити усі
+  RetryCount: Кількість спроб
+  RetryNow: Повторити зараз
+  Scheduled: Заплановано
+  ScheduledJobs: Заплановані задачі
+  ShowAll: Відобразити усі
+  SixMonths: 6 місяців
+  Size: Розмір
+  Started: Запущено
+  Status: Статус
+  Stop: Зупинити
+  StopAll: Зупинити усі
+  StopPolling: Зупинити опитування
+  Thread: Потік
+  Threads: Потоки
+  ThreeMonths: 3 місяці
+  Time: Час
+  Uptime: Днів безперебійної роботи
+  Version: Версія
+  When: Коли
+  Worker: Обробник
+  active: активний
+  idle: незайнятий

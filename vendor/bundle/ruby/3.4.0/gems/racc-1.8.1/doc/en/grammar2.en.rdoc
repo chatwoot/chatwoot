@@ -1,0 +1,219 @@
+= Racc Grammar File Reference
+
+== Global Structure
+
+== Class Block and User Code Block
+
+There are two blocks on the toplevel. One is the 'class' block, the other is the 'user code'
+block. The 'user code' block MUST be placed after the 'class' block.
+
+== Comments
+
+You can insert comments about all places. Two styles of comments can be used, Ruby style '#.....' and C style '/\*......*\/'.
+
+== Class Block
+
+The class block is formed like this:
+
+  class CLASS_NAME
+    [precedence table]
+    [token declarations]
+    [expected number of S/R conflicts]
+    [options]
+    [semantic value conversion]
+    [start rule]
+  rule
+    GRAMMARS
+
+CLASS_NAME is a name of the parser class. This is the name of the generating parser
+class.
+
+If CLASS_NAME includes '::', Racc outputs the module clause. For example, writing
+"class M::C" causes the code below to be created:
+
+  module M
+    class C
+      :
+      :
+    end
+  end
+
+== Grammar Block
+
+The grammar block describes grammar which is able to be understood by the parser.
+Syntax is:
+
+  (token): (token) (token) (token).... (action)
+
+  (token): (token) (token) (token).... (action)
+         | (token) (token) (token).... (action)
+         | (token) (token) (token).... (action)
+
+(action) is an action which is executed when its (token)s are found.
+(action) is a ruby code block, which is surrounded by braces:
+
+  { print val[0]
+    puts val[1] }
+
+Note that you cannot use '%' string, here document, '%r' regexp in action.
+
+Actions can be omitted. When it is omitted, '' (empty string) is used.
+
+A return value of action is a value of the left side value ($$). It is the value of the
+result, or the returned value by `return` statement.
+
+Here is an example of the whole grammar block.
+
+  rule
+    goal: definition rules source { result = val }
+
+    definition: /* none */   { result = [] }
+      | definition startdesig  { result[0] = val[1] }
+      | definition
+               precrule   # this line continues from upper line
+        {
+          result[1] = val[1]
+        }
+
+    startdesig: START TOKEN
+
+You can use the following special local variables in action:
+
+* result ($$)
+
+The value of the left-hand side (lhs). A default value is val[0].
+
+* val ($1,$2,$3...)
+
+An array of value of the right-hand side (rhs).
+
+* _values (...$-2,$-1,$0)
+
+A stack of values. DO NOT MODIFY this stack unless you know what you are doing.
+
+== Operator Precedence
+
+This function is equal to '%prec' in yacc.
+To designate this block:
+
+  prechigh
+    nonassoc '++'
+    left     '*' '/'
+    left     '+' '-'
+    right    '='
+  preclow
+
+`right` is yacc's %right, `left` is yacc's %left.
+
+`=` + (symbol) means yacc's %prec:
+
+  prechigh
+    nonassoc UMINUS
+    left '*' '/'
+    left '+' '-'
+  preclow
+
+  rule
+    exp: exp '*' exp
+       | exp '-' exp
+       | '-' exp       =UMINUS   # equals to "%prec UMINUS"
+           :
+           :
+
+== expect
+
+Racc has bison's "expect" directive.
+
+  # Example
+
+  class MyParser
+    expect 3
+  rule
+      :
+      :
+
+This directive declares "expected" number of shift/reduce conflicts. If
+"expected" number is equal to real number of conflicts, Racc does not print
+conflict warning message.
+
+== Declaring Tokens
+
+By declaring tokens, you can avoid many meaningless bugs. If declared token
+does not exist or existing token does not decleared, Racc output warnings.
+Declaration syntax is:
+
+  token TOKEN_NAME AND_IS_THIS
+        ALSO_THIS_IS AGAIN_AND_AGAIN THIS_IS_LAST
+
+== Options
+
+You can write options for Racc command in your Racc file.
+
+  options OPTION OPTION ...
+
+Options are:
+
+* omit_action_call
+
+omits empty action call or not.
+
+* result_var
+
+uses local variable "result" or not.
+
+You can use 'no_' prefix to invert their meanings.
+
+== Converting Token Symbol
+
+Token symbols are, as default,
+
+  * naked token string in Racc file (TOK, XFILE, this_is_token, ...)
+    --> symbol (:TOK, :XFILE, :this_is_token, ...)
+  * quoted string (':', '.', '(', ...)
+    --> same string (':', '.', '(', ...)
+
+You can change this default by "convert" block.
+Here is an example:
+
+  convert
+    PLUS 'PlusClass'      # We use PlusClass for symbol of `PLUS'
+    MIN  'MinusClass'     # We use MinusClass for symbol of `MIN'
+  end
+
+We can use almost all ruby value can be used by token symbol,
+except 'false' and 'nil'.  These cause unexpected parse error.
+
+If you want to use String as token symbol, special care is required.
+For example:
+
+  convert
+    class '"cls"'            # in code, "cls"
+    PLUS '"plus\n"'          # in code, "plus\n"
+    MIN  "\"minus#{val}\""   # in code, \"minus#{val}\"
+  end
+
+== Start Rule
+
+'%start' in yacc. This changes start rule.
+
+  start real_target
+
+== User Code Block
+
+"User Code Block" is a Ruby source code which is copied to output. There are
+three user code blocks, "header" "inner" and "footer".
+
+Format of user code is like this:
+
+  ---- header
+    ruby statement
+    ruby statement
+    ruby statement
+
+  ---- inner
+    ruby statement
+       :
+       :
+
+If four '-' exist on the line head, Racc treats it as the beginning of the
+user code block.  The name of the user code block must be one word.

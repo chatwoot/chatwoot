@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+# This script is per the Auctionet.com developer conventions for running tests in the same way in any project.
+
+system("bundle exec m #{ARGV.first}") || exit(1)

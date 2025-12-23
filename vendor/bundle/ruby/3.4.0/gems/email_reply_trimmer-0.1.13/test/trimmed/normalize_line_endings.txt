@@ -1,0 +1,4 @@
+Email with
+windows
+line
+endings

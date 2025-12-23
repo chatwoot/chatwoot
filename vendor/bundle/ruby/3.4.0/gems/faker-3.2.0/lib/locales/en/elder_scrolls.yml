@@ -1,0 +1,585 @@
+en:
+  faker:
+    games:
+      elder_scrolls:
+        race:
+          - Altmer
+          - Argonian
+          - Bosmer
+          - Breton
+          - Dunmer
+          - Dwemer
+          - Imperial
+          - Khajiit
+          - Nord
+          - Orc
+          - Redguard
+          - Riekling
+        creature:
+          - Bear
+          - Cave Bear
+          - Chaurus
+          - Death Hound
+          - Snow Bear
+          - Wolf
+          - Ice Wolf
+          - Pit Wolf
+          - Sabre Cat
+          - Skeever
+          - Mudcrab
+          - Horker
+          - Ice Wraith
+          - Werewolf
+          - Troll
+          - Frost Troll
+          - Werebear
+          - Blue Dartwing
+          - Orange Dartwing
+          - Torchbugs
+          - Slaughterfish
+          - Chaurus Hunter
+          - Dremora Lord
+          - Flame Atronach
+          - Frost Atronach
+          - Storm Atronach
+          - Daedric Prince
+          - Dremora
+          - Lurker
+          - Seeker
+          - Draugr
+          - Restless Draugr
+          - Draugr Overlord
+          - Draugr Wight
+          - Draugr Deathlord
+          - Draugr Scourge
+          - Draugr Death Overlord
+          - Draugr Thrall
+          - Spider Worker
+          - Spider Soldier
+          - Spider Guardian
+          - Dwarven Shpere
+          - Dwarven Centurion
+          - Falmer
+          - Falmer Archer
+          - Falmer Gloomlurker
+          - Falmer Shaman
+          - Falmer Spellsword
+          - Falmer Shadowmaster
+          - Falmer Nightprowler
+          - Falmer Warmonger
+          - Feral Falmer
+          - Frostbite Spider
+          - Giant
+          - Frost Giant
+          - Hagraven
+          - Corrupted Shade
+          - Skeleton
+          - Spriggan
+          - Spriggan Matron
+          - Spriggan Earth Mother
+          - Wisp
+          - Shade
+          - Wispmother
+        region:
+          - Black Marsh
+          - Cyrodiil
+          - Elsweyr
+          - Hammerfell
+          - High Rock
+          - Morrowind
+          - Skyrim
+          - Summerset Isles
+          - Valenwood
+        dragon:
+          - Dragon
+          - Blood Dragon
+          - Frost Dragon
+          - Elder Dragon
+          - Ancient Dragon
+          - Revered Dragon
+          - Legendary Dragon
+          - Serpentine Dragon
+          - Paarthunax
+          - Odahviing
+          - Alduin
+          - Mirmulnir
+          - Sahloknir
+        city:
+          - Solitude
+          - Winterhold
+          - Markarth
+          - Daggerfall
+          - Silvenar
+          - Tignus
+          - Lainlyn
+          - Dwyynen
+          - Glenpoint
+          - Whiterun
+          - Falkreath
+          - Ykalon
+          - Kozanset
+          - Kambria
+          - Menevia
+          - Betony
+          - Northmoor
+          - Tulune
+          - Alcaire
+          - Verkarth
+          - Davon's Watch
+          - Abah's Landing
+          - Clockwork City
+          - Wayrest
+          - Stormhold
+          - Sentinel
+          - Dawnstar
+          - Morthal
+          - Riften
+          - Windhelm
+          - Dragon Bridge
+          - Helgen
+          - Ivarstead
+          - Karthwasten
+          - Riverwood
+          - Rorikstead
+          - Shor's Stone
+        first_name:
+          - Balgruuf
+          - Ralof
+          - Hadvar
+          - Irileth
+          - Gormlaith
+          - Farengar
+          - Felldir
+          - Hakon
+          - Iddra
+          - Malborn
+          - Tsun
+          - Ysgramor
+          - Tsun
+          - Gerdur
+          - Dirge
+          - Orgnar
+          - Septimus
+          - Urag
+          - Brynjolf
+          - Faralda
+          - Vignar
+          - Elenwen
+          - Rulindil
+          - Gissur
+          - Drahff
+          - Hewnon
+          - Gian
+          - Sulla
+          - Umana
+          - J'darr
+          - Astrid
+          - Nazir
+          - Maliq
+          - Babette
+          - Gabriella
+          - Festus
+          - Arnbjorn
+          - Veezara
+          - Kodlak
+          - Aela
+          - Farkas
+          - Vilkas
+          - Skjor
+          - Athis
+          - Njada
+          - Ria
+          - Torvar
+          - Brill
+          - Eorlund
+          - Tilma
+          - Hestla
+          - Askar
+          - Mercer
+          - Delvin
+          - Vex
+          - Tonilia
+          - Sapphire
+          - Cynric
+          - Niruin
+          - Rune
+          - Thrynn
+          - Vipir
+          - Garthar
+          - Ravyn
+          - Etienne
+          - Molgrom
+          - Karliah
+          - Syndus
+          - Vanryth
+          - Gulum-Ei
+          - Enthir
+          - Niranye
+          - Endon
+          - Mallus
+          - Athel
+          - Glover
+          - Erikur
+          - Ri'saad
+          - Atahbah
+          - Ma'randru-jo
+          - Khayla
+          - Ahkari
+          - Zaynabi
+          - Dro'marash
+          - Kharjo
+          - Ma'dran
+          - Ma'jhad
+          - Ra'zhinda
+          - Mjoll
+          - Brand-shei
+          - Inigo
+        last_name:
+          - The Old
+          - The Greater
+          - The Lesser
+          - One-Eye
+          - Golden-Hilt
+          - Secret-Fire
+          - Septim
+          - Signus
+          - gro-Shub
+          - Gray-Mane
+          - Black-Skeever
+          - The Fist
+          - Krex
+          - Whitemane
+          - Hunter
+          - Stonearm
+          - The Haggard
+          - The Unbroken
+          - The Man
+          - Ember-Master
+          - Battle-Born
+          - Black-Briar
+          - Lothaire
+          - Frey
+          - Mallory
+          - Endell
+          - The Fleet
+          - Imyan
+          - Rarnis
+          - Twice-Killed
+          - Gatharian
+          - Maccius
+          - Newberry
+          - Cruel-Sea
+          - The Lion
+        weapon:
+          - Alessandra's Dagger
+          - Blade of Woe
+          - Blade of Sacrifice
+          - Bloodthorn
+          - Borvir's Dagger
+          - Daedric Dagger
+          - Dragonbone Dagger DG
+          - Dragon Priest Dagger
+          - Dwarven Dagger
+          - Ebony Dagger
+          - Elven Dagger
+          - Glass Dagger
+          - Iron Dagger
+          - Kahvozein's Fang
+          - Keening
+          - Mehrunes' Razor
+          - Nettlebane
+          - Nordic Dagger DR
+          - Orcish Dagger
+          - Rundi's Dagger
+          - Shiv
+          - Skyforge Steel Dagger
+          - Stalhrim Dagger DR
+          - Steel Dagger
+          - Valdr's Lucky Dagger
+          - Daedric Mace
+          - Dragonbone Mace DG
+          - Dwarven Mace
+          - Ebony Mace
+          - Elven Mace
+          - Glass Mace
+          - Horksbane DR
+          - Iron Mace
+          - Lunar Iron Mace
+          - Lunar Steel Mace
+          - Mace of Molag Bal
+          - Nordic Mace DR
+          - Orcish Mace
+          - Prelate's Mace DG
+          - Rusty Mace
+          - Stalhrim Mace DR
+          - Steel Mace
+          - Akaviri Sword DG
+          - Amren's Family Sword
+          - Ancient Nord Sword
+          - Blades Sword
+          - Bloodscythe DR
+          - Bolar's Oathblade
+          - Ceremonial Sword
+          - Chillrend
+          - Daedric Sword
+          - Dawnbreaker
+          - Dragonbane
+          - Dragonbone Sword DG
+          - Drainheart Sword
+          - Dwarven Sword
+          - Ebony Sword
+          - Eduj
+          - Elven Sword
+          - Falmer Sword
+          - Forsworn Sword
+          - Gauldur Blackblade
+          - Ghostblade
+          - Glass Sword
+          - Grimsever
+          - Harkon's Sword DG
+          - Herebane's Courage
+          - Hjalti's Sword
+          - Honed Ancient Nord Sword
+          - Honed Falmer Sword
+          - Imperial Sword
+          - Iron Sword
+          - Lunar Iron Sword
+          - Lunar Steel Sword
+          - Miraak's Sword DR
+          - Nightingale Blade
+          - Nord Hero Sword
+          - Nordic Sword DR
+          - Orcish Sword
+          - Phantom Sword
+          - Queen Freydis's Sword
+          - Red Eagle's Bane
+          - Red Eagle's Fury
+          - Scimitar
+          - Silver Sword
+          - Skyforge Steel Sword
+          - Stalhrim Sword DR
+          - Steel Sword
+          - Soulrender DR
+          - The Pale Blade
+          - Vilkas's Sword
+          - Windshear
+          - Wooden Sword HF
+          - Ancient Nord War Axe
+          - Ancient Nordic Pickaxe DR
+          - Ceremonial Axe
+          - Daedric War Axe
+          - Dawnguard Rune Axe DG
+          - Dawnguard War Axe DG
+          - Dragonbone War Axe DG
+          - Dwarven War Axe
+          - Ebony War Axe
+          - Elven War Axe
+          - Falmer War Axe
+          - Forsworn Axe
+          - Ghorbash's Ancestral Axe
+          - Glass War Axe
+          - Hoarfrost DR
+          - Honed Draugr War Axe
+          - Honed Falmer War Axe
+          - Illusory War Axe
+          - Iron War Axe
+          - Lunar Iron War Axe
+          - Lunar Steel War Axe
+          - Nord Hero War Axe
+          - Nordic War Axe DR
+          - Notched Pickaxe
+          - Okin
+          - Orcish War Axe
+          - Pickaxe
+          - Poacher's Axe
+          - Skyforge Steel War Axe
+          - Stalhrim War Axe DR
+          - Steel War Axe
+          - Ulfric's War Axe
+          - Woodcutter's Axe
+          - Ancient Nord Battle Axe
+          - Daedric Battleaxe
+          - Dragonbone Battleaxe DG
+          - Drainblood Battleaxe
+          - Dwarven Battleaxe
+          - Ebony Battleaxe
+          - Elven Battleaxe
+          - Glass Battleaxe
+          - Headsman's Axe
+          - Honed Ancient Nord Battle Axe
+          - Iron Battleaxe
+          - Nord Hero Battle Axe
+          - Nordic Battleaxe DR
+          - Orcish Battleaxe
+          - Skyforge Steel Battleaxe
+          - Stalhrim Battleaxe DR
+          - Steel Battleaxe of Fiery Souls
+          - Steel Battleaxe
+          - Rueful Axe
+          - The Woodsman's Friend
+          - Tsun's Battleaxe
+          - Wuuthrad
+          - Ancient Nord Greatsword
+          - Balgruuf's Greatsword
+          - Bloodskal Blade DR
+          - Daedric Greatsword
+          - Dragonbone Greatsword DG
+          - Dwarven Greatsword
+          - Ebony Greatsword
+          - Ebony Blade
+          - Elven Greatsword
+          - Glass Greatsword
+          - Honed Ancient Nord Greatsword
+          - Iron Greatsword
+          - Nord Hero Greatsword
+          - Nordic Greatsword DR
+          - Orcish Greatsword
+          - Silver Greatsword
+          - Skyforge Steel Greatsword
+          - Stalhrim Greatsword DR
+          - Steel Greatsword
+          - Stormfang DR
+          - Aegisbane
+          - Champion's Cudgel DR
+          - Daedric Warhammer
+          - Dawnguard Warhammer DG
+          - Dawnguard Rune Hammer DG
+          - Dragonbone Warhammer DG
+          - Dwarven Warhammer
+          - Ebony Warhammer
+          - Elven Warhammer
+          - Glass Warhammer
+          - Iron Warhammer
+          - Nordic Warhammer DR
+          - Orcish Warhammer
+          - Shagrol's Warhammer
+          - Stalhrim Warhammer DR
+          - Steel Warhammer
+          - The Longhammer
+          - Trollsbane
+          - Volendrung
+          - Ancient Nord Bow
+          - Angi's Bow
+          - Auriel's Bow DG
+          - Bow of the Hunt
+          - Daedric Bow
+          - Dragonbone Bow DG
+          - Drainspell Bow
+          - Dravin's Bow
+          - Dwarven Bow
+          - Dwarven Black Bow of Fate DR
+          - Ebony Bow
+          - Elven Bow
+          - Falmer Bow
+          - Falmer Supple Bow
+          - Firiniel's End
+          - Forsworn Bow
+          - Froki's Bow
+          - Gauldur Blackbow
+          - Glass Bow
+          - Glass Bow of the Stag Prince DR
+          - Hunting Bow
+          - Imperial Bow
+          - Karliah's Bow
+          - Long Bow
+          - Nord Hero Bow
+          - Nordic Bow DR
+          - Orcish Bow
+          - Stalhrim Bow DR
+          - Supple Ancient Nord Bow
+          - Nightingale Bow
+          - Zephyr DG
+          - Crossbow
+          - Dwarven Crossbow
+          - Enhanced Crossbow
+          - Enhanced Dwarven Crossbow
+        jewelry:
+          - Copper and Moonstone Circlet
+          - Copper and Onyx Circlet
+          - Copper and Ruby Circlet
+          - Copper and Sapphire Circlet
+          - Gold and Emerald Circlet
+          - Gold and Ruby Circlet
+          - Jade and Emerald Circlet
+          - Jade and Sapphire Circlet
+          - Silver and Moonstone Circlet
+          - Silver and Sapphire Circlet
+          - Aetherial Crown
+          - Diadem of the Savant
+          - Mage's Circlet
+          - Wedding Wreath
+          - Gold Ring
+          - Gold Diamond Ring
+          - Gold Emerald Ring
+          - Gold Sapphire Ring
+          - Silver Ring
+          - Silver Amethyst Ring
+          - Silver Garnet Ring
+          - Silver Ruby Ring
+          - Ahzidal's Ring of Arcana
+          - Ahzidal's Ring of Necromancy
+          - Asgeir's Wedding Band
+          - Balwen's Ornamental Ring
+          - Bone Hawk Ring
+          - Calcelmo's Ring
+          - Enchanted Ring
+          - Fjola's Wedding Band
+          - Hircine's Ring
+          - Ilas-Tei's Ring
+          - Katarina's Ornamental Ring
+          - Madesi's Silver Ring
+          - Muiri's Ring
+          - Neloth's Ring of Tracking
+          - Nightweaver's Band
+          - Pithi's Ornamental Ring
+          - Ring of Bloodlust
+          - Ring of Instinct
+          - Ring of Namira
+          - Ring of Pure Mixtures
+          - Ring of the Beast
+          - Ring of the Erudite
+          - Ring of the Hunt
+          - Ring of the Moon
+          - Silver-Blood Family Ring
+          - The Bond of Matrimony
+          - Treoy's Ornamental Ring
+          - Viola's Gold Ring
+          - Wedding Ring
+          - Gold Necklace
+          - Gold Diamond Necklace
+          - Gold Jeweled Necklace
+          - Gold Ruby Necklace
+          - Silver Necklace
+          - Silver Emerald Necklace
+          - Silver Jeweled Necklace
+          - Silver Sapphire Necklace
+          - Bone Hawk AmuletDG
+          - Amulet of Akatosh
+          - Amulet of Arkay
+          - Amulet of Dibella
+          - Amulet of Julianos
+          - Amulet of Kynareth
+          - Amulet of Mara
+          - Amulet of Stendarr
+          - Amulet of Talos
+          - Amulet of Zenithar
+          - Amulet of Articulation
+          - Amulet of BatsDG
+          - Amulet of the GargoyleDG
+          - Andurs' Amulet of Arkay
+          - Charmed Necklace
+          - East Empire Pendant
+          - Fjotli's Silver Locket
+          - Grosta's Necklace
+          - Jeweled Amulet
+          - Kyne's Token
+          - Locket of Saint JiubDG
+          - Moon Amulet
+          - Necromancer Amulet
+          - Ogmund's Amulet of Talos
+          - Reyda's Necklace
+          - Saarthal Amulet
+          - Savos Aren's Amulet
+          - Shahvee's Amulet of Zenithar
+          - The Gauldur Amulet
+          - Yisra's Necklace

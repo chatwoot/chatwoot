@@ -1,0 +1,7 @@
+2d1
+< recipe[b::default]
+14a14,17
+> recipe[o::new]
+> recipe[p::new]
+> recipe[q::new]
+> recipe[r::new]

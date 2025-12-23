@@ -1,0 +1,18 @@
+.rails {
+  asset-path: asset-path("rails.png");
+  asset-url: asset-url("rails.png");
+  image-path: image-path("rails.png");
+  image-url: image-url("rails.png");
+  video-path: video-path("rails.mp4");
+  video-url: video-url("rails.mp4");
+  audio-path: audio-path("rails.mp3");
+  audio-url: audio-url("rails.mp3");
+  font-path: font-path("rails.ttf");
+  font-url: font-url("rails.ttf");
+  font-url-with-query-hash: font-url("rails.ttf?#iefix");
+  javascript-path: javascript-path("rails.js");
+  javascript-url: javascript-url("rails.js");
+  stylesheet-path: stylesheet-path("rails.css");
+  stylesheet-url: stylesheet-url("rails.css");
+  asset-data-url: asset-data-url("1x1.png");
+}

@@ -1,0 +1,87 @@
+# elements like %{queue} are variables and should not be translated
+el: # <---- change this to your locale code
+  Dashboard: Πίνακας Ελέγχου
+  Status: Κατάσταση
+  Time: Χρόνος
+  Namespace: Namespace
+  Realtime: Τρέχουσα Κατάσταση
+  History: Ιστορικό
+  Busy: Υπό επεξεργασία
+  Utilization: Σε χρήση
+  Processed: Επεξεργάστηκαν
+  Failed: Απέτυχαν
+  Scheduled: Προγραμματισμένα
+  Retries: Επαναλήψεις
+  Enqueued: Μπήκαν στην στοίβα
+  Worker: Εργάτης
+  LivePoll: Τρέχουσα Κατάσταση
+  StopPolling: Διακοπή Τρέχουσας Κατάστασης
+  Queue: Στοίβα
+  Class: Κλάση
+  Job: Εργασία
+  Arguments: Ορίσματα
+  Extras: Extras
+  Started: Ξεκίνησε
+  ShowAll: Εμφάνιση Όλων
+  Enqueued: Μπήκαν στην στοίβα
+  AddToQueue: Προσθήκη στην στοίβα
+  AreYouSureDeleteJob: Θέλετε να διαγράψετε αυτή την εργασία;
+  AreYouSureDeleteQueue: Θέλετε να διαγράψετε την στοίβα %{queue}; Αυτό θα διαγράψει όλες τις εργασίες εντός της στοίβας, θα εμφανιστεί ξανά εάν προωθήσετε περισσότερες εργασίες σε αυτήν στο μέλλον.
+  Queues: Στοίβες
+  Size: Μέγεθος
+  Actions: Ενέργειες
+  NextRetry: Επόμενη Προσπάθεια
+  RetryCount: Αριθμός Προσπαθειών
+  RetryNow: Επανάληψη Τώρα
+  # Kill: Kill
+  LastRetry: Τελευταία Προσπάθεια
+  OriginallyFailed: Αρχικές Αποτυχίες
+  AreYouSure: Είστε σίγουρος;
+  DeleteAll: Διαγραφή Όλων
+  RetryAll: Επανάληψη Όλων
+  # KillAll: Kill All
+  NoRetriesFound: Δεν βρέθηκαν εργασίες προς επαναλήψη
+  ErrorBacktrace: Backtrace Σφάλματος
+  GoBack: ← Πίσω
+  NoScheduledFound: Δεν βρέθηκαν προγραμματισμένες εργασίες
+  When: Πότε
+  ScheduledJobs: Προγραμματισμένες Εργασίες
+  idle: αδρανές
+  active: ενεργό
+  Version: Έκδοση
+  Connections: Συνδέσεις
+  MemoryUsage: Χρήση Μνήμης
+  PeakMemoryUsage: Μέγιστη Χρήση Μνήμης
+  Uptime: Ημέρες Λειτουργίας
+  OneWeek: 1 εβδομάδα
+  OneMonth: 1 μήνας
+  ThreeMonths: 3 μήνες
+  SixMonths: 6 μήνες
+  Failures: Αποτυχίες
+  DeadJobs: Αδρανείς Εργασίες
+  NoDeadJobsFound: Δεν βρέθηκαν αδρανείς εργασίες
+  Dead: Αδρανείς
+  Process: Διεργασία
+  Processes: Διεργασίες
+  Name: Όνομα
+  Thread: Νήμα
+  Threads: Νήματα
+  Jobs: Εργασίες
+  Paused: Σε παύση
+  Stop: Διακοπή
+  Quiet: Σίγαση
+  StopAll: Διακοπή Όλων
+  QuietAll: Σίγαση Όλων
+  PollingInterval: Συχνότητα Ανανέωσης
+  Plugins: Πρόσθετα
+  NotYetEnqueued: Δεν προστέθηκε στην στοίβα ακόμη
+  CreatedAt: Δημιουργήθηκε στις
+  BackToApp: Πίσω στην Εφαρμογή
+  Latency: Καθυστέρηση
+  Pause: Παύση
+  Unpause: Κατάργηση Παύσης
+  Metrics: Μετρήσεις
+  NoDataFound: Δεν βρέθηκαν δεδομένα
+  TotalExecutionTime: Συνολικός Χρόνος Εκτέλεσης
+  AvgExecutionTime: Μέσος Χρόνος Εκτέλεσης
+  # Context: Context
