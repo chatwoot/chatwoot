@@ -1,0 +1,147 @@
+<script setup>
+import { computed } from 'vue';
+import { useToggle } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useAlert } from 'dashboard/composables';
+import Button from 'dashboard/components-next/button/Button.vue';
+import CardLayout from 'dashboard/components-next/CardLayout.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import ConversationRequiredAttributeItem from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributeItem.vue';
+import ConversationRequiredEmpty from 'dashboard/components-next/Conversation/ConversationRequiredEmpty.vue';
+
+const emit = defineEmits(['click']);
+const { t } = useI18n();
+const { currentAccount, updateAccount } = useAccount();
+const [showDropdown, toggleDropdown] = useToggle(false);
+const [isSaving, toggleSaving] = useToggle(false);
+const conversationAttributes = useMapGetter(
+  'attributes/getConversationAttributes'
+);
+
+const handleClick = () => {
+  emit('click');
+};
+
+const selectedAttributeKeys = computed(
+  () => currentAccount.value?.settings?.conversation_required_attributes || []
+);
+
+const allAttributeOptions = computed(() =>
+  (conversationAttributes.value || []).map(attribute => ({
+    ...attribute,
+    action: 'add',
+    value: attribute.attributeKey,
+    label: attribute.attributeDisplayName,
+    type: attribute.attributeDisplayType,
+  }))
+);
+
+const attributeOptions = computed(() => {
+  const selectedKeysSet = new Set(selectedAttributeKeys.value);
+  return allAttributeOptions.value.filter(
+    attribute => !selectedKeysSet.has(attribute.value)
+  );
+});
+
+const conversationRequiredAttributes = computed(() => {
+  const attributeMap = new Map(
+    allAttributeOptions.value.map(attr => [attr.value, attr])
+  );
+  return selectedAttributeKeys.value
+    .map(key => attributeMap.get(key))
+    .filter(Boolean);
+});
+
+const handleAddAttributesClick = event => {
+  event.stopPropagation();
+  toggleDropdown();
+};
+
+const saveRequiredAttributes = async keys => {
+  try {
+    toggleSaving(true);
+    await updateAccount(
+      { conversation_required_attributes: keys },
+      { silent: true }
+    );
+    useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.SAVE.ERROR'));
+  } finally {
+    toggleSaving(false);
+    toggleDropdown(false);
+  }
+};
+
+const handleAttributeAction = ({ value }) => {
+  if (!value || isSaving.value) return;
+  const updatedKeys = Array.from(
+    new Set([...selectedAttributeKeys.value, value])
+  );
+  saveRequiredAttributes(updatedKeys);
+};
+
+const closeDropdown = () => {
+  toggleDropdown(false);
+};
+
+const handleDelete = attribute => {
+  if (isSaving.value) return;
+  const updatedKeys = selectedAttributeKeys.value.filter(
+    key => key !== attribute.value
+  );
+  saveRequiredAttributes(updatedKeys);
+};
+</script>
+
+<template>
+  <CardLayout
+    class="[&>div]:px-0 [&>div]:py-0 [&>div]:gap-0 [&>div]:divide-y [&>div]:divide-n-weak"
+    @click="handleClick"
+  >
+    <div class="flex flex-col gap-2 items-start px-5 py-4">
+      <div class="flex justify-between items-center w-full">
+        <h3 class="text-base font-medium text-n-slate-12">
+          {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.TITLE') }}
+        </h3>
+        <div v-on-clickaway="closeDropdown" class="relative">
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.ADD.TITLE')"
+            :is-loading="isSaving"
+            :disabled="isSaving || attributeOptions.length === 0"
+            @click="handleAddAttributesClick"
+          />
+          <DropdownMenu
+            v-if="showDropdown"
+            :menu-items="attributeOptions"
+            show-search
+            :search-placeholder="
+              $t(
+                'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.ADD.SEARCH_PLACEHOLDER'
+              )
+            "
+            class="top-full mt-1 w-52 ltr:right-0 rtl:left-0"
+            @action="handleAttributeAction"
+          />
+        </div>
+      </div>
+      <p class="mb-0 text-sm text-n-slate-11">
+        {{ $t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.DESCRIPTION') }}
+      </p>
+    </div>
+
+    <ConversationRequiredEmpty
+      v-if="conversationRequiredAttributes.length === 0"
+    />
+
+    <ConversationRequiredAttributeItem
+      v-for="attribute in conversationRequiredAttributes"
+      :key="attribute.value"
+      :attribute="attribute"
+      @delete="handleDelete"
+    />
+  </CardLayout>
+</template>
