@@ -497,7 +497,7 @@ const menuItems = computed(() => {
         {
           name: 'Settings Captain',
           label: t('SIDEBAR.CAPTAIN_AI'),
-          icon: 'i-lucide-sparkles',
+          icon: 'i-woot-captain',
           to: accountScopedRoute('captain_settings_index'),
         },
         {
