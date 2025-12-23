@@ -34,8 +34,8 @@ class Captain::Llm::ContactNotesService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.contact_notes',
-      model: model,
-      temperature: temperature,
+      model: @model,
+      temperature: @temperature,
       account_id: @conversation.account_id,
       feature_name: 'contact_notes',
       messages: [

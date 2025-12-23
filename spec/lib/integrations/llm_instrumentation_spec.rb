@@ -20,7 +20,7 @@ RSpec.describe Integrations::LlmInstrumentation do
       account_id: 123,
       conversation_id: 456,
       feature_name: 'reply_suggestion',
-      model: 'gpt-4.1-mini',
+      model: 'gpt-4o-mini',
       messages: [{ 'role' => 'user', 'content' => 'Hello' }],
       temperature: 0.7
     }
@@ -105,7 +105,7 @@ RSpec.describe Integrations::LlmInstrumentation do
         instance.instrument_llm_call(params) { 'result' }
 
         expect(mock_span).to have_received(:set_attribute).with('gen_ai.provider.name', 'openai')
-        expect(mock_span).to have_received(:set_attribute).with('gen_ai.request.model', 'gpt-4.1-mini')
+        expect(mock_span).to have_received(:set_attribute).with('gen_ai.request.model', 'gpt-4o-mini')
         expect(mock_span).to have_received(:set_attribute).with('gen_ai.request.temperature', 0.7)
       end
 

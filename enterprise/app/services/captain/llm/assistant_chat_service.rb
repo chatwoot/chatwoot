@@ -45,8 +45,4 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   def feature_name
     'assistant'
   end
-
-  def account
-    @assistant&.account
-  end
 end

@@ -33,8 +33,8 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   def instrumentation_params
     {
       span_name: 'llm.captain.faq_generator',
-      model: model,
-      temperature: temperature,
+      model: @model,
+      temperature: @temperature,
       feature_name: 'faq_generator',
       account_id: @account_id,
       messages: [

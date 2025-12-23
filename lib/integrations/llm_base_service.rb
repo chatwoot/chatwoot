@@ -7,23 +7,10 @@ class Integrations::LlmBaseService
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
+  ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
 
-  # Maps event names to feature keys in config/llm.yml
-  EDITOR_EVENTS = %w[rephrase fix_spelling_grammar shorten expand make_friendly make_formal simplify summarize reply_suggestion].freeze
-  LABEL_SUGGESTION_EVENTS = %w[label_suggestion].freeze
-
-  ALLOWED_EVENT_NAMES = EDITOR_EVENTS.freeze
-
   pattr_initialize [:hook!, :event!]
-
-  def model_for_event
-    feature = feature_name_for_event
-    return self.class::GPT_MODEL unless feature && hook&.account
-
-    account_model = hook.account.captain_preferences.dig(:models, feature)
-    account_model.presence || self.class::GPT_MODEL
-  end
 
   def perform
     return nil unless valid_event_name?
@@ -37,13 +24,6 @@ class Integrations::LlmBaseService
   end
 
   private
-
-  def feature_name_for_event
-    return 'editor' if EDITOR_EVENTS.include?(event_name)
-    return 'label_suggestion' if LABEL_SUGGESTION_EVENTS.include?(event_name)
-
-    nil
-  end
 
   def event_name
     event['name']
