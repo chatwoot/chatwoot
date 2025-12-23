@@ -1,48 +1,48 @@
 providers:
   openai:
-    display_name: "OpenAI"
+    display_name: 'OpenAI'
     logo: openai.png
 
 models:
   gpt-4.1:
     provider: openai
-    display_name: "GPT-4.1"
+    display_name: 'GPT-4.1'
     credit_multiplier: 0.5
   gpt-4.1-mini:
     provider: openai
-    display_name: "GPT-4.1 Mini"
+    display_name: 'GPT-4.1 Mini'
     credit_multiplier: 0.3
   gpt-4.1-nano:
     provider: openai
-    display_name: "GPT-4.1 Nano"
+    display_name: 'GPT-4.1 Nano'
     credit_multiplier: 0.1
   gpt-5:
     provider: openai
-    display_name: "GPT-5"
+    display_name: 'GPT-5'
     credit_multiplier: 1
   gpt-5.1:
     provider: openai
-    display_name: "GPT-5.1"
+    display_name: 'GPT-5.1'
     credit_multiplier: 1
   gpt-5-mini:
     provider: openai
-    display_name: "GPT-5 Mini"
+    display_name: 'GPT-5 Mini'
     credit_multiplier: 0.8
   gpt-5-nano:
     provider: openai
-    display_name: "GPT-5 Nano"
+    display_name: 'GPT-5 Nano'
     credit_multiplier: 0.3
   gpt-5.2:
     provider: openai
-    display_name: "GPT-5.2"
+    display_name: 'GPT-5.2'
     credit_multiplier: 1
   whisper-1:
     provider: openai
-    display_name: "Whisper"
+    display_name: 'Whisper'
     credit_multiplier: 0.2
   text-embedding-3-small:
     provider: openai
-    display_name: "Text Embedding 3 Small"
+    display_name: 'Text Embedding 3 Small'
     credit_multiplier: 0.1
 
 features:
