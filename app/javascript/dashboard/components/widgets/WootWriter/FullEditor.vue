@@ -67,10 +67,11 @@ export default {
     };
   },
   watch: {
-    modelValue(newValue = '') {
-      if (newValue !== this.contentFromEditor()) {
+    modelValue: {
+      handler() {
         this.reloadState();
-      }
+      },
+      once: true,
     },
     editorId() {
       this.reloadState();
@@ -176,6 +177,7 @@ export default {
         { onImageUpload: this.openFileBrowser },
         this.enabledMenuOptions
       );
+
       editorView.updateState(state);
       this.focusEditorInputField();
     },
@@ -229,6 +231,7 @@ export default {
       this.$emit('keydown');
     },
     onBlur() {
+      this.$emit('update:modelValue', this.contentFromEditor());
       this.$emit('blur');
     },
     onFocus() {
