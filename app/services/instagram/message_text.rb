@@ -76,7 +76,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   def base_uri
-    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
+    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v24.0')}"
   end
 
   def create_message

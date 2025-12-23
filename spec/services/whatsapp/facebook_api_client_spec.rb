@@ -3,12 +3,12 @@ require 'rails_helper'
 describe Whatsapp::FacebookApiClient do
   let(:access_token) { 'test_access_token' }
   let(:api_client) { described_class.new(access_token) }
-  let(:api_version) { 'v22.0' }
+  let(:api_version) { 'v24.0' }
   let(:app_id) { 'test_app_id' }
   let(:app_secret) { 'test_app_secret' }
 
   before do
-    allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return(api_version)
+    allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v24.0').and_return(api_version)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return(app_id)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return(app_secret)
   end
