@@ -10,6 +10,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
+import AdSourceInfo from './AdSourceInfo.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
@@ -193,6 +194,9 @@ onMounted(() => {
                 value => toggleSidebarUIState('is_conv_details_open', value)
               "
             >
+              <AdSourceInfo
+                :conversation-attributes="conversationAdditionalAttributes"
+              />
               <ConversationInfo
                 :conversation-attributes="conversationAdditionalAttributes"
                 :contact-attributes="contactAdditionalAttributes"

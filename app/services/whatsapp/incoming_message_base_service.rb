@@ -107,9 +107,26 @@ class Whatsapp::IncomingMessageBaseService
                       @contact_inbox.conversations
                                     .where.not(status: :resolved).last
                     end
-    return if @conversation
+    
+    if @conversation
+      # Update existing conversation with ad metadata if this is the first message with referral data
+      update_conversation_with_ad_metadata
+      return
+    end
 
     @conversation = ::Conversation.create!(conversation_params)
+  end
+
+  def update_conversation_with_ad_metadata
+    ad_metadata = extract_ad_source_metadata
+    return if ad_metadata.blank?
+    
+    # Only update if conversation doesn't already have ad source data
+    current_attrs = @conversation.additional_attributes || {}
+    return if current_attrs.key?('ad_source') || current_attrs.key?(:ad_source)
+    
+    updated_attrs = current_attrs.merge(ad_metadata.stringify_keys)
+    @conversation.update!(additional_attributes: updated_attrs)
   end
 
   def attach_files

@@ -61,11 +61,28 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def set_conversation_based_on_inbox_config
-    if @inbox.lock_to_single_conversation
-      find_conversation_scope.order(created_at: :desc).first || build_conversation
-    else
-      find_or_build_for_multiple_conversations
-    end
+    conv = if @inbox.lock_to_single_conversation
+             find_conversation_scope.order(created_at: :desc).first || build_conversation
+           else
+             find_or_build_for_multiple_conversations
+           end
+    
+    # Update existing conversation with ad metadata if this is the first message with referral data
+    update_conversation_with_ad_metadata(conv) if conv && conv.persisted?
+    
+    conv
+  end
+
+  def update_conversation_with_ad_metadata(conv)
+    ad_metadata = extract_instagram_ad_metadata
+    return if ad_metadata.blank?
+    
+    # Only update if conversation doesn't already have ad source data
+    current_attrs = conv.additional_attributes || {}
+    return if current_attrs.key?('ad_source') || current_attrs.key?(:ad_source)
+    
+    updated_attrs = current_attrs.merge(ad_metadata.stringify_keys)
+    conv.update!(additional_attributes: updated_attrs)
   end
 
   def find_conversation_scope
@@ -123,7 +140,46 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def additional_conversation_attributes
-    {}
+    extract_instagram_ad_metadata
+  end
+
+  def extract_instagram_ad_metadata
+    metadata = {}
+    
+    # Extract referral data from Instagram ads
+    # https://developers.facebook.com/docs/instagram-api/guides/messaging/ice-breakers
+    # https://developers.facebook.com/docs/messenger-platform/instagram/features/referral
+    if @messaging[:referral].present?
+      referral = @messaging[:referral]
+      metadata[:ad_source] = 'instagram_ad'
+      metadata[:ad_source_id] = referral[:source] if referral[:source].present?
+      metadata[:ad_source_type] = referral[:type] if referral[:type].present?
+      metadata[:ad_ref] = referral[:ref] if referral[:ref].present?
+      metadata[:ad_referer_uri] = referral[:referer_uri] if referral[:referer_uri].present?
+      metadata[:ad_is_guest_user] = referral[:is_guest_user] if referral.key?(:is_guest_user)
+      
+      # Extract ad data if present
+      if referral[:ads_context_data].present?
+        ads_data = referral[:ads_context_data]
+        metadata[:ad_id] = ads_data[:ad_id] if ads_data[:ad_id].present?
+        metadata[:ad_title] = ads_data[:ad_title] if ads_data[:ad_title].present?
+        metadata[:photo_url] = ads_data[:photo_url] if ads_data[:photo_url].present?
+        metadata[:video_url] = ads_data[:video_url] if ads_data[:video_url].present?
+        metadata[:product_id] = ads_data[:product_id] if ads_data[:product_id].present?
+      end
+    end
+
+    # Extract postback referral (for Get Started button, etc.)
+    if @messaging[:postback]&.[](:referral).present?
+      referral = @messaging[:postback][:referral]
+      metadata[:ad_source] = 'instagram_ad' unless metadata[:ad_source].present?
+      metadata[:ad_source_id] = referral[:source] if referral[:source].present?
+      metadata[:ad_source_type] = referral[:type] if referral[:type].present?
+      metadata[:ad_ref] = referral[:ref] if referral[:ref].present?
+      metadata[:ad_referer_uri] = referral[:referer_uri] if referral[:referer_uri].present?
+    end
+
+    metadata.compact
   end
 
   def conversation_params
