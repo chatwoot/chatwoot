@@ -112,7 +112,7 @@ onUnmounted(() => {
       <DropdownMenu
         v-if="showActionsDropdown"
         :menu-items="actionMenuItems"
-        class="mt-1 ltr:right-0 rtl:left-0 top-full"
+        class="mt-1 top-full max-w-[calc(100vw-1rem)] ltr:right-0 rtl:left-0"
         @action="handleActionClick"
       />
     </div>
