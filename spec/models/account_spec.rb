@@ -17,6 +17,9 @@ RSpec.describe Account do
   it { is_expected.to have_many(:portals).dependent(:destroy_async) }
   it { is_expected.to have_many(:categories).dependent(:destroy_async) }
   it { is_expected.to have_many(:teams).dependent(:destroy_async) }
+  it { is_expected.to have_many(:conversation_queues).dependent(:destroy_async) }
+  it { is_expected.to have_many(:queue_statistics).dependent(:destroy_async) }
+  it { is_expected.to have_many(:priority_groups).dependent(:destroy) }
 
   # This validation happens in ApplicationRecord
   describe 'length validations' do
@@ -97,6 +100,38 @@ RSpec.describe Account do
       with_modified_env MAILER_SENDER_EMAIL: 'hello@chatwoot.com' do
         expect(account.support_email).to eq('hello@chatwoot.com')
       end
+    end
+  end
+
+  describe 'active_chat_limit_value validation' do
+    it 'allows nil' do
+      account = build(:account, active_chat_limit_value: nil)
+      expect(account).to be_valid
+    end
+
+    it 'allows zero' do
+      account = build(:account, active_chat_limit_value: 0)
+      expect(account).to be_valid
+    end
+
+    it 'disallows negative values' do
+      account = build(:account, active_chat_limit_value: -1)
+      expect(account).not_to be_valid
+      expect(account.errors[:active_chat_limit_value]).to include('must be greater than or equal to 0')
+    end
+  end
+
+  describe '#active_chat_limit_enabled?' do
+    it 'returns the flag value' do
+      account = build(:account, active_chat_limit_enabled: true)
+      expect(account.active_chat_limit_enabled?).to be(true)
+    end
+  end
+
+  describe '#active_chat_limit' do
+    it 'returns active_chat_limit_value' do
+      account = build(:account, active_chat_limit_value: 5)
+      expect(account.active_chat_limit).to eq(5)
     end
   end
 

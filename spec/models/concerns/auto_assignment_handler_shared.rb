@@ -13,13 +13,25 @@ shared_examples_for 'auto_assignment_handler' do
         account: account,
         contact: create(:contact, account: account),
         inbox: inbox,
+        status: :open,
         assignee: nil
       )
     end
 
+    let(:assignment_service) { instance_double(AutoAssignment::AgentAssignmentService) }
+
     before do
       create(:inbox_member, inbox: inbox, user: agent)
-      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+
+      allow(AutoAssignment::AgentAssignmentService)
+        .to receive(:new)
+        .and_return(assignment_service)
+
+      allow(assignment_service)
+        .to receive(:find_assignee)
+        .and_return(agent)
+
+      allow(account).to receive(:queue_enabled?).and_return(false)
     end
 
     it 'runs round robin on after_save callbacks' do
@@ -54,7 +66,7 @@ shared_examples_for 'auto_assignment_handler' do
       # round robin changes assignee in this case since agent doesn't have access to inbox
       agent2 = create(:user, email: 'agent2@example.com', account: account, auto_offline: false)
       create(:inbox_member, inbox: inbox, user: agent2)
-      allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent2.id)
+      allow(assignment_service).to receive(:find_assignee).and_return(agent2)
       conversation.status = 'open'
       conversation.save!
       expect(conversation.reload.assignee).to eq(agent2)

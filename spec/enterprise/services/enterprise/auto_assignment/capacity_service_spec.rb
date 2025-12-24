@@ -57,7 +57,7 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
 
     # Create existing assignments for agent_at_capacity (at limit)
     3.times do
-      create(:conversation, inbox: inbox, assignee: agent_at_capacity, status: :open)
+      create(:conversation, inbox: inbox, assignee: agent_at_capacity, status: 'open')
     end
   end
 
@@ -88,32 +88,78 @@ RSpec.describe Enterprise::AutoAssignment::CapacityService, type: :service do
   describe 'assignment with capacity' do
     let(:service) { AutoAssignment::AssignmentService.new(inbox: inbox) }
 
-    it 'assigns to agents with available capacity' do
-      # Create conversation before assignment
-      conversation = create(:conversation, inbox: inbox, assignee: nil, status: :open)
-
-      # Mock the selector to prefer agent_at_capacity (but should skip due to capacity)
-      selector = instance_double(AutoAssignment::RoundRobinSelector)
-      allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(selector)
-      allow(selector).to receive(:select_agent) do |agents|
-        agents.map(&:user).find { |u| [agent_with_capacity, agent_without_capacity].include?(u) }
-      end
-
-      assigned_count = service.perform_bulk_assignment(limit: 1)
-      expect(assigned_count).to eq(1)
-      expect(conversation.reload.assignee).to be_in([agent_with_capacity, agent_without_capacity])
-      expect(conversation.reload.assignee).not_to eq(agent_at_capacity)
+    # Disable auto-assignment for test setup
+    around do |example|
+      inbox.update!(enable_auto_assignment: false)
+      example.run
+      inbox.update!(enable_auto_assignment: true)
     end
 
-    it 'returns false when all agents are at capacity' do
-      # Fill up remaining agents
-      3.times { create(:conversation, inbox: inbox, assignee: agent_with_capacity, status: :open) }
+    it 'assigns to agents with available capacity' do
+      # Create conversation WITHOUT auto-assignment
+      conversation = create(:conversation, inbox: inbox, assignee: nil, status: 'open')
 
-      # agent_without_capacity has no limit, so should still be available
-      conversation2 = create(:conversation, inbox: inbox, assignee: nil, status: :open)
+      # Verify conversation is actually unassigned
+      conversation.reload
+      expect(conversation.assignee).to be_nil, "Conversation should be unassigned but has assignee_id: #{conversation.assignee_id}"
+
+      # Re-enable auto-assignment for the service
+      inbox.update!(enable_auto_assignment: true)
+
+      # Verify unassigned conversations are found
+      unassigned_count = inbox.conversations.where(assignee_id: nil, status: 'open').count
+      expect(unassigned_count).to eq(1), "Should find 1 unassigned conversation, found #{unassigned_count}"
+
       assigned_count = service.perform_bulk_assignment(limit: 1)
+
       expect(assigned_count).to eq(1)
-      expect(conversation2.reload.assignee).to eq(agent_without_capacity)
+
+      conversation.reload
+      expect(conversation.assignee).not_to be_nil
+      expect(conversation.assignee).to be_in([agent_with_capacity, agent_without_capacity])
+      expect(conversation.assignee).not_to eq(agent_at_capacity)
+    end
+
+    it 'assigns when only agent without capacity policy is available' do
+      # Fill up agent_with_capacity
+      3.times { create(:conversation, inbox: inbox, assignee: agent_with_capacity, status: 'open') }
+
+      # Create unassigned conversation
+      conversation = create(:conversation, inbox: inbox, assignee: nil, status: 'open')
+      conversation.reload
+
+      # Verify conversation is unassigned
+      expect(conversation.assignee).to be_nil
+
+      # Re-enable auto-assignment
+      inbox.update!(enable_auto_assignment: true)
+
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+
+      expect(assigned_count).to eq(1)
+      expect(conversation.reload.assignee).to eq(agent_without_capacity)
+    end
+
+    it 'returns zero when all capacity-limited agents are at capacity' do
+      # Fill up all agents with capacity policies
+      3.times { create(:conversation, inbox: inbox, assignee: agent_with_capacity, status: 'open') }
+
+      # Remove agent_without_capacity from inbox (to test zero assignment)
+      inbox.inbox_members.find_by(user: agent_without_capacity).destroy
+
+      conversation = create(:conversation, inbox: inbox, assignee: nil, status: 'open')
+      conversation.reload
+
+      # Verify conversation is unassigned
+      expect(conversation.assignee).to be_nil
+
+      # Re-enable auto-assignment
+      inbox.update!(enable_auto_assignment: true)
+
+      assigned_count = service.perform_bulk_assignment(limit: 1)
+
+      expect(assigned_count).to eq(0)
+      expect(conversation.reload.assignee).to be_nil
     end
   end
 end

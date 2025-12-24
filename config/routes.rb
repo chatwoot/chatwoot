@@ -326,7 +326,7 @@ Rails.application.routes.draw do
             end
           end
           resources :working_hours, only: [:update]
-
+          resources :priority_groups, only: [:index]
           resources :portals do
             member do
               patch :archive
@@ -618,7 +618,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :show, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy, :update]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

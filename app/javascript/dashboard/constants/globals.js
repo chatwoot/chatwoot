@@ -10,6 +10,7 @@ export default {
     RESOLVED: 'resolved',
     PENDING: 'pending',
     SNOOZED: 'snoozed',
+    QUEUED: 'queued',
     ALL: 'all',
   },
   SORT_BY_TYPE: {
