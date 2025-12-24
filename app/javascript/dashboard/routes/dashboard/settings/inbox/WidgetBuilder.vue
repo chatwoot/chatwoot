@@ -84,6 +84,19 @@
                 </option>
               </select>
             </label>
+            <woot-input
+              v-model.trim="askQuestionText"
+              :label="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.ASK_QUESTION_TEXT.LABEL'
+                )
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.ASK_QUESTION_TEXT.PLACEHOLDER'
+                )
+              "
+            />
             <label class="w-full pb-4">
               Chat on WhatsApp
               <select v-model="chatOnWhatsappSettings.enabled">
@@ -274,6 +287,7 @@
             :faqs="faqs"
             :channel-avatar-url="channelAvatarUrl"
             :chat-on-whatsapp-settings="chatOnWhatsappSettings"
+            :ask-question-text="askQuestionText"
           />
         </div>
         <div v-else class="widget-script">
@@ -372,6 +386,7 @@ export default {
       selectedCountry: 'IN',
       countries,
       showAiMessageIndicators: true,
+      askQuestionText: 'Ask a question',
     };
   },
   computed: {
@@ -568,6 +583,9 @@ export default {
         additional_attributes?.default_country_code || 'IN';
       this.showAiMessageIndicators =
         additional_attributes?.ai_message_settings?.show_indicators !== false;
+      this.askQuestionText =
+        additional_attributes?.widget_text_settings?.ask_question_text ||
+        'Ask a question';
 
       this.setNeedMoreHelpOptionsData(
         need_more_help_type ?? 'need_more_help_type'
@@ -711,6 +729,9 @@ export default {
               },
               ai_message_settings: {
                 show_indicators: this.showAiMessageIndicators,
+              },
+              widget_text_settings: {
+                ask_question_text: this.askQuestionText,
               },
               default_country_code: this.defaultCountryCode,
               default_dial_code: this.defaultDialCode,

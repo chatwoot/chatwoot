@@ -135,6 +135,10 @@ export default {
       type: Object,
       default: () => {},
     },
+    askQuestionText: {
+      type: String,
+      default: 'Ask a question',
+    },
   },
   data() {
     return {
@@ -179,6 +183,7 @@ export default {
         logo: this.logo,
         faqs: this.faqs,
         chatOnWhatsappSettings: this.chatOnWhatsappSettings,
+        askQuestionText: this.askQuestionText,
       };
     },
     avatarSrc() {

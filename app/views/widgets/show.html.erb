@@ -34,6 +34,7 @@
         backPopulateConversation: <%= @web_widget.back_populates_conversation %>,
         chatOnWhatsappSettings: <%= (@web_widget.additional_attributes['chat_on_whatsapp_settings'] || { enabled: false, button_text: 'Send Us a Text on WhatsApp', default_text: 'Hey! I need help with something.', phone_number: '' }).to_json.html_safe %>,
         aiMessageSettings: <%= (@web_widget.additional_attributes['ai_message_settings'] || { show_indicators: true }).to_json.html_safe %>,
+        widgetTextSettings: <%= (@web_widget.additional_attributes['widget_text_settings'] || { ask_question_text: 'Ask a question' }).to_json.html_safe %>,
         defaultCountryCode: '<%= @web_widget.additional_attributes['default_country_code'] || 'IN' %>',
         defaultDialCode: '<%= @web_widget.additional_attributes['default_dial_code'] || '+91' %>'
       }

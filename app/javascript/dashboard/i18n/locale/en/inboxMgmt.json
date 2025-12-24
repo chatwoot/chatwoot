@@ -709,6 +709,11 @@
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat with us"
         },
+        "ASK_QUESTION_TEXT": {
+          "LABEL": "Ask Question Text",
+          "PLACEHOLDER": "Ask a question",
+          "HELP_TEXT": "Customize the text shown in the widget's question input field"
+        },
         "UPDATE": {
           "BUTTON_TEXT": "Update Widget Settings",
           "API": {

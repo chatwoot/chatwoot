@@ -20,9 +20,12 @@
           </div>
         </div>
         <div class="ask-question-card">
-          <h2>Ask a question</h2>
+          <h2>{{ config.askQuestionText || 'Ask a question' }}</h2>
           <div class="ask-question-input-wrap">
-            <input type="text" placeholder="Ask a question" />
+            <input
+              type="text"
+              :placeholder="config.askQuestionText || 'Ask a question'"
+            />
             <button>
               <img src="~dashboard/assets/images/send-icon.svg" alt="send" />
             </button>

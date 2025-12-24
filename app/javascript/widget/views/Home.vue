@@ -48,7 +48,7 @@
       }"
       @submit.prevent="handleAskQuestion"
     >
-      <h2 class="text-[14px] font-medium">Ask a question</h2>
+      <h2 class="text-[14px] font-medium">{{ askQuestionText }}</h2>
       <form
         v-if="!messageCount"
         class="flex flex-row justify-between items-center"
@@ -58,7 +58,7 @@
           v-model="question"
           class="border border-solid border-[#D9D9D9] py-2.5 px-4 w-[85%] m-0 rounded-md text-xs message-input focus-visible:outline-none"
           type="text"
-          placeholder="Ask a question"
+          :placeholder="askQuestionText"
         />
         <button
           type="submit"
@@ -239,6 +239,15 @@ export default {
       return this.lastMessage?.sender?.name
         ?.toLowerCase()
         .includes('bitespeed');
+    },
+    askQuestionText() {
+      return (
+        this.channelConfig?.widgetTextSettings?.ask_question_text ||
+        'Ask a question'
+      );
+    },
+    showAiMessageIndicators() {
+      return this.channelConfig?.aiMessageSettings?.show_indicators ?? true;
     },
   },
   mounted() {
