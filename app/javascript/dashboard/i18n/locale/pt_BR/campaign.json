@@ -165,8 +165,8 @@
             "ERROR": "Título é obrigatório"
           },
           "INBOX": {
-            "LABEL": "Selecionar caixa de entrada",
-            "PLACEHOLDER": "Selecionar caixa de entrada",
+            "LABEL": "Selecione uma caixa de entrada",
+            "PLACEHOLDER": "Selecione uma caixa de entrada",
             "ERROR": "Caixa de entrada obrigatória"
           },
           "TEMPLATE": {
@@ -176,7 +176,7 @@
             "ERROR": "Modelo é obrigatório",
             "PREVIEW_TITLE": "Processar {templateName}",
             "LANGUAGE": "Idioma",
-            "CATEGORY": "Categoria",
+            "CATEGORY": "Categorias",
             "VARIABLES_LABEL": "Variáveis",
             "VARIABLE_PLACEHOLDER": "Digite um valor para {variable}"
           },

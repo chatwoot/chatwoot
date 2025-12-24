@@ -3,6 +3,7 @@ FactoryBot.define do
     account_id { 1 }
     inbox_id { 1 }
     url { 'https://api.aloochat.ai' }
+    name { 'My Webhook' }
     subscriptions do
       %w[
         conversation_status_changed

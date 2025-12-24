@@ -163,4 +163,66 @@ RSpec.describe Captain::Tools::HandoffTool, type: :model do
       expect(tool.active?).to be true
     end
   end
+
+  describe 'out of office message after handoff' do
+    context 'when outside business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed. Please leave your email.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+      end
+
+      it 'sends out of office message after handoff' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.to change { conversation.messages.template.count }.by(1)
+
+        ooo_message = conversation.messages.template.last
+        expect(ooo_message.content).to eq('We are currently closed. Please leave your email.')
+      end
+    end
+
+    context 'when within business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          open_all_day: true,
+          closed_all_day: false
+        )
+      end
+
+      it 'does not send out of office message after handoff' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.not_to(change { conversation.messages.template.count })
+      end
+    end
+
+    context 'when no out of office message is configured' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: nil
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+      end
+
+      it 'does not send out of office message' do
+        expect do
+          tool.perform(tool_context, reason: 'Customer needs help')
+        end.not_to(change { conversation.messages.template.count })
+      end
+    end
+  end
 end

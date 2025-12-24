@@ -1,4 +1,5 @@
 import { parseBoolean } from '@chatwoot/utils';
+import { resolveMaximumFileUploadSize } from 'shared/helpers/FileHelper';
 
 const {
   API_CHANNEL_NAME: apiChannelName,
@@ -12,6 +13,7 @@ const {
   DISPLAY_MANIFEST: displayManifest,
   GIT_SHA: gitSha,
   GOOGLE_OAUTH_CLIENT_ID: googleOAuthClientId,
+  MAXIMUM_FILE_UPLOAD_SIZE: maximumFileUploadSize,
   HCAPTCHA_SITE_KEY: hCaptchaSiteKey,
   INSTALLATION_NAME: installationName,
   LOGO_THUMBNAIL: logoThumbnail,
@@ -40,6 +42,7 @@ const state = {
   displayManifest,
   gitSha,
   googleOAuthClientId,
+  maximumFileUploadSize: resolveMaximumFileUploadSize(maximumFileUploadSize),
   hCaptchaSiteKey,
   installationName,
   logo,
