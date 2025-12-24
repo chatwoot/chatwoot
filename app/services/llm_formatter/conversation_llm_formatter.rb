@@ -39,9 +39,16 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   end
 
   def format_message(message)
-    sender = message.message_type == 'incoming' ? 'User' : 'Support agent'
+    sender = case message.sender_type
+             when 'User'
+               'Support Agent'
+             when 'Contact'
+               'User'
+             else
+               'Bot'
+             end
     sender = "[Private Note] #{sender}" if message.private?
-    "#{sender}: #{message.content}\n"
+    "#{sender}: #{message.content_for_llm}\n"
   end
 
   def build_attributes

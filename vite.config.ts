@@ -104,6 +104,12 @@ export default defineConfig({
     },
     globals: true,
     outputFile: 'coverage/sonar-report.xml',
+    pool: 'threads',
+    poolOptions: {
+      threads: {
+        singleThread: false,
+      },
+    },
     server: {
       deps: {
         inline: ['tinykeys', '@material/mwc-icon'],

@@ -86,10 +86,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    showEditorToggle: {
-      type: Boolean,
-      default: false,
-    },
     isOnPrivateNote: {
       type: Boolean,
       default: false,
@@ -138,7 +134,6 @@ export default {
   emits: [
     'replaceText',
     'toggleInsertArticle',
-    'toggleEditor',
     'selectWhatsappTemplate',
     'selectContentTemplate',
     'toggleQuotedReply',
@@ -344,17 +339,7 @@ export default {
         @click="toggleAudioRecorder"
       />
       <NextButton
-        v-if="showEditorToggle"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="i-ph-quotes"
-        slate
-        faded
-        sm
-        @click="$emit('toggleEditor')"
-      />
-      <NextButton
         v-if="showAudioPlayStopButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
         slate
         faded

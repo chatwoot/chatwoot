@@ -35,4 +35,21 @@ class ReportingEvent < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :inbox, optional: true
   belongs_to :conversation, optional: true
+
+  # Scopes for filtering
+  scope :filter_by_date_range, lambda { |range|
+    where(created_at: range) if range.present?
+  }
+
+  scope :filter_by_inbox_id, lambda { |inbox_id|
+    where(inbox_id: inbox_id) if inbox_id.present?
+  }
+
+  scope :filter_by_user_id, lambda { |user_id|
+    where(user_id: user_id) if user_id.present?
+  }
+
+  scope :filter_by_name, lambda { |name|
+    where(name: name) if name.present?
+  }
 end

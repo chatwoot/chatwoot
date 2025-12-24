@@ -62,7 +62,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def process_attached_logo
     blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id)
     @portal.logo.attach(blob)
   end
 
@@ -78,7 +78,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :id, :account_id, :color, :custom_domain, :header_text, :homepage_link,
+      :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
     )
   end

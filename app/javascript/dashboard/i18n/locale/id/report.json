@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "7 hari terakhir",
+      "LAST_14_DAYS": "14 hari terakhir",
       "LAST_30_DAYS": "30 hari terakhir",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "3 bulan terakhir",
       "LAST_6_MONTHS": "6 bulan terakhir",
       "LAST_YEAR": "Tahun terakhir",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
     "DOWNLOAD_INBOX_REPORTS": "Unduh laporan kotak masuk",
     "FILTER_DROPDOWN_LABEL": "Pilih kotak masuk",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Percakapan",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Lalu Lintas Percakapan",
+      "NO_CONVERSATIONS": "Tidak ada percakapan",
+      "CONVERSATION": "{count} percakapan",
+      "CONVERSATIONS": "{count} percakapan",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Tidak ada percakapan",
       "CONVERSATION": "{count} percakapan",
       "CONVERSATIONS": "{count} percakapan",
