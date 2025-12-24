@@ -84,6 +84,17 @@
                 </option>
               </select>
             </label>
+            <label class="w-full pb-4">
+              Hide "That Helped" Button and Show "Main Menu" Button
+              <select v-model="hideThatHelpedButton">
+                <option :value="true">
+                  {{ 'Enabled' }}
+                </option>
+                <option :value="false">
+                  {{ 'Disabled' }}
+                </option>
+              </select>
+            </label>
             <woot-input
               v-model.trim="askQuestionText"
               :label="
@@ -387,6 +398,7 @@ export default {
       countries,
       showAiMessageIndicators: true,
       askQuestionText: 'Ask a question',
+      hideThatHelpedButton: false,
     };
   },
   computed: {
@@ -586,6 +598,9 @@ export default {
       this.askQuestionText =
         additional_attributes?.widget_text_settings?.ask_question_text ||
         'Ask a question';
+      this.hideThatHelpedButton =
+        additional_attributes?.message_action_settings
+          ?.hide_that_helped_button || false;
 
       this.setNeedMoreHelpOptionsData(
         need_more_help_type ?? 'need_more_help_type'
@@ -732,6 +747,9 @@ export default {
               },
               widget_text_settings: {
                 ask_question_text: this.askQuestionText,
+              },
+              message_action_settings: {
+                hide_that_helped_button: this.hideThatHelpedButton,
               },
               default_country_code: this.defaultCountryCode,
               default_dial_code: this.defaultDialCode,

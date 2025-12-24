@@ -86,6 +86,28 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: response
   end
 
+  def send_main_menu_message
+    inbox_id = conversation.inbox.id
+    account_id = conversation.inbox.account.id
+
+    return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
+    return render json: { error: 'Account Id Not Found' }, status: :bad_request if account_id.blank?
+
+    contact_inbox = @contact.contact_inboxes.find_by(inbox_id: inbox_id)
+    shop_url = fetch_shop_url_from_api(account_id)
+    source_id = contact_inbox.source_id
+
+    return render json: { error: 'Shop URL not found' }, status: :bad_request if shop_url.blank?
+    return render json: { error: 'Source ID not found' }, status: :bad_request if source_id.blank?
+
+    response = fetch_main_menu_message(shop_url, source_id)
+    if response
+      render json: response
+    else
+      render json: { error: 'Failed to send main menu message' }, status: :internal_server_error
+    end
+  end
+
   def get_checkout_url # rubocop:disable Naming/AccessorMethodName, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity
     inbox_id = conversation.inbox.id
     account_id = conversation.inbox.account.id

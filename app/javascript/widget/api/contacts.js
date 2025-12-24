@@ -51,4 +51,7 @@ export default {
       }
     );
   },
+  sendMainMenuMessage() {
+    return API.post(buildUrl('widget/contact/send_main_menu_message'));
+  },
 };

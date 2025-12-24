@@ -87,4 +87,21 @@ module WidgetHelper
     Rails.logger.error "Error fetching CheckoutURL: #{e.message}"
     nil
   end
+
+  def fetch_main_menu_message(shop_url, source_id)
+    response = HTTParty.post(
+      'https://restapis.bitespeed.co/api/v1/liveChat/sendMainMenuMessage',
+      body: {
+        shopUrl: shop_url,
+        livechatUUID: source_id
+      }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    return nil unless response.success?
+
+    JSON.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.error "Error sending main menu message: #{e.message}"
+    nil
+  end
 end

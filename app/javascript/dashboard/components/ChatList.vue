@@ -12,7 +12,7 @@
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
-      :conversation-count="conversationList.length"
+      :conversation-count="conversationCountDisplay"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
@@ -526,6 +526,9 @@ export default {
     },
     uniqueInboxes() {
       return [...new Set(this.selectedInboxes)];
+    },
+    conversationCountDisplay() {
+      return this.conversationStats.allCount || 0;
     },
   },
   watch: {

@@ -1,6 +1,7 @@
 <template>
   <div class="tags-container mt-2">
     <button
+      v-if="!shouldHideThatHelpedButton"
       class="tag-button bg-[#FAFAFA] hover:bg-[#F2F2F2]"
       :disabled="isUpdating"
       @click="handleTagClick('that_helped')"
@@ -13,6 +14,14 @@
       @click="handleTagClick('need_more_help')"
     >
       Need More Help
+    </button>
+    <button
+      v-if="shouldHideThatHelpedButton"
+      class="tag-button bg-[#FAFAFA] hover:bg-[#F2F2F2]"
+      :disabled="isUpdating"
+      @click="handleTagClick('main_menu')"
+    >
+      Main Menu
     </button>
   </div>
 </template>
@@ -34,6 +43,12 @@ export default {
     filteredTags() {
       return this.tags.filter(tag => tag.text != null && tag.text !== '');
     },
+    shouldHideThatHelpedButton() {
+      return (
+        this.channelConfig.messageActionSettings?.hide_that_helped_button ===
+        true
+      );
+    },
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -46,6 +61,12 @@ export default {
             selectedReply: tag.id,
             conversationResolved: true,
           });
+        } else if (tag === 'main_menu') {
+          await this.sendMessage({
+            content: 'Main Menu',
+            selectedReply: tag.id,
+          });
+          await ContactsAPI.sendMainMenuMessage();
         } else if (this.channelConfig.needMoreHelpType === 'assign_to_agent') {
           await this.sendMessage({
             content: 'Need More Help',

@@ -338,6 +338,7 @@ Rails.application.routes.draw do
             get :get_checkout_url
             get :bot_config
             patch :update_bot_config
+            post :send_main_menu_message
           end
         end
         resources :inbox_members, only: [:index]
