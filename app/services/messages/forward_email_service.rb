@@ -146,7 +146,7 @@ class Messages::ForwardEmailService # rubocop:disable Metrics/ClassLength
     forwarded_message
   end
 
-  def build_forwarded_plain_content # rubocop:disable Metrics/AbcSize
+  def build_forwarded_plain_content
     content_parts = []
 
     # Add agent's comment if provided
@@ -163,7 +163,7 @@ class Messages::ForwardEmailService # rubocop:disable Metrics/ClassLength
     content_parts << "\n"
 
     # Add original message content
-    content_parts << message.content
+    content_parts << original_message_plain_content
 
     content_parts.join
   end
@@ -193,7 +193,7 @@ class Messages::ForwardEmailService # rubocop:disable Metrics/ClassLength
 
     # Add original message content
     html_parts << '<div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #e2e8f0;">'
-    html_parts << message.content
+    html_parts << original_message_html_content
     html_parts << '</div>'
 
     html_parts.join
@@ -208,6 +208,26 @@ class Messages::ForwardEmailService # rubocop:disable Metrics/ClassLength
   def original_recipients
     to_emails = message.content_attributes.dig('email', 'to') || []
     Array(to_emails)
+  end
+
+  def original_message_html_content
+    # Try to get the HTML content from the original email
+    # This is cleaner than plain text which has blockquote markers (>>>)
+    html_content = message.content_attributes.dig('email', 'html_content', 'full') ||
+                   message.content_attributes.dig('email', 'html_content', 'reply') ||
+                   message.content_attributes.dig('email', 'html_content', 'quoted')
+
+    # If no HTML content, convert plain text to HTML
+    html_content.presence || ERB::Util.html_escape(message.content).gsub("\n", '<br>')
+  end
+
+  def original_message_plain_content
+    # Try to get clean text content without blockquote markers
+    text_content = message.content_attributes.dig('email', 'text_content', 'full') ||
+                   message.content_attributes.dig('email', 'text_content', 'reply')
+
+    # Fall back to message.content if no clean text available
+    text_content.presence || message.content
   end
 
   def create_activity_message(new_conversations, emails) # rubocop:disable Metrics/MethodLength
