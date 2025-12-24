@@ -36,6 +36,12 @@
       "API": {
         "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
       }
-    }
+    },
+    "EMAIL_UNCONFIRMED_MESSAGE": "Your email is not confirmed. Please check your inbox or resend the confirmation email.",
+    "RESEND_CONFIRMATION_LINK": "Resend confirmation email",
+    "RESEND_CONFIRMATION_SENDING": "Sending...",
+    "RESEND_CONFIRMATION_COOLDOWN": "Resend in {seconds}s",
+    "RESEND_CONFIRMATION_SUCCESS": "Confirmation email sent successfully. Please check your inbox.",
+    "RESEND_CONFIRMATION_ERROR": "Could not send confirmation email. Please try again later."
   }
 }
