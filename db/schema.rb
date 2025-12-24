@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_15_183142) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -412,44 +412,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_183142) do
     t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
     t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
-  end
-
-  create_table "cart_items", force: :cascade do |t|
-    t.bigint "cart_id", null: false
-    t.bigint "product_id", null: false
-    t.integer "quantity", default: 1, null: false
-    t.decimal "unit_price", precision: 10, scale: 2, null: false
-    t.decimal "total_price", precision: 10, scale: 2, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id", unique: true
-    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
-    t.index ["product_id"], name: "index_cart_items_on_product_id"
-  end
-
-  create_table "carts", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "conversation_id", null: false
-    t.bigint "message_id"
-    t.bigint "contact_id", null: false
-    t.bigint "created_by_id", null: false
-    t.string "external_payment_id"
-    t.string "payment_url"
-    t.string "provider", null: false
-    t.decimal "subtotal", precision: 10, scale: 2, null: false
-    t.decimal "total", precision: 10, scale: 2, null: false
-    t.string "currency", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "payload", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_carts_on_account_id"
-    t.index ["contact_id"], name: "index_carts_on_contact_id"
-    t.index ["conversation_id"], name: "index_carts_on_conversation_id"
-    t.index ["created_by_id"], name: "index_carts_on_created_by_id"
-    t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
-    t.index ["message_id"], name: "index_carts_on_message_id"
-    t.index ["status"], name: "index_carts_on_status"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1185,20 +1147,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_183142) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
-  create_table "products", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "title_en", null: false
-    t.string "title_ar"
-    t.text "description_en"
-    t.text "description_ar"
-    t.decimal "price", precision: 10, scale: 2, null: false
-    t.string "currency", default: "SAR", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "title_en"], name: "index_products_on_account_id_and_title_en", unique: true
-    t.index ["account_id"], name: "index_products_on_account_id"
-  end
-
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1385,20 +1333,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_15_183142) do
   add_foreign_key "account_whatsapp_settings", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "accounts"
-  add_foreign_key "carts", "contacts"
-  add_foreign_key "carts", "conversations"
-  add_foreign_key "carts", "messages"
-  add_foreign_key "carts", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
   add_foreign_key "payment_links", "conversations"
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
-  add_foreign_key "products", "accounts"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
