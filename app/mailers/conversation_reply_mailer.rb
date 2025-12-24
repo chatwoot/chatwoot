@@ -7,6 +7,7 @@ class ConversationReplyMailer < ApplicationMailer
   include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
+  RECAP_LIMIT = (ENV['EMAIL_RECAP_LIMIT'] || 50).to_i
 
   def reply_with_summary(conversation, last_queued_id)
     return unless smtp_config_set_or_development?
@@ -14,10 +15,20 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    recap_messages = @conversation.messages.chat.where('id < ?', last_queued_id).last(10)
-    new_messages = @conversation.messages.chat.where('id >= ?', last_queued_id)
-    @messages = recap_messages + new_messages
-    @messages = @messages.select(&:email_reply_summarizable?)
+    recap_messages = @conversation.messages
+                                  .where('id < ?', last_queued_id)
+                                  .order(id: :desc)
+                                  .limit(RECAP_LIMIT)
+                                  .to_a
+    recap_messages.reverse!
+
+    new_messages   = @conversation.messages
+                                  .where('id >= ?', last_queued_id)
+                                  .order(:id)
+                                  .to_a
+
+    selected_messages = filtered_recap_messages(recap_messages + new_messages)
+    @messages = preload_messages(selected_messages)
     prepare_mail(true)
   end
 
@@ -27,10 +38,11 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(conversation)
     return if conversation_already_viewed?
 
-    @messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
-    @messages = @messages.reject { |m| m.template? && !m.input_csat? }
-    return false if @messages.count.zero?
+    scoped_messages = @conversation.messages.chat.where(message_type: [:outgoing, :template]).where('id >= ?', last_queued_id)
+    filtered_messages = scoped_messages.reject { |m| (m.template? && !m.input_csat?) || m.private? }
+    return false if filtered_messages.empty?
 
+    @messages = preload_messages(filtered_messages)
     prepare_mail(false)
   end
 
@@ -39,6 +51,8 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
+    recap_messages = recap_messages_for_email_reply(message)
+    @messages = preload_messages(filtered_recap_messages(recap_messages))
     prepare_mail(true)
   end
 
@@ -47,7 +61,8 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(conversation)
 
-    @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
+    transcript_messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
+    @messages = preload_messages(transcript_messages)
 
     Rails.logger.info("Email sent from #{from_email_with_name} \
       to #{to_email} with subject #{@conversation.display_id} \
@@ -71,7 +86,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def should_use_conversation_email_address?
-    @inbox.inbox_type == 'Email' || inbound_email_enabled?
+    inbound_email_enabled? && @inbox.email_address.blank?
   end
 
   def conversation_already_viewed?
@@ -124,10 +139,12 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def reply_email
+    return @inbox.email_address if @inbox.email_address.present?
+
     if should_use_conversation_email_address?
       sender_name("reply+#{@conversation.uuid}@#{@account.inbound_email_domain}")
     else
-      @inbox.email_address || @agent&.email
+      @agent&.email || inbox_from_email_address
     end
   end
 
