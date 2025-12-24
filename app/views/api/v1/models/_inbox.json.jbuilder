@@ -66,6 +66,7 @@ end
 ## Facebook Attributes
 if resource.facebook?
   json.page_id resource.channel.try(:page_id)
+  json.instagram_id resource.channel.try(:instagram_id)
   json.reauthorization_required resource.channel.try(:reauthorization_required?)
 end
 

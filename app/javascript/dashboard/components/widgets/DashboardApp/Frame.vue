@@ -54,11 +54,20 @@ export default {
   },
   computed: {
     dashboardAppContext() {
-      return {
+      const context = {
         conversation: this.currentChat,
         contact: this.$store.getters['contacts/getContact'](this.contactId),
         currentAgent: this.currentAgent,
       };
+
+      // Add Instagram-specific data for Instagram DM inboxes
+      if (this.isInstagramInbox) {
+        context.instagramSourceId =
+          this.currentChat?.meta?.contact_inbox_source_id;
+        context.instagramPageId = this.currentInbox?.instagram_id;
+      }
+
+      return context;
     },
     contactId() {
       return this.currentChat?.meta?.sender?.id;
@@ -66,6 +75,17 @@ export default {
     currentAgent() {
       const { id, name, email } = this.$store.getters.getCurrentUser;
       return { id, name, email };
+    },
+    currentInbox() {
+      return this.$store.getters['inboxes/getInbox'](
+        this.currentChat?.inbox_id
+      );
+    },
+    isInstagramInbox() {
+      return (
+        this.currentInbox?.channel_type === 'Channel::FacebookPage' &&
+        this.currentInbox?.instagram_id
+      );
     },
   },
   watch: {
