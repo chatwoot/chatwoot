@@ -427,6 +427,31 @@
           </p>
         </label>
 
+        <label v-if="isAnEmailChannel" class="w-3/4 pb-4">
+          {{ 'Auto-resolve Duplicate Email Conversations' }}
+          <select v-model="autoResolveDuplicateEmailConversations">
+            <option :value="true">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                )
+              }}
+            </option>
+            <option :value="false">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                )
+              }}
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{
+              'When enabled, if a customer sends a new email while they have an open conversation, the old conversation will be automatically resolved with a note linking to the new conversation'
+            }}
+          </p>
+        </label>
+
         <label v-if="isAWebWidgetInbox">
           {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
         </label>
@@ -656,6 +681,7 @@ export default {
       enableCSATOnWhatsapp: false,
       additionalAttributes: null,
       reopenPendingConversations: false,
+      autoResolveDuplicateEmailConversations: false,
     };
   },
   computed: {
@@ -873,6 +899,8 @@ export default {
         this.additionalAttributes = this.inbox.additional_attributes;
         this.reopenPendingConversations =
           this.inbox.reopen_pending_conversations || false;
+        this.autoResolveDuplicateEmailConversations =
+          this.inbox.auto_resolve_duplicate_email_conversations || false;
       });
     },
     async updateInbox() {
@@ -898,6 +926,8 @@ export default {
             : null,
           lock_to_single_conversation: this.locktoSingleConversation,
           reopen_pending_conversations: this.reopenPendingConversations,
+          auto_resolve_duplicate_email_conversations:
+            this.autoResolveDuplicateEmailConversations,
           sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
           channel: {

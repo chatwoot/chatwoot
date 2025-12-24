@@ -168,8 +168,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     @inbox.channel.save!
   end
 
-  def update_auto_assignment_config # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity
-    return if params[:assign_even_if_offline].blank? && params[:reopen_pending_conversations].blank? && params[:reassign_on_resolve].blank?
+  def update_auto_assignment_config # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+    if params[:assign_even_if_offline].blank? && params[:reopen_pending_conversations].blank? && params[:reassign_on_resolve].blank? && params[:auto_resolve_duplicate_email_conversations].blank? # rubocop:disable Layout/LineLength
+      return
+    end
 
     current_config = @inbox.auto_assignment_config || {}
 
@@ -182,6 +184,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     end
 
     current_config['reassign_on_resolve'] = ActiveModel::Type::Boolean.new.cast(params[:reassign_on_resolve]) if params[:reassign_on_resolve].present?
+
+    if params[:auto_resolve_duplicate_email_conversations].present?
+      current_config['auto_resolve_duplicate_email_conversations'] =
+        ActiveModel::Type::Boolean.new.cast(params[:auto_resolve_duplicate_email_conversations])
+    end
 
     @inbox.auto_assignment_config = current_config
     @inbox.save!

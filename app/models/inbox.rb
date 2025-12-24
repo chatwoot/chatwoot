@@ -93,6 +93,11 @@ class Inbox < ApplicationRecord
     (auto_assignment_config['reassign_on_resolve'].presence || false)
   end
 
+  # Helper method to check if duplicate email conversations should be auto-resolved
+  def auto_resolve_duplicate_email_conversations?
+    (auto_assignment_config['auto_resolve_duplicate_email_conversations'].presence || false)
+  end
+
   # Helper method to check if agents should be prompted before sending CSAT on resolution
   def prompt_agent_for_csat?
     (csat_config['prompt_agent_for_csat'].presence || false)
