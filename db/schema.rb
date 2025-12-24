@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_24_120801) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -52,6 +52,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
     t.bigint "agent_capacity_policy_id"
+    t.integer "active_chat_limit"
+    t.boolean "active_chat_limit_enabled", default: false, null: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["agent_capacity_policy_id"], name: "index_account_users_on_agent_capacity_policy_id"
@@ -73,6 +75,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
     t.jsonb "settings", default: {}
+    t.boolean "active_chat_limit_enabled", default: false, null: false
+    t.integer "active_chat_limit_value", default: 7
+    t.boolean "queue_enabled", default: false, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -628,16 +633,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.string "country_code", default: ""
     t.boolean "blocked", default: false, null: false
     t.bigint "company_id"
-    t.boolean "is_authorize", default: false, null: false
     t.index "lower((email)::text), account_id", name: "index_contacts_on_lower_email_account_id"
     t.index ["account_id", "contact_type"], name: "index_contacts_on_account_id_and_contact_type"
     t.index ["account_id", "email", "phone_number", "identifier"], name: "index_contacts_on_nonempty_fields", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
+    t.index ["account_id", "email"], name: "email_per_account_contact"
     t.index ["account_id", "last_activity_at"], name: "index_contacts_on_account_id_and_last_activity_at", order: { last_activity_at: "DESC NULLS LAST" }
     t.index ["account_id"], name: "index_contacts_on_account_id"
     t.index ["account_id"], name: "index_resolved_contact_account_id", where: "(((email)::text <> ''::text) OR ((phone_number)::text <> ''::text) OR ((identifier)::text <> ''::text))"
     t.index ["blocked"], name: "index_contacts_on_blocked"
     t.index ["company_id"], name: "index_contacts_on_company_id"
-    t.index ["email", "account_id"], name: "uniq_email_per_account_contact", unique: true
     t.index ["identifier", "account_id"], name: "uniq_identifier_per_account_contact", unique: true
     t.index ["name", "email", "phone_number", "identifier"], name: "index_contacts_on_name_email_phone_number_identifier", opclass: :gin_trgm_ops, using: :gin
     t.index ["phone_number", "account_id"], name: "index_contacts_on_phone_number_and_account_id"
@@ -653,6 +657,24 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.index ["conversation_id"], name: "index_conversation_participants_on_conversation_id"
     t.index ["user_id", "conversation_id"], name: "index_conversation_participants_on_user_id_and_conversation_id", unique: true
     t.index ["user_id"], name: "index_conversation_participants_on_user_id"
+  end
+
+  create_table "conversation_queues", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "queued_at", null: false
+    t.datetime "assigned_at"
+    t.datetime "left_at"
+    t.integer "position", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "inbox_id"
+    t.index ["account_id", "status", "position"], name: "idx_on_account_id_status_position_c5e04b77ac"
+    t.index ["account_id", "status", "queued_at"], name: "idx_on_account_id_status_queued_at_960ec2cf36"
+    t.index ["account_id"], name: "index_conversation_queues_on_account_id"
+    t.index ["conversation_id"], name: "index_conversation_queues_on_conversation_id", unique: true
+    t.index ["inbox_id"], name: "index_conversation_queues_on_inbox_id"
   end
 
   create_table "conversations", id: :serial, force: :cascade do |t|
@@ -874,9 +896,11 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
+    t.bigint "priority_group_id"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
+    t.index ["priority_group_id"], name: "index_inboxes_on_priority_group_id"
   end
 
   create_table "installation_configs", force: :cascade do |t|
@@ -1090,6 +1114,29 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
     t.index ["user_id"], name: "index_portals_members_on_user_id"
   end
 
+  create_table "priority_groups", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_priority_groups_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_priority_groups_on_account_id"
+  end
+
+  create_table "queue_statistics", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "date", null: false
+    t.integer "total_queued", default: 0, null: false
+    t.integer "total_assigned", default: 0, null: false
+    t.integer "total_left", default: 0, null: false
+    t.integer "average_wait_time_seconds", default: 0, null: false
+    t.integer "max_wait_time_seconds", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "date"], name: "index_queue_statistics_on_account_id_and_date", unique: true
+    t.index ["account_id"], name: "index_queue_statistics_on_account_id"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1267,7 +1314,12 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_18_105924) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "conversation_queues", "accounts"
+  add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "inboxes", "priority_groups"
+  add_foreign_key "priority_groups", "accounts"
+  add_foreign_key "queue_statistics", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

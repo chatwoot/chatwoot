@@ -88,8 +88,11 @@ export default {
         ...(socialProfiles || {}),
       };
     },
+    isAuthorized() {
+      return Boolean(this.contact.is_widget_authenticated);
+    },
     authorizationStatus() {
-      return this.contact.is_authorize
+      return this.isAuthorized
         ? this.$t('CONTACT_PANEL.AUTHORIZATION.AUTHORIZED')
         : this.$t('CONTACT_PANEL.AUTHORIZATION.NOT_AUTHORIZED');
     },
@@ -271,7 +274,7 @@ export default {
             icon="lock-closed"
             emoji="🔓"
             :title="$t('CONTACT_PANEL.AUTHORIZATION.LABEL')"
-            :class="contact.is_authorize ? 'text-green-500' : 'text-red-500'"
+            :class="isAuthorized ? 'text-green-500' : 'text-red-500'"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
