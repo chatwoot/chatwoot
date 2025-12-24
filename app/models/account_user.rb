@@ -35,6 +35,7 @@ class AccountUser < ApplicationRecord
   after_create_commit :notify_creation, :create_notification_setting
   after_destroy :notify_deletion, :remove_user_from_account
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
+  after_save :notify_agent_status_change, if: :saved_change_to_availability?
 
   validates :user_id, uniqueness: { scope: :account_id }
 
@@ -74,6 +75,11 @@ class AccountUser < ApplicationRecord
 
   def update_presence_in_redis
     OnlineStatusTracker.set_status(account.id, user.id, availability)
+  end
+
+  def notify_agent_status_change
+    old_status, new_status = saved_change_to_availability
+    AgentStatusNotificationJob.perform_later(user.id, account.id, new_status, old_status)
   end
 end
 

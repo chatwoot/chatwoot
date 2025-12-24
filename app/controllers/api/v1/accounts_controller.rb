@@ -193,7 +193,8 @@ class Api::V1::AccountsController < Api::BaseController # rubocop:disable Metric
       :enable_timed_contact_ownership,
       :contact_ownership_duration_minutes,
       calling_settings: {},
-      agent_availability_settings: {}
+      agent_availability_settings: {},
+      agent_status_notifications: {}
     ).to_h.compact
   end
 

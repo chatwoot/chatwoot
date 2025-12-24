@@ -37,6 +37,9 @@ if resource.custom_attributes.present?
     if resource.custom_attributes['agent_availability_settings'].present?
       json.agent_availability_settings resource.custom_attributes['agent_availability_settings']
     end
+    if resource.custom_attributes['agent_status_notifications'].present?
+      json.agent_status_notifications resource.custom_attributes['agent_status_notifications']
+    end
     json.instagram_dm_message resource.instagram_dm_message if @account.instagram_inbox?
   end
 end

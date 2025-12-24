@@ -10,6 +10,10 @@
         :name="$t('AGENT_MGMT.BUSINESS_HOURS_TAB')"
         :show-badge="false"
       />
+      <woot-tabs-item
+        :name="$t('AGENT_MGMT.NOTIFICATIONS_TAB')"
+        :show-badge="false"
+      />
     </woot-tabs>
 
     <!-- Tab 1: Agent List -->
@@ -152,6 +156,11 @@
     <div v-if="selectedTabIndex === 1">
       <agent-weekly-availability :account-id="accountId" />
     </div>
+
+    <!-- Tab 3: Notifications -->
+    <div v-if="selectedTabIndex === 2">
+      <notification-settings :account-id="accountId" />
+    </div>
   </div>
 </template>
 <script>
@@ -162,6 +171,7 @@ import Banner from '../../../../components/ui/Banner.vue';
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
 import AgentWeeklyAvailability from './components/AgentWeeklyAvailability.vue';
+import NotificationSettings from './components/NotificationSettings.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
@@ -169,6 +179,7 @@ export default {
     AddAgent,
     EditAgent,
     AgentWeeklyAvailability,
+    NotificationSettings,
     Thumbnail,
     Banner,
   },
