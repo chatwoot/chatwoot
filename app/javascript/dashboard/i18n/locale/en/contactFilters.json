@@ -29,7 +29,9 @@
       "is_greater_than": "Is greater than",
       "is_lesser_than": "Is lesser than",
       "days_before": "Is x days before",
-      "hours_before": "Is x hours before"
+      "hours_before": "Is x hours before",
+      "days_after": "Is x days after",
+      "hours_after": "Is x hours after"
     },
     "ATTRIBUTES": {
       "NAME": "Name",

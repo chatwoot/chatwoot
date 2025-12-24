@@ -113,6 +113,9 @@ conversations:
       - 'is_less_than'
       - 'days_before'
       - 'hours_before'
+      - 'days_after'
+      - 'hours_after'
+      - 'today_within_hours'
   last_activity_at:
     attribute_type: 'standard'
     data_type: 'timestamp'
@@ -121,6 +124,9 @@ conversations:
       - 'is_less_than'
       - 'days_before'
       - 'hours_before'
+      - 'days_after'
+      - 'hours_after'
+      - 'today_within_hours'
   mail_subject:
     attribute_type: 'additional_attributes'
     data_type: 'text'
@@ -203,6 +209,9 @@ contacts:
       - 'is_less_than'
       - 'days_before'
       - 'hours_before'
+      - 'days_after'
+      - 'hours_after'
+      - 'today_within_hours'
   last_activity_at:
     attribute_type: 'standard'
     data_type: 'timestamp'
@@ -211,6 +220,9 @@ contacts:
       - 'is_less_than'
       - 'days_before'
       - 'hours_before'
+      - 'days_after'
+      - 'hours_after'
+      - 'today_within_hours'
   blocked:
     attribute_type: 'standard'
     data_type: 'boolean'

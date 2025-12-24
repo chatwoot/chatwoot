@@ -131,6 +131,16 @@ export default {
             }
             return true;
           },
+          ensureValidTimeRange(value, prop) {
+            if (prop.filter_operator === 'today_within_hours') {
+              if (!Array.isArray(value) || value.length !== 2) return false;
+              const [start, end] = value;
+              if (!start || !end) return false;
+              // Ensure start time is before end time
+              return start < end;
+            }
+            return true;
+          },
           required: requiredIf(prop => {
             return !(
               prop.filter_operator === 'is_present' ||
@@ -226,9 +236,16 @@ export default {
       return type.attributeModel;
     },
     getInputType(key, operator) {
-      if (key === 'created_at' || key === 'last_activity_at')
-        if (operator === 'days_before' || operator === 'hours_before')
+      if (key === 'created_at' || key === 'last_activity_at') {
+        if (
+          operator === 'days_before' ||
+          operator === 'hours_before' ||
+          operator === 'days_after' ||
+          operator === 'hours_after'
+        )
           return 'plain_text';
+        if (operator === 'today_within_hours') return 'time_range';
+      }
       const type = this.filterTypes.find(filter => filter.attributeKey === key);
       return type?.inputType;
     },

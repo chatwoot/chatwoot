@@ -20,7 +20,7 @@ class FilterService # rubocop:disable Metrics/ClassLength
 
   def perform; end
 
-  def filter_operation(query_hash, current_index) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength
+  def filter_operation(query_hash, current_index) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/AbcSize
     case query_hash[:filter_operator]
     when 'equal_to', 'not_equal_to'
       @filter_values["value_#{current_index}"] = filter_values(query_hash)
@@ -38,6 +38,12 @@ class FilterService # rubocop:disable Metrics/ClassLength
       @filter_values["value_#{current_index}"] = days_before_filter_values(query_hash)
     when 'hours_before'
       @filter_values["value_#{current_index}"] = hours_before_filter_values(query_hash)
+    when 'days_after'
+      @filter_values["value_#{current_index}"] = days_after_filter_values(query_hash)
+    when 'hours_after'
+      @filter_values["value_#{current_index}"] = hours_after_filter_values(query_hash)
+    when 'today_within_hours'
+      today_within_hours_filter_values(query_hash, current_index)
     else
       @filter_values["value_#{current_index}"] = filter_values(query_hash).to_s
       "= :value_#{current_index}"
@@ -125,6 +131,68 @@ class FilterService # rubocop:disable Metrics/ClassLength
     query_hash['values'] = [datetime.iso8601]
     query_hash['filter_operator'] = 'is_less_than'
     lt_gt_filter_values(query_hash)
+  end
+
+  def days_after_filter_values(query_hash)
+    # Calculate datetime X days ago from now
+    # This finds conversations that started within the last X days (newer than X days ago)
+    datetime = Time.zone.now - query_hash['values'][0].to_i.days
+    # Convert to ISO 8601 format for consistency
+    query_hash['values'] = [datetime.iso8601]
+    query_hash['filter_operator'] = 'is_greater_than'
+    lt_gt_filter_values(query_hash)
+  end
+
+  def hours_after_filter_values(query_hash)
+    # Calculate datetime X hours ago from now
+    # This finds conversations that started within the last X hours (newer than X hours ago)
+    datetime = Time.zone.now - query_hash['values'][0].to_i.hours
+    # Convert to ISO 8601 format for consistency
+    query_hash['values'] = [datetime.iso8601]
+    query_hash['filter_operator'] = 'is_greater_than'
+    lt_gt_filter_values(query_hash)
+  end
+
+  def today_within_hours_filter_values(query_hash, current_index) # rubocop:disable Metrics/AbcSize
+    # Extract start and end hours (format: "HH:MM")
+    start_hour_str = query_hash['values'][0]
+    end_hour_str = query_hash['values'][1]
+
+    # Get timezone from query_hash or default to UTC
+    timezone = query_hash['timezone'].presence || 'UTC'
+
+    # Validate timezone
+    tz = Time.find_zone(timezone)
+    tz = Time.find_zone('UTC') if tz.nil?
+
+    # Get today's date in the specified timezone
+    today = tz.now.to_date
+
+    # Parse hours and minutes
+    start_parts = start_hour_str.split(':')
+    end_parts = end_hour_str.split(':')
+
+    start_hour = start_parts[0].to_i
+    start_min = start_parts[1]&.to_i || 0
+
+    end_hour = end_parts[0].to_i
+    end_min = end_parts[1]&.to_i || 0
+
+    # Create start and end timestamps in user's timezone
+    start_time = tz.local(today.year, today.month, today.day, start_hour, start_min)
+    end_time = tz.local(today.year, today.month, today.day, end_hour, end_min)
+
+    # Convert to UTC for database query
+    start_utc = start_time.utc.iso8601
+    end_utc = end_time.utc.iso8601
+
+    # Store values for parameterized query
+    @filter_values["value_#{current_index}_start"] = start_utc
+    @filter_values["value_#{current_index}_end"] = end_utc
+
+    # Return SQL fragment for BETWEEN query
+    # Note: The date_filter helper appends '::timestamp' after this, so we need to add '::timestamp' before the second placeholder
+    "BETWEEN :value_#{current_index}_start::timestamp AND :value_#{current_index}_end::"
   end
 
   def set_count_for_all_conversations

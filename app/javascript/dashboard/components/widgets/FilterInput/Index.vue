@@ -100,6 +100,24 @@
               class="mb-0 datepicker"
             />
           </div>
+          <div
+            v-else-if="inputType === 'time_range'"
+            class="flex gap-2 items-center"
+          >
+            <input
+              v-model="startTime"
+              type="time"
+              class="mb-0 flex-1"
+              placeholder="Start time"
+            />
+            <span class="text-slate-600 dark:text-slate-400">to</span>
+            <input
+              v-model="endTime"
+              type="time"
+              class="mb-0 flex-1"
+              placeholder="End time"
+            />
+          </div>
           <input
             v-else
             v-model="values"
@@ -246,6 +264,28 @@ export default {
           ...payload,
           custom_attribute_type: this.customAttributeType,
         });
+      },
+    },
+    startTime: {
+      get() {
+        if (!this.value || !Array.isArray(this.value.values)) return '';
+        return this.value.values[0] || '';
+      },
+      set(value) {
+        const payload = this.value || {};
+        const endTime = this.endTime || '';
+        this.$emit('input', { ...payload, values: [value, endTime] });
+      },
+    },
+    endTime: {
+      get() {
+        if (!this.value || !Array.isArray(this.value.values)) return '';
+        return this.value.values[1] || '';
+      },
+      set(value) {
+        const payload = this.value || {};
+        const startTime = this.startTime || '';
+        this.$emit('input', { ...payload, values: [startTime, value] });
       },
     },
   },

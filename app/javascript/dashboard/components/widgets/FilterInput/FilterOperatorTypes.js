@@ -91,4 +91,16 @@ export const OPERATOR_TYPES_5 = [
     value: 'hours_before',
     label: 'Is x hours before',
   },
+  {
+    value: 'days_after',
+    label: 'Is x days after',
+  },
+  {
+    value: 'hours_after',
+    label: 'Is x hours after',
+  },
+  {
+    value: 'today_within_hours',
+    label: 'Today within hours',
+  },
 ];

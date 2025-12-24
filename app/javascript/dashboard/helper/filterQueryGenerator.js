@@ -45,6 +45,10 @@ const convertToUTC = localDatetimeString => {
 const generatePayload = data => {
   // Make a copy of data to avoid vue data reactivity issues
   const filters = JSON.parse(JSON.stringify(data));
+
+  // Get user's browser timezone
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   let payload = filters.map(item => {
     // If item key is content, we will split it using comma and return as array
     // FIX ME: Make this generic option instead of using the key directly here
@@ -55,7 +59,11 @@ const generatePayload = data => {
       item.attribute_key === 'created_at' ||
       item.attribute_key === 'last_activity_at'
     ) {
-      if (item.values && Array.isArray(item.values)) {
+      // For today_within_hours, pass timezone info (don't convert values)
+      if (item.filter_operator === 'today_within_hours') {
+        item.timezone = userTimezone;
+      } else if (item.values && Array.isArray(item.values)) {
+        // For other operators, convert to UTC
         item.values = item.values.map(convertToUTC);
       }
     }
