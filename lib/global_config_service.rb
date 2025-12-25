@@ -9,9 +9,14 @@ class GlobalConfigService
 
     return if config_value.blank?
 
+    # Skip database writes during asset precompilation
+    return config_value if ENV['RAILS_GROUPS'] == 'assets' || !ActiveRecord::Base.connection_pool.connected?
+
     i = InstallationConfig.where(name: config_key).first_or_create(value: config_value, locked: false)
     # To clear a nil value that might have been cached in the previous call
     GlobalConfig.clear_cache
     i.value
+  rescue ActiveRecord::ConnectionNotEstablished, PG::ConnectionBad
+    config_value
   end
 end
