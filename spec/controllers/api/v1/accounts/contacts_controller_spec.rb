@@ -440,7 +440,7 @@ RSpec.describe 'Contacts API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.body).to include('Invalid value. The values provided for country_code are invalid"')
+        expect(response.body).to include('Invalid value. The values provided for country_code are invalid')
       end
     end
   end
