@@ -131,6 +131,7 @@ Rails.application.routes.draw do
             collection do
               get :meta
               get :search
+              get :unread_counts
               post :filter
             end
             scope module: :conversations do
