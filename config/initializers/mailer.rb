@@ -1,3 +1,5 @@
+require_relative '../../lib/mail/resend_provider'
+
 Rails.application.configure do
   #########################################
   # Configuration Related to Action Mailer
@@ -35,6 +37,9 @@ Rails.application.configure do
 
   # You can use letter opener for your local development by setting the environment variable
   config.action_mailer.delivery_method = :letter_opener if Rails.env.development? && ENV['LETTER_OPENER']
+
+  config.action_mailer.delivery_method = :resend if ENV['RESEND_API_KEY'].present?
+  ActionMailer::Base.add_delivery_method :resend, Mail::ResendProvider
 
   #########################################
   # Configuration Related to Action MailBox

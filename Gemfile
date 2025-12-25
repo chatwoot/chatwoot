@@ -203,6 +203,8 @@ gem 'opentelemetry-exporter-otlp'
 
 gem 'shopify_api'
 
+gem 'resend'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
