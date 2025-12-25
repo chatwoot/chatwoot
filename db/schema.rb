@@ -826,6 +826,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
     t.boolean "has_unread_messages", default: false, null: false
+    t.bigint "assignee_agent_bot_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "has_unread_messages"], name: "index_conversations_on_account_has_unread", where: "(has_unread_messages = true)"
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
