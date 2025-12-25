@@ -1,6 +1,6 @@
 # ref: https://github.com/rails/rails/issues/43906#issuecomment-1094380699
 # https://github.com/rails/rails/issues/43906#issuecomment-1099992310
-task before_assets_precompile: :environment do
+task :before_assets_precompile do
   # run a command which starts your packaging
   system('pnpm install')
   system('echo "-------------- Bulding SDK for Production --------------"')
