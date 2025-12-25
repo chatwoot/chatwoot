@@ -26,7 +26,7 @@ module Tiktok::MessagingHelpers
   end
 
   def find_conversation(channel, tt_conversation_id)
-    channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id).conversations.first
+    channel.inbox.contact_inboxes.find_by(source_id: tt_conversation_id)&.conversations&.first
   end
 
   def create_conversation(channel, contact_inbox, tt_conversation_id)
