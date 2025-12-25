@@ -1,0 +1,47 @@
+tags:
+  - Reports
+operationId: get-account-reporting-events
+summary: Account Reporting Events
+security:
+  - userApiKey: []
+description: Get paginated reporting events for the account. This endpoint returns reporting events such as first response time, resolution time, and other metrics. Only administrators can access this endpoint. Results are paginated with 25 items per page.
+parameters:
+  - $ref: '#/components/parameters/page'
+  - in: query
+    name: since
+    schema:
+      type: string
+    description: The timestamp from where events should start (Unix timestamp in seconds)
+  - in: query
+    name: until
+    schema:
+      type: string
+    description: The timestamp from where events should stop (Unix timestamp in seconds)
+  - in: query
+    name: inbox_id
+    schema:
+      type: number
+    description: Filter events by inbox ID
+  - in: query
+    name: user_id
+    schema:
+      type: number
+    description: Filter events by user/agent ID
+  - in: query
+    name: name
+    schema:
+      type: string
+    description: Filter events by event name (e.g., first_response, resolution, reply_time)
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/reporting_events_list_response'
+  '403':
+    description: Access denied - Only administrators can access this endpoint
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

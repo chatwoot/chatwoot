@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Linear::CallbacksController, type: :request do
   let(:account) { create(:account) }
   let(:code) { SecureRandom.hex(10) }
-  let(:state) { SecureRandom.hex(10) }
+  let(:client_secret) { 'test_linear_secret' }
+  let(:state) { JWT.encode({ sub: account.id, iat: Time.current.to_i }, client_secret, 'HS256') }
   let(:linear_redirect_uri) { "#{ENV.fetch('FRONTEND_URL', '')}/app/accounts/#{account.id}/settings/integrations/linear" }
 
   describe 'GET /linear/callback' do
@@ -19,10 +20,9 @@ RSpec.describe Linear::CallbacksController, type: :request do
 
     before do
       stub_const('ENV', ENV.to_hash.merge('FRONTEND_URL' => 'http://www.example.com'))
-
-      controller = described_class.new
-      allow(controller).to receive(:verify_linear_token).with(state).and_return(account.id)
-      allow(described_class).to receive(:new).and_return(controller)
+      allow(GlobalConfigService).to receive(:load).and_call_original
+      allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_SECRET', nil).and_return(client_secret)
+      allow(GlobalConfigService).to receive(:load).with('LINEAR_CLIENT_ID', nil).and_return('test_client_id')
     end
 
     context 'when successful' do

@@ -60,3 +60,9 @@ auto_label_pending_conversations_job:
   cron: '*/5 * * * *'
   class: 'Conversations::AutoLabelPendingConversationsJob'
   queue: scheduled_jobs
+
+# executed every 30 minutes for assignment_v2
+periodic_assignment_job:
+  cron: '*/30 * * * *'
+  class: 'AutoAssignment::PeriodicAssignmentJob'
+  queue: scheduled_jobs

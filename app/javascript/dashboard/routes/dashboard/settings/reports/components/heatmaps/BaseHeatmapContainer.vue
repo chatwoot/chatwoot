@@ -1,15 +1,18 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, watch } from 'vue';
 import { useToggle } from '@vueuse/core';
 import MetricCard from '../overview/MetricCard.vue';
 import BaseHeatmap from './BaseHeatmap.vue';
+import HeatmapDateRangeSelector from './HeatmapDateRangeSelector.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
+import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import endOfDay from 'date-fns/endOfDay';
+import format from 'date-fns/format';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
+import startOfMonth from 'date-fns/startOfMonth';
 import subDays from 'date-fns/subDays';
-import format from 'date-fns/format';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
@@ -57,27 +60,33 @@ const uiFlags = useMapGetter('getOverviewUIFlags');
 const heatmapData = useMapGetter(props.storeGetter);
 const inboxes = useMapGetter('inboxes/getInboxes');
 
-const menuItems = [
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS'),
-    value: 6,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_14_DAYS'),
-    value: 13,
-  },
-  {
-    label: t('REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS'),
-    value: 29,
-  },
-];
-
-const selectedDays = ref(6);
+const selectedFrom = ref(null);
+const selectedTo = ref(null);
+const selectedDaysBefore = ref(null);
 const selectedInbox = ref(null);
+const isMonthFilter = ref(false);
+const currentMonthOffset = ref(0);
 
-const selectedDayFilter = computed(() =>
-  menuItems.find(menuItem => menuItem.value === selectedDays.value)
-);
+const selectedRange = computed(() => {
+  if (!selectedFrom.value || !selectedTo.value) {
+    return null;
+  }
+  return {
+    from: selectedFrom.value,
+    to: selectedTo.value,
+  };
+});
+
+const numberOfRows = computed(() => {
+  if (!selectedRange.value) {
+    return 0;
+  }
+  const dateDifference = differenceInCalendarDays(
+    selectedRange.value.to,
+    selectedRange.value.from
+  );
+  return dateDifference + 1;
+});
 
 const inboxMenuItems = computed(() => {
   return [
@@ -105,13 +114,42 @@ const selectedInboxFilter = computed(() => {
 
 const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
 
+// Keeps relative presets (last 7 days / this month) aligned with "now" during live refreshes.
+const resolveActiveRange = () => {
+  if (isMonthFilter.value && currentMonthOffset.value === 0) {
+    const now = new Date();
+    const monthStart = startOfMonth(now);
+    return {
+      from: startOfDay(monthStart),
+      to: endOfDay(now),
+    };
+  }
+
+  if (!isMonthFilter.value && selectedDaysBefore.value !== null) {
+    const to = endOfDay(new Date());
+    return {
+      from: startOfDay(subDays(to, Number(selectedDaysBefore.value))),
+      to,
+    };
+  }
+
+  return selectedRange.value;
+};
+
 const downloadHeatmapData = () => {
-  const to = endOfDay(new Date());
+  const range = resolveActiveRange();
+  if (!range) {
+    return;
+  }
+
+  const { to } = range;
+  const shouldUseBackendDownload =
+    !isMonthFilter.value && !selectedInbox.value && props.downloadAction;
 
   // If no inbox is selected and download action exists, use backend endpoint
-  if (!selectedInbox.value && props.downloadAction) {
+  if (shouldUseBackendDownload) {
     store.dispatch(props.downloadAction, {
-      daysBefore: selectedDays.value,
+      daysBefore: selectedDaysBefore.value,
       to: getUnixTime(to),
     });
     return;
@@ -150,7 +188,6 @@ const downloadHeatmapData = () => {
   downloadCsvFile(fileName, csvContent);
 };
 
-const [showDropdown, toggleDropdown] = useToggle();
 const [showInboxDropdown, toggleInboxDropdown] = useToggle();
 
 const fetchHeatmapData = () => {
@@ -158,8 +195,12 @@ const fetchHeatmapData = () => {
     return;
   }
 
-  let to = endOfDay(new Date());
-  let from = startOfDay(subDays(to, Number(selectedDays.value)));
+  const range = resolveActiveRange();
+  if (!range) {
+    return;
+  }
+
+  const { from, to } = range;
 
   const params = {
     metric: props.metric,
@@ -178,25 +219,43 @@ const fetchHeatmapData = () => {
   store.dispatch(props.storeAction, params);
 };
 
-const handleAction = ({ value }) => {
-  toggleDropdown(false);
-  selectedDays.value = value;
-  fetchHeatmapData();
-};
-
 const handleInboxAction = ({ value }) => {
   toggleInboxDropdown(false);
   selectedInbox.value = value
     ? inboxes.value.find(inbox => inbox.id === value)
     : null;
-  fetchHeatmapData();
 };
 
 const { startRefetching } = useLiveRefresh(fetchHeatmapData);
 
+const handleRangeTypeChange = type => {
+  isMonthFilter.value = type === 'month';
+};
+
+const handleMonthOffsetChange = offset => {
+  currentMonthOffset.value = offset;
+};
+
+watch(
+  () => [selectedFrom.value, selectedTo.value],
+  ([from, to]) => {
+    if (from && to) {
+      fetchHeatmapData();
+    }
+  }
+);
+
+watch(
+  () => selectedInbox.value,
+  () => {
+    if (selectedRange.value) {
+      fetchHeatmapData();
+    }
+  }
+);
+
 onMounted(() => {
   store.dispatch('inboxes/get');
-  fetchHeatmapData();
   startRefetching();
 });
 </script>
@@ -205,25 +264,13 @@ onMounted(() => {
   <div class="flex flex-row flex-wrap max-w-full">
     <MetricCard :header="title">
       <template #control>
-        <div
-          v-on-clickaway="() => toggleDropdown(false)"
-          class="relative flex items-center group"
-        >
-          <Button
-            sm
-            slate
-            faded
-            :label="selectedDayFilter.label"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
-          />
-          <DropdownMenu
-            v-if="showDropdown"
-            :menu-items="menuItems"
-            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full"
-            @action="handleAction($event)"
-          />
-        </div>
+        <HeatmapDateRangeSelector
+          v-model:from="selectedFrom"
+          v-model:to="selectedTo"
+          v-model:days-num="selectedDaysBefore"
+          @range-type-change="handleRangeTypeChange"
+          @month-offset-change="handleMonthOffsetChange"
+        />
         <div
           v-on-clickaway="() => toggleInboxDropdown(false)"
           class="relative flex items-center group"
@@ -241,22 +288,23 @@ onMounted(() => {
             :menu-items="inboxMenuItems"
             show-search
             :search-placeholder="t('INBOX_REPORTS.SEARCH_INBOX')"
-            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full min-w-[200px]"
+            class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full !min-w-56 max-w-56 max-h-96 overflow-y-auto"
             @action="handleInboxAction($event)"
           />
         </div>
         <Button
+          v-tooltip="t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.DOWNLOAD_REPORT')"
           sm
           slate
           faded
-          :label="t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.DOWNLOAD_REPORT')"
+          icon="i-lucide-download"
           class="rounded-md group-hover:bg-n-alpha-2"
           @click="downloadHeatmapData"
         />
       </template>
       <BaseHeatmap
         :heatmap-data="heatmapData"
-        :number-of-rows="selectedDays + 1"
+        :number-of-rows="numberOfRows"
         :is-loading="isLoading"
         :color-scheme="colorScheme"
       />

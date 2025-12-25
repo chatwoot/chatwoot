@@ -282,6 +282,7 @@ export default {
         </ComposeConversation>
         <VoiceCallButton
           :phone="contact.phone_number"
+          :contact-id="contact.id"
           icon="i-ri-phone-fill"
           size="sm"
           :tooltip-label="$t('CONTACT_PANEL.CALL')"

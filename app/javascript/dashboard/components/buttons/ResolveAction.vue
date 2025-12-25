@@ -15,6 +15,7 @@ import {
   CMD_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const store = useStore();
@@ -133,7 +134,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <div
+    <ButtonGroup
       class="rounded-lg shadow outline-1 outline flex-shrink-0"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
@@ -142,6 +143,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
@@ -151,6 +153,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
@@ -160,6 +163,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
@@ -169,12 +173,13 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         icon="i-lucide-chevron-down"
         :disabled="isLoading"
         size="sm"
+        no-animation
         class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
         trailing-icon
         @click="openDropdown"
       />
-    </div>
+    </ButtonGroup>
     <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"

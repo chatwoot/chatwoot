@@ -50,6 +50,7 @@ tr:
       not_found: Assignment policy not found
     saml:
       feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
     data_import:
       data_type:
         invalid: Hatalı veri türü
@@ -62,6 +63,11 @@ tr:
         invalid: Hatalı e-posta
       phone_number:
         invalid: e164 formatında olmalı
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: q parametresiyle arama dizesini belirtin
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
@@ -73,6 +79,7 @@ tr:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -101,6 +108,13 @@ tr:
       invalid_token: Geçersiz veya süresi dolmuş MFA jetonu
       invalid_credentials: Geçersiz kimlik bilgileri veya doğrulama kodu
       feature_unavailable: MFA özelliği kullanılamıyor. Lütfen şifreleme anahtarlarını yapılandırın.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA başarıyla etkinleştirildi
@@ -176,6 +190,8 @@ tr:
     messages:
       instagram_story_content: '%{story_sender} hikayesinde senden bahsetti: '
       instagram_deleted_story_content: Bu hikaye artık mevcut değil.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Bu mesaj silinmiş
       whatsapp:
         list_button_label: 'Bir öğe seçin'
@@ -183,17 +199,19 @@ tr:
         error_code: 'Hata kodu: %{error_code}'
     activity:
       captain:
-        resolved: 'Sohbet, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
-        open: 'Sohbet, %{user_name} tarafından açık olarak işaretlendi'
+        resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
+        open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
         contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'
         open: 'Konuşma %{user_name} tarafından açık olarak işaretlendi'
         pending: 'Konuşma, %{user_name} tarafından bekleyen olarak işaretlendi'
         snoozed: 'Konuşma, %{user_name} tarafından erteledi olarak işaretlendi'
-        auto_resolved_days: ' %{count} günlük hareketsizlik nedeniyle konuşma, sistem tarafından çözümlendi olarak işaretlendi'
-        auto_resolved_hours: 'Sohbet, sistem tarafından %{count} saat etkinlik olmadığı için çözüldü olarak işaretlendi'
-        auto_resolved_minutes: 'Sohbet, sistem tarafından %{count} dakika etkinlik olmadığı için çözüldü olarak işaretlendi'
+        auto_resolved_days: 'Konuşma, %{count} günlük hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_hours: 'Konuşma, %{count} saatlik hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_minutes: 'Konuşma, %{count} dakikalık hareketsizlik nedeniyle sistem tarafından çözümlendi olarak işaretlendi'
         system_auto_open: Sistem, yeni gelen bir mesaj nedeniyle konuşmayı tekrar açtı.
       priority:
         added: '%{user_name} önceliği %{new_priority} olarak ayarladı'
@@ -212,7 +230,7 @@ tr:
         removed: '%{user_name}, %{labels} kaldırdı'
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
-        removed: '%{user_name} removed SLA policy %{sla_name}'
+        removed: '%{user_name}, %{sla_name} adlı SLA politikasını kaldırdı'
       linear:
         issue_created: 'Linear sorun %{issue_id} %{user_name} tarafından oluşturuldu'
         issue_linked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlandı'
@@ -255,16 +273,16 @@ tr:
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
       name: 'Dyte'
-      short_description: 'Müşterilerle doğrudan AlooChat üzerinden video/sesli arama başlatın.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from AlooChat.'
+      short_description: 'Müşterilerle doğrudan Chatwoot üzerinden video/sesli arama başlatın.'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
       meeting_name: '%{agent_name} bir toplantı başlattı'
     slack:
       name: 'Slack'
-      short_description: 'Slack üzerinden doğrudan bildirim alın ve sohbetlere yanıt verin.'
-      description: "Integrate AlooChat with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
+      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your AlooChat account. You can subscribe to your preferred events, and AlooChat will send you HTTP callbacks with the updates.'
+      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
     dialogflow:
       name: 'Dialogflow botu'
       short_description: 'Temsilcilere aktarmadan önce ilk soruları yanıtlayacak sohbet botları oluşturun.'
@@ -385,21 +403,21 @@ tr:
   automation:
     system_name: 'Otomasyon Sistemi'
   crm:
-    no_message: 'Sohbette mesaj yok'
+    no_message: 'Konuşmada mesaj yok'
     attachment: '[Ek: %{type}]'
-    no_content: '[No content]'
+    no_content: '[İçerik yok]'
     created_activity: |
-      Yeni sohbet başlatıldı: %{brand_name}
+      Yeni konuşma başlatıldı: %{brand_name}
 
       Kanal: %{channel_info}
       Oluşturulma: %{formatted_creation_time}
-      Sohbet Kimliği: %{display_id}
+      Konuşma Kimliği: %{display_id}
       %{brand_name}'de görüntüle: %{url}
     transcript_activity: |
       %{brand_name} sohbet dökümü
 
       Kanal: %{channel_info}
-      Sohbet Kimliği: %{display_id}
+      Konuşma Kimliği: %{display_id}
       %{brand_name}'de görüntüle: %{url}
 
       Döküm:

@@ -47,6 +47,12 @@ class ContactAPI extends ApiClient {
     return axios.get(`${this.url}/${contactId}/labels`);
   }
 
+  initiateCall(contactId, inboxId) {
+    return axios.post(`${this.url}/${contactId}/call`, {
+      inbox_id: inboxId,
+    });
+  }
+
   updateContactLabels(contactId, labels) {
     return axios.post(`${this.url}/${contactId}/labels`, { labels });
   }
