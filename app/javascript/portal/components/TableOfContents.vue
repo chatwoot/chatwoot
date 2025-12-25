@@ -112,7 +112,7 @@ export default {
             <p class="py-1 px-3" :class="getClassName(element)">
               <a
                 :href="`#${element.slug}`"
-                data-turbolinks="false"
+                data-turbo="false"
                 class="font-medium text-sm tracking-[0.28px] cursor-pointer"
                 :class="elementTextStyles(element)"
               >
