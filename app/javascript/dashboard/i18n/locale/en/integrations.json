@@ -50,6 +50,13 @@
           "LABEL": "Webhook Name",
           "PLACEHOLDER": "Enter the name of the webhook"
         },
+        "INBOX": {
+          "LABEL": "Inbox",
+          "TITLE": "Select the inbox",
+          "PLACEHOLDER": "All Inboxes",
+          "NO_RESULTS": "No inboxes found",
+          "INPUT_PLACEHOLDER": "Search inbox"
+        },
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
