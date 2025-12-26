@@ -88,6 +88,17 @@ export default {
         ...(socialProfiles || {}),
       };
     },
+    conversation() {
+      return this.$store.getters.getSelectedChat;
+    },
+    isAuthorized() {
+      return Boolean(this.conversation?.meta?.hmac_verified);
+    },
+    authorizationStatus() {
+      return this.isAuthorized
+        ? this.$t('CONTACT_PANEL.AUTHORIZATION.AUTHORIZED')
+        : this.$t('CONTACT_PANEL.AUTHORIZATION.NOT_AUTHORIZED');
+    },
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
@@ -259,6 +270,14 @@ export default {
             icon="map"
             emoji="🌍"
             :title="$t('CONTACT_PANEL.LOCATION')"
+          />
+          <ContactInfoRow
+            :key="`auth-${contact.id}`"
+            :value="authorizationStatus"
+            icon="lock-closed"
+            emoji="🔓"
+            :title="$t('CONTACT_PANEL.AUTHORIZATION.LABEL')"
+            :class="isAuthorized ? 'text-green-500' : 'text-red-500'"
           />
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
