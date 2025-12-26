@@ -200,17 +200,58 @@ RSpec.describe Integrations::LlmInstrumentation do
 
         result = instance.instrument_llm_call(params) do
           {
-            error: { message: 'API rate limit exceeded' },
-            error_code: 'rate_limit_exceeded'
+            error: 'API rate limit exceeded'
           }
         end
 
-        expect(result[:error_code]).to eq('rate_limit_exceeded')
+        expect(result[:error]).to eq('API rate limit exceeded')
         expect(mock_span).to have_received(:set_attribute)
-          .with('gen_ai.response.error', '{"message":"API rate limit exceeded"}')
-        expect(mock_span).to have_received(:set_attribute).with('gen_ai.response.error_code', 'rate_limit_exceeded')
+          .with('gen_ai.response.error', '"API rate limit exceeded"')
         expect(mock_span).to have_received(:status=).with(mock_status)
-        expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API Error: rate_limit_exceeded')
+        expect(OpenTelemetry::Trace::Status).to have_received(:error).with('API rate limit exceeded')
+      end
+    end
+
+    describe '#instrument_agent_session' do
+      context 'when OTEL provider is not configured' do
+        before { otel_config.update(value: '') }
+
+        it 'executes the block without tracing' do
+          result = instance.instrument_agent_session(params) { 'my_result' }
+          expect(result).to eq('my_result')
+        end
+      end
+
+      context 'when OTEL provider is configured' do
+        let(:mock_span) { instance_double(OpenTelemetry::Trace::Span) }
+        let(:mock_tracer) { instance_double(OpenTelemetry::Trace::Tracer) }
+
+        before do
+          allow(mock_span).to receive(:set_attribute)
+          allow(instance).to receive(:tracer).and_return(mock_tracer)
+          allow(mock_tracer).to receive(:in_span).and_yield(mock_span)
+        end
+
+        it 'executes the block and returns the result' do
+          result = instance.instrument_agent_session(params) { 'my_result' }
+          expect(result).to eq('my_result')
+        end
+
+        it 'returns the block result even if instrumentation has errors' do
+          allow(mock_tracer).to receive(:in_span).and_raise(StandardError.new('Instrumentation failed'))
+
+          result = instance.instrument_agent_session(params) { 'my_result' }
+
+          expect(result).to eq('my_result')
+        end
+
+        it 'sets trace input and output attributes' do
+          result_data = { content: 'AI response' }
+          instance.instrument_agent_session(params) { result_data }
+
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.input', params[:messages].to_json)
+          expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.output', result_data.to_json)
+        end
       end
     end
   end

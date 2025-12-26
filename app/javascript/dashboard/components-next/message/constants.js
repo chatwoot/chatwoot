@@ -49,6 +49,9 @@ export const ATTACHMENT_TYPES = {
   STORY_MENTION: 'story_mention',
   CONTACT: 'contact',
   IG_REEL: 'ig_reel',
+  EMBED: 'embed',
+  IG_POST: 'ig_post',
+  IG_STORY: 'ig_story',
 };
 
 export const CONTENT_TYPES = {

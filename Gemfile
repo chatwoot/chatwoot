@@ -165,7 +165,7 @@ gem 'working_hours'
 gem 'pg_search'
 
 # Subscriptions, Billing
-gem 'stripe'
+gem 'stripe', '~> 18.0'
 
 ## - helper gems --##
 ## to populate db with sample data
@@ -194,9 +194,10 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.4.3'
+gem 'ai-agents', '>= 0.7.0'
 
 # TODO: Move this gem as a dependency of ai-agents
+gem 'ruby_llm', '>= 1.8.2'
 gem 'ruby_llm-schema'
 
 # OpenTelemetry for LLM observability
@@ -217,7 +218,7 @@ group :production do
 end
 
 group :development do
-  gem 'annotate'
+  gem 'annotaterb'
   gem 'bullet'
   gem 'letter_opener'
   gem 'scss_lint', require: false
