@@ -24,6 +24,8 @@ class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
   self.table_name = 'captain_documents'
 
+  attr_accessor :exclude_paths_for_crawl
+
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
@@ -91,7 +93,7 @@ class Captain::Document < ApplicationRecord
   def enqueue_crawl_job
     return if status != 'in_progress'
 
-    Captain::Documents::CrawlJob.perform_later(self)
+    Captain::Documents::CrawlJob.perform_later(self, exclude_paths_for_crawl || [])
   end
 
   def enqueue_response_builder_job

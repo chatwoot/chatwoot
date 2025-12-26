@@ -21,7 +21,11 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   def create
     return render_could_not_create_error('Missing Assistant') if @assistant.nil?
 
-    @document = @assistant.documents.build(document_params)
+    exclude_paths = Array(document_params[:exclude_paths]).compact_blank
+    attrs = document_params.except(:exclude_paths)
+
+    @document = @assistant.documents.build(attrs)
+    @document.exclude_paths_for_crawl = exclude_paths
     @document.save!
   rescue Captain::Document::LimitExceededError => e
     render_could_not_create_error(e.message)
@@ -57,6 +61,6 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def document_params
-    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file)
+    params.require(:document).permit(:name, :external_link, :assistant_id, :pdf_file,  exclude_paths: [])
   end
 end
