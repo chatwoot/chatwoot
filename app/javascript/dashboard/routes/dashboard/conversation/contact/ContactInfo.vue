@@ -88,8 +88,11 @@ export default {
         ...(socialProfiles || {}),
       };
     },
+    conversation() {
+      return this.$store.getters.getSelectedChat;
+    },
     isAuthorized() {
-      return Boolean(this.contact.is_widget_authenticated);
+      return Boolean(this.conversation?.meta?.hmac_verified);
     },
     authorizationStatus() {
       return this.isAuthorized
