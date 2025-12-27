@@ -5,8 +5,10 @@ import i18nMessages from '../survey/i18n';
 import App from '../survey/App.vue';
 
 const app = createApp(App);
+const selectedLocale = window.chatwootConfig?.selectedLocale || 'tr';
 const i18n = createI18n({
-  locale: 'en',
+  locale: selectedLocale,
+  fallbackLocale: 'tr',
   messages: i18nMessages,
 });
 
