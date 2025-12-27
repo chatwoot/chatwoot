@@ -35,7 +35,8 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
                      else
                        Imap::FetchEmailService.new(channel: channel, interval: interval).perform
                      end
-    inbound_emails.map do |inbound_mail|
+
+    inbound_emails.each do |inbound_mail|
       process_mail(inbound_mail, channel)
     end
   rescue OAuth2::Error => e
@@ -43,11 +44,38 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     channel.authorization_error!
   end
 
+  def should_skip_email?(message_id)
+    failure_count = Rails.cache.read("email_failures:#{message_id}") || 0
+    failure_count >= 3
+  end
+
+  def mark_email_as_failed(message_id)
+    failure_count = Rails.cache.read("email_failures:#{message_id}") || 0
+    Rails.cache.write("email_failures:#{message_id}", failure_count + 1, expires_in: 6.hours)
+  end
+
   def process_mail(inbound_mail, channel)
-    Imap::ImapMailbox.new.process(inbound_mail, channel)
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
-    Rails.logger.error("
-      #{channel.provider} Email dropped: #{inbound_mail.from} and message_source_id: #{inbound_mail.message_id}")
+    # Skip if this email has failed multiple times recently
+    if should_skip_email?(inbound_mail.message_id)
+      Rails.logger.warn "[IMAP] Skipping problematic email: #{inbound_mail.message_id}"
+      return
+    end
+
+    begin
+      Timeout.timeout(email_processing_timeout) do
+        Imap::ImapMailbox.new.process(inbound_mail, channel)
+      end
+    rescue Timeout::Error
+      mark_email_as_failed(inbound_mail.message_id)
+      Rails.logger.error "[IMAP] Email processing timeout (#{email_processing_timeout}s): #{inbound_mail.message_id}"
+    rescue StandardError => e
+      mark_email_as_failed(inbound_mail.message_id)
+      Rails.logger.error "[IMAP] Failed to process email #{inbound_mail.message_id}: #{e.message}"
+      ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
+    end
+  end
+
+  def email_processing_timeout
+    GlobalConfigService.load('EMAIL_PROCESSING_TIMEOUT', 15).to_i
   end
 end
