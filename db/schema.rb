@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_27_034114) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -63,7 +63,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.string "name", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "locale", default: 0
+    t.integer "locale", default: 21
     t.string "domain", limit: 100
     t.string "support_email", limit: 100
     t.bigint "feature_flags", default: 0, null: false

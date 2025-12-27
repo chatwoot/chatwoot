@@ -17,9 +17,12 @@ import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 // Commenting it out for Vite migration
 // Vue.config.env = process.env;
 
+const selectedLocale = window.chatwootConfig?.selectedLocale || 'tr';
+
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
-  locale: 'en',
+  locale: selectedLocale,
+  fallbackLocale: 'tr',
   messages: i18nMessages,
 });
 
