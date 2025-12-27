@@ -48,6 +48,8 @@ sq:
       failed: Signup failed
     assignment_policy:
       not_found: Nuk u gjet politika e caktimit
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation

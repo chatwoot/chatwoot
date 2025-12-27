@@ -48,6 +48,8 @@ pt_BR:
       failed: Registro falhou
     assignment_policy:
       not_found: Política de atribuição não encontrada
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
       sso_not_enabled: SAML SSO is not enabled for this installation

@@ -48,6 +48,8 @@ ta:
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
     assignment_policy:
       not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
