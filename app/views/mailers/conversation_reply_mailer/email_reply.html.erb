@@ -1,7 +1,7 @@
 <% if @message.content_attributes.dig('email', 'html_content', 'reply').present? %>
 <%= @message.content_attributes.dig('email', 'html_content', 'reply').html_safe %>
 <% elsif @message.content %>
-<%= ChatwootMarkdownRenderer.new(@message.outgoing_content).render_message %>
+<%= @message.outgoing_content.html_safe %>
 <% end %>
 <% if @large_attachments.present? %>
 <p>Attachments:</p>

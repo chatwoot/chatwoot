@@ -406,6 +406,16 @@
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
 
+# ------- TikTok Channel Related Config ------- #
+- name: TIKTOK_APP_ID
+  display_title: 'TikTok App ID'
+  locked: false
+- name: TIKTOK_APP_SECRET
+  display_title: 'TikTok App Secret'
+  locked: false
+  type: secret
+# ------- End of TikTok Channel Related Config ------- #
+
 # ------- OG Image Related Config ------- #
 - name: OG_IMAGE_CDN_URL
   display_title: 'OG Image CDN URL'
