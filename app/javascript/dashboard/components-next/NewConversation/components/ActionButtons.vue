@@ -171,10 +171,13 @@ const onPaste = e => {
   const files = e.clipboardData?.files;
   if (!files?.length) return;
 
-  Array.from(files).forEach(file => {
-    const { name, type, size } = file;
-    onFileUpload({ file, name, type, size });
-  });
+  // Filter valid files (non-zero size)
+  Array.from(files)
+    .filter(file => file.size > 0)
+    .forEach(file => {
+      const { name, type, size } = file;
+      onFileUpload({ file, name, type, size });
+    });
 };
 
 useEventListener(document, 'paste', onPaste);

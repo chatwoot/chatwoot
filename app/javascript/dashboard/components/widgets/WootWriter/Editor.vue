@@ -676,11 +676,18 @@ function createEditorView() {
         typingIndicator.stop();
         emit('blur');
       },
-      paste: (_view, event) => {
+      paste: (view, event) => {
         if (props.disabled) return;
-        const data = event.clipboardData.files;
-        if (data.length > 0) {
-          event.preventDefault();
+        const { files } = event.clipboardData;
+        if (!files.length) return;
+        event.preventDefault();
+        // Paste text content alongside files (e.g., spreadsheet data from Numbers app)
+        // Numbers app includes invalid 0-byte attachments with text, so we paste the text here
+        // while ReplyBox filters and handles valid file attachments
+        const text = event.clipboardData.getData('text/plain');
+        if (text) {
+          view.dispatch(view.state.tr.insertText(text));
+          emitOnChange();
         }
       },
     },
