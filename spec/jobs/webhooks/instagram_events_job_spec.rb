@@ -227,7 +227,7 @@ describe Webhooks::InstagramEventsJob do
       before do
         instagram_channel.update(access_token: 'valid_instagram_token')
 
-        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-.*\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v24\.0/Sender-id-.*\?.*})
           .to_return(
             status: 200,
             body: proc { |request|
@@ -347,7 +347,7 @@ describe Webhooks::InstagramEventsJob do
       it 'does not create contact or messages when Instagram API call fails' do
         story_mention_echo_event = build(:instagram_story_mention_event_with_echo).with_indifferent_access
 
-        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v24\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'Invalid OAuth access token' } }.to_json)
 
         instagram_webhook.perform_now(story_mention_echo_event[:entry])
@@ -366,7 +366,7 @@ describe Webhooks::InstagramEventsJob do
       end
 
       it 'creates contact when Instagram API call returns `No matching Instagram user` (9010 error code)' do
-        stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/.*\?.*})
+        stub_request(:get, %r{https://graph\.instagram\.com/v24\.0/.*\?.*})
           .to_return(status: 401, body: { error: { message: 'No matching Instagram user', code: 9010 } }.to_json)
 
         dm_event = build(:instagram_message_create_event).with_indifferent_access
