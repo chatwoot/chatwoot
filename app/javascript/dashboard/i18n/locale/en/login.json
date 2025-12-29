@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Hablia Care",
+    "TITLE": "Iniciar sesión en Hablia Care",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",
