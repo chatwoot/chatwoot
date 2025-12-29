@@ -10,6 +10,7 @@ import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
+import tapSettingsAPI from 'dashboard/api/tapSettings';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -82,6 +83,7 @@ const conversationCustomViews = useMapGetter(
 );
 
 const isPayzahEnabled = ref(false);
+const isTapEnabled = ref(false);
 
 const loadPayzahStatus = async () => {
   try {
@@ -89,6 +91,15 @@ const loadPayzahStatus = async () => {
     isPayzahEnabled.value = !!response.data?.enabled;
   } catch (error) {
     isPayzahEnabled.value = false;
+  }
+};
+
+const loadTapStatus = async () => {
+  try {
+    const response = await tapSettingsAPI.get();
+    isTapEnabled.value = !!response.data?.enabled;
+  } catch (error) {
+    isTapEnabled.value = false;
   }
 };
 
@@ -101,6 +112,7 @@ onMounted(() => {
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
   loadPayzahStatus();
+  loadTapStatus();
 });
 
 const sortedInboxes = computed(() =>
@@ -376,7 +388,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-    ...(isPayzahEnabled.value
+    ...(isPayzahEnabled.value || isTapEnabled.value
       ? [
           {
             name: 'Payment Links',
