@@ -16,6 +16,8 @@ import bulkActions from './modules/bulkActions';
 import campaigns from './modules/campaigns';
 import marketingCampaigns from './modules/marketingCampaigns';
 import productCatalogs from './modules/productCatalogs';
+import faqCategories from './modules/faqCategories';
+import faqItems from './modules/faqItems';
 import bulkProcessingRequests from './modules/bulkProcessingRequests';
 import cannedResponse from './modules/cannedResponse';
 import categories from './modules/helpCenterCategories';
@@ -86,6 +88,8 @@ export default createStore({
     campaigns,
     marketingCampaigns,
     productCatalogs,
+    faqCategories,
+    faqItems,
     bulkProcessingRequests,
     cannedResponse,
     categories,

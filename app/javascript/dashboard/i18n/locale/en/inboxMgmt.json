@@ -1068,6 +1068,16 @@
       "STATUS_VALUE": "Active",
       "AUTO_ASSIGNMENT_LABEL": "Auto Assignment:",
       "AUTO_ASSIGNMENT_VALUE": "Disabled"
+    },
+    "FAQ_CONFIGURATION": {
+      "TITLE": "FAQ Categories",
+      "DESC": "Select FAQ categories that the AI agent can use to answer common questions.",
+      "NO_CATEGORIES": "No FAQ categories available. Create categories in Knowledge Base > FAQs first.",
+      "SELECTED_COUNT": "{count} categories selected",
+      "SAVE": "Save Configuration",
+      "SUCCESS_MESSAGE": "FAQ configuration saved successfully",
+      "ERROR_MESSAGE": "Failed to save FAQ configuration",
+      "FETCH_ERROR": "Failed to load FAQ categories"
     }
   }
 }

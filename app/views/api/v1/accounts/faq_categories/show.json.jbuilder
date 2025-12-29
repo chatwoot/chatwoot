@@ -1,0 +1,9 @@
+json.id @faq_category.id
+json.name @faq_category.name
+json.description @faq_category.description
+json.parent_id @faq_category.parent_id
+json.position @faq_category.position
+json.is_visible @faq_category.is_visible
+json.created_at @faq_category.created_at
+json.updated_at @faq_category.updated_at
+json.faq_items_count @faq_category.faq_items.count

@@ -1063,6 +1063,16 @@
       "STATUS_VALUE": "Activo",
       "AUTO_ASSIGNMENT_LABEL": "Asignación automática:",
       "AUTO_ASSIGNMENT_VALUE": "Deshabilitado"
+    },
+    "FAQ_CONFIGURATION": {
+      "TITLE": "Categorías de FAQs",
+      "DESC": "Selecciona las categorías de FAQs que el agente de IA puede usar para responder preguntas comunes.",
+      "NO_CATEGORIES": "No hay categorías de FAQs disponibles. Crea categorías en Base de Conocimientos > FAQs primero.",
+      "SELECTED_COUNT": "{count} categorías seleccionadas",
+      "SAVE": "Guardar Configuración",
+      "SUCCESS_MESSAGE": "Configuración de FAQs guardada exitosamente",
+      "ERROR_MESSAGE": "Error al guardar la configuración de FAQs",
+      "FETCH_ERROR": "Error al cargar las categorías de FAQs"
     }
   }
 }

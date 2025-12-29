@@ -456,6 +456,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.KNOWLEDGE_BASE.PRODUCT_CATALOG'),
           to: accountScopedRoute('knowledge_base_products'),
         },
+        {
+          name: 'FAQs',
+          label: t('SIDEBAR.KNOWLEDGE_BASE.FAQS'),
+          to: accountScopedRoute('knowledge_base_faqs'),
+        },
       ],
     },
     {

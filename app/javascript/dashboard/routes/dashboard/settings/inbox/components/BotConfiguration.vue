@@ -4,12 +4,14 @@ import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import FaqCategorySelector from './FaqCategorySelector.vue';
 
 export default {
   components: {
     LoadingState,
     SettingsSection,
     NextButton,
+    FaqCategorySelector,
   },
   props: {
     inbox: {
@@ -75,6 +77,11 @@ export default {
           inboxId: this.inbox.id,
           botId: this.selectedAgentBotId || undefined,
         });
+
+        // Save FAQ categories selection if component is available
+        if (this.$refs.faqCategorySelector?.saveSelection) {
+          await this.$refs.faqCategorySelector.saveSelection();
+        }
 
         useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.SUCCESS_MESSAGE'));
       } catch (error) {
@@ -173,7 +180,15 @@ export default {
         </div>
       </SettingsSection>
 
-      <div class="button-container space-x-2">
+      <!-- FAQ Categories Section -->
+      <SettingsSection
+        :title="$t('INBOX_MGMT.FAQ_CONFIGURATION.TITLE')"
+        :sub-title="$t('INBOX_MGMT.FAQ_CONFIGURATION.DESC')"
+      >
+        <FaqCategorySelector ref="faqCategorySelector" :inbox-id="inbox.id" />
+      </SettingsSection>
+
+      <div class="button-container space-x-2 mb-8">
         <NextButton
           type="submit"
           :label="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
