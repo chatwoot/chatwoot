@@ -69,73 +69,11 @@ const showChatSupport = computed(() => {
 const menuItems = computed(() => {
   return [
     {
-      show: showYearInReviewMenuItem.value,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.YEAR_IN_REVIEW'),
-      icon: 'i-lucide-gift',
-      click: openYearInReviewModal,
-    },
-    {
-      show: showChatSupport.value,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
-      icon: 'i-lucide-life-buoy',
-      click: () => {
-        window.$chatwoot.toggle();
-      },
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
-      icon: 'i-lucide-keyboard',
-      click: () => {
-        emit('openKeyShortcutModal');
-      },
-    },
-    {
       show: true,
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
       icon: 'i-lucide-user-pen',
       link: { name: 'profile_settings_index' },
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.APPEARANCE'),
-      icon: 'i-lucide-palette',
-      click: () => {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open({ parent: 'appearance_settings' });
-      },
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.DOCS'),
-      icon: 'i-lucide-book',
-      link: 'https://www.chatwoot.com/hc/user-guide/en',
-      nativeLink: true,
-      target: '_blank',
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.CHANGELOG'),
-      icon: 'i-lucide-scroll-text',
-      link: 'https://www.chatwoot.com/changelog/',
-      nativeLink: true,
-      target: '_blank',
-    },
-    {
-      show: currentUser.value.type === 'SuperAdmin',
-      showOnCustomBrandedInstance: true,
-      label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
-      icon: 'i-lucide-castle',
-      link: '/super_admin',
-      nativeLink: true,
-      target: '_blank',
     },
     {
       show: true,

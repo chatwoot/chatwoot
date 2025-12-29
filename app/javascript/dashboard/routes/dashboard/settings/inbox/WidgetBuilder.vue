@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       isWidgetPreview: true,
-      color: '#1f93ff',
+      color: '#d30046',
       websiteName: '',
       welcomeHeading: '',
       welcomeTagline: '',

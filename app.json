@@ -1,9 +1,9 @@
 {
-  "name": "Chatwoot",
-  "description": "Chatwoot is a customer support tool for instant messaging channels",
-  "website": "https://www.chatwoot.com/",
-  "repository": "https://github.com/chatwoot/chatwoot",
-  "logo": "https://app.chatwoot.com/brand-assets/logo_thumbnail.svg",
+  "name": "Hablia Care",
+  "description": "Hablia Care - Plataforma de atención al cliente",
+  "website": "https://care.hablia.ai/",
+  "repository": "https://github.com/tu-usuario/chatwoot-hablia",
+  "logo": "https://firebasestorage.googleapis.com/v0/b/hablia-dev.firebasestorage.app/o/LogoAppHabliaCareAndroid.png?alt=media&token=a0efca67-c27c-4419-90d4-9a82224445cb",
   "keywords": [
     "live chat",
     "customer support",

@@ -17,7 +17,7 @@ responses:
         example:
           payload:
             - id: 4
-              color: "#1F93FF"
+              color: "#d30046"
               custom_domain: "chatwoot.help"
               header_text: "Handbook"
               homepage_link: "https://www.chatwoot.com"
@@ -38,7 +38,7 @@ responses:
                 name: "Chatwoot"
                 channel_type: "Channel::WebWidget"
                 greeting_enabled: true
-                widget_color: "#1F93FF"
+                widget_color: "#d30046"
                 website_url: "chatwoot.com"
               logo:
                 id: 19399916

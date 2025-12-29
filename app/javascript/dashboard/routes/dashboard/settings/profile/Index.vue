@@ -246,15 +246,6 @@ export default {
       />
     </FormSection>
     <FormSection
-      :title="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.TITLE')"
-      :description="$t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.NOTE')"
-    >
-      <MessageSignature
-        :message-signature="messageSignature"
-        @update-signature="updateSignature"
-      />
-    </FormSection>
-    <FormSection
       :title="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.TITLE')"
       :description="$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.NOTE')"
     >
@@ -311,17 +302,5 @@ export default {
         <NotificationPreferences />
       </FormSection>
     </Policy>
-    <FormSection
-      :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
-      :description="
-        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
-      "
-    >
-      <AccessToken
-        :value="currentUser.access_token"
-        @on-copy="onCopyToken"
-        @on-reset="resetAccessToken"
-      />
-    </FormSection>
   </div>
 </template>

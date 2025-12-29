@@ -199,6 +199,19 @@ const tailwindConfig = {
       'modal-backdrop-dark': 'rgba(0, 0, 0, 0.6)',
       current: 'currentColor',
       ...colors,
+      woot: {
+        25: '#FFFAFC',  // Casi blanco
+        50: '#FFF1F5',  // Fondo muy suave
+        100: '#FFE4EC',
+        200: '#FFC9D9',
+        300: '#FF9EB8',
+        400: '#FF5C8D',
+        500: '#D30046', // <--- TU COLOR PRINCIPAL
+        600: '#B0003A', // Hover (más oscuro para interacción)
+        700: '#8F002F',
+        800: '#700025',
+        900: '#52001B', // Textos muy oscuros
+      },
       body: slateDark.slate7,
     },
     keyframes: {

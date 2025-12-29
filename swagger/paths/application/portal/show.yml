@@ -19,7 +19,7 @@ responses:
           payload:
             id: 123
             archived: false
-            color: "#1F93FF"
+            color: "#d30046"
             config:
               allowed_locales:
                 - code: "en"
@@ -38,7 +38,7 @@ responses:
               website_url: "chatwoot.com"
               channel_type: "Channel::WebWidget"
               avatar_url: "https://example.com/avatar.png"
-              widget_color: "#1F93FF"
+              widget_color: "#d30046"
               website_token: "4cWzuf9i9jxN9tbnv8K9STKU"
               enable_auto_assignment: true
               web_widget_script: "<script>...</script>"

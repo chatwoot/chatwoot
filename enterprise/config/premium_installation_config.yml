@@ -1,18 +1,18 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Hablia Care'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
-- name: LOGO
+- name: LOGO  
   value: '/brand-assets/logo.svg'
 - name: LOGO_DARK
   value: '/brand-assets/logo_dark.svg'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://firebasestorage.googleapis.com/v0/b/hablia-dev.firebasestorage.app/o/LogoAppHabliaCareAndroid.png?alt=media&token=a0efca67-c27c-4419-90d4-9a82224445cb'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://firebasestorage.googleapis.com/v0/b/hablia-dev.firebasestorage.app/o/LogoAppHabliaCareAndroid.png?alt=media&token=a0efca67-c27c-4419-90d4-9a82224445cb'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Hablia Care'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL
