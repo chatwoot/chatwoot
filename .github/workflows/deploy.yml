@@ -32,7 +32,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.76
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.77
       
       - name: Build and push Vite image
         uses: docker/build-push-action@v4
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./docker/dockerfiles/vite.Dockerfile
           push: true
-          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite:v1.0.76
+          tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-vite:v1.0.77
 
   deploy:
     needs: build-and-push
@@ -162,8 +162,8 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
-            APPSIGNAL_PUSH_API_KEY: "${{ secrets.PRODUCTION_APP_SIGNAL_PUSH_API_KEY }}"
-            APPSIGNAL_APP_NAME: "${{ secrets.PRODUCTION_APP_SIGNAL_APP_NAME }}"
+            APPSIGNAL_PUSH_API_KEY: "${{ secrets.APP_SIGNAL_PUSH_API_KEY }}"
+            APPSIGNAL_APP_NAME: "${{ secrets.APP_SIGNAL_APP_NAME }}"
             POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
@@ -230,8 +230,8 @@ jobs:
             IP_LOOKUP_API_KEY: "${{ secrets.IP_LOOKUP_API_KEY }}"
             PAYZAH_API_URL: "${{ secrets.PAYZAH_API_URL }}"
             ENABLE_PUSH_RELAY_SERVER: "${{ secrets.ENABLE_PUSH_RELAY_SERVER }}"
-            APPSIGNAL_PUSH_API_KEY: "${{ secrets.PRODUCTION_APP_SIGNAL_PUSH_API_KEY }}"
-            APPSIGNAL_APP_NAME: "${{ secrets.PRODUCTION_APP_SIGNAL_APP_NAME }}"
+            APPSIGNAL_PUSH_API_KEY: "${{ secrets.APP_SIGNAL_PUSH_API_KEY }}"
+            APPSIGNAL_APP_NAME: "${{ secrets.APP_SIGNAL_APP_NAME }}"
             POSTHOG_API_KEY: "${{ secrets.POSTHOG_API_KEY }}"
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF

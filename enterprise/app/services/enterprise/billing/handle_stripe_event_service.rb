@@ -18,6 +18,7 @@ class Enterprise::Billing::HandleStripeEventService
     captain_integration
     advanced_search_indexing
     advanced_search
+    linear_integration
   ].freeze
 
   # Additional features available starting with the Business plan
