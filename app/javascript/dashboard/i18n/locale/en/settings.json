@@ -357,6 +357,7 @@
     "LABELS": "Labels",
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
+    "LEAD_RETARGETING": "Copilots",
     "MACROS": "Macros",
     "TEAMS": "Teams",
     "BILLING": "Billing",
@@ -823,6 +824,178 @@
       "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
       "CONFIRM_BUTTON_LABEL": "Delete",
       "CANCEL_BUTTON_LABEL": "Cancel"
+    }
+  },
+  "LEAD_RETARGETING": {
+    "HEADER": "Copilots",
+    "DESCRIPTION": "No more lost leads. Train your own AI copilots/autonomous agents to take control of your operations",
+    "LEARN_MORE": "Learn more",
+    "HEADER_BTN_TXT": "Add Copilot",
+    "BREADCRUMB": {
+      "BACK": "Back"
+    },
+    "LIST": {
+      "404": "No copilots created yet",
+      "STEPS": "Steps",
+      "ENROLLED": "enrolled",
+      "EDIT": "Edit",
+      "ACTIVATE": "Activate",
+      "DEACTIVATE": "Deactivate",
+      "DELETE": "Delete",
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "STATUS": "Status",
+        "INBOX": "Inbox",
+        "STEPS": "Steps"
+      },
+      "API": {
+        "ERROR_MESSAGE": "Failed to load copilots"
+      }
+    },
+    "STATUS": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive"
+    },
+    "TOGGLE": {
+      "ACTIVATED": "Copilot activated successfully",
+      "DEACTIVATED": "Copilot deactivated successfully",
+      "ERROR": "Failed to toggle copilot status"
+    },
+    "DELETE": {
+      "CONFIRM_MESSAGE": "Are you sure you want to delete {name}?",
+      "SUCCESS_MESSAGE": "Copilot deleted successfully",
+      "ERROR_MESSAGE": "Failed to delete copilot"
+    },
+    "FORM": {
+      "NEW_TITLE": "New Copilot",
+      "EDIT_TITLE": "Edit Copilot",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "BASIC_INFO": "Basic Information",
+      "BASIC_INFO_SUBTITLE": "Configure the basic details for your copilot",
+      "NAME": "Name",
+      "NAME_PLACEHOLDER": "e.g., Meta Campaign Follow-up",
+      "NAME_REQUIRED": "Copilot name is required",
+      "DESCRIPTION": "Description",
+      "DESCRIPTION_PLACEHOLDER": "Describe when this sequence should run",
+      "INBOX": "WhatsApp Inbox",
+      "INBOX_REQUIRED": "WhatsApp inbox is required",
+      "SELECT_INBOX": "Select inbox...",
+      "SETTINGS": "Settings",
+      "SETTINGS_SUBTITLE": "Control when and how the copilot should execute",
+      "STOP_ON_REPLY": "Stop copilot when contact replies",
+      "STOP_ON_RESOLVED": "Stop copilot when conversation is resolved",
+      "ACTIVATE": "Activate copilot",
+      "STEPS": "Copilot Steps",
+      "STEPS_SUBTITLE": "Define the actions that will be executed in order",
+      "NO_STEPS": "No steps added yet. Add wait periods and template messages to create your copilot.",
+      "STEP_NAME": "Step name",
+      "DELETE_STEP": "Delete step",
+      "LOAD_ERROR": "Failed to load copilot",
+      "CREATE_SUCCESS": "Copilot created successfully",
+      "CREATE_ERROR": "Failed to create copilot",
+      "UPDATE_SUCCESS": "Copilot updated successfully",
+      "UPDATE_ERROR": "Failed to update copilot",
+      "REACTIVATION_FILTERS": "Reactivation Filters",
+      "REACTIVATION_FILTERS_SUBTITLE": "Control which conversations get reactivated when the copilot completes",
+      "ENABLE_DATE_FILTER": "Enable Date Filter",
+      "DATE_FILTER_TYPE": "Filter Based On",
+      "DATE_FILTER_CONVERSATION_CREATED": "Conversation Created Date",
+      "DATE_FILTER_LAST_MESSAGE": "Last Message Date",
+      "DATE_FILTER_INACTIVE_DAYS": "Days Without Activity",
+      "DATE_OPERATOR": "Date Condition",
+      "DATE_OPERATOR_OLDER_THAN": "Older than X days",
+      "DATE_OPERATOR_NEWER_THAN": "Newer than X days",
+      "DATE_OPERATOR_BETWEEN": "Between dates",
+      "DAYS": "days",
+      "FROM_DATE": "From Date",
+      "TO_DATE": "To Date",
+      "DATE_FILTER_HELP": "Only reactivate conversations that match this date criteria",
+      "ENABLE_LABEL_FILTER": "Enable Label Filter",
+      "SELECT_LABELS": "Select Labels",
+      "SEARCH_LABELS": "Search labels...",
+      "NO_LABELS_FOUND": "No labels found",
+      "LABEL_FILTER_HELP": "Only reactivate conversations that have at least one of these labels",
+      "ENABLE_STATUS_FILTER": "Enable Status Filter",
+      "SELECT_STATUSES": "Select Statuses",
+      "SEARCH_STATUSES": "Search statuses...",
+      "NO_STATUSES_FOUND": "No statuses found",
+      "STATUS_FILTER_HELP": "Only reactivate conversations that have one of these statuses",
+      "STATUSES_REQUIRED": "Please select at least one status",
+      "ENABLE_PIPELINE_STATUS_FILTER": "Enable Pipeline Status Filter",
+      "SELECT_PIPELINE_STATUSES": "Select Pipeline Statuses",
+      "SEARCH_PIPELINE_STATUSES": "Search pipeline statuses...",
+      "NO_PIPELINE_STATUSES_FOUND": "No pipeline statuses found",
+      "PIPELINE_STATUS_FILTER_HELP": "Only reactivate conversations that have one of these pipeline statuses",
+      "PIPELINE_STATUSES_REQUIRED": "Please select at least one pipeline status",
+      "DATE_RANGE_REQUIRED": "Please select both from and to dates",
+      "DATE_VALUE_REQUIRED": "Please enter a valid number of days",
+      "LABELS_REQUIRED": "Please select at least one label"
+    },
+    "STEPS": {
+      "WAIT": {
+        "ADD": "Wait",
+        "DEFAULT_NAME": "Wait period",
+        "LABEL": "Wait for",
+        "MINUTES": "minutes",
+        "HOURS": "hours",
+        "DAYS": "days"
+      },
+      "SEND_TEMPLATE": {
+        "ADD": "Send Template",
+        "DEFAULT_NAME": "Send WhatsApp template",
+        "SELECT": "Select template..."
+      },
+      "ADD_LABEL": {
+        "ADD": "Add Label",
+        "DEFAULT_NAME": "Add label to conversation",
+        "SELECT_LABEL": "Select Label",
+        "PLACEHOLDER": "Select a label..."
+      },
+      "REMOVE_LABEL": {
+        "ADD": "Remove Label",
+        "DEFAULT_NAME": "Remove label from conversation",
+        "SELECT_LABEL": "Select Label",
+        "PLACEHOLDER": "Select a label to remove..."
+      },
+      "ASSIGN_AGENT": {
+        "ADD": "Assign Agent",
+        "DEFAULT_NAME": "Assign agent to conversation",
+        "TYPE": "Assignment Type",
+        "ROUND_ROBIN": "Round Robin",
+        "SPECIFIC": "Specific Agent",
+        "SELECT_AGENT": "Select Agent",
+        "SELECT_PLACEHOLDER": "Select an agent..."
+      },
+      "ASSIGN_TEAM": {
+        "ADD": "Assign Team",
+        "DEFAULT_NAME": "Assign team to conversation",
+        "SELECT_TEAM": "Select Team",
+        "SELECT_PLACEHOLDER": "Select a team..."
+      },
+      "CHANGE_PRIORITY": {
+        "ADD": "Change Priority",
+        "DEFAULT_NAME": "Change conversation priority",
+        "SELECT_PRIORITY": "Priority",
+        "LOW": "Low",
+        "MEDIUM": "Medium",
+        "HIGH": "High",
+        "URGENT": "Urgent"
+      },
+      "UPDATE_PIPELINE_STATUS": {
+        "ADD": "Update Pipeline Status",
+        "DEFAULT_NAME": "Update conversation pipeline status",
+        "SELECT_STATUS": "Pipeline Status",
+        "SELECT_PLACEHOLDER": "Select a pipeline status..."
+      },
+      "WEBHOOK": {
+        "ADD": "Webhook",
+        "DEFAULT_NAME": "Call webhook",
+        "URL": "Webhook URL",
+        "URL_PLACEHOLDER": "https://example.com/webhook",
+        "METHOD": "HTTP Method",
+        "VARIABLES_HINT": "You can use variables like {{contact.name}}, {{conversation.id}}, etc."
+      }
     }
   }
 }

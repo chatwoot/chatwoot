@@ -559,6 +559,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('automation_list'),
         },
         {
+          name: 'Settings Lead Retargeting',
+          label: t('SIDEBAR.LEAD_RETARGETING'),
+          icon: 'i-lucide-target',
+          to: accountScopedRoute('copilots_list'),
+        },
+        {
           name: 'Settings Agent Bots',
           label: t('SIDEBAR.AGENT_BOTS'),
           icon: 'i-lucide-bot',

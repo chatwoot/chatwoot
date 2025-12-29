@@ -19,6 +19,7 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       assignee_type: params[:assignee_type]
     ).perform
 
+    @agent = resource if resource.is_a?(User)
     trigger_whatsapp_group_creation(resource)
     render_agent(resource)
   end

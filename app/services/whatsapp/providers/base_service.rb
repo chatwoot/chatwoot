@@ -33,6 +33,8 @@ class Whatsapp::Providers::BaseService
 
   def process_response(response, message)
     parsed_response = response.parsed_response
+    Rails.logger.info "Response: #{parsed_response}"
+    
     if response.success? && parsed_response['error'].blank?
       parsed_response['messages'].first['id']
     else

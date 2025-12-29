@@ -99,6 +99,18 @@ Rails.application.routes.draw do
           resources :automation_rules, only: [:index, :create, :show, :update, :destroy] do
             post :clone
           end
+          resources :copilot_sequences, only: [:index, :create, :show, :update, :destroy], controller: 'lead_follow_up_sequences' do
+            member do
+              post :activate
+              post :deactivate
+              get :enrolled_conversations
+              post :cancel_follow_ups
+            end
+            collection do
+              get :available_templates
+              post :preview_eligible
+            end
+          end
           resources :macros, only: [:index, :create, :show, :update, :destroy] do
             post :execute, on: :member
           end
