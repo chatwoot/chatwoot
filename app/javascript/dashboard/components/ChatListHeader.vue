@@ -58,7 +58,7 @@ const hasAppliedFiltersOrActiveFolders = computed(() => {
         {{ pageTitle }}
       </h1>
       <div
-        v-if="hasAppliedFilters && conversationCount > 0"
+        v-if="hasAppliedFiltersOrActiveFolders && conversationCount > 0"
         class="bg-slate-50 dark:bg-slate-800 rounded-md text-slate-600 dark:text-slate-100 h-5 flex items-center justify-center text-xxs font-semibold my-0 mx-1 px-1 py-0 min-w-[20px]"
       >
         <span>
