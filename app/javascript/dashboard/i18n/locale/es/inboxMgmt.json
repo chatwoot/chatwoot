@@ -458,7 +458,7 @@
         "TITLE": "Canal de Telegram",
         "DESC": "Integre con el canal de Telegram y comience a apoyar a sus clientes.",
         "BOT_TOKEN": {
-          "LABEL": "Bot Token",
+          "LABEL": "Token de Agente de IA",
           "SUBTITLE": "Configura el token de agente IA que has obtenido de Telegram BotFather.",
           "PLACEHOLDER": "Agente IA Token"
         },
@@ -499,7 +499,7 @@
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "Configura el canal de Telegram usando el token de Agente de IA"
           },
           "LINE": {
             "TITLE": "Line",

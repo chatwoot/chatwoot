@@ -503,7 +503,7 @@
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "Configure Telegram channel using AI agent token"
           },
           "LINE": {
             "TITLE": "Line",

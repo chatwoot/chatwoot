@@ -274,7 +274,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs yet",
-        "SUBTITLE": "Create categories and add FAQ items to help your bot answer common questions."
+        "SUBTITLE": "Create categories and add FAQ items to help your AI agent answer common questions."
       },
       "VISIBILITY": {
         "HIDDEN": "FAQ hidden successfully",
