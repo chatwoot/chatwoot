@@ -14,6 +14,7 @@
         color-scheme="alert"
         class="action-button"
         variant="smooth"
+        :is-loading="isLoading"
         @click="onConfirm"
       >
         {{ confirmText }}
@@ -38,6 +39,7 @@ export default {
     messageValue: { type: String, default: '' },
     confirmText: { type: String, default: '' },
     rejectText: { type: String, default: '' },
+    isLoading: { type: Boolean, default: false },
   },
 };
 </script>

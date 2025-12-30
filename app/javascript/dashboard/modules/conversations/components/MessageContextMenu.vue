@@ -25,6 +25,7 @@
       :show.sync="showDeleteModal"
       :on-close="closeDeleteModal"
       :on-confirm="confirmDeletion"
+      :is-loading="isDeleting"
       :title="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.TITLE')"
       :message="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.MESSAGE')"
       :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
@@ -190,6 +191,7 @@ export default {
       showDeleteModal: false,
       showInstagramDmModal: false,
       showForwardEmailModal: false,
+      isDeleting: false,
     };
   },
   computed: {
@@ -288,19 +290,26 @@ export default {
       this.showInstagramDmModal = true;
     },
     async confirmDeletion() {
+      if (this.isDeleting) return;
+
+      this.isDeleting = true;
       try {
         await this.$store.dispatch('deleteMessage', {
           conversationId: this.conversationId,
           messageId: this.messageId,
         });
         this.showAlert(this.$t('CONVERSATION.SUCCESS_DELETE_MESSAGE'));
+        this.closeDeleteModal();
         this.handleClose();
       } catch (error) {
         this.showAlert(this.$t('CONVERSATION.FAIL_DELETE_MESSSAGE'));
+      } finally {
+        this.isDeleting = false;
       }
     },
     closeDeleteModal() {
       this.showDeleteModal = false;
+      this.isDeleting = false;
     },
     closeInstagramDmModal() {
       this.showInstagramDmModal = false;
