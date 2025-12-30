@@ -57,6 +57,6 @@ bulk_auto_assignment_job:
 # executed every hour
 # to retry failed WhatsApp template messages
 retry_whatsapp_template_messages_job:
-  cron: '0 * * * *'
+  cron: '/20 * * * *'
   class: 'RetryWhatsappTemplateMessagesJob'
   queue: scheduled_jobs
