@@ -281,10 +281,10 @@
       "OUTGOING_CALL": "Chiamata in uscita",
       "CALL_IN_PROGRESS": "Chiamata in corso",
       "NOT_ANSWERED_YET": "Non ancora risposta",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Gestita in un'altra scheda",
+      "REJECT_CALL": "Rifiuta",
+      "JOIN_CALL": "Entra nella chiamata",
+      "END_CALL": "Termina chiamata"
     }
   },
   "EMAIL_TRANSCRIPT": {
