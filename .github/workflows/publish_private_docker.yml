@@ -59,7 +59,7 @@ jobs:
       - name: Set Chatwoot Edition
         run: |
           # Defaulting to CE edition for FOSS builds
-          echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
+          echo -en '\nENV CW_EDITION="ee"' >> docker/Dockerfile
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
