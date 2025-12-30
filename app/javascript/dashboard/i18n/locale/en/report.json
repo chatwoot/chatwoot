@@ -577,6 +577,7 @@
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "CONVERSATIONS": "No. of conversations",
+    "AGENT_CHAT_DURATION": "Avg chat duration"
   }
 }

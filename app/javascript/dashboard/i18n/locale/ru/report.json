@@ -577,6 +577,7 @@
     "AVG_FIRST_RESPONSE_TIME": "Среднее время первого ответа",
     "AVG_REPLY_TIME": "Среднее время ожидания клиента",
     "RESOLUTION_COUNT": "Количество завершенных",
-    "CONVERSATIONS": "Количество диалогов"
+    "CONVERSATIONS": "Количество диалогов",
+    "AGENT_CHAT_DURATION": "Среднее время длительности чатов"
   }
 }
