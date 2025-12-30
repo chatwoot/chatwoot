@@ -53,3 +53,10 @@ bulk_auto_assignment_job:
   cron: '*/15 * * * *'
   class: 'Inboxes::BulkAutoAssignmentJob'
   queue: scheduled_jobs
+
+# executed every hour
+# to retry failed WhatsApp template messages
+retry_whatsapp_template_messages_job:
+  cron: '0 * * * *'
+  class: 'RetryWhatsappTemplateMessagesJob'
+  queue: scheduled_jobs
