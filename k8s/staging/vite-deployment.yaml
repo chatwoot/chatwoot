@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: vite
-        image: wavai/chatwoot-vite-staging:v1.0.82
+        image: wavai/chatwoot-vite-staging:v1.0.79
         imagePullPolicy: Always
         command: ["/bin/sh"]
         args: ["-c", "docker/entrypoints/vite.sh"]
