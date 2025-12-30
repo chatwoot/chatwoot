@@ -32,6 +32,32 @@
   </tr>
 </table>
 
+{% if weekly_impact_chart %}
+  <p><strong>Weekly performance chart</strong></p>
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+    <tr>
+      <td
+        style="
+          padding: 12px;
+          border: 1px solid #e5e7eb;
+          border-radius: 4px;
+          background-color: #f9fafb;
+          text-align: center;
+        "
+      >
+        <img
+          src="cid:{{ weekly_impact_chart_cid }}"
+          alt="Weekly performance chart"
+          width="420"
+          style="display:block;margin:0 auto;max-width:100%;height:auto;"
+        />
+
+      </td>
+    </tr>
+  </table>
+{% endif %}
+
 <p>Check out our <a href="https://courier.getcruisecontrol.com/hc/cruise-control-guides/articles/1766120317-weekly-impact-report-metrics-guide" style="color: #1f93ff; text-decoration: underline;">Impact reports guide</a> to understand what each of our metrics mean.</p>
 
 <p>Visit our reports dashboard for a more detailed breakdown:</p>

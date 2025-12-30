@@ -35,6 +35,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# Charts for emails (weekly impact pie chart)
+gem 'gruff'
 # used in swagger build
 gem 'json_refs'
 # Rack middleware for blocking & throttling abusive requests
