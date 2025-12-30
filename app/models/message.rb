@@ -318,6 +318,7 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    update_conversation_unread_status
   end
 
   def update_contact_activity
@@ -429,6 +430,14 @@ class Message < ApplicationRecord
   def set_conversation_activity
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
+    # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def update_conversation_unread_status
+    return unless incoming? && !private?
+
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_column(:has_unread_messages, true)
     # rubocop:enable Rails/SkipsModelValidations
   end
 

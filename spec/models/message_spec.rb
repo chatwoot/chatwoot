@@ -785,4 +785,23 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#update_conversation_unread_status' do
+    let(:conversation) { create(:conversation, has_unread_messages: false) }
+
+    it 'sets has_unread_messages to true when incoming message is created' do
+      create(:message, conversation: conversation, message_type: :incoming)
+      expect(conversation.reload.has_unread_messages).to be true
+    end
+
+    it 'does not set has_unread_messages for outgoing messages' do
+      create(:message, conversation: conversation, message_type: :outgoing)
+      expect(conversation.reload.has_unread_messages).to be false
+    end
+
+    it 'does not set has_unread_messages for private messages' do
+      create(:message, conversation: conversation, message_type: :incoming, private: true)
+      expect(conversation.reload.has_unread_messages).to be false
+    end
+  end
 end

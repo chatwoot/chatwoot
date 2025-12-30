@@ -979,4 +979,17 @@ RSpec.describe Conversation do
       expect(reply_events.count).to eq(0)
     end
   end
+
+  describe '.with_unread_messages scope' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account) }
+
+    it 'returns only conversations with has_unread_messages true' do
+      unread_conv = create(:conversation, account: account, inbox: inbox, has_unread_messages: true)
+      create(:conversation, account: account, inbox: inbox, has_unread_messages: false)
+
+      result = described_class.with_unread_messages
+      expect(result).to contain_exactly(unread_conv)
+    end
+  end
 end

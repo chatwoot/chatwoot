@@ -6,10 +6,28 @@ const state = {
   mineCount: 0,
   unAssignedCount: 0,
   allCount: 0,
+  unreadCounts: {
+    byInbox: {},
+    byLabel: {},
+    byStatus: {
+      all: 0,
+      mine: 0,
+      unassigned: 0,
+    },
+    total: 0,
+  },
 };
 
 export const getters = {
   getStats: $state => $state,
+  getUnreadCountForInbox: $state => inboxId =>
+    $state.unreadCounts.byInbox[inboxId] || 0,
+  getUnreadCountForLabel: $state => labelName =>
+    $state.unreadCounts.byLabel[labelName] || 0,
+  getUnreadCountAll: $state => $state.unreadCounts.byStatus.all,
+  getUnreadCountMine: $state => $state.unreadCounts.byStatus.mine,
+  getUnreadCountUnassigned: $state => $state.unreadCounts.byStatus.unassigned,
+  getTotalUnreadCount: $state => $state.unreadCounts.total,
 };
 
 // Create a debounced version of the actual API call function
@@ -34,6 +52,17 @@ const superLongDebouncedFetchMetaData = debounce(
   20000
 );
 
+const fetchUnreadCounts = async commit => {
+  try {
+    const response = await ConversationApi.getUnreadCounts();
+    commit(types.SET_UNREAD_COUNTS, response.data);
+  } catch (error) {
+    // Silently fail - unread counts are non-critical
+  }
+};
+
+const debouncedFetchUnreadCounts = debounce(fetchUnreadCounts, 1000);
+
 export const actions = {
   get: async ({ commit, state: $state }, params) => {
     if ($state.allCount > 5000) {
@@ -46,6 +75,9 @@ export const actions = {
   },
   set({ commit }, meta) {
     commit(types.SET_CONV_TAB_META, meta);
+  },
+  fetchUnreadCounts({ commit }) {
+    debouncedFetchUnreadCounts(commit);
   },
 };
 
@@ -62,6 +94,14 @@ export const mutations = {
     $state.allCount = allCount;
     $state.unAssignedCount = unAssignedCount;
     $state.updatedOn = new Date();
+  },
+  [types.SET_UNREAD_COUNTS]($state, payload = {}) {
+    $state.unreadCounts = {
+      byInbox: payload.by_inbox || {},
+      byLabel: payload.by_label || {},
+      byStatus: payload.by_status || { all: 0, mine: 0, unassigned: 0 },
+      total: payload.total || 0,
+    };
   },
 };
 

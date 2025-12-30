@@ -1,5 +1,5 @@
 <script setup>
-import { h, computed, onMounted, ref } from 'vue';
+import { h, computed, onMounted, onUnmounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -20,6 +20,7 @@ import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import YearInReviewBanner from '../year-in-review/YearInReviewBanner.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
+import LabelLeaf from './LabelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -103,6 +104,10 @@ const loadTapStatus = async () => {
   }
 };
 
+const fetchUnreadCounts = () => {
+  store.dispatch('conversationStats/fetchUnreadCounts');
+};
+
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
@@ -113,6 +118,12 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
   loadPayzahStatus();
   loadTapStatus();
+  fetchUnreadCounts();
+  emitter.on('fetch_unread_counts', fetchUnreadCounts);
+});
+
+onUnmounted(() => {
+  emitter.off('fetch_unread_counts', fetchUnreadCounts);
 });
 
 const sortedInboxes = computed(() =>
@@ -243,13 +254,14 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
             to: accountScopedRoute('label_conversations', {
               label: label.title,
             }),
+            component: leafProps =>
+              h(LabelLeaf, {
+                label: label,
+                active: leafProps.active,
+              }),
           })),
         },
       ],
