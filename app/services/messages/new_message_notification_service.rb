@@ -4,7 +4,11 @@ class Messages::NewMessageNotificationService
   def perform
     return unless message.notifiable?
 
-    notify_conversation_assignee
+    if conversation.assignee.present?
+      notify_conversation_assignee
+    else
+      notify_all_inbox_members
+    end
     notify_participating_users
   end
 
@@ -24,6 +28,21 @@ class Messages::NewMessageNotificationService
       primary_actor: message.conversation,
       secondary_actor: message
     ).perform
+  end
+
+  def notify_all_inbox_members
+    conversation.inbox.members.uniq.each do |member|
+      next if member == sender
+      next if already_notified?(member)
+
+      NotificationBuilder.new(
+        notification_type: 'participating_conversation_new_message',
+        user: member,
+        account: account,
+        primary_actor: message.conversation,
+        secondary_actor: message
+      ).perform
+    end
   end
 
   def notify_participating_users
