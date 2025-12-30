@@ -16,9 +16,7 @@ module ReportHelper
     end
   end
 
-  def conversations_count
-    (get_grouped_values conversations).count
-  end
+  def conversations_count = get_grouped_values(conversations).count
 
   def incoming_messages_count
     (get_grouped_values incoming_messages).count
@@ -124,5 +122,11 @@ module ReportHelper
     return 0 if avg_frt.blank?
 
     avg_frt
+  end
+
+  def agent_chat_duration
+    return 0 unless params[:type] == :agent
+
+    scope.reporting_events.where(name: :agent_chat_duration, account_id: account.id, created_at: range).average(:value) || 0
   end
 end
