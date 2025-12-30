@@ -49,7 +49,7 @@ it:
     assignment_policy:
       not_found: Policy di assegnazione non trovata
     attachments:
-      invalid: Invalid attachment
+      invalid: Allegato non valido
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
