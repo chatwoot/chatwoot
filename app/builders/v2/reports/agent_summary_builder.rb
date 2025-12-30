@@ -9,10 +9,18 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
   private
 
   attr_reader :conversations_count, :resolved_count,
-              :avg_resolution_time, :avg_first_response_time, :avg_reply_time
+              :avg_resolution_time, :avg_first_response_time, :avg_reply_time,
+              :agent_chat_duration
 
   def fetch_conversations_count
     account.conversations.where(created_at: range).group('assignee_id').count
+  end
+
+  def fetch_agent_chat_duration
+    account.reporting_events
+           .where(name: :agent_chat_duration, created_at: range)
+           .group(:user_id)
+           .average(:value)
   end
 
   def prepare_report
@@ -29,7 +37,8 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_conversations_count: resolved_count[user_id] || 0,
       avg_resolution_time: avg_resolution_time[user_id],
       avg_first_response_time: avg_first_response_time[user_id],
-      avg_reply_time: avg_reply_time[user_id]
+      avg_reply_time: avg_reply_time[user_id],
+      agent_chat_duration: agent_chat_duration[user_id].to_i
     }
   end
 
