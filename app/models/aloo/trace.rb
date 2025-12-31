@@ -17,6 +17,9 @@ module Aloo
 
     validates :trace_type, inclusion: { in: TRACE_TYPES }
 
+    # Truncate long error messages before save
+    before_validation :truncate_error_message
+
     scope :recent, -> { where('created_at > ?', 24.hours.ago) }
     scope :failed, -> { where(success: false) }
     scope :successful, -> { where(success: true) }
@@ -26,6 +29,11 @@ module Aloo
     class << self
       # Record a trace with automatic request_id from Current
       def record(trace_type:, account:, **attrs)
+        # Truncate error message if too long
+        if attrs[:error_message].present? && attrs[:error_message].length > 255
+          attrs[:error_message] = attrs[:error_message].truncate(255)
+        end
+
         create!(
           trace_type: trace_type,
           account: account,
@@ -45,7 +53,7 @@ module Aloo
           result = yield
         rescue StandardError => e
           success = false
-          error_message = e.message
+          error_message = e.message.truncate(255) if e.message.present?
           raise
         ensure
           duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round
@@ -82,6 +90,12 @@ module Aloo
 
       (input_tokens * input_cost_per_million / 1_000_000.0) +
         (output_tokens * output_cost_per_million / 1_000_000.0)
+    end
+
+    private
+
+    def truncate_error_message
+      self.error_message = error_message.truncate(255) if error_message.present?
     end
   end
 end

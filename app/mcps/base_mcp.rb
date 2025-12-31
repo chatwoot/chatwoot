@@ -13,8 +13,7 @@
 #     end
 #   end
 #
-class BaseMcp
-  include RubyLLM::Tool
+class BaseMcp < RubyLLM::Tool
 
   class << self
     # Access the current context set before tool execution

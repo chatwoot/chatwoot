@@ -100,7 +100,8 @@ class ConversationAgent < ApplicationAgent
   end
 
   def business_name
-    assistant.business_context.presence || conversation.inbox.business_name.presence || 'our company'
+    # Use assistant description or inbox business name as context
+    assistant.description.presence || conversation.inbox.business_name.presence || 'our company'
   end
 
   def handoff_active?

@@ -75,18 +75,21 @@ module Aloo
     end
 
     def fetch_similar_embeddings(query_embedding, limit, source_types)
+      # Ensure query_embedding is an array (pgvector expects arrays)
+      query_vector = query_embedding.is_a?(Array) ? query_embedding : Array(query_embedding)
+
       scope = Aloo::Embedding
               .joins(:document)
               .where(aloo_documents: { aloo_assistant_id: @assistant.id })
               .where(account: @account)
-              .where(aloo_documents: { status: 'processed' })
+              .where(aloo_documents: { status: :available })
 
       if source_types.present?
         scope = scope.where(aloo_documents: { source_type: source_types })
       end
 
       scope
-        .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
+        .nearest_neighbors(:embedding, query_vector, distance: 'cosine')
         .limit(limit)
         .includes(:document)
     end

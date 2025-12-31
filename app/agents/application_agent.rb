@@ -39,7 +39,7 @@ class ApplicationAgent
   def build_chat(model: nil, tools: [])
     model ||= assistant_model
     chat = RubyLLM.chat(model: model)
-    chat.with_tools(tools) if tools.any?
+    chat.with_tools(*tools) if tools.any?
     chat
   end
 
@@ -56,7 +56,8 @@ class ApplicationAgent
 
     begin
       set_current_context do
-        response = chat.ask(message, system: system)
+        chat.with_instructions(system) if system.present?
+        response = chat.ask(message)
       end
     rescue RubyLLM::Error => e
       success = false
@@ -154,7 +155,7 @@ class ApplicationAgent
   end
 
   def assistant_model
-    assistant&.model_name.presence || DEFAULT_MODEL
+    assistant&.model.presence || DEFAULT_MODEL
   end
 
   def set_current_context
@@ -191,7 +192,7 @@ class ApplicationAgent
     {
       content_length: response.content&.length,
       tool_calls: response.tool_calls&.map(&:name),
-      finish_reason: response.finish_reason
+      finish_reason: response.respond_to?(:finish_reason) ? response.finish_reason : nil
     }
   end
 end

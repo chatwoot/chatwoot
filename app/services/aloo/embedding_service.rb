@@ -85,7 +85,8 @@ module Aloo
       truncated_text = truncate_text(text)
 
       result = RubyLLM.embed(truncated_text, model: EMBEDDING_MODEL)
-      result.vectors.first
+      # RubyLLM.embed returns an Embedding object where .vectors is the vector array directly
+      result.vectors
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::EmbeddingService] Embedding failed: #{e.message}")
       raise
@@ -99,8 +100,12 @@ module Aloo
 
       truncated_texts = texts.map { |t| truncate_text(t) }
 
-      result = RubyLLM.embed(truncated_texts, model: EMBEDDING_MODEL)
-      result.vectors
+      # For batch, we need to call embed for each text individually
+      # since RubyLLM.embed with an array returns a single combined embedding
+      truncated_texts.map do |text|
+        result = RubyLLM.embed(text, model: EMBEDDING_MODEL)
+        result.vectors
+      end
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::EmbeddingService] Batch embedding failed: #{e.message}")
       raise
