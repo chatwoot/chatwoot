@@ -1,28 +1,43 @@
 <script setup>
-import { inject, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
+const getters = useStoreGetters();
 const { accountScopedRoute } = useAccount();
 
-const wizardData = inject('wizardData');
+const wizardData = computed(() => getters['alooWizard/getWizardData'].value);
 
-// State for vuelidate - use computed to track wizardData.value
-const state = computed(() => wizardData.value);
+const name = computed({
+  get: () => wizardData.value?.name,
+  set: val =>
+    store.dispatch('alooWizard/updateField', { field: 'name', value: val }),
+});
+
+const description = computed({
+  get: () => wizardData.value?.description,
+  set: val =>
+    store.dispatch('alooWizard/updateField', {
+      field: 'description',
+      value: val,
+    }),
+});
 
 const rules = {
   name: { required, maxLength: maxLength(100) },
 };
 
-const v$ = useVuelidate(rules, state);
+const v$ = useVuelidate(rules, { name });
 
 const nameError = computed(() => {
   if (v$.value.name.$error) {
@@ -36,11 +51,9 @@ const touchName = () => {
 };
 
 const goToNext = async () => {
-  // Touch the field first to trigger validation display
   v$.value.name.$touch();
 
-  // Direct check for empty name
-  if (!wizardData.value.name?.trim()) {
+  if (!name.value?.trim()) {
     return;
   }
 
@@ -67,7 +80,7 @@ const goBack = () => {
 
       <div class="space-y-6 max-w-lg">
         <Input
-          v-model="wizardData.name"
+          v-model="name"
           :label="$t('ALOO.FORM.NAME.LABEL')"
           :placeholder="$t('ALOO.FORM.NAME.PLACEHOLDER')"
           :message="nameError"
@@ -80,7 +93,7 @@ const goBack = () => {
             {{ $t('ALOO.FORM.DESCRIPTION.LABEL') }}
           </label>
           <textarea
-            v-model="wizardData.description"
+            v-model="description"
             :placeholder="$t('ALOO.FORM.DESCRIPTION.PLACEHOLDER')"
             rows="4"
             class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7 focus:border-transparent"

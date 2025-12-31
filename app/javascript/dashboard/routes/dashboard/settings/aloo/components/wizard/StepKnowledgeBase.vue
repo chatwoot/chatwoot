@@ -1,17 +1,20 @@
 <script setup>
-import { inject, ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
+const getters = useStoreGetters();
 const { accountScopedRoute } = useAccount();
 
-const wizardData = inject('wizardData');
+const documents = computed(() => getters['alooWizard/getDocuments'].value);
 
 const isDragging = ref(false);
 
@@ -30,7 +33,7 @@ const isAcceptedExtension = filename => {
 
 const addDocument = file => {
   const id = Date.now();
-  wizardData.value.documents.push({
+  store.dispatch('alooWizard/addDocument', {
     id,
     file,
     name: file.name,
@@ -76,9 +79,10 @@ const handleFileSelect = event => {
 };
 
 const removeDocument = documentId => {
-  wizardData.value.documents = wizardData.value.documents.filter(
-    doc => doc.id !== documentId
-  );
+  const index = documents.value.findIndex(doc => doc.id === documentId);
+  if (index !== -1) {
+    store.dispatch('alooWizard/removeDocument', index);
+  }
 };
 
 const formatFileSize = bytes => {
@@ -157,12 +161,12 @@ const skipStep = () => {
         </div>
 
         <!-- Document List -->
-        <div v-if="wizardData.documents.length" class="mt-6 space-y-3">
+        <div v-if="documents.length" class="mt-6 space-y-3">
           <h3 class="text-sm font-medium text-n-slate-12">
             {{ $t('ALOO.DOCUMENTS.TITLE') }}
           </h3>
           <div
-            v-for="doc in wizardData.documents"
+            v-for="doc in documents"
             :key="doc.id"
             class="flex items-center justify-between p-3 bg-n-alpha-1 rounded-lg border border-n-weak"
           >

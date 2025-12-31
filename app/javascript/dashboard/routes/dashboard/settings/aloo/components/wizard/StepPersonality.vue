@@ -1,16 +1,36 @@
 <script setup>
-import { inject, computed } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useStore, useStoreGetters } from 'dashboard/composables/store';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const router = useRouter();
+const store = useStore();
+const getters = useStoreGetters();
 const { accountScopedRoute } = useAccount();
 
-const wizardData = inject('wizardData');
+const wizardData = computed(() => getters['alooWizard/getWizardData'].value);
+
+const createField = field =>
+  computed({
+    get: () => wizardData.value[field],
+    set: val => store.dispatch('alooWizard/updateField', { field, value: val }),
+  });
+
+const tone = createField('tone');
+const formality = createField('formality');
+const empathy_level = createField('empathy_level');
+const verbosity = createField('verbosity');
+const emoji_usage = createField('emoji_usage');
+const greeting_style = createField('greeting_style');
+const custom_greeting = createField('custom_greeting');
+const language = createField('language');
+const dialect = createField('dialect');
+const personality_description = createField('personality_description');
 
 const toneOptions = [
   { value: 'professional', label: t('ALOO.FORM.TONE.OPTIONS.PROFESSIONAL') },
@@ -85,10 +105,8 @@ const dialectOptions = [
   { value: 'MSA', label: t('ALOO.FORM.DIALECT.OPTIONS.MSA') },
 ];
 
-const showDialect = computed(() => wizardData.value.language === 'ar');
-const showCustomGreeting = computed(
-  () => wizardData.value.greeting_style === 'custom'
-);
+const showDialect = computed(() => language.value === 'ar');
+const showCustomGreeting = computed(() => greeting_style.value === 'custom');
 
 const goToNext = () => {
   router.push(accountScopedRoute('settings_aloo_new_knowledge'));
@@ -117,7 +135,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.TONE.LABEL') }}
           </span>
-          <select v-model="wizardData.tone" class="!mb-0">
+          <select v-model="tone" class="!mb-0">
             <option
               v-for="option in toneOptions"
               :key="option.value"
@@ -133,7 +151,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.FORMALITY.LABEL') }}
           </span>
-          <select v-model="wizardData.formality" class="!mb-0">
+          <select v-model="formality" class="!mb-0">
             <option
               v-for="option in formalityOptions"
               :key="option.value"
@@ -149,7 +167,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.EMPATHY_LEVEL.LABEL') }}
           </span>
-          <select v-model="wizardData.empathy_level" class="!mb-0">
+          <select v-model="empathy_level" class="!mb-0">
             <option
               v-for="option in empathyOptions"
               :key="option.value"
@@ -165,7 +183,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.VERBOSITY.LABEL') }}
           </span>
-          <select v-model="wizardData.verbosity" class="!mb-0">
+          <select v-model="verbosity" class="!mb-0">
             <option
               v-for="option in verbosityOptions"
               :key="option.value"
@@ -181,7 +199,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.EMOJI_USAGE.LABEL') }}
           </span>
-          <select v-model="wizardData.emoji_usage" class="!mb-0">
+          <select v-model="emoji_usage" class="!mb-0">
             <option
               v-for="option in emojiOptions"
               :key="option.value"
@@ -197,7 +215,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.GREETING_STYLE.LABEL') }}
           </span>
-          <select v-model="wizardData.greeting_style" class="!mb-0">
+          <select v-model="greeting_style" class="!mb-0">
             <option
               v-for="option in greetingOptions"
               :key="option.value"
@@ -213,7 +231,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
           </span>
-          <select v-model="wizardData.language" class="!mb-0">
+          <select v-model="language" class="!mb-0">
             <option
               v-for="option in languageOptions"
               :key="option.value"
@@ -229,7 +247,7 @@ const goBack = () => {
           <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.DIALECT.LABEL') }}
           </span>
-          <select v-model="wizardData.dialect" class="!mb-0">
+          <select v-model="dialect" class="!mb-0">
             <option value="">{{ $t('ALOO.FORM.DIALECT.PLACEHOLDER') }}</option>
             <option
               v-for="option in dialectOptions"
@@ -247,7 +265,7 @@ const goBack = () => {
             {{ $t('ALOO.FORM.CUSTOM_GREETING.LABEL') }}
           </label>
           <textarea
-            v-model="wizardData.custom_greeting"
+            v-model="custom_greeting"
             :placeholder="$t('ALOO.FORM.CUSTOM_GREETING.PLACEHOLDER')"
             rows="3"
             class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
@@ -260,7 +278,7 @@ const goBack = () => {
             {{ $t('ALOO.FORM.PERSONALITY_DESCRIPTION.LABEL') }}
           </label>
           <textarea
-            v-model="wizardData.personality_description"
+            v-model="personality_description"
             :placeholder="$t('ALOO.FORM.PERSONALITY_DESCRIPTION.PLACEHOLDER')"
             rows="4"
             class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"

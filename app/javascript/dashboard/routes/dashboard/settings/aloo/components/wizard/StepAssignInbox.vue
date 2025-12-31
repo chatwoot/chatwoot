@@ -1,5 +1,5 @@
 <script setup>
-import { inject, ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
@@ -15,7 +15,9 @@ const store = useStore();
 const getters = useStoreGetters();
 const { accountScopedRoute } = useAccount();
 
-const wizardData = inject('wizardData');
+const wizardData = computed(() => getters['alooWizard/getWizardData'].value);
+const inboxIds = computed(() => getters['alooWizard/getInboxIds'].value);
+const documents = computed(() => getters['alooWizard/getDocuments'].value);
 
 const isSubmitting = ref(false);
 const searchQuery = ref('');
@@ -35,16 +37,11 @@ onMounted(() => {
 });
 
 const isSelected = inboxId => {
-  return wizardData.value.inbox_ids.includes(inboxId);
+  return inboxIds.value.includes(inboxId);
 };
 
 const toggleInbox = inboxId => {
-  const index = wizardData.value.inbox_ids.indexOf(inboxId);
-  if (index === -1) {
-    wizardData.value.inbox_ids.push(inboxId);
-  } else {
-    wizardData.value.inbox_ids.splice(index, 1);
-  }
+  store.dispatch('alooWizard/toggleInbox', inboxId);
 };
 
 const getInboxIcon = inbox => {
@@ -64,8 +61,9 @@ const getInboxIcon = inbox => {
 };
 
 const createAssistant = async () => {
-  // Validate name before submission
-  if (!wizardData.value.name || !wizardData.value.name.trim()) {
+  const data = wizardData.value;
+
+  if (!data.name || !data.name.trim()) {
     useAlert(t('ALOO.FORM.NAME.ERROR'));
     return;
   }
@@ -74,18 +72,18 @@ const createAssistant = async () => {
   try {
     // Create the assistant
     const assistantData = {
-      name: wizardData.value.name,
-      description: wizardData.value.description,
-      tone: wizardData.value.tone,
-      formality: wizardData.value.formality,
-      empathy_level: wizardData.value.empathy_level,
-      verbosity: wizardData.value.verbosity,
-      emoji_usage: wizardData.value.emoji_usage,
-      greeting_style: wizardData.value.greeting_style,
-      custom_greeting: wizardData.value.custom_greeting,
-      language: wizardData.value.language,
-      dialect: wizardData.value.dialect,
-      personality_description: wizardData.value.personality_description,
+      name: data.name,
+      description: data.description,
+      tone: data.tone,
+      formality: data.formality,
+      empathy_level: data.empathy_level,
+      verbosity: data.verbosity,
+      emoji_usage: data.emoji_usage,
+      greeting_style: data.greeting_style,
+      custom_greeting: data.custom_greeting,
+      language: data.language,
+      dialect: data.dialect,
+      personality_description: data.personality_description,
       active: true,
     };
 
@@ -96,7 +94,7 @@ const createAssistant = async () => {
 
     // Assign inboxes in parallel
     await Promise.all(
-      wizardData.value.inbox_ids.map(inboxId =>
+      inboxIds.value.map(inboxId =>
         store.dispatch('alooAssistants/assignInbox', {
           assistantId: assistant.id,
           inboxId,
@@ -106,7 +104,7 @@ const createAssistant = async () => {
 
     // Upload documents in parallel
     await Promise.all(
-      wizardData.value.documents.map(doc => {
+      documents.value.map(doc => {
         const formData = new FormData();
         formData.append('file', doc.file);
         formData.append('title', doc.name);
@@ -116,6 +114,9 @@ const createAssistant = async () => {
         });
       })
     );
+
+    // Reset wizard data after successful creation
+    store.dispatch('alooWizard/reset');
 
     useAlert(t('ALOO.MESSAGES.CREATED'));
     router.push(accountScopedRoute('settings_aloo_list'));
@@ -130,7 +131,7 @@ const goBack = () => {
   router.push(accountScopedRoute('settings_aloo_new_knowledge'));
 };
 
-const selectedCount = computed(() => wizardData.value.inbox_ids.length);
+const selectedCount = computed(() => inboxIds.value.length);
 </script>
 
 <template>

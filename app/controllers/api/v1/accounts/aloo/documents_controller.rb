@@ -99,7 +99,6 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
       file_size: document.file.attached? ? document.file.byte_size : nil,
       content_type: document.metadata&.dig('content_type'),
       chunk_count: document.embeddings.count,
-      processed_at: document.processed_at,
       created_at: document.created_at,
       updated_at: document.updated_at
     }

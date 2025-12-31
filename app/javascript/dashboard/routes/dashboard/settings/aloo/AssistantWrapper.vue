@@ -1,36 +1,32 @@
 <script setup>
-import { computed, provide, ref } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
-import { useMapGetter } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useStore,
+  useStoreGetters,
+} from 'dashboard/composables/store';
 
 import PageHeader from '../SettingsSubPageHeader.vue';
 
 const { t } = useI18n();
 const route = useRoute();
+const store = useStore();
+const getters = useStoreGetters();
 
 const globalConfig = useMapGetter('globalConfig/get');
 
-// Wizard state - shared across all steps
-const wizardData = ref({
-  name: '',
-  description: '',
-  tone: 'friendly',
-  formality: 'medium',
-  empathy_level: 'medium',
-  verbosity: 'balanced',
-  emoji_usage: 'minimal',
-  greeting_style: 'warm',
-  custom_greeting: '',
-  language: 'en',
-  dialect: '',
-  personality_description: '',
-  documents: [],
-  inbox_ids: [],
-});
+// Only reset wizard when entering fresh on the first step with no data
+// This prevents resetting when navigating between wizard steps
+onMounted(() => {
+  const currentName = getters['alooWizard/getName'].value;
+  const isFirstStep = route.name === 'settings_aloo_new';
 
-// Provide wizard data to child components
-provide('wizardData', wizardData);
+  if (isFirstStep && !currentName) {
+    store.dispatch('alooWizard/reset');
+  }
+});
 
 const steps = ['BASIC', 'PERSONALITY', 'KNOWLEDGE', 'INBOXES'];
 
