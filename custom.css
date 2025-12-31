@@ -1,0 +1,9 @@
+/* Oculta actividades generadas por Automation System */
+[data-bubble-name="activity"][content*="Automation System"] {
+  display: none !important;
+}
+
+/* (Opcional) si quieres ocultar solo las "reabiertas" */
+[data-bubble-name="activity"][content*="reabierta por Automation System"] {
+  display: none !important;
+}
