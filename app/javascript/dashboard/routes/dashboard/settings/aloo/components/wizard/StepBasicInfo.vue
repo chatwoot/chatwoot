@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed, ref, watch } from 'vue';
+import { inject, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -15,47 +15,32 @@ const { accountScopedRoute } = useAccount();
 
 const wizardData = inject('wizardData');
 
-// Local state for vuelidate that syncs with wizardData
-const localName = ref(wizardData.value.name || '');
-
-// Sync localName back to wizardData
-watch(localName, newVal => {
-  wizardData.value.name = newVal;
-});
-
-// Sync wizardData.name to localName (for initial load)
-watch(
-  () => wizardData.value.name,
-  newVal => {
-    if (newVal !== localName.value) {
-      localName.value = newVal || '';
-    }
-  }
-);
+// State for vuelidate - use computed to track wizardData.value
+const state = computed(() => wizardData.value);
 
 const rules = {
-  localName: { required, maxLength: maxLength(100) },
+  name: { required, maxLength: maxLength(100) },
 };
 
-const v$ = useVuelidate(rules, { localName });
+const v$ = useVuelidate(rules, state);
 
 const nameError = computed(() => {
-  if (v$.value.localName.$error) {
+  if (v$.value.name.$error) {
     return t('ALOO.FORM.NAME.ERROR');
   }
   return '';
 });
 
 const touchName = () => {
-  v$.value.localName.$touch();
+  v$.value.name.$touch();
 };
 
 const goToNext = async () => {
   // Touch the field first to trigger validation display
-  v$.value.localName.$touch();
+  v$.value.name.$touch();
 
   // Direct check for empty name
-  if (!localName.value || !localName.value.trim()) {
+  if (!wizardData.value.name?.trim()) {
     return;
   }
 
@@ -82,7 +67,7 @@ const goBack = () => {
 
       <div class="space-y-6 max-w-lg">
         <Input
-          v-model="localName"
+          v-model="wizardData.name"
           :label="$t('ALOO.FORM.NAME.LABEL')"
           :placeholder="$t('ALOO.FORM.NAME.PLACEHOLDER')"
           :message="nameError"
