@@ -5,19 +5,87 @@ This document outlines the implementation plan for creating an AI agent system i
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Gem Stack & Configuration](#gem-stack--configuration)
-3. [Model Recommendations](#model-recommendations)
-4. [Personality & Language Configuration](#personality--language-configuration)
-5. [Memory System](#memory-system)
-6. [Architecture](#architecture)
-7. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
-8. [Phase 2: Agent Framework](#phase-2-agent-framework)
-9. [Phase 3: Knowledge Base & Embeddings](#phase-3-knowledge-base--embeddings)
-10. [Phase 4: Tools System (MCPs)](#phase-4-tools-system-mcps)
-11. [Phase 5: Onboarding & Data Ingestion](#phase-5-onboarding--data-ingestion)
-12. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
-13. [Phase 7: Frontend & Dashboard](#phase-7-frontend--dashboard)
-14. [Phase 8: Advanced Features](#phase-8-advanced-features)
+2. [V1/V2 Scope](#v1v2-scope)
+3. [Gem Stack & Configuration](#gem-stack--configuration)
+4. [Model Recommendations](#model-recommendations)
+5. [Personality & Language Configuration](#personality--language-configuration)
+6. [Memory System](#memory-system)
+7. [Architecture](#architecture)
+8. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
+9. [Phase 2: Agent Framework](#phase-2-agent-framework)
+10. [Phase 3: Knowledge Base & Embeddings](#phase-3-knowledge-base--embeddings)
+11. [Phase 4: Tools System (MCPs)](#phase-4-tools-system-mcps)
+12. [Phase 5: Onboarding & Data Ingestion](#phase-5-onboarding--data-ingestion)
+13. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
+14. [Phase 7: Frontend & Dashboard](#phase-7-frontend--dashboard)
+15. [Phase 8: Advanced Features](#phase-8-advanced-features)
+
+---
+
+## V1/V2 Scope
+
+### V1 (Ship First Release)
+
+**Core Models & Services:**
+- `Aloo::Assistant` - Main assistant configuration with personality
+- `Aloo::Document` - Knowledge base documents (file upload only)
+- `Aloo::Embedding` - Vector embeddings (1536 dim, text-embedding-3-small)
+- `Aloo::Memory` - Persistent memory with hybrid scoping
+- `Aloo::Trace` - Observability traces for debugging
+- `Aloo::Current` - Request context with account scoping
+
+**Concerns & Modules:**
+- `Aloo::AccountScoped` - Multi-tenancy enforcement
+- `Aloo::ContextBudget` - Token budget limits
+- `Aloo::RankingConfig` - Centralized ranking weights
+- `Aloo::Embeddable` - Vector embedding concern
+
+**Agents:**
+- `ConversationAgent` - Main chat response agent
+- `FaqGeneratorAgent` - Auto-generate FAQs from conversations
+- `MemoryExtractorAgent` - Extract learnings on resolution
+
+**Tools (MCPs):**
+- `FaqLookupMcp` - Knowledge base search
+- `HandoffMcp` - Transfer to human agent
+
+**Ingestion:**
+- File upload (PDF, TXT, CSV, MD)
+
+**Features:**
+- Full personality/language/dialect configuration
+- Arabic dialect support (EG, SA, KW, etc.)
+- Hybrid memory search (contact-scoped + global)
+- Execution tracing for debugging
+- Context budget management
+
+### V2 (Deferred)
+
+**Tools:**
+- `AddNoteMcp` - Add internal notes
+- `UpdateConversationMcp` - Update labels/priority
+- `CustomToolBuilder` - User-defined HTTP tools (requires security hardening)
+
+**Agents:**
+- `IntentAgent` - Intent classification (can infer from tools in v1)
+
+**Ingestion:**
+- Website crawler
+- Notion sync
+- Incremental sync/deletions
+
+**Other:**
+- Vision/Audio processing
+- Per-assistant ranking weights
+- Custom embedding models
+
+### Critical Invariants
+
+1. **Account Isolation**: Every query MUST include `account_id` scope
+2. **Embedding Dimension**: Always 1536, never change without migration
+3. **No Raw SQL**: Use ActiveRecord for vector operations
+4. **Sidekiq for Background**: Never do LLM calls synchronously
+5. **Feature Flags**: Check `feature_*_enabled?` before triggering
 
 ---
 
@@ -402,10 +470,10 @@ module Aloo
   class Memory < ApplicationRecord
     self.table_name = 'aloo_memories'
 
+    include Aloo::AccountScoped  # CRITICAL: Always scope by account
     include Aloo::Embeddable
 
     belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id'
-    belongs_to :account
     belongs_to :contact, optional: true
     belongs_to :conversation, optional: true
     has_many :message_feedbacks, class_name: 'Aloo::MessageFeedback', foreign_key: 'aloo_memory_id'
@@ -415,14 +483,29 @@ module Aloo
     validates :memory_type, inclusion: { in: MEMORY_TYPES }
     validates :content, presence: true
 
+    # Standard scopes
     scope :active, -> { where('confidence > ?', 0.2) }
     scope :by_type, ->(type) { where(memory_type: type) }
     scope :for_contact, ->(contact_id) { where(contact_id: contact_id) }
     scope :with_entity, ->(entity) { where('? = ANY(entities)', entity) }
     scope :with_topic, ->(topic) { where('? = ANY(topics)', topic) }
 
+    # Memory type scoping - contact-scoped vs global
+    # Contact-scoped: about THIS customer (preference, commitment, decision, correction)
+    # Global: apply to all conversations (procedure, faq, insight, gap)
+    scope :contact_scoped, -> { where(memory_type: Aloo::CONTACT_SCOPED_TYPES) }
+    scope :global_scoped, -> { where(memory_type: Aloo::GLOBAL_TYPES) }
+
     def embedding_content
       source_excerpt.presence || content
+    end
+
+    def contact_scoped?
+      Aloo::CONTACT_SCOPED_TYPES.include?(memory_type)
+    end
+
+    def global_scoped?
+      Aloo::GLOBAL_TYPES.include?(memory_type)
     end
 
     def record_observation!
@@ -450,19 +533,20 @@ module Aloo
     end
 
     # Calculate ranking score with multiple signals
+    # Uses centralized weights from RankingConfig
     def ranking_score(query_similarity:, query_type_boost: nil)
       signals = {
-        similarity: query_similarity * 0.60,
-        confidence: confidence * 0.15,
-        observation: observation_score * 0.10,
-        recency: recency_score * 0.10
+        similarity: query_similarity * RankingConfig::WEIGHTS[:similarity],
+        confidence: confidence * RankingConfig::WEIGHTS[:confidence],
+        observation: observation_score * RankingConfig::WEIGHTS[:observation],
+        recency: recency_score * RankingConfig::WEIGHTS[:recency]
       }
 
       base_score = signals.values.sum
 
       # Apply type boost if query intent matches memory type
       if query_type_boost == memory_type
-        base_score * 1.15
+        base_score * (1 + RankingConfig::TYPE_BOOST)
       else
         base_score
       end
@@ -478,9 +562,10 @@ module Aloo
     def recency_score
       return 1.0 unless last_observed_at
 
-      # Exponential decay: half-life of 30 days
+      # Exponential decay using centralized half-life
       days_ago = (Time.current - last_observed_at) / 1.day
-      Math.exp(-0.023 * days_ago)  # ln(2)/30 ≈ 0.023
+      decay_rate = Math.log(2) / RankingConfig::RECENCY_HALF_LIFE_DAYS
+      Math.exp(-decay_rate * days_ago)
     end
   end
 end
@@ -493,94 +578,86 @@ end
 ```ruby
 module Aloo
   class MemorySearchService
-    ENTITY_THRESHOLD = 0.40   # Lower threshold when entities match
-    SEMANTIC_THRESHOLD = 0.50 # Higher threshold for pure semantic
+    include ContextBudget
 
-    TYPE_BOOST_KEYWORDS = {
-      'correction' => %w[mistake wrong error incorrect fix],
-      'decision' => %w[decided chose agreed decision choice],
-      'preference' => %w[prefer like want preference favorite],
-      'commitment' => %w[promised committed will guarantee follow-up],
-      'gap' => %w[don't know couldn't answer missing unclear],
-      'insight' => %w[learned discovered found realized],
-      'faq' => %w[how what why when where question],
-      'procedure' => %w[process steps workflow procedure how-to]
-    }.freeze
+    # Constructor requires both assistant and account for explicit scoping
+    def initialize(assistant:, account:)
+      raise ArgumentError, 'Account required' unless account
+      raise ArgumentError, 'Account mismatch' unless assistant.account_id == account.id
 
-    def initialize(assistant)
       @assistant = assistant
+      @account = account
     end
 
+    # Hybrid scope search - combines contact-scoped and global memories
+    # Contact-scoped types: preference, commitment, decision, correction (about THIS customer)
+    # Global types: procedure, faq, insight, gap (apply to all conversations)
     def search(query, contact: nil, limit: 10)
       query_embedding = generate_embedding(query)
-      query_type_boost = detect_type_boost(query)
-      entities = extract_entities(query, contact)
+      query_type_boost = RankingConfig.detect_type_boost(query)
 
-      # Try hybrid search first (entity filter + semantic ranking)
-      if entities.any?
-        results = hybrid_search(query_embedding, entities, limit, query_type_boost)
-        return results if results.any?
-      end
+      contact_limit = limit / 2
+      global_limit = limit - contact_limit
 
-      # Fallback to pure semantic search
-      semantic_search(query_embedding, limit, query_type_boost)
+      # Search contact-scoped memories (filtered by contact)
+      contact_results = if contact
+                          search_contact_scoped(query_embedding, contact, contact_limit, query_type_boost)
+                        else
+                          []
+                        end
+
+      # Search global memories (no contact filter)
+      global_results = search_global(query_embedding, global_limit, query_type_boost)
+
+      # Merge and re-rank all results
+      merge_and_rank(contact_results, global_results, query_type_boost, limit)
     end
 
-    def build_context(query, contact: nil, max_tokens: 1500)
+    def build_context(query, contact: nil, max_tokens: MEMORY_CONTEXT_TOKENS)
       results = search(query, contact: contact, limit: 8)
       return '' if results.empty?
 
-      results.map do |r|
+      context = results.map do |r|
         type_label = r[:memory_type].titleize
-        "[#{type_label}] #{r[:content]}"
-      end.join("\n\n---\n\n").truncate(max_tokens * 4)
+        scope_label = r[:contact_scoped] ? '[Personal]' : '[General]'
+        "#{scope_label} [#{type_label}] #{r[:content]}"
+      end.join("\n\n---\n\n")
+
+      # Use ContextBudget for truncation
+      self.class.truncate_to_budget(context, max_tokens)
     end
 
     private
 
-    def hybrid_search(query_embedding, entities, limit, query_type_boost)
-      # Filter by entities first
-      base_scope = @assistant.memories.active
-
-      entity_conditions = entities.map do |entity|
-        if entity.start_with?('contact:')
-          { contact_id: entity.split(':').last.to_i }
-        elsif entity.start_with?('topic:')
-          topic = entity.split(':').last
-          base_scope.with_topic(topic)
-        else
-          base_scope.with_entity(entity)
-        end
-      end
-
-      # Combine entity filters
-      filtered = entity_conditions.reduce(base_scope) do |scope, condition|
-        if condition.is_a?(Hash)
-          scope.where(condition)
-        else
-          scope.merge(condition)
-        end
-      end
-
-      # Semantic search within filtered results
-      candidates = filtered
-        .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
-        .limit(limit * 2)
-
-      # Re-rank with multi-signal scoring
-      rank_results(candidates, query_embedding, query_type_boost, ENTITY_THRESHOLD, limit)
-    end
-
-    def semantic_search(query_embedding, limit, query_type_boost)
+    def search_contact_scoped(query_embedding, contact, limit, query_type_boost)
       candidates = @assistant.memories
+        .for_account(@account)  # CRITICAL: Always scope by account
         .active
+        .contact_scoped        # Only preference, commitment, decision, correction
+        .for_contact(contact.id)
         .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
         .limit(limit * 2)
 
-      rank_results(candidates, query_embedding, query_type_boost, SEMANTIC_THRESHOLD, limit)
+      rank_results(candidates, query_type_boost, RankingConfig::ENTITY_THRESHOLD, limit, contact_scoped: true)
     end
 
-    def rank_results(candidates, query_embedding, query_type_boost, threshold, limit)
+    def search_global(query_embedding, limit, query_type_boost)
+      candidates = @assistant.memories
+        .for_account(@account)  # CRITICAL: Always scope by account
+        .active
+        .global_scoped         # Only procedure, faq, insight, gap
+        .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
+        .limit(limit * 2)
+
+      rank_results(candidates, query_type_boost, RankingConfig::SEMANTIC_THRESHOLD, limit, contact_scoped: false)
+    end
+
+    def merge_and_rank(contact_results, global_results, query_type_boost, limit)
+      all_results = contact_results + global_results
+      all_results.sort_by { |r| -r[:score] }.first(limit)
+    end
+
+    def rank_results(candidates, query_type_boost, threshold, limit, contact_scoped:)
       candidates.filter_map do |memory|
         similarity = 1.0 - memory.neighbor_distance
         next if similarity < threshold
@@ -598,45 +675,10 @@ module Aloo
           confidence: memory.confidence,
           similarity: similarity.round(3),
           score: score.round(3),
-          contact_id: memory.contact_id
+          contact_id: memory.contact_id,
+          contact_scoped: contact_scoped
         }
       end.sort_by { |r| -r[:score] }.first(limit)
-    end
-
-    def detect_type_boost(query)
-      query_lower = query.downcase
-
-      TYPE_BOOST_KEYWORDS.each do |type, keywords|
-        return type if keywords.any? { |kw| query_lower.include?(kw) }
-      end
-
-      nil
-    end
-
-    def extract_entities(query, contact)
-      entities = []
-
-      # Add contact entity if provided
-      entities << "contact:#{contact.id}" if contact
-
-      # Extract topic entities from query (simple keyword extraction)
-      # In production, use NER or more sophisticated extraction
-      topics = extract_topics(query)
-      entities.concat(topics.map { |t| "topic:#{t}" })
-
-      entities
-    end
-
-    def extract_topics(query)
-      # Simple topic extraction - could be enhanced with NER
-      common_topics = %w[
-        returns refund shipping order payment billing
-        account password login subscription pricing
-        product feature bug error support
-      ]
-
-      query_lower = query.downcase
-      common_topics.select { |topic| query_lower.include?(topic) }
     end
 
     def generate_embedding(text)
@@ -716,24 +758,42 @@ module Aloo
   class ExtractMemoriesJob < ApplicationJob
     queue_as :low
 
+    # Extraction limits to prevent over-extraction
+    MAX_MEMORIES_PER_CONVERSATION = 10
+    DUPLICATE_SIMILARITY_THRESHOLD = 0.15  # For per-contact duplicate check
+
     def perform(conversation_id)
       conversation = Conversation.find(conversation_id)
       assistant = conversation.inbox.aloo_assistant
+      account = conversation.account
 
       return unless assistant&.feature_memory_enabled?
       return unless meaningful_exchange?(conversation)
 
       transcript = build_transcript(conversation)
-      existing_topics = assistant.memories.distinct.pluck(:topics).flatten.uniq
+      existing_topics = assistant.memories
+                                 .for_account(account)  # CRITICAL: Scope by account
+                                 .distinct.pluck(:topics).flatten.uniq
 
       result = MemoryExtractorAgent.call(
         transcript: transcript,
         existing_topics: existing_topics
       )
 
-      save_memories(assistant, conversation, result.memories) if result.memories.present?
+      if result.memories.present?
+        save_memories(assistant, account, conversation, result.memories)
+      end
     rescue StandardError => e
       Rails.logger.error("[Aloo] Memory extraction failed: #{e.message}")
+      # Record trace for debugging
+      Aloo::Trace.record(
+        trace_type: 'agent_call',
+        account: conversation.account,
+        conversation: conversation,
+        agent_name: 'MemoryExtractorAgent',
+        success: false,
+        error_message: e.message
+      ) rescue nil
     end
 
     private
@@ -750,10 +810,13 @@ module Aloo
                   .join("\n")
     end
 
-    def save_memories(assistant, conversation, memories)
-      memories.each do |mem|
+    def save_memories(assistant, account, conversation, memories)
+      saved_count = 0
+
+      # Limit extraction to prevent over-extraction
+      memories.first(MAX_MEMORIES_PER_CONVERSATION).each do |mem|
         next if mem['content'].blank?
-        next if duplicate?(assistant, mem['content'])
+        next if duplicate?(assistant, account, conversation.contact, mem['content'])
 
         embedding = RubyLLM.embed(
           mem['source_excerpt'].presence || mem['content'],
@@ -761,7 +824,7 @@ module Aloo
         ).vectors.first
 
         assistant.memories.create!(
-          account: assistant.account,
+          account: account,  # CRITICAL: Always set account
           contact: conversation.contact,
           conversation: conversation,
           memory_type: mem['memory_type'],
@@ -773,15 +836,32 @@ module Aloo
           confidence: mem['confidence'] || 0.7,
           last_observed_at: Time.current
         )
+
+        saved_count += 1
+      end
+
+      # Log if we hit the limit
+      if memories.size > MAX_MEMORIES_PER_CONVERSATION
+        Rails.logger.info("[Aloo] Memory extraction limited: #{memories.size} extracted, #{saved_count} saved")
       end
     end
 
-    def duplicate?(assistant, content)
+    # Per-contact duplicate check with lower threshold
+    def duplicate?(assistant, account, contact, content)
       embedding = RubyLLM.embed(content, model: 'text-embedding-3-small').vectors.first
-      similar = assistant.memories.active
-                         .nearest_neighbors(:embedding, embedding, distance: 'cosine')
-                         .limit(1).first
-      similar && similar.neighbor_distance < 0.15
+
+      # Check for duplicates scoped by contact (for contact-scoped types)
+      scope = assistant.memories
+                       .for_account(account)  # CRITICAL: Always scope by account
+                       .active
+
+      # For contact-scoped memories, also filter by contact
+      scope = scope.for_contact(contact.id) if contact
+
+      similar = scope.nearest_neighbors(:embedding, embedding, distance: 'cosine')
+                     .limit(1).first
+
+      similar && similar.neighbor_distance < DUPLICATE_SIMILARITY_THRESHOLD
     end
   end
 end
@@ -799,26 +879,26 @@ end
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                    ruby_llm-agents Framework                           │  │
 │  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐       │  │
-│  │  │ ConversationAgent│  │ FaqGeneratorAgent│  │  IntentAgent    │       │  │
-│  │  │ (chat responses)│  │ (auto FAQ)      │  │ (classify intent)│       │  │
+│  │  │ ConversationAgent│  │ FaqGeneratorAgent│  │MemoryExtractor │       │  │
+│  │  │ (chat responses)│  │ (auto FAQ)      │  │   (learnings)   │       │  │
 │  │  └─────────────────┘  └─────────────────┘  └─────────────────┘       │  │
 │  │                                                                        │  │
 │  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
-│  │  │              Execution Tracking & Dashboard                      │  │  │
-│  │  │  • Token usage  • Costs  • Latency  • Success rates             │  │  │
+│  │  │              Execution Tracking & Observability                  │  │  │
+│  │  │  • Token usage  • Costs  • Latency  • Traces                    │  │  │
 │  │  └─────────────────────────────────────────────────────────────────┘  │  │
 │  └───────────────────────────────────────────────────────────────────────┘  │
 │                                                                              │
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
-│  │                         Tools (MCPs)                                   │  │
-│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │  │
-│  │  │FaqLookupMcp  │ │HandoffMcp    │ │AddNoteMcp    │ │CustomHttpMcp │ │  │
-│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ │  │
+│  │                     Tools (MCPs) - V1                                  │  │
+│  │  ┌──────────────┐ ┌──────────────┐                                   │  │
+│  │  │FaqLookupMcp  │ │HandoffMcp    │  [V2: AddNote, Custom HTTP]       │  │
+│  │  └──────────────┘ └──────────────┘                                   │  │
 │  └───────────────────────────────────────────────────────────────────────┘  │
 │                                                                              │
 │  ┌───────────────────────────────────────────────────────────────────────┐  │
 │  │                    Knowledge Base (pgvector)                           │  │
-│  │  • Documents (websites, files, Notion)                                 │  │
+│  │  • Documents (files only in V1, [V2: websites, Notion])               │  │
 │  │  • Embeddings (1536-dim vectors, HNSW index)                          │  │
 │  │  • Semantic search with cosine similarity                             │  │
 │  └───────────────────────────────────────────────────────────────────────┘  │
@@ -835,6 +915,42 @@ end
 ---
 
 ## Phase 1: Foundation & Database Setup
+
+### 1.0 Aloo Module Constants
+
+`app/models/aloo.rb`:
+
+```ruby
+module Aloo
+  # CRITICAL: Do not change dimension without migration!
+  # text-embedding-3-small uses 1536 dimensions
+  EMBEDDING_DIMENSION = 1536
+
+  # V1 Scope - only file ingestion
+  SUPPORTED_SOURCE_TYPES = %w[file].freeze  # Defer: website, notion
+
+  # Memory type scoping
+  CONTACT_SCOPED_TYPES = %w[preference commitment decision correction].freeze
+  GLOBAL_TYPES = %w[procedure faq insight gap].freeze
+
+  SUPPORTED_LANGUAGES = {
+    'en' => { name: 'English', dialects: [] },
+    'ar' => {
+      name: 'Arabic',
+      dialects: %w[EG SA AE KW QA BH OM JO LB SY IQ MA DZ TN MSA]
+    },
+    'fr' => { name: 'French', dialects: [] },
+    'es' => { name: 'Spanish', dialects: [] },
+    'de' => { name: 'German', dialects: [] },
+    'pt' => { name: 'Portuguese', dialects: %w[BR PT] },
+    'zh' => { name: 'Chinese', dialects: %w[CN TW] },
+    'ja' => { name: 'Japanese', dialects: [] },
+    'ko' => { name: 'Korean', dialects: [] },
+    'hi' => { name: 'Hindi', dialects: [] },
+    'tr' => { name: 'Turkish', dialects: [] }
+  }.freeze
+end
+```
 
 ### 1.1 Enable pgvector
 
@@ -914,31 +1030,33 @@ class CreateAlooTables < ActiveRecord::Migration[7.0]
       t.references :aloo_document, foreign_key: true, index: true
       t.text :content, null: false
       t.text :question
-      t.vector :embedding, limit: 1536
+      t.vector :embedding, limit: Aloo::EMBEDDING_DIMENSION  # 1536 for text-embedding-3-small
       t.jsonb :metadata, default: {}
       t.integer :status, default: 0
       t.timestamps
     end
 
-    # Custom Tools - HTTP integrations
-    create_table :aloo_custom_tools do |t|
-      t.references :aloo_assistant, null: false, foreign_key: true, index: true
+    # NOTE: aloo_custom_tools deferred to v2 - security hardening needed
+
+    # Observability - Trace execution for debugging
+    create_table :aloo_traces do |t|
       t.references :account, null: false, foreign_key: true, index: true
-      t.string :name, null: false
-      t.string :slug, null: false
-      t.text :description
-      t.string :endpoint_url
-      t.string :http_method, default: 'POST'
-      t.jsonb :parameters_schema, default: {}
-      t.jsonb :headers, default: {}
-      t.string :auth_type
-      t.string :auth_credentials  # encrypted
-      t.text :request_template
-      t.text :response_template
-      t.boolean :active, default: true
+      t.references :aloo_assistant, foreign_key: true, index: true
+      t.references :conversation, foreign_key: true, index: true
+      t.string :trace_type, null: false    # agent_call, search, tool_execution
+      t.string :agent_name
+      t.string :request_id                 # For correlation
+      t.jsonb :input_data, default: {}
+      t.jsonb :output_data, default: {}
+      t.integer :input_tokens
+      t.integer :output_tokens
+      t.integer :duration_ms
+      t.boolean :success, default: true
+      t.string :error_message
       t.timestamps
     end
-    add_index :aloo_custom_tools, [:aloo_assistant_id, :slug], unique: true
+    add_index :aloo_traces, :trace_type
+    add_index :aloo_traces, :request_id
 
     # Conversation context tracking
     create_table :aloo_conversation_contexts do |t|
@@ -953,18 +1071,7 @@ class CreateAlooTables < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    # Notion connections
-    create_table :aloo_notion_connections do |t|
-      t.references :account, null: false, foreign_key: true, index: true
-      t.string :workspace_name
-      t.string :workspace_id
-      t.string :access_token  # encrypted
-      t.string :bot_id
-      t.datetime :token_expires_at
-      t.jsonb :synced_pages, default: []
-      t.datetime :last_synced_at
-      t.timestamps
-    end
+    # NOTE: aloo_notion_connections deferred to v2
   end
 end
 ```
@@ -996,7 +1103,7 @@ end
 ```ruby
 module Aloo
   class Current < ActiveSupport::CurrentAttributes
-    attribute :account, :conversation, :assistant, :contact, :inbox
+    attribute :account, :conversation, :assistant, :contact, :inbox, :request_id
 
     def set_from_conversation(conversation)
       self.conversation = conversation
@@ -1004,12 +1111,156 @@ module Aloo
       self.assistant = conversation.inbox.aloo_assistant
       self.contact = conversation.contact
       self.inbox = conversation.inbox
+      self.request_id = SecureRandom.uuid
     end
   end
 end
 ```
 
-### 1.5 Assistant Model
+### 1.5 AccountScoped Concern (CRITICAL)
+
+`app/models/concerns/aloo/account_scoped.rb`:
+
+```ruby
+module Aloo
+  module AccountScoped
+    extend ActiveSupport::Concern
+
+    included do
+      belongs_to :account
+      validates :account_id, presence: true
+
+      # CRITICAL: Always scope queries by account to prevent data leakage
+      scope :for_account, ->(account) { where(account: account) }
+    end
+
+    class_methods do
+      # Raises error if query doesn't include account scope
+      def require_account_scope!
+        raise "Query must be scoped by account" unless current_scope&.where_values_hash&.key?('account_id')
+      end
+    end
+  end
+end
+```
+
+### 1.6 ContextBudget Module
+
+`app/models/concerns/aloo/context_budget.rb`:
+
+```ruby
+module Aloo
+  module ContextBudget
+    extend ActiveSupport::Concern
+
+    # Token budgets to prevent context overflow
+    KNOWLEDGE_CONTEXT_TOKENS = 2000
+    MEMORY_CONTEXT_TOKENS = 1000
+    CONVERSATION_HISTORY_TOKENS = 1000
+    TOTAL_CONTEXT_BUDGET = 4000
+
+    # Approximate chars per token (conservative estimate)
+    CHARS_PER_TOKEN = 4
+
+    included do
+      def self.truncate_to_budget(text, max_tokens)
+        return '' if text.blank?
+
+        max_chars = max_tokens * CHARS_PER_TOKEN
+        text.truncate(max_chars, separator: "\n\n", omission: "\n\n[truncated]")
+      end
+    end
+  end
+end
+```
+
+### 1.7 RankingConfig Module
+
+`app/models/aloo/ranking_config.rb`:
+
+```ruby
+module Aloo
+  module RankingConfig
+    # Multi-signal ranking weights (must sum to ~1.0 before boost)
+    WEIGHTS = {
+      similarity: 0.60,    # Vector cosine similarity
+      confidence: 0.15,    # How reliable is this memory
+      observation: 0.10,   # Times confirmed across sessions
+      recency: 0.10        # Exponential decay from last use
+    }.freeze
+
+    # Query-type boost when intent matches memory type
+    TYPE_BOOST = 0.15
+
+    # Similarity thresholds
+    ENTITY_THRESHOLD = 0.40    # Lower when entities match
+    SEMANTIC_THRESHOLD = 0.50  # Higher for pure semantic search
+
+    # Recency decay
+    RECENCY_HALF_LIFE_DAYS = 30
+
+    # Type boost keywords
+    TYPE_BOOST_KEYWORDS = {
+      'correction' => %w[mistake wrong error incorrect fix],
+      'decision' => %w[decided chose agreed decision choice],
+      'preference' => %w[prefer like want preference favorite],
+      'commitment' => %w[promised committed will guarantee follow-up],
+      'gap' => %w[don't know couldn't answer missing unclear],
+      'insight' => %w[learned discovered found realized],
+      'faq' => %w[how what why when where question],
+      'procedure' => %w[process steps workflow procedure how-to]
+    }.freeze
+
+    def self.detect_type_boost(query)
+      query_lower = query.downcase
+      TYPE_BOOST_KEYWORDS.each do |type, keywords|
+        return type if keywords.any? { |kw| query_lower.include?(kw) }
+      end
+      nil
+    end
+  end
+end
+```
+
+### 1.8 Trace Model (Observability)
+
+`app/models/aloo/trace.rb`:
+
+```ruby
+module Aloo
+  class Trace < ApplicationRecord
+    self.table_name = 'aloo_traces'
+
+    include Aloo::AccountScoped
+
+    belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id', optional: true
+    belongs_to :conversation, optional: true
+
+    TRACE_TYPES = %w[agent_call search tool_execution embedding].freeze
+
+    validates :trace_type, inclusion: { in: TRACE_TYPES }
+
+    scope :recent, -> { where('created_at > ?', 24.hours.ago) }
+    scope :failed, -> { where(success: false) }
+    scope :by_type, ->(type) { where(trace_type: type) }
+
+    def self.record(trace_type:, account:, **attrs)
+      create!(
+        trace_type: trace_type,
+        account: account,
+        request_id: Aloo::Current.request_id,
+        **attrs
+      )
+    end
+
+    def duration_seconds
+      duration_ms.to_f / 1000.0 if duration_ms
+    end
+  end
+end
+```
+
+### 1.9 Assistant Model
 
 `app/models/aloo/assistant.rb`:
 
@@ -1018,14 +1269,16 @@ module Aloo
   class Assistant < ApplicationRecord
     self.table_name = 'aloo_assistants'
 
-    belongs_to :account
+    include Aloo::AccountScoped  # CRITICAL: Always scope by account
+
     has_many :assistant_inboxes, class_name: 'Aloo::AssistantInbox', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :inboxes, through: :assistant_inboxes
     has_many :documents, class_name: 'Aloo::Document', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_assistant_id', dependent: :destroy
-    has_many :custom_tools, class_name: 'Aloo::CustomTool', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :conversation_contexts, class_name: 'Aloo::ConversationContext', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :memories, class_name: 'Aloo::Memory', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :traces, class_name: 'Aloo::Trace', foreign_key: 'aloo_assistant_id', dependent: :nullify
+    # Deferred to v2: has_many :custom_tools
 
     # Personality settings (user-configurable)
     TONES = %w[professional friendly casual formal].freeze
@@ -1294,13 +1547,12 @@ class ConversationAgent < ApplicationAgent
     message
   end
 
+  # V1 Tools - only essential tools for first release
+  # Deferred to v2: AddNoteMcp, UpdateConversationMcp, custom_tools
   def tools
     [
       FaqLookupMcp,
-      HandoffMcp,
-      AddNoteMcp,
-      UpdateConversationMcp,
-      *custom_tools
+      HandoffMcp
     ]
   end
 
@@ -1311,31 +1563,37 @@ class ConversationAgent < ApplicationAgent
   end
 
   def build_knowledge_context
-    return '' unless Aloo::Current.assistant
+    return '' unless Aloo::Current.assistant && Aloo::Current.account
 
-    search_service = Aloo::VectorSearchService.new(Aloo::Current.assistant)
-    search_service.build_context(message, max_tokens: 2000)
+    search_service = Aloo::VectorSearchService.new(
+      assistant: Aloo::Current.assistant,
+      account: Aloo::Current.account
+    )
+    search_service.build_context(message)
   end
 
   def build_memory_context
-    return '' unless Aloo::Current.assistant&.feature_memory_enabled?
+    return '' unless Aloo::Current.assistant&.feature_memory_enabled? && Aloo::Current.account
 
-    memory_service = Aloo::MemorySearchService.new(Aloo::Current.assistant)
-    memory_service.build_context(message, contact: Aloo::Current.contact, max_tokens: 1500)
+    memory_service = Aloo::MemorySearchService.new(
+      assistant: Aloo::Current.assistant,
+      account: Aloo::Current.account
+    )
+    memory_service.build_context(message, contact: Aloo::Current.contact)
   end
 
+  # NOTE: custom_tools deferred to v2 - security hardening needed
   def custom_tools
-    return [] unless Aloo::Current.assistant
-
-    Aloo::Current.assistant.custom_tools.active.map do |tool|
-      Aloo::CustomToolBuilder.build(tool)
-    end
+    []
   end
 end
 ```
 
-### 2.3 Intent Classification Agent
+### 2.3 Intent Classification Agent (DEFERRED TO V2)
 
+> **Note:** IntentAgent is deferred to v2. For v1, intent can be inferred from tool availability - the ConversationAgent will use FaqLookupMcp and HandoffMcp based on context.
+
+<!--
 `app/agents/intent_agent.rb`:
 
 ```ruby
@@ -1371,6 +1629,7 @@ class IntentAgent < ApplicationAgent
   end
 end
 ```
+-->
 
 ### 2.4 FAQ Generator Agent
 
@@ -1507,16 +1766,24 @@ end
 ```ruby
 module Aloo
   class VectorSearchService
+    include ContextBudget
+
     SIMILARITY_THRESHOLD = 0.3
 
-    def initialize(assistant)
+    # Constructor requires both assistant and account for explicit scoping
+    def initialize(assistant:, account:)
+      raise ArgumentError, 'Account required' unless account
+      raise ArgumentError, 'Account mismatch' unless assistant.account_id == account.id
+
       @assistant = assistant
+      @account = account
     end
 
     def search(query, limit: 5)
       query_embedding = generate_embedding(query)
 
       results = @assistant.embeddings
+                          .for_account(@account)  # CRITICAL: Always scope by account
                           .for_search
                           .semantic_search(query_embedding, limit: limit)
 
@@ -1535,7 +1802,7 @@ module Aloo
       end
     end
 
-    def build_context(query, max_tokens: 2000)
+    def build_context(query, max_tokens: KNOWLEDGE_CONTEXT_TOKENS)
       results = search(query, limit: 10)
       return '' if results.empty?
 
@@ -1547,7 +1814,8 @@ module Aloo
         end
       end.join("\n\n---\n\n")
 
-      context.truncate(max_tokens * 4, separator: "\n\n---\n\n")
+      # Use ContextBudget for truncation
+      self.class.truncate_to_budget(context, max_tokens)
     end
 
     private
@@ -1571,11 +1839,19 @@ module Aloo
     CHUNK_OVERLAP = 200
     BATCH_SIZE = 20
 
-    def initialize(assistant)
+    # Constructor requires both assistant and account for explicit scoping
+    def initialize(assistant:, account:)
+      raise ArgumentError, 'Account required' unless account
+      raise ArgumentError, 'Account mismatch' unless assistant.account_id == account.id
+
       @assistant = assistant
+      @account = account
     end
 
     def create_embeddings_for_document(document)
+      # Verify document belongs to same account
+      raise ArgumentError, 'Document account mismatch' unless document.account_id == @account.id
+
       chunks = chunk_content(document.content)
 
       chunks.each_slice(BATCH_SIZE) do |batch|
@@ -1583,6 +1859,7 @@ module Aloo
 
         batch.each_with_index do |chunk, index|
           @assistant.embeddings.create!(
+            account: @account,  # CRITICAL: Always set account
             document: document,
             content: chunk,
             embedding: embeddings.vectors[index],
@@ -1668,8 +1945,12 @@ class FaqLookupMcp < BaseMcp
 
   def execute(query:)
     return { found: false, message: 'No assistant configured' } unless current_assistant
+    return { found: false, message: 'No account context' } unless current_account
 
-    search_service = Aloo::VectorSearchService.new(current_assistant)
+    search_service = Aloo::VectorSearchService.new(
+      assistant: current_assistant,
+      account: current_account
+    )
     results = search_service.search(query, limit: 5)
 
     if results.empty?
@@ -1738,8 +2019,11 @@ class HandoffMcp < BaseMcp
 end
 ```
 
-### 4.4 Add Note Tool
+### 4.4 Add Note Tool (DEFERRED TO V2)
 
+> **Note:** AddNoteMcp is deferred to v2. For v1, focus on core response and handoff functionality.
+
+<!--
 `app/mcps/add_note_mcp.rb`:
 
 ```ruby
@@ -1765,9 +2049,13 @@ class AddNoteMcp < BaseMcp
   end
 end
 ```
+-->
 
-### 4.5 Update Conversation Tool
+### 4.5 Update Conversation Tool (DEFERRED TO V2)
 
+> **Note:** UpdateConversationMcp is deferred to v2. For v1, focus on core response and handoff functionality.
+
+<!--
 `app/mcps/update_conversation_mcp.rb`:
 
 ```ruby
@@ -1803,9 +2091,19 @@ class UpdateConversationMcp < BaseMcp
   end
 end
 ```
+-->
 
-### 4.6 Custom HTTP Tool Builder
+### 4.6 Custom HTTP Tool Builder (DEFERRED TO V2)
 
+> **Note:** CustomToolBuilder is deferred to v2. It requires MCP security boundaries:
+> - Domain allowlist (default: none, admin configures)
+> - Request timeout: 10s max
+> - Response size limit: 100KB
+> - Block internal network ranges (10.x, 192.168.x, 127.x)
+> - Audit log all tool invocations
+> - Redact auth headers in logs
+
+<!--
 `app/services/aloo/custom_tool_builder.rb`:
 
 ```ruby
@@ -1907,13 +2205,17 @@ module Aloo
   end
 end
 ```
+-->
 
 ---
 
 ## Phase 5: Onboarding & Data Ingestion
 
-### 5.1 Website Crawler
+### 5.1 Website Crawler (DEFERRED TO V2)
 
+> **Note:** Website crawler is deferred to v2. For v1, focus on file upload ingestion (PDF, TXT, CSV, MD).
+
+<!--
 `app/services/aloo/crawlers/website_crawler.rb`:
 
 ```ruby
@@ -2015,6 +2317,7 @@ module Aloo
   end
 end
 ```
+-->
 
 ### 5.2 File Processor
 
@@ -2091,8 +2394,14 @@ module Aloo
 end
 ```
 
-### 5.3 Notion Sync Service
+### 5.3 Notion Sync Service (DEFERRED TO V2)
 
+> **Note:** Notion integration is deferred to v2. For v1, focus on file upload ingestion. This feature requires:
+> - OAuth flow for Notion authentication
+> - Incremental sync/deletions handling
+> - Rate limiting for Notion API
+
+<!--
 `app/services/aloo/integrations/notion_sync_service.rb`:
 
 ```ruby
@@ -2193,6 +2502,7 @@ module Aloo
   end
 end
 ```
+-->
 
 ### 5.4 Background Jobs
 
@@ -2207,17 +2517,21 @@ module Aloo
     def perform(document_id)
       document = Aloo::Document.find(document_id)
 
+      # V1: Only file processing supported
+      # Deferred to v2: website, notion
       case document.source_type
-      when 'website'
-        Aloo::Crawlers::WebsiteCrawler.new(document).crawl
       when 'file'
         Aloo::Processors::FileProcessor.new(document).process
-      when 'notion'
-        connection = document.account.aloo_notion_connections.first
-        raise 'No Notion connection' unless connection
-
-        page_id = document.source_url.gsub('notion://', '')
-        Aloo::Integrations::NotionSyncService.new(connection, document.assistant).sync_page(page_id)
+        # Create embeddings with account scoping
+        embedding_service = Aloo::EmbeddingService.new(
+          assistant: document.assistant,
+          account: document.account
+        )
+        embedding_service.create_embeddings_for_document(document)
+      else
+        # V2 source types - log and skip
+        Rails.logger.info("[Aloo] Source type '#{document.source_type}' not supported in v1")
+        document.update!(status: :unsupported, error_message: 'Source type deferred to v2')
       end
     end
   end
