@@ -43,10 +43,10 @@ module Aloo
         # Create embeddings for each chunk
         create_embeddings(chunks)
 
-        # Mark as processed
+        # Mark as available (successfully processed)
         @document.update!(
-          status: 'processed',
-          processed_at: Time.current
+          status: :available,
+          metadata: @document.metadata.merge('processed_at' => Time.current.iso8601)
         )
 
         Rails.logger.info("[Aloo::ProcessDocumentJob] Processed document #{document_id}: #{chunks.size} chunks")
@@ -159,7 +159,7 @@ module Aloo
 
     def create_embeddings(chunks)
       embedding_service = EmbeddingService.new(account: @account)
-      embedding_service.batch_embed_and_store(texts: chunks, embeddable: @document)
+      embedding_service.batch_embed_and_store(texts: chunks, document: @document)
     end
 
     def mark_failed(error_message)
