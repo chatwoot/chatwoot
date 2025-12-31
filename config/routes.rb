@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   get '/health', to: 'kubernetes_health#health'
   get '/healthz', to: 'kubernetes_health#health'
 
+  # mount RubyLLM::Agents::Engine => "/agents"
+
+
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',

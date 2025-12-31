@@ -4,6 +4,15 @@ require_relative 'boot'
 
 require 'rails/all'
 
+# Patch for ruby_llm-agents gem compatibility with Rails 7.1
+# ActiveSupport::Delegation doesn't exist - delegate is already available
+# TODO: Remove after gem fix is released
+module ActiveSupport
+  module Delegation
+    def self.extended(base); end
+  end
+end
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)

@@ -58,7 +58,19 @@ class Conversations::AutoAssignService
   end
 
   def fetch_suggestions
-    ConversationTriageAgent.run(conversation: conversation, teams: teams, labels: labels)
+    conversation_messages = conversation.messages.last(20).map do |msg|
+      { incoming: msg.incoming?, content: msg.content }
+    end
+
+    result = ConversationTriageAgent.call(
+      conversation_messages: conversation_messages,
+      available_labels: labels,
+      available_teams: teams
+    )
+
+    return nil unless result.success?
+
+    result.content
   end
 
   def apply_label(label_id)

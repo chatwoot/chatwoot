@@ -1393,6 +1393,65 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "ruby_llm_agents_executions", force: :cascade do |t|
+    t.string "agent_type", null: false
+    t.string "agent_version", default: "1.0"
+    t.string "model_id", null: false
+    t.string "model_provider"
+    t.decimal "temperature", precision: 3, scale: 2
+    t.datetime "started_at", null: false
+    t.datetime "completed_at"
+    t.integer "duration_ms"
+    t.boolean "streaming", default: false
+    t.integer "time_to_first_token_ms"
+    t.string "finish_reason"
+    t.string "request_id"
+    t.string "trace_id"
+    t.string "span_id"
+    t.bigint "parent_execution_id"
+    t.bigint "root_execution_id"
+    t.string "fallback_reason"
+    t.boolean "retryable"
+    t.boolean "rate_limited"
+    t.boolean "cache_hit", default: false
+    t.string "response_cache_key"
+    t.datetime "cached_at"
+    t.string "status", default: "success", null: false
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "total_tokens"
+    t.integer "cached_tokens", default: 0
+    t.integer "cache_creation_tokens", default: 0
+    t.decimal "input_cost", precision: 12, scale: 6
+    t.decimal "output_cost", precision: 12, scale: 6
+    t.decimal "total_cost", precision: 12, scale: 6
+    t.jsonb "parameters", default: {}, null: false
+    t.jsonb "response", default: {}
+    t.jsonb "metadata", default: {}, null: false
+    t.string "error_class"
+    t.text "error_message"
+    t.text "system_prompt"
+    t.text "user_prompt"
+    t.jsonb "tool_calls", default: [], null: false
+    t.integer "tool_calls_count", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
+    t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
+    t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
+    t.index ["agent_type"], name: "index_ruby_llm_agents_executions_on_agent_type"
+    t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
+    t.index ["duration_ms"], name: "index_ruby_llm_agents_executions_on_duration_ms"
+    t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
+    t.index ["request_id"], name: "index_ruby_llm_agents_executions_on_request_id"
+    t.index ["response_cache_key"], name: "index_ruby_llm_agents_executions_on_response_cache_key"
+    t.index ["root_execution_id"], name: "index_ruby_llm_agents_executions_on_root_execution_id"
+    t.index ["status"], name: "index_ruby_llm_agents_executions_on_status"
+    t.index ["tool_calls_count"], name: "index_ruby_llm_agents_executions_on_tool_calls_count"
+    t.index ["total_cost"], name: "index_ruby_llm_agents_executions_on_total_cost"
+    t.index ["trace_id"], name: "index_ruby_llm_agents_executions_on_trace_id"
+  end
+
   create_table "sla_events", force: :cascade do |t|
     t.bigint "applied_sla_id", null: false
     t.bigint "conversation_id", null: false
@@ -1584,6 +1643,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
   add_foreign_key "products", "accounts"
+  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "parent_execution_id", on_delete: :nullify
+  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "root_execution_id", on_delete: :nullify
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
