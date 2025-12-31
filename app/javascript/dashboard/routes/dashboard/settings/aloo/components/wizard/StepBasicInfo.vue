@@ -71,7 +71,7 @@ const goBack = () => {
           :label="$t('ALOO.FORM.NAME.LABEL')"
           :placeholder="$t('ALOO.FORM.NAME.PLACEHOLDER')"
           :message="nameError"
-          :message-type="nameError ? 'error' : ''"
+          :message-type="nameError ? 'error' : 'info'"
           @blur="touchName"
         />
 

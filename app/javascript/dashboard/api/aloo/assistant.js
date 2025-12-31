@@ -15,6 +15,16 @@ class AlooAssistant extends ApiClient {
     });
   }
 
+  // Override create to wrap data under 'assistant' key as expected by Rails
+  create(data) {
+    return axios.post(this.url, { assistant: data });
+  }
+
+  // Override update to wrap data under 'assistant' key as expected by Rails
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}`, { assistant: data });
+  }
+
   getStats(assistantId) {
     return axios.get(`${this.url}/${assistantId}/stats`);
   }
