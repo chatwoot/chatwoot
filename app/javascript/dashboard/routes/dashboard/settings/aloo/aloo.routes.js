@@ -6,7 +6,7 @@ import SettingWrapper from '../SettingsWrapper.vue';
 
 const Index = () => import('./Index.vue');
 const AssistantWrapper = () => import('./AssistantWrapper.vue');
-const AssistantEdit = () => import('./AssistantEdit.vue');
+const Settings = () => import('./Settings.vue');
 const StepBasicInfo = () => import('./components/wizard/StepBasicInfo.vue');
 const StepPersonality = () => import('./components/wizard/StepPersonality.vue');
 const StepKnowledgeBase = () =>
@@ -83,7 +83,7 @@ export default {
         {
           path: ':assistantId/:tab?',
           name: 'settings_aloo_edit',
-          component: AssistantEdit,
+          component: Settings,
           meta,
         },
       ],

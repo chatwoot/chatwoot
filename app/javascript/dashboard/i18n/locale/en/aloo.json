@@ -163,16 +163,98 @@
     "INBOXES": {
       "TITLE": "Assign to Inboxes",
       "DESCRIPTION": "Select which inboxes this assistant should respond to",
+      "LOADING": "Loading inboxes...",
       "NO_INBOXES": "No inboxes available",
+      "NO_RESULTS": "No inboxes match your search",
       "SEARCH_PLACEHOLDER": "Search inboxes...",
-      "SELECTED": "{count} inbox selected | {count} inboxes selected"
+      "SELECTED": "{count} inbox selected | {count} inboxes selected",
+      "ASSIGNED": "Assigned",
+      "ASSIGNED_COUNT": "{count} inbox(es) assigned to this assistant"
     },
     "TABS": {
       "GENERAL": "General",
       "PERSONALITY": "Personality",
       "KNOWLEDGE_BASE": "Knowledge Base",
+      "MEMORIES": "Memories",
       "INBOXES": "Inboxes",
+      "ANALYTICS": "Analytics",
       "STATS": "Statistics"
+    },
+    "SETTINGS": {
+      "GENERAL": {
+        "TITLE": "General Settings",
+        "DESCRIPTION": "Configure the basic settings for your AI assistant"
+      },
+      "PERSONALITY": {
+        "TITLE": "Personality Settings",
+        "DESCRIPTION": "Configure how your assistant communicates with customers"
+      }
+    },
+    "KNOWLEDGE": {
+      "LOADING": "Loading knowledge base...",
+      "DOCUMENTS": {
+        "TITLE": "Documents",
+        "DESCRIPTION": "Upload and manage documents that form your assistant's knowledge base",
+        "UPLOAD": "Upload Document",
+        "ALLOWED_TYPES": "Supported: PDF, TXT, CSV, MD (max 10MB)"
+      },
+      "EMBEDDINGS": {
+        "TITLE": "Knowledge Embeddings",
+        "DESCRIPTION": "View the processed chunks from your documents",
+        "TOTAL": "Total Chunks",
+        "APPROVED": "Approved",
+        "PENDING": "Pending",
+        "FROM": "From",
+        "AND_MORE": "And {count} more chunks...",
+        "EMPTY": "No embeddings yet. Upload documents to generate embeddings."
+      }
+    },
+    "MEMORIES": {
+      "TITLE": "Learned Memories",
+      "DESCRIPTION": "View and manage memories the assistant has learned from conversations",
+      "LOADING": "Loading memories...",
+      "CONFIDENCE": "Confidence",
+      "OBSERVATIONS": "Observations",
+      "HELPFUL": "Helpful",
+      "NOT_HELPFUL": "Not Helpful",
+      "FLAGGED": "Flagged",
+      "DELETED": "Memory deleted successfully",
+      "EMPTY": "No memories learned yet. The assistant will learn from conversations over time."
+    },
+    "ANALYTICS": {
+      "LOADING": "Loading analytics...",
+      "OVERVIEW": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "Summary of your assistant's activity"
+      },
+      "STATS": {
+        "CONVERSATIONS": "Conversations",
+        "MESSAGES": "Messages",
+        "TOKENS": "Tokens Used",
+        "MEMORIES": "Memories",
+        "DOCUMENTS": "Documents"
+      },
+      "PERFORMANCE": {
+        "TITLE": "Performance Metrics",
+        "DESCRIPTION": "Key performance indicators for your assistant",
+        "RESPONSE_RATE": "Success Rate",
+        "AVG_RESPONSE_TIME": "Avg Response Time",
+        "HANDOFF_RATE": "Handoff Rate",
+        "TOKENS_USED": "Tokens (Period)"
+      },
+      "CONVERSATIONS": {
+        "TITLE": "Recent Conversations",
+        "DESCRIPTION": "Conversations handled by this assistant",
+        "MESSAGES": "msgs",
+        "TOKENS": "tokens",
+        "NO_EMAIL": "No email",
+        "SHOWING": "Showing {count} of {total} conversations",
+        "EMPTY": "No conversations yet. The assistant will appear here once it starts handling customer conversations."
+      }
+    },
+    "PAGINATION": {
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
     },
     "STATS": {
       "TITLE": "Assistant Statistics",
