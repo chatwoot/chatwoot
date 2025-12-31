@@ -38,7 +38,50 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       total_messages: @assistant.conversation_contexts.sum(:message_count),
       total_tokens: @assistant.conversation_contexts.sum('input_tokens + output_tokens'),
       total_memories: @assistant.memories.active.count,
-      total_documents: @assistant.documents.processed.count
+      total_documents: @assistant.documents.available.count
+    }
+  end
+
+  # GET /api/v1/accounts/:account_id/aloo/assistants/:id/performance
+  def performance
+    time_range = parse_time_range(params[:range] || '7d')
+
+    contexts = @assistant.conversation_contexts.where('created_at >= ?', time_range)
+    traces = @assistant.traces.where('created_at >= ?', time_range)
+
+    total_conversations = contexts.count
+    successful_responses = traces.successful.by_type('agent_call').count
+    failed_responses = traces.failed.by_type('agent_call').count
+    total_responses = successful_responses + failed_responses
+
+    # Calculate average response time from traces
+    avg_response_time = traces.by_type('agent_call').average(:duration_ms)&.round(2) || 0
+
+    # Calculate handoff rate (conversations that required human handoff)
+    # Assuming handoff is tracked in context_data or via a custom attribute
+    handoff_count = contexts.where("context_data->>'handoff_triggered' = ?", 'true').count
+    handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
+
+    # Token usage
+    total_input_tokens = contexts.sum(:input_tokens)
+    total_output_tokens = contexts.sum(:output_tokens)
+
+    render json: {
+      response_rate: total_responses.positive? ? (successful_responses.to_f / total_responses * 100).round(2) : 100,
+      avg_response_time_ms: avg_response_time,
+      handoff_rate: handoff_rate,
+      total_conversations: total_conversations,
+      token_usage: {
+        total_input: total_input_tokens,
+        total_output: total_output_tokens,
+        total: total_input_tokens + total_output_tokens
+      },
+      memory_stats: {
+        total: @assistant.memories.count,
+        active: @assistant.memories.active.count,
+        by_type: @assistant.memories.group(:memory_type).count
+      },
+      time_range: params[:range] || '7d'
     }
   end
 
@@ -120,5 +163,15 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def check_authorization
     authorize(Current.account, :update?)
+  end
+
+  def parse_time_range(range)
+    case range
+    when '24h' then 24.hours.ago
+    when '7d' then 7.days.ago
+    when '30d' then 30.days.ago
+    when '90d' then 90.days.ago
+    else 7.days.ago
+    end
   end
 end

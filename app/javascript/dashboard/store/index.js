@@ -64,6 +64,9 @@ import captainCustomTools from './captain/customTools';
 import alooAssistants from './aloo/assistant';
 import alooDocuments from './aloo/document';
 import alooWizard from './aloo/wizard';
+import alooMemories from './aloo/memory';
+import alooEmbeddings from './aloo/embedding';
+import alooConversations from './aloo/conversation';
 
 const plugins = [];
 
@@ -133,6 +136,9 @@ export default createStore({
     alooAssistants,
     alooDocuments,
     alooWizard,
+    alooMemories,
+    alooEmbeddings,
+    alooConversations,
   },
   plugins,
 });

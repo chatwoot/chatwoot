@@ -92,6 +92,7 @@ Rails.application.routes.draw do
             resources :assistants do
               member do
                 get :stats
+                get :performance
                 post :assign_inbox
                 delete :unassign_inbox
               end
@@ -100,6 +101,9 @@ Rails.application.routes.draw do
                   post :reprocess
                 end
               end
+              resources :memories, only: [:index, :destroy]
+              resources :embeddings, only: [:index]
+              resources :conversations, only: [:index]
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]

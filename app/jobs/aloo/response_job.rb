@@ -61,11 +61,10 @@ module Aloo
       # Create the outgoing message
       Messages::MessageBuilder.new(
         @conversation.account.users.first, # Use first admin as sender for bot messages
-        @inbox,
+        @conversation,
         {
           content: response[:content],
           message_type: :outgoing,
-          conversation_id: @conversation.id,
           private: false,
           content_attributes: build_content_attributes(response)
         }

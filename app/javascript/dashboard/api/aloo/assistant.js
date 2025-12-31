@@ -40,6 +40,12 @@ class AlooAssistant extends ApiClient {
       data: { inbox_id: inboxId },
     });
   }
+
+  getPerformance(assistantId, range = '7d') {
+    return axios.get(`${this.url}/${assistantId}/performance`, {
+      params: { range },
+    });
+  }
 }
 
 export default new AlooAssistant();
