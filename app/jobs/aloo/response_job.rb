@@ -58,9 +58,9 @@ module Aloo
       return if response[:skip_response]
       return if response[:handoff_triggered]
 
-      # Create the outgoing message
+      # Create the outgoing message with assistant as sender
       Messages::MessageBuilder.new(
-        @conversation.account.users.first, # Use first admin as sender for bot messages
+        @assistant,
         @conversation,
         {
           content: response[:content],

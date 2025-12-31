@@ -60,9 +60,6 @@ const languageOptions = computed(() => [
   { value: 'fr', label: t('ALOO.FORM.LANGUAGE.OPTIONS.FR') },
   { value: 'es', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ES') },
 ]);
-
-const selectClasses =
-  'w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7';
 </script>
 
 <template>
@@ -71,14 +68,11 @@ const selectClasses =
       :title="$t('ALOO.SETTINGS.PERSONALITY.TITLE')"
       :sub-title="$t('ALOO.SETTINGS.PERSONALITY.DESCRIPTION')"
     >
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.TONE.LABEL') }}
-          </label>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label>
+          {{ $t('ALOO.FORM.TONE.LABEL') }}
           <select
             :value="assistant.tone"
-            :class="selectClasses"
             @change="updateField('tone', $event.target.value)"
           >
             <option
@@ -89,14 +83,11 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.FORMALITY.LABEL') }}
-          </label>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.FORMALITY.LABEL') }}
           <select
             :value="assistant.formality"
-            :class="selectClasses"
             @change="updateField('formality', $event.target.value)"
           >
             <option
@@ -107,14 +98,11 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.EMPATHY_LEVEL.LABEL') }}
-          </label>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.EMPATHY_LEVEL.LABEL') }}
           <select
             :value="assistant.empathy_level"
-            :class="selectClasses"
             @change="updateField('empathy_level', $event.target.value)"
           >
             <option
@@ -125,14 +113,11 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.VERBOSITY.LABEL') }}
-          </label>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.VERBOSITY.LABEL') }}
           <select
             :value="assistant.verbosity"
-            :class="selectClasses"
             @change="updateField('verbosity', $event.target.value)"
           >
             <option
@@ -143,14 +128,11 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.EMOJI_USAGE.LABEL') }}
-          </label>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.EMOJI_USAGE.LABEL') }}
           <select
             :value="assistant.emoji_usage"
-            :class="selectClasses"
             @change="updateField('emoji_usage', $event.target.value)"
           >
             <option
@@ -161,14 +143,11 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
-          </label>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
           <select
             :value="assistant.language"
-            :class="selectClasses"
             @change="updateField('language', $event.target.value)"
           >
             <option
@@ -179,19 +158,16 @@ const selectClasses =
               {{ option.label }}
             </option>
           </select>
-        </div>
-        <div class="md:col-span-2">
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-            {{ $t('ALOO.FORM.PERSONALITY_DESCRIPTION.LABEL') }}
-          </label>
+        </label>
+        <label class="md:col-span-2">
+          {{ $t('ALOO.FORM.PERSONALITY_DESCRIPTION.LABEL') }}
           <textarea
             :value="assistant.personality_description"
             :placeholder="$t('ALOO.FORM.PERSONALITY_DESCRIPTION.PLACEHOLDER')"
             rows="4"
-            class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
             @input="updateField('personality_description', $event.target.value)"
           />
-        </div>
+        </label>
       </div>
       <div class="pt-4">
         <Button :is-loading="isSaving" @click="emit('save')">

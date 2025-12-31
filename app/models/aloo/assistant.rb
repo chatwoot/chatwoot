@@ -37,6 +37,7 @@ module Aloo
              foreign_key: 'aloo_assistant_id',
              dependent: :nullify,
              inverse_of: :assistant
+    has_many :messages, as: :sender, dependent: :nullify
     # Deferred to v2: has_many :custom_tools
 
     # Personality settings (user-configurable)
@@ -128,6 +129,17 @@ module Aloo
         guardrails,
         language_instruction
       ].compact_blank.join("\n\n")
+    end
+
+    # Serialization for message sender display
+    # Used when assistant is the sender of a message
+    def push_event_data(_inbox = nil)
+      {
+        id: id,
+        name: name,
+        avatar_url: nil,
+        type: 'aloo_assistant'
+      }
     end
   end
 end
