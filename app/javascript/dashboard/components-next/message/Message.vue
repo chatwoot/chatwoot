@@ -202,9 +202,11 @@ const isBotOrAgentMessage = computed(() => {
   }
 
   if (
-    [SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(
-      senderType
-    )
+    [
+      SENDER_TYPES.AGENT_BOT,
+      SENDER_TYPES.CAPTAIN_ASSISTANT,
+      SENDER_TYPES.ALOO_ASSISTANT,
+    ].includes(senderType)
   ) {
     return true;
   }
