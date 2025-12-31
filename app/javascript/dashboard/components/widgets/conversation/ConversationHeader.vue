@@ -8,6 +8,7 @@ import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import AIAgentBadge from './AIAgentBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -90,6 +91,9 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const assignedAgent = computed(() => props.chat.meta?.assignee);
+const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
 </script>
 
 <template>
@@ -127,6 +131,10 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           >
             #{{ chat.id }}
           </span>
+          <AIAgentBadge
+            v-if="isAssignedToAI"
+            :agent-name="assignedAgent?.name"
+          />
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"

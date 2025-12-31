@@ -41,6 +41,14 @@
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "AI_HANDOFF": {
+      "HEADER_BADGE": "AI Agent",
+      "HEADER_TOOLTIP": "This conversation is being handled by AI agent {agentName}",
+      "BANNER_MESSAGE": "This conversation is currently being handled by an AI agent. To respond, you must take over the conversation.",
+      "HANDOFF_BUTTON": "Take over conversation",
+      "HANDOFF_SUCCESS": "Conversation has been assigned to you",
+      "HANDOFF_ERROR": "Failed to take over the conversation. Please try again."
+    },
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",

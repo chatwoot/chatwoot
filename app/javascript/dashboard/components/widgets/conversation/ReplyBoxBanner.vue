@@ -47,7 +47,18 @@ const isAssignedToOtherAgent = computed(
   () => assignedAgent.value?.id !== currentUser.value?.id
 );
 
+const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
+const isCurrentUserHuman = computed(() => !currentUser.value?.is_ai);
+
+const showAIHandoffBanner = computed(() => {
+  return (
+    isAssignedToAI.value && isCurrentUserHuman.value && !props.isOnPrivateNote
+  );
+});
+
 const showSelfAssignBanner = computed(() => {
+  // Don't show self-assign banner when AI is assigned (AI handoff banner handles that)
+  if (isAssignedToAI.value) return false;
   return (
     isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
   );
@@ -103,9 +114,29 @@ const onClickBotHandoff = async () => {
     useAlert(t('CONVERSATION.BOT_HANDOFF_ERROR'));
   }
 };
+
+const onClickAIHandoff = async () => {
+  try {
+    await selfAssignConversation();
+    useAlert(t('CONVERSATION.AI_HANDOFF.HANDOFF_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.AI_HANDOFF.HANDOFF_ERROR'));
+  }
+};
 </script>
 
 <template>
+  <Banner
+    v-if="showAIHandoffBanner"
+    action-button-variant="ghost"
+    color-scheme="warning"
+    class="mx-2 mb-2 rounded-lg !py-3"
+    :banner-message="$t('CONVERSATION.AI_HANDOFF.BANNER_MESSAGE')"
+    has-action-button
+    action-button-icon="i-lucide-user-check"
+    :action-button-label="$t('CONVERSATION.AI_HANDOFF.HANDOFF_BUTTON')"
+    @primary-action="onClickAIHandoff"
+  />
   <Banner
     v-if="showSelfAssignBanner && !showBotHandoffBanner"
     action-button-variant="ghost"
