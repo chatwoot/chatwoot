@@ -86,6 +86,22 @@ Rails.application.routes.draw do
             resources :custom_tools
             resources :documents, only: [:index, :show, :create, :destroy]
           end
+
+          # Aloo AI Agent routes
+          namespace :aloo do
+            resources :assistants do
+              member do
+                get :stats
+                post :assign_inbox
+                delete :unassign_inbox
+              end
+              resources :documents, only: [:index, :show, :create, :destroy] do
+                member do
+                  post :reprocess
+                end
+              end
+            end
+          end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]

@@ -1,0 +1,85 @@
+# frozen_string_literal: true
+
+module Aloo
+  class FaqGeneratorJob < ApplicationJob
+    queue_as :low
+    retry_on RubyLLM::Error, wait: :polynomially_longer, attempts: 2
+
+    # Generate FAQs from a resolved conversation
+    # @param conversation_id [Integer] The conversation ID to process
+    def perform(conversation_id)
+      @conversation = Conversation.find_by(id: conversation_id)
+      return unless @conversation
+
+      @inbox = @conversation.inbox
+      @assistant = @inbox.aloo_assistant
+      return unless @assistant&.active?
+      return unless @assistant.feature_faq_enabled?
+
+      # Only generate FAQs on resolution
+      return unless @conversation.resolved?
+
+      # Check if already processed
+      return if already_processed?
+
+      # Run FAQ generation
+      agent = FaqGeneratorAgent.new(
+        account: @conversation.account,
+        assistant: @assistant,
+        conversation: @conversation,
+        contact: @conversation.contact
+      )
+
+      result = agent.call
+
+      # Mark as processed
+      mark_processed(result)
+
+      if result[:skipped]
+        Rails.logger.info(
+          "[Aloo::FaqGeneratorJob] Conversation #{conversation_id}: skipped - #{result[:reason]}"
+        )
+      else
+        Rails.logger.info(
+          "[Aloo::FaqGeneratorJob] Conversation #{conversation_id}: " \
+          "generated #{result[:faqs_generated]} FAQs"
+        )
+      end
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::FaqGeneratorJob] Error: #{e.message}")
+      Rails.logger.error(e.backtrace.first(5).join("\n"))
+      raise
+    end
+
+    private
+
+    def already_processed?
+      context = ConversationContext.find_by(
+        conversation: @conversation,
+        assistant: @assistant
+      )
+
+      return false unless context
+
+      context.context_data['faq_generation_completed'] == true
+    end
+
+    def mark_processed(result)
+      context = ConversationContext.find_or_create_by!(
+        conversation: @conversation,
+        assistant: @assistant
+      ) do |ctx|
+        ctx.context_data = {}
+        ctx.tool_history = []
+      end
+
+      context.set_context('faq_generation_completed', true)
+      context.set_context('faq_generation_result', {
+        faqs_generated: result[:faqs_generated] || 0,
+        skipped: result[:skipped],
+        reason: result[:reason],
+        processed_at: Time.current.iso8601
+      })
+    end
+  end
+end
