@@ -8,15 +8,16 @@ This document outlines the implementation plan for creating an AI agent system i
 2. [Gem Stack & Configuration](#gem-stack--configuration)
 3. [Model Recommendations](#model-recommendations)
 4. [Personality & Language Configuration](#personality--language-configuration)
-5. [Architecture](#architecture)
-6. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
-7. [Phase 2: Agent Framework](#phase-2-agent-framework)
-8. [Phase 3: Knowledge Base & Embeddings](#phase-3-knowledge-base--embeddings)
-9. [Phase 4: Tools System (MCPs)](#phase-4-tools-system-mcps)
-10. [Phase 5: Onboarding & Data Ingestion](#phase-5-onboarding--data-ingestion)
-11. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
-12. [Phase 7: Frontend & Dashboard](#phase-7-frontend--dashboard)
-13. [Phase 8: Advanced Features](#phase-8-advanced-features)
+5. [Memory System](#memory-system)
+6. [Architecture](#architecture)
+7. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
+8. [Phase 2: Agent Framework](#phase-2-agent-framework)
+9. [Phase 3: Knowledge Base & Embeddings](#phase-3-knowledge-base--embeddings)
+10. [Phase 4: Tools System (MCPs)](#phase-4-tools-system-mcps)
+11. [Phase 5: Onboarding & Data Ingestion](#phase-5-onboarding--data-ingestion)
+12. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
+13. [Phase 7: Frontend & Dashboard](#phase-7-frontend--dashboard)
+14. [Phase 8: Advanced Features](#phase-8-advanced-features)
 
 ---
 
@@ -227,6 +228,563 @@ SUPPORTED_LANGUAGES = {
   'hi' => { name: 'Hindi', dialects: [] },
   'tr' => { name: 'Turkish', dialects: [] }
 }.freeze
+```
+
+---
+
+## Memory System
+
+The Aloo Agent includes a sophisticated memory system inspired by the "Memory Lane" pattern. Instead of treating each conversation as isolated, the system extracts learnings and builds persistent memory that improves over time.
+
+### Memory Types
+
+Memories are categorized by type for better retrieval:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `correction` | When agent was corrected by customer or human agent | "Customer said the return policy is 30 days, not 14" |
+| `decision` | Choices made during conversation | "Offered 10% discount to resolve complaint" |
+| `preference` | Customer preferences discovered | "Customer prefers email over phone" |
+| `insight` | Learned facts about customer/product | "This customer is a VIP member" |
+| `commitment` | Promises made to customer | "Promised to follow up within 24 hours" |
+| `gap` | Knowledge gaps identified | "Agent couldn't answer question about API limits" |
+| `faq` | Question-answer pairs for knowledge base | "How do I reset my password?" |
+| `procedure` | Process or workflow learned | "Refunds require manager approval over $100" |
+
+### Hybrid Search Strategy
+
+Pure semantic search can miss precision. The hybrid approach combines:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                    Hybrid Search Pipeline                        │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  1. ENTITY EXTRACTION                                           │
+│     Query: "What did John Smith say about returns?"             │
+│     Entities: [contact:John Smith, topic:returns]               │
+│                                                                  │
+│  2. ENTITY FILTER (if entities found)                           │
+│     Filter memories by contact_id OR topic                      │
+│     Use lower similarity threshold (0.40)                       │
+│                                                                  │
+│  3. SEMANTIC RANKING                                            │
+│     Rank filtered results by query similarity                   │
+│                                                                  │
+│  4. FALLBACK (if no entities or no results)                     │
+│     Pure semantic search with higher threshold (0.50)           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Multi-Signal Ranking Algorithm
+
+Instead of pure cosine similarity, combine multiple signals:
+
+| Signal | Weight | Description |
+|--------|--------|-------------|
+| **Vector Similarity** | 60% | Cosine similarity from embedding |
+| **Confidence Score** | 15% | How reliable is this memory (0.0-1.0) |
+| **Observation Count** | 10% | Times this was confirmed across sessions |
+| **Recency** | 10% | Exponential decay from last observation |
+| **Type Boost** | +15% | When query intent matches memory type |
+
+**Query-Aware Type Boosting:**
+- Query contains "mistake", "wrong", "error" → boost `correction` memories
+- Query contains "decided", "chose", "agreed" → boost `decision` memories
+- Query contains "prefer", "like", "want" → boost `preference` memories
+- Query contains "promised", "committed", "will" → boost `commitment` memories
+
+### Feedback Integration
+
+Track user feedback on agent responses to improve memory quality:
+
+| Feedback | Action |
+|----------|--------|
+| 👍 Helpful | Increase memory confidence by 0.1 (max 1.0) |
+| 👎 Not helpful | Decrease confidence by 0.15 (min 0.0) |
+| 3+ consecutive 👎 | Flag for human review |
+| Confidence < 0.2 | Exclude from search results |
+
+### Observation Tracking
+
+When a memory is confirmed across multiple conversations, increase its weight:
+
+```ruby
+# Each time a memory is "observed" (used and confirmed):
+memory.observation_count += 1
+memory.last_observed_at = Time.current
+memory.confidence = [memory.confidence + 0.05, 1.0].min
+```
+
+### Source Chunk Embedding
+
+**Key insight**: Embed verbatim transcript excerpts rather than summaries. Users query using similar language to the original conversation.
+
+```ruby
+# Instead of:
+embedding_content = summarize(conversation_excerpt)
+
+# Do this:
+embedding_content = conversation_excerpt  # Verbatim
+```
+
+### Memory Database Schema
+
+```ruby
+# db/migrate/XXXXXX_create_aloo_memories.rb
+class CreateAlooMemories < ActiveRecord::Migration[7.0]
+  def change
+    create_table :aloo_memories do |t|
+      t.references :aloo_assistant, null: false, foreign_key: true, index: true
+      t.references :account, null: false, foreign_key: true, index: true
+      t.references :contact, foreign_key: true, index: true
+      t.references :conversation, foreign_key: true, index: true
+
+      # Memory content
+      t.string :memory_type, null: false  # correction, decision, preference, etc.
+      t.text :content, null: false        # The actual memory
+      t.text :source_excerpt              # Verbatim excerpt from conversation
+      t.text :context                     # Additional context
+
+      # Entities for hybrid search
+      t.string :entities, array: true, default: []  # ['contact:123', 'product:widget']
+      t.string :topics, array: true, default: []    # ['returns', 'shipping']
+
+      # Ranking signals
+      t.vector :embedding, limit: 1536
+      t.float :confidence, default: 0.7
+      t.integer :observation_count, default: 1
+      t.datetime :last_observed_at
+      t.jsonb :metadata, default: {}
+
+      # Feedback tracking
+      t.integer :helpful_count, default: 0
+      t.integer :not_helpful_count, default: 0
+      t.boolean :flagged_for_review, default: false
+
+      t.timestamps
+    end
+
+    add_index :aloo_memories, :memory_type
+    add_index :aloo_memories, :entities, using: :gin
+    add_index :aloo_memories, :topics, using: :gin
+    add_index :aloo_memories, :confidence
+    add_index :aloo_memories, :last_observed_at
+
+    # HNSW index for vector search
+    execute <<-SQL
+      CREATE INDEX aloo_memories_embedding_idx
+      ON aloo_memories
+      USING hnsw (embedding vector_cosine_ops)
+      WITH (m = 16, ef_construction = 64);
+    SQL
+
+    # Message feedback tracking
+    create_table :aloo_message_feedbacks do |t|
+      t.references :message, null: false, foreign_key: true, index: true
+      t.references :aloo_memory, foreign_key: true, index: true
+      t.references :user, foreign_key: true
+      t.string :feedback_type, null: false  # helpful, not_helpful
+      t.text :comment
+      t.timestamps
+    end
+  end
+end
+```
+
+### Memory Model
+
+`app/models/aloo/memory.rb`:
+
+```ruby
+module Aloo
+  class Memory < ApplicationRecord
+    self.table_name = 'aloo_memories'
+
+    include Aloo::Embeddable
+
+    belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id'
+    belongs_to :account
+    belongs_to :contact, optional: true
+    belongs_to :conversation, optional: true
+    has_many :message_feedbacks, class_name: 'Aloo::MessageFeedback', foreign_key: 'aloo_memory_id'
+
+    MEMORY_TYPES = %w[correction decision preference insight commitment gap faq procedure].freeze
+
+    validates :memory_type, inclusion: { in: MEMORY_TYPES }
+    validates :content, presence: true
+
+    scope :active, -> { where('confidence > ?', 0.2) }
+    scope :by_type, ->(type) { where(memory_type: type) }
+    scope :for_contact, ->(contact_id) { where(contact_id: contact_id) }
+    scope :with_entity, ->(entity) { where('? = ANY(entities)', entity) }
+    scope :with_topic, ->(topic) { where('? = ANY(topics)', topic) }
+
+    def embedding_content
+      source_excerpt.presence || content
+    end
+
+    def record_observation!
+      update!(
+        observation_count: observation_count + 1,
+        last_observed_at: Time.current,
+        confidence: [confidence + 0.05, 1.0].min
+      )
+    end
+
+    def record_feedback!(helpful:)
+      if helpful
+        update!(
+          helpful_count: helpful_count + 1,
+          confidence: [confidence + 0.1, 1.0].min
+        )
+      else
+        new_confidence = [confidence - 0.15, 0.0].max
+        update!(
+          not_helpful_count: not_helpful_count + 1,
+          confidence: new_confidence,
+          flagged_for_review: not_helpful_count >= 3
+        )
+      end
+    end
+
+    # Calculate ranking score with multiple signals
+    def ranking_score(query_similarity:, query_type_boost: nil)
+      signals = {
+        similarity: query_similarity * 0.60,
+        confidence: confidence * 0.15,
+        observation: observation_score * 0.10,
+        recency: recency_score * 0.10
+      }
+
+      base_score = signals.values.sum
+
+      # Apply type boost if query intent matches memory type
+      if query_type_boost == memory_type
+        base_score * 1.15
+      else
+        base_score
+      end
+    end
+
+    private
+
+    def observation_score
+      # Normalize observation count (log scale, max at ~100 observations)
+      [Math.log10(observation_count + 1) / 2.0, 1.0].min
+    end
+
+    def recency_score
+      return 1.0 unless last_observed_at
+
+      # Exponential decay: half-life of 30 days
+      days_ago = (Time.current - last_observed_at) / 1.day
+      Math.exp(-0.023 * days_ago)  # ln(2)/30 ≈ 0.023
+    end
+  end
+end
+```
+
+### Hybrid Search Service
+
+`app/services/aloo/memory_search_service.rb`:
+
+```ruby
+module Aloo
+  class MemorySearchService
+    ENTITY_THRESHOLD = 0.40   # Lower threshold when entities match
+    SEMANTIC_THRESHOLD = 0.50 # Higher threshold for pure semantic
+
+    TYPE_BOOST_KEYWORDS = {
+      'correction' => %w[mistake wrong error incorrect fix],
+      'decision' => %w[decided chose agreed decision choice],
+      'preference' => %w[prefer like want preference favorite],
+      'commitment' => %w[promised committed will guarantee follow-up],
+      'gap' => %w[don't know couldn't answer missing unclear],
+      'insight' => %w[learned discovered found realized],
+      'faq' => %w[how what why when where question],
+      'procedure' => %w[process steps workflow procedure how-to]
+    }.freeze
+
+    def initialize(assistant)
+      @assistant = assistant
+    end
+
+    def search(query, contact: nil, limit: 10)
+      query_embedding = generate_embedding(query)
+      query_type_boost = detect_type_boost(query)
+      entities = extract_entities(query, contact)
+
+      # Try hybrid search first (entity filter + semantic ranking)
+      if entities.any?
+        results = hybrid_search(query_embedding, entities, limit, query_type_boost)
+        return results if results.any?
+      end
+
+      # Fallback to pure semantic search
+      semantic_search(query_embedding, limit, query_type_boost)
+    end
+
+    def build_context(query, contact: nil, max_tokens: 1500)
+      results = search(query, contact: contact, limit: 8)
+      return '' if results.empty?
+
+      results.map do |r|
+        type_label = r[:memory_type].titleize
+        "[#{type_label}] #{r[:content]}"
+      end.join("\n\n---\n\n").truncate(max_tokens * 4)
+    end
+
+    private
+
+    def hybrid_search(query_embedding, entities, limit, query_type_boost)
+      # Filter by entities first
+      base_scope = @assistant.memories.active
+
+      entity_conditions = entities.map do |entity|
+        if entity.start_with?('contact:')
+          { contact_id: entity.split(':').last.to_i }
+        elsif entity.start_with?('topic:')
+          topic = entity.split(':').last
+          base_scope.with_topic(topic)
+        else
+          base_scope.with_entity(entity)
+        end
+      end
+
+      # Combine entity filters
+      filtered = entity_conditions.reduce(base_scope) do |scope, condition|
+        if condition.is_a?(Hash)
+          scope.where(condition)
+        else
+          scope.merge(condition)
+        end
+      end
+
+      # Semantic search within filtered results
+      candidates = filtered
+        .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
+        .limit(limit * 2)
+
+      # Re-rank with multi-signal scoring
+      rank_results(candidates, query_embedding, query_type_boost, ENTITY_THRESHOLD, limit)
+    end
+
+    def semantic_search(query_embedding, limit, query_type_boost)
+      candidates = @assistant.memories
+        .active
+        .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
+        .limit(limit * 2)
+
+      rank_results(candidates, query_embedding, query_type_boost, SEMANTIC_THRESHOLD, limit)
+    end
+
+    def rank_results(candidates, query_embedding, query_type_boost, threshold, limit)
+      candidates.filter_map do |memory|
+        similarity = 1.0 - memory.neighbor_distance
+        next if similarity < threshold
+
+        score = memory.ranking_score(
+          query_similarity: similarity,
+          query_type_boost: query_type_boost
+        )
+
+        {
+          id: memory.id,
+          memory_type: memory.memory_type,
+          content: memory.content,
+          source_excerpt: memory.source_excerpt,
+          confidence: memory.confidence,
+          similarity: similarity.round(3),
+          score: score.round(3),
+          contact_id: memory.contact_id
+        }
+      end.sort_by { |r| -r[:score] }.first(limit)
+    end
+
+    def detect_type_boost(query)
+      query_lower = query.downcase
+
+      TYPE_BOOST_KEYWORDS.each do |type, keywords|
+        return type if keywords.any? { |kw| query_lower.include?(kw) }
+      end
+
+      nil
+    end
+
+    def extract_entities(query, contact)
+      entities = []
+
+      # Add contact entity if provided
+      entities << "contact:#{contact.id}" if contact
+
+      # Extract topic entities from query (simple keyword extraction)
+      # In production, use NER or more sophisticated extraction
+      topics = extract_topics(query)
+      entities.concat(topics.map { |t| "topic:#{t}" })
+
+      entities
+    end
+
+    def extract_topics(query)
+      # Simple topic extraction - could be enhanced with NER
+      common_topics = %w[
+        returns refund shipping order payment billing
+        account password login subscription pricing
+        product feature bug error support
+      ]
+
+      query_lower = query.downcase
+      common_topics.select { |topic| query_lower.include?(topic) }
+    end
+
+    def generate_embedding(text)
+      response = RubyLLM.embed(text, model: 'text-embedding-3-small')
+      response.vectors.first
+    end
+  end
+end
+```
+
+### Memory Extraction Agent
+
+`app/agents/memory_extractor_agent.rb`:
+
+```ruby
+class MemoryExtractorAgent < ApplicationAgent
+  model 'gpt-4o-mini'
+  temperature 0.3
+  version '1.0'
+
+  param :transcript, required: true
+  param :existing_topics, default: []
+
+  def system_prompt
+    <<~PROMPT
+      You are a memory extraction system for customer support conversations.
+      Analyze the conversation and extract valuable memories that would help
+      in future interactions.
+
+      Focus on "surprise moments":
+      - When the agent was corrected
+      - When customer revealed preferences
+      - When commitments were made
+      - When knowledge gaps were exposed
+      - When useful Q&A pairs emerged
+
+      Rules:
+      - Extract verbatim source excerpts when possible
+      - Be specific, not generic
+      - Skip greetings and small talk
+      - Each memory should be standalone and useful
+      - Identify relevant topics/entities
+    PROMPT
+  end
+
+  def user_prompt
+    <<~PROMPT
+      Extract memories from this conversation:
+
+      #{transcript}
+
+      Existing topics in our system: #{existing_topics.join(', ')}
+    PROMPT
+  end
+
+  def schema
+    @schema ||= RubyLLM::Schema.create do
+      array :memories do
+        string :memory_type, enum: %w[correction decision preference insight commitment gap faq procedure]
+        string :content
+        string :source_excerpt
+        array :topics, of: :string
+        array :entities, of: :string
+        number :confidence  # 0.0 to 1.0, how confident in this extraction
+      end
+    end
+  end
+end
+```
+
+### Memory Extraction Job
+
+`app/jobs/aloo/extract_memories_job.rb`:
+
+```ruby
+module Aloo
+  class ExtractMemoriesJob < ApplicationJob
+    queue_as :low
+
+    def perform(conversation_id)
+      conversation = Conversation.find(conversation_id)
+      assistant = conversation.inbox.aloo_assistant
+
+      return unless assistant&.feature_memory_enabled?
+      return unless meaningful_exchange?(conversation)
+
+      transcript = build_transcript(conversation)
+      existing_topics = assistant.memories.distinct.pluck(:topics).flatten.uniq
+
+      result = MemoryExtractorAgent.call(
+        transcript: transcript,
+        existing_topics: existing_topics
+      )
+
+      save_memories(assistant, conversation, result.memories) if result.memories.present?
+    rescue StandardError => e
+      Rails.logger.error("[Aloo] Memory extraction failed: #{e.message}")
+    end
+
+    private
+
+    def meaningful_exchange?(conversation)
+      conversation.messages.where(private: false).count >= 4
+    end
+
+    def build_transcript(conversation)
+      conversation.messages
+                  .where(private: false)
+                  .order(:created_at)
+                  .map { |m| "#{m.incoming? ? 'Customer' : 'Support'}: #{m.content}" }
+                  .join("\n")
+    end
+
+    def save_memories(assistant, conversation, memories)
+      memories.each do |mem|
+        next if mem['content'].blank?
+        next if duplicate?(assistant, mem['content'])
+
+        embedding = RubyLLM.embed(
+          mem['source_excerpt'].presence || mem['content'],
+          model: 'text-embedding-3-small'
+        ).vectors.first
+
+        assistant.memories.create!(
+          account: assistant.account,
+          contact: conversation.contact,
+          conversation: conversation,
+          memory_type: mem['memory_type'],
+          content: mem['content'],
+          source_excerpt: mem['source_excerpt'],
+          topics: mem['topics'] || [],
+          entities: mem['entities'] || [],
+          embedding: embedding,
+          confidence: mem['confidence'] || 0.7,
+          last_observed_at: Time.current
+        )
+      end
+    end
+
+    def duplicate?(assistant, content)
+      embedding = RubyLLM.embed(content, model: 'text-embedding-3-small').vectors.first
+      similar = assistant.memories.active
+                         .nearest_neighbors(:embedding, embedding, distance: 'cosine')
+                         .limit(1).first
+      similar && similar.neighbor_distance < 0.15
+    end
+  end
+end
 ```
 
 ---
@@ -467,6 +1025,7 @@ module Aloo
     has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :custom_tools, class_name: 'Aloo::CustomTool', foreign_key: 'aloo_assistant_id', dependent: :destroy
     has_many :conversation_contexts, class_name: 'Aloo::ConversationContext', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :memories, class_name: 'Aloo::Memory', foreign_key: 'aloo_assistant_id', dependent: :destroy
 
     # Personality settings (user-configurable)
     TONES = %w[professional friendly casual formal].freeze
@@ -702,6 +1261,7 @@ class ConversationAgent < ApplicationAgent
   def system_prompt
     assistant = Aloo::Current.assistant
     knowledge_context = build_knowledge_context
+    memory_context = build_memory_context
 
     <<~PROMPT
       #{assistant&.system_prompt || default_system_prompt}
@@ -715,6 +1275,9 @@ class ConversationAgent < ApplicationAgent
       ## Knowledge Base Context
       #{knowledge_context}
 
+      ## Memory Context (Previous Learnings)
+      #{memory_context}
+
       ## Conversation Context
       - Contact: #{Aloo::Current.contact&.name || 'Unknown'}
       - Channel: #{Aloo::Current.inbox&.channel_type}
@@ -722,6 +1285,7 @@ class ConversationAgent < ApplicationAgent
       ## Instructions
       - Use the faq_lookup tool when you need more information
       - Use the handoff tool to transfer to a human if needed
+      - Apply learnings from Memory Context when relevant
       - Keep responses relevant to the customer's question
     PROMPT
   end
@@ -751,6 +1315,13 @@ class ConversationAgent < ApplicationAgent
 
     search_service = Aloo::VectorSearchService.new(Aloo::Current.assistant)
     search_service.build_context(message, max_tokens: 2000)
+  end
+
+  def build_memory_context
+    return '' unless Aloo::Current.assistant&.feature_memory_enabled?
+
+    memory_service = Aloo::MemorySearchService.new(Aloo::Current.assistant)
+    memory_service.build_context(message, contact: Aloo::Current.contact, max_tokens: 1500)
   end
 
   def custom_tools
@@ -1758,9 +2329,37 @@ class AlooAgentListener < BaseListener
     conversation = event.data[:conversation]
     assistant = conversation.inbox.aloo_assistant
 
-    return unless assistant&.effective_config&.dig('feature_faq')
+    return unless assistant
 
-    Aloo::FaqGeneratorJob.perform_later(conversation.id)
+    # Extract FAQs if enabled
+    if assistant.feature_faq_enabled?
+      Aloo::FaqGeneratorJob.perform_later(conversation.id)
+    end
+
+    # Extract memories if enabled
+    if assistant.feature_memory_enabled?
+      Aloo::ExtractMemoriesJob.perform_later(conversation.id)
+    end
+  end
+
+  # Track feedback on messages for memory improvement
+  def message_feedback_created(event)
+    feedback = event.data[:feedback]
+    message = feedback.message
+
+    # Find memories that were used for this message
+    context = message.conversation.aloo_conversation_context
+    return unless context&.tool_history.present?
+
+    # Record feedback on memories that were retrieved
+    memory_ids = context.tool_history
+                        .select { |t| t['tool'] == 'memory_search' }
+                        .flat_map { |t| t['memory_ids'] }
+                        .compact
+
+    Aloo::Memory.where(id: memory_ids).find_each do |memory|
+      memory.record_feedback!(helpful: feedback.helpful?)
+    end
   end
 
   private
@@ -2407,6 +3006,14 @@ aloo:
    - Separation of admin vs user permissions
    - Dynamic prompt generation based on settings
 
+7. **Memory System** (Memory Lane pattern):
+   - 8 memory types (correction, decision, preference, insight, commitment, gap, faq, procedure)
+   - Hybrid search: entity filtering + semantic ranking
+   - Multi-signal ranking: similarity (60%) + confidence (15%) + observations (10%) + recency (10%) + type boost (+15%)
+   - Feedback integration: thumbs up/down improves memory quality
+   - Source chunk embedding: verbatim excerpts for better matching
+   - Observation tracking: memories strengthen over multiple confirmations
+
 ---
 
 ## Models Summary
@@ -2420,6 +3027,8 @@ aloo:
 | `Aloo::ConversationContext` | `aloo_conversation_contexts` | Tracks AI usage per conversation |
 | `Aloo::NotionConnection` | `aloo_notion_connections` | Notion OAuth credentials |
 | `Aloo::AssistantInbox` | `aloo_assistant_inboxes` | Links assistants to inboxes |
+| `Aloo::Memory` | `aloo_memories` | Persistent memories with multi-signal ranking |
+| `Aloo::MessageFeedback` | `aloo_message_feedbacks` | Feedback tracking for memory improvement |
 
 ---
 
