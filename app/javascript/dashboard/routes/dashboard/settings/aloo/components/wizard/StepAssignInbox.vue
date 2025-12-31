@@ -64,6 +64,12 @@ const getInboxIcon = inbox => {
 };
 
 const createAssistant = async () => {
+  // Validate name before submission
+  if (!wizardData.value.name || !wizardData.value.name.trim()) {
+    useAlert(t('ALOO.FORM.NAME.ERROR'));
+    return;
+  }
+
   isSubmitting.value = true;
   try {
     // Create the assistant

@@ -1,5 +1,5 @@
 <script setup>
-import { inject, computed } from 'vue';
+import { inject, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -15,20 +15,50 @@ const { accountScopedRoute } = useAccount();
 
 const wizardData = inject('wizardData');
 
+// Local state for vuelidate that syncs with wizardData
+const localName = ref(wizardData.value.name || '');
+
+// Sync localName back to wizardData
+watch(localName, newVal => {
+  wizardData.value.name = newVal;
+});
+
+// Sync wizardData.name to localName (for initial load)
+watch(
+  () => wizardData.value.name,
+  newVal => {
+    if (newVal !== localName.value) {
+      localName.value = newVal || '';
+    }
+  }
+);
+
 const rules = {
-  name: { required, maxLength: maxLength(100) },
+  localName: { required, maxLength: maxLength(100) },
 };
 
-const v$ = useVuelidate(rules, wizardData);
+const v$ = useVuelidate(rules, { localName });
 
 const nameError = computed(() => {
-  if (v$.value.name.$error) {
+  if (v$.value.localName.$error) {
     return t('ALOO.FORM.NAME.ERROR');
   }
   return '';
 });
 
+const touchName = () => {
+  v$.value.localName.$touch();
+};
+
 const goToNext = async () => {
+  // Touch the field first to trigger validation display
+  v$.value.localName.$touch();
+
+  // Direct check for empty name
+  if (!localName.value || !localName.value.trim()) {
+    return;
+  }
+
   const isValid = await v$.value.$validate();
   if (isValid) {
     router.push(accountScopedRoute('settings_aloo_new_personality'));
@@ -52,12 +82,12 @@ const goBack = () => {
 
       <div class="space-y-6 max-w-lg">
         <Input
-          v-model="wizardData.name"
+          v-model="localName"
           :label="$t('ALOO.FORM.NAME.LABEL')"
           :placeholder="$t('ALOO.FORM.NAME.PLACEHOLDER')"
           :message="nameError"
           :message-type="nameError ? 'error' : ''"
-          @blur="v$.name.$touch"
+          @blur="touchName"
         />
 
         <div>

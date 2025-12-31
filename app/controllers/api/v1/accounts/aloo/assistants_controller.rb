@@ -6,6 +6,10 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   def index
     @assistants = Current.account.aloo_assistants.order(:name)
+    render json: {
+      payload: @assistants.map { |a| assistant_json(a) },
+      meta: { total_count: @assistants.count }
+    }
   end
 
   def show

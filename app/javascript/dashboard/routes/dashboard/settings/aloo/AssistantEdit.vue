@@ -82,7 +82,7 @@ onMounted(async () => {
     if (storedAssistant) {
       Object.assign(assistant.value, storedAssistant);
       assignedInboxes.value =
-        storedAssistant.aloo_assistant_inboxes?.map(ai => ai.inbox_id) || [];
+        storedAssistant.assigned_inboxes?.map(ai => ai.id) || [];
     }
 
     documents.value = getters['alooDocuments/getRecords'].value;

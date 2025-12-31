@@ -91,7 +91,7 @@ const toggleActive = async (assistant, active) => {
 };
 
 const getInboxCount = assistant => {
-  return assistant.aloo_assistant_inboxes?.length || 0;
+  return assistant.assigned_inboxes?.length || 0;
 };
 </script>
 
