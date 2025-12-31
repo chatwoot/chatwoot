@@ -79,7 +79,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :active,
       :language,
       :dialect,
-      :model_name,
       :tone,
       :formality,
       :empathy_level,
@@ -87,13 +86,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :emoji_usage,
       :greeting_style,
       :custom_greeting,
-      :personality_description,
-      :language_instruction,
-      :business_context,
-      :admin_config,
-      :feature_memory_enabled,
-      :feature_faq_enabled,
-      :feature_handoff_enabled
+      :personality_description
     )
   end
 
@@ -105,7 +98,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       active: assistant.active,
       language: assistant.language,
       dialect: assistant.dialect,
-      model_name: assistant.model_name,
       personality: {
         tone: assistant.tone,
         formality: assistant.formality,
@@ -114,14 +106,11 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         emoji_usage: assistant.emoji_usage,
         greeting_style: assistant.greeting_style,
         custom_greeting: assistant.custom_greeting,
-        personality_description: assistant.personality_description,
-        language_instruction: assistant.language_instruction
+        personality_description: assistant.personality_description
       },
-      business_context: assistant.business_context,
       features: {
-        memory_enabled: assistant.feature_memory_enabled,
-        faq_enabled: assistant.feature_faq_enabled,
-        handoff_enabled: assistant.feature_handoff_enabled
+        memory_enabled: assistant.feature_memory_enabled?,
+        faq_enabled: assistant.feature_faq_enabled?
       },
       assigned_inboxes: assistant.inboxes.map { |i| { id: i.id, name: i.name } },
       created_at: assistant.created_at,

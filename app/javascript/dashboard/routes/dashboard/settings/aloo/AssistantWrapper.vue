@@ -81,7 +81,7 @@ const pageTitle = computed(() => {
         :global-config="globalConfig"
         :items="createFlowSteps"
       />
-      <div class="col-span-6 overflow-hidden">
+      <div class="col-span-6 overflow-visible">
         <router-view />
       </div>
     </div>

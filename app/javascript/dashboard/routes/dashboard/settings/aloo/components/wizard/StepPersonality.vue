@@ -100,8 +100,8 @@ const goBack = () => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full p-8">
-    <div class="flex-1 overflow-y-auto">
+  <div class="flex flex-col h-full p-8 overflow-visible">
+    <div class="flex-1 overflow-visible">
       <h2 class="text-xl font-semibold text-n-slate-12 mb-2">
         {{ $t('ALOO.WIZARD.STEP_2') }}
       </h2>
@@ -109,16 +109,15 @@ const goBack = () => {
         {{ $t('ALOO.WIZARD.STEP_2_DESCRIPTION') }}
       </p>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl overflow-visible"
+      >
         <!-- Tone -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block overflow-visible">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.TONE.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.tone"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.tone" class="!mb-0">
             <option
               v-for="option in toneOptions"
               :key="option.value"
@@ -127,17 +126,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Formality -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.FORMALITY.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.formality"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.formality" class="!mb-0">
             <option
               v-for="option in formalityOptions"
               :key="option.value"
@@ -146,17 +142,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Empathy Level -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.EMPATHY_LEVEL.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.empathy_level"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.empathy_level" class="!mb-0">
             <option
               v-for="option in empathyOptions"
               :key="option.value"
@@ -165,17 +158,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Verbosity -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.VERBOSITY.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.verbosity"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.verbosity" class="!mb-0">
             <option
               v-for="option in verbosityOptions"
               :key="option.value"
@@ -184,17 +174,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Emoji Usage -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.EMOJI_USAGE.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.emoji_usage"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.emoji_usage" class="!mb-0">
             <option
               v-for="option in emojiOptions"
               :key="option.value"
@@ -203,17 +190,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Greeting Style -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.GREETING_STYLE.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.greeting_style"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.greeting_style" class="!mb-0">
             <option
               v-for="option in greetingOptions"
               :key="option.value"
@@ -222,17 +206,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Language -->
-        <div>
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.language"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.language" class="!mb-0">
             <option
               v-for="option in languageOptions"
               :key="option.value"
@@ -241,17 +222,14 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Dialect (Arabic only) -->
-        <div v-if="showDialect">
-          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+        <label v-if="showDialect" class="block">
+          <span class="block text-sm font-medium text-n-slate-12 mb-1.5">
             {{ $t('ALOO.FORM.DIALECT.LABEL') }}
-          </label>
-          <select
-            v-model="wizardData.dialect"
-            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-          >
+          </span>
+          <select v-model="wizardData.dialect" class="!mb-0">
             <option value="">{{ $t('ALOO.FORM.DIALECT.PLACEHOLDER') }}</option>
             <option
               v-for="option in dialectOptions"
@@ -261,7 +239,7 @@ const goBack = () => {
               {{ option.label }}
             </option>
           </select>
-        </div>
+        </label>
 
         <!-- Custom Greeting -->
         <div v-if="showCustomGreeting" class="md:col-span-2">
