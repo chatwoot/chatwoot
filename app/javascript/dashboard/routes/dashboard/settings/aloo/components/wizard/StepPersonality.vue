@@ -1,0 +1,303 @@
+<script setup>
+import { inject, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
+import { useAccount } from 'dashboard/composables/useAccount';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const { t } = useI18n();
+const router = useRouter();
+const { accountScopedRoute } = useAccount();
+
+const wizardData = inject('wizardData');
+
+const toneOptions = [
+  { value: 'professional', label: t('ALOO.FORM.TONE.OPTIONS.PROFESSIONAL') },
+  { value: 'friendly', label: t('ALOO.FORM.TONE.OPTIONS.FRIENDLY') },
+  { value: 'casual', label: t('ALOO.FORM.TONE.OPTIONS.CASUAL') },
+  { value: 'formal', label: t('ALOO.FORM.TONE.OPTIONS.FORMAL') },
+];
+
+const formalityOptions = [
+  { value: 'high', label: t('ALOO.FORM.FORMALITY.OPTIONS.HIGH') },
+  { value: 'medium', label: t('ALOO.FORM.FORMALITY.OPTIONS.MEDIUM') },
+  { value: 'low', label: t('ALOO.FORM.FORMALITY.OPTIONS.LOW') },
+];
+
+const empathyOptions = [
+  { value: 'high', label: t('ALOO.FORM.EMPATHY_LEVEL.OPTIONS.HIGH') },
+  { value: 'medium', label: t('ALOO.FORM.EMPATHY_LEVEL.OPTIONS.MEDIUM') },
+  { value: 'low', label: t('ALOO.FORM.EMPATHY_LEVEL.OPTIONS.LOW') },
+];
+
+const verbosityOptions = [
+  { value: 'concise', label: t('ALOO.FORM.VERBOSITY.OPTIONS.CONCISE') },
+  { value: 'balanced', label: t('ALOO.FORM.VERBOSITY.OPTIONS.BALANCED') },
+  { value: 'detailed', label: t('ALOO.FORM.VERBOSITY.OPTIONS.DETAILED') },
+];
+
+const emojiOptions = [
+  { value: 'none', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.NONE') },
+  { value: 'minimal', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.MINIMAL') },
+  { value: 'moderate', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.MODERATE') },
+];
+
+const greetingOptions = [
+  { value: 'warm', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.WARM') },
+  { value: 'direct', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.DIRECT') },
+  { value: 'custom', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.CUSTOM') },
+];
+
+const languageOptions = [
+  { value: 'en', label: t('ALOO.FORM.LANGUAGE.OPTIONS.EN') },
+  { value: 'ar', label: t('ALOO.FORM.LANGUAGE.OPTIONS.AR') },
+  { value: 'fr', label: t('ALOO.FORM.LANGUAGE.OPTIONS.FR') },
+  { value: 'es', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ES') },
+  { value: 'de', label: t('ALOO.FORM.LANGUAGE.OPTIONS.DE') },
+  { value: 'pt', label: t('ALOO.FORM.LANGUAGE.OPTIONS.PT') },
+  { value: 'it', label: t('ALOO.FORM.LANGUAGE.OPTIONS.IT') },
+  { value: 'nl', label: t('ALOO.FORM.LANGUAGE.OPTIONS.NL') },
+  { value: 'ru', label: t('ALOO.FORM.LANGUAGE.OPTIONS.RU') },
+  { value: 'ja', label: t('ALOO.FORM.LANGUAGE.OPTIONS.JA') },
+  { value: 'ko', label: t('ALOO.FORM.LANGUAGE.OPTIONS.KO') },
+  { value: 'zh', label: t('ALOO.FORM.LANGUAGE.OPTIONS.ZH') },
+];
+
+const dialectOptions = [
+  { value: 'EG', label: t('ALOO.FORM.DIALECT.OPTIONS.EG') },
+  { value: 'SA', label: t('ALOO.FORM.DIALECT.OPTIONS.SA') },
+  { value: 'AE', label: t('ALOO.FORM.DIALECT.OPTIONS.AE') },
+  { value: 'KW', label: t('ALOO.FORM.DIALECT.OPTIONS.KW') },
+  { value: 'QA', label: t('ALOO.FORM.DIALECT.OPTIONS.QA') },
+  { value: 'BH', label: t('ALOO.FORM.DIALECT.OPTIONS.BH') },
+  { value: 'OM', label: t('ALOO.FORM.DIALECT.OPTIONS.OM') },
+  { value: 'JO', label: t('ALOO.FORM.DIALECT.OPTIONS.JO') },
+  { value: 'LB', label: t('ALOO.FORM.DIALECT.OPTIONS.LB') },
+  { value: 'SY', label: t('ALOO.FORM.DIALECT.OPTIONS.SY') },
+  { value: 'IQ', label: t('ALOO.FORM.DIALECT.OPTIONS.IQ') },
+  { value: 'MA', label: t('ALOO.FORM.DIALECT.OPTIONS.MA') },
+  { value: 'TN', label: t('ALOO.FORM.DIALECT.OPTIONS.TN') },
+  { value: 'DZ', label: t('ALOO.FORM.DIALECT.OPTIONS.DZ') },
+  { value: 'LY', label: t('ALOO.FORM.DIALECT.OPTIONS.LY') },
+  { value: 'SD', label: t('ALOO.FORM.DIALECT.OPTIONS.SD') },
+  { value: 'PS', label: t('ALOO.FORM.DIALECT.OPTIONS.PS') },
+  { value: 'MSA', label: t('ALOO.FORM.DIALECT.OPTIONS.MSA') },
+];
+
+const showDialect = computed(() => wizardData.value.language === 'ar');
+const showCustomGreeting = computed(
+  () => wizardData.value.greeting_style === 'custom'
+);
+
+const goToNext = () => {
+  router.push(accountScopedRoute('settings_aloo_new_knowledge'));
+};
+
+const goBack = () => {
+  router.push(accountScopedRoute('settings_aloo_new'));
+};
+</script>
+
+<template>
+  <div class="flex flex-col h-full p-8">
+    <div class="flex-1 overflow-y-auto">
+      <h2 class="text-xl font-semibold text-n-slate-12 mb-2">
+        {{ $t('ALOO.WIZARD.STEP_2') }}
+      </h2>
+      <p class="text-n-slate-11 mb-8">
+        {{ $t('ALOO.WIZARD.STEP_2_DESCRIPTION') }}
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">
+        <!-- Tone -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.TONE.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.tone"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in toneOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Formality -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.FORMALITY.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.formality"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in formalityOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Empathy Level -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.EMPATHY_LEVEL.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.empathy_level"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in empathyOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Verbosity -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.VERBOSITY.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.verbosity"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in verbosityOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Emoji Usage -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.EMOJI_USAGE.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.emoji_usage"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in emojiOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Greeting Style -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.GREETING_STYLE.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.greeting_style"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in greetingOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Language -->
+        <div>
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.language"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option
+              v-for="option in languageOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Dialect (Arabic only) -->
+        <div v-if="showDialect">
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.DIALECT.LABEL') }}
+          </label>
+          <select
+            v-model="wizardData.dialect"
+            class="w-full px-3 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          >
+            <option value="">{{ $t('ALOO.FORM.DIALECT.PLACEHOLDER') }}</option>
+            <option
+              v-for="option in dialectOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Custom Greeting -->
+        <div v-if="showCustomGreeting" class="md:col-span-2">
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.CUSTOM_GREETING.LABEL') }}
+          </label>
+          <textarea
+            v-model="wizardData.custom_greeting"
+            :placeholder="$t('ALOO.FORM.CUSTOM_GREETING.PLACEHOLDER')"
+            rows="3"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          />
+        </div>
+
+        <!-- Personality Description -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+            {{ $t('ALOO.FORM.PERSONALITY_DESCRIPTION.LABEL') }}
+          </label>
+          <textarea
+            v-model="wizardData.personality_description"
+            :placeholder="$t('ALOO.FORM.PERSONALITY_DESCRIPTION.PLACEHOLDER')"
+            rows="4"
+            class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex justify-between pt-6 border-t border-n-weak">
+      <Button variant="faded" slate @click="goBack">
+        {{ $t('ALOO.ACTIONS.BACK') }}
+      </Button>
+      <Button @click="goToNext">
+        {{ $t('ALOO.ACTIONS.NEXT') }}
+      </Button>
+    </div>
+  </div>
+</template>

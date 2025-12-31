@@ -1,0 +1,224 @@
+{
+  "ALOO": {
+    "HEADER": "Aloo AI Assistants",
+    "TITLE": "Aloo Assistants",
+    "DESCRIPTION": "Create and manage AI assistants for your inboxes",
+    "NEW_ASSISTANT": "New Assistant",
+    "EMPTY_STATE": {
+      "TITLE": "No assistants yet",
+      "DESCRIPTION": "Create your first AI assistant to automate customer conversations",
+      "ACTION": "Create Assistant"
+    },
+    "WIZARD": {
+      "TITLE": "Create New Assistant",
+      "STEP_1": "Basic Info",
+      "STEP_1_DESCRIPTION": "Enter the basic information for your AI assistant",
+      "STEP_2": "Personality",
+      "STEP_2_DESCRIPTION": "Configure how your assistant communicates with customers",
+      "STEP_3": "Knowledge Base",
+      "STEP_3_DESCRIPTION": "Upload documents to build your assistant's knowledge base",
+      "STEP_4": "Assign Inboxes",
+      "STEP_1_BODY": "Enter the name and description for your AI assistant",
+      "STEP_2_BODY": "Configure how your assistant communicates",
+      "STEP_3_BODY": "Upload documents to build the knowledge base",
+      "STEP_4_BODY": "Select which inboxes will use this assistant"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Enter assistant name",
+        "ERROR": "Name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Describe what this assistant does"
+      },
+      "TONE": {
+        "LABEL": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly",
+          "CASUAL": "Casual",
+          "FORMAL": "Formal"
+        }
+      },
+      "FORMALITY": {
+        "LABEL": "Formality",
+        "OPTIONS": {
+          "HIGH": "High",
+          "MEDIUM": "Medium",
+          "LOW": "Low"
+        }
+      },
+      "EMPATHY_LEVEL": {
+        "LABEL": "Empathy Level",
+        "OPTIONS": {
+          "HIGH": "High",
+          "MEDIUM": "Medium",
+          "LOW": "Low"
+        }
+      },
+      "VERBOSITY": {
+        "LABEL": "Response Length",
+        "OPTIONS": {
+          "CONCISE": "Concise",
+          "BALANCED": "Balanced",
+          "DETAILED": "Detailed"
+        }
+      },
+      "EMOJI_USAGE": {
+        "LABEL": "Emoji Usage",
+        "OPTIONS": {
+          "NONE": "None",
+          "MINIMAL": "Minimal",
+          "MODERATE": "Moderate"
+        }
+      },
+      "GREETING_STYLE": {
+        "LABEL": "Greeting Style",
+        "OPTIONS": {
+          "WARM": "Warm",
+          "DIRECT": "Direct",
+          "CUSTOM": "Custom"
+        }
+      },
+      "CUSTOM_GREETING": {
+        "LABEL": "Custom Greeting",
+        "PLACEHOLDER": "Enter your custom greeting message"
+      },
+      "LANGUAGE": {
+        "LABEL": "Language",
+        "OPTIONS": {
+          "EN": "English",
+          "AR": "Arabic",
+          "FR": "French",
+          "ES": "Spanish",
+          "DE": "German",
+          "PT": "Portuguese",
+          "IT": "Italian",
+          "NL": "Dutch",
+          "RU": "Russian",
+          "JA": "Japanese",
+          "KO": "Korean",
+          "ZH": "Chinese"
+        }
+      },
+      "DIALECT": {
+        "LABEL": "Dialect",
+        "PLACEHOLDER": "Select dialect",
+        "OPTIONS": {
+          "EG": "Egyptian",
+          "SA": "Saudi",
+          "AE": "Emirati",
+          "KW": "Kuwaiti",
+          "QA": "Qatari",
+          "BH": "Bahraini",
+          "OM": "Omani",
+          "JO": "Jordanian",
+          "LB": "Lebanese",
+          "SY": "Syrian",
+          "IQ": "Iraqi",
+          "MA": "Moroccan",
+          "TN": "Tunisian",
+          "DZ": "Algerian",
+          "LY": "Libyan",
+          "SD": "Sudanese",
+          "PS": "Palestinian",
+          "MSA": "Modern Standard Arabic"
+        }
+      },
+      "PERSONALITY_DESCRIPTION": {
+        "LABEL": "Personality Description",
+        "PLACEHOLDER": "Describe the personality traits and behavior of your assistant"
+      },
+      "ACTIVE": {
+        "LABEL": "Active",
+        "DESCRIPTION": "Enable or disable this assistant"
+      }
+    },
+    "DOCUMENTS": {
+      "TITLE": "Knowledge Base Documents",
+      "UPLOAD": "Upload Document",
+      "DROP_FILES": "Drop files here or click to upload",
+      "SUPPORTED_FORMATS": "Supported: PDF, TXT, CSV, MD",
+      "MAX_SIZE": "Max 10MB per file",
+      "EMPTY_STATE": {
+        "TITLE": "No documents uploaded",
+        "DESCRIPTION": "Upload documents to build your assistant's knowledge base"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "AVAILABLE": "Available",
+        "FAILED": "Failed",
+        "UNSUPPORTED": "Unsupported"
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete Document",
+        "MESSAGE": "Are you sure you want to delete this document? This action cannot be undone.",
+        "CONFIRM": "Delete",
+        "CANCEL": "Cancel"
+      }
+    },
+    "INBOXES": {
+      "TITLE": "Assign to Inboxes",
+      "DESCRIPTION": "Select which inboxes this assistant should respond to",
+      "NO_INBOXES": "No inboxes available",
+      "SEARCH_PLACEHOLDER": "Search inboxes...",
+      "SELECTED": "{count} inbox selected | {count} inboxes selected"
+    },
+    "TABS": {
+      "GENERAL": "General",
+      "PERSONALITY": "Personality",
+      "KNOWLEDGE_BASE": "Knowledge Base",
+      "INBOXES": "Inboxes",
+      "STATS": "Statistics"
+    },
+    "STATS": {
+      "TITLE": "Assistant Statistics",
+      "MESSAGES": "Messages Processed",
+      "TOKENS": "Tokens Used",
+      "CONVERSATIONS": "Conversations",
+      "HANDOFFS": "Handoffs to Agents",
+      "COST": "Estimated Cost",
+      "EMPTY": "Statistics will be available once the assistant starts handling conversations."
+    },
+    "ACTIONS": {
+      "NEXT": "Next",
+      "BACK": "Back",
+      "SKIP": "Skip",
+      "FINISH": "Finish",
+      "SAVE": "Save Changes",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "REPROCESS": "Reprocess"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete Assistant",
+      "MESSAGE": "Are you sure you want to delete this assistant? All associated documents and memories will be permanently deleted.",
+      "CONFIRM": "Delete Assistant",
+      "CANCEL": "Cancel"
+    },
+    "MESSAGES": {
+      "CREATED": "Assistant created successfully",
+      "UPDATED": "Assistant updated successfully",
+      "DELETED": "Assistant deleted successfully",
+      "DOCUMENT_UPLOADED": "Document uploaded successfully",
+      "DOCUMENT_DELETED": "Document deleted successfully",
+      "DOCUMENT_REPROCESSING": "Document reprocessing started",
+      "INBOX_ASSIGNED": "Inbox assigned successfully",
+      "INBOX_UNASSIGNED": "Inbox unassigned successfully",
+      "ERROR": "An error occurred. Please try again."
+    },
+    "PERSONALITY_PREVIEW": {
+      "TITLE": "Preview",
+      "DESCRIPTION": "See how your assistant will respond based on the current settings",
+      "SAMPLE_MESSAGE": "Hello! How can I help you today?",
+      "SAMPLE_RESPONSE_PROFESSIONAL": "Good day. I'm here to assist you with any questions you may have. How may I be of service today?",
+      "SAMPLE_RESPONSE_FRIENDLY": "Hey there! Great to hear from you! What can I help you with today?",
+      "SAMPLE_RESPONSE_CASUAL": "Hi! What's up? How can I help?",
+      "SAMPLE_RESPONSE_FORMAL": "Greetings. I am at your disposal to address any inquiries you may have. Please proceed with your request."
+    }
+  }
+}

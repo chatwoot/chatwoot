@@ -106,6 +106,6 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   end
 
   def check_authorization
-    authorize(Current.account, :manage?)
+    authorize(Current.account, :update?)
   end
 end

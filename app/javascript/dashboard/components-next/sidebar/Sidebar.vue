@@ -620,6 +620,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('agent_bots'),
         },
         {
+          name: 'Settings Aloo',
+          label: t('SIDEBAR.ALOO'),
+          icon: 'i-lucide-sparkles',
+          to: accountScopedRoute('settings_aloo_list'),
+        },
+        {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
           icon: 'i-lucide-toy-brick',

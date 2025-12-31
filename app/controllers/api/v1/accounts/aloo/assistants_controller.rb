@@ -126,6 +126,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   end
 
   def check_authorization
-    authorize(Current.account, :manage?)
+    authorize(Current.account, :update?)
   end
 end
