@@ -1,19 +1,22 @@
-# AI Agent Implementation Plan (Captain OSS Alternative)
+# Aloo Agent Implementation Plan (Captain OSS Alternative)
 
-This document outlines the implementation plan for creating an AI agent system in the open-source version of Chatwoot, replicating the functionality of the Enterprise "Captain" feature using the [RubyLLM](https://rubyllm.com) gem.
+This document outlines the implementation plan for creating an AI agent system in the open-source version of Chatwoot, replicating the functionality of the Enterprise "Captain" feature using **RubyLLM** and **ruby_llm-agents** gems.
 
 ## Table of Contents
 
 1. [Overview](#overview)
-2. [Architecture](#architecture)
-3. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
-4. [Phase 2: Knowledge Base & Embedding System](#phase-2-knowledge-base--embedding-system)
-5. [Phase 3: Onboarding & Data Ingestion](#phase-3-onboarding--data-ingestion)
-6. [Phase 4: AI Agent Core](#phase-4-ai-agent-core)
-7. [Phase 5: Tools System](#phase-5-tools-system)
-8. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
-9. [Phase 7: Frontend & Management UI](#phase-7-frontend--management-ui)
-10. [Phase 8: Advanced Features](#phase-8-advanced-features)
+2. [Gem Stack & Configuration](#gem-stack--configuration)
+3. [Model Recommendations](#model-recommendations)
+4. [Personality & Language Configuration](#personality--language-configuration)
+5. [Architecture](#architecture)
+6. [Phase 1: Foundation & Database Setup](#phase-1-foundation--database-setup)
+7. [Phase 2: Agent Framework](#phase-2-agent-framework)
+8. [Phase 3: Knowledge Base & Embeddings](#phase-3-knowledge-base--embeddings)
+9. [Phase 4: Tools System (MCPs)](#phase-4-tools-system-mcps)
+10. [Phase 5: Onboarding & Data Ingestion](#phase-5-onboarding--data-ingestion)
+11. [Phase 6: Conversation Integration](#phase-6-conversation-integration)
+12. [Phase 7: Frontend & Dashboard](#phase-7-frontend--dashboard)
+13. [Phase 8: Advanced Features](#phase-8-advanced-features)
 
 ---
 
@@ -21,22 +24,210 @@ This document outlines the implementation plan for creating an AI agent system i
 
 ### Goals
 
-- Create an AI agent system that can handle customer conversations autonomously
-- Support multiple knowledge sources: websites, files (PDF, CSV), and Notion integration
+- Create an AI agent system that handles customer conversations autonomously
+- Support multiple knowledge sources: websites, files (PDF, CSV), and Notion
 - Use vector embeddings for semantic search and context retrieval
-- Implement a flexible tools system using RubyLLM for agent capabilities
+- Implement a flexible tools system (MCPs) for agent capabilities
+- Built-in execution tracking, cost analytics, and monitoring dashboard
 - Integrate seamlessly with existing Chatwoot conversation flow
 
 ### Tech Stack
 
-- **LLM Integration**: RubyLLM gem
-- **Vector Database**: PostgreSQL with pgvector extension
-- **Embeddings**: OpenAI text-embedding-3-small (1536 dimensions)
-- **Web Scraping**: Nokogiri + custom crawler
-- **PDF Processing**: pdf-reader gem
-- **CSV Processing**: Ruby CSV standard library
-- **Notion Integration**: notion-ruby-client gem
-- **Background Jobs**: Sidekiq (existing)
+| Component | Technology |
+|-----------|------------|
+| **LLM Integration** | [ruby_llm](https://rubyllm.com) (500+ models) |
+| **Agent Framework** | [ruby_llm-agents](https://github.com/adham90/ruby_llm-agents) |
+| **Vector Database** | PostgreSQL + pgvector |
+| **Vector Search** | neighbor gem (HNSW indexing) |
+| **Embeddings** | OpenAI text-embedding-3-small (1536d) |
+| **Background Jobs** | Sidekiq (existing) |
+| **LLM Serialization** | toon-ruby (token-efficient encoding) |
+
+---
+
+## Gem Stack & Configuration
+
+### Gemfile Dependencies
+
+```ruby
+# Aloo Agent Core
+gem 'ruby_llm', '~> 1.2'              # Multi-provider LLM abstraction
+gem 'ruby_llm-agents'                  # Agent framework with dashboard
+
+# Vector Search
+gem 'neighbor', '~> 0.5'               # pgvector Rails integration
+
+# Data Processing
+gem 'pdf-reader', '~> 2.12'            # PDF parsing
+gem 'notion-ruby-client', '~> 1.3'     # Notion API
+gem 'toon-ruby'                        # LLM-friendly encoding
+
+# Optional: Web Scraping
+gem 'nokogiri'                         # HTML parsing (already in Chatwoot)
+gem 'spidr', '~> 0.7'                  # Web crawler
+```
+
+### RubyLLM Configuration
+
+Create `config/initializers/ruby_llm.rb`:
+
+```ruby
+RubyLLM.configure do |config|
+  # Provider API Keys (only configure what you use)
+  config.openai_api_key = ENV.fetch('OPENAI_API_KEY', nil)
+  config.anthropic_api_key = ENV.fetch('ANTHROPIC_API_KEY', nil)
+  config.gemini_api_key = ENV.fetch('GEMINI_API_KEY', nil)
+  config.deepseek_api_key = ENV.fetch('DEEPSEEK_API_KEY', nil)
+
+  # AWS Bedrock (optional)
+  # config.bedrock_api_key = ENV.fetch('AWS_ACCESS_KEY_ID', nil)
+  # config.bedrock_secret_key = ENV.fetch('AWS_SECRET_ACCESS_KEY', nil)
+  # config.bedrock_region = ENV.fetch('AWS_REGION', 'us-east-1')
+
+  # Default Models
+  config.default_model = ENV.fetch('ALOO_DEFAULT_MODEL', 'gemini-2.0-flash')
+  config.default_embedding_model = ENV.fetch('ALOO_EMBEDDING_MODEL', 'text-embedding-3-small')
+
+  # Connection Settings
+  config.request_timeout = 120
+  config.max_retries = 3
+  config.retry_interval = 0.1
+  config.retry_backoff_factor = 2
+
+  # Logging
+  if Rails.env.development?
+    config.logger = Rails.logger
+    config.log_level = :debug
+  end
+end
+```
+
+### ruby_llm-agents Setup
+
+Run the generator:
+
+```bash
+rails generate ruby_llm_agents:install
+rails db:migrate
+```
+
+This creates:
+- `agent_executions` table for tracking
+- `ApplicationAgent` base class
+- Dashboard mounted at `/agents`
+
+Mount the dashboard in `config/routes.rb`:
+
+```ruby
+mount RubyLLM::Agents::Engine, at: '/admin/agents' if Rails.env.development? || current_user&.administrator?
+```
+
+---
+
+## Model Recommendations
+
+### Chat Models by Use Case
+
+| Use Case | Model | Provider | Why |
+|----------|-------|----------|-----|
+| **Customer Support (Default)** | `gemini-2.0-flash` | Google | Very fast, good quality, cheap |
+| **Complex Reasoning** | `claude-sonnet-4` | Anthropic | Best instruction following |
+| **Premium Support** | `gpt-4o` | OpenAI | Highest quality, vision |
+| **Budget/High Volume** | `gpt-4o-mini` | OpenAI | Cheapest quality option |
+| **Self-hosted** | `llama3.1:8b` | Ollama | Privacy, no data leaves server |
+
+### Embedding Models
+
+| Model | Dimensions | Best For |
+|-------|------------|----------|
+| `text-embedding-3-small` | 1536 | **Default** - Good balance |
+| `text-embedding-3-large` | 3072 | Higher accuracy |
+
+### Quick Reference
+
+```ruby
+# Customer conversations (fast, cheap)
+RubyLLM.chat(model: 'gemini-2.0-flash')
+
+# Complex reasoning
+RubyLLM.chat(model: 'claude-sonnet-4')
+
+# FAQ generation (bulk processing)
+RubyLLM.chat(model: 'gpt-4o-mini')
+
+# Embeddings
+RubyLLM.embed(text, model: 'text-embedding-3-small')
+```
+
+---
+
+## Personality & Language Configuration
+
+### Configuration Separation
+
+The assistant configuration is split into two categories:
+
+| Category | Who Can Edit | What It Controls |
+|----------|--------------|------------------|
+| **Admin Settings** | Super Admin only | Model, temperature, API keys, tools, guardrails |
+| **User Settings** | Account users | Personality, tone, language, greeting style |
+
+### Personality Options
+
+Users can customize their assistant's personality:
+
+| Setting | Options | Description |
+|---------|---------|-------------|
+| **Tone** | `professional`, `friendly`, `casual`, `formal` | Overall communication style |
+| **Formality** | `high`, `medium`, `low` | Level of formal language |
+| **Empathy Level** | `high`, `medium`, `low` | How much emotional acknowledgment |
+| **Verbosity** | `concise`, `balanced`, `detailed` | Response length preference |
+| **Emoji Usage** | `none`, `minimal`, `moderate` | Whether to use emojis |
+| **Greeting Style** | `warm`, `direct`, `custom` | How to start conversations |
+
+### Arabic Dialect Support
+
+Support for regional Arabic dialects based on country code:
+
+| Country Code | Dialect | Example Greeting |
+|--------------|---------|------------------|
+| `EG` | Egyptian Arabic (مصري) | "أهلاً! إزيك؟ أقدر أساعدك في إيه؟" |
+| `SA` | Saudi Arabic (سعودي) | "هلا والله! كيف أقدر أساعدك؟" |
+| `AE` | Emirati Arabic (إماراتي) | "هلا! شو تبي أساعدك فيه؟" |
+| `KW` | Kuwaiti Arabic (كويتي) | "هلا والله! شلونك؟ شنو تبي؟" |
+| `QA` | Qatari Arabic (قطري) | "هلا! كيفك؟ شو بتحتاج؟" |
+| `BH` | Bahraini Arabic (بحريني) | "هلا! شخبارك؟ شنو تبي؟" |
+| `OM` | Omani Arabic (عماني) | "هلا! كيف حالك؟ شو تبي؟" |
+| `JO` | Jordanian Arabic (أردني) | "مرحبا! كيفك؟ شو بتحتاج؟" |
+| `LB` | Lebanese Arabic (لبناني) | "مرحبا! كيفك؟ شو فيني ساعدك؟" |
+| `SY` | Syrian Arabic (سوري) | "مرحبا! كيفك؟ شو بدك؟" |
+| `IQ` | Iraqi Arabic (عراقي) | "مرحبا! شلونك؟ شنو تريد؟" |
+| `MA` | Moroccan Arabic (مغربي) | "السلام! لاباس؟ كيفاش نقدر نعاونك؟" |
+| `DZ` | Algerian Arabic (جزائري) | "السلام عليكم! واش راك؟ كيفاش نعاونك؟" |
+| `TN` | Tunisian Arabic (تونسي) | "أهلا! شنوا تحب؟" |
+| `MSA` | Modern Standard Arabic | "مرحباً! كيف يمكنني مساعدتك؟" |
+
+### Language Configuration
+
+```ruby
+# Supported languages with dialects
+SUPPORTED_LANGUAGES = {
+  'en' => { name: 'English', dialects: [] },
+  'ar' => {
+    name: 'Arabic',
+    dialects: %w[EG SA AE KW QA BH OM JO LB SY IQ MA DZ TN MSA]
+  },
+  'fr' => { name: 'French', dialects: [] },
+  'es' => { name: 'Spanish', dialects: [] },
+  'de' => { name: 'German', dialects: [] },
+  'pt' => { name: 'Portuguese', dialects: %w[BR PT] },
+  'zh' => { name: 'Chinese', dialects: %w[CN TW] },
+  'ja' => { name: 'Japanese', dialects: [] },
+  'ko' => { name: 'Korean', dialects: [] },
+  'hi' => { name: 'Hindi', dialects: [] },
+  'tr' => { name: 'Turkish', dialects: [] }
+}.freeze
+```
 
 ---
 
@@ -44,27 +235,35 @@ This document outlines the implementation plan for creating an AI agent system i
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              AI Agent System                                 │
+│                         Aloo Agent System (Captain OSS)                      │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                              │
-│  ┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐       │
-│  │   Onboarding     │    │  Knowledge Base  │    │   AI Agent Core  │       │
-│  │                  │    │                  │    │                  │       │
-│  │ • Website Crawler│───▶│ • Documents      │───▶│ • Chat Service   │       │
-│  │ • File Uploader  │    │ • Embeddings     │    │ • Tool Executor  │       │
-│  │ • Notion Sync    │    │ • Vector Search  │    │ • Response Gen   │       │
-│  └──────────────────┘    └──────────────────┘    └──────────────────┘       │
-│           │                       │                       │                  │
-│           ▼                       ▼                       ▼                  │
-│  ┌──────────────────────────────────────────────────────────────────┐       │
-│  │                         PostgreSQL + pgvector                     │       │
-│  │  • ai_assistants  • ai_documents  • ai_embeddings  • ai_tools    │       │
-│  └──────────────────────────────────────────────────────────────────┘       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                    ruby_llm-agents Framework                           │  │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐       │  │
+│  │  │ ConversationAgent│  │ FaqGeneratorAgent│  │  IntentAgent    │       │  │
+│  │  │ (chat responses)│  │ (auto FAQ)      │  │ (classify intent)│       │  │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘       │  │
+│  │                                                                        │  │
+│  │  ┌─────────────────────────────────────────────────────────────────┐  │  │
+│  │  │              Execution Tracking & Dashboard                      │  │  │
+│  │  │  • Token usage  • Costs  • Latency  • Success rates             │  │  │
+│  │  └─────────────────────────────────────────────────────────────────┘  │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 │                                                                              │
-│  ┌──────────────────────────────────────────────────────────────────┐       │
-│  │                    RubyLLM Tools System                           │       │
-│  │  • FaqLookupTool  • HandoffTool  • AddNoteTool  • Custom Tools   │       │
-│  └──────────────────────────────────────────────────────────────────┘       │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                         Tools (MCPs)                                   │  │
+│  │  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ ┌──────────────┐ │  │
+│  │  │FaqLookupMcp  │ │HandoffMcp    │ │AddNoteMcp    │ │CustomHttpMcp │ │  │
+│  │  └──────────────┘ └──────────────┘ └──────────────┘ └──────────────┘ │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
+│                                                                              │
+│  ┌───────────────────────────────────────────────────────────────────────┐  │
+│  │                    Knowledge Base (pgvector)                           │  │
+│  │  • Documents (websites, files, Notion)                                 │  │
+│  │  • Embeddings (1536-dim vectors, HNSW index)                          │  │
+│  │  • Semantic search with cosine similarity                             │  │
+│  └───────────────────────────────────────────────────────────────────────┘  │
 │                                                                              │
 └─────────────────────────────────────────────────────────────────────────────┘
                                       │
@@ -79,24 +278,10 @@ This document outlines the implementation plan for creating an AI agent system i
 
 ## Phase 1: Foundation & Database Setup
 
-### 1.1 Install Dependencies
-
-Add to `Gemfile`:
+### 1.1 Enable pgvector
 
 ```ruby
-# AI Agent Dependencies
-gem 'ruby_llm', '~> 1.2'           # LLM integration
-gem 'neighbor', '~> 0.5'            # pgvector Rails integration
-gem 'pdf-reader', '~> 2.12'         # PDF parsing
-gem 'notion-ruby-client', '~> 1.3'  # Notion API
-gem 'robots', '~> 0.10'             # robots.txt parser for crawling
-```
-
-### 1.2 Enable pgvector Extension
-
-Create migration: `db/migrate/XXXXXX_enable_pgvector.rb`
-
-```ruby
+# db/migrate/XXXXXX_enable_pgvector.rb
 class EnablePgvector < ActiveRecord::Migration[7.0]
   def up
     execute 'CREATE EXTENSION IF NOT EXISTS vector'
@@ -108,64 +293,78 @@ class EnablePgvector < ActiveRecord::Migration[7.0]
 end
 ```
 
-### 1.3 Create Core Tables
-
-Migration: `db/migrate/XXXXXX_create_ai_agent_tables.rb`
+### 1.2 Create Core Tables
 
 ```ruby
-class CreateAiAgentTables < ActiveRecord::Migration[7.0]
+# db/migrate/XXXXXX_create_aloo_tables.rb
+class CreateAlooTables < ActiveRecord::Migration[7.0]
   def change
-    # AI Assistants - Main configuration for each AI agent
-    create_table :ai_assistants do |t|
+    # Aloo Assistants - Main configuration
+    create_table :aloo_assistants do |t|
       t.references :account, null: false, foreign_key: true, index: true
       t.string :name, null: false
       t.text :description
-      t.text :system_prompt
-      t.text :response_guidelines
-      t.text :guardrails
-      t.jsonb :config, default: {}  # temperature, model, features
+
+      # User-configurable: Personality & Language (users can edit)
+      t.string :tone, default: 'friendly'           # professional, friendly, casual, formal
+      t.string :formality, default: 'medium'        # high, medium, low
+      t.string :empathy_level, default: 'medium'    # high, medium, low
+      t.string :verbosity, default: 'balanced'      # concise, balanced, detailed
+      t.string :emoji_usage, default: 'minimal'     # none, minimal, moderate
+      t.string :greeting_style, default: 'warm'     # warm, direct, custom
+      t.text :custom_greeting                       # Custom greeting message
+      t.string :language, default: 'en'             # Language code (en, ar, fr, etc.)
+      t.string :dialect                             # Dialect code (EG, SA, KW, etc.)
+      t.text :personality_description               # Free-form personality description
+
+      # Admin-only: Technical configuration (only admins can edit)
+      t.text :system_prompt                         # Base system prompt
+      t.text :response_guidelines                   # How to format responses
+      t.text :guardrails                            # Safety rules
+      t.jsonb :admin_config, default: {}            # model, temperature, max_tokens, etc.
+
       t.boolean :active, default: true
       t.timestamps
     end
 
-    # AI Assistant Inboxes - Link assistants to inboxes
-    create_table :ai_assistant_inboxes do |t|
-      t.references :ai_assistant, null: false, foreign_key: true
+    # Link assistants to inboxes
+    create_table :aloo_assistant_inboxes do |t|
+      t.references :aloo_assistant, null: false, foreign_key: true
       t.references :inbox, null: false, foreign_key: true
       t.boolean :active, default: true
       t.timestamps
     end
-    add_index :ai_assistant_inboxes, :inbox_id, unique: true
+    add_index :aloo_assistant_inboxes, :inbox_id, unique: true
 
-    # AI Documents - Knowledge base sources
-    create_table :ai_documents do |t|
-      t.references :ai_assistant, null: false, foreign_key: true, index: true
+    # Documents - Knowledge base sources
+    create_table :aloo_documents do |t|
+      t.references :aloo_assistant, null: false, foreign_key: true, index: true
       t.references :account, null: false, foreign_key: true, index: true
       t.string :title
       t.string :source_type, null: false  # website, file, notion
       t.string :source_url
       t.text :content
       t.jsonb :metadata, default: {}
-      t.integer :status, default: 0  # pending, processing, available, failed
+      t.integer :status, default: 0
       t.string :error_message
       t.timestamps
     end
 
-    # AI Embeddings - Vector embeddings for semantic search
-    create_table :ai_embeddings do |t|
-      t.references :ai_assistant, null: false, foreign_key: true, index: true
-      t.references :ai_document, foreign_key: true, index: true
+    # Embeddings - Vector store
+    create_table :aloo_embeddings do |t|
+      t.references :aloo_assistant, null: false, foreign_key: true, index: true
+      t.references :aloo_document, foreign_key: true, index: true
       t.text :content, null: false
-      t.text :question  # For FAQ-style embeddings
-      t.vector :embedding, limit: 1536  # OpenAI embedding dimension
+      t.text :question
+      t.vector :embedding, limit: 1536
       t.jsonb :metadata, default: {}
-      t.integer :status, default: 0  # pending, approved
+      t.integer :status, default: 0
       t.timestamps
     end
 
-    # AI Custom Tools - User-defined HTTP tools
-    create_table :ai_custom_tools do |t|
-      t.references :ai_assistant, null: false, foreign_key: true, index: true
+    # Custom Tools - HTTP integrations
+    create_table :aloo_custom_tools do |t|
+      t.references :aloo_assistant, null: false, foreign_key: true, index: true
       t.references :account, null: false, foreign_key: true, index: true
       t.string :name, null: false
       t.string :slug, null: false
@@ -174,27 +373,30 @@ class CreateAiAgentTables < ActiveRecord::Migration[7.0]
       t.string :http_method, default: 'POST'
       t.jsonb :parameters_schema, default: {}
       t.jsonb :headers, default: {}
-      t.string :auth_type  # none, bearer, basic, api_key
+      t.string :auth_type
       t.string :auth_credentials  # encrypted
       t.text :request_template
       t.text :response_template
       t.boolean :active, default: true
       t.timestamps
     end
-    add_index :ai_custom_tools, [:ai_assistant_id, :slug], unique: true
+    add_index :aloo_custom_tools, [:aloo_assistant_id, :slug], unique: true
 
-    # AI Conversation Contexts - Track AI context per conversation
-    create_table :ai_conversation_contexts do |t|
+    # Conversation context tracking
+    create_table :aloo_conversation_contexts do |t|
       t.references :conversation, null: false, foreign_key: true, index: { unique: true }
-      t.references :ai_assistant, null: false, foreign_key: true
+      t.references :aloo_assistant, null: false, foreign_key: true
       t.jsonb :context_data, default: {}
       t.jsonb :tool_history, default: []
       t.integer :message_count, default: 0
+      t.integer :input_tokens, default: 0
+      t.integer :output_tokens, default: 0
+      t.decimal :total_cost, precision: 10, scale: 6, default: 0
       t.timestamps
     end
 
-    # Notion Connections - Store Notion OAuth tokens
-    create_table :ai_notion_connections do |t|
+    # Notion connections
+    create_table :aloo_notion_connections do |t|
       t.references :account, null: false, foreign_key: true, index: true
       t.string :workspace_name
       t.string :workspace_id
@@ -209,183 +411,615 @@ class CreateAiAgentTables < ActiveRecord::Migration[7.0]
 end
 ```
 
-### 1.4 Add Vector Index
-
-Migration: `db/migrate/XXXXXX_add_vector_index_to_ai_embeddings.rb`
+### 1.3 Add HNSW Vector Index
 
 ```ruby
-class AddVectorIndexToAiEmbeddings < ActiveRecord::Migration[7.0]
+# db/migrate/XXXXXX_add_hnsw_index_to_aloo_embeddings.rb
+class AddHnswIndexToAlooEmbeddings < ActiveRecord::Migration[7.0]
   def up
     execute <<-SQL
-      CREATE INDEX ai_embeddings_embedding_idx
-      ON ai_embeddings
-      USING ivfflat (embedding vector_cosine_ops)
-      WITH (lists = 100);
+      CREATE INDEX aloo_embeddings_embedding_idx
+      ON aloo_embeddings
+      USING hnsw (embedding vector_cosine_ops)
+      WITH (m = 16, ef_construction = 64);
     SQL
   end
 
   def down
-    execute 'DROP INDEX IF EXISTS ai_embeddings_embedding_idx'
+    execute 'DROP INDEX IF EXISTS aloo_embeddings_embedding_idx'
   end
 end
 ```
 
-### 1.5 Create Models
+### 1.4 Current Attributes for Context
 
-#### `app/models/ai_assistant.rb`
+`app/models/aloo/current.rb`:
 
 ```ruby
-class AiAssistant < ApplicationRecord
-  belongs_to :account
-  has_many :ai_assistant_inboxes, dependent: :destroy
-  has_many :inboxes, through: :ai_assistant_inboxes
-  has_many :ai_documents, dependent: :destroy
-  has_many :ai_embeddings, dependent: :destroy
-  has_many :ai_custom_tools, dependent: :destroy
-  has_many :ai_conversation_contexts, dependent: :destroy
+module Aloo
+  class Current < ActiveSupport::CurrentAttributes
+    attribute :account, :conversation, :assistant, :contact, :inbox
 
-  validates :name, presence: true
-  validates :account_id, presence: true
+    def set_from_conversation(conversation)
+      self.conversation = conversation
+      self.account = conversation.account
+      self.assistant = conversation.inbox.aloo_assistant
+      self.contact = conversation.contact
+      self.inbox = conversation.inbox
+    end
+  end
+end
+```
 
-  # Default config values
-  DEFAULT_CONFIG = {
-    'model' => 'gpt-4o',
-    'temperature' => 0.7,
-    'max_tokens' => 1024,
-    'feature_faq' => true,
-    'feature_memory' => false
+### 1.5 Assistant Model
+
+`app/models/aloo/assistant.rb`:
+
+```ruby
+module Aloo
+  class Assistant < ApplicationRecord
+    self.table_name = 'aloo_assistants'
+
+    belongs_to :account
+    has_many :assistant_inboxes, class_name: 'Aloo::AssistantInbox', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :inboxes, through: :assistant_inboxes
+    has_many :documents, class_name: 'Aloo::Document', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :custom_tools, class_name: 'Aloo::CustomTool', foreign_key: 'aloo_assistant_id', dependent: :destroy
+    has_many :conversation_contexts, class_name: 'Aloo::ConversationContext', foreign_key: 'aloo_assistant_id', dependent: :destroy
+
+    # Personality settings (user-configurable)
+    TONES = %w[professional friendly casual formal].freeze
+    FORMALITY_LEVELS = %w[high medium low].freeze
+    EMPATHY_LEVELS = %w[high medium low].freeze
+    VERBOSITY_LEVELS = %w[concise balanced detailed].freeze
+    EMOJI_USAGE_LEVELS = %w[none minimal moderate].freeze
+    GREETING_STYLES = %w[warm direct custom].freeze
+
+    # Arabic dialects by country
+    ARABIC_DIALECTS = {
+      'EG' => { name: 'Egyptian', prompt: 'Respond in Egyptian Arabic (مصري). Use Egyptian expressions and phrases.' },
+      'SA' => { name: 'Saudi', prompt: 'Respond in Saudi Arabic (سعودي). Use Saudi expressions and phrases.' },
+      'AE' => { name: 'Emirati', prompt: 'Respond in Emirati Arabic (إماراتي). Use Emirati expressions and phrases.' },
+      'KW' => { name: 'Kuwaiti', prompt: 'Respond in Kuwaiti Arabic (كويتي). Use Kuwaiti expressions and phrases.' },
+      'QA' => { name: 'Qatari', prompt: 'Respond in Qatari Arabic (قطري). Use Qatari expressions and phrases.' },
+      'BH' => { name: 'Bahraini', prompt: 'Respond in Bahraini Arabic (بحريني). Use Bahraini expressions and phrases.' },
+      'OM' => { name: 'Omani', prompt: 'Respond in Omani Arabic (عماني). Use Omani expressions and phrases.' },
+      'JO' => { name: 'Jordanian', prompt: 'Respond in Jordanian Arabic (أردني). Use Jordanian expressions and phrases.' },
+      'LB' => { name: 'Lebanese', prompt: 'Respond in Lebanese Arabic (لبناني). Use Lebanese expressions and phrases.' },
+      'SY' => { name: 'Syrian', prompt: 'Respond in Syrian Arabic (سوري). Use Syrian expressions and phrases.' },
+      'IQ' => { name: 'Iraqi', prompt: 'Respond in Iraqi Arabic (عراقي). Use Iraqi expressions and phrases.' },
+      'MA' => { name: 'Moroccan', prompt: 'Respond in Moroccan Arabic (مغربي/دارجة). Use Moroccan expressions and phrases.' },
+      'DZ' => { name: 'Algerian', prompt: 'Respond in Algerian Arabic (جزائري). Use Algerian expressions and phrases.' },
+      'TN' => { name: 'Tunisian', prompt: 'Respond in Tunisian Arabic (تونسي). Use Tunisian expressions and phrases.' },
+      'MSA' => { name: 'Modern Standard', prompt: 'Respond in Modern Standard Arabic (فصحى). Use formal, classical Arabic.' }
+    }.freeze
+
+    validates :name, presence: true
+    validates :tone, inclusion: { in: TONES }
+    validates :formality, inclusion: { in: FORMALITY_LEVELS }
+    validates :empathy_level, inclusion: { in: EMPATHY_LEVELS }
+    validates :verbosity, inclusion: { in: VERBOSITY_LEVELS }
+    validates :emoji_usage, inclusion: { in: EMOJI_USAGE_LEVELS }
+    validates :greeting_style, inclusion: { in: GREETING_STYLES }
+    validates :dialect, inclusion: { in: ARABIC_DIALECTS.keys }, allow_blank: true
+
+    scope :active, -> { where(active: true) }
+
+    # Build the personality prompt based on user settings
+    def personality_prompt
+      Aloo::PersonalityBuilder.new(self).build
+    end
+
+    # Get the language instruction for the LLM
+    def language_instruction
+      return '' if language == 'en' && dialect.blank?
+
+      if language == 'ar' && dialect.present?
+        ARABIC_DIALECTS.dig(dialect, :prompt) || ''
+      else
+        "Respond in #{language_name}."
+      end
+    end
+
+    def language_name
+      Aloo::SUPPORTED_LANGUAGES.dig(language, :name) || 'English'
+    end
+
+    # Admin config accessors
+    def model
+      admin_config['model'] || 'gemini-2.0-flash'
+    end
+
+    def temperature
+      admin_config['temperature'] || 0.7
+    end
+
+    def max_tokens
+      admin_config['max_tokens'] || 1024
+    end
+
+    def feature_faq_enabled?
+      admin_config['feature_faq'] == true
+    end
+
+    def feature_memory_enabled?
+      admin_config['feature_memory'] == true
+    end
+  end
+end
+```
+
+### 1.6 Personality Builder Service
+
+`app/services/aloo/personality_builder.rb`:
+
+```ruby
+module Aloo
+  class PersonalityBuilder
+    TONE_PROMPTS = {
+      'professional' => 'Maintain a professional and business-like tone. Be courteous and efficient.',
+      'friendly' => 'Be warm, approachable, and conversational. Use a friendly tone that makes customers feel comfortable.',
+      'casual' => 'Be relaxed and informal. Use casual language like you\'re chatting with a friend.',
+      'formal' => 'Use formal language and proper etiquette. Be respectful and dignified in all responses.'
+    }.freeze
+
+    FORMALITY_PROMPTS = {
+      'high' => 'Use formal greetings, proper titles, and avoid contractions or slang.',
+      'medium' => 'Balance formal and informal language appropriately based on context.',
+      'low' => 'Feel free to use contractions, casual expressions, and relaxed language.'
+    }.freeze
+
+    EMPATHY_PROMPTS = {
+      'high' => 'Show strong empathy. Acknowledge customer emotions and frustrations explicitly. Use phrases like "I understand how frustrating this must be" or "I can see why you\'re concerned."',
+      'medium' => 'Show appropriate empathy when customers express frustration or concern.',
+      'low' => 'Focus on solutions rather than emotional acknowledgment. Be efficient and direct.'
+    }.freeze
+
+    VERBOSITY_PROMPTS = {
+      'concise' => 'Keep responses brief and to the point. Avoid unnecessary details.',
+      'balanced' => 'Provide enough detail to be helpful without being verbose.',
+      'detailed' => 'Provide comprehensive, detailed responses with full explanations.'
+    }.freeze
+
+    EMOJI_PROMPTS = {
+      'none' => 'Do not use any emojis in your responses.',
+      'minimal' => 'Use emojis sparingly, only when they add warmth (like a greeting 👋 or thank you 🙏).',
+      'moderate' => 'Feel free to use emojis to add personality and warmth to your responses.'
+    }.freeze
+
+    def initialize(assistant)
+      @assistant = assistant
+    end
+
+    def build
+      sections = []
+
+      sections << "## Communication Style"
+      sections << TONE_PROMPTS[@assistant.tone]
+      sections << FORMALITY_PROMPTS[@assistant.formality]
+      sections << EMPATHY_PROMPTS[@assistant.empathy_level]
+      sections << VERBOSITY_PROMPTS[@assistant.verbosity]
+      sections << EMOJI_PROMPTS[@assistant.emoji_usage]
+
+      if @assistant.personality_description.present?
+        sections << "\n## Additional Personality Traits"
+        sections << @assistant.personality_description
+      end
+
+      if @assistant.language_instruction.present?
+        sections << "\n## Language"
+        sections << @assistant.language_instruction
+      end
+
+      if @assistant.greeting_style == 'custom' && @assistant.custom_greeting.present?
+        sections << "\n## Greeting"
+        sections << "When starting a conversation, use this greeting: \"#{@assistant.custom_greeting}\""
+      end
+
+      sections.compact.join("\n")
+    end
+  end
+end
+```
+
+### 1.7 Supported Languages Constant
+
+`app/models/aloo.rb`:
+
+```ruby
+module Aloo
+  SUPPORTED_LANGUAGES = {
+    'en' => { name: 'English', dialects: [] },
+    'ar' => {
+      name: 'Arabic',
+      dialects: %w[EG SA AE KW QA BH OM JO LB SY IQ MA DZ TN MSA]
+    },
+    'fr' => { name: 'French', dialects: [] },
+    'es' => { name: 'Spanish', dialects: [] },
+    'de' => { name: 'German', dialects: [] },
+    'pt' => { name: 'Portuguese', dialects: %w[BR PT] },
+    'zh' => { name: 'Chinese', dialects: %w[CN TW] },
+    'ja' => { name: 'Japanese', dialects: [] },
+    'ko' => { name: 'Korean', dialects: [] },
+    'hi' => { name: 'Hindi', dialects: [] },
+    'tr' => { name: 'Turkish', dialects: [] }
   }.freeze
+end
+```
 
-  def effective_config
-    DEFAULT_CONFIG.merge(config || {})
+---
+
+## Phase 2: Agent Framework
+
+### 2.1 Base Agent (Extending ruby_llm-agents)
+
+`app/agents/application_agent.rb`:
+
+```ruby
+class ApplicationAgent < RubyLLM::Agents::Base
+  # Default configuration for all Chatwoot agents
+  model 'gemini-2.0-flash'
+  temperature 0.7
+  version '1.0'
+
+  # Access current context
+  def current_context
+    {
+      account_id: Aloo::Current.account&.id,
+      conversation_id: Aloo::Current.conversation&.id,
+      contact_name: Aloo::Current.contact&.name,
+      inbox_name: Aloo::Current.inbox&.name
+    }
   end
 
-  def temperature
-    effective_config['temperature']
+  # Override to add custom metadata to executions
+  def execution_metadata
+    current_context
   end
+end
+```
 
+### 2.2 Conversation Agent
+
+`app/agents/conversation_agent.rb`:
+
+```ruby
+class ConversationAgent < ApplicationAgent
+  # Model is determined by admin config, not hardcoded
+  temperature 0.7
+  version '1.0'
+  timeout 30
+
+  param :message, required: true
+  param :conversation_id, required: true
+
+  # Dynamic model based on assistant config
   def model
-    effective_config['model']
+    Aloo::Current.assistant&.model || 'gemini-2.0-flash'
   end
-end
-```
 
-#### `app/models/ai_document.rb`
+  def system_prompt
+    assistant = Aloo::Current.assistant
+    knowledge_context = build_knowledge_context
 
-```ruby
-class AiDocument < ApplicationRecord
-  belongs_to :ai_assistant
-  belongs_to :account
-  has_many :ai_embeddings, dependent: :destroy
-  has_one_attached :file
+    <<~PROMPT
+      #{assistant&.system_prompt || default_system_prompt}
 
-  enum :status, { pending: 0, processing: 1, available: 2, failed: 3 }
-  enum :source_type, { website: 'website', file: 'file', notion: 'notion' }
+      #{assistant&.personality_prompt}
 
-  validates :source_type, presence: true
-  validates :source_url, presence: true, if: -> { website? || notion? }
-  validates :file, presence: true, if: :file?
+      #{assistant&.response_guidelines}
 
-  after_create_commit :schedule_processing
+      #{assistant&.guardrails}
+
+      ## Knowledge Base Context
+      #{knowledge_context}
+
+      ## Conversation Context
+      - Contact: #{Aloo::Current.contact&.name || 'Unknown'}
+      - Channel: #{Aloo::Current.inbox&.channel_type}
+
+      ## Instructions
+      - Use the faq_lookup tool when you need more information
+      - Use the handoff tool to transfer to a human if needed
+      - Keep responses relevant to the customer's question
+    PROMPT
+  end
+
+  def user_prompt
+    message
+  end
+
+  def tools
+    [
+      FaqLookupMcp,
+      HandoffMcp,
+      AddNoteMcp,
+      UpdateConversationMcp,
+      *custom_tools
+    ]
+  end
 
   private
 
-  def schedule_processing
-    AiDocuments::ProcessJob.perform_later(id)
+  def default_system_prompt
+    "You are a helpful customer support assistant. Help customers with their questions."
+  end
+
+  def build_knowledge_context
+    return '' unless Aloo::Current.assistant
+
+    search_service = Aloo::VectorSearchService.new(Aloo::Current.assistant)
+    search_service.build_context(message, max_tokens: 2000)
+  end
+
+  def custom_tools
+    return [] unless Aloo::Current.assistant
+
+    Aloo::Current.assistant.custom_tools.active.map do |tool|
+      Aloo::CustomToolBuilder.build(tool)
+    end
   end
 end
 ```
 
-#### `app/models/ai_embedding.rb`
+### 2.3 Intent Classification Agent
+
+`app/agents/intent_agent.rb`:
 
 ```ruby
-class AiEmbedding < ApplicationRecord
-  belongs_to :ai_assistant
-  belongs_to :ai_document, optional: true
+class IntentAgent < ApplicationAgent
+  model 'gemini-2.0-flash'
+  temperature 0.0  # Deterministic
+  version '1.0'
+  cache 1.hour
 
-  has_neighbors :embedding
+  param :message, required: true
 
-  enum :status, { pending: 0, approved: 1 }
+  def system_prompt
+    <<~PROMPT
+      You are an intent classification system for customer support.
+      Analyze the message and extract structured intent data.
+      Return ONLY valid JSON matching the schema.
+    PROMPT
+  end
 
-  validates :content, presence: true
+  def user_prompt
+    "Classify this message: #{message}"
+  end
 
-  scope :approved, -> { where(status: :approved) }
-  scope :for_search, -> { approved.where.not(embedding: nil) }
-
-  def self.semantic_search(query_embedding, limit: 5)
-    for_search.nearest_neighbors(:embedding, query_embedding, distance: 'cosine').limit(limit)
+  def schema
+    @schema ||= RubyLLM::Schema.create do
+      string :intent, enum: %w[question complaint request feedback greeting other]
+      string :sentiment, enum: %w[positive neutral negative]
+      string :urgency, enum: %w[low medium high urgent]
+      array :topics, of: :string
+      boolean :needs_human
+      string :suggested_action
+    end
   end
 end
 ```
 
-#### `app/models/ai_custom_tool.rb`
+### 2.4 FAQ Generator Agent
+
+`app/agents/faq_generator_agent.rb`:
 
 ```ruby
-class AiCustomTool < ApplicationRecord
-  belongs_to :ai_assistant
-  belongs_to :account
+class FaqGeneratorAgent < ApplicationAgent
+  model 'gpt-4o-mini'
+  temperature 0.3
+  version '1.0'
 
-  validates :name, presence: true
-  validates :slug, presence: true, uniqueness: { scope: :ai_assistant_id }
-  validates :endpoint_url, presence: true, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }
+  param :transcript, required: true
 
-  before_validation :generate_slug
+  def system_prompt
+    <<~PROMPT
+      You are a FAQ extraction assistant. Analyze customer support conversations
+      and extract clear question-answer pairs that would help other customers.
 
-  enum :auth_type, { none: 'none', bearer: 'bearer', basic: 'basic', api_key: 'api_key' }
+      Rules:
+      - Only extract clear, complete Q&A pairs
+      - Generalize questions (not specific to this customer)
+      - Make answers standalone and complete
+      - Skip greetings and small talk
+      - Return empty array if no useful FAQ found
+    PROMPT
+  end
 
-  encrypts :auth_credentials
+  def user_prompt
+    "Extract FAQs from this conversation:\n\n#{transcript}"
+  end
 
-  private
-
-  def generate_slug
-    self.slug ||= name&.parameterize&.underscore
+  def schema
+    @schema ||= RubyLLM::Schema.create do
+      array :faqs do
+        string :question
+        string :answer
+        array :tags, of: :string
+      end
+    end
   end
 end
 ```
 
 ---
 
-## Phase 2: Knowledge Base & Embedding System
+## Phase 3: Knowledge Base & Embeddings
 
-### 2.1 Embedding Service
+### 3.1 Embedding Concern
 
-`app/services/ai_agent/embedding_service.rb`
+`app/models/concerns/aloo/embeddable.rb`:
 
 ```ruby
-module AiAgent
+module Aloo
+  module Embeddable
+    extend ActiveSupport::Concern
+
+    included do
+      has_neighbors :embedding
+      scope :with_embedding, -> { where.not(embedding: nil) }
+    end
+
+    class_methods do
+      def semantic_search(query_embedding, limit: 5)
+        with_embedding
+          .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
+          .limit(limit)
+      end
+    end
+
+    def generate_embedding!
+      return if content.blank?
+
+      response = RubyLLM.embed(embedding_content, model: embedding_model)
+      update!(embedding: response.vectors.first)
+    end
+
+    def embedding_content
+      content
+    end
+
+    def embedding_model
+      'text-embedding-3-small'
+    end
+  end
+end
+```
+
+### 3.2 Aloo Embedding Model
+
+`app/models/aloo/embedding.rb`:
+
+```ruby
+module Aloo
+  class Embedding < ApplicationRecord
+    include Aloo::Embeddable
+
+    self.table_name = 'aloo_embeddings'
+
+    belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id'
+    belongs_to :document, class_name: 'Aloo::Document', foreign_key: 'aloo_document_id', optional: true
+
+    enum :status, { pending: 0, approved: 1 }
+
+    validates :content, presence: true
+
+    scope :approved, -> { where(status: :approved) }
+    scope :for_search, -> { approved.with_embedding }
+
+    def embedding_content
+      if question.present?
+        "Question: #{question}\nAnswer: #{content}"
+      else
+        content
+      end
+    end
+
+    # TOON format for LLM consumption
+    def to_llm
+      Toon.encode({
+        id: id,
+        q: question,
+        a: content.truncate(500),
+        src: document&.source_url
+      })
+    end
+  end
+end
+```
+
+### 3.3 Vector Search Service
+
+`app/services/aloo/vector_search_service.rb`:
+
+```ruby
+module Aloo
+  class VectorSearchService
+    SIMILARITY_THRESHOLD = 0.3
+
+    def initialize(assistant)
+      @assistant = assistant
+    end
+
+    def search(query, limit: 5)
+      query_embedding = generate_embedding(query)
+
+      results = @assistant.embeddings
+                          .for_search
+                          .semantic_search(query_embedding, limit: limit)
+
+      results.filter_map do |embedding|
+        distance = embedding.neighbor_distance
+        next if distance > SIMILARITY_THRESHOLD
+
+        {
+          id: embedding.id,
+          content: embedding.content,
+          question: embedding.question,
+          source: embedding.document&.source_url || 'Manual',
+          similarity: (1 - distance).round(3),
+          title: embedding.document&.title
+        }
+      end
+    end
+
+    def build_context(query, max_tokens: 2000)
+      results = search(query, limit: 10)
+      return '' if results.empty?
+
+      context = results.map do |r|
+        if r[:question].present?
+          "Q: #{r[:question]}\nA: #{r[:content]}"
+        else
+          r[:content]
+        end
+      end.join("\n\n---\n\n")
+
+      context.truncate(max_tokens * 4, separator: "\n\n---\n\n")
+    end
+
+    private
+
+    def generate_embedding(text)
+      response = RubyLLM.embed(text, model: 'text-embedding-3-small')
+      response.vectors.first
+    end
+  end
+end
+```
+
+### 3.4 Embedding Service
+
+`app/services/aloo/embedding_service.rb`:
+
+```ruby
+module Aloo
   class EmbeddingService
-    EMBEDDING_MODEL = 'text-embedding-3-small'
     CHUNK_SIZE = 1000
     CHUNK_OVERLAP = 200
+    BATCH_SIZE = 20
 
-    def initialize(ai_assistant)
-      @ai_assistant = ai_assistant
+    def initialize(assistant)
+      @assistant = assistant
     end
 
     def create_embeddings_for_document(document)
       chunks = chunk_content(document.content)
 
-      chunks.each_with_index do |chunk, index|
-        embedding_vector = generate_embedding(chunk)
+      chunks.each_slice(BATCH_SIZE) do |batch|
+        embeddings = RubyLLM.embed(batch, model: 'text-embedding-3-small')
 
-        @ai_assistant.ai_embeddings.create!(
-          ai_document: document,
-          content: chunk,
-          embedding: embedding_vector,
-          metadata: { chunk_index: index, source: document.source_url },
-          status: :approved
-        )
+        batch.each_with_index do |chunk, index|
+          @assistant.embeddings.create!(
+            document: document,
+            content: chunk,
+            embedding: embeddings.vectors[index],
+            metadata: { chunk_index: index, source: document.source_url },
+            status: :approved
+          )
+        end
       end
-    end
-
-    def generate_embedding(text)
-      response = RubyLLM.embed(text, model: EMBEDDING_MODEL)
-      response.vectors.first
-    end
-
-    def search(query, limit: 5)
-      query_embedding = generate_embedding(query)
-      @ai_assistant.ai_embeddings.semantic_search(query_embedding, limit: limit)
     end
 
     private
@@ -401,7 +1035,6 @@ module AiAgent
       words.each do |word|
         if current_size + word.length > CHUNK_SIZE && current_chunk.any?
           chunks << current_chunk.join(' ')
-          # Keep overlap
           overlap_words = current_chunk.last(CHUNK_OVERLAP / 10)
           current_chunk = overlap_words
           current_size = overlap_words.join(' ').length
@@ -417,49 +1050,288 @@ module AiAgent
 end
 ```
 
-### 2.2 Vector Search Service
+---
 
-`app/services/ai_agent/vector_search_service.rb`
+## Phase 4: Tools System (MCPs)
+
+### 4.1 Base Tool
+
+`app/mcps/base_mcp.rb`:
 
 ```ruby
-module AiAgent
-  class VectorSearchService
-    def initialize(ai_assistant)
-      @ai_assistant = ai_assistant
-      @embedding_service = EmbeddingService.new(ai_assistant)
+class BaseMcp < RubyLLM::Tool
+  # Access current context from Aloo::Current
+  def current_account
+    Aloo::Current.account
+  end
+
+  def current_conversation
+    Aloo::Current.conversation
+  end
+
+  def current_assistant
+    Aloo::Current.assistant
+  end
+
+  def current_contact
+    Aloo::Current.contact
+  end
+
+  protected
+
+  def log_execution(result)
+    Rails.logger.info("[MCP] #{self.class.name}: #{result.to_json.truncate(500)}")
+  end
+end
+```
+
+### 4.2 FAQ Lookup Tool
+
+`app/mcps/faq_lookup_mcp.rb`:
+
+```ruby
+class FaqLookupMcp < BaseMcp
+  description "Search the knowledge base for relevant information to answer customer questions. Use this when you need additional context."
+
+  param :query, type: :string, desc: "Search query for FAQ/documentation"
+
+  def execute(query:)
+    return { found: false, message: 'No assistant configured' } unless current_assistant
+
+    search_service = Aloo::VectorSearchService.new(current_assistant)
+    results = search_service.search(query, limit: 5)
+
+    if results.empty?
+      { found: false, message: 'No relevant information found' }
+    else
+      {
+        found: true,
+        results: results.map do |r|
+          {
+            content: r[:content],
+            source: r[:source],
+            relevance: "#{(r[:similarity] * 100).round}%"
+          }
+        end
+      }
     end
+  end
+end
+```
 
-    def search(query, limit: 5, threshold: 0.3)
-      results = @embedding_service.search(query, limit: limit)
+### 4.3 Handoff Tool
 
-      # Filter by similarity threshold and format results
-      results.filter_map do |embedding|
-        distance = embedding.neighbor_distance
-        next if distance > threshold
+`app/mcps/handoff_mcp.rb`:
 
-        {
-          content: embedding.content,
-          question: embedding.question,
-          source: embedding.ai_document&.source_url || 'Manual entry',
-          similarity: 1 - distance,
-          document_title: embedding.ai_document&.title
-        }
+```ruby
+class HandoffMcp < BaseMcp
+  description "Transfer conversation to a human agent. Use when: customer requests human support, issue is complex, or you cannot help."
+
+  param :reason, type: :string, desc: "Why the conversation is being transferred"
+  param :priority, type: :string, desc: "Priority: low, medium, high, urgent", default: 'medium'
+
+  def execute(reason:, priority: 'medium')
+    conversation = current_conversation
+    return { success: false, message: 'No conversation context' } unless conversation
+
+    # Create internal note
+    conversation.messages.create!(
+      message_type: :activity,
+      content: "Aloo Agent handoff: #{reason}",
+      private: true,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id
+    )
+
+    # Update conversation
+    priority_value = Conversation.priorities[priority] || Conversation.priorities[:medium]
+    conversation.update!(
+      status: :open,
+      assignee: nil,
+      priority: priority_value
+    )
+
+    # Dispatch event
+    Rails.configuration.dispatcher.dispatch(
+      'conversation.bot_handoff',
+      Time.zone.now,
+      conversation: conversation,
+      reason: reason
+    )
+
+    log_execution({ success: true, reason: reason })
+
+    # Halt to prevent follow-up message
+    halt({ success: true, message: 'Transferred to human support' })
+  end
+end
+```
+
+### 4.4 Add Note Tool
+
+`app/mcps/add_note_mcp.rb`:
+
+```ruby
+class AddNoteMcp < BaseMcp
+  description "Add a private internal note visible only to human agents."
+
+  param :note, type: :string, desc: "Content of the private note"
+
+  def execute(note:)
+    conversation = current_conversation
+    return { success: false, message: 'No conversation context' } unless conversation
+
+    conversation.messages.create!(
+      message_type: :outgoing,
+      content: note,
+      private: true,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id
+    )
+
+    log_execution({ success: true })
+    { success: true, message: 'Note added' }
+  end
+end
+```
+
+### 4.5 Update Conversation Tool
+
+`app/mcps/update_conversation_mcp.rb`:
+
+```ruby
+class UpdateConversationMcp < BaseMcp
+  description "Update conversation properties like labels or priority."
+
+  param :add_labels, type: :array, desc: "Labels to add", items: { type: :string }
+  param :priority, type: :string, desc: "Set priority: low, medium, high, urgent"
+
+  def execute(add_labels: [], priority: nil)
+    conversation = current_conversation
+    return { success: false, message: 'No conversation context' } unless conversation
+
+    actions = []
+
+    # Add labels
+    add_labels.each do |label_title|
+      label = current_account.labels.find_by(title: label_title)
+      if label && !conversation.labels.include?(label)
+        conversation.labels << label
+        actions << "Added label: #{label_title}"
       end
     end
 
-    def build_context(query, max_tokens: 2000)
-      results = search(query, limit: 10)
+    # Update priority
+    if priority.present? && Conversation.priorities.key?(priority)
+      conversation.update!(priority: priority)
+      actions << "Set priority: #{priority}"
+    end
 
-      context = results.map do |r|
-        if r[:question].present?
-          "Q: #{r[:question]}\nA: #{r[:content]}"
-        else
-          r[:content]
+    log_execution({ success: true, actions: actions })
+    { success: true, actions: actions }
+  end
+end
+```
+
+### 4.6 Custom HTTP Tool Builder
+
+`app/services/aloo/custom_tool_builder.rb`:
+
+```ruby
+module Aloo
+  class CustomToolBuilder
+    def self.build(custom_tool)
+      Class.new(BaseMcp) do
+        description custom_tool.description || "Custom tool: #{custom_tool.name}"
+
+        # Build params from schema
+        custom_tool.parameters_schema.each do |name, config|
+          param name.to_sym,
+                type: config['type']&.to_sym || :string,
+                desc: config['description'] || name
         end
-      end.join("\n\n---\n\n")
 
-      # Truncate if too long (rough estimation)
-      context.truncate(max_tokens * 4, separator: "\n\n---\n\n")
+        define_method(:custom_tool) { custom_tool }
+
+        define_method(:execute) do |**params|
+          execute_http_request(params)
+        end
+
+        define_method(:execute_http_request) do |params|
+          uri = URI.parse(custom_tool.endpoint_url)
+          request = build_request(uri, params)
+          add_auth_headers(request)
+          add_context_headers(request)
+
+          response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
+            http.open_timeout = 10
+            http.read_timeout = 30
+            http.request(request)
+          end
+
+          parse_response(response)
+        rescue StandardError => e
+          { error: e.message }
+        end
+
+        define_method(:build_request) do |uri, params|
+          case custom_tool.http_method.upcase
+          when 'GET'
+            uri.query = URI.encode_www_form(params)
+            Net::HTTP::Get.new(uri)
+          when 'POST'
+            req = Net::HTTP::Post.new(uri)
+            req.body = render_template(params)
+            req.content_type = 'application/json'
+            req
+          end
+        end
+
+        define_method(:add_auth_headers) do |request|
+          case custom_tool.auth_type
+          when 'bearer'
+            request['Authorization'] = "Bearer #{custom_tool.auth_credentials}"
+          when 'basic'
+            creds = custom_tool.auth_credentials.split(':')
+            request.basic_auth(creds[0], creds[1])
+          when 'api_key'
+            request['X-API-Key'] = custom_tool.auth_credentials
+          end
+        end
+
+        define_method(:add_context_headers) do |request|
+          request['X-Chatwoot-Account-ID'] = current_account&.id.to_s
+          request['X-Chatwoot-Conversation-ID'] = current_conversation&.id.to_s
+          request['X-Chatwoot-Contact-ID'] = current_contact&.id.to_s
+        end
+
+        define_method(:render_template) do |params|
+          template = custom_tool.request_template
+          return params.to_json if template.blank?
+
+          Liquid::Template.parse(template).render(
+            params.stringify_keys.merge(
+              'conversation_id' => current_conversation&.id,
+              'contact_email' => current_contact&.email,
+              'contact_name' => current_contact&.name
+            )
+          )
+        end
+
+        define_method(:parse_response) do |response|
+          if response.is_a?(Net::HTTPSuccess)
+            body = JSON.parse(response.body) rescue response.body
+            template = custom_tool.response_template
+            if template.present?
+              Liquid::Template.parse(template).render('response' => body)
+            else
+              body
+            end
+          else
+            { error: "Request failed: #{response.code}" }
+          end
+        end
+      end.new
     end
   end
 end
@@ -467,14 +1339,14 @@ end
 
 ---
 
-## Phase 3: Onboarding & Data Ingestion
+## Phase 5: Onboarding & Data Ingestion
 
-### 3.1 Website Crawler Service
+### 5.1 Website Crawler
 
-`app/services/ai_agent/crawlers/website_crawler.rb`
+`app/services/aloo/crawlers/website_crawler.rb`:
 
 ```ruby
-module AiAgent
+module Aloo
   module Crawlers
     class WebsiteCrawler
       MAX_PAGES = 100
@@ -499,7 +1371,7 @@ module AiAgent
         )
 
         # Generate embeddings
-        EmbeddingService.new(@document.ai_assistant).create_embeddings_for_document(@document)
+        EmbeddingService.new(@document.assistant).create_embeddings_for_document(@document)
       rescue StandardError => e
         @document.update!(status: :failed, error_message: e.message)
         raise
@@ -508,11 +1380,10 @@ module AiAgent
       private
 
       def crawl_page(url, depth)
-        return [] if depth > MAX_DEPTH || @visited.size >= MAX_PAGES || @visited.include?(url)
-        return [] unless same_domain?(url)
+        return [] if depth > MAX_DEPTH || @visited.size >= MAX_PAGES
+        return [] if @visited.include?(url) || !same_domain?(url)
 
         @visited.add(url)
-
         response = fetch_page(url)
         return [] unless response
 
@@ -522,7 +1393,7 @@ module AiAgent
 
         pages = [{ url: url, title: title, content: content }]
 
-        # Find and crawl links
+        # Crawl links
         doc.css('a[href]').each do |link|
           href = resolve_url(link['href'])
           next unless href
@@ -536,21 +1407,24 @@ module AiAgent
 
       def fetch_page(url)
         uri = URI.parse(url)
-        response = Net::HTTP.get_response(uri)
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = uri.scheme == 'https'
+        http.open_timeout = 10
+        http.read_timeout = 10
+
+        request = Net::HTTP::Get.new(uri)
+        request['User-Agent'] = 'AlooBot/1.0'
+
+        response = http.request(request)
         response.body if response.is_a?(Net::HTTPSuccess)
       rescue StandardError
         nil
       end
 
       def extract_content(doc)
-        # Remove script, style, nav, footer elements
         doc.css('script, style, nav, footer, header, aside').remove
-
-        # Get main content
-        main = doc.at_css('main, article, .content, #content, .main') || doc.at_css('body')
-        return '' unless main
-
-        main.text.gsub(/\s+/, ' ').strip
+        main = doc.at_css('main, article, .content, #content') || doc.at_css('body')
+        main&.text&.gsub(/\s+/, ' ')&.strip || ''
       end
 
       def same_domain?(url)
@@ -571,12 +1445,12 @@ module AiAgent
 end
 ```
 
-### 3.2 File Processor Service
+### 5.2 File Processor
 
-`app/services/ai_agent/processors/file_processor.rb`
+`app/services/aloo/processors/file_processor.rb`:
 
 ```ruby
-module AiAgent
+module Aloo
   module Processors
     class FileProcessor
       def initialize(document)
@@ -590,8 +1464,8 @@ module AiAgent
                   when :pdf then process_pdf
                   when :csv then process_csv
                   when :text then process_text
-                  else
-                    raise "Unsupported file type: #{file_extension}"
+                  when :json then process_json
+                  else raise "Unsupported: #{file_extension}"
                   end
 
         @document.update!(
@@ -600,8 +1474,7 @@ module AiAgent
           title: @document.title || @document.file.filename.to_s
         )
 
-        # Generate embeddings
-        EmbeddingService.new(@document.ai_assistant).create_embeddings_for_document(@document)
+        EmbeddingService.new(@document.assistant).create_embeddings_for_document(@document)
       rescue StandardError => e
         @document.update!(status: :failed, error_message: e.message)
         raise
@@ -614,6 +1487,7 @@ module AiAgent
         when '.pdf' then :pdf
         when '.csv' then :csv
         when '.txt', '.md' then :text
+        when '.json' then :json
         else :unknown
         end
       end
@@ -623,49 +1497,45 @@ module AiAgent
       end
 
       def process_pdf
-        reader = PDF::Reader.new(@document.file.download)
+        require 'pdf-reader'
+        reader = PDF::Reader.new(StringIO.new(@document.file.download))
         reader.pages.map(&:text).join("\n\n")
       end
 
       def process_csv
-        content = @document.file.download
-        csv = CSV.parse(content, headers: true)
-
-        # Convert CSV to readable format
-        csv.map do |row|
-          row.to_h.map { |k, v| "#{k}: #{v}" }.join("\n")
-        end.join("\n\n---\n\n")
+        require 'csv'
+        csv = CSV.parse(@document.file.download, headers: true)
+        csv.map { |row| row.to_h.map { |k, v| "#{k}: #{v}" }.join("\n") }.join("\n\n---\n\n")
       end
 
       def process_text
-        @document.file.download
+        @document.file.download.force_encoding('UTF-8')
+      end
+
+      def process_json
+        JSON.pretty_generate(JSON.parse(@document.file.download))
       end
     end
   end
 end
 ```
 
-### 3.3 Notion Sync Service
+### 5.3 Notion Sync Service
 
-`app/services/ai_agent/integrations/notion_sync_service.rb`
+`app/services/aloo/integrations/notion_sync_service.rb`:
 
 ```ruby
-module AiAgent
+module Aloo
   module Integrations
     class NotionSyncService
-      def initialize(notion_connection, ai_assistant)
-        @connection = notion_connection
-        @ai_assistant = ai_assistant
+      def initialize(connection, assistant)
+        @connection = connection
+        @assistant = assistant
         @client = Notion::Client.new(token: @connection.access_token)
       end
 
-      def sync_pages(page_ids = nil)
-        pages_to_sync = page_ids || fetch_all_pages
-
-        pages_to_sync.each do |page_id|
-          sync_page(page_id)
-        end
-
+      def sync_all
+        fetch_all_pages.each { |page_id| sync_page(page_id) }
         @connection.update!(last_synced_at: Time.current)
       end
 
@@ -675,21 +1545,21 @@ module AiAgent
         content = blocks_to_text(blocks)
         title = extract_title(page)
 
-        document = @ai_assistant.ai_documents.find_or_initialize_by(
+        document = @assistant.documents.find_or_initialize_by(
           source_type: :notion,
           source_url: "notion://#{page_id}"
         )
 
         document.update!(
+          account: @assistant.account,
           title: title,
           content: content,
           status: :available,
-          metadata: { notion_page_id: page_id, last_edited: page.last_edited_time }
+          metadata: { notion_page_id: page_id }
         )
 
-        # Regenerate embeddings
-        document.ai_embeddings.destroy_all
-        EmbeddingService.new(@ai_assistant).create_embeddings_for_document(document)
+        document.embeddings.destroy_all
+        EmbeddingService.new(@assistant).create_embeddings_for_document(document)
       end
 
       private
@@ -701,7 +1571,6 @@ module AiAgent
         loop do
           response = @client.search(filter: { property: 'object', value: 'page' }, start_cursor: cursor)
           results.concat(response.results.map(&:id))
-
           break unless response.has_more
 
           cursor = response.next_cursor
@@ -710,8 +1579,9 @@ module AiAgent
         results
       end
 
-      def fetch_all_blocks(page_id, cursor: nil)
+      def fetch_all_blocks(page_id)
         blocks = []
+        cursor = nil
 
         loop do
           response = @client.block_children(block_id: page_id, start_cursor: cursor)
@@ -719,7 +1589,6 @@ module AiAgent
             blocks << block
             blocks.concat(fetch_all_blocks(block.id)) if block.has_children
           end
-
           break unless response.has_more
 
           cursor = response.next_cursor
@@ -737,474 +1606,47 @@ module AiAgent
             "• #{extract_rich_text(block.dig(block.type, :rich_text))}"
           when 'code'
             "```\n#{extract_rich_text(block.dig(:code, :rich_text))}\n```"
-          when 'quote'
-            "> #{extract_rich_text(block.dig(:quote, :rich_text))}"
           end
         end.join("\n\n")
       end
 
       def extract_rich_text(rich_text)
-        return '' unless rich_text
-
-        rich_text.map { |t| t[:plain_text] }.join
+        rich_text&.map { |t| t[:plain_text] }&.join || ''
       end
 
       def extract_title(page)
         title_prop = page.properties.find { |_, v| v.type == 'title' }&.last
-        return 'Untitled' unless title_prop
-
-        title_prop.title.map { |t| t[:plain_text] }.join
+        title_prop&.title&.map { |t| t[:plain_text] }&.join || 'Untitled'
       end
     end
   end
 end
 ```
 
-### 3.4 Background Jobs
+### 5.4 Background Jobs
 
-`app/jobs/ai_documents/process_job.rb`
+`app/jobs/aloo/process_document_job.rb`:
 
 ```ruby
-module AiDocuments
-  class ProcessJob < ApplicationJob
+module Aloo
+  class ProcessDocumentJob < ApplicationJob
     queue_as :default
+    retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
     def perform(document_id)
-      document = AiDocument.find(document_id)
+      document = Aloo::Document.find(document_id)
 
       case document.source_type
       when 'website'
-        AiAgent::Crawlers::WebsiteCrawler.new(document).crawl
+        Aloo::Crawlers::WebsiteCrawler.new(document).crawl
       when 'file'
-        AiAgent::Processors::FileProcessor.new(document).process
+        Aloo::Processors::FileProcessor.new(document).process
       when 'notion'
-        connection = document.account.ai_notion_connections.first
-        AiAgent::Integrations::NotionSyncService.new(connection, document.ai_assistant).sync_page(document.source_url)
-      end
-    end
-  end
-end
-```
-
----
-
-## Phase 4: AI Agent Core
-
-### 4.1 Chat Service
-
-`app/services/ai_agent/chat_service.rb`
-
-```ruby
-module AiAgent
-  class ChatService
-    def initialize(conversation)
-      @conversation = conversation
-      @assistant = conversation.inbox.ai_assistant
-      @context_service = VectorSearchService.new(@assistant)
-    end
-
-    def generate_response(user_message)
-      return nil unless @assistant
-
-      # Build context from knowledge base
-      knowledge_context = @context_service.build_context(user_message)
-
-      # Get conversation history
-      history = build_message_history
-
-      # Create chat with tools
-      chat = RubyLLM.chat(model: @assistant.model)
-                    .with_instructions(build_system_prompt(knowledge_context))
-                    .with_tools(*available_tools)
-
-      # Add history
-      history.each do |msg|
-        chat.add_message(role: msg[:role], content: msg[:content])
-      end
-
-      # Generate response
-      response = chat.ask(user_message)
-
-      # Track context
-      update_context(user_message, response)
-
-      response.content
-    end
-
-    private
-
-    def build_system_prompt(knowledge_context)
-      base_prompt = @assistant.system_prompt || default_system_prompt
-
-      <<~PROMPT
-        #{base_prompt}
-
-        #{response_guidelines}
-
-        #{guardrails}
-
-        ## Available Knowledge Base Context
-        Use the following information to help answer questions. If the information doesn't contain the answer, say so honestly.
-
-        #{knowledge_context}
-      PROMPT
-    end
-
-    def response_guidelines
-      return '' if @assistant.response_guidelines.blank?
-
-      <<~GUIDELINES
-        ## Response Guidelines
-        #{@assistant.response_guidelines}
-      GUIDELINES
-    end
-
-    def guardrails
-      return '' if @assistant.guardrails.blank?
-
-      <<~GUARDRAILS
-        ## Important Boundaries
-        #{@assistant.guardrails}
-      GUARDRAILS
-    end
-
-    def default_system_prompt
-      <<~PROMPT
-        You are a helpful customer support assistant for #{@assistant.name}.
-        Your role is to assist customers with their questions and issues.
-        Be friendly, professional, and concise in your responses.
-        If you don't know the answer, be honest and offer to connect them with a human agent.
-      PROMPT
-    end
-
-    def build_message_history
-      @conversation.messages
-                   .where(private: false)
-                   .order(created_at: :asc)
-                   .last(10) # Keep context window manageable
-                   .map do |msg|
-        {
-          role: msg.incoming? ? :user : :assistant,
-          content: msg.content
-        }
-      end
-    end
-
-    def available_tools
-      tools = [
-        AiAgent::Tools::FaqLookupTool.new(@assistant),
-        AiAgent::Tools::HandoffTool.new(@conversation),
-        AiAgent::Tools::AddNoteTool.new(@conversation)
-      ]
-
-      # Add custom tools
-      @assistant.ai_custom_tools.active.each do |custom_tool|
-        tools << AiAgent::Tools::HttpTool.build(custom_tool, @conversation)
-      end
-
-      tools
-    end
-
-    def update_context(user_message, response)
-      context = @conversation.ai_conversation_context ||
-                @conversation.build_ai_conversation_context(ai_assistant: @assistant)
-
-      context.message_count += 1
-      context.save!
-    end
-  end
-end
-```
-
-### 4.2 Response Job
-
-`app/jobs/ai_agent/response_job.rb`
-
-```ruby
-module AiAgent
-  class ResponseJob < ApplicationJob
-    queue_as :default
-
-    def perform(conversation_id, message_id)
-      conversation = Conversation.find(conversation_id)
-      message = conversation.messages.find(message_id)
-
-      return unless should_respond?(conversation, message)
-
-      # Show typing indicator
-      broadcast_typing(conversation)
-
-      # Generate response
-      chat_service = ChatService.new(conversation)
-      response_content = chat_service.generate_response(message.content)
-
-      return if response_content.blank?
-
-      # Create response message
-      create_response_message(conversation, response_content)
-    end
-
-    private
-
-    def should_respond?(conversation, message)
-      return false unless message.incoming?
-      return false if conversation.resolved? || conversation.snoozed?
-      return false unless conversation.inbox.ai_assistant&.active?
-
-      true
-    end
-
-    def broadcast_typing(conversation)
-      ActionCable.server.broadcast(
-        "conversation:#{conversation.account_id}:#{conversation.id}",
-        { event: 'typing', user: { name: 'AI Assistant' } }
-      )
-    end
-
-    def create_response_message(conversation, content)
-      conversation.messages.create!(
-        message_type: :outgoing,
-        content: content,
-        account_id: conversation.account_id,
-        inbox_id: conversation.inbox_id,
-        sender: ai_sender(conversation)
-      )
-    end
-
-    def ai_sender(conversation)
-      # Use the AI assistant as sender or create a virtual agent bot
-      conversation.inbox.ai_assistant
-    end
-  end
-end
-```
-
----
-
-## Phase 5: Tools System
-
-### 5.1 Base Tool Class
-
-`app/lib/ai_agent/tools/base_tool.rb`
-
-```ruby
-module AiAgent
-  module Tools
-    class BaseTool < RubyLLM::Tool
-      def initialize(context = nil)
-        @context = context
-        super()
-      end
-    end
-  end
-end
-```
-
-### 5.2 FAQ Lookup Tool
-
-`app/lib/ai_agent/tools/faq_lookup_tool.rb`
-
-```ruby
-module AiAgent
-  module Tools
-    class FaqLookupTool < BaseTool
-      description "Search the knowledge base for relevant information to answer customer questions"
-
-      params do
-        string :query, description: "The search query to find relevant FAQ or documentation"
-      end
-
-      def initialize(assistant)
-        @assistant = assistant
-        super()
-      end
-
-      def execute(query:)
-        search_service = VectorSearchService.new(@assistant)
-        results = search_service.search(query, limit: 5)
-
-        if results.empty?
-          { found: false, message: "No relevant information found in the knowledge base" }
-        else
-          formatted_results = results.map do |r|
-            {
-              content: r[:content],
-              source: r[:source],
-              similarity: r[:similarity].round(2)
-            }
-          end
-
-          { found: true, results: formatted_results }
-        end
-      end
-    end
-  end
-end
-```
-
-### 5.3 Handoff Tool
-
-`app/lib/ai_agent/tools/handoff_tool.rb`
-
-```ruby
-module AiAgent
-  module Tools
-    class HandoffTool < BaseTool
-      description "Transfer the conversation to a human agent when the AI cannot help or the customer requests human support"
-
-      params do
-        string :reason, description: "The reason for transferring to a human agent"
-      end
-
-      def initialize(conversation)
-        @conversation = conversation
-        super()
-      end
-
-      def execute(reason:)
-        # Create internal note with reason
-        @conversation.messages.create!(
-          message_type: :activity,
-          content: "AI handoff: #{reason}",
-          private: true,
-          account_id: @conversation.account_id,
-          inbox_id: @conversation.inbox_id
-        )
-
-        # Update conversation status
-        @conversation.update!(status: :open, assignee: nil)
-
-        # Dispatch event for assignment
-        Rails.configuration.dispatcher.dispatch(
-          'conversation.bot_handoff',
-          Time.zone.now,
-          conversation: @conversation,
-          reason: reason
-        )
-
-        { success: true, message: "Conversation transferred to human support" }
-      end
-    end
-  end
-end
-```
-
-### 5.4 Add Note Tool
-
-`app/lib/ai_agent/tools/add_note_tool.rb`
-
-```ruby
-module AiAgent
-  module Tools
-    class AddNoteTool < BaseTool
-      description "Add a private internal note to the conversation that only agents can see"
-
-      params do
-        string :note, description: "The content of the private note"
-      end
-
-      def initialize(conversation)
-        @conversation = conversation
-        super()
-      end
-
-      def execute(note:)
-        @conversation.messages.create!(
-          message_type: :outgoing,
-          content: note,
-          private: true,
-          account_id: @conversation.account_id,
-          inbox_id: @conversation.inbox_id
-        )
-
-        { success: true, message: "Note added successfully" }
-      end
-    end
-  end
-end
-```
-
-### 5.5 Custom HTTP Tool Builder
-
-`app/lib/ai_agent/tools/http_tool.rb`
-
-```ruby
-module AiAgent
-  module Tools
-    class HttpTool
-      def self.build(custom_tool, conversation)
-        tool_class = Class.new(BaseTool) do
-          define_singleton_method(:description) { custom_tool.description }
-
-          define_singleton_method(:params) do
-            custom_tool.parameters_schema
-          end
-
-          define_method(:initialize) do |tool, conv|
-            @tool = tool
-            @conversation = conv
-            super()
-          end
-
-          define_method(:execute) do |**params|
-            execute_request(params)
-          end
-
-          define_method(:execute_request) do |params|
-            uri = URI.parse(@tool.endpoint_url)
-
-            request = case @tool.http_method.upcase
-                      when 'GET'
-                        uri.query = URI.encode_www_form(params)
-                        Net::HTTP::Get.new(uri)
-                      when 'POST'
-                        req = Net::HTTP::Post.new(uri)
-                        req.body = render_template(@tool.request_template, params)
-                        req.content_type = 'application/json'
-                        req
-                      end
-
-            # Add auth headers
-            add_auth_headers(request)
-
-            # Execute request
-            response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: uri.scheme == 'https') do |http|
-              http.request(request)
-            end
-
-            # Parse and return response
-            parse_response(response)
-          end
-
-          define_method(:add_auth_headers) do |request|
-            case @tool.auth_type
-            when 'bearer'
-              request['Authorization'] = "Bearer #{@tool.auth_credentials}"
-            when 'basic'
-              request.basic_auth(*@tool.auth_credentials.split(':'))
-            when 'api_key'
-              request['X-API-Key'] = @tool.auth_credentials
-            end
-          end
-
-          define_method(:render_template) do |template, params|
-            return params.to_json if template.blank?
-
-            Liquid::Template.parse(template).render(params.stringify_keys)
-          end
-
-          define_method(:parse_response) do |response|
-            if response.is_a?(Net::HTTPSuccess)
-              JSON.parse(response.body)
-            else
-              { error: "Request failed with status #{response.code}" }
-            end
-          rescue JSON::ParserError
-            { response: response.body }
-          end
-        end
-
-        tool_class.new(custom_tool, conversation)
+        connection = document.account.aloo_notion_connections.first
+        raise 'No Notion connection' unless connection
+
+        page_id = document.source_url.gsub('notion://', '')
+        Aloo::Integrations::NotionSyncService.new(connection, document.assistant).sync_page(page_id)
       end
     end
   end
@@ -1215,98 +1657,215 @@ end
 
 ## Phase 6: Conversation Integration
 
-### 6.1 Message Listener
+### 6.1 Aloo Response Job
 
-`app/listeners/ai_agent_listener.rb`
+`app/jobs/aloo/response_job.rb`:
 
 ```ruby
-class AiAgentListener < BaseListener
+module Aloo
+  class ResponseJob < ApplicationJob
+    queue_as :low
+
+    def perform(conversation_id, message_id)
+      conversation = Conversation.find(conversation_id)
+      message = conversation.messages.find(message_id)
+
+      return unless should_respond?(conversation, message)
+
+      # Set context
+      Aloo::Current.set_from_conversation(conversation)
+
+      # Show typing
+      broadcast_typing(conversation, true)
+
+      begin
+        # Call the agent
+        result = ConversationAgent.call(
+          message: message.content,
+          conversation_id: conversation.id
+        )
+
+        # Create response message
+        create_response(conversation, result.content) if result.content.present?
+
+        # Track usage
+        track_usage(conversation, result)
+      ensure
+        broadcast_typing(conversation, false)
+      end
+    end
+
+    private
+
+    def should_respond?(conversation, message)
+      return false unless message.incoming?
+      return false if message.private?
+      return false if conversation.resolved? || conversation.snoozed?
+      return false unless conversation.inbox.aloo_assistant&.active?
+      return false if conversation.assignee.present? && !conversation.assignee.is_a?(Aloo::Assistant)
+
+      true
+    end
+
+    def broadcast_typing(conversation, typing)
+      event = typing ? 'typing_on' : 'typing_off'
+      ActionCable.server.broadcast(
+        "conversation:#{conversation.account_id}:#{conversation.id}",
+        { event: event, user: { name: 'Aloo Assistant', type: 'ai' } }
+      )
+    end
+
+    def create_response(conversation, content)
+      conversation.messages.create!(
+        message_type: :outgoing,
+        content: content,
+        account_id: conversation.account_id,
+        inbox_id: conversation.inbox_id,
+        sender: conversation.inbox.aloo_assistant
+      )
+    end
+
+    def track_usage(conversation, result)
+      context = conversation.aloo_conversation_context ||
+                conversation.create_aloo_conversation_context!(aloo_assistant: Aloo::Current.assistant)
+
+      context.message_count += 1
+      context.input_tokens += result.input_tokens.to_i
+      context.output_tokens += result.output_tokens.to_i
+      # Cost is tracked automatically by ruby_llm-agents
+      context.save!
+    end
+  end
+end
+```
+
+### 6.2 Message Listener
+
+`app/listeners/aloo_agent_listener.rb`:
+
+```ruby
+class AlooAgentListener < BaseListener
   def message_created(event)
     message = event.data[:message]
     conversation = message.conversation
 
-    return unless should_trigger_ai?(message, conversation)
+    return unless should_trigger?(message, conversation)
 
-    AiAgent::ResponseJob.perform_later(conversation.id, message.id)
+    Aloo::ResponseJob.perform_later(conversation.id, message.id)
   end
 
   def conversation_resolved(event)
     conversation = event.data[:conversation]
-    assistant = conversation.inbox.ai_assistant
+    assistant = conversation.inbox.aloo_assistant
 
     return unless assistant&.effective_config&.dig('feature_faq')
 
-    # Generate FAQ from resolved conversation
-    AiAgent::FaqGeneratorJob.perform_later(conversation.id)
+    Aloo::FaqGeneratorJob.perform_later(conversation.id)
   end
 
   private
 
-  def should_trigger_ai?(message, conversation)
-    return false unless message.incoming?
-    return false if conversation.resolved? || conversation.snoozed?
-    return false unless conversation.inbox.ai_assistant&.active?
-    return false if conversation.assignee.present? && !conversation.assignee.is_a?(AiAssistant)
-
-    true
+  def should_trigger?(message, conversation)
+    message.incoming? &&
+      !message.private? &&
+      !conversation.resolved? &&
+      !conversation.snoozed? &&
+      conversation.inbox.aloo_assistant&.active? &&
+      (conversation.assignee.blank? || conversation.assignee.is_a?(Aloo::Assistant))
   end
 end
 ```
 
-### 6.2 Register Listener
+### 6.3 FAQ Generator Job
 
-Add to `config/initializers/listeners.rb`:
-
-```ruby
-Rails.application.config.dispatcher.register_listener(AiAgentListener)
-```
-
-### 6.3 Inbox Extension
-
-`app/models/concerns/ai_assistant_inbox_concern.rb`
+`app/jobs/aloo/faq_generator_job.rb`:
 
 ```ruby
-module AiAssistantInboxConcern
-  extend ActiveSupport::Concern
+module Aloo
+  class FaqGeneratorJob < ApplicationJob
+    queue_as :low
 
-  included do
-    has_one :ai_assistant_inbox, dependent: :destroy
-    has_one :ai_assistant, through: :ai_assistant_inbox
-  end
+    def perform(conversation_id)
+      conversation = Conversation.find(conversation_id)
+      assistant = conversation.inbox.aloo_assistant
 
-  def ai_enabled?
-    ai_assistant&.active?
+      return unless assistant
+      return unless meaningful_exchange?(conversation)
+
+      transcript = build_transcript(conversation)
+
+      result = FaqGeneratorAgent.call(transcript: transcript)
+      save_faqs(assistant, result.faqs, conversation.id) if result.faqs.present?
+    rescue StandardError => e
+      Rails.logger.error("[Aloo] FAQ generation failed: #{e.message}")
+    end
+
+    private
+
+    def meaningful_exchange?(conversation)
+      incoming = conversation.messages.where(message_type: :incoming).count
+      outgoing = conversation.messages.where(message_type: :outgoing, private: false).count
+      incoming >= 1 && outgoing >= 1
+    end
+
+    def build_transcript(conversation)
+      conversation.messages
+                  .where(private: false)
+                  .order(:created_at)
+                  .map { |m| "#{m.incoming? ? 'Customer' : 'Support'}: #{m.content}" }
+                  .join("\n")
+    end
+
+    def save_faqs(assistant, faqs, conversation_id)
+      faqs.each do |faq|
+        next if faq['question'].blank? || faq['answer'].blank?
+        next if duplicate?(assistant, faq['question'])
+
+        embedding = RubyLLM.embed(faq['question'], model: 'text-embedding-3-small').vectors.first
+
+        assistant.embeddings.create!(
+          question: faq['question'],
+          content: faq['answer'],
+          embedding: embedding,
+          status: :pending,
+          metadata: { source: 'conversation', conversation_id: conversation_id }
+        )
+      end
+    end
+
+    def duplicate?(assistant, question)
+      embedding = RubyLLM.embed(question, model: 'text-embedding-3-small').vectors.first
+      similar = assistant.embeddings.for_search.semantic_search(embedding, limit: 1).first
+      similar && similar.neighbor_distance < 0.2
+    end
   end
 end
-```
-
-Add to `app/models/inbox.rb`:
-
-```ruby
-include AiAssistantInboxConcern
 ```
 
 ---
 
-## Phase 7: Frontend & Management UI
+## Phase 7: Frontend & Dashboard
 
 ### 7.1 Routes
 
-Add to `config/routes.rb`:
-
 ```ruby
+# config/routes.rb
 namespace :api do
   namespace :v1 do
     namespace :accounts do
-      resources :ai_assistants do
-        resources :documents, controller: 'ai_assistants/documents'
-        resources :embeddings, controller: 'ai_assistants/embeddings', only: [:index, :create, :destroy]
-        resources :custom_tools, controller: 'ai_assistants/custom_tools'
+      resources :aloo_assistants do
+        resources :documents, controller: 'aloo_assistants/documents'
+        resources :embeddings, controller: 'aloo_assistants/embeddings', only: [:index, :create, :destroy]
+        resources :custom_tools, controller: 'aloo_assistants/custom_tools'
         member do
           post :playground
+          get :stats
+        end
+        collection do
+          get :available_models
         end
       end
-      resources :ai_notion_connections, only: [:index, :create, :destroy] do
+      resources :aloo_notion_connections, only: [:index, :create, :destroy] do
         member do
           post :sync
         end
@@ -1314,28 +1873,34 @@ namespace :api do
     end
   end
 end
+
+# Mount agent dashboard (admin only)
+authenticate :user, ->(u) { u.administrator? } do
+  mount RubyLLM::Agents::Engine, at: '/admin/agents'
+end
 ```
 
-### 7.2 Controllers
+### 7.2 Assistants Controller
 
-`app/controllers/api/v1/accounts/ai_assistants_controller.rb`
+`app/controllers/api/v1/accounts/aloo_assistants_controller.rb`:
 
 ```ruby
-class Api::V1::Accounts::AiAssistantsController < Api::V1::Accounts::BaseController
-  before_action :set_assistant, only: [:show, :update, :destroy, :playground]
+class Api::V1::Accounts::AlooAssistantsController < Api::V1::Accounts::BaseController
+  before_action :set_assistant, only: [:show, :update, :destroy, :playground, :stats, :update_personality]
+  before_action :require_admin, only: [:create, :destroy, :update_admin_config]
 
   def index
-    @assistants = Current.account.ai_assistants
+    @assistants = Current.account.aloo_assistants.includes(:inboxes)
     render json: @assistants
   end
 
   def show
-    render json: @assistant
+    render json: @assistant, include: [:inboxes, :documents]
   end
 
   def create
-    @assistant = Current.account.ai_assistants.new(assistant_params)
-
+    # Only admins can create assistants
+    @assistant = Current.account.aloo_assistants.new(admin_params)
     if @assistant.save
       render json: @assistant, status: :created
     else
@@ -1344,7 +1909,28 @@ class Api::V1::Accounts::AiAssistantsController < Api::V1::Accounts::BaseControl
   end
 
   def update
-    if @assistant.update(assistant_params)
+    # Users can only update personality settings
+    # Admins can update everything
+    permitted = current_user.administrator? ? all_params : personality_params
+    if @assistant.update(permitted)
+      render json: @assistant
+    else
+      render json: { errors: @assistant.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # User-facing endpoint for personality settings only
+  def update_personality
+    if @assistant.update(personality_params)
+      render json: @assistant
+    else
+      render json: { errors: @assistant.errors }, status: :unprocessable_entity
+    end
+  end
+
+  # Admin-only endpoint for technical configuration
+  def update_admin_config
+    if @assistant.update(admin_config_params)
       render json: @assistant
     else
       render json: { errors: @assistant.errors }, status: :unprocessable_entity
@@ -1357,209 +1943,396 @@ class Api::V1::Accounts::AiAssistantsController < Api::V1::Accounts::BaseControl
   end
 
   def playground
-    response = AiAgent::ChatService.new(nil, @assistant).test_response(params[:message])
-    render json: { response: response }
+    Aloo::Current.assistant = @assistant
+    result = ConversationAgent.call(
+      message: params[:message],
+      conversation_id: 0,
+      dry_run: params[:dry_run]
+    )
+    render json: { response: result.content, tokens: result.total_tokens }
+  end
+
+  def stats
+    contexts = @assistant.conversation_contexts
+
+    executions = RubyLLM::Agents::Execution.where(
+      "metadata->>'assistant_id' = ?", @assistant.id.to_s
+    ).where(created_at: 30.days.ago..)
+
+    render json: {
+      conversations: contexts.count,
+      messages: contexts.sum(:message_count),
+      input_tokens: contexts.sum(:input_tokens),
+      output_tokens: contexts.sum(:output_tokens),
+      total_cost: contexts.sum(:total_cost),
+      documents: @assistant.documents.available.count,
+      embeddings: @assistant.embeddings.approved.count,
+      success_rate: executions.success.count.to_f / [executions.count, 1].max,
+      avg_latency_ms: executions.average(:duration_ms)
+    }
+  end
+
+  # Get available personality options
+  def personality_options
+    render json: {
+      tones: Aloo::Assistant::TONES,
+      formality_levels: Aloo::Assistant::FORMALITY_LEVELS,
+      empathy_levels: Aloo::Assistant::EMPATHY_LEVELS,
+      verbosity_levels: Aloo::Assistant::VERBOSITY_LEVELS,
+      emoji_usage_levels: Aloo::Assistant::EMOJI_USAGE_LEVELS,
+      greeting_styles: Aloo::Assistant::GREETING_STYLES,
+      languages: Aloo::SUPPORTED_LANGUAGES,
+      arabic_dialects: Aloo::Assistant::ARABIC_DIALECTS.transform_values { |v| v[:name] }
+    }
+  end
+
+  # Admin-only: Get available models
+  def available_models
+    return head :forbidden unless current_user.administrator?
+
+    models = RubyLLM.models.chat_models.map do |m|
+      { id: m.id, provider: m.provider, supports_tools: m.supports_tools? }
+    end
+    render json: { models: models }
   end
 
   private
 
   def set_assistant
-    @assistant = Current.account.ai_assistants.find(params[:id])
+    @assistant = Current.account.aloo_assistants.find(params[:id])
   end
 
-  def assistant_params
-    params.require(:ai_assistant).permit(
-      :name, :description, :system_prompt, :response_guidelines, :guardrails, :active,
-      config: [:model, :temperature, :max_tokens, :feature_faq, :feature_memory]
+  def require_admin
+    head :forbidden unless current_user.administrator?
+  end
+
+  # Personality settings - users can edit
+  def personality_params
+    params.require(:aloo_assistant).permit(
+      :name,
+      :description,
+      :tone,
+      :formality,
+      :empathy_level,
+      :verbosity,
+      :emoji_usage,
+      :greeting_style,
+      :custom_greeting,
+      :language,
+      :dialect,
+      :personality_description
+    )
+  end
+
+  # Admin-only settings
+  def admin_config_params
+    params.require(:aloo_assistant).permit(
+      :system_prompt,
+      :response_guidelines,
+      :guardrails,
+      :active,
+      admin_config: [:model, :embedding_model, :temperature, :max_tokens, :feature_faq, :feature_memory],
+      inbox_ids: []
+    )
+  end
+
+  # All params for admin create/update
+  def all_params
+    personality_params.merge(admin_config_params)
+  end
+
+  # Initial creation params (admin only)
+  def admin_params
+    params.require(:aloo_assistant).permit(
+      :name, :description, :active,
+      # Personality (with defaults)
+      :tone, :formality, :empathy_level, :verbosity, :emoji_usage,
+      :greeting_style, :custom_greeting, :language, :dialect, :personality_description,
+      # Admin config
+      :system_prompt, :response_guidelines, :guardrails,
+      admin_config: [:model, :embedding_model, :temperature, :max_tokens, :feature_faq, :feature_memory],
+      inbox_ids: []
     )
   end
 end
 ```
 
-### 7.3 Frontend Components (Vue.js)
-
-Create the following Vue components in `app/javascript/dashboard/routes/dashboard/settings/aiAssistants/`:
-
-1. **Index.vue** - List all AI assistants
-2. **Edit.vue** - Create/edit assistant settings
-3. **Documents.vue** - Manage knowledge base documents
-4. **Playground.vue** - Test assistant responses
-5. **CustomTools.vue** - Manage custom tools
-6. **NotionConnection.vue** - Notion OAuth and sync
-
-### 7.4 Navigation
-
-Add AI Assistants to settings sidebar in `app/javascript/dashboard/routes/dashboard/settings/settings.routes.js`
-
----
-
-## Phase 8: Advanced Features
-
-### 8.1 Auto FAQ Generation
-
-`app/services/ai_agent/faq_generator_service.rb`
+### 7.3 Updated Routes
 
 ```ruby
-module AiAgent
-  class FaqGeneratorService
-    def initialize(conversation)
-      @conversation = conversation
-      @assistant = conversation.inbox.ai_assistant
-    end
-
-    def generate
-      return unless @assistant
-      return unless has_meaningful_exchange?
-
-      # Build prompt for FAQ extraction
-      messages = @conversation.messages.where(private: false).order(:created_at)
-      transcript = messages.map { |m| "#{m.sender_type}: #{m.content}" }.join("\n")
-
-      chat = RubyLLM.chat(model: 'gpt-4o-mini')
-                    .with_instructions(faq_generation_prompt)
-
-      response = chat.ask("Generate FAQ from this conversation:\n\n#{transcript}")
-
-      # Parse and save FAQs
-      faqs = JSON.parse(response.content)
-      save_faqs(faqs)
-    end
-
-    private
-
-    def has_meaningful_exchange?
-      incoming = @conversation.messages.where(message_type: :incoming).count
-      outgoing = @conversation.messages.where(message_type: :outgoing).count
-      incoming >= 1 && outgoing >= 1
-    end
-
-    def faq_generation_prompt
-      <<~PROMPT
-        Analyze the conversation and extract FAQ entries.
-        Return a JSON array with objects containing "question" and "answer" keys.
-        Only extract clear, complete Q&A pairs that would be useful for other customers.
-        If no clear FAQ can be extracted, return an empty array.
-      PROMPT
-    end
-
-    def save_faqs(faqs)
-      faqs.each do |faq|
-        next if duplicate?(faq['question'])
-
-        embedding = EmbeddingService.new(@assistant).generate_embedding(faq['question'])
-
-        @assistant.ai_embeddings.create!(
-          question: faq['question'],
-          content: faq['answer'],
-          embedding: embedding,
-          status: :pending,
-          metadata: { source: 'conversation', conversation_id: @conversation.id }
-        )
+# config/routes.rb
+namespace :api do
+  namespace :v1 do
+    namespace :accounts do
+      resources :aloo_assistants do
+        resources :documents, controller: 'aloo_assistants/documents'
+        resources :embeddings, controller: 'aloo_assistants/embeddings', only: [:index, :create, :destroy]
+        resources :custom_tools, controller: 'aloo_assistants/custom_tools'
+        member do
+          post :playground
+          get :stats
+          patch :update_personality      # User can edit
+          patch :update_admin_config     # Admin only
+        end
+        collection do
+          get :personality_options       # Get available options
+          get :available_models          # Admin only
+        end
       end
-    end
-
-    def duplicate?(question)
-      embedding = EmbeddingService.new(@assistant).generate_embedding(question)
-      similar = @assistant.ai_embeddings.semantic_search(embedding, limit: 1).first
-
-      similar && similar.neighbor_distance < 0.3
+      resources :aloo_notion_connections, only: [:index, :create, :destroy] do
+        member do
+          post :sync
+        end
+      end
     end
   end
 end
 ```
 
-### 8.2 Contact Memory
+### 7.4 Frontend Components
 
-`app/services/ai_agent/contact_memory_service.rb`
+Create Vue components in `app/javascript/dashboard/routes/dashboard/settings/alooAssistants/`:
+
+1. **Index.vue** - List assistants with stats
+2. **Create.vue** - New assistant wizard (admin only)
+3. **EditPersonality.vue** - Edit personality settings (all users)
+4. **EditAdmin.vue** - Edit technical settings (admin only)
+5. **Documents.vue** - Manage knowledge base
+6. **Playground.vue** - Test responses
+7. **CustomTools.vue** - Configure HTTP tools (admin only)
+8. **Stats.vue** - Analytics dashboard
+
+### 7.5 Personality Settings Component
+
+`app/javascript/dashboard/routes/dashboard/settings/alooAssistants/EditPersonality.vue`:
+
+```vue
+<template>
+  <div class="flex flex-col gap-6 p-6">
+    <h2 class="text-xl font-semibold">Customize Assistant Personality</h2>
+
+    <!-- Tone -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Tone</label>
+      <select v-model="assistant.tone" class="w-full border rounded-lg p-2">
+        <option value="professional">Professional</option>
+        <option value="friendly">Friendly</option>
+        <option value="casual">Casual</option>
+        <option value="formal">Formal</option>
+      </select>
+    </div>
+
+    <!-- Formality -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Formality Level</label>
+      <select v-model="assistant.formality" class="w-full border rounded-lg p-2">
+        <option value="high">High</option>
+        <option value="medium">Medium</option>
+        <option value="low">Low</option>
+      </select>
+    </div>
+
+    <!-- Empathy -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Empathy Level</label>
+      <select v-model="assistant.empathy_level" class="w-full border rounded-lg p-2">
+        <option value="high">High - Acknowledge emotions explicitly</option>
+        <option value="medium">Medium - Appropriate empathy</option>
+        <option value="low">Low - Focus on solutions</option>
+      </select>
+    </div>
+
+    <!-- Verbosity -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Response Length</label>
+      <select v-model="assistant.verbosity" class="w-full border rounded-lg p-2">
+        <option value="concise">Concise - Brief responses</option>
+        <option value="balanced">Balanced - Normal length</option>
+        <option value="detailed">Detailed - Comprehensive</option>
+      </select>
+    </div>
+
+    <!-- Emoji Usage -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Emoji Usage</label>
+      <select v-model="assistant.emoji_usage" class="w-full border rounded-lg p-2">
+        <option value="none">None</option>
+        <option value="minimal">Minimal</option>
+        <option value="moderate">Moderate</option>
+      </select>
+    </div>
+
+    <!-- Language -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Language</label>
+      <select v-model="assistant.language" class="w-full border rounded-lg p-2">
+        <option value="en">English</option>
+        <option value="ar">Arabic</option>
+        <option value="fr">French</option>
+        <option value="es">Spanish</option>
+        <!-- ... other languages -->
+      </select>
+    </div>
+
+    <!-- Arabic Dialect (shown when Arabic is selected) -->
+    <div v-if="assistant.language === 'ar'">
+      <label class="block text-sm font-medium mb-2">Arabic Dialect</label>
+      <select v-model="assistant.dialect" class="w-full border rounded-lg p-2">
+        <option value="EG">Egyptian (مصري)</option>
+        <option value="SA">Saudi (سعودي)</option>
+        <option value="AE">Emirati (إماراتي)</option>
+        <option value="KW">Kuwaiti (كويتي)</option>
+        <option value="QA">Qatari (قطري)</option>
+        <option value="BH">Bahraini (بحريني)</option>
+        <option value="OM">Omani (عماني)</option>
+        <option value="JO">Jordanian (أردني)</option>
+        <option value="LB">Lebanese (لبناني)</option>
+        <option value="SY">Syrian (سوري)</option>
+        <option value="IQ">Iraqi (عراقي)</option>
+        <option value="MA">Moroccan (مغربي)</option>
+        <option value="DZ">Algerian (جزائري)</option>
+        <option value="TN">Tunisian (تونسي)</option>
+        <option value="MSA">Modern Standard (فصحى)</option>
+      </select>
+    </div>
+
+    <!-- Custom Greeting -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Greeting Style</label>
+      <select v-model="assistant.greeting_style" class="w-full border rounded-lg p-2">
+        <option value="warm">Warm</option>
+        <option value="direct">Direct</option>
+        <option value="custom">Custom</option>
+      </select>
+    </div>
+
+    <div v-if="assistant.greeting_style === 'custom'">
+      <label class="block text-sm font-medium mb-2">Custom Greeting</label>
+      <textarea
+        v-model="assistant.custom_greeting"
+        class="w-full border rounded-lg p-2"
+        rows="2"
+        placeholder="Enter your custom greeting message..."
+      />
+    </div>
+
+    <!-- Personality Description -->
+    <div>
+      <label class="block text-sm font-medium mb-2">Additional Personality Traits</label>
+      <textarea
+        v-model="assistant.personality_description"
+        class="w-full border rounded-lg p-2"
+        rows="3"
+        placeholder="Describe any additional personality traits..."
+      />
+    </div>
+
+    <button
+      @click="save"
+      class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+    >
+      Save Changes
+    </button>
+  </div>
+</template>
+```
+
+---
+
+## Phase 8: Advanced Features
+
+### 8.1 Contact Memory Service
+
+`app/services/aloo/contact_memory_service.rb`:
 
 ```ruby
-module AiAgent
+module Aloo
   class ContactMemoryService
     def initialize(contact)
       @contact = contact
     end
 
     def build_context
-      notes = @contact.notes.order(created_at: :desc).limit(5)
-      conversations_summary = recent_conversations_summary
-
       {
-        contact_name: @contact.name,
-        contact_email: @contact.email,
+        name: @contact.name,
+        email: @contact.email,
+        phone: @contact.phone_number,
         custom_attributes: @contact.custom_attributes,
-        recent_notes: notes.map(&:content),
-        conversation_history: conversations_summary
+        recent_notes: recent_notes,
+        conversation_summary: conversation_summary
       }
     end
 
     def add_insight(conversation)
-      return unless should_generate_insight?(conversation)
+      return unless conversation.resolved? && conversation.messages.count >= 3
 
-      insight = generate_insight(conversation)
-      return if insight.blank?
+      transcript = conversation.messages
+                               .where(private: false)
+                               .order(:created_at)
+                               .map { |m| "#{m.incoming? ? 'Customer' : 'Support'}: #{m.content}" }
+                               .join("\n")
+
+      result = ContactInsightAgent.call(transcript: transcript)
+      return if result.insight.blank?
 
       @contact.notes.create!(
-        content: "[AI Generated] #{insight}",
+        content: "[Aloo Insight] #{result.insight}",
         account_id: @contact.account_id
       )
     end
 
     private
 
-    def recent_conversations_summary
-      @contact.conversations.order(created_at: :desc).limit(3).map do |conv|
-        {
-          id: conv.display_id,
-          status: conv.status,
-          labels: conv.labels.pluck(:title),
-          message_count: conv.messages.count
-        }
+    def recent_notes
+      @contact.notes.order(created_at: :desc).limit(5).pluck(:content)
+    end
+
+    def conversation_summary
+      @contact.conversations.order(created_at: :desc).limit(5).map do |conv|
+        { id: conv.display_id, status: conv.status, labels: conv.labels.pluck(:title) }
       end
-    end
-
-    def should_generate_insight?(conversation)
-      conversation.resolved? && conversation.messages.count >= 3
-    end
-
-    def generate_insight(conversation)
-      transcript = conversation.messages.where(private: false)
-                              .order(:created_at)
-                              .map { |m| "#{m.sender_type}: #{m.content}" }
-                              .join("\n")
-
-      chat = RubyLLM.chat(model: 'gpt-4o-mini')
-      response = chat.ask(<<~PROMPT)
-        Summarize key insights about this customer from the conversation.
-        Focus on: preferences, issues, satisfaction, notable details.
-        Keep it under 100 words.
-
-        Conversation:
-        #{transcript}
-      PROMPT
-
-      response.content
     end
   end
 end
 ```
 
-### 8.3 Multi-language Support
+### 8.2 Vision Support
 
-`app/services/ai_agent/language_detector_service.rb`
+`app/services/aloo/vision_service.rb`:
 
 ```ruby
-module AiAgent
-  class LanguageDetectorService
-    def detect(text)
-      return 'en' if text.blank?
+module Aloo
+  class VisionService
+    def analyze_image(image_path_or_url, context: nil)
+      chat = RubyLLM.chat(model: 'gpt-4o')
 
-      chat = RubyLLM.chat(model: 'gpt-4o-mini')
-      response = chat.ask(<<~PROMPT)
-        Detect the language of this text and return only the ISO 639-1 code (e.g., "en", "es", "fr").
-        Text: #{text.truncate(500)}
-      PROMPT
+      prompt = context ?
+        "Customer shared this image. Context: #{context}\n\nDescribe and assist." :
+        "Customer shared this image. Describe what you see and ask how to help."
 
-      response.content.strip.downcase
+      response = chat.ask(prompt, with: image_path_or_url)
+      response.content
+    rescue StandardError => e
+      Rails.logger.error("[Aloo] Vision analysis failed: #{e.message}")
+      nil
+    end
+  end
+end
+```
+
+### 8.3 Audio Transcription
+
+`app/services/aloo/audio_service.rb`:
+
+```ruby
+module Aloo
+  class AudioService
+    def transcribe(audio_file_path)
+      response = RubyLLM.transcribe(audio_file_path)
+      response.text
+    rescue StandardError => e
+      Rails.logger.error("[Aloo] Transcription failed: #{e.message}")
+      nil
     end
   end
 end
@@ -1567,107 +2340,112 @@ end
 
 ---
 
-## Configuration
+## Configuration Summary
 
 ### Environment Variables
 
 ```bash
-# LLM Configuration
-OPENAI_API_KEY=your_openai_api_key
-AI_DEFAULT_MODEL=gpt-4o
-AI_EMBEDDING_MODEL=text-embedding-3-small
+# LLM Providers
+OPENAI_API_KEY=sk-...
+ANTHROPIC_API_KEY=sk-ant-...
+GEMINI_API_KEY=...
+DEEPSEEK_API_KEY=...
 
-# Notion Integration
-NOTION_CLIENT_ID=your_notion_client_id
-NOTION_CLIENT_SECRET=your_notion_client_secret
+# Defaults
+ALOO_DEFAULT_MODEL=gemini-2.0-flash
+ALOO_EMBEDDING_MODEL=text-embedding-3-small
+
+# Notion (optional)
+NOTION_CLIENT_ID=...
+NOTION_CLIENT_SECRET=...
 NOTION_REDIRECT_URI=https://your-app.com/oauth/notion/callback
 ```
 
-### Installation Config
-
-Add to `config/installation_config.yml`:
+### Feature Flags
 
 ```yaml
-ai_agent:
+aloo:
   enabled: true
-  default_model: gpt-4o
-  embedding_model: text-embedding-3-small
-  max_documents_per_assistant: 50
-  max_embeddings_per_document: 1000
+  auto_faq_generation: true
+  contact_memory: false
+  vision_support: true
 ```
 
 ---
 
-## Testing
+## Key Benefits of This Architecture
 
-### Test Files to Create
+1. **ruby_llm-agents** provides:
+   - Built-in execution tracking
+   - Cost analytics dashboard
+   - Token usage monitoring
+   - Caching with TTL
+   - Structured output schemas
 
-```
-spec/
-├── models/
-│   ├── ai_assistant_spec.rb
-│   ├── ai_document_spec.rb
-│   ├── ai_embedding_spec.rb
-│   └── ai_custom_tool_spec.rb
-├── services/
-│   └── ai_agent/
-│       ├── embedding_service_spec.rb
-│       ├── vector_search_service_spec.rb
-│       ├── chat_service_spec.rb
-│       └── crawlers/
-│           └── website_crawler_spec.rb
-├── jobs/
-│   └── ai_agent/
-│       └── response_job_spec.rb
-└── lib/
-    └── ai_agent/
-        └── tools/
-            ├── faq_lookup_tool_spec.rb
-            └── handoff_tool_spec.rb
-```
+2. **Agent Pattern** (from asatok):
+   - Declarative DSL for configuration
+   - Version-based cache invalidation
+   - Automatic instrumentation
+   - Timeout protection
 
----
+3. **MCP Tools** (from rivalbird):
+   - Clean tool abstraction
+   - Context via `Aloo::Current`
+   - Easy to add custom tools
 
-## Implementation Order
+4. **HNSW Vector Index**:
+   - Fast similarity search
+   - Scales to millions of embeddings
 
-1. **Week 1-2**: Phase 1 (Database & Models)
-2. **Week 2-3**: Phase 2 (Embeddings & Vector Search)
-3. **Week 3-4**: Phase 3 (Onboarding - Website, Files)
-4. **Week 4-5**: Phase 4 (AI Agent Core)
-5. **Week 5-6**: Phase 5 (Tools System)
-6. **Week 6-7**: Phase 6 (Conversation Integration)
-7. **Week 7-8**: Phase 7 (Frontend UI)
-8. **Week 8-9**: Phase 8 (Advanced Features)
-9. **Week 9-10**: Testing & Polish
+5. **TOON Serialization**:
+   - Token-efficient encoding for LLM
+   - Reduces costs on large responses
+
+6. **Personality & Language System**:
+   - User-configurable personality settings
+   - Arabic dialect support (15 regional dialects)
+   - Separation of admin vs user permissions
+   - Dynamic prompt generation based on settings
 
 ---
 
-## Security Considerations
+## Models Summary
 
-1. **API Key Storage**: Use Rails encrypted credentials for LLM API keys
-2. **Rate Limiting**: Implement rate limiting for AI responses
-3. **Content Filtering**: Add guardrails for inappropriate content
-4. **Data Privacy**: Ensure embeddings don't leak PII across accounts
-5. **Tool Execution**: Validate and sanitize all tool parameters
-6. **OAuth Tokens**: Use encrypted storage for Notion tokens
-
----
-
-## Monitoring & Observability
-
-1. **Usage Tracking**: Track AI response counts per account
-2. **Latency Monitoring**: Monitor response generation times
-3. **Error Tracking**: Log and alert on AI failures
-4. **Cost Tracking**: Monitor token usage for billing
-5. **Quality Metrics**: Track handoff rates and customer satisfaction
+| Model | Table | Description |
+|-------|-------|-------------|
+| `Aloo::Assistant` | `aloo_assistants` | Main configuration for AI agent |
+| `Aloo::Document` | `aloo_documents` | Knowledge base sources (website, file, notion) |
+| `Aloo::Embedding` | `aloo_embeddings` | Vector embeddings for semantic search |
+| `Aloo::CustomTool` | `aloo_custom_tools` | HTTP tool integrations |
+| `Aloo::ConversationContext` | `aloo_conversation_contexts` | Tracks AI usage per conversation |
+| `Aloo::NotionConnection` | `aloo_notion_connections` | Notion OAuth credentials |
+| `Aloo::AssistantInbox` | `aloo_assistant_inboxes` | Links assistants to inboxes |
 
 ---
 
-## Future Enhancements
+## Assistant Configuration Fields
 
-1. **Multi-Agent Scenarios**: Support for specialized sub-agents
-2. **Voice Support**: Audio message transcription and TTS responses
-3. **Image Understanding**: Process images in conversations
-4. **Proactive Outreach**: AI-initiated follow-ups
-5. **A/B Testing**: Test different prompts and configurations
-6. **Fine-tuning**: Support for custom fine-tuned models
+### User-Configurable (Personality & Language)
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `tone` | string | `friendly` | Communication style (professional, friendly, casual, formal) |
+| `formality` | string | `medium` | Formality level (high, medium, low) |
+| `empathy_level` | string | `medium` | Emotional acknowledgment (high, medium, low) |
+| `verbosity` | string | `balanced` | Response length (concise, balanced, detailed) |
+| `emoji_usage` | string | `minimal` | Emoji usage (none, minimal, moderate) |
+| `greeting_style` | string | `warm` | Greeting approach (warm, direct, custom) |
+| `custom_greeting` | text | null | Custom greeting message |
+| `language` | string | `en` | Response language code |
+| `dialect` | string | null | Regional dialect (e.g., EG, KW, SA for Arabic) |
+| `personality_description` | text | null | Free-form personality traits |
+
+### Admin-Only (Technical)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `system_prompt` | text | Base system instructions |
+| `response_guidelines` | text | How to format responses |
+| `guardrails` | text | Safety and compliance rules |
+| `admin_config` | jsonb | Model, temperature, max_tokens, features |
+| `active` | boolean | Enable/disable the assistant |
