@@ -43,10 +43,12 @@ export default {
       component: SettingsContent,
       props: params => {
         const showBackButton = params.name !== 'settings_aloo_list';
+        const fullWidth = params.name === 'settings_aloo_edit';
         return {
           headerTitle: 'ALOO.HEADER',
           icon: 'bot',
           showBackButton,
+          fullWidth,
         };
       },
       children: [
