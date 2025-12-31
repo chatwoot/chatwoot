@@ -1,37 +1,37 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Ban da vuot qua gioi han hoi thoai. Goi Hacker chi cho phep 500 hoi thoai.",
+      "INBOXES": "Ban da vuot qua gioi han hop thu den. Goi Hacker chi ho tro tro chuyen truc tuyen tren website. Cac hop thu den bo sung nhu email, WhatsApp v.v. can goi tra phi.",
+      "AGENTS": "Ban da vuot qua gioi han nhan vien. Goi cua ban chi cho phep {allowedAgents} nhan vien.",
+      "NON_ADMIN": "Vui long lien he quan tri vien de nang cap goi va tiep tuc su dung tat ca tinh nang."
     },
     "TITLE": "Cài đặt tài khoản",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Bo qua",
     "UPDATE": {
       "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
       "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "Xoa tai khoan cua ban",
+      "NOTE": "Khi ban xoa tai khoan, tat ca du lieu cua ban se bi xoa.",
+      "BUTTON_TEXT": "Xoa tai khoan cua ban",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
-        "BUTTON_TEXT": "Xoá",
-        "DISMISS": "Huỷ",
-        "PLACE_HOLDER": "Vui lòng điền {accountName} để xác nhận"
+        "TITLE": "Xoa tai khoan",
+        "MESSAGE": "Viec xoa tai khoan la khong the hoan tac. Nhap ten tai khoan ben duoi de xac nhan ban muon xoa vinh vien.",
+        "BUTTON_TEXT": "Xoa",
+        "DISMISS": "Huy",
+        "PLACE_HOLDER": "Vui long dien {accountName} de xac nhan"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "Tai khoan da duoc danh dau de xoa",
+      "FAILURE": "Khong the xoa tai khoan, vui long thu lai!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Tai khoan da len lich xoa",
+        "MESSAGE_MANUAL": "Tai khoan nay da duoc len lich xoa vao {deletionDate}. Day la yeu cau cua quan tri vien. Ban co the huy xoa truoc ngay nay.",
+        "MESSAGE_INACTIVITY": "Tai khoan nay da duoc len lich xoa vao {deletionDate} do khong hoat dong. Ban co the huy xoa truoc ngay nay.",
+        "CLEAR_BUTTON": "Huy lich xoa"
       }
     },
     "FORM": {
@@ -45,32 +45,32 @@
         "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "TITLE": "Tu dong giai quyet hoi thoai",
+        "NOTE": "Cau hinh nay cho phep tu dong giai quyet hoi thoai sau mot khoang thoi gian khong hoat dong.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
-          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "LABEL": "Thoi gian khong hoat dong",
+          "HELP": "Khoang thoi gian khong hoat dong sau do hoi thoai duoc tu dong giai quyet",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "Thoi gian tu dong giai quyet phai tu 10 phut den 999 ngay",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "Cai dat tu dong giai quyet da duoc cap nhat thanh cong",
+            "ERROR": "Khong the cap nhat cai dat tu dong giai quyet"
           }
         },
         "MESSAGE": {
-          "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-          "HELP": "Message sent to the customer after conversation is auto-resolved"
+          "LABEL": "Tin nhan tu dong giai quyet tuy chinh",
+          "PLACEHOLDER": "Hoi thoai da duoc danh dau giai quyet boi he thong do 15 ngay khong hoat dong",
+          "HELP": "Tin nhan gui cho khach hang sau khi hoi thoai duoc tu dong giai quyet"
         },
-        "PREFERENCES": "Preferences",
+        "PREFERENCES": "Tuy chon",
         "LABEL": {
-          "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "LABEL": "Them nhan sau khi tu dong giai quyet",
+          "PLACEHOLDER": "Chon mot nhan"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Bo qua hoi thoai dang cho phan hoi cua nhan vien"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "Luu thay doi"
       },
       "NAME": {
         "LABEL": "Tên tài khoản",
@@ -93,30 +93,30 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "Loai tru hoi thoai khong duoc cham soc",
+        "HELP": "Khi bat, he thong se bo qua viec giai quyet cac hoi thoai van dang cho phan hoi cua nhan vien."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "Phien am tin nhan am thanh",
+        "NOTE": "Tu dong phien am tin nhan am thanh trong hoi thoai. Tao ban ghi van ban moi khi tin nhan am thanh duoc gui hoac nhan, va hien thi ben canh tin nhan.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "Cai dat phien am am thanh da duoc cap nhat thanh cong",
+          "ERROR": "Khong the cap nhat cai dat phien am am thanh"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Thoi gian khong hoat dong de giai quyet",
+        "HELP": "Thoi gian sau do hoi thoai se tu dong giai quyet neu khong co hoat dong",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "Thoi gian tu dong giai quyet phai tu 10 phut den 999 ngay",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Cai dat tu dong giai quyet da duoc cap nhat thanh cong",
+          "ERROR": "Khong the cap nhat cai dat tu dong giai quyet"
         },
-        "UPDATE_BUTTON": "Cập nhật",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "UPDATE_BUTTON": "Cap nhat",
+        "MESSAGE_LABEL": "Tin nhan giai quyet tuy chinh",
+        "MESSAGE_PLACEHOLDER": "Hoi thoai da duoc danh dau giai quyet boi he thong do 15 ngay khong hoat dong",
+        "MESSAGE_HELP": "Tin nhan nay duoc gui cho khach hang khi hoi thoai duoc he thong tu dong giai quyet do khong hoat dong."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
@@ -125,16 +125,16 @@
     },
     "UPDATE_CHATWOOT": "Đã có bản cập nhật {latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
     "LEARN_MORE": "Tìm hiểu thêm",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "PAYMENT_PENDING": "Thanh toan cua ban dang cho xu ly. Vui long cap nhat thong tin thanh toan de tiep tuc su dung Chatwoot",
+    "UPGRADE": "Nang cap de tiep tuc su dung Chatwoot",
+    "LIMITS_UPGRADE": "Tai khoan cua ban da vuot gioi han su dung, vui long nang cap goi de tiep tuc su dung Chatwoot",
+    "OPEN_BILLING": "Mo hoa don"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Bấm enter để chọn",
       "ENTER_TO_REMOVE": "Bấm enter để xoá",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "Danh sach trong",
       "SELECT_ONE": "Chọn một",
       "SELECT": "Chọn"
     }
@@ -172,9 +172,9 @@
   },
   "NETWORK": {
     "NOTIFICATION": {
-      "OFFLINE": "Không Trực Tuyến",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "OFFLINE": "Khong truc tuyen",
+      "RECONNECTING": "Dang ket noi lai...",
+      "RECONNECT_SUCCESS": "Da ket noi lai"
     },
     "BUTTON": {
       "REFRESH": "Làm mới"
@@ -186,17 +186,17 @@
       "GENERAL": "Chung",
       "REPORTS": "Báo cáo",
       "CONVERSATION": "Hội thoại",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "Thao tac hang loat",
       "CHANGE_ASSIGNEE": "Thay đổi người được phân công",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Thay doi muc do uu tien",
       "CHANGE_TEAM": "Thay đổi nhóm",
       "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
       "ADD_LABEL": "Thêm nhãn vào hội thoại",
       "REMOVE_LABEL": "Xoá nhãn khỏi hội thoại",
       "SETTINGS": "Cài đặt",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "Giao dien",
+      "SNOOZE_NOTIFICATION": "Tam dung thong bao"
     },
     "COMMANDS": {
       "GO_TO_CONVERSATION_DASHBOARD": "Đi tới Trang tổng quan hội thoại",
@@ -219,7 +219,7 @@
       "ADD_LABELS_TO_CONVERSATION": "Thêm nhãn vào hội thoại",
       "ASSIGN_AN_AGENT": "Gán cho tổng đài viên",
       "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "Gan muc do uu tien",
       "ASSIGN_A_TEAM": "Phân công một nhóm",
       "MUTE_CONVERSATION": "Tắt tiếng hội thoại",
       "UNMUTE_CONVERSATION": "Bật tiếng hội thoại",
@@ -231,21 +231,21 @@
       "UNTIL_NEXT_REPLY": "Cho đến phản hồi kế tiếp",
       "UNTIL_NEXT_WEEK": "Cho đến tuần sau",
       "UNTIL_TOMORROW": "Cho đến ngày mai",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "UNTIL_CUSTOM_TIME": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "UNTIL_NEXT_MONTH": "Cho den thang sau",
+      "AN_HOUR_FROM_NOW": "Cho den mot gio nua",
+      "UNTIL_CUSTOM_TIME": "Tuy chinh...",
+      "CHANGE_APPEARANCE": "Thay doi giao dien",
+      "LIGHT_MODE": "Sang",
+      "DARK_MODE": "Toi",
+      "SYSTEM_MODE": "He thong",
+      "SNOOZE_NOTIFICATION": "Tam dung thong bao"
     }
   },
   "DASHBOARD_APPS": {
     "LOADING_MESSAGE": "Đang tải dữ liệu..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Hoac",
     "CLICK_HERE": "click vào đây"
   }
 }

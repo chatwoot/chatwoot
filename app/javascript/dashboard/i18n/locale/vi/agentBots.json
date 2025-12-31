@@ -1,100 +1,100 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
-    "GLOBAL_BOT_BADGE": "System",
+    "LOADING_EDITOR": "Dang tai trinh bien tap...",
+    "DESCRIPTION": "Bot dai ly giong nhu thanh vien tuyet voi nhat trong nhom cua ban. Ho co the xu ly nhung viec nho de ban tap trung vao nhung viec quan trong. Hay thu. Ban co the quan ly bot tu trang nay hoac tao bot moi bang nut 'Them Bot'.",
+    "LEARN_MORE": "Tim hieu ve bot dai ly",
+    "GLOBAL_BOT": "Bot he thong",
+    "GLOBAL_BOT_BADGE": "He thong",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "Anh dai dien bot da duoc xoa thanh cong",
+      "ERROR_DELETE": "Loi khi xoa anh dai dien bot, vui long thu lai"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
-      "SUBMIT": "Cập nhật",
-      "DISCONNECT": "Disconnect bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "TITLE": "Chon mot bot dai ly",
+      "DESC": "Gan Bot dai ly cho hop thu den cua ban. Ho co the xu ly hoi thoai ban dau va chuyen cho nhan vien khi can.",
+      "SUBMIT": "Cap nhat",
+      "DISCONNECT": "Ngat ket noi bot",
+      "SUCCESS_MESSAGE": "Da cap nhat bot dai ly thanh cong.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Da ngat ket noi bot dai ly thanh cong.",
+      "ERROR_MESSAGE": "Khong the cap nhat bot dai ly. Vui long thu lai.",
+      "DISCONNECTED_ERROR_MESSAGE": "Khong the ngat ket noi bot dai ly. Vui long thu lai.",
+      "SELECT_PLACEHOLDER": "Chon bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "Them Bot",
+      "CANCEL_BUTTON_TEXT": "Huy",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "SUCCESS_MESSAGE": "Bot da duoc them thanh cong.",
+        "ERROR_MESSAGE": "Khong the them bot. Vui long thu lai sau."
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
-      "LOADING": "Fetching bots...",
+      "404": "Khong tim thay bot nao. Ban co the tao bot bang cach nhan nut 'Them Bot'.",
+      "LOADING": "Dang tai bot...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Chi tiet Bot",
         "URL": "Webhook URL"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
-      "TITLE": "Delete bot",
+      "BUTTON_TEXT": "Xoa",
+      "TITLE": "Xoa bot",
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Are you sure you want to delete {name}?",
-        "YES": "Có, Xoá",
-        "NO": "Không, giữ"
+        "TITLE": "Xac nhan xoa",
+        "MESSAGE": "Ban co chac chan muon xoa {name}?",
+        "YES": "Co, Xoa",
+        "NO": "Khong, giu"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "SUCCESS_MESSAGE": "Bot da duoc xoa thanh cong.",
+        "ERROR_MESSAGE": "Khong the xoa bot. Vui long thu lai."
       }
     },
     "EDIT": {
-      "BUTTON_TEXT": "Chỉnh sửa",
-      "TITLE": "Edit bot",
+      "BUTTON_TEXT": "Chinh sua",
+      "TITLE": "Sua bot",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "SUCCESS_MESSAGE": "Bot da duoc cap nhat thanh cong.",
+        "ERROR_MESSAGE": "Khong the cap nhat bot. Vui long thu lai."
       }
     },
     "ACCESS_TOKEN": {
-      "TITLE": "Token truy cập",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "TITLE": "Token truy cap",
+      "DESCRIPTION": "Sao chep token truy cap va luu giu an toan",
+      "COPY_SUCCESSFUL": "Token truy cap da duoc sao chep vao bo nho tam",
+      "RESET_SUCCESS": "Token truy cap da duoc tao lai thanh cong",
+      "RESET_ERROR": "Khong the tao lai token truy cap. Vui long thu lai"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "Anh dai dien bot"
       },
       "NAME": {
-        "LABEL": "Bot name",
-        "PLACEHOLDER": "Enter bot name",
-        "REQUIRED": "Bot name is required"
+        "LABEL": "Ten bot",
+        "PLACEHOLDER": "Nhap ten bot",
+        "REQUIRED": "Ten bot la bat buoc"
       },
       "DESCRIPTION": {
-        "LABEL": "Mô tả",
-        "PLACEHOLDER": "Bot này sẽ làm gì?"
+        "LABEL": "Mo ta",
+        "PLACEHOLDER": "Bot nay se lam gi?"
       },
       "WEBHOOK_URL": {
         "LABEL": "Webhook URL",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "Webhook URL la bat buoc"
       },
       "ERRORS": {
-        "NAME": "Bot name is required",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "NAME": "Ten bot la bat buoc",
+        "URL": "Webhook URL la bat buoc",
+        "VALID_URL": "Vui long nhap URL hop le bat dau bang http:// hoac https://"
       },
-      "CANCEL": "Huỷ",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CANCEL": "Huy",
+      "CREATE": "Tao Bot",
+      "UPDATE": "Cap nhat Bot"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Cau hinh webhook bot de tich hop voi dich vu tuy chinh cua ban. Bot se nhan va xu ly su kien tu hoi thoai va co the phan hoi chung."
     },
     "TYPES": {
       "WEBHOOK": "Webhook bot"

@@ -1,23 +1,23 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Chien dich tro chuyen truc tuyen",
+      "NEW_CAMPAIGN": "Tao chien dich",
       "CARD": {
         "STATUS": {
-          "ENABLED": "Bật",
-          "DISABLED": "Không bật"
+          "ENABLED": "Bat",
+          "DISABLED": "Khong bat"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_BY": "Gửi bởi",
+          "SENT_BY": "Gui boi",
           "BOT": "Bot",
-          "FROM": "từ",
+          "FROM": "tu",
           "URL": "URL:"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Khong co chien dich tro chuyen truc tuyen nao",
+        "SUBTITLE": "Ket noi voi khach hang bang tin nhan chu dong. Nhan 'Tao chien dich' de bat dau."
       },
       "CREATE": {
         "TITLE": "Create a live chat campaign",
@@ -55,9 +55,9 @@
             "ERROR": "Thời gian trên trang là bắt buộc"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
-            "ENABLED": "Vận hành chiến dịch",
-            "TRIGGER_ONLY_BUSINESS_HOURS": "Chỉ kích hoạt trong giờ làm việc"
+            "TITLE": "Tuy chon khac",
+            "ENABLED": "Van hanh chien dich",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "Chi kich hoat trong gio lam viec"
           },
           "BUTTONS": {
             "CREATE": "Tạo",

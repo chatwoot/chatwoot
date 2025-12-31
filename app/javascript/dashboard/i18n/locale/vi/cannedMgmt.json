@@ -1,76 +1,76 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Thư mẫu phẩn hồi",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
-    "HEADER_BTN_TXT": "Add canned response",
-    "LOADING": "Fetching canned responses...",
-    "SEARCH_404": "Không có kết quả nào phù hợp.",
+    "LEARN_MORE": "Tim hieu them ve thu mau phan hoi",
+    "DESCRIPTION": "Thu mau phan hoi la cac mau tra loi viet san giup ban phan hoi nhanh cuoc hoi thoai. Nhan vien co the go ky tu '/' theo sau la ma ngan de chen thu mau phan hoi trong cuoc hoi thoai.",
+    "HEADER_BTN_TXT": "Them thu mau phan hoi",
+    "LOADING": "Dang tai thu mau phan hoi...",
+    "SEARCH_404": "Khong co ket qua nao phu hop.",
     "LIST": {
-      "404": "Không có câu trả lời soạn trước nào có sẵn trong tài khoản này.",
-      "TITLE": "Quản lý thư mẫu phẩn hồi",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
+      "404": "Khong co thu mau phan hoi nao trong tai khoan nay.",
+      "TITLE": "Quan ly thu mau phan hoi",
+      "DESC": "Thu mau phan hoi la cac mau tra loi dinh nghia truoc co the duoc su dung de gui phan hoi nhanh cho cac cuoc hoi thoai.",
       "TABLE_HEADER": {
-        "SHORT_CODE": "Short code",
-        "CONTENT": "Nội dung",
-        "ACTIONS": "Hành động"
+        "SHORT_CODE": "Ma ngan",
+        "CONTENT": "Noi dung",
+        "ACTIONS": "Hanh dong"
       }
     },
     "ADD": {
-      "TITLE": "Add canned response",
-      "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "Them thu mau phan hoi",
+      "DESC": "Thu mau phan hoi la cac mau tra loi dinh nghia truoc co the duoc su dung de gui phan hoi nhanh cho cac cuoc hoi thoai.",
+      "CANCEL_BUTTON_TEXT": "Huy",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a short code.",
-          "ERROR": "Short Code is required."
+          "LABEL": "Ma ngan",
+          "PLACEHOLDER": "Vui long nhap ma ngan.",
+          "ERROR": "Ma ngan la bat buoc."
         },
         "CONTENT": {
-          "LABEL": "Tin nhắn",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
+          "LABEL": "Tin nhan",
+          "PLACEHOLDER": "Vui long viet tin nhan ban muon luu lam mau de su dung sau.",
+          "ERROR": "Tin nhan la bat buoc."
         },
-        "SUBMIT": "Gửi"
+        "SUBMIT": "Gui"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Canned response added successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "Thu mau phan hoi da duoc them thanh cong.",
+        "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot. Vui long thu lai."
       }
     },
     "EDIT": {
-      "TITLE": "Edit canned response",
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "TITLE": "Sua thu mau phan hoi",
+      "CANCEL_BUTTON_TEXT": "Huy",
       "FORM": {
         "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
+          "LABEL": "Ma ngan",
+          "PLACEHOLDER": "Vui long nhap ma ngan.",
+          "ERROR": "Ma ngan la bat buoc."
         },
         "CONTENT": {
-          "LABEL": "Tin nhắn",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Thông điệp bắt buộc có."
+          "LABEL": "Tin nhan",
+          "PLACEHOLDER": "Vui long viet tin nhan ban muon luu lam mau de su dung sau.",
+          "ERROR": "Tin nhan la bat buoc."
         },
-        "SUBMIT": "Gửi"
+        "SUBMIT": "Gui"
       },
-      "BUTTON_TEXT": "Chỉnh sửa",
+      "BUTTON_TEXT": "Chinh sua",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response is updated successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "Thu mau phan hoi da duoc cap nhat thanh cong.",
+        "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot. Vui long thu lai."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "Xoa",
       "API": {
-        "SUCCESS_MESSAGE": "Canned response deleted successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "Thu mau phan hoi da duoc xoa thanh cong.",
+        "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot. Vui long thu lai."
       },
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có chắc muốn xoá? ",
-        "YES": "Yes, delete ",
-        "NO": "No, keep "
+        "TITLE": "Xac nhan xoa",
+        "MESSAGE": "Ban co chac muon xoa? ",
+        "YES": "Co, xoa ",
+        "NO": "Khong, giu "
       }
     }
   }

@@ -3,8 +3,8 @@
     "HEADER": "Nhãn",
     "HEADER_BTN_TXT": "Thêm nhãn",
     "LOADING": "Tải về các nhãn",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "Nhan giup ban phan loai va uu tien hoi thoai va khach hang tiem nang. Ban co the gan nhan cho hoi thoai hoac lien he bang bang dieu khien ben.",
+    "LEARN_MORE": "Tim hieu them ve nhan",
     "SEARCH_404": "Không có kết quả nào phù hợp",
     "LIST": {
       "404": "Không có nhãn nào có sẵn trong tài khoản này.",
@@ -41,17 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "Them nhan vao hoi thoai",
+        "MULTIPLE_SUGGESTION": "Chon nhan nay",
+        "DESELECT": "Bo chon nhan",
+        "DISMISS": "Bo qua goi y"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "DISMISS": "Bo qua",
+      "ADD_SELECTED_LABELS": "Them cac nhan da chon",
+      "ADD_SELECTED_LABEL": "Them nhan da chon",
+      "ADD_ALL_LABELS": "Them tat ca nhan",
+      "SUGGESTED_LABELS": "Nhan duoc goi y"
     },
     "ADD": {
       "TITLE": "Thêm nhãn",

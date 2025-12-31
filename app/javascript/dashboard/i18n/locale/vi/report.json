@@ -4,8 +4,8 @@
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DATA_FETCHING_FAILED": "Khong the tai du lieu, vui long thu lai sau.",
+    "SUMMARY_FETCHING_FAILED": "Khong the tai tom tat, vui long thu lai sau.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc trò chuyện",
@@ -40,12 +40,12 @@
         "DESC": "( Tổng cộng )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( Tổng cộng )"
+        "NAME": "So luong ban giao",
+        "DESC": "( Tong cong )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "NAME": "Thoi gian cho cua khach hang",
+        "TOOLTIP_TEXT": "Thoi gian cho la {metricValue} (dua tren {conversationCount} tra loi)",
         "DESC": ""
       }
     },
@@ -53,8 +53,8 @@
       "LAST_7_DAYS": "7 ngày cuối",
       "LAST_14_DAYS": "14 ngày cuối",
       "LAST_30_DAYS": "30 ngày cuối",
-      "THIS_MONTH": "This month",
-      "LAST_MONTH": "Last month",
+      "THIS_MONTH": "Thang nay",
+      "LAST_MONTH": "Thang truoc",
       "LAST_3_MONTHS": "3 tháng vừa qua",
       "LAST_6_MONTHS": "6 tháng vừa qua",
       "LAST_YEAR": "Năm ngoái",
@@ -118,17 +118,17 @@
     ],
     "BUSINESS_HOURS": "Giờ làm việc",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Xoa bo loc",
       "EMPTY_LIST": "Không tìm thấy kết quả"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
+      "RESULTS": "Hien thi {start} den {end} cua {total} ket qua",
+      "PER_PAGE_TEMPLATE": "{size} / trang"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Tổng quan đại lý",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "De dang theo doi hieu suat nhan vien voi cac chi so quan trong nhu hoi thoai, thoi gian phan hoi, thoi gian giai quyet va cac truong hop da giai quyet. Nhan vao ten nhan vien de xem chi tiet.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
@@ -196,7 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Tổng quan nhãn",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "Theo doi hieu suat nhan voi cac chi so quan trong bao gom hoi thoai, thoi gian phan hoi, thoi gian giai quyet va cac truong hop da giai quyet. Nhan vao ten nhan de xem chi tiet.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_LABEL_REPORTS": "Tải xuống báo cáo nhãn",
@@ -264,13 +264,13 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Tổng quan hộp thư đến",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "DESCRIPTION": "Xem nhanh hieu suat hop thu den voi cac chi so quan trong nhu hoi thoai, thoi gian phan hoi, thoi gian giai quyet va cac truong hop da giai quyet - tat ca o mot noi. Nhan vao ten hop thu den de xem chi tiet.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_INBOX_REPORTS": "Tải xuống báo cáo hộp thư đến",
     "FILTER_DROPDOWN_LABEL": "Chọn Hộp thư đến",
-    "ALL_INBOXES": "All Inboxes",
-    "SEARCH_INBOX": "Search Inbox",
+    "ALL_INBOXES": "Tat ca hop thu den",
+    "SEARCH_INBOX": "Tim kiem hop thu den",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -334,7 +334,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Tổng quan nhóm",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Xem tong quan hieu suat nhom voi cac chi so quan trong, bao gom hoi thoai, thoi gian phan hoi, thoi gian giai quyet va cac truong hop da giai quyet. Nhan vao ten nhom de xem chi tiet.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_TEAM_REPORTS": "Tải xuống báo cáo nhóm",
@@ -404,7 +404,7 @@
     "HEADER": "Báo cáo CSAT",
     "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
     "DOWNLOAD": "Tải về các báo cáo CSAT",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
+    "DOWNLOAD_FAILED": "Khong the tai bao cao CSAT",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "Chọn tổng đài viên"
@@ -434,23 +434,23 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Bao cao Bot",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "LABEL": "So hoi thoai",
+        "TOOLTIP": "Tong so hoi thoai duoc xu ly boi bot"
       },
       "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
+        "LABEL": "Tong phan hoi",
+        "TOOLTIP": "Tong so phan hoi duoc gui boi bot"
       },
       "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "LABEL": "Ty le giai quyet",
+        "TOOLTIP": "Tong so hoi thoai duoc giai quyet boi bot / Tong so hoi thoai duoc xu ly boi bot * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Ty le ban giao",
+        "TOOLTIP": "Tong so hoi thoai duoc ban giao cho nhan vien / Tong so hoi thoai duoc xu ly boi bot * 100"
       }
     }
   },

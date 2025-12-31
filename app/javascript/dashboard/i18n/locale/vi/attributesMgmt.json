@@ -3,8 +3,8 @@
     "HEADER": "Thuộc tính tùy chỉnh",
     "HEADER_BTN_TXT": "Thêm thuộc tính Tùy chỉnh",
     "LOADING": "Đang lấy thuộc tính tuỳ chỉnh",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "DESCRIPTION": "Thuoc tinh tuy chinh theo doi cac chi tiet bo sung ve lien he hoac hoi thoai cua ban—nhu goi dich vu hoac ngay mua hang dau tien. Ban co the them cac loai thuoc tinh tuy chinh khac nhau, nhu van ban, danh sach hoac so, de ghi lai thong tin cu the ban can.",
+    "LEARN_MORE": "Tim hieu them ve thuoc tinh tuy chinh",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Cuộc hội thoại",
       "CONTACT": "Liên hệ"
@@ -13,7 +13,7 @@
       "TEXT": "Văn bản",
       "NUMBER": "Số",
       "LINK": "Liên kết",
-      "DATE": "Date",
+      "DATE": "Ngay",
       "LIST": "Danh sách",
       "CHECKBOX": "Hộp kiểm"
     },
@@ -54,20 +54,20 @@
           "IN_VALID": "Khoá không hợp lệ"
         },
         "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+          "LABEL": "Mau Regex",
+          "PLACEHOLDER": "Vui long nhap mau regex thuoc tinh tuy chinh. (Tuy chon)"
         },
         "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+          "LABEL": "Goi y Regex",
+          "PLACEHOLDER": "Vui long nhap goi y mau regex. (Tuy chon)"
         },
         "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
+          "LABEL": "Bat xac thuc regex"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Thuộc tính tuỳ chỉnh được thêm thành công!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Thuoc tinh tuy chinh duoc them thanh cong!",
+        "ERROR_MESSAGE": "Khong the tao thuoc tinh tuy chinh. Vui long thu lai sau."
       }
     },
     "DELETE": {
@@ -105,34 +105,34 @@
     },
     "LIST": {
       "TABLE_HEADER": {
-        "NAME": "Tên",
-        "DESCRIPTION": "Mô tả",
-        "TYPE": "Kiểu",
-        "KEY": "Khoá"
+        "NAME": "Ten",
+        "DESCRIPTION": "Mo ta",
+        "TYPE": "Kieu",
+        "KEY": "Khoa"
       },
       "BUTTONS": {
-        "EDIT": "Chỉnh sửa",
-        "DELETE": "Xoá"
+        "EDIT": "Chinh sua",
+        "DELETE": "Xoa"
       },
       "EMPTY_RESULT": {
-        "404": "Không có thuộc tính tuỳ chỉnh nào được tạo",
-        "NOT_FOUND": "Không có thuộc tính tuỳ chỉnh nào được cấu hình"
+        "404": "Khong co thuoc tinh tuy chinh nao duoc tao",
+        "NOT_FOUND": "Khong co thuoc tinh tuy chinh nao duoc cau hinh"
       },
       "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
+        "LABEL": "Mau Regex",
+        "PLACEHOLDER": "Vui long nhap mau regex thuoc tinh tuy chinh. (Tuy chon)"
       },
       "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
+        "LABEL": "Goi y Regex",
+        "PLACEHOLDER": "Vui long nhap goi y mau regex. (Tuy chon)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "LABEL": "Bat xac thuc regex"
       }
     },
     "BADGES": {
-      "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "PRE_CHAT": "Truoc tro chuyen",
+      "RESOLUTION": "Giai quyet"
     }
   }
 }

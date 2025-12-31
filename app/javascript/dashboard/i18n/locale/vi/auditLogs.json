@@ -1,77 +1,77 @@
 {
   "AUDIT_LOGS": {
-    "HEADER": "Audit Logs",
-    "HEADER_BTN_TXT": "Add Audit Logs",
-    "LOADING": "Fetching Audit Logs",
-    "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
-    "LEARN_MORE": "Learn more about audit logs",
-    "SEARCH_404": "Không có kết quả nào được tìm thấy",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "HEADER": "Nhat ky kiem toan",
+    "HEADER_BTN_TXT": "Them nhat ky kiem toan",
+    "LOADING": "Dang tai nhat ky kiem toan",
+    "DESCRIPTION": "Nhat ky kiem toan luu giu ho so cac hoat dong trong tai khoan cua ban, cho phep ban theo doi va kiem toan tai khoan, nhom hoac dich vu.",
+    "LEARN_MORE": "Tim hieu them ve nhat ky kiem toan",
+    "SEARCH_404": "Khong co ket qua nao duoc tim thay",
+    "SIDEBAR_TXT": "<p><b>Nhat ky kiem toan</b> </p><p> Nhat ky kiem toan la cac ban ghi cho su kien va hanh dong trong he thong Chatwoot. </p>",
     "LIST": {
-      "404": "There are no Audit Logs available in this account.",
-      "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "404": "Khong co nhat ky kiem toan nao trong tai khoan nay.",
+      "TITLE": "Quan ly nhat ky kiem toan",
+      "DESC": "Nhat ky kiem toan la cac ban ghi cho su kien va hanh dong trong he thong Chatwoot.",
       "TABLE_HEADER": {
-        "ACTIVITY": "User",
-        "TIME": "Action",
-        "IP_ADDRESS": "Địa chỉ IP"
+        "ACTIVITY": "Nguoi dung",
+        "TIME": "Hanh dong",
+        "IP_ADDRESS": "Dia chi IP"
       }
     },
     "API": {
-      "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Không thể kết nối với Máy chủ Woot, Vui lòng thử lại sau"
+      "SUCCESS_MESSAGE": "Nhat ky kiem toan da duoc tai thanh cong",
+      "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot, vui long thu lai sau"
     },
-    "DEFAULT_USER": "System",
+    "DEFAULT_USER": "He thong",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} created a new automation rule (#{id})",
-      "EDIT": "{agentName} updated an automation rule (#{id})",
-      "DELETE": "{agentName} deleted an automation rule (#{id})"
+      "ADD": "{agentName} da tao quy tac tu dong hoa moi (#{id})",
+      "EDIT": "{agentName} da cap nhat quy tac tu dong hoa (#{id})",
+      "DELETE": "{agentName} da xoa quy tac tu dong hoa (#{id})"
     },
     "ACCOUNT_USER": {
-      "ADD": "{agentName} invited {invitee} to the account as an {role}",
+      "ADD": "{agentName} da moi {invitee} vao tai khoan voi vai tro {role}",
       "EDIT": {
-        "SELF": "{agentName} changed their {attributes} to {values}",
-        "OTHER": "{agentName} changed {attributes} of {user} to {values}",
-        "DELETED": "{agentName} changed {attributes} of a deleted user to {values}"
+        "SELF": "{agentName} da doi {attributes} cua ho thanh {values}",
+        "OTHER": "{agentName} da doi {attributes} cua {user} thanh {values}",
+        "DELETED": "{agentName} da doi {attributes} cua nguoi dung da xoa thanh {values}"
       }
     },
     "INBOX": {
-      "ADD": "{agentName} created a new inbox (#{id})",
-      "EDIT": "{agentName} updated an inbox (#{id})",
-      "DELETE": "{agentName} deleted an inbox (#{id})"
+      "ADD": "{agentName} da tao hop thu den moi (#{id})",
+      "EDIT": "{agentName} da cap nhat hop thu den (#{id})",
+      "DELETE": "{agentName} da xoa hop thu den (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} created a new webhook (#{id})",
-      "EDIT": "{agentName} updated a webhook (#{id})",
-      "DELETE": "{agentName} deleted a webhook (#{id})"
+      "ADD": "{agentName} da tao webhook moi (#{id})",
+      "EDIT": "{agentName} da cap nhat webhook (#{id})",
+      "DELETE": "{agentName} da xoa webhook (#{id})"
     },
     "USER_ACTION": {
-      "SIGN_IN": "{agentName} signed in",
-      "SIGN_OUT": "{agentName} signed out"
+      "SIGN_IN": "{agentName} da dang nhap",
+      "SIGN_OUT": "{agentName} da dang xuat"
     },
     "TEAM": {
-      "ADD": "{agentName} created a new team (#{id})",
-      "EDIT": "{agentName} updated a team (#{id})",
-      "DELETE": "{agentName} deleted a team (#{id})"
+      "ADD": "{agentName} da tao nhom moi (#{id})",
+      "EDIT": "{agentName} da cap nhat nhom (#{id})",
+      "DELETE": "{agentName} da xoa nhom (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} created a new macro (#{id})",
-      "EDIT": "{agentName} updated a macro (#{id})",
-      "DELETE": "{agentName} deleted a macro (#{id})"
+      "ADD": "{agentName} da tao macro moi (#{id})",
+      "EDIT": "{agentName} da cap nhat macro (#{id})",
+      "DELETE": "{agentName} da xoa macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
-      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
+      "ADD": "{agentName} da them {user} vao hop thu den (#{inbox_id})",
+      "REMOVE": "{agentName} da xoa {user} khoi hop thu den (#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} added {user} to the team(#{team_id})",
-      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
+      "ADD": "{agentName} da them {user} vao nhom (#{team_id})",
+      "REMOVE": "{agentName} da xoa {user} khoi nhom (#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} updated the account configuration (#{id})"
+      "EDIT": "{agentName} da cap nhat cau hinh tai khoan (#{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} deleted conversation #{id}"
+      "DELETE": "{agentName} da xoa hoi thoai #{id}"
     }
   }
 }

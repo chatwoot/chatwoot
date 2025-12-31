@@ -44,25 +44,25 @@
         "CHOOSE_PLACEHOLDER": "Chọn một trang từ danh sách",
         "INBOX_NAME": "Tên hộp thư đến",
         "ADD_NAME": "Thêm tên cho hộp thư đến của bạn",
-        "PICK_NAME": "Pick a Name for your Inbox",
+        "PICK_NAME": "Chọn tên cho hộp thư đến của bạn",
         "PICK_A_VALUE": "Chọn một giá trị",
         "CREATE_INBOX": "Tạo Hộp thư đến"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Tiếp tục với Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Kết nối hồ sơ Instagram của bạn",
+        "HELP": "Để thêm hồ sơ Instagram của bạn làm kênh, bạn cần xác thực Hồ sơ Instagram bằng cách nhấp vào 'Tiếp tục với Instagram'",
+        "ERROR_MESSAGE": "Đã xảy ra lỗi khi kết nối Instagram, vui lòng thử lại",
+        "ERROR_AUTH": "Đã xảy ra lỗi khi kết nối Instagram, vui lòng thử lại",
+        "NEW_INBOX_SUGGESTION": "Tài khoản Instagram này trước đó đã liên kết với hộp thư đến khác và đã được chuyển sang đây. Tất cả tin nhắn mới sẽ xuất hiện ở đây. Hộp thư đến cũ sẽ không thể gửi/nhận tin nhắn Instagram cho tài khoản này nữa.",
+        "DUPLICATE_INBOX_BANNER": "Tài khoản Instagram này đã được chuyển sang hộp thư đến kênh Instagram mới. Bạn sẽ không thể gửi/nhận tin nhắn Instagram từ hộp thư đến này nữa."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Tiep tuc voi TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Ket noi ho so TikTok cua ban",
+        "HELP": "De them ho so TikTok cua ban lam kenh, ban can xac thuc Ho so TikTok bang cach nhan 'Tiep tuc voi TikTok'",
+        "ERROR_MESSAGE": "Da xay ra loi khi ket noi TikTok, vui long thu lai",
+        "ERROR_AUTH": "Da xay ra loi khi ket noi TikTok, vui long thu lai"
       },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
@@ -80,7 +80,7 @@
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Vui long nhap Webhook URL cua ban",
           "ERROR": "Vui lòng nhập một URL hợp lệ"
         },
         "CHANNEL_DOMAIN": {
@@ -130,14 +130,14 @@
           "ERROR": "Trường này là bắt buộc"
         },
         "API_KEY": {
-          "USE_API_KEY": "Use API Key Authentication",
+          "USE_API_KEY": "Su dung xac thuc API Key",
           "LABEL": "API Key SID",
-          "PLACEHOLDER": "Please enter your API Key SID",
+          "PLACEHOLDER": "Vui long nhap API Key SID cua ban",
           "ERROR": "Trường này là bắt buộc"
         },
         "API_KEY_SECRET": {
           "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Please enter your API Key Secret",
+          "PLACEHOLDER": "Vui long nhap API Key Secret cua ban",
           "ERROR": "Trường này là bắt buộc"
         },
         "MESSAGING_SERVICE_SID": {
@@ -193,12 +193,12 @@
           },
           "API_KEY": {
             "LABEL": "Khoá API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
+            "PLACEHOLDER": "Vui long nhap Bandwidth API Key cua ban",
             "ERROR": "Trường này là bắt buộc"
           },
           "API_SECRET": {
             "LABEL": "Bí mật API",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
+            "PLACEHOLDER": "Vui long nhap Bandwidth API Secret cua ban",
             "ERROR": "Trường này là bắt buộc"
           },
           "APPLICATION_ID": {
@@ -239,8 +239,8 @@
           "360_DIALOG": "360Dialog"
         },
         "SELECT_PROVIDER": {
-          "TITLE": "Select your API provider",
-          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+          "TITLE": "Chon nha cung cap API cua ban",
+          "DESCRIPTION": "Chon nha cung cap WhatsApp cua ban. Ban co the ket noi truc tiep qua Meta khong can cai dat, hoac ket noi qua Twilio bang thong tin dang nhap tai khoan."
         },
         "INBOX_NAME": {
           "LABEL": "Tên hộp thư đến",
@@ -264,7 +264,7 @@
         },
         "WEBHOOK_VERIFY_TOKEN": {
           "LABEL": "Token xác thực Webhook",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
+          "PLACEHOLDER": "Nhap ma xac minh ma ban muon cau hinh cho Facebook webhooks.",
           "ERROR": "Vui lòng điền giá trị hợp lệ."
         },
         "API_KEY": {
@@ -313,33 +313,33 @@
         }
       },
       "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "TITLE": "Kenh thoai",
+        "DESC": "Tich hop Twilio Voice va bat dau ho tro khach hang qua cuoc goi dien thoai.",
         "PHONE_NUMBER": {
           "LABEL": "Số điện thoại",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "Nhap so dien thoai cua ban (vi du: +1234567890)",
+          "ERROR": "Vui long cung cap so dien thoai hop le theo dinh dang E.164 (vi du: +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "Tài khoản SID",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "Nhap Twilio Account SID cua ban",
+            "REQUIRED": "Yeu cau Account SID"
           },
           "AUTH_TOKEN": {
             "LABEL": "Token xác thực",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "Nhap Twilio Auth Token cua ban",
+            "REQUIRED": "Yeu cau Auth Token"
           },
           "API_KEY_SID": {
             "LABEL": "API Key SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Nhap Twilio API Key SID cua ban",
+            "REQUIRED": "Yeu cau API Key SID"
           },
           "API_KEY_SECRET": {
             "LABEL": "API Key Secret",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "Nhap Twilio API Key Secret cua ban",
+            "REQUIRED": "Yeu cau API Key Secret"
           }
         },
         "CONFIGURATION": {
@@ -348,9 +348,9 @@
           "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
           "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Tao kenh thoai",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Chung toi khong the tao kenh thoai"
         }
       },
       "API_CHANNEL": {
@@ -363,7 +363,7 @@
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Cau hinh URL noi ban muon nhan callback cac su kien.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Tạo kênh API",
@@ -373,7 +373,7 @@
       },
       "EMAIL_CHANNEL": {
         "TITLE": "Kênh Email",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Tich hop hop thu den email cua ban.",
         "CHANNEL_NAME": {
           "LABEL": "Tên kênh",
           "PLACEHOLDER": "Vui lòng nhập tên kênh",
@@ -381,7 +381,7 @@
         },
         "EMAIL": {
           "LABEL": "Email",
-          "SUBTITLE": "Provide the email address where your customers send support requests.",
+          "SUBTITLE": "Cung cap dia chi email ma khach hang cua ban gui yeu cau ho tro.",
           "PLACEHOLDER": "Email"
         },
         "SUBMIT_BUTTON": "Tạo kênh Email",
@@ -392,7 +392,7 @@
         "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
         "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
         "CONFIGURE_SMTP_IMAP_LINK": "Click vào đây",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " de cau hinh cai dat IMAP va SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Kênh LINE",
@@ -439,59 +439,59 @@
       "AUTH": {
         "TITLE": "Chọn kênh",
         "DESC": "Chatwoot hỗ trợ các tiện ích trò chuyện trực tiếp, Facebook Messenger, hồ sơ Twitter, WhatsApp, Email, v. v., dưới dạng các kênh. Nếu bạn muốn xây dựng một kênh tùy chỉnh, bạn có thể tạo kênh này bằng cách sử dụng kênh API. Để bắt đầu, hãy chọn một trong các kênh bên dưới.",
-        "TITLE_NEXT": "Complete the setup",
+        "TITLE_NEXT": "Hoan tat cai dat",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
           "WEBSITE": {
             "TITLE": "Website",
-            "DESCRIPTION": "Create a live-chat widget"
+            "DESCRIPTION": "Tao tien ich tro chuyen truc tuyen"
           },
           "FACEBOOK": {
             "TITLE": "Facebook",
-            "DESCRIPTION": "Connect your Facebook page"
+            "DESCRIPTION": "Ket noi trang Facebook cua ban"
           },
           "WHATSAPP": {
             "TITLE": "WhatsApp",
-            "DESCRIPTION": "Support your customers on WhatsApp"
+            "DESCRIPTION": "Ho tro khach hang tren WhatsApp"
           },
           "EMAIL": {
             "TITLE": "Email",
-            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+            "DESCRIPTION": "Ket noi Gmail, Outlook hoac cac nha cung cap khac"
           },
           "SMS": {
             "TITLE": "SMS",
-            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+            "DESCRIPTION": "Tich hop kenh SMS voi Twilio hoac Bandwidth"
           },
           "API": {
             "TITLE": "API",
-            "DESCRIPTION": "Make a custom channel using our API"
+            "DESCRIPTION": "Tao kenh tuy chinh bang API cua chung toi"
           },
           "TELEGRAM": {
             "TITLE": "Telegram",
-            "DESCRIPTION": "Configure Telegram channel using Bot token"
+            "DESCRIPTION": "Cau hinh kenh Telegram bang Bot token"
           },
           "LINE": {
             "TITLE": "Line",
-            "DESCRIPTION": "Integrate your Line channel"
+            "DESCRIPTION": "Tich hop kenh Line cua ban"
           },
           "INSTAGRAM": {
             "TITLE": "Instagram",
-            "DESCRIPTION": "Connect your instagram account"
+            "DESCRIPTION": "Ket noi tai khoan Instagram cua ban"
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Ket noi tai khoan TikTok cua ban"
           },
           "VOICE": {
             "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "DESCRIPTION": "Tich hop voi Twilio Voice"
           }
         }
       },
       "AGENTS": {
         "TITLE": "Nhà Cung Cấp",
         "DESC": "Tại đây bạn có thể thêm các tác nhân để quản lý hộp thư đến mới tạo của mình. Chỉ những đại lý được chọn này mới có quyền truy cập vào hộp thư đến của bạn. Các nhân viên không thuộc hộp thư đến này sẽ không thể xem hoặc trả lời thư trong hộp thư đến này khi họ đăng nhập. <br> <b>PS:</b> Với tư cách là quản trị viên, nếu bạn cần quyền truy cập vào tất cả các hộp thư đến, bạn nên thêm mình làm đại lý cho tất cả các hộp thư đến mà bạn tạo.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
+        "VALIDATION_ERROR": "Them it nhat mot nhan vien vao hop thu den moi cua ban",
         "PICK_AGENTS": "Chọn đại lý cho hộp thư đến"
       },
       "DETAILS": {
@@ -503,22 +503,22 @@
         "DESC": "Bạn đã tích hợp thành công Trang Facebook của mình với Chatwoot. Lần tới khi khách hàng nhắn tin cho Trang của bạn, cuộc trò chuyện sẽ tự động xuất hiện trong hộp thư đến của bạn.<br>Chúng tôi cũng đang cung cấp cho bạn tập lệnh widget mà bạn có thể dễ dàng thêm vào trang web của mình. Khi điều này xuất hiện trên trang web của bạn, khách hàng có thể nhắn tin cho bạn ngay từ trang web của bạn mà không cần sự trợ giúp của bất kỳ công cụ bên ngoài nào và cuộc trò chuyện sẽ xuất hiện ngay tại đây, trên Chatwoot.<br>Cool, huh? Well :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Select your email provider",
-        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
+        "TITLE": "Chon nha cung cap email cua ban",
+        "DESCRIPTION": "Chon nha cung cap email tu danh sach ben duoi. Neu ban khong thay nha cung cap email trong danh sach, ban co the chon tuy chon nha cung cap khac va cung cap thong tin dang nhap IMAP va SMTP."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft Email",
-        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+        "DESCRIPTION": "Nhan nut Dang nhap bang Microsoft de bat dau. Ban se duoc chuyen huong den trang dang nhap email. Sau khi chap nhan cac quyen duoc yeu cau, ban se duoc chuyen huong tro lai buoc tao hop thu den.",
+        "EMAIL_PLACEHOLDER": "Nhap dia chi email",
+        "SIGN_IN": "Dang nhap bang Microsoft",
+        "ERROR_MESSAGE": "Da xay ra loi khi ket noi Microsoft, vui long thu lai"
       },
       "GOOGLE": {
         "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Enter email address",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "DESCRIPTION": "Nhan nut Dang nhap bang Google de bat dau. Ban se duoc chuyen huong den trang dang nhap email. Sau khi chap nhan cac quyen duoc yeu cau, ban se duoc chuyen huong tro lai buoc tao hop thu den.",
+        "SIGN_IN": "Dang nhap bang Google",
+        "EMAIL_PLACEHOLDER": "Nhap dia chi email",
+        "ERROR_MESSAGE": "Da xay ra loi khi ket noi Google, vui long thu lai"
       }
     },
     "DETAILS": {

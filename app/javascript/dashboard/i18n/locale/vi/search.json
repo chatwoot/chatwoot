@@ -1,32 +1,32 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "Tất cả",
-      "CONTACTS": "Danh bạ",
-      "CONVERSATIONS": "Các cuộc hội thoại",
-      "MESSAGES": "Tin nhắn",
-      "ARTICLES": "Articles"
+      "ALL": "Tat ca",
+      "CONTACTS": "Danh ba",
+      "CONVERSATIONS": "Cac cuoc hoi thoai",
+      "MESSAGES": "Tin nhan",
+      "ARTICLES": "Bai viet"
     },
     "SECTION": {
-      "CONTACTS": "Danh bạ",
-      "CONVERSATIONS": "Các cuộc hội thoại",
-      "MESSAGES": "Tin nhắn",
-      "ARTICLES": "Articles"
+      "CONTACTS": "Danh ba",
+      "CONVERSATIONS": "Cac cuoc hoi thoai",
+      "MESSAGES": "Tin nhan",
+      "ARTICLES": "Bai viet"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Đang tìm kiếm",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
-    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
-    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "VIEW_MORE": "Xem them",
+    "LOAD_MORE": "Tai them",
+    "SEARCHING_DATA": "Dang tim kiem",
+    "LOADING_DATA": "Dang tai",
+    "EMPTY_STATE": "Khong tim thay {item} nao cho truy van '{query}'",
+    "EMPTY_STATE_FULL": "Khong tim thay ket qua nao cho truy van '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ de tap trung",
+    "INPUT_PLACEHOLDER": "Nhap 3 ky tu tro len de tim kiem",
+    "EMPTY_STATE_DEFAULT": "Tim kiem theo id hoi thoai, email, so dien thoai, tin nhan de co ket qua tim kiem tot hon.",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:",
-    "FROM": "từ",
+    "READ_MORE": "Doc them",
+    "WROTE": "da viet:",
+    "FROM": "tu",
     "EMAIL": "email",
-    "EMAIL_SUBJECT": "chủ đề"
+    "EMAIL_SUBJECT": "chu de"
   }
 }

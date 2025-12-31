@@ -1,19 +1,19 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "Hien thi {startItem} - {endItem} trong {totalItems} muc",
+    "CURRENT_PAGE_INFO": "{currentPage} trong {totalPages} trang"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
-    "EMPTY_STATE": "Không tìm thấy kết quả.",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "PLACEHOLDER": "Chon mot tuy chon...",
+    "EMPTY_SEARCH_RESULTS": "Khong tim thay muc nao cho cum tu `{searchTerm}`",
+    "EMPTY_STATE": "Khong tim thay ket qua.",
+    "SEARCH_PLACEHOLDER": "Tim kiem...",
+    "MORE": "+{count} nua"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
-    "EMPTY_STATE": "Không tìm thấy kết quả.",
-    "SEARCHING": "Đang tìm kiếm..."
+    "SEARCH_PLACEHOLDER": "Tim kiem...",
+    "EMPTY_STATE": "Khong tim thay ket qua.",
+    "SEARCHING": "Dang tim kiem..."
   },
   "DIALOG": {
     "BUTTONS": {
@@ -22,35 +22,35 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
-    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+    "SEARCH_PLACEHOLDER": "Tim kiem quoc gia",
+    "ERROR": "So dien thoai phai trong hoac theo dinh dang E.164",
+    "DIAL_CODE_ERROR": "Vui long chon ma vung tu danh sach"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "Tac gia khong co san"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "Duong dan"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "Bat/tat cong tac"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "the"
   },
   "FEATURE_SPOTLIGHT": {
-    "LEARN_MORE": "Tìm hiểu thêm",
-    "WATCH_VIDEO": "Watch video"
+    "LEARN_MORE": "Tim hieu them",
+    "WATCH_VIDEO": "Xem video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Phut",
+    "HOURS": "Gio",
+    "DAYS": "Ngay",
+    "PLACEHOLDER": "Nhap thoi luong"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "Coming Soon!"
+    "COMING_SOON": "Sap ra mat!"
   }
 }

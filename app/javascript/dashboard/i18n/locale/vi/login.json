@@ -11,30 +11,30 @@
       "PLACEHOLDER": "Mật khẩu"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Đăng nhập thành công",
+      "ERROR_MESSAGE": "Không thể kết nối đến máy chủ. Vui lòng thử lại.",
+      "UNAUTH": "Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại."
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Đăng nhập bằng Google",
+      "BUSINESS_ACCOUNTS_ONLY": "Vui lòng sử dụng email công ty để đăng nhập",
+      "NO_ACCOUNT_FOUND": "Chúng tôi không tìm thấy tài khoản với địa chỉ email này."
     },
     "FORGOT_PASSWORD": "Quên mật khẩu?",
     "CREATE_NEW_ACCOUNT": "Tạo mới tài khoản",
     "SUBMIT": "Đăng nhập",
     "SAML": {
-      "LABEL": "Login via SSO",
-      "TITLE": "Initiate Single Sign-on (SSO)",
-      "SUBTITLE": "Enter your work email to access your organization",
-      "BACK_TO_LOGIN": "Login via Password",
+      "LABEL": "Đăng nhập qua SSO",
+      "TITLE": "Đăng nhập một lần (SSO)",
+      "SUBTITLE": "Nhập email công ty để truy cập tổ chức của bạn",
+      "BACK_TO_LOGIN": "Đăng nhập bằng mật khẩu",
       "WORK_EMAIL": {
-        "LABEL": "Work Email",
-        "PLACEHOLDER": "Enter your work email"
+        "LABEL": "Email công ty",
+        "PLACEHOLDER": "Nhập email công ty của bạn"
       },
-      "SUBMIT": "Continue with SSO",
+      "SUBMIT": "Tiếp tục với SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "Xác thực SSO thất bại. Vui lòng kiểm tra thông tin và thử lại."
       }
     }
   }

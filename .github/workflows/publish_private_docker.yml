@@ -3,7 +3,6 @@ name: Publish Private Docker Image
 on:
   push:
     branches:
-      - develop
       - master
       - main
     tags:

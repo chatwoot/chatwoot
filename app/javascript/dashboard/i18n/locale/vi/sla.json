@@ -1,37 +1,37 @@
 {
   "SLA": {
-    "HEADER": "Service Level Agreements",
-    "ADD_ACTION": "Add SLA",
-    "ADD_ACTION_LONG": "Create a new SLA Policy",
-    "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
-    "LEARN_MORE": "Learn more about SLA",
-    "LOADING": "Fetching SLAs",
+    "HEADER": "Thoa thuan muc do dich vu",
+    "ADD_ACTION": "Them SLA",
+    "ADD_ACTION_LONG": "Tao chinh sach SLA moi",
+    "DESCRIPTION": "Thoa thuan muc do dich vu (SLA) la hop dong xac dinh ky vong ro rang giua nhom cua ban va khach hang. Chung thiet lap tieu chuan ve thoi gian phan hoi va giai quyet, tao khuon kho trach nhiem va dam bao trai nghiem chat luong cao nhat quan.",
+    "LEARN_MORE": "Tim hieu them ve SLA",
+    "LOADING": "Dang tai SLA",
     "PAYWALL": {
-      "TITLE": "Upgrade to create SLAs",
-      "AVAILABLE_ON": "The SLA feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Nang cap de tao SLA",
+      "AVAILABLE_ON": "Tinh nang SLA chi co trong goi Business va Enterprise.",
+      "UPGRADE_PROMPT": "Nang cap goi de truy cap cac tinh nang nang cao nhu quan ly nhom, tu dong hoa, thuoc tinh tuy chinh va hon nua.",
+      "UPGRADE_NOW": "Nang cap ngay",
+      "CANCEL_ANYTIME": "Ban co the thay doi hoac huy goi bat cu luc nao"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The SLA feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Tinh nang SLA chi co trong cac goi tra phi.",
+      "UPGRADE_PROMPT": "Nang cap len goi tra phi de truy cap cac tinh nang nang cao nhu nhat ky kiem toan, dung luong nhan vien va hon nua.",
+      "ASK_ADMIN": "Vui long lien he quan tri vien de nang cap."
     },
     "LIST": {
-      "404": "There are no SLAs available in this account.",
+      "404": "Khong co SLA nao trong tai khoan nay.",
       "EMPTY": {
-        "TITLE_1": "Enterprise P0",
-        "DESC_1": "Issues raised by enterprise customers, that require immediate attention.",
-        "TITLE_2": "Enterprise P1",
-        "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
+        "TITLE_1": "Doanh nghiep P0",
+        "DESC_1": "Van de do khach hang doanh nghiep bao cao, can xu ly ngay lap tuc.",
+        "TITLE_2": "Doanh nghiep P1",
+        "DESC_2": "Van de do khach hang doanh nghiep bao cao, can duoc ghi nhan nhanh chong."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Gio lam viec bat",
+      "BUSINESS_HOURS_OFF": "Gio lam viec tat",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "Nguong thoi gian phan hoi dau tien",
+        "NRT": "Nguong thoi gian phan hoi tiep theo",
+        "RT": "Nguong thoi gian giai quyet",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -41,34 +41,34 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
-        "MINIMUM_LENGTH_ERROR": "Bắt buộc độ dài tối thiểu là 2",
-        "VALID_ERROR": "Chỉ cho phép Chữ cái, Chữ số, Dấu gạch ngang và Dấu gạch dưới"
+        "LABEL": "Ten SLA",
+        "PLACEHOLDER": "Ten SLA",
+        "REQUIRED_ERROR": "Ten SLA la bat buoc",
+        "MINIMUM_LENGTH_ERROR": "Bat buoc do dai toi thieu la 2",
+        "VALID_ERROR": "Chi cho phep Chu cai, Chu so, Dau gach ngang va Dau gach duoi"
       },
       "DESCRIPTION": {
-        "LABEL": "Mô tả",
-        "PLACEHOLDER": "SLA for premium customers"
+        "LABEL": "Mo ta",
+        "PLACEHOLDER": "SLA cho khach hang cao cap"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "Thời gian phản hồi đầu tiên",
+        "LABEL": "Thoi gian phan hoi dau tien",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "Thoi gian phan hoi tiep theo",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Thời gian giải quyết",
+        "LABEL": "Thoi gian giai quyet",
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Giờ làm việc",
-        "PLACEHOLDER": "Only during business hours"
+        "LABEL": "Gio lam viec",
+        "PLACEHOLDER": "Chi trong gio lam viec"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "Nguong phai la so va lon hon khong"
       },
       "EDIT": "Chỉnh sửa",
       "CREATE": "Tạo",
@@ -76,33 +76,33 @@
       "CANCEL": "Huỷ"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "Friendly promises for great service!",
+      "TITLE": "Them SLA",
+      "DESC": "Cam ket than thien cho dich vu tuyet voi!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
-        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "SLA da duoc them thanh cong",
+        "ERROR_MESSAGE": "Da co loi, vui long thu lai"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Xoa SLA",
       "API": {
-        "SUCCESS_MESSAGE": "SLA deleted successfully",
-        "ERROR_MESSAGE": "Đã có lỗi, vui lòng thử lại"
+        "SUCCESS_MESSAGE": "SLA da duoc xoa thanh cong",
+        "ERROR_MESSAGE": "Da co loi, vui long thu lai"
       },
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Are you sure you want to delete ",
-        "YES": "Có, xoá ",
-        "NO": "Không, giữ "
+        "TITLE": "Xac nhan xoa",
+        "MESSAGE": "Ban co chac chan muon xoa ",
+        "YES": "Co, xoa ",
+        "NO": "Khong, giu "
       }
     },
     "EVENTS": {
-      "TITLE": "SLA Misses",
-      "FRT": "Thời gian phản hồi đầu tiên",
-      "NRT": "Next response time",
-      "RT": "Resolution time",
-      "SHOW_MORE": "{count} more",
-      "HIDE": "Hide {count} rows"
+      "TITLE": "SLA bi lo",
+      "FRT": "Thoi gian phan hoi dau tien",
+      "NRT": "Thoi gian phan hoi tiep theo",
+      "RT": "Thoi gian giai quyet",
+      "SHOW_MORE": "Xem them {count}",
+      "HIDE": "An {count} dong"
     }
   }
 }

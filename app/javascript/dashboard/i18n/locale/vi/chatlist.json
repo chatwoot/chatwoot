@@ -6,7 +6,7 @@
     "LIST": {
       "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "Gửi không thành công",
     "TAB_HEADING": "Các cuộc hội thoại",
     "MENTION_HEADING": "Nhắn đến",
     "UNATTENDED_HEADING": "Không giám sát",
@@ -37,10 +37,10 @@
       }
     },
     "VIEW_FILTER": "Xem",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "Sắp xếp hội thoại",
     "CHAT_SORT": {
       "STATUS": "Trạng thái",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "Sắp xếp theo"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
@@ -48,34 +48,34 @@
         "OLDEST": "Tạo vào lúc:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "Hoạt động cuối:",
+        "ACTIVE": "Hoạt động cuối"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Hoạt động cuối: Cũ nhất trước"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Hoạt động cuối: Mới nhất trước"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Tạo lúc: Mới nhất trước"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Tạo lúc: Cũ nhất trước"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Ưu tiên: Cao nhất trước"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Ưu tiên: Thấp nhất trước"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Chờ phản hồi: Lâu nhất trước"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Chờ phản hồi: Ngắn nhất trước"
       }
     },
     "ATTACHMENTS": {
@@ -101,27 +101,27 @@
         "CONTENT": "có một đường dẫn chia sẻ"
       },
       "contact": {
-        "CONTENT": "Shared contact"
+        "CONTENT": "Liên hệ được chia sẻ"
       },
       "embed": {
-        "CONTENT": "Embedded content"
+        "CONTENT": "Nội dung nhúng"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sắp bởi",
+      "TITLE": "Sắp xếp hội thoại",
+      "DROPDOWN_TITLE": "Sắp xếp theo",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "Hoạt động cuối lúc",
+          "LABEL": "Hoạt động cuối"
         },
         "CREATED_AT": {
           "NAME": "Tạo vào lúc",
           "LABEL": "Tạo vào lúc"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "Tin nhắn cuối của người dùng lúc",
+          "LABEL": "Tin nhắn cuối"
         }
       }
     },
@@ -137,6 +137,6 @@
     "HIDE_QUOTED_TEXT": "Ẩn văn bản được trích dẫn",
     "SHOW_QUOTED_TEXT": "Hiện Văn bản được trích dẫn",
     "MESSAGE_READ": "\bĐọc",
-    "SENDING": "Sending"
+    "SENDING": "Đang gửi"
   }
 }

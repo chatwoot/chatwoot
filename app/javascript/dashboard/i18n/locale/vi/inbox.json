@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
+      "TITLE": "Hop thu den cua toi",
       "DISPLAY_DROPDOWN": "Hiển thị",
       "LOADING": "Tải thông báo",
       "404": "Không có thông báo nào đang hoạt động trong nhóm này.",
@@ -18,77 +18,77 @@
       "BACK": "Trờ về"
     },
     "TYPES": {
-      "CONVERSATION_MENTION": "Bạn đã được nhắc đến trong một cuộc trò chuyện",
-      "CONVERSATION_CREATION": "New conversation created",
-      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
-      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+      "CONVERSATION_MENTION": "Ban da duoc nhac den trong mot cuoc tro chuyen",
+      "CONVERSATION_CREATION": "Hoi thoai moi da duoc tao",
+      "CONVERSATION_ASSIGNMENT": "Mot hoi thoai da duoc gan cho ban",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Tin nhan moi trong hoi thoai da gan",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Tin nhan moi trong hoi thoai ban dang tham gia",
+      "SLA_MISSED_FIRST_RESPONSE": "Muc tieu SLA phan hoi dau tien bi lo cho hoi thoai",
+      "SLA_MISSED_NEXT_RESPONSE": "Muc tieu SLA phan hoi tiep theo bi lo cho hoi thoai",
+      "SLA_MISSED_RESOLUTION": "Muc tieu SLA giai quyet bi lo cho hoi thoai"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
-      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Tin nhắn mới",
-      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Tin nhắn mới",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "CONVERSATION_MENTION": "Duoc nhac den",
+      "CONVERSATION_ASSIGNMENT": "Duoc gan cho ban",
+      "CONVERSATION_CREATION": "Hoi thoai moi",
+      "SLA_MISSED_FIRST_RESPONSE": "Vi pham SLA",
+      "SLA_MISSED_NEXT_RESPONSE": "Vi pham SLA",
+      "SLA_MISSED_RESOLUTION": "Vi pham SLA",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Tin nhan moi",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Tin nhan moi",
+      "SNOOZED_UNTIL": "Tam dung trong {time}",
+      "SNOOZED_ENDS": "Het tam dung"
     },
     "NO_CONTENT": "Không có nội dung",
     "MENU_ITEM": {
-      "MARK_AS_READ": "Mark as read",
-      "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
-      "SNOOZE": "Báo lại",
-      "DELETE": "Xoá",
-      "MARK_ALL_READ": "Đánh dấu tất cả đã đọc",
-      "DELETE_ALL": "Delete all",
-      "DELETE_ALL_READ": "Delete all read"
+      "MARK_AS_READ": "Danh dau da doc",
+      "MARK_AS_UNREAD": "Danh dau chua doc",
+      "SNOOZE": "Tam dung",
+      "DELETE": "Xoa",
+      "MARK_ALL_READ": "Danh dau tat ca da doc",
+      "DELETE_ALL": "Xoa tat ca",
+      "DELETE_ALL_READ": "Xoa tat ca da doc"
     },
     "DISPLAY_MENU": {
-      "SORT": "Sort",
-      "DISPLAY": "Display :",
+      "SORT": "Sap xep",
+      "DISPLAY": "Hien thi:",
       "SORT_OPTIONS": {
-        "NEWEST": "Newest",
-        "OLDEST": "Oldest",
-        "PRIORITY": "Mức độ ưu tiên"
+        "NEWEST": "Moi nhat",
+        "OLDEST": "Cu nhat",
+        "PRIORITY": "Muc do uu tien"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "Tạm dừng",
-        "READ": "\bĐọc",
-        "LABELS": "Nhãn",
-        "CONVERSATION_ID": "Conversation ID"
+        "SNOOZED": "Tam dung",
+        "READ": "Da doc",
+        "LABELS": "Nhan",
+        "CONVERSATION_ID": "ID hoi thoai"
       }
     },
     "ALERTS": {
-      "MARK_AS_READ": "Notification marked as read",
-      "MARK_AS_UNREAD": "Notification marked as unread",
-      "SNOOZE": "Notification snoozed",
-      "DELETE": "Notification deleted",
-      "MARK_ALL_READ": "All notifications marked as read",
-      "DELETE_ALL": "All notifications deleted",
-      "DELETE_ALL_READ": "All read notifications deleted"
+      "MARK_AS_READ": "Thong bao da duoc danh dau da doc",
+      "MARK_AS_UNREAD": "Thong bao da duoc danh dau chua doc",
+      "SNOOZE": "Thong bao da duoc tam dung",
+      "DELETE": "Thong bao da duoc xoa",
+      "MARK_ALL_READ": "Tat ca thong bao da duoc danh dau da doc",
+      "DELETE_ALL": "Tat ca thong bao da duoc xoa",
+      "DELETE_ALL_READ": "Tat ca thong bao da doc da duoc xoa"
     },
     "REAUTHORIZE": {
-      "TITLE": "Reauthorization Required",
-      "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
-      "BUTTON_TEXT": "Reconnect WhatsApp",
-      "LOADING_FACEBOOK": "Loading Facebook SDK...",
-      "SUCCESS": "WhatsApp reconnected successfully",
-      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "TITLE": "Can uy quyen lai",
+      "DESCRIPTION": "Ket noi WhatsApp cua ban da het han. Vui long ket noi lai de tiep tuc nhan va gui tin nhan.",
+      "BUTTON_TEXT": "Ket noi lai WhatsApp",
+      "LOADING_FACEBOOK": "Dang tai Facebook SDK...",
+      "SUCCESS": "WhatsApp da ket noi lai thanh cong",
+      "ERROR": "Khong the ket noi lai WhatsApp. Vui long thu lai.",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID chua duoc cau hinh. Vui long lien he quan tri vien.",
+      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID chua duoc cau hinh. Vui long lien he quan tri vien.",
+      "CONFIGURATION_ERROR": "Loi cau hinh xay ra trong qua trinh uy quyen lai.",
+      "FACEBOOK_LOAD_ERROR": "Khong the tai Facebook SDK. Vui long thu lai.",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "Xu ly su co",
+        "POPUP_BLOCKED": "Dam bao cua so bat len duoc cho phep cho trang web nay",
+        "COOKIES": "Cookie ben thu ba phai duoc bat",
+        "ADMIN_ACCESS": "Ban can quyen quan tri vien cho Tai khoan WhatsApp Business"
       }
     }
   }

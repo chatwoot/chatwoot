@@ -36,38 +36,38 @@
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "Giao diện",
+        "NOTE": "Tùy chỉnh giao diện trang quản trị Chatwoot của bạn.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "Cỡ chữ",
+          "NOTE": "Điều chỉnh kích thước văn bản trên trang quản trị theo sở thích của bạn.",
+          "UPDATE_SUCCESS": "Cài đặt font chữ đã được cập nhật thành công",
+          "UPDATE_ERROR": "Đã xảy ra lỗi khi cập nhật cài đặt font chữ, vui lòng thử lại",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
+            "SMALLER": "Nhỏ hơn",
+            "SMALL": "Nhỏ",
             "DEFAULT": "Mặc định",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "LARGE": "Lớn",
+            "LARGER": "Lớn hơn",
+            "EXTRA_LARGE": "Rất lớn"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "Ngôn ngữ ưa thích",
+          "NOTE": "Chọn ngôn ngữ bạn muốn sử dụng.",
+          "UPDATE_SUCCESS": "Cài đặt ngôn ngữ đã được cập nhật thành công",
+          "UPDATE_ERROR": "Đã xảy ra lỗi khi cập nhật cài đặt ngôn ngữ, vui lòng thử lại",
+          "USE_ACCOUNT_DEFAULT": "Sử dụng mặc định của tài khoản"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Chữ ký tin nhắn cá nhân",
-        "NOTE": "Create a unique message signature to appear at the end of every message you send from any inbox. You can also include an inline image, which is supported in live-chat, email, and API inboxes.",
+        "NOTE": "Tạo chữ ký tin nhắn độc đáo xuất hiện ở cuối mỗi tin nhắn bạn gửi từ bất kỳ hộp thư nào. Bạn cũng có thể thêm hình ảnh inline, được hỗ trợ trong live-chat, email và API.",
         "BTN_TEXT": "Lưu chữ ký tin nhắn",
         "API_ERROR": "Không thể lưu chữ ký! Thử lại",
         "API_SUCCESS": "Chữ ký được lưu thành công",
-        "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-        "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save to save the signature",
+        "IMAGE_UPLOAD_ERROR": "Không thể tải lên hình ảnh! Thử lại",
+        "IMAGE_UPLOAD_SUCCESS": "Hình ảnh đã được thêm thành công. Vui lòng nhấp lưu để lưu chữ ký",
         "IMAGE_UPLOAD_SIZE_ERROR": "Kích thước ảnh phải nhỏ hơn {size}MB"
       },
       "MESSAGE_SIGNATURE": {
@@ -81,47 +81,47 @@
         "BTN_TEXT": "Thay đổi mật khẩu"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
-        "MFA_BUTTON": "Manage Two-Factor Authentication"
+        "TITLE": "Bảo mật",
+        "NOTE": "Quản lý các tính năng bảo mật bổ sung cho tài khoản của bạn.",
+        "MFA_BUTTON": "Quản lý xác thực hai yếu tố"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token truy cập",
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API",
-        "COPY": "Sao Chép",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "COPY": "Sao chép",
+        "RESET": "Đặt lại",
+        "CONFIRM_RESET": "Bạn có chắc không?",
+        "CONFIRM_HINT": "Nhấp lại để xác nhận",
+        "RESET_SUCCESS": "Token truy cập đã được tạo lại thành công",
+        "RESET_ERROR": "Không thể tạo lại token truy cập. Vui lòng thử lại"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "Cảnh báo âm thanh",
+        "NOTE": "Bật cảnh báo âm thanh trong trang quản trị cho tin nhắn và hội thoại mới.",
+        "PLAY": "Phát âm thanh",
         "ALERT_TYPES": {
           "NONE": "Không có",
-          "MINE": "Assigned",
+          "MINE": "Được gán",
           "ALL": "Tất cả",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "Hội thoại được gán cho tôi",
+          "UNASSIGNED": "Hội thoại chưa được gán",
+          "NOTME": "Hội thoại mở được gán cho người khác"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "Bạn chưa chọn bất kỳ tùy chọn nào, bạn sẽ không nhận được cảnh báo âm thanh nào.",
+          "ASSIGNED": "Bạn sẽ nhận được cảnh báo cho hội thoại được gán cho bạn.",
+          "UNASSIGNED": "Bạn sẽ nhận được cảnh báo cho các hội thoại chưa được gán.",
+          "NOTME": "Bạn sẽ nhận được cảnh báo cho hội thoại được gán cho người khác.",
+          "ASSIGNED+UNASSIGNED": "Bạn sẽ nhận được cảnh báo cho hội thoại được gán và chưa được xử lý.",
+          "ASSIGNED+NOTME": "Bạn sẽ nhận được cảnh báo cho hội thoại được gán cho bạn và người khác, nhưng không cho hội thoại chưa gán.",
+          "NOTME+UNASSIGNED": "Bạn sẽ nhận được cảnh báo cho hội thoại chưa được xử lý và được gán cho người khác.",
+          "ASSIGNED+NOTME+UNASSIGNED": "Bạn sẽ nhận được cảnh báo cho tất cả hội thoại."
         },
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
+          "TITLE": "Sự kiện cảnh báo cho hội thoại",
           "NONE": "Không có",
-          "ASSIGNED": "Cuộc trò chuyện được phân công",
-          "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện"
+          "ASSIGNED": "Hội thoại được gán",
+          "ALL_CONVERSATIONS": "Tất cả hội thoại"
         },
         "DEFAULT_TONE": {
           "TITLE": "Âm báo:"
@@ -129,9 +129,9 @@
         "CONDITIONS": {
           "TITLE": "Điều kiện cảnh báo:",
           "CONDITION_ONE": "Chỉ gửi cảnh báo âm thanh nếu cửa sổ trình duyệt không hoạt động",
-          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các cuộc hội thoại được chỉ định được đọc"
+          "CONDITION_TWO": "Gửi thông báo cứ sau 30 giây cho đến khi tất cả các hội thoại được chỉ định được đọc"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "Tự động phát bị tắt trong trình duyệt của bạn. Để nghe cảnh báo tự động, hãy bật quyền âm thanh trong cài đặt trình duyệt hoặc tương tác với trang.",
         "READ_MORE": "Xem thêm"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -141,10 +141,10 @@
         "CONVERSATION_CREATION": "Gửi thông báo qua email khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo email khi bạn được nhắc đến trong 1 cuộc trò chuyện",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Gửi thông báo email khi có tin nhắn mới trong hội thoại bạn tham gia",
+        "SLA_MISSED_FIRST_RESPONSE": "Gửi thông báo email khi hội thoại bị lỡ SLA phản hồi đầu tiên",
+        "SLA_MISSED_NEXT_RESPONSE": "Gửi thông báo email khi hội thoại bị lỡ SLA phản hồi tiếp theo",
+        "SLA_MISSED_RESOLUTION": "Gửi thông báo email khi hội thoại bị lỡ SLA giải quyết"
       },
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
@@ -174,12 +174,12 @@
         "CONVERSATION_CREATION": "Gửi thông báo khi cuộc trò chuyện mới được tạo",
         "CONVERSATION_MENTION": "Gửi thông báo đẩy khi bạn được nhắc đến trong 1 cuộc trò chuyện",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có một tin nhắn mới được tạo trong cuộc trò chuyện được phân công",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Gửi thông báo đẩy khi có tin nhắn mới trong hội thoại bạn tham gia",
         "HAS_ENABLED_PUSH": "Bạn đã bật tính năng thông báo cho trình duyệt này.",
-        "REQUEST_PUSH": "Bật thông báo",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "REQUEST_PUSH": "Bật thông báo đẩy",
+        "SLA_MISSED_FIRST_RESPONSE": "Gửi thông báo đẩy khi hội thoại bị lỡ SLA phản hồi đầu tiên",
+        "SLA_MISSED_NEXT_RESPONSE": "Gửi thông báo đẩy khi hội thoại bị lỡ SLA phản hồi tiếp theo",
+        "SLA_MISSED_RESOLUTION": "Gửi thông báo đẩy khi hội thoại bị lỡ SLA giải quyết"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Hình ảnh hồ sơ cá nhân"
@@ -203,7 +203,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
         "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "Không thể thay đổi trạng thái khi đang giả mạo người dùng"
       },
       "EMAIL": {
         "LABEL": "Địa chỉ email của bạn",
@@ -229,42 +229,42 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Đổi",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "Chuyển tài khoản",
+    "SWITCH_ACCOUNT": "Chuyển tài khoản",
+    "CONTACT_SUPPORT": "Liên hệ hỗ trợ",
     "SELECTOR_SUBTITLE": "Chọn một tài khoản từ danh sách sau",
-    "PROFILE_SETTINGS": "Profile settings",
-    "YEAR_IN_REVIEW": "Year in Review",
+    "PROFILE_SETTINGS": "Cài đặt hồ sơ",
+    "YEAR_IN_REVIEW": "Tổng kết năm",
     "KEYBOARD_SHORTCUTS": "Phím tắt",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "APPEARANCE": "Thay đổi giao diện",
+    "SUPER_ADMIN_CONSOLE": "Bảng điều khiển SuperAdmin",
+    "DOCS": "Đọc tài liệu",
+    "CHANGELOG": "Nhật ký thay đổi",
+    "LOGOUT": "Đăng xuất"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "ngày dùng thử còn lại.",
     "TRAIL_BUTTON": "Mua Ngay",
-    "DELETED_USER": "Người dùng bị xoá",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "DELETED_USER": "Người dùng bị xóa",
+    "EMAIL_VERIFICATION_PENDING": "Có vẻ như bạn chưa xác minh địa chỉ email. Vui lòng kiểm tra hộp thư đến để xác minh email.",
+    "RESEND_VERIFICATION_MAIL": "Gửi lại email xác minh",
+    "EMAIL_VERIFICATION_SENT": "Email xác minh đã được gửi. Vui lòng kiểm tra hộp thư đến.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Tài khoản bị ngưng",
       "MESSAGE": "Tài khoản của bạn bị tạm ngưng. Vui lòng liên hệ với nhóm hỗ trợ để biết thêm thông tin."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "Không tìm thấy tài khoản",
+      "MESSAGE_CLOUD": "Bạn hiện không thuộc bất kỳ tài khoản nào. Nếu bạn cho rằng đây là lỗi, vui lòng liên hệ với đội hỗ trợ của chúng tôi.",
+      "MESSAGE_SELF_HOSTED": "Bạn hiện không thuộc bất kỳ tài khoản nào. Vui lòng liên hệ với quản trị viên của bạn.",
+      "LOGOUT": "Đăng xuất"
     }
   },
   "COMPONENTS": {
     "CODE": {
-      "BUTTON_TEXT": "Sao Chép",
-      "CODEPEN": "Open in CodePen",
-      "COPY_SUCCESSFUL": "Copied to clipboard"
+      "BUTTON_TEXT": "Sao chép",
+      "CODEPEN": "Mở trong CodePen",
+      "COPY_SUCCESSFUL": "Đã sao chép vào clipboard"
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Xem thêm",
@@ -273,7 +273,7 @@
     "FILE_BUBBLE": {
       "DOWNLOAD": "Tải xuống",
       "UPLOADING": "Đang tải lên...",
-      "INSTAGRAM_STORY_UNAVAILABLE": "Hội thoại này không còn nữa."
+      "INSTAGRAM_STORY_UNAVAILABLE": "Story này không còn khả dụng."
     },
     "LOCATION_BUBBLE": {
       "SEE_ON_MAP": "Xem trên bản đồ"
@@ -282,8 +282,8 @@
       "SUBMIT": "Gửi"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "Hình ảnh này không còn khả dụng.",
+      "LOADING_FAILED": "Tải thất bại"
     }
   },
   "CONFIRM_EMAIL": "Đang xác thực...",
@@ -293,56 +293,56 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "Không có mục nào",
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",
     "SWITCH": "Chuyển",
-    "INBOX_VIEW": "Inbox View",
-    "CONVERSATIONS": "Cuộc trò chuyện",
-    "INBOX": "My Inbox",
-    "ALL_CONVERSATIONS": "Tất cả cuộc trò chuyện",
-    "MENTIONED_CONVERSATIONS": "Nhắn đến",
-    "PARTICIPATING_CONVERSATIONS": "Participating",
-    "UNATTENDED_CONVERSATIONS": "Không giám sát",
+    "INBOX_VIEW": "Chế độ xem hộp thư",
+    "CONVERSATIONS": "Hội thoại",
+    "INBOX": "Hộp thư của tôi",
+    "ALL_CONVERSATIONS": "Tất cả hội thoại",
+    "MENTIONED_CONVERSATIONS": "Nhắc đến",
+    "PARTICIPATING_CONVERSATIONS": "Tham gia",
+    "UNATTENDED_CONVERSATIONS": "Chưa xử lý",
     "REPORTS": "Báo cáo",
-    "SETTINGS": "Cài Đặt",
+    "SETTINGS": "Cài đặt",
     "CONTACTS": "Liên hệ",
-    "ACTIVE": "Có hiệu lực",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "ACTIVE": "Hoạt động",
+    "COMPANIES": "Công ty",
+    "ALL_COMPANIES": "Tất cả công ty",
     "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_ASSISTANTS": "Trợ lý",
+    "CAPTAIN_DOCUMENTS": "Tài liệu",
     "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_TOOLS": "Công cụ",
+    "CAPTAIN_SCENARIOS": "Kịch bản",
+    "CAPTAIN_PLAYGROUND": "Sân chơi",
     "CAPTAIN_INBOXES": "Hộp thư đến",
     "CAPTAIN_SETTINGS": "Cài đặt",
-    "HOME": "Trang Chủ",
-    "AGENTS": "Đại lý",
-    "AGENT_BOTS": "Bots",
-    "AUDIT_LOGS": "Audit Logs",
+    "HOME": "Trang chủ",
+    "AGENTS": "Nhân viên",
+    "AGENT_BOTS": "Bot",
+    "AUDIT_LOGS": "Nhật ký kiểm toán",
     "INBOXES": "Hộp thư đến",
     "NOTIFICATIONS": "Thông báo",
-    "CANNED_RESPONSES": "Thư mẫu phẩn hồi",
+    "CANNED_RESPONSES": "Câu trả lời mẫu",
     "INTEGRATIONS": "Tích hợp",
-    "PROFILE_SETTINGS": "Cài Đặt Hồ Sơ",
-    "ACCOUNT_SETTINGS": "Cài Đặt Tài Khoản",
+    "PROFILE_SETTINGS": "Cài đặt hồ sơ",
+    "ACCOUNT_SETTINGS": "Cài đặt tài khoản",
     "APPLICATIONS": "Ứng dụng",
     "LABELS": "Nhãn",
     "CUSTOM_ATTRIBUTES": "Thuộc tính tùy chỉnh",
-    "AUTOMATION": "Tự động hoá",
-    "MACROS": "Macros",
+    "AUTOMATION": "Tự động hóa",
+    "MACROS": "Macro",
     "TEAMS": "Nhóm",
-    "BILLING": "Phí",
+    "BILLING": "Thanh toán",
     "CUSTOM_VIEWS_FOLDER": "Thư mục",
     "CUSTOM_VIEWS_SEGMENTS": "Phân khúc",
-    "ALL_CONTACTS": "Tất cả liên lạc",
+    "ALL_CONTACTS": "Tất cả liên hệ",
     "TAGGED_WITH": "Được gắn thẻ với",
     "NEW_LABEL": "Nhãn mới",
     "NEW_TEAM": "Nhóm mới",
-    "NEW_INBOX": "Kênh mới",
-    "REPORTS_CONVERSATION": "Các cuộc hội thoại",
+    "NEW_INBOX": "Hộp thư mới",
+    "REPORTS_CONVERSATION": "Hội thoại",
     "CSAT": "CSAT",
     "LIVE_CHAT": "Live Chat",
     "SMS": "SMS",
@@ -352,21 +352,21 @@
     "ONE_OFF": "Một lần",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
-    "REPORTS_AGENT": "Nhà cung cấp",
+    "REPORTS_AGENT": "Nhân viên",
     "REPORTS_LABEL": "Nhãn",
-    "REPORTS_INBOX": "Kênh",
+    "REPORTS_INBOX": "Hộp thư",
     "REPORTS_TEAM": "Nhóm",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
-    "SET_AVAILABILITY_TITLE": "Đặt chính mình như",
+    "AGENT_ASSIGNMENT": "Phân công nhân viên",
+    "SET_AVAILABILITY_TITLE": "Đặt trạng thái là",
     "SET_YOUR_AVAILABILITY": "Đặt tính khả dụng của bạn",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Vai trò tùy chỉnh",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Tổng quan",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Kết nối hộp thư của bạn đã hết hạn, vui lòng kết nối lại để tiếp tục nhận và gửi tin nhắn",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
+      "TITLE": "Trung tâm trợ giúp",
+      "ARTICLES": "Bài viết",
       "CATEGORIES": "Danh mục",
       "LOCALES": "Ngôn ngữ",
       "SETTINGS": "Cài đặt"
@@ -374,22 +374,22 @@
     "CHANNELS": "Kênh",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tự động đánh dấu ngoại tuyến",
-      "INFO_TEXT": "Hãy để hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang tổng quan.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_TEXT": "Cho phép hệ thống tự động đánh dấu bạn ngoại tuyến khi bạn không sử dụng ứng dụng hoặc trang quản trị.",
+      "INFO_SHORT": "Tự động đánh dấu ngoại tuyến khi bạn không sử dụng ứng dụng."
     },
     "DOCS": "Đọc tài liệu",
-    "SECURITY": "Security"
+    "SECURITY": "Bảo mật"
   },
   "BILLING_SETTINGS": {
-    "TITLE": "Phí",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "TITLE": "Thanh toán",
+    "DESCRIPTION": "Quản lý đăng ký của bạn tại đây, nâng cấp gói và nhận thêm cho nhóm của bạn.",
     "CURRENT_PLAN": {
       "TITLE": "Gói hiện tại",
       "PLAN_NOTE": "Bạn hiện đã đăng ký gói **{plan}** với **{quantity}** giấy phép",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "Số lượng người dùng",
+      "RENEWS_ON": "Gia hạn vào"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "Xem giá",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Quản lý thuê bao của bạn",
       "DESCRIPTION": "Xem các hóa đơn trước đây của bạn, chỉnh sửa chi tiết thanh toán hoặc hủy thuê bao của bạn.",
@@ -397,11 +397,11 @@
     },
     "CAPTAIN": {
       "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
+      "DESCRIPTION": "Quản lý sử dụng và tín dụng cho Captain AI.",
+      "BUTTON_TXT": "Mua thêm tín dụng",
+      "DOCUMENTS": "Tài liệu",
+      "RESPONSES": "Tín dụng",
+      "UPGRADE": "Captain không khả dụng trong gói miễn phí, nâng cấp ngay để truy cập trợ lý, copilot và nhiều hơn nữa.",
       "REFRESH_CREDITS": "Làm mới"
     },
     "CHAT_WITH_US": {
@@ -411,98 +411,98 @@
     },
     "NO_BILLING_USER": "Tài khoản thanh toán của bạn đang được định cấu hình. Hãy làm mới trang và thử lại.",
     "TOPUP": {
-      "BUY_CREDITS": "Buy more credits",
-      "MODAL_TITLE": "Buy AI Credits",
-      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
-      "CREDITS": "CREDITS",
-      "ONE_TIME": "one-time",
-      "POPULAR": "Most Popular",
+      "BUY_CREDITS": "Mua thêm tín dụng",
+      "MODAL_TITLE": "Mua tín dụng AI",
+      "MODAL_DESCRIPTION": "Mua thêm tín dụng cho Captain AI.",
+      "CREDITS": "TÍN DỤNG",
+      "ONE_TIME": "một lần",
+      "POPULAR": "Phổ biến nhất",
       "NOTE_TITLE": "Ghi chú:",
-      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
-      "CANCEL": "Huỷ",
-      "PURCHASE": "Purchase Credits",
-      "LOADING": "Loading options...",
-      "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
-      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "NOTE_DESCRIPTION": "Tín dụng được thêm ngay và hết hạn sau 6 tháng. Cần có đăng ký hoạt động để sử dụng tín dụng. Tín dụng đã mua sẽ được sử dụng sau tín dụng gói hàng tháng của bạn.",
+      "CANCEL": "Hủy",
+      "PURCHASE": "Mua tín dụng",
+      "LOADING": "Đang tải tùy chọn...",
+      "FETCH_ERROR": "Không thể tải tùy chọn tín dụng. Vui lòng thử lại.",
+      "PURCHASE_ERROR": "Không thể xử lý giao dịch. Vui lòng thử lại.",
+      "PURCHASE_SUCCESS": "Đã thêm thành công {credits} tín dụng vào tài khoản của bạn",
       "CONFIRM": {
-        "TITLE": "Confirm Purchase",
-        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "TITLE": "Xác nhận mua hàng",
+        "DESCRIPTION": "Bạn sắp mua {credits} tín dụng với giá {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Thẻ đã lưu của bạn sẽ bị tính phí ngay khi xác nhận.",
         "GO_BACK": "Quay lại",
-        "CONFIRM_PURCHASE": "Confirm Purchase"
+        "CONFIRM_PURCHASE": "Xác nhận mua hàng"
       }
     }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
-    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "TITLE": "Bảo mật",
+    "DESCRIPTION": "Quản lý cài đặt bảo mật tài khoản của bạn.",
+    "LINK_TEXT": "Tìm hiểu thêm về SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO hiện đang bị tắt. Vui lòng liên hệ quản trị viên để bật tính năng này.",
     "SAML": {
       "TITLE": "SAML SSO",
-      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "NOTE": "Cấu hình đăng nhập một lần SAML cho tài khoản của bạn. Người dùng sẽ xác thực thông qua nhà cung cấp danh tính thay vì sử dụng email/mật khẩu.",
       "ACS_URL": {
         "LABEL": "ACS URL",
-        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+        "TOOLTIP": "Assertion Consumer Service URL - Cấu hình URL này trong IdP của bạn làm đích cho các phản hồi SAML"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "HELP": "URL nơi các yêu cầu xác thực SAML sẽ được gửi đến",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "Chứng chỉ ký nhận dạng PEM",
+        "HELP": "Chứng chỉ công khai từ nhà cung cấp danh tính được sử dụng để xác minh phản hồi SAML",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
-        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+        "LABEL": "Vân tay",
+        "TOOLTIP": "Vân tay SHA-1 của chứng chỉ - Sử dụng để xác minh chứng chỉ trong cấu hình IdP của bạn"
       },
-      "COPY_SUCCESS": "Copied to clipboard",
+      "COPY_SUCCESS": "Đã sao chép vào clipboard",
       "SP_ENTITY_ID": {
         "LABEL": "SP Entity ID",
-        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "HELP": "Mã định danh duy nhất cho ứng dụng này như một nhà cung cấp dịch vụ (tự động tạo).",
+        "TOOLTIP": "Mã định danh duy nhất cho Chatwoot là Service Provider - Cấu hình này trong cài đặt IdP của bạn"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "Entity ID của nhà cung cấp danh tính",
+        "HELP": "Mã định danh duy nhất cho nhà cung cấp danh tính của bạn (thường có trong cấu hình IdP)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "Cập nhật cài đặt SAML",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "Cài đặt SAML đã được cập nhật thành công",
+        "ERROR": "Không thể cập nhật cài đặt SAML",
+        "ERROR_LOADING": "Không thể tải cài đặt SAML",
+        "DISABLED": "Cài đặt SAML đã được tắt thành công"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "SSO URL, Entity ID của nhà cung cấp danh tính và Chứng chỉ là các trường bắt buộc",
+        "SSO_URL_ERROR": "Vui lòng nhập URL SSO hợp lệ",
+        "CERTIFICATE_ERROR": "Chứng chỉ là bắt buộc",
+        "IDP_ENTITY_ID_ERROR": "Entity ID của nhà cung cấp danh tính là bắt buộc"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "AVAILABLE_ON": "Tính năng SAML SSO chỉ khả dụng trong gói Enterprise.",
+        "UPGRADE_PROMPT": "Nâng cấp lên gói Enterprise để truy cập đăng nhập một lần SAML và các tính năng bảo mật nâng cao khác.",
+        "ASK_ADMIN": "Vui lòng liên hệ quản trị viên để nâng cấp."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "TITLE": "Nâng cấp để bật SAML SSO",
+        "AVAILABLE_ON": "Tính năng SAML SSO chỉ khả dụng trong gói Enterprise.",
+        "UPGRADE_PROMPT": "Nâng cấp gói của bạn để truy cập đăng nhập một lần SAML và các tính năng nâng cao khác.",
+        "UPGRADE_NOW": "Nâng cấp ngay",
+        "CANCEL_ANYTIME": "Bạn có thể thay đổi hoặc hủy gói bất cứ lúc nào"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "Cài đặt thuộc tính SAML",
+        "DESCRIPTION": "Các ánh xạ thuộc tính sau phải được cấu hình trong nhà cung cấp danh tính của bạn"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "Thông tin Service Provider",
+        "TOOLTIP": "Sao chép các giá trị này và cấu hình chúng trong Identity Provider để thiết lập kết nối SAML"
       }
     }
   },

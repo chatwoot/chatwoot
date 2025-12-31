@@ -1,8 +1,8 @@
 {
   "AUTOMATION": {
     "HEADER": "Tự động hoá",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
+    "DESCRIPTION": "Tu dong hoa co the thay the va tinh gian cac quy trinh can nhan cong, nhu them nhan va gan hoi thoai cho nhan vien phu hop nhat. Dieu nay cho phep nhom tap trung vao the manh trong khi giam thoi gian lam viec thuong nhat.",
+    "LEARN_MORE": "Tim hieu them ve tu dong hoa",
     "HEADER_BTN_TXT": "Thêm luật Tự động hoá",
     "LOADING": "Đang lấy luật tự động hoá",
     "ADD": {
@@ -95,8 +95,8 @@
       "DELETE_MESSAGE": "Bạn cần có ít nhất một hành động để lưu",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Viết tin nhắn ở đây",
       "TEAM_DROPDOWN_PLACEHOLDER": "Chọn nhóm",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "EMAIL_INPUT_PLACEHOLDER": "Nhap email",
+      "URL_INPUT_PLACEHOLDER": "Nhap URL"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Kích hoạt Luật Tự động hoá",
@@ -118,43 +118,43 @@
       "LABEL_UPLOAD_FAILED": "Không tải lên được"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Giá trị bắt buộc có",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "Khoa thuoc tinh la bat buoc",
+      "FILTER_OPERATOR_REQUIRED": "Toan tu loc la bat buoc",
+      "VALUE_REQUIRED": "Gia tri la bat buoc",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Gia tri phai tu 1 den 998",
+      "ACTION_PARAMETERS_REQUIRED": "Tham so hanh dong la bat buoc",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Can it nhat mot dieu kien",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Can it nhat mot hanh dong"
     },
     "NONE_OPTION": "Không có",
     "EVENTS": {
-      "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
-      "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
-      "CONVERSATION_OPENED": "Conversation Opened"
+      "CONVERSATION_CREATED": "Hoi thoai da duoc tao",
+      "CONVERSATION_UPDATED": "Hoi thoai da duoc cap nhat",
+      "MESSAGE_CREATED": "Tin nhan da duoc tao",
+      "CONVERSATION_RESOLVED": "Hoi thoai da duoc giai quyet",
+      "CONVERSATION_OPENED": "Hoi thoai da duoc mo"
     },
     "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Tắt tiếng cuộc trò chuyện",
-      "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
-      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_SLA": "Add SLA",
-      "OPEN_CONVERSATION": "Mở cuộc trò chuyện"
+      "ASSIGN_AGENT": "Gan cho nhan vien",
+      "ASSIGN_TEAM": "Gan cho nhom",
+      "ADD_LABEL": "Them nhan",
+      "REMOVE_LABEL": "Xoa nhan",
+      "SEND_EMAIL_TO_TEAM": "Gui email den nhom",
+      "SEND_EMAIL_TRANSCRIPT": "Gui ban ghi email",
+      "MUTE_CONVERSATION": "Tat tieng hoi thoai",
+      "SNOOZE_CONVERSATION": "Tam dung hoi thoai",
+      "RESOLVE_CONVERSATION": "Giai quyet hoi thoai",
+      "SEND_WEBHOOK_EVENT": "Gui su kien Webhook",
+      "SEND_ATTACHMENT": "Gui tep dinh kem",
+      "SEND_MESSAGE": "Gui tin nhan",
+      "ADD_PRIVATE_NOTE": "Them ghi chu rieng",
+      "CHANGE_PRIORITY": "Thay doi muc do uu tien",
+      "ADD_SLA": "Them SLA",
+      "OPEN_CONVERSATION": "Mo hoi thoai"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Tin nhan den",
+      "OUTGOING": "Tin nhan di"
     },
     "PRIORITY_TYPES": {
       "NONE": "Không có",
@@ -164,21 +164,21 @@
       "URGENT": "Cấp bách"
     },
     "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
+      "MESSAGE_TYPE": "Loai tin nhan",
+      "MESSAGE_CONTAINS": "Tin nhan chua",
       "EMAIL": "Email",
-      "INBOX": "Hộp thư đến",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
-      "PHONE_NUMBER": "Số điện thoại",
-      "STATUS": "Trạng thái",
-      "BROWSER_LANGUAGE": "Ngôn ngữ của Trình duyệt",
-      "MAIL_SUBJECT": "Email Subject",
-      "COUNTRY_NAME": "Quốc gia",
-      "REFERER_LINK": "Referrer Link",
-      "ASSIGNEE_NAME": "Assignee",
-      "TEAM_NAME": "Nhóm",
-      "PRIORITY": "Mức độ ưu tiên",
-      "LABELS": "Nhãn"
+      "INBOX": "Hop thu den",
+      "CONVERSATION_LANGUAGE": "Ngon ngu hoi thoai",
+      "PHONE_NUMBER": "So dien thoai",
+      "STATUS": "Trang thai",
+      "BROWSER_LANGUAGE": "Ngon ngu trinh duyet",
+      "MAIL_SUBJECT": "Chu de email",
+      "COUNTRY_NAME": "Quoc gia",
+      "REFERER_LINK": "Lien ket gioi thieu",
+      "ASSIGNEE_NAME": "Nguoi duoc gan",
+      "TEAM_NAME": "Nhom",
+      "PRIORITY": "Muc do uu tien",
+      "LABELS": "Nhan"
     }
   }
 }

@@ -1,32 +1,32 @@
 {
   "COMPANIES": {
-    "HEADER": "Companies",
+    "HEADER": "Cong ty",
     "SORT_BY": {
-      "LABEL": "Sắp bởi",
+      "LABEL": "Sap xep boi",
       "OPTIONS": {
-        "NAME": "Tên",
-        "DOMAIN": "Miền",
-        "CREATED_AT": "Tạo vào lúc"
+        "NAME": "Ten",
+        "DOMAIN": "Mien",
+        "CREATED_AT": "Tao vao luc"
       }
     },
     "ORDER": {
-      "LABEL": "Order",
+      "LABEL": "Thu tu",
       "OPTIONS": {
-        "ASCENDING": "Ascending",
-        "DESCENDING": "Descending"
+        "ASCENDING": "Tang dan",
+        "DESCENDING": "Giam dan"
       }
     },
-    "SEARCH_PLACEHOLDER": "Search companies...",
-    "LOADING": "Loading companies...",
-    "UNNAMED": "Unnamed Company",
-    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "SEARCH_PLACEHOLDER": "Tim kiem cong ty...",
+    "LOADING": "Dang tai cong ty...",
+    "UNNAMED": "Cong ty chua dat ten",
+    "CONTACTS_COUNT": "{n} lien he | {n} lien he",
     "EMPTY_STATE": {
-      "TITLE": "No companies found"
+      "TITLE": "Khong tim thay cong ty nao"
     }
   },
   "COMPANIES_LAYOUT": {
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+      "SHOWING": "Hien thi {startItem} – {endItem} trong {totalItems} cong ty | Hien thi {startItem} – {endItem} trong {totalItems} cong ty"
     }
   }
 }

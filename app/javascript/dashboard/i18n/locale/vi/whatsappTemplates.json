@@ -1,47 +1,47 @@
 {
   "WHATSAPP_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Mẫu Whatsapp",
-      "SUBTITLE": "Chọn mẫu whatsapp bạn muốn gửi",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Mau Whatsapp",
+      "SUBTITLE": "Chon mau whatsapp ban muon gui",
+      "TEMPLATE_SELECTED_SUBTITLE": "Cau hinh mau: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Tìm kiếm Mẫu",
-      "NO_TEMPLATES_FOUND": "Không tìm thấy mẫu nào cho",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
-      "CATEGORY": "Loại",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No WhatsApp templates available. Click refresh to sync templates from WhatsApp.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "SEARCH_PLACEHOLDER": "Tim kiem mau",
+      "NO_TEMPLATES_FOUND": "Khong tim thay mau nao cho",
+      "HEADER": "Tieu de",
+      "BODY": "Noi dung",
+      "FOOTER": "Chan trang",
+      "BUTTONS": "Nut",
+      "CATEGORY": "Loai",
+      "MEDIA_CONTENT": "Noi dung media",
+      "MEDIA_CONTENT_FALLBACK": "noi dung media",
+      "NO_TEMPLATES_AVAILABLE": "Khong co mau WhatsApp nao. Nhan lam moi de dong bo mau tu WhatsApp.",
+      "REFRESH_BUTTON": "Lam moi mau",
+      "REFRESH_SUCCESS": "Da bat dau lam moi mau. Co the mat vai phut de cap nhat.",
+      "REFRESH_ERROR": "Khong the lam moi mau. Vui long thu lai.",
       "LABELS": {
-        "LANGUAGE": "Ngôn ngữ",
-        "TEMPLATE_BODY": "Nội dung của Mẫu",
-        "CATEGORY": "Loại"
+        "LANGUAGE": "Ngon ngu",
+        "TEMPLATE_BODY": "Noi dung cua mau",
+        "CATEGORY": "Loai"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "Biến",
-      "LANGUAGE": "Ngôn ngữ",
-      "CATEGORY": "Loại",
-      "VARIABLE_PLACEHOLDER": "Nhập giá trị {variable}",
-      "GO_BACK_LABEL": "Quay lại",
-      "SEND_MESSAGE_LABEL": "Gửi tin nhắn",
-      "FORM_ERROR_MESSAGE": "Vui lòng điền vào tất cả các biến trước khi gửi",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "OTP_CODE": "Enter 4-8 digit OTP",
-      "EXPIRY_MINUTES": "Enter expiry minutes",
-      "BUTTON_PARAMETERS": "Button Parameters",
-      "BUTTON_LABEL": "Button {index}",
-      "COUPON_CODE": "Enter coupon code (max 15 chars)",
-      "MEDIA_URL_LABEL": "Enter {type} URL",
-      "DOCUMENT_NAME_PLACEHOLDER": "Enter document filename (e.g., Invoice_2025.pdf)",
-      "BUTTON_PARAMETER": "Enter button parameter"
+      "VARIABLES_LABEL": "Bien",
+      "LANGUAGE": "Ngon ngu",
+      "CATEGORY": "Loai",
+      "VARIABLE_PLACEHOLDER": "Nhap gia tri {variable}",
+      "GO_BACK_LABEL": "Quay lai",
+      "SEND_MESSAGE_LABEL": "Gui tin nhan",
+      "FORM_ERROR_MESSAGE": "Vui long dien vao tat ca cac bien truoc khi gui",
+      "MEDIA_HEADER_LABEL": "Tieu de {type}",
+      "OTP_CODE": "Nhap ma OTP 4-8 chu so",
+      "EXPIRY_MINUTES": "Nhap so phut het han",
+      "BUTTON_PARAMETERS": "Tham so nut",
+      "BUTTON_LABEL": "Nut {index}",
+      "COUPON_CODE": "Nhap ma giam gia (toi da 15 ky tu)",
+      "MEDIA_URL_LABEL": "Nhap URL {type}",
+      "DOCUMENT_NAME_PLACEHOLDER": "Nhap ten tai lieu (vi du: Invoice_2025.pdf)",
+      "BUTTON_PARAMETER": "Nhap tham so nut"
     }
   }
 }

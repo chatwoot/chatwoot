@@ -1,90 +1,90 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
-    "LEARN_MORE": "Learn more about custom roles",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-    "HEADER_BTN_TXT": "Add custom role",
-    "LOADING": "Fetching custom roles...",
-    "SEARCH_404": "Không có kết quả nào phù hợp.",
+    "HEADER": "Vai tro tuy chinh",
+    "LEARN_MORE": "Tim hieu them ve vai tro tuy chinh",
+    "DESCRIPTION": "Vai tro tuy chinh la vai tro duoc tao boi chu so huu tai khoan hoac quan tri vien. Cac vai tro nay co the duoc gan cho nhan vien de xac dinh quyen truy cap va quyen han trong tai khoan. Vai tro tuy chinh co the duoc tao voi quyen va muc truy cap cu the phu hop voi yeu cau cua to chuc.",
+    "HEADER_BTN_TXT": "Them vai tro tuy chinh",
+    "LOADING": "Dang tai vai tro tuy chinh...",
+    "SEARCH_404": "Khong co ket qua nao phu hop.",
     "PAYWALL": {
-      "TITLE": "Upgrade to create custom roles",
-      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like team management, automations, custom attributes, and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "Nang cap de tao vai tro tuy chinh",
+      "AVAILABLE_ON": "Tinh nang vai tro tuy chinh chi co trong goi Business va Enterprise.",
+      "UPGRADE_PROMPT": "Nang cap goi de truy cap cac tinh nang nang cao nhu quan ly nhom, tu dong hoa, thuoc tinh tuy chinh va hon nua.",
+      "UPGRADE_NOW": "Nang cap ngay",
+      "CANCEL_ANYTIME": "Ban co the thay doi hoac huy goi bat cu luc nao"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like audit logs, agent capacity, and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "AVAILABLE_ON": "Tinh nang vai tro tuy chinh chi co trong cac goi tra phi.",
+      "UPGRADE_PROMPT": "Nang cap len goi tra phi de truy cap cac tinh nang nang cao nhu nhat ky kiem toan, dung luong nhan vien va hon nua.",
+      "ASK_ADMIN": "Vui long lien he quan tri vien de nang cap."
     },
     "LIST": {
-      "404": "There are no custom roles available in this account.",
-      "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "404": "Khong co vai tro tuy chinh nao trong tai khoan nay.",
+      "TITLE": "Quan ly vai tro tuy chinh",
+      "DESC": "Vai tro tuy chinh la vai tro duoc tao boi chu so huu tai khoan hoac quan tri vien. Cac vai tro nay co the duoc gan cho nhan vien de xac dinh quyen truy cap va quyen han trong tai khoan. Vai tro tuy chinh co the duoc tao voi quyen va muc truy cap cu the phu hop voi yeu cau cua to chuc.",
       "TABLE_HEADER": {
-        "NAME": "Tên",
-        "DESCRIPTION": "Mô tả",
-        "PERMISSIONS": "Permissions",
-        "ACTIONS": "Hành động"
+        "NAME": "Ten",
+        "DESCRIPTION": "Mo ta",
+        "PERMISSIONS": "Quyen",
+        "ACTIONS": "Hanh dong"
       }
     },
     "PERMISSIONS": {
-      "CONVERSATION_MANAGE": "Manage all conversations",
-      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations and those assigned to them",
-      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations and those assigned to them",
-      "CONTACT_MANAGE": "Manage contacts",
-      "REPORT_MANAGE": "Manage reports",
-      "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base"
+      "CONVERSATION_MANAGE": "Quan ly tat ca hoi thoai",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Quan ly hoi thoai chua duoc gan va duoc gan cho ho",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Quan ly hoi thoai dang tham gia va duoc gan cho ho",
+      "CONTACT_MANAGE": "Quan ly lien he",
+      "REPORT_MANAGE": "Quan ly bao cao",
+      "KNOWLEDGE_BASE_MANAGE": "Quan ly co so kien thuc"
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Tên",
-        "PLACEHOLDER": "Please enter a name.",
-        "ERROR": "Cần phải có tên."
+        "LABEL": "Ten",
+        "PLACEHOLDER": "Vui long nhap ten.",
+        "ERROR": "Can phai co ten."
       },
       "DESCRIPTION": {
-        "LABEL": "Mô tả",
-        "PLACEHOLDER": "Please enter a description.",
-        "ERROR": "Cần phải có \u001dmô tả."
+        "LABEL": "Mo ta",
+        "PLACEHOLDER": "Vui long nhap mo ta.",
+        "ERROR": "Can phai co mo ta."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "LABEL": "Quyen",
+        "ERROR": "Quyen la bat buoc."
       },
-      "CANCEL_BUTTON_TEXT": "Huỷ",
+      "CANCEL_BUTTON_TEXT": "Huy",
       "API": {
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot. Vui long thu lai."
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
-      "SUBMIT": "Gửi",
+      "TITLE": "Them vai tro tuy chinh",
+      "DESC": "Vai tro tuy chinh cho phep ban tao vai tro voi quyen va muc truy cap cu the phu hop voi yeu cau cua to chuc.",
+      "SUBMIT": "Gui",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully."
+        "SUCCESS_MESSAGE": "Vai tro tuy chinh da duoc them thanh cong."
       }
     },
     "EDIT": {
-      "BUTTON_TEXT": "Chỉnh sửa",
-      "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
-      "SUBMIT": "Cập nhật",
+      "BUTTON_TEXT": "Chinh sua",
+      "TITLE": "Sua vai tro tuy chinh",
+      "DESC": "Vai tro tuy chinh cho phep ban tao vai tro voi quyen va muc truy cap cu the phu hop voi yeu cau cua to chuc.",
+      "SUBMIT": "Cap nhat",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "Vai tro tuy chinh da duoc cap nhat thanh cong."
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Xoá",
+      "BUTTON_TEXT": "Xoa",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
-        "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+        "SUCCESS_MESSAGE": "Vai tro tuy chinh da duoc xoa thanh cong.",
+        "ERROR_MESSAGE": "Khong the ket noi voi may chu Woot. Vui long thu lai."
       },
       "CONFIRM": {
-        "TITLE": "Xác nhận xoá",
-        "MESSAGE": "Bạn có muốn xoá? ",
-        "YES": "Có, xoá ",
-        "NO": "No, keep "
+        "TITLE": "Xac nhan xoa",
+        "MESSAGE": "Ban co muon xoa? ",
+        "YES": "Co, xoa ",
+        "NO": "Khong, giu "
       }
     }
   }

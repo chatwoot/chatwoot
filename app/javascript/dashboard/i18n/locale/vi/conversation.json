@@ -12,11 +12,11 @@
     "NO_INBOX_2": " để bắt đầu",
     "NO_INBOX_AGENT": "Uh Oh! Có vẻ như bạn không thuộc bất kỳ hộp thư đến nào. Vui lòng liên hệ với quản trị viên của bạn",
     "SEARCH_MESSAGES": "Tìm kiếm tin nhắn trong các hội thoại",
-    "VIEW_ORIGINAL": "View original",
-    "VIEW_TRANSLATED": "View translated",
+    "VIEW_ORIGINAL": "Xem bản gốc",
+    "VIEW_TRANSLATED": "Xem bản dịch",
     "EMPTY_STATE": {
-      "CMD_BAR": "to open command menu",
-      "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
+      "CMD_BAR": "để mở menu lệnh",
+      "KEYBOARD_SHORTCUTS": "để xem phím tắt"
     },
     "SEARCH": {
       "TITLE": "Tìm kiếm tin nhắn",
@@ -33,14 +33,14 @@
     "CANNOT_REPLY": "Bạn không thể trả lời do",
     "24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "48_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 48 giờ",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "API_HOURS_WINDOW": "Bạn chỉ có thể trả lời cuộc hội thoại này trong vòng {hours} giờ",
     "NOT_ASSIGNED_TO_YOU": "Hội thoại này không được phân công cho bạn. Bạn có muốn phân công hội thoại này cho chính mình?",
     "ASSIGN_TO_ME": "Phân công cho tôi",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Bạn đang phản hồi một cuộc hội thoại hiện đang được xử lý bởi trợ lý hoặc bot.",
+    "BOT_HANDOFF_ACTION": "Đánh dấu mở và gán cho bạn",
+    "BOT_HANDOFF_REOPEN_ACTION": "Đánh dấu hội thoại là mở",
+    "BOT_HANDOFF_SUCCESS": "Hội thoại đã được chuyển giao cho bạn",
+    "BOT_HANDOFF_ERROR": "Không thể tiếp quản hội thoại. Vui lòng thử lại.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bạn chỉ có thể phản hồi hội thoại này bằng tin nhắn mẫu vì",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Giới hạn thời lượng tin nhắn 24 giờ",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -51,47 +51,47 @@
     "SAVE_CONTACT": "Lưu liên hệ",
     "NO_CONTENT": "Không có nội dung để hiển thị",
     "SHARED_ATTACHMENT": {
-      "CONTACT": "{sender} has shared a contact",
-      "LOCATION": "{sender} has shared a location",
-      "FILE": "{sender} has shared a file",
+      "CONTACT": "{sender} đã chia sẻ một liên hệ",
+      "LOCATION": "{sender} đã chia sẻ một vị trí",
+      "FILE": "{sender} đã chia sẻ một tệp",
       "MEETING": "{sender} đã bắt đầu một cuộc họp"
     },
     "UPLOADING_ATTACHMENTS": "Đang tải file đính kèm...",
-    "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
-    "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
-    "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
+    "REPLIED_TO_STORY": "Đã trả lời story của bạn",
+    "UNSUPPORTED_MESSAGE": "Tin nhắn này không được hỗ trợ. Để xem, vui lòng mở trên nền tảng gốc.",
+    "UNSUPPORTED_MESSAGE_FACEBOOK": "Tin nhắn này không được hỗ trợ. Bạn có thể xem tin nhắn này trên ứng dụng Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE_INSTAGRAM": "Tin nhắn này không được hỗ trợ. Bạn có thể xem tin nhắn này trên ứng dụng Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Tin nhắn được xoá thành công",
     "FAIL_DELETE_MESSSAGE": "Không thể xoá tin nhắn! Thử lại",
     "NO_RESPONSE": "Không có phản hồi",
-    "RESPONSE": "Response",
+    "RESPONSE": "Phản hồi",
     "RATING_TITLE": "Đánh giá",
     "FEEDBACK_TITLE": "Phản hồi",
-    "REPLY_MESSAGE_NOT_FOUND": "Message not available",
+    "REPLY_MESSAGE_NOT_FOUND": "Tin nhắn không có sẵn",
     "CARD": {
       "SHOW_LABELS": "Hiển thị nhãn",
       "HIDE_LABELS": "Ẩn nhãn"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Cuộc gọi đến",
+      "OUTGOING_CALL": "Cuộc gọi đi",
+      "CALL_IN_PROGRESS": "Cuộc gọi đang diễn ra",
+      "NO_ANSWER": "Không trả lời",
+      "MISSED_CALL": "Cuộc gọi nhỡ",
+      "CALL_ENDED": "Cuộc gọi kết thúc",
+      "NOT_ANSWERED_YET": "Chưa trả lời",
+      "THEY_ANSWERED": "Họ đã trả lời",
+      "YOU_ANSWERED": "Bạn đã trả lời"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Giải quyết",
       "REOPEN_ACTION": "Mở lại",
       "OPEN_ACTION": "Mở",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "Thêm hành động",
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
-      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL": "Tạm dừng đến",
       "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
       "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
       "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi",
@@ -99,7 +99,7 @@
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
         "RT": "RT {status}",
-        "MISSED": "missed",
+        "MISSED": "bỏ lỡ",
         "DUE": "quá hạn"
       }
     },
@@ -135,20 +135,20 @@
         "SELECT_PLACEHOLDER": "Không có",
         "INPUT_PLACEHOLDER": "Chọc mức ưu tiên",
         "NO_RESULTS": "Không tìm thấy kết quả",
-        "SUCCESSFUL": "Changed priority of conversation id {conversationId} to {priority}",
-        "FAILED": "Couldn't change priority. Please try again."
+        "SUCCESSFUL": "Đã thay đổi mức ưu tiên của hội thoại {conversationId} thành {priority}",
+        "FAILED": "Không thể thay đổi mức ưu tiên. Vui lòng thử lại."
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "Xóa hội thoại #{conversationId}",
+      "DESCRIPTION": "Bạn có chắc chắn muốn xóa hội thoại này?",
       "CONFIRM": "Xoá"
     },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Đánh dấu chưa giải quyết",
       "RESOLVED": "Đánh dấu là đã giải quyết",
       "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
-      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_READ": "Đánh dấu là đã đọc",
       "REOPEN": "Mở lại hội thoại",
       "SNOOZE": {
         "TITLE": "Báo lại",
@@ -160,10 +160,10 @@
       "ASSIGN_LABEL": "Gán nhãn",
       "AGENTS_LOADING": "Đang tải điện thoại viên...",
       "ASSIGN_TEAM": "Gán nhóm",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "Xóa hội thoại",
+      "OPEN_IN_NEW_TAB": "Mở trong tab mới",
+      "COPY_LINK": "Sao chép liên kết hội thoại",
+      "COPY_LINK_SUCCESS": "Đã sao chép liên kết hội thoại vào clipboard",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id hội thoại {conversationId} được gán cho \"{agentName}\"",
@@ -195,8 +195,8 @@
       "SEND": "Gửi",
       "CREATE": "Thêm ghi chú",
       "INSERT_READ_MORE": "Đọc thêm",
-      "DISMISS_REPLY": "Dismiss reply",
-      "REPLYING_TO": "Replying to:",
+      "DISMISS_REPLY": "Bỏ qua trả lời",
+      "REPLYING_TO": "Trả lời:",
       "TIP_EMOJI_ICON": "Hiển thị chọn emoji",
       "TIP_ATTACH_ICON": "Đính kèm tệp",
       "TIP_AUDIORECORDER_ICON": "Ghi âm thanh",
@@ -221,19 +221,19 @@
         }
       },
       "UNDEFINED_VARIABLES": {
-        "TITLE": "Undefined variables",
-        "MESSAGE": "You have {undefinedVariablesCount} undefined variables in your message: {undefinedVariables}. Would you like to send the message anyway?",
+        "TITLE": "Biến chưa định nghĩa",
+        "MESSAGE": "Bạn có {undefinedVariablesCount} biến chưa định nghĩa trong tin nhắn: {undefinedVariables}. Bạn có muốn gửi tin nhắn không?",
         "CONFIRM": {
           "YES": "Gửi",
           "CANCEL": "Huỷ"
         }
       },
       "QUOTED_REPLY": {
-        "ENABLE_TOOLTIP": "Include quoted email thread",
-        "DISABLE_TOOLTIP": "Don't include quoted email thread",
-        "REMOVE_PREVIEW": "Remove quoted email thread",
-        "COLLAPSE": "Collapse preview",
-        "EXPAND": "Expand preview"
+        "ENABLE_TOOLTIP": "Bao gồm chuỗi email trích dẫn",
+        "DISABLE_TOOLTIP": "Không bao gồm chuỗi email trích dẫn",
+        "REMOVE_PREVIEW": "Xóa chuỗi email trích dẫn",
+        "COLLAPSE": "Thu gọn xem trước",
+        "EXPAND": "Mở rộng xem trước"
       }
     },
     "VISIBLE_TO_AGENTS": "Lưu ý riêng: Chỉ hiển thị với bạn và nhóm của bạn",
@@ -244,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Đã gán nhãn thành công",
     "ASSIGN_LABEL_FAILED": "Gán nhãn không thành công",
     "CHANGE_TEAM": "Nhóm hội thoại đã được thay đổi",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "Hội thoại đã được xóa thành công",
+    "FAIL_DELETE_CONVERSATION": "Không thể xóa hội thoại! Thử lại",
     "FILE_SIZE_LIMIT": "Tệp vượt quá {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB mức hạn chế",
     "MESSAGE_ERROR": "Không thể gửi tin nhắn này, vui lòng thử lại sau",
     "SENT_BY": "Gửi bởi:",
@@ -297,9 +297,9 @@
   "ONBOARDING": {
     "TITLE": "Xin chào 👋, Chào mừng đến với {installationName}!",
     "DESCRIPTION": "Cảm ơn bạn đã đăng ký. Chúng tôi muốn bạn khai thác tối đa {installationName}. Dưới đây là một số điều bạn có thể làm trong {installationName} để mang lại trải nghiệm thú vị.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "GREETING_MORNING": "👋 Chào buổi sáng, {name}. Chào mừng đến với {installationName}.",
+    "GREETING_AFTERNOON": "👋 Chào buổi chiều, {name}. Chào mừng đến với {installationName}.",
+    "GREETING_EVENING": "👋 Chào buổi tối, {name}. Chào mừng đến với {installationName}.",
     "READ_LATEST_UPDATES": "Đọc cập nhật mới nhất của chúng tôi",
     "ALL_CONVERSATION": {
       "TITLE": "Tất cả hội thoại của bạn ở cùng một chỗ",
@@ -317,9 +317,9 @@
       "NEW_LINK": "Bấm vào đây để tạo nhãn"
     },
     "CANNED_RESPONSES": {
-      "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
-      "NEW_LINK": "Click here to create a canned response"
+      "TITLE": "Tạo câu trả lời soạn sẵn",
+      "DESCRIPTION": "Các mẫu tin nhắn trả lời nhanh được soạn sẵn giúp bạn phản hồi nhanh chóng. Nhân viên có thể gõ ký tự '/' theo sau là mã tắt để chèn phản hồi.",
+      "NEW_LINK": "Bấm vào đây để tạo câu trả lời soạn sẵn"
     }
   },
   "CONVERSATION_SIDEBAR": {
@@ -338,26 +338,26 @@
       "CONTACT_ATTRIBUTES": "Thuộc tính của liên hệ",
       "PREVIOUS_CONVERSATION": "Cuộc trò chuyện trước đó",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "LINEAR_ISSUES": "Các vấn đề Linear đã liên kết",
+      "SHOPIFY_ORDERS": "Đơn hàng Shopify"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Order #{id}",
-      "ERROR": "Error loading orders",
-      "NO_SHOPIFY_ORDERS": "No orders found",
+      "ORDER_ID": "Đơn hàng #{id}",
+      "ERROR": "Lỗi khi tải đơn hàng",
+      "NO_SHOPIFY_ORDERS": "Không tìm thấy đơn hàng",
       "FINANCIAL_STATUS": {
         "PENDING": "Chờ giải quyết",
-        "AUTHORIZED": "Authorized",
-        "PARTIALLY_PAID": "Partially Paid",
-        "PAID": "Paid",
-        "PARTIALLY_REFUNDED": "Partially Refunded",
-        "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "AUTHORIZED": "Đã ủy quyền",
+        "PARTIALLY_PAID": "Thanh toán một phần",
+        "PAID": "Đã thanh toán",
+        "PARTIALLY_REFUNDED": "Hoàn tiền một phần",
+        "REFUNDED": "Đã hoàn tiền",
+        "VOIDED": "Đã hủy"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Fulfilled",
-        "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
+        "FULFILLED": "Đã hoàn thành",
+        "PARTIALLY_FULFILLED": "Hoàn thành một phần",
+        "UNFULFILLED": "Chưa hoàn thành"
       }
     }
   },
@@ -389,41 +389,41 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Chủ đề",
-    "EXPAND": "Expand email"
+    "EXPAND": "Mở rộng email"
   },
   "CONVERSATION_PARTICIPANTS": {
-    "SIDEBAR_MENU_TITLE": "Participating",
-    "SIDEBAR_TITLE": "Conversation participants",
+    "SIDEBAR_MENU_TITLE": "Tham gia",
+    "SIDEBAR_TITLE": "Người tham gia hội thoại",
     "NO_RECORDS_FOUND": "Không tìm thấy kết quả",
-    "ADD_PARTICIPANTS": "Select participants",
-    "REMANING_PARTICIPANTS_TEXT": "+{count} others",
-    "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
-    "WATCH_CONVERSATION": "Join conversation",
-    "YOU_ARE_WATCHING": "You are participating",
+    "ADD_PARTICIPANTS": "Chọn người tham gia",
+    "REMANING_PARTICIPANTS_TEXT": "+{count} người khác",
+    "REMANING_PARTICIPANT_TEXT": "+{count} người khác",
+    "TOTAL_PARTICIPANTS_TEXT": "{count} người đang tham gia.",
+    "TOTAL_PARTICIPANT_TEXT": "{count} người đang tham gia.",
+    "NO_PARTICIPANTS_TEXT": "Không có ai tham gia!.",
+    "WATCH_CONVERSATION": "Tham gia hội thoại",
+    "YOU_ARE_WATCHING": "Bạn đang tham gia",
     "API": {
-      "ERROR_MESSAGE": "Could not update, try again!",
-      "SUCCESS_MESSAGE": "Participants updated!"
+      "ERROR_MESSAGE": "Không thể cập nhật, thử lại!",
+      "SUCCESS_MESSAGE": "Đã cập nhật người tham gia!"
     }
   },
   "TRANSLATE_MODAL": {
-    "TITLE": "View translated content",
-    "DESC": "You can view the translated content in each langauge.",
-    "ORIGINAL_CONTENT": "Original Content",
-    "TRANSLATED_CONTENT": "Translated Content",
-    "NO_TRANSLATIONS_AVAILABLE": "No translations are available for this content"
+    "TITLE": "Xem nội dung đã dịch",
+    "DESC": "Bạn có thể xem nội dung đã dịch theo từng ngôn ngữ.",
+    "ORIGINAL_CONTENT": "Nội dung gốc",
+    "TRANSLATED_CONTENT": "Nội dung đã dịch",
+    "NO_TRANSLATIONS_AVAILABLE": "Không có bản dịch cho nội dung này"
   },
   "TYPING": {
-    "ONE": "{user} is typing",
-    "TWO": "{user} and {secondUser} are typing",
-    "MULTIPLE": "{user} and {count} others are typing"
+    "ONE": "{user} đang nhập",
+    "TWO": "{user} và {secondUser} đang nhập",
+    "MULTIPLE": "{user} và {count} người khác đang nhập"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "Thử các gợi ý này"
   },
   "GALLERY_VIEW": {
-    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
+    "ERROR_DOWNLOADING": "Không thể tải tệp đính kèm. Vui lòng thử lại"
   }
 }

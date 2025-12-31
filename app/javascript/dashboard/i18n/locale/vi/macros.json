@@ -1,12 +1,12 @@
 {
   "MACROS": {
     "HEADER": "Macros",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Add a new macro",
-    "HEADER_BTN_TXT_SAVE": "Save macro",
-    "LOADING": "Fetching macros",
-    "ERROR": "Something went wrong. Please try again",
+    "DESCRIPTION": "Macro la tap hop cac hanh dong da luu giup nhan vien dich vu khach hang de dang hoan thanh cong viec. Nhan vien co the dinh nghia cac hanh dong nhu gan nhan cho hoi thoai, gui ban ghi email, cap nhat thuoc tinh tuy chinh, v.v., va chay cac hanh dong nay chi voi mot cu nhan.",
+    "LEARN_MORE": "Tim hieu them ve macros",
+    "HEADER_BTN_TXT": "Them macro moi",
+    "HEADER_BTN_TXT_SAVE": "Luu macro",
+    "LOADING": "Dang tai macros",
+    "ERROR": "Da xay ra loi. Vui long thu lai",
     "ORDER_INFO": "Macro sẽ chạy theo thứ tự hành động của bạn. Bạn có thể sắp xếp lại chúng bằng cách kéo chúng bằng tay cầm bên cạnh mỗi nút.",
     "ADD": {
       "FORM": {
@@ -76,29 +76,29 @@
       "EXECUTED_SUCCESSFULLY": "Macro được thực thi thành công"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Giá trị bắt buộc có",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+      "ATTRIBUTE_KEY_REQUIRED": "Khoa thuoc tinh la bat buoc",
+      "FILTER_OPERATOR_REQUIRED": "Toan tu loc la bat buoc",
+      "VALUE_REQUIRED": "Gia tri la bat buoc",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Gia tri phai tu 1 den 998",
+      "ACTION_PARAMETERS_REQUIRED": "Tham so hanh dong la bat buoc",
+      "ATLEAST_ONE_CONDITION_REQUIRED": "Can it nhat mot dieu kien",
+      "ATLEAST_ONE_ACTION_REQUIRED": "Can it nhat mot hanh dong"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Tắt tiếng cuộc trò chuyện",
-      "SNOOZE_CONVERSATION": "Tạm dừng \bhội thoại",
-      "RESOLVE_CONVERSATION": "Giải quyết cuộc trò chuyện",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Change Priority",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "ASSIGN_TEAM": "Gan cho nhom",
+      "ASSIGN_AGENT": "Gan cho nhan vien",
+      "ADD_LABEL": "Them nhan",
+      "REMOVE_LABEL": "Xoa nhan",
+      "REMOVE_ASSIGNED_TEAM": "Xoa nhom da gan",
+      "SEND_EMAIL_TRANSCRIPT": "Gui ban ghi email",
+      "MUTE_CONVERSATION": "Tat tieng hoi thoai",
+      "SNOOZE_CONVERSATION": "Tam dung hoi thoai",
+      "RESOLVE_CONVERSATION": "Giai quyet hoi thoai",
+      "SEND_ATTACHMENT": "Gui tep dinh kem",
+      "SEND_MESSAGE": "Gui tin nhan",
+      "CHANGE_PRIORITY": "Thay doi muc do uu tien",
+      "ADD_PRIVATE_NOTE": "Them ghi chu rieng",
+      "SEND_WEBHOOK_EVENT": "Gui su kien Webhook"
     },
     "PRIORITY_TYPES": {
       "NONE": "Không có",

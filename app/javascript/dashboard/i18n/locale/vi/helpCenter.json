@@ -2,7 +2,7 @@
   "HELP_CENTER": {
     "TITLE": "Help Center",
     "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
+      "DESCRIPTION": "Tao cong tu phuc vu trung tam tro giup cho khach hang cua ban. Giup ho tim thay cau tra loi nhanh chong ma khong can cho doi. Tang hieu qua nhan vien va nang cao ho tro khach hang.",
       "CREATE_PORTAL_BUTTON": "Tạo cổng"
     },
     "HEADER": {
@@ -23,10 +23,10 @@
         "ARCHIVED": "Các bài lưu"
       },
       "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "TITLE": "Chon ngon ngu",
+        "PLACEHOLDER": "Chon ngon ngu",
+        "NO_RESULT": "Khong tim thay ngon ngu",
+        "SEARCH_PLACEHOLDER": "Tim kiem ngon ngu"
       }
     },
     "EDIT_HEADER": {
@@ -46,7 +46,7 @@
         "UPLOADING": "Đang tải lên...",
         "SUCCESS": "Ảnh tải lên thành công",
         "ERROR": "Lỗi khi tải ảnh lên",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
+        "UN_AUTHORIZED_ERROR": "Ban khong co quyen tai len hinh anh",
         "ERROR_FILE_SIZE": "Kích thước ảnh phải nhỏ hơn {size}MB",
         "ERROR_FILE_FORMAT": "Ảnh phải có định dạng jpg, jpeg hoặc png",
         "ERROR_FILE_DIMENSIONS": "Kích thước ảnh phải nhỏ hơn 2000 x 2000"
@@ -89,8 +89,8 @@
     },
     "ARTICLE_SEARCH_RESULT": {
       "UNCATEGORIZED": "Chưa được phân loại",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
+      "SEARCH_RESULTS": "Ket qua tim kiem cho {query}",
+      "EMPTY_TEXT": "Tim kiem bai viet de chen vao tra loi.",
       "SEARCH_LOADER": "Đang tìm kiếm...",
       "INSERT_ARTICLE": "Thêm vào",
       "NO_RESULT": "Không có bài viết nào",
@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "Huong dan CNAME da duoc gui thanh cong",
+            "ERROR_MESSAGE": "Loi khi gui huong dan CNAME"
           }
         }
       },
@@ -237,9 +237,9 @@
           "LABEL": "Logo",
           "UPLOAD_BUTTON": "Tải lên logo",
           "HELP_TEXT": "Logo này sẽ được hiển thị trên tiêu đề cổng thông tin.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "IMAGE_UPLOAD_SUCCESS": "Logo da duoc tai len thanh cong",
+          "IMAGE_UPLOAD_ERROR": "Logo da duoc xoa thanh cong",
+          "IMAGE_DELETE_ERROR": "Loi khi xoa logo"
         },
         "NAME": {
           "LABEL": "Tên",
@@ -255,13 +255,13 @@
         "DOMAIN": {
           "LABEL": "Tên miền tuỳ biến",
           "PLACEHOLDER": "Tên miền tuỳ biến cổng",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
+          "HELP_TEXT": "Chi them neu ban muon su dung ten mien tuy chinh cho cong cua ban. Vi du: {exampleURL}",
           "ERROR": "Nhập URL domain"
         },
         "HOME_PAGE_LINK": {
           "LABEL": "Liên kết trang chủ",
           "PLACEHOLDER": "Liên kế trang chủ cổng thông tin",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
+          "HELP_TEXT": "Lien ket duoc su dung de tro ve tu cong den trang chu. Vi du: {exampleURL}",
           "ERROR": "Nhập URL trang chủ"
         },
         "THEME_COLOR": {
@@ -331,7 +331,7 @@
       },
       "COLUMNS": {
         "BY": "bởi",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "AUTHOR_NOT_AVAILABLE": "Tac gia khong co san"
       }
     },
     "EDIT_ARTICLE": {
@@ -356,8 +356,8 @@
     },
     "DRAFT_ARTICLE": {
       "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "Loi khi luu nhap bai viet",
+        "SUCCESS": "Bai viet da duoc luu nhap thanh cong"
       }
     },
     "DELETE_ARTICLE": {
@@ -391,7 +391,7 @@
         "NAME": {
           "LABEL": "Tên",
           "PLACEHOLDER": "Tên danh mục",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Ten danh muc va bieu tuong se duoc su dung trong cong thong tin cong khai de phan loai bai viet.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
@@ -422,7 +422,7 @@
         "NAME": {
           "LABEL": "Tên",
           "PLACEHOLDER": "Tên danh mục",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "HELP_TEXT": "Ten danh muc va bieu tuong se duoc su dung trong cong thong tin cong khai de phan loai bai viet.",
           "ERROR": "Tên bắt buộc có"
         },
         "SLUG": {
@@ -458,43 +458,43 @@
       "NO_RESULT": "Không có bài viết nào",
       "SEARCHING": "Đang tìm kiếm...",
       "SEARCH_BUTTON": "Tìm kiếm",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
+      "INSERT_ARTICLE": "Chen lien ket",
+      "IFRAME_ERROR": "URL trong hoac khong hop le. Khong the hien thi noi dung.",
+      "OPEN_ARTICLE_SEARCH": "Chen bai viet tu Trung tam tro giup",
+      "SUCCESS_ARTICLE_INSERTED": "Bai viet da duoc chen thanh cong",
       "PREVIEW_LINK": "Xem trước bài viết",
       "CANCEL": "Đóng",
       "BACK": "Trờ về",
-      "BACK_RESULTS": "Back to results"
+      "BACK_RESULTS": "Tro ve ket qua"
     },
     "UPGRADE_PAGE": {
       "TITLE": "Help Center",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
+      "DESCRIPTION": "Tao cong tu phuc vu than thien voi nguoi dung. Giup nguoi dung truy cap bai viet va nhan ho tro 24/7. Nang cap goi dang ky de kich hoat tinh nang nay.",
+      "SELF_HOSTED_DESCRIPTION": "Tao cong tu phuc vu than thien voi nguoi dung. Giup nguoi dung truy cap bai viet va nhan ho tro 24/7. Vui long lien he quan tri vien de kich hoat tinh nang nay.",
       "BUTTON": {
-        "LEARN_MORE": "Tìm hiểu thêm",
-        "UPGRADE": "Upgrade"
+        "LEARN_MORE": "Tim hieu them",
+        "UPGRADE": "Nang cap"
       },
       "FEATURES": {
         "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
+          "TITLE": "Nhieu cong",
+          "DESCRIPTION": "Tao nhieu cong trung tam tro giup cho cac san pham khac nhau bang cung mot tai khoan."
         },
         "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
+          "TITLE": "Ho tro day du ngon ngu",
+          "DESCRIPTION": "Ban dia hoa cong theo ngon ngu cua ban. Chung toi ho tro tat ca ngon ngu va cho phep dich moi bai viet."
         },
         "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
+          "TITLE": "Thiet ke than thien SEO",
+          "DESCRIPTION": "Tuy chinh the meta de cai thien kha nang hien thi tren cong cu tim kiem voi cac trang than thien voi SEO."
         },
         "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
+          "TITLE": "Ho tro day du API",
+          "DESCRIPTION": "Su dung cong nhu CMS headless voi framework front-end ben thu ba bang API cua chung toi."
         }
       }
     },
-    "LOADING": "Loading...",
+    "LOADING": "Dang tai...",
     "ARTICLES_PAGE": {
       "ARTICLE_CARD": {
         "CARD": {
@@ -502,7 +502,7 @@
           "DROPDOWN_MENU": {
             "PUBLISH": "Phát hành",
             "DRAFT": "Nháp",
-            "ARCHIVE": "Archive",
+            "ARCHIVE": "Luu tru",
             "DELETE": "Xoá"
           },
           "STATUS": {
@@ -511,51 +511,51 @@
             "ARCHIVED": "Đã lưu trữ"
           },
           "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
+            "UNCATEGORISED": "Chua phan loai"
           }
         }
       },
       "ARTICLES_HEADER": {
         "TABS": {
-          "ALL": "All articles",
+          "ALL": "Tat ca bai viet",
           "MINE": "Của tôi",
           "DRAFT": "Nháp",
           "PUBLISHED": "Đã phát hành",
           "ARCHIVED": "Đã lưu trữ"
         },
         "CATEGORY": {
-          "ALL": "All categories"
+          "ALL": "Tat ca danh muc"
         },
         "LOCALE": {
-          "ALL": "All locales"
+          "ALL": "Tat ca ngon ngu"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "Bai viet moi"
       },
       "EMPTY_STATE": {
         "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
+          "TITLE": "Viet mot bai viet",
+          "SUBTITLE": "Viet mot bai viet phong phu, hay bat dau!",
+          "BUTTON_LABEL": "Bai viet moi"
         },
         "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+          "TITLE": "Ban chua viet bai viet nao o day",
+          "SUBTITLE": "Tat ca bai viet do ban viet se hien thi o day de truy cap nhanh."
         },
         "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
+          "TITLE": "Khong co bai viet nhap nao",
+          "SUBTITLE": "Bai viet nhap se xuat hien o day"
         },
         "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
+          "TITLE": "Khong co bai viet da xuat ban nao",
+          "SUBTITLE": "Bai viet da xuat ban se xuat hien o day"
         },
         "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
+          "TITLE": "Khong co bai viet trong luu tru",
+          "SUBTITLE": "Bai viet da luu tru khong hien thi tren cong, ban co the su dung de danh dau cac trang da cu hoac loi thoi"
         },
         "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
+          "TITLE": "Khong co bai viet nao trong danh muc nay",
+          "SUBTITLE": "Bai viet trong danh muc nay se xuat hien o day"
         }
       }
     },

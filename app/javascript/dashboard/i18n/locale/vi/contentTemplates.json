@@ -1,51 +1,51 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Mau Twilio",
+      "SUBTITLE": "Chon mau Twilio ban muon gui",
+      "TEMPLATE_SELECTED_SUBTITLE": "Cau hinh mau: {templateName}"
     },
     "PICKER": {
-      "SEARCH_PLACEHOLDER": "Tìm kiếm Mẫu",
-      "NO_TEMPLATES_FOUND": "Không tìm thấy mẫu nào cho",
-      "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
-      "CATEGORY": "Loại",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "SEARCH_PLACEHOLDER": "Tim kiem mau",
+      "NO_TEMPLATES_FOUND": "Khong tim thay mau nao cho",
+      "NO_CONTENT": "Khong co noi dung",
+      "HEADER": "Tieu de",
+      "BODY": "Noi dung",
+      "FOOTER": "Chan trang",
+      "BUTTONS": "Nut",
+      "CATEGORY": "Loai",
+      "MEDIA_CONTENT": "Noi dung media",
+      "MEDIA_CONTENT_FALLBACK": "noi dung media",
+      "NO_TEMPLATES_AVAILABLE": "Khong co mau Twilio nao. Nhan lam moi de dong bo mau tu Twilio.",
+      "REFRESH_BUTTON": "Lam moi mau",
+      "REFRESH_SUCCESS": "Da bat dau lam moi mau. Co the mat vai phut de cap nhat.",
+      "REFRESH_ERROR": "Khong the lam moi mau. Vui long thu lai.",
       "LABELS": {
-        "LANGUAGE": "Ngôn ngữ",
-        "TEMPLATE_BODY": "Nội dung của Mẫu",
-        "CATEGORY": "Loại"
+        "LANGUAGE": "Ngon ngu",
+        "TEMPLATE_BODY": "Noi dung cua mau",
+        "CATEGORY": "Loai"
       },
       "TYPES": {
         "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
-        "TEXT": "Văn bản"
+        "QUICK_REPLY": "Tra loi nhanh",
+        "TEXT": "Van ban"
       }
     },
     "PARSER": {
-      "VARIABLES_LABEL": "Biến",
-      "LANGUAGE": "Ngôn ngữ",
-      "CATEGORY": "Loại",
-      "VARIABLE_PLACEHOLDER": "Nhập giá trị {variable}",
-      "GO_BACK_LABEL": "Quay lại",
-      "SEND_MESSAGE_LABEL": "Gửi tin nhắn",
-      "FORM_ERROR_MESSAGE": "Vui lòng điền vào tất cả các biến trước khi gửi",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "VARIABLES_LABEL": "Bien",
+      "LANGUAGE": "Ngon ngu",
+      "CATEGORY": "Loai",
+      "VARIABLE_PLACEHOLDER": "Nhap gia tri {variable}",
+      "GO_BACK_LABEL": "Quay lai",
+      "SEND_MESSAGE_LABEL": "Gui tin nhan",
+      "FORM_ERROR_MESSAGE": "Vui long dien vao tat ca cac bien truoc khi gui",
+      "MEDIA_HEADER_LABEL": "Tieu de {type}",
+      "MEDIA_URL_LABEL": "Nhap URL media day du",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {
-      "BACK_BUTTON": "Trờ về",
-      "SEND_MESSAGE_BUTTON": "Gửi tin nhắn"
+      "BACK_BUTTON": "Quay lai",
+      "SEND_MESSAGE_BUTTON": "Gui tin nhan"
     }
   }
 }

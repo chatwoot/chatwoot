@@ -2,53 +2,53 @@
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "Xóa tích hợp Shopify",
+        "MESSAGE": "Bạn có chắc chắn muốn xóa tích hợp Shopify không?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "Kết nối cửa hàng Shopify",
+        "LABEL": "URL cửa hàng",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
-        "CANCEL": "Huỷ",
-        "SUBMIT": "Connect Store"
+        "HELP": "Nhập URL myshopify.com của cửa hàng Shopify",
+        "CANCEL": "Hủy",
+        "SUBMIT": "Kết nối cửa hàng"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "Đã xảy ra lỗi khi kết nối với Shopify. Vui lòng thử lại hoặc liên hệ hỗ trợ nếu sự cố vẫn tiếp diễn."
     },
     "HEADER": "Tích hợp",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot tích hợp với nhiều công cụ và dịch vụ để nâng cao hiệu suất làm việc của nhóm bạn. Khám phá danh sách bên dưới để cấu hình các ứng dụng yêu thích.",
+    "LEARN_MORE": "Tìm hiểu thêm về tích hợp",
+    "LOADING": "Đang tải tích hợp",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain chưa được bật trên tài khoản của bạn.",
+      "CLICK_HERE_TO_CONFIGURE": "Nhấp vào đây để cấu hình",
+      "LOADING_CONSOLE": "Đang tải Bảng điều khiển Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "Không thể tải Bảng điều khiển Captain. Vui lòng làm mới và thử lại."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Những sự kiện được theo dõi",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "Tìm hiểu thêm về webhooks",
       "FORM": {
-        "CANCEL": "Huỷ",
+        "CANCEL": "Hủy",
         "DESC": "Webhook events cung cấp cho bạn thông tin thời gian thực về những gì đang xảy ra trong tài khoản Chatwoot của bạn. Vui lòng nhập một URL hợp lệ để định cấu hình một cuộc gọi lại.",
         "SUBSCRIPTIONS": {
           "LABEL": "Các sự kiện",
           "EVENTS": {
-            "CONVERSATION_CREATED": "Cuộc trò chuyện đã được tạo",
-            "CONVERSATION_STATUS_CHANGED": "Trạng thái cuộc trò chuyện đã thay đổi",
-            "CONVERSATION_UPDATED": "Cuộc trò chuyện đã được cập nhật",
+            "CONVERSATION_CREATED": "Hội thoại đã được tạo",
+            "CONVERSATION_STATUS_CHANGED": "Trạng thái hội thoại đã thay đổi",
+            "CONVERSATION_UPDATED": "Hội thoại đã được cập nhật",
             "MESSAGE_CREATED": "Tin nhắn đã được tạo",
             "MESSAGE_UPDATED": "Tin nhắn đã được cập nhật",
             "WEBWIDGET_TRIGGERED": "Tiện ích trò chuyện trực tuyến do người dùng mở",
-            "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONTACT_CREATED": "Liên hệ đã được tạo",
+            "CONTACT_UPDATED": "Liên hệ đã được cập nhật",
+            "CONVERSATION_TYPING_ON": "Đang gõ trong hội thoại",
+            "CONVERSATION_TYPING_OFF": "Dừng gõ trong hội thoại"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "Tên Webhook",
+          "PLACEHOLDER": "Nhập tên webhook"
         },
         "END_POINT": {
           "LABEL": "Webhook URL",
@@ -106,8 +106,8 @@
     "SLACK": {
       "DELETE": "Xoá",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "Xoa tich hop",
+        "MESSAGE": "Ban co chac chan muon xoa tich hop khong? Dieu nay se dan den viec mat quyen truy cap vao cac hoi thoai tren Slack workspace cua ban."
       },
       "HELP_TEXT": {
         "TITLE": "Dùng tích hợp Slack",
@@ -122,69 +122,69 @@
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "Da xay ra loi khi cap nhat tich hop, vui long thu lai",
+      "UPDATE_SUCCESS": "Kenh da duoc ket noi thanh cong",
+      "FAILED_TO_FETCH_CHANNELS": "Da xay ra loi khi tai cac kenh tu Slack, vui long thu lai"
     },
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the room",
-      "START_VIDEO_CALL_HELP_TEXT": "Start a new video call with the customer",
-      "JOIN_ERROR": "There was an error joining the call, please try again",
-      "CREATE_ERROR": "There was an error creating a meeting link, please try again"
+      "CLICK_HERE_TO_JOIN": "Nhan de tham gia",
+      "LEAVE_THE_ROOM": "Roi phong",
+      "START_VIDEO_CALL_HELP_TEXT": "Bat dau cuoc goi video moi voi khach hang",
+      "JOIN_ERROR": "Da xay ra loi khi tham gia cuoc goi, vui long thu lai",
+      "CREATE_ERROR": "Da xay ra loi khi tao lien ket cuoc hop, vui long thu lai"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "Ho tro AI",
+      "WITH_AI": " {option} voi AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "Goi y tra loi",
+        "SUMMARIZE": "Tom tat",
+        "REPHRASE": "Cai thien viet",
+        "FIX_SPELLING_GRAMMAR": "Sua chinh ta va ngu phap",
+        "SHORTEN": "Rut gon",
+        "EXPAND": "Mo rong",
+        "MAKE_FRIENDLY": "Thay doi giong van than thien",
+        "MAKE_FORMAL": "Su dung giong van trang trong",
+        "SIMPLIFY": "Don gian hoa"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "Nội dung nháp",
+        "GENERATED_TITLE": "Nội dung đã tạo",
+        "AI_WRITING": "AI đang viết",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
-          "CANCEL": "Huỷ"
+          "APPLY": "Sử dụng gợi ý này",
+          "CANCEL": "Hủy"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "Tích hợp với OpenAI",
+        "DESC": "Mang các tính năng AI tiên tiến vào bảng điều khiển với mô hình GPT của OpenAI. Để bắt đầu, nhập API key từ tài khoản OpenAI của bạn.",
+        "KEY_PLACEHOLDER": "Nhập API key OpenAI của bạn",
         "BUTTONS": {
           "NEED_HELP": "Cần hỗ trợ?",
-          "DISMISS": "Dismiss",
-          "FINISH": "Finish Setup"
+          "DISMISS": "Bỏ qua",
+          "FINISH": "Hoàn tất cài đặt"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "Bạn có thể cài đặt tích hợp OpenAI sau bất cứ lúc nào.",
+        "SUCCESS_MESSAGE": "Tích hợp OpenAI đã được cài đặt thành công"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "Cải thiện với AI",
+      "SUMMARY_TITLE": "Tóm tắt với AI",
+      "REPLY_TITLE": "Gợi ý trả lời với AI",
+      "SUBTITLE": "Một phản hồi cải thiện sẽ được tạo bằng AI, dựa trên bản nháp hiện tại của bạn.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "Giọng văn",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "Chuyên nghiệp",
+          "FRIENDLY": "Thân thiện"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
-        "CANCEL": "Huỷ"
+        "GENERATE": "Tạo",
+        "GENERATING": "Đang tạo...",
+        "CANCEL": "Hủy"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "Đã xảy ra lỗi khi xử lý nội dung, vui lòng kiểm tra API key OpenAI và thử lại"
     },
     "DELETE": {
       "BUTTON_TEXT": "Xoá",
