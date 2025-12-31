@@ -190,6 +190,8 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
+# PDF parsing for document processing
+gem 'pdf-reader'
 
 gem 'iso-639'
 gem 'ruby-openai'

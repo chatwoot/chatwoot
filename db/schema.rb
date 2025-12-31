@@ -184,6 +184,158 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["account_id"], name: "index_agent_capacity_policies_on_account_id"
   end
 
+  create_table "aloo_assistant_inboxes", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "inbox_id", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aloo_assistant_id"], name: "index_aloo_assistant_inboxes_on_aloo_assistant_id"
+    t.index ["inbox_id"], name: "index_aloo_assistant_inboxes_on_inbox_unique", unique: true
+  end
+
+  create_table "aloo_assistants", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.text "description"
+    t.string "tone", default: "friendly"
+    t.string "formality", default: "medium"
+    t.string "empathy_level", default: "medium"
+    t.string "verbosity", default: "balanced"
+    t.string "emoji_usage", default: "minimal"
+    t.string "greeting_style", default: "warm"
+    t.text "custom_greeting"
+    t.string "language", default: "en"
+    t.string "dialect"
+    t.text "personality_description"
+    t.text "system_prompt"
+    t.text "response_guidelines"
+    t.text "guardrails"
+    t.jsonb "admin_config", default: {}
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name", unique: true
+    t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
+  end
+
+  create_table "aloo_conversation_contexts", force: :cascade do |t|
+    t.bigint "conversation_id", null: false
+    t.bigint "aloo_assistant_id", null: false
+    t.jsonb "context_data", default: {}
+    t.jsonb "tool_history", default: []
+    t.integer "message_count", default: 0
+    t.integer "input_tokens", default: 0
+    t.integer "output_tokens", default: 0
+    t.decimal "total_cost", precision: 10, scale: 6, default: "0.0"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aloo_assistant_id"], name: "index_aloo_conversation_contexts_on_aloo_assistant_id"
+    t.index ["conversation_id"], name: "index_aloo_conversation_contexts_on_conversation_id", unique: true
+  end
+
+  create_table "aloo_documents", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.string "title"
+    t.string "source_type", null: false
+    t.string "source_url"
+    t.text "content"
+    t.jsonb "metadata", default: {}
+    t.integer "status", default: 0
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_aloo_documents_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+  end
+
+  create_table "aloo_embeddings", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "aloo_document_id"
+    t.bigint "account_id", null: false
+    t.text "content", null: false
+    t.text "question"
+    t.vector "embedding", limit: 1536
+    t.jsonb "metadata", default: {}
+    t.integer "status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_aloo_embeddings_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
+    t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
+    t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
+  end
+
+  create_table "aloo_memories", force: :cascade do |t|
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id"
+    t.bigint "conversation_id"
+    t.string "memory_type", null: false
+    t.text "content", null: false
+    t.text "source_excerpt"
+    t.text "context"
+    t.string "entities", default: [], array: true
+    t.string "topics", default: [], array: true
+    t.vector "embedding", limit: 1536
+    t.float "confidence", default: 0.7
+    t.integer "observation_count", default: 1
+    t.datetime "last_observed_at"
+    t.integer "helpful_count", default: 0
+    t.integer "not_helpful_count", default: 0
+    t.boolean "flagged_for_review", default: false
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_aloo_memories_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_memories_on_aloo_assistant_id"
+    t.index ["confidence"], name: "index_aloo_memories_on_confidence"
+    t.index ["contact_id"], name: "index_aloo_memories_on_contact_id"
+    t.index ["conversation_id"], name: "index_aloo_memories_on_conversation_id"
+    t.index ["embedding"], name: "aloo_memories_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
+    t.index ["entities"], name: "index_aloo_memories_on_entities", using: :gin
+    t.index ["last_observed_at"], name: "index_aloo_memories_on_last_observed_at"
+    t.index ["memory_type"], name: "index_aloo_memories_on_memory_type"
+    t.index ["topics"], name: "index_aloo_memories_on_topics", using: :gin
+  end
+
+  create_table "aloo_message_feedbacks", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.bigint "aloo_memory_id"
+    t.bigint "user_id"
+    t.string "feedback_type", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aloo_memory_id"], name: "index_aloo_message_feedbacks_on_aloo_memory_id"
+    t.index ["message_id"], name: "index_aloo_message_feedbacks_on_message_id"
+    t.index ["user_id"], name: "index_aloo_message_feedbacks_on_user_id"
+  end
+
+  create_table "aloo_traces", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "aloo_assistant_id"
+    t.bigint "conversation_id"
+    t.string "trace_type", null: false
+    t.string "agent_name"
+    t.string "request_id"
+    t.jsonb "input_data", default: {}
+    t.jsonb "output_data", default: {}
+    t.integer "input_tokens"
+    t.integer "output_tokens"
+    t.integer "duration_ms"
+    t.boolean "success", default: true
+    t.string "error_message"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_aloo_traces_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_traces_on_aloo_assistant_id"
+    t.index ["conversation_id"], name: "index_aloo_traces_on_conversation_id"
+    t.index ["request_id"], name: "index_aloo_traces_on_request_id"
+    t.index ["trace_type"], name: "index_aloo_traces_on_trace_type"
+  end
+
   create_table "applied_slas", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
@@ -1398,6 +1550,26 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "account_whatsapp_settings", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "aloo_assistant_inboxes", "aloo_assistants"
+  add_foreign_key "aloo_assistant_inboxes", "inboxes"
+  add_foreign_key "aloo_assistants", "accounts"
+  add_foreign_key "aloo_conversation_contexts", "aloo_assistants"
+  add_foreign_key "aloo_conversation_contexts", "conversations"
+  add_foreign_key "aloo_documents", "accounts"
+  add_foreign_key "aloo_documents", "aloo_assistants"
+  add_foreign_key "aloo_embeddings", "accounts"
+  add_foreign_key "aloo_embeddings", "aloo_assistants"
+  add_foreign_key "aloo_embeddings", "aloo_documents"
+  add_foreign_key "aloo_memories", "accounts"
+  add_foreign_key "aloo_memories", "aloo_assistants"
+  add_foreign_key "aloo_memories", "contacts"
+  add_foreign_key "aloo_memories", "conversations"
+  add_foreign_key "aloo_message_feedbacks", "aloo_memories"
+  add_foreign_key "aloo_message_feedbacks", "messages"
+  add_foreign_key "aloo_message_feedbacks", "users"
+  add_foreign_key "aloo_traces", "accounts"
+  add_foreign_key "aloo_traces", "aloo_assistants"
+  add_foreign_key "aloo_traces", "conversations"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "accounts"

@@ -48,12 +48,12 @@ class CreateAlooTables < ActiveRecord::Migration[7.0]
   def create_aloo_assistant_inboxes
     create_table :aloo_assistant_inboxes do |t|
       t.references :aloo_assistant, null: false, foreign_key: true
-      t.references :inbox, null: false, foreign_key: true
+      t.references :inbox, null: false, foreign_key: true, index: false
       t.boolean :active, default: true
       t.timestamps
     end
 
-    add_index :aloo_assistant_inboxes, :inbox_id, unique: true
+    add_index :aloo_assistant_inboxes, :inbox_id, unique: true, name: 'index_aloo_assistant_inboxes_on_inbox_unique'
   end
 
   def create_aloo_documents
