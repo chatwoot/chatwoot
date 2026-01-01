@@ -54,6 +54,16 @@ const emojiOptions = computed(() => [
   { value: 'moderate', label: t('ALOO.FORM.EMOJI_USAGE.OPTIONS.MODERATE') },
 ]);
 
+const greetingStyleOptions = computed(() => [
+  { value: 'warm', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.WARM') },
+  { value: 'direct', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.DIRECT') },
+  { value: 'custom', label: t('ALOO.FORM.GREETING_STYLE.OPTIONS.CUSTOM') },
+]);
+
+const showCustomGreeting = computed(
+  () => props.assistant.greeting_style === 'custom'
+);
+
 const languageOptions = computed(() => [
   { value: 'en', label: t('ALOO.FORM.LANGUAGE.OPTIONS.EN') },
   { value: 'ar', label: t('ALOO.FORM.LANGUAGE.OPTIONS.AR') },
@@ -174,6 +184,30 @@ const showDialect = computed(() => props.assistant.language === 'ar');
               {{ option.label }}
             </option>
           </select>
+        </label>
+        <label>
+          {{ $t('ALOO.FORM.GREETING_STYLE.LABEL') }}
+          <select
+            :value="assistant.greeting_style"
+            @change="updateField('greeting_style', $event.target.value)"
+          >
+            <option
+              v-for="option in greetingStyleOptions"
+              :key="option.value"
+              :value="option.value"
+            >
+              {{ option.label }}
+            </option>
+          </select>
+        </label>
+        <label v-if="showCustomGreeting" class="md:col-span-2">
+          {{ $t('ALOO.FORM.CUSTOM_GREETING.LABEL') }}
+          <textarea
+            :value="assistant.custom_greeting"
+            :placeholder="$t('ALOO.FORM.CUSTOM_GREETING.PLACEHOLDER')"
+            rows="2"
+            @input="updateField('custom_greeting', $event.target.value)"
+          />
         </label>
         <label>
           {{ $t('ALOO.FORM.LANGUAGE.LABEL') }}

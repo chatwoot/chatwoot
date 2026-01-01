@@ -78,6 +78,7 @@ Rails.application.routes.draw do
                 get :performance
                 post :assign_inbox
                 delete :unassign_inbox
+                post :playground
               end
               resources :documents, only: [:index, :show, :create, :destroy] do
                 member do

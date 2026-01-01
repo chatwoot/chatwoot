@@ -109,6 +109,40 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     render json: { message: 'Assistant unassigned from inbox' }
   end
 
+  # POST /api/v1/accounts/:account_id/aloo/assistants/:id/playground
+  # Test the assistant with a message without creating a real conversation
+  def playground
+    message = params.require(:message)
+
+    # Set up Aloo context for the agent
+    Aloo::Current.account = Current.account
+    Aloo::Current.assistant = @assistant
+    Aloo::Current.request_id = SecureRandom.uuid
+
+    start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
+    result = ConversationAgent.call(
+      message: message,
+      conversation_history: params[:conversation_history]
+    )
+
+    duration_ms = ((Process.clock_gettime(Process::CLOCK_MONOTONIC) - start_time) * 1000).round
+
+    render json: {
+      response: result.content,
+      success: result.success?,
+      input_tokens: result.input_tokens,
+      output_tokens: result.output_tokens,
+      total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
+      duration_ms: duration_ms,
+      tool_calls: result.tool_calls&.map { |tc| { name: tc.name, arguments: tc.arguments } }
+    }
+  rescue RubyLLM::Error => e
+    render json: { error: e.message, success: false }, status: :unprocessable_entity
+  ensure
+    Aloo::Current.reset
+  end
+
   private
 
   def set_assistant

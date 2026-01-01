@@ -178,8 +178,29 @@
       "KNOWLEDGE_BASE": "Knowledge Base",
       "MEMORIES": "Memories",
       "INBOXES": "Inboxes",
+      "PLAYGROUND": "Playground",
       "ANALYTICS": "Analytics",
       "STATS": "Statistics"
+    },
+    "PLAYGROUND": {
+      "TITLE": "Test Assistant",
+      "DESCRIPTION": "Test your assistant's responses before deploying to live conversations",
+      "EMPTY_STATE": "Start a conversation to test how your assistant responds to customer messages",
+      "INPUT_PLACEHOLDER": "Type a message to test...",
+      "SEND": "Send",
+      "CLEAR": "Clear",
+      "THINKING": "Thinking...",
+      "LAST_RESPONSE": "Last Response Metrics",
+      "ERROR_GENERIC": "Failed to get response. Please try again.",
+      "METRICS": {
+        "INPUT_TOKENS": "Input",
+        "OUTPUT_TOKENS": "Output",
+        "TOTAL_TOKENS": "Total",
+        "DURATION": "Time",
+        "TOKENS_UNIT": "tokens",
+        "MS_UNIT": "ms",
+        "TOOLS_LABEL": "Tools"
+      }
     },
     "SETTINGS": {
       "GENERAL": {

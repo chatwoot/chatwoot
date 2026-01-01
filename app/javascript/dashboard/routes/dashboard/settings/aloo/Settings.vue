@@ -13,6 +13,7 @@ import KnowledgePage from './settingsPage/KnowledgePage.vue';
 import MemoriesPage from './settingsPage/MemoriesPage.vue';
 import InboxesPage from './settingsPage/InboxesPage.vue';
 import AnalyticsPage from './settingsPage/AnalyticsPage.vue';
+import PlaygroundPage from './settingsPage/PlaygroundPage.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -47,6 +48,7 @@ const tabs = computed(() => [
   { key: 'knowledge', name: t('ALOO.TABS.KNOWLEDGE_BASE') },
   { key: 'memories', name: t('ALOO.TABS.MEMORIES') },
   { key: 'inboxes', name: t('ALOO.TABS.INBOXES') },
+  { key: 'playground', name: t('ALOO.TABS.PLAYGROUND') },
   { key: 'analytics', name: t('ALOO.TABS.ANALYTICS') },
 ]);
 
@@ -220,6 +222,10 @@ const updateAssistant = data => {
 
         <div v-if="selectedTabKey === 'inboxes'" class="mx-8">
           <InboxesPage :assistant-id="assistantId" />
+        </div>
+
+        <div v-if="selectedTabKey === 'playground'" class="mx-8">
+          <PlaygroundPage :assistant-id="assistantId" />
         </div>
 
         <div v-if="selectedTabKey === 'analytics'" class="mx-8">
