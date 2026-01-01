@@ -143,7 +143,7 @@ export default {
       @blur="onBlur"
     />
     <div class="flex items-center ltr:pl-2 rtl:pr-2">
-      <ChatAttachmentButton
+      <!-- <ChatAttachmentButton
         v-if="showAttachment"
         class="text-n-slate-12"
         :on-attach="onSendAttachment"
@@ -162,13 +162,13 @@ export default {
             'text-n-brand': showEmojiPicker,
           }"
         />
-      </button>
-      <EmojiInput
+      </button> -->
+      <!-- <EmojiInput
         v-if="shouldShowEmojiPicker && showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
-      />
+      /> -->
       <ChatSendButton
         v-if="showSendButton"
         :color="widgetColor"

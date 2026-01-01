@@ -59,7 +59,9 @@ g++ \
 libc6-compat \
 python3 \
 libuv \
-ca-certificates
+ca-certificates \
+imagemagick \
+imagemagick-dev
 
 # Setup App Directory
 WORKDIR /app
@@ -140,7 +142,8 @@ postgresql-client \
 vips \
 libstdc++ \
 git \
-libuv
+libuv \
+imagemagick
 
 # Copy Node runtime only
 COPY --from=node /usr/local/bin/node /usr/local/bin/

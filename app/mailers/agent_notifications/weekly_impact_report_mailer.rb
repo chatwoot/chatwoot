@@ -23,6 +23,35 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
     base_url = ENV.fetch('FRONTEND_URL')
     @report_url = "#{base_url}/app/accounts/#{account.id}/reports/overview"
 
+    # Generate inline pie chart image (CID) using Gruff
+    chart_path = Reports::WeeklyPieChart.generate(
+      new_conversations: @new_conversations,
+      total_messages: @total_messages,
+      booking_forms_completed: @booking_forms_completed,
+      handoff_forms_completed: @handoff_forms_completed
+    )
+
+    @weekly_impact_chart = false
+
+    if chart_path && File.exist?(chart_path)
+      begin
+        attachments.inline['weekly_impact_chart.png'] = {
+          mime_type: 'image/png',
+          content: File.read(chart_path),
+          # Explicit Content-ID so we can reference it from HTML
+          content_id: '<weekly_impact_chart>'
+        }
+
+        @weekly_impact_chart = true
+        # Used in Liquid template as cid:{{ weekly_impact_chart_cid }}
+        @weekly_impact_chart_cid = 'weekly_impact_chart'
+      rescue StandardError => e
+        Rails.logger.error "WeeklyImpactReportMailer chart attach failed: #{e.class} - #{e.message}"
+      ensure
+        File.delete(chart_path) if File.exist?(chart_path)
+      end
+    end
+
     subject = "Cruise Control Impact Weekly Report - #{@start_date.strftime('%m/%d')} - #{@end_date.strftime('%m/%d')}"
 
     send_mail_with_liquid(
@@ -51,7 +80,9 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
       conversion_rate: @conversion_rate,
       estimated_value: @estimated_value,
       dealership_name: @dealership_name,
-      report_url: @report_url
+      report_url: @report_url,
+      weekly_impact_chart: @weekly_impact_chart,
+      weekly_impact_chart_cid: @weekly_impact_chart_cid
     )
   end
 
@@ -68,7 +99,9 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
       conversion_rate: @conversion_rate,
       estimated_value: @estimated_value,
       dealership_name: @dealership_name,
-      report_url: @report_url
+      report_url: @report_url,
+      weekly_impact_chart: @weekly_impact_chart,
+      weekly_impact_chart_cid: @weekly_impact_chart_cid
     )
   end
 end

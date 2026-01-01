@@ -19,6 +19,11 @@ import {
   setBubbleText,
   addUnreadClass,
   removeUnreadClass,
+  createGreetingPreview,
+  showGreetingPreview,
+  attachGreetingPreviewHandlers,
+  createGreetingInputBox,
+  showGreetingInputBox,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -169,6 +174,10 @@ export const IFrameHelper = {
         campaignsSnoozedTill,
         welcomeTitle: window.$chatwoot.welcomeTitle,
         welcomeDescription: window.$chatwoot.welcomeDescription,
+        welcomeTagline: window.$chatwoot.welcomeTagline,
+        greetingMessage: window.$chatwoot.greetingMessage,
+        dealerName: window.$chatwoot.dealerName,
+        avatarName: window.$chatwoot.avatarName,
         availableMessage: window.$chatwoot.availableMessage,
         unavailableMessage: window.$chatwoot.unavailableMessage,
         enableFileUpload: window.$chatwoot.enableFileUpload,
@@ -177,6 +186,7 @@ export const IFrameHelper = {
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
+        channelConfig: message.config.channelConfig,
       });
       IFrameHelper.toggleCloseButton();
 
@@ -297,7 +307,7 @@ export const IFrameHelper = {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
 
-  onLoad: ({ widgetColor }) => {
+  onLoad: ({ widgetColor, channelConfig = {} }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
@@ -339,6 +349,89 @@ export const IFrameHelper = {
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
     onClickChatBubble();
+
+    // Create and show greeting preview after 3 seconds
+    // Get data from channelConfig (passed from widget) or window.$chatwoot or chatwootSettings
+    const chatwootSettings = window.chatwootSettings || {};
+
+    // Try to get from widget config first, then window.$chatwoot, then chatwootSettings
+    const previewAvatarUrl =
+      channelConfig.avatarUrl ||
+      window.$chatwoot.avatarUrl ||
+      chatwootSettings.avatarUrl ||
+      '';
+    const previewAgentName =
+      channelConfig.avatarName ||
+      window.$chatwoot.avatarName ||
+      chatwootSettings.avatarName ||
+      window.$chatwoot.websiteName ||
+      channelConfig.websiteName ||
+      '';
+    const previewDealerName =
+      channelConfig.dealerName ||
+      window.$chatwoot.dealerName ||
+      chatwootSettings.dealerName ||
+      window.$chatwoot.websiteName ||
+      channelConfig.websiteName ||
+      '';
+    // Get greeting message based on greeting_enabled flag
+    const defaultGreetingMessage =
+      "I'm online and happy to help! How may I help you? 😊";
+
+    const getGreetingMessage = () => {
+      // Check if greeting is enabled (from inbox settings)
+      let isGreetingEnabled = true; // Default to enabled if not specified
+      if (channelConfig.greetingEnabled !== undefined) {
+        isGreetingEnabled = channelConfig.greetingEnabled;
+      } else if (channelConfig.greeting_enabled !== undefined) {
+        isGreetingEnabled = channelConfig.greeting_enabled;
+      } else if (window.$chatwoot.greetingEnabled !== undefined) {
+        isGreetingEnabled = window.$chatwoot.greetingEnabled;
+      }
+
+      // If disabled, show default message
+      if (!isGreetingEnabled) {
+        return defaultGreetingMessage;
+      }
+
+      // If enabled, get the greeting message from config
+      const greetingMsg =
+        channelConfig.greetingMessage ||
+        channelConfig.greeting_message ||
+        window.$chatwoot.greetingMessage ||
+        chatwootSettings.greetingMessage;
+
+      // If message exists and is not empty, use it; otherwise use default
+      return greetingMsg && greetingMsg.trim()
+        ? greetingMsg
+        : defaultGreetingMessage;
+    };
+
+    const previewGreetingMessage = getGreetingMessage();
+
+    // Always create greeting preview (it will always have a message now)
+    createGreetingPreview({
+      avatarUrl: previewAvatarUrl,
+      agentName: previewAgentName,
+      dealerName: previewDealerName,
+      greetingMessage: previewGreetingMessage,
+      widgetColor,
+    });
+    // Attach event handlers
+    attachGreetingPreviewHandlers();
+
+    // Create input box (always shown)
+    createGreetingInputBox({
+      widgetColor,
+    });
+
+    // Show greeting preview and input box after 3 seconds
+    setTimeout(() => {
+      if (!window.$chatwoot.isOpen) {
+        showGreetingPreview();
+        showGreetingInputBox();
+      }
+    }, 3000);
   },
   toggleCloseButton: () => {
     let isMobile = false;

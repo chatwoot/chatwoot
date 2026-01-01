@@ -99,7 +99,7 @@ export default {
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
-        class="message-content text-n-slate-12"
+        class="message-content prose prose-bubble text-n-slate-12"
       />
       <EmailInput
         v-if="isTemplateEmail"

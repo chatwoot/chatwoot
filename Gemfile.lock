@@ -388,6 +388,10 @@ GEM
     grpc (1.72.0-x86_64-linux)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
+    gruff (0.29.0)
+      bigdecimal (>= 3.0)
+      histogram
+      rmagick (>= 5.5)
     gserver (0.0.1)
     haikunator (1.1.1)
     hairtrigger (1.0.0)
@@ -398,6 +402,7 @@ GEM
     hash_diff (1.1.1)
     hashdiff (1.1.0)
     hashie (5.0.0)
+    histogram (0.2.4.1)
     html2text (0.4.0)
       nokogiri (>= 1.0, < 2.0)
     http (5.1.1)
@@ -572,6 +577,7 @@ GEM
       rack (>= 1.2, < 4)
       snaky_hash (~> 2.0)
       version_gem (~> 1.1)
+    observer (0.1.2)
     oj (3.16.10)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
@@ -603,6 +609,7 @@ GEM
       activerecord (>= 5.2)
       activesupport (>= 5.2)
     pgvector (0.1.1)
+    pkg-config (1.6.5)
     postmark (1.25.1)
       json
     postmark-rails (0.22.1)
@@ -706,6 +713,9 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.4.1)
+    rmagick (6.1.5)
+      observer (~> 0.1)
+      pkg-config (~> 1.4)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.2)
@@ -998,6 +1008,7 @@ DEPENDENCIES
   google-cloud-translate-v3 (>= 0.7.0)
   groupdate
   grpc
+  gruff
   haikunator
   hairtrigger
   hashie

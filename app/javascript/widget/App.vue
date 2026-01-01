@@ -277,6 +277,23 @@ export default {
           this.$store.dispatch('conversationLabels/destroy', message.label);
         } else if (message.event === 'set-user') {
           this.$store.dispatch('contacts/setUser', message);
+        } else if (message.event === 'send-message') {
+          // Handle message sent from greeting input box
+          if (message.content) {
+            const conversationSize =
+              this.$store.getters['conversation/getConversationSize'];
+            if (conversationSize === 0) {
+              // No conversation exists, create one with the message
+              this.$store.dispatch('conversation/createConversation', {
+                message: message.content,
+              });
+            } else {
+              // Conversation exists, just send the message
+              this.$store.dispatch('conversation/sendMessage', {
+                content: message.content,
+              });
+            }
+          }
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',
