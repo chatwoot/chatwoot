@@ -258,7 +258,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.text "question"
     t.vector "embedding", limit: 1536
     t.jsonb "metadata", default: {}
-    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_aloo_embeddings_on_account_id"

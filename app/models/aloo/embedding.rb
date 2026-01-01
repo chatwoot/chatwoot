@@ -17,17 +17,9 @@ module Aloo
                optional: true,
                inverse_of: :embeddings
 
-    # Embedding approval status
-    enum :status, {
-      pending: 0,
-      approved: 1,
-      rejected: 2
-    }, default: :pending
-
     validates :content, presence: true
 
-    scope :approved, -> { where(status: :approved) }
-    scope :for_search, -> { approved.with_embedding }
+    scope :for_search, -> { with_embedding }
     scope :with_question, -> { where.not(question: nil) }
 
     # For Embeddable concern - content to embed

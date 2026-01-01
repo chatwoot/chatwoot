@@ -9,8 +9,6 @@ class Api::V1::Accounts::Aloo::EmbeddingsController < Api::V1::Accounts::BaseCon
                             .includes(:document)
                             .order(created_at: :desc)
 
-    @embeddings = @embeddings.where(status: params[:status]) if params[:status].present?
-
     # Pagination
     page = (params[:page] || 1).to_i
     per_page = (params[:per_page] || 50).to_i.clamp(1, 100)
@@ -24,10 +22,7 @@ class Api::V1::Accounts::Aloo::EmbeddingsController < Api::V1::Accounts::BaseCon
         total_count: total_count,
         page: page,
         per_page: per_page,
-        total_pages: (total_count.to_f / per_page).ceil,
-        approved_count: @assistant.embeddings.approved.count,
-        pending_count: @assistant.embeddings.pending.count,
-        rejected_count: @assistant.embeddings.rejected.count
+        total_pages: (total_count.to_f / per_page).ceil
       }
     }
   end
@@ -43,7 +38,6 @@ class Api::V1::Accounts::Aloo::EmbeddingsController < Api::V1::Accounts::BaseCon
       id: embedding.id,
       content: embedding.content.truncate(500),
       question: embedding.question,
-      status: embedding.status,
       document_id: embedding.aloo_document_id,
       document_title: embedding.document&.title,
       chunk_index: embedding.metadata&.dig('chunk_index'),
