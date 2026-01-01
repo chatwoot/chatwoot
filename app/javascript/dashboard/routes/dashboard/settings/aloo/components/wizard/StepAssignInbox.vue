@@ -8,6 +8,7 @@ import { useAlert } from 'dashboard/composables';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 
 const { t } = useI18n();
 const router = useRouter();
@@ -136,7 +137,7 @@ const selectedCount = computed(() => inboxIds.value.length);
 
 <template>
   <div class="flex flex-col h-full p-8">
-    <div class="flex-1 overflow-y-auto">
+    <div class="flex-1">
       <h2 class="text-xl font-semibold text-n-slate-12 mb-2">
         {{ $t('ALOO.WIZARD.STEP_4') }}
       </h2>
@@ -147,17 +148,11 @@ const selectedCount = computed(() => inboxIds.value.length);
       <div class="max-w-2xl">
         <!-- Search -->
         <div class="mb-4">
-          <div class="relative">
-            <span
-              class="absolute left-3 top-1/2 -translate-y-1/2 i-lucide-search text-n-slate-9"
-            />
-            <input
-              v-model="searchQuery"
-              type="text"
-              :placeholder="$t('ALOO.INBOXES.SEARCH_PLACEHOLDER')"
-              class="w-full pl-10 pr-4 py-2 text-sm border rounded-lg border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder:text-n-slate-9 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
-            />
-          </div>
+          <Input
+            v-model="searchQuery"
+            :placeholder="$t('ALOO.INBOXES.SEARCH_PLACEHOLDER')"
+            icon="i-lucide-search"
+          />
         </div>
 
         <!-- Selected Count -->
