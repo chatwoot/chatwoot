@@ -187,16 +187,16 @@ const handleKeydown = event => {
       </div>
 
       <!-- Input Area -->
-      <div class="flex gap-2">
+      <div class="flex flex-col gap-3">
         <textarea
           v-model="userMessage"
           :placeholder="$t('ALOO.PLAYGROUND.INPUT_PLACEHOLDER')"
           :disabled="isLoading"
-          rows="2"
-          class="flex-1 resize-none"
+          rows="3"
+          class="w-full resize-none"
           @keydown="handleKeydown"
         />
-        <div class="flex flex-col gap-2">
+        <div class="flex items-center gap-2">
           <Button
             :is-loading="isLoading"
             :disabled="!userMessage.trim()"
@@ -217,41 +217,51 @@ const handleKeydown = event => {
       <!-- Metrics Summary -->
       <div
         v-if="lastMetrics"
-        class="mt-4 p-3 bg-slate-100 dark:bg-slate-700 rounded-lg"
+        class="mt-6 p-4 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg"
       >
-        <div class="text-sm font-medium mb-2">
+        <div
+          class="text-sm font-semibold text-slate-800 dark:text-slate-100 mb-3"
+        >
           {{ $t('ALOO.PLAYGROUND.LAST_RESPONSE') }}
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-2 text-sm">
-          <div>
-            <span class="text-slate-500">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="flex flex-col">
+            <span class="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {{ $t('ALOO.PLAYGROUND.METRICS.INPUT_TOKENS') }}
             </span>
-            <span class="ml-1 font-medium">{{
-              lastMetrics.inputTokens || 0
-            }}</span>
+            <span
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
+              {{ lastMetrics.inputTokens || 0 }}
+            </span>
           </div>
-          <div>
-            <span class="text-slate-500">
+          <div class="flex flex-col">
+            <span class="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {{ $t('ALOO.PLAYGROUND.METRICS.OUTPUT_TOKENS') }}
             </span>
-            <span class="ml-1 font-medium">{{
-              lastMetrics.outputTokens || 0
-            }}</span>
+            <span
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
+              {{ lastMetrics.outputTokens || 0 }}
+            </span>
           </div>
-          <div>
-            <span class="text-slate-500">
+          <div class="flex flex-col">
+            <span class="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {{ $t('ALOO.PLAYGROUND.METRICS.TOTAL_TOKENS') }}
             </span>
-            <span class="ml-1 font-medium">{{
-              lastMetrics.totalTokens || 0
-            }}</span>
+            <span
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
+              {{ lastMetrics.totalTokens || 0 }}
+            </span>
           </div>
-          <div>
-            <span class="text-slate-500">
+          <div class="flex flex-col">
+            <span class="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {{ $t('ALOO.PLAYGROUND.METRICS.DURATION') }}
             </span>
-            <span class="ml-1 font-medium">
+            <span
+              class="text-lg font-semibold text-slate-800 dark:text-slate-100"
+            >
               {{ lastMetrics.durationMs || 0
               }}{{ $t('ALOO.PLAYGROUND.METRICS.MS_UNIT') }}
             </span>
