@@ -134,6 +134,11 @@ module Aloo
       ].compact_blank.join("\n\n")
     end
 
+    # Required for message sender compatibility
+    def available_name
+      name
+    end
+
     # Serialization for message sender display
     # Used when assistant is the sender of a message
     def push_event_data(_inbox = nil)

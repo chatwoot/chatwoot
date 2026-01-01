@@ -113,56 +113,89 @@ end
 # ELEVENLABS_API_KEY - stored securely
 ```
 
-#### 1.3 Create OpenAI Client for Whisper
-```ruby
-# app/services/aloo/openai_client.rb
-module Aloo
-  class OpenaiClient
-    # Wrapper around OpenAI API for audio transcription
-    # Uses OPENAI_API_KEY from environment
-    # Provides:
-    #   - transcribe(file_path:, language: nil) -> String
-    #   - Uses Whisper-1 model
-  end
-end
-```
+#### 1.3 Create Audio Transcription Service for Aloo (Using RubyLLM)
 
-#### 1.4 Create Audio Transcription Service for Aloo
+RubyLLM v1.9.0+ provides built-in audio transcription via `RubyLLM.transcribe()`. This eliminates the need for a custom OpenAI client.
+
+**RubyLLM Transcription Features:**
+- Models: `whisper-1` (default), `gpt-4o-transcribe`, `gpt-4o-mini-transcribe`, Gemini models
+- Language hints: ISO 639-1 codes (en, ar, es, fr, etc.)
+- File formats: MP3, M4A, WAV, WebM, OGG
+- File size limit: 25 MB
+- Optional: Speaker diarization with `gpt-4o-transcribe-diarize`
+
 ```ruby
 # app/services/aloo/audio_transcription_service.rb
 module Aloo
   class AudioTranscriptionService
-    WHISPER_MODEL = 'whisper-1'.freeze
+    DEFAULT_MODEL = 'whisper-1'.freeze
+    MAX_FILE_SIZE = 25.megabytes
 
     attr_reader :attachment, :message, :assistant
 
     def initialize(attachment)
       @attachment = attachment
       @message = attachment.message
-      @assistant = message.inbox.aloo_assistant
+      @assistant = message&.inbox&.aloo_assistant
     end
 
     def perform
       return { error: 'No assistant configured' } unless assistant&.voice_input_enabled?
       return { success: true, transcription: cached_transcription } if cached_transcription.present?
+      return { error: 'File too large' } if attachment.file.byte_size > MAX_FILE_SIZE
 
       transcription = transcribe_audio
       store_transcription(transcription)
       notify_message_updated
 
       { success: true, transcription: transcription }
+    rescue RubyLLM::Error => e
+      Rails.logger.error("[Aloo::AudioTranscription] RubyLLM error: #{e.message}")
+      { error: e.message }
     end
 
     private
 
     def transcribe_audio
-      # 1. Download audio file from ActiveStorage
-      # 2. Call OpenAI Whisper API via Aloo::OpenaiClient
-      # 3. Return transcribed text
+      temp_file = download_to_tempfile
+
+      result = RubyLLM.transcribe(
+        temp_file.path,
+        model: transcription_model,
+        language: language_hint
+      )
+
+      result.text
+    ensure
+      temp_file&.close
+      temp_file&.unlink
+    end
+
+    def download_to_tempfile
+      temp_file = Tempfile.new(['audio', File.extname(attachment.file.filename.to_s)])
+      temp_file.binmode
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, temp_file)
+      end
+      temp_file.rewind
+      temp_file
+    end
+
+    def transcription_model
+      assistant.voice_config&.dig('transcription_model') || DEFAULT_MODEL
+    end
+
+    def language_hint
+      # Map assistant language to ISO 639-1 code
+      assistant.language == 'ar' ? 'ar' : assistant.language
     end
 
     def store_transcription(text)
-      # Store in attachment.meta['transcribed_text']
+      return if text.blank?
+
+      meta = attachment.meta || {}
+      meta['transcribed_text'] = text
+      attachment.update!(meta: meta)
     end
 
     def cached_transcription
@@ -170,13 +203,23 @@ module Aloo
     end
 
     def notify_message_updated
-      # Dispatch MESSAGE_UPDATED event for real-time UI update
+      message.reload.send_update_event
     end
   end
 end
 ```
 
-#### 1.5 Create Audio Transcription Job
+**Usage Example:**
+```ruby
+# Basic transcription
+result = Aloo::AudioTranscriptionService.new(attachment).perform
+# => { success: true, transcription: "Hello, how can I help you?" }
+
+# The transcription is stored in attachment.meta['transcribed_text']
+# and can be retrieved via Message#content_for_llm
+```
+
+#### 1.4 Create Audio Transcription Job
 ```ruby
 # app/jobs/aloo/audio_transcription_job.rb
 module Aloo
@@ -200,7 +243,7 @@ module Aloo
 end
 ```
 
-#### 1.6 Modify AlooAgentListener
+#### 1.5 Modify AlooAgentListener
 ```ruby
 # Changes to app/listeners/aloo_agent_listener.rb
 #
@@ -223,7 +266,7 @@ end
 # end
 ```
 
-#### 1.7 Modify Aloo::ResponseJob
+#### 1.6 Modify Aloo::ResponseJob
 - Use `Message#content_for_llm` which already handles transcription fallback
 - The method returns `"[Voice Message] #{transcription}"` for audio messages
 
@@ -339,8 +382,7 @@ app/
 │       └── voice_reply_job.rb            # NEW - Async TTS generation
 ├── services/
 │   └── aloo/
-│       ├── openai_client.rb               # NEW - OpenAI API wrapper for Whisper
-│       ├── audio_transcription_service.rb # NEW - Transcription orchestration
+│       ├── audio_transcription_service.rb # NEW - Uses RubyLLM.transcribe()
 │       ├── elevenlabs_client.rb           # NEW - ElevenLabs API wrapper
 │       ├── voice_synthesis_service.rb     # NEW - TTS orchestration
 │       └── voice_message_sender_service.rb # NEW - Channel-specific voice sending
@@ -365,16 +407,40 @@ config/
 ```
 
 **All new code will be created in `app/` directory - no enterprise/ dependencies.**
+**Audio transcription uses RubyLLM built-in `RubyLLM.transcribe()` - no custom OpenAI client needed.**
 
 ---
 
 ## API Integrations
 
-### OpenAI Whisper (Transcription)
-- Already available via RubyLLM
-- Model: `whisper-1`
-- Languages: Auto-detect or specified
-- Audio formats: mp3, mp4, mpeg, mpga, m4a, wav, webm, ogg
+### RubyLLM Audio Transcription (Speech-to-Text)
+RubyLLM v1.9.0+ provides built-in transcription via `RubyLLM.transcribe()`.
+
+**Available Models:**
+| Model | Provider | Features |
+|-------|----------|----------|
+| `whisper-1` | OpenAI | Default, fast, accurate |
+| `gpt-4o-transcribe` | OpenAI | Higher accuracy |
+| `gpt-4o-mini-transcribe` | OpenAI | Faster, lower cost |
+| `gpt-4o-transcribe-diarize` | OpenAI | Speaker identification |
+| Gemini models | Google | Alternative provider |
+
+**Supported Audio Formats:** MP3, M4A, WAV, WebM, OGG
+**File Size Limit:** 25 MB
+**Languages:** Auto-detect or ISO 639-1 hint (en, ar, es, fr, de, etc.)
+
+**Code Example:**
+```ruby
+# Basic transcription
+result = RubyLLM.transcribe("audio.ogg")
+result.text  # => "Hello, how can I help you?"
+
+# With language hint for Arabic
+result = RubyLLM.transcribe("audio.ogg", language: "ar")
+
+# With specific model
+result = RubyLLM.transcribe("audio.ogg", model: "gpt-4o-transcribe")
+```
 
 ### ElevenLabs (Text-to-Speech)
 - API Base: `https://api.elevenlabs.io/v1`
@@ -528,7 +594,7 @@ Average response: ~150 characters = ~200 responses/month on Starter tier
 ### Ruby Gems
 ```ruby
 # Already available in Gemfile
-gem 'ruby-openai'  # For Whisper transcription API
+gem 'ruby_llm'     # v1.9.0+ required for RubyLLM.transcribe()
 gem 'down'         # For file downloads (already present)
 gem 'marcel'       # For MIME type detection (already present)
 gem 'httparty'     # For ElevenLabs API calls (already present)
@@ -536,11 +602,21 @@ gem 'httparty'     # For ElevenLabs API calls (already present)
 
 ### Environment Variables
 ```env
-# Already configured
-OPENAI_API_KEY=xxx          # Used for Whisper transcription
+# Already configured (used by RubyLLM for transcription)
+OPENAI_API_KEY=xxx          # Required for Whisper models
 
-# New - for ElevenLabs
-ELEVENLABS_API_KEY=xxx      # ElevenLabs API key for TTS
+# New - for ElevenLabs TTS
+ELEVENLABS_API_KEY=xxx      # ElevenLabs API key for voice synthesis
+```
+
+### RubyLLM Version Check
+Ensure RubyLLM v1.9.0+ is installed for transcription support:
+```ruby
+# Check version
+RubyLLM::VERSION  # Should be >= "1.9.0"
+
+# Verify transcription is available
+RubyLLM.respond_to?(:transcribe)  # => true
 ```
 
 ### Node Packages
@@ -559,7 +635,7 @@ No additional packages needed.
 
 ---
 
-**Document Version**: 1.1
+**Document Version**: 1.2
 **Created**: 2026-01-01
 **Updated**: 2026-01-01
 **Author**: Aloo AI Development Team
@@ -569,9 +645,16 @@ No additional packages needed.
 
 ## Changelog
 
+### v1.2 (2026-01-01)
+- **Simplified transcription**: Use `RubyLLM.transcribe()` instead of custom OpenAI client
+- Removed `Aloo::OpenaiClient` (no longer needed)
+- Added complete `Aloo::AudioTranscriptionService` implementation using RubyLLM
+- Added RubyLLM transcription model options table
+- Updated dependencies to require RubyLLM v1.9.0+
+- Added RubyLLM version check instructions
+
 ### v1.1 (2026-01-01)
 - Removed all enterprise/ directory dependencies
-- Added `Aloo::OpenaiClient` for direct Whisper API access
 - Clarified that all code will be in `app/` directory
 - Added more detailed service implementations
 - Updated file structure and dependencies

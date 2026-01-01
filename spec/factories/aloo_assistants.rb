@@ -13,6 +13,8 @@ FactoryBot.define do
     greeting_style { 'warm' }
     language { 'en' }
     active { true }
+    system_prompt { 'You are a helpful customer support assistant.' }
+    admin_config { {} }
 
     trait :inactive do
       active { false }
@@ -26,6 +28,22 @@ FactoryBot.define do
     trait :professional do
       tone { 'professional' }
       formality { 'high' }
+    end
+
+    trait :with_faq_enabled do
+      admin_config { { 'feature_faq' => true } }
+    end
+
+    trait :with_memory_enabled do
+      admin_config { { 'feature_memory' => true } }
+    end
+
+    trait :with_all_features do
+      admin_config { { 'feature_faq' => true, 'feature_memory' => true } }
+    end
+
+    trait :with_custom_model do
+      admin_config { { 'model' => 'gpt-4o', 'temperature' => 0.5 } }
     end
   end
 end
