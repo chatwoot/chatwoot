@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Címkék hozzárendelése",
-      "NO_LABELS_FOUND": "Nem található cimke erre:",
+      "NO_LABELS_FOUND": "Nem találtunk címkét",
       "ASSIGN_SELECTED_LABELS": "Válogatott címkék hozzárendelése",
       "ASSIGN_SUCCESFUL": "Címkék hozzárendelése sikeres.",
       "ASSIGN_FAILED": "Nem sikerült címkéket hozzárendelni. Kérjük, próbálja újra."

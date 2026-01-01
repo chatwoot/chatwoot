@@ -29,9 +29,8 @@ class Contacts::FilterService < FilterService
     end
   end
 
-  # TODO: @account.contacts.resolved_contacts ? to stay consistant with the behavior in ui
   def base_relation
-    @account.contacts
+    @account.contacts.resolved_contacts(use_crm_v2: @account.feature_enabled?('crm_v2'))
   end
 
   def filter_config

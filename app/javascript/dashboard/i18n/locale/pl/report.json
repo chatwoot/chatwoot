@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Ostatnie 7 dni",
+      "LAST_14_DAYS": "Ostatnie 14 dni",
       "LAST_30_DAYS": "Ostatnie 30 dni",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Ostatnie 3 miesiące",
       "LAST_6_MONTHS": "Ostatnie 6 miesięcy",
       "LAST_YEAR": "Ostatni rok",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_INBOX_REPORTS": "Pobierz raporty skrzynki odbiorczej",
     "FILTER_DROPDOWN_LABEL": "Wybierz skrzynkę odbiorczą",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Rozmowy",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Ruch rozmów",
+      "NO_CONVERSATIONS": "Brak rozmów",
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Brak rozmów",
       "CONVERSATION": "{count} rozmowa",
       "CONVERSATIONS": "{count} rozmowy",

@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Memuat Percakapan",
     "CANNOT_REPLY": "Anda tidak dapat membalas karena",
     "24_HOURS_WINDOW": "Pembatasan jendela pesan 24 jam",
+    "48_HOURS_WINDOW": "Pembatasan jendela pesan 48 jam",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Percakapan ini tidak ditugaskan kepada Anda. Apakah Anda ingin menugaskan percakapan ini kepada diri Anda?",
     "ASSIGN_TO_ME": "Tugaskan kepada saya",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Baca lebih lanjut",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Tampilkan editor teks",
       "TIP_EMOJI_ICON": "Tampilkan pemilih emoji",
       "TIP_ATTACH_ICON": "Lampirkan file",
       "TIP_AUDIORECORDER_ICON": "Rekam audio",
@@ -227,6 +227,13 @@
           "YES": "Kirim",
           "CANCEL": "Batalkan"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Catatan Pribadi: Hanya terlihat oleh Anda dan tim Anda",

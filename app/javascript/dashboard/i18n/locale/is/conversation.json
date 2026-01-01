@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Þetta samtal er ekki úthlutað á þig. Viltu úthluta þessu samtali á þig?",
     "ASSIGN_TO_ME": "Úthluta á mig",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Bæta við viðhengjum",
       "TIP_AUDIORECORDER_ICON": "Taka upp hljóð",
@@ -227,6 +227,13 @@
           "YES": "Send",
           "CANCEL": "Hætta við"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Einkaglósa: Aðeins sýnilegt þér og teymi þínu",

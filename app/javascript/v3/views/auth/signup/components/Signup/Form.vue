@@ -1,6 +1,6 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, email } from '@vuelidate/validators';
+import { required, minLength, email, sameAs } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
@@ -8,10 +8,14 @@ import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import SimpleDivider from '../../../../../components/Divider/SimpleDivider.vue';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
+
+const MIN_PASSWORD_LENGTH = 6;
+const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
 
 export default {
   components: {
@@ -19,6 +23,7 @@ export default {
     GoogleOAuthButton,
     NextButton,
     SimpleDivider,
+    Icon,
     VueHcaptcha,
   },
   setup() {
@@ -31,6 +36,7 @@ export default {
         fullName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -59,7 +65,12 @@ export default {
         password: {
           required,
           isValidPassword,
-          minLength: minLength(6),
+          minLength: minLength(MIN_PASSWORD_LENGTH),
+        },
+        confirmPassword: {
+          required,
+          minLength: minLength(MIN_PASSWORD_LENGTH),
+          sameAsPassword: sameAs(this.credentials.password),
         },
       },
     };
@@ -80,24 +91,70 @@ export default {
       }
       return true;
     },
-    passwordErrorText() {
-      const { password } = this.v$.credentials;
-      if (!password.$error) {
-        return '';
-      }
-      if (password.minLength.$invalid) {
-        return this.$t('REGISTER.PASSWORD.ERROR');
-      }
-      if (password.isValidPassword.$invalid) {
-        return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+    confirmPasswordErrorText() {
+      const { confirmPassword } = this.v$.credentials;
+      if (!confirmPassword.$error) return '';
+      if (confirmPassword.sameAsPassword.$invalid) {
+        return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
       }
       return '';
     },
+    allowedLoginMethods() {
+      return window.chatwootConfig.allowedLoginMethods || ['email'];
+    },
     showGoogleOAuth() {
-      return Boolean(window.chatwootConfig.googleOAuthClientId);
+      return (
+        this.allowedLoginMethods.includes('google_oauth') &&
+        Boolean(window.chatwootConfig.googleOAuthClientId)
+      );
     },
     isFormValid() {
       return !this.v$.$invalid && this.hasAValidCaptcha;
+    },
+    passwordRequirements() {
+      const password = this.credentials.password || '';
+      return {
+        length: password.length >= MIN_PASSWORD_LENGTH,
+        uppercase: /[A-Z]/.test(password),
+        lowercase: /[a-z]/.test(password),
+        number: /[0-9]/.test(password),
+        special: SPECIAL_CHAR_REGEX.test(password),
+      };
+    },
+    passwordRequirementItems() {
+      const reqs = this.passwordRequirements;
+      return [
+        {
+          id: 'length',
+          met: reqs.length,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
+            min: MIN_PASSWORD_LENGTH,
+          }),
+        },
+        {
+          id: 'uppercase',
+          met: reqs.uppercase,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
+        },
+        {
+          id: 'lowercase',
+          met: reqs.lowercase,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
+        },
+        {
+          id: 'number',
+          met: reqs.number,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
+        },
+        {
+          id: 'special',
+          met: reqs.special,
+          label: this.$t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
+        },
+      ];
+    },
+    passwordRequirementsMet() {
+      return Object.values(this.passwordRequirements).every(Boolean);
     },
   },
   methods: {
@@ -126,9 +183,7 @@ export default {
       this.v$.$touch();
     },
     resetCaptcha() {
-      if (!this.globalConfig.hCaptchaSiteKey) {
-        return;
-      }
+      if (!this.globalConfig.hCaptchaSiteKey) return;
       this.$refs.hCaptcha.reset();
       this.credentials.hCaptchaClientResponse = '';
       this.didCaptchaReset = true;
@@ -183,8 +238,41 @@ export default {
         :label="$t('LOGIN.PASSWORD.LABEL')"
         :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
         :has-error="v$.credentials.password.$error"
-        :error-message="passwordErrorText"
+        aria-describedby="password-requirements"
         @blur="v$.credentials.password.$touch"
+      />
+      <div
+        id="password-requirements"
+        class="text-xs rounded-md px-4 py-3 outline outline-1 outline-n-weak bg-n-alpha-black2"
+      >
+        <ul role="list" class="grid grid-cols-2 gap-1">
+          <li
+            v-for="item in passwordRequirementItems"
+            :key="item.id"
+            class="inline-flex gap-1 items-start"
+          >
+            <Icon
+              class="flex-none flex-shrink-0 w-3 mt-0.5"
+              :icon="item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'"
+              :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
+            />
+
+            <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
+              {{ item.label }}
+            </span>
+          </li>
+        </ul>
+      </div>
+      <FormInput
+        v-model="credentials.confirmPassword"
+        type="password"
+        name="confirm_password"
+        :class="{ error: v$.credentials.confirmPassword.$error }"
+        :label="$t('REGISTER.CONFIRM_PASSWORD.LABEL')"
+        :placeholder="$t('REGISTER.CONFIRM_PASSWORD.PLACEHOLDER')"
+        :has-error="v$.credentials.confirmPassword.$error"
+        :error-message="confirmPasswordErrorText"
+        @blur="v$.credentials.confirmPassword.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
@@ -214,7 +302,7 @@ export default {
     </form>
     <div class="flex flex-col">
       <SimpleDivider
-        v-if="showGoogleOAuth || showSamlLogin"
+        v-if="showGoogleOAuth"
         :label="$t('COMMON.OR')"
         bg="bg-n-background"
         class="uppercase"

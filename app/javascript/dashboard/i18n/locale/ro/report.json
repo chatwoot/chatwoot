@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Ultimele 7 zile",
+      "LAST_14_DAYS": "Ultimele 14 zile",
       "LAST_30_DAYS": "Ultimele 30 zile",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Ultimele 3 luni",
       "LAST_6_MONTHS": "Ultimele 6 luni",
       "LAST_YEAR": "Anul trecut",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_INBOX_REPORTS": "Descărcarea rapoartelor inbox",
     "FILTER_DROPDOWN_LABEL": "Selectați Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversații",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Trafic de conversație",
+      "NO_CONVERSATIONS": "Fără conversații",
+      "CONVERSATION": "{count} conversație",
+      "CONVERSATIONS": "conversații {count}",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "Fără conversații",
       "CONVERSATION": "{count} conversație",
       "CONVERSATIONS": "conversații {count}",

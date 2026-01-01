@@ -5,6 +5,8 @@
     "LEARN_MORE": "了解更多关于收件箱的信息",
     "RECONNECTION_REQUIRED": "您的收件箱已断开连接。在您重新授权之前，您不会收到新消息。",
     "CLICK_TO_RECONNECT": "点击此处重新连接。",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "此账户没有收件箱。"
     },
@@ -54,6 +56,13 @@
         "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
         "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
         "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。"
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
@@ -379,7 +388,11 @@
         "API": {
           "ERROR_MESSAGE": "我们无法保存电子邮件频道"
         },
-        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。"
+        "FINISH_MESSAGE": "开始将您的电子邮件转发到以下电子邮件地址。",
+        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "CONFIGURE_SMTP_IMAP_LINK": "点击这里",
+        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE频道",
@@ -464,6 +477,10 @@
           "INSTAGRAM": {
             "TITLE": "Instagram",
             "DESCRIPTION": "连接您的 instagram 帐户"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
           },
           "VOICE": {
             "TITLE": "语音",
@@ -605,7 +622,63 @@
       "BUSINESS_HOURS": "工作时间",
       "WIDGET_BUILDER": "小部件生成器",
       "BOT_CONFIGURATION": "机器人配置",
+      "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "客户满意度"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
+        },
+        "STATUSES": {
+          "APPROVED": "已批准",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "实时"
+        }
+      }
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -618,6 +691,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger 脚本",
       "MESSENGER_SUB_HEAD": "将此按钮放置在窗体标签中",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "客服代理们",
       "INBOX_AGENTS_SUB_TEXT": "添加或删除此收件箱中的客服",
       "AGENT_ASSIGNMENT": "对话分配",
@@ -644,6 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "使用此处显示的`inbox_identifier`令牌来验证您的API客户端。",
       "FORWARD_EMAIL_TITLE": "转发到电子邮件",
       "FORWARD_EMAIL_SUB_TEXT": "开始将您的电子邮件转发到以下电子邮件地址。",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "允许在对话解决后发送消息",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "允许最终用户在对话解决后发送消息。",
       "WHATSAPP_SECTION_SUBHEADER": "此API密钥用于与WhatsApp API集成。",
@@ -941,6 +1020,7 @@
       "LINE": "Line",
       "API": "API 频道",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "语音"
     }
   }

@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "Νέο Μήνυμα",
     "CALL": "Call",
-    "CALL_UNDER_DEVELOPMENT": "Calling is under development",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
           },
@@ -569,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Δεν υπάρχουν επαφές που να αντιστοιχούν με την αναζήτησή σας 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Ανάθεση Ετικετών",
+    "ASSIGN_LABELS_SUCCESS": "Επιτυχής ανάθεση ετικετών.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Διαγραφή",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Διαγραφή Επαφής"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

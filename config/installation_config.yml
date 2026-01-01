@@ -79,10 +79,20 @@
   display_title: 'System events Webhook URL'
   description: 'The URL to which the system events like new accounts created will be sent'
   locked: false
+- name: WEBHOOK_TIMEOUT
+  value: 5
+  display_title: 'Webhook request timeout (seconds)'
+  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
   value: false
   description: 'Enable direct uploads to cloud storage'
+  locked: false
+- name: MAXIMUM_FILE_UPLOAD_SIZE
+  value: 40
+  display_title: 'Attachment size limit (MB)'
+  description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
 # ------- End of Account Related Config ------- #
 
@@ -189,7 +199,6 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
-
 # End of Captain Config
 
 # ------- Chatwoot Internal Config for Cloud ----#
@@ -397,6 +406,16 @@
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
 
+# ------- TikTok Channel Related Config ------- #
+- name: TIKTOK_APP_ID
+  display_title: 'TikTok App ID'
+  locked: false
+- name: TIKTOK_APP_SECRET
+  display_title: 'TikTok App Secret'
+  locked: false
+  type: secret
+# ------- End of TikTok Channel Related Config ------- #
+
 # ------- OG Image Related Config ------- #
 - name: OG_IMAGE_CDN_URL
   display_title: 'OG Image CDN URL'
@@ -428,7 +447,22 @@
   value:
   locked: false
   description: 'The redirect URI configured in your Google OAuth app'
+- name: ENABLE_GOOGLE_OAUTH_LOGIN
+  display_title: 'Enable Google OAuth login'
+  value: true
+  locked: false
+  description: 'Show Google OAuth as a login option when credentials are configured'
+  type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
+
+## ------ Configs added for SAML SSO ------ ##
+- name: ENABLE_SAML_SSO_LOGIN
+  display_title: 'Enable SAML SSO login'
+  value: true
+  locked: false
+  description: 'Show SAML SSO as a login option. Cannot be disabled if any users are using SAML authentication.'
+  type: boolean
+## ------ End of Configs added for SAML SSO ------ ##
 
 ## ------ Configs added for Cloudflare ------ ##
 - name: CLOUDFLARE_API_KEY
@@ -451,3 +485,28 @@
   locked: false
   description: 'Token expiry in days'
 ## ------ End of Customizations for Customers ------ ##
+
+## ----- LLM Observability ---- ##
+- name: OTEL_PROVIDER
+  display_title: 'OpenTelemetry Provider'
+  description: 'LLM observability provider (langfuse, langsmith, etc.)'
+  value: ''
+  locked: false
+- name: LANGFUSE_PUBLIC_KEY
+  display_title: 'Langfuse Public Key'
+  description: 'Public key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_SECRET_KEY
+  display_title: 'Langfuse Secret Key'
+  description: 'Secret key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_BASE_URL
+  display_title: 'Langfuse Base URL'
+  description: 'Langfuse endpoint (US: https://us.cloud.langfuse.com, EU: https://cloud.langfuse.com)'
+  value: 'https://us.cloud.langfuse.com'
+  locked: false
+## ---- End of LLM Observability ---- ##

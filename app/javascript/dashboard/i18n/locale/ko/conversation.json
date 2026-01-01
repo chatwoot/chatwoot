@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "48_HOURS_WINDOW": "48시간 메시지 창 제한",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -227,6 +227,13 @@
           "YES": "보내기",
           "CANCEL": "취소"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
