@@ -17,6 +17,8 @@ const { accountScopedRoute } = useAccount();
 const documents = computed(() => getters['alooWizard/getDocuments'].value);
 
 const isDragging = ref(false);
+const websiteUrl = ref('');
+const crawlFullSite = ref(false);
 
 const acceptedTypes = [
   'application/pdf',
@@ -101,6 +103,40 @@ const getStatusClass = status => {
   return classes[status] || classes.pending;
 };
 
+const getDocumentIcon = doc => {
+  return doc.source_type === 'website'
+    ? 'i-lucide-globe'
+    : 'i-lucide-file-text';
+};
+
+const getDocumentMeta = doc => {
+  if (doc.source_type === 'website') {
+    return doc.source_url;
+  }
+  return formatFileSize(doc.size);
+};
+
+const addWebsite = () => {
+  if (!websiteUrl.value) return;
+
+  try {
+    const url = new URL(websiteUrl.value);
+    const id = Date.now();
+    store.dispatch('alooWizard/addDocument', {
+      id,
+      source_type: 'website',
+      source_url: websiteUrl.value,
+      name: url.hostname.replace(/^www\./, ''),
+      crawl_full_site: crawlFullSite.value,
+      status: 'pending',
+    });
+    websiteUrl.value = '';
+    crawlFullSite.value = false;
+  } catch {
+    useAlert(t('ALOO.KNOWLEDGE.WEBSITE.INVALID_URL'));
+  }
+};
+
 const goToNext = () => {
   router.push(accountScopedRoute('settings_aloo_new_assign'));
 };
@@ -125,38 +161,75 @@ const skipStep = () => {
       </p>
 
       <div class="max-w-2xl">
-        <!-- Upload Zone -->
-        <div
-          class="border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer"
-          :class="[
-            isDragging
-              ? 'border-n-blue-7 bg-n-blue-2'
-              : 'border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1',
-          ]"
-          @dragover="handleDragOver"
-          @dragleave="handleDragLeave"
-          @drop="handleDrop"
-          @click="$refs.fileInput.click()"
-        >
-          <input
-            ref="fileInput"
-            type="file"
-            multiple
-            :accept="acceptedExtensions"
-            class="hidden"
-            @change="handleFileSelect"
-          />
-          <div class="flex flex-col items-center gap-3">
-            <span class="i-lucide-upload-cloud text-4xl text-n-slate-9" />
-            <p class="text-n-slate-12 font-medium">
-              {{ $t('ALOO.DOCUMENTS.DROP_FILES') }}
-            </p>
-            <p class="text-sm text-n-slate-10">
-              {{ $t('ALOO.DOCUMENTS.SUPPORTED_FORMATS') }}
-            </p>
-            <p class="text-xs text-n-slate-9">
-              {{ $t('ALOO.DOCUMENTS.MAX_SIZE') }}
-            </p>
+        <div class="flex gap-6">
+          <!-- Upload Zone -->
+          <div
+            class="flex-1 border-2 border-dashed rounded-xl p-8 text-center transition-colors cursor-pointer"
+            :class="[
+              isDragging
+                ? 'border-n-blue-7 bg-n-blue-2'
+                : 'border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1',
+            ]"
+            @dragover="handleDragOver"
+            @dragleave="handleDragLeave"
+            @drop="handleDrop"
+            @click="$refs.fileInput.click()"
+          >
+            <input
+              ref="fileInput"
+              type="file"
+              multiple
+              :accept="acceptedExtensions"
+              class="hidden"
+              @change="handleFileSelect"
+            />
+            <div class="flex flex-col items-center gap-3">
+              <span class="i-lucide-upload-cloud text-4xl text-n-slate-9" />
+              <p class="text-n-slate-12 font-medium">
+                {{ $t('ALOO.DOCUMENTS.DROP_FILES') }}
+              </p>
+              <p class="text-sm text-n-slate-10">
+                {{ $t('ALOO.DOCUMENTS.SUPPORTED_FORMATS') }}
+              </p>
+              <p class="text-xs text-n-slate-9">
+                {{ $t('ALOO.DOCUMENTS.MAX_SIZE') }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Website URL Input -->
+          <div class="flex-1 border-2 border-dashed rounded-xl p-8">
+            <div class="flex flex-col items-center gap-3">
+              <span class="i-lucide-globe text-4xl text-n-slate-9" />
+              <p class="text-n-slate-12 font-medium">
+                {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
+              </p>
+              <input
+                v-model="websiteUrl"
+                type="url"
+                class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder-n-slate-9 text-sm"
+                :placeholder="$t('ALOO.KNOWLEDGE.WEBSITE.URL_PLACEHOLDER')"
+                @keyup.enter="addWebsite"
+              />
+              <label class="flex items-center gap-2 w-full">
+                <input
+                  v-model="crawlFullSite"
+                  type="checkbox"
+                  class="rounded border-n-weak"
+                />
+                <span class="text-sm text-n-slate-10">
+                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.CRAWL_FULL_SITE') }}
+                </span>
+              </label>
+              <Button
+                icon="i-lucide-plus"
+                :disabled="!websiteUrl"
+                class="w-full"
+                @click="addWebsite"
+              >
+                {{ $t('ALOO.KNOWLEDGE.WEBSITE.ADD') }}
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -171,13 +244,16 @@ const skipStep = () => {
             class="flex items-center justify-between p-3 bg-n-alpha-1 rounded-lg border border-n-weak"
           >
             <div class="flex items-center gap-3">
-              <span class="i-lucide-file-text text-xl text-n-slate-9" />
+              <span
+                :class="getDocumentIcon(doc)"
+                class="text-xl text-n-slate-9"
+              />
               <div>
                 <p class="text-sm font-medium text-n-slate-12">
                   {{ doc.name }}
                 </p>
                 <p class="text-xs text-n-slate-10">
-                  {{ formatFileSize(doc.size) }}
+                  {{ getDocumentMeta(doc) }}
                 </p>
               </div>
             </div>

@@ -215,11 +215,21 @@
     "KNOWLEDGE": {
       "LOADING": "Loading knowledge base...",
       "DOCUMENTS": {
-        "TITLE": "Documents",
-        "DESCRIPTION": "Upload and manage documents that form your assistant's knowledge base",
+        "TITLE": "Knowledge Base",
+        "DESCRIPTION": "Upload documents or add websites to build your assistant's knowledge base",
+        "UPLOAD_TITLE": "Upload File",
         "UPLOAD": "Upload Document",
         "ALLOWED_TYPES": "Supported: PDF, TXT, CSV, MD (max 10MB)",
         "CHUNKS": "Chunks"
+      },
+      "WEBSITE": {
+        "TITLE": "Add Website",
+        "URL_PLACEHOLDER": "https://example.com",
+        "ADD": "Add",
+        "CRAWL_FULL_SITE": "Crawl full website",
+        "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
+        "PAGES": "pages",
+        "INVALID_URL": "Please enter a valid URL"
       }
     },
     "MEMORIES": {
@@ -302,6 +312,7 @@
       "DOCUMENT_UPLOADED": "Document uploaded successfully",
       "DOCUMENT_DELETED": "Document deleted successfully",
       "DOCUMENT_REPROCESSING": "Document reprocessing started",
+      "WEBSITE_ADDED": "Website added and queued for processing",
       "INBOX_ASSIGNED": "Inbox assigned successfully",
       "INBOX_UNASSIGNED": "Inbox unassigned successfully",
       "ERROR": "An error occurred. Please try again."

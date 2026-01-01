@@ -56,5 +56,19 @@ export default createStore({
         commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
       }
     },
+    async addWebsite({ commit }, { assistantId, url, title, crawlFullSite }) {
+      commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
+      try {
+        const response = await AlooDocumentAPI.addWebsite(assistantId, {
+          url,
+          title,
+          crawlFullSite,
+        });
+        commit(mutationTypes.ADD, response.data);
+        return response.data;
+      } finally {
+        commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
+      }
+    },
   }),
 });

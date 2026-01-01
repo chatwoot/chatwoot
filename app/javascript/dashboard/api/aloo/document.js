@@ -31,6 +31,14 @@ class AlooDocument extends ApiClient {
       `${this.url}/${assistantId}/documents/${documentId}/reprocess`
     );
   }
+
+  addWebsite(assistantId, { url, title, crawlFullSite }) {
+    return axios.post(`${this.url}/${assistantId}/documents`, {
+      source_url: url,
+      title,
+      crawl_full_site: crawlFullSite,
+    });
+  }
 }
 
 export default new AlooDocument();

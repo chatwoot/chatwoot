@@ -5,8 +5,7 @@ module Aloo
   # text-embedding-3-small uses 1536 dimensions
   EMBEDDING_DIMENSION = 1536
 
-  # V1 Scope - only file ingestion
-  SUPPORTED_SOURCE_TYPES = %w[file].freeze # Defer: website, notion
+  SUPPORTED_SOURCE_TYPES = %w[file website].freeze
 
   # Memory type scoping
   # Contact-scoped: about THIS customer (preference, commitment, decision, correction)

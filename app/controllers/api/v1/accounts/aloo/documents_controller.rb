@@ -25,6 +25,27 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   end
 
   def create
+    if document_params[:source_url].present?
+      create_website_document
+    else
+      create_file_document
+    end
+  end
+
+  def destroy
+    @document.destroy!
+    head :ok
+  end
+
+  def reprocess
+    @document.update!(status: 'pending')
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: { message: 'Document queued for reprocessing' }
+  end
+
+  private
+
+  def create_file_document
     validate_file!
 
     @document = @assistant.documents.create!(
@@ -38,25 +59,42 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
       }
     )
 
-    # Queue processing job
     Aloo::ProcessDocumentJob.perform_later(@document.id)
-
     render json: document_json(@document), status: :created
   end
 
-  def destroy
-    @document.destroy!
-    head :ok
-  end
+  def create_website_document
+    validate_url!
 
-  # POST /api/v1/accounts/:account_id/aloo/assistants/:assistant_id/documents/:id/reprocess
-  def reprocess
-    @document.update!(status: 'pending')
+    @document = @assistant.documents.create!(
+      account: Current.account,
+      title: document_params[:title] || extract_title_from_url,
+      source_type: 'website',
+      source_url: document_params[:source_url],
+      metadata: {
+        crawl_full_site: document_params[:crawl_full_site] == 'true'
+      }
+    )
+
     Aloo::ProcessDocumentJob.perform_later(@document.id)
-    render json: { message: 'Document queued for reprocessing' }
+    render json: document_json(@document), status: :created
   end
 
-  private
+  def validate_url!
+    url = document_params[:source_url]
+    raise ActionController::BadRequest.new('URL is required') if url.blank?
+
+    uri = URI.parse(url)
+    raise ActionController::BadRequest.new('Invalid URL format') unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+  rescue URI::InvalidURIError
+    raise ActionController::BadRequest.new('Invalid URL format')
+  end
+
+  def extract_title_from_url
+    URI.parse(document_params[:source_url]).host&.gsub(/^www\./, '') || 'Website'
+  rescue URI::InvalidURIError
+    'Website'
+  end
 
   def set_assistant
     @assistant = Current.account.aloo_assistants.find(params[:assistant_id])
@@ -67,7 +105,7 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   end
 
   def document_params
-    params.permit(:title, :file)
+    params.permit(:title, :file, :source_url, :crawl_full_site)
   end
 
   def validate_file!
@@ -75,13 +113,11 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
 
     raise ActionController::ParameterMissing, 'file is required' unless file
 
-    unless ALLOWED_CONTENT_TYPES.include?(file.content_type)
-      raise ActionController::BadRequest.new("Unsupported file type: #{file.content_type}")
-    end
+    raise ActionController::BadRequest.new("Unsupported file type: #{file.content_type}") unless ALLOWED_CONTENT_TYPES.include?(file.content_type)
 
-    if file.size > MAX_FILE_SIZE
-      raise ActionController::BadRequest.new("File too large. Maximum size is #{MAX_FILE_SIZE / 1.megabyte}MB")
-    end
+    return unless file.size > MAX_FILE_SIZE
+
+    raise ActionController::BadRequest.new("File too large. Maximum size is #{MAX_FILE_SIZE / 1.megabyte}MB")
   end
 
   def file_title
@@ -94,10 +130,13 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
       id: document.id,
       title: document.title,
       source_type: document.source_type,
+      source_url: document.source_url,
       status: document.status,
       filename: document.file.attached? ? document.file.filename.to_s : nil,
       file_size: document.file.attached? ? document.file.byte_size : nil,
       content_type: document.metadata&.dig('content_type'),
+      pages_scraped: document.metadata&.dig('pages_scraped'),
+      crawl_full_site: document.metadata&.dig('crawl_full_site'),
       chunk_count: document.embeddings.count,
       created_at: document.created_at,
       updated_at: document.updated_at

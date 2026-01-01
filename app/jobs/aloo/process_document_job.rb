@@ -59,6 +59,15 @@ module Aloo
     private
 
     def extract_content
+      case @document.source_type
+      when 'file'
+        extract_file_content
+      when 'website'
+        extract_website_content
+      end
+    end
+
+    def extract_file_content
       return nil unless @document.file.attached?
 
       content_type = @document.file.content_type
@@ -70,6 +79,31 @@ module Aloo
       end
 
       send(processor)
+    end
+
+    def extract_website_content
+      return nil if @document.source_url.blank?
+
+      crawl_full_site = @document.metadata['crawl_full_site'] == true
+      scraper = Aloo::WebScrapingService.new(
+        url: @document.source_url,
+        crawl_full_site: crawl_full_site
+      )
+
+      result = scraper.perform
+
+      @document.update!(
+        metadata: @document.metadata.merge(
+          'pages_scraped' => result[:pages].size,
+          'scrape_errors' => result[:errors]
+        )
+      )
+
+      return nil if result[:pages].empty?
+
+      result[:pages].map do |page|
+        "## #{page[:title]}\nURL: #{page[:url]}\n\n#{page[:content]}"
+      end.join("\n\n---\n\n")
     end
 
     def process_pdf
