@@ -219,17 +219,35 @@
         "DESCRIPTION": "Upload documents or add websites to build your assistant's knowledge base",
         "UPLOAD_TITLE": "Upload File",
         "UPLOAD": "Upload Document",
-        "ALLOWED_TYPES": "Supported: PDF, TXT, CSV, MD (max 10MB)",
-        "CHUNKS": "Chunks"
+        "DROP_OR_CLICK": "Drop file here or click to browse",
+        "ALLOWED_TYPES": "PDF, TXT, MD, CSV (max 10MB)",
+        "CHUNKS": "chunks",
+        "LIST_TITLE": "Documents"
       },
       "WEBSITE": {
         "TITLE": "Add Website",
         "URL_PLACEHOLDER": "https://example.com",
-        "ADD": "Add",
+        "ADD": "Add Website",
         "CRAWL_FULL_SITE": "Crawl full website",
         "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
         "PAGES": "pages",
-        "INVALID_URL": "Please enter a valid URL"
+        "INVALID_URL": "Please enter a valid URL",
+        "DUPLICATE_URL": "This URL has already been added"
+      },
+      "STATS": {
+        "DOCUMENTS": "documents",
+        "CHUNKS": "chunks",
+        "READY": "ready",
+        "PROCESSING": "processing",
+        "FAILED": "failed"
+      },
+      "DETAILS": {
+        "SOURCE_URL": "Source URL",
+        "FILENAME": "Filename",
+        "CRAWL_MODE": "Crawl Mode",
+        "FULL_SITE": "Full website crawl",
+        "SINGLE_PAGE": "Single page only",
+        "ADDED": "Added"
       }
     },
     "MEMORIES": {

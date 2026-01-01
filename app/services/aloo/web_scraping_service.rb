@@ -67,8 +67,9 @@ module Aloo
 
       doc = Nokogiri::HTML(response.body)
       title = extract_title(doc)
-      content = extract_content(doc)
+      # Extract links BEFORE extract_content modifies the doc
       links = extract_links(doc, url)
+      content = extract_content(doc)
 
       {
         url: url,

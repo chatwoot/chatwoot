@@ -116,11 +116,36 @@ const getDocumentMeta = doc => {
   return formatFileSize(doc.size);
 };
 
+const normalizeUrl = urlString => {
+  try {
+    const url = new URL(urlString);
+    const host = url.hostname.toLowerCase().replace(/^www\./, '');
+    const path = url.pathname.replace(/\/+$/, '') || '/';
+    return `${host}${path}`;
+  } catch {
+    return urlString;
+  }
+};
+
 const addWebsite = () => {
   if (!websiteUrl.value) return;
 
   try {
     const url = new URL(websiteUrl.value);
+    const normalizedNew = normalizeUrl(websiteUrl.value);
+
+    // Check for duplicate
+    const isDuplicate = documents.value.some(
+      doc =>
+        doc.source_type === 'website' &&
+        normalizeUrl(doc.source_url) === normalizedNew
+    );
+
+    if (isDuplicate) {
+      useAlert(t('ALOO.KNOWLEDGE.WEBSITE.DUPLICATE_URL'));
+      return;
+    }
+
     const id = Date.now();
     store.dispatch('alooWizard/addDocument', {
       id,

@@ -84,7 +84,7 @@ module Aloo
     def extract_website_content
       return nil if @document.source_url.blank?
 
-      crawl_full_site = @document.metadata['crawl_full_site'] == true
+      crawl_full_site = ActiveModel::Type::Boolean.new.cast(@document.metadata['crawl_full_site'])
       scraper = Aloo::WebScrapingService.new(
         url: @document.source_url,
         crawl_full_site: crawl_full_site

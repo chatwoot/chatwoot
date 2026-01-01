@@ -72,7 +72,7 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
       source_type: 'website',
       source_url: document_params[:source_url],
       metadata: {
-        crawl_full_site: document_params[:crawl_full_site] == 'true'
+        crawl_full_site: ActiveModel::Type::Boolean.new.cast(document_params[:crawl_full_site])
       }
     )
 
@@ -86,8 +86,26 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
 
     uri = URI.parse(url)
     raise ActionController::BadRequest.new('Invalid URL format') unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+    # Check for duplicate URL
+    normalized_url = normalize_url(url)
+    existing = @assistant.documents.where(source_type: 'website').find do |doc|
+      normalize_url(doc.source_url) == normalized_url
+    end
+    raise ActionController::BadRequest.new('This URL has already been added') if existing
   rescue URI::InvalidURIError
     raise ActionController::BadRequest.new('Invalid URL format')
+  end
+
+  def normalize_url(url)
+    uri = URI.parse(url)
+    # Normalize: lowercase host, remove www, remove trailing slash, remove fragment
+    host = uri.host&.downcase&.gsub(/^www\./, '')
+    path = uri.path&.gsub(%r{/+$}, '')
+    path = '/' if path.blank?
+    "#{host}#{path}"
+  rescue URI::InvalidURIError
+    url
   end
 
   def extract_title_from_url
