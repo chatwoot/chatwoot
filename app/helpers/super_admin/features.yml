@@ -1,6 +1,14 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
 
+# ------- AI Features ------- #
+aloo_ai:
+  name: 'Aloo AI'
+  description: 'AI-powered customer support assistant with multi-provider LLM support.'
+  enabled: true
+  icon: 'icon-sparkles'
+  config_key: 'aloo'
+
 # ------- Premium Features ------- #
 captain:
   name: 'Captain'
