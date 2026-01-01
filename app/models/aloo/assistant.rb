@@ -64,6 +64,9 @@ module Aloo
       'MA' => { name: 'Moroccan', prompt: 'Respond in Moroccan Arabic (مغربي/دارجة). Use Moroccan expressions.' },
       'DZ' => { name: 'Algerian', prompt: 'Respond in Algerian Arabic (جزائري). Use Algerian expressions and phrases.' },
       'TN' => { name: 'Tunisian', prompt: 'Respond in Tunisian Arabic (تونسي). Use Tunisian expressions and phrases.' },
+      'LY' => { name: 'Libyan', prompt: 'Respond in Libyan Arabic (ليبي). Use Libyan expressions and phrases.' },
+      'SD' => { name: 'Sudanese', prompt: 'Respond in Sudanese Arabic (سوداني). Use Sudanese expressions and phrases.' },
+      'PS' => { name: 'Palestinian', prompt: 'Respond in Palestinian Arabic (فلسطيني). Use Palestinian expressions and phrases.' },
       'MSA' => { name: 'Modern Standard', prompt: 'Respond in Modern Standard Arabic (فصحى). Use formal Arabic.' }
     }.freeze
 

@@ -18,12 +18,15 @@ module Aloo
     'en' => { name: 'English', dialects: [] },
     'ar' => {
       name: 'Arabic',
-      dialects: %w[EG SA AE KW QA BH OM JO LB SY IQ MA DZ TN MSA]
+      dialects: %w[EG SA AE KW QA BH OM JO LB SY IQ MA DZ TN LY SD PS MSA]
     },
     'fr' => { name: 'French', dialects: [] },
     'es' => { name: 'Spanish', dialects: [] },
     'de' => { name: 'German', dialects: [] },
     'pt' => { name: 'Portuguese', dialects: %w[BR PT] },
+    'it' => { name: 'Italian', dialects: [] },
+    'nl' => { name: 'Dutch', dialects: [] },
+    'ru' => { name: 'Russian', dialects: [] },
     'zh' => { name: 'Chinese', dialects: %w[CN TW] },
     'ja' => { name: 'Japanese', dialects: [] },
     'ko' => { name: 'Korean', dialects: [] },
