@@ -1,11 +1,8 @@
 # frozen_string_literal: true
 
 # DEPRECATED: This class uses the legacy OpenAI Ruby gem directly.
-# Only used for PDF/file operations that require OpenAI's files API:
-# - Captain::LLM::PdfProcessingService (files.upload for assistants)
-# - Captain::LLM::PaginatedFaqGeneratorService (uses file_id from uploaded files)
-#
-# For all other LLM operations, use Llm::BaseAiService with RubyLLM instead.
+# Only used for audio transcription via Whisper API.
+# For all other LLM operations, use Aloo's RubyLLM-based services instead.
 class LLM::LegacyBaseOpenAiService
   DEFAULT_MODEL = 'gpt-4o-mini'
 
@@ -13,7 +10,7 @@ class LLM::LegacyBaseOpenAiService
 
   def initialize
     @client = OpenAI::Client.new(
-      access_token: InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_API_KEY').value,
+      access_token: openai_api_key,
       uri_base: uri_base,
       log_errors: Rails.env.development?
     )
@@ -24,13 +21,17 @@ class LLM::LegacyBaseOpenAiService
 
   private
 
+  def openai_api_key
+    # Try Aloo config first, fall back to legacy Captain config for backward compatibility
+    InstallationConfig.find_by(name: 'ALOO_OPENAI_API_KEY')&.value ||
+      InstallationConfig.find_by!(name: 'CAPTAIN_OPEN_AI_API_KEY').value
+  end
+
   def uri_base
-    endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-    endpoint.presence || 'https://api.openai.com/'
+    'https://api.openai.com/'
   end
 
   def setup_model
-    config_value = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_MODEL')&.value
-    @model = (config_value.presence || DEFAULT_MODEL)
+    @model = DEFAULT_MODEL
   end
 end

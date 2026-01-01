@@ -7,20 +7,17 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
   let(:attachment) { message.attachments.create!(account: account, file_type: :audio) }
 
   before do
-    # Create required installation configs
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-api-key')
-    create(:installation_config, name: 'CAPTAIN_OPEN_AI_MODEL', value: 'gpt-4o-mini')
-
-    # Mock usage limits for transcription to be available
-    allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })
+    # Create required installation configs for Aloo AI
+    create(:installation_config, name: 'ALOO_OPENAI_API_KEY', value: 'test-api-key')
+    create(:installation_config, name: 'ALOO_ENABLED', value: true)
   end
 
   describe '#perform' do
     let(:service) { described_class.new(attachment) }
 
-    context 'when captain_integration feature is not enabled' do
+    context 'when Aloo AI is not enabled' do
       before do
-        account.disable_features!('captain_integration')
+        InstallationConfig.find_by(name: 'ALOO_ENABLED').update!(value: false)
       end
 
       it 'returns transcription limit exceeded' do

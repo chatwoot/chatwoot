@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService< LLM::LegacyBaseOpenAiService
+class Messages::AudioTranscriptionService < LLM::LegacyBaseOpenAiService
   include Integrations::LLMInstrumentation
 
   WHISPER_MODEL = 'whisper-1'.freeze
@@ -24,10 +24,14 @@ class Messages::AudioTranscriptionService< LLM::LegacyBaseOpenAiService
   private
 
   def can_transcribe?
-    return false unless account.feature_enabled?('captain_integration')
+    # Check if audio transcriptions feature is enabled for the account
     return false if account.audio_transcriptions.blank?
 
-    account.usage_limits[:captain][:responses][:current_available].positive?
+    # Check if Aloo AI is enabled globally
+    aloo_enabled = InstallationConfig.find_by(name: 'ALOO_ENABLED')&.value
+    return false unless aloo_enabled
+
+    true
   end
 
   def fetch_audio_file
@@ -84,7 +88,6 @@ class Messages::AudioTranscriptionService< LLM::LegacyBaseOpenAiService
 
     attachment.update!(meta: { transcribed_text: transcribed_text })
     message.reload.send_update_event
-    message.account.increment_response_usage
 
     return unless ChatwootApp.advanced_search_allowed?
 
