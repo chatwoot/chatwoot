@@ -108,8 +108,8 @@ module Aloo
       if existing
         existing.increment!(:observation_count)
         existing.update!(
-          confidence_score: calculate_updated_confidence(existing, faq_data),
-          last_accessed_at: Time.current
+          confidence: calculate_updated_confidence(existing, faq_data),
+          last_observed_at: Time.current
         )
         return existing
       end
@@ -125,10 +125,10 @@ module Aloo
         entities: [],
         topics: Array(faq_data['topics']),
         embedding: embedding_vector,
-        source_conversation_id: @conversation.id,
-        confidence_score: faq_data['confidence'] || 0.7,
+        confidence: faq_data['confidence'] || 0.7,
         observation_count: 1,
-        last_accessed_at: Time.current
+        last_observed_at: Time.current,
+        metadata: { source_conversation_id: @conversation.id }
       )
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("[FaqGeneratorJob] Failed to create FAQ: #{e.message}")
@@ -137,7 +137,7 @@ module Aloo
 
     def calculate_updated_confidence(existing, new_data)
       new_confidence = new_data['confidence'] || 0.7
-      avg = (existing.confidence_score + new_confidence) / 2.0
+      avg = (existing.confidence + new_confidence) / 2.0
       boost = [existing.observation_count * 0.02, 0.2].min
       [avg + boost, 1.0].min
     end
@@ -168,11 +168,11 @@ module Aloo
 
       context.set_context('faq_generation_completed', true)
       context.set_context('faq_generation_result', {
-        faqs_generated: count,
-        skipped: skipped,
-        reason: reason,
-        processed_at: Time.current.iso8601
-      })
+                            faqs_generated: count,
+                            skipped: skipped,
+                            reason: reason,
+                            processed_at: Time.current.iso8601
+                          })
     end
   end
 end

@@ -299,19 +299,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["topics"], name: "index_aloo_memories_on_topics", using: :gin
   end
 
-  create_table "aloo_message_feedbacks", force: :cascade do |t|
-    t.bigint "message_id", null: false
-    t.bigint "aloo_memory_id"
-    t.bigint "user_id"
-    t.string "feedback_type", null: false
-    t.text "comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["aloo_memory_id"], name: "index_aloo_message_feedbacks_on_aloo_memory_id"
-    t.index ["message_id"], name: "index_aloo_message_feedbacks_on_message_id"
-    t.index ["user_id"], name: "index_aloo_message_feedbacks_on_user_id"
-  end
-
   create_table "aloo_traces", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "aloo_assistant_id"
@@ -1499,9 +1486,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "aloo_memories", "aloo_assistants"
   add_foreign_key "aloo_memories", "contacts"
   add_foreign_key "aloo_memories", "conversations"
-  add_foreign_key "aloo_message_feedbacks", "aloo_memories"
-  add_foreign_key "aloo_message_feedbacks", "messages"
-  add_foreign_key "aloo_message_feedbacks", "users"
   add_foreign_key "aloo_traces", "accounts"
   add_foreign_key "aloo_traces", "aloo_assistants"
   add_foreign_key "aloo_traces", "conversations"

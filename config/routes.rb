@@ -5,7 +5,6 @@ Rails.application.routes.draw do
 
   # mount RubyLLM::Agents::Engine => "/agents"
 
-
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
@@ -86,7 +85,6 @@ Rails.application.routes.draw do
                 end
               end
               resources :memories, only: [:index, :destroy]
-              resources :embeddings, only: [:index]
               resources :conversations, only: [:index]
             end
           end

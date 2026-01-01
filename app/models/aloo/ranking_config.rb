@@ -32,7 +32,15 @@ module Aloo
       'procedure' => %w[process steps workflow procedure how-to]
     }.freeze
 
+    # High-priority memory types that get boosted in ranking
+    PRIORITY_TYPES = %w[preference commitment correction].freeze
+
     class << self
+      # Check if a memory type should receive a priority boost
+      def type_boost_for?(memory_type)
+        PRIORITY_TYPES.include?(memory_type.to_s)
+      end
+
       # Detect which memory type should be boosted based on query
       def detect_type_boost(query)
         query_lower = query.to_s.downcase

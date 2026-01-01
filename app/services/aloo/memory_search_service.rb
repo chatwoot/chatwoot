@@ -60,7 +60,7 @@ module Aloo
     def find_by_type(memory_type, contact: nil, limit: DEFAULT_LIMIT)
       scope = base_scope.where(memory_type: memory_type)
       scope = scope.for_contact(contact) if contact && Aloo::CONTACT_SCOPED_TYPES.include?(memory_type)
-      scope.active.order(confidence_score: :desc).limit(limit)
+      scope.active.order(confidence: :desc).limit(limit)
     end
 
     # Check if a similar memory already exists (for deduplication)
@@ -76,9 +76,7 @@ module Aloo
 
       scope = base_scope.where(memory_type: memory_type).active
 
-      if contact && Aloo::CONTACT_SCOPED_TYPES.include?(memory_type)
-        scope = scope.for_contact(contact)
-      end
+      scope = scope.for_contact(contact) if contact && Aloo::CONTACT_SCOPED_TYPES.include?(memory_type)
 
       candidates = scope
                    .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
@@ -157,7 +155,7 @@ module Aloo
       score = similarity * weights[:similarity]
 
       # Confidence score (already 0-1)
-      score += (memory.confidence_score || 0.5) * weights[:confidence]
+      score += (memory.confidence || 0.5) * weights[:confidence]
 
       # Observation count boost (normalized, caps at 10 observations)
       observation_score = [(memory.observation_count || 1) / 10.0, 1.0].min
@@ -174,9 +172,9 @@ module Aloo
     end
 
     def calculate_recency_score(memory)
-      return 0.5 unless memory.last_accessed_at
+      return 0.5 unless memory.last_observed_at
 
-      days_old = (Time.current - memory.last_accessed_at) / 1.day
+      days_old = (Time.current - memory.last_observed_at) / 1.day
       # Decay over 30 days for memories (faster than documents)
       [1.0 - (days_old / 30.0), 0.0].max
     end
@@ -204,13 +202,12 @@ module Aloo
           content: memory.content,
           entities: memory.entities,
           topics: memory.topics,
-          confidence: memory.confidence_score,
+          confidence: memory.confidence,
           observation_count: memory.observation_count,
           is_contact_scoped: Aloo::CONTACT_SCOPED_TYPES.include?(memory.memory_type),
           similarity: result[:similarity].round(4),
           score: result[:score].round(4),
-          source_message_id: memory.source_message_id,
-          source_conversation_id: memory.source_conversation_id
+          source_conversation_id: memory.metadata&.dig('source_conversation_id')
         }
       end
     end

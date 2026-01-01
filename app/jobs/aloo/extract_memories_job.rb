@@ -99,7 +99,7 @@ module Aloo
 
       if existing
         existing.increment!(:observation_count)
-        existing.touch(:last_accessed_at)
+        existing.touch(:last_observed_at)
         return existing
       end
 
@@ -114,10 +114,10 @@ module Aloo
         entities: Array(mem_data['entities']),
         topics: Array(mem_data['topics']),
         embedding: embedding_vector,
-        source_conversation_id: @conversation.id,
-        confidence_score: 0.7,
+        confidence: 0.7,
         observation_count: 1,
-        last_accessed_at: Time.current
+        last_observed_at: Time.current,
+        metadata: { source_conversation_id: @conversation.id }
       )
     rescue ActiveRecord::RecordInvalid => e
       Rails.logger.error("[ExtractMemoriesJob] Failed to create memory: #{e.message}")
@@ -151,9 +151,9 @@ module Aloo
 
       context.set_context('memory_extraction_completed', true)
       context.set_context('memory_extraction_result', {
-        memories_extracted: count,
-        processed_at: Time.current.iso8601
-      })
+                            memories_extracted: count,
+                            processed_at: Time.current.iso8601
+                          })
     end
   end
 end

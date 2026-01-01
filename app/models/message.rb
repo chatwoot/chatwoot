@@ -135,7 +135,6 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_one :payment_link, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
-  has_many :aloo_message_feedbacks, class_name: 'Aloo::MessageFeedback', dependent: :destroy
 
   after_create_commit :execute_after_create_commit_callbacks
 

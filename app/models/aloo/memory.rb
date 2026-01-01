@@ -13,11 +13,6 @@ module Aloo
                inverse_of: :memories
     belongs_to :contact, optional: true
     belongs_to :conversation, optional: true
-    has_many :message_feedbacks,
-             class_name: 'Aloo::MessageFeedback',
-             foreign_key: 'aloo_memory_id',
-             dependent: :destroy,
-             inverse_of: :memory
 
     MEMORY_TYPES = %w[correction decision preference insight commitment gap faq procedure].freeze
 
