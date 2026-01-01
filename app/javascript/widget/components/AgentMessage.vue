@@ -211,7 +211,7 @@ export default {
               <div
                 v-if="shouldDisplayAgentMessage"
                 v-dompurify-html="formatMessage(message.content, false)"
-                class="message-content text-n-slate-12 mb-2"
+                class="message-content prose prose-bubble text-n-slate-12 mb-2"
               />
               <div
                 v-for="attachment in message.attachments"

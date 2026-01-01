@@ -33,6 +33,14 @@ body {
 }
 
 .message-content {
+  p {
+    @apply mb-1.5;
+
+    &:last-child {
+      @apply mb-0;
+    }
+  }
+
   ul {
     list-style: disc;
     @apply ltr:pl-3 rtl:pr-3;

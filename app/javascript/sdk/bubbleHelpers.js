@@ -17,6 +17,8 @@ export const bubbleHolder = document.createElement('div');
 export const chatBubble = document.createElement('button');
 export const closeBubble = document.createElement('button');
 export const notificationBubble = document.createElement('span');
+export const greetingPreview = document.createElement('div');
+export const greetingInputBox = document.createElement('div');
 
 export const setBubbleText = bubbleText => {
   if (isExpandedView(window.$chatwoot.type)) {
@@ -103,6 +105,204 @@ export const createBubbleHolder = hideMessageBubble => {
   body.appendChild(bubbleHolder);
 };
 
+export const createGreetingPreview = (config = {}) => {
+  const { avatarUrl, agentName, dealerName, greetingMessage } = config;
+
+  // Clear existing preview if any
+  if (greetingPreview.parentNode) {
+    greetingPreview.innerHTML = '';
+    greetingPreview.removeEventListener('click', () => {});
+  }
+
+  // Set up the container
+  greetingPreview.className = `woot-greeting-preview woot-elements--${window.$chatwoot.position} woot--hide`;
+  greetingPreview.id = 'cw-greeting-preview';
+  greetingPreview.dataset.turboPermanent = true;
+
+  // Create preview structure
+  const previewBox = document.createElement('div');
+  previewBox.className = 'woot-greeting-preview-box';
+
+  const header = document.createElement('div');
+  header.className = 'woot-greeting-preview-header';
+
+  const avatarNameContainer = document.createElement('div');
+  avatarNameContainer.className = 'woot-greeting-preview-avatar-name';
+
+  // Always show avatar if URL is provided, or show a default placeholder
+  if (avatarUrl) {
+    const img = document.createElement('img');
+    img.src = avatarUrl;
+    img.alt = agentName || '';
+    img.className = 'woot-greeting-preview-avatar';
+    avatarNameContainer.appendChild(img);
+  } else if (agentName) {
+    // Show a default avatar circle with initials if no avatar URL but we have a name
+    const defaultAvatar = document.createElement('div');
+    defaultAvatar.className =
+      'woot-greeting-preview-avatar woot-greeting-preview-avatar-default';
+    const initials = agentName
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+    defaultAvatar.textContent = initials;
+    avatarNameContainer.appendChild(defaultAvatar);
+  }
+
+  const nameContainer = document.createElement('div');
+  nameContainer.className = 'woot-greeting-preview-name-container';
+
+  if (agentName) {
+    const nameEl = document.createElement('div');
+    nameEl.className = 'woot-greeting-preview-name';
+    nameEl.textContent = agentName;
+    nameContainer.appendChild(nameEl);
+  }
+
+  if (dealerName && dealerName !== agentName) {
+    const dealerEl = document.createElement('div');
+    dealerEl.className = 'woot-greeting-preview-dealer';
+    dealerEl.textContent = dealerName;
+    nameContainer.appendChild(dealerEl);
+  }
+
+  if (nameContainer.children.length > 0) {
+    avatarNameContainer.appendChild(nameContainer);
+  }
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'woot-greeting-preview-close';
+  closeBtn.setAttribute('aria-label', 'Close');
+  closeBtn.innerHTML = `
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  `;
+
+  header.appendChild(avatarNameContainer);
+  header.appendChild(closeBtn);
+
+  const messageEl = document.createElement('div');
+  messageEl.className = 'woot-greeting-preview-message';
+  messageEl.textContent =
+    greetingMessage || "I'm online and happy to help! How may I help you? 😊";
+
+  previewBox.appendChild(header);
+  previewBox.appendChild(messageEl);
+  greetingPreview.appendChild(previewBox);
+
+  body.appendChild(greetingPreview);
+};
+
+export const createGreetingInputBox = (config = {}) => {
+  const { widgetColor } = config;
+
+  // Clear existing input box if any
+  if (greetingInputBox.parentNode) {
+    greetingInputBox.innerHTML = '';
+    greetingInputBox.removeEventListener('click', () => {});
+  }
+
+  // Set up the container
+  greetingInputBox.className = `woot-greeting-input-box woot-elements--${window.$chatwoot.position} woot--hide`;
+  greetingInputBox.id = 'cw-greeting-input-box';
+  greetingInputBox.dataset.turboPermanent = true;
+
+  // Create input box structure
+  const inputBoxContainer = document.createElement('div');
+  inputBoxContainer.className = 'woot-greeting-input-box-container';
+
+  const inputWrapper = document.createElement('div');
+  inputWrapper.className = 'woot-greeting-input-wrapper';
+
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.className = 'woot-greeting-input';
+  input.placeholder = 'Type your message...';
+  input.setAttribute('aria-label', 'Type your message');
+
+  const sendButton = document.createElement('button');
+  sendButton.type = 'button';
+  sendButton.className = 'woot-greeting-input-send';
+  sendButton.setAttribute('aria-label', 'Send message');
+  sendButton.style.backgroundColor = widgetColor || '#1f93ff';
+  sendButton.innerHTML = `
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="22" y1="2" x2="11" y2="13"></line>
+      <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+    </svg>
+  `;
+
+  inputWrapper.appendChild(input);
+  inputWrapper.appendChild(sendButton);
+  inputBoxContainer.appendChild(inputWrapper);
+  greetingInputBox.appendChild(inputBoxContainer);
+
+  body.appendChild(greetingInputBox);
+
+  // Handle send message - defined inline to access input and other functions
+  // eslint-disable-next-line no-use-before-define
+  const handleSendMessage = () => {
+    const messageText = input.value.trim();
+    if (!messageText) return;
+
+    // Clear input first
+    input.value = '';
+
+    // Open the widget - functions will be defined when this executes
+    // eslint-disable-next-line no-use-before-define
+    onBubbleClick({ toggleValue: true });
+    // eslint-disable-next-line no-use-before-define
+    hideGreetingPreview();
+    // eslint-disable-next-line no-use-before-define
+    hideGreetingInputBox();
+
+    // Send message to widget iframe after a short delay to ensure widget is open
+    setTimeout(() => {
+      if (window.$chatwoot && window.$chatwoot.hasLoaded) {
+        IFrameHelper.sendMessage('send-message', { content: messageText });
+      }
+    }, 300);
+  };
+
+  // Handle Enter key press
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
+    }
+  });
+
+  // Handle send button click
+  sendButton.addEventListener('click', () => {
+    handleSendMessage();
+  });
+
+  // Focus input when clicked
+  inputBoxContainer.addEventListener('click', () => {
+    input.focus();
+  });
+};
+
+export const showGreetingInputBox = () => {
+  removeClasses(greetingInputBox, 'woot--hide');
+};
+
+export const hideGreetingInputBox = () => {
+  addClasses(greetingInputBox, 'woot--hide');
+};
+
+export const showGreetingPreview = () => {
+  removeClasses(greetingPreview, 'woot--hide');
+};
+
+export const hideGreetingPreview = () => {
+  addClasses(greetingPreview, 'woot--hide');
+};
+
 const handleBubbleToggle = newIsOpen => {
   IFrameHelper.events.onBubbleToggle(newIsOpen);
 
@@ -126,7 +326,35 @@ export const onBubbleClick = (props = {}) => {
   toggleClass(closeBubble, 'woot--hide');
   toggleClass(widgetHolder, 'woot--hide');
 
+  // Hide greeting preview and input box when widget opens
+  if (newIsOpen) {
+    hideGreetingPreview();
+    hideGreetingInputBox();
+  }
+
   handleBubbleToggle(newIsOpen);
+};
+
+// Attach event handlers to greeting preview
+export const attachGreetingPreviewHandlers = () => {
+  // Add click handler to open widget
+  greetingPreview.addEventListener('click', e => {
+    if (!e.target.closest('.woot-greeting-preview-close')) {
+      onBubbleClick({ toggleValue: true });
+      hideGreetingPreview();
+    }
+  });
+
+  // Add close button handler
+  const closeBtnEl = greetingPreview.querySelector(
+    '.woot-greeting-preview-close'
+  );
+  if (closeBtnEl) {
+    closeBtnEl.addEventListener('click', e => {
+      e.stopPropagation();
+      hideGreetingPreview();
+    });
+  }
 };
 
 export const onClickChatBubble = () => {
