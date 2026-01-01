@@ -81,14 +81,6 @@ class Channel::WebWidget < ApplicationRecord
         });
       };
     })(document,\"script\");
-
-    window.addEventListener('chatwoot:ready', function() {
-      setTimeout(function() {
-        if (window.$chatwoot) {
-          window.$chatwoot.toggle('open');
-        }
-      }, 3000);
-    });
     
   </script>
   "

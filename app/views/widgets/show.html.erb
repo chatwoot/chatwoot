@@ -31,6 +31,8 @@
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
         avatarName: '<%= @web_widget.avatar_name %>',
+        greetingMessage: <%= @web_widget.inbox.greeting_message.to_json.html_safe %>,
+        greetingEnabled: <%= @web_widget.inbox.greeting_enabled %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'
