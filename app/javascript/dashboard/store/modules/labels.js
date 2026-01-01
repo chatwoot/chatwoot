@@ -29,6 +29,37 @@ export const getters = {
   getLabelById: _state => id => {
     return _state.records.find(record => record.id === Number(id));
   },
+  getRootLabels(_state) {
+    return _state.records.filter(record => !record.parent_id);
+  },
+  getLabelsByParentId: _state => parentId => {
+    return _state.records.filter(record => record.parent_id === parentId);
+  },
+  getLabelsTree(_state, allGetters) {
+    const buildTree = labels => {
+      return labels.map(label => ({
+        ...label,
+        children: allGetters.getLabelsByParentId(label.id).map(child => ({
+          ...child,
+          children: buildTree(allGetters.getLabelsByParentId(child.id)),
+        })),
+      }));
+    };
+    return buildTree(allGetters.getRootLabels);
+  },
+  getLabelsWithHierarchy(_state, allGetters) {
+    const flattenWithIndent = (labels, indent = 0) => {
+      const result = [];
+      labels.forEach(label => {
+        result.push({ ...label, indent });
+        if (label.children && label.children.length > 0) {
+          result.push(...flattenWithIndent(label.children, indent + 1));
+        }
+      });
+      return result;
+    };
+    return flattenWithIndent(allGetters.getLabelsTree);
+  },
 };
 
 export const actions = {

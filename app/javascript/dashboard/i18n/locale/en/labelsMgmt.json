@@ -34,6 +34,10 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
+      "PARENT": {
+        "LABEL": "Parent Label",
+        "NONE": "None"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",
