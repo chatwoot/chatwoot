@@ -22,21 +22,12 @@ const isUploading = ref(false);
 const fileInput = ref(null);
 
 const documents = computed(() => getters['alooDocuments/getRecords'].value);
-const embeddings = computed(() => getters['alooEmbeddings/getRecords'].value);
-const embeddingsMeta = computed(
-  () => getters['alooEmbeddings/getMeta'].value || {}
-);
 
 onMounted(async () => {
   try {
-    await Promise.all([
-      store.dispatch('alooDocuments/getDocuments', {
-        assistantId: props.assistantId,
-      }),
-      store.dispatch('alooEmbeddings/getEmbeddings', {
-        assistantId: props.assistantId,
-      }),
-    ]);
+    await store.dispatch('alooDocuments/getDocuments', {
+      assistantId: props.assistantId,
+    });
   } catch {
     useAlert(t('ALOO.MESSAGES.ERROR'));
   } finally {
@@ -147,7 +138,7 @@ const getStatusClass = status => {
                   </p>
                   <p class="text-xs text-n-slate-10">
                     {{ formatFileSize(doc.file_size) }}
-                    {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.TOTAL') }}:
+                    {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.CHUNKS') }}:
                     {{ doc.chunk_count || 0 }}
                   </p>
                 </div>
@@ -180,87 +171,6 @@ const getStatusClass = status => {
             <span class="i-lucide-files text-3xl text-n-slate-9" />
             <p class="text-sm text-n-slate-11 mt-2">
               {{ $t('ALOO.DOCUMENTS.EMPTY_STATE.DESCRIPTION') }}
-            </p>
-          </div>
-        </div>
-      </SettingsSection>
-
-      <SettingsSection
-        :title="$t('ALOO.KNOWLEDGE.EMBEDDINGS.TITLE')"
-        :sub-title="$t('ALOO.KNOWLEDGE.EMBEDDINGS.DESCRIPTION')"
-        :show-border="false"
-      >
-        <div class="space-y-4">
-          <div class="grid grid-cols-3 gap-4">
-            <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
-              <p class="text-2xl font-semibold text-n-slate-12">
-                {{ embeddingsMeta.total_count || 0 }}
-              </p>
-              <p class="text-sm text-n-slate-10">
-                {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.TOTAL') }}
-              </p>
-            </div>
-            <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
-              <p class="text-2xl font-semibold text-n-green-11">
-                {{ embeddingsMeta.approved_count || 0 }}
-              </p>
-              <p class="text-sm text-n-slate-10">
-                {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.APPROVED') }}
-              </p>
-            </div>
-            <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
-              <p class="text-2xl font-semibold text-n-amber-11">
-                {{ embeddingsMeta.pending_count || 0 }}
-              </p>
-              <p class="text-sm text-n-slate-10">
-                {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.PENDING') }}
-              </p>
-            </div>
-          </div>
-
-          <div v-if="embeddings.length" class="space-y-2">
-            <div
-              v-for="embedding in embeddings.slice(0, 5)"
-              :key="embedding.id"
-              class="p-3 bg-n-alpha-1 rounded-lg border border-n-weak"
-            >
-              <div class="flex items-start justify-between gap-2">
-                <p class="text-sm text-n-slate-12 line-clamp-2">
-                  {{ embedding.content }}
-                </p>
-                <span
-                  class="px-2 py-0.5 text-xs font-medium rounded shrink-0"
-                  :class="getStatusClass(embedding.status)"
-                >
-                  {{ embedding.status }}
-                </span>
-              </div>
-              <p
-                v-if="embedding.document_title"
-                class="text-xs text-n-slate-10 mt-1"
-              >
-                {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.FROM') }}:
-                {{ embedding.document_title }}
-              </p>
-            </div>
-            <p
-              v-if="embeddings.length > 5"
-              class="text-sm text-n-slate-10 text-center py-2"
-            >
-              {{
-                $t('ALOO.KNOWLEDGE.EMBEDDINGS.AND_MORE', {
-                  count: embeddings.length - 5,
-                })
-              }}
-            </p>
-          </div>
-          <div
-            v-else
-            class="p-8 text-center bg-n-alpha-1 rounded-lg border border-n-weak"
-          >
-            <span class="i-lucide-database text-3xl text-n-slate-9" />
-            <p class="text-sm text-n-slate-11 mt-2">
-              {{ $t('ALOO.KNOWLEDGE.EMBEDDINGS.EMPTY') }}
             </p>
           </div>
         </div>

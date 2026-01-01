@@ -197,17 +197,8 @@
         "TITLE": "Documents",
         "DESCRIPTION": "Upload and manage documents that form your assistant's knowledge base",
         "UPLOAD": "Upload Document",
-        "ALLOWED_TYPES": "Supported: PDF, TXT, CSV, MD (max 10MB)"
-      },
-      "EMBEDDINGS": {
-        "TITLE": "Knowledge Embeddings",
-        "DESCRIPTION": "View the processed chunks from your documents",
-        "TOTAL": "Total Chunks",
-        "APPROVED": "Approved",
-        "PENDING": "Pending",
-        "FROM": "From",
-        "AND_MORE": "And {count} more chunks...",
-        "EMPTY": "No embeddings yet. Upload documents to generate embeddings."
+        "ALLOWED_TYPES": "Supported: PDF, TXT, CSV, MD (max 10MB)",
+        "CHUNKS": "Chunks"
       }
     },
     "MEMORIES": {
