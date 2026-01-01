@@ -21,7 +21,6 @@ export const SENDER_TYPES = {
   CONTACT: 'Contact',
   USER: 'User',
   AGENT_BOT: 'agent_bot',
-  CAPTAIN_ASSISTANT: 'captain_assistant',
   ALOO_ASSISTANT: 'aloo_assistant',
 };
 

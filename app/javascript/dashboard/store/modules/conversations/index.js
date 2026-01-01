@@ -22,7 +22,6 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
-  copilotAssistant: {},
   // Kanban View
   kanbanData: {
     open: { conversations: [], meta: { count: 0, has_more: false } },
@@ -356,10 +355,6 @@ export const mutations = {
   [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
     _state.conversationFilters = { ..._state.conversationFilters, ...data };
   },
-  [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
-    _state.copilotAssistant = data.assistant;
-  },
-
   // Kanban View Mutations
   [types.SET_KANBAN_DATA](_state, data) {
     _state.kanbanData = data;

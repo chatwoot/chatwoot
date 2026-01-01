@@ -1,6 +1,6 @@
 require 'ruby_llm'
 
-module Llm::Config
+module LLM::Config
   DEFAULT_MODEL = 'gpt-4o-mini'.freeze
   class << self
     def initialized?

@@ -2,14 +2,14 @@
 
 # Base service for LLM operations using RubyLLM.
 # New features should inherit from this class.
-class Llm::BaseAiService
-  DEFAULT_MODEL = Llm::Config::DEFAULT_MODEL
+class LLM::BaseAiService
+  DEFAULT_MODEL = LLM::Config::DEFAULT_MODEL
   DEFAULT_TEMPERATURE = 1.0
 
   attr_reader :model, :temperature
 
   def initialize
-    Llm::Config.initialize!
+    LLM::Config.initialize!
     setup_model
     setup_temperature
   end

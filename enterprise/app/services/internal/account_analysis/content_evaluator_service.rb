@@ -1,8 +1,8 @@
 class Internal::AccountAnalysis::ContentEvaluatorService
-  include Integrations::LlmInstrumentation
+  include Integrations::LLMInstrumentation
 
   def initialize
-    Llm::Config.initialize!
+    LLM::Config.initialize!
   end
 
   def evaluate(content)

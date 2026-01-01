@@ -1,7 +1,7 @@
-module LlmFormattable
+module LLMFormattable
   extend ActiveSupport::Concern
 
   def to_llm_text(config = {})
-    LlmFormatter::LlmTextFormatterService.new(self).format(config)
+    LLMFormatter::LLMTextFormatterService.new(self).format(config)
   end
 end

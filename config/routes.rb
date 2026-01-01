@@ -70,25 +70,6 @@ Rails.application.routes.draw do
             post :create_ai_agent, on: :collection
           end
           resources :aloostudio_agents, only: [:index]
-          namespace :captain do
-            resources :assistants do
-              member do
-                post :playground
-              end
-              collection do
-                get :tools
-              end
-              resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
-              resources :scenarios
-            end
-            resources :assistant_responses
-            resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index, :create] do
-              resources :copilot_messages, only: [:index, :create]
-            end
-            resources :custom_tools
-            resources :documents, only: [:index, :show, :create, :destroy]
-          end
 
           # Aloo AI Agent routes
           namespace :aloo do
@@ -540,7 +521,6 @@ Rails.application.routes.draw do
       end
 
       post 'webhooks/stripe', to: 'webhooks/stripe#process_payload'
-      post 'webhooks/firecrawl', to: 'webhooks/firecrawl#process_payload'
     end
   end
 

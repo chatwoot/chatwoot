@@ -97,6 +97,12 @@ const getInboxIcon = inbox => {
 const getChannelName = channelType => {
   return channelType?.replace('Channel::', '') || 'Unknown';
 };
+
+const getOtherAssignedAssistant = inbox => {
+  if (!inbox.aloo_assistant) return null;
+  if (inbox.aloo_assistant.id === Number(props.assistantId)) return null;
+  return inbox.aloo_assistant;
+};
 </script>
 
 <template>
@@ -151,6 +157,16 @@ const getChannelName = channelType => {
                 {{ getChannelName(inbox.channel_type) }}
               </p>
             </div>
+            <span
+              v-if="getOtherAssignedAssistant(inbox)"
+              class="px-2 py-1 text-xs font-medium rounded bg-n-amber-3 text-n-amber-11"
+            >
+              {{
+                $t('ALOO.INBOXES.ASSIGNED_TO', {
+                  name: getOtherAssignedAssistant(inbox).name,
+                })
+              }}
+            </span>
             <span
               v-if="assignedInboxIds.includes(inbox.id)"
               class="px-2 py-1 text-xs font-medium rounded bg-n-green-3 text-n-green-11"

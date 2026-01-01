@@ -169,6 +169,7 @@
       "SEARCH_PLACEHOLDER": "Search inboxes...",
       "SELECTED": "{count} inbox selected | {count} inboxes selected",
       "ASSIGNED": "Assigned",
+      "ASSIGNED_TO": "Assigned to: {name}",
       "ASSIGNED_COUNT": "{count} inbox(es) assigned to this assistant"
     },
     "TABS": {

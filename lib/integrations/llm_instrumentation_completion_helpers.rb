@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Integrations::LlmInstrumentationCompletionHelpers
-  include Integrations::LlmInstrumentationConstants
+module Integrations::LLMInstrumentationCompletionHelpers
+  include Integrations::LLMInstrumentationConstants
 
   private
 

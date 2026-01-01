@@ -172,7 +172,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         before { InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.destroy }
 
         it 'uses default OpenAI endpoint' do
-          expect(Llm::Config).to receive(:with_api_key).with(
+          expect(LLM::Config).to receive(:with_api_key).with(
             hook.settings['api_key'],
             api_base: 'https://api.openai.com/v1'
           ).and_call_original
@@ -188,7 +188,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
         end
 
         it 'uses custom endpoint' do
-          expect(Llm::Config).to receive(:with_api_key).with(
+          expect(LLM::Config).to receive(:with_api_key).with(
             hook.settings['api_key'],
             api_base: 'https://custom.azure.com/v1'
           ).and_call_original

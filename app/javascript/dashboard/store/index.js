@@ -51,16 +51,6 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
-import captainAssistants from './captain/assistant';
-import captainDocuments from './captain/document';
-import captainResponses from './captain/response';
-import captainInboxes from './captain/inboxes';
-import captainBulkActions from './captain/bulkActions';
-import copilotThreads from './captain/copilotThreads';
-import copilotMessages from './captain/copilotMessages';
-import captainScenarios from './captain/scenarios';
-import captainTools from './captain/tools';
-import captainCustomTools from './captain/customTools';
 import alooAssistants from './aloo/assistant';
 import alooDocuments from './aloo/document';
 import alooWizard from './aloo/wizard';
@@ -123,16 +113,6 @@ export default createStore({
     teams,
     userNotificationSettings,
     webhooks,
-    captainAssistants,
-    captainDocuments,
-    captainResponses,
-    captainInboxes,
-    captainBulkActions,
-    copilotThreads,
-    copilotMessages,
-    captainScenarios,
-    captainTools,
-    captainCustomTools,
     alooAssistants,
     alooDocuments,
     alooWizard,

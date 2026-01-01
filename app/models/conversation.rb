@@ -53,7 +53,7 @@
 
 class Conversation < ApplicationRecord
   include Labelable
-  include LlmFormattable
+  include LLMFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler
