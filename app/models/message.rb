@@ -472,17 +472,20 @@ class Message < ApplicationRecord
   def schedule_follow_up_job
     return if content_attributes['follow_up']
 
-    conversation.cancel_existing_follow_up_job
+    conversation.with_lock do
+      conversation.reload
+      conversation.cancel_existing_follow_up_job
 
-    return if conversation.stop_follow_up
+      return if conversation.stop_follow_up
 
-    message_type = conversation.additional_attributes['type']
-    return if message_type == 'feed_comments' || message_type == 'instagram_comments'
+      message_type = conversation.additional_attributes['type']
+      return if message_type == 'feed_comments' || message_type == 'instagram_comments'
 
-    config_value = InstallationConfig.find_by(name: 'FOLLOW_UP_FIRST_DELAY_HOURS')&.value
-    follow_up_1_delay = (config_value || 1).to_i.hours
-    jid = Conversations::FollowUpJob.set(wait: follow_up_1_delay).perform_later(conversation.id, 1)
-    conversation.update!(follow_up_jid: jid.provider_job_id)
+      config_value = InstallationConfig.find_by(name: 'FOLLOW_UP_FIRST_DELAY_HOURS')&.value
+      follow_up_1_delay = (config_value || 1).to_i.hours
+      jid = Conversations::FollowUpJob.set(wait: follow_up_1_delay).perform_later(conversation.id, 1)
+      conversation.update!(follow_up_jid: jid.provider_job_id)
+    end
   end
 
   def cancel_follow_up_job
