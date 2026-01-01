@@ -38,6 +38,11 @@ jobs:
         with:
           node-version: 23
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libmagickwand-dev imagemagick
+
       - name: Install dependencies
         run: |
           gem install bundler
