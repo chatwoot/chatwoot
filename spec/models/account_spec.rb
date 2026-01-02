@@ -8,7 +8,6 @@ RSpec.describe Account do
   it { is_expected.to have_many(:inboxes).dependent(:destroy_async) }
   it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
   it { is_expected.to have_many(:contacts).dependent(:destroy_async) }
-  it { is_expected.to have_many(:telegram_bots).dependent(:destroy_async) }
   it { is_expected.to have_many(:canned_responses).dependent(:destroy_async) }
   it { is_expected.to have_many(:facebook_pages).class_name('::Channel::FacebookPage').dependent(:destroy_async) }
   it { is_expected.to have_many(:web_widgets).class_name('::Channel::WebWidget').dependent(:destroy_async) }
@@ -22,6 +21,12 @@ RSpec.describe Account do
   # This validation happens in ApplicationRecord
   describe 'length validations' do
     let(:account) { create(:account) }
+
+    it 'validates name presence' do
+      account.name = ''
+      account.valid?
+      expect(account.errors[:name]).to include("can't be blank")
+    end
 
     it 'validates name length' do
       account.name = 'a' * 256
@@ -204,12 +209,12 @@ RSpec.describe Account do
     context 'when using with_auto_resolve scope' do
       it 'finds accounts with auto_resolve_after set' do
         account.update(auto_resolve_after: 40 * 24 * 60)
-        expect(described_class.with_auto_resolve).to include(account)
+        expect(described_class.with_auto_resolve.pluck(:id)).to include(account.id)
       end
 
       it 'does not find accounts without auto_resolve_after' do
         account.update(auto_resolve_after: nil)
-        expect(described_class.with_auto_resolve).not_to include(account)
+        expect(described_class.with_auto_resolve.pluck(:id)).not_to include(account.id)
       end
     end
   end

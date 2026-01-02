@@ -44,9 +44,10 @@ const dragging = ref(false);
 const [showAllAttributes, toggleShowAllAttributes] = useToggle(false);
 
 const currentChat = computed(() => getters.getSelectedChat.value);
-const attributes = computed(() =>
-  getters['attributes/getAttributesByModel'].value(props.attributeType)
-);
+const attributes = computed(() => {
+  const getAttributesByModel = getters['attributes/getAttributesByModel'].value;
+  return getAttributesByModel ? getAttributesByModel(props.attributeType) : [];
+});
 
 const contactIdentifier = computed(
   () =>
@@ -61,8 +62,8 @@ const contact = computed(() =>
 
 const customAttributes = computed(() => {
   if (props.attributeType === 'conversation_attribute')
-    return currentChat.value.custom_attributes || {};
-  return contact.value.custom_attributes || {};
+    return currentChat.value?.custom_attributes || {};
+  return contact.value?.custom_attributes || {};
 });
 
 const conversationId = computed(() => currentChat.value.id);
@@ -73,8 +74,12 @@ const toggleButtonText = computed(() =>
     : t('CUSTOM_ATTRIBUTES.SHOW_LESS')
 );
 
-const filteredCustomAttributes = computed(() =>
-  attributes.value.map(attribute => {
+const filteredCustomAttributes = computed(() => {
+  if (!attributes.value || !Array.isArray(attributes.value)) {
+    return [];
+  }
+  
+  return attributes.value.map(attribute => {
     // Check if the attribute key exists in customAttributes
     const hasValue = Object.hasOwnProperty.call(
       customAttributes.value,
@@ -88,8 +93,8 @@ const filteredCustomAttributes = computed(() =>
       // Set value from customAttributes if it exists, otherwise use ''
       value: hasValue ? customAttributes.value[attribute.attribute_key] : '',
     };
-  })
-);
+  });
+});
 
 // Order key name for UI settings
 const orderKey = computed(

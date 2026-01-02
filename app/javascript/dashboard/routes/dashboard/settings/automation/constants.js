@@ -68,6 +68,12 @@ export const AUTOMATIONS = {
         inputType: 'plain_text',
         filterOperators: OPERATOR_TYPES_6,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -185,6 +191,12 @@ export const AUTOMATIONS = {
         name: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
     ],
     actions: [
@@ -308,6 +320,12 @@ export const AUTOMATIONS = {
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
       },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
+      },
     ],
     actions: [
       {
@@ -423,6 +441,12 @@ export const AUTOMATIONS = {
         name: 'PRIORITY',
         inputType: 'multi_select',
         filterOperators: OPERATOR_TYPES_1,
+      },
+      {
+        key: 'labels',
+        name: 'LABELS',
+        inputType: 'multi_select',
+        filterOperators: OPERATOR_TYPES_3,
       },
     ],
     actions: [
@@ -547,6 +571,10 @@ export const AUTOMATIONS = {
         name: 'ASSIGN_TEAM',
       },
       {
+        key: 'assign_agent',
+        name: 'ASSIGN_AGENT',
+      },
+      {
         key: 'send_email_to_team',
         name: 'SEND_EMAIL_TO_TEAM',
       },
@@ -559,6 +587,14 @@ export const AUTOMATIONS = {
         name: 'SEND_EMAIL_TRANSCRIPT',
       },
       {
+        key: 'mute_conversation',
+        name: 'MUTE_CONVERSATION',
+      },
+      {
+        key: 'snooze_conversation',
+        name: 'SNOOZE_CONVERSATION',
+      },
+      {
         key: 'send_webhook_event',
         name: 'SEND_WEBHOOK_EVENT',
       },
@@ -569,7 +605,6 @@ export const AUTOMATIONS = {
     ],
   },
 };
-
 export const AUTOMATION_RULE_EVENTS = [
   {
     key: 'conversation_created',

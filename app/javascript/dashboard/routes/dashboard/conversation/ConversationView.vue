@@ -101,6 +101,16 @@ export default {
     conversationId() {
       this.fetchConversationIfUnavailable();
     },
+    'currentChat.id'(newId, oldId) {
+      // Open contact sidebar by default when a conversation is selected
+      if (newId && newId !== oldId && !this.uiSettings.is_contact_sidebar_open) {
+        this.updateUISettings({
+          is_contact_sidebar_open: true,
+          is_copilot_panel_open: false,
+          is_conversation_summary_open: false,
+        });
+      }
+    },
   },
 
   created() {

@@ -1,8 +1,8 @@
 <script setup>
 import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
-import { useStore } from 'vuex';
+import { useI18n, I18nT } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
@@ -19,6 +19,7 @@ const PROVIDER_TYPES = {
   TWILIO: 'twilio',
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
+  WHATSAPP_MANUAL: 'whatsapp_manual',
   THREE_SIXTY_DIALOG: '360dialog',
 };
 
@@ -88,6 +89,9 @@ const shouldShowCloudWhatsapp = provider => {
   // 1. Provider is whatsapp AND
   // 2. Either no app ID is configured OR embedded signup feature is disabled
   return provider === PROVIDER_TYPES.WHATSAPP;
+};
+const handleManualLinkClick = () => {
+  selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
 </script>
 

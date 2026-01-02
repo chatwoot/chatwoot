@@ -14,15 +14,15 @@ default: &default
 
 development:
   <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
+  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev_1') %>"
   username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'password') %>"
 
 test:
   <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test') %>"
+  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_test_1') %>"
   username: "<%= ENV.fetch('POSTGRES_USERNAME', 'postgres') %>"
-  password: "<%= ENV.fetch('POSTGRES_PASSWORD', '') %>"
+  password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'password') %>"
 
 production:
   <<: *default

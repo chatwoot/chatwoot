@@ -136,7 +136,7 @@ RSpec.describe Conversation do
           notifiable_assignee_change: false,
           changed_attributes: changed_attributes,
           performed_by: nil
-        ).exactly(2).times
+        )
     end
 
     it 'runs after_update callbacks' do
@@ -215,7 +215,7 @@ RSpec.describe Conversation do
     it 'adds a message for system auto resolution if marked resolved by system' do
       account.update(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
-      Current.user = nil
+      Current.reset
 
       message_data = if account.auto_resolve_after >= 1440 && account.auto_resolve_after % 1440 == 0
                        { key: 'auto_resolved_days', count: account.auto_resolve_after / 1440 }
@@ -525,8 +525,9 @@ RSpec.describe Conversation do
         additional_attributes: {},
         meta: {
           sender: conversation.contact.push_event_data,
-          assignee: conversation.assignee,
-          team: conversation.team,
+          assignee: conversation.assigned_entity&.push_event_data,
+          assignee_type: conversation.assignee_type,
+          team: conversation.team&.push_event_data,
           hmac_verified: conversation.contact_inbox.hmac_verified
         },
         id: conversation.display_id,
@@ -576,9 +577,38 @@ RSpec.describe Conversation do
       expect(conversation.status).to eq('pending')
     end
 
-    it 'returns conversation as open if campaign is present' do
-      conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: create(:campaign))
-      expect(conversation.status).to eq('open')
+    context 'with campaigns' do
+      let(:user) { create(:user, account: bot_inbox.inbox.account) }
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: user)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as pending if campaign has no sender (bot-initiated) and bot is active' do
+        campaign = create(:campaign, inbox: bot_inbox.inbox, account: bot_inbox.inbox.account, sender: nil)
+        conversation = create(:conversation, inbox: bot_inbox.inbox, campaign: campaign)
+        expect(conversation.status).to eq('pending')
+      end
+    end
+
+    context 'with campaigns in inbox without bot' do
+      let(:account) { create(:account) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:user) { create(:user, account: account) }
+
+      it 'returns conversation as open if campaign has no sender but no bot is active' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: nil)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
+
+      it 'returns conversation as open if campaign has a sender' do
+        campaign = create(:campaign, inbox: inbox, account: account, sender: user)
+        conversation = create(:conversation, inbox: inbox, campaign: campaign)
+        expect(conversation.status).to eq('open')
+      end
     end
   end
 

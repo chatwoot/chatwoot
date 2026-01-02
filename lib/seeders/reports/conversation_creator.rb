@@ -16,8 +16,11 @@ class Seeders::Reports::ConversationCreator
     @priorities = [nil, 'urgent', 'high', 'medium', 'low']
   end
 
+  # rubocop:disable Metrics/MethodLength
   def create_conversation(created_at:)
     conversation = nil
+    should_resolve = false
+    resolution_time = nil
 
     ActiveRecord::Base.transaction do
       travel_to(created_at) do
@@ -27,6 +30,13 @@ class Seeders::Reports::ConversationCreator
         add_labels_to_conversation(conversation)
         create_messages_for_conversation(conversation)
         resolve_conversation_if_needed(conversation)
+
+        # Determine if should resolve but don't update yet
+        should_resolve = rand > 0.3
+        if should_resolve
+          resolution_delay = rand((30.minutes)..(24.hours))
+          resolution_time = created_at + resolution_delay
+        end
       end
 
       travel_back
@@ -34,6 +44,23 @@ class Seeders::Reports::ConversationCreator
 
     conversation
   end
+    # Now resolve outside of time travel if needed
+    if should_resolve && resolution_time
+      # rubocop:disable Rails/SkipsModelValidations
+      conversation.update_column(:status, :resolved)
+      conversation.update_column(:updated_at, resolution_time)
+      # rubocop:enable Rails/SkipsModelValidations
+
+      # Trigger the event with proper timestamp
+      travel_to(resolution_time) do
+        trigger_conversation_resolved_event(conversation)
+      end
+      travel_back
+    end
+
+    conversation
+  end
+  # rubocop:enable Metrics/MethodLength
 
   private
 

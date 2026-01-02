@@ -14,7 +14,14 @@ class WidgetsController < ActionController::Base
   private
 
   def set_global_config
-    @global_config = GlobalConfig.get('LOGO_THUMBNAIL', 'BRAND_NAME', 'WIDGET_BRAND_URL', 'DIRECT_UPLOADS_ENABLED')
+    @global_config = GlobalConfig.get(
+      'LOGO_THUMBNAIL',
+      'BRAND_NAME',
+      'WIDGET_BRAND_URL',
+      'DIRECT_UPLOADS_ENABLED',
+      'MAXIMUM_FILE_UPLOAD_SIZE',
+      'INSTALLATION_NAME'
+    )
   end
 
   def set_web_widget
@@ -70,7 +77,12 @@ class WidgetsController < ActionController::Base
   end
 
   def allow_iframe_requests
-    response.headers.delete('X-Frame-Options')
+    if @web_widget.allowed_domains.blank?
+      response.headers.delete('X-Frame-Options')
+    else
+      domains = @web_widget.allowed_domains.split(',').map(&:strip).join(' ')
+      response.headers['Content-Security-Policy'] = "frame-ancestors #{domains}"
+    end
   end
 end
 

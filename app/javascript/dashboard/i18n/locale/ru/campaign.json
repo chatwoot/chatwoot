@@ -138,11 +138,11 @@
       }
     },
     "WHATSAPP": {
-      "HEADER_TITLE": "WhatsApp campaigns",
+      "HEADER_TITLE": "WhatsApp кампании",
       "NEW_CAMPAIGN": "Создать кампанию",
       "EMPTY_STATE": {
-        "TITLE": "No WhatsApp campaigns are available",
-        "SUBTITLE": "Launch a WhatsApp campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "Нет доступных WhatsApp кампаний",
+        "SUBTITLE": "Запустите кампанию WhatsApp, чтобы напрямую связаться с вашими клиентами. Отправляйте предложения или делайте объявления с легкостью. Нажмите «Создать кампанию», чтобы начать."
       },
       "CARD": {
         "STATUS": {
@@ -155,7 +155,7 @@
         }
       },
       "CREATE": {
-        "TITLE": "Create WhatsApp campaign",
+        "TITLE": "Создать WhatsApp кампанию",
         "CANCEL_BUTTON_TEXT": "Отменить",
         "CREATE_BUTTON_TEXT": "Создать",
         "FORM": {
@@ -170,15 +170,15 @@
             "ERROR": "Необходимо указать отправителя"
           },
           "TEMPLATE": {
-            "LABEL": "WhatsApp Template",
-            "PLACEHOLDER": "Select a template",
-            "INFO": "Select a template to use for this campaign.",
-            "ERROR": "Template is required",
+            "LABEL": "Шаблон WhatsApp",
+            "PLACEHOLDER": "Выберите шаблон",
+            "INFO": "Выберите шаблон для этой кампании.",
+            "ERROR": "Шаблон обязателен",
             "PREVIEW_TITLE": "Обработка {templateName}",
             "LANGUAGE": "Язык",
             "CATEGORY": "Категория",
             "VARIABLES_LABEL": "Переменные",
-            "VARIABLE_PLACEHOLDER": "Enter value for {variable}"
+            "VARIABLE_PLACEHOLDER": "Введите значение для {variable}"
           },
           "AUDIENCE": {
             "LABEL": "Аудитория",
@@ -195,7 +195,7 @@
             "CANCEL": "Отменить"
           },
           "API": {
-            "SUCCESS_MESSAGE": "WhatsApp campaign created successfully",
+            "SUCCESS_MESSAGE": "Кампания WhatsApp успешно создана",
             "ERROR_MESSAGE": "Произошла ошибка. Пожалуйста, попробуйте еще раз."
           }
         }

@@ -4,16 +4,14 @@ class ApplicationMailbox < ActionMailbox::Base
   # Last part is the regex for the UUID
   # Eg: email should be something like : reply+6bdc3f4d-0bec-4515-a284-5d916fdde489@domain.com
   REPLY_EMAIL_UUID_PATTERN = /^reply\+([0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12})$/i
-  CONVERSATION_MESSAGE_ID_PATTERN = %r{conversation/([a-zA-Z0-9-]*?)/messages/(\d+?)@(\w+\.\w+)}
 
-  # routes as a reply to existing conversations
+  # Route all emails to verified channels to the unified reply mailbox
+  # The ConversationFinder will determine if it's a reply or new conversation
   routing(
-    ->(inbound_mail) { valid_to_address?(inbound_mail) && (reply_uuid_mail?(inbound_mail) || in_reply_to_mail?(inbound_mail)) } => :reply
-  )
-
-  # routes as a new conversation in email channel
-  routing(
-    ->(inbound_mail) { valid_to_address?(inbound_mail) && EmailChannelFinder.new(inbound_mail.mail).perform.present? } => :support
+    lambda { |inbound_mail|
+      valid_to_address?(inbound_mail) &&
+      (reply_uuid_mail?(inbound_mail) || EmailChannelFinder.new(inbound_mail.mail).perform.present?)
+    } => :reply
   )
 
   # catchall

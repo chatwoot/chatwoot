@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Caută",
       "EMPTY_STATE": "Niciun rezultat găsit"
     },
-    "CLOSE": "Închide"
+    "CLOSE": "Închide",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

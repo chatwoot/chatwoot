@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Avatar from 'next/avatar/Avatar.vue';
@@ -102,6 +102,11 @@ const getInboxDetails = inbox => {
   return null;
 };
 
+// Fetch inboxes when component mounts
+onMounted(() => {
+  store.dispatch('inboxes/get');
+});
+
 </script>
 
 <template>
@@ -148,7 +153,7 @@ const getInboxDetails = inbox => {
                   v-else
                   class="size-12 flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
                 >
-                  <ChannelIcon class="size-5" :inbox="inbox" />
+                  <ChannelIcon class="size-5 text-n-slate-10" :inbox="inbox" />
                 </div>
                 <div>
                   <span class="block font-medium">

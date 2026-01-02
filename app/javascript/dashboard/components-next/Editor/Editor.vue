@@ -21,6 +21,11 @@ const props = defineProps({
   enableCannedResponses: { type: Boolean, default: true },
   enabledMenuOptions: { type: Array, default: () => [] },
   enableCaptainTools: { type: Boolean, default: false },
+  signature: { type: String, default: '' },
+  allowSignature: { type: Boolean, default: false },
+  sendWithSignature: { type: Boolean, default: false },
+  channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -100,6 +105,11 @@ watch(
         :enable-canned-responses="enableCannedResponses"
         :enabled-menu-options="enabledMenuOptions"
         :enable-captain-tools="enableCaptainTools"
+        :signature="signature"
+        :allow-signature="allowSignature"
+        :send-with-signature="sendWithSignature"
+        :channel-type="channelType"
+        :medium="medium"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -131,19 +141,6 @@ watch(
 .editor-wrapper {
   ::v-deep {
     .ProseMirror-menubar-wrapper {
-      @apply gap-2 !important;
-
-      .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
-
-        .ProseMirror-menuitem {
-          @apply h-5 !important;
-        }
-
-        .ProseMirror-icon {
-          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
-        }
-      }
       .ProseMirror.ProseMirror-woot-style {
         p {
           @apply first:mt-0 !important;

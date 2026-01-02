@@ -1,22 +1,43 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 
 const emit = defineEmits(['send']);
 const message = ref('');
+const textareaRef = ref(null);
+
+const adjustHeight = () => {
+  if (!textareaRef.value) return;
+
+  // Reset height to auto to get the correct scrollHeight
+  textareaRef.value.style.height = 'auto';
+  // Set the height to the scrollHeight
+  textareaRef.value.style.height = `${textareaRef.value.scrollHeight}px`;
+};
 
 const sendMessage = () => {
   if (message.value.trim()) {
     emit('send', message.value);
     message.value = '';
+    // Reset textarea height after sending
+    nextTick(() => {
+      adjustHeight();
+    });
   }
 };
+
+const handleInput = () => {
+  nextTick(adjustHeight);
+};
+
+onMounted(() => {
+  nextTick(adjustHeight);
+});
 </script>
 
 <template>
   <form class="relative" @submit.prevent="sendMessage">
     <input
       v-model="message"
-      type="text"
       :placeholder="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
       class="w-full reset-base bg-n-alpha-3 ltr:pl-4 ltr:pr-12 rtl:pl-12 rtl:pr-4 py-3 text-n-slate-11 text-sm border border-n-weak rounded-lg focus:outline-none focus:ring-1 focus:ring-n-blue-11 focus:border-n-blue-11"
       @keyup.enter="sendMessage"

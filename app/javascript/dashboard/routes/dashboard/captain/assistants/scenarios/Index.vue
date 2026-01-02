@@ -11,6 +11,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 
 import SettingsPageLayout from 'dashboard/components-next/captain/SettingsPageLayout.vue';
+import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
 import SuggestedScenarios from 'dashboard/components-next/captain/assistant/SuggestedRules.vue';
 import ScenariosCard from 'dashboard/components-next/captain/assistant/ScenariosCard.vue';
@@ -204,9 +205,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <SettingsPageLayout
+  <PageLayout
+    :header-title="$t('CAPTAIN.DOCUMENTS.HEADER')"
     :breadcrumb-items="breadcrumbItems"
     :is-fetching="isFetching"
+    :show-know-more="false"
+    :show-pagination-footer="false"
   >
     <template #body>
       <SettingsHeader
@@ -310,5 +314,5 @@ onMounted(() => {
         </div>
       </div>
     </template>
-  </SettingsPageLayout>
+  </PageLayout>
 </template>

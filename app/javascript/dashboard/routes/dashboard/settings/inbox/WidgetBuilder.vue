@@ -373,6 +373,8 @@ export default {
               v-model="dealerTagline"
               :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL')"
               :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER')"
+              channel-type="Context::InboxSettings"
+              class="mb-4"
             />
             <label>
               {{

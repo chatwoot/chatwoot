@@ -9,6 +9,14 @@ export default {
       type: String,
       required: true,
     },
+    description: {
+      type: String,
+      default: '',
+    },
+    icon: {
+      type: String,
+      default: '',
+    },
     isComingSoon: {
       type: Boolean,
       default: false,
@@ -19,10 +27,10 @@ export default {
 
 <template>
   <button
-    class="relative bg-n-background cursor-pointer flex flex-col justify-end transition-all duration-200 ease-in -m-px py-4 px-0 items-center border border-solid border-n-weak hover:border-n-brand hover:shadow-md hover:z-50 disabled:opacity-60"
+    class="relative bg-n-background cursor-pointer flex flex-col justify-end transition-all duration-200 ease-in py-6 px-0 items-center border border-solid border-n-weak hover:border-n-brand hover:shadow-md hover:z-50 disabled:opacity-60 min-h-[140px] rounded-md"
   >
-    <img :src="src" :alt="title" draggable="false" class="w-1/2 my-4 mx-auto" />
-    <h3 class="text-n-slate-12 text-base text-center capitalize">
+    <img :src="src" :alt="title" draggable="false" class="w-1/2 my-4 mx-auto max-w-24" />
+    <h3 class="text-n-slate-12 text-base font-medium text-center capitalize mt-3">
       {{ title }}
     </h3>
 

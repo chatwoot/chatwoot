@@ -3,6 +3,7 @@ import {
   isSameYear,
   fromUnixTime,
   formatDistanceToNow,
+  differenceInDays,
 } from 'date-fns';
 
 /**
@@ -90,4 +91,26 @@ export const shortTimestamp = (time, withAgo = false) => {
     .replace(' year ago', `y${suffix}`)
     .replace(' years ago', `y${suffix}`);
   return convertToShortTime;
+};
+
+/**
+ * Calculates the difference in days between now and a given timestamp.
+ * @param {Date} now - Current date/time.
+ * @param {number} timestampInSeconds - Unix timestamp in seconds.
+ * @returns {number} Number of days difference.
+ */
+export const getDayDifferenceFromNow = (now, timestampInSeconds) => {
+  const date = new Date(timestampInSeconds * 1000);
+  return differenceInDays(now, date);
+};
+
+/**
+ * Checks if more than 24 hours have passed since a given timestamp.
+ * Useful for determining if retry/refresh actions should be disabled.
+ * @param {number} timestamp - Unix timestamp.
+ * @returns {boolean} True if more than 24 hours have passed.
+ */
+export const hasOneDayPassed = timestamp => {
+  if (!timestamp) return true; // Defensive check
+  return getDayDifferenceFromNow(new Date(), timestamp) >= 1;
 };

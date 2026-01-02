@@ -1,16 +1,17 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import Spinner from 'shared/components/Spinner.vue';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import {
-  MAXIMUM_FILE_UPLOAD_SIZE,
-  ALLOWED_FILE_TYPES,
-} from 'shared/constants/messages';
+  checkFileSizeLimit,
+  resolveMaximumFileUploadSize,
+} from 'shared/helpers/FileHelper';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { DirectUpload } from 'activestorage';
 import { mapGetters } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
+import { useAttachments } from '../composables/useAttachments';
 
 export default {
   components: { FluentIcon, FileUpload, Spinner },
@@ -19,6 +20,10 @@ export default {
       type: Function,
       default: () => {},
     },
+  },
+  setup() {
+    const { canHandleAttachments } = useAttachments();
+    return { canHandleAttachments };
   },
   data() {
     return { isUploading: false };
@@ -29,7 +34,9 @@ export default {
       shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
     }),
     fileUploadSizeLimit() {
-      return MAXIMUM_FILE_UPLOAD_SIZE;
+      return resolveMaximumFileUploadSize(
+        this.globalConfig.maximumFileUploadSize
+      );
     },
     allowedFileTypes() {
       return ALLOWED_FILE_TYPES;
@@ -45,6 +52,7 @@ export default {
     handleClipboardPaste(e) {
       // If file picker is not enabled, do not allow paste
       if (!this.shouldShowFilePicker) return;
+      if (!this.canHandleAttachments) return;
 
       const items = (e.clipboardData || e.originalEvent.clipboardData).items;
       // items is a DataTransferItemList object which does not have forEach method
@@ -73,7 +81,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           const { websiteToken } = window.chatwootWebChannel;
           const upload = new DirectUpload(
             file.file,
@@ -115,7 +123,7 @@ export default {
       }
       this.isUploading = true;
       try {
-        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+        if (checkFileSizeLimit(file, this.fileUploadSizeLimit)) {
           await this.onAttach({
             file: file.file,
             ...this.getLocalFileAttributes(file),

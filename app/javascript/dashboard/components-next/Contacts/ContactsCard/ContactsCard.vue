@@ -8,6 +8,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
 import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
+import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -20,9 +21,17 @@ const props = defineProps({
   availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
   isUpdating: { type: Boolean, default: false },
+  selectable: { type: Boolean, default: false },
+  isSelected: { type: Boolean, default: false },
 });
 
-const emit = defineEmits(['toggle', 'updateContact', 'showContact']);
+const emit = defineEmits([
+  'toggle',
+  'updateContact',
+  'showContact',
+  'select',
+  'avatarHover',
+]);
 
 const { t } = useI18n();
 
@@ -88,74 +97,110 @@ const onClickExpand = () => {
 };
 
 const onClickViewDetails = () => emit('showContact', props.id);
+
+const toggleSelect = checked => {
+  emit('select', checked);
+};
+
+const handleAvatarHover = isHovered => {
+  emit('avatarHover', isHovered);
+};
 </script>
 
 <template>
-  <CardLayout :key="id" layout="row">
-    <div class="flex items-center justify-start flex-1 gap-4">
-      <Avatar
-        :name="name"
-        :src="thumbnail"
-        :size="48"
-        :status="availabilityStatus"
-        hide-offline-status
-        rounded-full
-      />
-      <div class="flex flex-col gap-0.5 flex-1">
-        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span class="text-base font-medium truncate text-n-slate-12">
-            {{ name }}
-          </span>
-          <span class="inline-flex items-center gap-1">
-            <span
-              v-if="additionalAttributes?.companyName"
-              class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
-            />
-            <span
-              v-if="additionalAttributes?.companyName"
-              class="text-sm truncate text-n-slate-11"
-            >
-              {{ additionalAttributes.companyName }}
-            </span>
-          </span>
+  <div class="relative">
+    <CardLayout
+      :key="id"
+      layout="row"
+      :class="{
+        'outline-n-weak !bg-n-slate-3 dark:!bg-n-solid-3': isSelected,
+      }"
+    >
+      <div class="flex items-center justify-start flex-1 gap-4">
+        <div
+          class="relative"
+          @mouseenter="handleAvatarHover(true)"
+          @mouseleave="handleAvatarHover(false)"
+        >
+          <Avatar
+            :name="name"
+            :src="thumbnail"
+            :size="48"
+            :status="availabilityStatus"
+            hide-offline-status
+            rounded-full
+          >
+            <template v-if="selectable" #overlay="{ size }">
+              <label
+                class="flex items-center justify-center rounded-full cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px] border border-n-weak"
+                :style="{ width: `${size}px`, height: `${size}px` }"
+                @click.stop
+              >
+                <Checkbox
+                  :model-value="isSelected"
+                  @change="event => toggleSelect(event.target.checked)"
+                />
+              </label>
+            </template>
+          </Avatar>
         </div>
-        <div class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1">
-          <div v-if="email" class="truncate max-w-72" :title="email">
-            <span class="text-sm text-n-slate-11">
-              {{ email }}
+        <div class="flex flex-col gap-0.5 flex-1">
+          <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+            <span class="text-base font-medium truncate text-n-slate-12">
+              {{ name }}
+            </span>
+            <span class="inline-flex items-center gap-1">
+              <span
+                v-if="additionalAttributes?.companyName"
+                class="i-ph-building-light size-4 text-n-slate-10 mb-0.5"
+              />
+              <span
+                v-if="additionalAttributes?.companyName"
+                class="text-sm truncate text-n-slate-11"
+              >
+                {{ additionalAttributes.companyName }}
+              </span>
             </span>
           </div>
-          <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
-          <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
-            {{ phoneNumber }}
-          </span>
-          <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
-          <span
-            v-if="countryDetails"
-            class="inline-flex items-center gap-2 text-sm truncate text-n-slate-11"
+          <div
+            class="flex flex-wrap items-center justify-start gap-x-3 gap-y-1"
           >
-            <Flag :country="countryDetails.countryCode" class="size-3.5" />
-            {{ formattedLocation }}
-          </span>
-          <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
-          <Button
-            :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
-            variant="link"
-            size="xs"
-            @click="onClickViewDetails"
-          />
+            <div v-if="email" class="truncate max-w-72" :title="email">
+              <span class="text-sm text-n-slate-11">
+                {{ email }}
+              </span>
+            </div>
+            <div v-if="email" class="w-px h-3 truncate bg-n-slate-6" />
+            <span v-if="phoneNumber" class="text-sm truncate text-n-slate-11">
+              {{ phoneNumber }}
+            </span>
+            <div v-if="phoneNumber" class="w-px h-3 truncate bg-n-slate-6" />
+            <span
+              v-if="countryDetails"
+              class="inline-flex items-center gap-2 text-sm truncate text-n-slate-11"
+            >
+              <Flag :country="countryDetails.countryCode" class="size-3.5" />
+              {{ formattedLocation }}
+            </span>
+            <div v-if="countryDetails" class="w-px h-3 truncate bg-n-slate-6" />
+            <Button
+              :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
+              variant="link"
+              size="xs"
+              @click="onClickViewDetails"
+            />
+          </div>
         </div>
       </div>
-    </div>
 
-    <Button
-      icon="i-lucide-chevron-down"
-      variant="ghost"
-      color="slate"
-      size="xs"
-      :class="{ 'rotate-180': isExpanded }"
-      @click="onClickExpand"
-    />
+      <Button
+        icon="i-lucide-chevron-down"
+        variant="ghost"
+        color="slate"
+        size="xs"
+        :class="{ 'rotate-180': isExpanded }"
+        @click="onClickExpand"
+      />
 
     <template #after>
       <div
@@ -183,7 +228,24 @@ const onClickViewDetails = () => emit('showContact', props.id);
                 :disabled="isUpdating || isFormInvalid"
                 @click="handleUpdateContact"
               />
+              <div>
+                <Button
+                  :label="
+                    t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
+                  "
+                  size="sm"
+                  :is-loading="isUpdating"
+                  :disabled="isUpdating || isFormInvalid"
+                  @click="handleUpdateContact"
+                />
+              </div>
             </div>
+            <ContactDeleteSection
+              :selected-contact="{
+                id: props.id,
+                name: props.name,
+              }"
+            />
           </div>
           <ContactDeleteSection
             :selected-contact="{
@@ -195,4 +257,5 @@ const onClickViewDetails = () => emit('showContact', props.id);
       </div>
     </template>
   </CardLayout>
+  </div>
 </template>

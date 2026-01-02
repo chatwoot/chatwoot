@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Últimos 7 dias",
+      "LAST_14_DAYS": "Últimos 14 dias",
       "LAST_30_DAYS": "Últimos 30 dias",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Últimos 3 meses",
       "LAST_6_MONTHS": "Últimos 6 meses",
       "LAST_YEAR": "Ano passado",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Baixar relatórios de entrada",
     "FILTER_DROPDOWN_LABEL": "Selecionar caixa de entrada",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -467,13 +472,20 @@
       "CONVERSATIONS": "{count} conversas",
       "DOWNLOAD_REPORT": "Baixar relatório"
     },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
+      "NO_CONVERSATIONS": "Não há conversas",
+      "CONVERSATION": "{count} conversa",
+      "CONVERSATIONS": "{count} conversas",
+      "DOWNLOAD_REPORT": "Baixar relatório"
+    },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Conversas por agentes",
       "LOADING_MESSAGE": "Carregando métricas de agente...",
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abrir",
+        "OPEN": "Abertas",
         "UNATTENDED": "Não atendidas",
         "STATUS": "Status"
       }
@@ -563,7 +575,7 @@
     "LABEL": "Nome do campo",
     "AVG_RESOLUTION_TIME": "Tempo Médio de Resolução",
     "AVG_FIRST_RESPONSE_TIME": "Tempo Médio de Primeira Resposta",
-    "AVG_REPLY_TIME": "Tempo Médio de Rspera do Cliente",
+    "AVG_REPLY_TIME": "Tempo Médio de Espera do Cliente",
     "RESOLUTION_COUNT": "Contagem de Resolução",
     "CONVERSATIONS": "Nº de Conversas"
   }

@@ -10,21 +10,9 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   RESULTS_PER_PAGE = 25
 
   def index
-    base_query = @responses
-    base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
-
-    if permitted_params[:document_id].present?
-      base_query = base_query.where(
-        documentable_id: permitted_params[:document_id],
-        documentable_type: 'Captain::Document'
-      )
-    end
-
-    base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
-
-    @responses_count = base_query.count
-
-    @responses = base_query.page(@current_page).per(RESULTS_PER_PAGE)
+    filtered_query = apply_filters(@responses)
+    @responses_count = filtered_query.count
+    @responses = filtered_query.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def show; end
@@ -46,6 +34,29 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
 
   private
 
+  def apply_filters(base_query)
+    base_query = base_query.where(assistant_id: permitted_params[:assistant_id]) if permitted_params[:assistant_id].present?
+
+    if permitted_params[:document_id].present?
+      base_query = base_query.where(
+        documentable_id: permitted_params[:document_id],
+        documentable_type: 'Captain::Document'
+      )
+    end
+
+    base_query = base_query.where(status: permitted_params[:status]) if permitted_params[:status].present?
+
+    if permitted_params[:search].present?
+      search_term = "%#{permitted_params[:search]}%"
+      base_query = base_query.where(
+        'question ILIKE :search OR answer ILIKE :search',
+        search: search_term
+      )
+    end
+
+    base_query
+  end
+
   def set_assistant
     @assistant = Current.account.captain_assistants.find_by(id: params[:assistant_id])
   end
@@ -63,7 +74,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def permitted_params
-    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status)
+    params.permit(:id, :assistant_id, :page, :document_id, :account_id, :status, :search)
   end
 
   def response_params

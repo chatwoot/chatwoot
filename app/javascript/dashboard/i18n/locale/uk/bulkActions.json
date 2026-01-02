@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Призначити мітки",
-      "NO_LABELS_FOUND": "Міток не знайдено для",
+      "NO_LABELS_FOUND": "Міток не знайдено",
       "ASSIGN_SELECTED_LABELS": "Призначити вибрані мітки",
       "ASSIGN_SUCCESFUL": "Мітки додано успішно.",
       "ASSIGN_FAILED": "Не вдалося призначити мітки, будь ласка, спробуйте ще раз."

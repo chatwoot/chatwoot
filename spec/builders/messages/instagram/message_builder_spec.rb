@@ -153,6 +153,22 @@ describe Messages::Instagram::MessageBuilder do
           headers: { 'Content-Type' => 'application/json' }
         )
 
+      stub_request(:get, %r{https://graph\.instagram\.com/.*?/#{story_source_id}\?.*})
+        .to_return(
+          status: 200,
+          body: {
+            story: {
+              mention: {
+                id: 'chatwoot-app-user-id-1'
+              }
+            },
+            from: {
+              username: instagram_inbox.channel.instagram_id
+            }
+          }.to_json,
+          headers: { 'Content-Type' => 'application/json' }
+        )
+
       messaging = instagram_story_reply_event[:entry][0]['messaging'][0]
       described_class.new(messaging, instagram_inbox).perform
 

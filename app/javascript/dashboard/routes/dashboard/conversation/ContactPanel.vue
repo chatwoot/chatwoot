@@ -5,8 +5,8 @@ import {
   useFunctionGetter,
   useStore,
 } from 'dashboard/composables/store';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -64,6 +64,8 @@ const linearIntegration = useFunctionGetter(
   'linear'
 );
 
+const { isCloudFeatureEnabled } = useAccount();
+
 const isLinearIntegrationEnabled = computed(
   () => linearIntegration.value?.enabled || false
 );
@@ -71,6 +73,14 @@ const isLinearIntegrationEnabled = computed(
 const isLinearFeatureEnabled = isFeatureEnabledonAccount.value(
   currentAccountId.value,
   FEATURE_FLAGS.LINEAR
+);
+
+const isLinearClientIdConfigured = computed(() => {
+  return !!linearIntegration.value?.id;
+});
+
+const isLinearConnected = computed(
+  () => linearIntegration.value?.enabled || false
 );
 
 const store = useStore();
@@ -104,6 +114,10 @@ const getContactDetails = () => {
 watch(contactId, (newContactId, prevContactId) => {
   if (newContactId && newContactId !== prevContactId) {
     getContactDetails();
+    // Open contact attributes section by default when contact is loaded
+    if (!isContactSidebarItemOpen('is_contact_attributes_open')) {
+      toggleSidebarUIState('is_contact_attributes_open', true);
+    }
   }
 });
 
@@ -127,6 +141,11 @@ onMounted(() => {
   store.dispatch('attributes/get', 0);
   // Load integrations to ensure linear integration state is available
   store.dispatch('integrations/get', 'linear');
+  
+  // Open contact attributes section by default if not already set
+  if (contactId.value && !isContactSidebarItemOpen('is_contact_attributes_open')) {
+    toggleSidebarUIState('is_contact_attributes_open', true);
+  }
 });
 </script>
 
@@ -137,7 +156,7 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
-    <div class="pb-8 list-group px-2">
+    <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
@@ -210,9 +229,10 @@ onMounted(() => {
               "
             >
               <CustomAttributes
+                v-if="contactId"
                 attribute-type="contact_attribute"
                 attribute-from="conversation_contact_panel"
-                :contact-id="contact.id"
+                :contact-id="contactId"
                 :empty-state-message="
                   $t('CONVERSATION_CUSTOM_ATTRIBUTES.NO_RECORDS_FOUND')
                 "
@@ -252,7 +272,9 @@ onMounted(() => {
           </woot-feature-toggle>
           <div
             v-else-if="
-              element.name === 'linear_issues' && isLinearFeatureEnabled
+              element.name === 'linear_issues' &&
+              isLinearFeatureEnabled &&
+              isLinearClientIdConfigured
             "
           >
             <AccordionItem
@@ -264,6 +286,7 @@ onMounted(() => {
               "
             >
               <LinearSetupCTA v-if="!isLinearIntegrationEnabled" />
+              <LinearSetupCTA v-if="!isLinearConnected" />
               <LinearIssuesList v-else :conversation-id="conversationId" />
             </AccordionItem>
           </div>

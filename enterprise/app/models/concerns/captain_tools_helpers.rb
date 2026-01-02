@@ -15,6 +15,13 @@ module Concerns::CaptainToolsHelpers
     def available_agent_tools
       @available_agent_tools ||= load_agent_tools
     end
+    # Returns all built-in agent tools with their metadata.
+    # Only includes tools that have corresponding class files and can be resolved.
+    #
+    # @return [Array<Hash>] Array of tool hashes with :id, :title, :description, :icon
+    def built_in_agent_tools
+      @built_in_agent_tools ||= load_agent_tools
+    end
 
     # Resolves a tool class from a tool ID.
     # Converts snake_case tool IDs to PascalCase class names and constantizes them.
@@ -32,6 +39,13 @@ module Concerns::CaptainToolsHelpers
     # @return [Array<String>] Array of available tool IDs
     def available_tool_ids
       @available_tool_ids ||= available_agent_tools.map { |tool| tool[:id] }
+    end
+    # Returns an array of all built-in tool IDs.
+    # Convenience method that extracts just the IDs from built_in_agent_tools.
+    #
+    # @return [Array<String>] Array of built-in tool IDs
+    def built_in_tool_ids
+      @built_in_tool_ids ||= built_in_agent_tools.map { |tool| tool[:id] }
     end
 
     private
