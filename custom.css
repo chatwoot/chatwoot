@@ -1,9 +1,16 @@
-/* Oculta actividades generadas por Automation System */
-[data-bubble-name="activity"][content*="Automation System"] {
+/* Oculta bubbles de actividad/sistema (ej: reabierta por Automation System) */
+.message--activity,
+.message-bubble--activity,
+.message-bubble.activity,
+.message-bubble-container.activity,
+.text-sm.bg-n-alpha-1.text-n-slate-11.rounded-lg.max-w-lg.px-3.py-1.rounded-xl.flex {
   display: none !important;
 }
 
-/* (Opcional) si quieres ocultar solo las "reabiertas" */
-[data-bubble-name="activity"][content*="reabierta por Automation System"] {
+/* Extra: si el texto viene en un <span title="..."> */
+span[title*="Automation System"],
+span[title*="reabierta por Automation System"],
+span[title*="Assigned"],
+span[title*="asignado"] {
   display: none !important;
 }
