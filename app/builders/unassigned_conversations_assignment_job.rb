@@ -1,7 +1,7 @@
 class UnassignedConversationsAssignmentJob < ApplicationJob
   queue_as :critical
 
-  def perform(inbox_id)
+  def perform(inbox_id, suppress_no_agent_message: false) # rubocop:disable Metrics/MethodLength
     cache_key = "unassigned_conversations_assignment_job_status_#{inbox_id}"
 
     cache_value = Rails.cache.read(cache_key)
@@ -23,7 +23,11 @@ class UnassignedConversationsAssignmentJob < ApplicationJob
         allowed_agent_ids &= team.members.ids if team.present?
       end
 
-      ::AutoAssignment::AgentAssignmentService.new(conversation: conversation, allowed_agent_ids: allowed_agent_ids).perform
+      ::AutoAssignment::AgentAssignmentService.new(
+        conversation: conversation,
+        allowed_agent_ids: allowed_agent_ids,
+        suppress_no_agent_message: suppress_no_agent_message
+      ).perform
     end
 
     Rails.cache.delete(cache_key)

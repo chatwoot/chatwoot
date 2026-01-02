@@ -2,7 +2,8 @@ class AutoAssignment::AgentAssignmentService
   # Allowed agent ids: array
   # This is the list of agents from which an agent can be assigned to this conversation
   # examples: Agents with assignment capacity, Agents who are members of a team etc
-  pattr_initialize [:conversation!, :allowed_agent_ids!]
+  # suppress_no_agent_message: Skip activity message when no agent is available (used for background reassignment)
+  pattr_initialize [:conversation!, :allowed_agent_ids!, { suppress_no_agent_message: false }]
 
   def find_assignee
     round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
@@ -12,7 +13,7 @@ class AutoAssignment::AgentAssignmentService
     { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: content }
   end
 
-  def perform # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity
+  def perform # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/PerceivedComplexity,Metrics/CyclomaticComplexity
     # Priority 1: Check if contact has an owner (either from contact assignment or timed ownership)
     if should_assign_to_contact_owner?
       Rails.logger.info('Assign conversation to assignee')
@@ -28,13 +29,15 @@ class AutoAssignment::AgentAssignmentService
     new_assignee = find_assignee
     if new_assignee.nil?
       Rails.logger.info "No agents were assigned, #{conversation.account_id}"
-      content = if assign_even_if_offline_enabled?
-                  'Conversation not assigned to any agent'
-                else
-                  'Conversation not assigned to any agent as no agents were online'
-                end
-      Conversations::ActivityMessageJob.set(wait: 15.seconds).perform_later(conversation,
-                                                                            activity_message_params(content))
+      unless suppress_no_agent_message
+        content = if assign_even_if_offline_enabled?
+                    'Conversation not assigned to any agent'
+                  else
+                    'Conversation not assigned to any agent as no agents were online'
+                  end
+        Conversations::ActivityMessageJob.set(wait: 15.seconds).perform_later(conversation,
+                                                                              activity_message_params(content))
+      end
     else
       # Assign conversation
       conversation.update(assignee: new_assignee)

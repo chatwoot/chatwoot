@@ -376,7 +376,7 @@ class Conversation < ApplicationRecord
     return unless saved_change_to_status? && resolved?
     return unless inbox.reassign_on_resolve?
 
-    UnassignedConversationsAssignmentJob.perform_later(inbox_id)
+    UnassignedConversationsAssignmentJob.perform_later(inbox_id, suppress_no_agent_message: true)
   end
 
   def ensure_snooze_until_reset
