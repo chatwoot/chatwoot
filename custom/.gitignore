@@ -1,8 +1,11 @@
 # Ignore actual asset files (keep structure, ignore content)
 # This allows you to keep your branding private
 
-# Ignore all images (add yours locally)
+# Ignore most images (add yours locally)
 assets/images/*
+
+# NOTE: CommMate publishes a branded Docker image, so we must track the
+# logo/favicon assets required by `docker/Dockerfile.commmate` (COPY step).
 assets/logos/*
 assets/favicons/*
 
@@ -10,6 +13,12 @@ assets/favicons/*
 !assets/images/.gitkeep
 !assets/logos/.gitkeep
 !assets/favicons/.gitkeep
+
+# Track CommMate release assets (needed for image build)
+!assets/logos/*.png
+!assets/favicons/*.png
+!assets/favicons/*.ico
+!assets/favicons/*.webmanifest
 
 # Keep README files
 !assets/README.md
