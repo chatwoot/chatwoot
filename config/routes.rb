@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get '/health', to: 'kubernetes_health#health'
   get '/healthz', to: 'kubernetes_health#health'
 
-  mount RubyLLM::Agents::Engine => "/agents"
+  mount RubyLLM::Agents::Engine => '/agents'
 
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -79,6 +79,10 @@ Rails.application.routes.draw do
                 post :assign_inbox
                 delete :unassign_inbox
                 post :playground
+                # Voice feature endpoints
+                get :voices
+                post :preview_voice
+                get :voice_usage
               end
               resources :documents, only: [:index, :show, :create, :destroy] do
                 member do
@@ -87,6 +91,10 @@ Rails.application.routes.draw do
               end
               resources :memories, only: [:index, :destroy]
               resources :conversations, only: [:index]
+            end
+            # Account-wide voice usage statistics
+            resource :voice_usage, only: [:show], controller: 'voice_usage' do
+              get :summary, on: :collection
             end
           end
           resource :saml_settings, only: [:show, :create, :update, :destroy]
@@ -147,6 +155,13 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
+                end
+                # Attachment transcription endpoints
+                resources :attachments, only: [], module: :messages do
+                  member do
+                    post :retranscribe
+                    get :transcription
+                  end
                 end
               end
               resources :assignments, only: [:create]

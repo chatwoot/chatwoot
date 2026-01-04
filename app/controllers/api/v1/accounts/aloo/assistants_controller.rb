@@ -109,6 +109,86 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     render json: { message: 'Assistant unassigned from inbox' }
   end
 
+  # GET /api/v1/accounts/:account_id/aloo/assistants/:id/voices
+  # List available ElevenLabs voices
+  def voices
+    client = elevenlabs_client
+    return render json: { error: 'ElevenLabs API key not configured' }, status: :service_unavailable unless client
+
+    voices_data = client.list_voices
+    render json: {
+      voices: voices_data.map do |v|
+        {
+          voice_id: v['voice_id'],
+          name: v['name'],
+          category: v['category'],
+          description: v['description'],
+          preview_url: v['preview_url'],
+          labels: v['labels']
+        }
+      end
+    }
+  rescue Aloo::ElevenlabsClient::Error => e
+    render json: { error: e.message }, status: :service_unavailable
+  end
+
+  # POST /api/v1/accounts/:account_id/aloo/assistants/:id/preview_voice
+  # Generate sample audio with selected voice settings
+  def preview_voice
+    text = params[:text].presence || 'Hello, this is a voice preview for the Aloo AI assistant.'
+    voice_id = params[:voice_id].presence || @assistant.elevenlabs_voice_id
+
+    return render json: { error: 'voice_id is required' }, status: :unprocessable_entity if voice_id.blank?
+
+    service = Aloo::VoiceSynthesisService.new(
+      text: text,
+      assistant: @assistant,
+      voice_id_override: voice_id
+    )
+    result = service.perform
+
+    if result[:success]
+      audio_data = File.binread(result[:audio_path])
+      send_data audio_data,
+                type: 'audio/ogg',
+                disposition: 'inline',
+                filename: 'preview.ogg'
+      FileUtils.rm_f(result[:audio_path])
+    else
+      render json: { error: result[:error] }, status: :unprocessable_entity
+    end
+  rescue Aloo::ElevenlabsClient::Error => e
+    render json: { error: e.message }, status: :service_unavailable
+  end
+
+  # GET /api/v1/accounts/:account_id/aloo/assistants/:id/voice_usage
+  # Get voice usage statistics for this assistant
+  def voice_usage
+    period_start = parse_date_param(:period_start, Time.current.beginning_of_month)
+    period_end = parse_date_param(:period_end, Time.current.end_of_month)
+
+    usage = @assistant.voice_usage_records.for_period(period_start, period_end)
+
+    transcription_stats = usage.transcriptions.successful
+    synthesis_stats = usage.synthesis.successful
+
+    render json: {
+      period: { start: period_start.iso8601, end: period_end.iso8601 },
+      transcription: {
+        count: transcription_stats.count,
+        total_duration_seconds: transcription_stats.sum(:audio_duration_seconds),
+        estimated_cost: transcription_stats.sum(:estimated_cost).to_f.round(4)
+      },
+      synthesis: {
+        count: synthesis_stats.count,
+        total_characters: synthesis_stats.sum(:characters_used),
+        estimated_cost: synthesis_stats.sum(:estimated_cost).to_f.round(4)
+      },
+      total_estimated_cost: usage.successful.sum(:estimated_cost).to_f.round(4),
+      failed_operations: usage.failed.count
+    }
+  end
+
   # POST /api/v1/accounts/:account_id/aloo/assistants/:id/playground
   # Test the assistant with a message without creating a real conversation
   def playground
@@ -163,7 +243,20 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :emoji_usage,
       :greeting_style,
       :custom_greeting,
-      :personality_description
+      :personality_description,
+      :voice_enabled,
+      :voice_input_enabled,
+      :voice_output_enabled,
+      voice_config: %i[
+        transcription_provider
+        transcription_model
+        tts_provider
+        elevenlabs_voice_id
+        elevenlabs_model_id
+        elevenlabs_stability
+        elevenlabs_similarity_boost
+        reply_mode
+      ]
     )
   end
 
@@ -189,6 +282,14 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         memory_enabled: assistant.feature_memory_enabled?,
         faq_enabled: assistant.feature_faq_enabled?
       },
+      voice: {
+        enabled: assistant.voice_enabled?,
+        input_enabled: assistant.voice_input_enabled?,
+        output_enabled: assistant.voice_output_enabled?,
+        config: assistant.voice_config || {},
+        transcription_enabled: assistant.voice_transcription_enabled?,
+        reply_enabled: assistant.voice_reply_enabled?
+      },
       assigned_inboxes: assistant.inboxes.map { |i| { id: i.id, name: i.name } },
       created_at: assistant.created_at,
       updated_at: assistant.updated_at
@@ -207,5 +308,23 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     when '90d' then 90.days.ago
     else 7.days.ago
     end
+  end
+
+  def parse_date_param(param_name, default)
+    return default if params[param_name].blank?
+
+    Time.zone.parse(params[param_name])
+  rescue ArgumentError
+    default
+  end
+
+  def elevenlabs_client
+    api_key = Current.account.custom_attributes&.dig('elevenlabs_api_key') ||
+              InstallationConfig.find_by(name: 'ELEVENLABS_API_KEY')&.value ||
+              ENV.fetch('ELEVENLABS_API_KEY', nil)
+
+    return nil if api_key.blank?
+
+    Aloo::ElevenlabsClient.new(api_key: api_key)
   end
 end
