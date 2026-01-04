@@ -31,8 +31,8 @@ tr:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
     reset_password_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Şifre sıfırlama mevcut değildir. Lütfen yöneticinizle iletişime geçin.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
+    login_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Lütfen kuruluşunuzun SAML sağlayıcısı aracılığıyla oturum açın.
+    saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
     inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
   errors:
     validations:
@@ -41,7 +41,7 @@ tr:
       invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: Bu alan adına izin verilmiyor. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ile iletişime geçin.
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
@@ -51,7 +51,7 @@ tr:
     attachments:
       invalid: Invalid attachment
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
+      feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
       sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
     data_import:
       data_type:
@@ -78,13 +78,13 @@ tr:
     slack:
       invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      token_exchange_failed: 'Erişim tokeni için kod değişimi başarısız oldu. Lütfen tekrar deneyin.'
+      invalid_token_permissions: 'Erişim tokeni WhatsApp için gerekli izinlere sahip değildir.'
+      phone_info_fetch_failed: 'Telefon numarası bilgisi alınamadı. Lütfen tekrar deneyin.'
       phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
+        not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -303,8 +303,8 @@ tr:
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: 'Veritabanlarını, dokümanları ve sayfaları doğrudan Captain ile entegre edin.'
+      description: 'Captain''ın veritabanlarınız, dokümanlarınız ve sayfalarınızdaki içeriklere erişebilmesi ve bunları kullanarak daha bağlamsal bir müşteri desteği sunan akıllı yanıtlar oluşturabilmesi için Notion çalışma alanınızı bağlayın.'
     shopify:
       name: 'Shopify'
       short_description: 'Shopify mağazanızdan sipariş detaylarına ve müşteri verilerine erişin.'
@@ -397,8 +397,8 @@ tr:
       one: '%{count} hour'
       other: '%{count} hours'
     minutes:
-      one: '%{count} minute'
-      other: '%{count} minutes'
+      one: '%{count} dakika'
+      other: '%{count} dakika'
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
@@ -431,7 +431,7 @@ tr:
       email_required: 'E-posta gereklidir'
       invalid_email_format: 'Geçersiz e-posta formatı'
       custom_domain_not_configured: 'Özel alan adı yapılandırılmadı'
-      instructions_sent_successfully: 'Instructions sent successfully'
+      instructions_sent_successfully: 'Talimatlar başarıyla gönderildi'
       subject: '%{custom_domain} kurulumunu tamamlayın'
     ssl_status:
       custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'
