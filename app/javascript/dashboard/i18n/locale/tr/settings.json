@@ -311,8 +311,8 @@
     "ALL_COMPANIES": "Tüm Şirketler",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_DOCUMENTS": "Belgeler",
+    "CAPTAIN_RESPONSES": "SSS",
     "CAPTAIN_TOOLS": "Araçlar",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Oyun Alanı",
@@ -366,9 +366,9 @@
     "REAUTHORIZE": "Gelen kutusu bağlantınızın süresi doldu, lütfen yeniden bağlanarak\n mesaj almaya ve göndermeye devam edin",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Makaleler",
       "CATEGORIES": "Kategoriler",
-      "LOCALES": "Yereller",
+      "LOCALES": "Diller",
       "SETTINGS": "Ayarlar"
     },
     "CHANNELS": "Kanallar",
@@ -399,7 +399,7 @@
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "DOCUMENTS": "Belgeler",
       "RESPONSES": "Responses",
       "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
       "REFRESH_CREDITS": "Yenile"
@@ -428,7 +428,7 @@
       "CONFIRM": {
         "TITLE": "Confirm Purchase",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "INSTANT_DEDUCTION_NOTE": "Kaydettiğiniz kart, onaylandıktan hemen sonra ücretlendirilecektir.",
         "GO_BACK": "Geri Git",
         "CONFIRM_PURCHASE": "Confirm Purchase"
       }
