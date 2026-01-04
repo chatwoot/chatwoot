@@ -172,7 +172,7 @@
 - name: channel_voice
   display_name: Voice Channel
   enabled: false
-  chatwoot_internal: true
+  premium: true
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
@@ -180,7 +180,6 @@
   display_name: Captain V2
   enabled: false
   premium: true
-  chatwoot_internal: true
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
@@ -228,3 +227,6 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true
