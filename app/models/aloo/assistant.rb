@@ -6,6 +6,24 @@ module Aloo
 
     include Aloo::AccountScoped # CRITICAL: Always scope by account
 
+    # Voice configuration constants
+    VALID_REPLY_MODES = %w[text_only voice_only text_and_voice].freeze
+    VALID_TTS_PROVIDERS = %w[elevenlabs].freeze
+    VALID_TRANSCRIPTION_PROVIDERS = %w[openai].freeze
+    DEFAULT_TRANSCRIPTION_MODEL = 'whisper-1'
+    DEFAULT_TTS_MODEL = 'eleven_multilingual_v2'
+
+    # Voice config store accessors for convenient access
+    store_accessor :voice_config,
+                   :transcription_provider,
+                   :transcription_model,
+                   :tts_provider,
+                   :elevenlabs_voice_id,
+                   :elevenlabs_model_id,
+                   :elevenlabs_stability,
+                   :elevenlabs_similarity_boost,
+                   :reply_mode
+
     has_many :assistant_inboxes,
              class_name: 'Aloo::AssistantInbox',
              foreign_key: 'aloo_assistant_id',
@@ -38,6 +56,11 @@ module Aloo
              dependent: :nullify,
              inverse_of: :assistant
     has_many :messages, as: :sender, dependent: :nullify
+    has_many :voice_usage_records,
+             class_name: 'Aloo::VoiceUsageRecord',
+             foreign_key: 'aloo_assistant_id',
+             dependent: :destroy,
+             inverse_of: :assistant
     # Deferred to v2: has_many :custom_tools
 
     # Personality settings (user-configurable)
@@ -79,6 +102,7 @@ module Aloo
     validates :greeting_style, inclusion: { in: GREETING_STYLES }
     validates :dialect, inclusion: { in: ARABIC_DIALECTS.keys }, allow_blank: true
     validates :language, inclusion: { in: Aloo::SUPPORTED_LANGUAGES.keys }
+    validate :validate_voice_config, if: :voice_enabled?
 
     scope :active, -> { where(active: true) }
 
@@ -148,6 +172,43 @@ module Aloo
         avatar_url: nil,
         type: 'aloo_assistant'
       }
+    end
+
+    # Voice configuration helpers
+    def effective_transcription_model
+      transcription_model.presence || DEFAULT_TRANSCRIPTION_MODEL
+    end
+
+    def effective_tts_model
+      elevenlabs_model_id.presence || DEFAULT_TTS_MODEL
+    end
+
+    def effective_reply_mode
+      reply_mode.presence || 'text_and_voice'
+    end
+
+    def voice_reply_enabled?
+      voice_enabled? && voice_output_enabled? && elevenlabs_voice_id.present?
+    end
+
+    def voice_transcription_enabled?
+      voice_enabled? && voice_input_enabled?
+    end
+
+    private
+
+    def validate_voice_config
+      if voice_output_enabled?
+        errors.add(:voice_config, 'elevenlabs_voice_id is required for voice output') if elevenlabs_voice_id.blank?
+        errors.add(:voice_config, "invalid reply_mode: #{reply_mode}") if reply_mode.present? && !VALID_REPLY_MODES.include?(reply_mode)
+        errors.add(:voice_config, "invalid tts_provider: #{tts_provider}") if tts_provider.present? && !VALID_TTS_PROVIDERS.include?(tts_provider)
+      end
+
+      return unless voice_input_enabled?
+      return if transcription_provider.blank?
+      return if VALID_TRANSCRIPTION_PROVIDERS.include?(transcription_provider)
+
+      errors.add(:voice_config, "invalid transcription_provider: #{transcription_provider}")
     end
   end
 end

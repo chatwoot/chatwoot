@@ -215,8 +215,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "voice_enabled", default: false
+    t.boolean "voice_input_enabled", default: false
+    t.boolean "voice_output_enabled", default: false
+    t.jsonb "voice_config", default: {}
     t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
+    t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
+    t.index ["voice_input_enabled"], name: "index_aloo_assistants_on_voice_input_enabled"
+    t.index ["voice_output_enabled"], name: "index_aloo_assistants_on_voice_output_enabled"
   end
 
   create_table "aloo_conversation_contexts", force: :cascade do |t|
@@ -320,6 +327,29 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["conversation_id"], name: "index_aloo_traces_on_conversation_id"
     t.index ["request_id"], name: "index_aloo_traces_on_request_id"
     t.index ["trace_type"], name: "index_aloo_traces_on_trace_type"
+  end
+
+  create_table "aloo_voice_usage_records", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "aloo_assistant_id", null: false
+    t.bigint "message_id"
+    t.string "operation_type", null: false
+    t.string "provider", null: false
+    t.integer "characters_used", default: 0
+    t.integer "audio_duration_seconds", default: 0
+    t.decimal "estimated_cost", precision: 10, scale: 6
+    t.string "model_used"
+    t.string "voice_id"
+    t.string "status", default: "success"
+    t.jsonb "metadata", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_aloo_voice_usage_records_on_account_id_and_created_at"
+    t.index ["account_id", "operation_type"], name: "index_aloo_voice_usage_records_on_account_id_and_operation_type"
+    t.index ["account_id"], name: "index_aloo_voice_usage_records_on_account_id"
+    t.index ["aloo_assistant_id"], name: "index_aloo_voice_usage_records_on_aloo_assistant_id"
+    t.index ["created_at"], name: "index_aloo_voice_usage_records_on_created_at"
+    t.index ["message_id"], name: "index_aloo_voice_usage_records_on_message_id"
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -1489,6 +1519,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "aloo_traces", "accounts"
   add_foreign_key "aloo_traces", "aloo_assistants"
   add_foreign_key "aloo_traces", "conversations"
+  add_foreign_key "aloo_voice_usage_records", "accounts"
+  add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
+  add_foreign_key "aloo_voice_usage_records", "messages"
   add_foreign_key "cart_items", "carts"
   add_foreign_key "cart_items", "products"
   add_foreign_key "carts", "accounts"

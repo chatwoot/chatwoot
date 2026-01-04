@@ -52,8 +52,12 @@ module Aloo
     def generate_response
       conversation_history = build_conversation_history
 
+      # Use content_for_llm to handle transcribed voice messages
+      message_content = @message.content_for_llm
+      return OpenStruct.new(success?: false) if message_content.blank?
+
       ConversationAgent.call(
-        message: @message.content,
+        message: message_content,
         conversation_history: conversation_history
       )
     end
@@ -62,6 +66,7 @@ module Aloo
       recent_messages = @conversation.messages
                                      .where(message_type: %i[incoming outgoing])
                                      .where(private: false)
+                                     .includes(:attachments)
                                      .order(created_at: :desc)
                                      .limit(MAX_CONVERSATION_HISTORY)
                                      .reverse
@@ -70,7 +75,8 @@ module Aloo
 
       history = recent_messages.map do |msg|
         role = msg.message_type == 'incoming' ? 'Customer' : 'Assistant'
-        "#{role}: #{msg.content}"
+        # Use content_for_llm to include voice message transcriptions
+        "#{role}: #{msg.content_for_llm}"
       end
 
       "## Conversation History\n#{history.join("\n\n")}"
