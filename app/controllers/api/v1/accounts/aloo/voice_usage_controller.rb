@@ -5,7 +5,7 @@ class Api::V1::Accounts::Aloo::VoiceUsageController < Api::V1::Accounts::BaseCon
 
   # GET /api/v1/accounts/:account_id/aloo/voice_usage
   # Returns account-wide voice usage statistics
-  def index
+  def show
     period_start = parse_date_param(:period_start, Time.current.beginning_of_month)
     period_end = parse_date_param(:period_end, Time.current.end_of_month)
 

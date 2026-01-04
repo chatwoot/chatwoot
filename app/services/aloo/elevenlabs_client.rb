@@ -142,7 +142,13 @@ module Aloo
 
     def parse_error(response)
       parsed = JSON.parse(response.body)
-      parsed.dig('detail', 'message') || parsed['detail'] || 'Unknown error'
+      detail = parsed['detail']
+
+      if detail.is_a?(Hash)
+        detail['message'] || detail.to_s
+      else
+        detail || 'Unknown error'
+      end
     rescue JSON::ParserError
       response.body.to_s.truncate(200)
     end

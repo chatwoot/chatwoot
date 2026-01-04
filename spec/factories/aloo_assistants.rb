@@ -45,5 +45,44 @@ FactoryBot.define do
     trait :with_custom_model do
       admin_config { { 'model' => 'gpt-4o', 'temperature' => 0.5 } }
     end
+
+    trait :with_voice_input do
+      voice_enabled { true }
+      voice_input_enabled { true }
+      voice_config { { 'transcription_provider' => 'openai', 'transcription_model' => 'whisper-1' } }
+    end
+
+    trait :with_voice_output do
+      voice_enabled { true }
+      voice_output_enabled { true }
+      voice_config do
+        {
+          'tts_provider' => 'elevenlabs',
+          'elevenlabs_voice_id' => 'EXAVITQu4vr4xnSDxMaL',
+          'elevenlabs_model_id' => 'eleven_multilingual_v2',
+          'elevenlabs_stability' => 0.5,
+          'elevenlabs_similarity_boost' => 0.75,
+          'reply_mode' => 'text_and_voice'
+        }
+      end
+    end
+
+    trait :with_voice_features do
+      voice_enabled { true }
+      voice_input_enabled { true }
+      voice_output_enabled { true }
+      voice_config do
+        {
+          'transcription_provider' => 'openai',
+          'transcription_model' => 'whisper-1',
+          'tts_provider' => 'elevenlabs',
+          'elevenlabs_voice_id' => 'EXAVITQu4vr4xnSDxMaL',
+          'elevenlabs_model_id' => 'eleven_multilingual_v2',
+          'elevenlabs_stability' => 0.5,
+          'elevenlabs_similarity_boost' => 0.75,
+          'reply_mode' => 'text_and_voice'
+        }
+      end
+    end
   end
 end
