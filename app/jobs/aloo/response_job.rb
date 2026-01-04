@@ -85,7 +85,7 @@ module Aloo
     def send_response(result)
       return if check_handoff_triggered(result)
 
-      Messages::MessageBuilder.new(
+      message = Messages::MessageBuilder.new(
         @assistant,
         @conversation,
         {
@@ -98,6 +98,9 @@ module Aloo
 
       track_usage(result)
       update_conversation_status
+
+      # Trigger voice synthesis if enabled
+      trigger_voice_reply(message) if message&.persisted?
     end
 
     def check_handoff_triggered(result)
@@ -144,6 +147,13 @@ module Aloo
       return unless @conversation.pending?
 
       @conversation.update!(status: :open)
+    end
+
+    def trigger_voice_reply(message)
+      return unless @assistant.voice_reply_enabled?
+
+      # Queue voice synthesis job
+      Aloo::VoiceReplyJob.perform_later(message.id)
     end
   end
 end
