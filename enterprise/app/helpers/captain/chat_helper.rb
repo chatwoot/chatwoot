@@ -91,24 +91,7 @@ module Captain::ChatHelper
       tool_call_id: tool_call_id,
       content: content
     }
-
-
-  def request_chat_completion
-    log_chat_completion_request
-
-    chat = build_chat
-
-    add_messages_to_chat(chat)
-    with_agent_session do
-      response = chat.ask(conversation_messages.last[:content])
-      build_response(response)
-    end
-  rescue StandardError => e
-    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
-    raise e
   end
-
-  private
 
   def build_chat
     llm_chat = chat(model: @model, temperature: temperature)
@@ -206,14 +189,6 @@ module Captain::ChatHelper
   # Used for Langfuse tagging and span naming.
   def feature_name
     raise NotImplementedError, "#{self.class.name} must implement #feature_name"
-  end
-
-  def log_chat_completion_request
-    Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
-      for messages #{@messages} with #{@tools&.length || 0} tools
-      "
-    )
   end
 
   def log_chat_completion_request

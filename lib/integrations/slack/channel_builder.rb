@@ -24,7 +24,6 @@ class Integrations::Slack::ChannelBuilder
   end
 
   def channels
-    conversations_list = slack_client.conversations_list(types: 'public_channel,private_channel', exclude_archived: true)
     # Split channel fetching into separate API calls to avoid rate limiting issues.
     # Slack's API handles single-type requests (public OR private) much more efficiently
     # than mixed-type requests (public AND private). This approach eliminates rate limits
@@ -47,7 +46,7 @@ class Integrations::Slack::ChannelBuilder
     while conversations_list.response_metadata.next_cursor.present?
       conversations_list = slack_client.conversations_list(
         cursor: conversations_list.response_metadata.next_cursor,
-        exclude_archived: true
+        exclude_archived: true,
         types: channel_type,
         limit: limit
       )
@@ -64,8 +63,8 @@ class Integrations::Slack::ChannelBuilder
     channel = find_channel(reference_id)
     return if channel.blank?
 
-    slack_client.conversations_join(channel: channel[:id]) if channel[:is_private] == false
-    @hook.update!(reference_id: channel[:id], settings: { channel_name: channel[:name] }, status: 'enabled')
+    slack_client.conversations_join(channel: channel['id']) if channel['is_private'] == false
+    @hook.update!(reference_id: channel['id'], settings: { channel_name: channel['name'] }, status: 'enabled')
     @hook
   end
 end

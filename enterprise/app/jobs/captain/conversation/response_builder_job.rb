@@ -39,6 +39,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
                     message_history: collect_previous_messages
                   )
                 end
+    process_response
+  end
 
   def generate_response_with_v2
     @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
