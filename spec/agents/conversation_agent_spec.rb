@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ConversationAgent, aloo: true do
+RSpec.describe ConversationAgent, :aloo do
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, :with_all_features, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -131,20 +131,20 @@ RSpec.describe ConversationAgent, aloo: true do
       )
       prompt = agent.user_prompt
 
-      expect(prompt).to include("Customer: Hi")
+      expect(prompt).to include('Customer: Hi')
       expect(prompt).to include('Follow up question')
     end
   end
 
   describe '#tools' do
-    it 'includes FaqLookupMcp' do
+    it 'includes FaqLookupTool' do
       agent = described_class.new(message: 'test')
-      expect(agent.tools).to include(FaqLookupMcp)
+      expect(agent.tools).to include(FaqLookupTool)
     end
 
-    it 'includes HandoffMcp' do
+    it 'includes HandoffTool' do
       agent = described_class.new(message: 'test')
-      expect(agent.tools).to include(HandoffMcp)
+      expect(agent.tools).to include(HandoffTool)
     end
   end
 

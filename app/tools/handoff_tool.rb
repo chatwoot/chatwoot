@@ -4,11 +4,11 @@
 # Used when the AI agent cannot handle a request or customer explicitly asks for human support
 #
 # Example usage in agent:
-#   chat.with_tools([HandoffMcp])
+#   chat.with_tools([HandoffTool])
 #   # When AI determines it needs human help:
 #   response = chat.ask("Transfer to human, I cannot process refunds")
 #
-class HandoffMcp < BaseMcp
+class HandoffTool < BaseTool
   description 'Transfer this conversation to a human agent. Use this when: ' \
               '1) The customer explicitly requests to speak with a human, ' \
               '2) The issue is too complex or outside your capabilities, ' \

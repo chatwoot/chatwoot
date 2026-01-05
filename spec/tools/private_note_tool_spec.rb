@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe PrivateNoteMcp, :aloo do
+RSpec.describe PrivateNoteTool, :aloo do
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -26,24 +26,24 @@ RSpec.describe PrivateNoteMcp, :aloo do
   end
 
   describe '#execute' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     context 'with valid parameters' do
       it 'creates a private message' do
         expect do
-          mcp.execute(content: 'Test note content')
+          tool.execute(content: 'Test note content')
         end.to change { conversation.messages.where(private: true).count }.by(1)
       end
 
       it 'returns success response' do
-        result = mcp.execute(content: 'Test note content')
+        result = tool.execute(content: 'Test note content')
 
         expect(result[:success]).to be true
         expect(result[:data][:note_created]).to be true
       end
 
       it 'formats content with category prefix' do
-        mcp.execute(content: 'Customer seems frustrated', category: 'observation')
+        tool.execute(content: 'Customer seems frustrated', category: 'observation')
 
         note = conversation.messages.where(private: true).last
         expect(note.content).to include('**Observation:**')
@@ -51,7 +51,7 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'tracks execution in conversation context' do
-        mcp.execute(content: 'Test note')
+        tool.execute(content: 'Test note')
 
         context = Aloo::ConversationContext.find_by(conversation: conversation)
         expect(context.tool_history).not_to be_empty
@@ -62,14 +62,14 @@ RSpec.describe PrivateNoteMcp, :aloo do
         expect_any_instance_of(described_class).to receive(:log_execution)
           .with(hash_including(content: 'Test'), anything)
 
-        mcp.execute(content: 'Test')
+        tool.execute(content: 'Test')
       end
     end
 
     context 'with category' do
       described_class::VALID_CATEGORIES.each do |category|
         it "accepts #{category} category" do
-          result = mcp.execute(content: 'Test', category: category)
+          result = tool.execute(content: 'Test', category: category)
 
           expect(result[:success]).to be true
           expect(result[:data][:category]).to eq(category)
@@ -77,14 +77,14 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'defaults invalid category to general' do
-        result = mcp.execute(content: 'Test', category: 'invalid')
+        result = tool.execute(content: 'Test', category: 'invalid')
 
         expect(result[:success]).to be true
         expect(result[:data][:category]).to eq('general')
       end
 
       it 'defaults nil category to general' do
-        result = mcp.execute(content: 'Test', category: nil)
+        result = tool.execute(content: 'Test', category: nil)
 
         expect(result[:success]).to be true
         expect(result[:data][:category]).to eq('general')
@@ -93,25 +93,25 @@ RSpec.describe PrivateNoteMcp, :aloo do
 
     context 'with different category prefixes' do
       it 'uses observation prefix' do
-        mcp.execute(content: 'Note', category: 'observation')
+        tool.execute(content: 'Note', category: 'observation')
         note = conversation.messages.where(private: true).last
         expect(note.content).to start_with('**Observation:**')
       end
 
       it 'uses summary prefix' do
-        mcp.execute(content: 'Note', category: 'summary')
+        tool.execute(content: 'Note', category: 'summary')
         note = conversation.messages.where(private: true).last
         expect(note.content).to start_with('**Summary:**')
       end
 
       it 'uses warning prefix' do
-        mcp.execute(content: 'Note', category: 'warning')
+        tool.execute(content: 'Note', category: 'warning')
         note = conversation.messages.where(private: true).last
         expect(note.content).to start_with('**Warning:**')
       end
 
       it 'uses note prefix for general' do
-        mcp.execute(content: 'Note', category: 'general')
+        tool.execute(content: 'Note', category: 'general')
         note = conversation.messages.where(private: true).last
         expect(note.content).to start_with('**Note:**')
       end
@@ -123,7 +123,7 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(content: 'Test')
+        result = tool.execute(content: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Failed to add private note')
@@ -136,7 +136,7 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(content: 'Test')
+        result = tool.execute(content: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Conversation context required')
@@ -149,7 +149,7 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(content: 'Test')
+        result = tool.execute(content: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Account context required')
@@ -162,7 +162,7 @@ RSpec.describe PrivateNoteMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(content: 'Test')
+        result = tool.execute(content: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Assistant context required')
@@ -171,17 +171,17 @@ RSpec.describe PrivateNoteMcp, :aloo do
   end
 
   describe 'message attributes' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     it 'sets message_type to activity' do
-      mcp.execute(content: 'Test note')
+      tool.execute(content: 'Test note')
 
       note = conversation.messages.where(private: true).last
       expect(note.message_type).to eq('activity')
     end
 
     it 'sets content_attributes with note marker' do
-      mcp.execute(content: 'Test note', category: 'warning')
+      tool.execute(content: 'Test note', category: 'warning')
 
       note = conversation.messages.where(private: true).last
       expect(note.content_attributes['aloo_private_note']).to be true

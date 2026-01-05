@@ -4,10 +4,10 @@
 # Used by AI agent to document observations, summaries, and important context
 #
 # Example usage in agent:
-#   chat.with_tools([PrivateNoteMcp])
+#   chat.with_tools([PrivateNoteTool])
 #   response = chat.ask("Note: Customer mentioned they prefer email contact")
 #
-class PrivateNoteMcp < BaseMcp
+class PrivateNoteTool < BaseTool
   description 'Add a private note visible only to agents. Use for: ' \
               '1) Recording observations about customer sentiment or behavior, ' \
               '2) Summarizing conversation progress, ' \

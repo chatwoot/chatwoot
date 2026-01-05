@@ -4,10 +4,10 @@
 # Used by the AI agent to find relevant information to answer customer questions
 #
 # Example usage in agent:
-#   chat.with_tools([FaqLookupMcp])
+#   chat.with_tools([FaqLookupTool])
 #   response = chat.ask("Customer asks about refund policy")
 #
-class FaqLookupMcp < BaseMcp
+class FaqLookupTool < BaseTool
   description 'Search the knowledge base and memories for information relevant to answering customer questions. ' \
               'Use this when you need to find specific information about products, policies, procedures, or ' \
               'when you want to recall previous interactions with this customer.'
@@ -29,14 +29,10 @@ class FaqLookupMcp < BaseMcp
 
     begin
       # Search knowledge base (documents, FAQs)
-      if %w[knowledge both].include?(search_type)
-        results[:knowledge] = search_knowledge_base(query)
-      end
+      results[:knowledge] = search_knowledge_base(query) if %w[knowledge both].include?(search_type)
 
       # Search memories (past interactions, learned information)
-      if %w[memory both].include?(search_type)
-        results[:memories] = search_memories(query, include_customer_context)
-      end
+      results[:memories] = search_memories(query, include_customer_context) if %w[memory both].include?(search_type)
 
       log_execution(
         { query: query, search_type: search_type },
@@ -78,13 +74,9 @@ class FaqLookupMcp < BaseMcp
   def format_response(results)
     response_parts = []
 
-    if results[:knowledge].any?
-      response_parts << format_knowledge_results(results[:knowledge])
-    end
+    response_parts << format_knowledge_results(results[:knowledge]) if results[:knowledge].any?
 
-    if results[:memories].any?
-      response_parts << format_memory_results(results[:memories])
-    end
+    response_parts << format_memory_results(results[:memories]) if results[:memories].any?
 
     if response_parts.empty?
       return {

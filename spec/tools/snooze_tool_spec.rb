@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe SnoozeMcp, :aloo do
+RSpec.describe SnoozeTool, :aloo do
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -26,11 +26,11 @@ RSpec.describe SnoozeMcp, :aloo do
   end
 
   describe '#execute' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     context 'with relative time strings' do
       it 'parses "1 hour"' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:success]).to be true
         expect(conversation.reload.status).to eq('snoozed')
@@ -38,42 +38,42 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'parses "2 hours"' do
-        result = mcp.execute(until_time: '2 hours')
+        result = tool.execute(until_time: '2 hours')
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.minute).of(2.hours.from_now)
       end
 
       it 'parses "1 day"' do
-        result = mcp.execute(until_time: '1 day')
+        result = tool.execute(until_time: '1 day')
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.minute).of(1.day.from_now)
       end
 
       it 'parses "3 days"' do
-        result = mcp.execute(until_time: '3 days')
+        result = tool.execute(until_time: '3 days')
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.minute).of(3.days.from_now)
       end
 
       it 'parses "30 minutes"' do
-        result = mcp.execute(until_time: '30 minutes')
+        result = tool.execute(until_time: '30 minutes')
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.minute).of(30.minutes.from_now)
       end
 
       it 'parses "1 week"' do
-        result = mcp.execute(until_time: '1 week')
+        result = tool.execute(until_time: '1 week')
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.minute).of(1.week.from_now)
       end
 
       it 'parses "tomorrow" (case insensitive)' do
-        result = mcp.execute(until_time: 'Tomorrow')
+        result = tool.execute(until_time: 'Tomorrow')
 
         expect(result[:success]).to be true
         expected_time = 1.day.from_now.beginning_of_day + 9.hours
@@ -81,7 +81,7 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'parses "next week"' do
-        result = mcp.execute(until_time: 'next week')
+        result = tool.execute(until_time: 'next week')
 
         expect(result[:success]).to be true
         expected_time = 1.week.from_now.beginning_of_day + 9.hours
@@ -92,7 +92,7 @@ RSpec.describe SnoozeMcp, :aloo do
     context 'with ISO8601 datetime' do
       it 'parses ISO8601 format' do
         future_time = 2.days.from_now
-        result = mcp.execute(until_time: future_time.iso8601)
+        result = tool.execute(until_time: future_time.iso8601)
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.second).of(future_time)
@@ -102,7 +102,7 @@ RSpec.describe SnoozeMcp, :aloo do
     context 'with Unix timestamp' do
       it 'parses Unix timestamp in seconds' do
         future_time = 2.days.from_now
-        result = mcp.execute(until_time: future_time.to_i.to_s)
+        result = tool.execute(until_time: future_time.to_i.to_s)
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.second).of(future_time)
@@ -111,7 +111,7 @@ RSpec.describe SnoozeMcp, :aloo do
       it 'parses Unix timestamp in milliseconds' do
         future_time = 2.days.from_now
         timestamp_ms = (future_time.to_f * 1000).to_i.to_s
-        result = mcp.execute(until_time: timestamp_ms)
+        result = tool.execute(until_time: timestamp_ms)
 
         expect(result[:success]).to be true
         expect(conversation.reload.snoozed_until).to be_within(1.second).of(future_time)
@@ -120,7 +120,7 @@ RSpec.describe SnoozeMcp, :aloo do
 
     context 'with invalid time' do
       it 'returns error for unparseable time' do
-        result = mcp.execute(until_time: 'invalid time format')
+        result = tool.execute(until_time: 'invalid time format')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Could not parse')
@@ -128,14 +128,14 @@ RSpec.describe SnoozeMcp, :aloo do
 
       it 'returns error for past time' do
         past_time = 1.hour.ago
-        result = mcp.execute(until_time: past_time.iso8601)
+        result = tool.execute(until_time: past_time.iso8601)
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('future')
       end
 
       it 'returns error for empty time' do
-        result = mcp.execute(until_time: '')
+        result = tool.execute(until_time: '')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Could not parse')
@@ -148,7 +148,7 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(until_time: '2 hours')
+        result = tool.execute(until_time: '2 hours')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('already snoozed')
@@ -158,7 +158,7 @@ RSpec.describe SnoozeMcp, :aloo do
     context 'with reason' do
       it 'adds reason as private note' do
         expect do
-          mcp.execute(until_time: '1 hour', reason: 'Waiting for customer to check order')
+          tool.execute(until_time: '1 hour', reason: 'Waiting for customer to check order')
         end.to change { conversation.messages.where(private: true).count }.by(1)
 
         note = conversation.messages.where(private: true).last
@@ -166,7 +166,7 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'includes snooze time in note' do
-        mcp.execute(until_time: '1 hour', reason: 'Test reason')
+        tool.execute(until_time: '1 hour', reason: 'Test reason')
 
         note = conversation.messages.where(private: true).last
         expect(note.content).to include('Snoozed until')
@@ -175,7 +175,7 @@ RSpec.describe SnoozeMcp, :aloo do
 
     context 'tracking execution' do
       it 'tracks in conversation context' do
-        mcp.execute(until_time: '1 hour')
+        tool.execute(until_time: '1 hour')
 
         context = Aloo::ConversationContext.find_by(conversation: conversation)
         expect(context.tool_history).not_to be_empty
@@ -186,25 +186,25 @@ RSpec.describe SnoozeMcp, :aloo do
         expect_any_instance_of(described_class).to receive(:log_execution)
           .with(hash_including(until_time: '1 hour'), anything)
 
-        mcp.execute(until_time: '1 hour')
+        tool.execute(until_time: '1 hour')
       end
     end
 
     context 'response format' do
       it 'includes human readable time' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:data][:human_readable]).to be_present
       end
 
       it 'includes ISO8601 snoozed_until' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:data][:snoozed_until]).to match(/\d{4}-\d{2}-\d{2}T/)
       end
 
       it 'includes success message' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:data][:message]).to include('snoozed until')
       end
@@ -216,7 +216,7 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Failed to snooze conversation')
@@ -229,7 +229,7 @@ RSpec.describe SnoozeMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(until_time: '1 hour')
+        result = tool.execute(until_time: '1 hour')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Conversation context required')

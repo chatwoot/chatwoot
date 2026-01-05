@@ -4,10 +4,10 @@
 # Used by AI agent to categorize, organize, and flag conversations
 #
 # Example usage in agent:
-#   chat.with_tools([LabelsMcp])
+#   chat.with_tools([LabelsTool])
 #   response = chat.ask("Add labels billing and urgent to this conversation")
 #
-class LabelsMcp < BaseMcp
+class LabelsTool < BaseTool
   description 'Manage conversation labels. Use for: ' \
               '1) Categorizing conversations by topic or issue type, ' \
               '2) Flagging for follow-up or escalation, ' \

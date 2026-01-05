@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe ResolveMcp, :aloo do
+RSpec.describe ResolveTool, :aloo do
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -26,17 +26,17 @@ RSpec.describe ResolveMcp, :aloo do
   end
 
   describe '#execute' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     context 'with valid parameters' do
       it 'resolves the conversation' do
-        mcp.execute(reason: 'Issue resolved')
+        tool.execute(reason: 'Issue resolved')
 
         expect(conversation.reload.status).to eq('resolved')
       end
 
       it 'returns success response' do
-        result = mcp.execute(reason: 'Issue resolved')
+        result = tool.execute(reason: 'Issue resolved')
 
         expect(result[:success]).to be true
         expect(result[:data][:resolved]).to be true
@@ -44,7 +44,7 @@ RSpec.describe ResolveMcp, :aloo do
 
       it 'creates activity message with reason' do
         expect do
-          mcp.execute(reason: 'Customer confirmed issue is fixed')
+          tool.execute(reason: 'Customer confirmed issue is fixed')
         end.to change { conversation.messages.where(private: false).count }.by(1)
 
         message = conversation.messages.where(private: false).last
@@ -53,7 +53,7 @@ RSpec.describe ResolveMcp, :aloo do
       end
 
       it 'tracks execution in conversation context' do
-        mcp.execute(reason: 'Issue resolved')
+        tool.execute(reason: 'Issue resolved')
 
         context = Aloo::ConversationContext.find_by(conversation: conversation)
         expect(context.tool_history).not_to be_empty
@@ -64,14 +64,14 @@ RSpec.describe ResolveMcp, :aloo do
         expect_any_instance_of(described_class).to receive(:log_execution)
           .with(hash_including(reason: 'Test reason'), anything)
 
-        mcp.execute(reason: 'Test reason')
+        tool.execute(reason: 'Test reason')
       end
     end
 
     context 'with summary' do
       it 'adds summary as private note before resolving' do
         expect do
-          mcp.execute(reason: 'Issue fixed', summary: 'Customer had billing question about subscription')
+          tool.execute(reason: 'Issue fixed', summary: 'Customer had billing question about subscription')
         end.to change { conversation.messages.where(private: true).count }.by(1)
 
         note = conversation.messages.where(private: true).last
@@ -81,7 +81,7 @@ RSpec.describe ResolveMcp, :aloo do
 
       it 'creates both summary note and activity message' do
         expect do
-          mcp.execute(reason: 'Issue fixed', summary: 'Summary here')
+          tool.execute(reason: 'Issue fixed', summary: 'Summary here')
         end.to change { conversation.messages.count }.by(2)
       end
     end
@@ -92,7 +92,7 @@ RSpec.describe ResolveMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(reason: 'Try to resolve again')
+        result = tool.execute(reason: 'Try to resolve again')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('already resolved')
@@ -100,7 +100,7 @@ RSpec.describe ResolveMcp, :aloo do
 
       it 'does not create messages' do
         expect do
-          mcp.execute(reason: 'Try to resolve again')
+          tool.execute(reason: 'Try to resolve again')
         end.not_to(change { conversation.messages.count })
       end
     end
@@ -111,7 +111,7 @@ RSpec.describe ResolveMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(reason: 'Test')
+        result = tool.execute(reason: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Failed to resolve conversation')
@@ -124,7 +124,7 @@ RSpec.describe ResolveMcp, :aloo do
       end
 
       it 'returns error response' do
-        result = mcp.execute(reason: 'Test')
+        result = tool.execute(reason: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Conversation context required')
@@ -133,17 +133,17 @@ RSpec.describe ResolveMcp, :aloo do
   end
 
   describe 'activity message attributes' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     it 'sets message_type to activity' do
-      mcp.execute(reason: 'Issue resolved')
+      tool.execute(reason: 'Issue resolved')
 
       message = conversation.messages.where(private: false).last
       expect(message.message_type).to eq('activity')
     end
 
     it 'sets content_attributes with resolution marker' do
-      mcp.execute(reason: 'Issue resolved')
+      tool.execute(reason: 'Issue resolved')
 
       message = conversation.messages.where(private: false).last
       expect(message.content_attributes['aloo_resolved']).to be true
@@ -152,10 +152,10 @@ RSpec.describe ResolveMcp, :aloo do
   end
 
   describe 'summary note attributes' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     it 'sets content_attributes with summary marker' do
-      mcp.execute(reason: 'Issue resolved', summary: 'Test summary')
+      tool.execute(reason: 'Issue resolved', summary: 'Test summary')
 
       note = conversation.messages.where(private: true).last
       expect(note.content_attributes['aloo_resolution_summary']).to be true

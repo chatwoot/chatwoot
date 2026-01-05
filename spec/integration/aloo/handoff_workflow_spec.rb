@@ -40,11 +40,11 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
       message = create(:message, conversation: conversation, message_type: :incoming, content: 'I want to speak to a human')
       event = Events::Base.new('message.created', Time.zone.now, message: message)
 
-      expect {
+      expect do
         perform_enqueued_jobs do
           AlooAgentListener.instance.message_created(event)
         end
-      }.not_to change { conversation.messages.where(sender_type: 'Aloo::Assistant').count }
+      end.not_to(change { conversation.messages.where(sender_type: 'Aloo::Assistant').count })
     end
 
     it 'updates conversation status to open' do
@@ -113,11 +113,11 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
         message = create(:message, conversation: conversation, message_type: :incoming, content: 'New question')
         message_event = Events::Base.new('message.created', Time.zone.now, message: message)
 
-        expect {
+        expect do
           perform_enqueued_jobs do
             AlooAgentListener.instance.message_created(message_event)
           end
-        }.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
+        end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
       end
     end
   end
@@ -140,9 +140,9 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
     end
 
     it 'assigns to team agent when team specified' do
-      mcp = HandoffMcp.new
+      tool = HandoffTool.new
 
-      result = mcp.execute(
+      result = tool.execute(
         reason: 'Billing question',
         priority: 'normal',
         preferred_team: 'Billing'
@@ -152,16 +152,16 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
     end
 
     it 'creates handoff note with team info' do
-      mcp = HandoffMcp.new
+      tool = HandoffTool.new
 
-      expect {
-        mcp.execute(
+      expect do
+        tool.execute(
           reason: 'Billing dispute',
           priority: 'high',
           summary: 'Customer disputing charge',
           preferred_team: 'Billing'
         )
-      }.to change { conversation.messages.where(private: true).count }.by(1)
+      end.to change { conversation.messages.where(private: true).count }.by(1)
 
       note = conversation.messages.where(private: true).last
       expect(note.content).to include('Billing dispute')

@@ -4,10 +4,10 @@
 # Used by AI agent to route conversations to appropriate teams or specialists
 #
 # Example usage in agent:
-#   chat.with_tools([AssignMcp])
+#   chat.with_tools([AssignTool])
 #   response = chat.ask("This is a billing issue, assign to the billing team")
 #
-class AssignMcp < BaseMcp
+class AssignTool < BaseTool
   description 'Assign this conversation to a team or specific agent. Use when: ' \
               '1) The issue requires specialized expertise, ' \
               '2) Routing to a specific department is needed, ' \

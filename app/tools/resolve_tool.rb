@@ -4,10 +4,10 @@
 # Used by AI agent to mark conversations as resolved when the issue is addressed
 #
 # Example usage in agent:
-#   chat.with_tools([ResolveMcp])
+#   chat.with_tools([ResolveTool])
 #   response = chat.ask("The customer's question has been answered, resolve the conversation")
 #
-class ResolveMcp < BaseMcp
+class ResolveTool < BaseTool
   description 'Resolve this conversation. Use when: ' \
               '1) The customer issue has been fully addressed, ' \
               '2) The customer confirms their question is answered, ' \

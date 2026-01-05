@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Base class for Aloo MCP (Model Context Protocol) tools
-# MCPs are tools that can be called by the AI agent during conversation
+# Base class for Aloo AI agent tools
+# Tools are capabilities that can be called by the AI agent during conversation
 #
 # Usage:
-#   class MyTool < BaseMcp
+#   class MyTool < BaseTool
 #     description "Does something useful"
 #     param :query, type: :string, desc: "The search query", required: true
 #
@@ -13,8 +13,7 @@
 #     end
 #   end
 #
-class BaseMcp < RubyLLM::Tool
-
+class BaseTool < RubyLLM::Tool
   class << self
     # Access the current context set before tool execution
     def current_context

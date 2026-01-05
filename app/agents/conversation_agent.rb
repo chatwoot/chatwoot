@@ -40,13 +40,13 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    available_tools = [FaqLookupMcp]
-    available_tools << HandoffMcp if current_assistant&.feature_handoff_enabled?
-    available_tools << ResolveMcp if current_assistant&.feature_resolve_enabled?
-    available_tools << SnoozeMcp if current_assistant&.feature_snooze_enabled?
-    available_tools << LabelsMcp if current_assistant&.feature_labels_enabled?
-    available_tools << AssignMcp if current_assistant&.feature_handoff_enabled?
-    available_tools << PrivateNoteMcp
+    available_tools = [FaqLookupTool]
+    available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
+    available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
+    available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?
+    available_tools << LabelsTool if current_assistant&.feature_labels_enabled?
+    available_tools << AssignTool if current_assistant&.feature_handoff_enabled?
+    available_tools << PrivateNoteTool
     available_tools
   end
 

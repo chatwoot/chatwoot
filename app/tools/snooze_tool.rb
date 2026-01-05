@@ -4,10 +4,10 @@
 # Used by AI agent to temporarily pause conversations when follow-up is needed later
 #
 # Example usage in agent:
-#   chat.with_tools([SnoozeMcp])
+#   chat.with_tools([SnoozeTool])
 #   response = chat.ask("Snooze this for 2 hours while the customer checks their order")
 #
-class SnoozeMcp < BaseMcp
+class SnoozeTool < BaseTool
   description 'Snooze this conversation until a specified time. Use when: ' \
               '1) The customer needs time to take action (check order, try solution), ' \
               '2) Following up later is needed, ' \

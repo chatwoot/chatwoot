@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe HandoffMcp, aloo: true do
+RSpec.describe HandoffTool, :aloo do
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, account: account) }
   let(:inbox) { create(:inbox, account: account) }
@@ -26,15 +26,15 @@ RSpec.describe HandoffMcp, aloo: true do
   end
 
   describe '#execute' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     context 'with valid context' do
       it 'validates context' do
-        expect { mcp.execute(reason: 'Customer requested') }.not_to raise_error
+        expect { tool.execute(reason: 'Customer requested') }.not_to raise_error
       end
 
       it 'normalizes priority' do
-        result = mcp.execute(reason: 'Test', priority: 'invalid')
+        result = tool.execute(reason: 'Test', priority: 'invalid')
 
         expect(result[:success]).to be true
       end
@@ -45,25 +45,25 @@ RSpec.describe HandoffMcp, aloo: true do
         agent_bot = create(:agent_bot, account: account)
         create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
 
-        mcp.execute(reason: 'Customer requested human')
+        tool.execute(reason: 'Customer requested human')
 
         expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be true
       end
 
       it 'updates conversation status to open' do
-        mcp.execute(reason: 'Customer requested human')
+        tool.execute(reason: 'Customer requested human')
 
         expect(conversation.reload.status).to eq('open')
       end
 
       it 'adds handoff note as private message' do
-        expect {
-          mcp.execute(reason: 'Too complex', summary: 'Customer needs refund')
-        }.to change { conversation.messages.where(private: true).count }.by(1)
+        expect do
+          tool.execute(reason: 'Too complex', summary: 'Customer needs refund')
+        end.to change { conversation.messages.where(private: true).count }.by(1)
       end
 
       it 'tracks handoff in conversation context' do
-        mcp.execute(reason: 'Customer frustrated')
+        tool.execute(reason: 'Customer frustrated')
 
         context = Aloo::ConversationContext.find_by(conversation: conversation)
         expect(context.tool_history).not_to be_empty
@@ -74,21 +74,21 @@ RSpec.describe HandoffMcp, aloo: true do
         expect_any_instance_of(described_class).to receive(:log_execution)
           .with(hash_including(reason: 'Test reason'), anything)
 
-        mcp.execute(reason: 'Test reason')
+        tool.execute(reason: 'Test reason')
       end
     end
 
     context 'with priority levels' do
       described_class::PRIORITY_LEVELS.each do |priority|
         it "accepts #{priority} priority" do
-          result = mcp.execute(reason: 'Test', priority: priority)
+          result = tool.execute(reason: 'Test', priority: priority)
 
           expect(result[:success]).to be true
         end
       end
 
       it 'defaults invalid priority to normal' do
-        mcp.execute(reason: 'Test', priority: 'super-urgent')
+        tool.execute(reason: 'Test', priority: 'super-urgent')
 
         expect(conversation.reload.priority).to eq('medium')
       end
@@ -104,13 +104,13 @@ RSpec.describe HandoffMcp, aloo: true do
       end
 
       it 'tries to assign agent from team' do
-        result = mcp.execute(reason: 'Billing issue', preferred_team: 'Billing')
+        result = tool.execute(reason: 'Billing issue', preferred_team: 'Billing')
 
         expect(result[:data][:assigned_agent]).to eq(agent)
       end
 
       it 'handles team not found' do
-        result = mcp.execute(reason: 'Test', preferred_team: 'NonexistentTeam')
+        result = tool.execute(reason: 'Test', preferred_team: 'NonexistentTeam')
 
         expect(result[:success]).to be true
       end
@@ -122,7 +122,7 @@ RSpec.describe HandoffMcp, aloo: true do
       end
 
       it 'does not manually assign' do
-        result = mcp.execute(reason: 'Test')
+        result = tool.execute(reason: 'Test')
 
         expect(result[:data][:assigned_agent]).to be_nil
       end
@@ -134,7 +134,7 @@ RSpec.describe HandoffMcp, aloo: true do
       end
 
       it 'logs error and returns error response' do
-        result = mcp.execute(reason: 'Test')
+        result = tool.execute(reason: 'Test')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Handoff failed')
@@ -147,30 +147,30 @@ RSpec.describe HandoffMcp, aloo: true do
       end
 
       it 'raises error' do
-        expect { mcp.execute(reason: 'Test') }.to raise_error('Conversation context required')
+        expect { tool.execute(reason: 'Test') }.to raise_error('Conversation context required')
       end
     end
   end
 
   describe 'handoff note content' do
-    let(:mcp) { described_class.new }
+    let(:tool) { described_class.new }
 
     it 'includes priority' do
-      mcp.execute(reason: 'Test', priority: 'urgent')
+      tool.execute(reason: 'Test', priority: 'urgent')
 
       note = conversation.messages.where(private: true).last
       expect(note.content).to include('Urgent')
     end
 
     it 'includes reason' do
-      mcp.execute(reason: 'Customer needs refund for damaged item')
+      tool.execute(reason: 'Customer needs refund for damaged item')
 
       note = conversation.messages.where(private: true).last
       expect(note.content).to include('Customer needs refund')
     end
 
     it 'includes summary when provided' do
-      mcp.execute(reason: 'Test', summary: 'Customer ordered product X')
+      tool.execute(reason: 'Test', summary: 'Customer ordered product X')
 
       note = conversation.messages.where(private: true).last
       expect(note.content).to include('Conversation Summary')
