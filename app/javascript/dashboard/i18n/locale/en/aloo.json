@@ -236,18 +236,10 @@
       },
       "VOICE": {
         "TITLE": "Voice Settings",
-        "DESCRIPTION": "Configure voice input and output for your AI assistant",
+        "DESCRIPTION": "Configure voice for your AI assistant",
         "VOICE_ENABLED": {
           "LABEL": "Enable Voice Features",
           "DESCRIPTION": "Turn on voice capabilities for this assistant"
-        },
-        "VOICE_INPUT": {
-          "LABEL": "Voice Input (Transcription)",
-          "DESCRIPTION": "Allow customers to send voice messages that will be transcribed to text"
-        },
-        "VOICE_OUTPUT": {
-          "LABEL": "Voice Output (Text-to-Speech)",
-          "DESCRIPTION": "Allow the assistant to respond with voice messages"
         },
         "VOICE_SELECTION": {
           "TITLE": "ElevenLabs Voice",
@@ -267,16 +259,6 @@
             "LABEL": "Similarity Boost",
             "DESCRIPTION": "Higher values make the voice closer to the original sample"
           }
-        },
-        "REPLY_MODE": {
-          "TITLE": "Reply Mode",
-          "DESCRIPTION": "How the assistant should respond to messages",
-          "TEXT_ONLY": "Text Only",
-          "TEXT_ONLY_DESCRIPTION": "Send text responses only",
-          "VOICE_ONLY": "Voice Only",
-          "VOICE_ONLY_DESCRIPTION": "Send voice message responses only",
-          "TEXT_AND_VOICE": "Text and Voice",
-          "TEXT_AND_VOICE_DESCRIPTION": "Send both text and voice responses"
         },
         "VOICES_ERROR": "Failed to load voices. Please check your ElevenLabs API key.",
         "PREVIEW_ERROR": "Failed to preview voice. Please try again.",

@@ -50,8 +50,6 @@ const assistant = ref({
   },
   admin_config: {},
   voice_enabled: false,
-  voice_input_enabled: false,
-  voice_output_enabled: false,
   voice_config: {},
 });
 
@@ -170,8 +168,6 @@ const saveChanges = async () => {
       personality_description: assistant.value.personality_description,
       admin_config: assistant.value.admin_config,
       voice_enabled: assistant.value.voice_enabled,
-      voice_input_enabled: assistant.value.voice_input_enabled,
-      voice_output_enabled: assistant.value.voice_output_enabled,
       voice_config: assistant.value.voice_config,
     });
     useAlert(t('ALOO.MESSAGES.UPDATED'));

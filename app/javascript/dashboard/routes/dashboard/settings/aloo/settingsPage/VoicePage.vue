@@ -27,12 +27,6 @@ const isPreviewPlaying = ref(false);
 const previewAudio = ref(null);
 
 const voiceEnabled = computed(() => props.assistant.voice_enabled ?? false);
-const voiceInputEnabled = computed(
-  () => props.assistant.voice_input_enabled ?? false
-);
-const voiceOutputEnabled = computed(
-  () => props.assistant.voice_output_enabled ?? false
-);
 const voiceConfig = computed(() => props.assistant.voice_config || {});
 
 const selectedVoiceId = computed(
@@ -42,27 +36,6 @@ const stability = computed(() => voiceConfig.value.elevenlabs_stability ?? 0.5);
 const similarityBoost = computed(
   () => voiceConfig.value.elevenlabs_similarity_boost ?? 0.75
 );
-const replyMode = computed(
-  () => voiceConfig.value.reply_mode || 'text_and_voice'
-);
-
-const replyModeOptions = [
-  {
-    value: 'text_only',
-    labelKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.TEXT_ONLY',
-    descriptionKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.TEXT_ONLY_DESCRIPTION',
-  },
-  {
-    value: 'voice_only',
-    labelKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.VOICE_ONLY',
-    descriptionKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.VOICE_ONLY_DESCRIPTION',
-  },
-  {
-    value: 'text_and_voice',
-    labelKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.TEXT_AND_VOICE',
-    descriptionKey: 'ALOO.SETTINGS.VOICE.REPLY_MODE.TEXT_AND_VOICE_DESCRIPTION',
-  },
-];
 
 const loadVoices = async () => {
   if (!props.assistant.id) return;
@@ -83,14 +56,6 @@ const loadVoices = async () => {
 
 const updateVoiceEnabled = value => {
   emit('update', { voice_enabled: value });
-};
-
-const updateVoiceInputEnabled = value => {
-  emit('update', { voice_input_enabled: value });
-};
-
-const updateVoiceOutputEnabled = value => {
-  emit('update', { voice_output_enabled: value });
 };
 
 const updateVoiceConfig = (key, value) => {
@@ -174,219 +139,142 @@ watch(voiceEnabled, newVal => {
         </div>
 
         <template v-if="voiceEnabled">
-          <div class="space-y-4 pl-4 border-l-2 border-n-weak">
-            <div
-              class="flex items-center justify-between p-4 rounded-lg bg-n-alpha-1 border border-n-weak"
-            >
-              <div class="flex-1 mr-4">
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_INPUT.LABEL') }}
-                </p>
-                <p class="text-xs text-n-slate-11">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_INPUT.DESCRIPTION') }}
-                </p>
+          <div class="space-y-6">
+            <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
+              <p class="text-sm font-medium text-n-slate-12 mb-3">
+                {{ $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.TITLE') }}
+              </p>
+
+              <div
+                v-if="voiceError"
+                class="mb-3 p-3 rounded bg-r-50 text-r-800 text-sm"
+              >
+                {{ voiceError }}
               </div>
-              <Switch
-                :model-value="voiceInputEnabled"
-                @update:model-value="updateVoiceInputEnabled"
-              />
-            </div>
 
-            <div
-              class="flex items-center justify-between p-4 rounded-lg bg-n-alpha-1 border border-n-weak"
-            >
-              <div class="flex-1 mr-4">
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_OUTPUT.LABEL') }}
-                </p>
-                <p class="text-xs text-n-slate-11">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_OUTPUT.DESCRIPTION') }}
-                </p>
-              </div>
-              <Switch
-                :model-value="voiceOutputEnabled"
-                @update:model-value="updateVoiceOutputEnabled"
-              />
-            </div>
-          </div>
-
-          <template v-if="voiceOutputEnabled">
-            <div class="space-y-6 mt-6">
-              <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
-                <p class="text-sm font-medium text-n-slate-12 mb-3">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.TITLE') }}
-                </p>
-
-                <div
-                  v-if="voiceError"
-                  class="mb-3 p-3 rounded bg-r-50 text-r-800 text-sm"
+              <div class="flex items-center gap-3">
+                <select
+                  :value="selectedVoiceId"
+                  :disabled="isLoadingVoices"
+                  class="flex-1 px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
+                  @change="
+                    updateVoiceConfig(
+                      'elevenlabs_voice_id',
+                      $event.target.value
+                    )
+                  "
                 >
-                  {{ voiceError }}
-                </div>
+                  <option value="" disabled>
+                    {{
+                      isLoadingVoices
+                        ? $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.LOADING')
+                        : $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.PLACEHOLDER')
+                    }}
+                  </option>
+                  <option
+                    v-for="voice in voices"
+                    :key="voice.voice_id"
+                    :value="voice.voice_id"
+                  >
+                    {{ voice.name }}
+                  </option>
+                </select>
 
-                <div class="flex items-center gap-3">
-                  <select
-                    :value="selectedVoiceId"
-                    :disabled="isLoadingVoices"
-                    class="flex-1 px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
-                    @change="
+                <Button
+                  :disabled="!selectedVoiceId || isPreviewPlaying"
+                  variant="secondary"
+                  size="small"
+                  @click="previewVoice"
+                >
+                  {{
+                    isPreviewPlaying
+                      ? $t(
+                          'ALOO.SETTINGS.VOICE.VOICE_SELECTION.PREVIEW_PLAYING'
+                        )
+                      : $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.PREVIEW')
+                  }}
+                </Button>
+              </div>
+            </div>
+
+            <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
+              <p class="text-sm font-medium text-n-slate-12 mb-4">
+                {{ $t('ALOO.SETTINGS.VOICE.VOICE_SETTINGS.TITLE') }}
+              </p>
+
+              <div class="space-y-6">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm text-n-slate-12">
+                      {{
+                        $t('ALOO.SETTINGS.VOICE.VOICE_SETTINGS.STABILITY.LABEL')
+                      }}
+                    </label>
+                    <span class="text-sm text-n-slate-11 font-mono">
+                      {{ stability.toFixed(2) }}
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    :value="stability"
+                    class="w-full h-2 bg-n-slate-6 rounded-lg appearance-none cursor-pointer accent-n-brand"
+                    @input="
                       updateVoiceConfig(
-                        'elevenlabs_voice_id',
-                        $event.target.value
+                        'elevenlabs_stability',
+                        parseFloat($event.target.value)
                       )
                     "
-                  >
-                    <option value="" disabled>
-                      {{
-                        isLoadingVoices
-                          ? $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.LOADING')
-                          : $t(
-                              'ALOO.SETTINGS.VOICE.VOICE_SELECTION.PLACEHOLDER'
-                            )
-                      }}
-                    </option>
-                    <option
-                      v-for="voice in voices"
-                      :key="voice.voice_id"
-                      :value="voice.voice_id"
-                    >
-                      {{ voice.name }}
-                    </option>
-                  </select>
-
-                  <Button
-                    :disabled="!selectedVoiceId || isPreviewPlaying"
-                    variant="secondary"
-                    size="small"
-                    @click="previewVoice"
-                  >
+                  />
+                  <p class="text-xs text-n-slate-11 mt-1">
                     {{
-                      isPreviewPlaying
-                        ? $t(
-                            'ALOO.SETTINGS.VOICE.VOICE_SELECTION.PREVIEW_PLAYING'
-                          )
-                        : $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.PREVIEW')
+                      $t(
+                        'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.STABILITY.DESCRIPTION'
+                      )
                     }}
-                  </Button>
+                  </p>
                 </div>
-              </div>
 
-              <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
-                <p class="text-sm font-medium text-n-slate-12 mb-4">
-                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_SETTINGS.TITLE') }}
-                </p>
-
-                <div class="space-y-6">
-                  <div>
-                    <div class="flex items-center justify-between mb-2">
-                      <label class="text-sm text-n-slate-12">
-                        {{
-                          $t(
-                            'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.STABILITY.LABEL'
-                          )
-                        }}
-                      </label>
-                      <span class="text-sm text-n-slate-11 font-mono">
-                        {{ stability.toFixed(2) }}
-                      </span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      :value="stability"
-                      class="w-full h-2 bg-n-slate-6 rounded-lg appearance-none cursor-pointer accent-n-brand"
-                      @input="
-                        updateVoiceConfig(
-                          'elevenlabs_stability',
-                          parseFloat($event.target.value)
-                        )
-                      "
-                    />
-                    <p class="text-xs text-n-slate-11 mt-1">
+                <div>
+                  <div class="flex items-center justify-between mb-2">
+                    <label class="text-sm text-n-slate-12">
                       {{
                         $t(
-                          'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.STABILITY.DESCRIPTION'
+                          'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.SIMILARITY_BOOST.LABEL'
                         )
                       }}
-                    </p>
+                    </label>
+                    <span class="text-sm text-n-slate-11 font-mono">
+                      {{ similarityBoost.toFixed(2) }}
+                    </span>
                   </div>
-
-                  <div>
-                    <div class="flex items-center justify-between mb-2">
-                      <label class="text-sm text-n-slate-12">
-                        {{
-                          $t(
-                            'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.SIMILARITY_BOOST.LABEL'
-                          )
-                        }}
-                      </label>
-                      <span class="text-sm text-n-slate-11 font-mono">
-                        {{ similarityBoost.toFixed(2) }}
-                      </span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0"
-                      max="1"
-                      step="0.05"
-                      :value="similarityBoost"
-                      class="w-full h-2 bg-n-slate-6 rounded-lg appearance-none cursor-pointer accent-n-brand"
-                      @input="
-                        updateVoiceConfig(
-                          'elevenlabs_similarity_boost',
-                          parseFloat($event.target.value)
-                        )
-                      "
-                    />
-                    <p class="text-xs text-n-slate-11 mt-1">
-                      {{
-                        $t(
-                          'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.SIMILARITY_BOOST.DESCRIPTION'
-                        )
-                      }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
-                <p class="text-sm font-medium text-n-slate-12 mb-1">
-                  {{ $t('ALOO.SETTINGS.VOICE.REPLY_MODE.TITLE') }}
-                </p>
-                <p class="text-xs text-n-slate-11 mb-4">
-                  {{ $t('ALOO.SETTINGS.VOICE.REPLY_MODE.DESCRIPTION') }}
-                </p>
-
-                <div class="space-y-3">
-                  <label
-                    v-for="option in replyModeOptions"
-                    :key="option.value"
-                    class="flex items-start gap-3 p-3 rounded-lg cursor-pointer hover:bg-n-alpha-2 transition-colors"
-                    :class="{ 'bg-n-alpha-2': replyMode === option.value }"
-                  >
-                    <input
-                      type="radio"
-                      name="reply_mode"
-                      :value="option.value"
-                      :checked="replyMode === option.value"
-                      class="mt-0.5 accent-n-brand"
-                      @change="updateVoiceConfig('reply_mode', option.value)"
-                    />
-                    <div>
-                      <p class="text-sm font-medium text-n-slate-12">
-                        {{ $t(option.labelKey) }}
-                      </p>
-                      <p class="text-xs text-n-slate-11">
-                        {{ $t(option.descriptionKey) }}
-                      </p>
-                    </div>
-                  </label>
+                  <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.05"
+                    :value="similarityBoost"
+                    class="w-full h-2 bg-n-slate-6 rounded-lg appearance-none cursor-pointer accent-n-brand"
+                    @input="
+                      updateVoiceConfig(
+                        'elevenlabs_similarity_boost',
+                        parseFloat($event.target.value)
+                      )
+                    "
+                  />
+                  <p class="text-xs text-n-slate-11 mt-1">
+                    {{
+                      $t(
+                        'ALOO.SETTINGS.VOICE.VOICE_SETTINGS.SIMILARITY_BOOST.DESCRIPTION'
+                      )
+                    }}
+                  </p>
                 </div>
               </div>
             </div>
-          </template>
+          </div>
         </template>
 
         <div class="pt-4">
