@@ -44,6 +44,14 @@ conversations:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
+  contact_id:
+    attribute_type: "standard"
+    data_type: "number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+      - "is_present"
+      - "is_not_present"
   priority:
     attribute_type: "standard"
     data_type: "text"
