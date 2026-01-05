@@ -247,7 +247,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.string "title"
     t.string "source_type", null: false
     t.string "source_url"
-    t.text "content"
     t.jsonb "metadata", default: {}
     t.integer "status", default: 0
     t.string "error_message"
@@ -1329,10 +1328,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.integer "tool_calls_count", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.json "attempts", default: [], null: false
+    t.integer "attempts_count", default: 0, null: false
+    t.string "chosen_model_id"
+    t.json "fallback_chain", default: [], null: false
+    t.string "workflow_id"
+    t.string "workflow_type"
+    t.string "workflow_step"
+    t.string "routed_to"
+    t.json "classification_result"
     t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
     t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
     t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
     t.index ["agent_type"], name: "index_ruby_llm_agents_executions_on_agent_type"
+    t.index ["attempts_count"], name: "index_ruby_llm_agents_executions_on_attempts_count"
+    t.index ["chosen_model_id"], name: "index_ruby_llm_agents_executions_on_chosen_model_id"
     t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
     t.index ["duration_ms"], name: "index_ruby_llm_agents_executions_on_duration_ms"
     t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
@@ -1343,6 +1353,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["tool_calls_count"], name: "index_ruby_llm_agents_executions_on_tool_calls_count"
     t.index ["total_cost"], name: "index_ruby_llm_agents_executions_on_total_cost"
     t.index ["trace_id"], name: "index_ruby_llm_agents_executions_on_trace_id"
+    t.index ["workflow_id", "workflow_step"], name: "idx_on_workflow_id_workflow_step_85a6d10aef"
+    t.index ["workflow_id"], name: "index_ruby_llm_agents_executions_on_workflow_id"
+    t.index ["workflow_type"], name: "index_ruby_llm_agents_executions_on_workflow_type"
   end
 
   create_table "sla_events", force: :cascade do |t|

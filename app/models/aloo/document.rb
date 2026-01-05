@@ -60,5 +60,17 @@ module Aloo
     def chunk_count
       embeddings.count
     end
+
+    # Process document synchronously (blocking)
+    def process_sync!
+      Aloo::ProcessDocumentJob.new.perform(id)
+    end
+
+    # Clear and re-process from scratch
+    def reprocess!
+      embeddings.destroy_all
+      update!(status: :pending, error_message: nil)
+      process_async!
+    end
   end
 end

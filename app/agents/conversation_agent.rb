@@ -21,11 +21,6 @@ class ConversationAgent < ApplicationAgent
   param :message, required: true
   param :conversation_history
 
-  # Dynamic model based on assistant configuration
-  def model
-    current_assistant&.model || 'gemini-2.0-flash'
-  end
-
   def system_prompt
     parts = []
     parts << base_instructions

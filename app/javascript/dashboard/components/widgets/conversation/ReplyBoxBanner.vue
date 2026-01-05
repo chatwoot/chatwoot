@@ -47,7 +47,6 @@ const isAssignedToOtherAgent = computed(
   () => assignedAgent.value?.id !== currentUser.value?.id
 );
 
-const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
 const isCurrentUserHuman = computed(() => !currentUser.value?.is_ai);
 
 // Aloo AI Assistant handling
@@ -95,15 +94,8 @@ const showAlooReturnToAIBanner = computed(() => {
   );
 });
 
-const showAIHandoffBanner = computed(() => {
-  return (
-    isAssignedToAI.value && isCurrentUserHuman.value && !props.isOnPrivateNote
-  );
-});
-
 const showSelfAssignBanner = computed(() => {
-  // Don't show self-assign banner when AI is assigned or Aloo AI is handling
-  if (isAssignedToAI.value) return false;
+  // Don't show self-assign banner when Aloo AI is handling
   if (isAlooAIHandling.value) return false;
   return (
     isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
@@ -161,15 +153,6 @@ const onClickBotHandoff = async () => {
   }
 };
 
-const onClickAIHandoff = async () => {
-  try {
-    await selfAssignConversation();
-    useAlert(t('CONVERSATION.AI_HANDOFF.HANDOFF_SUCCESS'));
-  } catch (error) {
-    useAlert(t('CONVERSATION.AI_HANDOFF.HANDOFF_ERROR'));
-  }
-};
-
 // Aloo: Return conversation to AI (clear handoff flag, unassign)
 const onClickAlooReturnToAI = async () => {
   try {
@@ -218,17 +201,6 @@ const onClickAlooReturnToAI = async () => {
     action-button-icon="i-lucide-bot"
     :action-button-label="$t('CONVERSATION.ALOO.RETURN_TO_AI_BUTTON')"
     @primary-action="onClickAlooReturnToAI"
-  />
-  <Banner
-    v-if="showAIHandoffBanner"
-    action-button-variant="ghost"
-    color-scheme="warning"
-    class="mx-2 mb-2 rounded-lg !py-3"
-    :banner-message="$t('CONVERSATION.AI_HANDOFF.BANNER_MESSAGE')"
-    has-action-button
-    action-button-icon="i-lucide-user-check"
-    :action-button-label="$t('CONVERSATION.AI_HANDOFF.HANDOFF_BUTTON')"
-    @primary-action="onClickAIHandoff"
   />
   <Banner
     v-if="showSelfAssignBanner && !showBotHandoffBanner"

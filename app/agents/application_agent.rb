@@ -16,7 +16,7 @@
 #
 class ApplicationAgent < RubyLLM::Agents::Base
   # Default model configuration for all agents
-  model 'gemini-2.0-flash'
+  model 'gpt-4o-mini'
   temperature 0.7
   version '1.0'
   timeout 60

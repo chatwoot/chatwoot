@@ -1,14 +1,12 @@
 GIT
   remote: https://github.com/adham90/ruby_llm-agents
-  revision: 6ccc55ffa89caf0f049e51abeeb3c9e12489d119
+  revision: 213947ce56cb0e7ca5d5321a4b1b32c3b8998bb2
   branch: main
   specs:
     ruby_llm-agents (0.3.4)
       csv
       rails (>= 7.0)
       ruby_llm (>= 1.0)
-      stimulus-rails (>= 1.0)
-      turbo-rails (>= 1.0)
 
 GIT
   remote: https://github.com/chatwoot/azure-storage-ruby
@@ -977,8 +975,6 @@ GEM
     squasher (0.7.2)
     stackprof (0.2.25)
     statsd-ruby (1.5.0)
-    stimulus-rails (1.3.4)
-      railties (>= 6.0.0)
     stringio (3.2.0)
     stripe (18.0.1)
     svix (1.83.0)

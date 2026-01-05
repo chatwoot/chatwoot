@@ -128,7 +128,7 @@ module Aloo
 
     # Admin config accessors with defaults
     def model
-      admin_config['model'] || 'gemini-2.0-flash'
+      admin_config['model'] || 'gpt-4.1-mini'
     end
 
     def temperature

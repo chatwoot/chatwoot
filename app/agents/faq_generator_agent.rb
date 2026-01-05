@@ -7,7 +7,6 @@
 #   result.content  # => [{ question: "...", answer: "...", topics: [...], confidence: 0.8 }]
 #
 class FaqGeneratorAgent < ApplicationAgent
-  model 'gemini-2.0-flash'
   temperature 0.5
   version '1.0'
 

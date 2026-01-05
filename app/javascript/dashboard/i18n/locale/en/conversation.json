@@ -41,15 +41,9 @@
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
-    "AI_HANDOFF": {
-      "HEADER_BADGE": "AI Agent",
-      "HEADER_TOOLTIP": "This conversation is being handled by AI agent {agentName}",
-      "BANNER_MESSAGE": "This conversation is currently being handled by an AI agent. To respond, you must take over the conversation.",
-      "HANDOFF_BUTTON": "Take over conversation",
-      "HANDOFF_SUCCESS": "Conversation has been assigned to you",
-      "HANDOFF_ERROR": "Failed to take over the conversation. Please try again."
-    },
     "ALOO": {
+      "HEADER_BADGE": "AI",
+      "HEADER_TOOLTIP": "{agentName} is handling this conversation",
       "AUTO_HANDOFF_MESSAGE": "{assistantName} is handling this conversation. When you send a message, you'll be assigned and AI will stop responding.",
       "RETURN_TO_AI_MESSAGE": "You're handling this conversation. Click to return it to {assistantName}.",
       "RETURN_TO_AI_BUTTON": "Return to AI",

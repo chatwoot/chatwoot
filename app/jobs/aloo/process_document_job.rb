@@ -37,9 +37,6 @@ module Aloo
         chunks = chunk_content(content)
         return mark_failed('No chunks created') if chunks.empty?
 
-        # Store raw content
-        @document.update!(content: content)
-
         # Create embeddings for each chunk
         create_embeddings(chunks)
 
@@ -123,7 +120,9 @@ module Aloo
     end
 
     def process_text
-      @document.file.download
+      content = @document.file.download
+      content.force_encoding('UTF-8')
+      content.encode('UTF-8', invalid: :replace, undef: :replace, replace: '')
     rescue StandardError => e
       Rails.logger.error("[Aloo::ProcessDocumentJob] Text processing failed: #{e.message}")
       nil

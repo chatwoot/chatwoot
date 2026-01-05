@@ -554,7 +554,7 @@
 - name: ALOO_DEFAULT_MODEL
   display_title: 'Default Chat Model'
   description: 'Default LLM model for conversations (e.g., gemini-2.0-flash, gpt-4o, claude-sonnet-4)'
-  value: 'gemini-2.0-flash'
+  value: 'gpt-4.1-mini'
   locked: false
 - name: ALOO_EMBEDDING_MODEL
   display_title: 'Embedding Model'
