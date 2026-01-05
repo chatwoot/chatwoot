@@ -154,13 +154,6 @@ const STYLE_CONFIG = {
         'text-n-teal-9 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
     },
   },
-  iconColor: {
-    blue: 'text-n-blue-11',
-    ruby: 'text-n-ruby-11',
-    amber: 'text-n-amber-11',
-    slate: 'text-n-slate-11',
-    teal: 'text-n-teal-11',
-  },
   sizes: {
     regular: {
       xs: 'h-6 px-2 rounded-lg',
@@ -241,6 +234,12 @@ const animationClasses = computed(() => {
     ? ''
     : STYLE_CONFIG.clickAnimation[computedSize.value];
 });
+
+const iconClasses = computed(() => {
+  return computedColor.value === 'slate' && !isIconOnly.value
+    ? 'text-n-slate-11'
+    : '';
+});
 </script>
 
 <template>
@@ -256,11 +255,7 @@ const animationClasses = computed(() => {
     }"
   >
     <slot v-if="(icon || $slots.icon) && !isLoading" name="icon">
-      <Icon
-        :icon="icon"
-        class="flex-shrink-0"
-        :class="STYLE_CONFIG.iconColor[computedColor]"
-      />
+      <Icon :icon="icon" class="flex-shrink-0" :class="iconClasses" />
     </slot>
 
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
