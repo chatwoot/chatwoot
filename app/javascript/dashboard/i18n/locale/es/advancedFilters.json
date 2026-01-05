@@ -49,6 +49,7 @@
       "ASSIGNEE_NAME": "Nombre Asignado",
       "INBOX_NAME": "Nombre de la bandeja de entrada",
       "TEAM_NAME": "Nombre del equipo",
+      "CONTACT_NAME": "Contact name",
       "CONVERSATION_IDENTIFIER": "Identificador de conversacion",
       "CAMPAIGN_NAME": "Nombre de Campaña",
       "LABELS": "Etiquetas",
