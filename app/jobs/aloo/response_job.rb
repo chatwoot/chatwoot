@@ -111,7 +111,7 @@ module Aloo
     def check_handoff_triggered(result)
       return false unless result.respond_to?(:tool_calls) && result.tool_calls
 
-      result.tool_calls.any? { |tc| tc.name == 'handoff' }
+      result.tool_calls.any? { |tc| tc['name'] == 'handoff' }
     end
 
     def build_content_attributes(result)
@@ -120,7 +120,7 @@ module Aloo
         'aloo_assistant_id' => @assistant.id,
         'input_tokens' => result.input_tokens,
         'output_tokens' => result.output_tokens,
-        'tool_calls' => result.tool_calls&.map(&:name)
+        'tool_calls' => result.tool_calls&.map { |tc| tc['name'] }
       }
     end
 

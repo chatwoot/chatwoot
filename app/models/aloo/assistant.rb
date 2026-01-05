@@ -191,6 +191,16 @@ module Aloo
       }
     end
 
+    # Serialization for webhook payloads
+    # Used by WebhookListener when dispatching typing events
+    def webhook_data
+      {
+        id: id,
+        name: name,
+        type: 'aloo_assistant'
+      }
+    end
+
     # Required for ActionCableListener compatibility when dispatching typing events
     # Returns nil since assistants don't have their own pubsub token
     def pubsub_token
