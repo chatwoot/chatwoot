@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
+<html xmlns="http://www.w3.org/1999/xhtml" style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
   <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title></title>
+    <title>AlooChat</title>
     <style type="text/css">
       img {
         max-width: 100%;
@@ -13,12 +13,21 @@
         -webkit-font-smoothing: antialiased;
         -webkit-text-size-adjust: none;
         height: 100%;
-        line-height: 1.6em;
+        line-height: 1.7em;
         width: 100% !important;
       }
 
       body {
-        background-color: #F8FAFC;
+        background-color: #F5F5F5;
+      }
+
+      a {
+        color: #2E4AFF;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
       }
 
       @media only screen and (max-width: 640px) {
@@ -27,21 +36,21 @@
         }
         h1 {
           font-size: 22px !important;
-          font-weight: 800 !important;
+          font-weight: 700 !important;
           margin: 20px 0 5px !important;
         }
         h2 {
           font-size: 18px !important;
-          font-weight: 800 !important;
+          font-weight: 700 !important;
           margin: 20px 0 5px !important;
         }
         h3 {
           font-size: 16px !important;
-          font-weight: 800 !important;
+          font-weight: 700 !important;
           margin: 20px 0 5px !important;
         }
         h4 {
-          font-weight: 800 !important;
+          font-weight: 700 !important;
           margin: 20px 0 5px !important;
         }
         .container {
@@ -52,20 +61,29 @@
           padding: 0 !important;
         }
         .content-wrap {
-          padding: 10px !important;
+          padding: 16px !important;
         }
       }
     </style>
   </head>
 
-  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 14px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.6em; background-color: #F8FAFC; margin: 0;" bgcolor="#F8FAFC">
-    <table class="body-wrap" style="width: 100%; background-color: #F8FAFC; margin: 0;" bgcolor="#F8FAFC">
+  <body itemscope itemtype="http://schema.org/EmailMessage" style="font-size: 15px; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; box-sizing: border-box; -webkit-font-smoothing: antialiased; -webkit-text-size-adjust: none; width: 100% !important; height: 100%; line-height: 1.7em; background-color: #F5F5F5; margin: 0; padding: 0;" bgcolor="#F5F5F5">
+    <table class="body-wrap" style="width: 100%; background-color: #F5F5F5; margin: 0; padding: 40px 0;" bgcolor="#F5F5F5">
       <tr style="margin: 0;">
         <td class="container" width="600" style="display: block !important; max-width: 600px !important; clear: both !important; margin: 0 auto;" valign="top">
-          <div class="content" style="display: block; margin: 0 auto; padding: 20px; text-align:center;">
-            <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="border-radius: 6px;  background-color: #fff; text-align:left; margin: 0; border: 1px solid #e9e9e9; border-top:3px solid #0080f8;" bgcolor="#fff">
+          <div class="content" style="display: block; margin: 0 auto; padding: 0 20px; text-align: center;">
+            <!-- Logo Section -->
+            <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0 0 24px 0;">
+              <tr>
+                <td style="text-align: center; padding: 0;">
+                  <img src="https://studio.aloochat.ai/api/webhook/logo?name=mail-logo.png" alt="AlooChat" width="180" height="40" style="max-width: 180px; height: auto; display: block; margin: 0 auto; border: 0; outline: none; text-decoration: none;" />
+                </td>
+              </tr>
+            </table>
+            <!-- Main Content Card -->
+            <table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="border-radius: 16px; background-color: #ffffff; text-align: left; margin: 0; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); border: none;" bgcolor="#ffffff">
               <tr style="margin: 0;">
-                <td class="content-wrap" style="vertical-align: top; margin: 0; padding: 20px; font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;" valign="top">
+                <td class="content-wrap" style="vertical-align: top; margin: 0; padding: 32px; font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1f2937;" valign="top">
                   <table width="100%" cellpadding="0" cellspacing="0" style="margin: 0;">
                     {{ content_for_layout }}
                   </table>
@@ -73,15 +91,20 @@
               </tr>
             </table>
           </div>
-          <div class="footer" style="color: #93AFC8; margin: 0; padding: 0 20px 40px; text-align: center">
+          <!-- Footer -->
+          <div class="footer" style="margin: 0; padding: 32px 20px 40px; text-align: center;">
             <table width="100%" style="margin: 0;">
               <tr style="margin: 0;">
-                <td class="content-block" style="font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    Powered by
-                    <a href="https://aloochat.ai" style="vertical-align: top; color: #93AFC8; text-align: center; margin: 0; padding: 0 0 20px;" align="center" valign="top">
-                      AlooChat
-                    </a>
-                  </td>
+                <td style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; vertical-align: top; margin: 0; padding: 0; font-size: 13px; color: #6b7280;" valign="top">
+                  <p style="margin: 0 0 8px 0;">
+                    <a href="https://aloochat.ai" style="color: #2E4AFF; text-decoration: none; font-weight: 500;">AlooChat</a>
+                    &nbsp;·&nbsp;
+                    <span style="color: #9ca3af;">Conversations that convert</span>
+                  </p>
+                  <p style="margin: 0; color: #9ca3af; font-size: 12px;">
+                    © 2025 AlooChat. All rights reserved.
+                  </p>
+                </td>
               </tr>
             </table>
           </div>

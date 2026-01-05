@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "S'estan carregant les converses",
     "CANNOT_REPLY": "No pots respondre degut a",
     "24_HOURS_WINDOW": "Restricció de finestra de missatges de 24 hores",
+    "48_HOURS_WINDOW": "Restricció de finestra de missatges de 48 hores",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Aquesta conversa no està assignada a tu. Vols assignar-te-la?",
     "ASSIGN_TO_ME": "Assigna'm",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Llegir més",
       "DISMISS_REPLY": "Ignora la resposta",
       "REPLYING_TO": "Responent a:",
-      "TIP_FORMAT_ICON": "Mostra l'editor de text enriquit",
       "TIP_EMOJI_ICON": "Mostra la selecció d'emoticones",
       "TIP_ATTACH_ICON": "Ajuntar fitxers",
       "TIP_AUDIORECORDER_ICON": "Gravar àudio",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hola 👋, Benvingut a {installationName}!",
-    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de {installationName}. Aquí teniu algunes coses que pots fer a {installationName} perquè l'experiència sigui agradable.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hola 👋, Benvingut a AlooChat!",
+    "DESCRIPTION": "Gràcies per registrar-te. Volem que treguis el màxim profit de AlooChat. Aquí teniu algunes coses que pots fer a AlooChat perquè l'experiència sigui agradable.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Llegiu les nostres últimes actualitzacions",
     "ALL_CONVERSATION": {
       "TITLE": "Totes les teves converses en un sol lloc",

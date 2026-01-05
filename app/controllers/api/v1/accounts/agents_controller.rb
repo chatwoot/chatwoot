@@ -25,6 +25,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   def create_ai_agent
     Rails.logger.info "[Agent#create_ai_agent]: #{ai_agent_params.inspect}"
     builder = AgentBuilder.new(
+      email: ai_agent_params[:email],
       name: ai_agent_params[:name],
       is_ai: ai_agent_params[:is_ai],
       ai_agent_id: ai_agent_params[:ai_agent_id],
@@ -98,7 +99,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def ai_agent_params
-    params.require(:agent).permit(:name, :is_ai, :ai_agent_id, :agent_key, :human_agent_id)
+    params.require(:agent).permit(:name, :is_ai, :email, :ai_agent_id, :agent_key, :human_agent_id)
   end
 
   def agents

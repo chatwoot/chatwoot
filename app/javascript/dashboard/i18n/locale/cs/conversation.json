@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "48_HOURS_WINDOW": "48 hodinové omezení okna",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Tato konverzace vám není přiřazena. Chcete si přiřadit tuto konverzaci?",
     "ASSIGN_TO_ME": "Přiřadit mi",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
       "TIP_AUDIORECORDER_ICON": "Nahrát zvuk",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Ahoj, 👋, Vítejte na {installationName}!",
-    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z {installationName}. Zde je několik věcí, které můžete v {installationName} udělat, abyste udělali zážitek příjemný.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Ahoj, 👋, Vítejte na AlooChat!",
+    "DESCRIPTION": "Děkujeme za registraci. Chceme, abyste získali maximum z AlooChat. Zde je několik věcí, které můžete v AlooChat udělat, abyste udělali zážitek příjemný.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Přečtěte si nejnovější aktualizace",
     "ALL_CONVERSATION": {
       "TITLE": "Všechny vaše konverzace na jednom místě",

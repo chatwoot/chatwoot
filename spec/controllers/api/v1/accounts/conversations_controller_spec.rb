@@ -985,4 +985,52 @@ RSpec.describe 'Conversations API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v1/accounts/{account.id}/conversations/unread_counts' do
+    let(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      before do
+        create(:inbox_member, user: agent, inbox: inbox)
+      end
+
+      it 'returns correct JSON structure' do
+        create(:conversation, account: account, inbox: inbox, has_unread_messages: true, status: :open)
+
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = response.parsed_body
+        expect(body).to have_key('by_inbox')
+        expect(body).to have_key('by_label')
+        expect(body).to have_key('by_status')
+        expect(body).to have_key('total')
+      end
+
+      it 'returns counts scoped to accessible inboxes' do
+        create(:conversation, account: account, inbox: inbox, has_unread_messages: true, status: :open)
+        other_inbox = create(:inbox, account: account)
+        create(:conversation, account: account, inbox: other_inbox, has_unread_messages: true, status: :open)
+
+        get "/api/v1/accounts/#{account.id}/conversations/unread_counts",
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        body = response.parsed_body
+        expect(body['total']).to eq(1)
+        expect(body['by_inbox'][inbox.id.to_s]).to eq(1)
+        expect(body['by_inbox'][other_inbox.id.to_s]).to be_nil
+      end
+    end
+  end
 end

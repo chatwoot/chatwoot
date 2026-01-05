@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
+    "48_HOURS_WINDOW": "48 órás üzeneti ablak megkötés",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ez a beszélgetés nincs hozzádrendelve. Szeretnéd magadhoz rendelni?",
     "ASSIGN_TO_ME": "Hozzárendelés magamhoz",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Tudj meg többet",
       "DISMISS_REPLY": "Válasz elutasítása",
       "REPLYING_TO": "Válaszolva a következőre:",
-      "TIP_FORMAT_ICON": "Rich szövegszerkesztő mutatása",
       "TIP_EMOJI_ICON": "Emoji választó mutatása",
       "TIP_ATTACH_ICON": "Fileok csatolása",
       "TIP_AUDIORECORDER_ICON": "Hangfelvétel",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hello 👋, köszöntünk a {installationName}!",
-    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a {installationName}. Itt találsz egy pár dolgot, amit a {installationName} lehetővé tesz.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hello 👋, köszöntünk a AlooChat!",
+    "DESCRIPTION": "Köszönjük, hogy feliratkoztál. Segíteni akarunk, hogy a legtöbbet hozd ki a AlooChat. Itt találsz egy pár dolgot, amit a AlooChat lehetővé tesz.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Olvasd el legfrissebbeket",
     "ALL_CONVERSATION": {
       "TITLE": "Minden beszélgetésed egy helyen",

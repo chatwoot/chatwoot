@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "De senaste 7 dagarna",
+      "LAST_14_DAYS": "De senaste 14 dagarna",
       "LAST_30_DAYS": "De senaste 30 dagarna",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Vi har inte fått tillräckligt många datapunkter för att generera en rapport, försök igen senare.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Konversationer",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",

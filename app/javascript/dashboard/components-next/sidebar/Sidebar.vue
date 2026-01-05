@@ -1,5 +1,5 @@
 <script setup>
-import { h, computed, onMounted, ref } from 'vue';
+import { h, computed, onMounted, onUnmounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -10,11 +10,17 @@ import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
+import tapSettingsAPI from 'dashboard/api/tapSettings';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
+import SidebarChangelogCard from './SidebarChangelogCard.vue';
+import YearInReviewBanner from '../year-in-review/YearInReviewBanner.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
+import LabelLeaf from './LabelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -33,10 +39,14 @@ const emit = defineEmits([
   'closeMobileSidebar',
 ]);
 
-const { accountScopedRoute } = useAccount();
+const { accountScopedRoute, isOnChatwootCloud } = useAccount();
 const store = useStore();
 const searchShortcut = useKbd([`$mod`, 'k']);
 const { t } = useI18n();
+
+const isACustomBrandedInstance = useMapGetter(
+  'globalConfig/isACustomBrandedInstance'
+);
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -74,6 +84,7 @@ const conversationCustomViews = useMapGetter(
 );
 
 const isPayzahEnabled = ref(false);
+const isTapEnabled = ref(false);
 
 const loadPayzahStatus = async () => {
   try {
@@ -82,6 +93,19 @@ const loadPayzahStatus = async () => {
   } catch (error) {
     isPayzahEnabled.value = false;
   }
+};
+
+const loadTapStatus = async () => {
+  try {
+    const response = await tapSettingsAPI.get();
+    isTapEnabled.value = !!response.data?.enabled;
+  } catch (error) {
+    isTapEnabled.value = false;
+  }
+};
+
+const fetchUnreadCounts = () => {
+  store.dispatch('conversationStats/fetchUnreadCounts');
 };
 
 onMounted(() => {
@@ -93,6 +117,13 @@ onMounted(() => {
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
   loadPayzahStatus();
+  loadTapStatus();
+  fetchUnreadCounts();
+  emitter.on('fetch_unread_counts', fetchUnreadCounts);
+});
+
+onUnmounted(() => {
+  emitter.off('fetch_unread_counts', fetchUnreadCounts);
 });
 
 const sortedInboxes = computed(() =>
@@ -102,6 +133,15 @@ const sortedInboxes = computed(() =>
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
   emit('closeMobileSidebar');
+};
+
+const onComposeOpen = toggleFn => {
+  toggleFn();
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
+};
+
+const onComposeClose = () => {
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
 };
 
 const newReportRoutes = () => [
@@ -214,13 +254,14 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
             to: accountScopedRoute('label_conversations', {
               label: label.title,
             }),
+            component: leafProps =>
+              h(LabelLeaf, {
+                label: label,
+                active: leafProps.active,
+              }),
           })),
         },
       ],
@@ -229,26 +270,70 @@ const menuItems = computed(() => {
       name: 'Captain',
       icon: 'i-woot-captain',
       label: t('SIDEBAR.CAPTAIN'),
+      activeOn: ['captain_assistants_create_index'],
       children: [
         {
-          name: 'Assistants',
-          label: t('SIDEBAR.CAPTAIN_ASSISTANTS'),
-          to: accountScopedRoute('captain_assistants_index'),
+          name: 'FAQs',
+          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
+          activeOn: [
+            'captain_assistants_responses_index',
+            'captain_assistants_responses_pending',
+          ],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_responses_index',
+          }),
         },
         {
           name: 'Documents',
           label: t('SIDEBAR.CAPTAIN_DOCUMENTS'),
-          to: accountScopedRoute('captain_documents_index'),
+          activeOn: ['captain_assistants_documents_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_documents_index',
+          }),
         },
         {
-          name: 'Responses',
-          label: t('SIDEBAR.CAPTAIN_RESPONSES'),
-          to: accountScopedRoute('captain_responses_index'),
+          name: 'Scenarios',
+          label: t('SIDEBAR.CAPTAIN_SCENARIOS'),
+          activeOn: ['captain_assistants_scenarios_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_scenarios_index',
+          }),
+        },
+        {
+          name: 'Playground',
+          label: t('SIDEBAR.CAPTAIN_PLAYGROUND'),
+          activeOn: ['captain_assistants_playground_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_playground_index',
+          }),
+        },
+        {
+          name: 'Inboxes',
+          label: t('SIDEBAR.CAPTAIN_INBOXES'),
+          activeOn: ['captain_assistants_inboxes_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_inboxes_index',
+          }),
         },
         {
           name: 'Tools',
           label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          to: accountScopedRoute('captain_tools_index'),
+          activeOn: ['captain_tools_index'],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_tools_index',
+          }),
+        },
+        {
+          name: 'Settings',
+          label: t('SIDEBAR.CAPTAIN_SETTINGS'),
+          activeOn: [
+            'captain_assistants_settings_index',
+            'captain_assistants_guidelines_index',
+            'captain_assistants_guardrails_index',
+          ],
+          to: accountScopedRoute('captain_assistants_index', {
+            navigationPath: 'captain_assistants_settings_index',
+          }),
         },
       ],
     },
@@ -315,7 +400,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-    ...(isPayzahEnabled.value
+    ...(isPayzahEnabled.value || isTapEnabled.value
       ? [
           {
             name: 'Payment Links',
@@ -339,6 +424,23 @@ const menuItems = computed(() => {
       icon: 'i-lucide-package',
       to: accountScopedRoute('catalog_index'),
       activeOn: ['catalog_index'],
+    },
+    {
+      name: 'Companies',
+      label: t('SIDEBAR.COMPANIES'),
+      icon: 'i-lucide-building-2',
+      children: [
+        {
+          name: 'All Companies',
+          label: t('SIDEBAR.ALL_COMPANIES'),
+          to: accountScopedRoute(
+            'companies_dashboard_index',
+            {},
+            { page: 1, search: undefined }
+          ),
+          activeOn: ['companies_dashboard_index'],
+        },
+      ],
     },
     {
       name: 'Reports',
@@ -578,14 +680,14 @@ const menuItems = computed(() => {
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher
-          class="flex-grow min-w-0 -mx-1"
+          class="flex-grow -mx-1 min-w-0"
           @show-create-account-modal="emit('showCreateAccountModal')"
         />
       </div>
       <div class="flex gap-2 px-2">
         <RouterLink
           :to="{ name: 'search' }"
-          class="flex items-center w-full gap-2 px-2 py-1 rounded-lg h-7 outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
+          class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3 dark:bg-n-black/30"
         >
           <span class="flex-shrink-0 i-lucide-search size-4 text-n-slate-11" />
           <span class="flex-grow text-left">
@@ -597,20 +699,20 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <ComposeConversation align-position="right">
+        <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
               class="!h-7 !bg-n-solid-3 dark:!bg-n-black/30 !outline-n-weak !text-n-slate-11"
-              @click="toggle"
+              @click="onComposeOpen(toggle)"
             />
           </template>
         </ComposeConversation>
       </div>
     </section>
-    <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
+    <nav class="grid overflow-y-scroll flex-grow gap-2 px-2 pb-5 no-scrollbar">
       <ul class="flex flex-col gap-1.5 m-0 list-none">
         <SidebarGroup
           v-for="item in menuItems"
@@ -620,11 +722,22 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="p-1 border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)] flex-shrink-0 flex justify-between gap-2 items-center"
+      class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
     >
-      <SidebarProfileMenu
-        @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+      <div
+        class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
       />
+      <YearInReviewBanner />
+      <SidebarChangelogCard
+        v-if="isOnChatwootCloud && !isACustomBrandedInstance"
+      />
+      <div
+        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+      >
+        <SidebarProfileMenu
+          @open-key-shortcut-modal="emit('openKeyShortcutModal')"
+        />
+      </div>
     </section>
   </aside>
 </template>

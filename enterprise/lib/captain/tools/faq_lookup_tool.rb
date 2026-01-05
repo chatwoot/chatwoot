@@ -28,12 +28,21 @@ class Captain::Tools::FaqLookupTool < Captain::Tools::BasePublicTool
         Question: #{response.question}
         Answer: #{response.answer}
         "
-    if response.documentable.present? && response.documentable.try(:external_link)
+    if should_show_source?(response)
       formatted_response += "
           Source: #{response.documentable.external_link}
           "
     end
 
     formatted_response
+  end
+
+  def should_show_source?(response)
+    return false if response.documentable.blank?
+    return false unless response.documentable.try(:external_link)
+
+    # Don't show source if it's a PDF placeholder
+    external_link = response.documentable.external_link
+    !external_link.start_with?('PDF:')
   end
 end

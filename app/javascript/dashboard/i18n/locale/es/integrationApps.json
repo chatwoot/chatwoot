@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Desconectar"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow es una plataforma de procesamiento del lenguaje natural para construir interfaces de conversación. Integrándolo con {installationName} permite a los bots gestionar consultas primero y transferirlas a los agentes cuando sea necesario. Ayuda a calificar a los clientes potenciales y a reducir la carga de trabajo de los agentes respondiendo a las preguntas frecuentes. Para añadir Dialogflow, cree una cuenta de servicio en la consola de Google y comparta las credenciales. Consulte la documentación para obtener más detalles"
+      "DIALOGFLOW": "Dialogflow es una plataforma de procesamiento del lenguaje natural para construir interfaces de conversación. Integrándolo con AlooChat permite a los bots gestionar consultas primero y transferirlas a los agentes cuando sea necesario. Ayuda a calificar a los clientes potenciales y a reducir la carga de trabajo de los agentes respondiendo a las preguntas frecuentes. Para añadir Dialogflow, cree una cuenta de servicio en la consola de Google y comparta las credenciales. Consulte la documentación para obtener más detalles"
     }
   }
 }

@@ -130,30 +130,39 @@ class Channel::Telegram < ApplicationRecord
   def convert_markdown_to_telegram_html(text)
     # ref: https://core.telegram.org/bots/api#html-style
 
-    # escape html tags in text. We are subbing \n to <br> since commonmark will strip exta '\n'
-    text = CGI.escapeHTML(text.gsub("\n", '<br>'))
+    # Escape HTML entities first to prevent HTML injection
+    # This ensures only markdown syntax is converted, not raw HTML
+    escaped_text = CGI.escapeHTML(text)
 
-    # convert markdown to html
-    html = CommonMarker.render_html(text).strip
+    # Parse markdown with extensions:
+    # - strikethrough: support ~~text~~
+    # - hardbreaks: preserve all newlines as <br>
+    html = CommonMarker.render_html(escaped_text, [:HARDBREAKS], [:strikethrough]).strip
 
-    # remove all html tags except b, strong, i, em, u, ins, s, strike, del, a, code, pre, blockquote
-    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html, tags: %w[b strong i em u ins s strike del a code pre blockquote],
-                                                                       attributes: %w[href])
+    # Convert paragraph breaks to double newlines to preserve them
+    # CommonMarker creates <p> tags for paragraph breaks, but Telegram doesn't support <p>
+    html_with_breaks = html.gsub(%r{</p>\s*<p>}, "\n\n")
 
-    # converted escaped br tags to \n
-    stripped_html.gsub('&lt;br&gt;', "\n")
+    # Remove opening and closing <p> tags
+    html_with_breaks = html_with_breaks.gsub(%r{</?p>}, '')
+
+    # Sanitize to only allowed tags
+    stripped_html = Rails::HTML5::SafeListSanitizer.new.sanitize(html_with_breaks, tags: %w[b strong i em u ins s strike del a code pre blockquote],
+                                                                                   attributes: %w[href])
+
+    # Convert <br /> tags to newlines for Telegram
+    stripped_html.gsub(%r{<br\s*/?>}, "\n")
   end
 
   def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil, business_connection_id: nil)
-    text_payload = convert_markdown_to_telegram_html(text)
-
+    # text is already converted to HTML by MessageContentPresenter
     business_body = {}
     business_body[:business_connection_id] = business_connection_id if business_connection_id
 
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
                     chat_id: chat_id,
-                    text: text_payload,
+                    text: text,
                     reply_markup: reply_markup,
                     parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id

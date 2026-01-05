@@ -63,10 +63,9 @@ class ConversationApi extends ApiClient {
   }
 
   assignAgent({ conversationId, agentId }) {
-    return axios.post(
-      `${this.url}/${conversationId}/assignments?assignee_id=${agentId}`,
-      {}
-    );
+    return axios.post(`${this.url}/${conversationId}/assignments`, {
+      assignee_id: agentId,
+    });
   }
 
   assignTeam({ conversationId, teamId }) {
@@ -108,6 +107,10 @@ class ConversationApi extends ApiClient {
         conversation_type: conversationType,
       },
     });
+  }
+
+  getUnreadCounts() {
+    return axios.get(`${this.url}/unread_counts`);
   }
 
   sendEmailTranscript({ conversationId, email }) {

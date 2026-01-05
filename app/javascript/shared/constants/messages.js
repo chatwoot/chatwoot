@@ -34,9 +34,6 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
-// Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
-
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +

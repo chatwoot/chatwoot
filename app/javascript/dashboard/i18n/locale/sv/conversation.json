@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Laddar konversationer",
     "CANNOT_REPLY": "Du kan inte svara på grund av",
     "24_HOURS_WINDOW": "24 timmars meddelandebegränsning",
+    "48_HOURS_WINDOW": "48 timmars meddelandebegränsning",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Den här konversationen är inte tilldelad dig. Vill du tilldela dig själv den här konversationen?",
     "ASSIGN_TO_ME": "Tilldela mig",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Läs mer",
       "DISMISS_REPLY": "Avvisa svar",
       "REPLYING_TO": "Svarar till:",
-      "TIP_FORMAT_ICON": "Visa textformaterare",
       "TIP_EMOJI_ICON": "Visa emoji-väljare",
       "TIP_ATTACH_ICON": "Bifoga filer",
       "TIP_AUDIORECORDER_ICON": "Spela in ljud",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hej 👋, Välkommen till {installationName}!",
-    "DESCRIPTION": "Tack för att du registrerar dig. Vi vill att du ska få ut det mesta av {installationName}. Här är några saker du kan göra i {installationName} för att göra upplevelsen härlig.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hej 👋, Välkommen till AlooChat!",
+    "DESCRIPTION": "Tack för att du registrerar dig. Vi vill att du ska få ut det mesta av AlooChat. Här är några saker du kan göra i AlooChat för att göra upplevelsen härlig.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Läs våra senaste uppdateringar",
     "ALL_CONVERSATION": {
       "TITLE": "Alla dina konversationer på ett ställe",

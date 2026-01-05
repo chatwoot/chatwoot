@@ -3,6 +3,8 @@ import actions, {
   hasMessageFailedWithExternalError,
 } from '../../conversations/actions';
 import types from '../../../mutation-types';
+import { emitter } from 'shared/helpers/mitt';
+
 const dataToSend = {
   payload: [
     {
@@ -19,6 +21,11 @@ const commit = vi.fn();
 const dispatch = vi.fn();
 global.axios = axios;
 vi.mock('axios');
+vi.mock('shared/helpers/mitt', () => ({
+  emitter: {
+    emit: vi.fn(),
+  },
+}));
 
 describe('#hasMessageFailedWithExternalError', () => {
   it('returns false if message is sent', () => {
@@ -293,6 +300,7 @@ describe('#actions', () => {
   describe('#markMessagesRead', () => {
     beforeEach(() => {
       vi.useFakeTimers();
+      emitter.emit.mockClear();
     });
 
     it('sends correct mutations if api is successful', async () => {
@@ -307,10 +315,26 @@ describe('#actions', () => {
         [types.UPDATE_MESSAGE_UNREAD_COUNT, { id: 1, lastSeen }],
       ]);
     });
+
+    it('emits fetch_unread_counts event on success', async () => {
+      const lastSeen = new Date().getTime() / 1000;
+      axios.post.mockResolvedValue({
+        data: { id: 1, agent_last_seen_at: lastSeen },
+      });
+      await actions.markMessagesRead({ commit }, { id: 1 });
+      expect(emitter.emit).toHaveBeenCalledWith('fetch_unread_counts');
+    });
+
     it('sends correct mutations if api is unsuccessful', async () => {
       axios.post.mockRejectedValue({ message: 'Incorrect header' });
       await actions.markMessagesRead({ commit }, { id: 1 });
       expect(commit.mock.calls).toEqual([]);
+    });
+
+    it('does not emit fetch_unread_counts if api is unsuccessful', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.markMessagesRead({ commit }, { id: 1 });
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
   });
 

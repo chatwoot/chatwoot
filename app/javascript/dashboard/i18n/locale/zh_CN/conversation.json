@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "加载更多对话",
     "CANNOT_REPLY": "您不能回复，原因是：",
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
+    "48_HOURS_WINDOW": "48 小时消息窗口限制",
     "API_HOURS_WINDOW": "您只能在 {hours} 小时内回复此对话",
     "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
     "ASSIGN_TO_ME": "分配给我",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "查看更多",
       "DISMISS_REPLY": "忽略回复",
       "REPLYING_TO": "回复：",
-      "TIP_FORMAT_ICON": "显示富文本编辑器",
       "TIP_EMOJI_ICON": "显示表情选择器",
       "TIP_ATTACH_ICON": "附加文件",
       "TIP_AUDIORECORDER_ICON": "录制音频",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "您好 👋, 欢迎来到 {installationName}!",
-    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 {installationName}。 这里有几件您可以在 {installationName} 做的事情，让体验变得愉快。",
-    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 {installationName}。",
-    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 {installationName}。",
-    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 {installationName}。",
+    "TITLE": "您好 👋, 欢迎来到 AlooChat!",
+    "DESCRIPTION": "感谢您注册。我们希望您能够充分使用 AlooChat。 这里有几件您可以在 AlooChat 做的事情，让体验变得愉快。",
+    "GREETING_MORNING": "👋 早上好，{name}。欢迎来到 AlooChat。",
+    "GREETING_AFTERNOON": "👋 下午好，{name}。欢迎来到 AlooChat。",
+    "GREETING_EVENING": "👋 晚上好，{name}。欢迎来到 AlooChat。",
     "READ_LATEST_UPDATES": "阅读我们的最新升级日志",
     "ALL_CONVERSATION": {
       "TITLE": "您的所有对话都在一个地方",

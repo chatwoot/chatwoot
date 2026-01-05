@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from './components/app/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
@@ -25,7 +24,6 @@ export default {
   name: 'App',
 
   components: {
-    AddAccountModal,
     LoadingState,
     NetworkNotification,
     UpdateBanner,
@@ -51,7 +49,6 @@ export default {
   },
   data() {
     return {
-      showAddAccountModal: false,
       latestChatwootVersion: null,
       reconnectService: null,
     };
@@ -64,21 +61,12 @@ export default {
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
     }),
-    hasAccounts() {
-      const { accounts = [] } = this.currentUser || {};
-      return accounts.length > 0;
-    },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
     },
   },
 
   watch: {
-    currentUser() {
-      if (!this.hasAccounts) {
-        this.showAddAccountModal = true;
-      }
-    },
     currentAccountId: {
       immediate: true,
       handler() {
@@ -156,7 +144,6 @@ export default {
         <component :is="Component" />
       </transition>
     </router-view>
-    <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
     <WootSnackbarBox />
     <NetworkNotification />
   </div>

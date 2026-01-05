@@ -7,7 +7,7 @@ echo ""
 
 # Check if namespace exists
 if ! kubectl get namespace chatwoot-staging &> /dev/null; then
-    echo "❌ Error: chatwoot-staging namespace does not exist"
+    echo "Error: chatwoot-staging namespace does not exist"
     exit 1
 fi
 

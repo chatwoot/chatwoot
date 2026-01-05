@@ -15,6 +15,9 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
   end
 
   def send_template_message
+    Rails.logger.info '[WHATSAPP_SEND] 📤 Preparing to send template message'
+    Rails.logger.info "[WHATSAPP_SEND] 📋 Template params from message: #{template_params.inspect}"
+
     processor = Whatsapp::TemplateProcessorService.new(
       channel: channel,
       template_params: template_params,
@@ -23,17 +26,30 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
 
     name, namespace, lang_code, processed_parameters = processor.call
 
+    Rails.logger.info '[WHATSAPP_SEND] ✅ Processor returned:'
+    Rails.logger.info "[WHATSAPP_SEND]    - name: #{name.inspect}"
+    Rails.logger.info "[WHATSAPP_SEND]    - namespace: #{namespace.inspect}"
+    Rails.logger.info "[WHATSAPP_SEND]    - lang_code: #{lang_code.inspect}"
+    Rails.logger.info "[WHATSAPP_SEND]    - processed_parameters: #{processed_parameters.inspect}"
+
     if name.blank?
+      Rails.logger.error '[WHATSAPP_SEND] ❌ Template name is blank'
       message.update!(status: :failed, external_error: 'Template not found or invalid template name')
       return
     end
 
-    message_id = channel.send_template(message.conversation.contact_inbox.source_id, {
-                                         name: name,
-                                         namespace: namespace,
-                                         lang_code: lang_code,
-                                         parameters: processed_parameters
-                                       }, message)
+    Rails.logger.warn '[WHATSAPP_SEND] ⚠️  Processed parameters are blank - template might not have parameters' if processed_parameters.blank?
+
+    template_info = {
+      name: name,
+      namespace: namespace,
+      lang_code: lang_code,
+      parameters: processed_parameters
+    }
+
+    Rails.logger.info "[WHATSAPP_SEND] 📤 Sending template with info: #{template_info.inspect}"
+
+    message_id = channel.send_template(message.conversation.contact_inbox.source_id, template_info, message)
     message.update!(source_id: message_id) if message_id.present?
   end
 

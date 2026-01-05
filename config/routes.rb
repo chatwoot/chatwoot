@@ -23,10 +23,13 @@ Rails.application.routes.draw do
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/instagram', to: 'dashboard#index', as: 'app_new_instagram_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/tiktok', to: 'dashboard#index', as: 'app_new_tiktok_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_instagram_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_tiktok_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_instagram_inbox_settings'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_tiktok_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
 
     resource :widget, only: [:show]
@@ -86,6 +89,7 @@ Rails.application.routes.draw do
           resource :saml_settings, only: [:show, :create, :update, :destroy]
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
+          resource :tap_settings, only: [:show, :create, :update, :destroy]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -130,6 +134,7 @@ Rails.application.routes.draw do
             collection do
               get :meta
               get :search
+              get :unread_counts
               post :filter
             end
             scope module: :conversations do
@@ -159,6 +164,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               get :inbox_assistant
+              get :reporting_events if ChatwootApp.enterprise?
             end
           end
 
@@ -171,7 +177,11 @@ Rails.application.routes.draw do
             end
           end
 
-          resources :companies, only: [:index, :show, :create, :update, :destroy]
+          resources :companies, only: [:index, :show, :create, :update, :destroy] do
+            collection do
+              get :search
+            end
+          end
           resources :contacts, only: [:index, :show, :update, :create, :destroy] do
             collection do
               get :active
@@ -190,6 +200,7 @@ Rails.application.routes.draw do
               resources :contact_inboxes, only: [:create]
               resources :labels, only: [:create, :index]
               resources :notes
+              post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
           resources :payment_links, only: [:index] do
@@ -216,6 +227,7 @@ Rails.application.routes.draw do
               get :download
             end
           end
+          resources :reporting_events, only: [:index] if ChatwootApp.enterprise?
           resources :custom_attribute_definitions, only: [:index, :show, :create, :update, :destroy]
           resources :custom_filters, only: [:index, :show, :create, :update, :destroy]
           resources :inboxes, only: [:index, :show, :create, :update, :destroy] do
@@ -226,7 +238,15 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
             post :sync_templates, on: :member
             get :health, on: :member
+            if ChatwootApp.enterprise?
+              resource :conference, only: %i[create destroy], controller: 'conference' do
+                get :token, on: :member
+              end
+            end
+
+            resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates'
           end
+
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
@@ -280,6 +300,10 @@ Rails.application.routes.draw do
           end
 
           namespace :instagram do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :tiktok do
             resource :authorization, only: [:create]
           end
 
@@ -365,6 +389,12 @@ Rails.application.routes.draw do
         post 'error', to: 'callbacks#error'
       end
 
+      # Tap payment gateway callbacks
+      namespace :tap do
+        get 'callback', to: 'callbacks#callback'
+        post 'webhook', to: 'callbacks#webhook'
+      end
+
       # Frontend API endpoint to trigger SAML authentication flow
       post 'auth/saml_login', to: 'auth#saml_login'
 
@@ -427,6 +457,7 @@ Rails.application.routes.draw do
       # AI Agent API endpoints (protected by ALOOSTUDIO_API_TOKEN)
       namespace :ai do
         resource :handoff, only: [:create]
+        post 'whatsapp_template', to: 'whatsapp_template#create'
       end
     end
 
@@ -454,6 +485,7 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resource :year_in_review, only: [:show]
           resources :live_reports, only: [] do
             collection do
               get :conversation_metrics
@@ -475,6 +507,7 @@ Rails.application.routes.draw do
               post :subscription
               get :limits
               post :toggle_deletion
+              post :topup_checkout
             end
           end
         end
@@ -569,6 +602,7 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
+  post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
 
   namespace :twitter do
   end
@@ -586,18 +620,16 @@ Rails.application.routes.draw do
     resources :delivery_status, only: [:create]
 
     if ChatwootApp.enterprise?
-      resource :voice, only: [], controller: 'voice' do
-        collection do
-          post 'call/:phone', action: :call_twiml
-          post 'status/:phone', action: :status
-        end
-      end
+      post 'voice/call/:phone', to: 'voice#call_twiml', as: :voice_call
+      post 'voice/status/:phone', to: 'voice#status', as: :voice_status
+      post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
     end
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
+  get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications

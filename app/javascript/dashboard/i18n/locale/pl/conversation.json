@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Ładowanie konwersacji",
     "CANNOT_REPLY": "Nie możesz odpowiedzieć z powodu",
     "24_HOURS_WINDOW": "Ograniczenie 24-godzinnego okna wiadomości",
+    "48_HOURS_WINDOW": "ograniczenia 48-godzinnego okna wiadomości",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ta konwersacja nie jest Ci przypisana. Czy chcesz przypisać tę konwersację do siebie?",
     "ASSIGN_TO_ME": "Przypisz do mnie",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Czytaj więcej",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Pokaż zaawansowany edytor",
       "TIP_EMOJI_ICON": "Pokaż selektor emotikonek",
       "TIP_ATTACH_ICON": "Dołącz pliki",
       "TIP_AUDIORECORDER_ICON": "Nagrywaj audio",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Cześć 👋, Witamy w {installationName}!",
-    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z {installationName}. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z {installationName}.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Cześć 👋, Witamy w AlooChat!",
+    "DESCRIPTION": "Dziękujemy za rejestrację. Chcemy, abyś jak najlepiej skorzystał z AlooChat. Oto kilka rzeczy, które możesz spróbować, aby zapewnić sobie jak najlepsze doświadczenie z AlooChat.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Przeczytaj najnowsze aktualizacje",
     "ALL_CONVERSATION": {
       "TITLE": "Wszystkie Twoje konwersacje w jednym miejscu",

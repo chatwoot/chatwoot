@@ -1,4 +1,49 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+  # Send typing indicator to WhatsApp user
+  # Typing indicator lasts up to 25 seconds or until a message is sent
+  # If message_id is provided, marks the message as read and shows typing indicator in one request
+  # This follows the new WhatsApp Business API format: https://developers.facebook.com/documentation/business-messaging/whatsapp/typing-indicators
+  def send_typing_indicator(phone_number, message_id: nil)
+    request_body = if message_id.present?
+                     # New API format: Mark message as read and show typing indicator
+                     {
+                       messaging_product: 'whatsapp',
+                       status: 'read',
+                       message_id: message_id,
+                       typing_indicator: {
+                         type: 'text'
+                       }
+                     }
+                   else
+                     # Legacy format: Just show typing indicator (for backward compatibility)
+                     {
+                       messaging_product: 'whatsapp',
+                       recipient_type: 'individual',
+                       to: phone_number,
+                       type: 'typing',
+                       typing: { action: 'typing' }
+                     }
+                   end
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: request_body.to_json
+    )
+
+    if response.success?
+      log_message = message_id.present? ? "✅ Typing indicator sent and message #{message_id} marked as read" : '✅ Typing indicator sent'
+      Rails.logger.info "[WHATSAPP] #{log_message} to #{phone_number}"
+      true
+    else
+      Rails.logger.warn "[WHATSAPP] ⚠️ Failed to send typing indicator: #{response.body}"
+      false
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Error sending typing indicator: #{e.message}"
+    false
+  end
+
   def send_message(phone_number, message)
     @message = message
 
@@ -14,6 +59,11 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_template(phone_number, template_info, message)
     template_body = template_body_parameters(template_info)
 
+    Rails.logger.info '[WHATSAPP_API] 📤 Sending template to WhatsApp API'
+    Rails.logger.info "[WHATSAPP_API] 📋 Template info: #{template_info.inspect}"
+    Rails.logger.info "[WHATSAPP_API] 📋 Template body: #{template_body.inspect}"
+    Rails.logger.info "[WHATSAPP_API] 📋 Components: #{template_body[:components].inspect}"
+
     request_body = {
       messaging_product: 'whatsapp',
       recipient_type: 'individual', # Only individual messages supported (not group messages)
@@ -22,11 +72,16 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       template: template_body
     }
 
+    Rails.logger.info "[WHATSAPP_API] 📤 Full request body: #{request_body.to_json}"
+
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
       body: request_body.to_json
     )
+
+    Rails.logger.info "[WHATSAPP_API] 📥 Response status: #{response.code}"
+    Rails.logger.info "[WHATSAPP_API] 📥 Response body: #{response.body}"
 
     process_response(response, message)
   end
@@ -73,10 +128,29 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
   end
 
+  def create_csat_template(template_config)
+    csat_template_service.create_template(template_config)
+  end
+
+  def delete_csat_template(template_name = nil)
+    template_name ||= Whatsapp::CsatTemplateNameService.csat_template_name(whatsapp_channel.inbox.id)
+    csat_template_service.delete_template(template_name)
+  end
+
+  def get_template_status(template_name)
+    csat_template_service.get_template_status(template_name)
+  end
+
   def media_url(media_id, phone_number_id = nil)
     url = "#{api_base_path}/v13.0/#{media_id}"
     url += "?phone_number_id=#{phone_number_id}" if phone_number_id
     url
+  end
+
+  private
+
+  def csat_template_service
+    @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
   end
 
   def api_base_path

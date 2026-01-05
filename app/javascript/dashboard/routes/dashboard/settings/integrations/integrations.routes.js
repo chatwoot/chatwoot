@@ -12,6 +12,7 @@ import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 import WhatsappSettings from './WhatsappSettings.vue';
 import PayzahSettings from './PayzahSettings.vue';
+import TapSettings from './TapSettings.vue';
 
 export default {
   routes: [
@@ -124,6 +125,14 @@ export default {
           path: 'payzah',
           name: 'settings_integrations_payzah',
           component: PayzahSettings,
+          meta: {
+            permissions: ['administrator'],
+          },
+        },
+        {
+          path: 'tap',
+          name: 'settings_integrations_tap',
+          component: TapSettings,
           meta: {
             permissions: ['administrator'],
           },

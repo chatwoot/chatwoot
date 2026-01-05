@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Učitavanje razgovora",
     "CANNOT_REPLY": "Ne možete da odgovorite zbog",
     "24_HOURS_WINDOW": "24-časovno ograničenje poruka",
+    "48_HOURS_WINDOW": "48-časovno ograničenje poruka",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Ovaj razgovor nije dodeljen vama. Da li želite da dodelite razgovor sebi?",
     "ASSIGN_TO_ME": "Dodeli meni",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Prikaži bogat uređivač teksta",
       "TIP_EMOJI_ICON": "Prikaži birač emotikona",
       "TIP_ATTACH_ICON": "Dodaj datoteke",
       "TIP_AUDIORECORDER_ICON": "Snimi zvuk",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Zdravo 👋, Dobrodošli u {installationName}!",
-    "DESCRIPTION": "Hvala vam na registraciji. Želimo da najbolje iskoristite ovu {installationName}. Evo nekoliko stvari koje možete da uradite u {installationName} da bi vaše iskustvo bilo izvrsno.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Zdravo 👋, Dobrodošli u AlooChat!",
+    "DESCRIPTION": "Hvala vam na registraciji. Želimo da najbolje iskoristite ovu AlooChat. Evo nekoliko stvari koje možete da uradite u AlooChat da bi vaše iskustvo bilo izvrsno.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Pročitajte naše najnovije izmene",
     "ALL_CONVERSATION": {
       "TITLE": "Svi vaši razgovori na jednom mestu",

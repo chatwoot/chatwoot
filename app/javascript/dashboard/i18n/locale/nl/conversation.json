@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Conversaties laden",
     "CANNOT_REPLY": "Je kunt niet reageren omdat",
     "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "48_HOURS_WINDOW": "Beperking van 48-uur berichtenvenster",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
     "ASSIGN_TO_ME": "Aan mij toewijzen",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Meer lezen",
       "DISMISS_REPLY": "Antwoord afwijzen",
       "REPLYING_TO": "Antwoord op:",
-      "TIP_FORMAT_ICON": "Toon rich text editor",
       "TIP_EMOJI_ICON": "Toon emoji-kiezer",
       "TIP_ATTACH_ICON": "Bestanden toevoegen",
       "TIP_AUDIORECORDER_ICON": "Audio opnemen",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hey 👋, Welcome to AlooChat!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of AlooChat. Here are a few things you can do in AlooChat to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Lees onze laatste updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",

@@ -4,14 +4,14 @@
     <title>
       AlooChat
     </title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0">
     <% if @global_config['DISPLAY_MANIFEST'] %>
       <meta name="msapplication-TileColor" content="#1f93ff">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
       <meta name="theme-color" content="#1f93ff">
       <meta name="description" content="AlooChat is a customer support solution that helps companies engage customers over Messenger, Twitter, Telegram, WeChat, Whatsapp. Simply connect your channels and converse with your customers from a single place. Easily add new agents to your system and have them own and resolve conversations with customers.AlooChat also gives you real-time reports to measure your team's performance, canned responses to easily respond to frequently asked questions and private notes for agents to collaborate among themselves.">
       <% if ENV['IOS_APP_IDENTIFIER'].present? %>
-        <meta name="apple-itunes-app" content='app-id=<%= ENV['IOS_APP_IDENTIFIER'] %>'>
+        <meta name="apple-itunes-app" content="app-id=<%= ENV['IOS_APP_IDENTIFIER'] %>">
       <% end %>
       <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
       <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
@@ -34,11 +34,13 @@
       window.chatwootConfig = {
         hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
         helpCenterURL: '<%= ENV.fetch('HELPCENTER_URL', '') %>',
-        fbAppId: '<%= ENV.fetch('FB_APP_ID', '') %>',
-        instagramAppId: '<%= ENV.fetch('INSTAGRAM_APP_ID', '') %>',
+        fbAppId: '<%= @global_config['FB_APP_ID'] %>',
+        instagramAppId: '<%= @global_config['INSTAGRAM_APP_ID'] %>',
+        tiktokAppId: '<%= @global_config['TIKTOK_APP_ID'] %>',
         googleOAuthClientId: '<%= @global_config['GOOGLE_OAUTH_CLIENT_ID'] %>',
-        googleOAuthCallbackUrl: '<%= @global_config['GOOGLE_OAUTH_CALLBACK_URL'] %>',
-        fbApiVersion: '<%= ENV.fetch('FACEBOOK_API_VERSION', '') %>',
+        googleOAuthCallbackUrl: '<%= @global_config['GOOGLE_OAUTH_REDIRECT_URI'] %>',
+        allowedLoginMethods: <%= @global_config['ALLOWED_LOGIN_METHODS'].to_json.html_safe %>,
+        fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
         whatsappAppId: '<%= @global_config['WHATSAPP_APP_ID'] %>',
         whatsappConfigurationId: '<%= @global_config['WHATSAPP_CONFIGURATION_ID'] %>',
         whatsappApiVersion: '<%= @global_config['WHATSAPP_API_VERSION'] %>',

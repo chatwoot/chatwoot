@@ -9,6 +9,7 @@ import campaign from './campaign.json';
 import cannedMgmt from './cannedMgmt.json';
 import catalog from './catalog.json';
 import chatlist from './chatlist.json';
+import companies from './companies.json';
 import components from './components.json';
 import contact from './contact.json';
 import contactFilters from './contactFilters.json';
@@ -38,6 +39,7 @@ import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
+import yearInReview from './yearInReview.json';
 
 export default {
   ...advancedFilters,
@@ -51,6 +53,7 @@ export default {
   ...cannedMgmt,
   ...catalog,
   ...chatlist,
+  ...companies,
   ...components,
   ...contact,
   ...contactFilters,
@@ -80,4 +83,5 @@ export default {
   ...whatsappTemplates,
   ...contentTemplates,
   ...mfa,
+  ...yearInReview,
 };

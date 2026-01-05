@@ -7,7 +7,7 @@ namespace :captain do
     assistant_id = args[:assistant_id] || ARGV[1]
 
     unless assistant_id
-      puts '❌ Please provide an assistant ID'
+      puts 'Please provide an assistant ID'
       puts 'Usage: rake captain:chat[assistant_id]'
       puts "\nAvailable assistants:"
       Captain::Assistant.includes(:account).each do |assistant|
@@ -18,7 +18,7 @@ namespace :captain do
 
     assistant = Captain::Assistant.find_by(id: assistant_id)
     unless assistant
-      puts "❌ Assistant with ID #{assistant_id} not found"
+      puts "Assistant with ID #{assistant_id} not found"
       exit 1
     end
 
@@ -190,7 +190,7 @@ class CaptainChatSession
 
   def handle_error(error)
     error_msg = "Error: #{error.message}"
-    puts "❌ #{error_msg}"
+    puts "#{error_msg}"
     add_to_history('system', error_msg)
   end
 

@@ -122,7 +122,7 @@ module ActivityMessageHandler
     Rails.logger.info "[ACTIVITY_MESSAGE] Resolved user_name: #{user_name.inspect}"
 
     unless user_name
-      Rails.logger.info '[ACTIVITY_MESSAGE] ❌ No user_name, skipping activity message'
+      Rails.logger.info '[ACTIVITY_MESSAGE] No user_name, skipping activity message'
       return
     end
 
@@ -133,7 +133,7 @@ module ActivityMessageHandler
       Rails.logger.info '[ACTIVITY_MESSAGE] ✅ Enqueuing ActivityMessageJob'
       ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content))
     else
-      Rails.logger.info '[ACTIVITY_MESSAGE] ❌ No content generated, skipping job'
+      Rails.logger.info '[ACTIVITY_MESSAGE] No content generated, skipping job'
     end
   end
 

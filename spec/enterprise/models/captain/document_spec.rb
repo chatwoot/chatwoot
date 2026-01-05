@@ -4,6 +4,17 @@ RSpec.describe Captain::Document, type: :model do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
 
+  describe 'URL normalization' do
+    it 'removes a trailing slash before validation' do
+      document = create(:captain_document,
+                        assistant: assistant,
+                        account: account,
+                        external_link: 'https://example.com/path/')
+
+      expect(document.external_link).to eq('https://example.com/path')
+    end
+  end
+
   describe 'PDF support' do
     let(:pdf_document) do
       doc = build(:captain_document, assistant: assistant, account: account)
@@ -80,6 +91,163 @@ RSpec.describe Captain::Document, type: :model do
 
         expect(pdf_document.external_link).to start_with('PDF: test_')
       end
+    end
+  end
+
+  describe 'response builder job callback' do
+    before { clear_enqueued_jobs }
+
+    describe 'non-PDF documents' do
+      it 'enqueues when created with available status and content' do
+        expect do
+          create(:captain_document, assistant: assistant, account: account, status: :available)
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue when created available without content' do
+        expect do
+          create(:captain_document, assistant: assistant, account: account, status: :available, content: nil)
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'enqueues when status transitions to available with existing content' do
+        document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+        expect do
+          document.update!(status: :available)
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue when status transitions to available without content' do
+        document = create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: :in_progress,
+          content: nil
+        )
+
+        expect do
+          document.update!(status: :available)
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'enqueues when content is populated on an available document' do
+        document = create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: :available,
+          content: nil
+        )
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(content: 'Fresh content from crawl')
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'enqueues when content changes on an available document' do
+        document = create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: :available,
+          content: 'Initial content'
+        )
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(content: 'Updated crawl content')
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue when content is cleared on an available document' do
+        document = create(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: :available,
+          content: 'Initial content'
+        )
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(content: nil)
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue for metadata-only updates' do
+        document = create(:captain_document, assistant: assistant, account: account, status: :available)
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(metadata: { 'title' => 'Updated Again' })
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue while document remains in progress' do
+        document = create(:captain_document, assistant: assistant, account: account, status: :in_progress)
+
+        expect do
+          document.update!(metadata: { 'title' => 'Updated' })
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+    end
+
+    describe 'PDF documents' do
+      def build_pdf_document(status:, content:)
+        build(
+          :captain_document,
+          assistant: assistant,
+          account: account,
+          status: status,
+          content: content
+        ).tap do |doc|
+          doc.pdf_file.attach(
+            io: StringIO.new('PDF content'),
+            filename: 'sample.pdf',
+            content_type: 'application/pdf'
+          )
+        end
+      end
+
+      it 'enqueues when created available without content' do
+        document = build_pdf_document(status: :available, content: nil)
+
+        expect do
+          document.save!
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'enqueues when status transitions to available' do
+        document = build_pdf_document(status: :in_progress, content: nil)
+        document.save!
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(status: :available)
+        end.to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+
+      it 'does not enqueue when content updates without status change' do
+        document = build_pdf_document(status: :available, content: nil)
+        document.save!
+        clear_enqueued_jobs
+
+        expect do
+          document.update!(content: 'Extracted PDF text')
+        end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
+      end
+    end
+
+    it 'does not enqueue when the document is destroyed' do
+      document = create(:captain_document, assistant: assistant, account: account, status: :available)
+      clear_enqueued_jobs
+
+      expect do
+        document.destroy!
+      end.not_to have_enqueued_job(Captain::Documents::ResponseBuilderJob)
     end
   end
 end

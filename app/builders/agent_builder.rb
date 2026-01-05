@@ -35,7 +35,7 @@ class AgentBuilder
     user = User.from_email(email)
     return user if user
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
+    temp_password = PasswordGeneratorService.generate
     @user = User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
 
     if @user
@@ -82,12 +82,25 @@ class AgentBuilder
   # Creates an AI agent user.
   # @return [User] the created AI user.
   def create_ai_agent
-    # Generate a unique, non-routable email for the AI agent
+    # Use provided email or generate a unique, non-routable email for the AI agent
     domain = account.domain.presence || 'mg.aloochat.ai'
-    ai_email = "ai-agent-#{ai_agent_id}@#{domain}"
+    ai_email = email.presence || "ai-agent-#{ai_agent_id}@#{domain}"
     Rails.logger.info "[AgentBuilder#create_ai_agent] Attempting to create AI agent with email: #{ai_email}"
 
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
+    # Check if AI agent with this email already exists
+    existing_user = User.find_by(email: ai_email, is_ai: true)
+    if existing_user
+      Rails.logger.info "[AgentBuilder#create_ai_agent] AI agent with email #{ai_email} already exists, updating and returning existing user"
+      # Update existing user with latest information
+      existing_user.update!(
+        name: name,
+        agent_key: agent_key,
+        human_agent_id: human_agent_id
+      )
+      return existing_user
+    end
+
+    temp_password = PasswordGeneratorService.generate
     user = User.new(
       email: ai_email,
       name: name,
@@ -114,6 +127,18 @@ class AgentBuilder
 
   # Creates an account user linking the user to the current account.
   def create_account_user
+    # Check if account_user already exists
+    account_user = AccountUser.find_by(account_id: account.id, user_id: @user.id)
+    if account_user
+      Rails.logger.info "[AgentBuilder#create_account_user] AccountUser already exists for user #{@user.id} in account #{account.id}, updating"
+      account_user.update!({
+        role: role,
+        availability: availability,
+        auto_offline: auto_offline
+      }.compact)
+      return account_user
+    end
+
     AccountUser.create!({
       account_id: account.id,
       user_id: @user.id,

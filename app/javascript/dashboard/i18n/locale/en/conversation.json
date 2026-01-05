@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -57,7 +58,7 @@
     },
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. To view it, please open it on the original platform.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
@@ -197,7 +198,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -276,6 +276,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -296,11 +306,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hey 👋, Welcome to {installationName}!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hey 👋, Welcome to AlooChat!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of AlooChat. Here are a few things you can do in AlooChat to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Read our latest updates",
     "ALL_CONVERSATION": {
       "TITLE": "All your conversations in one place",
@@ -459,6 +469,10 @@
         "PLACEHOLDER": "Select currency",
         "ERROR": "Please select a currency"
       },
+      "PROVIDER": {
+        "LABEL": "Payment Provider"
+      },
+      "PAYZAH_KWD_NOTE": "Payzah only supports KWD (Kuwaiti Dinar) as the payment currency",
       "CUSTOMER_INFO": "Customer Information",
       "NAME": "Name",
       "EMAIL": "Email",

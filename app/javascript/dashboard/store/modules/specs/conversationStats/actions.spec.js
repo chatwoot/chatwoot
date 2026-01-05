@@ -61,4 +61,33 @@ describe('#actions', () => {
       ]);
     });
   });
+
+  describe('#fetchUnreadCounts', () => {
+    it('sends correct mutations if API is success', async () => {
+      const mockResponse = {
+        by_inbox: { 1: 5 },
+        by_label: { support: 2 },
+        by_status: { all: 5, mine: 2, unassigned: 1 },
+        total: 5,
+      };
+      axios.get.mockResolvedValue({ data: mockResponse });
+      actions.fetchUnreadCounts({ commit });
+
+      await vi.runAllTimersAsync();
+      await vi.waitFor(() => expect(commit).toHaveBeenCalled());
+
+      expect(commit.mock.calls).toEqual([
+        [types.default.SET_UNREAD_COUNTS, mockResponse],
+      ]);
+    });
+
+    it('does not commit if API fails', async () => {
+      axios.get.mockRejectedValue({ message: 'Error' });
+      actions.fetchUnreadCounts({ commit });
+
+      await vi.runAllTimersAsync();
+
+      expect(commit.mock.calls).toEqual([]);
+    });
+  });
 });

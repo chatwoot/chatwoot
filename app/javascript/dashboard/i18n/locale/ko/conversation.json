@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "48_HOURS_WINDOW": "48시간 메시지 창 제한",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "안녕하세요 👋, {installationName}에 오신 것을 환영합니다!",
-    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of {installationName}. Here are a few things you can do in {installationName} to make the experience delightful.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "안녕하세요 👋, AlooChat에 오신 것을 환영합니다!",
+    "DESCRIPTION": "Thanks for signing up. We want you to get the most out of AlooChat. Here are a few things you can do in AlooChat to make the experience delightful.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "최근 업데이트 내용 보기",
     "ALL_CONVERSATION": {
       "TITLE": "모든 대화를 한 곳에서",

@@ -13,5 +13,9 @@ FactoryBot.define do
       sequence(:phone_number) { |n| "+123456789#{n}1" }
       messaging_service_sid { nil }
     end
+
+    trait :whatsapp do
+      medium { :whatsapp }
+    end
   end
 end

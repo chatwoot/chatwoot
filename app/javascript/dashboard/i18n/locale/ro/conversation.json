@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Încărcare conversații",
     "CANNOT_REPLY": "Nu poți răspunde din cauza",
     "24_HOURS_WINDOW": "Restricţie fereastră mesaj 24 de ore",
+    "48_HOURS_WINDOW": "Restricţie fereastră mesaj 48 de ore",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Această conversație nu vă este atribuită. Doriți să vă atribuiți această conversație?",
     "ASSIGN_TO_ME": "Atribuie-mi",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Citeşte mai mult",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Arată editorul de text",
       "TIP_EMOJI_ICON": "Arată selectorul emoji",
       "TIP_ATTACH_ICON": "Ataşează fişiere",
       "TIP_AUDIORECORDER_ICON": "Înregistrare audio",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "Hei 👋, Bine ati venit la {installationName}!",
-    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de {installationName}. Iată câteva lucruri pe care le puteți face în {installationName} pentru a face experiența încântătoare.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "Hei 👋, Bine ati venit la AlooChat!",
+    "DESCRIPTION": "Vă mulțumim pentru semnarea sus. Vrem să profitați la maximum de AlooChat. Iată câteva lucruri pe care le puteți face în AlooChat pentru a face experiența încântătoare.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "Citiți cele mai recente actualizări ale noastre",
     "ALL_CONVERSATION": {
       "TITLE": "Toate conversațiile într-un singur loc",

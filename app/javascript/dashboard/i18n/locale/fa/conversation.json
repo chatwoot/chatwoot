@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
     "ASSIGN_TO_ME": "اختصاص به من",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "ادامه مطلب",
       "DISMISS_REPLY": "رد پاسخ",
       "REPLYING_TO": "در حال پاسخ دهی به:",
-      "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
       "TIP_AUDIORECORDER_ICON": "ضبط صدا",
@@ -295,11 +295,11 @@
     }
   },
   "ONBOARDING": {
-    "TITLE": "سلام 👋، خوش آمدی به {installationName}!",
-    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از {installationName} داشته باشید. در اینجا چند کار وجود دارد که می توانید در {installationName} انجام دهید تا تجربه بهتری داشته باشید.",
-    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to {installationName}.",
-    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to {installationName}.",
-    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to {installationName}.",
+    "TITLE": "سلام 👋، خوش آمدی به AlooChat!",
+    "DESCRIPTION": "از این که ثبت نام کرده اید سپاسگذاریم. ما ماخواهیم بهترین تجربه را از AlooChat داشته باشید. در اینجا چند کار وجود دارد که می توانید در AlooChat انجام دهید تا تجربه بهتری داشته باشید.",
+    "GREETING_MORNING": "👋 Good morning, {name}. Welcome to AlooChat.",
+    "GREETING_AFTERNOON": "👋 Good afternoon, {name}. Welcome to AlooChat.",
+    "GREETING_EVENING": "👋 Good evening, {name}. Welcome to AlooChat.",
     "READ_LATEST_UPDATES": "آخرین به روزرسانی های ما را بخوانید",
     "ALL_CONVERSATION": {
       "TITLE": "همه مکالمات شما در یک مکان",

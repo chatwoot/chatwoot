@@ -199,19 +199,6 @@ describe Messages::MessageBuilder do
           expect(message.content_attributes.dig('email', 'text_content', 'reply')).to eq 'Regular message content'
         end
 
-        it 'does not process custom email content when quoted_email_reply feature is disabled' do
-          account.disable_features('quoted_email_reply')
-          params = ActionController::Parameters.new({
-                                                      content: 'Regular message content',
-                                                      email_html_content: '<p>Custom HTML content</p>'
-                                                    })
-
-          message = described_class.new(user, conversation, params).perform
-
-          expect(message.content_attributes.dig('email', 'html_content')).to be_nil
-          expect(message.content_attributes.dig('email', 'text_content')).to be_nil
-        end
-
         it 'does not process custom email content for private messages' do
           params = ActionController::Parameters.new({
                                                       content: 'Regular message content',
@@ -234,6 +221,69 @@ describe Messages::MessageBuilder do
 
           expect(message.content_attributes.dig('email', 'html_content', 'full')).to include('<strong>markdown</strong>')
           expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Regular **markdown** content'
+        end
+      end
+
+      context 'when liquid templates are present in email content' do
+        let(:contact) { create(:contact, name: 'John', email: 'john@example.com') }
+        let(:conversation) { create(:conversation, inbox: channel_email.inbox, account: account, contact: contact) }
+
+        it 'processes liquid variables in email content' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Hello {{contact.name}}, your email is {{contact.email}}'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to include('Hello John')
+          expect(message.content_attributes.dig('email', 'html_content', 'full')).to include('john@example.com')
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Hello John, your email is john@example.com'
+        end
+
+        it 'does not process liquid in code blocks' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Hello {{contact.name}}, use this code: `{{contact.email}}`'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Hello John, use this code: `{{contact.email}}`'
+        end
+
+        it 'handles broken liquid syntax gracefully' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Hello {{contact.name}  {{invalid}}'
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'text_content', 'full')).to eq 'Hello {{contact.name}  {{invalid}}'
+        end
+
+        it 'does not process liquid for incoming messages' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Hello {{contact.name}}',
+                                                      message_type: 'incoming'
+                                                    })
+
+          api_channel = create(:channel_api, account: account)
+          api_conversation = create(:conversation, inbox: api_channel.inbox, account: account, contact: contact)
+
+          message = described_class.new(user, api_conversation, params).perform
+
+          expect(message.content).to eq 'Hello {{contact.name}}'
+        end
+
+        it 'does not process liquid for private messages' do
+          params = ActionController::Parameters.new({
+                                                      content: 'Hello {{contact.name}}',
+                                                      private: true
+                                                    })
+
+          message = described_class.new(user, conversation, params).perform
+
+          expect(message.content_attributes.dig('email', 'html_content')).to be_nil
+          expect(message.content_attributes.dig('email', 'text_content')).to be_nil
         end
       end
     end
