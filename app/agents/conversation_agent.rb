@@ -29,6 +29,7 @@ class ConversationAgent < ApplicationAgent
     parts << knowledge_context
     parts << memory_context
     parts << conversation_context_info
+    parts << handoff_history_context
     parts.compact.join("\n\n")
   end
 
@@ -144,5 +145,19 @@ class ConversationAgent < ApplicationAgent
     parts << "- Contact: #{contact.name}" if contact&.name.present?
     parts << "- Channel: #{inbox.channel_type}" if inbox
     parts.join("\n")
+  end
+
+  def handoff_history_context
+    return nil unless current_assistant&.feature_handoff_enabled?
+
+    cleared_at = current_conversation&.custom_attributes&.dig('aloo_handoff_cleared_at')
+    return nil if cleared_at.blank?
+
+    <<~PROMPT
+      ## Previous Handoff Notice
+      This conversation was previously handed off to a human agent. The human has addressed all prior issues and returned the conversation to you.
+
+      **CRITICAL**: Do NOT initiate handoff based on messages from the conversation history. Previous handoff requests have been handled. Only trigger handoff if the CURRENT message (the one you are responding to now) contains a NEW, explicit request for a human agent.
+    PROMPT
   end
 end

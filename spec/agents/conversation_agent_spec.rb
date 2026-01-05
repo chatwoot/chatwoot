@@ -102,6 +102,43 @@ RSpec.describe ConversationAgent, :aloo do
 
       expect(prompt).to include('## Conversation Context')
     end
+
+    context 'with previous handoff history' do
+      before do
+        conversation.update!(custom_attributes: { 'aloo_handoff_cleared_at' => Time.current.iso8601 })
+      end
+
+      it 'includes handoff history context when conversation was previously handed off' do
+        prompt = agent.system_prompt
+
+        expect(prompt).to include('## Previous Handoff Notice')
+        expect(prompt).to include('previously handed off to a human agent')
+        expect(prompt).to include('CRITICAL')
+        expect(prompt).to include('CURRENT message')
+      end
+    end
+
+    context 'without previous handoff history' do
+      it 'does not include handoff history context' do
+        prompt = agent.system_prompt
+
+        expect(prompt).not_to include('## Previous Handoff Notice')
+      end
+    end
+
+    context 'when handoff feature is disabled' do
+      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_handoff' => false }) }
+
+      before do
+        conversation.update!(custom_attributes: { 'aloo_handoff_cleared_at' => Time.current.iso8601 })
+      end
+
+      it 'does not include handoff history context' do
+        prompt = agent.system_prompt
+
+        expect(prompt).not_to include('## Previous Handoff Notice')
+      end
+    end
   end
 
   describe '#user_prompt' do
