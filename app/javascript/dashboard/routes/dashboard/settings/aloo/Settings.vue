@@ -103,6 +103,8 @@ onMounted(async () => {
           storedAssistant.personality?.personality_description ||
           storedAssistant.personality_description,
         features: storedAssistant.features || assistant.value.features,
+        voice_enabled: storedAssistant.voice?.enabled ?? false,
+        voice_config: storedAssistant.voice?.config || {},
       };
     }
 

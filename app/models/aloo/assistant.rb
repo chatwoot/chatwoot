@@ -211,23 +211,20 @@ module Aloo
     end
 
     def voice_reply_enabled?
-      voice_enabled? && voice_output_enabled? && elevenlabs_voice_id.present?
+      voice_enabled? && elevenlabs_voice_id.present?
     end
 
     def voice_transcription_enabled?
-      voice_enabled? && voice_input_enabled?
+      voice_enabled?
     end
 
     private
 
     def validate_voice_config
-      if voice_output_enabled?
-        errors.add(:voice_config, 'elevenlabs_voice_id is required for voice output') if elevenlabs_voice_id.blank?
-        errors.add(:voice_config, "invalid reply_mode: #{reply_mode}") if reply_mode.present? && !VALID_REPLY_MODES.include?(reply_mode)
-        errors.add(:voice_config, "invalid tts_provider: #{tts_provider}") if tts_provider.present? && !VALID_TTS_PROVIDERS.include?(tts_provider)
-      end
+      return unless voice_enabled?
 
-      return unless voice_input_enabled?
+      errors.add(:voice_config, "invalid tts_provider: #{tts_provider}") if tts_provider.present? && !VALID_TTS_PROVIDERS.include?(tts_provider)
+
       return if transcription_provider.blank?
       return if VALID_TRANSCRIPTION_PROVIDERS.include?(transcription_provider)
 

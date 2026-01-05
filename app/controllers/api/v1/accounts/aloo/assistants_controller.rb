@@ -139,30 +139,25 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   end
 
   # POST /api/v1/accounts/:account_id/aloo/assistants/:id/preview_voice
-  # Generate sample audio with selected voice settings
+  # Generate sample audio with selected voice settings (bypasses voice_enabled check for preview)
   def preview_voice
     text = params[:text].presence || 'Hello, this is a voice preview for the Aloo AI assistant.'
     voice_id = params[:voice_id].presence || @assistant.elevenlabs_voice_id
 
     return render json: { error: 'voice_id is required' }, status: :unprocessable_entity if voice_id.blank?
 
-    service = Aloo::VoiceSynthesisService.new(
+    # Use ElevenlabsClient directly for preview (bypasses assistant voice config check)
+    client = Aloo::ElevenlabsClient.new
+    audio_data = client.text_to_speech(
       text: text,
-      assistant: @assistant,
-      voice_id_override: voice_id
+      voice_id: voice_id,
+      model_id: @assistant.effective_tts_model
     )
-    result = service.perform
 
-    if result[:success]
-      audio_data = File.binread(result[:audio_path])
-      send_data audio_data,
-                type: 'audio/ogg',
-                disposition: 'inline',
-                filename: 'preview.ogg'
-      FileUtils.rm_f(result[:audio_path])
-    else
-      render json: { error: result[:error] }, status: :unprocessable_entity
-    end
+    send_data audio_data,
+              type: 'audio/mpeg',
+              disposition: 'inline',
+              filename: 'preview.mp3'
   rescue Aloo::ElevenlabsClient::Error => e
     render json: { error: e.message }, status: :service_unavailable
   end
