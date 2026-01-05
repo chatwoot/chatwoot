@@ -73,9 +73,10 @@ const deleteAssistant = async id => {
 };
 
 const confirmDeletion = () => {
-  loading.value[currentAssistant.value.id] = true;
+  const assistantId = currentAssistant.value.id;
+  loading.value[assistantId] = true;
   closeDeletePopup();
-  deleteAssistant(currentAssistant.value.id);
+  deleteAssistant(assistantId);
 };
 
 const toggleActive = async (assistant, active) => {
