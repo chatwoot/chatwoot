@@ -43,20 +43,20 @@ class AlooAgentListener < BaseListener
   end
 
   # Triggered when a conversation status changes
-  # Clears handoff flag when conversation is reopened
+  # Resets conversation for AI handling when reopened from resolved
   def conversation_status_changed(event)
     conversation = event.data[:conversation]
     changed_attributes = event.data[:changed_attributes]
 
     return unless changed_attributes&.key?('status')
 
-    changed_attributes['status'][0]
+    previous_status = changed_attributes['status'][0]
     current_status = changed_attributes['status'][1]
 
-    # If reopened from handoff, reset the handoff flag
-    return unless current_status == 'open' && conversation.custom_attributes&.dig('aloo_handoff_active')
+    # Reset for AI when conversation reopened from resolved
+    return unless previous_status == 'resolved' && current_status == 'open'
 
-    clear_handoff_flag(conversation)
+    reset_for_ai_handling(conversation)
   end
 
   private
@@ -91,11 +91,15 @@ class AlooAgentListener < BaseListener
     false
   end
 
-  def clear_handoff_flag(conversation)
-    attrs = conversation.custom_attributes.dup
+  def reset_for_ai_handling(conversation)
+    assistant = conversation.inbox.aloo_assistant
+    return unless assistant&.active?
+
+    attrs = conversation.custom_attributes&.dup || {}
     attrs['aloo_handoff_active'] = false
     attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
-    conversation.update!(custom_attributes: attrs)
+
+    conversation.update!(custom_attributes: attrs, assignee: nil)
   end
 
   def find_audio_attachment(message)
