@@ -111,6 +111,7 @@ class Account < ApplicationRecord
 
   has_one :payzah_settings, dependent: :destroy_async, class_name: 'AccountPayzahSettings'
   has_one :tap_settings, dependent: :destroy_async, class_name: 'AccountTapSettings'
+  has_one :catalog_settings, dependent: :destroy_async, class_name: 'AccountCatalogSettings'
 
   has_one_attached :contacts_export
   has_one_attached :payment_links_export

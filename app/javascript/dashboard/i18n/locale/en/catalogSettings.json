@@ -1,0 +1,44 @@
+{
+  "CATALOG_SETTINGS": {
+    "TITLE": "Catalog Settings",
+    "DESCRIPTION": "Configure your catalog visibility and payment options.",
+    "FORM": {
+      "ENABLE": {
+        "TITLE": "Enable Catalog",
+        "DESCRIPTION": "When enabled, the Catalog will be visible in the sidebar for all users."
+      },
+      "PAYMENT_PROVIDER": {
+        "TITLE": "Payment Provider",
+        "DESCRIPTION": "Select a payment provider to enable cart functionality. Without a provider, you can only send catalog items as messages.",
+        "OPTIONS": {
+          "NONE": "None (Send items only)"
+        },
+        "NO_PROVIDER_NOTE": "Without a payment provider, you can send catalog items to customers but won't be able to create carts with payment links."
+      },
+      "CURRENCY": {
+        "TITLE": "Currency",
+        "DESCRIPTION": "Select the currency for your catalog products.",
+        "PAYZAH_NOTE": "Payzah only supports KWD currency."
+      },
+      "SAVE": "Save Settings"
+    },
+    "API": {
+      "SUCCESS": "Catalog settings updated successfully.",
+      "ERROR": "Failed to update catalog settings. Please try again."
+    }
+  },
+  "CATALOG_SEND": {
+    "TITLE": "Send Catalog Items",
+    "DESC": "Select products to send to the customer.",
+    "SELECT_PRODUCTS": "Products",
+    "SEARCH_PRODUCTS": "Search products...",
+    "LOADING_PRODUCTS": "Loading products...",
+    "NO_PRODUCTS": "No products found.",
+    "SELECTED_PRODUCTS": "Selected",
+    "BUTTON_TEXT": "Send catalog items",
+    "CANCEL": "Cancel",
+    "SUBMIT": "Send Items",
+    "SUCCESS": "Catalog items sent successfully.",
+    "ERROR": "Failed to send catalog items. Please try again."
+  }
+}

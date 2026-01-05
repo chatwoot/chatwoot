@@ -90,6 +90,7 @@ Rails.application.routes.draw do
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resource :tap_settings, only: [:show, :create, :update, :destroy]
+          resource :catalog_settings, only: [:show, :create, :update]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -148,6 +149,7 @@ Rails.application.routes.draw do
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
               resources :carts, only: [:create]
+              resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]

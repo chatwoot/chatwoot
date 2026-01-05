@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_05_140000) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_06_012104) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_05_140000) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_catalog_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "payment_provider"
+    t.string "currency", default: "SAR"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_catalog_settings_on_account_id", unique: true
   end
 
   create_table "account_payzah_settings", force: :cascade do |t|
@@ -1500,6 +1510,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_05_140000) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_catalog_settings", "accounts"
   add_foreign_key "account_payzah_settings", "accounts"
   add_foreign_key "account_tap_settings", "accounts"
   add_foreign_key "account_whatsapp_settings", "accounts"

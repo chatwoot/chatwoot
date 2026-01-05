@@ -31,7 +31,7 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
 
   def product_params
     permitted = params.require(:product).permit(:title_en, :title_ar, :description_en, :description_ar, :price, :currency)
-    permitted[:currency] ||= Current.account.catalog_currency || 'SAR'
+    permitted[:currency] ||= Current.account.catalog_settings&.currency || 'SAR'
     permitted
   end
 

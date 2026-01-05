@@ -11,6 +11,7 @@ import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 import tapSettingsAPI from 'dashboard/api/tapSettings';
+import catalogSettingsAPI from 'dashboard/api/catalogSettings';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -85,6 +86,7 @@ const conversationCustomViews = useMapGetter(
 
 const isPayzahEnabled = ref(false);
 const isTapEnabled = ref(false);
+const catalogSettings = ref(null);
 
 const loadPayzahStatus = async () => {
   try {
@@ -104,6 +106,15 @@ const loadTapStatus = async () => {
   }
 };
 
+const loadCatalogSettings = async () => {
+  try {
+    const response = await catalogSettingsAPI.get();
+    catalogSettings.value = response.data;
+  } catch (error) {
+    catalogSettings.value = null;
+  }
+};
+
 const fetchUnreadCounts = () => {
   store.dispatch('conversationStats/fetchUnreadCounts');
 };
@@ -118,6 +129,7 @@ onMounted(() => {
   store.dispatch('customViews/get', 'contact');
   loadPayzahStatus();
   loadTapStatus();
+  loadCatalogSettings();
   fetchUnreadCounts();
   emitter.on('fetch_unread_counts', fetchUnreadCounts);
 });
@@ -418,13 +430,17 @@ const menuItems = computed(() => {
           },
         ]
       : []),
-    {
-      name: 'Catalog',
-      label: t('SIDEBAR.CATALOG'),
-      icon: 'i-lucide-package',
-      to: accountScopedRoute('catalog_index'),
-      activeOn: ['catalog_index'],
-    },
+    ...(catalogSettings.value?.enabled
+      ? [
+          {
+            name: 'Catalog',
+            label: t('SIDEBAR.CATALOG'),
+            icon: 'i-lucide-package',
+            to: accountScopedRoute('catalog_index'),
+            activeOn: ['catalog_index'],
+          },
+        ]
+      : []),
     {
       name: 'Companies',
       label: t('SIDEBAR.COMPANIES'),
@@ -620,6 +636,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',
           to: accountScopedRoute('settings_applications'),
+        },
+        {
+          name: 'Settings Catalog',
+          label: t('SIDEBAR.CATALOG_SETTINGS'),
+          icon: 'i-lucide-package',
+          to: accountScopedRoute('catalog_settings_index'),
         },
         {
           name: 'Settings Audit Logs',

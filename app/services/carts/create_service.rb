@@ -1,15 +1,17 @@
 class Carts::CreateService
-  attr_reader :conversation, :user, :items, :currency, :account
+  attr_reader :conversation, :user, :items, :currency, :account, :catalog_settings
 
   def initialize(conversation:, items:, user: Current.user)
     @conversation = conversation
     @user = user
     @items = items
     @account = conversation.account
-    @currency = account.catalog_currency || 'SAR'
+    @catalog_settings = account.catalog_settings
+    @currency = @catalog_settings&.currency || 'SAR'
   end
 
   def perform
+    validate_catalog_enabled!
     validate_payment_gateway!
     validate_items!
 
@@ -39,18 +41,20 @@ class Carts::CreateService
 
   private
 
-  def validate_payment_gateway!
-    return if account.payzah_settings&.payzah_configured?
-    return if account.tap_settings&.tap_configured?
+  def validate_catalog_enabled!
+    return if catalog_settings&.enabled?
 
-    raise ArgumentError, 'No payment gateway configured. Please configure Payzah or Tap in Settings → Integrations.'
+    raise ArgumentError, 'Catalog is not enabled for this account.'
+  end
+
+  def validate_payment_gateway!
+    return if payment_provider.present?
+
+    raise ArgumentError, 'No payment gateway configured. Please select a payment provider in Settings → Catalog.'
   end
 
   def payment_provider
-    return 'payzah' if account.payzah_settings&.payzah_configured?
-    return 'tap' if account.tap_settings&.tap_configured?
-
-    nil
+    catalog_settings&.payment_provider
   end
 
   def validate_items!
