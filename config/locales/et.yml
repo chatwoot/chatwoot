@@ -50,6 +50,7 @@ et:
       not_found: Assignment policy not found
     saml:
       feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: Invalid data type
@@ -65,6 +66,8 @@ et:
     companies:
       domain:
         invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
     categories:
       locale:
         unique: should be unique in the category and portal
@@ -105,6 +108,13 @@ et:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -180,6 +190,8 @@ et:
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: This message was deleted
       whatsapp:
         list_button_label: 'Choose an item'

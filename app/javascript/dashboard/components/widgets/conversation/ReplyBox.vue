@@ -234,6 +234,9 @@ export default {
       if (this.isAnInstagramChannel) {
         return MESSAGE_MAX_LENGTH.INSTAGRAM;
       }
+      if (this.isATiktokChannel) {
+        return MESSAGE_MAX_LENGTH.TIKTOK;
+      }
       if (this.isATwilioWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
       }
@@ -689,20 +692,20 @@ export default {
     },
     onPaste(e) {
       // Don't handle paste if compose new conversation modal is open
-      if (this.newConversationModalActive) {
-        return;
-      }
+      if (this.newConversationModalActive) return;
+
       const data = e.clipboardData.files;
       if (!this.showRichContentEditor && data.length !== 0) {
         this.$refs.messageInput?.$el?.blur();
       }
-      if (!data.length || !data[0]) {
-        return;
-      }
-      data.forEach(file => {
-        const { name, type, size } = file;
-        this.onFileUpload({ name, type, size, file: file });
-      });
+
+      // Filter valid files (non-zero size)
+      Array.from(e.clipboardData.files)
+        .filter(file => file.size > 0)
+        .forEach(file => {
+          const { name, type, size } = file;
+          this.onFileUpload({ name, type, size, file });
+        });
     },
     toggleUserMention(currentMentionState) {
       this.showUserMentions = currentMentionState;
