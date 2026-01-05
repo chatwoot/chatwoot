@@ -20,15 +20,12 @@ const store = useStore();
 useI18n();
 
 const selectedItems = ref([]);
-const currency = ref('KWD');
 const searchQuery = ref('');
 
-const currencies = [
-  { value: 'KWD', label: 'KWD - Kuwaiti Dinar' },
-  { value: 'USD', label: 'USD - US Dollar' },
-  { value: 'SAR', label: 'SAR - Saudi Riyal' },
-  { value: 'AED', label: 'AED - UAE Dirham' },
-];
+const currentAccount = computed(() => store.getters.getCurrentAccount);
+const catalogCurrency = computed(
+  () => currentAccount.value?.settings?.catalog_currency || 'SAR'
+);
 
 const products = computed(() => store.getters['products/getProducts']);
 const isLoadingProducts = computed(
@@ -63,7 +60,7 @@ const subtotal = computed(() => {
 const total = computed(() => subtotal.value);
 
 const isFormValid = computed(() => {
-  return selectedItems.value.length > 0 && currency.value;
+  return selectedItems.value.length > 0;
 });
 
 const localShow = computed({
@@ -116,7 +113,6 @@ const updateQuantity = (productId, quantity) => {
 
 const resetForm = () => {
   selectedItems.value = [];
-  currency.value = 'KWD';
   searchQuery.value = '';
 };
 
@@ -129,7 +125,6 @@ const onSubmit = () => {
   if (!isFormValid.value) return;
 
   emit('submit', {
-    currency: currency.value,
     items: selectedItems.value.map(item => ({
       product_id: item.productId,
       quantity: item.quantity,
@@ -253,20 +248,16 @@ const onSubmit = () => {
           </div>
         </div>
 
-        <!-- Currency Selection -->
+        <!-- Currency Display -->
         <div class="mb-4">
-          <label>
+          <label class="block text-sm font-medium mb-1">
             {{ $t('CART.CURRENCY') }}
-            <select v-model="currency" class="mt-1">
-              <option
-                v-for="curr in currencies"
-                :key="curr.value"
-                :value="curr.value"
-              >
-                {{ curr.label }}
-              </option>
-            </select>
           </label>
+          <div
+            class="px-3 py-2 text-sm rounded-lg bg-n-alpha-2 text-n-slate-11 w-fit"
+          >
+            {{ catalogCurrency }}
+          </div>
         </div>
 
         <!-- Totals -->
@@ -278,7 +269,7 @@ const onSubmit = () => {
             class="flex justify-between text-lg font-semibold text-n-slate-12"
           >
             <span>{{ $t('CART.TOTAL') }}</span>
-            <span>{{ total.toFixed(2) }} {{ currency }}</span>
+            <span>{{ total.toFixed(2) }} {{ catalogCurrency }}</span>
           </div>
         </div>
 

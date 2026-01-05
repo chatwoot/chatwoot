@@ -3,8 +3,7 @@ class Api::V1::Accounts::Conversations::CartsController < Api::V1::Accounts::Con
     cart = Carts::CreateService.new(
       conversation: @conversation,
       user: Current.user,
-      items: permitted_params[:items],
-      currency: permitted_params[:currency]
+      items: permitted_params[:items]
     ).perform
 
     render json: {
@@ -20,7 +19,7 @@ class Api::V1::Accounts::Conversations::CartsController < Api::V1::Accounts::Con
   private
 
   def permitted_params
-    params.permit(:currency, items: [:product_id, :quantity])
+    params.permit(items: [:product_id, :quantity])
   end
 
   def cart_response(cart)

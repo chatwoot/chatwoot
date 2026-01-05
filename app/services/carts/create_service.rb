@@ -1,12 +1,12 @@
 class Carts::CreateService
   attr_reader :conversation, :user, :items, :currency, :account
 
-  def initialize(conversation:, items:, currency:, user: Current.user)
+  def initialize(conversation:, items:, user: Current.user)
     @conversation = conversation
     @user = user
     @items = items
-    @currency = currency
     @account = conversation.account
+    @currency = account.catalog_currency || 'SAR'
   end
 
   def perform

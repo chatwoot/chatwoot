@@ -16,6 +16,7 @@ import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
+import CatalogCurrency from './components/CatalogCurrency.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -27,6 +28,7 @@ export default {
     AccountDelete,
     AutoResolve,
     AudioTranscription,
+    CatalogCurrency,
     SectionLayout,
     WithLabel,
     NextInput,
@@ -241,6 +243,7 @@ export default {
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
+    <CatalogCurrency />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />

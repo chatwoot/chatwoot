@@ -28,7 +28,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'submit']);
 
 const { t } = useI18n();
-const { accountId } = useAccount();
+const { accountId, currentAccount } = useAccount();
 
 const dialogRef = ref(null);
 const fileInputRef = ref(null);
@@ -39,7 +39,6 @@ const form = ref({
   description_en: '',
   description_ar: '',
   price: '',
-  currency: 'SAR',
 });
 
 const imageFile = ref(null);
@@ -48,13 +47,9 @@ const existingImageUrl = ref('');
 const isUploading = ref(false);
 const uploadError = ref('');
 
-const currencyOptions = [
-  { label: 'SAR', value: 'SAR' },
-  { label: 'USD', value: 'USD' },
-  { label: 'EUR', value: 'EUR' },
-  { label: 'GBP', value: 'GBP' },
-  { label: 'AED', value: 'AED' },
-];
+const catalogCurrency = computed(
+  () => currentAccount.value?.settings?.catalog_currency || 'SAR'
+);
 
 const isEditMode = computed(() => !!props.product);
 
@@ -75,7 +70,6 @@ const isFormValid = computed(() => {
     form.value.title_en.trim() !== '' &&
     form.value.price !== '' &&
     Number(form.value.price) > 0 &&
-    form.value.currency !== '' &&
     !isUploading.value
   );
 });
@@ -93,7 +87,6 @@ const resetForm = () => {
     description_en: '',
     description_ar: '',
     price: '',
-    currency: 'SAR',
   };
   imageFile.value = null;
   imagePreviewUrl.value = '';
@@ -110,7 +103,6 @@ const populateForm = () => {
       description_en: props.product.description_en || '',
       description_ar: props.product.description_ar || '',
       price: props.product.price || '',
-      currency: props.product.currency || 'SAR',
     };
     existingImageUrl.value = props.product.image_url || '';
     imageFile.value = null;
@@ -173,7 +165,6 @@ const handleSubmit = async () => {
       description_en: form.value.description_en,
       description_ar: form.value.description_ar,
       price: Number(form.value.price),
-      currency: form.value.currency,
     },
     blobId,
   });
@@ -313,18 +304,11 @@ watch(
           <label class="block mb-1.5 text-sm font-medium text-n-slate-12">
             {{ t('CATALOG.FORM.CURRENCY.LABEL') }}
           </label>
-          <select
-            v-model="form.currency"
-            class="block w-full h-10 px-3 pr-7 py-2 text-sm border-0 rounded-lg outline outline-1 outline-offset-[-1px] outline-n-weak bg-n-alpha-black2 text-n-slate-12 focus:outline-n-brand"
+          <div
+            class="flex items-center h-10 px-3 text-sm rounded-lg bg-n-alpha-black2 text-n-slate-11"
           >
-            <option
-              v-for="option in currencyOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
+            {{ catalogCurrency }}
+          </div>
         </div>
       </div>
     </div>
