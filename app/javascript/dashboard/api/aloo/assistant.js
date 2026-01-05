@@ -57,6 +57,24 @@ class AlooAssistant extends ApiClient {
   checkName(name) {
     return axios.get(`${this.url}/check_name`, { params: { name } });
   }
+
+  getVoices(assistantId) {
+    return axios.get(`${this.url}/${assistantId}/voices`);
+  }
+
+  previewVoice(assistantId, voiceId, text) {
+    return axios.post(
+      `${this.url}/${assistantId}/preview_voice`,
+      { voice_id: voiceId, text },
+      { responseType: 'blob' }
+    );
+  }
+
+  getVoiceUsage(assistantId, periodStart, periodEnd) {
+    return axios.get(`${this.url}/${assistantId}/voice_usage`, {
+      params: { period_start: periodStart, period_end: periodEnd },
+    });
+  }
 }
 
 export default new AlooAssistant();

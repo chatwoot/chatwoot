@@ -10,6 +10,7 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 import GeneralPage from './settingsPage/GeneralPage.vue';
 import PersonalityPage from './settingsPage/PersonalityPage.vue';
 import FeaturesPage from './settingsPage/FeaturesPage.vue';
+import VoicePage from './settingsPage/VoicePage.vue';
 import KnowledgePage from './settingsPage/KnowledgePage.vue';
 import MemoriesPage from './settingsPage/MemoriesPage.vue';
 import InboxesPage from './settingsPage/InboxesPage.vue';
@@ -48,12 +49,17 @@ const assistant = ref({
     labels_enabled: true,
   },
   admin_config: {},
+  voice_enabled: false,
+  voice_input_enabled: false,
+  voice_output_enabled: false,
+  voice_config: {},
 });
 
 const tabs = computed(() => [
   { key: 'general', name: t('ALOO.TABS.GENERAL') },
   { key: 'personality', name: t('ALOO.TABS.PERSONALITY') },
   { key: 'features', name: t('ALOO.TABS.FEATURES') },
+  { key: 'voice', name: t('ALOO.TABS.VOICE') },
   { key: 'knowledge', name: t('ALOO.TABS.KNOWLEDGE_BASE') },
   { key: 'memories', name: t('ALOO.TABS.MEMORIES') },
   { key: 'inboxes', name: t('ALOO.TABS.INBOXES') },
@@ -163,6 +169,10 @@ const saveChanges = async () => {
       dialect: assistant.value.dialect,
       personality_description: assistant.value.personality_description,
       admin_config: assistant.value.admin_config,
+      voice_enabled: assistant.value.voice_enabled,
+      voice_input_enabled: assistant.value.voice_input_enabled,
+      voice_output_enabled: assistant.value.voice_output_enabled,
+      voice_config: assistant.value.voice_config,
     });
     useAlert(t('ALOO.MESSAGES.UPDATED'));
   } catch {
@@ -186,6 +196,12 @@ const updateAssistant = data => {
         assistant.value.features[featureKey] = data.admin_config[key];
       }
     });
+  } else if (data.voice_config) {
+    // Handle nested voice_config updates by merging
+    assistant.value.voice_config = {
+      ...assistant.value.voice_config,
+      ...data.voice_config,
+    };
   } else {
     Object.assign(assistant.value, data);
   }
@@ -240,6 +256,15 @@ const updateAssistant = data => {
 
         <div v-if="selectedTabKey === 'features'" class="mx-8">
           <FeaturesPage
+            :assistant="assistant"
+            :is-saving="isSaving"
+            @update="updateAssistant"
+            @save="saveChanges"
+          />
+        </div>
+
+        <div v-if="selectedTabKey === 'voice'" class="mx-8">
+          <VoicePage
             :assistant="assistant"
             :is-saving="isSaving"
             @update="updateAssistant"
