@@ -14,10 +14,12 @@
 #   )
 #
 class ConversationAgent < ApplicationAgent
-  model 'gemini-2.0-flash'
+  model 'gemini-2.5-flash'
   temperature 0.7
   version '1.0'
   timeout 60
+
+  fallback_models 'gpt-4.1-mini'
 
   param :message, required: true
   param :conversation_history
@@ -27,8 +29,6 @@ class ConversationAgent < ApplicationAgent
     parts << base_instructions
     parts << personality_prompt
     parts << language_instructions
-    parts << knowledge_context
-    parts << memory_context
     parts << conversation_context_info
     parts << handoff_history_context
     parts.compact.join("\n\n")
@@ -42,7 +42,8 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    available_tools = [FaqLookupTool]
+    available_tools = [KnowledgeLookupTool]
+    available_tools << MemoryLookupTool if current_assistant&.feature_memory_enabled?
     available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
     available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
     available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?
@@ -62,7 +63,8 @@ class ConversationAgent < ApplicationAgent
       ## Guidelines
       - Be helpful, accurate, and concise
       - If you don't know something, admit it rather than making up information
-      - Use the faq_lookup tool to search for relevant information before answering
+      - ALWAYS use the knowledge_lookup tool first to search for relevant information before answering questions about products, policies, or procedures
+      #{memory_guideline}
       #{handoff_guideline}
       - Stay focused on helping the customer with their current issue
 
@@ -71,13 +73,17 @@ class ConversationAgent < ApplicationAgent
 
       ## Important
       - Never make up policies or information not in your knowledge base
+      - Always search the knowledge base before providing answers about policies, products, or procedures
       #{handoff_important_note}
       - Always be respectful and professional
     PROMPT
   end
 
   def available_tools_description
-    tool_descriptions = ['- faq_lookup: Search the knowledge base for relevant information']
+    tool_descriptions = ['- knowledge_lookup: Search the knowledge base for FAQs, policies, product info, and documentation']
+    if current_assistant&.feature_memory_enabled?
+      tool_descriptions << '- memory_lookup: Recall customer preferences, past interactions, and learned information'
+    end
     if current_assistant&.feature_handoff_enabled?
       tool_descriptions << '- handoff: Transfer the conversation to a human agent when needed'
       tool_descriptions << '- assign: Assign the conversation to a specific team or agent'
@@ -97,6 +103,12 @@ class ConversationAgent < ApplicationAgent
     "- If a customer's request is beyond your capabilities, use the handoff tool to transfer to a human agent"
   end
 
+  def memory_guideline
+    return '' unless current_assistant&.feature_memory_enabled?
+
+    '- Use the memory_lookup tool to recall customer preferences, past interactions, or learned information to personalize your response'
+  end
+
   def handoff_important_note
     return '' unless current_assistant&.feature_handoff_enabled?
 
@@ -107,34 +119,6 @@ class ConversationAgent < ApplicationAgent
     current_assistant&.description.presence ||
       current_conversation&.inbox&.business_name.presence ||
       'our company'
-  end
-
-  def knowledge_context
-    return nil unless current_assistant && current_account
-
-    service = Aloo::VectorSearchService.new(
-      assistant: current_assistant,
-      account: current_account
-    )
-    context = service.search_for_context(message)
-    context.present? ? "## Relevant Information\n#{context}" : nil
-  rescue StandardError => e
-    Rails.logger.error("[ConversationAgent] Knowledge search failed: #{e.message}")
-    nil
-  end
-
-  def memory_context
-    return nil unless current_assistant&.feature_memory_enabled? && current_account
-
-    service = Aloo::MemorySearchService.new(
-      assistant: current_assistant,
-      account: current_account
-    )
-    context = service.search_for_context(message, contact: current_contact)
-    context.present? ? "## Customer Context\n#{context}" : nil
-  rescue StandardError => e
-    Rails.logger.error("[ConversationAgent] Memory search failed: #{e.message}")
-    nil
   end
 
   def conversation_context_info

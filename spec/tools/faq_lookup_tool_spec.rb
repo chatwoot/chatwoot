@@ -20,6 +20,10 @@ RSpec.describe FaqLookupTool, :aloo do
   end
 
   describe '.description' do
+    it 'indicates the tool is deprecated' do
+      expect(described_class.description).to include('DEPRECATED')
+    end
+
     it 'describes the tool purpose' do
       expect(described_class.description).to include('knowledge base')
       expect(described_class.description).to include('memories')
@@ -38,9 +42,15 @@ RSpec.describe FaqLookupTool, :aloo do
       allow(memory_service).to receive(:search).and_return([])
     end
 
+    it 'logs deprecation warning' do
+      expect(Rails.logger).to receive(:warn).with(/DEPRECATED.*FaqLookupTool/)
+
+      tool.execute(query: 'test')
+    end
+
     context 'when search_type is "both"' do
       it 'searches knowledge base' do
-        expect(vector_service).to receive(:search).with('return policy', limit: 5)
+        expect(vector_service).to receive(:search).with('return policy', limit: 5, source_types: nil)
 
         tool.execute(query: 'return policy', search_type: 'both')
       end
@@ -104,14 +114,29 @@ RSpec.describe FaqLookupTool, :aloo do
       end
     end
 
-    context 'when error occurs' do
+    context 'when underlying tool returns error' do
       before do
         allow(vector_service).to receive(:search).and_raise(StandardError, 'Search failed')
       end
 
+      it 'handles errors gracefully by returning empty results for that tool' do
+        # Errors in underlying tools are caught and return empty results
+        # This ensures backward compatibility and graceful degradation
+        result = tool.execute(query: 'test')
+
+        expect(result[:success]).to be true
+        expect(result[:knowledge_results]).to be_nil.or eq([])
+      end
+    end
+
+    context 'when FaqLookupTool itself fails' do
+      before do
+        allow(KnowledgeLookupTool).to receive(:new).and_raise(StandardError, 'Tool creation failed')
+      end
+
       it 'logs execution with error' do
         expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(anything, anything, success: false, error_message: 'Search failed')
+          .with(anything, anything, success: false, error_message: 'Tool creation failed')
 
         tool.execute(query: 'test')
       end

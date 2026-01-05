@@ -7,8 +7,11 @@
 #   result.content  # => [{ question: "...", answer: "...", topics: [...], confidence: 0.8 }]
 #
 class FaqGeneratorAgent < ApplicationAgent
+  model 'gpt-4o-mini'
   temperature 0.5
   version '1.0'
+
+  fallback_models 'gemini-2.5-flash'
 
   param :transcript, required: true
   param :max_faqs, default: 3

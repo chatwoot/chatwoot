@@ -15,10 +15,6 @@ RSpec.describe ConversationAgent, :aloo do
     Aloo::Current.conversation = conversation
     Aloo::Current.contact = contact
     Aloo::Current.inbox = inbox
-
-    # Stub service calls that happen in system_prompt
-    allow_any_instance_of(Aloo::VectorSearchService).to receive(:search_for_context).and_return('')
-    allow_any_instance_of(Aloo::MemorySearchService).to receive(:search_for_context).and_return('')
   end
 
   after do
@@ -36,26 +32,33 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#model' do
-    it 'uses gemini-2.0-flash for cost-effective tool calling' do
+    it 'uses gemini-2.5-flash for cost-effective tool calling' do
       agent = described_class.new(message: 'test')
-      expect(agent.model).to eq('gemini-2.0-flash')
+      expect(agent.model).to eq('gemini-2.5-flash')
     end
   end
 
   describe '#system_prompt' do
     let(:agent) { described_class.new(message: 'test query') }
 
-    before do
-      allow_any_instance_of(Aloo::VectorSearchService).to receive(:search_for_context).and_return('')
-      allow_any_instance_of(Aloo::MemorySearchService).to receive(:search_for_context).and_return('')
-    end
-
-    it 'includes base instructions' do
+    it 'includes base instructions with knowledge_lookup guidance' do
       prompt = agent.system_prompt
 
       expect(prompt).to include('helpful customer support assistant')
-      expect(prompt).to include('faq_lookup')
-      expect(prompt).to include('handoff')
+      expect(prompt).to include('knowledge_lookup')
+      expect(prompt).to include('ALWAYS use the knowledge_lookup tool')
+    end
+
+    it 'does not include pre-loaded knowledge context' do
+      prompt = agent.system_prompt
+
+      expect(prompt).not_to include('## Relevant Information')
+    end
+
+    it 'does not include pre-loaded memory context' do
+      prompt = agent.system_prompt
+
+      expect(prompt).not_to include('## Customer Context')
     end
 
     it 'includes personality prompt' do
@@ -67,33 +70,22 @@ RSpec.describe ConversationAgent, :aloo do
       expect(prompt).to include('Personality instructions')
     end
 
-    context 'with knowledge context available' do
-      before do
-        allow_any_instance_of(Aloo::VectorSearchService)
-          .to receive(:search_for_context)
-          .and_return('Some knowledge content')
-      end
-
-      it 'includes knowledge context when available' do
+    context 'with memory feature enabled' do
+      it 'includes memory_lookup in tools description' do
         prompt = agent.system_prompt
 
-        expect(prompt).to include('## Relevant Information')
-        expect(prompt).to include('Some knowledge content')
+        expect(prompt).to include('memory_lookup')
+        expect(prompt).to include('Recall customer preferences')
       end
     end
 
-    context 'with memory feature enabled' do
-      before do
-        allow_any_instance_of(Aloo::MemorySearchService)
-          .to receive(:search_for_context)
-          .and_return('Customer prefers email')
-      end
+    context 'with memory feature disabled' do
+      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_memory' => false }) }
 
-      it 'includes memory context' do
+      it 'does not include memory_lookup in tools description' do
         prompt = agent.system_prompt
 
-        expect(prompt).to include('## Customer Context')
-        expect(prompt).to include('Customer prefers email')
+        expect(prompt).not_to include('memory_lookup')
       end
     end
 
@@ -163,12 +155,33 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#tools' do
-    it 'includes FaqLookupTool' do
+    it 'includes KnowledgeLookupTool' do
       agent = described_class.new(message: 'test')
-      expect(agent.tools).to include(FaqLookupTool)
+      expect(agent.tools).to include(KnowledgeLookupTool)
     end
 
-    it 'includes HandoffTool' do
+    it 'does not include deprecated FaqLookupTool' do
+      agent = described_class.new(message: 'test')
+      expect(agent.tools).not_to include(FaqLookupTool)
+    end
+
+    context 'with memory feature enabled' do
+      it 'includes MemoryLookupTool' do
+        agent = described_class.new(message: 'test')
+        expect(agent.tools).to include(MemoryLookupTool)
+      end
+    end
+
+    context 'with memory feature disabled' do
+      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_memory' => false }) }
+
+      it 'does not include MemoryLookupTool' do
+        agent = described_class.new(message: 'test')
+        expect(agent.tools).not_to include(MemoryLookupTool)
+      end
+    end
+
+    it 'includes HandoffTool when enabled' do
       agent = described_class.new(message: 'test')
       expect(agent.tools).to include(HandoffTool)
     end
@@ -176,11 +189,6 @@ RSpec.describe ConversationAgent, :aloo do
 
   describe '.call' do
     context 'with dry_run: true' do
-      before do
-        allow_any_instance_of(Aloo::VectorSearchService).to receive(:search_for_context).and_return('')
-        allow_any_instance_of(Aloo::MemorySearchService).to receive(:search_for_context).and_return('')
-      end
-
       it 'returns prompts without API call' do
         result = described_class.call(
           message: 'What is your refund policy?',

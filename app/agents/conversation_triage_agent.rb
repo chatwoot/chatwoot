@@ -10,9 +10,11 @@
 #   )
 #
 class ConversationTriageAgent < ApplicationAgent
-  model 'gemini-2.0-flash-lite'
+  model 'gemini-2.5-flash-lite'
   temperature 0.3
   version '1.0'
+
+  fallback_models 'gpt-4.1-nano'
 
   param :conversation_messages, required: true
   param :available_labels

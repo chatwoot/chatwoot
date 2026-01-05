@@ -14,6 +14,8 @@ class MemoryExtractorAgent < ApplicationAgent
   temperature 0.5
   version '1.0'
 
+  fallback_models 'gpt-4.1-mini'
+
   param :transcript, required: true
   param :resolution_status
   param :max_memories, default: 10

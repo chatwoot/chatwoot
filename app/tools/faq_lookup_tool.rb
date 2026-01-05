@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
-# Tool for searching the knowledge base and memories
-# Used by the AI agent to find relevant information to answer customer questions
+# DEPRECATED: Use KnowledgeLookupTool and MemoryLookupTool instead
+# This tool is kept for backward compatibility with existing agent conversations
 #
 # Example usage in agent:
 #   chat.with_tools([FaqLookupTool])
 #   response = chat.ask("Customer asks about refund policy")
 #
 class FaqLookupTool < BaseTool
-  description 'Search the knowledge base and memories for information relevant to answering customer questions. ' \
-              'Use this when you need to find specific information about products, policies, procedures, or ' \
-              'when you want to recall previous interactions with this customer.'
+  description '[DEPRECATED] Search the knowledge base and memories. ' \
+              'Use knowledge_lookup for knowledge base and memory_lookup for memories instead.'
 
   param :query, type: :string, desc: 'The search query - what information are you looking for?', required: true
   param :search_type, type: :string, desc: 'Type of search: "knowledge" for FAQs/docs, "memory" for past interactions, or "both" (default)',
@@ -21,6 +20,8 @@ class FaqLookupTool < BaseTool
   def execute(query:, search_type: 'both', include_customer_context: true)
     validate_context!
 
+    Rails.logger.warn('[DEPRECATED] FaqLookupTool is deprecated. Use KnowledgeLookupTool and MemoryLookupTool instead.')
+
     results = {
       knowledge: [],
       memories: [],
@@ -28,11 +29,17 @@ class FaqLookupTool < BaseTool
     }
 
     begin
-      # Search knowledge base (documents, FAQs)
-      results[:knowledge] = search_knowledge_base(query) if %w[knowledge both].include?(search_type)
+      if %w[knowledge both].include?(search_type)
+        knowledge_tool = KnowledgeLookupTool.new
+        knowledge_result = knowledge_tool.execute(query: query)
+        results[:knowledge] = knowledge_result[:results] || []
+      end
 
-      # Search memories (past interactions, learned information)
-      results[:memories] = search_memories(query, include_customer_context) if %w[memory both].include?(search_type)
+      if %w[memory both].include?(search_type)
+        memory_tool = MemoryLookupTool.new
+        memory_result = memory_tool.execute(query: query, include_customer_context: include_customer_context)
+        results[:memories] = memory_result[:results] || []
+      end
 
       log_execution(
         { query: query, search_type: search_type },
@@ -52,24 +59,6 @@ class FaqLookupTool < BaseTool
   end
 
   private
-
-  def search_knowledge_base(query)
-    service = Aloo::VectorSearchService.new(
-      assistant: current_assistant,
-      account: current_account
-    )
-    service.search(query, limit: 5)
-  end
-
-  def search_memories(query, include_customer_context)
-    service = Aloo::MemorySearchService.new(
-      assistant: current_assistant,
-      account: current_account
-    )
-
-    contact = include_customer_context ? current_contact : nil
-    service.search(query, contact: contact, limit: 5)
-  end
 
   def format_response(results)
     response_parts = []
