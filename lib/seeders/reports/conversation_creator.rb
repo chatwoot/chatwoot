@@ -41,9 +41,6 @@ class Seeders::Reports::ConversationCreator
 
       travel_back
     end
-
-    conversation
-  end
     # Now resolve outside of time travel if needed
     if should_resolve && resolution_time
       # rubocop:disable Rails/SkipsModelValidations

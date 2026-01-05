@@ -11,7 +11,7 @@ class SendTemplateDmJob < ApplicationJob
     end
 
     if conversation.nil?
-      Rails.logger.error "❌ Conversation is nil"
+      Rails.logger.error '❌ Conversation is nil'
       return
     end
 
@@ -58,7 +58,7 @@ class SendTemplateDmJob < ApplicationJob
   private
 
   def channel
-    channel::FacebookPage.find_by(id: contact_inbox.inbox.channel_id)
+    Channel::FacebookPage.find_by(id: contact_inbox.inbox.channel_id)
   end
 
   def detect_comment_language(text)
@@ -80,10 +80,11 @@ class SendTemplateDmJob < ApplicationJob
 
     # Prefer English on tie or near-tie to avoid false Spanish on short English phrases
     return :es if spanish_count >= english_count + 1
+
     :en
   end
 
-  def find_existing_template_facebook_dm_conversation(contact_inbox, contact, inbox, account)
+  def find_existing_template_facebook_dm_conversation(_contact_inbox, contact, inbox, account)
     Conversation.joins(contact_inbox: { contact: :account }, inbox: :account)
                 .where(
                   "conversations.contact_id = ? AND conversations.inbox_id = ? AND inboxes.account_id = ? AND conversations.additional_attributes->>'type' = ?",
@@ -95,7 +96,7 @@ class SendTemplateDmJob < ApplicationJob
                 .last
   end
 
-  def find_existing_template_insta_dm_conversation(contact_inbox, contact, inbox, account)
+  def find_existing_template_insta_dm_conversation(_contact_inbox, contact, inbox, account)
     Conversation.joins(contact_inbox: { contact: :account }, inbox: :account)
                 .where(
                   "conversations.contact_id = ? AND conversations.inbox_id = ? AND inboxes.account_id = ? AND conversations.additional_attributes->>'type' = ?",
@@ -145,7 +146,7 @@ class SendTemplateDmJob < ApplicationJob
     template_dm_conversation
   end
 
-  def send_facebook_dm(contact_inbox, recipient_id, template_message, comment_id)
+  def send_facebook_dm(contact_inbox, _recipient_id, template_message, comment_id)
     channel = contact_inbox.inbox.channel
     access_token = channel.page_access_token
     page_id = channel.page_id
@@ -211,7 +212,7 @@ class SendTemplateDmJob < ApplicationJob
     Rails.logger.info '✅ Facebook Template DM sent successfully'
   end
 
-  def send_instagram_dm(contact_inbox, recipient_id, template_message, comment_id, conversation)
+  def send_instagram_dm(contact_inbox, _recipient_id, template_message, comment_id, _conversation)
     channel = contact_inbox.inbox.channel
     access_token = channel.access_token
     page_id = channel.instagram_id

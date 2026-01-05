@@ -207,9 +207,6 @@ gem 'ruby_llm-schema'
 gem 'opentelemetry-sdk'
 gem 'opentelemetry-exporter-otlp'
 
-# TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm-schema'
-
 gem 'active_record_query_trace'
 gem 'listen'
 gem 'shopify_api'
