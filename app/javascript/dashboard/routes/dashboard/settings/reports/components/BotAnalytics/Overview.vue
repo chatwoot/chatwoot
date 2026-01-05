@@ -18,6 +18,7 @@ export default {
       isFetchingData: false,
       from: 0,
       to: 0,
+      selectedFlow: null,
     };
   },
   computed: {
@@ -55,10 +56,16 @@ export default {
     },
   },
   methods: {
-    onFilterChange({ from, to }) {
-      if (this.from !== from || this.to !== to) {
+    onFilterChange({ from, to, selectedFlow }) {
+      const flowChanged =
+        this.selectedFlow?.id !== selectedFlow?.id ||
+        (!this.selectedFlow && selectedFlow) ||
+        (this.selectedFlow && !selectedFlow);
+
+      if (this.from !== from || this.to !== to || flowChanged) {
         this.from = from;
         this.to = to;
+        this.selectedFlow = selectedFlow;
         this.fetchAllData();
       }
     },
@@ -67,10 +74,17 @@ export default {
 
       this.isFetchingData = true;
       try {
-        await this.$store.dispatch('fetchBotConversationMetric', {
+        const params = {
           since: this.from,
           until: this.to,
-        });
+        };
+
+        // Add flowId if a specific flow is selected
+        if (this.selectedFlow && this.selectedFlow.id) {
+          params.flowId = this.selectedFlow.id;
+        }
+
+        await this.$store.dispatch('fetchBotConversationMetric', params);
       } finally {
         this.isFetchingData = false;
       }
@@ -93,6 +107,7 @@ export default {
           :show-labels-filter="false"
           :show-inbox-filter="false"
           :show-business-hours-switch="false"
+          :show-flow-filter="true"
           @filter-change="onFilterChange"
         />
         <div
@@ -114,8 +129,10 @@ export default {
           v-else
           class="items-center flex text-base justify-center px-12 py-6"
         >
-          <spinner />
-          <span class="text-slate-300 dark:text-slate-200 ml-2">
+          <spinner
+            color-scheme="before:!border-slate-600 before:!border-t-slate-400 dark:before:!border-slate-400 dark:before:!border-t-slate-200"
+          />
+          <span class="text-slate-600 dark:text-slate-200 ml-2">
             Loading metrics
           </span>
         </div>

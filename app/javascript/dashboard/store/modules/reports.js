@@ -10,6 +10,7 @@ import * as types from '../mutation-types';
 
 const state = {
   fetchingStatus: false,
+  botFlows: [],
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -60,6 +61,7 @@ const state = {
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
       isFetchingLiveChatOtherMetric: false,
+      isFetchingBotFlows: false,
     },
     accountConversationMetric: {},
     botConversationMetric: {},
@@ -104,6 +106,9 @@ const getters = {
   },
   getOverviewUIFlags($state) {
     return $state.overview.uiFlags;
+  },
+  getBotFlows(_state) {
+    return _state.botFlows;
   },
 };
 
@@ -197,6 +202,28 @@ export const actions = {
       .catch(() => {
         commit(types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING, false);
       });
+  },
+  async fetchBotFlows({ commit, rootGetters }) {
+    commit(types.default.TOGGLE_BOT_FLOWS_LOADING, true);
+    try {
+      const currentAccountId = rootGetters.getCurrentAccountId;
+      const response = await customReports.getBotFlows({
+        accountId: currentAccountId,
+      });
+
+      console.log('responseDataForflow', response);
+
+      if (response.data.success && response.data.flows) {
+        commit(types.default.SET_BOT_FLOWS, response.data.flows);
+      } else {
+        commit(types.default.SET_BOT_FLOWS, []);
+      }
+    } catch (error) {
+      console.error('Error fetching bot flows:', error);
+      commit(types.default.SET_BOT_FLOWS, []);
+    } finally {
+      commit(types.default.TOGGLE_BOT_FLOWS_LOADING, false);
+    }
   },
   fetchLiveChatConversationMetric({ commit }, params = {}) {
     commit(types.default.TOGGLE_LIVE_CHAT_CONVERSATION_METRIC_LOADING, true);
@@ -406,6 +433,12 @@ const mutations = {
   },
   [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
+  },
+  [types.default.SET_BOT_FLOWS](_state, flows) {
+    _state.botFlows = flows;
+  },
+  [types.default.TOGGLE_BOT_FLOWS_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingBotFlows = flag;
   },
 };
 

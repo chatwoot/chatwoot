@@ -402,6 +402,7 @@ Rails.application.routes.draw do
               post :download_bot_analytics_sales_overview
               post :download_bot_analytics_support_overview
               get :bot_analytics_overview
+              get :bot_flows
               get :shop_currency
               get :bot_analytics_sales_overview
               get :bot_analytics_support_overview

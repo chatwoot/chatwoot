@@ -39,6 +39,10 @@
         v-if="showRatingFilter"
         @rating-filter-selection="handleRatingFilterSelection"
       />
+      <reports-filters-flows
+        v-if="showFlowFilter"
+        @flow-filter-selection="handleFlowFilterSelection"
+      />
     </div>
     <div v-if="showBusinessHoursSwitch" class="flex items-center">
       <span class="mx-2 text-sm whitespace-nowrap">
@@ -59,6 +63,7 @@ import ReportsFiltersLabels from './Filters/Labels.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
 import ReportsFiltersRatings from './Filters/Ratings.vue';
+import ReportsFiltersFlows from './Filters/Flows.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
 import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
@@ -73,6 +78,7 @@ export default {
     ReportsFiltersInboxes,
     ReportsFiltersTeams,
     ReportsFiltersRatings,
+    ReportsFiltersFlows,
   },
   props: {
     filterItemsList: {
@@ -107,6 +113,10 @@ export default {
       type: Boolean,
       default: true,
     },
+    showFlowFilter: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -120,6 +130,7 @@ export default {
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
       businessHoursSelected: false,
+      selectedFlow: null,
     };
   },
   computed: {
@@ -181,6 +192,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedFlow,
       } = this;
       this.$emit('filter-change', {
         from,
@@ -192,6 +204,7 @@ export default {
         selectedInbox,
         selectedTeam,
         selectedRating,
+        selectedFlow,
       });
     },
     onDateRangeChange(selectedRange) {
@@ -226,6 +239,10 @@ export default {
     },
     handleRatingFilterSelection(selectedRating) {
       this.selectedRating = selectedRating;
+      this.emitChange();
+    },
+    handleFlowFilterSelection(selectedFlow) {
+      this.selectedFlow = selectedFlow;
       this.emitChange();
     },
   },

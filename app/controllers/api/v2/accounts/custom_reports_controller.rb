@@ -118,6 +118,21 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     render json: { currency: get_live_chat_shop_currency(Current.account.id) }
   end
 
+  def bot_flows
+    shop_url = fetch_shop_url(Current.account.id)
+
+    if shop_url.blank?
+      render json: { success: false, flows: [], error: 'Shop URL not found' }
+      return
+    end
+
+    flows = fetch_flows_from_api(shop_url)
+    render json: flows
+  rescue StandardError => e
+    Rails.logger.error("Error fetching bot flows: #{e.message}")
+    render json: { success: false, flows: [], error: e.message }, status: :internal_server_error
+  end
+
   private
 
   def build_report(input)
@@ -151,7 +166,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def bot_base_filters
     api_inbox_ids = Current.account.inboxes.where(channel_type: 'Channel::Api').pluck(:id)
-    {
+    filters = {
       time_period: {
         type: 'custom',
         start_date: params[:since],
@@ -162,6 +177,10 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
       agents: params[:agents],
       labels: params[:labels]
     }
+
+    filters[:flow_id] = params[:flow_id] if params[:flow_id].present?
+
+    filters
   end
 
   def live_chat_base_filters
@@ -347,5 +366,19 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def median_metrics
     %w[median_first_response_time median_resolution_time median_response_time median_csat_score]
+  end
+
+  def fetch_flows_from_api(shop_url)
+    response = HTTParty.get(
+      'https://mcfsmik3g0.execute-api.us-east-1.amazonaws.com/flows/metadata',
+      query: { shopUrl: shop_url, channel: 'WHATSAPP' }
+    )
+
+    return { success: false, flows: [] } unless response.success?
+
+    JSON.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.error("Error calling flows metadata API: #{e.message}")
+    { success: false, flows: [], error: e.message }
   end
 end

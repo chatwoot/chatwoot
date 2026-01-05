@@ -83,7 +83,16 @@ class CustomReportsAPI extends ApiClient {
     return axios.get(`${this.url}/label_wise_conversation_states`, { params });
   }
 
-  getCustomBotAnalyticsOverviewReports({ since, until, selectedLabel }) {
+  getBotFlows() {
+    return axios.get(`${this.url}/bot_flows`);
+  }
+
+  getCustomBotAnalyticsOverviewReports({
+    since,
+    until,
+    selectedLabel,
+    flowId,
+  }) {
     const params = {
       since,
       until,
@@ -93,6 +102,10 @@ class CustomReportsAPI extends ApiClient {
 
     if (selectedLabel) {
       params.labels = [selectedLabel.title];
+    }
+
+    if (flowId) {
+      params.flow_id = flowId;
     }
 
     return axios.get(`${this.url}/bot_analytics_overview`, { params });

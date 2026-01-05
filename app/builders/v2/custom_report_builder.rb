@@ -16,6 +16,7 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
     @metrics = params[:metrics]
     @filters = params[:filters]
     @group_by = params[:group_by]
+    @flow_id = params[:filters][:flow_id] if params[:filters]
     @metric_timings = {}
 
     timezone_offset = (params[:timezone_offset] || 0).to_f
@@ -214,15 +215,15 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
   def calculate_metric(metric) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/AbcSize
     case metric
     when 'bot_orders_placed'
-      bot_orders_placed(@account.id, @time_range)
+      bot_orders_placed(@account.id, @time_range, @flow_id)
     when 'live_chat_orders_placed'
       live_chat_orders_placed(@account.id, @time_range)
     when 'bot_revenue_generated'
-      bot_revenue_generated(@account.id, @time_range)
+      bot_revenue_generated(@account.id, @time_range, @flow_id)
     when 'live_chat_revenue_generated'
       live_chat_revenue_generated(@account.id, @time_range)
     when 'bot_total_revenue'
-      bot_total_revenue(@account.id, @time_range)
+      bot_total_revenue(@account.id, @time_range, @flow_id)
     when 'live_chat_impressions'
       live_chat_impressions(@account.id, @time_range)
     when 'live_chat_widget_opened'
@@ -238,7 +239,7 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
     when 'agent_total_calls'
       agent_total_calls(@account.id, @time_range)
     when 'sales_ooo_hours'
-      sales_ooo_hours(@account.id, @time_range)
+      sales_ooo_hours(@account.id, @time_range, @flow_id)
     when 'live_chat_sales_ooo_hours'
       live_chat_sales_ooo_hours(@account.id, @time_range)
     else

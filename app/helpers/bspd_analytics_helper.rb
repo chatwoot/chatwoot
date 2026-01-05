@@ -8,20 +8,20 @@ module BspdAnalyticsHelper
   BOT_ATTRIBUTIONS_TTL = 1.minute
   CURRENCY_TTL = 24.hours
 
-  def bot_total_revenue(account_id, time_range)
-    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range)
+  def bot_total_revenue(account_id, time_range, flow_id = nil)
+    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range, flow_id: flow_id)
 
     bot_attributions['chatbot_working_hours']['revenue'] + bot_attributions['chatbot_ooo_hours']['revenue']
   end
 
-  def sales_ooo_hours(account_id, time_range)
-    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range)
+  def sales_ooo_hours(account_id, time_range, flow_id = nil)
+    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range, flow_id: flow_id)
 
     bot_attributions['chatbot_ooo_hours']['count']
   end
 
-  def bot_orders_placed(account_id, time_range)
-    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range)
+  def bot_orders_placed(account_id, time_range, flow_id = nil)
+    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range, flow_id: flow_id)
 
     Rails.logger.info "Time Range: #{time_range.inspect}"
     Rails.logger.info "bot_attributions: #{bot_attributions}"
@@ -32,8 +32,8 @@ module BspdAnalyticsHelper
     }
   end
 
-  def bot_revenue_generated(account_id, time_range)
-    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range)
+  def bot_revenue_generated(account_id, time_range, flow_id = nil)
+    bot_attributions = fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: time_range, flow_id: flow_id)
 
     Rails.logger.info "bot_attributions: #{bot_attributions}"
 
@@ -90,12 +90,12 @@ module BspdAnalyticsHelper
 
   private
 
-  def fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: nil)
-    cache_key = "bot_attributions:#{account_id}:#{time_range&.begin}:#{time_range&.end}"
+  def fetch_bot_attributions(account_id, use_time_qualifier: false, time_range: nil, flow_id: nil)
+    cache_key = "bot_attributions:#{account_id}:#{time_range&.begin}:#{time_range&.end}:#{flow_id}"
     cached_data = Redis::Alfred.get(cache_key)
     return JSON.parse(cached_data) if cached_data.present?
 
-    response_data = fetch_bot_attributions_from_api(account_id, use_time_qualifier, time_range)
+    response_data = fetch_bot_attributions_from_api(account_id, use_time_qualifier, time_range, flow_id)
     Redis::Alfred.setex(cache_key, response_data.to_json, BOT_ATTRIBUTIONS_TTL) if response_data.present?
     response_data
   end
@@ -200,7 +200,7 @@ module BspdAnalyticsHelper
     default_response
   end
 
-  def fetch_bot_attributions_from_api(account_id, use_time_qualifier, time_range)
+  def fetch_bot_attributions_from_api(account_id, use_time_qualifier, time_range, flow_id = nil)
     shop_url = fetch_shop_url(account_id)
     time_offset = 330
 
@@ -218,6 +218,8 @@ module BspdAnalyticsHelper
         to: time_range&.end&.strftime('%Y-%m-%d')
       }.to_json
     end
+
+    params[:flowId] = flow_id if flow_id.present?
 
     response = HTTParty.get('https://43r09s4nl9.execute-api.us-east-1.amazonaws.com/chatwoot/botAttributions', query: params)
     JSON.parse(response.body)
