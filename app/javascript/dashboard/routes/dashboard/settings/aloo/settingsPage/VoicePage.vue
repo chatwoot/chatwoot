@@ -141,10 +141,6 @@ watch(voiceEnabled, newVal => {
         <template v-if="voiceEnabled">
           <div class="space-y-6">
             <div class="p-4 rounded-lg bg-n-alpha-1 border border-n-weak">
-              <p class="text-sm font-medium text-n-slate-12 mb-3">
-                {{ $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.TITLE') }}
-              </p>
-
               <div
                 v-if="voiceError"
                 class="mb-3 p-3 rounded bg-r-50 text-r-800 text-sm"
@@ -153,32 +149,36 @@ watch(voiceEnabled, newVal => {
               </div>
 
               <div class="flex items-center gap-3">
-                <select
-                  :value="selectedVoiceId"
-                  :disabled="isLoadingVoices"
-                  class="flex-1 px-3 py-2 text-sm rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-brand"
-                  @change="
-                    updateVoiceConfig(
-                      'elevenlabs_voice_id',
-                      $event.target.value
-                    )
-                  "
-                >
-                  <option value="" disabled>
-                    {{
-                      isLoadingVoices
-                        ? $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.LOADING')
-                        : $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.PLACEHOLDER')
-                    }}
-                  </option>
-                  <option
-                    v-for="voice in voices"
-                    :key="voice.voice_id"
-                    :value="voice.voice_id"
+                <label class="flex-1">
+                  {{ $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.TITLE') }}
+                  <select
+                    :value="selectedVoiceId"
+                    :disabled="isLoadingVoices"
+                    @change="
+                      updateVoiceConfig(
+                        'elevenlabs_voice_id',
+                        $event.target.value
+                      )
+                    "
                   >
-                    {{ voice.name }}
-                  </option>
-                </select>
+                    <option value="" disabled>
+                      {{
+                        isLoadingVoices
+                          ? $t('ALOO.SETTINGS.VOICE.VOICE_SELECTION.LOADING')
+                          : $t(
+                              'ALOO.SETTINGS.VOICE.VOICE_SELECTION.PLACEHOLDER'
+                            )
+                      }}
+                    </option>
+                    <option
+                      v-for="voice in voices"
+                      :key="voice.voice_id"
+                      :value="voice.voice_id"
+                    >
+                      {{ voice.name }}
+                    </option>
+                  </select>
+                </label>
 
                 <Button
                   :disabled="!selectedVoiceId || isPreviewPlaying"
