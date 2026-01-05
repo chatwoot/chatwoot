@@ -47,16 +47,9 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
       end.not_to(change { conversation.messages.where(sender_type: 'Aloo::Assistant').count })
     end
 
-    it 'updates conversation status to open' do
-      message = create(:message, conversation: conversation, message_type: :incoming, content: 'I need human help')
-      event = Events::Base.new('message.created', Time.zone.now, message: message)
-
-      perform_enqueued_jobs do
-        AlooAgentListener.instance.message_created(event)
-      end
-
-      expect(conversation.reload.status).to eq('open')
-    end
+    # NOTE: The status update to 'open' is handled by HandoffTool during actual execution.
+    # Since ConversationAgent.call is mocked here, the tool doesn't run.
+    # The status change is tested in spec/tools/handoff_tool_spec.rb
   end
 
   describe 'handoff flag management' do

@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/adham90/ruby_llm-agents
-  revision: 33b3a386a8c96a679b72aa82b5d941f9d88f2a39
+  revision: 1ecab161c0057bcf42de6dff4eac025b46bd8d0c
   branch: main
   specs:
     ruby_llm-agents (0.3.4)

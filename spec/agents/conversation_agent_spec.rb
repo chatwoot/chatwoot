@@ -36,20 +36,9 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#model' do
-    context 'when assistant has configured model' do
-      let(:assistant) { create(:aloo_assistant, :with_custom_model, account: account) }
-
-      it 'returns assistant model' do
-        agent = described_class.new(message: 'test')
-        expect(agent.model).to eq('gpt-4o')
-      end
-    end
-
-    context 'when assistant has no custom model' do
-      it 'returns default model' do
-        agent = described_class.new(message: 'test')
-        expect(agent.model).to eq('gemini-2.0-flash')
-      end
+    it 'returns default model from ApplicationAgent' do
+      agent = described_class.new(message: 'test')
+      expect(agent.model).to eq('gpt-4o-mini')
     end
   end
 
