@@ -410,7 +410,7 @@ export default {
         :conversation-id="conversationId"
       />
       <CartButton
-        v-if="!isOnPrivateNote && payzahEnabled"
+        v-if="!isOnPrivateNote && paymentEnabled"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton

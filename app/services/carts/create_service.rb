@@ -10,14 +10,21 @@ class Carts::CreateService
   end
 
   def perform
-    validate_payzah_configuration!
+    validate_payment_gateway!
     validate_items!
 
     cart = create_cart_record
 
     begin
-      payzah_response = call_payzah_api(cart.external_payment_id, cart.total)
-      update_with_payzah_data(cart, payzah_response)
+      case payment_provider
+      when 'payzah'
+        response = call_payzah_api(cart.external_payment_id, cart.total)
+        update_with_payzah_data(cart, response)
+      when 'tap'
+        response = call_tap_api(cart.external_payment_id, cart.total)
+        update_with_tap_data(cart, response)
+      end
+
       message = create_message(cart)
       cart.update!(message: message)
 
@@ -32,11 +39,18 @@ class Carts::CreateService
 
   private
 
-  def validate_payzah_configuration!
+  def validate_payment_gateway!
     return if account.payzah_settings&.payzah_configured?
+    return if account.tap_settings&.tap_configured?
 
-    raise ArgumentError, 'Payzah is not configured for this account. ' \
-                         'Please configure Payzah API key in Settings → Integrations → Payzah.'
+    raise ArgumentError, 'No payment gateway configured. Please configure Payzah or Tap in Settings → Integrations.'
+  end
+
+  def payment_provider
+    return 'payzah' if account.payzah_settings&.payzah_configured?
+    return 'tap' if account.tap_settings&.tap_configured?
+
+    nil
   end
 
   def validate_items!
@@ -57,7 +71,7 @@ class Carts::CreateService
       created_by: user,
       currency: currency,
       status: :initiated,
-      provider: 'payzah',
+      provider: payment_provider,
       payment_url: '',
       subtotal: 0,
       total: 0,
@@ -98,6 +112,28 @@ class Carts::CreateService
         payzah_payment_id: payzah_response['PaymentID'],
         payzah_response: payzah_response.to_h,
         payzah_called_at: Time.current.iso8601
+      )
+    )
+  end
+
+  def call_tap_api(reference_id, amount)
+    Tap::CreateInvoiceService.new(
+      reference_id: reference_id,
+      amount: amount,
+      currency: currency,
+      customer: customer_data,
+      secret_key: account.tap_settings.secret_key
+    ).perform
+  end
+
+  def update_with_tap_data(cart, tap_response)
+    cart.update!(
+      payment_url: tap_response['url'],
+      status: :pending,
+      payload: cart.payload.merge(
+        tap_invoice_id: tap_response['id'],
+        tap_response: tap_response.to_h,
+        tap_called_at: Time.current.iso8601
       )
     )
   end
