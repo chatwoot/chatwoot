@@ -122,7 +122,9 @@ const createAssistant = async () => {
     useAlert(t('ALOO.MESSAGES.CREATED'));
     router.push(accountScopedRoute('settings_aloo_list'));
   } catch (error) {
-    useAlert(t('ALOO.MESSAGES.ERROR'));
+    const errorMessage =
+      error?.response?.data?.message || t('ALOO.MESSAGES.ERROR');
+    useAlert(errorMessage);
   } finally {
     isSubmitting.value = false;
   }

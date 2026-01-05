@@ -1,11 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required, maxLength } from '@vuelidate/validators';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import { useDebounce } from '@vueuse/core';
+import AlooAssistant from 'dashboard/api/aloo/assistant';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -33,6 +35,31 @@ const description = computed({
     }),
 });
 
+const isCheckingName = ref(false);
+const isNameTaken = ref(false);
+const debouncedName = useDebounce(name, 300);
+
+const checkNameAvailability = async nameToCheck => {
+  if (!nameToCheck?.trim()) {
+    isNameTaken.value = false;
+    return;
+  }
+
+  isCheckingName.value = true;
+  try {
+    const { data } = await AlooAssistant.checkName(nameToCheck.trim());
+    isNameTaken.value = !data.available;
+  } catch {
+    isNameTaken.value = false;
+  } finally {
+    isCheckingName.value = false;
+  }
+};
+
+watch(debouncedName, newName => {
+  checkNameAvailability(newName);
+});
+
 const rules = {
   name: { required, maxLength: maxLength(100) },
 };
@@ -40,6 +67,9 @@ const rules = {
 const v$ = useVuelidate(rules, { name });
 
 const nameError = computed(() => {
+  if (isNameTaken.value) {
+    return t('ALOO.FORM.NAME.DUPLICATE_ERROR');
+  }
   if (v$.value.name.$error) {
     return t('ALOO.FORM.NAME.ERROR');
   }
@@ -53,7 +83,7 @@ const touchName = () => {
 const goToNext = async () => {
   v$.value.name.$touch();
 
-  if (!name.value?.trim()) {
+  if (!name.value?.trim() || isNameTaken.value || isCheckingName.value) {
     return;
   }
 

@@ -53,6 +53,10 @@ class AlooAssistant extends ApiClient {
       conversation_history: conversationHistory,
     });
   }
+
+  checkName(name) {
+    return axios.get(`${this.url}/check_name`, { params: { name } });
+  }
 }
 
 export default new AlooAssistant();

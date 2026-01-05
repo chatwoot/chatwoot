@@ -2,7 +2,7 @@
 
 class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :set_assistant, except: %i[index create]
+  before_action :set_assistant, except: %i[index create check_name]
 
   def index
     @assistants = Current.account.aloo_assistants.order(:name)
@@ -29,6 +29,12 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   def destroy
     @assistant.destroy!
     head :ok
+  end
+
+  # GET /api/v1/accounts/:account_id/aloo/assistants/check_name
+  def check_name
+    exists = Current.account.aloo_assistants.exists?(name: params[:name])
+    render json: { available: !exists }
   end
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/stats

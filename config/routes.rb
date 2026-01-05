@@ -73,6 +73,9 @@ Rails.application.routes.draw do
           # Aloo AI Agent routes
           namespace :aloo do
             resources :assistants do
+              collection do
+                get :check_name
+              end
               member do
                 get :stats
                 get :performance

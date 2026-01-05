@@ -93,7 +93,7 @@ module Aloo
       'MSA' => { name: 'Modern Standard', prompt: 'Respond in Modern Standard Arabic (فصحى). Use formal Arabic.' }
     }.freeze
 
-    validates :name, presence: true
+    validates :name, presence: true, uniqueness: { scope: :account_id }
     validates :tone, inclusion: { in: TONES }
     validates :formality, inclusion: { in: FORMALITY_LEVELS }
     validates :empathy_level, inclusion: { in: EMPATHY_LEVELS }
@@ -189,6 +189,12 @@ module Aloo
         avatar_url: nil,
         type: 'aloo_assistant'
       }
+    end
+
+    # Required for ActionCableListener compatibility when dispatching typing events
+    # Returns nil since assistants don't have their own pubsub token
+    def pubsub_token
+      nil
     end
 
     # Voice configuration helpers

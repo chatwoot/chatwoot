@@ -22,8 +22,13 @@ module Aloo
       return unless @message.incoming?
 
       set_aloo_context do
-        result = generate_response
-        send_response(result) if result.success? && result.content.present?
+        show_typing_indicator
+        begin
+          result = generate_response
+          send_response(result) if result.success? && result.content.present?
+        ensure
+          hide_typing_indicator
+        end
       end
     rescue StandardError => e
       Rails.logger.error("[Aloo::ResponseJob] Error: #{e.message}")
@@ -154,6 +159,26 @@ module Aloo
 
       # Queue voice synthesis job
       Aloo::VoiceReplyJob.perform_later(message.id)
+    end
+
+    def show_typing_indicator
+      Rails.configuration.dispatcher.dispatch(
+        Events::Types::CONVERSATION_TYPING_ON,
+        Time.zone.now,
+        conversation: @conversation,
+        user: @assistant,
+        is_private: false
+      )
+    end
+
+    def hide_typing_indicator
+      Rails.configuration.dispatcher.dispatch(
+        Events::Types::CONVERSATION_TYPING_OFF,
+        Time.zone.now,
+        conversation: @conversation,
+        user: @assistant,
+        is_private: false
+      )
     end
   end
 end

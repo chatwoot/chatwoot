@@ -27,7 +27,8 @@
       "NAME": {
         "LABEL": "Name",
         "PLACEHOLDER": "Enter assistant name",
-        "ERROR": "Name is required"
+        "ERROR": "Name is required",
+        "DUPLICATE_ERROR": "An assistant with this name already exists"
       },
       "DESCRIPTION": {
         "LABEL": "Description",
