@@ -197,11 +197,17 @@ class Captain::Llm::SystemPromptsService
         #{config['instructions'] || ''}
         ```json
         {
-          reasoning: '',
-          response: '',
+          "reasoning": "",
+          "response": "",
+          "action": "continue" | "handoff"
         }
         ```
-        - If the answer is not provided in context sections, Respond to the customer and ask whether they want to talk to another support agent . If they ask to Chat with another agent, return `conversation_handoff' as the response in JSON response
+        The action field MUST be one of:
+        - "continue": Default. Use for normal conversation flow.
+        - "handoff": Use when transferring to human agent. This includes: user explicitly requests human/agent, you cannot answer from provided context, user is frustrated, or situation requires human judgment.
+
+        When action is "handoff", your response field should contain an appropriate message to the user (e.g., letting them know they'll be connected to support).
+        This handoff message MUST be in the same language as the user's message.
         #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
       SYSTEM_PROMPT_MESSAGE
     end
