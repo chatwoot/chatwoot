@@ -95,7 +95,8 @@ class Captain::Assistant::AgentRunnerService
   def error_response(error_message)
     {
       'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{error_message}"
+      'reasoning' => "Error occurred: #{error_message}",
+      'action' => 'handoff'
     }
   end
 
