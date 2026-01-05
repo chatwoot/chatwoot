@@ -188,7 +188,7 @@ export const createGreetingPreview = (config = {}) => {
   const messageEl = document.createElement('div');
   messageEl.className = 'woot-greeting-preview-message';
   messageEl.textContent =
-    greetingMessage || "I'm online and happy to help! How may I help you? 😊";
+    greetingMessage || 'Hi there! 👋 How can I help? Send me a message!';
 
   previewBox.appendChild(header);
   previewBox.appendChild(messageEl);
