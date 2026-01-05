@@ -36,9 +36,9 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#model' do
-    it 'returns default model from ApplicationAgent' do
+    it 'uses gemini-2.0-flash for cost-effective tool calling' do
       agent = described_class.new(message: 'test')
-      expect(agent.model).to eq('gpt-4o-mini')
+      expect(agent.model).to eq('gemini-2.0-flash')
     end
   end
 

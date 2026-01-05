@@ -14,6 +14,7 @@
 #   )
 #
 class ConversationAgent < ApplicationAgent
+  model 'gemini-2.0-flash'
   temperature 0.7
   version '1.0'
   timeout 60

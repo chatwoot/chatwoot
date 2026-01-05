@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe FaqGeneratorAgent do
   describe 'configuration' do
-    it 'uses gemini model' do
-      expect(described_class.model).to eq('gemini-2.0-flash')
+    it 'uses gpt-4o-mini model' do
+      expect(described_class.model).to eq('gpt-4o-mini')
     end
 
     it 'has temperature of 0.5' do

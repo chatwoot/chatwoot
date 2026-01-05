@@ -10,7 +10,7 @@
 #   )
 #
 class ConversationTriageAgent < ApplicationAgent
-  model 'gpt-4o-mini'
+  model 'gemini-2.0-flash-lite'
   temperature 0.3
   version '1.0'
 

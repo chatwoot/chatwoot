@@ -7,6 +7,7 @@
 RubyLLM.configure do |config|
   # API Keys from environment
   config.openai_api_key = ENV.fetch('OPENAI_API_KEY', nil)
+  config.gemini_api_key = ENV.fetch('GEMINI_API_KEY', nil)
 
   # Request configuration
   config.request_timeout = 120 # seconds

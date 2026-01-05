@@ -4,8 +4,8 @@ require 'rails_helper'
 
 RSpec.describe MemoryExtractorAgent do
   describe 'configuration' do
-    it 'uses gemini model' do
-      expect(described_class.model).to eq('gemini-2.0-flash')
+    it 'uses gemini-2.5-flash for complex extraction' do
+      expect(described_class.model).to eq('gemini-2.5-flash')
     end
 
     it 'has temperature of 0.5' do
@@ -94,7 +94,7 @@ RSpec.describe MemoryExtractorAgent do
     end
 
     it 'has descriptions for each type' do
-      described_class::MEMORY_TYPES.each do |type, description|
+      described_class::MEMORY_TYPES.each do |_type, description|
         expect(description).to be_a(String)
         expect(description.length).to be > 10
       end

@@ -10,6 +10,7 @@
 #   result.content  # => { memories: [...] }
 #
 class MemoryExtractorAgent < ApplicationAgent
+  model 'gemini-2.5-flash'
   temperature 0.5
   version '1.0'
 
