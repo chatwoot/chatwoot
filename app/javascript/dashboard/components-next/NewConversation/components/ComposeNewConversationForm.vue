@@ -7,6 +7,7 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -46,6 +47,8 @@ const emit = defineEmits([
   'clearSelectedContact',
   'createConversation',
 ]);
+
+const DEFAULT_FORMATTING = 'Context::Default';
 
 const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
@@ -198,10 +201,22 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
   showInboxesDropdown.value = true;
 };
 
-const handleInboxAction = ({ value, action, ...rest }) => {
+const stripMessageFormatting = channelType => {
+  if (!state.message || !channelType) return;
+
+  state.message = stripUnsupportedMarkdown(state.message, channelType, false);
+};
+
+const handleInboxAction = ({ value, action, channelType, medium, ...rest }) => {
   v$.value.$reset();
-  state.message = '';
-  emit('updateTargetInbox', { ...rest });
+
+  // Strip unsupported formatting when changing the target inbox
+  if (channelType) {
+    const newChannelType = getEffectiveChannelType(channelType, medium);
+    stripMessageFormatting(newChannelType);
+  }
+
+  emit('updateTargetInbox', { ...rest, channelType, medium });
   showInboxesDropdown.value = false;
   state.attachedFiles = [];
 };
@@ -221,7 +236,9 @@ const removeSignatureFromMessage = () => {
 const removeTargetInbox = value => {
   v$.value.$reset();
   removeSignatureFromMessage();
-  state.message = '';
+
+  stripMessageFormatting(DEFAULT_FORMATTING);
+
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
@@ -324,7 +341,7 @@ const shouldShowMessageEditor = computed(() => {
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0"
+    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
     <ContactSelector
       :contacts="contacts"
@@ -354,37 +371,45 @@ const shouldShowMessageEditor = computed(() => {
       @handle-inbox-action="handleInboxAction"
     />
 
-    <EmailOptions
-      v-if="inboxTypes.isEmail"
-      v-model:cc-emails="state.ccEmails"
-      v-model:bcc-emails="state.bccEmails"
-      v-model:subject="state.subject"
-      :contacts="contacts"
-      :show-cc-emails-dropdown="showCcEmailsDropdown"
-      :show-bcc-emails-dropdown="showBccEmailsDropdown"
-      :is-loading="isLoading"
-      :has-errors="validationStates.isSubjectInvalid"
-      @search-cc-emails="searchCcEmails"
-      @search-bcc-emails="searchBccEmails"
-      @update-dropdown="handleDropdownUpdate"
-    />
+    <div
+      v-if="
+        inboxTypes.isEmail ||
+        shouldShowMessageEditor ||
+        state.attachedFiles.length > 0
+      "
+      class="flex-1 overflow-y-auto min-h-0 divide-y divide-n-strong"
+    >
+      <EmailOptions
+        v-if="inboxTypes.isEmail"
+        v-model:cc-emails="state.ccEmails"
+        v-model:bcc-emails="state.bccEmails"
+        v-model:subject="state.subject"
+        :contacts="contacts"
+        :show-cc-emails-dropdown="showCcEmailsDropdown"
+        :show-bcc-emails-dropdown="showBccEmailsDropdown"
+        :is-loading="isLoading"
+        :has-errors="validationStates.isSubjectInvalid"
+        @search-cc-emails="searchCcEmails"
+        @search-bcc-emails="searchBccEmails"
+        @update-dropdown="handleDropdownUpdate"
+      />
 
-    <MessageEditor
-      v-if="shouldShowMessageEditor"
-      v-model="state.message"
-      :message-signature="messageSignature"
-      :send-with-signature="sendWithSignature"
-      :has-errors="validationStates.isMessageInvalid"
-      :has-attachments="state.attachedFiles.length > 0"
-      :channel-type="inboxChannelType"
-      :medium="targetInbox?.medium || ''"
-    />
+      <MessageEditor
+        v-if="shouldShowMessageEditor"
+        v-model="state.message"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        :has-errors="validationStates.isMessageInvalid"
+        :channel-type="inboxChannelType"
+        :medium="targetInbox?.medium || ''"
+      />
 
-    <AttachmentPreviews
-      v-if="state.attachedFiles.length > 0"
-      :attachments="state.attachedFiles"
-      @update:attachments="state.attachedFiles = $event"
-    />
+      <AttachmentPreviews
+        v-if="state.attachedFiles.length > 0"
+        :attachments="state.attachedFiles"
+        @update:attachments="state.attachedFiles = $event"
+      />
+    </div>
 
     <ActionButtons
       :attached-files="state.attachedFiles"
