@@ -50,6 +50,51 @@ const isAssignedToOtherAgent = computed(
 const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
 const isCurrentUserHuman = computed(() => !currentUser.value?.is_ai);
 
+// Aloo AI Assistant handling
+const alooAssistant = computed(() => currentChat.value?.aloo_assistant);
+const isAlooHandoffActive = computed(
+  () => currentChat.value?.custom_attributes?.aloo_handoff_active === true
+);
+const isAlooAIHandling = computed(() => {
+  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
+  return (
+    alooAssistant.value?.active &&
+    !isAlooHandoffActive.value &&
+    !assignedAgent.value
+  );
+});
+const hasAlooAssistant = computed(
+  () => alooAssistant.value?.id && alooAssistant.value?.active
+);
+
+// Show "Take Over" banner when Aloo AI is handling and user starts typing
+const showAlooTakeOverBanner = computed(() => {
+  return (
+    isAlooAIHandling.value &&
+    isUserTyping.value &&
+    isCurrentUserHuman.value &&
+    !props.isOnPrivateNote
+  );
+});
+
+// Show "Return to AI" banner when human is handling (has assignee or handoff active)
+const isHumanHandling = computed(() => {
+  // Human is handling if: there's a handoff flag OR there's a human assignee
+  return (
+    isAlooHandoffActive.value ||
+    (assignedAgent.value && !assignedAgent.value.is_ai)
+  );
+});
+
+const showAlooReturnToAIBanner = computed(() => {
+  return (
+    hasAlooAssistant.value &&
+    isHumanHandling.value &&
+    isCurrentUserHuman.value &&
+    !props.isOnPrivateNote
+  );
+});
+
 const showAIHandoffBanner = computed(() => {
   return (
     isAssignedToAI.value && isCurrentUserHuman.value && !props.isOnPrivateNote
@@ -57,8 +102,9 @@ const showAIHandoffBanner = computed(() => {
 });
 
 const showSelfAssignBanner = computed(() => {
-  // Don't show self-assign banner when AI is assigned (AI handoff banner handles that)
+  // Don't show self-assign banner when AI is assigned or Aloo AI is handling
   if (isAssignedToAI.value) return false;
+  if (isAlooAIHandling.value) return false;
   return (
     isUserTyping.value && (isUnassigned.value || isAssignedToOtherAgent.value)
   );
@@ -123,9 +169,81 @@ const onClickAIHandoff = async () => {
     useAlert(t('CONVERSATION.AI_HANDOFF.HANDOFF_ERROR'));
   }
 };
+
+// Aloo: Take over from AI (set handoff flag, assign to current user)
+const onClickAlooTakeOver = async () => {
+  try {
+    // Set the handoff flag to stop AI from responding
+    await store.dispatch('updateCustomAttributes', {
+      conversationId: currentChat.value?.id,
+      customAttributes: {
+        ...currentChat.value?.custom_attributes,
+        aloo_handoff_active: true,
+        aloo_handoff_at: new Date().toISOString(),
+      },
+    });
+    // Assign to current user
+    await selfAssignConversation();
+    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_ERROR'));
+  }
+};
+
+// Aloo: Return conversation to AI (clear handoff flag, unassign)
+const onClickAlooReturnToAI = async () => {
+  try {
+    // Clear the handoff flag to let AI respond again
+    await store.dispatch('updateCustomAttributes', {
+      conversationId: currentChat.value?.id,
+      customAttributes: {
+        ...currentChat.value?.custom_attributes,
+        aloo_handoff_active: false,
+        aloo_handoff_cleared_at: new Date().toISOString(),
+      },
+    });
+    // Unassign the conversation
+    assignedAgent.value = null;
+    useAlert(t('CONVERSATION.ALOO.RETURN_TO_AI_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.ALOO.RETURN_TO_AI_ERROR'));
+  }
+};
 </script>
 
 <template>
+  <!-- Aloo: Take Over from AI banner (shown when AI is handling and user starts typing) -->
+  <Banner
+    v-if="showAlooTakeOverBanner"
+    action-button-variant="ghost"
+    color-scheme="primary"
+    class="mx-2 mb-2 rounded-lg !py-3"
+    :banner-message="
+      $t('CONVERSATION.ALOO.TAKE_OVER_MESSAGE', {
+        assistantName: alooAssistant?.name,
+      })
+    "
+    has-action-button
+    action-button-icon="i-lucide-user-check"
+    :action-button-label="$t('CONVERSATION.ALOO.TAKE_OVER_BUTTON')"
+    @primary-action="onClickAlooTakeOver"
+  />
+  <!-- Aloo: Return to AI banner (shown when handoff is active) -->
+  <Banner
+    v-if="showAlooReturnToAIBanner"
+    action-button-variant="ghost"
+    color-scheme="secondary"
+    class="mx-2 mb-2 rounded-lg !py-3"
+    :banner-message="
+      $t('CONVERSATION.ALOO.RETURN_TO_AI_MESSAGE', {
+        assistantName: alooAssistant?.name,
+      })
+    "
+    has-action-button
+    action-button-icon="i-lucide-bot"
+    :action-button-label="$t('CONVERSATION.ALOO.RETURN_TO_AI_BUTTON')"
+    @primary-action="onClickAlooReturnToAI"
+  />
   <Banner
     v-if="showAIHandoffBanner"
     action-button-variant="ghost"

@@ -94,6 +94,20 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 
 const assignedAgent = computed(() => props.chat.meta?.assignee);
 const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
+
+// Aloo AI Assistant handling
+const alooAssistant = computed(() => props.chat.aloo_assistant);
+const isAlooHandoffActive = computed(
+  () => props.chat.custom_attributes?.aloo_handoff_active === true
+);
+const isAlooAIHandling = computed(() => {
+  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
+  return (
+    alooAssistant.value?.active &&
+    !isAlooHandoffActive.value &&
+    !assignedAgent.value
+  );
+});
 </script>
 
 <template>
@@ -132,8 +146,10 @@ const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
             #{{ chat.id }}
           </span>
           <AIAgentBadge
-            v-if="isAssignedToAI"
-            :agent-name="assignedAgent?.name"
+            v-if="isAssignedToAI || isAlooAIHandling"
+            :agent-name="
+              isAlooAIHandling ? alooAssistant?.name : assignedAgent?.name
+            "
           />
           <fluent-icon
             v-if="!isHMACVerified"
