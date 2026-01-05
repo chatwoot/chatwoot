@@ -412,8 +412,16 @@ class Message < ApplicationRecord
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     else
+      reset_for_aloo_ai_handling if conversation.inbox.aloo_assistant&.active?
       conversation.open!
     end
+  end
+
+  def reset_for_aloo_ai_handling
+    attrs = conversation.custom_attributes&.dup || {}
+    attrs['aloo_handoff_active'] = false
+    attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
+    conversation.assign_attributes(custom_attributes: attrs, assignee: nil)
   end
 
   def reopened_by_contact?
