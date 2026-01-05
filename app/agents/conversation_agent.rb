@@ -40,7 +40,7 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    [FaqLookupMcp, HandoffMcp]
+    [FaqLookupMcp, HandoffMcp, ResolveMcp, SnoozeMcp, LabelsMcp, AssignMcp, PrivateNoteMcp]
   end
 
   private
@@ -60,6 +60,11 @@ class ConversationAgent < ApplicationAgent
       ## Available Tools
       - faq_lookup: Search the knowledge base for relevant information
       - handoff: Transfer the conversation to a human agent when needed
+      - resolve: Mark the conversation as resolved when the issue is fully addressed
+      - snooze: Snooze the conversation until a specific time (e.g., when waiting for customer action)
+      - labels: Add, remove, or set labels on the conversation for categorization
+      - assign: Assign the conversation to a specific team or agent
+      - private_note: Add private notes for agent reference (observations, summaries, warnings)
 
       ## Important
       - Never make up policies or information not in your knowledge base

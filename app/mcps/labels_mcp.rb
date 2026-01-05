@@ -23,43 +23,45 @@ class LabelsMcp < BaseMcp
     action = action.to_s.downcase.strip
     labels = normalize_labels(labels)
 
-    return error_response("Invalid action: #{action}. Must be one of: #{VALID_ACTIONS.join(', ')}") unless valid_action?(action)
+    return invalid_action_error(action) unless valid_action?(action)
     return error_response('Labels array cannot be empty') if labels.empty?
 
-    begin
-      previous_labels = current_conversation.label_list.to_a
-      perform_label_action(action: action, labels: labels)
-      current_labels = current_conversation.reload.label_list.to_a
-
-      log_execution(
-        { action: action, labels: labels },
-        { success: true, previous_labels: previous_labels, current_labels: current_labels }
-      )
-
-      track_in_context(
-        input: { action: action, labels: labels },
-        output: { previous_labels: previous_labels, current_labels: current_labels }
-      )
-
-      success_response({
-                         action_completed: true,
-                         action: action,
-                         labels_changed: labels,
-                         previous_labels: previous_labels,
-                         current_labels: current_labels
-                       })
-    rescue StandardError => e
-      log_execution(
-        { action: action, labels: labels },
-        {},
-        success: false,
-        error_message: e.message
-      )
-      error_response("Failed to update labels: #{e.message}")
-    end
+    perform_labels_update(action: action, labels: labels)
+  rescue StandardError => e
+    handle_error(action: action, labels: labels, error: e)
   end
 
   private
+
+  def perform_labels_update(action:, labels:)
+    previous_labels = current_conversation.label_list.to_a
+    perform_label_action(action: action, labels: labels)
+    current_labels = current_conversation.reload.label_list.to_a
+
+    log_and_track(action: action, labels: labels, previous_labels: previous_labels, current_labels: current_labels)
+    build_success_response(action: action, labels: labels, previous_labels: previous_labels, current_labels: current_labels)
+  end
+
+  def log_and_track(action:, labels:, previous_labels:, current_labels:)
+    log_execution({ action: action, labels: labels }, { success: true, previous_labels: previous_labels, current_labels: current_labels })
+    track_in_context(input: { action: action, labels: labels }, output: { previous_labels: previous_labels, current_labels: current_labels })
+  end
+
+  def build_success_response(action:, labels:, previous_labels:, current_labels:)
+    success_response(
+      action_completed: true, action: action, labels_changed: labels,
+      previous_labels: previous_labels, current_labels: current_labels
+    )
+  end
+
+  def invalid_action_error(action)
+    error_response("Invalid action: #{action}. Must be one of: #{VALID_ACTIONS.join(', ')}")
+  end
+
+  def handle_error(action:, labels:, error:)
+    log_execution({ action: action, labels: labels }, {}, success: false, error_message: error.message)
+    error_response("Failed to update labels: #{error.message}")
+  end
 
   def valid_action?(action)
     VALID_ACTIONS.include?(action)

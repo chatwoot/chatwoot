@@ -29,34 +29,26 @@ class PrivateNoteMcp < BaseMcp
   def execute(content:, category: 'general')
     validate_context!
     category = normalize_category(category)
-
-    begin
-      message = create_private_note(content: content, category: category)
-
-      log_execution(
-        { content: content, category: category },
-        { success: true, message_id: message.id }
-      )
-
-      track_in_context(input: { content: content, category: category }, output: { message_id: message.id })
-
-      success_response({
-                         note_created: true,
-                         message_id: message.id,
-                         category: category
-                       })
-    rescue StandardError => e
-      log_execution(
-        { content: content, category: category },
-        {},
-        success: false,
-        error_message: e.message
-      )
-      error_response("Failed to add private note: #{e.message}")
-    end
+    perform_note_creation(content: content, category: category)
+  rescue StandardError => e
+    handle_error(content: content, category: category, error: e)
   end
 
   private
+
+  def perform_note_creation(content:, category:)
+    message = create_private_note(content: content, category: category)
+
+    log_execution({ content: content, category: category }, { success: true, message_id: message.id })
+    track_in_context(input: { content: content, category: category }, output: { message_id: message.id })
+
+    success_response(note_created: true, message_id: message.id, category: category)
+  end
+
+  def handle_error(content:, category:, error:)
+    log_execution({ content: content, category: category }, {}, success: false, error_message: error.message)
+    error_response("Failed to add private note: #{error.message}")
+  end
 
   def normalize_category(category)
     return 'general' if category.blank?
