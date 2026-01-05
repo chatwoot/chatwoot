@@ -40,7 +40,14 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    [FaqLookupMcp, HandoffMcp, ResolveMcp, SnoozeMcp, LabelsMcp, AssignMcp, PrivateNoteMcp]
+    available_tools = [FaqLookupMcp]
+    available_tools << HandoffMcp if current_assistant&.feature_handoff_enabled?
+    available_tools << ResolveMcp if current_assistant&.feature_resolve_enabled?
+    available_tools << SnoozeMcp if current_assistant&.feature_snooze_enabled?
+    available_tools << LabelsMcp if current_assistant&.feature_labels_enabled?
+    available_tools << AssignMcp if current_assistant&.feature_handoff_enabled?
+    available_tools << PrivateNoteMcp
+    available_tools
   end
 
   private
@@ -54,23 +61,44 @@ class ConversationAgent < ApplicationAgent
       - Be helpful, accurate, and concise
       - If you don't know something, admit it rather than making up information
       - Use the faq_lookup tool to search for relevant information before answering
-      - If a customer's request is beyond your capabilities, use the handoff tool to transfer to a human agent
+      #{handoff_guideline}
       - Stay focused on helping the customer with their current issue
 
       ## Available Tools
-      - faq_lookup: Search the knowledge base for relevant information
-      - handoff: Transfer the conversation to a human agent when needed
-      - resolve: Mark the conversation as resolved when the issue is fully addressed
-      - snooze: Snooze the conversation until a specific time (e.g., when waiting for customer action)
-      - labels: Add, remove, or set labels on the conversation for categorization
-      - assign: Assign the conversation to a specific team or agent
-      - private_note: Add private notes for agent reference (observations, summaries, warnings)
+      #{available_tools_description}
 
       ## Important
       - Never make up policies or information not in your knowledge base
-      - If a customer seems frustrated or asks for a human multiple times, initiate handoff
+      #{handoff_important_note}
       - Always be respectful and professional
     PROMPT
+  end
+
+  def available_tools_description
+    tool_descriptions = ['- faq_lookup: Search the knowledge base for relevant information']
+    if current_assistant&.feature_handoff_enabled?
+      tool_descriptions << '- handoff: Transfer the conversation to a human agent when needed'
+      tool_descriptions << '- assign: Assign the conversation to a specific team or agent'
+    end
+    if current_assistant&.feature_resolve_enabled?
+      tool_descriptions << '- resolve: Mark the conversation as resolved when the issue is fully addressed'
+    end
+    tool_descriptions << '- snooze: Snooze the conversation until a specific time' if current_assistant&.feature_snooze_enabled?
+    tool_descriptions << '- labels: Add, remove, or set labels on the conversation' if current_assistant&.feature_labels_enabled?
+    tool_descriptions << '- private_note: Add private notes for agent reference'
+    tool_descriptions.join("\n")
+  end
+
+  def handoff_guideline
+    return '' unless current_assistant&.feature_handoff_enabled?
+
+    "- If a customer's request is beyond your capabilities, use the handoff tool to transfer to a human agent"
+  end
+
+  def handoff_important_note
+    return '' unless current_assistant&.feature_handoff_enabled?
+
+    '- If a customer seems frustrated or asks for a human multiple times, initiate handoff'
   end
 
   def business_name

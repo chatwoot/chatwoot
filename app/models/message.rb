@@ -421,7 +421,7 @@ class Message < ApplicationRecord
     attrs = conversation.custom_attributes&.dup || {}
     attrs['aloo_handoff_active'] = false
     attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
-    conversation.assign_attributes(custom_attributes: attrs, assignee: nil)
+    conversation.update!(custom_attributes: attrs, assignee_id: nil)
   end
 
   def reopened_by_contact?

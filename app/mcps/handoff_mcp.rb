@@ -110,10 +110,8 @@ class HandoffMcp < BaseMcp
       return assign_agent(team_agent) if team_agent
     end
 
-    # If auto-assignment is enabled, let Chatwoot handle it
-    return nil if inbox.enable_auto_assignment
-
-    # Otherwise assign to first available agent (simple fallback)
+    # Always assign to first available agent for explicit handoff
+    # Don't rely on auto-assignment which only works for online agents
     assign_agent(available_agents.first)
   end
 

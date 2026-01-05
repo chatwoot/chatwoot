@@ -147,6 +147,23 @@ module Aloo
       admin_config['feature_memory'] == true
     end
 
+    # MCP tool feature flags (default to true for backward compatibility)
+    def feature_handoff_enabled?
+      admin_config['feature_handoff'] != false
+    end
+
+    def feature_resolve_enabled?
+      admin_config['feature_resolve'] != false
+    end
+
+    def feature_snooze_enabled?
+      admin_config['feature_snooze'] != false
+    end
+
+    def feature_labels_enabled?
+      admin_config['feature_labels'] != false
+    end
+
     # Full system prompt combining base + personality + guardrails
     def full_system_prompt
       [

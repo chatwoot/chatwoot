@@ -9,6 +9,7 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 
 import GeneralPage from './settingsPage/GeneralPage.vue';
 import PersonalityPage from './settingsPage/PersonalityPage.vue';
+import FeaturesPage from './settingsPage/FeaturesPage.vue';
 import KnowledgePage from './settingsPage/KnowledgePage.vue';
 import MemoriesPage from './settingsPage/MemoriesPage.vue';
 import InboxesPage from './settingsPage/InboxesPage.vue';
@@ -40,11 +41,19 @@ const assistant = ref({
   dialect: '',
   personality_description: '',
   active: true,
+  features: {
+    handoff_enabled: true,
+    resolve_enabled: true,
+    snooze_enabled: true,
+    labels_enabled: true,
+  },
+  admin_config: {},
 });
 
 const tabs = computed(() => [
   { key: 'general', name: t('ALOO.TABS.GENERAL') },
   { key: 'personality', name: t('ALOO.TABS.PERSONALITY') },
+  { key: 'features', name: t('ALOO.TABS.FEATURES') },
   { key: 'knowledge', name: t('ALOO.TABS.KNOWLEDGE_BASE') },
   { key: 'memories', name: t('ALOO.TABS.MEMORIES') },
   { key: 'inboxes', name: t('ALOO.TABS.INBOXES') },
@@ -89,6 +98,7 @@ onMounted(async () => {
         personality_description:
           storedAssistant.personality?.personality_description ||
           storedAssistant.personality_description,
+        features: storedAssistant.features || assistant.value.features,
       };
     }
 
@@ -152,6 +162,7 @@ const saveChanges = async () => {
       language: assistant.value.language,
       dialect: assistant.value.dialect,
       personality_description: assistant.value.personality_description,
+      admin_config: assistant.value.admin_config,
     });
     useAlert(t('ALOO.MESSAGES.UPDATED'));
   } catch {
@@ -162,7 +173,22 @@ const saveChanges = async () => {
 };
 
 const updateAssistant = data => {
-  Object.assign(assistant.value, data);
+  // Handle nested admin_config updates by merging
+  if (data.admin_config) {
+    assistant.value.admin_config = {
+      ...assistant.value.admin_config,
+      ...data.admin_config,
+    };
+    // Also update the features display state
+    Object.keys(data.admin_config).forEach(key => {
+      const featureKey = key.replace('feature_', '') + '_enabled';
+      if (assistant.value.features) {
+        assistant.value.features[featureKey] = data.admin_config[key];
+      }
+    });
+  } else {
+    Object.assign(assistant.value, data);
+  }
 };
 </script>
 
@@ -205,6 +231,15 @@ const updateAssistant = data => {
 
         <div v-if="selectedTabKey === 'personality'" class="mx-8">
           <PersonalityPage
+            :assistant="assistant"
+            :is-saving="isSaving"
+            @update="updateAssistant"
+            @save="saveChanges"
+          />
+        </div>
+
+        <div v-if="selectedTabKey === 'features'" class="mx-8">
+          <FeaturesPage
             :assistant="assistant"
             :is-saving="isSaving"
             @update="updateAssistant"

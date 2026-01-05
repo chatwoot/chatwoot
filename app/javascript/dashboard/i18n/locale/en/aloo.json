@@ -175,6 +175,7 @@
     "TABS": {
       "GENERAL": "General",
       "PERSONALITY": "Personality",
+      "FEATURES": "Features",
       "KNOWLEDGE_BASE": "Knowledge Base",
       "MEMORIES": "Memories",
       "INBOXES": "Inboxes",
@@ -210,6 +211,26 @@
       "PERSONALITY": {
         "TITLE": "Personality Settings",
         "DESCRIPTION": "Configure how your assistant communicates with customers"
+      },
+      "FEATURES": {
+        "TITLE": "AI Agent Capabilities",
+        "DESCRIPTION": "Control what actions the AI agent can perform during conversations",
+        "HANDOFF": {
+          "LABEL": "Handoff to Human",
+          "DESCRIPTION": "Allow the AI to transfer conversations to human agents when needed"
+        },
+        "RESOLVE": {
+          "LABEL": "Resolve Conversations",
+          "DESCRIPTION": "Allow the AI to mark conversations as resolved when issues are addressed"
+        },
+        "SNOOZE": {
+          "LABEL": "Snooze Conversations",
+          "DESCRIPTION": "Allow the AI to snooze conversations until a specific time"
+        },
+        "LABELS": {
+          "LABEL": "Manage Labels",
+          "DESCRIPTION": "Allow the AI to add, remove, or set labels on conversations"
+        }
       }
     },
     "KNOWLEDGE": {
