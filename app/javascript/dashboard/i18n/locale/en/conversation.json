@@ -50,10 +50,7 @@
       "HANDOFF_ERROR": "Failed to take over the conversation. Please try again."
     },
     "ALOO": {
-      "TAKE_OVER_MESSAGE": "This conversation is being handled by {assistantName}. Click to take over and respond manually.",
-      "TAKE_OVER_BUTTON": "Take over from AI",
-      "TAKE_OVER_SUCCESS": "You've taken over this conversation. AI will no longer respond.",
-      "TAKE_OVER_ERROR": "Failed to take over. Please try again.",
+      "AUTO_HANDOFF_MESSAGE": "{assistantName} is handling this conversation. When you send a message, you'll be assigned and AI will stop responding.",
       "RETURN_TO_AI_MESSAGE": "You're handling this conversation. Click to return it to {assistantName}.",
       "RETURN_TO_AI_BUTTON": "Return to AI",
       "RETURN_TO_AI_SUCCESS": "Conversation returned to AI. The assistant will respond to new messages.",

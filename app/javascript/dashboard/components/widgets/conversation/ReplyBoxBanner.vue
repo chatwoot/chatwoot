@@ -170,26 +170,6 @@ const onClickAIHandoff = async () => {
   }
 };
 
-// Aloo: Take over from AI (set handoff flag, assign to current user)
-const onClickAlooTakeOver = async () => {
-  try {
-    // Set the handoff flag to stop AI from responding
-    await store.dispatch('updateCustomAttributes', {
-      conversationId: currentChat.value?.id,
-      customAttributes: {
-        ...currentChat.value?.custom_attributes,
-        aloo_handoff_active: true,
-        aloo_handoff_at: new Date().toISOString(),
-      },
-    });
-    // Assign to current user
-    await selfAssignConversation();
-    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_SUCCESS'));
-  } catch (error) {
-    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_ERROR'));
-  }
-};
-
 // Aloo: Return conversation to AI (clear handoff flag, unassign)
 const onClickAlooReturnToAI = async () => {
   try {
@@ -212,21 +192,16 @@ const onClickAlooReturnToAI = async () => {
 </script>
 
 <template>
-  <!-- Aloo: Take Over from AI banner (shown when AI is handling and user starts typing) -->
+  <!-- Aloo: Informational banner when AI is handling and user starts typing -->
   <Banner
     v-if="showAlooTakeOverBanner"
-    action-button-variant="ghost"
     color-scheme="primary"
     class="mx-2 mb-2 rounded-lg !py-3"
     :banner-message="
-      $t('CONVERSATION.ALOO.TAKE_OVER_MESSAGE', {
+      $t('CONVERSATION.ALOO.AUTO_HANDOFF_MESSAGE', {
         assistantName: alooAssistant?.name,
       })
     "
-    has-action-button
-    action-button-icon="i-lucide-user-check"
-    :action-button-label="$t('CONVERSATION.ALOO.TAKE_OVER_BUTTON')"
-    @primary-action="onClickAlooTakeOver"
   />
   <!-- Aloo: Return to AI banner (shown when handoff is active) -->
   <Banner

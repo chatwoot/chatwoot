@@ -10,6 +10,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
 
+    # Auto-handoff from Aloo AI when human agent sends a message
+    Aloo::AgentHandoffService.new(@message).perform
+
     # Trigger AI response using centralized service
     Messages::AiResponseTriggerService.new(message: @message).perform
   rescue StandardError => e
