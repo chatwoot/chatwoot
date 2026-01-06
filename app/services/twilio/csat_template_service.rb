@@ -3,7 +3,7 @@ class Twilio::CsatTemplateService
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
   TEMPLATE_CATEGORY = 'UTILITY'.freeze
-  TEMPLATE_STATUS_PENDING = 'pending'.freeze
+  TEMPLATE_STATUS_PENDING = 'PENDING'.freeze
   TEMPLATE_CONTENT_TYPE = 'twilio/call-to-action'.freeze
 
   def initialize(twilio_channel)

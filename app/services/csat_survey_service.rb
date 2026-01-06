@@ -130,8 +130,7 @@ class CsatSurveyService
     result = send_service.send_csat_template_message(
       phone_number: phone_number,
       content_sid: content_sid,
-      content_variables: content_variables,
-      message: message
+      content_variables: content_variables
     )
 
     message.update!(source_id: result[:message_id]) if result[:success] && result[:message_id].present?

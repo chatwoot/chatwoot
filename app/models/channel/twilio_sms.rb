@@ -58,21 +58,23 @@ class Channel::TwilioSms < ApplicationRecord
     client.messages.create(**params)
   end
 
-  private
+  def send_message_from
+    if messaging_service_sid?
+      { messaging_service_sid: messaging_service_sid }
+    else
+      { from: phone_number }
+    end
+  end
+
+  def twilio_delivery_status_index_url
+    "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/twilio/delivery_status"
+  end
 
   def client
     if api_key_sid.present?
       Twilio::REST::Client.new(api_key_sid, auth_token, account_sid)
     else
       Twilio::REST::Client.new(account_sid, auth_token)
-    end
-  end
-
-  def send_message_from
-    if messaging_service_sid?
-      { messaging_service_sid: messaging_service_sid }
-    else
-      { from: phone_number }
     end
   end
 end
