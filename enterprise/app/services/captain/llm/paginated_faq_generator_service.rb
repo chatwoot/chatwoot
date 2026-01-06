@@ -1,3 +1,5 @@
+require 'custom_exceptions/pdf_processing_error'
+
 class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
