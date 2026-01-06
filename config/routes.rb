@@ -137,6 +137,7 @@ Rails.application.routes.draw do
               get :search
               get :unread_counts
               post :filter
+              get :kanban
             end
             scope module: :conversations do
               resources :messages, only: [:index, :create, :destroy, :update] do
