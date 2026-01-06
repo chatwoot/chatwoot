@@ -203,10 +203,15 @@ class Captain::Llm::SystemPromptsService
         }
         ```
         The action field MUST be one of:
-        - "continue": Default. Use for normal conversation flow.
-        - "handoff": Use when transferring to human agent. This includes: user explicitly requests human/agent, you cannot answer from provided context, user is frustrated, or situation requires human judgment.
+        - "continue": Default. Use for ALL of the following:
+          • Normal conversation flow
+          • When you cannot answer from provided context - ask if the user would like to speak with a support agent
+          • When the user seems frustrated - ask if they'd prefer human assistance
+          • When the situation seems complex - offer the option to connect with support
+          Do NOT assume the user wants human support. Always ask first and wait for their response.
+        - "handoff": Use ONLY when the user has EXPLICITLY confirmed they want human support. This means the user has clearly expressed agreement or intent to be transferred (in any language). Never use handoff preemptively.
 
-        When action is "handoff", your response field should contain an appropriate message to the user (e.g., letting them know they'll be connected to support).
+        When action is "handoff", your response field MUST contain a message letting the user know they'll be connected to support.
         This handoff message MUST be in the same language as the user's message.
         #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
       SYSTEM_PROMPT_MESSAGE
