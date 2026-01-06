@@ -29,6 +29,11 @@ function getInbox(inboxId) {
   return store.getters['inboxes/getInbox'](inboxId) || {};
 }
 
+const localList = computed({
+  get: () => props.conversations,
+  set: () => {},
+});
+
 function onDragChange(evt) {
   if (evt.added) {
     emit('change', {
@@ -69,7 +74,7 @@ function onLoadMore() {
 
     <!-- Draggable List -->
     <Draggable
-      :list="conversations"
+      v-model="localList"
       group="kanban"
       item-key="id"
       animation="200"
