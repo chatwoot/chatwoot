@@ -100,7 +100,7 @@ const togglePortalSwitcher = () => {
         <slot name="content" />
       </div>
     </main>
-    <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10 px-4 pb-4">
+    <footer v-if="showPaginationFooter" class="sticky bottom-0 z-10">
       <PaginationFooter
         :current-page="currentPage"
         :total-items="totalItems"

@@ -438,7 +438,7 @@ onMounted(async () => {
 
       <template v-else>
         <ContactsBulkActionBar
-          v-if="hasSelection"
+          v-show="hasSelection"
           :visible-contact-ids="visibleContactIds"
           :selected-contact-ids="selectedContactIds"
           :is-loading="isBulkActionLoading"

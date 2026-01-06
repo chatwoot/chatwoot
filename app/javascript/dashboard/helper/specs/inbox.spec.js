@@ -3,6 +3,7 @@ import {
   getInboxClassByType,
   getInboxIconByType,
   getInboxWarningIconClass,
+  getChannelTypeDisplayName,
 } from '../inbox';
 
 describe('#Inbox Helpers', () => {
@@ -164,6 +165,88 @@ describe('#Inbox Helpers', () => {
       expect(getInboxWarningIconClass('Channel::FacebookPage', true)).toEqual(
         'warning'
       );
+    });
+  });
+
+  describe('getChannelTypeDisplayName', () => {
+    it('returns "Website" for web widget', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.WEB)).toBe('Website');
+    });
+
+    it('returns "Messenger" for Facebook', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.FB)).toBe('Messenger');
+    });
+
+    it('returns "Twitter" for Twitter', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.TWITTER)).toBe('Twitter');
+    });
+
+    it('returns "WhatsApp" for WhatsApp', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.WHATSAPP)).toBe('WhatsApp');
+    });
+
+    it('returns "API" for API', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.API)).toBe('API');
+    });
+
+    it('returns "Email" for Email', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.EMAIL)).toBe('Email');
+    });
+
+    it('returns "Telegram" for Telegram', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.TELEGRAM)).toBe('Telegram');
+    });
+
+    it('returns "Line" for Line', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.LINE)).toBe('Line');
+    });
+
+    it('returns "SMS" for SMS', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.SMS)).toBe('SMS');
+    });
+
+    it('returns "Instagram" for Instagram', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.INSTAGRAM)).toBe(
+        'Instagram'
+      );
+    });
+
+    it('returns "TikTok" for TikTok', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.TIKTOK)).toBe('TikTok');
+    });
+
+    it('returns "Voice" for Voice', () => {
+      expect(getChannelTypeDisplayName(INBOX_TYPES.VOICE)).toBe('Voice');
+    });
+
+    it('returns "Chat" for unknown type', () => {
+      expect(getChannelTypeDisplayName('UNKNOWN_TYPE')).toBe('Chat');
+    });
+
+    describe('Twilio cases', () => {
+      it('returns "Twilio WhatsApp" for Twilio with whatsapp medium', () => {
+        expect(getChannelTypeDisplayName(INBOX_TYPES.TWILIO, 'whatsapp')).toBe(
+          'Twilio WhatsApp'
+        );
+      });
+
+      it('returns "Twilio SMS" for Twilio with sms medium', () => {
+        expect(getChannelTypeDisplayName(INBOX_TYPES.TWILIO, 'sms')).toBe(
+          'Twilio SMS'
+        );
+      });
+
+      it('returns "Twilio SMS" for Twilio with undefined medium', () => {
+        expect(getChannelTypeDisplayName(INBOX_TYPES.TWILIO, undefined)).toBe(
+          'Twilio SMS'
+        );
+      });
+
+      it('returns "Twilio SMS" for Twilio with empty medium', () => {
+        expect(getChannelTypeDisplayName(INBOX_TYPES.TWILIO, '')).toBe(
+          'Twilio SMS'
+        );
+      });
     });
   });
 });
