@@ -194,25 +194,25 @@ class Captain::Llm::SystemPromptsService
         - Do not share anything outside of the context provided.
         - Add the reasoning why you arrived at the answer
         - Your answers will always be formatted in a valid JSON hash, as shown below. Never respond in non-JSON format.
-        #{config['instructions'] || ''}
+        #{config['instructions'].present? ? "\n        [Custom Instructions]\n        #{config['instructions']}\n" : ''}
+
         ```json
         {
           "reasoning": "",
           "response": "",
-          "action": "continue" | "handoff"
+          "action": "continue" | "offer_handoff" | "handoff"
         }
         ```
         The action field MUST be one of:
-        - "continue": Default. Use for ALL of the following:
-          • Normal conversation flow
-          • When you cannot answer from provided context - ask if the user would like to speak with a support agent
-          • When the user seems frustrated - ask if they'd prefer human assistance
-          • When the situation seems complex - offer the option to connect with support
-          Do NOT assume the user wants human support. Always ask first and wait for their response.
-        - "handoff": Use ONLY when the user has EXPLICITLY confirmed they want human support. This means the user has clearly expressed agreement or intent to be transferred (in any language). Never use handoff preemptively.
+        - "continue": Default. Use for normal conversation flow.
+        - "offer_handoff": Use when a handoff scenario is triggered (by custom instructions, inability to help, user frustration, or complex situations). Your response MUST ask the user if they would like to be connected to a support agent. Do NOT transfer yet - wait for their confirmation.
+        - "handoff": Use ONLY when:
+          • User has confirmed after you offered a handoff, OR
+          • User explicitly requests human support unprompted (in any language)
+          Never use handoff for scenarios where the bot decides a handoff is needed - use offer_handoff instead.
 
         When action is "handoff", your response field MUST contain a message letting the user know they'll be connected to support.
-        This handoff message MUST be in the same language as the user's message.
+        This message MUST be in the same language as the user's message.
         #{'- You MUST provide numbered citations at the appropriate places in the text.' if config['feature_citation']}
       SYSTEM_PROMPT_MESSAGE
     end
