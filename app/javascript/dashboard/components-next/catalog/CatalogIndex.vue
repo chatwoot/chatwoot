@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useAccount } from 'dashboard/composables/useAccount';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -13,9 +14,14 @@ import ConfirmDeleteProductDialog from './ConfirmDeleteProductDialog.vue';
 
 const { t } = useI18n();
 const store = useStore();
+const { currentAccount } = useAccount();
 
 const products = useMapGetter('products/getProducts');
 const uiFlags = useMapGetter('products/getUIFlags');
+
+const catalogCurrency = computed(
+  () => currentAccount.value?.settings?.catalog_currency
+);
 
 const showAddDialog = ref(false);
 const showEditDialog = ref(false);
@@ -105,8 +111,8 @@ const onSearch = event => {
   searchValue.value = event.target.value;
 };
 
-const formatPrice = (price, currency) => {
-  return `${Number(price).toFixed(2)} ${currency}`;
+const formatPrice = price => {
+  return `${Number(price).toFixed(2)} ${catalogCurrency.value}`;
 };
 
 onMounted(() => {
@@ -262,7 +268,7 @@ onMounted(() => {
                   </td>
                   <td class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap">
                     <span class="font-medium text-n-slate-12">
-                      {{ formatPrice(product.price, product.currency) }}
+                      {{ formatPrice(product.price) }}
                     </span>
                   </td>
                   <td class="py-4">
