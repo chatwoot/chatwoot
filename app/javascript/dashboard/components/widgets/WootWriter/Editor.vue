@@ -862,6 +862,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     max-height: none !important;
     min-height: 0 !important;
     padding: 0 !important;
+    display: none !important;
   }
 
   > .ProseMirror {

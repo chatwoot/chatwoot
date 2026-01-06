@@ -140,6 +140,11 @@ export const FORMATTING = {
     nodes: [],
     menu: ['strong', 'em', 'link', 'undo', 'redo'],
   },
+  'Context::Plain': {
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
 };
 
 // Editor menu options for Full Editor
