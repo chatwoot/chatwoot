@@ -121,6 +121,38 @@
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
+      },
+      "ACCOUNT_ADDRESS": {
+        "TITLE": "Dirección de la empresa",
+        "NOTE": "Configura la información de dirección física de tu empresa. Esta información puede usarse en plantillas y comunicaciones.",
+        "STREET": "Calle",
+        "STREET_PLACEHOLDER": "Ingresa el nombre de la calle",
+        "EXTERIOR_NUMBER": "Número exterior",
+        "EXTERIOR_NUMBER_PLACEHOLDER": "Núm. ext.",
+        "INTERIOR_NUMBER": "Número interior",
+        "INTERIOR_NUMBER_PLACEHOLDER": "Núm. int.",
+        "NEIGHBORHOOD": "Colonia",
+        "NEIGHBORHOOD_PLACEHOLDER": "Ingresa la colonia",
+        "POSTAL_CODE": "Código postal",
+        "POSTAL_CODE_PLACEHOLDER": "Ingresa el código postal",
+        "CITY": "Ciudad",
+        "CITY_PLACEHOLDER": "Ingresa la ciudad",
+        "STATE": "Estado",
+        "STATE_PLACEHOLDER": "Ingresa el estado",
+        "EMAIL": "Correo electrónico",
+        "EMAIL_PLACEHOLDER": "Ingresa el correo electrónico",
+        "PHONE": "Teléfono",
+        "PHONE_PLACEHOLDER": "Ingresa el número de teléfono",
+        "WEBPAGE": "Página web",
+        "WEBPAGE_PLACEHOLDER": "https://ejemplo.com",
+        "ESTABLISHMENT_SUMMARY": "Resumen del establecimiento",
+        "ESTABLISHMENT_SUMMARY_PLACEHOLDER": "Breve descripción del establecimiento",
+        "UPDATE_BUTTON": "Guardar dirección",
+        "ERROR": "Por favor completa todos los campos requeridos",
+        "API": {
+          "SUCCESS": "Dirección de la cuenta actualizada correctamente",
+          "ERROR": "Error al actualizar la dirección de la cuenta"
+        }
       }
     },
     "UPDATE_CHATWOOT": "Hay una actualización {latestChatwootVersion} para Nauto Console disponible. Por favor, actualiza tu instancia.",

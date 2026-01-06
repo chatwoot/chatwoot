@@ -121,6 +121,38 @@
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
+      },
+      "ACCOUNT_ADDRESS": {
+        "TITLE": "Company address",
+        "NOTE": "Configure the physical address information for your company. This information can be used in templates and communications.",
+        "STREET": "Street",
+        "STREET_PLACEHOLDER": "Enter street name",
+        "EXTERIOR_NUMBER": "Exterior number",
+        "EXTERIOR_NUMBER_PLACEHOLDER": "Ext. #",
+        "INTERIOR_NUMBER": "Interior number",
+        "INTERIOR_NUMBER_PLACEHOLDER": "Int. #",
+        "NEIGHBORHOOD": "Neighborhood",
+        "NEIGHBORHOOD_PLACEHOLDER": "Enter neighborhood",
+        "POSTAL_CODE": "Postal code",
+        "POSTAL_CODE_PLACEHOLDER": "Enter postal code",
+        "CITY": "City",
+        "CITY_PLACEHOLDER": "Enter city",
+        "STATE": "State",
+        "STATE_PLACEHOLDER": "Enter state",
+        "EMAIL": "Email",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "PHONE": "Phone",
+        "PHONE_PLACEHOLDER": "Enter phone number",
+        "WEBPAGE": "Webpage",
+        "WEBPAGE_PLACEHOLDER": "https://example.com",
+        "ESTABLISHMENT_SUMMARY": "Establishment summary",
+        "ESTABLISHMENT_SUMMARY_PLACEHOLDER": "Brief description of the establishment",
+        "UPDATE_BUTTON": "Save address",
+        "ERROR": "Please fill in all required fields",
+        "API": {
+          "SUCCESS": "Account address updated successfully",
+          "ERROR": "Failed to update account address"
+        }
       }
     },
     "UPDATE_CHATWOOT": "An update {latestChatwootVersion} for Nauto Console is available. Please update your instance.",

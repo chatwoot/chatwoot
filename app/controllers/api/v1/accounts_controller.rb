@@ -44,11 +44,14 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :pinecone_index))
-    @account.custom_attributes.merge!(custom_attributes_params)
-    @account.settings.merge!(settings_params)
-    @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
-    @account.save!
+    ActiveRecord::Base.transaction do
+      @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :pinecone_index))
+      @account.custom_attributes.merge!(custom_attributes_params)
+      @account.settings.merge!(settings_params)
+      @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
+      update_account_address if account_address_params.present? && administrator?
+      @account.save!
+    end
   end
 
   def update_active_at
@@ -93,6 +96,27 @@ class Api::V1::AccountsController < Api::BaseController
 
   def settings_params
     params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
+  end
+
+  def account_address_params
+    params.permit(account_address: %i[id street exterior_number interior_number neighborhood postal_code city state email phone webpage
+                                      establishment_summary])[:account_address]
+  end
+
+  def update_account_address
+    address_id = account_address_params[:id]
+    address_attrs = account_address_params.except(:id)
+
+    if address_id.present?
+      address = @account.account_addresses.find_by(id: address_id)
+      address ? address.update!(address_attrs) : @account.account_addresses.create!(address_attrs)
+    else
+      @account.account_addresses.create!(address_attrs)
+    end
+  end
+
+  def administrator?
+    @current_account_user&.administrator?
   end
 
   def check_signup_enabled

@@ -16,6 +16,7 @@ import BuildInfo from './components/BuildInfo.vue';
 import AccountDelete from './components/AccountDelete.vue';
 import AutoResolve from './components/AutoResolve.vue';
 import AudioTranscription from './components/AudioTranscription.vue';
+import AccountAddress from './components/AccountAddress.vue';
 import SectionLayout from './components/SectionLayout.vue';
 
 export default {
@@ -27,6 +28,7 @@ export default {
     AccountDelete,
     AutoResolve,
     AudioTranscription,
+    AccountAddress,
     SectionLayout,
     WithLabel,
     NextInput,
@@ -63,7 +65,11 @@ export default {
       uiFlags: 'accounts/getUIFlags',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
+      getCurrentRole: 'getCurrentRole',
     }),
+    isAdministrator() {
+      return this.getCurrentRole === 'administrator';
+    },
     showAutoResolutionConfig() {
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -241,6 +247,7 @@ export default {
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
     <AudioTranscription v-if="showAudioTranscriptionConfig" />
+    <AccountAddress v-if="isAdministrator" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />
