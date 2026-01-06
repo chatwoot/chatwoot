@@ -48,7 +48,7 @@ const isUploading = ref(false);
 const uploadError = ref('');
 
 const catalogCurrency = computed(
-  () => currentAccount.value?.settings?.catalog_currency || 'SAR'
+  () => currentAccount.value?.settings?.catalog_currency
 );
 
 const isEditMode = computed(() => !!props.product);
