@@ -22,14 +22,6 @@ const state = {
   syncConversationsMessages: {},
   conversationFilters: {},
   copilotAssistant: {},
-  // Kanban View
-  kanbanData: {
-    open: { conversations: [], meta: { count: 0, has_more: false } },
-    pending: { conversations: [], meta: { count: 0, has_more: false } },
-    snoozed: { conversations: [], meta: { count: 0, has_more: false } },
-    resolved: { conversations: [], meta: { count: 0, has_more: false } },
-  },
-  conversationView: 'list',
 };
 
 // mutations
@@ -325,46 +317,6 @@ export const mutations = {
   },
   [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
     _state.copilotAssistant = data.assistant;
-  },
-
-  // Kanban View Mutations
-  [types.SET_KANBAN_DATA](_state, data) {
-    _state.kanbanData = data;
-    _state.listLoadingStatus = false;
-  },
-
-  [types.APPEND_KANBAN_CONVERSATIONS](_state, { status, data }) {
-    if (_state.kanbanData[status]) {
-      _state.kanbanData[status].conversations.push(...data.conversations);
-      _state.kanbanData[status].meta = data.meta;
-    }
-  },
-
-  [types.MOVE_KANBAN_CONVERSATION](
-    _state,
-    { conversationId, fromStatus, toStatus, conversation }
-  ) {
-    // Remove from source column
-    const fromColumn = _state.kanbanData[fromStatus];
-    if (fromColumn) {
-      const fromIdx = fromColumn.conversations.findIndex(
-        c => c.id === conversationId
-      );
-      if (fromIdx > -1) {
-        fromColumn.conversations.splice(fromIdx, 1);
-        fromColumn.meta.count -= 1;
-      }
-    }
-    // Add to target column
-    const toColumn = _state.kanbanData[toStatus];
-    if (toColumn) {
-      toColumn.conversations.unshift(conversation);
-      toColumn.meta.count += 1;
-    }
-  },
-
-  [types.SET_CONVERSATION_VIEW](_state, view) {
-    _state.conversationView = view;
   },
 };
 

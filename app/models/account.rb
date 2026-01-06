@@ -100,6 +100,7 @@ class Account < ApplicationRecord
   has_many :working_hours, dependent: :destroy_async
 
   has_one :payzah_settings, dependent: :destroy_async, class_name: 'AccountPayzahSettings'
+  has_one :tap_settings, dependent: :destroy_async, class_name: 'AccountTapSettings'
 
   has_one_attached :contacts_export
   has_one_attached :payment_links_export
