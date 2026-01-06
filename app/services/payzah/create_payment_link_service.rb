@@ -12,13 +12,9 @@ class Payzah::CreatePaymentLinkService
   DEFAULT_LANGUAGE = 'en'.freeze
 
   # ISO 4217 numeric currency codes required by Payzah API
+  # Note: Payzah only supports KWD currency
   CURRENCY_CODES = {
-    'KWD' => 414,
-    'USD' => 840,
-    'EUR' => 978,
-    'GBP' => 826,
-    'SAR' => 682,
-    'AED' => 784
+    'KWD' => 414
   }.freeze
 
   attr_reader :trackid, :amount, :currency, :language, :customer, :api_key
@@ -92,6 +88,7 @@ class Payzah::CreatePaymentLinkService
     raise ArgumentError, 'Amount is required' if amount.blank?
     raise ArgumentError, 'Amount must be positive' if amount.to_f <= 0
     raise ArgumentError, 'Currency is required' if currency.blank?
+    raise ArgumentError, 'Payzah only supports KWD currency' unless currency.to_s.upcase == 'KWD'
     raise ArgumentError, 'API key is required' if api_key.blank?
   end
 end

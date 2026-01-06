@@ -508,36 +508,6 @@ const actions = {
     }
   },
 
-  // Kanban View Actions
-  fetchKanbanData: async ({ commit }, params) => {
-    commit(types.SET_LIST_LOADING_STATUS);
-    try {
-      const {
-        data: { data },
-      } = await ConversationApi.kanban(params);
-      commit(types.SET_KANBAN_DATA, data);
-    } catch (error) {
-      // Handle error
-    } finally {
-      commit(types.CLEAR_LIST_LOADING_STATUS);
-    }
-  },
-
-  loadMoreKanbanColumn: async ({ commit }, { status, params }) => {
-    try {
-      const {
-        data: { data },
-      } = await ConversationApi.kanban(params);
-      commit(types.APPEND_KANBAN_CONVERSATIONS, { status, data: data[status] });
-    } catch (error) {
-      // Handle error
-    }
-  },
-
-  setConversationView: ({ commit }, view) => {
-    commit(types.SET_CONVERSATION_VIEW, view);
-  },
-
   ...messageReadActions,
   ...messageTranslateActions,
 };

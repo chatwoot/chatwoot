@@ -459,6 +459,10 @@
         "PLACEHOLDER": "Select currency",
         "ERROR": "Please select a currency"
       },
+      "PROVIDER": {
+        "LABEL": "Payment Provider"
+      },
+      "PAYZAH_KWD_NOTE": "Payzah only supports KWD (Kuwaiti Dinar) as the payment currency",
       "CUSTOMER_INFO": "Customer Information",
       "NAME": "Name",
       "EMAIL": "Email",
