@@ -322,15 +322,19 @@ class Message < ApplicationRecord
   end
 
   def update_waiting_since
-    if human_response? && !private && conversation.waiting_since.present?
-      Rails.configuration.dispatcher.dispatch(
-        REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
-      )
-      conversation.update(waiting_since: nil)
-    end
+    waiting_present = conversation.waiting_since.present?
 
-    # Bot responses also clear waiting_since (simpler than checking on next customer message)
-    conversation.update(waiting_since: nil) if bot_response? && !private && conversation.waiting_since.present?
+    if waiting_present && !private
+      if human_response?
+        Rails.configuration.dispatcher.dispatch(
+          REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
+        )
+        conversation.update(waiting_since: nil)
+      elsif bot_response?
+        # Bot responses also clear waiting_since (simpler than checking on next customer message)
+        conversation.update(waiting_since: nil)
+      end
+    end
 
     # Set waiting_since when customer sends a message (if currently blank)
     conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
