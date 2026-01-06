@@ -104,6 +104,15 @@
           "ERROR": "Failed to update audio transcription setting"
         }
       },
+      "CATALOG_CURRENCY": {
+        "TITLE": "Catalog Currency",
+        "NOTE": "All products and invoices will use this currency. Choose a currency supported by your payment gateway.",
+        "PAYZAH_WARNING": "Warning: Payzah only supports KWD. Cart invoices will fail unless you configure Tap payment gateway or change currency to KWD.",
+        "API": {
+          "SUCCESS": "Catalog currency updated successfully",
+          "ERROR": "Failed to update catalog currency"
+        }
+      },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
         "HELP": "Duration after a conversation should auto resolve if there is no activity",

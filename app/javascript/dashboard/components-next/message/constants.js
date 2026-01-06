@@ -69,6 +69,7 @@ export const CONTENT_TYPES = {
   STICKER: 'sticker',
   VOICE_CALL: 'voice_call',
   PAYMENT_LINK: 'payment_link',
+  CART: 'cart',
 };
 
 export const MEDIA_TYPES = [

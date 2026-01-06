@@ -43,6 +43,9 @@ Rails.application.routes.draw do
   get 'payment/success', to: 'payment#success', as: :payment_success
   get 'payment/failure', to: 'payment#failure', as: :payment_failure
 
+  # Public cart preview page
+  get 'cart/:id', to: 'cart#show', as: :cart_preview
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -87,6 +90,7 @@ Rails.application.routes.draw do
           resource :whatsapp_settings, only: [:show, :create, :update, :destroy]
           resource :payzah_settings, only: [:show, :create, :update, :destroy]
           resource :tap_settings, only: [:show, :create, :update, :destroy]
+          resource :catalog_settings, only: [:show, :create, :update]
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
             post :reset_access_token, on: :member
@@ -144,6 +148,8 @@ Rails.application.routes.draw do
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resources :payment_links, only: [:create]
+              resources :carts, only: [:create]
+              resources :catalog_items, only: [:create]
               resource :participants, only: [:show, :create, :update, :destroy]
               resource :direct_uploads, only: [:create]
               resource :draft_messages, only: [:show, :update, :destroy]
@@ -206,6 +212,11 @@ Rails.application.routes.draw do
               post :export
             end
           end
+          resources :carts, only: [:index] do
+            collection do
+              get :search
+            end
+          end
           resources :csat_survey_responses, only: [:index] do
             collection do
               get :metrics
@@ -245,6 +256,7 @@ Rails.application.routes.draw do
             end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
+          resources :products, only: [:index, :show, :create, :update, :destroy]
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

@@ -11,11 +11,14 @@ import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import PaymentLinkButton from '../PaymentLinkButton.vue';
+import CartButton from '../CartButton.vue';
+import CatalogButton from '../CatalogButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
 import tapSettingsAPI from 'dashboard/api/tapSettings';
+import catalogSettingsAPI from 'dashboard/api/catalogSettings';
 
 export default {
   name: 'ReplyBottomPanel',
@@ -25,6 +28,8 @@ export default {
     VideoCallButton,
     AIAssistanceButton,
     PaymentLinkButton,
+    CartButton,
+    CatalogButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -174,6 +179,7 @@ export default {
       ALLOWED_FILE_TYPES,
       payzahEnabled: false,
       tapEnabled: false,
+      catalogSettings: null,
     };
   },
   computed: {
@@ -272,11 +278,22 @@ export default {
     paymentEnabled() {
       return this.payzahEnabled || this.tapEnabled;
     },
+    showCartButton() {
+      return (
+        this.catalogSettings?.enabled && this.catalogSettings?.payment_provider
+      );
+    },
+    showCatalogSendButton() {
+      return (
+        this.catalogSettings?.enabled && !this.catalogSettings?.payment_provider
+      );
+    },
   },
   mounted() {
     ActiveStorage.start();
     this.loadPayzahStatus();
     this.loadTapStatus();
+    this.loadCatalogSettings();
   },
   methods: {
     async loadPayzahStatus() {
@@ -293,6 +310,14 @@ export default {
         this.tapEnabled = !!response.data?.enabled;
       } catch (error) {
         this.tapEnabled = false;
+      }
+    },
+    async loadCatalogSettings() {
+      try {
+        const response = await catalogSettingsAPI.get();
+        this.catalogSettings = response.data;
+      } catch (error) {
+        this.catalogSettings = null;
       }
     },
     toggleMessageSignature() {
@@ -405,6 +430,14 @@ export default {
 
       <PaymentLinkButton
         v-if="!isOnPrivateNote && paymentEnabled"
+        :conversation-id="conversationId"
+      />
+      <CartButton
+        v-if="!isOnPrivateNote && showCartButton"
+        :conversation-id="conversationId"
+      />
+      <CatalogButton
+        v-if="!isOnPrivateNote && showCatalogSendButton"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
