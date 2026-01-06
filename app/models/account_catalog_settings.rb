@@ -10,6 +10,8 @@ class AccountCatalogSettings < ApplicationRecord
   validates :payment_provider, inclusion: { in: PAYMENT_PROVIDERS }, allow_nil: true
   validate :validate_currency_for_provider
 
+  after_save :sync_currency_to_account
+
   def catalog_configured?
     enabled?
   end
@@ -29,5 +31,11 @@ class AccountCatalogSettings < ApplicationRecord
     return if available_currencies.include?(currency)
 
     errors.add(:currency, "is not supported by #{payment_provider || 'this configuration'}")
+  end
+
+  def sync_currency_to_account
+    return if account.catalog_currency == currency
+
+    account.update_column(:settings, account.settings.merge('catalog_currency' => currency))
   end
 end
