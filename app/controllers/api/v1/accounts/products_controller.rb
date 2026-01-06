@@ -39,7 +39,7 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
     blob_id = params[:blob_id]
     return if blob_id.blank?
 
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id)
     @product.image.attach(blob) if blob
   end
 end
