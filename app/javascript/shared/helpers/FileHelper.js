@@ -1,5 +1,6 @@
 import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 export const DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE = 40;
 
@@ -43,6 +44,7 @@ export const resolveMaximumFileUploadSize = value => {
  * @param {string} options.medium - The channel medium
  * @param {string} options.conversationType - The conversation type (for Instagram DM detection)
  * @param {boolean} options.isInstagramChannel - Whether it's an Instagram channel
+ * @param {boolean} options.isOnPrivateNote - Whether composing a private note (uses broader file type list)
  * @returns {boolean} - True if file type is allowed, false otherwise
  */
 export const isFileTypeAllowedForChannel = (file, options = {}) => {
@@ -53,20 +55,19 @@ export const isFileTypeAllowedForChannel = (file, options = {}) => {
     medium,
     conversationType,
     isInstagramChannel,
+    isOnPrivateNote,
   } = options;
 
-  // Handle Instagram special case
-  let channelType = originalChannelType;
-  const isInstagramDM = conversationType === 'instagram_direct_message';
-  if (isInstagramChannel || isInstagramDM) {
-    channelType = INBOX_TYPES.INSTAGRAM;
-  }
-
-  // Get allowed file types for the channel
-  const allowedFileTypes = getAllowedFileTypesByChannel({
-    channelType,
-    medium,
-  });
+  // Use broader file types for private notes (matches file picker behavior)
+  const allowedFileTypes = isOnPrivateNote
+    ? ALLOWED_FILE_TYPES
+    : getAllowedFileTypesByChannel({
+        channelType:
+          isInstagramChannel || conversationType === 'instagram_direct_message'
+            ? INBOX_TYPES.INSTAGRAM
+            : originalChannelType,
+        medium,
+      });
 
   // Convert to array and validate
   const allowedTypesArray = allowedFileTypes.split(',').map(t => t.trim());

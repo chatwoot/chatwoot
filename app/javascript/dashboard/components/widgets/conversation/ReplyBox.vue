@@ -709,6 +709,7 @@ export default {
             medium: this.inbox?.medium,
             conversationType: this.conversationType,
             isInstagramChannel: this.isAnInstagramChannel,
+            isOnPrivateNote: this.isOnPrivateNote,
           });
 
           if (!isAllowed) {

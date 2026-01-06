@@ -218,5 +218,31 @@ describe('#File Helpers', () => {
         ).toBe(true);
       });
     });
+
+    describe('private note file types', () => {
+      it('should allow broader file types for private notes', () => {
+        const file = {
+          name: 'test.pdf',
+          type: 'application/pdf',
+          size: 1000,
+        };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::Line',
+            isOnPrivateNote: true,
+          })
+        ).toBe(true);
+      });
+
+      it('should allow CSV files in private notes', () => {
+        const file = { name: 'data.csv', type: 'text/csv', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::Line',
+            isOnPrivateNote: true,
+          })
+        ).toBe(true);
+      });
+    });
   });
 });
