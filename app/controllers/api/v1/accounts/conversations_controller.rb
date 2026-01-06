@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :unread_counts]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :unread_counts, :kanban]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   ATTACHMENT_RESULTS_PER_PAGE = 100
@@ -63,6 +63,21 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
          CustomExceptions::CustomFilter::InvalidQueryOperator,
          CustomExceptions::CustomFilter::InvalidValue => e
     render_could_not_create_error(e.message)
+  end
+
+  def kanban
+    @kanban_data = {}
+    per_page = (params[:per_page] || 15).to_i
+
+    %w[open pending snoozed resolved].each do |status|
+      finder = ConversationFinder.new(Current.user, params.merge(status: status))
+      result = finder.perform
+      @kanban_data[status] = {
+        conversations: result[:conversations],
+        count: result[:count][:all_count],
+        has_more: result[:conversations].size >= per_page
+      }
+    end
   end
 
   def mute
