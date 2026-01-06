@@ -1,3 +1,6 @@
+import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
+
 export const DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE = 40;
 
 export const formatBytes = (bytes, decimals = 2) => {
@@ -30,4 +33,56 @@ export const resolveMaximumFileUploadSize = value => {
   }
 
   return parsedValue;
+};
+
+/**
+ * Validates if a file type is allowed for a specific channel
+ * @param {File} file - The file to validate
+ * @param {Object} options - Validation options
+ * @param {string} options.channelType - The channel type
+ * @param {string} options.medium - The channel medium
+ * @param {string} options.conversationType - The conversation type (for Instagram DM detection)
+ * @param {boolean} options.isInstagramChannel - Whether it's an Instagram channel
+ * @returns {boolean} - True if file type is allowed, false otherwise
+ */
+export const isFileTypeAllowedForChannel = (file, options = {}) => {
+  if (!file || file.size === 0) return false;
+
+  const {
+    channelType: originalChannelType,
+    medium,
+    conversationType,
+    isInstagramChannel,
+  } = options;
+
+  // Handle Instagram special case
+  let channelType = originalChannelType;
+  const isInstagramDM = conversationType === 'instagram_direct_message';
+  if (isInstagramChannel || isInstagramDM) {
+    channelType = INBOX_TYPES.INSTAGRAM;
+  }
+
+  // Get allowed file types for the channel
+  const allowedFileTypes = getAllowedFileTypesByChannel({
+    channelType,
+    medium,
+  });
+
+  // Convert to array and validate
+  const allowedTypesArray = allowedFileTypes.split(',').map(t => t.trim());
+  const fileExtension = `.${file.name.split('.').pop()}`;
+
+  return allowedTypesArray.some(allowedType => {
+    // Check for exact file extension match
+    if (allowedType === fileExtension) return true;
+
+    // Check for wildcard MIME type (e.g., image/*)
+    if (allowedType.endsWith('/*')) {
+      const prefix = allowedType.slice(0, -2); // Remove '/*'
+      return file.type.startsWith(prefix + '/');
+    }
+
+    // Check for exact MIME type match
+    return allowedType === file.type;
+  });
 };
