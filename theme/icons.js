@@ -139,6 +139,16 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'menu-list': {
+    body: `<g fill="none" stroke="currentColor"><path d="M5.85718 4H13.2857" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.71411 8H13.2855" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.71411 12H13.2855" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6.85742C3 7.16052 3.12041 7.45121 3.33473 7.66553C3.54906 7.87986 3.83974 8.00026 4.14284 8.00026H5.85711" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 4V10.8571C3 11.1602 3.12041 11.4508 3.33473 11.6652C3.54906 11.8795 3.83974 11.9999 4.14284 11.9999H5.85711" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  bin: {
+    body: `<g fill="none" stroke="currentColor"><path d="M12.3999 5.7334L11.3359 11.7848C11.2463 12.2948 10.8032 12.6667 10.2854 12.6667H5.98111C5.46327 12.6667 5.02023 12.2948 4.93056 11.7848L3.86658 5.7334" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.9334 4.13334H9.93338M9.93338 4.13334V3.06667C9.93338 2.47756 9.45584 2 8.86671 2H7.40005C6.81094 2 6.33338 2.47756 6.33338 3.06667V4.13334M9.93338 4.13334H6.33338M3.33337 4.13334H6.33338" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {
