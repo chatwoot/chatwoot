@@ -328,6 +328,11 @@ class Message < ApplicationRecord
       )
       conversation.update(waiting_since: nil)
     end
+
+    # Bot responses also clear waiting_since (simpler than checking on next customer message)
+    conversation.update(waiting_since: nil) if bot_response? && !private && conversation.waiting_since.present?
+
+    # Set waiting_since when customer sends a message (if currently blank)
     conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
@@ -339,6 +344,11 @@ class Message < ApplicationRecord
       content_attributes['automation_rule_id'].blank? &&
       additional_attributes['campaign_id'].blank? &&
       sender.is_a?(User)
+  end
+
+  def bot_response?
+    # Check if this is a response from AgentBot or Captain::Assistant
+    outgoing? && sender_type.in?(['AgentBot', 'Captain::Assistant'])
   end
 
   def dispatch_create_events
