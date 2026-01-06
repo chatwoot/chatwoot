@@ -6,12 +6,12 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     }
 
     send_params[:content_variables] = content_variables.to_json if content_variables.present?
-    send_params[:status_callback] = channel.twilio_delivery_status_index_url if channel.respond_to?(:twilio_delivery_status_index_url)
+    send_params[:status_callback] = channel.send(:twilio_delivery_status_index_url) if channel.respond_to?(:twilio_delivery_status_index_url, true)
 
     # Add messaging service or from number
-    send_params = send_params.merge(channel.send_message_from)
+    send_params = send_params.merge(channel.send(:send_message_from))
 
-    twilio_message = channel.client.messages.create(**send_params)
+    twilio_message = channel.send(:client).messages.create(**send_params)
 
     { success: true, message_id: twilio_message.sid }
   rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
@@ -52,12 +52,12 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
     }
 
     send_params[:content_variables] = content_variables.to_json if content_variables.present?
-    send_params[:status_callback] = channel.twilio_delivery_status_index_url if channel.respond_to?(:twilio_delivery_status_index_url)
+    send_params[:status_callback] = channel.send(:twilio_delivery_status_index_url) if channel.respond_to?(:twilio_delivery_status_index_url, true)
 
     # Add messaging service or from number
-    send_params = send_params.merge(channel.send_message_from)
+    send_params = send_params.merge(channel.send(:send_message_from))
 
-    channel.client.messages.create(**send_params)
+    channel.send(:client).messages.create(**send_params)
   end
 
   def template_params
