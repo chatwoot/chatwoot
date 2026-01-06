@@ -41,6 +41,9 @@ const getTemplateType = template => {
   if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.QUICK_REPLY) {
     return t('CONTENT_TEMPLATES.PICKER.TYPES.QUICK_REPLY');
   }
+  if (template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.CALL_TO_ACTION) {
+    return t('CONTENT_TEMPLATES.PICKER.TYPES.CALL_TO_ACTION');
+  }
   return t('CONTENT_TEMPLATES.PICKER.TYPES.TEXT');
 };
 
