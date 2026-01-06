@@ -18,7 +18,17 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "start:pm2": "pm2 start ecosystem.config.js",
+    "stop:pm2": "pm2 stop ecosystem.config.js",
+    "restart:pm2": "pm2 restart ecosystem.config.js",
+    "pm2:status": "pm2 status",
+    "pm2:logs": "pm2 logs",
+    "pm2:logs:backend": "pm2 logs chatwoot-backend",
+    "pm2:logs:frontend": "pm2 logs chatwoot-frontend",
+    "pm2:logs:worker": "pm2 logs chatwoot-worker",
+    "pm2:delete": "pm2 delete ecosystem.config.js",
+    "pm2:reload": "pm2 reload ecosystem.config.js"
   },
   "size-limit": [
     {
