@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseController
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
@@ -19,7 +18,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
       render_twilio_template_status_response(status_result, template)
     else
       template_name = template['name'] || CsatTemplateNameService.csat_template_name(@inbox.id)
-      status_result = @inbox.channel.provider_service.get_template_status(template_name)
+      status_result = Whatsapp::CsatTemplateService.new(@inbox.channel).get_template_status(template_name)
       render_template_status_response(status_result, template_name)
     end
   rescue StandardError => e
@@ -101,7 +100,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
       template_name: CsatTemplateNameService.csat_template_name(@inbox.id)
     }
 
-    @inbox.channel.provider_service.create_csat_template(template_config)
+    Whatsapp::CsatTemplateService.new(@inbox.channel).create_template(template_config)
   end
 
   def render_template_creation_result(result)
@@ -180,10 +179,11 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     template_name = template['name']
     return true if template_name.blank?
 
-    template_status = @inbox.channel.provider_service.get_template_status(template_name)
+    csat_template_service = Whatsapp::CsatTemplateService.new(@inbox.channel)
+    template_status = csat_template_service.get_template_status(template_name)
     return true unless template_status[:success]
 
-    deletion_result = @inbox.channel.provider_service.delete_csat_template(template_name)
+    deletion_result = csat_template_service.delete_template(template_name)
     if deletion_result[:success]
       Rails.logger.info "Deleted existing CSAT template '#{template_name}' for inbox #{@inbox.id}"
       true
@@ -282,4 +282,3 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
     end
   end
 end
-# rubocop:enable Metrics/ClassLength

@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/ClassLength
 class Twilio::CsatTemplateService
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
@@ -243,4 +242,3 @@ class Twilio::CsatTemplateService
     'https://content.twilio.com'
   end
 end
-# rubocop:enable Metrics/ClassLength
