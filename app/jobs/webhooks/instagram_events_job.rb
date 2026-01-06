@@ -21,6 +21,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   # @see https://developers.facebook.com/docs/messenger-platform/instagram/features/webhook
   def process_entries(entries)
     entries.each do |entry|
+      entry = entry.to_unsafe_h if entry.respond_to?(:to_unsafe_h)
       entry = entry.with_indifferent_access
       begin
         messages(entry).each do |messaging|
@@ -43,7 +44,8 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   end
 
   def sender_id
-    @entries&.dig(0, :messaging, 0, :sender, :id)
+    messaging = @entries&.dig(0, :messaging, 0) || @entries&.dig(0, :standby, 0)
+    messaging&.dig(:sender, :id)
   end
 
   def event_name(messaging)
