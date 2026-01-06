@@ -36,28 +36,28 @@
         }
       },
       "INTERFACE_SECTION": {
-        "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "TITLE": "ממשק",
+        "NOTE": "התאם אישית את המראה והתחושה של לוח המחוונים שלך ב-Chatwoot.",
         "FONT_SIZE": {
-          "TITLE": "Font size",
-          "NOTE": "Adjust the text size across the dashboard based on your preference.",
-          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "TITLE": "גודל גופן",
+          "NOTE": "התאם את גודל הטקסט ברחבי לוח המחוונים בהתבסס על ההעדפה שלך.",
+          "UPDATE_SUCCESS": "הגדרות הגופן שלך עודכנו בהצלחה",
+          "UPDATE_ERROR": "אירעה שגיאה בעדכון הגדרות הגופן, אנא נסה שוב",
           "OPTIONS": {
-            "SMALLER": "Smaller",
-            "SMALL": "Small",
+            "SMALLER": "קטן יותר",
+            "SMALL": "קטן",
             "DEFAULT": "ברירת מחדל",
-            "LARGE": "Large",
-            "LARGER": "Larger",
-            "EXTRA_LARGE": "Extra Large"
+            "LARGE": "גדול",
+            "LARGER": "גדול יותר",
+            "EXTRA_LARGE": "גדול במיוחד"
           }
         },
         "LANGUAGE": {
-          "TITLE": "Preferred Language",
-          "NOTE": "Choose the language you want to use.",
-          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
-          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
-          "USE_ACCOUNT_DEFAULT": "Use account default"
+          "TITLE": "שפה מועדפת",
+          "NOTE": "בחר את השפה שבה ברצונך להשתמש.",
+          "UPDATE_SUCCESS": "הגדרות השפה שלך עודכנו בהצלחה",
+          "UPDATE_ERROR": "אירעה שגיאה בעדכון הגדרות השפה, אנא נסה שוב",
+          "USE_ACCOUNT_DEFAULT": "השתמש בברירת המחדל של החשבון"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -81,41 +81,41 @@
         "BTN_TEXT": "שנה סיסמא"
       },
       "SECURITY_SECTION": {
-        "TITLE": "Security",
-        "NOTE": "Manage additional security features for your account.",
+        "TITLE": "אבטחה",
+        "NOTE": "נהל תכונות אבטחה נוספות עבור חשבונך.",
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "ACCESS_TOKEN": {
         "TITLE": "אסימון",
         "NOTE": "משמש לחיבורי API",
         "COPY": "עותק",
-        "RESET": "Reset",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "RESET": "איפוס",
+        "CONFIRM_RESET": "האם אתה בטוח?",
+        "CONFIRM_HINT": "לחץ שוב כדי לאשר",
+        "RESET_SUCCESS": "אסימון הגישה נוצר מחדש בהצלחה",
+        "RESET_ERROR": "לא ניתן ליצור מחדש את אסימון הגישה. אנא נסה שוב"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
+        "TITLE": "התראות שמע",
+        "NOTE": "הפעל התראות שמע בלוח המחוונים עבור הודעות ושיחות חדשות.",
+        "PLAY": "הפעל צליל",
         "ALERT_TYPES": {
           "NONE": "כלום",
           "MINE": "הוקצה",
           "ALL": "הכל",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
+          "ASSIGNED": "השיחות שהוקצו לי",
+          "UNASSIGNED": "שיחות לא משויכות",
+          "NOTME": "שיחות פתוחות שהוקצו לאחרים"
         },
         "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+          "NONE": "לא בחרת אפשרויות, לא תקבל התראות שמע.",
+          "ASSIGNED": "תקבל התראות עבור שיחות שהוקצו לך.",
+          "UNASSIGNED": "תקבל התראות עבור כל שיחה לא משויכת.",
+          "NOTME": "תקבל התראות עבור שיחות שהוקצו לאחרים.",
+          "ASSIGNED+UNASSIGNED": "תקבל התראות עבור השיחות שהוקצו לך ועבור כל שיחה ללא מענה.",
+          "ASSIGNED+NOTME": "תקבל התראות עבור שיחות שהוקצו לך ולאחרים, אך לא עבור שיחות לא משויכות.",
+          "NOTME+UNASSIGNED": "תקבל התראות עבור שיחות ללא מענה ועבור אלה שהוקצו לאחרים.",
+          "ASSIGNED+NOTME+UNASSIGNED": "תקבל התראות עבור כל השיחות."
         },
         "ALERT_TYPE": {
           "TITLE": "אירועי התראה לשיחות",
@@ -131,7 +131,7 @@
           "CONDITION_ONE": "שלח התראות קוליות רק במידה והדפדפן לא פעיל",
           "CONDITION_TWO": "שלח התראות כל 30 שניות עד שכל ההודעות המשוייכות נקראו"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "SOUND_PERMISSION_ERROR": "ההפעלה האוטומטית מושבתת בדפדפן שלך. כדי לשמוע התראות באופן אוטומטי, אפשר הרשאת צליל בהגדרות הדפדפן שלך או צור אינטראקציה עם הדף.",
         "READ_MORE": "קרא עוד"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
@@ -144,22 +144,22 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
         "SLA_MISSED_FIRST_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת בהסכם תנאי השירות (SLA) של התגובה הראשונה",
         "SLA_MISSED_NEXT_RESPONSE": "שלח התראות בדוא\"ל כאשר שיחה לא עומדת ב-הסכם תנאי השירות (SLA) של התגובה הבאה",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_RESOLUTION": "שלח התראות דוא\"ל כאשר שיחה מחמיצה SLA סגירה"
       },
       "NOTIFICATIONS": {
         "TITLE": "העדפות התראות",
         "TYPE_TITLE": "סוג התראה",
         "EMAIL": "אימייל",
-        "PUSH": "Push notification",
+        "PUSH": "התראת דחיפה (Push)",
         "TYPES": {
           "CONVERSATION_CREATED": "שיחה חדשה נוצרה",
           "CONVERSATION_ASSIGNED": "שיחה הוקצתה לך",
           "CONVERSATION_MENTION": "הוזכרת בשיחה",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "נוצרה הודעה חדשה בשיחה שהוקצתה",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "נוצרה הודעה חדשה בשיחה שבה אתה משתתף",
+          "SLA_MISSED_FIRST_RESPONSE": "שיחה מחמיצה SLA תגובה ראשונה",
+          "SLA_MISSED_NEXT_RESPONSE": "שיחה מחמיצה SLA תגובה הבאה",
+          "SLA_MISSED_RESOLUTION": "שיחה מחמיצה SLA סגירה"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -177,9 +177,9 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "שלח הודעות דחיפה כאשר נוצרת הודעה חדשה בשיחה המיועדת עבורי",
         "HAS_ENABLED_PUSH": "הודעות דחיפה בדפדפן זה הופעלו.",
         "REQUEST_PUSH": "אפשר הודעות דחיפה",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
+        "SLA_MISSED_FIRST_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה ראשונה",
+        "SLA_MISSED_NEXT_RESPONSE": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA תגובה הבאה",
+        "SLA_MISSED_RESOLUTION": "שלח התראות דחיפה כאשר שיחה מחמיצה SLA סגירה"
       },
       "PROFILE_IMAGE": {
         "LABEL": "תמונת פרופיל"
@@ -203,7 +203,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
         "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית",
-        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
+        "IMPERSONATING_ERROR": "לא ניתן לשנות זמינות בעת התחזות למשתמש"
       },
       "EMAIL": {
         "LABEL": "כתובת הדוא\"ל שלך",
@@ -229,34 +229,35 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "שינוי",
-    "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_ACCOUNT": "Switch account",
-    "CONTACT_SUPPORT": "Contact support",
+    "CHANGE_ACCOUNTS": "החלף חשבון",
+    "SWITCH_ACCOUNT": "החלף חשבון",
+    "CONTACT_SUPPORT": "צור קשר עם התמיכה",
     "SELECTOR_SUBTITLE": "בחר חשבון מהרשימה הבאה",
-    "PROFILE_SETTINGS": "Profile settings",
-    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
-    "APPEARANCE": "Change appearance",
-    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
-    "DOCS": "Read documentation",
-    "CHANGELOG": "Changelog",
-    "LOGOUT": "Log out"
+    "PROFILE_SETTINGS": "הגדרות פרופיל",
+    "YEAR_IN_REVIEW": "Year in Review",
+    "KEYBOARD_SHORTCUTS": "קיצורי מקלדת",
+    "APPEARANCE": "שנה מראה",
+    "SUPER_ADMIN_CONSOLE": "קונסולת מנהל-על",
+    "DOCS": "קרא תיעוד",
+    "CHANGELOG": "יומן שינויים",
+    "LOGOUT": "התנתק"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "שנותרו ימי ניסיון.",
     "TRAIL_BUTTON": "קנה עכשיו",
     "DELETED_USER": "משתמש מחוק",
-    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
-    "RESEND_VERIFICATION_MAIL": "Resend verification email",
-    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
+    "EMAIL_VERIFICATION_PENDING": "נראה שעדיין לא אימתת את כתובת הדוא\"ל שלך. אנא בדוק את תיבת הדואר הנכנס שלך עבור דוא\"ל האימות.",
+    "RESEND_VERIFICATION_MAIL": "שלח מחדש דוא\"ל אימות",
+    "EMAIL_VERIFICATION_SENT": "דוא\"ל האימות נשלח. אנא בדוק את תיבת הדואר הנכנס שלך.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "חשבון מושעה",
       "MESSAGE": "החשבון שלך מושעה. אנא פנה לצוות התמיכה לקבלת מידע נוסף."
     },
     "NO_ACCOUNTS": {
-      "TITLE": "No account found",
-      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
-      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
-      "LOGOUT": "Log out"
+      "TITLE": "לא נמצא חשבון",
+      "MESSAGE_CLOUD": "אינך חלק משום חשבון כרגע. אם אתה חושב שזו טעות, אנא פנה לצוות התמיכה שלנו.",
+      "MESSAGE_SELF_HOSTED": "אינך חלק משום חשבון כרגע. אנא פנה למנהל המערכת שלך.",
+      "LOGOUT": "התנתק"
     }
   },
   "COMPONENTS": {
@@ -281,8 +282,8 @@
       "SUBMIT": "שלח"
     },
     "MEDIA": {
-      "IMAGE_UNAVAILABLE": "This image is no longer available.",
-      "LOADING_FAILED": "Loading failed"
+      "IMAGE_UNAVAILABLE": "תמונה זו אינה זמינה עוד.",
+      "LOADING_FAILED": "טעינה נכשלה"
     }
   },
   "CONFIRM_EMAIL": "מאמת...",
@@ -292,12 +293,12 @@
     }
   },
   "SIDEBAR": {
-    "NO_ITEMS": "No items",
+    "NO_ITEMS": "אין פריטים",
     "CURRENTLY_VIEWING_ACCOUNT": "צופה כרגע:",
     "SWITCH": "החלף",
-    "INBOX_VIEW": "Inbox View",
+    "INBOX_VIEW": "תצוגת תיבת דואר נכנס",
     "CONVERSATIONS": "שיחות",
-    "INBOX": "My Inbox",
+    "INBOX": "תיבת הדואר הנכנס שלי",
     "ALL_CONVERSATIONS": "כל השיחות",
     "MENTIONED_CONVERSATIONS": "אִזְכּוּרים",
     "PARTICIPATING_CONVERSATIONS": "משתתף",
@@ -306,19 +307,21 @@
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
     "ACTIVE": "פעיל",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
-    "CAPTAIN_TOOLS": "Tools",
-    "CAPTAIN_SCENARIOS": "Scenarios",
-    "CAPTAIN_PLAYGROUND": "Playground",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
+    "CAPTAIN": "קפטן",
+    "CAPTAIN_ASSISTANTS": "עוזרים",
+    "CAPTAIN_DOCUMENTS": "מסמכים",
+    "CAPTAIN_RESPONSES": "שאלות נפוצות",
+    "CAPTAIN_TOOLS": "כלים",
+    "CAPTAIN_SCENARIOS": "תרחישים",
+    "CAPTAIN_PLAYGROUND": "מגרש משחקים",
     "CAPTAIN_INBOXES": "תיבות דואר נכנס",
     "CAPTAIN_SETTINGS": "הגדרות",
     "HOME": "בית",
     "AGENTS": "סוכנים",
     "AGENT_BOTS": "בוטים",
-    "AUDIT_LOGS": "Audit Logs",
+    "AUDIT_LOGS": "יומני ביקורת",
     "INBOXES": "תיבות דואר נכנס",
     "NOTIFICATIONS": "התראות",
     "CANNED_RESPONSES": "תגובות מוכנות",
@@ -341,7 +344,7 @@
     "NEW_INBOX": "תיבת דואר נכנס חדשה",
     "REPORTS_CONVERSATION": "שיחות",
     "CSAT": "CSAT",
-    "LIVE_CHAT": "Live Chat",
+    "LIVE_CHAT": "צ'אט חי",
     "SMS": "SMS",
     "WHATSAPP": "WhatsApp",
     "CAMPAIGNS": "קמפיין",
@@ -353,128 +356,153 @@
     "REPORTS_LABEL": "תוויות",
     "REPORTS_INBOX": "תיבת הדואר הנכנס",
     "REPORTS_TEAM": "צוות",
-    "AGENT_ASSIGNMENT": "Agent Assignment",
+    "AGENT_ASSIGNMENT": "הקצאת סוכן",
     "SET_AVAILABILITY_TITLE": "הגדר את עצמך בתור",
     "SET_YOUR_AVAILABILITY": "הגדר את הזמינות שלך",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "תפקידים מותאמים אישית",
     "BETA": "בטא",
     "REPORTS_OVERVIEW": "סקירה כללית",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "חיבור תיבת הדואר הנכנס שלך פג, אנא התחבר מחדש\n כדי להמשיך לקבל ולשלוח הודעות",
     "HELP_CENTER": {
-      "TITLE": "Help Center",
-      "ARTICLES": "Articles",
+      "TITLE": "מרכז עזרה",
+      "ARTICLES": "מאמרים",
       "CATEGORIES": "קטגוריות",
       "LOCALES": "מקומיים",
       "SETTINGS": "הגדרות"
     },
-    "CHANNELS": "Channels",
+    "CHANNELS": "ערוצים",
     "SET_AUTO_OFFLINE": {
       "TEXT": "סמן באופן לא מקוון באופן אוטומטי",
       "INFO_TEXT": "תן למערכת לסמן אותך באופן אוטומטי במצב לא מקוון כשאתה לא משתמש באפליקציה או בלוח המחוונים.",
-      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
+      "INFO_SHORT": "סמן אוטומטית כלא מקוון כאשר אינך משתמש באפליקציה."
     },
     "DOCS": "קרא מסמכים",
-    "SECURITY": "Security"
+    "SECURITY": "אבטחה"
   },
   "BILLING_SETTINGS": {
     "TITLE": "חיוב",
-    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
+    "DESCRIPTION": "נהל את המנוי שלך כאן, שדרג את התוכנית שלך וקבל יותר עבור הצוות שלך.",
     "CURRENT_PLAN": {
       "TITLE": "תוכנית נוכחית",
       "PLAN_NOTE": "אתה רשום כעת לתוכנית **{plan}** עם רישיונות **{quantity}**",
-      "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "SEAT_COUNT": "מספר מושבים",
+      "RENEWS_ON": "מתחדש ב-"
     },
-    "VIEW_PRICING": "View Pricing",
+    "VIEW_PRICING": "הצג תמחור",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "נהל את המנוי שלך",
       "DESCRIPTION": "הצג את החשבוניות הקודמות שלך, ערוך את פרטי החיוב שלך או בטל את המנוי שלך.",
       "BUTTON_TXT": "עבור לפורטל החיובים"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "TITLE": "קפטן",
+      "DESCRIPTION": "נהל שימוש וזיכויים עבור Captain AI.",
+      "BUTTON_TXT": "קנה עוד זיכויים",
+      "DOCUMENTS": "מסמכים",
+      "RESPONSES": "תגובות",
+      "UPGRADE": "Captain אינו זמין בתוכנית החינמית, שדרג עכשיו כדי לקבל גישה לעוזרים, ל-Copilot ועוד.",
+      "REFRESH_CREDITS": "רענן"
     },
     "CHAT_WITH_US": {
       "TITLE": "זקוק לעזרה?",
       "DESCRIPTION": "האם אתה נתקל בבעיות כלשהן בחיוב? אנחנו כאן כדי לעזור.",
       "BUTTON_TXT": "דבר איתנו"
     },
-    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב."
+    "NO_BILLING_USER": "חשבון החיוב שלך מוגדר. אנא רענן את הדף ונסה שוב.",
+    "TOPUP": {
+      "BUY_CREDITS": "קנה עוד זיכויים",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "הערה:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "ביטול",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "חזור",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
-    "TITLE": "Security",
-    "DESCRIPTION": "Manage your account security settings.",
-    "LINK_TEXT": "Learn more about SAML SSO",
+    "TITLE": "אבטחה",
+    "DESCRIPTION": "נהל את הגדרות האבטחה של חשבונך.",
+    "LINK_TEXT": "למד עוד על SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
       "ACS_URL": {
-        "LABEL": "ACS URL",
+        "LABEL": "כתובת URL של ACS",
         "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
       },
       "SSO_URL": {
-        "LABEL": "SSO URL",
-        "HELP": "The URL where SAML authentication requests will be sent",
+        "LABEL": "כתובת URL של SSO",
+        "HELP": "כתובת ה-URL שאליה יישלחו בקשות אימות SAML",
         "PLACEHOLDER": "https://your-idp.com/saml/sso"
       },
       "CERTIFICATE": {
-        "LABEL": "Signing certificate in PEM format",
-        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "LABEL": "אישור חתימה בפורמט PEM",
+        "HELP": "האישור הציבורי מספק הזהויות שלך המשמש לאימות תגובות SAML",
         "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
       },
       "FINGERPRINT": {
-        "LABEL": "Fingerprint",
+        "LABEL": "טביעת אצבע",
         "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
       },
       "COPY_SUCCESS": "הקוד הועתק ללוח בהצלחה",
       "SP_ENTITY_ID": {
-        "LABEL": "SP Entity ID",
+        "LABEL": "מזהה ישות SP",
         "HELP": "Unique identifier for this application as a service provider (auto-generated).",
         "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
       },
       "IDP_ENTITY_ID": {
-        "LABEL": "Identity Provider Entity ID",
-        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "LABEL": "מזהה ישות של ספק הזהויות",
+        "HELP": "מזהה ייחודי עבור ספק הזהויות שלך (נמצא בדרך כלל בהגדרות IdP)",
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
-      "UPDATE_BUTTON": "Update SAML Settings",
+      "UPDATE_BUTTON": "עדכן הגדרות SAML",
       "API": {
-        "SUCCESS": "SAML settings updated successfully",
-        "ERROR": "Failed to update SAML settings",
-        "ERROR_LOADING": "Failed to load SAML settings",
-        "DISABLED": "SAML settings disabled successfully"
+        "SUCCESS": "הגדרות SAML עודכנו בהצלחה",
+        "ERROR": "העדכון של הגדרות SAML נכשל",
+        "ERROR_LOADING": "טעינת הגדרות SAML נכשלה",
+        "DISABLED": "הגדרות SAML הושבתו בהצלחה"
       },
       "VALIDATION": {
-        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
-        "SSO_URL_ERROR": "Please enter a valid SSO URL",
-        "CERTIFICATE_ERROR": "Certificate is required",
-        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+        "REQUIRED_FIELDS": "כתובת URL של SSO, מזהה ישות של ספק הזהויות ואישור הם שדות נדרשים",
+        "SSO_URL_ERROR": "אנא הזן כתובת URL חוקית של SSO",
+        "CERTIFICATE_ERROR": "אישור נדרש",
+        "IDP_ENTITY_ID_ERROR": "מזהה ישות של ספק הזהויות נדרש"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "AVAILABLE_ON": "תכונת SAML SSO זמינה רק בתוכניות Enterprise.",
         "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
-        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+        "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to enable SAML SSO",
-        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "TITLE": "שדרג כדי להפעיל SAML SSO",
+        "AVAILABLE_ON": "תכונת SAML SSO זמינה רק בתוכניות Enterprise.",
         "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+        "UPGRADE_NOW": "שדרג עכשיו",
+        "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
       },
       "ATTRIBUTE_MAPPING": {
-        "TITLE": "SAML Attribute Setup",
-        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+        "TITLE": "הגדרת תכונת SAML",
+        "DESCRIPTION": "יש להגדיר את מיפויי התכונות הבאים בספק הזהויות שלך"
       },
       "INFO_SECTION": {
-        "TITLE": "Service Provider Information",
-        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+        "TITLE": "מידע על ספק השירות",
+        "TOOLTIP": "העתק ערכים אלה והגדר אותם בספק הזהויות שלך כדי ליצור את חיבור SAML"
       }
     }
   },
@@ -518,24 +546,24 @@
   "ASSIGNMENT_POLICY": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Agent assignment",
-        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+        "TITLE": "הקצאת סוכן",
+        "DESCRIPTION": "הגדר מדיניות לניהול יעיל של עומס העבודה וניתוב שיחות בהתבסס על הצרכים של תיבות הדואר הנכנס והסוכנים. למד עוד כאן"
       },
       "ASSIGNMENT_POLICY": {
-        "TITLE": "Assignment policy",
-        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "TITLE": "מדיניות הקצאה",
+        "DESCRIPTION": "נהל כיצד שיחות מוקצות בתיבות דואר נכנס.",
         "FEATURES": [
-          "Assign by conversations evenly or by available capacity",
-          "Add fair distribution rules to avoid overloading any agent",
+          "הקצה לפי שיחות באופן שווה או לפי קיבולת זמינה",
+          "הוסף כללי הפצה הוגנת כדי למנוע עומס יתר על סוכן כלשהו",
           "Add inboxes to a policy - one policy per inbox"
         ]
       },
       "AGENT_CAPACITY_POLICY": {
-        "TITLE": "Agent capacity policy",
-        "DESCRIPTION": "Manage workload for agents.",
+        "TITLE": "מדיניות קיבולת סוכן",
+        "DESCRIPTION": "נהל את עומס העבודה עבור סוכנים.",
         "FEATURES": [
-          "Define maximum conversations per inbox",
-          "Create exceptions based on labels and time",
+          "הגדר מספר שיחות מרבי לכל תיבת דואר נכנס",
+          "צור חריגים על בסיס תוויות וזמן",
           "Add agents to a policy - one policy per agent"
         ]
       }
@@ -543,224 +571,224 @@
     "AGENT_ASSIGNMENT_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Assignment policy",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "מדיניות הקצאה",
+          "CREATE_POLICY": "מדיניות חדשה"
         },
         "CARD": {
-          "ORDER": "Order",
-          "PRIORITY": "Priority",
+          "ORDER": "סדר",
+          "PRIORITY": "עדיפות",
           "ACTIVE": "פעיל",
-          "INACTIVE": "Inactive",
-          "POPOVER": "Added inboxes",
+          "INACTIVE": "לא פעיל",
+          "POPOVER": "תיבות דואר נכנס שנוספו",
           "EDIT": "ערוך"
         },
-        "NO_RECORDS_FOUND": "No assignment policies found"
+        "NO_RECORDS_FOUND": "לא נמצאו מדיניות הקצאה"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create assignment policy"
+          "TITLE": "צור מדיניות הקצאה"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "צור מדיניות",
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy created successfully",
-          "ERROR_MESSAGE": "Failed to create assignment policy"
+          "SUCCESS_MESSAGE": "מדיניות ההקצאה נוצרה בהצלחה",
+          "ERROR_MESSAGE": "יצירת מדיניות ההקצאה נכשלה"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit assignment policy"
+          "TITLE": "ערוך מדיניות הקצאה"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "עדכן מדיניות",
         "CONFIRM_ADD_INBOX_DIALOG": {
-          "TITLE": "Add inbox",
-          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "הוסף תיבת דואר נכנס",
+          "DESCRIPTION": "תיבת הדואר הנכנס {inboxName} כבר מקושרת למדיניות אחרת. האם אתה בטוח שברצונך לקשר אותה למדיניות זו? היא תנותק מהמדיניות האחרת.",
+          "CONFIRM_BUTTON_LABEL": "המשך",
           "CANCEL_BUTTON_LABEL": "ביטול"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update assignment policy"
+          "SUCCESS_MESSAGE": "מדיניות ההקצאה עודכנה בהצלחה",
+          "ERROR_MESSAGE": "עדכון מדיניות ההקצאה נכשל"
         },
         "INBOX_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "תיבת הדואר הנכנס נוספה למדיניות בהצלחה",
+            "ERROR_MESSAGE": "הוספת תיבת הדואר הנכנס למדיניות נכשלה"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+            "SUCCESS_MESSAGE": "תיבת הדואר הנכנס הוסרה מהמדיניות בהצלחה",
+            "ERROR_MESSAGE": "הסרת תיבת הדואר הנכנס מהמדיניות נכשלה"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "שם מדיניות:",
+          "PLACEHOLDER": "הזן שם מדיניות"
         },
         "DESCRIPTION": {
           "LABEL": "תיאור:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "הזן תיאור"
         },
         "STATUS": {
           "LABEL": "מצב:",
-          "PLACEHOLDER": "Select status",
-          "ACTIVE": "Policy is active",
-          "INACTIVE": "Policy is inactive"
+          "PLACEHOLDER": "בחר סטטוס",
+          "ACTIVE": "המדיניות פעילה",
+          "INACTIVE": "המדיניות לא פעילה"
         },
         "ASSIGNMENT_ORDER": {
-          "LABEL": "Assignment order",
+          "LABEL": "סדר הקצאה",
           "ROUND_ROBIN": {
-            "LABEL": "Round robin",
-            "DESCRIPTION": "Assign conversations evenly among agents."
+            "LABEL": "Round robin (סבב)",
+            "DESCRIPTION": "הקצה שיחות באופן שווה בין הסוכנים."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
-            "DESCRIPTION": "Assign conversations based on available capacity."
+            "LABEL": "מאוזן",
+            "DESCRIPTION": "הקצה שיחות על בסיס קיבולת זמינה."
           }
         },
         "ASSIGNMENT_PRIORITY": {
-          "LABEL": "Assignment priority",
+          "LABEL": "עדיפות הקצאה",
           "EARLIEST_CREATED": {
-            "LABEL": "Earliest created",
-            "DESCRIPTION": "The conversation that was created first gets assigned first."
+            "LABEL": "נוצר מוקדם ביותר",
+            "DESCRIPTION": "השיחה שנוצרה ראשונה מוקצית ראשונה."
           },
           "LONGEST_WAITING": {
-            "LABEL": "Longest waiting",
-            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+            "LABEL": "המתנה הארוכה ביותר",
+            "DESCRIPTION": "השיחה הממתינה הכי הרבה זמן מוקצית ראשונה."
           }
         },
         "FAIR_DISTRIBUTION": {
-          "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
-          "INPUT_MAX": "Assign max",
-          "DURATION": "Conversations per agent in every"
+          "LABEL": "מדיניות הפצה הוגנת",
+          "DESCRIPTION": "הגדר את המספר המרבי של שיחות שניתן להקצות לכל סוכן בתוך חלון זמן כדי למנוע עומס יתר על סוכן כלשהו. שדה חובה זה מוגדר כברירת מחדל ל-100 שיחות לשעה.",
+          "INPUT_MAX": "הקצה מקסימום",
+          "DURATION": "שיחות לכל סוכן בכל"
         },
         "INBOXES": {
-          "LABEL": "Added inboxes",
-          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "תיבות דואר נכנס שנוספו",
+          "DESCRIPTION": "הוסף תיבות דואר נכנס שעבורן מדיניות זו תחול.",
+          "ADD_BUTTON": "הוסף תיבת דואר נכנס",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "SEARCH_PLACEHOLDER": "חפש ובחר תיבות דואר נכנס להוספה",
             "ADD_BUTTON": "הוסף"
           },
-          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "EMPTY_STATE": "לא נוספו תיבות דואר נכנס למדיניות זו, הוסף תיבת דואר נכנס כדי להתחיל",
           "API": {
-            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add inbox to policy"
+            "SUCCESS_MESSAGE": "תיבת הדואר הנכנס נוספה בהצלחה למדיניות",
+            "ERROR_MESSAGE": "הוספת תיבת הדואר הנכנס למדיניות נכשלה"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete assignment policy"
+        "SUCCESS_MESSAGE": "מדיניות ההקצאה נמחקה בהצלחה",
+        "ERROR_MESSAGE": "מחיקת מדיניות ההקצאה נכשלה"
       }
     },
     "AGENT_CAPACITY_POLICY": {
       "INDEX": {
         "HEADER": {
-          "TITLE": "Agent capacity",
-          "CREATE_POLICY": "New policy"
+          "TITLE": "קיבולת סוכן",
+          "CREATE_POLICY": "מדיניות חדשה"
         },
         "CARD": {
-          "POPOVER": "Added agents",
+          "POPOVER": "סוכנים שנוספו",
           "EDIT": "ערוך"
         },
-        "NO_RECORDS_FOUND": "No agent capacity policies found"
+        "NO_RECORDS_FOUND": "לא נמצאו מדיניות קיבולת סוכן"
       },
       "CREATE": {
         "HEADER": {
-          "TITLE": "Create agent capacity policy"
+          "TITLE": "צור מדיניות קיבולת סוכן"
         },
-        "CREATE_BUTTON": "Create policy",
+        "CREATE_BUTTON": "צור מדיניות",
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
-          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+          "SUCCESS_MESSAGE": "מדיניות קיבולת הסוכן נוצרה בהצלחה",
+          "ERROR_MESSAGE": "יצירת מדיניות קיבולת הסוכן נכשלה"
         }
       },
       "EDIT": {
         "HEADER": {
-          "TITLE": "Edit agent capacity policy"
+          "TITLE": "ערוך מדיניות קיבולת סוכן"
         },
-        "EDIT_BUTTON": "Update policy",
+        "EDIT_BUTTON": "עדכן מדיניות",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
-          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
-          "CONFIRM_BUTTON_LABEL": "Continue",
+          "TITLE": "הוסף סוכן",
+          "DESCRIPTION": "{agentName} כבר מקושר למדיניות אחרת. האם אתה בטוח שברצונך לקשר אותו למדיניות זו? הוא ינותק מהמדיניות האחרת.",
+          "CONFIRM_BUTTON_LABEL": "המשך",
           "CANCEL_BUTTON_LABEL": "ביטול"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
-          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+          "SUCCESS_MESSAGE": "מדיניות קיבולת הסוכן עודכנה בהצלחה",
+          "ERROR_MESSAGE": "עדכון מדיניות קיבולת הסוכן נכשל"
         },
         "AGENT_API": {
           "ADD": {
-            "SUCCESS_MESSAGE": "Agent added to policy successfully",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "הסוכן נוסף למדיניות בהצלחה",
+            "ERROR_MESSAGE": "הוספת הסוכן למדיניות נכשלה"
           },
           "REMOVE": {
-            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
-            "ERROR_MESSAGE": "Failed to remove agent from policy"
+            "SUCCESS_MESSAGE": "הסוכן הוסר מהמדיניות בהצלחה",
+            "ERROR_MESSAGE": "הסרת הסוכן מהמדיניות נכשלה"
           }
         }
       },
       "FORM": {
         "NAME": {
-          "LABEL": "Policy name:",
-          "PLACEHOLDER": "Enter policy name"
+          "LABEL": "שם מדיניות:",
+          "PLACEHOLDER": "הזן שם מדיניות"
         },
         "DESCRIPTION": {
           "LABEL": "תיאור:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "הזן תיאור"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "מגבלות קיבולת תיבת דואר נכנס",
+          "ADD_BUTTON": "הוסף תיבת דואר נכנס",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
-            "MAX_CONVERSATIONS": "Max conversations",
-            "SET_LIMIT": "Set limit"
+            "SELECT_INBOX": "בחר תיבת דואר נכנס",
+            "MAX_CONVERSATIONS": "מקסימום שיחות",
+            "SET_LIMIT": "הגדר מגבלה"
           },
-          "EMPTY_STATE": "No inbox limit set"
+          "EMPTY_STATE": "לא הוגדרה מגבלת תיבת דואר נכנס"
         },
         "EXCLUSION_RULES": {
-          "LABEL": "Exclusion rules",
-          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "LABEL": "כללי חריגה",
+          "DESCRIPTION": "שיחות העומדות בתנאים הבאים לא ייכללו בחישוב קיבולת הסוכן",
           "TAGS": {
-            "LABEL": "Exclude conversations tagged with specific labels",
-            "ADD_TAG": "add tag",
+            "LABEL": "אל תכלול שיחות מתויגות בתוויות ספציפיות",
+            "ADD_TAG": "הוסף תג",
             "DROPDOWN": {
-              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+              "SEARCH_PLACEHOLDER": "חפש ובחר תגים להוספה"
             },
-            "EMPTY_STATE": "No tags added to this policy."
+            "EMPTY_STATE": "לא נוספו תגים למדיניות זו."
           },
           "DURATION": {
-            "LABEL": "Exclude conversations older than a specified duration",
-            "PLACEHOLDER": "Set time"
+            "LABEL": "אל תכלול שיחות ישנות יותר ממשך זמן מוגדר",
+            "PLACEHOLDER": "הגדר זמן"
           }
         },
         "USERS": {
-          "LABEL": "Assigned agents",
-          "DESCRIPTION": "Add agents for which this policy will be applicable.",
-          "ADD_BUTTON": "Add agent",
+          "LABEL": "סוכנים שהוקצו",
+          "DESCRIPTION": "הוסף סוכנים שעבורם מדיניות זו תחול.",
+          "ADD_BUTTON": "הוסף סוכן",
           "DROPDOWN": {
-            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "SEARCH_PLACEHOLDER": "חפש ובחר סוכנים להוספה",
             "ADD_BUTTON": "הוסף"
           },
-          "EMPTY_STATE": "No agents added",
+          "EMPTY_STATE": "לא נוספו סוכנים",
           "API": {
-            "SUCCESS_MESSAGE": "Agent successfully added to policy",
-            "ERROR_MESSAGE": "Failed to add agent to policy"
+            "SUCCESS_MESSAGE": "הסוכן נוסף בהצלחה למדיניות",
+            "ERROR_MESSAGE": "הוספת הסוכן למדיניות נכשלה"
           }
         }
       },
       "DELETE_POLICY": {
-        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+        "SUCCESS_MESSAGE": "מדיניות קיבולת הסוכן נמחקה בהצלחה",
+        "ERROR_MESSAGE": "מחיקת מדיניות קיבולת הסוכן נכשלה"
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "מחק מדיניות",
+      "DESCRIPTION": "האם אתה בטוח שברצונך למחוק מדיניות זו? לא ניתן לבטל פעולה זו.",
       "CONFIRM_BUTTON_LABEL": "מחק",
       "CANCEL_BUTTON_LABEL": "ביטול"
     }
