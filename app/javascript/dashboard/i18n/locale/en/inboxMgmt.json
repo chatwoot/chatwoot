@@ -1029,7 +1029,7 @@
         "AGENT_MESSAGE": "Hello"
       },
       "BRANDING_TEXT": "Powered by Nauto Console",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "SCRIPT_SETTINGS": "\n      window.nautoConsoleSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": {
