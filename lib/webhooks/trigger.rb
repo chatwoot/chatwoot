@@ -1,14 +1,15 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
 
-  def initialize(url, payload, webhook_type)
+  def initialize(url, payload, webhook_type, idempotency_key = nil)
     @url = url
     @payload = payload
     @webhook_type = webhook_type
+    @idempotency_key = idempotency_key || payload[:idempotency_key] || SecureRandom.uuid
   end
 
-  def self.execute(url, payload, webhook_type)
-    new(url, payload, webhook_type).execute
+  def self.execute(url, payload, webhook_type, idempotency_key = nil)
+    new(url, payload, webhook_type, idempotency_key).execute
   end
 
   def execute
@@ -25,7 +26,7 @@ class Webhooks::Trigger
       method: :post,
       url: @url,
       payload: @payload.to_json,
-      headers: { content_type: :json, accept: :json },
+      headers: { :content_type => :json, :accept => :json, 'Idempotency-Key' => @idempotency_key },
       timeout: webhook_timeout
     )
   end

@@ -64,7 +64,14 @@ class Macros::ExecutionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: 'macro.executed')
-    WebhookJob.perform_later(webhook_url.first, payload)
+    idempotency_key = generate_idempotency_key('macro.executed', @conversation)
+    payload = @conversation.webhook_data.merge(event: 'macro.executed', idempotency_key: idempotency_key)
+    WebhookJob.perform_later(webhook_url.first, payload, :account_webhook, idempotency_key)
+  end
+
+  def generate_idempotency_key(event_name, resource)
+    return SecureRandom.uuid unless resource.respond_to?(:id) && resource.respond_to?(:updated_at)
+
+    Digest::SHA256.hexdigest("#{event_name}-#{resource.class.name}-#{resource.id}-#{resource.updated_at.to_i}")
   end
 end

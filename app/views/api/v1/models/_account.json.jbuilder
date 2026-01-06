@@ -26,3 +26,23 @@ json.support_email @account.support_email
 json.status @account.status
 json.pinecone_index @account.pinecone_index
 json.cache_keys @account.cache_keys
+
+if @account.account_addresses.any?
+  json.account_address do
+    address = @account.account_addresses.first
+    json.id address.id
+    json.street address.street
+    json.exterior_number address.exterior_number
+    json.interior_number address.interior_number
+    json.neighborhood address.neighborhood
+    json.postal_code address.postal_code
+    json.city address.city
+    json.state address.state
+    json.email address.email
+    json.phone address.phone
+    json.webpage address.webpage
+    json.establishment_summary address.establishment_summary
+  end
+else
+  json.account_address nil
+end

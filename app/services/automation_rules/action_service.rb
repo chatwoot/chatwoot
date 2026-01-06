@@ -36,8 +36,15 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}")
-    WebhookJob.perform_later(webhook_url[0], payload)
+    idempotency_key = generate_idempotency_key("automation_event.#{@rule.event_name}", @conversation)
+    payload = @conversation.webhook_data.merge(event: "automation_event.#{@rule.event_name}", idempotency_key: idempotency_key)
+    WebhookJob.perform_later(webhook_url[0], payload, :account_webhook, idempotency_key)
+  end
+
+  def generate_idempotency_key(event_name, resource)
+    return SecureRandom.uuid unless resource.respond_to?(:id) && resource.respond_to?(:updated_at)
+
+    Digest::SHA256.hexdigest("#{event_name}-#{resource.class.name}-#{resource.id}-#{resource.updated_at.to_i}")
   end
 
   def send_message(message)
