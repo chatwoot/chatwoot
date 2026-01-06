@@ -19,23 +19,18 @@ class DataImportJob < ApplicationJob
 
   private
 
-  attr_accessor :csv
-
   def process_import_file
     @data_import.update!(status: :processing)
     contacts, rejected_contacts = parse_csv_and_build_contacts
 
     import_contacts(contacts)
-    update_contact_tags
+    import_tags(build_contact_tags)
     update_data_import_status(contacts.length, rejected_contacts.length)
     save_failed_records_csv(rejected_contacts)
   end
 
-  def update_contact_tags
-    tags =
-      @csv.each_with_object([]) do |row, acc|
-        acc.concat(@tags_manager.build(row.to_h.with_indifferent_access))
-      end
+  def import_tags(tags)
+    return if tags.empty?
 
     ActsAsTaggableOn::Tagging.import(
       tags,
@@ -45,6 +40,18 @@ class DataImportJob < ApplicationJob
       validate: true,
       batch_size: 1000
     )
+  end
+
+  def build_contact_tags
+    tags = []
+
+    with_import_file do |file|
+      csv_reader(file).each do |row|
+        tags.concat(@tags_manager.build(row.to_h.with_indifferent_access))
+      end
+    end
+
+    tags
   end
 
   def parse_csv_and_build_contacts
@@ -72,19 +79,6 @@ class DataImportJob < ApplicationJob
     semicolon_count = first_lines.count(';')
 
     semicolon_count > comma_count ? ';' : ','
-  end
-
-  def parse_csv
-    # Ensuring that importing non utf-8 characters will not throw error
-    data = @data_import.import_file.download
-    clean_data = data.force_encoding('UTF-8')
-
-    # Ensure that the data is valid UTF-8, preserving valid characters
-    clean_data = clean_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8') unless clean_data.valid_encoding?
-
-    @csv_delimiter = detect_delimiter(clean_data)
-
-    CSV.parse(clean_data, headers: true, col_sep: @csv_delimiter)
   end
 
   def append_rejected_contact(row, contact, rejected_contacts)
@@ -149,8 +143,9 @@ class DataImportJob < ApplicationJob
     raw_data = file.read
     utf8_data = raw_data.force_encoding('UTF-8')
     clean_data = utf8_data.valid_encoding? ? utf8_data : utf8_data.encode('UTF-16le', invalid: :replace, replace: '').encode('UTF-8')
+    csv_delimiter = detect_delimiter(clean_data)
 
-    CSV.new(StringIO.new(clean_data), headers: true)
+    CSV.new(StringIO.new(clean_data), headers: true, col_sep: csv_delimiter)
   end
 
   def with_import_file
