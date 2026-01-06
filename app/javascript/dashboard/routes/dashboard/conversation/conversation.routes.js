@@ -1,6 +1,7 @@
 /* eslint arrow-body-style: 0 */
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
+import KanbanBoardView from './KanbanBoardView.vue';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
@@ -198,6 +199,42 @@ export default {
         conversationId: route.params.conversationId,
         conversationType: 'participating',
       }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/board'),
+      name: 'conversation_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: KanbanBoardView,
+      props: () => ({ inboxId: 0 }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/inbox/:inbox_id/board'),
+      name: 'inbox_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: KanbanBoardView,
+      props: route => ({ inboxId: route.params.inbox_id }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/label/:label/board'),
+      name: 'label_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: KanbanBoardView,
+      props: route => ({ label: route.params.label }),
+    },
+    {
+      path: frontendURL('accounts/:accountId/team/:teamId/board'),
+      name: 'team_board',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: KanbanBoardView,
+      props: route => ({ teamId: route.params.teamId }),
     },
   ],
 };
