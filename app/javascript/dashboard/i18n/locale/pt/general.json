@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Procurar",
       "EMPTY_STATE": "Nenhum resultado encontrado"
     },
-    "CLOSE": "Fechar"
+    "CLOSE": "Fechar",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

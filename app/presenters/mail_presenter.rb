@@ -125,7 +125,7 @@ class MailPresenter < SimpleDelegator
 
   def from
     # changing to downcase to avoid case mismatch while finding contact
-    (@mail.reply_to.presence || @mail.from).map(&:downcase)
+    Array.wrap(@mail.reply_to.presence || @mail.from).map(&:downcase)
   end
 
   def sender_name

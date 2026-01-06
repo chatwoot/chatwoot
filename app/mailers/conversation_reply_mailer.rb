@@ -39,8 +39,7 @@ class ConversationReplyMailer < ApplicationMailer
 
     init_conversation_attributes(message.conversation)
     @message = message
-    reply_mail_object = prepare_mail(true)
-    message.update(source_id: reply_mail_object.message_id)
+    prepare_mail(true)
   end
 
   def conversation_transcript(conversation, to_email)

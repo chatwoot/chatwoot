@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "7 วันที่ผ่านมา",
+      "LAST_14_DAYS": "14 วันที่ผ่านมา",
       "LAST_30_DAYS": "30 วันที่ผ่านมา",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "3 เดือนที่ผ่านมา",
       "LAST_6_MONTHS": "6 เดือนที่ผ่านมา",
       "LAST_YEAR": "ปีที่ผ่านมา",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_INBOX_REPORTS": "ดาวน์โหลดรายงานกล่องข้อความ",
     "FILTER_DROPDOWN_LABEL": "เลือกกล่องข้อความ",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
+      "NO_CONVERSATIONS": "No conversations",
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "No conversations",
       "CONVERSATION": "{count} conversation",
       "CONVERSATIONS": "{count} conversations",

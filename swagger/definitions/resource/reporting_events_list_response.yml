@@ -1,0 +1,10 @@
+type: object
+properties:
+  meta:
+    $ref: '#/components/schemas/reporting_event_meta'
+    description: Metadata about the reporting events list response
+  payload:
+    type: array
+    items:
+      $ref: '#/components/schemas/reporting_event'
+    description: List of reporting events

@@ -264,5 +264,54 @@ RSpec.describe Imap::ImapMailbox do
         expect(conversation.additional_attributes['in_reply_to']).to eq(multiple_in_reply_to_mail.in_reply_to.first)
       end
     end
+
+    context 'when a reply to a conversation started by an agent' do
+      let(:agent_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:reply_mail_with_fallback_reference) do
+        # Simulate an email reply with a reference that matches FALLBACK_PATTERN
+        reference_id = "account/#{account.id}/conversation/#{agent_conversation.uuid}@chatwoot.com"
+        create_inbound_email_from_mail(
+          from: 'email@gmail.com',
+          to: 'imap@gmail.com',
+          subject: 'Re: Agent started conversation',
+          references: [reference_id]
+        )
+      end
+
+      it 'appends email to the existing conversation using FALLBACK_PATTERN' do
+        expect(agent_conversation.messages.size).to eq(0)
+
+        class_instance.process(reply_mail_with_fallback_reference.mail, channel)
+
+        agent_conversation.reload
+        expect(agent_conversation.messages.size).to eq(1)
+        expect(agent_conversation.messages.last.content_attributes['email']['from']).to eq(reply_mail_with_fallback_reference.mail.from)
+      end
+    end
+
+    context 'when references contain both message and fallback patterns' do
+      let(:agent_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:reply_mail_with_multiple_references) do
+        # Multiple references including both patterns
+        fallback_reference = "account/#{account.id}/conversation/#{agent_conversation.uuid}@chatwoot.com"
+        other_reference = 'some-other-message-id@example.com'
+        create_inbound_email_from_mail(
+          from: 'email@gmail.com',
+          to: 'imap@gmail.com',
+          subject: 'Re: Multiple references',
+          references: [other_reference, fallback_reference]
+        )
+      end
+
+      it 'finds conversation using fallback pattern when message lookup fails' do
+        expect(agent_conversation.messages.size).to eq(0)
+
+        class_instance.process(reply_mail_with_multiple_references.mail, channel)
+
+        agent_conversation.reload
+        expect(agent_conversation.messages.size).to eq(1)
+        expect(agent_conversation.messages.last.content_attributes['email']['from']).to eq(reply_mail_with_multiple_references.mail.from)
+      end
+    end
   end
 end

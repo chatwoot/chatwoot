@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "会話データを読み込んでいます",
     "CANNOT_REPLY": "以下の理由で返信できません：",
     "24_HOURS_WINDOW": "24時間以内のメッセージウィンドウの制限",
+    "48_HOURS_WINDOW": "48時間以内のメッセージウィンドウの制限",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "この会話はあなたに割り当てられていません。自分に割り当てますか？",
     "ASSIGN_TO_ME": "自分に割り当て",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "続きを読む",
       "DISMISS_REPLY": "返信を却下",
       "REPLYING_TO": "返信対象：",
-      "TIP_FORMAT_ICON": "リッチテキストエディタを表示",
       "TIP_EMOJI_ICON": "絵文字セレクタを表示",
       "TIP_ATTACH_ICON": "ファイルを添付",
       "TIP_AUDIORECORDER_ICON": "音声を録音",
@@ -227,6 +227,13 @@
           "YES": "送信",
           "CANCEL": "キャンセル"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "非公開設定の注意：あなたとあなたのチームのみに表示されます",

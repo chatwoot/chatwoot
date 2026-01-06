@@ -1,19 +1,19 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "מציג פריטים {startItem} עד {endItem} מתוך {totalItems}",
+    "CURRENT_PAGE_INFO": "{currentPage} מתוך {totalPages} עמודים"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "PLACEHOLDER": "בחר אפשרות...",
+    "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור מונח החיפוש `{searchTerm}`",
     "EMPTY_STATE": "לא נמצאו תוצאות.",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "חיפוש...",
+    "MORE": "+{count} נוספים"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "חיפוש...",
     "EMPTY_STATE": "לא נמצאו תוצאות.",
-    "SEARCHING": "Searching..."
+    "SEARCHING": "מחפש..."
   },
   "DIALOG": {
     "BUTTONS": {
@@ -22,35 +22,35 @@
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
+    "SEARCH_PLACEHOLDER": "חפש מדינה",
+    "ERROR": "מספר הטלפון צריך להיות ריק או בפורמט E.164",
     "DIAL_CODE_ERROR": "נא בחר קוד מדינה מהרשימה"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "המחבר אינו זמין"
     }
   },
   "BREADCRUMB": {
-    "ARIA_LABEL": "Breadcrumb"
+    "ARIA_LABEL": "פירורי לחם (Breadcrumb)"
   },
   "SWITCH": {
-    "TOGGLE": "Toggle switch"
+    "TOGGLE": "מתג הפעלה/כיבוי"
   },
   "LABEL": {
-    "TAG_BUTTON": "tag"
+    "TAG_BUTTON": "תג"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "למד עוד",
-    "WATCH_VIDEO": "Watch video"
+    "WATCH_VIDEO": "צפה בסרטון"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "דקות",
+    "HOURS": "שעות",
+    "DAYS": "ימים",
+    "PLACEHOLDER": "הזן משך זמן"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "Coming Soon!"
+    "COMING_SOON": "בקרוב!"
   }
 }

@@ -15,11 +15,14 @@ class Captain::Copilot::ResponseJob < ApplicationJob
   private
 
   def generate_chat_response(assistant:, conversation_id:, user_id:, copilot_thread_id:, message:)
-    Captain::Copilot::ChatService.new(
+    service = Captain::Copilot::ChatService.new(
       assistant,
       user_id: user_id,
       copilot_thread_id: copilot_thread_id,
       conversation_id: conversation_id
-    ).generate_response(message)
+    )
+    # When using copilot_thread, message is already in previous_history
+    # Pass nil to avoid duplicate
+    service.generate_response(copilot_thread_id.present? ? nil : message)
   end
 end

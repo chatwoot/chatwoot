@@ -70,7 +70,9 @@ module Integrations::Slack::SlackMessageHelper
     case attachment[:filetype]
     when 'png', 'jpeg', 'gif', 'bmp', 'tiff', 'jpg'
       :image
-    when 'pdf'
+    when 'mp4', 'avi', 'mov', 'wmv', 'flv', 'webm'
+      :video
+    else
       :file
     end
   end

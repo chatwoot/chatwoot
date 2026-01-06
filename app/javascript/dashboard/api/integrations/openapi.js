@@ -57,6 +57,12 @@ class OpenAIAPI extends ApiClient {
       content,
     };
 
+    // Always include conversation_display_id when available for session tracking
+    if (conversationId) {
+      data.conversation_display_id = conversationId;
+    }
+
+    // For conversation-level events, only send conversation_display_id
     if (this.conversation_events.includes(type)) {
       data = {
         conversation_display_id: conversationId,

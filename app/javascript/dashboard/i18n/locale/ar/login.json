@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",
-    "SUBMIT": "تسجيل الدخول"
+    "SUBMIT": "تسجيل الدخول",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
   }
 }

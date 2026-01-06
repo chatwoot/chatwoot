@@ -22,6 +22,20 @@
     },
     "FORGOT_PASSWORD": "암호를 잊으셨나요?",
     "CREATE_NEW_ACCOUNT": "계정 생성",
-    "SUBMIT": "로그인"
+    "SUBMIT": "로그인",
+    "SAML": {
+      "LABEL": "Login via SSO",
+      "TITLE": "Initiate Single Sign-on (SSO)",
+      "SUBTITLE": "Enter your work email to access your organization",
+      "BACK_TO_LOGIN": "Login via Password",
+      "WORK_EMAIL": {
+        "LABEL": "Work Email",
+        "PLACEHOLDER": "Enter your work email"
+      },
+      "SUBMIT": "Continue with SSO",
+      "API": {
+        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+      }
+    }
   }
 }

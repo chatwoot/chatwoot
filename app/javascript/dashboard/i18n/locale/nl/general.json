@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Zoeken",
       "EMPTY_STATE": "Geen resultaten gevonden"
     },
-    "CLOSE": "Sluiten"
+    "CLOSE": "Sluiten",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

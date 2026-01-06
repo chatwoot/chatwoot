@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Назначить метки",
-      "NO_LABELS_FOUND": "Нет меток для",
+      "NO_LABELS_FOUND": "Метки не найдены",
       "ASSIGN_SELECTED_LABELS": "Назначить выбранные метки",
       "ASSIGN_SUCCESFUL": "Метки успешно назначены.",
       "ASSIGN_FAILED": "Не удалось назначить метки, пожалуйста, попробуйте снова."

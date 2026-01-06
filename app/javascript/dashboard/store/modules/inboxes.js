@@ -78,6 +78,11 @@ export const getters = {
         return false;
       }
 
+      // Filter out authentication templates
+      if (template.category === 'AUTHENTICATION') {
+        return false;
+      }
+
       // Filter out interactive templates (LIST, PRODUCT, CATALOG), location templates, and call permission templates
       const hasUnsupportedComponents = template.components.some(
         component =>
@@ -158,6 +163,13 @@ export const getters = {
       item =>
         item.instagram_id === instagramId &&
         item.channel_type === INBOX_TYPES.INSTAGRAM
+    );
+  },
+  getTiktokInboxByBusinessId: $state => businessId => {
+    return $state.records.find(
+      item =>
+        item.business_id === businessId &&
+        item.channel_type === INBOX_TYPES.TIKTOK
     );
   },
 };

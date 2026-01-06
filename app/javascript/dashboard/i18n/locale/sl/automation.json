@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Prejemnik",
       "TEAM_NAME": "Team",
-      "PRIORITY": "Prioriteta"
+      "PRIORITY": "Prioriteta",
+      "LABELS": "Labels"
     }
   }
 }

@@ -44,6 +44,12 @@ class Twilio::IncomingMessageService
     twilio_channel.sms? ? params[:From] : params[:From].gsub('whatsapp:', '')
   end
 
+  def normalized_phone_number
+    return phone_number unless twilio_channel.whatsapp?
+
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider("whatsapp:#{phone_number}", :twilio)
+  end
+
   def formatted_phone_number
     TelephoneNumber.parse(phone_number).international_number
   end
@@ -53,8 +59,10 @@ class Twilio::IncomingMessageService
   end
 
   def set_contact
+    source_id = twilio_channel.whatsapp? ? normalized_phone_number : params[:From]
+
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: params[:From],
+      source_id: source_id,
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform

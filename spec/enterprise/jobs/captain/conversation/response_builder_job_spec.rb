@@ -28,7 +28,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'uses Captain::Llm::AssistantChatService' do
-        expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant)
+        expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant, conversation_id: conversation.id)
         expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
 
         described_class.perform_now(conversation, assistant)
@@ -227,6 +227,108 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
     it 'defines MAX_MESSAGE_LENGTH constant' do
       expect(described_class::MAX_MESSAGE_LENGTH).to eq(10_000)
+    end
+  end
+
+  describe 'out of office message after handoff' do
+    let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :pending) }
+    let(:mock_llm_chat_service) { instance_double(Captain::Llm::AssistantChatService) }
+
+    before do
+      create(:message, conversation: conversation, content: 'Hello', message_type: :incoming)
+      allow(Captain::Llm::AssistantChatService).to receive(:new).and_return(mock_llm_chat_service)
+      allow(account).to receive(:feature_enabled?).and_return(false)
+      allow(account).to receive(:feature_enabled?).with('captain_integration_v2').and_return(false)
+    end
+
+    context 'when handoff occurs outside business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed. Please leave your email.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'sends out of office message after handoff' do
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.to change { conversation.messages.template.count }.by(1)
+
+        expect(conversation.reload.status).to eq('open')
+        ooo_message = conversation.messages.template.last
+        expect(ooo_message.content).to eq('We are currently closed. Please leave your email.')
+      end
+    end
+
+    context 'when handoff occurs within business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          open_all_day: true,
+          closed_all_day: false
+        )
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'does not send out of office message after handoff' do
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to(change { conversation.messages.template.count })
+
+        expect(conversation.reload.status).to eq('open')
+      end
+    end
+
+    context 'when handoff occurs due to error outside business hours' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: 'We are currently closed.'
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+        allow(mock_llm_chat_service).to receive(:generate_response).and_raise(StandardError, 'API error')
+      end
+
+      it 'sends out of office message after error-triggered handoff' do
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.to change { conversation.messages.template.count }.by(1)
+
+        expect(conversation.reload.status).to eq('open')
+        ooo_message = conversation.messages.template.last
+        expect(ooo_message.content).to eq('We are currently closed.')
+      end
+    end
+
+    context 'when no out of office message is configured' do
+      before do
+        inbox.update!(
+          working_hours_enabled: true,
+          out_of_office_message: nil
+        )
+        inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+          closed_all_day: true,
+          open_all_day: false
+        )
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+      end
+
+      it 'does not send out of office message' do
+        expect do
+          described_class.perform_now(conversation, assistant)
+        end.not_to(change { conversation.messages.template.count })
+      end
     end
   end
 end

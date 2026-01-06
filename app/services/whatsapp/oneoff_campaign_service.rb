@@ -3,8 +3,9 @@ class Whatsapp::OneoffCampaignService
 
   def perform
     validate_campaign!
-    process_audience(extract_audience_labels)
+    # marks campaign completed so that other jobs won't pick it up
     campaign.completed!
+    process_audience(extract_audience_labels)
   end
 
   private

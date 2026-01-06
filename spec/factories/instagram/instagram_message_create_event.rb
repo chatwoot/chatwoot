@@ -348,6 +348,85 @@ FactoryBot.define do
     initialize_with { attributes }
   end
 
+  factory :instagram_ig_story_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
+    entry do
+      [
+        {
+          'id': ig_entry_id,
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': sender_id
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'ig-story-message-id-1',
+                'attachments': [
+                  {
+                    'type': 'ig_story',
+                    'payload': {
+                      'story_media_id': '17949487764033669',
+                      'story_media_url': 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=17949487764033669&signature=test'
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
+  factory :instagram_ig_post_event, class: Hash do
+    transient do
+      ig_entry_id { SecureRandom.uuid }
+      sender_id { "Sender-id-#{SecureRandom.hex(4)}" }
+    end
+    entry do
+      [
+        {
+          'id': ig_entry_id,
+          'time': '2021-09-08T06:34:04+0000',
+          'messaging': [
+            {
+              'sender': {
+                'id': sender_id
+              },
+              'recipient': {
+                'id': 'chatwoot-app-user-id-1'
+              },
+              'timestamp': '2021-09-08T06:34:04+0000',
+              'message': {
+                'mid': 'ig-post-message-id-1',
+                'attachments': [
+                  {
+                    'type': 'ig_post',
+                    'payload': {
+                      'ig_post_media_id': '18091626484740369',
+                      'title': 'Shared Instagram post',
+                      'url': 'https://lookaside.fbsbx.com/ig_messaging_cdn/?asset_id=18091626484740369&signature=test'
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
   factory :instagram_message_unsupported_event, class: Hash do
     transient do
       ig_entry_id { SecureRandom.uuid }

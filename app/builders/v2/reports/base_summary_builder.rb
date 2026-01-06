@@ -10,10 +10,28 @@ class V2::Reports::BaseSummaryBuilder
 
   def load_data
     @conversations_count = fetch_conversations_count
-    @resolved_count = fetch_resolved_count
-    @avg_resolution_time = fetch_average_time('conversation_resolved')
-    @avg_first_response_time = fetch_average_time('first_response')
-    @avg_reply_time = fetch_average_time('reply_time')
+    load_reporting_events_data
+  end
+
+  def load_reporting_events_data
+    # Extract the column name for indexing (e.g., 'conversations.team_id' -> 'team_id')
+    index_key = group_by_key.to_s.split('.').last
+
+    results = reporting_events
+              .select(
+                "#{group_by_key} as #{index_key}",
+                "COUNT(CASE WHEN name = 'conversation_resolved' THEN 1 END) as resolved_count",
+                "AVG(CASE WHEN name = 'conversation_resolved' THEN #{average_value_key} END) as avg_resolution_time",
+                "AVG(CASE WHEN name = 'first_response' THEN #{average_value_key} END) as avg_first_response_time",
+                "AVG(CASE WHEN name = 'reply_time' THEN #{average_value_key} END) as avg_reply_time"
+              )
+              .group(group_by_key)
+              .index_by { |record| record.public_send(index_key) }
+
+    @resolved_count = results.transform_values(&:resolved_count)
+    @avg_resolution_time = results.transform_values(&:avg_resolution_time)
+    @avg_first_response_time = results.transform_values(&:avg_first_response_time)
+    @avg_reply_time = results.transform_values(&:avg_reply_time)
   end
 
   def reporting_events
@@ -24,24 +42,12 @@ class V2::Reports::BaseSummaryBuilder
     # Override this method
   end
 
-  def fetch_average_time(event_name)
-    get_grouped_average(reporting_events.where(name: event_name))
-  end
-
-  def fetch_resolved_count
-    reporting_events.where(name: 'conversation_resolved').group(group_by_key).count
-  end
-
   def group_by_key
     # Override this method
   end
 
   def prepare_report
     # Override this method
-  end
-
-  def get_grouped_average(events)
-    events.group(group_by_key).average(average_value_key)
   end
 
   def average_value_key

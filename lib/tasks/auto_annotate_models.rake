@@ -2,11 +2,14 @@
 # NOTE: are sensitive to local FS writes, and besides -- it's just not proper
 # NOTE: to have a dev-mode tool do its thing in production.
 if Rails.env.development?
-  require 'annotate'
+  require 'annotate_rb'
+
+  AnnotateRb::Core.load_rake_tasks
+
   task :set_annotation_options do
     # You can override any of these by setting an environment variable of the
     # same name.
-    Annotate.set_defaults(
+    AnnotateRb::Options.set_defaults(
       'additional_file_patterns' => [],
       'routes' => 'false',
       'models' => 'true',
@@ -55,6 +58,4 @@ if Rails.env.development?
       'with_comment' => 'true'
     )
   end
-
-  Annotate.load_tasks
 end

@@ -24,11 +24,12 @@ RSpec.describe DeleteObjectJob, type: :job do
 
         described_class.perform_now(inbox)
 
-        expect(Conversation.where(id: conv_ids)).to be_empty
-        expect(ContactInbox.where(id: ci_ids)).to be_empty
-        expect(ReportingEvent.where(id: re_ids)).to be_empty
+        # Reload associations to ensure database state is current
+        expect(Conversation.where(id: conv_ids).reload).to be_empty
+        expect(ContactInbox.where(id: ci_ids).reload).to be_empty
+        expect(ReportingEvent.where(id: re_ids).reload).to be_empty
         # Contacts should not be deleted for inbox destroy
-        expect(Contact.where(id: contact_ids)).not_to be_empty
+        expect(Contact.where(id: contact_ids).reload).not_to be_empty
         expect { inbox.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
@@ -53,10 +54,11 @@ RSpec.describe DeleteObjectJob, type: :job do
 
         described_class.perform_now(account)
 
-        expect(Conversation.where(id: conv_ids)).to be_empty
-        expect(Contact.where(id: contact_ids)).to be_empty
-        expect(Inbox.where(id: inbox_ids)).to be_empty
-        expect(ReportingEvent.where(id: re_ids)).to be_empty
+        # Reload associations to ensure database state is current
+        expect(Conversation.where(id: conv_ids).reload).to be_empty
+        expect(Contact.where(id: contact_ids).reload).to be_empty
+        expect(Inbox.where(id: inbox_ids).reload).to be_empty
+        expect(ReportingEvent.where(id: re_ids).reload).to be_empty
         expect { account.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end

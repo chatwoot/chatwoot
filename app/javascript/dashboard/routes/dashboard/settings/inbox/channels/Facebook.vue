@@ -179,7 +179,7 @@ export default {
         user_access_token: this.user_access_token,
         page_access_token: this.selectedPage.access_token,
         page_id: this.selectedPage.id,
-        inbox_name: this.selectedPage.name,
+        inbox_name: this.selectedPage.name?.trim(),
       };
     },
 

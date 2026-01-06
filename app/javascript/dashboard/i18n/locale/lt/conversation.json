@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Pokalbiai parsiunčiami",
     "CANNOT_REPLY": "Jūs negalite atsakyti dėl",
     "24_HOURS_WINDOW": "Pranešimų apribojimas 24 valandoms",
+    "48_HOURS_WINDOW": "Pranešimų apribojimas 48 valandoms",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Šis pokalbis jums nepriskirtas. Ar norėtumėte priskirti šį pokalbį sau?",
     "ASSIGN_TO_ME": "Priskirti man",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Skaityti daugiau",
       "DISMISS_REPLY": "Atšaukti atsakymą",
       "REPLYING_TO": "Atsakant į:",
-      "TIP_FORMAT_ICON": "Rodyti raiškiojo teksto redagavimo priemonę",
       "TIP_EMOJI_ICON": "Parodyti emodžio parinkiklį",
       "TIP_ATTACH_ICON": "Pridėti failus",
       "TIP_AUDIORECORDER_ICON": "Įrašyti audio",
@@ -227,6 +227,13 @@
           "YES": "Siųsti",
           "CANCEL": "Atšaukti"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privati ​​pastaba: matoma tik jums ir jūsų komandai",

@@ -21,6 +21,9 @@ class Integrations::Hook < ApplicationRecord
   before_validation :ensure_hook_type
   after_create :trigger_setup_if_crm
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
+
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }

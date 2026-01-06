@@ -177,7 +177,8 @@
       "REFERER_LINK": "引荐链接",
       "ASSIGNEE_NAME": "负责人",
       "TEAM_NAME": "团队",
-      "PRIORITY": "优先级"
+      "PRIORITY": "优先级",
+      "LABELS": "标签"
     }
   }
 }

@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir rótulo",
-      "NO_LABELS_FOUND": "Não há etiquetas encontradas para",
+      "NO_LABELS_FOUND": "Nenhuma etiqueta encontrada",
       "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
       "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."

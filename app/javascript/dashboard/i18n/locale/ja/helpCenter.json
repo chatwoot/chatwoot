@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "ライブチャットウィジェット",
           "PLACEHOLDER": "ライブチャットウィジェットを選択",
-          "HELP_TEXT": "ヘルプセンターに表示されるライブチャットウィジェットを選択します"
+          "HELP_TEXT": "ヘルプセンターに表示されるライブチャットウィジェットを選択します",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "ブランドカラー"

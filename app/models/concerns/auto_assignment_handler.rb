@@ -14,7 +14,13 @@ module AutoAssignmentHandler
     return unless conversation_status_changed_to_open?
     return unless should_run_auto_assignment?
 
-    ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+    if inbox.auto_assignment_v2_enabled?
+      # Use new assignment system
+      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
+    else
+      # Use legacy assignment system
+      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+    end
   end
 
   def should_run_auto_assignment?

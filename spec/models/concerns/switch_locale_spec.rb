@@ -81,14 +81,15 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
   end
 
   describe '#switch_locale_using_account_locale' do
-    before do
-      routes.draw { get 'account_locale' => 'anonymous#account_locale' }
-    end
-
     it 'sets locale from account' do
       controller.instance_variable_set(:@current_account, account)
-      get :account_locale
-      expect(response.body).to eq('es')
+
+      result = nil
+      controller.send(:switch_locale_using_account_locale) do
+        result = I18n.locale.to_s
+      end
+
+      expect(result).to eq('es')
     end
   end
 end

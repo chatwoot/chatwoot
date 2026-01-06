@@ -63,10 +63,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       end
 
       it 'raises ApiError with error message' do
-        expect { client.get(path, params) }.to raise_error(
-          Crm::Leadsquared::Api::BaseClient::ApiError,
-          'Invalid lead ID'
-        )
+        expect { client.get(path, params) }.to raise_error do |error|
+          expect(error.class.name).to eq(described_class::ApiError.name)
+          expect(error.message).to eq('Invalid lead ID')
+        end
       end
     end
 
@@ -82,7 +82,7 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
 
       it 'raises ApiError with status code' do
         expect { client.get(path, params) }.to raise_error do |error|
-          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.class.name).to eq(described_class::ApiError.name)
           expect(error.message).to include('Not Found')
           expect(error.code).to eq(404)
         end
@@ -134,10 +134,10 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
       end
 
       it 'raises ApiError with error message' do
-        expect { client.post(path, params, body) }.to raise_error(
-          Crm::Leadsquared::Api::BaseClient::ApiError,
-          'Invalid data'
-        )
+        expect { client.post(path, params, body) }.to raise_error do |error|
+          expect(error.class.name).to eq(described_class::ApiError.name)
+          expect(error.message).to eq('Invalid data')
+        end
       end
     end
 
@@ -158,7 +158,7 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
 
       it 'raises ApiError for invalid JSON' do
         expect { client.post(path, params, body) }.to raise_error do |error|
-          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.class.name).to eq(described_class::ApiError.name)
           expect(error.message).to include('Failed to parse')
         end
       end
@@ -177,7 +177,7 @@ RSpec.describe Crm::Leadsquared::Api::BaseClient do
 
       it 'raises ApiError with status code' do
         expect { client.post(path, params, body) }.to raise_error do |error|
-          expect(error).to be_a(Crm::Leadsquared::Api::BaseClient::ApiError)
+          expect(error.class.name).to eq(described_class::ApiError.name)
           expect(error.message).to include('Internal Server Error')
           expect(error.code).to eq(500)
         end

@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "לא זמין"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "אנחנו אונליין",
     "OFFLINE": "אנחנו לא זמינים כרגע",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "נחזור בהקדם האפשרי"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "זמן מענה טיפוסי תוך כמה דקות",
     "IN_A_FEW_HOURS": "מענה ממוצע תוך כמה שעות",
     "IN_A_DAY": "מענה ממוצע לאחר יום",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "נחזור לאונליין בעוד {n} שעה | נחזור לאונליין בעוד {n} שעות",
+    "BACK_IN_MINUTES": "נחזור לאונליין בעוד {time} דקות",
+    "BACK_AT_TIME": "נחזור לאונליין בשעה {time}",
+    "BACK_ON_DAY": "נחזור לאונליין ביום {day}",
+    "BACK_TOMORROW": "נחזור לאונליין מחר",
+    "BACK_IN_SOME_TIME": "נחזור לאונליין בעוד זמן מה"
   },
   "DAY_NAMES": {
     "SUNDAY": "יום ראשון",
@@ -45,9 +45,9 @@
   "START_CONVERSATION": "התחל שיחה",
   "END_CONVERSATION": "סיים שיחה",
   "CONTINUE_CONVERSATION": "המשך שיחה",
-  "YOU": "You",
+  "YOU": "אתה",
   "START_NEW_CONVERSATION": "התחל שיחה חדשה",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "יש לך הודעות לא נקראו",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "ראה הודעות חדשות",
     "CLOSE_MESSAGES_BUTTON": "סגור",
@@ -73,16 +73,16 @@
         "LABEL": "כתובת מייל",
         "PLACEHOLDER": "הכנס כתובת מייל בבקשה",
         "REQUIRED_ERROR": "נדרשת כתובת אימייל",
-        "VALID_ERROR": "בבקשה הכנס כתוכת אימייל תקינה"
+        "VALID_ERROR": "בבקשה הכנס כתובת אימייל תקינה"
       },
       "PHONE_NUMBER": {
         "LABEL": "מספר טלפון",
         "PLACEHOLDER": "אנא הזן את מספר הטלפון שלך",
         "REQUIRED_ERROR": "נדרש מספר טלפון",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "אנא בחר קוד מדינה",
+        "VALID_ERROR": "אנא הזן מספר טלפון תקין",
         "DROPDOWN_EMPTY": "לא נמצאו תוצאות",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "חפש מדינה"
       },
       "MESSAGE": {
         "LABEL": "הודעה",
@@ -91,9 +91,9 @@
       }
     },
     "CAMPAIGN_HEADER": "אנא ספק את שמך ואת הדוא\"ל שלך לפני תחילת השיחה",
-    "IS_REQUIRED": "is required",
+    "IS_REQUIRED": "נדרש",
     "REQUIRED": "נדרש",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "אנא ספק קלט תקין"
   },
   "FILE_SIZE_LIMIT": "קובץ חורג ממגבלת גודל מקסימלי {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
@@ -104,7 +104,7 @@
   "EMOJI": {
     "PLACEHOLDER": "חפש אימוג'י",
     "NOT_FOUND": "אין אמוג'י שתואם את החיפוש שלך",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "בוחר אימוג'י"
   },
   "CSAT": {
     "TITLE": "דרג את השיחה שלך",
@@ -123,9 +123,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "מאמרים פופולריים",
+    "VIEW_ALL_ARTICLES": "הצג את כל המאמרים",
+    "IFRAME_LOAD_ERROR": "אירעה שגיאה בטעינת המאמר, אנא רענן את הדף ונסה שוב."
   },
   "ATTACHMENTS": {
     "image": {
@@ -148,6 +148,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "משיב ל:"
   }
 }

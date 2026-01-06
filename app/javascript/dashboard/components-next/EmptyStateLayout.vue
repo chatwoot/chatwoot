@@ -14,6 +14,10 @@ defineProps({
     type: Array,
     default: () => [],
   },
+  showBackdrop: {
+    type: Boolean,
+    default: true,
+  },
 });
 </script>
 
@@ -25,14 +29,24 @@ defineProps({
       class="relative w-full max-w-[60rem] mx-auto overflow-hidden h-full max-h-[28rem]"
     >
       <div
+        v-if="showBackdrop"
         class="w-full h-full space-y-4 overflow-y-hidden opacity-50 pointer-events-none"
       >
         <slot name="empty-state-item" />
       </div>
       <div
-        class="absolute inset-x-0 bottom-0 flex flex-col items-center justify-end w-full h-full pb-20 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent"
+        class="flex flex-col items-center justify-end w-full h-full pb-20"
+        :class="{
+          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent':
+            showBackdrop,
+        }"
       >
-        <div class="flex flex-col items-center justify-center gap-6">
+        <div
+          class="flex flex-col items-center justify-center gap-6"
+          :class="{
+            'mt-48': !showBackdrop,
+          }"
+        >
           <div class="flex flex-col items-center justify-center gap-3">
             <h2
               class="text-3xl font-medium text-center text-n-slate-12 font-interDisplay"
@@ -40,6 +54,7 @@ defineProps({
               {{ title }}
             </h2>
             <p
+              v-if="subtitle"
               class="max-w-xl text-base text-center text-n-slate-11 font-interDisplay tracking-[0.3px]"
             >
               {{ subtitle }}

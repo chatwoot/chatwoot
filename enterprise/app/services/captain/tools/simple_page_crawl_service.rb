@@ -19,6 +19,20 @@ class Captain::Tools::SimplePageCrawlService
     ReverseMarkdown.convert @doc.at_xpath('//body'), unknown_tags: :bypass, github_flavored: true
   end
 
+  def meta_description
+    meta_desc = @doc.at_css('meta[name="description"]')
+    return nil unless meta_desc && meta_desc['content']
+
+    meta_desc['content'].strip
+  end
+
+  def favicon_url
+    favicon_link = @doc.at_css('link[rel*="icon"]')
+    return nil unless favicon_link && favicon_link['href']
+
+    resolve_url(favicon_link['href'])
+  end
+
   private
 
   def sitemap?
@@ -34,5 +48,13 @@ class Captain::Tools::SimplePageCrawlService
       absolute_url = URI.join(@external_link, link.value).to_s
       absolute_url
     end
+  end
+
+  def resolve_url(url)
+    return url if url.start_with?('http')
+
+    URI.join(@external_link, url).to_s
+  rescue StandardError
+    url
   end
 end

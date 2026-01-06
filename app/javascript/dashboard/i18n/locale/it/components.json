@@ -1,34 +1,34 @@
 {
   "PAGINATION_FOOTER": {
-    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "SHOWING": "Mostrando {startItem} - {endItem} di {totalItems} elementi",
+    "CURRENT_PAGE_INFO": "{currentPage} di {totalPages} pagine"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
-    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "PLACEHOLDER": "Seleziona un'opzione...",
+    "EMPTY_SEARCH_RESULTS": "Nessun elemento trovato per il termine di ricerca `{searchTerm}`",
     "EMPTY_STATE": "Nessun risultato trovato.",
-    "SEARCH_PLACEHOLDER": "Search...",
-    "MORE": "+{count} more"
+    "SEARCH_PLACEHOLDER": "Cerca...",
+    "MORE": "+{count} altre"
   },
   "DROPDOWN_MENU": {
-    "SEARCH_PLACEHOLDER": "Search...",
+    "SEARCH_PLACEHOLDER": "Cerca...",
     "EMPTY_STATE": "Nessun risultato trovato.",
-    "SEARCHING": "Searching..."
+    "SEARCHING": "Ricerca..."
   },
   "DIALOG": {
     "BUTTONS": {
-      "CANCEL": "annulla",
+      "CANCEL": "Annulla",
       "CONFIRM": "Conferma"
     }
   },
   "PHONE_INPUT": {
-    "SEARCH_PLACEHOLDER": "Search country",
-    "ERROR": "Phone number should be empty or in E.164 format",
-    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+    "SEARCH_PLACEHOLDER": "Cerca Paese",
+    "ERROR": "Il numero di telefono deve essere vuoto o in formato E.164",
+    "DIAL_CODE_ERROR": "Seleziona un codice di chiamata dalla lista"
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Author is not available"
+      "NOT_AVAILABLE": "Autore non disponibile"
     }
   },
   "BREADCRUMB": {
@@ -42,13 +42,13 @@
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Scopri di più",
-    "WATCH_VIDEO": "Watch video"
+    "WATCH_VIDEO": "Guarda video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Minuti",
+    "HOURS": "Ore",
+    "DAYS": "Giorni",
+    "PLACEHOLDER": "Inserisci durata"
   },
   "CHANNEL_SELECTOR": {
     "COMING_SOON": "Coming Soon!"

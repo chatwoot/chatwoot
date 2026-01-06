@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "Koplietota kontaktpersona"
+      },
+      "embed": {
+        "CONTENT": "Embedded content"
       }
     },
     "CHAT_SORT_BY_FILTER": {

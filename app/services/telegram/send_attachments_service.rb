@@ -96,11 +96,16 @@ class Telegram::SendAttachmentsService
   # Telegram picks up the file name from original field name, so we need to save the file with the original name.
   # Hence not using Tempfile here.
   def save_attachment_to_tempfile(attachment)
-    raw_data = attachment.file.download
-    temp_dir = Rails.root.join('tmp/uploads')
+    temp_dir = Rails.root.join('tmp/uploads', "telegram-#{attachment.message_id}")
     FileUtils.mkdir_p(temp_dir)
     temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, raw_data, mode: 'wb')
+
+    File.open(temp_file_path, 'wb') do |file|
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
+      end
+    end
+
     temp_file_path
   end
 

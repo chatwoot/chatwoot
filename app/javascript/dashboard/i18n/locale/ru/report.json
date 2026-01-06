@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "Последние 7 дней",
+      "LAST_14_DAYS": "Последние 14 дней",
       "LAST_30_DAYS": "Последние 30 дней",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "Последние 3 месяца",
       "LAST_6_MONTHS": "Последние 6 месяцев",
       "LAST_YEAR": "За прошлый год",
@@ -193,7 +196,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Обзор меток",
-    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
+    "DESCRIPTION": "Отслеживать производительность меток с ключевыми показателями, включая диалоги, время ответа, время разрешения и разрешенные случаи. Нажмите на название метки для детальных выводов.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_LABEL_REPORTS": "Скачать отчет по меткам",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_INBOX_REPORTS": "Скачать отчет по входящим",
     "FILTER_DROPDOWN_LABEL": "Выбрать \"Входящий\" канал",
+    "ALL_INBOXES": "Все входящие",
+    "SEARCH_INBOX": "Поиск входящих",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Трафик сообщений",
+      "NO_CONVERSATIONS": "Нет сообщений",
+      "CONVERSATION": "{count} разговор",
+      "CONVERSATIONS": "{count} разговоров",
+      "DOWNLOAD_REPORT": "Скачать отчет"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Резолюции",
       "NO_CONVERSATIONS": "Нет сообщений",
       "CONVERSATION": "{count} разговор",
       "CONVERSATIONS": "{count} разговоров",

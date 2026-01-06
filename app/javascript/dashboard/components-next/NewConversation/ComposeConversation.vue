@@ -9,6 +9,8 @@ import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
 import { debounce } from '@chatwoot/utils';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import {
   searchContacts,
   createNewContact,
@@ -226,6 +228,8 @@ const keyboardEvents = {
     action: () => {
       if (showComposeNewConversation.value) {
         showComposeNewConversation.value = false;
+        emit('close');
+        emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
       }
     },
   },

@@ -32,17 +32,18 @@
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "API_HOURS_WINDOW": "Bu sohbete yalnızca {hours} saat içinde yanıt verebilirsiniz",
+    "48_HOURS_WINDOW": "48 saat mesaj penceresi kısıtlaması",
+    "API_HOURS_WINDOW": "Bu konuşmaya yalnızca {hours} saat içinde cevap verebilirsiniz",
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
-    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
-    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
-    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
-    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
-    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "BOT_HANDOFF_MESSAGE": "Şu anda bir asistan veya bot tarafından yürütülen bir konuşmaya yanıt veriyorsunuz.",
+    "BOT_HANDOFF_ACTION": "Size atayın ve açık olarak işaretleyin",
+    "BOT_HANDOFF_REOPEN_ACTION": "Konuşmayı açık olarak işaretle",
+    "BOT_HANDOFF_SUCCESS": "Konuşma size devredildi",
+    "BOT_HANDOFF_ERROR": "Konuşma devralınamadı. Lütfen tekrar deneyin.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Bu konuşmaya yalnızca şablon mesaj kullanarak yanıt verebilirsiniz, çünkü",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Tüm yeni mesajlar orada görünecek. Bu sohbetten artık mesaj gönderemezsiniz.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Bu Instagram hesabı, yeni Instagram kanal gelen kutusuna taşındı. Tüm yeni mesajlar orada görünecektir. Artık bu konuşmadan mesaj gönderemeyeceksiniz.",
     "REPLYING_TO": "Cevap veriyorsun:",
     "REMOVE_SELECTION": "Seçimi Kaldır",
     "DOWNLOAD": "İndir",
@@ -72,15 +73,15 @@
       "HIDE_LABELS": "Etiketleri Gizle"
     },
     "VOICE_CALL": {
-      "INCOMING_CALL": "Incoming call",
-      "OUTGOING_CALL": "Outgoing call",
-      "CALL_IN_PROGRESS": "Call in progress",
-      "NO_ANSWER": "No answer",
-      "MISSED_CALL": "Missed call",
-      "CALL_ENDED": "Call ended",
-      "NOT_ANSWERED_YET": "Not answered yet",
-      "THEY_ANSWERED": "They answered",
-      "YOU_ANSWERED": "You answered"
+      "INCOMING_CALL": "Gelen arama",
+      "OUTGOING_CALL": "Giden arama",
+      "CALL_IN_PROGRESS": "Arama devam ediyor",
+      "NO_ANSWER": "Yanıt yok",
+      "MISSED_CALL": "Cevapsız arama",
+      "CALL_ENDED": "Arama sona erdi",
+      "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
+      "THEY_ANSWERED": "Onlar yanıtladı",
+      "YOU_ANSWERED": "Siz yanıtladınız"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
@@ -139,8 +140,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "#{conversationId} numaralı sohbeti sil",
-      "DESCRIPTION": "Bu sohbeti silmek istediğinizden emin misiniz?",
+      "TITLE": "#{conversationId} numaralı konuşmayı sil",
+      "DESCRIPTION": "Bu konuşmayı silmek istediğinizden emin misiniz?",
       "CONFIRM": "Sil"
     },
     "CARD_CONTEXT_MENU": {
@@ -159,10 +160,10 @@
       "ASSIGN_LABEL": "Etiket ata",
       "AGENTS_LOADING": "Temsilciler Yükleniyor...",
       "ASSIGN_TEAM": "Takım ata",
-      "DELETE": "Sohbeti sil",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "Konuşmayı sil",
+      "OPEN_IN_NEW_TAB": "Yeni sekmede aç",
+      "COPY_LINK": "Konuşma bağlantısını kopyala",
+      "COPY_LINK_SUCCESS": "Konuşma bağlantısı panoya kopyalandı",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sohbet kimliği {conversationId} \"{agentName}\" tarafından atanmış",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Daha fazla oku",
       "DISMISS_REPLY": "Cevabı reddet",
       "REPLYING_TO": "Cevap veriliyor:",
-      "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
       "TIP_AUDIORECORDER_ICON": "Ses kaydet",
@@ -227,6 +227,13 @@
           "YES": "Gönder",
           "CANCEL": "İptal Et"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil et",
+        "DISABLE_TOOLTIP": "Alıntılanan e-posta zincirini dahil etme",
+        "REMOVE_PREVIEW": "Alıntılanan e-posta zincirini kaldır",
+        "COLLAPSE": "Önizlemeyi daralt",
+        "EXPAND": "Önizlemeyi genişlet"
       }
     },
     "VISIBLE_TO_AGENTS": "Özel Not: Yalnızca siz ve ekibiniz tarafından görülebilir",
@@ -237,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiket başarıyla atandı",
     "ASSIGN_LABEL_FAILED": "Etiket ataması yapılamadı",
     "CHANGE_TEAM": "Takım değişti",
-    "SUCCESS_DELETE_CONVERSATION": "Sohbet başarıyla silindi",
-    "FAIL_DELETE_CONVERSATION": "Sohbet silinemedi! Tekrar deneyin",
+    "SUCCESS_DELETE_CONVERSATION": "Konuşma başarıyla silindi",
+    "FAIL_DELETE_CONVERSATION": "Konuşma silinemedi! Tekrar deneyin",
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",

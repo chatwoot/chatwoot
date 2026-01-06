@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Tiešraides tērzēšanas widget",
           "PLACEHOLDER": "Izvēlieties tiešraides tērzēšanas widget",
-          "HELP_TEXT": "Izvēlieties tiešsaistes tērzēšanas widget, kas tiks parādīts jūsu palīdzības centrā"
+          "HELP_TEXT": "Izvēlieties tiešsaistes tērzēšanas widget, kas tiks parādīts jūsu palīdzības centrā",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Zīmola krāsa"

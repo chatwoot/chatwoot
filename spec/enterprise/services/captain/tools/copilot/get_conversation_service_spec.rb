@@ -19,19 +19,8 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
   end
 
   describe '#parameters' do
-    it 'returns the expected parameter schema' do
-      expect(service.parameters).to eq(
-        {
-          type: 'object',
-          properties: {
-            conversation_id: {
-              type: 'number',
-              description: 'The ID of the conversation to retrieve'
-            }
-          },
-          required: %w[conversation_id]
-        }
-      )
+    it 'defines conversation_id parameter' do
+      expect(service.parameters.keys).to contain_exactly(:conversation_id)
     end
   end
 
@@ -107,15 +96,9 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
   end
 
   describe '#execute' do
-    context 'when conversation_id is blank' do
-      it 'returns error message' do
-        expect(service.execute({})).to eq('Missing required parameters')
-      end
-    end
-
     context 'when conversation is not found' do
       it 'returns not found message' do
-        expect(service.execute({ 'conversation_id' => 999 })).to eq('Conversation not found')
+        expect(service.execute(conversation_id: 999)).to eq('Conversation not found')
       end
     end
 
@@ -124,7 +107,7 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
       let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
       it 'returns the conversation in llm text format' do
-        result = service.execute({ 'conversation_id' => conversation.display_id })
+        result = service.execute(conversation_id: conversation.display_id)
         expect(result).to eq(conversation.to_llm_text)
       end
 
@@ -143,7 +126,7 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
                content: 'Private note content',
                private: true)
 
-        result = service.execute({ 'conversation_id' => conversation.display_id })
+        result = service.execute(conversation_id: conversation.display_id)
 
         # Verify that the result includes both regular and private messages
         expect(result).to include('Regular message')
@@ -157,7 +140,7 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
         let(:other_conversation) { create(:conversation, account: other_account, inbox: other_inbox) }
 
         it 'returns not found message' do
-          expect(service.execute({ 'conversation_id' => other_conversation.display_id })).to eq('Conversation not found')
+          expect(service.execute(conversation_id: other_conversation.display_id)).to eq('Conversation not found')
         end
       end
     end

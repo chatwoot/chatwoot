@@ -45,6 +45,7 @@ class CustomAttributeDefinition < ApplicationRecord
   belongs_to :account
   after_update :update_widget_pre_chat_custom_fields
   after_destroy :sync_widget_pre_chat_custom_fields
+  after_destroy :cleanup_conversation_required_attributes
 
   private
 
@@ -54,6 +55,13 @@ class CustomAttributeDefinition < ApplicationRecord
 
   def update_widget_pre_chat_custom_fields
     ::Inboxes::UpdateWidgetPreChatCustomFieldsJob.perform_later(account, self)
+  end
+
+  def cleanup_conversation_required_attributes
+    return unless conversation_attribute? && account.conversation_required_attributes&.include?(attribute_key)
+
+    account.conversation_required_attributes = account.conversation_required_attributes - [attribute_key]
+    account.save!
   end
 
   def attribute_must_not_conflict

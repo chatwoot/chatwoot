@@ -5,6 +5,29 @@ RSpec.describe 'API Base', type: :request do
   let!(:user) { create(:user, account: account) }
 
   describe 'request with api_access_token for user' do
+    context 'when accessing an account scoped resource' do
+      let!(:admin) { create(:user, :administrator, account: account) }
+      let!(:conversation) { create(:conversation, account: account) }
+
+      it 'sets Current attributes for the request and then returns the response' do
+        # expect Current.account_user is set to the admin's account_user
+        allow(Current).to receive(:user=).and_call_original
+        allow(Current).to receive(:account=).and_call_original
+        allow(Current).to receive(:account_user=).and_call_original
+
+        get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
+            headers: { api_access_token: admin.access_token.token },
+            as: :json
+
+        expect(Current).to have_received(:user=).with(admin).at_least(:once)
+        expect(Current).to have_received(:account=).with(account).at_least(:once)
+        expect(Current).to have_received(:account_user=).with(admin.account_users.first).at_least(:once)
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['id']).to eq(conversation.display_id)
+      end
+    end
+
     context 'when it is an invalid api_access_token' do
       it 'returns unauthorized' do
         get '/api/v1/profile',

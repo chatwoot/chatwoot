@@ -33,7 +33,8 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def tools
-    @tools = Captain::Assistant.available_agent_tools
+    assistant = Captain::Assistant.new(account: Current.account)
+    @tools = assistant.available_agent_tools
   end
 
   private

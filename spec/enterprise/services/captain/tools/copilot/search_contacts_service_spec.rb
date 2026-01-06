@@ -19,27 +19,8 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
   end
 
   describe '#parameters' do
-    it 'returns the expected parameter schema' do
-      expect(service.parameters).to eq(
-        {
-          type: 'object',
-          properties: {
-            email: {
-              type: 'string',
-              description: 'Filter contacts by email'
-            },
-            phone_number: {
-              type: 'string',
-              description: 'Filter contacts by phone number'
-            },
-            name: {
-              type: 'string',
-              description: 'Filter contacts by name (partial match)'
-            }
-          },
-          required: []
-        }
-      )
+    it 'defines email, phone_number, and name parameters' do
+      expect(service.parameters.keys).to contain_exactly(:email, :phone_number, :name)
     end
   end
 
@@ -86,25 +67,25 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
       end
 
       it 'returns contacts when filtered by email' do
-        result = service.execute({ 'email' => 'test1@example.com' })
+        result = service.execute(email: 'test1@example.com')
         expect(result).to include(contact1.to_llm_text)
         expect(result).not_to include(contact2.to_llm_text)
       end
 
       it 'returns contacts when filtered by phone number' do
-        result = service.execute({ 'phone_number' => '+1234567890' })
+        result = service.execute(phone_number: '+1234567890')
         expect(result).to include(contact1.to_llm_text)
         expect(result).not_to include(contact2.to_llm_text)
       end
 
       it 'returns contacts when filtered by name' do
-        result = service.execute({ 'name' => 'Contact 1' })
+        result = service.execute(name: 'Contact 1')
         expect(result).to include(contact1.to_llm_text)
         expect(result).not_to include(contact2.to_llm_text)
       end
 
       it 'returns all matching contacts when no filters are provided' do
-        result = service.execute({})
+        result = service.execute
         expect(result).to include(contact1.to_llm_text)
         expect(result).to include(contact2.to_llm_text)
       end

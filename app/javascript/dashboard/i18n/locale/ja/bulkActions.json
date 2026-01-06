@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "ラベルを割り当てる",
-      "NO_LABELS_FOUND": "該当するラベルが見つかりませんでした",
+      "NO_LABELS_FOUND": "ラベルが見つかりません",
       "ASSIGN_SELECTED_LABELS": "選択したラベルを割り当てる",
       "ASSIGN_SUCCESFUL": "ラベルが正常に割り当てられました。",
       "ASSIGN_FAILED": "ラベルの割り当てに失敗しました。再試行してください。"

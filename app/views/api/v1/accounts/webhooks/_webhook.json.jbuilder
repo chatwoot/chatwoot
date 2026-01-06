@@ -1,4 +1,5 @@
 json.id webhook.id
+json.name webhook.name
 json.url webhook.url
 json.account_id webhook.account_id
 json.subscriptions webhook.subscriptions

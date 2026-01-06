@@ -22,6 +22,8 @@ class Conversations::MessageWindowService
       messenger_messaging_window
     when 'Channel::Instagram'
       instagram_messaging_window
+    when 'Channel::Tiktok'
+      tiktok_messaging_window
     when 'Channel::Whatsapp'
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
@@ -52,6 +54,10 @@ class Conversations::MessageWindowService
 
   def instagram_messaging_window
     meta_messaging_window('ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT')
+  end
+
+  def tiktok_messaging_window
+    48.hours
   end
 
   def meta_messaging_window(config_key)

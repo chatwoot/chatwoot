@@ -59,7 +59,7 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
   end
 
   def render_success(file_blob)
-    render json: { file_url: url_for(file_blob), blob_key: file_blob.key, blob_id: file_blob.id }
+    render json: { file_url: url_for(file_blob), blob_id: file_blob.signed_id }
   end
 
   def render_error(message, status)

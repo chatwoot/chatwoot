@@ -16,8 +16,8 @@ RSpec.describe Notification do
       create(:notification)
       notification3 = create(:notification)
 
-      expect(described_class.all.first).to eq notification1
-      expect(described_class.all.last).to eq notification3
+      expect(described_class.all.first.id).to eq notification1.id
+      expect(described_class.all.last.id).to eq notification3.id
     end
   end
 

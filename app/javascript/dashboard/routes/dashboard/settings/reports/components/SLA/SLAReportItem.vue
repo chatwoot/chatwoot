@@ -27,6 +27,11 @@ const conversationLabels = computed(() => {
     ? props.conversation.labels.split(',').map(item => item.trim())
     : [];
 });
+
+const routerParams = computed(() => ({
+  name: 'inbox_conversation',
+  params: { conversation_id: props.conversationId },
+}));
 </script>
 
 <template>
@@ -36,9 +41,9 @@ const conversationLabels = computed(() => {
     <div
       class="flex items-center gap-2 col-span-6 px-0 py-2 text-sm tracking-[0.5] text-n-slate-12 rtl:text-right"
     >
-      <span class="text-n-slate-12">
-        {{ `#${conversationId} ` }}
-      </span>
+      <router-link :to="routerParams" class="text-n-slate-12 hover:underline">
+        {{ `#${conversationId}` }}
+      </router-link>
       <span class="text-n-slate-11">
         {{ $t('SLA_REPORTS.WITH') }}
       </span>

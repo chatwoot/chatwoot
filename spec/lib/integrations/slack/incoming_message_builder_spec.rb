@@ -157,6 +157,19 @@ describe Integrations::Slack::IncomingMessageBuilder do
 
         expect(conversation.messages.count).to eql(messages_count)
       end
+
+      it 'handles different file types correctly' do
+        expect(hook).not_to be_nil
+        video_attachment_params = message_with_attachments.deep_dup
+        video_attachment_params[:event][:files][0][:filetype] = 'mp4'
+        video_attachment_params[:event][:files][0][:mimetype] = 'video/mp4'
+
+        builder = described_class.new(video_attachment_params)
+        allow(builder).to receive(:sender).and_return(nil)
+
+        expect { builder.perform }.not_to raise_error
+        expect(conversation.messages.last.attachments).to be_any
+      end
     end
 
     context 'when link shared' do
