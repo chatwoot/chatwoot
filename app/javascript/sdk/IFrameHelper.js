@@ -376,7 +376,7 @@ export const IFrameHelper = {
       '';
     // Get greeting message based on greeting_enabled flag
     const defaultGreetingMessage =
-      "I'm online and happy to help! How may I help you? 😊";
+      'Hi there! 👋 How can I help? Send me a message!';
 
     const getGreetingMessage = () => {
       // Check if greeting is enabled (from inbox settings)
