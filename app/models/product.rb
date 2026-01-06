@@ -29,7 +29,6 @@ class Product < ApplicationRecord
 
   validates :title_en, presence: true, uniqueness: { scope: :account_id }
   validates :price, presence: true, numericality: { greater_than: 0 }
-  validates :currency, presence: true
 
   default_scope { order(created_at: :desc) }
 

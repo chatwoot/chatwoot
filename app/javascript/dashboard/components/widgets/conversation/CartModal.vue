@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -18,13 +19,13 @@ const props = defineProps({
 const emit = defineEmits(['cancel', 'update:show', 'submit']);
 const store = useStore();
 useI18n();
+const { currentAccount } = useAccount();
 
 const selectedItems = ref([]);
 const searchQuery = ref('');
 
-const currentAccount = computed(() => store.getters.getCurrentAccount);
 const catalogCurrency = computed(
-  () => currentAccount.value?.settings?.catalog_currency || 'SAR'
+  () => currentAccount.value?.settings?.catalog_currency
 );
 
 const products = computed(() => store.getters['products/getProducts']);
@@ -192,7 +193,7 @@ const onSubmit = () => {
                     {{ product.title_en }}
                   </div>
                   <div class="text-xs text-n-slate-11">
-                    {{ product.price }} {{ product.currency }}
+                    {{ product.price }} {{ catalogCurrency }}
                   </div>
                 </div>
               </div>

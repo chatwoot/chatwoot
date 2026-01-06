@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import catalogSettingsAPI from 'dashboard/api/catalogSettings';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -9,6 +10,7 @@ import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
+const store = useStore();
 
 const isLoading = ref(true);
 const isSaving = ref(false);
@@ -93,6 +95,7 @@ const saveSettings = async () => {
 
     useAlert(t('CATALOG_SETTINGS.API.SUCCESS'));
     await loadSettings();
+    store.dispatch('accounts/get');
   } catch {
     useAlert(t('CATALOG_SETTINGS.API.ERROR'));
   } finally {

@@ -30,16 +30,14 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
   end
 
   def product_params
-    permitted = params.require(:product).permit(:title_en, :title_ar, :description_en, :description_ar, :price, :currency)
-    permitted[:currency] ||= Current.account.catalog_settings&.currency || 'SAR'
-    permitted
+    params.require(:product).permit(:title_en, :title_ar, :description_en, :description_ar, :price)
   end
 
   def process_attached_image
     blob_id = params[:blob_id]
     return if blob_id.blank?
 
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id)
     @product.image.attach(blob) if blob
   end
 end
