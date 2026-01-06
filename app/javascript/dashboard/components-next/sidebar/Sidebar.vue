@@ -1,5 +1,5 @@
 <script setup>
-import { h, computed, onMounted, ref } from 'vue';
+import { h, computed, onMounted, onUnmounted, ref } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -10,6 +10,8 @@ import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import payzahSettingsAPI from 'dashboard/api/payzahSettings';
+import tapSettingsAPI from 'dashboard/api/tapSettings';
+import catalogSettingsAPI from 'dashboard/api/catalogSettings';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -19,6 +21,7 @@ import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import YearInReviewBanner from '../year-in-review/YearInReviewBanner.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
+import LabelLeaf from './LabelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -82,6 +85,8 @@ const conversationCustomViews = useMapGetter(
 );
 
 const isPayzahEnabled = ref(false);
+const isTapEnabled = ref(false);
+const catalogSettings = ref(null);
 
 const loadPayzahStatus = async () => {
   try {
@@ -90,6 +95,28 @@ const loadPayzahStatus = async () => {
   } catch (error) {
     isPayzahEnabled.value = false;
   }
+};
+
+const loadTapStatus = async () => {
+  try {
+    const response = await tapSettingsAPI.get();
+    isTapEnabled.value = !!response.data?.enabled;
+  } catch (error) {
+    isTapEnabled.value = false;
+  }
+};
+
+const loadCatalogSettings = async () => {
+  try {
+    const response = await catalogSettingsAPI.get();
+    catalogSettings.value = response.data;
+  } catch (error) {
+    catalogSettings.value = null;
+  }
+};
+
+const fetchUnreadCounts = () => {
+  store.dispatch('conversationStats/fetchUnreadCounts');
 };
 
 onMounted(() => {
@@ -101,6 +128,14 @@ onMounted(() => {
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
   loadPayzahStatus();
+  loadTapStatus();
+  loadCatalogSettings();
+  fetchUnreadCounts();
+  emitter.on('fetch_unread_counts', fetchUnreadCounts);
+});
+
+onUnmounted(() => {
+  emitter.off('fetch_unread_counts', fetchUnreadCounts);
 });
 
 const sortedInboxes = computed(() =>
@@ -231,13 +266,14 @@ const menuItems = computed(() => {
           children: labels.value.map(label => ({
             name: `${label.title}-${label.id}`,
             label: label.title,
-            icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
             to: accountScopedRoute('label_conversations', {
               label: label.title,
             }),
+            component: leafProps =>
+              h(LabelLeaf, {
+                label: label,
+                active: leafProps.active,
+              }),
           })),
         },
       ],
@@ -376,7 +412,7 @@ const menuItems = computed(() => {
         },
       ],
     },
-    ...(isPayzahEnabled.value
+    ...(isPayzahEnabled.value || isTapEnabled.value
       ? [
           {
             name: 'Payment Links',
@@ -384,6 +420,24 @@ const menuItems = computed(() => {
             icon: 'i-lucide-credit-card',
             to: accountScopedRoute('payment_links'),
             activeOn: ['payment_links'],
+          },
+          {
+            name: 'Carts',
+            label: t('SIDEBAR.CARTS'),
+            icon: 'i-lucide-shopping-cart',
+            to: accountScopedRoute('carts_list'),
+            activeOn: ['carts_list'],
+          },
+        ]
+      : []),
+    ...(catalogSettings.value?.enabled
+      ? [
+          {
+            name: 'Catalog',
+            label: t('SIDEBAR.CATALOG'),
+            icon: 'i-lucide-package',
+            to: accountScopedRoute('catalog_index'),
+            activeOn: ['catalog_index'],
           },
         ]
       : []),
@@ -582,6 +636,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',
           to: accountScopedRoute('settings_applications'),
+        },
+        {
+          name: 'Settings Catalog',
+          label: t('SIDEBAR.CATALOG_SETTINGS'),
+          icon: 'i-lucide-package',
+          to: accountScopedRoute('catalog_settings_index'),
         },
         {
           name: 'Settings Audit Logs',

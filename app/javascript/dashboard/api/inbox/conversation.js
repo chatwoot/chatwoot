@@ -109,6 +109,10 @@ class ConversationApi extends ApiClient {
     });
   }
 
+  getUnreadCounts() {
+    return axios.get(`${this.url}/unread_counts`);
+  }
+
   sendEmailTranscript({ conversationId, email }) {
     return axios.post(`${this.url}/${conversationId}/transcript`, { email });
   }
