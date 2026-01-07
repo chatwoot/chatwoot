@@ -33,7 +33,6 @@ const getters = useStoreGetters();
 const { t } = useI18n();
 
 const isLocaleMenuOpen = ref(false);
-const isCreateCategoryDialogOpen = ref(false);
 const isEditCategoryDialogOpen = ref(false);
 
 const currentPortalSlug = computed(() => {
@@ -127,7 +126,19 @@ const handleBreadcrumbClick = () => {
 
 <template>
   <div class="flex items-center justify-between w-full">
-    <div v-if="!hasSelectedCategory" class="flex items-center gap-4">
+    <div
+      v-if="!hasSelectedCategory"
+      class="flex items-center gap-4 w-full justify-between"
+    >
+      <span
+        class="min-w-0 text-sm font-medium truncate text-n-slate-11 ltr:ml-1 rtl:mr-1"
+      >
+        {{
+          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.CATEGORIES_COUNT', {
+            n: categoriesCount,
+          })
+        }}
+      </span>
       <div class="relative group">
         <OnClickOutside @trigger="isLocaleMenuOpen = false">
           <Button
@@ -142,44 +153,18 @@ const handleBreadcrumbClick = () => {
             v-if="isLocaleMenuOpen"
             :menu-items="localeMenuItems"
             show-search
-            class="left-0 w-40 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+            class="ltr:right-0 rtl:left-0 w-40 mt-2 overflow-y-auto top-full max-h-60"
             @action="handleLocaleAction"
           />
         </OnClickOutside>
       </div>
-      <div class="w-px h-3.5 rounded my-auto bg-n-weak" />
-      <span class="min-w-0 text-sm font-medium truncate text-n-slate-12">
-        {{
-          t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.CATEGORIES_COUNT', {
-            n: categoriesCount,
-          })
-        }}
-      </span>
     </div>
     <Breadcrumb
       v-else
       :items="breadcrumbItems"
       @click="handleBreadcrumbClick"
     />
-    <div v-if="!hasSelectedCategory" class="relative">
-      <OnClickOutside @trigger="isCreateCategoryDialogOpen = false">
-        <Button
-          :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')"
-          icon="i-lucide-plus"
-          size="sm"
-          @click="isCreateCategoryDialogOpen = !isCreateCategoryDialogOpen"
-        />
-        <CategoryDialog
-          v-if="isCreateCategoryDialogOpen"
-          mode="create"
-          :portal-name="currentPortalName"
-          :active-locale-name="activeLocaleName"
-          :active-locale-code="activeLocaleCode"
-          @close="isCreateCategoryDialogOpen = false"
-        />
-      </OnClickOutside>
-    </div>
-    <div v-else class="relative">
+    <div v-if="hasSelectedCategory" class="relative">
       <OnClickOutside @trigger="isEditCategoryDialogOpen = false">
         <Button
           :label="t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.EDIT_CATEGORY')"

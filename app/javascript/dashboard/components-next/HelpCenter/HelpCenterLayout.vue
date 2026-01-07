@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, useTemplateRef } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useRoute } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store.js';
@@ -45,6 +45,7 @@ const emit = defineEmits(['update:currentPage', 'create']);
 const route = useRoute();
 
 const createPortalDialogRef = ref(null);
+const createButtonRef = useTemplateRef('createButtonRef');
 
 const showPortalSwitcher = ref(false);
 
@@ -118,6 +119,16 @@ const onClickCreateButton = () => {
                 {{ headerTitle }}
               </span>
             </div>
+          </div>
+          <div ref="createButtonRef" class="relative z-20">
+            <Button
+              v-if="createButtonLabel"
+              :label="createButtonLabel"
+              icon="i-lucide-plus"
+              size="sm"
+              @click="onClickCreateButton"
+            />
+            <slot name="modal" :button-ref="createButtonRef" />
           </div>
           <Button
             v-if="createButtonLabel"
