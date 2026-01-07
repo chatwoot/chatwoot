@@ -86,7 +86,7 @@ const openFilter = () => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[105rem]">
+        <div class="w-full mx-auto">
           <ContactsActiveFiltersPreview
             v-if="showActiveFiltersPreview"
             :active-segment="activeSegment"
@@ -102,7 +102,6 @@ const openFilter = () => {
           :current-page="currentPage"
           :total-items="totalItems"
           :items-per-page="itemsPerPage"
-          class="max-w-[105rem]"
           @update:current-page="updateCurrentPage"
         />
       </footer>
