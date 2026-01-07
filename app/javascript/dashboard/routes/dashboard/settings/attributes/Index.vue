@@ -7,7 +7,6 @@ import AddAttribute from './AddAttribute.vue';
 import EditAttribute from './EditAttribute.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import AttributeListItem from 'dashboard/components-next/ConversationWorkflow/AttributeListItem.vue';
 import { useI18n } from 'vue-i18n';
 import {
@@ -59,10 +58,6 @@ const tabs = computed(() => {
   ];
 });
 
-const tabsForTabBar = computed(() =>
-  tabs.value.map(tab => ({ label: tab.name, key: tab.key }))
-);
-
 onMounted(() => {
   store.dispatch('attributes/get');
 });
@@ -76,7 +71,11 @@ const attributes = computed(() =>
 );
 
 const onClickTabChange = tab => {
-  selectedTabIndex.value = tab.key;
+  if (typeof tab === 'number') {
+    selectedTabIndex.value = tab; // for woot-tabs: 0 or 1
+  } else if (tab && typeof tab.key !== 'undefined') {
+    selectedTabIndex.value = tab.key; // for TabBar: { key, label }
+  }
 };
 
 const handleEditAttribute = attribute => {
@@ -185,12 +184,6 @@ const derivedAttributes = computed(() =>
     </template>
     <template #body>
       <div class="flex flex-col gap-6">
-        <TabBar
-          :tabs="tabsForTabBar"
-          :initial-active-tab="selectedTabIndex"
-          class="max-w-xl"
-          @tab-changed="onClickTabChange"
-        />
         <div v-if="derivedAttributes.length" class="grid gap-3">
           <AttributeListItem
             v-for="attribute in derivedAttributes"

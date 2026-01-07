@@ -5,7 +5,6 @@ import {
   useFunctionGetter,
   useStore,
 } from 'dashboard/composables/store';
-import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
@@ -64,8 +63,6 @@ const linearIntegration = useFunctionGetter(
   'linear'
 );
 
-const { isCloudFeatureEnabled } = useAccount();
-
 const isLinearIntegrationEnabled = computed(
   () => linearIntegration.value?.enabled || false
 );
@@ -111,13 +108,10 @@ const getContactDetails = () => {
   }
 };
 
+// When contact changes, just load details; don't force Contact Attributes open.
 watch(contactId, (newContactId, prevContactId) => {
   if (newContactId && newContactId !== prevContactId) {
     getContactDetails();
-    // Open contact attributes section by default when contact is loaded
-    if (!isContactSidebarItemOpen('is_contact_attributes_open')) {
-      toggleSidebarUIState('is_contact_attributes_open', true);
-    }
   }
 });
 
@@ -141,11 +135,6 @@ onMounted(() => {
   store.dispatch('attributes/get', 0);
   // Load integrations to ensure linear integration state is available
   store.dispatch('integrations/get', 'linear');
-  
-  // Open contact attributes section by default if not already set
-  if (contactId.value && !isContactSidebarItemOpen('is_contact_attributes_open')) {
-    toggleSidebarUIState('is_contact_attributes_open', true);
-  }
 });
 </script>
 
