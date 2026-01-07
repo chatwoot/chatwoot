@@ -243,7 +243,7 @@ tr:
         not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle otomatik çözüm mesajı gönderilmedi'
       muted: '%{user_name}, sohbeti sessize aldı'
       unmuted: '%{user_name} konuşmanın sesini açtı'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: 'Bir süredir aktif olmayan konuşmayı sonlandırıyoruz. Daha fazla yardıma ihtiyacınız varsa lütfen yeni bir konuşma başlatın.'
     templates:
       greeting_message_body: '%{account_name} genellikle birkaç saat içinde yanıt verir.'
       ways_to_reach_you_message_body: 'Ekibin size ulaşması için bir bilgi verin.'
