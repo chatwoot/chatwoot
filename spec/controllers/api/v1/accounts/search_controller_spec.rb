@@ -86,56 +86,62 @@ RSpec.describe 'Search', type: :request do
         expect(contact_result).not_to have_key(:created_at)
       end
 
-      it 'filters contacts by since parameter' do
-        create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
-        create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
+      context 'with advanced_search feature enabled' do
+        before do
+          account.enable_features!('advanced_search')
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/contacts",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', since: 5.days.ago.to_i },
-            as: :json
+        it 'filters contacts by since parameter' do
+          create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
+          create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/contacts",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', since: 5.days.ago.to_i },
+              as: :json
 
-        contact_emails = response_data[:payload][:contacts].pluck(:email)
-        expect(contact_emails).to include('recent@test.com')
-        expect(contact_emails).not_to include('old@test.com')
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters contacts by until parameter' do
-        create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
-        create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
+          contact_emails = response_data[:payload][:contacts].pluck(:email)
+          expect(contact_emails).to include('recent@test.com')
+          expect(contact_emails).not_to include('old@test.com')
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/contacts",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', until: 5.days.ago.to_i },
-            as: :json
+        it 'filters contacts by until parameter' do
+          create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
+          create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/contacts",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', until: 5.days.ago.to_i },
+              as: :json
 
-        contact_emails = response_data[:payload][:contacts].pluck(:email)
-        expect(contact_emails).to include('old@test.com')
-        expect(contact_emails).not_to include('recent@test.com')
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters contacts by both since and until parameters' do
-        create(:contact, email: 'veryold@test.com', account: account, last_activity_at: 20.days.ago)
-        create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
-        create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
+          contact_emails = response_data[:payload][:contacts].pluck(:email)
+          expect(contact_emails).to include('old@test.com')
+          expect(contact_emails).not_to include('recent@test.com')
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/contacts",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
-            as: :json
+        it 'filters contacts by both since and until parameters' do
+          create(:contact, email: 'veryold@test.com', account: account, last_activity_at: 20.days.ago)
+          create(:contact, email: 'old@test.com', account: account, last_activity_at: 10.days.ago)
+          create(:contact, email: 'recent@test.com', account: account, last_activity_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/contacts",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
+              as: :json
 
-        contact_emails = response_data[:payload][:contacts].pluck(:email)
-        expect(contact_emails).to include('old@test.com')
-        expect(contact_emails).not_to include('veryold@test.com', 'recent@test.com')
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+
+          contact_emails = response_data[:payload][:contacts].pluck(:email)
+          expect(contact_emails).to include('old@test.com')
+          expect(contact_emails).not_to include('veryold@test.com', 'recent@test.com')
+        end
       end
     end
   end
@@ -163,96 +169,102 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:conversations].length).to eq 1
       end
 
-      it 'filters conversations by since parameter' do
-        unique_id = SecureRandom.hex(8)
-        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
-        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
-        old_conversation = create(:conversation, account: account, contact: old_contact)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact)
-        create(:message, conversation: old_conversation, account: account, content: 'message 1')
-        create(:message, conversation: recent_conversation, account: account, content: 'message 2')
-        create(:inbox_member, user: agent, inbox: old_conversation.inbox)
-        create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
+      context 'with advanced_search feature enabled' do
+        before do
+          account.enable_features!('advanced_search')
+        end
 
-        # Bypass CURRENT_TIMESTAMP default
-        # rubocop:disable Rails/SkipsModelValidations
-        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
-        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
-        # rubocop:enable Rails/SkipsModelValidations
+        it 'filters conversations by since parameter' do
+          unique_id = SecureRandom.hex(8)
+          old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+          recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+          old_conversation = create(:conversation, account: account, contact: old_contact)
+          recent_conversation = create(:conversation, account: account, contact: recent_contact)
+          create(:message, conversation: old_conversation, account: account, content: 'message 1')
+          create(:message, conversation: recent_conversation, account: account, content: 'message 2')
+          create(:inbox_member, user: agent, inbox: old_conversation.inbox)
+          create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        get "/api/v1/accounts/#{account.id}/search/conversations",
-            headers: agent.create_new_auth_token,
-            params: { q: unique_id, since: 5.days.ago.to_i },
-            as: :json
+          # Bypass CURRENT_TIMESTAMP default
+          # rubocop:disable Rails/SkipsModelValidations
+          Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+          Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+          # rubocop:enable Rails/SkipsModelValidations
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: unique_id, since: 5.days.ago.to_i },
+              as: :json
 
-        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_display_ids).to eq([recent_conversation.display_id])
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters conversations by until parameter' do
-        unique_id = SecureRandom.hex(8)
-        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
-        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
-        old_conversation = create(:conversation, account: account, contact: old_contact)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact)
-        create(:message, conversation: old_conversation, account: account, content: 'message 1')
-        create(:message, conversation: recent_conversation, account: account, content: 'message 2')
-        create(:inbox_member, user: agent, inbox: old_conversation.inbox)
-        create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
+          conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+          expect(conversation_display_ids).to eq([recent_conversation.display_id])
+        end
 
-        # Bypass CURRENT_TIMESTAMP default
-        # rubocop:disable Rails/SkipsModelValidations
-        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
-        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
-        # rubocop:enable Rails/SkipsModelValidations
+        it 'filters conversations by until parameter' do
+          unique_id = SecureRandom.hex(8)
+          old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+          recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+          old_conversation = create(:conversation, account: account, contact: old_contact)
+          recent_conversation = create(:conversation, account: account, contact: recent_contact)
+          create(:message, conversation: old_conversation, account: account, content: 'message 1')
+          create(:message, conversation: recent_conversation, account: account, content: 'message 2')
+          create(:inbox_member, user: agent, inbox: old_conversation.inbox)
+          create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        get "/api/v1/accounts/#{account.id}/search/conversations",
-            headers: agent.create_new_auth_token,
-            params: { q: unique_id, until: 5.days.ago.to_i },
-            as: :json
+          # Bypass CURRENT_TIMESTAMP default
+          # rubocop:disable Rails/SkipsModelValidations
+          Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+          Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+          # rubocop:enable Rails/SkipsModelValidations
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: unique_id, until: 5.days.ago.to_i },
+              as: :json
 
-        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_display_ids).to eq([old_conversation.display_id])
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters conversations by both since and until parameters' do
-        unique_id = SecureRandom.hex(8)
-        very_old_contact = create(:contact, email: "veryold-#{unique_id}@test.com", account: account)
-        old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
-        recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
-        very_old_conversation = create(:conversation, account: account, contact: very_old_contact)
-        old_conversation = create(:conversation, account: account, contact: old_contact)
-        recent_conversation = create(:conversation, account: account, contact: recent_contact)
-        create(:message, conversation: very_old_conversation, account: account, content: 'message 1')
-        create(:message, conversation: old_conversation, account: account, content: 'message 2')
-        create(:message, conversation: recent_conversation, account: account, content: 'message 3')
-        create(:inbox_member, user: agent, inbox: very_old_conversation.inbox)
-        create(:inbox_member, user: agent, inbox: old_conversation.inbox)
-        create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
+          conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+          expect(conversation_display_ids).to eq([old_conversation.display_id])
+        end
 
-        # Bypass CURRENT_TIMESTAMP default
-        # rubocop:disable Rails/SkipsModelValidations
-        Conversation.where(id: very_old_conversation.id).update_all(last_activity_at: 20.days.ago)
-        Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
-        Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
-        # rubocop:enable Rails/SkipsModelValidations
+        it 'filters conversations by both since and until parameters' do
+          unique_id = SecureRandom.hex(8)
+          very_old_contact = create(:contact, email: "veryold-#{unique_id}@test.com", account: account)
+          old_contact = create(:contact, email: "old-#{unique_id}@test.com", account: account)
+          recent_contact = create(:contact, email: "recent-#{unique_id}@test.com", account: account)
+          very_old_conversation = create(:conversation, account: account, contact: very_old_contact)
+          old_conversation = create(:conversation, account: account, contact: old_contact)
+          recent_conversation = create(:conversation, account: account, contact: recent_contact)
+          create(:message, conversation: very_old_conversation, account: account, content: 'message 1')
+          create(:message, conversation: old_conversation, account: account, content: 'message 2')
+          create(:message, conversation: recent_conversation, account: account, content: 'message 3')
+          create(:inbox_member, user: agent, inbox: very_old_conversation.inbox)
+          create(:inbox_member, user: agent, inbox: old_conversation.inbox)
+          create(:inbox_member, user: agent, inbox: recent_conversation.inbox)
 
-        get "/api/v1/accounts/#{account.id}/search/conversations",
-            headers: agent.create_new_auth_token,
-            params: { q: unique_id, since: 15.days.ago.to_i, until: 5.days.ago.to_i },
-            as: :json
+          # Bypass CURRENT_TIMESTAMP default
+          # rubocop:disable Rails/SkipsModelValidations
+          Conversation.where(id: very_old_conversation.id).update_all(last_activity_at: 20.days.ago)
+          Conversation.where(id: old_conversation.id).update_all(last_activity_at: 10.days.ago)
+          Conversation.where(id: recent_conversation.id).update_all(last_activity_at: 2.days.ago)
+          # rubocop:enable Rails/SkipsModelValidations
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/conversations",
+              headers: agent.create_new_auth_token,
+              params: { q: unique_id, since: 15.days.ago.to_i, until: 5.days.ago.to_i },
+              as: :json
 
-        conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
-        expect(conversation_display_ids).to eq([old_conversation.display_id])
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+
+          conversation_display_ids = response_data[:payload][:conversations].pluck(:id)
+          expect(conversation_display_ids).to eq([old_conversation.display_id])
+        end
       end
     end
   end
@@ -336,66 +348,72 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:articles].length).to eq 15 # Default per_page is 15
       end
 
-      it 'filters articles by since parameter' do
-        portal = create(:portal, account: account)
-        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
-                                       author: agent, status: 'published', updated_at: 10.days.ago)
-        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
-                                          author: agent, status: 'published', updated_at: 2.days.ago)
+      context 'with advanced_search feature enabled' do
+        before do
+          account.enable_features!('advanced_search')
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/articles",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', since: 5.days.ago.to_i },
-            as: :json
+        it 'filters articles by since parameter' do
+          portal = create(:portal, account: account)
+          old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                         author: agent, status: 'published', updated_at: 10.days.ago)
+          recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                            author: agent, status: 'published', updated_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/articles",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', since: 5.days.ago.to_i },
+              as: :json
 
-        article_ids = response_data[:payload][:articles].pluck(:id)
-        expect(article_ids).to include(recent_article.id)
-        expect(article_ids).not_to include(old_article.id)
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters articles by until parameter' do
-        portal = create(:portal, account: account)
-        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
-                                       author: agent, status: 'published', updated_at: 10.days.ago)
-        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
-                                          author: agent, status: 'published', updated_at: 2.days.ago)
+          article_ids = response_data[:payload][:articles].pluck(:id)
+          expect(article_ids).to include(recent_article.id)
+          expect(article_ids).not_to include(old_article.id)
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/articles",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', until: 5.days.ago.to_i },
-            as: :json
+        it 'filters articles by until parameter' do
+          portal = create(:portal, account: account)
+          old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                         author: agent, status: 'published', updated_at: 10.days.ago)
+          recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                            author: agent, status: 'published', updated_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/articles",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', until: 5.days.ago.to_i },
+              as: :json
 
-        article_ids = response_data[:payload][:articles].pluck(:id)
-        expect(article_ids).to include(old_article.id)
-        expect(article_ids).not_to include(recent_article.id)
-      end
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
 
-      it 'filters articles by both since and until parameters' do
-        portal = create(:portal, account: account)
-        very_old_article = create(:article, title: 'Very Old Article test', account: account, portal: portal,
-                                            author: agent, status: 'published', updated_at: 20.days.ago)
-        old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
-                                       author: agent, status: 'published', updated_at: 10.days.ago)
-        recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
-                                          author: agent, status: 'published', updated_at: 2.days.ago)
+          article_ids = response_data[:payload][:articles].pluck(:id)
+          expect(article_ids).to include(old_article.id)
+          expect(article_ids).not_to include(recent_article.id)
+        end
 
-        get "/api/v1/accounts/#{account.id}/search/articles",
-            headers: agent.create_new_auth_token,
-            params: { q: 'test', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
-            as: :json
+        it 'filters articles by both since and until parameters' do
+          portal = create(:portal, account: account)
+          very_old_article = create(:article, title: 'Very Old Article test', account: account, portal: portal,
+                                              author: agent, status: 'published', updated_at: 20.days.ago)
+          old_article = create(:article, title: 'Old Article test', account: account, portal: portal,
+                                         author: agent, status: 'published', updated_at: 10.days.ago)
+          recent_article = create(:article, title: 'Recent Article test', account: account, portal: portal,
+                                            author: agent, status: 'published', updated_at: 2.days.ago)
 
-        expect(response).to have_http_status(:success)
-        response_data = JSON.parse(response.body, symbolize_names: true)
+          get "/api/v1/accounts/#{account.id}/search/articles",
+              headers: agent.create_new_auth_token,
+              params: { q: 'test', since: 15.days.ago.to_i, until: 5.days.ago.to_i },
+              as: :json
 
-        article_ids = response_data[:payload][:articles].pluck(:id)
-        expect(article_ids).to include(old_article.id)
-        expect(article_ids).not_to include(very_old_article.id, recent_article.id)
+          expect(response).to have_http_status(:success)
+          response_data = JSON.parse(response.body, symbolize_names: true)
+
+          article_ids = response_data[:payload][:articles].pluck(:id)
+          expect(article_ids).to include(old_article.id)
+          expect(article_ids).not_to include(very_old_article.id, recent_article.id)
+        end
       end
     end
   end
