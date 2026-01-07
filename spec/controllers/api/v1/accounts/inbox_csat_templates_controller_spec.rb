@@ -32,7 +32,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
             as: :json
 
         expect(response).to have_http_status(:bad_request)
-        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp channels')
+        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp and Twilio WhatsApp channels')
       end
     end
 
@@ -161,7 +161,7 @@ RSpec.describe Api::V1::Accounts::InboxCsatTemplatesController, type: :request d
              as: :json
 
         expect(response).to have_http_status(:bad_request)
-        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp channels')
+        expect(response.parsed_body['error']).to eq('CSAT template operations only available for WhatsApp and Twilio WhatsApp channels')
       end
     end
 
