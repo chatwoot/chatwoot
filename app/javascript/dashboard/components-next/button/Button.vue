@@ -146,7 +146,7 @@ const STYLE_CONFIG = {
       solid:
         'bg-n-teal-9 text-white hover:enabled:bg-n-teal-10 focus-visible:bg-n-teal-10 outline-transparent',
       faded:
-        'bg-n-teal-9/10 text-n-slate-12 hover:enabled:bg-n-teal-9/20 focus-visible:bg-n-teal-9/20 outline-transparent',
+        'bg-n-teal-9/10 text-n-teal-11 hover:enabled:bg-n-teal-9/20 focus-visible:bg-n-teal-9/20 outline-transparent',
       outline:
         'text-n-teal-11 hover:enabled:bg-n-teal-9/10 focus-visible:bg-n-teal-9/10 outline-n-teal-9',
       link: 'text-n-teal-9 hover:enabled:underline focus-visible:underline outline-transparent',
@@ -175,10 +175,10 @@ const STYLE_CONFIG = {
     },
   },
   fontSize: {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    md: 'text-sm font-medium',
-    lg: 'text-base',
+    xs: 'text-button-small',
+    sm: 'text-button',
+    md: 'text-button',
+    lg: 'text-base font-460',
   },
   clickAnimation: {
     xs: 'active:enabled:scale-[0.97]',
@@ -234,6 +234,12 @@ const animationClasses = computed(() => {
     ? ''
     : STYLE_CONFIG.clickAnimation[computedSize.value];
 });
+
+const iconClasses = computed(() => {
+  return computedColor.value === 'slate' && !isIconOnly.value
+    ? 'text-n-slate-11'
+    : '';
+});
 </script>
 
 <template>
@@ -249,13 +255,13 @@ const animationClasses = computed(() => {
     }"
   >
     <slot v-if="(icon || $slots.icon) && !isLoading" name="icon">
-      <Icon :icon="icon" class="flex-shrink-0" />
+      <Icon :icon="icon" class="flex-shrink-0" :class="iconClasses" />
     </slot>
 
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />
 
     <slot v-if="label || $slots.default" name="default">
-      <span v-if="label" class="min-w-0 font-460 truncate">{{ label }}</span>
+      <span v-if="label" class="min-w-0 truncate">{{ label }}</span>
     </slot>
   </button>
 </template>

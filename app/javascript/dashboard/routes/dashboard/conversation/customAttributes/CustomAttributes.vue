@@ -264,7 +264,7 @@ onMounted(() => {
                 v-if="element.attributeDescription"
                 :message="element.attributeDescription"
               />
-              <span class="text-sm font-420 truncate text-n-slate-12">
+              <span class="text-body-main truncate text-n-slate-12">
                 {{ element.attributeDisplayName }}
               </span>
             </div>

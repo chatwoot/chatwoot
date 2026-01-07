@@ -52,9 +52,9 @@ const handleAttributeAction = async action => {
           content: attribute.value,
           delay: { show: 1000, hide: 0 },
         }"
-        class="min-w-0 text-sm truncate font-420"
+        class="min-w-0 text-body-main truncate"
         :class="{
-          'text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
+          'text-n-slate-11 hover:text-n-slate-12 py-2 select-none !font-medium':
             !isEditingView,
           'text-n-slate-12': isEditingView && attribute.value,
           'text-n-slate-10': isEditingView && !attribute.value,

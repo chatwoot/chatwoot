@@ -130,6 +130,13 @@ const onClickCreateButton = () => {
             />
             <slot name="modal" :button-ref="createButtonRef" />
           </div>
+          <Button
+            v-if="createButtonLabel"
+            :label="createButtonLabel"
+            icon="i-lucide-plus"
+            size="sm"
+            @click="onClickCreateButton"
+          />
         </div>
         <slot name="header-actions" />
       </div>

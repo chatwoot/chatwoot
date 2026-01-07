@@ -61,6 +61,12 @@ describe('useChannelIcon', () => {
     expect(icon).toBe('i-woot-instagram');
   });
 
+  it('returns correct icon for TikTok channel', () => {
+    const inbox = { channel_type: 'Channel::Tiktok' };
+    const { value: icon } = useChannelIcon(inbox);
+    expect(icon).toBe('i-woot-tiktok');
+  });
+
   describe('TwilioSms channel', () => {
     it('returns chat icon for regular Twilio SMS channel', () => {
       const inbox = { channel_type: 'Channel::TwilioSms' };

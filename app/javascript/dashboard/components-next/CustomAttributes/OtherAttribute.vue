@@ -121,9 +121,9 @@ const handleInputUpdate = async () => {
         content: !isAttributeTypeLink ? attribute.value : '',
         delay: { show: 1000, hide: 0 },
       }"
-      class="min-w-0 text-sm cursor-pointer font-420"
+      class="min-w-0 cursor-pointer text-body-main"
       :class="{
-        'text-n-slate-11 hover:text-n-slate-12 py-2 select-none font-medium':
+        'text-n-slate-11 hover:text-n-slate-12 py-2 select-none !font-medium':
           !isEditingView,
         'text-n-slate-12 truncate':
           isEditingView && !isAttributeTypeLink && attribute.value,

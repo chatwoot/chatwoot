@@ -60,8 +60,37 @@ export function useNumberFormatter() {
     return new Intl.NumberFormat(resolvedLocale.value).format(num);
   };
 
+  /**
+   * Format a number with decimal precision using compact notation (standard Intl approach)
+   * - Up to 1,000: show exact number (e.g., 999)
+   * - 1,000+: show compact with decimals (e.g., 29400 → "29.4K", 1500 → "1.5K")
+   * - 1,000,000+: show as "X.XM" (e.g., 1,234,000 → "1.2M")
+   *
+   * Uses browser-native Intl.NumberFormat for proper localization
+   *
+   * @param {number} num - The number to format
+   * @param {number} [decimals=1] - Maximum decimal places to show
+   * @returns {string} Formatted number string with decimal precision
+   */
+  const formatCompactWithDecimal = (num, decimals = 1) => {
+    if (typeof num !== 'number' || Number.isNaN(num)) {
+      return '0';
+    }
+
+    if (Math.abs(num) < 1000) {
+      return new Intl.NumberFormat(resolvedLocale.value).format(num);
+    }
+
+    return new Intl.NumberFormat(resolvedLocale.value, {
+      notation: 'compact',
+      compactDisplay: 'short',
+      maximumFractionDigits: decimals,
+    }).format(num);
+  };
+
   return {
     formatCompactNumber,
     formatFullNumber,
+    formatCompactWithDecimal,
   };
 }

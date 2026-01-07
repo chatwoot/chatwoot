@@ -867,6 +867,7 @@
       "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Delete",
+      "CLEAR_SELECTION": "Clear selection",
       "BULK_APPROVE": {
         "SUCCESS_MESSAGE": "FAQs approved successfully",
         "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."

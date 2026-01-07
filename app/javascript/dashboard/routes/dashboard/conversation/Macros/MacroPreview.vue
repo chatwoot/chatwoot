@@ -61,7 +61,7 @@ const resolvedMacro = computed(() => {
     <div
       v-for="(action, i) in resolvedMacro"
       :key="i"
-      class="relative ltr:pl-7 rtl:pr-7 py-3 after:content-[''] after:absolute ltr:after:left-1.5 rtl:after:right-1.5 after:w-px after:bg-n-weak"
+      class="relative ltr:pl-7 rtl:pr-7 py-3 after:content-[''] after:absolute ltr:after:left-1.5 rtl:after:right-1.5 after:w-px after:bg-n-strong"
       :class="{
         'after:top-1 after:h-3.5': resolvedMacro.length === 1,
         'after:top-2 after:-bottom-5':
@@ -69,7 +69,7 @@ const resolvedMacro = computed(() => {
       }"
     >
       <div
-        class="absolute ltr:left-[2.5px] rtl:right-[2.5px] top-[18px] w-2 h-2 rounded-full bg-n-surface-1 border-2 border-n-weak z-10"
+        class="absolute ltr:left-[2.5px] rtl:right-[2.5px] top-[18px] w-2 h-2 rounded-full bg-n-surface-1 border-2 border-n-strong z-10"
       />
 
       <p class="mb-1 text-sm font-medium text-n-slate-11">

@@ -37,7 +37,7 @@ const updateCurrentPage = page => {
           <slot name="default" />
         </div>
       </main>
-      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0 px-4 pb-4">
+      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0">
         <PaginationFooter
           current-page-info="COMPANIES_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"

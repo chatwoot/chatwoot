@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
 import Auth from 'dashboard/api/auth';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
@@ -25,7 +24,6 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const route = useRoute();
 const { uiSettings } = useUISettings();
 
 const currentUser = useMapGetter('getCurrentUser');
@@ -47,7 +45,7 @@ const isBannerClosed = computed(() => {
 });
 
 const showYearInReviewMenuItem = computed(() => {
-  return route.query['year-in-review'] === 'true' && isBannerClosed.value;
+  return isBannerClosed.value;
 });
 
 const openYearInReviewModal = () => {

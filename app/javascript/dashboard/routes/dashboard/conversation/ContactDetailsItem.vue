@@ -19,7 +19,7 @@ defineProps({
       :icon="icon"
       class="text-n-slate-11 size-4 flex-shrink-0 mt-0.5"
     />
-    <div v-if="value" class="break-words">
+    <div v-if="value" class="break-words text-body-main">
       <slot>
         {{ value }}
       </slot>
