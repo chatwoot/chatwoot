@@ -14,6 +14,7 @@ import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
 import AssignmentPolicyForm from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/AgentAssignmentPolicyForm.vue';
 import ConfirmInboxDialog from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/ConfirmInboxDialog.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
@@ -35,6 +36,31 @@ const selectedPolicy = computed(() => selectedPolicyById.value(routeId.value));
 const confirmInboxDialogRef = ref(null);
 // Store the policy linked to the inbox when adding a new inbox
 const inboxLinkedPolicy = ref(null);
+
+// Inbox linking prompt from create flow
+const inboxIdFromQuery = computed(() => {
+  const id = route.query.inboxId;
+  return id ? Number(id) : null;
+});
+
+const suggestedInbox = computed(() => {
+  if (!inboxIdFromQuery.value || !inboxes.value) return null;
+  return inboxes.value.find(inbox => inbox.id === inboxIdFromQuery.value);
+});
+
+const isLinkingInbox = ref(false);
+
+const showInboxLinkPrompt = computed(() => {
+  return suggestedInbox.value && !isLinkingInbox.value;
+});
+
+const dismissInboxLinkPrompt = () => {
+  router.replace({
+    name: route.name,
+    params: route.params,
+    query: {},
+  });
+};
 
 const breadcrumbItems = computed(() => [
   {
@@ -138,6 +164,26 @@ const handleAddInbox = async inbox => {
   await setInboxPolicy(inbox?.id, selectedPolicy.value?.id);
 };
 
+const handleLinkSuggestedInbox = async () => {
+  if (!suggestedInbox.value) return;
+
+  isLinkingInbox.value = true;
+  const inbox = {
+    id: suggestedInbox.value.id,
+    name: suggestedInbox.value.name,
+  };
+
+  await handleAddInbox(inbox);
+
+  // Clear the query param after linking
+  router.replace({
+    name: route.name,
+    params: route.params,
+    query: {},
+  });
+  isLinkingInbox.value = false;
+};
+
 const handleConfirmAddInbox = async inboxId => {
   const success = await setInboxPolicy(inboxId, selectedPolicy.value?.id);
 
@@ -190,6 +236,44 @@ watch(routeId, fetchPolicyData, { immediate: true });
     </template>
 
     <template #body>
+      <!-- Inbox link prompt banner -->
+      <div
+        v-if="showInboxLinkPrompt"
+        class="mb-6 p-4 rounded-xl border border-dashed border-n-weak"
+      >
+        <div class="flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex-shrink-0 w-10 h-10 rounded-lg bg-n-alpha-2 flex items-center justify-center"
+            >
+              <i class="i-lucide-inbox text-lg text-n-slate-11" />
+            </div>
+            <div>
+              <p class="text-sm text-n-slate-11">
+                {{ t(`${BASE_KEY}.EDIT.INBOX_LINK_PROMPT.TITLE`) }}
+              </p>
+              <p class="text-sm text-n-slate-12">
+                <span class="font-medium">{{ suggestedInbox?.name }}</span>
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <Button
+              :label="t(`${BASE_KEY}.EDIT.INBOX_LINK_PROMPT.LINK_BUTTON`)"
+              sm
+              @click="handleLinkSuggestedInbox"
+            />
+            <Button
+              icon="i-lucide-x"
+              sm
+              slate
+              ghost
+              @click="dismissInboxLinkPrompt"
+            />
+          </div>
+        </div>
+      </div>
+
       <AssignmentPolicyForm
         :key="routeId"
         mode="EDIT"

@@ -7,7 +7,7 @@ import { useAlert } from 'dashboard/composables';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
-import Spinner from 'shared/components/Spinner.vue';
+import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import assignmentPoliciesAPI from 'dashboard/api/assignmentPolicies';
 import { useI18n } from 'vue-i18n';
 
@@ -136,6 +136,42 @@ const linkPolicyToInbox = async policy => {
   }
 };
 
+const navigateToAssignmentPolicies = () => {
+  const accountId = route.params.accountId;
+  router.push({
+    name: 'agent_assignment_policy_index',
+    params: { accountId },
+  });
+};
+
+const policyMenuItems = computed(() => {
+  const items = availablePolicies.value.map(policy => ({
+    action: 'select_policy',
+    value: policy.id,
+    label: policy.name,
+    icon: 'i-lucide-zap',
+    policy,
+  }));
+
+  items.push({
+    action: 'view_all',
+    value: 'view_all',
+    label: t('INBOX_MGMT.ASSIGNMENT.VIEW_ALL_POLICIES'),
+    icon: 'i-lucide-arrow-right',
+  });
+
+  return items;
+});
+
+const handlePolicyMenuAction = ({ action, policy }) => {
+  if (action === 'select_policy' && policy) {
+    linkPolicyToInbox(policy);
+  } else if (action === 'view_all') {
+    navigateToAssignmentPolicies();
+  }
+  showPolicyDropdown.value = false;
+};
+
 const togglePolicyDropdown = () => {
   if (!showPolicyDropdown.value && availablePolicies.value.length === 0) {
     fetchAvailablePolicies();
@@ -176,19 +212,12 @@ const updateAgents = async () => {
   isAgentListUpdating.value = false;
 };
 
-const navigateToAssignmentPolicies = () => {
-  const accountId = route.params.accountId;
-  router.push({
-    name: 'agent_assignment_policy_index',
-    params: { accountId },
-  });
-};
-
 const navigateToCreatePolicy = () => {
   const accountId = route.params.accountId;
   router.push({
     name: 'agent_assignment_policy_create',
     params: { accountId },
+    query: { inboxId: props.inbox.id },
   });
 };
 
@@ -399,85 +428,13 @@ onMounted(() => {
                     />
                   </button>
 
-                  <!-- Policy Dropdown -->
-                  <div
+                  <DropdownMenu
                     v-if="showPolicyDropdown"
-                    class="absolute z-50 top-full left-0 mt-2 w-72 bg-n-alpha-3 backdrop-blur-[50px] border border-n-weak rounded-xl shadow-lg overflow-hidden"
-                  >
-                    <div
-                      v-if="isLoadingPolicies"
-                      class="flex items-center justify-center py-6"
-                    >
-                      <Spinner size="small" />
-                    </div>
-                    <div
-                      v-else-if="availablePolicies.length === 0"
-                      class="py-1"
-                    >
-                      <p class="px-4 py-3 text-sm text-n-slate-11">
-                        {{ $t('INBOX_MGMT.ASSIGNMENT.NO_POLICIES') }}
-                      </p>
-                      <div class="border-t border-n-weak">
-                        <button
-                          type="button"
-                          class="flex items-center gap-3 w-full px-4 py-3 text-left hover:bg-n-alpha-2 transition-colors"
-                          @click="navigateToAssignmentPolicies"
-                        >
-                          <i
-                            class="i-lucide-arrow-right text-base text-n-blue-11 flex-shrink-0"
-                          />
-                          <span
-                            class="text-sm font-medium text-n-blue-11 dark:text-n-blue-10"
-                          >
-                            {{ $t('INBOX_MGMT.ASSIGNMENT.VIEW_ALL_POLICIES') }}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                    <div v-else class="py-1">
-                      <button
-                        v-for="policy in availablePolicies"
-                        :key="policy.id"
-                        type="button"
-                        class="flex items-center gap-3 w-full px-4 py-3 text-left hover:bg-n-alpha-2 transition-colors"
-                        :disabled="isLinkingPolicy"
-                        @click="linkPolicyToInbox(policy)"
-                      >
-                        <i
-                          class="i-lucide-zap text-base text-n-slate-11 flex-shrink-0"
-                        />
-                        <div class="min-w-0 flex-1">
-                          <p
-                            class="text-sm font-medium text-n-slate-12 truncate"
-                          >
-                            {{ policy.name }}
-                          </p>
-                          <p
-                            v-if="policy.description"
-                            class="text-xs text-n-slate-11 truncate"
-                          >
-                            {{ policy.description }}
-                          </p>
-                        </div>
-                      </button>
-                      <div class="border-t border-n-weak">
-                        <button
-                          type="button"
-                          class="flex items-center gap-3 w-full px-4 py-3 text-left hover:bg-n-alpha-2 transition-colors"
-                          @click="navigateToAssignmentPolicies"
-                        >
-                          <i
-                            class="i-lucide-arrow-right text-base text-n-blue-11 flex-shrink-0"
-                          />
-                          <span
-                            class="text-sm font-medium text-n-blue-11 dark:text-n-blue-10"
-                          >
-                            {{ $t('INBOX_MGMT.ASSIGNMENT.VIEW_ALL_POLICIES') }}
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                    class="top-full left-0 mt-2 min-w-72"
+                    :menu-items="policyMenuItems"
+                    :is-searching="isLoadingPolicies"
+                    @action="handlePolicyMenuAction"
+                  />
                 </div>
 
                 <button

@@ -2,19 +2,25 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
 import AssignmentPolicyForm from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/AgentAssignmentPolicyForm.vue';
 
+const route = useRoute();
 const router = useRouter();
 const store = useStore();
 const { t } = useI18n();
 
 const formRef = ref(null);
 const uiFlags = useMapGetter('assignmentPolicies/getUIFlags');
+
+const inboxIdFromQuery = computed(() => {
+  const id = route.query.inboxId;
+  return id ? Number(id) : null;
+});
 
 const breadcrumbItems = computed(() => [
   {
@@ -45,6 +51,8 @@ const handleSubmit = async formState => {
       params: {
         id: policy.id,
       },
+      // Pass inboxId to edit page to show link prompt
+      query: inboxIdFromQuery.value ? { inboxId: inboxIdFromQuery.value } : {},
     });
   } catch (error) {
     useAlert(
