@@ -125,7 +125,6 @@ class CsatSurveyService
     content_variables = { '1' => conversation.uuid }
     message = build_csat_message
 
-    # Use Twilio send service to send template message
     send_service = Twilio::SendOnTwilioService.new(message: message)
     result = send_service.send_csat_template_message(
       phone_number: phone_number,

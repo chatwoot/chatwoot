@@ -7,6 +7,7 @@ class Twilio::CsatTemplateService
 
   def initialize(twilio_channel)
     @twilio_channel = twilio_channel
+    @api_client = Twilio::CsatTemplateApiClient.new(twilio_channel)
   end
 
   def create_template(template_config)
@@ -17,7 +18,7 @@ class Twilio::CsatTemplateService
     request_body = build_template_request_body(template_config_with_name)
 
     # Step 1: Create template
-    response = send_template_creation_request(request_body)
+    response = @api_client.create_template(request_body)
 
     return process_template_creation_response(response, template_config_with_name) unless response.success? && response['sid']
 
@@ -38,10 +39,7 @@ class Twilio::CsatTemplateService
     content_sid ||= current_template_sid_from_config
     return { success: false, error: 'No template to delete' } unless content_sid
 
-    response = HTTParty.delete(
-      "#{api_base_path}/v1/Content/#{content_sid}",
-      headers: api_headers
-    )
+    response = @api_client.delete_template(content_sid)
     { success: response.success?, response_body: response.body }
   end
 
@@ -61,10 +59,7 @@ class Twilio::CsatTemplateService
   private
 
   def fetch_template_details(content_sid)
-    response = HTTParty.get(
-      "#{api_base_path}/v1/Content/#{content_sid}",
-      headers: api_headers
-    )
+    response = @api_client.fetch_template(content_sid)
 
     if response.success?
       { success: true, data: response }
@@ -75,10 +70,7 @@ class Twilio::CsatTemplateService
   end
 
   def fetch_approval_status(content_sid)
-    HTTParty.get(
-      "#{api_base_path}/v1/Content/#{content_sid}/ApprovalRequests",
-      headers: api_headers
-    )
+    @api_client.fetch_approval_status(content_sid)
   end
 
   def build_template_status_response(content_sid, template_response, approval_response)
@@ -155,25 +147,8 @@ class Twilio::CsatTemplateService
     }
   end
 
-  def send_template_creation_request(request_body)
-    HTTParty.post(
-      "#{api_base_path}/v1/Content",
-      headers: api_headers,
-      body: request_body.to_json
-    )
-  end
-
   def submit_for_whatsapp_approval(approval_url, template_name)
-    request_body = {
-      name: template_name,
-      category: TEMPLATE_CATEGORY
-    }
-
-    HTTParty.post(
-      approval_url,
-      headers: api_headers,
-      body: request_body.to_json
-    )
+    @api_client.submit_for_approval(approval_url, template_name, TEMPLATE_CATEGORY)
   end
 
   def process_template_creation_response(response, template_config = {})
@@ -225,20 +200,5 @@ class Twilio::CsatTemplateService
       language: template_config[:language] || DEFAULT_LANGUAGE,
       status: 'created'
     }
-  end
-
-  def api_headers
-    {
-      'Authorization' => "Basic #{encoded_credentials}",
-      'Content-Type' => 'application/json'
-    }
-  end
-
-  def encoded_credentials
-    Base64.strict_encode64("#{@twilio_channel.account_sid}:#{@twilio_channel.auth_token}")
-  end
-
-  def api_base_path
-    'https://content.twilio.com'
   end
 end
