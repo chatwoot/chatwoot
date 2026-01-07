@@ -4,7 +4,7 @@ class Integrations::OpenaiBaseService
   # 16385 * 4 = 65540 characters, sticking to 50,000 to be safe
   TOKEN_LIMIT = 50_000
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
-  GPT_MODEL = 'gpt-3.5-turbo'.freeze
+  GPT_MODEL = 'gpt-5-mini'.freeze
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
