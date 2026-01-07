@@ -41,6 +41,7 @@ RSpec.describe MailPresenter do
                                 :content_type,
                                 :date,
                                 :from,
+                                :headers,
                                 :html_content,
                                 :in_reply_to,
                                 :message_id,
@@ -58,6 +59,39 @@ RSpec.describe MailPresenter do
       expect(data[:multipart]).to be(true)
       expect(data[:subject]).to eq(decorated_mail.subject)
       expect(data[:auto_reply]).to eq(decorated_mail.auto_reply?)
+    end
+
+    it 'includes forwarded headers in serialized_data' do
+      mail_with_headers = Mail.new do
+        from 'Sender <sender@example.com>'
+        to 'Inbox <inbox@example.com>'
+        subject :header
+        body 'Hi'
+        header['X-Original-From'] = 'Original <original@example.com>'
+        header['X-Original-Sender'] = 'original@example.com'
+        header['X-Forwarded-For'] = 'forwarder@example.com'
+      end
+
+      data = described_class.new(mail_with_headers).serialized_data
+
+      expect(data[:headers]).to eq(
+        'x-original-from' => 'Original <original@example.com>',
+        'x-original-sender' => 'original@example.com',
+        'x-forwarded-for' => 'forwarder@example.com'
+      )
+    end
+
+    it 'returns nil headers when forwarding headers are missing' do
+      mail_without_headers = Mail.new do
+        from 'Sender <sender@example.com>'
+        to 'Inbox <inbox@example.com>'
+        subject :header
+        body 'Hi'
+      end
+
+      data = described_class.new(mail_without_headers).serialized_data
+
+      expect(data[:headers]).to be_nil
     end
 
     it 'give email from in downcased format' do
