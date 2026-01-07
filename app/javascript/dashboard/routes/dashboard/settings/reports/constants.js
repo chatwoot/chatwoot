@@ -49,6 +49,11 @@ export const GROUP_BY_OPTIONS = {
     period: 'year',
     translationKey: 'REPORT.GROUPING_OPTIONS.YEAR',
   },
+  HOUR: {
+    id: 'HOUR',
+    period: 'hour',
+    translationKey: 'REPORT.GROUPING_OPTIONS.HOUR',
+  },
 };
 
 export const DATE_RANGE_OPTIONS = {
@@ -56,13 +61,17 @@ export const DATE_RANGE_OPTIONS = {
     id: 'LAST_7_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
     offset: 6,
-    groupByOptions: [GROUP_BY_OPTIONS.DAY],
+    groupByOptions: [GROUP_BY_OPTIONS.DAY, GROUP_BY_OPTIONS.HOUR],
   },
   LAST_30_DAYS: {
     id: 'LAST_30_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_30_DAYS',
     offset: 29,
-    groupByOptions: [GROUP_BY_OPTIONS.DAY, GROUP_BY_OPTIONS.WEEK],
+    groupByOptions: [
+      GROUP_BY_OPTIONS.DAY,
+      GROUP_BY_OPTIONS.WEEK,
+      GROUP_BY_OPTIONS.HOUR,
+    ],
   },
   LAST_3_MONTHS: {
     id: 'LAST_3_MONTHS',
@@ -72,19 +81,28 @@ export const DATE_RANGE_OPTIONS = {
       GROUP_BY_OPTIONS.DAY,
       GROUP_BY_OPTIONS.WEEK,
       GROUP_BY_OPTIONS.MONTH,
+      GROUP_BY_OPTIONS.HOUR,
     ],
   },
   LAST_6_MONTHS: {
     id: 'LAST_6_MONTHS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_6_MONTHS',
     offset: 179,
-    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
+    groupByOptions: [
+      GROUP_BY_OPTIONS.WEEK,
+      GROUP_BY_OPTIONS.MONTH,
+      GROUP_BY_OPTIONS.HOUR,
+    ],
   },
   LAST_YEAR: {
     id: 'LAST_YEAR',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_YEAR',
     offset: 364,
-    groupByOptions: [GROUP_BY_OPTIONS.WEEK, GROUP_BY_OPTIONS.MONTH],
+    groupByOptions: [
+      GROUP_BY_OPTIONS.WEEK,
+      GROUP_BY_OPTIONS.MONTH,
+      GROUP_BY_OPTIONS.HOUR,
+    ],
   },
   CUSTOM_DATE_RANGE: {
     id: 'CUSTOM_DATE_RANGE',
@@ -95,7 +113,14 @@ export const DATE_RANGE_OPTIONS = {
       GROUP_BY_OPTIONS.WEEK,
       GROUP_BY_OPTIONS.MONTH,
       GROUP_BY_OPTIONS.YEAR,
+      GROUP_BY_OPTIONS.HOUR,
     ],
+  },
+  CUSTOM_DATE_TIME_RANGE: {
+    id: 'CUSTOM_DATE_TIME_RANGE',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.CUSTOM_DATE_TIME_RANGE',
+    offset: null,
+    groupByOptions: [GROUP_BY_OPTIONS.HOUR, GROUP_BY_OPTIONS.DAY],
   },
 };
 

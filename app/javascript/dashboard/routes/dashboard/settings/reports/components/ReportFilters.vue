@@ -150,6 +150,17 @@
           @change="onChange"
         />
       </div>
+      <div v-if="isDateTimeRangeSelected" class="w-full basis-full">
+        <p class="text-xs mb-2 font-medium">
+          {{ $t('REPORT.CUSTOM_DATE_TIME_RANGE.PLACEHOLDER') }}
+        </p>
+        <woot-date-time-range-picker
+          :value="customDateTimeRange"
+          :confirm-text="$t('REPORT.CUSTOM_DATE_TIME_RANGE.CONFIRM')"
+          :placeholder="$t('REPORT.CUSTOM_DATE_TIME_RANGE.PLACEHOLDER')"
+          @change="onCustomDateTimeRangeChange"
+        />
+      </div>
       <div
         v-if="notLast7Days"
         class="mx-1 md:w-[240px] w-full multiselect-wrap--small"
@@ -186,13 +197,16 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import WootDateTimeRangePicker from 'dashboard/components/ui/DateTimeRangePicker.vue';
 
 import { GROUP_BY_FILTER } from '../constants';
 const CUSTOM_DATE_RANGE_ID = 5;
+const CUSTOM_DATE_TIME_RANGE_ID = 6;
 
 export default {
   components: {
     WootDateRangePicker,
+    WootDateTimeRangePicker,
     Thumbnail,
   },
   props: {
@@ -219,21 +233,31 @@ export default {
       currentDateRangeSelection: this.$t('REPORT.DATE_RANGE')[0],
       dateRange: this.$t('REPORT.DATE_RANGE'),
       customDateRange: [new Date(), new Date()],
+      customDateTimeRange: [new Date(), new Date()],
       currentSelectedGroupByFilter: null,
       businessHoursSelected: false,
     };
   },
   computed: {
+    isDateTimeRangeSelected() {
+      return this.currentDateRangeSelection.id === CUSTOM_DATE_TIME_RANGE_ID;
+    },
     isDateRangeSelected() {
       return this.currentDateRangeSelection.id === CUSTOM_DATE_RANGE_ID;
     },
     to() {
+      if (this.isDateTimeRangeSelected) {
+        return getUnixTime(this.customDateTimeRange[1]);
+      }
       if (this.isDateRangeSelected) {
         return this.toCustomDate(this.customDateRange[1]);
       }
       return this.toCustomDate(new Date());
     },
     from() {
+      if (this.isDateTimeRangeSelected) {
+        return getUnixTime(this.customDateTimeRange[0]);
+      }
       if (this.isDateRangeSelected) {
         return this.fromCustomDate(this.customDateRange[0]);
       }
@@ -312,6 +336,10 @@ export default {
     },
     onChange(value) {
       this.customDateRange = value;
+      this.onDateRangeChange();
+    },
+    onCustomDateTimeRangeChange(value) {
+      this.customDateTimeRange = value;
       this.onDateRangeChange();
     },
     changeGroupByFilterSelection() {

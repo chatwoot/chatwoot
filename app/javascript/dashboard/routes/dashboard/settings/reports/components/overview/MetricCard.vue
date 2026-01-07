@@ -38,7 +38,7 @@
     </div>
     <div
       v-if="!isLoading"
-      :class="!isLive ? 'px-0' : ''"
+      :class="[!isLive ? 'px-0' : '', customClass]"
       class="card-body max-w-full w-full ml-auto mr-auto justify-between flex"
     >
       <slot />
@@ -125,6 +125,10 @@ export default {
       default: () => ({}),
     },
     downloadType: {
+      type: String,
+      default: '',
+    },
+    customClass: {
       type: String,
       default: '',
     },

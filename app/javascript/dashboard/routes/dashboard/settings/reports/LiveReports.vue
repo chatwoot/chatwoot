@@ -22,29 +22,45 @@
       </div>
     </div>
     <div class="max-w-full flex flex-wrap flex-row ml-auto mr-auto">
-      <metric-card :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')">
+      <metric-card
+        :custom-class="isCustomDateRange ? '!mb-[8rem]' : ''"
+        :header="$t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.HEADER')"
+      >
         <template #control>
-          <multiselect-dropdown
-            class="!mb-0 !w-1/3"
-            :options="dayFilterOptions"
-            :selected-item="selectedDayFilter"
-            multiselector-title=""
-            multiselector-placeholder="Date filter"
-            no-search-result="No filter found"
-            input-placeholder="Search for a filter"
-            :is-filter="true"
-            :has-thumbnail="false"
-            @click="onSelectDateFilter"
-          />
-          <woot-button
-            icon="arrow-download"
-            size="small"
-            variant="smooth"
-            color-scheme="secondary"
-            @click="downloadHeatmapData"
-          >
-            Download Report
-          </woot-button>
+          <div class="flex gap-2 items-center">
+            <multiselect-dropdown
+              class="!mb-0 !w-auto min-w-[160px]"
+              :options="dayFilterOptions"
+              :selected-item="selectedDayFilter"
+              multiselector-title=""
+              multiselector-placeholder="Date filter"
+              no-search-result="No filter found"
+              input-placeholder="Search for a filter"
+              :is-filter="true"
+              :has-thumbnail="false"
+              @click="onSelectDateFilter"
+            />
+            <div class="custom-date-range">
+              <woot-date-range-picker
+                v-if="isCustomDateRange"
+                show-range
+                class="!mb-[-1rem]"
+                :value="customDateRange"
+                :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+                :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+                @change="onCustomDateRangeChange"
+              />
+            </div>
+            <woot-button
+              icon="arrow-download"
+              size="small"
+              variant="smooth"
+              color-scheme="secondary"
+              @click="downloadHeatmapData"
+            >
+              Download Report
+            </woot-button>
+          </div>
         </template>
         <report-heatmap
           :selected-day-filter="selectedDayFilter"
@@ -83,6 +99,7 @@ import TeamTable from './components/overview/TeamTable.vue';
 import MetricCard from './components/overview/MetricCard.vue';
 import ReportHeatmap from './components/Heatmap.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
 
 import endOfDay from 'date-fns/endOfDay';
 import getUnixTime from 'date-fns/getUnixTime';
@@ -99,6 +116,10 @@ const dayFilterOptions = [
     id: 2,
     name: 'Last 30 days',
   },
+  {
+    id: 3,
+    name: 'Custom date range',
+  },
 ];
 
 export default {
@@ -110,12 +131,14 @@ export default {
     MetricCard,
     ReportHeatmap,
     MultiselectDropdown,
+    WootDateRangePicker,
   },
   data() {
     return {
       pageIndex: 1,
       dayFilterOptions: dayFilterOptions,
       selectedDayFilter: dayFilterOptions[0],
+      customDateRange: [new Date(), new Date()],
     };
   },
   computed: {
@@ -138,6 +161,9 @@ export default {
       });
       return metric;
     },
+    isCustomDateRange() {
+      return this.selectedDayFilter?.id === 3;
+    },
   },
   mounted() {
     this.$store.dispatch('agents/get');
@@ -151,6 +177,12 @@ export default {
   methods: {
     onSelectDateFilter(dayFilter) {
       this.selectedDayFilter = dayFilter;
+      if (!this.isCustomDateRange) {
+        this.fetchHeatmapData();
+      }
+    },
+    onCustomDateRangeChange(value) {
+      this.customDateRange = value;
       this.fetchHeatmapData();
     },
     fetchAllData() {
@@ -159,10 +191,21 @@ export default {
       this.fetchHeatmapData();
     },
     downloadHeatmapData() {
-      let to = endOfDay(new Date());
+      let to;
+      let daysBefore;
+
+      if (this.isCustomDateRange) {
+        to = endOfDay(this.customDateRange[1]);
+        const from = startOfDay(this.customDateRange[0]);
+        const diffInDays = Math.ceil((to - from) / (1000 * 60 * 60 * 24));
+        daysBefore = diffInDays - 1;
+      } else {
+        to = endOfDay(new Date());
+        daysBefore = this.selectedDayFilter?.id === 1 ? 6 : 29;
+      }
 
       this.$store.dispatch('downloadAccountConversationHeatmap', {
-        daysBefore: this.selectedDayFilter?.id === 1 ? 6 : 29,
+        daysBefore: daysBefore,
         to: getUnixTime(to),
       });
     },
@@ -172,16 +215,24 @@ export default {
         return;
       }
 
-      // the data for the last 6 days won't ever change,
-      // so there's no need to fetch it again
-      // but we can write some logic to check if the data is already there
-      // if it is there, we can refetch data only for today all over again
-      // and reconcile it with the rest of the data
-      // this will reduce the load on the server doing number crunching
-      let to = endOfDay(new Date());
-      let from = startOfDay(
-        subDays(to, this.selectedDayFilter?.id === 1 ? 6 : 29)
-      );
+      let to;
+      let from;
+
+      if (this.isCustomDateRange) {
+        to = endOfDay(this.customDateRange[1]);
+        from = startOfDay(this.customDateRange[0]);
+      } else {
+        // the data for the last 6 days won't ever change,
+        // so there's no need to fetch it again
+        // but we can write some logic to check if the data is already there
+        // if it is there, we can refetch data only for today all over again
+        // and reconcile it with the rest of the data
+        // this will reduce the load on the server doing number crunching
+        to = endOfDay(new Date());
+        from = startOfDay(
+          subDays(to, this.selectedDayFilter?.id === 1 ? 6 : 29)
+        );
+      }
 
       this.$store.dispatch('fetchAccountConversationHeatmap', {
         metric: 'conversations_count',

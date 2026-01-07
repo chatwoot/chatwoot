@@ -54,7 +54,8 @@
       "LAST_3_MONTHS": "Last 3 months",
       "LAST_6_MONTHS": "Last 6 months",
       "LAST_YEAR": "Last year",
-      "CUSTOM_DATE_RANGE": "Custom date range"
+      "CUSTOM_DATE_RANGE": "Custom date range",
+      "CUSTOM_DATE_TIME_RANGE": "Custom date and time range"
     },
     "DATE_RANGE": [
       {
@@ -80,15 +81,24 @@
       {
         "id": 5,
         "name": "Custom date range"
+      },
+      {
+        "id": 6,
+        "name": "Custom date and time range"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
     },
+    "CUSTOM_DATE_TIME_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date and time range"
+    },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUPING_OPTIONS": {
+      "HOUR": "Hour",
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
@@ -204,11 +214,19 @@
       {
         "id": 5,
         "name": "Custom date range"
+      },
+      {
+        "id": 6,
+        "name": "Custom date and time range"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
+    },
+    "CUSTOM_DATE_TIME_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date and time range"
     }
   },
   "LABEL_REPORTS": {
@@ -271,11 +289,19 @@
       {
         "id": 5,
         "name": "Custom date range"
+      },
+      {
+        "id": 6,
+        "name": "Custom date and time range"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
+    },
+    "CUSTOM_DATE_TIME_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date and time range"
     }
   },
   "INBOX_REPORTS": {
@@ -338,11 +364,19 @@
       {
         "id": 5,
         "name": "Custom date range"
+      },
+      {
+        "id": 6,
+        "name": "Custom date and time range"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
+    },
+    "CUSTOM_DATE_TIME_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date and time range"
     }
   },
   "TEAM_REPORTS": {
@@ -405,11 +439,19 @@
       {
         "id": 5,
         "name": "Custom date range"
+      },
+      {
+        "id": 6,
+        "name": "Custom date and time range"
       }
     ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Apply",
       "PLACEHOLDER": "Select date range"
+    },
+    "CUSTOM_DATE_TIME_RANGE": {
+      "CONFIRM": "Apply",
+      "PLACEHOLDER": "Select date and time range"
     }
   },
   "CSAT_REPORTS": {

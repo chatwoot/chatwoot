@@ -38,6 +38,9 @@ export const getUnixStartOfDay = date => getUnixTime(startOfDay(date));
 /** Get end of day as a UNIX timestamp */
 export const getUnixEndOfDay = date => getUnixTime(endOfDay(date));
 
+/** Get UNIX timestamp (preserves hours/minutes) */
+export const getUnixTimestamp = date => getUnixTime(date);
+
 export const generateRelativeTime = (value, unit, languageCode) => {
   const code = languageCode?.replace(/_/g, '-'); // Hacky fix we need to handle it from source
   const rtf = new Intl.RelativeTimeFormat(code, {

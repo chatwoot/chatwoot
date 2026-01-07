@@ -13,6 +13,15 @@
         :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
         @change="onCustomDateRangeChange"
       />
+      <div v-if="isDateTimeRangeSelected" class="col-span-2">
+        <woot-date-time-range-picker
+          class="no-margin auto-width"
+          :value="customDateTimeRange"
+          :confirm-text="$t('REPORT.CUSTOM_DATE_TIME_RANGE.CONFIRM')"
+          :placeholder="$t('REPORT.CUSTOM_DATE_TIME_RANGE.PLACEHOLDER')"
+          @change="onCustomDateTimeRangeChange"
+        />
+      </div>
       <reports-filters-date-group-by
         v-if="showGroupByFilter && isGroupByPossible"
         :valid-group-options="validGroupOptions"
@@ -56,6 +65,7 @@
 </template>
 <script>
 import WootDateRangePicker from 'dashboard/components/ui/DateRangePicker.vue';
+import WootDateTimeRangePicker from 'dashboard/components/ui/DateTimeRangePicker.vue';
 import ReportsFiltersDateRange from './Filters/DateRange.vue';
 import ReportsFiltersDateGroupBy from './Filters/DateGroupBy.vue';
 import ReportsFiltersAgents from './Filters/Agents.vue';
@@ -66,11 +76,16 @@ import ReportsFiltersRatings from './Filters/Ratings.vue';
 import ReportsFiltersFlows from './Filters/Flows.vue';
 import subDays from 'date-fns/subDays';
 import { DATE_RANGE_OPTIONS } from '../constants';
-import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
+import {
+  getUnixStartOfDay,
+  getUnixEndOfDay,
+  getUnixTimestamp,
+} from 'helpers/DateHelper';
 
 export default {
   components: {
     WootDateRangePicker,
+    WootDateTimeRangePicker,
     ReportsFiltersDateRange,
     ReportsFiltersDateGroupBy,
     ReportsFiltersAgents,
@@ -129,11 +144,18 @@ export default {
       selectedRating: null,
       selectedAgents: [],
       customDateRange: [new Date(), new Date()],
+      customDateTimeRange: [new Date(), new Date()],
       businessHoursSelected: false,
       selectedFlow: null,
     };
   },
   computed: {
+    isDateTimeRangeSelected() {
+      return (
+        this.selectedDateRange.id ===
+        DATE_RANGE_OPTIONS.CUSTOM_DATE_TIME_RANGE.id
+      );
+    },
     isDateRangeSelected() {
       return (
         this.selectedDateRange.id === DATE_RANGE_OPTIONS.CUSTOM_DATE_RANGE.id
@@ -143,12 +165,18 @@ export default {
       return this.selectedDateRange.id !== DATE_RANGE_OPTIONS.LAST_7_DAYS.id;
     },
     to() {
+      if (this.isDateTimeRangeSelected) {
+        return getUnixTimestamp(this.customDateTimeRange[1]);
+      }
       if (this.isDateRangeSelected) {
         return getUnixEndOfDay(this.customDateRange[1]);
       }
       return getUnixEndOfDay(new Date());
     },
     from() {
+      if (this.isDateTimeRangeSelected) {
+        return getUnixTimestamp(this.customDateTimeRange[0]);
+      }
       if (this.isDateRangeSelected) {
         return getUnixStartOfDay(this.customDateRange[0]);
       }
@@ -214,6 +242,11 @@ export default {
     },
     onCustomDateRangeChange(value) {
       this.customDateRange = value;
+      this.selectedGroupByFilter = this.validGroupBy;
+      this.emitChange();
+    },
+    onCustomDateTimeRangeChange(value) {
+      this.customDateTimeRange = value;
       this.selectedGroupByFilter = this.validGroupBy;
       this.emitChange();
     },
