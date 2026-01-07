@@ -114,7 +114,7 @@ describe Twilio::SendOnTwilioService do
     let(:service) { described_class.new(message: test_message) }
     let(:mock_twilio_message) { instance_double(Twilio::REST::Api::V2010::AccountContext::MessageInstance, sid: 'SM123456789') }
 
-    # Test parameters as constants instead of let statements
+    # Test parameters defined using let statements
     let(:test_params) do
       {
         phone_number: '+1234567890',
