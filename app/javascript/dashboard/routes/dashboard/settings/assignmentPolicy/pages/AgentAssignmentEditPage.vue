@@ -14,7 +14,7 @@ import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 import SettingsLayout from 'dashboard/routes/dashboard/settings/SettingsLayout.vue';
 import AssignmentPolicyForm from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/AgentAssignmentPolicyForm.vue';
 import ConfirmInboxDialog from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/ConfirmInboxDialog.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import InboxLinkDialog from 'dashboard/routes/dashboard/settings/assignmentPolicy/pages/components/InboxLinkDialog.vue';
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
@@ -49,10 +49,6 @@ const suggestedInbox = computed(() => {
 });
 
 const isLinkingInbox = ref(false);
-
-const showInboxLinkPrompt = computed(() => {
-  return suggestedInbox.value && !isLinkingInbox.value;
-});
 
 const dismissInboxLinkPrompt = () => {
   router.replace({
@@ -217,6 +213,11 @@ const handleSubmit = async formState => {
 const fetchPolicyData = async () => {
   if (!routeId.value) return;
 
+  // Fetch inboxes if not already loaded (needed for inbox link prompt)
+  if (!inboxes.value?.length) {
+    store.dispatch('inboxes/get');
+  }
+
   // Fetch policy if not available
   if (!selectedPolicy.value?.id)
     await store.dispatch('assignmentPolicies/show', routeId.value);
@@ -236,44 +237,6 @@ watch(routeId, fetchPolicyData, { immediate: true });
     </template>
 
     <template #body>
-      <!-- Inbox link prompt banner -->
-      <div
-        v-if="showInboxLinkPrompt"
-        class="mb-6 p-4 rounded-xl border border-dashed border-n-weak"
-      >
-        <div class="flex items-center justify-between gap-4">
-          <div class="flex items-center gap-3">
-            <div
-              class="flex-shrink-0 w-10 h-10 rounded-lg bg-n-alpha-2 flex items-center justify-center"
-            >
-              <i class="i-lucide-inbox text-lg text-n-slate-11" />
-            </div>
-            <div>
-              <p class="text-sm text-n-slate-11">
-                {{ t(`${BASE_KEY}.EDIT.INBOX_LINK_PROMPT.TITLE`) }}
-              </p>
-              <p class="text-sm text-n-slate-12">
-                <span class="font-medium">{{ suggestedInbox?.name }}</span>
-              </p>
-            </div>
-          </div>
-          <div class="flex items-center gap-2">
-            <Button
-              :label="t(`${BASE_KEY}.EDIT.INBOX_LINK_PROMPT.LINK_BUTTON`)"
-              sm
-              @click="handleLinkSuggestedInbox"
-            />
-            <Button
-              icon="i-lucide-x"
-              sm
-              slate
-              ghost
-              @click="dismissInboxLinkPrompt"
-            />
-          </div>
-        </div>
-      </div>
-
       <AssignmentPolicyForm
         :key="routeId"
         mode="EDIT"
@@ -293,6 +256,13 @@ watch(routeId, fetchPolicyData, { immediate: true });
     <ConfirmInboxDialog
       ref="confirmInboxDialogRef"
       @add="handleConfirmAddInbox"
+    />
+
+    <InboxLinkDialog
+      :inbox="suggestedInbox"
+      :is-linking="isLinkingInbox"
+      @link="handleLinkSuggestedInbox"
+      @dismiss="dismissInboxLinkPrompt"
     />
   </SettingsLayout>
 </template>

@@ -607,8 +607,10 @@
           "CANCEL_BUTTON_LABEL": "Cancel"
         },
         "INBOX_LINK_PROMPT": {
-          "TITLE": "Link this inbox to the policy",
-          "LINK_BUTTON": "Link inbox"
+          "TITLE": "Link inbox to policy",
+          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
+          "LINK_BUTTON": "Link inbox",
+          "CANCEL_BUTTON": "Skip"
         },
         "API": {
           "SUCCESS_MESSAGE": "Assignment policy updated successfully",
