@@ -231,7 +231,7 @@ jobs:
           name: Configure and Start OpenSearch
           command: |
             # Configure OpenSearch for single-node testing
-            cat > /opt/opensearch/config/opensearch.yml << EOF
+            cat > /opt/opensearch/config/opensearch.yml \<< EOF
             cluster.name: chatwoot-test
             node.name: node-1
             network.host: 0.0.0.0
