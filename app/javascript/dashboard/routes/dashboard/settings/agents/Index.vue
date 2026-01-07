@@ -169,14 +169,12 @@ const confirmDeletion = () => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <div
+      <span
         v-if="!filteredAgentList.length && searchQuery"
-        class="flex flex-col items-center justify-center py-12"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
       >
-        <p class="text-n-slate-11 text-body-main">
-          {{ $t('AGENT_MGMT.NO_RESULTS') }}
-        </p>
-      </div>
+        {{ $t('AGENT_MGMT.NO_RESULTS') }}
+      </span>
       <div v-else class="divide-y divide-n-weak">
         <div
           v-for="(agent, index) in filteredAgentList"

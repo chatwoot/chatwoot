@@ -134,7 +134,7 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
       <BackButton v-if="showBackButton" :back-url="backButtonUrl" />
 
       <div class="flex items-center gap-1 min-w-0 ltr:mr-2 rtl:ml-2">
-        <span class="text-heading-1 text-n-slate-12 truncate min-w-0">
+        <span class="text-heading-2 text-n-slate-12 truncate min-w-0">
           {{ currentContact.name }}
         </span>
         <Icon

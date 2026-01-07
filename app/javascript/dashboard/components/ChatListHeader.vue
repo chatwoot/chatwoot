@@ -53,7 +53,7 @@ const toggleConversationLayout = () => {
 <template>
   <div class="flex items-center justify-between gap-2 px-4 h-[3.25rem]">
     <div class="flex items-center justify-center min-w-0">
-      <h1 class="text-heading-1 truncate text-n-slate-12" :title="pageTitle">
+      <h1 class="text-heading-2 truncate text-n-slate-12" :title="pageTitle">
         {{ pageTitle }}
       </h1>
       <span

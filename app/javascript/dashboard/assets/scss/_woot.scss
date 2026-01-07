@@ -101,21 +101,23 @@ body {
 
   /* heading-1: Large heading for pages and panels */
   .text-heading-1 {
-    @apply font-interDisplay text-base font-medium;
-    line-height: 24px; /* 150% */
+    @apply font-inter text-lg font-520;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.27px;
   }
 
   /* heading-2: Secondary heading for sections */
   .text-heading-2 {
-    @apply font-interDisplay text-sm font-medium;
-    line-height: 21px; /* 150% */
+    @apply font-inter text-base font-medium;
+    line-height: 24px; /* 133.333% */
+    letter-spacing: -0.27px;
   }
 
   /* heading-3: For card headings, breadcrumbs, subsections */
   .text-heading-3 {
-    @apply font-interDisplay text-sm font-medium;
+    @apply font-inter text-sm font-medium;
     line-height: 21px; /* 150% */
-    letter-spacing: 0.14px;
+    letter-spacing: -0.27px;
   }
 
   /* label: Standard label text for form fields */

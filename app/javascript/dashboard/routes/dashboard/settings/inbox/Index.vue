@@ -116,7 +116,7 @@ const openDelete = inbox => {
               <div class="flex items-center flex-row gap-4">
                 <div
                   v-if="inbox.avatar_url"
-                  class="bg-n-alpha-3 rounded-full size-10 ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
+                  class="bg-n-alpha-3 rounded-xl size-10 ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
                 >
                   <Avatar
                     :src="inbox.avatar_url"
@@ -128,24 +128,25 @@ const openDelete = inbox => {
 
                 <div
                   v-else
-                  class="size-10 justify-center bg-n-alpha-3 rounded-full ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
+                  class="size-10 justify-center bg-n-alpha-3 rounded-xl ring ring-n-solid-1 border border-n-strong shadow-sm grid place-items-center"
                 >
                   <ChannelIcon class="size-6 text-n-slate-10" :inbox="inbox" />
                 </div>
-                <div>
-                  <span class="block font-medium capitalize">
+                <div class="flex flex-col items-start gap-1">
+                  <span class="block text-heading-3 text-n-slate-12 capitalize">
                     {{ inbox.name }}
                   </span>
                   <ChannelName
                     :channel-type="inbox.channel_type"
                     :medium="inbox.medium"
+                    class="text-body-main text-n-slate-11"
                   />
                 </div>
               </div>
             </td>
 
             <td class="py-4">
-              <div class="flex gap-1 justify-end">
+              <div class="flex gap-3 justify-end">
                 <router-link
                   :to="{
                     name: 'settings_inbox_show',
@@ -155,19 +156,17 @@ const openDelete = inbox => {
                   <Button
                     v-if="isAdmin"
                     v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
-                    icon="i-lucide-settings"
+                    icon="i-woot-settings"
                     slate
-                    xs
-                    faded
+                    sm
                   />
                 </router-link>
                 <Button
                   v-if="isAdmin"
                   v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                  icon="i-lucide-trash-2"
-                  xs
-                  ruby
-                  faded
+                  icon="i-woot-bin"
+                  slate
+                  sm
                   @click="openDelete(inbox)"
                 />
               </div>

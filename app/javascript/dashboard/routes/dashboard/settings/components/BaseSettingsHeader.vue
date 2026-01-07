@@ -48,13 +48,13 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-5">
+  <div class="flex flex-col items-start w-full gap-2">
     <BackButton
       v-if="backButtonLabel"
       compact
       :button-label="backButtonLabel"
     />
-    <div class="flex items-center justify-between w-full gap-4 min-h-10">
+    <div class="flex items-center justify-between w-full gap-4 min-h-10 mb-1">
       <div class="flex items-center gap-3">
         <div
           v-if="iconName"
@@ -71,7 +71,7 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1 class="text-lg font-520 leading-6 tracking-tight text-n-slate-12">
+        <h1 class="text-heading-1 leading-6 tracking-tight text-n-slate-12">
           {{ title }}
         </h1>
       </div>
@@ -96,7 +96,7 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col w-full gap-3 text-n-slate-11">
+    <div class="flex flex-col w-full gap-3 text-n-slate-11 mt-1">
       <p class="mb-0 line-clamp-5 sm:line-clamp-none max-w-3xl text-body-main">
         <slot name="description">{{ description }}</slot>
       </p>

@@ -83,7 +83,7 @@ const onClickCreateButton = () => {
           >
             <span
               v-if="activePortalName"
-              class="text-lg font-520 text-n-slate-12 ltr:mr-1 rtl:ml-1"
+              class="text-heading-1 text-n-slate-12 ltr:mr-1 rtl:ml-1"
             >
               {{ activePortalName }}
             </span>
