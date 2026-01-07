@@ -153,7 +153,7 @@ const handlePriorityAction = ({ value }) => {
           <CardPriorityIcon :priority="assignedPriority.priority" show-empty />
         </template>
         <div class="grid grid-cols-[1fr_auto] items-center gap-1.5 min-w-0">
-          <span class="truncate min-w-0 font-420">
+          <span class="truncate min-w-0 text-body-main">
             {{ assignedPriorityName }}
           </span>
           <Icon

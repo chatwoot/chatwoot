@@ -139,6 +139,16 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'menu-list': {
+    body: `<g fill="none" stroke="currentColor"><path d="M5.85718 4H13.2857" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.71411 8H13.2855" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.71411 12H13.2855" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 6.85742C3 7.16052 3.12041 7.45121 3.33473 7.66553C3.54906 7.87986 3.83974 8.00026 4.14284 8.00026H5.85711" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 4V10.8571C3 11.1602 3.12041 11.4508 3.33473 11.6652C3.54906 11.8795 3.83974 11.9999 4.14284 11.9999H5.85711" stroke="currentColor" stroke-width="1.14284" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  bin: {
+    body: `<g fill="none" stroke="currentColor"><path d="M12.3999 5.7334L11.3359 11.7848C11.2463 12.2948 10.8032 12.6667 10.2854 12.6667H5.98111C5.46327 12.6667 5.02023 12.2948 4.93056 11.7848L3.86658 5.7334" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.9334 4.13334H9.93338M9.93338 4.13334V3.06667C9.93338 2.47756 9.45584 2 8.86671 2H7.40005C6.81094 2 6.33338 2.47756 6.33338 3.06667V4.13334M9.93338 4.13334H6.33338M3.33337 4.13334H6.33338" stroke="currentColor" stroke-width="0.960001" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {
@@ -219,6 +229,11 @@ export const icons = {
   },
   instagram: {
     body: `<g fill="none" stroke="currentColor"><path d="M12.0003 15.3329C13.8412 15.3329 15.3337 13.8405 15.3337 11.9996C15.3337 10.1586 13.8412 8.66626 12.0003 8.66626C10.1594 8.66626 8.66699 10.1586 8.66699 11.9996C8.66699 13.8405 10.1594 15.3329 12.0003 15.3329Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 15.3333V8.66667C4.5 6.36548 6.36548 4.5 8.66667 4.5H15.3333C17.6345 4.5 19.5 6.36548 19.5 8.66667V15.3333C19.5 17.6345 17.6345 19.5 15.3333 19.5H8.66667C6.36548 19.5 4.5 17.6345 4.5 15.3333Z" stroke-width="1.5"/><path d="M16.583 7.42552L16.5913 7.41626" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  tiktok: {
+    body: `<path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20.2 10.1c0 .22-.18.401-.4.39a8 8 0 0 1-3.362-.93c-.281-.15-.638.045-.638.364V15.5a6 6 0 1 1-6.4-5.987a.38.38 0 0 1 .4.387v2.8c0 .22-.18.397-.398.433A2.4 2.4 0 1 0 12.2 15.5V2.9a.4.4 0 0 1 .4-.4h2.8a.43.43 0 0 1 .418.4a4.4 4.4 0 0 0 3.983 3.982c.22.02.4.197.4.418z"/>`,
     width: 24,
     height: 24,
   },

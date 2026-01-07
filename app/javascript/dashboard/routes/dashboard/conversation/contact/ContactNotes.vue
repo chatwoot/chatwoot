@@ -99,7 +99,7 @@ watch(
 
 <template>
   <div>
-    <div class="px-3 pt-3 pb-2">
+    <div v-if="notes.length" class="px-3 pt-3 pb-2">
       <NextButton
         sm
         slate
@@ -134,6 +134,15 @@ watch(
     <div v-else class="mt-2 px-3">
       <SidePanelEmptyState
         :message="t('CONTACTS_LAYOUT.SIDEBAR.NOTES.CONVERSATION_EMPTY_STATE')"
+      />
+      <NextButton
+        sm
+        slate
+        icon="i-lucide-plus"
+        :label="$t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
+        :disabled="!contactId || isFetchingNotes"
+        class="w-full mt-2"
+        @click="openCreateModal"
       />
     </div>
 

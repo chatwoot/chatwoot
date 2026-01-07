@@ -261,6 +261,7 @@ defineExpose({
   foldersQuery,
   activeFolder,
   appliedFilter,
+  showAdvancedFilters,
 });
 </script>
 

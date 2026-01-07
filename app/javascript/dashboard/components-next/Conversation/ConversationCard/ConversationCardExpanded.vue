@@ -117,22 +117,20 @@ const selectedModel = computed({
       </div>
 
       <span
-        class="text-xs outline outline-1 -outline-offset-1 outline-n-weak px-1.5 rounded-md h-6 text-n-slate-11 font-440 min-w-14 flex-shrink-0 inline-flex items-center justify-center truncate"
+        class="text-label-small outline outline-1 -outline-offset-1 outline-n-weak px-1.5 rounded-md h-6 text-n-slate-11 min-w-12 flex-shrink-0 inline-flex items-center justify-center truncate"
       >
         {{ chat.id }}
       </span>
 
-      <div class="flex-shrink-0">
-        <CardAvatar
-          :contact="currentContact"
-          :selected="false"
-          :enable-selection="false"
-          :hide-thumbnail="false"
-        />
-      </div>
+      <CardAvatar
+        :contact="currentContact"
+        :selected="false"
+        :enable-selection="false"
+        :hide-thumbnail="false"
+      />
 
       <h4
-        class="text-sm my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
+        class="text-heading-3 my-0 capitalize truncate text-n-slate-12 font-medium w-32 flex-shrink-0"
       >
         {{ currentContact.name }}
       </h4>

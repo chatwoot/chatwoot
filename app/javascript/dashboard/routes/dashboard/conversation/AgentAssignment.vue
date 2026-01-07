@@ -203,9 +203,14 @@ const handleAgentAction = ({ action, value }) => {
             :size="16"
             rounded-full
           />
+          <Icon
+            v-else
+            icon="i-woot-empty-assignee"
+            class="size-4 text-n-slate-11"
+          />
         </template>
         <div class="grid grid-cols-[1fr_auto] items-center gap-1.5 min-w-0">
-          <span class="truncate min-w-0 font-420">
+          <span class="truncate min-w-0 text-body-main">
             {{ assignedAgentName }}
           </span>
           <Icon

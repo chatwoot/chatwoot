@@ -1,14 +1,11 @@
 <script setup>
 import { computed } from 'vue';
-import { useToggle } from '@vueuse/core';
-import { useI18n } from 'vue-i18n';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { INBOX_TYPES, getInboxIconByType } from 'dashboard/helper/inbox';
+import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
+import { INBOX_TYPES, getChannelTypeDisplayName } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   id: {
@@ -22,10 +19,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['action']);
-
-const { t } = useI18n();
-
-const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const inboxName = computed(() => {
   const inbox = props.inbox;
@@ -49,56 +42,47 @@ const inboxName = computed(() => {
   return inbox.name;
 });
 
-const menuItems = computed(() => [
-  {
-    label: t('CAPTAIN.INBOXES.OPTIONS.DISCONNECT'),
-    value: 'delete',
-    action: 'delete',
-    icon: 'i-lucide-trash',
-  },
-]);
-
-const icon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium, 'line');
+const channelType = computed(() => {
+  const { channel_type: type, medium } = props.inbox;
+  return getChannelTypeDisplayName(type, medium);
 });
 
-const handleAction = ({ action, value }) => {
-  toggleDropdown(false);
+const handleAction = (action, value) => {
   emit('action', { action, value, id: props.id });
 };
 </script>
 
 <template>
-  <CardLayout>
+  <CardLayout
+    class="ltr:[&>div]:pl-4 ltr:[&>div]:pr-3 rtl:[&>div]:pl-3 rtl:[&>div]:pr-4 [&>div]:gap-2 [&>div]:py-4"
+  >
     <div class="flex justify-between w-full gap-1">
-      <span
-        class="text-base text-n-slate-12 line-clamp-1 flex items-center gap-2"
-      >
-        <Icon :icon="icon" class="size-5" />
-        {{ inboxName }}
-      </span>
-      <div class="flex items-center gap-2">
-        <Policy
-          v-on-clickaway="() => toggleDropdown(false)"
-          :permissions="['administrator']"
-          class="relative flex items-center group"
+      <div class="flex items-center gap-3 min-w-0">
+        <div
+          class="size-8 rounded-[0.625rem] flex items-center justify-center outline outline-1 outline-n-weak -outline-offset-1 flex-shrink-0"
         >
-          <Button
-            icon="i-lucide-ellipsis-vertical"
-            color="slate"
-            size="xs"
-            class="rounded-md group-hover:bg-n-alpha-2"
-            @click="toggleDropdown()"
+          <ChannelIcon
+            :inbox="inbox"
+            class="size-4 flex-shrink-0 text-n-slate-11"
           />
-          <DropdownMenu
-            v-if="showActionsDropdown"
-            :menu-items="menuItems"
-            class="mt-1 ltr:right-0 rtl:left-0 top-full"
-            @action="handleAction($event)"
-          />
-        </Policy>
+        </div>
+        <span class="text-heading-3 text-n-slate-12 line-clamp-1 min-w-0">
+          {{ inboxName }}
+        </span>
+        <div class="w-px h-3 bg-n-weak rounded-lg flex-shrink-0" />
+        <span class="text-body-main text-n-slate-11 flex-shrink-0">{{
+          channelType
+        }}</span>
       </div>
+      <Policy :permissions="['administrator']">
+        <Button
+          icon="i-lucide-unlink"
+          slate
+          sm
+          ghost
+          @click="handleAction('delete', 'delete')"
+        />
+      </Policy>
     </div>
   </CardLayout>
 </template>

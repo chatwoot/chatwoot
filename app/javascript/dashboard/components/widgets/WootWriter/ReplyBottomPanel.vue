@@ -15,6 +15,7 @@ import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   isNote: {
@@ -217,13 +218,13 @@ const audioRecorderPlayStopIcon = computed(() => {
   switch (props.recordingAudioState) {
     // playing paused recording stopped inactive destroyed
     case 'playing':
-      return 'i-ph-pause';
+      return 'i-lucide-pause';
     case 'paused':
-      return 'i-ph-play';
+      return 'i-lucide-play';
     case 'stopped':
-      return 'i-ph-play';
+      return 'i-lucide-play';
     default:
-      return 'i-ph-stop';
+      return 'i-lucide-circle-stop';
   }
 });
 
@@ -280,7 +281,7 @@ onMounted(() => {
     <div class="items-center flex gap-1.5">
       <NextButton
         v-tooltip.top-end="t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
-        icon="i-ph-smiley-sticker"
+        icon="i-lucide-smile-plus"
         slate
         ghost
         sm
@@ -308,7 +309,7 @@ onMounted(() => {
         <NextButton
           v-if="showAttachButton"
           v-tooltip.top-end="t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
-          icon="i-ph-paperclip"
+          icon="i-lucide-paperclip"
           slate
           ghost
           sm
@@ -321,7 +322,7 @@ onMounted(() => {
       <NextButton
         v-if="showAudioRecorderButton"
         v-tooltip.top-end="t('CONVERSATION.REPLYBOX.TIP_AUDIORECORDER_ICON')"
-        :icon="!isRecordingAudio ? 'i-ph-microphone' : 'i-ph-microphone-slash'"
+        :icon="!isRecordingAudio ? 'i-lucide-mic' : 'i-lucide-mic-off'"
         slate
         ghost
         sm
@@ -347,7 +348,7 @@ onMounted(() => {
       <NextButton
         v-if="showMessageSignatureButton"
         v-tooltip.top-end="signatureToggleTooltip"
-        icon="i-ph-signature"
+        icon="i-lucide-signature"
         slate
         ghost
         sm
@@ -360,7 +361,7 @@ onMounted(() => {
       <NextButton
         v-if="showQuotedReplyToggle"
         v-tooltip.top-end="quotedReplyToggleTooltip"
-        icon="i-ph-quotes"
+        icon="i-lucide-quote"
         :variant="quotedReplyEnabled ? 'faded' : 'ghost'"
         color="slate"
         sm
@@ -415,9 +416,9 @@ onMounted(() => {
       <transition name="modal-fade">
         <div
           v-show="uploadRef && uploadRef.dropActive"
-          class="flex fixed top-0 right-0 bottom-0 left-0 z-20 flex-col gap-2 justify-center items-center w-full h-full text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
+          class="flex fixed top-0 right-0 bottom-0 left-0 z-50 flex-col gap-2 justify-center items-center w-full h-full text-n-slate-12 bg-modal-backdrop-light dark:bg-modal-backdrop-dark"
         >
-          <fluent-icon icon="cloud-backup" size="40" />
+          <Icon icon="i-lucide-cloud-upload" class="size-10" />
           <h4 class="text-2xl break-words text-n-slate-12">
             {{ t('CONVERSATION.REPLYBOX.DRAG_DROP') }}
           </h4>
@@ -430,7 +431,7 @@ onMounted(() => {
       <NextButton
         v-if="enableInsertArticleInReply"
         v-tooltip.top-end="t('HELP_CENTER.ARTICLE_SEARCH.OPEN_ARTICLE_SEARCH')"
-        icon="i-ph-article-ny-times"
+        icon="i-lucide-text-initial"
         slate
         ghost
         sm
