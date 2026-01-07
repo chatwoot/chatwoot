@@ -132,11 +132,13 @@ onBeforeMount(() => {
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
           <tr v-for="(label, index) in filteredRecords" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span class="mb-1 font-medium break-words text-n-slate-12">
+              <span class="mb-1 text-body-main break-words text-n-slate-12">
                 {{ label.title }}
               </span>
             </td>
-            <td class="py-4 ltr:pr-4 rtl:pl-4">{{ label.description }}</td>
+            <td class="py-4 ltr:pr-4 text-body-main text-n-slate-11 rtl:pl-4">
+              {{ label.description }}
+            </td>
             <td class="py-4 leading-6 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center">
                 <span
@@ -147,22 +149,20 @@ onBeforeMount(() => {
               </div>
             </td>
             <td class="py-4 min-w-xs">
-              <div class="flex gap-1 justify-end">
+              <div class="flex gap-3 items-center justify-end">
                 <Button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
-                  icon="i-lucide-pen"
+                  icon="i-woot-edit-pen"
                   slate
-                  xs
-                  faded
+                  sm
                   :is-loading="loading[label.id]"
                   @click="openEditPopup(label)"
                 />
                 <Button
                   v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
-                  icon="i-lucide-trash-2"
-                  xs
-                  ruby
-                  faded
+                  icon="i-woot-bin"
+                  slate
+                  sm
                   :is-loading="loading[label.id]"
                   @click="openDeletePopup(label, index)"
                 />
