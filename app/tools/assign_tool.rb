@@ -21,6 +21,16 @@ class AssignTool < BaseTool
     validate_context!
     return error_response('Must provide either team_name or agent_email') if team_name.blank? && agent_email.blank?
 
+    if playground_mode?
+      target = [team_name, agent_email].compact.join(' / ')
+      return success_response({
+                                assignment_completed: true,
+                                message: "[Playground] Would assign to: #{target}",
+                                team_name: team_name,
+                                agent_email: agent_email
+                              })
+    end
+
     perform_assignment(team_name: team_name, agent_email: agent_email, reason: reason)
   rescue StandardError => e
     handle_error(team_name: team_name, agent_email: agent_email, error: e)

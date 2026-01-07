@@ -30,6 +30,15 @@ class SnoozeTool < BaseTool
 
   def execute(until_time:, reason: nil)
     validate_context!
+
+    if playground_mode?
+      return success_response({
+                                snoozed: true,
+                                message: "[Playground] Would snooze conversation until #{until_time}",
+                                until_time: until_time
+                              })
+    end
+
     return error_response('Conversation is already snoozed') if current_conversation.snoozed?
 
     parsed_time = parse_snooze_time(until_time)

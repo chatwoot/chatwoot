@@ -30,6 +30,15 @@ class HandoffTool < BaseTool
     validate_context!
     priority = 'normal' unless PRIORITY_LEVELS.include?(priority)
 
+    if playground_mode?
+      return success_response({
+                                handoff_completed: true,
+                                message: '[Playground] Would transfer to human agent',
+                                reason: reason,
+                                priority: priority
+                              })
+    end
+
     begin
       # Perform the handoff
       result = perform_handoff(reason: reason, priority: priority, summary: summary, preferred_team: preferred_team)

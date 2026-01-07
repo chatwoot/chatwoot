@@ -88,6 +88,11 @@ class BaseTool < RubyLLM::Tool
   def validate_context!
     raise 'Account context required' unless current_account
     raise 'Assistant context required' unless current_assistant
-    raise 'Conversation context required' unless current_conversation
+    raise 'Conversation context required' unless current_conversation || playground_mode?
+  end
+
+  # Check if running in playground mode (no real conversation)
+  def playground_mode?
+    Aloo::Current.playground_mode == true
   end
 end

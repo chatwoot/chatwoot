@@ -26,6 +26,15 @@ class LabelsTool < BaseTool
     return invalid_action_error(action) unless valid_action?(action)
     return error_response('Labels array cannot be empty') if labels.empty?
 
+    if playground_mode?
+      return success_response({
+                                action_completed: true,
+                                message: "[Playground] Would #{action} labels: #{labels.join(', ')}",
+                                action: action,
+                                labels: labels
+                              })
+    end
+
     perform_labels_update(action: action, labels: labels)
   rescue StandardError => e
     handle_error(action: action, labels: labels, error: e)

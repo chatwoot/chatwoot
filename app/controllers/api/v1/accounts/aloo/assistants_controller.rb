@@ -195,10 +195,11 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   def playground
     message = params.require(:message)
 
-    # Set up Aloo context for the agent
+    # Set up Aloo context for the agent (playground mode - no real conversation)
     Aloo::Current.account = Current.account
     Aloo::Current.assistant = @assistant
     Aloo::Current.request_id = SecureRandom.uuid
+    Aloo::Current.playground_mode = true
 
     start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
@@ -216,7 +217,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       output_tokens: result.output_tokens,
       total_tokens: (result.input_tokens || 0) + (result.output_tokens || 0),
       duration_ms: duration_ms,
-      tool_calls: result.tool_calls&.map { |tc| { name: tc.name, arguments: tc.arguments } }
+      tool_calls: result.tool_calls&.map { |tc| { name: tc.try(:name) || tc[:name], arguments: tc.try(:arguments) || tc[:arguments] } }
     }
   rescue RubyLLM::Error => e
     render json: { error: e.message, success: false }, status: :unprocessable_entity

@@ -9,6 +9,7 @@ module Aloo
     attribute :contact
     attribute :inbox
     attribute :request_id
+    attribute :playground_mode
 
     # Set context from a conversation
     def set_from_conversation(conversation)

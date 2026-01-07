@@ -29,6 +29,16 @@ class PrivateNoteTool < BaseTool
   def execute(content:, category: 'general')
     validate_context!
     category = normalize_category(category)
+
+    if playground_mode?
+      return success_response({
+                                note_created: true,
+                                message: '[Playground] Would add private note',
+                                content: content,
+                                category: category
+                              })
+    end
+
     perform_note_creation(content: content, category: category)
   rescue StandardError => e
     handle_error(content: content, category: category, error: e)

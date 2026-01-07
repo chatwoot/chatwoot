@@ -18,6 +18,15 @@ class ResolveTool < BaseTool
 
   def execute(reason:, summary: nil)
     validate_context!
+
+    if playground_mode?
+      return success_response({
+                                resolved: true,
+                                message: '[Playground] Would resolve conversation',
+                                reason: reason
+                              })
+    end
+
     return error_response('Conversation is already resolved') if current_conversation.resolved?
 
     perform_resolution(reason: reason, summary: summary)
