@@ -59,8 +59,9 @@ RSpec.describe AutoAssignment::RateLimiter do
         allow(inbox).to receive(:assignment_policy).and_return(nil)
       end
 
-      it 'does not track the assignment' do
-        expect(Redis::Alfred).not_to receive(:set)
+      it 'still tracks the assignment with default window' do
+        expected_key = format(Redis::RedisKeys::ASSIGNMENT_KEY, inbox_id: inbox.id, agent_id: agent.id, conversation_id: conversation.id)
+        expect(Redis::Alfred).to receive(:set).with(expected_key, conversation.id.to_s, ex: 24.hours.to_i)
         rate_limiter.track_assignment(conversation)
       end
     end
