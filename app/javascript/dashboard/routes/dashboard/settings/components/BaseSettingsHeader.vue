@@ -71,7 +71,7 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1 class="text-heading-1 leading-6 tracking-tight text-n-slate-12">
+        <h1 class="text-heading-1 text-n-slate-12">
           {{ title }}
         </h1>
       </div>

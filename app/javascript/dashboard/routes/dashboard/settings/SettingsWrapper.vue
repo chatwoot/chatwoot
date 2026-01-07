@@ -11,7 +11,7 @@ defineProps({
   <div
     class="flex flex-col w-full h-full m-0 p-6 sm:pt-6 sm:pb-8 lg:px-10 overflow-auto bg-n-surface-1 font-inter"
   >
-    <div class="flex items-start w-full max-w-6xl mx-auto">
+    <div class="flex items-start w-full max-w-5xl mx-auto">
       <router-view v-slot="{ Component }">
         <keep-alive v-if="keepAlive">
           <component :is="Component" />

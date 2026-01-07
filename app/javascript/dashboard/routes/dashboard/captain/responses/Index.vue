@@ -280,11 +280,11 @@ onMounted(() => {
     </template>
 
     <template #body>
-      <LimitBanner class="mb-5 z-20 relative" />
+      <LimitBanner class="mb-5 relative" />
       <Banner
         v-if="pendingCount > 0 && bulkSelectedIds.size === 0"
         color="blue"
-        class="mb-4 -mt-2 z-20 relative"
+        class="mb-4 -mt-2 relative"
         :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
         @action="navigateToPendingFAQs"
       >

@@ -33,7 +33,7 @@ const updateCurrentPage = page => {
         @update:sort="emit('update:sort', $event)"
       />
       <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[60rem]">
+        <div class="w-full mx-auto max-w-5xl">
           <slot name="default" />
         </div>
       </main>

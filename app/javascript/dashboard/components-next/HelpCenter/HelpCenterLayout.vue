@@ -91,7 +91,7 @@ const onClickCreateButton = () => {
               <OnClickOutside @trigger="showPortalSwitcher = false">
                 <Button
                   icon="i-lucide-chevron-down"
-                  variant="ghost"
+                  :variant="showPortalSwitcher ? 'faded' : 'ghost'"
                   color="slate"
                   size="xs"
                   class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3 [&>span]:size-4"
