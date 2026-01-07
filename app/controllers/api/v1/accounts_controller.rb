@@ -97,11 +97,15 @@ class Api::V1::AccountsController < Api::BaseController
 
     if params[:captain_models].present?
       existing_models = @account.captain_models || {}
-      permitted[:captain_models] = existing_models.merge(params[:captain_models].to_unsafe_h)
+      permitted[:captain_models] = existing_models.merge(
+        params.require(:captain_models).permit(:editor, :assistant, :copilot, :label_suggestion, :audio_transcription, :help_center_search)
+      )
     end
     if params[:captain_features].present?
       existing_features = @account.captain_features || {}
-      permitted[:captain_features] = existing_features.merge(params[:captain_features].to_unsafe_h)
+      permitted[:captain_features] = existing_features.merge(
+        params.require(:captain_features).permit(:editor, :assistant, :copilot, :label_suggestion, :audio_transcription, :help_center_search)
+      )
     end
     permitted
   end
