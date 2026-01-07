@@ -35,7 +35,7 @@ class Twilio::CsatTemplateService
     end
   end
 
-  def delete_template(_template_name = nil, content_sid = nil)
+  def delete_template(template_name = nil, content_sid = nil)
     content_sid ||= current_template_sid_from_config
     return { success: false, error: 'No template to delete' } unless content_sid
 
