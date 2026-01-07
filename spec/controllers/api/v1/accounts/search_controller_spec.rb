@@ -86,7 +86,7 @@ RSpec.describe 'Search', type: :request do
         expect(contact_result).not_to have_key(:created_at)
       end
 
-      context 'with advanced_search feature enabled' do
+      context 'with advanced_search feature enabled', :opensearch do
         before do
           account.enable_features!('advanced_search')
         end
@@ -169,7 +169,7 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:conversations].length).to eq 1
       end
 
-      context 'with advanced_search feature enabled' do
+      context 'with advanced_search feature enabled', :opensearch do
         before do
           account.enable_features!('advanced_search')
         end
@@ -348,7 +348,7 @@ RSpec.describe 'Search', type: :request do
         expect(response_data[:payload][:articles].length).to eq 15 # Default per_page is 15
       end
 
-      context 'with advanced_search feature enabled' do
+      context 'with advanced_search feature enabled', :opensearch do
         before do
           account.enable_features!('advanced_search')
         end
