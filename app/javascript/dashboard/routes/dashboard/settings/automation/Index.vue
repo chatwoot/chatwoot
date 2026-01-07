@@ -7,6 +7,7 @@ import SettingsLayout from '../SettingsLayout.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -20,12 +21,19 @@ const showAddPopup = ref(false);
 const showEditPopup = ref(false);
 const showDeleteConfirmationPopup = ref(false);
 const selectedAutomation = ref({});
+const searchQuery = ref('');
 const toggleModalTitle = ref(t('AUTOMATION.TOGGLE.ACTIVATION_TITLE'));
 const toggleModalDescription = ref(
   t('AUTOMATION.TOGGLE.ACTIVATION_DESCRIPTION')
 );
 
 const records = computed(() => getters['automations/getAutomations'].value);
+
+const filteredRecords = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return records.value;
+  return picoSearch(records.value, query, ['name', 'description']);
+});
 const uiFlags = computed(() => getters['automations/getUIFlags'].value);
 const accountId = computed(() => getters.getCurrentAccountId.value);
 
@@ -165,9 +173,9 @@ const toggleAutomation = async ({ id, name, status }) => {
 const tableHeaders = computed(() => {
   return [
     t('AUTOMATION.LIST.TABLE_HEADER.NAME'),
-    t('AUTOMATION.LIST.TABLE_HEADER.DESCRIPTION'),
     t('AUTOMATION.LIST.TABLE_HEADER.ACTIVE'),
     t('AUTOMATION.LIST.TABLE_HEADER.CREATED_ON'),
+    t('AUTOMATION.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -181,14 +189,15 @@ const tableHeaders = computed(() => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('AUTOMATION.HEADER')"
         :description="$t('AUTOMATION.DESCRIPTION')"
         :link-text="$t('AUTOMATION.LEARN_MORE')"
+        :search-placeholder="$t('AUTOMATION.SEARCH_PLACEHOLDER')"
         feature-name="automation"
       >
         <template #actions>
           <Button
-            icon="i-lucide-circle-plus"
             :label="$t('AUTOMATION.HEADER_BTN_TXT')"
             @click="openAddPopup"
           />
@@ -196,19 +205,25 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
+      <span
+        v-if="!filteredRecords.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('AUTOMATION.NO_RESULTS') }}
+      </span>
+      <table v-else class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 rtl:text-right ltr:text-left font-semibold text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <AutomationRuleRow
-            v-for="automation in records"
+            v-for="automation in filteredRecords"
             :key="automation.id"
             :automation="automation"
             :loading="loading[automation.id]"

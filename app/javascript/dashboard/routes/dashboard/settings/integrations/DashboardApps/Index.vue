@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { picoSearch } from '@scmmishra/pico-search';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
@@ -20,6 +21,7 @@ export default {
       showDeleteConfirmationPopup: false,
       selectedApp: {},
       mode: 'CREATE',
+      searchQuery: '',
     };
   },
   computed: {
@@ -27,6 +29,11 @@ export default {
       records: 'dashboardApps/getRecords',
       uiFlags: 'dashboardApps/getUIFlags',
     }),
+    filteredRecords() {
+      const query = this.searchQuery.trim();
+      if (!query) return this.records;
+      return picoSearch(this.records, query, ['title']);
+    },
     tableHeaders() {
       return [
         this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.NAME'),
@@ -86,23 +93,32 @@ export default {
 <template>
   <div class="flex flex-col flex-1 gap-8 overflow-auto">
     <BaseSettingsHeader
+      v-model:search-query="searchQuery"
       :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
       :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
       :link-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LEARN_MORE')"
+      :search-placeholder="
+        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.SEARCH_PLACEHOLDER')
+      "
       feature-name="dashboard_apps"
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
     >
       <template #actions>
         <NextButton
-          icon="i-lucide-circle-plus"
           :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT')"
           @click="openCreatePopup"
         />
       </template>
     </BaseSettingsHeader>
     <div class="w-full overflow-x-auto text-n-slate-11">
+      <span
+        v-if="!uiFlags.isFetching && !filteredRecords.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS') }}
+      </span>
       <p
-        v-if="!uiFlags.isFetching && !records.length"
+        v-else-if="!uiFlags.isFetching && !records.length"
         class="flex flex-col items-center justify-center h-full"
       >
         {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
@@ -112,21 +128,21 @@ export default {
         :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
       />
       <table
-        v-if="!uiFlags.isFetching && records.length"
+        v-if="!uiFlags.isFetching && filteredRecords.length"
         class="min-w-full divide-y divide-n-weak"
       >
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="divide-y divide-n-weak">
           <DashboardAppsRow
-            v-for="(dashboardAppItem, index) in records"
+            v-for="(dashboardAppItem, index) in filteredRecords"
             :key="dashboardAppItem.id"
             :index="index"
             :app="dashboardAppItem"

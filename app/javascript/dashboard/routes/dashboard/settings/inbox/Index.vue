@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
+import { picoSearch } from '@scmmishra/pico-search';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -22,11 +23,18 @@ const { isAdmin } = useAdmin();
 
 const showDeletePopup = ref(false);
 const selectedInbox = ref({});
+const searchQuery = ref('');
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 
 const inboxesList = computed(() => {
   return inboxes.value?.slice().sort((a, b) => a.name.localeCompare(b.name));
+});
+
+const filteredInboxesList = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return inboxesList.value;
+  return picoSearch(inboxesList.value, query, ['name', 'channel_type']);
 });
 
 const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
@@ -80,25 +88,30 @@ const openDelete = inbox => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('INBOX_MGMT.HEADER')"
         :description="$t('INBOX_MGMT.DESCRIPTION')"
         :link-text="$t('INBOX_MGMT.LEARN_MORE')"
+        :search-placeholder="$t('INBOX_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="inboxes"
       >
         <template #actions>
           <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
-            <Button
-              icon="i-lucide-circle-plus"
-              :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
-            />
+            <Button :label="$t('SETTINGS.INBOXES.NEW_INBOX')" />
           </router-link>
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full overflow-x-auto">
+      <span
+        v-if="!filteredInboxesList.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('INBOX_MGMT.NO_RESULTS') }}
+      </span>
+      <table v-else class="min-w-full overflow-x-auto">
         <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
-          <tr v-for="inbox in inboxesList" :key="inbox.id">
+          <tr v-for="inbox in filteredInboxesList" :key="inbox.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center flex-row gap-4">
                 <div

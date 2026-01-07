@@ -20,11 +20,7 @@ defineEmits(['add']);
     feature-name="sla"
   >
     <template v-if="showActions" #actions>
-      <Button
-        :label="$t('SLA.ADD_ACTION')"
-        icon="i-lucide-circle-plus"
-        @click="$emit('add')"
-      />
+      <Button :label="$t('SLA.ADD_ACTION')" @click="$emit('add')" />
     </template>
   </BaseSettingsHeader>
 </template>

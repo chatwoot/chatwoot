@@ -3,6 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { computed, onBeforeMount, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { picoSearch } from '@scmmishra/pico-search';
 
 import AddLabel from './AddLabel.vue';
 import EditLabel from './EditLabel.vue';
@@ -19,8 +20,15 @@ const showAddPopup = ref(false);
 const showEditPopup = ref(false);
 const showDeleteConfirmationPopup = ref(false);
 const selectedLabel = ref({});
+const searchQuery = ref('');
 
 const records = computed(() => getters['labels/getLabels'].value);
+
+const filteredRecords = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return records.value;
+  return picoSearch(records.value, query, ['title', 'description']);
+});
 const uiFlags = computed(() => getters['labels/getUIFlags'].value);
 
 const deleteMessage = computed(() => ` ${selectedLabel.value.title}?`);
@@ -89,14 +97,15 @@ onBeforeMount(() => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('LABEL_MGMT.HEADER')"
         :description="$t('LABEL_MGMT.DESCRIPTION')"
         :link-text="$t('LABEL_MGMT.LEARN_MORE')"
+        :search-placeholder="$t('LABEL_MGMT.SEARCH_PLACEHOLDER')"
         feature-name="labels"
       >
         <template #actions>
           <Button
-            icon="i-lucide-circle-plus"
             :label="$t('LABEL_MGMT.HEADER_BTN_TXT')"
             @click="openAddPopup"
           />
@@ -104,18 +113,24 @@ onBeforeMount(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
+      <span
+        v-if="!filteredRecords.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('LABEL_MGMT.NO_RESULTS') }}
+      </span>
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="(label, index) in records" :key="label.title">
+          <tr v-for="(label, index) in filteredRecords" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="mb-1 font-medium break-words text-n-slate-12">
                 {{ label.title }}

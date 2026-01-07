@@ -3,6 +3,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { picoSearch } from '@scmmishra/pico-search';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -23,6 +24,7 @@ const agentBots = useMapGetter('agentBots/getBots');
 const uiFlags = useMapGetter('agentBots/getUIFlags');
 
 const selectedBot = ref({});
+const searchQuery = ref('');
 const loading = ref({});
 const modalType = ref(MODAL_TYPES.CREATE);
 const agentBotModalRef = ref(null);
@@ -36,6 +38,12 @@ const tableHeaders = computed(() => {
 });
 
 const selectedBotName = computed(() => selectedBot.value?.name || '');
+
+const filteredAgentBots = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return agentBots.value;
+  return picoSearch(agentBots.value, query, ['name', 'description']);
+});
 
 const openAddModal = () => {
   modalType.value = MODAL_TYPES.CREATE;
@@ -86,33 +94,37 @@ onMounted(() => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="t('AGENT_BOTS.HEADER')"
         :description="t('AGENT_BOTS.DESCRIPTION')"
         :link-text="t('AGENT_BOTS.LEARN_MORE')"
+        :search-placeholder="t('AGENT_BOTS.SEARCH_PLACEHOLDER')"
         feature-name="agent_bots"
       >
         <template #actions>
-          <Button
-            icon="i-lucide-circle-plus"
-            :label="$t('AGENT_BOTS.ADD.TITLE')"
-            @click="openAddModal"
-          />
+          <Button :label="$t('AGENT_BOTS.ADD.TITLE')" @click="openAddModal" />
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full overflow-x-auto divide-y divide-n-strong">
+      <span
+        v-if="!filteredAgentBots.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ t('AGENT_BOTS.NO_RESULTS') }}
+      </span>
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-strong">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="bot in agentBots" :key="bot.id">
+          <tr v-for="bot in filteredAgentBots" :key="bot.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-row items-center gap-4">
                 <Avatar

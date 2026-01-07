@@ -4,6 +4,7 @@ import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 
 const props = defineProps({
   title: {
@@ -30,7 +31,13 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  searchPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
+
+const searchQuery = defineModel('searchQuery', { type: String, default: '' });
 
 const helpURL = getHelpUrlForFeature(props.featureName);
 
@@ -41,13 +48,13 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2">
+  <div class="flex flex-col items-start w-full gap-5">
     <BackButton
       v-if="backButtonLabel"
       compact
       :button-label="backButtonLabel"
     />
-    <div class="flex items-center justify-between w-full gap-4">
+    <div class="flex items-center justify-between w-full gap-4 min-h-10">
       <div class="flex items-center gap-3">
         <div
           v-if="iconName"
@@ -64,19 +71,33 @@ const openInNewTab = url => {
             />
           </div>
         </div>
-        <h1 class="text-xl font-medium tracking-tight text-n-slate-12">
+        <h1 class="text-lg font-520 leading-6 tracking-tight text-n-slate-12">
           {{ title }}
         </h1>
       </div>
       <!-- Slot for additional actions on larger screens -->
-      <div class="hidden gap-2 sm:flex">
+      <div class="hidden gap-3 sm:flex">
+        <Input
+          v-if="searchPlaceholder"
+          v-model="searchQuery"
+          :placeholder="searchPlaceholder"
+          autofocus
+          class="w-56 min-w-0 [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
+          size="md"
+          type="search"
+        >
+          <template #prefix>
+            <Icon
+              icon="i-lucide-search"
+              class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2.5 rtl:right-2.5"
+            />
+          </template>
+        </Input>
         <slot name="actions" />
       </div>
     </div>
     <div class="flex flex-col w-full gap-3 text-n-slate-11">
-      <p
-        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
-      >
+      <p class="mb-0 line-clamp-5 sm:line-clamp-none max-w-3xl text-body-main">
         <slot name="description">{{ description }}</slot>
       </p>
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">

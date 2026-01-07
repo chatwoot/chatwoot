@@ -3,20 +3,31 @@ import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, ref } from 'vue';
+import { picoSearch } from '@scmmishra/pico-search';
 
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const store = useStore();
 const { t } = useI18n();
 const getters = useStoreGetters();
-const teamsList = computed(() => getters['teams/getTeams'].value);
-const uiFlags = computed(() => getters['teams/getUIFlags'].value);
 const { isAdmin } = useAdmin();
 
 const loading = ref({});
+const searchQuery = ref('');
+
+const teamsList = computed(() => getters['teams/getTeams'].value);
+
+const filteredTeamsList = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return teamsList.value;
+  return picoSearch(teamsList.value, query, ['name', 'description']);
+});
+
+const uiFlags = computed(() => getters['teams/getUIFlags'].value);
 
 const deleteTeam = async ({ id }) => {
   try {
@@ -70,17 +81,16 @@ const confirmPlaceHolderText = computed(() =>
 <template>
   <div class="flex-1 overflow-auto">
     <BaseSettingsHeader
+      v-model:search-query="searchQuery"
       :title="$t('TEAMS_SETTINGS.HEADER')"
       :description="$t('TEAMS_SETTINGS.DESCRIPTION')"
       :link-text="$t('TEAMS_SETTINGS.LEARN_MORE')"
+      :search-placeholder="$t('TEAMS_SETTINGS.SEARCH_PLACEHOLDER')"
       feature-name="team_management"
     >
       <template #actions>
         <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
-          <Button
-            icon="i-lucide-circle-plus"
-            :label="$t('TEAMS_SETTINGS.NEW_TEAM')"
-          />
+          <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" />
         </router-link>
       </template>
     </BaseSettingsHeader>
@@ -95,46 +105,65 @@ const confirmPlaceHolderText = computed(() =>
       >
         {{ $t('TEAMS_SETTINGS.LIST.404') }}
       </p>
+      <span
+        v-else-if="!filteredTeamsList.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('TEAMS_SETTINGS.NO_RESULTS') }}
+      </span>
 
-      <table v-else class="min-w-full divide-y divide-n-weak">
-        <tbody class="divide-y divide-n-weak">
-          <tr v-for="team in teamsList" :key="team.id">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span class="block font-medium capitalize">{{ team.name }}</span>
-              <p class="mb-0">{{ team.description }}</p>
-            </td>
-
-            <td class="py-4 flex justify-end gap-1">
-              <router-link
-                :to="{
-                  name: 'settings_teams_edit',
-                  params: { teamId: team.id },
-                }"
-              >
-                <Button
-                  v-if="isAdmin"
-                  v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
-                  icon="i-lucide-settings"
-                  slate
-                  xs
-                  faded
-                />
-              </router-link>
-
+      <div v-else class="divide-y divide-n-weak">
+        <div
+          v-for="team in filteredTeamsList"
+          :key="team.id"
+          class="flex justify-between flex-row items-start gap-4 py-4"
+        >
+          <div class="flex items-start gap-4">
+            <div
+              class="flex items-center flex-shrink-0 size-10 justify-center rounded-xl outline outline-1 outline-n-weak -outline-offset-1"
+            >
+              <Icon
+                icon="i-lucide-users-round"
+                class="size-4 text-n-slate-11"
+              />
+            </div>
+            <div class="flex flex-col items-start gap-1">
+              <span class="block text-heading-3 text-n-slate-12 capitalize">
+                {{ team.name }}
+              </span>
+              <p class="mb-0 text-n-slate-11 text-body-main">
+                {{ team.description }}
+              </p>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3">
+            <router-link
+              :to="{
+                name: 'settings_teams_edit',
+                params: { teamId: team.id },
+              }"
+            >
               <Button
                 v-if="isAdmin"
-                v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
-                icon="i-lucide-trash-2"
-                xs
-                ruby
-                faded
-                :is-loading="loading[team.id]"
-                @click="openDelete(team)"
+                v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
+                icon="i-woot-settings"
+                slate
+                sm
               />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </router-link>
+
+            <Button
+              v-if="isAdmin"
+              v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
+              icon="i-woot-bin"
+              slate
+              sm
+              :is-loading="loading[team.id]"
+              @click="openDelete(team)"
+            />
+          </div>
+        </div>
+      </div>
     </div>
     <woot-confirm-delete-modal
       v-if="showDeletePopup"

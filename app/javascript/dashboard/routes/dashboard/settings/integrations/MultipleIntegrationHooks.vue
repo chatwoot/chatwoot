@@ -85,7 +85,7 @@ export default {
           <th
             v-for="hookHeader in hookHeaders"
             :key="hookHeader"
-            class="ltr:!pl-0 rtl:!pr-0"
+            class="ltr:!pl-0 rtl:!pr-0 text-heading-3 text-n-slate-12 text-start"
           >
             {{ hookHeader }}
           </th>

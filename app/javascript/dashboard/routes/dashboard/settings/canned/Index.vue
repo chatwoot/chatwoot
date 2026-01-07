@@ -6,6 +6,8 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref, defineOptions } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { picoSearch } from '@scmmishra/pico-search';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -17,6 +19,8 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 
+const { getPlainText } = useMessageFormatter();
+
 const showAddPopup = ref(false);
 const loading = ref({});
 const showEditPopup = ref(false);
@@ -25,9 +29,17 @@ const activeResponse = ref({});
 const cannedResponseAPI = ref({ message: '' });
 
 const sortOrder = ref('asc');
+const searchQuery = ref('');
+
 const records = computed(() =>
   getters.getSortedCannedResponses.value(sortOrder.value)
 );
+
+const filteredRecords = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return records.value;
+  return picoSearch(records.value, query, ['short_code', 'content']);
+});
 const uiFlags = computed(() => getters.getUIFlags.value);
 
 const deleteConfirmText = computed(
@@ -120,14 +132,15 @@ const tableHeaders = computed(() => {
 <template>
   <div class="flex-1 overflow-auto">
     <BaseSettingsHeader
+      v-model:search-query="searchQuery"
       :title="$t('CANNED_MGMT.HEADER')"
       :description="$t('CANNED_MGMT.DESCRIPTION')"
       :link-text="$t('CANNED_MGMT.LEARN_MORE')"
+      :search-placeholder="$t('CANNED_MGMT.SEARCH_PLACEHOLDER')"
       feature-name="canned_responses"
     >
       <template #actions>
         <Button
-          icon="i-lucide-circle-plus"
           :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
           @click="openAddPopup"
         />
@@ -145,12 +158,18 @@ const tableHeaders = computed(() => {
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
+      <span
+        v-else-if="!filteredRecords.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('CANNED_MGMT.NO_RESULTS') }}
+      </span>
       <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12 last:text-end"
           >
             <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
@@ -172,7 +191,7 @@ const tableHeaders = computed(() => {
         </thead>
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr
-            v-for="(cannedItem, index) in records"
+            v-for="(cannedItem, index) in filteredRecords"
             :key="cannedItem.short_code"
           >
             <td
@@ -182,7 +201,7 @@ const tableHeaders = computed(() => {
               {{ cannedItem.short_code }}
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
-              {{ cannedItem.content }}
+              {{ getPlainText(cannedItem.content) }}
             </td>
             <td class="py-4 flex justify-end gap-1">
               <Button

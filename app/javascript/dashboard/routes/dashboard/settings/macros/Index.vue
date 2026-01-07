@@ -1,5 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
+import { picoSearch } from '@scmmishra/pico-search';
 import MacrosTableRow from './MacrosTableRow.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -14,9 +15,16 @@ const { t } = useI18n();
 
 const showDeleteConfirmationPopup = ref(false);
 const selectedMacro = ref({});
+const searchQuery = ref('');
 
 const records = computed(() => getters['macros/getMacros'].value);
 const uiFlags = computed(() => getters['macros/getUIFlags'].value);
+
+const filteredRecords = computed(() => {
+  const query = searchQuery.value.trim();
+  if (!query) return records.value;
+  return picoSearch(records.value, query, ['name']);
+});
 
 const deleteMessage = computed(() => ` ${selectedMacro.value.name}?`);
 
@@ -67,35 +75,40 @@ const tableHeaders = computed(() => {
   >
     <template #header>
       <BaseSettingsHeader
+        v-model:search-query="searchQuery"
         :title="$t('MACROS.HEADER')"
         :description="$t('MACROS.DESCRIPTION')"
         :link-text="$t('MACROS.LEARN_MORE')"
+        :search-placeholder="$t('MACROS.SEARCH_PLACEHOLDER')"
         feature-name="macros"
       >
         <template #actions>
           <router-link :to="{ name: 'macros_new' }">
-            <Button
-              icon="i-lucide-circle-plus"
-              :label="$t('MACROS.HEADER_BTN_TXT')"
-            />
+            <Button :label="$t('MACROS.HEADER_BTN_TXT')" />
           </router-link>
         </template>
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table class="min-w-full divide-y divide-n-weak">
+      <span
+        v-if="!filteredRecords.length && searchQuery"
+        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      >
+        {{ $t('MACROS.NO_RESULTS') }}
+      </span>
+      <table v-else class="min-w-full divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <MacrosTableRow
-            v-for="(macro, index) in records"
+            v-for="(macro, index) in filteredRecords"
             :key="index"
             :macro="macro"
             @delete="openDeletePopup(macro)"
