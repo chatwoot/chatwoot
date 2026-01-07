@@ -176,7 +176,7 @@ const handleAvatarHover = isHovered => {
         </div>
 
         <h4
-          class="text-sm my-0 capitalize hover:cursor-pointer truncate text-n-slate-12 font-medium lg:max-w-40"
+          class="text-heading-3 my-0 capitalize hover:cursor-pointer truncate text-n-slate-12 lg:max-w-40"
           @click="onClickViewDetails"
         >
           {{ name }}
@@ -229,14 +229,14 @@ const handleAvatarHover = isHovered => {
 
         <div
           v-if="companyName"
-          class="text-xs my-0 capitalize h-6 px-1 inline-flex items-center gap-1 rounded-md text-n-slate-12 font-440 max-w-40 min-w-0 outline outline-1 outline-n-weak"
+          class="my-0 capitalize h-6 px-1 inline-flex items-center gap-1 rounded-md text-n-slate-12 max-w-40 min-w-0 outline outline-1 outline-n-weak"
           :class="{ 'lg:hidden': isExpanded }"
         >
           <Icon
             icon="i-lucide-briefcase-business"
             class="size-3.5 flex-shrink-0 text-n-slate-11"
           />
-          <span class="truncate">{{ companyName }}</span>
+          <span class="truncate text-label-small">{{ companyName }}</span>
         </div>
 
         <div
@@ -247,14 +247,14 @@ const handleAvatarHover = isHovered => {
 
         <span
           v-if="countryDetails"
-          class="inline-flex items-center gap-2 text-sm min-w-0 text-n-slate-11"
+          class="inline-flex items-center gap-2 min-w-0 text-n-slate-11"
           :class="{ 'lg:hidden': isExpanded }"
         >
           <Flag
             :country="countryDetails.countryCode"
             class="size-3.5 flex-shrink-0"
           />
-          <span class="truncate">{{ formattedLocation }}</span>
+          <span class="truncate text-label-small">{{ formattedLocation }}</span>
         </span>
 
         <div
@@ -289,7 +289,7 @@ const handleAvatarHover = isHovered => {
             icon="i-woot-mail"
             class="size-4 flex-shrink-0 text-n-slate-11"
           />
-          <span class="text-sm text-n-slate-12 font-420 truncate">
+          <span class="text-body-main text-n-slate-12 truncate">
             {{ email }}
           </span>
         </div>
@@ -311,7 +311,7 @@ const handleAvatarHover = isHovered => {
             icon="i-lucide-phone"
             class="size-3 flex-shrink-0 text-n-slate-11"
           />
-          <span class="text-sm text-n-slate-12 font-420 truncate">
+          <span class="text-body-main text-n-slate-12 truncate">
             {{ phoneNumber }}
           </span>
         </div>

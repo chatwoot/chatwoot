@@ -36,7 +36,7 @@ const emit = defineEmits([
     <div
       class="flex items-start sm:items-center justify-between w-full py-6 px-6 gap-2 mx-auto max-w-[105rem] after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
     >
-      <span class="text-xl font-medium truncate text-n-slate-12">
+      <span class="text-lg leading-6 font-520 truncate text-n-slate-12">
         {{ headerTitle }}
       </span>
       <div class="flex items-center flex-col sm:flex-row flex-shrink-0 gap-4">

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import { useToggle } from '@vueuse/core';
@@ -25,6 +25,12 @@ const { t } = useI18n();
 const [showCountryDropdown, toggleCountryDropdown] = useToggle();
 const searchQuery = ref('');
 
+const clearOption = computed(() => ({
+  label: t('DROPDOWN_MENU.CLEAR_SELECTION'),
+  value: 'clear',
+  action: 'clear',
+}));
+
 const countryOptions = computed(() =>
   countries.map(({ name, id }) => ({
     label: name,
@@ -43,6 +49,14 @@ const filteredCountries = computed(() => {
   );
 });
 
+const menuItems = computed(() => {
+  const items = [...filteredCountries.value];
+  if (countryCode.value) {
+    items.unshift(clearOption.value);
+  }
+  return items;
+});
+
 const selectedCountry = computed(() => {
   return countries.find(country => country.id === countryCode.value);
 });
@@ -54,7 +68,14 @@ const buttonLabel = computed(() => {
   return props.placeholder;
 });
 
-const handleAction = ({ value }) => {
+const handleAction = ({ value, action }) => {
+  if (action === 'clear') {
+    countryCode.value = '';
+    emit('change', null);
+    toggleCountryDropdown(false);
+    return;
+  }
+
   if (countryCode.value === value) {
     countryCode.value = '';
     emit('change', null);
@@ -73,6 +94,10 @@ const handleSearch = query => {
 const handleClickOutside = () => {
   toggleCountryDropdown(false);
 };
+
+watch(showCountryDropdown, isOpen => {
+  if (isOpen) searchQuery.value = '';
+});
 </script>
 
 <template>
@@ -104,7 +129,7 @@ const handleClickOutside = () => {
     >
       <DropdownMenu
         v-if="showCountryDropdown"
-        :menu-items="filteredCountries"
+        :menu-items="menuItems"
         show-search
         :search-placeholder="t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')"
         class="max-h-60 overflow-y-auto absolute z-50 w-full mt-1 top-full min-w-40"
@@ -112,7 +137,11 @@ const handleClickOutside = () => {
         @search="handleSearch"
       >
         <template #icon="{ item }">
-          <Flag :country="item.value" class="size-3" />
+          <Flag
+            v-if="item.value !== 'clear'"
+            :country="item.value"
+            class="size-3"
+          />
         </template>
       </DropdownMenu>
     </Transition>

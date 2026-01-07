@@ -166,7 +166,7 @@ defineExpose({
 
     <div class="flex flex-col items-start gap-4 pt-2 pb-3">
       <span
-        class="py-1 text-sm font-medium text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
+        class="py-1 text-heading-3 text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
       >
         <Icon
           icon="i-lucide-settings-2"
@@ -288,7 +288,7 @@ defineExpose({
 
     <div class="flex flex-col items-start gap-4 py-2">
       <span
-        class="py-1 text-sm font-medium text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
+        class="py-1 text-heading-3 text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
       >
         <Icon
           icon="i-lucide-globe"

@@ -117,7 +117,7 @@ const handleCreateAssistant = () => {
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
     <header
-      class="sticky top-0 z-10 px-6 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+      class="sticky top-0 z-10 px-6 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none after:z-10"
     >
       <div class="w-full max-w-[60rem] mx-auto">
         <div

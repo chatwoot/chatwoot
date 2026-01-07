@@ -13,7 +13,8 @@
   "DROPDOWN_MENU": {
     "SEARCH_PLACEHOLDER": "Search...",
     "EMPTY_STATE": "No results found.",
-    "SEARCHING": "Searching..."
+    "SEARCHING": "Searching...",
+    "CLEAR_SELECTION": "Clear selection"
   },
   "DIALOG": {
     "BUTTONS": {

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import { debounce } from '@chatwoot/utils';
@@ -35,6 +35,12 @@ const isSearching = ref(false);
 const companies = computed(() => companiesStore.getCompaniesList || []);
 const isLoading = computed(() => companiesStore.uiFlags.fetchingList);
 
+const clearOption = computed(() => ({
+  label: t('DROPDOWN_MENU.CLEAR_SELECTION'),
+  value: 'clear',
+  action: 'clear',
+}));
+
 const companyOptions = computed(() =>
   companies.value.map(company => ({
     label: company.name,
@@ -43,6 +49,17 @@ const companyOptions = computed(() =>
     isSelected: companyId.value === company.id,
   }))
 );
+
+const menuItems = computed(() => {
+  const items = [];
+  // Show clear option if a company is selected (either by ID or by name prop)
+  if (companyId.value || props.selectedCompanyName) {
+    items.push(clearOption.value);
+  }
+  // Add company options after clear option
+  items.push(...companyOptions.value);
+  return items;
+});
 
 const selectedCompany = computed(() => {
   return companies.value.find(company => company.id === companyId.value);
@@ -77,7 +94,14 @@ const debouncedSearch = debounce(query => {
   fetchCompanies(query);
 }, 300);
 
-const handleAction = ({ value }) => {
+const handleAction = ({ value, action }) => {
+  if (action === 'clear') {
+    companyId.value = null;
+    emit('change', null);
+    toggleCompanyDropdown(false);
+    return;
+  }
+
   if (companyId.value === value) {
     companyId.value = null;
     emit('change', null);
@@ -96,6 +120,13 @@ const handleSearch = query => {
 const handleClickOutside = () => {
   toggleCompanyDropdown(false);
 };
+
+watch(showCompanyDropdown, isOpen => {
+  if (!isOpen) {
+    searchQuery.value = '';
+    companiesStore.clearRecords();
+  }
+});
 </script>
 
 <template>
@@ -123,7 +154,7 @@ const handleClickOutside = () => {
     >
       <DropdownMenu
         v-if="showCompanyDropdown"
-        :menu-items="companyOptions"
+        :menu-items="menuItems"
         show-search
         disable-local-filtering
         :search-placeholder="t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')"
