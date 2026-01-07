@@ -129,7 +129,7 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   def validate_file!
     file = document_params[:file]
 
-    raise ActionController::ParameterMissing, 'file is required' unless file
+    raise ActionController::ParameterMissing, 'file is required' unless file.is_a?(ActionDispatch::Http::UploadedFile)
 
     raise ActionController::BadRequest.new("Unsupported file type: #{file.content_type}") unless ALLOWED_CONTENT_TYPES.include?(file.content_type)
 

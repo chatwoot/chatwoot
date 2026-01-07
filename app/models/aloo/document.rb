@@ -6,15 +6,8 @@ module Aloo
 
     include Aloo::AccountScoped
 
-    belongs_to :assistant,
-               class_name: 'Aloo::Assistant',
-               foreign_key: 'aloo_assistant_id',
-               inverse_of: :documents
-    has_many :embeddings,
-             class_name: 'Aloo::Embedding',
-             foreign_key: 'aloo_document_id',
-             dependent: :destroy,
-             inverse_of: :document
+    belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id', inverse_of: :documents
+    has_many :embeddings, class_name: 'Aloo::Embedding', foreign_key: 'aloo_document_id', dependent: :destroy, inverse_of: :document
 
     has_one_attached :file
 

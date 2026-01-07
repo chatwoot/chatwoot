@@ -106,6 +106,14 @@ const createAssistant = async () => {
     // Upload documents in parallel
     await Promise.all(
       documents.value.map(doc => {
+        if (doc.source_type === 'website') {
+          return store.dispatch('alooDocuments/addWebsite', {
+            assistantId: assistant.id,
+            url: doc.source_url,
+            title: doc.name,
+            crawlFullSite: doc.crawl_full_site,
+          });
+        }
         const formData = new FormData();
         formData.append('file', doc.file);
         formData.append('title', doc.name);
