@@ -139,7 +139,7 @@ describe SearchService do
       end
 
       # rubocop:disable RSpec/MultipleMemoizedHelpers
-      context 'when filtering messages with time, sender, and inbox' do
+      context 'when filtering messages with time, sender, and inbox', :opensearch do
         let!(:agent) { create(:user, account: account) }
         let!(:inbox2) { create(:inbox, account: account) }
         let!(:old_message) do
@@ -156,13 +156,15 @@ describe SearchService do
         end
 
         before do
+          account.enable_features!('advanced_search')
           create(:inbox_member, inbox: inbox2, user: user)
         end
 
         it 'filters messages by time range with LIKE search' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', since: 50.days.ago.to_i, search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -172,9 +174,10 @@ describe SearchService do
         end
 
         it 'filters messages by time range with GIN search' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(true)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', since: 50.days.ago.to_i, search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -184,9 +187,10 @@ describe SearchService do
         end
 
         it 'filters messages by sender (contact)' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', from: "contact:#{harry.id}", search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -196,9 +200,10 @@ describe SearchService do
         end
 
         it 'filters messages by sender (agent)' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', from: "agent:#{agent.id}", search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -208,9 +213,10 @@ describe SearchService do
         end
 
         it 'filters messages by inbox' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', inbox_id: inbox2.id, search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -220,9 +226,10 @@ describe SearchService do
         end
 
         it 'combines multiple filters' do
+          allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
           allow(account).to receive(:feature_enabled?).and_call_original
           allow(account).to receive(:feature_enabled?).with('search_with_gin').and_return(false)
-          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(false)
+          allow(account).to receive(:feature_enabled?).with('advanced_search').and_return(true)
           params = { q: 'wizard', since: 50.days.ago.to_i, inbox_id: inbox.id, from: "contact:#{harry.id}", search_type: 'Message' }
           search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Message')
           results = search.perform[:messages]
@@ -283,9 +290,13 @@ describe SearchService do
       end
     end
 
-    context 'when filtering contacts with time caps' do
+    context 'when filtering contacts with time caps', :opensearch do
       let!(:old_contact) { create(:contact, name: 'Old Potter', email: 'old@test.com', account: account, last_activity_at: 100.days.ago) }
       let!(:recent_contact) { create(:contact, name: 'Recent Potter', email: 'recent@test.com', account: account, last_activity_at: 1.day.ago) }
+
+      before do
+        account.enable_features!('advanced_search')
+      end
 
       it 'caps since to 90 days ago and excludes older contacts' do
         params = { q: 'Potter', since: 100.days.ago.to_i, search_type: 'Contact' }
@@ -306,9 +317,13 @@ describe SearchService do
       end
     end
 
-    context 'when filtering conversations with time caps' do
+    context 'when filtering conversations with time caps', :opensearch do
       let!(:old_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 100.days.ago) }
       let!(:recent_conversation) { create(:conversation, contact: harry, inbox: inbox, account: account, last_activity_at: 1.day.ago) }
+
+      before do
+        account.enable_features!('advanced_search')
+      end
 
       it 'caps since to 90 days ago and excludes older conversations' do
         params = { q: 'Harry', since: 100.days.ago.to_i, search_type: 'Conversation' }
@@ -329,12 +344,16 @@ describe SearchService do
       end
     end
 
-    context 'when filtering articles with time caps' do
+    context 'when filtering articles with time caps', :opensearch do
       let!(:old_article) do
         create(:article, title: 'Old Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 100.days.ago)
       end
       let!(:recent_article) do
         create(:article, title: 'Recent Magic Guide', account: account, portal: portal, author: user, status: 'published', updated_at: 1.day.ago)
+      end
+
+      before do
+        account.enable_features!('advanced_search')
       end
 
       it 'caps since to 90 days ago and excludes older articles' do
