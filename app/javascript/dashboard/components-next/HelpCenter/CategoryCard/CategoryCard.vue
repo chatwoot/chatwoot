@@ -60,7 +60,7 @@ const handleAction = ({ action }) => {
       <div
         class="size-10 rounded-[0.625rem] mt-1 outline outline-1 outline-n-weak flex items-center justify-center flex-shrink-0"
       >
-        <span v-if="icon" class="text-sm font-420">
+        <span v-if="icon" class="text-body-para">
           {{ icon }}
         </span>
         <Icon v-else icon="i-lucide-shapes" class="size-4 shrink-0" />
@@ -69,13 +69,13 @@ const handleAction = ({ action }) => {
         <div class="flex justify-between w-full gap-2 h-6">
           <div class="flex items-center justify-start min-w-0 gap-2">
             <span
-              class="text-sm font-medium truncate group-hover/categoryCard:text-n-blue-11 cursor-pointer text-n-slate-12"
+              class="text-heading-3 truncate group-hover/categoryCard:text-n-blue-11 cursor-pointer text-n-slate-12"
               @click="handleClick(slug)"
             >
               {{ title }}
             </span>
             <div class="w-px h-3 bg-n-weak rounded-lg shrink-0" />
-            <span class="text-sm text-n-slate-11 font-420 shrink-0">
+            <span class="text-body-main text-n-slate-11 shrink-0">
               {{
                 t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_CARD.ARTICLES_COUNT', {
                   count: articlesCount,
@@ -105,7 +105,7 @@ const handleAction = ({ action }) => {
         </div>
 
         <span
-          class="text-sm line-clamp-3"
+          class="text-body-main line-clamp-3"
           :class="hasDescription ? 'text-n-slate-11' : 'text-n-slate-9'"
         >
           {{ description }}

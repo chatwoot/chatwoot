@@ -106,7 +106,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="pt-3 pb-2 px-2 relative">
+  <div
+    class="pt-3 pb-2 px-2 relative z-10 after:absolute after:inset-x-0 after:-bottom-2.5 after:bg-gradient-to-b after:from-n-surface-1 after:from-40% after:to-transparent after:h-4 after:pointer-events-none after:z-10"
+  >
     <div
       class="flex items-center justify-between p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak"
     >

@@ -36,7 +36,7 @@ export default {
 </script>
 
 <template>
-  <div class="w-full h-full bg-n-background">
+  <div class="w-full h-full bg-n-surface-1">
     <div v-show="!isLoading" class="flex h-full min-h-screen items-center">
       <div
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"

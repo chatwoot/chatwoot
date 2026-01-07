@@ -128,7 +128,7 @@ const handleClick = id => {
   <CardLayout class="[&>div]:!pt-3 group/articleCard hover:bg-n-alpha-1">
     <div class="flex justify-between w-full gap-1">
       <span
-        class="text-sm cursor-pointer py-1.5 font-medium underline-offset-2 group-hover/articleCard:text-n-blue-11 text-n-slate-12 line-clamp-1"
+        class="cursor-pointer py-1.5 text-heading-3 group-hover/articleCard:text-n-blue-11 text-n-slate-12 line-clamp-1"
         @click="handleClick(id)"
       >
         {{ title }}
@@ -171,7 +171,7 @@ const handleClick = id => {
             rounded-full
             class="shrink-0"
           />
-          <span class="text-sm font-420 truncate text-n-slate-11">
+          <span class="text-body-main truncate text-n-slate-11">
             {{ authorName || '-' }}
           </span>
         </div>
@@ -184,14 +184,14 @@ const handleClick = id => {
             {{ categoryIcon }}
           </span>
           <Icon v-else icon="i-lucide-shapes" class="size-4 shrink-0" />
-          <span class="text-sm font-420 truncate">
+          <span class="text-body-main truncate">
             {{ categoryName }}
           </span>
         </div>
         <div v-if="category" class="w-px h-3 bg-n-weak rounded-lg shrink-0" />
         <div class="flex items-center gap-1.5 text-n-slate-11 shrink-0">
           <Icon icon="i-lucide-trending-up" class="size-4" />
-          <span class="text-sm font-420 whitespace-nowrap">
+          <span class="text-body-main whitespace-nowrap">
             {{
               t('HELP_CENTER.ARTICLES_PAGE.ARTICLE_CARD.CARD.VIEWS', {
                 count: views,

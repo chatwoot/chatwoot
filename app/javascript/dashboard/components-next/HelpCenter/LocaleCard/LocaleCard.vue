@@ -55,20 +55,20 @@ const handleAction = ({ action, value }) => {
   <CardLayout>
     <div class="flex justify-between gap-2">
       <div class="flex items-center justify-start gap-2">
-        <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
+        <span class="text-heading-3 text-n-slate-12 line-clamp-1">
           {{ locale }} ({{ localeCode }})
         </span>
         <div v-if="isDefault" class="w-px h-3 bg-n-weak rounded-lg shrink-0" />
         <span
           v-if="isDefault"
-          class="text-xs font-440 outline outline-1 outline-n-container inline-flex items-center px-2 h-6 rounded-md bg-n-button-color"
+          class="text-button-small outline outline-1 outline-n-container inline-flex items-center px-2 h-6 rounded-md bg-n-button-color"
         >
           {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
         </span>
       </div>
       <div class="flex items-center justify-end gap-4">
         <div class="flex items-center gap-4">
-          <span class="text-sm text-n-slate-11 whitespace-nowrap">
+          <span class="text-body-main text-n-slate-11 whitespace-nowrap">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.ARTICLES_COUNT',
@@ -77,7 +77,7 @@ const handleAction = ({ action, value }) => {
             }}
           </span>
           <div class="w-px h-3 bg-n-weak" />
-          <span class="text-sm text-n-slate-11 whitespace-nowrap">
+          <span class="text-body-main text-n-slate-11 whitespace-nowrap">
             {{
               $t(
                 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.CATEGORIES_COUNT',

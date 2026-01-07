@@ -21,8 +21,10 @@ const handleButtonClick = () => {
 
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
-    <header class="sticky top-0 z-10 px-6 lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto">
+    <header
+      class="sticky top-0 z-10 px-6 lg:px-0 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+    >
+      <div class="w-full max-w-5xl mx-auto lg:px-6">
         <div class="flex items-center justify-between w-full h-20 gap-2">
           <span class="text-xl font-medium text-n-slate-12">
             {{ headerTitle }}
@@ -44,7 +46,7 @@ const handleButtonClick = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[60rem] mx-auto py-4">
+      <div class="w-full max-w-5xl mx-auto py-4 lg:px-6">
         <slot name="default" />
       </div>
     </main>

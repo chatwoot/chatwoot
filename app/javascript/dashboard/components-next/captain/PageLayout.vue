@@ -116,7 +116,9 @@ const handleCreateAssistant = () => {
 
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
-    <header class="sticky top-0 z-10 px-6">
+    <header
+      class="sticky top-0 z-10 px-6 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+    >
       <div class="w-full max-w-[60rem] mx-auto">
         <div
           class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
@@ -232,6 +234,7 @@ const handleCreateAssistant = () => {
         :current-page="currentPage"
         :total-items="totalCount"
         :items-per-page="itemsPerPage"
+        class="max-w-[105rem]"
         @update:current-page="handlePageChange"
       />
     </footer>

@@ -43,6 +43,7 @@ const updateCurrentPage = page => {
           :current-page="currentPage"
           :total-items="totalItems"
           :items-per-page="25"
+          class="max-w-[105rem]"
           @update:current-page="updateCurrentPage"
         />
       </footer>

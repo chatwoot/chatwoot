@@ -15,7 +15,9 @@ const emit = defineEmits(['search', 'update:sort']);
 </script>
 
 <template>
-  <header class="sticky top-0 z-10">
+  <header
+    class="sticky top-0 z-10 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+  >
     <div
       class="flex items-start sm:items-center justify-between w-full py-6 px-6 gap-2 mx-auto max-w-[60rem]"
     >

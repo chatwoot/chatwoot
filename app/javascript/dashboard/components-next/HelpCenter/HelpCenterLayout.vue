@@ -115,7 +115,7 @@ const onClickCreateButton = () => {
                 v-if="activePortalName"
                 class="w-px h-3 rounded-2xl bg-n-strong ltr:ml-2 ltr:mr-3 rtl:mr-2 rtl:ml-3"
               />
-              <span v-if="headerTitle" class="text-sm font-420 text-n-slate-12">
+              <span v-if="headerTitle" class="text-body-main text-n-slate-12">
                 {{ headerTitle }}
               </span>
             </div>
@@ -124,19 +124,11 @@ const onClickCreateButton = () => {
             <Button
               v-if="createButtonLabel"
               :label="createButtonLabel"
-              icon="i-lucide-plus"
               size="sm"
               @click="onClickCreateButton"
             />
             <slot name="modal" :button-ref="createButtonRef" />
           </div>
-          <Button
-            v-if="createButtonLabel"
-            :label="createButtonLabel"
-            icon="i-lucide-plus"
-            size="sm"
-            @click="onClickCreateButton"
-          />
         </div>
         <slot name="header-actions" />
       </div>
@@ -151,7 +143,7 @@ const onClickCreateButton = () => {
         :current-page="currentPage"
         :total-items="totalItems"
         :items-per-page="itemsPerPage"
-        class="max-w-5xl"
+        class="max-w-[105rem]"
         @update:current-page="updateCurrentPage"
       />
     </footer>
