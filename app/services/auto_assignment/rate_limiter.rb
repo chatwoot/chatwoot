@@ -8,8 +8,6 @@ class AutoAssignment::RateLimiter
   end
 
   def track_assignment(conversation)
-    return unless enabled?
-
     assignment_key = build_assignment_key(conversation.id)
     Redis::Alfred.set(assignment_key, conversation.id.to_s, ex: window)
   end
