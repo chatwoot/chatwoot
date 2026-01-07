@@ -191,16 +191,16 @@ const STYLE_CONFIG = {
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0  outline-1 outline disabled:opacity-50',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0  outline-1 outline -outline-offset-1 disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
   const variantMap = {
     ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
     link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-2`,
-    outline: STYLE_CONFIG.colors[computedColor.value].outline,
-    faded: STYLE_CONFIG.colors[computedColor.value].faded,
-    solid: STYLE_CONFIG.colors[computedColor.value].solid,
+    outline: `${STYLE_CONFIG.colors[computedColor.value].outline} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
+    faded: `${STYLE_CONFIG.colors[computedColor.value].faded} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
+    solid: `${STYLE_CONFIG.colors[computedColor.value].solid} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
   };
 
   return variantMap[computedVariant.value];

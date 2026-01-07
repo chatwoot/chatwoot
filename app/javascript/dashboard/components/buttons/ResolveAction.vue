@@ -175,7 +175,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :disabled="isLoading"
         size="sm"
         no-animation
-        class="ltr:rounded-l-none rtl:rounded-r-none !outline-n-weak"
+        class="ltr:rounded-l-none rtl:rounded-r-none !outline-n-weak !outline-offset-0"
         color="slate"
         trailing-icon
         @click="openDropdown"
