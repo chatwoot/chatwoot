@@ -140,7 +140,6 @@ const fetchResponses = (page = 1) => {
 
 // Bulk action
 const bulkSelectedIds = ref(new Set());
-const hoveredCard = ref(null);
 
 const buildSelectedCountLabel = computed(() => {
   const count = filteredResponses.value?.length || 0;
@@ -155,10 +154,6 @@ const selectedCountLabel = computed(() => {
     count: bulkSelectedIds.value.size,
   });
 });
-
-const handleCardHover = (isHovered, id) => {
-  hoveredCard.value = isHovered ? id : null;
-};
 
 const handleCardSelect = id => {
   const selected = new Set(bulkSelectedIds.value);
@@ -194,6 +189,10 @@ const handleBulkApprove = async () => {
       error?.message || t('CAPTAIN.RESPONSES.BULK_APPROVE.ERROR_MESSAGE')
     );
   }
+};
+
+const clearSelection = () => {
+  bulkSelectedIds.value = new Set();
 };
 
 const onPageChange = page => {
@@ -291,10 +290,11 @@ onMounted(() => {
         :select-all-label="buildSelectedCountLabel"
         :selected-count-label="selectedCountLabel"
         :delete-label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
-        class="w-fit"
         :class="{
           'mb-2': bulkSelectedIds.size > 0,
         }"
+        class="justify-between"
+        animation-direction="vertical"
         @bulk-delete="bulkDeleteDialog.dialogRef.open()"
       >
         <template #secondary-actions>
@@ -305,6 +305,14 @@ onMounted(() => {
             icon="i-lucide-check"
             class="!px-1.5"
             @click="handleBulkApprove"
+          />
+          <div class="h-4 w-px bg-n-strong" />
+          <Button
+            sm
+            ghost
+            :label="$t('CAPTAIN.RESPONSES.CLEAR_SELECTION')"
+            class="!px-1"
+            @click="clearSelection"
           />
         </template>
       </BulkSelectBar>
@@ -325,7 +333,7 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col divide-y divide-n-weak">
         <ResponseCard
           v-for="response in filteredResponses"
           :id="response.id"
@@ -338,13 +346,11 @@ onMounted(() => {
           :created-at="response.created_at"
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
-          :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="false"
           :show-actions="!bulkSelectedIds.has(response.id)"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
-          @hover="isHovered => handleCardHover(isHovered, response.id)"
         />
       </div>
     </template>

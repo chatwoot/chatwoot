@@ -62,7 +62,7 @@ const statusColor = computed(
 <template>
   <div class="grid grid-cols-[auto_1fr] items-center gap-1 min-w-0 text-sm">
     <Icon class="size-3.5" :icon="iconName" :class="statusColor" />
-    <span class="truncate text-sm font-420" :class="statusColor">
+    <span class="truncate text-body-main" :class="statusColor">
       {{ $t(labelKey) }}
     </span>
   </div>

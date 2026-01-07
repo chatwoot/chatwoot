@@ -162,12 +162,12 @@ const openMergeModal = () => {
         />
         <div
           v-if="showAvatar"
-          class="flex flex-col justify-center min-w-0 flex-1"
+          class="flex flex-col justify-center min-w-0 gap-1 flex-1"
         >
           <div class="flex items-center gap-1">
             <h3
               :title="contact.name"
-              class="flex-shrink font-medium max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 line-clamp-2"
+              class="flex-shrink text-heading-3 max-w-full min-w-0 my-0 capitalize break-words text-n-slate-12 line-clamp-2"
             >
               {{ contact.name }}
             </h3>
@@ -184,10 +184,7 @@ const openMergeModal = () => {
               />
             </a>
           </div>
-          <p
-            v-if="contact"
-            class="text-sm text-n-slate-11 font-420 m-0 truncate"
-          >
+          <p v-if="contact" class="text-n-slate-11 text-body-main m-0 truncate">
             {{ contact.email || contact.phone_number || '---' }}
           </p>
         </div>
@@ -196,7 +193,7 @@ const openMergeModal = () => {
       <div class="flex flex-col items-start gap-3 min-w-0 w-full">
         <p
           v-if="additionalAttributes.description"
-          class="break-words text-sm text-n-slate-11 font-420 mb-0"
+          class="break-words text-body-para text-n-slate-11 mb-0"
         >
           {{ additionalAttributes.description }}
         </p>

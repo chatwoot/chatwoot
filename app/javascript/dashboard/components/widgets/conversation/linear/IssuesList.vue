@@ -87,7 +87,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="pt-3 px-3 pb-2">
+    <div v-if="hasIssues" class="pt-3 px-3 pb-2">
       <NextButton
         sm
         slate
@@ -101,9 +101,17 @@ onMounted(() => {
       <Spinner />
     </div>
 
-    <div v-else-if="!hasIssues" class="mt-2">
+    <div v-else-if="!hasIssues" class="mt-2 px-3 w-full">
       <SidePanelEmptyState
         :message="$t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES')"
+      />
+      <NextButton
+        sm
+        slate
+        icon="i-lucide-plus"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
+        class="w-full mt-2"
+        @click="openCreateModal"
       />
     </div>
 

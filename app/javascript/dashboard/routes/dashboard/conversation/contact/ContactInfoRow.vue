@@ -34,7 +34,7 @@ const onCopy = async e => {
 
 <template>
   <div class="grid grid-cols-[30%_1fr] gap-4 w-full items-center h-9">
-    <span class="text-sm font-420 text-n-slate-11 truncate whitespace-nowrap">
+    <span class="text-body-main text-n-slate-11 truncate whitespace-nowrap">
       {{ title }}
     </span>
 
@@ -45,21 +45,21 @@ const onCopy = async e => {
         class="hover:underline min-w-0 truncate"
         :title="value"
       >
-        <span v-if="value" class="text-sm font-420 text-n-slate-12">
+        <span v-if="value" class="text-body-main text-n-slate-12">
           {{ value }}
         </span>
-        <span v-else class="text-sm text-n-slate-10">
+        <span v-else class="text-body-main text-n-slate-10">
           {{ '---' }}
         </span>
       </a>
 
-      <div v-else class="text-n-slate-12 min-w-0 truncate">
+      <div v-else class="text-body-main text-n-slate-12 min-w-0 truncate">
         <span
           v-if="value"
           v-dompurify-html="value"
-          class="text-sm font-420 text-n-slate-12 [&>span]:ltr:ml-1.5 [&>span]:rtl:mr-1.5"
+          class="text-body-main text-n-slate-12 [&>span]:ltr:ml-1.5 [&>span]:rtl:mr-1.5"
         />
-        <span v-else class="text-sm text-n-slate-10">{{ '---' }}</span>
+        <span v-else class="text-body-main text-n-slate-10">{{ '---' }}</span>
       </div>
 
       <NextButton

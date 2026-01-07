@@ -129,7 +129,7 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 pb-4">
         <DocumentCard
           v-for="doc in documents"
           :id="doc.id"

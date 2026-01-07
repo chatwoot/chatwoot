@@ -109,6 +109,11 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Channel::Tiktok': {
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
   // Special contexts (not actual channels)
   'Context::Default': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
@@ -134,6 +139,11 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'link'],
     nodes: [],
     menu: ['strong', 'em', 'link', 'undo', 'redo'],
+  },
+  'Context::Plain': {
+    marks: [],
+    nodes: [],
+    menu: [],
   },
 };
 

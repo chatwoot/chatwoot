@@ -88,7 +88,8 @@ const handleAssignLabels = labels => {
       :all-items="allItems"
       :select-all-label="selectAllLabel"
       :selected-count-label="selectedCountLabel"
-      class="py-2 ltr:!pr-2 rtl:!pl-2 justify-between"
+      animation-direction="vertical"
+      class="justify-between"
     >
       <template #secondary-actions>
         <Button
@@ -105,7 +106,7 @@ const handleAssignLabels = labels => {
             type="contact"
             :is-loading="isLoading"
             :disabled="!selectedCount"
-            class="[&>button]:!text-n-blue-11 [&>button]:!px-2"
+            class="[&>button]:!text-n-blue-11 [&>button>span]:!text-n-blue-11 [&>button]:!px-2"
             @assign="handleAssignLabels"
           />
           <div class="w-px h-3 bg-n-weak rounded-lg" />

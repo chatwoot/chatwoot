@@ -221,7 +221,7 @@ const addAllExample = async () => {
           </template>
         </SuggestedRules>
       </div>
-      <div class="flex mt-7 flex-col gap-4">
+      <div class="flex mt-7 flex-col gap-4 pb-4">
         <div class="flex justify-between items-center">
           <BulkSelectBar
             v-model="bulkSelectedIds"

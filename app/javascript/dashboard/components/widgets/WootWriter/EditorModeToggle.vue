@@ -68,7 +68,7 @@ const translateValue = computed(() => {
   >
     <div
       ref="wootEditorReplyMode"
-      class="flex items-center gap-1 px-3 z-20"
+      class="flex items-center gap-1 px-3 z-20 text-button"
       :class="{
         'text-n-slate-12': !isPrivate,
         'text-n-slate-10': isPrivate,
@@ -78,7 +78,7 @@ const translateValue = computed(() => {
     </div>
     <div
       ref="wootEditorPrivateMode"
-      class="flex items-center gap-1 px-3 z-20"
+      class="flex items-center gap-1 px-3 z-20 text-button"
       :class="{
         'text-n-amber-text': isPrivate,
         'text-n-slate-10': !isPrivate,

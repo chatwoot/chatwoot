@@ -361,4 +361,77 @@ describe('useNumberFormatter', () => {
       expect(result).toMatch(/1[.,\s]000[.,\s]000/);
     });
   });
+
+  describe('formatCompactWithDecimal', () => {
+    it('should return exact numbers for values under 1,000', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(0)).toBe('0');
+      expect(formatCompactWithDecimal(1)).toBe('1');
+      expect(formatCompactWithDecimal(42)).toBe('42');
+      expect(formatCompactWithDecimal(999)).toBe('999');
+    });
+
+    it('should return compact format with decimals for thousands', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(1000)).toBe('1K');
+      expect(formatCompactWithDecimal(1500)).toBe('1.5K');
+      expect(formatCompactWithDecimal(29400)).toBe('29.4K');
+      expect(formatCompactWithDecimal(15000)).toBe('15K');
+      expect(formatCompactWithDecimal(15500)).toBe('15.5K');
+    });
+
+    it('should return compact format with decimals for millions', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(1000000)).toBe('1M');
+      expect(formatCompactWithDecimal(1200000)).toBe('1.2M');
+      expect(formatCompactWithDecimal(1234000)).toBe('1.2M');
+      expect(formatCompactWithDecimal(2500000)).toBe('2.5M');
+      expect(formatCompactWithDecimal(10000000)).toBe('10M');
+    });
+
+    it('should handle edge cases gracefully', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(null)).toBe('0');
+      expect(formatCompactWithDecimal(undefined)).toBe('0');
+      expect(formatCompactWithDecimal(NaN)).toBe('0');
+      expect(formatCompactWithDecimal('string')).toBe('0');
+    });
+
+    it('should handle negative numbers', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(-500)).toBe('-500');
+      expect(formatCompactWithDecimal(-1500)).toBe('-1.5K');
+      expect(formatCompactWithDecimal(-29400)).toBe('-29.4K');
+      expect(formatCompactWithDecimal(-1200000)).toBe('-1.2M');
+    });
+
+    it('should respect custom decimal places', () => {
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(1234, 2)).toBe('1.23K');
+      expect(formatCompactWithDecimal(1234567, 2)).toBe('1.23M');
+    });
+
+    it('should format with de-DE locale', () => {
+      const mockLocale = ref('de-DE');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      // German uses different compact notation
+      const result = formatCompactWithDecimal(29400);
+      expect(result).toMatch(/29[,.]?4/);
+    });
+
+    it('should handle underscore-based locale tags', () => {
+      const mockLocale = ref('en_US');
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(29400)).toBe('29.4K');
+    });
+
+    it('should handle null/undefined locale gracefully', () => {
+      const mockLocale = ref(null);
+      vi.mocked(useI18n).mockReturnValue({ locale: mockLocale });
+      const { formatCompactWithDecimal } = useNumberFormatter();
+      expect(formatCompactWithDecimal(29400)).toBe('29.4K');
+    });
+  });
 });

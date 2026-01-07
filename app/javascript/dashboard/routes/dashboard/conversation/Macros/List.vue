@@ -69,14 +69,14 @@ onMounted(() => {
 <template>
   <div>
     <div v-if="!uiFlags.isFetching && !macros.length" class="p-3">
-      <SidePanelEmptyState :message="$t('MACROS.LIST.404')" class="mb-2" />
+      <SidePanelEmptyState :message="$t('MACROS.LIST.404')" />
       <router-link :to="accountScopedUrl('settings/macros')">
         <NextButton
-          link
           sm
+          slate
           icon="i-lucide-plus"
           :label="$t('MACROS.HEADER_BTN_TXT')"
-          class="!text-n-slate-11 hover:!text-n-slate-12 hover:!no-underline !py-2"
+          class="w-full mt-2"
         />
       </router-link>
     </div>

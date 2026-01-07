@@ -91,6 +91,10 @@ const activeFolder = computed(() => {
   return chatListFiltersRef.value?.activeFolder;
 });
 
+const isFilterModalOpen = computed(() => {
+  return chatListFiltersRef.value?.showAdvancedFilters ?? false;
+});
+
 const hasAppliedFiltersOrActiveFolders = computed(() => {
   return hasAppliedFilters.value || hasActiveFolders.value;
 });
@@ -477,6 +481,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       :is-on-expanded-layout="isOnExpandedLayout"
       :conversation-stats="conversationStats"
       :is-list-loading="chatListLoading && !conversationList.length"
+      :is-filter-modal-open="isFilterModalOpen"
       @filters-modal="chatListFiltersRef?.onToggleAdvanceFiltersModal"
       @basic-filter-change="onBasicFilterChange"
     />

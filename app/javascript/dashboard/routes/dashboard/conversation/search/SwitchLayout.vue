@@ -25,8 +25,8 @@ export default {
     v-tooltip.left="$t('CONVERSATION.SWITCH_VIEW_LAYOUT')"
     icon="i-woot-expand-list"
     slate
-    xs
-    faded
+    sm
+    ghost
     class="flex-shrink-0 md:inline-flex hidden"
     :class="{
       'ltr:!rotate-180 rtl:!rotate-0': isOnExpandedLayout,

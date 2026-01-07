@@ -10,6 +10,7 @@ export const INBOX_TYPES = {
   LINE: 'Channel::Line',
   SMS: 'Channel::Sms',
   INSTAGRAM: 'Channel::Instagram',
+  TIKTOK: 'Channel::Tiktok',
   VOICE: 'Channel::Voice',
 };
 
@@ -28,6 +29,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.TELEGRAM]: 'i-ri-telegram-fill',
   [INBOX_TYPES.LINE]: 'i-ri-line-fill',
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
+  [INBOX_TYPES.TIKTOK]: 'i-ri-tiktok-fill',
   [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
 };
 
@@ -44,6 +46,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.LINE]: 'i-woot-line',
   [INBOX_TYPES.INSTAGRAM]: 'i-woot-instagram',
   [INBOX_TYPES.VOICE]: 'i-woot-voice',
+  [INBOX_TYPES.TIKTOK]: 'i-woot-tiktok',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -136,6 +139,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
     case INBOX_TYPES.INSTAGRAM:
       return 'brand-instagram';
 
+    case INBOX_TYPES.TIKTOK:
+      return 'brand-tiktok';
+
     case INBOX_TYPES.VOICE:
       return 'phone';
 
@@ -164,4 +170,31 @@ export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
     return 'warning';
   }
   return '';
+};
+
+export const getChannelTypeDisplayName = (type, medium) => {
+  // Handle Twilio special case
+  if (type === INBOX_TYPES.TWILIO) {
+    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+      ? 'Twilio WhatsApp'
+      : 'Twilio SMS';
+  }
+
+  // Map channel types to display names
+  const channelTypeMap = {
+    [INBOX_TYPES.WEB]: 'Website',
+    [INBOX_TYPES.FB]: 'Messenger',
+    [INBOX_TYPES.TWITTER]: 'Twitter',
+    [INBOX_TYPES.WHATSAPP]: 'WhatsApp',
+    [INBOX_TYPES.API]: 'API',
+    [INBOX_TYPES.EMAIL]: 'Email',
+    [INBOX_TYPES.TELEGRAM]: 'Telegram',
+    [INBOX_TYPES.LINE]: 'Line',
+    [INBOX_TYPES.SMS]: 'SMS',
+    [INBOX_TYPES.INSTAGRAM]: 'Instagram',
+    [INBOX_TYPES.TIKTOK]: 'TikTok',
+    [INBOX_TYPES.VOICE]: 'Voice',
+  };
+
+  return channelTypeMap[type] || 'Chat';
 };

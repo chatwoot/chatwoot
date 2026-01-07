@@ -58,7 +58,7 @@ watch(
     <div v-else-if="error" class="text-center text-n-ruby-12">
       {{ error }}
     </div>
-    <div v-else-if="!orders.length" class="mt-2">
+    <div v-else-if="!orders.length">
       <SidePanelEmptyState
         :message="$t('CONVERSATION_SIDEBAR.SHOPIFY.NO_SHOPIFY_ORDERS')"
       />

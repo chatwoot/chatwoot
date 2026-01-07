@@ -5,6 +5,8 @@ import YearInReviewAPI from 'dashboard/api/yearInReview';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useStoreGetters } from 'dashboard/composables/store';
+import { useTrack } from 'dashboard/composables';
+import { YEAR_IN_REVIEW_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import IntroSlide from './slides/IntroSlide.vue';
 import ConversationsSlide from './slides/ConversationsSlide.vue';
 import BusiestDaySlide from './slides/BusiestDaySlide.vue';
@@ -108,6 +110,7 @@ const fetchYearInReviewData = async () => {
 
 const nextSlide = () => {
   if (currentSlide.value < 4) {
+    useTrack(YEAR_IN_REVIEW_EVENTS.NEXT_CLICKED);
     if (!hasConversations.value && currentSlide.value === 1) {
       currentSlide.value = 4;
     } else {
@@ -141,6 +144,7 @@ const close = () => {
 };
 
 const open = () => {
+  useTrack(YEAR_IN_REVIEW_EVENTS.MODAL_OPENED);
   isOpen.value = true;
   fetchYearInReviewData();
   playDrumroll();
@@ -151,6 +155,7 @@ const currentSlideBackground = computed(
 );
 
 const shareCurrentSlide = async () => {
+  useTrack(YEAR_IN_REVIEW_EVENTS.SHARE_CLICKED);
   showShareModal.value = true;
   nextTick(() => {
     if (shareModalRef.value) {

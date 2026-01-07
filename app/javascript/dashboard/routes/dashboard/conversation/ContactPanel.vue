@@ -155,7 +155,7 @@ onMounted(() => {
           class="px-1.5 h-6 rounded-md bg-n-button-color outline outline-1 outline-n-container flex items-center gap-0.6"
         >
           <Icon icon="i-lucide-hash" class="size-3.5 text-n-slate-10" />
-          <span class="text-xs font-440">{{ conversationId }}</span>
+          <span class="text-label-small">{{ conversationId }}</span>
         </div>
       </div>
     </SidebarActionsHeader>

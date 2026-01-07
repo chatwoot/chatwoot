@@ -7,6 +7,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { debounce } from '@chatwoot/utils';
 import { useAccount } from 'dashboard/composables/useAccount';
 
+import Button from 'dashboard/components-next/button/Button.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
@@ -113,7 +114,6 @@ const fetchResponses = (page = 1) => {
 
 // Bulk action
 const bulkSelectedIds = ref(new Set());
-const hoveredCard = ref(null);
 
 const buildSelectedCountLabel = computed(() => {
   const count = responses.value?.length || 0;
@@ -128,10 +128,6 @@ const selectedCountLabel = computed(() => {
     count: bulkSelectedIds.value.size,
   });
 });
-
-const handleCardHover = (isHovered, id) => {
-  hoveredCard.value = isHovered ? id : null;
-};
 
 const handleCardSelect = id => {
   const selected = new Set(bulkSelectedIds.value);
@@ -154,6 +150,10 @@ const fetchResponseAfterBulkAction = () => {
   }
 
   // Clear selection
+  bulkSelectedIds.value = new Set();
+};
+
+const clearSelection = () => {
   bulkSelectedIds.value = new Set();
 };
 
@@ -252,12 +252,23 @@ onMounted(() => {
         :select-all-label="buildSelectedCountLabel"
         :selected-count-label="selectedCountLabel"
         :delete-label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
-        class="w-fit"
         :class="{
-          'mb-2': bulkSelectedIds.size > 0,
+          'mt-2': bulkSelectedIds.size > 0,
         }"
+        class="justify-between"
+        animation-direction="vertical"
         @bulk-delete="bulkDeleteDialog.dialogRef.open()"
-      />
+      >
+        <template #secondary-actions>
+          <Button
+            sm
+            ghost
+            :label="t('CAPTAIN.RESPONSES.CLEAR_SELECTION')"
+            class="!px-1"
+            @click="clearSelection"
+          />
+        </template>
+      </BulkSelectBar>
     </template>
 
     <template #emptyState>
@@ -271,16 +282,16 @@ onMounted(() => {
     <template #body>
       <LimitBanner class="mb-5" />
       <Banner
-        v-if="pendingCount > 0"
+        v-if="pendingCount > 0 && bulkSelectedIds.size === 0"
         color="blue"
-        class="mb-4 -mt-3"
+        class="mb-4 -mt-2"
         :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
         @action="navigateToPendingFAQs"
       >
         {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
       </Banner>
 
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col divide-y divide-n-weak">
         <ResponseCard
           v-for="response in responses"
           :id="response.id"
@@ -293,13 +304,11 @@ onMounted(() => {
           :created-at="response.created_at"
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
-          :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="!bulkSelectedIds.has(response.id)"
           :show-actions="false"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
-          @hover="isHovered => handleCardHover(isHovered, response.id)"
         />
       </div>
     </template>
