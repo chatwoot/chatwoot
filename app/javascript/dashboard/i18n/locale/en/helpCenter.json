@@ -496,6 +496,7 @@
     },
     "LOADING": "Loading...",
     "ARTICLES_PAGE": {
+      "HEADER": "Articles",
       "ARTICLE_CARD": {
         "CARD": {
           "VIEWS": "{count} view | {count} views",
@@ -839,7 +840,7 @@
       "STATUS": {
         "UPLOADED": "Ready",
         "PROCESSING": "Processing",
-        "PROCESSED": "Completed", 
+        "PROCESSED": "Completed",
         "FAILED": "Failed"
       }
     },

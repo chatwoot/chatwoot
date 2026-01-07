@@ -136,7 +136,12 @@ const navigateToNewArticlePage = () => {
     :total-items="articlesCount"
     :items-per-page="25"
     :header="portalName"
+    :header-title="t('HELP_CENTER.ARTICLES_PAGE.HEADER')"
+    :create-button-label="
+      t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')
+    "
     :show-pagination-footer="shouldShowPaginationFooter"
+    @create="navigateToNewArticlePage"
     @update:current-page="handlePageChange"
   >
     <template #header-actions>
@@ -149,7 +154,6 @@ const navigateToNewArticlePage = () => {
           @tab-change="handleTabChange"
           @locale-change="handleLocaleAction"
           @category-change="handleCategoryAction"
-          @new-article="navigateToNewArticlePage"
         />
         <CategoryHeaderControls
           v-else-if="showCategoryHeaderControls"
