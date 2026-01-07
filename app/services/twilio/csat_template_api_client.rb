@@ -55,7 +55,11 @@ class Twilio::CsatTemplateApiClient
   end
 
   def encoded_credentials
-    Base64.strict_encode64("#{@twilio_channel.account_sid}:#{@twilio_channel.auth_token}")
+    if @twilio_channel.api_key_sid.present?
+      Base64.strict_encode64("#{@twilio_channel.api_key_sid}:#{@twilio_channel.auth_token}")
+    else
+      Base64.strict_encode64("#{@twilio_channel.account_sid}:#{@twilio_channel.auth_token}")
+    end
   end
 
   def api_base_path

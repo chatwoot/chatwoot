@@ -6,7 +6,7 @@ class CsatSurveyService
 
     if whatsapp_channel? && template_available_and_approved?
       send_whatsapp_template_survey
-    elsif twilio_whatsapp_channel? && twilio_template_available_and_approved?
+    elsif inbox.twilio_whatsapp? && twilio_template_available_and_approved?
       send_twilio_whatsapp_template_survey
     elsif within_messaging_window?
       ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
@@ -41,10 +41,6 @@ class CsatSurveyService
 
   def whatsapp_channel?
     inbox.channel_type == 'Channel::Whatsapp'
-  end
-
-  def twilio_whatsapp_channel?
-    inbox.channel_type == 'Channel::TwilioSms' && inbox.channel.medium == 'whatsapp'
   end
 
   def template_available_and_approved?

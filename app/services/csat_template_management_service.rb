@@ -10,7 +10,7 @@ class CsatTemplateManagementService
     template = @inbox.csat_config&.dig('template')
     return { template_exists: false } unless template
 
-    if twilio_whatsapp_channel?
+    if @inbox.twilio_whatsapp?
       get_twilio_template_status(template)
     else
       get_whatsapp_template_status(template)
@@ -36,16 +36,12 @@ class CsatTemplateManagementService
 
   private
 
-  def twilio_whatsapp_channel?
-    @inbox.channel_type == 'Channel::TwilioSms' && @inbox.channel.medium == 'whatsapp'
-  end
-
   def validate_template_params!(template_params)
     raise ActionController::ParameterMissing, 'message' if template_params[:message].blank?
   end
 
   def create_template_via_provider(template_params)
-    if twilio_whatsapp_channel?
+    if @inbox.twilio_whatsapp?
       create_twilio_template(template_params)
     else
       create_whatsapp_template(template_params)
@@ -81,7 +77,7 @@ class CsatTemplateManagementService
   end
 
   def build_template_data_from_result(result)
-    if twilio_whatsapp_channel?
+    if @inbox.twilio_whatsapp?
       build_twilio_template_data(result)
     else
       build_whatsapp_cloud_template_data(result)
@@ -154,7 +150,7 @@ class CsatTemplateManagementService
     template = @inbox.csat_config&.dig('template')
     return true if template.blank?
 
-    if twilio_whatsapp_channel?
+    if @inbox.twilio_whatsapp?
       delete_existing_twilio_template(template)
     else
       delete_existing_whatsapp_template(template)

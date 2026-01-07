@@ -32,14 +32,10 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def validate_whatsapp_channel
-    return if @inbox.whatsapp? || twilio_whatsapp_channel?
+    return if @inbox.whatsapp? || @inbox.twilio_whatsapp?
 
     render json: { error: 'CSAT template operations only available for WhatsApp channels' },
            status: :bad_request
-  end
-
-  def twilio_whatsapp_channel?
-    @inbox.channel_type == 'Channel::TwilioSms' && @inbox.channel.medium == 'whatsapp'
   end
 
   def extract_template_params
@@ -61,7 +57,7 @@ class Api::V1::Accounts::InboxCsatTemplatesController < Api::V1::Accounts::BaseC
   end
 
   def render_successful_template_creation(result)
-    if twilio_whatsapp_channel?
+    if @inbox.twilio_whatsapp?
       render json: {
         template: {
           friendly_name: result[:friendly_name],
