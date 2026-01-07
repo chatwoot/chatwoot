@@ -8,8 +8,6 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: {
