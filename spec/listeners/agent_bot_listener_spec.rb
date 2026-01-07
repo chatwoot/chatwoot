@@ -82,4 +82,115 @@ describe AgentBotListener do
       end
     end
   end
+
+  describe '#conversation_created' do
+    let(:event_name) { 'conversation.created' }
+    let!(:event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
+
+    context 'when agent bot is not configured' do
+      it 'does not send message to agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_created(event)
+      end
+    end
+
+    context 'when agent bot is configured' do
+      it 'sends message to agent bot' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(agent_bot.outgoing_url,
+                                                                      conversation.webhook_data.merge(event: 'conversation_created')).once
+        listener.conversation_created(event)
+      end
+    end
+  end
+
+  describe '#conversation_updated' do
+    let(:event_name) { 'conversation.updated' }
+    let!(:event) do
+      Events::Base.new(
+        event_name,
+        Time.zone.now,
+        conversation: conversation.reload,
+        changed_attributes: {
+          custom_attributes: [{ test: nil }, { test: 'testing custom attri webhook' }]
+        }
+      )
+    end
+
+    context 'when agent bot is not configured' do
+      it 'does not send message to agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_updated(event)
+      end
+    end
+
+    context 'when agent bot is configured' do
+      it 'sends message to agent bot' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        conversation.update(custom_attributes: { test: 'testing custom attri webhook' })
+
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(
+            event: 'conversation_updated',
+            changed_attributes: [
+              {
+                custom_attributes: {
+                  previous_value: { test: nil },
+                  current_value: { test: 'testing custom attri webhook' }
+                }
+              }
+            ]
+          )
+        ).once
+
+        listener.conversation_updated(event)
+      end
+    end
+  end
+
+  describe '#conversation_status_changed' do
+    let(:event_name) { 'conversation.status_changed' }
+    let!(:event) do
+      Events::Base.new(
+        event_name,
+        Time.zone.now,
+        conversation: conversation.reload,
+        changed_attributes: {
+          status: %w[pending open]
+        }
+      )
+    end
+
+    context 'when agent bot is not configured' do
+      it 'does not send message to agent bot' do
+        expect(AgentBots::WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.conversation_status_changed(event)
+      end
+    end
+
+    context 'when agent bot is configured' do
+      it 'sends message to agent bot' do
+        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
+        conversation.update(status: 'open')
+
+        expect(AgentBots::WebhookJob).to receive(:perform_later).with(
+          agent_bot.outgoing_url,
+          conversation.webhook_data.merge(
+            event: 'conversation_status_changed',
+            changed_attributes: [
+              {
+                status: {
+                  previous_value: 'pending',
+                  current_value: 'open'
+                }
+              }
+            ]
+          )
+        ).once
+
+        listener.conversation_status_changed(event)
+      end
+    end
+  end
 end
