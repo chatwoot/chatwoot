@@ -19,8 +19,10 @@ import SidebarChangelogCard from './SidebarChangelogCard.vue';
 import YearInReviewBanner from '../year-in-review/YearInReviewBanner.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
-import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+
+const logoNavbar = '/brand-assets/logo_navbar.png';
+const logoNavbarDark = '/brand-assets/logo_navbar_dark.png';
 
 const props = defineProps({
   isMobileSidebarOpen: {
@@ -44,6 +46,7 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
+const globalConfig = useMapGetter('globalConfig/get');
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -610,14 +613,16 @@ const menuItems = computed(() => {
     ]"
   >
     <section class="grid gap-2 mt-2 mb-4">
-      <div class="flex gap-2 items-center px-2 min-w-0">
-        <div class="grid flex-shrink-0 place-content-center size-6">
-          <Logo class="size-4" />
-        </div>
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-        <SidebarAccountSwitcher
-          class="flex-grow -mx-1 min-w-0"
-          @show-create-account-modal="emit('showCreateAccountModal')"
+      <div class="flex justify-center px-2 mb-2">
+        <img
+          :src="logoNavbar"
+          alt="Defender"
+          class="block h-10 w-auto object-contain dark:hidden"
+        />
+        <img
+          :src="logoNavbarDark"
+          alt="Defender"
+          class="hidden h-10 w-auto object-contain dark:block"
         />
       </div>
       <div class="flex gap-2 px-2">
