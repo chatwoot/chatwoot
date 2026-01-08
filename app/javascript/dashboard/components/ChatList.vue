@@ -587,7 +587,11 @@ export default {
     }
 
     this.$emitter.on('fetch_conversation_stats', () => {
-      this.$store.dispatch('conversationStats/get', this.conversationFilters);
+      // Don't refetch stats when advanced filters are applied
+      // The stats should come from the filter response itself
+      if (!this.hasAppliedFilters && !this.hasActiveFolders) {
+        this.$store.dispatch('conversationStats/get', this.conversationFilters);
+      }
     });
 
     this.$emitter.on(CMD_SNOOZE_CONVERSATION, this.onCmdSnoozeConversation);
