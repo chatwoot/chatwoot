@@ -4,6 +4,8 @@ import { mapGetters } from 'vuex';
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
+import configMixin from '../mixins/configMixin';
+import routerMixin from '../mixins/routerMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
