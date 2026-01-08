@@ -16,7 +16,7 @@ export function useCopilotReply() {
   const isGenerating = ref(false);
   const isContentReady = ref(false);
   const generatedContent = ref('');
-  const sessionId = ref(null);
+  const followUpContext = ref(null);
   const abortController = ref(null);
 
   const isActive = computed(() => showEditor.value || isGenerating.value);
@@ -39,7 +39,7 @@ export function useCopilotReply() {
     isGenerating.value = false;
     isContentReady.value = false;
     generatedContent.value = '';
-    sessionId.value = null;
+    followUpContext.value = null;
   }
 
   /**
@@ -77,17 +77,14 @@ export function useCopilotReply() {
     isContentReady.value = false;
 
     try {
-      const { message: content, sessionId: newSessionId } = await processEvent(
-        action,
-        data,
-        {
+      const { message: content, followUpContext: newContext } =
+        await processEvent(action, data, {
           signal: abortController.value.signal,
-        }
-      );
+        });
 
       if (!abortController.value?.signal.aborted) {
         generatedContent.value = content;
-        sessionId.value = newSessionId;
+        followUpContext.value = newContext;
         if (content) showEditor.value = true;
         isGenerating.value = false;
       }
@@ -103,22 +100,23 @@ export function useCopilotReply() {
    * @param {string} message - The follow-up message from the user
    */
   async function sendFollowUp(message) {
-    if (!sessionId.value || !message.trim()) return;
+    if (!followUpContext.value || !message.trim()) return;
 
     abortController.value = new AbortController();
     isGenerating.value = true;
     isContentReady.value = false;
 
     try {
-      const { message: content, sessionId: updatedSessionId } = await followUp({
-        sessionId: sessionId.value,
-        message,
-        signal: abortController.value.signal,
-      });
+      const { message: content, followUpContext: updatedContext } =
+        await followUp({
+          followUpContext: followUpContext.value,
+          message,
+          signal: abortController.value.signal,
+        });
 
       if (!abortController.value?.signal.aborted) {
         generatedContent.value = content;
-        sessionId.value = updatedSessionId;
+        followUpContext.value = updatedContext;
         if (content) showEditor.value = true;
         isGenerating.value = false;
       }
@@ -146,7 +144,7 @@ export function useCopilotReply() {
     isGenerating,
     isContentReady,
     generatedContent,
-    sessionId,
+    followUpContext,
 
     isActive,
     isButtonDisabled,

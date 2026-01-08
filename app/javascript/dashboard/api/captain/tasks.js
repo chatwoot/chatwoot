@@ -112,16 +112,16 @@ class TasksAPI extends ApiClient {
   /**
    * Sends a follow-up message to continue refining a previous task result.
    * @param {Object} options - The follow-up options.
-   * @param {string} options.sessionId - The session ID from a previous task.
+   * @param {Object} options.followUpContext - The follow-up context from a previous task.
    * @param {string} options.message - The follow-up message/request from the user.
    * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
-   * @returns {Promise} A promise that resolves with the follow-up response and session ID.
+   * @returns {Promise} A promise that resolves with the follow-up response and updated follow-up context.
    */
-  followUp({ sessionId, message }, signal) {
+  followUp({ followUpContext, message }, signal) {
     return axios.post(
       `${this.url}/follow_up`,
       {
-        session_id: sessionId,
+        follow_up_context: followUpContext,
         message,
       },
       { signal }

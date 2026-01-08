@@ -154,7 +154,7 @@ export function useAI() {
    * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
    * @param {Object} [options={}] - Additional options.
    * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
-   * @returns {Promise<{message: string, sessionId?: string}>} The generated message and optional session ID.
+   * @returns {Promise<{message: string, followUpContext?: Object}>} The generated message and optional follow-up context.
    */
   const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
@@ -167,9 +167,9 @@ export function useAI() {
         options.signal
       );
       const {
-        data: { message: generatedMessage, session_id: sessionId },
+        data: { message: generatedMessage, follow_up_context: followUpContext },
       } = result;
-      return { message: generatedMessage, sessionId };
+      return { message: generatedMessage, followUpContext };
     } catch (error) {
       // Don't show error for aborted requests
       if (error.name === 'AbortError' || error.name === 'CanceledError') {
@@ -187,29 +187,32 @@ export function useAI() {
   /**
    * Sends a follow-up message to refine a previous AI task result.
    * @param {Object} options - The follow-up options.
-   * @param {string} options.sessionId - The session ID from a previous task.
+   * @param {Object} options.followUpContext - The follow-up context from a previous task.
    * @param {string} options.message - The follow-up message/request from the user.
    * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
-   * @returns {Promise<{message: string, sessionId: string}>} The follow-up response and updated session ID.
+   * @returns {Promise<{message: string, followUpContext: Object}>} The follow-up response and updated context.
    */
-  const followUp = async ({ sessionId, message, signal }) => {
+  const followUp = async ({ followUpContext, message, signal }) => {
     try {
-      const result = await TasksAPI.followUp({ sessionId, message }, signal);
+      const result = await TasksAPI.followUp(
+        { followUpContext, message },
+        signal
+      );
       const {
-        data: { message: generatedMessage, session_id: updatedSessionId },
+        data: { message: generatedMessage, follow_up_context: updatedContext },
       } = result;
-      return { message: generatedMessage, sessionId: updatedSessionId };
+      return { message: generatedMessage, followUpContext: updatedContext };
     } catch (error) {
       // Don't show error for aborted requests
       if (error.name === 'AbortError' || error.name === 'CanceledError') {
-        return { message: '', sessionId };
+        return { message: '', followUpContext };
       }
       const errorData = error.response?.data?.error;
       const errorMessage =
         errorData?.error?.message ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
       useAlert(errorMessage);
-      return { message: '', sessionId };
+      return { message: '', followUpContext };
     }
   };
 
