@@ -1,5 +1,3 @@
-require 'custom_exceptions/pdf_processing_error'
-
 class Captain::Llm::PdfProcessingService < Llm::LegacyBaseOpenAiService
   include Integrations::LlmInstrumentation
 
