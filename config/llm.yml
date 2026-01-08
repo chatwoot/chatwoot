@@ -91,7 +91,7 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-5.2
+    default: gpt-5.1
   copilot:
     models:
       [
@@ -104,7 +104,7 @@ features:
         gemini-3-flash,
         gemini-3-pro,
       ]
-    default: gpt-5.2
+    default: gpt-5.1
   label_suggestion:
     models:
       [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini, gemini-3-flash, claude-haiku-4.5]
