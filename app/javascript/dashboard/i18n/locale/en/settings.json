@@ -415,7 +415,7 @@
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
-        "DESCRIPTION": "Enable AI to search and reference your help center articles for accurate, context-aware customer responses."
+        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
       },
       "LABEL_SUGGESTION": {
         "TITLE": "Label Suggestion",
