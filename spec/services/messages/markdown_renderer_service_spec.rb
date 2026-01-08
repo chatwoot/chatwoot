@@ -74,6 +74,24 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result.scan("\n").count).to eq(4)
         expect(result).to include("Para 1\n\n\n\nPara 2")
       end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'renders indented code blocks as plain text preserving exact content' do
+        content = '    indented code line'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('indented code line')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
+      end
     end
 
     context 'when channel is Channel::Instagram' do
@@ -129,6 +147,24 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result.scan("\n").count).to eq(4)
         expect(result).to include("Para 1\n\n\n\nPara 2")
+      end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'renders indented code blocks as plain text preserving exact content' do
+        content = '    indented code line'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('indented code line')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
       end
     end
 
@@ -357,6 +393,18 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include('1. first step')
         expect(result).to include('2. second step')
+      end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
       end
     end
 
