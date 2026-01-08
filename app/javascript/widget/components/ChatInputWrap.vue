@@ -1,42 +1,29 @@
 <script>
 import { mapGetters } from 'vuex';
-
-import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
+import { getContrastingTextColor } from '@chatwoot/utils';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import configMixin from '../mixins/configMixin';
+import routerMixin from '../mixins/routerMixin';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-
-import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
   components: {
-    ChatAttachmentButton,
     ChatSendButton,
-    EmojiInput,
-    FluentIcon,
     ResizableTextArea,
   },
+  mixins: [configMixin, routerMixin],
   props: {
     onSendMessage: {
       type: Function,
       default: () => {},
     },
-    onSendAttachment: {
-      type: Function,
-      default: () => {},
-    },
   },
   setup() {
-    const {
-      canHandleAttachments,
-      shouldShowEmojiPicker,
-      hasEmojiPickerEnabled,
-    } = useAttachments();
+    const { canHandleAttachments, hasEmojiPickerEnabled } = useAttachments();
     return {
       canHandleAttachments,
-      shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
     };
   },
@@ -52,18 +39,18 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
-      shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
-    showAttachment() {
-      return (
-        this.shouldShowFilePicker &&
-        this.hasAttachmentsEnabled &&
-        this.userInput.length === 0
-      );
-    },
     showSendButton() {
       return this.userInput.length > 0;
+    },
+    showTextUsButton() {
+      return this.userInput.length === 0;
+    },
+    textUsButtonStyle() {
+      return {
+        backgroundColor: this.widgetColor,
+        color: getContrastingTextColor(this.widgetColor),
+      };
     },
   },
   watch: {
@@ -127,6 +114,10 @@ export default {
     focusInput() {
       this.$refs.chatInput.focus();
     },
+    handleTextUsClick() {
+      // Navigate to SMS form
+      this.replaceRoute('sms-form');
+    },
   },
 };
 </script>
@@ -185,6 +176,16 @@ export default {
         :color="widgetColor"
         @click="handleButtonClick"
       />
+      <button
+        v-if="showTextUsButton"
+        type="button"
+        class="min-h-8 px-4 flex items-center justify-center ml-1 rounded-xl font-medium text-sm cursor-pointer border-none flex-shrink-0 transition-opacity duration-200"
+        :style="textUsButtonStyle"
+        :aria-label="$t('SMS_FORM.BUTTON_TEXT')"
+        @click="handleTextUsClick"
+      >
+        {{ $t('SMS_FORM.BUTTON_TEXT') }}
+      </button>
     </div>
   </div>
 </template>
@@ -195,6 +196,6 @@ export default {
 }
 
 .user-message-input {
-  @apply border-none outline-none w-full placeholder:text-n-slate-10 resize-none h-8 min-h-8 max-h-60 py-1 px-0 my-2 bg-n-background text-n-slate-12 transition-all duration-200;
+  @apply border-none outline-none flex-1 placeholder:text-n-slate-10 resize-none h-8 min-h-8 max-h-60 py-1 px-0 my-2 bg-n-background text-n-slate-12 transition-all duration-200;
 }
 </style>

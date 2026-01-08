@@ -149,5 +149,51 @@
   },
   "FOOTER_REPLY_TO": {
     "REPLY_TO": "Replying to:"
+  },
+  "SMS_FORM": {
+    "TITLE": "Text Us",
+    "DESCRIPTION": "Enter your phone number and message, and we'll send you a text message.",
+    "PHONE_NUMBER": {
+      "LABEL": "Phone Number",
+      "PLACEHOLDER": "+1234567890",
+      "REQUIRED_ERROR": "Phone number is required",
+      "VALID_ERROR": "Please enter a valid phone number"
+    },
+    "MESSAGE": {
+      "LABEL": "Message",
+      "PLACEHOLDER": "Enter your message...",
+      "REQUIRED_ERROR": "Message is required"
+    },
+    "BUTTON_TEXT": "Text Us",
+    "BUTTON_CANCEL": "Cancel"
+  },
+  "SMS_TERMS": {
+    "TITLE": "Terms & Conditions",
+    "AGREEMENT_TEXT": "By clicking \"I Agree\", you agree to receive informational text messages and phone calls from",
+    "AGREEMENT_CONTINUED": "representatives and understand that no consent to texting is required for purchase of products or services. Message frequency will vary. Reply STOP to unsubscribe. Msg & data rates may apply. You also agree to the terms at this",
+    "TERMS_LINK": "link",
+    "PERIOD": ".",
+    "BUTTON_AGREE": "I Agree",
+    "BUTTON_DISAGREE": "I Disagree",
+    "BUTTON_SENDING": "Sending...",
+    "ERROR_SEND_FAILED": "Failed to send SMS. Please try again."
+  },
+  "SMS_SUCCESS": {
+    "TITLE": "SMS Sent Successfully",
+    "MESSAGE": "A SMS has been sent to you. Please check your phone.",
+    "BUTTON_CLOSE": "Close"
+  },
+  "PHONE_INPUT": {
+    "SELECT_COUNTRY": "Select Country",
+    "CLEAR_SELECTION": "Clear selection"
+  },
+  "NO_CONVERSATION_WELCOME": {
+    "DEFAULT_MESSAGE": "Hi there! 👋 How can I help you today?",
+    "CHAT_WITH_MESSAGES": "Chat with Messages app",
+    "CHAT_WITH_MESSAGES_DESC": "Text us on your device",
+    "SERVICED_BY": "Serviced by",
+    "US": "us",
+    "USE_SUBJECT_TO": "Use is subject to",
+    "TERMS": "Terms"
   }
 }

@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, watch, useTemplateRef, nextTick, unref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import countriesList from 'shared/constants/countries.js';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import {
@@ -13,6 +14,8 @@ const { context } = defineProps({
     default: () => ({}),
   },
 });
+
+const { t } = useI18n();
 
 const localValue = ref(context.value || '');
 
@@ -29,7 +32,9 @@ const searchbarRef = useTemplateRef('searchbarRef');
 const placeholder = computed(() => context?.attrs?.placeholder || '');
 const hasErrorInPhoneInput = computed(() => context?.state?.invalid);
 const dropdownFirstItemName = computed(() =>
-  activeCountryCode.value ? 'Clear selection' : 'Select Country'
+  activeCountryCode.value
+    ? t('PHONE_INPUT.CLEAR_SELECTION')
+    : t('PHONE_INPUT.SELECT_COUNTRY')
 );
 const countries = computed(() => [
   {

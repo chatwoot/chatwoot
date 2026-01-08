@@ -13,6 +13,7 @@ import {
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
+import Cookies from 'js-cookie';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -22,7 +23,10 @@ export const actions = {
       const [message = {}] = messages;
       commit('pushMessageToConversation', message);
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
-      // Emit event to notify that conversation is created and show the chat screen
+      Cookies.set('cw_web_widget_message_sent', 'true', {
+        expires: 365,
+        sameSite: 'Lax',
+      });
       emitter.emit(ON_CONVERSATION_CREATED);
     } catch (error) {
       // Ignore error
@@ -43,9 +47,11 @@ export const actions = {
     try {
       const { data } = await sendMessageAPI(content, replyTo);
 
-      // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
-      // commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
+      Cookies.set('cw_web_widget_message_sent', 'true', {
+        expires: 365,
+        sameSite: 'Lax',
+      });
     } catch (error) {
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {
