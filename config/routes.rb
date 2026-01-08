@@ -137,7 +137,7 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
-                end 
+                end
               end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
@@ -411,6 +411,9 @@ Rails.application.routes.draw do
         end
         resources :inbox_members, only: [:index]
         resources :labels, only: [:create, :destroy]
+        namespace :sms do
+          post 'send', to: 'sms#send_sms'
+        end
         namespace :integrations do
           resource :dyte, controller: 'dyte', only: [] do
             collection do
@@ -565,7 +568,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   get 'webhooks/facebook', to: 'webhooks/facebook#verify'
   post 'webhooks/facebook', to: 'webhooks/facebook#events'
-  
+
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
 
   namespace :twitter do
@@ -637,7 +640,7 @@ Rails.application.routes.draw do
         collection do
           get :check_slug_inbox
         end
-      end    
+      end
 
       resource :settings, only: [:show] do
         get :refresh, on: :collection
