@@ -81,9 +81,7 @@ const whatsAppTemplates = {
         type: 'HEADER',
         format: 'IMAGE',
         example: {
-          header_handle: [
-            'https://scontent.whatsapp.net/v/t61.29466-34/518466505_1106685198073318_3569250580697484416_n.jpg',
-          ],
+          header_handle: ['https://vite-five-phi.vercel.app/vaporfly.png'],
         },
       },
       {
@@ -106,7 +104,7 @@ const whatsAppTemplates = {
     language: 'en',
     components: [
       {
-        text: '🎉 Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
+        text: 'Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
         type: 'BODY',
         example: {
           body_text_named_params: [
@@ -190,10 +188,10 @@ const twilioTemplates = {
   },
 
   shoeLaunch: {
-    body: '👟 Introducing our latest release — the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+    body: 'Introducing our latest release — the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
     types: {
       'twilio/media': {
-        body: '👟 Introducing our latest release — the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+        body: 'Introducing our latest release — the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
         media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },

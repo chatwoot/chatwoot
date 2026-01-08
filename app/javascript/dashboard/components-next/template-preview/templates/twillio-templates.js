@@ -1,9 +1,9 @@
 export const twilioTemplates = [
   {
-    body: '=_ Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+    body: 'Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
     types: {
       'twilio/media': {
-        body: '=_ Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+        body: 'Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
         media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },
@@ -19,10 +19,10 @@ export const twilioTemplates = [
     template_type: 'media',
   },
   {
-    body: '=_ Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+    body: 'Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
     types: {
       'twilio/media': {
-        body: '=_ Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
+        body: 'Introducing our latest release  the {{1}}! Available now for just {{2}}. Be among the first to own this style. Limited stock available!',
         media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },
@@ -38,10 +38,10 @@ export const twilioTemplates = [
     template_type: 'media',
   },
   {
-    body: '=_ Introducing our latest release  the Nike Air Force! Available now for just $129.99',
+    body: 'Introducing our latest release  the Nike Air Force! Available now for just $129.99',
     types: {
       'twilio/media': {
-        body: '=_ Introducing our latest release  the Nike Air Force! Available now for just $129.99',
+        body: 'Introducing our latest release  the Nike Air Force! Available now for just $129.99',
         media: ['https://vite-five-phi.vercel.app/jordan-shoes.jpg'],
       },
     },

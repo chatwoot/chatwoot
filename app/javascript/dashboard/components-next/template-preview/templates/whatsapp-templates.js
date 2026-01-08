@@ -75,7 +75,7 @@ export const whatsAppTemplates = [
     language: 'en',
     components: [
       {
-        text: '<� Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
+        text: 'Special offer for you! Get {{discount_percentage}}% off your next purchase. Use the code below at checkout',
         type: 'BODY',
         example: {
           body_text_named_params: [
@@ -129,7 +129,7 @@ export const whatsAppTemplates = [
           {
             text: 'Call Support',
             type: 'PHONE_NUMBER',
-            phone_number: '+16506677566',
+            phone_number: '+2112121212',
           },
         ],
       },
