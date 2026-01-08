@@ -1,6 +1,6 @@
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Defender Info'
 - name: LOGO_THUMBNAIL
   value: '/brand-assets/logo_thumbnail.svg'
 - name: LOGO
@@ -12,7 +12,7 @@
 - name: WIDGET_BRAND_URL
   value: 'https://www.chatwoot.com'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Chat - Defender Info'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
 - name: PRIVACY_URL

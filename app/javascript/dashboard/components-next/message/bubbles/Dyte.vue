@@ -45,7 +45,7 @@ const action = computed(() => ({
 <template>
   <BaseAttachmentBubble
     icon="i-ph-video-camera-fill"
-    icon-bg-color="bg-[#2781F6]"
+    icon-bg-color="bg-[#FF652D]"
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.MEETING"
     :action="action"
   >
