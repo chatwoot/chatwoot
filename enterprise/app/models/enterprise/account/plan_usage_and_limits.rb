@@ -16,9 +16,17 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    increment_sql = <<~SQL.squish
+      custom_attributes = jsonb_set(
+        custom_attributes,
+        '{#{CAPTAIN_RESPONSES_USAGE}}',
+        to_jsonb(COALESCE((custom_attributes->>'#{CAPTAIN_RESPONSES_USAGE}')::int, 0) + 1),
+        true
+      )
+    SQL
+
+    updated = self.class.where(id: id).update_all(increment_sql)
+    reload if updated.positive?
   end
 
   def reset_response_usage

@@ -78,6 +78,46 @@ RSpec.describe Account, type: :model do
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
       end
 
+      it 'handles concurrent increments without losing updates' do
+        # Simulate concurrent calls to increment_response_usage
+        # This tests that the atomic SQL update prevents race conditions
+        concurrent_calls = 50
+
+        # Use a barrier to ensure all threads start at the same time
+        # This maximizes the chance of overlapping reads/writes
+        ready = Concurrent::CountDownLatch.new(concurrent_calls)
+        start = Concurrent::CountDownLatch.new(1)
+
+        threads = concurrent_calls.times.map do
+          Thread.new do
+            # Reload account in each thread to simulate separate workers
+            thread_account = Account.find(account.id)
+
+            # Signal ready and wait for all threads to be ready
+            ready.count_down
+            start.wait
+
+            # Now all threads will execute simultaneously
+            thread_account.increment_response_usage
+          end
+        end
+
+        # Wait for all threads to be ready
+        ready.wait
+        # Release all threads at once
+        start.count_down
+
+        # Wait for all threads to complete
+        threads.each(&:join)
+
+        # Verify all increments were captured without lost updates
+        expect(account.reload.custom_attributes['captain_responses_usage']).to eq concurrent_calls
+
+        responses_limits = account.usage_limits[:captain][:responses]
+        expect(responses_limits[:consumed]).to eq concurrent_calls
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - concurrent_calls
+      end
+
       it 'reseting responses limits updates usage_limits' do
         account.custom_attributes['captain_responses_usage'] = 30
         account.save!
