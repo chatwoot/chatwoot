@@ -70,6 +70,9 @@ tr:
         invalid: geçerli bir alan adı olmalıdır
       search:
         query_missing: q parametresiyle arama dizesini belirtin
+    messages:
+      search:
+        time_range_limit_exceeded: 'Arama son %{days} gün ile sınırlıdır'
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
