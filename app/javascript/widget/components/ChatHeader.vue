@@ -1,54 +1,43 @@
 <script setup>
-  import { toRef } from 'vue';
-  import { useRouter } from 'vue-router';
-  import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-  import HeaderActions from './HeaderActions.vue';
-  import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
-  import { useAvailability } from 'widget/composables/useAvailability';
-  
-  const props = defineProps({
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    avatarName: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-    showBackButton: {
-      type: Boolean,
-      default: false,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
-    dealerName: {
-      type: String,
-      default: '',
-    },
-    dealerTagline: {
-      type: String,
-      default: '',
-    },
-  });
-  
-  const router = useRouter();
-  const availableAgentsRef = toRef(props, 'availableAgents');
-  const { isOnline } = useAvailability(availableAgentsRef);
-  
-  const onBackButtonClick = () => {
-    router.replace({ name: 'home' });
-  };
-  </script>
+import { toRef } from 'vue';
+import HeaderActions from './HeaderActions.vue';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+import { useAvailability } from 'widget/composables/useAvailability';
+
+const props = defineProps({
+  avatarUrl: {
+    type: String,
+    default: '',
+  },
+  title: {
+    type: String,
+    default: '',
+  },
+  avatarName: {
+    type: String,
+    default: '',
+  },
+  showPopoutButton: {
+    type: Boolean,
+    default: false,
+  },
+  availableAgents: {
+    type: Array,
+    default: () => [],
+  },
+  dealerName: {
+    type: String,
+    default: '',
+  },
+  dealerTagline: {
+    type: String,
+    default: '',
+  },
+});
+
+const availableAgentsRef = toRef(props, 'availableAgents');
+const { isOnline } = useAvailability(availableAgentsRef);
+</script>
 
 <template>
   <header class="flex justify-between w-full p-5 bg-n-background gap-2">
@@ -84,11 +73,7 @@
           >
             {{ dealerName }}
           </span>
-          <span
-            v-else
-            v-dompurify-html="title"
-            class="ltr:mr-1 rtl:ml-1"
-          ></span>
+          <span v-else v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
           <div
             :class="`h-2 w-2 rounded-full
               ${isOnline ? 'bg-n-teal-10' : 'hidden'}`"

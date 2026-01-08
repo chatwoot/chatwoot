@@ -1,23 +1,13 @@
 <script>
 import { mapGetters } from 'vuex';
-
-import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
-import configMixin from '../mixins/configMixin';
-import routerMixin from '../mixins/routerMixin';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-
-import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
   components: {
-    ChatAttachmentButton,
     ChatSendButton,
-    EmojiInput,
-    FluentIcon,
     ResizableTextArea,
   },
   props: {
@@ -25,20 +15,11 @@ export default {
       type: Function,
       default: () => {},
     },
-    onSendAttachment: {
-      type: Function,
-      default: () => {},
-    },
   },
   setup() {
-    const {
-      canHandleAttachments,
-      shouldShowEmojiPicker,
-      hasEmojiPickerEnabled,
-    } = useAttachments();
+    const { canHandleAttachments, hasEmojiPickerEnabled } = useAttachments();
     return {
       canHandleAttachments,
-      shouldShowEmojiPicker,
       hasEmojiPickerEnabled,
     };
   },
@@ -54,18 +35,18 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
-      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
-      shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
-    showAttachment() {
-      return (
-        this.shouldShowFilePicker &&
-        this.hasAttachmentsEnabled &&
-        this.userInput.length === 0
-      );
-    },
     showSendButton() {
       return this.userInput.length > 0;
+    },
+    showTextUsButton() {
+      return this.userInput.length === 0;
+    },
+    textUsButtonStyle() {
+      return {
+        backgroundColor: this.widgetColor,
+        color: '#ffffff',
+      };
     },
   },
   watch: {
@@ -187,6 +168,16 @@ export default {
         :color="widgetColor"
         @click="handleButtonClick"
       />
+      <button
+        v-if="showTextUsButton"
+        type="button"
+        class="min-h-8 px-4 flex items-center justify-center ml-1 rounded-xl font-medium text-sm cursor-pointer border-none flex-shrink-0 transition-opacity duration-200"
+        :style="textUsButtonStyle"
+        :aria-label="$t('SMS_FORM.BUTTON_TEXT')"
+        @click="handleTextUsClick"
+      >
+        {{ $t('SMS_FORM.BUTTON_TEXT') }}
+      </button>
     </div>
   </div>
 </template>
