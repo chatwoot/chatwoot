@@ -343,42 +343,35 @@ const shouldShowMessageEditor = computed(() => {
   <div
     class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
-    <ContactSelector
-      :contacts="contacts"
-      :selected-contact="selectedContact"
-      :show-contacts-dropdown="showContactsDropdown"
-      :is-loading="isLoading"
-      :is-creating-contact="isCreatingContact"
-      :contact-id="contactId"
-      :contactable-inboxes-list="contactableInboxesList"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :has-errors="validationStates.isContactInvalid"
-      @search-contacts="handleContactSearch"
-      @set-selected-contact="setSelectedContact"
-      @clear-selected-contact="clearSelectedContact"
-      @update-dropdown="handleDropdownUpdate"
-    />
-    <InboxEmptyState v-if="showNoInboxAlert" />
-    <InboxSelector
-      v-else
-      :target-inbox="targetInbox"
-      :selected-contact="selectedContact"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :contactable-inboxes-list="contactableInboxesList"
-      :has-errors="validationStates.isInboxInvalid"
-      @update-inbox="removeTargetInbox"
-      @toggle-dropdown="showInboxesDropdown = $event"
-      @handle-inbox-action="handleInboxAction"
-    />
+    <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
+      <ContactSelector
+        :contacts="contacts"
+        :selected-contact="selectedContact"
+        :show-contacts-dropdown="showContactsDropdown"
+        :is-loading="isLoading"
+        :is-creating-contact="isCreatingContact"
+        :contact-id="contactId"
+        :contactable-inboxes-list="contactableInboxesList"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :has-errors="validationStates.isContactInvalid"
+        @search-contacts="handleContactSearch"
+        @set-selected-contact="setSelectedContact"
+        @clear-selected-contact="clearSelectedContact"
+        @update-dropdown="handleDropdownUpdate"
+      />
+      <InboxEmptyState v-if="showNoInboxAlert" />
+      <InboxSelector
+        v-else
+        :target-inbox="targetInbox"
+        :selected-contact="selectedContact"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :contactable-inboxes-list="contactableInboxesList"
+        :has-errors="validationStates.isInboxInvalid"
+        @update-inbox="removeTargetInbox"
+        @toggle-dropdown="showInboxesDropdown = $event"
+        @handle-inbox-action="handleInboxAction"
+      />
 
-    <div
-      v-if="
-        inboxTypes.isEmail ||
-        shouldShowMessageEditor ||
-        state.attachedFiles.length > 0
-      "
-      class="flex-1 overflow-y-auto min-h-0 divide-y divide-n-strong"
-    >
       <EmailOptions
         v-if="inboxTypes.isEmail"
         v-model:cc-emails="state.ccEmails"
