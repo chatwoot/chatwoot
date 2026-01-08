@@ -60,6 +60,11 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
+    inputWrapperStyle() {
+      return {
+        '--widget-color': this.widgetColor,
+      };
+    },
   },
   watch: {
     isWidgetOpen(isWidgetOpen) {
@@ -128,11 +133,9 @@ export default {
 
 <template>
   <div
-    class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
-    :class="{
-      '!shadow-n-brand dark:!shadow-n-brand': isFocused,
-      '!shadow-n-strong dark:!shadow-n-strong': !isFocused,
-    }"
+    class="chat-input-wrap items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background"
+    :class="{ 'is-focused': isFocused }"
+    :style="inputWrapperStyle"
     @keydown.esc="hideEmojiPicker"
   >
     <ResizableTextArea
@@ -185,6 +188,16 @@ export default {
 </template>
 
 <style scoped lang="scss">
+.chat-input-wrap {
+  @apply shadow-[0_0_0_1px,0_0_2px_3px] shadow-n-strong;
+
+  &.is-focused {
+    box-shadow:
+      0 0 0 1px var(--widget-color),
+      0 0 2px 3px var(--widget-color);
+  }
+}
+
 .emoji-dialog {
   @apply max-w-full ltr:right-5 rtl:right-[unset] rtl:left-5 -top-[302px] before:ltr:right-2.5 before:rtl:right-[unset] before:rtl:left-2.5;
 }
