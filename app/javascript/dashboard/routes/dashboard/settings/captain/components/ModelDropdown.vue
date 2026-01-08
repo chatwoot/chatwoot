@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptainConfigStore } from 'dashboard/store/captain/config';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownBody from 'dashboard/components-next/dropdown-menu/base/DropdownBody.vue';
@@ -15,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
+const { isOnChatwootCloud } = useAccount();
 
 const PROVIDER_ICONS = {
   openai: 'i-ri-openai-fill',
@@ -140,7 +142,7 @@ const selectModel = model => {
             <span v-if="model.coming_soon" class="text-xs text-n-slate-11">
               {{ t('CAPTAIN_SETTINGS.MODEL_CONFIG.COMING_SOON') }}
             </span>
-            <span v-else class="text-xs text-n-slate-11">
+            <span v-else-if="isOnChatwootCloud" class="text-xs text-n-slate-11">
               {{ getCreditLabel(model) }}
             </span>
           </div>
