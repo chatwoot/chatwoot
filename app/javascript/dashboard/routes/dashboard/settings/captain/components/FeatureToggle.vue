@@ -88,7 +88,7 @@ const handleModelChange = ({ feature, model }) => {
     :class="{
       'flex-col gap-3': showModelSelector,
       'items-center justify-between gap-4': !showModelSelector,
-      'opacity-70 pointer-events-none': !isAllowed,
+      'opacity-60 pointer-events-none': !isAllowed,
     }"
   >
     <div class="flex items-center justify-between gap-4 flex-1">
