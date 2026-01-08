@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LlmFormatter::ContactLlmFormatter do
+RSpec.describe LLMFormatter::ContactLLMFormatter do
   let(:account) { create(:account) }
   let(:contact) { create(:contact, account: account, name: 'John Doe', email: 'john@example.com', phone_number: '+1234567890') }
   let(:formatter) { described_class.new(contact) }

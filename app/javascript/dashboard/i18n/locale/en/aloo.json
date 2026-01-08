@@ -1,0 +1,402 @@
+{
+  "ALOO": {
+    "HEADER": "Aloo AI Assistants",
+    "TITLE": "Aloo Assistants",
+    "DESCRIPTION": "Create and manage AI assistants for your inboxes",
+    "NEW_ASSISTANT": "New Assistant",
+    "EMPTY_STATE": {
+      "TITLE": "No assistants yet",
+      "DESCRIPTION": "Create your first AI assistant to automate customer conversations",
+      "ACTION": "Create Assistant"
+    },
+    "WIZARD": {
+      "TITLE": "Create New Assistant",
+      "STEP_1": "Basic Info",
+      "STEP_1_DESCRIPTION": "Enter the basic information for your AI assistant",
+      "STEP_2": "Personality",
+      "STEP_2_DESCRIPTION": "Configure how your assistant communicates with customers",
+      "STEP_3": "Knowledge Base",
+      "STEP_3_DESCRIPTION": "Upload documents to build your assistant's knowledge base",
+      "STEP_4": "Assign Inboxes",
+      "STEP_1_BODY": "Enter the name and description for your AI assistant",
+      "STEP_2_BODY": "Configure how your assistant communicates",
+      "STEP_3_BODY": "Upload documents to build the knowledge base",
+      "STEP_4_BODY": "Select which inboxes will use this assistant"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Enter assistant name",
+        "ERROR": "Name is required",
+        "DUPLICATE_ERROR": "An assistant with this name already exists"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Describe what this assistant does"
+      },
+      "TONE": {
+        "LABEL": "Tone",
+        "OPTIONS": {
+          "PROFESSIONAL": "Professional",
+          "FRIENDLY": "Friendly",
+          "CASUAL": "Casual",
+          "FORMAL": "Formal"
+        }
+      },
+      "FORMALITY": {
+        "LABEL": "Formality",
+        "OPTIONS": {
+          "HIGH": "High",
+          "MEDIUM": "Medium",
+          "LOW": "Low"
+        }
+      },
+      "EMPATHY_LEVEL": {
+        "LABEL": "Empathy Level",
+        "OPTIONS": {
+          "HIGH": "High",
+          "MEDIUM": "Medium",
+          "LOW": "Low"
+        }
+      },
+      "VERBOSITY": {
+        "LABEL": "Response Length",
+        "OPTIONS": {
+          "CONCISE": "Concise",
+          "BALANCED": "Balanced",
+          "DETAILED": "Detailed"
+        }
+      },
+      "EMOJI_USAGE": {
+        "LABEL": "Emoji Usage",
+        "OPTIONS": {
+          "NONE": "None",
+          "MINIMAL": "Minimal",
+          "MODERATE": "Moderate"
+        }
+      },
+      "GREETING_STYLE": {
+        "LABEL": "Greeting Style",
+        "OPTIONS": {
+          "WARM": "Warm",
+          "DIRECT": "Direct",
+          "CUSTOM": "Custom"
+        }
+      },
+      "CUSTOM_GREETING": {
+        "LABEL": "Custom Greeting",
+        "PLACEHOLDER": "Enter your custom greeting message"
+      },
+      "LANGUAGE": {
+        "LABEL": "Language",
+        "OPTIONS": {
+          "EN": "English",
+          "AR": "Arabic",
+          "FR": "French",
+          "ES": "Spanish",
+          "DE": "German",
+          "PT": "Portuguese",
+          "IT": "Italian",
+          "NL": "Dutch",
+          "RU": "Russian",
+          "JA": "Japanese",
+          "KO": "Korean",
+          "ZH": "Chinese"
+        }
+      },
+      "DIALECT": {
+        "LABEL": "Dialect",
+        "PLACEHOLDER": "Select dialect",
+        "OPTIONS": {
+          "EG": "Egyptian",
+          "SA": "Saudi",
+          "AE": "Emirati",
+          "KW": "Kuwaiti",
+          "QA": "Qatari",
+          "BH": "Bahraini",
+          "OM": "Omani",
+          "JO": "Jordanian",
+          "LB": "Lebanese",
+          "SY": "Syrian",
+          "IQ": "Iraqi",
+          "MA": "Moroccan",
+          "TN": "Tunisian",
+          "DZ": "Algerian",
+          "LY": "Libyan",
+          "SD": "Sudanese",
+          "PS": "Palestinian",
+          "MSA": "Modern Standard Arabic"
+        }
+      },
+      "PERSONALITY_DESCRIPTION": {
+        "LABEL": "Personality Description",
+        "PLACEHOLDER": "Describe the personality traits and behavior of your assistant"
+      },
+      "ACTIVE": {
+        "LABEL": "Active",
+        "DESCRIPTION": "Enable or disable this assistant"
+      }
+    },
+    "DOCUMENTS": {
+      "TITLE": "Knowledge Base Documents",
+      "UPLOAD": "Upload Document",
+      "DROP_FILES": "Drop files here or click to upload",
+      "SUPPORTED_FORMATS": "Supported: PDF, TXT, CSV, MD",
+      "MAX_SIZE": "Max 10MB per file",
+      "EMPTY_STATE": {
+        "TITLE": "No documents uploaded",
+        "DESCRIPTION": "Upload documents to build your assistant's knowledge base"
+      },
+      "STATUS": {
+        "PENDING": "Pending",
+        "PROCESSING": "Processing",
+        "AVAILABLE": "Available",
+        "FAILED": "Failed",
+        "UNSUPPORTED": "Unsupported"
+      },
+      "DELETE_CONFIRM": {
+        "TITLE": "Delete Document",
+        "MESSAGE": "Are you sure you want to delete this document? This action cannot be undone.",
+        "CONFIRM": "Delete",
+        "CANCEL": "Cancel"
+      }
+    },
+    "INBOXES": {
+      "TITLE": "Assign to Inboxes",
+      "DESCRIPTION": "Select which inboxes this assistant should respond to",
+      "LOADING": "Loading inboxes...",
+      "NO_INBOXES": "No inboxes available",
+      "NO_RESULTS": "No inboxes match your search",
+      "SEARCH_PLACEHOLDER": "Search inboxes...",
+      "SELECTED": "{count} inbox selected | {count} inboxes selected",
+      "ASSIGNED": "Assigned",
+      "ASSIGNED_TO": "Assigned to: {name}",
+      "ASSIGNED_COUNT": "{count} inbox(es) assigned to this assistant"
+    },
+    "TABS": {
+      "GENERAL": "General",
+      "PERSONALITY": "Personality",
+      "FEATURES": "Features",
+      "VOICE": "Voice",
+      "KNOWLEDGE_BASE": "Knowledge Base",
+      "MEMORIES": "Memories",
+      "INBOXES": "Inboxes",
+      "PLAYGROUND": "Playground",
+      "ANALYTICS": "Analytics",
+      "STATS": "Statistics"
+    },
+    "PLAYGROUND": {
+      "TITLE": "Test Assistant",
+      "DESCRIPTION": "Test your assistant's responses before deploying to live conversations",
+      "EMPTY_STATE": "Start a conversation to test how your assistant responds to customer messages",
+      "INPUT_PLACEHOLDER": "Type a message to test...",
+      "SEND": "Send",
+      "CLEAR": "Clear",
+      "THINKING": "Thinking...",
+      "LAST_RESPONSE": "Last Response Metrics",
+      "ERROR_GENERIC": "Failed to get response. Please try again.",
+      "METRICS": {
+        "INPUT_TOKENS": "Input",
+        "OUTPUT_TOKENS": "Output",
+        "TOTAL_TOKENS": "Total",
+        "DURATION": "Time",
+        "TOKENS_UNIT": "tokens",
+        "MS_UNIT": "ms",
+        "TOOLS_LABEL": "Tools"
+      }
+    },
+    "SETTINGS": {
+      "GENERAL": {
+        "TITLE": "General Settings",
+        "DESCRIPTION": "Configure the basic settings for your AI assistant"
+      },
+      "PERSONALITY": {
+        "TITLE": "Personality Settings",
+        "DESCRIPTION": "Configure how your assistant communicates with customers"
+      },
+      "FEATURES": {
+        "TITLE": "AI Agent Capabilities",
+        "DESCRIPTION": "Control what actions the AI agent can perform during conversations",
+        "HANDOFF": {
+          "LABEL": "Handoff to Human",
+          "DESCRIPTION": "Allow the AI to transfer conversations to human agents when needed"
+        },
+        "RESOLVE": {
+          "LABEL": "Resolve Conversations",
+          "DESCRIPTION": "Allow the AI to mark conversations as resolved when issues are addressed"
+        },
+        "SNOOZE": {
+          "LABEL": "Snooze Conversations",
+          "DESCRIPTION": "Allow the AI to snooze conversations until a specific time"
+        },
+        "LABELS": {
+          "LABEL": "Manage Labels",
+          "DESCRIPTION": "Allow the AI to add, remove, or set labels on conversations"
+        }
+      },
+      "VOICE": {
+        "TITLE": "Voice Settings",
+        "DESCRIPTION": "Configure voice for your AI assistant",
+        "VOICE_ENABLED": {
+          "LABEL": "Enable Voice Features",
+          "DESCRIPTION": "Turn on voice capabilities for this assistant"
+        },
+        "VOICE_SELECTION": {
+          "TITLE": "ElevenLabs Voice",
+          "LABEL": "Select Voice",
+          "PLACEHOLDER": "Choose a voice",
+          "LOADING": "Loading voices...",
+          "PREVIEW": "Preview",
+          "PREVIEW_PLAYING": "Playing..."
+        },
+        "VOICE_SETTINGS": {
+          "TITLE": "Voice Settings",
+          "STABILITY": {
+            "LABEL": "Stability",
+            "DESCRIPTION": "Higher values make the voice more consistent but less expressive"
+          },
+          "SIMILARITY_BOOST": {
+            "LABEL": "Similarity Boost",
+            "DESCRIPTION": "Higher values make the voice closer to the original sample"
+          }
+        },
+        "VOICES_ERROR": "Failed to load voices. Please check your ElevenLabs API key.",
+        "PREVIEW_ERROR": "Failed to preview voice. Please try again.",
+        "PREVIEW_TEXT": "Hello, this is a preview of the selected voice for your AI assistant.",
+        "API_NOT_CONFIGURED": "ElevenLabs API key is not configured. Please add it in account settings."
+      }
+    },
+    "KNOWLEDGE": {
+      "LOADING": "Loading knowledge base...",
+      "DOCUMENTS": {
+        "TITLE": "Knowledge Base",
+        "DESCRIPTION": "Upload documents or add websites to build your assistant's knowledge base",
+        "UPLOAD_TITLE": "Upload File",
+        "UPLOAD": "Upload Document",
+        "DROP_OR_CLICK": "Drop file here or click to browse",
+        "ALLOWED_TYPES": "PDF, TXT, MD, CSV (max 10MB)",
+        "CHUNKS": "chunks",
+        "LIST_TITLE": "Documents"
+      },
+      "WEBSITE": {
+        "TITLE": "Add Website",
+        "URL_PLACEHOLDER": "https://example.com",
+        "ADD": "Add Website",
+        "CRAWL_FULL_SITE": "Crawl full website",
+        "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
+        "PAGES": "pages",
+        "INVALID_URL": "Please enter a valid URL",
+        "DUPLICATE_URL": "This URL has already been added"
+      },
+      "STATS": {
+        "DOCUMENTS": "documents",
+        "CHUNKS": "chunks",
+        "READY": "ready",
+        "PROCESSING": "processing",
+        "FAILED": "failed"
+      },
+      "DETAILS": {
+        "SOURCE_URL": "Source URL",
+        "FILENAME": "Filename",
+        "CRAWL_MODE": "Crawl Mode",
+        "FULL_SITE": "Full website crawl",
+        "SINGLE_PAGE": "Single page only",
+        "ADDED": "Added"
+      }
+    },
+    "MEMORIES": {
+      "TITLE": "Learned Memories",
+      "DESCRIPTION": "View and manage memories the assistant has learned from conversations",
+      "LOADING": "Loading memories...",
+      "CONFIDENCE": "Confidence",
+      "OBSERVATIONS": "Observations",
+      "HELPFUL": "Helpful",
+      "NOT_HELPFUL": "Not Helpful",
+      "FLAGGED": "Flagged",
+      "DELETED": "Memory deleted successfully",
+      "EMPTY": "No memories learned yet. The assistant will learn from conversations over time."
+    },
+    "ANALYTICS": {
+      "LOADING": "Loading analytics...",
+      "OVERVIEW": {
+        "TITLE": "Overview",
+        "DESCRIPTION": "Summary of your assistant's activity"
+      },
+      "STATS": {
+        "CONVERSATIONS": "Conversations",
+        "MESSAGES": "Messages",
+        "TOKENS": "Tokens Used",
+        "MEMORIES": "Memories",
+        "DOCUMENTS": "Documents"
+      },
+      "PERFORMANCE": {
+        "TITLE": "Performance Metrics",
+        "DESCRIPTION": "Key performance indicators for your assistant",
+        "RESPONSE_RATE": "Success Rate",
+        "AVG_RESPONSE_TIME": "Avg Response Time",
+        "HANDOFF_RATE": "Handoff Rate",
+        "TOKENS_USED": "Tokens (Period)"
+      },
+      "CONVERSATIONS": {
+        "TITLE": "Recent Conversations",
+        "DESCRIPTION": "Conversations handled by this assistant",
+        "MESSAGES": "msgs",
+        "TOKENS": "tokens",
+        "NO_EMAIL": "No email",
+        "SHOWING": "Showing {count} of {total} conversations",
+        "EMPTY": "No conversations yet. The assistant will appear here once it starts handling customer conversations."
+      }
+    },
+    "PAGINATION": {
+      "PREVIOUS": "Previous",
+      "NEXT": "Next"
+    },
+    "STATS": {
+      "TITLE": "Assistant Statistics",
+      "MESSAGES": "Messages Processed",
+      "TOKENS": "Tokens Used",
+      "CONVERSATIONS": "Conversations",
+      "HANDOFFS": "Handoffs to Agents",
+      "COST": "Estimated Cost",
+      "EMPTY": "Statistics will be available once the assistant starts handling conversations."
+    },
+    "ACTIONS": {
+      "NEXT": "Next",
+      "BACK": "Back",
+      "SKIP": "Skip",
+      "FINISH": "Finish",
+      "SAVE": "Save Changes",
+      "DELETE": "Delete",
+      "CANCEL": "Cancel",
+      "EDIT": "Edit",
+      "REPROCESS": "Reprocess"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete Assistant",
+      "MESSAGE": "Are you sure you want to delete this assistant? All associated documents and memories will be permanently deleted.",
+      "CONFIRM": "Delete Assistant",
+      "CANCEL": "Cancel"
+    },
+    "MESSAGES": {
+      "CREATED": "Assistant created successfully",
+      "UPDATED": "Assistant updated successfully",
+      "DELETED": "Assistant deleted successfully",
+      "DOCUMENT_UPLOADED": "Document uploaded successfully",
+      "DOCUMENT_DELETED": "Document deleted successfully",
+      "DOCUMENT_REPROCESSING": "Document reprocessing started",
+      "WEBSITE_ADDED": "Website added and queued for processing",
+      "INBOX_ASSIGNED": "Inbox assigned successfully",
+      "INBOX_UNASSIGNED": "Inbox unassigned successfully",
+      "ERROR": "An error occurred. Please try again."
+    },
+    "PERSONALITY_PREVIEW": {
+      "TITLE": "Preview",
+      "DESCRIPTION": "See how your assistant will respond based on the current settings",
+      "SAMPLE_MESSAGE": "Hello! How can I help you today?",
+      "SAMPLE_RESPONSE_PROFESSIONAL": "Good day. I'm here to assist you with any questions you may have. How may I be of service today?",
+      "SAMPLE_RESPONSE_FRIENDLY": "Hey there! Great to hear from you! What can I help you with today?",
+      "SAMPLE_RESPONSE_CASUAL": "Hi! What's up? How can I help?",
+      "SAMPLE_RESPONSE_FORMAL": "Greetings. I am at your disposal to address any inquiries you may have. Please proceed with your request."
+    }
+  }
+}

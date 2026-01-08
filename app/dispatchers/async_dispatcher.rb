@@ -10,6 +10,7 @@ class AsyncDispatcher < BaseDispatcher
 
   def listeners
     [
+      AlooAgentListener.instance,
       AutoAssignConversationListener.instance,
       AutomationRuleListener.instance,
       CampaignListener.instance,

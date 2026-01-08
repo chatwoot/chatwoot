@@ -215,7 +215,7 @@ class Message < ApplicationRecord
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
+                                .where.not(sender_type: ['AgentBot'])
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
@@ -412,8 +412,16 @@ class Message < ApplicationRecord
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     else
+      reset_for_aloo_ai_handling if conversation.inbox.aloo_assistant&.active?
       conversation.open!
     end
+  end
+
+  def reset_for_aloo_ai_handling
+    attrs = conversation.custom_attributes&.dup || {}
+    attrs['aloo_handoff_active'] = false
+    attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
+    conversation.update!(custom_attributes: attrs, assignee_id: nil)
   end
 
   def reopened_by_contact?

@@ -53,7 +53,7 @@
 
 class Conversation < ApplicationRecord
   include Labelable
-  include LlmFormattable
+  include LLMFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler
@@ -109,6 +109,7 @@ class Conversation < ApplicationRecord
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
+  has_many :aloo_conversation_contexts, class_name: 'Aloo::ConversationContext', dependent: :destroy
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
@@ -305,7 +306,7 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event, status_change)
+      condition.call && dispatcher_dispatch(event, previous_changes.slice('status'))
     end
   end
 

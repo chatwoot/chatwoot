@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LlmFormatter::ConversationLlmFormatter do
+RSpec.describe LLMFormatter::ConversationLLMFormatter do
   let(:account) { create(:account) }
   let(:conversation) { create(:conversation, account: account) }
   let(:formatter) { described_class.new(conversation) }

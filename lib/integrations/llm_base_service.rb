@@ -1,12 +1,12 @@
-class Integrations::LlmBaseService
-  include Integrations::LlmInstrumentation
+class Integrations::LLMBaseService
+  include Integrations::LLMInstrumentation
 
   # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
   # sticking with 120000 to be safe
   # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
   TOKEN_LIMIT = 400_000
-  GPT_MODEL = Llm::Config::DEFAULT_MODEL
+  GPT_MODEL = LLM::Config::DEFAULT_MODEL
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
 
@@ -100,7 +100,7 @@ class Integrations::LlmBaseService
     messages = parsed_body['messages']
     model = parsed_body['model']
 
-    Llm::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do |context|
+    LLM::Config.with_api_key(hook.settings['api_key'], api_base: api_base) do |context|
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
     end

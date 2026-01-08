@@ -2,10 +2,10 @@
 
 require 'opentelemetry_config'
 
-module Integrations::LlmInstrumentation
-  include Integrations::LlmInstrumentationConstants
-  include Integrations::LlmInstrumentationHelpers
-  include Integrations::LlmInstrumentationSpans
+module Integrations::LLMInstrumentation
+  include Integrations::LLMInstrumentationConstants
+  include Integrations::LLMInstrumentationHelpers
+  include Integrations::LLMInstrumentationSpans
 
   def instrument_llm_call(params)
     return yield unless ChatwootApp.otel_enabled?

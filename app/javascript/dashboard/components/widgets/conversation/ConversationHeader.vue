@@ -8,6 +8,7 @@ import InboxName from '../InboxName.vue';
 import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
+import AIAgentBadge from './AIAgentBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -90,6 +91,23 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+
+const assignedAgent = computed(() => props.chat.meta?.assignee);
+const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
+
+// Aloo AI Assistant handling
+const alooAssistant = computed(() => props.chat.aloo_assistant);
+const isAlooHandoffActive = computed(
+  () => props.chat.custom_attributes?.aloo_handoff_active === true
+);
+const isAlooAIHandling = computed(() => {
+  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
+  return (
+    alooAssistant.value?.active &&
+    !isAlooHandoffActive.value &&
+    !assignedAgent.value
+  );
+});
 </script>
 
 <template>
@@ -127,6 +145,12 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           >
             #{{ chat.id }}
           </span>
+          <AIAgentBadge
+            v-if="isAssignedToAI || isAlooAIHandling"
+            :agent-name="
+              isAlooAIHandling ? alooAssistant?.name : assignedAgent?.name
+            "
+          />
           <fluent-icon
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"

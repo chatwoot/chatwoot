@@ -514,3 +514,93 @@
   value: 'https://us.cloud.langfuse.com'
   locked: false
 ## ---- End of LLM Observability ---- ##
+
+## ------ Aloo AI Configuration ------ ##
+# Multi-provider LLM support for AI-powered customer support
+- name: ALOO_ENABLED
+  display_title: 'Enable Aloo AI'
+  description: 'Enable AI-powered customer support assistant'
+  value: true
+  locked: false
+  type: boolean
+
+# LLM Provider API Keys
+- name: ALOO_OPENAI_API_KEY
+  display_title: 'OpenAI API Key'
+  description: 'API key for OpenAI models (GPT-4o, GPT-4o-mini)'
+  value:
+  locked: false
+  type: secret
+- name: ALOO_ANTHROPIC_API_KEY
+  display_title: 'Anthropic API Key'
+  description: 'API key for Anthropic models (Claude Sonnet)'
+  value:
+  locked: false
+  type: secret
+- name: ALOO_GEMINI_API_KEY
+  display_title: 'Gemini API Key'
+  description: 'API key for Google Gemini models (gemini-2.0-flash)'
+  value:
+  locked: false
+  type: secret
+- name: ALOO_DEEPSEEK_API_KEY
+  display_title: 'DeepSeek API Key'
+  description: 'API key for DeepSeek models'
+  value:
+  locked: false
+  type: secret
+
+# Model Configuration
+- name: ALOO_DEFAULT_MODEL
+  display_title: 'Default Chat Model'
+  description: 'Default LLM model for conversations (e.g., gemini-2.0-flash, gpt-4o, claude-sonnet-4)'
+  value: 'gpt-4.1-mini'
+  locked: false
+- name: ALOO_EMBEDDING_MODEL
+  display_title: 'Embedding Model'
+  description: 'Model for generating text embeddings (text-embedding-3-small recommended)'
+  value: 'text-embedding-3-small'
+  locked: false
+- name: ALOO_DEFAULT_TEMPERATURE
+  display_title: 'Default Temperature'
+  description: 'Default temperature for LLM responses (0.0 = deterministic, 1.0 = creative)'
+  value: '0.7'
+  locked: false
+- name: ALOO_MAX_TOKENS
+  display_title: 'Max Response Tokens'
+  description: 'Maximum tokens per response (default: 1024)'
+  value: '1024'
+  locked: false
+
+# Feature Flags
+- name: ALOO_FEATURE_FAQ
+  display_title: 'Enable FAQ Generation'
+  description: 'Automatically generate FAQs from resolved conversations'
+  value: true
+  locked: false
+  type: boolean
+- name: ALOO_FEATURE_MEMORY
+  display_title: 'Enable Memory System'
+  description: 'Enable persistent memory to improve responses over time'
+  value: true
+  locked: false
+  type: boolean
+- name: ALOO_FEATURE_VISION
+  display_title: 'Enable Vision Support'
+  description: 'Allow AI to analyze images shared by customers'
+  value: false
+  locked: false
+  type: boolean
+
+# Request Configuration
+- name: ALOO_REQUEST_TIMEOUT
+  display_title: 'Request Timeout (seconds)'
+  description: 'Maximum time to wait for LLM response (default: 120)'
+  value: '120'
+  locked: false
+- name: ALOO_MAX_RETRIES
+  display_title: 'Max Retries'
+  description: 'Number of retry attempts for failed LLM requests (default: 3)'
+  value: '3'
+  locked: false
+## ------ End of Aloo AI Configuration ------ ##

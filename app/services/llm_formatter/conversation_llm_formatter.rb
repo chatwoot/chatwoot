@@ -1,4 +1,4 @@
-class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
+class LLMFormatter::ConversationLLMFormatter < LLMFormatter::DefaultLLMFormatter
   def format(config = {})
     sections = []
     sections << "Conversation ID: ##{@record.display_id}"
