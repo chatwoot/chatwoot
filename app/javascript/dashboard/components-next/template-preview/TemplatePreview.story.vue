@@ -265,7 +265,6 @@ const twilioTemplates = {
     title="Components/TemplatePreview"
     :layout="{ type: 'grid', width: 400 }"
   >
-    <!-- WhatsApp Text Templates -->
     <Variant title="WhatsApp - Simple Text">
       <TemplatePreview
         :template="whatsAppTemplates.greet"
@@ -282,7 +281,6 @@ const twilioTemplates = {
       />
     </Variant>
 
-    <!-- WhatsApp Button Templates -->
     <Variant title="WhatsApp - Call to Action Buttons">
       <TemplatePreview
         :template="whatsAppTemplates.eventInvitation"
@@ -291,7 +289,6 @@ const twilioTemplates = {
       />
     </Variant>
 
-    <!-- WhatsApp Media Templates -->
     <Variant title="WhatsApp - Image Media">
       <TemplatePreview
         :template="whatsAppTemplates.orderConfirmation"
@@ -308,7 +305,6 @@ const twilioTemplates = {
       />
     </Variant>
 
-    <!-- WhatsApp Copy Code Templates -->
     <Variant title="WhatsApp - Copy Code">
       <TemplatePreview
         :template="whatsAppTemplates.discountCoupon"
@@ -317,7 +313,6 @@ const twilioTemplates = {
       />
     </Variant>
 
-    <!-- Twilio Templates -->
     <Variant title="Twilio - Text">
       <TemplatePreview
         :template="twilioTemplates.greet"

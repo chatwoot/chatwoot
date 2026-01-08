@@ -12,7 +12,6 @@ import { twilioTemplates } from './templates/twillio-templates.js';
     title="Components/TemplatePreviewExamples"
     :layout="{ type: 'grid', width: 400 }"
   >
-    <!-- WhatsApp Templates -->
     <Variant title="WA: Event Invitation (Buttons)">
       <TemplatePreview
         :template="whatsAppTemplates[0]"
@@ -117,7 +116,6 @@ import { twilioTemplates } from './templates/twillio-templates.js';
       />
     </Variant>
 
-    <!-- Twilio Templates -->
     <Variant title="Twilio: Shoe Launch (Media)">
       <TemplatePreview
         :template="twilioTemplates[0]"

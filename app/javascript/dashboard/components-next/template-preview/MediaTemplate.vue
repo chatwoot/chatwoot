@@ -41,7 +41,6 @@ const fileType = computed(() => {
   <div
     class="flex flex-col gap-2.5 p-3 rounded-xl bg-n-alpha-2 text-n-slate-12 max-w-80"
   >
-    <!-- Image Media -->
     <img
       v-if="mediaType === 'image'"
       :src="message.image_url"
@@ -49,7 +48,6 @@ const fileType = computed(() => {
       alt="Template media"
     />
 
-    <!-- Video Media -->
     <div
       v-else-if="mediaType === 'video'"
       class="overflow-hidden relative bg-gray-100 rounded-lg"
@@ -62,12 +60,10 @@ const fileType = computed(() => {
       />
     </div>
 
-    <!-- Document Media -->
     <div v-else-if="mediaType === 'document'" class="flex items-center">
       <FileIcon :file-type="fileType" class="text-2xl text-n-slate-12" />
     </div>
 
-    <!-- Content Text -->
     <span
       v-if="message.content"
       v-dompurify-html="message.content"
