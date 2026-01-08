@@ -21,9 +21,11 @@ import {
   removeUnreadClass,
   createGreetingPreview,
   showGreetingPreview,
+  hideGreetingPreview,
   attachGreetingPreviewHandlers,
   createGreetingInputBox,
   showGreetingInputBox,
+  hideGreetingInputBox,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -46,6 +48,13 @@ const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
     baseDomain,
   });
+
+export const setWebWidgetMessageSentCookie = (baseDomain = '') => {
+  setCookieWithDomain('cw_web_widget_message_sent', 'true', {
+    baseDomain,
+    expires: 365, // 1 year
+  });
+};
 
 const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
@@ -275,7 +284,9 @@ export const IFrameHelper = {
 
     setUnreadMode: () => {
       addUnreadClass();
-      onBubbleClick({ toggleValue: true });
+      if (!window.$chatwoot?.openingForSms) {
+        onBubbleClick({ toggleValue: true });
+      }
     },
 
     resetUnreadMode: () => removeUnreadClass(),
@@ -301,6 +312,52 @@ export const IFrameHelper = {
 
     playAudio: () => {
       window.playAudioAlert();
+    },
+    'has-conversations': message => {
+      window.$chatwoot.hasConversations = message.hasConversations || false;
+      window.$chatwoot.conversationStateConfirmed = true;
+
+      const storedSmsState = localStorage.getItem('chatwoot_sms_state');
+      let smsWasSent = false;
+      if (storedSmsState) {
+        try {
+          const smsState = JSON.parse(storedSmsState);
+          if (smsState.sent) {
+            const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+            if (smsState.timestamp && smsState.timestamp >= oneDayAgo) {
+              smsWasSent = true;
+            }
+          }
+        } catch (e) {
+          // Ignore parse errors
+        }
+      }
+
+      if (message.hasConversations) {
+        hideGreetingPreview();
+        hideGreetingInputBox();
+      }
+
+      if (
+        (smsWasSent || message.hasConversations) &&
+        !window.$chatwoot.isOpen
+      ) {
+        hideGreetingPreview();
+        hideGreetingInputBox();
+        if (smsWasSent) {
+          window.$chatwoot.openingForSms = true;
+        }
+        onBubbleClick({ toggleValue: true });
+      } else if (!message.hasConversations && !smsWasSent) {
+        if (
+          !window.$chatwoot.isOpen &&
+          !window.$chatwoot.greetingPreviewShown
+        ) {
+          showGreetingPreview();
+          showGreetingInputBox();
+          window.$chatwoot.greetingPreviewShown = true;
+        }
+      }
     },
   },
   pushEvent: eventName => {
@@ -425,13 +482,53 @@ export const IFrameHelper = {
       widgetColor,
     });
 
-    // Show greeting preview and input box after 3 seconds
-    setTimeout(() => {
-      if (!window.$chatwoot.isOpen) {
-        showGreetingPreview();
-        showGreetingInputBox();
+    const webWidgetMessageSent =
+      Cookies.get('cw_web_widget_message_sent') === 'true';
+    window.$chatwoot.hasConversations = webWidgetMessageSent;
+    window.$chatwoot.conversationStateConfirmed = false;
+    window.$chatwoot.greetingPreviewShown = false;
+
+    const storedSmsState = localStorage.getItem('chatwoot_sms_state');
+    let smsWasSent = false;
+    if (storedSmsState) {
+      try {
+        const smsState = JSON.parse(storedSmsState);
+        if (smsState.sent) {
+          const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+          if (smsState.timestamp && smsState.timestamp >= oneDayAgo) {
+            smsWasSent = true;
+          }
+        }
+      } catch (e) {
+        // Ignore parse errors
       }
-    }, 3000);
+    }
+
+    if ((smsWasSent || webWidgetMessageSent) && !window.$chatwoot.isOpen) {
+      hideGreetingPreview();
+      hideGreetingInputBox();
+      if (smsWasSent) {
+        window.$chatwoot.openingForSms = true;
+      }
+      setTimeout(() => {
+        if (!window.$chatwoot.isOpen) {
+          onBubbleClick({ toggleValue: true });
+        }
+      }, 500);
+    } else if (!webWidgetMessageSent) {
+      setTimeout(() => {
+        if (
+          !window.$chatwoot.isOpen &&
+          !window.$chatwoot.greetingPreviewShown &&
+          (!window.$chatwoot.conversationStateConfirmed ||
+            !window.$chatwoot.hasConversations)
+        ) {
+          showGreetingPreview();
+          showGreetingInputBox();
+          window.$chatwoot.greetingPreviewShown = true;
+        }
+      }, 3000);
+    }
   },
   toggleCloseButton: () => {
     let isMobile = false;

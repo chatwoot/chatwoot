@@ -42,13 +42,13 @@ const { isOnline } = useAvailability(availableAgentsRef);
 <template>
   <header class="flex justify-between w-full p-5 bg-n-background gap-2">
     <div class="flex items-center">
-      <button
+      <!-- <button
         v-if="showBackButton"
         class="px-2 ltr:-ml-3 rtl:-mr-3"
         @click="onBackButtonClick"
       >
         <FluentIcon icon="chevron-left" size="24" class="text-n-slate-12" />
-      </button>
+      </button> -->
       <div class="flex flex-col items-center ltr:mr-3 rtl:ml-3">
         <img
           v-if="avatarUrl"
@@ -94,6 +94,9 @@ const { isOnline } = useAvailability(availableAgentsRef);
         />
       </div>
     </div>
-    <HeaderActions :show-popout-button="showPopoutButton" />
+    <HeaderActions
+      :show-popout-button="showPopoutButton"
+      :show-end-conversation-button="showEndConversationButton"
+    />
   </header>
 </template>

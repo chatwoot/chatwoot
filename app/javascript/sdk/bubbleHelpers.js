@@ -228,17 +228,68 @@ export const createGreetingInputBox = (config = {}) => {
   sendButton.type = 'button';
   sendButton.className = 'woot-greeting-input-send';
   sendButton.setAttribute('aria-label', 'Send message');
-  sendButton.style.backgroundColor = widgetColor || '#1f93ff';
+  sendButton.style.minHeight = '32px';
+  sendButton.style.minWidth = '32px';
+  sendButton.style.display = 'flex';
+  sendButton.style.alignItems = 'center';
+  sendButton.style.justifyContent = 'center';
+  sendButton.style.margin = '0';
+  sendButton.style.padding = '0';
+  sendButton.style.backgroundColor = 'transparent';
+  sendButton.style.border = 'none';
+  sendButton.style.cursor = 'pointer';
+  sendButton.style.color = widgetColor || '#1f93ff';
   sendButton.innerHTML = `
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <line x1="22" y1="2" x2="11" y2="13"></line>
       <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
     </svg>
   `;
 
+  // Add "Text Us" button - shown by default
+  const textUsButton = document.createElement('button');
+  textUsButton.type = 'button';
+  textUsButton.className = 'woot-greeting-input-text-us';
+  textUsButton.setAttribute('aria-label', 'Text us');
+  textUsButton.textContent = 'Or Text Us';
+  textUsButton.style.backgroundColor = widgetColor || '#1f93ff';
+  textUsButton.style.padding = '5px 10px';
+  textUsButton.style.borderRadius = '8px';
+  textUsButton.style.color = 'white';
+  textUsButton.style.fontSize = '13px';
+  textUsButton.style.fontWeight = '600';
+  textUsButton.style.cursor = 'pointer';
+  textUsButton.style.border = 'none';
+  textUsButton.style.height = '30px';
+  textUsButton.style.flexShrink = '0';
+  textUsButton.style.marginLeft = '8px';
+  textUsButton.style.marginRight = '0';
+  textUsButton.style.display = 'flex';
+  textUsButton.style.alignItems = 'center';
+  textUsButton.style.justifyContent = 'center';
+  textUsButton.style.transition =
+    'background-color 0.2s ease, opacity 0.2s ease';
+
+  // Add input and default button (Text Us) to wrapper
   inputWrapper.appendChild(input);
-  inputWrapper.appendChild(sendButton);
+  inputWrapper.appendChild(textUsButton);
   inputBoxContainer.appendChild(inputWrapper);
+
+  // Add footer text with privacy policy and branding
+  const footerText = document.createElement('div');
+  footerText.className = 'woot-greeting-input-footer';
+  footerText.innerHTML = `
+    <p class="woot-greeting-footer-text">
+      Chats may be monitored, stored, and/or shared as described in our 
+      <a href="https://getcruisecontrol.com/privacy-policy/" class="woot-greeting-footer-link">Privacy Policy</a>.
+    </p>
+    <p class="woot-greeting-footer-text">
+      Powered by <a href="https://getcruisecontrol.com" class="woot-greeting-footer-link">Cruise Control</a>. 
+      Use is subject to <a href="https://staging.getcruisecontrol.com/terms-and-conditions" class="woot-greeting-footer-link">Terms</a>.
+    </p>
+  `;
+
+  inputBoxContainer.appendChild(footerText);
   greetingInputBox.appendChild(inputBoxContainer);
 
   body.appendChild(greetingInputBox);
@@ -268,11 +319,39 @@ export const createGreetingInputBox = (config = {}) => {
     }, 300);
   };
 
+  // Toggle between "Text Us" and send button based on input
+  // Only one button should exist in DOM at a time
+  const toggleButtons = () => {
+    const hasText = input.value.trim().length > 0;
+    if (hasText) {
+      // Remove Text Us button, add send button
+      if (textUsButton.parentNode) {
+        textUsButton.remove();
+      }
+      if (!sendButton.parentNode) {
+        inputWrapper.appendChild(sendButton);
+      }
+    } else {
+      // Remove send button, add Text Us button
+      if (sendButton.parentNode) {
+        sendButton.remove();
+      }
+      if (!textUsButton.parentNode) {
+        inputWrapper.appendChild(textUsButton);
+      }
+    }
+  };
+
+  // Listen to input changes
+  input.addEventListener('input', toggleButtons);
+
   // Handle Enter key press
   input.addEventListener('keydown', e => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage();
+      if (input.value.trim()) {
+        handleSendMessage();
+      }
     }
   });
 
@@ -281,10 +360,45 @@ export const createGreetingInputBox = (config = {}) => {
     handleSendMessage();
   });
 
+  // Handle "Text Us" button click
+  textUsButton.addEventListener('click', () => {
+    // Hide greeting preview and input box first
+    // eslint-disable-next-line no-use-before-define
+    hideGreetingPreview();
+    // eslint-disable-next-line no-use-before-define
+    hideGreetingInputBox();
+
+    // Set a flag to indicate we're opening for SMS form
+    window.$chatwoot.openingForSms = true;
+
+    // Open the widget
+    // eslint-disable-next-line no-use-before-define
+    onBubbleClick({ toggleValue: true });
+
+    // Send message to widget iframe to show SMS form
+    // Use a retry mechanism to ensure message is sent once widget is ready
+    const sendSmsFormMessage = () => {
+      if (window.$chatwoot && window.$chatwoot.hasLoaded) {
+        IFrameHelper.sendMessage('show-sms-form', {});
+        // Clear the flag after sending
+        window.$chatwoot.openingForSms = false;
+      } else {
+        // If widget not loaded yet, wait a bit and try again
+        setTimeout(sendSmsFormMessage, 50);
+      }
+    };
+
+    // Start trying to send immediately
+    sendSmsFormMessage();
+  });
+
   // Focus input when clicked
   inputBoxContainer.addEventListener('click', () => {
     input.focus();
   });
+
+  // Initialize button state
+  toggleButtons();
 };
 
 export const showGreetingInputBox = () => {
@@ -297,6 +411,7 @@ export const hideGreetingInputBox = () => {
 
 export const showGreetingPreview = () => {
   removeClasses(greetingPreview, 'woot--hide');
+  window.$chatwoot.greetingPreviewShown = true;
 };
 
 export const hideGreetingPreview = () => {

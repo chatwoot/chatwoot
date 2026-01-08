@@ -22,6 +22,9 @@ import { useRouter } from 'vue-router';
 import { useAvailability } from 'widget/composables/useAvailability';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { LocalStorage } from 'shared/helpers/localStorage';
+
+const SMS_STORAGE_KEY = 'chatwoot_sms_state';
 
 export default {
   name: 'App',
@@ -71,6 +74,16 @@ export default {
     activeCampaign() {
       this.setCampaignView();
     },
+    // Ensure full-height iframe on SMS pages regardless of unread/campaign events
+    $route: {
+      immediate: false,
+      handler(newRoute) {
+        const routeName = newRoute?.name;
+        if (['terms-and-conditions', 'sms-form'].includes(routeName)) {
+          this.setIframeHeight(false);
+        }
+      },
+    },
     isRTL: {
       immediate: true,
       handler(value) {
@@ -83,11 +96,16 @@ export default {
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
     setHeader(window.authToken);
+
     if (this.isIFrame) {
       this.registerListeners();
       this.sendLoadedEvent();
+      // For iframe, check SMS state after config is set (handled in registerListeners)
     } else {
-      this.fetchOldConversations();
+      // For non-iframe, check SMS state after conversations are loaded
+      this.fetchOldConversations().then(() => {
+        this.checkSmsState();
+      });
       this.fetchAvailableAgents(websiteToken);
       this.setLocale(getLocale(window.location.search));
     }
@@ -114,6 +132,80 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    checkSmsState() {
+      // Check if there are conversations (which includes SMS conversations)
+      // This works across logout/login because conversations are fetched from server
+      const conversationSize =
+        this.$store.getters['conversation/getConversationSize'];
+
+      // Check localStorage for SMS state FIRST (before sending has-conversations)
+      const storedSmsState = LocalStorage.get(SMS_STORAGE_KEY);
+      if (storedSmsState) {
+        // Check if state is older than 24 hours, if so clear it
+        const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+        if (storedSmsState.timestamp && storedSmsState.timestamp < oneDayAgo) {
+          LocalStorage.remove(SMS_STORAGE_KEY);
+        } else if (storedSmsState.sent) {
+          // Set flag BEFORE opening widget to prevent navigation to messages
+          if (window.$chatwoot) {
+            window.$chatwoot.openingForSms = true;
+          }
+          // If SMS was sent, navigate to Terms & Conditions page with success state
+          // Open widget if it's not already open
+          if (!this.isWidgetOpen) {
+            this.$store.dispatch('appConfig/toggleWidgetOpen', true);
+          }
+
+          // Wait for widget to open, then navigate to Terms & Conditions with success
+          this.$nextTick(() => {
+            setTimeout(() => {
+              this.$router.push({
+                name: 'terms-and-conditions',
+                query: {
+                  phoneNumber: storedSmsState.phoneNumber,
+                  message: storedSmsState.message,
+                  success: 'true', // Flag to show success message
+                },
+              });
+              // Clear SMS opening flag after navigating to success page
+              if (window.$chatwoot) {
+                window.$chatwoot.openingForSms = false;
+              }
+            }, 300);
+          });
+        } else if (
+          !storedSmsState.sent &&
+          (storedSmsState.phoneNumber || storedSmsState.message)
+        ) {
+          // If form was filled but not sent, navigate to SMS form
+          // Set flag to prevent navigation to messages
+          if (window.$chatwoot) {
+            window.$chatwoot.openingForSms = true;
+          }
+          // Open widget if it's not already open
+          if (!this.isWidgetOpen) {
+            this.$store.dispatch('appConfig/toggleWidgetOpen', true);
+          }
+
+          // Wait for widget to open, then navigate to SMS form
+          this.$nextTick(() => {
+            setTimeout(() => {
+              this.replaceRoute('sms-form');
+              // Clear flag after navigation
+              if (window.$chatwoot) {
+                window.$chatwoot.openingForSms = false;
+              }
+            }, 300);
+          });
+        }
+      }
+
+      if (this.isIFrame) {
+        IFrameHelper.sendMessage('has-conversations', {
+          hasConversations: conversationSize > 0,
+        });
+      }
+    },
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
@@ -204,6 +296,27 @@ export default {
       }
     },
     setUnreadView() {
+      // Avoid unread auto-open/routing during SMS flow
+      if (window.$chatwoot?.openingForSms) {
+        return;
+      }
+      // Never alter height or route when on SMS-related pages
+      const currentRouteName = this.$route?.name;
+      if (['terms-and-conditions', 'sms-form'].includes(currentRouteName)) {
+        return;
+      }
+      // Check if there's an active SMS conversation
+      // If SMS was sent recently (within 24 hours), don't shrink the widget
+      // This prevents widget from minimizing when user is actively using SMS
+      const storedSmsState = LocalStorage.get(SMS_STORAGE_KEY);
+      if (storedSmsState && storedSmsState.sent) {
+        const oneDayAgo = Date.now() - 24 * 60 * 60 * 1000;
+        if (storedSmsState.timestamp && storedSmsState.timestamp >= oneDayAgo) {
+          // Active SMS conversation exists - only show notification dot, don't shrink widget
+          this.handleUnreadNotificationDot();
+          return;
+        }
+      }
       const { unreadMessageCount } = this;
       if (!this.showUnreadMessagesDialog) {
         this.handleUnreadNotificationDot();
@@ -256,12 +369,25 @@ export default {
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();
-          this.fetchOldConversations().then(() => this.setUnreadView());
+          this.fetchOldConversations().then(() => {
+            this.setUnreadView();
+            // Check SMS state after conversations are loaded
+            this.checkSmsState();
+
+            // Notify SDK about conversation state after conversations are loaded
+            const conversationSize =
+              this.$store.getters['conversation/getConversationSize'];
+            IFrameHelper.sendMessage('has-conversations', {
+              hasConversations: conversationSize > 0,
+            });
+          });
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
           this.setCampaignReadData(message.campaignsSnoozedTill);
         } else if (message.event === 'widget-visible') {
+          // Check SMS state when widget becomes visible
+          this.checkSmsState();
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
           const { referrerURL, referrerHost } = message;
@@ -299,6 +425,17 @@ export default {
               });
             }
           }
+        } else if (message.event === 'show-sms-form') {
+          // Handle showing SMS form when "Text Us" is clicked
+          // Ensure widget is open
+          if (!this.isWidgetOpen) {
+            this.$store.dispatch('appConfig/toggleWidgetOpen', true);
+          }
+          // Navigate directly to SMS form immediately
+          // Use nextTick to ensure widget state is updated first
+          this.$nextTick(() => {
+            this.replaceRoute('sms-form');
+          });
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
             'contacts/setCustomAttributes',
@@ -327,22 +464,28 @@ export default {
         } else if (message.event === 'toggle-open') {
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
-          const shouldShowMessageView =
-            ['home'].includes(this.$route.name) &&
-            message.isOpen &&
-            this.messageCount;
-          const shouldShowHomeView =
-            !message.isOpen &&
-            ['unread-messages', 'campaigns'].includes(this.$route.name);
+          // Skip default navigation if opening for SMS form
+          const isOpeningForSms = window.$chatwoot?.openingForSms;
 
-          if (shouldShowMessageView) {
-            this.router.replace({ name: 'messages' });
+          if (!isOpeningForSms) {
+            const shouldShowMessageView =
+              ['home'].includes(this.$route.name) &&
+              message.isOpen &&
+              this.messageCount;
+            const shouldShowHomeView =
+              !message.isOpen &&
+              ['unread-messages', 'campaigns'].includes(this.$route.name);
+
+            if (shouldShowMessageView) {
+              this.replaceRoute('messages');
+            }
+            if (shouldShowHomeView) {
+              this.$store.dispatch('conversation/setUserLastSeen');
+              this.unsetUnreadView();
+              this.replaceRoute('home');
+            }
           }
-          if (shouldShowHomeView) {
-            this.$store.dispatch('conversation/setUserLastSeen');
-            this.unsetUnreadView();
-            this.router.replace({ name: 'home' });
-          }
+
           if (!message.isOpen) {
             this.resetCampaign();
           }

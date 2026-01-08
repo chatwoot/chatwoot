@@ -44,9 +44,17 @@ export default {
       );
     },
     showBackButton() {
+      // Hide back button on SMS form and Terms & Conditions pages
+      if (['sms-form', 'terms-and-conditions'].includes(this.$route.name)) {
+        return false;
+      }
       return ['article-viewer', 'messages', 'prechat-form'].includes(
         this.$route.name
       );
+    },
+    showEndConversationButton() {
+      // Hide end conversation button on SMS form and Terms & Conditions pages
+      return !['sms-form', 'terms-and-conditions'].includes(this.$route.name);
     },
     isOnArticleViewer() {
       return ['article-viewer'].includes(this.$route.name);
@@ -139,6 +147,7 @@ export default {
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"
+          :show-end-conversation-button="showEndConversationButton"
         />
       </div>
       <Banner />

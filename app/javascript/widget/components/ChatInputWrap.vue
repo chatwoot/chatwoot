@@ -2,6 +2,8 @@
 import { mapGetters } from 'vuex';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import { useAttachments } from '../composables/useAttachments';
+import configMixin from '../mixins/configMixin';
+import routerMixin from '../mixins/routerMixin';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 export default {
@@ -10,6 +12,7 @@ export default {
     ChatSendButton,
     ResizableTextArea,
   },
+  mixins: [configMixin, routerMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -109,6 +112,10 @@ export default {
     },
     focusInput() {
       this.$refs.chatInput.focus();
+    },
+    handleTextUsClick() {
+      // Navigate to SMS form
+      this.replaceRoute('sms-form');
     },
   },
 };

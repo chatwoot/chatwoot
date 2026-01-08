@@ -35,6 +35,16 @@ const router = createRouter({
           component: () => import('./views/Messages.vue'),
         },
         {
+          path: '/sms-form',
+          name: 'sms-form',
+          component: () => import('./views/SmsForm.vue'),
+        },
+        {
+          path: '/terms-and-conditions',
+          name: 'terms-and-conditions',
+          component: () => import('./views/TermsAndConditions.vue'),
+        },
+        {
           path: '/article',
           name: 'article-viewer',
           component: () => import('./views/ArticleViewer.vue'),
