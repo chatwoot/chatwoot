@@ -1,0 +1,156 @@
+name: Deploy Chatwoot to VPS
+
+on:
+  push:
+    branches:
+      - feat/custom-branding
+      - develop
+      - master
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels)
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable={{is_default_branch}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS via SSH
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+          IMAGE_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          # Apenas secrets sensíveis
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          SECRET_KEY_BASE: ${{ secrets.SECRET_KEY_BASE }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          envs: BRANCH_NAME,IMAGE_TAG,POSTGRES_PASSWORD,SECRET_KEY_BASE,SMTP_PASSWORD
+          script: |
+            set -e
+            echo "========================================="
+            echo "Deploying Chatwoot - Branch: $BRANCH_NAME"
+            echo "Image: $IMAGE_TAG"
+            echo "========================================="
+
+            # Criar diretório se não existir
+            mkdir -p ~/chatwoot-deploy
+            cd ~/chatwoot-deploy
+
+            # Exportar apenas secrets sensíveis
+            export POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
+            export SECRET_KEY_BASE="$SECRET_KEY_BASE"
+            export SMTP_PASSWORD="$SMTP_PASSWORD"
+
+            echo "✓ Secrets exported"
+
+            # Fazer pull da nova imagem
+            echo "Pulling latest image..."
+            docker pull $IMAGE_TAG
+
+            # Limpar volume chatwoot_public (assets compilados)
+            echo "Cleaning chatwoot_public volume..."
+            if docker volume inspect chatwoot_public &>/dev/null; then
+              # Remover volume antigo
+              docker volume rm chatwoot_public || echo "Volume in use, will be recreated during service update"
+              # Recriar limpo
+              docker volume create chatwoot_public
+              echo "✓ Volume chatwoot_public recreated"
+            else
+              docker volume create chatwoot_public
+              echo "✓ Volume chatwoot_public created"
+            fi
+
+            # Atualizar o serviço no Docker Swarm
+            echo "Updating chatwoot_app service..."
+            docker service update \
+              --image $IMAGE_TAG \
+              --with-registry-auth \
+              --update-parallelism 1 \
+              --update-delay 10s \
+              --force \
+              chatwoot_chatwoot_app || echo "Service chatwoot_app not found, will be created on stack deploy"
+
+            echo "Updating chatwoot_worker service..."
+            docker service update \
+              --image $IMAGE_TAG \
+              --with-registry-auth \
+              --update-parallelism 1 \
+              --update-delay 10s \
+              --force \
+              chatwoot_chatwoot_worker || echo "Service chatwoot_worker not found, will be created on stack deploy"
+
+            echo "Updating chatwoot_rails_migrations service..."
+            docker service update \
+              --image $IMAGE_TAG \
+              --with-registry-auth \
+              --force \
+              chatwoot_chatwoot_rails_migrations || echo "Service chatwoot_rails_migrations not found, will be created on stack deploy"
+
+            echo "========================================="
+            echo "Deployment completed successfully!"
+            echo "========================================="
+
+            # Verificar status dos serviços
+            echo "Checking service status..."
+            docker service ls | grep chatwoot || echo "No chatwoot services running yet"
+
+      - name: Verify deployment
+        run: |
+          echo "✅ Deployment completed!"
+          echo "📦 Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}"
+          echo "🌿 Branch: ${{ github.ref_name }}"
+          echo "📝 Commit: ${{ github.sha }}"

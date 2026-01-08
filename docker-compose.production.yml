@@ -1,0 +1,161 @@
+version: "3.7"
+
+services:
+  chatwoot_app:
+    # Imagem customizada buildada pelo GitHub Actions
+    # Branch develop é a branch de produção
+    image: ghcr.io/defender-info/chatwoot-defender:develop
+    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    networks:
+      - network_public
+    environment:
+      # === Banco de Dados ===
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+      # === Redis ===
+      - REDIS_URL=redis://redis:6379/0
+
+      # === Ambiente ===
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - TZ=America/Sao_Paulo
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - ACTIVE_STORAGE_SERVICE=local
+      - FORCE_SSL=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - RAILS_MAX_THREADS=5
+      - WEB_CONCURRENCY=2
+      - RAILS_LOG_TO_STDOUT=true
+
+      # === Branding ===
+      - INSTALLATION_NAME=Defender Info
+      - BRAND_NAME=Defender Info
+      - APP_NAME=Central de Comunicação
+
+      # === SMTP ===
+      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
+      - SMTP_DOMAIN=defenderinfo.com
+      - SMTP_ADDRESS=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+    volumes:
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2048M
+        reservations:
+          cpus: "0.5"
+          memory: 1024M
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.chatwoot_app.rule=Host(`chat.defenderinfo.com`)
+        - traefik.http.routers.chatwoot_app.entrypoints=websecure
+        - traefik.http.routers.chatwoot_app.priority=1
+        - traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatwoot_app.service=chatwoot_app
+        - traefik.http.services.chatwoot_app.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot_app.loadbalancer.passHostHeader=true
+        - traefik.http.routers.chatwoot_app.middlewares=chatwoot_headers
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Proto=https
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Port=443
+
+  chatwoot_worker:
+    image: ghcr.io/defender-info/chatwoot-defender:develop
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    networks:
+      - network_public
+    environment:
+      # === Mesmas variáveis do app ===
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
+      - SMTP_DOMAIN=defenderinfo.com
+      - SMTP_ADDRESS=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - TZ=America/Sao_Paulo
+      - RAILS_LOG_TO_STDOUT=true
+    volumes:
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1024M
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+
+  chatwoot_rails_migrations:
+    image: ghcr.io/defender-info/chatwoot-defender:develop
+    command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
+    networks:
+      - network_public
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - TZ=America/Sao_Paulo
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  chatwoot_storage:
+    external: true
+    name: chatwoot_storage
+  chatwoot_public:
+    external: true
+    name: chatwoot_public
+
+networks:
+  network_public:
+    external: true
+    name: network_public
