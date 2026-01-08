@@ -14,6 +14,10 @@ defineProps({
     type: String,
     required: true,
   },
+  isAllowed: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['change']);
@@ -26,11 +30,16 @@ const handleModelChange = ({ feature, model }) => {
 <template>
   <div
     class="flex items-center justify-between gap-4 p-4 rounded-xl border border-n-weak bg-n-solid-1"
+    :class="{ 'opacity-70 pointer-events-none': !isAllowed }"
   >
     <div class="flex-1 min-w-0">
       <h4 class="text-sm font-medium text-n-slate-12">{{ title }}</h4>
       <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
     </div>
-    <ModelDropdown :feature-key="featureKey" @change="handleModelChange" />
+    <ModelDropdown
+      v-if="isAllowed"
+      :feature-key="featureKey"
+      @change="handleModelChange"
+    />
   </div>
 </template>

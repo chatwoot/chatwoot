@@ -11,6 +11,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  isAllowed: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 const emit = defineEmits(['change', 'modelChange']);
@@ -80,23 +84,26 @@ const handleModelChange = ({ feature, model }) => {
 
 <template>
   <div
-    class="p-4 rounded-xl border border-n-weak bg-n-solid-1"
-    :class="
-      showModelSelector
-        ? 'flex flex-col gap-3'
-        : 'flex items-center justify-between gap-4'
-    "
+    class="p-4 rounded-xl border border-n-weak bg-n-solid-1 flex"
+    :class="{
+      'flex-col gap-3': showModelSelector,
+      'items-center justify-between gap-4': !showModelSelector,
+      'opacity-70 pointer-events-none': !isAllowed,
+    }"
   >
     <div class="flex items-center justify-between gap-4 flex-1">
       <div class="flex-1 min-w-0">
         <h4 class="text-sm font-medium text-n-slate-12">{{ title }}</h4>
         <p class="text-sm text-n-slate-11 mt-0.5">{{ description }}</p>
       </div>
-      <div class="flex-shrink-0">
+      <div v-if="isAllowed" class="flex-shrink-0">
         <Switch v-model="isEnabled" @change="toggleFeature" />
       </div>
     </div>
-    <div v-if="showModelSelector" class="flex gap-2 ps-8 model-selector-item">
+    <div
+      v-if="showModelSelector && isAllowed"
+      class="flex gap-2 ps-8 model-selector-item"
+    >
       <div class="flex-1 min-w-0">
         <h4 class="text-sm font-medium text-n-slate-12">{{ modelTitle }}</h4>
         <p class="text-sm text-n-slate-11 mt-0.5">{{ modelDescription }}</p>
