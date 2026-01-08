@@ -128,7 +128,7 @@ export default {
           name: this.$t('INBOX_MGMT.TABS.COLLABORATORS'),
         },
         {
-          key: 'businesshours',
+          key: 'business-hours',
           name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
         },
         {
@@ -136,20 +136,6 @@ export default {
           name: this.$t('INBOX_MGMT.TABS.CSAT'),
         },
       ];
-
-      if (!this.isAVoiceChannel) {
-        visibleToAllChannelTabs = [
-          ...visibleToAllChannelTabs,
-          {
-            key: 'business-hours',
-            name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
-          },
-          {
-            key: 'csat',
-            name: this.$t('INBOX_MGMT.TABS.CSAT'),
-          },
-        ];
-      }
 
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
@@ -269,17 +255,7 @@ export default {
     instagramUnauthorized() {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
-    // Check if a instagram inbox exists with the same instagram_id
-    hasDuplicateInstagramInbox() {
-      // const instagramId = this.inbox.instagram_id;
-      // const instagramInbox =
-      //   this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
-      //     instagramId
-      //   );
 
-      // return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
-      return false;
-    },
     tiktokUnauthorized() {
       return this.isATiktokChannel && this.inbox.reauthorization_required;
     },
@@ -636,8 +612,14 @@ export default {
             v-if="isAWebWidgetInbox"
             v-model="avatarName"
             class="pb-4"
-            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.LABEL')"
-            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.PLACE_HOLDER')"
+            :label="
+              $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.LABEL')
+            "
+            :placeholder="
+              $t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.PLACE_HOLDER'
+              )
+            "
           />
           <woot-input
             v-if="isAWebWidgetInbox"
@@ -683,15 +665,29 @@ export default {
             v-if="isAWebWidgetInbox"
             v-model="dealerName"
             class="pb-4"
-            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL')"
-            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.PLACE_HOLDER')"
+            :label="
+              $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL')
+            "
+            :placeholder="
+              $t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.PLACE_HOLDER'
+              )
+            "
           />
           <woot-input
             v-if="isAWebWidgetInbox"
             v-model="dealerTagline"
             class="pb-4"
-            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL')"
-            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER')"
+            :label="
+              $t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL'
+              )
+            "
+            :placeholder="
+              $t(
+                'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER'
+              )
+            "
           />
           <label v-if="isAWebWidgetInbox" class="pb-4">
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}

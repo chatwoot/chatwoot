@@ -202,31 +202,21 @@ const handleAvatarHover = isHovered => {
         @click="onClickExpand"
       />
 
-    <template #after>
-      <div
-        class="transition-all duration-500 ease-in-out grid overflow-hidden"
-        :class="
-          isExpanded
-            ? 'grid-rows-[1fr] opacity-100'
-            : 'grid-rows-[0fr] opacity-0'
-        "
-      >
-        <div class="overflow-hidden">
-          <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
-            <ContactsForm
-              ref="contactsFormRef"
-              :contact-data="contactData"
-              @update="handleFormUpdate"
-            />
-            <div>
-              <Button
-                :label="
-                  t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
-                "
-                size="sm"
-                :is-loading="isUpdating"
-                :disabled="isUpdating || isFormInvalid"
-                @click="handleUpdateContact"
+      <template #after>
+        <div
+          class="transition-all duration-500 ease-in-out grid overflow-hidden"
+          :class="
+            isExpanded
+              ? 'grid-rows-[1fr] opacity-100'
+              : 'grid-rows-[0fr] opacity-0'
+          "
+        >
+          <div class="overflow-hidden">
+            <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
+              <ContactsForm
+                ref="contactsFormRef"
+                :contact-data="contactData"
+                @update="handleFormUpdate"
               />
               <div>
                 <Button
@@ -239,23 +229,16 @@ const handleAvatarHover = isHovered => {
                   @click="handleUpdateContact"
                 />
               </div>
+              <ContactDeleteSection
+                :selected-contact="{
+                  id: props.id,
+                  name: props.name,
+                }"
+              />
             </div>
-            <ContactDeleteSection
-              :selected-contact="{
-                id: props.id,
-                name: props.name,
-              }"
-            />
           </div>
-          <ContactDeleteSection
-            :selected-contact="{
-              id: props.id,
-              name: props.name,
-            }"
-          />
         </div>
-      </div>
-    </template>
-  </CardLayout>
+      </template>
+    </CardLayout>
   </div>
 </template>

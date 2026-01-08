@@ -66,6 +66,13 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   // Prevent any user interactions during route transition
   await store.dispatch('appConfig/setRouteTransitionState', true);
+
+  // Skip home page and redirect directly to messages page
+  if (to.name === 'home') {
+    next({ name: 'messages' });
+    return;
+  }
+
   next();
 });
 
