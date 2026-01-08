@@ -1,7 +1,7 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "Tutti",
+      "ALL": "All results",
       "CONTACTS": "Contatti",
       "CONVERSATIONS": "Conversazioni",
       "MESSAGES": "Messaggi",
@@ -19,14 +19,50 @@
     "LOADING_DATA": "Caricamento",
     "EMPTY_STATE": "Nessun {item} trovato per la ricerca '{query}'",
     "EMPTY_STATE_FULL": "Nessun risultato trovato per la ricerca '{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ per evidenziare",
+    "PLACEHOLDER_KEYBINDING": "/per evidenziare",
     "INPUT_PLACEHOLDER": "Digita 3 o più caratteri da cercare",
+    "RECENT_SEARCHES": "Recent searches",
+    "CLEAR_ALL": "Rimuovi tutto",
+    "MOST_RECENT": "Most recent",
     "EMPTY_STATE_DEFAULT": "Ricerca per id conversazione, email, numero di telefono, messaggi per risultati di ricerca migliori. ",
     "BOT_LABEL": "Bot",
     "READ_MORE": "Leggi di più",
+    "READ_LESS": "Read less",
     "WROTE": "ha scritto:",
-    "FROM": "da",
-    "EMAIL": "email",
-    "EMAIL_SUBJECT": "oggetto"
+    "FROM": "Da",
+    "EMAIL": "Email",
+    "EMAIL_SUBJECT": "Oggetto",
+    "PRIVATE": "Private note",
+    "TRANSCRIPT": "Transcript",
+    "CREATED_AT": "creato {time}",
+    "UPDATED_AT": "updated {time}",
+    "SORT_BY": {
+      "RELEVANCE": "Relevance"
+    },
+    "DATE_RANGE": {
+      "LAST_7_DAYS": "Ultimi 7 giorni",
+      "LAST_30_DAYS": "Ultimi 30 giorni",
+      "LAST_60_DAYS": "Ultimi 60 giorni",
+      "LAST_90_DAYS": "Ultimi 90 giorni",
+      "CUSTOM_RANGE": "Custom range:",
+      "CREATED_BETWEEN": "Created between",
+      "AND": "e",
+      "APPLY": "Applica",
+      "BEFORE_DATE": "Before {date}",
+      "AFTER_DATE": "After {date}",
+      "TIME_RANGE": "Filter by time",
+      "CLEAR_FILTER": "Rimuovi filtro"
+    },
+    "FILTERS": {
+      "FILTER_MESSAGE": "Filter messages by:",
+      "FROM": "Mittente",
+      "IN": "Inbox",
+      "AGENTS": "Operatori",
+      "CONTACTS": "Contatti",
+      "INBOXES": "Inbox",
+      "NO_AGENTS": "Nessun operatore trovato",
+      "NO_CONTACTS": "Start by searching to see results",
+      "NO_INBOXES": "No inboxes found"
+    }
   }
 }
