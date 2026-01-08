@@ -70,6 +70,9 @@ lt:
         invalid: must be a valid domain name
       search:
         query_missing: Nurodykite paieškos eilutę su parametru q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: turėtų būti unikalūs kategorijoje ir portale
