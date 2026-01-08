@@ -1,5 +1,6 @@
 module Captain::ChatGenerationRecorder
   extend ActiveSupport::Concern
+  include Integrations::LlmInstrumentationConstants
 
   private
 
