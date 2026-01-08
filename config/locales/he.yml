@@ -70,6 +70,9 @@ he:
         invalid: חייב להיות שם דומיין תקין
       search:
         query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: צריך להיות ייחודי בקטגוריה ובפורטל
