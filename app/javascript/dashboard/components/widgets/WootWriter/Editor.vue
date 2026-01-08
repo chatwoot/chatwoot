@@ -55,6 +55,7 @@ import {
   getSelectionCoords,
   calculateMenuPosition,
   getEffectiveChannelType,
+  stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -131,8 +132,10 @@ const editorMenuOptions = computed(() => {
 
 const createState = (content, placeholder, plugins = [], methods = {}) => {
   const schema = editorSchema.value;
+  // Strip unsupported formatting before parsing to prevent "Token type not supported" errors
+  const sanitizedContent = stripUnsupportedFormatting(content, schema);
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(schema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(sanitizedContent),
     plugins: buildEditor({
       schema,
       placeholder,
