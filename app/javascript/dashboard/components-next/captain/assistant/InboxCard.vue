@@ -5,7 +5,8 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
 import ChannelIcon from 'dashboard/components-next/icon/ChannelIcon.vue';
-import { INBOX_TYPES, getChannelTypeDisplayName } from 'dashboard/helper/inbox';
+import ChannelName from 'dashboard/routes/dashboard/settings/inbox/components/ChannelName.vue';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 const props = defineProps({
   id: {
@@ -42,11 +43,6 @@ const inboxName = computed(() => {
   return inbox.name;
 });
 
-const channelType = computed(() => {
-  const { channel_type: type, medium } = props.inbox;
-  return getChannelTypeDisplayName(type, medium);
-});
-
 const handleAction = (action, value) => {
   emit('action', { action, value, id: props.id });
 };
@@ -70,9 +66,11 @@ const handleAction = (action, value) => {
           {{ inboxName }}
         </span>
         <div class="w-px h-3 bg-n-weak rounded-lg flex-shrink-0" />
-        <span class="text-body-main text-n-slate-11 flex-shrink-0">{{
-          channelType
-        }}</span>
+        <ChannelName
+          :channel-type="inbox.channel_type"
+          :medium="inbox.medium"
+          class="text-body-main text-n-slate-11 flex-shrink-0"
+        />
       </div>
       <Policy :permissions="['administrator']">
         <Button

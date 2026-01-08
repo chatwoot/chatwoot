@@ -171,30 +171,3 @@ export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
   }
   return '';
 };
-
-export const getChannelTypeDisplayName = (type, medium) => {
-  // Handle Twilio special case
-  if (type === INBOX_TYPES.TWILIO) {
-    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
-      ? 'Twilio WhatsApp'
-      : 'Twilio SMS';
-  }
-
-  // Map channel types to display names
-  const channelTypeMap = {
-    [INBOX_TYPES.WEB]: 'Website',
-    [INBOX_TYPES.FB]: 'Messenger',
-    [INBOX_TYPES.TWITTER]: 'Twitter',
-    [INBOX_TYPES.WHATSAPP]: 'WhatsApp',
-    [INBOX_TYPES.API]: 'API',
-    [INBOX_TYPES.EMAIL]: 'Email',
-    [INBOX_TYPES.TELEGRAM]: 'Telegram',
-    [INBOX_TYPES.LINE]: 'Line',
-    [INBOX_TYPES.SMS]: 'SMS',
-    [INBOX_TYPES.INSTAGRAM]: 'Instagram',
-    [INBOX_TYPES.TIKTOK]: 'TikTok',
-    [INBOX_TYPES.VOICE]: 'Voice',
-  };
-
-  return channelTypeMap[type] || 'Chat';
-};
