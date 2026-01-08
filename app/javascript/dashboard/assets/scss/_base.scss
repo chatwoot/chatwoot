@@ -98,13 +98,16 @@ input[type='file']:not(.multiselect__input) {
 
 // Select
 select {
+  @apply field-base h-10 bg-origin-content bg-no-repeat py-2 ltr:bg-[right_-1rem_center] rtl:bg-[left_-1rem_center] ltr:pr-6 rtl:pl-6 rtl:pr-3 ltr:pl-3 dark:bg-n-solid-2;
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
   background-size: 9px 6px;
 
-  @apply field-base h-10 bg-origin-content bg-no-repeat py-2 ltr:bg-[right_-1rem_center] rtl:bg-[left_-1rem_center] ltr:pr-6 rtl:pl-6 rtl:pr-3 ltr:pl-3;
-
   &[disabled] {
     @apply field-disabled;
+  }
+
+  option {
+    @apply bg-n-solid-2 text-n-slate-12;
   }
 }
 
