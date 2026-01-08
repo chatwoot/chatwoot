@@ -48,6 +48,7 @@ const mockStore = createStore({
             12: { id: 12, channel_type: INBOX_TYPES.SMS },
             13: { id: 13, channel_type: INBOX_TYPES.INSTAGRAM },
             14: { id: 14, channel_type: INBOX_TYPES.VOICE },
+            15: { id: 15, channel_type: INBOX_TYPES.TIKTOK },
           };
           return inboxes[id] || null;
         },
@@ -215,6 +216,12 @@ describe('useInbox', () => {
         global: { plugins: [mockStore] },
       });
       expect(wrapper.vm.isAVoiceChannel).toBe(true);
+
+      // Test Tiktok
+      wrapper = mount(createTestComponent(15), {
+        global: { plugins: [mockStore] },
+      });
+      expect(wrapper.vm.isATiktokChannel).toBe(true);
     });
   });
 
@@ -266,6 +273,7 @@ describe('useInbox', () => {
         'is360DialogWhatsAppChannel',
         'isAnEmailChannel',
         'isAnInstagramChannel',
+        'isATiktokChannel',
         'isAVoiceChannel',
       ];
 

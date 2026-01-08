@@ -47,6 +47,13 @@
 - Avoid writing specs unless explicitly asked
 - Remove dead/unreachable/unused code
 - Don’t write multiple versions or backups for the same logic — pick the best approach and implement it
+- Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
+- Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
+
+## Commit Messages
+
+- Prefer Conventional Commits: `type(scope): subject` (scope optional)
+- Example: `feat(auth): add user authentication`
 - Don't reference Claude in commit messages
 
 ## Project-Specific
@@ -78,3 +85,4 @@ Practical checklist for any change impacting core logic or public APIs
 - Keep request/response contracts stable across OSS and Enterprise; update both sets of routes/controllers when introducing new APIs.
 - When renaming/moving shared code, mirror the change in `enterprise/` to prevent drift.
 - Tests: Add Enterprise-specific specs under `spec/enterprise`, mirroring OSS spec layout where applicable.
+- When modifying existing OSS features for Enterprise-only behavior, add an Enterprise module (via `prepend_mod_with`/`include_mod_with`) instead of editing OSS files directly—especially for policies, controllers, and services. For Enterprise-exclusive features, place code directly under `enterprise/`.
