@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2025_12_29_081141) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1239,7 +1239,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "webhook_type", default: 0
