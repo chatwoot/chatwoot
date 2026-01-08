@@ -10,7 +10,7 @@ models:
   gpt-4.1:
     provider: openai
     display_name: 'GPT-4.1'
-    credit_multiplier: 2
+    credit_multiplier: 3
   gpt-4.1-mini:
     provider: openai
     display_name: 'GPT-4.1 Mini'
@@ -40,9 +40,9 @@ models:
     display_name: 'Claude Haiku 4.5'
     coming_soon: true
     credit_multiplier: 2
-  claude-sonnet-4:
+  claude-sonnet-4.5:
     provider: anthropic
-    display_name: 'Claude Sonnet 4'
+    display_name: 'Claude Sonnet 4.5'
     coming_soon: true
     credit_multiplier: 3
   gemini-3-flash:
@@ -87,7 +87,7 @@ features:
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
-        claude-sonnet-4,
+        claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
@@ -100,7 +100,7 @@ features:
         gpt-5.1,
         gpt-5.2,
         claude-haiku-4.5,
-        claude-sonnet-4,
+        claude-sonnet-4.5,
         gemini-3-flash,
         gemini-3-pro,
       ]
