@@ -70,6 +70,9 @@ ru:
         invalid: должно быть корректным доменным именем
       search:
         query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
