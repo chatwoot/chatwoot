@@ -928,6 +928,11 @@ describe('stripUnsupportedFormatting', () => {
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
     });
 
+    it('preserves autolinks when schema supports links', () => {
+      const content = 'Check out <https://cegrafic.com/catalogo/>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
     it('preserves lists when schema supports them', () => {
       const content = '- item 1\n- item 2\n1. first\n2. second';
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
@@ -997,6 +1002,18 @@ describe('stripUnsupportedFormatting', () => {
           emptySchema
         )
       ).toBe('Check this link');
+    });
+
+    it('converts autolinks to plain URLs when schema does not support links', () => {
+      const content = 'Visit <https://cegrafic.com/catalogo/> for more info';
+      const expected = 'Visit https://cegrafic.com/catalogo/ for more info';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('handles multiple autolinks in content', () => {
+      const content = 'Check <https://example.com> and <https://test.com>';
+      const expected = 'Check https://example.com and https://test.com';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
 
     it('strips bullet list markers', () => {
