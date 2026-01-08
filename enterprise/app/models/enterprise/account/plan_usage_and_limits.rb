@@ -15,10 +15,18 @@ module Enterprise::Account::PlanUsageAndLimits
     }
   end
 
+  # Use atomic SQL update to prevent race condition when multiple jobs
+  # increment concurrently. The previous read-modify-write pattern caused
+  # lost updates under high concurrency
+  # Skipping validations is safe: no validations on custom_attributes, no dependent callbacks.
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    self.class.where(id: id).update_all( # rubocop:disable Rails/SkipsModelValidations
+      "custom_attributes = jsonb_set(
+        custom_attributes,
+        '{#{CAPTAIN_RESPONSES_USAGE}}',
+        (COALESCE((custom_attributes->>'#{CAPTAIN_RESPONSES_USAGE}')::int, 0) + 1)::text::jsonb
+      )"
+    )
   end
 
   def reset_response_usage

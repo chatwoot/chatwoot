@@ -70,6 +70,7 @@ RSpec.describe Account, type: :model do
       ## Responses
       it 'incrementing responses updates usage_limits' do
         account.increment_response_usage
+        account.reload
 
         responses_limits = account.usage_limits[:captain][:responses]
 
