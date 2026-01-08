@@ -1,22 +1,34 @@
 class Captain::FollowUpService < Captain::BaseTaskService
-  pattr_initialize [:account!, :session_id!, :user_message!]
+  pattr_initialize [:account!, :follow_up_context!, :user_message!]
+
+  ALLOWED_EVENT_NAMES = %w[
+    professional
+    casual
+    friendly
+    confident
+    straightforward
+    fix_spelling_grammar
+    improve
+    summarize
+    reply_suggestion
+    label_suggestion
+  ].freeze
 
   def perform
-    session_data = load_session
-    return { error: 'Session expired or not found', error_code: 404 } unless session_data
+    return { error: 'Follow-up context missing', error_code: 400 } unless valid_follow_up_context?
 
     # Build context-aware system prompt
-    system_prompt = build_follow_up_system_prompt(session_data)
+    system_prompt = build_follow_up_system_prompt(follow_up_context)
 
     # Build full message array (convert history from string keys to symbol keys)
-    history = session_data['conversation_history'].map do |msg|
+    history = follow_up_context['conversation_history'].to_a.map do |msg|
       { role: msg['role'], content: msg['content'] }
     end
 
     messages = [
       { role: 'system', content: system_prompt },
-      { role: 'user', content: session_data['original_context'] },
-      { role: 'assistant', content: session_data['last_response'] },
+      { role: 'user', content: follow_up_context['original_context'] },
+      { role: 'assistant', content: follow_up_context['last_response'] },
       *history,
       { role: 'user', content: user_message }
     ]
@@ -24,10 +36,7 @@ class Captain::FollowUpService < Captain::BaseTaskService
     response = make_api_call(model: GPT_MODEL, messages: messages)
     return response if response[:error]
 
-    # Update session with new exchange
-    update_session(session_data, user_message, response[:message])
-
-    response.merge(session_id: session_id)
+    response.merge(follow_up_context: update_follow_up_context(user_message, response[:message]))
   end
 
   private
@@ -61,25 +70,26 @@ class Captain::FollowUpService < Captain::BaseTaskService
     end
   end
 
-  def load_session
-    cached = Redis::Alfred.get(session_key(session_id))
-    return nil unless cached.present?
+  def valid_follow_up_context?
+    return false unless follow_up_context.is_a?(Hash)
+    return false unless ALLOWED_EVENT_NAMES.include?(follow_up_context['event_name'])
 
-    JSON.parse(cached)
-  rescue JSON::ParserError
-    nil
+    required_keys = %w[event_name original_context last_response]
+    required_keys.all? { |key| follow_up_context[key].present? }
   end
 
-  def update_session(session_data, user_msg, assistant_msg)
-    session_data['conversation_history'] << { role: 'user', content: user_msg }
-    session_data['conversation_history'] << { role: 'assistant', content: assistant_msg }
-    session_data['last_response'] = assistant_msg
+  def update_follow_up_context(user_msg, assistant_msg)
+    updated_history = follow_up_context['conversation_history'].to_a + [
+      { role: 'user', content: user_msg },
+      { role: 'assistant', content: assistant_msg }
+    ]
 
-    Redis::Alfred.setex(
-      session_key(session_id),
-      session_data.to_json,
-      1.hour.to_i
-    )
+    {
+      'event_name' => follow_up_context['event_name'],
+      'original_context' => follow_up_context['original_context'],
+      'last_response' => assistant_msg,
+      'conversation_history' => updated_history
+    }
   end
 
   def event_name

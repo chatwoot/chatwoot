@@ -33,10 +33,9 @@ class Captain::BaseTaskService
       execute_ruby_llm_request(model: model, messages: messages)
     end
 
-    # Create session for follow-ups if applicable
-    if should_create_session? && response[:message].present?
-      session_id = create_session(messages, response)
-      response.merge(session_id: session_id)
+    # Build follow-up context for client-side refinement, when applicable
+    if build_follow_up_context? && response[:message].present?
+      response.merge(follow_up_context: build_follow_up_context(messages, response))
     else
       response
     end
@@ -127,41 +126,24 @@ class Captain::BaseTaskService
     Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.liquid").read
   end
 
-  # Session management for follow-ups
-  def should_create_session?
-    # By default, all one-shot tasks create sessions
-    # FollowUpService won't create nested sessions
+  # Follow-up context for client-side refinement
+  def build_follow_up_context?
+    # FollowUpService should return its own updated context
     !is_a?(Captain::FollowUpService)
   end
 
-  def create_session(messages, response)
-    session_id = SecureRandom.uuid
-
-    session_data = {
+  def build_follow_up_context(messages, response)
+    {
       event_name: event_name,
       original_context: extract_original_context(messages),
       last_response: response[:message],
-      conversation_history: [],
-      conversation_display_id: conversation_display_id,
-      created_at: Time.current.to_i
+      conversation_history: []
     }
-
-    Redis::Alfred.setex(
-      session_key(session_id),
-      session_data.to_json,
-      15.minutes.to_i
-    )
-
-    session_id
   end
 
   def extract_original_context(messages)
     # Get the user's content from original messages
     user_msg = messages.find { |m| m[:role] == 'user' }
     user_msg ? user_msg[:content] : nil
-  end
-
-  def session_key(session_id)
-    format(::Redis::RedisKeys::CAPTAIN_TASK_SESSION, session_id: session_id)
   end
 end
