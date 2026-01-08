@@ -1,4 +1,4 @@
-providers:
+aproviders:
   openai:
     display_name: 'OpenAI'
   anthropic:
@@ -10,31 +10,31 @@ models:
   gpt-4.1:
     provider: openai
     display_name: 'GPT-4.1'
-    credit_multiplier: 0.5
+    credit_multiplier: 1
   gpt-4.1-mini:
     provider: openai
     display_name: 'GPT-4.1 Mini'
-    credit_multiplier: 0.3
+    credit_multiplier: 0.5
   gpt-4.1-nano:
     provider: openai
     display_name: 'GPT-4.1 Nano'
-    credit_multiplier: 0.1
+    credit_multiplier: 0.5
   gpt-5.1:
     provider: openai
     display_name: 'GPT-5.1'
-    credit_multiplier: 1.2
+    credit_multiplier: 1
   gpt-5-mini:
     provider: openai
     display_name: 'GPT-5 Mini'
-    credit_multiplier: 0.8
+    credit_multiplier: 0.5
   gpt-5-nano:
     provider: openai
     display_name: 'GPT-5 Nano'
-    credit_multiplier: 0.3
+    credit_multiplier: 0.5
   gpt-5.2:
     provider: openai
     display_name: 'GPT-5.2'
-    credit_multiplier: 1.5
+    credit_multiplier: 2
   claude-haiku-4.5:
     provider: anthropic
     display_name: 'Claude Haiku 4.5'
@@ -54,15 +54,15 @@ models:
     provider: gemini
     display_name: 'Gemini 3 Pro'
     coming_soon: true
-    credit_multiplier: 1.5
+    credit_multiplier: 2
   whisper-1:
     provider: openai
     display_name: 'Whisper'
-    credit_multiplier: 0.2
+    credit_multiplier: 1
   text-embedding-3-small:
     provider: openai
     display_name: 'Text Embedding 3 Small'
-    credit_multiplier: 0.1
+    credit_multiplier: 0.5
 
 features:
   editor:
@@ -115,4 +115,3 @@ features:
   help_center_search:
     models: [text-embedding-3-small]
     default: text-embedding-3-small
-# add deprecation_map later
