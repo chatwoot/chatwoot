@@ -199,7 +199,7 @@ const confirmDeletion = () => {
                 </span>
                 <div class="w-px h-3 bg-n-strong rounded-lg" />
                 <span
-                  class="block w-fit text-body-main text-n-slate-11"
+                  class="block w-fit text-body-main text-n-slate-11 relative"
                   :class="{
                     'hover:text-n-slate-12 group cursor-pointer':
                       agent.custom_role_id,
@@ -208,7 +208,7 @@ const confirmDeletion = () => {
                   {{ getAgentRoleName(agent) }}
 
                   <div
-                    class="absolute ltr:left-0 rtl:right-0 z-10 hidden w-full max-w-[300px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl outline outline-1 outline-n-container shadow-lg top-14 md:top-12"
+                    class="absolute ltr:left-0 rtl:right-0 z-10 hidden w-[300px] bg-n-alpha-3 backdrop-blur-[100px] rounded-xl outline outline-1 outline-n-container shadow-lg top-14 md:top-12"
                     :class="{ 'group-hover:block': agent.custom_role_id }"
                   >
                     <div class="flex flex-col gap-1 p-4">
