@@ -42,7 +42,7 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   def follow_up
     result = Captain::FollowUpService.new(
       account: Current.account,
-      session_id: params[:session_id],
+      follow_up_context: params[:follow_up_context]&.to_unsafe_h,
       user_message: params[:message]
     ).perform
 
@@ -58,7 +58,7 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
       render json: { error: result[:error] }, status: :unprocessable_entity
     else
       response_data = { message: result[:message] }
-      response_data[:session_id] = result[:session_id] if result[:session_id]
+      response_data[:follow_up_context] = result[:follow_up_context] if result[:follow_up_context]
       render json: response_data
     end
   end
