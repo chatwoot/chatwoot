@@ -70,6 +70,9 @@ hr:
         invalid: must be a valid domain name
       search:
         query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: should be unique in the category and portal
