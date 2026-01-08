@@ -43,7 +43,7 @@ export class TemplateNormalizer {
         .find(key => key);
 
     // Convert template_type to match the keys used in the types object
-    const normalizedType = (typeKey || '').replace('_', '-');
+    const normalizedType = (typeKey || '').replace(/_/g, '-');
     const lookupKey = `twilio/${normalizedType}`;
     const typeData = template.types?.[lookupKey] || {};
 
@@ -125,7 +125,7 @@ export class TemplateNormalizer {
         .map(key => key.replace('twilio/', ''))
         .find(key => key);
 
-    const normalizedType = (typeKey || '').replace('_', '-');
+    const normalizedType = (typeKey || '').replace(/_/g, '-');
     const typeData = template.types?.[`twilio/${normalizedType}`] || {};
 
     // Extract from body text

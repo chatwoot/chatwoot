@@ -43,7 +43,9 @@ export class TemplateTypeDetector {
         .map(key => key.replace('twilio/', ''))
         .find(typeKey => typeKey);
 
-    const templateType = (typeFromTemplate || '').replace('-', '_');
+    const templateType = (typeFromTemplate || '')
+      .replace(/-/g, '_')
+      .replace(/__/g, '_');
 
     switch (templateType) {
       case 'media':
