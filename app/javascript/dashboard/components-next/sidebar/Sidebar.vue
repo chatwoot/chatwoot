@@ -21,8 +21,8 @@ import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 
-const logoNavbar = '/brand-assets/logo_navbar.png';
-const logoNavbarDark = '/brand-assets/logo_navbar_dark.png';
+const logoNavbar = '/brand-assets/logo.svg';
+const logoNavbarDark = '/brand-assets/logo_dark.svg';
 
 const props = defineProps({
   isMobileSidebarOpen: {
