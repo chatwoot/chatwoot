@@ -80,8 +80,8 @@ class Captain::FollowUpService < Captain::BaseTaskService
 
   def update_follow_up_context(user_msg, assistant_msg)
     updated_history = follow_up_context['conversation_history'].to_a + [
-      { role: 'user', content: user_msg },
-      { role: 'assistant', content: assistant_msg }
+      { 'role' => 'user', 'content' => user_msg },
+      { 'role' => 'assistant', 'content' => assistant_msg }
     ]
 
     {
