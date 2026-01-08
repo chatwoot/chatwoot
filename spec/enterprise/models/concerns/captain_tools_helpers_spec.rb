@@ -42,58 +42,6 @@ RSpec.describe Concerns::CaptainToolsHelpers, type: :concern do
     end
   end
 
-  describe '.available_agent_tools' do
-    before do
-      # Mock the YAML file loading
-      allow(YAML).to receive(:load_file).and_return([
-                                                      {
-                                                        'id' => 'add_contact_note',
-                                                        'title' => 'Add Contact Note',
-                                                        'description' => 'Add a note to a contact',
-                                                        'icon' => 'note-add'
-                                                      },
-                                                      {
-                                                        'id' => 'invalid_tool',
-                                                        'title' => 'Invalid Tool',
-                                                        'description' => 'This tool does not exist',
-                                                        'icon' => 'invalid'
-                                                      }
-                                                    ])
-
-      # Mock class resolution - only add_contact_note exists
-      allow(test_class).to receive(:resolve_tool_class) do |tool_id|
-        case tool_id
-        when 'add_contact_note'
-          Captain::Tools::AddContactNoteTool
-        end
-      end
-    end
-
-    it 'returns only resolvable tools' do
-      tools = test_class.available_agent_tools
-
-      expect(tools.length).to eq(1)
-      expect(tools.first).to eq({
-                                  id: 'add_contact_note',
-                                  title: 'Add Contact Note',
-                                  description: 'Add a note to a contact',
-                                  icon: 'note-add'
-                                })
-    end
-
-    it 'logs warnings for unresolvable tools' do
-      expect(Rails.logger).to receive(:warn).with('Tool class not found for ID: invalid_tool')
-
-      test_class.available_agent_tools
-    end
-
-    it 'memoizes the result' do
-      expect(YAML).to receive(:load_file).once.and_return([])
-
-      2.times { test_class.available_agent_tools }
-    end
-  end
-
   describe '.resolve_tool_class' do
     it 'resolves valid tool classes' do
       # Mock the constantize to return a class
@@ -113,28 +61,6 @@ RSpec.describe Concerns::CaptainToolsHelpers, type: :concern do
 
       result = test_class.resolve_tool_class('add_private_note')
       expect(result).to eq(Captain::Tools::AddPrivateNoteTool)
-    end
-  end
-
-  describe '.available_tool_ids' do
-    before do
-      allow(test_class).to receive(:available_agent_tools).and_return([
-                                                                        { id: 'add_contact_note', title: 'Add Contact Note', description: '...',
-                                                                          icon: 'note' },
-                                                                        { id: 'update_priority', title: 'Update Priority', description: '...',
-                                                                          icon: 'priority' }
-                                                                      ])
-    end
-
-    it 'returns array of tool IDs' do
-      ids = test_class.available_tool_ids
-      expect(ids).to eq(%w[add_contact_note update_priority])
-    end
-
-    it 'memoizes the result' do
-      expect(test_class).to receive(:available_agent_tools).once.and_return([])
-
-      2.times { test_class.available_tool_ids }
     end
   end
 

@@ -19,10 +19,10 @@ const { uiSettings } = useUISettings();
 
 const searchQuery = ref('');
 
-const contactAttributes = useMapGetter('attributes/getContactAttributes') || [];
+const contactAttributes = useMapGetter('attributes/getContactAttributes');
 
 const hasContactAttributes = computed(
-  () => contactAttributes.value?.length > 0
+  () => contactAttributes.value && contactAttributes.value.length > 0
 );
 
 const processContactAttributes = (
@@ -30,18 +30,20 @@ const processContactAttributes = (
   customAttributes,
   filterCondition
 ) => {
-  if (!attributes.length || !customAttributes) {
+  if (!attributes || !attributes.length) {
     return [];
   }
 
+  const safeCustomAttributes = customAttributes || {};
+
   return attributes.reduce((result, attribute) => {
     const { attributeKey } = attribute;
-    const meetsCondition = filterCondition(attributeKey, customAttributes);
+    const meetsCondition = filterCondition(attributeKey, safeCustomAttributes);
 
     if (meetsCondition) {
       result.push({
         ...attribute,
-        value: customAttributes[attributeKey] ?? '',
+        value: safeCustomAttributes[attributeKey] ?? '',
       });
     }
 
@@ -75,24 +77,18 @@ const sortByUISettings = attributes => {
 };
 
 const usedAttributes = computed(() => {
+  if (!contactAttributes.value || !Array.isArray(contactAttributes.value)) {
+    return [];
+  }
   const attributes = processContactAttributes(
     contactAttributes.value,
-    props.selectedContact?.customAttributes,
+    props.selectedContact?.customAttributes || {},
     (key, custom) => key in custom
   );
 
   return sortByUISettings(attributes);
 });
 
-const unusedAttributes = computed(() => {
-  const attributes = processContactAttributes(
-    contactAttributes.value,
-    props.selectedContact?.customAttributes,
-    (key, custom) => !(key in custom)
-  );
-
-  return sortByUISettings(attributes);
-});
 
 const filteredUnusedAttributes = computed(() => {
   return unusedAttributes.value?.filter(attribute =>

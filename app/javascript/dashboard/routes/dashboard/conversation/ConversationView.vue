@@ -101,6 +101,24 @@ export default {
     conversationId() {
       this.fetchConversationIfUnavailable();
     },
+    'currentChat.id'(newId, oldId) {
+      // Open contact sidebar by default only the first time,
+      // but respect the user's preference after they've toggled it.
+      if (!newId || newId === oldId) {
+        return;
+      }
+
+      const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
+
+      // If the setting has never been set (undefined), default to open once.
+      if (typeof isContactSidebarOpen === 'undefined') {
+        this.updateUISettings({
+          is_contact_sidebar_open: true,
+          is_copilot_panel_open: false,
+          is_conversation_summary_open: false,
+        });
+      }
+    },
   },
 
   created() {

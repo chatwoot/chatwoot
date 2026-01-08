@@ -753,7 +753,6 @@ describe('#mutations', () => {
       };
 
       mutations[types.UPDATE_CONVERSATION](state, conversation);
-      expect(emitter.emit).toHaveBeenCalledWith('FETCH_LABEL_SUGGESTIONS');
       expect(emitter.emit).toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
     });
 

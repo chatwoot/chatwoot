@@ -44,6 +44,7 @@ class Inbox < ApplicationRecord
   include Avatarable
   include OutOfOffisable
   include AccountCacheRevalidator
+  include InboxAgentAvailability
 
   # Not allowing characters:
   validates :name, presence: true
@@ -127,6 +128,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Instagram'
   end
 
+  def tiktok?
+    channel_type == 'Channel::Tiktok'
+  end
+
   def web_widget?
     channel_type == 'Channel::WebWidget'
   end
@@ -145,6 +150,10 @@ class Inbox < ApplicationRecord
 
   def twitter?
     channel_type == 'Channel::TwitterProfile'
+  end
+
+  def telegram?
+    channel_type == 'Channel::Telegram'
   end
 
   def whatsapp?
@@ -199,6 +208,9 @@ class Inbox < ApplicationRecord
     when 'Channel::Api' then 'Api'
     else 'Website'
     end
+  end
+  def auto_assignment_v2_enabled?
+    account.feature_enabled?('assignment_v2')
   end
 
   private

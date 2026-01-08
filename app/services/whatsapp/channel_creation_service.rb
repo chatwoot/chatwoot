@@ -11,6 +11,7 @@ class Whatsapp::ChannelCreationService
 
     existing_channel = find_existing_channel
     raise "Channel already exists: #{existing_channel.phone_number}" if existing_channel
+    raise I18n.t('errors.whatsapp.phone_number_already_exists', phone_number: existing_channel.phone_number) if existing_channel
 
     create_channel_with_inbox
   end

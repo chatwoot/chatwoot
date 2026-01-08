@@ -179,7 +179,7 @@ export default {
         user_access_token: this.user_access_token,
         page_access_token: this.selectedPage.access_token,
         page_id: this.selectedPage.id,
-        inbox_name: this.selectedPage.name,
+        inbox_name: this.selectedPage.name?.trim(),
       };
     },
 
@@ -206,16 +206,14 @@ export default {
 </script>
 
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
+  <div class="w-full h-full col-span-6 p-6 overflow-auto">
     <div
       v-if="!hasLoginStarted"
       class="flex flex-col items-center justify-center h-full text-center"
     >
       <a href="#" @click="startLogin()">
         <img
-          class="w-auto h-10"
+          class="w-auto h-10 rounded-md"
           src="~dashboard/assets/images/channels/facebook_login.png"
           alt="Facebook-logo"
         />

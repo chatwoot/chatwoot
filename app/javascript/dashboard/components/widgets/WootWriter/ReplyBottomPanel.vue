@@ -14,7 +14,7 @@ import {
 } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
 import AIAssistanceButton from '../AIAssistanceButton.vue';
-import { REPLY_EDITOR_MODES } from './constants';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -23,9 +23,9 @@ export default {
   components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
   mixins: [inboxMixin],
   props: {
-    mode: {
-      type: String,
-      default: REPLY_EDITOR_MODES.REPLY,
+    isNote: {
+      type: Boolean,
+      default: false,
     },
     onSend: {
       type: Function,
@@ -82,10 +82,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    showEditorToggle: {
-      type: Boolean,
-      default: false,
-    },
     isOnPrivateNote: {
       type: Boolean,
       default: false,
@@ -95,6 +91,10 @@ export default {
       default: true,
     },
     enableWhatsAppTemplates: {
+      type: Boolean,
+      default: false,
+    },
+    enableContentTemplates: {
       type: Boolean,
       default: false,
     },
@@ -118,12 +118,21 @@ export default {
       type: String,
       default: '',
     },
+    showQuotedReplyToggle: {
+      type: Boolean,
+      default: false,
+    },
+    quotedReplyEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'replaceText',
     'toggleInsertArticle',
-    'toggleEditor',
     'selectWhatsappTemplate',
+    'selectContentTemplate',
+    'toggleQuotedReply',
   ],
   setup() {
     const { setSignatureFlagForInbox, fetchSignatureFlagFromUISettings } =
@@ -155,15 +164,17 @@ export default {
       uploadRef,
     };
   },
+  data() {
+    return {
+      ALLOWED_FILE_TYPES,
+    };
+  },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'integrations/getUIFlags',
     }),
-    isNote() {
-      return this.mode === REPLY_EDITOR_MODES.NOTE;
-    },
     wrapClass() {
       return {
         'is-note-mode': this.isNote,
@@ -196,17 +207,33 @@ export default {
       return this.conversationType === 'instagram_direct_message';
     },
     allowedFileTypes() {
-      if (this.isATwilioWhatsAppChannel) {
-        return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+      // Use default file types for private notes
+      if (this.isOnPrivateNote) {
+        return this.ALLOWED_FILE_TYPES;
       }
-      if (this.isALineChannel) {
-        return ALLOWED_FILE_TYPES_FOR_LINE;
-      }
+
+      let channelType = this.channelType || this.inbox?.channel_type;
+
       if (this.isAnInstagramChannel || this.isInstagramDM) {
         return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
       }
 
-      return ALLOWED_FILE_TYPES;
+      // Handle Twilio channels based on medium
+      if (channelType === INBOX_TYPES.TWILIO) {
+        const medium = this.inbox?.medium;
+        if (medium === 'whatsapp') {
+          return ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP;
+        }
+        // For SMS, use default
+        return this.ALLOWED_FILE_TYPES;
+      }
+
+      if (channelType === INBOX_TYPES.LINE) {
+        return ALLOWED_FILE_TYPES_FOR_LINE;
+      }
+
+      // Default file types for all other channels
+      return this.ALLOWED_FILE_TYPES;
     },
     enableDragAndDrop() {
       return !this.newConversationModalActive;
@@ -241,6 +268,11 @@ export default {
     },
     isFetchingAppIntegrations() {
       return this.uiFlags.isFetching;
+    },
+    quotedReplyToggleTooltip() {
+      return this.quotedReplyEnabled
+        ? this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.DISABLE_TOOLTIP')
+        : this.$t('CONVERSATION.REPLYBOX.QUOTED_REPLY.ENABLE_TOOLTIP');
     },
   },
   mounted() {
@@ -305,17 +337,7 @@ export default {
         @click="toggleAudioRecorder"
       />
       <NextButton
-        v-if="showEditorToggle"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
-        icon="i-ph-quotes"
-        slate
-        faded
-        sm
-        @click="$emit('toggleEditor')"
-      />
-      <NextButton
         v-if="showAudioPlayStopButton"
-        v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_FORMAT_ICON')"
         :icon="audioRecorderPlayStopIcon"
         slate
         faded
@@ -333,6 +355,16 @@ export default {
         @click="toggleMessageSignature"
       />
       <NextButton
+        v-if="showQuotedReplyToggle"
+        v-tooltip.top-end="quotedReplyToggleTooltip"
+        icon="i-ph-quotes"
+        :variant="quotedReplyEnabled ? 'solid' : 'faded'"
+        color="slate"
+        sm
+        :aria-pressed="quotedReplyEnabled"
+        @click="$emit('toggleQuotedReply')"
+      />
+      <NextButton
         v-if="enableWhatsAppTemplates"
         v-tooltip.top-end="$t('CONVERSATION.FOOTER.WHATSAPP_TEMPLATES')"
         icon="i-ph-whatsapp-logo"
@@ -340,6 +372,15 @@ export default {
         faded
         sm
         @click="$emit('selectWhatsappTemplate')"
+      />
+      <NextButton
+        v-if="enableContentTemplates"
+        v-tooltip.top-end="'Content Templates'"
+        icon="i-ph-whatsapp-logo"
+        slate
+        faded
+        sm
+        @click="$emit('selectContentTemplate')"
       />
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"

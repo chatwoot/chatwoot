@@ -38,4 +38,15 @@ module ChatwootApp
       %w[]
     end
   end
+
+  def self.advanced_search_allowed?
+    enterprise? && ENV.fetch('OPENSEARCH_URL', nil).present?
+  end
+
+  def self.otel_enabled?
+    otel_provider = InstallationConfig.find_by(name: 'OTEL_PROVIDER')&.value
+    secret_key = InstallationConfig.find_by(name: 'LANGFUSE_SECRET_KEY')&.value
+
+    otel_provider.present? && secret_key.present? && otel_provider == 'langfuse'
+  end
 end

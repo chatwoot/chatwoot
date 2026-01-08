@@ -30,7 +30,6 @@ class Captain::Tools::Copilot::SearchArticlesService < Captain::Tools::BaseServi
 
     total_count = articles.count
     articles = articles.limit(100)
-
     <<~RESPONSE
       #{total_count > 100 ? "Found #{total_count} articles (showing first 100)" : "Total number of articles: #{total_count}"}
       #{articles.map(&:to_llm_text).join("\n---\n")}

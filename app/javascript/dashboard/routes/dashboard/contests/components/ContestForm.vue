@@ -38,7 +38,25 @@ const defaultForm = {
   questionnaire: [],
 };
 
-const form = reactive({ ...defaultForm, ...props.contest });
+const cloneContestData = contest => {
+  if (!contest || Object.keys(contest).length === 0) {
+    return {};
+  }
+  return {
+    ...contest,
+    trigger_words: Array.isArray(contest.trigger_words)
+      ? [...contest.trigger_words]
+      : [],
+    questionnaire: Array.isArray(contest.questionnaire)
+      ? contest.questionnaire.map(item => ({
+          question: item?.question || '',
+          description: item?.description || '',
+        }))
+      : [],
+  };
+};
+
+const form = reactive({ ...defaultForm, ...cloneContestData(props.contest) });
 const errors = reactive({
   name: '',
   trigger_words: '',
@@ -80,7 +98,7 @@ syncQuestionnaireErrors();
 watch(
   () => props.contest,
   value => {
-    Object.assign(form, defaultForm, value);
+    Object.assign(form, defaultForm, cloneContestData(value));
     ensureQuestionnaireEntry();
     Object.keys(errors).forEach(key => {
       errors[key] = key === 'questionnaire' ? [] : '';
@@ -353,7 +371,7 @@ watch(
               </p>
 
               <div
-                class="w-full rounded-lg border px-3 py-2 bg-white dark:bg-n-alpha-black2"
+                class="w-full rounded-lg border px-3 py-2 bg-n-alpha-1 dark:bg-n-alpha-black2"
                 :class="
                   errors.trigger_words
                     ? 'border-n-ruby-8 dark:border-n-ruby-8'

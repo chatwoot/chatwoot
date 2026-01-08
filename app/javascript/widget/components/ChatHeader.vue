@@ -1,18 +1,12 @@
-<script>
-import availabilityMixin from 'widget/mixins/availability';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions.vue';
-import routerMixin from 'widget/mixins/routerMixin';
-
-export default {
-  name: 'ChatHeader',
-  components: {
-    FluentIcon,
-    HeaderActions,
-  },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
-  props: {
+<script setup>
+  import { toRef } from 'vue';
+  import { useRouter } from 'vue-router';
+  import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+  import HeaderActions from './HeaderActions.vue';
+  import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+  import { useAvailability } from 'widget/composables/useAvailability';
+  
+  const props = defineProps({
     avatarUrl: {
       type: String,
       default: '',
@@ -35,7 +29,7 @@ export default {
     },
     availableAgents: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     dealerName: {
       type: String,
@@ -45,25 +39,16 @@ export default {
       type: String,
       default: '',
     },
-  },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    onBackButtonClick() {
-      this.replaceRoute('home');
-    },
-  },
-};
-</script>
+  });
+  
+  const router = useRouter();
+  const availableAgentsRef = toRef(props, 'availableAgents');
+  const { isOnline } = useAvailability(availableAgentsRef);
+  
+  const onBackButtonClick = () => {
+    router.replace({ name: 'home' });
+  };
+  </script>
 
 <template>
   <header class="flex justify-between w-full p-5 bg-n-background gap-2">
@@ -116,6 +101,12 @@ export default {
         <div v-if="!dealerTagline" class="text-xs leading-3 text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
+        <AvailabilityContainer
+          :agents="availableAgents"
+          :show-header="false"
+          :show-avatars="false"
+          text-classes="text-xs leading-3"
+        />
       </div>
     </div>
     <HeaderActions :show-popout-button="showPopoutButton" />

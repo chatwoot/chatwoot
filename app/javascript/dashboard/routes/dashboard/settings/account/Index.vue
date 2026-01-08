@@ -35,12 +35,12 @@ export default {
     NextInput,
   },
   setup() {
-    const { updateUISettings } = useUISettings();
+    const { updateUISettings, uiSettings } = useUISettings();
     const { enabledLanguages } = useConfig();
     const { accountId } = useAccount();
     const v$ = useVuelidate();
 
-    return { updateUISettings, v$, enabledLanguages, accountId };
+    return { updateUISettings, uiSettings, v$, enabledLanguages, accountId };
   },
   data() {
     return {
@@ -114,7 +114,7 @@ export default {
         const { name, locale, id, domain, support_email, features } =
           this.getAccount(this.accountId);
 
-        this.$root.$i18n.locale = locale;
+        this.$root.$i18n.locale = this.uiSettings?.locale || locale;
         this.name = name;
         this.locale = locale;
         this.id = id;
@@ -139,9 +139,14 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
         });
-        this.$root.$i18n.locale = this.locale;
+        // If user locale is set, update the locale with user locale
+        if (this.uiSettings?.locale) {
+          this.$root.$i18n.locale = this.uiSettings?.locale;
+        } else {
+          // If user locale is not set, update the locale with account locale
+          this.$root.$i18n.locale = this.locale;
+        }
         this.getAccount(this.id).locale = this.locale;
-        this.updateDirectionView(this.locale);
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.SUCCESS'));
       } catch (error) {
         useAlert(this.$t('GENERAL_SETTINGS.UPDATE.ERROR'));

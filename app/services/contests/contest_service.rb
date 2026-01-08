@@ -43,7 +43,20 @@ module Contests
 
     def request(method, path, payload = nil)
       ensure_api_token!
-      uri = URI.parse("#{base_url}#{path}")
+      
+      # Ensure base_url is valid and has a scheme
+      full_url = "#{base_url}#{path}"
+      unless full_url.match?(/\Ahttps?:\/\//)
+        raise StandardError, "Invalid base URL: #{base_url}. Must include http:// or https://"
+      end
+      
+      uri = URI.parse(full_url)
+      
+      # Ensure we have an HTTP/HTTPS URI
+      unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+        raise StandardError, "Invalid URL scheme. Must be http:// or https://"
+      end
+      
       http = Net::HTTP.new(uri.host, uri.port)
       http.use_ssl = uri.scheme == 'https'
 
@@ -73,7 +86,16 @@ module Contests
           raise ArgumentError, "Unsupported HTTP method: #{method}"
         end
 
-      request = request_class.new(uri.request_uri)
+      # Use request_uri if available (HTTP/HTTPS), otherwise construct path manually
+      request_path = if uri.respond_to?(:request_uri)
+                       uri.request_uri
+                     else
+                       path = uri.path || '/'
+                       path += "?#{uri.query}" if uri.query
+                       path
+                     end
+
+      request = request_class.new(request_path)
       request['Authorization'] = "Bearer #{api_token}"
       request['Content-Type'] = 'application/json'
       request['Accept'] = 'application/json'

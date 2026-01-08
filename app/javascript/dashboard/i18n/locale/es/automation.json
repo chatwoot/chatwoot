@@ -131,7 +131,7 @@
       "CONVERSATION_CREATED": "Conversación creada",
       "CONVERSATION_UPDATED": "Conversación actualizada",
       "MESSAGE_CREATED": "Mensaje creado",
-      "CONVERSATION_RESOLVED": "Conversation Resolved",
+      "CONVERSATION_RESOLVED": "Conversación Resuelta",
       "CONVERSATION_OPENED": "Conversación abierta"
     },
     "ACTIONS": {
@@ -147,14 +147,14 @@
       "SEND_WEBHOOK_EVENT": "Enviar Evento de Webhook",
       "SEND_ATTACHMENT": "Enviar archivo adjunto",
       "SEND_MESSAGE": "Enviar mensaje",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "ADD_PRIVATE_NOTE": "Añadir una nota privada",
       "CHANGE_PRIORITY": "Cambiar prioridad",
       "ADD_SLA": "Añadir SLA",
       "OPEN_CONVERSATION": "Abrir conversación"
     },
     "MESSAGE_TYPES": {
-      "INCOMING": "Incoming Message",
-      "OUTGOING": "Outgoing Message"
+      "INCOMING": "Mensaje entrante",
+      "OUTGOING": "Mensaje saliente"
     },
     "PRIORITY_TYPES": {
       "NONE": "Ninguna",
@@ -175,9 +175,10 @@
       "MAIL_SUBJECT": "Asunto de Email",
       "COUNTRY_NAME": "País",
       "REFERER_LINK": "Enlace de referencia",
-      "ASSIGNEE_NAME": "Cesionario",
+      "ASSIGNEE_NAME": "Asignado a",
       "TEAM_NAME": "Equipo",
-      "PRIORITY": "Prioridad"
+      "PRIORITY": "Prioridad",
+      "LABELS": "Etiquetas"
     }
   }
 }

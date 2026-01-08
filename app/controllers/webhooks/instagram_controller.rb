@@ -66,27 +66,43 @@ class Webhooks::InstagramController < ActionController::API
     end
   end
   
-
   def find_or_create_contact_inbox(changes, page)
     from = changes.dig('value', 'from')
     from_id = from['id']
     from_name = from['username'] || from['name']
-
+    from_username = from['username']
+  
     return nil if from_id.to_s == page.instagram_id.to_s
-
+  
     contact_inbox = ContactInbox.find_by(source_id: from_id, inbox_id: page.inbox.id)
     return contact_inbox if contact_inbox.present?
-
+  
     contact = Contact.find_by("additional_attributes->>'instagram_id' = ?", from_id.to_s)
     unless contact
+      additional_attrs = { instagram_id: from_id }
+      if from_username.present?
+        additional_attrs['social_profiles'] = { 'instagram' => from_username }
+        additional_attrs['social_instagram_user_name'] = from_username
+      end
+      
       contact = Contact.create!(
         name: from_name,
         account_id: page.account_id,
         last_activity_at: Time.now.utc,
-        additional_attributes: { instagram_id: from_id }
+        additional_attributes: additional_attrs
       )
+    else
+      # Update existing contact if username is available and not already set
+      if from_username.present? && contact.additional_attributes.dig('social_profiles', 'instagram').blank?
+        contact.update!(
+          additional_attributes: contact.additional_attributes.merge(
+            'social_profiles' => { 'instagram' => from_username },
+            'social_instagram_user_name' => from_username
+          )
+        )
+      end
     end
-
+  
     ContactInbox.create!(
       contact: contact,
       inbox: page.inbox,

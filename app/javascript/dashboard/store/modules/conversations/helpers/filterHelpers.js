@@ -64,11 +64,13 @@ const getValueFromConversation = (conversation, attributeKey) => {
   switch (attributeKey) {
     case 'status':
     case 'priority':
-    case 'display_id':
     case 'labels':
     case 'created_at':
     case 'last_activity_at':
       return conversation[attributeKey];
+    case 'display_id':
+      // Frontend uses 'id' but backend expects 'display_id'
+      return conversation.display_id || conversation.id;
     case 'assignee_id':
       return conversation.meta?.assignee?.id;
     case 'inbox_id':
@@ -152,7 +154,10 @@ const equalTo = (filterValue, conversationValue) => {
  * It only works with string values and returns false for non-string types.
  */
 const contains = (filterValue, conversationValue) => {
-  if (typeof conversationValue === 'string') {
+  if (
+    typeof conversationValue === 'string' &&
+    typeof filterValue === 'string'
+  ) {
     return conversationValue.toLowerCase().includes(filterValue.toLowerCase());
   }
   return false;

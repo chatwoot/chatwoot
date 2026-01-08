@@ -62,6 +62,7 @@ const segmentsQuery = ref({});
 
 const appliedFilters = useMapGetter('contacts/getAppliedContactFiltersV4');
 const contactAttributes = useMapGetter('attributes/getContactAttributes');
+const labels = useMapGetter('labels/getLabels');
 const hasActiveSegments = computed(
   () => props.activeSegment && props.segmentsId !== 0
 );
@@ -215,6 +216,7 @@ const setParamsForEditSegmentModal = () => {
     countries,
     filterTypes: contactFilterItems,
     allCustomAttributes: useSnakeCase(contactAttributes.value),
+    labels: labels.value || [],
   };
 };
 

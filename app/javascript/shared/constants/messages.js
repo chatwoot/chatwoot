@@ -34,10 +34,6 @@ export const CONVERSATION_PRIORITY_ORDER = {
   low: 1,
 };
 
-// Size in mega bytes
-export const MAXIMUM_FILE_UPLOAD_SIZE = 40;
-export const MAXIMUM_FILE_UPLOAD_SIZE_TWILIO_SMS_CHANNEL = 5;
-
 export const ALLOWED_FILE_TYPES =
   'image/*,' +
   'audio/*,' +
@@ -174,4 +170,10 @@ export const ATTACHMENT_ICONS = {
   file: 'document',
   location: 'location',
   fallback: 'link',
+};
+
+export const TWILIO_CONTENT_TEMPLATE_TYPES = {
+  TEXT: 'text',
+  MEDIA: 'media',
+  QUICK_REPLY: 'quick_reply',
 };

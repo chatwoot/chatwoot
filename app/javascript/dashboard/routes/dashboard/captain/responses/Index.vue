@@ -1,20 +1,19 @@
 <script setup>
 import { computed, onMounted, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import { OnClickOutside } from '@vueuse/components';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { debounce } from '@chatwoot/utils';
+import { useAccount } from 'dashboard/composables/useAccount';
 
-import Button from 'dashboard/components-next/button/Button.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
+import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import BulkDeleteDialog from 'dashboard/components-next/captain/pageComponents/BulkDeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
-import AssistantSelector from 'dashboard/components-next/captain/pageComponents/AssistantSelector.vue';
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
@@ -22,9 +21,10 @@ import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
+const { isOnChatwootCloud } = useAccount();
 const uiFlags = useMapGetter('captainResponses/getUIFlags');
-const assistants = useMapGetter('captainAssistants/getRecords');
 const responseMeta = useMapGetter('captainResponses/getMeta');
 const responses = useMapGetter('captainResponses/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -33,19 +33,14 @@ const selectedResponse = ref(null);
 const deleteDialog = ref(null);
 const bulkDeleteDialog = ref(null);
 
-const selectedStatus = ref('all');
-const selectedAssistant = ref('all');
 const dialogType = ref('');
+const searchQuery = ref('');
 const { t } = useI18n();
 
 const createDialog = ref(null);
 
-const isStatusFilterOpen = ref(false);
-const shouldShowDropdown = computed(() => {
-  if (assistants.value.length === 0) return false;
+const selectedAssistantId = computed(() => Number(route.params.assistantId));
 
-  return !isFetching.value;
-});
 
 const statusOptions = computed(() =>
   ['all', 'pending', 'approved'].map(key => ({
@@ -70,23 +65,10 @@ const selectedStatusLabel = computed(() => {
   });
 });
 
+const pendingCount = useMapGetter('captainResponses/getPendingCount');
+
 const handleDelete = () => {
   deleteDialog.value.dialogRef.open();
-};
-const handleAccept = async () => {
-  try {
-    await store.dispatch('captainResponses/update', {
-      id: selectedResponse.value.id,
-      status: 'approved',
-    });
-    useAlert(t(`CAPTAIN.RESPONSES.EDIT.APPROVE_SUCCESS_MESSAGE`));
-  } catch (error) {
-    const errorMessage =
-      error?.message || t(`CAPTAIN.RESPONSES.EDIT.ERROR_MESSAGE`);
-    useAlert(errorMessage);
-  } finally {
-    selectedResponse.value = null;
-  }
 };
 
 const handleCreate = () => {
@@ -110,9 +92,6 @@ const handleAction = ({ action, id }) => {
     if (action === 'edit') {
       handleEdit();
     }
-    if (action === 'approve') {
-      handleAccept();
-    }
   });
 };
 
@@ -130,14 +109,31 @@ const handleCreateClose = () => {
   selectedResponse.value = null;
 };
 
+const updateURLWithFilters = (page, search) => {
+  const query = {
+    page: page || 1,
+  };
+
+  if (search) {
+    query.search = search;
+  }
+
+  router.replace({ query });
+};
+
 const fetchResponses = (page = 1) => {
-  const filterParams = { page };
-  if (selectedStatus.value !== 'all') {
-    filterParams.status = selectedStatus.value;
+  const filterParams = { page, status: 'approved' };
+
+  if (selectedAssistantId.value) {
+    filterParams.assistantId = selectedAssistantId.value;
   }
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
+  if (searchQuery.value) {
+    filterParams.search = searchQuery.value;
   }
+
+  // Update URL with current filters
+  updateURLWithFilters(page, searchQuery.value);
+
   store.dispatch('captainResponses/get', filterParams);
 };
 
@@ -165,6 +161,12 @@ const bulkCheckbox = computed({
   },
 });
 
+const selectedCountLabel = computed(() => {
+  return t('CAPTAIN.RESPONSES.SELECTED', {
+    count: bulkSelectedIds.value.size,
+  });
+});
+
 const buildSelectedCountLabel = computed(() => {
   const count = filteredResponses.value?.length || 0;
   return bulkSelectionState.value.allSelected
@@ -183,7 +185,7 @@ const handleCardSelect = id => {
 };
 
 const fetchResponseAfterBulkAction = () => {
-  const hasNoResponsesLeft = filteredResponses.value?.length === 0;
+  const hasNoResponsesLeft = responses.value?.length === 0;
   const currentPage = responseMeta.value?.page;
 
   if (hasNoResponsesLeft) {
@@ -199,6 +201,7 @@ const fetchResponseAfterBulkAction = () => {
   // Clear selection
   bulkSelectedIds.value = new Set();
 };
+
 
 const handleBulkApprove = async () => {
   try {
@@ -217,14 +220,11 @@ const handleBulkApprove = async () => {
 };
 
 const onPageChange = page => {
-  // Store current selection state before fetching new page
-  const wasAllPageSelected = bulkSelectionState.value.allSelected;
-  const hadPartialSelection = bulkSelectedIds.value.size > 0;
+  const hadSelection = bulkSelectedIds.value.size > 0;
 
   fetchResponses(page);
 
-  // Reset selection if we had any selections on page change
-  if (wasAllPageSelected || hadPartialSelection) {
+  if (hadSelection) {
     bulkSelectedIds.value = new Set();
   }
 };
@@ -239,20 +239,28 @@ const onBulkDeleteSuccess = () => {
   fetchResponseAfterBulkAction();
 };
 
-const handleStatusFilterChange = ({ value }) => {
-  selectedStatus.value = value;
-  isStatusFilterOpen.value = false;
-  fetchResponses();
+const debouncedSearch = debounce(async () => {
+  fetchResponses(1);
+}, 500);
+
+const initializeFromURL = () => {
+  if (route.query.search) {
+    searchQuery.value = route.query.search;
+  }
+  const pageFromURL = parseInt(route.query.page, 10) || 1;
+  fetchResponses(pageFromURL);
 };
 
-const handleAssistantFilterChange = assistant => {
-  selectedAssistant.value = assistant;
-  fetchResponses();
+const navigateToPendingFAQs = () => {
+  router.push({ name: 'captain_assistants_responses_pending' });
 };
 
 onMounted(() => {
-  store.dispatch('captainAssistants/get');
-  fetchResponses();
+  initializeFromURL();
+  store.dispatch(
+    'captainResponses/fetchPendingCount',
+    selectedAssistantId.value
+  );
 });
 </script>
 
@@ -275,9 +283,42 @@ onMounted(() => {
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        :hide-actions="!isOnChatwootCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
         learn-more-url="https://chwt.app/captain-faq"
+      />
+    </template>
+
+    <template #search>
+      <div
+        v-if="bulkSelectedIds.size === 0"
+        class="flex gap-3 justify-between w-full items-center"
+      >
+        <Input
+          v-model="searchQuery"
+          :placeholder="$t('CAPTAIN.RESPONSES.SEARCH_PLACEHOLDER')"
+          class="w-64"
+          size="sm"
+          type="search"
+          autofocus
+          @input="debouncedSearch"
+        />
+      </div>
+    </template>
+
+    <template #subHeader>
+      <BulkSelectBar
+        v-model="bulkSelectedIds"
+        :all-items="responses"
+        :select-all-label="buildSelectedCountLabel"
+        :selected-count-label="selectedCountLabel"
+        :delete-label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
+        class="w-fit"
+        :class="{
+          'mb-2': bulkSelectedIds.size > 0,
+        }"
+        @bulk-delete="bulkDeleteDialog.dialogRef.open()"
       />
     </template>
 
@@ -380,6 +421,15 @@ onMounted(() => {
 
     <template #body>
       <LimitBanner class="mb-5" />
+      <Banner
+        v-if="pendingCount > 0"
+        color="blue"
+        class="mb-4 -mt-3"
+        :action-label="$t('CAPTAIN.RESPONSES.PENDING_BANNER.ACTION')"
+        @action="navigateToPendingFAQs"
+      >
+        {{ $t('CAPTAIN.RESPONSES.PENDING_BANNER.TITLE') }}
+      </Banner>
 
       <div class="flex flex-col gap-4">
         <ResponseCard
@@ -396,6 +446,7 @@ onMounted(() => {
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
           :show-menu="!bulkSelectedIds.has(response.id)"
+          :show-actions="false"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"

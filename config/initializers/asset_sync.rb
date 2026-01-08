@@ -1,4 +1,12 @@
-if !(Rails.env.development? || Rails.env.test?) && defined?(AssetSync)
+# config/initializers/asset_sync.rb
+if Rails.env.development? || Rails.env.test?
+  # Explicitly disable AssetSync in development/test
+  if defined?(AssetSync)
+    AssetSync.configure do |config|
+      config.enabled = false
+    end
+  end
+elsif defined?(AssetSync)
   AssetSync.configure do |config|
     config.fog_provider = 'AWS'
     config.fog_directory = ENV.fetch('CDN_BUCKET', 'courier-bucket')

@@ -32,9 +32,11 @@ class Whatsapp::IncomingMessageBaseService
     set_contact
     return unless @contact
 
-    set_conversation
-    create_messages
-    clear_message_source_id_from_redis
+    ActiveRecord::Base.transaction do
+      set_conversation
+      create_messages
+      clear_message_source_id_from_redis
+    end
   end
 
   def process_statuses

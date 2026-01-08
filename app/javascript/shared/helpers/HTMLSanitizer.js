@@ -18,3 +18,16 @@ export const domPurifyConfig = {
     afterSanitizeAttributes,
   },
 };
+
+/**
+ * Sanitize text content for safe rendering
+ * For plain text content, this ensures the value is a string and handles null/undefined
+ * @param {string|null|undefined} text - The text to sanitize
+ * @returns {string} Sanitized text (empty string if input is null/undefined)
+ */
+export const sanitizeTextForRender = (text) => {
+  if (text == null) {
+    return '';
+  }
+  return String(text);
+};

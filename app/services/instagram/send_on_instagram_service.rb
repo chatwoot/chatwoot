@@ -7,8 +7,6 @@ class Instagram::SendOnInstagramService < Base::SendOnChannelService
 
   private
 
-  delegate :additional_attributes, to: :contact
-
   def channel_class
     Channel::Instagram
   end

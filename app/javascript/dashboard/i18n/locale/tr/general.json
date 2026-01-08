@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Ara",
       "EMPTY_STATE": "Kayıt bulunamadı"
     },
-    "CLOSE": "Kapat"
+    "CLOSE": "Kapat",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "Bu özellik beta aşamasındadır ve geliştirdikçe değişiklik gösterebilir."
   }
 }

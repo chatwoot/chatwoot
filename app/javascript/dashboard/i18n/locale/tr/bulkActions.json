@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Etiket atama",
-      "NO_LABELS_FOUND": "İçin etiket bulunamadı",
+      "NO_LABELS_FOUND": "Etiket bulunamadı",
       "ASSIGN_SELECTED_LABELS": "Seçili etiketleri atama",
       "ASSIGN_SUCCESFUL": "Etiketler başarıyla atandı.",
       "ASSIGN_FAILED": "Etiketler atanırken bir hata oluştu. Lütfen tekrar deneyin."

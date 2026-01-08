@@ -6,21 +6,35 @@ import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
 import SettingsPageLayout from 'dashboard/components-next/captain/SettingsPageLayout.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useAccount } from 'dashboard/composables/useAccount';
+import Button from 'dashboard/components-next/button/Button.vue';
+import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
 import AssistantBasicSettingsForm from 'dashboard/components-next/captain/pageComponents/assistant/settings/AssistantBasicSettingsForm.vue';
 import AssistantSystemSettingsForm from 'dashboard/components-next/captain/pageComponents/assistant/settings/AssistantSystemSettingsForm.vue';
 import AssistantControlItems from 'dashboard/components-next/captain/pageComponents/assistant/settings/AssistantControlItems.vue';
+import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 
 const { t } = useI18n();
-const route = useRoute();
-const store = useStore();
-const assistantId = route.params.assistantId;
-const uiFlags = useMapGetter('captainAssistants/getUIFlags');
-const isFetching = computed(() => uiFlags.value.fetchingItem);
-const assistant = computed(() =>
-  store.getters['captainAssistants/getRecord'](Number(assistantId))
-);
+const { isCloudFeatureEnabled } = useAccount();
 
+const isCaptainV2Enabled = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_V2)
+);
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+
+const deleteAssistantDialog = ref(null);
+
+const uiFlags = useMapGetter('captainAssistants/getUIFlags');
+const assistants = useMapGetter('captainAssistants/getRecords');
+const isFetching = computed(() => uiFlags.value.fetchingItem);
+const assistantId = computed(() => Number(route.params.assistantId));
+const assistant = computed(() =>
+  store.getters['captainAssistants/getRecord'](assistantId.value)
+);
 const isAssistantAvailable = computed(() => !!assistant.value?.id);
 
 const controlItems = computed(() => {

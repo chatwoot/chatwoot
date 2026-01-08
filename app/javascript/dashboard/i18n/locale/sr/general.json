@@ -5,6 +5,8 @@
       "PLACEHOLDER": "Traži",
       "EMPTY_STATE": "Ništa nije pronađeno"
     },
-    "CLOSE": "Zatvori"
+    "CLOSE": "Zatvori",
+    "BETA": "Beta",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

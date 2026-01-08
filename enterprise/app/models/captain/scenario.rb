@@ -38,7 +38,7 @@ class Captain::Scenario < ApplicationRecord
 
   scope :enabled, -> { where(enabled: true) }
 
-  delegate :temperature, :feature_faq, :feature_memory, :product_name, to: :assistant
+  delegate :temperature, :feature_faq, :feature_memory, :product_name, :response_guidelines, :guardrails, to: :assistant
 
   before_save :resolve_tool_references
 
@@ -46,24 +46,25 @@ class Captain::Scenario < ApplicationRecord
     {
       title: title,
       instructions: resolved_instructions,
-      tools: resolved_tools
+      tools: resolved_tools,
+      assistant_name: assistant.name.downcase.gsub(/\s+/, '_'),
+      response_guidelines: response_guidelines || [],
+      guardrails: guardrails || []
     }
   end
 
   private
 
   def agent_name
-    "#{title} Agent".titleize
+    "#{title} Agent".parameterize(separator: '_')
   end
 
   def agent_tools
-    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant) }
+    resolved_tools.map { |tool| resolve_tool_instance(tool) }
   end
 
   def resolved_instructions
-    instruction.gsub(TOOL_REFERENCE_REGEX) do |match|
-      "#{match} tool "
-    end
+    instruction.gsub(TOOL_REFERENCE_REGEX, '`\1` tool')
   end
 
   def resolved_tools
@@ -72,6 +73,18 @@ class Captain::Scenario < ApplicationRecord
     available_tools = self.class.available_agent_tools
     tools.filter_map do |tool_id|
       available_tools.find { |tool| tool[:id] == tool_id }
+    end
+  end
+
+  def resolve_tool_instance(tool_metadata)
+    tool_id = tool_metadata[:id]
+
+    if tool_metadata[:custom]
+      custom_tool = Captain::CustomTool.find_by(slug: tool_id, account_id: account_id, enabled: true)
+      custom_tool&.tool(assistant)
+    else
+      tool_class = self.class.resolve_tool_class(tool_id)
+      tool_class&.new(assistant)
     end
   end
 

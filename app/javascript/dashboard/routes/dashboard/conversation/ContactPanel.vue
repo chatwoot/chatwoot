@@ -6,7 +6,6 @@ import {
   useStore,
 } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
@@ -73,6 +72,14 @@ const isLinearFeatureEnabled = isFeatureEnabledonAccount.value(
   FEATURE_FLAGS.LINEAR
 );
 
+const isLinearClientIdConfigured = computed(() => {
+  return !!linearIntegration.value?.id;
+});
+
+const isLinearConnected = computed(
+  () => linearIntegration.value?.enabled || false
+);
+
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
 const conversationId = computed(() => props.conversationId);
@@ -101,6 +108,7 @@ const getContactDetails = () => {
   }
 };
 
+// When contact changes, just load details; don't force Contact Attributes open.
 watch(contactId, (newContactId, prevContactId) => {
   if (newContactId && newContactId !== prevContactId) {
     getContactDetails();
@@ -137,7 +145,7 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
-    <div class="pb-8 list-group px-2">
+    <div class="px-2 pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
@@ -210,9 +218,10 @@ onMounted(() => {
               "
             >
               <CustomAttributes
+                v-if="contactId"
                 attribute-type="contact_attribute"
                 attribute-from="conversation_contact_panel"
-                :contact-id="contact.id"
+                :contact-id="contactId"
                 :empty-state-message="
                   $t('CONVERSATION_CUSTOM_ATTRIBUTES.NO_RECORDS_FOUND')
                 "
@@ -252,7 +261,9 @@ onMounted(() => {
           </woot-feature-toggle>
           <div
             v-else-if="
-              element.name === 'linear_issues' && isLinearFeatureEnabled
+              element.name === 'linear_issues' &&
+              isLinearFeatureEnabled &&
+              isLinearClientIdConfigured
             "
           >
             <AccordionItem
@@ -264,6 +275,7 @@ onMounted(() => {
               "
             >
               <LinearSetupCTA v-if="!isLinearIntegrationEnabled" />
+              <LinearSetupCTA v-if="!isLinearConnected" />
               <LinearIssuesList v-else :conversation-id="conversationId" />
             </AccordionItem>
           </div>

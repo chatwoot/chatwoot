@@ -32,6 +32,29 @@ class ChatwootHub
     }
   end
 
+  def self.installation_identifier
+    # Try to get identifier from support config first (if available)
+    support_hash = support_config[:support_identifier_hash]
+    return support_hash if support_hash.present?
+
+    # Generate installation identifier from instance config
+    # This creates a unique identifier based on installation host and environment
+    begin
+      config = instance_config
+      host = config[:installation_host].presence || 'unknown'
+      env = config[:installation_env].presence || 'unknown'
+      edition = config[:edition].presence || 'community'
+      
+      # Create a deterministic identifier from instance details
+      identifier_data = "#{host}:#{env}:#{edition}"
+      require 'digest' unless defined?(Digest)
+      Digest::SHA256.hexdigest(identifier_data)[0..15]
+    rescue StandardError => e
+      Rails.logger.error "Error generating installation identifier: #{e.message}"
+      'unknown'
+    end
+  end
+
   def self.instance_config
     {
       installation_version: Chatwoot.config[:version],

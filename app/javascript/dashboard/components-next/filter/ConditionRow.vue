@@ -103,6 +103,12 @@ const validationError = computed(() => {
   );
 });
 
+const inputFieldType = computed(() => {
+  if (inputType.value === 'date') return 'date';
+  if (inputType.value === 'number') return 'number';
+  return 'text';
+});
+
 const resetModelOnAttributeKeyChange = newAttributeKey => {
   /**
    * Resets the filter values and operator when the attribute key changes. This ensures that

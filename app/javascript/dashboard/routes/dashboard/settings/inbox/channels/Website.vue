@@ -49,7 +49,7 @@ export default {
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
           {
-            name: this.inboxName,
+            name: this.inboxName?.trim(),
             greeting_enabled: this.greetingEnabled,
             greeting_message: this.greetingMessage,
             channel: {
@@ -82,9 +82,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DESC')"
@@ -176,6 +174,7 @@ export default {
           />
         </label>
       </div>
+
       <label class="w-full">
         {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.LABEL') }}
         <select v-model="greetingEnabled">
