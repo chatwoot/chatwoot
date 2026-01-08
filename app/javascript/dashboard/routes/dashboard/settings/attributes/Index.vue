@@ -166,22 +166,6 @@ const derivedAttributes = computed(() =>
         </template>
       </BaseSettingsHeader>
     </template>
-    <template #preBody>
-      <woot-tabs
-        class="font-medium [&_ul]:p-0 mb-4"
-        :index="selectedTabIndex"
-        @change="onClickTabChange"
-      >
-        <woot-tabs-item
-          v-for="(tab, index) in tabs"
-          :key="tab.key"
-          :index="index"
-          :name="tab.name"
-          :show-badge="false"
-          is-compact
-        />
-      </woot-tabs>
-    </template>
     <template #body>
       <div class="flex flex-col gap-6">
         <div v-if="derivedAttributes.length" class="grid gap-3">

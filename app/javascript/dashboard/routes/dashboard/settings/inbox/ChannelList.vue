@@ -3,17 +3,14 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useBranding } from 'shared/composables/useBranding';
 
 import { useAccount } from 'dashboard/composables/useAccount';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
-import PageHeader from '../SettingsSubPageHeader.vue';
 
 const { t } = useI18n();
 const router = useRouter();
 const { accountId, currentAccount } = useAccount();
-const { replaceInstallationName } = useBranding();
 
 const globalConfig = useMapGetter('globalConfig/get');
 
@@ -82,8 +79,7 @@ const channelList = computed(() => {
     },
   ];
 
-  // Add TikTok if feature is enabled (not just if configured)
-  if (enabledFeatures.value?.channel_tiktok) {
+  if (hasTiktokConfigured.value) {
     channels.push({
       key: 'tiktok',
       title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.TIKTOK.TITLE'),
@@ -120,16 +116,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
-  >
-    <PageHeader
-      class="max-w-4xl"
-      :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
-      :header-content="replaceInstallationName($t('INBOX_MGMT.ADD.AUTH.DESC'))"
-    />
+  <div class="w-full p-8 overflow-auto">
     <div
-      class="grid max-w-3xl grid-cols-2 mx-0 mt-6 sm:grid-cols-3 lg:grid-cols-4"
+      class="grid max-w-3xl grid-cols-1 xs:grid-cols-2 mx-0 gap-6 sm:grid-cols-3"
     >
       <ChannelItem
         v-for="channel in channelList"

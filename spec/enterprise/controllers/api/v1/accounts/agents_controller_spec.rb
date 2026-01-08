@@ -19,7 +19,7 @@ RSpec.describe 'Agents API', type: :request do
         post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:payment_required)
-        expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+        expect(response.body).to include('Account limit exceeded.')
       end
     end
   end
@@ -38,7 +38,7 @@ RSpec.describe 'Agents API', type: :request do
         end.not_to change(User, :count)
 
         expect(response).to have_http_status(:payment_required)
-        expect(response.body).to include('Account limit exceeded. Please purchase more licenses')
+        expect(response.body).to include('Account limit exceeded.')
       end
     end
 
