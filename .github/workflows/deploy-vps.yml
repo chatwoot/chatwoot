@@ -65,12 +65,28 @@ jobs:
     needs: build
     if: github.ref == 'refs/heads/develop'
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Setup SSH key
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.SSH_PORT || 22 }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy docker-compose to VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          scp -i ~/.ssh/deploy_key \
+            -P $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            docker-compose.production.yml \
+            $SSH_USER@$SSH_HOST:~/chatwoot-deploy/
+          echo "✅ docker-compose.production.yml copied to VPS"
 
       - name: Login to GHCR on VPS
         env:
@@ -136,175 +152,30 @@ jobs:
             echo "✓ Volume chatwoot_public created"
           fi
 
-          # Fazer deploy da stack
-          # Importante: docker stack deploy NÃO lê .env, então passamos via export
-          echo "Deploying stack with environment variables..."
+          # Copiar docker-compose.production.yml do repo (se existir)
+          if [ ! -f docker-compose.production.yml ]; then
+            echo "ERROR: docker-compose.production.yml not found!"
+            exit 1
+          fi
 
-          # Criar docker-compose processado com variáveis já substituídas
+          # Processar docker-compose com variáveis de ambiente
+          echo "Processing docker-compose with secrets..."
           POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
           SECRET_KEY_BASE="$SECRET_KEY_BASE" \
           SMTP_PASSWORD="$SMTP_PASSWORD" \
-          docker-compose -f - config << 'COMPOSE_EOF' > docker-compose.processed.yml
-version: "3.7"
+          docker-compose -f docker-compose.production.yml config > docker-compose.processed.yml
 
-services:
-  chatwoot_app:
-    image: IMAGE_TAG_PLACEHOLDER
-    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
-    networks:
-      - network_public
-    environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=chatwoot
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - REDIS_URL=redis://redis:6379/0
-      - RAILS_ENV=production
-      - NODE_ENV=production
-      - TZ=America/Sao_Paulo
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - FRONTEND_URL=https://chat.defenderinfo.com
-      - ACTIVE_STORAGE_SERVICE=local
-      - FORCE_SSL=true
-      - ENABLE_ACCOUNT_SIGNUP=false
-      - RAILS_MAX_THREADS=5
-      - WEB_CONCURRENCY=2
-      - RAILS_LOG_TO_STDOUT=true
-      - INSTALLATION_NAME=Defender Info
-      - BRAND_NAME=Defender Info
-      - APP_NAME=Central de Comunicação
-      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
-      - SMTP_DOMAIN=defenderinfo.com
-      - SMTP_ADDRESS=smtp.resend.com
-      - SMTP_PORT=587
-      - SMTP_USERNAME=resend
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_AUTHENTICATION=plain
-      - SMTP_ENABLE_STARTTLS_AUTO=true
-    volumes:
-      - chatwoot_storage:/app/storage
-      - chatwoot_public:/app/public
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      resources:
-        limits:
-          cpus: "1.0"
-          memory: 2048M
-        reservations:
-          cpus: "0.5"
-          memory: 1024M
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.chatwoot_app.rule=Host(\`chat.defenderinfo.com\`)
-        - traefik.http.routers.chatwoot_app.entrypoints=websecure
-        - traefik.http.routers.chatwoot_app.priority=1
-        - traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver
-        - traefik.http.routers.chatwoot_app.service=chatwoot_app
-        - traefik.http.services.chatwoot_app.loadbalancer.server.port=3000
-        - traefik.http.services.chatwoot_app.loadbalancer.passHostHeader=true
-        - traefik.http.routers.chatwoot_app.middlewares=chatwoot_headers
-        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Proto=https
-        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Port=443
-
-  chatwoot_worker:
-    image: IMAGE_TAG_PLACEHOLDER
-    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
-    networks:
-      - network_public
-    environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=chatwoot
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - REDIS_URL=redis://redis:6379/0
-      - RAILS_ENV=production
-      - NODE_ENV=production
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - FRONTEND_URL=https://chat.defenderinfo.com
-      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
-      - SMTP_DOMAIN=defenderinfo.com
-      - SMTP_ADDRESS=smtp.resend.com
-      - SMTP_PORT=587
-      - SMTP_USERNAME=resend
-      - SMTP_PASSWORD=${SMTP_PASSWORD}
-      - SMTP_AUTHENTICATION=plain
-      - SMTP_ENABLE_STARTTLS_AUTO=true
-      - ACTIVE_STORAGE_SERVICE=local
-      - TZ=America/Sao_Paulo
-      - RAILS_LOG_TO_STDOUT=true
-    volumes:
-      - chatwoot_storage:/app/storage
-      - chatwoot_public:/app/public
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.role == manager
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: 1024M
-        reservations:
-          cpus: "0.25"
-          memory: 512M
-
-  chatwoot_rails_migrations:
-    image: IMAGE_TAG_PLACEHOLDER
-    command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
-    networks:
-      - network_public
-    environment:
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PORT=5432
-      - POSTGRES_DATABASE=chatwoot
-      - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - REDIS_URL=redis://redis:6379/0
-      - RAILS_ENV=production
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
-      - FRONTEND_URL=https://chat.defenderinfo.com
-      - TZ=America/Sao_Paulo
-    deploy:
-      mode: replicated
-      replicas: 1
-      restart_policy:
-        condition: on-failure
-        delay: 5s
-        max_attempts: 3
-      placement:
-        constraints:
-          - node.role == manager
-
-volumes:
-  chatwoot_storage:
-    external: true
-    name: chatwoot_storage
-  chatwoot_public:
-    external: true
-    name: chatwoot_public
-
-networks:
-  network_public:
-    external: true
-    name: network_public
-COMPOSE_EOF
-
-          # Substituir placeholder da imagem
-          sed -i "s|IMAGE_TAG_PLACEHOLDER|$IMAGE_TAG|g" docker-compose.processed.yml
+          # Atualizar imagem para a versão correta da branch
+          echo "Updating image tags to: $IMAGE_TAG"
+          sed -i "s|ghcr.io/defender-info/chatwoot-defender:develop|$IMAGE_TAG|g" docker-compose.processed.yml
 
           echo "✓ docker-compose.processed.yml created with secrets injected"
 
           # Deploy da stack
+          echo "Deploying stack to Docker Swarm..."
           docker stack deploy -c docker-compose.processed.yml chatwoot --with-registry-auth
 
-          # Limpar arquivo processado
+          # Limpar arquivo processado (contém secrets)
           rm -f docker-compose.processed.yml
           echo "✓ Temporary files cleaned up"
 
