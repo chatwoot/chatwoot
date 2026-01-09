@@ -36,6 +36,7 @@ class Captain::Llm::ContactAttributesService < Llm::BaseAiService
       model: @model,
       temperature: @temperature,
       account_id: @conversation.account_id,
+      conversation_id: @conversation.display_id,
       feature_name: 'contact_attributes',
       messages: [
         { role: 'system', content: system_prompt },
