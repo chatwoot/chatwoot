@@ -17,16 +17,24 @@ const { t } = useI18n();
 const { updateUISettings, uiSettings } = useUISettings();
 
 const currentTheme = computed(() => {
-  return uiSettings.value?.color_scheme || LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) || 'auto';
+  return (
+    uiSettings.value?.color_scheme ||
+    LocalStorage.get(LOCAL_STORAGE_KEYS.COLOR_SCHEME) ||
+    'auto'
+  );
 });
 
 const themeOptions = computed(() => [
   {
-    label: t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.OPTIONS.SYSTEM'),
+    label: t(
+      'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.OPTIONS.SYSTEM'
+    ),
     value: 'auto',
   },
   {
-    label: t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.OPTIONS.LIGHT'),
+    label: t(
+      'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.OPTIONS.LIGHT'
+    ),
     value: 'light',
   },
   {
