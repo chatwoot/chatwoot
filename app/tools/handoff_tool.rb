@@ -15,14 +15,10 @@ class HandoffTool < BaseTool
               '3) The customer seems frustrated and needs personal attention, ' \
               '4) The request involves sensitive operations you cannot perform.'
 
-  param :reason, type: :string, desc: 'Brief explanation of why handoff is needed (visible to agent only)',
-                 required: true
-  param :priority, type: :string, desc: 'Urgency level: "normal", "high", or "urgent"',
-                   required: false
-  param :summary, type: :string, desc: 'Summary of the conversation so far to help the human agent',
-                  required: false
-  param :preferred_team, type: :string, desc: 'Team to route to if available (e.g., "billing", "technical")',
-                         required: false
+  param :reason, type: :string, desc: 'Brief explanation of why handoff is needed (visible to agent only)', required: true
+  param :priority, type: :string, desc: 'Urgency level: "normal", "high", or "urgent"', required: false
+  param :summary, type: :string, desc: 'Summary of the conversation so far to help the human agent', required: false
+  param :preferred_team, type: :string, desc: 'Team to route to if available (e.g., "billing", "technical")', required: false
 
   PRIORITY_LEVELS = %w[normal high urgent].freeze
 

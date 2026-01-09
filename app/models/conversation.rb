@@ -209,6 +209,28 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  # Returns recent messages for LLM conversation history
+  # Excludes private messages, includes attachments, ordered chronologically
+  def recent_messages_for_llm(limit: 20)
+    messages
+      .where(message_type: %i[incoming outgoing])
+      .where(private: false)
+      .includes(:attachments)
+      .order(created_at: :desc)
+      .limit(limit)
+      .reverse
+  end
+
+  # Check if AI handoff to human is active
+  def aloo_handoff_active?
+    custom_attributes&.dig('aloo_handoff_active') == true
+  end
+
+  # Get the Aloo assistant for this conversation's inbox
+  def aloo_assistant
+    inbox&.aloo_assistant
+  end
+
   def csat_survey_link
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
