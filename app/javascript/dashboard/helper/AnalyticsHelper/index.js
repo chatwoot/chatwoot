@@ -56,18 +56,13 @@ export class AnalyticsHelper {
       account => account.id === accountId
     );
     if (currentAccount) {
-      this.analytics.setGroup(
-        'company',
-        `account-${currentAccount.id.toString()}`
-      );
+      const groupId = `account-${currentAccount.id.toString()}`;
+
+      this.analytics.setGroup('company', groupId);
 
       const groupIdentify = new amplitude.Identify();
       groupIdentify.set('name', currentAccount.name);
-      this.analytics.groupIdentify(
-        'company',
-        currentAccount.id.toString(),
-        groupIdentify
-      );
+      this.analytics.groupIdentify('company', groupId, groupIdentify);
     }
   }
 
