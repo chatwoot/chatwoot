@@ -55,6 +55,7 @@ import {
   getSelectionCoords,
   calculateMenuPosition,
   getEffectiveChannelType,
+  stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -131,8 +132,10 @@ const editorMenuOptions = computed(() => {
 
 const createState = (content, placeholder, plugins = [], methods = {}) => {
   const schema = editorSchema.value;
+  // Strip unsupported formatting before parsing to prevent "Token type not supported" errors
+  const sanitizedContent = stripUnsupportedFormatting(content, schema);
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(schema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(sanitizedContent),
     plugins: buildEditor({
       schema,
       placeholder,
@@ -676,11 +679,18 @@ function createEditorView() {
         typingIndicator.stop();
         emit('blur');
       },
-      paste: (_view, event) => {
+      paste: (view, event) => {
         if (props.disabled) return;
-        const data = event.clipboardData.files;
-        if (data.length > 0) {
-          event.preventDefault();
+        const { files } = event.clipboardData;
+        if (!files.length) return;
+        event.preventDefault();
+        // Paste text content alongside files (e.g., spreadsheet data from Numbers app)
+        // Numbers app includes invalid 0-byte attachments with text, so we paste the text here
+        // while ReplyBox filters and handles valid file attachments
+        const text = event.clipboardData.getData('text/plain');
+        if (text) {
+          view.dispatch(view.state.tr.insertText(text));
+          emitOnChange();
         }
       },
     },
@@ -852,6 +862,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     max-height: none !important;
     min-height: 0 !important;
     padding: 0 !important;
+    display: none !important;
   }
 
   > .ProseMirror {

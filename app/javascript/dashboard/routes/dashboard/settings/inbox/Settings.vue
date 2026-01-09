@@ -9,6 +9,7 @@ import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
 import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
+import TiktokReauthorize from './channels/tiktok/Reauthorize.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
@@ -48,6 +49,7 @@ export default {
     GoogleReauthorize,
     NextButton,
     InstagramReauthorize,
+    TiktokReauthorize,
     WhatsappReauthorize,
     DuplicateInboxBanner,
     Editor,
@@ -247,6 +249,9 @@ export default {
     },
     instagramUnauthorized() {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
+    },
+    tiktokUnauthorized() {
+      return this.isATiktokChannel && this.inbox.reauthorization_required;
     },
     // Check if a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
@@ -524,6 +529,7 @@ export default {
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
+      <TiktokReauthorize v-if="tiktokUnauthorized" :inbox="inbox" />
       <WhatsappReauthorize
         v-if="whatsappUnauthorized"
         :whatsapp-registration-incomplete="whatsappRegistrationIncomplete"
