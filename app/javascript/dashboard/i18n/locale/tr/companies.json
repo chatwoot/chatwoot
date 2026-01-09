@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "İsim",
         "DOMAIN": "Alan",
-        "CREATED_AT": "Oluşturma zamanı"
+        "CREATED_AT": "Oluşturma zamanı",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {
