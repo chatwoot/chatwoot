@@ -1,4 +1,4 @@
-class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
+class Messages::AudioTranscriptionService
   include Integrations::LlmInstrumentation
 
   WHISPER_MODEL = 'whisper-1'.freeze
@@ -6,7 +6,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
-    super()
+    Llm::Config.initialize!
     @attachment = attachment
     @message = attachment.message
     @account = message.account
@@ -50,23 +50,18 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
-    transcribed_text = nil
-
-    File.open(temp_file_path, 'rb') do |file|
-      response = @client.audio.transcribe(
-        parameters: {
-          model: 'whisper-1',
-          file: file,
-          temperature: 0.4
-        }
-      )
-      transcribed_text = response['text']
+    transcription = instrument_audio_transcription(instrumentation_params(temp_file_path)) do
+      RubyLLM.transcribe(temp_file_path, model: WHISPER_MODEL)
     end
 
     FileUtils.rm_f(temp_file_path)
 
-    update_transcription(transcribed_text)
-    transcribed_text
+    update_transcription(transcription.text)
+    transcription.text
+  rescue RubyLLM::Error => e
+    FileUtils.rm_f(temp_file_path) if temp_file_path
+    Rails.logger.error "Audio transcription error: #{e.message}"
+    raise
   end
 
   def instrumentation_params(file_path)
@@ -74,6 +69,7 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
       span_name: 'llm.messages.audio_transcription',
       model: WHISPER_MODEL,
       account_id: account&.id,
+      conversation_id: message.conversation&.display_id,
       feature_name: 'audio_transcription',
       file_path: file_path
     }
