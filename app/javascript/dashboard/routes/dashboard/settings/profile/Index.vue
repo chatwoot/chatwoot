@@ -13,6 +13,7 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
 import UserLanguageSelect from './UserLanguageSelect.vue';
+import Appearance from './Appearance.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
@@ -33,6 +34,7 @@ export default {
     FontSize,
     UserLanguageSelect,
     UserProfilePicture,
+    Appearance,
     Policy,
     UserBasicDetails,
     HotKeyCard,
@@ -242,6 +244,12 @@ export default {
         :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
         :description="
           $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+        "
+      />
+      <Appearance
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.APPEARANCE.NOTE')
         "
       />
     </FormSection>

@@ -58,6 +58,16 @@
           "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
           "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
           "USE_ACCOUNT_DEFAULT": "Use account default"
+        },
+        "APPEARANCE": {
+          "TITLE": "Appearance",
+          "NOTE": "Select your workspace appearance",
+          "UPDATE_SUCCESS": "Your appearance settings have been updated successfully",
+          "OPTIONS": {
+            "LIGHT": "Light",
+            "DARK": "Dark",
+            "SYSTEM": "System"
+          }
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
