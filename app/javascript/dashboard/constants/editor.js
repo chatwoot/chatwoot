@@ -237,8 +237,11 @@ export const MARKDOWN_PATTERNS = [
     patterns: [{ pattern: /`([^`]+)`/g, replacement: '$1' }],
   },
   {
-    type: 'link', // PM: link, eg: [text](url)
-    patterns: [{ pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }],
+    type: 'link', // PM: link, eg: [text](url) or <url>
+    patterns: [
+      { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
+      { pattern: /<(https?:\/\/[^>]+)>/g, replacement: '$1' }, // <url> -> url (autolinks)
+    ],
   },
 ];
 
