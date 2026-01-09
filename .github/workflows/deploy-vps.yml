@@ -172,37 +172,26 @@ jobs:
           rm -f docker-compose.deploy.yml
           echo "✓ Temporary files cleaned up"
 
-          # Esperar services estarem prontos
-          echo "Waiting for services to be ready..."
-          sleep 5
-
-          # Limpar volume chatwoot_public (assets compilados do frontend)
-          # Isso força o Chatwoot a usar os novos assets da imagem Docker
+          # Limpar conteúdo do volume chatwoot_public (assets compilados do frontend)
+          # Não podemos deletar o volume (Swarm mantém lock), então limpamos o conteúdo
           echo "========================================="
-          echo "Cleaning chatwoot_public volume for frontend updates..."
+          echo "Cleaning chatwoot_public volume contents..."
           echo "========================================="
 
-          # Parar serviços que usam o volume
-          echo "Scaling down services to release volume..."
-          docker service scale chatwoot_chatwoot_app=0 || true
-          docker service scale chatwoot_chatwoot_worker=0 || true
+          # Usar container temporário para limpar volume
+          echo "Running cleanup container..."
+          docker run --rm \
+            -v chatwoot_public:/data \
+            alpine:latest \
+            sh -c "rm -rf /data/* /data/.[!.]* /data/..?* 2>/dev/null || true && echo '✓ Volume contents cleared'"
 
-          # Aguardar serviços pararem
-          sleep 10
+          echo "✓ chatwoot_public volume cleaned"
+          echo "Services will copy fresh assets from image on next restart"
 
-          # Remover e recriar volume
-          echo "Removing old volume..."
-          docker volume rm chatwoot_public || echo "⚠️  Volume removal failed, will continue"
-
-          echo "Creating fresh volume..."
-          docker volume create chatwoot_public
-
-          # Restaurar serviços
-          echo "Scaling services back up..."
-          docker service scale chatwoot_chatwoot_app=1
-          docker service scale chatwoot_chatwoot_worker=1
-
-          echo "✓ Volume chatwoot_public recreated - frontend assets will be fresh"
+          # Forçar recreate dos serviços para copiar novos assets
+          echo "Force updating services to use fresh assets..."
+          docker service update --force chatwoot_chatwoot_app
+          docker service update --force chatwoot_chatwoot_worker
 
           echo "========================================="
           echo "✅ Deployment completed successfully!"
