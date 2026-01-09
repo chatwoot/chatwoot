@@ -40,6 +40,8 @@ class Channel::Line < ApplicationRecord
       config.channel_id = line_channel_id
       config.channel_secret = line_channel_secret
       config.channel_token = line_channel_token
+      # Skip SSL verification in development to avoid certificate issues
+      config.http_options = { verify_mode: OpenSSL::SSL::VERIFY_NONE } if Rails.env.development?
     end
   end
 end
