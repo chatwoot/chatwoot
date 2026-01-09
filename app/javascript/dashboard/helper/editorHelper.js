@@ -6,7 +6,63 @@ import {
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
+
+/**
+ * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
+ * Links will be converted to text, and not removed.
+ *
+ * @param {string} markdown - markdown text to be extracted
+ * @returns {string} - The extracted text.
+ */
+export function extractTextFromMarkdown(markdown) {
+  if (!markdown) return '';
+  return markdown
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`.*?`/g, '') // Remove inline code
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
+    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n') // Trim each line & remove any lines only having spaces
+    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
+    .trim(); // Trim any extra space
+}
+
+/**
+ * Strip unsupported markdown formatting based on channel capabilities.
+ * Uses MARKDOWN_PATTERNS from editor constants.
+ *
+ * @param {string} markdown - markdown text to process
+ * @param {string} channelType - The channel type to check supported formatting
+ * @returns {string} - The markdown with unsupported formatting removed
+ */
+export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
+  if (!markdown) return '';
+
+  const { marks = [], nodes = [] } = FORMATTING[channelType] || {};
+  const supported = [...marks, ...nodes];
+
+  // Apply patterns from MARKDOWN_PATTERNS for unsupported types
+  const result = MARKDOWN_PATTERNS.reduce((text, { type, patterns }) => {
+    if (supported.includes(type)) return text;
+    return patterns.reduce(
+      (t, { pattern, replacement }) => t.replace(pattern, replacement),
+      text
+    );
+  }, markdown);
+
+  return result
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n')
+    .replace(/\n{2,}/g, '\n')
+    .trim();
+}
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -70,14 +126,38 @@ export function findSignatureInBody(body, signature) {
 }
 
 /**
+ * Gets the effective channel type for formatting purposes.
+ * For Twilio channels, returns WhatsApp or Twilio based on medium.
+ *
+ * @param {string} channelType - The channel type
+ * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp)
+ * @returns {string} - The effective channel type for formatting
+ */
+export function getEffectiveChannelType(channelType, medium) {
+  if (channelType === INBOX_TYPES.TWILIO) {
+    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+      ? INBOX_TYPES.WHATSAPP
+      : INBOX_TYPES.TWILIO;
+  }
+  return channelType;
+}
+
+/**
  * Appends the signature to the body, separated by the signature delimiter.
+ * Automatically strips unsupported formatting based on channel capabilities.
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
+ * @param {string} channelType - Optional. The effective channel type to determine supported formatting.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature appended.
  */
-export function appendSignature(body, signature) {
-  const cleanedSignature = cleanSignature(signature);
+export function appendSignature(body, signature, channelType) {
+  // Strip only unsupported formatting based on channel capabilities
+  const preparedSignature = channelType
+    ? stripUnsupportedSignatureMarkdown(signature, channelType)
+    : signature;
+  const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
   if (findSignatureInBody(body, cleanedSignature) > -1) {
     return body;
@@ -88,16 +168,29 @@ export function appendSignature(body, signature) {
 
 /**
  * Removes the signature from the body, along with the signature delimiter.
+ * Tries multiple signature variants: original, channel-stripped, and fully stripped.
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
+ * @param {string} channelType - Optional. The effective channel type for channel-specific stripping.
  * @returns {string} - The body with the signature removed.
  */
-export function removeSignature(body, signature) {
-  // this will find the index of the signature if it exists
-  // Regardless of extra spaces or new lines after the signature, the index will be the same if present
-  const cleanedSignature = cleanSignature(signature);
-  const signatureIndex = findSignatureInBody(body, cleanedSignature);
+export function removeSignature(body, signature, channelType) {
+  // Build unique list of signature variants to try
+  const channelStripped = channelType
+    ? cleanSignature(stripUnsupportedSignatureMarkdown(signature, channelType))
+    : null;
+  const signaturesToTry = [
+    cleanSignature(signature),
+    channelStripped,
+    cleanSignature(extractTextFromMarkdown(signature)),
+  ].filter((sig, i, arr) => sig && arr.indexOf(sig) === i); // Remove nulls and duplicates
+
+  // Find the first matching signature
+  const signatureIndex = signaturesToTry.reduce(
+    (index, sig) => (index === -1 ? findSignatureInBody(body, sig) : index),
+    -1
+  );
 
   // no need to trim the ends here, because it will simply be removed in the next method
   let newBody = body;
@@ -109,17 +202,12 @@ export function removeSignature(body, signature) {
     newBody = newBody.substring(0, signatureIndex).trimEnd();
   }
 
-  // let's find the delimiter and remove it
-  const delimiterIndex = newBody.lastIndexOf(SIGNATURE_DELIMITER);
-  if (
-    delimiterIndex !== -1 &&
-    delimiterIndex === newBody.length - SIGNATURE_DELIMITER.length // this will ensure the delimiter is at the end
-  ) {
+  // Remove delimiter if it's at the end
+  if (newBody.endsWith(SIGNATURE_DELIMITER)) {
     // if the delimiter is at the end, remove it
-    newBody = newBody.substring(0, delimiterIndex);
+    newBody = newBody.slice(0, -SIGNATURE_DELIMITER.length);
   }
 
-  // return the value
   return newBody;
 }
 
@@ -136,28 +224,6 @@ export function removeSignature(body, signature) {
 export function replaceSignature(body, oldSignature, newSignature) {
   const withoutSignature = removeSignature(body, oldSignature);
   return appendSignature(withoutSignature, newSignature);
-}
-
-/**
- * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
- * Links will be converted to text, and not removed.
- *
- * @param {string} markdown - markdown text to be extracted
- * @returns
- */
-export function extractTextFromMarkdown(markdown) {
-  return markdown
-    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-    .replace(/`.*?`/g, '') // Remove inline code
-    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
-    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
-    .join('\n') // Trim each line & remove any lines only having spaces
-    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
-    .trim(); // Trim any extra space
 }
 
 /**

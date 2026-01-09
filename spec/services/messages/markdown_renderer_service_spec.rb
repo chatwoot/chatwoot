@@ -67,6 +67,31 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
       end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
+      end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'renders indented code blocks as plain text preserving exact content' do
+        content = '    indented code line'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('indented code line')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
+      end
     end
 
     context 'when channel is Channel::Instagram' do
@@ -115,6 +140,31 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
+      end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
+      end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'renders indented code blocks as plain text preserving exact content' do
+        content = '    indented code line'
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq('indented code line')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
       end
     end
 
@@ -201,6 +251,13 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include("Line 1\nLine 2\nLine 3")
         expect(result).not_to include('Line 1 Line 2')
       end
+
+      it 'preserves multiple consecutive newlines for spacing' do
+        content = "Para 1\n\n\n\nPara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("Para 1\n\n\n\nPara 2")
+      end
     end
 
     context 'when channel is Channel::Telegram' do
@@ -220,10 +277,37 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include('<a href="https://example.com">link text</a>')
       end
 
-      it 'preserves newlines' do
+      it 'preserves single newlines' do
         content = "line 1\nline 2"
         result = described_class.new(content, channel_type).render
         expect(result).to include("\n")
+        expect(result).to include("line 1\nline 2")
+      end
+
+      it 'preserves double newlines (paragraph breaks)' do
+        content = "para 1\n\npara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(2)
+        expect(result).to include("para 1\n\npara 2")
+      end
+
+      it 'preserves multiple consecutive newlines' do
+        content = "para 1\n\n\n\npara 2"
+        result = described_class.new(content, channel_type).render
+        expect(result.scan("\n").count).to eq(4)
+        expect(result).to include("para 1\n\n\n\npara 2")
+      end
+
+      it 'preserves newlines with varying amounts of whitespace between them' do
+        # Test with 1 space, 3 spaces, 5 spaces, and tabs to ensure it handles any amount of whitespace
+        content = "hello\n \n   \n     \n\t\nworld"
+        result = described_class.new(content, channel_type).render
+        # Whitespace-only lines are normalized, so we should have at least 5 newlines preserved
+        expect(result.scan("\n").count).to be >= 5
+        expect(result).to include('hello')
+        expect(result).to include('world')
+        # Should not collapse to just 1-2 newlines
+        expect(result.scan("\n").count).to be > 3
       end
 
       it 'converts strikethrough to HTML' do
@@ -309,6 +393,18 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         result = described_class.new(content, channel_type).render
         expect(result).to include('1. first step')
         expect(result).to include('2. second step')
+      end
+
+      it 'renders code blocks as plain text' do
+        content = "```\ncode here\n```"
+        result = described_class.new(content, channel_type).render
+        expect(result.strip).to eq('code here')
+      end
+
+      it 'handles code blocks with emojis and special characters without stack overflow' do
+        content = "    first line\n    🌐 second line\n"
+        result = described_class.new(content, channel_type).render
+        expect(result).to eq("first line\n🌐 second line")
       end
     end
 
@@ -403,6 +499,41 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         content = '**bold** _italic_'
         result = described_class.new(content, channel_type).render
         expect(result).to eq(content)
+      end
+    end
+
+    # Shared test for all text-based channels that preserve multiple newlines
+    # This tests the real-world scenario where frontend sends newlines with whitespace between them
+    context 'when content has multiple newlines with whitespace between them' do
+      # This mimics what frontends often send: newlines with spaces/tabs between them
+      let(:content_with_whitespace_newlines) { "hello   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n   \n \n\nhello wow" }
+
+      %w[
+        Channel::Telegram
+        Channel::Whatsapp
+        Channel::Instagram
+        Channel::FacebookPage
+        Channel::Line
+        Channel::Sms
+      ].each do |channel_type|
+        context "when channel is #{channel_type}" do
+          it 'normalizes whitespace-only lines and preserves multiple newlines' do
+            result = described_class.new(content_with_whitespace_newlines, channel_type).render
+            # Should preserve most of the newlines (at least 10+)
+            # The exact count may vary slightly by renderer, but should be significantly more than 1-2
+            expect(result.scan("\n").count).to be >= 10
+            # Should not collapse everything to just 1-2 newlines
+            expect(result.scan("\n").count).to be > 5
+          end
+        end
+      end
+
+      context 'when channel is Channel::TwilioSms with WhatsApp' do
+        it 'normalizes whitespace-only lines and preserves multiple newlines' do
+          channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+          result = described_class.new(content_with_whitespace_newlines, 'Channel::TwilioSms', channel).render
+          expect(result.scan("\n").count).to be >= 10
+        end
       end
     end
   end

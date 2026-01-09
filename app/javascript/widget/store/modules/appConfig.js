@@ -25,7 +25,7 @@ const state = {
   welcomeDescription: '',
   availableMessage: '',
   unavailableMessage: '',
-  enableFileUpload: true,
+  enableFileUpload: undefined,
   enableEmojiPicker: true,
   enableEndConversation: true,
 };
@@ -64,7 +64,7 @@ export const actions = {
       welcomeDescription = '',
       availableMessage = '',
       unavailableMessage = '',
-      enableFileUpload = true,
+      enableFileUpload = undefined,
       enableEmojiPicker = true,
       enableEndConversation = true,
     }
