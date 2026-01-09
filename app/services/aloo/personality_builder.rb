@@ -58,11 +58,7 @@ module Aloo
         sections << @assistant.language_instruction
       end
 
-      if @assistant.greeting_style == 'custom' && @assistant.custom_greeting.present?
-        sections << "\n## Custom Greeting (FIRST MESSAGE ONLY)"
-        sections << 'ONLY when this is the START of a NEW conversation (not on follow-up messages), ' \
-                    "use this greeting: \"#{@assistant.custom_greeting}\""
-      end
+      sections << "\nGreeting: \"#{@assistant.custom_greeting}\"" if @assistant.greeting_style == 'custom' && @assistant.custom_greeting.present?
 
       sections.compact.join("\n")
     end

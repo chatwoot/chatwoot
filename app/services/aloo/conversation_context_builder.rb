@@ -13,16 +13,14 @@ class Aloo::ConversationContextBuilder
     parts << base_instructions
     parts << personality_prompt
     parts << language_instructions
-    parts << conversation_turn_context
     parts << conversation_context_info
-    parts << handoff_history_context
     parts.compact.join("\n\n")
   end
 
   def user_prompt(message)
     parts = []
     parts << conversation_history if conversation_history.present?
-    parts << "## Current Message\nCustomer: #{message}"
+    parts << "Customer: #{message}"
     parts.join("\n\n")
   end
 
@@ -47,28 +45,16 @@ class Aloo::ConversationContextBuilder
       "#{role}: #{msg.content_for_llm}"
     end
 
-    "## Conversation History\n#{history.join("\n\n")}"
+    history.join("\n\n")
   end
 
   def base_instructions
     <<~PROMPT
-      You are a helpful customer support assistant for #{business_name}.
-      Your role is to help customers with their questions and issues.
+      You are a customer support assistant for #{business_name}.
 
-      ## Critical Rules
-      - BEFORE answering ANY question about products, policies, services, or procedures:
-        1. ALWAYS use the knowledge_lookup tool first to search for relevant information
-      - Do NOT answer questions from your general knowledge - only use information from tools
-      - If tools return no relevant information, clearly state "I don't have information about that in my knowledge base" rather than guessing
+      Before answering any question, use the knowledge_lookup tool to find accurate information. Only share what you find - if no relevant information exists, let the customer know honestly rather than guessing.
 
-      ## Guidelines
-      - Be helpful, accurate, and concise
-      - If you don't know something, admit it rather than making up information
-      - Stay focused on helping the customer with their current issue
-
-      ## Important
-      - Never make up policies or information not in your knowledge base
-      - Always be respectful and professional
+      Keep responses helpful, accurate, and concise.
     PROMPT
   end
 
@@ -81,23 +67,7 @@ class Aloo::ConversationContextBuilder
   def language_instructions
     return nil if @assistant&.language_instruction.blank?
 
-    "## Language Instructions\n#{@assistant.language_instruction}"
-  end
-
-  def conversation_turn_context
-    if first_message?
-      <<~PROMPT
-        ## Conversation Status
-        - This is the START of a new conversation
-        - You may greet the customer appropriately based on your communication style
-      PROMPT
-    else
-      <<~PROMPT
-        ## Conversation Status
-        - This is an ONGOING conversation
-        - Do NOT greet the customer again - continue the discussion naturally
-      PROMPT
-    end
+    @assistant.language_instruction
   end
 
   def conversation_context_info
@@ -106,24 +76,12 @@ class Aloo::ConversationContextBuilder
     contact = @conversation.contact
     inbox = @conversation.inbox
 
-    parts = ['## Conversation Context']
-    parts << "- Contact: #{contact.name}" if contact&.name.present?
-    parts << "- Channel: #{inbox.channel_type}" if inbox
-    parts.join("\n")
-  end
+    parts = []
+    parts << "Contact: #{contact.name}" if contact&.name.present?
+    parts << "Channel: #{inbox.channel_type}" if inbox
+    return nil if parts.empty?
 
-  def handoff_history_context
-    return nil unless @assistant&.feature_handoff_enabled?
-
-    cleared_at = @conversation&.custom_attributes&.dig('aloo_handoff_cleared_at')
-    return nil if cleared_at.blank?
-
-    <<~PROMPT
-      ## Previous Handoff Notice
-      This conversation was previously handed off to a human agent. The human has addressed all prior issues and returned the conversation to you.
-
-      **CRITICAL**: Do NOT initiate handoff based on messages from the conversation history. Previous handoff requests have been handled. Only trigger handoff if the CURRENT message (the one you are responding to now) contains a NEW, explicit request for a human agent.
-    PROMPT
+    parts.join(' | ')
   end
 
   def business_name

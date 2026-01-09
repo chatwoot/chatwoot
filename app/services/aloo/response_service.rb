@@ -21,9 +21,7 @@ class Aloo::ResponseService
   private
 
   def processable?
-    @assistant&.active? &&
-      !@conversation.aloo_handoff_active? &&
-      @message.incoming?
+    @assistant&.active? && !@conversation.aloo_handoff_active? && @message.incoming?
   end
 
   def with_context
@@ -67,8 +65,7 @@ class Aloo::ResponseService
   end
 
   def handoff_triggered?(result)
-    result.respond_to?(:tool_calls) &&
-      result.tool_calls&.any? { |tc| tc['name'] == 'handoff' }
+    result.respond_to?(:tool_calls) && result.tool_calls&.any? { |tc| tc['name'] == 'handoff' }
   end
 
   def create_message(result)
