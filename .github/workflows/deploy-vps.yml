@@ -119,7 +119,7 @@ jobs:
             echo "ERROR: SECRET_KEY_BASE is empty!"
             exit 1
           fi
-          echo "✓ SECRET_KEY_BASE is set"
+          echo "✓ SECRET_KEY_BASE is set (length: ${#SECRET_KEY_BASE})"
 
           # Pull da nova imagem
           echo "Pulling latest image..."
@@ -128,7 +128,7 @@ jobs:
           # Limpar volume chatwoot_public (assets compilados)
           echo "Cleaning chatwoot_public volume..."
           if docker volume inspect chatwoot_public &>/dev/null; then
-            docker volume rm chatwoot_public || echo "Volume in use"
+            docker volume rm chatwoot_public || echo "Volume in use, will be cleaned on stack deploy"
             docker volume create chatwoot_public
             echo "✓ Volume chatwoot_public recreated"
           else
@@ -136,46 +136,184 @@ jobs:
             echo "✓ Volume chatwoot_public created"
           fi
 
-          # Atualizar serviços no Docker Swarm
-          echo "Updating chatwoot_app service..."
-          docker service update \
-            --image $IMAGE_TAG \
-            --with-registry-auth \
-            --update-parallelism 1 \
-            --update-delay 10s \
-            --force \
-            --env-add POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
-            --env-add SECRET_KEY_BASE="$SECRET_KEY_BASE" \
-            --env-add SMTP_PASSWORD="$SMTP_PASSWORD" \
-            chatwoot_chatwoot_app || echo "Service not found, will be created on stack deploy"
+          # Fazer deploy da stack
+          # Importante: docker stack deploy NÃO lê .env, então passamos via export
+          echo "Deploying stack with environment variables..."
 
-          echo "Updating chatwoot_worker service..."
-          docker service update \
-            --image $IMAGE_TAG \
-            --with-registry-auth \
-            --update-parallelism 1 \
-            --update-delay 10s \
-            --force \
-            --env-add POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
-            --env-add SECRET_KEY_BASE="$SECRET_KEY_BASE" \
-            --env-add SMTP_PASSWORD="$SMTP_PASSWORD" \
-            chatwoot_chatwoot_worker || echo "Service not found"
+          # Criar docker-compose processado com variáveis já substituídas
+          POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
+          SECRET_KEY_BASE="$SECRET_KEY_BASE" \
+          SMTP_PASSWORD="$SMTP_PASSWORD" \
+          docker-compose -f - config << 'COMPOSE_EOF' > docker-compose.processed.yml
+version: "3.7"
 
-          echo "Updating chatwoot_rails_migrations service..."
-          docker service update \
-            --image $IMAGE_TAG \
-            --with-registry-auth \
-            --force \
-            --env-add POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
-            --env-add SECRET_KEY_BASE="$SECRET_KEY_BASE" \
-            chatwoot_chatwoot_rails_migrations || echo "Service not found"
+services:
+  chatwoot_app:
+    image: IMAGE_TAG_PLACEHOLDER
+    command: ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+    networks:
+      - network_public
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - TZ=America/Sao_Paulo
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - ACTIVE_STORAGE_SERVICE=local
+      - FORCE_SSL=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - RAILS_MAX_THREADS=5
+      - WEB_CONCURRENCY=2
+      - RAILS_LOG_TO_STDOUT=true
+      - INSTALLATION_NAME=Defender Info
+      - BRAND_NAME=Defender Info
+      - APP_NAME=Central de Comunicação
+      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
+      - SMTP_DOMAIN=defenderinfo.com
+      - SMTP_ADDRESS=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+    volumes:
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2048M
+        reservations:
+          cpus: "0.5"
+          memory: 1024M
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.chatwoot_app.rule=Host(\`chat.defenderinfo.com\`)
+        - traefik.http.routers.chatwoot_app.entrypoints=websecure
+        - traefik.http.routers.chatwoot_app.priority=1
+        - traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatwoot_app.service=chatwoot_app
+        - traefik.http.services.chatwoot_app.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot_app.loadbalancer.passHostHeader=true
+        - traefik.http.routers.chatwoot_app.middlewares=chatwoot_headers
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Proto=https
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Port=443
+
+  chatwoot_worker:
+    image: IMAGE_TAG_PLACEHOLDER
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    networks:
+      - network_public
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - MAILER_SENDER_EMAIL=infra.defenderinfo@defenderinfo.com
+      - SMTP_DOMAIN=defenderinfo.com
+      - SMTP_ADDRESS=smtp.resend.com
+      - SMTP_PORT=587
+      - SMTP_USERNAME=resend
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - TZ=America/Sao_Paulo
+      - RAILS_LOG_TO_STDOUT=true
+    volumes:
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 1024M
+        reservations:
+          cpus: "0.25"
+          memory: 512M
+
+  chatwoot_rails_migrations:
+    image: IMAGE_TAG_PLACEHOLDER
+    command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
+    networks:
+      - network_public
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=https://chat.defenderinfo.com
+      - TZ=America/Sao_Paulo
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.role == manager
+
+volumes:
+  chatwoot_storage:
+    external: true
+    name: chatwoot_storage
+  chatwoot_public:
+    external: true
+    name: chatwoot_public
+
+networks:
+  network_public:
+    external: true
+    name: network_public
+COMPOSE_EOF
+
+          # Substituir placeholder da imagem
+          sed -i "s|IMAGE_TAG_PLACEHOLDER|$IMAGE_TAG|g" docker-compose.processed.yml
+
+          echo "✓ docker-compose.processed.yml created with secrets injected"
+
+          # Deploy da stack
+          docker stack deploy -c docker-compose.processed.yml chatwoot --with-registry-auth
+
+          # Limpar arquivo processado
+          rm -f docker-compose.processed.yml
+          echo "✓ Temporary files cleaned up"
 
           echo "========================================="
           echo "✅ Deployment completed successfully!"
           echo "========================================="
 
           # Verificar status
-          docker service ls | grep chatwoot || echo "No services running yet"
+          docker service ls | grep chatwoot
           ENDSSH
 
       - name: Cleanup SSH key
