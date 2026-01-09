@@ -69,10 +69,10 @@ it:
       domain:
         invalid: deve essere un dominio valido
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: Specifica la stringa di ricerca con parametro q
     messages:
       search:
-        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+        time_range_limit_exceeded: 'La ricerca è limitata agli ultimi %{days} giorni'
     categories:
       locale:
         unique: deve essere unico nella categoria e nel portale
