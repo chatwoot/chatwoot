@@ -18,6 +18,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
   enable_extension "plpgsql"
   enable_extension "vector"
 
+  create_table "Virti_UsuarioACL", primary_key: "Id", id: :serial, force: :cascade do |t|
+    t.integer "IdUsuario", null: false
+    t.json "Permissoes", null: false
+    t.datetime "CriadoEm", precision: nil, null: false
+    t.datetime "AtualizadoEm", precision: nil, null: false
+    t.datetime "DeletadoEm", precision: nil
+
+    t.unique_constraint ["IdUsuario"], name: "Virti_UsuarioACL_IdUsuario_key"
+  end
+
   create_table "access_tokens", force: :cascade do |t|
     t.string "owner_type"
     t.bigint "owner_id"
@@ -142,6 +152,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["account_id"], name: "index_agent_capacity_policies_on_account_id"
+  end
+
+  create_table "alembic_version", primary_key: "version_num", id: { type: :string, limit: 32 }, force: :cascade do |t|
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -589,7 +602,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "contacts_count"
+    t.integer "contacts_count", default: 0, null: false
     t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
@@ -1264,6 +1277,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "Virti_UsuarioACL", "users", column: "IdUsuario", name: "fk_permissoes_ats_usuario", on_delete: :cascade
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
