@@ -72,6 +72,7 @@ RSpec.describe Aloo::ResponseJob, type: :job do
           content: 'Hello! How can I help you?',
           input_tokens: 100,
           output_tokens: 50,
+          total_cost: 0.001,
           tool_calls: []
         )
       end
@@ -87,19 +88,18 @@ RSpec.describe Aloo::ResponseJob, type: :job do
         expect(ConversationAgent).to have_received(:call)
       end
 
-      it 'calls ConversationAgent' do
+      it 'calls ConversationAgent with message' do
         expect(ConversationAgent).to receive(:call).with(
-          message: message.content,
-          conversation_history: anything
+          message: message.content
         ).and_return(agent_result)
 
         described_class.new.perform(conversation.id, message.id)
       end
 
       it 'creates outgoing message' do
-        expect {
+        expect do
           described_class.new.perform(conversation.id, message.id)
-        }.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
+        end.to change { conversation.messages.where(message_type: :outgoing).count }.by(1)
       end
 
       it 'tracks usage in ConversationContext' do
@@ -119,7 +119,6 @@ RSpec.describe Aloo::ResponseJob, type: :job do
     end
 
     context 'when handoff is triggered' do
-      let(:handoff_tool_call) { instance_double('RubyLLM::ToolCall', name: 'handoff') }
       let(:agent_result) do
         instance_double(
           'RubyLLM::Agents::Result',
@@ -127,7 +126,8 @@ RSpec.describe Aloo::ResponseJob, type: :job do
           content: 'Let me transfer you to a human.',
           input_tokens: 100,
           output_tokens: 50,
-          tool_calls: [handoff_tool_call]
+          total_cost: 0.001,
+          tool_calls: [{ 'name' => 'handoff' }]
         )
       end
 
@@ -136,9 +136,9 @@ RSpec.describe Aloo::ResponseJob, type: :job do
       end
 
       it 'does not send response message' do
-        expect {
+        expect do
           described_class.new.perform(conversation.id, message.id)
-        }.not_to change { conversation.messages.where(message_type: :outgoing).count }
+        end.not_to(change { conversation.messages.where(message_type: :outgoing).count })
       end
     end
 
@@ -150,9 +150,9 @@ RSpec.describe Aloo::ResponseJob, type: :job do
       it 'logs error and re-raises' do
         expect(Rails.logger).to receive(:error).at_least(:once)
 
-        expect {
+        expect do
           described_class.new.perform(conversation.id, message.id)
-        }.to raise_error(StandardError)
+        end.to raise_error(StandardError)
       end
     end
   end
