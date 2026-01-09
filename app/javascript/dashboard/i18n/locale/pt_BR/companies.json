@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Nome",
         "DOMAIN": "Domínio",
-        "CREATED_AT": "Criado em"
+        "CREATED_AT": "Criado em",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {
