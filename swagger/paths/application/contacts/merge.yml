@@ -6,11 +6,11 @@ post:
   security:
     - userApiKey: []
   description: |
-    Merge two contacts into one. The base contact survives and receives all data
-    from the mergee contact. The mergee contact is permanently deleted after the merge.
+    Merge two contacts into a single contact. The base contact remains and receives all
+    data from the mergee contact. After the merge, the mergee contact is permanently deleted.
 
-    This operation is irreversible. All conversations, labels, and custom attributes
-    from the mergee contact will be transferred to the base contact.
+    This action is irreversible. All conversations, labels, and custom attributes from the
+    mergee contact will be moved to the base contact.
   requestBody:
     required: true
     content:
@@ -23,7 +23,7 @@ post:
           properties:
             base_contact_id:
               type: integer
-              description: ID of the contact that will survive the merge and receive all data
+              description: ID of the contact that will remain after the merge and receive all data
               example: 1
             mergee_contact_id:
               type: integer
