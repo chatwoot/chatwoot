@@ -57,11 +57,13 @@ describe('AnalyticsHelper', () => {
         account_id: 1,
       });
 
-      expect(analyticsHelper.analytics.setUserId).toHaveBeenCalledWith('123');
+      expect(analyticsHelper.analytics.setUserId).toHaveBeenCalledWith(
+        'user-123'
+      );
       expect(analyticsHelper.analytics.identify).toHaveBeenCalled();
       expect(analyticsHelper.analytics.setGroup).toHaveBeenCalledWith(
         'company',
-        '1'
+        'account-1'
       );
       expect(analyticsHelper.analytics.groupIdentify).toHaveBeenCalled();
     });
