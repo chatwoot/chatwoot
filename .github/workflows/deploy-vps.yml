@@ -98,7 +98,12 @@ jobs:
           ssh -i ~/.ssh/deploy_key \
             -p $SSH_PORT \
             -o StrictHostKeyChecking=no \
-            $SSH_USER@$SSH_HOST << 'ENDSSH'
+            $SSH_USER@$SSH_HOST \
+            "export IMAGE_TAG='$IMAGE_TAG' && \
+             export POSTGRES_PASSWORD='$POSTGRES_PASSWORD' && \
+             export SECRET_KEY_BASE='$SECRET_KEY_BASE' && \
+             export SMTP_PASSWORD='$SMTP_PASSWORD' && \
+             bash -s" << 'ENDSSH'
           set -e
           echo "========================================="
           echo "Deploying Chatwoot"
@@ -109,13 +114,7 @@ jobs:
           mkdir -p ~/chatwoot-deploy
           cd ~/chatwoot-deploy
 
-          # Exportar secrets
-          export POSTGRES_PASSWORD="$POSTGRES_PASSWORD"
-          export SECRET_KEY_BASE="$SECRET_KEY_BASE"
-          export SMTP_PASSWORD="$SMTP_PASSWORD"
-          echo "✓ Secrets exported"
-
-          # Verificar se secrets foram exportados
+          # Verificar se secrets foram passados
           if [ -z "$SECRET_KEY_BASE" ]; then
             echo "ERROR: SECRET_KEY_BASE is empty!"
             exit 1
