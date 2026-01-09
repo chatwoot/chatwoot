@@ -141,52 +141,68 @@ jobs:
           echo "Pulling latest image..."
           docker pull $IMAGE_TAG
 
-          # Limpar volume chatwoot_public (assets compilados)
-          echo "Cleaning chatwoot_public volume..."
-          if docker volume inspect chatwoot_public &>/dev/null; then
-            docker volume rm chatwoot_public || echo "Volume in use, will be cleaned on stack deploy"
-            docker volume create chatwoot_public
-            echo "✓ Volume chatwoot_public recreated"
-          else
-            docker volume create chatwoot_public
-            echo "✓ Volume chatwoot_public created"
-          fi
-
-          # Copiar docker-compose.production.yml do repo (se existir)
+          # Verificar se docker-compose.production.yml existe
           if [ ! -f docker-compose.production.yml ]; then
             echo "ERROR: docker-compose.production.yml not found!"
             exit 1
           fi
 
-          # Processar docker-compose com variáveis de ambiente
-          echo "Processing docker-compose with secrets..."
-          POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
-          SECRET_KEY_BASE="$SECRET_KEY_BASE" \
-          SMTP_PASSWORD="$SMTP_PASSWORD" \
-          docker compose -f docker-compose.production.yml config > docker-compose.processed.yml
+          # Criar cópia temporária do docker-compose
+          cp docker-compose.production.yml docker-compose.deploy.yml
 
           # Atualizar imagem para a versão correta da branch
           echo "Updating image tags to: $IMAGE_TAG"
-          sed -i "s|ghcr.io/defender-info/chatwoot-defender:develop|$IMAGE_TAG|g" docker-compose.processed.yml
+          sed -i "s|ghcr.io/defender-info/chatwoot-defender:develop|$IMAGE_TAG|g" docker-compose.deploy.yml
 
-          # Corrigir valores de CPU/memória que docker compose config converte incorretamente
-          # Docker Swarm exige que cpus seja string, não número
-          echo "Fixing resource constraints format..."
-          sed -i 's/cpus: \([0-9.]*\)/cpus: "\1"/g' docker-compose.processed.yml
-
-          # Remover campos 'name:' de volumes e networks (docker compose config adiciona mas Swarm não aceita)
-          echo "Removing unsupported 'name' fields..."
-          sed -i '/^[[:space:]]*name:/d' docker-compose.processed.yml
-
-          echo "✓ docker-compose.processed.yml created with secrets injected"
+          echo "✓ docker-compose.deploy.yml prepared"
 
           # Deploy da stack
+          # IMPORTANTE: As variáveis de ambiente (POSTGRES_PASSWORD, SECRET_KEY_BASE, SMTP_PASSWORD)
+          # devem estar configuradas no Portainer como Environment Variables da stack
+          echo "========================================="
           echo "Deploying stack to Docker Swarm..."
-          docker stack deploy -c docker-compose.processed.yml chatwoot --with-registry-auth
+          echo "⚠️  Environment variables expected from Portainer Stack:"
+          echo "   - POSTGRES_PASSWORD"
+          echo "   - SECRET_KEY_BASE"
+          echo "   - SMTP_PASSWORD"
+          echo "========================================="
+          docker stack deploy -c docker-compose.deploy.yml chatwoot --with-registry-auth
 
-          # Limpar arquivo processado (contém secrets)
-          rm -f docker-compose.processed.yml
+          # Limpar arquivo temporário
+          rm -f docker-compose.deploy.yml
           echo "✓ Temporary files cleaned up"
+
+          # Esperar services estarem prontos
+          echo "Waiting for services to be ready..."
+          sleep 5
+
+          # Limpar volume chatwoot_public (assets compilados do frontend)
+          # Isso força o Chatwoot a usar os novos assets da imagem Docker
+          echo "========================================="
+          echo "Cleaning chatwoot_public volume for frontend updates..."
+          echo "========================================="
+
+          # Parar serviços que usam o volume
+          echo "Scaling down services to release volume..."
+          docker service scale chatwoot_chatwoot_app=0 || true
+          docker service scale chatwoot_chatwoot_worker=0 || true
+
+          # Aguardar serviços pararem
+          sleep 10
+
+          # Remover e recriar volume
+          echo "Removing old volume..."
+          docker volume rm chatwoot_public || echo "⚠️  Volume removal failed, will continue"
+
+          echo "Creating fresh volume..."
+          docker volume create chatwoot_public
+
+          # Restaurar serviços
+          echo "Scaling services back up..."
+          docker service scale chatwoot_chatwoot_app=1
+          docker service scale chatwoot_chatwoot_worker=1
+
+          echo "✓ Volume chatwoot_public recreated - frontend assets will be fresh"
 
           echo "========================================="
           echo "✅ Deployment completed successfully!"
