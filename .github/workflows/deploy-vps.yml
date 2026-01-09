@@ -163,7 +163,7 @@ jobs:
           POSTGRES_PASSWORD="$POSTGRES_PASSWORD" \
           SECRET_KEY_BASE="$SECRET_KEY_BASE" \
           SMTP_PASSWORD="$SMTP_PASSWORD" \
-          docker-compose -f docker-compose.production.yml config > docker-compose.processed.yml
+          docker compose -f docker-compose.production.yml config > docker-compose.processed.yml
 
           # Atualizar imagem para a versão correta da branch
           echo "Updating image tags to: $IMAGE_TAG"
