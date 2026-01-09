@@ -169,6 +169,11 @@ jobs:
           echo "Updating image tags to: $IMAGE_TAG"
           sed -i "s|ghcr.io/defender-info/chatwoot-defender:develop|$IMAGE_TAG|g" docker-compose.processed.yml
 
+          # Corrigir valores de CPU/memória que docker compose config converte incorretamente
+          # Docker Swarm exige que cpus seja string, não número
+          echo "Fixing resource constraints format..."
+          sed -i 's/cpus: \([0-9.]*\)/cpus: "\1"/g' docker-compose.processed.yml
+
           echo "✓ docker-compose.processed.yml created with secrets injected"
 
           # Deploy da stack
