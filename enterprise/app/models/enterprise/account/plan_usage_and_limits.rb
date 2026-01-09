@@ -15,9 +15,7 @@ module Enterprise::Account::PlanUsageAndLimits
     }
   end
 
-  # Use atomic SQL update to prevent race condition when multiple jobs
-  # increment concurrently. The previous read-modify-write pattern caused
-  # lost updates under high concurrency
+  # Use atomic SQL update to prevent race condition when multiple jobs increment concurrently.
   # Skipping validations is safe: no validations on custom_attributes, no dependent callbacks.
   def increment_response_usage
     self.class.where(id: id).update_all( # rubocop:disable Rails/SkipsModelValidations
