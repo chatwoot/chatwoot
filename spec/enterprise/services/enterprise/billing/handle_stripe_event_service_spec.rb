@@ -66,6 +66,7 @@ describe Enterprise::Billing::HandleStripeEventService do
     it 'resets captain usage on billing period renewal' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
+      account.reload
       expect(account.custom_attributes['captain_responses_usage']).to eq(5)
 
       # Setup for any plan
