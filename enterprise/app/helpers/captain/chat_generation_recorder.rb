@@ -16,9 +16,11 @@ module Captain::ChatGenerationRecorder
     Rails.logger.warn "Failed to record LLM generation: #{e.message}"
   end
 
-  # Skip non-LLM messages (e.g., tool results that RubyLLM processes internally). Real LLM generations have input_tokens > 0.
+  # Skip non-LLM messages (e.g., tool results that RubyLLM processes internally).
+  # Check for assistant role rather than token presence - some providers/streaming modes
+  # may not return token counts, but we still want to capture the generation for evals.
   def valid_llm_message?(message)
-    message.respond_to?(:input_tokens) && message.input_tokens.to_i.positive?
+    message.respond_to?(:role) && message.role.to_s == 'assistant'
   end
 
   def set_generation_span_attributes(span, chat, message)
