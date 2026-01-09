@@ -809,32 +809,32 @@
         "PLACEHOLDER": "Inserisci un messaggio per mostrare gli utenti con il modulo"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Testo pulsante",
+        "PLACEHOLDER": "Lascia una valutazione"
       },
       "LANGUAGE": {
         "LABEL": "Lingua",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "Seleziona la lingua del modello"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Anteprima messaggio",
+        "TOOLTIP": "Può variare leggermente quando visualizzato sulle app di WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Approvato da WhatsApp",
+        "PENDING": "In attesa di approvazione da WhatsApp",
+        "REJECTED": "Meta ha rifiutato il modello",
+        "DEFAULT": "Richiede l'approvazione di WhatsApp",
+        "NOT_FOUND": "Il modello non esiste nella piattaforma Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Modello WhatsApp creato con successo e inviato per l'approvazione",
+        "ERROR_MESSAGE": "Creazione del modello WhatsApp non riuscita"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "Modifica dettagli sondaggio",
+        "DESCRIPTION": "Elimineremo il modello precedente e ne creeremo uno nuovo che verrà inviato di nuovo per l'approvazione da WhatsApp",
+        "CONFIRM": "Crea nuovo modello",
         "CANCEL": "Torna indietro"
       },
       "SURVEY_RULE": {
@@ -848,7 +848,7 @@
         "SELECT_PLACEHOLDER": "seleziona etichette"
       },
       "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Nota: Creeremo un modello e lo invieremo a WhatsApp per l'approvazione. Dopo essere stati approvati, i sondaggi saranno inviati solo una volta per conversazione, in base alle regole dei sondaggi.",
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
