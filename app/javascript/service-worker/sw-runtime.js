@@ -1,9 +1,9 @@
-/* eslint-disable no-restricted-globals, no-use-before-define */
+/* eslint-disable no-restricted-globals, no-use-before-define, no-undef */
 
-// Build-time injected values
-const CACHE_VERSION = '__CACHE_VERSION__';
-const ASSET_ORIGIN = '__ASSET_ORIGIN__';
-const ASSET_MANIFEST = '__ASSET_MANIFEST__';
+// Build-time injected values (replaced by Vite define at build time)
+const CACHE_VERSION = __CACHE_VERSION__;
+const ASSET_ORIGIN = __ASSET_ORIGIN__;
+const ASSET_MANIFEST = __ASSET_MANIFEST__;
 
 const CACHE_NAME = `chatwoot-${CACHE_VERSION}`;
 
