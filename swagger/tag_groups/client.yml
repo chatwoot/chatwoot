@@ -1,16 +1,16 @@
 openapi: '3.0.4'
 info:
-  title: Chatwoot - Client API
-  description: Client API endpoints for Chatwoot
+  title: Televeda - Client API
+  description: Client API endpoints for Televeda
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://www.televeda.com/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: hello@televeda.com
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://app.televeda.com/
 tags:
   - name: Contacts API
     description: APIs for managing contacts from client applications

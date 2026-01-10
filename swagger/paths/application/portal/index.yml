@@ -20,7 +20,7 @@ responses:
               color: "#1F93FF"
               custom_domain: "chatwoot.help"
               header_text: "Handbook"
-              homepage_link: "https://www.chatwoot.com"
+              homepage_link: "https://www.televeda.com"
               name: "Handbook"
               page_title: "Handbook"
               slug: "handbook"
@@ -35,11 +35,11 @@ responses:
                 id: 37
                 avatar_url: "https://example.com/avatar.png"
                 channel_id: 1
-                name: "Chatwoot"
+                name: "Televeda"
                 channel_type: "Channel::WebWidget"
                 greeting_enabled: true
                 widget_color: "#1F93FF"
-                website_url: "chatwoot.com"
+                website_url: "televeda.com"
               logo:
                 id: 19399916
                 portal_id: 4

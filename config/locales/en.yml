@@ -292,16 +292,16 @@ en:
       description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
     dyte:
       name: 'Dyte'
-      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      short_description: 'Start video/voice calls with customers directly from Televeda.'
+      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Televeda.'
       meeting_name: '%{agent_name} has started a meeting'
     slack:
       name: 'Slack'
       short_description: 'Receive notifications and respond to conversations directly in Slack.'
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Integrate Televeda with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+      description: 'Webhook events provide real-time updates about activities in your Televeda account. You can subscribe to your preferred events, and Televeda will send you HTTP callbacks with the updates.'
     dialogflow:
       name: 'Dialogflow'
       short_description: 'Build chatbots to handle initial queries before transferring to agents.'
