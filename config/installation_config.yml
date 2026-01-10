@@ -15,7 +15,7 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Televeda'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
@@ -31,29 +31,29 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.televeda.com'
   display_title: 'Brand URL'
-  description: 'The URL that would be used in emails under the section “Powered By”'
+  description: 'The URL that would be used in emails under the section "Powered By"'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://www.televeda.com'
   display_title: 'Widget Brand URL'
-  description: 'The URL that would be used in the widget under the section “Powered By”'
+  description: 'The URL that would be used in the widget under the section "Powered By"'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Televeda'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://www.televeda.com/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://www.televeda.com/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
-  description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
+  display_title: 'Televeda Metadata'
+  description: 'Display default Televeda metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
 
@@ -82,7 +82,7 @@
 - name: WEBHOOK_TIMEOUT
   value: 5
   display_title: 'Webhook request timeout (seconds)'
-  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  description: 'Maximum time Televeda waits for a webhook response before failing the request'
   locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
@@ -205,13 +205,13 @@
 - name: CHATWOOT_INBOX_TOKEN
   value:
   display_title: 'Inbox Token'
-  description: 'The Chatwoot Inbox Token for Contact Support in Cloud'
+  description: 'The Televeda Inbox Token for Contact Support in Cloud'
   locked: false
   type: secret
 - name: CHATWOOT_INBOX_HMAC_KEY
   value:
   display_title: 'Inbox HMAC Key'
-  description: 'The Chatwoot Inbox HMAC Key for Contact Support in Cloud'
+  description: 'The Televeda Inbox HMAC Key for Contact Support in Cloud'
   locked: false
   type: secret
 - name: CHATWOOT_CLOUD_PLANS
@@ -224,11 +224,11 @@
   description: 'Config to features and their associated plans'
 - name: DEPLOYMENT_ENV
   value: self-hosted
-  description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
+  description: 'The deployment environment of the installation, to differentiate between Televeda cloud and self-hosted'
 - name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The Amplitude analytics API key for Chatwoot cloud'
+  description: 'The Amplitude analytics API key for Televeda cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -265,19 +265,19 @@
   description: 'The number of licenses purchased for the installation, retrieved from the billing API'
 - name: CHATWOOT_SUPPORT_WEBSITE_TOKEN
   value:
-  description: 'The Chatwoot website token, used to identify the Chatwoot inbox and display the "Contact Support" option on the billing page'
+  description: 'The Televeda website token, used to identify the Televeda inbox and display the "Contact Support" option on the billing page'
   type: secret
 - name: CHATWOOT_SUPPORT_SCRIPT_URL
   value:
-  description: 'The Chatwoot script base URL, to display the "Contact Support" option on the billing page'
+  description: 'The Televeda script base URL, to display the "Contact Support" option on the billing page'
 - name: CHATWOOT_SUPPORT_IDENTIFIER_HASH
   value:
-  description: 'The Chatwoot identifier hash, to validate the contact in the live chat window.'
+  description: 'The Televeda identifier hash, to validate the contact in the live chat window.'
   type: secret
 - name: ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL
   display_title: Webhook URL to post security analysis
   value:
-  description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
+  description: Used to notify Televeda about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 # ------- Compliance Related Config ----#

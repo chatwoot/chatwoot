@@ -69,7 +69,7 @@ post:
     - Conversations
   operationId: newConversation
   summary: Create New Conversation
-  description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel"
+  description: "Creating a conversation in televeda requires a source id. \n\n Learn more about source_id: https://www.televeda.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel"
   security:
     - userApiKey: []
     - agentBotApiKey: []

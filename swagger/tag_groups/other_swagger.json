@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Chatwoot",
-    "description": "This is the API documentation for Chatwoot server.",
+    "title": "Televeda",
+    "description": "This is the API documentation for Televeda server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://www.televeda.com/terms-of-service/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "hello@televeda.com"
     },
     "license": {
       "name": "MIT License",
