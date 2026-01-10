@@ -26,6 +26,50 @@ function getCacheVersion() {
 }
 
 /**
+ * Generate asset manifest from Vite build output
+ * Returns array of { url, revision } for JS/CSS files
+ */
+function generateAssetManifest() {
+  const manifestPaths = [
+    path.resolve(__dirname, '../public/packs/.vite/manifest.json'),
+    path.resolve(__dirname, '../public/vite-dev/.vite/manifest.json'),
+  ];
+
+  let manifestPath = manifestPaths.find(p => fs.existsSync(p));
+
+  if (!manifestPath) {
+    console.warn(
+      '⚠️  No Vite manifest found, skipping asset manifest generation'
+    );
+    return [];
+  }
+
+  console.log(`📋 Reading manifest from: ${manifestPath}`);
+
+  const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+  const assets = [];
+  const seen = new Set();
+
+  for (const [, entry] of Object.entries(manifest)) {
+    const file = entry.file;
+    if (!file || seen.has(file)) continue;
+    seen.add(file);
+
+    // Only include JS and CSS files (not images, fonts, etc. - those are cached on demand)
+    if (file.endsWith('.js') || file.endsWith('.css')) {
+      assets.push({
+        url: file,
+        // revision is null because hash is in filename
+        revision: null,
+      });
+    }
+  }
+
+  console.log(`📦 Found ${assets.length} JS/CSS assets to precache`);
+  return assets;
+}
+
+/**
  * Build the service worker
  */
 async function buildServiceWorker() {
@@ -62,11 +106,14 @@ async function buildServiceWorker() {
     return;
   }
 
-  // Production mode: Build with Workbox runtime
-  try {
-    console.log('📦 Building Workbox runtime bundle...');
+  // Generate asset manifest for precaching
+  const assetManifest = generateAssetManifest();
 
-    // Build the Workbox runtime bundle
+  // Production mode: Build with custom runtime
+  try {
+    console.log('📦 Building service worker runtime...');
+
+    // Build the runtime bundle
     await build({
       configFile: false,
       css: {
@@ -81,7 +128,7 @@ async function buildServiceWorker() {
             '../app/javascript/service-worker/sw-runtime.js'
           ),
           formats: ['iife'],
-          name: 'WorkboxRuntime',
+          name: 'ServiceWorkerRuntime',
           fileName: () => 'sw-runtime.js',
         },
         outDir: path.resolve(__dirname, '../tmp/sw-build'),
@@ -96,12 +143,13 @@ async function buildServiceWorker() {
       define: {
         __CACHE_VERSION__: JSON.stringify(cacheVersion),
         __ASSET_ORIGIN__: JSON.stringify(assetOrigin),
+        __ASSET_MANIFEST__: JSON.stringify(assetManifest),
         'process.env.NODE_ENV': JSON.stringify('production'),
       },
       logLevel: 'warn',
     });
 
-    console.log('✅ Workbox runtime bundle built');
+    console.log('✅ Service worker runtime built');
 
     // Read the built runtime
     const runtimeBundle = fs.readFileSync(
@@ -128,6 +176,7 @@ async function buildServiceWorker() {
     const finalServiceWorker = `/* Service Worker for Chatwoot - Generated at build time */
 /* Cache version: ${cacheVersion} */
 /* Generated: ${new Date().toISOString()} */
+/* Precached assets: ${assetManifest.length} */
 
 ${runtimeBundle}
 
@@ -141,6 +190,7 @@ ${processedHandlers}
     );
 
     console.log('✅ Service worker built successfully at public/sw.js');
+    console.log(`   - ${assetManifest.length} assets in precache manifest`);
   } catch (error) {
     console.error('❌ Failed to build service worker:', error);
     process.exit(1);

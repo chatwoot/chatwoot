@@ -1,9 +1,11 @@
-/* eslint-disable no-restricted-globals, no-console */
+/* eslint-disable no-restricted-globals */
 /* globals clients */
 
 // Push notification handler
 self.addEventListener('push', event => {
-  let notification = event.data && event.data.json();
+  const notification = event.data && event.data.json();
+
+  if (!notification) return;
 
   event.waitUntil(
     self.registration.showNotification(notification.title, {
@@ -17,16 +19,17 @@ self.addEventListener('push', event => {
 
 // Notification click handler
 self.addEventListener('notificationclick', event => {
-  let notification = event.notification;
+  const notification = event.notification;
+  notification.close();
 
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(windowClients => {
-      let matchingWindowClients = windowClients.filter(
+      const matchingWindowClients = windowClients.filter(
         client => client.url === notification.data.url
       );
 
       if (matchingWindowClients.length) {
-        let firstWindow = matchingWindowClients[0];
+        const firstWindow = matchingWindowClients[0];
         if (firstWindow && 'focus' in firstWindow) {
           firstWindow.focus();
           return;
@@ -36,29 +39,5 @@ self.addEventListener('notificationclick', event => {
         clients.openWindow(notification.data.url);
       }
     })
-  );
-});
-
-// Cache cleanup on activation
-self.addEventListener('activate', event => {
-  const currentCacheVersion = '__CACHE_VERSION__';
-  const cacheWhitelist = [
-    `js-cache-${currentCacheVersion}`,
-    `css-cache-${currentCacheVersion}`,
-    `font-cache-${currentCacheVersion}`,
-  ];
-
-  event.waitUntil(
-    caches
-      .keys()
-      .then(cacheNames => {
-        cacheNames.forEach(cacheName => {
-          if (!cacheWhitelist.includes(cacheName)) {
-            console.log('Deleting old cache:', cacheName);
-            caches.delete(cacheName);
-          }
-        });
-      })
-      .then(() => self.clients.claim())
   );
 });

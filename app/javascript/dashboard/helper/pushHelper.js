@@ -1,7 +1,13 @@
-/* eslint-disable no-console */
 import NotificationSubscriptions from '../api/notificationSubscription';
 import auth from '../api/auth';
 import { useAlert } from 'dashboard/composables';
+
+/**
+ * Request the service worker to prefetch all assets in the manifest.
+ */
+const prefetchAssets = () => {
+  navigator.serviceWorker?.controller?.postMessage({ type: 'PREFETCH_ASSETS' });
+};
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -29,12 +35,19 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
             navigator.serviceWorker.controller
           ) {
             // New service worker available, will activate on next page load
-            console.log(
-              'New service worker available, will activate on next page load'
-            );
+            // eslint-disable-next-line no-console
+            console.log('New service worker available');
           }
         });
       });
+
+      // Trigger asset prefetch during idle time
+      if ('requestIdleCallback' in window) {
+        window.requestIdleCallback(() => prefetchAssets(), { timeout: 5000 });
+      } else {
+        // Fallback: prefetch after 3 seconds
+        setTimeout(prefetchAssets, 3000);
+      }
 
       callback(registration);
     })
