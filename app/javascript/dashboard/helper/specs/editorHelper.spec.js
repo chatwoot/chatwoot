@@ -15,6 +15,8 @@ import {
   getMenuAnchor,
   calculateMenuPosition,
   stripUnsupportedFormatting,
+  parseClipboardText,
+  serializeClipboardText,
 } from '../editorHelper';
 import { FORMATTING } from 'dashboard/constants/editor';
 import { EditorState } from '@chatwoot/prosemirror-schema';
@@ -1152,6 +1154,233 @@ describe('Menu positioning helpers', () => {
       expect(result).toHaveProperty('top');
       expect(result).toHaveProperty('width', 300);
       expect(result.left).toBeGreaterThanOrEqual(0);
+    });
+  });
+});
+
+describe('Clipboard handling functions', () => {
+  // Create a schema with hard_break support for testing
+  const clipboardSchema = new Schema({
+    nodes: {
+      doc: { content: 'paragraph+' },
+      paragraph: {
+        content: 'inline*',
+        group: 'block',
+        toDOM: () => ['p', 0],
+      },
+      text: {
+        group: 'inline',
+      },
+      hard_break: {
+        inline: true,
+        group: 'inline',
+        selectable: false,
+        toDOM: () => ['br'],
+      },
+    },
+  });
+
+  describe('parseClipboardText', () => {
+    it('converts single newlines to hard_break nodes', () => {
+      const text = 'line1\nline2';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(1); // One paragraph
+      const para = result.content.child(0);
+      expect(para.childCount).toBe(3); // text, hard_break, text
+      expect(para.child(0).text).toBe('line1');
+      expect(para.child(1).type.name).toBe('hard_break');
+      expect(para.child(2).text).toBe('line2');
+    });
+
+    it('converts double newlines to paragraph breaks', () => {
+      const text = 'para1\n\npara2';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(2); // Two paragraphs
+      expect(result.content.child(0).textContent).toBe('para1');
+      expect(result.content.child(1).textContent).toBe('para2');
+    });
+
+    it('handles mixed single and double newlines', () => {
+      const text = 'line1\nline2\n\nline3\nline4';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(2); // Two paragraphs
+      // First paragraph: line1<br>line2
+      expect(result.content.child(0).childCount).toBe(3);
+      // Second paragraph: line3<br>line4
+      expect(result.content.child(1).childCount).toBe(3);
+    });
+
+    it('handles empty text by creating empty paragraph', () => {
+      const text = '';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(1);
+      expect(result.content.child(0).childCount).toBe(0); // Empty paragraph
+    });
+
+    it('handles Windows line endings (CRLF)', () => {
+      // Single CRLF should create hard break, double CRLF should create paragraph
+      const text = 'line1\r\nline2';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(1); // One paragraph
+      expect(result.content.child(0).childCount).toBe(3); // line1<br>line2
+      expect(result.content.child(0).child(0).text).toBe('line1');
+      expect(result.content.child(0).child(1).type.name).toBe('hard_break');
+      expect(result.content.child(0).child(2).text).toBe('line2');
+    });
+
+    it('handles Windows double line endings (CRLF CRLF) as paragraph break', () => {
+      const text = 'para1\r\n\r\npara2';
+      const doc = clipboardSchema.nodes.doc.create(null, [
+        clipboardSchema.nodes.paragraph.create(),
+      ]);
+      const $context = doc.resolve(1);
+
+      const result = parseClipboardText(text, $context);
+
+      expect(result).toBeTruthy();
+      expect(result.content.childCount).toBe(2); // Two paragraphs
+      expect(result.content.child(0).textContent).toBe('para1');
+      expect(result.content.child(1).textContent).toBe('para2');
+    });
+
+    it('returns null if schema lacks hard_break or paragraph', () => {
+      const minimalSchema = new Schema({
+        nodes: {
+          doc: { content: 'text*' },
+          text: {},
+        },
+      });
+      const doc = minimalSchema.nodes.doc.create();
+      const $context = doc.resolve(0);
+
+      const result = parseClipboardText('test', $context);
+
+      expect(result).toBeNull();
+    });
+  });
+
+  describe('serializeClipboardText', () => {
+    it('converts hard_break nodes to single newlines', () => {
+      const para = clipboardSchema.nodes.paragraph.create(null, [
+        clipboardSchema.text('line1'),
+        clipboardSchema.nodes.hard_break.create(),
+        clipboardSchema.text('line2'),
+      ]);
+      const doc = clipboardSchema.nodes.doc.create(null, [para]);
+      const slice = doc.slice(0, doc.content.size);
+
+      const mockView = {
+        state: {
+          schema: clipboardSchema,
+        },
+      };
+
+      const result = serializeClipboardText(slice, mockView);
+
+      expect(result).toBe('line1\nline2');
+    });
+
+    it('converts paragraph breaks to double newlines', () => {
+      const para1 = clipboardSchema.nodes.paragraph.create(
+        null,
+        clipboardSchema.text('para1')
+      );
+      const para2 = clipboardSchema.nodes.paragraph.create(
+        null,
+        clipboardSchema.text('para2')
+      );
+      const doc = clipboardSchema.nodes.doc.create(null, [para1, para2]);
+      const slice = doc.slice(0, doc.content.size);
+
+      const mockView = {
+        state: {
+          schema: clipboardSchema,
+        },
+      };
+
+      const result = serializeClipboardText(slice, mockView);
+
+      expect(result).toBe('para1\n\npara2');
+    });
+
+    it('handles mixed hard breaks and paragraph breaks', () => {
+      const para1 = clipboardSchema.nodes.paragraph.create(null, [
+        clipboardSchema.text('line1'),
+        clipboardSchema.nodes.hard_break.create(),
+        clipboardSchema.text('line2'),
+      ]);
+      const para2 = clipboardSchema.nodes.paragraph.create(null, [
+        clipboardSchema.text('line3'),
+        clipboardSchema.nodes.hard_break.create(),
+        clipboardSchema.text('line4'),
+      ]);
+      const doc = clipboardSchema.nodes.doc.create(null, [para1, para2]);
+      const slice = doc.slice(0, doc.content.size);
+
+      const mockView = {
+        state: {
+          schema: clipboardSchema,
+        },
+      };
+
+      const result = serializeClipboardText(slice, mockView);
+
+      expect(result).toBe('line1\nline2\n\nline3\nline4');
+    });
+
+    it('handles empty paragraphs', () => {
+      const para1 = clipboardSchema.nodes.paragraph.create();
+      const para2 = clipboardSchema.nodes.paragraph.create(
+        null,
+        clipboardSchema.text('text')
+      );
+      const doc = clipboardSchema.nodes.doc.create(null, [para1, para2]);
+      const slice = doc.slice(0, doc.content.size);
+
+      const mockView = {
+        state: {
+          schema: clipboardSchema,
+        },
+      };
+
+      const result = serializeClipboardText(slice, mockView);
+
+      expect(result).toBe('\n\ntext');
     });
   });
 });

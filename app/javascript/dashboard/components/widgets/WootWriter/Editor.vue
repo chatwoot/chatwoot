@@ -56,6 +56,8 @@ import {
   calculateMenuPosition,
   getEffectiveChannelType,
   stripUnsupportedFormatting,
+  parseClipboardText,
+  serializeClipboardText,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -656,6 +658,8 @@ function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
     editable: () => !props.disabled,
+    clipboardTextParser: parseClipboardText,
+    clipboardTextSerializer: serializeClipboardText,
     dispatchTransaction: tx => {
       state = state.apply(tx);
       editorView.updateState(state);
