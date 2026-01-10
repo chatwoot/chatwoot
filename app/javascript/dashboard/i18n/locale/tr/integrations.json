@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Entegrasyonlar",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Chatwoot, ekibinizin verimliliğini artırmak için birden fazla araç ve hizmetle entegre olur. Favori uygulamalarınızı yapılandırmak için aşağıdaki listeyi inceleyin.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -338,8 +338,8 @@
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "Notion entegrasyonunu silmek istediğinizden emin misiniz?",
+        "MESSAGE": "Bu entegrasyonu silmek, Notion çalışma alanınıza erişimi kaldıracak ve ilgili tüm işlevleri durduracaktır.",
         "CONFIRM": "Evet, sil",
         "CANCEL": "İptal Et"
       }
@@ -347,16 +347,16 @@
   },
   "CAPTAIN": {
     "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "HEADER_KNOW_MORE": "Daha fazla bilgi edinin",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
+      "ASSISTANTS": "Asistanlar",
+      "SWITCH_ASSISTANT": "Asistanlar arasında geçiş yap",
+      "NEW_ASSISTANT": "Asistan Oluştur",
       "EMPTY_LIST": "Asistan bulunamadı, başlamak için bir tane oluşturun"
     },
     "COPILOT": {
       "TITLE": "Copilot",
-      "TRY_THESE_PROMPTS": "Try these prompts",
+      "TRY_THESE_PROMPTS": "Bu komutları deneyin",
       "PANEL_TITLE": "Copilot ile başlayın",
       "KICK_OFF_MESSAGE": "Hızlı bir özet mi gerekiyor, geçmiş konuşmaları mı kontrol etmek istiyorsunuz, yoksa daha iyi bir yanıt mı tasarlamak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
@@ -401,17 +401,17 @@
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
       "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "UPGRADE_NOW": "Upgrade now",
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_PROMPT": "Asistanlarımıza, Copilot'a ve daha fazlasına erişim sağlamak için planınızı yükseltin.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
     "BANNER": {
       "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "DOCUMENTS": "Belge sınırı aşıldı. Captain AI'yı kullanmaya devam etmek için yükseltme yapın."
     },
     "FORM": {
       "CANCEL": "İptal Et",
@@ -419,24 +419,24 @@
       "EDIT": "Güncelleme"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
+      "HEADER": "Asistanlar",
       "NO_ASSISTANTS_AVAILABLE": "Hesabınızda kullanılabilir asistan yok.",
-      "ADD_NEW": "Create a new assistant",
+      "ADD_NEW": "Yeni bir asistan oluştur",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "TITLE": "Asistanı silmek istediğinizden emin misiniz?",
+        "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "SUCCESS_MESSAGE": "Asistan başarıyla silindi",
+        "ERROR_MESSAGE": "Asistanı silerken bir hata oluştu, lütfen tekrar deneyin."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "Asistanınıza isim vermek, amacını tanımlamak ve destekleyeceği ürünü belirtmek için aşağıdaki ayrıntıları doldurun.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "Bir asistan oluşturun",
+        "SUCCESS_MESSAGE": "Asistan başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Asistan oluşturulurken bir hata oluştu, lütfen tekrar deneyin."
       },
       "FORM": {
-        "UPDATE": "Güncelleme",
+        "UPDATE": "Güncelle",
         "SECTIONS": {
           "BASIC_INFO": "Temel Bilgiler",
           "SYSTEM_MESSAGES": "Sistem Mesajları",
@@ -481,9 +481,9 @@
         },
         "FEATURES": {
           "TITLE": "Özellikleri",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CONVERSATION_FAQS": "Çözümlenmiş konuşmalardan SSS oluştur",
+          "ALLOW_MEMORIES": "Müşteri etkileşimlerinden önemli detayları anı olarak yakala.",
+          "ALLOW_CITATIONS": "Yanıtlara kaynak alıntıları ekle"
         }
       },
       "EDIT": {
@@ -503,41 +503,41 @@
           "DESCRIPTION": "Konuşmayı sonlandırırken veya bir operatöre aktarırken asistanın söyleyeceği sözleri özelleştirin."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "Eğlenceli Şeyler",
+          "DESCRIPTION": "Asistana daha fazla kontrol ekleyin. (hikaye gibi biraz daha görsel: Sorgu koruma çiti → senaryolar → çıktı) Kullanıcıyı bunları gerçekten kullanmaya teşvik edin.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+              "TITLE": "Sorgu Korumaları",
+              "DESCRIPTION": "Her şeyi yolunda tutar; asistanınız sadece sizin istediğiniz soruları yanıtlar, sınır dışı veya konu dışı hiçbir şeye izin vermez."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Yanıt kılavuzları",
+              "DESCRIPTION": "Asistanınızın yanıtlarının havası ve yapısı nasıl? Açık ve samimi mi? Kısa ve öz mü? Ayrıntılı ve resmi mi?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "Asistanı Sil",
+          "DESCRIPTION": "Bu işlem kalıcıdır. Bu asistanı silmek, onu tüm bağlı gelen kutularından kaldıracak ve oluşturulan tüm bilgileri kalıcı olarak silecektir.",
+          "BUTTON_TEXT": "Sil {assistantName}"
         }
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
+        "DELETE_ASSISTANT": "Asistanı Sil",
         "VIEW_CONNECTED_INBOXES": "View connected inboxes"
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "SUBTITLE": "Kullanıcılara hızlı ve doğru yanıtlar sağlayacak bir asistan oluşturun. Asistan, yardım makalelerinizden ve geçmiş konuşmalardan öğrenebilir.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "NOTE": "Captain Asistan, doğrudan müşterilerle etkileşim kurar, yardım belgelerinizden ve geçmiş konuşmalardan öğrenir ve anında, doğru yanıtlar sunar. Başlangıçtaki sorgulamaları ele alır, hızlı çözümler sunar ve gerektiğinde bir temsilciye aktarır."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
+        "TITLE": "Sorgu Korumaları",
+        "DESCRIPTION": "Her şeyi rayında tutar; asistanınız sadece yanıtlamasını istediğiniz soru türlerine odaklanır, sınır dışı veya konu dışı hiçbir şeye geçit vermez.",
         "BULK_ACTION": {
           "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
@@ -546,43 +546,43 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
+            "TITLE": "Örnek Sorgu Korumaları",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
             "SAVE": "Ekle ve kaydet (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "PLACEHOLDER": "Başka bir sorgu kontrolü yazın..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
-            "CREATE": "Yarat",
+            "TITLE": "Sorgu Kontrolü Ekle",
+            "CREATE": "Oluştur",
             "CANCEL": "İptal Et",
-            "PLACEHOLDER": "Type in another guardrail...",
+            "PLACEHOLDER": "Başka bir sorgu kontrolü yazın...",
             "TEST_ALL": "Tümünü test et"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Ara..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
+        "EMPTY_MESSAGE": "Sorgu Kontrolü bulunamadı. Başlamak için örnekler oluşturun veya ekleyin.",
         "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Sorgu Kontrolleri başarıyla eklendi",
+            "ERROR": "Sorgu Kontrolü ekleme sırasında bir hata oluştu, lütfen tekrar deneyin."
           },
           "UPDATE": {
             "SUCCESS": "Guardrails updated successfully",
             "ERROR": "There was an error updating guardrails, please try again."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
+            "SUCCESS": "Sorgu Kontrolü başarıyla silindi",
             "ERROR": "There was an error deleting guardrails, please try again."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
+        "TITLE": "Yanıt Kılavuzları",
+        "DESCRIPTION": "Asistanınızın yanıtlarının havası ve yapısı nasıl? Açık ve samimi mi? Kısa ve öz mü? Ayrıntılı ve resmi mi?",
         "BULK_ACTION": {
           "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
@@ -591,15 +591,15 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
+            "TITLE": "Örnek yanıt kılavuzları",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
             "SAVE": "Ekle ve kaydet (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "PLACEHOLDER": "Başka bir yanıt kılavuzu yazın..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
-            "CREATE": "Yarat",
+            "TITLE": "Yanıt kılavuzu ekle",
+            "CREATE": "Oluştur",
             "CANCEL": "İptal Et",
             "PLACEHOLDER": "Type in another response guideline...",
             "TEST_ALL": "Tümünü test et"
@@ -626,8 +626,8 @@
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
+        "TITLE": "Senaryolar",
+        "DESCRIPTION": "Asistanınıza bazı bilgiler verin, örneğin “kullanıcı takıldığında ne yapmalı” veya “geri ödeme talebi sırasında nasıl davranmalı”.",
         "BULK_ACTION": {
           "SELECTED": "{count} eşya seçildi | {count} eşya seçildi",
           "SELECT_ALL": "Tümünü seç ({count})",
@@ -636,31 +636,31 @@
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
+            "TITLE": "Örnek senaryolar",
             "ADD": "Tümünü ekle",
             "ADD_SINGLE": "Bunu ekle",
             "TOOLS_USED": "Tools used :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Senaryo ekle",
+            "TITLE": "Senaryo Oluştur",
             "FORM": {
               "TITLE": {
                 "LABEL": "Başlık",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "Senaryo için bir isim girin",
+                "ERROR": "Senaryo ismi gereklidir"
               },
               "DESCRIPTION": {
                 "LABEL": "Açıklama",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "PLACEHOLDER": "Bu senaryonun nasıl ve nerede kullanılacağını açıklayın",
+                "ERROR": "Senaryo açıklaması gereklidir"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "Nasıl uygulanır",
+                "PLACEHOLDER": "Bu senaryonun nasıl ve nerede ele alınacağını açıklayın",
+                "ERROR": "Senaryo içeriği gereklidir"
               },
-              "CREATE": "Yarat",
+              "CREATE": "Oluştur",
               "CANCEL": "İptal Et"
             }
           }
@@ -691,17 +691,17 @@
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "Belgeler",
+      "ADD_NEW": "Yeni belge oluştur",
       "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "TITLE": "İlgili SSS",
+        "DESCRIPTION": "Bu SSS'ler doğrudan belgeden oluşturulmuştur."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "Bilgi kaynağı olarak eklemek için belgenin URL'sini girin ve ilişkilendirmek istediğiniz asistanı seçin.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "Belge ekle",
+        "SUCCESS_MESSAGE": "Belge başarıyla oluşturuldu",
+        "ERROR_MESSAGE": "Belge oluşturulurken bir hata oluştu, lütfen tekrar deneyin."
       },
       "FORM": {
         "TYPE": {
@@ -711,7 +711,7 @@
         },
         "URL": {
           "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
+          "PLACEHOLDER": "Belgenin URL'sini girin",
           "ERROR": "Lütfen belge için geçerli bir URL sağlayın"
         },
         "PDF_FILE": {
@@ -728,31 +728,31 @@
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
+        "TITLE": "Belgeyi silmek istediğinizden emin misiniz?",
+        "DESCRIPTION": "Bu işlem kalıcıdır. Bu belgeyi silmek, oluşturulan tüm bilgileri kalıcı olarak silecektir.",
         "CONFIRM": "Evet, sil",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "SUCCESS_MESSAGE": "Belge başarıyla silindi",
+        "ERROR_MESSAGE": "Belgeyi silerken bir hata oluştu, lütfen tekrar deneyin."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "İlgili Yanıtları Görüntüle",
+        "DELETE_DOCUMENT": "Belgeyi Sil"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "Kullanılabilir belge yok",
+        "SUBTITLE": "Belgeler, asistanınız tarafından SSS oluşturmak için kullanılır. Asistanınıza içerik sağlamak için belge aktarabilirsiniz.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Captain Belge",
+          "NOTE": "Captain'daki bir belge, asistan için bir bilgi kaynağı görevi görür. Yardım merkezinizi veya kılavuzlarınızı bağlayarak Captain, içeriği analiz edebilir ve müşteri sorularına doğru yanıtlar sağlayabilir."
         }
       }
     },
     "CUSTOM_TOOLS": {
       "HEADER": "Araçlar",
-      "ADD_NEW": "Create a new tool",
+      "ADD_NEW": "Yeni bir araç oluşturun",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "Özel araçlar mevcut değil",
+        "SUBTITLE": "Asistanınızın harici API'lere ve hizmetlere bağlanmasını sağlamak için özel araçlar oluşturun; böylece asistanınız sizin adınıza veri çekebilir ve işlemler gerçekleştirebilir.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Özel Araçlar",
           "NOTE": "Özel araçlar, asistanınızın harici API'ler ve hizmetlerle etkileşim kurmasını sağlar. Asistanınızın yeteneklerini artırmak için veri çekme, eylemler gerçekleştirme veya mevcut sistemlerinizle entegrasyon sağlama amaçlı araçlar oluşturun."
@@ -820,10 +820,10 @@
           "API_VALUE_PLACEHOLDER": "Enter API key value"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "Parametreler",
+          "HELP_TEXT": "Kullanıcı sorgularından çıkarılacak parametreleri tanımlayın"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "Parametre Ekle",
         "PARAM_NAME": {
           "PLACEHOLDER": "Parameter name (e.g., order_id)"
         },
@@ -848,7 +848,7 @@
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
+          "LABEL": "Yanıt Şablonu (İsteğe Bağlı)",
           "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
         },
         "ERRORS": {
@@ -857,9 +857,9 @@
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
+      "HEADER": "SSS",
       "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "ADD_NEW": "Yeni SSS oluştur",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },
@@ -870,15 +870,15 @@
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Sil",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "Sıkça sorulan sorular başarıyla onaylandı",
+        "ERROR_MESSAGE": "Sıkça sorulan soruların onaylanmasında bir hata oluştu, lütfen tekrar deneyin."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "TITLE": "Sıkça Sorulan Soruları Sil?",
+        "DESCRIPTION": "Seçilen SSS'leri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
         "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "SUCCESS_MESSAGE": "SSS'ler başarıyla silindi",
+        "ERROR_MESSAGE": "Sıkça sorulan soruları silerken bir hata oluştu, lütfen tekrar deneyin."
       },
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",
@@ -932,13 +932,13 @@
         "DELETE_RESPONSE": "Sil"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
+        "TITLE": "SSS Bulunamadı",
         "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "SUBTITLE": "SSS, asistanınızın müşterilerinizden gelen sorulara hızlı ve doğru yanıtlar vermesine yardımcı olur. Bunlar içeriğinizden otomatik olarak oluşturulabilir veya manuel olarak eklenebilir.",
         "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "NOTE": "Captain SSS, bilgi tabanınızda eksik olan veya sıkça sorulan yaygın müşteri sorularını tespit eder ve desteği geliştirmek için ilgili SSS'leri oluşturur. Her öneriyi inceleyebilir ve onaylayıp onaylamamaya karar verebilirsiniz."
         }
       }
     },
@@ -970,7 +970,7 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "SUBTITLE": "Bir gelen kutusunu bağlamak, asistanın müşterilerinizden gelen ilk soruları size aktarmadan önce ele almasını sağlar."
       }
     }
   }

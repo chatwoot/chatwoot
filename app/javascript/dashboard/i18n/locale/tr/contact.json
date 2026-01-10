@@ -557,12 +557,12 @@
         "PLACEHOLDER": "Not ekleyin",
         "WROTE": "wrote",
         "YOU": "Sen",
-        "SAVE": "Save note",
+        "SAVE": "Notu Kaydet",
         "ADD_NOTE": "Kişi notu ekle",
         "EXPAND": "Genişlet",
         "COLLAPSE": "Daralt",
         "NO_NOTES": "Not yok, kişi detayları sayfasından not ekleyebilirsiniz.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "EMPTY_STATE": "Bu kişiyle ilişkili not bulunmamaktadır. Yukarıdaki kutuya yazarak not ekleyebilirsiniz.",
         "CONVERSATION_EMPTY_STATE": "Henüz not yok. Not eklemek için Not ekle düğmesini kullanın."
       }
     },
@@ -647,7 +647,7 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
+        "DISCARD": "Yoksay",
         "SEND": "Send ({keyCode})"
       }
     }
