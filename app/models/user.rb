@@ -56,6 +56,8 @@
 #
 
 class User < ApplicationRecord
+  self.inheritance_column = :_type_disabled
+
   include AccessTokenable
   include Avatarable
   # Include default devise modules.
