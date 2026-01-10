@@ -13,6 +13,7 @@
     "dev": "overmind start -f ./Procfile.dev",
     "ruby:prettier": "bundle exec rubocop -a",
     "build:sdk": "BUILD_MODE=library vite build",
+    "build:sw": "node scripts/build-service-worker.js",
     "prepare": "husky install",
     "size": "size-limit",
     "story:dev": "histoire dev",
@@ -108,7 +109,11 @@
     "vuedraggable": "^4.1.0",
     "vuex": "~4.1.0",
     "vuex-router-sync": "6.0.0-rc.1",
-    "wavesurfer.js": "7.8.6"
+    "wavesurfer.js": "7.8.6",
+    "workbox-cacheable-response": "^7.0.0",
+    "workbox-expiration": "^7.0.0",
+    "workbox-routing": "^7.0.0",
+    "workbox-strategies": "^7.0.0"
   },
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",

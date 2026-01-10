@@ -1,5 +1,7 @@
 /* eslint-disable no-restricted-globals, no-console */
 /* globals clients */
+
+// Push notification handler
 self.addEventListener('push', event => {
   let notification = event.data && event.data.json();
 
@@ -13,6 +15,7 @@ self.addEventListener('push', event => {
   );
 });
 
+// Notification click handler
 self.addEventListener('notificationclick', event => {
   let notification = event.notification;
 
@@ -33,5 +36,29 @@ self.addEventListener('notificationclick', event => {
         clients.openWindow(notification.data.url);
       }
     })
+  );
+});
+
+// Cache cleanup on activation
+self.addEventListener('activate', event => {
+  const currentCacheVersion = '__CACHE_VERSION__';
+  const cacheWhitelist = [
+    `js-cache-${currentCacheVersion}`,
+    `css-cache-${currentCacheVersion}`,
+    `font-cache-${currentCacheVersion}`,
+  ];
+
+  event.waitUntil(
+    caches
+      .keys()
+      .then(cacheNames => {
+        cacheNames.forEach(cacheName => {
+          if (!cacheWhitelist.includes(cacheName)) {
+            console.log('Deleting old cache:', cacheName);
+            caches.delete(cacheName);
+          }
+        });
+      })
+      .then(() => self.clients.claim())
   );
 });

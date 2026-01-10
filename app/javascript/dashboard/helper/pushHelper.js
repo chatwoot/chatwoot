@@ -16,7 +16,28 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
 
   navigator.serviceWorker
     .register('/sw.js')
-    .then(registration => callback(registration))
+    .then(registration => {
+      // Check for updates on load
+      registration.update();
+
+      // Listen for updates
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (
+            newWorker.state === 'installed' &&
+            navigator.serviceWorker.controller
+          ) {
+            // New service worker available, will activate on next page load
+            console.log(
+              'New service worker available, will activate on next page load'
+            );
+          }
+        });
+      });
+
+      callback(registration);
+    })
     .catch(registrationError => {
       // eslint-disable-next-line
       console.log('SW registration failed: ', registrationError);
