@@ -25,6 +25,18 @@
         "PENDING": "Pending",
         "REJECTED": "Rejected"
       },
+      "STATUS": {
+        "APPROVED": "Approved",
+        "PENDING": "Pending",
+        "REJECTED": "Rejected",
+        "PAUSED": "Paused",
+        "DISABLED": "Disabled"
+      },
+      "CATEGORY": {
+        "MARKETING": "Marketing",
+        "UTILITY": "Utility",
+        "AUTHENTICATION": "Authentication"
+      },
       "FORM": {
         "CANCEL": "Cancel"
       },

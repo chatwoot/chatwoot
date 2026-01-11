@@ -219,8 +219,8 @@ export default {
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-2">
                   <h3 class="text-base font-medium text-n-slate-12">{{ template.name }}</h3>
-                  <span class="px-2 py-0.5 text-xs rounded-full" :class="getStatusClass(template.status)">{{ template.status }}</span>
-                  <span class="px-2 py-0.5 text-xs rounded-full" :class="getCategoryClass(template.category)">{{ template.category }}</span>
+                  <span class="px-2 py-0.5 text-xs rounded-full" :class="getStatusClass(template.status)">{{ $t(`INBOX_MGMT.WHATSAPP_TEMPLATES.STATUS.${template.status}`) }}</span>
+                  <span class="px-2 py-0.5 text-xs rounded-full" :class="getCategoryClass(template.category)">{{ $t(`INBOX_MGMT.WHATSAPP_TEMPLATES.CATEGORY.${template.category}`) }}</span>
                 </div>
                 <p class="text-sm text-n-slate-11 mb-2">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.LANGUAGE') }}: {{ template.language }}</p>
                 <p class="text-sm text-n-slate-12 whitespace-pre-wrap">{{ getTemplateBody(template) }}</p>
