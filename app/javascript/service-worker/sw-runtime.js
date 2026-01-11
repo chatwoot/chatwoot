@@ -123,7 +123,10 @@ async function prefetchAssets() {
   if (!ASSET_MANIFEST?.length) return;
 
   const cache = await caches.open(CACHE_NAME);
-  const baseUrl = ASSET_ORIGIN || `${self.location.origin}${ASSET_PATH}`;
+  // Build base URL: CDN origin + asset path, or local origin + asset path
+  const baseUrl = ASSET_ORIGIN
+    ? `${ASSET_ORIGIN}${ASSET_PATH}`
+    : `${self.location.origin}${ASSET_PATH}`;
 
   // Prefetch in batches of 5 (await in loop is intentional for throttling)
   for (let i = 0; i < ASSET_MANIFEST.length; i += 5) {
@@ -171,7 +174,10 @@ async function cleanupStaleAssets() {
 
   const cache = await caches.open(CACHE_NAME);
   const cachedRequests = await cache.keys();
-  const baseUrl = ASSET_ORIGIN || `${self.location.origin}${ASSET_PATH}`;
+  // Build base URL: CDN origin + asset path, or local origin + asset path
+  const baseUrl = ASSET_ORIGIN
+    ? `${ASSET_ORIGIN}${ASSET_PATH}`
+    : `${self.location.origin}${ASSET_PATH}`;
 
   // Build set of valid asset URLs from current manifest
   const validUrls = new Set(

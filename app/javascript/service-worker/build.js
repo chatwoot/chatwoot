@@ -56,7 +56,11 @@ function generateAssetManifest() {
 async function buildServiceWorker() {
   console.log('🔨 Building service worker...');
 
-  const assetOrigin = process.env.ASSET_CDN_HOST || '';
+  // Ensure CDN host has protocol prefix for absolute URLs
+  let assetOrigin = process.env.ASSET_CDN_HOST || '';
+  if (assetOrigin && !assetOrigin.startsWith('http')) {
+    assetOrigin = `https://${assetOrigin}`;
+  }
   const isProduction = process.env.NODE_ENV === 'production';
   // vite-plugin-ruby serves from /vite/ in production, /vite-dev/ in development
   const assetPath = isProduction ? '/vite/' : '/vite-dev/';
