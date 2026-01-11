@@ -77,7 +77,7 @@ async function buildServiceWorker() {
   console.log('🔨 Building service worker...');
 
   let assetOrigin = process.env.ASSET_CDN_HOST || '';
-  if (assetOrigin) {
+  if (assetOrigin && !assetOrigin.startsWith('http')) {
     assetOrigin = `https://${assetOrigin}`;
   }
 
