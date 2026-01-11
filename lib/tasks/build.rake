@@ -14,8 +14,6 @@ task after_assets_precompile: :environment do
   system('NODE_ENV=production pnpm run build:sw')
 end
 
-# every time you execute 'rake assets:precompile'
-# run 'before_assets_precompile' first, then 'after_assets_precompile' at the end
 Rake::Task['assets:precompile'].enhance %w[before_assets_precompile] do
   Rake::Task['after_assets_precompile'].invoke
 end
