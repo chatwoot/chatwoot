@@ -52,12 +52,6 @@ self.addEventListener('fetch', event => {
 
   if (isAsset) {
     event.respondWith(cacheFirst(request));
-    return;
-  }
-
-  // Navigation to /app/* → network-first (cache HTML shell as fallback)
-  if (request.mode === 'navigate' && url.pathname.startsWith('/app')) {
-    event.respondWith(networkFirstWithShellCache(request));
   }
 });
 
@@ -83,34 +77,6 @@ async function cacheFirst(request) {
     // Network failed - return stale cache if available
     const stale = await cache.match(request);
     if (stale) return stale;
-    throw err;
-  }
-}
-
-async function networkFirstWithShellCache(request) {
-  const cache = await caches.open(CACHE_NAME);
-
-  try {
-    const response = await fetch(request);
-
-    // Cache the HTML shell for offline fallback
-    if (response.ok) {
-      const html = await response.clone().text();
-      if (html.includes('data-sw-cache')) {
-        cache.put(
-          '/app',
-          new Response(html, {
-            headers: response.headers,
-          })
-        );
-      }
-    }
-
-    return response;
-  } catch (err) {
-    // Network failed - return cached shell
-    const cached = await cache.match('/app');
-    if (cached) return cached;
     throw err;
   }
 }
@@ -191,7 +157,7 @@ async function cleanupStaleAssets() {
       const isAssetPath =
         url.pathname.startsWith('/vite/assets/') ||
         url.pathname.startsWith('/vite-dev/assets/');
-      // Only clean up asset files, keep other cached items (like /app shell)
+      // Only clean up asset files
       return isAssetPath && !validUrls.has(request.url);
     })
     .map(request => cache.delete(request));
