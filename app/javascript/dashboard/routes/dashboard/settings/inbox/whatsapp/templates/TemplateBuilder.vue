@@ -394,6 +394,22 @@ const insertVariable = () => {
               {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.ALLOW_CATEGORY_CHANGE') }}
             </span>
           </label>
+
+          <!-- Authentication Warning -->
+          <div 
+            v-if="category === 'AUTHENTICATION'" 
+            class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-start gap-2"
+          >
+            <i class="i-lucide-alert-triangle text-amber-500 flex-shrink-0 mt-0.5" />
+            <div class="text-sm">
+              <p class="font-medium text-amber-600 dark:text-amber-400">
+                {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.AUTH_WARNING_TITLE') }}
+              </p>
+              <p class="text-amber-600/80 dark:text-amber-400/80 mt-1">
+                {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.AUTH_WARNING_TEXT') }}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -666,7 +682,7 @@ const insertVariable = () => {
             </h3>
           </div>
           <NextButton
-            v-if="buttons.length < 3"
+            v-if="buttons.length < 10"
             ghost
             size="sm"
             icon="i-lucide-plus"

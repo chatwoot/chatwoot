@@ -44,7 +44,9 @@
             "UTILITY": "Utilidade"
           },
           "LANGUAGE": "Idioma",
-          "ALLOW_CATEGORY_CHANGE": "Permitir que a Meta altere a categoria se necessário"
+          "ALLOW_CATEGORY_CHANGE": "Permitir que a Meta altere a categoria se necessário",
+          "AUTH_WARNING_TITLE": "Templates de autenticação têm requisitos especiais",
+          "AUTH_WARNING_TEXT": "Templates de autenticação usam um formato OTP predefinido. O texto do corpo é gerado automaticamente pela Meta. Use o tipo de botão COPY_CODE para funcionalidade OTP."
         },
         "HEADER": {
           "TITLE": "Cabeçalho",
