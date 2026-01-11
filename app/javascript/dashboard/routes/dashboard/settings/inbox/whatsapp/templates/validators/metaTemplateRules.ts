@@ -1,6 +1,18 @@
 /**
  * Meta WhatsApp Business API template validation rules
  * https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates
+ * 
+ * Validation findings from API testing (2025-01-11):
+ * - MARKETING/UTILITY: Work with simple body text
+ * - AUTHENTICATION: Requires special format with add_security_recommendation and OTP buttons
+ * - Emojis and formatting (*bold*, _italic_, ~strikethrough~) all work in body
+ * - All header types work: TEXT, IMAGE, VIDEO, DOCUMENT, LOCATION
+ * - URLs: https://, http://, and even www.example.com (no protocol) all accepted by Meta
+ * - Quick Reply + CTA buttons CAN be mixed (Meta allows it)
+ * - Max 2 CTA buttons (URL + PHONE combined)
+ * - Quick Reply buttons: Meta allows more than 3 (tested with 4)
+ * - Header text: max 60 chars (enforced by Meta)
+ * - Button text: max 25 chars
  */
 
 import { validatePlaceholders, validateExamples } from '../utils/placeholders';
@@ -11,6 +23,7 @@ export interface ValidationResult {
 }
 
 // Character limits
+// Note: These limits were verified via API testing on 2025-01-11
 export const LIMITS = {
   TEMPLATE_NAME: 512,
   HEADER_TEXT: 60,
@@ -18,8 +31,8 @@ export const LIMITS = {
   FOOTER_TEXT: 60,
   BUTTON_TEXT: 25,
   URL: 2000,
-  MAX_QUICK_REPLY_BUTTONS: 3,
-  MAX_CTA_BUTTONS: 2,
+  MAX_QUICK_REPLY_BUTTONS: 10, // Meta allows more than 3 (tested with 4)
+  MAX_CTA_BUTTONS: 2, // URL + PHONE combined max is 2
   MAX_BUTTONS: 10,
 };
 
@@ -210,10 +223,8 @@ export function validateButtons(
     errors.push(`Maximum ${LIMITS.MAX_CTA_BUTTONS} Call-to-Action buttons (URL/Phone) allowed`);
   }
 
-  // Cannot mix Quick Reply with CTA
-  if (quickReplyCount > 0 && ctaCount > 0) {
-    errors.push('Cannot mix Quick Reply buttons with Call-to-Action buttons (URL/Phone)');
-  }
+  // Note: Meta DOES allow mixing Quick Reply with CTA buttons (verified via API testing)
+  // The previous restriction has been removed
 
   // COPY_CODE only for AUTHENTICATION
   if (copyCodeCount > 0 && category !== 'AUTHENTICATION') {

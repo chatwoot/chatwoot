@@ -81,7 +81,8 @@
             "BOLD": "Negrito (*texto*)",
             "ITALIC": "Itálico (_texto_)",
             "STRIKETHROUGH": "Tachado (~texto~)",
-            "MONOSPACE": "Monoespaço (```texto```)"
+            "MONOSPACE": "Monoespaço (```texto```)",
+            "ADD_VARIABLE": "Adicionar variável"
           }
         },
         "FOOTER": {

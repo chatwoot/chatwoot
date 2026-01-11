@@ -81,7 +81,8 @@
             "BOLD": "Bold (*text*)",
             "ITALIC": "Italic (_text_)",
             "STRIKETHROUGH": "Strikethrough (~text~)",
-            "MONOSPACE": "Monospace (```text```)"
+            "MONOSPACE": "Monospace (```text```)",
+            "ADD_VARIABLE": "Add variable"
           }
         },
         "FOOTER": {

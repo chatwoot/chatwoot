@@ -109,7 +109,8 @@ class Whatsapp::FacebookApiClient
       headers: request_headers,
       body: template_data.to_json,
       verify: false, # Skip SSL CRL verification that causes hangs
-      timeout: 30
+      open_timeout: 10,
+      read_timeout: 60
     )
 
     elapsed = ((Time.now - start_time) * 1000).round

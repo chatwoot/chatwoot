@@ -284,6 +284,31 @@ const wrapSelection = (wrapper: string) => {
     });
   }
 };
+
+const insertVariable = () => {
+  if (!bodyTextarea.value) return;
+  
+  const textarea = bodyTextarea.value;
+  const start = textarea.selectionStart;
+  const text = bodyText.value;
+  
+  // Find the next variable number
+  const existingVars = text.match(/\{\{(\d+)\}\}/g) || [];
+  const usedNumbers = existingVars.map(v => parseInt(v.replace(/\D/g, ''), 10));
+  let nextNum = 1;
+  while (usedNumbers.includes(nextNum)) {
+    nextNum++;
+  }
+  
+  const variable = `{{${nextNum}}}`;
+  bodyText.value = text.slice(0, start) + variable + text.slice(start);
+  
+  nextTick(() => {
+    textarea.focus();
+    const newPos = start + variable.length;
+    textarea.setSelectionRange(newPos, newPos);
+  });
+};
 </script>
 
 <template>
@@ -546,10 +571,23 @@ const wrapSelection = (wrapper: string) => {
                 >
                   &lt;/&gt;
                 </button>
+                <div class="w-px h-5 bg-n-weak mx-1"></div>
+                <button
+                  type="button"
+                  class="px-2 py-1 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors text-xs flex items-center gap-1"
+                  :title="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.ADD_VARIABLE')"
+                  @click="insertVariable"
+                >
+                  <i class="i-lucide-plus text-xs" />
+                  <span class="font-mono">{{ '{' + '{n}' + '}' }}</span>
+                </button>
               </div>
               
-              <!-- Emoji Picker -->
-              <div v-if="showEmojiPicker" class="absolute z-30 left-0 top-12">
+              <!-- Emoji Picker - positioned below toolbar -->
+              <div 
+                v-if="showEmojiPicker" 
+                class="absolute z-50 left-0 top-full mt-1 emoji-picker-override"
+              >
                 <EmojiInput :on-click="insertEmoji" />
               </div>
             </div>
@@ -557,7 +595,7 @@ const wrapSelection = (wrapper: string) => {
             <textarea
               ref="bodyTextarea"
               v-model="bodyText"
-              rows="5"
+              rows="10"
               maxlength="1024"
               class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-none"
               :placeholder="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_PLACEHOLDER')"
@@ -793,3 +831,12 @@ const wrapSelection = (wrapper: string) => {
     </div>
   </div>
 </template>
+
+<style>
+/* Override EmojiInput's default absolute positioning */
+.emoji-picker-override .emoji-dialog {
+  position: static !important;
+  top: auto !important;
+  right: auto !important;
+}
+</style>
