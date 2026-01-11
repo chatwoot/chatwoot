@@ -1,24 +1,24 @@
 {
   "INBOX_MGMT": {
     "TABS": {
-      "WHATSAPP_TEMPLATES": "Templates"
+      "WHATSAPP_TEMPLATES": "Modelos"
     },
     "WHATSAPP_TEMPLATES": {
-      "TITLE": "Templates de Mensagem",
-      "DESCRIPTION": "Crie e gerencie templates de mensagem do WhatsApp para suas campanhas e mensagens automatizadas.",
-      "CREATE_BUTTON": "Criar Template",
-      "SYNC_BUTTON": "Sincronizar Templates",
+      "TITLE": "Modelos de Mensagem",
+      "DESCRIPTION": "Crie e gerencie modelos de mensagem do WhatsApp para suas campanhas e mensagens automatizadas.",
+      "CREATE_BUTTON": "Criar Modelo",
+      "SYNC_BUTTON": "Sincronizar Modelos",
       "DELETE_BUTTON": "Excluir",
-      "CREATE_TITLE": "Criar Template de Mensagem",
-      "CREATE_SUCCESS": "Template criado com sucesso. Pode levar alguns minutos para a Meta aprovar seu template.",
-      "CREATE_ERROR": "Falha ao criar template",
-      "SYNC_SUCCESS": "Templates sincronizados com sucesso",
-      "SYNC_ERROR": "Falha ao sincronizar templates",
-      "DELETE_SUCCESS": "Template excluído com sucesso",
-      "DELETE_ERROR": "Falha ao excluir template",
-      "DELETE_CONFIRM_TITLE": "Excluir Template",
-      "DELETE_CONFIRM_MESSAGE": "Tem certeza que deseja excluir o template \"{name}\"? Esta ação não pode ser desfeita.",
-      "EMPTY": "Nenhum template encontrado. Clique em 'Criar Template' para criar seu primeiro template ou 'Sincronizar Templates' para buscar os existentes.",
+      "CREATE_TITLE": "Criar Modelo de Mensagem",
+      "CREATE_SUCCESS": "Modelo criado com sucesso. Pode levar alguns minutos para a Meta aprovar seu modelo.",
+      "CREATE_ERROR": "Falha ao criar modelo",
+      "SYNC_SUCCESS": "Sincronização de modelos iniciada com sucesso. Pode demorar alguns minutos para atualizar.",
+      "SYNC_ERROR": "Falha ao sincronizar modelos",
+      "DELETE_SUCCESS": "Modelo excluído com sucesso",
+      "DELETE_ERROR": "Falha ao excluir modelo",
+      "DELETE_CONFIRM_TITLE": "Excluir Modelo",
+      "DELETE_CONFIRM_MESSAGE": "Tem certeza que deseja excluir o modelo \"{name}\"? Esta ação não pode ser desfeita.",
+      "EMPTY": "Nenhum modelo encontrado. Clique em 'Criar Modelo' para criar seu primeiro modelo ou 'Sincronizar Modelos' para buscar os existentes.",
       "LANGUAGE": "Idioma",
       "STATS": {
         "APPROVED": "Aprovados",
@@ -30,12 +30,12 @@
       },
       "BUILDER": {
         "CANCEL": "Cancelar",
-        "CREATE": "Criar Template",
+        "CREATE": "Criar Modelo",
         "VALIDATION_ERRORS": "Por favor, corrija os seguintes erros:",
         "BASICS": {
           "TITLE": "Informações Básicas",
-          "NAME": "Nome do Template",
-          "NAME_PLACEHOLDER": "meu_template",
+          "NAME": "Nome do Modelo",
+          "NAME_PLACEHOLDER": "meu_modelo",
           "NAME_HELP": "Apenas letras minúsculas, números e underscores",
           "CATEGORY": "Categoria",
           "CATEGORIES": {
@@ -45,8 +45,8 @@
           },
           "LANGUAGE": "Idioma",
           "ALLOW_CATEGORY_CHANGE": "Permitir que a Meta altere a categoria se necessário",
-          "AUTH_WARNING_TITLE": "Templates de autenticação têm requisitos especiais",
-          "AUTH_WARNING_TEXT": "Templates de autenticação usam um formato OTP predefinido. O texto do corpo é gerado automaticamente pela Meta. Use o tipo de botão COPY_CODE para funcionalidade OTP."
+          "AUTH_WARNING_TITLE": "Modelos de autenticação têm requisitos especiais",
+          "AUTH_WARNING_TEXT": "Modelos de autenticação usam um formato OTP predefinido. O texto do corpo é gerado automaticamente pela Meta. Use o tipo de botão COPY_CODE para funcionalidade OTP."
         },
         "HEADER": {
           "TITLE": "Cabeçalho",
@@ -66,9 +66,9 @@
           "PREVIEW_ONLY": "Preview carregado",
           "MEDIA_UPLOADING": "Enviando mídia para a Meta...",
           "MEDIA_UPLOADED": "Enviado. Mídia pronta.",
-          "MEDIA_INFO_IMAGE": "Envie uma imagem para o cabeçalho do template. Recomendado: 800x418px, JPEG ou PNG",
-          "MEDIA_INFO_VIDEO": "Envie um vídeo para o cabeçalho do template. Máx 16MB, formato MP4",
-          "MEDIA_INFO_DOCUMENT": "Envie um documento PDF para o cabeçalho do template. Máx 100MB",
+          "MEDIA_INFO_IMAGE": "Envie uma imagem para o cabeçalho do modelo. Recomendado: 800x418px, JPEG ou PNG",
+          "MEDIA_INFO_VIDEO": "Envie um vídeo para o cabeçalho do modelo. Máx 16MB, formato MP4",
+          "MEDIA_INFO_DOCUMENT": "Envie um documento PDF para o cabeçalho do modelo. Máx 100MB",
           "FILE_PICKER_AUTOMATION_NOTICE": "Automação de navegador detectada. Arraste e solte arquivos em vez de clicar."
         },
         "BODY": {
@@ -115,4 +115,3 @@
     }
   }
 }
-
