@@ -5,11 +5,8 @@ const ASSET_ORIGIN = __ASSET_ORIGIN__;
 const ASSET_PATH = __ASSET_PATH__;
 const ASSET_MANIFEST = __ASSET_MANIFEST__;
 
-// Stable cache name - Vite includes content hashes in filenames,
-// so unchanged files keep the same URL and don't need refetching
 const CACHE_NAME = 'chatwoot-assets-v1';
 
-// Paths that should never be cached (API, auth, real-time, etc.)
 const EXCLUDED_PATHS = [
   '/api/',
   '/auth/',
@@ -25,48 +22,40 @@ const EXCLUDED_PATHS = [
   '/sw.js',
 ];
 
-// =============================================================================
-// Fetch Handler
-// =============================================================================
+const BATCH_SIZE = 5;
 
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // Only handle GET requests from same origin or CDN
-  if (request.method !== 'GET') return;
-  const isOurRequest =
-    url.origin === self.location.origin ||
-    (ASSET_ORIGIN && url.origin === ASSET_ORIGIN);
-  if (!isOurRequest) return;
-
-  // Skip excluded paths
-  if (EXCLUDED_PATHS.some(path => url.pathname.startsWith(path))) return;
-
-  // Assets (JS/CSS/fonts) → cache-first
-  const isAsset =
-    url.pathname.startsWith('/vite-dev/') ||
-    url.pathname.startsWith('/vite/') ||
-    url.origin === ASSET_ORIGIN ||
-    /\.(js|css|woff2?|ttf|otf|eot)$/i.test(url.pathname);
-
-  if (isAsset) {
-    event.respondWith(cacheFirst(request));
+const buildAssetListChunks = (arr, size) => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
   }
-});
+  return result;
+};
 
-// =============================================================================
-// Caching Strategies
-// =============================================================================
+const prefetchBatch = async (cache, baseUrl, assets) => {
+  const fetchAndCacheAsset = async asset => {
+    const url = `${baseUrl}${asset.url}`;
+    if (await cache.match(url)) {
+      return;
+    }
+    try {
+      const response = await fetch(url);
+      if (response.ok) {
+        cache.put(url, response);
+      }
+    } catch {
+      // Ignore prefetch failures
+    }
+  };
 
-async function cacheFirst(request) {
+  await Promise.all(assets.map(fetchAndCacheAsset));
+};
+
+const cacheFirst = async request => {
   const cache = await caches.open(CACHE_NAME);
-
-  // Return cached version if available
   const cached = await cache.match(request);
   if (cached) return cached;
 
-  // Otherwise fetch and cache
   try {
     const response = await fetch(request);
     if (response.ok) {
@@ -74,49 +63,51 @@ async function cacheFirst(request) {
     }
     return response;
   } catch (err) {
-    // Network failed - return stale cache if available
     const stale = await cache.match(request);
     if (stale) return stale;
     throw err;
   }
-}
+};
 
-// =============================================================================
-// Background Prefetch
-// =============================================================================
-
-async function prefetchAssets() {
+const prefetchAssets = async () => {
   if (!ASSET_MANIFEST?.length) return;
 
   const cache = await caches.open(CACHE_NAME);
-  // Build base URL: CDN origin + asset path, or local origin + asset path
   const baseUrl = ASSET_ORIGIN
     ? `${ASSET_ORIGIN}${ASSET_PATH}`
     : `${self.location.origin}${ASSET_PATH}`;
 
-  // Prefetch in batches of 5 (await in loop is intentional for throttling)
-  for (let i = 0; i < ASSET_MANIFEST.length; i += 5) {
-    const batch = ASSET_MANIFEST.slice(i, i + 5);
-    // eslint-disable-next-line no-await-in-loop
-    await Promise.all(
-      batch.map(async asset => {
-        const url = `${baseUrl}${asset.url}`;
-        if (await cache.match(url)) return; // Already cached
+  const batches = buildAssetListChunks(ASSET_MANIFEST, BATCH_SIZE);
+  await batches.reduce(
+    (promise, batch) =>
+      promise.then(() => prefetchBatch(cache, baseUrl, batch)),
+    Promise.resolve()
+  );
+};
+const cleanupStaleAssets = async () => {
+  if (!ASSET_MANIFEST?.length) return;
 
-        try {
-          const response = await fetch(url);
-          if (response.ok) cache.put(url, response);
-        } catch {
-          // Ignore prefetch failures
-        }
-      })
-    );
-  }
-}
+  const cache = await caches.open(CACHE_NAME);
+  const cachedRequests = await cache.keys();
 
-// =============================================================================
-// Lifecycle Events
-// =============================================================================
+  const baseUrl = ASSET_ORIGIN
+    ? `${ASSET_ORIGIN}${ASSET_PATH}`
+    : `${self.location.origin}${ASSET_PATH}`;
+
+  const validUrls = new Set(
+    ASSET_MANIFEST.map(asset => `${baseUrl}${asset.url}`)
+  );
+
+  const deletions = cachedRequests
+    .filter(request => {
+      const url = new URL(request.url);
+      const isAssetPath = url.pathname.startsWith('/vite/assets/');
+      return isAssetPath && !validUrls.has(request.url);
+    })
+    .map(request => cache.delete(request));
+
+  await Promise.all(deletions);
+};
 
 self.addEventListener('install', () => self.skipWaiting());
 
@@ -126,36 +117,26 @@ self.addEventListener('activate', event => {
   );
 });
 
-/**
- * Remove cached assets that aren't in the current manifest.
- * This keeps unchanged files (same content hash) while removing old versions.
- */
-async function cleanupStaleAssets() {
-  if (!ASSET_MANIFEST?.length) return;
+self.addEventListener('fetch', event => {
+  const { request } = event;
+  const url = new URL(request.url);
 
-  const cache = await caches.open(CACHE_NAME);
-  const cachedRequests = await cache.keys();
-  // Build base URL: CDN origin + asset path, or local origin + asset path
-  const baseUrl = ASSET_ORIGIN
-    ? `${ASSET_ORIGIN}${ASSET_PATH}`
-    : `${self.location.origin}${ASSET_PATH}`;
+  if (EXCLUDED_PATHS.some(path => url.pathname.startsWith(path))) return;
 
-  // Build set of valid asset URLs from current manifest
-  const validUrls = new Set(
-    ASSET_MANIFEST.map(asset => `${baseUrl}${asset.url}`)
-  );
+  if (request.method !== 'GET') return;
 
-  // Delete cached entries that are assets but not in current manifest
-  const deletions = cachedRequests
-    .filter(request => {
-      const url = new URL(request.url);
-      const isAssetPath =
-        url.pathname.startsWith('/vite/assets/') ||
-        url.pathname.startsWith('/vite-dev/assets/');
-      // Only clean up asset files
-      return isAssetPath && !validUrls.has(request.url);
-    })
-    .map(request => cache.delete(request));
+  const isAChatwootRequest =
+    url.origin === self.location.origin ||
+    (ASSET_ORIGIN && url.origin === ASSET_ORIGIN);
 
-  await Promise.all(deletions);
-}
+  if (!isAChatwootRequest) return;
+
+  const isAnAsset =
+    url.pathname.startsWith('/vite/') ||
+    url.origin === ASSET_ORIGIN ||
+    /\.(js|css|woff2?|ttf|otf|eot|svg|png)$/i.test(url.pathname);
+
+  if (isAnAsset) {
+    event.respondWith(cacheFirst(request));
+  }
+});

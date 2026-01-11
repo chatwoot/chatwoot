@@ -1,22 +1,32 @@
 #!/usr/bin/env node
-/* eslint-disable no-console, no-restricted-syntax, no-continue */
+/* eslint-disable no-console */
 
 const fs = require('fs');
 const path = require('path');
 const { build } = require('vite');
 
-/**
- * Generate asset manifest from Vite build output
- * Returns array of { url, revision } for JS/CSS files
- */
-function generateAssetManifest() {
-  // vite-plugin-ruby outputs to 'vite' in production, 'vite-dev' in development
-  const manifestPaths = [
-    path.resolve(__dirname, '../../../public/vite/.vite/manifest.json'),
-    path.resolve(__dirname, '../../../public/vite-dev/.vite/manifest.json'),
-  ];
+const ROOT_DIR = process.cwd();
+const PATHS = {
+  manifest: path.join(ROOT_DIR, 'public/vite/.vite/manifest.json'),
+  swRuntime: path.join(__dirname, 'sw-runtime.js'),
+  swRuntimeBuilt: path.join(ROOT_DIR, 'tmp/sw-build/sw-runtime.js'),
+  pushHandlers: path.join(__dirname, 'push-handlers.js'),
+  buildDir: path.join(ROOT_DIR, 'tmp/sw-build'),
+  output: path.join(ROOT_DIR, 'public/sw.js'),
+};
 
-  let manifestPath = manifestPaths.find(p => fs.existsSync(p));
+const buildSWContent = (runtimeBundle, pushHandlers, assetCount) => `
+/* Service Worker for Chatwoot */
+/* Generated: ${new Date().toISOString()} */
+/* Precached assets: ${assetCount} */
+
+${runtimeBundle}
+
+${pushHandlers}
+`;
+
+function generateAssetManifest() {
+  const manifestPath = fs.existsSync(PATHS.manifest) ? PATHS.manifest : null;
 
   if (!manifestPath) {
     console.warn(
@@ -31,8 +41,7 @@ function generateAssetManifest() {
   const assets = [];
   const seen = new Set();
 
-  for (const [, entry] of Object.entries(manifest)) {
-    // Add the main file (JS or CSS)
+  Object.entries(manifest).forEach(([, entry]) => {
     const file = entry.file;
     if (file && !seen.has(file)) {
       seen.add(file);
@@ -41,78 +50,62 @@ function generateAssetManifest() {
       }
     }
 
-    // Add CSS files from the css array (CSS imported by JS modules)
     if (entry.css) {
-      for (const cssFile of entry.css) {
+      entry.css.forEach(cssFile => {
         if (!seen.has(cssFile)) {
           seen.add(cssFile);
           assets.push({ url: cssFile, revision: null });
         }
-      }
+      });
     }
 
-    // Add assets (fonts, images, etc.)
     if (entry.assets) {
-      for (const assetFile of entry.assets) {
+      entry.assets.forEach(assetFile => {
         if (!seen.has(assetFile)) {
           seen.add(assetFile);
           assets.push({ url: assetFile, revision: null });
         }
-      }
+      });
     }
-  }
+  });
 
   console.log(`📦 Found ${assets.length} assets to precache`);
   return assets;
 }
 
-/**
- * Build the service worker
- */
 async function buildServiceWorker() {
   console.log('🔨 Building service worker...');
 
-  // Ensure CDN host has protocol prefix for absolute URLs
   let assetOrigin = process.env.ASSET_CDN_HOST || '';
-  if (assetOrigin && !assetOrigin.startsWith('http')) {
+  if (assetOrigin) {
     assetOrigin = `https://${assetOrigin}`;
   }
-  const isProduction = process.env.NODE_ENV === 'production';
-  // vite-plugin-ruby serves from /vite/ in production, /vite-dev/ in development
-  const assetPath = isProduction ? '/vite/' : '/vite-dev/';
 
+  const isProduction = process.env.NODE_ENV === 'production';
+  const assetPath = '/vite/';
+
+  console.log(`📁 Root dir: ${ROOT_DIR}`);
   console.log(`🌐 Asset origin: ${assetOrigin || '(local)'}`);
-  console.log(`📁 Asset path: ${assetPath}`);
   console.log(`🏭 Environment: ${isProduction ? 'production' : 'development'}`);
 
-  // In development mode, just use push handlers (no caching)
   if (!isProduction) {
     console.log(
       '⚠️  Development mode: Using push notifications only (no caching)'
     );
 
-    const devServiceWorker = fs.readFileSync(
-      path.resolve(__dirname, 'push-handlers.js'),
-      'utf8'
-    );
+    const devServiceWorker = fs.readFileSync(PATHS.pushHandlers, 'utf8');
 
-    fs.writeFileSync(
-      path.resolve(__dirname, '../../../public/sw.js'),
-      devServiceWorker
-    );
+    fs.writeFileSync(PATHS.output, devServiceWorker);
 
     console.log('✅ Development service worker created at public/sw.js');
     return;
   }
 
-  // Generate asset manifest for precaching
   const assetManifest = generateAssetManifest();
 
-  // Production mode: Build with custom runtime
   try {
     console.log('📦 Building service worker runtime...');
 
-    // Build the runtime bundle
     await build({
       configFile: false,
       css: {
@@ -122,12 +115,12 @@ async function buildServiceWorker() {
       },
       build: {
         lib: {
-          entry: path.resolve(__dirname, 'sw-runtime.js'),
+          entry: PATHS.swRuntime,
           formats: ['iife'],
           name: 'ServiceWorkerRuntime',
           fileName: () => 'sw-runtime.js',
         },
-        outDir: path.resolve(__dirname, '../../../tmp/sw-build'),
+        outDir: PATHS.buildDir,
         emptyOutDir: true,
         minify: true,
         rollupOptions: {
@@ -147,33 +140,17 @@ async function buildServiceWorker() {
 
     console.log('✅ Service worker runtime built');
 
-    // Read the built runtime
-    const runtimeBundle = fs.readFileSync(
-      path.resolve(__dirname, '../../../tmp/sw-build/sw-runtime.js'),
-      'utf8'
+    const runtimeBundle = fs.readFileSync(PATHS.swRuntimeBuilt, 'utf8');
+
+    const pushHandlers = fs.readFileSync(PATHS.pushHandlers, 'utf8');
+
+    const finalServiceWorker = buildSWContent(
+      runtimeBundle,
+      pushHandlers,
+      assetManifest.length
     );
 
-    // Read the push handlers
-    const pushHandlers = fs.readFileSync(
-      path.resolve(__dirname, 'push-handlers.js'),
-      'utf8'
-    );
-
-    // Combine them
-    const finalServiceWorker = `/* Service Worker for Chatwoot - Generated at build time */
-/* Generated: ${new Date().toISOString()} */
-/* Precached assets: ${assetManifest.length} */
-
-${runtimeBundle}
-
-${pushHandlers}
-`;
-
-    // Write to public/sw.js
-    fs.writeFileSync(
-      path.resolve(__dirname, '../../../public/sw.js'),
-      finalServiceWorker
-    );
+    fs.writeFileSync(PATHS.output, finalServiceWorker);
 
     console.log('✅ Service worker built successfully at public/sw.js');
     console.log(`   - ${assetManifest.length} assets in precache manifest`);
@@ -183,7 +160,6 @@ ${pushHandlers}
   }
 }
 
-// Run the build
 buildServiceWorker().catch(err => {
   console.error('❌ Unhandled error:', err);
   process.exit(1);
