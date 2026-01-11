@@ -1,12 +1,13 @@
 /* eslint-disable no-restricted-globals, no-use-before-define, no-undef */
 
 // Build-time injected values (replaced by Vite define at build time)
-const CACHE_VERSION = __CACHE_VERSION__;
 const ASSET_ORIGIN = __ASSET_ORIGIN__;
 const ASSET_PATH = __ASSET_PATH__;
 const ASSET_MANIFEST = __ASSET_MANIFEST__;
 
-const CACHE_NAME = `chatwoot-${CACHE_VERSION}`;
+// Stable cache name - Vite includes content hashes in filenames,
+// so unchanged files keep the same URL and don't need refetching
+const CACHE_NAME = 'chatwoot-assets-v1';
 
 // Paths that should never be cached (API, auth, real-time, etc.)
 const EXCLUDED_PATHS = [
@@ -153,23 +154,44 @@ self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', event => {
   event.waitUntil(
     Promise.all([
-      // Delete old caches
-      caches
-        .keys()
-        .then(names =>
-          Promise.all(
-            names
-              .filter(
-                name => name.startsWith('chatwoot-') && name !== CACHE_NAME
-              )
-              .map(name => caches.delete(name))
-          )
-        ),
+      // Clean up stale assets not in current manifest
+      cleanupStaleAssets(),
       // Take control of all clients
       self.clients.claim(),
     ])
   );
 });
+
+/**
+ * Remove cached assets that aren't in the current manifest.
+ * This keeps unchanged files (same content hash) while removing old versions.
+ */
+async function cleanupStaleAssets() {
+  if (!ASSET_MANIFEST?.length) return;
+
+  const cache = await caches.open(CACHE_NAME);
+  const cachedRequests = await cache.keys();
+  const baseUrl = ASSET_ORIGIN || `${self.location.origin}${ASSET_PATH}`;
+
+  // Build set of valid asset URLs from current manifest
+  const validUrls = new Set(
+    ASSET_MANIFEST.map(asset => `${baseUrl}${asset.url}`)
+  );
+
+  // Delete cached entries that are assets but not in current manifest
+  const deletions = cachedRequests
+    .filter(request => {
+      const url = new URL(request.url);
+      const isAssetPath =
+        url.pathname.startsWith('/packs/assets/') ||
+        url.pathname.startsWith('/vite-dev/assets/');
+      // Only clean up asset files, keep other cached items (like /app shell)
+      return isAssetPath && !validUrls.has(request.url);
+    })
+    .map(request => cache.delete(request));
+
+  await Promise.all(deletions);
+}
 
 self.addEventListener('message', async event => {
   if (event.data?.type === 'PREFETCH_ASSETS') {

@@ -2,28 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 const { build } = require('vite');
-
-/**
- * Get the cache version for service worker
- * Priority: CHATWOOT_VERSION env var > git commit hash > timestamp
- */
-function getCacheVersion() {
-  if (process.env.CHATWOOT_VERSION) {
-    return process.env.CHATWOOT_VERSION;
-  }
-
-  try {
-    const gitHash = execSync('git rev-parse --short HEAD', {
-      encoding: 'utf8',
-    }).trim();
-    return `git-${gitHash}`;
-  } catch (error) {
-    console.warn('Could not get git hash, using timestamp');
-    return `v${Date.now()}`;
-  }
-}
 
 /**
  * Generate asset manifest from Vite build output
@@ -75,13 +54,11 @@ function generateAssetManifest() {
 async function buildServiceWorker() {
   console.log('🔨 Building service worker...');
 
-  const cacheVersion = getCacheVersion();
   const assetOrigin = process.env.ASSET_CDN_HOST || '';
   const isProduction = process.env.NODE_ENV === 'production';
   // In production assets are in /packs/, in development they're in /vite-dev/
   const assetPath = isProduction ? '/packs/' : '/vite-dev/';
 
-  console.log(`📦 Cache version: ${cacheVersion}`);
   console.log(`🌐 Asset origin: ${assetOrigin || '(local)'}`);
   console.log(`📁 Asset path: ${assetPath}`);
   console.log(`🏭 Environment: ${isProduction ? 'production' : 'development'}`);
@@ -144,7 +121,6 @@ async function buildServiceWorker() {
         },
       },
       define: {
-        __CACHE_VERSION__: JSON.stringify(cacheVersion),
         __ASSET_ORIGIN__: JSON.stringify(assetOrigin),
         __ASSET_PATH__: JSON.stringify(assetPath),
         __ASSET_MANIFEST__: JSON.stringify(assetManifest),
@@ -161,7 +137,7 @@ async function buildServiceWorker() {
       'utf8'
     );
 
-    // Read the push handlers template
+    // Read the push handlers
     const pushHandlers = fs.readFileSync(
       path.resolve(
         __dirname,
@@ -170,21 +146,14 @@ async function buildServiceWorker() {
       'utf8'
     );
 
-    // Replace version placeholder in push handlers
-    const processedHandlers = pushHandlers.replace(
-      /__CACHE_VERSION__/g,
-      cacheVersion
-    );
-
     // Combine them
     const finalServiceWorker = `/* Service Worker for Chatwoot - Generated at build time */
-/* Cache version: ${cacheVersion} */
 /* Generated: ${new Date().toISOString()} */
 /* Precached assets: ${assetManifest.length} */
 
 ${runtimeBundle}
 
-${processedHandlers}
+${pushHandlers}
 `;
 
     // Write to public/sw.js
