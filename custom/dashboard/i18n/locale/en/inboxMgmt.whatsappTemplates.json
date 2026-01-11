@@ -62,6 +62,8 @@
           "MEDIA_URL": "Media File",
           "MEDIA_DROP_HINT": "Click or drag & drop file here",
           "PREVIEW_ONLY": "Preview loaded",
+          "MEDIA_UPLOADING": "Uploading media to Meta...",
+          "MEDIA_UPLOADED": "Uploaded. Media ready.",
           "MEDIA_INFO_IMAGE": "Upload an image for the template header. Recommended: 800x418px, JPEG or PNG",
           "MEDIA_INFO_VIDEO": "Upload a video for the template header. Max 16MB, MP4 format",
           "MEDIA_INFO_DOCUMENT": "Upload a PDF document for the template header. Max 100MB",
@@ -71,9 +73,16 @@
           "TITLE": "Body",
           "TEXT": "Body Text",
           "TEXT_PLACEHOLDER": "Enter your message here. Use {{1}}, {{2}}, etc. for dynamic content.",
-          "TEXT_HELP": "Use {{1}}, {{2}}, etc. for variables",
+          "TEXT_HELP": "Use {{1}}, {{2}}, etc. for variables. Format: *bold*, _italic_, ~strikethrough~, ```monospace```",
           "EXAMPLES": "Variable Examples",
-          "EXAMPLE_PLACEHOLDER": "Example for variable {index}"
+          "EXAMPLE_PLACEHOLDER": "Example for variable {index}",
+          "FORMATTING": {
+            "EMOJI": "Insert emoji",
+            "BOLD": "Bold (*text*)",
+            "ITALIC": "Italic (_text_)",
+            "STRIKETHROUGH": "Strikethrough (~text~)",
+            "MONOSPACE": "Monospace (```text```)"
+          }
         },
         "FOOTER": {
           "TITLE": "Footer",

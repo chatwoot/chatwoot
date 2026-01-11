@@ -70,7 +70,7 @@ export function countPlaceholders(text: string): number {
 }
 
 /**
- * Check if examples array matches placeholder count
+ * Check if examples array matches placeholder count and all examples have values
  */
 export function validateExamples(
   text: string,
@@ -91,6 +91,17 @@ export function validateExamples(
     errors.push(
       `Expected ${placeholderInfo.count} example(s), got ${examples.length}`
     );
+  }
+
+  // Check that all examples have non-empty values
+  if (examples && examples.length > 0) {
+    const emptyIndices = examples
+      .map((ex, i) => (!ex || ex.trim().length === 0 ? i + 1 : null))
+      .filter(i => i !== null);
+    
+    if (emptyIndices.length > 0) {
+      errors.push(`Example value(s) required for placeholder(s) {{${emptyIndices.join('}}, {{')}}}}`);
+    }
   }
 
   return {

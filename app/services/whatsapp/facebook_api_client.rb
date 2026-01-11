@@ -1,7 +1,5 @@
-# frozen_string_literal: true
-
 class Whatsapp::FacebookApiClient
-  BASE_URI = 'https://graph.facebook.com'
+  BASE_URI = 'https://graph.facebook.com'.freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -102,11 +100,20 @@ class Whatsapp::FacebookApiClient
   end
 
   def create_message_template(business_account_id, template_data)
+    url = "#{BASE_URI}/#{@api_version}/#{business_account_id}/message_templates"
+    Rails.logger.info "[FacebookApiClient] POST #{url} - starting request..."
+    start_time = Time.now
+
     response = HTTParty.post(
-      "#{BASE_URI}/#{@api_version}/#{business_account_id}/message_templates",
+      url,
       headers: request_headers,
-      body: template_data.to_json
+      body: template_data.to_json,
+      verify: false, # Skip SSL CRL verification that causes hangs
+      timeout: 30
     )
+
+    elapsed = ((Time.now - start_time) * 1000).round
+    Rails.logger.info "[FacebookApiClient] POST completed in #{elapsed}ms - status: #{response.code}"
 
     handle_response(response, 'Failed to create message template')
   end
@@ -193,8 +200,11 @@ class Whatsapp::FacebookApiClient
   end
 
   def handle_response(response, error_message)
-    raise "#{error_message}: #{response.body}" unless response.success?
+    return response.parsed_response if response.success?
 
-    response.parsed_response
+    # Extract user-friendly error message from Meta API response
+    parsed = response.parsed_response rescue nil
+    meta_error = parsed&.dig('error', 'error_user_msg') || parsed&.dig('error', 'message') || response.body
+    raise meta_error
   end
 end

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import WhatsappTemplatesAPI from 'dashboard/api/whatsappTemplates';
 import TemplatePreview from './TemplatePreview.vue';
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 import { validateTemplate } from './validators/metaTemplateRules';
 import { buildTemplatePayload } from './builders/components';
 import { countPlaceholders } from './utils/placeholders';
@@ -42,6 +43,8 @@ const mediaFileInput = ref<HTMLInputElement | null>(null);
 // Body
 const bodyText = ref('');
 const bodyExamples = ref<string[]>([]);
+const bodyTextarea = ref<HTMLTextAreaElement | null>(null);
+const showEmojiPicker = ref(false);
 
 // Footer
 const footerText = ref('');
@@ -224,15 +227,72 @@ const handleCreate = () => {
 const handleCancel = () => {
   emit('cancel');
 };
+
+// Text formatting helpers
+const toggleEmojiPicker = () => {
+  showEmojiPicker.value = !showEmojiPicker.value;
+};
+
+const insertEmoji = (emoji: string) => {
+  if (!bodyTextarea.value) return;
+  
+  const textarea = bodyTextarea.value;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = bodyText.value;
+  
+  bodyText.value = text.slice(0, start) + emoji + text.slice(end);
+  showEmojiPicker.value = false;
+  
+  // Restore cursor position after emoji
+  nextTick(() => {
+    textarea.focus();
+    const newPos = start + emoji.length;
+    textarea.setSelectionRange(newPos, newPos);
+  });
+};
+
+const wrapSelection = (wrapper: string) => {
+  if (!bodyTextarea.value) return;
+  
+  const textarea = bodyTextarea.value;
+  const start = textarea.selectionStart;
+  const end = textarea.selectionEnd;
+  const text = bodyText.value;
+  const selectedText = text.slice(start, end);
+  
+  if (selectedText) {
+    // Wrap selected text
+    const wrappedText = wrapper + selectedText + wrapper;
+    bodyText.value = text.slice(0, start) + wrappedText + text.slice(end);
+    
+    nextTick(() => {
+      textarea.focus();
+      // Position cursor after wrapped text
+      const newEnd = start + wrappedText.length;
+      textarea.setSelectionRange(newEnd, newEnd);
+    });
+  } else {
+    // Insert wrapper characters and position cursor in middle
+    const insertion = wrapper + wrapper;
+    bodyText.value = text.slice(0, start) + insertion + text.slice(end);
+    
+    nextTick(() => {
+      textarea.focus();
+      const cursorPos = start + wrapper.length;
+      textarea.setSelectionRange(cursorPos, cursorPos);
+    });
+  }
+};
 </script>
 
 <template>
-  <div class="p-6 w-[1100px]">
-    <h2 class="text-lg font-medium text-n-slate-12 mb-6">
+  <div class="p-6 w-[1100px] flex flex-col max-h-[85vh]">
+    <h2 class="text-lg font-medium text-n-slate-12 mb-6 flex-shrink-0">
       {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.CREATE_TITLE') }}
     </h2>
     
-    <div class="flex gap-6 max-h-[70vh]">
+    <div class="flex gap-6 flex-1 min-h-0 overflow-hidden">
     <!-- Builder Form -->
     <div class="flex-1 overflow-y-auto pr-4 space-y-6">
       <!-- Basic Info Section -->
@@ -412,10 +472,10 @@ const handleCancel = () => {
                     />
                   </div>
               <p v-if="isUploadingMedia" class="text-xs text-n-slate-11 mt-1.5">
-                Uploading media to Meta...
+                {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.MEDIA_UPLOADING') }}
               </p>
               <p v-else-if="headerMediaHandle" class="text-xs text-green-600 dark:text-green-400 mt-1.5">
-                Uploaded. Media handle ready.
+                {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.MEDIA_UPLOADED') }}
               </p>
               <p v-else-if="mediaUploadError" class="text-xs text-red-600 dark:text-red-400 mt-1.5">
                 {{ mediaUploadError }}
@@ -441,12 +501,67 @@ const handleCancel = () => {
               {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT') }}
               <span class="text-red-500 ml-0.5">*</span>
             </label>
+            
+            <!-- Formatting Toolbar -->
+            <div class="relative">
+              <div class="flex items-center gap-1 mb-2 p-1.5 bg-n-alpha-2 rounded-lg border border-n-weak">
+                <button
+                  type="button"
+                  class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors"
+                  title="Emoji"
+                  @click="toggleEmojiPicker"
+                >
+                  <i class="i-lucide-smile text-base" />
+                </button>
+                <div class="w-px h-5 bg-n-weak mx-1"></div>
+                <button
+                  type="button"
+                  class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors font-bold text-sm"
+                  title="Bold (*text*)"
+                  @click="wrapSelection('*')"
+                >
+                  B
+                </button>
+                <button
+                  type="button"
+                  class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors italic text-sm"
+                  title="Italic (_text_)"
+                  @click="wrapSelection('_')"
+                >
+                  I
+                </button>
+                <button
+                  type="button"
+                  class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors line-through text-sm"
+                  title="Strikethrough (~text~)"
+                  @click="wrapSelection('~')"
+                >
+                  S
+                </button>
+                <button
+                  type="button"
+                  class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors font-mono text-xs"
+                  title="Monospace (```text```)"
+                  @click="wrapSelection('```')"
+                >
+                  &lt;/&gt;
+                </button>
+              </div>
+              
+              <!-- Emoji Picker -->
+              <div v-if="showEmojiPicker" class="absolute z-30 left-0 top-12">
+                <EmojiInput :on-click="insertEmoji" />
+              </div>
+            </div>
+            
             <textarea
+              ref="bodyTextarea"
               v-model="bodyText"
               rows="5"
               maxlength="1024"
               class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-none"
               :placeholder="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_PLACEHOLDER')"
+              @click="showEmojiPicker = false"
             ></textarea>
             <div class="flex justify-between mt-1">
               <p class="text-xs text-n-slate-11">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_HELP') }}</p>
@@ -640,8 +755,8 @@ const handleCancel = () => {
     </div>
 
     <!-- Preview Panel -->
-    <div class="w-[360px] flex-shrink-0">
-      <div class="sticky top-0">
+    <div class="w-[360px] flex-shrink-0 overflow-y-auto">
+      <div>
         <div class="flex items-center gap-2 mb-4">
           <i class="i-lucide-smartphone text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
@@ -663,7 +778,7 @@ const handleCancel = () => {
     </div>
 
     <!-- Actions Footer -->
-    <div class="flex justify-end gap-3 pt-6 mt-6 border-t border-n-weak">
+    <div class="flex-shrink-0 flex justify-end gap-3 pt-6 mt-6 border-t border-n-weak">
       <NextButton
         ghost
         :label="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.CANCEL')"

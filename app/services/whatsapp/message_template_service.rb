@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Whatsapp::MessageTemplateService
   def initialize(whatsapp_channel)
     @whatsapp_channel = whatsapp_channel
@@ -25,10 +23,22 @@ class Whatsapp::MessageTemplateService
   end
 
   def create_template(template_data)
+    template_name = template_data[:name] || template_data['name']
     Rails.logger.debug "Creating WhatsApp template with payload: #{template_data.to_json}"
     result = @client.create_message_template(business_account_id, template_data)
     Rails.logger.debug "Meta API response: #{result}"
     { success: true, template: result }
+  rescue Net::ReadTimeout, Net::OpenTimeout => e
+    # Meta API sometimes times out but still creates the template
+    # Check if template was actually created
+    Rails.logger.warn "Timeout creating template '#{template_name}', checking if it was created..."
+    if template_created?(template_name)
+      Rails.logger.info "Template '#{template_name}' was created despite timeout"
+      { success: true, template: { name: template_name, status: 'PENDING' } }
+    else
+      Rails.logger.error "Template creation timed out and template was not created: #{e.message}"
+      { success: false, error: 'Request timed out. Please try again.' }
+    end
   rescue StandardError => e
     Rails.logger.error "Error creating template: #{e.message}"
     { success: false, error: e.message }
@@ -43,6 +53,16 @@ class Whatsapp::MessageTemplateService
   end
 
   private
+
+  def template_created?(template_name)
+    return false if template_name.blank?
+
+    templates = list_templates
+    templates.any? { |t| t['name'] == template_name }
+  rescue StandardError => e
+    Rails.logger.error "Error checking if template exists: #{e.message}"
+    false
+  end
 
   def business_account_id
     @whatsapp_channel.provider_config['business_account_id']

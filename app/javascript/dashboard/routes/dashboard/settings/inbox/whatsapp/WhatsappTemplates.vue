@@ -189,22 +189,22 @@ export default {
             @click="syncTemplates"
           />
         </div>
-        <div v-if="templates.length > 0" class="flex gap-4 mb-6">
-          <div class="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30">
-            <span class="text-sm font-medium text-green-800 dark:text-green-400">
-              {{ approvedTemplates.length }} {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.APPROVED') }}
-            </span>
-          </div>
-          <div class="px-4 py-2 rounded-lg bg-yellow-100 dark:bg-yellow-900/30">
-            <span class="text-sm font-medium text-yellow-800 dark:text-yellow-400">
-              {{ pendingTemplates.length }} {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.PENDING') }}
-            </span>
-          </div>
-          <div class="px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/30">
-            <span class="text-sm font-medium text-red-800 dark:text-red-400">
-              {{ rejectedTemplates.length }} {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.REJECTED') }}
-            </span>
-          </div>
+        <div v-if="templates.length > 0" class="flex items-center gap-4 mb-6 text-sm text-n-slate-11">
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-green-500"></span>
+            <span class="font-medium text-n-slate-12">{{ approvedTemplates.length }}</span>
+            {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.APPROVED') }}
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-yellow-500"></span>
+            <span class="font-medium text-n-slate-12">{{ pendingTemplates.length }}</span>
+            {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.PENDING') }}
+          </span>
+          <span class="flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-red-500"></span>
+            <span class="font-medium text-n-slate-12">{{ rejectedTemplates.length }}</span>
+            {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.STATS.REJECTED') }}
+          </span>
         </div>
         <div v-if="templates.length === 0" class="text-center py-8 text-n-slate-11">
           {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.EMPTY') }}

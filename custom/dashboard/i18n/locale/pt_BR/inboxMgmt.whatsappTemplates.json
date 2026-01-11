@@ -62,6 +62,8 @@
           "MEDIA_URL": "Arquivo de Mídia",
           "MEDIA_DROP_HINT": "Clique ou arraste e solte o arquivo aqui",
           "PREVIEW_ONLY": "Preview carregado",
+          "MEDIA_UPLOADING": "Enviando mídia para a Meta...",
+          "MEDIA_UPLOADED": "Enviado. Mídia pronta.",
           "MEDIA_INFO_IMAGE": "Envie uma imagem para o cabeçalho do template. Recomendado: 800x418px, JPEG ou PNG",
           "MEDIA_INFO_VIDEO": "Envie um vídeo para o cabeçalho do template. Máx 16MB, formato MP4",
           "MEDIA_INFO_DOCUMENT": "Envie um documento PDF para o cabeçalho do template. Máx 100MB",
@@ -71,9 +73,16 @@
           "TITLE": "Corpo",
           "TEXT": "Texto do Corpo",
           "TEXT_PLACEHOLDER": "Digite sua mensagem aqui. Use {{1}}, {{2}}, etc. para conteúdo dinâmico.",
-          "TEXT_HELP": "Use {{1}}, {{2}}, etc. para variáveis",
+          "TEXT_HELP": "Use {{1}}, {{2}}, etc. para variáveis. Formato: *negrito*, _itálico_, ~tachado~, ```monoespaço```",
           "EXAMPLES": "Exemplos de Variáveis",
-          "EXAMPLE_PLACEHOLDER": "Exemplo para variável {index}"
+          "EXAMPLE_PLACEHOLDER": "Exemplo para variável {index}",
+          "FORMATTING": {
+            "EMOJI": "Inserir emoji",
+            "BOLD": "Negrito (*texto*)",
+            "ITALIC": "Itálico (_texto_)",
+            "STRIKETHROUGH": "Tachado (~texto~)",
+            "MONOSPACE": "Monoespaço (```texto```)"
+          }
         },
         "FOOTER": {
           "TITLE": "Rodapé",
