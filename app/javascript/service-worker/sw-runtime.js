@@ -122,12 +122,7 @@ self.addEventListener('install', () => self.skipWaiting());
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    Promise.all([
-      // Clean up stale assets not in current manifest
-      cleanupStaleAssets(),
-      // Take control of all clients
-      self.clients.claim(),
-    ])
+    Promise.all([cleanupStaleAssets(), prefetchAssets(), self.clients.claim()])
   );
 });
 
@@ -164,10 +159,3 @@ async function cleanupStaleAssets() {
 
   await Promise.all(deletions);
 }
-
-self.addEventListener('message', async event => {
-  if (event.data?.type === 'PREFETCH_ASSETS') {
-    await prefetchAssets();
-    event.ports[0]?.postMessage({ type: 'PREFETCH_COMPLETE' });
-  }
-});

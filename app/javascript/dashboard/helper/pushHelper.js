@@ -2,13 +2,6 @@ import NotificationSubscriptions from '../api/notificationSubscription';
 import auth from '../api/auth';
 import { useAlert } from 'dashboard/composables';
 
-/**
- * Request the service worker to prefetch all assets in the manifest.
- */
-const prefetchAssets = () => {
-  navigator.serviceWorker?.controller?.postMessage({ type: 'PREFETCH_ASSETS' });
-};
-
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
     // Service Worker isn't supported on this browser, disable or hide UI.
@@ -40,14 +33,6 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
           }
         });
       });
-
-      // Trigger asset prefetch during idle time
-      if ('requestIdleCallback' in window) {
-        window.requestIdleCallback(() => prefetchAssets(), { timeout: 5000 });
-      } else {
-        // Fallback: prefetch after 3 seconds
-        setTimeout(prefetchAssets, 3000);
-      }
 
       callback(registration);
     })
