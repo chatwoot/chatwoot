@@ -2,20 +2,21 @@
 
 **Purpose:** Complete list of all Chatwoot files modified by CommMate  
 **Goal:** Quick reference for merge conflict resolution during upgrades  
-**Last Updated:** December 6, 2025
+**Last Updated:** January 11, 2026
 
 ---
 
 ## 📊 Summary
 
-**Total Modified Files:** 15 files  
-**Total Lines Changed:** ~75 lines across all files
+**Total Modified Files:** 19 files  
+**Total Lines Changed:** ~100 lines across all files
 
 CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Branding (logo, version display)
 - Custom roles functionality
 - Campaign permission management
 - Version tracking
+- WhatsApp Templates CRUD (feat/whatsapp-templates-crud)
 
 ---
 
@@ -246,12 +247,113 @@ CommMate maintains minimal modifications to Chatwoot core, focusing on:
 
 ---
 
-### Configuration (2 files)
+### WhatsApp Templates CRUD (4 files)
 
-#### 10. config/routes.rb
+These modifications support the WhatsApp Templates CRUD feature (feat/whatsapp-templates-crud).
 
-**Lines Modified:** 1 line (line 597)  
-**Reason:** Add custom roles routes to super admin  
+#### 10. config/routes.rb (Additional modification)
+
+**Lines Modified:** ~10 lines  
+**Reason:** Add WhatsApp message templates API routes  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Added `namespace :whatsapp` nested routes for message_templates
+- Routes: `index`, `create`, `destroy`, and `upload_media` collection action
+- Path pattern: `/api/v1/accounts/:account_id/whatsapp/inboxes/:inbox_id/message_templates`
+
+**Review on Upgrade:**
+- Check if whatsapp namespace structure changed
+- Verify route naming conventions
+- Check for conflicts with new WhatsApp features
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's routing changes
+- Preserve CommMate WhatsApp templates routes in the whatsapp namespace
+- Ensure no conflicts with Chatwoot's own template routes
+
+---
+
+#### 11. app/javascript/dashboard/routes/dashboard/settings/inbox/Settings.vue
+
+**Lines Modified:** ~15 lines  
+**Reason:** Add WhatsApp Templates tab to inbox settings  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Import `WhatsappTemplates` component
+- Add `WhatsappTemplates` to components
+- Add tab entry `whatsapp-templates` for WhatsApp Cloud channels
+- Add tab content rendering for `<WhatsappTemplates :inbox="inbox" />`
+
+**Review on Upgrade:**
+- Check if Settings.vue tabs structure changed
+- Verify component import patterns
+- Review if new inbox types were added
+- Check for isAWhatsAppCloudChannel computed property changes
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's Settings.vue changes
+- Preserve WhatsappTemplates import and component registration
+- Add tab entry in the correct position (after whatsapp-health)
+- Test tab visibility for WhatsApp Cloud channels only
+
+---
+
+#### 12. app/javascript/dashboard/components/Modal.vue
+
+**Lines Modified:** ~3 lines  
+**Reason:** Add "large" size class for TemplateBuilder modal  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Added `.large` CSS class with `max-w-[90%] w-[75rem]`
+- Used for the WhatsApp TemplateBuilder modal
+
+**Review on Upgrade:**
+- Check if Modal.vue sizing classes changed
+- Verify CSS class naming conventions
+- Review Tailwind utilities compatibility
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's Modal.vue changes
+- Preserve `.large` class definition
+- Adjust Tailwind classes if conventions change
+
+---
+
+#### 13. app/javascript/dashboard/i18n/index.js
+
+**Lines Modified:** ~20 lines  
+**Reason:** Add custom i18n overlay loader for CommMate translations  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Import CommMate translation fragments from `custom/dashboard/i18n/locale/`
+- Add `deepMerge` utility function for nested object merging
+- Merge CommMate translations into `en` and `pt_BR` locales
+- Export merged locales instead of originals
+
+**Review on Upgrade:**
+- Check if i18n structure changed
+- Verify import path conventions
+- Review if new locales were added (may need overlay files)
+- Check for i18n framework updates (vue-i18n)
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's i18n changes
+- Preserve deepMerge utility and overlay imports
+- Add new CommMate overlay files for new locales if needed
+- Test all CommMate translations display correctly
+
+---
+
+### Configuration (2 files, now 3 files)
+
+#### 14. config/routes.rb
+
+**Lines Modified:** ~10 lines total (line 597 + WhatsApp templates routes)  
+**Reason:** Add custom roles routes to super admin + WhatsApp templates routes  
 **Last Modified:** Before December 2025
 
 **Changes Made:**
@@ -428,6 +530,11 @@ When upgrading to a new Chatwoot version, review these files in order:
 11. ✅ app/javascript/dashboard/constants/permissions.js - Permission constant
 12. ✅ app/javascript/dashboard/i18n/locale/en/customRole.json - Translations
 
+### WhatsApp Templates CRUD (Review with WhatsApp updates)
+13. ✅ app/javascript/dashboard/routes/dashboard/settings/inbox/Settings.vue - Templates tab
+14. ✅ app/javascript/dashboard/components/Modal.vue - Large size class
+15. ✅ app/javascript/dashboard/i18n/index.js - Custom overlay loader
+
 ### Migrations (Always Run)
 13. ✅ db/migrate/20240726220747_add_custom_roles.rb - Run if not yet applied
 14. ✅ db/migrate/20251202140000_add_campaign_manage_to_manager_roles.rb - Run if not yet applied
@@ -492,6 +599,16 @@ After merging a new Chatwoot version, test:
 - [ ] Check custom_role_id on account_users
 - [ ] Test custom role queries
 
+### WhatsApp Templates CRUD
+- [ ] Navigate to WhatsApp Cloud inbox settings
+- [ ] Verify "Templates" tab appears
+- [ ] Click "Sync Templates" to fetch existing templates
+- [ ] Click "Create Template" and verify modal opens
+- [ ] Create a simple text template
+- [ ] Verify template appears in list after sync
+- [ ] Delete a template and verify it's removed
+- [ ] Test translations in PT-BR locale
+
 ---
 
 ## 📝 Maintenance Notes
@@ -528,24 +645,26 @@ After merging a new Chatwoot version, test:
 
 ## 📊 Statistics
 
-- **Total Files Modified:** 15
+- **Total Files Modified:** 19
 - **Controllers:** 1
 - **Views:** 4
 - **Dashboards:** 1
 - **Policies:** 1
-- **JavaScript:** 3
+- **JavaScript:** 6 (including 3 for WhatsApp Templates)
 - **Config:** 2
 - **Migrations:** 2
 - **Docker:** 1
+- **New Backend Services:** 2 (WhatsApp Templates CRUD)
+- **New Frontend Components:** 5 (WhatsApp Templates UI)
 
-**Maintenance Burden:** Very Low (15 files, ~75 lines)  
+**Maintenance Burden:** Low (19 files, ~100 lines modified)  
 **Upgrade Complexity:** Low (most conflicts are trivial)  
-**Expected Upgrade Time:** 30-60 minutes
+**Expected Upgrade Time:** 45-75 minutes
 
 ---
 
 **Document Version:** 1.0  
-**Last Updated:** December 6, 2025  
+**Last Updated:** January 11, 2026  
 **Next Review:** After next Chatwoot upgrade  
 **Maintainer:** CommMate Team
 

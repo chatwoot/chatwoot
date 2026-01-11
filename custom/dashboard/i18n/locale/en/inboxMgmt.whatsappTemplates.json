@@ -1,0 +1,106 @@
+{
+  "INBOX_MGMT": {
+    "TABS": {
+      "WHATSAPP_TEMPLATES": "Templates"
+    },
+    "WHATSAPP_TEMPLATES": {
+      "TITLE": "Message Templates",
+      "DESCRIPTION": "Create and manage WhatsApp message templates for your campaigns and automated messages.",
+      "CREATE_BUTTON": "Create Template",
+      "SYNC_BUTTON": "Sync Templates",
+      "DELETE_BUTTON": "Delete",
+      "CREATE_TITLE": "Create Message Template",
+      "CREATE_SUCCESS": "Template created successfully. It may take a few minutes for Meta to approve your template.",
+      "CREATE_ERROR": "Failed to create template",
+      "SYNC_SUCCESS": "Templates synced successfully",
+      "SYNC_ERROR": "Failed to sync templates",
+      "DELETE_SUCCESS": "Template deleted successfully",
+      "DELETE_ERROR": "Failed to delete template",
+      "DELETE_CONFIRM_TITLE": "Delete Template",
+      "DELETE_CONFIRM_MESSAGE": "Are you sure you want to delete the template \"{name}\"? This action cannot be undone.",
+      "EMPTY": "No templates found. Click 'Create Template' to create your first template or 'Sync Templates' to fetch existing ones.",
+      "LANGUAGE": "Language",
+      "STATS": {
+        "APPROVED": "Approved",
+        "PENDING": "Pending",
+        "REJECTED": "Rejected"
+      },
+      "FORM": {
+        "CANCEL": "Cancel"
+      },
+      "BUILDER": {
+        "CANCEL": "Cancel",
+        "CREATE": "Create Template",
+        "VALIDATION_ERRORS": "Please fix the following errors:",
+        "BASICS": {
+          "TITLE": "Basic Information",
+          "NAME": "Template Name",
+          "NAME_PLACEHOLDER": "my_template_name",
+          "NAME_HELP": "Lowercase letters, numbers and underscores only",
+          "CATEGORY": "Category",
+          "CATEGORIES": {
+            "AUTHENTICATION": "Authentication",
+            "MARKETING": "Marketing",
+            "UTILITY": "Utility"
+          },
+          "LANGUAGE": "Language",
+          "ALLOW_CATEGORY_CHANGE": "Allow Meta to change category if needed"
+        },
+        "HEADER": {
+          "TITLE": "Header",
+          "NONE": "None",
+          "TEXT": "Text",
+          "IMAGE": "Image",
+          "VIDEO": "Video",
+          "DOCUMENT": "Document",
+          "LOCATION": "Location",
+          "TEXT_CONTENT": "Header Text",
+          "TEXT_PLACEHOLDER": "Enter header text",
+          "TEXT_HELP": "Use {{1}} for dynamic content",
+          "TEXT_EXAMPLE": "Example Value",
+          "TEXT_EXAMPLE_PLACEHOLDER": "e.g. John Doe",
+          "MEDIA_URL": "Media File",
+          "MEDIA_DROP_HINT": "Click or drag & drop file here",
+          "PREVIEW_ONLY": "Preview loaded",
+          "MEDIA_INFO_IMAGE": "Upload an image for the template header. Recommended: 800x418px, JPEG or PNG",
+          "MEDIA_INFO_VIDEO": "Upload a video for the template header. Max 16MB, MP4 format",
+          "MEDIA_INFO_DOCUMENT": "Upload a PDF document for the template header. Max 100MB",
+          "FILE_PICKER_AUTOMATION_NOTICE": "Browser automation detected. Drag & drop files instead of clicking."
+        },
+        "BODY": {
+          "TITLE": "Body",
+          "TEXT": "Body Text",
+          "TEXT_PLACEHOLDER": "Enter your message here. Use {{1}}, {{2}}, etc. for dynamic content.",
+          "TEXT_HELP": "Use {{1}}, {{2}}, etc. for variables",
+          "EXAMPLES": "Variable Examples",
+          "EXAMPLE_PLACEHOLDER": "Example for variable {index}"
+        },
+        "FOOTER": {
+          "TITLE": "Footer",
+          "TEXT_PLACEHOLDER": "Optional footer text",
+          "TEXT_HELP": "Footer does not support variables"
+        },
+        "BUTTONS": {
+          "TITLE": "Buttons",
+          "ADD": "Add Button",
+          "EMPTY": "No buttons added. Click 'Add Button' to add interactive buttons.",
+          "BUTTON_TYPE": "Button",
+          "QUICK_REPLY": "Quick Reply",
+          "URL": "URL",
+          "PHONE": "Phone",
+          "COPY_CODE": "Copy Code",
+          "TEXT_PLACEHOLDER": "Button text",
+          "URL_PLACEHOLDER": "https://example.com/{{1}}",
+          "URL_EXAMPLE_PLACEHOLDER": "e.g. https://example.com/order/12345",
+          "PHONE_PLACEHOLDER": "+1234567890",
+          "PHONE_HELP": "Include country code with + prefix",
+          "COPY_CODE_HELP": "This button will copy the OTP code from the body. Make sure to include {{1}} in the body for the code."
+        },
+        "PREVIEW": {
+          "TITLE": "Preview"
+        }
+      }
+    }
+  }
+}
+

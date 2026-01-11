@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Whatsapp::FacebookApiClient
-  BASE_URI = 'https://graph.facebook.com'.freeze
+  BASE_URI = 'https://graph.facebook.com'
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -82,7 +84,100 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Webhook unsubscription failed')
   end
 
+  def list_message_templates(business_account_id)
+    templates = []
+    url = "#{BASE_URI}/#{@api_version}/#{business_account_id}/message_templates"
+
+    loop do
+      response = HTTParty.get(url, headers: request_headers)
+      data = handle_response(response, 'Failed to list message templates')
+
+      templates.concat(data['data'] || [])
+      break unless data.dig('paging', 'next')
+
+      url = data['paging']['next']
+    end
+
+    templates
+  end
+
+  def create_message_template(business_account_id, template_data)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{business_account_id}/message_templates",
+      headers: request_headers,
+      body: template_data.to_json
+    )
+
+    handle_response(response, 'Failed to create message template')
+  end
+
+  def delete_message_template(business_account_id, template_name)
+    response = HTTParty.delete(
+      "#{BASE_URI}/#{@api_version}/#{business_account_id}/message_templates?name=#{template_name}",
+      headers: request_headers
+    )
+
+    handle_response(response, 'Failed to delete message template')
+  end
+
+  # Upload media to Meta and return a handle usable in template creation payloads
+  # (example.header_handle for IMAGE/VIDEO/DOCUMENT headers).
+  #
+  # This follows Meta's upload flow:
+  # - POST /{app_id}/uploads -> returns upload session id (id)
+  # - POST /{id} with raw bytes -> returns handle (h)
+  def upload_template_media(file_bytes:, file_type:)
+    app_id = fetch_app_id_from_token
+    upload_api_version = GlobalConfigService.load('WHATSAPP_UPLOADS_API_VERSION', 'v24.0')
+
+    session_response = HTTParty.post(
+      "#{BASE_URI}/#{upload_api_version}/#{app_id}/uploads",
+      headers: request_headers,
+      body: {
+        file_length: file_bytes.bytesize,
+        file_type: file_type
+      }.to_json
+    )
+
+    session = handle_response(session_response, 'Failed to create upload session')
+    upload_id = session['id']
+    raise 'Upload session id missing' if upload_id.blank?
+
+    upload_response = HTTParty.post(
+      "#{BASE_URI}/#{upload_api_version}/#{upload_id}",
+      headers: {
+        'Authorization' => "Bearer #{@access_token}",
+        'Content-Type' => 'application/octet-stream'
+      },
+      body: file_bytes
+    )
+
+    uploaded = handle_response(upload_response, 'Failed to upload media')
+    handle = uploaded['h']
+    raise 'Upload handle missing' if handle.blank?
+
+    handle
+  end
+
   private
+
+  def fetch_app_id_from_token
+    return @app_id if @app_id.present?
+
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/debug_token",
+      query: {
+        input_token: @access_token,
+        access_token: @access_token
+      }
+    )
+
+    data = handle_response(response, 'Token validation failed')
+    @app_id = data.dig('data', 'app_id')
+    raise 'Failed to determine app_id from token' if @app_id.blank?
+
+    @app_id
+  end
 
   def request_headers
     {

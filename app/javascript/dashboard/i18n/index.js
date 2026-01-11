@@ -39,6 +39,32 @@ import zh_TW from './locale/zh_TW';
 import is from './locale/is';
 import lt from './locale/lt';
 
+// CommMate: Import custom translation fragments from custom/dashboard/i18n/locale/
+// These are deep-merged into the Chatwoot translations to avoid modifying core locale files
+import commmateEnWhatsappTemplates from '../../../../custom/dashboard/i18n/locale/en/inboxMgmt.whatsappTemplates.json';
+import commmatePtBRWhatsappTemplates from '../../../../custom/dashboard/i18n/locale/pt_BR/inboxMgmt.whatsappTemplates.json';
+
+// CommMate: Deep merge utility for nested translation objects
+function deepMerge(target, source) {
+  const result = { ...target };
+  Object.keys(source).forEach(key => {
+    if (
+      source[key] &&
+      typeof source[key] === 'object' &&
+      !Array.isArray(source[key])
+    ) {
+      result[key] = deepMerge(result[key] || {}, source[key]);
+    } else {
+      result[key] = source[key];
+    }
+  });
+  return result;
+}
+
+// CommMate: Merge custom translations into Chatwoot locales
+const enWithCommMate = deepMerge(en, commmateEnWhatsappTemplates);
+const pt_BRWithCommMate = deepMerge(pt_BR, commmatePtBRWhatsappTemplates);
+
 export default {
   ar,
   bg,
@@ -47,7 +73,7 @@ export default {
   da,
   de,
   el,
-  en,
+  en: enWithCommMate, // CommMate: Use merged translations
   es,
   fa,
   fi,
@@ -64,7 +90,7 @@ export default {
   nl,
   no,
   pl,
-  pt_BR,
+  pt_BR: pt_BRWithCommMate, // CommMate: Use merged translations
   pt,
   ro,
   ru,

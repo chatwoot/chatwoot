@@ -14,6 +14,7 @@ import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue'
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
+import WhatsappTemplates from './whatsapp/WhatsappTemplates.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -51,6 +52,7 @@ export default {
     InstagramReauthorize,
     TiktokReauthorize,
     WhatsappReauthorize,
+    WhatsappTemplates,
     DuplicateInboxBanner,
     Editor,
     Avatar,
@@ -187,6 +189,11 @@ export default {
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+          // CommMate: WhatsApp Templates tab for WhatsApp Cloud channels
+          {
+            key: 'whatsapp-templates',
+            name: this.$t('INBOX_MGMT.TABS.WHATSAPP_TEMPLATES'),
           },
         ];
       }
@@ -946,6 +953,10 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
+      </div>
+      <!-- CommMate: WhatsApp Templates tab for WhatsApp Cloud channels -->
+      <div v-if="selectedTabKey === 'whatsapp-templates'">
+        <WhatsappTemplates :inbox="inbox" />
       </div>
     </section>
   </div>
