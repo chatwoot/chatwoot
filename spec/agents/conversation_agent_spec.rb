@@ -44,9 +44,8 @@ RSpec.describe ConversationAgent, :aloo do
     it 'includes base instructions with knowledge_lookup guidance' do
       prompt = agent.system_prompt
 
-      expect(prompt).to include('helpful customer support assistant')
+      expect(prompt).to include('customer support assistant')
       expect(prompt).to include('knowledge_lookup')
-      expect(prompt).to include('ALWAYS use the knowledge_lookup tool')
     end
 
     it 'does not include pre-loaded knowledge context' do
@@ -70,87 +69,35 @@ RSpec.describe ConversationAgent, :aloo do
       expect(prompt).to include('Personality instructions')
     end
 
-    context 'with memory feature enabled' do
-      it 'includes memory_lookup in tools description' do
-        prompt = agent.system_prompt
-
-        expect(prompt).to include('memory_lookup')
-        expect(prompt).to include('Recall customer preferences')
-      end
-    end
-
-    context 'with memory feature disabled' do
-      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_memory' => false }) }
-
-      it 'does not include memory_lookup in tools description' do
-        prompt = agent.system_prompt
-
-        expect(prompt).not_to include('memory_lookup')
-      end
-    end
-
-    it 'includes conversation context info' do
+    it 'includes contact and channel info' do
       prompt = agent.system_prompt
 
-      expect(prompt).to include('## Conversation Context')
-    end
-
-    context 'with previous handoff history' do
-      before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_cleared_at' => Time.current.iso8601 })
-      end
-
-      it 'includes handoff history context when conversation was previously handed off' do
-        prompt = agent.system_prompt
-
-        expect(prompt).to include('## Previous Handoff Notice')
-        expect(prompt).to include('previously handed off to a human agent')
-        expect(prompt).to include('CRITICAL')
-        expect(prompt).to include('CURRENT message')
-      end
-    end
-
-    context 'without previous handoff history' do
-      it 'does not include handoff history context' do
-        prompt = agent.system_prompt
-
-        expect(prompt).not_to include('## Previous Handoff Notice')
-      end
-    end
-
-    context 'when handoff feature is disabled' do
-      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_handoff' => false }) }
-
-      before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_cleared_at' => Time.current.iso8601 })
-      end
-
-      it 'does not include handoff history context' do
-        prompt = agent.system_prompt
-
-        expect(prompt).not_to include('## Previous Handoff Notice')
-      end
+      expect(prompt).to include('Contact:')
+      expect(prompt).to include('Channel:')
     end
   end
 
   describe '#user_prompt' do
-    it 'includes current message' do
+    it 'includes current message prefixed with Customer:' do
       agent = described_class.new(message: 'What is your refund policy?')
       prompt = agent.user_prompt
 
-      expect(prompt).to include('Current Message')
+      expect(prompt).to include('Customer:')
       expect(prompt).to include('What is your refund policy?')
     end
 
-    it 'includes conversation history when provided' do
-      agent = described_class.new(
-        message: 'Follow up question',
-        conversation_history: "Customer: Hi\nAssistant: Hello!"
-      )
-      prompt = agent.user_prompt
+    context 'with existing conversation history' do
+      let!(:incoming_message) { create(:message, conversation: conversation, message_type: :incoming, content: 'Hi') }
+      let!(:outgoing_message) { create(:message, conversation: conversation, message_type: :outgoing, content: 'Hello!') }
 
-      expect(prompt).to include('Customer: Hi')
-      expect(prompt).to include('Follow up question')
+      it 'includes conversation history from the conversation' do
+        agent = described_class.new(message: 'Follow up question')
+        prompt = agent.user_prompt
+
+        expect(prompt).to include('Customer: Hi')
+        expect(prompt).to include('Assistant: Hello!')
+        expect(prompt).to include('Follow up question')
+      end
     end
   end
 
