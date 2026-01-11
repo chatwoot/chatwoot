@@ -82,7 +82,7 @@ RSpec.describe Aloo::PersonalityBuilder do
       it 'includes greeting section' do
         result = builder.build
 
-        expect(result).to include('## Greeting')
+        expect(result).to include('Greeting:')
         expect(result).to include('Ahlan wa sahlan!')
       end
     end
