@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+/* eslint-disable no-console, no-restricted-syntax, no-continue */
 
 const fs = require('fs');
 const path = require('path');
@@ -9,9 +10,10 @@ const { build } = require('vite');
  * Returns array of { url, revision } for JS/CSS files
  */
 function generateAssetManifest() {
+  // vite-plugin-ruby outputs to 'vite' in production, 'vite-dev' in development
   const manifestPaths = [
-    path.resolve(__dirname, '../public/packs/.vite/manifest.json'),
-    path.resolve(__dirname, '../public/vite-dev/.vite/manifest.json'),
+    path.resolve(__dirname, '../../../public/vite/.vite/manifest.json'),
+    path.resolve(__dirname, '../../../public/vite-dev/.vite/manifest.json'),
   ];
 
   let manifestPath = manifestPaths.find(p => fs.existsSync(p));
@@ -56,29 +58,26 @@ async function buildServiceWorker() {
 
   const assetOrigin = process.env.ASSET_CDN_HOST || '';
   const isProduction = process.env.NODE_ENV === 'production';
-  // In production assets are in /packs/, in development they're in /vite-dev/
-  const assetPath = isProduction ? '/packs/' : '/vite-dev/';
+  // vite-plugin-ruby serves from /vite/ in production, /vite-dev/ in development
+  const assetPath = isProduction ? '/vite/' : '/vite-dev/';
 
   console.log(`🌐 Asset origin: ${assetOrigin || '(local)'}`);
   console.log(`📁 Asset path: ${assetPath}`);
   console.log(`🏭 Environment: ${isProduction ? 'production' : 'development'}`);
 
-  // In development mode, just copy the push-handlers-only version
+  // In development mode, just use push handlers (no caching)
   if (!isProduction) {
     console.log(
       '⚠️  Development mode: Using push notifications only (no caching)'
     );
 
     const devServiceWorker = fs.readFileSync(
-      path.resolve(
-        __dirname,
-        '../app/javascript/service-worker/push-handlers-only.js'
-      ),
+      path.resolve(__dirname, 'push-handlers.js'),
       'utf8'
     );
 
     fs.writeFileSync(
-      path.resolve(__dirname, '../public/sw.js'),
+      path.resolve(__dirname, '../../../public/sw.js'),
       devServiceWorker
     );
 
@@ -103,15 +102,12 @@ async function buildServiceWorker() {
       },
       build: {
         lib: {
-          entry: path.resolve(
-            __dirname,
-            '../app/javascript/service-worker/sw-runtime.js'
-          ),
+          entry: path.resolve(__dirname, 'sw-runtime.js'),
           formats: ['iife'],
           name: 'ServiceWorkerRuntime',
           fileName: () => 'sw-runtime.js',
         },
-        outDir: path.resolve(__dirname, '../tmp/sw-build'),
+        outDir: path.resolve(__dirname, '../../../tmp/sw-build'),
         emptyOutDir: true,
         minify: true,
         rollupOptions: {
@@ -133,16 +129,13 @@ async function buildServiceWorker() {
 
     // Read the built runtime
     const runtimeBundle = fs.readFileSync(
-      path.resolve(__dirname, '../tmp/sw-build/sw-runtime.js'),
+      path.resolve(__dirname, '../../../tmp/sw-build/sw-runtime.js'),
       'utf8'
     );
 
     // Read the push handlers
     const pushHandlers = fs.readFileSync(
-      path.resolve(
-        __dirname,
-        '../app/javascript/service-worker/push-handlers.js'
-      ),
+      path.resolve(__dirname, 'push-handlers.js'),
       'utf8'
     );
 
@@ -158,7 +151,7 @@ ${pushHandlers}
 
     // Write to public/sw.js
     fs.writeFileSync(
-      path.resolve(__dirname, '../public/sw.js'),
+      path.resolve(__dirname, '../../../public/sw.js'),
       finalServiceWorker
     );
 

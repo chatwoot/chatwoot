@@ -1,11 +1,7 @@
-/* eslint-disable no-restricted-globals */
+/* eslint-disable no-restricted-globals, no-console */
 /* globals clients */
-
-// Push notification handler
 self.addEventListener('push', event => {
-  const notification = event.data && event.data.json();
-
-  if (!notification) return;
+  let notification = event.data && event.data.json();
 
   event.waitUntil(
     self.registration.showNotification(notification.title, {
@@ -17,19 +13,17 @@ self.addEventListener('push', event => {
   );
 });
 
-// Notification click handler
 self.addEventListener('notificationclick', event => {
-  const notification = event.notification;
-  notification.close();
+  let notification = event.notification;
 
   event.waitUntil(
     clients.matchAll({ type: 'window' }).then(windowClients => {
-      const matchingWindowClients = windowClients.filter(
+      let matchingWindowClients = windowClients.filter(
         client => client.url === notification.data.url
       );
 
       if (matchingWindowClients.length) {
-        const firstWindow = matchingWindowClients[0];
+        let firstWindow = matchingWindowClients[0];
         if (firstWindow && 'focus' in firstWindow) {
           firstWindow.focus();
           return;

@@ -46,7 +46,7 @@ self.addEventListener('fetch', event => {
   // Assets (JS/CSS/fonts) → cache-first
   const isAsset =
     url.pathname.startsWith('/vite-dev/') ||
-    url.pathname.startsWith('/packs/') ||
+    url.pathname.startsWith('/vite/') ||
     url.origin === ASSET_ORIGIN ||
     /\.(js|css|woff2?|ttf|otf|eot)$/i.test(url.pathname);
 
@@ -183,7 +183,7 @@ async function cleanupStaleAssets() {
     .filter(request => {
       const url = new URL(request.url);
       const isAssetPath =
-        url.pathname.startsWith('/packs/assets/') ||
+        url.pathname.startsWith('/vite/assets/') ||
         url.pathname.startsWith('/vite-dev/assets/');
       // Only clean up asset files, keep other cached items (like /app shell)
       return isAssetPath && !validUrls.has(request.url);
