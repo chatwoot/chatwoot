@@ -50,9 +50,19 @@ function generateAssetManifest() {
         }
       }
     }
+
+    // Add assets (fonts, images, etc.)
+    if (entry.assets) {
+      for (const assetFile of entry.assets) {
+        if (!seen.has(assetFile)) {
+          seen.add(assetFile);
+          assets.push({ url: assetFile, revision: null });
+        }
+      }
+    }
   }
 
-  console.log(`📦 Found ${assets.length} JS/CSS assets to precache`);
+  console.log(`📦 Found ${assets.length} assets to precache`);
   return assets;
 }
 
