@@ -27,7 +27,6 @@ export const verifyServiceWorkerExistence = (callback = () => {}) => {
             newWorker.state === 'installed' &&
             navigator.serviceWorker.controller
           ) {
-            // New service worker available, will activate on next page load
             // eslint-disable-next-line no-console
             console.log('New service worker available');
           }
