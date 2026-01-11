@@ -32,17 +32,23 @@ function generateAssetManifest() {
   const seen = new Set();
 
   for (const [, entry] of Object.entries(manifest)) {
+    // Add the main file (JS or CSS)
     const file = entry.file;
-    if (!file || seen.has(file)) continue;
-    seen.add(file);
+    if (file && !seen.has(file)) {
+      seen.add(file);
+      if (file.endsWith('.js') || file.endsWith('.css')) {
+        assets.push({ url: file, revision: null });
+      }
+    }
 
-    // Only include JS and CSS files (not images, fonts, etc. - those are cached on demand)
-    if (file.endsWith('.js') || file.endsWith('.css')) {
-      assets.push({
-        url: file,
-        // revision is null because hash is in filename
-        revision: null,
-      });
+    // Add CSS files from the css array (CSS imported by JS modules)
+    if (entry.css) {
+      for (const cssFile of entry.css) {
+        if (!seen.has(cssFile)) {
+          seen.add(cssFile);
+          assets.push({ url: cssFile, revision: null });
+        }
+      }
     }
   }
 
