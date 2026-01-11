@@ -78,9 +78,12 @@ async function buildServiceWorker() {
   const cacheVersion = getCacheVersion();
   const assetOrigin = process.env.ASSET_CDN_HOST || '';
   const isProduction = process.env.NODE_ENV === 'production';
+  // In production assets are in /packs/, in development they're in /vite-dev/
+  const assetPath = isProduction ? '/packs/' : '/vite-dev/';
 
   console.log(`📦 Cache version: ${cacheVersion}`);
   console.log(`🌐 Asset origin: ${assetOrigin || '(local)'}`);
+  console.log(`📁 Asset path: ${assetPath}`);
   console.log(`🏭 Environment: ${isProduction ? 'production' : 'development'}`);
 
   // In development mode, just copy the push-handlers-only version
@@ -143,6 +146,7 @@ async function buildServiceWorker() {
       define: {
         __CACHE_VERSION__: JSON.stringify(cacheVersion),
         __ASSET_ORIGIN__: JSON.stringify(assetOrigin),
+        __ASSET_PATH__: JSON.stringify(assetPath),
         __ASSET_MANIFEST__: JSON.stringify(assetManifest),
         'process.env.NODE_ENV': JSON.stringify('production'),
       },

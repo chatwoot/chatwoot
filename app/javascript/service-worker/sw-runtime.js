@@ -3,6 +3,7 @@
 // Build-time injected values (replaced by Vite define at build time)
 const CACHE_VERSION = __CACHE_VERSION__;
 const ASSET_ORIGIN = __ASSET_ORIGIN__;
+const ASSET_PATH = __ASSET_PATH__;
 const ASSET_MANIFEST = __ASSET_MANIFEST__;
 
 const CACHE_NAME = `chatwoot-${CACHE_VERSION}`;
@@ -121,7 +122,7 @@ async function prefetchAssets() {
   if (!ASSET_MANIFEST?.length) return;
 
   const cache = await caches.open(CACHE_NAME);
-  const baseUrl = ASSET_ORIGIN || `${self.location.origin}/vite-dev/`;
+  const baseUrl = ASSET_ORIGIN || `${self.location.origin}${ASSET_PATH}`;
 
   // Prefetch in batches of 5 (await in loop is intentional for throttling)
   for (let i = 0; i < ASSET_MANIFEST.length; i += 5) {

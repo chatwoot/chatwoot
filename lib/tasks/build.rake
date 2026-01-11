@@ -5,11 +5,17 @@ task before_assets_precompile: :environment do
   system('pnpm install')
   system('echo "-------------- Bulding SDK for Production --------------"')
   system('pnpm run build:sdk')
-  system('echo "-------------- Building Service Worker --------------"')
-  system('NODE_ENV=production pnpm run build:sw')
   system('echo "-------------- Bulding App for Production --------------"')
 end
 
+task after_assets_precompile: :environment do
+  # Build service worker after Vite has generated the asset manifest
+  system('echo "-------------- Building Service Worker --------------"')
+  system('NODE_ENV=production pnpm run build:sw')
+end
+
 # every time you execute 'rake assets:precompile'
-# run 'before_assets_precompile' first
-Rake::Task['assets:precompile'].enhance %w[before_assets_precompile]
+# run 'before_assets_precompile' first, then 'after_assets_precompile' at the end
+Rake::Task['assets:precompile'].enhance %w[before_assets_precompile] do
+  Rake::Task['after_assets_precompile'].invoke
+end
