@@ -538,11 +538,6 @@ const insertVariable = () => {
 
         <div class="space-y-4">
           <div>
-            <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
-              {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT') }}
-              <span class="text-red-500 ml-0.5">*</span>
-            </label>
-            
             <!-- Formatting Toolbar -->
             <div class="relative">
               <div class="flex items-center gap-1 mb-2 p-1.5 bg-n-alpha-2 rounded-lg border border-n-weak">
@@ -611,9 +606,10 @@ const insertVariable = () => {
             <textarea
               ref="bodyTextarea"
               v-model="bodyText"
-              rows="10"
+              rows="15"
               maxlength="1024"
-              class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-none"
+              class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-y"
+              style="min-height: 200px;"
               :placeholder="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_PLACEHOLDER')"
               @click="showEmojiPicker = false"
             ></textarea>
