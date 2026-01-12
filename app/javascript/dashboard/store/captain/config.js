@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import CaptainConfigAPI from 'dashboard/api/captain/config';
+import CaptainPreferencesAPI from 'dashboard/api/captain/preferences';
 
 export const useCaptainConfigStore = defineStore('captainConfig', {
   state: () => ({
@@ -50,7 +50,7 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
     async fetch() {
       this.uiFlags.isFetching = true;
       try {
-        const response = await CaptainConfigAPI.get();
+        const response = await CaptainPreferencesAPI.get();
         this.providers = response.data.providers || {};
         this.models = response.data.models || {};
         this.features = response.data.features || {};
@@ -59,6 +59,11 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
       } finally {
         this.uiFlags.isFetching = false;
       }
+    },
+
+    async updatePreferences(data) {
+      await CaptainPreferencesAPI.updatePreferences(data);
+      await this.fetch();
     },
   },
 });

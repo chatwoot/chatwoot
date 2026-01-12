@@ -3,7 +3,6 @@ import { computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { useAlert } from 'dashboard/composables';
-import { useStore } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useConfig } from 'dashboard/composables/useConfig';
@@ -17,7 +16,6 @@ import FeatureToggle from './components/FeatureToggle.vue';
 import CaptainPaywall from 'next/captain/pageComponents/Paywall.vue';
 
 const { t } = useI18n();
-const store = useStore();
 const { captainEnabled } = useCaptain();
 const { isEnterprise, enterprisePlanName } = useConfig();
 const { isOnChatwootCloud } = useAccount();
@@ -94,26 +92,24 @@ const isFeatureAccessible = feature => {
 
 async function handleFeatureToggle({ feature, enabled }) {
   try {
-    await store.dispatch('accounts/update', {
+    await captainConfigStore.updatePreferences({
       captain_features: { [feature]: enabled },
     });
     useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
   } catch (error) {
     useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
-    // Refetch to revert the toggle state
     captainConfigStore.fetch();
   }
 }
 
 async function handleModelChange({ feature, model }) {
   try {
-    await store.dispatch('accounts/update', {
+    await captainConfigStore.updatePreferences({
       captain_models: { [feature]: model },
     });
     useAlert(t('CAPTAIN_SETTINGS.API.SUCCESS'));
   } catch (error) {
     useAlert(t('CAPTAIN_SETTINGS.API.ERROR'));
-    // Refetch to revert the model selection
     captainConfigStore.fetch();
   }
 }
