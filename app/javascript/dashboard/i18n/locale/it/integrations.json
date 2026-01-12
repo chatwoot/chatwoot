@@ -406,6 +406,7 @@
       "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI è disponibile solo nei piani Enterprise.",
       "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso ai nostri assistenti, copilot e altro ancora.",
       "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
     },
