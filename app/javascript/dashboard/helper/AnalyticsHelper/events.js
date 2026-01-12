@@ -132,3 +132,9 @@ export const LINEAR_EVENTS = Object.freeze({
   LINK_ISSUE: 'Linked a linear issue',
   UNLINK_ISSUE: 'Unlinked a linear issue',
 });
+
+export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
+  MODAL_OPENED: 'Year in Review: Modal opened',
+  NEXT_CLICKED: 'Year in Review: Next clicked',
+  SHARE_CLICKED: 'Year in Review: Share clicked',
+});

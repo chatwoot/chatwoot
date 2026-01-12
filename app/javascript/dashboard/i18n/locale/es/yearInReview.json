@@ -1,0 +1,64 @@
+{
+  "YEAR_IN_REVIEW": {
+    "TITLE": "Resumen del año",
+    "LOADING": "Cargando tu resumen del año...",
+    "ERROR": "No se pudo cargar el resumen del año",
+    "CLOSE": "Cerrar",
+    "CONVERSATIONS": {
+      "TITLE": "Has gestionado",
+      "SUBTITLE": "conversaciones",
+      "FALLBACK": "Este año no se trató de los números. Se trató de estar presente.",
+      "COMPARISON": {
+        "0_50": "Estuviste ahí, y así comienza toda buena bandeja de entrada.",
+        "50_100": "Mantuviste las respuestas fluyendo y las conversaciones vivas.",
+        "100_500": "Gestionaste un volumen considerable y mantuviste todo bajo control.",
+        "500_2000": "Hiciste que todo siguiera avanzando mientras el volumen no dejaba de crecer.",
+        "2000_10000": "Manejaste un alto tráfico en tu bandeja de entrada sin despeinarte.",
+        "10000_PLUS": "Una ciudad entera de clientes tocando a tu puerta. Y lo hiciste parecer fácil."
+      }
+    },
+    "BUSIEST_DAY": {
+      "TITLE": "Tu día más ocupado fue",
+      "MESSAGE": "{count} conversaciones ese día.",
+      "COMPARISON": {
+        "0_5": "Un calentamiento que apenas despertó la bandeja de entrada.",
+        "5_10": "Suficiente movimiento como para justificar una segunda taza de café.",
+        "10_25": "La cosa se puso intensa y la bandeja de entrada se mantuvo alerta.",
+        "25_50": "Un buen pico de actividad que apenas hizo sudar.",
+        "50_100": "Caos controlado, gestionado como un martes cualquiera.",
+        "100_500": "Caos absoluto, y aun así las respuestas siguieron saliendo.",
+        "500_PLUS": "La bandeja de entrada perdió toda la calma y no se detuvo en ningún momento."
+      }
+    },
+    "PERSONALITY": {
+      "TITLE": "Tu estilo de soporte es",
+      "MESSAGES": {
+        "SWIFT_HELPER": "Respondías en {time} de media. Más rápido que la mayoría de las notificaciones.",
+        "QUICK_RESPONDER": "Respondías en {time} de media. La bandeja de entrada casi no esperó.",
+        "STEADY_SUPPORT": "Respondías en {time} de media. Ritmo constante y respuestas sólidas.",
+        "THOUGHTFUL_ADVISOR": "Respondías en {time} de media. Te tomaste el tiempo para hacerlo bien."
+      }
+    },
+    "THANK_YOU": {
+      "TITLE": "Felicidades por sobrevivir a la bandeja de entrada del {year}.",
+      "MESSAGE": "Gracias por tu increíble dedicación al soporte de clientes durante este año. Tu trabajo ha marcado una diferencia real y estamos agradecidos de tenerte en este camino. ¡Vamos a hacer que {nextYear} sea aún mejor juntos!"
+    },
+    "SHARE_MODAL": {
+      "TITLE": "Comparte tu resumen del año",
+      "PREPARING": "Preparando tu imagen...",
+      "DOWNLOAD": "Descargar",
+      "SHARE_TITLE": "Mi resumen del año {year}",
+      "SHARE_TEXT": "¡Mira mi resumen del año {year} con Chatwoot!",
+      "BRANDING": "Hecho con Chatwoot"
+    },
+    "BANNER": {
+      "TITLE": "Tu resumen del año {year} ya está aquí",
+      "BUTTON": "Ver tu impacto"
+    },
+    "NAVIGATION": {
+      "PREVIOUS": "Anterior",
+      "NEXT": "Siguiente",
+      "SHARE": "Compartir la conversación"
+    }
+  }
+}
