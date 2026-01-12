@@ -2,7 +2,7 @@
 
 # Description: Install and manage a Chatwoot installation.
 # OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.4.3
+# Script Version: 3.5.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.4.3"
+CWCTL_VERSION="3.5.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
