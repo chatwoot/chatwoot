@@ -187,6 +187,8 @@ export default {
           {{ $t('SMS_TERMS.AGREEMENT_CONTINUED') }}
           <a
             href="https://staging.getcruisecontrol.com/terms-and-conditions"
+            target="_blank"
+            rel="noopener noreferrer"
             class="underline text-n-brand"
           >
             {{ $t('SMS_TERMS.TERMS_LINK') }}

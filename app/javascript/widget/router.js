@@ -77,8 +77,21 @@ router.beforeEach(async (to, from, next) => {
   // Prevent any user interactions during route transition
   await store.dispatch('appConfig/setRouteTransitionState', true);
 
+  // If opening for SMS, redirect home/messages to SMS form immediately
+  if (window.$chatwoot?.openingForSms) {
+    if (to.name === 'home' || to.name === 'messages') {
+      next({ name: 'sms-form' });
+      return;
+    }
+    if (to.name === 'sms-form') {
+      next();
+      return;
+    }
+  }
+
   // Skip home page and redirect directly to messages page
-  if (to.name === 'home') {
+  // But only if not opening for SMS
+  if (to.name === 'home' && !window.$chatwoot?.openingForSms) {
     next({ name: 'messages' });
     return;
   }

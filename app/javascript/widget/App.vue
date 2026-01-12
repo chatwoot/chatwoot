@@ -427,14 +427,23 @@ export default {
           }
         } else if (message.event === 'show-sms-form') {
           // Handle showing SMS form when "Text Us" is clicked
+          // Set flag to prevent default navigation
+          if (window.$chatwoot) {
+            window.$chatwoot.openingForSms = true;
+          }
+          // Navigate IMMEDIATELY before opening widget to prevent home page flash
+          if (this.$route.name !== 'sms-form') {
+            this.$router.replace({ name: 'sms-form' });
+          }
           // Ensure widget is open
           if (!this.isWidgetOpen) {
             this.$store.dispatch('appConfig/toggleWidgetOpen', true);
           }
-          // Navigate directly to SMS form immediately
-          // Use nextTick to ensure widget state is updated first
+          // Clear flag after a brief delay to ensure navigation completes
           this.$nextTick(() => {
-            this.replaceRoute('sms-form');
+            if (window.$chatwoot) {
+              window.$chatwoot.openingForSms = false;
+            }
           });
         } else if (message.event === 'set-custom-attributes') {
           this.$store.dispatch(
@@ -462,12 +471,29 @@ export default {
         } else if (message.event === 'set-color-scheme') {
           this.setColorScheme(message.darkMode);
         } else if (message.event === 'toggle-open') {
-          this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
-
-          // Skip default navigation if opening for SMS form
+          // Check if opening for SMS BEFORE toggling widget state
           const isOpeningForSms = window.$chatwoot?.openingForSms;
 
-          if (!isOpeningForSms) {
+          // If opening for SMS, navigate IMMEDIATELY before toggling widget state
+          // This prevents any default routing from happening
+          if (isOpeningForSms && message.isOpen) {
+            // Navigate synchronously before widget state changes
+            if (this.$route.name !== 'sms-form') {
+              this.$router.replace({ name: 'sms-form' });
+            }
+          }
+
+          this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
+
+          // Clear flag after navigation (if it was set)
+          if (isOpeningForSms && message.isOpen) {
+            // Use nextTick to clear flag after navigation completes
+            this.$nextTick(() => {
+              if (window.$chatwoot) {
+                window.$chatwoot.openingForSms = false;
+              }
+            });
+          } else if (!isOpeningForSms) {
             const shouldShowMessageView =
               ['home'].includes(this.$route.name) &&
               message.isOpen &&
