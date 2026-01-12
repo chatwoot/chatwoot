@@ -89,8 +89,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
+          "COMPLETED_WITH_ERRORS": "Completed with errors",
           "SCHEDULED": "Scheduled"
         },
+        "FAILED_COUNT": "{count} failed",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
           "ON": "on"
@@ -147,8 +149,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
+          "COMPLETED_WITH_ERRORS": "Completed with errors",
           "SCHEDULED": "Scheduled"
         },
+        "FAILED_COUNT": "{count} failed",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
           "ON": "on"
@@ -199,7 +203,85 @@
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }
+      },
+      "CREATE_DIALOG": {
+        "TITLE": "Create WhatsApp Campaign",
+        "SUBTITLE": "Send a WhatsApp template message to your audience",
+        "PREVIEW_TITLE": "Preview",
+        "REQUIRED_INDICATOR": "*",
+        "BULLET_POINT": "•",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "TEMPLATE_PARAMS": "Template Parameters",
+          "AUDIENCE_SCHEDULE": "Audience & Schedule"
+        },
+        "MEDIA_INFO": {
+          "IMAGE": "Upload an image (JPEG, PNG, WebP) up to 5MB. The image will be shown in the message header.",
+          "VIDEO": "Provide a video URL (MP4, 3GPP) up to 16MB for the message header.",
+          "DOCUMENT": "Provide a document URL (PDF, DOC, XLS, etc.) up to 100MB for the message header."
+        },
+        "MEDIA_URL_LABEL": "Header {type} URL",
+        "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg",
+        "VALIDATING_MEDIA": "Validating media URL...",
+        "DOCUMENT_NAME_LABEL": "Document filename",
+        "DOCUMENT_NAME_PLACEHOLDER": "document.pdf",
+        "BODY_VARIABLES_LABEL": "Message variables",
+        "BUTTON_VARIABLES_LABEL": "Button parameters",
+        "BUTTON_INDEX": "Button {index}",
+        "BUTTON_PARAM_PLACEHOLDER": "Enter button parameter value",
+        "VARIABLE_PLACEHOLDER": "Enter value for variable {index}",
+        "VALIDATION_ERRORS_TITLE": "Please fix the following errors:",
+        "ERRORS": {
+          "TITLE_REQUIRED": "Campaign title is required",
+          "INBOX_REQUIRED": "Please select an inbox",
+          "TEMPLATE_REQUIRED": "Please select a template",
+          "SCHEDULED_REQUIRED": "Please select a scheduled time",
+          "AUDIENCE_REQUIRED": "Please select at least one audience label",
+          "VARIABLES_REQUIRED": "Please fill in all template variables"
+        },
+        "VARIABLE_PICKER": {
+          "TITLE": "Insert variable",
+          "DESCRIPTION": "Select a variable to be replaced with contact data when sending",
+          "CLEAR": "Clear variable",
+          "CLOSE": "Close",
+          "INVALID_VARIABLE": "{variable} is not a valid variable. Use the picker to select a valid variable."
+        }
       }
+    },
+    "DETAILS": {
+      "TITLE": "Campaign Details",
+      "MESSAGE": "Message",
+      "TEMPLATE": "Template",
+      "TEMPLATE_PARAMS": "Template Parameters",
+      "LANGUAGE": "Language",
+      "INBOX": "Inbox",
+      "SCHEDULED_AT": "Scheduled at",
+      "AUDIENCE": "Audience",
+      "STATUS_SUCCESS": "Completed Successfully",
+      "STATUS_WITH_ERRORS": "Completed with Errors",
+      "STATUS_RUNNING": "Running",
+      "HEADER_MEDIA": "Header Media",
+      "LOADING_MEDIA": "Loading media...",
+      "MEDIA_NOT_AVAILABLE": "Media no longer available",
+      "DOCUMENT_ATTACHMENT": "Document Attachment",
+      "CLOSE": "Close"
+    },
+    "DELIVERY_REPORT": {
+      "TITLE": "Delivery Report",
+      "STATUS": "Status",
+      "TOTAL": "Total",
+      "SUCCEEDED": "Succeeded",
+      "FAILED": "Failed",
+      "STARTED_AT": "Started at",
+      "COMPLETED_AT": "Completed at",
+      "ERRORS_TITLE": "Errors",
+      "ERROR_CODE": "Code",
+      "ERROR_MESSAGE": "Message",
+      "ERROR_DETAILS": "Details",
+      "ERROR_COUNT": "×{count}",
+      "ERROR_DETAILS_SEPARATOR": "— {details}",
+      "NO_ERRORS": "No errors recorded",
+      "CLOSE": "Close"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",

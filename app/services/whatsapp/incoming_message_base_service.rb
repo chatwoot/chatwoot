@@ -40,11 +40,26 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
-    return unless find_message_by_source_id(@processed_params[:statuses].first[:id])
+    status_data = @processed_params[:statuses].first
+    message_id = status_data[:id]
 
-    update_message_with_status(@message, @processed_params[:statuses].first)
+    # Try to update regular message first
+    update_message_with_status(@message, status_data) if find_message_by_source_id(message_id)
+
+    # Also check if this is a campaign message and update its tracking
+    update_campaign_message_status(message_id, status_data)
   rescue ArgumentError => e
     Rails.logger.error "Error while processing whatsapp status update #{e.message}"
+  end
+
+  def update_campaign_message_status(message_id, status_data)
+    mapping = CampaignMessageMapping.find_by(whatsapp_message_id: message_id)
+    return unless mapping
+
+    mapping.update_from_webhook(status: status_data[:status], errors: status_data[:errors])
+    Rails.logger.info "Updated campaign message mapping #{mapping.id} with status: #{status_data[:status]}"
+  rescue StandardError => e
+    Rails.logger.error "Failed to update campaign message mapping: #{e.message}"
   end
 
   def update_message_with_status(message, status)

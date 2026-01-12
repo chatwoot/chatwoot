@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref, computed, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -8,59 +8,46 @@ import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 import { validateTemplate, VALIDATION_KEYS, LIMITS } from './validators/metaTemplateRules';
 import { buildTemplatePayload } from './builders/components';
 import { countPlaceholders } from './utils/placeholders';
-import type { HeaderFormat, ButtonType, TemplateCategory } from './validators/metaTemplateRules';
 
-interface Props {
-  isCreating: boolean;
-  inboxId: number | string;
-}
+const props = defineProps({
+  isCreating: { type: Boolean, required: true },
+  inboxId: { type: [Number, String], required: true },
+});
 
-interface Emits {
-  (e: 'create', payload: any): void;
-  (e: 'cancel'): void;
-}
-
-const props = defineProps<Props>();
-const emit = defineEmits<Emits>();
+const emit = defineEmits(['create', 'cancel']);
 const { t } = useI18n();
 
 // Form data
 const templateName = ref('');
-const category = ref<TemplateCategory>('MARKETING');
+const category = ref('MARKETING');
 const language = ref('pt_BR');
 const allowCategoryChange = ref(true);
 
 // Header
-const headerFormat = ref<HeaderFormat | null>(null);
+const headerFormat = ref(null);
 const headerText = ref('');
 const headerTextExample = ref('');
 const headerMediaUrl = ref(''); // preview only
 const headerMediaHandle = ref('');
 const isUploadingMedia = ref(false);
 const mediaUploadError = ref('');
-const mediaFileInput = ref<HTMLInputElement | null>(null);
+const mediaFileInput = ref(null);
 
 // Body
 const bodyText = ref('');
-const bodyExamples = ref<string[]>([]);
-const bodyTextarea = ref<HTMLTextAreaElement | null>(null);
+const bodyExamples = ref([]);
+const bodyTextarea = ref(null);
 const showEmojiPicker = ref(false);
 
 // Footer
 const footerText = ref('');
 
 // Buttons
-const buttons = ref<Array<{
-  type: ButtonType;
-  text?: string;
-  url?: string;
-  urlExample?: string;
-  phoneNumber?: string;
-}>>([]);
+const buttons = ref([]);
 
 // Constants
-const CATEGORIES: TemplateCategory[] = ['AUTHENTICATION', 'MARKETING', 'UTILITY'];
-const HEADER_FORMATS: Array<{ value: HeaderFormat | null; label: string; icon: string }> = [
+const CATEGORIES = ['AUTHENTICATION', 'MARKETING', 'UTILITY'];
+const HEADER_FORMATS = [
   { value: null, label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.NONE'), icon: 'i-lucide-x' },
   { value: 'TEXT', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.TEXT'), icon: 'i-lucide-type' },
   { value: 'IMAGE', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.IMAGE'), icon: 'i-lucide-image' },
@@ -68,7 +55,7 @@ const HEADER_FORMATS: Array<{ value: HeaderFormat | null; label: string; icon: s
   { value: 'DOCUMENT', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.DOCUMENT'), icon: 'i-lucide-file-text' },
   { value: 'LOCATION', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.LOCATION'), icon: 'i-lucide-map-pin' },
 ];
-const BUTTON_TYPES: Array<{ value: ButtonType; label: string; icon: string }> = [
+const BUTTON_TYPES = [
   { value: 'QUICK_REPLY', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BUTTONS.QUICK_REPLY'), icon: 'i-lucide-reply' },
   { value: 'URL', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BUTTONS.URL'), icon: 'i-lucide-external-link' },
   { value: 'PHONE_NUMBER', label: t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BUTTONS.PHONE'), icon: 'i-lucide-phone' },
@@ -90,7 +77,7 @@ const LANGUAGES = [
   { value: 'zh_TW', label: '繁體中文' },
 ];
 
-const CATEGORY_ICONS: Record<string, string> = {
+const CATEGORY_ICONS = {
   AUTHENTICATION: 'i-lucide-key-round',
   MARKETING: 'i-lucide-megaphone',
   UTILITY: 'i-lucide-wrench',
@@ -150,9 +137,9 @@ const mediaAccept = computed(() => {
 });
 
 // Translate validation error keys to i18n messages
-const translateError = (errorKey: string): string => {
+const translateError = errorKey => {
   // Check if error key is a known validation key
-  const validationKeys = Object.values(VALIDATION_KEYS) as string[];
+  const validationKeys = Object.values(VALIDATION_KEYS);
   if (validationKeys.includes(errorKey)) {
     const i18nKey = `INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.VALIDATION.${errorKey}`;
     const translated = t(i18nKey, {
@@ -170,7 +157,7 @@ const translateError = (errorKey: string): string => {
   return errorKey;
 };
 
-const handleMediaFile = async (file: File) => {
+const handleMediaFile = async file => {
   if (!file) return;
 
   // Preview
@@ -185,7 +172,7 @@ const handleMediaFile = async (file: File) => {
     if (!headerMediaHandle.value) {
       throw new Error('Upload succeeded but handle was missing');
     }
-  } catch (error: any) {
+  } catch (error) {
     headerMediaHandle.value = '';
     // Keep preview; validation will block creation.
     mediaUploadError.value =
@@ -197,14 +184,14 @@ const handleMediaFile = async (file: File) => {
   }
 };
 
-const handleMediaFileSelected = async (event: Event) => {
-  const input = event.target as HTMLInputElement;
+const handleMediaFileSelected = async event => {
+  const input = event.target;
   const file = input.files?.[0];
   if (!file) return;
   await handleMediaFile(file);
 };
 
-const handleMediaDrop = async (event: DragEvent) => {
+const handleMediaDrop = async event => {
   const file = event.dataTransfer?.files?.[0];
   if (!file) return;
   await handleMediaFile(file);
@@ -218,7 +205,7 @@ const addButton = () => {
   });
 };
 
-const removeButton = (index: number) => {
+const removeButton = index => {
   buttons.value.splice(index, 1);
 };
 
@@ -254,7 +241,7 @@ const toggleEmojiPicker = () => {
   showEmojiPicker.value = !showEmojiPicker.value;
 };
 
-const insertEmoji = (emoji: string) => {
+const insertEmoji = emoji => {
   if (!bodyTextarea.value) return;
   
   const textarea = bodyTextarea.value;
@@ -273,7 +260,7 @@ const insertEmoji = (emoji: string) => {
   });
 };
 
-const wrapSelection = (wrapper: string) => {
+const wrapSelection = wrapper => {
   if (!bodyTextarea.value) return;
   
   const textarea = bodyTextarea.value;
@@ -318,7 +305,7 @@ const insertVariable = () => {
   const usedNumbers = existingVars.map(v => parseInt(v.replace(/\D/g, ''), 10));
   let nextNum = 1;
   while (usedNumbers.includes(nextNum)) {
-    nextNum++;
+    nextNum += 1;
   }
   
   const variable = `{{${nextNum}}}`;
@@ -355,7 +342,7 @@ const insertVariable = () => {
           <div>
             <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
               {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.NAME') }}
-              <span class="text-red-500 ml-0.5">*</span>
+              <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
             </label>
             <input
               v-model="templateName"
@@ -373,7 +360,7 @@ const insertVariable = () => {
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
                 {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.CATEGORY') }}
-                <span class="text-red-500 ml-0.5">*</span>
+                <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
               </label>
               <div class="relative">
                 <select
@@ -391,7 +378,7 @@ const insertVariable = () => {
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
                 {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BASICS.LANGUAGE') }}
-                <span class="text-red-500 ml-0.5">*</span>
+                <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
               </label>
               <select
                 v-model="language"
@@ -466,7 +453,7 @@ const insertVariable = () => {
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
                 {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.TEXT_CONTENT') }}
-                <span class="text-red-500 ml-0.5">*</span>
+                <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
               </label>
               <input
                 v-model="headerText"
@@ -477,14 +464,16 @@ const insertVariable = () => {
               />
               <div class="flex justify-between mt-1">
                 <p class="text-xs text-n-slate-11">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.TEXT_HELP') }}</p>
-                <span class="text-xs text-n-slate-11">{{ headerText.length }}/60</span>
+                <span class="text-xs text-n-slate-11">
+                  {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.CHAR_COUNT', { count: headerText.length, max: 60 }) }}
+                </span>
               </div>
             </div>
 
             <div v-if="headerText.includes('{{1}}')">
               <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
                 {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.TEXT_EXAMPLE') }}
-                <span class="text-red-500 ml-0.5">*</span>
+                <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
               </label>
               <input
                 v-model="headerTextExample"
@@ -506,7 +495,7 @@ const insertVariable = () => {
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
                     {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.MEDIA_URL') }}
-                <span class="text-red-500 ml-0.5">*</span>
+                <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
               </label>
                   <div
                     class="relative w-full rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm focus:ring-2 focus:ring-woot-500 focus:border-woot-500 px-3 py-4 cursor-pointer transition-colors overflow-hidden"
@@ -553,7 +542,7 @@ const insertVariable = () => {
           <i class="i-lucide-text text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
             {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TITLE') }}
-            <span class="text-red-500 ml-0.5">*</span>
+            <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
           </h3>
         </div>
 
@@ -574,34 +563,34 @@ const insertVariable = () => {
                 <button
                   type="button"
                   class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors font-bold text-sm"
-                  title="Bold (*text*)"
+                  :title="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.BOLD')"
                   @click="wrapSelection('*')"
                 >
-                  B
+                  {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.BOLD_LABEL') }}
                 </button>
                 <button
                   type="button"
                   class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors italic text-sm"
-                  title="Italic (_text_)"
+                  :title="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.ITALIC')"
                   @click="wrapSelection('_')"
                 >
-                  I
+                  {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.ITALIC_LABEL') }}
                 </button>
                 <button
                   type="button"
                   class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors line-through text-sm"
-                  title="Strikethrough (~text~)"
+                  :title="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.STRIKETHROUGH')"
                   @click="wrapSelection('~')"
                 >
-                  S
+                  {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.STRIKETHROUGH_LABEL') }}
                 </button>
                 <button
                   type="button"
                   class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors font-mono text-xs"
-                  title="Monospace (```text```)"
+                  :title="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.MONOSPACE')"
                   @click="wrapSelection('```')"
                 >
-                  &lt;/&gt;
+                  {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.MONOSPACE_LABEL') }}
                 </button>
                 <div class="w-px h-5 bg-n-weak mx-1"></div>
                 <button
@@ -629,14 +618,15 @@ const insertVariable = () => {
               v-model="bodyText"
               rows="15"
               maxlength="1024"
-              class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-y"
-              style="min-height: 200px;"
+              class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-2 text-n-slate-12 text-sm placeholder:text-n-slate-10 focus:ring-2 focus:ring-woot-500 focus:border-woot-500 resize-y min-h-[200px]"
               :placeholder="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_PLACEHOLDER')"
               @click="showEmojiPicker = false"
             ></textarea>
             <div class="flex justify-between mt-1">
               <p class="text-xs text-n-slate-11">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.TEXT_HELP') }}</p>
-              <span class="text-xs text-n-slate-11">{{ bodyText.length }}/1024</span>
+              <span class="text-xs text-n-slate-11">
+                {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.CHAR_COUNT', { count: bodyText.length, max: 1024 }) }}
+              </span>
             </div>
           </div>
 
@@ -644,7 +634,7 @@ const insertVariable = () => {
           <div v-if="bodyExamples.length > 0" class="space-y-3 pt-2 border-t border-n-weak">
             <label class="block text-sm font-medium text-n-slate-12">
               {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.EXAMPLES') }}
-              <span class="text-red-500 ml-0.5">*</span>
+              <span class="text-red-500 ml-0.5">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.REQUIRED_INDICATOR') }}</span>
             </label>
             <div
               v-for="(example, index) in bodyExamples"
@@ -684,7 +674,9 @@ const insertVariable = () => {
           />
           <div class="flex justify-between mt-1">
             <p class="text-xs text-n-slate-11">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.FOOTER.TEXT_HELP') }}</p>
-            <span class="text-xs text-n-slate-11">{{ footerText.length }}/60</span>
+            <span class="text-xs text-n-slate-11">
+              {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.CHAR_COUNT', { count: footerText.length, max: 60 }) }}
+            </span>
           </div>
         </div>
       </section>
@@ -759,7 +751,9 @@ const insertVariable = () => {
                 :placeholder="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BUTTONS.TEXT_PLACEHOLDER')"
               />
               <div class="flex justify-end mt-1">
-                <span class="text-xs text-n-slate-11">{{ (button.text || '').length }}/25</span>
+                <span class="text-xs text-n-slate-11">
+                    {{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.CHAR_COUNT', { count: (button.text || '').length, max: 25 }) }}
+                  </span>
               </div>
             </div>
 
@@ -815,7 +809,7 @@ const insertVariable = () => {
               </p>
               <ul class="space-y-1">
                 <li v-for="(error, index) in validation.errors" :key="index" class="text-sm text-red-400 flex items-start gap-2">
-                  <span class="text-red-500/50">•</span>
+                  <span class="text-red-500/50">{{ $t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BULLET_POINT') }}</span>
                   <span>{{ translateError(error) }}</span>
                 </li>
               </ul>
@@ -839,6 +833,7 @@ const insertVariable = () => {
           :header-text="headerText"
           :header-text-example="headerTextExample"
           :header-media-url="headerMediaUrl"
+          :header-media-name="''"
           :body-text="bodyText"
           :body-examples="bodyExamples"
           :footer-text="footerText"

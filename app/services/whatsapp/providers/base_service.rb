@@ -19,6 +19,21 @@ class Whatsapp::Providers::BaseService
     raise 'Overwrite this method in child class'
   end
 
+  # Campaign-friendly method that returns structured result with error details
+  # Default implementation returns not-supported error; override in provider subclass
+  def send_template_with_result(_phone_number, _template_info)
+    {
+      ok: false,
+      message_id: nil,
+      error: {
+        code: nil,
+        message: 'send_template_with_result not supported for this provider',
+        details: nil,
+        fbtrace_id: nil
+      }
+    }
+  end
+
   def sync_template
     raise 'Overwrite this method in child class'
   end

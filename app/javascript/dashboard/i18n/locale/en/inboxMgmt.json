@@ -1064,7 +1064,10 @@
       "BUILDER": {
         "CANCEL": "Cancel",
         "CREATE": "Create Template",
+        "REQUIRED_INDICATOR": "*",
         "VALIDATION_ERRORS": "Please fix the following errors:",
+        "BULLET_POINT": "•",
+        "PLACEHOLDER_DISPLAY": "{{{{{num}}}}}",
         "VALIDATION": {
           "TEMPLATE_NAME_REQUIRED": "Template name is required",
           "TEMPLATE_NAME_TOO_LONG": "Template name must be {limit} characters or less",
@@ -1146,11 +1149,16 @@
           "FORMATTING": {
             "EMOJI": "Insert emoji",
             "BOLD": "Bold (*text*)",
+            "BOLD_LABEL": "B",
             "ITALIC": "Italic (_text_)",
+            "ITALIC_LABEL": "I",
             "STRIKETHROUGH": "Strikethrough (~text~)",
+            "STRIKETHROUGH_LABEL": "S",
             "MONOSPACE": "Monospace (```text```)",
+            "MONOSPACE_LABEL": "</>",
             "ADD_VARIABLE": "Add variable"
-          }
+          },
+          "CHAR_COUNT": "{count}/{max}"
         },
         "FOOTER": {
           "TITLE": "Footer",
@@ -1176,7 +1184,14 @@
         "PREVIEW": {
           "TITLE": "Preview",
           "EMPTY_TITLE": "Template preview",
-          "EMPTY_DESCRIPTION": "Fill in the form to see preview"
+          "EMPTY_DESCRIPTION": "Fill in the form to see preview",
+          "BUSINESS_NAME": "Business",
+          "BUSINESS_SUBTITLE": "WhatsApp Business",
+          "NO_IMAGE": "No image",
+          "NO_VIDEO": "No video",
+          "DOCUMENT_INFO": "PDF • 1 page",
+          "LOCATION_LABEL": "Location",
+          "TIMESTAMP": "12:00"
         }
       }
     }

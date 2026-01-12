@@ -89,8 +89,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Concluído",
+          "COMPLETED_WITH_ERRORS": "Concluído com erros",
           "SCHEDULED": "Agendada"
         },
+        "FAILED_COUNT": "{count} falharam",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Enviado de",
           "ON": "ativado"
@@ -147,8 +149,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Concluído",
+          "COMPLETED_WITH_ERRORS": "Concluído com erros",
           "SCHEDULED": "Agendada"
         },
+        "FAILED_COUNT": "{count} falharam",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Enviado de",
           "ON": "ativado"
@@ -199,7 +203,85 @@
             "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
           }
         }
+      },
+      "CREATE_DIALOG": {
+        "TITLE": "Criar Campanha do WhatsApp",
+        "SUBTITLE": "Envie uma mensagem de modelo do WhatsApp para seu público",
+        "PREVIEW_TITLE": "Pré-visualização",
+        "REQUIRED_INDICATOR": "*",
+        "BULLET_POINT": "•",
+        "SECTIONS": {
+          "BASIC_INFO": "Informações Básicas",
+          "TEMPLATE_PARAMS": "Parâmetros do Modelo",
+          "AUDIENCE_SCHEDULE": "Público e Agendamento"
+        },
+        "MEDIA_INFO": {
+          "IMAGE": "Envie uma imagem (JPEG, PNG, WebP) de até 5MB. A imagem será exibida no cabeçalho da mensagem.",
+          "VIDEO": "Forneça uma URL de vídeo (MP4, 3GPP) de até 16MB para o cabeçalho da mensagem.",
+          "DOCUMENT": "Forneça uma URL de documento (PDF, DOC, XLS, etc.) de até 100MB para o cabeçalho da mensagem."
+        },
+        "MEDIA_URL_LABEL": "URL da {type} do cabeçalho",
+        "MEDIA_URL_PLACEHOLDER": "https://exemplo.com/imagem.jpg",
+        "VALIDATING_MEDIA": "Validando URL da mídia...",
+        "DOCUMENT_NAME_LABEL": "Nome do documento",
+        "DOCUMENT_NAME_PLACEHOLDER": "documento.pdf",
+        "BODY_VARIABLES_LABEL": "Variáveis da mensagem",
+        "BUTTON_VARIABLES_LABEL": "Parâmetros dos botões",
+        "BUTTON_INDEX": "Botão {index}",
+        "BUTTON_PARAM_PLACEHOLDER": "Digite o valor do parâmetro do botão",
+        "VARIABLE_PLACEHOLDER": "Digite o valor para a variável {index}",
+        "VALIDATION_ERRORS_TITLE": "Por favor, corrija os seguintes erros:",
+        "ERRORS": {
+          "TITLE_REQUIRED": "Título da campanha é obrigatório",
+          "INBOX_REQUIRED": "Por favor, selecione uma caixa de entrada",
+          "TEMPLATE_REQUIRED": "Por favor, selecione um modelo",
+          "SCHEDULED_REQUIRED": "Por favor, selecione um horário agendado",
+          "AUDIENCE_REQUIRED": "Por favor, selecione pelo menos uma etiqueta de público",
+          "VARIABLES_REQUIRED": "Por favor, preencha todas as variáveis do modelo"
+        },
+        "VARIABLE_PICKER": {
+          "TITLE": "Inserir variável",
+          "DESCRIPTION": "Selecione uma variável para ser substituída pelos dados do contato ao enviar",
+          "CLEAR": "Limpar variável",
+          "CLOSE": "Fechar",
+          "INVALID_VARIABLE": "{variable} não é uma variável válida. Use o seletor para escolher uma variável válida."
+        }
       }
+    },
+    "DETAILS": {
+      "TITLE": "Detalhes da Campanha",
+      "MESSAGE": "Mensagem",
+      "TEMPLATE": "Modelo",
+      "TEMPLATE_PARAMS": "Parâmetros do Modelo",
+      "LANGUAGE": "Idioma",
+      "INBOX": "Caixa de entrada",
+      "SCHEDULED_AT": "Agendado para",
+      "AUDIENCE": "Público",
+      "STATUS_SUCCESS": "Concluído com Sucesso",
+      "STATUS_WITH_ERRORS": "Concluído com Erros",
+      "STATUS_RUNNING": "Em Execução",
+      "HEADER_MEDIA": "Mídia do Cabeçalho",
+      "LOADING_MEDIA": "Carregando mídia...",
+      "MEDIA_NOT_AVAILABLE": "Mídia não está mais disponível",
+      "DOCUMENT_ATTACHMENT": "Documento Anexado",
+      "CLOSE": "Fechar"
+    },
+    "DELIVERY_REPORT": {
+      "TITLE": "Relatório de Entrega",
+      "STATUS": "Status",
+      "TOTAL": "Total",
+      "SUCCEEDED": "Sucesso",
+      "FAILED": "Falhas",
+      "STARTED_AT": "Iniciado em",
+      "COMPLETED_AT": "Concluído em",
+      "ERRORS_TITLE": "Erros",
+      "ERROR_CODE": "Código",
+      "ERROR_MESSAGE": "Mensagem",
+      "ERROR_DETAILS": "Detalhes",
+      "ERROR_COUNT": "×{count}",
+      "ERROR_DETAILS_SEPARATOR": "— {details}",
+      "NO_ERRORS": "Nenhum erro registrado",
+      "CLOSE": "Fechar"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Você tem certeza que deseja excluir?",

@@ -34,7 +34,12 @@ export const getters = {
         });
       }
 
-      return filteredRecords.sort((a1, a2) => a1.id - a2.id);
+      // Sort by scheduled_at in descending order (furthest/newest dates on top)
+      return filteredRecords.sort((a1, a2) => {
+        const dateA = a1.scheduled_at ? new Date(a1.scheduled_at) : new Date(0);
+        const dateB = a2.scheduled_at ? new Date(a2.scheduled_at) : new Date(0);
+        return dateB - dateA;
+      });
     },
   getSMSCampaigns: (_state, _getters) => {
     const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
