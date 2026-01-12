@@ -48,6 +48,8 @@ lt:
       failed: Prisijungimas nesėkmingas
     assignment_policy:
       not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO neįjungta šiai diegimo versijai
@@ -68,6 +70,9 @@ lt:
         invalid: must be a valid domain name
       search:
         query_missing: Nurodykite paieškos eilutę su parametru q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: turėtų būti unikalūs kategorijoje ir portale
