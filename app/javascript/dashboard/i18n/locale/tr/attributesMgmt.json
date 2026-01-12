@@ -3,7 +3,7 @@
     "HEADER": "Özel Nitelikler",
     "HEADER_BTN_TXT": "Nitelik Ekle",
     "LOADING": "Özel Nitelikler getiriliyor",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "DESCRIPTION": "Özel nitelikler, kişileriniz veya konuşmalarınız hakkında ek ayrıntıları takip etmenizi sağlar — örneğin abonelik planı veya ilk satın alma tarihi gibi. İhtiyacınız olan belirli bilgileri toplamak için metin, liste veya sayı gibi farklı türlerde özel nitelikler ekleyebilirsiniz.",
     "LEARN_MORE": "Learn more about custom attributes",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "Sohbet",
