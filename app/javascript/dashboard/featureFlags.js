@@ -44,6 +44,7 @@ export const FEATURE_FLAGS = {
   SAML: 'saml',
   QUOTED_EMAIL_REPLY: 'quoted_email_reply',
   COMPANIES: 'companies',
+  ADVANCED_SEARCH: 'advanced_search',
 };
 
 export const PREMIUM_FEATURES = [

@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "İletişim",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Gelen arama",
+      "OUTGOING_CALL": "Giden arama",
+      "CALL_IN_PROGRESS": "Arama devam ediyor",
+      "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -421,7 +431,7 @@
     "MULTIPLE": "{user} and {count} others are typing"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "Bu komutları deneyin"
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
