@@ -115,9 +115,11 @@ export function useCopilotReply() {
         });
 
       if (!abortController.value?.signal.aborted) {
-        generatedContent.value = content;
-        followUpContext.value = updatedContext;
-        if (content) showEditor.value = true;
+        if (content) {
+          generatedContent.value = content;
+          followUpContext.value = updatedContext;
+          showEditor.value = true;
+        }
         isGenerating.value = false;
       }
     } catch {
