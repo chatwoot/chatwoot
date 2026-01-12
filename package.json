@@ -148,7 +148,7 @@
     "vitest": "3.0.5"
   },
   "engines": {
-    "node": "23.x",
+    "node": "24.x",
     "pnpm": "10.x"
   },
   "husky": {
