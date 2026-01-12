@@ -56,7 +56,6 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
-  stripUnsupportedFormatting,
   getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import {
