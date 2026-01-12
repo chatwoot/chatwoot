@@ -83,7 +83,8 @@ export default {
     async handleSubmit() {
       this.isUpdating = true;
       try {
-        const dialCode = this.selectedDialCode.split('+')[1] || 91;
+        const dialCode =
+          this.selectedDialCode.split('+')[1] || this.defaultDialCode || 91;
         if (
           this.phoneNumber.trim() === '' ||
           !this.isValid10DigitPhoneNumber(this.phoneNumber)
