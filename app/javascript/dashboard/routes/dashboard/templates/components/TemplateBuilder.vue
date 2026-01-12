@@ -5,7 +5,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import WhatsappTemplatesAPI from 'dashboard/api/whatsappTemplates';
 import TemplatePreview from './TemplatePreview.vue';
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
-import { validateTemplate } from './validators/metaTemplateRules';
+import { validateTemplate, VALIDATION_KEYS, LIMITS } from './validators/metaTemplateRules';
 import { buildTemplatePayload } from './builders/components';
 import { countPlaceholders } from './utils/placeholders';
 import type { HeaderFormat, ButtonType, TemplateCategory } from './validators/metaTemplateRules';
@@ -148,6 +148,27 @@ const mediaAccept = computed(() => {
   if (headerFormat.value === 'DOCUMENT') return 'application/pdf';
   return 'image/*';
 });
+
+// Translate validation error keys to i18n messages
+const translateError = (errorKey: string): string => {
+  // Check if error key is a known validation key
+  const validationKeys = Object.values(VALIDATION_KEYS) as string[];
+  if (validationKeys.includes(errorKey)) {
+    const i18nKey = `INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.VALIDATION.${errorKey}`;
+    const translated = t(i18nKey, {
+      limit: LIMITS.TEMPLATE_NAME,
+      categories: 'AUTHENTICATION, MARKETING, UTILITY',
+      type: headerFormat.value?.toLowerCase() || 'media',
+      index: '{{n}}',
+    });
+    // If translation exists (not same as key), return it
+    if (translated !== i18nKey) {
+      return translated;
+    }
+  }
+  // Return original error if no translation found
+  return errorKey;
+};
 
 const handleMediaFile = async (file: File) => {
   if (!file) return;
@@ -321,7 +342,7 @@ const insertVariable = () => {
     <!-- Builder Form -->
     <div class="flex-1 overflow-y-auto pr-4 space-y-6">
       <!-- Basic Info Section -->
-      <section class="bg-n-alpha-1 rounded-xl p-5 border border-n-weak">
+      <section class="bg-n-solid-2 rounded-2xl p-5 shadow outline-1 outline outline-n-container">
         <div class="flex items-center gap-2 mb-4">
           <i class="i-lucide-settings-2 text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
@@ -414,7 +435,7 @@ const insertVariable = () => {
       </section>
 
       <!-- Header Section -->
-      <section class="bg-n-alpha-1 rounded-xl p-5 border border-n-weak">
+      <section class="bg-n-solid-2 rounded-2xl p-5 shadow outline-1 outline outline-n-container">
         <div class="flex items-center gap-2 mb-4">
           <i class="i-lucide-layout-template text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
@@ -527,7 +548,7 @@ const insertVariable = () => {
       </section>
 
       <!-- Body Section -->
-      <section class="bg-n-alpha-1 rounded-xl p-5 border border-n-weak">
+      <section class="bg-n-solid-2 rounded-2xl p-5 shadow outline-1 outline outline-n-container">
         <div class="flex items-center gap-2 mb-4">
           <i class="i-lucide-text text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
@@ -645,7 +666,7 @@ const insertVariable = () => {
       </section>
 
       <!-- Footer Section -->
-      <section class="bg-n-alpha-1 rounded-xl p-5 border border-n-weak">
+      <section class="bg-n-solid-2 rounded-2xl p-5 shadow outline-1 outline outline-n-container">
         <div class="flex items-center gap-2 mb-4">
           <i class="i-lucide-footer text-lg text-n-slate-11" />
           <h3 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide">
@@ -669,7 +690,7 @@ const insertVariable = () => {
       </section>
 
       <!-- Buttons Section -->
-      <section class="bg-n-alpha-1 rounded-xl p-5 border border-n-weak">
+      <section class="bg-n-solid-2 rounded-2xl p-5 shadow outline-1 outline outline-n-container">
         <div class="flex items-center justify-between mb-4">
           <div class="flex items-center gap-2">
             <i class="i-lucide-mouse-pointer-click text-lg text-n-slate-11" />
@@ -696,7 +717,7 @@ const insertVariable = () => {
           <div
             v-for="(button, index) in buttons"
             :key="index"
-            class="bg-n-alpha-2 rounded-lg border border-n-weak p-4 space-y-3"
+            class="bg-n-alpha-2 rounded-xl p-4 space-y-3 outline-1 outline outline-n-container"
           >
             <div class="flex items-center justify-between">
               <span class="text-sm font-medium text-n-slate-12">
@@ -795,7 +816,7 @@ const insertVariable = () => {
               <ul class="space-y-1">
                 <li v-for="(error, index) in validation.errors" :key="index" class="text-sm text-red-400 flex items-start gap-2">
                   <span class="text-red-500/50">•</span>
-                  <span>{{ error }}</span>
+                  <span>{{ translateError(error) }}</span>
                 </li>
               </ul>
             </div>
@@ -828,7 +849,7 @@ const insertVariable = () => {
     </div>
 
     <!-- Actions Footer -->
-    <div class="flex-shrink-0 flex justify-end gap-3 pt-6 mt-6 border-t border-n-weak">
+    <div class="flex-shrink-0 flex justify-end gap-3 pt-6 mt-6 border-t border-n-container">
       <NextButton
         ghost
         :label="$t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.CANCEL')"
@@ -852,3 +873,4 @@ const insertVariable = () => {
   right: auto !important;
 }
 </style>
+

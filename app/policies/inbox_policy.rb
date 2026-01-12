@@ -65,4 +65,16 @@ class InboxPolicy < ApplicationPolicy
   def health?
     @account_user.administrator?
   end
+
+  # CommMate: Allow templates_manage custom role permission for managing WhatsApp templates
+  def manage_templates?
+    @account_user.administrator? || has_templates_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has templates_manage custom role permission
+  def has_templates_permission?
+    @account_user.custom_role&.permissions&.include?('templates_manage')
+  end
 end

@@ -31,6 +31,16 @@
 
 en:
   hello: 'Hello world'
+  custom_role:
+    permissions:
+      conversation_manage: 'Conversation manage'
+      conversation_unassigned_manage: 'Conversation unassigned manage'
+      conversation_participating_manage: 'Conversation participating manage'
+      contact_manage: 'Contact manage'
+      report_manage: 'Report manage'
+      knowledge_base_manage: 'Knowledge base manage'
+      campaign_manage: 'Campaign manage'
+      templates_manage: 'Templates manage'
   inbox:
     reauthorization:
       success: 'Channel reauthorized successfully'

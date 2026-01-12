@@ -623,7 +623,8 @@
       "WIDGET_BUILDER": "Construtor de Widget",
       "BOT_CONFIGURATION": "Configuração do Bot",
       "ACCOUNT_HEALTH": "Saúde da conta",
-      "CSAT": "CSAT"
+      "CSAT": "CSAT",
+      "WHATSAPP_TEMPLATES": "Templates"
     },
     "ACCOUNT_HEALTH": {
       "TITLE": "Gerencie sua conta do WhatsApp",
@@ -1022,6 +1023,169 @@
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voz"
+    },
+    "WHATSAPP_TEMPLATES": {
+      "TITLE": "Modelos de Mensagens",
+      "DESCRIPTION": "Crie e gerencie modelos de mensagens do WhatsApp para suas campanhas e mensagens automatizadas.",
+      "CREATE_BUTTON": "Criar Modelo",
+      "SYNC_BUTTON": "Sincronizar Modelos",
+      "DELETE_BUTTON": "Excluir",
+      "CREATE_TITLE": "Criar Modelo de Mensagem",
+      "CREATE_SUCCESS": "Modelo criado com sucesso. Pode levar alguns minutos para a Meta aprovar seu modelo.",
+      "CREATE_ERROR": "Falha ao criar modelo",
+      "SYNC_SUCCESS": "Sincronização de modelos iniciada com sucesso. Pode levar alguns minutos para atualizar.",
+      "SYNC_ERROR": "Falha ao sincronizar modelos",
+      "DELETE_SUCCESS": "Modelo excluído com sucesso",
+      "DELETE_ERROR": "Falha ao excluir modelo",
+      "DELETE_CONFIRM_TITLE": "Excluir Modelo",
+      "DELETE_CONFIRM_MESSAGE": "Tem certeza que deseja excluir o modelo \"{name}\"? Esta ação não pode ser desfeita.",
+      "EMPTY": "Nenhum modelo encontrado. Clique em 'Criar Modelo' para criar seu primeiro modelo ou 'Sincronizar Modelos' para buscar existentes.",
+      "LANGUAGE": "Idioma",
+      "STATS": {
+        "APPROVED": "Aprovados",
+        "PENDING": "Pendentes",
+        "REJECTED": "Rejeitados"
+      },
+      "STATUS": {
+        "APPROVED": "Aprovado",
+        "PENDING": "Pendente",
+        "REJECTED": "Rejeitado",
+        "PAUSED": "Pausado",
+        "DISABLED": "Desativado"
+      },
+      "CATEGORY": {
+        "MARKETING": "Marketing",
+        "UTILITY": "Utilitário",
+        "AUTHENTICATION": "Autenticação"
+      },
+      "FORM": {
+        "CANCEL": "Cancelar"
+      },
+      "BUILDER": {
+        "CANCEL": "Cancelar",
+        "CREATE": "Criar Modelo",
+        "VALIDATION_ERRORS": "Por favor, corrija os seguintes erros:",
+        "VALIDATION": {
+          "TEMPLATE_NAME_REQUIRED": "Nome do modelo é obrigatório",
+          "TEMPLATE_NAME_TOO_LONG": "Nome do modelo deve ter no máximo {limit} caracteres",
+          "TEMPLATE_NAME_INVALID": "Nome do modelo deve conter apenas letras minúsculas, números e underscores",
+          "INVALID_CATEGORY": "Categoria deve ser uma das seguintes: {categories}",
+          "HEADER_TEXT_REQUIRED": "Texto do cabeçalho é obrigatório",
+          "HEADER_TEXT_TOO_LONG": "Texto do cabeçalho deve ter no máximo {limit} caracteres",
+          "HEADER_TEXT_MAX_ONE_VARIABLE": "Texto do cabeçalho suporta no máximo 1 variável",
+          "HEADER_TEXT_EXAMPLE_REQUIRED": "Exemplo do texto do cabeçalho é obrigatório ao usar variável",
+          "HEADER_MEDIA_REQUIRED": "Arquivo de {type} é obrigatório para cabeçalhos de mídia",
+          "BODY_TEXT_REQUIRED": "Texto do corpo é obrigatório",
+          "BODY_TEXT_TOO_LONG": "Texto do corpo deve ter no máximo {limit} caracteres",
+          "FOOTER_TEXT_TOO_LONG": "Texto do rodapé deve ter no máximo {limit} caracteres",
+          "FOOTER_NO_PLACEHOLDERS": "Rodapé não suporta variáveis",
+          "BUTTON_TEXT_REQUIRED": "Texto do botão é obrigatório",
+          "BUTTON_TEXT_TOO_LONG": "Texto do botão deve ter no máximo {limit} caracteres",
+          "URL_REQUIRED": "URL é obrigatória para botões de URL",
+          "URL_TOO_LONG": "URL deve ter no máximo {limit} caracteres",
+          "URL_EXAMPLE_REQUIRED": "Exemplo de URL é obrigatório ao usar variável na URL",
+          "URL_MAX_ONE_VARIABLE": "URL suporta no máximo 1 variável",
+          "PHONE_REQUIRED": "Número de telefone é obrigatório para botões de Telefone",
+          "PHONE_INVALID_FORMAT": "Número de telefone deve começar com + e código do país",
+          "MAX_CTA_BUTTONS": "Máximo de {limit} botões CTA (URL + Telefone) permitidos",
+          "MAX_BUTTONS": "Máximo de {limit} botões permitidos",
+          "MAX_QUICK_REPLY_BUTTONS": "Máximo de {limit} botões de Resposta Rápida permitidos",
+          "COPY_CODE_AUTH_ONLY": "Botão COPY_CODE é permitido apenas para modelos de AUTENTICAÇÃO",
+          "MAX_COPY_CODE_BUTTONS": "Máximo de 1 botão COPY_CODE permitido",
+          "PLACEHOLDER_INVALID_FORMAT": "Formato de variável inválido",
+          "PLACEHOLDER_NOT_SEQUENTIAL": "Variáveis devem ser sequenciais começando de 1",
+          "EXAMPLE_REQUIRED": "Exemplo é obrigatório para variável {index}",
+          "EXAMPLE_EMPTY": "Exemplo para variável {index} não pode estar vazio"
+        },
+        "BASICS": {
+          "TITLE": "Informações Básicas",
+          "NAME": "Nome do Modelo",
+          "NAME_PLACEHOLDER": "meu_modelo_nome",
+          "NAME_HELP": "Apenas letras minúsculas, números e underscores",
+          "CATEGORY": "Categoria",
+          "CATEGORIES": {
+            "AUTHENTICATION": "Autenticação",
+            "MARKETING": "Marketing",
+            "UTILITY": "Utilitário"
+          },
+          "LANGUAGE": "Idioma",
+          "ALLOW_CATEGORY_CHANGE": "Permitir que a Meta mude a categoria se necessário",
+          "AUTH_WARNING_TITLE": "Modelos de autenticação têm requisitos especiais",
+          "AUTH_WARNING_TEXT": "Modelos de autenticação usam um formato OTP predefinido. O texto do corpo é gerado automaticamente pela Meta. Use o tipo de botão COPY_CODE para funcionalidade OTP."
+        },
+        "HEADER": {
+          "TITLE": "Cabeçalho",
+          "NONE": "Nenhum",
+          "TEXT": "Texto",
+          "IMAGE": "Imagem",
+          "VIDEO": "Vídeo",
+          "DOCUMENT": "Documento",
+          "LOCATION": "Localização",
+          "TEXT_CONTENT": "Texto do Cabeçalho",
+          "TEXT_PLACEHOLDER": "Digite o texto do cabeçalho",
+          "TEXT_HELP": "Use {'{{'}1{'}}' } para conteúdo dinâmico",
+          "TEXT_EXAMPLE": "Valor de Exemplo",
+          "TEXT_EXAMPLE_PLACEHOLDER": "ex: João Silva",
+          "MEDIA_URL": "Arquivo de Mídia",
+          "MEDIA_DROP_HINT": "Clique ou arraste o arquivo aqui",
+          "PREVIEW_ONLY": "Pré-visualização carregada",
+          "MEDIA_UPLOADING": "Enviando mídia para a Meta...",
+          "MEDIA_UPLOADED": "Enviado. Mídia pronta.",
+          "MEDIA_INFO_IMAGE": "Envie uma imagem para o cabeçalho do modelo. Recomendado: 800x418px, JPEG ou PNG",
+          "MEDIA_INFO_VIDEO": "Envie um vídeo para o cabeçalho do modelo. Máx 16MB, formato MP4",
+          "MEDIA_INFO_DOCUMENT": "Envie um documento PDF para o cabeçalho do modelo. Máx 100MB",
+          "FILE_PICKER_AUTOMATION_NOTICE": "Automação de navegador detectada. Arraste e solte arquivos em vez de clicar."
+        },
+        "BODY": {
+          "TITLE": "Corpo",
+          "TEXT": "Texto do Corpo",
+          "TEXT_PLACEHOLDER": "Digite sua mensagem aqui. Use {'{{'}1{'}}'}, {'{{'}2{'}}'}, etc. para conteúdo dinâmico.",
+          "TEXT_HELP": "Use {'{{'}1{'}}'}, {'{{'}2{'}}'}, etc. para variáveis. Formatação: *negrito*, _itálico_, ~tachado~, ```monoespaçado```",
+          "EXAMPLES": "Exemplos de Variáveis",
+          "EXAMPLE_PLACEHOLDER": "Exemplo para variável {index}",
+          "FORMATTING": {
+            "EMOJI": "Inserir emoji",
+            "BOLD": "Negrito (*texto*)",
+            "ITALIC": "Itálico (_texto_)",
+            "STRIKETHROUGH": "Tachado (~texto~)",
+            "MONOSPACE": "Monoespaçado (```texto```)",
+            "ADD_VARIABLE": "Adicionar variável"
+          }
+        },
+        "FOOTER": {
+          "TITLE": "Rodapé",
+          "TEXT_PLACEHOLDER": "Texto opcional do rodapé",
+          "TEXT_HELP": "Rodapé não suporta variáveis"
+        },
+        "BUTTONS": {
+          "TITLE": "Botões",
+          "ADD": "Adicionar Botão",
+          "EMPTY": "Nenhum botão adicionado. Clique em 'Adicionar Botão' para adicionar botões interativos.",
+          "BUTTON_TYPE": "Botão",
+          "QUICK_REPLY": "Resposta Rápida",
+          "URL": "URL",
+          "PHONE": "Telefone",
+          "COPY_CODE": "Copiar Código",
+          "TEXT_PLACEHOLDER": "Texto do botão",
+          "URL_PLACEHOLDER": "https://exemplo.com/{'{{'}1{'}}'}",
+          "URL_EXAMPLE_PLACEHOLDER": "ex: https://exemplo.com/pedido/12345",
+          "PHONE_PLACEHOLDER": "+5511999999999",
+          "PHONE_HELP": "Inclua código do país com prefixo +",
+          "COPY_CODE_HELP": "Este botão copiará o código OTP do corpo. Certifique-se de incluir {'{{'}1{'}}' } no corpo para o código."
+        },
+        "PREVIEW": {
+          "TITLE": "Pré-visualização",
+          "EMPTY_TITLE": "Pré-visualização do modelo",
+          "EMPTY_DESCRIPTION": "Preencha o formulário para ver a pré-visualização"
+        }
+      }
     }
+  },
+  "TEMPLATES": {
+    "NO_WHATSAPP_INBOXES": {
+      "TITLE": "Nenhuma Caixa de Entrada WhatsApp Cloud",
+      "DESCRIPTION": "Você precisa de pelo menos uma caixa de entrada WhatsApp Cloud para gerenciar modelos de mensagens. Crie uma caixa de entrada WhatsApp Cloud em Configurações > Caixas de Entrada."
+    },
+    "SELECT_INBOX": "Selecione uma caixa de entrada nas abas acima para gerenciar seus modelos."
   }
 }

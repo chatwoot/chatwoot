@@ -48,6 +48,36 @@ export type HeaderFormat = typeof HEADER_FORMATS[number];
 export const BUTTON_TYPES = ['QUICK_REPLY', 'URL', 'PHONE_NUMBER', 'COPY_CODE'] as const;
 export type ButtonType = typeof BUTTON_TYPES[number];
 
+// i18n validation keys - these map to INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.VALIDATION.*
+export const VALIDATION_KEYS = {
+  TEMPLATE_NAME_REQUIRED: 'TEMPLATE_NAME_REQUIRED',
+  TEMPLATE_NAME_TOO_LONG: 'TEMPLATE_NAME_TOO_LONG',
+  TEMPLATE_NAME_INVALID: 'TEMPLATE_NAME_INVALID',
+  INVALID_CATEGORY: 'INVALID_CATEGORY',
+  HEADER_TEXT_REQUIRED: 'HEADER_TEXT_REQUIRED',
+  HEADER_TEXT_TOO_LONG: 'HEADER_TEXT_TOO_LONG',
+  HEADER_TEXT_MAX_ONE_VARIABLE: 'HEADER_TEXT_MAX_ONE_VARIABLE',
+  HEADER_TEXT_EXAMPLE_REQUIRED: 'HEADER_TEXT_EXAMPLE_REQUIRED',
+  HEADER_MEDIA_REQUIRED: 'HEADER_MEDIA_REQUIRED',
+  BODY_TEXT_REQUIRED: 'BODY_TEXT_REQUIRED',
+  BODY_TEXT_TOO_LONG: 'BODY_TEXT_TOO_LONG',
+  FOOTER_TEXT_TOO_LONG: 'FOOTER_TEXT_TOO_LONG',
+  FOOTER_NO_PLACEHOLDERS: 'FOOTER_NO_PLACEHOLDERS',
+  BUTTON_TEXT_REQUIRED: 'BUTTON_TEXT_REQUIRED',
+  BUTTON_TEXT_TOO_LONG: 'BUTTON_TEXT_TOO_LONG',
+  URL_REQUIRED: 'URL_REQUIRED',
+  URL_TOO_LONG: 'URL_TOO_LONG',
+  URL_EXAMPLE_REQUIRED: 'URL_EXAMPLE_REQUIRED',
+  URL_MAX_ONE_VARIABLE: 'URL_MAX_ONE_VARIABLE',
+  PHONE_REQUIRED: 'PHONE_REQUIRED',
+  PHONE_INVALID_FORMAT: 'PHONE_INVALID_FORMAT',
+  MAX_CTA_BUTTONS: 'MAX_CTA_BUTTONS',
+  MAX_BUTTONS: 'MAX_BUTTONS',
+  MAX_QUICK_REPLY_BUTTONS: 'MAX_QUICK_REPLY_BUTTONS',
+  COPY_CODE_AUTH_ONLY: 'COPY_CODE_AUTH_ONLY',
+  MAX_COPY_CODE_BUTTONS: 'MAX_COPY_CODE_BUTTONS',
+} as const;
+
 /**
  * Validate template name (Meta rules)
  */
@@ -55,11 +85,11 @@ export function validateTemplateName(name: string): ValidationResult {
   const errors: string[] = [];
 
   if (!name || name.trim().length === 0) {
-    errors.push('Template name is required');
+    errors.push(VALIDATION_KEYS.TEMPLATE_NAME_REQUIRED);
   } else if (name.length > LIMITS.TEMPLATE_NAME) {
-    errors.push(`Template name must be ${LIMITS.TEMPLATE_NAME} characters or less`);
+    errors.push(VALIDATION_KEYS.TEMPLATE_NAME_TOO_LONG);
   } else if (!/^[a-z0-9_]+$/.test(name)) {
-    errors.push('Template name must contain only lowercase letters, numbers, and underscores');
+    errors.push(VALIDATION_KEYS.TEMPLATE_NAME_INVALID);
   }
 
   return {
@@ -75,7 +105,7 @@ export function validateCategory(category: string): ValidationResult {
   const errors: string[] = [];
 
   if (!CATEGORIES.includes(category as TemplateCategory)) {
-    errors.push(`Category must be one of: ${CATEGORIES.join(', ')}`);
+    errors.push(VALIDATION_KEYS.INVALID_CATEGORY);
   }
 
   return {
@@ -101,26 +131,26 @@ export function validateHeader(
 
   if (format === 'TEXT') {
     if (!text || text.trim().length === 0) {
-      errors.push('Header text is required');
+      errors.push(VALIDATION_KEYS.HEADER_TEXT_REQUIRED);
     } else if (text.length > LIMITS.HEADER_TEXT) {
-      errors.push(`Header text must be ${LIMITS.HEADER_TEXT} characters or less`);
+      errors.push(VALIDATION_KEYS.HEADER_TEXT_TOO_LONG);
     }
 
     // Check for placeholders
     const placeholderInfo = validatePlaceholders(text);
     if (placeholderInfo.count > 1) {
-      errors.push('Header text supports maximum 1 placeholder');
+      errors.push(VALIDATION_KEYS.HEADER_TEXT_MAX_ONE_VARIABLE);
     }
 
     if (placeholderInfo.count === 1 && (!textExample || textExample.trim().length === 0)) {
-      errors.push('Header text example is required when using placeholder');
+      errors.push(VALIDATION_KEYS.HEADER_TEXT_EXAMPLE_REQUIRED);
     }
   }
 
   // For IMAGE/VIDEO/DOCUMENT headers, Meta requires a media handle (h) from the upload API
   if (format === 'IMAGE' || format === 'VIDEO' || format === 'DOCUMENT') {
     if (!mediaHandle || mediaHandle.trim().length === 0) {
-      errors.push(`Media upload is required for ${format.toLowerCase()} headers`);
+      errors.push(VALIDATION_KEYS.HEADER_MEDIA_REQUIRED);
     }
   }
 
@@ -137,9 +167,9 @@ export function validateBody(text: string, examples: string[]): ValidationResult
   const errors: string[] = [];
 
   if (!text || text.trim().length === 0) {
-    errors.push('Body text is required');
+    errors.push(VALIDATION_KEYS.BODY_TEXT_REQUIRED);
   } else if (text.length > LIMITS.BODY_TEXT) {
-    errors.push(`Body text must be ${LIMITS.BODY_TEXT} characters or less`);
+    errors.push(VALIDATION_KEYS.BODY_TEXT_TOO_LONG);
   }
 
   // Validate placeholders
@@ -169,13 +199,13 @@ export function validateFooter(text: string): ValidationResult {
   const errors: string[] = [];
 
   if (text && text.length > LIMITS.FOOTER_TEXT) {
-    errors.push(`Footer text must be ${LIMITS.FOOTER_TEXT} characters or less`);
+    errors.push(VALIDATION_KEYS.FOOTER_TEXT_TOO_LONG);
   }
 
   // Check for placeholders (not allowed in footer)
   const placeholderInfo = validatePlaceholders(text);
   if (placeholderInfo.count > 0) {
-    errors.push('Footer does not support placeholders');
+    errors.push(VALIDATION_KEYS.FOOTER_NO_PLACEHOLDERS);
   }
 
   return {
@@ -204,7 +234,7 @@ export function validateButtons(
   }
 
   if (buttons.length > LIMITS.MAX_BUTTONS) {
-    errors.push(`Maximum ${LIMITS.MAX_BUTTONS} buttons allowed`);
+    errors.push(VALIDATION_KEYS.MAX_BUTTONS);
   }
 
   // Count button types
@@ -216,11 +246,11 @@ export function validateButtons(
 
   // Validate button type limits
   if (quickReplyCount > LIMITS.MAX_QUICK_REPLY_BUTTONS) {
-    errors.push(`Maximum ${LIMITS.MAX_QUICK_REPLY_BUTTONS} Quick Reply buttons allowed`);
+    errors.push(VALIDATION_KEYS.MAX_QUICK_REPLY_BUTTONS);
   }
 
   if (ctaCount > LIMITS.MAX_CTA_BUTTONS) {
-    errors.push(`Maximum ${LIMITS.MAX_CTA_BUTTONS} Call-to-Action buttons (URL/Phone) allowed`);
+    errors.push(VALIDATION_KEYS.MAX_CTA_BUTTONS);
   }
 
   // Note: Meta DOES allow mixing Quick Reply with CTA buttons (verified via API testing)
@@ -228,46 +258,46 @@ export function validateButtons(
 
   // COPY_CODE only for AUTHENTICATION
   if (copyCodeCount > 0 && category !== 'AUTHENTICATION') {
-    errors.push('COPY_CODE button is only allowed for AUTHENTICATION templates');
+    errors.push(VALIDATION_KEYS.COPY_CODE_AUTH_ONLY);
   }
 
   if (copyCodeCount > 1) {
-    errors.push('Maximum 1 COPY_CODE button allowed');
+    errors.push(VALIDATION_KEYS.MAX_COPY_CODE_BUTTONS);
   }
 
   // Validate individual buttons
   buttons.forEach((button, index) => {
     if (button.type === 'QUICK_REPLY' || button.type === 'URL' || button.type === 'PHONE_NUMBER') {
       if (!button.text || button.text.trim().length === 0) {
-        errors.push(`Button ${index + 1}: text is required`);
+        errors.push(VALIDATION_KEYS.BUTTON_TEXT_REQUIRED);
       } else if (button.text.length > LIMITS.BUTTON_TEXT) {
-        errors.push(`Button ${index + 1}: text must be ${LIMITS.BUTTON_TEXT} characters or less`);
+        errors.push(VALIDATION_KEYS.BUTTON_TEXT_TOO_LONG);
       }
     }
 
     if (button.type === 'URL') {
       if (!button.url || button.url.trim().length === 0) {
-        errors.push(`Button ${index + 1}: URL is required`);
+        errors.push(VALIDATION_KEYS.URL_REQUIRED);
       } else if (button.url.length > LIMITS.URL) {
-        errors.push(`Button ${index + 1}: URL must be ${LIMITS.URL} characters or less`);
+        errors.push(VALIDATION_KEYS.URL_TOO_LONG);
       }
 
       // Check for dynamic URL
       const placeholderInfo = validatePlaceholders(button.url || '');
       if (placeholderInfo.count > 1) {
-        errors.push(`Button ${index + 1}: URL supports maximum 1 placeholder`);
+        errors.push(VALIDATION_KEYS.URL_MAX_ONE_VARIABLE);
       }
 
       if (placeholderInfo.count === 1 && (!button.urlExample || button.urlExample.trim().length === 0)) {
-        errors.push(`Button ${index + 1}: URL example is required when using placeholder`);
+        errors.push(VALIDATION_KEYS.URL_EXAMPLE_REQUIRED);
       }
     }
 
     if (button.type === 'PHONE_NUMBER') {
       if (!button.phoneNumber || button.phoneNumber.trim().length === 0) {
-        errors.push(`Button ${index + 1}: phone number is required`);
+        errors.push(VALIDATION_KEYS.PHONE_REQUIRED);
       } else if (!/^\+\d+$/.test(button.phoneNumber)) {
-        errors.push(`Button ${index + 1}: phone number must start with + and contain only digits`);
+        errors.push(VALIDATION_KEYS.PHONE_INVALID_FORMAT);
       }
     }
   });
@@ -342,3 +372,4 @@ function isValidUrl(url: string): boolean {
     return false;
   }
 }
+

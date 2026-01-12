@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { renderWithExamples } from './utils/placeholders';
 import type { HeaderFormat, ButtonType } from './validators/metaTemplateRules';
+
+const { t } = useI18n();
 
 interface Props {
   headerFormat: HeaderFormat | null;
@@ -158,8 +161,8 @@ const getButtonIcon = (type: ButtonType) => {
         <!-- Empty state -->
         <div v-if="!hasContent" class="flex flex-col items-center justify-center h-64 text-center">
           <i class="i-lucide-message-square-dashed text-4xl mb-3" :style="{ color: colors.textSecondary }" />
-          <p class="text-sm" :style="{ color: colors.textSecondary }">Template preview</p>
-          <p class="text-xs mt-1" :style="{ color: colors.textMuted }">Fill in the form to see preview</p>
+          <p class="text-sm" :style="{ color: colors.textSecondary }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.EMPTY_TITLE') }}</p>
+          <p class="text-xs mt-1" :style="{ color: colors.textMuted }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.EMPTY_DESCRIPTION') }}</p>
         </div>
 
         <!-- Message bubble -->
@@ -264,3 +267,4 @@ const getButtonIcon = (type: ButtonType) => {
     </div>
   </div>
 </template>
+

@@ -3,6 +3,7 @@
 class Api::V1::Accounts::Whatsapp::MessageTemplatesController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox
   before_action :validate_whatsapp_cloud_channel
+  before_action :authorize_manage_templates, only: [:upload_media, :create, :destroy]
 
   def index
     templates = @inbox.message_templates || []
@@ -52,6 +53,11 @@ class Api::V1::Accounts::Whatsapp::MessageTemplatesController < Api::V1::Account
   def fetch_inbox
     @inbox = Current.account.inboxes.find(params[:inbox_id])
     authorize @inbox, :show?
+  end
+
+  # CommMate: Authorize template management operations
+  def authorize_manage_templates
+    authorize @inbox, :manage_templates?
   end
 
   def validate_whatsapp_cloud_channel

@@ -8,8 +8,8 @@
 
 ## 📊 Summary
 
-**Total Modified Files:** 19 files  
-**Total Lines Changed:** ~100 lines across all files
+**Total Modified Files:** 20 files  
+**Total Lines Changed:** ~600 lines across all files (including i18n translations)
 
 CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Branding (logo, version display)
@@ -322,28 +322,52 @@ These modifications support the WhatsApp Templates CRUD feature (feat/whatsapp-t
 
 ---
 
-#### 13. app/javascript/dashboard/i18n/index.js
+#### 13. app/javascript/dashboard/i18n/locale/en/inboxMgmt.json
 
-**Lines Modified:** ~20 lines  
-**Reason:** Add custom i18n overlay loader for CommMate translations  
+**Lines Modified:** ~250 lines (WHATSAPP_TEMPLATES section)  
+**Reason:** Add WhatsApp Templates CRUD translations to English locale  
 **Last Modified:** January 2026
 
 **Changes Made:**
-- Import CommMate translation fragments from `custom/dashboard/i18n/locale/`
-- Add `deepMerge` utility function for nested object merging
-- Merge CommMate translations into `en` and `pt_BR` locales
-- Export merged locales instead of originals
+- Added `WHATSAPP_TEMPLATES` key to `INBOX_MGMT.TABS`
+- Added complete `WHATSAPP_TEMPLATES` section under `INBOX_MGMT` with all template builder translations
+- Added `TEMPLATES` section for account-level templates page translations
 
 **Review on Upgrade:**
-- Check if i18n structure changed
-- Verify import path conventions
-- Review if new locales were added (may need overlay files)
+- Check if inboxMgmt.json structure changed
+- Verify translation key format conventions
+- Review if new WhatsApp features were added
 - Check for i18n framework updates (vue-i18n)
 
 **Merge Conflict Strategy:**
-- Keep Chatwoot's i18n changes
-- Preserve deepMerge utility and overlay imports
-- Add new CommMate overlay files for new locales if needed
+- Keep Chatwoot's translation changes
+- Preserve CommMate's WHATSAPP_TEMPLATES section
+- Merge any overlapping keys carefully
+- Test all CommMate translations display correctly
+
+---
+
+#### 14. app/javascript/dashboard/i18n/locale/pt_BR/inboxMgmt.json
+
+**Lines Modified:** ~250 lines (WHATSAPP_TEMPLATES section)  
+**Reason:** Add WhatsApp Templates CRUD translations to Portuguese locale  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Added `WHATSAPP_TEMPLATES` key to `INBOX_MGMT.TABS`
+- Added complete `WHATSAPP_TEMPLATES` section under `INBOX_MGMT` with all template builder translations (in Portuguese)
+- Added `TEMPLATES` section for account-level templates page translations (in Portuguese)
+
+**Review on Upgrade:**
+- Check if inboxMgmt.json structure changed
+- Verify translation key format conventions
+- Review if new WhatsApp features were added
+- Check for i18n framework updates (vue-i18n)
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's translation changes
+- Preserve CommMate's WHATSAPP_TEMPLATES section
+- Merge any overlapping keys carefully
 - Test all CommMate translations display correctly
 
 ---
@@ -533,7 +557,8 @@ When upgrading to a new Chatwoot version, review these files in order:
 ### WhatsApp Templates CRUD (Review with WhatsApp updates)
 13. ✅ app/javascript/dashboard/routes/dashboard/settings/inbox/Settings.vue - Templates tab
 14. ✅ app/javascript/dashboard/components/Modal.vue - Large size class
-15. ✅ app/javascript/dashboard/i18n/index.js - Custom overlay loader
+15. ✅ app/javascript/dashboard/i18n/locale/en/inboxMgmt.json - WhatsApp Templates translations (EN)
+16. ✅ app/javascript/dashboard/i18n/locale/pt_BR/inboxMgmt.json - WhatsApp Templates translations (PT-BR)
 
 ### Migrations (Always Run)
 13. ✅ db/migrate/20240726220747_add_custom_roles.rb - Run if not yet applied
@@ -645,15 +670,16 @@ After merging a new Chatwoot version, test:
 
 ## 📊 Statistics
 
-- **Total Files Modified:** 19
+- **Total Files Modified:** 20
 - **Controllers:** 1
 - **Views:** 4
 - **Dashboards:** 1
 - **Policies:** 1
-- **JavaScript:** 6 (including 3 for WhatsApp Templates)
+- **JavaScript:** 7 (including 4 for WhatsApp Templates)
 - **Config:** 2
 - **Migrations:** 2
 - **Docker:** 1
+- **i18n Locale Files:** 2 (EN and PT-BR inboxMgmt.json)
 - **New Backend Services:** 2 (WhatsApp Templates CRUD)
 - **New Frontend Components:** 5 (WhatsApp Templates UI)
 
