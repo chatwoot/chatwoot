@@ -36,7 +36,8 @@
       "CONTACT_MANAGE": "Manage contacts",
       "REPORT_MANAGE": "Manage reports",
       "KNOWLEDGE_BASE_MANAGE": "Manage knowledge base",
-      "CAMPAIGN_MANAGE": "Manage campaigns"
+      "CAMPAIGN_MANAGE": "Manage campaigns",
+      "TEMPLATES_MANAGE": "Manage WhatsApp message templates"
     },
     "FORM": {
       "NAME": {

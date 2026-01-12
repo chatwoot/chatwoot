@@ -109,6 +109,11 @@ onMounted(() => {
       @apply max-w-[80%] w-[56.25rem];
     }
 
+    // CommMate: Large modal size for TemplateBuilder
+    &.large {
+      @apply max-w-[90%] w-[75rem];
+    }
+
     // .content-box {
     //   @apply h-auto p-0;
     // }

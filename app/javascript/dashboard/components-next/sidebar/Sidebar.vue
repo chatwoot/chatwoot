@@ -5,6 +5,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
@@ -92,6 +93,17 @@ onMounted(() => {
 
 const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
+);
+
+// CommMate: Filter WhatsApp Cloud inboxes for Templates menu
+const whatsAppCloudInboxes = computed(() =>
+  inboxes.value
+    .filter(
+      inbox =>
+        inbox.channel_type === INBOX_TYPES.WHATSAPP &&
+        inbox.provider === 'whatsapp_cloud'
+    )
+    .sort((a, b) => a.name.localeCompare(b.name))
 );
 
 const closeMobileSidebar = () => {
@@ -435,6 +447,24 @@ const menuItems = computed(() => {
         },
       ],
     },
+    // CommMate: Templates menu for WhatsApp Cloud inboxes
+    ...(whatsAppCloudInboxes.value.length > 0
+      ? [
+          {
+            name: 'Templates',
+            label: t('SIDEBAR.TEMPLATES'),
+            icon: 'i-lucide-file-text',
+            children: whatsAppCloudInboxes.value.map(inbox => ({
+              name: `Templates-${inbox.name}-${inbox.id}`,
+              label: inbox.name,
+              to: accountScopedRoute('templates_whatsapp_index', {
+                inboxId: inbox.id,
+              }),
+              activeOn: ['templates_whatsapp_index'],
+            })),
+          },
+        ]
+      : []),
     {
       name: 'Portals',
       label: t('SIDEBAR.HELP_CENTER.TITLE'),

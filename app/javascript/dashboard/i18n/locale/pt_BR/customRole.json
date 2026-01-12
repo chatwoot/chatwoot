@@ -35,7 +35,9 @@
       "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar conversas que participa e aquelas atribuídas a elas",
       "CONTACT_MANAGE": "Gerenciar contatos",
       "REPORT_MANAGE": "Gerenciar relatórios",
-      "KNOWLEDGE_BASE_MANAGE": "Gerenciar base de conhecimento"
+      "KNOWLEDGE_BASE_MANAGE": "Gerenciar base de conhecimento",
+      "CAMPAIGN_MANAGE": "Gerenciar campanhas",
+      "TEMPLATES_MANAGE": "Gerenciar modelos de mensagem do WhatsApp"
     },
     "FORM": {
       "NAME": {

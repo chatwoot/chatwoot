@@ -6,6 +6,7 @@ export const AVAILABLE_CUSTOM_ROLE_PERMISSIONS = [
   'report_manage',
   'knowledge_base_manage',
   'campaign_manage', // CommMate: Added for custom role campaign access
+  'templates_manage', // CommMate: Manage WhatsApp message templates
 ];
 
 export const ROLES = ['agent', 'administrator'];
@@ -29,6 +30,9 @@ export const CONTACT_PERMISSIONS = 'contact_manage';
 export const REPORTS_PERMISSIONS = 'report_manage';
 
 export const PORTAL_PERMISSIONS = 'knowledge_base_manage';
+
+// CommMate: WhatsApp templates permission
+export const TEMPLATES_PERMISSIONS = 'templates_manage';
 
 export const ASSIGNEE_TYPE_TAB_PERMISSIONS = {
   me: {
