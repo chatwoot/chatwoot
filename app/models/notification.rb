@@ -49,7 +49,7 @@ class Notification < ApplicationRecord
   enum notification_type: NOTIFICATION_TYPES
 
   before_create :set_last_activity_at
-  after_create_commit :process_notification_delivery, :dispatch_create_event
+  after_create_commit :process_notification_delivery, :dispatch_create_event, :enqueue_trim_job
   after_destroy_commit :dispatch_destroy_event
   after_update_commit :dispatch_update_event
 
@@ -185,6 +185,10 @@ class Notification < ApplicationRecord
 
   def set_last_activity_at
     self.last_activity_at = created_at
+  end
+
+  def enqueue_trim_job
+    Notification::TrimUserNotificationsJob.perform_later(user_id)
   end
 
   def primary_actor_data
