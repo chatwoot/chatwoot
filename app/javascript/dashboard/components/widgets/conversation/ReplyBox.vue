@@ -624,7 +624,9 @@ export default {
         },
         '$mod+Enter': {
           action: () => {
-            if (this.isAValidEvent('cmd_enter')) {
+            if (this.copilot.isActive.value && this.isFocused) {
+              this.onSubmitCopilotReply();
+            } else if (this.isAValidEvent('cmd_enter')) {
               this.onSendReply();
             }
           },
