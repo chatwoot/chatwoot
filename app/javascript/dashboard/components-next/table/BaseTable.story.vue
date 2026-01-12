@@ -67,29 +67,37 @@ const agentHeaders = ['Agent', 'Role', 'Verification', 'Actions'];
               :item="automation"
             >
               <template #default>
-                <BaseTableCell width="w-full" truncate>
-                  <div class="flex items-center gap-2 min-w-0">
-                    <span class="text-body-main text-n-slate-12 truncate">
+                <BaseTableCell>
+                  <div class="flex items-center gap-2 min-w-0 max-w-full">
+                    <span
+                      class="text-body-main text-n-slate-12 truncate min-w-0 flex-1"
+                    >
                       {{ automation.name }}
                     </span>
                     <div class="w-px h-3 rounded-lg bg-n-weak flex-shrink-0" />
-                    <span class="text-body-main text-n-slate-11 truncate">
+                    <span
+                      class="text-body-main text-n-slate-11 truncate min-w-0 flex-1"
+                    >
                       {{ automation.description }}
                     </span>
                   </div>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-16">
-                  <ToggleSwitch v-model="automation.active" />
+                <BaseTableCell>
+                  <div class="flex justify-center">
+                    <ToggleSwitch v-model="automation.active" />
+                  </div>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-32" whitespace="nowrap">
-                  <span class="text-body-main text-n-slate-12">
+                <BaseTableCell>
+                  <span
+                    class="text-body-main text-n-slate-12 whitespace-nowrap"
+                  >
                     {{ automation.createdOn }}
                   </span>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-36" align="end">
+                <BaseTableCell align="end" class="w-24">
                   <div class="flex gap-3 justify-end flex-shrink-0">
                     <Button icon="i-woot-edit-pen" slate sm />
                     <Button icon="i-woot-bin" slate sm />
@@ -110,9 +118,9 @@ const agentHeaders = ['Agent', 'Role', 'Verification', 'Actions'];
           <template #row="{ items }">
             <BaseTableRow v-for="agent in items" :key="agent.id" :item="agent">
               <template #default>
-                <BaseTableCell width="w-full" truncate>
+                <BaseTableCell>
                   <div class="flex items-center gap-3 min-w-0">
-                    <Avatar :user="agent" :size="40" />
+                    <Avatar :user="agent" :size="40" class="flex-shrink-0" />
                     <div class="flex flex-col min-w-0">
                       <span class="text-body-main text-n-slate-12 truncate">
                         {{ agent.name }}
@@ -124,19 +132,23 @@ const agentHeaders = ['Agent', 'Role', 'Verification', 'Actions'];
                   </div>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-40" whitespace="nowrap">
-                  <span class="text-body-main text-n-slate-12">
+                <BaseTableCell>
+                  <span
+                    class="text-body-main text-n-slate-12 whitespace-nowrap"
+                  >
                     {{ agent.role }}
                   </span>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-32" whitespace="nowrap">
-                  <span class="text-body-main text-n-slate-12">
+                <BaseTableCell>
+                  <span
+                    class="text-body-main text-n-slate-12 whitespace-nowrap"
+                  >
                     {{ agent.verified ? 'Verified' : 'Pending' }}
                   </span>
                 </BaseTableCell>
 
-                <BaseTableCell width="w-36" align="end">
+                <BaseTableCell align="end" class="w-24">
                   <div class="flex gap-3 justify-end flex-shrink-0">
                     <Button icon="i-woot-edit-pen" slate sm />
                     <Button icon="i-woot-bin" slate sm />
