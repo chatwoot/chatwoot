@@ -22,7 +22,9 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   def download
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
-    render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
+    render layout: false,
+           template: 'api/v1/accounts/csat_survey_responses/download',
+           formats: [:csv]
   end
 
   private
@@ -34,16 +36,21 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
   end
 
   def set_csat_survey_responses
-    base_query = Current.account.csat_survey_responses.includes([:conversation, :assigned_agent, :contact])
-    @csat_survey_responses = filtrate(base_query).filter_by_created_at(range)
-                                                 .filter_by_assigned_agent_id(params[:user_ids])
-                                                 .filter_by_inbox_id(params[:inbox_id])
-                                                 .filter_by_team_id(params[:team_id])
-                                                 .filter_by_rating(params[:rating])
+    base_query = Current.account.csat_survey_responses
+                        .includes([:conversation, :assigned_agent, :contact])
+
+    @csat_survey_responses = filtrate(base_query)
+                             .filter_by_created_at(range)
+                             .filter_by_assigned_agent_id(params[:user_ids])
+                             .filter_by_inbox_id(Array(params[:inbox_ids]).presence)
+                             .filter_by_team_id(Array(params[:team_ids]).presence)
+                             .filter_by_rating(params[:rating])
   end
 
   def set_current_page_surveys
-    @csat_survey_responses = @csat_survey_responses.page(@current_page).per(RESULTS_PER_PAGE)
+    @csat_survey_responses = @csat_survey_responses
+                             .page(@current_page)
+                             .per(RESULTS_PER_PAGE)
   end
 
   def set_current_page
