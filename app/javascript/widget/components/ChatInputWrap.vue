@@ -60,11 +60,6 @@ export default {
     showSendButton() {
       return this.userInput.length > 0;
     },
-    inputWrapperStyle() {
-      return {
-        '--widget-color': this.widgetColor,
-      };
-    },
   },
   watch: {
     isWidgetOpen(isWidgetOpen) {
@@ -135,7 +130,6 @@ export default {
   <div
     class="chat-input-wrap items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background"
     :class="{ 'is-focused': isFocused }"
-    :style="inputWrapperStyle"
     @keydown.esc="hideEmojiPicker"
   >
     <ResizableTextArea
@@ -193,8 +187,8 @@ export default {
 
   &.is-focused {
     box-shadow:
-      0 0 0 1px var(--widget-color),
-      0 0 2px 3px var(--widget-color);
+      0 0 0 1px var(--widget-color, #2781f6),
+      0 0 2px 3px var(--widget-color, #2781f6);
   }
 }
 
