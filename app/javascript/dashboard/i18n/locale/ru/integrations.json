@@ -406,6 +406,7 @@
       "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к нашим ассистентам, copilot и другим функциям.",
       "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
