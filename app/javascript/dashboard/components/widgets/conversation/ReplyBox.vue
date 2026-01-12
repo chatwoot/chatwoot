@@ -1187,6 +1187,7 @@ export default {
           :signature="messageSignature"
           allow-signature
           :channel-type="channelType"
+          :medium="inbox.medium"
           @typing-off="onTypingOff"
           @typing-on="onTypingOn"
           @focus="onFocus"
@@ -1264,7 +1265,6 @@ export default {
         :recording-audio-state="recordingAudioState"
         :send-button-text="replyButtonLabel"
         :show-audio-recorder="showAudioRecorder"
-        :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
         :show-emoji-picker="showEmojiPicker"
         :show-file-upload="showFileUpload"
         :show-quoted-reply-toggle="shouldShowQuotedReplyToggle"
