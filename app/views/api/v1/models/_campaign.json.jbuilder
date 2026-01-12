@@ -22,7 +22,7 @@ if resource.campaign_type == 'one_off'
       json.total resource.delivery_report.total
       json.succeeded resource.delivery_report.succeeded
       json.failed resource.delivery_report.failed
-      json.errors resource.delivery_report.errors
+      json.errors resource.delivery_report.delivery_errors
       json.started_at resource.delivery_report.started_at
       json.completed_at resource.delivery_report.completed_at
     end

@@ -2,18 +2,18 @@
 #
 # Table name: campaign_delivery_reports
 #
-#  id           :bigint           not null, primary key
-#  campaign_id  :bigint           not null
-#  provider     :string
-#  status       :string           default("pending"), not null
-#  total        :integer          default(0), not null
-#  succeeded    :integer          default(0), not null
-#  failed       :integer          default(0), not null
-#  errors       :jsonb            default([]), not null
-#  started_at   :datetime
-#  completed_at :datetime
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id              :bigint           not null, primary key
+#  campaign_id     :bigint           not null
+#  provider        :string
+#  status          :string           default("pending"), not null
+#  total           :integer          default(0), not null
+#  succeeded       :integer          default(0), not null
+#  failed          :integer          default(0), not null
+#  delivery_errors :jsonb            default([]), not null
+#  started_at      :datetime
+#  completed_at    :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 # Indexes
 #
@@ -23,6 +23,7 @@
 
 class CampaignDeliveryReport < ApplicationRecord
   belongs_to :campaign
+  has_many :message_mappings, class_name: 'CampaignMessageMapping', dependent: :destroy
 
   # Delivery status (independent of campaign_status)
   # pending: delivery not started
@@ -33,18 +34,18 @@ class CampaignDeliveryReport < ApplicationRecord
 
   validates :status, inclusion: { in: STATUSES }
 
-  # Add an error to the deduped errors array
+  # Add an error to the deduped delivery_errors array
   # Errors are deduped by signature (code + message + details)
   def record_error(code:, message:, details: nil, fbtrace_id: nil)
     signature = build_signature(code, message, details)
-    existing = errors.find { |e| e['signature'] == signature }
+    existing = delivery_errors.find { |e| e['signature'] == signature }
 
     if existing
       existing['count'] += 1
       existing['last_fbtrace_id'] = fbtrace_id if fbtrace_id.present?
       existing['last_seen_at'] = Time.current.iso8601
     else
-      errors << {
+      delivery_errors << {
         'signature' => signature,
         'code' => code,
         'message' => message,
@@ -56,13 +57,13 @@ class CampaignDeliveryReport < ApplicationRecord
     end
   end
 
-  def errors?
+  def delivery_errors?
     failed.positive?
   end
 
   def finalize!
     self.completed_at = Time.current
-    self.status = errors? ? 'completed_with_errors' : 'completed'
+    self.status = delivery_errors? ? 'completed_with_errors' : 'completed'
     save!
   end
 

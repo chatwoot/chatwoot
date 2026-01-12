@@ -205,6 +205,20 @@
         }
       }
     },
+    "DETAILS": {
+      "TITLE": "Detalhes da Campanha",
+      "MESSAGE": "Mensagem",
+      "TEMPLATE": "Modelo",
+      "TEMPLATE_PARAMS": "Parâmetros do Modelo",
+      "LANGUAGE": "Idioma",
+      "INBOX": "Caixa de entrada",
+      "SCHEDULED_AT": "Agendado para",
+      "AUDIENCE": "Público",
+      "STATUS_SUCCESS": "Concluído com Sucesso",
+      "STATUS_WITH_ERRORS": "Concluído com Erros",
+      "STATUS_RUNNING": "Em Execução",
+      "CLOSE": "Fechar"
+    },
     "DELIVERY_REPORT": {
       "TITLE": "Relatório de Entrega",
       "STATUS": "Status",
@@ -217,7 +231,8 @@
       "ERROR_CODE": "Código",
       "ERROR_MESSAGE": "Mensagem",
       "ERROR_DETAILS": "Detalhes",
-      "ERROR_COUNT": "{count} ocorrências",
+      "ERROR_COUNT": "×{count}",
+      "ERROR_DETAILS_SEPARATOR": "— {details}",
       "NO_ERRORS": "Nenhum erro registrado",
       "CLOSE": "Fechar"
     },

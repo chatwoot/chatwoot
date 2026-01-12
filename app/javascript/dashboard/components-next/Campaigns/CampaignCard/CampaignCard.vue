@@ -101,7 +101,8 @@ const failedCount = computed(() => {
   });
 });
 
-const hasDeliveryReport = computed(() => !!props.deliveryReport);
+// Show view button for all one-off campaigns (SMS/WhatsApp), not just live chat
+const canViewDetails = computed(() => !props.isLiveChatType);
 
 const inboxName = computed(() => props.inbox?.name || '');
 
@@ -111,7 +112,7 @@ const inboxIcon = computed(() => {
 });
 
 const handleCardClick = () => {
-  if (hasDeliveryReport.value) {
+  if (canViewDetails.value) {
     emit('view');
   }
 };
@@ -120,7 +121,7 @@ const handleCardClick = () => {
 <template>
   <CardLayout
     layout="row"
-    :class="{ 'cursor-pointer hover:bg-n-alpha-2': hasDeliveryReport }"
+    :class="{ 'cursor-pointer hover:bg-n-alpha-2': canViewDetails }"
     @click="handleCardClick"
   >
     <div class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2">
@@ -166,11 +167,11 @@ const handleCardClick = () => {
     </div>
     <div class="flex items-center justify-end gap-2">
       <Button
-        v-if="hasDeliveryReport"
+        v-if="canViewDetails"
         variant="faded"
         size="sm"
         color="slate"
-        icon="i-lucide-bar-chart-2"
+        icon="i-lucide-eye"
         @click.stop="emit('view')"
       />
       <Button

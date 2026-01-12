@@ -9,7 +9,7 @@ import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.v
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import WhatsAppCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
-import CampaignDeliveryReportDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignDeliveryReportDialog.vue';
+import CampaignDetailsDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignDetailsDialog.vue';
 import WhatsAppCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsAppCampaignEmptyState.vue';
 
 const { t } = useI18n();
@@ -42,7 +42,7 @@ const handleView = campaign => {
   toggleDeliveryReportDialog(true);
 };
 
-const handleCloseDeliveryReport = () => {
+const handleCloseDetails = () => {
   toggleDeliveryReportDialog(false);
   selectedCampaign.value = null;
 };
@@ -83,10 +83,10 @@ const handleCloseDeliveryReport = () => {
       ref="confirmDeleteCampaignDialogRef"
       :selected-campaign="selectedCampaign"
     />
-    <CampaignDeliveryReportDialog
+    <CampaignDetailsDialog
       :is-open="showDeliveryReportDialog"
       :campaign="selectedCampaign"
-      @close="handleCloseDeliveryReport"
+      @close="handleCloseDetails"
     />
   </CampaignLayout>
 </template>

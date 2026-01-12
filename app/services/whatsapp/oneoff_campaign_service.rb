@@ -92,7 +92,7 @@ class Whatsapp::OneoffCampaignService
     return record_template_error(report) if template_data[:name].blank?
 
     result = channel.send_template_with_result(contact.phone_number, template_data)
-    record_send_result(report, result)
+    record_send_result(report, contact, result)
   end
 
   def prepare_template_data(contact)
@@ -107,14 +107,27 @@ class Whatsapp::OneoffCampaignService
     report.record_error(code: nil, message: 'Template processing failed', details: 'Template name could not be resolved')
   end
 
-  def record_send_result(report, result)
+  def record_send_result(report, contact, result)
     if result[:ok]
       report.succeeded += 1
+      # Store message mapping for async status tracking via webhooks
+      create_message_mapping(report, contact, result[:message_id]) if result[:message_id].present?
     else
       report.failed += 1
       error = result[:error] || {}
       report.record_error(code: error[:code], message: error[:message], details: error[:details], fbtrace_id: error[:fbtrace_id])
     end
+  end
+
+  def create_message_mapping(report, contact, message_id)
+    CampaignMessageMapping.create!(
+      campaign_delivery_report: report,
+      contact: contact,
+      whatsapp_message_id: message_id,
+      status: 'sent'
+    )
+  rescue StandardError => e
+    Rails.logger.warn "Failed to create message mapping for campaign #{campaign.id}: #{e.message}"
   end
 
   def finalize_delivery(report)

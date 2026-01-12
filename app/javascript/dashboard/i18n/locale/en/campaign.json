@@ -205,6 +205,20 @@
         }
       }
     },
+    "DETAILS": {
+      "TITLE": "Campaign Details",
+      "MESSAGE": "Message",
+      "TEMPLATE": "Template",
+      "TEMPLATE_PARAMS": "Template Parameters",
+      "LANGUAGE": "Language",
+      "INBOX": "Inbox",
+      "SCHEDULED_AT": "Scheduled at",
+      "AUDIENCE": "Audience",
+      "STATUS_SUCCESS": "Completed Successfully",
+      "STATUS_WITH_ERRORS": "Completed with Errors",
+      "STATUS_RUNNING": "Running",
+      "CLOSE": "Close"
+    },
     "DELIVERY_REPORT": {
       "TITLE": "Delivery Report",
       "STATUS": "Status",
@@ -217,7 +231,8 @@
       "ERROR_CODE": "Code",
       "ERROR_MESSAGE": "Message",
       "ERROR_DETAILS": "Details",
-      "ERROR_COUNT": "{count} occurrences",
+      "ERROR_COUNT": "×{count}",
+      "ERROR_DETAILS_SEPARATOR": "— {details}",
       "NO_ERRORS": "No errors recorded",
       "CLOSE": "Close"
     },
