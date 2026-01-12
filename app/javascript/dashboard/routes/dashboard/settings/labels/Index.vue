@@ -10,6 +10,11 @@ import EditLabel from './EditLabel.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import {
+  BaseTable,
+  BaseTableRow,
+  BaseTableCell,
+} from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -80,6 +85,7 @@ const tableHeaders = computed(() => {
     t('LABEL_MGMT.LIST.TABLE_HEADER.NAME'),
     t('LABEL_MGMT.LIST.TABLE_HEADER.DESCRIPTION'),
     t('LABEL_MGMT.LIST.TABLE_HEADER.COLOR'),
+    t('LABEL_MGMT.LIST.TABLE_HEADER.ACTION'),
   ];
 });
 
@@ -113,64 +119,64 @@ onBeforeMount(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <span
-        v-if="!filteredRecords.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('LABEL_MGMT.NO_RESULTS') : $t('LABEL_MGMT.LIST.404')
+        "
       >
-        {{ $t('LABEL_MGMT.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="(label, index) in filteredRecords" :key="label.title">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span class="mb-1 text-body-main break-words text-n-slate-12">
-                {{ label.title }}
-              </span>
-            </td>
-            <td class="py-4 ltr:pr-4 text-body-main text-n-slate-11 rtl:pl-4">
-              {{ label.description }}
-            </td>
-            <td class="py-4 leading-6 ltr:pr-4 rtl:pl-4">
-              <div class="flex items-center">
-                <span
-                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-n-weak"
-                  :style="{ backgroundColor: label.color }"
-                />
-                {{ label.color }}
-              </div>
-            </td>
-            <td class="py-4 min-w-xs">
-              <div class="flex gap-3 items-center justify-end">
-                <Button
-                  v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
-                  icon="i-woot-edit-pen"
-                  slate
-                  sm
-                  :is-loading="loading[label.id]"
-                  @click="openEditPopup(label)"
-                />
-                <Button
-                  v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
-                  icon="i-woot-bin"
-                  slate
-                  sm
-                  :is-loading="loading[label.id]"
-                  @click="openDeletePopup(label, index)"
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <template #row="{ items }">
+          <BaseTableRow v-for="label in items" :key="label.title" :item="label">
+            <template #default>
+              <BaseTableCell>
+                <span class="text-body-main text-n-slate-12">
+                  {{ label.title }}
+                </span>
+              </BaseTableCell>
+
+              <BaseTableCell>
+                <span class="text-body-main text-n-slate-11">
+                  {{ label.description }}
+                </span>
+              </BaseTableCell>
+
+              <BaseTableCell>
+                <div class="flex items-center">
+                  <span
+                    class="w-4 h-4 ltr:mr-2 rtl:ml-2 border border-solid rounded border-n-weak"
+                    :style="{ backgroundColor: label.color }"
+                  />
+                  <span class="text-body-main text-n-slate-12">
+                    {{ label.color }}
+                  </span>
+                </div>
+              </BaseTableCell>
+
+              <BaseTableCell align="end">
+                <div class="flex gap-3 justify-end flex-shrink-0">
+                  <Button
+                    v-tooltip.top="$t('LABEL_MGMT.FORM.EDIT')"
+                    icon="i-woot-edit-pen"
+                    slate
+                    sm
+                    :is-loading="loading[label.id]"
+                    @click="openEditPopup(label)"
+                  />
+                  <Button
+                    v-tooltip.top="$t('LABEL_MGMT.FORM.DELETE')"
+                    icon="i-woot-bin"
+                    slate
+                    sm
+                    :is-loading="loading[label.id]"
+                    @click="openDeletePopup(label)"
+                  />
+                </div>
+              </BaseTableCell>
+            </template>
+          </BaseTableRow>
+        </template>
+      </BaseTable>
     </template>
 
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">

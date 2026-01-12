@@ -15,7 +15,8 @@
       "TABLE_HEADER": {
         "NAME": "Name",
         "DESCRIPTION": "Description",
-        "COLOR": "Color"
+        "COLOR": "Color",
+        "ACTION": "Actions"
       }
     },
     "FORM": {
