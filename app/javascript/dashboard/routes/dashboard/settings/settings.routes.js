@@ -8,7 +8,6 @@ import account from './account/account.routes';
 import agent from './agents/agent.routes';
 import aloo from './aloo/aloo.routes';
 import assignmentPolicy from './assignmentPolicy/assignmentPolicy.routes';
-import agentBot from './agentBots/agentBot.routes';
 import attributes from './attributes/attributes.routes';
 import automation from './automation/automation.routes';
 import auditlogs from './auditlogs/audit.routes';
@@ -50,7 +49,6 @@ export default {
     ...agent.routes,
     ...aloo.routes,
     ...assignmentPolicy.routes,
-    ...agentBot.routes,
     ...attributes.routes,
     ...automation.routes,
     ...auditlogs.routes,
