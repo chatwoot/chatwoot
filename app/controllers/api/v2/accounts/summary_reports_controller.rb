@@ -1,6 +1,6 @@
 class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
-  before_action :prepare_builder_params, only: [:agent, :team, :inbox, :label]
+  before_action :prepare_builder_params, only: [:agent, :team, :inbox, :label, :channel]
 
   def agent
     render_report_with(V2::Reports::AgentSummaryBuilder)
@@ -16,6 +16,12 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
 
   def label
     render_report_with(V2::Reports::LabelSummaryBuilder)
+  end
+
+  def channel
+    render_report_with(V2::Reports::ChannelSummaryBuilder)
+  rescue CustomExceptions::Report::InvalidDateRange => e
+    render_error_response(e)
   end
 
   private
