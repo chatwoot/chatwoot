@@ -3,11 +3,7 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
   before_action :authorize_account_update, only: [:update]
 
   def show
-    render json: {
-      providers: Llm::Models.providers,
-      models: Llm::Models.models,
-      features: features_with_account_preferences
-    }
+    render json: preferences_payload
   end
 
   def update
@@ -16,10 +12,18 @@ class Api::V1::Accounts::Captain::PreferencesController < Api::V1::Accounts::Bas
     @current_account.captain_features = params_to_update[:captain_features] if params_to_update[:captain_features]
     @current_account.save!
 
-    head :ok
+    render json: preferences_payload
   end
 
   private
+
+  def preferences_payload
+    {
+      providers: Llm::Models.providers,
+      models: Llm::Models.models,
+      features: features_with_account_preferences
+    }
+  end
 
   def authorize_account_update
     authorize @current_account, :update?

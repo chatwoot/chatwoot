@@ -62,8 +62,10 @@ export const useCaptainConfigStore = defineStore('captainConfig', {
     },
 
     async updatePreferences(data) {
-      await CaptainPreferencesAPI.updatePreferences(data);
-      await this.fetch();
+      const response = await CaptainPreferencesAPI.updatePreferences(data);
+      this.providers = response.data.providers || {};
+      this.models = response.data.models || {};
+      this.features = response.data.features || {};
     },
   },
 });

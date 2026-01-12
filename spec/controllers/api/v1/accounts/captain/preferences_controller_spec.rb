@@ -78,6 +78,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(json_response).to have_key(:providers)
+        expect(json_response).to have_key(:models)
+        expect(json_response).to have_key(:features)
         expect(account.reload.captain_models['editor']).to eq('gpt-4.1-mini')
       end
 
@@ -88,6 +91,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(json_response).to have_key(:providers)
+        expect(json_response).to have_key(:models)
+        expect(json_response).to have_key(:features)
         expect(account.reload.captain_features['editor']).to be true
       end
 
@@ -100,6 +106,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(json_response).to have_key(:providers)
+        expect(json_response).to have_key(:models)
+        expect(json_response).to have_key(:features)
         models = account.reload.captain_models
         expect(models['editor']).to eq('gpt-4.1')
         expect(models['assistant']).to eq('gpt-5.1') # Preserved
@@ -114,6 +123,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(json_response).to have_key(:providers)
+        expect(json_response).to have_key(:models)
+        expect(json_response).to have_key(:features)
         features = account.reload.captain_features
         expect(features['editor']).to be false
         expect(features['assistant']).to be false # Preserved
@@ -129,6 +141,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Preferences', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+        expect(json_response).to have_key(:providers)
+        expect(json_response).to have_key(:models)
+        expect(json_response).to have_key(:features)
         account.reload
         expect(account.captain_models['editor']).to eq('gpt-4.1-mini')
         expect(account.captain_features['editor']).to be true
