@@ -896,6 +896,22 @@ describe('stripUnsupportedFormatting', () => {
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
     });
 
+    it('preserves autolinks when schema supports links', () => {
+      const content = 'Check out <https://cegrafic.com/catalogo/>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves various URI scheme autolinks', () => {
+      const content =
+        'Email <mailto:user@example.com> or call <tel:+1234567890>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves email autolinks', () => {
+      const content = 'Contact us at <support@chatwoot.com>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
     it('preserves lists when schema supports them', () => {
       const content = '- item 1\n- item 2\n1. first\n2. second';
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
@@ -965,6 +981,38 @@ describe('stripUnsupportedFormatting', () => {
           emptySchema
         )
       ).toBe('Check this link');
+    });
+
+    it('converts autolinks to plain URLs when schema does not support links', () => {
+      const content = 'Visit <https://cegrafic.com/catalogo/> for more info';
+      const expected = 'Visit https://cegrafic.com/catalogo/ for more info';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('handles multiple autolinks in content', () => {
+      const content = 'Check <https://example.com> and <https://test.com>';
+      const expected = 'Check https://example.com and https://test.com';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('converts URI scheme autolinks to plain text', () => {
+      const content =
+        'Email <mailto:support@example.com> or call <tel:+1234567890>';
+      const expected =
+        'Email mailto:support@example.com or call tel:+1234567890';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('converts email autolinks to plain text', () => {
+      const content = 'Reach us at <admin@chatwoot.com> for help';
+      const expected = 'Reach us at admin@chatwoot.com for help';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('handles mixed autolink types', () => {
+      const content = 'Visit <https://example.com> or email <info@example.com>';
+      const expected = 'Visit https://example.com or email info@example.com';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
 
     it('strips bullet list markers', () => {
