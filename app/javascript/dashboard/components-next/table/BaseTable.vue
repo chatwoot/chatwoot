@@ -49,7 +49,7 @@ const showHeaders = computed(
         <tr v-else-if="noDataMessage && !loading">
           <td
             :colspan="headers.length || 1"
-            class="py-20 text-center text-base text-n-slate-11"
+            class="py-20 text-center text-body-main !text-base text-n-slate-11"
           >
             {{ noDataMessage }}
           </td>

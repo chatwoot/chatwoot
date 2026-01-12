@@ -164,6 +164,16 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'sort-ascending': {
+    body: `<g fill="none" stroke="currentColor"><path d="M4 15.4999L7.5 18.9999L11 15.4999" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 19V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.875 8.5H14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 10.25V7.1875C14.5 6.60734 14.7305 6.05094 15.1407 5.6407C15.5509 5.23047 16.1073 5 16.6875 5C17.2677 5 17.8241 5.23047 18.2343 5.6407C18.6445 6.05094 18.875 6.60734 18.875 7.1875V10.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 13.75H18.875L14.5 19H18.875" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'sort-descending': {
+    body: `<g fill="none" stroke="currentColor"><path d="M4 15.4999L7.5 18.9999L11 15.4999" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 19V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.375 17.5H14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 19.25V16.1875C14 15.6073 14.2305 15.0509 14.6407 14.6407C15.0509 14.2305 15.6073 14 16.1875 14C16.7677 14 17.3241 14.2305 17.7343 14.6407C18.1445 15.0509 18.375 15.6073 18.375 16.1875V19.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 5H18.375L14 10.25H18.375" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {
