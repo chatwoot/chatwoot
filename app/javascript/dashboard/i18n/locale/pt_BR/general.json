@@ -7,6 +7,7 @@
     },
     "CLOSE": "Fechar",
     "BETA": "Beta",
-    "BETA_DESCRIPTION": "Este recurso está em fase BETA e deve sofre alterações assim que Nós melhorarmos ele."
+    "BETA_DESCRIPTION": "Este recurso está em fase BETA e deve sofre alterações assim que Nós melhorarmos ele.",
+    "PREFERRED": "Preferido"
   }
 }
