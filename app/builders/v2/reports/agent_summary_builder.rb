@@ -35,10 +35,10 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
       id: user_id,
       conversations_count: conversations_count[user_id] || 0,
       resolved_conversations_count: resolved_count[user_id] || 0,
-      avg_resolution_time: avg_resolution_time[user_id],
-      avg_first_response_time: avg_first_response_time[user_id],
-      avg_reply_time: avg_reply_time[user_id],
-      agent_chat_duration: agent_chat_duration[user_id].to_i
+      avg_resolution_time: avg_resolution_time[user_id] || 0,
+      avg_first_response_time: avg_first_response_time[user_id] || 0,
+      avg_reply_time: avg_reply_time[user_id] || 0,
+      agent_chat_duration: (agent_chat_duration[user_id] || 0).to_i
     }
   end
 
