@@ -19,7 +19,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
   end
 
   def generate
-    raise CustomExceptions::PdfFaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
+    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
 
     generate_paginated_faqs
   end
