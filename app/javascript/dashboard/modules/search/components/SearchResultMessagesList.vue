@@ -2,7 +2,7 @@
 import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
-import SearchResultConversationItem from './SearchResultConversationItem.vue';
+import SearchResultMessageItem from './SearchResultMessageItem.vue';
 import SearchResultSection from './SearchResultSection.vue';
 import MessageContent from './MessageContent.vue';
 
@@ -43,21 +43,23 @@ const getName = message => {
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul v-if="messages.length" class="space-y-1.5 list-none">
+    <ul v-if="messages.length" class="space-y-3 list-none">
       <li v-for="message in messages" :key="message.id">
-        <SearchResultConversationItem
-          :id="message.conversation_id"
+        <SearchResultMessageItem
+          :id="message.conversationId"
           :account-id="accountId"
-          :inbox="message.inbox"
-          :created-at="message.created_at"
+          :inbox-id="message.inboxId"
+          :created-at="message.createdAt"
           :message-id="message.id"
+          :is-private="message.private"
+          :attachments="message.attachments"
         >
           <MessageContent
             :author="getName(message)"
             :message="message"
             :search-term="query"
           />
-        </SearchResultConversationItem>
+        </SearchResultMessageItem>
       </li>
     </ul>
   </SearchResultSection>
