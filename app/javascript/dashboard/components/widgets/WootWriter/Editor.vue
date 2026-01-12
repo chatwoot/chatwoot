@@ -57,6 +57,7 @@ import {
   getSelectionCoords,
   calculateMenuPosition,
   getEffectiveChannelType,
+  stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
