@@ -59,3 +59,9 @@ periodic_assignment_job:
   cron: '*/30 * * * *'
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
+
+# executed every 30 minutes to close stale activity logs
+close_stale_activity_logs:
+  cron: "*/30 * * * *" 
+  class: "CloseStaleActivityLogsJob"
+  queue: low

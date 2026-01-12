@@ -3,6 +3,7 @@
 # Table name: conversation_participants
 #
 #  id              :bigint           not null, primary key
+#  left_at         :datetime
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #  account_id      :bigint           not null
@@ -13,6 +14,7 @@
 #
 #  index_conversation_participants_on_account_id                   (account_id)
 #  index_conversation_participants_on_conversation_id              (conversation_id)
+#  index_conversation_participants_on_left_at                      (left_at)
 #  index_conversation_participants_on_user_id                      (user_id)
 #  index_conversation_participants_on_user_id_and_conversation_id  (user_id,conversation_id) UNIQUE
 #
