@@ -9,7 +9,6 @@ import CampaignLayout from 'dashboard/components-next/Campaigns/CampaignLayout.v
 import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignList.vue';
 import SMSCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/SMSCampaign/SMSCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
-import CampaignDetailsDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignDetailsDialog.vue';
 import SMSCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/SMSCampaignEmptyState.vue';
 
 const { t } = useI18n();
@@ -17,7 +16,6 @@ const getters = useStoreGetters();
 
 const selectedCampaign = ref(null);
 const [showSMSCampaignDialog, toggleSMSCampaignDialog] = useToggle();
-const [showDeliveryReportDialog, toggleDeliveryReportDialog] = useToggle();
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
@@ -33,16 +31,6 @@ const hasNoSMSCampaigns = computed(
 const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
-};
-
-const handleView = campaign => {
-  selectedCampaign.value = campaign;
-  toggleDeliveryReportDialog(true);
-};
-
-const handleCloseDetails = () => {
-  toggleDeliveryReportDialog(false);
-  selectedCampaign.value = null;
 };
 </script>
 
@@ -69,7 +57,6 @@ const handleCloseDetails = () => {
       v-else-if="!hasNoSMSCampaigns"
       :campaigns="SMSCampaigns"
       @delete="handleDelete"
-      @view="handleView"
     />
     <SMSCampaignEmptyState
       v-else
@@ -80,11 +67,6 @@ const handleCloseDetails = () => {
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"
       :selected-campaign="selectedCampaign"
-    />
-    <CampaignDetailsDialog
-      :is-open="showDeliveryReportDialog"
-      :campaign="selectedCampaign"
-      @close="handleCloseDetails"
     />
   </CampaignLayout>
 </template>
