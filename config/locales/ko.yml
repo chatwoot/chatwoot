@@ -69,7 +69,7 @@ ko:
       domain:
         invalid: must be a valid domain name
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: 매개변수 q를 사용하여 검색 문자열을 지정하세요
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
