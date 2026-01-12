@@ -378,7 +378,56 @@
       "INFO_SHORT": "Imposta automaticamente offline quando non stai usando l'app."
     },
     "DOCS": "Leggi i documenti",
-    "SECURITY": "Sicurezza"
+    "SECURITY": "Sicurezza",
+    "CAPTAIN_AI": "Captain"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Impostazioni Captain",
+    "DESCRIPTION": "Configura i tuoi modelli AI e le funzionalità di Captain. La fatturazione di Captain si basa sui crediti, che ti verranno scalati per ogni azione di Captain in base al modello selezionato.",
+    "LOADING": "Caricamento configurazione Captain...",
+    "LINK_TEXT": "Scopri di più sui Crediti Captain",
+    "NOT_ENABLED": "Captain non è abilitato per il tuo account. Aggiorna il tuo piano per accedere alle funzionalità Captain.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configurazione Modello",
+      "DESCRIPTION": "Seleziona modelli AI per le varie funzionalità.",
+      "SELECT_MODEL": "Seleziona modello",
+      "CREDITS_PER_MESSAGE": "{credits} crediti/messaggio",
+      "COMING_SOON": "In arrivo",
+      "EDITOR": {
+        "TITLE": "Editor Features",
+        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funzionalità",
+      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Audio Transcription",
+        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Help Center Search Indexing",
+        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Label Suggestion",
+        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
+        "MODEL_TITLE": "Label Suggestion Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+      }
+    },
+    "API": {
+      "SUCCESS": "Captain settings updated successfully.",
+      "ERROR": "Failed to update Captain settings. Please try again."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
