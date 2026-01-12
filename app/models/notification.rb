@@ -188,8 +188,7 @@ class Notification < ApplicationRecord
       notification_data: {
         id: id,
         user_id: user_id,
-        account_id: account_id,
-        user_pubsub_token: user&.pubsub_token
+        account_id: account_id
       }
     )
   end

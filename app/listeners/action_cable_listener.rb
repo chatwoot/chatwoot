@@ -15,14 +15,13 @@ class ActionCableListener < BaseListener
 
   def notification_deleted(event)
     notification_data = event.data[:notification_data]
-    return if notification_data[:user_pubsub_token].blank?
 
     user = User.find_by(id: notification_data[:user_id])
     account = Account.find_by(id: notification_data[:account_id])
     return if user.blank? || account.blank?
 
     notification_finder = NotificationFinder.new(user, account)
-    tokens = [notification_data[:user_pubsub_token]]
+    tokens = [user.pubsub_token]
     broadcast(account, tokens, NOTIFICATION_DELETED, {
                 notification: { id: notification_data[:id] },
                 unread_count: notification_finder.unread_count,
