@@ -142,8 +142,8 @@ class Captain::BaseTaskService
   end
 
   def extract_original_context(messages)
-    # Get the user's content from original messages
-    user_msg = messages.find { |m| m[:role] == 'user' }
+    # Get the most recent user message for follow-up context
+    user_msg = messages.reverse.find { |m| m[:role] == 'user' }
     user_msg ? user_msg[:content] : nil
   end
 end
