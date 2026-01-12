@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
+import { useKbd } from 'dashboard/composables/utils/useKbd';
 
 defineProps({
   isGeneratingContent: {
@@ -20,12 +21,10 @@ const handleCancel = () => {
   emit('cancel');
 };
 
-const acceptLabel = computed(() => {
-  const isMac =
-    navigator.platform.startsWith('Mac') || navigator.platform === 'iPhone';
-  const modKey = isMac ? '⌘' : 'Ctrl';
+const shortcutKey = useKbd(['$mod', '+', 'enter']);
 
-  return `${t('GENERAL.ACCEPT')}  (${modKey} + ↵)`;
+const acceptLabel = computed(() => {
+  return `${t('GENERAL.ACCEPT')}  (${shortcutKey.value})`;
 });
 
 const handleSubmit = () => {

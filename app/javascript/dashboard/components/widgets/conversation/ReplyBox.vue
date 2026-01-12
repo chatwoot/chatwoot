@@ -48,6 +48,7 @@ import {
   getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
+import { useKbd } from 'dashboard/composables/utils/useKbd';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -94,6 +95,7 @@ export default {
 
     const replyEditor = useTemplateRef('replyEditor');
     const copilot = useCopilotReply();
+    const shortcutKey = useKbd(['$mod', '+', 'enter']);
 
     return {
       uiSettings,
@@ -103,6 +105,7 @@ export default {
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
       copilot,
+      shortcutKey,
     };
   },
   data() {
@@ -272,12 +275,8 @@ export default {
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
-      const isMac =
-        navigator.platform.startsWith('Mac') || navigator.platform === 'iPhone';
-      const modKey = isMac ? '⌘' : 'Ctrl';
-
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
-        ? `(${modKey} + ↵)`
+        ? `(${this.shortcutKey})`
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
     },
