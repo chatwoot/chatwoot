@@ -408,11 +408,14 @@ class Message < ApplicationRecord
     # mark resolved bot conversation as pending to be reopened by bot processor service
     if conversation.inbox.active_bot?
       conversation.pending!
+    elsif conversation.inbox.active_aloo_assistant?
+      # Reset AI state and set to pending so AI handles the reopened conversation
+      reset_for_aloo_ai_handling
+      conversation.pending!
     elsif conversation.inbox.api?
       Current.executed_by = sender if reopened_by_contact?
       conversation.open!
     else
-      reset_for_aloo_ai_handling if conversation.inbox.aloo_assistant&.active?
       conversation.open!
     end
   end
