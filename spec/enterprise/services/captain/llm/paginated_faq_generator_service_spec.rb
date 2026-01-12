@@ -23,7 +23,7 @@ RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
       end
 
       it 'raises an error' do
-        expect { service.generate }.to raise_error(CustomExceptions::PdfFaqGenerationError)
+        expect { service.generate }.to raise_error(CustomExceptions::Pdf::FaqGenerationError)
       end
     end
 

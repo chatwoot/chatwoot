@@ -52,7 +52,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
       it 'raises error when upload fails' do
         allow(mock_client.files).to receive(:upload).and_return({ 'id' => nil })
 
-        expect { service.process }.to raise_error(CustomExceptions::PdfUploadError)
+        expect { service.process }.to raise_error(CustomExceptions::Pdf::UploadError)
       end
     end
   end
