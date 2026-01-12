@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module Llm::Models
   CONFIG = YAML.load_file(Rails.root.join('config/llm.yml')).freeze
 
