@@ -76,3 +76,8 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+# executed every 30 minutes to close stale activity logs
+close_stale_activity_logs:
+  cron: "*/30 * * * *" 
+  class: "CloseStaleActivityLogsJob"
+  queue: low

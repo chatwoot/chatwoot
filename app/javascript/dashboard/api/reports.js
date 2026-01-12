@@ -97,6 +97,51 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getAgentActivityCSV({
+    since: since,
+    until: until,
+    teamIds = [],
+    userIds = [],
+    inboxIds = [],
+    hideInactive = false,
+    timezoneOffset = getTimeOffset(),
+  } = {}) {
+    return axios.get(`${this.url}/agent_activity`, {
+      params: {
+        since,
+        until,
+        team_ids: teamIds,
+        user_ids: userIds,
+        inbox_ids: inboxIds,
+        hide_inactive: hideInactive,
+        timezone_offset: timezoneOffset,
+      },
+      responseType: 'blob',
+    });
+  }
+
+  getAgentActivity({
+    since,
+    until,
+    teamIds = [],
+    userIds = [],
+    inboxIds = [],
+    hideInactive = false,
+    timezoneOffset = getTimeOffset(),
+  } = {}) {
+    return axios.get(`${this.url}/agent_activity`, {
+      params: {
+        since,
+        until,
+        team_ids: teamIds,
+        user_ids: userIds,
+        inbox_ids: inboxIds,
+        hide_inactive: hideInactive,
+        timezone_offset: timezoneOffset,
+      },
+    });
+  }
+
   getBotSummary({ from, to, groupBy, businessHours } = {}) {
     return axios.get(`${this.url}/bot_summary`, {
       params: {
