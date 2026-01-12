@@ -29,5 +29,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner }}/chatwoot-whitelabel:latest
-            ghcr.io/${{ github.repository_owner }}/chatwoot-whitelabel:${{ github.sha }}
+            ghcr.io/matheusvaghetti/chatwoot-whitelabel:latest
+            ghcr.io/matheusvaghetti/chatwoot-whitelabel:${{ github.sha }}
