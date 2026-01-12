@@ -10,6 +10,7 @@
 #   - Start Date (YYYY-MM-DD)
 #   - End Date (YYYY-MM-DD)
 #   - Timezone Offset (e.g., 0, 5.5, -5)
+#   - Business Hours (y/n) - whether to use business hours for time metrics
 #
 # Output: <account_id>_<type>_<start_date>_<end_date>.csv
 
@@ -37,6 +38,9 @@ module DownloadReportTasks
     timezone_offset = prompt('Enter Timezone Offset (e.g., 0, 5.5, -5)')
     timezone_offset = timezone_offset.blank? ? 0 : timezone_offset.to_f
 
+    business_hours = prompt('Use Business Hours? (y/n)')
+    business_hours = business_hours.downcase == 'y'
+
     begin
       tz = ActiveSupport::TimeZone[timezone_offset]
       abort "Error: Invalid timezone offset '#{timezone_offset}'" unless tz
@@ -49,7 +53,7 @@ module DownloadReportTasks
 
     {
       account: account,
-      params: { since: since, until: until_date, timezone_offset: timezone_offset },
+      params: { since: since, until: until_date, timezone_offset: timezone_offset, business_hours: business_hours },
       start_date: start_date,
       end_date: end_date
     }
