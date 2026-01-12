@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'custom_exceptions/pdf_processing_error'
 
 RSpec.describe Captain::Llm::PdfProcessingService do
   let(:document) { create(:captain_document) }
