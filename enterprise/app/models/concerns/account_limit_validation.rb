@@ -1,4 +1,4 @@
-module Enterprise::Account::LimitValidation
+module Concerns::AccountLimitValidation
   extend ActiveSupport::Concern
 
   LIMIT_SCHEMA = {

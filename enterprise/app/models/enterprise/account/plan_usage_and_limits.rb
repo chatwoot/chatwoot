@@ -1,5 +1,5 @@
 module Enterprise::Account::PlanUsageAndLimits
-  include Enterprise::Account::LimitValidation
+  include Concerns::AccountLimitValidation
 
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
