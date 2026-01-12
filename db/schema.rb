@@ -1327,7 +1327,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "webhook_type", default: 0
@@ -1355,10 +1355,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_03_20_074636) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "conversation_queues", "accounts"
-  add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "agent_activity_logs", "accounts"
   add_foreign_key "agent_activity_logs", "users"
+  add_foreign_key "conversation_queues", "accounts"
+  add_foreign_key "conversation_queues", "conversations"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "inboxes", "priority_groups"
   add_foreign_key "priority_groups", "accounts"
