@@ -281,11 +281,11 @@ export const createGreetingInputBox = (config = {}) => {
   footerText.innerHTML = `
     <p class="woot-greeting-footer-text">
       Chats may be monitored, stored, and/or shared as described in our 
-      <a href="https://getcruisecontrol.com/privacy-policy/" class="woot-greeting-footer-link">Privacy Policy</a>.
+      <a href="https://getcruisecontrol.com/privacy-policy/" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Privacy Policy</a>.
     </p>
     <p class="woot-greeting-footer-text">
-      Powered by <a href="https://getcruisecontrol.com" class="woot-greeting-footer-link">Cruise Control</a>. 
-      Use is subject to <a href="https://staging.getcruisecontrol.com/terms-and-conditions" class="woot-greeting-footer-link">Terms</a>.
+      Powered by <a href="https://getcruisecontrol.com" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Cruise Control</a>. 
+      Use is subject to <a href="https://staging.getcruisecontrol.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Terms</a>.
     </p>
   `;
 
@@ -380,8 +380,6 @@ export const createGreetingInputBox = (config = {}) => {
     const sendSmsFormMessage = () => {
       if (window.$chatwoot && window.$chatwoot.hasLoaded) {
         IFrameHelper.sendMessage('show-sms-form', {});
-        // Clear the flag after sending
-        window.$chatwoot.openingForSms = false;
       } else {
         // If widget not loaded yet, wait a bit and try again
         setTimeout(sendSmsFormMessage, 50);
