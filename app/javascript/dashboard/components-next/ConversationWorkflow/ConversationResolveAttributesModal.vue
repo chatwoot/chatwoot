@@ -8,6 +8,7 @@ import TextArea from 'next/textarea/TextArea.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import ChoiceToggle from 'dashboard/components-next/input/ChoiceToggle.vue';
+import { ATTRIBUTE_TYPES } from './constants';
 
 const emit = defineEmits(['submit']);
 
@@ -33,9 +34,9 @@ const getPlaceholder = type => placeholders.value[type] || '';
 const validationRules = computed(() => {
   const rules = {};
   visibleAttributes.value.forEach(attribute => {
-    if (attribute.type === 'link') {
+    if (attribute.type === ATTRIBUTE_TYPES.LINK) {
       rules[attribute.value] = { required, url };
-    } else if (attribute.type === 'checkbox') {
+    } else if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
       // Checkbox doesn't need validation - any selection is valid
       rules[attribute.value] = {};
     } else {
@@ -70,7 +71,7 @@ const isFormComplete = computed(() =>
     const value = formValues[attribute.value];
 
     // For checkbox attributes, only check if the key exists (matches composable logic)
-    if (attribute.type === 'checkbox') {
+    if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
       return attribute.value in formValues;
     }
 
@@ -82,7 +83,7 @@ const isFormComplete = computed(() =>
 const comboBoxOptions = computed(() => {
   const options = {};
   visibleAttributes.value.forEach(attribute => {
-    if (attribute.type === 'list') {
+    if (attribute.type === ATTRIBUTE_TYPES.LIST) {
       options[attribute.value] = (attribute.attributeValues || []).map(
         option => ({
           value: option,
@@ -117,7 +118,8 @@ const open = (attributes = [], initialValues = {}, context = null) => {
     } else {
       // For checkbox attributes, initialize to null to avoid pre-selection
       // For other attributes, initialize to empty string
-      formValues[attribute.value] = attribute.type === 'checkbox' ? null : '';
+      formValues[attribute.value] =
+        attribute.type === ATTRIBUTE_TYPES.CHECKBOX ? null : '';
     }
   });
 
@@ -175,12 +177,12 @@ defineExpose({ open, close });
           </label>
         </div>
 
-        <template v-if="attribute.type === 'text'">
+        <template v-if="attribute.type === ATTRIBUTE_TYPES.TEXT">
           <div>
             <TextArea
               v-model="formValues[attribute.value]"
               class="w-full"
-              :placeholder="getPlaceholder('text')"
+              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
               @blur="v$[attribute.value].$touch"
             />
             <span
@@ -192,13 +194,13 @@ defineExpose({ open, close });
           </div>
         </template>
 
-        <template v-else-if="attribute.type === 'number'">
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.NUMBER">
           <div>
             <Input
               v-model="formValues[attribute.value]"
               type="number"
               size="md"
-              :placeholder="getPlaceholder('number')"
+              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.NUMBER)"
               @blur="v$[attribute.value].$touch"
             />
             <span
@@ -210,13 +212,13 @@ defineExpose({ open, close });
           </div>
         </template>
 
-        <template v-else-if="attribute.type === 'link'">
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LINK">
           <div>
             <Input
               v-model="formValues[attribute.value]"
               type="url"
               size="md"
-              :placeholder="getPlaceholder('link')"
+              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
               @blur="v$[attribute.value].$touch"
             />
             <span
@@ -228,13 +230,13 @@ defineExpose({ open, close });
           </div>
         </template>
 
-        <template v-else-if="attribute.type === 'date'">
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATE">
           <div>
             <Input
               v-model="formValues[attribute.value]"
               type="date"
               size="md"
-              :placeholder="getPlaceholder('date')"
+              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
               @blur="v$[attribute.value].$touch"
             />
             <span
@@ -246,12 +248,12 @@ defineExpose({ open, close });
           </div>
         </template>
 
-        <template v-else-if="attribute.type === 'list'">
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LIST">
           <div>
             <ComboBox
               v-model="formValues[attribute.value]"
               :options="comboBoxOptions[attribute.value]"
-              :placeholder="getPlaceholder('list')"
+              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
               class="w-full"
             />
             <span
@@ -263,7 +265,7 @@ defineExpose({ open, close });
           </div>
         </template>
 
-        <template v-else-if="attribute.type === 'checkbox'">
+        <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">
           <ChoiceToggle v-model="formValues[attribute.value]" />
         </template>
       </div>

@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/constants';
 
 /**
  * Composable for managing conversation required attributes workflow
@@ -58,7 +59,7 @@ export function useConversationRequiredAttributes() {
       const value = conversationCustomAttributes[attribute.value];
 
       // For checkbox/boolean attributes, only check if the key exists
-      if (attribute.type === 'checkbox') {
+      if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
         return !(attribute.value in conversationCustomAttributes);
       }
 

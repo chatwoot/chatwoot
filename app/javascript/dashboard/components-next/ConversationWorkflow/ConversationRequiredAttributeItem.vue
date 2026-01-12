@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { ATTRIBUTE_TYPES } from './constants';
 
 const props = defineProps({
   attribute: {
@@ -13,12 +14,12 @@ const props = defineProps({
 const emit = defineEmits(['delete']);
 
 const iconByType = {
-  text: 'i-lucide-align-justify',
-  checkbox: 'i-lucide-circle-check-big',
-  list: 'i-lucide-list',
-  date: 'i-lucide-calendar',
-  link: 'i-lucide-link',
-  number: 'i-lucide-hash',
+  [ATTRIBUTE_TYPES.TEXT]: 'i-lucide-align-justify',
+  [ATTRIBUTE_TYPES.CHECKBOX]: 'i-lucide-circle-check-big',
+  [ATTRIBUTE_TYPES.LIST]: 'i-lucide-list',
+  [ATTRIBUTE_TYPES.DATE]: 'i-lucide-calendar',
+  [ATTRIBUTE_TYPES.LINK]: 'i-lucide-link',
+  [ATTRIBUTE_TYPES.NUMBER]: 'i-lucide-hash',
 };
 
 const attributeIcon = computed(() => {
