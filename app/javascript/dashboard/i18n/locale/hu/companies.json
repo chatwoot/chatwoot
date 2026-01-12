@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Név",
         "DOMAIN": "Domain",
-        "CREATED_AT": "Létrehozva"
+        "CREATED_AT": "Létrehozva",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {
