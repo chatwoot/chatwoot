@@ -5,9 +5,9 @@ RSpec.describe Notification::TrimUserNotificationsJob do
   let(:user) { create(:user, account: account) }
   let(:conversation) { create(:conversation, account: account) }
 
-  it 'enqueues the job on low queue' do
+  it 'enqueues the job on purgable queue' do
     expect { described_class.perform_later(user.id) }
-      .to have_enqueued_job(described_class).with(user.id).on_queue('low')
+      .to have_enqueued_job(described_class).with(user.id).on_queue('purgable')
   end
 
   it 'does not delete notifications when under limit' do
