@@ -1,5 +1,7 @@
 <script setup>
+import { computed } from 'vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useI18n } from 'vue-i18n';
 
 defineProps({
   isGeneratingContent: {
@@ -13,10 +15,18 @@ defineProps({
 });
 
 const emit = defineEmits(['submit', 'cancel']);
-
+const { t } = useI18n();
 const handleCancel = () => {
   emit('cancel');
 };
+
+const acceptLabel = computed(() => {
+  const isMac =
+    navigator.platform.startsWith('Mac') || navigator.platform === 'iPhone';
+  const modKey = isMac ? '⌘' : 'Ctrl';
+
+  return `${t('GENERAL.ACCEPT')}  (${modKey} + ↵)`;
+});
 
 const handleSubmit = () => {
   emit('submit');
@@ -29,7 +39,7 @@ const handleSubmit = () => {
     :class="{ 'border-n-weak': !isPrivate, 'border-n-amber-12/5': isPrivate }"
   >
     <NextButton
-      label="Discard"
+      :label="t('GENERAL.DISCARD')"
       slate
       link
       class="!px-1 hover:!no-underline"
@@ -38,7 +48,7 @@ const handleSubmit = () => {
       @click="handleCancel"
     />
     <NextButton
-      label="Accept"
+      :label="acceptLabel"
       class="bg-n-iris-9 text-white"
       solid
       sm

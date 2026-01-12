@@ -272,8 +272,12 @@ export default {
       if (this.isPrivate) {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
+      const isMac =
+        navigator.platform.startsWith('Mac') || navigator.platform === 'iPhone';
+      const modKey = isMac ? '⌘' : 'Ctrl';
+
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
-        ? '(⌘ + ↵)'
+        ? `(${modKey} + ↵)`
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
     },
