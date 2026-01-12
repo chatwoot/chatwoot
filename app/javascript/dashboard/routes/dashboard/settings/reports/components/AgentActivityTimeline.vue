@@ -83,7 +83,7 @@ const zoomTimeline = event => {
 };
 
 const formatDate = ts =>
-  new Date(ts).toLocaleDateString('ru', {
+  new Date(ts).toLocaleDateString(undefined, {
     day: '2-digit',
     month: 'short',
     year: 'numeric',
