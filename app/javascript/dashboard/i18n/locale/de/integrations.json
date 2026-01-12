@@ -406,6 +406,7 @@
       "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
     },
