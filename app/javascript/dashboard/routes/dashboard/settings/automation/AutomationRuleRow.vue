@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { messageStamp } from 'shared/helpers/timeHelper';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
+import { BaseTableRow, BaseTableCell } from 'dashboard/components-next/table';
 
 const props = defineProps({
   automation: {
@@ -35,56 +36,62 @@ const automationActive = computed({
 </script>
 
 <template>
-  <tr>
-    <td class="py-4 ltr:pr-4 rtl:pl-4 w-full max-w-0">
-      <div class="flex items-center gap-2 min-w-0">
-        <span class="text-body-main text-n-slate-12 truncate">
-          {{ automation.name }}
+  <BaseTableRow :item="automation">
+    <template #default>
+      <BaseTableCell width="w-full" truncate>
+        <div class="flex items-center gap-2 min-w-0">
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ automation.name }}
+          </span>
+          <div class="w-px h-3 rounded-lg bg-n-weak flex-shrink-0" />
+          <span class="text-body-main text-n-slate-11 truncate">
+            {{ automation.description }}
+          </span>
+        </div>
+      </BaseTableCell>
+
+      <BaseTableCell width="w-16">
+        <ToggleSwitch v-model="automationActive" />
+      </BaseTableCell>
+
+      <BaseTableCell
+        width="w-32"
+        whitespace="nowrap"
+        :title="readableDateWithTime(automation.created_on)"
+      >
+        <span class="text-body-main text-n-slate-12">
+          {{ readableDate(automation.created_on) }}
         </span>
-        <div class="w-px h-3 rounded-lg bg-n-weak flex-shrink-0" />
-        <span class="text-body-main text-n-slate-11 truncate">
-          {{ automation.description }}
-        </span>
-      </div>
-    </td>
-    <td class="py-4 ltr:pr-4 rtl:pl-4 w-16">
-      <ToggleSwitch v-model="automationActive" />
-    </td>
-    <td
-      class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap w-32"
-      :title="readableDateWithTime(automation.created_on)"
-    >
-      <span class="text-body-main text-n-slate-12">
-        {{ readableDate(automation.created_on) }}
-      </span>
-    </td>
-    <td class="py-4 w-36">
-      <div class="flex gap-3 justify-end flex-shrink-0">
-        <Button
-          v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-          icon="i-woot-edit-pen"
-          slate
-          sm
-          :is-loading="loading"
-          @click="$emit('edit', automation)"
-        />
-        <Button
-          v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-          :is-loading="loading"
-          icon="i-woot-bin"
-          slate
-          sm
-          @click="$emit('delete', automation)"
-        />
-        <Button
-          v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
-          icon="i-woot-clone"
-          sm
-          slate
-          :is-loading="loading"
-          @click="$emit('clone', automation)"
-        />
-      </div>
-    </td>
-  </tr>
+      </BaseTableCell>
+
+      <BaseTableCell width="w-36" align="end">
+        <div class="flex gap-3 justify-end flex-shrink-0">
+          <Button
+            v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
+            icon="i-woot-edit-pen"
+            slate
+            sm
+            :is-loading="loading"
+            @click="$emit('edit', automation)"
+          />
+          <Button
+            v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
+            :is-loading="loading"
+            icon="i-woot-bin"
+            slate
+            sm
+            @click="$emit('delete', automation)"
+          />
+          <Button
+            v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
+            icon="i-woot-clone"
+            sm
+            slate
+            :is-loading="loading"
+            @click="$emit('clone', automation)"
+          />
+        </div>
+      </BaseTableCell>
+    </template>
+  </BaseTableRow>
 </template>

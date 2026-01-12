@@ -10,6 +10,7 @@ import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';
 import AutomationRuleRow from './AutomationRuleRow.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -205,25 +206,16 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <span
-        v-if="!filteredRecords.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('AUTOMATION.NO_RESULTS') : $t('AUTOMATION.LIST.404')
+        "
       >
-        {{ $t('AUTOMATION.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
+        <template #row="{ items }">
           <AutomationRuleRow
-            v-for="automation in filteredRecords"
+            v-for="automation in items"
             :key="automation.id"
             :automation="automation"
             :loading="loading[automation.id]"
@@ -232,8 +224,8 @@ const tableHeaders = computed(() => {
             @edit="openEditPopup"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </template>
 
     <woot-modal
