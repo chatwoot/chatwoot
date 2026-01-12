@@ -29,7 +29,7 @@ export const getHeadingsfromTheArticle = () => {
 
     rows.push({
       slug,
-      title: element.innerText,
+      title: headingText,
       tag: element.tagName.toLowerCase(),
     });
   });
