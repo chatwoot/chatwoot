@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Načítání konverzací",
     "CANNOT_REPLY": "Nemůžete odpovědět z důvodu",
     "24_HOURS_WINDOW": "24 hodinové omezení okna",
+    "48_HOURS_WINDOW": "48 hodinové omezení okna",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Tato konverzace vám není přiřazena. Chcete si přiřadit tuto konverzaci?",
     "ASSIGN_TO_ME": "Přiřadit mi",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Zobrazit formátovaný textový editor",
       "TIP_EMOJI_ICON": "Zobrazit výběr emoji",
       "TIP_ATTACH_ICON": "Přiložit soubory",
       "TIP_AUDIORECORDER_ICON": "Nahrát zvuk",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

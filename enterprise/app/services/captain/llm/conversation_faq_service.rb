@@ -100,7 +100,7 @@ class Captain::Llm::ConversationFaqService < Llm::BaseAiService
       model: @model,
       temperature: @temperature,
       account_id: @conversation.account_id,
-      conversation_id: @conversation.id,
+      conversation_id: @conversation.display_id,
       feature_name: 'conversation_faq',
       messages: [
         { role: 'system', content: system_prompt },

@@ -1,0 +1,33 @@
+{
+  "COMPANIES": {
+    "HEADER": "Companies",
+    "SORT_BY": {
+      "LABEL": "Ordenar por",
+      "OPTIONS": {
+        "NAME": "Nome:",
+        "DOMAIN": "Domínio",
+        "CREATED_AT": "Criada em",
+        "CONTACTS_COUNT": "Contacts count"
+      }
+    },
+    "ORDER": {
+      "LABEL": "Order",
+      "OPTIONS": {
+        "ASCENDING": "Ascending",
+        "DESCENDING": "Descending"
+      }
+    },
+    "SEARCH_PLACEHOLDER": "Search companies...",
+    "LOADING": "Loading companies...",
+    "UNNAMED": "Unnamed Company",
+    "CONTACTS_COUNT": "{n} contact | {n} contacts",
+    "EMPTY_STATE": {
+      "TITLE": "No companies found"
+    }
+  },
+  "COMPANIES_LAYOUT": {
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {startItem} – {endItem} of {totalItems} company | Showing {startItem} – {endItem} of {totalItems} companies"
+    }
+  }
+}

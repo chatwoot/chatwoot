@@ -42,7 +42,10 @@ const props = defineProps({
 const emit = defineEmits(['retry']);
 
 const allMessages = computed(() => {
-  return useCamelCase(props.messages, { deep: true });
+  return useCamelCase(props.messages, {
+    deep: true,
+    stopPaths: ['content_attributes.translations'],
+  });
 });
 
 const currentChat = useMapGetter('getSelectedChat');

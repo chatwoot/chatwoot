@@ -114,6 +114,11 @@ export const FORMATTING = {
     nodes: [],
     menu: [],
   },
+  'Channel::Tiktok': {
+    marks: [],
+    nodes: [],
+    menu: [],
+  },
   // Special contexts (not actual channels)
   'Context::PrivateNote': {
     marks: ['strong', 'em', 'code', 'link', 'strike'],
@@ -155,6 +160,11 @@ export const FORMATTING = {
     marks: ['strong', 'em', 'link'],
     nodes: [],
     menu: ['strong', 'em', 'link', 'undo', 'redo'],
+  },
+  'Context::Plain': {
+    marks: [],
+    nodes: [],
+    menu: [],
   },
 };
 
@@ -248,8 +258,12 @@ export const MARKDOWN_PATTERNS = [
     patterns: [{ pattern: /`([^`]+)`/g, replacement: '$1' }],
   },
   {
-    type: 'link', // PM: link, eg: [text](url)
-    patterns: [{ pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }],
+    type: 'link', // PM: link
+    patterns: [
+      { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
+      { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
+      { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
+    ],
   },
 ];
 
