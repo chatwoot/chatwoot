@@ -666,6 +666,6 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Routes for testing
-  resources :widget_tests, only: [:index] unless Rails.env.production?
-  get 'widget_test', to: 'widget_test#index' unless Rails.env.production?
+  resources :widget_tests, only: [:index]
+  get 'widget_test', to: 'widget_test#index'
 end
