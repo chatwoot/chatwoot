@@ -132,6 +132,7 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
+const getConversationById = useMapGetter('getConversationById');
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -762,7 +763,7 @@ function handleResolveConversation(conversationId, status, snoozedUntil) {
   }
 
   // Check for required attributes before resolving
-  const conversation = store.getters.getConversationById(conversationId);
+  const conversation = getConversationById.value(conversationId);
   const currentCustomAttributes = conversation?.custom_attributes || {};
   const { hasMissing, missing } = checkMissingAttributes(
     currentCustomAttributes
@@ -786,7 +787,7 @@ function handleResolveConversation(conversationId, status, snoozedUntil) {
 
 function handleResolveWithAttributes({ attributes, context }) {
   if (context) {
-    const existingConversation = store.getters.getConversationById(context.id);
+    const existingConversation = getConversationById.value(context.id);
     const currentCustomAttributes =
       existingConversation?.custom_attributes || {};
     const mergedAttributes = { ...currentCustomAttributes, ...attributes };
@@ -803,7 +804,7 @@ function handleResolveWithAttributes({ attributes, context }) {
 function allSelectedConversationsStatus(status) {
   if (!selectedConversations.value.length) return false;
   return selectedConversations.value.every(item => {
-    return store.getters.getConversationById(item)?.status === status;
+    return getConversationById.value(item)?.status === status;
   });
 }
 

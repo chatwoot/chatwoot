@@ -170,10 +170,7 @@ export function useBulkActions() {
       store.dispatch('bulkActions/clearSelectedConversationIds');
 
       if (skippedCount > 0) {
-        useAlert(
-          t('BULK_ACTION.RESOLVE.PARTIAL_SUCCESS') ||
-            'Some conversations need required attributes before resolving and were skipped'
-        );
+        useAlert(t('BULK_ACTION.RESOLVE.PARTIAL_SUCCESS'));
       } else {
         useAlert(t('BULK_ACTION.UPDATE.UPDATE_SUCCESFUL'));
       }
