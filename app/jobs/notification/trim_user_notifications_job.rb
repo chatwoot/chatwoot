@@ -4,13 +4,17 @@ class Notification::TrimUserNotificationsJob < ApplicationJob
   NOTIFICATION_LIMIT = 300
 
   def perform(user_id)
-    excess_count = Notification.where(user_id: user_id).count - NOTIFICATION_LIMIT
-    return if excess_count <= 0
+    keep_ids = Notification.where(user_id: user_id)
+                           .order(created_at: :desc)
+                           .limit(NOTIFICATION_LIMIT)
+                           .pluck(:id)
 
-    # Delete oldest notifications beyond the limit using efficient bulk delete
+    return if keep_ids.size < NOTIFICATION_LIMIT
+
+    # Delete all notifications NOT in the keep set
+    # Safe for concurrent execution
     Notification.where(user_id: user_id)
-                .order(created_at: :asc)
-                .limit(excess_count)
+                .where.not(id: keep_ids)
                 .delete_all
   end
 end
