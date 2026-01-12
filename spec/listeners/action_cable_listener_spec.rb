@@ -136,8 +136,7 @@ describe ActionCableListener do
       {
         id: notification.id,
         user_id: agent.id,
-        account_id: account.id,
-        user_pubsub_token: agent.pubsub_token
+        account_id: account.id
       }
     end
     let!(:event) { Events::Base.new(event_name, Time.zone.now, notification_data: notification_data) }
