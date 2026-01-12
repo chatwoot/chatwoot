@@ -44,12 +44,14 @@ const updateAuthCookie = (cookieContent, baseDomain = '') =>
 
 const getTargetOrigin = () => {
   const { baseUrl } = window.$chatwoot || {};
-  if (!baseUrl) return null;
+  if (!baseUrl) {
+    return window.location.origin;
+  }
   try {
     const url = new URL(baseUrl);
     return url.origin;
   } catch {
-    return null;
+    return window.location.origin;
   }
 };
 
