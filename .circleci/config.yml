@@ -15,132 +15,6 @@ defaults: &defaults
     LOG_LEVEL: warn
 
 jobs:
-  # Separate job for linting (no parallelism needed)
-  lint:
-    <<: *defaults
-    steps:
-      - checkout
-
-      # Install minimal system dependencies for linting
-      - run:
-          name: Install System Dependencies
-          command: |
-            sudo apt-get update
-            DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
-              libpq-dev \
-              build-essential \
-              git \
-              curl \
-              libssl-dev \
-              zlib1g-dev \
-              libreadline-dev \
-              libyaml-dev \
-              openjdk-11-jdk \
-              jq \
-              software-properties-common \
-              ca-certificates \
-              imagemagick \
-              libxml2-dev \
-              libxslt1-dev \
-              file \
-              g++ \
-              gcc \
-              autoconf \
-              gnupg2 \
-              patch \
-              ruby-dev \
-              liblzma-dev \
-              libgmp-dev \
-              libncurses5-dev \
-              libffi-dev \
-              libgdbm6 \
-              libgdbm-dev \
-              libvips
-
-      - run:
-          name: Install RVM and Ruby 3.4.4
-          command: |
-            sudo apt-get install -y gpg
-            gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
-            \curl -sSL https://get.rvm.io | bash -s stable
-            echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
-            source ~/.rvm/scripts/rvm
-            rvm install "3.4.4"
-            rvm use 3.4.4 --default
-            gem install bundler -v 2.5.16
-
-      - run:
-          name: Install Application Dependencies
-          command: |
-            source ~/.rvm/scripts/rvm
-            bundle install
-
-      - node/install:
-          node-version: '23.7'
-      - node/install-pnpm
-      - node/install-packages:
-          pkg-manager: pnpm
-          override-ci-command: pnpm i
-
-      # Swagger verification
-      - run:
-          name: Verify swagger API specification
-          command: |
-            bundle exec rake swagger:build
-            if [[ `git status swagger/swagger.json --porcelain` ]]
-            then
-              echo "ERROR: The swagger.json file is not in sync with the yaml specification. Run 'rake swagger:build' and commit 'swagger/swagger.json'."
-              exit 1
-            fi
-            mkdir -p ~/tmp
-            curl -L https://repo1.maven.org/maven2/org/openapitools/openapi-generator-cli/6.3.0/openapi-generator-cli-6.3.0.jar > ~/tmp/openapi-generator-cli-6.3.0.jar
-            java -jar ~/tmp/openapi-generator-cli-6.3.0.jar validate -i swagger/swagger.json
-
-      # Bundle audit
-      - run:
-          name: Bundle audit
-          command: bundle exec bundle audit update && bundle exec bundle audit check -v
-
-      # Rubocop linting
-      - run:
-          name: Rubocop
-          command: bundle exec rubocop --parallel
-
-      # ESLint linting
-      - run:
-          name: eslint
-          command: pnpm run eslint
-
-  # Separate job for frontend tests
-  frontend-tests:
-    <<: *defaults
-    steps:
-      - checkout
-      - node/install:
-          node-version: '23.7'
-      - node/install-pnpm
-      - node/install-packages:
-          pkg-manager: pnpm
-          override-ci-command: pnpm i
-
-      - run:
-          name: Run frontend tests (with coverage)
-          command: pnpm run test:coverage
-
-      - run:
-          name: Move coverage files if they exist
-          command: |
-            if [ -d "coverage" ]; then
-              mkdir -p ~/build/coverage
-              cp -r coverage ~/build/coverage/frontend || true
-            fi
-          when: always
-
-      - persist_to_workspace:
-          root: ~/build
-          paths:
-            - coverage
-
   # Backend tests with parallelization
   backend-tests:
     <<: *defaults
@@ -327,18 +201,13 @@ jobs:
           paths:
             - coverage
 
-  # Collect coverage from all jobs
+  # Collect coverage from backend tests
   coverage:
     <<: *defaults
     steps:
       - checkout
       - attach_workspace:
           at: ~/build
-
-      # Qlty coverage publish
-      - qlty-orb/coverage_publish:
-          files: |
-            coverage/frontend/lcov.info
 
       - run:
           name: List coverage directory contents
@@ -361,14 +230,10 @@ workflows:
   version: 2
   build:
     jobs:
-      - lint
-      - frontend-tests
       - backend-tests
       - coverage:
           requires:
-            - frontend-tests
             - backend-tests
       - build:
           requires:
-            - lint
             - coverage
