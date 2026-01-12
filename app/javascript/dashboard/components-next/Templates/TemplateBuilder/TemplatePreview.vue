@@ -1,35 +1,27 @@
-<script setup lang="ts">
+<script setup>
 import { computed, ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { renderWithExamples } from './utils/placeholders';
-import type { HeaderFormat, ButtonType } from './validators/metaTemplateRules';
 
 const { t } = useI18n();
 
-interface Props {
-  headerFormat: HeaderFormat | null;
-  headerText: string;
-  headerTextExample: string;
-  headerMediaUrl: string;
-  bodyText: string;
-  bodyExamples: string[];
-  footerText: string;
-  buttons: Array<{
-    type: ButtonType;
-    text?: string;
-    url?: string;
-    urlExample?: string;
-    phoneNumber?: string;
-  }>;
-}
-
-const props = defineProps<Props>();
+const props = defineProps({
+  headerFormat: { type: String, default: null },
+  headerText: { type: String, default: '' },
+  headerTextExample: { type: String, default: '' },
+  headerMediaUrl: { type: String, default: '' },
+  headerMediaName: { type: String, default: '' },
+  bodyText: { type: String, default: '' },
+  bodyExamples: { type: Array, default: () => [] },
+  footerText: { type: String, default: '' },
+  buttons: { type: Array, default: () => [] },
+});
 
 // Dark mode detection
 const isDarkMode = ref(document.body.classList.contains('dark'));
 
 // Watch for dark mode changes via MutationObserver
-let observer: MutationObserver | null = null;
+let observer = null;
 
 onMounted(() => {
   observer = new MutationObserver(() => {
@@ -119,7 +111,7 @@ const hasContent = computed(() => {
   return props.headerFormat || props.bodyText || props.footerText || validButtons.value.length > 0;
 });
 
-const getButtonIcon = (type: ButtonType) => {
+const getButtonIcon = type => {
   switch (type) {
     case 'URL':
       return 'i-lucide-external-link';
@@ -145,8 +137,8 @@ const getButtonIcon = (type: ButtonType) => {
           <i class="i-lucide-building-2 text-white text-sm" />
         </div>
         <div class="flex-1">
-          <p class="text-white text-sm font-medium">Business</p>
-          <p class="text-xs" :style="{ color: isDarkMode ? '#8696a0' : '#ffffff99' }">WhatsApp Business</p>
+          <p class="text-white text-sm font-medium">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.BUSINESS_NAME') }}</p>
+          <p class="text-xs" :style="{ color: isDarkMode ? '#8696a0' : '#ffffff99' }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.BUSINESS_SUBTITLE') }}</p>
         </div>
       </div>
 
@@ -189,7 +181,7 @@ const getButtonIcon = (type: ButtonType) => {
                 <div v-else class="aspect-video flex items-center justify-center">
                   <div class="text-center">
                     <i class="i-lucide-image-off text-3xl" :style="{ color: colors.textMuted }" />
-                    <p class="text-xs mt-1" :style="{ color: colors.textMuted }">No image</p>
+                    <p class="text-xs mt-1" :style="{ color: colors.textMuted }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.NO_IMAGE') }}</p>
                   </div>
                 </div>
               </div>
@@ -204,7 +196,7 @@ const getButtonIcon = (type: ButtonType) => {
                   </div>
                   <div v-else class="text-center">
                     <i class="i-lucide-video-off text-3xl" :style="{ color: colors.textMuted }" />
-                    <p class="text-xs mt-1" :style="{ color: colors.textMuted }">No video</p>
+                    <p class="text-xs mt-1" :style="{ color: colors.textMuted }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.NO_VIDEO') }}</p>
                   </div>
                 </div>
               </div>
@@ -216,8 +208,8 @@ const getButtonIcon = (type: ButtonType) => {
                     <i class="i-lucide-file-text text-xl" :style="{ color: colors.accentColor }" />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="text-sm font-medium truncate" :style="{ color: colors.textPrimary }">Document.pdf</p>
-                    <p class="text-xs" :style="{ color: colors.textSecondary }">PDF • 1 page</p>
+                    <p class="text-sm font-medium truncate" :style="{ color: colors.textPrimary }">{{ headerMediaName || t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.HEADER.DOCUMENT') + '.pdf' }}</p>
+                    <p class="text-xs" :style="{ color: colors.textSecondary }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.DOCUMENT_INFO') }}</p>
                   </div>
                 </div>
               </div>
@@ -227,7 +219,7 @@ const getButtonIcon = (type: ButtonType) => {
                 <div class="aspect-video flex items-center justify-center">
                   <div class="text-center">
                     <i class="i-lucide-map-pin text-4xl" :style="{ color: colors.accentColor }" />
-                    <p class="text-xs mt-2" :style="{ color: colors.textSecondary }">Location</p>
+                    <p class="text-xs mt-2" :style="{ color: colors.textSecondary }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.LOCATION_LABEL') }}</p>
                   </div>
                 </div>
               </div>
@@ -245,7 +237,7 @@ const getButtonIcon = (type: ButtonType) => {
 
             <!-- Timestamp -->
             <div class="px-3 pb-2 flex justify-end">
-              <span class="text-[10px]" :style="{ color: colors.textSecondary }">12:00</span>
+              <span class="text-[10px]" :style="{ color: colors.textSecondary }">{{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.TIMESTAMP') }}</span>
             </div>
           </div>
 

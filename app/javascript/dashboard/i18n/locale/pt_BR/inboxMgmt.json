@@ -1064,7 +1064,10 @@
       "BUILDER": {
         "CANCEL": "Cancelar",
         "CREATE": "Criar Modelo",
+        "REQUIRED_INDICATOR": "*",
         "VALIDATION_ERRORS": "Por favor, corrija os seguintes erros:",
+        "BULLET_POINT": "•",
+        "PLACEHOLDER_DISPLAY": "{{{{{num}}}}}",
         "VALIDATION": {
           "TEMPLATE_NAME_REQUIRED": "Nome do modelo é obrigatório",
           "TEMPLATE_NAME_TOO_LONG": "Nome do modelo deve ter no máximo {limit} caracteres",
@@ -1146,11 +1149,16 @@
           "FORMATTING": {
             "EMOJI": "Inserir emoji",
             "BOLD": "Negrito (*texto*)",
+            "BOLD_LABEL": "B",
             "ITALIC": "Itálico (_texto_)",
+            "ITALIC_LABEL": "I",
             "STRIKETHROUGH": "Tachado (~texto~)",
+            "STRIKETHROUGH_LABEL": "S",
             "MONOSPACE": "Monoespaçado (```texto```)",
+            "MONOSPACE_LABEL": "</>",
             "ADD_VARIABLE": "Adicionar variável"
-          }
+          },
+          "CHAR_COUNT": "{count}/{max}"
         },
         "FOOTER": {
           "TITLE": "Rodapé",
@@ -1176,7 +1184,14 @@
         "PREVIEW": {
           "TITLE": "Pré-visualização",
           "EMPTY_TITLE": "Pré-visualização do modelo",
-          "EMPTY_DESCRIPTION": "Preencha o formulário para ver a pré-visualização"
+          "EMPTY_DESCRIPTION": "Preencha o formulário para ver a pré-visualização",
+          "BUSINESS_NAME": "Empresa",
+          "BUSINESS_SUBTITLE": "WhatsApp Business",
+          "NO_IMAGE": "Sem imagem",
+          "NO_VIDEO": "Sem vídeo",
+          "DOCUMENT_INFO": "PDF • 1 página",
+          "LOCATION_LABEL": "Localização",
+          "TIMESTAMP": "12:00"
         }
       }
     }

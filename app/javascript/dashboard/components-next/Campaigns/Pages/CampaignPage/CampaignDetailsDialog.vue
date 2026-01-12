@@ -2,12 +2,12 @@
 import { computed, ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { messageStamp } from 'shared/helpers/timeHelper';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import TemplatePreview from 'dashboard/components-next/Templates/TemplateBuilder/TemplatePreview.vue';
 
 const props = defineProps({
   isOpen: {
@@ -23,7 +23,6 @@ const props = defineProps({
 const emit = defineEmits(['close']);
 
 const { t } = useI18n();
-const { formatMessage } = useMessageFormatter();
 
 const dialogRef = ref(null);
 const getLabelById = useMapGetter('labels/getLabelById');
@@ -173,6 +172,62 @@ const formatDate = timestamp => {
   return messageStamp(date, 'LLL d, h:mm a');
 };
 
+// Map campaign template to preview props
+const previewProps = computed(() => {
+  const defaultProps = {
+    headerFormat: null,
+    headerText: '',
+    headerTextExample: '',
+    headerMediaUrl: '',
+    headerMediaName: '',
+    bodyText: props.campaign?.message || '',
+    bodyExamples: [],
+    footerText: '',
+    buttons: [],
+  };
+
+  if (!props.campaign?.template_params) {
+    return defaultProps;
+  }
+
+  const processedParams = templateParams.value?.processed_params || {};
+  
+  // Extract header info
+  let headerFormat = null;
+  let mediaUrl = '';
+  let mediaName = '';
+
+  if (processedParams.header?.media_url) {
+    // Determine format from URL or type
+    const url = processedParams.header.media_url;
+    mediaUrl = url;
+    mediaName = processedParams.header.media_name || '';
+    
+    // Try to detect media type from extension or content
+    if (url.match(/\.(jpg|jpeg|png|gif|webp)($|\?)/i)) {
+      headerFormat = 'IMAGE';
+    } else if (url.match(/\.(mp4|mov|avi)($|\?)/i)) {
+      headerFormat = 'VIDEO';
+    } else if (url.match(/\.(pdf|doc|docx|xls|xlsx)($|\?)/i)) {
+      headerFormat = 'DOCUMENT';
+    } else {
+      // Default to image if URL is present but type unknown
+      headerFormat = 'IMAGE';
+    }
+  }
+
+  // Use the message for body text (already processed with variables replaced)
+  const bodyText = props.campaign?.message || '';
+
+  return {
+    ...defaultProps,
+    headerFormat,
+    headerMediaUrl: mediaUrl,
+    headerMediaName: mediaName,
+    bodyText,
+  };
+});
+
 const handleClose = () => emit('close');
 </script>
 
@@ -181,53 +236,42 @@ const handleClose = () => emit('close');
     ref="dialogRef"
     :show-cancel-button="false"
     :show-confirm-button="false"
-    width="2xl"
+    width="5xl"
     @close="handleClose"
   >
-    <div class="flex flex-col gap-5 max-h-[75vh] overflow-y-auto -m-6 p-6">
+    <div class="flex flex-col -mx-6 -my-6 max-h-[85vh]">
       <!-- Header -->
-      <div class="flex items-start justify-between gap-4">
-        <div class="flex flex-col gap-1 min-w-0 flex-1">
-          <h3 class="text-lg font-semibold text-n-slate-12 truncate">
-            {{ campaign?.title }}
-          </h3>
-          <div class="flex items-center gap-2 text-sm text-n-slate-11">
-            <Icon :icon="statusConfig.icon" class="size-4" />
-            <span
-              class="px-2 py-0.5 rounded-md text-xs font-medium"
-              :class="statusConfig.color"
-            >
-              {{ statusConfig.text }}
-            </span>
+      <div class="flex-shrink-0 px-6 py-4 border-b border-n-weak">
+        <div class="flex items-start justify-between gap-4">
+          <div class="flex flex-col gap-1 min-w-0 flex-1">
+            <h3 class="text-lg font-semibold text-n-slate-12 truncate">
+              {{ campaign?.title }}
+            </h3>
+            <div class="flex items-center gap-2 text-sm text-n-slate-11">
+              <Icon :icon="statusConfig.icon" class="size-4" />
+              <span
+                class="px-2 py-0.5 rounded-md text-xs font-medium"
+                :class="statusConfig.color"
+              >
+                {{ statusConfig.text }}
+              </span>
+            </div>
           </div>
-        </div>
-        <button
-          class="p-1.5 rounded-lg hover:bg-n-alpha-2 transition-colors"
-          @click="handleClose"
-        >
-          <Icon icon="i-lucide-x" class="size-5 text-n-slate-11" />
-        </button>
-      </div>
-
-      <!-- Message Preview -->
-      <div class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Icon icon="i-lucide-message-square" class="size-4 text-n-slate-11" />
-          <span
-            class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+          <button
+            class="p-1.5 rounded-lg hover:bg-n-alpha-2 transition-colors"
+            @click="handleClose"
           >
-            {{ t('CAMPAIGN.DETAILS.MESSAGE') }}
-          </span>
+            <Icon icon="i-lucide-x" class="size-5 text-n-slate-11" />
+          </button>
         </div>
-        <div
-          v-dompurify-html="
-            formatMessage(campaign?.message, false, false, false)
-          "
-          class="p-4 rounded-xl bg-n-alpha-2 text-sm text-n-slate-12 leading-relaxed [&>p]:mb-2 [&>p:last-child]:mb-0 border border-n-weak"
-        />
       </div>
 
-      <!-- Info Grid -->
+      <!-- Content: Two columns -->
+      <div class="flex-1 flex gap-6 p-6 overflow-hidden min-h-0">
+        <!-- Left Panel: Campaign Info -->
+        <div class="flex-1 min-w-0 overflow-y-auto pr-4 space-y-5">
+
+          <!-- Info Grid -->
       <div class="grid grid-cols-2 gap-4">
         <!-- Template -->
         <div
@@ -476,10 +520,37 @@ const handleClose = () => emit('close');
             </div>
           </div>
         </div>
+        </div>
+        </div>
+
+        <!-- Right Panel: WhatsApp Preview -->
+        <div class="w-[360px] flex-shrink-0 overflow-y-auto">
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <Icon icon="i-lucide-smartphone" class="size-4 text-n-slate-11" />
+              <span
+                class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide"
+              >
+                {{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.PREVIEW_TITLE') }}
+              </span>
+            </div>
+            <TemplatePreview
+              :header-format="previewProps.headerFormat"
+              :header-text="previewProps.headerText"
+              :header-text-example="previewProps.headerTextExample"
+              :header-media-url="previewProps.headerMediaUrl"
+              :header-media-name="previewProps.headerMediaName"
+              :body-text="previewProps.bodyText"
+              :body-examples="previewProps.bodyExamples"
+              :footer-text="previewProps.footerText"
+              :buttons="previewProps.buttons"
+            />
+          </div>
+        </div>
       </div>
 
       <!-- Footer -->
-      <div class="flex justify-end pt-2">
+      <div class="flex-shrink-0 flex justify-end gap-3 px-6 py-4 border-t border-n-weak">
         <Button
           variant="faded"
           color="slate"
