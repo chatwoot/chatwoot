@@ -275,6 +275,12 @@
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
 
+# Contact Merge
+/api/v1/accounts/{account_id}/actions/contact_merge:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  post:
+    $ref: ./application/contacts/merge.yml
 
 # Automation Rule
 /api/v1/accounts/{account_id}/automation_rules:
