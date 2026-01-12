@@ -378,7 +378,56 @@
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos",
-    "SECURITY": "Segurança"
+    "SECURITY": "Segurança",
+    "CAPTAIN_AI": "Capitão"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Configurações do Capitão",
+    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Capitão. O Capitão utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Capitão realizar, dependendo do modelo selecionado.",
+    "LOADING": "Carregando configurações do Capitão...",
+    "LINK_TEXT": "Saiba mais sobre os Créditos do Capitão",
+    "NOT_ENABLED": "O Capitão não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Capitão.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configuração do Modelo",
+      "DESCRIPTION": "Selecione modelos de IA para diferentes recursos.",
+      "SELECT_MODEL": "Selecionar modelo",
+      "CREDITS_PER_MESSAGE": "{credits} crédito/mensagem",
+      "COMING_SOON": "Em breve",
+      "EDITOR": {
+        "TITLE": "Recursos do Editor",
+        "DESCRIPTION": "Potencializa a escrita inteligente, correções gramaticais, ajustes de tom e aprimoramento de conteúdo no editor de mensagens."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Gerencia respostas automatizadas, resumos de conversas e sugestões inteligentes de resposta para interações com clientes."
+      },
+      "COPILOT": {
+        "TITLE": "Copiloto",
+        "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante as conversas."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funcionalidades",
+      "DESCRIPTION": "Ative ou desative recursos com tecnologia de IA.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcrição de Áudio",
+        "DESCRIPTION": "Converte automaticamente mensagens de voz e gravações de chamadas em transcrições de texto pesquisáveis."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Indexação de Pesquisa da Central de Ajuda",
+        "DESCRIPTION": "Use IA para realizar buscas com reconhecimento de contexto nos artigos da sua central de ajuda."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Sugestão de Etiquetas",
+        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para as conversas, com base na análise de conteúdo e no contexto.",
+        "MODEL_TITLE": "Modelo de Sugestão de Etiquetas",
+        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar as conversas e sugerir etiquetas apropriadas"
+      }
+    },
+    "API": {
+      "SUCCESS": "Configurações do Capitão atualizadas com sucesso.",
+      "ERROR": "Falha ao atualizar as configurações do Capitão. Por favor, tente novamente."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
