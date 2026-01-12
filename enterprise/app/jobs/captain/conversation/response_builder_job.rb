@@ -30,7 +30,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant, conversation_id: @conversation.display_id).generate_response(
       message_history: collect_previous_messages
     )
     process_response
@@ -87,8 +87,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       I18n.with_locale(@assistant.account.locale) do
         create_handoff_message
         @conversation.bot_handoff!
+        send_out_of_office_message_if_applicable
       end
     end
+  end
+
+  def send_out_of_office_message_if_applicable
+    ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(@conversation)
   end
 
   def create_handoff_message

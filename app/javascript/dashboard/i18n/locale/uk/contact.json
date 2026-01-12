@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Створено",
     "NEW_MESSAGE": "Нове повідомлення",
     "CALL": "Дзвінок",
-    "CALL_UNDER_DEVELOPMENT": "Дзвінки знаходяться на стадії розробки",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Оберіть голосову теку"
     },
@@ -455,6 +456,9 @@
           },
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
+          },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"

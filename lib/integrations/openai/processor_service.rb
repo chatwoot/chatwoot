@@ -1,4 +1,4 @@
-class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
+class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
   AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
   LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message
@@ -77,21 +77,22 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def add_message_if_within_limit(character_count, message, messages, in_array_format)
-    if valid_message?(message, character_count)
-      add_message_to_list(message, messages, in_array_format)
-      character_count += message.content.length
+    content = message.content_for_llm
+    if valid_message?(content, character_count)
+      add_message_to_list(message, messages, in_array_format, content)
+      character_count += content.length
       [character_count, true]
     else
       [character_count, false]
     end
   end
 
-  def valid_message?(message, character_count)
-    message.content.present? && character_count + message.content.length <= TOKEN_LIMIT
+  def valid_message?(content, character_count)
+    content.present? && character_count + content.length <= TOKEN_LIMIT
   end
 
-  def add_message_to_list(message, messages, in_array_format)
-    formatted_message = format_message(message, in_array_format)
+  def add_message_to_list(message, messages, in_array_format, content)
+    formatted_message = format_message(message, in_array_format, content)
     messages.prepend(formatted_message)
   end
 
@@ -99,17 +100,17 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
     in_array_format ? [] : ''
   end
 
-  def format_message(message, in_array_format)
-    in_array_format ? format_message_in_array(message) : format_message_in_string(message)
+  def format_message(message, in_array_format, content)
+    in_array_format ? format_message_in_array(message, content) : format_message_in_string(message, content)
   end
 
-  def format_message_in_array(message)
-    { role: (message.incoming? ? 'user' : 'assistant'), content: message.content }
+  def format_message_in_array(message, content)
+    { role: (message.incoming? ? 'user' : 'assistant'), content: content }
   end
 
-  def format_message_in_string(message)
+  def format_message_in_string(message, content)
     sender_type = message.incoming? ? 'Customer' : 'Agent'
-    "#{sender_type} #{message.sender&.name} : #{message.content}\n"
+    "#{sender_type} #{message.sender&.name} : #{content}\n"
   end
 
   def summarize_body

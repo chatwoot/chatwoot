@@ -2,32 +2,32 @@
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "DELETE": {
-        "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "TITLE": "מחק אינטגרציה של Shopify",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק את האינטגרציה של Shopify?"
       },
       "STORE_URL": {
-        "TITLE": "Connect Shopify Store",
-        "LABEL": "Store URL",
+        "TITLE": "חבר חנות Shopify",
+        "LABEL": "כתובת URL של החנות",
         "PLACEHOLDER": "your-store.myshopify.com",
-        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "HELP": "הזן את כתובת ה-myshopify.com של חנות Shopify שלך",
         "CANCEL": "ביטול",
-        "SUBMIT": "Connect Store"
+        "SUBMIT": "חבר חנות"
       },
-      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+      "ERROR": "אירעה שגיאה בחיבור ל-Shopify. אנא נסה שוב או פנה לתמיכה אם הבעיה נמשכת."
     },
     "HEADER": "אינטגרציות",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
-    "LEARN_MORE": "Learn more about integrations",
-    "LOADING": "Fetching integrations",
+    "DESCRIPTION": "Chatwoot משתלב עם כלים ושירותים מרובים כדי לשפר את יעילות הצוות שלך. חקור את הרשימה למטה כדי להגדיר את האפליקציות המועדפות עליך.",
+    "LEARN_MORE": "למד עוד על אינטגרציות",
+    "LOADING": "מאחזר אינטגרציות",
     "CAPTAIN": {
-      "DISABLED": "Captain is not enabled on your account.",
-      "CLICK_HERE_TO_CONFIGURE": "Click here to configure",
-      "LOADING_CONSOLE": "Loading Captain Console...",
-      "FAILED_TO_LOAD_CONSOLE": "Failed to load Captain Console. Please refresh and try again."
+      "DISABLED": "Captain אינו מופעל בחשבונך.",
+      "CLICK_HERE_TO_CONFIGURE": "לחץ כאן כדי להגדיר",
+      "LOADING_CONSOLE": "טוען את קונסולת Captain...",
+      "FAILED_TO_LOAD_CONSOLE": "הטעינה של קונסולת Captain נכשלה. אנא רענן ונסה שוב."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "אירועים מנויים",
-      "LEARN_MORE": "Learn more about webhooks",
+      "LEARN_MORE": "למד עוד על Webhooks",
       "FORM": {
         "CANCEL": "ביטול",
         "DESC": "אירועי Webhook מספקים לך מידע בזמן אמת על מה שקורה בחשבון Chatwoot שלך. אנא הזן כתובת אתר חוקית כדי להגדיר התקשרות חוזרת.",
@@ -42,17 +42,17 @@
             "WEBWIDGET_TRIGGERED": "ווידג'ט צ'אט חי נפתח על ידי המשתמש",
             "CONTACT_CREATED": "צור קשר",
             "CONTACT_UPDATED": "איש קשר עודכן",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_ON": "הקלדה בשיחה מופעלת",
+            "CONVERSATION_TYPING_OFF": "הקלדה בשיחה מושבתת"
           }
         },
         "NAME": {
-          "LABEL": "Webhook Name",
-          "PLACEHOLDER": "Enter the name of the webhook"
+          "LABEL": "שם Webhook",
+          "PLACEHOLDER": "הזן את שם ה-Webhook"
         },
         "END_POINT": {
           "LABEL": "כתובת אתר של Webhook",
-          "PLACEHOLDER": "Example: {webhookExampleURL}",
+          "PLACEHOLDER": "דוגמה: {webhookExampleURL}",
           "ERROR": "אנא הכנס כתובת URL חוקית"
         },
         "EDIT_SUBMIT": "עדכון webhook",
@@ -106,25 +106,25 @@
     "SLACK": {
       "DELETE": "מחק",
       "DELETE_CONFIRMATION": {
-        "TITLE": "Delete the integration",
-        "MESSAGE": "Are you sure you want to delete the integration? Doing so will result in the loss of access to conversations on your Slack workspace."
+        "TITLE": "מחק את האינטגרציה",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק את האינטגרציה? פעולה זו תוביל לאובדן גישה לשיחות במרחב העבודה שלך ב-Slack."
       },
       "HELP_TEXT": {
         "TITLE": "שימוש ב-Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "SELECTED": "selected"
+        "BODY": "באמצעות אינטגרציה זו, כל השיחות הנכנסות שלך יסונכרנו לערוץ ***{selectedChannelName}*** במרחב העבודה שלך ב-Slack. תוכל לנהל את כל שיחות הלקוחות שלך ישירות בתוך הערוץ ולעולם לא להחמיץ הודעה.\n\nלהלן התכונות העיקריות של האינטגרציה:\n\n**השב לשיחות מתוך Slack:** כדי להשיב לשיחה בערוץ Slack ***{selectedChannelName}***, פשוט הקלד את ההודעה שלך ושלח אותה כשרשור. זה ייצור תגובה חזרה ללקוח דרך Chatwoot. זה כזה פשוט!\n\n **צור הערות פרטיות:** אם ברצונך ליצור הערות פרטיות במקום תגובות, התחל את ההודעה שלך עם ***`note:`***. זה מבטיח שההודעה שלך תישאר פרטית ולא תהיה גלויה ללקוח.\n\n**שייך פרופיל סוכן:** אם לאדם שהשיב ב-Slack יש פרופיל סוכן ב-Chatwoot תחת אותו דוא\"ל, התגובות ישויכו לפרופיל הסוכן הזה באופן אוטומטי. משמעות הדבר היא שתוכל לעקוב בקלות מי אמר מה ומתי. מצד שני, כאשר למשיב אין פרופיל סוכן משויך, התגובות יופיעו מפרופיל הבוט ללקוח.",
+        "SELECTED": "נבחר"
       },
       "SELECT_CHANNEL": {
-        "OPTION_LABEL": "Select a channel",
+        "OPTION_LABEL": "בחר ערוץ",
         "UPDATE": "עדכן",
-        "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
-        "ATTENTION_REQUIRED": "Attention required",
-        "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
+        "BUTTON_TEXT": "חבר ערוץ",
+        "DESCRIPTION": "מרחב העבודה שלך ב-Slack מקושר כעת ל-Chatwoot. עם זאת, האינטגרציה אינה פעילה כרגע. כדי להפעיל את האינטגרציה ולחבר ערוץ ל-Chatwoot, אנא לחץ על הכפתור למטה.\n\n**הערה:** אם אתה מנסה לחבר ערוץ פרטי, הוסף את אפליקציית Chatwoot לערוץ Slack לפני שתמשיך בשלב זה.",
+        "ATTENTION_REQUIRED": "נדרשת תשומת לב",
+        "EXPIRED": "האינטגרציה שלך ב-Slack פגה. כדי להמשיך לקבל הודעות ב-Slack, אנא מחק את האינטגרציה וחבר מחדש את מרחב העבודה שלך."
       },
-      "UPDATE_ERROR": "There was an error updating the integration, please try again",
-      "UPDATE_SUCCESS": "The channel is connected successfully",
-      "FAILED_TO_FETCH_CHANNELS": "There was an error fetching the channels from Slack, please try again"
+      "UPDATE_ERROR": "אירעה שגיאה בעדכון האינטגרציה, אנא נסה שוב",
+      "UPDATE_SUCCESS": "הערוץ מחובר בהצלחה",
+      "FAILED_TO_FETCH_CHANNELS": "אירעה שגיאה באחזור הערוצים מ-Slack, אנא נסה שוב"
     },
     "DYTE": {
       "CLICK_HERE_TO_JOIN": "לחץ כאן בשביל להצטרף",
@@ -134,57 +134,57 @@
       "CREATE_ERROR": "אירעה שגיאה ביצירת קישור לפגישה, אנא נסה שוב"
     },
     "OPEN_AI": {
-      "AI_ASSIST": "AI Assist",
-      "WITH_AI": " {option} with AI ",
+      "AI_ASSIST": "סיוע AI",
+      "WITH_AI": " {option} עם AI ",
       "OPTIONS": {
-        "REPLY_SUGGESTION": "Reply Suggestion",
-        "SUMMARIZE": "Summarize",
-        "REPHRASE": "Improve Writing",
-        "FIX_SPELLING_GRAMMAR": "Fix Spelling and Grammar",
-        "SHORTEN": "Shorten",
-        "EXPAND": "Expand",
-        "MAKE_FRIENDLY": "Change message tone to friendly",
-        "MAKE_FORMAL": "Use formal tone",
-        "SIMPLIFY": "Simplify"
+        "REPLY_SUGGESTION": "הצעת תגובה",
+        "SUMMARIZE": "סכם",
+        "REPHRASE": "שפר כתיבה",
+        "FIX_SPELLING_GRAMMAR": "תקן איות ודקדוק",
+        "SHORTEN": "קצר",
+        "EXPAND": "הרחב",
+        "MAKE_FRIENDLY": "שנה את טון ההודעה לידידותי",
+        "MAKE_FORMAL": "השתמש בטון רשמי",
+        "SIMPLIFY": "פשט"
       },
       "ASSISTANCE_MODAL": {
-        "DRAFT_TITLE": "Draft content",
-        "GENERATED_TITLE": "Generated content",
-        "AI_WRITING": "AI is writing",
+        "DRAFT_TITLE": "טיוטת תוכן",
+        "GENERATED_TITLE": "תוכן שנוצר",
+        "AI_WRITING": "AI כותב",
         "BUTTONS": {
-          "APPLY": "Use this suggestion",
+          "APPLY": "השתמש בהצעה זו",
           "CANCEL": "ביטול"
         }
       },
       "CTA_MODAL": {
-        "TITLE": "Integrate with OpenAI",
-        "DESC": "Bring advanced AI features to your dashboard with OpenAI's GPT models. To begin, enter the API key from your OpenAI account.",
-        "KEY_PLACEHOLDER": "Enter your OpenAI API key",
+        "TITLE": "שלב עם OpenAI",
+        "DESC": "הבא תכונות AI מתקדמות ללוח המחוונים שלך עם מודלי GPT של OpenAI. כדי להתחיל, הזן את מפתח ה-API מחשבון OpenAI שלך.",
+        "KEY_PLACEHOLDER": "הזן את מפתח ה-API של OpenAI שלך",
         "BUTTONS": {
           "NEED_HELP": "זקוק לעזרה?",
           "DISMISS": "סגור",
-          "FINISH": "Finish Setup"
+          "FINISH": "סיים הגדרה"
         },
-        "DISMISS_MESSAGE": "You can setup OpenAI integration later Whenever you want.",
-        "SUCCESS_MESSAGE": "OpenAI integration setup successfully"
+        "DISMISS_MESSAGE": "תוכל להגדיר את האינטגרציה של OpenAI מאוחר יותר בכל עת שתרצה.",
+        "SUCCESS_MESSAGE": "האינטגרציה של OpenAI הוגדרה בהצלחה"
       },
-      "TITLE": "Improve With AI",
-      "SUMMARY_TITLE": "Summary with AI",
-      "REPLY_TITLE": "Reply suggestion with AI",
-      "SUBTITLE": "An improved reply will be generated using AI, based on your current draft.",
+      "TITLE": "שפר עם AI",
+      "SUMMARY_TITLE": "סיכום עם AI",
+      "REPLY_TITLE": "הצעת תגובה עם AI",
+      "SUBTITLE": "תגובה משופרת תיווצר באמצעות AI, בהתבסס על הטיוטה הנוכחית שלך.",
       "TONE": {
-        "TITLE": "Tone",
+        "TITLE": "טון",
         "OPTIONS": {
-          "PROFESSIONAL": "Professional",
-          "FRIENDLY": "Friendly"
+          "PROFESSIONAL": "מקצועי",
+          "FRIENDLY": "ידידותי"
         }
       },
       "BUTTONS": {
-        "GENERATE": "Generate",
-        "GENERATING": "Generating...",
+        "GENERATE": "צור",
+        "GENERATING": "יוצר...",
         "CANCEL": "ביטול"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please try again"
+      "GENERATE_ERROR": "אירעה שגיאה בעיבוד התוכן, אנא נסה שוב"
     },
     "DELETE": {
       "BUTTON_TEXT": "מחק",
@@ -200,7 +200,7 @@
       "HEADER_BTN_TXT": "הוסף אפליקציית לוח מחוונים חדשה",
       "SIDEBAR_TXT": "<p><b>אפליקציות לוח מחוונים</b></p><p>אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים של Chatwoot כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה בתוך לוח המחוונים כדי לספק מידע על המשתמש, ההזמנות שלו או היסטוריית התשלומים הקודמת שלו.</p><p>כאשר תטמיע את האפליקציה שלך באמצעות לוח המחוונים ב-Chatwoot, האפליקציה שלך תהיה קבל את ההקשר של השיחה והקשר כאירוע חלון. הטמיע מאזין לאירוע ההודעה בדף שלך כדי לקבל את ההקשר.</p><p>כדי להוסיף אפליקציית לוח מחוונים חדשה, לחץ על הלחצן 'הוסף אפליקציית לוח מחוונים חדשה'.</p>",
       "DESCRIPTION": "אפליקציות לוח מחוונים מאפשרות לארגונים להטמיע אפליקציה בתוך לוח המחוונים כדי לספק את ההקשר לסוכני תמיכת לקוחות. תכונה זו מאפשרת לך ליצור אפליקציה באופן עצמאי ולהטמיע אותה כדי לספק מידע על המשתמש, ההזמנות שלהם או היסטוריית התשלומים הקודמת שלהם.",
-      "LEARN_MORE": "Learn more about Dashboard Apps",
+      "LEARN_MORE": "למד עוד על אפליקציות לוח מחוונים",
       "LIST": {
         "404": "אין עדיין אפליקציות לוח מחוונים מוגדרות בחשבון זה",
         "LOADING": "מביא אפליקציות לוח מחוונים...",
@@ -244,174 +244,174 @@
     },
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Create/Link Linear Issue",
-      "LOADING": "Fetching linear issues...",
-      "LOADING_ERROR": "There was an error fetching the linear issues, please try again",
+      "LOADING": "מאחזר בעיות Linear...",
+      "LOADING_ERROR": "אירעה שגיאה באחזור בעיות Linear, אנא נסה שוב",
       "CREATE": "צור",
       "LINK": {
-        "SEARCH": "Search issues",
-        "SELECT": "Select issue",
+        "SEARCH": "חפש בעיות",
+        "SELECT": "בחר בעיה",
         "TITLE": "קישור",
-        "EMPTY_LIST": "No linear issues found",
-        "LOADING": "Loading",
-        "ERROR": "There was an error fetching the linear issues, please try again",
-        "LINK_SUCCESS": "Issue linked successfully",
-        "LINK_ERROR": "There was an error linking the issue, please try again",
-        "LINK_TITLE": "Conversation (#{conversationId}) with {name}"
+        "EMPTY_LIST": "לא נמצאו בעיות Linear",
+        "LOADING": "טוען",
+        "ERROR": "אירעה שגיאה באחזור בעיות Linear, אנא נסה שוב",
+        "LINK_SUCCESS": "הבעיה קושרה בהצלחה",
+        "LINK_ERROR": "אירעה שגיאה בקישור הבעיה, אנא נסה שוב",
+        "LINK_TITLE": "שיחה (#{conversationId}) עם {name}"
       },
       "ADD_OR_LINK": {
         "TITLE": "Create/link linear issue",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "DESCRIPTION": "צור בעיות Linear משיחות, או קשר בעיות קיימות למעקב חלק.",
         "FORM": {
           "TITLE": {
             "LABEL": "כותרת",
-            "PLACEHOLDER": "Enter title",
+            "PLACEHOLDER": "הזן כותרת",
             "REQUIRED_ERROR": "כותרת שדה חובה"
           },
           "DESCRIPTION": {
             "LABEL": "תיאור",
-            "PLACEHOLDER": "Enter description"
+            "PLACEHOLDER": "הזן תיאור"
           },
           "TEAM": {
             "LABEL": "צוות",
             "PLACEHOLDER": "בחר קבוצה",
-            "SEARCH": "Search team",
-            "REQUIRED_ERROR": "Team is required"
+            "SEARCH": "חפש צוות",
+            "REQUIRED_ERROR": "צוות נדרש"
           },
           "ASSIGNEE": {
-            "LABEL": "Assignee",
-            "PLACEHOLDER": "Select assignee",
-            "SEARCH": "Search assignee"
+            "LABEL": "מוקצה",
+            "PLACEHOLDER": "בחר מוקצה",
+            "SEARCH": "חפש מוקצה"
           },
           "PRIORITY": {
-            "LABEL": "Priority",
-            "PLACEHOLDER": "Select priority",
-            "SEARCH": "Search priority"
+            "LABEL": "עדיפות",
+            "PLACEHOLDER": "בחר עדיפות",
+            "SEARCH": "חפש עדיפות"
           },
           "LABEL": {
             "LABEL": "תווית",
-            "PLACEHOLDER": "Select label",
-            "SEARCH": "Search label"
+            "PLACEHOLDER": "בחר תווית",
+            "SEARCH": "חפש תווית"
           },
           "STATUS": {
             "LABEL": "מצב",
-            "PLACEHOLDER": "Select status",
-            "SEARCH": "Search status"
+            "PLACEHOLDER": "בחר סטטוס",
+            "SEARCH": "חפש סטטוס"
           },
           "PROJECT": {
-            "LABEL": "Project",
-            "PLACEHOLDER": "Select project",
-            "SEARCH": "Search project"
+            "LABEL": "פרויקט",
+            "PLACEHOLDER": "בחר פרויקט",
+            "SEARCH": "חפש פרויקט"
           }
         },
         "CREATE": "צור",
         "CANCEL": "ביטול",
-        "CREATE_SUCCESS": "Issue created successfully",
-        "CREATE_ERROR": "There was an error creating the issue, please try again",
-        "LOADING_TEAM_ERROR": "There was an error fetching the teams, please try again",
-        "LOADING_TEAM_ENTITIES_ERROR": "There was an error fetching the team entities, please try again"
+        "CREATE_SUCCESS": "הבעיה נוצרה בהצלחה",
+        "CREATE_ERROR": "אירעה שגיאה ביצירת הבעיה, אנא נסה שוב",
+        "LOADING_TEAM_ERROR": "אירעה שגיאה באחזור הצוותים, אנא נסה שוב",
+        "LOADING_TEAM_ENTITIES_ERROR": "אירעה שגיאה באחזור ישויות הצוות, אנא נסה שוב"
       },
       "ISSUE": {
         "STATUS": "מצב",
-        "PRIORITY": "Priority",
-        "ASSIGNEE": "Assignee",
+        "PRIORITY": "עדיפות",
+        "ASSIGNEE": "מוקצה",
         "LABELS": "תוויות",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "נוצר ב- {createdAt}"
       },
       "UNLINK": {
-        "TITLE": "Unlink",
-        "SUCCESS": "Issue unlinked successfully",
-        "ERROR": "There was an error unlinking the issue, please try again"
+        "TITLE": "בטל קישור",
+        "SUCCESS": "הקישור לבעיה בוטל בהצלחה",
+        "ERROR": "אירעה שגיאה בביטול קישור הבעיה, אנא נסה שוב"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "לא נמצאו בעיות מקושרות",
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the integration?",
-        "MESSAGE": "Are you sure you want to delete the integration?",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "האם אתה בטוח שברצונך למחוק את האינטגרציה?",
+        "MESSAGE": "האם אתה בטוח שברצונך למחוק את האינטגרציה?",
+        "CONFIRM": "כן, מחק",
         "CANCEL": "ביטול"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "התחבר ל-Linear",
+        "AGENT_DESCRIPTION": "מרחב העבודה Linear אינו מחובר. בקש ממנהל המערכת שלך לחבר מרחב עבודה כדי להשתמש באינטגרציה זו.",
+        "DESCRIPTION": "מרחב העבודה Linear אינו מחובר. לחץ על הכפתור למטה כדי לחבר את מרחב העבודה שלך כדי להשתמש באינטגרציה זו.",
+        "BUTTON_TEXT": "חבר מרחב עבודה Linear"
       }
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
-        "CONFIRM": "Yes, delete",
+        "TITLE": "האם אתה בטוח שברצונך למחוק את האינטגרציה של Notion?",
+        "MESSAGE": "מחיקת אינטגרציה זו תסיר את הגישה למרחב העבודה שלך ב-Notion ותפסיק את כל הפונקציונליות הקשורה.",
+        "CONFIRM": "כן, מחק",
         "CANCEL": "ביטול"
       }
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Know more",
+    "NAME": "קפטן",
+    "HEADER_KNOW_MORE": "דע יותר",
     "ASSISTANT_SWITCHER": {
-      "ASSISTANTS": "Assistants",
-      "SWITCH_ASSISTANT": "Switch between assistants",
-      "NEW_ASSISTANT": "Create Assistant",
+      "ASSISTANTS": "עוזרים",
+      "SWITCH_ASSISTANT": "החלף בין עוזרים",
+      "NEW_ASSISTANT": "צור עוזר",
       "EMPTY_LIST": "No assistants found, please create one to get started"
     },
     "COPILOT": {
       "TITLE": "טייס משנה",
-      "TRY_THESE_PROMPTS": "Try these prompts",
-      "PANEL_TITLE": "Get started with Copilot",
+      "TRY_THESE_PROMPTS": "נסה הנחיות אלה",
+      "PANEL_TITLE": "התחל עם Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "שלח הודעה...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain is thinking",
-      "YOU": "You",
-      "USE": "Use this",
-      "RESET": "Reset",
-      "SHOW_STEPS": "Show steps",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "EMPTY_MESSAGE": "אירעה שגיאה ביצירת התגובה. אנא נסה שוב.",
+      "LOADER": "קפטן חושב",
+      "YOU": "אתה",
+      "USE": "השתמש בזה",
+      "RESET": "איפוס",
+      "SHOW_STEPS": "הצג שלבים",
+      "SELECT_ASSISTANT": "בחר עוזר",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "סכם שיחה זו",
+          "CONTENT": "סכם את הנקודות העיקריות שנדונו בין הלקוח לסוכן התמיכה, כולל חששות הלקוח, שאלותיו והפתרונות או התשובות שסופקו על ידי סוכן התמיכה"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "הצע תשובה",
+          "CONTENT": "נתח את פניית הלקוח, ונסח תגובה המטפלת ביעילות בחששותיו או בשאלותיו. ודא שהתשובה ברורה, תמציתית ומספקת מידע מועיל."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "דרג שיחה זו",
+          "CONTENT": "סקור את השיחה כדי לראות עד כמה היא עונה על צרכי הלקוח. שתף דירוג מתוך 5 בהתבסס על טון, בהירות ויעילות."
         },
         "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+          "LABEL": "שיחות בעדיפות גבוהה",
+          "CONTENT": "תן לי סיכום של כל השיחות הפתוחות בעדיפות גבוהה. כלול את מזהה השיחה, שם הלקוח (אם זמין), תוכן ההודעה האחרונה והסוכן שהוקצה. קבץ לפי סטטוס אם רלוונטי."
         },
         "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
+          "LABEL": "רשום אנשי קשר",
+          "CONTENT": "הצג לי את רשימת 10 אנשי הקשר המובילים. כלול שם, דוא\"ל או מספר טלפון (אם זמין), זמן נראה אחרון, תגים (אם יש)."
         }
       }
     },
     "PLAYGROUND": {
-      "USER": "You",
-      "ASSISTANT": "Assistant",
+      "USER": "אתה",
+      "ASSISTANT": "עוזר",
       "MESSAGE_PLACEHOLDER": "הקלד הודעה...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "מגרש משחקים",
+      "DESCRIPTION": "השתמש במגרש משחקים זה כדי לשלוח הודעות לעוזר שלך ולבדוק אם הוא מגיב בצורה מדויקת, מהירה ובטון שאתה מצפה לו.",
+      "CREDIT_NOTE": "הודעות שנשלחות כאן ייספרו למכסת הזיכויים של Captain שלך."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade to use Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "UPGRADE_NOW": "Upgrade now",
-      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      "TITLE": "שדרג כדי להשתמש ב-Captain AI",
+      "AVAILABLE_ON": "Captain אינו זמין בתוכנית החינמית.",
+      "UPGRADE_PROMPT": "שדרג את התוכנית שלך כדי לקבל גישה לעוזרים שלנו, ל-Copilot ועוד.",
+      "UPGRADE_NOW": "שדרג עכשיו",
+      "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
     },
     "ENTERPRISE_PAYWALL": {
-      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
-      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      "UPGRADE_PROMPT": "שדרג את התוכנית שלך כדי לקבל גישה לעוזרים שלנו, ל-Copilot ועוד.",
+      "ASK_ADMIN": "אנא פנה למנהל המערכת שלך לצורך השדרוג."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
-      "DOCUMENTS": "Document limit reached. Upgrade to continue using Captain AI."
+      "RESPONSES": "ניצלת יותר מ-80% ממגבלת התגובות שלך. כדי להמשיך להשתמש ב-Captain AI, אנא שדרג.",
+      "DOCUMENTS": "מגבלת המסמכים הושגה. שדרג כדי להמשיך להשתמש ב-Captain AI."
     },
     "FORM": {
       "CANCEL": "ביטול",
@@ -419,246 +419,246 @@
       "EDIT": "עדכן"
     },
     "ASSISTANTS": {
-      "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
-      "ADD_NEW": "Create a new assistant",
+      "HEADER": "עוזרים",
+      "NO_ASSISTANTS_AVAILABLE": "אין עוזרים זמינים בחשבונך.",
+      "ADD_NEW": "צור עוזר חדש",
       "DELETE": {
-        "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
+        "TITLE": "האם אתה בטוח שברצונך למחוק את העוזר?",
+        "DESCRIPTION": "פעולה זו היא קבועה. מחיקת עוזר זה תסיר אותו מכל תיבות הדואר הנכנס המחוברות ותמחק לצמיתות את כל הידע שנוצר.",
+        "CONFIRM": "כן, מחק",
+        "SUCCESS_MESSAGE": "העוזר נמחק בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת העוזר, אנא נסה שוב."
       },
-      "FORM_DESCRIPTION": "Fill out the details below to name your assistant, describe its purpose, and specify the product it will support.",
+      "FORM_DESCRIPTION": "מלא את הפרטים למטה כדי לתת שם לעוזר שלך, לתאר את מטרתו ולציין את המוצר שבו הוא יתמוך.",
       "CREATE": {
-        "TITLE": "Create an assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
+        "TITLE": "צור עוזר",
+        "SUCCESS_MESSAGE": "העוזר נוצר בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה ביצירת העוזר, אנא נסה שוב."
       },
       "FORM": {
         "UPDATE": "עדכן",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "מידע בסיסי",
+          "SYSTEM_MESSAGES": "הודעות מערכת",
+          "INSTRUCTIONS": "הוראות",
           "FEATURES": "מאפיינים",
-          "TOOLS": "Tools "
+          "TOOLS": "כלים "
         },
         "NAME": {
           "LABEL": "שם",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "הזן שם עוזר",
+          "ERROR": "השם נדרש"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "טמפרטורת תגובה",
+          "DESCRIPTION": "התאם עד כמה התגובות של העוזר צריכות להיות יצירתיות או מגבילות. ערכים נמוכים יותר מייצרים תגובות ממוקדות ודטרמיניסטיות יותר, בעוד שערכים גבוהים יותר מאפשרים תוצאות יצירתיות ומגוונות יותר."
         },
         "DESCRIPTION": {
           "LABEL": "תיאור",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "הזן תיאור עוזר",
+          "ERROR": "התיאור נדרש"
         },
         "PRODUCT_NAME": {
-          "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "LABEL": "שם מוצר",
+          "PLACEHOLDER": "הזן שם מוצר",
+          "ERROR": "שם המוצר נדרש"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "הודעת ברוך הבא",
+          "PLACEHOLDER": "הזן הודעת ברוך הבא"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "הודעת העברה",
+          "PLACEHOLDER": "הזן הודעת העברה"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "הודעת סגירה",
+          "PLACEHOLDER": "הזן הודעת סגירה"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "הוראות",
+          "PLACEHOLDER": "הזן הוראות לעוזר"
         },
         "FEATURES": {
           "TITLE": "מאפיינים",
-          "ALLOW_CONVERSATION_FAQS": "Generate FAQs from resolved conversations",
-          "ALLOW_MEMORIES": "Capture key details as memories from customer interactions.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CONVERSATION_FAQS": "צור שאלות נפוצות משיחות שנסגרו",
+          "ALLOW_MEMORIES": "לכוד פרטים מרכזיים כזיכרונות מאינטראקציות עם לקוחות.",
+          "ALLOW_CITATIONS": "כלול ציטוטים של מקורות בתגובות"
         }
       },
       "EDIT": {
-        "TITLE": "Update the assistant",
-        "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "TITLE": "עדכן את העוזר",
+        "SUCCESS_MESSAGE": "העוזר עודכן בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה בעדכון העוזר, אנא נסה שוב.",
+        "NOT_FOUND": "לא ניתן למצוא את העוזר. אנא נסה שוב."
       },
       "SETTINGS": {
         "HEADER": "הגדרות",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "הגדרות בסיסיות",
+          "DESCRIPTION": "התאם אישית את מה שהעוזר אומר כאשר הוא מסיים שיחה או מעביר אותה לבן אנוש."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "הגדרות מערכת",
+          "DESCRIPTION": "התאם אישית את מה שהעוזר אומר כאשר הוא מסיים שיחה או מעביר אותה לבן אנוש."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
+          "TITLE": "הדברים המהנים",
           "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
+              "TITLE": "מעקות בטיחות",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
+              "TITLE": "הנחיות תגובה",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
         },
         "DELETE": {
-          "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
-          "BUTTON_TEXT": "Delete {assistantName}"
+          "TITLE": "מחק עוזר",
+          "DESCRIPTION": "פעולה זו היא קבועה. מחיקת עוזר זה תסיר אותו מכל תיבות הדואר הנכנס המחוברות ותמחק לצמיתות את כל הידע שנוצר.",
+          "BUTTON_TEXT": "מחק את {assistantName}"
         }
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Edit Assistant",
-        "DELETE_ASSISTANT": "Delete Assistant",
-        "VIEW_CONNECTED_INBOXES": "View connected inboxes"
+        "EDIT_ASSISTANT": "ערוך עוזר",
+        "DELETE_ASSISTANT": "מחק עוזר",
+        "VIEW_CONNECTED_INBOXES": "הצג תיבות דואר נכנס מחוברות"
       },
       "EMPTY_STATE": {
-        "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "TITLE": "אין עוזרים זמינים",
+        "SUBTITLE": "צור עוזר כדי לספק תגובות מהירות ומדויקות למשתמשים שלך. הוא יכול ללמוד ממאמרי העזרה שלך ומשיחות קודמות.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "עוזר קפטן",
+          "NOTE": "עוזר קפטן יוצר קשר ישיר עם לקוחות, לומד ממסמכי העזרה והשיחות הקודמות שלך, ומספק תגובות מיידיות ומדויקות. הוא מטפל בשאילתות הראשוניות, מספק פתרונות מהירים לפני העברה לסוכן בעת הצורך."
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
+        "TITLE": "מעקות בטיחות",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} פריט נבחר | {count} פריטים נבחרו",
+          "SELECT_ALL": "בחר הכל ({count})",
+          "UNSELECT_ALL": "בטל בחירת הכל ({count})",
           "BULK_DELETE_BUTTON": "מחק"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
+            "TITLE": "מעקות בטיחות לדוגמה",
+            "ADD": "הוסף הכל",
+            "ADD_SINGLE": "הוסף את זה",
             "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "PLACEHOLDER": "הקלד מעקה בטיחות אחר..."
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "הוסף מעקה בטיחות",
             "CREATE": "צור",
             "CANCEL": "ביטול",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "הקלד מעקה בטיחות אחר...",
+            "TEST_ALL": "בדוק הכל"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "חיפוש..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "לא נמצאו מעקות בטיחות. צור או הוסף דוגמאות כדי להתחיל.",
+        "SEARCH_EMPTY_MESSAGE": "לא נמצאו מעקות בטיחות לחיפוש זה.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "מעקות בטיחות נוספו בהצלחה",
+            "ERROR": "אירעה שגיאה בהוספת מעקות בטיחות, אנא נסה שוב."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "מעקות בטיחות עודכנו בהצלחה",
+            "ERROR": "אירעה שגיאה בעדכון מעקות בטיחות, אנא נסה שוב."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "מעקות בטיחות נמחקו בהצלחה",
+            "ERROR": "אירעה שגיאה במחיקת מעקות בטיחות, אנא נסה שוב."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
+        "TITLE": "הנחיות תגובה",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} פריט נבחר | {count} פריטים נבחרו",
+          "SELECT_ALL": "בחר הכל ({count})",
+          "UNSELECT_ALL": "בטל בחירת הכל ({count})",
           "BULK_DELETE_BUTTON": "מחק"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
+            "TITLE": "הנחיות תגובה לדוגמה",
+            "ADD": "הוסף הכל",
+            "ADD_SINGLE": "הוסף את זה",
             "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "PLACEHOLDER": "הקלד הנחיית תגובה אחרת..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "הוסף הנחיית תגובה",
             "CREATE": "צור",
             "CANCEL": "ביטול",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "הקלד הנחיית תגובה אחרת...",
+            "TEST_ALL": "בדוק הכל"
           }
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "חיפוש..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "לא נמצאו הנחיות תגובה. צור או הוסף דוגמאות כדי להתחיל.",
+        "SEARCH_EMPTY_MESSAGE": "לא נמצאו הנחיות תגובה לחיפוש זה.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "הנחיות תגובה נוספו בהצלחה",
+            "ERROR": "אירעה שגיאה בהוספת הנחיות תגובה, אנא נסה שוב."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "הנחיות תגובה עודכנו בהצלחה",
+            "ERROR": "אירעה שגיאה בעדכון הנחיות תגובה, אנא נסה שוב."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "הנחיות תגובה נמחקו בהצלחה",
+            "ERROR": "אירעה שגיאה במחיקת הנחיות תגובה, אנא נסה שוב."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
+        "TITLE": "תרחישים",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
-          "SELECT_ALL": "Select all ({count})",
-          "UNSELECT_ALL": "Unselect all ({count})",
+          "SELECTED": "{count} פריט נבחר | {count} פריטים נבחרו",
+          "SELECT_ALL": "בחר הכל ({count})",
+          "UNSELECT_ALL": "בטל בחירת הכל ({count})",
           "BULK_DELETE_BUTTON": "מחק"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "תרחישים לדוגמה",
+            "ADD": "הוסף הכל",
+            "ADD_SINGLE": "הוסף את זה",
+            "TOOLS_USED": "כלים בשימוש:"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "הוסף תרחיש",
+            "TITLE": "צור תרחיש",
             "FORM": {
               "TITLE": {
                 "LABEL": "כותרת",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "הזן שם לתרחיש",
+                "ERROR": "שם התרחיש נדרש"
               },
               "DESCRIPTION": {
                 "LABEL": "תיאור",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "PLACEHOLDER": "תאר כיצד והיכן תרחיש זה ישמש",
+                "ERROR": "תיאור התרחיש נדרש"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "כיצד לטפל",
+                "PLACEHOLDER": "תאר כיצד והיכן תרחיש זה יטופל",
+                "ERROR": "תוכן התרחיש נדרש"
               },
               "CREATE": "צור",
               "CANCEL": "ביטול"
@@ -667,310 +667,310 @@
         },
         "UPDATE": {
           "CANCEL": "ביטול",
-          "UPDATE": "Update changes"
+          "UPDATE": "עדכן שינויים"
         },
         "LIST": {
-          "SEARCH_PLACEHOLDER": "Search..."
+          "SEARCH_PLACEHOLDER": "חיפוש..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "לא נמצאו תרחישים. צור או הוסף דוגמאות כדי להתחיל.",
+        "SEARCH_EMPTY_MESSAGE": "לא נמצאו תרחישים לחיפוש זה.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "תרחישים נוספו בהצלחה",
+            "ERROR": "אירעה שגיאה בהוספת תרחישים, אנא נסה שוב."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "תרחישים עודכנו בהצלחה",
+            "ERROR": "אירעה שגיאה בעדכון תרחישים, אנא נסה שוב."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "תרחישים נמחקו בהצלחה",
+            "ERROR": "אירעה שגיאה במחיקת תרחישים, אנא נסה שוב."
           }
         }
       }
     },
     "DOCUMENTS": {
-      "HEADER": "Documents",
-      "ADD_NEW": "Create a new document",
+      "HEADER": "מסמכים",
+      "ADD_NEW": "צור מסמך חדש",
       "RELATED_RESPONSES": {
-        "TITLE": "Related FAQs",
-        "DESCRIPTION": "These FAQs are generated directly from the document."
+        "TITLE": "שאלות נפוצות קשורות",
+        "DESCRIPTION": "שאלות נפוצות אלה נוצרו ישירות מהמסמך."
       },
-      "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
+      "FORM_DESCRIPTION": "הזן את כתובת ה-URL של המסמך כדי להוסיף אותו כמקור ידע ובחר את העוזר לשייך אליו.",
       "CREATE": {
-        "TITLE": "Add a document",
-        "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "TITLE": "הוסף מסמך",
+        "SUCCESS_MESSAGE": "המסמך נוצר בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה ביצירת המסמך, אנא נסה שוב."
       },
       "FORM": {
         "TYPE": {
-          "LABEL": "Document Type",
-          "URL": "URL",
-          "PDF": "PDF File"
+          "LABEL": "סוג מסמך",
+          "URL": "כתובת URL",
+          "PDF": "קובץ PDF"
         },
         "URL": {
-          "LABEL": "URL",
-          "PLACEHOLDER": "Enter the URL of the document",
-          "ERROR": "Please provide a valid URL for the document"
+          "LABEL": "כתובת URL",
+          "PLACEHOLDER": "הזן את כתובת ה-URL של המסמך",
+          "ERROR": "אנא ספק כתובת URL חוקית למסמך"
         },
         "PDF_FILE": {
-          "LABEL": "PDF File",
-          "CHOOSE_FILE": "Choose PDF file",
-          "ERROR": "Please select a PDF file",
-          "HELP_TEXT": "Maximum file size: 10MB",
-          "INVALID_TYPE": "Please select a valid PDF file",
-          "TOO_LARGE": "File size exceeds 10MB limit"
+          "LABEL": "קובץ PDF",
+          "CHOOSE_FILE": "בחר קובץ PDF",
+          "ERROR": "אנא בחר קובץ PDF",
+          "HELP_TEXT": "גודל קובץ מרבי: 10MB",
+          "INVALID_TYPE": "אנא בחר קובץ PDF חוקי",
+          "TOO_LARGE": "גודל הקובץ חורג מהמגבלה של 10MB"
         },
         "NAME": {
-          "LABEL": "Document Name (Optional)",
-          "PLACEHOLDER": "Enter a name for the document"
+          "LABEL": "שם מסמך (אופציונלי)",
+          "PLACEHOLDER": "הזן שם למסמך"
         }
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the document?",
-        "DESCRIPTION": "This action is permanent. Deleting this document will permanently erase all generated knowledge.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The document has been successfully deleted",
-        "ERROR_MESSAGE": "There was an error deleting the document, please try again."
+        "TITLE": "האם אתה בטוח שברצונך למחוק את המסמך?",
+        "DESCRIPTION": "פעולה זו היא קבועה. מחיקת מסמך זה תמחק לצמיתות את כל הידע שנוצר.",
+        "CONFIRM": "כן, מחק",
+        "SUCCESS_MESSAGE": "המסמך נמחק בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת המסמך, אנא נסה שוב."
       },
       "OPTIONS": {
-        "VIEW_RELATED_RESPONSES": "View Related Responses",
-        "DELETE_DOCUMENT": "Delete Document"
+        "VIEW_RELATED_RESPONSES": "הצג תגובות קשורות",
+        "DELETE_DOCUMENT": "מחק מסמך"
       },
       "EMPTY_STATE": {
-        "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "TITLE": "אין מסמכים זמינים",
+        "SUBTITLE": "מסמכים משמשים את העוזר שלך ליצירת שאלות נפוצות. תוכל לייבא מסמכים כדי לספק הקשר לעוזר שלך.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "מסמך קפטן",
+          "NOTE": "מסמך בקפטן משמש כמקור ידע עבור העוזר. על ידי חיבור מרכז העזרה או המדריכים שלך, קפטן יכול לנתח את התוכן ולספק תגובות מדויקות לשאילתות לקוחות."
         }
       }
     },
     "CUSTOM_TOOLS": {
-      "HEADER": "Tools",
-      "ADD_NEW": "Create a new tool",
+      "HEADER": "כלים",
+      "ADD_NEW": "צור כלי חדש",
       "EMPTY_STATE": {
-        "TITLE": "No custom tools available",
-        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "TITLE": "אין כלים מותאמים אישית זמינים",
+        "SUBTITLE": "צור כלים מותאמים אישית כדי לחבר את העוזר שלך לממשקי API ושירותים חיצוניים, מה שמאפשר לו לאחזר נתונים ולבצע פעולות בשמך.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Custom Tools",
-          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+          "TITLE": "כלים מותאמים אישית",
+          "NOTE": "כלים מותאמים אישית מאפשרים לעוזר שלך ליצור אינטראקציה עם ממשקי API ושירותים חיצוניים. צור כלים לאחזור נתונים, ביצוע פעולות או שילוב עם המערכות הקיימות שלך כדי לשפר את יכולות העוזר שלך."
         }
       },
-      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "FORM_DESCRIPTION": "הגדר את הכלי המותאם אישית שלך כדי להתחבר לממשקי API חיצוניים",
       "OPTIONS": {
-        "EDIT_TOOL": "Edit tool",
-        "DELETE_TOOL": "Delete tool"
+        "EDIT_TOOL": "ערוך כלי",
+        "DELETE_TOOL": "מחק כלי"
       },
       "CREATE": {
-        "TITLE": "Create Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool created successfully",
-        "ERROR_MESSAGE": "Failed to create custom tool"
+        "TITLE": "צור כלי מותאם אישית",
+        "SUCCESS_MESSAGE": "הכלי המותאם אישית נוצר בהצלחה",
+        "ERROR_MESSAGE": "יצירת הכלי המותאם אישית נכשלה"
       },
       "EDIT": {
-        "TITLE": "Edit Custom Tool",
-        "SUCCESS_MESSAGE": "Custom tool updated successfully",
-        "ERROR_MESSAGE": "Failed to update custom tool"
+        "TITLE": "ערוך כלי מותאם אישית",
+        "SUCCESS_MESSAGE": "הכלי המותאם אישית עודכן בהצלחה",
+        "ERROR_MESSAGE": "עדכון הכלי המותאם אישית נכשל"
       },
       "DELETE": {
-        "TITLE": "Delete Custom Tool",
-        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
-        "ERROR_MESSAGE": "Failed to delete custom tool"
+        "TITLE": "מחק כלי מותאם אישית",
+        "DESCRIPTION": "האם אתה בטוח שברצונך למחוק כלי מותאם אישית זה? לא ניתן לבטל פעולה זו.",
+        "CONFIRM": "כן, מחק",
+        "SUCCESS_MESSAGE": "הכלי המותאם אישית נמחק בהצלחה",
+        "ERROR_MESSAGE": "מחיקת הכלי המותאם אישית נכשלה"
       },
       "FORM": {
         "TITLE": {
-          "LABEL": "Tool Name",
-          "PLACEHOLDER": "Order Lookup",
-          "ERROR": "Tool name is required"
+          "LABEL": "שם כלי",
+          "PLACEHOLDER": "בדיקת הזמנה",
+          "ERROR": "שם הכלי נדרש"
         },
         "DESCRIPTION": {
           "LABEL": "תיאור",
-          "PLACEHOLDER": "Looks up order details by order ID"
+          "PLACEHOLDER": "בודק פרטי הזמנה לפי מזהה הזמנה"
         },
         "HTTP_METHOD": {
-          "LABEL": "Method"
+          "LABEL": "שיטה"
         },
         "ENDPOINT_URL": {
-          "LABEL": "Endpoint URL",
+          "LABEL": "כתובת URL של נקודת קצה",
           "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
-          "ERROR": "Valid URL is required"
+          "ERROR": "כתובת URL חוקית נדרשת"
         },
         "AUTH_TYPE": {
-          "LABEL": "Authentication Type"
+          "LABEL": "סוג אימות"
         },
         "AUTH_TYPES": {
           "NONE": "כלום",
-          "BEARER": "Bearer Token",
-          "BASIC": "Basic Auth",
+          "BEARER": "אסימון נושא (Bearer Token)",
+          "BASIC": "אימות בסיסי",
           "API_KEY": "מפתח API"
         },
         "AUTH_CONFIG": {
-          "BEARER_TOKEN": "Bearer Token",
-          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
-          "USERNAME": "Username",
-          "USERNAME_PLACEHOLDER": "Enter username",
+          "BEARER_TOKEN": "אסימון נושא (Bearer Token)",
+          "BEARER_TOKEN_PLACEHOLDER": "הזן את אסימון הנושא שלך",
+          "USERNAME": "שם משתמש",
+          "USERNAME_PLACEHOLDER": "הזן שם משתמש",
           "PASSWORD": "סיסמה",
-          "PASSWORD_PLACEHOLDER": "Enter password",
-          "API_KEY": "Header Name",
+          "PASSWORD_PLACEHOLDER": "הזן סיסמה",
+          "API_KEY": "שם כותרת (Header)",
           "API_KEY_PLACEHOLDER": "X-API-Key",
-          "API_VALUE": "Header Value",
-          "API_VALUE_PLACEHOLDER": "Enter API key value"
+          "API_VALUE": "ערך כותרת (Header)",
+          "API_VALUE_PLACEHOLDER": "הזן ערך מפתח API"
         },
         "PARAMETERS": {
-          "LABEL": "Parameters",
-          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+          "LABEL": "פרמטרים",
+          "HELP_TEXT": "הגדר את הפרמטרים שיחולצו משאילתות משתמשים"
         },
-        "ADD_PARAMETER": "Add Parameter",
+        "ADD_PARAMETER": "הוסף פרמטר",
         "PARAM_NAME": {
-          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+          "PLACEHOLDER": "שם פרמטר (לדוגמה, order_id)"
         },
         "PARAM_TYPE": {
           "PLACEHOLDER": "סוג"
         },
         "PARAM_TYPES": {
-          "STRING": "String",
+          "STRING": "מחרוזת",
           "NUMBER": "מספר",
-          "BOOLEAN": "Boolean",
-          "ARRAY": "Array",
-          "OBJECT": "Object"
+          "BOOLEAN": "בוליאני",
+          "ARRAY": "מערך",
+          "OBJECT": "אובייקט"
         },
         "PARAM_DESCRIPTION": {
-          "PLACEHOLDER": "Description of the parameter"
+          "PLACEHOLDER": "תיאור הפרמטר"
         },
         "PARAM_REQUIRED": {
           "LABEL": "נדרש"
         },
         "REQUEST_TEMPLATE": {
-          "LABEL": "Request Body Template (Optional)",
+          "LABEL": "תבנית גוף בקשה (אופציונלי)",
           "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
         },
         "RESPONSE_TEMPLATE": {
-          "LABEL": "Response Template (Optional)",
-          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+          "LABEL": "תבנית תגובה (אופציונלי)",
+          "PLACEHOLDER": "סטטוס הזמנה {'{{'} order_id {'}}'}: {'{{'} status {'}}'}"
         },
         "ERRORS": {
-          "PARAM_NAME_REQUIRED": "Parameter name is required"
+          "PARAM_NAME_REQUIRED": "שם הפרמטר נדרש"
         }
       }
     },
     "RESPONSES": {
-      "HEADER": "FAQs",
-      "PENDING_FAQS": "Pending FAQs",
-      "ADD_NEW": "Create new FAQ",
+      "HEADER": "שאלות נפוצות",
+      "PENDING_FAQS": "שאלות נפוצות ממתינות",
+      "ADD_NEW": "צור שאלות נפוצות חדשות",
       "DOCUMENTABLE": {
-        "CONVERSATION": "Conversation #{id}"
+        "CONVERSATION": "שיחה #{id}"
       },
-      "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
-      "SEARCH_PLACEHOLDER": "Search FAQs...",
-      "BULK_APPROVE_BUTTON": "Approve",
+      "SELECTED": "{count} נבחרו",
+      "SELECT_ALL": "בחר הכל ({count})",
+      "UNSELECT_ALL": "בטל בחירת הכל ({count})",
+      "SEARCH_PLACEHOLDER": "חפש שאלות נפוצות...",
+      "BULK_APPROVE_BUTTON": "אשר",
       "BULK_DELETE_BUTTON": "מחק",
       "BULK_APPROVE": {
-        "SUCCESS_MESSAGE": "FAQs approved successfully",
-        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+        "SUCCESS_MESSAGE": "שאלות נפוצות אושרו בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה באישור השאלות הנפוצות, אנא נסה שוב."
       },
       "BULK_DELETE": {
-        "TITLE": "Delete FAQs?",
-        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
-        "CONFIRM": "Yes, delete all",
-        "SUCCESS_MESSAGE": "FAQs deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
+        "TITLE": "מחק שאלות נפוצות?",
+        "DESCRIPTION": "האם אתה בטוח שברצונך למחוק את השאלות הנפוצות שנבחרו? לא ניתן לבטל פעולה זו.",
+        "CONFIRM": "כן, מחק הכל",
+        "SUCCESS_MESSAGE": "שאלות נפוצות נמחקו בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת השאלות הנפוצות, אנא נסה שוב."
       },
       "DELETE": {
-        "TITLE": "Are you sure to delete the FAQ?",
+        "TITLE": "האם אתה בטוח שברצונך למחוק את השאלות הנפוצות?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "FAQ deleted successfully",
-        "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
+        "CONFIRM": "כן, מחק",
+        "SUCCESS_MESSAGE": "השאלות הנפוצות נמחקו בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה במחיקת השאלות הנפוצות, אנא נסה שוב."
       },
       "FILTER": {
-        "ASSISTANT": "Assistant: {selected}",
-        "STATUS": "Status: {selected}",
+        "ASSISTANT": "עוזר: {selected}",
+        "STATUS": "סטטוס: {selected}",
         "ALL_ASSISTANTS": "הכל"
       },
       "STATUS": {
         "TITLE": "מצב",
         "PENDING": "ממתין ל",
-        "APPROVED": "Approved",
+        "APPROVED": "אושר",
         "ALL": "הכל"
       },
       "PENDING_BANNER": {
-        "TITLE": "Captain has found some FAQs your customers were looking for.",
-        "ACTION": "Click here to review"
+        "TITLE": "קפטן מצא כמה שאלות נפוצות שהלקוחות שלך חיפשו.",
+        "ACTION": "לחץ כאן כדי לסקור"
       },
-      "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
+      "FORM_DESCRIPTION": "הוסף שאלה ותשובה מתאימה לבסיס הידע ובחר את העוזר שאליו יש לשייך אותה.",
       "CREATE": {
-        "TITLE": "Add an FAQ",
-        "SUCCESS_MESSAGE": "The response has been added successfully.",
-        "ERROR_MESSAGE": "An error occurred while adding the response. Please try again."
+        "TITLE": "הוסף שאלות נפוצות",
+        "SUCCESS_MESSAGE": "התגובה נוספה בהצלחה.",
+        "ERROR_MESSAGE": "אירעה שגיאה בהוספת התגובה. אנא נסה שוב."
       },
       "FORM": {
         "QUESTION": {
-          "LABEL": "Question",
-          "PLACEHOLDER": "Enter the question here",
-          "ERROR": "Please provide a valid question."
+          "LABEL": "שאלה",
+          "PLACEHOLDER": "הזן את השאלה כאן",
+          "ERROR": "אנא ספק שאלה חוקית."
         },
         "ANSWER": {
-          "LABEL": "Answer",
-          "PLACEHOLDER": "Enter the answer here",
-          "ERROR": "Please provide a valid answer."
+          "LABEL": "תשובה",
+          "PLACEHOLDER": "הזן את התשובה כאן",
+          "ERROR": "אנא ספק תשובה חוקית."
         }
       },
       "EDIT": {
-        "TITLE": "Update the FAQ",
-        "SUCCESS_MESSAGE": "The FAQ has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the FAQ, please try again",
-        "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
+        "TITLE": "עדכן את השאלות הנפוצות",
+        "SUCCESS_MESSAGE": "השאלות הנפוצות עודכנו בהצלחה",
+        "ERROR_MESSAGE": "אירעה שגיאה בעדכון השאלות הנפוצות, אנא נסה שוב",
+        "APPROVE_SUCCESS_MESSAGE": "השאלות הנפוצות סומנו כמאושרות"
       },
       "OPTIONS": {
-        "APPROVE": "Approve",
+        "APPROVE": "אשר",
         "EDIT_RESPONSE": "ערוך",
         "DELETE_RESPONSE": "מחק"
       },
       "EMPTY_STATE": {
-        "TITLE": "No FAQs Found",
-        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
-        "CLEAR_SEARCH": "Clear active filters",
+        "TITLE": "לא נמצאו שאלות נפוצות",
+        "NO_PENDING_TITLE": "אין עוד שאלות נפוצות ממתינות לסקור",
+        "SUBTITLE": "שאלות נפוצות עוזרות לעוזר שלך לספק תשובות מהירות ומדויקות לשאלות של הלקוחות שלך. הן יכולות להיווצר אוטומטית מהתוכן שלך או שניתן להוסיף אותן באופן ידני.",
+        "CLEAR_SEARCH": "נקה מסננים פעילים",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
+          "TITLE": "שאלות נפוצות של קפטן",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "תיבות דואר נכנס מחוברות",
+      "ADD_NEW": "חבר תיבת דואר נכנס חדשה",
       "OPTIONS": {
         "DISCONNECT": "התנתק"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "האם אתה בטוח שברצונך לנתק את תיבת הדואר הנכנס?",
         "DESCRIPTION": "",
-        "CONFIRM": "Yes, delete",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "CONFIRM": "כן, מחק",
+        "SUCCESS_MESSAGE": "תיבת הדואר הנכנס נותקה בהצלחה.",
+        "ERROR_MESSAGE": "אירעה שגיאה בניצוק תיבת הדואר הנכנס, אנא נסה שוב."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "בחר תיבת דואר נכנס להתחברות עם העוזר.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "חבר תיבת דואר נכנס",
+        "SUCCESS_MESSAGE": "תיבת הדואר הנכנס חוברו בהצלחה.",
+        "ERROR_MESSAGE": "אירעה שגיאה בחיבור תיבת הדואר הנכנס. אנא נסה שוב."
       },
       "FORM": {
         "INBOX": {
           "LABEL": "תיבת הדואר הנכנס",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "PLACEHOLDER": "בחר את תיבת הדואר הנכנס לפריסת העוזר.",
+          "ERROR": "בחירת תיבת דואר נכנס נדרשת."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "אין תיבות דואר נכנס מחוברות",
+        "SUBTITLE": "חיבור תיבת דואר נכנס מאפשר לעוזר לטפל בשאלות ראשוניות של הלקוחות שלך לפני העברתן אליך."
       }
     }
   }

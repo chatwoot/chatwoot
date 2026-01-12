@@ -1,24 +1,28 @@
 <script setup>
 import { ref, computed, onMounted, reactive } from 'vue';
-import { useStore } from 'vuex';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { debounce } from '@chatwoot/utils';
+import { useCompaniesStore } from 'dashboard/stores/companies';
 
 import CompaniesListLayout from 'dashboard/components-next/Companies/CompaniesListLayout.vue';
 import CompaniesCard from 'dashboard/components-next/Companies/CompaniesCard/CompaniesCard.vue';
 
-const DEFAULT_SORT_FIELD = 'created_at';
+const DEFAULT_SORT_FIELD = 'name';
 const DEBOUNCE_DELAY = 300;
 
-const store = useStore();
+const companiesStore = useCompaniesStore();
+
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
 
 const { updateUISettings, uiSettings } = useUISettings();
+
+const companies = computed(() => companiesStore.getCompaniesList);
+const meta = computed(() => companiesStore.getMeta);
+const uiFlags = computed(() => companiesStore.getUIFlags);
 
 const searchQuery = computed(() => route.query?.search || '');
 const searchValue = ref(searchQuery.value);
@@ -33,7 +37,7 @@ const parseSortSettings = (sortString = '') => {
   };
 };
 
-const { companies_sort_by: companySortBy = `-${DEFAULT_SORT_FIELD}` } =
+const { companies_sort_by: companySortBy = DEFAULT_SORT_FIELD } =
   uiSettings.value ?? {};
 const { sort: initialSort, order: initialOrder } =
   parseSortSettings(companySortBy);
@@ -45,10 +49,6 @@ const sortState = reactive({
 
 const activeSort = computed(() => sortState.activeSort);
 const activeOrdering = computed(() => sortState.activeOrdering);
-
-const companies = useMapGetter('companies/getCompaniesList');
-const meta = useMapGetter('companies/getMeta');
-const uiFlags = useMapGetter('companies/getUIFlags');
 
 const isFetchingList = computed(() => uiFlags.value.fetchingList);
 
@@ -89,13 +89,13 @@ const fetchCompanies = async (page, search, sort) => {
   }
 
   if (currentSearch) {
-    await store.dispatch('companies/search', {
+    await companiesStore.search({
       search: currentSearch,
       page: currentPage,
       sort: currentSort,
     });
   } else {
-    await store.dispatch('companies/get', {
+    await companiesStore.get({
       page: currentPage,
       sort: currentSort,
     });
