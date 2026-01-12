@@ -85,9 +85,9 @@ RSpec.describe Account, type: :model do
         ready = Concurrent::CountDownLatch.new(concurrent_calls)
         start = Concurrent::CountDownLatch.new(1)
 
-        threads = concurrent_calls.times.map do
+        threads = Array.new(concurrent_calls) do
           Thread.new do
-            thread_count = Account.find(account.id)
+            thread_count = described_class.find(account.id)
             ready.count_down
             start.wait
 
