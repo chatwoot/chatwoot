@@ -6,7 +6,7 @@ export default {
   emits: ['inboxFilterSelection'],
   data() {
     return {
-      selectedOption: null,
+      selectedOptions: [],
     };
   },
   computed: {
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('inboxFilterSelection', this.selectedOption);
+      this.$emit('inboxFilterSelection', this.selectedOptions);
     },
   },
 };
@@ -28,14 +28,21 @@ export default {
 <template>
   <div class="multiselect-wrap--small">
     <multiselect
-      v-model="selectedOption"
+      v-model="selectedOptions"
       class="no-margin"
-      :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
-      label="name"
-      track-by="id"
       :options="options"
+      track-by="id"
+      label="name"
+      multiple
+      :close-on-select="false"
+      :clear-on-select="false"
+      hide-selected
       :option-height="24"
       :show-labels="false"
+      :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+      selected-label
+      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+      :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
       @update:model-value="handleInput"
     />
   </div>
