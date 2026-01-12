@@ -1246,7 +1246,6 @@ export default {
       <CopilotReplyBottomPanel
         v-if="copilot.isActive.value"
         key="copilot-bottom-panel"
-        :is-private="isOnPrivateNote"
         :is-generating-content="copilot.isButtonDisabled.value"
         @submit="onSubmitCopilotReply"
         @cancel="copilot.toggleEditor"
