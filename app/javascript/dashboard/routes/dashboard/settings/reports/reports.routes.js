@@ -66,6 +66,14 @@ const revisedReportRoutes = [
     component: AgentReportsIndex,
   },
   {
+    path: 'agents',
+    name: 'agent_reports_show_empty',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: AgentReportsShow,
+  },
+  {
     path: 'agents/:id',
     name: 'agent_reports_show',
     meta: {
