@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'custom_exceptions/pdf_processing_error'
 
 RSpec.describe Captain::Llm::PaginatedFaqGeneratorService do
   let(:document) { create(:captain_document) }
