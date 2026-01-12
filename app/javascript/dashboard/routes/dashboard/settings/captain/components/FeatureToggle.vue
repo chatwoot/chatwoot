@@ -130,7 +130,7 @@ const handleModelChange = ({ feature, model }) => {
     </div>
     <div
       v-if="showModelSelector && isAllowed"
-      class="flex gap-2 ps-8 model-selector-item"
+      class="flex gap-2 ps-8 relative before:content-[''] before:absolute before:w-0.5 before:h-1/2 before:top-0 before:start-3 before:bg-n-weak after:content-[''] after:absolute after:w-2.5 after:h-3 after:top-[calc(50%-6px)] after:start-3 after:border-b-[0.125rem] after:border-s-[0.125rem] after:rounded-es after:border-n-weak"
     >
       <div class="flex-1 min-w-0">
         <h4 class="text-sm font-medium text-n-slate-12">{{ modelTitle }}</h4>
@@ -142,47 +142,3 @@ const handleModelChange = ({ feature, model }) => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.model-selector-item {
-  position: relative;
-}
-
-.model-selector-item::before {
-  content: '';
-  position: absolute;
-  width: 0.125rem;
-  height: 50%;
-  top: 0;
-  left: 0.75rem;
-  @apply border-n-weak bg-n-weak;
-}
-
-.model-selector-item::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 12px;
-  top: calc(50% - 6px);
-  left: 0.75rem;
-  border-bottom-width: 0.125rem;
-  border-left-width: 0.125rem;
-  border-right-width: 0px;
-  border-top-width: 0px;
-  border-radius: 0 0 0 4px;
-  @apply border-n-weak;
-}
-
-#app[dir='rtl'] .model-selector-item::before {
-  left: auto;
-  right: 0.75rem;
-}
-
-#app[dir='rtl'] .model-selector-item::after {
-  left: auto;
-  right: 0.75rem;
-  border-left-width: 0px;
-  border-right-width: 0.125rem;
-  border-radius: 0 0 4px 0;
-}
-</style>
