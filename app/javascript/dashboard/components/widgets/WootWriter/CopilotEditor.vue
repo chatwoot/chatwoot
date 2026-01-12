@@ -101,8 +101,14 @@ function onKeyup() {
   emit('keyup');
 }
 
-function onKeydown() {
+function onKeydown(view, event) {
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    emit('send');
+    return true;
+  }
   emit('keydown');
+  return false;
 }
 
 function onBlur() {
