@@ -9,7 +9,7 @@
 #   - Account ID
 #   - Start Date (YYYY-MM-DD)
 #   - End Date (YYYY-MM-DD)
-#   - Timezone (e.g., UTC, America/New_York)
+#   - Timezone Offset (e.g., 0, 5.5, -5)
 #
 # Output: <account_id>_<type>_<start_date>_<end_date>.csv
 
@@ -34,12 +34,12 @@ module DownloadReportTasks
     end_date = prompt('Enter End Date (YYYY-MM-DD)')
     abort 'Error: End date is required' if end_date.blank?
 
-    timezone = prompt('Enter Timezone (e.g., UTC, America/New_York)')
-    timezone = 'UTC' if timezone.blank?
+    timezone_offset = prompt('Enter Timezone Offset (e.g., 0, 5.5, -5)')
+    timezone_offset = timezone_offset.blank? ? 0 : timezone_offset.to_f
 
     begin
-      tz = ActiveSupport::TimeZone[timezone]
-      abort "Error: Invalid timezone '#{timezone}'" unless tz
+      tz = ActiveSupport::TimeZone[timezone_offset]
+      abort "Error: Invalid timezone offset '#{timezone_offset}'" unless tz
 
       since = tz.parse("#{start_date} 00:00:00").to_i.to_s
       until_date = tz.parse("#{end_date} 23:59:59").to_i.to_s
@@ -49,7 +49,7 @@ module DownloadReportTasks
 
     {
       account: account,
-      params: { since: since, until: until_date, timezone_offset: tz.utc_offset / 3600.0 },
+      params: { since: since, until: until_date, timezone_offset: timezone_offset },
       start_date: start_date,
       end_date: end_date
     }
