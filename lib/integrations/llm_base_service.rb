@@ -164,6 +164,6 @@ class Integrations::LlmBaseService
   end
 
   def build_error_response_from_exception(error, messages)
-    { error: error.message, error_code: 500, request_messages: messages }
+    { error: error.message, request_messages: messages }
   end
 end

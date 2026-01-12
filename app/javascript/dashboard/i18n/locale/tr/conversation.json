@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
+    "48_HOURS_WINDOW": "48 saat mesaj penceresi kısıtlaması",
     "API_HOURS_WINDOW": "Bu konuşmaya yalnızca {hours} saat içinde cevap verebilirsiniz",
     "NOT_ASSIGNED_TO_YOU": "Bu görüşme size atanmamış. Bu konuşmayı kendinize atamak ister misiniz?",
     "ASSIGN_TO_ME": "Bana ata",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Daha fazla oku",
       "DISMISS_REPLY": "Cevabı reddet",
       "REPLYING_TO": "Cevap veriliyor:",
-      "TIP_FORMAT_ICON": "Metin Düzenlemeyi Göster",
       "TIP_EMOJI_ICON": "Emojileri göster",
       "TIP_ATTACH_ICON": "Dosya ekle",
       "TIP_AUDIORECORDER_ICON": "Ses kaydet",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "İletişim",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Gelen arama",
+      "OUTGOING_CALL": "Giden arama",
+      "CALL_IN_PROGRESS": "Arama devam ediyor",
+      "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -421,7 +431,7 @@
     "MULTIPLE": "{user} and {count} others are typing"
   },
   "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
+    "TRY_THESE_PROMPTS": "Bu komutları deneyin"
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"

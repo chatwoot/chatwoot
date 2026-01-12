@@ -1,24 +1,11 @@
 # frozen_string_literal: true
 
 require 'opentelemetry_config'
-require_relative 'llm_instrumentation_constants'
-require_relative 'llm_instrumentation_helpers'
 
 module Integrations::LlmInstrumentation
   include Integrations::LlmInstrumentationConstants
   include Integrations::LlmInstrumentationHelpers
-
-  PROVIDER_PREFIXES = {
-    'openai' => %w[gpt- o1 o3 o4 text-embedding- whisper- tts-],
-    'anthropic' => %w[claude-],
-    'google' => %w[gemini-],
-    'mistral' => %w[mistral- codestral-],
-    'deepseek' => %w[deepseek-]
-  }.freeze
-
-  def tracer
-    @tracer ||= OpentelemetryConfig.tracer
-  end
+  include Integrations::LlmInstrumentationSpans
 
   def instrument_llm_call(params)
     return yield unless ChatwootApp.otel_enabled?
@@ -43,6 +30,7 @@ module Integrations::LlmInstrumentation
     result = nil
     executed = false
     tracer.in_span(params[:span_name]) do |span|
+      set_request_attributes(span, params)
       set_metadata_attributes(span, params)
 
       # By default, the input and output of a trace are set from the root observation
@@ -70,16 +58,57 @@ module Integrations::LlmInstrumentation
     end
   end
 
-  def determine_provider(model_name)
-    return 'openai' if model_name.blank?
+  def instrument_embedding_call(params)
+    return yield unless ChatwootApp.otel_enabled?
 
-    model = model_name.to_s.downcase
-
-    PROVIDER_PREFIXES.each do |provider, prefixes|
-      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    instrument_with_span(params[:span_name] || 'llm.embedding', params) do |span, track_result|
+      set_embedding_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_embedding_result_attributes(span, result)
+      result
     end
+  end
 
-    'openai'
+  def instrument_audio_transcription(params)
+    return yield unless ChatwootApp.otel_enabled?
+
+    instrument_with_span(params[:span_name] || 'llm.audio.transcription', params) do |span, track_result|
+      set_audio_transcription_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_transcription_result_attributes(span, result)
+      result
+    end
+  end
+
+  def instrument_moderation_call(params)
+    return yield unless ChatwootApp.otel_enabled?
+
+    instrument_with_span(params[:span_name] || 'llm.moderation', params) do |span, track_result|
+      set_moderation_span_attributes(span, params)
+      result = yield
+      track_result.call(result)
+      set_moderation_result_attributes(span, result)
+      result
+    end
+  end
+
+  def instrument_with_span(span_name, params, &)
+    result = nil
+    executed = false
+    tracer.in_span(span_name) do |span|
+      track_result = lambda do |r|
+        executed = true
+        result = r
+      end
+      yield(span, track_result)
+    end
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: resolve_account(params)).capture_exception
+    raise unless executed
+
+    result
   end
 
   private
@@ -89,45 +118,5 @@ module Integrations::LlmInstrumentation
     return Account.find_by(id: params[:account_id]) if params[:account_id].present?
 
     nil
-  end
-
-  def setup_span_attributes(span, params)
-    set_request_attributes(span, params)
-    set_prompt_messages(span, params[:messages])
-    set_metadata_attributes(span, params)
-  end
-
-  def record_completion(span, result)
-    set_completion_attributes(span, result) if result.is_a?(Hash)
-  end
-
-  def set_request_attributes(span, params)
-    provider = determine_provider(params[:model])
-    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
-    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
-    span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
-  end
-
-  def set_prompt_messages(span, messages)
-    messages.each_with_index do |msg, idx|
-      role = msg[:role] || msg['role']
-      content = msg[:content] || msg['content']
-
-      span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), role)
-      span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), content.to_s)
-    end
-  end
-
-  def set_metadata_attributes(span, params)
-    session_id = params[:conversation_id].present? ? "#{params[:account_id]}_#{params[:conversation_id]}" : nil
-    span.set_attribute(ATTR_LANGFUSE_USER_ID, params[:account_id].to_s) if params[:account_id]
-    span.set_attribute(ATTR_LANGFUSE_SESSION_ID, session_id) if session_id.present?
-    span.set_attribute(ATTR_LANGFUSE_TAGS, [params[:feature_name]].to_json)
-
-    return unless params[:metadata].is_a?(Hash)
-
-    params[:metadata].each do |key, value|
-      span.set_attribute(format(ATTR_LANGFUSE_METADATA, key), value.to_s)
-    end
   end
 end
