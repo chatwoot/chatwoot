@@ -6,7 +6,6 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
-import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import ConversationRequiredAttributeItem from 'dashboard/components-next/ConversationWorkflow/ConversationRequiredAttributeItem.vue';
 import ConversationRequiredEmpty from 'dashboard/components-next/Conversation/ConversationRequiredEmpty.vue';
@@ -97,8 +96,8 @@ const handleDelete = attribute => {
 </script>
 
 <template>
-  <CardLayout
-    class="[&>div]:px-0 [&>div]:py-0 [&>div]:gap-0 [&>div]:divide-y [&>div]:divide-n-weak"
+  <div
+    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
     @click="handleClick"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
@@ -143,5 +142,5 @@ const handleDelete = attribute => {
       :attribute="attribute"
       @delete="handleDelete"
     />
-  </CardLayout>
+  </div>
 </template>

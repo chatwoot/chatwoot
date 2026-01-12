@@ -4,7 +4,6 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
-import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
@@ -125,8 +124,8 @@ const toggleAutoResolve = async () => {
 </script>
 
 <template>
-  <CardLayout
-    class="[&>div]:px-0 [&>div]:py-0 [&>div]:gap-0 [&>div]:divide-y [&>div]:divide-n-weak"
+  <div
+    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
   >
     <div class="flex flex-col gap-2 items-start px-5 py-4">
       <div class="flex justify-between items-center w-full">
@@ -210,5 +209,5 @@ const toggleAutoResolve = async () => {
         </div>
       </form>
     </div>
-  </CardLayout>
+  </div>
 </template>
