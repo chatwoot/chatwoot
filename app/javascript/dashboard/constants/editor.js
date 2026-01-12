@@ -237,10 +237,11 @@ export const MARKDOWN_PATTERNS = [
     patterns: [{ pattern: /`([^`]+)`/g, replacement: '$1' }],
   },
   {
-    type: 'link', // PM: link, eg: [text](url) or <url>
+    type: 'link', // PM: link
     patterns: [
       { pattern: /\[([^\]]+)\]\([^)]+\)/g, replacement: '$1' }, // [text](url) -> text
-      { pattern: /<(https?:\/\/[^>]+)>/g, replacement: '$1' }, // <url> -> url (autolinks)
+      { pattern: /<([a-zA-Z][a-zA-Z0-9+.-]*:[^\s>]+)>/g, replacement: '$1' }, // <https://...>, <mailto:...>, <tel:...>, <ftp://...>, etc
+      { pattern: /<([^\s@]+@[^\s@>]+)>/g, replacement: '$1' }, // <user@example.com> -> user@example.com
     ],
   },
 ];
