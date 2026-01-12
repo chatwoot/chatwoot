@@ -1,5 +1,5 @@
 class Notification::TrimUserNotificationsJob < ApplicationJob
-  queue_as :low
+  queue_as :purgable
 
   NOTIFICATION_LIMIT = 300
 
