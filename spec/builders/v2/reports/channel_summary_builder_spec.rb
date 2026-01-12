@@ -88,18 +88,5 @@ RSpec.describe V2::Reports::ChannelSummaryBuilder do
         )
       end
     end
-
-    context 'when date range exceeds 6 months' do
-      let(:params) do
-        {
-          since: 1.year.ago.beginning_of_day,
-          until: Time.current.end_of_day
-        }
-      end
-
-      it 'raises InvalidDateRange error' do
-        expect { report }.to raise_error(CustomExceptions::Report::InvalidDateRange)
-      end
-    end
   end
 end

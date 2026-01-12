@@ -220,7 +220,7 @@ RSpec.describe 'Summary Reports API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['message']).to eq(I18n.t('errors.reports.date_range_too_long'))
+        expect(response.parsed_body['error']).to eq(I18n.t('errors.reports.date_range_too_long'))
       end
     end
   end

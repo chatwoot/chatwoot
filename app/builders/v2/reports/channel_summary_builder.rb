@@ -1,23 +1,13 @@
 class V2::Reports::ChannelSummaryBuilder
   include DateRangeHelper
 
-  MAX_DURATION = 6.months
-
   pattr_initialize [:account!, :params!]
 
   def build
-    raise CustomExceptions::Report::InvalidDateRange, {} if date_range_exceeds_limit?
-
     conversations_by_channel_and_status.transform_values { |status_counts| build_channel_stats(status_counts) }
   end
 
   private
-
-  def date_range_exceeds_limit?
-    return false if range.nil?
-
-    (range.end.to_date - range.begin.to_date).days > MAX_DURATION
-  end
 
   def conversations_by_channel_and_status
     account.conversations
