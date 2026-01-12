@@ -42,6 +42,17 @@ const updateAuthCookie = (cookieContent, baseDomain = '') =>
     baseDomain,
   });
 
+const getTargetOrigin = () => {
+  const { baseUrl } = window.$chatwoot || {};
+  if (!baseUrl) return null;
+  try {
+    const url = new URL(baseUrl);
+    return url.origin;
+  } catch {
+    return null;
+  }
+};
+
 const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
   setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
@@ -93,13 +104,19 @@ export const IFrameHelper = {
   getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
     const element = IFrameHelper.getAppFrame();
+    const targetOrigin = getTargetOrigin();
+    if (!targetOrigin) return;
     element.contentWindow.postMessage(
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
-      '*'
+      targetOrigin
     );
   },
   initPostMessageCommunication: () => {
     window.onmessage = e => {
+      const expectedOrigin = getTargetOrigin();
+      if (!expectedOrigin || e.origin !== expectedOrigin) {
+        return;
+      }
       if (
         typeof e.data !== 'string' ||
         e.data.indexOf('chatwoot-widget:') !== 0
