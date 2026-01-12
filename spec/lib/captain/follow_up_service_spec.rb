@@ -2,6 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Captain::FollowUpService do
   let(:account) { create(:account) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
   let(:user_message) { 'Make it more concise' }
   let(:follow_up_context) do
     {
@@ -18,11 +20,18 @@ RSpec.describe Captain::FollowUpService do
     described_class.new(
       account: account,
       follow_up_context: follow_up_context,
-      user_message: user_message
+      user_message: user_message,
+      conversation_display_id: conversation.display_id
     )
   end
 
   describe '#perform' do
+    context 'when conversation_display_id is provided' do
+      it 'resolves conversation for instrumentation' do
+        expect(service.send(:conversation)).to eq(conversation)
+      end
+    end
+
     context 'when follow-up context exists' do
       it 'constructs messages array with full conversation history' do
         expect(service).to receive(:make_api_call) do |args|

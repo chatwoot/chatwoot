@@ -114,15 +114,17 @@ class TasksAPI extends ApiClient {
    * @param {Object} options - The follow-up options.
    * @param {Object} options.followUpContext - The follow-up context from a previous task.
    * @param {string} options.message - The follow-up message/request from the user.
+   * @param {string} [options.conversationId] - The conversation ID for Langfuse session tracking.
    * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
    * @returns {Promise} A promise that resolves with the follow-up response and updated follow-up context.
    */
-  followUp({ followUpContext, message }, signal) {
+  followUp({ followUpContext, message, conversationId }, signal) {
     return axios.post(
       `${this.url}/follow_up`,
       {
         follow_up_context: followUpContext,
         message,
+        conversation_display_id: conversationId,
       },
       { signal }
     );

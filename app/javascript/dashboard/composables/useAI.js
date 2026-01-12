@@ -195,7 +195,7 @@ export function useAI() {
   const followUp = async ({ followUpContext, message, signal }) => {
     try {
       const result = await TasksAPI.followUp(
-        { followUpContext, message },
+        { followUpContext, message, conversationId: conversationId.value },
         signal
       );
       const {

@@ -43,7 +43,8 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
     result = Captain::FollowUpService.new(
       account: Current.account,
       follow_up_context: params[:follow_up_context]&.to_unsafe_h,
-      user_message: params[:message]
+      user_message: params[:message],
+      conversation_display_id: params[:conversation_display_id]
     ).perform
 
     render_result(result)

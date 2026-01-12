@@ -1,5 +1,5 @@
 class Captain::FollowUpService < Captain::BaseTaskService
-  pattr_initialize [:account!, :follow_up_context!, :user_message!]
+  pattr_initialize [:account!, :follow_up_context!, :user_message!, { conversation_display_id: nil }]
 
   ALLOWED_EVENT_NAMES = %w[
     professional
