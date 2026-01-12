@@ -13,7 +13,7 @@ services:
       - postgres
       - redis
     ports:
-      - '127.0.0.1:3000:3000'
+      - '3000:3000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -21,6 +21,8 @@ services:
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
+    networks:
+      - chatwoot_network
 
   sidekiq:
     <<: *base
@@ -33,6 +35,8 @@ services:
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
+    networks:
+      - chatwoot_network
 
   postgres:
     image: pgvector/pgvector:pg16
@@ -44,8 +48,9 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    networks:
+      - chatwoot_network
 
   redis:
     image: redis:alpine
@@ -56,8 +61,32 @@ services:
       - redis_data:/data
     ports:
       - '127.0.0.1:6379:6379'
+    networks:
+      - chatwoot_network
+
+  # Nginx Proxy Manager
+  nginx-proxy-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'      # HTTP
+      - '443:443'    # HTTPS
+      - '81:81'      # Interface Admin
+    environment:
+      DB_SQLITE_FILE: "/data/database.sqlite"
+    volumes:
+      - npm_data:/data
+      - npm_letsencrypt:/etc/letsencrypt
+    networks:
+      - chatwoot_network
 
 volumes:
   storage_data:
   postgres_data:
   redis_data:
+  npm_data:
+  npm_letsencrypt:
+
+networks:
+  chatwoot_network:
+    driver: bridge
