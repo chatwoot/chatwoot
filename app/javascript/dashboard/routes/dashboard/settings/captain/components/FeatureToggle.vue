@@ -2,7 +2,7 @@
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
-import { useCaptainConfigStore } from 'dashboard/store/captain/config';
+import { useCaptainConfigStore } from 'dashboard/store/captain/preferences';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ModelDropdown from './ModelDropdown.vue';
 

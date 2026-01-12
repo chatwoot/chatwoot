@@ -6,7 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useConfig } from 'dashboard/composables/useConfig';
-import { useCaptainConfigStore } from 'dashboard/store/captain/config';
+import { useCaptainConfigStore } from 'dashboard/store/captain/preferences';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
