@@ -27,7 +27,16 @@ class OnlineStatusTracker
   # redis hash with obj_id key && status as value
 
   def self.set_status(account_id, user_id, status)
+    old_status = get_status(account_id, user_id)
+
     ::Redis::Alfred.hset(status_key(account_id), user_id, status)
+
+    ::AgentActivity::ActivityTracker.track_status_change(account_id, user_id, status) if old_status != status
+
+  rescue StandardError => e
+    Rails.logger.error(
+      "Failed to track agent activity: #{e.message}\n#{e.backtrace.join("\n")}"
+    )
   end
 
   def self.get_status(account_id, user_id)

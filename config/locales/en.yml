@@ -145,6 +145,14 @@ en:
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
+    agent_activity_csv:
+      agent_name: Agent name
+      email: Email
+      total_active_hours: Total active hours
+      online_hours: Online hours
+      busy_hours: Busy hours
+      offline_hours: Offline hours
+      current_status: Current status
     agent_csv:
       agent_name: Agent name
       conversations_count: Assigned conversations

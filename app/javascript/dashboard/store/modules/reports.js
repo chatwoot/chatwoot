@@ -60,12 +60,14 @@ const state = {
       isFetchingAccountResolutionsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
+      isFetchingAgentActivity: false,
     },
     accountConversationMetric: {},
     accountConversationHeatmap: [],
     accountResolutionHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
+    agentActivity: [],
   },
 };
 
@@ -194,6 +196,26 @@ export const actions = {
         commit(types.default.TOGGLE_ACCOUNT_CONVERSATION_METRIC_LOADING, false);
       });
   },
+  fetchAgentActivity({ commit }, reportObj) {
+    commit(types.default.TOGGLE_AGENT_ACTIVITY_LOADING, true);
+
+    return Report.getAgentActivity({
+      since: reportObj.since,
+      until: reportObj.until,
+      teamIds: reportObj.teamIds ?? [],
+      userIds: reportObj.userIds ?? [],
+      inboxIds: reportObj.inboxIds ?? [],
+      hideInactive: reportObj.hideInactive ?? false,
+      timezoneOffset: reportObj.timezoneOffset ?? 0,
+    })
+      .then(response => {
+        commit(types.default.SET_AGENT_ACTIVITY, response.data);
+        commit(types.default.TOGGLE_AGENT_ACTIVITY_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_AGENT_ACTIVITY_LOADING, false);
+      });
+  },
   fetchAgentConversationMetric({ commit }) {
     commit(types.default.TOGGLE_AGENT_CONVERSATION_METRIC_LOADING, true);
     liveReports
@@ -219,6 +241,35 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  downloadAgentActivityReport(_, reportObj) {
+    return Report.getAgentActivityCSV({
+      since: reportObj.since,
+      until: reportObj.until,
+      teamIds: reportObj.teamIds ?? [],
+      userIds: reportObj.userIds ?? [],
+      inboxIds: reportObj.inboxIds ?? [],
+      hideInactive: reportObj.hideInactive ?? false,
+      timezoneOffset: reportObj.timezoneOffset ?? 0,
+    })
+      .then(response => {
+        downloadCsvFile(
+          reportObj.fileName ??
+            generateFileName({
+              type: 'Agent activity',
+              from: reportObj.since,
+              to: reportObj.until,
+            }),
+          response.data
+        );
+
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'agent_activity',
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
   },
   downloadAgentReports(_, reportObj) {
@@ -356,6 +407,12 @@ const mutations = {
   },
   [types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingTeamConversationMetric = flag;
+  },
+  [types.default.SET_AGENT_ACTIVITY](_state, records) {
+    _state.agentActivity = records;
+  },
+  [types.default.TOGGLE_AGENT_ACTIVITY_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingAgentActivity = flag;
   },
 };
 
