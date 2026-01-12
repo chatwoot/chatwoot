@@ -36,7 +36,8 @@
       "LOADING": "Fetching bots...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
-        "URL": "Webhook URL"
+        "URL": "Webhook URL",
+        "ACTIONS": "Actions"
       }
     },
     "DELETE": {

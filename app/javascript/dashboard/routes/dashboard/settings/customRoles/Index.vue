@@ -10,6 +10,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { picoSearch } from '@scmmishra/pico-search';
+import { BaseTable } from 'dashboard/components-next/table';
 
 const store = useStore();
 const { t } = useI18n();
@@ -156,32 +157,25 @@ const confirmDeletion = () => {
 
     <template #body>
       <CustomRolePaywall v-if="isBehindAPaywall" />
-      <span
-        v-else-if="!filteredRecords.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      <BaseTable
+        v-else
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery
+            ? $t('CUSTOM_ROLE.NO_RESULTS')
+            : $t('CUSTOM_ROLE.LIST.404')
+        "
       >
-        {{ $t('CUSTOM_ROLE.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            <span class="mb-0">
-              {{ thHeader }}
-            </span>
-          </th>
-        </thead>
-
-        <CustomRoleTableBody
-          :roles="filteredRecords"
-          :loading="loading"
-          @edit="openEditModal"
-          @delete="openDeletePopup"
-        />
-      </table>
+        <template #row="{ items }">
+          <CustomRoleTableBody
+            :roles="items"
+            :loading="loading"
+            @edit="openEditModal"
+            @delete="openDeletePopup"
+          />
+        </template>
+      </BaseTable>
     </template>
 
     <woot-modal

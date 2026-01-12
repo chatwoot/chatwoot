@@ -181,7 +181,7 @@ const tableHeaders = computed(() => {
               {{ tableHeaders[0] }}
             </span>
             <Icon
-              class="size-5 text-n-slate-11"
+              class="size-5 text-n-slate-11 flex-shrink-0"
               :icon="
                 sortOrder === 'desc'
                   ? 'i-woot-sort-descending'
@@ -201,9 +201,9 @@ const tableHeaders = computed(() => {
             :item="cannedItem"
           >
             <template #default>
-              <BaseTableCell width="w-full" truncate>
+              <BaseTableCell class="max-w-0">
                 <div class="flex flex-col gap-2 min-w-0">
-                  <span class="text-heading-3 text-n-slate-12 truncate">
+                  <span class="text-heading-3 text-n-slate-12 truncate block">
                     {{ cannedItem.short_code }}
                   </span>
                   <p class="text-body-main text-n-slate-11 line-clamp-5">
@@ -212,7 +212,7 @@ const tableHeaders = computed(() => {
                 </div>
               </BaseTableCell>
 
-              <BaseTableCell align="end">
+              <BaseTableCell align="end" class="w-24">
                 <div class="flex gap-3 justify-end flex-shrink-0">
                   <Button
                     v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"

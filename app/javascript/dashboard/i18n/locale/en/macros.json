@@ -31,7 +31,8 @@
         "NAME": "Name",
         "CREATED BY": "Created by",
         "LAST_UPDATED_BY": "Last updated by",
-        "VISIBILITY": "Visibility"
+        "VISIBILITY": "Visibility",
+        "ACTIONS": "Actions"
       },
       "404": "No macros found"
     },

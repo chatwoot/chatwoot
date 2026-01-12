@@ -8,6 +8,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -61,6 +62,7 @@ const tableHeaders = computed(() => {
     t('MACROS.LIST.TABLE_HEADER.CREATED BY'),
     t('MACROS.LIST.TABLE_HEADER.LAST_UPDATED_BY'),
     t('MACROS.LIST.TABLE_HEADER.VISIBILITY'),
+    t('MACROS.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 </script>
@@ -90,31 +92,22 @@ const tableHeaders = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <span
-        v-if="!filteredRecords.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('MACROS.NO_RESULTS') : $t('MACROS.LIST.404')
+        "
       >
-        {{ $t('MACROS.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak text-n-slate-11">
+        <template #row="{ items }">
           <MacrosTableRow
-            v-for="(macro, index) in filteredRecords"
-            :key="index"
+            v-for="macro in items"
+            :key="macro.id"
             :macro="macro"
             @delete="openDeletePopup(macro)"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
       <woot-delete-modal
         v-model:show="showDeleteConfirmationPopup"
         :on-close="closeDeletePopup"

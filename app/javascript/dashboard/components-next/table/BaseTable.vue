@@ -28,7 +28,7 @@ const showHeaders = computed(
 
 <template>
   <div class="w-full">
-    <table class="min-w-full divide-y divide-n-weak">
+    <table class="min-w-full table-auto divide-y divide-n-weak">
       <thead v-if="showHeaders">
         <tr>
           <th

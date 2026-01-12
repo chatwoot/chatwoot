@@ -11,6 +11,11 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import AgentBotModal from './components/AgentBotModal.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import {
+  BaseTable,
+  BaseTableRow,
+  BaseTableCell,
+} from 'dashboard/components-next/table';
 
 const MODAL_TYPES = {
   CREATE: 'create',
@@ -34,6 +39,7 @@ const tableHeaders = computed(() => {
   return [
     t('AGENT_BOTS.LIST.TABLE_HEADER.DETAILS'),
     t('AGENT_BOTS.LIST.TABLE_HEADER.URL'),
+    t('AGENT_BOTS.LIST.TABLE_HEADER.ACTIONS'),
   ];
 });
 
@@ -107,78 +113,76 @@ onMounted(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <span
-        v-if="!filteredAgentBots.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredAgentBots"
+        :no-data-message="
+          searchQuery ? t('AGENT_BOTS.NO_RESULTS') : t('AGENT_BOTS.LIST.404')
+        "
       >
-        {{ t('AGENT_BOTS.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-strong">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
-          <tr v-for="bot in filteredAgentBots" :key="bot.id">
-            <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <div class="flex flex-row items-center gap-4">
-                <Avatar
-                  :name="bot.name"
-                  :src="bot.thumbnail"
-                  :size="40"
-                  rounded-full
-                />
-                <div>
-                  <span class="block font-medium break-words">
-                    {{ bot.name }}
-                    <span
-                      v-if="bot.system_bot"
-                      class="text-xs text-n-slate-12 bg-n-blue-5 inline-block rounded-md py-0.5 px-1 ltr:ml-1 rtl:mr-1"
-                    >
-                      {{ $t('AGENT_BOTS.GLOBAL_BOT_BADGE') }}
+        <template #row="{ items }">
+          <BaseTableRow v-for="bot in items" :key="bot.id" :item="bot">
+            <template #default>
+              <BaseTableCell class="max-w-0">
+                <div class="flex items-center gap-4 min-w-0">
+                  <Avatar
+                    :name="bot.name"
+                    :src="bot.thumbnail"
+                    :size="40"
+                    rounded-full
+                    class="flex-shrink-0"
+                  />
+                  <div class="min-w-0">
+                    <div class="flex items-center gap-2">
+                      <span class="text-body-main text-n-slate-12 truncate">
+                        {{ bot.name }}
+                      </span>
+                      <span
+                        v-if="bot.system_bot"
+                        class="text-xs text-n-slate-12 bg-n-blue-5 rounded-md py-0.5 px-1 flex-shrink-0"
+                      >
+                        {{ $t('AGENT_BOTS.GLOBAL_BOT_BADGE') }}
+                      </span>
+                    </div>
+                    <span class="text-body-main text-n-slate-11 block truncate">
+                      {{ bot.description }}
                     </span>
-                  </span>
-                  <span class="text-sm text-n-slate-11">
-                    {{ bot.description }}
-                  </span>
+                  </div>
                 </div>
-              </div>
-            </td>
-            <td class="py-4 ltr:pr-4 rtl:pl-4 text-sm">
-              {{ bot.outgoing_url || bot.bot_config?.webhook_url }}
-            </td>
-            <td class="py-4 min-w-xs">
-              <div class="flex gap-1 justify-end">
-                <Button
-                  v-if="!bot.system_bot"
-                  v-tooltip.top="t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
-                  icon="i-lucide-pen"
-                  slate
-                  xs
-                  faded
-                  :is-loading="loading[bot.id]"
-                  @click="openEditModal(bot)"
-                />
-                <Button
-                  v-if="!bot.system_bot"
-                  v-tooltip.top="t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
-                  icon="i-lucide-trash-2"
-                  xs
-                  ruby
-                  faded
-                  :is-loading="loading[bot.id]"
-                  @click="openDeletePopup(bot)"
-                />
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </BaseTableCell>
+
+              <BaseTableCell class="max-w-0">
+                <span class="text-body-main text-n-slate-11 truncate block">
+                  {{ bot.outgoing_url || bot.bot_config?.webhook_url }}
+                </span>
+              </BaseTableCell>
+
+              <BaseTableCell align="end" class="w-24">
+                <div class="flex gap-3 justify-end flex-shrink-0">
+                  <Button
+                    v-if="!bot.system_bot"
+                    v-tooltip.top="t('AGENT_BOTS.EDIT.BUTTON_TEXT')"
+                    icon="i-woot-edit-pen"
+                    slate
+                    sm
+                    :is-loading="loading[bot.id]"
+                    @click="openEditModal(bot)"
+                  />
+                  <Button
+                    v-if="!bot.system_bot"
+                    v-tooltip.top="t('AGENT_BOTS.DELETE.BUTTON_TEXT')"
+                    icon="i-woot-bin"
+                    slate
+                    sm
+                    :is-loading="loading[bot.id]"
+                    @click="openDeletePopup(bot)"
+                  />
+                </div>
+              </BaseTableCell>
+            </template>
+          </BaseTableRow>
+        </template>
+      </BaseTable>
     </template>
 
     <AgentBotModal

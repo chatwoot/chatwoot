@@ -38,7 +38,7 @@ const automationActive = computed({
 <template>
   <BaseTableRow :item="automation">
     <template #default>
-      <BaseTableCell width="w-full" truncate>
+      <BaseTableCell class="max-w-0 w-full">
         <div class="flex items-center gap-2 min-w-0">
           <span class="text-body-main text-n-slate-12 truncate">
             {{ automation.name }}
@@ -50,21 +50,17 @@ const automationActive = computed({
         </div>
       </BaseTableCell>
 
-      <BaseTableCell width="w-16">
+      <BaseTableCell>
         <ToggleSwitch v-model="automationActive" />
       </BaseTableCell>
 
-      <BaseTableCell
-        width="w-32"
-        whitespace="nowrap"
-        :title="readableDateWithTime(automation.created_on)"
-      >
-        <span class="text-body-main text-n-slate-12">
+      <BaseTableCell :title="readableDateWithTime(automation.created_on)">
+        <span class="text-body-main text-n-slate-12 whitespace-nowrap">
           {{ readableDate(automation.created_on) }}
         </span>
       </BaseTableCell>
 
-      <BaseTableCell width="w-36" align="end">
+      <BaseTableCell align="end">
         <div class="flex gap-3 justify-end flex-shrink-0">
           <Button
             v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
