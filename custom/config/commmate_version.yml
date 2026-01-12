@@ -5,8 +5,8 @@
 #   - For downstream releases: match Chatwoot version (e.g., 4.8.0)
 #   - For CommMate patches: increment patch (e.g., 4.8.0.1, 4.8.0.2)
 #
-# Last Updated: December 2025
+# Last Updated: January 2026
 
-commmate_version: '4.9.1.0'
+commmate_version: '4.9.1.2'
 base_chatwoot_version: '4.9.1'
 
