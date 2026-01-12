@@ -16,27 +16,17 @@ const visibleAttributes = ref([]);
 const formValues = ref({});
 const conversationContext = ref(null);
 
-const getPlaceholder = type => {
-  const placeholders = {
-    text: t(
-      'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.TEXT'
-    ),
-    number: t(
-      'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.NUMBER'
-    ),
-    link: t(
-      'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LINK'
-    ),
-    date: t(
-      'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATE'
-    ),
-    list: t(
-      'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LIST'
-    ),
-  };
+const placeholders = computed(() => ({
+  text: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.TEXT'),
+  number: t(
+    'CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.NUMBER'
+  ),
+  link: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LINK'),
+  date: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.DATE'),
+  list: t('CONVERSATION_WORKFLOW.REQUIRED_ATTRIBUTES.MODAL.PLACEHOLDERS.LIST'),
+}));
 
-  return placeholders[type] || '';
-};
+const getPlaceholder = type => placeholders.value[type] || '';
 
 const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
