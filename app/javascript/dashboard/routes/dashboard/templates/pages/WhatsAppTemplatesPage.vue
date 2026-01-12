@@ -10,7 +10,7 @@ import WhatsappTemplatesAPI from 'dashboard/api/whatsappTemplates';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import Modal from 'dashboard/components/Modal.vue';
-import TemplateBuilder from '../components/TemplateBuilder.vue';
+import TemplateBuilder from 'dashboard/components-next/Templates/TemplateBuilder/TemplateBuilder.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -31,7 +31,7 @@ const whatsAppCloudInboxes = computed(() => {
 // Current inbox
 const currentInbox = computed(() => {
   const inboxId = parseInt(route.params.inboxId, 10);
-  if (isNaN(inboxId)) return null;
+  if (Number.isNaN(inboxId)) return null;
   return whatsAppCloudInboxes.value.find(i => i.id === inboxId);
 });
 
@@ -47,19 +47,19 @@ const templateToDelete = ref(null);
 // Computed
 const safeTemplates = computed(() => {
   const templateList = Array.isArray(templates.value) ? templates.value : [];
-  return templateList.filter(t => t !== null && t !== undefined);
+  return templateList.filter(tpl => tpl !== null && tpl !== undefined);
 });
 
 const approvedTemplates = computed(() => {
-  return safeTemplates.value.filter(t => t.status === 'APPROVED');
+  return safeTemplates.value.filter(tpl => tpl.status === 'APPROVED');
 });
 
 const pendingTemplates = computed(() => {
-  return safeTemplates.value.filter(t => t.status === 'PENDING');
+  return safeTemplates.value.filter(tpl => tpl.status === 'PENDING');
 });
 
 const rejectedTemplates = computed(() => {
-  return safeTemplates.value.filter(t => t.status === 'REJECTED');
+  return safeTemplates.value.filter(tpl => tpl.status === 'REJECTED');
 });
 
 // Methods
@@ -104,6 +104,11 @@ const closeCreateModal = () => {
   showCreateModal.value = false;
 };
 
+const delay = ms =>
+  new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
+
 const createTemplate = async payload => {
   if (!currentInbox.value) return;
   isCreating.value = true;
@@ -111,10 +116,9 @@ const createTemplate = async payload => {
     await WhatsappTemplatesAPI.createTemplate(currentInbox.value.id, payload);
     useAlert(t('INBOX_MGMT.WHATSAPP_TEMPLATES.CREATE_SUCCESS'));
     closeCreateModal();
-    await new Promise(resolve => setTimeout(resolve, 4000));
+    await delay(4000);
     await syncTemplates();
   } catch (error) {
-    console.error('Template creation error:', error);
     let errorMessage;
     if (error.response?.data?.details?.error?.message) {
       errorMessage = error.response.data.details.error.message;
@@ -193,7 +197,7 @@ const getTemplateBody = template => {
 
 const selectInbox = inboxId => {
   router.push({
-    name: 'templates_inbox_index',
+    name: 'templates_whatsapp_index',
     params: {
       accountId: route.params.accountId,
       inboxId,
@@ -313,7 +317,9 @@ onMounted(async () => {
               v-else-if="templates.length === 0"
               class="text-center py-14 text-n-slate-11"
             >
-              <div class="i-lucide-file-text text-4xl mx-auto mb-3 opacity-50" />
+              <div
+                class="i-lucide-file-text text-4xl mx-auto mb-3 opacity-50"
+              />
               <p class="text-base">
                 {{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.EMPTY') }}
               </p>
@@ -353,7 +359,9 @@ onMounted(async () => {
                   :key="template.id || template.name"
                   class="flex flex-row justify-between items-center w-full gap-3 px-6 py-5 shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2"
                 >
-                  <div class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2">
+                  <div
+                    class="flex flex-col items-start justify-between flex-1 min-w-0 gap-2"
+                  >
                     <div class="flex justify-between gap-3 w-fit">
                       <span
                         class="text-base font-medium text-n-slate-12 line-clamp-1"
@@ -381,12 +389,12 @@ onMounted(async () => {
                         }}
                       </span>
                     </div>
-                    <div
-                      class="text-sm text-n-slate-11 line-clamp-1 h-6"
-                    >
+                    <div class="text-sm text-n-slate-11 line-clamp-1 h-6">
                       {{ getTemplateBody(template) }}
                     </div>
-                    <div class="flex items-center w-full h-6 gap-2 overflow-hidden text-sm text-n-slate-11">
+                    <div
+                      class="flex items-center w-full h-6 gap-2 overflow-hidden text-sm text-n-slate-11"
+                    >
                       {{ t('INBOX_MGMT.WHATSAPP_TEMPLATES.LANGUAGE') }}:
                       {{ template.language }}
                     </div>
@@ -468,4 +476,3 @@ onMounted(async () => {
     </template>
   </section>
 </template>
-

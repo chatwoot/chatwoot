@@ -1,7 +1,7 @@
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 
 import TemplatesPageRouteView from './pages/TemplatesPageRouteView.vue';
-import InboxTemplatesPage from './pages/InboxTemplatesPage.vue';
+import WhatsAppTemplatesPage from './pages/WhatsAppTemplatesPage.vue';
 
 const meta = {
   // CommMate: templates_manage permission for custom roles
@@ -20,14 +20,17 @@ const templatesRoutes = {
           meta,
           redirect: to => {
             // Will be handled by TemplatesPageRouteView to redirect to first inbox
-            return { name: 'templates_inbox_index', params: { ...to.params, inboxId: 'select' } };
+            return {
+              name: 'templates_whatsapp_index',
+              params: { ...to.params, inboxId: 'select' },
+            };
           },
         },
         {
-          path: 'inbox/:inboxId',
-          name: 'templates_inbox_index',
+          path: 'whatsapp/:inboxId',
+          name: 'templates_whatsapp_index',
           meta,
-          component: InboxTemplatesPage,
+          component: WhatsAppTemplatesPage,
         },
       ],
     },
@@ -35,4 +38,3 @@ const templatesRoutes = {
 };
 
 export default templatesRoutes;
-

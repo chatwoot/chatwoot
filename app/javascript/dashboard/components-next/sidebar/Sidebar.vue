@@ -457,10 +457,10 @@ const menuItems = computed(() => {
             children: whatsAppCloudInboxes.value.map(inbox => ({
               name: `Templates-${inbox.name}-${inbox.id}`,
               label: inbox.name,
-              to: accountScopedRoute('templates_inbox_index', {
+              to: accountScopedRoute('templates_whatsapp_index', {
                 inboxId: inbox.id,
               }),
-              activeOn: ['templates_inbox_index'],
+              activeOn: ['templates_whatsapp_index'],
             })),
           },
         ]

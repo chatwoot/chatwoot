@@ -13,15 +13,23 @@ class WhatsappTemplatesAPI extends ApiClient {
   uploadMedia(inboxId, file) {
     const formData = new FormData();
     formData.append('file', file);
-    return axios.post(`${this.url}/${inboxId}/message_templates/upload_media`, formData);
+    return axios.post(
+      `${this.url}/${inboxId}/message_templates/upload_media`,
+      formData
+    );
   }
 
   createTemplate(inboxId, templateData) {
-    return axios.post(`${this.url}/${inboxId}/message_templates`, templateData);
+    return axios.post(
+      `${this.url}/${inboxId}/message_templates`,
+      templateData
+    );
   }
 
   deleteTemplate(inboxId, templateName) {
-    return axios.delete(`${this.url}/${inboxId}/message_templates/${templateName}`);
+    return axios.delete(
+      `${this.url}/${inboxId}/message_templates/${templateName}`
+    );
   }
 }
 

@@ -61,16 +61,16 @@ const AVATAR_COLORS = {
     ['#3F220D', '#FFA366'],
     ['#2A2A2A', '#ADB1B8'],
     ['#023B37', '#0BD8B6'],
-    ['#0d6636', '#59b44b'],  // CommMate green (was purple/blue)
-    ['#0a4d2a', '#8cc540'],  // CommMate green (was blue)
+    ['#0d6636', '#59b44b'], // CommMate green (was purple/blue)
+    ['#0a4d2a', '#8cc540'], // CommMate green (was blue)
   ],
   light: [
     ['#FBDCEF', '#C2298A'],
     ['#FFE0BB', '#99543A'],
     ['#E8E8E8', '#60646C'],
     ['#CCF3EA', '#008573'],
-    ['#d7eee1', '#107e44'],  // CommMate green (was purple/blue)
-    ['#c3e6d2', '#0d6636'],  // CommMate green (was blue)
+    ['#d7eee1', '#107e44'], // CommMate green (was purple/blue)
+    ['#c3e6d2', '#0d6636'], // CommMate green (was blue)
   ],
   default: { bg: '#E8E8E8', text: '#60646C' },
 };

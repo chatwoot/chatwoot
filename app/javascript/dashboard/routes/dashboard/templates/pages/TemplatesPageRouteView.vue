@@ -26,11 +26,14 @@ const whatsAppCloudInboxes = computed(() => {
 
 onMounted(async () => {
   await store.dispatch('inboxes/get');
-  
+
   // If we're on the "select" placeholder route, redirect to first inbox
-  if (route.params.inboxId === 'select' && whatsAppCloudInboxes.value.length > 0) {
+  if (
+    route.params.inboxId === 'select' &&
+    whatsAppCloudInboxes.value.length > 0
+  ) {
     router.replace({
-      name: 'templates_inbox_index',
+      name: 'templates_whatsapp_index',
       params: {
         accountId: route.params.accountId,
         inboxId: whatsAppCloudInboxes.value[0].id,
@@ -52,4 +55,3 @@ onMounted(async () => {
     </router-view>
   </div>
 </template>
-
