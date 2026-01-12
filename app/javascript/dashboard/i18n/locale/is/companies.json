@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Nafn",
         "DOMAIN": "Lén",
-        "CREATED_AT": "Created at"
+        "CREATED_AT": "Created at",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {
