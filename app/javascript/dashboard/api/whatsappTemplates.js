@@ -20,10 +20,7 @@ class WhatsappTemplatesAPI extends ApiClient {
   }
 
   createTemplate(inboxId, templateData) {
-    return axios.post(
-      `${this.url}/${inboxId}/message_templates`,
-      templateData
-    );
+    return axios.post(`${this.url}/${inboxId}/message_templates`, templateData);
   }
 
   deleteTemplate(inboxId, templateName) {
