@@ -40,27 +40,55 @@ const showModelSelector = computed(() => {
 });
 
 const title = computed(() => {
-  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.TITLE`;
-  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
-  return t(key);
+  if (props.featureKey === 'AUDIO_TRANSCRIPTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.TITLE');
+  }
+  if (props.featureKey === 'HELP_CENTER_SEARCH') {
+    return t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.TITLE');
+  }
+  if (props.featureKey === 'LABEL_SUGGESTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.TITLE');
+  }
+  return '';
 });
 
 const description = computed(() => {
-  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.DESCRIPTION`;
-  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
-  return t(key);
+  if (props.featureKey === 'AUDIO_TRANSCRIPTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.DESCRIPTION');
+  }
+  if (props.featureKey === 'HELP_CENTER_SEARCH') {
+    return t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.DESCRIPTION');
+  }
+  if (props.featureKey === 'LABEL_SUGGESTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.DESCRIPTION');
+  }
+  return '';
 });
 
 const modelTitle = computed(() => {
-  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.MODEL_TITLE`;
-  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
-  return t(key);
+  if (props.featureKey === 'AUDIO_TRANSCRIPTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.MODEL_TITLE');
+  }
+  if (props.featureKey === 'HELP_CENTER_SEARCH') {
+    return t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.MODEL_TITLE');
+  }
+  if (props.featureKey === 'LABEL_SUGGESTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.MODEL_TITLE');
+  }
+  return '';
 });
 
 const modelDescription = computed(() => {
-  const key = `CAPTAIN_SETTINGS.FEATURES.${props.featureKey.toUpperCase()}.MODEL_DESCRIPTION`;
-  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
-  return t(key);
+  if (props.featureKey === 'AUDIO_TRANSCRIPTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.AUDIO_TRANSCRIPTION.MODEL_DESCRIPTION');
+  }
+  if (props.featureKey === 'HELP_CENTER_SEARCH') {
+    return t('CAPTAIN_SETTINGS.FEATURES.HELP_CENTER_SEARCH.MODEL_DESCRIPTION');
+  }
+  if (props.featureKey === 'LABEL_SUGGESTION') {
+    return t('CAPTAIN_SETTINGS.FEATURES.LABEL_SUGGESTION.MODEL_DESCRIPTION');
+  }
+  return '';
 });
 
 watch(
