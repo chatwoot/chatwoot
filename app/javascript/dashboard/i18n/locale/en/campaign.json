@@ -89,8 +89,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
+          "COMPLETED_WITH_ERRORS": "Completed with errors",
           "SCHEDULED": "Scheduled"
         },
+        "FAILED_COUNT": "{count} failed",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
           "ON": "on"
@@ -147,8 +149,10 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completed",
+          "COMPLETED_WITH_ERRORS": "Completed with errors",
           "SCHEDULED": "Scheduled"
         },
+        "FAILED_COUNT": "{count} failed",
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
           "ON": "on"
@@ -200,6 +204,22 @@
           }
         }
       }
+    },
+    "DELIVERY_REPORT": {
+      "TITLE": "Delivery Report",
+      "STATUS": "Status",
+      "TOTAL": "Total",
+      "SUCCEEDED": "Succeeded",
+      "FAILED": "Failed",
+      "STARTED_AT": "Started at",
+      "COMPLETED_AT": "Completed at",
+      "ERRORS_TITLE": "Errors",
+      "ERROR_CODE": "Code",
+      "ERROR_MESSAGE": "Message",
+      "ERROR_DETAILS": "Details",
+      "ERROR_COUNT": "{count} occurrences",
+      "NO_ERRORS": "No errors recorded",
+      "CLOSE": "Close"
     },
     "CONFIRM_DELETE": {
       "TITLE": "Are you sure to delete?",

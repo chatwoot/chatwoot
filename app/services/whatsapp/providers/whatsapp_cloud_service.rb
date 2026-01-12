@@ -31,6 +31,28 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response, message)
   end
 
+  # Campaign-friendly method that returns structured result with error details
+  # Returns: { ok: true/false, message_id: String|nil, error: { code:, message:, details:, fbtrace_id: }|nil }
+  def send_template_with_result(phone_number, template_info)
+    template_body = template_body_parameters(template_info)
+
+    request_body = {
+      messaging_product: 'whatsapp',
+      recipient_type: 'individual',
+      to: phone_number,
+      type: 'template',
+      template: template_body
+    }
+
+    response = HTTParty.post(
+      "#{phone_id_path}/messages",
+      headers: api_headers,
+      body: request_body.to_json
+    )
+
+    parse_template_result(response)
+  end
+
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
@@ -142,6 +164,21 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def error_message(response)
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
     response.parsed_response&.dig('error', 'message')
+  end
+
+  # Parse response into structured result for campaigns
+  def parse_template_result(response)
+    parsed = response.parsed_response
+    return { ok: true, message_id: parsed.dig('messages', 0, 'id'), error: nil } if response.success? && parsed['error'].blank?
+
+    error_obj = parsed['error'] || {}
+    { ok: false, message_id: nil, error: extract_error_details(error_obj) }
+  rescue StandardError => e
+    { ok: false, message_id: nil, error: { code: nil, message: "Unexpected error: #{e.message}", details: nil, fbtrace_id: nil } }
+  end
+
+  def extract_error_details(error_obj)
+    { code: error_obj['code'], message: error_obj['message'], details: error_obj.dig('error_data', 'details'), fbtrace_id: error_obj['fbtrace_id'] }
   end
 
   def template_body_parameters(template_info)
