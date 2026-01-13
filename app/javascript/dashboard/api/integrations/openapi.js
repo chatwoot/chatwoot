@@ -45,10 +45,18 @@ class OpenAIAPI extends ApiClient {
    * @param {string} [options.content] - The content of the event.
    * @param {string} [options.tone] - The tone of the event.
    * @param {string} [options.conversationId] - The ID of the conversation to process the event for.
-   * @param {string} options.hookId - The ID of the hook to use for processing the event.
+   * @param {string} options.hookId - The ID of the hook to use for processing the event (not needed if useGlobalEndpoint is true).
+   * @param {boolean} options.useGlobalEndpoint - Whether to use the global AI endpoint (for global key feature).
    * @returns {Promise} A promise that resolves with the result of the event processing.
    */
-  processEvent({ type = 'rephrase', content, tone, conversationId, hookId }) {
+  processEvent({
+    type = 'rephrase',
+    content,
+    tone,
+    conversationId,
+    hookId,
+    useGlobalEndpoint = false,
+  }) {
     /**
      * @type {ConversationMessageData}
      */
@@ -63,12 +71,25 @@ class OpenAIAPI extends ApiClient {
       };
     }
 
-    return axios.post(`${this.url}/hooks/${hookId}/process_event`, {
+    const eventPayload = {
       event: {
         name: type,
         data,
       },
-    });
+    };
+
+    // Use global endpoint if global key feature is enabled
+    if (useGlobalEndpoint) {
+      // Remove '/integrations' from the URL and replace with '/ai'
+      const baseUrl = this.url.replace('/integrations', '');
+      return axios.post(`${baseUrl}/ai/process_event`, eventPayload);
+    }
+
+    // Otherwise use hook-based endpoint
+    return axios.post(
+      `${this.url}/hooks/${hookId}/process_event`,
+      eventPayload
+    );
   }
 }
 

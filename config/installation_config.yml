@@ -217,3 +217,11 @@
   locked: false
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
+
+## ------ OpenAI Integration Config ------ ##
+- name: OPENAI_API_KEY
+  display_title: 'OpenAI API Key'
+  value:
+  locked: false
+  description: 'The global OpenAI API key used across all accounts when the feature is enabled'
+## ------ End of OpenAI Integration Config ------ ##

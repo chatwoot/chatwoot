@@ -242,6 +242,10 @@ Rails.application.routes.draw do
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
+
+          # AI endpoint for global OpenAI key usage (no hook required)
+          post 'ai/process_event', to: 'ai#process_event'
+
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do

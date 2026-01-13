@@ -14,14 +14,26 @@ export default {
       appIntegrations: 'integrations/getAppIntegrations',
       currentChat: 'getSelectedChat',
       replyMode: 'draftMessages/getReplyEditorMode',
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     aiIntegration() {
       return this.appIntegrations.find(
         integration => integration.id === 'openai' && !!integration.hooks.length
       )?.hooks[0];
     },
+    // Check if global OpenAI key feature is enabled
+    isGlobalKeyFeatureEnabled() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        'use_global_openai_key'
+      );
+    },
     isAIIntegrationEnabled() {
-      return !!this.aiIntegration;
+      // AI is enabled if either:
+      // 1. Account has an OpenAI hook configured, OR
+      // 2. Global OpenAI key feature is enabled
+      return !!this.aiIntegration || this.isGlobalKeyFeatureEnabled;
     },
     isLabelSuggestionFeatureEnabled() {
       if (this.aiIntegration) {
@@ -34,7 +46,7 @@ export default {
       return this.uiFlags.isFetching;
     },
     hookId() {
-      return this.aiIntegration.id;
+      return this.aiIntegration?.id;
     },
     draftMessage() {
       return this.$store.getters['draftMessages/get'](this.draftKey);
@@ -69,6 +81,7 @@ export default {
           type: 'label_suggestion',
           hookId: this.hookId,
           conversationId: conversationId,
+          useGlobalEndpoint: this.isGlobalKeyFeatureEnabled,
         });
 
         const {
@@ -95,6 +108,7 @@ export default {
           type,
           content: this.draftMessage,
           conversationId: this.conversationId,
+          useGlobalEndpoint: this.isGlobalKeyFeatureEnabled,
         });
         const {
           data: { message: generatedMessage },

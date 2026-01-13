@@ -68,17 +68,25 @@ class Integrations::OpenaiBaseService
   end
 
   def make_api_call(body)
+    api_key = resolve_api_key
+
+    raise StandardError, 'OpenAI API key not configured' if api_key.blank?
+
     headers = {
       'Content-Type' => 'application/json',
-      'Authorization' => "Bearer #{hook.settings['api_key']}"
+      'Authorization' => "Bearer #{api_key}"
     }
 
-    Rails.logger.info("OpenAI API request: #{body}")
     response = HTTParty.post(API_URL, headers: headers, body: body)
-    Rails.logger.info("OpenAI API response: #{response.body}")
 
     choices = JSON.parse(response.body)['choices']
 
     choices.present? ? choices.first['message']['content'] : nil
+  end
+
+  # Default implementation: get API key from hook settings
+  # Can be overridden in subclasses (e.g., GlobalProcessorService)
+  def resolve_api_key
+    hook.settings['api_key']
   end
 end

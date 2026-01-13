@@ -22,7 +22,19 @@
             </p>
           </div>
           <div class="flex justify-center items-center mb-0 w-[15%]">
-            <div v-if="hasConnectedHooks">
+            <div v-if="isOpenAIWithGlobalKey">
+              <woot-button
+                v-tooltip.top="
+                  'Using global OpenAI key. Contact your system administrator to modify settings.'
+                "
+                class="nice"
+                color-scheme="success"
+                :disabled="true"
+              >
+                {{ $t('INTEGRATION_APPS.STATUS.ENABLED') }}
+              </woot-button>
+            </div>
+            <div v-else-if="hasConnectedHooks">
               <div @click="$emit('delete', integration.hooks[0])">
                 <woot-button class="nice alert">
                   {{ $t('INTEGRATION_APPS.DISCONNECT.BUTTON_TEXT') }}
@@ -41,6 +53,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import hookMixin from './hookMixin';
 export default {
   mixins: [hookMixin],
@@ -48,6 +61,18 @@ export default {
     integration: {
       type: Object,
       default: () => ({}),
+    },
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+    }),
+    isOpenAIWithGlobalKey() {
+      return (
+        this.integration.id === 'openai' &&
+        this.isFeatureEnabledonAccount(this.accountId, 'use_global_openai_key')
+      );
     },
   },
 };

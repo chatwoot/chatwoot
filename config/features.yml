@@ -85,3 +85,6 @@
   premium: true
 - name: linear_integration
   enabled: false
+- name: use_global_openai_key
+  enabled: false
+  help_url: https://chwt.app/hc/openai-integration

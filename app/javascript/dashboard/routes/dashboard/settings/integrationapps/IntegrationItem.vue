@@ -28,6 +28,7 @@
     </div>
     <div class="flex justify-center items-center mb-0 w-[15%]">
       <router-link
+        v-if="!isConfigureButtonDisabled"
         :to="
           frontendURL(
             `accounts/${accountId}/settings/applications/` + integrationId
@@ -38,6 +39,16 @@
           {{ $t('INTEGRATION_APPS.CONFIGURE') }}
         </woot-button>
       </router-link>
+      <woot-button
+        v-else
+        v-tooltip.top="
+          'Using global OpenAI key. Contact your system administrator to modify settings.'
+        "
+        icon="settings"
+        :disabled="true"
+      >
+        {{ $t('INTEGRATION_APPS.CONFIGURE') }}
+      </woot-button>
     </div>
   </div>
 </template>
@@ -78,14 +89,28 @@ export default {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
       globalConfig: 'globalConfig/get',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    isOpenAIWithGlobalKey() {
+      return (
+        this.integrationId === 'openai' &&
+        this.isFeatureEnabledonAccount(this.accountId, 'use_global_openai_key')
+      );
+    },
+    isIntegrationEnabled() {
+      // For OpenAI with global key, consider it enabled even without hooks
+      return this.integrationEnabled || this.isOpenAIWithGlobalKey;
+    },
     labelText() {
-      return this.integrationEnabled
+      return this.isIntegrationEnabled
         ? this.$t('INTEGRATION_APPS.STATUS.ENABLED')
         : this.$t('INTEGRATION_APPS.STATUS.DISABLED');
     },
     labelColor() {
-      return this.integrationEnabled ? 'success' : 'secondary';
+      return this.isIntegrationEnabled ? 'success' : 'secondary';
+    },
+    isConfigureButtonDisabled() {
+      return this.isOpenAIWithGlobalKey;
     },
   },
   methods: {

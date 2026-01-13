@@ -72,3 +72,9 @@ microsoft:
   enabled: true
   icon: 'icon-microsoft'
   config_key: 'microsoft'
+openai:
+  name: 'OpenAI'
+  description: 'Configure global OpenAI API key for AI features'
+  enabled: true
+  icon: 'icon-openai'
+  config_key: 'openai'
