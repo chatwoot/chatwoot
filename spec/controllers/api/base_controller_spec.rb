@@ -10,33 +10,34 @@ RSpec.describe 'API Base', type: :request do
       let!(:conversation) { create(:conversation, account: account) }
 
       it 'sets Current attributes for the request and then returns the response' do
-        # Track Current attribute assignments using a separate spy object
-        # This avoids issues with have_received on thread_mattr_accessor methods
-        current_spy = instance_spy(Current)
-        original_user_setter = Current.method(:user=)
-        original_account_setter = Current.method(:account=)
-        original_account_user_setter = Current.method(:account_user=)
+        # Use expect().to receive() pattern which is more reliable than allow + have_received
+        # for thread_mattr_accessor methods in CI environments.
+        # Note: Current.reset also calls these setters with nil, so we verify specific values
+        # were passed at some point, not just that they were the only values passed.
+        received_users = []
+        received_accounts = []
+        received_account_users = []
 
-        allow(Current).to receive(:user=) { |val|
-          current_spy.user = val
-          original_user_setter.call(val)
-        }
-        allow(Current).to receive(:account=) { |val|
-          current_spy.account = val
-          original_account_setter.call(val)
-        }
-        allow(Current).to receive(:account_user=) { |val|
-          current_spy.account_user = val
-          original_account_user_setter.call(val)
-        }
+        allow(Current).to receive(:user=).and_wrap_original do |m, v|
+          received_users << v
+          m.call(v)
+        end
+        allow(Current).to receive(:account=).and_wrap_original do |m, v|
+          received_accounts << v
+          m.call(v)
+        end
+        allow(Current).to receive(:account_user=).and_wrap_original do |m, v|
+          received_account_users << v
+          m.call(v)
+        end
 
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
             headers: { api_access_token: admin.access_token.token },
             as: :json
 
-        expect(current_spy).to have_received(:user=).with(admin).at_least(:once)
-        expect(current_spy).to have_received(:account=).with(account).at_least(:once)
-        expect(current_spy).to have_received(:account_user=).with(admin.account_users.first).at_least(:once)
+        expect(received_users).to include(admin)
+        expect(received_accounts).to include(account)
+        expect(received_account_users).to include(admin.account_users.first)
 
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['id']).to eq(conversation.display_id)
