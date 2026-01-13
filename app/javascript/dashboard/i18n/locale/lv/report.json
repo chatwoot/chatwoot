@@ -3,7 +3,7 @@
     "HEADER": "Sarunas",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Neizdevās izgūt datus. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "SUMMARY_FETCHING_FAILED": "Neizdevās izgūt kopsavilkumu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "METRICS": {
