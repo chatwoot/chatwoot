@@ -28,6 +28,12 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   end
 
   describe '#perform with enterprise usage tracking' do
+    # Ensure captain is enabled by default for tests unless explicitly testing disabled state
+    before do
+      allow(account).to receive(:feature_enabled?).and_call_original
+      allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+    end
+
     context 'when usage limit is exceeded' do
       before do
         allow(account).to receive(:usage_limits).and_return({
@@ -102,6 +108,61 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         service.perform
         account.reload
       end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
+    end
+
+    context 'when captain is disabled' do
+      before do
+        allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(false)
+      end
+
+      context 'on Chatwoot Cloud' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+        end
+
+        it 'returns upgrade error message' do
+          result = service.perform
+          expect(result[:error]).to eq(I18n.t('captain.upgrade'))
+        end
+
+        it 'does not increment usage' do
+          expect(account).not_to receive(:increment_response_usage)
+          service.perform
+        end
+      end
+
+      context 'on self-hosted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+        end
+
+        it 'returns disabled error message' do
+          result = service.perform
+          expect(result[:error]).to eq(I18n.t('captain.disabled'))
+        end
+
+        it 'does not increment usage' do
+          expect(account).not_to receive(:increment_response_usage)
+          service.perform
+        end
+      end
+    end
+
+    context 'when captain is enabled' do
+      before do
+        allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+      end
+
+      it 'proceeds with the task' do
+        result = service.perform
+        expect(result[:message]).to eq('Test response')
+        expect(result[:error]).to be_nil
+      end
+
+      it 'increments usage' do
+        expect(account).to receive(:increment_response_usage)
+        service.perform
+      end
     end
   end
 end

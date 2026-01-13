@@ -2,12 +2,22 @@ module Enterprise::Captain::BaseTaskService
   def perform
     return { error: I18n.t('captain.copilot_limit'), error_code: 429 } unless responses_available?
 
+    unless captain_enabled?
+      return { error: I18n.t('captain.upgrade') } if ChatwootApp.chatwoot_cloud?
+
+      return { error: I18n.t('captain.disabled') }
+    end
+
     result = super
     increment_usage if successful_result?(result)
     result
   end
 
   private
+
+  def captain_enabled?
+    account.feature_enabled?('captain_integration')
+  end
 
   def responses_available?
     account.usage_limits[:captain][:responses][:current_available].positive?
