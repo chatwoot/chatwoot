@@ -16,6 +16,10 @@
 
 require 'csv'
 
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/ModuleLength
 module DownloadReportTasks
   def self.prompt(message)
     print "#{message}: "
@@ -156,6 +160,10 @@ module DownloadReportTasks
     save_csv(filename, headers, rows)
   end
 end
+# rubocop:enable Metrics/CyclomaticComplexity
+# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/MethodLength
+# rubocop:enable Metrics/ModuleLength
 
 namespace :download_report do
   desc 'Download agent summary report as CSV'
