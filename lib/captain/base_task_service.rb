@@ -72,6 +72,11 @@ class Captain::BaseTaskService
       build_ruby_llm_response(response, messages)
     end
   rescue StandardError => e
+    # TODO: RubyLLM throws the RubyLLM::Error when any API based error occurs
+    # Just like inboxes have a reauthroizable error handling mechanism,
+    # we should handle the errors if the account is using their own key.
+    # If more than 5 errors occur, we disable the hook and notify the admins
+    # see: https://rubyllm.com/error-handling/#rubyllm-error-hierarchy
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     { error: e.message, request_messages: messages }
   end
@@ -128,11 +133,19 @@ class Captain::BaseTaskService
   end
 
   def api_key
+    # TODO: Once we support multiple LLM providers, ensure provider key is correctly looked up
+    # Currently works because the only model/provider is OpenAI
     @api_key ||= openai_hook&.settings&.dig('api_key') || system_api_key
   end
 
   def openai_hook
     @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
+  end
+
+  def using_hook_key?
+    # TODO: Once we support multiple LLM providers, ensure provider key is correctly looked up
+    # Currently works because the only model/provider is OpenAI
+    openai_hook&.settings&.dig('api_key').present?
   end
 
   def system_api_key

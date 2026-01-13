@@ -69,6 +69,22 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       service.perform
     end
 
+    context 'when account uses their own OpenAI key via hook' do
+      let!(:openai_hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'user-own-key' }) }
+
+      it 'uses 1 credit regardless of model cost' do
+        allow(account).to receive(:captain_editor_model).and_return('gpt-5.1')
+        expect(account).to receive(:increment_response_usage).with(credits: 1)
+        service.perform
+      end
+
+      it 'uses 1 credit even for expensive models' do
+        allow(account).to receive(:captain_editor_model).and_return('gpt-4.1')
+        expect(account).to receive(:increment_response_usage).with(credits: 1)
+        service.perform
+      end
+    end
+
     context 'when result has an error' do
       let(:perform_result) { { error: 'API Error' } }
 

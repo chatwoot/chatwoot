@@ -28,7 +28,7 @@ module Enterprise::Captain::BaseTaskService
   end
 
   def increment_usage
-    credits = Llm::Models.credit_multiplier_for(configured_model)
+    credits = using_hook_key? ? 1 : Llm::Models.credit_multiplier_for(configured_model)
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id} by #{credits} credits")
     account.increment_response_usage(credits: credits)
   end
