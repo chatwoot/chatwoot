@@ -56,4 +56,8 @@ class Captain::RewriteService < Captain::BaseTaskService
   def event_name
     operation
   end
+
+  def feature_key
+    'editor'
+  end
 end

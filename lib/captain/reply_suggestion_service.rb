@@ -15,4 +15,8 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   def event_name
     'reply_suggestion'
   end
+
+  def feature_key
+    'editor'
+  end
 end

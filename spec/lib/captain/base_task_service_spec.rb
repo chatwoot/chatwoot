@@ -15,6 +15,10 @@ RSpec.describe Captain::BaseTaskService do
       def event_name
         'test_event'
       end
+
+      def feature_key
+        'editor'
+      end
     end
   end
 
@@ -43,6 +47,29 @@ RSpec.describe Captain::BaseTaskService do
 
     it 'returns custom event name in subclass' do
       expect(service.send(:event_name)).to eq('test_event')
+    end
+  end
+
+  describe '#feature_key' do
+    it 'raises NotImplementedError for base class' do
+      base_service = described_class.new(account: account, conversation_display_id: conversation.display_id)
+      expect { base_service.send(:feature_key) }.to raise_error(NotImplementedError, /must implement #feature_key/)
+    end
+
+    it 'returns custom feature key in subclass' do
+      expect(service.send(:feature_key)).to eq('editor')
+    end
+  end
+
+  describe '#configured_model' do
+    it 'returns the configured model for the feature_key' do
+      expect(account).to receive(:captain_editor_model).and_return('gpt-5.1')
+      expect(service.send(:configured_model)).to eq('gpt-5.1')
+    end
+
+    it 'uses the default model when account model is not set' do
+      allow(account).to receive(:captain_editor_model).and_return('gpt-4.1-mini')
+      expect(service.send(:configured_model)).to eq('gpt-4.1-mini')
     end
   end
 

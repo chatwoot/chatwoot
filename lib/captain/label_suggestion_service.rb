@@ -87,6 +87,10 @@ class Captain::LabelSuggestionService < Captain::BaseTaskService
     'label_suggestion'
   end
 
+  def feature_key
+    'label_suggestion'
+  end
+
   def build_follow_up_context?
     false
   end

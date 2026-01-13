@@ -25,6 +25,14 @@ class Captain::BaseTaskService
     raise NotImplementedError, "#{self.class} must implement #event_name"
   end
 
+  def feature_key
+    raise NotImplementedError, "#{self.class} must implement #feature_key"
+  end
+
+  def configured_model
+    account.public_send("captain_#{feature_key}_model")
+  end
+
   def conversation
     @conversation ||= account.conversations.find_by(display_id: conversation_display_id)
   end

@@ -95,4 +95,8 @@ class Captain::FollowUpService < Captain::BaseTaskService
   def event_name
     'follow_up'
   end
+
+  def feature_key
+    'editor'
+  end
 end

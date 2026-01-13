@@ -16,4 +16,8 @@ class Captain::SummaryService < Captain::BaseTaskService
   def event_name
     'summarize'
   end
+
+  def feature_key
+    'editor'
+  end
 end
