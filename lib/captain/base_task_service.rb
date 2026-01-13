@@ -10,26 +10,7 @@ class Captain::BaseTaskService
 
   pattr_initialize [:account!, { conversation_display_id: nil }]
 
-  def perform
-    result = execute_task
-    increment_usage if successful_result?(result)
-    result
-  end
-
   private
-
-  def execute_task
-    raise NotImplementedError, "#{self.class} must implement #execute_task"
-  end
-
-  def successful_result?(result)
-    result.is_a?(Hash) && result[:message].present? && !result[:error]
-  end
-
-  def increment_usage
-    Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id}")
-    account.increment_response_usage
-  end
 
   def event_name
     raise NotImplementedError, "#{self.class} must implement #event_name"
@@ -166,3 +147,5 @@ class Captain::BaseTaskService
     user_msg ? user_msg[:content] : nil
   end
 end
+
+Captain::BaseTaskService.prepend_mod_with('Captain::BaseTaskService')

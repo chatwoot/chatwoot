@@ -14,7 +14,7 @@ class Captain::FollowUpService < Captain::BaseTaskService
     label_suggestion
   ].freeze
 
-  def execute_task
+  def perform
     return { error: 'Follow-up context missing', error_code: 400 } unless valid_follow_up_context?
 
     # Build context-aware system prompt
