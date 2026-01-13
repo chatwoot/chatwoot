@@ -59,7 +59,7 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:)
-    Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
+    Llm::Config.with_api_key(account.captain_api_key, api_base: api_base) do |context|
       chat = context.chat(model: model)
       system_msg = messages.find { |m| m[:role] == 'system' }
       chat.with_instructions(system_msg[:content]) if system_msg
@@ -130,26 +130,6 @@ class Captain::BaseTaskService
     end
 
     messages
-  end
-
-  def api_key
-    # TODO: Once we support multiple LLM providers, ensure provider key is correctly looked up
-    # Currently works because the only model/provider is OpenAI
-    @api_key ||= openai_hook&.settings&.dig('api_key') || system_api_key
-  end
-
-  def openai_hook
-    @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
-  end
-
-  def using_hook_key?
-    # TODO: Once we support multiple LLM providers, ensure provider key is correctly looked up
-    # Currently works because the only model/provider is OpenAI
-    openai_hook&.settings&.dig('api_key').present?
-  end
-
-  def system_api_key
-    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   end
 
   def prompt_from_file(file_name)

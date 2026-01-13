@@ -27,6 +27,26 @@ module CaptainFeaturable
     }.with_indifferent_access
   end
 
+  # TODO: Once we support multiple LLM providers, ensure provider hook is correctly looked up
+  # Currently works because the only model/provider is OpenAI
+  def openai_hook
+    @openai_hook ||= hooks.find_by(app_id: 'openai', status: 'enabled')
+  end
+
+  # TODO: Once we support multiple LLM providers, ensure provider key is correctly looked up
+  # Currently works because the only model/provider is OpenAI
+  def using_openai_hook_key?
+    openai_hook&.settings&.dig('api_key').present?
+  end
+
+  def captain_api_key
+    openai_hook&.settings&.dig('api_key') || captain_system_api_key
+  end
+
+  def captain_system_api_key
+    InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
+  end
+
   private
 
   def captain_models_with_defaults
