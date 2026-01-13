@@ -110,6 +110,21 @@ export function useAI() {
   };
 
   /**
+   * Handles API errors and displays appropriate error messages.
+   * Silently returns for aborted requests.
+   * @param {Error} error - The error object from the API call.
+   */
+  const handleAPIError = error => {
+    if (error.name === 'AbortError' || error.name === 'CanceledError') {
+      return;
+    }
+    const errorMessage =
+      error.response?.data?.error ||
+      t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+    useAlert(errorMessage);
+  };
+
+  /**
    * Records analytics for AI-related events.
    * @param {string} type - The type of event.
    * @param {Object} payload - Additional data for the event.
@@ -171,17 +186,7 @@ export function useAI() {
       } = result;
       return { message: generatedMessage, followUpContext };
     } catch (error) {
-      // Don't show error for aborted requests
-      if (error.name === 'AbortError' || error.name === 'CanceledError') {
-        return { message: '' };
-      }
-      const errorData = error.response?.data?.error;
-      const errorMessage =
-        (typeof errorData === 'string'
-          ? errorData
-          : errorData?.error?.message) ||
-        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
-      useAlert(errorMessage);
+      handleAPIError(error);
       return { message: '' };
     }
   };
@@ -205,17 +210,7 @@ export function useAI() {
       } = result;
       return { message: generatedMessage, followUpContext: updatedContext };
     } catch (error) {
-      // Don't show error for aborted requests
-      if (error.name === 'AbortError' || error.name === 'CanceledError') {
-        return { message: '', followUpContext };
-      }
-      const errorData = error.response?.data?.error;
-      const errorMessage =
-        (typeof errorData === 'string'
-          ? errorData
-          : errorData?.error?.message) ||
-        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
-      useAlert(errorMessage);
+      handleAPIError(error);
       return { message: '', followUpContext };
     }
   };
