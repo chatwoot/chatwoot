@@ -120,6 +120,8 @@ zh_CN:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -155,6 +157,14 @@ zh_CN:
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
       resolution_count: 已解决的数量
+      avg_customer_waiting_time: 平均客户等待时间
+    conversation_csv:
+      conversations_count: 会话
+      incoming_messages_count: 收到的消息
+      outgoing_messages_count: 发送的消息
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      resolution_count: Resolution count
       avg_customer_waiting_time: 平均客户等待时间
     conversation_traffic_csv:
       timezone: 时区
