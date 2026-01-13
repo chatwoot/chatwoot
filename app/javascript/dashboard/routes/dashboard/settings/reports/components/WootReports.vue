@@ -92,6 +92,9 @@ export default {
         RESOLUTION_TIME: 'avg_resolution_time',
         RESOLUTION_COUNT: 'resolutions_count',
         REPLY_TIME: 'reply_time',
+        ...(this.isAgentType
+          ? { AGENT_CHAT_DURATION: 'agent_chat_duration' }
+          : {}),
       };
     },
   },

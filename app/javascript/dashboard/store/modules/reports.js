@@ -23,6 +23,7 @@ const state = {
       bot_resolutions_count: false,
       bot_handoffs_count: false,
       reply_time: false,
+      agent_chat_duration: false,
     },
     data: {
       conversations_count: [],
@@ -34,6 +35,7 @@ const state = {
       bot_resolutions_count: [],
       bot_handoffs_count: [],
       reply_time: [],
+      agent_chat_duration: [],
     },
   },
   accountSummary: {

@@ -118,6 +118,21 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "agent_activity_logs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.string "status", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at"
+    t.integer "duration_seconds"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "started_at", "ended_at"], name: "idx_on_account_id_started_at_ended_at_3411f4f064"
+    t.index ["account_id", "user_id", "started_at"], name: "idx_on_account_id_user_id_started_at_d337db4160"
+    t.index ["account_id"], name: "index_agent_activity_logs_on_account_id"
+    t.index ["user_id"], name: "index_agent_activity_logs_on_user_id"
+  end
+
   create_table "agent_bot_inboxes", force: :cascade do |t|
     t.integer "inbox_id"
     t.integer "agent_bot_id"
@@ -1324,6 +1339,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "conversation_queues", "accounts"
   add_foreign_key "conversation_queues", "conversations"
+  add_foreign_key "agent_activity_logs", "accounts"
+  add_foreign_key "agent_activity_logs", "users"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "inboxes", "priority_groups"
   add_foreign_key "priority_groups", "accounts"
