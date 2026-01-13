@@ -65,6 +65,12 @@ RSpec.describe Captain::FollowUpService do
         expect(result[:follow_up_context]['conversation_history'][-2]['content']).to eq('Make it more concise')
         expect(result[:follow_up_context]['conversation_history'][-1]['content']).to eq('Refined response')
       end
+
+      it 'increments response usage on success' do
+        allow(service).to receive(:make_api_call).and_return({ message: 'Refined response' })
+        expect(account).to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
     context 'when follow-up context is missing' do

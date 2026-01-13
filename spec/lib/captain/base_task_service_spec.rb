@@ -48,6 +48,18 @@ RSpec.describe Captain::BaseTaskService do
     end
   end
 
+  describe '#execute_task' do
+    it 'raises NotImplementedError for base class' do
+      base_service = described_class.new(account: account, conversation_display_id: conversation.display_id)
+      expect { base_service.send(:execute_task) }.to raise_error(NotImplementedError, /must implement #execute_task/)
+    end
+
+    it 'is implemented in subclass' do
+      result = service.send(:execute_task)
+      expect(result).to eq({ message: 'Test response' })
+    end
+  end
+
   describe '#event_name' do
     it 'raises NotImplementedError for base class' do
       base_service = described_class.new(account: account, conversation_display_id: conversation.display_id)

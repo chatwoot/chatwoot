@@ -64,6 +64,11 @@ RSpec.describe Captain::LabelSuggestionService do
 
         service.perform
       end
+
+      it 'increments response usage on success' do
+        expect(account).to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
     context 'with invalid conversation' do
