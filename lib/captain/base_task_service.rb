@@ -18,6 +18,10 @@ class Captain::BaseTaskService
 
   private
 
+  def execute_task
+    raise NotImplementedError, "#{self.class} must implement #execute_task"
+  end
+
   def increment_usage
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id}")
     account.increment_response_usage
