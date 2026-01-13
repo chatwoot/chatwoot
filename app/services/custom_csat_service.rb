@@ -30,6 +30,16 @@ class CustomCsatService
     )
 
     Rails.logger.info("response From Custom CSAT, #{response}")
+
+    # Update conversation with CSAT sending time
+    if response.success?
+      conversation.additional_attributes ||= {}
+      conversation.additional_attributes['csat_sent_at'] = Time.current
+      conversation.save!
+      Rails.logger.info("CSAT sent successfully and timestamp recorded: conversation_id=#{conversation.id}")
+    else
+      Rails.logger.error("Failed to send CSAT message: conversation_id=#{conversation.id}, response=#{response.code}")
+    end
   rescue StandardError => e
     Rails.logger.error "Error fetching shop URL: #{e.message}"
   end

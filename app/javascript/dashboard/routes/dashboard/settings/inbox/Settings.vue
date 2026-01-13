@@ -224,6 +224,26 @@
                 {{ 'Enable CSAT on Whatsapp' }}
               </label>
             </div>
+
+            <div v-if="enableCSATOnWhatsapp" class="mt-3 ml-6">
+              <label
+                class="block text-sm font-medium text-slate-700 dark:text-slate-300 pb-1"
+              >
+                Conversation Reopen Prevention (Hours)
+              </label>
+              <input
+                v-model.number="csatReopenPreventionHours"
+                type="number"
+                min="0"
+                max="24"
+                placeholder="2"
+                class="w-24 px-3 py-2 border border-slate-300 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
+              />
+              <p class="pt-1 text-xs text-slate-600 dark:text-slate-400">
+                Prevent conversation from reopening for this many hours after
+                CSAT is sent. Set to 0 to disable.
+              </p>
+            </div>
           </div>
 
           <div v-if="csatSurveyEnabled" class="pb-4">
@@ -679,6 +699,7 @@ export default {
       addLabelToResolveConversation: false,
       channelType: '',
       enableCSATOnWhatsapp: false,
+      csatReopenPreventionHours: 2,
       additionalAttributes: null,
       reopenPendingConversations: false,
       autoResolveDuplicateEmailConversations: false,
@@ -880,6 +901,8 @@ export default {
         this.csatQuestionText = this.inbox.csat_question_text || '';
         this.enableCSATOnWhatsapp =
           this.inbox?.additional_attributes?.enable_csat_on_whatsapp || false;
+        this.csatReopenPreventionHours =
+          this.inbox?.additional_attributes?.csat_reopen_prevention_hours || 2;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -957,6 +980,7 @@ export default {
               additional_attributes: {
                 ...(this.additionalAttributes || {}),
                 enable_csat_on_whatsapp: this.enableCSATOnWhatsapp,
+                csat_reopen_prevention_hours: this.csatReopenPreventionHours,
               },
             },
             formData: false,

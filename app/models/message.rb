@@ -390,6 +390,15 @@ class Message < ApplicationRecord
   end
 
   def reopen_resolved_conversation
+    # Check if CSAT was sent and message is within 2 hours window
+    if should_skip_reopen_due_to_csat?
+      Rails.logger.info("Skipping conversation reopen - incoming message within set hours of CSAT: conversation_id=#{conversation.id}")
+      return
+    end
+
+    # Clear CSAT sent time since conversation is being reopened
+    clear_csat_sent_at
+
     # mark resolved bot conversation as pending to be reopened by bot processor service
     if conversation.inbox.active_bot?
       conversation.pending!
@@ -399,6 +408,33 @@ class Message < ApplicationRecord
     else
       conversation.open!
     end
+  end
+
+  def clear_csat_sent_at
+    return unless conversation.additional_attributes&.key?('csat_sent_at')
+
+    conversation.additional_attributes.delete('csat_sent_at')
+    conversation.save!
+    Rails.logger.info("Cleared csat_sent_at for reopened conversation: conversation_id=#{conversation.id}")
+  end
+
+  def should_skip_reopen_due_to_csat? # rubocop:disable Metrics/CyclomaticComplexity
+    return false unless conversation.additional_attributes&.key?('csat_sent_at')
+
+    # Get configured prevention hours from inbox settings (default: 2 hours)
+    prevention_hours = conversation.inbox.channel&.additional_attributes&.dig('csat_reopen_prevention_hours') || 2
+
+    # If prevention is disabled (0 hours), allow reopening
+    return false if prevention_hours.to_i.zero?
+
+    csat_sent_at = Time.zone.parse(conversation.additional_attributes['csat_sent_at'].to_s)
+    time_since_csat = Time.current - csat_sent_at
+
+    # Skip reopening if message arrives within configured hours of CSAT being sent
+    time_since_csat < prevention_hours.to_i.hours
+  rescue ArgumentError, TypeError => e
+    Rails.logger.error("Error parsing csat_sent_at: #{e.message}")
+    false # Default to allowing reopen if there's an error
   end
 
   def reopen_pending_conversation
