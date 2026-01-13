@@ -3,7 +3,7 @@
     "HEADER": "การสนทนา",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
-    "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
