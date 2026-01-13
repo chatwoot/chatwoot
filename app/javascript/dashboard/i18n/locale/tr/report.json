@@ -3,7 +3,7 @@
     "HEADER": "Konuşmalar",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
-    "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Veri çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
     "SUMMARY_FETCHING_FAILED": "Özet çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
     "METRICS": {
