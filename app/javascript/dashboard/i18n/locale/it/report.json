@@ -3,7 +3,7 @@
     "HEADER": "Conversazioni",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
-    "DOWNLOAD_AGENT_REPORTS": "Scarica report operatori",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Impossibile recuperare i dati, riprova più tardi.",
     "SUMMARY_FETCHING_FAILED": "Impossibile recuperare il riepilogo, riprova più tardi.",
     "METRICS": {
