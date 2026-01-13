@@ -37,6 +37,7 @@ export function useReportMetrics(
       'avg_first_response_time',
       'avg_resolution_time',
       'reply_time',
+      'agent_chat_duration',
     ].includes(key);
   };
 

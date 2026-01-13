@@ -31,6 +31,12 @@
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
+      "AGENT_CHAT_DURATION": {
+        "NAME": "Chat Duration",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Chat Duration is {metricValue} (based on {conversationCount} conversations)"
+      },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
         "DESC": "( Total )"

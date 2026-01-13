@@ -22,7 +22,8 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     metric_to_event_name = {
       avg_first_response_time: :first_response,
       avg_resolution_time: :conversation_resolved,
-      reply_time: :reply_time
+      reply_time: :reply_time,
+      agent_chat_duration: :agent_chat_duration
     }
     metric_to_event_name[params[:metric].to_sym]
   end
