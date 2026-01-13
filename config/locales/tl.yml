@@ -120,6 +120,8 @@ tl:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -155,6 +157,14 @@ tl:
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
+      avg_customer_waiting_time: Avg customer waiting time
+    conversation_csv:
+      conversations_count: Conversations
+      incoming_messages_count: Messages received
+      outgoing_messages_count: Messages sent
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Resolution count
       avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
