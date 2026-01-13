@@ -1,7 +1,7 @@
 class Captain::LabelSuggestionService < Captain::BaseTaskService
   pattr_initialize [:account!, :conversation_display_id!]
 
-  def perform
+  def execute_task
     # Check cache first
     cached_response = read_from_cache
     return cached_response if cached_response.present?

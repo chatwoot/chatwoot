@@ -1,7 +1,7 @@
 class Captain::SummaryService < Captain::BaseTaskService
   pattr_initialize [:account!, :conversation_display_id!]
 
-  def perform
+  def execute_task
     make_api_call(
       model: GPT_MODEL,
       messages: [
