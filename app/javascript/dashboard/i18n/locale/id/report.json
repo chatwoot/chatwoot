@@ -3,7 +3,7 @@
     "HEADER": "Percakapan",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Gagal mengambil data, silakan coba lagi nanti.",
     "SUMMARY_FETCHING_FAILED": "Gagal mengambil ringkasan, silakan coba lagi nanti.",
     "METRICS": {
