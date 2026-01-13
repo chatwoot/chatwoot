@@ -3,7 +3,7 @@
     "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_AGENT_REPORTS": "تحميل تقارير وكيل",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
