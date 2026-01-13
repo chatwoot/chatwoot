@@ -177,7 +177,9 @@ export function useAI() {
       }
       const errorData = error.response?.data?.error;
       const errorMessage =
-        errorData?.error?.message ||
+        (typeof errorData === 'string'
+          ? errorData
+          : errorData?.error?.message) ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
       useAlert(errorMessage);
       return { message: '' };
@@ -209,7 +211,9 @@ export function useAI() {
       }
       const errorData = error.response?.data?.error;
       const errorMessage =
-        errorData?.error?.message ||
+        (typeof errorData === 'string'
+          ? errorData
+          : errorData?.error?.message) ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
       useAlert(errorMessage);
       return { message: '', followUpContext };
