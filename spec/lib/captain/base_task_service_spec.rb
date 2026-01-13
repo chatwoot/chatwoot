@@ -46,6 +46,24 @@ RSpec.describe Captain::BaseTaskService do
       expect(account).not_to receive(:increment_response_usage)
       service.perform
     end
+
+    it 'does not increment usage when result is empty hash' do
+      allow(service).to receive(:execute_task).and_return({})
+      expect(account).not_to receive(:increment_response_usage)
+      service.perform
+    end
+
+    it 'does not increment usage when result has blank message' do
+      allow(service).to receive(:execute_task).and_return({ message: '' })
+      expect(account).not_to receive(:increment_response_usage)
+      service.perform
+    end
+
+    it 'does not increment usage when result has nil message' do
+      allow(service).to receive(:execute_task).and_return({ message: nil })
+      expect(account).not_to receive(:increment_response_usage)
+      service.perform
+    end
   end
 
   describe '#execute_task' do

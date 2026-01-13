@@ -12,7 +12,7 @@ class Captain::BaseTaskService
 
   def perform
     result = execute_task
-    increment_usage if result && !result[:error]
+    increment_usage if successful_result?(result)
     result
   end
 
@@ -20,6 +20,10 @@ class Captain::BaseTaskService
 
   def execute_task
     raise NotImplementedError, "#{self.class} must implement #execute_task"
+  end
+
+  def successful_result?(result)
+    result.is_a?(Hash) && result[:message].present? && !result[:error]
   end
 
   def increment_usage
