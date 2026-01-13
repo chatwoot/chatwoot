@@ -48,6 +48,7 @@ import {
   getEffectiveChannelType,
 } from 'dashboard/helper/editorHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
+import { useKbd } from 'dashboard/composables/utils/useKbd';
 
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
@@ -94,6 +95,7 @@ export default {
 
     const replyEditor = useTemplateRef('replyEditor');
     const copilot = useCopilotReply();
+    const shortcutKey = useKbd(['$mod', '+', 'enter']);
 
     return {
       uiSettings,
@@ -103,6 +105,7 @@ export default {
       fetchQuotedReplyFlagFromUISettings,
       replyEditor,
       copilot,
+      shortcutKey,
     };
   },
   data() {
@@ -273,7 +276,7 @@ export default {
         sendMessageText = this.$t('CONVERSATION.REPLYBOX.CREATE');
       }
       const keyLabel = this.isEditorHotKeyEnabled('cmd_enter')
-        ? '(⌘ + ↵)'
+        ? `(${this.shortcutKey})`
         : '(↵)';
       return `${sendMessageText} ${keyLabel}`;
     },
@@ -624,7 +627,9 @@ export default {
         },
         '$mod+Enter': {
           action: () => {
-            if (this.isAValidEvent('cmd_enter')) {
+            if (this.copilot.isActive.value && this.isFocused) {
+              this.onSubmitCopilotReply();
+            } else if (this.isAValidEvent('cmd_enter')) {
               this.onSendReply();
             }
           },
@@ -1171,6 +1176,7 @@ export default {
           @clear-selection="clearEditorSelection"
           @close="copilot.showEditor.value = false"
           @content-ready="copilot.setContentReady"
+          @send="copilot.sendFollowUp"
         />
         <WootMessageEditor
           v-else-if="!showAudioRecorderEditor"
@@ -1240,7 +1246,6 @@ export default {
       <CopilotReplyBottomPanel
         v-if="copilot.isActive.value"
         key="copilot-bottom-panel"
-        :is-private="isOnPrivateNote"
         :is-generating-content="copilot.isButtonDisabled.value"
         @submit="onSubmitCopilotReply"
         @cancel="copilot.toggleEditor"

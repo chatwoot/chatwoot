@@ -86,4 +86,8 @@ class Captain::LabelSuggestionService < Captain::BaseTaskService
   def event_name
     'label_suggestion'
   end
+
+  def build_follow_up_context?
+    false
+  end
 end

@@ -9,13 +9,14 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
  * @returns {Object} Copilot reply state and methods
  */
 export function useCopilotReply() {
-  const { processEvent } = useAI();
+  const { processEvent, followUp } = useAI();
   const { updateUISettings } = useUISettings();
 
   const showEditor = ref(false);
   const isGenerating = ref(false);
   const isContentReady = ref(false);
   const generatedContent = ref('');
+  const followUpContext = ref(null);
   const abortController = ref(null);
 
   const isActive = computed(() => showEditor.value || isGenerating.value);
@@ -38,6 +39,7 @@ export function useCopilotReply() {
     isGenerating.value = false;
     isContentReady.value = false;
     generatedContent.value = '';
+    followUpContext.value = null;
   }
 
   /**
@@ -75,13 +77,49 @@ export function useCopilotReply() {
     isContentReady.value = false;
 
     try {
-      const content = await processEvent(action, data, {
-        signal: abortController.value.signal,
-      });
+      const { message: content, followUpContext: newContext } =
+        await processEvent(action, data, {
+          signal: abortController.value.signal,
+        });
 
       if (!abortController.value?.signal.aborted) {
         generatedContent.value = content;
+        followUpContext.value = newContext;
         if (content) showEditor.value = true;
+        isGenerating.value = false;
+      }
+    } catch {
+      if (!abortController.value?.signal.aborted) {
+        isGenerating.value = false;
+      }
+    }
+  }
+
+  /**
+   * Sends a follow-up message to refine the current generated content.
+   * @param {string} message - The follow-up message from the user
+   */
+  async function sendFollowUp(message) {
+    if (!followUpContext.value || !message.trim()) return;
+
+    abortController.value = new AbortController();
+    isGenerating.value = true;
+    isContentReady.value = false;
+
+    try {
+      const { message: content, followUpContext: updatedContext } =
+        await followUp({
+          followUpContext: followUpContext.value,
+          message,
+          signal: abortController.value.signal,
+        });
+
+      if (!abortController.value?.signal.aborted) {
+        if (content) {
+          generatedContent.value = content;
+          followUpContext.value = updatedContext;
+          showEditor.value = true;
+        }
         isGenerating.value = false;
       }
     } catch {
@@ -108,6 +146,7 @@ export function useCopilotReply() {
     isGenerating,
     isContentReady,
     generatedContent,
+    followUpContext,
 
     isActive,
     isButtonDisabled,
@@ -117,6 +156,7 @@ export function useCopilotReply() {
     toggleEditor,
     setContentReady,
     execute,
+    sendFollowUp,
     accept,
   };
 }

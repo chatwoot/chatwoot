@@ -154,7 +154,7 @@ export function useAI() {
    * @param {string} [content=''] - The content to process (for full message) or selected text (for selection-based).
    * @param {Object} [options={}] - Additional options.
    * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
-   * @returns {Promise<string>} The generated message or an empty string if an error occurs.
+   * @returns {Promise<{message: string, followUpContext?: Object}>} The generated message and optional follow-up context.
    */
   const processEvent = async (type = 'improve', content = '', options = {}) => {
     try {
@@ -167,20 +167,52 @@ export function useAI() {
         options.signal
       );
       const {
-        data: { message: generatedMessage },
+        data: { message: generatedMessage, follow_up_context: followUpContext },
       } = result;
-      return generatedMessage;
+      return { message: generatedMessage, followUpContext };
     } catch (error) {
       // Don't show error for aborted requests
       if (error.name === 'AbortError' || error.name === 'CanceledError') {
-        return '';
+        return { message: '' };
       }
       const errorData = error.response?.data?.error;
       const errorMessage =
         errorData?.error?.message ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
       useAlert(errorMessage);
-      return '';
+      return { message: '' };
+    }
+  };
+
+  /**
+   * Sends a follow-up message to refine a previous AI task result.
+   * @param {Object} options - The follow-up options.
+   * @param {Object} options.followUpContext - The follow-up context from a previous task.
+   * @param {string} options.message - The follow-up message/request from the user.
+   * @param {AbortSignal} [options.signal] - AbortSignal to cancel the request.
+   * @returns {Promise<{message: string, followUpContext: Object}>} The follow-up response and updated context.
+   */
+  const followUp = async ({ followUpContext, message, signal }) => {
+    try {
+      const result = await TasksAPI.followUp(
+        { followUpContext, message, conversationId: conversationId.value },
+        signal
+      );
+      const {
+        data: { message: generatedMessage, follow_up_context: updatedContext },
+      } = result;
+      return { message: generatedMessage, followUpContext: updatedContext };
+    } catch (error) {
+      // Don't show error for aborted requests
+      if (error.name === 'AbortError' || error.name === 'CanceledError') {
+        return { message: '', followUpContext };
+      }
+      const errorData = error.response?.data?.error;
+      const errorMessage =
+        errorData?.error?.message ||
+        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+      useAlert(errorMessage);
+      return { message: '', followUpContext };
     }
   };
 
@@ -201,5 +233,6 @@ export function useAI() {
     recordAnalytics,
     fetchLabelSuggestions,
     processEvent,
+    followUp,
   };
 }

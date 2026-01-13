@@ -29,8 +29,15 @@ class Captain::BaseTaskService
   def make_api_call(model:, messages:)
     instrumentation_params = build_instrumentation_params(model, messages)
 
-    instrument_llm_call(instrumentation_params) do
+    response = instrument_llm_call(instrumentation_params) do
       execute_ruby_llm_request(model: model, messages: messages)
+    end
+
+    # Build follow-up context for client-side refinement, when applicable
+    if build_follow_up_context? && response[:message].present?
+      response.merge(follow_up_context: build_follow_up_context(messages, response))
+    else
+      response
     end
   end
 
@@ -117,5 +124,26 @@ class Captain::BaseTaskService
 
   def prompt_from_file(file_name)
     Rails.root.join('lib/integrations/openai/openai_prompts', "#{file_name}.liquid").read
+  end
+
+  # Follow-up context for client-side refinement
+  def build_follow_up_context?
+    # FollowUpService should return its own updated context
+    !is_a?(Captain::FollowUpService)
+  end
+
+  def build_follow_up_context(messages, response)
+    {
+      event_name: event_name,
+      original_context: extract_original_context(messages),
+      last_response: response[:message],
+      conversation_history: []
+    }
+  end
+
+  def extract_original_context(messages)
+    # Get the most recent user message for follow-up context
+    user_msg = messages.reverse.find { |m| m[:role] == 'user' }
+    user_msg ? user_msg[:content] : nil
   end
 end

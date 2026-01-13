@@ -10,7 +10,7 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 
 import Icon from 'next/icon/Icon.vue';
 
-const props = defineProps({
+defineProps({
   hasSelection: {
     type: Boolean,
     default: false,
@@ -28,7 +28,12 @@ const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
 // Selection-based menu items (when text is selected)
 const menuItems = computed(() => {
   const items = [];
-  if (props.hasSelection) {
+  // for now, we don't allow improving just  aprt of the selection
+  // we will add this feature later. Once we do, we can revert the change
+  const hasSelection = false;
+  // const hasSelection = props.hasSelection
+
+  if (hasSelection) {
     items.push({
       label: t(
         'INTEGRATION_SETTINGS.OPEN_AI.REPLY_OPTIONS.IMPROVE_REPLY_SELECTION'
