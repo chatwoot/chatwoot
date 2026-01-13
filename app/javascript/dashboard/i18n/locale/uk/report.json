@@ -3,7 +3,7 @@
     "HEADER": "Бесіди",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
-    "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Не вдалося отримати дані. Будь ласка, повторіть спробу пізніше.",
     "SUMMARY_FETCHING_FAILED": "Не вдалося отримати дані. Будь ласка, повторіть спробу пізніше.",
     "METRICS": {
