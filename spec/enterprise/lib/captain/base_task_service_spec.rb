@@ -8,7 +8,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   # Create a concrete test service class
   let(:test_service_class) do
     Class.new(described_class) do
-      def execute_task
+      def perform
         { message: 'Test response' }
       end
 
