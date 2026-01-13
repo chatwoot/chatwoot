@@ -3,7 +3,7 @@
     "HEADER": "会话",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "数据获取失败，请稍后再试。",
     "SUMMARY_FETCHING_FAILED": "摘要获取失败，请稍后再试。",
     "METRICS": {
