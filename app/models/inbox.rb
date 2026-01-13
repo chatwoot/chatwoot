@@ -158,6 +158,14 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  # Override lock_to_single_conversation to return false for email inboxes
+  # @return [Boolean] false if email inbox, otherwise the database value
+  def lock_to_single_conversation
+    return false if email?
+
+    self[:lock_to_single_conversation]
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
