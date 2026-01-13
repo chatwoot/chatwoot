@@ -255,8 +255,8 @@
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
-      "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information."
+      "TITLE": "Account Disabled",
+      "MESSAGE": "Your account is disabled. Please reach out to the support team for more information."
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
