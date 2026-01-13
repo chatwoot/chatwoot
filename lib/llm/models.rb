@@ -19,6 +19,10 @@ module Llm::Models
       models_for(feature).include?(model_name.to_s)
     end
 
+    def credit_multiplier_for(model_name)
+      CONFIG.dig('models', model_name.to_s, 'credit_multiplier') || 1
+    end
+
     def feature_config(feature_key)
       feature = features[feature_key.to_s]
       return nil unless feature
