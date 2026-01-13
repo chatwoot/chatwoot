@@ -120,6 +120,8 @@ ja:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -155,6 +157,14 @@ ja:
       avg_first_response_time: 初回応答の平均時間
       avg_resolution_time: 解決までの平均時間
       resolution_count: 処理件数
+      avg_customer_waiting_time: お客様の平均待ち時間
+    conversation_csv:
+      conversations_count: 会話データ
+      incoming_messages_count: 受信メッセージ
+      outgoing_messages_count: 送信メッセージ
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
+      resolution_count: Resolution count
       avg_customer_waiting_time: お客様の平均待ち時間
     conversation_traffic_csv:
       timezone: タイムゾーン
