@@ -3,7 +3,7 @@
     "HEADER": "Raporty rozmów",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
-    "DOWNLOAD_AGENT_REPORTS": "Pobierz raporty agenta",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Nie udało się pobrać danych, spróbuj ponownie później.",
     "SUMMARY_FETCHING_FAILED": "Nie udało się pobrać podsumowania, spróbuj ponownie później.",
     "METRICS": {
