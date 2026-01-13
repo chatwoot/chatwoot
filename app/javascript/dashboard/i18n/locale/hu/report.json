@@ -3,7 +3,7 @@
     "HEADER": "Beszélgetések",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
-    "DOWNLOAD_AGENT_REPORTS": "Ügynök jelentések letöltése",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Sikertelen adatlekérés, kérlek próbáld újra később.",
     "SUMMARY_FETCHING_FAILED": "Sikertelen összefoglaló lekérés, kérlek próbáld újra később.",
     "METRICS": {
