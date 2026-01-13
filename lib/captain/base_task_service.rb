@@ -13,12 +13,13 @@ class Captain::BaseTaskService
   private
 
   def perform
-    execute_task
-    log_usage
+    result = execute_task
+    increment_usage if result && !result[:error]
+    result
   end
 
-  def log_usage
-    Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for #{account.id}")
+  def increment_usage
+    Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id}")
     account.increment_response_usage
   end
 
