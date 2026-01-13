@@ -3,7 +3,7 @@ class Captain::SummaryService < Captain::BaseTaskService
 
   def perform
     make_api_call(
-      model: GPT_MODEL,
+      model: configured_model,
       messages: [
         { role: 'system', content: prompt_from_file('summary') },
         { role: 'user', content: conversation.to_llm_text(include_contact_details: false) }
