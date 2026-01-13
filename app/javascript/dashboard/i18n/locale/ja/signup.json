@@ -27,7 +27,12 @@
       "LABEL": "パスワード",
       "PLACEHOLDER": "パスワード",
       "ERROR": "パスワードが短すぎます",
-      "IS_INVALID_PASSWORD": "パスワードは少なくとも1つの大文字、1つの小文字、1つの数字、1つの特殊文字を含む必要があります"
+      "IS_INVALID_PASSWORD": "パスワードは少なくとも1つの大文字、1つの小文字、1つの数字、1つの特殊文字を含む必要があります",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "パスワードの確認",
@@ -35,7 +40,7 @@
       "ERROR": "パスワードが一致しません"
     },
     "API": {
-      "SUCCESS_MESSAGE": "登録に成功しました",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Wootサーバーに接続できませんでした。後でもう一度お試しください。"
     },
     "SUBMIT": "アカウントを作成",

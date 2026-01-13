@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Ingen etiketter fundet for",
+      "NO_LABELS_FOUND": "Ingen labels fundet",
       "ASSIGN_SELECTED_LABELS": "Tildel valgte etiketter",
       "ASSIGN_SUCCESFUL": "Etiketter tildelt med succes.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

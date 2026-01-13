@@ -5,6 +5,8 @@
       "PLACEHOLDER": "بحث",
       "EMPTY_STATE": "لم يتم العثور على النتائج"
     },
-    "CLOSE": "أغلق"
+    "CLOSE": "أغلق",
+    "BETA": "تجريبي",
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
   }
 }

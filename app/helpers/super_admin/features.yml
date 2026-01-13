@@ -9,6 +9,13 @@ captain:
   icon: 'icon-captain'
   config_key: 'captain'
   enterprise: true
+saml:
+  name: 'SAML SSO'
+  description: 'Configuration for controlling SAML Single Sign-On availability'
+  enabled: <%= ChatwootApp.enterprise? %>
+  icon: 'icon-lock-line'
+  config_key: 'saml'
+  enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
@@ -71,6 +78,12 @@ instagram:
   enabled: true
   icon: 'icon-instagram'
   config_key: 'instagram'
+tiktok:
+  name: 'TikTok'
+  description: 'Stay connected with your customers on TikTok'
+  enabled: true
+  icon: 'icon-tiktok'
+  config_key: 'tiktok'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'

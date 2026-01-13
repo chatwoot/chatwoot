@@ -1,6 +1,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
+import { useBranding } from 'shared/composables/useBranding';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -15,6 +16,8 @@ defineEmits(['add', 'delete']);
 const { integration, hasConnectedHooks } = useIntegrationHook(
   props.integrationId
 );
+
+const { replaceInstallationName } = useBranding();
 </script>
 
 <template>
@@ -37,7 +40,7 @@ const { integration, hasConnectedHooks } = useIntegrationHook(
           {{ integration.name }}
         </h3>
         <p class="text-n-slate-11 text-sm leading-6">
-          {{ integration.description }}
+          {{ replaceInstallationName(integration.description) }}
         </p>
       </div>
       <div class="flex justify-center items-center mb-0 w-[15%]">

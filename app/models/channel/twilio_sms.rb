@@ -28,6 +28,9 @@ class Channel::TwilioSms < ApplicationRecord
 
   self.table_name = 'channel_twilio_sms'
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :auth_token if Chatwoot.encryption_configured?
+
   validates :account_sid, presence: true
   # The same parameter is used to store api_key_secret if api_key authentication is opted
   validates :auth_token, presence: true

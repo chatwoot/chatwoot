@@ -17,6 +17,7 @@ class Whatsapp::EmbeddedSignupService
 
     channel = create_or_reauthorize_channel(access_token, phone_info)
     channel.setup_webhooks
+    check_channel_health_and_prompt_reauth(channel)
     channel
 
   rescue StandardError => e
@@ -50,6 +51,24 @@ class Whatsapp::EmbeddedSignupService
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
       Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
     end
+  end
+
+  def check_channel_health_and_prompt_reauth(channel)
+    health_data = Whatsapp::HealthService.new(channel).fetch_health_status
+    return unless health_data
+
+    if channel_in_pending_state?(health_data)
+      channel.prompt_reauthorization!
+    else
+      Rails.logger.info "[WHATSAPP] Channel #{channel.phone_number} health check passed"
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Health check failed for channel #{channel.phone_number}: #{e.message}"
+  end
+
+  def channel_in_pending_state?(health_data)
+    health_data[:platform_type] == 'NOT_APPLICABLE' ||
+      health_data.dig(:throughput, 'level') == 'NOT_APPLICABLE'
   end
 
   def validate_parameters!

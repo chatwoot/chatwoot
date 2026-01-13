@@ -34,8 +34,9 @@ class Whatsapp::PopulateTemplateParametersService
     return nil if url.blank?
 
     sanitized_url = sanitize_parameter(url)
-    validate_url(sanitized_url)
-    build_media_type_parameter(sanitized_url, media_type.downcase, media_name)
+    normalized_url = normalize_url(sanitized_url)
+    validate_url(normalized_url)
+    build_media_type_parameter(normalized_url, media_type.downcase, media_name)
   end
 
   def build_named_parameter(parameter_name, value)
@@ -138,8 +139,19 @@ class Whatsapp::PopulateTemplateParametersService
     sanitized[0...1000] # Limit length to prevent DoS
   end
 
+  def normalize_url(url)
+    # Use Addressable::URI for better URL normalization
+    # It handles spaces, special characters, and encoding automatically
+    Addressable::URI.parse(url).normalize.to_s
+  rescue Addressable::URI::InvalidURIError
+    # Fallback: simple space encoding if Addressable fails
+    url.gsub(' ', '%20')
+  end
+
   def validate_url(url)
     return if url.blank?
+
+    # url is already normalized by the caller
 
     uri = URI.parse(url)
     raise ArgumentError, "Invalid URL scheme: #{uri.scheme}. Only http and https are allowed" unless %w[http https].include?(uri.scheme)

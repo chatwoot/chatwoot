@@ -4,11 +4,11 @@
     "LOADING_EDITOR": "Загрузка редактора...",
     "DESCRIPTION": "Боты — это ваши незаменимые помощники. Они берут на себя рутину, чтобы вы могли сосредоточиться на важном. Попробуйте! Управлять ботами можно на этой странице, а новых — создавать с помощью кнопки «Добавить бота».",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "Система",
     "GLOBAL_BOT_BADGE": "Система",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "Аватар бота был успешно удалён",
+      "ERROR_DELETE": "Ошибка при удалении аватара бота, попробуйте ещё раз"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Выберите бота агента",
@@ -33,7 +33,7 @@
       "404": "Боты не найдены. Вы можете создать бота, нажав кнопку 'Добавить бота' ↗",
       "LOADING": "Получение ботов...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
+        "DETAILS": "Детали бота",
         "URL": "URL вебхука"
       }
     },
@@ -42,7 +42,7 @@
       "TITLE": "Удалить бота",
       "CONFIRM": {
         "TITLE": "Подтвердите удаление",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "MESSAGE": "Вы уверены, что хотите удалить {name}?",
         "YES": "Да, удалить",
         "NO": "Нет, не удалять"
       },
@@ -61,18 +61,18 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "Токен доступа",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "DESCRIPTION": "Скопируйте токен доступа и безопасно сохраните его",
+      "COPY_SUCCESSFUL": "Токен доступа скопирован в буфер обмена",
+      "RESET_SUCCESS": "Токен доступа успешно сгенерирован",
+      "RESET_ERROR": "Не удалось сгенерировать токен доступа. Попробуйте ещё раз"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "Аватар бота"
       },
       "NAME": {
         "LABEL": "Имя бота",
-        "PLACEHOLDER": "Enter bot name",
+        "PLACEHOLDER": "Введите имя бота",
         "REQUIRED": "Имя бота обязательно"
       },
       "DESCRIPTION": {
@@ -82,19 +82,19 @@
       "WEBHOOK_URL": {
         "LABEL": "URL вебхука",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "Webhook URL обязателен"
       },
       "ERRORS": {
         "NAME": "Имя бота обязательно",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "URL": "Webhook URL обязателен",
+        "VALID_URL": "Пожалуйста, введите действительный URL, начинающийся с http:// или https://"
       },
       "CANCEL": "Отменить",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "Создать бота",
+      "UPDATE": "Обновить бота"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Настройте webhook бота для интеграции с вашими пользовательскими сервисами. Бот будет получать и обрабатывать события из разговоров и может отвечать на них."
     },
     "TYPES": {
       "WEBHOOK": "Webhook бот"

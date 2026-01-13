@@ -1,103 +1,103 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
-    "LEARN_MORE": "Learn about agent bots",
+    "LOADING_EDITOR": "Caricamento editor...",
+    "DESCRIPTION": "Gli Agent Bot sono membri virtuali del tuo team: gestiscono le attività di routine, lasciandoti più tempo per ciò che conta. Puoi gestirli da questa pagina o crearne di nuovi con il pulsante “Aggiungi Bot”.",
+    "LEARN_MORE": "Informazioni sugli agent bot",
     "GLOBAL_BOT": "System bot",
     "GLOBAL_BOT_BADGE": "System",
     "AVATAR": {
-      "SUCCESS_DELETE": "Bot avatar deleted successfully",
-      "ERROR_DELETE": "Error deleting bot avatar, please try again"
+      "SUCCESS_DELETE": "Avatar del bot eliminato con successo",
+      "ERROR_DELETE": "Errore nell'eliminare l'avatar del bot, riprova"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Select an agent bot",
-      "DESC": "Assign an Agent Bot to your inbox. They can handle initial conversations and transfer them to a live agent when necessary.",
+      "DESC": "Assegna un agent bot alla tua inbox. Potrà gestire le nuove conversazioni e trasferirle a un operatore umano quando necessario.",
       "SUBMIT": "Aggiorna",
-      "DISCONNECT": "Disconnect bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot.",
-      "ERROR_MESSAGE": "Could not update the agent bot. Please try again.",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot. Please try again.",
-      "SELECT_PLACEHOLDER": "Select bot"
+      "DISCONNECT": "Disconnetti bot",
+      "SUCCESS_MESSAGE": "Agent bot aggiornato con successo.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Agent bot disconnesso con successo.",
+      "ERROR_MESSAGE": "Impossibile aggiornare agent bot. Riprova.",
+      "DISCONNECTED_ERROR_MESSAGE": "Impossibile disconnettere agent bot. Riprova.",
+      "SELECT_PLACEHOLDER": "Seleziona bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "Aggiungi Bot",
       "CANCEL_BUTTON_TEXT": "Annulla",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully.",
-        "ERROR_MESSAGE": "Could not add bot. Please try again later."
+        "SUCCESS_MESSAGE": "Bot aggiunto correttamente.",
+        "ERROR_MESSAGE": "Impossibile aggiungere bot. Riprova più tardi."
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
-      "LOADING": "Fetching bots...",
+      "404": "Nessun bot trovato. Puoi creare un bot cliccando sul pulsante 'Aggiungi Bot'.",
+      "LOADING": "Caricamento bot...",
       "TABLE_HEADER": {
-        "DETAILS": "Bot Details",
-        "URL": "URL del webhook"
+        "DETAILS": "Dettagli Bot",
+        "URL": "URL Webhook"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Elimina",
-      "TITLE": "Delete bot",
+      "TITLE": "Elimina bot",
       "CONFIRM": {
-        "TITLE": "Conferma eliminazione",
-        "MESSAGE": "Are you sure you want to delete {name}?",
+        "TITLE": "Conferma Eliminazione",
+        "MESSAGE": "Sei sicuro di voler eliminare {name}?",
         "YES": "Sì, elimina",
-        "NO": "No, conserva"
+        "NO": "No, Mantieni"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully.",
-        "ERROR_MESSAGE": "Could not delete bot. Please try again."
+        "SUCCESS_MESSAGE": "Bot eliminato con successo.",
+        "ERROR_MESSAGE": "Impossibile eliminare il bot. Riprova."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Modifica",
-      "TITLE": "Edit bot",
+      "TITLE": "Modifica bot",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully.",
-        "ERROR_MESSAGE": "Could not update bot. Please try again."
+        "SUCCESS_MESSAGE": "Bot aggiornato con successo.",
+        "ERROR_MESSAGE": "Impossibile aggiornare il bot. Riprova."
       }
     },
     "ACCESS_TOKEN": {
-      "TITLE": "Token di accesso",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "TITLE": "Token di Accesso",
+      "DESCRIPTION": "Copia il token di accesso e salvalo in un luogo sicuro",
+      "COPY_SUCCESSFUL": "Token di accesso copiato negli appunti",
+      "RESET_SUCCESS": "Token di accesso rigenerato correttamente",
+      "RESET_ERROR": "Impossibile rigenerare il token di accesso. Riprova"
     },
     "FORM": {
       "AVATAR": {
-        "LABEL": "Bot avatar"
+        "LABEL": "Avatar del Bot"
       },
       "NAME": {
-        "LABEL": "Bot name",
-        "PLACEHOLDER": "Enter bot name",
-        "REQUIRED": "Bot name is required"
+        "LABEL": "Nome Bot",
+        "PLACEHOLDER": "Inserisci il nome del Bot",
+        "REQUIRED": "Nome Bot richiesto"
       },
       "DESCRIPTION": {
         "LABEL": "Descrizione",
-        "PLACEHOLDER": "What does this bot do?"
+        "PLACEHOLDER": "Cosa fa questo Bot?"
       },
       "WEBHOOK_URL": {
-        "LABEL": "URL del webhook",
+        "LABEL": "URL Webhook",
         "PLACEHOLDER": "https://example.com/webhook",
-        "REQUIRED": "Webhook URL is required"
+        "REQUIRED": "L'URL del Webhook è richiesto"
       },
       "ERRORS": {
-        "NAME": "Bot name is required",
-        "URL": "Webhook URL is required",
-        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+        "NAME": "Nome Bot richiesto",
+        "URL": "L'URL del Webhook è richiesto",
+        "VALID_URL": "Inserisci un URL valido che inizi con http:// o https://"
       },
-      "CANCEL": "annulla",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CANCEL": "Annulla",
+      "CREATE": "Crea Bot",
+      "UPDATE": "Aggiorna Bot"
     },
     "WEBHOOK": {
-      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+      "DESCRIPTION": "Configura un Bot Webhook per integrarlo con i tuoi servizi. Il Bot riceverà e gestirà gli eventi delle conversazioni e potrà rispondere automaticamente."
     },
     "TYPES": {
-      "WEBHOOK": "Webhook bot"
+      "WEBHOOK": "Bot Webhook"
     }
   }
 }

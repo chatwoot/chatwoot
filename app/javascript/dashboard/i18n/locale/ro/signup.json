@@ -27,7 +27,12 @@
       "LABEL": "Parola",
       "PLACEHOLDER": "Parola",
       "ERROR": "Parola este prea scurta.",
-      "IS_INVALID_PASSWORD": "Parola trebuie să conțină atleast 1 literă mare, 1 literă mică, 1 număr și 1 caracter special."
+      "IS_INVALID_PASSWORD": "Parola trebuie să conțină atleast 1 literă mare, 1 literă mică, 1 număr și 1 caracter special.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmă parola",
@@ -35,7 +40,7 @@
       "ERROR": "Parola nu coincide."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Înregistrare cu succes",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Nu s-a putut conecta la serverul Woot. Vă rugăm să încercați din nou."
     },
     "SUBMIT": "Creează cont",

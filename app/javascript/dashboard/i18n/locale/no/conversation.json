@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Laster samtaler",
     "CANNOT_REPLY": "Du kan ikke svare på grunn av",
     "24_HOURS_WINDOW": "24-timers meldingsrestriksjon",
+    "48_HOURS_WINDOW": "48-timers meldingsrestriksjon",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Vis rik tekstredigering",
       "TIP_EMOJI_ICON": "Vis emoji-velger",
       "TIP_ATTACH_ICON": "Legg ved filer",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -227,6 +227,13 @@
           "YES": "Send",
           "CANCEL": "Avbryt"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privat notat: bare synlig for deg og ditt team",

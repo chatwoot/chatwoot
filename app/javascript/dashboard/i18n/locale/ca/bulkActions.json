@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assignar etiquetes",
-      "NO_LABELS_FOUND": "No s'han trobat etiquetes per a",
+      "NO_LABELS_FOUND": "No s'han trobat etiquetes",
       "ASSIGN_SELECTED_LABELS": "Assigna les etiquetes seleccionades",
       "ASSIGN_SUCCESFUL": "L'etiqueta s'ha assignat correctament.",
       "ASSIGN_FAILED": "No s'han pogut assignar les etiquetes. Torna-ho a provar."

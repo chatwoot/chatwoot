@@ -100,4 +100,6 @@ CLAUDE.local.md
 .netlify
 .histoire
 
-.pnpm-store/v10
+
+.pnpm-store/*
+local/

@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "A carregar conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "48_HOURS_WINDOW": "Mensagens bloqueadas durante 48 horas",
     "API_HOURS_WINDOW": "Só pode responder a esta conversa dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a si. Gostaria de atribuir esta conversa a si mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Ler mais",
       "DISMISS_REPLY": "Descartar resposta",
       "REPLYING_TO": "Em resposta a:",
-      "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
       "TIP_ATTACH_ICON": "Anexar ficheiros",
       "TIP_AUDIORECORDER_ICON": "Gravar áudio",
@@ -227,6 +227,13 @@
           "YES": "Enviar",
           "CANCEL": "Cancelar"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para si e para a sua equipa",

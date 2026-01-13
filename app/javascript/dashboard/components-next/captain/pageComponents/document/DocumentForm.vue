@@ -2,13 +2,20 @@
 import { reactive, computed, ref, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength, requiredIf, url } from '@vuelidate/validators';
+import { minLength, requiredIf, url } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+
+const props = defineProps({
+  assistantId: {
+    type: Number,
+    required: true,
+  },
+});
 
 const emit = defineEmits(['submit', 'cancel']);
 
@@ -18,13 +25,11 @@ const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
-  assistants: useMapGetter('captainAssistants/getRecords'),
 };
 
 const initialState = {
   name: '',
   url: '',
-  assistantId: null,
   documentType: 'url',
   pdfFile: null,
 };
@@ -38,18 +43,10 @@ const validationRules = {
     url: requiredIf(() => state.documentType === 'url' && url),
     minLength: requiredIf(() => state.documentType === 'url' && minLength(1)),
   },
-  assistantId: { required },
   pdfFile: {
     required: requiredIf(() => state.documentType === 'pdf'),
   },
 };
-
-const assistantList = computed(() =>
-  formState.assistants.value.map(assistant => ({
-    value: assistant.id,
-    label: assistant.name,
-  }))
-);
 
 const documentTypeOptions = [
   { value: 'url', label: t('CAPTAIN.DOCUMENTS.FORM.TYPE.URL') },
@@ -70,7 +67,6 @@ const getErrorMessage = (field, errorKey) => {
 
 const formErrors = computed(() => ({
   url: getErrorMessage('url', 'URL'),
-  assistantId: getErrorMessage('assistantId', 'ASSISTANT'),
   pdfFile: getErrorMessage('pdfFile', 'PDF_FILE'),
 }));
 
@@ -106,7 +102,7 @@ const openFileDialog = () => {
 
 const prepareDocumentDetails = () => {
   const formData = new FormData();
-  formData.append('document[assistant_id]', state.assistantId);
+  formData.append('document[assistant_id]', props.assistantId);
 
   if (state.documentType === 'url') {
     formData.append('document[external_link]', state.url);
@@ -217,21 +213,6 @@ const handleSubmit = async () => {
       :label="t('CAPTAIN.DOCUMENTS.FORM.NAME.LABEL')"
       :placeholder="t('CAPTAIN.DOCUMENTS.FORM.NAME.PLACEHOLDER')"
     />
-
-    <div class="flex flex-col gap-1">
-      <label for="assistant" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('CAPTAIN.DOCUMENTS.FORM.ASSISTANT.LABEL') }}
-      </label>
-      <ComboBox
-        id="assistant"
-        v-model="state.assistantId"
-        :options="assistantList"
-        :has-error="!!formErrors.assistantId"
-        :placeholder="t('CAPTAIN.DOCUMENTS.FORM.ASSISTANT.PLACEHOLDER')"
-        class="[&>div>button]:bg-n-alpha-black2"
-        :message="formErrors.assistantId"
-      />
-    </div>
 
     <div class="flex gap-3 justify-between items-center w-full">
       <Button

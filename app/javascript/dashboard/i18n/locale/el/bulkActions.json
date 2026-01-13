@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Δεν βρέθηκαν πρότυπα για",
+      "NO_LABELS_FOUND": "Δεν βρέθηκαν ετικέτες",
       "ASSIGN_SELECTED_LABELS": "Ανάθεση επιλεγμένων ετικετών",
       "ASSIGN_SUCCESFUL": "Επιτυχής ανάθεση ετικετών.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

@@ -5,7 +5,6 @@ import router from '../../../../index';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
-import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
@@ -24,7 +23,6 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
-      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -47,7 +45,7 @@ export default {
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
           {
-            name: this.inboxName,
+            name: this.inboxName?.trim(),
             greeting_enabled: this.greetingEnabled,
             greeting_message: this.greetingMessage,
             channel: {
@@ -147,7 +145,7 @@ export default {
           )
         "
         :max-length="255"
-        :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+        channel-type="Context::InboxSettings"
         class="mb-4"
       />
 

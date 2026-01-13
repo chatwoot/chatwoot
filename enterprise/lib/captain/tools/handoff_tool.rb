@@ -36,6 +36,13 @@ class Captain::Tools::HandoffTool < Captain::Tools::BasePublicTool
 
     # Trigger the bot handoff (sets status to open + dispatches events)
     conversation.bot_handoff!
+
+    # Send out of office message if applicable (since template messages were suppressed while Captain was handling)
+    send_out_of_office_message_if_applicable(conversation)
+  end
+
+  def send_out_of_office_message_if_applicable(conversation)
+    ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 
   # TODO: Future enhancement - Add team assignment capability

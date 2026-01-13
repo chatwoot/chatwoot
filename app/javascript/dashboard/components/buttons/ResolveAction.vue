@@ -15,7 +15,9 @@ import {
   CMD_RESOLVE_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
+import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { STATUS } from '../../store/constants';
 
 const store = useStore();
 const getters = useStoreGetters();
@@ -133,24 +135,37 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 
 <template>
   <div class="relative flex items-center justify-end resolve-actions">
-    <div
+    <ButtonGroup
       class="rounded-lg shadow outline-1 outline flex-shrink-0"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
-      <Button
+      <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
+      <!-- <Button
         v-if="isOpen"
         :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdResolveConversation"
+      /> -->
+      <Button
+        v-if="isOpen"
+        :label="t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING')"
+        size="sm"
+        color="slate"
+        no-animation
+        class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
+        :is-loading="isLoading"
+        @click="toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
       />
       <Button
         v-else-if="isResolved"
         :label="t('CONVERSATION.HEADER.REOPEN_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         class="ltr:rounded-r-none rtl:rounded-l-none !outline-0"
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
@@ -160,22 +175,26 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :label="t('CONVERSATION.HEADER.OPEN_ACTION')"
         size="sm"
         color="slate"
+        no-animation
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
-      <Button
+      <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
+      <!-- <Button
         v-if="showAdditionalActions"
         ref="arrowDownButtonRef"
         icon="i-lucide-chevron-down"
         :disabled="isLoading"
         size="sm"
+        no-animation
         class="ltr:rounded-l-none rtl:rounded-r-none !outline-0"
         color="slate"
         trailing-icon
         @click="openDropdown"
-      />
-    </div>
-    <div
+      /> -->
+    </ButtonGroup>
+    <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
+    <!-- <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
       class="border rounded-lg shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-10 bg-n-alpha-3 backdrop-blur-[100px] absolute block left-auto top-full mt-0.5 start-0 xl:start-auto xl:end-0 max-w-[12.5rem] min-w-[9.75rem] [&_ul>li]:mb-0"
@@ -206,6 +225,6 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
           />
         </WootDropdownItem>
       </WootDropdownMenu>
-    </div>
+    </div> -->
   </div>
 </template>

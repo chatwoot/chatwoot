@@ -7,9 +7,25 @@ describe Contacts::FilterService do
   let!(:first_user) { create(:user, account: account) }
   let!(:second_user) { create(:user, account: account) }
   let!(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
-  let!(:en_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'uk' }) }
-  let!(:el_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'gr' }) }
-  let!(:cs_contact) { create(:contact, account: account, additional_attributes: { 'country_code': 'cz' }) }
+  let!(:en_contact) do
+    create(:contact,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'uk' })
+  end
+  let!(:el_contact) do
+    create(:contact,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'gr' })
+  end
+  let!(:cs_contact) do
+    create(:contact,
+           :with_phone_number,
+           account: account,
+           email: Faker::Internet.unique.email,
+           additional_attributes: { 'country_code': 'cz' })
+  end
 
   before do
     create(:inbox_member, user: first_user, inbox: inbox)
@@ -65,9 +81,50 @@ describe Contacts::FilterService do
       end
     end
 
+    context 'with standard attributes - phone' do
+      it 'filter contacts by name' do
+        params[:payload] = [
+          {
+            attribute_key: 'phone_number',
+            filter_operator: 'equal_to',
+            values: [cs_contact.phone_number],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.name).to eq(cs_contact.name)
+      end
+    end
+
+    context 'with standard attributes - phone (without +)' do
+      it 'filter contacts by name' do
+        params[:payload] = [
+          {
+            attribute_key: 'phone_number',
+            filter_operator: 'equal_to',
+            values: [cs_contact.phone_number[1..]],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = filter_service.new(account, first_user, params).perform
+        expect(result[:count]).to be 1
+        expect(result[:contacts].length).to be 1
+        expect(result[:contacts].first.name).to eq(cs_contact.name)
+      end
+    end
+
     context 'with standard attributes - blocked' do
       it 'filter contacts by blocked' do
-        blocked_contact = create(:contact, account: account, blocked: true)
+        blocked_contact = create(
+          :contact,
+          account: account,
+          blocked: true,
+          email: Faker::Internet.unique.email
+        )
         params = { payload: [{ attribute_key: 'blocked', filter_operator: 'equal_to', values: ['true'],
                                query_operator: nil }.with_indifferent_access] }
         result = filter_service.new(account, first_user, params).perform

@@ -1,25 +1,25 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "Hai superato il limite di conversazione. Il piano Hacker consente solo 500 conversazioni.",
-      "INBOXES": "Hai superato il limite della posta in arrivo. Il piano Hacker supporta solo la chat dal vivo del sito web. Ulteriori caselle di posta come e-mail, WhatsApp ecc. richiedono un piano a pagamento.",
-      "AGENTS": "Hai superato il limite dell'agente. Il tuo piano consente solo {allowedAgents} agenti.",
+      "CONVERSATION": "Hai superato il limite di conversazioni. Il piano Hacker consente fino a 500 conversazioni.",
+      "INBOXES": "Hai superato il limite di Inbox. Il piano Hacker supporta solo la live-chat sul sito web. Ulteriori Inbox come e-mail, WhatsApp ecc. richiedono un piano a pagamento.",
+      "AGENTS": "Hai superato il limite di operatori. Il tuo piano consente solo {allowedAgents} operatori.",
       "NON_ADMIN": "Contatta l'amministratore per aggiornare il piano e continuare a utilizzare tutte le funzionalità."
     },
     "TITLE": "Impostazioni account",
-    "SUBMIT": "Aggiorna le impostazioni",
+    "SUBMIT": "Aggiorna impostazioni",
     "BACK": "Indietro",
-    "DISMISS": "Dismiss",
+    "DISMISS": "Ignora",
     "UPDATE": {
       "ERROR": "Impossibile aggiornare le impostazioni, riprova!",
       "SUCCESS": "Impostazioni account aggiornate con successo"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Elimina il tuo account",
+      "TITLE": "Elimina il tuo Account",
       "NOTE": "Una volta eliminato il tuo account, tutti i tuoi dati verranno eliminati.",
-      "BUTTON_TEXT": "Elimina il tuo account",
+      "BUTTON_TEXT": "Elimina il tuo Account",
       "CONFIRM": {
-        "TITLE": "Elimina account",
+        "TITLE": "Elimina Account",
         "MESSAGE": "L'eliminazione del tuo account è irreversibile. Inserisci il nome del tuo account qui sotto per confermare che vuoi eliminarlo in modo permanente.",
         "BUTTON_TEXT": "Elimina",
         "DISMISS": "Annulla",
@@ -31,7 +31,7 @@
         "TITLE": "Account pianificato per l'eliminazione",
         "MESSAGE_MANUAL": "Questo account è pianificato per la cancellazione il {deletionDate}. Questo è stato richiesto da un amministratore. Puoi annullare la cancellazione prima di questa data.",
         "MESSAGE_INACTIVITY": "Questo account è programmato per la cancellazione il {deletionDate} a causa dell'inattività dell'account. Puoi annullare la cancellazione prima di questa data.",
-        "CLEAR_BUTTON": "Annulla eliminazione pianificata"
+        "CLEAR_BUTTON": "Annulla Eliminazione Pianificata"
       }
     },
     "FORM": {
@@ -42,7 +42,7 @@
       },
       "ACCOUNT_ID": {
         "TITLE": "ID Account",
-        "NOTE": "Questo ID è richiesto se si sta costruendo un'integrazione basata su API"
+        "NOTE": "Questo ID è utile per costruire integrazioni basate su API"
       },
       "AUTO_RESOLVE": {
         "TITLE": "Risoluzione automatica delle conversazioni",
@@ -68,9 +68,9 @@
           "PLACEHOLDER": "Seleziona un'etichetta"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Salta le conversazioni in attesa di risposta dell'agente"
+          "LABEL": "Salta le conversazioni in attesa di risposta dell'operatore"
         },
-        "UPDATE_BUTTON": "Salva modifiche"
+        "UPDATE_BUTTON": "Salva Modifiche"
       },
       "NAME": {
         "LABEL": "Nome account",
@@ -78,27 +78,27 @@
         "ERROR": "Inserisci un nome account valido"
       },
       "LANGUAGE": {
-        "LABEL": "Site language",
+        "LABEL": "Lingua del sito",
         "PLACEHOLDER": "Nome del tuo account",
         "ERROR": ""
       },
       "DOMAIN": {
-        "LABEL": "Dominio email in entrata",
+        "LABEL": "Dominio Email In Arrivo",
         "PLACEHOLDER": "Il dominio in cui riceverai le email",
         "ERROR": ""
       },
       "SUPPORT_EMAIL": {
-        "LABEL": "Email di supporto",
+        "LABEL": "Email di Supporto",
         "PLACEHOLDER": "Email di supporto della tua azienda",
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Escludi conversazioni non partecipate",
-        "HELP": "Se abilitato, il sistema salterà la risoluzione delle conversazioni che sono ancora in attesa della risposta di un agente."
+        "HELP": "Se abilitato, il sistema salterà la risoluzione delle conversazioni che sono ancora in attesa della risposta di un operatore."
       },
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Trascrizione Messaggi Audio",
-        "NOTE": "Trascrivere automaticamente i messaggi audio nelle conversazioni. Generare una trascrizione di testo ogni volta che un messaggio audio viene inviato o ricevuto, e visualizzarlo accanto al messaggio.",
+        "NOTE": "Trascrivi automaticamente i messaggi audio nelle conversazioni. Genera una trascrizione di testo ogni volta che un messaggio audio viene inviato o ricevuto, mostrandolo accanto al messaggio.",
         "API": {
           "SUCCESS": "Impostazioni di trascrizione audio aggiornate con successo",
           "ERROR": "Aggiornamento delle impostazioni di trascrizione audio non riuscito"
@@ -106,7 +106,7 @@
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Durata dell'inattività per la risoluzione",
-        "HELP": "Durata dopo la quale una conversazione si dovrebbe risolvere automaticamente se non c'è attività",
+        "HELP": "Durata dopo la quale una conversazione si risolve automaticamente se non c'è attività",
         "PLACEHOLDER": "30",
         "ERROR": "La durata della risoluzione automatica deve essere compresa tra 10 minuti e 999 giorni",
         "API": {
@@ -119,16 +119,16 @@
         "MESSAGE_HELP": "Questo messaggio viene inviato al cliente quando una conversazione viene risolta automaticamente dal sistema a causa di inattività."
       },
       "FEATURES": {
-        "INBOUND_EMAIL_ENABLED": "La continuità della conversazione con le email è abilitata per il tuo account.",
+        "INBOUND_EMAIL_ENABLED": "La continuità della conversazione via email è abilitata per il tuo account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puoi ricevere email nel tuo dominio personalizzato ora."
       }
     },
     "UPDATE_CHATWOOT": "È disponibile un aggiornamento {latestChatwootVersion} per Chatwoot. Aggiorna la tua istanza.",
     "LEARN_MORE": "Scopri di più",
-    "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "PAYMENT_PENDING": "Il tuo pagamento è in sospeso. Aggiorna le informazioni di pagamento per continuare a utilizzare Chatwoot",
     "UPGRADE": "Aggiorna per continuare a usare Chatwoot",
-    "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
-    "OPEN_BILLING": "Open billing"
+    "LIMITS_UPGRADE": "Il tuo account ha superato i limiti di utilizzo, aggiorna il tuo piano per continuare a utilizzare Chatwoot",
+    "OPEN_BILLING": "Apri fatturazione"
   },
   "FORMS": {
     "MULTISELECT": {
@@ -136,7 +136,7 @@
       "ENTER_TO_REMOVE": "Premi Invio per rimuovere",
       "NO_OPTIONS": "L'elenco è vuoto",
       "SELECT_ONE": "Selezionane uno",
-      "SELECT": "Select"
+      "SELECT": "Seleziona"
     }
   },
   "NOTIFICATIONS_PAGE": {
@@ -147,79 +147,79 @@
       "TITLE": "Notifiche non lette",
       "ALL_NOTIFICATIONS": "Visualizza tutte le notifiche",
       "LOADING_UNREAD_MESSAGE": "Caricamento notifiche non lette...",
-      "EMPTY_MESSAGE": "Non hai notifiche non lette"
+      "EMPTY_MESSAGE": "Non hai nessuna nuova notifica"
     },
     "LIST": {
       "LOADING_MESSAGE": "Caricamento notifiche...",
       "404": "Nessuna notifica",
       "TABLE_HEADER": [
         "Nome",
-        "Numero di telefono",
+        "Numero di Telefono",
         "Conversazioni",
-        "Ultimo contattato"
+        "Ultimo Contatto"
       ]
     },
     "TYPE_LABEL": {
       "conversation_creation": "Nuova conversazione",
       "conversation_assignment": "Conversazione assegnata",
-      "assigned_conversation_new_message": "Nuovo messaggio",
-      "participating_conversation_new_message": "Nuovo messaggio",
+      "assigned_conversation_new_message": "Nuovo Messaggio",
+      "participating_conversation_new_message": "Nuovo Messaggio",
       "conversation_mention": "Menzione",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
-      "sla_missed_resolution": "SLA Missed"
+      "sla_missed_first_response": "SLA Mancata",
+      "sla_missed_next_response": "SLA Mancata",
+      "sla_missed_resolution": "SLA Mancata"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "Offline",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "Riconnessione...",
+      "RECONNECT_SUCCESS": "Riconnesso"
     },
     "BUTTON": {
       "REFRESH": "Aggiorna"
     }
   },
   "COMMAND_BAR": {
-    "SEARCH_PLACEHOLDER": "Cerca o salta a",
+    "SEARCH_PLACEHOLDER": "Cerca o vai a",
     "SECTIONS": {
       "GENERAL": "Generale",
-      "REPORTS": "Rapporti",
-      "CONVERSATION": "Conversazioni",
-      "BULK_ACTIONS": "Bulk Actions",
+      "REPORTS": "Report",
+      "CONVERSATION": "Conversazione",
+      "BULK_ACTIONS": "Azioni Bulk",
       "CHANGE_ASSIGNEE": "Cambia assegnatario",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "Cambia Priorità",
       "CHANGE_TEAM": "Cambia Team",
-      "SNOOZE_CONVERSATION": "Posticipa conversazione",
+      "SNOOZE_CONVERSATION": "Posticipa Conversazione",
       "ADD_LABEL": "Aggiungi etichetta alla conversazione",
       "REMOVE_LABEL": "Rimuovi etichetta dalla conversazione",
       "SETTINGS": "Impostazioni",
       "AI_ASSIST": "AI Assist",
-      "APPEARANCE": "Appearance",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "APPEARANCE": "Aspetto",
+      "SNOOZE_NOTIFICATION": "Posticipa Notifica"
     },
     "COMMANDS": {
-      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla dashboard Conversazioni",
-      "GO_TO_CONTACTS_DASHBOARD": "Vai alla dashboard Contatti",
-      "GO_TO_REPORTS_OVERVIEW": "Vai alla panoramica dei report",
-      "GO_TO_CONVERSATION_REPORTS": "Vai ai report della conversazione",
-      "GO_TO_AGENT_REPORTS": "Vai ai report degli agenti",
-      "GO_TO_LABEL_REPORTS": "Vai ai report delle etichette",
-      "GO_TO_INBOX_REPORTS": "Vai ai report delle caselle",
-      "GO_TO_TEAM_REPORTS": "Vai ai report dei team",
-      "GO_TO_SETTINGS_AGENTS": "Vai alle impostazioni dell'agente",
-      "GO_TO_SETTINGS_TEAMS": "Vai alle impostazioni del team",
-      "GO_TO_SETTINGS_INBOXES": "Vai alle impostazioni delle caselle",
-      "GO_TO_SETTINGS_LABELS": "Vai alle impostazioni delle etichette",
-      "GO_TO_SETTINGS_CANNED_RESPONSES": "Vai alle impostazioni delle risposte predefinite",
-      "GO_TO_SETTINGS_APPLICATIONS": "Vai alle impostazioni dell'applicazione",
-      "GO_TO_SETTINGS_ACCOUNT": "Vai alle impostazioni dell'account",
-      "GO_TO_SETTINGS_PROFILE": "Vai alle impostazioni del profilo",
+      "GO_TO_CONVERSATION_DASHBOARD": "Vai alla Dashboard Conversazioni",
+      "GO_TO_CONTACTS_DASHBOARD": "Vai alla Dashboard Contatti",
+      "GO_TO_REPORTS_OVERVIEW": "Vai alla Panoramica dei Report",
+      "GO_TO_CONVERSATION_REPORTS": "Vai ai Report delle Conversazioni",
+      "GO_TO_AGENT_REPORTS": "Vai ai Report degli Operatori",
+      "GO_TO_LABEL_REPORTS": "Vai ai Report delle Etichette",
+      "GO_TO_INBOX_REPORTS": "Vai ai Report delle Inbox",
+      "GO_TO_TEAM_REPORTS": "Vai ai Report dei Team",
+      "GO_TO_SETTINGS_AGENTS": "Vai alle Impostazioni Operatore",
+      "GO_TO_SETTINGS_TEAMS": "Vai alle Impostazioni Team",
+      "GO_TO_SETTINGS_INBOXES": "Vai alle Impostazioni Inbox",
+      "GO_TO_SETTINGS_LABELS": "Vai alle Impostazioni Etichette",
+      "GO_TO_SETTINGS_CANNED_RESPONSES": "Vai alle Impostazioni delle Risposte Predefinite",
+      "GO_TO_SETTINGS_APPLICATIONS": "Vai alle Impostazioni Applicazione",
+      "GO_TO_SETTINGS_ACCOUNT": "Vai alle Impostazioni Account",
+      "GO_TO_SETTINGS_PROFILE": "Vai alle Impostazioni Profilo",
       "GO_TO_NOTIFICATIONS": "Vai alle notifiche",
       "ADD_LABELS_TO_CONVERSATION": "Aggiungi etichetta alla conversazione",
-      "ASSIGN_AN_AGENT": "Assegna un agente",
+      "ASSIGN_AN_AGENT": "Assegna un operatore",
       "AI_ASSIST": "AI Assist",
-      "ASSIGN_PRIORITY": "Assign priority",
+      "ASSIGN_PRIORITY": "Assegna priorità",
       "ASSIGN_A_TEAM": "Assegna un team",
       "MUTE_CONVERSATION": "Silenzia conversazione",
       "UNMUTE_CONVERSATION": "Riattiva conversazione",
@@ -227,25 +227,25 @@
       "REOPEN_CONVERSATION": "Riapri la conversazione",
       "RESOLVE_CONVERSATION": "Risolvi la conversazione",
       "SEND_TRANSCRIPT": "Invia una trascrizione email",
-      "SNOOZE_CONVERSATION": "Posticipa conversazione",
+      "SNOOZE_CONVERSATION": "Posticipa Conversazione",
       "UNTIL_NEXT_REPLY": "Fino alla prossima risposta",
       "UNTIL_NEXT_WEEK": "Fino alla prossima settimana",
       "UNTIL_TOMORROW": "Fino a domani",
-      "UNTIL_NEXT_MONTH": "Until next month",
-      "AN_HOUR_FROM_NOW": "Until an hour from now",
-      "UNTIL_CUSTOM_TIME": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
-      "SNOOZE_NOTIFICATION": "Snooze Notification"
+      "UNTIL_NEXT_MONTH": "Fino al prossimo mese",
+      "AN_HOUR_FROM_NOW": "Fino a un'ora da adesso",
+      "UNTIL_CUSTOM_TIME": "Personalizza...",
+      "CHANGE_APPEARANCE": "Modifica Aspetto",
+      "LIGHT_MODE": "Chiaro",
+      "DARK_MODE": "Scuro",
+      "SYSTEM_MODE": "Sistema",
+      "SNOOZE_NOTIFICATION": "Posticipa Notifica"
     }
   },
   "DASHBOARD_APPS": {
-    "LOADING_MESSAGE": "Loading Dashboard App..."
+    "LOADING_MESSAGE": "Caricamento Dashboard App..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "Oppure",
     "CLICK_HERE": "clicca qui"
   }
 }

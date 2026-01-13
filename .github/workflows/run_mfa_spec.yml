@@ -70,6 +70,7 @@ jobs:
             spec/services/mfa/authentication_service_spec.rb \
             spec/requests/api/v1/profile/mfa_controller_spec.rb \
             spec/controllers/devise_overrides/sessions_controller_spec.rb \
+            spec/models/application_record_external_credentials_encryption_spec.rb \
             --profile=10 \
             --format documentation
         env:

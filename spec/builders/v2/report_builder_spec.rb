@@ -7,7 +7,9 @@ describe V2::ReportBuilder do
   let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
 
   describe '#timeseries' do
-    before do
+    # Use before_all to share expensive setup across all tests in this describe block
+    # This runs once instead of 21 times, dramatically speeding up the suite
+    before_all do
       travel_to(Time.zone.today) do
         user = create(:user, account: account)
         inbox = create(:inbox, account: account)

@@ -23,6 +23,7 @@ defineProps({
     slate
     sm
     class="relative"
+    no-animation
     :icon="icon"
     :trailing-icon="trailingIcon"
   >

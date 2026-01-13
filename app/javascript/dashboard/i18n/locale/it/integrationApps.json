@@ -1,6 +1,6 @@
 {
   "INTEGRATION_APPS": {
-    "FETCHING": "Recupero delle integrazioni",
+    "FETCHING": "Caricamento Integrazioni",
     "NO_HOOK_CONFIGURED": "Non ci sono integrazioni {integrationId} configurate in questo account.",
     "HEADER": "Applicazioni",
     "STATUS": {
@@ -29,8 +29,8 @@
       }
     },
     "LIST": {
-      "FETCHING": "Recupero degli hook di integrazione",
-      "INBOX": "Casella",
+      "FETCHING": "Caricamento hook integrazioni",
+      "INBOX": "Inbox",
       "DELETE": {
         "BUTTON_TEXT": "Elimina"
       }
@@ -38,8 +38,8 @@
     "ADD": {
       "FORM": {
         "INBOX": {
-          "LABEL": "Seleziona casella",
-          "PLACEHOLDER": "Seleziona casella"
+          "LABEL": "Seleziona Inbox",
+          "PLACEHOLDER": "Seleziona Inbox"
         },
         "SUBMIT": "Crea",
         "CANCEL": "Annulla"
@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Disconnetti"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow è una piattaforma di elaborazione del linguaggio naturale per la costruzione di interfacce conversazionali. L'integrazione con {installationName} permette ai bot di gestire le richieste prima e trasferirle agli operatori solo quando necessario. Aiuta a qualificare i lead e ridurre il carico di lavoro dell'agente rispondendo alle domande frequenti. Per aggiungere Dialogflow, crea un Service Account in Google Console e inserisci le credenziali. Consulta i documenti per dettagli"
     }
   }
 }

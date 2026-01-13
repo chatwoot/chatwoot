@@ -27,15 +27,20 @@
       "LABEL": "Heslo",
       "PLACEHOLDER": "Heslo",
       "ERROR": "Heslo je příliš krátké",
-      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak"
+      "IS_INVALID_PASSWORD": "Heslo by mělo obsahovat alespoň jedno velké písmeno, jedno malé písmeno, jedno číslo a jeden speciální znak",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potvrzení hesla",
       "PLACEHOLDER": "Potvrzení hesla",
-      "ERROR": "Heslo se neshoduje"
+      "ERROR": "Hesla se neshodují."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registrace byla úspěšná",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Nelze se připojit k Woot serveru, opakujte akci později"
     },
     "SUBMIT": "Create account",

@@ -1821,6 +1821,152 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes": {
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactInboxCreation",
+        "description": "Create a contact inbox record for an inbox",
+        "summary": "Create contact inbox",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "inbox_id"
+                ],
+                "properties": {
+                  "inbox_id": {
+                    "type": "number",
+                    "description": "The ID of the inbox",
+                    "example": 1
+                  },
+                  "source_id": {
+                    "type": "string",
+                    "description": "Contact Inbox Source Id"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_inboxes"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Incorrect payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes": {
+      "get": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactableInboxesGet",
+        "description": "Get List of contactable Inboxes",
+        "summary": "Get Contactable Inboxes",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": "number"
+            },
+            "description": "ID of the contact",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contactable_inboxes_response"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Incorrect payload",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/automation_rules": {
       "parameters": [
         {
@@ -3526,6 +3672,65 @@
           },
           "401": {
             "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/reporting_events": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "get-conversation-reporting-events",
+        "summary": "Conversation Reporting Events",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get reporting events for a specific conversation. This endpoint returns events such as first response time, resolution time, and other metrics for the conversation, sorted by creation time in ascending order.",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/reporting_event"
+                  },
+                  "description": "Array of reporting events for the conversation"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found",
             "content": {
               "application/json": {
                 "schema": {
@@ -5708,6 +5913,93 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/reporting_events": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-account-reporting-events",
+        "summary": "Account Reporting Events",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get paginated reporting events for the account. This endpoint returns reporting events such as first response time, resolution time, and other metrics. Only administrators can access this endpoint. Results are paginated with 25 items per page.",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/page"
+          },
+          {
+            "in": "query",
+            "name": "since",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The timestamp from where events should start (Unix timestamp in seconds)"
+          },
+          {
+            "in": "query",
+            "name": "until",
+            "schema": {
+              "type": "string"
+            },
+            "description": "The timestamp from where events should stop (Unix timestamp in seconds)"
+          },
+          {
+            "in": "query",
+            "name": "inbox_id",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter events by inbox ID"
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "type": "number"
+            },
+            "description": "Filter events by user/agent ID"
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Filter events by event name (e.g., first_response, resolution, reply_time)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reporting_events_list_response"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied - Only administrators can access this endpoint",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v2/accounts/{account_id}/reports": {
       "parameters": [
         {
@@ -7342,6 +7634,10 @@
             "type": "string",
             "description": "The url to which the events will be send"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -8921,6 +9217,10 @@
             "description": "The url where the events should be sent",
             "example": "https://example.com/webhook"
           },
+          "name": {
+            "type": "string",
+            "description": "The name of the webhook"
+          },
           "subscriptions": {
             "type": "array",
             "items": {
@@ -10425,6 +10725,100 @@
               "$ref": "#/components/schemas/contact_inbox"
             },
             "description": "List of contactable inboxes for the contact"
+          }
+        }
+      },
+      "reporting_event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the reporting event"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the event (e.g., first_response, resolution, reply_time)"
+          },
+          "value": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds"
+          },
+          "value_in_business_hours": {
+            "type": "number",
+            "format": "double",
+            "description": "Value of the metric in seconds, calculated only for business hours"
+          },
+          "event_start_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event started"
+          },
+          "event_end_time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the event ended"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "ID of the account"
+          },
+          "conversation_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the conversation"
+          },
+          "inbox_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the inbox"
+          },
+          "user_id": {
+            "type": "number",
+            "nullable": true,
+            "description": "ID of the user/agent"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The timestamp when the reporting event was last updated"
+          }
+        }
+      },
+      "reporting_event_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of reporting events"
+          },
+          "current_page": {
+            "type": "integer",
+            "description": "Current page number"
+          },
+          "total_pages": {
+            "type": "integer",
+            "description": "Total number of pages"
+          }
+        }
+      },
+      "reporting_events_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/reporting_event_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/reporting_event"
+            },
+            "description": "List of reporting events"
           }
         }
       }

@@ -50,6 +50,19 @@ class Captain::Assistant < ApplicationRecord
     name
   end
 
+  def available_agent_tools
+    tools = self.class.built_in_agent_tools.dup
+
+    custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
+    tools.concat(custom_tools)
+
+    tools
+  end
+
+  def available_tool_ids
+    available_agent_tools.pluck(:id)
+  end
+
   def push_event_data
     {
       id: id,
@@ -75,7 +88,7 @@ class Captain::Assistant < ApplicationRecord
   private
 
   def agent_name
-    name
+    name.parameterize(separator: '_')
   end
 
   def agent_tools
@@ -92,6 +105,7 @@ class Captain::Assistant < ApplicationRecord
       product_name: config['product_name'] || 'this product',
       scenarios: scenarios.enabled.map do |scenario|
         {
+          title: scenario.title,
           key: scenario.title.parameterize.underscore,
           description: scenario.description
         }

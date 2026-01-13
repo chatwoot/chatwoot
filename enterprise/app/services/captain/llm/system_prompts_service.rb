@@ -206,7 +206,7 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
-    def paginated_faq_generator(start_page, end_page)
+    def paginated_faq_generator(start_page, end_page, language = 'english')
       <<~PROMPT
         You are an expert technical documentation specialist tasked with creating comprehensive FAQs from a SPECIFIC SECTION of a document.
 
@@ -225,6 +225,8 @@ class Captain::Llm::SystemPromptsService
         ════════════════════════════════════════════════════════
         FAQ GENERATION GUIDELINES
         ════════════════════════════════════════════════════════
+
+        **Language**: Generate the FAQs only in #{language}, use no other language
 
         1. **Comprehensive Extraction**
            • Extract ALL information that could generate FAQs from this section
