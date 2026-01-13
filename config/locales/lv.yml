@@ -120,6 +120,8 @@ lv:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -155,6 +157,14 @@ lv:
       avg_first_response_time: Vidējais pirmās reakcijas laiks
       avg_resolution_time: Vidējais atrisināšanas laiks
       resolution_count: Atrisināšanas Skaits
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
+    conversation_csv:
+      conversations_count: Sarunas
+      incoming_messages_count: Saņemtās ziņas
+      outgoing_messages_count: Nosūtītās ziņas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Resolution count
       avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
