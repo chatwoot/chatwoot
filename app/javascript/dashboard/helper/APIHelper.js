@@ -1,6 +1,17 @@
 import Auth from '../api/auth';
 
-const parseErrorCode = error => Promise.reject(error);
+const parseErrorCode = error => {
+  if (
+    error?.response?.status === 401 &&
+    error?.response?.data?.error === 'Account is suspended'
+  ) {
+    const accountId = window.location.pathname.split('/')[3];
+    if (accountId && !window.location.pathname.includes('/suspended')) {
+      window.location = `/app/accounts/${accountId}/suspended`;
+    }
+  }
+  return Promise.reject(error);
+};
 
 export default axios => {
   const { apiHost = '' } = window.chatwootConfig || {};

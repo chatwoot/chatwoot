@@ -65,6 +65,14 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account deletion is in progress.')
     # rubocop:enable Rails/I18nLocaleTexts
   end
+
+  def suspend
+    requested_resource.suspended!
+    ActionCable.server.broadcast("account_#{requested_resource.id}", { event: 'page:reload', data: {} })
+    # rubocop:disable Rails/I18nLocaleTexts
+    redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account disabled')
+    # rubocop:enable Rails/I18nLocaleTexts
+  end
 end
 
 SuperAdmin::AccountsController.prepend_mod_with('SuperAdmin::AccountsController')

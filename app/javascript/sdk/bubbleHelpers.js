@@ -253,17 +253,14 @@ export const createGreetingInputBox = (config = {}) => {
   textUsButton.setAttribute('aria-label', 'Text us');
   textUsButton.textContent = 'Or Text Us';
   textUsButton.style.backgroundColor = widgetColor || '#1f93ff';
-  textUsButton.style.padding = '5px 10px';
   textUsButton.style.borderRadius = '8px';
   textUsButton.style.color = 'white';
   textUsButton.style.fontSize = '13px';
-  textUsButton.style.fontWeight = '600';
+  textUsButton.style.fontWeight = '500';
   textUsButton.style.cursor = 'pointer';
   textUsButton.style.border = 'none';
   textUsButton.style.height = '30px';
   textUsButton.style.flexShrink = '0';
-  textUsButton.style.marginLeft = '8px';
-  textUsButton.style.marginRight = '0';
   textUsButton.style.display = 'flex';
   textUsButton.style.alignItems = 'center';
   textUsButton.style.justifyContent = 'center';
