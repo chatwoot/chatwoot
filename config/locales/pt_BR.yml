@@ -120,6 +120,8 @@ pt_BR:
       plan_not_eligible: As recargas estão disponíveis apenas para planos pagos. Por favor, faça o upgrade do seu plano primeiro.
       stripe_customer_not_configured: Cliente do Stripe não configurado
       no_payment_method: Nenhum método de pagamento encontrado. Por favor, adicione um método de pagamento antes de realizar uma compra.
+    reports:
+      date_range_too_long: O intervalo de datas não pode exceder 6 meses
   profile:
     mfa:
       enabled: MFA habilitado com sucesso
@@ -155,6 +157,14 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
       resolution_count: Contagem de Resolução
+      avg_customer_waiting_time: Tempo médio de espera do cliente
+    conversation_csv:
+      conversations_count: Conversas
+      incoming_messages_count: Mensagens Recebidas
+      outgoing_messages_count: Mensagens enviadas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Quantidade de resoluções
       avg_customer_waiting_time: Tempo médio de espera do cliente
     conversation_traffic_csv:
       timezone: Fuso horário
