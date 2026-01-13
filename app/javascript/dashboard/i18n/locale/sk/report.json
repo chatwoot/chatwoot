@@ -3,7 +3,7 @@
     "HEADER": "Rozhovory",
     "LOADING_CHART": "Načítanie grafu...",
     "NO_ENOUGH_DATA": "Na vygenerovanie reportu sme nedostali dostatok dát, skúste to prosím neskôr.",
-    "DOWNLOAD_AGENT_REPORTS": "Stiahnutie reportov o agentoch",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
