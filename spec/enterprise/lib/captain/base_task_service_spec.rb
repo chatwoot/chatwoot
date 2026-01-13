@@ -4,18 +4,21 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:perform_result) { { message: 'Test response' } }
 
-  # Create a concrete test service class
+  # Create a concrete test service class with enterprise module prepended
   let(:test_service_class) do
-    Class.new(described_class) do
-      def perform
-        { message: 'Test response' }
-      end
+    result = perform_result
+    klass = Class.new(described_class) do
+      define_method(:perform) { result }
 
       def event_name
         'test_event'
       end
     end
+    # Manually prepend enterprise module to test class
+    klass.prepend(Enterprise::Captain::BaseTaskService)
+    klass
   end
 
   let(:service) { test_service_class.new(account: account, conversation_display_id: conversation.display_id) }
@@ -30,34 +33,49 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       service.perform
     end
 
-    it 'does not increment usage when result has an error' do
-      allow(service).to receive(:execute_task).and_return({ error: 'API Error' })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
+    context 'when result has an error' do
+      let(:perform_result) { { error: 'API Error' } }
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
-    it 'does not increment usage when result is nil' do
-      allow(service).to receive(:execute_task).and_return(nil)
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
+    context 'when result is nil' do
+      let(:perform_result) { nil }
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
-    it 'does not increment usage when result is empty hash' do
-      allow(service).to receive(:execute_task).and_return({})
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
+    context 'when result is empty hash' do
+      let(:perform_result) { {} }
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
-    it 'does not increment usage when result has blank message' do
-      allow(service).to receive(:execute_task).and_return({ message: '' })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
+    context 'when result has blank message' do
+      let(:perform_result) { { message: '' } }
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
-    it 'does not increment usage when result has nil message' do
-      allow(service).to receive(:execute_task).and_return({ message: nil })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
+    context 'when result has nil message' do
+      let(:perform_result) { { message: nil } }
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
     end
 
     it 'actually increments the usage counter in custom_attributes' do
