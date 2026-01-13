@@ -3,7 +3,7 @@
     "HEADER": "Conversations",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
-    "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Impossible de récupérer les données, veuillez réessayer ultérieurement.",
     "SUMMARY_FETCHING_FAILED": "Impossible de récupérer le résumé, veuillez réessayer plus tard.",
     "METRICS": {
