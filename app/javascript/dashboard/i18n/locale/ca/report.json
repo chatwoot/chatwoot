@@ -3,7 +3,7 @@
     "HEADER": "Converses",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
-    "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "No s'han pogut obtenir les dades. Intenta-ho més tard.",
     "SUMMARY_FETCHING_FAILED": "No s'ha pogut obtenir el resum; torna-ho a provar més tard.",
     "METRICS": {
