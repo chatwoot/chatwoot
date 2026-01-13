@@ -86,7 +86,7 @@
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
       "REOPEN_ACTION": "Reabrir",
-      "OPEN_ACTION": "Abrir",
+      "OPEN_ACTION": "Tirar da IA",
       "MORE_ACTIONS": "Mais ações",
       "OPEN": "Mais",
       "CLOSE": "Fechar",
@@ -104,7 +104,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Deixar pendente",
+      "MARK_PENDING": "Voltar para IA",
       "SNOOZE_UNTIL": "Adiar",
       "SNOOZE": {
         "TITLE": "Suspender até",
