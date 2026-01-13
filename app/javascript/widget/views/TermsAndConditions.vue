@@ -186,7 +186,7 @@ export default {
           <span class="font-semibold text-n-slate-11">{{ dealerName }}</span>
           {{ $t('SMS_TERMS.AGREEMENT_CONTINUED') }}
           <a
-            href="https://staging.getcruisecontrol.com/terms-and-conditions"
+            href="https://getcruisecontrol.com/sms-terms-and-conditions"
             target="_blank"
             rel="noopener noreferrer"
             class="underline text-n-brand"

@@ -254,6 +254,7 @@ export const createGreetingInputBox = (config = {}) => {
   textUsButton.textContent = 'Or Text Us';
   textUsButton.style.backgroundColor = widgetColor || '#1f93ff';
   textUsButton.style.borderRadius = '8px';
+  textUsButton.style.padding = '0 4px';
   textUsButton.style.color = 'white';
   textUsButton.style.fontSize = '13px';
   textUsButton.style.fontWeight = '500';
@@ -282,7 +283,7 @@ export const createGreetingInputBox = (config = {}) => {
     </p>
     <p class="woot-greeting-footer-text">
       Powered by <a href="https://getcruisecontrol.com" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Cruise Control</a>. 
-      Use is subject to <a href="https://staging.getcruisecontrol.com/terms-and-conditions" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Terms</a>.
+      Use is subject to <a href="https://getcruisecontrol.com/sms-terms-and-conditions" target="_blank" rel="noopener noreferrer" class="woot-greeting-footer-link">Terms</a>.
     </p>
   `;
 
