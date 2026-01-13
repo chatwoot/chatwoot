@@ -1,5 +1,5 @@
 require 'io/console'
-require 'readline'
+require 'reline'
 
 namespace :captain do
   desc 'Start interactive chat with Captain assistant - Usage: rake captain:chat[assistant_id] or rake captain:chat -- assistant_id'

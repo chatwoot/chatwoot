@@ -37,71 +37,9 @@ import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
-import macros from './modules/macros';
+import integrations from './modules/integrations';
+import labels from './modules/labels';
 import notifications from './modules/notifications';
-import portals from './modules/helpCenterPortals';
-import reports from './modules/reports';
-import sla from './modules/sla';
-import slaReports from './modules/SLAReports';
-import summaryReports from './modules/summaryReports';
-import teamMembers from './modules/teamMembers';
-import teams from './modules/teams';
-import userNotificationSettings from './modules/userNotificationSettings';
-import webhooks from './modules/webhooks';
-import captainAssistants from './captain/assistant';
-import captainDocuments from './captain/document';
-import captainResponses from './captain/response';
-import captainInboxes from './captain/inboxes';
-import captainBulkActions from './captain/bulkActions';
-import copilotThreads from './captain/copilotThreads';
-import copilotMessages from './captain/copilotMessages';
-import captainScenarios from './captain/scenarios';
-import captainTools from './captain/tools';
-import captainCustomTools from './captain/customTools';
-
-const plugins = [];
-
-export default createStore({
-  modules: {
-    accounts,
-    agentBots,
-    agentCapacityPolicies,
-    agents,
-    assignmentPolicies,
-    articles,
-    attributes,
-    auditlogs,
-    auth,
-    automations,
-    bulkActions,
-    campaigns,
-    cannedResponse,
-    categories,
-    contactConversations,
-    contactLabels,
-    contactNotes,
-    contacts,
-    conversationLabels,
-    conversationMetadata,
-    conversationPage,
-    conversations,
-    conversationSearch,
-    conversationStats,
-    conversationTypingStatus,
-    conversationWatchers,
-    csat,
-    customRole,
-    customViews,
-    dashboardApps,
-    draftMessages,
-    globalConfig,
-    inboxAssignableAgents,
-    inboxes,
-    inboxMembers,
-    integrations,
-    labels,
-    macros,
-    notifications,
     portals,
     reports,
     sla,

@@ -1,5 +1,6 @@
 class CreateCaptainTables < ActiveRecord::Migration[7.0]
   def up
+    return if ENV['SKIP_VECTOR_SETUP'] == 'true'
     # Post this migration, the 'vector' extension is mandatory to run the application.
     # If the extension is not installed, the migration will raise an error.
     setup_vector_extension
@@ -22,6 +23,7 @@ class CreateCaptainTables < ActiveRecord::Migration[7.0]
   private
 
   def setup_vector_extension
+    return if ENV['SKIP_VECTOR_SETUP'] == 'true'
     return if extension_enabled?('vector')
 
     begin

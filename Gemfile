@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.4.4'
+ruby '3.4.8'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
@@ -51,7 +51,7 @@ gem 'csv-safe'
 gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
-gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
@@ -269,3 +269,4 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+gem 'fiddle'

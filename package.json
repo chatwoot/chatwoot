@@ -8,7 +8,7 @@
     "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage --logHeapUsage",
     "test:watch": "TZ=UTC vitest --no-cache --no-coverage",
     "test:coverage": "TZ=UTC vitest --no-watch --no-cache --coverage",
-    "start:dev": "foreman start -f ./Procfile.dev",
+    "start:dev": "bundle exec foreman start -f ./Procfile.dev",
     "start:test": "RAILS_ENV=test foreman start -f ./Procfile.test",
     "dev": "overmind start -f ./Procfile.dev",
     "ruby:prettier": "bundle exec rubocop -a",
@@ -165,8 +165,7 @@
   },
   "lint-staged": {
     "app/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.scss": [
       "scss-lint"
