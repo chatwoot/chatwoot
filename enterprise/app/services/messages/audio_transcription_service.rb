@@ -84,7 +84,8 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
 
     attachment.update!(meta: { transcribed_text: transcribed_text })
     message.reload.send_update_event
-    message.account.increment_response_usage
+    # TODO: Once we support configurable transcription models, update credit calculation
+    message.account.increment_response_usage(credits: 1)
 
     return unless ChatwootApp.advanced_search_allowed?
 
