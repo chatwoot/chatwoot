@@ -3,7 +3,7 @@
     "HEADER": "שיחות",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
-    "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "אחזור הנתונים נכשל, אנא נסה שוב מאוחר יותר.",
     "SUMMARY_FETCHING_FAILED": "אחזור הסיכום נכשל, אנא נסה שוב מאוחר יותר.",
     "METRICS": {
