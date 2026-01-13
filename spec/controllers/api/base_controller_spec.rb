@@ -12,7 +12,7 @@ RSpec.describe 'API Base', type: :request do
       it 'sets Current attributes for the request and then returns the response' do
         # Track Current attribute assignments using a separate spy object
         # This avoids issues with have_received on thread_mattr_accessor methods
-        current_spy = spy('CurrentSpy')
+        current_spy = instance_spy(Current)
         original_user_setter = Current.method(:user=)
         original_account_setter = Current.method(:account=)
         original_account_user_setter = Current.method(:account_user=)
