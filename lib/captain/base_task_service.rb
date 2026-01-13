@@ -10,13 +10,13 @@ class Captain::BaseTaskService
 
   pattr_initialize [:account!, { conversation_display_id: nil }]
 
-  private
-
   def perform
     result = execute_task
     increment_usage if result && !result[:error]
     result
   end
+
+  private
 
   def increment_usage
     Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id}")

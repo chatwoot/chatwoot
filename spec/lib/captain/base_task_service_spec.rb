@@ -8,7 +8,7 @@ RSpec.describe Captain::BaseTaskService do
   # Create a concrete test service class since BaseTaskService is abstract
   let(:test_service_class) do
     Class.new(described_class) do
-      def perform
+      def execute_task
         { message: 'Test response' }
       end
 
@@ -28,6 +28,23 @@ RSpec.describe Captain::BaseTaskService do
     it 'returns the expected result' do
       result = service.perform
       expect(result).to eq({ message: 'Test response' })
+    end
+
+    it 'increments usage on successful execution' do
+      expect(account).to receive(:increment_response_usage)
+      service.perform
+    end
+
+    it 'does not increment usage when result has an error' do
+      allow(service).to receive(:execute_task).and_return({ error: 'API Error' })
+      expect(account).not_to receive(:increment_response_usage)
+      service.perform
+    end
+
+    it 'does not increment usage when result is nil' do
+      allow(service).to receive(:execute_task).and_return(nil)
+      expect(account).not_to receive(:increment_response_usage)
+      service.perform
     end
   end
 
