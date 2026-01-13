@@ -247,4 +247,37 @@ RSpec.describe Captain::BaseTaskService do
       expect(service.send(:prompt_from_file, 'test')).to eq('Test prompt content')
     end
   end
+
+  describe '#extract_original_context' do
+    it 'returns the most recent user message' do
+      messages = [
+        { role: 'user', content: 'First question' },
+        { role: 'assistant', content: 'First response' },
+        { role: 'user', content: 'Follow-up question' }
+      ]
+
+      result = service.send(:extract_original_context, messages)
+      expect(result).to eq('Follow-up question')
+    end
+
+    it 'returns nil when no user messages exist' do
+      messages = [
+        { role: 'system', content: 'System prompt' },
+        { role: 'assistant', content: 'Response' }
+      ]
+
+      result = service.send(:extract_original_context, messages)
+      expect(result).to be_nil
+    end
+
+    it 'returns the only user message when there is just one' do
+      messages = [
+        { role: 'system', content: 'System prompt' },
+        { role: 'user', content: 'Single question' }
+      ]
+
+      result = service.send(:extract_original_context, messages)
+      expect(result).to eq('Single question')
+    end
+  end
 end
