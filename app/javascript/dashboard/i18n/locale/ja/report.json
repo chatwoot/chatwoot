@@ -3,7 +3,7 @@
     "HEADER": "会話データ",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
-    "DOWNLOAD_AGENT_REPORTS": "担当者レポートをダウンロード",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "データの取得に失敗しました。後でもう一度お試しください。",
     "SUMMARY_FETCHING_FAILED": "サマリーの取得に失敗しました。後でもう一度お試しください。",
     "METRICS": {
