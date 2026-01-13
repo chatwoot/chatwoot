@@ -7,6 +7,12 @@
     "DATA_FETCHING_FAILED": "Не удалось загрузить данные. Пожалуйста, попробуйте позже.",
     "SUMMARY_FETCHING_FAILED": "Не удалось загрузить сводку. Пожалуйста, попробуйте позже.",
     "METRICS": {
+      "AGENT_CHAT_DURATION": {
+        "NAME": "Средняя длительность диалогов",
+        "DESC": "(Среднее)",
+        "INFO_TEXT": "Общее количество диалогов для расчета",
+        "TOOLTIP_TEXT": "Средняя длительность — {metricValue} (на основе {conversationCount} диалогов)"
+      },
       "CONVERSATIONS": {
         "NAME": "Диалоги",
         "DESC": "( Всего )"

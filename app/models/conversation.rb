@@ -250,12 +250,12 @@ class Conversation < ApplicationRecord
   def create_participant_for_new_agent
     return unless saved_change_to_assignee_id?
     return if assignee_id.nil?
-  
+
     participant = ConversationParticipant.find_or_initialize_by(
       conversation_id: id,
       user_id: assignee_id
     )
-  
+
     if participant.persisted? && participant.left_at.present?
       participant.left_at = nil
       participant.save!

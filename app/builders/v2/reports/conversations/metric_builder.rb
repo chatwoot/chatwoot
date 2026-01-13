@@ -7,7 +7,8 @@ class V2::Reports::Conversations::MetricBuilder < V2::Reports::Conversations::Ba
       avg_first_response_time: count('avg_first_response_time'),
       avg_resolution_time: count('avg_resolution_time'),
       resolutions_count: count('resolutions_count'),
-      reply_time: count('reply_time')
+      reply_time: count('reply_time'),
+      agent_chat_duration: count('agent_chat_duration')
     }
   end
 
