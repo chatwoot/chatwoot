@@ -3,7 +3,7 @@
     "HEADER": "گفتگوها",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "خطا در دریافت اطلاعات، لطفا بعدا دوباره تلاش کنید.",
     "SUMMARY_FETCHING_FAILED": "خطا در دریافت خلاصه، لطفا بعدا دوباره تلاش کنید.",
     "METRICS": {
