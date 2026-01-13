@@ -3,7 +3,7 @@
     "HEADER": "Gespräche",
     "LOADING_CHART": "Diagrammdaten laden ...",
     "NO_ENOUGH_DATA": "Wir haben nicht genügend Datenpunkte erhalten, um einen Bericht zu erstellen. Bitte versuchen Sie es später erneut.",
-    "DOWNLOAD_AGENT_REPORTS": "Agenten-Berichte herunterladen",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Daten konnten nicht abgerufen werden. Bitte versuchen Sie es später erneut.",
     "SUMMARY_FETCHING_FAILED": "Zusammenfassung konnte nicht abgerufen werden. Bitte versuchen Sie es später erneut.",
     "METRICS": {
