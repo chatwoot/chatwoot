@@ -37,7 +37,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
 
       it 'returns usage limit exceeded error' do
         result = service.perform
-        expect(result[:error]).to eq('Usage limit exceeded')
+        expect(result[:error]).to eq(I18n.t('captain.copilot_limit'))
         expect(result[:error_code]).to eq(429)
       end
 

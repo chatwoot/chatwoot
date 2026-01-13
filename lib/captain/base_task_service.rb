@@ -8,6 +8,15 @@ class Captain::BaseTaskService
   TOKEN_LIMIT = 400_000
   GPT_MODEL = Llm::Config::DEFAULT_MODEL
 
+  # Prepend enterprise module to subclasses when they're defined.
+  # This ensures the enterprise perform wrapper is applied even when
+  # subclasses define their own perform method, since prepend puts
+  # the module before the class in the ancestor chain.
+  def self.inherited(subclass)
+    super
+    subclass.prepend_mod_with('Captain::BaseTaskService')
+  end
+
   pattr_initialize [:account!, { conversation_display_id: nil }]
 
   private
