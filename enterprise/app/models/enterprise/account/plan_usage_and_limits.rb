@@ -15,9 +15,9 @@ module Enterprise::Account::PlanUsageAndLimits
     }
   end
 
-  def increment_response_usage
+  def increment_response_usage(credits: 1)
     current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + credits
     save
   end
 
