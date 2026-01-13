@@ -19,7 +19,10 @@ class RemoveCountryCodeFromConversationFilters < ActiveRecord::Migration[7.1]
         next
       end
 
+      # rubocop:disable Rails/SkipsModelValidations
+      # we will skip model validation, since we don't want any callbacks running
       custom_filter.update_columns(query: query.merge('payload' => updated_payload))
+      # rubocop:enable Rails/SkipsModelValidations
     end
   end
 
