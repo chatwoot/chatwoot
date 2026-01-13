@@ -1,34 +1,26 @@
 class Captain::RewriteService < Captain::BaseTaskService
   pattr_initialize [:account!, :content!, :operation!, { conversation_display_id: nil }]
 
+  TONE_OPERATIONS = %i[casual professional friendly confident straightforward].freeze
+  ALLOWED_OPERATIONS = (%i[fix_spelling_grammar improve] + TONE_OPERATIONS).freeze
+
   def perform
-    send(operation)
+    operation_sym = operation.to_sym
+    raise ArgumentError, "Invalid operation: #{operation}" unless ALLOWED_OPERATIONS.include?(operation_sym)
+
+    send(operation_sym)
+  end
+
+  TONE_OPERATIONS.each do |tone|
+    define_method(tone) do
+      call_llm_with_prompt(tone_rewrite_prompt(tone.to_s))
+    end
   end
 
   private
 
   def fix_spelling_grammar
     call_llm_with_prompt(prompt_from_file('fix_spelling_grammar'))
-  end
-
-  def casual
-    call_llm_with_prompt(tone_rewrite_prompt('casual'))
-  end
-
-  def professional
-    call_llm_with_prompt(tone_rewrite_prompt('professional'))
-  end
-
-  def friendly
-    call_llm_with_prompt(tone_rewrite_prompt('friendly'))
-  end
-
-  def confident
-    call_llm_with_prompt(tone_rewrite_prompt('confident'))
-  end
-
-  def straightforward
-    call_llm_with_prompt(tone_rewrite_prompt('straightforward'))
   end
 
   def improve

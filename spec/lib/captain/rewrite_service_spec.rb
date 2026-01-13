@@ -139,4 +139,28 @@ RSpec.describe Captain::RewriteService do
       expect(result[:message]).to eq('Rewritten text')
     end
   end
+
+  describe '#perform with invalid operation' do
+    it 'raises ArgumentError for unknown operation' do
+      invalid_service = described_class.new(
+        account: account,
+        content: content,
+        operation: 'invalid_operation',
+        conversation_display_id: conversation.display_id
+      )
+
+      expect { invalid_service.perform }.to raise_error(ArgumentError, /Invalid operation/)
+    end
+
+    it 'prevents method injection attacks' do
+      dangerous_service = described_class.new(
+        account: account,
+        content: content,
+        operation: 'perform',
+        conversation_display_id: conversation.display_id
+      )
+
+      expect { dangerous_service.perform }.to raise_error(ArgumentError, /Invalid operation/)
+    end
+  end
 end
