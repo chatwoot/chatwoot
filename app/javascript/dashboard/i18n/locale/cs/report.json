@@ -3,7 +3,7 @@
     "HEADER": "Konverzace",
     "LOADING_CHART": "Načítání dat mapy...",
     "NO_ENOUGH_DATA": "Pro vytvoření hlášení jsme neobdrželi dostatek dat, zkuste to prosím později.",
-    "DOWNLOAD_AGENT_REPORTS": "Stáhnout reporty agentů",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
