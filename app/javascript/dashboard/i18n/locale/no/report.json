@@ -3,7 +3,7 @@
     "HEADER": "Samtaler",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
-    "DOWNLOAD_AGENT_REPORTS": "Last ned agentrapporter",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
