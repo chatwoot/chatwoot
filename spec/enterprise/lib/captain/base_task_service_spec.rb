@@ -28,6 +28,25 @@ RSpec.describe Captain::BaseTaskService, type: :model do
   end
 
   describe '#perform with enterprise usage tracking' do
+    context 'when usage limit is exceeded' do
+      before do
+        allow(account).to receive(:usage_limits).and_return({
+                                                              captain: { responses: { current_available: 0 } }
+                                                            })
+      end
+
+      it 'returns usage limit exceeded error' do
+        result = service.perform
+        expect(result[:error]).to eq('Usage limit exceeded')
+        expect(result[:error_code]).to eq(429)
+      end
+
+      it 'does not increment usage' do
+        expect(account).not_to receive(:increment_response_usage)
+        service.perform
+      end
+    end
+
     it 'increments response usage on successful execution' do
       expect(account).to receive(:increment_response_usage)
       service.perform
