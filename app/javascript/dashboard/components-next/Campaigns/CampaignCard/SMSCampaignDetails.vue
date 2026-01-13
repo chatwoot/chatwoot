@@ -36,6 +36,6 @@ const { t } = useI18n();
     {{ t('CAMPAIGN.SMS.CARD.CAMPAIGN_DETAILS.ON') }}
   </span>
   <span class="flex-1 text-sm font-medium truncate text-n-slate-12">
-    {{ messageStamp(new Date(scheduledAt), 'LLL d, h:mm a') }}
+    {{ messageStamp(new Date(scheduledAt), 'dd/MM/yyyy hh:mm') }}
   </span>
 </template>
