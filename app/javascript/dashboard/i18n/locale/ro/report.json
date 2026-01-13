@@ -3,7 +3,7 @@
     "HEADER": "Conversații",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
-    "DOWNLOAD_AGENT_REPORTS": "Descărcați rapoartele agenților",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Preluarea datelor a eșuat, te rugăm să încerci din nou mai târziu.",
     "SUMMARY_FETCHING_FAILED": "Preluarea rezumatului a eșuat, te rugăm să încerci mai târziu.",
     "METRICS": {
