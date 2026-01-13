@@ -10,7 +10,7 @@ const props = defineProps({
 });
 
 // Determine media type based on URL or template data
-const getMediaType = () => {
+const mediaType = computed(() => {
   if (props.message.originalTemplate?.header?.format) {
     return props.message.originalTemplate.header.format.toLowerCase();
   }
@@ -22,9 +22,7 @@ const getMediaType = () => {
   if (url.includes('.mp4') || url.includes('.mov') || url.includes('video'))
     return 'video';
   return 'image';
-};
-
-const mediaType = getMediaType();
+});
 
 // Get file type from URL for proper icon
 const fileType = computed(() => {

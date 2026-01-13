@@ -85,7 +85,7 @@ const processedTemplate = computed(() => {
     content: processText(content),
     title: processText(title),
     footer: processText(footer),
-    image_url: imageUrl,
+    image_url: processText(imageUrl),
     buttons,
     actions: normalized.actions || [],
   };

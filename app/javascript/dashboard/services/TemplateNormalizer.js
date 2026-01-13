@@ -42,10 +42,11 @@ export class TemplateNormalizer {
         .map(key => key.replace('twilio/', ''))
         .find(key => key);
 
-    // Convert template_type to match the keys used in the types object
-    const normalizedType = (typeKey || '').replace(/_/g, '-');
-    const lookupKey = `twilio/${normalizedType}`;
-    const typeData = template.types?.[lookupKey] || {};
+    // Try both hyphenated and underscore versions for lookup
+    const hyphenatedKey = `twilio/${(typeKey || '').replace(/_/g, '-')}`;
+    const underscoreKey = `twilio/${(typeKey || '').replace(/-/g, '_')}`;
+    const typeData =
+      template.types?.[hyphenatedKey] || template.types?.[underscoreKey] || {};
 
     return {
       contentSid: template.content_sid,
@@ -125,8 +126,11 @@ export class TemplateNormalizer {
         .map(key => key.replace('twilio/', ''))
         .find(key => key);
 
-    const normalizedType = (typeKey || '').replace(/_/g, '-');
-    const typeData = template.types?.[`twilio/${normalizedType}`] || {};
+    // Try both hyphenated and underscore versions for lookup
+    const hyphenatedKey = `twilio/${(typeKey || '').replace(/_/g, '-')}`;
+    const underscoreKey = `twilio/${(typeKey || '').replace(/-/g, '_')}`;
+    const typeData =
+      template.types?.[hyphenatedKey] || template.types?.[underscoreKey] || {};
 
     // Extract from body text
     const bodyText = template.body || typeData.body;
