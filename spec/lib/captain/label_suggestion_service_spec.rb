@@ -18,6 +18,10 @@ RSpec.describe Captain::LabelSuggestionService do
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
+    # Stub captain enabled check to allow specs to test base functionality
+    # without enterprise module interference
+    allow(account).to receive(:feature_enabled?).and_call_original
+    allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
   end
 
   describe '#label_suggestion_message' do
