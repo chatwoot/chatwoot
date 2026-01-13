@@ -115,7 +115,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(false)
       end
 
-      context 'on Chatwoot Cloud' do
+      context 'when on Chatwoot Cloud' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         end
@@ -131,7 +131,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
         end
       end
 
-      context 'on self-hosted' do
+      context 'when self-hosted' do
         before do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
         end
