@@ -1,5 +1,5 @@
-class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
-  def weekly_report(account:, start_date:, end_date:, metrics:)
+class AgentNotifications::MonthlyImpactReportMailer < ApplicationMailer
+  def monthly_report(account:, start_date:, end_date:, metrics:)
     return unless smtp_config_set_or_development?
     return if account.users.blank?
 
@@ -24,18 +24,13 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
     @report_url = "#{base_url}/app/accounts/#{account.id}/reports/overview"
 
     # Generate inline pie chart image (CID) using Gruff
-    chart_path = Reports::WeeklyPieChart.generate(
-      new_conversations: @new_conversations,
-      total_messages: @total_messages,
-      booking_forms_completed: @booking_forms_completed,
-      handoff_forms_completed: @handoff_forms_completed
-    )
+    chart_path = Reports::MonthlyPieChart.generate(metrics[:conversations_by_channel] || {})
 
     @weekly_impact_chart = false
 
     if chart_path && File.exist?(chart_path)
       begin
-        attachments.inline['weekly_impact_chart.png'] = {
+        attachments.inline['monthly_impact_chart.png'] = {
           mime_type: 'image/png',
           content: File.read(chart_path),
           # Explicit Content-ID so we can reference it from HTML
@@ -52,7 +47,7 @@ class AgentNotifications::WeeklyImpactReportMailer < ApplicationMailer
       end
     end
 
-    subject = "Cruise Control Impact Weekly Report - #{@start_date.strftime('%m/%d')} - #{@end_date.strftime('%m/%d')}"
+    subject = "Cruise Control Impact Monthly Report - #{@start_date.strftime('%m/%d')} - #{@end_date.strftime('%m/%d')}"
 
     send_mail_with_liquid(
       to: agent_emails,

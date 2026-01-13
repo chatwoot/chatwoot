@@ -1,4 +1,4 @@
-class WeeklyReports::GenerateMetricsService
+class MonthlyReports::GenerateMetricsService
   def initialize(account, start_date, end_date)
     @account = account
     @start_date = start_date.beginning_of_day
@@ -12,6 +12,7 @@ class WeeklyReports::GenerateMetricsService
     outgoing_messages = @account.messages.outgoing.where(created_at: @start_date..@end_date).count
 
     api_stats = fetch_booking_stats_from_api
+    conversations_by_channel = fetch_conversations_by_channel(conversations)
 
     {
       new_conversations: conversations.count,
@@ -22,7 +23,8 @@ class WeeklyReports::GenerateMetricsService
       handoff_forms_completed: api_stats[:handoff_forms_completed],
       conversion_rate: api_stats[:conversion_rate],
       estimated_value: api_stats[:estimated_value],
-      dealership_name: @account.name
+      dealership_name: @account.name,
+      conversations_by_channel: conversations_by_channel
     }
   end
 
@@ -84,6 +86,21 @@ class WeeklyReports::GenerateMetricsService
   rescue StandardError => e
     Rails.logger.error("Weekly Report API Error: #{e.message}")
     empty_stats
+  end
+
+  def fetch_conversations_by_channel(conversations)
+    conversations_by_inbox = conversations.joins(:inbox).group('inboxes.id').count
+
+    channel_counts = {}
+    conversations_by_inbox.each do |inbox_id, count|
+      inbox = @account.inboxes.find_by(id: inbox_id)
+      next unless inbox
+
+      channel_name = inbox.inbox_type || 'Other'
+      channel_counts[channel_name] = (channel_counts[channel_name] || 0) + count
+    end
+
+    channel_counts
   end
 
   def empty_stats
