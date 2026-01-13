@@ -3,7 +3,7 @@
     "HEADER": "Диалоги",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
-    "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Не удалось загрузить данные. Пожалуйста, попробуйте позже.",
     "SUMMARY_FETCHING_FAILED": "Не удалось загрузить сводку. Пожалуйста, попробуйте позже.",
     "METRICS": {
