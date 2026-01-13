@@ -97,6 +97,13 @@ message_report_job:
   class: 'MessageReportJob'
   queue: scheduled_jobs
 
+# executed daily at 01:00 UTC (6:30 AM IST)
+# sends yesterday's combined reports (inbox channel, agent level, bot) for all configured accounts
+daily_combined_reports_job:
+  cron: '0 1 * * *'
+  class: 'DailyCombinedReportsJob'
+  queue: scheduled_jobs
+
 # executed every 10 minutes
 # cleanup expired contact ownership assignments
 contact_ownership_cleanup_job:

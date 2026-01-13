@@ -1,0 +1,25 @@
+<p>Hello,</p>
+
+<p>Here are the daily combined reports for {{meta.report_date}}:</p>
+
+<ul style="list-style-type: none; padding: 0;">
+  {% if meta.inbox_channel_url %}
+  <li style="margin-bottom: 10px;">
+    <strong>Inbox Channel Report:</strong> <a href="{{meta.inbox_channel_url}}">Download CSV</a>
+  </li>
+  {% endif %}
+
+  {% if meta.agent_level_url %}
+  <li style="margin-bottom: 10px;">
+    <strong>Agent Level Report:</strong> <a href="{{meta.agent_level_url}}">Download CSV</a>
+  </li>
+  {% endif %}
+
+  {% if meta.bot_url %}
+  <li style="margin-bottom: 10px;">
+    <strong>Bot Report:</strong> <a href="{{meta.bot_url}}">Download CSV</a>
+  </li>
+  {% endif %}
+</ul>
+
+<p>Regards,<br>BiteSpeed</p>

@@ -294,6 +294,19 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
+  def daily_combined_reports(csv_urls, report_date, recipient_emails)
+    return unless smtp_config_set_or_development?
+
+    subject = "Daily Combined Reports for #{report_date} | #{Current.account.name.capitalize}"
+    @meta = {}
+    @meta['inbox_channel_url'] = csv_urls[:inbox_channel]
+    @meta['agent_level_url'] = csv_urls[:agent_level]
+    @meta['bot_url'] = csv_urls[:bot]
+    @meta['report_date'] = report_date
+
+    send_mail_with_liquid(to: recipient_emails, subject: subject) and return
+  end
+
   private
 
   def admin_emails
