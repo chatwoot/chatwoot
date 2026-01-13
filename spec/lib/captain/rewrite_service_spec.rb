@@ -134,10 +134,5 @@ RSpec.describe Captain::RewriteService do
 
       expect(result[:message]).to eq('Rewritten text')
     end
-
-    it 'increments response usage on success' do
-      expect(account).to receive(:increment_response_usage)
-      service.perform
-    end
   end
 end

@@ -8,7 +8,7 @@ RSpec.describe Captain::BaseTaskService do
   # Create a concrete test service class since BaseTaskService is abstract
   let(:test_service_class) do
     Class.new(described_class) do
-      def execute_task
+      def perform
         { message: 'Test response' }
       end
 
@@ -27,53 +27,6 @@ RSpec.describe Captain::BaseTaskService do
   describe '#perform' do
     it 'returns the expected result' do
       result = service.perform
-      expect(result).to eq({ message: 'Test response' })
-    end
-
-    it 'increments usage on successful execution' do
-      expect(account).to receive(:increment_response_usage)
-      service.perform
-    end
-
-    it 'does not increment usage when result has an error' do
-      allow(service).to receive(:execute_task).and_return({ error: 'API Error' })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
-    end
-
-    it 'does not increment usage when result is nil' do
-      allow(service).to receive(:execute_task).and_return(nil)
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
-    end
-
-    it 'does not increment usage when result is empty hash' do
-      allow(service).to receive(:execute_task).and_return({})
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
-    end
-
-    it 'does not increment usage when result has blank message' do
-      allow(service).to receive(:execute_task).and_return({ message: '' })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
-    end
-
-    it 'does not increment usage when result has nil message' do
-      allow(service).to receive(:execute_task).and_return({ message: nil })
-      expect(account).not_to receive(:increment_response_usage)
-      service.perform
-    end
-  end
-
-  describe '#execute_task' do
-    it 'raises NotImplementedError for base class' do
-      base_service = described_class.new(account: account, conversation_display_id: conversation.display_id)
-      expect { base_service.send(:execute_task) }.to raise_error(NotImplementedError, /must implement #execute_task/)
-    end
-
-    it 'is implemented in subclass' do
-      result = service.send(:execute_task)
       expect(result).to eq({ message: 'Test response' })
     end
   end
@@ -292,39 +245,6 @@ RSpec.describe Captain::BaseTaskService do
     it 'reads prompt from file' do
       allow(Rails.root).to receive(:join).and_return(instance_double(Pathname, read: 'Test prompt content'))
       expect(service.send(:prompt_from_file, 'test')).to eq('Test prompt content')
-    end
-  end
-
-  describe '#extract_original_context' do
-    it 'returns the most recent user message' do
-      messages = [
-        { role: 'user', content: 'First question' },
-        { role: 'assistant', content: 'First response' },
-        { role: 'user', content: 'Follow-up question' }
-      ]
-
-      result = service.send(:extract_original_context, messages)
-      expect(result).to eq('Follow-up question')
-    end
-
-    it 'returns nil when no user messages exist' do
-      messages = [
-        { role: 'system', content: 'System prompt' },
-        { role: 'assistant', content: 'Response' }
-      ]
-
-      result = service.send(:extract_original_context, messages)
-      expect(result).to be_nil
-    end
-
-    it 'returns the only user message when there is just one' do
-      messages = [
-        { role: 'system', content: 'System prompt' },
-        { role: 'user', content: 'Single question' }
-      ]
-
-      result = service.send(:extract_original_context, messages)
-      expect(result).to eq('Single question')
     end
   end
 end

@@ -47,10 +47,5 @@ RSpec.describe Captain::SummaryService do
       expect(result[:usage]['prompt_tokens']).to eq(100)
       expect(result[:usage]['completion_tokens']).to eq(50)
     end
-
-    it 'increments response usage on success' do
-      expect(account).to receive(:increment_response_usage)
-      service.perform
-    end
   end
 end
