@@ -15,6 +15,10 @@ RSpec.describe Captain::ReplySuggestionService do
     allow(mock_chat).to receive(:with_instructions)
     allow(mock_chat).to receive(:add_message)
     allow(mock_chat).to receive(:ask).and_return(mock_response)
+    # Stub captain enabled check to allow specs to test base functionality
+    # without enterprise module interference
+    allow(account).to receive(:feature_enabled?).and_call_original
+    allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
   end
 
   describe '#perform' do
