@@ -3,7 +3,7 @@
     "HEADER": "സംഭാഷണങ്ങൾ",
     "LOADING_CHART": "ചാർട്ട് ഡാറ്റ ലോഡു ചെയ്യുകയാണ്...",
     "NO_ENOUGH_DATA": "റിപ്പോർട്ട് സൃഷ്ടിക്കുന്നതിന് ആവശ്യമായ ഡാറ്റ ഞങ്ങൾക്ക് ലഭിച്ചിട്ടില്ല, ദയവായി പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
-    "DOWNLOAD_AGENT_REPORTS": "ഏജന്റ് റിപ്പോർട്ടുകൾ ഡൗൺലോഡ് ചെയ്യുക",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
