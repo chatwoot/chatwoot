@@ -3,7 +3,7 @@
     "HEADER": "Pokalbiai",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
-    "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Nepavyko gauti duomenų, bandykite dar kartą vėliau.",
     "SUMMARY_FETCHING_FAILED": "Nepavyko gauti suvestinės, bandykite dar kartą vėliau.",
     "METRICS": {
