@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
     "BOT": "Bot",
