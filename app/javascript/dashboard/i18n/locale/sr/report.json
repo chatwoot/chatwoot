@@ -3,7 +3,7 @@
     "HEADER": "Razgovori",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
-    "DOWNLOAD_AGENT_REPORTS": "Preuzmi izveštaj o agentima",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
