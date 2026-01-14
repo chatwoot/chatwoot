@@ -5,7 +5,7 @@ class ChatQueue::Queue::NotificationService
     cid = conversation.id
     Rails.logger.info("[QUEUE][notify_queue][conv=#{cid}] Sending queue template")
 
-    create_message!(I18n.t('queue.notifications.queue_message'))
+    create_message!(queue_message)
   end
 
   def send_assigned_notification
@@ -18,6 +18,11 @@ class ChatQueue::Queue::NotificationService
   private
 
   attr_reader :conversation
+
+  def queue_message
+    conversation.account.queue_message.presence ||
+      I18n.t('queue.notifications.queue_message')
+  end
 
   def create_message!(text)
     return unless conversation

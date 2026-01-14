@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.boolean "active_chat_limit_enabled", default: false, null: false
     t.integer "active_chat_limit_value", default: 7
     t.boolean "queue_enabled", default: false, null: false
+    t.text "queue_message"
     t.index ["status"], name: "index_accounts_on_status"
   end
 

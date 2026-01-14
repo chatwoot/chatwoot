@@ -52,6 +52,7 @@ export default {
       activeChatLimitEnabled: false,
       activeChatLimitValue: null,
       queueEnabled: false,
+      queueMessage: '',
     };
   },
   validations: {
@@ -121,6 +122,7 @@ export default {
           support_email,
           features,
           queue_enabled,
+          queue_message,
           active_chat_limit_enabled,
           active_chat_limit_value,
         } = this.getAccount(this.accountId);
@@ -133,6 +135,7 @@ export default {
         this.supportEmail = support_email;
         this.features = features;
         this.queueEnabled = queue_enabled;
+        this.queueMessage = queue_message;
         this.activeChatLimitEnabled = active_chat_limit_enabled;
         this.activeChatLimitValue = active_chat_limit_value;
       } catch (error) {
@@ -153,6 +156,7 @@ export default {
           domain: this.domain,
           support_email: this.supportEmail,
           queue_enabled: this.queueEnabled,
+          queue_message: this.queueMessage,
           active_chat_limit_enabled: this.activeChatLimitEnabled,
           active_chat_limit_value: this.activeChatLimitValue,
         });
@@ -254,6 +258,22 @@ export default {
           >
             <span>{{ $t('GENERAL_SETTINGS.FORM.QUEUE_ENABLED') }}</span>
             <NextSwitch v-model="queueEnabled" />
+          </div>
+
+          <div v-if="queueEnabled" class="mt-4">
+            <WithLabel
+              :label="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.LABEL')"
+              :help="$t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.HELP')"
+            >
+              <textarea
+                v-model="queueMessage"
+                class="w-full min-h-[80px] px-3 py-2 text-sm border border-n-weak rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                :placeholder="
+                  $t('GENERAL_SETTINGS.FORM.QUEUE_MESSAGE.PLACEHOLDER')
+                "
+                rows="3"
+              />
+            </WithLabel>
           </div>
 
           <div class="mb-2 text-sm font-medium leading-6 text-n-slate-12">

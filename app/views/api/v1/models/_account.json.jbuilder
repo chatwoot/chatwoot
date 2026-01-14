@@ -26,5 +26,6 @@ json.support_email @account.support_email
 json.status @account.status
 json.cache_keys @account.cache_keys
 json.queue_enabled @account.queue_enabled
+json.queue_message @account.queue_message
 json.active_chat_limit_enabled @account.active_chat_limit_enabled
 json.active_chat_limit_value @account.active_chat_limit_value
