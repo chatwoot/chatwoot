@@ -186,7 +186,6 @@ const filteredAttributes = computed(() => {
         <TabBar
           :tabs="tabsForTabBar"
           :initial-active-tab="selectedTabIndex"
-          class="max-w-xl"
           @tab-changed="onClickTabChange"
         />
         <span

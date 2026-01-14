@@ -6,11 +6,13 @@ import { BaseTable } from 'dashboard/components-next/table';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../../SettingsLayout.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     BaseSettingsHeader,
+    SettingsLayout,
     BaseTable,
     DashboardAppModal,
     DashboardAppsRow,
@@ -96,46 +98,40 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col flex-1 gap-8 overflow-auto">
-    <BaseSettingsHeader
-      v-model:search-query="searchQuery"
-      :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
-      :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
-      :link-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LEARN_MORE')"
-      :search-placeholder="
-        $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.SEARCH_PLACEHOLDER')
-      "
-      feature-name="dashboard_apps"
-      :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
-    >
-      <template #actions>
-        <NextButton
-          :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT')"
-          @click="openCreatePopup"
-        />
-      </template>
-    </BaseSettingsHeader>
-    <div class="w-full overflow-x-auto text-n-slate-11">
-      <p
-        v-if="!uiFlags.isFetching && !records.length"
-        class="flex flex-col items-center text-body-main !text-base text-n-slate-11 justify-center h-full"
-      >
-        {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
-      </p>
-      <woot-loading-state
-        v-else-if="uiFlags.isFetching"
-        :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
-      />
-      <BaseTable
-        v-else
-        :headers="tableHeaders"
-        :items="filteredRecords"
-        :no-data-message="
-          searchQuery
-            ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS')
-            : ''
+  <SettingsLayout
+    :is-loading="uiFlags.isFetching"
+    :loading-message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
+    :no-records-found="!records.length"
+    :no-records-message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        v-model:search-query="searchQuery"
+        :title="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.TITLE')"
+        :description="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DESCRIPTION')"
+        :link-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LEARN_MORE')"
+        :search-placeholder="
+          $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.SEARCH_PLACEHOLDER')
         "
+        feature-name="dashboard_apps"
+        :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
       >
+        <template #actions>
+          <NextButton
+            :label="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.HEADER_BTN_TXT')"
+            @click="openCreatePopup"
+          />
+        </template>
+      </BaseSettingsHeader>
+    </template>
+    <template #body>
+      <span
+        v-if="!filteredRecords.length && searchQuery"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+      >
+        {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS') }}
+      </span>
+      <BaseTable v-else :headers="tableHeaders" :items="filteredRecords">
         <template #row="{ items }">
           <DashboardAppsRow
             v-for="(dashboardAppItem, index) in items"
@@ -147,8 +143,7 @@ export default {
           />
         </template>
       </BaseTable>
-    </div>
-
+    </template>
     <DashboardAppModal
       v-if="showDashboardAppPopup"
       :show="showDashboardAppPopup"
@@ -172,5 +167,5 @@ export default {
       "
       :reject-text="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.DELETE.CONFIRM_NO')"
     />
-  </div>
+  </SettingsLayout>
 </template>

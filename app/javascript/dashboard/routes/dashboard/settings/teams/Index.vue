@@ -2,6 +2,7 @@
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../SettingsLayout.vue';
 import { computed, ref } from 'vue';
 import { picoSearch } from '@scmmishra/pico-search';
 
@@ -79,34 +80,31 @@ const confirmPlaceHolderText = computed(() =>
 </script>
 
 <template>
-  <div class="flex-1 overflow-auto">
-    <BaseSettingsHeader
-      v-model:search-query="searchQuery"
-      :title="$t('TEAMS_SETTINGS.HEADER')"
-      :description="$t('TEAMS_SETTINGS.DESCRIPTION')"
-      :link-text="$t('TEAMS_SETTINGS.LEARN_MORE')"
-      :search-placeholder="$t('TEAMS_SETTINGS.SEARCH_PLACEHOLDER')"
-      feature-name="team_management"
-    >
-      <template #actions>
-        <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
-          <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" />
-        </router-link>
-      </template>
-    </BaseSettingsHeader>
-    <div class="mt-6 flex-1 text-n-slate-11">
-      <woot-loading-state
-        v-if="uiFlags.isFetching"
-        :message="$t('TEAMS_SETTINGS.LOADING')"
-      />
-      <p
-        v-else-if="!teamsList.length"
-        class="flex flex-col items-center justify-center h-full text-base p-8"
+  <SettingsLayout
+    :is-loading="uiFlags.isFetching"
+    :loading-message="$t('TEAMS_SETTINGS.LOADING')"
+    :no-records-found="!teamsList.length"
+    :no-records-message="$t('TEAMS_SETTINGS.LIST.404')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        v-model:search-query="searchQuery"
+        :title="$t('TEAMS_SETTINGS.HEADER')"
+        :description="$t('TEAMS_SETTINGS.DESCRIPTION')"
+        :link-text="$t('TEAMS_SETTINGS.LEARN_MORE')"
+        :search-placeholder="$t('TEAMS_SETTINGS.SEARCH_PLACEHOLDER')"
+        feature-name="team_management"
       >
-        {{ $t('TEAMS_SETTINGS.LIST.404') }}
-      </p>
+        <template #actions>
+          <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
+            <Button :label="$t('TEAMS_SETTINGS.NEW_TEAM')" />
+          </router-link>
+        </template>
+      </BaseSettingsHeader>
+    </template>
+    <template #body>
       <span
-        v-else-if="!filteredTeamsList.length && searchQuery"
+        v-if="!filteredTeamsList.length && searchQuery"
         class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
       >
         {{ $t('TEAMS_SETTINGS.NO_RESULTS') }}
@@ -164,7 +162,7 @@ const confirmPlaceHolderText = computed(() =>
           </div>
         </div>
       </div>
-    </div>
+    </template>
     <woot-confirm-delete-modal
       v-if="showDeletePopup"
       v-model:show="showDeletePopup"
@@ -177,5 +175,5 @@ const confirmPlaceHolderText = computed(() =>
       @on-confirm="confirmDeletion"
       @on-close="closeDelete"
     />
-  </div>
+  </SettingsLayout>
 </template>

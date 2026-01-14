@@ -9,6 +9,7 @@ import {
 } from 'dashboard/components-next/table';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import SettingsLayout from '../SettingsLayout.vue';
 import {
   generateTranslationPayload,
   generateLogActionKey,
@@ -80,26 +81,22 @@ const tableHeaders = computed(() => {
 </script>
 
 <template>
-  <div class="flex-1 overflow-auto">
-    <BaseSettingsHeader
-      :title="$t('AUDIT_LOGS.HEADER')"
-      :description="$t('AUDIT_LOGS.DESCRIPTION')"
-      :link-text="$t('AUDIT_LOGS.LEARN_MORE')"
-      feature-name="audit_logs"
-    />
-
-    <div class="mt-6 flex-1 text-n-slate-11">
-      <woot-loading-state
-        v-if="uiFlags.fetchingList"
-        :message="$t('AUDIT_LOGS.LOADING')"
+  <SettingsLayout
+    :is-loading="uiFlags.fetchingList"
+    :loading-message="$t('AUDIT_LOGS.LOADING')"
+    :no-records-found="!records.length"
+    :no-records-message="$t('AUDIT_LOGS.LIST.404')"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('AUDIT_LOGS.HEADER')"
+        :description="$t('AUDIT_LOGS.DESCRIPTION')"
+        :link-text="$t('AUDIT_LOGS.LEARN_MORE')"
+        feature-name="audit_logs"
       />
-      <p
-        v-else-if="!records.length"
-        class="flex flex-col items-center text-body-main !text-base text-n-slate-11 justify-center h-full p-8"
-      >
-        {{ $t('AUDIT_LOGS.LIST.404') }}
-      </p>
-      <div v-else class="flex flex-col justify-between">
+    </template>
+    <template #body>
+      <div class="flex flex-col">
         <BaseTable :headers="tableHeaders" :items="records">
           <template #row="{ items }">
             <BaseTableRow
@@ -146,6 +143,6 @@ const tableHeaders = computed(() => {
           @update:current-page="onPageChange"
         />
       </div>
-    </div>
-  </div>
+    </template>
+  </SettingsLayout>
 </template>
