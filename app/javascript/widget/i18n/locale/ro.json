@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Nu este disponibil"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Suntem online",
     "OFFLINE": "Suntem plecați în acest moment",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Ne întoarcem cât de curând posibil"
   },
   "REPLY_TIME": {
-    "IN_A_FEW_MINUTES": "De obicei, răspunsurile în câteva minute",
-    "IN_A_FEW_HOURS": "De obicei, răspunsurile în câteva ore",
-    "IN_A_DAY": "De obicei, răspunsurile într-o zi",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "IN_A_FEW_MINUTES": "De obicei, răspundem în câteva minute",
+    "IN_A_FEW_HOURS": "De obicei, răspundem în câteva ore",
+    "IN_A_DAY": "De obicei, răspundem într-o zi",
+    "BACK_IN_HOURS": "Revenim online în {n} oră | Revenim online în {n} ore",
+    "BACK_IN_MINUTES": "Revenim online în {time} minute",
+    "BACK_AT_TIME": "Revenim online la {time}",
+    "BACK_ON_DAY": "Revenim online pe {day}",
+    "BACK_TOMORROW": "Revenim online mâine",
+    "BACK_IN_SOME_TIME": "Revenim online în ceva timp"
   },
   "DAY_NAMES": {
     "SUNDAY": "Duminică",
@@ -45,9 +45,9 @@
   "START_CONVERSATION": "Începe conversația",
   "END_CONVERSATION": "Terminați conversația",
   "CONTINUE_CONVERSATION": "Continuați conversația",
-  "YOU": "You",
+  "YOU": "Dvs",
   "START_NEW_CONVERSATION": "Începeți o conversație nouă",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Aveți mesaje necitite",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Vezi mesajele noi",
     "CLOSE_MESSAGES_BUTTON": "Închide",
@@ -79,10 +79,10 @@
         "LABEL": "Număr de telefon",
         "PLACEHOLDER": "Te rugăm să introduci numărul de telefon",
         "REQUIRED_ERROR": "Numărul de telefon este obligatoriu",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "Te rugăm să selectezi codul țării",
+        "VALID_ERROR": "Te rugăm să introduci număr de telefon valid",
         "DROPDOWN_EMPTY": "Niciun rezultat găsit",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Căutare țara"
       },
       "MESSAGE": {
         "LABEL": "Mesaj",
@@ -93,7 +93,7 @@
     "CAMPAIGN_HEADER": "Vă rugăm să furnizați numele și e-mailul înainte de a începe conversația",
     "IS_REQUIRED": "este obligatoriu",
     "REQUIRED": "Necesar",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "Introduceți datele valide"
   },
   "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
   "CHAT_FORM": {
@@ -104,11 +104,11 @@
   "EMOJI": {
     "PLACEHOLDER": "Caută emoji-uri",
     "NOT_FOUND": "Niciun emoji nu corespunde căutării tale",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Selectare Emoji"
   },
   "CSAT": {
     "TITLE": "Evaluează conversația ta",
-    "SUBMITTED_TITLE": "Vă mulțumim pentru trimiterea de rating",
+    "SUBMITTED_TITLE": "Vă mulțumim pentru rating acordat",
     "PLACEHOLDER": "Spune-ne mai mult..."
   },
   "EMAIL_TRANSCRIPT": {
@@ -123,9 +123,9 @@
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
+    "POPULAR_ARTICLES": "Articole populare",
     "VIEW_ALL_ARTICLES": "Vezi toate articolele",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "IFRAME_LOAD_ERROR": "Era o eroare la încărcarea acestui articol, vă rugăm sa reîncărcați pagina și să incercați din nou."
   },
   "ATTACHMENTS": {
     "image": {
@@ -148,6 +148,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "Răspunde:"
   }
 }
