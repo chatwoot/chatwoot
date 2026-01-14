@@ -73,7 +73,6 @@ class User < ApplicationRecord
          :trackable,
          :validatable,
          :confirmable,
-         :password_has_required_content,
          :two_factor_authenticatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
