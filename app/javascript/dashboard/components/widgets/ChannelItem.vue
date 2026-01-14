@@ -27,6 +27,10 @@ const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
 });
 
+const hasEvolutionConfigured = computed(() => {
+  return window.chatwootConfig?.evolutionApiEnabled === 'true';
+});
+
 const isActive = computed(() => {
   const { key } = props.channel;
   if (Object.keys(props.enabledFeatures).length === 0) {
@@ -54,6 +58,10 @@ const isActive = computed(() => {
 
   if (key === 'voice') {
     return props.enabledFeatures.channel_voice;
+  }
+
+  if (key === 'evolution') {
+    return hasEvolutionConfigured.value;
   }
 
   return [
