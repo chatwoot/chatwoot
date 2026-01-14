@@ -14,7 +14,7 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   private
 
   def formatted_conversation
-    LlmFormatter::ConversationLlmFormatter.new(conversation).format
+    LlmFormatter::ConversationLlmFormatter.new(conversation).format(token_limit: TOKEN_LIMIT)
   end
 
   def event_name
