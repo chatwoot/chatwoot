@@ -1,63 +1,64 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: {
-    BaseSettingsHeader,
-    NextButton,
+const props = defineProps({
+  integrationId: {
+    type: String,
+    required: true,
   },
-  props: {
-    integrationId: {
-      type: String,
-      required: true,
-    },
-    showAddButton: {
-      type: Boolean,
-      default: false,
-    },
+  showAddButton: {
+    type: Boolean,
+    default: false,
   },
-  emits: ['delete', 'add'],
-  setup(props) {
-    const { integration, isHookTypeInbox, hasConnectedHooks } =
-      useIntegrationHook(props.integrationId);
-    return { integration, isHookTypeInbox, hasConnectedHooks };
-  },
-  computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-    }),
-    hookHeaders() {
-      return this.integration.visible_properties;
-    },
-    hooks() {
-      if (!this.hasConnectedHooks) {
-        return [];
-      }
-      const { hooks } = this.integration;
-      return hooks.map(hook => ({
-        ...hook,
-        id: hook.id,
-        properties: this.hookHeaders.map(property =>
-          hook.settings[property] ? hook.settings[property] : '--'
-        ),
-      }));
-    },
-  },
-  mounted() {},
-  methods: {
-    inboxName(hook) {
-      return hook.inbox ? hook.inbox.name : '';
-    },
-  },
-};
+});
+
+defineEmits(['delete', 'add']);
+
+const { integration, isHookTypeInbox, hasConnectedHooks } = useIntegrationHook(
+  props.integrationId
+);
+
+const globalConfig = useMapGetter('globalConfig/get');
+const searchQuery = ref('');
+
+const hookHeaders = computed(() => integration.value.visible_properties);
+
+const hooks = computed(() => {
+  if (!hasConnectedHooks.value) {
+    return [];
+  }
+  const { hooks: integrationHooks } = integration.value;
+  return integrationHooks.map(hook => ({
+    ...hook,
+    id: hook.id,
+    properties: hookHeaders.value.map(property =>
+      hook.settings[property] ? hook.settings[property] : '--'
+    ),
+  }));
+});
+
+const filteredHooks = computed(() => {
+  const query = searchQuery.value?.trim() || '';
+  if (!query) return hooks.value;
+  const lowerQuery = query.toLowerCase();
+  return (
+    hooks.value?.filter(hook =>
+      hook.properties?.some(prop => prop?.toLowerCase().includes(lowerQuery))
+    ) || []
+  );
+});
+
+const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
 </script>
 
 <template>
   <div class="flex flex-col flex-1 gap-8 overflow-auto">
     <BaseSettingsHeader
+      v-model:search-query="searchQuery"
       :title="integration.name"
       :description="
         $t(
@@ -67,18 +68,24 @@ export default {
       "
       :feature-name="integrationId"
       :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
+      :search-placeholder="$t('INTEGRATION_APPS.SEARCH_PLACEHOLDER')"
     >
       <template #actions>
         <NextButton
           v-if="showAddButton"
-          icon="i-lucide-circle-plus"
           :label="$t('INTEGRATION_APPS.ADD_BUTTON')"
           @click="$emit('add')"
         />
       </template>
     </BaseSettingsHeader>
     <div class="w-full">
-      <table v-if="hasConnectedHooks">
+      <span
+        v-if="!filteredHooks.length && searchQuery"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+      >
+        {{ $t('INTEGRATION_APPS.NO_RESULTS') }}
+      </span>
+      <table v-else-if="hasConnectedHooks">
         <thead
           class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
         >
@@ -95,7 +102,7 @@ export default {
         </thead>
         <tbody>
           <tr
-            v-for="hook in hooks"
+            v-for="hook in filteredHooks"
             :key="hook.id"
             class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
           >

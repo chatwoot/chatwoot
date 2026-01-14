@@ -110,7 +110,7 @@ export default {
 <template>
   <div class="flex flex-col w-full h-auto md:flex-row md:h-full">
     <div
-      class="flex-1 w-full h-full max-h-full px-12 py-4 overflow-y-auto md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
+      class="flex-1 w-full h-full max-h-full px-6 py-4 overflow-y-auto md:w-auto macro-gradient-radial dark:macro-dark-gradient-radial macro-gradient-radial-size"
     >
       <MacroNodes
         v-model="macro.actions"

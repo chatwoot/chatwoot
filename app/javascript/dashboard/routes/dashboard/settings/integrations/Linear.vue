@@ -5,11 +5,14 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
 
 import Integration from './Integration.vue';
-import Spinner from 'shared/components/Spinner.vue';
+import SettingsLayout from '../SettingsLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const store = useStore();
+const { t } = useI18n();
 
 const integrationLoaded = ref(false);
 
@@ -35,8 +38,16 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex-grow flex-shrink p-4 overflow-auto max-w-6xl mx-auto">
-    <div v-if="integrationLoaded && !uiFlags.isCreatingLinear">
+  <SettingsLayout :is-loading="!integrationLoaded || uiFlags.isCreatingLinear">
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('INTEGRATION_SETTINGS.LINEAR.HEADER')"
+        description=""
+        feature-name="linear_integration"
+        :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"
+      />
+    </template>
+    <template #body>
       <Integration
         :integration-id="integration.id"
         :integration-logo="integration.logo"
@@ -45,13 +56,10 @@ onMounted(() => {
         :integration-enabled="integration.enabled"
         :integration-action="integrationAction"
         :delete-confirmation-text="{
-          title: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.TITLE'),
-          message: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.MESSAGE'),
+          title: t('INTEGRATION_SETTINGS.LINEAR.DELETE.TITLE'),
+          message: t('INTEGRATION_SETTINGS.LINEAR.DELETE.MESSAGE'),
         }"
       />
-    </div>
-    <div v-else class="flex items-center justify-center flex-1">
-      <Spinner size="" color-scheme="primary" />
-    </div>
-  </div>
+    </template>
+  </SettingsLayout>
 </template>

@@ -105,7 +105,7 @@ const openDelete = inbox => {
     <template #body>
       <span
         v-if="!filteredInboxesList.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
       >
         {{ $t('INBOX_MGMT.NO_RESULTS') }}
       </span>

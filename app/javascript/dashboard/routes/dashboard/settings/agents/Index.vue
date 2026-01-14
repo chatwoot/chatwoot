@@ -171,7 +171,7 @@ const confirmDeletion = () => {
     <template #body>
       <span
         v-if="!filteredAgentList.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
       >
         {{ $t('AGENT_MGMT.NO_RESULTS') }}
       </span>
@@ -189,7 +189,7 @@ const confirmDeletion = () => {
               :size="40"
               hide-offline-status
             />
-            <div class="flex flex-col gap-1 items-start">
+            <div class="flex flex-col gap-1.5 items-start">
               <span class="block text-heading-3 text-n-slate-12 capitalize">
                 {{ agent.name }}
               </span>

@@ -271,8 +271,8 @@ export default {
 </script>
 
 <template>
-  <div class="mx-8">
-    <div class="flex p-2.5">
+  <div class="mx-4">
+    <div class="flex py-6">
       <div class="w-100 lg:w-[40%]">
         <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">

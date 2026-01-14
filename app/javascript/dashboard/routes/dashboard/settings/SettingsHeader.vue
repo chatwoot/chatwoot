@@ -48,7 +48,7 @@ export default {
         v-if="showBackButton"
         :button-label="backButtonLabel"
         :back-url="backUrl"
-        class="ml-2 mr-4"
+        class="ltr:mr-4 rtl:ml-4"
       />
 
       <slot />

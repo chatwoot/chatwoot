@@ -113,7 +113,7 @@ export default {
     <div class="w-full overflow-x-auto text-n-slate-11">
       <span
         v-if="!uiFlags.isFetching && !filteredRecords.length && searchQuery"
-        class="flex-1 py-20 text-n-slate-11 flex items-center justify-center text-base"
+        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
       >
         {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS') }}
       </span>

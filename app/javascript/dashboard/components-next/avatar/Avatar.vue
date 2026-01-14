@@ -121,7 +121,8 @@ const borderRadiusClass = computed(() => {
   if (props.size <= 16) return 'rounded'; // 4px
   if (props.size <= 24) return 'rounded-md'; // 6px
   if (props.size <= 32) return 'rounded-lg'; // 8px
-  return 'rounded-lg'; // 16px
+  if (props.size <= 48) return 'rounded-xl'; // 12px
+  return 'rounded-2xl'; // 16px
 });
 
 const avatarStyles = computed(() => ({
