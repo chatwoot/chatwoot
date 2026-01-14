@@ -661,8 +661,7 @@ CommMate uses a patch-increment strategy to track customizations:
 |------------------|------------------|---------|------------|-------|
 | v4.7.0 | v4.7.0 | v4.7.0-commmate | v4.7.0 | Initial downstream |
 | v4.7.0 | v4.7.0.1 | v4.7.0.1-commmate | v4.7.0.1 | CommMate patch |
-| v4.8.0 | v4.8.0 | v4.8.0-commmate | v4.8.0 | New downstream |
-| v4.8.0 | v4.8.0.1 | v4.8.0.1-commmate | v4.8.0.1 | Admin console branding |
+| v4.9.1 | v4.9.1.3 | v4.9.1.3-commmate | v4.9.1.3 | Evolution WhatsApp inbox |
 
 **Version Configuration File**: `custom/config/commmate_version.yml`
 
@@ -844,8 +843,8 @@ git push origin main
 
 ---
 
-**Last Updated**: December 1, 2025  
-**Process Version**: 2.0  
-**Tested With**: Chatwoot v4.7.0 → v4.8.0  
+**Last Updated**: January 14, 2026  
+**Process Version**: 2.1  
+**Tested With**: Chatwoot v4.9.1 → CommMate v4.9.1.3  
 **Maintained By**: CommMate Team
 

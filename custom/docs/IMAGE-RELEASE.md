@@ -2,8 +2,8 @@
 
 **Purpose**: Build and publish CommMate Docker images from release branches  
 **Tools**: Podman (local), Docker Hub (registry)  
-**Last Updated**: December 2025  
-**Current Version**: v4.8.0
+**Last Updated**: January 2026  
+**Current Version**: v4.9.1.3
 
 ---
 
@@ -23,19 +23,19 @@ This guide covers building and publishing CommMate Docker images after completin
 ## Quick Start
 
 ```bash
-# Complete release process for v4.8.0
+# Complete release process for v4.9.1.3
 cd /Users/schimuneck/projects/commmmate/chatwoot
 
 # 1. Checkout release branch
-git checkout commmate/v4.8.0
-git pull origin commmate/v4.8.0
+git checkout commmate/v4.9.1.3
+git pull origin commmate/v4.9.1.3
 
 # 2. Build multi-platform image
-./custom/script/build_multiplatform.sh v4.8.0
+./custom/script/build_multiplatform.sh v4.9.1.3
 
 # 3. Push to Docker Hub (credentials already configured)
-podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:v4.8.0
-podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:latest
+podman manifest push commmate/commmate:v4.9.1.3 docker://commmate/commmate:v4.9.1.3
+podman manifest push commmate/commmate:v4.9.1.3 docker://commmate/commmate:latest
 ```
 
 **Build Time**: 15-25 minutes (multi-arch)
@@ -1014,13 +1014,13 @@ Follow this pattern:
 |------------------|------------------|---------|------------|
 | v4.7.0 | v4.7.0 | v4.7.0-commmate | v4.7.0 |
 | v4.7.0 (patch 1) | v4.7.0.1 | v4.7.0.1-commmate | v4.7.0.1 |
-| v4.8.0 | v4.8.0 | v4.8.0-commmate | v4.8.0 |
+| v4.9.1 | v4.9.1.3 | v4.9.1.3-commmate | v4.9.1.3 |
 
 **Rules:**
 - Major.Minor matches Chatwoot version
 - Patch is incremented for CommMate-only changes
-- Git tag has `-commmate` suffix
-- Docker tag does NOT have suffix
+- Git tag has `-commmate` suffix (e.g., `v4.9.1.3-commmate`)
+- Docker tag does NOT have suffix (e.g., `v4.9.1.3`)
 
 ### When to Increment
 
@@ -1295,28 +1295,28 @@ trivy image commmate/commmate:v4.8.0
 
 ```bash
 # 1. Prepare
-git checkout commmate/v4.8.0
-git pull origin commmate/v4.8.0
+git checkout commmate/v4.9.1.3
+git pull origin commmate/v4.9.1.3
 
 # 2. Build
-./custom/script/build_multiplatform.sh v4.8.0
+./custom/script/build_multiplatform.sh v4.9.1.3
 
 # 3. Verify
-podman manifest inspect commmate/commmate:v4.8.0
-podman run --rm commmate/commmate:v4.8.0 env | grep APP_NAME
+podman manifest inspect commmate/commmate:v4.9.1.3
+podman run --rm commmate/commmate:v4.9.1.3 env | grep APP_NAME
 
 # 4. Publish
-podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:v4.8.0
-podman manifest push commmate/commmate:v4.8.0 docker://commmate/commmate:latest
+podman manifest push commmate/commmate:v4.9.1.3 docker://commmate/commmate:v4.9.1.3
+podman manifest push commmate/commmate:v4.9.1.3 docker://commmate/commmate:latest
 
-# 5. Tag
-git tag -a v4.8.0-commmate -m "CommMate v4.8.0"
-git push origin v4.8.0-commmate
+# 5. Tag (git tag has -commmate suffix)
+git tag -a v4.9.1.3-commmate -m "CommMate v4.9.1.3 (base Chatwoot v4.9.1)"
+git push origin v4.9.1.3-commmate
 
 # 6. Deploy (optional)
 ssh root@200.98.72.137 "cd /opt/evolution-chatwoot && \
   docker compose stop chatwoot sidekiq && \
-  docker pull commmate/commmate:v4.8.0 && \
+  docker pull commmate/commmate:v4.9.1.3 && \
   docker compose up -d chatwoot sidekiq"
 ```
 
@@ -1324,8 +1324,8 @@ ssh root@200.98.72.137 "cd /opt/evolution-chatwoot && \
 
 ---
 
-**Last Updated**: December 1, 2025  
-**Process Version**: 2.0  
-**Tested With**: CommMate v4.8.0  
+**Last Updated**: January 14, 2026  
+**Process Version**: 2.1  
+**Tested With**: CommMate v4.9.1.3  
 **Maintained By**: CommMate Team
 
