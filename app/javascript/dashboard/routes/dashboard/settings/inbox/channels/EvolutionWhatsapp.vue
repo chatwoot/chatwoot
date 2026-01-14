@@ -228,11 +228,14 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="proceedToAgents">
+  <form
+    class="mx-0 flex max-w-[560px] flex-col flex-wrap"
+    @submit.prevent="proceedToAgents"
+  >
     <!-- Error Banner -->
     <div
       v-if="errorMessage"
-      class="flex-shrink-0 flex-grow-0 mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+      class="mb-4 flex-shrink-0 flex-grow-0 rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20"
     >
       <div class="flex items-start">
         <div class="flex-shrink-0">
