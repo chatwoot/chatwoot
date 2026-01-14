@@ -866,7 +866,13 @@
     "DELETE": {
       "CONFIRM_MESSAGE": "Are you sure you want to delete {name}?",
       "SUCCESS_MESSAGE": "Copilot deleted successfully",
-      "ERROR_MESSAGE": "Failed to delete copilot"
+      "ERROR_MESSAGE": "Failed to delete copilot",
+      "CONFIRM": {
+        "TITLE": "Delete Copilot",
+        "MESSAGE": "Are you sure you want to delete '{name}'? This action cannot be undone.",
+        "YES": "Yes, delete",
+        "NO": "Cancel"
+      }
     },
     "FORM": {
       "NEW_TITLE": "New Copilot",
@@ -930,6 +936,8 @@
       "NO_PIPELINE_STATUSES_FOUND": "No pipeline statuses found",
       "PIPELINE_STATUS_FILTER_HELP": "Only reactivate conversations that have one of these pipeline statuses",
       "PIPELINE_STATUSES_REQUIRED": "Please select at least one pipeline status",
+      "INCLUDE_COMPLETED_COPILOTS": "Re-enroll conversations with completed copilots",
+      "INCLUDE_COMPLETED_COPILOTS_HELP": "When enabled, conversations that previously completed a copilot sequence will be eligible for enrollment again. Only one active copilot is allowed per inbox.",
       "DATE_RANGE_REQUIRED": "Please select both from and to dates",
       "DATE_VALUE_REQUIRED": "Please enter a valid number of days",
       "LABELS_REQUIRED": "Please select at least one label"
@@ -947,6 +955,32 @@
         "ADD": "Send Template",
         "DEFAULT_NAME": "Send WhatsApp template",
         "SELECT": "Select template..."
+      },
+      "SEND_MESSAGE": {
+        "ADD": "Send AI Message",
+        "DEFAULT_NAME": "Send AI-powered message",
+        "AI_CONFIG": {
+          "TITLE": "AI Configuration (Open Window <24h)",
+          "AGENT_BOT": "AI Agent Bot",
+          "SELECT_AGENT": "Select an AI agent...",
+          "CONTEXT": "Context",
+          "OPTIONAL": "optional",
+          "CONTEXT_PLACEHOLDER": "Provide context for the AI agent (e.g., 'Follow up about product demo')...",
+          "CONTEXT_HELP": "If left empty, the AI agent will autonomously retake the conversation based on history."
+        },
+        "CLOSED_WINDOW": {
+          "TITLE": "Closed Window Action (>24h)",
+          "SEND_TEMPLATE": "Send WhatsApp Template",
+          "SEND_SMS": "Send SMS via AI"
+        },
+        "SMS_CONFIG": {
+          "AGENT_BOT": "SMS AI Agent Bot",
+          "SELECT_AGENT": "Select an AI agent for SMS...",
+          "CONTEXT": "SMS Context",
+          "OPTIONAL": "optional",
+          "CONTEXT_PLACEHOLDER": "Provide context for SMS generation (e.g., 'Send appointment reminder')...",
+          "CONTEXT_HELP": "If left empty, the AI agent will autonomously generate the SMS based on conversation history."
+        }
       },
       "ADD_LABEL": {
         "ADD": "Add Label",

@@ -71,11 +71,16 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
       return render json: { error: 'inbox_id is required' }, status: :unprocessable_entity
     end
 
+    # Leer include_completed de trigger_conditions, default a true
+    include_completed = trigger_conditions.dig('enrollment_filter', 'include_completed')
+    include_completed = true if include_completed.nil?
+
     query = LeadRetargeting::EligibleConversationsQueryBuilder.call(
       account_id: Current.account.id,
       inbox_id: inbox_id,
       trigger_conditions: trigger_conditions,
       include_cancelled: true,
+      include_completed: include_completed,
       stop_on_contact_reply: stop_on_contact_reply,
       sequence_id: sequence_id
     )

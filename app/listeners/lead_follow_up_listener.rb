@@ -31,8 +31,10 @@ class LeadFollowUpListener < BaseListener
     first_step = follow_up.lead_follow_up_sequence.enabled_steps.first
     return unless first_step
 
+    conversation = follow_up.conversation
+
     next_action_at = if first_step['type'] == 'wait'
-                       calculate_wait_time(first_step)
+                       calculate_wait_time(conversation, first_step)
                      else
                        Time.current
                      end
@@ -42,7 +44,8 @@ class LeadFollowUpListener < BaseListener
       next_action_at: next_action_at,
       metadata: (follow_up.metadata || {}).merge(
         reset_at: Time.current,
-        reset_count: (follow_up.metadata&.dig('reset_count') || 0) + 1
+        reset_count: (follow_up.metadata&.dig('reset_count') || 0) + 1,
+        base_time: conversation.last_chat_message_at
       )
     )
 
@@ -52,19 +55,25 @@ class LeadFollowUpListener < BaseListener
     Rails.logger.info "Reset follow-up #{follow_up.id} - agent replied"
   end
 
-  def calculate_wait_time(step)
+  def calculate_wait_time(conversation, step)
     config = step['config']
     delay = config['delay_value'].to_i
 
-    case config['delay_type']
-    when 'minutes'
-      Time.current + delay.minutes
-    when 'hours'
-      Time.current + delay.hours
-    when 'days'
-      Time.current + delay.days
-    else
-      Time.current + delay.hours
-    end
+    # Usar last_chat_message_at como base (excluye mensajes de actividad)
+    base_time = conversation.last_chat_message_at
+
+    calculated_time = case config['delay_type']
+                      when 'minutes'
+                        base_time + delay.minutes
+                      when 'hours'
+                        base_time + delay.hours
+                      when 'days'
+                        base_time + delay.days
+                      else
+                        base_time + delay.hours
+                      end
+
+    # Si el tiempo calculado ya pasó, ejecutar inmediatamente
+    [calculated_time, Time.current].max
   end
 end

@@ -4,25 +4,27 @@ module LeadRetargeting
   class EligibleConversationsQueryBuilder
     ALLOWED_DATE_COLUMNS = {
       'conversation_created_at' => 'conversations.created_at',
-      'inactive_days' => 'conversations.last_activity_at'
+      'inactive_days' => 'conversations.last_chat_message_at'
     }.freeze
 
-    def self.call(account_id:, inbox_id:, trigger_conditions: {}, include_cancelled: true, stop_on_contact_reply: false, sequence_id: nil)
+    def self.call(account_id:, inbox_id:, trigger_conditions: {}, include_cancelled: true, include_completed: true, stop_on_contact_reply: false, sequence_id: nil)
       new(
         account_id: account_id,
         inbox_id: inbox_id,
         trigger_conditions: trigger_conditions,
         include_cancelled: include_cancelled,
+        include_completed: include_completed,
         stop_on_contact_reply: stop_on_contact_reply,
         sequence_id: sequence_id
       ).build
     end
 
-    def initialize(account_id:, inbox_id:, trigger_conditions:, include_cancelled:, stop_on_contact_reply:, sequence_id:)
+    def initialize(account_id:, inbox_id:, trigger_conditions:, include_cancelled:, include_completed:, stop_on_contact_reply:, sequence_id:)
       @account_id = account_id
       @inbox_id = inbox_id
       @trigger_conditions = trigger_conditions || {}
       @include_cancelled = include_cancelled
+      @include_completed = include_completed
       @stop_on_contact_reply = stop_on_contact_reply
       @sequence_id = sequence_id
     end
@@ -39,7 +41,7 @@ module LeadRetargeting
 
     private
 
-    attr_reader :account_id, :inbox_id, :trigger_conditions, :include_cancelled, :stop_on_contact_reply, :sequence_id
+    attr_reader :account_id, :inbox_id, :trigger_conditions, :include_cancelled, :include_completed, :stop_on_contact_reply, :sequence_id
 
     def base_query
       Conversation.where(account_id: account_id, inbox_id: inbox_id)
@@ -48,20 +50,28 @@ module LeadRetargeting
     def apply_enrollment_filter(query)
       query = query.left_joins(:conversation_follow_up)
 
+      # Construir array de estados permitidos basado en parámetros
+      allowed_statuses = []
+      allowed_statuses << 'cancelled' if include_cancelled
+      allowed_statuses << 'completed' if include_completed
+      allowed_statuses << 'failed' if include_completed # failed también cuenta como terminado
+
       if sequence_id.present?
-        if include_cancelled
+        # Para vista de edición/show: permitir conversaciones sin follow-up O con follow-ups en estados permitidos de ESTA secuencia
+        if allowed_statuses.any?
           query.where(
             'conversation_follow_ups.id IS NULL OR ' \
-            '(conversation_follow_ups.lead_follow_up_sequence_id = ? OR conversation_follow_ups.status = ?)',
+            '(conversation_follow_ups.lead_follow_up_sequence_id = ? AND conversation_follow_ups.status IN (?))',
             sequence_id,
-            'cancelled'
+            allowed_statuses
           )
         else
           query.where(conversation_follow_up: { id: nil })
         end
       else
-        if include_cancelled
-          query.where('conversation_follow_ups.id IS NULL OR conversation_follow_ups.status = ?', 'cancelled')
+        # Para enrollment automático: permitir conversaciones sin follow-up O con follow-ups en estados permitidos
+        if allowed_statuses.any?
+          query.where('conversation_follow_ups.id IS NULL OR conversation_follow_ups.status IN (?)', allowed_statuses)
         else
           query.where(conversation_follow_up: { id: nil })
         end
@@ -73,8 +83,7 @@ module LeadRetargeting
       if filter&.dig('enabled') && filter['statuses'].present?
         query.where('conversations.status' => filter['statuses'])
       else
-        Rails.logger.info "Applying default status filter: query pending = #{query.pluck(:id)}"
-        query.where('conversations.status' => %i[open pending])
+        query
       end
     end
 
@@ -95,7 +104,7 @@ module LeadRetargeting
         filter_type = filter['filter_type']
 
         if filter_type == 'last_message_at'
-          apply_last_message_date_filter(query, filter)
+          apply_date_operator(query, 'conversations.last_chat_message_at', filter)
         elsif ALLOWED_DATE_COLUMNS.key?(filter_type)
           column = ALLOWED_DATE_COLUMNS[filter_type]
           apply_date_operator(query, column, filter)
@@ -123,54 +132,6 @@ module LeadRetargeting
       end
     rescue ArgumentError => e
       Rails.logger.error "Invalid date in filter: #{e.message}"
-      query
-    end
-
-    def apply_last_message_date_filter(query, filter)
-      case filter['operator']
-      when 'older_than'
-        cutoff_date = filter['value'].to_i.days.ago
-        query.where(
-          'conversations.id IN (
-            SELECT conversation_id
-            FROM messages
-            WHERE messages.conversation_id = conversations.id
-            GROUP BY conversation_id
-            HAVING MAX(messages.created_at) < ?
-          )',
-          cutoff_date
-        )
-      when 'newer_than'
-        cutoff_date = filter['value'].to_i.days.ago
-        query.where(
-          'conversations.id IN (
-            SELECT conversation_id
-            FROM messages
-            WHERE messages.conversation_id = conversations.id
-            GROUP BY conversation_id
-            HAVING MAX(messages.created_at) > ?
-          )',
-          cutoff_date
-        )
-      when 'between'
-        from_date = Date.parse(filter['from_date']).beginning_of_day
-        to_date = Date.parse(filter['to_date']).end_of_day
-        query.where(
-          'conversations.id IN (
-            SELECT conversation_id
-            FROM messages
-            WHERE messages.conversation_id = conversations.id
-            GROUP BY conversation_id
-            HAVING MAX(messages.created_at) BETWEEN ? AND ?
-          )',
-          from_date,
-          to_date
-        )
-      else
-        query
-      end
-    rescue ArgumentError => e
-      Rails.logger.error "Invalid date in last_message_at filter: #{e.message}"
       query
     end
 

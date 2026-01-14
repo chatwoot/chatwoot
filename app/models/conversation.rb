@@ -156,6 +156,13 @@ class Conversation < ApplicationRecord
     self[:last_activity_at] || created_at
   end
 
+  # Returns the timestamp of the last chat message (incoming/outgoing/template)
+  # Excludes activity messages like status changes, assignments, etc.
+  # Falls back to last_activity_at if not set (for conversations before migration)
+  def last_chat_message_at
+    self[:last_chat_message_at] || last_activity_at
+  end
+
   def last_incoming_message
     messages&.incoming&.last
   end

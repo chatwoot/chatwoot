@@ -101,6 +101,9 @@ const defaultSequence = {
       enabled: false,
       pipeline_status_ids: [],
     },
+    enrollment_filter: {
+      include_completed: true,
+    },
   },
   settings: {
     stop_on_contact_reply: true,
@@ -171,6 +174,10 @@ const fetchSequence = async () => {
         pipeline_status_filter: {
           ...defaultSequence.trigger_conditions.pipeline_status_filter,
           ...(data.trigger_conditions?.pipeline_status_filter || {}),
+        },
+        enrollment_filter: {
+          ...defaultSequence.trigger_conditions.enrollment_filter,
+          ...(data.trigger_conditions?.enrollment_filter || {}),
         },
       },
       settings: {
@@ -310,16 +317,28 @@ const addStep = type => {
         delay_value: 24,
       },
     },
-    send_template: {
+    send_message: {
       id: stepId,
-      type: 'send_template',
-      name: t('LEAD_RETARGETING.STEPS.SEND_TEMPLATE.DEFAULT_NAME'),
+      type: 'send_message',
+      name: t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.DEFAULT_NAME'),
       enabled: true,
       config: {
-        template_name: '',
-        language: 'es',
-        template_params: {
-          body: {},
+        ai_config: {
+          enabled: true,
+          context: '',
+          variables: {},
+        },
+        closed_window_action: 'send_template',
+        template_config: {
+          template_name: '',
+          language: 'es',
+          template_params: {
+            body: {},
+          },
+        },
+        sms_config: {
+          context: '',
+          variables: {},
         },
       },
     },
@@ -424,24 +443,28 @@ const getTemplateParams = templateName => {
   return matches || [];
 };
 
-const onTemplateChange = step => {
-  if (!step.config.template_params) {
-    step.config.template_params = { body: {} };
+const onTemplateChange = (step, configPath = 'config') => {
+  // For send_message steps, configPath will be 'template_config'
+  // For send_template steps, configPath will be 'config' (default)
+  const config = configPath === 'config' ? step.config : step.config[configPath];
+
+  if (!config.template_params) {
+    config.template_params = { body: {} };
   }
 
-  const selectedTemplate = availableTemplates.value.find(t => t.name === step.config.template_name);
+  const selectedTemplate = availableTemplates.value.find(t => t.name === config.template_name);
   if (selectedTemplate) {
-    step.config.language = selectedTemplate.language;
+    config.language = selectedTemplate.language;
   }
 
-  const params = getTemplateParams(step.config.template_name);
+  const params = getTemplateParams(config.template_name);
   const bodyParams = {};
 
   params.forEach((_, idx) => {
-    bodyParams[idx + 1] = step.config.template_params.body?.[idx + 1] || '';
+    bodyParams[idx + 1] = config.template_params.body?.[idx + 1] || '';
   });
 
-  step.config.template_params.body = bodyParams;
+  config.template_params.body = bodyParams;
 };
 
 const copyToClipboard = text => {
@@ -449,10 +472,13 @@ const copyToClipboard = text => {
   useAlert('Variable copiada al portapapeles');
 };
 
-const getTemplatePreview = (step) => {
-  if (!step.config.template_name) return '';
+const getTemplatePreview = (step, configPath = 'config') => {
+  // For send_message steps with template_config, configPath will be 'template_config'
+  const config = configPath === 'config' ? step.config : step.config[configPath];
 
-  const template = availableTemplates.value.find(t => t.name === step.config.template_name);
+  if (!config?.template_name) return '';
+
+  const template = availableTemplates.value.find(t => t.name === config.template_name);
   if (!template) return '';
 
   const bodyComponent = template.components?.find(c => c.type === 'BODY');
@@ -461,7 +487,7 @@ const getTemplatePreview = (step) => {
   let previewText = bodyComponent.text;
 
   // Replace {{1}}, {{2}}, etc. with actual values from inputs
-  const params = step.config.template_params?.body || {};
+  const params = config.template_params?.body || {};
   Object.keys(params).forEach(key => {
     const value = params[key] || `{{${key}}}`;
     previewText = previewText.replace(new RegExp(`\\{\\{${key}\\}\\}`, 'g'), value);
@@ -558,11 +584,25 @@ const saveSequence = async () => {
 
     router.push({ name: 'copilots_list' });
   } catch (error) {
-    useAlert(
-      isEdit.value
-        ? t('LEAD_RETARGETING.FORM.UPDATE_ERROR')
-        : t('LEAD_RETARGETING.FORM.CREATE_ERROR')
-    );
+    // Extraer mensaje de error específico del backend
+    let errorMessage = isEdit.value
+      ? t('LEAD_RETARGETING.FORM.UPDATE_ERROR')
+      : t('LEAD_RETARGETING.FORM.CREATE_ERROR');
+
+    if (error.response?.data) {
+      const { data } = error.response;
+
+      // Formato 1: { errors: ["mensaje"] }
+      if (data.errors && Array.isArray(data.errors) && data.errors.length > 0) {
+        errorMessage = data.errors.join(', ');
+      }
+      // Formato 2: { message: "mensaje" }
+      else if (data.message) {
+        errorMessage = data.message;
+      }
+    }
+
+    useAlert(errorMessage);
   } finally {
     loading.value = false;
   }
@@ -856,6 +896,25 @@ const saveSequence = async () => {
                 </div>
               </div>
             </div>
+
+            <!-- Enrollment Filter -->
+            <div class="border border-n-weak/60 rounded-lg p-4">
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  v-model="sequence.trigger_conditions.enrollment_filter.include_completed"
+                  type="checkbox"
+                  class="rounded"
+                />
+                <span class="text-sm font-medium text-n-slate-12">
+                  {{ t('LEAD_RETARGETING.FORM.INCLUDE_COMPLETED_COPILOTS') }}
+                </span>
+              </label>
+
+              <!-- Help Text -->
+              <div class="mt-3 text-xs text-n-slate-11 bg-n-blue-2 dark:bg-n-blue-3 p-3 rounded">
+                {{ t('LEAD_RETARGETING.FORM.INCLUDE_COMPLETED_COPILOTS_HELP') }}
+              </div>
+            </div>
           </div>
 
           <!-- Eligible Conversations Preview -->
@@ -921,9 +980,9 @@ const saveSequence = async () => {
                 xs
                 slate
                 faded
-                :label="'+ ' + t('LEAD_RETARGETING.STEPS.SEND_TEMPLATE.ADD')"
+                :label="'+ ' + t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.ADD')"
                 :disabled="!sequence.inbox_id"
-                @click="addStep('send_template')"
+                @click="addStep('send_message')"
               />
               <Button
                 xs
@@ -1035,76 +1094,159 @@ const saveSequence = async () => {
                       </select>
                     </div>
 
-                    <!-- Send Template Step -->
-                    <div v-else-if="step.type === 'send_template'" class="space-y-3">
-                      <div>
-                        <label class="block text-xs font-medium text-n-slate-12 mb-1">Template</label>
-                        <select
-                          v-model="step.config.template_name"
-                          class="w-full text-sm"
-                          @change="onTemplateChange(step)"
-                        >
-                          <option value="">{{ t('LEAD_RETARGETING.STEPS.SEND_TEMPLATE.SELECT') }}</option>
-                          <option
-                            v-for="template in availableTemplates"
-                            :key="`${template.name}-${template.language}`"
-                            :value="template.name"
-                          >
-                            {{ template.name }} ({{ template.language }})
-                          </option>
-                        </select>
-                      </div>
-
-                      <!-- Template Category & Info -->
-                      <div v-if="step.config.template_name" class="flex items-center gap-2">
-                        <span class="text-xs text-n-slate-11">Categoría:</span>
-                        <span
-                          class="text-xs px-2 py-1 rounded font-medium"
-                          :class="getCategoryColor(getTemplateCategory(step.config.template_name))"
-                        >
-                          {{ getCategoryLabel(getTemplateCategory(step.config.template_name)) }}
-                        </span>
-                      </div>
-
-                      <!-- Template Parameters -->
-                      <div v-if="step.config.template_name && getTemplateParams(step.config.template_name).length > 0" class="space-y-2 p-3 bg-n-weak/30 rounded">
-                        <label class="block text-xs font-medium text-n-slate-12 mb-2">Parámetros del Template</label>
-                        <div
-                          v-for="(param, idx) in getTemplateParams(step.config.template_name)"
-                          :key="idx"
-                          class="flex items-center gap-2"
-                        >
-                          <span class="text-xs text-n-slate-11 w-16">{{ '{' + '{' + (idx + 1) + '}' + '}' }}:</span>
+                    <!-- Send Message Step (AI-powered with window detection) -->
+                    <div v-else-if="step.type === 'send_message'" class="space-y-4">
+                      <!-- AI Config for Open Window (<24h) -->
+                      <div class="p-3 bg-n-blue-2 dark:bg-n-blue-3 border border-n-blue-6 rounded-lg space-y-3">
+                        <div class="flex items-center justify-between">
+                          <label class="block text-xs font-medium text-n-slate-12">
+                            {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.TITLE') }}
+                          </label>
                           <input
-                            v-model="step.config.template_params.body[idx + 1]"
-                            type="text"
-                            class="flex-1 px-2 py-1 text-sm"
-                            :placeholder="`Valor para parámetro ${idx + 1}`"
+                            v-model="step.config.ai_config.enabled"
+                            type="checkbox"
+                            class="rounded"
                           />
                         </div>
-                        <div class="mt-2 p-2 bg-n-blue-2 dark:bg-n-blue-3 rounded text-xs">
-                          <p class="font-medium text-n-slate-12 mb-1">Variables disponibles:</p>
-                          <div class="flex flex-wrap gap-2">
-                            <code
-                              v-for="variable in ['contact.name', 'contact.email', 'contact.phone_number']"
-                              :key="variable"
-                              class="px-2 py-0.5 bg-white dark:bg-n-slate-3 border border-n-weak/60 rounded cursor-pointer hover:bg-n-blue-4 text-n-slate-12"
-                              @click="copyToClipboard(`{{${variable}}}`)"
-                            >
-                              {{ '{' + '{' + variable + '}' + '}' }}
-                            </code>
+
+                        <div v-if="step.config.ai_config.enabled" class="space-y-2">
+                          <!-- Context (Optional) -->
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.CONTEXT') }}
+                              <span class="text-n-slate-11 font-normal">({{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.OPTIONAL') }})</span>
+                            </label>
+                            <textarea
+                              v-model="step.config.ai_config.context"
+                              rows="3"
+                              class="w-full text-sm"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.CONTEXT_PLACEHOLDER')"
+                            />
+                            <p class="text-xs text-n-slate-11 mt-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.AI_CONFIG.CONTEXT_HELP') }}
+                            </p>
                           </div>
                         </div>
                       </div>
 
-                      <!-- Message Preview -->
-                      <div v-if="step.config.template_name && getTemplatePreview(step)" class="p-3 bg-n-green-2 dark:bg-n-green-3 border border-n-green-6 rounded-lg">
-                        <div class="flex items-start gap-2 mb-1">
-                          <i class="i-lucide-eye text-n-green-11 text-sm mt-0.5" />
-                          <p class="text-xs font-medium text-n-green-11">Vista previa del mensaje</p>
+                      <!-- Closed Window Action (>24h) -->
+                      <div class="p-3 bg-n-amber-2 dark:bg-n-amber-3 border border-n-amber-6 rounded-lg space-y-3">
+                        <label class="block text-xs font-medium text-n-slate-12">
+                          {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.TITLE') }}
+                        </label>
+                        <div class="flex gap-3">
+                          <label class="flex items-center gap-2 cursor-pointer">
+                            <input
+                              v-model="step.config.closed_window_action"
+                              type="radio"
+                              value="send_template"
+                              class="text-n-blue-9"
+                            />
+                            <span class="text-sm text-n-slate-12">{{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SEND_TEMPLATE') }}</span>
+                          </label>
+                          <label class="flex items-center gap-2 cursor-pointer">
+                            <input
+                              v-model="step.config.closed_window_action"
+                              type="radio"
+                              value="send_sms"
+                              class="text-n-blue-9"
+                            />
+                            <span class="text-sm text-n-slate-12">{{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.CLOSED_WINDOW.SEND_SMS') }}</span>
+                          </label>
                         </div>
-                        <div class="mt-2 p-3 bg-white dark:bg-n-slate-2 rounded border border-n-weak/60">
-                          <p class="text-sm text-n-slate-12 whitespace-pre-wrap">{{ getTemplatePreview(step) }}</p>
+
+                        <!-- Template Config (if send_template) -->
+                        <div v-if="step.config.closed_window_action === 'send_template'" class="space-y-2 mt-3 pt-3 border-t border-n-amber-6">
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">Template</label>
+                            <select
+                              v-model="step.config.template_config.template_name"
+                              class="w-full text-sm"
+                              @change="onTemplateChange(step, 'template_config')"
+                            >
+                              <option value="">{{ t('LEAD_RETARGETING.STEPS.SEND_TEMPLATE.SELECT') }}</option>
+                              <option
+                                v-for="template in availableTemplates"
+                                :key="`${template.name}-${template.language}`"
+                                :value="template.name"
+                              >
+                                {{ template.name }} ({{ template.language }})
+                              </option>
+                            </select>
+                          </div>
+
+                          <!-- Template Category & Info -->
+                          <div v-if="step.config.template_config.template_name" class="flex items-center gap-2">
+                            <span class="text-xs text-n-slate-11">Categoría:</span>
+                            <span
+                              class="text-xs px-2 py-1 rounded font-medium"
+                              :class="getCategoryColor(getTemplateCategory(step.config.template_config.template_name))"
+                            >
+                              {{ getCategoryLabel(getTemplateCategory(step.config.template_config.template_name)) }}
+                            </span>
+                          </div>
+
+                          <!-- Template Parameters -->
+                          <div v-if="step.config.template_config.template_name && getTemplateParams(step.config.template_config.template_name).length > 0" class="space-y-2 p-3 bg-white/50 dark:bg-n-slate-1/50 rounded">
+                            <label class="block text-xs font-medium text-n-slate-12 mb-2">Parámetros del Template</label>
+                            <div
+                              v-for="(param, idx) in getTemplateParams(step.config.template_config.template_name)"
+                              :key="idx"
+                              class="flex items-center gap-2"
+                            >
+                              <span class="text-xs text-n-slate-11 w-16">{{ '{' + '{' + (idx + 1) + '}' + '}' }}:</span>
+                              <input
+                                v-model="step.config.template_config.template_params.body[idx + 1]"
+                                type="text"
+                                class="flex-1 px-2 py-1 text-sm"
+                                :placeholder="`Valor para parámetro ${idx + 1}`"
+                              />
+                            </div>
+                            <div class="mt-2 p-2 bg-n-blue-2 dark:bg-n-blue-3 rounded text-xs">
+                              <p class="font-medium text-n-slate-12 mb-1">Variables disponibles:</p>
+                              <div class="flex flex-wrap gap-2">
+                                <code
+                                  v-for="variable in ['contact.name', 'contact.email', 'contact.phone_number']"
+                                  :key="variable"
+                                  class="px-2 py-0.5 bg-white dark:bg-n-slate-3 border border-n-weak/60 rounded cursor-pointer hover:bg-n-blue-4 text-n-slate-12"
+                                  @click="copyToClipboard(`{{${variable}}}`)"
+                                >
+                                  {{ '{' + '{' + variable + '}' + '}' }}
+                                </code>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Message Preview -->
+                          <div v-if="step.config.template_config.template_name && getTemplatePreview(step, 'template_config')" class="p-3 bg-n-green-2 dark:bg-n-green-3 border border-n-green-6 rounded-lg">
+                            <div class="flex items-start gap-2 mb-1">
+                              <i class="i-lucide-eye text-n-green-11 text-sm mt-0.5" />
+                              <p class="text-xs font-medium text-n-green-11">Vista previa del mensaje</p>
+                            </div>
+                            <div class="mt-2 p-3 bg-white dark:bg-n-slate-2 rounded border border-n-weak/60">
+                              <p class="text-sm text-n-slate-12 whitespace-pre-wrap">{{ getTemplatePreview(step, 'template_config') }}</p>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- SMS Config (if send_sms) -->
+                        <div v-if="step.config.closed_window_action === 'send_sms'" class="space-y-2 mt-3 pt-3 border-t border-n-amber-6">
+                          <!-- SMS Context (Optional) -->
+                          <div>
+                            <label class="block text-xs font-medium text-n-slate-12 mb-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.SMS_CONFIG.CONTEXT') }}
+                              <span class="text-n-slate-11 font-normal">({{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.SMS_CONFIG.OPTIONAL') }})</span>
+                            </label>
+                            <textarea
+                              v-model="step.config.sms_config.context"
+                              rows="3"
+                              class="w-full text-sm"
+                              :placeholder="t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.SMS_CONFIG.CONTEXT_PLACEHOLDER')"
+                            />
+                            <p class="text-xs text-n-slate-11 mt-1">
+                              {{ t('LEAD_RETARGETING.STEPS.SEND_MESSAGE.SMS_CONFIG.CONTEXT_HELP') }}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>

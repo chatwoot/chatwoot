@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted, onActivated, onBeforeUnmount, ref, watch } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
@@ -8,14 +8,18 @@ import leadFollowUpSequencesAPI from 'dashboard/api/leadFollowUpSequences';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const getters = useStoreGetters();
 
 const sequences = ref([]);
 const loading = ref(true);
 const accountId = computed(() => getters.getCurrentAccountId.value);
+const dialogRef = ref(null);
+const sequenceToDelete = ref(null);
 
 const fetchSequences = async () => {
   try {
@@ -31,6 +35,30 @@ const fetchSequences = async () => {
 
 onMounted(() => {
   fetchSequences();
+});
+
+// Refetch cuando el componente se reactive (para resolver el bug de lista no actualizada)
+onActivated(() => {
+  fetchSequences();
+});
+
+// También refetch cuando la ruta cambie a esta vista (fallback)
+watch(
+  () => route.name,
+  (newName) => {
+    if (newName === 'copilots_list') {
+      fetchSequences();
+    }
+  }
+);
+
+const resetData = () => {
+  sequences.value = [];
+  sequenceToDelete.value = null;
+};
+
+onBeforeUnmount(() => {
+  resetData();
 });
 
 const goToNew = () => {
@@ -66,17 +94,31 @@ const toggleActive = async sequence => {
   }
 };
 
-const deleteSequence = async sequence => {
-  if (!confirm(t('LEAD_RETARGETING.DELETE.CONFIRM_MESSAGE', { name: sequence.name }))) {
-    return;
+const openDeleteDialog = sequence => {
+  sequenceToDelete.value = sequence;
+  if (dialogRef.value) {
+    dialogRef.value.open();
   }
+};
+
+const closeDeleteDialog = () => {
+  if (dialogRef.value) {
+    dialogRef.value.close();
+  }
+  sequenceToDelete.value = null;
+};
+
+const confirmDeletion = async () => {
+  if (!sequenceToDelete.value) return;
 
   try {
-    await leadFollowUpSequencesAPI.delete(sequence.id);
+    await leadFollowUpSequencesAPI.delete(sequenceToDelete.value.id);
     useAlert(t('LEAD_RETARGETING.DELETE.SUCCESS_MESSAGE'));
+    closeDeleteDialog();
     await fetchSequences();
   } catch (error) {
     useAlert(t('LEAD_RETARGETING.DELETE.ERROR_MESSAGE'));
+    closeDeleteDialog();
   }
 };
 </script>
@@ -130,16 +172,25 @@ const deleteSequence = async sequence => {
               </p>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span
-                :class="[
-                  'px-2 py-1 text-xs rounded-full',
-                  sequence.active
-                    ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                    : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
-                ]"
-              >
-                {{ sequence.active ? t('LEAD_RETARGETING.STATUS.ACTIVE') : t('LEAD_RETARGETING.STATUS.INACTIVE') }}
-              </span>
+              <div class="flex flex-col gap-1 items-start">
+                <span
+                  :class="[
+                    'inline-flex px-2 py-1 text-xs rounded-full',
+                    sequence.active
+                      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                      : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                  ]"
+                >
+                  {{ sequence.active ? t('LEAD_RETARGETING.STATUS.ACTIVE') : t('LEAD_RETARGETING.STATUS.INACTIVE') }}
+                </span>
+                <span
+                  v-if="!sequence.active && sequence.metadata?.auto_deactivation_reason === 'all_conversations_completed'"
+                  class="inline-flex items-center gap-1 text-xs text-n-teal-11"
+                >
+                  <i class="i-lucide-check-circle text-xs" />
+                  Auto-completado
+                </span>
+              </div>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               {{ sequence.inbox.name }}
@@ -182,7 +233,7 @@ const deleteSequence = async sequence => {
                   xs
                   ruby
                   faded
-                  @click="deleteSequence(sequence)"
+                  @click="openDeleteDialog(sequence)"
                 />
               </div>
             </td>
@@ -191,4 +242,14 @@ const deleteSequence = async sequence => {
       </table>
     </template>
   </SettingsLayout>
+
+  <Dialog
+    ref="dialogRef"
+    type="alert"
+    :title="t('LEAD_RETARGETING.DELETE.CONFIRM.TITLE')"
+    :description="t('LEAD_RETARGETING.DELETE.CONFIRM.MESSAGE', { name: sequenceToDelete?.name || '' })"
+    :confirm-button-label="t('LEAD_RETARGETING.DELETE.CONFIRM.YES')"
+    :cancel-button-label="t('LEAD_RETARGETING.DELETE.CONFIRM.NO')"
+    @confirm="confirmDeletion"
+  />
 </template>

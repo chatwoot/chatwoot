@@ -37,8 +37,8 @@ class LeadRetargeting::SendFollowUpService
     case step['type']
     when 'wait'
       execute_wait_step(step)
-    when 'send_template'
-      execute_template_step(step)
+    when 'send_message'
+      execute_message_step(step)
     when 'add_label'
       execute_add_label_step(step)
     when 'remove_label'
@@ -66,28 +66,6 @@ class LeadRetargeting::SendFollowUpService
 
   def execute_wait_step(_step)
     { success: true }
-  end
-
-  def execute_template_step(step)
-    config = step['config']
-
-    if should_respect_business_hours?(step) && !within_business_hours?
-      reschedule_for_business_hours
-      return { success: true, rescheduled: true }
-    end
-
-    context = build_variable_context
-    rendered_params = render_template_params(config['template_params'], context)
-
-    send_whatsapp_template(
-      template_name: config['template_name'],
-      language: config['language'],
-      params: rendered_params
-    )
-
-    { success: true }
-  rescue StandardError => e
-    { success: false, error: e.message }
   end
 
   def execute_add_label_step(step)
@@ -523,6 +501,7 @@ class LeadRetargeting::SendFollowUpService
     @follow_up.cancel_job!
     @follow_up.mark_as_completed!(reason)
     update_sequence_stats
+    auto_deactivate_sequence_if_completed
 
     Rails.logger.info "Completed follow-up #{@follow_up.id}: #{reason}"
   end
@@ -548,5 +527,229 @@ class LeadRetargeting::SendFollowUpService
     end
 
     @sequence.update_column(:stats, stats)
+  end
+
+  def auto_deactivate_sequence_if_completed
+    # Verificar si aún quedan follow-ups activos en esta secuencia
+    active_count = @sequence.conversation_follow_ups.where(status: 'active').count
+
+    # Si no quedan follow-ups activos y el copilot está activo, desactivarlo automáticamente
+    if active_count.zero? && @sequence.active?
+      Rails.logger.info "All follow-ups completed for copilot #{@sequence.id} (#{@sequence.name}), auto-deactivating"
+
+      @sequence.update!(
+        active: false,
+        metadata: (@sequence.metadata || {}).merge(
+          auto_deactivated_at: Time.current,
+          auto_deactivation_reason: 'all_conversations_completed',
+          final_stats: @sequence.stats
+        )
+      )
+
+      Rails.logger.info "Copilot #{@sequence.id} auto-deactivated successfully"
+    end
+  end
+
+  # ==================== SEND_MESSAGE STEP METHODS ====================
+
+  def execute_message_step(step)
+    config = step['config']
+
+    if should_respect_business_hours?(step) && !within_business_hours?
+      reschedule_for_business_hours
+      return { success: true, rescheduled: true }
+    end
+
+    # Determinar si la ventana de mensajería está abierta
+    if within_messaging_window?
+      # Ventana ABIERTA (<24h) - Usar agente de IA si está habilitado
+      if config.dig('ai_config', 'enabled')
+        execute_ai_message_within_window(step)
+      else
+        { success: false, error: 'AI config not enabled for open window' }
+      end
+    else
+      # Ventana CERRADA (>24h) - Elegir entre template o SMS
+      closed_action = config['closed_window_action'] || 'send_template'
+
+      case closed_action
+      when 'send_template'
+        execute_template_message(step)
+      when 'send_sms'
+        execute_ai_sms_message(step)
+      else
+        { success: false, error: "Invalid closed_window_action: #{closed_action}" }
+      end
+    end
+  end
+
+  def execute_ai_message_within_window(step)
+    ai_config = step.dig('config', 'ai_config')
+
+    # 1. Obtener el agent bot del inbox
+    agent_bot = @inbox.agent_bot
+    raise "No agent bot configured for inbox #{@inbox.id}" unless agent_bot
+
+    # 2. Construir payload para mensaje en ventana abierta
+    payload = build_ai_webhook_payload(
+      step: step,
+      agent_bot: agent_bot,
+      event_type: 'lead_followup.ai_message_request',
+      message_channel: 'whatsapp',
+      context: ai_config['context'],
+      variables: ai_config['variables'] || {}
+    )
+
+    # 3. Enviar webhook
+    idempotency_key = generate_idempotency_key(step)
+
+    begin
+      response = send_agent_bot_webhook(agent_bot, payload, idempotency_key)
+
+      # 4. Procesar respuesta si es síncrona (opcional)
+      process_ai_webhook_response(response, step) if response
+
+      { success: true }
+    rescue StandardError => e
+      Rails.logger.error "AI message (open window) failed: #{e.message}"
+      handle_ai_failure(step, e)
+    end
+  end
+
+  def execute_ai_sms_message(step)
+    sms_config = step.dig('config', 'sms_config')
+
+    # 1. Obtener el agent bot del inbox
+    agent_bot = @inbox.agent_bot
+    raise "No agent bot configured for inbox #{@inbox.id}" unless agent_bot
+
+    # 2. Construir payload para SMS
+    payload = build_ai_webhook_payload(
+      step: step,
+      agent_bot: agent_bot,
+      event_type: 'lead_followup.ai_sms_request',
+      message_channel: 'sms',
+      context: sms_config['context'],
+      variables: sms_config['variables'] || {}
+    )
+
+    # 3. Enviar webhook
+    idempotency_key = generate_idempotency_key(step, suffix: 'sms')
+
+    begin
+      send_agent_bot_webhook(agent_bot, payload, idempotency_key)
+
+      { success: true }
+    rescue StandardError => e
+      Rails.logger.error "AI SMS message failed: #{e.message}"
+      handle_ai_failure(step, e)
+    end
+  end
+
+  def execute_template_message(step)
+    # Igual que execute_template_step actual, pero usando config['template_config']
+    template_config = step.dig('config', 'template_config')
+    raise 'Template config not found' unless template_config
+
+    context = build_variable_context
+    rendered_params = render_template_params(template_config['template_params'], context)
+
+    send_whatsapp_template(
+      template_name: template_config['template_name'],
+      language: template_config['language'],
+      params: rendered_params
+    )
+
+    { success: true }
+  rescue StandardError => e
+    { success: false, error: e.message }
+  end
+
+  def build_ai_webhook_payload(step:, agent_bot:, event_type:, message_channel:, context:, variables:)
+    context_obj = build_variable_context
+
+    # Renderizar el contexto con variables (si existe)
+    rendered_context = context.present? ? @sequence.render_param_value(context, context_obj) : nil
+
+    # Obtener información del último mensaje
+    last_message = @conversation.messages.where.not(message_type: :activity).order(created_at: :desc).first
+    last_message_timestamp = last_message&.created_at&.to_i
+
+    {
+      event: event_type,
+      idempotency_key: generate_idempotency_key(step),
+      account: @account.webhook_data,
+      inbox: @inbox.webhook_data,
+      conversation: @conversation.webhook_data.merge(
+        # Añadir timestamp de última actividad
+        last_activity_at: @conversation.last_activity_at.to_i,
+        last_message_at: last_message_timestamp
+      ),
+      contact: @contact.push_event_data,
+
+      # CAMPOS ESPECÍFICOS PARA FOLLOW-UP
+      follow_up_data: {
+        sequence_id: @sequence.id,
+        sequence_name: @sequence.name,
+        step_id: step['id'],
+        step_name: step['name'],
+        current_step: @follow_up.current_step,
+
+        # Channel del mensaje
+        message_channel: message_channel,
+
+        # Número de teléfono del inbox (para canales de WhatsApp)
+        inbox_phone_number: @inbox.channel&.phone_number,
+
+        # Contexto OPCIONAL - puede ser nil o vacío
+        context: rendered_context,
+
+        # Variables adicionales renderizadas
+        variables: render_hash_values(variables, context_obj),
+
+        system_prompt_override: step.dig('config', 'ai_config', 'system_prompt_override') ||
+                                step.dig('config', 'sms_config', 'system_prompt_override')
+      }
+    }
+  end
+
+  def send_agent_bot_webhook(agent_bot, payload, idempotency_key)
+    AgentBots::WebhookJob.perform_now(
+      agent_bot.outgoing_url,
+      payload,
+      :lead_followup_ai_webhook,
+      idempotency_key
+    )
+  end
+
+  def process_ai_webhook_response(response, step)
+    # TODO: Implementar procesamiento de respuesta síncrona si es necesario
+    # Por ahora, los agentes responderán de forma asíncrona vía API
+  end
+
+  def handle_ai_failure(step, error)
+    fallback_action = step.dig('config', 'fallback_action') || 'skip'
+
+    case fallback_action
+    when 'send_template'
+      if step.dig('config', 'template_config').present?
+        Rails.logger.info 'AI failed, falling back to template'
+        execute_template_message(step)
+      else
+        Rails.logger.warn 'AI failed but no template config for fallback'
+        { success: false, error: error.message }
+      end
+    when 'skip'
+      Rails.logger.warn "AI failed, skipping step: #{error.message}"
+      { success: false, error: error.message }
+    else
+      { success: false, error: error.message }
+    end
+  end
+
+  def generate_idempotency_key(step, suffix: nil)
+    base = "#{@follow_up.id}-#{step['id']}-#{@follow_up.current_step}-#{Time.current.to_i}"
+    data = suffix ? "#{base}-#{suffix}" : base
+    Digest::SHA256.hexdigest(data)
   end
 end

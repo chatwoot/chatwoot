@@ -837,7 +837,13 @@
     "DELETE": {
       "CONFIRM_MESSAGE": "¿Estás seguro de que deseas eliminar {name}?",
       "SUCCESS_MESSAGE": "Copilot eliminado exitosamente",
-      "ERROR_MESSAGE": "Error al eliminar el copilot"
+      "ERROR_MESSAGE": "Error al eliminar el copilot",
+      "CONFIRM": {
+        "TITLE": "Eliminar Copilot",
+        "MESSAGE": "¿Estás seguro de que deseas eliminar '{name}'? Esta acción no se puede deshacer.",
+        "YES": "Sí, eliminar",
+        "NO": "Cancelar"
+      }
     },
     "FORM": {
       "NEW_TITLE": "Nuevo Copilot",
@@ -901,6 +907,8 @@
       "NO_PIPELINE_STATUSES_FOUND": "No se encontraron estados del embudo",
       "PIPELINE_STATUS_FILTER_HELP": "Solo reactivar conversaciones que tengan uno de estos estados del embudo",
       "PIPELINE_STATUSES_REQUIRED": "Por favor selecciona al menos un estado del embudo",
+      "INCLUDE_COMPLETED_COPILOTS": "Re-enrolar conversaciones con copilotos completados",
+      "INCLUDE_COMPLETED_COPILOTS_HELP": "Cuando está habilitado, las conversaciones que previamente completaron una secuencia de copiloto serán elegibles para enrolamiento nuevamente. Solo se permite un copiloto activo por inbox.",
       "DATE_RANGE_REQUIRED": "Por favor selecciona ambas fechas: desde y hasta",
       "DATE_VALUE_REQUIRED": "Por favor ingresa un número de días válido",
       "LABELS_REQUIRED": "Por favor selecciona al menos una etiqueta"
@@ -918,6 +926,32 @@
         "ADD": "Enviar Plantilla",
         "DEFAULT_NAME": "Enviar plantilla de WhatsApp",
         "SELECT": "Seleccionar plantilla..."
+      },
+      "SEND_MESSAGE": {
+        "ADD": "Enviar Mensaje IA",
+        "DEFAULT_NAME": "Enviar mensaje con IA",
+        "AI_CONFIG": {
+          "TITLE": "Configuración IA (Ventana Abierta <24h)",
+          "AGENT_BOT": "Agente de IA",
+          "SELECT_AGENT": "Selecciona un agente de IA...",
+          "CONTEXT": "Contexto",
+          "OPTIONAL": "opcional",
+          "CONTEXT_PLACEHOLDER": "Proporciona contexto para el agente de IA (ej: 'Hacer seguimiento sobre demo del producto')...",
+          "CONTEXT_HELP": "Si se deja vacío, el agente de IA retomará la conversación autónomamente basándose en el historial."
+        },
+        "CLOSED_WINDOW": {
+          "TITLE": "Acción Ventana Cerrada (>24h)",
+          "SEND_TEMPLATE": "Enviar Plantilla WhatsApp",
+          "SEND_SMS": "Enviar SMS vía IA"
+        },
+        "SMS_CONFIG": {
+          "AGENT_BOT": "Agente de IA para SMS",
+          "SELECT_AGENT": "Selecciona un agente de IA para SMS...",
+          "CONTEXT": "Contexto SMS",
+          "OPTIONAL": "opcional",
+          "CONTEXT_PLACEHOLDER": "Proporciona contexto para generación de SMS (ej: 'Enviar recordatorio de cita')...",
+          "CONTEXT_HELP": "Si se deja vacío, el agente de IA generará el SMS autónomamente basándose en el historial de conversación."
+        }
       },
       "ADD_LABEL": {
         "ADD": "Añadir Etiqueta",

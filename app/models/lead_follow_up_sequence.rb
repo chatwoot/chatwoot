@@ -6,6 +6,7 @@ class LeadFollowUpSequence < ApplicationRecord
   validates :name, presence: true
   validates :inbox, presence: true
   validate :inbox_must_be_whatsapp
+  validate :one_active_sequence_per_inbox
   validate :steps_structure
   validate :validate_templates_exist
   validate :validate_trigger_conditions
@@ -16,7 +17,7 @@ class LeadFollowUpSequence < ApplicationRecord
 
   STEP_TYPES = %w[
     wait
-    send_template
+    send_message
     add_label
     remove_label
     assign_agent
@@ -42,7 +43,14 @@ class LeadFollowUpSequence < ApplicationRecord
 
   def deactivate!
     update!(active: false)
-    conversation_follow_ups.where(status: 'active').update_all(status: 'cancelled')
+
+    # Cancelar cada follow-up activo individualmente para que se cancelen los jobs de Sidekiq
+    conversation_follow_ups.where(status: 'active').find_each do |follow_up|
+      follow_up.cancel_job!
+      follow_up.mark_as_cancelled!('Copilot deactivated')
+    end
+
+    Rails.logger.info "Deactivated copilot #{id} and cancelled #{conversation_follow_ups.where(status: 'cancelled').count} active follow-ups"
   end
 
   def step_by_id(step_id)
@@ -63,7 +71,7 @@ class LeadFollowUpSequence < ApplicationRecord
   end
 
   def matches_date_filter?(conversation)
-    filter = trigger_conditions.dig('date_filter')
+    filter = trigger_conditions['date_filter']
     return true unless filter&.dig('enabled')
 
     date_to_check = case filter['filter_type']
@@ -95,17 +103,17 @@ class LeadFollowUpSequence < ApplicationRecord
   end
 
   def matches_label_filter?(conversation)
-    filter = trigger_conditions.dig('label_filter')
+    filter = trigger_conditions['label_filter']
     return true unless filter&.dig('enabled')
     return true if filter['labels'].blank?
 
     conversation_labels = conversation.cached_label_list_array
     # OR logic: conversation must have at least one of the selected labels
-    (filter['labels'] & conversation_labels).any?
+    filter['labels'].intersect?(conversation_labels)
   end
 
   def matches_status_filter?(conversation)
-    filter = trigger_conditions.dig('status_filter')
+    filter = trigger_conditions['status_filter']
     return true unless filter&.dig('enabled')
     return true if filter['statuses'].blank?
 
@@ -114,7 +122,7 @@ class LeadFollowUpSequence < ApplicationRecord
   end
 
   def matches_pipeline_status_filter?(conversation)
-    filter = trigger_conditions.dig('pipeline_status_filter')
+    filter = trigger_conditions['pipeline_status_filter']
     return true unless filter&.dig('enabled')
     return true if filter['pipeline_status_ids'].blank?
 
@@ -142,6 +150,18 @@ class LeadFollowUpSequence < ApplicationRecord
     errors.add(:inbox, 'must be a WhatsApp inbox') unless inbox.inbox_type == 'Whatsapp'
   end
 
+  def one_active_sequence_per_inbox
+    return unless inbox_id && active
+
+    existing = LeadFollowUpSequence.where(inbox_id: inbox_id, active: true)
+                                   .where.not(id: id)
+                                   .exists?
+
+    return unless existing
+
+    errors.add(:inbox, 'already has an active copilot. Please deactivate it before activating this one.')
+  end
+
   def steps_structure
     return if steps.blank?
 
@@ -161,19 +181,15 @@ class LeadFollowUpSequence < ApplicationRecord
       return
     end
 
-    unless STEP_TYPES.include?(step['type'])
-      errors.add(:steps, "step at index #{index} has invalid type: #{step['type']}")
-    end
+    errors.add(:steps, "step at index #{index} has invalid type: #{step['type']}") unless STEP_TYPES.include?(step['type'])
 
-    unless step['id'].present?
-      errors.add(:steps, "step at index #{index} must have an id")
-    end
+    errors.add(:steps, "step at index #{index} must have an id") if step['id'].blank?
 
     case step['type']
     when 'wait'
       validate_wait_step(step, index)
-    when 'send_template'
-      validate_template_step(step, index)
+    when 'send_message'
+      validate_message_step(step, index)
     when 'update_pipeline_status'
       validate_pipeline_status_step(step, index)
     end
@@ -186,28 +202,45 @@ class LeadFollowUpSequence < ApplicationRecord
       errors.add(:steps, "wait step at index #{index} must have delay_value > 0")
     end
 
-    unless %w[minutes hours days].include?(config['delay_type'])
-      errors.add(:steps, "wait step at index #{index} must have delay_type: minutes, hours, or days")
-    end
-  end
+    return if %w[minutes hours days].include?(config['delay_type'])
 
-  def validate_template_step(step, index)
-    config = step['config'] || {}
-
-    unless config['template_name'].present?
-      errors.add(:steps, "template step at index #{index} must have template_name")
-    end
-
-    unless config['language'].present?
-      errors.add(:steps, "template step at index #{index} must have language")
-    end
+    errors.add(:steps, "wait step at index #{index} must have delay_type: minutes, hours, or days")
   end
 
   def validate_pipeline_status_step(step, index)
     config = step['config'] || {}
 
-    unless config['pipeline_status_id'].present?
-      errors.add(:steps, "update_pipeline_status step at index #{index} must have pipeline_status_id")
+    return if config['pipeline_status_id'].present?
+
+    errors.add(:steps, "update_pipeline_status step at index #{index} must have pipeline_status_id")
+  end
+
+  def validate_message_step(step, index)
+    config = step['config'] || {}
+
+    # AI config: el agent_bot se obtiene automáticamente del inbox
+    # Context es OPCIONAL - no validar su presencia
+
+    # Validar configuración para ventana cerrada
+    closed_action = config['closed_window_action'] || 'send_template'
+
+    case closed_action
+    when 'send_template'
+      # Validar template_config
+      if config['template_config'].present?
+        template = config['template_config']
+        unless template['template_name'].present? && template['language'].present?
+          errors.add(:steps, "message step at index #{index} with send_template action must have template_config")
+        end
+      else
+        errors.add(:steps, "message step at index #{index} requires template_config when closed_window_action is send_template")
+      end
+
+    when 'send_sms'
+      # SMS config: el agent_bot se obtiene automáticamente del inbox
+      # Context es OPCIONAL - no validar su presencia
+    else
+      errors.add(:steps, "message step at index #{index} has invalid closed_window_action: #{closed_action}")
     end
   end
 
@@ -216,23 +249,31 @@ class LeadFollowUpSequence < ApplicationRecord
     return unless steps.is_a?(Array)
     return unless inbox.channel.respond_to?(:message_templates)
 
-    template_steps = steps.select { |s| s['type'] == 'send_template' }
     available_templates = inbox.channel.message_templates || []
 
-    template_steps.each do |step|
-      template_name = step.dig('config', 'template_name')
-      language = step.dig('config', 'language')
+    # Validar templates en send_message steps
+    message_steps = steps.select { |s| s['type'] == 'send_message' }
+    message_steps.each do |step|
+      config = step['config'] || {}
 
-      next unless template_name && language
-
-      template_exists = available_templates.any? do |t|
-        t['name'] == template_name && t['language'] == language
-      end
-
-      unless template_exists
-        errors.add(:steps, "Template '#{template_name}' (#{language}) not found in WhatsApp inbox")
+      # Validar template_config si closed_window_action es send_template
+      if config['closed_window_action'] == 'send_template' && config['template_config'].present?
+        template_config = config['template_config']
+        validate_template_exists(template_config['template_name'], template_config['language'], available_templates)
       end
     end
+  end
+
+  def validate_template_exists(template_name, language, available_templates)
+    return unless template_name && language
+
+    template_exists = available_templates.any? do |t|
+      t['name'] == template_name && t['language'] == language
+    end
+
+    return if template_exists
+
+    errors.add(:steps, "Template '#{template_name}' (#{language}) not found in WhatsApp inbox")
   end
 
   def resolve_variable(variable_path, context)
@@ -269,6 +310,7 @@ class LeadFollowUpSequence < ApplicationRecord
     validate_label_filter_structure if trigger_conditions['label_filter'].present?
     validate_status_filter_structure if trigger_conditions['status_filter'].present?
     validate_pipeline_status_filter_structure if trigger_conditions['pipeline_status_filter'].present?
+    validate_enrollment_filter_structure if trigger_conditions['enrollment_filter'].present?
   end
 
   def validate_date_filter_structure
@@ -276,19 +318,13 @@ class LeadFollowUpSequence < ApplicationRecord
     return unless filter['enabled']
 
     valid_types = %w[conversation_created_at last_message_at inactive_days]
-    unless valid_types.include?(filter['filter_type'])
-      errors.add(:trigger_conditions, "Invalid date filter type: #{filter['filter_type']}")
-    end
+    errors.add(:trigger_conditions, "Invalid date filter type: #{filter['filter_type']}") unless valid_types.include?(filter['filter_type'])
 
     valid_operators = %w[older_than newer_than between]
-    unless valid_operators.include?(filter['operator'])
-      errors.add(:trigger_conditions, "Invalid date operator: #{filter['operator']}")
-    end
+    errors.add(:trigger_conditions, "Invalid date operator: #{filter['operator']}") unless valid_operators.include?(filter['operator'])
 
     if filter['operator'] == 'between'
-      unless filter['from_date'].present? && filter['to_date'].present?
-        errors.add(:trigger_conditions, 'Date range requires from_date and to_date')
-      end
+      errors.add(:trigger_conditions, 'Date range requires from_date and to_date') unless filter['from_date'].present? && filter['to_date'].present?
     elsif filter['value'].to_i <= 0
       errors.add(:trigger_conditions, 'Date filter value must be positive')
     end
@@ -298,9 +334,9 @@ class LeadFollowUpSequence < ApplicationRecord
     filter = trigger_conditions['label_filter']
     return unless filter['enabled']
 
-    unless filter['labels'].is_a?(Array) && filter['labels'].any?
-      errors.add(:trigger_conditions, 'Label filter requires at least one label')
-    end
+    return if filter['labels'].is_a?(Array) && filter['labels'].any?
+
+    errors.add(:trigger_conditions, 'Label filter requires at least one label')
   end
 
   def validate_status_filter_structure
@@ -308,14 +344,12 @@ class LeadFollowUpSequence < ApplicationRecord
     return unless filter['enabled']
 
     valid_statuses = %w[open resolved pending snoozed]
-    unless filter['statuses'].is_a?(Array) && filter['statuses'].any?
-      errors.add(:trigger_conditions, 'Status filter requires at least one status')
-    end
+    errors.add(:trigger_conditions, 'Status filter requires at least one status') unless filter['statuses'].is_a?(Array) && filter['statuses'].any?
 
     invalid_statuses = filter['statuses'] - valid_statuses
-    if invalid_statuses.any?
-      errors.add(:trigger_conditions, "Invalid statuses: #{invalid_statuses.join(', ')}")
-    end
+    return unless invalid_statuses.any?
+
+    errors.add(:trigger_conditions, "Invalid statuses: #{invalid_statuses.join(', ')}")
   end
 
   def validate_pipeline_status_filter_structure
@@ -329,8 +363,17 @@ class LeadFollowUpSequence < ApplicationRecord
     # Validate that all pipeline_status_ids exist in the account
     valid_pipeline_status_ids = account.pipeline_statuses.pluck(:id)
     invalid_ids = filter['pipeline_status_ids'] - valid_pipeline_status_ids
-    if invalid_ids.any?
-      errors.add(:trigger_conditions, "Invalid pipeline status IDs: #{invalid_ids.join(', ')}")
+    return unless invalid_ids.any?
+
+    errors.add(:trigger_conditions, "Invalid pipeline status IDs: #{invalid_ids.join(', ')}")
+  end
+
+  def validate_enrollment_filter_structure
+    filter = trigger_conditions['enrollment_filter']
+    return if filter.blank?
+
+    unless [true, false].include?(filter['include_completed'])
+      errors.add(:trigger_conditions, 'Enrollment filter include_completed must be a boolean')
     end
   end
 

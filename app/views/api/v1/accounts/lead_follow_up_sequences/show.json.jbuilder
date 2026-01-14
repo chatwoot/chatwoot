@@ -12,5 +12,6 @@ json.trigger_conditions @sequence.trigger_conditions
 json.steps @sequence.steps
 json.settings @sequence.settings
 json.stats @sequence.stats
+json.metadata @sequence.metadata
 json.created_at @sequence.created_at
 json.updated_at @sequence.updated_at
