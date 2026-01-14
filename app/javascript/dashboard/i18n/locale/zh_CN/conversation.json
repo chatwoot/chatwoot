@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "对话成功删除",
     "FAIL_DELETE_CONVERSATION": "无法删除对话！请重试",
     "FILE_SIZE_LIMIT": "文件超过了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",
