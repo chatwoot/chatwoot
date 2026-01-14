@@ -15,7 +15,7 @@ class MemoryExtractorAgent < ApplicationAgent
   temperature 0.5
   version '1.0'
 
-  fallback_models 'gpt-4.1-mini'
+  fallback_models 'gpt-4.1-mini', 'claude-haiku-4-5'
 
   param :transcript, required: true
   param :resolution_status
