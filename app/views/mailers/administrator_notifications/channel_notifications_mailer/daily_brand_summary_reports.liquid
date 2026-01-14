@@ -1,0 +1,34 @@
+<h2>Daily Summary Reports for {{ meta.report_date }}</h2>
+
+<p>Hello,</p>
+
+<p>Your daily summary reports for <strong>{{ meta.account_name }}</strong> are ready for download.</p>
+
+<h3>Available Reports:</h3>
+
+<ul>
+  {% if meta.agents_overview_url %}
+  <li>
+    <strong>All Agents Overview Report</strong><br>
+    <a href="{{ meta.agents_overview_url }}" style="color: #1f7bd8; text-decoration: none;">Download Agents Overview Report</a>
+  </li>
+  {% endif %}
+
+  {% if meta.agent_conversation_states_url %}
+  <li>
+    <strong>Agent-wise Conversation States Report</strong><br>
+    <a href="{{ meta.agent_conversation_states_url }}" style="color: #1f7bd8; text-decoration: none;">Download Conversation States Report</a>
+  </li>
+  {% endif %}
+
+  {% if meta.inboxes_overview_url %}
+  <li>
+    <strong>All Inboxes Overview Report</strong><br>
+    <a href="{{ meta.inboxes_overview_url }}" style="color: #1f7bd8; text-decoration: none;">Download Inboxes Overview Report</a>
+  </li>
+  {% endif %}
+</ul>
+
+<p>These reports contain data from <strong>{{ meta.report_date }}</strong>.</p>
+
+<p>Best regards,<br>BiteSpeed Team</p>

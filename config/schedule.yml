@@ -104,6 +104,13 @@ daily_combined_reports_job:
   class: 'DailyCombinedReportsJob'
   queue: scheduled_jobs
 
+# executed daily at 01:00 UTC (6:30 AM IST)
+# sends yesterday's brand summary reports (agents overview, conversation states, inboxes overview)
+daily_brand_summary_reports_job:
+  cron: '0 1 * * *'
+  class: 'DailyBrandSummaryReportsJob'
+  queue: scheduled_jobs
+
 # executed every 10 minutes
 # cleanup expired contact ownership assignments
 contact_ownership_cleanup_job:
