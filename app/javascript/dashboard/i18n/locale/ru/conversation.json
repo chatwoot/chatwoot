@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Диалог удален",
     "FAIL_DELETE_CONVERSATION": "Не удалось удалить диалог! Попробуйте снова",
     "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
     "BOT": "Бот",
