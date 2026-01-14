@@ -35,6 +35,9 @@ export default {
       integrationEnabled: false,
       hasShownConnectedAlert: false,
       skipAutoQrFetch: false,
+      // Evolution API health status
+      evolutionApiHealthy: true,
+      evolutionApiChecked: false,
       // Instance settings
       isSavingInstanceSettings: false,
       rejectCall: false,
@@ -78,6 +81,7 @@ export default {
     },
   },
   mounted() {
+    this.checkEvolutionApiHealth();
     this.fetchSettings();
     if (this.isBaileys && !this.isConnected) {
       this.startPolling();
@@ -87,6 +91,24 @@ export default {
     this.stopPolling();
   },
   methods: {
+    async checkEvolutionApiHealth() {
+      try {
+        const response = await EvolutionAPI.getStatus();
+        this.evolutionApiHealthy = response.data?.healthy === true;
+        this.evolutionApiChecked = true;
+      } catch {
+        this.evolutionApiHealthy = false;
+        this.evolutionApiChecked = true;
+      }
+    },
+    async checkEvolutionApiHealthWithToast() {
+      await this.checkEvolutionApiHealth();
+      if (this.evolutionApiHealthy) {
+        useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.API_RECONNECTED'));
+      } else {
+        useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.API_STILL_OFFLINE'));
+      }
+    },
     async fetchSettings() {
       this.isLoading = true;
       try {
@@ -127,6 +149,8 @@ export default {
             this.settings.daysLimitImportMessages ?? 3;
         }
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.FETCH_ERROR')
@@ -149,6 +173,8 @@ export default {
         });
         useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.SAVE_SUCCESS'));
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.SAVE_ERROR')
@@ -173,6 +199,8 @@ export default {
           this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INSTANCE_SAVE_SUCCESS')
         );
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INSTANCE_SAVE_ERROR')
@@ -195,6 +223,8 @@ export default {
         this.startPolling();
       } catch (error) {
         this.qrCode = null;
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.QR_ERROR')
@@ -204,6 +234,15 @@ export default {
       }
     },
     async refreshConnection() {
+      // If Evolution API is offline, check if it's back online
+      if (!this.evolutionApiHealthy) {
+        await this.checkEvolutionApiHealth();
+        // If still offline, don't try to refresh connection
+        if (!this.evolutionApiHealthy) {
+          return;
+        }
+      }
+
       try {
         const response = await EvolutionAPI.getConnectionState(this.inbox.id);
         const wasConnected = this.isConnected;
@@ -232,7 +271,10 @@ export default {
           await this.connectInstance();
         }
       } catch (error) {
-        // Silently handle connection refresh errors
+        // If connection fails, Evolution API might be down - recheck health
+        if (!this.evolutionApiHealthy) {
+          await this.checkEvolutionApiHealth();
+        }
       }
     },
     async enableIntegration() {
@@ -244,6 +286,8 @@ export default {
         this.integrationEnabled = true;
         useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION_ENABLED'));
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION_ENABLE_ERROR')
@@ -284,6 +328,8 @@ export default {
         }, 30000);
       } catch (error) {
         this.skipAutoQrFetch = false;
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.RESTART_ERROR')
@@ -319,6 +365,8 @@ export default {
         // Start polling for reconnection
         this.startPolling();
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         const errorMsg =
           error.response?.data?.error ||
           error.message ||
@@ -347,6 +395,8 @@ export default {
 
         useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_SUCCESS'));
       } catch (error) {
+        // Check if Evolution API is down
+        await this.checkEvolutionApiHealth();
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_ERROR')
@@ -371,6 +421,47 @@ export default {
         show-border
       >
         <div class="flex flex-col gap-4">
+          <!-- Evolution API Status -->
+          <div class="flex items-center gap-3">
+            <span
+              class="inline-block w-3 h-3 rounded-full"
+              :class="{
+                'bg-green-500': evolutionApiHealthy,
+                'bg-red-500': !evolutionApiHealthy,
+              }"
+            />
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('INBOX_MGMT.EVOLUTION.SETTINGS.API_STATUS') }}:
+              {{
+                evolutionApiHealthy
+                  ? $t('INBOX_MGMT.EVOLUTION.SETTINGS.API_HEALTHY')
+                  : $t('INBOX_MGMT.EVOLUTION.SETTINGS.API_UNHEALTHY')
+              }}
+            </span>
+            <button
+              v-if="!evolutionApiHealthy"
+              type="button"
+              class="p-1 rounded hover:bg-n-slate-3 transition-colors"
+              :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.RETRY_HEALTH_CHECK')"
+              @click="checkEvolutionApiHealthWithToast"
+            >
+              <svg
+                class="w-4 h-4 text-n-slate-11"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- WhatsApp Connection Status -->
           <div class="flex items-center gap-3">
             <span
               class="inline-block w-3 h-3 rounded-full"
@@ -384,6 +475,7 @@ export default {
               }"
             />
             <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('INBOX_MGMT.EVOLUTION.SETTINGS.WHATSAPP_STATUS') }}:
               {{
                 $t(
                   `INBOX_MGMT.EVOLUTION.SETTINGS.STATUS.${connectionStatus.toUpperCase()}`
@@ -470,6 +562,7 @@ export default {
                     )
                   "
                   :is-loading="isEnablingIntegration"
+                  :disabled="!evolutionApiHealthy"
                   @click="enableIntegration"
                 />
               </div>
@@ -480,8 +573,8 @@ export default {
           <div class="flex gap-2 mt-4">
             <button
               type="button"
-              class="p-2 rounded-md hover:bg-n-slate-3 transition-colors"
-              :disabled="isRefreshing"
+              class="p-2 rounded-md hover:bg-n-slate-3 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="isRefreshing || !evolutionApiHealthy"
               :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_BUTTON')"
               @click="refreshInstance"
             >
@@ -505,6 +598,7 @@ export default {
               ghost
               :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.RESTART_BUTTON')"
               :is-loading="isRestarting"
+              :disabled="!evolutionApiHealthy"
               @click="restartInstance"
             />
             <NextButton
@@ -512,6 +606,7 @@ export default {
               ruby
               :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.DISCONNECT_BUTTON')"
               :is-loading="isDisconnecting"
+              :disabled="!evolutionApiHealthy"
               @click="openDisconnectDialog"
             />
           </div>
@@ -521,6 +616,7 @@ export default {
             <NextButton
               :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.CONNECT_BUTTON')"
               :is-loading="isConnecting"
+              :disabled="!evolutionApiHealthy"
               solid
               blue
               @click="connectInstance"
@@ -540,6 +636,7 @@ export default {
                   class="mt-4"
                   ghost
                   :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.GET_NEW_QR')"
+                  :disabled="!evolutionApiHealthy"
                   @click="connectInstance"
                 />
               </div>
@@ -637,6 +734,7 @@ export default {
           <NextButton
             :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.SAVE_BUTTON')"
             :is-loading="isSavingInstanceSettings"
+            :disabled="!evolutionApiHealthy"
             @click="saveInstanceSettings"
           />
         </div>
@@ -707,6 +805,7 @@ export default {
           <NextButton
             :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.SAVE_BUTTON')"
             :is-loading="isSaving"
+            :disabled="!evolutionApiHealthy"
             @click="saveSettings"
           />
         </div>

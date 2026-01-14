@@ -42,6 +42,17 @@ module EvolutionApi
       request(:post, '/instance/create', body)
     end
 
+    # Performs a health check on the Evolution API
+    # @return [Boolean] true if Evolution API is reachable and responding
+    def health_check
+      # Use the root endpoint which returns status info
+      # e.g., {"status":200,"message":"Welcome to the Evolution API, it is working!","version":"2.3.7",...}
+      response = request(:get, '/')
+      response.is_a?(Hash) && response['status'] == 200
+    rescue StandardError
+      false
+    end
+
     # Fetches an instance by name
     # @param instance_name [String]
     # @return [Hash] Instance data

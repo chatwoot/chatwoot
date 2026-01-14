@@ -5,6 +5,7 @@ import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 
 import { useAccount } from 'dashboard/composables/useAccount';
+import EvolutionAPI from 'dashboard/api/evolution';
 
 import ChannelItem from 'dashboard/components/widgets/ChannelItem.vue';
 
@@ -15,6 +16,7 @@ const { accountId, currentAccount } = useAccount();
 const globalConfig = useMapGetter('globalConfig/get');
 
 const enabledFeatures = ref({});
+const evolutionHealth = ref({ healthy: false, checked: false });
 
 const hasTiktokConfigured = computed(() => {
   return window.chatwootConfig?.tiktokAppId;
@@ -108,6 +110,24 @@ const initializeEnabledFeatures = async () => {
   enabledFeatures.value = currentAccount.value.features;
 };
 
+const checkEvolutionHealth = async () => {
+  // Only check if Evolution is enabled in config
+  if (window.chatwootConfig?.evolutionApiEnabled !== 'true') {
+    evolutionHealth.value = { healthy: false, checked: true };
+    return;
+  }
+
+  try {
+    const response = await EvolutionAPI.getStatus();
+    evolutionHealth.value = {
+      healthy: response.data?.healthy === true,
+      checked: true,
+    };
+  } catch {
+    evolutionHealth.value = { healthy: false, checked: true };
+  }
+};
+
 const initChannelAuth = channel => {
   const params = {
     sub_page: channel,
@@ -118,6 +138,7 @@ const initChannelAuth = channel => {
 
 onMounted(() => {
   initializeEnabledFeatures();
+  checkEvolutionHealth();
 });
 </script>
 
@@ -131,6 +152,7 @@ onMounted(() => {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
+        :evolution-health="evolutionHealth"
         @channel-item-click="initChannelAuth"
       />
     </div>

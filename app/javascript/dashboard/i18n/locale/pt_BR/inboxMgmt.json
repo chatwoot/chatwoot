@@ -474,7 +474,8 @@
         },
         "API": {
           "ERROR_MESSAGE": "Falha ao criar caixa de entrada Evolution",
-          "DUPLICATE_NAME_ERROR": "Já existe uma caixa de entrada com este nome. Por favor, use um nome diferente."
+          "DUPLICATE_NAME_ERROR": "Já existe uma caixa de entrada com este nome. Por favor, use um nome diferente.",
+          "CONNECTION_ERROR": "Evolution API não está disponível. Verifique se o serviço Evolution está em execução."
         },
         "DISMISS": "Dispensar"
       },
@@ -498,7 +499,8 @@
           },
           "EVOLUTION": {
             "TITLE": "Evolution WhatsApp",
-            "DESCRIPTION": "Conecte o WhatsApp via Evolution API (Baileys)"
+            "DESCRIPTION": "Conecte o WhatsApp via Evolution API (Baileys)",
+            "UNAVAILABLE": "Evolution API não está acessível"
           },
           "EMAIL": {
             "TITLE": "e-mail",
@@ -717,6 +719,13 @@
           "DISCONNECTED": "Desconectado",
           "UNKNOWN": "Desconhecido"
         },
+        "API_STATUS": "Evolution API",
+        "API_HEALTHY": "Online",
+        "API_UNHEALTHY": "Offline",
+        "API_RECONNECTED": "Evolution API está online novamente!",
+        "API_STILL_OFFLINE": "Evolution API ainda está offline",
+        "RETRY_HEALTH_CHECK": "Tentar Novamente",
+        "WHATSAPP_STATUS": "WhatsApp",
         "CONNECTION": {
           "TITLE": "Status da Conexão",
           "DESCRIPTION": "Gerencie sua conexão WhatsApp via Evolution API"
