@@ -8,11 +8,11 @@ import { useAlert } from 'dashboard/composables';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 
 import GeneralPage from './settingsPage/GeneralPage.vue';
+import InstructionsPage from './settingsPage/InstructionsPage.vue';
 import PersonalityPage from './settingsPage/PersonalityPage.vue';
 import FeaturesPage from './settingsPage/FeaturesPage.vue';
 import VoicePage from './settingsPage/VoicePage.vue';
 import KnowledgePage from './settingsPage/KnowledgePage.vue';
-import MemoriesPage from './settingsPage/MemoriesPage.vue';
 import InboxesPage from './settingsPage/InboxesPage.vue';
 import AnalyticsPage from './settingsPage/AnalyticsPage.vue';
 import PlaygroundPage from './settingsPage/PlaygroundPage.vue';
@@ -41,6 +41,7 @@ const assistant = ref({
   language: 'en',
   dialect: '',
   personality_description: '',
+  custom_instructions: '',
   active: true,
   features: {
     handoff_enabled: true,
@@ -55,11 +56,11 @@ const assistant = ref({
 
 const tabs = computed(() => [
   { key: 'general', name: t('ALOO.TABS.GENERAL') },
+  { key: 'instructions', name: t('ALOO.TABS.INSTRUCTIONS') },
   { key: 'personality', name: t('ALOO.TABS.PERSONALITY') },
   { key: 'features', name: t('ALOO.TABS.FEATURES') },
   { key: 'voice', name: t('ALOO.TABS.VOICE') },
   { key: 'knowledge', name: t('ALOO.TABS.KNOWLEDGE_BASE') },
-  { key: 'memories', name: t('ALOO.TABS.MEMORIES') },
   { key: 'inboxes', name: t('ALOO.TABS.INBOXES') },
   { key: 'playground', name: t('ALOO.TABS.PLAYGROUND') },
   { key: 'analytics', name: t('ALOO.TABS.ANALYTICS') },
@@ -243,6 +244,15 @@ const updateAssistant = data => {
           />
         </div>
 
+        <div v-if="selectedTabKey === 'instructions'" class="mx-8">
+          <InstructionsPage
+            :assistant="assistant"
+            :is-saving="isSaving"
+            @update="updateAssistant"
+            @save="saveChanges"
+          />
+        </div>
+
         <div v-if="selectedTabKey === 'personality'" class="mx-8">
           <PersonalityPage
             :assistant="assistant"
@@ -272,10 +282,6 @@ const updateAssistant = data => {
 
         <div v-if="selectedTabKey === 'knowledge'" class="mx-8">
           <KnowledgePage :assistant-id="assistantId" />
-        </div>
-
-        <div v-if="selectedTabKey === 'memories'" class="mx-8">
-          <MemoriesPage :assistant-id="assistantId" />
         </div>
 
         <div v-if="selectedTabKey === 'inboxes'" class="mx-8">

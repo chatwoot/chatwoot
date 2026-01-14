@@ -35,6 +35,7 @@ const assistant = ref({
   language: 'en',
   dialect: '',
   personality_description: '',
+  custom_instructions: '',
   active: true,
 });
 
@@ -48,6 +49,11 @@ const stats = ref({
 
 const tabs = [
   { id: 'general', label: 'ALOO.TABS.GENERAL', icon: 'i-lucide-settings' },
+  {
+    id: 'instructions',
+    label: 'ALOO.TABS.INSTRUCTIONS',
+    icon: 'i-lucide-file-text',
+  },
   {
     id: 'personality',
     label: 'ALOO.TABS.PERSONALITY',
@@ -314,6 +320,27 @@ const getStatusClass = status => {
               rows="4"
               class="w-full px-3 py-2 text-sm border rounded-lg resize-none border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7"
             />
+          </div>
+        </div>
+
+        <!-- Instructions Tab -->
+        <div v-if="activeTab === 'instructions'" class="max-w-2xl space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-n-slate-12 mb-1.5">
+              {{ $t('ALOO.FORM.CUSTOM_INSTRUCTIONS.LABEL') }}
+            </label>
+            <p class="text-sm text-n-slate-10 mb-3">
+              {{ $t('ALOO.FORM.CUSTOM_INSTRUCTIONS.DESCRIPTION') }}
+            </p>
+            <textarea
+              v-model="assistant.custom_instructions"
+              :placeholder="$t('ALOO.FORM.CUSTOM_INSTRUCTIONS.PLACEHOLDER')"
+              rows="12"
+              class="w-full px-3 py-2 text-sm border rounded-lg resize-y border-n-weak bg-n-alpha-1 text-n-slate-12 focus:outline-none focus:ring-2 focus:ring-n-blue-7 font-mono"
+            />
+            <p class="text-xs text-n-slate-9 mt-2">
+              {{ $t('ALOO.FORM.CUSTOM_INSTRUCTIONS.HINT') }}
+            </p>
           </div>
         </div>
 

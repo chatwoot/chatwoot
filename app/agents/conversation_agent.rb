@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Responds to customer messages using knowledge base, memories, and tools
+# Responds to customer messages using knowledge base and tools
 #
 # Example:
 #   Aloo::Current.account = account
@@ -11,7 +11,7 @@
 #   result = ConversationAgent.call(message: "What is your refund policy?")
 #
 class ConversationAgent < ApplicationAgent
-  description 'Responds to customer messages using knowledge base, memories, and tools'
+  description 'Responds to customer messages using knowledge base and tools'
 
   model 'gemini-2.5-flash'
   temperature 0.7
@@ -32,7 +32,6 @@ class ConversationAgent < ApplicationAgent
 
   def tools
     available_tools = [KnowledgeLookupTool]
-    available_tools << MemoryLookupTool if current_assistant&.feature_memory_enabled?
     available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
     available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
     available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?

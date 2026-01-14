@@ -92,7 +92,6 @@ Rails.application.routes.draw do
                   post :reprocess
                 end
               end
-              resources :memories, only: [:index, :destroy]
               resources :conversations, only: [:index]
             end
             # Account-wide voice usage statistics

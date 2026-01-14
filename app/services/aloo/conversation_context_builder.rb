@@ -11,6 +11,7 @@ class Aloo::ConversationContextBuilder
   def system_prompt
     parts = []
     parts << base_instructions
+    parts << custom_instructions_section
     parts << personality_prompt
     parts << language_instructions
     parts << conversation_context_info
@@ -55,6 +56,15 @@ class Aloo::ConversationContextBuilder
       Before answering any question, use the knowledge_lookup tool to find accurate information. Only share what you find - if no relevant information exists, let the customer know honestly rather than guessing.
 
       Keep responses helpful, accurate, and concise.
+    PROMPT
+  end
+
+  def custom_instructions_section
+    return nil if @assistant&.custom_instructions.blank?
+
+    <<~PROMPT
+      ## Business Instructions
+      #{@assistant.custom_instructions}
     PROMPT
   end
 

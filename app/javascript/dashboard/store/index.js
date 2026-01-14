@@ -54,7 +54,6 @@ import webhooks from './modules/webhooks';
 import alooAssistants from './aloo/assistant';
 import alooDocuments from './aloo/document';
 import alooWizard from './aloo/wizard';
-import alooMemories from './aloo/memory';
 import alooConversations from './aloo/conversation';
 
 const plugins = [];
@@ -115,7 +114,6 @@ export default createStore({
     alooAssistants,
     alooDocuments,
     alooWizard,
-    alooMemories,
     alooConversations,
   },
   plugins,

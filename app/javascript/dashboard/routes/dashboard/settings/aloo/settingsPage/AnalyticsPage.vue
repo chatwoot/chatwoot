@@ -26,7 +26,6 @@ const stats = ref({
   total_conversations: 0,
   total_messages: 0,
   total_tokens: 0,
-  total_memories: 0,
   total_documents: 0,
 });
 const performance = ref({
@@ -34,7 +33,6 @@ const performance = ref({
   avg_response_time_ms: 0,
   handoff_rate: 0,
   token_usage: { total_input: 0, total_output: 0, total: 0 },
-  memory_stats: { total: 0, active: 0, by_type: {} },
 });
 const timeRange = ref('7d');
 const conversations = computed(
@@ -149,14 +147,6 @@ const timeRangeOptions = [
             </p>
             <p class="text-sm text-n-slate-10">
               {{ $t('ALOO.ANALYTICS.STATS.TOKENS') }}
-            </p>
-          </div>
-          <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
-            <p class="text-2xl font-semibold text-n-slate-12">
-              {{ formatNumber(stats.total_memories) }}
-            </p>
-            <p class="text-sm text-n-slate-10">
-              {{ $t('ALOO.ANALYTICS.STATS.MEMORIES') }}
             </p>
           </div>
           <div class="p-4 bg-n-alpha-1 rounded-lg border border-n-weak">
