@@ -7,12 +7,19 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export function useCaptain() {
   const store = useStore();
-  const { isCloudFeatureEnabled, currentAccount } = useAccount();
+  const { isCloudFeatureEnabled, currentAccount, isOnChatwootCloud } =
+    useAccount();
   const { isEnterprise } = useConfig();
   const uiFlags = useMapGetter('accounts/getUIFlags');
 
   const captainEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
+  });
+
+  const showCopilotOnEditor = computed(() => {
+    // we show copilot on the case when the captain features are enabled
+    // or when the user is on chatwoot cloud
+    return captainEnabled.value || isOnChatwootCloud.value;
   });
 
   const captainLimits = computed(() => {
@@ -48,6 +55,7 @@ export function useCaptain() {
     captainLimits,
     documentLimits,
     responseLimits,
+    showCopilotOnEditor,
     fetchLimits,
     isFetchingLimits,
   };
