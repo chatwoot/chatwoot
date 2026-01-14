@@ -26,7 +26,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   def build_messages(config = {})
     return "No messages in this conversation\n" if @record.messages.empty?
 
-    messages = @record.messages.where.not(message_type: :activity)
+    messages = @record.messages.where.not(message_type: [:activity, :template])
 
     if config[:token_limit]
       build_limited_messages(messages, config)
@@ -50,7 +50,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     selected = []
     character_count = 0
 
-    messages.order(created_at: :desc).each do |message|
+    messages.reorder(created_at: :desc).each do |message|
       # Skip private messages unless explicitly included in config
       next if message.private? && !config[:include_private_messages]
 
