@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ファイルが {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB の添付ファイル制限を超えています",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "このメッセージを送信できません。後でもう一度お試しください",
     "SENT_BY": "送信者：",
     "BOT": "ボット",
