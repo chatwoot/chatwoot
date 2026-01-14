@@ -39,9 +39,13 @@ export function useChannelIcon(inbox) {
     }
 
     // Special case for Evolution API (Baileys WhatsApp)
+    // Handle both snake_case (raw API) and camelCase (transformed by camelcaseKeys)
+    const additionalAttrs =
+      inboxDetails.additional_attributes || inboxDetails.additionalAttributes;
     if (
       type === 'Channel::Api' &&
-      inboxDetails.additional_attributes?.evolution_instance_name
+      (additionalAttrs?.evolution_instance_name ||
+        additionalAttrs?.evolutionInstanceName)
     ) {
       icon = 'i-woot-whatsapp';
     }
