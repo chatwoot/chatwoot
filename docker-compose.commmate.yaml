@@ -1,15 +1,30 @@
+# CommMate Production Docker Compose Configuration
+# Last Updated: January 2026
+# 
+# This is the reference configuration for CommMate deployments.
+# Includes Evolution WhatsApp integration and disabled Chatwoot Hub connections.
+#
+# Services:
+#   - Rails: CommMate web application
+#   - Sidekiq: Background job processor
+#   - PostgreSQL: Database
+#   - Redis: Cache and queues
+#   - Evolution API: WhatsApp integration (optional)
+#   - Mailhog: Email testing (development only)
+
 version: '3.8'
 
-# CommMate Production - USA SUA IMAGEM CUSTOMIZADA
 services:
+  # CommMate Rails Application
   rails:
-    image: commmate/commmate:v4.7.0.3-liquid
+    image: commmate/commmate:v4.9.2.1
     container_name: commmate-rails
     restart: unless-stopped
     ports:
       - '3000:3000'
+    env_file:
+      - commmate.env
     environment:
-
       # Environment
       - RAILS_ENV=production
       - NODE_ENV=production
@@ -19,26 +34,44 @@ services:
       - POSTGRES_HOST=postgres
       - POSTGRES_DATABASE=chatwoot
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
       
       # Redis
-      - REDIS_URL=redis://redis:6379
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis}@redis:6379
       
       # Rails
-      - SECRET_KEY_BASE=b7d7dd3fb6ed4f1829dcb2f7d21c6efbeca45762f97480c5ae74c98fab5f8225df2572693173c5dd6a6cae58c9389c57638cdcc8cb9438f8ebf955d9950f3e4a
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
       - RAILS_MAX_THREADS=5
+      - RACK_TIMEOUT_SERVICE_TIMEOUT=45
       
       # Frontend
-      - FRONTEND_URL=http://localhost:3000
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
       
-      # Email
-      - SMTP_ADDRESS=mailhog
-      - SMTP_PORT=1025
-      # MAILER_SENDER_EMAIL built into image (override here if needed)
+      # Branding (built into image, can override)
+      - INSTALLATION_NAME=CommMate
+      - BRAND_NAME=CommMate
+      - BRAND_URL=https://commmate.com
+      
+      # Localization
+      - DEFAULT_LOCALE=pt_BR
+      
+      # CommMate Privacy & Security - CRITICAL
+      - DISABLE_CHATWOOT_CONNECTIONS=true
+      - DISABLE_TELEMETRY=true
+      - ENABLE_PUSH_RELAY_SERVER=false
+      
+      # Evolution WhatsApp Integration
+      - EVOLUTION_API_ENABLED=true
+      - EVOLUTION_API_URL=http://evolution-api:8080
+      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
       
       # Features
       - ACTIVE_STORAGE_SERVICE=local
       - RAILS_LOG_TO_STDOUT=true
+      - USE_INBOX_AVATAR_FOR_BOT=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - WEBHOOK_TIMEOUT=30
+      
     volumes:
       - commmate-storage:/app/storage
     depends_on:
@@ -46,29 +79,65 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-    # Uses entrypoint from Dockerfile (automatic setup)
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep puma | grep -v grep || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
+  # CommMate Sidekiq Background Jobs
   sidekiq:
-    image: commmate/commmate:v4.7.0.3-liquid
+    image: commmate/commmate:v4.9.2.1
     container_name: commmate-sidekiq
     restart: unless-stopped
+    env_file:
+      - commmate.env
     environment:
-      # CommMate security defaults built into image
+      # Environment
       - RAILS_ENV=production
+      - NODE_ENV=production
+      - INSTALLATION_ENV=docker
+      
+      # Database
       - POSTGRES_HOST=postgres
       - POSTGRES_DATABASE=chatwoot
       - POSTGRES_USERNAME=postgres
-      - POSTGRES_PASSWORD=postgres
-      - REDIS_URL=redis://redis:6379
-      - SECRET_KEY_BASE=b7d7dd3fb6ed4f1829dcb2f7d21c6efbeca45762f97480c5ae74c98fab5f8225df2572693173c5dd6a6cae58c9389c57638cdcc8cb9438f8ebf955d9950f3e4a
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      
+      # Redis
+      - REDIS_URL=redis://:${REDIS_PASSWORD:-redis}@redis:6379
+      
+      # Rails
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - RACK_TIMEOUT_SERVICE_TIMEOUT=45
+      
+      # Frontend URL (needed for email links)
+      - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3000}
+      
+      # CommMate Privacy & Security - CRITICAL
+      - DISABLE_CHATWOOT_CONNECTIONS=true
+      - DISABLE_TELEMETRY=true
+      - ENABLE_PUSH_RELAY_SERVER=false
+      
+      # Evolution WhatsApp Integration
+      - EVOLUTION_API_ENABLED=true
+      - EVOLUTION_API_URL=http://evolution-api:8080
+      - EVOLUTION_API_KEY=${EVOLUTION_API_KEY}
+      
     depends_on:
       - postgres
       - redis
       - rails
     volumes:
       - commmate-storage:/app/storage
-    command: ['sh', '-c', 'sleep 30 && bundle exec sidekiq -C config/sidekiq.yml']
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep sidekiq | grep -v grep || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
+  # PostgreSQL Database
   postgres:
     image: pgvector/pgvector:pg16
     container_name: commmate-postgres
@@ -76,7 +145,7 @@ services:
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
@@ -87,23 +156,130 @@ services:
       timeout: 5s
       retries: 10
 
+  # Redis Cache
   redis:
-    image: redis:7-alpine
+    image: redis:8-alpine
     container_name: commmate-redis
     restart: unless-stopped
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD:-redis}"]
     volumes:
       - redis-data:/data
     ports:
       - '6379:6379'
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis}", "ping"]
       interval: 5s
       timeout: 5s
       retries: 10
 
+  # Evolution API - WhatsApp Integration (Optional)
+  evolution-api:
+    image: evoapicloud/evolution-api:v2.3.7
+    container_name: commmate-evolution
+    restart: unless-stopped
+    ports:
+      - '8080:8080'
+    environment:
+      # Server Configuration
+      - SERVER_TYPE=http
+      - SERVER_PORT=8080
+      - SERVER_URL=${EVOLUTION_SERVER_URL:-http://localhost:8080}
+      
+      # CORS Configuration
+      - CORS_ORIGIN=*
+      - CORS_METHODS=GET,POST,PUT,DELETE
+      - CORS_CREDENTIALS=true
+      
+      # Database Configuration (PostgreSQL)
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@postgres:5432/chatwoot?schema=evolution
+      - DATABASE_CONNECTION_CLIENT_NAME=evolution_api
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+      
+      # Redis Configuration
+      - CACHE_REDIS_ENABLED=true
+      - CACHE_REDIS_URI=redis://:${REDIS_PASSWORD:-redis}@redis:6379
+      - CACHE_REDIS_PREFIX_KEY=evolution_api
+      
+      # Authentication
+      - AUTHENTICATION_TYPE=apikey
+      - AUTHENTICATION_API_KEY=${EVOLUTION_API_KEY}
+      - AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=true
+      
+      # Language and Timezone
+      - LANGUAGE=pt-BR
+      - TIMEZONE=America/Sao_Paulo
+      
+      # Logs Configuration
+      - LOG_LEVEL=INFO
+      - LOG_COLOR=true
+      - LOG_BAILEYS=error
+      
+      # Instance Configuration
+      - DEL_INSTANCE=false
+      - DEL_TEMP_INSTANCES=true
+      
+      # Store Configuration
+      - STORE_MESSAGES=true
+      - STORE_MESSAGE_UP=true
+      - STORE_CONTACTS=true
+      - STORE_CHATS=true
+      
+      # Clean Store Configuration
+      - CLEAN_STORE_CLEANING_INTERVAL=7200
+      - CLEAN_STORE_MESSAGES=true
+      - CLEAN_STORE_MESSAGE_UP=true
+      - CLEAN_STORE_CONTACTS=true
+      - CLEAN_STORE_CHATS=true
+      
+      # Chatwoot Integration
+      - CHATWOOT_ENABLED=true
+      - CHATWOOT_MESSAGE_READ=true
+      - CHATWOOT_MESSAGE_DELETE=true
+      - CHATWOOT_IMPORT_DATABASE=false
+      - CHATWOOT_CONVERSATION_PENDING=false
+      - CHATWOOT_SIGN_MSG=false
+      - CHATWOOT_REOPEN_CONVERSATION=false
+      - CHATWOOT_DAYS_LIMIT_IMPORT_MESSAGES=0
+      
+      # Webhook Configuration
+      - WEBHOOK_GLOBAL_ENABLED=false
+      - WEBHOOK_GLOBAL_URL=''
+      - WEBHOOK_GLOBAL_WEBHOOK_BY_EVENTS=false
+      
+      # Config Session Phone
+      - CONFIG_SESSION_PHONE_CLIENT=Evolution API
+      - CONFIG_SESSION_PHONE_NAME=Chrome
+      
+      # QR Code Configuration
+      - QRCODE_LIMIT=30
+      - QRCODE_COLOR=#198754
+      
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    volumes:
+      - evolution-instances:/evolution/instances
+      - evolution-store:/evolution/store
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Mailhog - Email Testing (Development Only)
   mailhog:
     image: mailhog/mailhog
     container_name: commmate-mailhog
+    profiles:
+      - dev
     ports:
       - '1025:1025'
       - '8025:8025'
@@ -112,3 +288,5 @@ volumes:
   postgres-data:
   redis-data:
   commmate-storage:
+  evolution-instances:
+  evolution-store:

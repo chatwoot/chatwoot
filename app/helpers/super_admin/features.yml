@@ -145,3 +145,9 @@ shopify:
   enabled: true
   icon: 'icon-shopify'
   config_key: 'shopify'
+evolution_api:
+  name: 'Evolution API'
+  description: 'Configuration for setting up Evolution API WhatsApp Integration (Baileys)'
+  enabled: true
+  icon: 'icon-whatsapp-line'
+  config_key: 'evolution_api'
