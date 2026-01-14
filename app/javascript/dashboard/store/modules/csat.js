@@ -82,6 +82,9 @@ export const getters = {
       ),
     };
   },
+  getRatingCount(_state) {
+    return _state.metrics.ratingsCount;
+  },
 };
 
 export const actions = {
@@ -115,6 +118,13 @@ export const actions = {
       });
     });
   },
+  updateReviewNotes: async ({ commit }, { id, reviewNotes }) => {
+    const response = await CSATReports.update(id, {
+      csat_review_notes: reviewNotes,
+    });
+    commit(types.UPDATE_CSAT_RESPONSE, response.data);
+    return response.data;
+  },
 };
 
 export const mutations = {
@@ -143,6 +153,12 @@ export const mutations = {
       5: ratingsCount['5'] || 0,
     };
     _state.metrics.totalSentMessagesCount = totalSentMessagesCount || 0;
+  },
+  [types.UPDATE_CSAT_RESPONSE](_state, updatedResponse) {
+    const index = _state.records.findIndex(r => r.id === updatedResponse.id);
+    if (index !== -1) {
+      _state.records.splice(index, 1, updatedResponse);
+    }
   },
 };
 
