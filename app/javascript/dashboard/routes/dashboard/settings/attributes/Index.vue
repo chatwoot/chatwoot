@@ -182,7 +182,7 @@ const filteredAttributes = computed(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-4">
         <TabBar
           :tabs="tabsForTabBar"
           :initial-active-tab="selectedTabIndex"
@@ -195,7 +195,7 @@ const filteredAttributes = computed(() => {
         >
           {{ $t('ATTRIBUTES_MGMT.NO_RESULTS') }}
         </span>
-        <div v-else-if="filteredAttributes.length" class="grid gap-3">
+        <div v-else-if="filteredAttributes.length" class="flex flex-col">
           <AttributeListItem
             v-for="attribute in filteredAttributes"
             :key="attribute.id"
