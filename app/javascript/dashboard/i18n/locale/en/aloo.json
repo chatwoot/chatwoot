@@ -132,6 +132,12 @@
         "LABEL": "Personality Description",
         "PLACEHOLDER": "Describe the personality traits and behavior of your assistant"
       },
+      "CUSTOM_INSTRUCTIONS": {
+        "LABEL": "Custom Instructions",
+        "DESCRIPTION": "Add business-specific knowledge and rules that the assistant should follow. This information will be included in every conversation.",
+        "PLACEHOLDER": "Example:\n- We offer 15% discount for orders over $100\n- Refunds take 3-5 business days to process\n- Our warehouse is closed on Sundays\n- For technical issues, always ask for the customer's account ID",
+        "HINT": "Tip: Be specific and concise. These instructions are included in every response."
+      },
       "ACTIVE": {
         "LABEL": "Active",
         "DESCRIPTION": "Enable or disable this assistant"
@@ -175,11 +181,11 @@
     },
     "TABS": {
       "GENERAL": "General",
+      "INSTRUCTIONS": "Instructions",
       "PERSONALITY": "Personality",
       "FEATURES": "Features",
       "VOICE": "Voice",
       "KNOWLEDGE_BASE": "Knowledge Base",
-      "MEMORIES": "Memories",
       "INBOXES": "Inboxes",
       "PLAYGROUND": "Playground",
       "ANALYTICS": "Analytics",
@@ -213,6 +219,10 @@
       "PERSONALITY": {
         "TITLE": "Personality Settings",
         "DESCRIPTION": "Configure how your assistant communicates with customers"
+      },
+      "INSTRUCTIONS": {
+        "TITLE": "Custom Instructions",
+        "DESCRIPTION": "Add business-specific knowledge and rules for your assistant"
       },
       "FEATURES": {
         "TITLE": "AI Agent Capabilities",
@@ -397,6 +407,19 @@
       "SAMPLE_RESPONSE_FRIENDLY": "Hey there! Great to hear from you! What can I help you with today?",
       "SAMPLE_RESPONSE_CASUAL": "Hi! What's up? How can I help?",
       "SAMPLE_RESPONSE_FORMAL": "Greetings. I am at your disposal to address any inquiries you may have. Please proceed with your request."
+    },
+    "INBOX_CONFIGURATION": {
+      "TITLE": "AI Assistant Configuration",
+      "DESCRIPTION": "Select an AI assistant to handle conversations in this inbox automatically.",
+      "SELECT_PLACEHOLDER": "Select an assistant",
+      "NO_ASSISTANTS": "No assistants available. Create one in Settings > Aloo AI.",
+      "CURRENT_ASSISTANT": "Currently assigned",
+      "APPLY": "Apply",
+      "DISCONNECT": "Disconnect",
+      "APPLY_SUCCESS": "AI assistant assigned successfully",
+      "APPLY_ERROR": "Failed to assign AI assistant",
+      "DISCONNECT_SUCCESS": "AI assistant disconnected successfully",
+      "DISCONNECT_ERROR": "Failed to disconnect AI assistant"
     }
   }
 }

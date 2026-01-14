@@ -45,11 +45,6 @@ module Aloo
              foreign_key: 'aloo_assistant_id',
              dependent: :destroy,
              inverse_of: :assistant
-    has_many :memories,
-             class_name: 'Aloo::Memory',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :destroy,
-             inverse_of: :assistant
     has_many :traces,
              class_name: 'Aloo::Trace',
              foreign_key: 'aloo_assistant_id',
@@ -141,10 +136,6 @@ module Aloo
 
     def feature_faq_enabled?
       admin_config['feature_faq'] == true
-    end
-
-    def feature_memory_enabled?
-      admin_config['feature_memory'] == true
     end
 
     # MCP tool feature flags (default to true for backward compatibility)

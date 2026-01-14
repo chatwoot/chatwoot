@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_14_154657) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -219,6 +219,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.boolean "voice_input_enabled", default: false
     t.boolean "voice_output_enabled", default: false
     t.jsonb "voice_config", default: {}
+    t.text "custom_instructions"
     t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name", unique: true
     t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
     t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
@@ -270,39 +271,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
     t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
     t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
-  end
-
-  create_table "aloo_memories", force: :cascade do |t|
-    t.bigint "aloo_assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.bigint "contact_id"
-    t.bigint "conversation_id"
-    t.string "memory_type", null: false
-    t.text "content", null: false
-    t.text "source_excerpt"
-    t.text "context"
-    t.string "entities", default: [], array: true
-    t.string "topics", default: [], array: true
-    t.vector "embedding", limit: 1536
-    t.float "confidence", default: 0.7
-    t.integer "observation_count", default: 1
-    t.datetime "last_observed_at"
-    t.integer "helpful_count", default: 0
-    t.integer "not_helpful_count", default: 0
-    t.boolean "flagged_for_review", default: false
-    t.jsonb "metadata", default: {}
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_aloo_memories_on_account_id"
-    t.index ["aloo_assistant_id"], name: "index_aloo_memories_on_aloo_assistant_id"
-    t.index ["confidence"], name: "index_aloo_memories_on_confidence"
-    t.index ["contact_id"], name: "index_aloo_memories_on_contact_id"
-    t.index ["conversation_id"], name: "index_aloo_memories_on_conversation_id"
-    t.index ["embedding"], name: "aloo_memories_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
-    t.index ["entities"], name: "index_aloo_memories_on_entities", using: :gin
-    t.index ["last_observed_at"], name: "index_aloo_memories_on_last_observed_at"
-    t.index ["memory_type"], name: "index_aloo_memories_on_memory_type"
-    t.index ["topics"], name: "index_aloo_memories_on_topics", using: :gin
   end
 
   create_table "aloo_traces", force: :cascade do |t|
@@ -734,15 +702,16 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "contacts_count", default: 0, null: false
+    t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
-    t.index ["domain", "account_id"], name: "index_companies_on_domain_and_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
-    t.string "source_id", null: false
+    t.text "source_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "hmac_verified", default: false
@@ -826,7 +795,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
     t.boolean "has_unread_messages", default: false, null: false
-    t.bigint "assignee_agent_bot_id"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "has_unread_messages"], name: "index_conversations_on_account_has_unread", where: "(has_unread_messages = true)"
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
@@ -1093,7 +1061,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "private", default: false, null: false
     t.integer "status", default: 0
-    t.string "source_id"
+    t.text "source_id"
     t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
@@ -1489,6 +1457,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.string "name"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
@@ -1524,10 +1493,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "aloo_memories", "accounts"
-  add_foreign_key "aloo_memories", "aloo_assistants"
-  add_foreign_key "aloo_memories", "contacts"
-  add_foreign_key "aloo_memories", "conversations"
   add_foreign_key "aloo_traces", "accounts"
   add_foreign_key "aloo_traces", "aloo_assistants"
   add_foreign_key "aloo_traces", "conversations"

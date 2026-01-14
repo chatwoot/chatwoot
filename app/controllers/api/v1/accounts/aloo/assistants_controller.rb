@@ -43,7 +43,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       total_conversations: @assistant.conversation_contexts.count,
       total_messages: @assistant.conversation_contexts.sum(:message_count),
       total_tokens: @assistant.conversation_contexts.sum('input_tokens + output_tokens'),
-      total_memories: @assistant.memories.active.count,
       total_documents: @assistant.documents.available.count
     }
   end
@@ -81,11 +80,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         total_input: total_input_tokens,
         total_output: total_output_tokens,
         total: total_input_tokens + total_output_tokens
-      },
-      memory_stats: {
-        total: @assistant.memories.count,
-        active: @assistant.memories.active.count,
-        by_type: @assistant.memories.group(:memory_type).count
       },
       time_range: params[:range] || '7d'
     }
@@ -246,6 +240,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       :greeting_style,
       :custom_greeting,
       :personality_description,
+      :custom_instructions,
       :voice_enabled,
       :voice_input_enabled,
       :voice_output_enabled,
@@ -276,6 +271,7 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
       active: assistant.active,
       language: assistant.language,
       dialect: assistant.dialect,
+      custom_instructions: assistant.custom_instructions,
       personality: {
         tone: assistant.tone,
         formality: assistant.formality,
@@ -287,7 +283,6 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         personality_description: assistant.personality_description
       },
       features: {
-        memory_enabled: assistant.feature_memory_enabled?,
         faq_enabled: assistant.feature_faq_enabled?,
         handoff_enabled: assistant.feature_handoff_enabled?,
         resolve_enabled: assistant.feature_resolve_enabled?,

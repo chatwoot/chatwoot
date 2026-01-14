@@ -169,6 +169,10 @@ class Inbox < ApplicationRecord
                                             status: 'enabled').count.positive?
   end
 
+  def active_aloo_assistant?
+    aloo_assistant_inbox&.active? && aloo_assistant&.active?
+  end
+
   def inbox_type
     channel.name
   end

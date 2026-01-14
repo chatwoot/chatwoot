@@ -7,12 +7,6 @@ module Aloo
 
   SUPPORTED_SOURCE_TYPES = %w[file website].freeze
 
-  # Memory type scoping
-  # Contact-scoped: about THIS customer (preference, commitment, decision, correction)
-  # Global: apply to all conversations (procedure, faq, insight, gap)
-  CONTACT_SCOPED_TYPES = %w[preference commitment decision correction].freeze
-  GLOBAL_TYPES = %w[procedure faq insight gap].freeze
-
   SUPPORTED_LANGUAGES = {
     'en' => { name: 'English', dialects: [] },
     'ar' => {

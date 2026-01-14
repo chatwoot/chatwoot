@@ -26,15 +26,12 @@ class AlooAgentListener < BaseListener
   end
 
   # Triggered when a conversation is resolved
-  # Initiates memory extraction and FAQ generation
+  # Initiates FAQ generation if enabled
   def conversation_resolved(event)
     conversation, = extract_conversation_and_account(event)
 
     assistant = conversation.inbox.aloo_assistant
     return unless assistant&.active?
-
-    # Queue memory extraction if enabled
-    Aloo::ExtractMemoriesJob.perform_later(conversation.id) if assistant.feature_memory_enabled?
 
     # Queue FAQ generation if enabled
     return unless assistant.feature_faq_enabled?

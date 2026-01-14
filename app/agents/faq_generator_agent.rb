@@ -7,11 +7,12 @@
 #   result.content  # => [{ question: "...", answer: "...", topics: [...], confidence: 0.8 }]
 #
 class FaqGeneratorAgent < ApplicationAgent
+  description 'Generates FAQ entries from conversation transcripts'
   model 'gpt-4o-mini'
   temperature 0.5
   version '1.0'
 
-  fallback_models 'gemini-2.5-flash'
+  fallback_models ['gemini-2.5-flash', 'claude-haiku-4-5']
 
   param :transcript, required: true
   param :max_faqs, default: 3

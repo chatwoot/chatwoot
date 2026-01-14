@@ -110,15 +110,6 @@ RSpec.describe AlooAgentListener do
       Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation)
     end
 
-    context 'when memory feature enabled' do
-      it 'enqueues ExtractMemoriesJob' do
-        expect(Aloo::ExtractMemoriesJob).to receive(:perform_later)
-          .with(conversation.id)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
     context 'when FAQ feature enabled' do
       it 'enqueues FaqGeneratorJob' do
         expect(Aloo::FaqGeneratorJob).to receive(:perform_later)
@@ -128,31 +119,10 @@ RSpec.describe AlooAgentListener do
       end
     end
 
-    context 'when both features enabled' do
-      it 'enqueues both jobs' do
-        expect(Aloo::ExtractMemoriesJob).to receive(:perform_later)
-        expect(Aloo::FaqGeneratorJob).to receive(:perform_later)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
-    context 'when memory feature disabled' do
-      before { assistant.update!(admin_config: { 'feature_faq' => true }) }
-
-      it 'does not enqueue ExtractMemoriesJob' do
-        expect(Aloo::ExtractMemoriesJob).not_to receive(:perform_later)
-        expect(Aloo::FaqGeneratorJob).to receive(:perform_later)
-
-        listener.conversation_resolved(event)
-      end
-    end
-
     context 'when FAQ feature disabled' do
-      before { assistant.update!(admin_config: { 'feature_memory' => true }) }
+      before { assistant.update!(admin_config: { 'feature_faq' => false }) }
 
       it 'does not enqueue FaqGeneratorJob' do
-        expect(Aloo::ExtractMemoriesJob).to receive(:perform_later)
         expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
 
         listener.conversation_resolved(event)
@@ -163,7 +133,6 @@ RSpec.describe AlooAgentListener do
       before { assistant.update!(active: false) }
 
       it 'does not enqueue jobs' do
-        expect(Aloo::ExtractMemoriesJob).not_to receive(:perform_later)
         expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
 
         listener.conversation_resolved(event)
@@ -176,7 +145,6 @@ RSpec.describe AlooAgentListener do
       end
 
       it 'does not enqueue jobs' do
-        expect(Aloo::ExtractMemoriesJob).not_to receive(:perform_later)
         expect(Aloo::FaqGeneratorJob).not_to receive(:perform_later)
 
         listener.conversation_resolved(event)
@@ -228,9 +196,9 @@ RSpec.describe AlooAgentListener do
           changed_attributes: { 'status' => %w[pending open] }
         )
 
-        expect { listener.conversation_status_changed(event) }.not_to change {
+        expect { listener.conversation_status_changed(event) }.not_to(change do
           conversation.reload.custom_attributes
-        }
+        end)
       end
     end
 

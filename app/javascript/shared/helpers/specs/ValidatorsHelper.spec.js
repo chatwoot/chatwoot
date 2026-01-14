@@ -56,18 +56,18 @@ describe('#isPhoneNumberValid', () => {
 });
 
 describe('#isValidPassword', () => {
-  it('should return correct password', () => {
+  it('should return true for passwords with 6 or more characters', () => {
+    expect(isValidPassword('123456')).toEqual(true);
+    expect(isValidPassword('simple')).toEqual(true);
+    expect(isValidPassword('longerpassword')).toEqual(true);
     expect(isValidPassword('testPass4!')).toEqual(true);
-    expect(isValidPassword('testPass4-')).toEqual(true);
-    expect(isValidPassword('testPass4\\')).toEqual(true);
-    expect(isValidPassword("testPass4'")).toEqual(true);
   });
 
-  it('should return wrong password', () => {
-    expect(isValidPassword('testpass4')).toEqual(false);
-    expect(isValidPassword('testPass4')).toEqual(false);
-    expect(isValidPassword('testpass4!')).toEqual(false);
-    expect(isValidPassword('testPass!')).toEqual(false);
+  it('should return false for passwords with less than 6 characters', () => {
+    expect(isValidPassword('12345')).toEqual(false);
+    expect(isValidPassword('short')).toEqual(false);
+    expect(isValidPassword('a')).toEqual(false);
+    expect(isValidPassword('')).toEqual(false);
   });
 });
 

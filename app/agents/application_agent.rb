@@ -36,7 +36,7 @@ class ApplicationAgent < RubyLLM::Agents::Base
   # Access language instructions from current assistant
   def language_instructions
     assistant = Aloo::Current.assistant
-    return nil unless assistant&.language_instruction.present?
+    return nil if assistant&.language_instruction.blank?
 
     "## Language Instructions\n#{assistant.language_instruction}"
   end

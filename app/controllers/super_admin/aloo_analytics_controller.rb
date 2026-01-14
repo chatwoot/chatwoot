@@ -13,7 +13,6 @@ class SuperAdmin::AlooAnalyticsController < SuperAdmin::ApplicationController
       assistants_count: number_with_delimiter(aloo_assistants_count),
       documents_count: number_with_delimiter(aloo_documents_count),
       embeddings_count: number_with_delimiter(aloo_embeddings_count),
-      memories_count: number_with_delimiter(aloo_memories_count),
       traces_count: number_with_delimiter(aloo_traces_count),
       total_input_tokens: number_with_delimiter(total_input_tokens),
       total_output_tokens: number_with_delimiter(total_output_tokens),
@@ -49,12 +48,6 @@ class SuperAdmin::AlooAnalyticsController < SuperAdmin::ApplicationController
     return 0 unless table_exists?('aloo_embeddings')
 
     Aloo::Embedding.count
-  end
-
-  def aloo_memories_count
-    return 0 unless table_exists?('aloo_memories')
-
-    Aloo::Memory.count
   end
 
   def aloo_traces_count

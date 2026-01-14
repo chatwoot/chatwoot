@@ -35,6 +35,9 @@ export default {
     ...mapGetters({
       agentList: 'agents/getAgents',
     }),
+    hasActiveAIAssistant() {
+      return this.inbox?.aloo_assistant?.id != null;
+    },
     maxAssignmentLimitErrors() {
       if (this.v$.maxAssignmentLimit.$error) {
         return this.$t(
@@ -152,12 +155,16 @@ export default {
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT_SUB_TEXT')"
     >
-      <label class="w-3/4 settings-item">
+      <label
+        class="w-3/4 settings-item"
+        :class="{ 'opacity-50 cursor-not-allowed': hasActiveAIAssistant }"
+      >
         <div class="flex items-center gap-2">
           <input
             id="enableAutoAssignment"
             v-model="enableAutoAssignment"
             type="checkbox"
+            :disabled="hasActiveAIAssistant"
             @change="handleEnableAutoAssignment"
           />
           <label for="enableAutoAssignment">
@@ -167,6 +174,13 @@ export default {
 
         <p class="pb-1 text-sm not-italic text-n-slate-11">
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_SUB_TEXT') }}
+        </p>
+
+        <p
+          v-if="hasActiveAIAssistant"
+          class="mt-2 text-sm text-n-amber-11 bg-n-amber-3 p-2 rounded"
+        >
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT_AI_DISABLED') }}
         </p>
       </label>
 
