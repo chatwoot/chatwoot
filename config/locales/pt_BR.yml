@@ -69,7 +69,7 @@ pt_BR:
       domain:
         invalid: must be a valid domain name
       search:
-        query_missing: Especifique a ‘string’ de busca com o parâmetro q
+        query_missing: Especifique a string de busca com o parâmetro q
     messages:
       search:
         time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
