@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} for vedhæftede filer",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Kunne ikke sende denne besked, prøv igen senere",
     "SENT_BY": "Sendt af:",
     "BOT": "Bot",
