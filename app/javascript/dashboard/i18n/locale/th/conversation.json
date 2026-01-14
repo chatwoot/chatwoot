@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ไฟล์ของคุณมีขนาดเกิน {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",
