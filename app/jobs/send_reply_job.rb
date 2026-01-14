@@ -17,9 +17,11 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    channel_name = message.conversation.inbox.channel.class.to_s
+    inbox = message.conversation.inbox
+    channel_name = inbox.channel.class.to_s
 
     return send_on_facebook_page(message) if channel_name == 'Channel::FacebookPage'
+    return send_on_evolution(message) if channel_name == 'Channel::Api' && inbox.evolution_inbox?
 
     service_class = CHANNEL_SERVICES[channel_name]
     return unless service_class
@@ -28,6 +30,10 @@ class SendReplyJob < ApplicationJob
   end
 
   private
+
+  def send_on_evolution(message)
+    ::Evolution::SendOnEvolutionBaileysService.new(message: message).perform
+  end
 
   def send_on_facebook_page(message)
     if message.conversation.additional_attributes['type'] == 'instagram_direct_message'

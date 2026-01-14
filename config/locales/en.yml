@@ -77,6 +77,10 @@ en:
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
+    evolution:
+      duplicate_inbox_name: 'An inbox with this name already exists. Evolution requires unique inbox names per account.'
+      not_enabled: 'Evolution API is not enabled for this installation'
+      not_configured: 'Evolution API is not properly configured'
     data_import:
       data_type:
         invalid: Invalid data type

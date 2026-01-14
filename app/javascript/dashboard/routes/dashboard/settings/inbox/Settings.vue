@@ -14,6 +14,7 @@ import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue'
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
+import EvolutionSettings from './evolution/EvolutionSettings.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -55,6 +56,7 @@ export default {
     Editor,
     Avatar,
     AccountHealth,
+    EvolutionSettings,
   },
   mixins: [inboxMixin],
   setup() {
@@ -187,6 +189,16 @@ export default {
           {
             key: 'whatsapp-health',
             name: this.$t('INBOX_MGMT.TABS.ACCOUNT_HEALTH'),
+          },
+        ];
+      }
+
+      if (this.isEvolutionInbox) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'evolution',
+            name: this.$t('INBOX_MGMT.TABS.EVOLUTION'),
           },
         ];
       }
@@ -946,6 +958,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
+      </div>
+      <div v-if="selectedTabKey === 'evolution'" class="mx-8">
+        <EvolutionSettings :inbox="inbox" />
       </div>
     </section>
   </div>

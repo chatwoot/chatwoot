@@ -134,6 +134,12 @@ export default {
     isATiktokChannel() {
       return this.channelType === INBOX_TYPES.TIKTOK;
     },
+    isEvolutionInbox() {
+      return (
+        this.isAPIInbox &&
+        this.inbox.additional_attributes?.evolution_instance_name
+      );
+    },
   },
   methods: {
     inboxHasFeature(feature) {

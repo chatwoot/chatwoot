@@ -436,6 +436,41 @@
           "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
+      "EVOLUTION": {
+        "TITLE": "Evolution WhatsApp",
+        "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)",
+        "INBOX_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Enter inbox name (e.g., WhatsApp Support)",
+          "ERROR": "Please enter a valid inbox name"
+        },
+        "LOAD_QR": "Load QR Code",
+        "CONNECT": {
+          "TITLE": "Connect WhatsApp",
+          "DESCRIPTION": "Scan the QR code with your WhatsApp mobile app to connect",
+          "SCAN_INSTRUCTION": "Open WhatsApp on your phone, tap Menu or Settings and select Linked Devices. Tap on Link a Device, then scan this QR code.",
+          "STATUS": {
+            "OPEN": "Connected",
+            "CLOSE": "Disconnected",
+            "CONNECTING": "Connecting...",
+            "DISCONNECTED": "Disconnected",
+            "UNKNOWN": "Unknown"
+          },
+          "NO_QR": "No QR code available",
+          "REFRESH_QR": "Refresh QR Code",
+          "QR_ERROR": "Failed to load QR code",
+          "NOT_CONNECTED": "WhatsApp is not connected yet. Please scan the QR code first.",
+          "CONNECTED": "WhatsApp connected successfully!",
+          "SUCCESS": "WhatsApp is connected and ready to receive messages",
+          "CONTINUE": "Continue",
+          "INTEGRATION_ENABLED": "Integration enabled successfully!",
+          "ENABLE_ERROR": "Failed to enable integration. Please try again."
+        },
+        "API": {
+          "ERROR_MESSAGE": "Failed to create Evolution inbox",
+          "DUPLICATE_NAME_ERROR": "An inbox with this name already exists. Please use a different name."
+        }
+      },
       "AUTH": {
         "TITLE": "Choose a channel",
         "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
@@ -453,6 +488,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EVOLUTION": {
+            "TITLE": "Evolution WhatsApp",
+            "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -624,7 +663,62 @@
       "BOT_CONFIGURATION": "Bot Configuration",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
-      "WHATSAPP_TEMPLATES": "Templates"
+      "WHATSAPP_TEMPLATES": "Templates",
+      "EVOLUTION": "Evolution"
+    },
+    "EVOLUTION": {
+      "SETTINGS": {
+        "FETCH_ERROR": "Failed to load Evolution settings",
+        "SAVE_SUCCESS": "Settings saved successfully",
+        "SAVE_ERROR": "Failed to save settings",
+        "INSTANCE_SAVE_SUCCESS": "Instance settings saved successfully",
+        "INSTANCE_SAVE_ERROR": "Failed to save instance settings",
+        "QR_ERROR": "Failed to load QR code",
+        "CONNECTED": "WhatsApp connected successfully!",
+        "INTEGRATION_ENABLED": "Integration enabled successfully!",
+        "ENABLE_ERROR": "Failed to enable integration",
+        "RESTART_SUCCESS": "Instance restarted successfully",
+        "RESTART_ERROR": "Failed to restart instance",
+        "DISCONNECT_SUCCESS": "WhatsApp disconnected successfully",
+        "DISCONNECT_ERROR": "Failed to disconnect WhatsApp",
+        "CONNECTION": {
+          "TITLE": "Connection Status",
+          "DESCRIPTION": "Manage your WhatsApp connection via Evolution API",
+          "STATUS": {
+            "OPEN": "Connected",
+            "CLOSE": "Disconnected",
+            "CONNECTING": "Connecting...",
+            "DISCONNECTED": "Disconnected",
+            "UNKNOWN": "Unknown"
+          },
+          "SCAN_INSTRUCTION": "Scan the QR code with your WhatsApp mobile app to connect",
+          "LOAD_QR": "Click to load QR code",
+          "REFRESH_QR": "Refresh QR Code",
+          "ENABLE_INTEGRATION": "Enable Integration",
+          "RESTART": "Restart Instance",
+          "DISCONNECT": "Disconnect"
+        },
+        "INSTANCE": {
+          "TITLE": "Instance Settings",
+          "DESCRIPTION": "Configure WhatsApp instance behavior",
+          "REJECT_CALL": "Reject incoming calls",
+          "GROUPS_IGNORE": "Ignore group messages",
+          "ALWAYS_ONLINE": "Always show as online",
+          "READ_MESSAGES": "Mark messages as read automatically",
+          "READ_STATUS": "Mark status as viewed automatically",
+          "SAVE": "Save Instance Settings"
+        },
+        "INTEGRATION": {
+          "TITLE": "Integration Settings",
+          "DESCRIPTION": "Configure how Evolution integrates with Chatwoot",
+          "SIGN_MSG": "Sign messages with agent name",
+          "REOPEN_CONVERSATION": "Reopen conversation on new message",
+          "MERGE_BRAZIL_CONTACTS": "Merge Brazilian phone number formats",
+          "IMPORT_CONTACTS": "Import contacts from WhatsApp",
+          "IMPORT_MESSAGES": "Import message history",
+          "SAVE": "Save Integration Settings"
+        }
+      }
     },
     "ACCOUNT_HEALTH": {
       "TITLE": "Manage your WhatsApp account",
