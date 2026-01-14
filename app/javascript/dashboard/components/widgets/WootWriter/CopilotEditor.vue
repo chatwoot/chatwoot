@@ -48,6 +48,8 @@ const { formatMessage } = useMessageFormatter();
 // Minimal schema with no marks or nodes for copilot input
 const copilotSchema = buildMessageSchema([], []);
 
+const handleSubmit = () => emit('send');
+
 const createState = (
   content,
   placeholder,
@@ -101,8 +103,17 @@ function onKeyup() {
   emit('keyup');
 }
 
-function onKeydown() {
+function onKeydown(view, event) {
   emit('keydown');
+
+  // Handle Enter key to send message (Shift+Enter for new line)
+  if (event.key === 'Enter' && !event.shiftKey) {
+    event.preventDefault();
+    handleSubmit();
+    return true; // Prevent ProseMirror's default Enter handling
+  }
+
+  return false; // Allow other keys to work normally
 }
 
 function onBlur() {
@@ -157,10 +168,6 @@ function createEditorView() {
       keydown: onKeydown,
     },
   });
-}
-
-function handleSubmit() {
-  emit('send');
 }
 
 // watchers
