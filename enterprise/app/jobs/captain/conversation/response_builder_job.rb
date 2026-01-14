@@ -47,8 +47,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return process_action('handoff') if handoff_requested?
 
     create_messages
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
-    account.increment_response_usage
+    account.increment_response_usage_for_model(account.captain_assistant_model)
   end
 
   def collect_previous_messages

@@ -8,7 +8,8 @@ class Llm::BaseAiService
 
   attr_reader :model, :temperature
 
-  def initialize
+  def initialize(account: nil)
+    @account = account
     Llm::Config.initialize!
     setup_model
     setup_temperature
@@ -16,6 +17,12 @@ class Llm::BaseAiService
 
   def chat(model: @model, temperature: @temperature)
     RubyLLM.chat(model: model).with_temperature(temperature)
+  end
+
+  def increment_usage
+    return unless @account
+
+    @account.increment_response_usage_for_model(@model)
   end
 
   private

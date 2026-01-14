@@ -4,10 +4,10 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
   attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
 
   def initialize(assistant, config)
-    super()
-
     @assistant = assistant
     @account = assistant.account
+    super(account: @account)
+
     @user = nil
     @copilot_thread = nil
     @previous_history = []
@@ -24,15 +24,16 @@ class Captain::Copilot::ChatService < Llm::BaseAiService
     response = request_chat_completion
 
     Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
-    Rails.logger.info(
-      "#{self.class.name} Assistant: #{@assistant.id}, Incrementing response usage for account #{@account.id}"
-    )
-    @account.increment_response_usage
+    increment_usage
 
     response
   end
 
   private
+
+  def setup_model
+    @model = @account.captain_copilot_model
+  end
 
   def setup_user(config)
     @user = @account.users.find_by(id: config[:user_id]) if config[:user_id].present?

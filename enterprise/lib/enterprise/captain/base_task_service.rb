@@ -28,8 +28,6 @@ module Enterprise::Captain::BaseTaskService
   end
 
   def increment_usage
-    credits = account.using_openai_hook_key? ? 1 : Llm::Models.credit_multiplier_for(configured_model)
-    Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id} by #{credits} credits")
-    account.increment_response_usage(credits: credits)
+    account.increment_response_usage_for_model(configured_model)
   end
 end

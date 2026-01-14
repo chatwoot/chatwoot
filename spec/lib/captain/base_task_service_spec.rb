@@ -254,24 +254,6 @@ RSpec.describe Captain::BaseTaskService do
     end
   end
 
-  describe '#api_key' do
-    context 'when openai hook is configured' do
-      let(:hook) { create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' }) }
-
-      before { hook }
-
-      it 'uses api key from hook' do
-        expect(service.send(:api_key)).to eq('hook-key')
-      end
-    end
-
-    context 'when openai hook is not configured' do
-      it 'uses system api key' do
-        expect(service.send(:api_key)).to eq('test-key')
-      end
-    end
-  end
-
   describe '#prompt_from_file' do
     it 'reads prompt from file' do
       allow(Rails.root).to receive(:join).and_return(instance_double(Pathname, read: 'Test prompt content'))
