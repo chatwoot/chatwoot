@@ -32,8 +32,10 @@ class SearchService
                    contacts.additional_attributes->'social_profiles'->>'instagram' ILIKE :search OR
                    contacts.additional_attributes->>'social_instagram_user_name' ILIKE :search", search: "%#{search_query}%")
 
-    # Filter by contact assignee if contact assignment feature is enabled and user is not admin
-    query = query.where(contacts: { assignee_id: current_user.id }) if contact_assignment_enabled? && !current_user_admin?
+    # Filter conversations where agent is conversation assignee OR contact owner
+    if contact_assignment_enabled? && !current_user_admin?
+      query = query.where('conversations.assignee_id = ? OR contacts.assignee_id = ?', current_user.id, current_user.id)
+    end
 
     @conversations = query.order('conversations.created_at DESC')
                           .limit(10)
@@ -44,10 +46,10 @@ class SearchService
                            .where('messages.content ILIKE :search', search: "%#{search_query}%")
                            .where('created_at >= ?', 3.months.ago)
 
-    # Filter by contact assignee if contact assignment feature is enabled and user is not admin
+    # Filter messages where agent is conversation assignee OR contact owner
     if contact_assignment_enabled? && !current_user_admin?
       query = query.joins(conversation: :contact)
-                   .where(contacts: { assignee_id: current_user.id })
+                   .where('conversations.assignee_id = ? OR contacts.assignee_id = ?', current_user.id, current_user.id)
     end
 
     @messages = query.reorder('created_at DESC')

@@ -183,9 +183,10 @@ class ConversationFinder
     return if @current_user.account_users.find_by(account_id: @current_account.id)&.administrator?
     return unless @current_account.contact_assignment_enabled? # Feature check
 
-    # Agents see only conversations for their assigned contacts
+    # Agents see conversations where they are assignee OR contact owner
     @conversations = @conversations.joins(:contact)
-                                   .where(contacts: { assignee_id: @current_user.id })
+                                   .where('conversations.assignee_id = ? OR contacts.assignee_id = ?',
+                                          @current_user.id, @current_user.id)
   end
 
   def filter_by_source_id
