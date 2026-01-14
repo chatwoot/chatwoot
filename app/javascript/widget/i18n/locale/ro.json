@@ -95,7 +95,7 @@
     "REQUIRED": "Necesar",
     "REGEX_ERROR": "Introduceți datele valide"
   },
-  "FILE_SIZE_LIMIT": "Fisierul depaseste limita de {MAXIMUM_FILE_UPLOAD_SIZE} atasamente",
+  "FILE_SIZE_LIMIT": "Fisierul depaseste limita mărimii {MAXIMUM_FILE_UPLOAD_SIZE}",
   "CHAT_FORM": {
     "INVALID": {
       "FIELD": "Câmp invalid"
