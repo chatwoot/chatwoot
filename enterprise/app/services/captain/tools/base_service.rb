@@ -48,6 +48,6 @@ class Captain::Tools::BaseService
     return account_user.custom_role.permissions.include?(permission) if account_user.custom_role.present?
 
     # Default permission for agents without custom roles
-    account_user.administrator? || account_user.agent?
+    account_user.administrator? || account_user.supervisor? || account_user.agent?
   end
 end

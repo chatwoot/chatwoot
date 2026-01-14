@@ -81,7 +81,7 @@ export const applyRoleFilter = (
   // the backend handles this by checking the custom_role_id at the user model
   // here however, the `getUserRole` returns "custom_role" if the id is present,
   // so we can check the role === "agent" directly
-  if (['administrator', 'agent'].includes(role)) {
+  if (['administrator', 'supervisor', 'agent'].includes(role)) {
     return true;
   }
 

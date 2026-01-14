@@ -2,7 +2,7 @@ import { frontendURL } from '../../../helper/URLHelper';
 import CustomerManageView from './pages/CustomerManageView.vue';
 
 const commonMeta = {
-  permissions: ['administrator', 'agent', 'contact_manage'],
+  permissions: ['administrator', 'supervisor', 'agent', 'contact_manage'],
 };
 
 export const routes = [

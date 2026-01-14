@@ -162,7 +162,17 @@ class Inbox < ApplicationRecord
   end
 
   def assignable_agents
-    (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
+    member_ids = members.pluck(:user_id)
+    inbox_members = account.users.where(id: member_ids)
+    supervisors = supervisors_for_inbox(member_ids)
+    (inbox_members + account.administrators + supervisors).uniq
+  end
+
+  # Only include supervisors whose subordinates are members of this inbox
+  def supervisors_for_inbox(member_ids)
+    account.account_users.supervisor.includes(:user).select do |account_user|
+      (account_user.subordinate_user_ids & member_ids).any?
+    end.map(&:user)
   end
 
   def active_bot?

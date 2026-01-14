@@ -83,9 +83,17 @@ class ActionService
 
   def agent_belongs_to_inbox?(agent_ids)
     member_ids = @conversation.inbox.members.pluck(:user_id)
-    assignable_agent_ids = member_ids + @account.administrators.ids
+    supervisor_ids = supervisors_for_inbox_ids(member_ids)
+    assignable_agent_ids = member_ids + @account.administrators.ids + supervisor_ids
 
     assignable_agent_ids.include?(agent_ids[0])
+  end
+
+  # Only include supervisors whose subordinates are members of the inbox
+  def supervisors_for_inbox_ids(member_ids)
+    @account.account_users.supervisor.select do |account_user|
+      (account_user.subordinate_user_ids & member_ids).any?
+    end.map(&:user_id)
   end
 
   def team_belongs_to_account?(team_ids)

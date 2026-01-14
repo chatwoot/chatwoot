@@ -40,8 +40,17 @@ class Messages::MentionService
   def valid_mentionable_user_ids
     @valid_mentionable_user_ids ||= begin
       inbox = message.inbox
-      inbox.account.administrators.pluck(:id) + inbox.members.pluck(:id)
+      member_ids = inbox.members.pluck(:id)
+      supervisor_ids = supervisors_for_inbox_ids(inbox.account, member_ids)
+      inbox.account.administrators.pluck(:id) + supervisor_ids + member_ids
     end
+  end
+
+  # Only include supervisors whose subordinates are members of the inbox
+  def supervisors_for_inbox_ids(account, member_ids)
+    account.account_users.supervisor.select do |account_user|
+      (account_user.subordinate_user_ids & member_ids).any?
+    end.map(&:user_id)
   end
 
   def filter_mentioned_ids_by_inbox

@@ -5,6 +5,7 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const CONVERSATION_PERMISSIONS = [
   'administrator',
+  'supervisor',
   'agent',
   'conversation_manage',
   'conversation_unassigned_manage',

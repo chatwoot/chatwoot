@@ -7,6 +7,7 @@
     "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
+      "SUPERVISOR": "Supervisor",
       "AGENT": "Agent"
     },
     "LIST": {

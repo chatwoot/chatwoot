@@ -63,8 +63,10 @@ class SlaEvent < ApplicationRecord
 
   def create_notifications
     notify_users = conversation.conversation_participants.map(&:user)
-    # Add all admins from the account to notify list
+    # Add all admins to notify list
     notify_users += account.administrators
+    # Add supervisors only if their subordinates include the assignee
+    notify_users += supervisors_for_conversation
     # Ensure conversation assignee is notified
     notify_users += [conversation.assignee] if conversation.assignee.present?
 
@@ -83,5 +85,15 @@ class SlaEvent < ApplicationRecord
         secondary_actor: sla_policy
       ).perform
     end
+  end
+
+  # Only notify supervisors whose subordinates include the conversation's assignee
+  def supervisors_for_conversation
+    return [] if conversation.assignee_id.blank?
+
+    account.account_users.supervisor.includes(:user).select do |account_user|
+      account_user.user_id == conversation.assignee_id ||
+        account_user.all_subordinate_user_ids.include?(conversation.assignee_id)
+    end.map(&:user)
   end
 end

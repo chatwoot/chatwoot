@@ -8,7 +8,7 @@ class ConversationPolicy < ApplicationPolicy
   end
 
   def show?
-    administrator? || agent_bot? || agent_can_view_conversation?
+    administrator? || agent_bot? || supervisor_can_view_conversation? || agent_can_view_conversation?
   end
 
   private
@@ -19,6 +19,16 @@ class ConversationPolicy < ApplicationPolicy
 
   def administrator?
     account_user&.administrator?
+  end
+
+  def supervisor_can_view_conversation?
+    return false unless account_user&.supervisor?
+
+    # Supervisor only sees conversations assigned to themselves or their subordinates
+    return false if record.assignee_id.blank?
+
+    record.assignee_id == user.id ||
+      account_user.all_subordinate_user_ids.include?(record.assignee_id)
   end
 
   def agent_bot?

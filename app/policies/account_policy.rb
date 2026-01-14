@@ -1,14 +1,14 @@
 class AccountPolicy < ApplicationPolicy
   def show?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || @account_user.supervisor? || @account_user.agent?
   end
 
   def cache_keys?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || @account_user.supervisor? || @account_user.agent?
   end
 
   def limits?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || @account_user.supervisor? || @account_user.agent?
   end
 
   def update?

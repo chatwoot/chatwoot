@@ -8,7 +8,7 @@ class SurveyAnswerPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator? || @account_user.agent?
+    @account_user.administrator? || @account_user.supervisor? || @account_user.agent?
   end
 
   def update?

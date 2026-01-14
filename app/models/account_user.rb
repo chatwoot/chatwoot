@@ -36,7 +36,7 @@ class AccountUser < ApplicationRecord
 
   has_many :subordinates, class_name: 'AccountUser', foreign_key: 'responsible_id', dependent: :nullify, inverse_of: :responsible
 
-  enum role: { agent: 0, administrator: 1 }
+  enum role: { agent: 0, administrator: 1, supervisor: 2 }
   enum availability: { online: 0, offline: 1, busy: 2 }
 
   accepts_nested_attributes_for :account
@@ -61,7 +61,25 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    return ['administrator'] if administrator?
+    return ['supervisor'] if supervisor?
+
+    ['agent']
+  end
+
+  def subordinate_user_ids
+    subordinates.pluck(:user_id)
+  end
+
+  def all_subordinate_user_ids(visited = Set.new)
+    return [] if visited.include?(id)
+
+    visited.add(id)
+    ids = subordinate_user_ids
+    subordinates.includes(:subordinates).each do |sub|
+      ids += sub.all_subordinate_user_ids(visited) if sub.supervisor?
+    end
+    ids.uniq
   end
 
   def push_event_data

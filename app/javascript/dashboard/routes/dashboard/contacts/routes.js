@@ -6,7 +6,7 @@ import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const commonMeta = {
   featureFlag: FEATURE_FLAGS.CRM,
-  permissions: ['administrator', 'agent', 'contact_manage'],
+  permissions: ['administrator', 'supervisor', 'agent', 'contact_manage'],
 };
 
 export const routes = [

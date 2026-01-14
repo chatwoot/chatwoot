@@ -120,3 +120,4 @@ BASE-DE-DATOS.md
 !.husky/.gitkeep
 *.md
 !docs/**/*.md
+/docs

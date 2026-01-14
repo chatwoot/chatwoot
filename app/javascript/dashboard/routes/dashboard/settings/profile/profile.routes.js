@@ -11,7 +11,7 @@ export default {
       path: frontendURL('accounts/:accountId/profile'),
       name: 'profile_settings',
       meta: {
-        permissions: ['administrator', 'agent', 'custom_role'],
+        permissions: ['administrator', 'supervisor', 'agent', 'custom_role'],
       },
       component: SettingsContent,
       children: [
@@ -20,7 +20,7 @@ export default {
           name: 'profile_settings_index',
           component: Index,
           meta: {
-            permissions: ['administrator', 'agent', 'custom_role'],
+            permissions: ['administrator', 'supervisor', 'agent', 'custom_role'],
           },
         },
         {
@@ -28,7 +28,7 @@ export default {
           name: 'profile_settings_mfa',
           component: MfaSettings,
           meta: {
-            permissions: ['administrator', 'agent', 'custom_role'],
+            permissions: ['administrator', 'supervisor', 'agent', 'custom_role'],
           },
           beforeEnter: (to, from, next) => {
             // Check if MFA is enabled globally

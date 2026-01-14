@@ -21,6 +21,6 @@ class Captain::Tools::BaseTool < RubyLLM::Tool
 
     return account_user.custom_role.permissions.include?(permission) if account_user.custom_role.present?
 
-    account_user.administrator? || account_user.agent?
+    account_user.administrator? || account_user.supervisor? || account_user.agent?
   end
 end

@@ -31,13 +31,25 @@ class SearchService
   end
 
   def filter_conversations
-    @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+    @conversations = conversation_base_query
                                     .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
                                     .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
                                     .order('conversations.created_at DESC')
                                     .page(params[:page])
                                     .per(15)
+  end
+
+  def conversation_base_query
+    if account_user.administrator?
+      current_account.conversations
+    elsif account_user.supervisor?
+      # Supervisor only sees conversations assigned to themselves or their subordinates
+      supervisor_assignee_ids = account_user.all_subordinate_user_ids + [current_user.id]
+      current_account.conversations.where(assignee_id: supervisor_assignee_ids)
+    else
+      current_account.conversations.where(inbox_id: accessable_inbox_ids)
+    end
   end
 
   def filter_messages
@@ -90,13 +102,19 @@ class SearchService
   end
 
   def message_base_query
-    query = current_account.messages.where('created_at >= ?', 3.months.ago)
-    query = query.where(inbox_id: accessable_inbox_ids) unless should_skip_inbox_filtering?
-    query
-  end
+    base = current_account.messages.where('messages.created_at >= ?', 3.months.ago)
 
-  def should_skip_inbox_filtering?
-    account_user.administrator? || user_has_access_to_all_inboxes?
+    if account_user.administrator?
+      base
+    elsif account_user.supervisor?
+      # Supervisor only sees messages from conversations assigned to themselves or their subordinates
+      supervisor_assignee_ids = account_user.all_subordinate_user_ids + [current_user.id]
+      base.joins(:conversation).where(conversations: { assignee_id: supervisor_assignee_ids })
+    elsif user_has_access_to_all_inboxes?
+      base
+    else
+      base.where(inbox_id: accessable_inbox_ids)
+    end
   end
 
   def user_has_access_to_all_inboxes?
@@ -107,13 +125,35 @@ class SearchService
     current_account.feature_enabled?('search_with_gin')
   end
 
+  # Used by enterprise advanced_search (Elasticsearch)
+  def should_skip_inbox_filtering?
+    account_user.administrator? || (!account_user.supervisor? && user_has_access_to_all_inboxes?)
+  end
+
   def filter_contacts
-    @contacts = current_account.contacts.where(
+    @contacts = contact_base_query.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
     ).resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
     ).order_on_last_activity_at('desc').page(params[:page]).per(15)
+  end
+
+  def contact_base_query
+    if account_user.administrator?
+      current_account.contacts
+    elsif account_user.supervisor?
+      # Supervisor only sees contacts with conversations assigned to themselves or their subordinates
+      supervisor_assignee_ids = account_user.all_subordinate_user_ids + [current_user.id]
+      contact_ids = current_account.conversations
+                                   .where(assignee_id: supervisor_assignee_ids)
+                                   .pluck(:contact_id)
+                                   .uniq
+      current_account.contacts.where(id: contact_ids)
+    else
+      # Agents see all contacts in the account
+      current_account.contacts
+    end
   end
 
   def filter_articles
