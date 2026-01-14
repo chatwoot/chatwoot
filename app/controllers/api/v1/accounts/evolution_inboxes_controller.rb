@@ -116,10 +116,10 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   end
 
   # POST /api/v1/accounts/:account_id/evolution/inboxes/:inbox_id/refresh
-  # Refreshes the connection (reconnect for Baileys)
+  # Refreshes the connection state (fetches current state from Evolution)
   def refresh
-    result = evolution_client.connect_instance(instance_name: evolution_instance_name)
-    render json: result
+    state = evolution_client.connection_state(instance_name: evolution_instance_name)
+    render json: state
   rescue EvolutionApi::Client::ApiError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end

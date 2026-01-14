@@ -68,6 +68,8 @@ export default {
       return this.connectionState?.instance?.state === 'open';
     },
     connectionStatus() {
+      // If QR code is displayed, show as connecting
+      if (this.qrCode?.base64 && !this.isConnected) return 'connecting';
       if (!this.connectionState?.instance) return 'unknown';
       return this.connectionState.instance.state || 'disconnected';
     },
@@ -192,6 +194,8 @@ export default {
       try {
         const response = await EvolutionAPI.getQRCode(this.inbox.id);
         this.qrCode = response.data;
+        // Start polling to detect when QR code is scanned
+        this.startPolling();
       } catch (error) {
         console.error('Failed to fetch QR code:', error);
         this.qrCode = null;
@@ -307,8 +311,16 @@ export default {
       try {
         await EvolutionAPI.logoutInstance(this.inbox.id);
         this.hasShownConnectedAlert = false;
+        this.qrCode = null;
+        this.integrationEnabled = false;
         useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.DISCONNECT_SUCCESS'));
-        await this.refreshConnection();
+
+        // Refresh connection state
+        const response = await EvolutionAPI.getConnectionState(this.inbox.id);
+        this.connectionState = response.data;
+
+        // Start polling for reconnection
+        this.startPolling();
       } catch (error) {
         console.error('Error disconnecting instance:', error);
         const errorMsg =
@@ -323,21 +335,16 @@ export default {
     async refreshInstance() {
       this.isRefreshing = true;
       try {
-        await EvolutionAPI.refreshInstance(this.inbox.id);
-        useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_SUCCESS'));
-
-        this.skipAutoQrFetch = true;
-
-        await new Promise(resolve => setTimeout(resolve, 2000));
-
         const response = await EvolutionAPI.getConnectionState(this.inbox.id);
         this.connectionState = response.data;
 
-        setTimeout(() => {
-          this.skipAutoQrFetch = false;
-        }, 30000);
+        // If now connected and wasn't before, show success
+        if (this.isConnected && !this.hasShownConnectedAlert) {
+          this.hasShownConnectedAlert = true;
+          this.qrCode = null;
+          useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.CONNECTED'));
+        }
       } catch (error) {
-        this.skipAutoQrFetch = false;
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_ERROR')
