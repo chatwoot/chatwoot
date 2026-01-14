@@ -7,7 +7,11 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Policy from 'dashboard/components/policy.vue';
-import { INBOX_TYPES, getInboxIconByType } from 'dashboard/helper/inbox';
+import {
+  INBOX_TYPES,
+  getInboxIconByType,
+  isEvolutionInbox,
+} from 'dashboard/helper/inbox';
 
 const props = defineProps({
   id: {
@@ -41,6 +45,12 @@ const inboxName = computed(() => {
     return identifier ? `${inbox.name} (${identifier})` : inbox.name;
   }
 
+  // Evolution inboxes store phone number in additional_attributes
+  if (isEvolutionInbox(inbox.additional_attributes)) {
+    const phoneNumber = inbox.additional_attributes?.phone_number;
+    return phoneNumber ? `${inbox.name} (${phoneNumber})` : inbox.name;
+  }
+
   if (isEmailChannel && inbox.email) {
     return `${inbox.name} (${inbox.email})`;
   }
@@ -58,8 +68,8 @@ const menuItems = computed(() => [
 ]);
 
 const icon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium, 'outline');
+  const { medium, channel_type: type, additional_attributes } = props.inbox;
+  return getInboxIconByType(type, medium, 'outline', additional_attributes);
 });
 
 const handleAction = ({ action, value }) => {

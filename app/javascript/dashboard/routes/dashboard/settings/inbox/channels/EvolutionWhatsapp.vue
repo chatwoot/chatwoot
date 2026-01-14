@@ -61,14 +61,54 @@ const v$ = useVuelidate(rules, {
   inboxName,
 });
 
-// Methods
-const resetBaileysState = () => {
-  createdInbox.value = null;
-  qrCode.value = null;
-  connectionState.value = null;
-  stopPolling();
+// Helper functions - defined first to avoid hoisting issues
+const stopPolling = () => {
+  if (pollTimer.value) {
+    clearInterval(pollTimer.value);
+    pollTimer.value = null;
+  }
 };
 
+const fetchQRCode = async () => {
+  if (!createdInbox.value) return;
+
+  try {
+    const response = await EvolutionAPI.getQRCode(createdInbox.value.id);
+    qrCode.value = response.data;
+  } catch (error) {
+    // Silently handle QR code fetch errors
+  }
+};
+
+const refreshConnection = async () => {
+  if (!createdInbox.value) return;
+
+  try {
+    const response = await EvolutionAPI.getConnectionState(
+      createdInbox.value.id
+    );
+    connectionState.value = response.data;
+
+    if (isConnected.value) {
+      qrCode.value = null;
+      stopPolling();
+      useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.CONNECTED'));
+    } else if (!qrCode.value?.base64) {
+      await fetchQRCode();
+    }
+  } catch (error) {
+    // Silently handle connection state errors
+  }
+};
+
+const startPolling = () => {
+  if (pollTimer.value) return;
+  pollTimer.value = setInterval(() => {
+    refreshConnection();
+  }, POLL_INTERVAL);
+};
+
+// Main methods
 const loadQRCode = async () => {
   if (!canLoadQR.value) return;
 
@@ -88,7 +128,6 @@ const loadQRCode = async () => {
     await fetchQRCode();
     startPolling();
   } catch (error) {
-    console.error('Failed to create Evolution inbox:', error);
     const serverError =
       error.response?.data?.error || error.response?.data?.message || '';
     // Check for duplicate inbox name error
@@ -111,43 +150,6 @@ const loadQRCode = async () => {
   }
 };
 
-const fetchQRCode = async () => {
-  if (!createdInbox.value) return;
-
-  try {
-    const response = await EvolutionAPI.getQRCode(createdInbox.value.id);
-    console.log('QR code response:', response.data);
-    qrCode.value = response.data;
-  } catch (error) {
-    console.error('Failed to fetch QR code:', error);
-  }
-};
-
-const refreshConnection = async () => {
-  if (!createdInbox.value) return;
-
-  try {
-    const response = await EvolutionAPI.getConnectionState(
-      createdInbox.value.id
-    );
-    connectionState.value = response.data;
-
-    // Debug log to see what state we're getting
-    console.log('Connection state:', response.data?.instance?.state);
-
-    if (isConnected.value) {
-      qrCode.value = null;
-      stopPolling();
-      useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.CONNECTED'));
-    } else if (!qrCode.value?.base64) {
-      // Only try to fetch QR code if we don't have one and not connected
-      await fetchQRCode();
-    }
-  } catch (error) {
-    console.error('Failed to refresh connection state:', error);
-  }
-};
-
 const refreshQRCode = async () => {
   isLoadingQR.value = true;
   try {
@@ -162,24 +164,9 @@ const refreshQRCode = async () => {
       await fetchQRCode();
     }
   } catch (error) {
-    console.error('Failed to refresh QR code:', error);
     useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.QR_ERROR'));
   } finally {
     isLoadingQR.value = false;
-  }
-};
-
-const startPolling = () => {
-  if (pollTimer.value) return;
-  pollTimer.value = setInterval(() => {
-    refreshConnection();
-  }, POLL_INTERVAL);
-};
-
-const stopPolling = () => {
-  if (pollTimer.value) {
-    clearInterval(pollTimer.value);
-    pollTimer.value = null;
   }
 };
 
@@ -189,7 +176,6 @@ const enableChatwootIntegration = async () => {
   try {
     await EvolutionAPI.enableIntegration(createdInbox.value.id);
   } catch (error) {
-    console.error('Failed to enable Chatwoot integration:', error);
     useAlert(
       error.response?.data?.error ||
         t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.INTEGRATION_ERROR')
@@ -234,7 +220,10 @@ onBeforeUnmount(() => {
       :header-title="$t('INBOX_MGMT.ADD.EVOLUTION.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.EVOLUTION.DESCRIPTION')"
     />
-    <form class="mx-0 flex flex-col flex-wrap" @submit.prevent="proceedToAgents">
+    <form
+      class="mx-0 flex flex-col flex-wrap"
+      @submit.prevent="proceedToAgents"
+    >
       <!-- Error Banner -->
       <div
         v-if="errorMessage"
@@ -268,7 +257,9 @@ onBeforeUnmount(() => {
               class="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40"
               @click="errorMessage = ''"
             >
-              <span class="sr-only">Dismiss</span>
+              <span class="sr-only">{{
+                $t('INBOX_MGMT.ADD.EVOLUTION.DISMISS')
+              }}</span>
               <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fill-rule="evenodd"

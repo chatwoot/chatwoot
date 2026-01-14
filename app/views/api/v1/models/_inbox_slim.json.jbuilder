@@ -4,3 +4,7 @@ json.channel_id resource.channel_id
 json.name resource.name
 json.channel_type resource.channel_type
 json.provider resource.channel.try(:provider)
+json.phone_number resource.channel.try(:phone_number)
+json.messaging_service_sid resource.channel.try(:messaging_service_sid)
+json.medium resource.channel.try(:medium)
+json.additional_attributes resource.channel.try(:additional_attributes)

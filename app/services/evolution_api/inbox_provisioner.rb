@@ -20,14 +20,12 @@ module EvolutionApi
   class InboxProvisioner
     class ProvisioningError < StandardError; end
 
-    # Integration user email pattern (one per installation)
-    INTEGRATION_USER_EMAIL = 'evolution-integration@system.local'
+    attr_reader :account, :inbox_name, :instance_name, :user
 
-    attr_reader :account, :inbox_name, :instance_name
-
-    def initialize(account:, inbox_name:)
+    def initialize(account:, inbox_name:, user:)
       @account = account
       @inbox_name = inbox_name
+      @user = user
       @instance_name = generate_instance_name
     end
 
@@ -36,7 +34,7 @@ module EvolutionApi
     def provision!
       validate_evolution_enabled!
       validate_inbox_name_uniqueness!
-      ensure_integration_user_membership!
+      ensure_user_access_token!
 
       create_evolution_instance!
       inbox = create_chatwoot_inbox!
@@ -84,51 +82,11 @@ module EvolutionApi
       "cw-#{account.id}-#{timestamp}-#{random_suffix}"
     end
 
-    def ensure_integration_user_membership!
-      integration_user = find_or_create_integration_user
-      ensure_account_admin_membership!(integration_user)
-      ensure_access_token!(integration_user)
-    end
-
-    def find_or_create_integration_user
-      user = User.find_by(email: INTEGRATION_USER_EMAIL)
-
-      return user if user.present?
-
-      # Create the integration user (system-level, no actual login)
-      # Generate a strong password that meets all validation requirements
-      secure_password = "#{SecureRandom.hex(16)}Aa1!@"
-
-      User.create!(
-        email: INTEGRATION_USER_EMAIL,
-        name: 'Evolution Integration',
-        password: secure_password,
-        password_confirmation: secure_password,
-        confirmed_at: Time.current,
-        type: 'SuperAdmin'
-      )
-    end
-
-    def ensure_account_admin_membership!(user)
-      existing_membership = AccountUser.find_by(user: user, account: account)
-
-      if existing_membership.present?
-        existing_membership.update!(role: :administrator) unless existing_membership.administrator?
-      else
-        AccountUser.create!(
-          user: user,
-          account: account,
-          role: :administrator
-        )
-      end
-    end
-
-    def ensure_access_token!(user)
+    def ensure_user_access_token!
       user.access_token || user.create_access_token
     end
 
-    def integration_user_token
-      user = User.find_by!(email: INTEGRATION_USER_EMAIL)
+    def user_token
       user.access_token&.token
     end
 

@@ -21,7 +21,9 @@ class SendReplyJob < ApplicationJob
     channel_name = inbox.channel.class.to_s
 
     return send_on_facebook_page(message) if channel_name == 'Channel::FacebookPage'
-    return send_on_evolution(message) if channel_name == 'Channel::Api' && inbox.evolution_inbox?
+    # Evolution inboxes: Skip sending here - Evolution's native Chatwoot integration
+    # handles outbound messages via webhook. Sending here would cause duplicates.
+    return if channel_name == 'Channel::Api' && inbox.evolution_inbox?
 
     service_class = CHANNEL_SERVICES[channel_name]
     return unless service_class
@@ -30,10 +32,6 @@ class SendReplyJob < ApplicationJob
   end
 
   private
-
-  def send_on_evolution(message)
-    ::Evolution::SendOnEvolutionBaileysService.new(message: message).perform
-  end
 
   def send_on_facebook_page(message)
     if message.conversation.additional_attributes['type'] == 'instagram_direct_message'

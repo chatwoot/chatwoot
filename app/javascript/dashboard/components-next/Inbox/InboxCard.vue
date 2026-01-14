@@ -49,8 +49,8 @@ const isUnread = computed(() => !props.inboxItem?.readAt);
 const inbox = computed(() => props.stateInbox);
 
 const inboxIcon = computed(() => {
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+  const { channelType, medium, additionalAttributes } = inbox.value;
+  return getInboxIconByType(channelType, medium, 'fill', additionalAttributes);
 });
 
 const hasSlaThreshold = computed(() => {

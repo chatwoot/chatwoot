@@ -204,9 +204,13 @@ module EvolutionApi
     def request(method, path, body = nil)
       url = "#{@base_url}#{path}"
       options = {
-        headers: headers
+        headers: headers,
+        timeout: 30 # 30 second timeout
       }
       options[:body] = body.to_json if body.present?
+
+      Rails.logger.debug("[Evolution API] #{method.upcase} #{url}")
+      Rails.logger.debug("[Evolution API] Body: #{body.inspect}") if body.present?
 
       response = case method
                  when :get
@@ -223,6 +227,7 @@ module EvolutionApi
                    raise ArgumentError, "Unsupported HTTP method: #{method}"
                  end
 
+      Rails.logger.debug("[Evolution API] Response code: #{response.code}")
       handle_response(response)
     end
 

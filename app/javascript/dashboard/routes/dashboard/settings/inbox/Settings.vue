@@ -212,8 +212,8 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxIcon() {
-      const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium);
+      const { medium, channel_type: type, additional_attributes } = this.inbox;
+      return getInboxIconByType(type, medium, 'fill', additional_attributes);
     },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
@@ -223,6 +223,14 @@ export default {
       }
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      if (this.isEvolutionInbox) {
+        const phoneNumber =
+          this.inbox.additional_attributes?.phone_number ||
+          this.inbox.additionalAttributes?.phoneNumber;
+        return phoneNumber
+          ? `${this.inbox.name} (${phoneNumber})`
+          : this.inbox.name;
       }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;

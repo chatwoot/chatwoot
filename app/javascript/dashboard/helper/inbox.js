@@ -51,6 +51,13 @@ const INBOX_ICON_MAP_LINE = {
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
 
+export const isEvolutionInbox = additionalAttributes => {
+  return !!(
+    additionalAttributes?.evolution_instance_name ||
+    additionalAttributes?.evolutionInstanceName
+  );
+};
+
 export const getInboxSource = (type, phoneNumber, inbox) => {
   switch (type) {
     case INBOX_TYPES.WEB:
@@ -68,7 +75,16 @@ export const getInboxSource = (type, phoneNumber, inbox) => {
       return '';
   }
 };
-export const getReadableInboxByType = (type, phoneNumber) => {
+export const getReadableInboxByType = (
+  type,
+  phoneNumber,
+  additionalAttributes = {}
+) => {
+  // Special case for Evolution API (WhatsApp via Baileys)
+  if (type === INBOX_TYPES.API && isEvolutionInbox(additionalAttributes)) {
+    return 'whatsapp';
+  }
+
   switch (type) {
     case INBOX_TYPES.WEB:
       return 'livechat';
@@ -105,7 +121,16 @@ export const getReadableInboxByType = (type, phoneNumber) => {
   }
 };
 
-export const getInboxClassByType = (type, phoneNumber) => {
+export const getInboxClassByType = (
+  type,
+  phoneNumber,
+  additionalAttributes = {}
+) => {
+  // Special case for Evolution API (WhatsApp via Baileys)
+  if (type === INBOX_TYPES.API && isEvolutionInbox(additionalAttributes)) {
+    return 'brand-whatsapp';
+  }
+
   switch (type) {
     case INBOX_TYPES.WEB:
       return 'globe-desktop';
@@ -150,7 +175,12 @@ export const getInboxClassByType = (type, phoneNumber) => {
   }
 };
 
-export const getInboxIconByType = (type, medium, variant = 'fill') => {
+export const getInboxIconByType = (
+  type,
+  medium,
+  variant = 'fill',
+  additionalAttributes = {}
+) => {
   const iconMap =
     variant === 'fill' ? INBOX_ICON_MAP_FILL : INBOX_ICON_MAP_LINE;
   const defaultIcon =
@@ -158,6 +188,11 @@ export const getInboxIconByType = (type, medium, variant = 'fill') => {
 
   // Special case for Twilio (whatsapp and sms)
   if (type === INBOX_TYPES.TWILIO && medium === 'whatsapp') {
+    return iconMap[INBOX_TYPES.WHATSAPP];
+  }
+
+  // Special case for Evolution API (WhatsApp via Baileys)
+  if (type === INBOX_TYPES.API && isEvolutionInbox(additionalAttributes)) {
     return iconMap[INBOX_TYPES.WHATSAPP];
   }
 

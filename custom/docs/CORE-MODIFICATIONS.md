@@ -2,14 +2,14 @@
 
 **Purpose:** Complete list of all Chatwoot files modified by CommMate  
 **Goal:** Quick reference for merge conflict resolution during upgrades  
-**Last Updated:** January 11, 2026
+**Last Updated:** January 14, 2026
 
 ---
 
 ## 📊 Summary
 
-**Total Modified Files:** 20 files  
-**Total Lines Changed:** ~600 lines across all files (including i18n translations)
+**Total Modified Files:** 37 files  
+**Total Lines Changed:** ~1200 lines across all files (including i18n translations)
 
 CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Branding (logo, version display)
@@ -17,6 +17,7 @@ CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Campaign permission management
 - Version tracking
 - WhatsApp Templates CRUD (feat/whatsapp-templates-crud)
+- Evolution WhatsApp Inbox Integration (feat/evolution-baileys-inbox)
 
 ---
 
@@ -372,6 +373,237 @@ These modifications support the WhatsApp Templates CRUD feature (feat/whatsapp-t
 
 ---
 
+### Evolution WhatsApp Inbox Integration (17 files)
+
+These modifications support the Evolution WhatsApp Inbox integration (feat/evolution-baileys-inbox).  
+Enables WhatsApp communication via Evolution API (Baileys provider only).
+
+#### 17. app/controllers/api/v1/accounts/evolution_inboxes_controller.rb
+
+**Lines Modified:** 370 lines (NEW FILE)  
+**Reason:** Handle Evolution API-backed WhatsApp inbox operations  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- New controller for Evolution inbox management
+- Actions: create, connection state, QR code, enable integration, restart, logout, refresh
+- Phone number extraction from Evolution API (ownerJid)
+- Chatwoot integration settings management
+- Instance settings configuration
+
+**Review on Upgrade:**
+- No conflicts expected (new file)
+- Check if BaseController interface changed
+
+**Merge Conflict Strategy:**
+- Keep as new file
+- Ensure BaseController inheritance works
+
+---
+
+#### 18. app/services/evolution_api/client.rb
+
+**Lines Modified:** 270 lines (NEW FILE)  
+**Reason:** Evolution API HTTP client for Baileys integration  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- HTTP client for Evolution API communication
+- Instance management (create, delete, fetch, connection state)
+- Chatwoot integration configuration
+- WhatsApp settings management
+- Message sending (text and media)
+- 30-second timeout for API requests
+
+**Review on Upgrade:**
+- No conflicts expected (new file)
+
+**Merge Conflict Strategy:**
+- Keep as new file
+
+---
+
+#### 19. app/services/evolution_api/inbox_provisioner.rb
+
+**Lines Modified:** 163 lines (NEW FILE)  
+**Reason:** Orchestrate Evolution inbox creation  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Evolution instance creation
+- Chatwoot inbox creation
+- Integration user management (uses current user, not system user)
+- Inbox name uniqueness validation
+
+**Review on Upgrade:**
+- No conflicts expected (new file)
+
+**Merge Conflict Strategy:**
+- Keep as new file
+
+---
+
+#### 20. app/services/evolution/send_on_evolution_baileys_service.rb
+
+**Lines Modified:** 139 lines (NEW FILE)  
+**Reason:** Handle outbound messages for Evolution Baileys inboxes  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Message sending service (text and media)
+- Evolution API response parsing
+- Message status updates
+- Contact identifier handling (WhatsApp JID)
+
+**Review on Upgrade:**
+- No conflicts expected (new file)
+
+**Merge Conflict Strategy:**
+- Keep as new file
+
+---
+
+#### 21. app/models/concerns/evolution_inbox.rb
+
+**Lines Modified:** 50 lines (NEW FILE)  
+**Reason:** Evolution inbox predicates and cleanup  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- `evolution_inbox?` and `evolution_baileys?` predicates
+- `before_destroy` callback to delete Evolution instance
+- Instance name extraction helper
+
+**Review on Upgrade:**
+- No conflicts expected (new file)
+- Ensure included in Inbox model
+
+**Merge Conflict Strategy:**
+- Keep as new file
+
+---
+
+#### 22. app/jobs/send_reply_job.rb
+
+**Lines Modified:** ~10 lines  
+**Reason:** Prevent duplicate message sending for Evolution inboxes  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Skip Evolution inboxes in send job (Evolution's native integration handles it)
+- Prevents duplicate outbound messages
+
+**Review on Upgrade:**
+- Check if perform method signature changed
+- Verify CHANNEL_SERVICES hash structure
+
+**Merge Conflict Strategy:**
+- Keep skip logic for Evolution inboxes
+- Add comment explaining why
+
+---
+
+#### 23-29. Frontend Components (7 Vue files)
+
+**Files Modified:**
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/Index.vue`
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/Settings.vue`
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/channels/ChannelList.vue`
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/channels/ChannelFactory.vue`
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/components/ChannelName.vue`
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/evolution/EvolutionWhatsapp.vue` (NEW)
+- `app/javascript/dashboard/routes/dashboard/settings/inbox/evolution/EvolutionSettings.vue` (NEW)
+
+**Changes Made:**
+- Add Evolution channel to inbox creation flow
+- Display phone number from additional_attributes for Evolution inboxes
+- Show "Evolution WhatsApp" as channel name
+- New Evolution inbox creation page with QR code scanning
+- New Evolution settings page with connection management
+- Phone number display updates after refresh
+
+**Review on Upgrade:**
+- Check if inbox creation flow changed
+- Verify Settings.vue tabs structure
+- Review ChannelList/ChannelFactory patterns
+
+**Merge Conflict Strategy:**
+- Keep Evolution channel additions
+- Preserve Evolution components as new files
+
+---
+
+#### 30-36. Frontend Helpers & Components (7 files)
+
+**Files Modified:**
+- `app/javascript/dashboard/helper/inbox.js` - Evolution inbox detection, WhatsApp icon/name
+- `app/javascript/dashboard/components-next/icon/provider.js` - WhatsApp icon for Evolution
+- `app/javascript/dashboard/components-next/NewConversation/helpers/composeConversationHelper.js` - Phone number in send message
+- `app/javascript/dashboard/components-next/Inbox/InboxCard.vue` - Pass additional_attributes for icon
+- `app/javascript/dashboard/components-next/Conversation/ConversationCard.vue` - Pass additional_attributes
+- `app/javascript/dashboard/components-next/Campaigns/CampaignCard/CampaignCard.vue` - Pass additional_attributes
+- `app/javascript/dashboard/components-next/captain/assistant/InboxCard.vue` - Display phone number
+
+**Changes Made:**
+- `isEvolutionInbox()` helper function
+- `getInboxIconByType()` accepts `additionalAttributes` parameter
+- WhatsApp icon display for Evolution inboxes
+- Phone number display in all inbox lists
+
+**Review on Upgrade:**
+- Check if inbox helper patterns changed
+- Verify icon provider structure
+
+**Merge Conflict Strategy:**
+- Keep Evolution-specific checks
+- Preserve additional_attributes parameter passing
+
+---
+
+#### 37. app/javascript/dashboard/i18n/locale/pt_BR/inboxMgmt.json
+
+**Lines Modified:** ~150 lines  
+**Reason:** Portuguese translations for Evolution features  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Added `EVOLUTION` section under `INBOX_MGMT.ADD`
+- Added `EVOLUTION_SETTINGS` tab and section
+- Added `CHANNELS.EVOLUTION` translation
+- Complete Evolution UI translations in Portuguese
+
+**Review on Upgrade:**
+- Check if inboxMgmt.json structure changed
+- Review if Evolution translations conflict with new Chatwoot features
+
+**Merge Conflict Strategy:**
+- Keep Chatwoot's structure
+- Preserve CommMate's EVOLUTION sections
+
+---
+
+#### 38. app/views/api/v1/models/_inbox_slim.json.jbuilder
+
+**Lines Modified:** 4 lines  
+**Reason:** Expose additional_attributes and phone_number for Evolution inboxes  
+**Last Modified:** January 2026
+
+**Changes Made:**
+- Added `phone_number` field
+- Added `additional_attributes` field
+- Added `medium` field
+- Added `messaging_service_sid` field
+
+**Review on Upgrade:**
+- Check if inbox_slim structure changed
+- Verify no sensitive data exposure
+
+**Merge Conflict Strategy:**
+- Keep additions
+- Align with _inbox.json.jbuilder structure
+
+---
+
 ### Configuration (2 files, now 3 files)
 
 #### 14. config/routes.rb
@@ -634,6 +866,26 @@ After merging a new Chatwoot version, test:
 - [ ] Delete a template and verify it's removed
 - [ ] Test translations in PT-BR locale
 
+### Evolution WhatsApp Inbox Integration
+- [ ] Enable Evolution API in Super Admin settings (EVOLUTION_API_ENABLED, EVOLUTION_API_URL, EVOLUTION_API_KEY)
+- [ ] Navigate to Settings > Inboxes > Add Inbox
+- [ ] Verify "Evolution WhatsApp" channel appears
+- [ ] Create Evolution inbox with unique name
+- [ ] Scan QR code with WhatsApp mobile app
+- [ ] Verify connection status shows "Connected"
+- [ ] Verify phone number appears in inbox settings
+- [ ] Send test message and verify delivery
+- [ ] Receive message from WhatsApp and verify in Chatwoot
+- [ ] Navigate to Evolution settings tab
+- [ ] Test Refresh Instance button (phone number updates)
+- [ ] Test Disconnect button (phone number clears)
+- [ ] Reconnect with different WhatsApp (phone number updates)
+- [ ] Delete Evolution inbox (verify instance deleted in Evolution API)
+- [ ] Verify WhatsApp icon displays in inbox list
+- [ ] Verify "Evolution WhatsApp" name in channel list
+- [ ] Verify phone number displays in send message flow
+- [ ] Test translations in PT-BR locale
+
 ---
 
 ## 📝 Maintenance Notes
@@ -670,11 +922,15 @@ After merging a new Chatwoot version, test:
 
 ## 📊 Statistics
 
-- **Total Files Modified:** 20
-- **Controllers:** 1
-- **Views:** 4
+- **Total Files Modified:** 37
+- **Controllers:** 2 (1 core + 1 Evolution)
+- **Services:** 3 (Evolution API client, provisioner, send service)
+- **Models/Concerns:** 1 (Evolution inbox concern)
+- **Jobs:** 1 modified (send_reply_job)
+- **Views:** 5 (4 core + 1 inbox_slim)
 - **Dashboards:** 1
 - **Policies:** 1
+- **Frontend Components:** 14 (7 Evolution Vue components + 7 helper/card updates)
 - **JavaScript:** 7 (including 4 for WhatsApp Templates)
 - **Config:** 2
 - **Migrations:** 2

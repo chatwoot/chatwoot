@@ -38,12 +38,15 @@ class Evolution::SendOnEvolutionBaileysService
   end
 
   def send_text_message
+    Rails.logger.info("[Evolution Baileys] Sending text message to #{recipient_phone} via instance #{evolution_instance_name}")
+
     result = evolution_client.send_text(
       instance_name: evolution_instance_name,
       phone_number: recipient_phone,
       text: message.content
     )
 
+    Rails.logger.info("[Evolution Baileys] Send result: #{result.inspect}")
     update_message_with_result(result)
   end
 
@@ -76,7 +79,12 @@ class Evolution::SendOnEvolutionBaileysService
 
   def update_message_with_result(result)
     # Evolution API returns message ID in different formats
-    message_id = result['key']&.dig('id') || result['messageId'] || result['id']
+    # Sometimes it's an array, sometimes a hash
+    response = result.is_a?(Array) ? result.first : result
+
+    return message.update!(status: :sent) if response.blank?
+
+    message_id = extract_message_id(response)
 
     if message_id.present?
       message.update!(source_id: message_id, status: :sent)
@@ -85,8 +93,19 @@ class Evolution::SendOnEvolutionBaileysService
     end
   end
 
+  def extract_message_id(response)
+    return nil unless response.is_a?(Hash)
+
+    # Try different response formats from Evolution API
+    response.dig('key', 'id') ||
+      response['messageId'] ||
+      response['id'] ||
+      response.dig('message', 'key', 'id')
+  end
+
   def handle_api_error(error)
-    Rails.logger.error("[Evolution Baileys] Send message failed: #{error.message}")
+    Rails.logger.error("[Evolution Baileys] API error sending message: #{error.message}")
+    Rails.logger.error("[Evolution Baileys] API error details - Status: #{error.status rescue 'N/A'}, Body: #{error.response_body rescue 'N/A'}")
     message.update!(
       status: :failed,
       external_error: error.message
@@ -94,8 +113,8 @@ class Evolution::SendOnEvolutionBaileysService
   end
 
   def handle_unexpected_error(error)
-    Rails.logger.error("[Evolution Baileys] Unexpected error sending message: #{error.message}")
-    Rails.logger.error(error.backtrace&.first(5)&.join("\n"))
+    Rails.logger.error("[Evolution Baileys] Unexpected error sending message: #{error.class.name} - #{error.message}")
+    Rails.logger.error("[Evolution Baileys] Backtrace: #{error.backtrace&.first(10)&.join("\n")}")
     message.update!(
       status: :failed,
       external_error: "Unexpected error: #{error.message}"
@@ -103,7 +122,9 @@ class Evolution::SendOnEvolutionBaileysService
   end
 
   def recipient_phone
-    contact_inbox.source_id
+    # Use contact identifier (WhatsApp JID like "555198007929@s.whatsapp.net" or "group@g.us")
+    # Fall back to phone_number if identifier is not available
+    contact.identifier.presence || contact.phone_number&.gsub(/\D/, '')
   end
 
   def evolution_instance_name

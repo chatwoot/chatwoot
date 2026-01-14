@@ -107,8 +107,8 @@ const canViewDetails = computed(() => !props.isLiveChatType);
 const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium);
+  const { medium, channel_type: type, additional_attributes } = props.inbox;
+  return getInboxIconByType(type, medium, 'fill', additional_attributes);
 });
 
 const handleCardClick = () => {

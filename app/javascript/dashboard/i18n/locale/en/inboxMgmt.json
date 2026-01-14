@@ -475,7 +475,8 @@
         "API": {
           "ERROR_MESSAGE": "Failed to create Evolution inbox",
           "DUPLICATE_NAME_ERROR": "An inbox with this name already exists. Please use a different name."
-        }
+        },
+        "DISMISS": "Dismiss"
       },
       "AUTH": {
         "TITLE": "Choose a channel",

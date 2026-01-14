@@ -65,9 +65,11 @@ class EvolutionAPI extends ApiClient {
 
   // Update instance settings
   updateInstanceSettings(inboxId, settings) {
-    return axios.put(`${this.url}/inboxes/${inboxId}/instance_settings`, settings);
+    return axios.put(
+      `${this.url}/inboxes/${inboxId}/instance_settings`,
+      settings
+    );
   }
 }
 
 export default new EvolutionAPI();
-

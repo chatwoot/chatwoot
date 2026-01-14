@@ -90,15 +90,12 @@ export default {
     async fetchSettings() {
       this.isLoading = true;
       try {
-        const [
-          settingsResponse,
-          connectionResponse,
-          instanceSettingsResponse,
-        ] = await Promise.all([
-          EvolutionAPI.getChatwootSettings(this.inbox.id),
-          EvolutionAPI.getConnectionState(this.inbox.id),
-          EvolutionAPI.getInstanceSettings(this.inbox.id),
-        ]);
+        const [settingsResponse, connectionResponse, instanceSettingsResponse] =
+          await Promise.all([
+            EvolutionAPI.getChatwootSettings(this.inbox.id),
+            EvolutionAPI.getConnectionState(this.inbox.id),
+            EvolutionAPI.getInstanceSettings(this.inbox.id),
+          ]);
 
         this.settings = settingsResponse.data;
         this.connectionState = connectionResponse.data;
@@ -197,7 +194,6 @@ export default {
         // Start polling to detect when QR code is scanned
         this.startPolling();
       } catch (error) {
-        console.error('Failed to fetch QR code:', error);
         this.qrCode = null;
         useAlert(
           error.response?.data?.error ||
@@ -236,7 +232,7 @@ export default {
           await this.connectInstance();
         }
       } catch (error) {
-        console.error('Failed to refresh connection state:', error);
+        // Silently handle connection refresh errors
       }
     },
     async enableIntegration() {
@@ -248,7 +244,6 @@ export default {
         this.integrationEnabled = true;
         useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION_ENABLED'));
       } catch (error) {
-        console.error('Failed to enable integration:', error);
         useAlert(
           error.response?.data?.error ||
             this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION_ENABLE_ERROR')
@@ -277,7 +272,9 @@ export default {
 
         this.skipAutoQrFetch = true;
 
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        await new Promise(resolve => {
+          setTimeout(resolve, 2000);
+        });
 
         const response = await EvolutionAPI.getConnectionState(this.inbox.id);
         this.connectionState = response.data;
@@ -303,7 +300,7 @@ export default {
           await this.confirmDisconnect();
         }
       } catch (error) {
-        console.error('Error in disconnect dialog:', error);
+        // Silently handle connection refresh errors
       }
     },
     async confirmDisconnect() {
@@ -322,7 +319,6 @@ export default {
         // Start polling for reconnection
         this.startPolling();
       } catch (error) {
-        console.error('Error disconnecting instance:', error);
         const errorMsg =
           error.response?.data?.error ||
           error.message ||
@@ -335,7 +331,8 @@ export default {
     async refreshInstance() {
       this.isRefreshing = true;
       try {
-        const response = await EvolutionAPI.getConnectionState(this.inbox.id);
+        // Call the refresh endpoint which fetches connection state AND updates phone number
+        const response = await EvolutionAPI.refreshInstance(this.inbox.id);
         this.connectionState = response.data;
 
         // If now connected and wasn't before, show success
@@ -344,6 +341,11 @@ export default {
           this.qrCode = null;
           useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.CONNECTED'));
         }
+
+        // Reload inbox data to get updated phone number
+        await this.$store.dispatch('inboxes/get', { inboxId: this.inbox.id });
+
+        useAlert(this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REFRESH_SUCCESS'));
       } catch (error) {
         useAlert(
           error.response?.data?.error ||
@@ -366,7 +368,7 @@ export default {
       <SettingsSection
         :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.CONNECTION.TITLE')"
         :sub-title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.CONNECTION.DESCRIPTION')"
-        :show-border="true"
+        show-border
       >
         <div class="flex flex-col gap-4">
           <div class="flex items-center gap-3">
@@ -401,9 +403,7 @@ export default {
             </p>
             <p>
               <strong
-                >{{
-                  $t('INBOX_MGMT.EVOLUTION.SETTINGS.CHANNEL_TYPE')
-                }}:</strong
+                >{{ $t('INBOX_MGMT.EVOLUTION.SETTINGS.CHANNEL_TYPE') }}:</strong
               >
               {{ isBaileys ? 'Baileys' : 'WhatsApp Cloud API' }}
             </p>
@@ -415,9 +415,7 @@ export default {
               >
               {{ ' ' }}
               <span
-                :class="
-                  integrationEnabled ? 'text-green-600' : 'text-red-600'
-                "
+                :class="integrationEnabled ? 'text-green-600' : 'text-red-600'"
               >
                 {{
                   integrationEnabled
@@ -446,7 +444,9 @@ export default {
                 />
               </svg>
               <div class="flex-1">
-                <h4 class="text-sm font-medium text-yellow-800 dark:text-yellow-200">
+                <h4
+                  class="text-sm font-medium text-yellow-800 dark:text-yellow-200"
+                >
                   {{
                     $t(
                       'INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION_NOT_ENABLED_TITLE'
@@ -465,7 +465,9 @@ export default {
                   solid
                   blue
                   :label="
-                    $t('INBOX_MGMT.EVOLUTION.SETTINGS.ENABLE_INTEGRATION_BUTTON')
+                    $t(
+                      'INBOX_MGMT.EVOLUTION.SETTINGS.ENABLE_INTEGRATION_BUTTON'
+                    )
                   "
                   :is-loading="isEnablingIntegration"
                   @click="enableIntegration"
@@ -557,7 +559,7 @@ export default {
         v-if="isBaileys"
         :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.INSTANCE.TITLE')"
         :sub-title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.INSTANCE.DESCRIPTION')"
-        :show-border="true"
+        show-border
       >
         <div class="flex flex-col gap-4">
           <label class="flex items-center gap-2">
@@ -644,7 +646,7 @@ export default {
       <SettingsSection
         :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION.TITLE')"
         :sub-title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.INTEGRATION.DESCRIPTION')"
-        :show-border="true"
+        show-border
       >
         <div class="flex flex-col gap-4">
           <label class="flex items-center gap-2">

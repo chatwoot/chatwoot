@@ -17,7 +17,8 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   def create
     provisioner = EvolutionApi::InboxProvisioner.new(
       account: Current.account,
-      inbox_name: provision_params[:inbox_name]
+      inbox_name: provision_params[:inbox_name],
+      user: Current.user
     )
 
     @inbox = provisioner.provision!
@@ -86,6 +87,9 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
       return
     end
 
+    # Fetch instance info to get the connected phone number
+    update_phone_number_from_instance
+
     # Enable Chatwoot integration with autoCreate:false (we already created the inbox)
     evolution_client.set_chatwoot_integration(
       instance_name: evolution_instance_name,
@@ -110,6 +114,10 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   # Disconnects the Evolution instance from WhatsApp (logout)
   def logout
     result = evolution_client.logout_instance(instance_name: evolution_instance_name)
+
+    # Clear the phone number since the user may reconnect with a different WhatsApp account
+    clear_phone_number_from_inbox
+
     render json: result
   rescue EvolutionApi::Client::ApiError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -119,6 +127,10 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   # Refreshes the connection state (fetches current state from Evolution)
   def refresh
     state = evolution_client.connection_state(instance_name: evolution_instance_name)
+
+    # If connected, fetch and update the phone number
+    update_phone_number_from_instance if state.dig('instance', 'state') == 'open'
+
     render json: state
   rescue EvolutionApi::Client::ApiError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -239,7 +251,7 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     # Add fixed fields that should never change (resolved from current installation)
     config[:url] = chatwoot_reachable_url
     config[:account_id] = Current.account.id
-    config[:token] = integration_user_token
+    config[:token] = current_user_token
     config[:name_inbox] = @inbox.name
     config[:auto_create] = false
 
@@ -250,7 +262,7 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     {
       url: chatwoot_reachable_url,
       account_id: Current.account.id,
-      token: integration_user_token,
+      token: current_user_token,
       name_inbox: @inbox.name,
       auto_create: false,
       enabled: true,
@@ -280,9 +292,8 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     end
   end
 
-  def integration_user_token
-    user = User.find_by(email: EvolutionApi::InboxProvisioner::INTEGRATION_USER_EMAIL)
-    user&.access_token&.token
+  def current_user_token
+    Current.user.access_token&.token || Current.user.create_access_token.token
   end
 
   def sanitize_chatwoot_settings(settings)
@@ -313,6 +324,46 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     else
       "Failed to create Evolution inbox: #{message}"
     end
+  end
+
+  # Fetches instance info from Evolution and stores the phone number in additional_attributes
+  def update_phone_number_from_instance
+    instance_info = evolution_client.fetch_instance(instance_name: evolution_instance_name)
+
+    # Handle both array and hash responses
+    instance_data = instance_info.is_a?(Array) ? instance_info.first : instance_info
+
+    # Extract phone number from ownerJid (format: 5511999999999@s.whatsapp.net)
+    owner_jid = instance_data&.dig('instance', 'ownerJid') ||
+                instance_data&.dig('ownerJid') ||
+                instance_data&.dig('owner') ||
+                instance_data&.dig('number')
+
+    return if owner_jid.blank?
+
+    # Remove @s.whatsapp.net suffix and format with + prefix
+    phone_number = owner_jid.to_s.split('@').first
+    return if phone_number.blank?
+
+    formatted_phone = phone_number.start_with?('+') ? phone_number : "+#{phone_number}"
+
+    # Update the channel's additional_attributes with the phone number
+    current_attrs = @inbox.channel.additional_attributes || {}
+    @inbox.channel.update!(additional_attributes: current_attrs.merge('phone_number' => formatted_phone))
+  rescue StandardError => e
+    # Don't fail the whole operation if phone number extraction fails
+    Rails.logger.warn("[Evolution] Failed to extract phone number: #{e.message}")
+  end
+
+  # Clears the phone number from additional_attributes (called on logout/disconnect)
+  def clear_phone_number_from_inbox
+    current_attrs = @inbox.channel.additional_attributes || {}
+    return unless current_attrs['phone_number'].present?
+
+    current_attrs.delete('phone_number')
+    @inbox.channel.update!(additional_attributes: current_attrs)
+  rescue StandardError => e
+    Rails.logger.warn("[Evolution] Failed to clear phone number: #{e.message}")
   end
 end
 
