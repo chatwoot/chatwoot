@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Konuşma başarıyla silindi",
     "FAIL_DELETE_CONVERSATION": "Konuşma silinemedi! Tekrar deneyin",
     "FILE_SIZE_LIMIT": "Dosya, {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB ek dosya sınırını aşıyor",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Bu mesaj gönderilemiyor, lütfen daha sonra tekrar deneyin",
     "SENT_BY": "Tarafından gönderildi:",
     "BOT": "Bot",
