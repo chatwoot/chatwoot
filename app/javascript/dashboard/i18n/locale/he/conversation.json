@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "השיחה נמחקה בהצלחה",
     "FAIL_DELETE_CONVERSATION": "לא ניתן למחוק את השיחה! נסה שוב",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",
