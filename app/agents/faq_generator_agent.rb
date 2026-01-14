@@ -7,6 +7,7 @@
 #   result.content  # => [{ question: "...", answer: "...", topics: [...], confidence: 0.8 }]
 #
 class FaqGeneratorAgent < ApplicationAgent
+  description 'Generates FAQ entries from conversation transcripts'
   model 'gpt-4o-mini'
   temperature 0.5
   version '1.0'

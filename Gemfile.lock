@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/adham90/ruby_llm-agents
-  revision: 282908be1e41d18fc6cd267a12fed7a75b7bb9ed
+  revision: 70233bcf3331fc3771431e452284f56b0bc0f4a0
   branch: main
   specs:
-    ruby_llm-agents (0.3.4)
+    ruby_llm-agents (0.3.6)
       csv
       rails (>= 7.0)
       ruby_llm (>= 1.0)
@@ -769,7 +769,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    rdoc (7.0.3)
+    rdoc (7.1.0)
       erb
       psych (>= 4.0.0)
       tsort
@@ -865,7 +865,7 @@ GEM
     ruby2ruby (2.5.0)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.6)
-    ruby_llm (1.9.1)
+    ruby_llm (1.10.0)
       base64
       event_stream_parser (~> 1)
       faraday (>= 1.10.0)
@@ -980,7 +980,7 @@ GEM
     svix (1.83.0)
     telephone_number (1.4.20)
     test-prof (1.2.1)
-    thor (1.4.0)
+    thor (1.5.0)
     tidewave (0.2.0)
       fast-mcp (~> 1.5.0)
       rack (>= 2.0)

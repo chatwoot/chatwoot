@@ -11,6 +11,8 @@
 #   result = ConversationAgent.call(message: "What is your refund policy?")
 #
 class ConversationAgent < ApplicationAgent
+  description 'Responds to customer messages using knowledge base, memories, and tools'
+
   model 'gemini-2.5-flash'
   temperature 0.7
   version '1.0'

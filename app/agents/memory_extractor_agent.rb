@@ -10,6 +10,7 @@
 #   result.content  # => { memories: [...] }
 #
 class MemoryExtractorAgent < ApplicationAgent
+  description 'Extracts learnings and memories from conversation transcripts'
   model 'gemini-2.5-flash'
   temperature 0.5
   version '1.0'
