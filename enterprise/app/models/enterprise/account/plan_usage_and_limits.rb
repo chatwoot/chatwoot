@@ -21,6 +21,12 @@ module Enterprise::Account::PlanUsageAndLimits
     save
   end
 
+  def increment_response_usage_for_model(model)
+    credits = using_openai_hook_key? ? 1 : Llm::Models.credit_multiplier_for(model)
+    Rails.logger.info("[CAPTAIN] Incrementing response usage for account #{id} by #{credits} credits (model: #{model})")
+    increment_response_usage(credits: credits)
+  end
+
   def reset_response_usage
     custom_attributes[CAPTAIN_RESPONSES_USAGE] = 0
     save
