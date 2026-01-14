@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversa apagada",
     "FAIL_DELETE_CONVERSATION": "Não foi possível apagar a conversa! Tente novamente",
     "FILE_SIZE_LIMIT": "O ficheiro excede o tamanho limite para anexos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
     "BOT": "Bot",
