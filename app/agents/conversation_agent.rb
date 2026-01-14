@@ -18,7 +18,7 @@ class ConversationAgent < ApplicationAgent
   version '1.0'
   timeout 60
 
-  fallback_models 'gpt-4.1-mini', 'claude-haiku-4-5'
+  fallback_models ['gpt-4.1-mini', 'claude-haiku-4-5']
 
   param :message, required: true
 

@@ -12,7 +12,7 @@ class FaqGeneratorAgent < ApplicationAgent
   temperature 0.5
   version '1.0'
 
-  fallback_models 'gemini-2.5-flash', 'claude-haiku-4-5'
+  fallback_models ['gemini-2.5-flash', 'claude-haiku-4-5']
 
   param :transcript, required: true
   param :max_faqs, default: 3
