@@ -474,7 +474,8 @@
         },
         "API": {
           "ERROR_MESSAGE": "Failed to create Evolution inbox",
-          "DUPLICATE_NAME_ERROR": "An inbox with this name already exists. Please use a different name."
+          "DUPLICATE_NAME_ERROR": "An inbox with this name already exists. Please use a different name.",
+          "CONNECTION_ERROR": "Evolution API is not available. Please check if the Evolution service is running."
         },
         "DISMISS": "Dismiss"
       },
@@ -498,7 +499,8 @@
           },
           "EVOLUTION": {
             "TITLE": "Evolution WhatsApp",
-            "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)"
+            "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)",
+            "UNAVAILABLE": "Evolution API is not reachable"
           },
           "EMAIL": {
             "TITLE": "Email",
@@ -717,6 +719,13 @@
           "DISCONNECTED": "Disconnected",
           "UNKNOWN": "Unknown"
         },
+        "API_STATUS": "Evolution API",
+        "API_HEALTHY": "Online",
+        "API_UNHEALTHY": "Offline",
+        "API_RECONNECTED": "Evolution API is back online!",
+        "API_STILL_OFFLINE": "Evolution API is still offline",
+        "RETRY_HEALTH_CHECK": "Retry Connection",
+        "WHATSAPP_STATUS": "WhatsApp",
         "CONNECTION": {
           "TITLE": "Connection Status",
           "DESCRIPTION": "Manage your WhatsApp connection via Evolution API"

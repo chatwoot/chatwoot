@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ChannelSelector from '../ChannelSelector.vue';
 
 const props = defineProps({
@@ -11,9 +12,15 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  evolutionHealth: {
+    type: Object,
+    default: () => ({ healthy: false, checked: false }),
+  },
 });
 
 const emit = defineEmits(['channelItemClick']);
+
+const { t } = useI18n();
 
 const hasFbConfigured = computed(() => {
   return window.chatwootConfig?.fbAppId;
@@ -61,7 +68,12 @@ const isActive = computed(() => {
   }
 
   if (key === 'evolution') {
-    return hasEvolutionConfigured.value;
+    // Evolution requires: enabled in config AND health check passed
+    return (
+      hasEvolutionConfigured.value &&
+      props.evolutionHealth.checked &&
+      props.evolutionHealth.healthy
+    );
   }
 
   return [
@@ -85,6 +97,27 @@ const isComingSoon = computed(() => {
   return ['voice'].includes(key) && !isActive.value;
 });
 
+// Show "Unavailable" for Evolution when enabled but health check failed
+const isUnavailable = computed(() => {
+  const { key } = props.channel;
+  if (key === 'evolution') {
+    return (
+      hasEvolutionConfigured.value &&
+      props.evolutionHealth.checked &&
+      !props.evolutionHealth.healthy
+    );
+  }
+  return false;
+});
+
+// Custom description for unavailable Evolution
+const channelDescription = computed(() => {
+  if (isUnavailable.value) {
+    return t('INBOX_MGMT.ADD.AUTH.CHANNEL.EVOLUTION.UNAVAILABLE');
+  }
+  return props.channel.description;
+});
+
 const onItemClick = () => {
   if (isActive.value) {
     emit('channelItemClick', props.channel.key);
@@ -95,9 +128,10 @@ const onItemClick = () => {
 <template>
   <ChannelSelector
     :title="channel.title"
-    :description="channel.description"
+    :description="channelDescription"
     :icon="channel.icon"
     :is-coming-soon="isComingSoon"
+    :is-unavailable="isUnavailable"
     :disabled="!isActive"
     @click="onItemClick"
   />

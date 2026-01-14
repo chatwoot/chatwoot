@@ -51,6 +51,7 @@
     "PLACEHOLDER": "Enter duration"
   },
   "CHANNEL_SELECTOR": {
-    "COMING_SOON": "Coming Soon!"
+    "COMING_SOON": "Coming Soon!",
+    "UNAVAILABLE": "Unavailable"
   }
 }

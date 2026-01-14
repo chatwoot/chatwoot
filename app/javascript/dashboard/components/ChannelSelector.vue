@@ -18,6 +18,10 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isUnavailable: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
@@ -26,8 +30,8 @@ defineProps({
     class="relative bg-n-solid-1 gap-6 cursor-pointer rounded-2xl flex flex-col justify-start transition-all duration-200 ease-in -m-px py-6 px-5 items-start border border-solid border-n-weak"
     :class="{
       'hover:enabled:border-n-blue-9 hover:enabled:shadow-md disabled:opacity-60 disabled:cursor-not-allowed':
-        !isComingSoon,
-      'cursor-not-allowed disabled:opacity-80': isComingSoon,
+        !isComingSoon && !isUnavailable,
+      'cursor-not-allowed disabled:opacity-80': isComingSoon || isUnavailable,
     }"
   >
     <div
@@ -51,6 +55,15 @@ defineProps({
     >
       <span class="text-n-slate-12 font-medium text-sm">
         {{ $t('CHANNEL_SELECTOR.COMING_SOON') }} 🚀
+      </span>
+    </div>
+
+    <div
+      v-if="isUnavailable"
+      class="absolute inset-0 flex items-center justify-center backdrop-blur-[2px] rounded-2xl bg-gradient-to-br from-n-background/90 via-n-background/70 to-n-background/95 cursor-not-allowed"
+    >
+      <span class="text-n-ruby-11 font-medium text-sm">
+        {{ $t('CHANNEL_SELECTOR.UNAVAILABLE') }}
       </span>
     </div>
   </button>

@@ -158,14 +158,16 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   end
 
   # GET /api/v1/accounts/:account_id/evolution/status
-  # Returns whether Evolution API is enabled and configured
+  # Returns whether Evolution API is enabled, configured, and healthy
   def status
     enabled = evolution_enabled?
     configured = enabled && evolution_configured?
+    healthy = configured && check_evolution_health
 
     render json: {
       enabled: enabled,
-      configured: configured
+      configured: configured,
+      healthy: healthy
     }
   end
 
@@ -190,6 +192,12 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     url = InstallationConfig.find_by(name: 'EVOLUTION_API_URL')&.value
     key = InstallationConfig.find_by(name: 'EVOLUTION_API_KEY')&.value
     url.present? && key.present?
+  end
+
+  def check_evolution_health
+    EvolutionApi::Client.new.health_check
+  rescue StandardError
+    false
   end
 
   def fetch_inbox

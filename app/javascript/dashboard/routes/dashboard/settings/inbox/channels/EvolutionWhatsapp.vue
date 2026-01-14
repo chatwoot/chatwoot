@@ -130,10 +130,19 @@ const loadQRCode = async () => {
   } catch (error) {
     const serverError =
       error.response?.data?.error || error.response?.data?.message || '';
-    // Check for duplicate inbox name error
+    const errorMsg = serverError || error.message || '';
+
+    // Check for connection refused / Evolution API offline
     if (
-      serverError.toLowerCase().includes('already exists') ||
-      serverError.toLowerCase().includes('unique inbox name')
+      errorMsg.toLowerCase().includes('connection refused') ||
+      errorMsg.toLowerCase().includes('failed to open tcp connection') ||
+      errorMsg.toLowerCase().includes('econnrefused')
+    ) {
+      errorMessage.value = t('INBOX_MGMT.ADD.EVOLUTION.API.CONNECTION_ERROR');
+      // Check for duplicate inbox name error
+    } else if (
+      errorMsg.toLowerCase().includes('already exists') ||
+      errorMsg.toLowerCase().includes('unique inbox name')
     ) {
       errorMessage.value = t(
         'INBOX_MGMT.ADD.EVOLUTION.API.DUPLICATE_NAME_ERROR'
