@@ -2,6 +2,7 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { picoSearch } from '@scmmishra/pico-search';
+import { BaseTable } from 'dashboard/components-next/table';
 import DashboardAppModal from './DashboardAppModal.vue';
 import DashboardAppsRow from './DashboardAppsRow.vue';
 import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
@@ -10,6 +11,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 export default {
   components: {
     BaseSettingsHeader,
+    BaseTable,
     DashboardAppModal,
     DashboardAppsRow,
     NextButton,
@@ -39,6 +41,9 @@ export default {
         this.$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.NAME'),
         this.$t(
           'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.ENDPOINT'
+        ),
+        this.$t(
+          'INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.TABLE_HEADER.ACTIONS'
         ),
       ];
     },
@@ -111,46 +116,37 @@ export default {
       </template>
     </BaseSettingsHeader>
     <div class="w-full overflow-x-auto text-n-slate-11">
-      <span
-        v-if="!uiFlags.isFetching && !filteredRecords.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
-      >
-        {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS') }}
-      </span>
       <p
-        v-else-if="!uiFlags.isFetching && !records.length"
-        class="flex flex-col items-center justify-center h-full"
+        v-if="!uiFlags.isFetching && !records.length"
+        class="flex flex-col items-center text-body-main !text-base text-n-slate-11 justify-center h-full"
       >
         {{ $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.404') }}
       </p>
       <woot-loading-state
-        v-if="uiFlags.isFetching"
+        v-else-if="uiFlags.isFetching"
         :message="$t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.LOADING')"
       />
-      <table
-        v-if="!uiFlags.isFetching && filteredRecords.length"
-        class="min-w-full divide-y divide-n-weak"
+      <BaseTable
+        v-else
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery
+            ? $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.NO_RESULTS')
+            : ''
+        "
       >
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak">
+        <template #row="{ items }">
           <DashboardAppsRow
-            v-for="(dashboardAppItem, index) in filteredRecords"
+            v-for="(dashboardAppItem, index) in items"
             :key="dashboardAppItem.id"
             :index="index"
             :app="dashboardAppItem"
             @edit="editApp"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </div>
 
     <DashboardAppModal

@@ -115,7 +115,7 @@ export default {
   <SettingsLayout :is-loading="uiFlags.isFetching">
     <template v-if="isIntegrationSingle" #header>
       <BaseSettingsHeader
-        :title="integration.name"
+        :title="integration.name || ''"
         description=""
         :feature-name="integrationId"
         :back-button-label="$t('INTEGRATION_SETTINGS.HEADER')"

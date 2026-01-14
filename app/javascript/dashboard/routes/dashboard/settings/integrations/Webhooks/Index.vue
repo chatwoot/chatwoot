@@ -4,6 +4,7 @@ import { useAlert } from 'dashboard/composables';
 import { useBranding } from 'shared/composables/useBranding';
 import { picoSearch } from '@scmmishra/pico-search';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { BaseTable } from 'dashboard/components-next/table';
 import NewWebhook from './NewWebHook.vue';
 import EditWebhook from './EditWebHook.vue';
 import WebhookRow from './WebhookRow.vue';
@@ -15,6 +16,7 @@ export default {
     SettingsLayout,
     NextButton,
     BaseSettingsHeader,
+    BaseTable,
     NewWebhook,
     EditWebhook,
     WebhookRow,
@@ -130,33 +132,24 @@ export default {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <span
-        v-if="!filteredRecords.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+      <BaseTable
+        :headers="tableHeaders"
+        :items="filteredRecords"
+        :no-data-message="
+          searchQuery ? $t('INTEGRATION_SETTINGS.WEBHOOK.NO_RESULTS') : ''
+        "
       >
-        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.NO_RESULTS') }}
-      </span>
-      <table v-else class="min-w-full divide-y divide-n-weak">
-        <thead>
-          <th
-            v-for="thHeader in tableHeaders"
-            :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12 last:text-end"
-          >
-            {{ thHeader }}
-          </th>
-        </thead>
-        <tbody class="divide-y divide-n-weak flex-1 text-n-slate-12">
+        <template #row="{ items }">
           <WebhookRow
-            v-for="(webHookItem, index) in filteredRecords"
+            v-for="(webHookItem, index) in items"
             :key="webHookItem.id"
             :index="index"
             :webhook="webHookItem"
             @edit="openEditPopup"
             @delete="openDeletePopup"
           />
-        </tbody>
-      </table>
+        </template>
+      </BaseTable>
     </template>
     <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <NewWebhook v-if="showAddPopup" :on-close="hideAddPopup" />

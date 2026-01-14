@@ -34,7 +34,7 @@ const showHeaders = computed(
           <th
             v-for="(header, index) in headers"
             :key="index"
-            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-start text-heading-3 text-n-slate-12 capitalize"
           >
             <slot :name="`header-${index}`" :header="header">
               {{ header }}

@@ -2,6 +2,12 @@
 import { ref, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
+import {
+  BaseTable,
+  BaseTableRow,
+  BaseTableCell,
+} from 'dashboard/components-next/table';
+import { useI18n } from 'vue-i18n';
 import BaseSettingsHeader from 'dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -17,6 +23,7 @@ const props = defineProps({
 });
 
 defineEmits(['delete', 'add']);
+const { t } = useI18n();
 
 const { integration, isHookTypeInbox, hasConnectedHooks } = useIntegrationHook(
   props.integrationId
@@ -25,17 +32,25 @@ const { integration, isHookTypeInbox, hasConnectedHooks } = useIntegrationHook(
 const globalConfig = useMapGetter('globalConfig/get');
 const searchQuery = ref('');
 
-const hookHeaders = computed(() => integration.value.visible_properties);
+const hookHeaders = computed(() => {
+  const headers = [...(integration.value.visible_properties || [])];
+  if (isHookTypeInbox.value) {
+    headers.push(t('INTEGRATION_APPS.LIST.INBOX'));
+  }
+  headers.push(t('INTEGRATION_APPS.LIST.ACTIONS'));
+  return headers;
+});
 
 const hooks = computed(() => {
   if (!hasConnectedHooks.value) {
     return [];
   }
   const { hooks: integrationHooks } = integration.value;
+  const visibleProperties = integration.value.visible_properties || [];
   return integrationHooks.map(hook => ({
     ...hook,
     id: hook.id,
-    properties: hookHeaders.value.map(property =>
+    properties: visibleProperties.map(property =>
       hook.settings[property] ? hook.settings[property] : '--'
     ),
   }));
@@ -59,7 +74,7 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
   <div class="flex flex-col flex-1 gap-8 overflow-auto">
     <BaseSettingsHeader
       v-model:search-query="searchQuery"
-      :title="integration.name"
+      :title="integration.name || ''"
       :description="
         $t(
           `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
@@ -79,56 +94,47 @@ const inboxName = hook => (hook.inbox ? hook.inbox.name : '');
       </template>
     </BaseSettingsHeader>
     <div class="w-full">
-      <span
-        v-if="!filteredHooks.length && searchQuery"
-        class="flex-1 flex items-center justify-center py-20 text-center text-body-main !text-base text-n-slate-11"
+      <BaseTable
+        v-if="hasConnectedHooks"
+        :headers="hookHeaders"
+        :items="filteredHooks"
+        :no-data-message="searchQuery ? $t('INTEGRATION_APPS.NO_RESULTS') : ''"
       >
-        {{ $t('INTEGRATION_APPS.NO_RESULTS') }}
-      </span>
-      <table v-else-if="hasConnectedHooks">
-        <thead
-          class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
-        >
-          <th
-            v-for="hookHeader in hookHeaders"
-            :key="hookHeader"
-            class="ltr:!pl-0 rtl:!pr-0 text-heading-3 text-n-slate-12 text-start"
-          >
-            {{ hookHeader }}
-          </th>
-          <th v-if="isHookTypeInbox">
-            {{ $t('INTEGRATION_APPS.LIST.INBOX') }}
-          </th>
-        </thead>
-        <tbody>
-          <tr
-            v-for="hook in filteredHooks"
-            :key="hook.id"
-            class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
-          >
-            <td
-              v-for="property in hook.properties"
-              :key="property"
-              class="ltr:!pl-0 rtl:!pr-0"
-            >
-              {{ property }}
-            </td>
-            <td v-if="isHookTypeInbox" class="break-words">
-              {{ inboxName(hook) }}
-            </td>
-            <td class="flex justify-end gap-1">
-              <NextButton
-                v-tooltip.top="$t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')"
-                icon="i-lucide-trash-2"
-                xs
-                ruby
-                faded
-                @click="$emit('delete', hook)"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <template #row="{ items }">
+          <BaseTableRow v-for="hook in items" :key="hook.id" :item="hook">
+            <template #default>
+              <BaseTableCell
+                v-for="property in hook.properties"
+                :key="property"
+              >
+                <span class="text-body-main text-n-slate-12">
+                  {{ property }}
+                </span>
+              </BaseTableCell>
+
+              <BaseTableCell v-if="isHookTypeInbox">
+                <span class="text-body-main text-n-slate-11 break-words">
+                  {{ inboxName(hook) }}
+                </span>
+              </BaseTableCell>
+
+              <BaseTableCell align="end" class="w-12">
+                <div class="flex justify-end gap-3 flex-shrink-0">
+                  <NextButton
+                    v-tooltip.top="
+                      $t('INTEGRATION_APPS.LIST.DELETE.BUTTON_TEXT')
+                    "
+                    icon="i-woot-bin"
+                    slate
+                    sm
+                    @click="$emit('delete', hook)"
+                  />
+                </div>
+              </BaseTableCell>
+            </template>
+          </BaseTableRow>
+        </template>
+      </BaseTable>
       <p v-else class="flex flex-col items-center justify-center h-full">
         {{
           $t('INTEGRATION_APPS.NO_HOOK_CONFIGURED', {

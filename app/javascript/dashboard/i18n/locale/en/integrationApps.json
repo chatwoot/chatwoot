@@ -33,6 +33,7 @@
     "LIST": {
       "FETCHING": "Fetching integration hooks",
       "INBOX": "Inbox",
+      "ACTIONS": "Actions",
       "DELETE": {
         "BUTTON_TEXT": "Delete"
       }
