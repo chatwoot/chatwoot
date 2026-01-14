@@ -72,6 +72,11 @@
         },
         "UPDATE_BUTTON": "Save Changes"
       },
+      "QUEUE_MESSAGE": {
+          "LABEL": "Custom queue message",
+          "HELP": "Message sent to the customer if conversation is in queue",
+          "PLACEHOLDER": "All agents are currently busy. We will connect you to a free agent as soon as one is available."
+      },
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",

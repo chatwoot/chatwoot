@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_12_092041) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_14_130402) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -78,6 +78,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_12_092041) do
     t.boolean "active_chat_limit_enabled", default: false, null: false
     t.integer "active_chat_limit_value", default: 7
     t.boolean "queue_enabled", default: false, null: false
+    t.text "queue_message"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
