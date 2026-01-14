@@ -83,18 +83,20 @@ const currentDateTime = computed(() => {
   return localTime.toISOString().slice(0, 16);
 });
 
-const audienceOptions = computed(() =>
-  labels.value?.map(label => ({
-    value: label.id,
-    label: label.title,
-  })) ?? []
+const audienceOptions = computed(
+  () =>
+    labels.value?.map(label => ({
+      value: label.id,
+      label: label.title,
+    })) ?? []
 );
 
-const inboxOptions = computed(() =>
-  inboxes.value?.map(inbox => ({
-    value: inbox.id,
-    label: inbox.name,
-  })) ?? []
+const inboxOptions = computed(
+  () =>
+    inboxes.value?.map(inbox => ({
+      value: inbox.id,
+      label: inbox.name,
+    })) ?? []
 );
 
 const templateOptions = computed(() => {
@@ -258,19 +260,19 @@ watch(
       return;
     }
 
-        mediaValidation.isValidating = true;
-        try {
-          const userLocale = locale.value === 'pt_BR' ? 'pt_BR' : 'en';
-          const result = await validateMediaUrlWithMessages(
-            newUrl,
-            headerMediaType.value,
-            userLocale
-          );
-          mediaValidation.isValid = result.isValid;
-          mediaValidation.error = result.error || null;
-        } finally {
-          mediaValidation.isValidating = false;
-        }
+    mediaValidation.isValidating = true;
+    try {
+      const userLocale = locale.value === 'pt_BR' ? 'pt_BR' : 'en';
+      const result = await validateMediaUrlWithMessages(
+        newUrl,
+        headerMediaType.value,
+        userLocale
+      );
+      mediaValidation.isValid = result.isValid;
+      mediaValidation.error = result.error || null;
+    } finally {
+      mediaValidation.isValidating = false;
+    }
   },
   { debounce: 500 }
 );
@@ -466,7 +468,9 @@ defineExpose({ openDialog });
                   class="mb-0.5 text-sm font-medium text-n-slate-12"
                 >
                   {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.INBOX.LABEL') }}
-                  <span class="text-red-500 ml-0.5">{{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR') }}</span>
+                  <span class="text-red-500 ml-0.5">{{
+                    t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR')
+                  }}</span>
                 </label>
                 <ComboBox
                   id="inbox"
@@ -487,7 +491,9 @@ defineExpose({ openDialog });
                   class="mb-0.5 text-sm font-medium text-n-slate-12"
                 >
                   {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.LABEL') }}
-                  <span class="text-red-500 ml-0.5">{{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR') }}</span>
+                  <span class="text-red-500 ml-0.5">{{
+                    t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR')
+                  }}</span>
                 </label>
                 <ComboBox
                   id="template"
@@ -556,7 +562,10 @@ defineExpose({ openDialog });
                   @update:model-value="updateHeaderMediaUrl"
                 />
 
-                <div v-if="mediaValidation.isValidating" class="flex items-center gap-2 text-xs text-n-slate-11">
+                <div
+                  v-if="mediaValidation.isValidating"
+                  class="flex items-center gap-2 text-xs text-n-slate-11"
+                >
                   <i class="i-lucide-loader-2 animate-spin" />
                   {{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.VALIDATING_MEDIA') }}
                 </div>
@@ -597,9 +606,7 @@ defineExpose({ openDialog });
                   <div
                     class="flex-shrink-0 w-14 h-9 rounded bg-woot-500/20 flex items-center justify-center"
                   >
-                    <span
-                      class="text-xs font-mono font-semibold text-woot-500"
-                    >
+                    <span class="text-xs font-mono font-semibold text-woot-500">
                       {{ formatPlaceholder(key) }}
                     </span>
                   </div>
@@ -607,9 +614,14 @@ defineExpose({ openDialog });
                     <VariableInput
                       :model-value="variableValues.body?.[key] || ''"
                       :placeholder="
-                        t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.VARIABLE_PLACEHOLDER', { index: key })
+                        t(
+                          'CAMPAIGN.WHATSAPP.CREATE_DIALOG.VARIABLE_PLACEHOLDER',
+                          { index: key }
+                        )
                       "
-                      @update:model-value="value => updateBodyVariable(key, value)"
+                      @update:model-value="
+                        value => updateBodyVariable(key, value)
+                      "
                     />
                   </div>
                 </div>
@@ -636,10 +648,9 @@ defineExpose({ openDialog });
                     >
                       <span class="text-xs font-medium text-n-slate-11">
                         {{
-                          t(
-                            'CAMPAIGN.WHATSAPP.CREATE_DIALOG.BUTTON_INDEX',
-                            { index: index + 1 }
-                          )
+                          t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.BUTTON_INDEX', {
+                            index: index + 1,
+                          })
                         }}
                       </span>
                     </div>
@@ -671,7 +682,9 @@ defineExpose({ openDialog });
                 class="text-sm font-semibold text-n-slate-12 uppercase tracking-wide"
               >
                 {{
-                  t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.SECTIONS.AUDIENCE_SCHEDULE')
+                  t(
+                    'CAMPAIGN.WHATSAPP.CREATE_DIALOG.SECTIONS.AUDIENCE_SCHEDULE'
+                  )
                 }}
               </h3>
             </div>
@@ -684,7 +697,9 @@ defineExpose({ openDialog });
                   class="mb-0.5 text-sm font-medium text-n-slate-12"
                 >
                   {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL') }}
-                  <span class="text-red-500 ml-0.5">{{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR') }}</span>
+                  <span class="text-red-500 ml-0.5">{{
+                    t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.REQUIRED_INDICATOR')
+                  }}</span>
                 </label>
                 <TagMultiSelectComboBox
                   v-model="formState.selectedAudience"
@@ -737,7 +752,9 @@ defineExpose({ openDialog });
                     :key="index"
                     class="text-sm text-red-400 flex items-start gap-2"
                   >
-                    <span class="text-red-500/50">{{ t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.BULLET_POINT') }}</span>
+                    <span class="text-red-500/50">{{
+                      t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.BULLET_POINT')
+                    }}</span>
                     <span>{{ error }}</span>
                   </li>
                 </ul>
@@ -792,4 +809,3 @@ defineExpose({ openDialog });
     </div>
   </Dialog>
 </template>
-

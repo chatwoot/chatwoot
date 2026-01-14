@@ -462,6 +462,69 @@ puts '✅ Feature flags configured'
 "
 ```
 
+#### 4. Evolution WhatsApp Integration
+
+Enable WhatsApp integration via Evolution API (Baileys provider):
+
+```bash
+docker exec chatwoot bundle exec rails runner "
+# Enable Evolution API integration
+config = InstallationConfig.find_or_initialize_by(name: 'EVOLUTION_API_ENABLED')
+config.value = true
+config.locked = false
+config.save!
+
+# Set Evolution API URL (your Evolution instance)
+config = InstallationConfig.find_or_initialize_by(name: 'EVOLUTION_API_URL')
+config.value = 'http://evolution:8080'  # or your Evolution URL
+config.locked = false
+config.save!
+
+# Set Evolution API Key
+config = InstallationConfig.find_or_initialize_by(name: 'EVOLUTION_API_KEY')
+config.value = 'YOUR_EVOLUTION_API_KEY'  # from Evolution instance
+config.locked = false
+config.save!
+
+puts '✅ Evolution API configured'
+puts 'Enabled: ' + GlobalConfig.get_value('EVOLUTION_API_ENABLED').to_s
+puts 'URL: ' + GlobalConfig.get_value('EVOLUTION_API_URL').to_s
+"
+
+# Restart to apply
+docker compose restart chatwoot sidekiq
+```
+
+**Configuration Notes**:
+- **EVOLUTION_API_ENABLED**: Must be `true` to show Evolution channel in inbox creation
+- **EVOLUTION_API_URL**: Full URL to your Evolution API instance (e.g., `http://localhost:8080` or `http://evolution:8080` in docker-compose)
+- **EVOLUTION_API_KEY**: API key from your Evolution instance (`AUTHENTICATION_API_KEY` in Evolution config)
+
+**Creating Evolution WhatsApp Inbox**:
+1. After configuration, go to Settings > Inboxes > Add Inbox
+2. Select "Evolution WhatsApp" channel
+3. Enter unique inbox name (required for Evolution routing)
+4. Scan QR code with WhatsApp mobile app
+5. Click "Enable Integration" after connection
+6. Phone number will be automatically detected and displayed
+
+**Features**:
+- ✅ WhatsApp messaging via Evolution API (Baileys)
+- ✅ QR code connection flow
+- ✅ Automatic phone number detection
+- ✅ Message sending (text and media)
+- ✅ Message receiving via Evolution webhooks
+- ✅ Instance management (restart, disconnect, refresh)
+- ✅ Automatic cleanup on inbox deletion
+- ✅ Phone number displayed in inbox list and send message flow
+
+**Important**:
+- Each inbox must have a unique name (Evolution uses it for routing)
+- Evolution instance is automatically created when you create the inbox
+- Evolution instance is automatically deleted when you delete the inbox
+- Phone number is cleared when you disconnect (allows reconnecting with different WhatsApp)
+- Requires Evolution API v2.x with Baileys integration support
+
 ### Viewing Current Configurations
 
 ```bash

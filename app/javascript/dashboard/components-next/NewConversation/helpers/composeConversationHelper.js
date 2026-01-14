@@ -1,5 +1,8 @@
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { getInboxIconByType } from 'dashboard/helper/inbox';
+import {
+  INBOX_TYPES,
+  getInboxIconByType,
+  isEvolutionInbox,
+} from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
 
@@ -17,6 +20,7 @@ export const generateLabelForContactableInboxesList = ({
   email,
   channelType,
   phoneNumber,
+  additionalAttributes,
 }) => {
   if (channelType === INBOX_TYPES.EMAIL) {
     return `${name} (${email})`;
@@ -26,6 +30,13 @@ export const generateLabelForContactableInboxesList = ({
     channelType === INBOX_TYPES.WHATSAPP
   ) {
     return phoneNumber ? `${name} (${phoneNumber})` : name;
+  }
+  // Evolution inboxes store phone number in additionalAttributes
+  // Check both snake_case (raw API) and camelCase (after camelcaseKeys transform)
+  if (isEvolutionInbox(additionalAttributes)) {
+    const evolutionPhone =
+      additionalAttributes?.phoneNumber || additionalAttributes?.phone_number;
+    return evolutionPhone ? `${name} (${evolutionPhone})` : name;
   }
   return name;
 };
@@ -37,15 +48,17 @@ const transformInbox = ({
   channelType,
   phoneNumber,
   medium,
+  additionalAttributes,
   ...rest
 }) => ({
   id,
-  icon: getInboxIconByType(channelType, medium, 'line'),
+  icon: getInboxIconByType(channelType, medium, 'line', additionalAttributes),
   label: generateLabelForContactableInboxesList({
     name,
     email,
     channelType,
     phoneNumber,
+    additionalAttributes,
   }),
   action: 'inbox',
   value: id,
@@ -54,6 +67,7 @@ const transformInbox = ({
   phoneNumber,
   channelType,
   medium,
+  additionalAttributes,
   ...rest,
 });
 

@@ -191,7 +191,7 @@ const previewProps = computed(() => {
   }
 
   const processedParams = templateParams.value?.processed_params || {};
-  
+
   // Extract header info
   let headerFormat = null;
   let mediaUrl = '';
@@ -202,7 +202,7 @@ const previewProps = computed(() => {
     const url = processedParams.header.media_url;
     mediaUrl = url;
     mediaName = processedParams.header.media_name || '';
-    
+
     // Try to detect media type from extension or content
     if (url.match(/\.(jpg|jpeg|png|gif|webp)($|\?)/i)) {
       headerFormat = 'IMAGE';
@@ -270,257 +270,265 @@ const handleClose = () => emit('close');
       <div class="flex-1 flex gap-6 p-6 overflow-hidden min-h-0">
         <!-- Left Panel: Campaign Info -->
         <div class="flex-1 min-w-0 overflow-y-auto pr-4 space-y-5">
-
           <!-- Info Grid -->
-      <div class="grid grid-cols-2 gap-4">
-        <!-- Template -->
-        <div
-          v-if="templateName"
-          class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
-        >
-          <div class="flex items-center gap-2">
-            <Icon icon="i-lucide-file-text" class="size-4 text-n-slate-10" />
-            <span
-              class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-            >
-              {{ t('CAMPAIGN.DETAILS.TEMPLATE') }}
-            </span>
-          </div>
-          <span class="text-sm font-medium text-n-slate-12 capitalize">
-            {{ templateName }}
-          </span>
-        </div>
-
-        <!-- Language -->
-        <div
-          v-if="templateParams?.language"
-          class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
-        >
-          <div class="flex items-center gap-2">
-            <Icon icon="i-lucide-globe" class="size-4 text-n-slate-10" />
-            <span
-              class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-            >
-              {{ t('CAMPAIGN.DETAILS.LANGUAGE') }}
-            </span>
-          </div>
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ templateParams.language }}
-          </span>
-        </div>
-
-        <!-- Inbox -->
-        <div
-          v-if="campaign?.inbox"
-          class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
-        >
-          <div class="flex items-center gap-2">
-            <Icon icon="i-lucide-inbox" class="size-4 text-n-slate-10" />
-            <span
-              class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-            >
-              {{ t('CAMPAIGN.DETAILS.INBOX') }}
-            </span>
-          </div>
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ campaign.inbox.name }}
-          </span>
-        </div>
-
-        <!-- Scheduled At -->
-        <div
-          v-if="campaign?.scheduled_at"
-          class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
-        >
-          <div class="flex items-center gap-2">
-            <Icon icon="i-lucide-calendar" class="size-4 text-n-slate-10" />
-            <span
-              class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-            >
-              {{ t('CAMPAIGN.DETAILS.SCHEDULED_AT') }}
-            </span>
-          </div>
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ formatDate(campaign.scheduled_at) }}
-          </span>
-        </div>
-      </div>
-
-      <!-- Audience Labels -->
-      <div v-if="audienceLabels.length" class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Icon icon="i-lucide-users" class="size-4 text-n-slate-11" />
-          <span
-            class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-          >
-            {{ t('CAMPAIGN.DETAILS.AUDIENCE') }}
-          </span>
-        </div>
-        <div class="flex flex-wrap gap-2">
-          <span
-            v-for="label in audienceLabels"
-            :key="label.id"
-            class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-n-alpha-2 text-n-slate-12 border border-n-weak"
-          >
-            <span
-              class="size-2.5 rounded-full"
-              :style="{ backgroundColor: label.color }"
-            />
-            {{ label.title }}
-          </span>
-        </div>
-      </div>
-
-      <!-- Template Variables -->
-      <div v-if="templateVariables.length" class="flex flex-col gap-2">
-        <div class="flex items-center gap-2">
-          <Icon icon="i-lucide-variable" class="size-4 text-n-slate-11" />
-          <span
-            class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
-          >
-            {{ t('CAMPAIGN.DETAILS.TEMPLATE_PARAMS') }}
-          </span>
-        </div>
-        <div
-          class="flex flex-col gap-2 p-3 rounded-xl bg-n-alpha-1 border border-n-weak"
-        >
-          <div
-            v-for="(variable, idx) in templateVariables"
-            :key="idx"
-            class="flex items-start gap-3 text-sm"
-          >
-            <span
-              class="text-n-slate-11 font-mono text-xs px-1.5 py-0.5 rounded bg-n-alpha-2 whitespace-nowrap"
-            >
-              {{ variable.section }} {{ variable.index }}
-            </span>
-            <span
-              v-if="variable.type === 'image'"
-              class="text-n-blue-11 break-all"
-            >
-              {{ variable.value }}
-            </span>
-            <span v-else class="text-n-slate-12 break-all">
-              {{ variable.value }}
-            </span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Delivery Report Section -->
-      <div
-        v-if="hasDeliveryReport"
-        class="flex flex-col gap-4 pt-4 border-t border-n-weak"
-      >
-        <div class="flex items-center gap-2">
-          <Icon icon="i-lucide-bar-chart-2" class="size-4 text-n-slate-11" />
-          <span class="text-sm font-medium text-n-slate-12">
-            {{ t('CAMPAIGN.DELIVERY_REPORT.TITLE') }}
-          </span>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-3 gap-3">
-          <div
-            class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-alpha-2 border border-n-weak"
-          >
-            <span class="text-3xl font-bold text-n-slate-12">
-              {{ deliveryReport.total }}
-            </span>
-            <span class="text-xs text-n-slate-11 uppercase tracking-wide">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.TOTAL') }}
-            </span>
-          </div>
-          <div
-            class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-teal-2 border border-n-teal-6"
-          >
-            <span class="text-3xl font-bold text-n-teal-11">
-              {{ deliveryReport.succeeded }}
-            </span>
-            <span class="text-xs text-n-teal-11 uppercase tracking-wide">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.SUCCEEDED') }}
-            </span>
-          </div>
-          <div
-            class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-ruby-2 border border-n-ruby-6"
-          >
-            <span class="text-3xl font-bold text-n-ruby-11">
-              {{ deliveryReport.failed }}
-            </span>
-            <span class="text-xs text-n-ruby-11 uppercase tracking-wide">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.FAILED') }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Timestamps -->
-        <div class="grid grid-cols-2 gap-4 text-sm">
-          <div class="flex flex-col gap-1">
-            <span class="text-xs text-n-slate-11 uppercase tracking-wide">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.STARTED_AT') }}
-            </span>
-            <span class="text-n-slate-12 font-medium">
-              {{ formatDate(deliveryReport.started_at) }}
-            </span>
-          </div>
-          <div class="flex flex-col gap-1">
-            <span class="text-xs text-n-slate-11 uppercase tracking-wide">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.COMPLETED_AT') }}
-            </span>
-            <span class="text-n-slate-12 font-medium">
-              {{ formatDate(deliveryReport.completed_at) }}
-            </span>
-          </div>
-        </div>
-
-        <!-- Errors Section -->
-        <div v-if="hasErrors" class="flex flex-col gap-2">
-          <div class="flex items-center gap-2">
-            <Icon
-              icon="i-lucide-alert-triangle"
-              class="size-4 text-n-ruby-11"
-            />
-            <span class="text-sm font-medium text-n-ruby-11">
-              {{ t('CAMPAIGN.DELIVERY_REPORT.ERRORS_TITLE') }}
-            </span>
-          </div>
-          <div class="flex flex-col gap-1.5 max-h-40 overflow-y-auto">
+          <div class="grid grid-cols-2 gap-4">
+            <!-- Template -->
             <div
-              v-for="(error, index) in deliveryReport.errors"
-              :key="index"
-              class="flex items-center gap-2 px-3 py-2 rounded-lg bg-n-ruby-2 border border-n-ruby-6"
+              v-if="templateName"
+              class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
             >
-              <span
-                v-if="error.code"
-                class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-n-ruby-4 text-n-ruby-11 shrink-0"
-              >
-                {{ error.code }}
-              </span>
-              <div class="flex-1 min-w-0">
-                <span class="text-xs text-n-slate-12 font-medium">
-                  {{ error.message }}
-                </span>
-                <span v-if="error.details" class="text-xs text-n-slate-11 ml-1">
-                  {{
-                    $t('CAMPAIGN.DELIVERY_REPORT.ERROR_DETAILS_SEPARATOR', {
-                      details: error.details,
-                    })
-                  }}
+              <div class="flex items-center gap-2">
+                <Icon
+                  icon="i-lucide-file-text"
+                  class="size-4 text-n-slate-10"
+                />
+                <span
+                  class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+                >
+                  {{ t('CAMPAIGN.DETAILS.TEMPLATE') }}
                 </span>
               </div>
-              <span
-                class="text-[10px] text-n-ruby-11 bg-n-ruby-3 px-1.5 py-0.5 rounded shrink-0"
-              >
-                {{
-                  $t('CAMPAIGN.DELIVERY_REPORT.ERROR_COUNT', {
-                    count: error.count,
-                  })
-                }}
+              <span class="text-sm font-medium text-n-slate-12 capitalize">
+                {{ templateName }}
+              </span>
+            </div>
+
+            <!-- Language -->
+            <div
+              v-if="templateParams?.language"
+              class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
+            >
+              <div class="flex items-center gap-2">
+                <Icon icon="i-lucide-globe" class="size-4 text-n-slate-10" />
+                <span
+                  class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+                >
+                  {{ t('CAMPAIGN.DETAILS.LANGUAGE') }}
+                </span>
+              </div>
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ templateParams.language }}
+              </span>
+            </div>
+
+            <!-- Inbox -->
+            <div
+              v-if="campaign?.inbox"
+              class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
+            >
+              <div class="flex items-center gap-2">
+                <Icon icon="i-lucide-inbox" class="size-4 text-n-slate-10" />
+                <span
+                  class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+                >
+                  {{ t('CAMPAIGN.DETAILS.INBOX') }}
+                </span>
+              </div>
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ campaign.inbox.name }}
+              </span>
+            </div>
+
+            <!-- Scheduled At -->
+            <div
+              v-if="campaign?.scheduled_at"
+              class="flex flex-col gap-1.5 p-3 rounded-xl bg-n-alpha-1"
+            >
+              <div class="flex items-center gap-2">
+                <Icon icon="i-lucide-calendar" class="size-4 text-n-slate-10" />
+                <span
+                  class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+                >
+                  {{ t('CAMPAIGN.DETAILS.SCHEDULED_AT') }}
+                </span>
+              </div>
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ formatDate(campaign.scheduled_at) }}
               </span>
             </div>
           </div>
-        </div>
-        </div>
+
+          <!-- Audience Labels -->
+          <div v-if="audienceLabels.length" class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <Icon icon="i-lucide-users" class="size-4 text-n-slate-11" />
+              <span
+                class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+              >
+                {{ t('CAMPAIGN.DETAILS.AUDIENCE') }}
+              </span>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <span
+                v-for="label in audienceLabels"
+                :key="label.id"
+                class="inline-flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg bg-n-alpha-2 text-n-slate-12 border border-n-weak"
+              >
+                <span
+                  class="size-2.5 rounded-full"
+                  :style="{ backgroundColor: label.color }"
+                />
+                {{ label.title }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Template Variables -->
+          <div v-if="templateVariables.length" class="flex flex-col gap-2">
+            <div class="flex items-center gap-2">
+              <Icon icon="i-lucide-variable" class="size-4 text-n-slate-11" />
+              <span
+                class="text-xs font-medium text-n-slate-11 uppercase tracking-wide"
+              >
+                {{ t('CAMPAIGN.DETAILS.TEMPLATE_PARAMS') }}
+              </span>
+            </div>
+            <div
+              class="flex flex-col gap-2 p-3 rounded-xl bg-n-alpha-1 border border-n-weak"
+            >
+              <div
+                v-for="(variable, idx) in templateVariables"
+                :key="idx"
+                class="flex items-start gap-3 text-sm"
+              >
+                <span
+                  class="text-n-slate-11 font-mono text-xs px-1.5 py-0.5 rounded bg-n-alpha-2 whitespace-nowrap"
+                >
+                  {{ variable.section }} {{ variable.index }}
+                </span>
+                <span
+                  v-if="variable.type === 'image'"
+                  class="text-n-blue-11 break-all"
+                >
+                  {{ variable.value }}
+                </span>
+                <span v-else class="text-n-slate-12 break-all">
+                  {{ variable.value }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Delivery Report Section -->
+          <div
+            v-if="hasDeliveryReport"
+            class="flex flex-col gap-4 pt-4 border-t border-n-weak"
+          >
+            <div class="flex items-center gap-2">
+              <Icon
+                icon="i-lucide-bar-chart-2"
+                class="size-4 text-n-slate-11"
+              />
+              <span class="text-sm font-medium text-n-slate-12">
+                {{ t('CAMPAIGN.DELIVERY_REPORT.TITLE') }}
+              </span>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-3 gap-3">
+              <div
+                class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-alpha-2 border border-n-weak"
+              >
+                <span class="text-3xl font-bold text-n-slate-12">
+                  {{ deliveryReport.total }}
+                </span>
+                <span class="text-xs text-n-slate-11 uppercase tracking-wide">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.TOTAL') }}
+                </span>
+              </div>
+              <div
+                class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-teal-2 border border-n-teal-6"
+              >
+                <span class="text-3xl font-bold text-n-teal-11">
+                  {{ deliveryReport.succeeded }}
+                </span>
+                <span class="text-xs text-n-teal-11 uppercase tracking-wide">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.SUCCEEDED') }}
+                </span>
+              </div>
+              <div
+                class="flex flex-col items-center gap-1 p-4 rounded-xl bg-n-ruby-2 border border-n-ruby-6"
+              >
+                <span class="text-3xl font-bold text-n-ruby-11">
+                  {{ deliveryReport.failed }}
+                </span>
+                <span class="text-xs text-n-ruby-11 uppercase tracking-wide">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.FAILED') }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Timestamps -->
+            <div class="grid grid-cols-2 gap-4 text-sm">
+              <div class="flex flex-col gap-1">
+                <span class="text-xs text-n-slate-11 uppercase tracking-wide">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.STARTED_AT') }}
+                </span>
+                <span class="text-n-slate-12 font-medium">
+                  {{ formatDate(deliveryReport.started_at) }}
+                </span>
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-xs text-n-slate-11 uppercase tracking-wide">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.COMPLETED_AT') }}
+                </span>
+                <span class="text-n-slate-12 font-medium">
+                  {{ formatDate(deliveryReport.completed_at) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Errors Section -->
+            <div v-if="hasErrors" class="flex flex-col gap-2">
+              <div class="flex items-center gap-2">
+                <Icon
+                  icon="i-lucide-alert-triangle"
+                  class="size-4 text-n-ruby-11"
+                />
+                <span class="text-sm font-medium text-n-ruby-11">
+                  {{ t('CAMPAIGN.DELIVERY_REPORT.ERRORS_TITLE') }}
+                </span>
+              </div>
+              <div class="flex flex-col gap-1.5 max-h-40 overflow-y-auto">
+                <div
+                  v-for="(error, index) in deliveryReport.errors"
+                  :key="index"
+                  class="flex items-center gap-2 px-3 py-2 rounded-lg bg-n-ruby-2 border border-n-ruby-6"
+                >
+                  <span
+                    v-if="error.code"
+                    class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-n-ruby-4 text-n-ruby-11 shrink-0"
+                  >
+                    {{ error.code }}
+                  </span>
+                  <div class="flex-1 min-w-0">
+                    <span class="text-xs text-n-slate-12 font-medium">
+                      {{ error.message }}
+                    </span>
+                    <span
+                      v-if="error.details"
+                      class="text-xs text-n-slate-11 ml-1"
+                    >
+                      {{
+                        $t('CAMPAIGN.DELIVERY_REPORT.ERROR_DETAILS_SEPARATOR', {
+                          details: error.details,
+                        })
+                      }}
+                    </span>
+                  </div>
+                  <span
+                    class="text-[10px] text-n-ruby-11 bg-n-ruby-3 px-1.5 py-0.5 rounded shrink-0"
+                  >
+                    {{
+                      $t('CAMPAIGN.DELIVERY_REPORT.ERROR_COUNT', {
+                        count: error.count,
+                      })
+                    }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Right Panel: WhatsApp Preview -->
@@ -550,7 +558,9 @@ const handleClose = () => emit('close');
       </div>
 
       <!-- Footer -->
-      <div class="flex-shrink-0 flex justify-end gap-3 px-6 py-4 border-t border-n-weak">
+      <div
+        class="flex-shrink-0 flex justify-end gap-3 px-6 py-4 border-t border-n-weak"
+      >
         <Button
           variant="faded"
           color="slate"

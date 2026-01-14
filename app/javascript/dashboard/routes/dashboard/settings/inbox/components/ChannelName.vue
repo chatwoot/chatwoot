@@ -12,6 +12,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  additionalAttributes: {
+    type: Object,
+    default: () => ({}),
+  },
 });
 const getters = useStoreGetters();
 const { t } = useI18n();
@@ -33,6 +37,11 @@ const i18nMap = {
   'Channel::Voice': 'VOICE',
 };
 
+const isEvolutionChannel = computed(() => {
+  const attrs = props.additionalAttributes || {};
+  return !!(attrs.evolution_instance_name || attrs.evolutionInstanceName);
+});
+
 const twilioChannelName = () => {
   if (props.medium === 'whatsapp') {
     return t(`INBOX_MGMT.CHANNELS.WHATSAPP`);
@@ -42,6 +51,9 @@ const twilioChannelName = () => {
 
 const readableChannelName = computed(() => {
   if (props.channelType === 'Channel::Api') {
+    if (isEvolutionChannel.value) {
+      return t('INBOX_MGMT.CHANNELS.EVOLUTION');
+    }
     return globalConfig.value.apiChannelName || t('INBOX_MGMT.CHANNELS.API');
   }
   if (props.channelType === 'Channel::TwilioSms') {

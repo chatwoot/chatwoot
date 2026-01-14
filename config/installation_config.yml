@@ -510,3 +510,23 @@
   value: 'https://us.cloud.langfuse.com'
   locked: false
 ## ---- End of LLM Observability ---- ##
+
+# ------- Evolution API Integration Config ------- #
+- name: EVOLUTION_API_ENABLED
+  display_title: 'Evolution API Enabled'
+  value: false
+  description: 'Enable Evolution API integration for WhatsApp inboxes (Baileys)'
+  locked: false
+  type: boolean
+- name: EVOLUTION_API_URL
+  display_title: 'Evolution API URL'
+  value:
+  description: 'The base URL for your Evolution API instance (e.g., https://evolution.example.com)'
+  locked: false
+- name: EVOLUTION_API_KEY
+  display_title: 'Evolution API Key'
+  value:
+  description: 'The AUTHENTICATION_API_KEY configured in your Evolution API instance'
+  locked: false
+  type: secret
+# ------- End of Evolution API Integration Config ------- #

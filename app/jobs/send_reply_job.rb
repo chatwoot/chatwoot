@@ -17,9 +17,13 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
-    channel_name = message.conversation.inbox.channel.class.to_s
+    inbox = message.conversation.inbox
+    channel_name = inbox.channel.class.to_s
 
     return send_on_facebook_page(message) if channel_name == 'Channel::FacebookPage'
+    # Evolution inboxes: Skip sending here - Evolution's native Chatwoot integration
+    # handles outbound messages via webhook. Sending here would cause duplicates.
+    return if channel_name == 'Channel::Api' && inbox.evolution_inbox?
 
     service_class = CHANNEL_SERVICES[channel_name]
     return unless service_class

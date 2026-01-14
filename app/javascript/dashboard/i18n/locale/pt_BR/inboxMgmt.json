@@ -436,6 +436,48 @@
           "ERROR_MESSAGE": "Não foi possível salvar o canal de e-mail"
         }
       },
+      "EVOLUTION": {
+        "TITLE": "Evolution WhatsApp",
+        "DESCRIPTION": "Conecte o WhatsApp via Evolution API (Baileys)",
+        "ERROR_TITLE": "Erro",
+        "INBOX_NAME": {
+          "LABEL": "Nome da Caixa de Entrada",
+          "PLACEHOLDER": "Digite o nome da caixa de entrada (ex: Suporte WhatsApp)",
+          "ERROR": "Por favor, insira um nome válido para a caixa de entrada"
+        },
+        "BAILEYS": {
+          "LOAD_QR_BUTTON": "Carregar QR Code",
+          "LOAD_QR_HELP": "Isso criará uma instância Evolution e gerará um QR code para você escanear."
+        },
+        "CONNECT": {
+          "TITLE": "Conectar WhatsApp",
+          "DESCRIPTION": "Escaneie o QR code com o aplicativo WhatsApp no seu celular para conectar",
+          "QR_INSTRUCTION": "Abra o WhatsApp no seu celular, toque em Menu ou Configurações e selecione Aparelhos Conectados. Toque em Conectar um Aparelho e escaneie este QR code.",
+          "QR_LOADING": "Carregando QR code...",
+          "STATUS": {
+            "OPEN": "Conectado",
+            "CLOSE": "Desconectado",
+            "CONNECTING": "Conectando...",
+            "DISCONNECTED": "Desconectado",
+            "UNKNOWN": "Desconhecido"
+          },
+          "NO_QR": "QR code não disponível",
+          "REFRESH_QR": "Atualizar QR Code",
+          "QR_ERROR": "Falha ao carregar QR code",
+          "NOT_CONNECTED": "O WhatsApp ainda não está conectado. Por favor, escaneie o QR code primeiro.",
+          "CONNECTED": "WhatsApp conectado com sucesso!",
+          "SUCCESS": "O WhatsApp está conectado e pronto para receber mensagens",
+          "CONTINUE": "Continuar",
+          "INTEGRATION_ENABLED": "Integração habilitada com sucesso!",
+          "INTEGRATION_ERROR": "Falha ao habilitar a integração com o Chatwoot. Por favor, tente novamente.",
+          "ENABLE_ERROR": "Falha ao habilitar a integração. Por favor, tente novamente."
+        },
+        "API": {
+          "ERROR_MESSAGE": "Falha ao criar caixa de entrada Evolution",
+          "DUPLICATE_NAME_ERROR": "Já existe uma caixa de entrada com este nome. Por favor, use um nome diferente."
+        },
+        "DISMISS": "Dispensar"
+      },
       "AUTH": {
         "TITLE": "Escolha um canal",
         "DESC": "O Chatwoot suporta widgets de chats ao vivo, Facebook Messenger, perfis do Twitter, WhatsApp, E-mails, etc., como canais. Se você quiser criar um canal personalizado, você pode criá-lo usando o canal API. Para começar, escolha um dos canais abaixo.",
@@ -453,6 +495,10 @@
           "WHATSAPP": {
             "TITLE": "WhatsApp",
             "DESCRIPTION": "Atenda seus clientes no WhatsApp"
+          },
+          "EVOLUTION": {
+            "TITLE": "Evolution WhatsApp",
+            "DESCRIPTION": "Conecte o WhatsApp via Evolution API (Baileys)"
           },
           "EMAIL": {
             "TITLE": "e-mail",
@@ -624,7 +670,85 @@
       "BOT_CONFIGURATION": "Configuração do Bot",
       "ACCOUNT_HEALTH": "Saúde da conta",
       "CSAT": "CSAT",
-      "WHATSAPP_TEMPLATES": "Templates"
+      "WHATSAPP_TEMPLATES": "Templates",
+      "EVOLUTION": "Evolution"
+    },
+    "EVOLUTION": {
+      "SETTINGS": {
+        "FETCH_ERROR": "Falha ao carregar configurações do Evolution",
+        "SAVE_SUCCESS": "Configurações salvas com sucesso",
+        "SAVE_ERROR": "Falha ao salvar configurações",
+        "SAVE_BUTTON": "Salvar Configurações",
+        "INSTANCE_SAVE_SUCCESS": "Configurações da instância salvas com sucesso",
+        "INSTANCE_SAVE_ERROR": "Falha ao salvar configurações da instância",
+        "QR_ERROR": "Falha ao carregar QR code",
+        "QR_INSTRUCTION": "Abra o WhatsApp no seu celular, toque em Menu ou Configurações e selecione Aparelhos Conectados. Toque em Conectar um Aparelho e escaneie este QR code.",
+        "QR_LOADING": "Carregando QR code...",
+        "GET_NEW_QR": "Obter Novo QR Code",
+        "CONNECTED": "WhatsApp conectado com sucesso!",
+        "INTEGRATION_ENABLED": "Integração habilitada com sucesso!",
+        "INTEGRATION_ENABLE_ERROR": "Falha ao habilitar integração",
+        "ENABLE_ERROR": "Falha ao habilitar integração",
+        "RESTART_SUCCESS": "Instância reiniciada com sucesso",
+        "RESTART_ERROR": "Falha ao reiniciar instância",
+        "REFRESH_SUCCESS": "Instância atualizada com sucesso",
+        "REFRESH_ERROR": "Falha ao atualizar instância",
+        "DISCONNECT_SUCCESS": "WhatsApp desconectado com sucesso",
+        "DISCONNECT_ERROR": "Falha ao desconectar WhatsApp",
+        "DISCONNECT_CONFIRM_TITLE": "Desconectar WhatsApp",
+        "DISCONNECT_CONFIRM_MESSAGE": "Tem certeza que deseja desconectar esta instância do WhatsApp? Você precisará escanear o QR code novamente para reconectar.",
+        "CANCEL_BUTTON": "Cancelar",
+        "INSTANCE_NAME": "Nome da Instância",
+        "CHANNEL_TYPE": "Tipo de Canal",
+        "INTEGRATION_STATUS": "Status da Integração",
+        "INTEGRATION_ACTIVE": "Ativo",
+        "INTEGRATION_INACTIVE": "Inativo",
+        "INTEGRATION_NOT_ENABLED_TITLE": "Integração Não Habilitada",
+        "INTEGRATION_NOT_ENABLED_DESC": "O WhatsApp está conectado, mas a integração com o Chatwoot não está habilitada. Clique no botão abaixo para habilitá-la.",
+        "ENABLE_INTEGRATION_BUTTON": "Habilitar Integração Chatwoot",
+        "REFRESH_BUTTON": "Atualizar",
+        "RESTART_BUTTON": "Reiniciar",
+        "DISCONNECT_BUTTON": "Desconectar",
+        "CONNECT_BUTTON": "Conectar WhatsApp",
+        "STATUS": {
+          "OPEN": "Conectado",
+          "CLOSE": "Desconectado",
+          "CONNECTING": "Conectando...",
+          "DISCONNECTED": "Desconectado",
+          "UNKNOWN": "Desconhecido"
+        },
+        "CONNECTION": {
+          "TITLE": "Status da Conexão",
+          "DESCRIPTION": "Gerencie sua conexão WhatsApp via Evolution API"
+        },
+        "INSTANCE": {
+          "TITLE": "Configurações da Instância",
+          "DESCRIPTION": "Configure o comportamento da instância WhatsApp",
+          "REJECT_CALL": "Rejeitar chamadas recebidas",
+          "REJECT_CALL_DESC": "Rejeitar automaticamente chamadas de voz e vídeo recebidas",
+          "GROUPS_IGNORE": "Ignorar mensagens de grupos",
+          "GROUPS_IGNORE_DESC": "Não processar mensagens de grupos do WhatsApp",
+          "ALWAYS_ONLINE": "Sempre mostrar como online",
+          "ALWAYS_ONLINE_DESC": "Manter seu status do WhatsApp como online mesmo quando não estiver ativo",
+          "READ_MESSAGES": "Marcar mensagens como lidas automaticamente",
+          "READ_MESSAGES_DESC": "Marcar automaticamente as mensagens recebidas como lidas",
+          "READ_STATUS": "Marcar status como visualizado automaticamente",
+          "READ_STATUS_DESC": "Marcar automaticamente as atualizações de status dos contatos como visualizadas",
+          "SYNC_FULL_HISTORY": "Sincronizar histórico completo de mensagens",
+          "SYNC_FULL_HISTORY_DESC": "Importar todo o histórico de mensagens ao conectar (pode demorar mais)"
+        },
+        "INTEGRATION": {
+          "TITLE": "Configurações de Integração",
+          "DESCRIPTION": "Configure como o Evolution se integra com o Chatwoot"
+        },
+        "SIGN_MSG": "Assinar mensagens com nome do agente",
+        "REOPEN_CONVERSATION": "Reabrir conversa em nova mensagem",
+        "CONVERSATION_PENDING": "Criar conversas como pendentes",
+        "MERGE_BRAZIL_CONTACTS": "Mesclar formatos de números brasileiros",
+        "IMPORT_CONTACTS": "Importar contatos do WhatsApp",
+        "IMPORT_MESSAGES": "Importar histórico de mensagens",
+        "DAYS_LIMIT_IMPORT": "Dias de histórico de mensagens para importar"
+      }
     },
     "ACCOUNT_HEALTH": {
       "TITLE": "Gerencie sua conta do WhatsApp",
@@ -1020,6 +1144,7 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "Canal da API",
+      "EVOLUTION": "Evolution WhatsApp",
       "INSTAGRAM": "Instagram",
       "TIKTOK": "TikTok",
       "VOICE": "Voz"

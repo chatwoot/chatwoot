@@ -10,6 +10,23 @@ import {
   extractVariableKey,
 } from 'dashboard/components-next/whatsapp/chatwootVariables';
 
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
+  placeholder: {
+    type: String,
+    default: '',
+  },
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+const emit = defineEmits(['update:modelValue']);
+
 /**
  * Check if a string contains a variable-like pattern that is NOT a valid Chatwoot variable.
  * Returns the invalid variable pattern if found, null otherwise.
@@ -37,23 +54,6 @@ function findInvalidVariable(value) {
 
   return null;
 }
-
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-});
-
-const emit = defineEmits(['update:modelValue']);
 
 const { locale, t } = useI18n();
 const showVariablePicker = ref(false);
@@ -155,7 +155,9 @@ const closePicker = () => {
           class="flex items-center gap-2 h-10 px-3 rounded-lg border border-woot-500 bg-woot-500/10"
         >
           <i class="i-lucide-variable text-woot-500 flex-shrink-0" />
-          <span class="flex-1 min-w-0 truncate text-sm text-woot-500 font-medium">
+          <span
+            class="flex-1 min-w-0 truncate text-sm text-woot-500 font-medium"
+          >
             {{ displayValue }}
           </span>
           <button
@@ -213,7 +215,9 @@ const closePicker = () => {
           {{ $t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.VARIABLE_PICKER.TITLE') }}
         </h4>
         <p class="text-xs text-n-slate-11 mt-1">
-          {{ $t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.VARIABLE_PICKER.DESCRIPTION') }}
+          {{
+            $t('CAMPAIGN.WHATSAPP.CREATE_DIALOG.VARIABLE_PICKER.DESCRIPTION')
+          }}
         </p>
       </div>
 
@@ -274,4 +278,3 @@ const closePicker = () => {
     />
   </div>
 </template>
-

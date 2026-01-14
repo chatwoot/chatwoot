@@ -14,6 +14,7 @@ import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue'
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
+import EvolutionSettings from './evolution/EvolutionSettings.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -55,6 +56,7 @@ export default {
     Editor,
     Avatar,
     AccountHealth,
+    EvolutionSettings,
   },
   mixins: [inboxMixin],
   setup() {
@@ -191,6 +193,16 @@ export default {
         ];
       }
 
+      if (this.isEvolutionInbox) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'evolution',
+            name: this.$t('INBOX_MGMT.TABS.EVOLUTION'),
+          },
+        ];
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -200,8 +212,8 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
     inboxIcon() {
-      const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium);
+      const { medium, channel_type: type, additional_attributes } = this.inbox;
+      return getInboxIconByType(type, medium, 'fill', additional_attributes);
     },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
@@ -211,6 +223,14 @@ export default {
       }
       if (this.isAWhatsAppChannel) {
         return `${this.inbox.name} (${this.inbox.phone_number})`;
+      }
+      if (this.isEvolutionInbox) {
+        const phoneNumber =
+          this.inbox.additional_attributes?.phone_number ||
+          this.inbox.additionalAttributes?.phoneNumber;
+        return phoneNumber
+          ? `${this.inbox.name} (${phoneNumber})`
+          : this.inbox.name;
       }
       if (this.isAnEmailChannel) {
         return `${this.inbox.name} (${this.inbox.email})`;
@@ -946,6 +966,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />
+      </div>
+      <div v-if="selectedTabKey === 'evolution'" class="mx-8">
+        <EvolutionSettings :inbox="inbox" />
       </div>
     </section>
   </div>

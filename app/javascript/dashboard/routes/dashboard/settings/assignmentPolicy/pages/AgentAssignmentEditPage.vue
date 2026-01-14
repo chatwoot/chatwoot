@@ -45,13 +45,28 @@ const breadcrumbItems = computed(() => [
 ]);
 
 const buildInboxList = allInboxes =>
-  allInboxes?.map(({ name, id, email, phoneNumber, channelType, medium }) => ({
-    name,
-    id,
-    email,
-    phoneNumber,
-    icon: getInboxIconByType(channelType, medium, 'line'),
-  })) || [];
+  allInboxes?.map(
+    ({
+      name,
+      id,
+      email,
+      phoneNumber,
+      channelType,
+      medium,
+      additionalAttributes,
+    }) => ({
+      name,
+      id,
+      email,
+      phoneNumber,
+      icon: getInboxIconByType(
+        channelType,
+        medium,
+        'line',
+        additionalAttributes
+      ),
+    })
+  ) || [];
 
 const policyInboxes = computed(() =>
   buildInboxList(selectedPolicy.value?.inboxes)
