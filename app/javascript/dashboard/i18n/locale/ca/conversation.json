@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "El fitxer supera el límit de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB fitxers adjunts",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "No es pot enviar aquest missatge, torna-ho a provar més tard",
     "SENT_BY": "Enviat per:",
     "BOT": "Bot",
