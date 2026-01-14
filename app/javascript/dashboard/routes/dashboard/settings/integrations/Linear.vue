@@ -5,14 +5,12 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
-import { useI18n } from 'vue-i18n';
 
 import Integration from './Integration.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 
 const store = useStore();
-const { t } = useI18n();
 
 const integrationLoaded = ref(false);
 
@@ -56,8 +54,8 @@ onMounted(() => {
         :integration-enabled="integration.enabled"
         :integration-action="integrationAction"
         :delete-confirmation-text="{
-          title: t('INTEGRATION_SETTINGS.LINEAR.DELETE.TITLE'),
-          message: t('INTEGRATION_SETTINGS.LINEAR.DELETE.MESSAGE'),
+          title: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.TITLE'),
+          message: $t('INTEGRATION_SETTINGS.LINEAR.DELETE.MESSAGE'),
         }"
       />
     </template>
