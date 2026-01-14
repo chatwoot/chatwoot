@@ -169,6 +169,7 @@ const saveChanges = async () => {
       language: assistant.value.language,
       dialect: assistant.value.dialect,
       personality_description: assistant.value.personality_description,
+      custom_instructions: assistant.value.custom_instructions,
       admin_config: assistant.value.admin_config,
       voice_enabled: assistant.value.voice_enabled,
       voice_config: assistant.value.voice_config,
