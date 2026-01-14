@@ -252,6 +252,17 @@ RSpec.describe Integrations::LlmInstrumentation do
           expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.input', params[:messages].to_json)
           expect(mock_span).to have_received(:set_attribute).with('langfuse.observation.output', result_data.to_json)
         end
+
+        # Regression test for Langfuse double-counting bug.
+        # Setting gen_ai.request.model on parent spans causes Langfuse to classify them as
+        # GENERATIONs instead of SPANs, resulting in cost being counted multiple times
+        # (once for the parent, once for each child GENERATION).
+        # See: https://github.com/langfuse/langfuse/issues/7549
+        it 'does NOT set gen_ai.request.model to avoid being classified as a GENERATION' do
+          instance.instrument_agent_session(params) { 'result' }
+
+          expect(mock_span).not_to have_received(:set_attribute).with('gen_ai.request.model', anything)
+        end
       end
     end
   end
