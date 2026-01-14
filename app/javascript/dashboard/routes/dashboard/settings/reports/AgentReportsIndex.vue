@@ -31,5 +31,6 @@ const onDownloadClick = () => {
     fetch-items-key="agents/get"
     summary-key="summaryReports/getAgentSummaryReports"
     type="agent"
+    show-agent-chat-duration
   />
 </template>

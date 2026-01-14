@@ -206,9 +206,9 @@ RSpec.describe 'Conversations API', type: :request do
       end
 
       it 'returns reporting events when agent is assigned to the conversation' do
-        conversation.update!(assignee: limited_agent)
         # Also create inbox member for the agent
         create(:inbox_member, user: limited_agent, inbox: conversation.inbox)
+        conversation.update!(assignee: limited_agent)
 
         get "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/reporting_events",
             headers: limited_agent.create_new_auth_token,

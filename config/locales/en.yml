@@ -152,6 +152,7 @@ en:
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
+      agent_chat_duration: Avg chat duration
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type

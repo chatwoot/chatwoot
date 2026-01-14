@@ -136,6 +136,7 @@ ru:
       avg_resolution_time: Среднее время завершения
       resolution_count: Количество завершенных
       avg_customer_waiting_time: Среднее время ожидания клиента
+      agent_chat_duration: Среднее время длительности чатов
     inbox_csv:
       inbox_name: Имя источника
       inbox_type: Тип входящего сообщения

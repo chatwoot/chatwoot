@@ -13,6 +13,7 @@
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  priority               :integer
+#  resolved_at            :datetime
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
 #  uuid                   :uuid             not null
@@ -44,6 +45,7 @@
 #  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
+#  index_conversations_on_resolved_at                 (resolved_at)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
 #  index_conversations_on_team_id                     (team_id)
@@ -117,7 +119,10 @@ class Conversation < ApplicationRecord
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_update :close_previous_agent_on_reassign
+  before_update :close_agents_on_resolve
 
+  after_update :create_participant_for_new_agent
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
@@ -211,7 +216,65 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
+  def track_agent_chat_duration(participant)
+    return if participant.created_at.nil? || participant.left_at.nil?
+
+    duration = participant.left_at - participant.created_at
+    return if duration <= 0
+
+    reporting_events.create!(
+      account_id: account_id,
+      user_id: participant.user_id,
+      name: :agent_chat_duration,
+      value: duration.to_i
+    )
+  end
+
   private
+
+  def close_previous_agent_on_reassign
+    return unless will_save_change_to_assignee_id?
+
+    prev_id, new_id = assignee_id_change
+    return if prev_id.nil? || prev_id == new_id
+
+    participant = ConversationParticipant
+                  .find_by(conversation_id: id, user_id: prev_id, left_at: nil)
+
+    return unless participant
+
+    participant.update!(left_at: Time.current)
+    track_agent_chat_duration(participant)
+  end
+
+  def create_participant_for_new_agent
+    return unless saved_change_to_assignee_id?
+    return if assignee_id.nil?
+
+    participant = ConversationParticipant.find_or_initialize_by(
+      conversation_id: id,
+      user_id: assignee_id
+    )
+
+    if participant.persisted? && participant.left_at.present?
+      participant.left_at = nil
+      participant.save!
+    elsif participant.new_record?
+      participant.save!
+    end
+  end
+
+  def close_agents_on_resolve
+    return unless will_save_change_to_status?
+    return unless status == 'resolved'
+
+    ConversationParticipant
+      .where(conversation_id: id, left_at: nil)
+      .find_each do |participant|
+        participant.update!(left_at: Time.current)
+        track_agent_chat_duration(participant)
+      end
+  end
 
   def execute_after_update_commit_callbacks
     handle_resolved_status_change
@@ -225,6 +288,7 @@ class Conversation < ApplicationRecord
     return unless saved_change_to_status? && status == 'resolved'
 
     # rubocop:disable Rails/SkipsModelValidations
+    update_column(:resolved_at, Time.current)
     update_column(:waiting_since, nil)
     # rubocop:enable Rails/SkipsModelValidations
   end

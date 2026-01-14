@@ -32,6 +32,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  showAgentChatDuration: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const store = useStore();
@@ -59,38 +63,51 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
-const columns = computed(() => [
-  columnHelper.accessor('name', {
-    header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
-    width: 300,
-    cell: cellProps => h(SummaryReportLink, cellProps),
-  }),
-  columnHelper.accessor('conversationsCount', {
-    header: t('SUMMARY_REPORTS.CONVERSATIONS'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgFirstResponseTime', {
-    header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgResolutionTime', {
-    header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('avgReplyTime', {
-    header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-  columnHelper.accessor('resolutionsCount', {
-    header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
-    width: 200,
-    cell: defaulSpanRender,
-  }),
-]);
+const columns = computed(() => {
+  const baseColumns = [
+    columnHelper.accessor('name', {
+      header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
+      width: 300,
+      cell: cellProps => h(SummaryReportLink, cellProps),
+    }),
+    columnHelper.accessor('conversationsCount', {
+      header: t('SUMMARY_REPORTS.CONVERSATIONS'),
+      width: 200,
+      cell: defaulSpanRender,
+    }),
+    columnHelper.accessor('avgFirstResponseTime', {
+      header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
+      width: 200,
+      cell: defaulSpanRender,
+    }),
+    columnHelper.accessor('avgResolutionTime', {
+      header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
+      width: 200,
+      cell: defaulSpanRender,
+    }),
+    columnHelper.accessor('avgReplyTime', {
+      header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
+      width: 200,
+      cell: defaulSpanRender,
+    }),
+    columnHelper.accessor('resolutionsCount', {
+      header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
+      width: 200,
+      cell: defaulSpanRender,
+    }),
+  ];
+  if (props.showAgentChatDuration) {
+    baseColumns.push(
+      columnHelper.accessor('agentChatDuration', {
+        header: t('SUMMARY_REPORTS.AGENT_CHAT_DURATION'),
+        width: 220,
+        cell: defaulSpanRender,
+      })
+    );
+  }
+
+  return baseColumns;
+});
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 
@@ -99,16 +116,18 @@ const renderCount = value => (value ? value.toLocaleString() : '--');
 const tableData = computed(() =>
   rowItems.value.map(row => {
     const rowMetrics = getMetrics(row.id);
+
     const {
       conversationsCount,
       avgFirstResponseTime,
       avgResolutionTime,
       avgReplyTime,
       resolvedConversationsCount,
+      agentChatDuration,
     } = rowMetrics;
-    return {
+
+    const baseRow = {
       id: row.id,
-      // we fallback on title, label for instance does not have a name property
       name: row.name ?? row.title,
       type: props.type,
       conversationsCount: renderCount(conversationsCount),
@@ -117,6 +136,12 @@ const tableData = computed(() =>
       avgResolutionTime: renderAvgTime(avgResolutionTime),
       resolutionsCount: renderCount(resolvedConversationsCount),
     };
+
+    if (props.showAgentChatDuration) {
+      baseRow.agentChatDuration = renderAvgTime(agentChatDuration);
+    }
+
+    return baseRow;
   })
 );
 

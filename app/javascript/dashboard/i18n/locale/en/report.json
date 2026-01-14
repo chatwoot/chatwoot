@@ -31,6 +31,12 @@
         "INFO_TEXT": "Total number of conversations used for computation:",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
+      "AGENT_CHAT_DURATION": {
+        "NAME": "Chat Duration",
+        "DESC": "( Avg )",
+        "INFO_TEXT": "Total number of conversations used for computation:",
+        "TOOLTIP_TEXT": "Chat Duration is {metricValue} (based on {conversationCount} conversations)"
+      },
       "RESOLUTION_COUNT": {
         "NAME": "Resolution Count",
         "DESC": "( Total )"
@@ -577,6 +583,7 @@
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
-    "CONVERSATIONS": "No. of conversations"
+    "CONVERSATIONS": "No. of conversations",
+    "AGENT_CHAT_DURATION": "Avg chat duration"
   }
 }

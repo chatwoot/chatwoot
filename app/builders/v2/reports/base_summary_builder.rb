@@ -10,6 +10,7 @@ class V2::Reports::BaseSummaryBuilder
 
   def load_data
     @conversations_count = fetch_conversations_count
+    @agent_chat_duration = respond_to?(:fetch_agent_chat_duration) ? fetch_agent_chat_duration : nil
     load_reporting_events_data
   end
 

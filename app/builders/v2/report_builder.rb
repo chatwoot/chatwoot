@@ -23,7 +23,7 @@ class V2::ReportBuilder
 
   # For backward compatible with old report
   def build
-    if %w[avg_first_response_time avg_resolution_time reply_time].include?(params[:metric])
+    if %w[avg_first_response_time avg_resolution_time reply_time agent_chat_duration].include?(params[:metric])
       timeseries.each_with_object([]) do |p, arr|
         arr << { value: p[1], timestamp: p[0].in_time_zone(@timezone).to_i, count: @grouped_values.count[p[0]] }
       end
@@ -41,6 +41,7 @@ class V2::ReportBuilder
       outgoing_messages_count: outgoing_messages.count,
       avg_first_response_time: avg_first_response_time_summary,
       avg_resolution_time: avg_resolution_time_summary,
+      agent_chat_duration: agent_chat_duration_summary,
       resolutions_count: resolutions.count,
       reply_time: reply_time_summary
     }
@@ -50,7 +51,8 @@ class V2::ReportBuilder
     {
       conversations_count: conversations.count,
       avg_first_response_time: avg_first_response_time_summary,
-      avg_resolution_time: avg_resolution_time_summary
+      avg_resolution_time: avg_resolution_time_summary,
+      agent_chat_duration: agent_chat_duration_summary
     }
   end
 
@@ -78,6 +80,7 @@ class V2::ReportBuilder
        avg_first_response_time
        avg_resolution_time reply_time
        resolutions_count
+       agent_chat_duration
        bot_resolutions_count
        bot_handoffs_count
        reply_time].include?(params[:metric])

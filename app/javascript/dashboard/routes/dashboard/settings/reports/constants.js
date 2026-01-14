@@ -165,6 +165,7 @@ export const METRIC_CHART = {
   resolutions_count: DEFAULT_CHART,
   bot_resolutions_count: DEFAULT_CHART,
   bot_handoffs_count: DEFAULT_CHART,
+  agent_chat_duration: TIME_CHART_CONFIG,
 };
 
 export const OVERVIEW_METRICS = {

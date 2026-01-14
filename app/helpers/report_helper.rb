@@ -3,42 +3,20 @@ module ReportHelper
 
   def scope
     case params[:type]
-    when :account
-      account
-    when :inbox
-      inbox
-    when :agent
-      user
-    when :label
-      label
-    when :team
-      team
+    when :account then account
+    when :inbox   then inbox
+    when :agent   then user
+    when :label   then label
+    when :team    then team
     end
   end
 
-  def conversations_count
-    (get_grouped_values conversations).count
-  end
-
-  def incoming_messages_count
-    (get_grouped_values incoming_messages).count
-  end
-
-  def outgoing_messages_count
-    (get_grouped_values outgoing_messages).count
-  end
-
-  def resolutions_count
-    (get_grouped_values resolutions).count
-  end
-
-  def bot_resolutions_count
-    (get_grouped_values bot_resolutions).count
-  end
-
-  def bot_handoffs_count
-    (get_grouped_values bot_handoffs).count
-  end
+  def conversations_count = get_grouped_values(conversations).count
+  def incoming_messages_count = get_grouped_values(incoming_messages).count
+  def outgoing_messages_count = get_grouped_values(outgoing_messages).count
+  def resolutions_count = get_grouped_values(resolutions).count
+  def bot_resolutions_count = get_grouped_values(bot_resolutions).count
+  def bot_handoffs_count = get_grouped_values(bot_handoffs).count
 
   def conversations
     scope.conversations.where(account_id: account.id, created_at: range)
@@ -124,5 +102,23 @@ module ReportHelper
     return 0 if avg_frt.blank?
 
     avg_frt
+  end
+
+  def agent_chat_duration
+    return 0 unless params[:type].to_sym == :agent
+
+    scope.reporting_events.where(name: :agent_chat_duration, account_id: account.id, created_at: range).average(:value) || 0
+  end
+
+  def agent_chat_duration_summary
+    return 0 unless params[:type].to_sym == :agent
+
+    reporting_events = scope.reporting_events.where(
+      name: :agent_chat_duration,
+      account_id: account.id,
+      created_at: range
+    )
+
+    reporting_events.average(:value) || 0
   end
 end
