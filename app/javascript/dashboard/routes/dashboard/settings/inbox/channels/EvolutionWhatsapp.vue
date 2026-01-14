@@ -1,17 +1,17 @@
 <script setup>
 import { ref, computed, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
+import router from '../../../../index';
 import EvolutionAPI from 'dashboard/api/evolution';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 
 const { t } = useI18n();
 const route = useRoute();
-const router = useRouter();
 
 const POLL_INTERVAL = 5000;
 
@@ -40,20 +40,28 @@ const canLoadQR = computed(() => {
   return inboxName.value.trim().length > 0 && !createdInbox.value;
 });
 
+const canProceed = computed(() => {
+  return isConnected.value;
+});
+
 const connectionStatus = computed(() => {
   if (!connectionState.value?.instance) return 'unknown';
   return connectionState.value.instance.state || 'disconnected';
 });
 
 // Validation rules
-const rules = computed(() => ({
-  inboxName: { required },
-}));
+const rules = computed(() => {
+  return {
+    inboxName: { required },
+  };
+});
 
-const v$ = useVuelidate(rules, { inboxName });
+const v$ = useVuelidate(rules, {
+  inboxName,
+});
 
 // Methods
-const resetState = () => {
+const resetBaileysState = () => {
   createdInbox.value = null;
   qrCode.value = null;
   connectionState.value = null;
@@ -82,6 +90,7 @@ const loadQRCode = async () => {
     console.error('Failed to create Evolution inbox:', error);
     const serverError =
       error.response?.data?.error || error.response?.data?.message || '';
+    // Check for duplicate inbox name error
     if (
       serverError.toLowerCase().includes('already exists') ||
       serverError.toLowerCase().includes('unique inbox name')
@@ -106,6 +115,7 @@ const fetchQRCode = async () => {
 
   try {
     const response = await EvolutionAPI.getQRCode(createdInbox.value.id);
+    console.log('QR code response:', response.data);
     qrCode.value = response.data;
   } catch (error) {
     console.error('Failed to fetch QR code:', error);
@@ -121,11 +131,15 @@ const refreshConnection = async () => {
     );
     connectionState.value = response.data;
 
+    // Debug log to see what state we're getting
+    console.log('Connection state:', response.data?.instance?.state);
+
     if (isConnected.value) {
       qrCode.value = null;
       stopPolling();
       useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.CONNECTED'));
     } else if (!qrCode.value?.base64) {
+      // Only try to fetch QR code if we don't have one and not connected
       await fetchQRCode();
     }
   } catch (error) {
@@ -136,11 +150,13 @@ const refreshConnection = async () => {
 const refreshQRCode = async () => {
   isLoadingQR.value = true;
   try {
+    // First check connection state
     const stateResponse = await EvolutionAPI.getConnectionState(
       createdInbox.value.id
     );
     connectionState.value = stateResponse.data;
 
+    // Only fetch QR if not connected
     if (!isConnected.value) {
       await fetchQRCode();
     }
@@ -166,175 +182,224 @@ const stopPolling = () => {
   }
 };
 
-const continueToAgents = async () => {
-  if (!isConnected.value) {
-    useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.NOT_CONNECTED'));
-    return;
+const enableChatwootIntegration = async () => {
+  if (!createdInbox.value) return;
+
+  try {
+    await EvolutionAPI.enableIntegration(createdInbox.value.id);
+  } catch (error) {
+    console.error('Failed to enable Chatwoot integration:', error);
+    useAlert(
+      error.response?.data?.error ||
+        t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.INTEGRATION_ERROR')
+    );
+    throw error;
   }
+};
+
+const proceedToAgents = async () => {
+  if (!canProceed.value || !createdInbox.value) return;
 
   isCreating.value = true;
+
   try {
-    // Enable Chatwoot integration in Evolution
-    await EvolutionAPI.enableIntegration(createdInbox.value.id);
+    // Enable Chatwoot integration before proceeding
+    await enableChatwootIntegration();
 
-    useAlert(t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.INTEGRATION_ENABLED'));
-
-    // Navigate to add agents
     router.replace({
       name: 'settings_inboxes_add_agents',
       params: {
         page: 'new',
         inbox_id: createdInbox.value.id,
+        accountId: route.params.accountId,
       },
     });
   } catch (error) {
-    useAlert(
-      error.response?.data?.error ||
-        t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.ENABLE_ERROR')
-    );
+    // Error already handled in enableChatwootIntegration
   } finally {
     isCreating.value = false;
   }
 };
 
+// Cleanup on unmount
 onBeforeUnmount(() => {
   stopPolling();
 });
 </script>
 
 <template>
-  <div class="mx-auto max-w-lg">
-    <div class="flex flex-col gap-6">
-      <!-- Header -->
-      <div class="text-center">
-        <h2 class="text-xl font-semibold text-n-slate-12">
-          {{ $t('INBOX_MGMT.ADD.EVOLUTION.TITLE') }}
-        </h2>
-        <p class="mt-1 text-sm text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.EVOLUTION.DESCRIPTION') }}
-        </p>
+  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="proceedToAgents">
+    <!-- Error Banner -->
+    <div
+      v-if="errorMessage"
+      class="flex-shrink-0 flex-grow-0 mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+    >
+      <div class="flex items-start">
+        <div class="flex-shrink-0">
+          <svg
+            class="w-5 h-5 text-red-600 dark:text-red-400"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </div>
+        <div class="ml-3 flex-1">
+          <h3 class="text-sm font-medium text-red-800 dark:text-red-200">
+            {{ $t('INBOX_MGMT.ADD.EVOLUTION.ERROR_TITLE') }}
+          </h3>
+          <div class="mt-2 text-sm text-red-700 dark:text-red-300">
+            <p>{{ errorMessage }}</p>
+          </div>
+        </div>
+        <div class="ml-auto pl-3">
+          <button
+            type="button"
+            class="inline-flex rounded-md p-1.5 text-red-500 hover:bg-red-100 dark:hover:bg-red-900/40"
+            @click="errorMessage = ''"
+          >
+            <span class="sr-only">Dismiss</span>
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
+    </div>
 
-      <!-- Inbox Name -->
-      <div class="flex flex-col gap-2">
-        <label class="text-sm font-medium text-n-slate-12">
-          {{ $t('INBOX_MGMT.ADD.EVOLUTION.INBOX_NAME.LABEL') }}
-        </label>
+    <!-- Inbox Name -->
+    <div class="flex-shrink-0 flex-grow-0 mt-4">
+      <label :class="{ error: v$.inboxName.$error }">
+        {{ $t('INBOX_MGMT.ADD.EVOLUTION.INBOX_NAME.LABEL') }}
         <input
           v-model="inboxName"
           type="text"
-          :placeholder="$t('INBOX_MGMT.ADD.EVOLUTION.INBOX_NAME.PLACEHOLDER')"
           :disabled="isNameLocked"
-          class="w-full rounded-lg border border-n-weak bg-n-alpha-1 px-3 py-2 text-sm text-n-slate-12 placeholder-n-slate-9 focus:border-n-brand focus:outline-none focus:ring-1 focus:ring-n-brand disabled:cursor-not-allowed disabled:opacity-60"
+          :placeholder="$t('INBOX_MGMT.ADD.EVOLUTION.INBOX_NAME.PLACEHOLDER')"
+          @blur="v$.inboxName.$touch"
         />
-        <p v-if="v$.inboxName.$error" class="text-xs text-n-ruby-9">
+        <span v-if="v$.inboxName.$error" class="message">
           {{ $t('INBOX_MGMT.ADD.EVOLUTION.INBOX_NAME.ERROR') }}
-        </p>
-      </div>
+        </span>
+      </label>
+    </div>
 
-      <!-- Load QR Button (before inbox creation) -->
-      <div v-if="!createdInbox" class="flex justify-center">
-        <NextButton
-          :label="$t('INBOX_MGMT.ADD.EVOLUTION.LOAD_QR')"
-          :disabled="!canLoadQR || isLoadingQR"
-          :loading="isLoadingQR"
-          @click="loadQRCode"
+    <!-- QR Code Section -->
+    <div v-if="!createdInbox" class="mt-4">
+      <NextButton
+        :is-loading="isLoadingQR"
+        :disabled="!canLoadQR"
+        solid
+        blue
+        :label="$t('INBOX_MGMT.ADD.EVOLUTION.BAILEYS.LOAD_QR_BUTTON')"
+        @click="loadQRCode"
+      />
+      <p class="mt-2 text-sm text-n-slate-11">
+        {{ $t('INBOX_MGMT.ADD.EVOLUTION.BAILEYS.LOAD_QR_HELP') }}
+      </p>
+    </div>
+
+    <!-- QR Code Display -->
+    <div v-else class="mt-4">
+      <!-- Connection Status -->
+      <div class="flex items-center gap-3 mb-4">
+        <span
+          class="inline-block w-3 h-3 rounded-full"
+          :class="{
+            'bg-green-500': isConnected,
+            'bg-yellow-500': connectionStatus === 'connecting',
+            'bg-red-500':
+              connectionStatus === 'close' || connectionStatus === 'unknown',
+          }"
         />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{
+            isConnected
+              ? $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.STATUS.OPEN')
+              : connectionStatus === 'connecting'
+                ? $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.STATUS.CONNECTING')
+                : $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.STATUS.DISCONNECTED')
+          }}
+        </span>
       </div>
 
-      <!-- Error Message -->
-      <div v-if="errorMessage" class="rounded-lg bg-n-ruby-2 p-3 text-n-ruby-11">
-        {{ errorMessage }}
-      </div>
-
-      <!-- QR Code Section (after inbox creation) -->
-      <div v-if="createdInbox" class="flex flex-col items-center gap-4">
-        <!-- Connection Status -->
-        <div class="flex items-center gap-2">
-          <div
-            class="h-3 w-3 rounded-full"
-            :class="{
-              'bg-n-teal-9': isConnected,
-              'bg-n-amber-9': connectionStatus === 'connecting',
-              'bg-n-ruby-9':
-                connectionStatus === 'disconnected' ||
-                connectionStatus === 'unknown',
-            }"
-          />
-          <span class="text-sm text-n-slate-11">
-            {{
-              $t(
-                `INBOX_MGMT.ADD.EVOLUTION.CONNECT.STATUS.${connectionStatus.toUpperCase()}`
-              )
-            }}
-          </span>
-        </div>
-
-        <!-- QR Code Display -->
-        <div
-          v-if="!isConnected"
-          class="flex flex-col items-center gap-4 rounded-lg border border-n-weak bg-n-alpha-1 p-6"
-        >
-          <p class="text-center text-sm text-n-slate-11">
-            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.SCAN_INSTRUCTION') }}
+      <!-- QR Code Image -->
+      <div
+        v-if="!isConnected"
+        class="p-4 bg-white dark:bg-n-slate-2 rounded-lg"
+      >
+        <div v-if="qrCode?.base64" class="flex flex-col items-center">
+          <img :src="qrCode.base64" alt="QR Code" class="w-64 h-64" />
+          <p class="mt-3 text-sm text-center text-n-slate-11">
+            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.QR_INSTRUCTION') }}
           </p>
-
-          <div v-if="isLoadingQR" class="flex h-64 w-64 items-center justify-center">
-            <Spinner size="large" />
-          </div>
-
-          <div v-else-if="qrCode?.base64" class="rounded-lg bg-white p-2">
-            <img
-              :src="qrCode.base64"
-              alt="QR Code"
-              class="h-64 w-64"
-            />
-          </div>
-
-          <div v-else class="flex h-64 w-64 items-center justify-center text-n-slate-9">
-            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.NO_QR') }}
-          </div>
-
           <NextButton
-            variant="secondary"
+            class="mt-4"
+            ghost
+            :is-loading="isLoadingQR"
             :label="$t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.REFRESH_QR')"
-            :disabled="isLoadingQR"
             @click="refreshQRCode"
           />
         </div>
+        <div v-else class="flex flex-col items-center py-8">
+          <Spinner />
+          <p class="mt-3 text-sm text-n-slate-11">
+            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.QR_LOADING') }}
+          </p>
+          <NextButton
+            class="mt-4"
+            ghost
+            :is-loading="isLoadingQR"
+            :label="$t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.REFRESH_QR')"
+            @click="refreshQRCode"
+          />
+        </div>
+      </div>
 
-        <!-- Connected State -->
-        <div v-else class="flex flex-col items-center gap-4 rounded-lg border border-n-teal-6 bg-n-teal-2 p-6">
-          <div class="flex h-16 w-16 items-center justify-center rounded-full bg-n-teal-9 text-white">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-8 w-8"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              />
-            </svg>
-          </div>
-          <p class="text-center font-medium text-n-teal-11">
-            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.SUCCESS') }}
+      <!-- Connected State -->
+      <div
+        v-else
+        class="p-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg"
+      >
+        <div class="flex items-center gap-3">
+          <svg
+            class="w-6 h-6 text-green-600 dark:text-green-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+          <p class="text-sm font-medium text-green-800 dark:text-green-200">
+            {{ $t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.CONNECTED') }}
           </p>
         </div>
+      </div>
 
-        <!-- Continue Button -->
+      <!-- Continue Button (only enabled when connected) -->
+      <div class="w-full mt-4">
         <NextButton
+          :is-loading="isCreating"
+          :disabled="!isConnected"
+          solid
+          blue
           :label="$t('INBOX_MGMT.ADD.EVOLUTION.CONNECT.CONTINUE')"
-          :disabled="!isConnected || isCreating"
-          :loading="isCreating"
-          @click="continueToAgents"
+          @click="proceedToAgents"
         />
       </div>
     </div>
-  </div>
+  </form>
 </template>
-

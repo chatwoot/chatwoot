@@ -439,16 +439,21 @@
       "EVOLUTION": {
         "TITLE": "Evolution WhatsApp",
         "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)",
+        "ERROR_TITLE": "Error",
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
           "PLACEHOLDER": "Enter inbox name (e.g., WhatsApp Support)",
           "ERROR": "Please enter a valid inbox name"
         },
-        "LOAD_QR": "Load QR Code",
+        "BAILEYS": {
+          "LOAD_QR_BUTTON": "Load QR Code",
+          "LOAD_QR_HELP": "This will create an Evolution instance and generate a QR code for you to scan."
+        },
         "CONNECT": {
           "TITLE": "Connect WhatsApp",
           "DESCRIPTION": "Scan the QR code with your WhatsApp mobile app to connect",
-          "SCAN_INSTRUCTION": "Open WhatsApp on your phone, tap Menu or Settings and select Linked Devices. Tap on Link a Device, then scan this QR code.",
+          "QR_INSTRUCTION": "Open WhatsApp on your phone, tap Menu or Settings and select Linked Devices. Tap on Link a Device, then scan this QR code.",
+          "QR_LOADING": "Loading QR code...",
           "STATUS": {
             "OPEN": "Connected",
             "CLOSE": "Disconnected",
@@ -464,6 +469,7 @@
           "SUCCESS": "WhatsApp is connected and ready to receive messages",
           "CONTINUE": "Continue",
           "INTEGRATION_ENABLED": "Integration enabled successfully!",
+          "INTEGRATION_ERROR": "Failed to enable Chatwoot integration. Please try again.",
           "ENABLE_ERROR": "Failed to enable integration. Please try again."
         },
         "API": {
@@ -671,53 +677,76 @@
         "FETCH_ERROR": "Failed to load Evolution settings",
         "SAVE_SUCCESS": "Settings saved successfully",
         "SAVE_ERROR": "Failed to save settings",
+        "SAVE_BUTTON": "Save Settings",
         "INSTANCE_SAVE_SUCCESS": "Instance settings saved successfully",
         "INSTANCE_SAVE_ERROR": "Failed to save instance settings",
         "QR_ERROR": "Failed to load QR code",
+        "QR_INSTRUCTION": "Open WhatsApp on your phone, tap Menu or Settings and select Linked Devices. Tap on Link a Device, then scan this QR code.",
+        "QR_LOADING": "Loading QR code...",
+        "GET_NEW_QR": "Get New QR Code",
         "CONNECTED": "WhatsApp connected successfully!",
         "INTEGRATION_ENABLED": "Integration enabled successfully!",
+        "INTEGRATION_ENABLE_ERROR": "Failed to enable integration",
         "ENABLE_ERROR": "Failed to enable integration",
         "RESTART_SUCCESS": "Instance restarted successfully",
         "RESTART_ERROR": "Failed to restart instance",
+        "REFRESH_SUCCESS": "Instance refreshed successfully",
+        "REFRESH_ERROR": "Failed to refresh instance",
         "DISCONNECT_SUCCESS": "WhatsApp disconnected successfully",
         "DISCONNECT_ERROR": "Failed to disconnect WhatsApp",
+        "DISCONNECT_CONFIRM_TITLE": "Disconnect WhatsApp",
+        "DISCONNECT_CONFIRM_MESSAGE": "Are you sure you want to disconnect this WhatsApp instance? You will need to scan the QR code again to reconnect.",
+        "CANCEL_BUTTON": "Cancel",
+        "INSTANCE_NAME": "Instance Name",
+        "CHANNEL_TYPE": "Channel Type",
+        "INTEGRATION_STATUS": "Integration Status",
+        "INTEGRATION_ACTIVE": "Active",
+        "INTEGRATION_INACTIVE": "Inactive",
+        "INTEGRATION_NOT_ENABLED_TITLE": "Integration Not Enabled",
+        "INTEGRATION_NOT_ENABLED_DESC": "WhatsApp is connected but the Chatwoot integration is not enabled. Click the button below to enable it.",
+        "ENABLE_INTEGRATION_BUTTON": "Enable Chatwoot Integration",
+        "REFRESH_BUTTON": "Refresh",
+        "RESTART_BUTTON": "Restart",
+        "DISCONNECT_BUTTON": "Disconnect",
+        "CONNECT_BUTTON": "Connect WhatsApp",
+        "STATUS": {
+          "OPEN": "Connected",
+          "CLOSE": "Disconnected",
+          "CONNECTING": "Connecting...",
+          "DISCONNECTED": "Disconnected",
+          "UNKNOWN": "Unknown"
+        },
         "CONNECTION": {
           "TITLE": "Connection Status",
-          "DESCRIPTION": "Manage your WhatsApp connection via Evolution API",
-          "STATUS": {
-            "OPEN": "Connected",
-            "CLOSE": "Disconnected",
-            "CONNECTING": "Connecting...",
-            "DISCONNECTED": "Disconnected",
-            "UNKNOWN": "Unknown"
-          },
-          "SCAN_INSTRUCTION": "Scan the QR code with your WhatsApp mobile app to connect",
-          "LOAD_QR": "Click to load QR code",
-          "REFRESH_QR": "Refresh QR Code",
-          "ENABLE_INTEGRATION": "Enable Integration",
-          "RESTART": "Restart Instance",
-          "DISCONNECT": "Disconnect"
+          "DESCRIPTION": "Manage your WhatsApp connection via Evolution API"
         },
         "INSTANCE": {
           "TITLE": "Instance Settings",
           "DESCRIPTION": "Configure WhatsApp instance behavior",
           "REJECT_CALL": "Reject incoming calls",
+          "REJECT_CALL_DESC": "Automatically reject incoming voice and video calls",
           "GROUPS_IGNORE": "Ignore group messages",
+          "GROUPS_IGNORE_DESC": "Do not process messages from WhatsApp groups",
           "ALWAYS_ONLINE": "Always show as online",
+          "ALWAYS_ONLINE_DESC": "Keep your WhatsApp status as online even when not active",
           "READ_MESSAGES": "Mark messages as read automatically",
+          "READ_MESSAGES_DESC": "Automatically mark incoming messages as read",
           "READ_STATUS": "Mark status as viewed automatically",
-          "SAVE": "Save Instance Settings"
+          "READ_STATUS_DESC": "Automatically mark contact status updates as viewed",
+          "SYNC_FULL_HISTORY": "Sync full message history",
+          "SYNC_FULL_HISTORY_DESC": "Import all message history when connecting (may take longer)"
         },
         "INTEGRATION": {
           "TITLE": "Integration Settings",
-          "DESCRIPTION": "Configure how Evolution integrates with Chatwoot",
-          "SIGN_MSG": "Sign messages with agent name",
-          "REOPEN_CONVERSATION": "Reopen conversation on new message",
-          "MERGE_BRAZIL_CONTACTS": "Merge Brazilian phone number formats",
-          "IMPORT_CONTACTS": "Import contacts from WhatsApp",
-          "IMPORT_MESSAGES": "Import message history",
-          "SAVE": "Save Integration Settings"
-        }
+          "DESCRIPTION": "Configure how Evolution integrates with Chatwoot"
+        },
+        "SIGN_MSG": "Sign messages with agent name",
+        "REOPEN_CONVERSATION": "Reopen conversation on new message",
+        "CONVERSATION_PENDING": "Create conversations as pending",
+        "MERGE_BRAZIL_CONTACTS": "Merge Brazilian phone number formats",
+        "IMPORT_CONTACTS": "Import contacts from WhatsApp",
+        "IMPORT_MESSAGES": "Import message history",
+        "DAYS_LIMIT_IMPORT": "Days of message history to import"
       }
     },
     "ACCOUNT_HEALTH": {
