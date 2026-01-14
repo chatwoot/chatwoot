@@ -247,6 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Unterhaltung erfolgreich gelöscht",
     "FAIL_DELETE_CONVERSATION": "Unterhaltung konnte nicht gelöscht werden! Erneut versuchen",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "BOT": "Bot",
