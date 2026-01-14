@@ -58,20 +58,10 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def get_captain_limits(type)
     total_count = captain_monthly_limit[type.to_s].to_i
+    usage_key = type == :documents ? CAPTAIN_DOCUMENTS_USAGE : CAPTAIN_RESPONSES_USAGE
+    consumed = [custom_attributes[usage_key].to_i, 0].max
 
-    consumed = if type == :documents
-                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0
-               else
-                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-               end
-
-    consumed = 0 if consumed.negative?
-
-    {
-      total_count: total_count,
-      current_available: (total_count - consumed).clamp(0, total_count),
-      consumed: consumed
-    }
+    { total_count: total_count, current_available: (total_count - consumed).clamp(0, total_count), consumed: consumed }
   end
 
   def default_captain_limits
