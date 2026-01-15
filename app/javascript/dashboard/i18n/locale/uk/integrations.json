@@ -406,7 +406,7 @@
       "CANCEL_ANYTIME": "Ви можете змінити або скасувати план у будь-який час"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI is only available in the Enterprise plans.",
+      "AVAILABLE_ON": "Captain AI доступний тільки в планах Enterprise.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Будь ласка, зверніться до адміністратора для оновлення."
     },
