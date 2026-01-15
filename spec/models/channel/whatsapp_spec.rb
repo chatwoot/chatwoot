@@ -118,12 +118,14 @@ RSpec.describe Channel::Whatsapp do
         expect(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
         expect(webhook_service).to receive(:perform)
 
+        # Explicitly set source to nil to test manual setup behavior (not embedded_signup)
         create(:channel_whatsapp,
                account: account,
                provider: 'whatsapp_cloud',
                provider_config: {
                  'business_account_id' => 'test_waba_id',
-                 'api_key' => 'test_access_token'
+                 'api_key' => 'test_access_token',
+                 'source' => nil
                },
                validate_provider_config: false,
                sync_templates: false)

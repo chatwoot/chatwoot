@@ -2,13 +2,7 @@ require 'rails_helper'
 
 describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
-    let!(:whatsapp_channel) do
-      create(:channel_whatsapp,
-             provider: 'whatsapp_cloud',
-             provider_config: { 'source' => 'embedded_signup' },
-             sync_templates: false,
-             validate_provider_config: false)
-    end
+    let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
     let(:params) do
       {
         phone_number: whatsapp_channel.phone_number,
