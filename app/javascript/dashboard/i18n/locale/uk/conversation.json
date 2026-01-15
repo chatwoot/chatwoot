@@ -247,7 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Файл перевищує максимальний розмір вкладень {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} МБ",
-    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файлу  {fileName} не підтримується у цій розмові",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
@@ -282,10 +282,10 @@
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Оброблюється в іншій вкладці",
+      "REJECT_CALL": "Відхилити",
+      "JOIN_CALL": "Доєднатися до виклику",
+      "END_CALL": "Завершити виклик"
     }
   },
   "EMAIL_TRANSCRIPT": {
