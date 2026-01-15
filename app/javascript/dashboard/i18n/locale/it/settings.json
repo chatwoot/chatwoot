@@ -394,39 +394,39 @@
       "CREDITS_PER_MESSAGE": "{credits} crediti/messaggio",
       "COMING_SOON": "In arrivo",
       "EDITOR": {
-        "TITLE": "Editor Features",
-        "DESCRIPTION": "Powers smart compose, grammar corrections, tone adjustments, and content enhancement in your message editor."
+        "TITLE": "Funzionalità Editor",
+        "DESCRIPTION": "Permette smart compose, correzioni grammaticali, gestione del tono di voce e miglioramento del contenuto nell'editor dei messaggi."
       },
       "ASSISTANT": {
         "TITLE": "Assistente",
-        "DESCRIPTION": "Handles automated responses, conversation summaries, and intelligent reply suggestions for customer interactions."
+        "DESCRIPTION": "Gestisce risposte automatizzate, riassunti delle conversazioni e suggerimenti di risposta intelligenti per le interazioni con i clienti."
       },
       "COPILOT": {
         "TITLE": "Co-pilot",
-        "DESCRIPTION": "Provides real-time contextual suggestions, knowledge base recommendations, and proactive insights during conversations."
+        "DESCRIPTION": "Fornisce suggerimenti contestuali in tempo reale, consigli sulla knowledge base e insight proattivi durante le conversazioni."
       }
     },
     "FEATURES": {
       "TITLE": "Funzionalità",
-      "DESCRIPTION": "Enable or disable AI-powered features.",
+      "DESCRIPTION": "Abilita o disabilita le funzionalità AI.",
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Audio Transcription",
-        "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts."
+        "TITLE": "Trascrizione Audio",
+        "DESCRIPTION": "Converte automaticamente i messaggi vocali e le registrazioni delle chiamate in trascrizioni di testo ricercabili."
       },
       "HELP_CENTER_SEARCH": {
-        "TITLE": "Help Center Search Indexing",
-        "DESCRIPTION": "Use AI for context aware search inside your help center articles."
+        "TITLE": "Indicizzazione Ricerca Help Center",
+        "DESCRIPTION": "Usa l'AI per effettuare una ricerca contestualizzata tra gli articoli dell'help center."
       },
       "LABEL_SUGGESTION": {
-        "TITLE": "Label Suggestion",
-        "DESCRIPTION": "Automatically suggest relevant labels and tags for conversations based on content analysis and context.",
-        "MODEL_TITLE": "Label Suggestion Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for analyzing conversations and suggesting appropriate labels"
+        "TITLE": "Suggerimento Etichette",
+        "DESCRIPTION": "Suggerisce automaticamente etichette e tag rilevanti per le conversazioni in base all'analisi e al contesto dei contenuti.",
+        "MODEL_TITLE": "Modello Di Suggerimento Etichette",
+        "MODEL_DESCRIPTION": "Seleziona il modello AI da utilizzare per analizzare le conversazioni e suggerire etichette appropriate"
       }
     },
     "API": {
-      "SUCCESS": "Captain settings updated successfully.",
-      "ERROR": "Failed to update Captain settings. Please try again."
+      "SUCCESS": "Impostazioni Captain aggiornate con successo.",
+      "ERROR": "Impossibile aggiornare le impostazioni Captain. Per favore riprova."
     }
   },
   "BILLING_SETTINGS": {
