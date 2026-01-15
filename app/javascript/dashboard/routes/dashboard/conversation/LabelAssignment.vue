@@ -31,28 +31,28 @@ const conversationUiFlags = useMapGetter('conversationLabels/getUIFlags');
 
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
+const wrapperRef = ref(null);
 const searchQuery = ref('');
 
 const [openLabelsList, toggleLabels] = useToggle(false);
 const [createModalVisible, toggleCreateModal] = useToggle(false);
 const [hasEmptySearchResults, setEmptySearchResults] = useToggle(false);
 
-const { positionClasses, updatePosition } = useDropdownPosition(
+const { position, updatePosition } = useDropdownPosition(
   triggerRef,
   dropdownRef,
-  openLabelsList
+  openLabelsList,
+  { container: wrapperRef }
 );
 
-// Update position of dropdown when labels change
+// Update position when labels change
 watch(
-  activeLabels,
-  async () => {
+  () => activeLabels.value.length,
+  () => {
     if (openLabelsList.value) {
-      await nextTick();
-      updatePosition();
+      nextTick(() => updatePosition());
     }
-  },
-  { deep: true }
+  }
 );
 
 const keyboardEvents = {
@@ -119,18 +119,24 @@ const hideCreateModal = () => {
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-3 w-full items-start pt-3">
+  <div ref="wrapperRef" class="flex flex-wrap gap-2 w-full items-center mb-1">
+    <div class="h-9 flex items-center">
+      <span class="text-sm font-420 text-n-slate-11 truncate whitespace-nowrap">
+        {{ $t('CONVERSATION_SIDEBAR.LABELS') }}
+      </span>
+    </div>
     <Spinner
       v-if="conversationUiFlags.isFetching"
       :size="22"
       class="text-n-slate-10"
     />
-    <div v-else class="flex flex-wrap gap-2.5">
+    <div v-else class="flex flex-wrap gap-2">
       <Label
         v-for="(label, index) in activeLabels"
         :key="label ? label.id : index"
         data-label
         :label="label"
+        compact
       />
       <div
         v-on-click-outside="() => toggleLabels(false)"
@@ -140,10 +146,10 @@ const hideCreateModal = () => {
           ref="triggerRef"
           :label="$t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON')"
           slate
-          sm
-          icon="i-lucide-plus"
+          xs
+          icon="i-lucide-tag"
           :variant="openLabelsList ? 'faded' : 'solid'"
-          class="font-460 !-outline-offset-1"
+          class="!-outline-offset-1"
           @click="toggleLabels()"
         />
         <DropdownMenu
@@ -155,7 +161,8 @@ const hideCreateModal = () => {
             $t('CONTACT_PANEL.LABELS.LABEL_SELECT.PLACEHOLDER')
           "
           class="z-[100] w-56 overflow-y-auto max-h-60"
-          :class="positionClasses"
+          :class="position.class"
+          :style="position.style"
           @action="handleLabelAction"
           @search="handleSearchUpdate"
           @empty="handleEmptyResults"

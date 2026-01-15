@@ -143,18 +143,18 @@ onMounted(() => {
     >
       <div class="flex items-center gap-1.5">
         <div
-          class="ltr:pl-1.5 ltr:pr-2 rtl:pl-2 rtl:pr-1.5 h-6 rounded-md bg-n-button-color outline outline-1 outline-n-container flex items-center"
+          class="ltr:pl-1.5 ltr:pr-2 rtl:pl-2 rtl:pr-1.5 h-6 rounded-md bg-n-label-color outline outline-1 outline-n-label-border -outline-offset-1 flex items-center"
         >
           <InboxName
             v-if="inbox?.id"
             :inbox="inbox"
-            class="gap-1 [&>span]:text-n-slate-12"
+            class="gap-1 [&>span:last-child]:text-n-slate-12"
           />
         </div>
         <div
-          class="px-1.5 h-6 rounded-md bg-n-button-color outline outline-1 outline-n-container flex items-center gap-0.6"
+          class="px-1.5 h-6 rounded-md bg-n-label-color outline outline-1 outline-n-label-border -outline-offset-1 flex items-center gap-1"
         >
-          <Icon icon="i-lucide-hash" class="size-3.5 text-n-slate-10" />
+          <Icon icon="i-woot-hash" class="size-3.5 text-n-slate-10" />
           <span class="text-label-small">{{ conversationId }}</span>
         </div>
       </div>
@@ -167,7 +167,7 @@ onMounted(() => {
         ghost-class="ghost"
         handle=".drag-handle"
         item-key="name"
-        class="flex flex-col divide-y divide-n-weak"
+        class="flex flex-col gap-3 my-4"
         @start="dragging = true"
         @end="onDragEnd"
       >

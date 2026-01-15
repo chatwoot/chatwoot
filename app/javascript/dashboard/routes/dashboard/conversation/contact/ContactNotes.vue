@@ -98,18 +98,7 @@ watch(
 </script>
 
 <template>
-  <div>
-    <div v-if="notes.length" class="px-3 pt-3 pb-2">
-      <NextButton
-        sm
-        slate
-        icon="i-lucide-plus"
-        :label="$t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
-        :disabled="!contactId || isFetchingNotes"
-        @click="openCreateModal"
-      />
-    </div>
-
+  <div class="mt-1">
     <div
       v-if="isFetchingNotes"
       class="flex items-center justify-center py-8 text-n-slate-11"
@@ -142,6 +131,18 @@ watch(
         :label="$t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
         :disabled="!contactId || isFetchingNotes"
         class="w-full mt-2"
+        @click="openCreateModal"
+      />
+    </div>
+
+    <div v-if="notes.length" class="pt-3 px-3 w-full">
+      <NextButton
+        sm
+        slate
+        icon="i-lucide-plus"
+        :label="$t('CONTACTS_LAYOUT.SIDEBAR.NOTES.ADD_NOTE')"
+        :disabled="!contactId || isFetchingNotes"
+        class="w-full"
         @click="openCreateModal"
       />
     </div>

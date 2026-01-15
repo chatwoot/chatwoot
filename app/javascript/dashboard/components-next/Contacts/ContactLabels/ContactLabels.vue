@@ -6,6 +6,10 @@ import LabelItem from 'dashboard/components-next/label/LabelItem.vue';
 import AddLabel from 'dashboard/components-next/label/AddLabel.vue';
 
 const props = defineProps({
+  wrapperRef: {
+    type: Object,
+    default: null,
+  },
   contactId: {
     type: [String, Number],
     default: null,
@@ -117,10 +121,7 @@ const handleLabelHover = labelId => {
 </script>
 
 <template>
-  <div
-    class="flex flex-wrap items-center gap-2 ltr:mr-10 rtl:ml-10"
-    @mouseleave="handleMouseLeave"
-  >
+  <div class="flex flex-wrap items-center gap-2" @mouseleave="handleMouseLeave">
     <LabelItem
       v-for="label in savedLabels"
       :key="label.id"
@@ -132,6 +133,7 @@ const handleLabelHover = labelId => {
     />
     <AddLabel
       :label-menu-items="labelMenuItems"
+      :wrapper-ref="wrapperRef"
       @update-label="handleLabelAction"
     />
   </div>

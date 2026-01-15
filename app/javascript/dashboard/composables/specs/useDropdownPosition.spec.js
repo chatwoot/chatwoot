@@ -1,10 +1,8 @@
 import { ref, nextTick } from 'vue';
 import { useDropdownPosition } from '../useDropdownPosition';
 
-// Mock VueUse composables
 vi.mock('@vueuse/core', () => ({
   useElementBounding: vi.fn(elementRef => {
-    // Create reactive refs that update based on element
     const top = ref(0);
     const right = ref(0);
     const bottom = ref(100);
@@ -13,8 +11,7 @@ vi.mock('@vueuse/core', () => ({
     const height = ref(50);
 
     const update = vi.fn(() => {
-      // Update bounds from element when called
-      if (elementRef.value?.getBoundingClientRect) {
+      if (elementRef && elementRef.value?.getBoundingClientRect) {
         const rect = elementRef.value.getBoundingClientRect();
         top.value = rect.top;
         right.value = rect.right;
@@ -25,20 +22,9 @@ vi.mock('@vueuse/core', () => ({
       }
     });
 
-    // Initial update
     update();
 
-    return {
-      top,
-      right,
-      bottom,
-      left,
-      width,
-      height,
-      x: left,
-      y: top,
-      update,
-    };
+    return { top, right, bottom, left, width, height, x: left, y: top, update };
   }),
   useWindowSize: vi.fn(() => ({
     width: ref(1024),
@@ -53,7 +39,6 @@ describe('useDropdownPosition', () => {
   let querySelectorSpy;
 
   beforeEach(() => {
-    // Create mock DOM elements
     triggerRef = ref({
       getBoundingClientRect: () => ({
         top: 100,
@@ -78,7 +63,6 @@ describe('useDropdownPosition', () => {
 
     enabled = ref(true);
 
-    // Spy on document.querySelector for RTL check
     querySelectorSpy = vi.spyOn(document, 'querySelector').mockReturnValue({
       getAttribute: () => 'ltr',
     });
@@ -88,74 +72,49 @@ describe('useDropdownPosition', () => {
     querySelectorSpy.mockRestore();
   });
 
-  it('should return default position classes when disabled', () => {
+  it('should return default position when disabled', () => {
     enabled.value = false;
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    expect(positionClasses.value).toBe('top-full mt-2 ltr:left-0 rtl:right-0');
+    expect(position.value.class).toBe('top-full mt-2');
+    expect(position.value.style).toEqual({});
   });
 
-  it('should return default position classes when refs are null', () => {
+  it('should return default position when refs are null', () => {
     triggerRef.value = null;
     dropdownRef.value = null;
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    expect(positionClasses.value).toBe('top-full mt-2 ltr:left-0 rtl:right-0');
+    expect(position.value.class).toBe('top-full mt-2');
+    expect(position.value.style).toEqual({ left: '0px' });
   });
 
   it('should calculate position when enabled and refs exist', () => {
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
     // Should return some position classes (not the default)
-    expect(positionClasses.value).toBeTruthy();
-    expect(typeof positionClasses.value).toBe('string');
+    expect(position.value.class).toBeTruthy();
+    expect(typeof position.value.class).toBe('string');
   });
 
   it('should position dropdown below trigger when enough space', () => {
-    // Trigger at top of screen, plenty of space below
-    // Window height: 768, Trigger bottom: 150
+    // Window height: 768, Trigger bottom: 150, Dropdown height: 200, Margin: 16
     // Space below: 768 - 150 = 618px
-    // Dropdown height: 200px + SAFE_MARGIN (16px) = 216px
-    // 618 > 216 = true, so should position below (top-full)
-    triggerRef.value.getBoundingClientRect = () => ({
-      top: 100,
-      right: 250,
-      bottom: 150,
-      left: 50,
-      width: 200,
-      height: 50,
-    });
+    // Required: 200 + 16 = 216px
+    // 618 >= 216, so position below
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
-
-    expect(positionClasses.value).toContain('top-full');
-    expect(positionClasses.value).not.toContain('bottom-full');
+    expect(position.value.class).toContain('top-full');
+    expect(position.value.class).not.toContain('bottom-full');
   });
 
   it('should position dropdown above trigger when insufficient space below', () => {
-    // Trigger near bottom of screen
-    // Window height: 768, Trigger bottom: 750
+    // Window height: 768, Trigger bottom: 750, Dropdown height: 200, Margin: 16
     // Space below: 768 - 750 = 18px
-    // Dropdown height: 200px + SAFE_MARGIN (16px) = 216px
-    // 18 < 216 = true, so should position above (bottom-full)
+    // Required: 200 + 16 = 216px
+    // 18 < 216, so position above
     triggerRef.value.getBoundingClientRect = () => ({
       top: 700,
       right: 250,
@@ -165,42 +124,27 @@ describe('useDropdownPosition', () => {
       height: 50,
     });
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    expect(positionClasses.value).toContain('bottom-full');
-    expect(positionClasses.value).not.toContain('top-full');
+    expect(position.value.class).toContain('bottom-full');
+    expect(position.value.class).not.toContain('top-full');
   });
 
   it('should align dropdown to left by default (LTR)', () => {
-    // LTR layout, trigger at left: 50
-    // Window width: 1024, Dropdown width: 250
-    // Trigger left: 50, Dropdown width: 250, SAFE_MARGIN: 16
-    // Would overflow: 50 + 250 + 16 = 316 < 1024 = false
-    // So should align left (ltr:left-0)
-    querySelectorSpy.mockReturnValue({
-      getAttribute: () => 'ltr',
-    });
+    // Window width: 1024, Trigger left: 50, Dropdown width: 250
+    // Available right: 1024 - 50 = 974px
+    // Overflow: 250 - 974 = -724 (no overflow)
+    // Result: left: 0px
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
-
-    expect(positionClasses.value).toContain('ltr:left-0');
-    expect(positionClasses.value).not.toContain('ltr:right-0');
+    expect(position.value.style).toEqual({ left: '0px' });
   });
 
-  it('should align dropdown to right when would overflow (LTR)', () => {
-    // Trigger near right edge
-    // Window width: 1024, Dropdown width: 250
-    // Trigger left: 800, Dropdown width: 250, SAFE_MARGIN: 16
-    // Would overflow: 800 + 250 + 16 = 1066 > 1024 = true
-    // So should align right (ltr:right-0)
+  it('should shift left when dropdown would overflow right edge (LTR)', () => {
+    // Window width: 1024, Trigger left: 800, Dropdown width: 250
+    // Available right: 1024 - 800 = 224px
+    // Overflow: 250 - 224 = 26px
+    // Result: left: -26px
     triggerRef.value.getBoundingClientRect = () => ({
       top: 100,
       right: 1000,
@@ -210,14 +154,9 @@ describe('useDropdownPosition', () => {
       height: 50,
     });
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    expect(positionClasses.value).toContain('ltr:right-0');
-    expect(positionClasses.value).not.toContain('ltr:left-0');
+    expect(position.value.style).toEqual({ left: '-26px' });
   });
 
   it('should handle RTL layout', () => {
@@ -225,24 +164,16 @@ describe('useDropdownPosition', () => {
       getAttribute: () => 'rtl',
     });
 
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
-    expect(positionClasses.value).toContain('rtl:');
+    expect(position.value.style).toHaveProperty('right');
   });
 
   it('should reactively update when enabled changes', async () => {
-    const { positionClasses } = useDropdownPosition(
-      triggerRef,
-      dropdownRef,
-      enabled
-    );
+    const { position } = useDropdownPosition(triggerRef, dropdownRef, enabled);
 
     // Initially enabled should calculate position
-    const initialValue = positionClasses.value;
+    const initialValue = position.value.class;
     expect(initialValue).toBeTruthy();
     expect(typeof initialValue).toBe('string');
 
@@ -250,14 +181,15 @@ describe('useDropdownPosition', () => {
     enabled.value = false;
     await nextTick();
 
-    expect(positionClasses.value).toBe('top-full mt-2 ltr:left-0 rtl:right-0');
+    expect(position.value.class).toBe('top-full mt-2');
+    expect(position.value.style).toEqual({});
 
     // Re-enable - should calculate again
     enabled.value = true;
     await nextTick();
 
-    expect(positionClasses.value).toBeTruthy();
-    expect(typeof positionClasses.value).toBe('string');
+    expect(position.value.class).toBeTruthy();
+    expect(typeof position.value.class).toBe('string');
   });
 
   it('should provide updatePosition function', () => {
@@ -276,9 +208,9 @@ describe('useDropdownPosition', () => {
 
   it('should handle optional enabled parameter', () => {
     // Should work without enabled parameter (backward compatibility)
-    const { positionClasses } = useDropdownPosition(triggerRef, dropdownRef);
+    const { position } = useDropdownPosition(triggerRef, dropdownRef);
 
     // Should default to enabled (not return default classes)
-    expect(positionClasses.value).toBeTruthy();
+    expect(position.value.class).toBeTruthy();
   });
 });

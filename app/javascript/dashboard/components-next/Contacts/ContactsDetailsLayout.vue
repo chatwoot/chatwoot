@@ -126,7 +126,7 @@ const closeMobileSidebar = () => {
     <!-- Desktop sidebar -->
     <div
       v-if="slots.sidebar"
-      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-5 max-w-md border-l border-n-weak bg-n-surface-2"
+      class="hidden lg:block overflow-y-auto justify-end min-w-52 w-full py-5 max-w-md ltr:border-l rtl:border-r border-n-weak bg-n-surface-2"
     >
       <slot name="sidebar" />
     </div>

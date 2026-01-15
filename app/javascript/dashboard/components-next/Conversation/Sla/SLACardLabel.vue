@@ -5,6 +5,7 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 import SLAPopoverCard from './SLAPopoverCard.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 
 const props = defineProps({
   chat: {
@@ -35,9 +36,6 @@ const appliedSLA = computed(() => props.chat?.applied_sla);
 const slaEvents = computed(() => props.chat?.sla_events);
 const hasSlaThreshold = computed(() => slaStatus.value?.threshold);
 const isSlaMissed = computed(() => slaStatus.value?.isSlaMissed);
-const slaTextStyles = computed(() =>
-  isSlaMissed.value ? 'text-n-ruby-11' : 'text-n-amber-11'
-);
 
 const conversation = computed(() => useCamelCase(props.chat, { deep: true }));
 
@@ -83,16 +81,15 @@ defineExpose({
     v-bind="$attrs"
     class="relative flex items-center cursor-pointer min-w-fit group"
   >
-    <div class="flex items-center w-full truncate gap-1" :class="slaTextStyles">
-      <Icon
-        icon="i-lucide-flame"
-        class="flex-shrink-0 size-3"
-        :class="slaTextStyles"
-      />
-      <span class="text-label-small" :class="slaTextStyles">
-        {{ slaStatus.threshold }}
-      </span>
-    </div>
+    <Label
+      :label="slaStatus.threshold"
+      :color="isSlaMissed ? 'ruby' : 'amber'"
+      compact
+    >
+      <template #icon>
+        <Icon icon="i-lucide-flame" class="flex-shrink-0 size-3.5" />
+      </template>
+    </Label>
     <SLAPopoverCard
       v-if="showSlaPopoverCard"
       :sla-missed-events="slaEvents"

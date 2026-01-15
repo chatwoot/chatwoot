@@ -31,7 +31,7 @@ const dropdownRef = ref(null);
 
 const [openParticipantsList, toggleParticipantsList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(
+const { position } = useDropdownPosition(
   triggerRef,
   dropdownRef,
   openParticipantsList
@@ -241,8 +241,8 @@ onMounted(() => {
         :search-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
-        class="z-[100] w-52 overflow-y-auto max-h-60"
-        :class="positionClasses"
+        class="z-[100] w-52 overflow-y-auto max-h-60 ltr:left-0 rtl:right-0"
+        :class="position.class"
         @action="handleParticipantAction"
       >
         <template #trailing-icon="{ item }">

@@ -48,11 +48,6 @@ const showSection = computed(() => {
   >
     <div class="flex-1 min-w-0 flex items-center gap-0.5">
       <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
-      <div
-        v-if="showInboxName && hasSlaPolicyId"
-        class="rounded-lg h-3 w-px bg-n-strong mx-1"
-      />
-      <SLACardLabel v-if="hasSlaPolicyId" ref="slaCardLabel" :chat="chat" />
     </div>
     <div class="flex items-center gap-1.5 flex-shrink-0">
       <CardPriorityIcon

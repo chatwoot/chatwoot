@@ -116,11 +116,23 @@ const selectedModel = computed({
         <InboxName v-if="showInboxName" :inbox="inbox" class="min-w-0" />
       </div>
 
-      <span
-        class="text-label-small outline outline-1 -outline-offset-1 outline-n-weak px-1.5 rounded-md h-6 text-n-slate-11 min-w-12 flex-shrink-0 inline-flex items-center justify-center truncate"
+      <div class="w-px h-3 bg-n-slate-6 flex-shrink-0" />
+
+      <div
+        v-tooltip.top="{
+          content: chat.id,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="h-6 flex items-center gap-1 max-w-20 w-full min-w-0"
       >
-        {{ chat.id }}
-      </span>
+        <Icon
+          icon="i-woot-hash"
+          class="size-3.5 text-n-slate-10 flex-shrink-0"
+        />
+        <span class="text-label-small text-n-slate-11 truncate">
+          {{ chat.id }}
+        </span>
+      </div>
 
       <CardAvatar
         :contact="currentContact"

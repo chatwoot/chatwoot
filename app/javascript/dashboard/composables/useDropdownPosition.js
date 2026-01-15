@@ -1,63 +1,82 @@
-import { computed } from 'vue';
+import { computed, unref, watch } from 'vue';
 import { useElementBounding, useWindowSize } from '@vueuse/core';
 
+const FALLBACK_SIZE = 200;
+const RTL_DIRECTION = 'rtl';
+
 /**
- * Auto-position dropdown based on available space
+ * Auto-position dropdown based on available space within container
+ * Returns reactive position object containing class and style
+ *
  * @param {Ref} triggerRef - Trigger element ref
  * @param {Ref} dropdownRef - Dropdown element ref
  * @param {Ref} enabled - Whether to calculate position
- * @returns {Object} { positionClasses, updatePosition }
+ * @param {Object} options - { container: Ref, margin: Number }
  */
-export function useDropdownPosition(triggerRef, dropdownRef, enabled) {
-  const SAFE_MARGIN = 16;
-  const RTL = 'rtl';
+export function useDropdownPosition(
+  triggerRef,
+  dropdownRef,
+  enabled,
+  { container = null, margin = 16 } = {}
+) {
+  const trigger = useElementBounding(triggerRef);
+  const dropdown = useElementBounding(dropdownRef);
+  const bounds = useElementBounding(container);
+  const { width: winWidth, height: winHeight } = useWindowSize();
 
-  const triggerBounds = useElementBounding(triggerRef);
-  const dropdownBounds = useElementBounding(dropdownRef);
-  const { height: windowHeight, width: windowWidth } = useWindowSize();
+  const isRTL = computed(
+    () =>
+      document.querySelector('#app[dir]')?.getAttribute('dir') === RTL_DIRECTION
+  );
 
-  const positionClasses = computed(() => {
-    // Don't calculate if not enabled
-    if (!enabled?.value) {
-      return 'top-full mt-2 ltr:left-0 rtl:right-0';
+  const position = computed(() => {
+    // Default fallback if not enabled or refs aren't ready
+    if (!unref(enabled)) {
+      return { class: 'top-full mt-2', style: {} };
     }
 
-    if (!triggerRef.value || !dropdownRef.value) {
-      return 'top-full mt-2 ltr:left-0 rtl:right-0';
-    }
+    const dropdownHeight = dropdown.height.value || FALLBACK_SIZE;
+    const dropdownWidth = dropdown.width.value || FALLBACK_SIZE;
 
-    const spaceBelow = windowHeight.value - triggerBounds.bottom.value;
-    const dropdownHeight = dropdownBounds.height.value || 200;
-    const dropdownWidth = dropdownBounds.width.value || 200;
-
-    // Check if RTL by checking app div with dir attribute
-    const appDiv = document.querySelector('#app[dir]');
-    const isRTL = appDiv?.getAttribute('dir') === RTL;
-
-    // Use appropriate edge based on text direction
-    const triggerEdge = isRTL
-      ? triggerBounds.right.value
-      : triggerBounds.left.value;
-    const wouldOverflow = isRTL
-      ? triggerEdge - dropdownWidth - SAFE_MARGIN < 0
-      : triggerEdge + dropdownWidth + SAFE_MARGIN > windowWidth.value;
-
-    const vertical =
-      spaceBelow >= dropdownHeight + SAFE_MARGIN
+    /* ---------- Vertical (Tailwind Classes) ---------- */
+    const spaceBelow = winHeight.value - trigger.bottom.value;
+    const className =
+      spaceBelow >= dropdownHeight + margin
         ? 'top-full mt-2'
         : 'bottom-full mb-2';
 
-    const horizontal = wouldOverflow
-      ? 'ltr:right-0 rtl:left-0'
-      : 'ltr:left-0 rtl:right-0';
+    /* ---------- Horizontal (Inline Styles for precise alignment) ---------- */
+    const leftBound = container ? bounds.left.value : 0;
+    const rightBound = container ? bounds.right.value : winWidth.value;
 
-    return `${vertical} ${horizontal}`;
+    const style = {};
+
+    if (isRTL.value) {
+      const availableLeft = trigger.right.value - leftBound;
+      const overflow = dropdownWidth - availableLeft;
+      style.right = overflow > 0 ? `-${overflow}px` : '0px';
+    } else {
+      const availableRight = rightBound - trigger.left.value;
+      const overflow = dropdownWidth - availableRight;
+      style.left = overflow > 0 ? `-${overflow}px` : '0px';
+    }
+
+    return { class: className, style };
   });
 
   const updatePosition = () => {
-    triggerBounds.update();
-    dropdownBounds.update();
+    trigger.update();
+    dropdown.update();
+    if (container) bounds.update();
   };
 
-  return { positionClasses, updatePosition };
+  // Update position when dropdown opens to ensure RTL state is current
+  watch(
+    () => unref(enabled),
+    isEnabled => {
+      if (isEnabled) updatePosition();
+    }
+  );
+
+  return { position, updatePosition };
 }

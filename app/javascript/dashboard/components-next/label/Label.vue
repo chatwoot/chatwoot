@@ -47,10 +47,10 @@ const colorClasses = computed(() => COLOR_CLASSES[props.color]);
 <template>
   <div
     :title="labelDescription"
-    class="gap-1.5 rounded-lg -outline-offset-1 outline outline-1 inline-flex items-center flex-shrink-0"
+    class="rounded-lg -outline-offset-1 outline outline-1 inline-flex items-center flex-shrink-0"
     :class="[
       colorClasses,
-      compact ? 'px-1.5 h-6 gap-1 rounded-md' : 'px-2.5 h-8 rounded-lg',
+      compact ? 'px-1.5 h-6 gap-1 rounded-md' : 'px-2.5 h-8 gap-1.5 rounded-lg',
     ]"
   >
     <span

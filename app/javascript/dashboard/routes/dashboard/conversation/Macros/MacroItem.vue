@@ -29,11 +29,7 @@ const showPreview = ref(false);
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
 
-const { positionClasses } = useDropdownPosition(
-  triggerRef,
-  dropdownRef,
-  showPreview
-);
+const { position } = useDropdownPosition(triggerRef, dropdownRef, showPreview);
 
 const executeMacro = async macro => {
   try {
@@ -62,7 +58,7 @@ const closeMacroPreview = () => {
 
 <template>
   <div
-    class="relative flex items-center justify-between leading-4 rounded-md h-10 ltr:pl-1.5 ltr:pr-3 rtl:pl-3 rtl:pr-1.5"
+    class="relative flex items-center justify-between leading-4 rounded-md h-10"
     :class="showPreview ? 'cursor-default' : 'drag-handle cursor-grab'"
   >
     <div class="flex items-center justify-start gap-1">
@@ -96,8 +92,8 @@ const closeMacroPreview = () => {
         ref="dropdownRef"
         v-on-clickaway="closeMacroPreview"
         :macro="macro"
-        class="ltr:ml-8 rtl:mr-8 !-mt-8"
-        :class="positionClasses"
+        class="ltr:ml-8 rtl:mr-8 !-mt-8 ltr:left-1 rtl:right-1"
+        :class="position.class"
       />
     </transition>
   </div>

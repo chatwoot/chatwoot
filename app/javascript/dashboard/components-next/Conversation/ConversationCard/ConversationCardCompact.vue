@@ -1,11 +1,12 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useTemplateRef } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import CardMetaSection from './CardMetaSection.vue';
 import CardAvatar from './CardAvatar.vue';
 import CardHeader from './CardHeader.vue';
 import CardContent from './CardContent.vue';
 import CardLabels from './CardLabels.vue';
+import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 
 const props = defineProps({
   chat: { type: Object, required: true },
@@ -24,6 +25,8 @@ const props = defineProps({
 
 const emit = defineEmits(['selectConversation', 'click', 'contextmenu']);
 
+const slaCardLabel = useTemplateRef('slaCardLabel');
+
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
 const showLabelsSection = computed(() => props.chat.labels?.length > 0);
 const showExpandedPreview = computed(
@@ -36,6 +39,10 @@ const voiceCallData = computed(() => ({
 }));
 
 const unreadCount = computed(() => props.chat?.unread_count);
+
+const hasSlaPolicyId = computed(
+  () => props.chat?.sla_policy_id || slaCardLabel.value?.hasSlaThreshold
+);
 
 const onSelectConversation = checked => {
   emit('selectConversation', checked);
@@ -103,14 +110,21 @@ const onSelectConversation = checked => {
             v-if="showLabelsSection || isInboxView"
             :labels="chat.labels"
           >
-            <template v-if="isInboxView" #before>
+            <template #before>
               <CardMetaSection
+                v-if="isInboxView"
                 :chat="chat"
                 :inbox="inbox"
                 :show-assignee="showAssignee"
                 :assignee="assignee"
                 :is-labels-empty="chat.labels.length === 0"
                 inline
+              />
+              <SLACardLabel
+                v-else-if="hasSlaPolicyId"
+                ref="slaCardLabel"
+                data-before-slot
+                :chat="chat"
               />
             </template>
           </CardLabels>

@@ -94,6 +94,7 @@ onMounted(() => {
       ghost-class="ghost"
       handle=".drag-handle"
       item-key="id"
+      class="px-3"
       @start="dragging = true"
       @end="onDragEnd"
     >

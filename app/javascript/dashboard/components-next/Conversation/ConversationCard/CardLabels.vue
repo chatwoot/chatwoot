@@ -116,7 +116,7 @@ const labelsCountText = computed(() => {
     });
   }
   if (!showAllLabels.value && hiddenLabelsCount.value > 0) {
-    return `+${hiddenLabelsCount.value}`;
+    return hiddenLabelsCount.value;
   }
   return '';
 });
@@ -181,8 +181,8 @@ const onShowLabels = e => {
       xs
       slate
       :no-animation="disableToggle"
-      :icon="labelsCountText ? '' : 'i-lucide-chevron-left'"
-      class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1"
+      :icon="labelsCountText ? 'i-lucide-plus' : 'i-lucide-chevron-left'"
+      class="!py-0 !px-1.5 flex-shrink-0 !rounded-md !bg-n-button-color -outline-offset-1 !gap-0.5 [&>span:first-child]:!text-n-slate-10 [&>span:last-child]:!text-n-slate-11"
       :class="{ 'cursor-default': disableToggle }"
       @click="onShowLabels"
     />

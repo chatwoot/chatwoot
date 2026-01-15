@@ -339,6 +339,8 @@
     "SELF_ASSIGN": "Self-assign",
     "TEAM_LABEL": "Team",
     "PARTICIPANTS_LABEL": "Participants",
+    "LABELS": "Labels",
+    "LABELS_EMPTY_STATE": "No labels added yet",
     "SELECT": {
       "PLACEHOLDER": "None"
     },

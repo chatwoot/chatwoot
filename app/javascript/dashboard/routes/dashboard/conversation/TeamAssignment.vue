@@ -28,7 +28,7 @@ const dropdownRef = ref(null);
 
 const [openTeamsList, toggleTeamsList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(
+const { position } = useDropdownPosition(
   triggerRef,
   dropdownRef,
   openTeamsList
@@ -173,8 +173,8 @@ const handleTeamAction = ({ action, value }) => {
         :search-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.TEAM')
         "
-        class="z-[100] w-52 overflow-y-auto max-h-60"
-        :class="positionClasses"
+        class="z-[100] w-52 overflow-y-auto max-h-60 ltr:left-0 rtl:right-0"
+        :class="position.class"
         @action="handleTeamAction"
       >
         <template #trailing-icon="{ item }">

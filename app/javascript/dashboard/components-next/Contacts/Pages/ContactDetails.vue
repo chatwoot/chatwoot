@@ -25,6 +25,8 @@ const emit = defineEmits(['goToContactsList']);
 const { t } = useI18n();
 const store = useStore();
 
+const wrapperRef = ref(null);
+
 const confirmDeleteContactDialogRef = ref(null);
 
 const avatarFile = ref(null);
@@ -123,7 +125,7 @@ const handleAvatarDelete = async () => {
 
 <template>
   <div class="flex flex-col items-start gap-6 pb-6 w-full">
-    <div class="flex flex-col items-start gap-3 w-full">
+    <div ref="wrapperRef" class="flex flex-col items-start gap-3 w-full">
       <Avatar
         :src="avatarSrc || ''"
         :name="selectedContact?.name || ''"
@@ -173,7 +175,10 @@ const handleAvatarDelete = async () => {
           </span>
         </div>
       </div>
-      <ContactLabels :contact-id="selectedContact?.id" />
+      <ContactLabels
+        :wrapper-ref="wrapperRef"
+        :contact-id="selectedContact?.id"
+      />
     </div>
     <div class="flex flex-col items-start gap-6 w-full">
       <ContactsForm

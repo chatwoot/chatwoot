@@ -44,7 +44,7 @@ const unlinkIssue = () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 py-3">
     <div class="flex flex-col w-full">
       <IssueHeader
         :identifier="issue.identifier"

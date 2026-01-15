@@ -24,7 +24,7 @@ const dropdownRef = ref(null);
 
 const [openPriorityList, togglePriorityList] = useToggle(false);
 
-const { positionClasses } = useDropdownPosition(
+const { position } = useDropdownPosition(
   triggerRef,
   dropdownRef,
   openPriorityList
@@ -171,8 +171,8 @@ const handlePriorityAction = ({ value }) => {
         :search-placeholder="
           $t('CONVERSATION.PRIORITY.CHANGE_PRIORITY.INPUT_PLACEHOLDER')
         "
-        class="z-[100] w-48 overflow-y-auto max-h-60"
-        :class="positionClasses"
+        class="z-[100] w-48 overflow-y-auto max-h-60 ltr:left-0 rtl:right-0"
+        :class="position.class"
         @action="handlePriorityAction"
       >
         <template #icon="{ item }">

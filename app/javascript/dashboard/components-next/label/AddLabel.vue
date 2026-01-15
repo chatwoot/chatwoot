@@ -1,16 +1,22 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
+import { useResizeObserver } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 
-defineProps({
+const props = defineProps({
   labelMenuItems: {
     type: Array,
     default: () => [],
+  },
+  wrapperRef: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -22,15 +28,54 @@ const showDropdown = ref(false);
 const triggerRef = ref(null);
 const dropdownRef = ref(null);
 
-const { positionClasses } = useDropdownPosition(
+const { position, updatePosition } = useDropdownPosition(
   triggerRef,
   dropdownRef,
-  showDropdown
+  showDropdown,
+  { container: props.wrapperRef }
 );
+
+const openDropdown = async () => {
+  showDropdown.value = !showDropdown.value;
+  if (showDropdown.value) {
+    await nextTick();
+    updatePosition();
+  }
+};
+
+const updateLabel = label => {
+  emit('updateLabel', label);
+};
+
+const closeDropdown = () => {
+  showDropdown.value = false;
+};
+
+// Watch labelMenuItems and update position when they change
+watch(
+  () => props.labelMenuItems,
+  async () => {
+    if (showDropdown.value) {
+      await nextTick();
+      updatePosition();
+    }
+  },
+  { deep: true }
+);
+
+// Watch wrapper container for size changes (hover effects from parent)
+useResizeObserver(props.wrapperRef, () => {
+  if (showDropdown.value) {
+    updatePosition();
+  }
+});
 </script>
 
 <template>
-  <div class="relative">
+  <div
+    v-on-click-outside="[closeDropdown, { ignore: [triggerRef] }]"
+    class="relative"
+  >
     <Button
       ref="triggerRef"
       :label="t('LABEL.TAG_BUTTON')"
@@ -39,17 +84,17 @@ const { positionClasses } = useDropdownPosition(
       :variant="showDropdown ? 'faded' : 'solid'"
       class="font-460 !-outline-offset-1"
       icon="i-lucide-plus"
-      @click="showDropdown = !showDropdown"
+      @click="openDropdown()"
     />
     <DropdownMenu
       v-if="showDropdown"
       ref="dropdownRef"
-      v-on-clickaway="() => (showDropdown = false)"
       :menu-items="labelMenuItems"
       show-search
       class="z-[100] w-48 overflow-y-auto max-h-52"
-      :class="positionClasses"
-      @action="emit('updateLabel', $event)"
+      :class="position.class"
+      :style="position.style"
+      @action="updateLabel($event)"
     >
       <template #thumbnail="{ item }">
         <div
