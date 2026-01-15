@@ -117,7 +117,9 @@ class Message < ApplicationRecord
   scope :non_activity_messages, -> { where.not(message_type: :activity).reorder('id desc') }
   scope :today, -> { where("date_trunc('day', created_at) = ?", Date.current) }
   scope :voice_calls, -> { where(content_type: :voice_call) }
-
+  scope :from_operator, -> { where(sender_type: 'User') }
+  scope :before, ->(time) { where('created_at < ?', time) }
+  scope :after, ->(time) { where('created_at >= ?', time) }
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
   # if you want to change order, use `reorder`
@@ -209,11 +211,12 @@ class Message < ApplicationRecord
 
   def valid_first_reply?
     return false unless human_response? && !private?
-    return false if conversation.first_reply_created_at.present?
-    return false if conversation.messages.outgoing
-                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
-                                .where.not(private: true)
-                                .where("(additional_attributes->'campaign_id') is null").count > 1
+
+    participant = assigned_participant
+    return false unless participant
+
+    return false if conversation.reporting_events.exists?(name: 'first_response', user_id: sender_id,  event_start_time: participant.created_at)
+    return false unless valid_outgoing_count?(participant)
 
     true
   end
@@ -271,6 +274,44 @@ class Message < ApplicationRecord
 
   private
 
+  def handle_incoming_waiting_since
+    if conversation.waiting_since.blank?
+      conversation.update(waiting_since: created_at)
+      return
+    end
+
+    bot_message_exists = conversation.messages.where('created_at > ?', conversation.waiting_since).where('created_at < ?', created_at)
+                                     .where(message_type: :outgoing).exists?(sender_type: ['AgentBot', 'Captain::Assistant'])
+
+    conversation.update(waiting_since: created_at) if bot_message_exists
+  end
+
+  def handle_first_reply_events
+    Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
+
+    if conversation.waiting_since.present? && !private && human_response? && conversation.first_reply_created_at.present?
+      Rails.configuration.dispatcher.dispatch(REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self)
+    end
+
+    conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+  end
+
+  def assigned_participant
+    participant = conversation.conversation_participants.find_by(user_id: sender_id, left_at: nil)
+    return if participant&.created_at.blank?
+
+    participant
+  end
+
+  def valid_outgoing_count?(participant)
+    conversation.messages.outgoing
+                .where(sender_type: 'User', sender_id: sender_id)
+                .where.not(private: true)
+                .where('created_at >= ?', participant.created_at)
+                .where("(additional_attributes->'campaign_id') is null")
+                .count <= 1
+  end
+
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
     # We can revisit and see if we can remove this later
@@ -322,22 +363,16 @@ class Message < ApplicationRecord
   end
 
   def update_waiting_since
-    waiting_present = conversation.waiting_since.present?
+    return clear_waiting_since if conversation.waiting_since.present? && !private && (human_response? || bot_response?)
 
-    if waiting_present && !private
-      if human_response?
-        Rails.configuration.dispatcher.dispatch(
-          REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
-        )
-        conversation.update(waiting_since: nil)
-      elsif bot_response?
-        # Bot responses also clear waiting_since (simpler than checking on next customer message)
-        conversation.update(waiting_since: nil)
-      end
+    return handle_incoming_waiting_since if incoming? && !private
+  end
+
+  def clear_waiting_since
+    if human_response?
+      Rails.configuration.dispatcher.dispatch(REPLY_CREATED,  Time.zone.now,  waiting_since: conversation.waiting_since,  message: self)
     end
-
-    # Set waiting_since when customer sends a message (if currently blank)
-    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
+    conversation.update(waiting_since: nil)
   end
 
   def human_response?
@@ -358,12 +393,9 @@ class Message < ApplicationRecord
   def dispatch_create_events
     Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
 
-    if valid_first_reply?
-      Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
-    else
-      update_waiting_since
-    end
+    return update_waiting_since unless valid_first_reply?
+
+    handle_first_reply_events
   end
 
   def dispatch_update_event

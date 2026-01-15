@@ -351,12 +351,14 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
             # First resolution
             conversation.resolved!
+            create(:reporting_event, account: account2, conversation: conversation, name: 'conversation_resolved', created_at: test_date)
 
             # Reopen conversation
             conversation.open!
 
             # Second resolution
             conversation.resolved!
+            create(:reporting_event, account: account2,  conversation: conversation, name: 'conversation_resolved', created_at: test_date + 1.hour)
           end
         end
       end

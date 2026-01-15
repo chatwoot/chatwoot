@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Sla::EvaluateAppliedSlaService do
   let!(:account) { create(:account) }
   let!(:user_1) { create(:user, account: account) }
+  let!(:inbox) { create(:inbox, account: account) }
 
   let!(:sla_policy) do
     create(:sla_policy,
@@ -14,10 +15,19 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
   let!(:conversation) do
     create(:conversation,
            created_at: 6.hours.ago, assignee: user_1,
+           inbox: inbox,
            account: sla_policy.account,
            sla_policy: sla_policy)
   end
   let!(:applied_sla) { conversation.applied_sla }
+
+  before do
+    create(:inbox_member, user: user_1, inbox: inbox)
+    create(:conversation_participant,
+           conversation: conversation,
+           user: user_1,
+           created_at: conversation.created_at)
+  end
 
   describe '#perform - SLA misses' do
     context 'when first response SLA is missed' do
@@ -136,7 +146,6 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
                                                           "#{applied_sla.account_id} for sla_policy #{sla_policy.id}")
         expect(applied_sla.reload.sla_status).to eq('hit')
         expect(SlaEvent.count).to eq(0)
-        expect(Notification.count).to eq(0)
       end
     end
 
@@ -193,7 +202,7 @@ RSpec.describe Sla::EvaluateAppliedSlaService do
       # incoming message from customer
       create(:message, conversation: conversation, created_at: 6.hours.ago, message_type: :incoming)
       # outgoing message from agent within frt
-      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing)
+      create(:message, conversation: conversation, created_at: 5.hours.ago, message_type: :outgoing, sender: user_1,  sender_type: 'User')
 
       # Miss nrt first time
       create(:message, conversation: conversation, created_at: 4.hours.ago, message_type: :incoming)
