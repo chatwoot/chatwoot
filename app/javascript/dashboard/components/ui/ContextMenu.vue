@@ -7,7 +7,12 @@ import {
   useTemplateRef,
   inject,
 } from 'vue';
-import { useWindowSize, useElementBounding, useScrollLock } from '@vueuse/core';
+import {
+  useWindowSize,
+  useElementBounding,
+  useScrollLock,
+  onClickOutside,
+} from '@vueuse/core';
 
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
@@ -76,6 +81,9 @@ const handleClose = () => {
   isLocked.value = false;
   emit('close');
 };
+
+// Close menu when clicking outside
+onClickOutside(menuRef, handleClose);
 
 onUnmounted(() => {
   isLocked.value = false;
