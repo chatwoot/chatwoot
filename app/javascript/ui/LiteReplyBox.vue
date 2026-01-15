@@ -13,6 +13,7 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
+import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
 
 export default {
   components: {
@@ -44,6 +45,7 @@ export default {
       currentChat: 'getSelectedChat',
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
+      messageSignature: 'getMessageSignature',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -158,6 +160,11 @@ export default {
     },
     editorStateId() {
       return `draft-${this.conversationId}-${this.replyType}`;
+    },
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
     },
   },
   mounted() {
@@ -440,6 +447,7 @@ export default {
       :message="message"
       :enable-multiple-file-upload="allowFileUpload"
       :allow-file-upload="allowFileUpload"
+      allow-signature
     />
   </div>
 </template>
