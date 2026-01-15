@@ -205,6 +205,9 @@ const onDateRangeChange = value => {
 };
 
 onMounted(() => {
+  store.dispatch('agents/get');
+  store.dispatch('inboxes/get');
+  store.dispatch('teams/get');
   emitChange();
 });
 </script>

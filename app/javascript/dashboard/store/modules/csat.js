@@ -118,7 +118,7 @@ export const actions = {
       });
     });
   },
-  updateReviewNotes: async ({ commit }, { id, reviewNotes }) => {
+  update: async ({ commit }, { id, reviewNotes }) => {
     const response = await CSATReports.update(id, {
       csat_review_notes: reviewNotes,
     });
@@ -154,12 +154,7 @@ export const mutations = {
     };
     _state.metrics.totalSentMessagesCount = totalSentMessagesCount || 0;
   },
-  [types.UPDATE_CSAT_RESPONSE](_state, updatedResponse) {
-    const index = _state.records.findIndex(r => r.id === updatedResponse.id);
-    if (index !== -1) {
-      _state.records.splice(index, 1, updatedResponse);
-    }
-  },
+  [types.UPDATE_CSAT_RESPONSE]: MutationHelpers.update,
 };
 
 export default {
