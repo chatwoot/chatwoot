@@ -1,9 +1,11 @@
 import { useConversationRequiredAttributes } from '../useConversationRequiredAttributes';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/useAccount');
+vi.mock('dashboard/composables/useConfig');
 
 describe('useConversationRequiredAttributes', () => {
   let mockUseMapGetter;
@@ -15,6 +17,7 @@ describe('useConversationRequiredAttributes', () => {
 
     useMapGetter.mockImplementation(mockUseMapGetter);
     useAccount.mockImplementation(mockUseAccount);
+    useConfig.mockReturnValue({ isEnterprise: true });
   });
 
   const setupMocks = (
