@@ -126,10 +126,35 @@ export function usePolicy() {
     return false;
   };
 
+  const isPremiumFeatureVisible = featureFlag => {
+    const flag = unref(featureFlag);
+
+    // Cloud: always show premium features
+    // After this, it might show a paywall or the feature
+    // Depending on the feature flag
+    if (isOnChatwootCloud.value) {
+      return true;
+    }
+
+    // Self-hosted with enterprise code
+    if (isEnterprise) {
+      // Enterprise license: check if feature is enabled for account
+      if (hasPremiumEnterprise.value) {
+        return isFeatureFlagEnabled(flag);
+      }
+      // Community license with enterprise code: show feature (for upsell)
+      return true;
+    }
+
+    // Self-hosted without enterprise code: hide premium features
+    return false;
+  };
+
   return {
     checkPermissions,
     shouldShowPaywall,
     isFeatureFlagEnabled,
+    isPremiumFeatureVisible,
     shouldShow,
   };
 }
