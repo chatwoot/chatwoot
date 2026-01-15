@@ -247,7 +247,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversazione eliminata con successo",
     "FAIL_DELETE_CONVERSATION": "Impossibile eliminare la conversazione! Riprova",
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
-    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
+    "FILE_TYPE_NOT_SUPPORTED": "I file di tipo {fileName} non sono supportati in questa conversazione",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
     "BOT": "Bot",
