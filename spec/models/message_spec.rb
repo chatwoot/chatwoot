@@ -271,6 +271,59 @@ RSpec.describe Message do
     end
   end
 
+  describe '#open_conversation_on_human_response' do
+    let(:conversation) { create(:conversation, status: :pending) }
+    let(:agent) { create(:user, account: conversation.account) }
+
+    it 'opens pending conversation when human agent sends a message' do
+      message = create(:message, conversation: conversation, message_type: :outgoing, sender: agent)
+      expect(message.conversation.reload.open?).to be true
+    end
+
+    it 'does not change status when conversation is not pending' do
+      conversation.update!(status: :open)
+      message = create(:message, conversation: conversation, message_type: :outgoing, sender: agent)
+      expect(message.conversation.reload.open?).to be true
+    end
+
+    it 'does not change status for incoming messages' do
+      message = create(:message, conversation: conversation, message_type: :incoming)
+      expect(message.conversation.reload.pending?).to be true
+    end
+
+    it 'does not change status for bot messages' do
+      agent_bot = create(:agent_bot, account: conversation.account)
+      message = create(:message, conversation: conversation, message_type: :outgoing, sender: agent_bot)
+      expect(message.conversation.reload.pending?).to be true
+    end
+
+    it 'does not change status for automation rule messages' do
+      message = create(:message, conversation: conversation, message_type: :outgoing, sender: agent,
+                                 content_attributes: { 'automation_rule_id' => 123 })
+      expect(message.conversation.reload.pending?).to be true
+    end
+  end
+
+  describe '#execute_message_template_hooks' do
+    let(:conversation) { create(:conversation) }
+    let(:agent) { create(:user, account: conversation.account) }
+
+    it 'does not execute template hooks for human agent messages' do
+      expect(MessageTemplates::HookExecutionService).not_to receive(:new)
+      create(:message, conversation: conversation, message_type: :outgoing, sender: agent)
+    end
+
+    it 'does not execute template hooks for activity messages' do
+      expect(MessageTemplates::HookExecutionService).not_to receive(:new)
+      create(:message, conversation: conversation, message_type: :activity, content: 'Conversation was reopened')
+    end
+
+    it 'executes template hooks for incoming messages' do
+      expect(MessageTemplates::HookExecutionService).to receive(:new).and_call_original
+      create(:message, conversation: conversation, message_type: :incoming)
+    end
+  end
+
   describe '#waiting since' do
     let(:conversation) { create(:conversation) }
     let(:agent) { create(:user, account: conversation.account) }
