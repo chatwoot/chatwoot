@@ -38,6 +38,11 @@ class ConversationAgent < ApplicationAgent
     available_tools << LabelsTool if current_assistant&.feature_labels_enabled?
     available_tools << AssignTool if current_assistant&.feature_handoff_enabled?
     available_tools << PrivateNoteTool
+
+    # Catalog tools - require both account catalog and assistant feature enabled
+    available_tools << ProductSearchTool if product_search_enabled?
+    available_tools << CreateCartTool if create_cart_enabled?
+
     available_tools
   end
 
@@ -48,5 +53,17 @@ class ConversationAgent < ApplicationAgent
       assistant: current_assistant,
       conversation: current_conversation
     )
+  end
+
+  def catalog_enabled?
+    current_account&.catalog_settings&.enabled?
+  end
+
+  def product_search_enabled?
+    catalog_enabled? && current_assistant&.feature_product_search_enabled?
+  end
+
+  def create_cart_enabled?
+    catalog_enabled? && current_assistant&.feature_create_cart_enabled?
   end
 end

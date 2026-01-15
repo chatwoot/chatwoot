@@ -1,9 +1,12 @@
 class Carts::CreateService
-  attr_reader :conversation, :user, :items, :currency, :account, :catalog_settings
+  attr_reader :conversation, :creator, :items, :currency, :account, :catalog_settings
 
-  def initialize(conversation:, items:, user: Current.user)
+  # @param conversation [Conversation] The conversation to create the cart for
+  # @param items [Array<Hash>] Array of {product_id:, quantity:} hashes
+  # @param creator [User, Aloo::Assistant] The user or assistant creating the cart
+  def initialize(conversation:, items:, creator: Current.user)
     @conversation = conversation
-    @user = user
+    @creator = creator
     @items = items
     @account = conversation.account
     @catalog_settings = account.catalog_settings
@@ -72,7 +75,7 @@ class Carts::CreateService
       account: account,
       conversation: conversation,
       contact: conversation.contact,
-      created_by: user,
+      created_by: creator,
       currency: currency,
       status: :initiated,
       provider: payment_provider,
@@ -143,7 +146,7 @@ class Carts::CreateService
   end
 
   def create_message(cart)
-    Messages::MessageBuilder.new(user, conversation, {
+    Messages::MessageBuilder.new(creator, conversation, {
                                    content: build_message_content(cart),
                                    message_type: :outgoing,
                                    content_type: :cart,

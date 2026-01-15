@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_14_154657) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -488,10 +488,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_14_154657) do
     t.jsonb "payload", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "created_by_type", default: "User", null: false
     t.index ["account_id"], name: "index_carts_on_account_id"
     t.index ["contact_id"], name: "index_carts_on_contact_id"
     t.index ["conversation_id"], name: "index_carts_on_conversation_id"
     t.index ["created_by_id"], name: "index_carts_on_created_by_id"
+    t.index ["created_by_type", "created_by_id"], name: "index_carts_on_created_by"
     t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
     t.index ["message_id"], name: "index_carts_on_message_id"
     t.index ["status"], name: "index_carts_on_status"
@@ -1505,7 +1507,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_14_154657) do
   add_foreign_key "carts", "contacts"
   add_foreign_key "carts", "conversations"
   add_foreign_key "carts", "messages"
-  add_foreign_key "carts", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"

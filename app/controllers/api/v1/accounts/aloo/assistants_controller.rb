@@ -259,6 +259,8 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         feature_resolve
         feature_snooze
         feature_labels
+        feature_product_search
+        feature_create_cart
       ]
     )
   end
@@ -287,7 +289,9 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
         handoff_enabled: assistant.feature_handoff_enabled?,
         resolve_enabled: assistant.feature_resolve_enabled?,
         snooze_enabled: assistant.feature_snooze_enabled?,
-        labels_enabled: assistant.feature_labels_enabled?
+        labels_enabled: assistant.feature_labels_enabled?,
+        product_search_enabled: assistant.feature_product_search_enabled?,
+        create_cart_enabled: assistant.feature_create_cart_enabled?
       },
       voice: {
         enabled: assistant.voice_enabled?,

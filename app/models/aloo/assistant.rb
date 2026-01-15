@@ -51,6 +51,7 @@ module Aloo
              dependent: :nullify,
              inverse_of: :assistant
     has_many :messages, as: :sender, dependent: :nullify
+    has_many :created_carts, as: :created_by, class_name: 'Cart', dependent: :nullify
     has_many :voice_usage_records,
              class_name: 'Aloo::VoiceUsageRecord',
              foreign_key: 'aloo_assistant_id',
@@ -153,6 +154,15 @@ module Aloo
 
     def feature_labels_enabled?
       admin_config['feature_labels'] != false
+    end
+
+    # Catalog tool feature flags
+    def feature_product_search_enabled?
+      admin_config['feature_product_search'] != false
+    end
+
+    def feature_create_cart_enabled?
+      admin_config['feature_create_cart'] != false
     end
 
     # Full system prompt combining base + personality + guardrails
