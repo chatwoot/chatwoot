@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/constants';
 
 /**
@@ -11,13 +12,17 @@ import { ATTRIBUTE_TYPES } from 'dashboard/components-next/ConversationWorkflow/
  */
 export function useConversationRequiredAttributes() {
   const { currentAccount } = useAccount();
+  const { isEnterprise } = useConfig();
   const conversationAttributes = useMapGetter(
     'attributes/getConversationAttributes'
   );
 
-  const requiredAttributeKeys = computed(
-    () => currentAccount.value?.settings?.conversation_required_attributes || []
-  );
+  const requiredAttributeKeys = computed(() => {
+    if (!isEnterprise) return [];
+    return (
+      currentAccount.value?.settings?.conversation_required_attributes || []
+    );
+  });
 
   const allAttributeOptions = computed(() =>
     (conversationAttributes.value || []).map(attribute => ({
