@@ -15,10 +15,16 @@ module Enterprise::Account::PlanUsageAndLimits
     }
   end
 
-  def increment_response_usage
+  def increment_response_usage(credits: 1)
     current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
+    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + credits
     save
+  end
+
+  def increment_response_usage_for_model(model)
+    credits = using_openai_hook_key? ? 1 : Llm::Models.credit_multiplier_for(model)
+    Rails.logger.info("[CAPTAIN] Incrementing response usage for account #{id} by #{credits} credits (model: #{model})")
+    increment_response_usage(credits: credits)
   end
 
   def reset_response_usage
@@ -52,20 +58,10 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def get_captain_limits(type)
     total_count = captain_monthly_limit[type.to_s].to_i
+    usage_key = type == :documents ? CAPTAIN_DOCUMENTS_USAGE : CAPTAIN_RESPONSES_USAGE
+    consumed = [custom_attributes[usage_key].to_i, 0].max
 
-    consumed = if type == :documents
-                 custom_attributes[CAPTAIN_DOCUMENTS_USAGE].to_i || 0
-               else
-                 custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-               end
-
-    consumed = 0 if consumed.negative?
-
-    {
-      total_count: total_count,
-      current_available: (total_count - consumed).clamp(0, total_count),
-      consumed: consumed
-    }
+    { total_count: total_count, current_available: (total_count - consumed).clamp(0, total_count), consumed: consumed }
   end
 
   def default_captain_limits

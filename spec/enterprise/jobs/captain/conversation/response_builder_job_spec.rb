@@ -1,7 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
-  let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
+  # Use gpt-5-mini (credit_multiplier: 1) to keep credit consumption predictable in tests
+  let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }, captain_models: { 'assistant' => 'gpt-5-mini' }) }
   let(:inbox) { create(:inbox, account: account) }
   let(:assistant) { create(:captain_assistant, account: account) }
   let(:captain_inbox_association) { create(:captain_inbox, captain_assistant: assistant, inbox: inbox) }

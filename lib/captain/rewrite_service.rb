@@ -36,7 +36,7 @@ class Captain::RewriteService < Captain::BaseTaskService
 
   def call_llm_with_prompt(system_content, user_content = content)
     make_api_call(
-      model: GPT_MODEL,
+      model: configured_model,
       messages: [
         { role: 'system', content: system_content },
         { role: 'user', content: user_content }
@@ -55,5 +55,9 @@ class Captain::RewriteService < Captain::BaseTaskService
 
   def event_name
     operation
+  end
+
+  def feature_key
+    'editor'
   end
 end

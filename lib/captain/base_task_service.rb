@@ -25,6 +25,14 @@ class Captain::BaseTaskService
     raise NotImplementedError, "#{self.class} must implement #event_name"
   end
 
+  def feature_key
+    raise NotImplementedError, "#{self.class} must implement #feature_key"
+  end
+
+  def configured_model
+    account.public_send("captain_#{feature_key}_model")
+  end
+
   def conversation
     @conversation ||= account.conversations.find_by(display_id: conversation_display_id)
   end
@@ -51,7 +59,7 @@ class Captain::BaseTaskService
   end
 
   def execute_ruby_llm_request(model:, messages:)
-    Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
+    Llm::Config.with_api_key(account.captain_api_key, api_base: api_base) do |context|
       chat = context.chat(model: model)
       system_msg = messages.find { |m| m[:role] == 'system' }
       chat.with_instructions(system_msg[:content]) if system_msg
@@ -64,6 +72,11 @@ class Captain::BaseTaskService
       build_ruby_llm_response(response, messages)
     end
   rescue StandardError => e
+    # TODO: RubyLLM throws the RubyLLM::Error when any API based error occurs
+    # Just like inboxes have a reauthroizable error handling mechanism,
+    # we should handle the errors if the account is using their own key.
+    # If more than 5 errors occur, we disable the hook and notify the admins
+    # see: https://rubyllm.com/error-handling/#rubyllm-error-hierarchy
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     { error: e.message, request_messages: messages }
   end
@@ -117,18 +130,6 @@ class Captain::BaseTaskService
     end
 
     messages
-  end
-
-  def api_key
-    @api_key ||= openai_hook&.settings&.dig('api_key') || system_api_key
-  end
-
-  def openai_hook
-    @openai_hook ||= account.hooks.find_by(app_id: 'openai', status: 'enabled')
-  end
-
-  def system_api_key
-    @system_api_key ||= InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.value
   end
 
   def prompt_from_file(file_name)

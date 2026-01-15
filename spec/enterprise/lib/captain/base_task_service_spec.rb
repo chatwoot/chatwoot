@@ -15,6 +15,10 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       def event_name
         'test_event'
       end
+
+      def feature_key
+        'editor'
+      end
     end
     # Manually prepend enterprise module to test class
     klass.prepend(Enterprise::Captain::BaseTaskService)
@@ -53,9 +57,32 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
     end
 
-    it 'increments response usage on successful execution' do
-      expect(account).to receive(:increment_response_usage)
+    it 'increments response usage with credit multiplier on successful execution' do
+      expect(account).to receive(:captain_editor_model).and_return('gpt-4.1-mini')
+      expect(account).to receive(:increment_response_usage).with(credits: 1)
       service.perform
+    end
+
+    it 'uses correct credit multiplier for higher cost models' do
+      expect(account).to receive(:captain_editor_model).and_return('gpt-5.1')
+      expect(account).to receive(:increment_response_usage).with(credits: 2)
+      service.perform
+    end
+
+    context 'when account uses their own OpenAI key via hook' do
+      let!(:openai_hook) { create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'user-own-key' }) }
+
+      it 'uses 1 credit regardless of model cost' do
+        allow(account).to receive(:captain_editor_model).and_return('gpt-5.1')
+        expect(account).to receive(:increment_response_usage).with(credits: 1)
+        service.perform
+      end
+
+      it 'uses 1 credit even for expensive models' do
+        allow(account).to receive(:captain_editor_model).and_return('gpt-4.1')
+        expect(account).to receive(:increment_response_usage).with(credits: 1)
+        service.perform
+      end
     end
 
     context 'when result has an error' do
@@ -103,11 +130,20 @@ RSpec.describe Captain::BaseTaskService, type: :model do
       end
     end
 
-    it 'actually increments the usage counter in custom_attributes' do
+    it 'actually increments the usage counter in custom_attributes by credit multiplier' do
+      allow(account).to receive(:captain_editor_model).and_return('gpt-4.1-mini')
       expect do
         service.perform
         account.reload
       end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(1)
+    end
+
+    it 'increments by correct credits for expensive models' do
+      allow(account).to receive(:captain_editor_model).and_return('gpt-5.1')
+      expect do
+        service.perform
+        account.reload
+      end.to change { account.custom_attributes['captain_responses_usage'].to_i }.by(2)
     end
 
     context 'when captain is disabled' do

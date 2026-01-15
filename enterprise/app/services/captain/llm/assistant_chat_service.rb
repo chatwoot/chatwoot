@@ -2,9 +2,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   include Captain::ChatHelper
 
   def initialize(assistant: nil, conversation_id: nil)
-    super()
-
     @assistant = assistant
+    @account = @assistant&.account
+    super(account: @account)
+
     @conversation_id = conversation_id
 
     @messages = [system_message]
@@ -26,6 +27,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   end
 
   private
+
+  def setup_model
+    @model = @account&.captain_assistant_model || DEFAULT_MODEL
+  end
 
   def build_tools
     [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]

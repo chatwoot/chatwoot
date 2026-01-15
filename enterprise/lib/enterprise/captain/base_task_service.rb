@@ -28,7 +28,6 @@ module Enterprise::Captain::BaseTaskService
   end
 
   def increment_usage
-    Rails.logger.info("[CAPTAIN][#{self.class.name}] Incrementing response usage for account #{account.id}")
-    account.increment_response_usage
+    account.increment_response_usage_for_model(configured_model)
   end
 end

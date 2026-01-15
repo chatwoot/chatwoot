@@ -131,4 +131,48 @@ RSpec.describe CaptainFeaturable do
       end
     end
   end
+
+  describe '#captain_api_key' do
+    before do
+      create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'system-key')
+    end
+
+    context 'when openai hook is configured with api key' do
+      before do
+        create(:integrations_hook, account: account, app_id: 'openai', status: 'enabled', settings: { 'api_key' => 'hook-key' })
+      end
+
+      it 'returns the hook api key' do
+        expect(account.captain_api_key).to eq('hook-key')
+      end
+
+      it 'returns true for using_openai_hook_key?' do
+        expect(account.using_openai_hook_key?).to be true
+      end
+    end
+
+    context 'when openai hook is not configured' do
+      it 'returns the system api key' do
+        expect(account.captain_api_key).to eq('system-key')
+      end
+
+      it 'returns false for using_openai_hook_key?' do
+        expect(account.using_openai_hook_key?).to be false
+      end
+    end
+
+    context 'when openai hook is disabled' do
+      before do
+        create(:integrations_hook, account: account, app_id: 'openai', status: 'disabled', settings: { 'api_key' => 'hook-key' })
+      end
+
+      it 'returns the system api key' do
+        expect(account.captain_api_key).to eq('system-key')
+      end
+
+      it 'returns false for using_openai_hook_key?' do
+        expect(account.using_openai_hook_key?).to be false
+      end
+    end
+  end
 end
