@@ -13,6 +13,7 @@ class Aloo::ConversationContextBuilder
     parts << base_instructions
     parts << custom_instructions_section
     parts << personality_prompt
+    parts << catalog_instructions
     parts << language_instructions
     parts << conversation_context_info
     parts.compact.join("\n\n")
@@ -78,6 +79,35 @@ class Aloo::ConversationContextBuilder
     return nil if @assistant&.language_instruction.blank?
 
     @assistant.language_instruction
+  end
+
+  def catalog_instructions
+    return nil unless catalog_enabled?
+
+    <<~PROMPT
+      ## Product Catalog & Shopping
+
+      You have access to the product catalog. When customers ask about products or want to buy something:
+
+      1. **Search Products**: Use the product_search tool to find products matching customer needs
+      2. **Share Options**: Present relevant products with their names, descriptions, and prices
+      3. **Create Cart**: When the customer wants to buy, use the create_cart tool with their selected products
+      4. **Payment Link**: After creating a cart, a payment link is automatically sent to the customer
+
+      Example flow:
+      - Customer: "I want to buy coffee"
+      - You: Search for coffee products, present options
+      - Customer: "I'll take 2 of the premium beans"
+      - You: Create cart with product_id and quantity 2, confirm the payment link was sent
+    PROMPT
+  end
+
+  def catalog_enabled?
+    return false unless @assistant
+
+    account = @assistant.account
+    account&.catalog_settings&.enabled? &&
+      (@assistant.feature_product_search_enabled? || @assistant.feature_create_cart_enabled?)
   end
 
   def conversation_context_info

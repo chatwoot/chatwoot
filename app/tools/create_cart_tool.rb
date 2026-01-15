@@ -9,9 +9,12 @@
 #
 class CreateCartTool < BaseTool
   description 'Create a shopping cart with products and send a payment link to the customer. ' \
-              'Use this when customers want to buy products. ' \
-              'First use product_search to find product IDs, then create the cart. ' \
-              'A payment link will be automatically sent to the customer in the conversation.'
+              'Use this when: ' \
+              '1) The customer confirms they want to purchase specific products, ' \
+              '2) You have the product IDs from a previous product_search, ' \
+              '3) The customer has indicated quantities. ' \
+              'The payment link will be automatically sent to the customer in the conversation. ' \
+              'Always confirm the order details before creating the cart.'
 
   param :items, type: :string, desc: 'JSON array of items: [{"product_id": 1, "quantity": 2}]', required: true
 

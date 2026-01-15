@@ -48,6 +48,8 @@ const assistant = ref({
     resolve_enabled: true,
     snooze_enabled: true,
     labels_enabled: true,
+    product_search_enabled: true,
+    create_cart_enabled: true,
   },
   admin_config: {},
   voice_enabled: false,
