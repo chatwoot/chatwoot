@@ -159,8 +159,11 @@ class ActionCableListener < BaseListener
   end
 
   def contact_deleted(event)
-    contact, account = extract_contact_and_account(event)
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
+    contact_data = event.data[:contact_data]
+    account = Account.find_by(id: contact_data[:account_id])
+    return if account.blank?
+
+    broadcast(account, [account_token(account)], CONTACT_DELETED, contact_data)
   end
 
   def conversation_mentioned(event)
