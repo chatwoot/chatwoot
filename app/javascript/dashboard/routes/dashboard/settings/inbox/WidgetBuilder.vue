@@ -271,7 +271,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-4">
+  <div class="mx-6">
     <div class="flex py-6">
       <div class="w-100 lg:w-[40%]">
         <div class="min-h-full py-4 overflow-y-scroll px-px">

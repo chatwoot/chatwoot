@@ -34,7 +34,7 @@ const labelTitle = computed(() => {
 });
 
 const labelDescription = computed(() => {
-  return (isStringLabel.value && props.label?.description) || '';
+  return (!isStringLabel.value && props.label?.description) || '';
 });
 
 const labelColor = computed(() => {

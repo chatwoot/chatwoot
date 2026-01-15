@@ -149,7 +149,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="isATwilioChannel" class="mx-4">
+  <div v-if="isATwilioChannel" class="mx-6">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE')"
@@ -170,7 +170,7 @@ export default {
       </div>
     </SettingsSection>
   </div>
-  <div v-else-if="isAVoiceChannel" class="mx-4">
+  <div v-else-if="isAVoiceChannel" class="mx-6">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.VOICE.CONFIGURATION.TWILIO_VOICE_URL_TITLE')"
       :sub-title="
@@ -189,7 +189,7 @@ export default {
     </SettingsSection>
   </div>
 
-  <div v-else-if="isALineChannel" class="mx-4">
+  <div v-else-if="isALineChannel" class="mx-6">
     <SettingsSection
       :title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.TITLE')"
       :sub-title="$t('INBOX_MGMT.ADD.LINE_CHANNEL.API_CALLBACK.SUBTITLE')"
@@ -198,7 +198,7 @@ export default {
     </SettingsSection>
   </div>
   <div v-else-if="isAWebWidgetInbox">
-    <div class="mx-4">
+    <div class="mx-6">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_HEADING')"
         :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.MESSENGER_SUB_HEAD')"
@@ -268,7 +268,7 @@ export default {
       </SettingsSection>
     </div>
   </div>
-  <div v-else-if="isAPIInbox" class="mx-4">
+  <div v-else-if="isAPIInbox" class="mx-6">
     <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_IDENTIFIER_SUB_TEXT')"
@@ -300,7 +300,7 @@ export default {
     </SettingsSection>
   </div>
   <div v-else-if="isAnEmailChannel">
-    <div class="mx-4">
+    <div class="mx-6">
       <SettingsSection
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.FORWARD_EMAIL_TITLE')"
         :sub-title="
@@ -327,7 +327,7 @@ export default {
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
-    <div v-if="inbox.provider_config" class="mx-4">
+    <div v-if="inbox.provider_config" class="mx-6">
       <!-- Embedded Signup Section -->
       <template v-if="isEmbeddedSignupWhatsApp">
         <SettingsSection

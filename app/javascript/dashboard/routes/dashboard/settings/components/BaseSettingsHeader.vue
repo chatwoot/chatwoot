@@ -50,7 +50,7 @@ const helpURL = getHelpUrlForFeature(props.featureName);
       v-if="backButtonLabel"
       compact
       :button-label="backButtonLabel"
-      class="mb-1"
+      class="my-1"
     />
     <div
       v-if="title"

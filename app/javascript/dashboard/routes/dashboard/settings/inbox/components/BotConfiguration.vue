@@ -74,7 +74,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-4">
+  <div class="mx-6">
     <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
     <form
       v-else

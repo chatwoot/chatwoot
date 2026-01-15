@@ -236,7 +236,7 @@ const handleCreateAssistant = () => {
         :current-page="currentPage"
         :total-items="totalCount"
         :items-per-page="itemsPerPage"
-        class="max-w-[105rem]"
+        class="max-w-[67rem]"
         @update:current-page="handlePageChange"
       />
     </footer>

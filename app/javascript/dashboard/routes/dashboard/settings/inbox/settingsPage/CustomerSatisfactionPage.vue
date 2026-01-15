@@ -414,7 +414,7 @@ const handleConfirmTemplateUpdate = async () => {
 </script>
 
 <template>
-  <div class="mx-4">
+  <div class="mx-6">
     <SectionLayout
       :title="$t('INBOX_MGMT.CSAT.TITLE')"
       :description="$t('INBOX_MGMT.CSAT.SUBTITLE')"

@@ -73,9 +73,9 @@ const onClickCreateButton = () => {
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
     <header
-      class="sticky top-0 z-10 px-6 pb-3 lg:px-0 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+      class="sticky top-0 z-10 px-6 pb-3 after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
     >
-      <div class="w-full max-w-5xl mx-auto lg:px-6">
+      <div class="w-full max-w-5xl mx-auto">
         <div class="flex items-center justify-between gap-3">
           <div
             v-if="showHeaderTitle"
@@ -133,8 +133,8 @@ const onClickCreateButton = () => {
         <slot name="header-actions" />
       </div>
     </header>
-    <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-5xl mx-auto py-3 lg:px-6">
+    <main class="flex-1 px-6 overflow-y-auto">
+      <div class="w-full max-w-5xl mx-auto py-3">
         <slot name="content" />
       </div>
     </main>
@@ -143,7 +143,7 @@ const onClickCreateButton = () => {
         :current-page="currentPage"
         :total-items="totalItems"
         :items-per-page="itemsPerPage"
-        class="max-w-[105rem]"
+        class="max-w-[67rem]"
         @update:current-page="updateCurrentPage"
       />
     </footer>

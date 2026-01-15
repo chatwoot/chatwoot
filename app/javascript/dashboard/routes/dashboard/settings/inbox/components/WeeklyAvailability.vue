@@ -121,7 +121,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-4">
+  <div class="mx-6">
     <SettingsSection
       :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
       :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"

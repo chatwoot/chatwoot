@@ -540,7 +540,7 @@ export default {
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
         class="mx-8 mt-5"
       />
-      <div v-if="selectedTabKey === 'inbox-settings'" class="mx-4">
+      <div v-if="selectedTabKey === 'inbox-settings'" class="mx-6">
         <SettingsSection
           :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
@@ -923,7 +923,7 @@ export default {
         </SettingsSection>
       </div>
 
-      <div v-if="selectedTabKey === 'collaborators'" class="mx-4">
+      <div v-if="selectedTabKey === 'collaborators'" class="mx-6">
         <CollaboratorsPage :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'configuration'">

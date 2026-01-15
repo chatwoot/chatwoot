@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-  <div class="mx-4 my-2 text-base">
+  <div class="mx-6 my-2 text-base">
     <div class="mx-0 mt-6 mb-3">
       {{ $t('INBOX_MGMT.PRE_CHAT_FORM.DESCRIPTION') }}
     </div>
