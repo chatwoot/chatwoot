@@ -146,8 +146,9 @@ export function usePolicy() {
       return true;
     }
 
-    // Self-hosted without enterprise code: hide premium features
-    return false;
+    // Self-hosted without enterprise code: show premium features
+    // We will have a paywall anyway
+    return true;
   };
 
   return {
