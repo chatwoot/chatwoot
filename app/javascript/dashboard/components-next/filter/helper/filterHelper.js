@@ -11,7 +11,6 @@ export const CONVERSATION_ATTRIBUTES = {
   CAMPAIGN_ID: 'campaign_id',
   LABELS: 'labels',
   BROWSER_LANGUAGE: 'browser_language',
-  COUNTRY_CODE: 'country_code',
   REFERER: 'referer',
   CREATED_AT: 'created_at',
   LAST_ACTIVITY_AT: 'last_activity_at',
