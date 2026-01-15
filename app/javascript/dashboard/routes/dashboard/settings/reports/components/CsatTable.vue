@@ -241,7 +241,7 @@ const table = useVueTable({
     />
 
     <div
-      v-if="metrics.totalResponseCount && tableData.length"
+      v-if="metrics.totalResponseCount"
       class="px-6 py-4 border-t border-n-weak"
     >
       <Pagination :table="table" />
