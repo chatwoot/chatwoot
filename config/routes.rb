@@ -252,6 +252,17 @@ Rails.application.routes.draw do
 
           resources :inboxes, only: [] do
             resource :assignment_policy, only: [:show, :create, :destroy], module: :inboxes
+
+            # Inbox conversation migration (WhatsApp-like inboxes only)
+            resources :migrations, only: [:index, :show, :create], controller: 'inbox_migrations' do
+              member do
+                post :cancel
+              end
+              collection do
+                get :preview
+                get :eligible_destinations
+              end
+            end
           end
 
           namespace :twitter do

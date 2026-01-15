@@ -75,6 +75,10 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  has_many :inbox_migrations_as_source, class_name: 'InboxMigration', foreign_key: :source_inbox_id, dependent: :destroy,
+                                        inverse_of: :source_inbox
+  has_many :inbox_migrations_as_destination, class_name: 'InboxMigration', foreign_key: :destination_inbox_id, dependent: :nullify,
+                                             inverse_of: :destination_inbox
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
