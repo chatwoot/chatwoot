@@ -1,6 +1,7 @@
 <script>
 import { ref } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { vOnClickOutside } from '@vueuse/components';
 import { REPLY_EDITOR_MODES, CHAR_LENGTH_WARNING } from './constants';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -58,6 +59,8 @@ export default {
           : REPLY_EDITOR_MODES.REPLY;
       setReplyMode(newMode);
     };
+
+    const { showCopilotOnEditor } = useCaptain();
     const showCopilotMenu = ref(false);
 
     const handleCopilotAction = actionKey => {
@@ -90,6 +93,7 @@ export default {
       handleReplyClick,
       handleNoteClick,
       REPLY_EDITOR_MODES,
+      showCopilotOnEditor,
       handleCopilotAction,
       showCopilotMenu,
       toggleCopilotMenu,
@@ -136,7 +140,7 @@ export default {
         </span>
       </div>
     </div>
-    <div class="flex items-center gap-2">
+    <div v-if="showCopilotOnEditor" class="flex items-center gap-2">
       <div class="relative">
         <NextButton
           ghost

@@ -4,23 +4,22 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 export function useCaptain() {
   const store = useStore();
-  const { isCloudFeatureEnabled, currentAccount, isOnChatwootCloud } =
-    useAccount();
+  const { isCloudFeatureEnabled, currentAccount } = useAccount();
   const { isEnterprise } = useConfig();
+  const { isPremiumFeatureVisible } = usePolicy();
   const uiFlags = useMapGetter('accounts/getUIFlags');
 
   const captainEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
   });
 
-  const showCopilotOnEditor = computed(() => {
-    // we show copilot on the case when the captain features are enabled
-    // or when the user is on chatwoot cloud
-    return captainEnabled.value || isOnChatwootCloud.value;
-  });
+  const showCopilotOnEditor = computed(() =>
+    isPremiumFeatureVisible('captain_integration')
+  );
 
   const captainLimits = computed(() => {
     return currentAccount.value?.limits?.captain;
