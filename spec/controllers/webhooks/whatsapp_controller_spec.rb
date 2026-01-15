@@ -1,7 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Webhooks::WhatsappController', type: :request do
-  let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+  let(:channel) do
+    create(:channel_whatsapp,
+           provider: 'whatsapp_cloud',
+           provider_config: { 'source' => 'embedded_signup' },
+           sync_templates: false,
+           validate_provider_config: false)
+  end
 
   describe 'GET /webhooks/verify' do
     it 'returns 401 when valid params are not present' do
