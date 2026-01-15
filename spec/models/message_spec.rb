@@ -302,6 +302,11 @@ RSpec.describe Message do
                                  content_attributes: { 'automation_rule_id' => 123 })
       expect(message.conversation.reload.pending?).to be true
     end
+
+    it 'does not change status for private notes' do
+      message = create(:message, conversation: conversation, message_type: :outgoing, sender: agent, private: true)
+      expect(message.conversation.reload.pending?).to be true
+    end
   end
 
   describe '#execute_message_template_hooks' do
