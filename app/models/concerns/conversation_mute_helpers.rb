@@ -17,6 +17,6 @@ module ConversationMuteHelpers
   end
 
   def muted?
-    contact&.blocked?
+    contact&.blocked? || false
   end
 end
