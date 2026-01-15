@@ -242,6 +242,11 @@ class Conversation < ApplicationRecord
     )
   end
 
+  def operator_replied_after?(operator_id:, from_time:, to_time:)
+    messages.where(sender_type: 'User', sender_id: operator_id, message_type: :outgoing)
+            .exists?(['created_at > ? AND created_at < ?', from_time, to_time])
+  end
+
   private
 
   def close_previous_agent_on_reassign
@@ -263,15 +268,14 @@ class Conversation < ApplicationRecord
     return unless saved_change_to_assignee_id?
     return if assignee_id.nil?
 
-    participant = ConversationParticipant.find_or_initialize_by(
-      conversation_id: id,
-      user_id: assignee_id
-    )
+    participant = ConversationParticipant.find_or_initialize_by(conversation_id: id, user_id: assignee_id)
 
-    if participant.persisted? && participant.left_at.present?
-      participant.left_at = nil
-      participant.save!
-    elsif participant.new_record?
+    now = Time.current
+
+    if participant.persisted?
+      participant.update!(left_at: nil, created_at: now)
+    else
+      participant.created_at = now
       participant.save!
     end
   end
