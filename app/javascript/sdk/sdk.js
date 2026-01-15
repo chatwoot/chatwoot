@@ -299,7 +299,7 @@ export const SDK_CSS = `
 
 .woot-greeting-preview {
   position: fixed;
-  bottom: 280px;
+  bottom: 250px;
   z-index: 2147482999 !important;
   transition: opacity 0.3s ease, transform 0.3s ease;
 }
@@ -323,7 +323,7 @@ export const SDK_CSS = `
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-  width: 380px;
+  width: 390px;
   cursor: pointer;
   border: 1px solid #e5e7eb;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -448,7 +448,7 @@ export const SDK_CSS = `
   background: white;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-  width: 380px;
+  width: 390px;
   border: 1px solid #e5e7eb;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
@@ -489,13 +489,13 @@ export const SDK_CSS = `
 }
 
 .woot-greeting-input-footer {
-  padding: 8px 12px 12px 12px;
+  padding: 4px 2px 8px 2px;
   text-align: center;
 }
 
 .woot-greeting-footer-text {
   margin: 0;
-  font-size: 11px;
+  font-size: 6px;
   line-height: 1.4;
   color: #6b7280;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
@@ -503,7 +503,7 @@ export const SDK_CSS = `
 }
 
 .woot-greeting-footer-text:first-child {
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .woot-greeting-footer-link {
@@ -577,7 +577,7 @@ export const SDK_CSS = `
     right: 20px !important;
     left: 20px !important;
     max-width: calc(100vw - 40px);
-    bottom: 280px !important;
+    bottom: 240px !important;
   }
 
   .woot-greeting-input-box {

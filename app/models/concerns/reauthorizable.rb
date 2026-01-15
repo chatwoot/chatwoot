@@ -53,7 +53,7 @@ module Reauthorizable
   end
 
   def send_channel_reauthorization_email(disconnect_type)
-    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).public_send(disconnect_type, inbox).deliver_later
+    # AdministratorNotifications::ChannelNotificationsMailer.with(account: account).public_send(disconnect_type, inbox).deliver_later
     
     send_slack_notification_for_channel_reauthorization(disconnect_type)
   end
