@@ -310,10 +310,11 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
+    open_conversation_on_human_response
     set_conversation_activity
     dispatch_create_events
     send_reply
-    execute_message_template_hooks
+    execute_message_template_hooks unless human_response? || activity?
     update_contact_activity
   end
 
@@ -387,6 +388,13 @@ class Message < ApplicationRecord
     conversation.open! if conversation.snoozed?
 
     reopen_resolved_conversation if conversation.resolved?
+  end
+
+  def open_conversation_on_human_response
+    return unless human_response?
+    return unless conversation.pending?
+
+    conversation.open!
   end
 
   def reopen_resolved_conversation
