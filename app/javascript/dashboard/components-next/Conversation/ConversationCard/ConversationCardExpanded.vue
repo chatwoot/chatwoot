@@ -145,12 +145,12 @@ const selectedModel = computed({
     </div>
 
     <!-- RIGHT SECTION -->
-    <div class="flex items-center justify-end gap-2 flex-shrink-0">
+    <div class="flex items-center justify-end gap-1.5 flex-shrink-0">
       <div v-if="showLabelsSection" class="min-w-0 w-full">
         <CardLabels
           :labels="chat.labels"
           disable-toggle
-          class="my-0 [&>div]:justify-end"
+          class="my-0 [&>div]:justify-end justify-end"
         />
       </div>
 

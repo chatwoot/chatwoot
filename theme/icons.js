@@ -149,6 +149,31 @@ export const icons = {
     width: 16,
     height: 16,
   },
+  'edit-pen': {
+    body: `<g fill="none" stroke="currentColor"><path d="M8.5 12.5H12.5001" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.5872 5.40576C12.8515 5.14146 13.0001 4.78298 13.0001 4.40916C13.0002 4.03535 12.8517 3.67682 12.5874 3.41246C12.3231 3.1481 11.9647 2.99956 11.5908 2.99951C11.217 2.99946 10.8585 3.14792 10.5941 3.41221L3.92099 10.0869C3.8049 10.2026 3.71904 10.3451 3.67098 10.5019L3.01047 12.6779C2.99754 12.7212 2.99657 12.7671 3.00764 12.8109C3.01872 12.8546 3.04143 12.8945 3.07337 12.9264C3.10531 12.9583 3.14528 12.981 3.18905 12.992C3.23282 13.003 3.27875 13.0019 3.32197 12.9889L5.49852 12.3289C5.65511 12.2813 5.79762 12.196 5.91353 12.0804L12.5872 5.40576Z" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  settings: {
+    body: `<g fill="none" stroke="currentColor"><path d="M9.33334 11.3334H3.33334" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6667 4.66663H6.66666" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/><path d="M11.3333 13.3334C12.4379 13.3334 13.3333 12.4379 13.3333 11.3334C13.3333 10.2288 12.4379 9.33337 11.3333 9.33337C10.2288 9.33337 9.33334 10.2288 9.33334 11.3334C9.33334 12.4379 10.2288 13.3334 11.3333 13.3334Z" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.66666 6.66663C5.77123 6.66663 6.66666 5.7712 6.66666 4.66663C6.66666 3.56206 5.77123 2.66663 4.66666 2.66663C3.56209 2.66663 2.66666 3.56206 2.66666 4.66663C2.66666 5.7712 3.56209 6.66663 4.66666 6.66663Z" stroke="currentColor" stroke-width="1.06667" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  clone: {
+    body: `<g fill="none" stroke="currentColor"><path d="M6.08345 10.1669C8.33867 10.1669 10.1669 8.33867 10.1669 6.08345C10.1669 3.82822 8.33867 2 6.08345 2C3.82822 2 2 3.82822 2 6.08345C2 8.33867 3.82822 10.1669 6.08345 10.1669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.58357 13.6669C11.8388 13.6669 13.667 11.8387 13.667 9.58345C13.667 7.32822 11.8388 5.5 9.58357 5.5C7.32834 5.5 5.50012 7.32822 5.50012 9.58345C5.50012 11.8387 7.32834 13.6669 9.58357 13.6669Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
+  'sort-ascending': {
+    body: `<g fill="none" stroke="currentColor"><path d="M4 15.4999L7.5 18.9999L11 15.4999" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 19V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.875 8.5H14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 10.25V7.1875C14.5 6.60734 14.7305 6.05094 15.1407 5.6407C15.5509 5.23047 16.1073 5 16.6875 5C17.2677 5 17.8241 5.23047 18.2343 5.6407C18.6445 6.05094 18.875 6.60734 18.875 7.1875V10.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14.5 13.75H18.875L14.5 19H18.875" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
+  'sort-descending': {
+    body: `<g fill="none" stroke="currentColor"><path d="M4 15.4999L7.5 18.9999L11 15.4999" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.5 19V5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.375 17.5H14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 19.25V16.1875C14 15.6073 14.2305 15.0509 14.6407 14.6407C15.0509 14.2305 15.6073 14 16.1875 14C16.7677 14 17.3241 14.2305 17.7343 14.6407C18.1445 15.0509 18.375 15.6073 18.375 16.1875V19.25" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 5H18.375L14 10.25H18.375" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 24,
+    height: 24,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {

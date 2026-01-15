@@ -32,8 +32,8 @@ const updateCurrentPage = page => {
         @search="emit('search', $event)"
         @update:sort="emit('update:sort', $event)"
       />
-      <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[60rem]">
+      <main class="flex-1 px-6 overflow-y-auto">
+        <div class="w-full mx-auto max-w-5xl py-4">
           <slot name="default" />
         </div>
       </main>
@@ -43,7 +43,7 @@ const updateCurrentPage = page => {
           :current-page="currentPage"
           :total-items="totalItems"
           :items-per-page="25"
-          class="max-w-[105rem]"
+          class="max-w-[67rem]"
           @update:current-page="updateCurrentPage"
         />
       </footer>

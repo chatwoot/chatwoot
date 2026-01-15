@@ -259,5 +259,9 @@ export const colors = {
       color: 'rgb(var(--button-color) / <alpha-value>)',
       hover: 'rgb(var(--button-hover-color) / <alpha-value>)',
     },
+    label: {
+      color: 'rgb(var(--label-background) / <alpha-value>)',
+      border: 'rgba(var(--label-border))',
+    },
   },
 };
