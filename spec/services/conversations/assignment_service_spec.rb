@@ -2,9 +2,10 @@ require 'rails_helper'
 
 describe Conversations::AssignmentService do
   let(:account) { create(:account) }
+  let(:inbox) { create(:inbox, account: account) }
+
   let(:agent) { create(:user, account: account) }
   let(:agent_bot) { create(:agent_bot, account: account) }
-  let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
 
   before do

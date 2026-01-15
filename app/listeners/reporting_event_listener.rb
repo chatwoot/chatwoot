@@ -3,124 +3,91 @@ class ReportingEventListener < BaseListener
 
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
-    event_end_time = event.timestamp
-    time_to_resolve = event_end_time.to_i - conversation.created_at.to_i
+    return if conversation.resolved_at.blank?
 
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_resolved',
-      value: time_to_resolve,
-      value_in_business_hours: business_hours(conversation.inbox, conversation.created_at,
-                                              event_end_time),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.created_at,
-      event_end_time: event_end_time
+    log_prefix = "[ResolutionMetric] conv_id=#{conversation.id} inbox_id=#{conversation.inbox_id}"
+
+    start_time = conversation.created_at
+    end_time = conversation.resolved_at
+    time_to_resolve = end_time - start_time
+    return if time_to_resolve <= 0
+
+    service = resolution_service(conversation)
+    service.create_conversation_resolved_events(start_time, end_time, time_to_resolve)
+
+    if conversation.inbox.active_bot?
+      without_bot_start_time = resolve_without_bot_start_time(conversation, log_prefix)
+      return if without_bot_start_time.nil?
+    else
+      without_bot_start_time = start_time
+      Rails.logger.info("#{log_prefix} | has_bot=false | without_bot_start_time=conversation_start=#{start_time.iso8601}")
+    end
+
+    Rails.logger.info(
+      "#{log_prefix} | " \
+      'creating resolution_time_without_bot | ' \
+      "without_bot_start_time=#{without_bot_start_time.iso8601} | " \
+      "resolved_at=#{end_time.iso8601} | " \
+      "time_without_bot=#{(end_time - without_bot_start_time).to_i}s | " \
+      "total_resolution_time=#{time_to_resolve.to_i}s | " \
+      "bot_time=#{(without_bot_start_time - start_time).to_i}s"
     )
 
-    create_bot_resolved_event(conversation, reporting_event)
-    reporting_event.save!
-    safe_rollup(reporting_event)
+    service.create_resolution_without_bot_events(without_bot_start_time)
   end
 
   def first_reply_created(event)
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
-    first_response_time = message.created_at.to_i - last_non_human_activity(conversation).to_i
 
-    reporting_event = ReportingEvent.new(
-      name: 'first_response',
-      value: first_response_time,
-      value_in_business_hours: business_hours(conversation.inbox, last_non_human_activity(conversation),
-                                              message.created_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: message.sender_id,
-      conversation_id: conversation.id,
-      event_start_time: last_non_human_activity(conversation),
-      event_end_time: message.created_at
-    )
+    return unless outgoing_user_message?(message)
 
-    reporting_event.save!
-    safe_rollup(reporting_event)
+    participant = find_active_participant(conversation, message.sender_id)
+    return if participant.blank? || participant.created_at.blank?
+
+    service = response_service(conversation, message, participant)
+    service.create_first_response_event
+    service.create_first_response_from_open_event
   end
 
   def reply_created(event)
     message = extract_message_and_account(event)[0]
+    return unless message.sender_type == 'User'
+
     conversation = message.conversation
-    waiting_since = event.data[:waiting_since]
+    operator_id = message.sender_id
 
-    return if waiting_since.blank?
+    participant = find_active_participant(conversation, operator_id)
+    return if participant&.created_at.blank?
 
-    # When waiting_since is nil, set reply_time to 0
-    reply_time = message.created_at.to_i - waiting_since.to_i
+    service = response_service(conversation, message, participant)
+    client_message = service.last_client_message_for_operator
+    return unless client_message
 
-    reporting_event = ReportingEvent.new(
-      name: 'reply_time',
-      value: reply_time,
-      value_in_business_hours: business_hours(conversation.inbox, waiting_since, message.created_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: waiting_since,
-      event_end_time: message.created_at
-    )
-    reporting_event.save!
-    safe_rollup(reporting_event)
+    waiting_time = message.created_at.to_i - client_message.created_at.to_i
+    return if waiting_time <= 0
+
+    service.create_reply_time_event(operator_id, client_message, waiting_time)
   end
 
   def conversation_bot_handoff(event)
     conversation = extract_conversation_and_account(event)[0]
-    event_end_time = event.timestamp
 
-    # Best-effort guard: raw report reads count bot handoffs with DISTINCT conversation_id,
-    # while rollup counts assume one conversation_bot_handoff event per conversation.
-    # That uniqueness is not currently enforced at the database level.
-    bot_handoff_event = ReportingEvent.find_by(conversation_id: conversation.id, name: 'conversation_bot_handoff')
-    return if bot_handoff_event.present?
+    service = bot_service(conversation)
+    return if service.bot_handoff_event_exists?
 
-    time_to_handoff = event_end_time.to_i - conversation.created_at.to_i
-
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_bot_handoff',
-      value: time_to_handoff,
-      value_in_business_hours: business_hours(conversation.inbox, conversation.created_at, event_end_time),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: conversation.created_at,
-      event_end_time: event_end_time
-    )
-    reporting_event.save!
-    safe_rollup(reporting_event)
-  end
-
-  def conversation_captain_inference_resolved(event)
-    create_captain_inference_event(event, 'conversation_captain_inference_resolved')
-  end
-
-  def conversation_captain_inference_handoff(event)
-    create_captain_inference_event(event, 'conversation_captain_inference_handoff')
+    time_to_handoff = conversation.updated_at.to_i - conversation.created_at.to_i
+    service.create_bot_handoff_event(time_to_handoff)
   end
 
   def conversation_opened(event)
     conversation = extract_conversation_and_account(event)[0]
-    event_end_time = event.timestamp
+    service = resolution_service(conversation)
+    last_resolved_event = service.find_last_resolved_event
 
-    # Find the most recent resolved event for this conversation
-    last_resolved_event = ReportingEvent.where(
-      conversation_id: conversation.id,
-      name: 'conversation_resolved'
-    ).where('event_end_time <= ?', event_end_time).order(event_end_time: :desc).first
-
-    # For first-time openings, value is 0
-    # For reopenings, calculate time since resolution
     if last_resolved_event
-      time_since_resolved = event_end_time.to_i - last_resolved_event.event_end_time.to_i
-      business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, event_end_time)
+      time_since_resolved = conversation.updated_at.to_i - last_resolved_event.event_end_time.to_i
+      business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, conversation.updated_at)
       start_time = last_resolved_event.event_end_time
     else
       time_since_resolved = 0
@@ -128,60 +95,64 @@ class ReportingEventListener < BaseListener
       start_time = conversation.created_at
     end
 
-    create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time, event_end_time)
+    service.create_conversation_opened_event(time_since_resolved, business_hours_value, start_time)
+  end
+
+  def message_created(event)
+    message = extract_message_and_account(event)[0]
+    conversation = message.conversation
+
+    service = bot_service(conversation, message)
+    return unless service.bot_message_applicable?
+
+    service.handle_bot_first_response if service.bot_first_response_applicable?
+    service.handle_bot_reply_time
   end
 
   private
 
-  def create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time, event_end_time)
-    reporting_event = ReportingEvent.new(
-      name: 'conversation_opened',
-      value: time_since_resolved,
-      value_in_business_hours: business_hours_value,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
-      event_start_time: start_time,
-      event_end_time: event_end_time
+  def resolve_without_bot_start_time(conversation, log_prefix)
+    operator_first_message_at = first_operator_message_at(conversation)
+  
+    return nil if operator_first_message_at.nil?
+    return nil if operator_first_message_at > conversation.resolved_at
+  
+    Rails.logger.info(
+      "#{log_prefix} | has_bot=true | source=first_operator_message | " \
+      "without_bot_start_time=#{operator_first_message_at.iso8601}"
     )
-    reporting_event.save!
+  
+    operator_first_message_at
   end
 
-  def create_captain_inference_event(event, event_name)
-    conversation = extract_conversation_and_account(event)[0]
-    time_to_event = event.timestamp.to_i - conversation.created_at.to_i
+  def first_operator_message_at(conversation)
+    conversation.messages
+                .where(message_type: :outgoing, sender_type: 'User')
+                .where('created_at >= ?', conversation.created_at)
+                .minimum(:created_at)
+  end
 
-    ReportingEvent.create!(
-      name: event_name,
-      value: time_to_event,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
+  def find_active_participant(conversation, user_id)
+    ConversationParticipant.find_by(
       conversation_id: conversation.id,
-      event_start_time: conversation.created_at,
-      event_end_time: event.timestamp
+      user_id: user_id,
+      left_at: nil
     )
   end
 
-  def create_bot_resolved_event(conversation, reporting_event)
-    return unless conversation.inbox.active_bot?
-    # We don't want to create a bot_resolved event if there is user interaction on the conversation
-    return if conversation.messages.exists?(message_type: :outgoing, sender_type: 'User')
-
-    bot_resolved_event = reporting_event.dup
-    bot_resolved_event.name = 'conversation_bot_resolved'
-    bot_resolved_event.save!
-    safe_rollup(bot_resolved_event)
+  def outgoing_user_message?(message)
+    message.message_type == 'outgoing' && message.sender_type == 'User'
   end
 
-  def safe_rollup(reporting_event)
-    # Rollups are derived from the raw reporting event. If a transient rollup write
-    # failure bubbles out here, Sidekiq retries the dispatcher job and can insert the
-    # same raw event again. That can temporarily under-report rollups, but the source
-    # event is preserved and rollup data can be rebuilt or re-applied later.
-    ReportingEvents::RollupService.perform(reporting_event)
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: reporting_event.account).capture_exception
+  def bot_service(conversation, message = nil)
+    ReportingEvents::BotEventService.new(conversation, message)
+  end
+
+  def response_service(conversation, message, participant = nil)
+    ReportingEvents::ResponseEventService.new(conversation, message, participant)
+  end
+
+  def resolution_service(conversation)
+    ReportingEvents::ResolutionEventService.new(conversation)
   end
 end

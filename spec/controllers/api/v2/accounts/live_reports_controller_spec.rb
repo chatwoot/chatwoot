@@ -25,13 +25,38 @@ RSpec.describe 'Api::V2::Accounts::LiveReports', type: :request do
     end
 
     context 'when authenticated and authorized' do
+      let(:listener) { ReportingEventListener.instance }
+
       before do
         create(:conversation, :with_assignee, account: account, status: :open)
         create(:conversation, account: account, status: :open)
         create(:conversation, :with_assignee, account: account, status: :pending)
-        create(:conversation, :with_assignee, account: account, status: :open) do |conversation|
-          create(:message, account: account, conversation: conversation, message_type: :outgoing)
+
+        attended_conv = create(:conversation, :with_assignee, account: account, status: :open)
+        assignee = attended_conv.assignee
+
+        create(:inbox_member, user: assignee, inbox: attended_conv.inbox)
+
+        participant = ConversationParticipant.find_or_create_by!(
+          conversation: attended_conv,
+          user: assignee
+        ) do |p|
+          p.created_at = 1.minute.ago
         end
+
+        participant.update!(created_at: 1.minute.ago) if participant.created_at.nil?
+
+        msg = create(:message,
+                     account: account,
+                     conversation: attended_conv,
+                     inbox: attended_conv.inbox,
+                     message_type: :outgoing,
+                     sender_type: 'User',
+                     sender: assignee,
+                     created_at: Time.current)
+
+        event = Events::Base.new('first.reply.created', Time.zone.now, message: msg)
+        listener.first_reply_created(event)
       end
 
       it 'returns conversation metrics' do
@@ -104,19 +129,64 @@ RSpec.describe 'Api::V2::Accounts::LiveReports', type: :request do
     end
 
     context 'when grouped by team_id' do
+      let(:listener) { ReportingEventListener.instance }
       let(:assignee1) { create(:user, account: account) }
 
       before do
         create(:conversation, account: account, status: :open, team_id: team.id)
-        create(:conversation, account: account, status: :open, team_id: team.id)
-        create(:conversation, account: account, status: :open, team_id: team.id) do |conversation|
-          create(:message, account: account, conversation: conversation, message_type: :outgoing)
-        end
 
-        create(:conversation, account: account, status: :open, assignee_id: assignee1.id)
-        create(:conversation, account: account, status: :open) do |conversation|
-          create(:message, account: account, conversation: conversation, message_type: :outgoing)
+        unattended_team_conv = create(:conversation, account: account, status: :open, team_id: team.id)
+        create(:inbox_member, user: assignee1, inbox: unattended_team_conv.inbox)
+        unattended_team_conv.update!(assignee_id: assignee1.id)
+
+        attended_team_conv = create(:conversation, account: account, status: :open, team_id: team.id)
+        create(:inbox_member, user: assignee1, inbox: attended_team_conv.inbox)
+        attended_team_conv.update!(assignee_id: assignee1.id)
+
+        # Create participant with assigned_at
+        participant = ConversationParticipant.find_or_create_by!(
+          conversation: attended_team_conv,
+          user: assignee1
+        ) do |p|
+          p.created_at = 1.minute.ago
         end
+        participant.update!(created_at: 1.minute.ago) if participant.created_at.nil?
+
+        msg = create(:message,
+                     account: account,
+                     conversation: attended_team_conv,
+                     inbox: attended_team_conv.inbox,
+                     message_type: :outgoing,
+                     sender_type: 'User',
+                     sender: assignee1)
+        event = Events::Base.new('first.reply.created', Time.zone.now, message: msg)
+        listener.first_reply_created(event)
+
+        no_team_conv1 = create(:conversation, account: account, status: :open)
+        create(:inbox_member, user: assignee1, inbox: no_team_conv1.inbox)
+        no_team_conv1.update!(assignee_id: assignee1.id)
+
+        attended_no_team_conv = create(:conversation, account: account, status: :open)
+        create(:inbox_member, user: assignee1, inbox: attended_no_team_conv.inbox)
+        attended_no_team_conv.update!(assignee_id: assignee1.id)
+
+        participant2 = ConversationParticipant.find_or_create_by!(
+          conversation: attended_no_team_conv,
+          user: assignee1
+        ) do |p|
+          p.created_at = 1.minute.ago
+        end
+        participant2.update!(created_at: 1.minute.ago) if participant2.created_at.nil?
+
+        msg2 = create(:message,
+                      account: account,
+                      conversation: attended_no_team_conv,
+                      inbox: attended_no_team_conv.inbox,
+                      message_type: :outgoing,
+                      sender_type: 'User',
+                      sender: assignee1)
+        event2 = Events::Base.new('first.reply.created', Time.zone.now, message: msg2)
+        listener.first_reply_created(event2)
       end
 
       it 'returns metrics grouped by team' do
@@ -130,23 +200,45 @@ RSpec.describe 'Api::V2::Accounts::LiveReports', type: :request do
         response_data = response.parsed_body
         expect(response_data.size).to eq(2)
         expect(response_data).to include(
-          { 'team_id' => nil, 'open' => 2, 'unattended' => 1, 'unassigned' => 1 }
+          { 'team_id' => nil, 'open' => 2, 'unattended' => 1, 'unassigned' => 0 }
         )
         expect(response_data).to include(
-          { 'team_id' => team.id, 'open' => 3, 'unattended' => 2, 'unassigned' => 3 }
+          { 'team_id' => team.id, 'open' => 3, 'unattended' => 2, 'unassigned' => 1 }
         )
       end
     end
 
     context 'when filtering by assignee_id' do
-      let(:assignee1) { create(:user, account: account) }
+      let(:listener) { ReportingEventListener.instance }
 
       before do
-        create(:conversation, assignee_id: agent.id, account: account, status: :open)
-        create(:conversation, account: account, status: :open)
-        create(:conversation, assignee_id: agent.id, account: account, status: :open) do |conversation|
-          create(:message, account: account, conversation: conversation, message_type: :outgoing)
+        agent_conv1 = create(:conversation, account: account, status: :open)
+        create(:inbox_member, user: agent, inbox: agent_conv1.inbox)
+        agent_conv1.update!(assignee_id: agent.id)
+
+        attended_agent_conv = create(:conversation, account: account, status: :open)
+        create(:inbox_member, user: agent, inbox: attended_agent_conv.inbox)
+        attended_agent_conv.update!(assignee_id: agent.id)
+
+        participant = ConversationParticipant.find_or_create_by!(
+          conversation: attended_agent_conv,
+          user: agent
+        ) do |p|
+          p.created_at = 1.minute.ago
         end
+        participant.update!(created_at: 1.minute.ago) if participant.created_at.nil?
+
+        msg = create(:message,
+                     account: account,
+                     conversation: attended_agent_conv,
+                     inbox: attended_agent_conv.inbox,
+                     message_type: :outgoing,
+                     sender_type: 'User',
+                     sender: agent)
+        event = Events::Base.new('first.reply.created', Time.zone.now, message: msg)
+        listener.first_reply_created(event)
+
+        create(:conversation, account: account, status: :open)
       end
 
       it 'returns metrics grouped by assignee' do
