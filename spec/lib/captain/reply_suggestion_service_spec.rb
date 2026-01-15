@@ -30,22 +30,21 @@ RSpec.describe Captain::ReplySuggestionService do
       message2
     end
 
-    it 'uses conversation_messages to build message history' do
-      expect(service).to receive(:conversation_messages).and_call_original
+    it 'uses LlmFormatter to build conversation context' do
+      expect(LlmFormatter::ConversationLlmFormatter).to receive(:new).with(conversation).and_call_original
       service.perform
     end
 
-    it 'concatenates system prompt with conversation history' do
+    it 'sends system prompt and formatted conversation as messages' do
       allow(service).to receive(:prompt_from_file).with('reply').and_return('Help with reply')
 
       expect(service).to receive(:make_api_call) do |args|
-        expected_messages = [
-          { role: 'system', content: 'Help with reply' },
-          { role: 'user', content: 'Hello' },
-          { role: 'assistant', content: 'Hi there' }
-        ]
-
-        expect(args[:messages]).to eq(expected_messages)
+        expect(args[:messages].length).to eq(2)
+        expect(args[:messages][0]).to eq({ role: 'system', content: 'Help with reply' })
+        expect(args[:messages][1][:role]).to eq('user')
+        expect(args[:messages][1][:content]).to include('Message History:')
+        expect(args[:messages][1][:content]).to include('User: Hello')
+        expect(args[:messages][1][:content]).to include('Support Agent: Hi there')
         { message: 'Suggested reply' }
       end
 
