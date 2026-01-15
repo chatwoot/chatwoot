@@ -121,7 +121,7 @@ it:
       stripe_customer_not_configured: Cliente Stripe non configurato
       no_payment_method: Nessun metodo di pagamento trovato. Aggiungi un metodo di pagamento prima di effettuare un acquisto.
     reports:
-      date_range_too_long: Date range cannot exceed 6 months
+      date_range_too_long: L'intervallo di date non può superare i 6 mesi
   profile:
     mfa:
       enabled: MFA attivata con successo
@@ -164,7 +164,7 @@ it:
       outgoing_messages_count: Messaggi in uscita
       avg_first_response_time: Tempo medio di prima risposta
       avg_resolution_time: Tempo medio di risoluzione
-      resolution_count: Resolution count
+      resolution_count: Conteggio risoluzioni
       avg_customer_waiting_time: Tempo medio di attesa cliente
     conversation_traffic_csv:
       timezone: Fuso Orario
