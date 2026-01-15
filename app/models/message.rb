@@ -393,6 +393,7 @@ class Message < ApplicationRecord
   def open_conversation_on_human_response
     return unless human_response?
     return unless conversation.pending?
+    return if private?
 
     conversation.open!
   end
