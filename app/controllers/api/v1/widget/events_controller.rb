@@ -44,7 +44,7 @@ class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
     }
     Rails.logger.info("responseData, #{data}")
     response = HTTParty.post(
-      'https://popup-service-767152501284.us-east4.run.app/impressionsInvoker',
+      'https://popups.bitespeed.co/impressionsInvoker',
       body: data.to_json,
       headers: {
         'Content-Type': 'application/json'
