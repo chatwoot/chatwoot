@@ -673,7 +673,60 @@
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
       "WHATSAPP_TEMPLATES": "Templates",
-      "EVOLUTION": "Evolution"
+      "EVOLUTION": "Evolution",
+      "MIGRATION": "Migration"
+    },
+    "MIGRATION": {
+      "TITLE": "Migrate Conversations",
+      "DESCRIPTION": "Move all conversations, messages, attachments, and contacts from this inbox to another WhatsApp inbox.",
+      "DESTINATION_LABEL": "Destination Inbox",
+      "SELECT_DESTINATION": "Select destination inbox...",
+      "DESTINATION_CONVERSATIONS": "{count} conversations",
+      "NO_ELIGIBLE_DESTINATIONS": "No eligible WhatsApp inboxes available for migration.",
+      "PREVIEW_TITLE": "Migration Preview",
+      "LOADING_PREVIEW": "Loading preview...",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages",
+      "ATTACHMENTS": "Attachments",
+      "CONTACTS": "Contacts",
+      "CONTACTS_WILL_MERGE": "contacts will be merged (same WhatsApp identity exists in destination)",
+      "START_BUTTON": "Start Migration",
+      "ACTIVE_MIGRATION_BLOCKED": "A migration is already in progress. Please wait for it to complete before starting a new one.",
+      "HISTORY_TITLE": "Migration History",
+      "HISTORY_SUMMARY": "{conversations} conversations, {messages} messages, {contactsMerged} contacts merged",
+      "WARNINGS": {
+        "LARGE_MIGRATION": "Large migration: This may take several minutes to complete",
+        "CONTACTS_WILL_MERGE": "{count} contacts exist in both inboxes and will be merged",
+        "CANNOT_BE_UNDONE": "This operation cannot be undone. Conversations will be moved from source to destination inbox."
+      },
+      "ERRORS": {
+        "FETCH_DESTINATIONS": "Failed to load eligible destinations",
+        "FETCH_PREVIEW": "Failed to load migration preview",
+        "START_FAILED": "Failed to start migration"
+      },
+      "SUCCESS": {
+        "STARTED": "Migration started successfully. This may take a few minutes."
+      },
+      "CONFIRM_MODAL": {
+        "TITLE": "Confirm Migration",
+        "WARNING": "This action cannot be undone. All conversations will be permanently moved from the source inbox to the destination inbox.",
+        "SUMMARY": "Migration Summary",
+        "FROM": "From",
+        "TO": "To",
+        "DATA_TO_MIGRATE": "Data to be migrated",
+        "TYPE_CONFIRM": "Type {phrase} to confirm",
+        "CANCEL": "Cancel",
+        "CONFIRM": "Start Migration"
+      },
+      "STATUS": {
+        "QUEUED": "Migration Queued",
+        "RUNNING": "Migration in Progress",
+        "COMPLETED": "Migration Completed",
+        "FAILED": "Migration Failed",
+        "CANCELLED": "Migration Cancelled",
+        "PROGRESS_DETAIL": "{conversations}/{totalConversations} conversations, {messages}/{totalMessages} messages",
+        "DURATION": "Completed in {seconds} seconds"
+      }
     },
     "EVOLUTION": {
       "SETTINGS": {

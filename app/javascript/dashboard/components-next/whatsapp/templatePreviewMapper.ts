@@ -47,6 +47,7 @@ export interface WhatsAppTemplate {
 export interface VariableValues {
   header?: {
     media_url?: string;
+    media_type?: string;
     media_name?: string;
     text?: string;
   };
@@ -196,7 +197,10 @@ export function buildInitialVariableValues(
   if (headerComponent) {
     const format = headerComponent.format?.toUpperCase();
     if (['IMAGE', 'VIDEO', 'DOCUMENT'].includes(format || '')) {
-      values.header = { media_url: '' };
+      values.header = {
+        media_url: '',
+        media_type: format?.toLowerCase(),
+      };
       if (format === 'DOCUMENT') {
         values.header.media_name = '';
       }

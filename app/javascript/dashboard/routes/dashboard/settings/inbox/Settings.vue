@@ -15,6 +15,7 @@ import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
 import EvolutionSettings from './evolution/EvolutionSettings.vue';
+import InboxMigrationSettings from './migration/MigrationSettings.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
@@ -57,6 +58,7 @@ export default {
     Avatar,
     AccountHealth,
     EvolutionSettings,
+    InboxMigrationSettings,
   },
   mixins: [inboxMixin],
   setup() {
@@ -199,6 +201,17 @@ export default {
           {
             key: 'evolution',
             name: this.$t('INBOX_MGMT.TABS.EVOLUTION'),
+          },
+        ];
+      }
+
+      // Show migration tab for API and WhatsApp-like inboxes
+      if (this.isMigrationEligibleInbox) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'migration',
+            name: this.$t('INBOX_MGMT.TABS.MIGRATION'),
           },
         ];
       }
@@ -969,6 +982,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'evolution'" class="mx-8">
         <EvolutionSettings :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'migration'" class="mx-8">
+        <InboxMigrationSettings :inbox="inbox" />
       </div>
     </section>
   </div>

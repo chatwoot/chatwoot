@@ -140,6 +140,15 @@ export default {
         this.inbox.additional_attributes?.evolution_instance_name
       );
     },
+    // Inboxes that support conversation migration (API channels and WhatsApp-like)
+    isMigrationEligibleInbox() {
+      return (
+        this.isAPIInbox ||
+        this.isAWhatsAppCloudChannel ||
+        this.is360DialogWhatsAppChannel ||
+        this.isATwilioWhatsAppChannel
+      );
+    },
   },
   methods: {
     inboxHasFeature(feature) {
