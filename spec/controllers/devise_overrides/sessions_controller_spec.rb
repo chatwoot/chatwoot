@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeviseOverrides::SessionsController, type: :controller do
+RSpec.describe DeviseOverrides::SessionsController do
   include Devise::Test::ControllerHelpers
 
   before do

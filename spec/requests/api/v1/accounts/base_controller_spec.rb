@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
+RSpec.describe 'Api::V1::Accounts::BaseController' do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox) }

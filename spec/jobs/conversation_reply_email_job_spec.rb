@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ConversationReplyEmailJob, type: :job do
+RSpec.describe ConversationReplyEmailJob do
   let(:conversation) { create(:conversation) }
   let(:mailer) { double }
   let(:mailer_action) { double }
