@@ -188,6 +188,7 @@ fa:
         rating: رتبه
         feedback: بازخورد نظر
         recorded_at: تاریخ ثبت شده
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'یک گفتگو جدید (%{display_id}) در %{inbox_name} ایجاد شده است'
