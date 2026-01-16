@@ -188,6 +188,7 @@ tr:
         rating: Derecelendirme
         feedback: Derecelendirme Yorumu
         recorded_at: Kaydedilen tarih
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '%{inbox_name} kutusunda (#%{display_id}) numaralı bir konuşma oluşturuldu.'
