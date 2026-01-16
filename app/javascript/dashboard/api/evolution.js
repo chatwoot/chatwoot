@@ -70,6 +70,11 @@ class EvolutionAPI extends ApiClient {
       settings
     );
   }
+
+  // Re-authenticate Evolution integration with current user's token
+  reauthenticate(inboxId) {
+    return axios.post(`${this.url}/inboxes/${inboxId}/reauthenticate`);
+  }
 }
 
 export default new EvolutionAPI();

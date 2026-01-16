@@ -763,6 +763,11 @@
         "ENABLE_INTEGRATION_BUTTON": "Habilitar Integração Chatwoot",
         "REFRESH_BUTTON": "Atualizar",
         "RESTART_BUTTON": "Reiniciar",
+        "REAUTHENTICATE_BUTTON": "Reautenticar",
+        "REAUTHENTICATE_CONFIRM_TITLE": "Reautenticar Integração",
+        "REAUTHENTICATE_CONFIRM_MESSAGE": "Isso irá atualizar a integração Evolution para usar seu token de acesso. Use esta opção se a conta do proprietário original foi excluída ou se você precisa transferir a propriedade desta integração.",
+        "REAUTHENTICATE_SUCCESS": "Integração Evolution reautenticada com sucesso!",
+        "REAUTHENTICATE_ERROR": "Falha ao reautenticar integração",
         "DISCONNECT_BUTTON": "Desconectar",
         "CONNECT_BUTTON": "Conectar WhatsApp",
         "STATUS": {

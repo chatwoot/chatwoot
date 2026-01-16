@@ -10,6 +10,7 @@ module EvolutionInbox
 
   included do
     before_destroy :delete_evolution_instance, if: :evolution_inbox?
+    after_update :sync_evolution_inbox_name, if: :should_sync_evolution_name?
   end
 
   # Returns true if this inbox is backed by Evolution API (Baileys)
@@ -35,6 +36,52 @@ module EvolutionInbox
   end
 
   private
+
+  # Checks if we need to sync the inbox name to Evolution
+  def should_sync_evolution_name?
+    evolution_inbox? && saved_change_to_name?
+  end
+
+  # Syncs the inbox name to Evolution's Chatwoot integration settings
+  # This is called after the inbox name is updated in Chatwoot
+  def sync_evolution_inbox_name
+    instance_name = evolution_instance_name
+    return if instance_name.blank?
+
+    Rails.logger.info("[Evolution] Syncing inbox name '#{name}' to instance #{instance_name}")
+
+    client = EvolutionApi::Client.new
+    current_settings = client.find_chatwoot_integration(instance_name: instance_name)
+    client.set_chatwoot_integration(
+      instance_name: instance_name,
+      chatwoot_config: build_chatwoot_config_with_new_name(current_settings)
+    )
+
+    Rails.logger.info('[Evolution] Successfully synced inbox name to Evolution')
+  rescue EvolutionApi::Client::ApiError => e
+    Rails.logger.warn("[Evolution] Failed to sync inbox name to Evolution: #{e.message}")
+  rescue StandardError => e
+    Rails.logger.error("[Evolution] Unexpected error syncing inbox name: #{e.message}")
+  end
+
+  # Builds chatwoot config preserving existing settings but updating name_inbox
+  def build_chatwoot_config_with_new_name(settings)
+    {
+      account_id: settings['accountId'],
+      token: settings['token'],
+      url: settings['url'],
+      sign_msg: settings['signMsg'] != false,
+      sign_delimiter: settings['signDelimiter'] || "\n",
+      reopen_conversation: settings['reopenConversation'] != false,
+      conversation_pending: settings['conversationPending'] == true,
+      name_inbox: name,
+      merge_brazil_contacts: settings['mergeBrazilContacts'] != false,
+      import_contacts: settings['importContacts'] != false,
+      import_messages: settings['importMessages'] != false,
+      days_limit_import_messages: settings['daysLimitImportMessages'] || 3,
+      auto_create: settings['autoCreate'] != false
+    }
+  end
 
   # Deletes the Evolution instance when the inbox is destroyed
   # This ensures we don't leave orphan instances in Evolution API
