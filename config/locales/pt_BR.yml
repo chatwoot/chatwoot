@@ -402,6 +402,8 @@ pt_BR:
       other: '%{count} segundos'
   automation:
     system_name: 'Sistema de Automação'
+  evolution:
+    reauthenticate_success: 'Integração Evolution reautenticada com sucesso!'
   crm:
     no_message: 'Nenhuma mensagem na conversa'
     attachment: '[Anexo: %{type}]'

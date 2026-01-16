@@ -763,6 +763,11 @@
         "ENABLE_INTEGRATION_BUTTON": "Enable Chatwoot Integration",
         "REFRESH_BUTTON": "Refresh",
         "RESTART_BUTTON": "Restart",
+        "REAUTHENTICATE_BUTTON": "Re-authenticate",
+        "REAUTHENTICATE_CONFIRM_TITLE": "Re-authenticate Integration",
+        "REAUTHENTICATE_CONFIRM_MESSAGE": "This will update the Evolution integration to use your access token. Use this option if the original token owner's account was deleted or if you need to transfer ownership of this integration.",
+        "REAUTHENTICATE_SUCCESS": "Evolution integration re-authenticated successfully!",
+        "REAUTHENTICATE_ERROR": "Failed to re-authenticate integration",
         "DISCONNECT_BUTTON": "Disconnect",
         "CONNECT_BUTTON": "Connect WhatsApp",
         "STATUS": {

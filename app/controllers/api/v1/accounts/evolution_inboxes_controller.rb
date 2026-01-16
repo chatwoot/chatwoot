@@ -6,10 +6,14 @@
 # All operations are scoped to the current account and resolve Evolution
 # instance names from inbox metadata - never accepting instance names from clients.
 #
+# Authorization: Uses InboxPolicy#update? which allows admins and users with
+# settings_inboxes_manage permission.
+#
 class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseController
-  before_action :check_admin_authorization!
+  before_action :check_admin_authorization!, only: [:create]
   before_action :validate_evolution_enabled!, except: [:status]
   before_action :fetch_inbox, except: [:create, :status]
+  before_action :authorize_inbox_update!, except: [:create, :status]
   before_action :validate_evolution_inbox!, except: [:create, :status]
 
   # POST /api/v1/accounts/:account_id/evolution/inboxes
@@ -96,6 +100,9 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
       chatwoot_config: build_enable_integration_config
     )
 
+    # Store which user's token is being used
+    persist_evolution_token_binding!
+
     render json: { message: 'Integration enabled successfully', connected: true }
   rescue EvolutionApi::Client::ApiError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -157,6 +164,22 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
+  # POST /api/v1/accounts/:account_id/evolution/inboxes/:inbox_id/reauthenticate
+  # Re-authenticates the Evolution integration with the current user's token.
+  # Useful when the original token owner's account is deleted or to transfer ownership.
+  def reauthenticate
+    chatwoot_config = build_chatwoot_update_config
+    evolution_client.set_chatwoot_integration(
+      instance_name: evolution_instance_name,
+      chatwoot_config: chatwoot_config
+    )
+    persist_evolution_token_binding!
+
+    render json: { message: I18n.t('evolution.reauthenticate_success') }
+  rescue EvolutionApi::Client::ApiError => e
+    render json: { error: e.message }, status: :unprocessable_entity
+  end
+
   # GET /api/v1/accounts/:account_id/evolution/status
   # Returns whether Evolution API is enabled, configured, and healthy
   def status
@@ -175,6 +198,10 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
 
   def check_admin_authorization!
     raise Pundit::NotAuthorizedError unless Current.user&.administrator?
+  end
+
+  def authorize_inbox_update!
+    authorize @inbox, :update?
   end
 
   def validate_evolution_enabled!
@@ -287,7 +314,7 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   # Returns a Chatwoot URL reachable by Evolution API
   def chatwoot_reachable_url
     if Rails.env.development?
-      frontend_url = ENV['FRONTEND_URL']
+      frontend_url = ENV.fetch('FRONTEND_URL', nil)
       if frontend_url&.include?('localhost') || frontend_url&.include?('127.0.0.1')
         host_ip = `ipconfig getifaddr en0 2>/dev/null`.strip
         host_ip = '192.168.0.22' if host_ip.blank?
@@ -300,8 +327,27 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     end
   end
 
+  def current_user_access_token
+    @current_user_access_token ||= Current.user.access_token || Current.user.create_access_token
+  end
+
   def current_user_token
-    Current.user.access_token&.token || Current.user.create_access_token.token
+    current_user_access_token.token
+  end
+
+  # Persists the current user's access token binding in the inbox channel's additional_attributes.
+  # This allows tracking which user's token is being used by Evolution.
+  def persist_evolution_token_binding!
+    access_token = current_user_access_token
+    current_attrs = @inbox.channel.additional_attributes || {}
+
+    @inbox.channel.update!(
+      additional_attributes: current_attrs.merge(
+        'evolution_chatwoot_access_token_id' => access_token.id,
+        'evolution_chatwoot_token_owner_id' => Current.user.id,
+        'evolution_chatwoot_token_rotated_at' => Time.current.iso8601
+      )
+    )
   end
 
   def sanitize_chatwoot_settings(settings)
@@ -366,7 +412,7 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
   # Clears the phone number from additional_attributes (called on logout/disconnect)
   def clear_phone_number_from_inbox
     current_attrs = @inbox.channel.additional_attributes || {}
-    return unless current_attrs['phone_number'].present?
+    return if current_attrs['phone_number'].blank?
 
     current_attrs.delete('phone_number')
     @inbox.channel.update!(additional_attributes: current_attrs)
@@ -374,4 +420,3 @@ class Api::V1::Accounts::EvolutionInboxesController < Api::V1::Accounts::BaseCon
     Rails.logger.warn("[Evolution] Failed to clear phone number: #{e.message}")
   end
 end
-

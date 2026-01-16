@@ -27,6 +27,7 @@ export default {
       isRestarting: false,
       isDisconnecting: false,
       isRefreshing: false,
+      isReauthenticating: false,
       isEnablingIntegration: false,
       pollTimer: null,
       settings: null,
@@ -376,6 +377,36 @@ export default {
         this.isDisconnecting = false;
       }
     },
+    async openReauthenticateDialog() {
+      try {
+        const confirmed =
+          await this.$refs.reauthenticateConfirmDialog.showConfirmation();
+        if (confirmed) {
+          await this.confirmReauthenticate();
+        }
+      } catch {
+        // Dialog was closed without confirmation
+      }
+    },
+    async confirmReauthenticate() {
+      this.isReauthenticating = true;
+      try {
+        await EvolutionAPI.reauthenticate(this.inbox.id);
+        useAlert(
+          this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_SUCCESS')
+        );
+        // Refresh settings to reflect updated token owner
+        await this.fetchSettings();
+      } catch (error) {
+        await this.checkEvolutionApiHealth();
+        useAlert(
+          error.response?.data?.error ||
+            this.$t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_ERROR')
+        );
+      } finally {
+        this.isReauthenticating = false;
+      }
+    },
     async refreshInstance() {
       this.isRefreshing = true;
       try {
@@ -569,7 +600,7 @@ export default {
             </div>
           </div>
 
-          <!-- Action Buttons -->
+          <!-- Action Buttons: Refresh → Restart → Re-authenticate → Disconnect -->
           <div class="flex gap-2 mt-4">
             <button
               type="button"
@@ -600,6 +631,14 @@ export default {
               :is-loading="isRestarting"
               :disabled="!evolutionApiHealthy"
               @click="restartInstance"
+            />
+            <NextButton
+              v-if="isConnected && isBaileys"
+              ghost
+              :label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_BUTTON')"
+              :is-loading="isReauthenticating"
+              :disabled="!evolutionApiHealthy"
+              @click="openReauthenticateDialog"
             />
             <NextButton
               v-if="isConnected && isBaileys"
@@ -822,6 +861,18 @@ export default {
       :confirm-label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.DISCONNECT_BUTTON')"
       :cancel-label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.CANCEL_BUTTON')"
       confirm-color="ruby"
+    />
+
+    <!-- Re-authenticate Confirmation Dialog -->
+    <ConfirmationModal
+      ref="reauthenticateConfirmDialog"
+      :title="$t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_CONFIRM_TITLE')"
+      :description="
+        $t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_CONFIRM_MESSAGE')
+      "
+      :confirm-label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.REAUTHENTICATE_BUTTON')"
+      :cancel-label="$t('INBOX_MGMT.EVOLUTION.SETTINGS.CANCEL_BUTTON')"
+      confirm-color="blue"
     />
   </div>
 </template>
