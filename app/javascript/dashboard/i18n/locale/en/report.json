@@ -468,7 +468,19 @@
       "SAVED": "Notes saved successfully",
       "SAVE_ERROR": "Failed to save notes",
       "UPDATED_BY": "Updated by {name} {time}",
-      "UPDATED_BY_LABEL": "Updated by"
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The CSAT review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to advanced features like adding review notes to CSAT responses.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The CSAT review notes feature is only available in the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to access advanced features like adding internal review notes to CSAT responses.",
+        "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+      }
     }
   },
   "BOT_REPORTS": {

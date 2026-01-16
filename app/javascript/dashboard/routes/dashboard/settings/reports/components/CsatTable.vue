@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
-import { useConfig } from 'dashboard/composables/useConfig';
+import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
 
 import { messageStamp, dynamicTime } from 'shared/helpers/timeHelper';
@@ -31,8 +31,15 @@ const { pageIndex } = defineProps({
 
 const emit = defineEmits(['pageChange']);
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const { isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
 const csatResponses = useMapGetter('csat/getCSATResponses');
+
+const isFeatureEnabled = computed(() =>
+  isCloudFeatureEnabled('csat_review_notes')
+);
+const showExpandableRows = computed(
+  () => isFeatureEnabled.value || isOnChatwootCloud.value
+);
 const metrics = useMapGetter('csat/getMetrics');
 const uiFlags = useMapGetter('csat/getUIFlags');
 
@@ -89,7 +96,7 @@ const columns = computed(() => {
     }),
   ];
 
-  if (isEnterprise) {
+  if (showExpandableRows.value) {
     baseColumns.push(
       columnHelper.accessor('actions', {
         header: '',
@@ -161,9 +168,9 @@ const table = useVueTable({
               class="group hover:bg-n-slate-2 dark:hover:bg-n-solid-3 transition-colors"
               :class="{
                 'bg-n-slate-2 dark:bg-n-solid-3': isRowExpanded(row.id),
-                'cursor-pointer': isEnterprise,
+                'cursor-pointer': showExpandableRows,
               }"
-              @click="isEnterprise && toggleRow(row.id)"
+              @click="showExpandableRows && toggleRow(row.id)"
             >
               <td class="py-4 px-5">
                 <CsatContactCell
@@ -206,7 +213,7 @@ const table = useVueTable({
                   {{ $t('CSAT_REPORTS.NO_AGENT') }}
                 </span>
               </td>
-              <td v-if="isEnterprise" class="py-4 px-5">
+              <td v-if="showExpandableRows" class="py-4 px-5">
                 <div
                   class="p-1.5 rounded-md text-n-slate-10 group-hover:text-n-slate-12 transition-colors"
                 >
@@ -222,7 +229,7 @@ const table = useVueTable({
               </td>
             </tr>
             <tr
-              v-if="isEnterprise && isRowExpanded(row.id)"
+              v-if="showExpandableRows && isRowExpanded(row.id)"
               class="!border-t-0"
             >
               <td colspan="5" class="p-0 !border-t-0">
