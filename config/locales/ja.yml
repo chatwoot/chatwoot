@@ -188,6 +188,7 @@ ja:
         rating: 評価
         feedback: フィードバックコメント
         recorded_at: 記録日
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '会話 (#%{display_id}) が %{inbox_name} で作成されました'
