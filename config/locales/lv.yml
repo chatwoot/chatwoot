@@ -188,6 +188,7 @@ lv:
         rating: Vērtējums
         feedback: Atsauksmes Komentārs
         recorded_at: Reģistrētais datums
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}'
