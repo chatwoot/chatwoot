@@ -188,6 +188,7 @@ ru:
         rating: Оценка
         feedback: Комментарий к отзыву
         recorded_at: Дата записи
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'В %{inbox_name} создана беседа (#%{display_id})'
