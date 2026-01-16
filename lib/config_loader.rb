@@ -5,11 +5,12 @@ class ConfigLoader
   }.freeze
 
   def self.processing?
-    Thread.current[:config_loader_processing]
+    Thread.current[:config_loader_processing] || @processing
   end
 
   def self.processing=(value)
     Thread.current[:config_loader_processing] = value
+    @processing = value
   end
 
   def process(options = {})

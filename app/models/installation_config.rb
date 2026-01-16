@@ -58,6 +58,8 @@ class InstallationConfig < ApplicationRecord
   end
 
   def clear_cache
+    return if ConfigLoader.processing?
+
     GlobalConfig.clear_cache
   end
 
