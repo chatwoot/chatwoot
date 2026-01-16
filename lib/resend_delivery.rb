@@ -6,11 +6,21 @@ require 'json'
 # Custom ActionMailer delivery method that sends emails via Resend's HTTPS API
 # instead of SMTP. This is necessary when SMTP ports are blocked (like on Railway).
 class ResendDelivery
+  def initialize(values = {})
+    @settings = values || {}
+  end
+
   # ActionMailer delivery method interface
   # @param mail [Mail::Message] The email message to deliver
   def deliver!(mail)
+    api_key = @settings[:api_key] || ENV['RESEND_API_KEY']
+    from_address = determine_from_address(mail)
+
+    raise ResendDeliveryError, 'Missing RESEND_API_KEY' if api_key.blank?
+    raise ResendDeliveryError, 'Missing from address' if from_address.blank?
+
     payload = build_payload(mail)
-    response = send_request(payload)
+    response = send_request(payload, api_key)
 
     unless response.is_a?(Net::HTTPSuccess)
       error_message = "HTTP #{response.code}: #{response.body.to_s[0..2048]}" # Truncate to 2KB
@@ -50,7 +60,8 @@ class ResendDelivery
 
   # Determine sender address
   def determine_from_address(mail)
-    ENV['RESEND_FROM'] ||
+    @settings[:from] ||
+      ENV['RESEND_FROM'] ||
       ENV['MAILER_SENDER_EMAIL'] ||
       mail.from&.first
   end
@@ -73,15 +84,15 @@ class ResendDelivery
   end
 
   # Send HTTP request to Resend API
-  def send_request(payload)
+  def send_request(payload, api_key)
     uri = URI('https://api.resend.com/emails')
     http = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl = true
-    http.open_timeout = (ENV['RESEND_OPEN_TIMEOUT'] || 10).to_i
-    http.read_timeout = (ENV['RESEND_READ_TIMEOUT'] || 20).to_i
+    http.open_timeout = (@settings[:open_timeout] || ENV['RESEND_OPEN_TIMEOUT'] || 10).to_i
+    http.read_timeout = (@settings[:read_timeout] || ENV['RESEND_READ_TIMEOUT'] || 20).to_i
 
     request = Net::HTTP::Post.new(uri)
-    request['Authorization'] = "Bearer #{ENV['RESEND_API_KEY']}"
+    request['Authorization'] = "Bearer #{api_key}"
     request['Content-Type'] = 'application/json'
     request.body = payload.to_json
 
