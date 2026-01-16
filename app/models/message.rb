@@ -314,7 +314,7 @@ class Message < ApplicationRecord
     set_conversation_activity
     dispatch_create_events
     send_reply
-    execute_message_template_hooks unless human_response? || activity?
+    execute_message_template_hooks if incoming?
     update_contact_activity
   end
 
