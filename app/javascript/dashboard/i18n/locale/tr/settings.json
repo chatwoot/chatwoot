@@ -298,7 +298,7 @@
     "SWITCH": "Değiştir",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Konuşmalar",
-    "INBOX": "My Inbox",
+    "INBOX": "Gelen Kutusu",
     "ALL_CONVERSATIONS": "Tüm Görüşmeler",
     "MENTIONED_CONVERSATIONS": "Bahsedilmeler",
     "PARTICIPATING_CONVERSATIONS": "Katılımcılar",
@@ -307,12 +307,12 @@
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "ACTIVE": "Aktif",
-    "COMPANIES": "Companies",
-    "ALL_COMPANIES": "All Companies",
+    "COMPANIES": "Şirketler",
+    "ALL_COMPANIES": "Tüm Şirketler",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_DOCUMENTS": "Belgeler",
+    "CAPTAIN_RESPONSES": "SSS",
     "CAPTAIN_TOOLS": "Araçlar",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Oyun Alanı",
@@ -360,15 +360,15 @@
     "SET_AVAILABILITY_TITLE": "Kendini şu şekilde ayarla",
     "SET_YOUR_AVAILABILITY": "Uygunluk Durumunuzu Ayarlayın",
     "SLA": "SLA",
-    "CUSTOM_ROLES": "Custom Roles",
+    "CUSTOM_ROLES": "Özel Roller",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Önizleme",
-    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
+    "REAUTHORIZE": "Gelen kutusu bağlantınızın süresi doldu, lütfen yeniden bağlanarak\n mesaj almaya ve göndermeye devam edin",
     "HELP_CENTER": {
       "TITLE": "Yardım Merkezi",
-      "ARTICLES": "Articles",
+      "ARTICLES": "Makaleler",
       "CATEGORIES": "Kategoriler",
-      "LOCALES": "Yereller",
+      "LOCALES": "Diller",
       "SETTINGS": "Ayarlar"
     },
     "CHANNELS": "Kanallar",
@@ -399,7 +399,7 @@
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",
       "BUTTON_TXT": "Buy more credits",
-      "DOCUMENTS": "Documents",
+      "DOCUMENTS": "Belgeler",
       "RESPONSES": "Responses",
       "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more.",
       "REFRESH_CREDITS": "Yenile"
@@ -428,7 +428,7 @@
       "CONFIRM": {
         "TITLE": "Confirm Purchase",
         "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
-        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "INSTANT_DEDUCTION_NOTE": "Kaydettiğiniz kart, onaylandıktan hemen sonra ücretlendirilecektir.",
         "GO_BACK": "Geri Git",
         "CONFIRM_PURCHASE": "Confirm Purchase"
       }
@@ -627,7 +627,7 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "STATUS": {
           "LABEL": "Durum:",
@@ -642,7 +642,7 @@
             "DESCRIPTION": "Assign conversations evenly among agents."
           },
           "BALANCED": {
-            "LABEL": "Balanced",
+            "LABEL": "Dengeli",
             "DESCRIPTION": "Assign conversations based on available capacity."
           }
         },
@@ -711,7 +711,7 @@
         },
         "EDIT_BUTTON": "Update policy",
         "CONFIRM_ADD_AGENT_DIALOG": {
-          "TITLE": "Add agent",
+          "TITLE": "Temsilci ekle",
           "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
           "CONFIRM_BUTTON_LABEL": "Devam et",
           "CANCEL_BUTTON_LABEL": "İptal Et"
@@ -738,13 +738,13 @@
         },
         "DESCRIPTION": {
           "LABEL": "Açıklama:",
-          "PLACEHOLDER": "Enter description"
+          "PLACEHOLDER": "Açıklama girin"
         },
         "INBOX_CAPACITY_LIMIT": {
-          "LABEL": "Inbox capacity limits",
-          "ADD_BUTTON": "Add inbox",
+          "LABEL": "Gelen Kutusu kapasite limiti",
+          "ADD_BUTTON": "Gelen Kutusu ekle",
           "FIELD": {
-            "SELECT_INBOX": "Select inbox",
+            "SELECT_INBOX": "Gelen Kutusu seç",
             "MAX_CONVERSATIONS": "Maksimum Konuşma",
             "SET_LIMIT": "Sınır belirle"
           },
@@ -787,8 +787,8 @@
       }
     },
     "DELETE_POLICY": {
-      "TITLE": "Delete policy",
-      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "TITLE": "Politikayı sil",
+      "DESCRIPTION": "Bu politikayı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.",
       "CONFIRM_BUTTON_LABEL": "Sil",
       "CANCEL_BUTTON_LABEL": "İptal Et"
     }

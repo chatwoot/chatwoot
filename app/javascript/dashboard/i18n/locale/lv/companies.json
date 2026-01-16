@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Nosaukums",
         "DOMAIN": "Domēns",
-        "CREATED_AT": "Izveidots plkst"
+        "CREATED_AT": "Izveidots plkst",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {
