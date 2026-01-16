@@ -755,13 +755,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_094454) do
     t.text "feedback_message"
     t.bigint "contact_id", null: false
     t.bigint "assigned_agent_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "csat_review_notes"
+    t.datetime "review_notes_updated_at"
+    t.bigint "review_notes_updated_by_id"
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+    t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
