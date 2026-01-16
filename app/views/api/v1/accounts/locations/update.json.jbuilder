@@ -1,0 +1,1 @@
+show.json.jbuilder

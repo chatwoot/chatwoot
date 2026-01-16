@@ -28,7 +28,7 @@
 #
 
 class AccountAddress < ApplicationRecord
-  belongs_to :account
+  belongs_to :addressable, polymorphic: true
 
   validates :street, :exterior_number, :neighborhood, :postal_code, :city, :state, presence: true
   validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true

@@ -72,6 +72,7 @@ class Account < ApplicationRecord
   has_many :categories, dependent: :destroy_async, class_name: '::Category'
   has_many :contacts, dependent: :destroy_async
   has_many :appointments, dependent: :destroy_async
+  has_many :locations, dependent: :destroy_async
   has_many :conversations, dependent: :destroy_async
   has_many :csat_survey_responses, dependent: :destroy_async
   has_many :survey_answers, dependent: :destroy_async
@@ -109,7 +110,7 @@ class Account < ApplicationRecord
   has_many :bulk_processing_requests, dependent: :destroy_async
   has_many :faq_categories, dependent: :destroy_async
   has_many :faq_items, dependent: :destroy_async
-  has_many :account_addresses, dependent: :destroy_async
+  has_many :account_addresses, as: :addressable, dependent: :destroy_async
   accepts_nested_attributes_for :account_addresses, allow_destroy: true, reject_if: :all_blank
   has_one_attached :contacts_export
 

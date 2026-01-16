@@ -2,6 +2,7 @@ import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
 import appointments from './appointments.json';
+import locations from './locations.json';
 import attributesMgmt from './attributesMgmt.json';
 import auditLogs from './auditLogs.json';
 import automation from './automation.json';
@@ -49,6 +50,7 @@ export default {
   ...agentBots,
   ...agentMgmt,
   ...appointments,
+  ...locations,
   ...attributesMgmt,
   ...auditLogs,
   ...automation,

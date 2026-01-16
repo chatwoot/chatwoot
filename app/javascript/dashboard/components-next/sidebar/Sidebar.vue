@@ -552,6 +552,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('labels_list'),
         },
         {
+          name: 'Settings Locations',
+          label: t('SIDEBAR.LOCATIONS'),
+          icon: 'i-lucide-map-pin',
+          to: accountScopedRoute('locations_list'),
+        },
+        {
           name: 'Settings Custom Attributes',
           label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
           icon: 'i-lucide-code',

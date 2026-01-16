@@ -1,0 +1,102 @@
+{
+  "LOCATIONS": {
+    "HEADER": "Ubicaciones",
+    "DESCRIPTION": "Administra las ubicaciones de tu negocio y sus direcciones físicas. Organiza las ubicaciones jerárquicamente para reflejar la estructura de tu negocio.",
+    "LEARN_MORE": "Leer más",
+    "HEADER_BTN_TXT": "Añadir Ubicación",
+    "LOADING": "Cargando ubicaciones...",
+    "LIST": {
+      "404": "No hay ubicaciones disponibles. Crea una nueva ubicación para comenzar.",
+      "TABLE_HEADER": {
+        "NAME": "Nombre",
+        "TYPE": "Tipo",
+        "CITY": "Ciudad",
+        "PARENT": "Ubicación Padre"
+      },
+      "ROOT_LOCATION": "Raíz"
+    },
+    "EMPTY_STATE": "No se encontraron ubicaciones",
+    "CARD": {
+      "EDIT": "Editar",
+      "ROOT_LEVEL": "Nivel Raíz",
+      "LEVEL": "Nivel",
+      "PARENT": "Padre",
+      "HAS_CHILDREN": "Tiene sub-ubicaciones",
+      "NO_ADDRESS": "Sin dirección"
+    },
+    "SORT": {
+      "LABEL": "Ordenar por",
+      "NAME": "Nombre",
+      "TYPE": "Tipo",
+      "CREATED_AT": "Creado",
+      "UPDATED_AT": "Actualizado",
+      "ASCENDING": "Ascendente",
+      "DESCENDING": "Descendente"
+    },
+    "FILTER": {
+      "TITLE": "Filtrar Ubicaciones",
+      "LOCATION_FILTERS": "Filtros de Ubicación",
+      "NAME": "Nombre",
+      "DESCRIPTION": "Descripción",
+      "TYPE_NAME": "Tipo",
+      "ADDRESS_CITY": "Ciudad",
+      "ADDRESS_STATE": "Estado",
+      "ADDRESS_POSTAL_CODE": "Código Postal",
+      "CREATED_AT": "Creado En",
+      "CANCEL": "Cancelar",
+      "APPLY": "Aplicar Filtros"
+    },
+    "FORM": {
+      "CREATE_TITLE": "Crear Nueva Ubicación",
+      "EDIT_TITLE": "Editar Ubicación",
+      "EDIT": "Editar",
+      "DELETE": "Eliminar",
+      "BASIC_INFO": "Información Básica",
+      "NAME": "Nombre",
+      "NAME_PLACEHOLDER": "ej., Toyota Polanco",
+      "NAME_REQUIRED": "El nombre es requerido",
+      "TYPE_NAME": "Tipo",
+      "TYPE_NAME_PLACEHOLDER": "ej., Sucursal, Oficina, Sede",
+      "DESCRIPTION": "Descripción",
+      "DESCRIPTION_PLACEHOLDER": "Breve descripción de esta ubicación",
+      "PARENT_LOCATION": "Ubicación Padre",
+      "NO_PARENT": "- Sin padre (ubicación raíz) -",
+      "ADDRESS_SECTION": "Dirección Física",
+      "HAS_ADDRESS": "Agregar dirección física",
+      "ADDRESS_INCOMPLETE": "Por favor completa todos los campos requeridos de la dirección",
+      "ADDRESS": {
+        "STREET": "Calle",
+        "STREET_PLACEHOLDER": "Nombre de la calle",
+        "EXTERIOR_NUMBER": "Núm. Ext.",
+        "INTERIOR_NUMBER": "Núm. Int.",
+        "NEIGHBORHOOD": "Colonia",
+        "POSTAL_CODE": "Código Postal",
+        "CITY": "Ciudad",
+        "STATE": "Estado",
+        "EMAIL": "Email",
+        "PHONE": "Teléfono",
+        "WEBPAGE": "Página Web",
+        "ESTABLISHMENT_SUMMARY": "Resumen del Establecimiento"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear Ubicación",
+      "UPDATE": "Actualizar Ubicación",
+      "CREATE_SUCCESS": "Ubicación creada exitosamente",
+      "UPDATE_SUCCESS": "Ubicación actualizada exitosamente",
+      "LOAD_ERROR": "Error al cargar la ubicación",
+      "SUBMIT_ERROR": "Error al guardar la ubicación"
+    },
+    "DELETE": {
+      "API": {
+        "SUCCESS_MESSAGE": "Ubicación eliminada exitosamente",
+        "ERROR_MESSAGE": "Error al eliminar la ubicación"
+      },
+      "CONFIRM": {
+        "TITLE": "Eliminar Ubicación",
+        "MESSAGE": "¿Estás seguro de que deseas eliminar",
+        "YES": "Sí, Eliminar",
+        "NO": "Cancelar"
+      }
+    }
+  }
+}

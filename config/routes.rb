@@ -179,6 +179,7 @@ Rails.application.routes.draw do
               get :show_qr
             end
           end
+          resources :locations, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
             resource :twilio_channel, only: [:create]

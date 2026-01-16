@@ -25,6 +25,7 @@ import integrationApps from './integrationApps.json';
 import integrations from './integrations.json';
 import knowledgeBase from './knowledgeBase.json';
 import labelsMgmt from './labelsMgmt.json';
+import locations from './locations.json';
 import login from './login.json';
 import macros from './macros.json';
 import metaCampaigns from './metaCampaigns.json';
@@ -67,6 +68,7 @@ export default {
   ...integrations,
   ...knowledgeBase,
   ...labelsMgmt,
+  ...locations,
   ...login,
   ...macros,
   ...metaCampaigns,
