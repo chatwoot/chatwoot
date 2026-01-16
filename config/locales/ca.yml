@@ -188,6 +188,7 @@ ca:
         rating: Valoració
         feedback: Comentaris
         recorded_at: Data gravada
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Una conversa (#%{display_id}) ha estat creada a %{inbox_name}'
