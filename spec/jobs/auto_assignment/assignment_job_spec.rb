@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AutoAssignment::AssignmentJob do
+RSpec.describe AutoAssignment::AssignmentJob, type: :job do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
   let(:agent) { create(:user, account: account, role: :agent, availability: :online) }

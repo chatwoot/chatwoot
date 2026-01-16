@@ -2,8 +2,8 @@ plugins:
   - rubocop-performance
   - rubocop-rails
   - rubocop-rspec
-  - rubocop-factory_bot
   - rubocop-rspec_rails
+  - rubocop-factory_bot
 
 require:
   - ./rubocop/use_from_email.rb
@@ -130,13 +130,12 @@ Rails/InverseOf:
 
 Rails/UniqueValidationWithoutIndex:
   Exclude:
-    - 'app/models/canned_response.rb'
-    - 'app/models/telegram_bot.rb'
-    - 'enterprise/app/models/captain_inbox.rb'
+    - app/models/canned_response.rb
+    - app/models/telegram_bot.rb
+    - enterprise/app/models/captain_inbox.rb
     - 'app/models/channel/twitter_profile.rb'
     - 'app/models/webhook.rb'
     - 'app/models/contact.rb'
-    - 'app/models/integrations/hook.rb'
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
@@ -169,27 +168,6 @@ Naming/MemoizedInstanceVariableName:
   Exclude:
     - 'app/models/message.rb'
 
-Naming/PredicateName:
-  Exclude:
-    - 'app/builders/messages/instagram/base_message_builder.rb'
-    - 'app/controllers/public/api/v1/csat_survey_controller.rb'
-    - 'app/controllers/public/api/v1/inboxes/messages_controller.rb'
-    - 'app/jobs/webhooks/line_events_job.rb'
-    - 'app/services/account/sign_up_email_validation_service.rb'
-    - 'app/services/automation_rules/condition_validation_service.rb'
-    - 'app/services/line/incoming_message_service.rb'
-    - 'app/services/search_service.rb'
-    - 'app/services/telegram/send_attachments_service.rb'
-    - 'app/services/twitter/webhook_subscribe_service.rb'
-    - 'app/services/whatsapp/template_parameter_converter_service.rb'
-    - 'enterprise/app/jobs/captain/conversation/response_builder_job.rb'
-    - 'enterprise/app/services/captain/tools/base_service.rb'
-    - 'enterprise/lib/captain/tool.rb'
-    - 'lib/chatwoot_app.rb'
-    - 'lib/custom_markdown_renderer.rb'
-    - 'lib/linear.rb'
-    - 'lib/redis/lock_manager.rb'
-
 Style/GuardClause:
   Exclude:
     - 'app/builders/account_builder.rb'
@@ -200,6 +178,10 @@ Metrics/AbcSize:
   Max: 26
   Exclude:
     - 'app/controllers/concerns/auth_helper.rb'
+
+    - 'app/models/integrations/hook.rb'
+    - 'app/models/canned_response.rb'
+    - 'app/models/telegram_bot.rb'
 
 Rails/RenderInline:
   Exclude:
@@ -221,6 +203,12 @@ RSpec/MultipleExpectations:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 14
+
+RSpecRails/InferredSpecType:
+  Enabled: false
+
+RSpecRails/NegationBeValid:
+  Enabled: false
 
 # custom rules
 UseFromEmail:
@@ -366,26 +354,4 @@ FactoryBot/RedundantFactoryOption:
   Enabled: false
 
 FactoryBot/FactoryAssociationWithStrategy:
-  Enabled: false
-
-# Rules disabled to keep Rails upgrade PR focused on functional changes only
-Layout/EmptyLineAfterGuardClause:
-  Enabled: false
-
-Performance/Count:
-  Enabled: false
-
-RSpec/PredicateMatcher:
-  Enabled: false
-
-RSpec/DescribeClass:
-  Enabled: false
-
-Performance/MapCompact:
-  Enabled: false
-
-Performance/CollectionLiteralInLoop:
-  Enabled: false
-
-Style/RedundantAssignment:
   Enabled: false

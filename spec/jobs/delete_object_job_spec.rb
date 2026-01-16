@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe DeleteObjectJob do
+RSpec.describe DeleteObjectJob, type: :job do
   describe '#perform' do
     context 'when object is heavy (Inbox)' do
       let!(:account) { create(:account) }

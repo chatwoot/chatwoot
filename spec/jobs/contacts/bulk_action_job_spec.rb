@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Contacts::BulkActionJob do
+RSpec.describe Contacts::BulkActionJob, type: :job do
   let(:account) { create(:account) }
   let(:user) { create(:user, account: account) }
   let(:params) { { 'ids' => [1], 'labels' => { 'add' => ['vip'] } } }

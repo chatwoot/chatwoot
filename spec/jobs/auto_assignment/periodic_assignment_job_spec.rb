@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe AutoAssignment::PeriodicAssignmentJob do
+RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account, enable_auto_assignment: true) }
   let(:assignment_policy) { create(:assignment_policy, account: account) }
