@@ -188,6 +188,7 @@ fr:
         rating: Note
         feedback: Commentaire
         recorded_at: Date d'enregistrement
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
