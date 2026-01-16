@@ -282,7 +282,7 @@ jobs:
       # Database setup
       - run:
           name: Run DB migrations
-          command: bundle exec rails db:chatwoot_prepare
+          command: RAILS_ENV=test bundle exec rails db:chatwoot_prepare
 
       # Run backend tests (parallelized)
       - run:
