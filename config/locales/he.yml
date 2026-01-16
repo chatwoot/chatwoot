@@ -188,6 +188,7 @@ he:
         rating: דירוג
         feedback: הערת משוב
         recorded_at: תאריך הקלטה
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'שיחה (#%{display_id}) נוצרה ב-%{inbox_name}'
