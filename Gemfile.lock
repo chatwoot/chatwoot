@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/adham90/ruby_llm-agents
-  revision: 70233bcf3331fc3771431e452284f56b0bc0f4a0
-  branch: main
-  specs:
-    ruby_llm-agents (0.3.6)
-      csv
-      rails (>= 7.0)
-      ruby_llm (>= 1.0)
-
-GIT
   remote: https://github.com/chatwoot/azure-storage-ruby
   revision: 9957cf899d33a285b5dfe15bdb875292398e392b
   branch: chatwoot
@@ -875,6 +865,10 @@ GEM
       marcel (~> 1.0)
       ruby_llm-schema (~> 0.2.1)
       zeitwerk (~> 2)
+    ruby_llm-agents (0.4.0)
+      csv
+      rails (>= 7.0)
+      ruby_llm (>= 1.0)
     ruby_llm-schema (0.2.5)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
@@ -1177,7 +1171,7 @@ DEPENDENCIES
   rubocop-rspec
   ruby-openai
   ruby_llm (>= 1.8.2)
-  ruby_llm-agents!
+  ruby_llm-agents (~> 0.4.0)
   ruby_llm-schema
   scout_apm
   scss_lint

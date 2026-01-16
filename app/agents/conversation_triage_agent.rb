@@ -15,7 +15,9 @@ class ConversationTriageAgent < ApplicationAgent
   temperature 0.3
   version '1.0'
 
-  fallback_models ['gpt-4.1-nano', 'claude-haiku-4-5']
+  reliability do
+    fallback_models ['gpt-4.1-nano', 'claude-haiku-4-5']
+  end
 
   param :conversation_messages, required: true
   param :available_labels

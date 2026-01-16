@@ -22,7 +22,9 @@ class ApplicationAgent < RubyLLM::Agents::Base
   timeout 60
 
   # Reliability settings
-  retries max: 2, backoff: :exponential
+  reliability do
+    retries max: 2, backoff: :exponential
+  end
 
   protected
 
