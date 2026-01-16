@@ -209,15 +209,14 @@ class Conversation < ApplicationRecord
   end
 
   # Returns recent messages for LLM conversation history
-  # Excludes private messages, includes attachments, ordered chronologically
+  # Excludes private messages, includes attachments, ordered chronologically (oldest first)
   def recent_messages_for_llm(limit: 20)
     messages
       .where(message_type: %i[incoming outgoing])
       .where(private: false)
       .includes(:attachments)
-      .order(created_at: :desc)
-      .limit(limit)
-      .reverse
+      .reorder(id: :asc)
+      .last(limit)
   end
 
   # Check if AI handoff to human is active
