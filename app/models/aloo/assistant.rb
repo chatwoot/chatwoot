@@ -156,13 +156,9 @@ module Aloo
       admin_config['feature_labels'] != false
     end
 
-    # Catalog tool feature flags
-    def feature_product_search_enabled?
-      admin_config['feature_product_search'] != false
-    end
-
-    def feature_create_cart_enabled?
-      admin_config['feature_create_cart'] != false
+    # Catalog tool feature flag (single flag for all catalog tools)
+    def feature_catalog_access_enabled?
+      admin_config['feature_catalog_access'] != false
     end
 
     # Full system prompt combining base + personality + guardrails

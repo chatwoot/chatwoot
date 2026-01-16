@@ -46,8 +46,10 @@ class ConversationAgent < ApplicationAgent
     available_tools << PrivateNoteTool
 
     # Catalog tools - require both account catalog and assistant feature enabled
-    available_tools << ProductSearchTool if product_search_enabled?
-    available_tools << CreateCartTool if create_cart_enabled?
+    if catalog_access_enabled?
+      available_tools << ProductDetailsTool
+      available_tools << CreateCartTool
+    end
 
     available_tools
   end
@@ -65,11 +67,7 @@ class ConversationAgent < ApplicationAgent
     current_account&.catalog_settings&.enabled?
   end
 
-  def product_search_enabled?
-    catalog_enabled? && current_assistant&.feature_product_search_enabled?
-  end
-
-  def create_cart_enabled?
-    catalog_enabled? && current_assistant&.feature_create_cart_enabled?
+  def catalog_access_enabled?
+    catalog_enabled? && current_assistant&.feature_catalog_access_enabled?
   end
 end

@@ -129,8 +129,7 @@ class Aloo::ConversationContextBuilder
     return false unless @assistant
 
     account = @assistant.account
-    account&.catalog_settings&.enabled? &&
-      (@assistant.feature_product_search_enabled? || @assistant.feature_create_cart_enabled?)
+    account&.catalog_settings&.enabled? && @assistant.feature_catalog_access_enabled?
   end
 
   def build_products_list

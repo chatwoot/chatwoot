@@ -243,13 +243,9 @@
           "LABEL": "Manage Labels",
           "DESCRIPTION": "Allow the AI to add, remove, or set labels on conversations"
         },
-        "PRODUCT_SEARCH": {
-          "LABEL": "Product Search",
-          "DESCRIPTION": "Allow the AI to search and recommend products from your catalog"
-        },
-        "CREATE_CART": {
-          "LABEL": "Create Cart",
-          "DESCRIPTION": "Allow the AI to create shopping carts and send payment links to customers"
+        "CATALOG_ACCESS": {
+          "LABEL": "Catalog Access",
+          "DESCRIPTION": "Allow the AI to access product information and create shopping carts for customers"
         }
       },
       "VOICE": {

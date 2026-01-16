@@ -42,16 +42,10 @@ const features = [
     description: 'ALOO.SETTINGS.FEATURES.LABELS.DESCRIPTION',
   },
   {
-    key: 'product_search_enabled',
-    adminKey: 'feature_product_search',
-    label: 'ALOO.SETTINGS.FEATURES.PRODUCT_SEARCH.LABEL',
-    description: 'ALOO.SETTINGS.FEATURES.PRODUCT_SEARCH.DESCRIPTION',
-  },
-  {
-    key: 'create_cart_enabled',
-    adminKey: 'feature_create_cart',
-    label: 'ALOO.SETTINGS.FEATURES.CREATE_CART.LABEL',
-    description: 'ALOO.SETTINGS.FEATURES.CREATE_CART.DESCRIPTION',
+    key: 'catalog_access_enabled',
+    adminKey: 'feature_catalog_access',
+    label: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.LABEL',
+    description: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.DESCRIPTION',
   },
 ];
 
