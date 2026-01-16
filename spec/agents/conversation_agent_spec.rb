@@ -78,25 +78,38 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#user_prompt' do
-    it 'includes current message prefixed with Customer:' do
+    it 'returns just the current message' do
       agent = described_class.new(message: 'What is your refund policy?')
       prompt = agent.user_prompt
 
-      expect(prompt).to include('Customer:')
-      expect(prompt).to include('What is your refund policy?')
+      expect(prompt).to eq('What is your refund policy?')
+    end
+  end
+
+  describe '#messages' do
+    context 'without conversation history' do
+      it 'returns an empty array' do
+        agent = described_class.new(message: 'First message')
+        expect(agent.messages).to eq([])
+      end
     end
 
     context 'with existing conversation history' do
-      let!(:incoming_message) { create(:message, conversation: conversation, message_type: :incoming, content: 'Hi') }
-      let!(:outgoing_message) { create(:message, conversation: conversation, message_type: :outgoing, content: 'Hello!') }
+      let!(:incoming_message) do
+        create(:message, conversation: conversation, message_type: :incoming, content: 'Hi')
+      end
+      let!(:outgoing_message) do
+        create(:message, conversation: conversation, message_type: :outgoing, content: 'Hello!')
+      end
 
-      it 'includes conversation history from the conversation' do
+      it 'returns structured message history with correct roles' do
         agent = described_class.new(message: 'Follow up question')
-        prompt = agent.user_prompt
+        messages = agent.messages
 
-        expect(prompt).to include('Customer: Hi')
-        expect(prompt).to include('Assistant: Hello!')
-        expect(prompt).to include('Follow up question')
+        expect(messages).to be_an(Array)
+        expect(messages.length).to eq(2)
+        expect(messages).to include({ role: :user, content: 'Hi' })
+        expect(messages).to include({ role: :assistant, content: 'Hello!' })
       end
     end
   end

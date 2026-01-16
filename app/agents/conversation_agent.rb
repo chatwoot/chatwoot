@@ -30,6 +30,10 @@ class ConversationAgent < ApplicationAgent
     context_builder.user_prompt(message)
   end
 
+  def messages
+    context_builder.messages
+  end
+
   def tools
     available_tools = [KnowledgeLookupTool]
     available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?

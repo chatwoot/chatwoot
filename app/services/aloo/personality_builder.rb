@@ -58,8 +58,6 @@ module Aloo
         sections << @assistant.language_instruction
       end
 
-      sections << "\nGreeting: \"#{@assistant.custom_greeting}\"" if @assistant.greeting_style == 'custom' && @assistant.custom_greeting.present?
-
       sections.compact.join("\n")
     end
   end
