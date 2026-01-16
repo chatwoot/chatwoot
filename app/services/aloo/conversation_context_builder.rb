@@ -84,19 +84,23 @@ class Aloo::ConversationContextBuilder
   def catalog_instructions
     return nil unless catalog_enabled?
 
+    products_list = build_products_list
+
     <<~PROMPT
       ## Product Catalog & Shopping
 
-      You have access to the product catalog. When customers ask about products or want to buy something:
+      #{products_list}
 
-      1. **Search Products**: Use the product_search tool to find products matching customer needs
-      2. **Share Options**: Present relevant products with their names, descriptions, and prices
-      3. **Create Cart**: When the customer wants to buy, use the create_cart tool with their selected products
+      When customers ask about products or want to buy something:
+
+      1. **Recommend Products**: Use the product information above to suggest relevant items
+      2. **Search if Needed**: Use the product_search tool for specific queries not covered above
+      3. **Create Cart**: When the customer wants to buy, use the create_cart tool with product IDs and quantities
       4. **Payment Link**: After creating a cart, a payment link is automatically sent to the customer
 
       Example flow:
       - Customer: "I want to buy coffee"
-      - You: Search for coffee products, present options
+      - You: Recommend matching products from the catalog with prices
       - Customer: "I'll take 2 of the premium beans"
       - You: Create cart with product_id and quantity 2, confirm the payment link was sent
     PROMPT
@@ -108,6 +112,23 @@ class Aloo::ConversationContextBuilder
     account = @assistant.account
     account&.catalog_settings&.enabled? &&
       (@assistant.feature_product_search_enabled? || @assistant.feature_create_cart_enabled?)
+  end
+
+  def build_products_list
+    account = @assistant.account
+    products = account.products.limit(30)
+    return 'No products available in the catalog yet.' if products.empty?
+
+    currency = account.catalog_settings&.currency || 'SAR'
+
+    lines = ["Available Products (#{currency}):"]
+    products.each do |product|
+      title = product.title_en.presence || product.title_ar
+      price = format('%.2f', product.price)
+      lines << "- #{title} (ID: #{product.id}) - #{price} #{currency}"
+    end
+
+    lines.join("\n")
   end
 
   def conversation_context_info
