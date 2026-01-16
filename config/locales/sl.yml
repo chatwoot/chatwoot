@@ -188,6 +188,7 @@ sl:
         rating: Ocena
         feedback: Povratni komentar
         recorded_at: Zabeležen datum
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Pogovor (#%{display_id}) je bil ustvarjen v %{inbox_name}'
