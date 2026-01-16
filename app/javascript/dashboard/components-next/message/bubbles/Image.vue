@@ -55,9 +55,12 @@ const handleImageError = () => {
     data-bubble-name="image"
     @click="toggleGallery(true)"
   >
-    <div v-if="hasError" class="flex items-center gap-1 text-center rounded-lg">
-      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
-      <p class="mb-0 text-n-slate-11">
+    <div
+      v-if="hasError"
+      class="flex items-center gap-1 text-center rounded-lg text-[rgb(var(--bubble-error-meta))]"
+    >
+      <Icon icon="i-lucide-circle-off" />
+      <p class="mb-0">
         {{ $t('COMPONENTS.MEDIA.IMAGE_UNAVAILABLE') }}
       </p>
     </div>

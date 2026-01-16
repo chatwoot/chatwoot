@@ -57,10 +57,10 @@ const onVideoLoadError = () => {
     />
     <div
       v-else
-      class="flex items-center gap-1 px-5 py-4 text-center rounded-lg bg-n-alpha-1"
+      class="flex items-center gap-1 px-5 py-4 text-center rounded-lg bg-n-alpha-1 text-[rgb(var(--bubble-error-meta))]"
     >
-      <Icon icon="i-lucide-circle-off" class="text-n-slate-11" />
-      <p class="mb-0 text-n-slate-11">
+      <Icon icon="i-lucide-circle-off" />
+      <p class="mb-0">
         {{ $t('COMPONENTS.FILE_BUBBLE.INSTAGRAM_STORY_UNAVAILABLE') }}
       </p>
     </div>
