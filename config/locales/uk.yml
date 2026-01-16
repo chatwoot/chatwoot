@@ -188,6 +188,7 @@ uk:
         rating: Оцінка
         feedback: Відгук
         recorded_at: Дата запису
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Розмова (#%{display_id}) була створена в %{inbox_name}'
