@@ -55,25 +55,6 @@ class BaseTool < RubyLLM::Tool
     Aloo::Current.contact
   end
 
-  # Log tool execution for observability
-  def log_execution(input_data, output_data, success: true, error_message: nil)
-    return unless current_account
-
-    Aloo::Trace.record(
-      trace_type: 'tool_execution',
-      account: current_account,
-      assistant: current_assistant,
-      conversation: current_conversation,
-      input_data: {
-        tool: self.class.name,
-        input: input_data
-      },
-      output_data: output_data,
-      success: success,
-      error_message: error_message
-    )
-  end
-
   # Format a successful response
   def success_response(data)
     { success: true, data: data }

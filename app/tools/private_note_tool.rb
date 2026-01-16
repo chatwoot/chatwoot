@@ -48,15 +48,10 @@ class PrivateNoteTool < BaseTool
 
   def perform_note_creation(content:, category:)
     message = create_private_note(content: content, category: category)
-
-    log_execution({ content: content, category: category }, { success: true, message_id: message.id })
-    track_in_context(input: { content: content, category: category }, output: { message_id: message.id })
-
     success_response(note_created: true, message_id: message.id, category: category)
   end
 
   def handle_error(content:, category:, error:)
-    log_execution({ content: content, category: category }, {}, success: false, error_message: error.message)
     error_response("Failed to add private note: #{error.message}")
   end
 
@@ -86,22 +81,5 @@ class PrivateNoteTool < BaseTool
   def format_note_content(content:, category:)
     prefix = CATEGORY_PREFIXES[category] || CATEGORY_PREFIXES['general']
     "#{prefix} #{content}"
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'private_note',
-      input: input,
-      output: output,
-      success: true
-    )
   end
 end

@@ -34,13 +34,10 @@ class CreateCartTool < BaseTool
 
     cart = create_cart(parsed_items)
 
-    log_and_track(parsed_items, cart)
     success_response(format_cart_response(cart))
   rescue ArgumentError => e
-    log_execution({ items: items }, {}, success: false, error_message: e.message)
     error_response(e.message)
   rescue StandardError => e
-    log_execution({ items: items }, {}, success: false, error_message: e.message)
     error_response("Failed to create cart: #{e.message}")
   end
 
@@ -105,30 +102,5 @@ class CreateCartTool < BaseTool
       end,
       message: 'Cart created and payment link sent to customer'
     }
-  end
-
-  def log_and_track(items, cart)
-    input_data = { items: items }
-    output_data = { cart_id: cart.id, total: cart.total.to_f }
-
-    log_execution(input_data, output_data)
-    track_in_context(input: input_data, output: output_data)
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'create_cart',
-      input: input,
-      output: output,
-      success: true
-    )
   end
 end

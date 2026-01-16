@@ -73,29 +73,28 @@ RSpec.describe Aloo::PersonalityBuilder do
       end
     end
 
-    context 'with custom greeting' do
+    context 'with personality_description' do
       before do
-        assistant.greeting_style = 'custom'
-        assistant.custom_greeting = 'Ahlan wa sahlan!'
+        assistant.personality_description = 'Always be cheerful and upbeat!'
       end
 
-      it 'includes greeting section' do
+      it 'includes additional personality traits section' do
         result = builder.build
 
-        expect(result).to include('Greeting:')
-        expect(result).to include('Ahlan wa sahlan!')
+        expect(result).to include('## Additional Personality Traits')
+        expect(result).to include('Always be cheerful and upbeat!')
       end
     end
 
-    context 'without custom greeting' do
+    context 'without personality_description' do
       before do
-        assistant.greeting_style = 'warm'
+        assistant.personality_description = nil
       end
 
-      it 'does not include greeting section' do
+      it 'does not include additional personality traits section' do
         result = builder.build
 
-        expect(result).not_to include('## Greeting')
+        expect(result).not_to include('## Additional Personality Traits')
       end
     end
 

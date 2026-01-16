@@ -13,19 +13,21 @@ class SuperAdmin::AlooAnalyticsController < SuperAdmin::ApplicationController
       assistants_count: number_with_delimiter(aloo_assistants_count),
       documents_count: number_with_delimiter(aloo_documents_count),
       embeddings_count: number_with_delimiter(aloo_embeddings_count),
-      traces_count: number_with_delimiter(aloo_traces_count),
+      executions_count: number_with_delimiter(executions_count),
       total_input_tokens: number_with_delimiter(total_input_tokens),
       total_output_tokens: number_with_delimiter(total_output_tokens),
       total_conversations: number_with_delimiter(aloo_conversations_count),
-      failed_traces_count: number_with_delimiter(failed_traces_count),
+      failed_executions_count: number_with_delimiter(failed_executions_count),
       success_rate: calculate_success_rate
     }
   end
 
   def gather_chart_data
-    return [] unless table_exists?('aloo_traces')
+    return [] unless execution_table_exists?
 
-    Aloo::Trace
+    # Use gem's Execution model for chart data
+    RubyLLM::Agents::Execution
+      .by_agent('ConversationAgent')
       .where('created_at > ?', 30.days.ago)
       .group_by_day(:created_at)
       .count
@@ -50,44 +52,54 @@ class SuperAdmin::AlooAnalyticsController < SuperAdmin::ApplicationController
     Aloo::Embedding.count
   end
 
-  def aloo_traces_count
-    return 0 unless table_exists?('aloo_traces')
+  def executions_count
+    return 0 unless execution_table_exists?
 
-    Aloo::Trace.where('created_at > ?', 30.days.ago).count
+    agent_executions.count
   end
 
-  def failed_traces_count
-    return 0 unless table_exists?('aloo_traces')
+  def failed_executions_count
+    return 0 unless execution_table_exists?
 
-    Aloo::Trace.where('created_at > ?', 30.days.ago).where(success: false).count
+    agent_executions.failed.count
   end
 
   def total_input_tokens
-    return 0 unless table_exists?('aloo_conversation_contexts')
+    return 0 unless execution_table_exists?
 
-    Aloo::ConversationContext.sum(:input_tokens)
+    agent_executions.sum(:input_tokens)
   end
 
   def total_output_tokens
-    return 0 unless table_exists?('aloo_conversation_contexts')
+    return 0 unless execution_table_exists?
 
-    Aloo::ConversationContext.sum(:output_tokens)
+    agent_executions.sum(:output_tokens)
   end
 
   def aloo_conversations_count
-    return 0 unless table_exists?('aloo_conversation_contexts')
+    return 0 unless execution_table_exists?
 
-    Aloo::ConversationContext.count
+    agent_executions.count
   end
 
   def calculate_success_rate
-    return '0%' unless table_exists?('aloo_traces')
+    return '0%' unless execution_table_exists?
 
-    total = Aloo::Trace.where('created_at > ?', 30.days.ago).count
+    total = agent_executions.count
     return '0%' if total.zero?
 
-    successful = Aloo::Trace.where('created_at > ?', 30.days.ago).where(success: true).count
+    successful = agent_executions.successful.count
     "#{((successful.to_f / total) * 100).round(1)}%"
+  end
+
+  def agent_executions
+    @agent_executions ||= RubyLLM::Agents::Execution
+                          .by_agent('ConversationAgent')
+                          .where('created_at > ?', 30.days.ago)
+  end
+
+  def execution_table_exists?
+    ActiveRecord::Base.connection.table_exists?('ruby_llm_agents_executions')
   end
 
   def table_exists?(table_name)

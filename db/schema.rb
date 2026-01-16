@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_16_153047) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -227,21 +227,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
     t.index ["voice_output_enabled"], name: "index_aloo_assistants_on_voice_output_enabled"
   end
 
-  create_table "aloo_conversation_contexts", force: :cascade do |t|
-    t.bigint "conversation_id", null: false
-    t.bigint "aloo_assistant_id", null: false
-    t.jsonb "context_data", default: {}
-    t.jsonb "tool_history", default: []
-    t.integer "message_count", default: 0
-    t.integer "input_tokens", default: 0
-    t.integer "output_tokens", default: 0
-    t.decimal "total_cost", precision: 10, scale: 6, default: "0.0"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["aloo_assistant_id"], name: "index_aloo_conversation_contexts_on_aloo_assistant_id"
-    t.index ["conversation_id"], name: "index_aloo_conversation_contexts_on_conversation_id", unique: true
-  end
-
   create_table "aloo_documents", force: :cascade do |t|
     t.bigint "aloo_assistant_id", null: false
     t.bigint "account_id", null: false
@@ -271,29 +256,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
     t.index ["aloo_assistant_id"], name: "index_aloo_embeddings_on_aloo_assistant_id"
     t.index ["aloo_document_id"], name: "index_aloo_embeddings_on_aloo_document_id"
     t.index ["embedding"], name: "aloo_embeddings_embedding_idx", opclass: :vector_cosine_ops, using: :hnsw
-  end
-
-  create_table "aloo_traces", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "aloo_assistant_id"
-    t.bigint "conversation_id"
-    t.string "trace_type", null: false
-    t.string "agent_name"
-    t.string "request_id"
-    t.jsonb "input_data", default: {}
-    t.jsonb "output_data", default: {}
-    t.integer "input_tokens"
-    t.integer "output_tokens"
-    t.integer "duration_ms"
-    t.boolean "success", default: true
-    t.string "error_message"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_aloo_traces_on_account_id"
-    t.index ["aloo_assistant_id"], name: "index_aloo_traces_on_aloo_assistant_id"
-    t.index ["conversation_id"], name: "index_aloo_traces_on_conversation_id"
-    t.index ["request_id"], name: "index_aloo_traces_on_request_id"
-    t.index ["trace_type"], name: "index_aloo_traces_on_trace_type"
   end
 
   create_table "aloo_voice_usage_records", force: :cascade do |t|
@@ -1307,6 +1269,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
     t.string "workflow_step"
     t.string "routed_to"
     t.json "classification_result"
+    t.string "tenant_id"
     t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
     t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
     t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
@@ -1320,12 +1283,27 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
     t.index ["response_cache_key"], name: "index_ruby_llm_agents_executions_on_response_cache_key"
     t.index ["root_execution_id"], name: "index_ruby_llm_agents_executions_on_root_execution_id"
     t.index ["status"], name: "index_ruby_llm_agents_executions_on_status"
+    t.index ["tenant_id", "agent_type"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_agent_type"
+    t.index ["tenant_id", "created_at"], name: "index_ruby_llm_agents_executions_on_tenant_id_and_created_at"
+    t.index ["tenant_id"], name: "index_ruby_llm_agents_executions_on_tenant_id"
     t.index ["tool_calls_count"], name: "index_ruby_llm_agents_executions_on_tool_calls_count"
     t.index ["total_cost"], name: "index_ruby_llm_agents_executions_on_total_cost"
     t.index ["trace_id"], name: "index_ruby_llm_agents_executions_on_trace_id"
     t.index ["workflow_id", "workflow_step"], name: "idx_on_workflow_id_workflow_step_85a6d10aef"
     t.index ["workflow_id"], name: "index_ruby_llm_agents_executions_on_workflow_id"
     t.index ["workflow_type"], name: "index_ruby_llm_agents_executions_on_workflow_type"
+  end
+
+  create_table "ruby_llm_agents_tenant_budgets", force: :cascade do |t|
+    t.string "tenant_id", null: false
+    t.decimal "daily_limit", precision: 12, scale: 6
+    t.decimal "monthly_limit", precision: 12, scale: 6
+    t.jsonb "per_agent_daily", default: {}
+    t.jsonb "per_agent_monthly", default: {}
+    t.string "enforcement", default: "soft"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenant_budgets_on_tenant_id", unique: true
   end
 
   create_table "sla_events", force: :cascade do |t|
@@ -1488,16 +1466,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_15_191831) do
   add_foreign_key "aloo_assistant_inboxes", "aloo_assistants"
   add_foreign_key "aloo_assistant_inboxes", "inboxes"
   add_foreign_key "aloo_assistants", "accounts"
-  add_foreign_key "aloo_conversation_contexts", "aloo_assistants"
-  add_foreign_key "aloo_conversation_contexts", "conversations"
   add_foreign_key "aloo_documents", "accounts"
   add_foreign_key "aloo_documents", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "accounts"
   add_foreign_key "aloo_embeddings", "aloo_assistants"
   add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "aloo_traces", "accounts"
-  add_foreign_key "aloo_traces", "aloo_assistants"
-  add_foreign_key "aloo_traces", "conversations"
   add_foreign_key "aloo_voice_usage_records", "accounts"
   add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
   add_foreign_key "aloo_voice_usage_records", "messages"

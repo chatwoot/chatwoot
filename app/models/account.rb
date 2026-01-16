@@ -69,7 +69,6 @@ class Account < ApplicationRecord
   has_many :aloo_assistants, class_name: 'Aloo::Assistant', dependent: :destroy_async
   has_many :aloo_documents, class_name: 'Aloo::Document', dependent: :destroy_async
   has_many :aloo_embeddings, class_name: 'Aloo::Embedding', dependent: :destroy_async
-  has_many :aloo_traces, class_name: 'Aloo::Trace', dependent: :destroy_async
   has_many :api_channels, dependent: :destroy_async, class_name: '::Channel::Api'
   has_many :articles, dependent: :destroy_async, class_name: '::Article'
   has_many :assignment_policies, dependent: :destroy_async

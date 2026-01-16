@@ -18,24 +18,10 @@ class KnowledgeLookupTool < BaseTool
   def execute(query:, source_types: nil)
     validate_context!
 
-    begin
-      results = search_knowledge_base(query, source_types)
-
-      log_execution(
-        { query: query, source_types: source_types },
-        { result_count: results.size }
-      )
-
-      format_response(results)
-    rescue StandardError => e
-      log_execution(
-        { query: query, source_types: source_types },
-        {},
-        success: false,
-        error_message: e.message
-      )
-      error_response("Knowledge search failed: #{e.message}")
-    end
+    results = search_knowledge_base(query, source_types)
+    format_response(results)
+  rescue StandardError => e
+    error_response("Knowledge search failed: #{e.message}")
   end
 
   private

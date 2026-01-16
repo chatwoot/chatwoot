@@ -40,16 +40,6 @@ module Aloo
              foreign_key: 'aloo_assistant_id',
              dependent: :destroy,
              inverse_of: :assistant
-    has_many :conversation_contexts,
-             class_name: 'Aloo::ConversationContext',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :destroy,
-             inverse_of: :assistant
-    has_many :traces,
-             class_name: 'Aloo::Trace',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :nullify,
-             inverse_of: :assistant
     has_many :messages, as: :sender, dependent: :nullify
     has_many :created_carts, as: :created_by, class_name: 'Cart', dependent: :nullify
     has_many :voice_usage_records,

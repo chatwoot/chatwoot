@@ -15,7 +15,7 @@ FactoryBot.define do
 
     trait :available do
       status { :available }
-      content { Faker::Lorem.paragraphs(number: 5).join("\n\n") }
+      title { Faker::Lorem.sentence(word_count: 3) }
     end
 
     trait :failed do

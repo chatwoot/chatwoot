@@ -41,17 +41,10 @@ class ResolveTool < BaseTool
     add_resolution_activity(reason)
     current_conversation.resolved!
 
-    log_and_track(reason: reason, summary: summary)
     success_response(resolved: true, conversation_id: current_conversation.id, reason: reason, message: 'Conversation has been resolved')
   end
 
-  def log_and_track(reason:, summary:)
-    log_execution({ reason: reason, summary: summary.present? }, { success: true, conversation_id: current_conversation.id })
-    track_in_context(input: { reason: reason, has_summary: summary.present? }, output: { resolved: true })
-  end
-
   def handle_error(reason:, error:)
-    log_execution({ reason: reason }, {}, success: false, error_message: error.message)
     error_response("Failed to resolve conversation: #{error.message}")
   end
 
@@ -79,23 +72,6 @@ class ResolveTool < BaseTool
         'aloo_resolved' => true,
         'resolution_reason' => reason
       }
-    )
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'resolve',
-      input: input,
-      output: output,
-      success: true
     )
   end
 end

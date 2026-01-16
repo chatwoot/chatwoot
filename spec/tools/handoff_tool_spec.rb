@@ -61,21 +61,6 @@ RSpec.describe HandoffTool, :aloo do
           tool.execute(reason: 'Too complex', summary: 'Customer needs refund')
         end.to change { conversation.messages.where(private: true).count }.by(1)
       end
-
-      it 'tracks handoff in conversation context' do
-        tool.execute(reason: 'Customer frustrated')
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('handoff')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(reason: 'Test reason'), anything)
-
-        tool.execute(reason: 'Test reason')
-      end
     end
 
     context 'with priority levels' do
@@ -146,8 +131,11 @@ RSpec.describe HandoffTool, :aloo do
         Aloo::Current.conversation = nil
       end
 
-      it 'raises error' do
-        expect { tool.execute(reason: 'Test') }.to raise_error('Conversation context required')
+      it 'returns error response' do
+        result = tool.execute(reason: 'Test')
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to include('Conversation context required')
       end
     end
   end

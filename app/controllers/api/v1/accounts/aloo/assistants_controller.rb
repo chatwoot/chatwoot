@@ -39,37 +39,45 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/stats
   def stats
+    # Scope executions by current account (tenant)
+    executions = RubyLLM::Agents::Execution
+                 .by_agent('ConversationAgent')
+                 .by_tenant(Current.account.id.to_s)
+
     render json: {
-      total_conversations: @assistant.conversation_contexts.count,
-      total_messages: @assistant.conversation_contexts.sum(:message_count),
-      total_tokens: @assistant.conversation_contexts.sum('input_tokens + output_tokens'),
+      total_conversations: executions.count,
+      total_messages: executions.count,
+      total_tokens: executions.total_tokens_sum,
       total_documents: @assistant.documents.available.count
     }
   end
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/performance
   def performance
-    time_range = parse_time_range(params[:range] || '7d')
+    days = parse_days_from_range(params[:range] || '7d')
+    # Scope executions by current account (tenant)
+    executions = RubyLLM::Agents::Execution
+                 .by_agent('ConversationAgent')
+                 .by_tenant(Current.account.id.to_s)
+                 .last_n_days(days)
 
-    contexts = @assistant.conversation_contexts.where('created_at >= ?', time_range)
-    traces = @assistant.traces.where('created_at >= ?', time_range)
-
-    total_conversations = contexts.count
-    successful_responses = traces.successful.by_type('agent_call').count
-    failed_responses = traces.failed.by_type('agent_call').count
+    total_conversations = executions.count
+    successful_responses = executions.successful.count
+    failed_responses = executions.failed.count
     total_responses = successful_responses + failed_responses
 
-    # Calculate average response time from traces
-    avg_response_time = traces.by_type('agent_call').average(:duration_ms)&.round(2) || 0
+    # Calculate average response time from executions
+    avg_response_time = executions.avg_duration&.round(2) || 0
 
-    # Calculate handoff rate (conversations that required human handoff)
-    # Assuming handoff is tracked in context_data or via a custom attribute
-    handoff_count = contexts.where("context_data->>'handoff_triggered' = ?", 'true').count
+    # Calculate handoff rate from tool calls in executions
+    handoff_count = executions.with_tool_calls
+                              .where('tool_calls::text LIKE ?', '%HandoffTool%')
+                              .count
     handoff_rate = total_conversations.positive? ? (handoff_count.to_f / total_conversations * 100).round(2) : 0
 
-    # Token usage
-    total_input_tokens = contexts.sum(:input_tokens)
-    total_output_tokens = contexts.sum(:output_tokens)
+    # Token usage from executions
+    total_input_tokens = executions.sum(:input_tokens)
+    total_output_tokens = executions.sum(:output_tokens)
 
     render json: {
       response_rate: total_responses.positive? ? (successful_responses.to_f / total_responses * 100).round(2) : 100,
@@ -316,6 +324,16 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
     when '30d' then 30.days.ago
     when '90d' then 90.days.ago
     else 7.days.ago
+    end
+  end
+
+  def parse_days_from_range(range)
+    case range
+    when '24h' then 1
+    when '7d' then 7
+    when '30d' then 30
+    when '90d' then 90
+    else 7
     end
   end
 

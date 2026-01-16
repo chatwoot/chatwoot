@@ -81,13 +81,6 @@ RSpec.describe KnowledgeLookupTool, :aloo do
         allow(vector_service).to receive(:search).and_raise(StandardError, 'Search failed')
       end
 
-      it 'logs execution with error' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(anything, anything, success: false, error_message: 'Search failed')
-
-        tool.execute(query: 'test')
-      end
-
       it 'returns error response' do
         result = tool.execute(query: 'test')
 
@@ -101,8 +94,11 @@ RSpec.describe KnowledgeLookupTool, :aloo do
         Aloo::Current.account = nil
       end
 
-      it 'raises error' do
-        expect { tool.execute(query: 'test') }.to raise_error('Account context required')
+      it 'returns error response' do
+        result = tool.execute(query: 'test')
+
+        expect(result[:success]).to be false
+        expect(result[:error]).to include('Account context required')
       end
     end
   end

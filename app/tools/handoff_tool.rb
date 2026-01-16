@@ -35,25 +35,11 @@ class HandoffTool < BaseTool
                               })
     end
 
-    begin
-      # Perform the handoff
-      result = perform_handoff(reason: reason, priority: priority, summary: summary, preferred_team: preferred_team)
-
-      log_execution(
-        { reason: reason, priority: priority, preferred_team: preferred_team },
-        { success: true, assigned_to: result[:assigned_agent]&.name }
-      )
-
-      success_response(result)
-    rescue StandardError => e
-      log_execution(
-        { reason: reason },
-        {},
-        success: false,
-        error_message: e.message
-      )
-      error_response("Handoff failed: #{e.message}")
-    end
+    # Perform the handoff
+    result = perform_handoff(reason: reason, priority: priority, summary: summary, preferred_team: preferred_team)
+    success_response(result)
+  rescue StandardError => e
+    error_response("Handoff failed: #{e.message}")
   end
 
   private
@@ -76,9 +62,6 @@ class HandoffTool < BaseTool
 
     # Add internal note for the human agent
     add_handoff_note(reason: reason, summary: summary, priority: priority)
-
-    # Track this handoff in conversation context
-    track_handoff_in_context(reason: reason, priority: priority)
 
     {
       handoff_completed: true,
@@ -168,22 +151,5 @@ class HandoffTool < BaseTool
     when 'high' then :high
     else :medium
     end
-  end
-
-  def track_handoff_in_context(reason:, priority:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'handoff',
-      input: { reason: reason, priority: priority },
-      output: { completed: true },
-      success: true
-    )
   end
 end

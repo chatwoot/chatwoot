@@ -18,18 +18,10 @@ class ProductDetailsTool < BaseTool
     validate_context!
 
     product = find_product(product_id)
+    return error_response("Product with ID #{product_id} not found") unless product
 
-    unless product
-      log_execution({ product_id: product_id }, { found: false })
-      return error_response("Product with ID #{product_id} not found")
-    end
-
-    result = format_product_details(product)
-    log_execution({ product_id: product_id }, { found: true })
-
-    success_response(result)
+    success_response(format_product_details(product))
   rescue StandardError => e
-    log_execution({ product_id: product_id }, {}, success: false, error_message: e.message)
     error_response("Failed to get product details: #{e.message}")
   end
 

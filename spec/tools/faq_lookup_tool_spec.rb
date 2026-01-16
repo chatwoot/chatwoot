@@ -26,123 +26,62 @@ RSpec.describe FaqLookupTool, :aloo do
 
     it 'describes the tool purpose' do
       expect(described_class.description).to include('knowledge base')
-      expect(described_class.description).to include('memories')
     end
   end
 
   describe '#execute' do
     let(:tool) { described_class.new }
-    let(:vector_service) { instance_double(Aloo::VectorSearchService) }
-    let(:memory_service) { instance_double(Aloo::MemorySearchService) }
+    let(:knowledge_tool) { instance_double(KnowledgeLookupTool) }
 
     before do
-      allow(Aloo::VectorSearchService).to receive(:new).and_return(vector_service)
-      allow(Aloo::MemorySearchService).to receive(:new).and_return(memory_service)
-      allow(vector_service).to receive(:search).and_return([])
-      allow(memory_service).to receive(:search).and_return([])
+      allow(KnowledgeLookupTool).to receive(:new).and_return(knowledge_tool)
+      allow(knowledge_tool).to receive(:execute).and_return({ success: true, results: [] })
     end
 
     it 'logs deprecation warning' do
       expect(Rails.logger).to receive(:warn).with(/DEPRECATED.*FaqLookupTool/)
 
-      tool.execute(query: 'test')
-    end
-
-    context 'when search_type is "both"' do
-      it 'searches knowledge base' do
-        expect(vector_service).to receive(:search).with('return policy', limit: 5, source_types: nil)
-
-        tool.execute(query: 'return policy', search_type: 'both')
-      end
-
-      it 'searches memories' do
-        expect(memory_service).to receive(:search)
-          .with('return policy', contact: contact, limit: 5)
-
-        tool.execute(query: 'return policy', search_type: 'both')
-      end
-
-      it 'formats combined results' do
-        allow(vector_service).to receive(:search).and_return([
-                                                               { document_title: 'Policy', content: 'Return in 30 days' }
-                                                             ])
-        allow(memory_service).to receive(:search).and_return([
-                                                               { memory_type: 'preference', content: 'Prefers email', is_contact_scoped: true }
-                                                             ])
-
-        result = tool.execute(query: 'test', search_type: 'both')
-
-        expect(result[:success]).to be true
-        expect(result[:message]).to include('Knowledge Base Results')
-        expect(result[:message]).to include('Relevant Memories')
-      end
+      tool.execute(query: 'test', search_type: 'knowledge')
     end
 
     context 'when search_type is "knowledge"' do
-      it 'only searches knowledge base' do
-        expect(vector_service).to receive(:search)
-        expect(memory_service).not_to receive(:search)
+      it 'searches knowledge base via KnowledgeLookupTool' do
+        expect(knowledge_tool).to receive(:execute).with(query: 'return policy')
 
-        tool.execute(query: 'policy', search_type: 'knowledge')
+        tool.execute(query: 'return policy', search_type: 'knowledge')
       end
-    end
 
-    context 'when search_type is "memory"' do
-      it 'only searches memories' do
-        expect(vector_service).not_to receive(:search)
-        expect(memory_service).to receive(:search)
+      it 'formats results correctly' do
+        allow(knowledge_tool).to receive(:execute).and_return({
+                                                                success: true,
+                                                                results: [
+                                                                  { document_title: 'Policy', content: 'Return in 30 days' }
+                                                                ]
+                                                              })
 
-        tool.execute(query: 'customer info', search_type: 'memory')
-      end
-    end
+        result = tool.execute(query: 'test', search_type: 'knowledge')
 
-    context 'when include_customer_context is false' do
-      it 'searches memories without contact' do
-        expect(memory_service).to receive(:search)
-          .with('query', contact: nil, limit: 5)
-
-        tool.execute(query: 'query', search_type: 'memory', include_customer_context: false)
+        expect(result[:success]).to be true
+        expect(result[:message]).to include('Knowledge Base Results')
       end
     end
 
     context 'when no results found' do
       it 'returns appropriate message' do
-        result = tool.execute(query: 'nonexistent topic')
+        result = tool.execute(query: 'nonexistent topic', search_type: 'knowledge')
 
         expect(result[:success]).to be true
         expect(result[:message]).to include('No relevant information found')
       end
     end
 
-    context 'when underlying tool returns error' do
+    context 'when error occurs' do
       before do
-        allow(vector_service).to receive(:search).and_raise(StandardError, 'Search failed')
-      end
-
-      it 'handles errors gracefully by returning empty results for that tool' do
-        # Errors in underlying tools are caught and return empty results
-        # This ensures backward compatibility and graceful degradation
-        result = tool.execute(query: 'test')
-
-        expect(result[:success]).to be true
-        expect(result[:knowledge_results]).to be_nil.or eq([])
-      end
-    end
-
-    context 'when FaqLookupTool itself fails' do
-      before do
-        allow(KnowledgeLookupTool).to receive(:new).and_raise(StandardError, 'Tool creation failed')
-      end
-
-      it 'logs execution with error' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(anything, anything, success: false, error_message: 'Tool creation failed')
-
-        tool.execute(query: 'test')
+        allow(knowledge_tool).to receive(:execute).and_raise(StandardError, 'Search failed')
       end
 
       it 'returns error response' do
-        result = tool.execute(query: 'test')
+        result = tool.execute(query: 'test', search_type: 'knowledge')
 
         expect(result[:success]).to be false
         expect(result[:error]).to include('Search failed')
@@ -155,7 +94,7 @@ RSpec.describe FaqLookupTool, :aloo do
       end
 
       it 'raises error' do
-        expect { tool.execute(query: 'test') }.to raise_error('Account context required')
+        expect { tool.execute(query: 'test', search_type: 'knowledge') }.to raise_error('Account context required')
       end
     end
   end

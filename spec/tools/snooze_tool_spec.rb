@@ -173,23 +173,6 @@ RSpec.describe SnoozeTool, :aloo do
       end
     end
 
-    context 'tracking execution' do
-      it 'tracks in conversation context' do
-        tool.execute(until_time: '1 hour')
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('snooze')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(until_time: '1 hour'), anything)
-
-        tool.execute(until_time: '1 hour')
-      end
-    end
-
     context 'response format' do
       it 'includes human readable time' do
         result = tool.execute(until_time: '1 hour')

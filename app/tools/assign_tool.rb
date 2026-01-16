@@ -43,7 +43,6 @@ class AssignTool < BaseTool
     return result if result.is_a?(Hash) && result[:success] == false
 
     add_assignment_note(reason: reason, team: result[:team], agent: result[:agent]) if reason.present?
-    log_and_track(team_name: team_name, agent_email: agent_email, result: result)
     build_success_response(result)
   end
 
@@ -69,12 +68,6 @@ class AssignTool < BaseTool
     result
   end
 
-  def log_and_track(team_name:, agent_email:, result:)
-    log_execution({ team_name: team_name, agent_email: agent_email, reason: true },
-                  { success: true, team_assigned: result[:team_assigned], agent_assigned: result[:agent_assigned] })
-    track_in_context(input: { team_name: team_name, agent_email: agent_email }, output: result)
-  end
-
   def build_success_response(result)
     success_response(
       assignment_completed: true, team_assigned: result[:team_assigned], team_name: result[:team]&.name,
@@ -83,7 +76,6 @@ class AssignTool < BaseTool
   end
 
   def handle_error(team_name:, agent_email:, error:)
-    log_execution({ team_name: team_name, agent_email: agent_email }, {}, success: false, error_message: error.message)
     error_response("Failed to assign conversation: #{error.message}")
   end
 
@@ -132,27 +124,5 @@ class AssignTool < BaseTool
     parts << "Assigned to team #{result[:team].name}" if result[:team]
     parts << "Assigned to #{result[:agent].name}" if result[:agent]
     parts.join(' and ')
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'assign',
-      input: input,
-      output: {
-        team_assigned: output[:team_assigned],
-        agent_assigned: output[:agent_assigned],
-        team_id: output[:team]&.id,
-        agent_id: output[:agent]&.id
-      },
-      success: true
-    )
   end
 end

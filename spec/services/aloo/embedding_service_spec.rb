@@ -43,9 +43,9 @@ RSpec.describe Aloo::EmbeddingService, type: :service do
     end
 
     it 'creates embedding record' do
-      expect {
+      expect do
         service.embed_and_store(text: 'Test content', document: document)
-      }.to change(Aloo::Embedding, :count).by(1)
+      end.to change(Aloo::Embedding, :count).by(1)
     end
 
     it 'stores vector from RubyLLM' do
@@ -68,12 +68,6 @@ RSpec.describe Aloo::EmbeddingService, type: :service do
       expect(embedding.metadata['chunk_index']).to eq(5)
       expect(embedding.metadata['model']).to eq('text-embedding-3-small')
     end
-
-    it 'records trace' do
-      expect(Aloo::Trace).to receive(:record_with_timing).and_call_original
-
-      service.embed_and_store(text: 'Test content', document: document)
-    end
   end
 
   describe '#batch_embed_and_store' do
@@ -85,9 +79,9 @@ RSpec.describe Aloo::EmbeddingService, type: :service do
     it 'creates embeddings for each chunk' do
       texts = ['Chunk 1', 'Chunk 2', 'Chunk 3']
 
-      expect {
+      expect do
         service.batch_embed_and_store(texts: texts, document: document)
-      }.to change(Aloo::Embedding, :count).by(3)
+      end.to change(Aloo::Embedding, :count).by(3)
     end
 
     it 'assigns sequential chunk indices' do
@@ -167,9 +161,9 @@ RSpec.describe Aloo::EmbeddingService, type: :service do
     let!(:other_embedding) { create(:aloo_embedding) }
 
     it 'deletes all embeddings for document' do
-      expect {
+      expect do
         service.delete_embeddings_for(document)
-      }.to change(Aloo::Embedding, :count).by(-3)
+      end.to change(Aloo::Embedding, :count).by(-3)
     end
 
     it 'returns count of deleted records' do

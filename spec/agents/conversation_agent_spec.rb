@@ -125,22 +125,6 @@ RSpec.describe ConversationAgent, :aloo do
       expect(agent.tools).not_to include(FaqLookupTool)
     end
 
-    context 'with memory feature enabled' do
-      it 'includes MemoryLookupTool' do
-        agent = described_class.new(message: 'test')
-        expect(agent.tools).to include(MemoryLookupTool)
-      end
-    end
-
-    context 'with memory feature disabled' do
-      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_memory' => false }) }
-
-      it 'does not include MemoryLookupTool' do
-        agent = described_class.new(message: 'test')
-        expect(agent.tools).not_to include(MemoryLookupTool)
-      end
-    end
-
     it 'includes HandoffTool when enabled' do
       agent = described_class.new(message: 'test')
       expect(agent.tools).to include(HandoffTool)
