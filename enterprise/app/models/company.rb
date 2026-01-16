@@ -3,7 +3,7 @@
 # Table name: companies
 #
 #  id             :bigint           not null, primary key
-#  contacts_count :integer          default(0), not null
+#  contacts_count :integer
 #  description    :text
 #  domain         :string
 #  name           :string           not null
@@ -34,5 +34,12 @@ class Company < ApplicationRecord
   scope :ordered_by_name, -> { order(:name) }
   scope :search_by_name_or_domain, lambda { |query|
     where('name ILIKE :search OR domain ILIKE :search', search: "%#{query.strip}%")
+  }
+  scope :order_on_contacts_count, lambda { |direction|
+    order(
+      Arel::Nodes::SqlLiteral.new(
+        sanitize_sql_for_order("\"companies\".\"contacts_count\" #{direction} NULLS LAST")
+      )
+    )
   }
 end

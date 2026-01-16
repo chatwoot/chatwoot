@@ -23,8 +23,6 @@
 # - 'contact_manage': Can manage contacts.
 # - 'report_manage': Can manage reports.
 # - 'knowledge_base_manage': Can manage knowledge base portals.
-# - 'campaign_manage': Can manage campaigns.
-# - 'templates_manage': Can manage WhatsApp message templates (CommMate).
 
 class CustomRole < ApplicationRecord
   belongs_to :account
@@ -37,10 +35,8 @@ class CustomRole < ApplicationRecord
     contact_manage
     report_manage
     knowledge_base_manage
-    campaign_manage
-    templates_manage
   ].freeze
 
-  validates :name, presence: true, uniqueness: { scope: :account_id, message: 'already exists for this account' }
+  validates :name, presence: true
   validates :permissions, inclusion: { in: PERMISSIONS }
 end
