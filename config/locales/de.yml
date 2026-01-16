@@ -188,6 +188,7 @@ de:
         rating: Bewertung
         feedback: Feedback-Kommentar
         recorded_at: Aufnahmedatum
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Neues Gespräch - #%{display_id} wurde in %{inbox_name} erstellt'
