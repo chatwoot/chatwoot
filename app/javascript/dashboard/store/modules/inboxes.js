@@ -29,6 +29,9 @@ export const getters = {
   getInboxes($state) {
     return $state.records;
   },
+  getAllInboxes($state) {
+    return camelcaseKeys($state.records, { deep: true });
+  },
   getWhatsAppTemplates: $state => inboxId => {
     const [inbox] = $state.records.filter(
       record => record.id === Number(inboxId)
@@ -72,6 +75,19 @@ export const getters = {
 
       // Only show approved templates
       if (template.status.toLowerCase() !== 'approved') {
+        return false;
+      }
+
+      // Filter out authentication templates
+      if (template.category === 'AUTHENTICATION') {
+        return false;
+      }
+
+      // Filter out CSAT templates (customer_satisfaction_survey and its versions)
+      if (
+        template.name &&
+        template.name.startsWith('customer_satisfaction_survey')
+      ) {
         return false;
       }
 
@@ -155,6 +171,13 @@ export const getters = {
       item =>
         item.instagram_id === instagramId &&
         item.channel_type === INBOX_TYPES.INSTAGRAM
+    );
+  },
+  getTiktokInboxByBusinessId: $state => businessId => {
+    return $state.records.find(
+      item =>
+        item.business_id === businessId &&
+        item.channel_type === INBOX_TYPES.TIKTOK
     );
   },
 };
@@ -328,6 +351,14 @@ export const actions = {
     } catch (error) {
       throw new Error(error);
     }
+  },
+  createCSATTemplate: async (_, { inboxId, template }) => {
+    const response = await InboxesAPI.createCSATTemplate(inboxId, template);
+    return response.data;
+  },
+  getCSATTemplateStatus: async (_, { inboxId }) => {
+    const response = await InboxesAPI.getCSATTemplateStatus(inboxId);
+    return response.data;
   },
 };
 

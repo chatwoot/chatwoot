@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "48_HOURS_WINDOW": "Restrição de janela de mensagem de 48 horas",
     "API_HOURS_WINDOW": "Você só pode responder a esta conversa em {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
+    "BOT_HANDOFF_MESSAGE": "Você está respondendo a uma conversa que é atualmente tratada por um assistente ou um robô.",
+    "BOT_HANDOFF_ACTION": "Marcar como aberta e atribuir a você",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marcar conversa como aberta",
+    "BOT_HANDOFF_SUCCESS": "Uma conversa foi atribuída a você",
+    "BOT_HANDOFF_ERROR": "Falha ao resolver conversas. Por favor, tente novamente.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar as etiquetas"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Chamada recebida",
+      "OUTGOING_CALL": "Chamada realizada",
+      "CALL_IN_PROGRESS": "Chamada em andamento",
+      "NO_ANSWER": "Sem resposta",
+      "MISSED_CALL": "Chamada perdida",
+      "CALL_ENDED": "Chamada encerrada",
+      "NOT_ANSWERED_YET": "Ainda não respondido",
+      "THEY_ANSWERED": "Eles responderam",
+      "YOU_ANSWERED": "Você respondeu"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -144,9 +161,9 @@
       "AGENTS_LOADING": "Carregando agentes...",
       "ASSIGN_TEAM": "Atribuir time",
       "DELETE": "Excluir conversa",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "OPEN_IN_NEW_TAB": "Abrir em nova aba",
+      "COPY_LINK": "Copiar link da conversa",
+      "COPY_LINK_SUCCESS": "Link da conversa copiado",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "Saiba mais",
       "DISMISS_REPLY": "Dispensar resposta",
       "REPLYING_TO": "Respondendo a:",
-      "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar seletor de emoji",
       "TIP_ATTACH_ICON": "Anexar arquivos",
       "TIP_AUDIORECORDER_ICON": "Gravar áudio",
@@ -211,6 +227,13 @@
           "YES": "Enviar",
           "CANCEL": "Cancelar"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Incluir o encadeamento de e-mails citado",
+        "DISABLE_TOOLTIP": "Não incluir o encadeamento de e-mails citado",
+        "REMOVE_PREVIEW": "Remover o encadeamento de e-mails citado",
+        "COLLAPSE": "Recolher a prévia",
+        "EXPAND": "Expandir a prévia"
       }
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contatos",
       "COPILOT": "Copiloto"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Chamada recebida",
+      "OUTGOING_CALL": "Chamada realizada",
+      "CALL_IN_PROGRESS": "Chamada em andamento",
+      "NOT_ANSWERED_YET": "Ainda não respondido",
+      "HANDLED_IN_ANOTHER_TAB": "Sendo atendida em outra aba",
+      "REJECT_CALL": "Recusar",
+      "JOIN_CALL": "Entrar na chamada",
+      "END_CALL": "Encerrar chamada"
     }
   },
   "EMAIL_TRANSCRIPT": {

@@ -30,9 +30,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
-  >
+  <div class="h-full w-full p-6 col-span-6">
     <div class="login-init h-full text-center">
       <form @submit.prevent="requestAuthorization">
         <NextButton

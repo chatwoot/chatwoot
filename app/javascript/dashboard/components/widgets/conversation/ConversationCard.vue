@@ -13,6 +13,7 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import VoiceCallStatus from './VoiceCallStatus.vue';
 
 const props = defineProps({
   activeLabel: { type: String, default: '' },
@@ -81,6 +82,11 @@ const hasUnread = computed(() => unreadCount.value > 0);
 const isInboxNameVisible = computed(() => !activeInbox.value);
 
 const lastMessageInChat = computed(() => getLastMessage(props.chat));
+
+const voiceCallData = computed(() => ({
+  status: props.chat.additional_attributes?.call_status,
+  direction: props.chat.additional_attributes?.call_direction,
+}));
 
 const inboxId = computed(() => props.chat.inbox_id);
 
@@ -250,7 +256,6 @@ const deleteConversation = () => {
         :src="currentContact.thumbnail"
         :size="32"
         :status="currentContact.availability_status"
-        :inbox="inbox"
         :class="!showInboxName ? 'mt-4' : 'mt-8'"
         hide-offline-status
         rounded-full
@@ -307,14 +312,23 @@ const deleteConversation = () => {
       >
         {{ currentContact.name }}
       </h4>
+      <VoiceCallStatus
+        v-if="voiceCallData.status"
+        key="voice-status-row"
+        :status="voiceCallData.status"
+        :direction="voiceCallData.direction"
+        :message-preview-class="messagePreviewClass"
+      />
       <MessagePreview
-        v-if="lastMessageInChat"
+        v-else-if="lastMessageInChat"
+        key="message-preview"
         :message="lastMessageInChat"
         class="my-0 mx-2 leading-6 h-6 flex-1 min-w-0 text-sm"
         :class="messagePreviewClass"
       />
       <p
         v-else
+        key="no-messages"
         class="text-n-slate-11 text-sm my-0 mx-2 leading-6 h-6 flex-1 min-w-0 overflow-hidden text-ellipsis whitespace-nowrap"
         :class="messagePreviewClass"
       >

@@ -28,6 +28,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
+import EmbedBubble from './bubbles/Embed.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
@@ -36,6 +37,7 @@ import DyteBubble from './bubbles/Dyte.vue';
 import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
+import VoiceCallBubble from './bubbles/VoiceCall.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -129,6 +131,8 @@ const props = defineProps({
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
+
+const emit = defineEmits(['retry']);
 
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
@@ -280,6 +284,10 @@ const componentToRender = computed(() => {
     return FormBubble;
   }
 
+  if (props.contentType === CONTENT_TYPES.VOICE_CALL) {
+    return VoiceCallBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -292,7 +300,12 @@ const componentToRender = computed(() => {
     return DyteBubble;
   }
 
-  if (props.contentAttributes.imageType === 'story_mention') {
+  const instagramSharedTypes = [
+    ATTACHMENT_TYPES.STORY_MENTION,
+    ATTACHMENT_TYPES.IG_STORY,
+    ATTACHMENT_TYPES.IG_POST,
+  ];
+  if (instagramSharedTypes.includes(props.contentAttributes.imageType)) {
     return InstagramStoryBubble;
   }
 
@@ -305,6 +318,7 @@ const componentToRender = computed(() => {
       if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
       if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
+      if (fileType === ATTACHMENT_TYPES.EMBED) return EmbedBubble;
       if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
     }
     // Attachment content is the name of the contact
@@ -469,7 +483,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container mb-2"
+    class="flex mb-2 w-full message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,
@@ -519,6 +533,7 @@ provideMessageContext({
         class="[grid-area:meta]"
         :class="flexOrientationClass"
         :error="contentAttributes.externalError"
+        @retry="emit('retry')"
       />
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">

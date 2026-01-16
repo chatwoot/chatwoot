@@ -6,7 +6,8 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   appendSignature,
   removeSignature,
-  extractTextFromMarkdown,
+  getEffectiveChannelType,
+  stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
 import {
   buildContactableInboxesList,
@@ -47,6 +48,8 @@ const emit = defineEmits([
   'createConversation',
 ]);
 
+const DEFAULT_FORMATTING = 'Context::Default';
+
 const showContactsDropdown = ref(false);
 const showInboxesDropdown = ref(false);
 const showCcEmailsDropdown = ref(false);
@@ -74,6 +77,9 @@ const inboxTypes = computed(() => ({
   isTwilioSMS:
     props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
     props.targetInbox?.medium === 'sms',
+  isTwilioWhatsapp:
+    props.targetInbox?.channelType === INBOX_TYPES.TWILIO &&
+    props.targetInbox?.medium === 'whatsapp',
 }));
 
 const whatsappMessageTemplates = computed(() =>
@@ -83,6 +89,12 @@ const whatsappMessageTemplates = computed(() =>
 );
 
 const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
+
+const inboxMedium = computed(() => props.targetInbox?.medium || '');
+
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(inboxChannelType.value, inboxMedium.value)
+);
 
 const validationRules = computed(() => ({
   selectedContact: { required },
@@ -145,10 +157,21 @@ const isAnyDropdownActive = computed(() => {
 
 const handleContactSearch = value => {
   showContactsDropdown.value = true;
-  emit('searchContacts', {
-    keys: ['email', 'phone_number', 'name'],
-    query: value,
+  const query = typeof value === 'string' ? value.trim() : '';
+  const hasAlphabet = Array.from(query).some(char => {
+    const lower = char.toLowerCase();
+    const upper = char.toUpperCase();
+    return lower !== upper;
   });
+  const isEmailLike = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(query);
+
+  const keys = ['email', 'phone_number', 'name'].filter(key => {
+    if (key === 'phone_number' && hasAlphabet) return false;
+    if (key === 'name' && isEmailLike) return false;
+    return true;
+  });
+
+  emit('searchContacts', { keys, query: value });
 };
 
 const handleDropdownUpdate = (type, value) => {
@@ -178,29 +201,52 @@ const setSelectedContact = async ({ value, action, ...rest }) => {
   showInboxesDropdown.value = true;
 };
 
-const handleInboxAction = ({ value, action, ...rest }) => {
+const stripMessageFormatting = channelType => {
+  if (!state.message || !channelType) return;
+
+  state.message = stripUnsupportedMarkdown(state.message, channelType, false);
+};
+
+const handleInboxAction = ({ value, action, channelType, medium, ...rest }) => {
   v$.value.$reset();
-  emit('updateTargetInbox', { ...rest });
+
+  // Strip unsupported formatting when changing the target inbox
+  if (channelType) {
+    const newChannelType = getEffectiveChannelType(channelType, medium);
+    stripMessageFormatting(newChannelType);
+  }
+
+  emit('updateTargetInbox', { ...rest, channelType, medium });
   showInboxesDropdown.value = false;
   state.attachedFiles = [];
 };
 
+const removeSignatureFromMessage = () => {
+  // Always remove the signature from message content when inbox/contact is removed
+  // to ensure no leftover signature content remains
+  if (props.messageSignature) {
+    state.message = removeSignature(
+      state.message,
+      props.messageSignature,
+      effectiveChannelType.value
+    );
+  }
+};
+
 const removeTargetInbox = value => {
   v$.value.$reset();
-  // Remove the signature from message content
-  // Based on the Advance Editor (used in isEmailOrWebWidget) and Plain editor(all other inboxes except WhatsApp)
-  if (props.sendWithSignature) {
-    const signatureToRemove = inboxTypes.value.isEmailOrWebWidget
-      ? props.messageSignature
-      : extractTextFromMarkdown(props.messageSignature);
-    state.message = removeSignature(state.message, signatureToRemove);
-  }
+  removeSignatureFromMessage();
+
+  stripMessageFormatting(DEFAULT_FORMATTING);
+
   emit('updateTargetInbox', value);
   state.attachedFiles = [];
 };
 
 const clearSelectedContact = () => {
+  removeSignatureFromMessage();
   emit('clearSelectedContact');
+  state.message = '';
   state.attachedFiles = [];
 };
 
@@ -209,11 +255,19 @@ const onClickInsertEmoji = emoji => {
 };
 
 const handleAddSignature = signature => {
-  state.message = appendSignature(state.message, signature);
+  state.message = appendSignature(
+    state.message,
+    signature,
+    effectiveChannelType.value
+  );
 };
 
 const handleRemoveSignature = signature => {
-  state.message = removeSignature(state.message, signature);
+  state.message = removeSignature(
+    state.message,
+    signature,
+    effectiveChannelType.value
+  );
 };
 
 const handleAttachFile = files => {
@@ -261,76 +315,101 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     isFromWhatsApp: true,
   });
 };
+
+const handleSendTwilioMessage = async ({ message, templateParams }) => {
+  const twilioMessagePayload = prepareWhatsAppMessagePayload({
+    targetInbox: props.targetInbox,
+    selectedContact: props.selectedContact,
+    message,
+    templateParams,
+    currentUser: props.currentUser,
+  });
+  await emit('createConversation', {
+    payload: twilioMessagePayload,
+    isFromWhatsApp: true,
+  });
+};
+
+const shouldShowMessageEditor = computed(() => {
+  return (
+    !inboxTypes.value.isWhatsapp &&
+    !showNoInboxAlert.value &&
+    !inboxTypes.value.isTwilioWhatsapp
+  );
+});
 </script>
 
 <template>
   <div
-    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0"
+    class="w-[42rem] divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full flex flex-col bg-n-alpha-3 border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl min-w-0 max-h-[calc(100vh-8rem)]"
   >
-    <ContactSelector
-      :contacts="contacts"
-      :selected-contact="selectedContact"
-      :show-contacts-dropdown="showContactsDropdown"
-      :is-loading="isLoading"
-      :is-creating-contact="isCreatingContact"
-      :contact-id="contactId"
-      :contactable-inboxes-list="contactableInboxesList"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :has-errors="validationStates.isContactInvalid"
-      @search-contacts="handleContactSearch"
-      @set-selected-contact="setSelectedContact"
-      @clear-selected-contact="clearSelectedContact"
-      @update-dropdown="handleDropdownUpdate"
-    />
-    <InboxEmptyState v-if="showNoInboxAlert" />
-    <InboxSelector
-      v-else
-      :target-inbox="targetInbox"
-      :selected-contact="selectedContact"
-      :show-inboxes-dropdown="showInboxesDropdown"
-      :contactable-inboxes-list="contactableInboxesList"
-      :has-errors="validationStates.isInboxInvalid"
-      @update-inbox="removeTargetInbox"
-      @toggle-dropdown="showInboxesDropdown = $event"
-      @handle-inbox-action="handleInboxAction"
-    />
+    <div class="flex-1 overflow-y-auto divide-y divide-n-strong">
+      <ContactSelector
+        :contacts="contacts"
+        :selected-contact="selectedContact"
+        :show-contacts-dropdown="showContactsDropdown"
+        :is-loading="isLoading"
+        :is-creating-contact="isCreatingContact"
+        :contact-id="contactId"
+        :contactable-inboxes-list="contactableInboxesList"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :has-errors="validationStates.isContactInvalid"
+        @search-contacts="handleContactSearch"
+        @set-selected-contact="setSelectedContact"
+        @clear-selected-contact="clearSelectedContact"
+        @update-dropdown="handleDropdownUpdate"
+      />
+      <InboxEmptyState v-if="showNoInboxAlert" />
+      <InboxSelector
+        v-else
+        :target-inbox="targetInbox"
+        :selected-contact="selectedContact"
+        :show-inboxes-dropdown="showInboxesDropdown"
+        :contactable-inboxes-list="contactableInboxesList"
+        :has-errors="validationStates.isInboxInvalid"
+        @update-inbox="removeTargetInbox"
+        @toggle-dropdown="showInboxesDropdown = $event"
+        @handle-inbox-action="handleInboxAction"
+      />
 
-    <EmailOptions
-      v-if="inboxTypes.isEmail"
-      v-model:cc-emails="state.ccEmails"
-      v-model:bcc-emails="state.bccEmails"
-      v-model:subject="state.subject"
-      :contacts="contacts"
-      :show-cc-emails-dropdown="showCcEmailsDropdown"
-      :show-bcc-emails-dropdown="showBccEmailsDropdown"
-      :is-loading="isLoading"
-      :has-errors="validationStates.isSubjectInvalid"
-      @search-cc-emails="searchCcEmails"
-      @search-bcc-emails="searchBccEmails"
-      @update-dropdown="handleDropdownUpdate"
-    />
+      <EmailOptions
+        v-if="inboxTypes.isEmail"
+        v-model:cc-emails="state.ccEmails"
+        v-model:bcc-emails="state.bccEmails"
+        v-model:subject="state.subject"
+        :contacts="contacts"
+        :show-cc-emails-dropdown="showCcEmailsDropdown"
+        :show-bcc-emails-dropdown="showBccEmailsDropdown"
+        :is-loading="isLoading"
+        :has-errors="validationStates.isSubjectInvalid"
+        @search-cc-emails="searchCcEmails"
+        @search-bcc-emails="searchBccEmails"
+        @update-dropdown="handleDropdownUpdate"
+      />
 
-    <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
-      v-model="state.message"
-      :message-signature="messageSignature"
-      :send-with-signature="sendWithSignature"
-      :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
-      :has-errors="validationStates.isMessageInvalid"
-      :has-attachments="state.attachedFiles.length > 0"
-    />
+      <MessageEditor
+        v-if="shouldShowMessageEditor"
+        v-model="state.message"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        :has-errors="validationStates.isMessageInvalid"
+        :channel-type="inboxChannelType"
+        :medium="targetInbox?.medium || ''"
+      />
 
-    <AttachmentPreviews
-      v-if="state.attachedFiles.length > 0"
-      :attachments="state.attachedFiles"
-      @update:attachments="state.attachedFiles = $event"
-    />
+      <AttachmentPreviews
+        v-if="state.attachedFiles.length > 0"
+        :attachments="state.attachedFiles"
+        @update:attachments="state.attachedFiles = $event"
+      />
+    </div>
 
     <ActionButtons
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
+      :is-twilio-whats-app-inbox="inboxTypes.isTwilioWhatsapp"
       :message-templates="whatsappMessageTemplates"
       :channel-type="inboxChannelType"
       :is-loading="isCreating"
@@ -347,6 +426,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       @discard="$emit('discard')"
       @send-message="handleSendMessage"
       @send-whatsapp-message="handleSendWhatsappMessage"
+      @send-twilio-message="handleSendTwilioMessage"
     />
   </div>
 </template>

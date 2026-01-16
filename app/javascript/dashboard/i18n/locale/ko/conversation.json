@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "대화 불러오는 중",
     "CANNOT_REPLY": "당신은 답장을 할 수 없습니다",
     "24_HOURS_WINDOW": "24시간 메시지 창 제한",
+    "48_HOURS_WINDOW": "48시간 메시지 창 제한",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24시간 메시지 창 제한",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "해결함",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "웹 편집기 보기",
       "TIP_EMOJI_ICON": "이모티콘 보기",
       "TIP_ATTACH_ICON": "파일 첨부",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -211,6 +227,13 @@
           "YES": "보내기",
           "CANCEL": "취소"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "개인 노트: 귀하와 귀하의 팀만 볼 수 있음",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

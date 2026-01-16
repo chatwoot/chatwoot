@@ -51,7 +51,10 @@
     },
     "DATE_RANGE_OPTIONS": {
       "LAST_7_DAYS": "最近7天",
+      "LAST_14_DAYS": "最近14天",
       "LAST_30_DAYS": "最近30天",
+      "THIS_MONTH": "This month",
+      "LAST_MONTH": "Last month",
       "LAST_3_MONTHS": "最近3个月",
       "LAST_6_MONTHS": "最近6个月",
       "LAST_YEAR": "最近一年",
@@ -266,6 +269,8 @@
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
     "DOWNLOAD_INBOX_REPORTS": "下载收件箱报表",
     "FILTER_DROPDOWN_LABEL": "选择收件箱",
+    "ALL_INBOXES": "All Inboxes",
+    "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会话",
@@ -462,6 +467,13 @@
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "会话流量",
+      "NO_CONVERSATIONS": "没有会话",
+      "CONVERSATION": "{count} 个会话",
+      "CONVERSATIONS": "{count} 个会话",
+      "DOWNLOAD_REPORT": "下载报告"
+    },
+    "RESOLUTION_HEATMAP": {
+      "HEADER": "Resolutions",
       "NO_CONVERSATIONS": "没有会话",
       "CONVERSATION": "{count} 个会话",
       "CONVERSATIONS": "{count} 个会话",

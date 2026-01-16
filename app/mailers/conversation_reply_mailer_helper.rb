@@ -1,4 +1,6 @@
 module ConversationReplyMailerHelper
+  include ConversationReplyMailerAttachmentHelper
+
   def prepare_mail(cc_bcc_enabled)
     @options = {
       to: to_emails,
@@ -25,34 +27,6 @@ module ConversationReplyMailerHelper
     # and not one of the other email types (summary, transcript, etc.)
     process_attachments_as_files_for_email_reply if @message&.attachments.present?
     mail(@options)
-  end
-
-  def process_attachments_as_files_for_email_reply
-    # Attachment processing for direct email replies (when replying to a single message)
-    #
-    # How attachments are handled:
-    # 1. Total file size (<20MB): Added directly to the email as proper attachments
-    # 2. Total file size (>20MB): Added to @large_attachments to be displayed as links in the email
-
-    @options[:attachments] = []
-    @large_attachments = []
-    current_total_size = 0
-
-    @message.attachments.each do |attachment|
-      raw_data = attachment.file.download
-      attachment_name = attachment.file.filename.to_s
-      file_size = raw_data.bytesize
-
-      # Attach files directly until we hit 20MB total
-      # After reaching 20MB, send remaining files as links
-      if current_total_size + file_size <= 20.megabytes
-        mail.attachments[attachment_name] = raw_data
-        @options[:attachments] << { name: attachment_name }
-        current_total_size += file_size
-      else
-        @large_attachments << attachment
-      end
-    end
   end
 
   private
@@ -118,10 +92,14 @@ module ConversationReplyMailerHelper
   end
 
   def email_from
+    return Email::FromBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
+
     email_oauth_enabled || email_smtp_enabled ? channel_email_with_name : from_email_with_name
   end
 
   def email_reply_to
+    return Email::ReplyToBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
+
     email_imap_enabled ? @channel.email : reply_email
   end
 

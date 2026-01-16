@@ -20,7 +20,9 @@ class Whatsapp::TemplateProcessorService
 
   def find_template
     channel.message_templates.find do |t|
-      t['name'] == template_params['name'] && t['language'] == template_params['language'] && t['status']&.downcase == 'approved'
+      t['name'] == template_params['name'] &&
+        t['language']&.downcase == template_params['language']&.downcase &&
+        t['status']&.downcase == 'approved'
     end
   end
 
@@ -60,9 +62,10 @@ class Whatsapp::TemplateProcessorService
       next if value.blank?
 
       if media_url_with_type?(key, header_data)
-        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'])
+        media_name = header_data['media_name']
+        media_param = parameter_builder.build_media_parameter(value, header_data['media_type'], media_name)
         header_params << media_param if media_param
-      elsif key != 'media_type'
+      elsif key != 'media_type' && key != 'media_name'
         header_params << parameter_builder.build_parameter(value)
       end
     end

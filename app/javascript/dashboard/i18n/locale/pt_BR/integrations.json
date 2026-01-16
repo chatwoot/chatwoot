@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Exemplo: {webhookExampleURL}",
@@ -334,8 +338,8 @@
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "Você tem certeza que deseja excluir a integração com Notion?",
+        "MESSAGE": "Excluir essa integração removerá o acesso ao seu espaço de trabalho Notion e encerrará todas as funcionalidades relacionadas.",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistentes",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copiloto",
       "TRY_THESE_PROMPTS": "Experimente estes comandos",
@@ -473,7 +483,7 @@
           "TITLE": "Funcionalidades",
           "ALLOW_CONVERSATION_FAQS": "Gerar perguntas frequentes a partir de conversas resolvidas",
           "ALLOW_MEMORIES": "Capture os principais detalhes como memórias de interações do cliente.",
-          "ALLOW_CITATIONS": "Include source citations in responses"
+          "ALLOW_CITATIONS": "Incluir fonte de citações nas respostas"
         }
       },
       "EDIT": {
@@ -483,34 +493,33 @@
         "NOT_FOUND": "Não foi possível encontrar o assistente. Tente novamente."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistente"
-        },
+        "HEADER": "Configurações",
         "BASIC_SETTINGS": {
-          "TITLE": "Basic settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Configurações básicas",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
         },
         "SYSTEM_SETTINGS": {
-          "TITLE": "System settings",
-          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+          "TITLE": "Configurações do sistema",
+          "DESCRIPTION": "Personalize o que o assistente diz quando termina uma conversa ou transfere para um humano."
         },
         "CONTROL_ITEMS": {
-          "TITLE": "The Fun Stuff",
-          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "TITLE": "As Coisas Divertidas",
+          "DESCRIPTION": "Adicione mais controle ao assistente. (algo mais visual como uma história: Consulta → cenários → saída) Força o usuário para realmente utilizá-los.",
           "OPTIONS": {
             "GUARDRAILS": {
-              "TITLE": "Guardrails",
-              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
-            },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+              "TITLE": "Proteções",
+              "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico."
             },
             "RESPONSE_GUIDELINES": {
-              "TITLE": "Response guidelines",
-              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+              "TITLE": "Diretrizes de resposta",
+              "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Excluir Assistente",
+          "DESCRIPTION": "Esta ação é permanente. Excluir este assistente irá removê-lo de todas as caixas de entrada conectadas e apagará permanentemente todo o conhecimento gerado.",
+          "BUTTON_TEXT": "Excluir {assistantName}"
         }
       },
       "OPTIONS": {
@@ -527,138 +536,129 @@
         }
       },
       "GUARDRAILS": {
-        "TITLE": "Guardrails",
-        "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
+        "TITLE": "Proteções",
+        "DESCRIPTION": "Mantém as coisas no caminho — apenas os tipos de perguntas que você quer que seu assistente responda, nada fora de limites ou fora do tópico.",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
           "UNSELECT_ALL": "Desmarcar todos ({count})",
           "BULK_DELETE_BUTTON": "Excluir"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example guardrails",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another guardrail..."
+            "TITLE": "Exemplos de proteções",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva outra proteção"
           },
           "NEW": {
-            "TITLE": "Add a guardrail",
+            "TITLE": "Adicionar proteção",
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
-            "PLACEHOLDER": "Type in another guardrail...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Escreva outra proteção",
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Pesquisar..."
         },
-        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No guardrails found for this search.",
+        "EMPTY_MESSAGE": "Nenhuma proteção encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma proteção encontrada para essa pesquisa.",
         "API": {
           "ADD": {
-            "SUCCESS": "Guardrails added successfully",
-            "ERROR": "There was an error adding guardrails, please try again."
+            "SUCCESS": "Proteções adicionadas com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar as proteções. Por favor, tente novamente."
           },
           "UPDATE": {
-            "SUCCESS": "Guardrails updated successfully",
-            "ERROR": "There was an error updating guardrails, please try again."
+            "SUCCESS": "Proteções atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar as proteções. Por favor, tente novamente."
           },
           "DELETE": {
-            "SUCCESS": "Guardrails deleted successfully",
-            "ERROR": "There was an error deleting guardrails, please try again."
+            "SUCCESS": "Proteções removidas com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir as proteções, por favor, tente novamente."
           }
         }
       },
       "RESPONSE_GUIDELINES": {
-        "TITLE": "Response Guidelines",
-        "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
+        "TITLE": "Diretrizes de Resposta",
+        "DESCRIPTION": "O jeito e a estrutura das respostas do seu assistente — tranquilo e amigável? Curto e ágil? Detalhado e formal?",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
           "UNSELECT_ALL": "Desmarcar todos ({count})",
           "BULK_DELETE_BUTTON": "Excluir"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example response guidelines",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "SAVE": "Add and save (↵)",
-            "PLACEHOLDER": "Type in another response guideline..."
+            "TITLE": "Exemplos de diretrizes de resposta",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "SAVE": "Adicionar e salvar (↵)",
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta..."
           },
           "NEW": {
-            "TITLE": "Add a response guideline",
+            "TITLE": "Adicione uma diretriz de resposta",
             "CREATE": "Criar",
             "CANCEL": "Cancelar",
-            "PLACEHOLDER": "Type in another response guideline...",
-            "TEST_ALL": "Test all"
+            "PLACEHOLDER": "Escreva uma outra diretriz de resposta...",
+            "TEST_ALL": "Testar tudo"
           }
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Pesquisar..."
         },
-        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No response guidelines found for this search.",
+        "EMPTY_MESSAGE": "Nenhuma diretriz de resposta encontrada. Crie uma ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhuma diretriz de resposta encotrada para essa pesquisa.",
         "API": {
           "ADD": {
-            "SUCCESS": "Response Guidelines added successfully",
-            "ERROR": "There was an error adding response guidelines, please try again."
+            "SUCCESS": "Diretrizes de resposta adicionadas com sucesso",
+            "ERROR": "Houve um erro ao adicionar diretrizes de resposta, por favor, tente novamente."
           },
           "UPDATE": {
-            "SUCCESS": "Response Guidelines updated successfully",
-            "ERROR": "There was an error updating response guidelines, please try again."
+            "SUCCESS": "Diretrizes de Resposta atualizadas com sucesso",
+            "ERROR": "Houve um erro ao atualizar as diretrizes de resposta, por favor, tente novamente."
           },
           "DELETE": {
-            "SUCCESS": "Response Guidelines deleted successfully",
-            "ERROR": "There was an error deleting response guidelines, please try again."
+            "SUCCESS": "Diretrizes de resposta removidas com sucesso",
+            "ERROR": "Houve um erro ao excluir as diretrizes de resposta, por favor, tente novamente."
           }
         }
       },
       "SCENARIOS": {
-        "TITLE": "Scenarios",
-        "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
+        "TITLE": "Cenários",
+        "DESCRIPTION": "Dê algum contexto ao seu assistente — como \"o que fazer quando um usuário estiver com problemas\", ou \"como agir durante uma solicitação de reembolso\".",
         "BULK_ACTION": {
-          "SELECTED": "{count} item selected | {count} items selected",
+          "SELECTED": "{count} item selecionado | {count} itens selecionados",
           "SELECT_ALL": "Selecionar todos ({count})",
           "UNSELECT_ALL": "Desmarcar todos ({count})",
           "BULK_DELETE_BUTTON": "Excluir"
         },
         "ADD": {
           "SUGGESTED": {
-            "TITLE": "Example scenarios",
-            "ADD": "Add all",
-            "ADD_SINGLE": "Add this",
-            "TOOLS_USED": "Tools used :"
+            "TITLE": "Exemplos de cenários",
+            "ADD": "Adicionar todos",
+            "ADD_SINGLE": "Adicionar este",
+            "TOOLS_USED": "Ferramentas usadas :"
           },
           "NEW": {
-            "CREATE": "Add a scenario",
-            "TITLE": "Create a scenario",
+            "CREATE": "Adicionar um cenário",
+            "TITLE": "Criar um cenário",
             "FORM": {
               "TITLE": {
                 "LABEL": "Título",
-                "PLACEHOLDER": "Enter a name for the scenario",
-                "ERROR": "Scenario name is required"
+                "PLACEHOLDER": "Digite um nome para o cenário",
+                "ERROR": "O nome do cenário é obrigatório"
               },
               "DESCRIPTION": {
                 "LABEL": "Descrição",
-                "PLACEHOLDER": "Describe how and where this scenario will be used",
-                "ERROR": "Scenario description is required"
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Descrição do cenário é obrigatória"
               },
               "INSTRUCTION": {
-                "LABEL": "How to handle",
-                "PLACEHOLDER": "Describe how and where this scenario will be handled",
-                "ERROR": "Scenario content is required"
+                "LABEL": "Como lidar",
+                "PLACEHOLDER": "Descreva como e onde este cenário será utilizado",
+                "ERROR": "Conteúdo do cenário é obrigatório"
               },
               "CREATE": "Criar",
               "CANCEL": "Cancelar"
@@ -667,25 +667,25 @@
         },
         "UPDATE": {
           "CANCEL": "Cancelar",
-          "UPDATE": "Update changes"
+          "UPDATE": "Atualizar alterações"
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Pesquisar..."
         },
-        "EMPTY_MESSAGE": "No scenarios found. Create or add examples to begin.",
-        "SEARCH_EMPTY_MESSAGE": "No scenarios found for this search.",
+        "EMPTY_MESSAGE": "Nenhum cenário encontrado. Crie ou adicione exemplos para começar.",
+        "SEARCH_EMPTY_MESSAGE": "Nenhum cenário encontrado para esta pesquisa.",
         "API": {
           "ADD": {
-            "SUCCESS": "Scenarios added successfully",
-            "ERROR": "There was an error adding scenarios, please try again."
+            "SUCCESS": "Cenários adicionados com sucesso",
+            "ERROR": "Ocorreu um erro ao adicionar cenários, por favor tente novamente."
           },
           "UPDATE": {
-            "SUCCESS": "Scenarios updated successfully",
-            "ERROR": "There was an error updating scenarios, please try again."
+            "SUCCESS": "Cenários atualizados com sucesso",
+            "ERROR": "Ocorreu um erro ao atualizar cenários, por favor tente novamente."
           },
           "DELETE": {
-            "SUCCESS": "Scenarios deleted successfully",
-            "ERROR": "There was an error deleting scenarios, please try again."
+            "SUCCESS": "Cenários excluídos com sucesso",
+            "ERROR": "Ocorreu um erro ao excluir os cenários, por favor tente novamente."
           }
         }
       }
@@ -704,15 +704,27 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o documento, por favor, tente novamente."
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Tipo do documento",
+          "URL": "URL:",
+          "PDF": "Arquivo PDF"
+        },
         "URL": {
           "LABEL": "URL:",
           "PLACEHOLDER": "Insira a URL do documento",
           "ERROR": "Por favor forneça uma URL válida para o documento"
         },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Selecione o assistente",
-          "ERROR": "O campo Assistente é obrigatório"
+        "PDF_FILE": {
+          "LABEL": "Arquivo PDF",
+          "CHOOSE_FILE": "Escolher arquivo PDF",
+          "ERROR": "Por favor, selecione um arquivo PDF",
+          "HELP_TEXT": "Tamanho máximo do arquivo: 10 MB",
+          "INVALID_TYPE": "Por favor, selecione um arquivo PDF válido",
+          "TOO_LARGE": "O tamanho do arquivo excede o limite de 10 MB"
+        },
+        "NAME": {
+          "LABEL": "Nome do documento (opcional)",
+          "PLACEHOLDER": "Insira um nome para o documento"
         }
       },
       "DELETE": {
@@ -735,8 +747,118 @@
         }
       }
     },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Ferramentas",
+      "ADD_NEW": "Criar ferramenta",
+      "EMPTY_STATE": {
+        "TITLE": "Não há ferramentas personalizadas disponíveis",
+        "SUBTITLE": "Crie ferramentas personalizadas para conectar com APIs e serviços externos, permitindo obter dados e agir por você.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Ferramentas Personalizadas",
+          "NOTE": "Ferramentas personalizadas permitem seu assistente interagir com APIs e serviços externos. Crie ferramentas para obter dados, realizar ações ou integre com seus sistemas existentes para melhorar as capacidades do seu assistente."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Tem certeza que deseja excluir está ferramenta customizável? Está ação não pode ser desfeita.",
+        "CONFIRM": "Sim, excluir",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Nome da Ferramenta",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Nome da ferramente obrigatória"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "Nenhuma",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "Chave API"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "Senha",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "Tipo"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "Número",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "Obrigatório"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Criar nova FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversação #{id}"
@@ -744,6 +866,7 @@
       "SELECTED": "{count} selecionado",
       "SELECT_ALL": "Selecionar todos ({count})",
       "UNSELECT_ALL": "Desmarcar todos ({count})",
+      "SEARCH_PLACEHOLDER": "Pesquisar FAQs...",
       "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
@@ -775,6 +898,10 @@
         "APPROVED": "Aceito",
         "ALL": "Todos"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Adicione uma pergunta e sua resposta correspondente à base de conhecimento e selecione o assistente ao qual deve estar associado.",
       "CREATE": {
         "TITLE": "Adicionar uma FAQ",
@@ -791,11 +918,6 @@
           "LABEL": "Responder",
           "PLACEHOLDER": "Digite a resposta aqui",
           "ERROR": "Por favor, forneça uma resposta válida."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistente",
-          "PLACEHOLDER": "Selecione um assistente",
-          "ERROR": "Por favor, selecione um assistente."
         }
       },
       "EDIT": {
@@ -805,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "As Perguntas Frequentes foram marcadas como aprovadas"
       },
       "OPTIONS": {
-        "APPROVE": "Marcar como aprovado",
-        "EDIT_RESPONSE": "Editar Perguntas Frequentes",
-        "DELETE_RESPONSE": "Excluir FAQ"
+        "APPROVE": "Aprovar",
+        "EDIT_RESPONSE": "Alterar",
+        "DELETE_RESPONSE": "Excluir"
       },
       "EMPTY_STATE": {
         "TITLE": "Nenhuma FAQ encontrada",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

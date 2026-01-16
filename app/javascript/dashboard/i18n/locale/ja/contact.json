@@ -17,6 +17,12 @@
     "IP_ADDRESS": "IPアドレス",
     "CREATED_AT_LABEL": "作成日時",
     "NEW_MESSAGE": "新しいメッセージ",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "この連絡先に関連付けられている以前の会話はありません。",
       "TITLE": "以前の会話"
@@ -451,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Instagramを追加"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "LinkedInを追加"
           },
@@ -549,10 +558,12 @@
         "WROTE": "が記入しました",
         "YOU": "あなた",
         "SAVE": "メモを保存",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "拡張",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "この連絡先に関連するメモはありません。上記のボックスに入力してメモを追加できます。"
+        "EMPTY_STATE": "この連絡先に関連するメモはありません。上記のボックスに入力してメモを追加できます。",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -562,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
       "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "ラベルが正常に割り当てられました。",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "削除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "連絡先を削除"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -601,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsAppテンプレート: {templateName}",
           "VARIABLES": "変数",
+          "BACK": "戻る",
+          "SEND_MESSAGE": "メッセージを送信"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "テンプレートを選択",
+        "SEARCH_PLACEHOLDER": "テンプレートを検索",
+        "EMPTY_STATE": "テンプレートが見つかりません。",
+        "TEMPLATE_PARSER": {
           "BACK": "戻る",
           "SEND_MESSAGE": "メッセージを送信"
         }

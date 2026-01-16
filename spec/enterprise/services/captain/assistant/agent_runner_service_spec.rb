@@ -13,7 +13,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   let(:mock_runner) { instance_double(Agents::Runner) }
   let(:mock_agent) { instance_double(Agents::Agent) }
   let(:mock_scenario_agent) { instance_double(Agents::Agent) }
-  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }) }
+  let(:mock_result) { instance_double(Agents::RunResult, output: { 'response' => 'Test response' }, context: nil) }
 
   let(:message_history) do
     [
@@ -90,7 +90,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
-        context: expected_context
+        context: expected_context,
+        max_turns: 100
       )
 
       service.generate_response(message_history: message_history)
@@ -99,7 +100,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     it 'processes and formats agent result' do
       result = service.generate_response(message_history: message_history)
 
-      expect(result).to eq({ 'response' => 'Test response' })
+      expect(result).to eq({ 'response' => 'Test response', 'agent_name' => nil })
     end
 
     context 'when no scenarios are enabled' do
@@ -118,14 +119,15 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
     end
 
     context 'when agent result is a string' do
-      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response') }
+      let(:mock_result) { instance_double(Agents::RunResult, output: 'Simple string response', context: nil) }
 
       it 'formats string response correctly' do
         result = service.generate_response(message_history: message_history)
 
         expect(result).to eq({
                                'response' => 'Simple string response',
-                               'reasoning' => 'Processed by agent'
+                               'reasoning' => 'Processed by agent',
+                               'agent_name' => nil
                              })
       end
     end

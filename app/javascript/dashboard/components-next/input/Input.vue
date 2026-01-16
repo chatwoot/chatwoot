@@ -7,6 +7,11 @@ const props = defineProps({
   placeholder: { type: String, default: '' },
   label: { type: String, default: '' },
   id: { type: String, default: '' },
+  size: {
+    type: String,
+    default: 'md',
+    validator: value => ['sm', 'md'].includes(value),
+  },
   message: { type: String, default: '' },
   disabled: { type: Boolean, default: false },
   messageType: {
@@ -15,6 +20,7 @@ const props = defineProps({
     validator: value => ['info', 'error', 'success'].includes(value),
   },
   min: { type: String, default: '' },
+  max: { type: String, default: '' },
   autofocus: { type: Boolean, default: false },
 });
 
@@ -54,7 +60,12 @@ const inputOutlineClass = computed(() => {
 });
 
 const handleInput = event => {
-  emit('update:modelValue', event.target.value);
+  let value = event.target.value;
+  // Convert to number if type is number and value is not empty
+  if (props.type === 'number' && value !== '') {
+    value = Number(value);
+  }
+  emit('update:modelValue', value);
   emit('input', event);
 };
 
@@ -62,6 +73,17 @@ const handleFocus = event => {
   emit('focus', event);
   isFocused.value = true;
 };
+
+const sizeClass = computed(() => {
+  switch (props.size) {
+    case 'sm':
+      return 'h-8 !px-3 !py-2';
+    case 'md':
+      return 'h-10 !px-3 !py-2.5';
+    default:
+      return 'h-10 !px-3 !py-2.5';
+  }
+});
 
 const handleBlur = event => {
   emit('blur', event);
@@ -94,11 +116,13 @@ onMounted(() => {
     <slot name="prefix" />
     <input
       :id="uniqueId"
+      v-bind="$attrs"
       ref="inputRef"
       :value="modelValue"
       :class="[
         customInputClass,
         inputOutlineClass,
+        sizeClass,
         {
           error: messageType === 'error',
           focus: isFocused,
@@ -108,7 +132,12 @@ onMounted(() => {
       :placeholder="placeholder"
       :disabled="disabled"
       :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+      :max="
+        ['date', 'datetime-local', 'time', 'number'].includes(type)
+          ? max
+          : undefined
+      "
+      class="block w-full reset-base text-sm !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"

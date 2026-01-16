@@ -11,6 +11,7 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 
 import {
   isAConversationRoute,
@@ -28,6 +29,7 @@ export default {
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
+    VoiceCallButton,
   },
   props: {
     contact: {
@@ -278,6 +280,15 @@ export default {
             />
           </template>
         </ComposeConversation>
+        <VoiceCallButton
+          :phone="contact.phone_number"
+          :contact-id="contact.id"
+          icon="i-ri-phone-fill"
+          size="sm"
+          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          slate
+          faded
+        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"

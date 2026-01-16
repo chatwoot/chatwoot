@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "Instruções do CNAME enviadas com sucesso",
+            "ERROR_MESSAGE": "Erro ao enviar as instruções CNAME"
           }
         }
       },
@@ -732,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Link da Página Inicial",
           "PLACEHOLDER": "Link da página inicial do portal",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Digite uma URL válida. O link da página inicial deve começar com 'http://' ou 'https://'."
         },
         "SLUG": {
           "LABEL": "Slug",
@@ -741,7 +741,8 @@
         "LIVE_CHAT_WIDGET": {
           "LABEL": "Widget de chat ao vivo",
           "PLACEHOLDER": "Selecionar widget de chat ao vivo",
-          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda"
+          "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda",
+          "NONE_OPTION": "No widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"
@@ -753,14 +754,14 @@
           "HEADER": "Domínio personalizado",
           "LABEL": "Domínio personalizado:",
           "DESCRIPTION": "Você pode hospedar seu portal em um domínio personalizado. Por exemplo, se seu site for meudominio.com e você quer o seu portal disponível em docs.meudominio.com, basta digitar isso neste campo.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "STATUS_DESCRIPTION": "Seu portal personalizado começará a funcionar assim que for verificado.",
           "PLACEHOLDER": "Domínio personalizado do portal",
           "EDIT_BUTTON": "Alterar",
           "ADD_BUTTON": "Adicionar domínio personalizado",
           "STATUS": {
             "LIVE": "Em tempo real",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "PENDING": "Aguardando verificação",
+            "ERROR": "Verificação falhou"
           },
           "DIALOG": {
             "ADD_HEADER": "Adicionar domínio personalizado",
@@ -770,17 +771,17 @@
             "LABEL": "Domínio personalizado",
             "PLACEHOLDER": "Domínio personalizado do portal",
             "ERROR": "Domínio personalizado é obrigatório",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "FORMAT_ERROR": "Por favor, insira um domínio de URL válido, ex.: docs.seudominio.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Configuração de DNS",
             "DESCRIPTION": "Faça o login na conta que você tem com seu provedor DNS e adicione um registro CNAME para subdomínio apontando para chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "COPY": "CNAME copiado com sucesso",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "HEADER": "Enviar instruções",
+              "DESCRIPTION": "Se você preferir que alguém da sua equipe de desenvolvimento lide com essa etapa, você pode digitar o endereço de e-mail abaixo e nós enviaremos as instruções necessárias.",
+              "PLACEHOLDER": "Insira o e-mail dele",
+              "ERROR": "Insira um endereço de e-mail válido",
               "SEND_BUTTON": "Enviar"
             }
           }
@@ -807,6 +808,58 @@
           "ERROR_MESSAGE": "Não foi possível atualizar o portal"
         }
       }
+    },
+    "PDF_UPLOAD": {
+      "TITLE": "Upload PDF Document",
+      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "DRAG_DROP_TEXT": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
+      "SELECT_FILE": "Select PDF File",
+      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "UPLOADING": "Enviando...",
+      "UPLOAD": "Upload & Process",
+      "CANCEL": "Cancelar",
+      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
+      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_UPLOAD_FAILED": "Falha ao carregar o arquivo PDF. Por favor, tente novamente."
+    },
+    "PDF_DOCUMENTS": {
+      "TITLE": "PDF Documents",
+      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
+      "UPLOAD_PDF": "Upload PDF",
+      "UPLOAD_FIRST_PDF": "Upload your first PDF",
+      "UPLOADED_BY": "Uploaded by",
+      "GENERATE_FAQS": "Generate FAQs",
+      "GENERATING": "Gerando...",
+      "CONFIRM_DELETE": "Tem certeza que deseja excluir {filename}?",
+      "EMPTY_STATE": {
+        "TITLE": "No PDF documents yet",
+        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+      },
+      "STATUS": {
+        "UPLOADED": "Ready",
+        "PROCESSING": "Processing",
+        "PROCESSED": "Concluído",
+        "FAILED": "Failed"
+      }
+    },
+    "CONTENT_GENERATION": {
+      "TITLE": "Content Generation",
+      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
+      "UPLOAD_TITLE": "Upload PDF Document",
+      "DRAG_DROP": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
+      "SELECT_FILE": "Selecionar Arquivo PDF",
+      "UPLOADING": "Processing document...",
+      "UPLOAD_SUCCESS": "Document processed successfully!",
+      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "INVALID_FILE_TYPE": "Por favor, selecione um arquivo PDF válido",
+      "FILE_TOO_LARGE": "File size must be less than 512MB",
+      "GENERATED_CONTENT": "Generated FAQ Content",
+      "PUBLISH_SELECTED": "Publish Selected",
+      "PUBLISHING": "Publishing...",
+      "FROM_DOCUMENT": "From document",
+      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "LOADING": "Carregando conteúdo gerado..."
     }
   }
 }

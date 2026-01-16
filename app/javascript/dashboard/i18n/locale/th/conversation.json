@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "กำลังโหลดการสนทนา",
     "CANNOT_REPLY": "คุณไม่สามารถตอบกลับได้เนื่องจาก",
     "24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
+    "48_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 48 ชั่วโมง",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "การสนทนานี้ไม่ได้ถูกมอบหมายให้คุณ ต้องการที่จะจัดการด้วยตัวเองหรือไม่?",
     "ASSIGN_TO_ME": "มอบหมายให้ฉัน",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "คุณสามารถตอบกลับการสนทนานี้ได้โดยใช้รูปแบบข้อความที่กำหนดเท่านั้น",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "การจำกัดหน้าต่างข้อความ 24 ชั่วโมง",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "แสดงป้ายกำกับ",
       "HIDE_LABELS": "ซ่อนป้ายกำกับ"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "เสร็จสิ้น",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "เเสดงเครื่องมือแก้ไขข้อความริช",
       "TIP_EMOJI_ICON": "แสดงตัวเลือกอีโมจิ",
       "TIP_ATTACH_ICON": "เพิ่มไฟล์แนบ",
       "TIP_AUDIORECORDER_ICON": "บันทึกเสียง",
@@ -211,6 +227,13 @@
           "YES": "ส่ง",
           "CANCEL": "ยกเลิก"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "โน้ตส่วนตัว: มีเพียงคุณและทีมเท่านั้นที่มองเห็นได้",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "ผู้ติดต่อ",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

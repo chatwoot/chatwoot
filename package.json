@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.4.0",
+  "version": "4.10.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -33,8 +33,8 @@
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.2.1",
-    "@chatwoot/utils": "^0.0.49",
+    "@chatwoot/prosemirror-schema": "1.3.5",
+    "@chatwoot/utils": "^0.0.51",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
@@ -50,6 +50,7 @@
     "@sindresorhus/slugify": "2.2.1",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/vue-table": "^8.21.3",
+    "@twilio/voice-sdk": "^2.12.4",
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/compiler-sfc": "^3.5.13",
     "@vuelidate/core": "^2.0.3",
@@ -57,7 +58,7 @@
     "@vueuse/components": "^12.8.2",
     "@vueuse/core": "^12.8.2",
     "activestorage": "^5.2.8",
-    "axios": "^1.8.4",
+    "axios": "^1.13.2",
     "camelcase-keys": "^9.1.3",
     "chart.js": "~4.4.9",
     "color2k": "^2.0.3",
@@ -70,6 +71,8 @@
     "flag-icons": "^7.3.2",
     "floating-vue": "^5.2.2",
     "highlight.js": "^11.11.1",
+    "html-to-image": "^1.11.13",
+    "html2canvas": "^1.4.1",
     "idb": "^8.0.2",
     "js-cookie": "^3.0.5",
     "json-logic-js": "^2.0.5",
@@ -80,6 +83,9 @@
     "md5": "^2.3.0",
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
+    "pinia": "^3.0.4",
+    "@amplitude/analytics-browser": "^2.11.10",
+    "qrcode": "^1.5.4",
     "semver": "7.6.3",
     "snakecase-keys": "^8.0.1",
     "timezone-phone-codes": "^0.0.2",
@@ -108,10 +114,10 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.9.0",
     "@histoire/plugin-vue": "0.17.15",
-    "@iconify-json/logos": "^1.2.4",
-    "@iconify-json/lucide": "^1.2.37",
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/lucide": "^1.2.82",
     "@iconify-json/ph": "^1.2.2",
-    "@iconify-json/ri": "^1.2.5",
+    "@iconify-json/ri": "^1.2.6",
     "@iconify-json/teenyicons": "^1.2.2",
     "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
     "@size-limit/file": "^8.2.6",
@@ -130,20 +136,20 @@
     "fake-indexeddb": "^6.0.0",
     "histoire": "0.17.15",
     "husky": "^7.0.4",
-    "jsdom": "^24.1.3",
-    "lint-staged": "14.0.1",
+    "jsdom": "^27.2.0",
+    "lint-staged": "^16.2.7",
     "postcss": "^8.5.3",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
-    "vite": "5.4.19",
+    "vite": "^5.4.21",
     "vite-plugin-ruby": "^5.1.1",
     "vitest": "3.0.5"
   },
   "engines": {
-    "node": "23.x",
+    "node": "24.x",
     "pnpm": "10.x"
   },
   "husky": {
@@ -154,7 +160,7 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.19",
+      "vite": "5.4.21",
       "vitest": "3.0.5"
     }
   },

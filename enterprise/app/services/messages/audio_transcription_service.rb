@@ -1,4 +1,8 @@
-class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
+class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
+  include Integrations::LlmInstrumentation
+
+  WHISPER_MODEL = 'whisper-1'.freeze
+
   attr_reader :attachment, :message, :account
 
   def initialize(attachment)
@@ -27,10 +31,16 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   end
 
   def fetch_audio_file
-    temp_dir = Rails.root.join('tmp/uploads')
+    temp_dir = Rails.root.join('tmp/uploads/audio-transcriptions')
     FileUtils.mkdir_p(temp_dir)
-    temp_file_path = File.join(temp_dir, attachment.file.filename.to_s)
-    File.write(temp_file_path, attachment.file.download, mode: 'wb')
+    temp_file_path = File.join(temp_dir, "#{attachment.file.blob.key}-#{attachment.file.filename}")
+
+    File.open(temp_file_path, 'wb') do |file|
+      attachment.file.blob.open do |blob_file|
+        IO.copy_stream(blob_file, file)
+      end
+    end
+
     temp_file_path
   end
 
@@ -40,18 +50,33 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
 
     temp_file_path = fetch_audio_file
 
-    response = @client.audio.transcribe(
-      parameters: {
-        model: 'whisper-1',
-        file: File.open(temp_file_path),
-        temperature: 0.4
-      }
-    )
+    transcribed_text = nil
+
+    File.open(temp_file_path, 'rb') do |file|
+      response = @client.audio.transcribe(
+        parameters: {
+          model: 'whisper-1',
+          file: file,
+          temperature: 0.4
+        }
+      )
+      transcribed_text = response['text']
+    end
 
     FileUtils.rm_f(temp_file_path)
 
-    update_transcription(response['text'])
-    response['text']
+    update_transcription(transcribed_text)
+    transcribed_text
+  end
+
+  def instrumentation_params(file_path)
+    {
+      span_name: 'llm.messages.audio_transcription',
+      model: WHISPER_MODEL,
+      account_id: account&.id,
+      feature_name: 'audio_transcription',
+      file_path: file_path
+    }
   end
 
   def update_transcription(transcribed_text)
@@ -60,5 +85,9 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     attachment.update!(meta: { transcribed_text: transcribed_text })
     message.reload.send_update_event
     message.account.increment_response_usage
+
+    return unless ChatwootApp.advanced_search_allowed?
+
+    message.reindex
   end
 end

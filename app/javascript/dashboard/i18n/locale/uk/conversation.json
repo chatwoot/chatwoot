@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Завантаження бесід",
     "CANNOT_REPLY": "Ви не можете відповісти через",
     "24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
-    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
+    "48_HOURS_WINDOW": "48-годинне обмеження на повідомлення",
+    "API_HOURS_WINDOW": "Ви можете відповідати лише в межах {hours} годин",
     "NOT_ASSIGNED_TO_YOU": "Ця розмова не призначена на вас. Ви бажаєте призначити цю розмову на себе?",
     "ASSIGN_TO_ME": "Призначити мені",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Відзначити відкритим та призначити на себе",
+    "BOT_HANDOFF_REOPEN_ACTION": "Позначити розмову відкритою",
+    "BOT_HANDOFF_SUCCESS": "Розмова була призначена на вас",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Ви можете відповісти на цю розмову тільки за допомогою шаблонного повідомлення через",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24-годинне обмеження на повідомлення",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "Показати мітки",
       "HIDE_LABELS": "Сховати мітки"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Вирішити",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "Детальніше",
       "DISMISS_REPLY": "Відхилити відповідь",
       "REPLYING_TO": "Відповісти:",
-      "TIP_FORMAT_ICON": "Показати текстовий редактор",
       "TIP_EMOJI_ICON": "Показати емодзі",
       "TIP_ATTACH_ICON": "Прикріпити файли",
       "TIP_AUDIORECORDER_ICON": "Записати аудіо",
@@ -211,6 +227,13 @@
           "YES": "Надіслати",
           "CANCEL": "Скасувати"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Приватна нотатка: видима тільки вам та вашій команді",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Контакт",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -311,7 +344,7 @@
       "CONVERSATION_ACTIONS": "Дії при бесіді",
       "CONVERSATION_LABELS": "Мітки бесіди",
       "CONVERSATION_INFO": "Інформація про бесіду",
-      "CONTACT_NOTES": "Contact Notes",
+      "CONTACT_NOTES": "Нотатки контакту",
       "CONTACT_ATTRIBUTES": "Атрибути контакту",
       "PREVIOUS_CONVERSATION": "Попередні бесіди",
       "MACROS": "Макрос",

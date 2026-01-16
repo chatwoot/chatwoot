@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "A carregar conversas",
     "CANNOT_REPLY": "Não pode responder porque",
     "24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
+    "48_HOURS_WINDOW": "Mensagens bloqueadas durante 48 horas",
     "API_HOURS_WINDOW": "Só pode responder a esta conversa dentro de {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a si. Gostaria de atribuir esta conversa a si mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
+    "BOT_HANDOFF_MESSAGE": "You are responding to a conversation which is currently handled by an assistant or a bot.",
+    "BOT_HANDOFF_ACTION": "Mark open and assign to you",
+    "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
+    "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
+    "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Só pode responder utilizando uma mensagem modelo, porque",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Mensagens bloqueadas durante 24 horas",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal Instagram. Todas as novas mensagens aparecerão lá. Já não poderá enviar mensagens a partir desta conversa.",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "Mostrar etiquetas",
       "HIDE_LABELS": "Ocultar etiquetas"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered"
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "Ler mais",
       "DISMISS_REPLY": "Descartar resposta",
       "REPLYING_TO": "Em resposta a:",
-      "TIP_FORMAT_ICON": "Mostrar editor de texto completo",
       "TIP_EMOJI_ICON": "Mostrar selecionador de emojis",
       "TIP_ATTACH_ICON": "Anexar ficheiros",
       "TIP_AUDIORECORDER_ICON": "Gravar áudio",
@@ -211,6 +227,13 @@
           "YES": "Enviar",
           "CANCEL": "Cancelar"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Nota Privada: Apenas visível para si e para a sua equipa",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contacto",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

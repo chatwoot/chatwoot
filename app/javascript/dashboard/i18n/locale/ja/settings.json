@@ -51,6 +51,13 @@
             "LARGER": "Larger",
             "EXTRA_LARGE": "Extra Large"
           }
+        },
+        "LANGUAGE": {
+          "TITLE": "Preferred Language",
+          "NOTE": "Choose the language you want to use.",
+          "UPDATE_SUCCESS": "Your Language settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the language settings, please try again",
+          "USE_ACCOUNT_DEFAULT": "Use account default"
         }
       },
       "MESSAGE_SIGNATURE_SECTION": {
@@ -72,6 +79,11 @@
         "TITLE": "パスワード",
         "NOTE": "パスワードを更新すると、複数のデバイスでログインがリセットされます。",
         "BTN_TEXT": "パスワードを変更"
+      },
+      "SECURITY_SECTION": {
+        "TITLE": "Security",
+        "NOTE": "Manage additional security features for your account.",
+        "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "ACCESS_TOKEN": {
         "TITLE": "アクセストークン",
@@ -222,10 +234,12 @@
     "CONTACT_SUPPORT": "サポートに問い合わせる",
     "SELECTOR_SUBTITLE": "次のリストからアカウントを選択してください",
     "PROFILE_SETTINGS": "プロフィール設定",
+    "YEAR_IN_REVIEW": "Year in Review",
     "KEYBOARD_SHORTCUTS": "キーボードショートカット",
     "APPEARANCE": "外観を変更",
     "SUPER_ADMIN_CONSOLE": "SuperAdminコンソール",
     "DOCS": "ドキュメントを読む",
+    "CHANGELOG": "Changelog",
     "LOGOUT": "ログアウト"
   },
   "APP_GLOBAL": {
@@ -238,6 +252,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "アカウント停止中",
       "MESSAGE": "アカウントが停止されています。詳細についてはサポートチームにお問い合わせください。"
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "ログアウト"
     }
   },
   "COMPONENTS": {
@@ -287,10 +307,17 @@
     "SETTINGS": "設定",
     "CONTACTS": "連絡先",
     "ACTIVE": "有効",
+    "COMPANIES": "Companies",
+    "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "キャプテン",
     "CAPTAIN_ASSISTANTS": "アシスタント",
     "CAPTAIN_DOCUMENTS": "ドキュメント",
     "CAPTAIN_RESPONSES": "FAQ",
+    "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_SCENARIOS": "Scenarios",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "受信トレイ",
+    "CAPTAIN_SETTINGS": "設定",
     "HOME": "ホーム",
     "AGENTS": "担当者",
     "AGENT_BOTS": "ボット",
@@ -329,6 +356,7 @@
     "REPORTS_LABEL": "ラベル",
     "REPORTS_INBOX": "受信トレイ",
     "REPORTS_TEAM": "チーム",
+    "AGENT_ASSIGNMENT": "Agent Assignment",
     "SET_AVAILABILITY_TITLE": "ステータスを設定",
     "SET_YOUR_AVAILABILITY": "利用可能ステータスを設定",
     "SLA": "SLA",
@@ -349,7 +377,8 @@
       "INFO_TEXT": "アプリやダッシュボードを使用していない場合に、システムが自動的にオフラインに設定します。",
       "INFO_SHORT": "使用していない場合、自動的にオフラインにします。"
     },
-    "DOCS": "ドキュメントを読む"
+    "DOCS": "ドキュメントを読む",
+    "SECURITY": "Security"
   },
   "BILLING_SETTINGS": {
     "TITLE": "請求設定",
@@ -372,14 +401,110 @@
       "BUTTON_TXT": "クレジットを追加購入する",
       "DOCUMENTS": "ドキュメント",
       "RESPONSES": "応答数",
-      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。"
+      "UPGRADE": "Captainは無料プランでは利用できません。アシスタント、Copilotなどの機能を利用するには、プランをアップグレードしてください。",
+      "REFRESH_CREDITS": "再読み込み"
     },
     "CHAT_WITH_US": {
       "TITLE": "サポートが必要ですか？",
       "DESCRIPTION": "請求に関する問題がありますか？お手伝いします。",
       "BUTTON_TXT": "チャットをする"
     },
-    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。"
+    "NO_BILLING_USER": "請求アカウントを設定中です。ページを更新してもう一度お試しください。",
+    "TOPUP": {
+      "BUY_CREDITS": "クレジットを追加購入する",
+      "MODAL_TITLE": "Buy AI Credits",
+      "MODAL_DESCRIPTION": "Purchase additional credits for Captain AI.",
+      "CREDITS": "CREDITS",
+      "ONE_TIME": "one-time",
+      "POPULAR": "Most Popular",
+      "NOTE_TITLE": "Note:",
+      "NOTE_DESCRIPTION": "Credits are added immediately and expire in 6 months. An active subscription is required to use credits. Purchased credits are consumed after your monthly plan credits.",
+      "CANCEL": "キャンセル",
+      "PURCHASE": "Purchase Credits",
+      "LOADING": "Loading options...",
+      "FETCH_ERROR": "Failed to load credit options. Please try again.",
+      "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
+      "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
+      "CONFIRM": {
+        "TITLE": "Confirm Purchase",
+        "DESCRIPTION": "You are about to purchase {credits} credits for {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Your saved card will be charged immediately upon confirmation.",
+        "GO_BACK": "戻る",
+        "CONFIRM_PURCHASE": "Confirm Purchase"
+      }
+    }
+  },
+  "SECURITY_SETTINGS": {
+    "TITLE": "Security",
+    "DESCRIPTION": "Manage your account security settings.",
+    "LINK_TEXT": "Learn more about SAML SSO",
+    "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
+    "SAML": {
+      "TITLE": "SAML SSO",
+      "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
+      "ACS_URL": {
+        "LABEL": "ACS URL",
+        "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SSO_URL": {
+        "LABEL": "SSO URL",
+        "HELP": "The URL where SAML authentication requests will be sent",
+        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+      },
+      "CERTIFICATE": {
+        "LABEL": "Signing certificate in PEM format",
+        "HELP": "The public certificate from your identity provider used to verify SAML responses",
+        "PLACEHOLDER": "-----BEGIN CERTIFICATE-----\nMIIC..."
+      },
+      "FINGERPRINT": {
+        "LABEL": "Fingerprint",
+        "TOOLTIP": "SHA-1 fingerprint of the certificate - Use this to verify the certificate in your IdP configuration"
+      },
+      "COPY_SUCCESS": "コードが正常にクリップボードにコピーされました",
+      "SP_ENTITY_ID": {
+        "LABEL": "SP Entity ID",
+        "HELP": "Unique identifier for this application as a service provider (auto-generated).",
+        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+      },
+      "IDP_ENTITY_ID": {
+        "LABEL": "Identity Provider Entity ID",
+        "HELP": "Unique identifier for your identity provider (usually found in IdP configuration)",
+        "PLACEHOLDER": "https://your-idp.com/saml"
+      },
+      "UPDATE_BUTTON": "Update SAML Settings",
+      "API": {
+        "SUCCESS": "SAML settings updated successfully",
+        "ERROR": "Failed to update SAML settings",
+        "ERROR_LOADING": "Failed to load SAML settings",
+        "DISABLED": "SAML settings disabled successfully"
+      },
+      "VALIDATION": {
+        "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "SSO_URL_ERROR": "Please enter a valid SSO URL",
+        "CERTIFICATE_ERROR": "Certificate is required",
+        "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade to an Enterprise plan to access SAML single sign-on and other advanced security features.",
+        "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to enable SAML SSO",
+        "AVAILABLE_ON": "The SAML SSO feature is only available in the Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to get access to SAML single sign-on and other advanced features.",
+        "UPGRADE_NOW": "今すぐアップグレード",
+        "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
+      },
+      "ATTRIBUTE_MAPPING": {
+        "TITLE": "SAML Attribute Setup",
+        "DESCRIPTION": "The following attribute mappings must be configured in your identity provider"
+      },
+      "INFO_SECTION": {
+        "TITLE": "Service Provider Information",
+        "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Chatwootアカウントが見つかりませんでした。続行するには新しいアカウントを作成してください。",
@@ -416,6 +541,256 @@
       "SWITCH_TO_PRIVATE_NOTE": "プライベートメモに切り替え",
       "SWITCH_TO_REPLY": "返信に切り替え",
       "TOGGLE_SNOOZE_DROPDOWN": "スヌーズドロップダウンを切り替え"
+    }
+  },
+  "ASSIGNMENT_POLICY": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Agent assignment",
+        "DESCRIPTION": "Define policies to effectively manage workload and route conversations based on the needs of inboxes and agents. Learn more here"
+      },
+      "ASSIGNMENT_POLICY": {
+        "TITLE": "Assignment policy",
+        "DESCRIPTION": "Manage how conversations get assigned in inboxes.",
+        "FEATURES": [
+          "Assign by conversations evenly or by available capacity",
+          "Add fair distribution rules to avoid overloading any agent",
+          "Add inboxes to a policy - one policy per inbox"
+        ]
+      },
+      "AGENT_CAPACITY_POLICY": {
+        "TITLE": "Agent capacity policy",
+        "DESCRIPTION": "Manage workload for agents.",
+        "FEATURES": [
+          "Define maximum conversations per inbox",
+          "Create exceptions based on labels and time",
+          "Add agents to a policy - one policy per agent"
+        ]
+      }
+    },
+    "AGENT_ASSIGNMENT_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Assignment policy",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "ORDER": "Order",
+          "PRIORITY": "優先度",
+          "ACTIVE": "有効",
+          "INACTIVE": "Inactive",
+          "POPOVER": "Added inboxes",
+          "EDIT": "編集"
+        },
+        "NO_RECORDS_FOUND": "No assignment policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create assignment policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy created successfully",
+          "ERROR_MESSAGE": "Failed to create assignment policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit assignment policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_INBOX_DIALOG": {
+          "TITLE": "Add inbox",
+          "DESCRIPTION": "{inboxName} inbox is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "キャンセル"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Assignment policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update assignment policy"
+        },
+        "INBOX_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Inbox removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove inbox from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明:",
+          "PLACEHOLDER": "説明を入力"
+        },
+        "STATUS": {
+          "LABEL": "ステータス:",
+          "PLACEHOLDER": "状況を選択",
+          "ACTIVE": "Policy is active",
+          "INACTIVE": "Policy is inactive"
+        },
+        "ASSIGNMENT_ORDER": {
+          "LABEL": "Assignment order",
+          "ROUND_ROBIN": {
+            "LABEL": "Round robin",
+            "DESCRIPTION": "Assign conversations evenly among agents."
+          },
+          "BALANCED": {
+            "LABEL": "Balanced",
+            "DESCRIPTION": "Assign conversations based on available capacity."
+          }
+        },
+        "ASSIGNMENT_PRIORITY": {
+          "LABEL": "Assignment priority",
+          "EARLIEST_CREATED": {
+            "LABEL": "Earliest created",
+            "DESCRIPTION": "The conversation that was created first gets assigned first."
+          },
+          "LONGEST_WAITING": {
+            "LABEL": "Longest waiting",
+            "DESCRIPTION": "The conversation waiting the longest gets assigned first."
+          }
+        },
+        "FAIR_DISTRIBUTION": {
+          "LABEL": "Fair distribution policy",
+          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "INPUT_MAX": "Assign max",
+          "DURATION": "Conversations per agent in every"
+        },
+        "INBOXES": {
+          "LABEL": "Added inboxes",
+          "DESCRIPTION": "Add inboxes for which this policy will be applicable.",
+          "ADD_BUTTON": "Add inbox",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select inboxes to add",
+            "ADD_BUTTON": "追加"
+          },
+          "EMPTY_STATE": "No inboxes added to this policy, add an inbox to get started",
+          "API": {
+            "SUCCESS_MESSAGE": "Inbox successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add inbox to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete assignment policy"
+      }
+    },
+    "AGENT_CAPACITY_POLICY": {
+      "INDEX": {
+        "HEADER": {
+          "TITLE": "Agent capacity",
+          "CREATE_POLICY": "New policy"
+        },
+        "CARD": {
+          "POPOVER": "Added agents",
+          "EDIT": "編集"
+        },
+        "NO_RECORDS_FOUND": "No agent capacity policies found"
+      },
+      "CREATE": {
+        "HEADER": {
+          "TITLE": "Create agent capacity policy"
+        },
+        "CREATE_BUTTON": "Create policy",
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy created successfully",
+          "ERROR_MESSAGE": "Failed to create agent capacity policy"
+        }
+      },
+      "EDIT": {
+        "HEADER": {
+          "TITLE": "Edit agent capacity policy"
+        },
+        "EDIT_BUTTON": "Update policy",
+        "CONFIRM_ADD_AGENT_DIALOG": {
+          "TITLE": "Add agent",
+          "DESCRIPTION": "{agentName} is already linked to another policy. Are you sure you want to link it to this policy? It will be unlinked from the other policy.",
+          "CONFIRM_BUTTON_LABEL": "Continue",
+          "CANCEL_BUTTON_LABEL": "キャンセル"
+        },
+        "API": {
+          "SUCCESS_MESSAGE": "Agent capacity policy updated successfully",
+          "ERROR_MESSAGE": "Failed to update agent capacity policy"
+        },
+        "AGENT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Agent added to policy successfully",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          },
+          "REMOVE": {
+            "SUCCESS_MESSAGE": "Agent removed from policy successfully",
+            "ERROR_MESSAGE": "Failed to remove agent from policy"
+          }
+        }
+      },
+      "FORM": {
+        "NAME": {
+          "LABEL": "Policy name:",
+          "PLACEHOLDER": "Enter policy name"
+        },
+        "DESCRIPTION": {
+          "LABEL": "説明:",
+          "PLACEHOLDER": "説明を入力"
+        },
+        "INBOX_CAPACITY_LIMIT": {
+          "LABEL": "Inbox capacity limits",
+          "ADD_BUTTON": "Add inbox",
+          "FIELD": {
+            "SELECT_INBOX": "Select inbox",
+            "MAX_CONVERSATIONS": "Max conversations",
+            "SET_LIMIT": "Set limit"
+          },
+          "EMPTY_STATE": "No inbox limit set"
+        },
+        "EXCLUSION_RULES": {
+          "LABEL": "Exclusion rules",
+          "DESCRIPTION": "Conversations that satisfy the following conditions would not count towards agent capacity",
+          "TAGS": {
+            "LABEL": "Exclude conversations tagged with specific labels",
+            "ADD_TAG": "add tag",
+            "DROPDOWN": {
+              "SEARCH_PLACEHOLDER": "Search and select tags to add"
+            },
+            "EMPTY_STATE": "No tags added to this policy."
+          },
+          "DURATION": {
+            "LABEL": "Exclude conversations older than a specified duration",
+            "PLACEHOLDER": "Set time"
+          }
+        },
+        "USERS": {
+          "LABEL": "Assigned agents",
+          "DESCRIPTION": "Add agents for which this policy will be applicable.",
+          "ADD_BUTTON": "Add agent",
+          "DROPDOWN": {
+            "SEARCH_PLACEHOLDER": "Search and select agents to add",
+            "ADD_BUTTON": "追加"
+          },
+          "EMPTY_STATE": "No agents added",
+          "API": {
+            "SUCCESS_MESSAGE": "Agent successfully added to policy",
+            "ERROR_MESSAGE": "Failed to add agent to policy"
+          }
+        }
+      },
+      "DELETE_POLICY": {
+        "SUCCESS_MESSAGE": "Agent capacity policy deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete agent capacity policy"
+      }
+    },
+    "DELETE_POLICY": {
+      "TITLE": "Delete policy",
+      "DESCRIPTION": "Are you sure you want to delete this policy? This action cannot be undone.",
+      "CONFIRM_BUTTON_LABEL": "削除",
+      "CANCEL_BUTTON_LABEL": "キャンセル"
     }
   }
 }

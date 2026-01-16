@@ -101,7 +101,7 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
 
   def send_message
     post_message if message_content.present?
-    upload_file if message.attachments.any?
+    upload_files if message.attachments.any?
   rescue Slack::Web::Api::Errors::AccountInactive, Slack::Web::Api::Errors::MissingScope, Slack::Web::Api::Errors::InvalidAuth,
          Slack::Web::Api::Errors::ChannelNotFound, Slack::Web::Api::Errors::NotInChannel => e
     Rails.logger.error e
@@ -120,36 +120,52 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     )
   end
 
-  def upload_file
-    message.attachments.each do |attachment|
-      next unless attachment.with_attached_file?
+  def upload_files
+    files = build_files_array
+    return if files.empty?
 
-      begin
-        result = slack_client.files_upload_v2(
-          filename: attachment.file.filename.to_s,
-          content: attachment.file.download,
-          initial_comment: 'Attached File!',
-          thread_ts: conversation.identifier,
-          channel_id: hook.reference_id
-        )
-        Rails.logger.info "slack_upload_result: #{result}"
-      rescue Slack::Web::Api::Errors::SlackError => e
-        Rails.logger.error "Failed to upload file #{attachment.file.filename}: #{e.message}"
-      end
+    begin
+      result = slack_client.files_upload_v2(
+        files: files,
+        initial_comment: 'Attached File!',
+        thread_ts: conversation.identifier,
+        channel_id: hook.reference_id
+      )
+      Rails.logger.info "slack_upload_result: #{result}"
+    rescue Slack::Web::Api::Errors::SlackError => e
+      Rails.logger.error "Failed to upload files: #{e.message}"
+    ensure
+      files.each { |file| file[:content]&.clear }
     end
   end
 
-  def file_type
-    File.extname(message.attachments.first.download_url).strip.downcase[1..]
+  def build_files_array
+    message.attachments.filter_map do |attachment|
+      next unless attachment.with_attached_file?
+
+      build_file_payload(attachment)
+    end
   end
 
-  def file_information
+  def build_file_payload(attachment)
+    content = download_attachment_content(attachment)
+    return if content.blank?
+
     {
-      filename: message.attachments.first.file.filename,
-      filetype: file_type,
-      content: message.attachments.first.file.download,
-      title: message.attachments.first.file.filename
+      filename: attachment.file.filename.to_s,
+      content: content,
+      title: attachment.file.filename.to_s
     }
+  end
+
+  def download_attachment_content(attachment)
+    buffer = +''
+    attachment.file.blob.open do |file|
+      while (chunk = file.read(64.kilobytes))
+        buffer << chunk
+      end
+    end
+    buffer
   end
 
   def sender_name(sender)

@@ -16,31 +16,7 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
       let(:administrator) { create(:user, account: account, role: :administrator) }
 
-      context 'when feature is not enabled' do
-        before do
-          account.disable_features!(:whatsapp_embedded_signup)
-        end
-
-        it 'returns forbidden' do
-          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-               params: {
-                 code: 'test_code',
-                 business_id: 'test_business_id',
-                 waba_id: 'test_waba_id'
-               },
-               headers: agent.create_new_auth_token,
-               as: :json
-
-          expect(response).to have_http_status(:forbidden)
-          expect(response.parsed_body['error']).to eq('WhatsApp embedded signup is not enabled for this account')
-        end
-      end
-
-      context 'when feature is enabled' do
-        before do
-          account.enable_features!(:whatsapp_embedded_signup)
-        end
-
+      context 'when authenticated user makes request' do
         it 'returns unprocessable entity when code is missing' do
           post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
                params: {
@@ -246,10 +222,6 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       context 'when user is not authorized for the account' do
         let(:other_account) { create(:account) }
 
-        before do
-          account.enable_features!(:whatsapp_embedded_signup)
-        end
-
         it 'returns unauthorized' do
           post "/api/v1/accounts/#{other_account.id}/whatsapp/authorization",
                params: {
@@ -265,10 +237,6 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       end
 
       context 'when user is an administrator' do
-        before do
-          account.enable_features!(:whatsapp_embedded_signup)
-        end
-
         it 'allows channel creation' do
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
           whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
@@ -320,10 +288,6 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
 
     context 'when user is an administrator' do
       let(:administrator) { create(:user, account: account, role: :administrator) }
-
-      before do
-        account.enable_features!(:whatsapp_embedded_signup)
-      end
 
       context 'with valid parameters' do
         let(:valid_params) do
@@ -489,7 +453,6 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
       let(:agent) { create(:user, account: account, role: :agent) }
 
       before do
-        account.enable_features!(:whatsapp_embedded_signup)
         create(:inbox_member, inbox: whatsapp_inbox, user: agent)
       end
 

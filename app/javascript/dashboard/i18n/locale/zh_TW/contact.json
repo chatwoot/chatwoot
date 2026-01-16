@@ -17,6 +17,12 @@
     "IP_ADDRESS": "IP 位置",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "新訊息",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "此聯絡人没有關聯到以前的對話。",
       "TITLE": "上一次對話"
@@ -451,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
           },
@@ -549,10 +558,12 @@
         "WROTE": "wrote",
         "YOU": "You",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Expand",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -562,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "找不到符合條件的聯絡人 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Assign Labels",
+    "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "刪除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "刪除聯絡人"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -601,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Variables",
+          "BACK": "返回",
+          "SEND_MESSAGE": "傳送訊息"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "返回",
           "SEND_MESSAGE": "傳送訊息"
         }

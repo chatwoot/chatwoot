@@ -48,7 +48,8 @@
       "CREATED_AT": "Created At",
       "LAST_ACTIVITY": "Senaste aktivitet",
       "REFERER_LINK": "Referrer link",
-      "BLOCKED": "Blockerad"
+      "BLOCKED": "Blockerad",
+      "LABELS": "Etiketter"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard Filters",

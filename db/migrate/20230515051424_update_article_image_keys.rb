@@ -47,6 +47,7 @@ class ArticleKeyConverter
   end
 end
 
+# rubocop:disable Style/OneClassPerFile
 class UpdateArticleImageKeys < ActiveRecord::Migration[7.0]
   def change
     # Iterate through all articles
@@ -56,3 +57,4 @@ class UpdateArticleImageKeys < ActiveRecord::Migration[7.0]
     end
   end
 end
+# rubocop:enable Style/OneClassPerFile

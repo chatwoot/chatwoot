@@ -27,15 +27,20 @@
       "LABEL": "Geslo",
       "PLACEHOLDER": "Geslo",
       "ERROR": "Geslo je prekratko.",
-      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak."
+      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak.",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Potrdite geslo",
       "PLACEHOLDER": "Potrdite geslo",
-      "ERROR": "Geslo se ne ujema."
+      "ERROR": "Gesli se ne ujemata."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registracija uspešna",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno."
     },
     "SUBMIT": "Ustvari račun",

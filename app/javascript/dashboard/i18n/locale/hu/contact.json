@@ -17,6 +17,12 @@
     "IP_ADDRESS": "IP cím",
     "CREATED_AT_LABEL": "Létrehozva",
     "NEW_MESSAGE": "Új üzenet",
+    "CALL": "Call",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "VOICE_INBOX_PICKER": {
+      "TITLE": "Choose a voice inbox"
+    },
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "Nincs megelőző beszélgetés ezzel a kontakttal.",
       "TITLE": "Korábbi beszélgetések"
@@ -451,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Add Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
           },
@@ -549,10 +558,12 @@
         "WROTE": "írta",
         "YOU": "Ön",
         "SAVE": "Save note",
+        "ADD_NOTE": "Add contact note",
         "EXPAND": "Kiegészítés",
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
       }
     },
     "EMPTY_STATE": {
@@ -562,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nincs a keresésnek megfelelő kontakt 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "Cimke hozzáadása",
+    "ASSIGN_LABELS_SUCCESS": "Címkék hozzárendelése sikeres.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} selected",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "Select all ({count})",
+    "DELETE_CONTACTS": "Törlés",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "Kontakt törlése"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
@@ -601,6 +633,15 @@
         "TEMPLATE_PARSER": {
           "TEMPLATE_NAME": "WhatsApp template: {templateName}",
           "VARIABLES": "Változók",
+          "BACK": "Visszaugrás",
+          "SEND_MESSAGE": "Üzenet elküldése"
+        }
+      },
+      "TWILIO_OPTIONS": {
+        "LABEL": "Select template",
+        "SEARCH_PLACEHOLDER": "Search templates",
+        "EMPTY_STATE": "No templates found",
+        "TEMPLATE_PARSER": {
           "BACK": "Visszaugrás",
           "SEND_MESSAGE": "Üzenet elküldése"
         }

@@ -62,7 +62,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def process_attached_logo
     blob_id = params[:blob_id]
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id)
     @portal.logo.attach(blob)
   end
 
@@ -78,14 +78,15 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :id, :account_id, :color, :custom_domain, :header_text, :homepage_link,
+      :id, :color, :custom_domain, :header_text, :homepage_link,
       :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
     )
   end
 
   def live_chat_widget_params
     permitted_params = params.permit(:inbox_id)
-    return {} if permitted_params[:inbox_id].blank?
+    return {} unless permitted_params.key?(:inbox_id)
+    return { channel_web_widget_id: nil } if permitted_params[:inbox_id].blank?
 
     inbox = Inbox.find(permitted_params[:inbox_id])
     return {} unless inbox.web_widget?

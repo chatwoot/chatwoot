@@ -96,3 +96,18 @@ export const sanitizeVariableSearchKey = (searchKey = '') => {
     .replace(/,/g, '') // remove commas
     .trim();
 };
+
+/**
+ * Convert underscore-separated string to title case.
+ * Eg. "round_robin" => "Round Robin"
+ * @param {string} str
+ * @returns {string}
+ */
+export const formatToTitleCase = str => {
+  return (
+    str
+      ?.replace(/_/g, ' ')
+      .replace(/\b\w/g, l => l.toUpperCase())
+      .trim() || ''
+  );
+};

@@ -4,19 +4,19 @@ describe('useChannelIcon', () => {
   it('returns correct icon for API channel', () => {
     const inbox = { channel_type: 'Channel::Api' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-cloudy-fill');
+    expect(icon).toBe('i-woot-api');
   });
 
   it('returns correct icon for Facebook channel', () => {
     const inbox = { channel_type: 'Channel::FacebookPage' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-messenger-fill');
+    expect(icon).toBe('i-woot-messenger');
   });
 
   it('returns correct icon for WhatsApp channel', () => {
     const inbox = { channel_type: 'Channel::Whatsapp' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-whatsapp-fill');
+    expect(icon).toBe('i-woot-whatsapp');
   });
 
   it('returns correct icon for Voice channel', () => {
@@ -28,19 +28,19 @@ describe('useChannelIcon', () => {
   it('returns correct icon for Line channel', () => {
     const inbox = { channel_type: 'Channel::Line' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-line-fill');
+    expect(icon).toBe('i-woot-line');
   });
 
   it('returns correct icon for SMS channel', () => {
     const inbox = { channel_type: 'Channel::Sms' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-chat-1-fill');
+    expect(icon).toBe('i-woot-sms');
   });
 
   it('returns correct icon for Telegram channel', () => {
     const inbox = { channel_type: 'Channel::Telegram' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-telegram-fill');
+    expect(icon).toBe('i-woot-telegram');
   });
 
   it('returns correct icon for Twitter channel', () => {
@@ -52,20 +52,26 @@ describe('useChannelIcon', () => {
   it('returns correct icon for WebWidget channel', () => {
     const inbox = { channel_type: 'Channel::WebWidget' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-global-fill');
+    expect(icon).toBe('i-woot-website');
   });
 
   it('returns correct icon for Instagram channel', () => {
     const inbox = { channel_type: 'Channel::Instagram' };
     const { value: icon } = useChannelIcon(inbox);
-    expect(icon).toBe('i-ri-instagram-fill');
+    expect(icon).toBe('i-woot-instagram');
+  });
+
+  it('returns correct icon for TikTok channel', () => {
+    const inbox = { channel_type: 'Channel::Tiktok' };
+    const { value: icon } = useChannelIcon(inbox);
+    expect(icon).toBe('i-woot-tiktok');
   });
 
   describe('TwilioSms channel', () => {
     it('returns chat icon for regular Twilio SMS channel', () => {
       const inbox = { channel_type: 'Channel::TwilioSms' };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-chat-1-fill');
+      expect(icon).toBe('i-woot-sms');
     });
 
     it('returns WhatsApp icon for Twilio SMS with WhatsApp medium', () => {
@@ -74,7 +80,7 @@ describe('useChannelIcon', () => {
         medium: 'whatsapp',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-whatsapp-fill');
+      expect(icon).toBe('i-woot-whatsapp');
     });
 
     it('returns chat icon for Twilio SMS with non-WhatsApp medium', () => {
@@ -83,7 +89,7 @@ describe('useChannelIcon', () => {
         medium: 'sms',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-chat-1-fill');
+      expect(icon).toBe('i-woot-sms');
     });
 
     it('returns chat icon for Twilio SMS with undefined medium', () => {
@@ -92,7 +98,7 @@ describe('useChannelIcon', () => {
         medium: undefined,
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-chat-1-fill');
+      expect(icon).toBe('i-woot-sms');
     });
   });
 
@@ -100,7 +106,7 @@ describe('useChannelIcon', () => {
     it('returns mail icon for generic email channel', () => {
       const inbox = { channel_type: 'Channel::Email' };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-mail-fill');
+      expect(icon).toBe('i-woot-mail');
     });
 
     it('returns Microsoft icon for Microsoft email provider', () => {
@@ -109,7 +115,7 @@ describe('useChannelIcon', () => {
         provider: 'microsoft',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-microsoft-fill');
+      expect(icon).toBe('i-woot-outlook');
     });
 
     it('returns Google icon for Google email provider', () => {
@@ -118,7 +124,7 @@ describe('useChannelIcon', () => {
         provider: 'google',
       };
       const { value: icon } = useChannelIcon(inbox);
-      expect(icon).toBe('i-ri-google-fill');
+      expect(icon).toBe('i-woot-gmail');
     });
   });
 

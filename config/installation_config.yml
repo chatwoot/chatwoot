@@ -79,10 +79,20 @@
   display_title: 'System events Webhook URL'
   description: 'The URL to which the system events like new accounts created will be sent'
   locked: false
+- name: WEBHOOK_TIMEOUT
+  value: 5
+  display_title: 'Webhook request timeout (seconds)'
+  description: 'Maximum time Chatwoot waits for a webhook response before failing the request'
+  locked: false
 - name: DIRECT_UPLOADS_ENABLED
   type: boolean
   value: false
   description: 'Enable direct uploads to cloud storage'
+  locked: false
+- name: MAXIMUM_FILE_UPLOAD_SIZE
+  value: 40
+  display_title: 'Attachment size limit (MB)'
+  description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
 # ------- End of Account Related Config ------- #
 
@@ -120,7 +130,7 @@
 - name: FACEBOOK_API_VERSION
   display_title: 'Facebook API Version'
   description: 'Configure this if you want to use a different Facebook API version. Make sure its prefixed with `v`'
-  value: 'v17.0'
+  value: 'v18.0'
   locked: false
 - name: ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT
   display_title: 'Enable human agent'
@@ -169,11 +179,15 @@
   type: secret
 - name: CAPTAIN_OPEN_AI_MODEL
   display_title: 'OpenAI Model'
-  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4o-mini'
+  description: 'The OpenAI model configured for use in Captain AI. Default: gpt-4.1-mini'
   locked: false
 - name: CAPTAIN_OPEN_AI_ENDPOINT
   display_title: 'OpenAI API Endpoint (optional)'
   description: 'The OpenAI endpoint configured for use in Captain AI. Default: https://api.openai.com/'
+  locked: false
+- name: CAPTAIN_EMBEDDING_MODEL
+  display_title: 'Embedding Model (optional)'
+  description: 'The embedding model configured for use in Captain AI. Default: text-embedding-3-small'
   locked: false
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
@@ -185,7 +199,6 @@
   description: 'The limits for the Captain AI service for different plans'
   value:
   type: code
-
 # End of Captain Config
 
 # ------- Chatwoot Internal Config for Cloud ----#
@@ -212,10 +225,10 @@
 - name: DEPLOYMENT_ENV
   value: self-hosted
   description: 'The deployment environment of the installation, to differentiate between Chatwoot cloud and self-hosted'
-- name: ANALYTICS_TOKEN
+- name: CLOUD_ANALYTICS_TOKEN
   value:
   display_title: 'Analytics Token'
-  description: 'The June.so analytics token for Chatwoot cloud'
+  description: 'The Amplitude analytics API key for Chatwoot cloud'
   type: secret
 - name: CLEARBIT_API_KEY
   value:
@@ -232,6 +245,10 @@
   display_title: 'Blocked Email Domains'
   description: 'Add a domain per line to block them from signing up, accepts Regex'
   type: code
+- name: SKIP_INCOMING_BCC_PROCESSING
+  value:
+  display_title: 'Skip BCC Processing For'
+  description: 'Comma-separated list of account IDs that should be skipped from incoming BCC processing'
 - name: INACTIVE_WHATSAPP_NUMBERS
   value: ''
   display_title: 'Inactive WhatsApp Numbers'
@@ -389,6 +406,16 @@
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
 
+# ------- TikTok Channel Related Config ------- #
+- name: TIKTOK_APP_ID
+  display_title: 'TikTok App ID'
+  locked: false
+- name: TIKTOK_APP_SECRET
+  display_title: 'TikTok App Secret'
+  locked: false
+  type: secret
+# ------- End of TikTok Channel Related Config ------- #
+
 # ------- OG Image Related Config ------- #
 - name: OG_IMAGE_CDN_URL
   display_title: 'OG Image CDN URL'
@@ -420,7 +447,22 @@
   value:
   locked: false
   description: 'The redirect URI configured in your Google OAuth app'
+- name: ENABLE_GOOGLE_OAUTH_LOGIN
+  display_title: 'Enable Google OAuth login'
+  value: true
+  locked: false
+  description: 'Show Google OAuth as a login option when credentials are configured'
+  type: boolean
 ## ------ End of Configs added for Google OAuth ------ ##
+
+## ------ Configs added for SAML SSO ------ ##
+- name: ENABLE_SAML_SSO_LOGIN
+  display_title: 'Enable SAML SSO login'
+  value: true
+  locked: false
+  description: 'Show SAML SSO as a login option. Cannot be disabled if any users are using SAML authentication.'
+  type: boolean
+## ------ End of Configs added for SAML SSO ------ ##
 
 ## ------ Configs added for Cloudflare ------ ##
 - name: CLOUDFLARE_API_KEY
@@ -435,3 +477,36 @@
   locked: false
   description: 'Zone ID for the Cloudflare domain'
 ## ------ End of Configs added for Cloudflare ------ ##
+
+## ------ Customizations for Customers ------ ##
+- name: WIDGET_TOKEN_EXPIRY
+  display_title: 'Widget Token Expiry'
+  value: 180
+  locked: false
+  description: 'Token expiry in days'
+## ------ End of Customizations for Customers ------ ##
+
+## ----- LLM Observability ---- ##
+- name: OTEL_PROVIDER
+  display_title: 'OpenTelemetry Provider'
+  description: 'LLM observability provider (langfuse, langsmith, etc.)'
+  value: ''
+  locked: false
+- name: LANGFUSE_PUBLIC_KEY
+  display_title: 'Langfuse Public Key'
+  description: 'Public key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_SECRET_KEY
+  display_title: 'Langfuse Secret Key'
+  description: 'Secret key for Langfuse authentication'
+  value: ''
+  locked: false
+  type: secret
+- name: LANGFUSE_BASE_URL
+  display_title: 'Langfuse Base URL'
+  description: 'Langfuse endpoint (US: https://us.cloud.langfuse.com, EU: https://cloud.langfuse.com)'
+  value: 'https://us.cloud.langfuse.com'
+  locked: false
+## ---- End of LLM Observability ---- ##

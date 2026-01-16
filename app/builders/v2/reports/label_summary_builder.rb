@@ -28,7 +28,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
     {
       conversation_counts: fetch_conversation_counts(conversation_filter),
-      resolved_counts: fetch_resolved_counts(conversation_filter),
+      resolved_counts: fetch_resolved_counts,
       resolution_metrics: fetch_metrics(conversation_filter, 'conversation_resolved', use_business_hours),
       first_response_metrics: fetch_metrics(conversation_filter, 'first_response', use_business_hours),
       reply_metrics: fetch_metrics(conversation_filter, 'reply_time', use_business_hours)
@@ -62,10 +62,21 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
     fetch_counts(conversation_filter)
   end
 
-  def fetch_resolved_counts(conversation_filter)
-    # since the base query is ActsAsTaggableOn,
-    # the status :resolved won't automatically be converted to integer status
-    fetch_counts(conversation_filter.merge(status: Conversation.statuses[:resolved]))
+  def fetch_resolved_counts
+    # Count resolution events, not conversations currently in resolved status
+    # Filter by reporting_event.created_at, not conversation.created_at
+    reporting_event_filter = { name: 'conversation_resolved', account_id: account.id }
+    reporting_event_filter[:created_at] = range if range.present?
+
+    ReportingEvent
+      .joins(conversation: { taggings: :tag })
+      .where(
+        reporting_event_filter.merge(
+          taggings: { taggable_type: 'Conversation', context: 'labels' }
+        )
+      )
+      .group('tags.name')
+      .count
   end
 
   def fetch_counts(conversation_filter)
@@ -84,9 +95,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def fetch_metrics(conversation_filter, event_name, use_business_hours)
     ReportingEvent
-      .joins('INNER JOIN conversations ON reporting_events.conversation_id = conversations.id')
-      .joins('INNER JOIN taggings ON taggings.taggable_id = conversations.id')
-      .joins('INNER JOIN tags ON taggings.tag_id = tags.id')
+      .joins(conversation: { taggings: :tag })
       .where(
         conversations: conversation_filter,
         name: event_name,

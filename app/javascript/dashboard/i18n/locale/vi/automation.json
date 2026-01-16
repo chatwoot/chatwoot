@@ -177,7 +177,8 @@
       "REFERER_LINK": "Referrer Link",
       "ASSIGNEE_NAME": "Assignee",
       "TEAM_NAME": "Nhóm",
-      "PRIORITY": "Mức độ ưu tiên"
+      "PRIORITY": "Mức độ ưu tiên",
+      "LABELS": "Nhãn"
     }
   }
 }

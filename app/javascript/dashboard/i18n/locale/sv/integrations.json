@@ -46,6 +46,10 @@
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
+        "NAME": {
+          "LABEL": "Webhook Name",
+          "PLACEHOLDER": "Enter the name of the webhook"
+        },
         "END_POINT": {
           "LABEL": "Webhook URL",
           "PLACEHOLDER": "Example: {webhookExampleURL}",
@@ -344,6 +348,12 @@
   "CAPTAIN": {
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
+    "ASSISTANT_SWITCHER": {
+      "ASSISTANTS": "Assistants",
+      "SWITCH_ASSISTANT": "Switch between assistants",
+      "NEW_ASSISTANT": "Create Assistant",
+      "EMPTY_LIST": "No assistants found, please create one to get started"
+    },
     "COPILOT": {
       "TITLE": "Copilot",
       "TRY_THESE_PROMPTS": "Try these prompts",
@@ -483,9 +493,7 @@
         "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "SETTINGS": {
-        "BREADCRUMB": {
-          "ASSISTANT": "Assistant"
-        },
+        "HEADER": "Inställningar",
         "BASIC_SETTINGS": {
           "TITLE": "Basic settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
@@ -502,15 +510,16 @@
               "TITLE": "Guardrails",
               "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
             },
-            "SCENARIOS": {
-              "TITLE": "Scenarios",
-              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
-            },
             "RESPONSE_GUIDELINES": {
               "TITLE": "Response guidelines",
               "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
             }
           }
+        },
+        "DELETE": {
+          "TITLE": "Delete Assistant",
+          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase all generated knowledge.",
+          "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
       "OPTIONS": {
@@ -529,9 +538,6 @@
       "GUARDRAILS": {
         "TITLE": "Guardrails",
         "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic.",
-        "BREADCRUMB": {
-          "TITLE": "Guardrails"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -577,9 +583,6 @@
       "RESPONSE_GUIDELINES": {
         "TITLE": "Response Guidelines",
         "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?",
-        "BREADCRUMB": {
-          "TITLE": "Response Guidelines"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -625,9 +628,6 @@
       "SCENARIOS": {
         "TITLE": "Scenarios",
         "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”",
-        "BREADCRUMB": {
-          "TITLE": "Scenarios"
-        },
         "BULK_ACTION": {
           "SELECTED": "{count} item selected | {count} items selected",
           "SELECT_ALL": "Select all ({count})",
@@ -704,15 +704,27 @@
         "ERROR_MESSAGE": "There was an error creating the document, please try again."
       },
       "FORM": {
+        "TYPE": {
+          "LABEL": "Document Type",
+          "URL": "URL",
+          "PDF": "PDF File"
+        },
         "URL": {
           "LABEL": "URL",
           "PLACEHOLDER": "Enter the URL of the document",
           "ERROR": "Please provide a valid URL for the document"
         },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select the assistant",
-          "ERROR": "The assistant field is required"
+        "PDF_FILE": {
+          "LABEL": "PDF File",
+          "CHOOSE_FILE": "Choose PDF file",
+          "ERROR": "Please select a PDF file",
+          "HELP_TEXT": "Maximum file size: 10MB",
+          "INVALID_TYPE": "Please select a valid PDF file",
+          "TOO_LARGE": "File size exceeds 10MB limit"
+        },
+        "NAME": {
+          "LABEL": "Document Name (Optional)",
+          "PLACEHOLDER": "Enter a name for the document"
         }
       },
       "DELETE": {
@@ -735,8 +747,118 @@
         }
       }
     },
+    "CUSTOM_TOOLS": {
+      "HEADER": "Tools",
+      "ADD_NEW": "Create a new tool",
+      "EMPTY_STATE": {
+        "TITLE": "No custom tools available",
+        "SUBTITLE": "Create custom tools to connect your assistant with external APIs and services, enabling it to fetch data and perform actions on your behalf.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Custom Tools",
+          "NOTE": "Custom tools allow your assistant to interact with external APIs and services. Create tools to fetch data, perform actions, or integrate with your existing systems to enhance your assistant's capabilities."
+        }
+      },
+      "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
+      "OPTIONS": {
+        "EDIT_TOOL": "Edit tool",
+        "DELETE_TOOL": "Delete tool"
+      },
+      "CREATE": {
+        "TITLE": "Create Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool created successfully",
+        "ERROR_MESSAGE": "Failed to create custom tool"
+      },
+      "EDIT": {
+        "TITLE": "Edit Custom Tool",
+        "SUCCESS_MESSAGE": "Custom tool updated successfully",
+        "ERROR_MESSAGE": "Failed to update custom tool"
+      },
+      "DELETE": {
+        "TITLE": "Delete Custom Tool",
+        "DESCRIPTION": "Are you sure you want to delete this custom tool? This action cannot be undone.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "Custom tool deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete custom tool"
+      },
+      "FORM": {
+        "TITLE": {
+          "LABEL": "Tool Name",
+          "PLACEHOLDER": "Order Lookup",
+          "ERROR": "Tool name is required"
+        },
+        "DESCRIPTION": {
+          "LABEL": "Beskrivning",
+          "PLACEHOLDER": "Looks up order details by order ID"
+        },
+        "HTTP_METHOD": {
+          "LABEL": "Method"
+        },
+        "ENDPOINT_URL": {
+          "LABEL": "Endpoint URL",
+          "PLACEHOLDER": "https://api.example.com/orders/{'{{'} order_id {'}}'}",
+          "ERROR": "Valid URL is required"
+        },
+        "AUTH_TYPE": {
+          "LABEL": "Authentication Type"
+        },
+        "AUTH_TYPES": {
+          "NONE": "None",
+          "BEARER": "Bearer Token",
+          "BASIC": "Basic Auth",
+          "API_KEY": "API Key"
+        },
+        "AUTH_CONFIG": {
+          "BEARER_TOKEN": "Bearer Token",
+          "BEARER_TOKEN_PLACEHOLDER": "Enter your bearer token",
+          "USERNAME": "Username",
+          "USERNAME_PLACEHOLDER": "Enter username",
+          "PASSWORD": "Lösenord",
+          "PASSWORD_PLACEHOLDER": "Enter password",
+          "API_KEY": "Header Name",
+          "API_KEY_PLACEHOLDER": "X-API-Key",
+          "API_VALUE": "Header Value",
+          "API_VALUE_PLACEHOLDER": "Enter API key value"
+        },
+        "PARAMETERS": {
+          "LABEL": "Parameters",
+          "HELP_TEXT": "Define the parameters that will be extracted from user queries"
+        },
+        "ADD_PARAMETER": "Add Parameter",
+        "PARAM_NAME": {
+          "PLACEHOLDER": "Parameter name (e.g., order_id)"
+        },
+        "PARAM_TYPE": {
+          "PLACEHOLDER": "Type"
+        },
+        "PARAM_TYPES": {
+          "STRING": "String",
+          "NUMBER": "Number",
+          "BOOLEAN": "Boolean",
+          "ARRAY": "Array",
+          "OBJECT": "Object"
+        },
+        "PARAM_DESCRIPTION": {
+          "PLACEHOLDER": "Description of the parameter"
+        },
+        "PARAM_REQUIRED": {
+          "LABEL": "Required"
+        },
+        "REQUEST_TEMPLATE": {
+          "LABEL": "Request Body Template (Optional)",
+          "PLACEHOLDER": "{'{'}\n  \"order_id\": \"{'{{'} order_id {'}}'}\"\n{'}'}"
+        },
+        "RESPONSE_TEMPLATE": {
+          "LABEL": "Response Template (Optional)",
+          "PLACEHOLDER": "Order {'{{'} order_id {'}}'} status: {'{{'} status {'}}'}"
+        },
+        "ERRORS": {
+          "PARAM_NAME_REQUIRED": "Parameter name is required"
+        }
+      }
+    },
     "RESPONSES": {
       "HEADER": "FAQs",
+      "PENDING_FAQS": "Pending FAQs",
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
@@ -744,6 +866,7 @@
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
+      "SEARCH_PLACEHOLDER": "Search FAQs...",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Radera",
       "BULK_APPROVE": {
@@ -775,6 +898,10 @@
         "APPROVED": "Approved",
         "ALL": "Alla"
       },
+      "PENDING_BANNER": {
+        "TITLE": "Captain has found some FAQs your customers were looking for.",
+        "ACTION": "Click here to review"
+      },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
         "TITLE": "Add an FAQ",
@@ -791,11 +918,6 @@
           "LABEL": "Answer",
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
-        },
-        "ASSISTANT": {
-          "LABEL": "Assistant",
-          "PLACEHOLDER": "Select an assistant",
-          "ERROR": "Please select an assistant."
         }
       },
       "EDIT": {
@@ -805,13 +927,15 @@
         "APPROVE_SUCCESS_MESSAGE": "The FAQ was marked as approved"
       },
       "OPTIONS": {
-        "APPROVE": "Mark as approved",
-        "EDIT_RESPONSE": "Edit FAQ",
-        "DELETE_RESPONSE": "Delete FAQ"
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Redigera",
+        "DELETE_RESPONSE": "Radera"
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
+        "NO_PENDING_TITLE": "There are no more pending FAQs to review",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "CLEAR_SEARCH": "Clear active filters",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain FAQ",
           "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."

@@ -1,12 +1,13 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { sanitizeTextForRender } from '@chatwoot/utils';
 import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
-import { EmailQuoteExtractor } from './removeReply.js';
-import BaseBubble from 'next/message/bubbles/Base.vue';
+import { EmailQuoteExtractor } from 'dashboard/helper/emailQuoteExtractor.js';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
+import BaseBubble from 'next/message/bubbles/Base.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
@@ -37,14 +38,21 @@ const { hasTranslations, translationContent } =
 const originalEmailText = computed(() => {
   const text =
     contentAttributes?.value?.email?.textContent?.full ?? content.value;
-  return text?.replace(/\n/g, '<br>');
+  return sanitizeTextForRender(text);
 });
 
 const originalEmailHtml = computed(
   () =>
-    contentAttributes?.value?.email?.htmlContent?.full ??
+    contentAttributes?.value?.email?.htmlContent?.full ||
     originalEmailText.value
 );
+
+const hasEmailContent = computed(() => {
+  return (
+    contentAttributes?.value?.email?.textContent?.full ||
+    contentAttributes?.value?.email?.htmlContent?.full
+  );
+});
 
 const messageContent = computed(() => {
   // If translations exist and we're showing translations (not original)
@@ -136,7 +144,7 @@ const handleSeeOriginal = () => {
           </button>
         </div>
         <FormattedContent
-          v-if="isOutgoing && content"
+          v-if="isOutgoing && content && !hasEmailContent"
           class="text-n-slate-12"
           :content="messageContent"
         />

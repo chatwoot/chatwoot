@@ -1,7 +1,7 @@
 <script setup>
-import { computed, h, reactive } from 'vue';
+import { computed, h, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useToggle } from '@vueuse/core';
+import { useToggle, useElementSize } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
@@ -11,6 +11,7 @@ import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: {
@@ -31,7 +32,7 @@ const props = defineProps({
   },
   tools: {
     type: Array,
-    required: true,
+    default: () => [],
   },
   selectable: {
     type: Boolean,
@@ -60,7 +61,13 @@ const state = reactive({
   instruction: '',
 });
 
+const instructionContentRef = ref();
+
 const [isEditing, toggleEditing] = useToggle();
+const [isInstructionExpanded, toggleInstructionExpanded] = useToggle();
+
+const { height: contentHeight } = useElementSize(instructionContentRef);
+const needsOverlay = computed(() => contentHeight.value > 160);
 
 const startEdit = () => {
   Object.assign(state, {
@@ -111,7 +118,7 @@ const LINK_INSTRUCTION_CLASS =
 
 const renderInstruction = instruction => () =>
   h('p', {
-    class: `text-sm text-n-slate-12 py-4 mb-0 [&_ol]:list-decimal ${LINK_INSTRUCTION_CLASS}`,
+    class: `text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none ${LINK_INSTRUCTION_CLASS}`,
     innerHTML: instruction,
   });
 </script>
@@ -157,8 +164,38 @@ const renderInstruction = instruction => () =>
           />
         </div>
       </div>
-      <component :is="renderInstruction(formatMessage(instruction, false))" />
-      <span class="text-sm text-n-slate-11 font-medium mb-1">
+
+      <div
+        class="relative overflow-hidden transition-all duration-300 ease-in-out group/expandable"
+        :class="{ 'cursor-pointer': needsOverlay }"
+        :style="{
+          maxHeight: isInstructionExpanded ? `${contentHeight}px` : '10rem',
+        }"
+        @click="needsOverlay ? toggleInstructionExpanded() : null"
+      >
+        <div ref="instructionContentRef">
+          <component
+            :is="renderInstruction(formatMessage(instruction, false))"
+          />
+        </div>
+
+        <div
+          class="absolute bottom-0 w-full flex items-end justify-center text-xs text-n-slate-11 bg-gradient-to-t h-40 from-n-solid-2 via-n-solid-2 via-10% to-transparent transition-all duration-500 ease-in-out px-2 py-1 rounded pointer-events-none"
+          :class="{
+            'visible opacity-100': !isInstructionExpanded,
+            'invisible opacity-0': isInstructionExpanded || !needsOverlay,
+          }"
+        >
+          <Icon
+            icon="i-lucide-chevron-down"
+            class="text-n-slate-7 mb-4 size-4 group-hover/expandable:text-n-slate-11 transition-colors duration-200"
+          />
+        </div>
+      </div>
+      <span
+        v-if="tools?.length"
+        class="text-sm text-n-slate-11 font-medium mb-1"
+      >
         {{ t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.SUGGESTED.TOOLS_USED') }}
         {{ tools?.map(tool => `@${tool}`).join(', ') }}
       </span>

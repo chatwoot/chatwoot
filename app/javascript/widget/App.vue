@@ -4,12 +4,10 @@ import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
-import routerMixin from './mixins/routerMixin';
 import {
   getExtraSpaceToScroll,
   loadedEventConfig,
@@ -20,6 +18,8 @@ import {
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import { useRouter } from 'vue-router';
+import { useAvailability } from 'widget/composables/useAvailability';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -28,10 +28,13 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin],
+  mixins: [configMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
-    return { prefersDarkMode };
+    const router = useRouter();
+    const { isInWorkingHours } = useAvailability();
+
+    return { prefersDarkMode, router, isInWorkingHours };
   },
   data() {
     return {
@@ -79,6 +82,7 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    this.setWidgetColorVariable(widgetColor);
     setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
@@ -111,6 +115,14 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    setWidgetColorVariable(widgetColor) {
+      if (widgetColor) {
+        document.documentElement.style.setProperty(
+          '--widget-color',
+          widgetColor
+        );
+      }
+    },
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
@@ -157,15 +169,17 @@ export default {
         this.setUnreadView();
       });
       emitter.on(ON_UNREAD_MESSAGE_CLICK, () => {
-        this.replaceRoute('messages').then(() => this.unsetUnreadView());
+        this.router
+          .replace({ name: 'messages' })
+          .then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
       emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
         if (this.shouldShowPreChatForm) {
-          this.replaceRoute('prechat-form');
+          this.router.replace({ name: 'prechat-form' });
         } else {
-          this.replaceRoute('messages');
+          this.router.replace({ name: 'messages' });
           emitter.emit('execute-campaign', {
             campaignId: this.activeCampaign.id,
           });
@@ -176,7 +190,7 @@ export default {
         const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
-        this.replaceRoute('messages');
+        this.router.replace({ name: 'messages' });
       });
       emitter.on('snooze-campaigns', () => {
         const expireBy = addHours(new Date(), 1);
@@ -192,7 +206,7 @@ export default {
         !messageCount &&
         !shouldSnoozeCampaign;
       if (this.isIFrame && isCampaignReadyToExecute) {
-        this.replaceRoute('campaigns').then(() => {
+        this.router.replace({ name: 'campaigns' }).then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
@@ -207,7 +221,7 @@ export default {
         unreadMessageCount > 0 &&
         !this.isWidgetOpen
       ) {
-        this.replaceRoute('unread-messages').then(() => {
+        this.router.replace({ name: 'unread-messages' }).then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
         });
@@ -263,7 +277,7 @@ export default {
           this.initCampaigns({
             currentURL: referrerURL,
             websiteToken,
-            isInBusinessHours: this.isInBusinessHours,
+            isInBusinessHours: this.isInWorkingHours,
           });
           window.referrerURL = referrerURL;
           this.setReferrerHost(referrerHost);
@@ -314,12 +328,12 @@ export default {
             ['unread-messages', 'campaigns'].includes(this.$route.name);
 
           if (shouldShowMessageView) {
-            this.replaceRoute('messages');
+            this.router.replace({ name: 'messages' });
           }
           if (shouldShowHomeView) {
             this.$store.dispatch('conversation/setUserLastSeen');
             this.unsetUnreadView();
-            this.replaceRoute('home');
+            this.router.replace({ name: 'home' });
           }
           if (!message.isOpen) {
             this.resetCampaign();

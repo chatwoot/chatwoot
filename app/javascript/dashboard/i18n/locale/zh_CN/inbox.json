@@ -76,19 +76,19 @@
     "REAUTHORIZE": {
       "TITLE": "Reauthorization Required",
       "DESCRIPTION": "Your WhatsApp connection has expired. Please reconnect to continue receiving and sending messages.",
-      "BUTTON_TEXT": "Reconnect WhatsApp",
-      "LOADING_FACEBOOK": "Loading Facebook SDK...",
-      "SUCCESS": "WhatsApp reconnected successfully",
-      "ERROR": "Failed to reconnect WhatsApp. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
+      "BUTTON_TEXT": "重新连接 WhatsApp",
+      "LOADING_FACEBOOK": "加载 Facebook SDK...",
+      "SUCCESS": "WhatsApp 重新连接成功",
+      "ERROR": "无法重新连接 WhatsApp。请再试一次。",
+      "WHATSAPP_APP_ID_MISSING": "WhatsApp ID未配置。请联系您的管理员。",
       "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
-      "CONFIGURATION_ERROR": "Configuration error occurred during reauthorization.",
-      "FACEBOOK_LOAD_ERROR": "Failed to load Facebook SDK. Please try again.",
+      "CONFIGURATION_ERROR": "重新授权时发生配置错误。",
+      "FACEBOOK_LOAD_ERROR": "无法加载 Facebook SDK。请重试。",
       "TROUBLESHOOTING": {
-        "TITLE": "Troubleshooting",
-        "POPUP_BLOCKED": "Ensure pop-ups are allowed for this site",
-        "COOKIES": "Third-party cookies must be enabled",
-        "ADMIN_ACCESS": "You need admin access to the WhatsApp Business Account"
+        "TITLE": "疑难解答",
+        "POPUP_BLOCKED": "确保此站点允许弹出窗口",
+        "COOKIES": "必须启用第三方cookie",
+        "ADMIN_ACCESS": "您需要管理员权限才能访问 WhatsApp Business 账户"
       }
     }
   }

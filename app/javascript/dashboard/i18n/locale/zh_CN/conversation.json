@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "加载更多对话",
     "CANNOT_REPLY": "您不能回复，原因是：",
     "24_HOURS_WINDOW": "24 小时消息窗口限制",
+    "48_HOURS_WINDOW": "48 小时消息窗口限制",
     "API_HOURS_WINDOW": "您只能在 {hours} 小时内回复此对话",
     "NOT_ASSIGNED_TO_YOU": "此对话未分配给您。您想要将此对话分配给自己吗？",
     "ASSIGN_TO_ME": "分配给我",
+    "BOT_HANDOFF_MESSAGE": "您正在回复目前由助手或机器人处理的对话。",
+    "BOT_HANDOFF_ACTION": "标记打开并分配给自己",
+    "BOT_HANDOFF_REOPEN_ACTION": "标记对话已打开",
+    "BOT_HANDOFF_SUCCESS": "对话已分配给您",
+    "BOT_HANDOFF_ERROR": "接管对话失败，请再试一次。",
     "TWILIO_WHATSAPP_CAN_REPLY": "您只能使用模板信息回复此会话，原因是",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 小时消息窗口限制",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "此 Instagram 帐户已迁移到新的 Instagram 通道收件箱。 所有新消息都将在这里显示。您将无法从这个对话中发送消息。",
@@ -65,6 +71,17 @@
     "CARD": {
       "SHOW_LABELS": "显示标签",
       "HIDE_LABELS": "隐藏标签"
+    },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "来电",
+      "OUTGOING_CALL": "已拨出电话",
+      "CALL_IN_PROGRESS": "呼叫进行中",
+      "NO_ANSWER": "无应答",
+      "MISSED_CALL": "未接来电",
+      "CALL_ENDED": "通话结束",
+      "NOT_ANSWERED_YET": "尚未回复",
+      "THEY_ANSWERED": "对方已回复",
+      "YOU_ANSWERED": "你已回复"
     },
     "HEADER": {
       "RESOLVE_ACTION": "已解决",
@@ -144,9 +161,9 @@
       "AGENTS_LOADING": "正在加载客服代表...",
       "ASSIGN_TEAM": "分配一个团队",
       "DELETE": "删除对话",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "OPEN_IN_NEW_TAB": "在新标签页中打开",
+      "COPY_LINK": "复制对话链接",
+      "COPY_LINK_SUCCESS": "对话链接已复制到剪贴板",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "对话 ID {conversationId} 已分配给 \"{agentName}\"",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "查看更多",
       "DISMISS_REPLY": "忽略回复",
       "REPLYING_TO": "回复：",
-      "TIP_FORMAT_ICON": "显示富文本编辑器",
       "TIP_EMOJI_ICON": "显示表情选择器",
       "TIP_ATTACH_ICON": "附加文件",
       "TIP_AUDIORECORDER_ICON": "录制音频",
@@ -211,6 +227,13 @@
           "YES": "发送",
           "CANCEL": "取消"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "私人便签：仅对您和您的团队可见",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "联系人",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "来电",
+      "OUTGOING_CALL": "已拨出电话",
+      "CALL_IN_PROGRESS": "呼叫进行中",
+      "NOT_ANSWERED_YET": "尚未回复",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -315,7 +348,7 @@
       "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话",
       "MACROS": "宏",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "已链接的 Linear 问题",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

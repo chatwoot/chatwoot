@@ -76,7 +76,7 @@ function changeAvailabilityStatus(availability) {
 </script>
 
 <template>
-  <DropdownSection>
+  <DropdownSection class="[&>ul]:overflow-visible">
     <div class="grid gap-0">
       <DropdownItem preserve-open>
         <div class="flex-grow flex items-center gap-1">

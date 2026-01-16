@@ -2,12 +2,13 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
-import { useI18n } from 'vue-i18n';
+import { useI18n, I18nT } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
+import globalConstants from 'dashboard/constants/globals.js';
 import {
   setupFacebookSdk,
   initWhatsAppEmbeddedSignup,
@@ -27,9 +28,6 @@ const authCodeReceived = ref(false);
 const authCode = ref(null);
 const businessData = ref(null);
 const isAuthenticating = ref(false);
-
-// Computed
-const whatsappIconPath = '/assets/images/dashboard/channels/whatsapp.png';
 
 const benefits = computed(() => [
   {
@@ -235,14 +233,9 @@ onBeforeUnmount(() => {
       <div class="flex flex-col items-start mb-6 text-start">
         <div class="flex justify-start mb-6">
           <div
-            class="flex justify-center items-center w-12 h-12 rounded-full bg-n-alpha-2"
+            class="flex size-11 items-center justify-center rounded-full bg-n-alpha-2"
           >
-            <img
-              :src="whatsappIconPath"
-              :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
-              class="object-contain w-8 h-8"
-              draggable="false"
-            />
+            <Icon icon="i-woot-whatsapp" class="text-n-slate-10 size-6" />
           </div>
         </div>
 
@@ -266,22 +259,26 @@ onBeforeUnmount(() => {
       </div>
 
       <div class="flex flex-col gap-2 mb-6">
-        <span class="text-sm text-n-slate-11">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT') }}
-          {{ ' ' }}
-          <a
-            :href="
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_URL')
-            "
-            target="_blank"
-            rel="noopener noreferrer"
-            class="underline text-primary"
-          >
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_TEXT')
-            }}
-          </a>
-        </span>
+        <I18nT
+          keypath="INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.TEXT"
+          tag="span"
+          class="text-sm text-n-slate-11"
+        >
+          <template #link>
+            <a
+              :href="globalConstants.WHATSAPP_EMBEDDED_SIGNUP_DOCS_URL"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="underline text-n-brand"
+            >
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LEARN_MORE.LINK_TEXT'
+                )
+              }}
+            </a>
+          </template>
+        </I18nT>
       </div>
 
       <div class="flex mt-4">

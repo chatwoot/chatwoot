@@ -4,7 +4,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
   # we are already handling the authorization in fetch inbox
-  before_action :check_authorization, except: [:show]
+  before_action :check_authorization, except: [:show, :health]
+  before_action :validate_whatsapp_cloud_channel, only: [:health]
 
   def index
     @inboxes = policy_scope(Current.account.inboxes.order_by_name.includes(:channel, { avatar_attachment: [:blob] }))
@@ -70,14 +71,20 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def sync_templates
-    unless @inbox.channel.is_a?(Channel::Whatsapp)
-      return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' }
-    end
+    return render status: :unprocessable_entity, json: { error: 'Template sync is only available for WhatsApp channels' } unless whatsapp_channel?
 
-    Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    trigger_template_sync
     render status: :ok, json: { message: 'Template sync initiated successfully' }
   rescue StandardError => e
     render status: :internal_server_error, json: { error: e.message }
+  end
+
+  def health
+    health_data = Whatsapp::HealthService.new(@inbox.channel).fetch_health_status
+    render json: health_data
+  rescue StandardError => e
+    Rails.logger.error "[INBOX HEALTH] Error fetching health data: #{e.message}"
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
@@ -89,6 +96,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def fetch_agent_bot
     @agent_bot = AgentBot.find(params[:agent_bot]) if params[:agent_bot]
+  end
+
+  def validate_whatsapp_cloud_channel
+    return if @inbox.channel.is_a?(Channel::Whatsapp) && @inbox.channel.provider == 'whatsapp_cloud'
+
+    render json: { error: 'Health data only available for WhatsApp Cloud API channels' }, status: :bad_request
   end
 
   def create_channel
@@ -139,31 +152,37 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def format_csat_config(config)
-    {
-      display_type: config['display_type'] || 'emoji',
-      message: config['message'] || '',
-      survey_rules: {
-        operator: config.dig('survey_rules', 'operator') || 'contains',
-        values: config.dig('survey_rules', 'values') || []
-      }
+    formatted = {
+      'display_type' => config['display_type'] || 'emoji',
+      'message' => config['message'] || '',
+      :survey_rules => {
+        'operator' => config.dig('survey_rules', 'operator') || 'contains',
+        'values' => config.dig('survey_rules', 'values') || []
+      },
+      'button_text' => config['button_text'] || 'Please rate us',
+      'language' => config['language'] || 'en'
     }
+    format_template_config(config, formatted)
+    formatted
+  end
+
+  def format_template_config(config, formatted)
+    formatted['template'] = config['template'] if config['template'].present?
   end
 
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
-     { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] }]
+     { csat_config: [:display_type, :message, :button_text, :language,
+                     { survey_rules: [:operator, { values: [] }],
+                       template: [:name, :template_id, :friendly_name, :content_sid, :approval_sid, :created_at, :language, :status] }] }]
   end
 
   def permitted_params(channel_attributes = [])
     # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
-
-    params.permit(
-      *inbox_attributes,
-      channel: [:type, *channel_attributes]
-    )
+    params.permit(*inbox_attributes, channel: [:type, *channel_attributes])
   end
 
   def channel_type_from_params
@@ -179,10 +198,18 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def get_channel_attributes(channel_type)
-    if channel_type.constantize.const_defined?(:EDITABLE_ATTRS)
-      channel_type.constantize::EDITABLE_ATTRS.presence
-    else
-      []
+    channel_type.constantize.const_defined?(:EDITABLE_ATTRS) ? channel_type.constantize::EDITABLE_ATTRS.presence : []
+  end
+
+  def whatsapp_channel?
+    @inbox.whatsapp? || (@inbox.twilio? && @inbox.channel.whatsapp?)
+  end
+
+  def trigger_template_sync
+    if @inbox.whatsapp?
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(@inbox.channel)
+    elsif @inbox.twilio? && @inbox.channel.whatsapp?
+      Channels::Twilio::TemplatesSyncJob.perform_later(@inbox.channel)
     end
   end
 end

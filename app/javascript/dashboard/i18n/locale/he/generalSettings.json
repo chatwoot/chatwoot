@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "CONVERSATION": "חרגת ממגבלת השיחות. תוכנית Hacker מאפשרת רק 500 שיחות.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "AGENTS": "חרגת ממגבלת הסוכנים. התוכנית שלך מאפשרת רק {allowedAgents} סוכנים.",
+      "NON_ADMIN": "אנא פנה למנהל המערכת שלך כדי לשדרג את התוכנית ולהמשיך להשתמש בכל התכונות."
     },
     "TITLE": "הגדרות חשבון",
     "SUBMIT": "עדכן הגדרות",
@@ -15,23 +15,23 @@
       "SUCCESS": "הגדרות החשבון עודכנו בהצלחה"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Delete your Account",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
-      "BUTTON_TEXT": "Delete Your Account",
+      "TITLE": "מחק את חשבונך",
+      "NOTE": "לאחר שתמחק את חשבונך, כל הנתונים שלך יימחקו.",
+      "BUTTON_TEXT": "מחק את חשבונך",
       "CONFIRM": {
-        "TITLE": "Delete Account",
-        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "TITLE": "מחק חשבון",
+        "MESSAGE": "מחיקת חשבונך היא בלתי הפיכה. הזן את שם חשבונך למטה כדי לאשר שברצונך למחוק אותו לצמיתות.",
         "BUTTON_TEXT": "מחק",
         "DISMISS": "ביטול",
         "PLACE_HOLDER": "אנא הקלד {accountName} כדי לאשר"
       },
-      "SUCCESS": "Account marked for deletion",
-      "FAILURE": "Could not delete account, try again!",
+      "SUCCESS": "החשבון סומן למחיקה",
+      "FAILURE": "לא ניתן למחוק חשבון, נסה שוב!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "TITLE": "החשבון מתוזמן למחיקה",
+        "MESSAGE_MANUAL": "חשבון זה מתוזמן למחיקה ב- {deletionDate}. הדבר התבקש על ידי מנהל מערכת. תוכל לבטל את המחיקה לפני תאריך זה.",
         "MESSAGE_INACTIVITY": ".",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "CLEAR_BUTTON": "בטל מחיקה מתוזמנת"
       }
     },
     "FORM": {
@@ -46,31 +46,31 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "NOTE": "הגדרה זו תאפשר לך לסגור אוטומטית את השיחה לאחר תקופה מסוימת של חוסר פעילות.",
         "DURATION": {
-          "LABEL": "Inactivity duration",
+          "LABEL": "משך חוסר פעילות",
           "HELP": "Time period of inactivity after which conversation is auto-resolved",
           "PLACEHOLDER": "30",
-          "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+          "ERROR": "משך הסגירה האוטומטית צריך להיות בין 10 דקות ל-999 ימים",
           "API": {
-            "SUCCESS": "Auto resolve settings updated successfully",
-            "ERROR": "Failed to update auto resolve settings"
+            "SUCCESS": "הגדרות הסגירה האוטומטית עודכנו בהצלחה",
+            "ERROR": "העדכון של הגדרות הסגירה האוטומטית נכשל"
           }
         },
         "MESSAGE": {
           "LABEL": "Custom auto-resolution message",
-          "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+          "PLACEHOLDER": "השיחה סומנה כסגורה על ידי המערכת עקב 15 ימים של חוסר פעילות",
           "HELP": "Message sent to the customer after conversation is auto-resolved"
         },
-        "PREFERENCES": "Preferences",
+        "PREFERENCES": "העדפות",
         "LABEL": {
           "LABEL": "Add label after auto-resolution",
-          "PLACEHOLDER": "Select a label"
+          "PLACEHOLDER": "בחר תווית"
         },
         "IGNORE_WAITING": {
           "LABEL": "Skip conversations waiting for agent’s reply"
         },
-        "UPDATE_BUTTON": "Save Changes"
+        "UPDATE_BUTTON": "שמור שינויים"
       },
       "NAME": {
         "LABEL": "שם החשבון",
@@ -93,30 +93,30 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "LABEL": "אל תכלול שיחות ללא מענה",
+        "HELP": "כאשר מופעל, המערכת תדלג על סגירת שיחות שעדיין ממתינות לתגובת סוכן."
       },
       "AUDIO_TRANSCRIPTION": {
-        "TITLE": "Transcribe Audio Messages",
-        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "TITLE": "תמלל הודעות קוליות",
+        "NOTE": "תמלל אוטומטית הודעות קוליות בשיחות. צור תמלול טקסט בכל פעם שנשלחת או מתקבלת הודעה קולית, והצג אותה לצד ההודעה.",
         "API": {
-          "SUCCESS": "Audio transcription setting updated successfully",
-          "ERROR": "Failed to update audio transcription setting"
+          "SUCCESS": "הגדרת תמלול שמע עודכנה בהצלחה",
+          "ERROR": "העדכון של הגדרת תמלול שמע נכשל"
         }
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "משך חוסר פעילות לסגירה",
+        "HELP": "משך הזמן שלאחריו שיחה תיסגר אוטומטית אם אין פעילות",
         "PLACEHOLDER": "30",
-        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "ERROR": "משך הסגירה האוטומטית צריך להיות בין 10 דקות ל-999 ימים",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "הגדרות הסגירה האוטומטית עודכנו בהצלחה",
+          "ERROR": "העדכון של הגדרות הסגירה האוטומטית נכשל"
         },
         "UPDATE_BUTTON": "עדכן",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_LABEL": "הודעת סגירה מותאמת אישית",
+        "MESSAGE_PLACEHOLDER": "השיחה סומנה כסגורה על ידי המערכת עקב 15 ימים של חוסר פעילות",
+        "MESSAGE_HELP": "הודעה זו נשלחת ללקוח כאשר שיחה נסגרת אוטומטית על ידי המערכת עקב חוסר פעילות."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
@@ -126,15 +126,15 @@
     "UPDATE_CHATWOOT": "עדכון {latestChatwootVersion} עבור Chatwoot זמין. אנא עדכן את המופע שלך.",
     "LEARN_MORE": "למד עוד",
     "PAYMENT_PENDING": "התשלום שלך ממתין. אנא עדכן את פרטי התשלום שלך כדי להמשיך להשתמש ב-Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "UPGRADE": "שדרג כדי להמשיך להשתמש ב-Chatwoot",
     "LIMITS_UPGRADE": "החשבון שלך חרג ממגבלות השימוש. אנא שדרג את המינוי שלך כדי להמשיך להשתמש ב-צ'אטווט",
-    "OPEN_BILLING": "Open billing"
+    "OPEN_BILLING": "פתח חיוב"
   },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "הקש אנטר כדי לבחור",
       "ENTER_TO_REMOVE": "הקש אנטר כדי להסיר",
-      "NO_OPTIONS": "List is empty",
+      "NO_OPTIONS": "הרשימה ריקה",
       "SELECT_ONE": "תבחר אחד",
       "SELECT": "בחר"
     }
@@ -165,16 +165,16 @@
       "assigned_conversation_new_message": "הודעה חדשה",
       "participating_conversation_new_message": "הודעה חדשה",
       "conversation_mention": "אִזְכּוּר",
-      "sla_missed_first_response": "SLA Missed",
-      "sla_missed_next_response": "SLA Missed",
+      "sla_missed_first_response": "החמצת SLA",
+      "sla_missed_next_response": "החמצת SLA",
       "sla_missed_resolution": "הסכם רמת שירות פוספס"
     }
   },
   "NETWORK": {
     "NOTIFICATION": {
       "OFFLINE": "לא מחובר",
-      "RECONNECTING": "Reconnecting...",
-      "RECONNECT_SUCCESS": "Reconnected"
+      "RECONNECTING": "מתחבר מחדש...",
+      "RECONNECT_SUCCESS": "חובר מחדש"
     },
     "BUTTON": {
       "REFRESH": "רענן"
@@ -186,15 +186,15 @@
       "GENERAL": "כללי",
       "REPORTS": "דוחות",
       "CONVERSATION": "שיחה",
-      "BULK_ACTIONS": "Bulk Actions",
+      "BULK_ACTIONS": "פעולות בכמות גדולה",
       "CHANGE_ASSIGNEE": "שנה מוקצה",
-      "CHANGE_PRIORITY": "Change Priority",
+      "CHANGE_PRIORITY": "שנה עדיפות",
       "CHANGE_TEAM": "להחליף קבוצה",
       "SNOOZE_CONVERSATION": "נודניק שיחה",
       "ADD_LABEL": "הוסף תווית לשיחה",
       "REMOVE_LABEL": "הסר תווית מהשיחה",
       "SETTINGS": "הגדרות",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "סיוע AI",
       "APPEARANCE": "מראה",
       "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
     },
@@ -218,7 +218,7 @@
       "GO_TO_NOTIFICATIONS": "עבור להודעות",
       "ADD_LABELS_TO_CONVERSATION": "הוסף תווית לשיחה",
       "ASSIGN_AN_AGENT": "הקצה סוכן",
-      "AI_ASSIST": "AI Assist",
+      "AI_ASSIST": "סיוע AI",
       "ASSIGN_PRIORITY": "הקצה עדיפות",
       "ASSIGN_A_TEAM": "הקצה צוות",
       "MUTE_CONVERSATION": "שיחה אילמת",
@@ -233,11 +233,11 @@
       "UNTIL_TOMORROW": "עד מחר",
       "UNTIL_NEXT_MONTH": "עד החודש הבא",
       "AN_HOUR_FROM_NOW": "עד שעה מעכשיו",
-      "UNTIL_CUSTOM_TIME": "Custom...",
-      "CHANGE_APPEARANCE": "Change Appearance",
-      "LIGHT_MODE": "Light",
-      "DARK_MODE": "Dark",
-      "SYSTEM_MODE": "System",
+      "UNTIL_CUSTOM_TIME": "מותאם אישית...",
+      "CHANGE_APPEARANCE": "שנה מראה",
+      "LIGHT_MODE": "בהיר",
+      "DARK_MODE": "כהה",
+      "SYSTEM_MODE": "מערכת",
       "SNOOZE_NOTIFICATION": "השבת התראה זמנית"
     }
   },
@@ -245,7 +245,7 @@
     "LOADING_MESSAGE": "טוען אפליקציית Dashboard..."
   },
   "COMMON": {
-    "OR": "Or",
+    "OR": "או",
     "CLICK_HERE": "לחץ כאן"
   }
 }

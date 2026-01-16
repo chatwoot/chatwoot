@@ -32,9 +32,15 @@
     "LOADING_CONVERSATIONS": "Chargement des conversations",
     "CANNOT_REPLY": "Vous ne pouvez pas répondre en raison de",
     "24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
+    "48_HOURS_WINDOW": "Restriction de fenêtre de message de 48 heures",
     "API_HOURS_WINDOW": "Vous ne pouvez répondre à cette conversation que dans un délai de {hours} heures",
     "NOT_ASSIGNED_TO_YOU": "Cette conversation ne vous est pas assignée. Voulez-vous vous assigner cette conversation ?",
     "ASSIGN_TO_ME": "M’assigner la conversation",
+    "BOT_HANDOFF_MESSAGE": "Vous répondez à une conversation actuellement gérée par un assistant ou un bot.",
+    "BOT_HANDOFF_ACTION": "Ouvrir et m’attribuer",
+    "BOT_HANDOFF_REOPEN_ACTION": "Marquer la conversation comme ouverte",
+    "BOT_HANDOFF_SUCCESS": "La conversation vous a été attribuée",
+    "BOT_HANDOFF_ERROR": "Impossible de reprendre la conversation. Veuillez réessayer.",
     "TWILIO_WHATSAPP_CAN_REPLY": "Vous pouvez seulement répondre à cette conversation en utilisant un modèle de message en raison de",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restriction de fenêtre de message de 24 heures",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Tous les nouveaux messages y apparaîtront. Vous ne pourrez plus envoyer de messages depuis cette conversation.",
@@ -66,11 +72,22 @@
       "SHOW_LABELS": "Afficher les étiquettes",
       "HIDE_LABELS": "Masquer les étiquettes"
     },
+    "VOICE_CALL": {
+      "INCOMING_CALL": "Appel entrant",
+      "OUTGOING_CALL": "Appel sortant",
+      "CALL_IN_PROGRESS": "Appel en cours",
+      "NO_ANSWER": "Pas de réponse",
+      "MISSED_CALL": "Appel manqué",
+      "CALL_ENDED": "Appel terminé",
+      "NOT_ANSWERED_YET": "Pas encore répondu",
+      "THEY_ANSWERED": "Il a répondu",
+      "YOU_ANSWERED": "Vous avez répondu"
+    },
     "HEADER": {
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
       "OPEN_ACTION": "Ouvert",
-      "MORE_ACTIONS": "More actions",
+      "MORE_ACTIONS": "Plus d'actions",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
@@ -123,8 +140,8 @@
       }
     },
     "DELETE_CONVERSATION": {
-      "TITLE": "Delete conversation #{conversationId}",
-      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "TITLE": "Supprimer la conversation #{conversationId}",
+      "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer cette conversation ?",
       "CONFIRM": "Supprimer"
     },
     "CARD_CONTEXT_MENU": {
@@ -143,10 +160,10 @@
       "ASSIGN_LABEL": "Assigner une étiquette",
       "AGENTS_LOADING": "Chargement des agents...",
       "ASSIGN_TEAM": "Assigner une équipe",
-      "DELETE": "Delete conversation",
-      "OPEN_IN_NEW_TAB": "Open in new tab",
-      "COPY_LINK": "Copy conversation link",
-      "COPY_LINK_SUCCESS": "Conversation link copied to clipboard",
+      "DELETE": "Supprimer la conversation",
+      "OPEN_IN_NEW_TAB": "Ouvrir dans un nouvel onglet",
+      "COPY_LINK": "Copier le lien de la conversation",
+      "COPY_LINK_SUCCESS": "Le lien de conversation a été copié dans le presse-papiers",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
@@ -180,7 +197,6 @@
       "INSERT_READ_MORE": "En savoir plus",
       "DISMISS_REPLY": "Annuler la réponse",
       "REPLYING_TO": "Répondre à:",
-      "TIP_FORMAT_ICON": "Afficher l'éditeur de texte enrichi",
       "TIP_EMOJI_ICON": "Montrer le sélecteur d'émoji",
       "TIP_ATTACH_ICON": "Joindre des fichiers",
       "TIP_AUDIORECORDER_ICON": "Enregistrer l'audio",
@@ -211,6 +227,13 @@
           "YES": "Envoyer",
           "CANCEL": "Annuler"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Note privée : uniquement visible par vous et votre équipe",
@@ -221,8 +244,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Étiquette attribuée avec succès",
     "ASSIGN_LABEL_FAILED": "Échec de l'attribution de l'étiquette",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
-    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
-    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation supprimée avec succès",
+    "FAIL_DELETE_CONVERSATION": "Impossible de supprimer la conversation ! Veuillez réessayer",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
@@ -252,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Appel entrant",
+      "OUTGOING_CALL": "Appel sortant",
+      "CALL_IN_PROGRESS": "Appel en cours",
+      "NOT_ANSWERED_YET": "Pas encore répondu",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -315,7 +348,7 @@
       "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Problèmes Linear liés",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

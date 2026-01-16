@@ -5,6 +5,8 @@
     "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "WHATSAPP_REGISTRATION_INCOMPLETE": "Your WhatsApp Business registration isn’t complete. Please check your display name status in Meta Business Manager before reconnecting.",
+    "COMPLETE_REGISTRATION": "Complete Registration",
     "LIST": {
       "404": "برای این حساب هیچ صندوق ورودی معرفی نشده است."
     },
@@ -54,6 +56,13 @@
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
         "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+      },
+      "TIKTOK": {
+        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
+        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
+        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
+        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
       },
       "TWITTER": {
         "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' ",
@@ -272,8 +281,8 @@
         },
         "SUBMIT_BUTTON": "ایجاد کانال واتساپ",
         "EMBEDDED_SIGNUP": {
-          "TITLE": "Quick Setup with Meta",
-          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
+          "TITLE": "Quick setup with Meta",
+          "DESC": "Use the WhatsApp Embedded Signup flow to quickly connect new numbers. You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
             "EASY_SETUP": "No manual configuration required",
@@ -281,9 +290,8 @@
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "LEARN_MORE": {
-            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit",
-            "LINK_TEXT": "this link.",
-            "LINK_URL": "https://developers.facebook.com/docs/whatsapp/embedded-signup/custom-flows/onboarding-business-app-users#limitations"
+            "TEXT": "To learn more about integrated signup, pricing, and limitations, visit {link}.",
+            "LINK_TEXT": "this link"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",
           "AUTH_PROCESSING": "Authenticating with Meta",
@@ -296,7 +304,9 @@
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
           "SIGNUP_ERROR": "Signup error occurred",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
-          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
+          "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
+          "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
+          "MANUAL_LINK_TEXT": "manual setup flow"
         },
         "API": {
           "ERROR_MESSAGE": "ما نتوانستیم کانال WhatsApp را ذخیره کنیم"
@@ -330,12 +340,13 @@
             "LABEL": "API Key Secret",
             "PLACEHOLDER": "Enter your Twilio API Key Secret",
             "REQUIRED": "API Key Secret is required"
-          },
-          "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
           }
+        },
+        "CONFIGURATION": {
+          "TWILIO_VOICE_URL_TITLE": "Twilio Voice URL",
+          "TWILIO_VOICE_URL_SUBTITLE": "Configure this URL as the Voice URL on your Twilio phone number and TwiML App.",
+          "TWILIO_STATUS_URL_TITLE": "Twilio Status Callback URL",
+          "TWILIO_STATUS_URL_SUBTITLE": "Configure this URL as the Status Callback URL on your Twilio phone number."
         },
         "SUBMIT_BUTTON": "Create Voice Channel",
         "API": {
@@ -377,7 +388,11 @@
         "API": {
           "ERROR_MESSAGE": "کانال ایمیل ذخیره نشد"
         },
-        "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید."
+        "FINISH_MESSAGE": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
+        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "CONFIGURE_SMTP_IMAP_LINK": "اینجا کلیک کنید",
+        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
       },
       "LINE_CHANNEL": {
         "TITLE": "کانال لاین",
@@ -423,7 +438,55 @@
       },
       "AUTH": {
         "TITLE": "کانالی را انتخاب کنید",
-        "DESC": "Chatwoot از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید."
+        "DESC": "Chatwoot از ویجت های چت زنده، فیس بوک مسنجر، پروفایل های توییتر، واتساپ، ایمیل ها و غیره به عنوان کانال پشتیبانی می کند. اگر می خواهید یک کانال سفارشی بسازید، می توانید آن را با استفاده از کانال API ایجاد کنید. برای شروع، یکی از کانال های زیر را انتخاب کنید.",
+        "TITLE_NEXT": "Complete the setup",
+        "TITLE_FINISH": "Voilà!",
+        "CHANNEL": {
+          "WEBSITE": {
+            "TITLE": "وب سایت",
+            "DESCRIPTION": "Create a live-chat widget"
+          },
+          "FACEBOOK": {
+            "TITLE": "فیس‌بوک",
+            "DESCRIPTION": "Connect your Facebook page"
+          },
+          "WHATSAPP": {
+            "TITLE": "WhatsApp",
+            "DESCRIPTION": "Support your customers on WhatsApp"
+          },
+          "EMAIL": {
+            "TITLE": "ایمیل",
+            "DESCRIPTION": "Connect with Gmail, Outlook, or other providers"
+          },
+          "SMS": {
+            "TITLE": "SMS",
+            "DESCRIPTION": "Integrate SMS channel with Twilio or bandwidth"
+          },
+          "API": {
+            "TITLE": "API",
+            "DESCRIPTION": "Make a custom channel using our API"
+          },
+          "TELEGRAM": {
+            "TITLE": "Telegram",
+            "DESCRIPTION": "Configure Telegram channel using Bot token"
+          },
+          "LINE": {
+            "TITLE": "Line",
+            "DESCRIPTION": "Integrate your Line channel"
+          },
+          "INSTAGRAM": {
+            "TITLE": "Instagram",
+            "DESCRIPTION": "Connect your instagram account"
+          },
+          "TIKTOK": {
+            "TITLE": "TikTok",
+            "DESCRIPTION": "Connect your TikTok account"
+          },
+          "VOICE": {
+            "TITLE": "Voice",
+            "DESCRIPTION": "Integrate with Twilio Voice"
+          }
+        }
       },
       "AGENTS": {
         "TITLE": "ایجنت ها",
@@ -477,7 +540,10 @@
       "MESSAGE": "حالا از طریق این کانال جدید می‌توانید با مشتریان صحبت کنید. به امید موفقیت",
       "BUTTON_TEXT": "نشانم بده",
       "MORE_SETTINGS": "تنظیمات بیشتر",
-      "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود."
+      "WEBSITE_SUCCESS": "ساختن کانال وب سایت با موفقیت انجام شد. قطعه کد زیر را کپی کرده و در سایت خود قرار دهید. در صورتیکه مشتری از ویجت پشتیبانی آنلاین استفاده کند گفتگوی شما در این صندوق ورودی ظاهر می‌شود.",
+      "WHATSAPP_QR_INSTRUCTION": "Scan the QR code above to quickly test your WhatsApp inbox",
+      "MESSENGER_QR_INSTRUCTION": "Scan the QR code above to quickly test your Facebook Messenger inbox",
+      "TELEGRAM_QR_INSTRUCTION": "Scan the QR code above to quickly test your Telegram inbox"
     },
     "REAUTH": "احراز هویت مجدد",
     "VIEW": "نمایش",
@@ -556,7 +622,63 @@
       "BUSINESS_HOURS": "ساعت کاری",
       "WIDGET_BUILDER": "سازنده ابزارک",
       "BOT_CONFIGURATION": "پیکربندی ربات",
+      "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "رضایت مشتری"
+    },
+    "ACCOUNT_HEALTH": {
+      "TITLE": "Manage your WhatsApp account",
+      "DESCRIPTION": "Review your WhatsApp account status, messaging limits, and quality. Update settings or resolve issues if needed",
+      "GO_TO_SETTINGS": "Go to Meta Business Manager",
+      "NO_DATA": "Health data is not available",
+      "FIELDS": {
+        "DISPLAY_PHONE_NUMBER": {
+          "LABEL": "Display phone number",
+          "TOOLTIP": "Phone number displayed to customers"
+        },
+        "VERIFIED_NAME": {
+          "LABEL": "Business name",
+          "TOOLTIP": "Business name verified by WhatsApp"
+        },
+        "DISPLAY_NAME_STATUS": {
+          "LABEL": "Display name status",
+          "TOOLTIP": "Status of your business name verification"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "WhatsApp quality rating for your account"
+        },
+        "MESSAGING_LIMIT_TIER": {
+          "LABEL": "Messaging limit tier",
+          "TOOLTIP": "Daily messaging limit for your account"
+        },
+        "ACCOUNT_MODE": {
+          "LABEL": "Account mode",
+          "TOOLTIP": "Current operating mode of your WhatsApp account"
+        }
+      },
+      "VALUES": {
+        "TIERS": {
+          "TIER_250": "250 customers per 24h",
+          "TIER_1000": "1K customers per 24h",
+          "TIER_1K": "1K customers per 24h",
+          "TIER_10K": "10K customers per 24h",
+          "TIER_100K": "100K customers per 24h",
+          "TIER_UNLIMITED": "Unlimited customers per 24h",
+          "UNKNOWN": "Rating not available"
+        },
+        "STATUSES": {
+          "APPROVED": "Approved",
+          "PENDING_REVIEW": "Pending Review",
+          "AVAILABLE_WITHOUT_REVIEW": "Available Without Review",
+          "REJECTED": "Rejected",
+          "DECLINED": "Declined",
+          "NON_EXISTS": "Non exists"
+        },
+        "MODES": {
+          "SANDBOX": "Sandbox",
+          "LIVE": "زنده"
+        }
+      }
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
@@ -569,6 +691,11 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "اسکریپت ویجت",
       "MESSENGER_SUB_HEAD": "این دکمه را در تگ body قرار دهید",
+      "ALLOWED_DOMAINS": {
+        "TITLE": "Allowed Domains",
+        "SUBTITLE": "Add wildcard or regular domains separated by commas (leave blank to allow all), e.g. *.chatwoot.dev, chatwoot.com.",
+        "PLACEHOLDER": "Enter domains separated by commas (eg: *.chatwoot.dev, chatwoot.com)"
+      },
       "INBOX_AGENTS": "ایجنت ها",
       "INBOX_AGENTS_SUB_TEXT": "اضافه کردن یا حذف کردن دسترسی ایجنت به صندوق ورودی",
       "AGENT_ASSIGNMENT": "اختصاص گفتگو",
@@ -595,6 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "از رمز `inbox_identifier` که در اینجا نشان داده شده است برای احراز هویت کلاینت های API خود استفاده کنید.",
       "FORWARD_EMAIL_TITLE": "ارسال به ایمیل",
       "FORWARD_EMAIL_SUB_TEXT": "ایمیل های خود را به این آدرس ها فوروارد کنید.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "اجازه دادن به پیام ها پس از حل شدن مکالمه",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "به کاربران اجازه دهید حتی پس از حل شدن مکالمه پیام ارسال کنند.",
       "WHATSAPP_SECTION_SUBHEADER": "این کلید API برای ادغام با API های WhatsApp استفاده می شود.",
@@ -615,8 +743,8 @@
       "WHATSAPP_CONNECT_ERROR": "Failed to connect to WhatsApp Business. Please try again.",
       "WHATSAPP_RECONFIGURE_SUCCESS": "Successfully reconfigured WhatsApp Business!",
       "WHATSAPP_RECONFIGURE_ERROR": "Failed to reconfigure WhatsApp Business. Please try again.",
-      "WHATSAPP_APP_ID_MISSING": "WhatsApp App ID is not configured. Please contact your administrator.",
-      "WHATSAPP_CONFIG_ID_MISSING": "WhatsApp Configuration ID is not configured. Please contact your administrator.",
+      "WHATSAPP_APP_ID_MISSING": "شناسه اپلیکیشن واتساپ پیکربندی نشده است. لطفا با مدیر خود تماس بگیرید.",
+      "WHATSAPP_CONFIG_ID_MISSING": "شناسه پیکربندی واتساپ تنظیم نشده است. لطفا با مدیر خود تماس بگیرید.",
       "WHATSAPP_LOGIN_CANCELLED": "WhatsApp login was cancelled. Please try again.",
       "WHATSAPP_WEBHOOK_TITLE": "توکن تایید Webhook",
       "WHATSAPP_WEBHOOK_SUBHEADER": "این توکن برای تأیید صحت نقطه پایانی webhook استفاده می شود.",
@@ -680,6 +808,35 @@
         "LABEL": "پیام",
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Button text",
+        "PLACEHOLDER": "Please rate us"
+      },
+      "LANGUAGE": {
+        "LABEL": "زبان",
+        "PLACEHOLDER": "Select template language"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Message preview",
+        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approved by WhatsApp",
+        "PENDING": "Pending WhatsApp approval",
+        "REJECTED": "Meta rejected the template",
+        "DEFAULT": "Needs WhatsApp approval",
+        "NOT_FOUND": "The template does not exist in the Meta platform."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
+        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "بازگشت"
+      },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
@@ -691,6 +848,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
@@ -867,9 +1025,18 @@
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
-      "MICROSOFT": "مایکروسافت",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "سایر ارائه دهندگان"
+      "MICROSOFT": {
+        "TITLE": "مایکروسافت",
+        "DESCRIPTION": "Connect with Microsoft"
+      },
+      "GOOGLE": {
+        "TITLE": "Google",
+        "DESCRIPTION": "Connect with Google"
+      },
+      "OTHER_PROVIDERS": {
+        "TITLE": "سایر ارائه دهندگان",
+        "DESCRIPTION": "Connect with Other Providers"
+      }
     },
     "CHANNELS": {
       "MESSENGER": "Messenger",
@@ -883,6 +1050,7 @@
       "LINE": "Line",
       "API": "کانال API",
       "INSTAGRAM": "Instagram",
+      "TIKTOK": "TikTok",
       "VOICE": "Voice"
     }
   }

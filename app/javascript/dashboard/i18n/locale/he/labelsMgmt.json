@@ -3,8 +3,8 @@
     "HEADER": "תוויות",
     "HEADER_BTN_TXT": "הוסף תווית",
     "LOADING": "מביא תוויות",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "תוויות עוזרות לך לסווג ולתעדף שיחות ולידים. תוכל להקצות תווית לשיחה או לאיש קשר באמצעות החלונית הצדדית.",
+    "LEARN_MORE": "למד עוד על תוויות",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
     "LIST": {
       "404": "אין תוויות זמינות בחשבון זה.",
@@ -41,17 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "הוסף תווית לשיחה",
+        "MULTIPLE_SUGGESTION": "בחר תווית זו",
+        "DESELECT": "בטל בחירת תווית",
+        "DISMISS": "בטל הצעה"
       },
       "POWERED_BY": "Chatwoot AI",
       "DISMISS": "סגור",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "ADD_SELECTED_LABELS": "הוסף תוויות שנבחרו",
+      "ADD_SELECTED_LABEL": "הוסף תווית שנבחרה",
+      "ADD_ALL_LABELS": "הוסף את כל התוויות",
+      "SUGGESTED_LABELS": "תוויות מוצעות"
     },
     "ADD": {
       "TITLE": "הוסף תווית",
