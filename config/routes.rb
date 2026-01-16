@@ -196,6 +196,9 @@ Rails.application.routes.draw do
               get :metrics
               get :download
             end
+            member do
+              patch :update if ChatwootApp.enterprise?
+            end
           end
           resources :applied_slas, only: [:index] do
             collection do
