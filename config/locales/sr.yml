@@ -188,6 +188,7 @@ sr-Latn:
         rating: Ocena
         feedback: Komentar povratne informacije
         recorded_at: Snimljen dana
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
