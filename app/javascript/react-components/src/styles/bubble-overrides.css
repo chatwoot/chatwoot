@@ -13,10 +13,16 @@
  *   --chatwoot-bubble-private-text: Private note text
  *   --chatwoot-bubble-bot-bg: Bot message background
  *   --chatwoot-bubble-bot-text: Bot message text
+ *   --chatwoot-bubble-error-bg: Error message background
+ *   --chatwoot-bubble-error-text: Error message text
+ *   --chatwoot-bubble-unsupported-bg: Unsupported message background
+ *   --chatwoot-bubble-unsupported-text: Unsupported message text
  *   --chatwoot-bubble-agent-border: Agent message border color
  *   --chatwoot-bubble-user-border: User message border color
  *   --chatwoot-bubble-private-border: Private note border color
  *   --chatwoot-bubble-bot-border: Bot message border color
+ *   --chatwoot-bubble-error-border: Error message border color
+ *   --chatwoot-bubble-unsupported-border: Unsupported message border color
  *
  * BORDER:
  *   --chatwoot-bubble-border-width: Border width in px (0 = invisible, default: 0)
@@ -66,6 +72,17 @@
   --bubble-user-border: var(--chatwoot-bubble-user-border, var(--slate-6));
   --bubble-private-border: var(--chatwoot-bubble-private-border, var(--amber-6));
   --bubble-bot-border: var(--chatwoot-bubble-bot-border, var(--iris-6));
+
+  /* Error variant */
+  --bubble-error-bg: var(--chatwoot-bubble-error-bg, var(--ruby-4));
+  --bubble-error-text: var(--chatwoot-bubble-error-text, var(--ruby-12));
+  --bubble-error-meta: var(--chatwoot-bubble-error-meta, var(--ruby-11));
+  --bubble-error-border: var(--chatwoot-bubble-error-border, var(--ruby-6));
+
+  /* Unsupported variant */
+  --bubble-unsupported-bg: var(--chatwoot-bubble-unsupported-bg, var(--amber-4));
+  --bubble-unsupported-text: var(--chatwoot-bubble-unsupported-text, var(--amber-12));
+  --bubble-unsupported-border: var(--chatwoot-bubble-unsupported-border, var(--amber-12));
 
   /* Spacing - 1 = default */
   --bubble-spacing-ratio: var(--chatwoot-bubble-spacing-ratio, 1);

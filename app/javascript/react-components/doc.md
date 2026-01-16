@@ -420,6 +420,10 @@ The Web Component supports runtime theming via CSS custom properties. These vari
 | `--chatwoot-bubble-private-text` | Private note text | `--amber-12` |
 | `--chatwoot-bubble-bot-bg` | Bot/template message background | `--solid-iris` |
 | `--chatwoot-bubble-bot-text` | Bot message text | `--slate-12` |
+| `--chatwoot-bubble-error-bg` | Error message background | `--ruby-4` |
+| `--chatwoot-bubble-error-text` | Error message text | `--ruby-12` |
+| `--chatwoot-bubble-unsupported-bg` | Unsupported message background | `--amber-4` |
+| `--chatwoot-bubble-unsupported-text` | Unsupported message text | `--amber-12` |
 
 #### Meta (timestamp) - Per Variant
 
@@ -429,6 +433,7 @@ The Web Component supports runtime theming via CSS custom properties. These vari
 | `--chatwoot-bubble-user-meta` | Meta text for user messages | `--slate-11` |
 | `--chatwoot-bubble-private-meta` | Meta text for private notes (50% opacity applied) | `--amber-12` |
 | `--chatwoot-bubble-bot-meta` | Meta text for bot messages | `--slate-11` |
+| `--chatwoot-bubble-error-meta` | Meta text for error messages | `--ruby-11` |
 
 #### Message Status Icons - Per Variant
 
@@ -458,6 +463,8 @@ The Web Component supports runtime theming via CSS custom properties. These vari
 | `--chatwoot-bubble-user-border` | User message border color | `--slate-6` |
 | `--chatwoot-bubble-private-border` | Private note border color | `--amber-6` |
 | `--chatwoot-bubble-bot-border` | Bot message border color | `--iris-6` |
+| `--chatwoot-bubble-error-border` | Error message border color | `--ruby-6` |
+| `--chatwoot-bubble-unsupported-border` | Unsupported message border color | `--amber-12` |
 
 ### Usage Examples
 

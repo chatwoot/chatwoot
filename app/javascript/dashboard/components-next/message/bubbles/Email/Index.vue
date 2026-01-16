@@ -104,11 +104,11 @@ const handleSeeOriginal = () => {
 
 <template>
   <BaseBubble
-    class="w-full px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
+    class="w-full px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)] border-[length:var(--bubble-border-width)]"
     :class="{
-      'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))]':
+      'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))] border-[rgb(var(--bubble-user-border))]':
         isIncoming,
-      'bg-[rgb(var(--bubble-agent-bg))] text-[rgb(var(--bubble-agent-text))]':
+      'bg-[rgb(var(--bubble-agent-bg))] text-[rgb(var(--bubble-agent-text))] border-[rgb(var(--bubble-agent-border))]':
         isOutgoing,
     }"
     data-bubble-name="email"
@@ -131,9 +131,9 @@ const handleSeeOriginal = () => {
           v-if="isExpandable && !isExpanded"
           class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end"
           :class="{
-            'bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent':
+            'bg-gradient-to-t from-[rgb(var(--bubble-user-bg))] via-[rgb(var(--bubble-user-bg))] via-20% to-transparent':
               isIncoming,
-            'bg-gradient-to-t from-n-solid-blue via-n-solid-blue via-20% to-transparent':
+            'bg-gradient-to-t from-[rgb(var(--bubble-agent-bg))] via-[rgb(var(--bubble-agent-bg))] via-20% to-transparent':
               isOutgoing,
           }"
         >
@@ -147,7 +147,7 @@ const handleSeeOriginal = () => {
         </div>
         <FormattedContent
           v-if="isOutgoing && content && !hasEmailContent"
-          class="text-n-slate-12"
+          class="text-[rgb(var(--bubble-agent-text))]"
           :content="messageContent"
         />
         <template v-else>

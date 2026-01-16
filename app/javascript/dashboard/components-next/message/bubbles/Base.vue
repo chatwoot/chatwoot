@@ -30,10 +30,11 @@ const varaintBaseMap = {
     'bg-[rgb(var(--bubble-bot-bg))] text-[rgb(var(--bubble-bot-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-bot-border))]',
   [MESSAGE_VARIANTS.TEMPLATE]:
     'bg-[rgb(var(--bubble-bot-bg))] text-[rgb(var(--bubble-bot-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-bot-border))]',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+  [MESSAGE_VARIANTS.ERROR]:
+    'bg-[rgb(var(--bubble-error-bg))] text-[rgb(var(--bubble-error-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-error-border))]',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
-    'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
+    'bg-[rgb(var(--bubble-unsupported-bg))]/70 border border-dashed border-[rgb(var(--bubble-unsupported-border))] text-[rgb(var(--bubble-unsupported-text))]',
 };
 
 const orientationMap = {
@@ -88,6 +89,7 @@ const metaColorClass = computed(() => {
     [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-meta))]',
     [MESSAGE_VARIANTS.TEMPLATE]: 'text-[rgb(var(--bubble-bot-meta))]',
     [MESSAGE_VARIANTS.EMAIL]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.ERROR]: 'text-[rgb(var(--bubble-error-meta))]',
   };
   return metaClassMap[variant.value] || 'text-[rgb(var(--bubble-agent-meta))]';
 });
