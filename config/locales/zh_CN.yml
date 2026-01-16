@@ -188,6 +188,7 @@ zh_CN:
         rating: 评分
         feedback: 意见反馈
         recorded_at: 录制日期
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '在 %{inbox_name} 中创建了一个对话 (#%{display_id})'
