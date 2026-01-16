@@ -77,7 +77,7 @@ class User < ApplicationRecord
 
   validates :email, presence: true
 
-  serialize :otp_backup_codes, type: Array
+  serialize :otp_backup_codes, coder: JSON, type: Array
 
   # Encrypt sensitive MFA fields
   encrypts :otp_secret, deterministic: true
