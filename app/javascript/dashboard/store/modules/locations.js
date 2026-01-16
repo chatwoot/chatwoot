@@ -3,6 +3,7 @@ import LocationsAPI from '../../api/locations';
 
 export const state = {
   records: [],
+  userLocations: [],
   appliedFilters: [],
   meta: {
     count: 0,
@@ -23,6 +24,12 @@ export const getters = {
   },
   getLocations($state) {
     return $state.records;
+  },
+  getUserLocations($state) {
+    return $state.userLocations;
+  },
+  getLocation: $state => id => {
+    return $state.userLocations.find(loc => loc.id === Number(id)) || {};
   },
   getMeta($state) {
     return $state.meta;
@@ -53,6 +60,20 @@ export const actions = {
       commit(types.default.CLEAR_LOCATIONS);
       commit(types.default.SET_LOCATIONS, payload);
       commit(types.default.SET_LOCATIONS_META, meta);
+      commit(types.default.SET_LOCATIONS_FETCHING_STATUS, false);
+    } catch (error) {
+      commit(types.default.SET_LOCATIONS_FETCHING_STATUS, false);
+      throw error;
+    }
+  },
+
+  getUserLocations: async ({ commit }) => {
+    commit(types.default.SET_LOCATIONS_FETCHING_STATUS, true);
+    try {
+      const {
+        data: { payload },
+      } = await LocationsAPI.getUserLocations();
+      commit(types.default.SET_USER_LOCATIONS, payload);
       commit(types.default.SET_LOCATIONS_FETCHING_STATUS, false);
     } catch (error) {
       commit(types.default.SET_LOCATIONS_FETCHING_STATUS, false);
@@ -100,6 +121,9 @@ export const actions = {
 export const mutations = {
   [types.default.SET_LOCATIONS]($state, data) {
     $state.records = data;
+  },
+  [types.default.SET_USER_LOCATIONS]($state, data) {
+    $state.userLocations = data;
   },
   [types.default.SET_LOCATIONS_META]($state, meta) {
     $state.meta = {

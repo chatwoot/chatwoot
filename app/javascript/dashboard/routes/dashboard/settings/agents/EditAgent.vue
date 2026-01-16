@@ -50,6 +50,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  locationId: {
+    type: Number,
+    default: null,
+  },
   agent: {
     type: Object,
     default: () => ({}),
@@ -72,6 +76,7 @@ const agentAvailability = ref(props.availability);
 const selectedRoleId = ref(props.customRoleId || props.type);
 const agentCredentials = ref({ email: props.email });
 const selectedResponsibleId = ref(props.responsibleId);
+const selectedLocationId = ref(props.locationId);
 
 const isPhoneNumberNotValid = computed(() => {
   if (agentPhoneNumber.value !== '') {
@@ -139,6 +144,7 @@ const pageTitle = computed(
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 const agents = useMapGetter('agents/getAgents');
+const locations = useMapGetter('locations/getLocations');
 
 const responsibleOptions = computed(() => {
   return agents.value
@@ -147,6 +153,13 @@ const responsibleOptions = computed(() => {
       value: agent.current_account_user_id,
       label: agent.name,
     }));
+});
+
+const locationOptions = computed(() => {
+  return locations.value.map(location => ({
+    value: location.id,
+    label: location.name,
+  }));
 });
 
 const roles = computed(() => {
@@ -217,6 +230,10 @@ const editAgent = async () => {
 
     if (selectedResponsibleId.value) {
       payload.responsible_id = selectedResponsibleId.value;
+    }
+
+    if (selectedLocationId.value) {
+      payload.location_id = selectedLocationId.value;
     }
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -322,6 +339,22 @@ const resetPassword = async () => {
               $t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.EDIT.FORM.RESPONSIBLE.EMPTY_STATE')"
+            class="[&_button]:!bg-n-alpha-black2"
+          />
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('AGENT_MGMT.EDIT.FORM.LOCATION.LABEL') }}
+          <ComboBox
+            v-model="selectedLocationId"
+            :options="locationOptions"
+            :placeholder="$t('AGENT_MGMT.EDIT.FORM.LOCATION.PLACEHOLDER')"
+            :search-placeholder="
+              $t('AGENT_MGMT.EDIT.FORM.LOCATION.SEARCH_PLACEHOLDER')
+            "
+            :empty-state="$t('AGENT_MGMT.EDIT.FORM.LOCATION.EMPTY_STATE')"
             class="[&_button]:!bg-n-alpha-black2"
           />
         </label>

@@ -33,6 +33,10 @@ export default {
       type: String,
       default: 'No results found',
     },
+    searchKeys: {
+      type: Array,
+      default: () => ['name'],
+    },
   },
   emits: ['select'],
 
@@ -44,8 +48,12 @@ export default {
 
   computed: {
     filteredOptions() {
+      const searchTerm = this.search.toLowerCase();
       return this.options.filter(option => {
-        return option.name.toLowerCase().includes(this.search.toLowerCase());
+        return this.searchKeys.some(key => {
+          const value = option[key];
+          return value?.toLowerCase().includes(searchTerm);
+        });
       });
     },
     noResult() {

@@ -44,6 +44,7 @@ const customRoles = useMapGetter('customRole/getCustomRoles');
 onMounted(() => {
   store.dispatch('agents/get');
   store.dispatch('customRole/getCustomRole');
+  store.dispatch('locations/get');
 });
 
 const findCustomRole = agent =>
@@ -236,6 +237,16 @@ const confirmDeletion = () => {
               </div>
             </td>
 
+            <td class="relative py-4 ltr:pr-4 rtl:pl-4">
+              <div v-if="agent.location_name">
+                {{ $t('AGENT_MGMT.LIST.LOCATION') }}
+                <span class="capitalize"> {{ agent.location_name }} </span>
+              </div>
+              <div v-else>
+                <span>{{ $t('AGENT_MGMT.LIST.LOCATION_404') }}</span>
+              </div>
+            </td>
+
             <td class="py-4">
               <div class="flex justify-end gap-1">
                 <Button
@@ -281,6 +292,7 @@ const confirmDeletion = () => {
         :custom-role-id="currentAgent.custom_role_id"
         :agent="currentAgent"
         :responsible-id="currentAgent.responsible_id"
+        :location-id="currentAgent.location_id"
         @close="hideEditPopup"
       />
     </woot-modal>

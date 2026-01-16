@@ -17,6 +17,8 @@ json.phone_number resource.phone_number
 json.current_account_user_id resource.current_account_user.id
 json.responsible_id resource.current_account_user&.responsible_id
 json.responsible_name resource.current_account_user&.responsible&.user&.name
+json.location_id resource.current_account_user&.location_id
+json.location_name resource.current_account_user&.location&.name
 
 json.working_hours resource.current_account_user&.working_hours do |wh|
   json.partial! 'api/v1/models/working_hours', resource: wh

@@ -22,6 +22,7 @@ const agentPhoneNumber = ref('');
 const activeDialCode = ref('');
 const selectedRoleId = ref('agent');
 const responsibleId = ref(null);
+const locationId = ref(null);
 
 const parsedPhoneNumber = computed(() => {
   return parsePhoneNumber(agentPhoneNumber.value || '');
@@ -81,11 +82,19 @@ const v$ = useVuelidate(rules, {
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 const agents = useMapGetter('agents/getAgents');
+const locations = useMapGetter('locations/getLocations');
 
 const responsibleOptions = computed(() => {
   return agents.value.map(agent => ({
     value: agent.current_account_user_id,
     label: agent.name,
+  }));
+});
+
+const locationOptions = computed(() => {
+  return locations.value.map(location => ({
+    value: location.id,
+    label: location.name,
   }));
 });
 
@@ -142,6 +151,10 @@ const addAgent = async () => {
 
     if (responsibleId.value) {
       payload.responsible_id = responsibleId.value;
+    }
+
+    if (locationId.value) {
+      payload.location_id = locationId.value;
     }
 
     if (selectedRole.value.name.startsWith('custom_')) {
@@ -247,6 +260,22 @@ const addAgent = async () => {
               $t('AGENT_MGMT.ADD.FORM.RESPONSIBLE.SEARCH_PLACEHOLDER')
             "
             :empty-state="$t('AGENT_MGMT.ADD.FORM.RESPONSIBLE.EMPTY_STATE')"
+            class="[&_button]:!bg-n-alpha-black2"
+          />
+        </label>
+      </div>
+
+      <div class="w-full">
+        <label>
+          {{ $t('AGENT_MGMT.ADD.FORM.LOCATION.LABEL') }}
+          <ComboBox
+            v-model="locationId"
+            :options="locationOptions"
+            :placeholder="$t('AGENT_MGMT.ADD.FORM.LOCATION.PLACEHOLDER')"
+            :search-placeholder="
+              $t('AGENT_MGMT.ADD.FORM.LOCATION.SEARCH_PLACEHOLDER')
+            "
+            :empty-state="$t('AGENT_MGMT.ADD.FORM.LOCATION.EMPTY_STATE')"
             class="[&_button]:!bg-n-alpha-black2"
           />
         </label>

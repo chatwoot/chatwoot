@@ -5,6 +5,8 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
       set_agent
     elsif params.key?(:team_id)
       set_team
+    elsif params.key?(:location_id)
+      set_location
     else
       render json: nil
     end
@@ -39,6 +41,12 @@ class Api::V1::Accounts::Conversations::AssignmentsController < Api::V1::Account
     @team = Current.account.teams.find_by(id: params[:team_id])
     @conversation.update!(team: @team)
     render json: @team
+  end
+
+  def set_location
+    @location = Current.account.locations.find_by(id: params[:location_id])
+    @conversation.update!(location: @location)
+    render json: @location
   end
 
   def agent_bot_assignment?

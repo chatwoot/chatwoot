@@ -13,6 +13,12 @@ class Api::V1::Accounts::LocationsController < Api::V1::Accounts::BaseController
     @locations = Current.account.locations.includes(:address, :parent_location)
   end
 
+  def user_locations
+    user_location = Current.account_user&.location
+    @locations = user_location ? user_location.with_descendants.includes(:address, :parent_location) : []
+    render :index
+  end
+
   def show; end
 
   def create

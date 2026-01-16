@@ -74,6 +74,7 @@ import 'vue-virtual-scroller/dist/vue-virtual-scroller.css';
 const props = defineProps({
   conversationInbox: { type: [String, Number], default: 0 },
   teamId: { type: [String, Number], default: 0 },
+  locationId: { type: [String, Number], default: 0 },
   label: { type: String, default: '' },
   conversationType: { type: String, default: '' },
   foldersId: { type: [String, Number], default: 0 },
@@ -131,6 +132,7 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
+const getLocationFn = useMapGetter('locations/getLocation');
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -283,6 +285,7 @@ const conversationFilters = computed(() => {
     page: conversationListPagination.value,
     labels: props.label ? [props.label] : undefined,
     teamId: props.teamId || undefined,
+    locationId: props.locationId || undefined,
     conversationType: props.conversationType || undefined,
   };
 });
@@ -290,6 +293,13 @@ const conversationFilters = computed(() => {
 const activeTeam = computed(() => {
   if (props.teamId) {
     return getTeamFn.value(props.teamId);
+  }
+  return {};
+});
+
+const activeLocation = computed(() => {
+  if (props.locationId) {
+    return getLocationFn.value(props.locationId);
   }
   return {};
 });
@@ -306,6 +316,9 @@ const pageTitle = computed(() => {
   }
   if (activeTeam.value.name) {
     return activeTeam.value.name;
+  }
+  if (activeLocation.value.name) {
+    return activeLocation.value.name;
   }
   if (props.label) {
     return `#${props.label}`;
@@ -669,7 +682,7 @@ function openLastItemAfterDeleteInFolder() {
 
 function redirectToConversationList() {
   const {
-    params: { accountId, inbox_id: inboxId, label, teamId },
+    params: { accountId, inbox_id: inboxId, label, teamId, locationId },
     name,
   } = route;
 
@@ -687,6 +700,7 @@ function redirectToConversationList() {
       inboxId,
       label,
       teamId,
+      locationId,
     })
   );
 }
@@ -826,6 +840,7 @@ provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
 
 watch(activeTeam, () => resetAndFetchData());
+watch(activeLocation, () => resetAndFetchData());
 
 watch(
   computed(() => props.conversationInbox),
@@ -983,6 +998,7 @@ watch(
               :source="item"
               :label="label"
               :team-id="teamId"
+              :location-id="locationId"
               :folders-id="foldersId"
               :conversation-type="conversationType"
               :show-assignee="showAssigneeInConversationCard"

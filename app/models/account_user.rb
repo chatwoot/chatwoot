@@ -32,6 +32,7 @@ class AccountUser < ApplicationRecord
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
+  belongs_to :location, optional: true
   belongs_to :responsible, class_name: 'AccountUser', optional: true, inverse_of: :subordinates
 
   has_many :subordinates, class_name: 'AccountUser', foreign_key: 'responsible_id', dependent: :nullify, inverse_of: :responsible

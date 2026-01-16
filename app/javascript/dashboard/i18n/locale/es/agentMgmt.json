@@ -21,7 +21,9 @@
       "VERIFICATION_PENDING": "Verificación pendiente",
       "AVAILABLE_CUSTOM_ROLE": "Permisos personalizados de rol disponibles",
       "RESPONSIBLE": "Persona a cargo:",
-      "RESPONSIBLE_404": "Nadie asignado"
+      "RESPONSIBLE_404": "Nadie asignado",
+      "LOCATION": "Ubicación:",
+      "LOCATION_404": "Sin ubicación asignada"
     },
     "ADD": {
       "TITLE": "Añadir agente a tu equipo",
@@ -50,6 +52,12 @@
           "PLACEHOLDER": "Seleccione un responsable",
           "SEARCH_PLACEHOLDER": "Buscar responsable",
           "EMPTY_STATE": "No hay agentes disponibles"
+        },
+        "LOCATION": {
+          "LABEL": "Ubicación",
+          "PLACEHOLDER": "Seleccione una ubicación",
+          "SEARCH_PLACEHOLDER": "Buscar ubicación",
+          "EMPTY_STATE": "No hay ubicaciones disponibles"
         },
         "SUBMIT": "Añadir agente"
       },
@@ -98,6 +106,12 @@
           "PLACEHOLDER": "Seleccione un responsable",
           "SEARCH_PLACEHOLDER": "Buscar responsable",
           "EMPTY_STATE": "No hay agentes disponibles"
+        },
+        "LOCATION": {
+          "LABEL": "Ubicación",
+          "PLACEHOLDER": "Seleccione una ubicación",
+          "SEARCH_PLACEHOLDER": "Buscar ubicación",
+          "EMPTY_STATE": "No hay ubicaciones disponibles"
         },
         "SUBMIT": "Editar agente"
       },

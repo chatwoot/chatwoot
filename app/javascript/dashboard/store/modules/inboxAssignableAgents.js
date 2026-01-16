@@ -24,15 +24,20 @@ export const getters = {
 };
 
 export const actions = {
-  async fetch({ commit }, inboxIds) {
+  async fetch({ commit }, payload) {
+    // Support both old format (array) and new format (object with inboxIds and locationId)
+    const inboxIds = Array.isArray(payload) ? payload : payload.inboxIds;
+    const locationId = Array.isArray(payload) ? null : payload.locationId;
+
     commit(types.SET_INBOX_ASSIGNABLE_AGENTS_UI_FLAG, { isFetching: true });
     try {
       const {
-        data: { payload },
-      } = await AssignableAgentsAPI.get(inboxIds);
+        data: { payload: agents },
+      } = await AssignableAgentsAPI.get(inboxIds, locationId);
+      const cacheKey = locationId ? `${inboxIds.join(',')}_loc_${locationId}` : inboxIds.join(',');
       commit(types.SET_INBOX_ASSIGNABLE_AGENTS, {
-        inboxId: inboxIds.join(','),
-        members: payload,
+        inboxId: cacheKey,
+        members: agents,
       });
     } catch (error) {
       throw new Error(error);

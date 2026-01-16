@@ -22,7 +22,9 @@
       "VERIFICATION_PENDING": "Verification Pending",
       "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions",
       "RESPONSIBLE": "Person in charge:",
-      "RESPONSIBLE_404": "No one assigned"
+      "RESPONSIBLE_404": "No one assigned",
+      "LOCATION": "Location:",
+      "LOCATION_404": "No location assigned"
     },
     "ADD": {
       "TITLE": "Add agent to your team",
@@ -51,6 +53,12 @@
           "PLACEHOLDER": "Select a responsible",
           "SEARCH_PLACEHOLDER": "Search for responsible",
           "EMPTY_STATE": "No agents available"
+        },
+        "LOCATION": {
+          "LABEL": "Location",
+          "PLACEHOLDER": "Select a location",
+          "SEARCH_PLACEHOLDER": "Search for location",
+          "EMPTY_STATE": "No locations available"
         },
         "SUBMIT": "Add Agent"
       },
@@ -100,6 +108,12 @@
           "SEARCH_PLACEHOLDER": "Search for responsible",
           "EMPTY_STATE": "No agents available"
         },
+        "LOCATION": {
+          "LABEL": "Location",
+          "PLACEHOLDER": "Select a location",
+          "SEARCH_PLACEHOLDER": "Search for location",
+          "EMPTY_STATE": "No locations available"
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",
@@ -133,7 +147,7 @@
           "TEAM": "No teams found"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
+          "AGENT": "Search by name or location",
           "TEAM": "Search teams",
           "INPUT": "Search for agents"
         }

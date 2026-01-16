@@ -87,6 +87,29 @@ export default {
       }),
     },
     {
+      path: frontendURL('accounts/:accountId/location/:locationId'),
+      name: 'location_conversations',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({ locationId: route.params.locationId }),
+    },
+    {
+      path: frontendURL(
+        'accounts/:accountId/location/:locationId/conversations/:conversation_id'
+      ),
+      name: 'conversations_through_location',
+      meta: {
+        permissions: CONVERSATION_PERMISSIONS,
+      },
+      component: ConversationView,
+      props: route => ({
+        conversationId: route.params.conversation_id,
+        locationId: route.params.locationId,
+      }),
+    },
+    {
       path: frontendURL('accounts/:accountId/team/:teamId'),
       name: 'team_conversations',
       meta: {

@@ -162,6 +162,7 @@
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
+      "NO_LOCATION": "No location",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
       "OPEN_IN_NEW_TAB": "Open in new tab",

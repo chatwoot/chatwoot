@@ -62,11 +62,13 @@ class ConversationFinder
   def set_up
     set_inboxes
     set_team
+    set_location
     set_assignee_type
 
     find_all_conversations
     filter_by_status unless params[:q]
     filter_by_team
+    filter_by_location
     filter_by_labels
     filter_by_query
     filter_by_source_id
@@ -103,6 +105,10 @@ class ConversationFinder
 
   def set_team
     @team = current_account.teams.find(params[:team_id]) if params[:team_id]
+  end
+
+  def set_location
+    @location = current_account.locations.find(params[:location_id]) if params[:location_id]
   end
 
   def find_conversation_by_inbox
@@ -170,6 +176,13 @@ class ConversationFinder
     return unless @team
 
     @conversations = @conversations.where(team: @team)
+  end
+
+  def filter_by_location
+    return unless @location
+
+    user_ids = current_account.account_users.where(location_id: @location.id).pluck(:user_id)
+    @conversations = @conversations.where(assignee_id: user_ids)
   end
 
   def filter_by_labels

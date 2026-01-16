@@ -252,6 +252,7 @@ export default {
         :input-placeholder="
           $t('AGENT_MGMT.MULTI_SELECTOR.SEARCH.PLACEHOLDER.AGENT')
         "
+        :search-keys="['name', 'location_name']"
         @select="onClickAssignAgent"
       />
     </div>

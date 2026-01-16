@@ -22,6 +22,7 @@ const props = defineProps({
   hideInboxName: { type: Boolean, default: false },
   hideThumbnail: { type: Boolean, default: false },
   teamId: { type: [String, Number], default: 0 },
+  locationId: { type: [String, Number], default: 0 },
   foldersId: { type: [String, Number], default: 0 },
   showAssignee: { type: Boolean, default: false },
   conversationType: { type: String, default: '' },
@@ -149,6 +150,7 @@ const conversationPath = computed(() => {
       id: props.chat.id,
       label: props.activeLabel,
       teamId: props.teamId,
+      locationId: props.locationId,
       conversationType: props.conversationType,
       foldersId: props.foldersId,
     })

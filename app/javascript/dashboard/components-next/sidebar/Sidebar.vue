@@ -72,6 +72,7 @@ provideSidebarContext({
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
 const teams = useMapGetter('teams/getMyTeams');
+const userLocations = useMapGetter('locations/getUserLocations');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
@@ -80,6 +81,7 @@ const conversationCustomViews = useMapGetter(
 onMounted(() => {
   store.dispatch('labels/get');
   store.dispatch('inboxes/get');
+  store.dispatch('locations/getUserLocations');
   store.dispatch('notifications/unReadCount');
   store.dispatch('teams/get');
   store.dispatch('attributes/get');
@@ -227,6 +229,21 @@ const menuItems = computed(() => {
             }),
           })),
         },
+        {
+          name: 'Locations',
+          label: t('SIDEBAR.LOCATIONS'),
+          icon: 'i-lucide-map-pin',
+          activeOn: ['conversations_through_location'],
+          children: userLocations.value.map(location => ({
+            name: `${location.name}-${location.id}`,
+            label: location.name,
+            to: accountScopedRoute('location_conversations', {
+              locationId: location.id,
+            }),
+          })),
+        },
+
+
       ],
     },
     {

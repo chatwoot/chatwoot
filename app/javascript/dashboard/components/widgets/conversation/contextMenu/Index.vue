@@ -207,6 +207,23 @@ export default {
         ...this.filteredAgentOnAvailability,
       ];
     },
+    locationsWithAgents() {
+      const locationMap = {};
+      this.assignableAgents.forEach(agent => {
+        const locationId = agent.location_id || 'no_location';
+        const locationName = agent.location_name || this.$t('CONVERSATION.CARD_CONTEXT_MENU.NO_LOCATION');
+        if (!locationMap[locationId]) {
+          locationMap[locationId] = {
+            id: locationId,
+            name: locationName,
+            icon: 'location',
+            agents: [],
+          };
+        }
+        locationMap[locationId].agents.push(agent);
+      });
+      return Object.values(locationMap);
+    },
     showSnooze() {
       // Don't show snooze if the conversation is already snoozed/resolved/pending
       return this.status === wootConstants.STATUS_TYPE.OPEN;
@@ -345,13 +362,26 @@ export default {
       >
         <AgentLoadingPlaceholder v-if="assignableAgentsUiFlags.isFetching" />
         <template v-else>
-          <MenuItem
-            v-for="agent in assignableAgents"
-            :key="agent.id"
-            :option="generateMenuLabelConfig(agent, 'agent')"
-            variant="agent"
-            @click.stop="$emit('assignAgent', agent)"
-          />
+          <div v-for="location in locationsWithAgents" :key="location.id">
+            <div class="text-n-slate-12 w-full p-1 flex items-center h-7">
+              <fluent-icon icon="location" size="14" class="flex-shrink-0" />
+              <p
+                class="my-0 mx-2 text-xs overflow-hidden whitespace-nowrap text-ellipsis"
+              >
+                {{ location.name }}
+              </p>
+            </div>
+
+            <MenuItem
+              v-for="agent in location.agents"
+              :key="agent.id"
+              :option="generateMenuLabelConfig(agent, 'agent')"
+              variant="agent"
+              @click.stop="$emit('assignAgent', agent)"
+            />
+
+            <hr />
+          </div>
         </template>
       </MenuItemWithSubmenu>
       <MenuItemWithSubmenu

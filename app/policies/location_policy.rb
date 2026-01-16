@@ -18,4 +18,8 @@ class LocationPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator? || @account_user.supervisor?
   end
+
+  def user_locations?
+    true
+  end
 end

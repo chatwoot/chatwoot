@@ -39,6 +39,8 @@ class Location < ApplicationRecord
            inverse_of: :parent_location
 
   has_one :address, as: :addressable, class_name: 'AccountAddress', dependent: :destroy
+  has_many :account_users, dependent: :nullify
+  has_many :conversations, dependent: :nullify
 
   # Nested attributes for creating/updating address in the same request
   accepts_nested_attributes_for :address, allow_destroy: true, reject_if: :all_blank
@@ -85,6 +87,12 @@ class Location < ApplicationRecord
     child_locations.includes(:child_locations).flat_map do |child|
       [child] + child.descendants
     end
+  end
+
+  # Get this location and all its descendants as an ActiveRecord relation
+  def with_descendants
+    location_ids = [id] + descendants.map(&:id)
+    self.class.where(id: location_ids)
   end
 
   # Get the level in the hierarchy (0 = root, 1 = child of root, etc.)
