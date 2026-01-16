@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste SLA - Chatwoot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 16px;
+            padding: 48px;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            color: #1f2937;
+            margin-bottom: 16px;
+            font-size: 32px;
+        }
+        
+        p {
+            color: #6b7280;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status {
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            display: none;
+        }
+        
+        .status.success {
+            background: #d1fae5;
+            color: #065f46;
+            border-left: 4px solid #10b981;
+        }
+        
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .instructions {
+            background: #f3f4f6;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        
+        .instructions h2 {
+            color: #374151;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        
+        .instructions ol {
+            padding-left: 20px;
+        }
+        
+        .instructions li {
+            color: #4b5563;
+            padding: 4px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Teste de SLA - Chatwoot</h1>
+        <p>Crie uma conversa de teste para verificar o funcionamento do sistema de SLA.</p>
+        
+        <div class="instructions">
+            <h2>Como funciona:</h2>
+            <ol>
+                <li>Preencha os campos abaixo para criar uma nova conversa</li>
+                <li>A conversa será criada com um SLA aplicado automaticamente</li>
+                <li>Acesse o painel administrativo para ver os relatórios de SLA</li>
+                <li>Clique em "Relatórios" → "SLA" para visualizar os dados</li>
+            </ol>
+        </div>
+        
+        <form id="testForm">
+            <div class="form-group">
+                <label for="contactName">Nome do Contato</label>
+                <input type="text" id="contactName" placeholder="Ex: João Silva" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="contactEmail">Email do Contato</label>
+                <input type="email" id="contactEmail" placeholder="Ex: joao@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Mensagem Inicial</label>
+                <textarea id="message" placeholder="Ex: Olá, preciso de ajuda com meu pedido..." required></textarea>
+            </div>
+            
+            <button type="submit" id="submitBtn">Criar Conversa de Teste</button>
+        </form>
+        
+        <div id="status" class="status"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('testForm');
+        const status = document.getElementById('status');
+        const submitBtn = document.getElementById('submitBtn');
+        
+        function showStatus(message, type) {
+            status.textContent = message;
+            status.className = `status ${type}`;
+            status.style.display = 'block';
+        }
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Criando conversa...';
+            showStatus('Processando...', 'info');
+            
+            const contactName = document.getElementById('contactName').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const message = document.getElementById('message').value;
+            
+            try {
+                // Criar conversa usando endpoint customizado
+                const response = await fetch('/api/sla_test/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: contactName,
+                        email: contactEmail,
+                        message: message
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    showStatus(
+                        `✅ Conversa #${data.conversation_id} criada com sucesso!`,
+                        'success'
+                    );
+                    form.reset();
+                    
+                    // Adicionar links
+                    setTimeout(() => {
+                        const linksDiv = document.createElement('div');
+                        linksDiv.style.marginTop = '10px';
+                        linksDiv.innerHTML = `
+                            <a href="${data.conversation_url}" target="_blank" style="display: block; color: #065f46; font-weight: bold; margin-bottom: 5px;">
+                                📧 Ver Conversa
+                            </a>
+                            <a href="${data.sla_report_url}" target="_blank" style="display: block; color: #065f46; font-weight: bold;">
+                                📊 Ver Relatórios SLA
+                            </a>
+                        `;
+                        status.appendChild(linksDiv);
+                    }, 100);
+                } else {
+                    const errorText = await response.text();
+                    console.error('Erro da API:', errorText);
+                    showStatus(`❌ Erro: ${response.status} - ${response.statusText}`, 'error');
+                }
+            } catch (error) {
+                console.error('Erro completo:', error);
+                showStatus(`❌ Erro ao criar conversa: ${error.message}`, 'error');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Criar Conversa de Teste';
+            }
+        });
+    </script>
+</body>
+</html>
