@@ -2,6 +2,10 @@ export const hasPermissions = (
   requiredPermissions = [],
   availablePermissions = []
 ) => {
+  // CommMate: Administrators have access to everything
+  if (availablePermissions.includes('administrator')) {
+    return true;
+  }
   return requiredPermissions.some(permission =>
     availablePermissions.includes(permission)
   );
@@ -18,10 +22,7 @@ export const getUserPermissions = (user, accountId) => {
 
 export const getUserRole = (user, accountId) => {
   const currentAccount = getCurrentAccount(user, accountId) || {};
-  if (currentAccount.custom_role_id) {
-    return 'custom_role';
-  }
-
+  // CommMate: Simplified role - no longer uses custom_role_id
   return currentAccount.role || 'agent';
 };
 

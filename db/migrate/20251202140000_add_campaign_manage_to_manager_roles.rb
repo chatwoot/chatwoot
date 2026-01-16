@@ -1,24 +1,16 @@
 # frozen_string_literal: true
 
+# CommMate: This migration was originally designed to update CustomRole records,
+# but since we've migrated to per-user permissions, this is now a no-op.
+# The campaign_manage permission is now assigned directly to users via access_permissions.
 class AddCampaignManageToManagerRoles < ActiveRecord::Migration[7.1]
   def up
-    return unless ActiveRecord::Base.connection.table_exists?('custom_roles')
-
-    # Add campaign_manage permission to existing Manager roles
-    CustomRole.where(name: 'Manager').find_each do |role|
-      next if role.permissions.include?('campaign_manage')
-
-      role.permissions << 'campaign_manage'
-      role.save!
-    end
+    # No-op: Custom roles have been replaced with per-user permissions
+    # See MigrateCustomRolesToAccessPermissions migration
+    Rails.logger.info 'AddCampaignManageToManagerRoles: Skipped (custom roles replaced with per-user permissions)'
   end
 
   def down
-    # Remove campaign_manage permission from Manager roles
-    CustomRole.where(name: 'Manager').find_each do |role|
-      role.permissions.delete('campaign_manage')
-      role.save!
-    end
+    # No-op
   end
 end
-

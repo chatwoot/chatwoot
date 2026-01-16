@@ -1,17 +1,28 @@
 class WebhookPolicy < ApplicationPolicy
   def index?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_integrations_manage permission
+    @account_user.administrator? || has_integrations_manage_permission?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_integrations_manage permission
+    @account_user.administrator? || has_integrations_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_integrations_manage permission
+    @account_user.administrator? || has_integrations_manage_permission?
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_integrations_manage permission
+    @account_user.administrator? || has_integrations_manage_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_integrations_manage permission
+  def has_integrations_manage_permission?
+    @account_user.permissions.include?('settings_integrations_manage')
   end
 end

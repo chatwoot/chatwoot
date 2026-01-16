@@ -1,6 +1,7 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, ref } from 'vue';
 
@@ -15,6 +16,12 @@ const getters = useStoreGetters();
 const teamsList = computed(() => getters['teams/getTeams'].value);
 const uiFlags = computed(() => getters['teams/getUIFlags'].value);
 const { isAdmin } = useAdmin();
+
+// CommMate: Check for settings_teams_manage permission
+const { checkPermissions } = usePolicy();
+const canManageTeams = computed(
+  () => isAdmin.value || checkPermissions(['settings_teams_manage'])
+);
 
 const loading = ref({});
 
@@ -76,7 +83,7 @@ const confirmPlaceHolderText = computed(() =>
       feature-name="team_management"
     >
       <template #actions>
-        <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
+        <router-link v-if="canManageTeams" :to="{ name: 'settings_teams_new' }">
           <Button
             icon="i-lucide-circle-plus"
             :label="$t('TEAMS_SETTINGS.NEW_TEAM')"
@@ -112,7 +119,7 @@ const confirmPlaceHolderText = computed(() =>
                 }"
               >
                 <Button
-                  v-if="isAdmin"
+                  v-if="canManageTeams"
                   v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
                   icon="i-lucide-settings"
                   slate
@@ -122,7 +129,7 @@ const confirmPlaceHolderText = computed(() =>
               </router-link>
 
               <Button
-                v-if="isAdmin"
+                v-if="canManageTeams"
                 v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
                 icon="i-lucide-trash-2"
                 xs

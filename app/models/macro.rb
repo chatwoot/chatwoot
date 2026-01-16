@@ -36,7 +36,10 @@ class Macro < ApplicationRecord
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]
-    self.visibility = :personal if user.agent?
+    # CommMate: Allow public macros if user is admin or has settings_macros_manage permission
+    account_user = user.account_users.find_by(account_id: account_id)
+    can_create_public = account_user&.administrator? || account_user&.permissions&.include?('settings_macros_manage')
+    self.visibility = :personal unless can_create_public
   end
 
   def self.with_visibility(user, _params)

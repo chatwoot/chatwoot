@@ -11,8 +11,6 @@ class AccountUserDashboard < Administrate::BaseDashboard
     account: Field::BelongsToSearch.with_options(class_name: 'Account', searchable: true, searchable_field: [:name, :id], order: 'id DESC'),
     user: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
     inviter: Field::BelongsToSearch.with_options(class_name: 'User', searchable: true, searchable_field: [:name, :email, :id], order: 'id DESC'),
-    # CommMate: Add custom_role field for role-based permissions
-    custom_role: Field::BelongsTo.with_options(class_name: 'CustomRole'),
     id: Field::Number,
     role: Field::Select.with_options(collection: AccountUser.roles.keys),
     created_at: Field::DateTime,
@@ -24,25 +22,21 @@ class AccountUserDashboard < Administrate::BaseDashboard
   #
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
-  # CommMate: Added custom_role to display in list view
   COLLECTION_ATTRIBUTES = %i[
     account
     user
     inviter
     role
-    custom_role
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
-  # CommMate: Added custom_role to show page
   SHOW_PAGE_ATTRIBUTES = %i[
     account
     user
     inviter
     id
     role
-    custom_role
     created_at
     updated_at
   ].freeze

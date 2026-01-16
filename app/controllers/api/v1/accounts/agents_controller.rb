@@ -68,15 +68,18 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def account_user_attributes
-    [:role, :availability, :auto_offline]
+    # CommMate: Include access_permissions for per-user permission management
+    [:role, :availability, :auto_offline, :access_permissions]
   end
 
   def allowed_agent_params
-    [:name, :email, :role, :availability, :auto_offline]
+    # CommMate: Include access_permissions for per-user permission management
+    [:name, :email, :role, :availability, :auto_offline, { access_permissions: [] }]
   end
 
   def agent_params
-    params.require(:agent).permit(allowed_agent_params)
+    # CommMate: Use explicit permit for nested arrays
+    params.require(:agent).permit(:name, :email, :role, :availability, :auto_offline, access_permissions: [])
   end
 
   def new_agent_params

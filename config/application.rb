@@ -39,17 +39,25 @@ module Chatwoot
     config.load_defaults 7.0
 
     config.eager_load_paths << Rails.root.join('lib')
-    config.eager_load_paths << Rails.root.join('enterprise/lib')
-    config.eager_load_paths << Rails.root.join('enterprise/listeners')
-    # rubocop:disable Rails/FilePath
-    config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
-    # rubocop:enable Rails/FilePath
-    # Add enterprise views to the view paths
-    config.paths['app/views'].unshift('enterprise/app/views')
 
-    # Load enterprise initializers alongside standard initializers
-    enterprise_initializers = Rails.root.join('enterprise/config/initializers')
-    Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+    # CommMate: Only load enterprise paths when enterprise is enabled (license compliance)
+    # Enterprise code is gated by DISABLE_ENTERPRISE env var and directory existence
+    enterprise_enabled = !ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_ENTERPRISE', false)) &&
+                         Rails.root.join('enterprise').exist?
+
+    if enterprise_enabled
+      config.eager_load_paths << Rails.root.join('enterprise/lib')
+      config.eager_load_paths << Rails.root.join('enterprise/listeners')
+      # rubocop:disable Rails/FilePath
+      config.eager_load_paths += Dir["#{Rails.root}/enterprise/app/**"]
+      # rubocop:enable Rails/FilePath
+      # Add enterprise views to the view paths
+      config.paths['app/views'].unshift('enterprise/app/views')
+
+      # Load enterprise initializers alongside standard initializers
+      enterprise_initializers = Rails.root.join('enterprise/config/initializers')
+      Dir[enterprise_initializers.join('**/*.rb')].each { |f| require f } if enterprise_initializers.exist?
+    end
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers

@@ -3,9 +3,10 @@ import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 
+// CommMate: Contacts management requires admin or contact_manage permission
 const commonMeta = {
   featureFlag: FEATURE_FLAGS.CRM,
-  permissions: ['administrator', 'agent', 'contact_manage'],
+  permissions: ['administrator', 'contact_manage'],
 };
 
 export const routes = [

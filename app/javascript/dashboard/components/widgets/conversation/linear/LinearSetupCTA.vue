@@ -4,12 +4,19 @@ import { useStoreGetters } from 'dashboard/composables/store';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 
 const { isAdmin } = useAdmin();
+const { checkPermissions } = usePolicy();
 const getters = useStoreGetters();
 const accountId = getters.getCurrentAccountId;
 
 const integrationId = 'linear';
+
+// CommMate: Allow integration setup if admin or has settings_integrations_manage permission
+const canManageIntegrations = computed(
+  () => isAdmin.value || checkPermissions(['settings_integrations_manage'])
+);
 
 const actionURL = computed(() =>
   frontendURL(
@@ -39,7 +46,7 @@ const openLinearAccount = () => {
       <h3 class="mb-1.5 text-sm font-medium text-n-slate-12">
         {{ $t('INTEGRATION_SETTINGS.LINEAR.CTA.TITLE') }}
       </h3>
-      <p v-if="isAdmin" class="text-sm text-n-slate-11">
+      <p v-if="canManageIntegrations" class="text-sm text-n-slate-11">
         {{ $t('INTEGRATION_SETTINGS.LINEAR.CTA.DESCRIPTION') }}
       </p>
       <p v-else class="text-sm text-n-slate-11">
@@ -47,7 +54,12 @@ const openLinearAccount = () => {
       </p>
     </div>
 
-    <NextButton v-if="isAdmin" faded slate @click="openLinearAccount">
+    <NextButton
+      v-if="canManageIntegrations"
+      faded
+      slate
+      @click="openLinearAccount"
+    >
       {{ $t('INTEGRATION_SETTINGS.LINEAR.CTA.BUTTON_TEXT') }}
     </NextButton>
   </div>

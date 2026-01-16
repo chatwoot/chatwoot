@@ -1,10 +1,12 @@
 class AgentBotPolicy < ApplicationPolicy
   def index?
+    # Agent bots can be read by all agents (needed for inbox assignment)
     @account_user.administrator? || @account_user.agent?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agent_bots_manage permission
+    @account_user.administrator? || has_agent_bots_manage_permission?
   end
 
   def show?
@@ -12,18 +14,29 @@ class AgentBotPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agent_bots_manage permission
+    @account_user.administrator? || has_agent_bots_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agent_bots_manage permission
+    @account_user.administrator? || has_agent_bots_manage_permission?
   end
 
   def avatar?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agent_bots_manage permission
+    @account_user.administrator? || has_agent_bots_manage_permission?
   end
 
   def reset_access_token?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agent_bots_manage permission
+    @account_user.administrator? || has_agent_bots_manage_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_agent_bots_manage permission
+  def has_agent_bots_manage_permission?
+    @account_user.permissions.include?('settings_agent_bots_manage')
   end
 end

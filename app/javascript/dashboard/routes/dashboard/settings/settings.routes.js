@@ -21,7 +21,6 @@ import reports from './reports/reports.routes';
 import store from '../../../store';
 import sla from './sla/sla.routes';
 import teams from './teams/teams.routes';
-import customRoles from './customRoles/customRole.routes';
 import profile from './profile/profile.routes';
 import security from './security/security.routes';
 
@@ -34,10 +33,8 @@ export default {
         permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       },
       redirect: to => {
-        if (
-          store.getters.getCurrentRole === 'administrator' &&
-          store.getters.getCurrentCustomRoleId === null
-        ) {
+        // CommMate: Simplified - administrators go to general settings
+        if (store.getters.getCurrentRole === 'administrator') {
           return { name: 'general_settings_index', params: to.params };
         }
 
@@ -60,7 +57,6 @@ export default {
     ...reports.routes,
     ...sla.routes,
     ...teams.routes,
-    ...customRoles.routes,
     ...profile.routes,
     ...security.routes,
   ],

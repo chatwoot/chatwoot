@@ -7,7 +7,8 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/general'),
       meta: {
-        permissions: ['administrator'],
+        // CommMate: Allow administrators or users with settings_account_manage permission
+        permissions: ['administrator', 'settings_account_manage'],
       },
       component: SettingsWrapper,
       children: [
@@ -16,7 +17,7 @@ export default {
           name: 'general_settings_index',
           component: Index,
           meta: {
-            permissions: ['administrator'],
+            permissions: ['administrator', 'settings_account_manage'],
           },
         },
       ],

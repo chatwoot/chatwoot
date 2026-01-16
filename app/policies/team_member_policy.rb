@@ -4,14 +4,24 @@ class TeamMemberPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_teams_manage permission
+    @account_user.administrator? || has_teams_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_teams_manage permission
+    @account_user.administrator? || has_teams_manage_permission?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_teams_manage permission
+    @account_user.administrator? || has_teams_manage_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_teams_manage permission
+  def has_teams_manage_permission?
+    @account_user.permissions.include?('settings_teams_manage')
   end
 end

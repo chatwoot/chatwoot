@@ -21,7 +21,8 @@ export default {
           component: AttributesHome,
           meta: {
             featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
-            permissions: ['administrator'],
+            // CommMate: Allow administrators or users with settings_custom_attributes_manage permission
+            permissions: ['administrator', 'settings_custom_attributes_manage'],
           },
         },
       ],

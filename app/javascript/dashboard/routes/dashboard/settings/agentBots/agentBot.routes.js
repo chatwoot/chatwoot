@@ -8,7 +8,8 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/agent-bots'),
       meta: {
-        permissions: ['administrator'],
+        // CommMate: Allow administrators or users with settings_agent_bots_manage permission
+        permissions: ['administrator', 'settings_agent_bots_manage'],
       },
       component: SettingsWrapper,
       children: [
@@ -18,7 +19,8 @@ export default {
           component: Bot,
           meta: {
             featureFlag: FEATURE_FLAGS.AGENT_BOTS,
-            permissions: ['administrator'],
+            // CommMate: Allow administrators or users with settings_agent_bots_manage permission
+            permissions: ['administrator', 'settings_agent_bots_manage'],
           },
         },
       ],

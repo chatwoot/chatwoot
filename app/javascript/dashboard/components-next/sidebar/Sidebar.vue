@@ -12,6 +12,11 @@ import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+// CommMate: Import permissions helper for menu filtering
+import {
+  hasPermissions,
+  getUserPermissions,
+} from 'dashboard/helper/permissionsHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -45,6 +50,19 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
+
+// CommMate: Get user permissions for menu filtering
+const currentUser = useMapGetter('getCurrentUser');
+const accountId = useMapGetter('getCurrentAccountId');
+const userPermissions = computed(() =>
+  getUserPermissions(currentUser.value, accountId.value)
+);
+
+// CommMate: Helper to check if user has permission to view a menu item
+const hasMenuPermission = permissions => {
+  if (!permissions || permissions.length === 0) return true;
+  return hasPermissions(permissions, userPermissions.value);
+};
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -312,69 +330,74 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
-      name: 'Contacts',
-      label: t('SIDEBAR.CONTACTS'),
-      icon: 'i-lucide-contact',
-      children: [
-        {
-          name: 'All Contacts',
-          label: t('SIDEBAR.ALL_CONTACTS'),
-          to: accountScopedRoute(
-            'contacts_dashboard_index',
-            {},
-            { page: 1, search: undefined }
-          ),
-          activeOn: ['contacts_dashboard_index', 'contacts_edit'],
-        },
-        {
-          name: 'Active',
-          label: t('SIDEBAR.ACTIVE'),
-          to: accountScopedRoute('contacts_dashboard_active'),
-          activeOn: ['contacts_dashboard_active'],
-        },
-        {
-          name: 'Segments',
-          icon: 'i-lucide-group',
-          label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
-          children: contactCustomViews.value.map(view => ({
-            name: `${view.name}-${view.id}`,
-            label: view.name,
-            to: accountScopedRoute(
-              'contacts_dashboard_segments_index',
-              { segmentId: view.id },
-              { page: 1 }
-            ),
-            activeOn: [
-              'contacts_dashboard_segments_index',
-              'contacts_edit_segment',
+    // CommMate: Contacts requires contact_manage permission
+    ...(hasMenuPermission(['administrator', 'contact_manage'])
+      ? [
+          {
+            name: 'Contacts',
+            label: t('SIDEBAR.CONTACTS'),
+            icon: 'i-lucide-contact',
+            children: [
+              {
+                name: 'All Contacts',
+                label: t('SIDEBAR.ALL_CONTACTS'),
+                to: accountScopedRoute(
+                  'contacts_dashboard_index',
+                  {},
+                  { page: 1, search: undefined }
+                ),
+                activeOn: ['contacts_dashboard_index', 'contacts_edit'],
+              },
+              {
+                name: 'Active',
+                label: t('SIDEBAR.ACTIVE'),
+                to: accountScopedRoute('contacts_dashboard_active'),
+                activeOn: ['contacts_dashboard_active'],
+              },
+              {
+                name: 'Segments',
+                icon: 'i-lucide-group',
+                label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),
+                children: contactCustomViews.value.map(view => ({
+                  name: `${view.name}-${view.id}`,
+                  label: view.name,
+                  to: accountScopedRoute(
+                    'contacts_dashboard_segments_index',
+                    { segmentId: view.id },
+                    { page: 1 }
+                  ),
+                  activeOn: [
+                    'contacts_dashboard_segments_index',
+                    'contacts_edit_segment',
+                  ],
+                })),
+              },
+              {
+                name: 'Tagged With',
+                icon: 'i-lucide-tag',
+                label: t('SIDEBAR.TAGGED_WITH'),
+                children: labels.value.map(label => ({
+                  name: `${label.title}-${label.id}`,
+                  label: label.title,
+                  icon: h('span', {
+                    class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+                    style: { backgroundColor: label.color },
+                  }),
+                  to: accountScopedRoute(
+                    'contacts_dashboard_labels_index',
+                    { label: label.title },
+                    { page: 1, search: undefined }
+                  ),
+                  activeOn: [
+                    'contacts_dashboard_labels_index',
+                    'contacts_edit_label',
+                  ],
+                })),
+              },
             ],
-          })),
-        },
-        {
-          name: 'Tagged With',
-          icon: 'i-lucide-tag',
-          label: t('SIDEBAR.TAGGED_WITH'),
-          children: labels.value.map(label => ({
-            name: `${label.title}-${label.id}`,
-            label: label.title,
-            icon: h('span', {
-              class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
-              style: { backgroundColor: label.color },
-            }),
-            to: accountScopedRoute(
-              'contacts_dashboard_labels_index',
-              { label: label.title },
-              { page: 1, search: undefined }
-            ),
-            activeOn: [
-              'contacts_dashboard_labels_index',
-              'contacts_edit_label',
-            ],
-          })),
-        },
-      ],
-    },
+          },
+        ]
+      : []),
     {
       name: 'Companies',
       label: t('SIDEBAR.COMPANIES'),
@@ -392,63 +415,74 @@ const menuItems = computed(() => {
         },
       ],
     },
-    {
-      name: 'Reports',
-      label: t('SIDEBAR.REPORTS'),
-      icon: 'i-lucide-chart-spline',
-      children: [
-        {
-          name: 'Report Overview',
-          label: t('SIDEBAR.REPORTS_OVERVIEW'),
-          to: accountScopedRoute('account_overview_reports'),
-        },
-        {
-          name: 'Report Conversation',
-          label: t('SIDEBAR.REPORTS_CONVERSATION'),
-          to: accountScopedRoute('conversation_reports'),
-        },
-        ...reportRoutes.value,
-        {
-          name: 'Reports CSAT',
-          label: t('SIDEBAR.CSAT'),
-          to: accountScopedRoute('csat_reports'),
-        },
-        {
-          name: 'Reports SLA',
-          label: t('SIDEBAR.REPORTS_SLA'),
-          to: accountScopedRoute('sla_reports'),
-        },
-        {
-          name: 'Reports Bot',
-          label: t('SIDEBAR.REPORTS_BOT'),
-          to: accountScopedRoute('bot_reports'),
-        },
-      ],
-    },
-    {
-      name: 'Campaigns',
-      label: t('SIDEBAR.CAMPAIGNS'),
-      icon: 'i-lucide-megaphone',
-      children: [
-        {
-          name: 'Live chat',
-          label: t('SIDEBAR.LIVE_CHAT'),
-          to: accountScopedRoute('campaigns_livechat_index'),
-        },
-        {
-          name: 'SMS',
-          label: t('SIDEBAR.SMS'),
-          to: accountScopedRoute('campaigns_sms_index'),
-        },
-        {
-          name: 'WhatsApp',
-          label: t('SIDEBAR.WHATSAPP'),
-          to: accountScopedRoute('campaigns_whatsapp_index'),
-        },
-      ],
-    },
-    // CommMate: Templates menu for WhatsApp Cloud inboxes
-    ...(whatsAppCloudInboxes.value.length > 0
+    // CommMate: Reports requires report_manage permission
+    ...(hasMenuPermission(['administrator', 'report_manage'])
+      ? [
+          {
+            name: 'Reports',
+            label: t('SIDEBAR.REPORTS'),
+            icon: 'i-lucide-chart-spline',
+            children: [
+              {
+                name: 'Report Overview',
+                label: t('SIDEBAR.REPORTS_OVERVIEW'),
+                to: accountScopedRoute('account_overview_reports'),
+              },
+              {
+                name: 'Report Conversation',
+                label: t('SIDEBAR.REPORTS_CONVERSATION'),
+                to: accountScopedRoute('conversation_reports'),
+              },
+              ...reportRoutes.value,
+              {
+                name: 'Reports CSAT',
+                label: t('SIDEBAR.CSAT'),
+                to: accountScopedRoute('csat_reports'),
+              },
+              {
+                name: 'Reports SLA',
+                label: t('SIDEBAR.REPORTS_SLA'),
+                to: accountScopedRoute('sla_reports'),
+              },
+              {
+                name: 'Reports Bot',
+                label: t('SIDEBAR.REPORTS_BOT'),
+                to: accountScopedRoute('bot_reports'),
+              },
+            ],
+          },
+        ]
+      : []),
+    // CommMate: Campaigns requires campaign_manage permission
+    ...(hasMenuPermission(['administrator', 'campaign_manage'])
+      ? [
+          {
+            name: 'Campaigns',
+            label: t('SIDEBAR.CAMPAIGNS'),
+            icon: 'i-lucide-megaphone',
+            children: [
+              {
+                name: 'Live chat',
+                label: t('SIDEBAR.LIVE_CHAT'),
+                to: accountScopedRoute('campaigns_livechat_index'),
+              },
+              {
+                name: 'SMS',
+                label: t('SIDEBAR.SMS'),
+                to: accountScopedRoute('campaigns_sms_index'),
+              },
+              {
+                name: 'WhatsApp',
+                label: t('SIDEBAR.WHATSAPP'),
+                to: accountScopedRoute('campaigns_whatsapp_index'),
+              },
+            ],
+          },
+        ]
+      : []),
+    // CommMate: Templates menu for WhatsApp Cloud inboxes - requires templates_manage permission
+    ...(whatsAppCloudInboxes.value.length > 0 &&
+    hasMenuPermission(['administrator', 'templates_manage'])
       ? [
           {
             name: 'Templates',
@@ -516,109 +550,179 @@ const menuItems = computed(() => {
       name: 'Settings',
       label: t('SIDEBAR.SETTINGS'),
       icon: 'i-lucide-bolt',
+      // CommMate: Filter settings children based on per-user permissions
       children: [
-        {
-          name: 'Settings Account Settings',
-          label: t('SIDEBAR.ACCOUNT_SETTINGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('general_settings_index'),
-        },
-        {
-          name: 'Settings Agents',
-          label: t('SIDEBAR.AGENTS'),
-          icon: 'i-lucide-square-user',
-          to: accountScopedRoute('agent_list'),
-        },
-        {
-          name: 'Settings Teams',
-          label: t('SIDEBAR.TEAMS'),
-          icon: 'i-lucide-users',
-          to: accountScopedRoute('settings_teams_list'),
-        },
-        {
-          name: 'Settings Agent Assignment',
-          label: t('SIDEBAR.AGENT_ASSIGNMENT'),
-          icon: 'i-lucide-user-cog',
-          to: accountScopedRoute('assignment_policy_index'),
-        },
-        {
-          name: 'Settings Inboxes',
-          label: t('SIDEBAR.INBOXES'),
-          icon: 'i-lucide-inbox',
-          to: accountScopedRoute('settings_inbox_list'),
-        },
-        {
-          name: 'Settings Labels',
-          label: t('SIDEBAR.LABELS'),
-          icon: 'i-lucide-tags',
-          to: accountScopedRoute('labels_list'),
-        },
-        {
-          name: 'Settings Custom Attributes',
-          label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
-          icon: 'i-lucide-code',
-          to: accountScopedRoute('attributes_list'),
-        },
-        {
-          name: 'Settings Automation',
-          label: t('SIDEBAR.AUTOMATION'),
-          icon: 'i-lucide-workflow',
-          to: accountScopedRoute('automation_list'),
-        },
-        {
-          name: 'Settings Agent Bots',
-          label: t('SIDEBAR.AGENT_BOTS'),
-          icon: 'i-lucide-bot',
-          to: accountScopedRoute('agent_bots'),
-        },
+        // Account settings - requires settings_account_manage
+        ...(hasMenuPermission(['administrator', 'settings_account_manage'])
+          ? [
+              {
+                name: 'Settings Account Settings',
+                label: t('SIDEBAR.ACCOUNT_SETTINGS'),
+                icon: 'i-lucide-briefcase',
+                to: accountScopedRoute('general_settings_index'),
+              },
+            ]
+          : []),
+        // Agents - requires settings_agents_manage
+        ...(hasMenuPermission(['administrator', 'settings_agents_manage'])
+          ? [
+              {
+                name: 'Settings Agents',
+                label: t('SIDEBAR.AGENTS'),
+                icon: 'i-lucide-square-user',
+                to: accountScopedRoute('agent_list'),
+              },
+            ]
+          : []),
+        // Teams - requires settings_teams_manage
+        ...(hasMenuPermission(['administrator', 'settings_teams_manage'])
+          ? [
+              {
+                name: 'Settings Teams',
+                label: t('SIDEBAR.TEAMS'),
+                icon: 'i-lucide-users',
+                to: accountScopedRoute('settings_teams_list'),
+              },
+            ]
+          : []),
+        // Agent Assignment - admin only for now
+        ...(hasMenuPermission(['administrator'])
+          ? [
+              {
+                name: 'Settings Agent Assignment',
+                label: t('SIDEBAR.AGENT_ASSIGNMENT'),
+                icon: 'i-lucide-user-cog',
+                to: accountScopedRoute('assignment_policy_index'),
+              },
+            ]
+          : []),
+        // Inboxes - requires settings_inboxes_manage
+        ...(hasMenuPermission(['administrator', 'settings_inboxes_manage'])
+          ? [
+              {
+                name: 'Settings Inboxes',
+                label: t('SIDEBAR.INBOXES'),
+                icon: 'i-lucide-inbox',
+                to: accountScopedRoute('settings_inbox_list'),
+              },
+            ]
+          : []),
+        // Labels - requires settings_labels_manage
+        ...(hasMenuPermission(['administrator', 'settings_labels_manage'])
+          ? [
+              {
+                name: 'Settings Labels',
+                label: t('SIDEBAR.LABELS'),
+                icon: 'i-lucide-tags',
+                to: accountScopedRoute('labels_list'),
+              },
+            ]
+          : []),
+        // Custom Attributes - requires settings_custom_attributes_manage
+        ...(hasMenuPermission([
+          'administrator',
+          'settings_custom_attributes_manage',
+        ])
+          ? [
+              {
+                name: 'Settings Custom Attributes',
+                label: t('SIDEBAR.CUSTOM_ATTRIBUTES'),
+                icon: 'i-lucide-code',
+                to: accountScopedRoute('attributes_list'),
+              },
+            ]
+          : []),
+        // Automation - requires settings_automation_manage
+        ...(hasMenuPermission(['administrator', 'settings_automation_manage'])
+          ? [
+              {
+                name: 'Settings Automation',
+                label: t('SIDEBAR.AUTOMATION'),
+                icon: 'i-lucide-workflow',
+                to: accountScopedRoute('automation_list'),
+              },
+            ]
+          : []),
+        // Agent Bots - requires settings_agent_bots_manage
+        ...(hasMenuPermission(['administrator', 'settings_agent_bots_manage'])
+          ? [
+              {
+                name: 'Settings Agent Bots',
+                label: t('SIDEBAR.AGENT_BOTS'),
+                icon: 'i-lucide-bot',
+                to: accountScopedRoute('agent_bots'),
+              },
+            ]
+          : []),
+        // Macros - accessible to all agents (no permission required)
         {
           name: 'Settings Macros',
           label: t('SIDEBAR.MACROS'),
           icon: 'i-lucide-toy-brick',
           to: accountScopedRoute('macros_wrapper'),
         },
+        // Canned Responses - accessible to all agents (no permission required)
         {
           name: 'Settings Canned Responses',
           label: t('SIDEBAR.CANNED_RESPONSES'),
           icon: 'i-lucide-message-square-quote',
           to: accountScopedRoute('canned_list'),
         },
-        {
-          name: 'Settings Integrations',
-          label: t('SIDEBAR.INTEGRATIONS'),
-          icon: 'i-lucide-blocks',
-          to: accountScopedRoute('settings_applications'),
-        },
-        {
-          name: 'Settings Audit Logs',
-          label: t('SIDEBAR.AUDIT_LOGS'),
-          icon: 'i-lucide-briefcase',
-          to: accountScopedRoute('auditlogs_list'),
-        },
-        {
-          name: 'Settings Custom Roles',
-          label: t('SIDEBAR.CUSTOM_ROLES'),
-          icon: 'i-lucide-shield-plus',
-          to: accountScopedRoute('custom_roles_list'),
-        },
-        {
-          name: 'Settings Sla',
-          label: t('SIDEBAR.SLA'),
-          icon: 'i-lucide-clock-alert',
-          to: accountScopedRoute('sla_list'),
-        },
-        {
-          name: 'Settings Security',
-          label: t('SIDEBAR.SECURITY'),
-          icon: 'i-lucide-shield',
-          to: accountScopedRoute('security_settings_index'),
-        },
-        {
-          name: 'Settings Billing',
-          label: t('SIDEBAR.BILLING'),
-          icon: 'i-lucide-credit-card',
-          to: accountScopedRoute('billing_settings_index'),
-        },
+        // Integrations - requires settings_integrations_manage
+        ...(hasMenuPermission(['administrator', 'settings_integrations_manage'])
+          ? [
+              {
+                name: 'Settings Integrations',
+                label: t('SIDEBAR.INTEGRATIONS'),
+                icon: 'i-lucide-blocks',
+                to: accountScopedRoute('settings_applications'),
+              },
+            ]
+          : []),
+        // Audit Logs - admin only
+        ...(hasMenuPermission(['administrator'])
+          ? [
+              {
+                name: 'Settings Audit Logs',
+                label: t('SIDEBAR.AUDIT_LOGS'),
+                icon: 'i-lucide-briefcase',
+                to: accountScopedRoute('auditlogs_list'),
+              },
+            ]
+          : []),
+        // SLA - admin only
+        ...(hasMenuPermission(['administrator'])
+          ? [
+              {
+                name: 'Settings Sla',
+                label: t('SIDEBAR.SLA'),
+                icon: 'i-lucide-clock-alert',
+                to: accountScopedRoute('sla_list'),
+              },
+            ]
+          : []),
+        // Security - admin only
+        ...(hasMenuPermission(['administrator'])
+          ? [
+              {
+                name: 'Settings Security',
+                label: t('SIDEBAR.SECURITY'),
+                icon: 'i-lucide-shield',
+                to: accountScopedRoute('security_settings_index'),
+              },
+            ]
+          : []),
+        // Billing - admin only
+        ...(hasMenuPermission(['administrator'])
+          ? [
+              {
+                name: 'Settings Billing',
+                label: t('SIDEBAR.BILLING'),
+                icon: 'i-lucide-credit-card',
+                to: accountScopedRoute('billing_settings_index'),
+              },
+            ]
+          : []),
       ],
     },
   ];

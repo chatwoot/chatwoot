@@ -8,6 +8,7 @@ import { useAlert } from 'dashboard/composables';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Auth from '../../../../api/auth';
 import wootConstants from 'dashboard/constants/globals';
+import { AVAILABLE_PERMISSIONS } from 'dashboard/constants/permissions';
 
 const props = defineProps({
   id: {
@@ -34,9 +35,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  customRoleId: {
-    type: Number,
-    default: null,
+  // CommMate: Per-user permissions (replaces customRoleId)
+  accessPermissions: {
+    type: Array,
+    default: () => [],
   },
 });
 
@@ -49,8 +51,10 @@ const { t } = useI18n();
 
 const agentName = ref(props.name);
 const agentAvailability = ref(props.availability);
-const selectedRoleId = ref(props.customRoleId || props.type);
+const selectedRoleId = ref(props.type);
 const agentCredentials = ref({ email: props.email });
+// CommMate: Per-user permissions
+const selectedPermissions = ref([...(props.accessPermissions || [])]);
 
 const rules = {
   agentName: { required, minLength: minLength(1) },
@@ -69,10 +73,12 @@ const pageTitle = computed(
 );
 
 const uiFlags = useMapGetter('agents/getUIFlags');
-const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+
+// CommMate: Available permissions for per-user assignment
+const availablePermissions = computed(() => AVAILABLE_PERMISSIONS);
 
 const roles = computed(() => {
-  const defaultRoles = [
+  return [
     {
       id: 'administrator',
       name: 'administrator',
@@ -84,14 +90,6 @@ const roles = computed(() => {
       label: t('AGENT_MGMT.AGENT_TYPES.AGENT'),
     },
   ];
-
-  const customRoles = getCustomRoles.value.map(role => ({
-    id: role.id,
-    name: `custom_${role.id}`,
-    label: role.name,
-  }));
-
-  return [...defaultRoles, ...customRoles];
 });
 
 const selectedRole = computed(() =>
@@ -100,6 +98,9 @@ const selectedRole = computed(() =>
       role.id === selectedRoleId.value || role.name === selectedRoleId.value
   )
 );
+
+// CommMate: Show permissions only for non-admin users
+const showPermissions = computed(() => selectedRoleId.value === 'agent');
 
 const statusList = computed(() => {
   return [
@@ -126,14 +127,11 @@ const editAgent = async () => {
       id: props.id,
       name: agentName.value,
       availability: agentAvailability.value,
+      role: selectedRole.value.name,
+      // CommMate: Include per-user permissions for agents
+      access_permissions:
+        selectedRoleId.value === 'agent' ? selectedPermissions.value : [],
     };
-
-    if (selectedRole.value.name.startsWith('custom_')) {
-      payload.custom_role_id = selectedRole.value.id;
-    } else {
-      payload.role = selectedRole.value.name;
-      payload.custom_role_id = null;
-    }
 
     await store.dispatch('agents/update', payload);
     useAlert(t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -202,6 +200,33 @@ const resetPassword = async () => {
             {{ $t('AGENT_MGMT.EDIT.FORM.AGENT_AVAILABILITY.ERROR') }}
           </span>
         </label>
+      </div>
+
+      <!-- CommMate: Per-user permissions section -->
+      <div v-if="showPermissions" class="w-full mt-4">
+        <label class="block mb-2 font-medium">
+          {{ $t('AGENT_MGMT.EDIT.FORM.PERMISSIONS.LABEL') }}
+        </label>
+        <p class="mb-2 text-sm text-n-slate-11">
+          {{ $t('AGENT_MGMT.EDIT.FORM.PERMISSIONS.DESC') }}
+        </p>
+        <div class="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto p-1">
+          <label
+            v-for="permission in availablePermissions"
+            :key="permission"
+            class="flex items-center gap-2 p-2 border rounded cursor-pointer border-n-weak hover:bg-n-alpha-1"
+          >
+            <input
+              v-model="selectedPermissions"
+              type="checkbox"
+              :value="permission"
+              class="w-4 h-4 flex-shrink-0"
+            />
+            <span class="text-sm">
+              {{ $t(`AGENT_MGMT.PERMISSIONS.${permission.toUpperCase()}`) }}
+            </span>
+          </label>
+        </div>
       </div>
 
       <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">

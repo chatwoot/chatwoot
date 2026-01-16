@@ -19,7 +19,8 @@
       "ACTIONS": "Actions",
       "VERIFIED": "Verified",
       "VERIFICATION_PENDING": "Verification Pending",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions",
+      "AVAILABLE_PERMISSIONS": "Additional permissions"
     },
     "ADD": {
       "TITLE": "Add agent to your team",
@@ -38,6 +39,10 @@
         "EMAIL": {
           "LABEL": "Email Address",
           "PLACEHOLDER": "Please enter an email address of the agent"
+        },
+        "PERMISSIONS": {
+          "LABEL": "Additional Permissions",
+          "DESC": "Grant this agent access to specific features beyond their base role."
         },
         "SUBMIT": "Add Agent"
       },
@@ -81,6 +86,10 @@
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
+        "PERMISSIONS": {
+          "LABEL": "Additional Permissions",
+          "DESC": "Grant this agent access to specific features beyond their base role."
+        },
         "SUBMIT": "Edit Agent"
       },
       "BUTTON_TEXT": "Edit",
@@ -119,6 +128,26 @@
           "INPUT": "Search for agents"
         }
       }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Manage all conversations",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Manage unassigned conversations",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Manage participating conversations",
+      "CONTACT_MANAGE": "Manage contacts",
+      "REPORT_MANAGE": "Access reports and analytics",
+      "KNOWLEDGE_BASE_MANAGE": "Manage help center",
+      "CAMPAIGN_MANAGE": "Manage campaigns",
+      "TEMPLATES_MANAGE": "Manage WhatsApp templates",
+      "SETTINGS_MACROS_MANAGE": "Manage public macros",
+      "SETTINGS_ACCOUNT_MANAGE": "Manage account settings",
+      "SETTINGS_AGENTS_MANAGE": "Manage agents",
+      "SETTINGS_TEAMS_MANAGE": "Manage teams",
+      "SETTINGS_INBOXES_MANAGE": "Manage inboxes",
+      "SETTINGS_LABELS_MANAGE": "Manage labels",
+      "SETTINGS_CUSTOM_ATTRIBUTES_MANAGE": "Manage custom attributes",
+      "SETTINGS_AUTOMATION_MANAGE": "Manage automation rules",
+      "SETTINGS_AGENT_BOTS_MANAGE": "Manage agent bots",
+      "SETTINGS_INTEGRATIONS_MANAGE": "Manage integrations"
     }
   }
 }

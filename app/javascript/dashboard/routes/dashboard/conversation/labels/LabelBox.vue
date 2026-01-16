@@ -1,7 +1,8 @@
 <script>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import Spinner from 'shared/components/Spinner.vue';
@@ -16,6 +17,12 @@ export default {
   },
   setup() {
     const { isAdmin } = useAdmin();
+    const { checkPermissions } = usePolicy();
+
+    // CommMate: Allow label creation if admin or has settings_labels_manage permission
+    const canCreateLabels = computed(
+      () => isAdmin.value || checkPermissions(['settings_labels_manage'])
+    );
 
     const {
       savedLabels,
@@ -54,6 +61,7 @@ export default {
     useKeyboardEvents(keyboardEvents);
     return {
       isAdmin,
+      canCreateLabels,
       savedLabels,
       activeLabels,
       accountLabels,
@@ -113,7 +121,7 @@ export default {
             v-if="showSearchDropdownLabel"
             :account-labels="accountLabels"
             :selected-labels="savedLabels"
-            :allow-creation="isAdmin"
+            :allow-creation="canCreateLabels"
             @add="addLabelToConversation"
             @remove="removeLabelFromConversation"
           />

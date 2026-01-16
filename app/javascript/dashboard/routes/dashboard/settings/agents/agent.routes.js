@@ -21,7 +21,8 @@ export default {
           component: AgentHome,
           meta: {
             featureFlag: FEATURE_FLAGS.AGENT_MANAGEMENT,
-            permissions: ['administrator'],
+            // CommMate: Allow administrators or users with settings_agents_manage permission
+            permissions: ['administrator', 'settings_agents_manage'],
           },
         },
       ],
