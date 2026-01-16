@@ -188,6 +188,7 @@
         rating: Vurdering
         feedback: Tilbakemelding
         recorded_at: Registrert dato
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'En samtale (#%{display_id}) har blitt opprettet i %{inbox_name}'
