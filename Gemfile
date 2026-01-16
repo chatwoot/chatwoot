@@ -33,9 +33,7 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-# ref: https://github.com/gjtorikian/commonmarker/issues/358
-# can upgrade one this issue is fixed
-gem 'commonmarker', '~> 0.23.11'
+gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # used in swagger build
