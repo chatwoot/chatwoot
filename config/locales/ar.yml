@@ -188,6 +188,7 @@ ar:
         rating: التقييم
         feedback: التعليق على الملاحظات
         recorded_at: تاريخ التسجيل
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'تم إنشاء محادثة (#%{display_id}) في %{inbox_name}'
