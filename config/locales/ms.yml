@@ -188,6 +188,7 @@ ms:
         rating: Rating
         feedback: Feedback Comment
         recorded_at: Recorded date
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
