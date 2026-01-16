@@ -36,6 +36,33 @@ Rails.application.configure do
   # You can use letter opener for your local development by setting the environment variable
   config.action_mailer.delivery_method = :letter_opener if Rails.env.development? && ENV['LETTER_OPENER']
 
+  # Use Resend HTTPS API if configured (workaround for blocked SMTP ports)
+  if ENV['RESEND_API_KEY'].present? && !Rails.env.test? && config.action_mailer.delivery_method != :letter_opener
+    config.action_mailer.delivery_method = :resend_api
+    Rails.logger.info '✓ Email delivery: Resend HTTPS API (SMTP blocked workaround)'
+  else
+    delivery_method = config.action_mailer.delivery_method
+    case delivery_method
+    when :smtp
+      address = ENV.fetch('SMTP_ADDRESS', 'localhost')
+      port = ENV.fetch('SMTP_PORT', 587)
+      Rails.logger.info "✓ Email delivery: SMTP (#{address}:#{port})"
+    when :sendmail
+      Rails.logger.info '✓ Email delivery: sendmail'
+    when :letter_opener
+      Rails.logger.info '✓ Email delivery: letter_opener (development)'
+    when :test
+      Rails.logger.info '✓ Email delivery: test (Rails test environment)'
+    else
+      Rails.logger.info "✓ Email delivery: #{delivery_method}"
+    end
+  end
+
+  # Boot logging for debugging mailer configuration
+  Rails.logger.info "[MAILER] Rails.env: #{Rails.env}"
+  Rails.logger.info "[MAILER] action_mailer.delivery_method: #{config.action_mailer.delivery_method}"
+  Rails.logger.info "[MAILER] RESEND_API_KEY present: #{ENV['RESEND_API_KEY'].present?}"
+
   #########################################
   # Configuration Related to Action MailBox
   #########################################
