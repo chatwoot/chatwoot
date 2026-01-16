@@ -188,6 +188,7 @@ id:
         rating: Peringkat
         feedback: Komentar Umpan Balik
         recorded_at: Tanggal rekaman
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
