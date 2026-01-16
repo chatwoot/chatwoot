@@ -104,7 +104,7 @@ const handleSeeOriginal = () => {
 
 <template>
   <BaseBubble
-    class="w-full px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)] border-[length:var(--bubble-border-width)]"
+    class="w-full border-[length:var(--bubble-border-width)]"
     :class="{
       'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))] border-[rgb(var(--bubble-user-border))]':
         isIncoming,
@@ -114,13 +114,16 @@ const handleSeeOriginal = () => {
     data-bubble-name="email"
   >
     <EmailMeta
-      class="p-3"
+      class="px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
       :class="{
-        'border-b border-n-strong': isIncoming,
-        'border-b border-n-slate-8/20': isOutgoing,
+        'border-b border-[rgb(var(--bubble-user-border))]': isIncoming,
+        'border-b border-[rgb(var(--bubble-agent-border))]': isOutgoing,
       }"
     />
-    <section ref="contentContainer" class="p-3">
+    <section
+      ref="contentContainer"
+      class="px-[var(--bubble-padding-x)] py-[var(--bubble-padding-y)]"
+    >
       <div
         :class="{
           'max-h-[400px] overflow-hidden relative': !isExpanded && isExpandable,
@@ -138,7 +141,11 @@ const handleSeeOriginal = () => {
           }"
         >
           <button
-            class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
+            class="py-2 px-8 mx-auto text-center flex items-center gap-2"
+            :class="{
+              'text-[rgb(var(--bubble-user-text))]': isIncoming,
+              'text-[rgb(var(--bubble-agent-text))]': isOutgoing,
+            }"
             @click="isExpanded = true"
           >
             <Icon icon="i-lucide-maximize-2" />
@@ -178,7 +185,11 @@ const handleSeeOriginal = () => {
         </template>
         <button
           v-if="hasQuotedMessage"
-          class="text-n-slate-11 px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"
+          class="px-1 leading-none text-sm bg-n-alpha-black2 text-center flex items-center gap-1 mt-2"
+          :class="{
+            'text-[rgb(var(--bubble-user-meta))]': isIncoming,
+            'text-[rgb(var(--bubble-agent-meta))]': isOutgoing,
+          }"
           @click="showQuotedMessage = !showQuotedMessage"
         >
           <template v-if="showQuotedMessage">
