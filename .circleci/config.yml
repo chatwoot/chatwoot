@@ -76,7 +76,7 @@ jobs:
             bundle install
 
       - node/install:
-          node-version: '24.12'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
@@ -117,7 +117,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '24.12'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
@@ -148,7 +148,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '24.12'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
