@@ -35,46 +35,62 @@ class InboxPolicy < ApplicationPolicy
   end
 
   def campaigns?
-    @account_user.administrator?
+    @account_user.administrator? || has_campaign_permission?
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_inboxes_manage permission
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_inboxes_manage permission
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_inboxes_manage permission
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
   def set_agent_bot?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_inboxes_manage permission
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
   def avatar?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_inboxes_manage permission
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
   def sync_templates?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with templates_manage permission
+    @account_user.administrator? || has_templates_permission?
   end
 
   def health?
-    @account_user.administrator?
+    @account_user.administrator? || has_inboxes_manage_permission?
   end
 
-  # CommMate: Allow templates_manage custom role permission for managing WhatsApp templates
+  # CommMate: Allow templates_manage permission for managing WhatsApp templates
   def manage_templates?
     @account_user.administrator? || has_templates_permission?
   end
 
   private
 
-  # CommMate: Check if user has templates_manage custom role permission
+  # CommMate: Check if user has templates_manage via per-user access_permissions
   def has_templates_permission?
-    @account_user.custom_role&.permissions&.include?('templates_manage')
+    @account_user.permissions.include?('templates_manage')
+  end
+
+  # CommMate: Check if user has settings_inboxes_manage permission
+  def has_inboxes_manage_permission?
+    @account_user.permissions.include?('settings_inboxes_manage')
+  end
+
+  # CommMate: Check if user has campaign_manage permission
+  def has_campaign_permission?
+    @account_user.permissions.include?('campaign_manage')
   end
 end

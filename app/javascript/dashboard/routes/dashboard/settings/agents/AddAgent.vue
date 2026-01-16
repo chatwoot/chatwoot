@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
 import { required, email } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { AVAILABLE_PERMISSIONS } from 'dashboard/constants/permissions';
 
 const emit = defineEmits(['close']);
 
@@ -15,6 +16,8 @@ const { t } = useI18n();
 const agentName = ref('');
 const agentEmail = ref('');
 const selectedRoleId = ref('agent');
+// CommMate: Per-user permissions (replaces custom roles)
+const selectedPermissions = ref([]);
 
 const rules = {
   agentName: { required },
@@ -29,10 +32,12 @@ const v$ = useVuelidate(rules, {
 });
 
 const uiFlags = useMapGetter('agents/getUIFlags');
-const getCustomRoles = useMapGetter('customRole/getCustomRoles');
+
+// CommMate: Available permissions for per-user assignment
+const availablePermissions = computed(() => AVAILABLE_PERMISSIONS);
 
 const roles = computed(() => {
-  const defaultRoles = [
+  return [
     {
       id: 'administrator',
       name: 'administrator',
@@ -44,14 +49,6 @@ const roles = computed(() => {
       label: t('AGENT_MGMT.AGENT_TYPES.AGENT'),
     },
   ];
-
-  const customRoles = getCustomRoles.value.map(role => ({
-    id: role.id,
-    name: `custom_${role.id}`,
-    label: role.name,
-  }));
-
-  return [...defaultRoles, ...customRoles];
 });
 
 const selectedRole = computed(() =>
@@ -61,6 +58,9 @@ const selectedRole = computed(() =>
   )
 );
 
+// CommMate: Show permissions only for non-admin users
+const showPermissions = computed(() => selectedRoleId.value === 'agent');
+
 const addAgent = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
@@ -69,13 +69,11 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
+      role: selectedRole.value.name,
+      // CommMate: Include per-user permissions for agents
+      access_permissions:
+        selectedRoleId.value === 'agent' ? selectedPermissions.value : [],
     };
-
-    if (selectedRole.value.name.startsWith('custom_')) {
-      payload.custom_role_id = selectedRole.value.id;
-    } else {
-      payload.role = selectedRole.value.name;
-    }
 
     await store.dispatch('agents/create', payload);
     useAlert(t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
@@ -145,6 +143,33 @@ const addAgent = async () => {
             @input="v$.agentEmail.$touch"
           />
         </label>
+      </div>
+
+      <!-- CommMate: Per-user permissions section -->
+      <div v-if="showPermissions" class="w-full mt-4">
+        <label class="block mb-2 font-medium">
+          {{ $t('AGENT_MGMT.ADD.FORM.PERMISSIONS.LABEL') }}
+        </label>
+        <p class="mb-2 text-sm text-n-slate-11">
+          {{ $t('AGENT_MGMT.ADD.FORM.PERMISSIONS.DESC') }}
+        </p>
+        <div class="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto p-1">
+          <label
+            v-for="permission in availablePermissions"
+            :key="permission"
+            class="flex items-center gap-2 p-2 border rounded cursor-pointer border-n-weak hover:bg-n-alpha-1"
+          >
+            <input
+              v-model="selectedPermissions"
+              type="checkbox"
+              :value="permission"
+              class="w-4 h-4 flex-shrink-0"
+            />
+            <span class="text-sm">
+              {{ $t(`AGENT_MGMT.PERMISSIONS.${permission.toUpperCase()}`) }}
+            </span>
+          </label>
+        </div>
       </div>
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

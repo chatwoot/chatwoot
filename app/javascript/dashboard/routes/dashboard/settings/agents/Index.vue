@@ -3,11 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, ref } from 'vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useI18n } from 'vue-i18n';
-import {
-  useStoreGetters,
-  useStore,
-  useMapGetter,
-} from 'dashboard/composables/store';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
 
 import AddAgent from './AddAgent.vue';
 import EditAgent from './EditAgent.vue';
@@ -39,30 +35,28 @@ const deleteMessage = computed(() => {
 const agentList = computed(() => getters['agents/getAgents'].value);
 const uiFlags = computed(() => getters['agents/getUIFlags'].value);
 const currentUserId = computed(() => getters.getCurrentUserID.value);
-const customRoles = useMapGetter('customRole/getCustomRoles');
 
 onMounted(() => {
   store.dispatch('agents/get');
-  store.dispatch('customRole/getCustomRole');
 });
 
-const findCustomRole = agent =>
-  customRoles.value.find(role => role.id === agent.custom_role_id);
-
+// CommMate: Get role name (always use base role now)
 const getAgentRoleName = agent => {
-  if (!agent.custom_role_id) {
-    return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
-  }
-  const customRole = findCustomRole(agent);
-  return customRole ? customRole.name : '';
+  return t(`AGENT_MGMT.AGENT_TYPES.${agent.role.toUpperCase()}`);
 };
 
+// CommMate: Get per-user permissions (replaces custom roles)
 const getAgentRolePermissions = agent => {
-  if (!agent.custom_role_id) {
-    return [];
+  return agent.access_permissions || [];
+};
+
+// CommMate: Check if agent has additional permissions (only for non-admin agents)
+const hasAdditionalPermissions = agent => {
+  // Administrators have full access, so don't show extra permissions hover
+  if (agent.role === 'administrator') {
+    return false;
   }
-  const customRole = findCustomRole(agent);
-  return customRole?.permissions || [];
+  return (agent.access_permissions || []).length > 0;
 };
 
 const verifiedAdministrators = computed(() => {
@@ -186,18 +180,19 @@ const confirmDeletion = () => {
                 class="block font-medium w-fit"
                 :class="{
                   'hover:text-gray-900 group cursor-pointer':
-                    agent.custom_role_id,
+                    hasAdditionalPermissions(agent),
                 }"
               >
                 {{ getAgentRoleName(agent) }}
 
+                <!-- CommMate: Show per-user permissions on hover -->
                 <div
-                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-n-weak shadow-lg top-14 md:top-12 dark:bg-n-solid-2"
-                  :class="{ 'group-hover:block': agent.custom_role_id }"
+                  v-if="hasAdditionalPermissions(agent)"
+                  class="absolute left-0 z-10 hidden max-w-[300px] w-auto bg-white rounded-xl border border-n-weak shadow-lg top-14 md:top-12 dark:bg-n-solid-2 group-hover:block"
                 >
                   <div class="flex flex-col gap-1 p-4">
                     <span class="font-semibold">
-                      {{ $t('AGENT_MGMT.LIST.AVAILABLE_CUSTOM_ROLE') }}
+                      {{ $t('AGENT_MGMT.LIST.AVAILABLE_PERMISSIONS') }}
                     </span>
                     <ul class="pl-4 mb-0 list-disc">
                       <li
@@ -207,7 +202,7 @@ const confirmDeletion = () => {
                       >
                         {{
                           $t(
-                            `CUSTOM_ROLE.PERMISSIONS.${permission.toUpperCase()}`
+                            `AGENT_MGMT.PERMISSIONS.${permission.toUpperCase()}`
                           )
                         }}
                       </li>
@@ -265,7 +260,7 @@ const confirmDeletion = () => {
         :type="currentAgent.role"
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
-        :custom-role-id="currentAgent.custom_role_id"
+        :access-permissions="currentAgent.access_permissions || []"
         @close="hideEditPopup"
       />
     </woot-modal>

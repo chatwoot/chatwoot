@@ -2,7 +2,58 @@
 
 **Purpose**: Guide for developers (AI agents and humans) on where to place CommMate code  
 **Goal**: Minimize conflicts with upstream Chatwoot while maintaining all CommMate features  
-**Last Updated**: December 6, 2025
+**Last Updated**: January 16, 2026
+
+---
+
+## 🔒 Enterprise License Compliance
+
+**CommMate does NOT use any Chatwoot Enterprise code.**
+
+The `chatwoot/enterprise/` directory contains code under a proprietary license that requires a Chatwoot Enterprise subscription. CommMate ensures compliance through:
+
+### Production Safeguards
+
+1. **Dockerfile Exclusion**: `enterprise/` directory is removed from production Docker images
+2. **Environment Gate**: `DISABLE_ENTERPRISE=true` prevents enterprise code loading
+3. **Code Gates**: `ChatwootApp.enterprise?` returns `false` when disabled
+4. **Extensions System**: `ChatwootApp.extensions` only returns `['custom']` for CommMate
+
+### Key Files
+
+```ruby
+# lib/chatwoot_app.rb - Enterprise loading is gated
+def self.enterprise?
+  return false if ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_ENTERPRISE', false))
+  @enterprise ||= root.join('enterprise').exist?
+end
+
+def self.extensions
+  extensions = []
+  extensions << 'enterprise' if enterprise?
+  extensions << 'custom' if custom?
+  extensions
+end
+
+# config/application.rb - Load paths are conditional
+if enterprise_enabled
+  config.eager_load_paths << Rails.root.join('enterprise/lib')
+  # ...
+end
+```
+
+### Alternative Implementations
+
+Features that exist in Enterprise have been re-implemented for CommMate:
+
+| Enterprise Feature | CommMate Alternative |
+|-------------------|---------------------|
+| Custom Roles | Per-user permissions on `account_users.access_permissions` |
+| SAML SSO | Not implemented (use standard auth) |
+| Audit Logs | Use standard Rails logging |
+| SLA Policies | Not implemented |
+
+See [`USER-ROLES.md`](USER-ROLES.md) for the per-user permissions documentation.
 
 ---
 
@@ -60,18 +111,14 @@ custom/
 
 ```
 app/
-├── controllers/super_admin/
-│   └── custom_roles_controller.rb          ✅ NEW (doesn't exist in Chatwoot)
-├── dashboards/
-│   └── custom_role_dashboard.rb             ✅ NEW (doesn't exist in Chatwoot)
-├── fields/
-│   └── permissions_field.rb                 ✅ NEW (doesn't exist in Chatwoot)
-├── views/fields/permissions_field/
-│   ├── _form.html.erb                       ✅ NEW (doesn't exist in Chatwoot)
-│   ├── _index.html.erb                      ✅ NEW
-│   └── _show.html.erb                       ✅ NEW
-└── models/
-    └── (CommMate models if any)             ✅ NEW features
+├── controllers/api/v1/accounts/
+│   └── evolution_inboxes_controller.rb      ✅ NEW (Evolution WhatsApp integration)
+├── services/
+│   └── evolution_api/                       ✅ NEW (Evolution API services)
+│       ├── client.rb
+│       └── inbox_provisioner.rb
+└── models/concerns/
+    └── evolution_inbox.rb                   ✅ NEW (Evolution inbox helpers)
 ```
 
 **Why?**

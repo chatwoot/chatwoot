@@ -12,7 +12,8 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
+    # CommMate: Always disable enterprise when DISABLE_ENTERPRISE is set (license compliance)
+    return false if ActiveModel::Type::Boolean.new.cast(ENV.fetch('DISABLE_ENTERPRISE', false))
 
     @enterprise ||= root.join('enterprise').exist?
   end
@@ -30,13 +31,12 @@ module ChatwootApp
   end
 
   def self.extensions
-    if custom?
-      %w[enterprise custom]
-    elsif enterprise?
-      %w[enterprise]
-    else
-      %w[]
-    end
+    # CommMate: Only include enterprise extension if enterprise is enabled
+    # This ensures enterprise code is never loaded when DISABLE_ENTERPRISE=true
+    extensions = []
+    extensions << 'enterprise' if enterprise?
+    extensions << 'custom' if custom?
+    extensions
   end
 
   def self.advanced_search_allowed?

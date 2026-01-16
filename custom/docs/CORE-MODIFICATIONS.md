@@ -656,56 +656,85 @@ Enables WhatsApp communication via Evolution API (Baileys provider only).
 
 ---
 
-### Migrations (2 files)
+### Enterprise Compliance Files (3 files)
 
-#### 12. db/migrate/20240726220747_add_custom_roles.rb
+#### lib/chatwoot_app.rb
 
-**Lines Modified:** Entire file (NEW)  
-**Reason:** Create custom_roles table and associations  
-**Last Modified:** July 26, 2024
+**Lines Modified:** ~15 lines  
+**Reason:** Gate enterprise loading when DISABLE_ENTERPRISE=true  
+**Last Modified:** January 16, 2026
 
 **Changes Made:**
-- Creates custom_roles table
-- Adds custom_role_id to account_users table
-- Creates necessary indexes
-- Migration is CommMate-specific
-
-**Review on Upgrade:**
-- No conflicts expected (CommMate migration)
-- Verify migration runs on new Chatwoot versions
-- Check for schema compatibility
-- Ensure indexes are optimal
-
-**Merge Conflict Strategy:**
-- No merge conflicts (new file)
-- Run migration after upgrade
-- Test custom roles functionality
-- Verify database constraints
+- `enterprise?` returns false when `DISABLE_ENTERPRISE=true`
+- `extensions` no longer includes 'enterprise' when disabled
 
 ---
 
-#### 13. db/migrate/20251202140000_add_campaign_manage_to_manager_roles.rb
+#### config/application.rb
 
-**Lines Modified:** Entire file (NEW)  
-**Reason:** Add campaign_manage permission to existing manager custom roles  
-**Last Modified:** December 2, 2024
+**Lines Modified:** ~20 lines  
+**Reason:** Conditionally load enterprise paths only when enterprise is enabled  
+**Last Modified:** January 16, 2026
 
 **Changes Made:**
-- Updates existing custom roles with campaign_manage permission
-- Data migration for permission upgrade
-- Ensures managers have campaign access
+- Enterprise load paths wrapped in conditional
+- Enterprise initializers only loaded when enterprise is enabled
 
-**Review on Upgrade:**
-- No conflicts expected (CommMate migration)
-- May need to run on existing data
-- Check if runs idempotently
-- Verify permission format
+---
 
-**Merge Conflict Strategy:**
-- No merge conflicts (new file)
-- Run after custom roles migration
-- Test with existing custom roles
-- Verify permission is added correctly
+#### docker/Dockerfile.commmate
+
+**Lines Modified:** ~10 lines added  
+**Reason:** Remove enterprise directory from production images  
+**Last Modified:** January 16, 2026
+
+**Changes Made:**
+- `RUN rm -rf /app/enterprise /app/spec/enterprise` after COPY
+- Added `DISABLE_ENTERPRISE=true` to environment variables
+
+---
+
+### Migrations (4 files)
+
+#### db/migrate/20240726220747_add_custom_roles.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Create custom_roles table and associations (legacy - no longer used)  
+**Last Modified:** July 26, 2024  
+**Status:** DEPRECATED - custom roles replaced with per-user permissions
+
+---
+
+#### db/migrate/20251202140000_add_campaign_manage_to_manager_roles.rb
+
+**Lines Modified:** Entire file (rewritten to no-op)  
+**Reason:** Originally updated custom roles, now a no-op  
+**Last Modified:** January 16, 2026  
+**Status:** DEPRECATED - converted to no-op for fresh installs
+
+---
+
+#### db/migrate/20260116100000_add_access_permissions_to_account_users.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Add per-user permissions column for license compliance  
+**Last Modified:** January 16, 2026
+
+**Changes Made:**
+- Adds `access_permissions` text array column to `account_users`
+- Replaces enterprise-dependent Custom Roles feature
+
+---
+
+#### db/migrate/20260116100001_migrate_custom_roles_to_access_permissions.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Migrate existing custom role data to per-user permissions  
+**Last Modified:** January 16, 2026
+
+**Changes Made:**
+- Copies permissions from `custom_roles` to `account_users.access_permissions`
+- Nulls out `custom_role_id` after migration
 
 ---
 

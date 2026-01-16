@@ -80,6 +80,13 @@ RUN pnpm i
 COPY . /app
 
 # ============================================
+# COMMMATE: REMOVE ENTERPRISE CODE (LICENSE COMPLIANCE)
+# ============================================
+# The enterprise/ directory is under a proprietary license and cannot be
+# used without a Chatwoot Enterprise subscription. Remove it from the image.
+RUN rm -rf /app/enterprise /app/spec/enterprise
+
+# ============================================
 # COMMMATE CUSTOMIZATIONS START
 # ============================================
 
@@ -210,7 +217,8 @@ ENV APP_NAME="CommMate" \
 # COMMMATE PRIVACY & SECURITY
 ENV ENABLE_ACCOUNT_SIGNUP="false" \
     DISABLE_CHATWOOT_CONNECTIONS="true" \
-    DISABLE_TELEMETRY="true"
+    DISABLE_TELEMETRY="true" \
+    DISABLE_ENTERPRISE="true"
 
 # COMMMATE EMAIL DEFAULTS
 ENV MAILER_SENDER_EMAIL="CommMate <support@commmate.com>"

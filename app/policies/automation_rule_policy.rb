@@ -1,25 +1,38 @@
 class AutomationRulePolicy < ApplicationPolicy
   def index?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
   end
 
   def show?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
   end
 
   def clone?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_automation_manage permission
+    @account_user.administrator? || has_automation_manage_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_automation_manage permission
+  def has_automation_manage_permission?
+    @account_user.permissions.include?('settings_automation_manage')
   end
 end

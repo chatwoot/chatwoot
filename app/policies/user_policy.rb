@@ -4,18 +4,29 @@ class UserPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agents_manage permission
+    @account_user.administrator? || has_agents_manage_permission?
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agents_manage permission
+    @account_user.administrator? || has_agents_manage_permission?
   end
 
   def destroy?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agents_manage permission
+    @account_user.administrator? || has_agents_manage_permission?
   end
 
   def bulk_create?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_agents_manage permission
+    @account_user.administrator? || has_agents_manage_permission?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_agents_manage permission
+  def has_agents_manage_permission?
+    @account_user.permissions.include?('settings_agents_manage')
   end
 end

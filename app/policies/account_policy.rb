@@ -12,7 +12,8 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def update?
-    @account_user.administrator?
+    # CommMate: Allow administrators or users with settings_account_manage permission
+    @account_user.administrator? || has_account_manage_permission?
   end
 
   def update_active_at?
@@ -33,5 +34,12 @@ class AccountPolicy < ApplicationPolicy
 
   def topup_checkout?
     @account_user.administrator?
+  end
+
+  private
+
+  # CommMate: Check if user has settings_account_manage permission
+  def has_account_manage_permission?
+    @account_user.permissions.include?('settings_account_manage')
   end
 end

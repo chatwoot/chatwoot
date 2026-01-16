@@ -30,7 +30,8 @@ export default {
           component: TeamsIndex,
           meta: {
             featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-            permissions: ['administrator'],
+            // CommMate: Allow administrators or users with settings_teams_manage permission
+            permissions: ['administrator', 'settings_teams_manage'],
           },
         },
       ],
@@ -56,7 +57,8 @@ export default {
               component: CreateTeam,
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
             },
             {
@@ -65,7 +67,8 @@ export default {
               component: FinishSetup,
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
             },
             {
@@ -73,7 +76,8 @@ export default {
               name: 'settings_teams_add_agents',
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
               component: AddAgents,
             },
@@ -89,7 +93,8 @@ export default {
               component: EditTeam,
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
             },
             {
@@ -98,7 +103,8 @@ export default {
               component: EditAgents,
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
             },
             {
@@ -106,7 +112,8 @@ export default {
               name: 'settings_teams_edit_finish',
               meta: {
                 featureFlag: FEATURE_FLAGS.TEAM_MANAGEMENT,
-                permissions: ['administrator'],
+                // CommMate: Allow administrators or users with settings_teams_manage permission
+                permissions: ['administrator', 'settings_teams_manage'],
               },
               component: FinishSetup,
             },

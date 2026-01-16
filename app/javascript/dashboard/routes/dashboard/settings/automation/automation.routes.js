@@ -21,7 +21,8 @@ export default {
           component: Automation,
           meta: {
             featureFlag: FEATURE_FLAGS.AUTOMATIONS,
-            permissions: ['administrator'],
+            // CommMate: Allow administrators or users with settings_automation_manage permission
+            permissions: ['administrator', 'settings_automation_manage'],
           },
         },
       ],

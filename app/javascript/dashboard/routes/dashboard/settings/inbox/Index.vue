@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import Avatar from 'next/avatar/Avatar.vue';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import {
@@ -19,6 +20,12 @@ const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
 const { isAdmin } = useAdmin();
+
+// CommMate: Check for settings_inboxes_manage permission
+const { checkPermissions } = usePolicy();
+const canManageInboxes = computed(
+  () => isAdmin.value || checkPermissions(['settings_inboxes_manage'])
+);
 
 const showDeletePopup = ref(false);
 const selectedInbox = ref({});
@@ -86,7 +93,10 @@ const openDelete = inbox => {
         feature-name="inboxes"
       >
         <template #actions>
-          <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
+          <router-link
+            v-if="canManageInboxes"
+            :to="{ name: 'settings_inbox_new' }"
+          >
             <Button
               icon="i-lucide-circle-plus"
               :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
@@ -140,7 +150,7 @@ const openDelete = inbox => {
                   }"
                 >
                   <Button
-                    v-if="isAdmin"
+                    v-if="canManageInboxes"
                     v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
                     icon="i-lucide-settings"
                     slate
@@ -149,7 +159,7 @@ const openDelete = inbox => {
                   />
                 </router-link>
                 <Button
-                  v-if="isAdmin"
+                  v-if="canManageInboxes"
                   v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
                   icon="i-lucide-trash-2"
                   xs

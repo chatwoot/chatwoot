@@ -27,6 +27,29 @@
 class AccountUser < ApplicationRecord
   include AvailabilityStatusable
 
+  # CommMate: Available permissions that can be assigned per-user
+  # These replace the enterprise CustomRole::PERMISSIONS
+  AVAILABLE_PERMISSIONS = %w[
+    conversation_manage
+    conversation_unassigned_manage
+    conversation_participating_manage
+    contact_manage
+    report_manage
+    knowledge_base_manage
+    campaign_manage
+    templates_manage
+    settings_macros_manage
+    settings_account_manage
+    settings_agents_manage
+    settings_teams_manage
+    settings_inboxes_manage
+    settings_labels_manage
+    settings_custom_attributes_manage
+    settings_automation_manage
+    settings_agent_bots_manage
+    settings_integrations_manage
+  ].freeze
+
   belongs_to :account
   belongs_to :user
   belongs_to :inviter, class_name: 'User', optional: true
@@ -41,6 +64,7 @@ class AccountUser < ApplicationRecord
   after_save :update_presence_in_redis, if: :saved_change_to_availability?
 
   validates :user_id, uniqueness: { scope: :account_id }
+  validate :validate_access_permissions
 
   def create_notification_setting
     setting = user.notification_settings.new(account_id: account.id)
@@ -54,7 +78,9 @@ class AccountUser < ApplicationRecord
   end
 
   def permissions
-    administrator? ? ['administrator'] : ['agent']
+    # CommMate: Include per-user access_permissions alongside role-based permissions
+    base_permissions = administrator? ? ['administrator'] : ['agent']
+    base_permissions + (access_permissions || [])
   end
 
   def push_event_data
@@ -67,6 +93,16 @@ class AccountUser < ApplicationRecord
   end
 
   private
+
+  # CommMate: Validate that access_permissions only contains known permissions
+  def validate_access_permissions
+    return if access_permissions.blank?
+
+    invalid_permissions = access_permissions - AVAILABLE_PERMISSIONS
+    return if invalid_permissions.empty?
+
+    errors.add(:access_permissions, "contains invalid permissions: #{invalid_permissions.join(', ')}")
+  end
 
   def notify_creation
     Rails.configuration.dispatcher.dispatch(AGENT_ADDED, Time.zone.now, account: account)

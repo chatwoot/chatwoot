@@ -3,6 +3,8 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
+import { usePolicy } from 'dashboard/composables/usePolicy';
+import { computed } from 'vue';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SocialIcons from './SocialIcons.vue';
@@ -44,8 +46,14 @@ export default {
   emits: ['panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
+    const { checkPermissions } = usePolicy();
+    // CommMate: Allow delete if admin or has contact_manage permission
+    const canDeleteContact = computed(
+      () => isAdmin.value || checkPermissions(['contact_manage'])
+    );
     return {
       isAdmin,
+      canDeleteContact,
     };
   },
   data() {
@@ -307,7 +315,7 @@ export default {
           @click="openMergeModal"
         />
         <NextButton
-          v-if="isAdmin"
+          v-if="canDeleteContact"
           v-tooltip.top-end="$t('DELETE_CONTACT.BUTTON_LABEL')"
           icon="i-ph-trash"
           slate
