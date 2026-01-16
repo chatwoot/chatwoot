@@ -138,7 +138,7 @@ export default {
       <Banner />
       <router-view />
 
-      <!-- <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" /> -->
+      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
     </div>
   </div>
 </template>

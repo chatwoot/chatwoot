@@ -2,31 +2,5 @@
     "cSpell.words": [
         "chatwoot",
         "dompurify"
-    ],
-    "i18n-ally.localesPaths": [
-        "config/languages",
-        "config/locales",
-        "app/builders/messages",
-        "app/presenters/messages",
-        "app/services/messages",
-        "spec/builders/messages",
-        "spec/presenters/messages",
-        "spec/services/messages",
-        "app/javascript/dashboard/i18n",
-        "app/javascript/survey/i18n",
-        "app/javascript/widget/i18n",
-        "enterprise/app/jobs/messages",
-        "enterprise/app/services/messages",
-        "spec/enterprise/jobs/messages",
-        "spec/enterprise/services/messages",
-        "app/javascript/dashboard/i18n/locale",
-        "app/javascript/survey/i18n/locale",
-        "app/javascript/widget/i18n/locale",
-        "enterprise/app/builders/enterprise/messages",
-        "swagger/paths/application/conversation/messages",
-        "swagger/paths/public/inboxes/messages",
-        "app/views/api/v1/widget/messages",
-        "app/views/api/v1/accounts/conversations/messages",
-        "app/views/public/api/v1/inboxes/messages"
     ]
 }
