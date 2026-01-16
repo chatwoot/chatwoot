@@ -188,6 +188,7 @@ es:
         rating: Calificación
         feedback: Comentario de opinión
         recorded_at: Fecha registrada
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Una conversación (#%{display_id}) ha sido creada en %{inbox_name}'
