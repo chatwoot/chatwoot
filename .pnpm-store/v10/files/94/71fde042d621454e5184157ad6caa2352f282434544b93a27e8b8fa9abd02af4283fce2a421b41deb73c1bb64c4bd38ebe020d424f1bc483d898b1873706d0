@@ -1,0 +1,52 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    // Volar
+    "jsx": "preserve",
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "baseUrl": ".",
+    "rootDir": "src",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    // Alias
+    "paths": {
+      "floating-vue": ["./node_modules/@histoire/vendors/floating-vue"],
+      "@iconify/vue": ["./node_modules/@histoire/vendors/iconify"],
+      "pinia": ["./node_modules/@histoire/vendors/pinia"],
+      "scroll-into-view-if-needed": ["./node_modules/@histoire/vendors/scroll"],
+      "vue-router": ["./node_modules/@histoire/vendors/vue-router"],
+      "@vueuse/core": ["./node_modules/@histoire/vendors/vue-use"],
+      "vue": ["./node_modules/@histoire/vendors/vue"]
+    },
+    "resolveJsonModule": true,
+    "types": [
+      "node"
+    ],
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "alwaysStrict": true,
+    // Strict
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "outDir": "dist",
+    "removeComments": false,
+    "sourceMap": false,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
+    "preserveWatchOutput": true
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "generated/**/*",
+    "dist/**/*",
+    "src/**/*.spec.ts"
+  ]
+}

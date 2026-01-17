@@ -1,7 +1,9 @@
 class Internal::ReconcilePlanConfigService
   def perform
     remove_premium_config_reset_warning
-    return if ChatwootHub.pricing_plan != 'community' || ChatwootApp.enterprise?
+    # Only reconcile premium configs if we're on enterprise AND plan is not community
+    # The original logic was inverted - it should load configs when enterprise exists
+    return unless ChatwootApp.enterprise?
 
     create_premium_config_reset_warning if premium_config_reset_required?
 
@@ -39,9 +41,17 @@ class Internal::ReconcilePlanConfigService
     premium_config.each do |config|
       new_config = config.with_indifferent_access
       existing_config = InstallationConfig.find_by(name: new_config[:name])
-      next if existing_config&.value == new_config[:value]
-
-      existing_config&.update!(value: new_config[:value])
+      
+      if existing_config
+        next if existing_config.value == new_config[:value]
+        existing_config.update!(value: new_config[:value])
+      else
+        InstallationConfig.create!(
+          name: new_config[:name],
+          value: new_config[:value],
+          locked: true
+        )
+      end
     end
   end
 

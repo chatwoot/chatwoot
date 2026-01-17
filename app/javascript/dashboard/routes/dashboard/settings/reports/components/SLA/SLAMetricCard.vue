@@ -22,11 +22,9 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 items-start justify-center min-w-[10rem]">
-    <span
-      class="inline-flex items-center gap-1 text-sm font-medium text-n-slate-11"
-    >
-      {{ label }}
+  <div class="flex flex-col gap-2 items-start justify-center min-w-0 flex-1 overflow-hidden">
+    <div class="inline-flex items-center gap-1 text-sm font-medium text-n-slate-11 min-w-0 w-full">
+      <span class="truncate">{{ label }}</span>
       <fluent-icon
         v-tooltip.right="toolTip"
         size="14"
@@ -34,7 +32,7 @@ export default {
         type="outline"
         class="flex flex-shrink-0 text-sm font-normal sm:font-medium text-n-slate-10"
       />
-    </span>
+    </div>
     <div
       v-if="isLoading"
       class="w-12 h-6 mb-0.5 rounded-md bg-n-slate-3 animate-pulse"

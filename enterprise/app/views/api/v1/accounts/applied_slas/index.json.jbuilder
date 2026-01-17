@@ -1,5 +1,5 @@
 json.payload do
-  json.array! @applied_slas do |applied_sla|
+  json.array! @applied_slas_paginated do |applied_sla|
     json.applied_sla applied_sla.push_event_data
     json.conversation do
       conversation = applied_sla.conversation

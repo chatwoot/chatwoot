@@ -1,0 +1,32 @@
+<template>
+  <svg fill="none">
+    <pattern
+      id="checkerboard"
+      width="64"
+      height="64"
+      patternUnits="userSpaceOnUse"
+    >
+      <rect
+        x="0"
+        y="0"
+        width="32"
+        height="32"
+        fill="currentColor"
+      />
+      <rect
+        x="32"
+        y="32"
+        width="32"
+        height="32"
+        fill="currentColor"
+      />
+    </pattern>
+    <rect
+      x="0"
+      y="0"
+      width="100%"
+      height="100%"
+      fill="url(#checkerboard)"
+    />
+  </svg>
+</template>

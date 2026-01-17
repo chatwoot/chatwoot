@@ -1,4 +1,9 @@
 Rails.application.routes.draw do
+  # Custom SLA Test API
+  namespace :api do
+    post 'sla_test/create', to: 'sla_test#create'
+  end
+
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',

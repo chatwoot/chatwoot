@@ -1,0 +1,34 @@
+/* @TODO custom themes */
+
+.v-popper {
+  line-height: 0;
+}
+
+.v-popper--theme-dropdown {
+  .htw-dark & {
+    .v-popper__inner {
+      @apply htw-bg-gray-700 htw-border-gray-850 htw-text-gray-100;
+    }
+
+    .v-popper__arrow-inner {
+      @apply htw-border-gray-700;
+    }
+
+    .v-popper__arrow-outer {
+      @apply htw-border-gray-850;
+    }
+  }
+
+  &.v-popper__popper--show-from .v-popper__wrapper {
+    transform: scale(.75);
+  }
+
+  &.v-popper__popper--show-to .v-popper__wrapper {
+    transform: none;
+    transition: transform .15s cubic-bezier(0, 1, .5, 1);
+  }
+}
+
+.v-popper__popper:focus-visible {
+  outline: none;
+}

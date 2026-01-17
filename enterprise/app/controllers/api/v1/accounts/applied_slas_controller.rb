@@ -11,8 +11,8 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
   sort_on :created_at, type: :datetime
 
   def index
-    @count = number_of_sla_misses
-    @applied_slas = @missed_applied_slas.page(@current_page).per(RESULTS_PER_PAGE)
+    @count = total_applied_slas
+    @applied_slas_paginated = @applied_slas.page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def metrics

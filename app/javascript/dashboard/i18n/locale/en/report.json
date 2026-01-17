@@ -561,10 +561,16 @@
       "HEADER": {
         "POLICY": "Policy",
         "CONVERSATION": "Conversation",
-        "AGENT": "Agent"
+        "AGENT": "Agent",
+        "SLA_START": "SLA Start",
+        "FRT": "First Response Time",
+        "NRT": "Next Response Time",
+        "RT": "Resolution Time"
       },
       "VIEW_DETAILS": "View Details"
-    }
+    },
+    "SLA": "SLA",
+    "REAL": "Real"
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Inbox",

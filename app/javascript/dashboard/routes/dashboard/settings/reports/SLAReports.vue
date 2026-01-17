@@ -89,7 +89,7 @@ export default {
       @click="downloadReports"
     />
   </ReportHeader>
-  <div class="flex flex-col flex-1 gap-6">
+  <div class="flex flex-col flex-1 gap-8 w-full">
     <SLAReportFilters @filter-change="onFilterChange" />
     <SLAMetrics
       :hit-rate="slaMetrics.hitRate"

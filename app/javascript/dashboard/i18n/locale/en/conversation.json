@@ -339,7 +339,16 @@
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "SLA": "SLA"
+    },
+    "SLA": {
+      "POLICY": "Policy",
+      "START_TIME": "Start Time",
+      "FIRST_RESPONSE_TIME": "First Response Time",
+      "NEXT_RESPONSE_TIME": "Next Response Time",
+      "RESOLUTION_TIME": "Resolution Time",
+      "NO_SLA": "No SLA applied to this conversation"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
