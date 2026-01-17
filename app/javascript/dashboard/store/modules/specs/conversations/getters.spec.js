@@ -356,7 +356,7 @@ describe('#getters', () => {
       getCurrentAccountId: 1,
     };
 
-    it('filters conversations based on role permissions for administrator', () => {
+    it('returns conversations for administrator', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -385,7 +385,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('filters conversations based on role permissions for agent', () => {
+    it('returns conversations for agent (server filtered)', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -396,7 +396,7 @@ describe('#getters', () => {
         ...mockRootGetters,
         getCurrentUser: {
           ...mockRootGetters.getCurrentUser,
-          accounts: [{ id: 1, role: 'agent', permissions: [] }],
+          accounts: [{ id: 1, role: 'agent', permissions: ['agent'] }],
         },
       };
 
@@ -407,6 +407,7 @@ describe('#getters', () => {
         rootGetters
       );
 
+      // CommMate: client does not filter by permissions; server is source of truth
       expect(result).toEqual([
         mockConversations[2],
         mockConversations[1],
@@ -414,7 +415,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('filters conversations for custom role with conversation_manage permission', () => {
+    it('returns conversations for custom role with conversation_manage permission (server filtered)', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -449,7 +450,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('filters conversations for custom role with conversation_unassigned_manage permission', () => {
+    it('returns conversations for conversation_unassigned_manage permission (server filtered)', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -463,8 +464,8 @@ describe('#getters', () => {
           accounts: [
             {
               id: 1,
-              custom_role_id: 5,
-              permissions: ['conversation_unassigned_manage'],
+              role: 'agent',
+              permissions: ['agent', 'conversation_unassigned_manage'],
             },
           ],
         },
@@ -477,11 +478,15 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should include conversation assigned to user (id: 1) and unassigned conversation
-      expect(result).toEqual([mockConversations[1], mockConversations[0]]);
+      // CommMate: client does not filter by permissions; server is source of truth
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
     });
 
-    it('filters conversations for custom role with conversation_participating_manage permission', () => {
+    it('returns conversations for conversation_participating_manage permission (server filtered)', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -509,43 +514,15 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should only include conversation assigned to user (id: 1)
-      expect(result).toEqual([mockConversations[0]]);
+      // CommMate: client does not filter by permissions; server is source of truth
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
     });
 
-    it('filters conversations for custom role with no permissions', () => {
-      const state = {
-        allConversations: mockConversations,
-        chatSortFilter: 'last_activity_at_desc',
-        appliedFilters: [],
-      };
-
-      const rootGetters = {
-        ...mockRootGetters,
-        getCurrentUser: {
-          ...mockRootGetters.getCurrentUser,
-          accounts: [
-            {
-              id: 1,
-              custom_role_id: 5,
-              permissions: [],
-            },
-          ],
-        },
-      };
-
-      const result = getters.getFilteredConversations(
-        state,
-        {},
-        {},
-        rootGetters
-      );
-
-      // Should return empty array as user has no permissions
-      expect(result).toEqual([]);
-    });
-
-    it('applies filters and role permissions together', () => {
+    it('applies filters (server filtered; no client permission filter)', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -580,8 +557,8 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should only include open conversation assigned to user (id: 1)
-      expect(result).toEqual([mockConversations[0]]);
+      // CommMate: client does not apply role permissions; only filter by status=open
+      expect(result).toEqual([mockConversations[1], mockConversations[0]]);
     });
 
     it('returns empty array when no conversations match filters', () => {

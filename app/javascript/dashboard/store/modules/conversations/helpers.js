@@ -71,39 +71,70 @@ export const applyPageFilters = (conversation, filters) => {
  * @param {number|string} currentUserId - The ID of the current user
  * @returns {boolean} - Whether the user has permissions to access this conversation
  */
+/**
+ * CommMate: Conversation visibility filter based on user permissions
+ *
+ * Permission hierarchy (permissions stack):
+ * - Basic Agent (no extra perms): Only sees conversations assigned to them
+ * - + conversation_participating_manage: Also sees conversations where they are a participant
+ * - + conversation_unassigned_manage: Also sees unassigned conversations
+ * - conversation_manage: Sees all conversations
+ *
+ * @param {Object} conversation - The conversation object to check
+ * @param {string} role - User's role ('administrator' or 'agent')
+ * @param {Array<string>} permissions - List of permission strings the user has
+ * @param {number|string} currentUserId - The ID of the current user
+ * @returns {boolean} - Whether the user has permissions to see this conversation
+ */
 export const applyRoleFilter = (
   conversation,
   role,
   permissions,
   currentUserId
 ) => {
-  // the role === "agent" check is typically not correct on it's own
-  // the backend handles this by checking the custom_role_id at the user model
-  // here however, the `getUserRole` returns "custom_role" if the id is present,
-  // so we can check the role === "agent" directly
-  if (['administrator', 'agent'].includes(role)) {
+  // Administrators always see all conversations
+  if (role === 'administrator') {
     return true;
   }
 
-  // Check for full conversation management permission
+  // Full conversation management permission = see all
   if (permissions.includes('conversation_manage')) {
     return true;
   }
 
   const conversationAssignee = conversation.meta.assignee;
-  const isUnassigned = !conversationAssignee;
   const isAssignedToUser = conversationAssignee?.id === currentUserId;
 
-  // Check unassigned management permission
-  if (permissions.includes('conversation_unassigned_manage')) {
-    return isUnassigned || isAssignedToUser;
+  // Basic check: Is the conversation assigned to this user?
+  // All agents can see their assigned conversations
+  if (isAssignedToUser) {
+    return true;
   }
 
-  // Check participating conversation management permission
-  if (permissions.includes('conversation_participating_manage')) {
-    return isAssignedToUser;
+  // Check if user is a participant (not assignee, but added to conversation)
+  const participants = conversation.meta.participants || [];
+  const isParticipant = participants.some(p => p.id === currentUserId);
+
+  // Permissions stack - check each additional permission
+  const canSeeParticipating = permissions.includes(
+    'conversation_participating_manage'
+  );
+  const canSeeUnassigned = permissions.includes(
+    'conversation_unassigned_manage'
+  );
+
+  // conversation_participating_manage: can see conversations where they participate
+  if (canSeeParticipating && isParticipant) {
+    return true;
   }
 
+  // conversation_unassigned_manage: can see unassigned conversations
+  const isUnassigned = !conversationAssignee;
+  if (canSeeUnassigned && isUnassigned) {
+    return true;
+  }
+
+  // No permission grants access to this conversation
   return false;
 };
 

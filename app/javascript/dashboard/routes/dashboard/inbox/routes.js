@@ -2,10 +2,10 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 import InboxListView from './InboxList.vue';
 import InboxDetailView from './InboxView.vue';
 import InboxEmptyStateView from './InboxEmptyState.vue';
-import {
-  ROLES,
-  CONVERSATION_PERMISSIONS,
-} from 'dashboard/constants/permissions.js';
+
+// CommMate: All agents can access inbox-view routes
+// Filtering happens at conversation level based on permissions
+const INBOX_VIEW_PERMISSIONS = ['administrator', 'agent'];
 
 export const routes = [
   {
@@ -17,7 +17,7 @@ export const routes = [
         name: 'inbox_view',
         component: InboxEmptyStateView,
         meta: {
-          permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          permissions: INBOX_VIEW_PERMISSIONS,
         },
       },
       {
@@ -25,7 +25,7 @@ export const routes = [
         name: 'inbox_view_conversation',
         component: InboxDetailView,
         meta: {
-          permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+          permissions: INBOX_VIEW_PERMISSIONS,
         },
       },
     ],

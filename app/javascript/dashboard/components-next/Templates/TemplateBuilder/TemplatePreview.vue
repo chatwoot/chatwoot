@@ -388,9 +388,11 @@ const getButtonIcon = type => {
               <span
                 class="text-[10px]"
                 :style="{ color: colors.textSecondary }"
-                >{{
+              >
+                {{
                   t('INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.PREVIEW.TIMESTAMP')
-                }}</span>
+                }}
+              </span>
             </div>
           </div>
 

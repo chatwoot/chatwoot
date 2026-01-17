@@ -763,7 +763,11 @@ const insertVariable = () => {
                   <button
                     type="button"
                     class="p-1.5 rounded hover:bg-n-alpha-3 text-n-slate-11 hover:text-n-slate-12 transition-colors"
-                    title="Emoji"
+                    :title="
+                      $t(
+                        'INBOX_MGMT.WHATSAPP_TEMPLATES.BUILDER.BODY.FORMATTING.EMOJI'
+                      )
+                    "
                     @click="toggleEmojiPicker"
                   >
                     <i class="i-lucide-smile text-base" />
@@ -907,7 +911,9 @@ const insertVariable = () => {
                 <div
                   class="flex-shrink-0 w-14 h-8 rounded bg-woot-500/20 flex items-center justify-center"
                 >
-                  <span class="text-xs font-mono font-semibold text-woot-500">&#123;&#123;{{ index + 1 }}&#125;&#125;</span>
+                  <span class="text-xs font-mono font-semibold text-woot-500"
+                    >&#123;&#123;{{ index + 1 }}&#125;&#125;</span
+                  >
                 </div>
                 <input
                   v-model="bodyExamples[index]"

@@ -44,8 +44,9 @@ describe('#defaultRedirectPage', () => {
     expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/portals');
   });
 
-  it('should return dashboard route as default for users with custom roles', () => {
-    const permissions = ['custom_role'];
+  // CommMate: All agents can access dashboard - filtering at conversation level
+  it('should return dashboard route for agents', () => {
+    const permissions = ['agent'];
     expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
   });
 
@@ -63,6 +64,13 @@ describe('#defaultRedirectPage', () => {
       'administrator',
     ];
     expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
+  });
+
+  it('should return profile/settings when user has no recognized permissions', () => {
+    const permissions = [];
+    expect(defaultRedirectPage(to, permissions)).toBe(
+      'accounts/2/profile/settings'
+    );
   });
 });
 
@@ -115,7 +123,8 @@ describe('#validateLoggedInRoutes', () => {
         });
       });
       describe('when route is not accessible', () => {
-        it('returns dashboard url', () => {
+        // CommMate: All agents can access dashboard (filtering at conversation level)
+        it('returns dashboard url for agents', () => {
           expect(
             validateLoggedInRoutes(
               {
@@ -123,17 +132,54 @@ describe('#validateLoggedInRoutes', () => {
                 params: { accountId: 1 },
                 meta: { permissions: ['administrator'] },
               },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
+              {
+                accounts: [
+                  {
+                    id: 1,
+                    role: 'agent',
+                    permissions: ['agent'],
+                    status: 'active',
+                  },
+                ],
+              }
             )
           ).toEqual(`accounts/1/dashboard`);
         });
       });
       describe('when route is suspended route', () => {
-        it('returns dashboard url', () => {
+        // CommMate: All agents can access dashboard (filtering at conversation level)
+        it('returns dashboard url for agents', () => {
           expect(
             validateLoggedInRoutes(
               { name: 'account_suspended', params: { accountId: 1 } },
-              { accounts: [{ id: 1, role: 'agent', status: 'active' }] }
+              {
+                accounts: [
+                  {
+                    id: 1,
+                    role: 'agent',
+                    permissions: ['agent'],
+                    status: 'active',
+                  },
+                ],
+              }
+            )
+          ).toEqual(`accounts/1/dashboard`);
+        });
+
+        it('returns dashboard url for administrators', () => {
+          expect(
+            validateLoggedInRoutes(
+              { name: 'account_suspended', params: { accountId: 1 } },
+              {
+                accounts: [
+                  {
+                    id: 1,
+                    role: 'administrator',
+                    permissions: ['administrator'],
+                    status: 'active',
+                  },
+                ],
+              }
             )
           ).toEqual(`accounts/1/dashboard`);
         });

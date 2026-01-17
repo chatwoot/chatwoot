@@ -5,8 +5,6 @@ import {
 } from './permissionsHelper';
 
 import {
-  ROLES,
-  CONVERSATION_PERMISSIONS,
   CONTACT_PERMISSIONS,
   REPORTS_PERMISSIONS,
   PORTAL_PERMISSIONS,
@@ -20,9 +18,10 @@ export const routeIsAccessibleFor = (route, userPermissions = []) => {
 export const defaultRedirectPage = (to, permissions) => {
   const { accountId } = to.params;
 
+  // CommMate: All agents can access dashboard (conversations are filtered by permissions)
   const permissionRoutes = [
     {
-      permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+      permissions: ['administrator', 'agent'],
       path: 'dashboard',
     },
     { permissions: [CONTACT_PERMISSIONS], path: 'contacts' },
@@ -34,22 +33,21 @@ export const defaultRedirectPage = (to, permissions) => {
     hasPermissions(routePermissions, permissions)
   );
 
-  return `accounts/${accountId}/${route ? route.path : 'dashboard'}`;
+  // Fallback to profile settings if no route matches
+  return `accounts/${accountId}/${route ? route.path : 'profile/settings'}`;
 };
 
 const validateActiveAccountRoutes = (to, user) => {
-  // If the current account is active, then check for the route permissions
-  const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
-
-  // If the user is trying to access suspended route, redirect them to dashboard
-  if (to.name === 'account_suspended') {
-    return accountDashboardURL;
-  }
-
   const userPermissions = getUserPermissions(user, to.params.accountId);
 
+  // CommMate: If the user is trying to access suspended route, redirect them
+  // to their default page based on permissions (not hardcoded dashboard)
+  if (to.name === 'account_suspended') {
+    return defaultRedirectPage(to, userPermissions);
+  }
+
   const isAccessible = routeIsAccessibleFor(to, userPermissions);
-  // If the route is not accessible for the user, return to dashboard screen
+  // If the route is not accessible for the user, return to default page
   return isAccessible ? null : defaultRedirectPage(to, userPermissions);
 };
 
