@@ -188,7 +188,7 @@ pt_BR:
         rating: Classificação
         feedback: Comentário de Feedback
         recorded_at: Data de gravação
-        review_notes: Review Notes
+        review_notes: Notas de Avaliação
   notifications:
     notification_title:
       conversation_creation: ''
