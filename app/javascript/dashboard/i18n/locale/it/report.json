@@ -402,8 +402,8 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Report CSAT",
-    "NO_RECORDS": "No responses yet",
-    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
+    "NO_RECORDS": "Ancora nessuna risposta",
+    "NO_RECORDS_DESCRIPTION": "Le risposte dei sondaggi CSAT appariranno qui appena i clienti inizieranno a fornire feedback.",
     "DOWNLOAD": "Scarica report CSAT",
     "DOWNLOAD_FAILED": "Download dei report CSAT non riuscito",
     "FILTERS": {
@@ -412,9 +412,9 @@
       "NO_FILTER": "Nessun filtro disponibile",
       "INPUT_PLACEHOLDER": {
         "AGENTS": "Cerca operatori",
-        "INBOXES": "Search inboxes",
+        "INBOXES": "Ricerca Inbox",
         "TEAMS": "Cerca team",
-        "RATINGS": "Search ratings"
+        "RATINGS": "Cerca valutazioni"
       },
       "AGENTS": {
         "LABEL": "Operatore"
@@ -436,14 +436,14 @@
         "RATING": "Valutazione",
         "FEEDBACK_TEXT": "Commento del feedback",
         "CONVERSATION": "Conversazione",
-        "CUSTOMER": "Customer",
+        "CUSTOMER": "Cliente",
         "RESPONSE": "Risposta",
-        "HANDLED_BY": "Handled by"
+        "HANDLED_BY": "Gestito da"
       },
-      "UNKNOWN_CUSTOMER": "Unknown customer"
+      "UNKNOWN_CUSTOMER": "Cliente sconosciuto"
     },
-    "NO_AGENT": "No assigned agent",
-    "NO_FEEDBACK": "No feedback provided",
+    "NO_AGENT": "Nessun operatore assegnato",
+    "NO_FEEDBACK": "Nessun feedback fornito",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Risposte totali",
@@ -457,22 +457,22 @@
         "LABEL": "Tasso di risposta",
         "TOOLTIP": "Numero totale di risposte / Numero totale di messaggi di sondaggio CSAT inviati * 100"
       },
-      "RATING_DISTRIBUTION": "Rating distribution"
+      "RATING_DISTRIBUTION": "Distribuzione del rating"
     },
     "REVIEW_NOTES": {
-      "TITLE": "Review notes",
-      "PLACEHOLDER": "Add review notes about this rating...",
+      "TITLE": "Note revisione",
+      "PLACEHOLDER": "Aggiungi note revisione su questa valutazione...",
       "SAVE": "Salva",
       "CANCEL": "Annulla",
       "SAVING": "Salvataggio...",
-      "SAVED": "Notes saved successfully",
-      "SAVE_ERROR": "Failed to save notes",
-      "UPDATED_BY": "Updated by {name} {time}",
-      "UPDATED_BY_LABEL": "Updated by",
+      "SAVED": "Note salvate correttamente",
+      "SAVE_ERROR": "Impossibile salvare le note",
+      "UPDATED_BY": "Aggiornato da {name} {time}",
+      "UPDATED_BY_LABEL": "Aggiornato da",
       "PAYWALL": {
-        "TITLE": "Upgrade to add review notes",
-        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "TITLE": "Aggiorna per aggiungere note revisione",
+        "AVAILABLE_ON": "La funzionalità note revisione è disponibile solo nei piani Business e Enterprise.",
+        "UPGRADE_PROMPT": "Aggiungi note di revisione interne a ogni risposta CSAT. Comprendi meglio cosa è successo davvero, individua i pattern più rapidamente e prendi decisioni migliori a partire dal feedback.",
         "UPGRADE_NOW": "Aggiorna ora",
         "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
       }
