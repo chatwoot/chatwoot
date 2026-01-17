@@ -124,7 +124,9 @@ class ConversationFinder
       conversation_ids = current_account.mentions.where(user: current_user).pluck(:conversation_id)
       @conversations = @conversations.where(id: conversation_ids)
     when 'participating'
-      @conversations = current_user.participating_conversations.where(account_id: current_account.id)
+      # CommMate: Preserve permission/inbox/status filters already applied by ConversationFinder.
+      participating_ids = current_user.participating_conversations.select(:id)
+      @conversations = @conversations.where(id: participating_ids)
     when 'unattended'
       @conversations = @conversations.unattended
     end

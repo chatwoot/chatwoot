@@ -356,7 +356,7 @@ describe('#getters', () => {
       getCurrentAccountId: 1,
     };
 
-    it('filters conversations based on role permissions for administrator', () => {
+    it('returns conversations for administrator', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -396,7 +396,7 @@ describe('#getters', () => {
         ...mockRootGetters,
         getCurrentUser: {
           ...mockRootGetters.getCurrentUser,
-          accounts: [{ id: 1, role: 'agent', permissions: [] }],
+          accounts: [{ id: 1, role: 'agent', permissions: ['agent'] }],
         },
       };
 
@@ -463,8 +463,8 @@ describe('#getters', () => {
           accounts: [
             {
               id: 1,
-              custom_role_id: 5,
-              permissions: ['conversation_unassigned_manage'],
+              role: 'agent',
+              permissions: ['agent', 'conversation_unassigned_manage'],
             },
           ],
         },
@@ -477,8 +477,11 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should include conversation assigned to user (id: 1) and unassigned conversation
-      expect(result).toEqual([mockConversations[1], mockConversations[0]]);
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
     });
 
     it('filters conversations for custom role with conversation_participating_manage permission', () => {
@@ -509,40 +512,11 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should only include conversation assigned to user (id: 1)
-      expect(result).toEqual([mockConversations[0]]);
-    });
-
-    it('filters conversations for custom role with no permissions', () => {
-      const state = {
-        allConversations: mockConversations,
-        chatSortFilter: 'last_activity_at_desc',
-        appliedFilters: [],
-      };
-
-      const rootGetters = {
-        ...mockRootGetters,
-        getCurrentUser: {
-          ...mockRootGetters.getCurrentUser,
-          accounts: [
-            {
-              id: 1,
-              custom_role_id: 5,
-              permissions: [],
-            },
-          ],
-        },
-      };
-
-      const result = getters.getFilteredConversations(
-        state,
-        {},
-        {},
-        rootGetters
-      );
-
-      // Should return empty array as user has no permissions
-      expect(result).toEqual([]);
+      expect(result).toEqual([
+        mockConversations[2],
+        mockConversations[1],
+        mockConversations[0],
+      ]);
     });
 
     it('applies filters and role permissions together', () => {
@@ -580,8 +554,7 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // Should only include open conversation assigned to user (id: 1)
-      expect(result).toEqual([mockConversations[0]]);
+      expect(result).toEqual([mockConversations[1], mockConversations[0]]);
     });
 
     it('returns empty array when no conversations match filters', () => {

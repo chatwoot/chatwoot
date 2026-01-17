@@ -63,10 +63,10 @@ export const applyPageFilters = (conversation, filters) => {
 };
 
 /**
- * Filters conversations based on user role and permissions
+ * Filters a conversation based on the user's role and permissions.
  *
- * @param {Object} conversation - The conversation object to check permissions for
- * @param {string} role - The user's role (administrator, agent, etc.)
+ * @param {Object} conversation - The conversation object to filter.
+ * @param {string} role - The role of the current user ('administrator', 'agent', 'custom_role').
  * @param {Array<string>} permissions - List of permission strings the user has
  * @param {number|string} currentUserId - The ID of the current user
  * @returns {boolean} - Whether the user has permissions to access this conversation

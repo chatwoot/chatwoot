@@ -8,7 +8,10 @@ class ConversationPolicy < ApplicationPolicy
   end
 
   def show?
-    administrator? || agent_bot? || agent_can_view_conversation?
+    return true if administrator? || agent_bot?
+    return false unless agent_can_view_conversation?
+
+    permitted_by_conversation_permissions?
   end
 
   private
@@ -41,6 +44,32 @@ class ConversationPolicy < ApplicationPolicy
 
   def participant?
     record.conversation_participants.exists?(user_id: user.id)
+  end
+
+  def unassigned_conversation?
+    record.assignee_id.nil?
+  end
+
+  def permissions
+    @permissions ||= account_user&.permissions || []
+  end
+
+  # CommMate: enforce conversation visibility permissions on direct access as well
+  def permitted_by_conversation_permissions?
+    return true if permissions.include?('conversation_manage')
+    return true if assigned_to_user?
+    return true if can_view_unassigned?
+    return true if can_view_participating?
+
+    false
+  end
+
+  def can_view_unassigned?
+    permissions.include?('conversation_unassigned_manage') && unassigned_conversation?
+  end
+
+  def can_view_participating?
+    permissions.include?('conversation_participating_manage') && participant?
   end
 end
 

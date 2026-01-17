@@ -1,11 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
-import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
+import { applyPageFilters, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 import { matchesFilters } from './helpers/filterHelpers';
-import {
-  getUserPermissions,
-  getUserRole,
-} from '../../../helper/permissionsHelper';
 import camelcaseKeys from 'camelcase-keys';
 
 export const getSelectedChatConversation = ({
@@ -18,33 +14,18 @@ const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
-  getFilteredConversations: (
-    { allConversations, chatSortFilter, appliedFilters },
-    _,
-    __,
-    rootGetters
-  ) => {
-    const currentUser = rootGetters.getCurrentUser;
-    const currentUserId = rootGetters.getCurrentUser.id;
-    const currentAccountId = rootGetters.getCurrentAccountId;
-
-    const permissions = getUserPermissions(currentUser, currentAccountId);
-    const userRole = getUserRole(currentUser, currentAccountId);
-
+  getFilteredConversations: ({
+    allConversations,
+    chatSortFilter,
+    appliedFilters,
+  }) => {
     return allConversations
       .filter(conversation => {
         const matchesFilterResult = matchesFilters(
           conversation,
           appliedFilters
         );
-        const allowedForRole = applyRoleFilter(
-          conversation,
-          userRole,
-          permissions,
-          currentUserId
-        );
-
-        return matchesFilterResult && allowedForRole;
+        return matchesFilterResult;
       })
       .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
@@ -102,24 +83,10 @@ const getters = {
       return isUnAssigned && shouldFilter;
     });
   },
-  getAllStatusChats: (_state, _, __, rootGetters) => activeFilters => {
-    const currentUser = rootGetters.getCurrentUser;
-    const currentUserId = rootGetters.getCurrentUser.id;
-    const currentAccountId = rootGetters.getCurrentAccountId;
-
-    const permissions = getUserPermissions(currentUser, currentAccountId);
-    const userRole = getUserRole(currentUser, currentAccountId);
-
+  getAllStatusChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      const allowedForRole = applyRoleFilter(
-        conversation,
-        userRole,
-        permissions,
-        currentUserId
-      );
-
-      return shouldFilter && allowedForRole;
+      return shouldFilter;
     });
   },
   getChatListLoadingStatus: ({ listLoadingStatus }) => listLoadingStatus,
