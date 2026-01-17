@@ -14,24 +14,24 @@
   },
   "THUMBNAIL": {
     "AUTHOR": {
-      "NOT_AVAILABLE": "Not available"
+      "NOT_AVAILABLE": "Ikke tilgængelig"
     }
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "Vi er online",
     "OFFLINE": "Vi er ikke tilgængelige i øjeblikket",
-    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
+    "BACK_AS_SOON_AS_POSSIBLE": "Vi vender tilbage hurtigst muligt"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
     "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
     "IN_A_DAY": "Svarer typisk på en dag",
-    "BACK_IN_HOURS": "We will be back online in {n} hour | We will be back online in {n} hours",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_HOURS": "Vi er tilbage om {n} time | Vi er tilbage om {n} timer",
+    "BACK_IN_MINUTES": "Vi er tilbage om {time} minutter",
+    "BACK_AT_TIME": "Vi er tilbage kl. {time}",
+    "BACK_ON_DAY": "Vi er tilbage {day}",
+    "BACK_TOMORROW": "Vi er tilbage i morgen",
+    "BACK_IN_SOME_TIME": "Vi er tilbage om et øjeblik"
   },
   "DAY_NAMES": {
     "SUNDAY": "søndag",
@@ -57,7 +57,7 @@
   "BUBBLE": {
     "LABEL": "Chat med os"
   },
-  "POWERED_BY": "Drevet af Chatwoot",
+  "POWERED_BY": "Leveret af EcoRay",
   "EMAIL_PLACEHOLDER": "Indtast venligst din e-mail",
   "CHAT_PLACEHOLDER": "Skriv din besked",
   "TODAY": "I dag",

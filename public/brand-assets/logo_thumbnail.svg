@@ -1,25 +1,21 @@
-<svg
-  width="16"
-  height="16"
-  viewBox="0 0 16 16"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-    <path
-      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-      fill="#2781F6"
-    />
-    <path
-      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-      fill="white"
-      stroke="white"
-      stroke-width="0.1875"
-    />
-  </g>
-  <defs>
-    <clipPath id="woot-logo-clip-2342424e23u32098">
-      <rect width="16" height="16" fill="white" />
-    </clipPath>
-  </defs>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- EcoRay Icon Only - 512x512 -->
+    <defs>
+        <linearGradient id="ecoIconGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" style="stop-color:#287754;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#2D7A52;stop-opacity:1" />
+        </linearGradient>
+    </defs>
+    <g id="EcoRay-Icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <!-- Sun/Flower Icon - Centered -->
+        <circle id="sun-center" fill="url(#ecoIconGradient)" cx="256" cy="256" r="120"/>
+        <path id="petal-1" fill="url(#ecoIconGradient)" d="M256,136 C236,136 220,120 220,100 C220,80 236,64 256,64 C276,64 292,80 292,100 C292,120 276,136 256,136 Z"/>
+        <path id="petal-2" fill="url(#ecoIconGradient)" d="M256,376 C236,376 220,360 220,340 C220,320 236,304 256,304 C276,304 292,320 292,340 C292,360 276,376 256,376 Z"/>
+        <path id="petal-3" fill="url(#ecoIconGradient)" d="M376,256 C376,236 360,220 340,220 C320,220 304,236 304,256 C304,276 320,292 340,292 C360,292 376,276 376,256 Z"/>
+        <path id="petal-4" fill="url(#ecoIconGradient)" d="M136,256 C136,236 120,220 100,220 C80,220 64,236 64,256 C64,276 80,292 100,292 C120,292 136,276 136,256 Z"/>
+        <path id="petal-5" fill="url(#ecoIconGradient)" d="M318,150 C312,130 294,114 274,120 C254,126 240,146 246,166 C252,186 272,202 292,196 C312,190 324,170 318,150 Z"/>
+        <path id="petal-6" fill="url(#ecoIconGradient)" d="M318,362 C312,382 294,398 274,392 C254,386 240,366 246,346 C252,326 272,310 292,316 C312,322 324,342 318,362 Z"/>
+        <path id="petal-7" fill="url(#ecoIconGradient)" d="M194,362 C170,356 152,334 158,310 C164,286 186,268 210,274 C234,280 252,302 246,326 C240,350 218,368 194,362 Z"/>
+        <path id="petal-8" fill="url(#ecoIconGradient)" d="M194,150 C170,156 152,178 158,202 C164,226 186,244 210,238 C234,232 252,210 246,186 C240,162 218,144 194,150 Z"/>
+    </g>
 </svg>
