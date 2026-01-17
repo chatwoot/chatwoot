@@ -4,7 +4,7 @@ class Integrations::OpenaiBaseService
   # 16385 * 4 = 65540 characters, sticking to 50,000 to be safe
   TOKEN_LIMIT = 50_000
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
-  GPT_MODEL = 'gpt-5-mini'.freeze
+  DEFAULT_GPT_MODEL = 'gpt-5-mini'.freeze
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
@@ -88,5 +88,11 @@ class Integrations::OpenaiBaseService
   # Can be overridden in subclasses (e.g., GlobalProcessorService)
   def resolve_api_key
     hook.settings['api_key']
+  end
+
+  # Get GPT model from GlobalConfig, fallback to default
+  def gpt_model
+    configured_model = GlobalConfig.get_value('OPENAI_GPT_MODEL')
+    configured_model.presence || DEFAULT_GPT_MODEL
   end
 end

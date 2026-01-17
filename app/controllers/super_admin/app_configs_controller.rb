@@ -38,7 +38,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                        when 'microsoft'
                          %w[AZURE_APP_ID AZURE_APP_SECRET]
                        when 'openai'
-                         %w[OPENAI_API_KEY]
+                         %w[OPENAI_API_KEY OPENAI_GPT_MODEL]
                        when 'email'
                          ['MAILER_INBOUND_EMAIL_DOMAIN']
                        else

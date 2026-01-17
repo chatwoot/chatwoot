@@ -224,4 +224,9 @@
   value:
   locked: false
   description: 'The global OpenAI API key used across all accounts when the feature is enabled'
+- name: OPENAI_GPT_MODEL
+  display_title: 'OpenAI GPT Model'
+  value: 'gpt-5-mini'
+  locked: false
+  description: 'The GPT model to use for OpenAI API calls (e.g., gpt-4o, gpt-4o-mini, gpt-5-mini)'
 ## ------ End of OpenAI Integration Config ------ ##
