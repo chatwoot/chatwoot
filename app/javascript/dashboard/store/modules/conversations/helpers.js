@@ -62,6 +62,51 @@ export const applyPageFilters = (conversation, filters) => {
   return shouldFilter;
 };
 
+/**
+ * Validates if a conversation matches the current filter criteria for WebSocket events.
+ * This ensures conversations added/updated via WebSocket respect active filters.
+ *
+ * @param {Object} conversation - The conversation object
+ * @param {Object} filterState - The current filter state from the store
+ * @returns {boolean} - Whether the conversation should be shown
+ */
+export const isConversationMatchingFilters = (conversation, filterState) => {
+  const { chatStatusFilter, conversationReadStatusFilter, agentFilter } =
+    filterState;
+
+  // Check chat status filter (open/resolved/snoozed)
+  if (chatStatusFilter && chatStatusFilter !== 'all') {
+    if (conversation.status !== chatStatusFilter) {
+      return false;
+    }
+  }
+
+  // Check read status filter
+  if (conversationReadStatusFilter && conversationReadStatusFilter !== 'all') {
+    const isUnread = conversation.unread_count > 0;
+    if (conversationReadStatusFilter === 'unread' && !isUnread) {
+      return false;
+    }
+    if (conversationReadStatusFilter === 'read' && isUnread) {
+      return false;
+    }
+  }
+
+  // Check agent filter
+  if (agentFilter && agentFilter !== 'all') {
+    const assignee = conversation.meta?.assignee;
+    if (agentFilter === 'unassigned') {
+      if (assignee) {
+        return false;
+      }
+    } else if (!assignee || assignee.id !== Number(agentFilter)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 const SORT_OPTIONS = {
   last_activity_at_asc: ['sortOnLastActivityAt', 'asc'],
   last_activity_at_desc: ['sortOnLastActivityAt', 'desc'],

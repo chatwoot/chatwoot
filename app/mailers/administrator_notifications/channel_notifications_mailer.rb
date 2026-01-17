@@ -319,7 +319,8 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
       'inboxes_overview_url' => csv_urls[:inboxes_overview]
     }
 
-    send_mail_with_liquid(to: recipient_emails, subject: subject) and return
+    recipients = (recipient_emails + admin_emails).uniq
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   private

@@ -245,6 +245,15 @@ export const mutations = {
     }
   },
 
+  [types.REMOVE_CONVERSATION](_state, conversationId) {
+    const index = _state.allConversations.findIndex(
+      c => c.id === conversationId
+    );
+    if (index > -1) {
+      _state.allConversations.splice(index, 1);
+    }
+  },
+
   [types.SET_LIST_LOADING_STATUS](_state) {
     _state.listLoadingStatus = true;
   },
