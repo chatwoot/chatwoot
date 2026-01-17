@@ -1,6 +1,6 @@
 {
-  "name": "Chatwoot",
-  "short_name": "Chatwoot",
+  "name": "Conversa com Agente",
+  "short_name": "Conversa",
   "icons": [{
     "src": "\/android-icon-36x36.png",
     "sizes": "36x36",
@@ -39,6 +39,6 @@
    }],
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#1f93ff",
-  "theme_color": "#1f93ff"
+  "background_color": "#10B981",
+  "theme_color": "#10B981"
 }
