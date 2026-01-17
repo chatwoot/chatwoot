@@ -56,14 +56,7 @@ class SnoozeTool < BaseTool
     add_snooze_note(reason: reason, until_time: parsed_time) if reason.present?
     current_conversation.update!(status: :snoozed, snoozed_until: parsed_time)
 
-    log_and_track(until_time: until_time, parsed_time: parsed_time, reason: reason)
     build_success_response(parsed_time: parsed_time)
-  end
-
-  def log_and_track(until_time:, parsed_time:, reason:)
-    log_execution({ until_time: until_time, parsed_time: parsed_time.iso8601, reason: reason.present? },
-                  { success: true, snoozed_until: parsed_time.iso8601 })
-    track_in_context(input: { until_time: until_time, reason: reason.present? }, output: { snoozed_until: parsed_time.iso8601 })
   end
 
   def build_success_response(parsed_time:)
@@ -78,7 +71,6 @@ class SnoozeTool < BaseTool
   end
 
   def handle_error(until_time:, error:)
-    log_execution({ until_time: until_time }, {}, success: false, error_message: error.message)
     error_response("Failed to snooze conversation: #{error.message}")
   end
 
@@ -123,22 +115,5 @@ class SnoozeTool < BaseTool
 
   def human_readable_time(time)
     time.strftime('%B %d, %Y at %I:%M %p')
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'snooze',
-      input: input,
-      output: output,
-      success: true
-    )
   end
 end

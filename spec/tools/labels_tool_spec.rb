@@ -133,23 +133,6 @@ RSpec.describe LabelsTool, :aloo do
       end
     end
 
-    context 'tracking execution' do
-      it 'tracks in conversation context' do
-        tool.execute(action: 'add', labels: %w[test])
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('labels')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(action: 'add', labels: %w[test]), anything)
-
-        tool.execute(action: 'add', labels: %w[test])
-      end
-    end
-
     context 'when error occurs' do
       before do
         allow(conversation).to receive(:add_labels).and_raise(StandardError, 'DB error')

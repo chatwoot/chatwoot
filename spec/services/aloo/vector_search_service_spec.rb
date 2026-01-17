@@ -64,14 +64,6 @@ RSpec.describe Aloo::VectorSearchService, type: :service do
       expect(results).to be_an(Array)
     end
 
-    it 'records trace' do
-      expect(Aloo::Trace).to receive(:record_with_timing)
-        .with(hash_including(trace_type: 'search'))
-        .and_call_original
-
-      service.search('test query')
-    end
-
     context 'with matching embeddings' do
       before do
         # Create more embeddings for better test coverage

@@ -49,21 +49,6 @@ RSpec.describe PrivateNoteTool, :aloo do
         expect(note.content).to include('**Observation:**')
         expect(note.content).to include('Customer seems frustrated')
       end
-
-      it 'tracks execution in conversation context' do
-        tool.execute(content: 'Test note')
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('private_note')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(content: 'Test'), anything)
-
-        tool.execute(content: 'Test')
-      end
     end
 
     context 'with category' do

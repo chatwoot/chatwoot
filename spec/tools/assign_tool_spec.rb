@@ -156,25 +156,6 @@ RSpec.describe AssignTool, :aloo do
       end
     end
 
-    context 'tracking execution' do
-      let!(:team) { create(:team, name: 'Support', account: account) }
-
-      it 'tracks in conversation context' do
-        tool.execute(team_name: 'Support')
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('assign')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(team_name: 'Support'), anything)
-
-        tool.execute(team_name: 'Support')
-      end
-    end
-
     context 'when error occurs' do
       let!(:team) { create(:team, name: 'Support', account: account) }
 

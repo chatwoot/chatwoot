@@ -11,9 +11,6 @@ RSpec.describe Aloo::Assistant do
     it { is_expected.to have_many(:inboxes).through(:assistant_inboxes) }
     it { is_expected.to have_many(:documents).dependent(:destroy) }
     it { is_expected.to have_many(:embeddings).dependent(:destroy) }
-    it { is_expected.to have_many(:memories).dependent(:destroy) }
-    it { is_expected.to have_many(:conversation_contexts).dependent(:destroy) }
-    it { is_expected.to have_many(:traces).dependent(:nullify) }
     it { is_expected.to have_many(:messages) }
   end
 
@@ -97,7 +94,7 @@ RSpec.describe Aloo::Assistant do
     context 'when admin_config is empty' do
       it 'returns default model' do
         assistant.admin_config = {}
-        expect(assistant.model).to eq('gemini-2.0-flash')
+        expect(assistant.model).to eq('gpt-4.1-mini')
       end
     end
 
@@ -135,18 +132,6 @@ RSpec.describe Aloo::Assistant do
     it 'returns false when explicitly disabled' do
       assistant.admin_config = { 'feature_faq' => false }
       expect(assistant.feature_faq_enabled?).to be false
-    end
-  end
-
-  describe '#feature_memory_enabled?' do
-    it 'returns true when enabled in admin_config' do
-      assistant.admin_config = { 'feature_memory' => true }
-      expect(assistant.feature_memory_enabled?).to be true
-    end
-
-    it 'returns false when not enabled' do
-      assistant.admin_config = {}
-      expect(assistant.feature_memory_enabled?).to be false
     end
   end
 

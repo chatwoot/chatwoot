@@ -242,6 +242,10 @@
         "LABELS": {
           "LABEL": "Manage Labels",
           "DESCRIPTION": "Allow the AI to add, remove, or set labels on conversations"
+        },
+        "CATALOG_ACCESS": {
+          "LABEL": "Catalog Access",
+          "DESCRIPTION": "Allow the AI to access product information and create shopping carts for customers"
         }
       },
       "VOICE": {

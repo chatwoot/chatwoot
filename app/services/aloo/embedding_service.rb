@@ -22,24 +22,18 @@ module Aloo
       truncated_text = truncate_text(text)
       vector = generate_embedding(truncated_text)
 
-      Aloo::Trace.record_with_timing(
-        trace_type: 'embedding',
+      Aloo::Embedding.create!(
         account: @account,
-        input_data: { text_length: truncated_text.length, chunk_index: chunk_index }
-      ) do
-        Aloo::Embedding.create!(
-          account: @account,
-          assistant: document.assistant,
-          document: document,
-          content: truncated_text,
-          embedding: vector,
-          metadata: {
-            chunk_index: chunk_index,
-            token_count: estimate_tokens(truncated_text),
-            model: EMBEDDING_MODEL
-          }
-        )
-      end
+        assistant: document.assistant,
+        document: document,
+        content: truncated_text,
+        embedding: vector,
+        metadata: {
+          chunk_index: chunk_index,
+          token_count: estimate_tokens(truncated_text),
+          model: EMBEDDING_MODEL
+        }
+      )
     end
 
     # Batch embed multiple texts for a single document

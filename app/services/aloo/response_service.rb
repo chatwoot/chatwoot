@@ -59,7 +59,6 @@ class Aloo::ResponseService
     return if handoff_triggered?(result)
 
     message = create_message(result)
-    track_usage(result)
     update_conversation_status
     trigger_voice_reply(message) if message&.persisted?
   end
@@ -85,22 +84,6 @@ class Aloo::ResponseService
         }
       }
     ).perform
-  end
-
-  def track_usage(result)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: @conversation,
-      assistant: @assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.track_message!(
-      input_tokens: result.input_tokens || 0,
-      output_tokens: result.output_tokens || 0,
-      cost: result.total_cost || 0
-    )
   end
 
   def update_conversation_status

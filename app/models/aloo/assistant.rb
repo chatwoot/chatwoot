@@ -40,17 +40,8 @@ module Aloo
              foreign_key: 'aloo_assistant_id',
              dependent: :destroy,
              inverse_of: :assistant
-    has_many :conversation_contexts,
-             class_name: 'Aloo::ConversationContext',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :destroy,
-             inverse_of: :assistant
-    has_many :traces,
-             class_name: 'Aloo::Trace',
-             foreign_key: 'aloo_assistant_id',
-             dependent: :nullify,
-             inverse_of: :assistant
     has_many :messages, as: :sender, dependent: :nullify
+    has_many :created_carts, as: :created_by, class_name: 'Cart', dependent: :nullify
     has_many :voice_usage_records,
              class_name: 'Aloo::VoiceUsageRecord',
              foreign_key: 'aloo_assistant_id',
@@ -153,6 +144,11 @@ module Aloo
 
     def feature_labels_enabled?
       admin_config['feature_labels'] != false
+    end
+
+    # Catalog tool feature flag (single flag for all catalog tools)
+    def feature_catalog_access_enabled?
+      admin_config['feature_catalog_access'] != false
     end
 
     # Full system prompt combining base + personality + guardrails

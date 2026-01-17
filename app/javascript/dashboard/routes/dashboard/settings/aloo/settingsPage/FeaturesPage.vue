@@ -41,6 +41,12 @@ const features = [
     label: 'ALOO.SETTINGS.FEATURES.LABELS.LABEL',
     description: 'ALOO.SETTINGS.FEATURES.LABELS.DESCRIPTION',
   },
+  {
+    key: 'catalog_access_enabled',
+    adminKey: 'feature_catalog_access',
+    label: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.LABEL',
+    description: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.DESCRIPTION',
+  },
 ];
 
 const updateFeature = (adminKey, value) => {

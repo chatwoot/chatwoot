@@ -148,31 +148,21 @@ module Aloo
     end
 
     def already_processed?
-      context = ConversationContext.find_by(
-        conversation: @conversation,
-        assistant: @assistant
-      )
-      return false unless context
-
-      context.context_data['faq_generation_completed'] == true
+      @conversation.custom_attributes&.dig('aloo_faq_generation_completed') == true
     end
 
     def mark_processed(count, skipped: false, reason: nil)
-      context = ConversationContext.find_or_create_by!(
-        conversation: @conversation,
-        assistant: @assistant
-      ) do |ctx|
-        ctx.context_data = {}
-        ctx.tool_history = []
-      end
-
-      context.set_context('faq_generation_completed', true)
-      context.set_context('faq_generation_result', {
-                            faqs_generated: count,
-                            skipped: skipped,
-                            reason: reason,
-                            processed_at: Time.current.iso8601
-                          })
+      @conversation.update!(
+        custom_attributes: @conversation.custom_attributes.merge(
+          'aloo_faq_generation_completed' => true,
+          'aloo_faq_generation_result' => {
+            'faqs_generated' => count,
+            'skipped' => skipped,
+            'reason' => reason,
+            'processed_at' => Time.current.iso8601
+          }
+        )
+      )
     end
   end
 end

@@ -9,6 +9,7 @@ import MoreActions from './MoreActions.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import AIAgentBadge from './AIAgentBadge.vue';
+import AIAssignmentToggle from './AIAssignmentToggle.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -150,6 +151,12 @@ const isAlooAIHandling = computed(() => {
             :agent-name="
               isAlooAIHandling ? alooAssistant?.name : assignedAgent?.name
             "
+          />
+          <AIAssignmentToggle
+            v-if="alooAssistant?.active"
+            :chat="chat"
+            variant="ghost"
+            size="xs"
           />
           <fluent-icon
             v-if="!isHMACVerified"

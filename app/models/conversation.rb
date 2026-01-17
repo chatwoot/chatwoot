@@ -109,7 +109,6 @@ class Conversation < ApplicationRecord
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true
-  has_many :aloo_conversation_contexts, class_name: 'Aloo::ConversationContext', dependent: :destroy
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
@@ -210,15 +209,14 @@ class Conversation < ApplicationRecord
   end
 
   # Returns recent messages for LLM conversation history
-  # Excludes private messages, includes attachments, ordered chronologically
+  # Excludes private messages, includes attachments, ordered chronologically (oldest first)
   def recent_messages_for_llm(limit: 20)
     messages
       .where(message_type: %i[incoming outgoing])
       .where(private: false)
       .includes(:attachments)
-      .order(created_at: :desc)
-      .limit(limit)
-      .reverse
+      .reorder(id: :asc)
+      .last(limit)
   end
 
   # Check if AI handoff to human is active

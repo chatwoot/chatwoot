@@ -24,16 +24,9 @@ module Aloo
       query_embedding = generate_query_embedding(query)
       return [] unless query_embedding
 
-      Aloo::Trace.record_with_timing(
-        trace_type: 'search',
-        account: @account,
-        assistant: @assistant,
-        input_data: { query: query, limit: limit, source_types: source_types }
-      ) do
-        results = fetch_similar_embeddings(query_embedding, limit * 2, source_types)
-        ranked_results = rank_results(results, query)
-        format_results(ranked_results.first(limit))
-      end
+      results = fetch_similar_embeddings(query_embedding, limit * 2, source_types)
+      ranked_results = rank_results(results, query)
+      format_results(ranked_results.first(limit))
     end
 
     # Search and return formatted context for LLM
@@ -84,9 +77,7 @@ module Aloo
               .where(account: @account)
               .where(aloo_documents: { status: :available })
 
-      if source_types.present?
-        scope = scope.where(aloo_documents: { source_type: source_types })
-      end
+      scope = scope.where(aloo_documents: { source_type: source_types }) if source_types.present?
 
       scope
         .nearest_neighbors(:embedding, query_vector, distance: 'cosine')
@@ -94,7 +85,7 @@ module Aloo
         .includes(:document)
     end
 
-    def rank_results(embeddings, query)
+    def rank_results(embeddings, _query)
       embeddings.map do |embedding|
         # neighbor_distance is cosine distance (0 = identical, 2 = opposite)
         # Convert to similarity score (1 = identical, 0 = orthogonal)

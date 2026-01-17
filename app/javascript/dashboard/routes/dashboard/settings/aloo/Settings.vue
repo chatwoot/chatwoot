@@ -48,6 +48,7 @@ const assistant = ref({
     resolve_enabled: true,
     snooze_enabled: true,
     labels_enabled: true,
+    catalog_access_enabled: true,
   },
   admin_config: {},
   voice_enabled: false,

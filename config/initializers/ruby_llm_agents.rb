@@ -6,6 +6,20 @@
 
 RubyLLM::Agents.configure do |config|
   # ============================================
+  # Multi-Tenancy (Per-Account Isolation)
+  # ============================================
+
+  # Enable multi-tenancy to isolate budget tracking, execution logging,
+  # and circuit breakers by account (tenant)
+  config.multi_tenancy_enabled = true
+
+  # Tenant resolver returns the current account ID for scoping
+  # Uses Aloo::Current.account which is set before agent execution
+  config.tenant_resolver = lambda {
+    Aloo::Current.account&.id&.to_s
+  }
+
+  # ============================================
   # Model Defaults
   # ============================================
 
@@ -36,21 +50,21 @@ RubyLLM::Agents.configure do |config|
 
   # Async logging via background job (recommended for production)
   # Set to false to log synchronously (useful for debugging)
-  # config.async_logging = true
+  config.async_logging = Rails.env.production?
 
   # Number of retry attempts for the async logging job on failure
   # config.job_retry_attempts = 3
 
   # Retention period for execution records (used by cleanup tasks)
-  # config.retention_period = 30.days
+  config.retention_period = 90.days
 
   # ============================================
   # Anomaly Detection
   # ============================================
 
   # Executions exceeding these thresholds are logged as warnings
-  # config.anomaly_cost_threshold = 5.00        # dollars
-  # config.anomaly_duration_threshold = 10_000  # milliseconds
+  config.anomaly_cost_threshold = 1.00        # dollars
+  config.anomaly_duration_threshold = 30_000  # milliseconds (30 seconds)
 
   # ============================================
   # Dashboard Authentication
@@ -109,22 +123,17 @@ RubyLLM::Agents.configure do |config|
   # Governance - Budget Tracking
   # ============================================
 
-  # Budget limits for cost governance
-  # - global_daily/global_monthly: Limits across all agents
-  # - per_agent_daily/per_agent_monthly: Per-agent limits (Hash of agent name => limit)
+  # Global budget limits (applies to all tenants as default)
+  # Per-tenant budgets are stored in ruby_llm_agents_tenant_budgets table
+  # and can be managed via RubyLLM::Agents::TenantBudget model
+  #
+  # - global_daily/global_monthly: Default limits for new tenants
   # - enforcement: :none (disabled), :soft (warn only), :hard (block requests)
-  # config.budgets = {
-  #   global_daily: 25.0,
-  #   global_monthly: 500.0,
-  #   per_agent_daily: {
-  #     "ContentGeneratorAgent" => 10.0,
-  #     "SummaryAgent" => 5.0
-  #   },
-  #   per_agent_monthly: {
-  #     "ContentGeneratorAgent" => 200.0
-  #   },
-  #   enforcement: :soft
-  # }
+  config.budgets = {
+    global_daily: 50.0,
+    global_monthly: 1000.0,
+    enforcement: :soft
+  }
 
   # ============================================
   # Governance - Alerts

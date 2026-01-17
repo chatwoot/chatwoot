@@ -484,6 +484,71 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#recent_messages_for_llm' do
+    let(:conversation) { create(:conversation) }
+
+    it 'returns messages in chronological order (oldest first)' do
+      msg1 = create(:message, conversation: conversation, message_type: :incoming, created_at: 1.hour.ago)
+      msg2 = create(:message, conversation: conversation, message_type: :outgoing, created_at: 30.minutes.ago)
+      msg3 = create(:message, conversation: conversation, message_type: :incoming, created_at: 10.minutes.ago)
+
+      result = conversation.recent_messages_for_llm
+
+      expect(result).to eq([msg1, msg2, msg3])
+    end
+
+    it 'excludes private messages' do
+      public_msg = create(:message, conversation: conversation, message_type: :outgoing, private: false)
+      create(:message, conversation: conversation, message_type: :outgoing, private: true)
+
+      result = conversation.recent_messages_for_llm
+
+      expect(result).to eq([public_msg])
+    end
+
+    it 'excludes activity messages' do
+      chat_msg = create(:message, conversation: conversation, message_type: :incoming)
+      create(:message, conversation: conversation, message_type: :activity)
+
+      result = conversation.recent_messages_for_llm
+
+      expect(result).to eq([chat_msg])
+    end
+
+    it 'limits results to specified count' do
+      create_list(:message, 5, conversation: conversation, message_type: :incoming)
+
+      result = conversation.recent_messages_for_llm(limit: 3)
+
+      expect(result.size).to eq(3)
+    end
+
+    it 'returns the LAST N messages when limit is less than total' do
+      create_list(:message, 3, conversation: conversation, message_type: :incoming)
+      new_msgs = create_list(:message, 2, conversation: conversation, message_type: :incoming)
+
+      result = conversation.recent_messages_for_llm(limit: 2)
+
+      expect(result).to eq(new_msgs)
+    end
+
+    it 'eager loads attachments' do
+      msg = create(:message, conversation: conversation, message_type: :incoming)
+      attachment = create(:attachment, message: msg)
+
+      result = conversation.recent_messages_for_llm
+
+      expect(result.first.attachments).to be_loaded
+      expect(result.first.attachments).to include(attachment)
+    end
+
+    it 'returns empty array when no messages exist' do
+      result = conversation.recent_messages_for_llm
+
+      expect(result).to eq([])
+    end
+  end
+
   describe 'unread_incoming_messages' do
     subject(:unread_incoming_messages) { conversation.unread_incoming_messages }
 

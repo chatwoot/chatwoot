@@ -78,25 +78,38 @@ RSpec.describe ConversationAgent, :aloo do
   end
 
   describe '#user_prompt' do
-    it 'includes current message prefixed with Customer:' do
+    it 'returns just the current message' do
       agent = described_class.new(message: 'What is your refund policy?')
       prompt = agent.user_prompt
 
-      expect(prompt).to include('Customer:')
-      expect(prompt).to include('What is your refund policy?')
+      expect(prompt).to eq('What is your refund policy?')
+    end
+  end
+
+  describe '#messages' do
+    context 'without conversation history' do
+      it 'returns an empty array' do
+        agent = described_class.new(message: 'First message')
+        expect(agent.messages).to eq([])
+      end
     end
 
     context 'with existing conversation history' do
-      let!(:incoming_message) { create(:message, conversation: conversation, message_type: :incoming, content: 'Hi') }
-      let!(:outgoing_message) { create(:message, conversation: conversation, message_type: :outgoing, content: 'Hello!') }
+      let!(:incoming_message) do
+        create(:message, conversation: conversation, message_type: :incoming, content: 'Hi')
+      end
+      let!(:outgoing_message) do
+        create(:message, conversation: conversation, message_type: :outgoing, content: 'Hello!')
+      end
 
-      it 'includes conversation history from the conversation' do
+      it 'returns structured message history with correct roles' do
         agent = described_class.new(message: 'Follow up question')
-        prompt = agent.user_prompt
+        messages = agent.messages
 
-        expect(prompt).to include('Customer: Hi')
-        expect(prompt).to include('Assistant: Hello!')
-        expect(prompt).to include('Follow up question')
+        expect(messages).to be_an(Array)
+        expect(messages.length).to eq(2)
+        expect(messages).to include({ role: :user, content: 'Hi' })
+        expect(messages).to include({ role: :assistant, content: 'Hello!' })
       end
     end
   end
@@ -110,22 +123,6 @@ RSpec.describe ConversationAgent, :aloo do
     it 'does not include deprecated FaqLookupTool' do
       agent = described_class.new(message: 'test')
       expect(agent.tools).not_to include(FaqLookupTool)
-    end
-
-    context 'with memory feature enabled' do
-      it 'includes MemoryLookupTool' do
-        agent = described_class.new(message: 'test')
-        expect(agent.tools).to include(MemoryLookupTool)
-      end
-    end
-
-    context 'with memory feature disabled' do
-      let(:assistant) { create(:aloo_assistant, account: account, admin_config: { 'feature_memory' => false }) }
-
-      it 'does not include MemoryLookupTool' do
-        agent = described_class.new(message: 'test')
-        expect(agent.tools).not_to include(MemoryLookupTool)
-      end
     end
 
     it 'includes HandoffTool when enabled' do

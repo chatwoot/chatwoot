@@ -47,13 +47,7 @@ class LabelsTool < BaseTool
     perform_label_action(action: action, labels: labels)
     current_labels = current_conversation.reload.label_list.to_a
 
-    log_and_track(action: action, labels: labels, previous_labels: previous_labels, current_labels: current_labels)
     build_success_response(action: action, labels: labels, previous_labels: previous_labels, current_labels: current_labels)
-  end
-
-  def log_and_track(action:, labels:, previous_labels:, current_labels:)
-    log_execution({ action: action, labels: labels }, { success: true, previous_labels: previous_labels, current_labels: current_labels })
-    track_in_context(input: { action: action, labels: labels }, output: { previous_labels: previous_labels, current_labels: current_labels })
   end
 
   def build_success_response(action:, labels:, previous_labels:, current_labels:)
@@ -68,7 +62,6 @@ class LabelsTool < BaseTool
   end
 
   def handle_error(action:, labels:, error:)
-    log_execution({ action: action, labels: labels }, {}, success: false, error_message: error.message)
     error_response("Failed to update labels: #{error.message}")
   end
 
@@ -95,22 +88,5 @@ class LabelsTool < BaseTool
     current_labels = current_conversation.label_list.to_a
     updated_labels = current_labels - labels_to_remove
     current_conversation.update_labels(updated_labels)
-  end
-
-  def track_in_context(input:, output:)
-    context = Aloo::ConversationContext.find_or_create_by!(
-      conversation: current_conversation,
-      assistant: current_assistant
-    ) do |ctx|
-      ctx.context_data = {}
-      ctx.tool_history = []
-    end
-
-    context.record_tool_call!(
-      tool_name: 'labels',
-      input: input,
-      output: output,
-      success: true
-    )
   end
 end

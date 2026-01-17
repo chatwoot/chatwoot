@@ -51,21 +51,6 @@ RSpec.describe ResolveTool, :aloo do
         expect(message.content).to include('Conversation resolved by AI')
         expect(message.content).to include('Customer confirmed issue is fixed')
       end
-
-      it 'tracks execution in conversation context' do
-        tool.execute(reason: 'Issue resolved')
-
-        context = Aloo::ConversationContext.find_by(conversation: conversation)
-        expect(context.tool_history).not_to be_empty
-        expect(context.tool_history.last['tool']).to eq('resolve')
-      end
-
-      it 'logs execution' do
-        expect_any_instance_of(described_class).to receive(:log_execution)
-          .with(hash_including(reason: 'Test reason'), anything)
-
-        tool.execute(reason: 'Test reason')
-      end
     end
 
     context 'with summary' do

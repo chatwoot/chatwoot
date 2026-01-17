@@ -41,19 +41,8 @@ class FaqLookupTool < BaseTool
         results[:memories] = memory_result[:results] || []
       end
 
-      log_execution(
-        { query: query, search_type: search_type },
-        { knowledge_count: results[:knowledge].size, memory_count: results[:memories].size }
-      )
-
       format_response(results)
     rescue StandardError => e
-      log_execution(
-        { query: query, search_type: search_type },
-        {},
-        success: false,
-        error_message: e.message
-      )
       error_response("Search failed: #{e.message}")
     end
   end
