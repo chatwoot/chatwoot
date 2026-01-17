@@ -2,9 +2,13 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import ConversationView from './ConversationView.vue';
 
-// CommMate: All agents can access conversation routes
-// Filtering happens at conversation level based on permissions
-const CONVERSATION_PERMISSIONS = ['administrator', 'agent'];
+const CONVERSATION_PERMISSIONS = [
+  'administrator',
+  'agent',
+  'conversation_manage',
+  'conversation_unassigned_manage',
+  'conversation_participating_manage',
+];
 
 export default {
   routes: [

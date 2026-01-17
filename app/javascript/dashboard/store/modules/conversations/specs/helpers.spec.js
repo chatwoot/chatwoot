@@ -58,13 +58,12 @@ describe('Conversation Helpers', () => {
       ).toBe(true);
     });
 
-    // CommMate: Basic agents only see their assigned conversations
-    it('returns true only for assigned conversations for basic agent', () => {
+    // Test for agent role
+    it('always returns true for agent role regardless of permissions', () => {
       const role = 'agent';
-      const permissions = ['agent'];
+      const permissions = [];
       const currentUserId = 1;
 
-      // Assigned to user - true
       expect(
         applyRoleFilter(
           conversationWithAssignee,
@@ -73,7 +72,6 @@ describe('Conversation Helpers', () => {
           currentUserId
         )
       ).toBe(true);
-      // Assigned to different user - false
       expect(
         applyRoleFilter(
           conversationWithDifferentAssignee,
@@ -81,8 +79,7 @@ describe('Conversation Helpers', () => {
           permissions,
           currentUserId
         )
-      ).toBe(false);
-      // Unassigned - false
+      ).toBe(true);
       expect(
         applyRoleFilter(
           conversationWithoutAssignee,
@@ -90,7 +87,7 @@ describe('Conversation Helpers', () => {
           permissions,
           currentUserId
         )
-      ).toBe(false);
+      ).toBe(true);
     });
 
     // Test for custom role with 'conversation_manage' permission
@@ -205,13 +202,12 @@ describe('Conversation Helpers', () => {
       });
     });
 
-    // CommMate: All users can see conversations assigned to them
-    it('returns true only for assigned conversations when no conversation permissions', () => {
+    // Test for user with no relevant permissions
+    it('returns false for custom role without any relevant permissions', () => {
       const role = 'custom_role';
       const permissions = ['some_other_permission'];
       const currentUserId = 1;
 
-      // Assigned to user - true (all users see their assigned)
       expect(
         applyRoleFilter(
           conversationWithAssignee,
@@ -219,8 +215,7 @@ describe('Conversation Helpers', () => {
           permissions,
           currentUserId
         )
-      ).toBe(true);
-      // Assigned to different user - false
+      ).toBe(false);
       expect(
         applyRoleFilter(
           conversationWithDifferentAssignee,
@@ -229,7 +224,6 @@ describe('Conversation Helpers', () => {
           currentUserId
         )
       ).toBe(false);
-      // Unassigned - false
       expect(
         applyRoleFilter(
           conversationWithoutAssignee,

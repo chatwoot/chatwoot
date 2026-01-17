@@ -60,8 +60,7 @@ describe('#validateAuthenticateRoutePermission', () => {
     });
 
     describe('when route is not accessible to current user', () => {
-      // CommMate: All agents can access dashboard (filtering at conversation level)
-      it('should redirect to dashboard for agents', () => {
+      it('should redirect to dashboard', () => {
         const to = {
           name: 'general_settings_index',
           params: { accountId: 1 },

@@ -168,7 +168,6 @@ const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
-    // CommMate: All agents can see Inbox - filtering happens at conversation level
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -179,7 +178,6 @@ const menuItems = computed(() => {
         count: 'notifications/getUnreadCount',
       },
     },
-    // CommMate: All agents can see Conversations - filtering happens at conversation level
     {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),

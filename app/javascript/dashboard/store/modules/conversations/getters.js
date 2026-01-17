@@ -19,8 +19,6 @@ const getters = {
     chatSortFilter,
     appliedFilters,
   }) => {
-    // CommMate: Conversations are permission-filtered on the server.
-    // Do not re-filter in the UI; it causes mismatched counts vs list.
     return allConversations
       .filter(conversation => {
         const matchesFilterResult = matchesFilters(
@@ -86,7 +84,6 @@ const getters = {
     });
   },
   getAllStatusChats: _state => activeFilters => {
-    // CommMate: Conversations are permission-filtered on the server.
     return _state.allConversations.filter(conversation => {
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       return shouldFilter;

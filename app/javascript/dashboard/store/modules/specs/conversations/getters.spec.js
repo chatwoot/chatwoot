@@ -385,7 +385,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('returns conversations for agent (server filtered)', () => {
+    it('filters conversations based on role permissions for agent', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -407,7 +407,6 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // CommMate: client does not filter by permissions; server is source of truth
       expect(result).toEqual([
         mockConversations[2],
         mockConversations[1],
@@ -415,7 +414,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('returns conversations for custom role with conversation_manage permission (server filtered)', () => {
+    it('filters conversations for custom role with conversation_manage permission', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -450,7 +449,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('returns conversations for conversation_unassigned_manage permission (server filtered)', () => {
+    it('filters conversations for custom role with conversation_unassigned_manage permission', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -478,7 +477,6 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // CommMate: client does not filter by permissions; server is source of truth
       expect(result).toEqual([
         mockConversations[2],
         mockConversations[1],
@@ -486,7 +484,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('returns conversations for conversation_participating_manage permission (server filtered)', () => {
+    it('filters conversations for custom role with conversation_participating_manage permission', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -514,7 +512,6 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // CommMate: client does not filter by permissions; server is source of truth
       expect(result).toEqual([
         mockConversations[2],
         mockConversations[1],
@@ -522,7 +519,7 @@ describe('#getters', () => {
       ]);
     });
 
-    it('applies filters (server filtered; no client permission filter)', () => {
+    it('applies filters and role permissions together', () => {
       const state = {
         allConversations: mockConversations,
         chatSortFilter: 'last_activity_at_desc',
@@ -557,7 +554,6 @@ describe('#getters', () => {
         rootGetters
       );
 
-      // CommMate: client does not apply role permissions; only filter by status=open
       expect(result).toEqual([mockConversations[1], mockConversations[0]]);
     });
 
