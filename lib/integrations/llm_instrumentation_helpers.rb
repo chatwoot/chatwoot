@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-module Integrations::LlmInstrumentationHelpers
-  include Integrations::LlmInstrumentationConstants
-  include Integrations::LlmInstrumentationCompletionHelpers
+module Integrations::LLMInstrumentationHelpers
+  include Integrations::LLMInstrumentationConstants
+  include Integrations::LLMInstrumentationCompletionHelpers
 
   def determine_provider(model_name)
     return 'openai' if model_name.blank?
 
     model = model_name.to_s.downcase
 
-    LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+    LLMConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
       return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
     end
 

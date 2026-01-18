@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-RSpec.describe Integrations::LlmInstrumentation do
+RSpec.describe Integrations::LLMInstrumentation do
   let(:test_class) do
     Class.new do
-      include Integrations::LlmInstrumentation
+      include Integrations::LLMInstrumentation
     end
   end
 

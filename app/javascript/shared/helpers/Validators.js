@@ -49,23 +49,12 @@ export const shouldBeUrl = (value = '') =>
   value ? value.startsWith('http') : true;
 
 /**
- * Validates a password for complexity requirements.
+ * Validates a password for minimum length requirement.
  * @param {string} value - The password to validate.
- * @returns {boolean} True if the password meets all requirements, false otherwise.
+ * @returns {boolean} True if the password is at least 6 characters, false otherwise.
  */
 export const isValidPassword = value => {
-  const containsUppercase = /[A-Z]/.test(value);
-  const containsLowercase = /[a-z]/.test(value);
-  const containsNumber = /[0-9]/.test(value);
-  const containsSpecialCharacter = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/.test(
-    value
-  );
-  return (
-    containsUppercase &&
-    containsLowercase &&
-    containsNumber &&
-    containsSpecialCharacter
-  );
+  return !!value && value.length >= 6;
 };
 
 /**

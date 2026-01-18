@@ -3,7 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 
-import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
+import BulkSelectBar from 'dashboard/components-next/bulk-select/BulkSelectBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import LabelActions from 'dashboard/components/widgets/conversation/conversationBulkActions/LabelActions.vue';
 import Policy from 'dashboard/components/policy.vue';

@@ -22,9 +22,8 @@ import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
-import BotConfiguration from './components/BotConfiguration.vue';
 import AccountHealth from './components/AccountHealth.vue';
-import { FEATURE_FLAGS } from '../../../../featureFlags';
+import AlooConfiguration from './components/AlooConfiguration.vue';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -33,7 +32,7 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
-    BotConfiguration,
+    AlooConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
     CustomerSatisfactionPage,
@@ -89,8 +88,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       uiFlags: 'inboxes/getUIFlags',
       portals: 'portals/allPortals',
     }),
@@ -170,17 +167,14 @@ export default {
         ];
       }
 
-      if (
-        this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.AGENT_BOTS)
-      ) {
-        visibleToAllChannelTabs = [
-          ...visibleToAllChannelTabs,
-          {
-            key: 'bot-configuration',
-            name: this.$t('INBOX_MGMT.TABS.BOT_CONFIGURATION'),
-          },
-        ];
-      }
+      visibleToAllChannelTabs = [
+        ...visibleToAllChannelTabs,
+        {
+          key: 'aloo-configuration',
+          name: this.$t('INBOX_MGMT.TABS.ALOO_CONFIGURATION'),
+        },
+      ];
+
       if (this.shouldShowWhatsAppConfiguration) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
@@ -941,8 +935,8 @@ export default {
       <div v-if="selectedTabKey === 'widget-builder'">
         <WidgetBuilder :inbox="inbox" />
       </div>
-      <div v-if="selectedTabKey === 'bot-configuration'">
-        <BotConfiguration :inbox="inbox" />
+      <div v-if="selectedTabKey === 'aloo-configuration'">
+        <AlooConfiguration :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'whatsapp-health'">
         <AccountHealth :health-data="healthData" />

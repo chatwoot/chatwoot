@@ -41,6 +41,22 @@
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
+    "ALOO": {
+      "HEADER_BADGE": "AI",
+      "HEADER_TOOLTIP": "{agentName} is handling this conversation",
+      "AUTO_HANDOFF_MESSAGE": "{assistantName} is handling this conversation. When you send a message, you'll be assigned and AI will stop responding.",
+      "ASSIGN_TO_AI_MESSAGE": "{assistantName} is available to handle this conversation.",
+      "ASSIGN_TO_AI_BUTTON": "Assign to AI",
+      "ASSIGN_TO_AI_SUCCESS": "Conversation assigned to AI.",
+      "ASSIGN_TO_AI_ERROR": "Failed to assign to AI. Please try again.",
+      "TAKE_OVER_BUTTON": "Take Over",
+      "TAKE_OVER_SUCCESS": "You are now handling this conversation.",
+      "TAKE_OVER_ERROR": "Failed to take over. Please try again.",
+      "RETURN_TO_AI_MESSAGE": "You're handling this conversation. Click to return it to {assistantName}.",
+      "RETURN_TO_AI_BUTTON": "Return to AI",
+      "RETURN_TO_AI_SUCCESS": "Conversation returned to AI. The assistant will respond to new messages.",
+      "RETURN_TO_AI_ERROR": "Failed to return to AI. Please try again."
+    },
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
@@ -331,6 +347,11 @@
       "TITLE": "Create canned responses",
       "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
       "NEW_LINK": "Click here to create a canned response"
+    },
+    "ALOO_AI": {
+      "TITLE": "Setup your AI Assistant",
+      "DESCRIPTION": "Create an AI-powered assistant to automatically respond to customer inquiries. Configure its personality, knowledge base, and assign it to your inboxes.",
+      "NEW_LINK": "Click here to setup Aloo AI"
     }
   },
   "CONVERSATION_SIDEBAR": {

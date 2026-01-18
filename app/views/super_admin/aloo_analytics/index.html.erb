@@ -1,0 +1,8 @@
+<% content_for(:title) do %>
+  Aloo AI Analytics
+<% end %>
+
+<%= render_vue_component('AlooAnalyticsIndex', {
+  stats: @stats,
+  chartData: @chart_data
+}) %>

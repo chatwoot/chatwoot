@@ -2,8 +2,8 @@
 
 require 'opentelemetry_config'
 
-module Integrations::LlmInstrumentationSpans
-  include Integrations::LlmInstrumentationConstants
+module Integrations::LLMInstrumentationSpans
+  include Integrations::LLMInstrumentationConstants
 
   def tracer
     @tracer ||= OpentelemetryConfig.tracer

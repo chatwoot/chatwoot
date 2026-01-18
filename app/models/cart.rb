@@ -42,7 +42,7 @@ class Cart < ApplicationRecord
   belongs_to :conversation
   belongs_to :message, optional: true
   belongs_to :contact
-  belongs_to :created_by, class_name: 'User', inverse_of: :created_carts
+  belongs_to :created_by, polymorphic: true
 
   has_many :cart_items, dependent: :destroy
   has_many :products, through: :cart_items

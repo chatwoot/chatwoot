@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aloo Chat - Web Inbox Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      text-align: center;
+    }
+
+    h1 {
+      color: #1f2937;
+      margin-bottom: 16px;
+      font-size: 2rem;
+    }
+
+    p {
+      color: #6b7280;
+      margin-bottom: 24px;
+      line-height: 1.6;
+    }
+
+    .info-box {
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 24px;
+      text-align: left;
+    }
+
+    .info-box h3 {
+      color: #374151;
+      font-size: 0.875rem;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .info-box code {
+      background: #e5e7eb;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.875rem;
+      color: #1f2937;
+    }
+
+    .arrow {
+      position: fixed;
+      bottom: 100px;
+      right: 100px;
+      font-size: 3rem;
+      animation: bounce 1s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .status {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #10b981;
+      color: white;
+      border-radius: 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🗨️ Aloo Chat Test Page</h1>
+    <p>
+      This page is used to test the Aloo Chat web inbox widget.
+      Look for the chat bubble in the bottom-right corner of the screen.
+    </p>
+
+    <div class="info-box">
+      <h3>Configuration</h3>
+      <p><strong>Base URL:</strong> <code>http://localhost:3000</code></p>
+      <p><strong>Website Token:</strong> <code>4J8QoiaoZskrndejFfJgbMBT</code></p>
+    </div>
+
+    <div class="status">Widget Loading...</div>
+  </div>
+
+  <div class="arrow">👇</div>
+
+  <script>
+    (function(d,t) {
+      var BASE_URL="http://localhost:3000";
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=BASE_URL+"/packs/js/sdk.js";
+      g.async = true;
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.alooChatSDK.run({
+          websiteToken: '4J8QoiaoZskrndejFfJgbMBT',
+          baseUrl: BASE_URL
+        });
+
+        // Update status when loaded
+        document.querySelector('.status').textContent = '✓ Widget Loaded';
+        document.querySelector('.status').style.background = '#059669';
+      }
+      g.onerror=function(){
+        document.querySelector('.status').textContent = '✗ Failed to Load';
+        document.querySelector('.status').style.background = '#dc2626';
+      }
+    })(document,"script");
+  </script>
+</body>
+</html>

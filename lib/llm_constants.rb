@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module LlmConstants
+module LLMConstants
   DEFAULT_MODEL = 'gpt-4.1-mini'
   DEFAULT_EMBEDDING_MODEL = 'text-embedding-3-small'
   PDF_PROCESSING_MODEL = 'gpt-4.1-mini'

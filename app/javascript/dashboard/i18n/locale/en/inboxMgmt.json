@@ -627,7 +627,7 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration",
+      "ALOO_CONFIGURATION": "AI Assistant",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT"
     },
@@ -719,6 +719,7 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "AUTO_ASSIGNMENT_AI_DISABLED": "Auto-assignment to human agents is disabled while an AI assistant is assigned to this inbox. The AI will handle new conversations automatically.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",

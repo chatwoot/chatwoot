@@ -53,7 +53,7 @@
 
 class Conversation < ApplicationRecord
   include Labelable
-  include LlmFormattable
+  include LLMFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler
@@ -208,6 +208,27 @@ class Conversation < ApplicationRecord
     messages.chat.last(5)
   end
 
+  # Returns recent messages for LLM conversation history
+  # Excludes private messages, includes attachments, ordered chronologically (oldest first)
+  def recent_messages_for_llm(limit: 20)
+    messages
+      .where(message_type: %i[incoming outgoing])
+      .where(private: false)
+      .includes(:attachments)
+      .reorder(id: :asc)
+      .last(limit)
+  end
+
+  # Check if AI handoff to human is active
+  def aloo_handoff_active?
+    custom_attributes&.dig('aloo_handoff_active') == true
+  end
+
+  # Get the Aloo assistant for this conversation's inbox
+  def aloo_assistant
+    inbox&.aloo_assistant
+  end
+
   def csat_survey_link
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
@@ -257,13 +278,13 @@ class Conversation < ApplicationRecord
 
     return handle_campaign_status if campaign.present?
 
-    # TODO: make this an inbox config instead of assuming bot conversations should start as pending
-    self.status = :pending if inbox.active_bot?
+    # Set to pending for AI/bot conversations so they don't get auto-assigned to humans
+    self.status = :pending if inbox.active_bot? || inbox.active_aloo_assistant?
   end
 
   def handle_campaign_status
-    # If campaign has no sender (bot-initiated) and inbox has active bot, let bot handle it
-    self.status = :pending if campaign.sender_id.nil? && inbox.active_bot?
+    # If campaign has no sender (bot-initiated) and inbox has active bot/AI, let it handle
+    self.status = :pending if campaign.sender_id.nil? && (inbox.active_bot? || inbox.active_aloo_assistant?)
   end
 
   def notify_conversation_creation
@@ -305,7 +326,7 @@ class Conversation < ApplicationRecord
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
       CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
     }.each do |event, condition|
-      condition.call && dispatcher_dispatch(event, status_change)
+      condition.call && dispatcher_dispatch(event, previous_changes.slice('status'))
     end
   end
 

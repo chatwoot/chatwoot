@@ -1,0 +1,80 @@
+/* global axios */
+import ApiClient from '../ApiClient';
+
+class AlooAssistant extends ApiClient {
+  constructor() {
+    super('aloo/assistants', { accountScoped: true });
+  }
+
+  get({ page = 1, searchKey } = {}) {
+    return axios.get(this.url, {
+      params: {
+        page,
+        search: searchKey,
+      },
+    });
+  }
+
+  // Override create to wrap data under 'assistant' key as expected by Rails
+  create(data) {
+    return axios.post(this.url, { assistant: data });
+  }
+
+  // Override update to wrap data under 'assistant' key as expected by Rails
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}`, { assistant: data });
+  }
+
+  getStats(assistantId) {
+    return axios.get(`${this.url}/${assistantId}/stats`);
+  }
+
+  assignInbox(assistantId, inboxId) {
+    return axios.post(`${this.url}/${assistantId}/assign_inbox`, {
+      inbox_id: inboxId,
+    });
+  }
+
+  unassignInbox(assistantId, inboxId) {
+    return axios.delete(`${this.url}/${assistantId}/unassign_inbox`, {
+      data: { inbox_id: inboxId },
+    });
+  }
+
+  getPerformance(assistantId, range = '7d') {
+    return axios.get(`${this.url}/${assistantId}/performance`, {
+      params: { range },
+    });
+  }
+
+  playground(assistantId, message, conversationHistory = '') {
+    return axios.post(`${this.url}/${assistantId}/playground`, {
+      message,
+      conversation_history: conversationHistory,
+    });
+  }
+
+  checkName(name) {
+    return axios.get(`${this.url}/check_name`, { params: { name } });
+  }
+
+  getVoices(assistantId) {
+    return axios.get(`${this.url}/${assistantId}/voices`);
+  }
+
+  previewVoice(assistantId, voiceId, text) {
+    return axios.post(
+      `${this.url}/${assistantId}/preview_voice`,
+      { voice_id: voiceId, text },
+      { responseType: 'blob' }
+    );
+  }
+
+  getVoiceUsage(assistantId, periodStart, periodEnd) {
+    return axios.get(`${this.url}/${assistantId}/voice_usage`, {
+      params: { period_start: periodStart, period_end: periodEnd },
+    });
+  }
+}
+
+export default new AlooAssistant();

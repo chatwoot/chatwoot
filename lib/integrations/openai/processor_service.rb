@@ -1,4 +1,4 @@
-class Integrations::Openai::ProcessorService < Integrations::LlmBaseService
+class Integrations::Openai::ProcessorService < Integrations::LLMBaseService
   AGENT_INSTRUCTION = 'You are a helpful support agent.'.freeze
   LANGUAGE_INSTRUCTION = 'Ensure that the reply should be in user language.'.freeze
   def reply_suggestion_message

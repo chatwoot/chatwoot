@@ -1,61 +1,88 @@
 # frozen_string_literal: true
 
-class ConversationTriageAgent < BaseAgent
-  MODEL = 'gpt-4o-mini'
-  TEMPERATURE = 0.3
+# Analyzes conversations and suggests appropriate labels/team assignments
+#
+# Example:
+#   ConversationTriageAgent.call(
+#     conversation_messages: [{ incoming: true, content: "..." }],
+#     available_labels: [{ id: 1, title: "Bug", description: "..." }],
+#     available_teams: [{ id: 1, name: "Support", description: "..." }]
+#   )
+#
+class ConversationTriageAgent < ApplicationAgent
+  description 'Analyzes conversations and suggests appropriae labels/team assignments'
+  model 'gemini-2.5-flash-lite'
+  temperature 0.3
+  version '1.0'
 
-  def initialize(conversation:, teams: [], labels: [])
-    @conversation = conversation
-    @teams = teams
-    @labels = labels
+  reliability do
+    fallback_models ['gpt-4.1-nano', 'claude-haiku-4-5']
   end
 
-  def run
-    return nil if @labels.empty? && @teams.empty?
-
-    execute
-  end
+  param :conversation_messages, required: true
+  param :available_labels
+  param :available_teams
 
   def user_prompt
+    build_triage_prompt
+  end
+
+  def schema
+    RubyLLM::Schema.create do
+      integer :label_id, description: 'The ID of the most relevant label, or null if none fit'
+      integer :team_id, description: 'The ID of the most appropriate team, or null if none fit'
+    end
+  end
+
+  private
+
+  def build_triage_prompt
     prompt = <<~PROMPT
       You are a customer support conversation triage assistant. Your task is to analyze the conversation
       and suggest the most appropriate label and team assignment.
 
     PROMPT
 
-    # Add labels section if available
-    if @labels.any?
-      labels_list = @labels.map do |label|
-        desc = label['description'].present? ? " - #{label['description']}" : ''
-        "#{label['id']}: #{label['title']}#{desc}"
-      end.join("\n")
+    prompt += labels_section if available_labels&.any?
+    prompt += teams_section if available_teams&.any?
+    prompt += rules_section
+    prompt += messages_section
 
-      prompt += <<~LABELS
-        Available Labels:
-        #{labels_list}
+    prompt
+  end
 
-        Select the SINGLE most relevant label ID, or null if none fit.
+  def labels_section
+    labels_list = available_labels.map do |label|
+      desc = label['description'].present? ? " - #{label['description']}" : ''
+      "#{label['id']}: #{label['title']}#{desc}"
+    end.join("\n")
 
-      LABELS
-    end
+    <<~LABELS
+      Available Labels:
+      #{labels_list}
 
-    # Add teams section if available
-    if @teams.any?
-      teams_list = @teams.map do |team|
-        desc = team['description'].present? ? " - #{team['description']}" : ''
-        "#{team['id']}: #{team['name']}#{desc}"
-      end.join("\n")
+      Select the SINGLE most relevant label ID, or null if none fit.
 
-      prompt += <<~TEAMS
-        Available Teams:
-        #{teams_list}
+    LABELS
+  end
 
-        Select the SINGLE most appropriate team ID, or null if none fit.
+  def teams_section
+    teams_list = available_teams.map do |team|
+      desc = team['description'].present? ? " - #{team['description']}" : ''
+      "#{team['id']}: #{team['name']}#{desc}"
+    end.join("\n")
 
-      TEAMS
-    end
+    <<~TEAMS
+      Available Teams:
+      #{teams_list}
 
-    prompt += <<~RULES
+      Select the SINGLE most appropriate team ID, or null if none fit.
+
+    TEAMS
+  end
+
+  def rules_section
+    <<~RULES
       Rules:
       - Base decisions on conversation content and context
       - IDs must be from the lists above
@@ -63,20 +90,13 @@ class ConversationTriageAgent < BaseAgent
 
       Conversation:
     RULES
-
-    # Add conversation messages (last 20)
-    @conversation.messages.last(20).each do |message|
-      sender = message.incoming? ? 'Customer' : 'Agent'
-      prompt += "\n#{sender}: #{message.content}"
-    end
-
-    prompt
   end
 
-  def schema
-    RubyLLM::Schema.create do
-      integer :label_id, description: 'The ID of the most relevant label from the available labels list, or null if none fit'
-      integer :team_id, description: 'The ID of the most appropriate team from the available teams list, or null if none fit'
-    end
+  def messages_section
+    conversation_messages.map do |msg|
+      sender = msg[:incoming] || msg['incoming'] ? 'Customer' : 'Agent'
+      content = msg[:content] || msg['content']
+      "\n#{sender}: #{content}"
+    end.join
   end
 end

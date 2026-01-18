@@ -4,10 +4,12 @@ import VueDOMPurifyHTML from 'vue-dompurify-html';
 
 import PlaygroundIndex from '../superadmin_pages/views/playground/Index.vue';
 import DashboardIndex from '../superadmin_pages/views/dashboard/Index.vue';
+import AlooAnalyticsIndex from '../superadmin_pages/views/aloo/AnalyticsIndex.vue';
 
 const ComponentMapping = {
   PlaygroundIndex: PlaygroundIndex,
   DashboardIndex: DashboardIndex,
+  AlooAnalyticsIndex: AlooAnalyticsIndex,
 };
 
 const renderComponent = (componentName, props) => {

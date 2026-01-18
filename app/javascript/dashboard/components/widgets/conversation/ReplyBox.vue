@@ -192,6 +192,16 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
+    assignedAgent() {
+      return this.currentChat?.meta?.assignee;
+    },
+    isBlockedByAIAgent() {
+      return (
+        this.assignedAgent?.is_ai === true &&
+        !this.currentUser?.is_ai &&
+        !this.isOnPrivateNote
+      );
+    },
     messagePlaceHolder() {
       if (this.assignedAgent && this.assignedAgent.is_ai) {
         return this.$t('CONVERSATION.FOOTER.AI_MSG_INPUT');
@@ -1178,7 +1188,12 @@ export default {
 
 <template>
   <ReplyBoxBanner :message="message" :is-on-private-note="isOnPrivateNote" />
-  <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
+  <div
+    v-if="!isBlockedByAIAgent"
+    ref="replyEditor"
+    class="reply-box"
+    :class="replyBoxClass"
+  >
     <ReplyTopPanel
       :mode="replyType"
       :is-reply-restricted="isReplyRestricted"

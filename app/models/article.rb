@@ -33,7 +33,7 @@
 #
 class Article < ApplicationRecord
   include PgSearch::Model
-  include LlmFormattable
+  include LLMFormattable
 
   has_many :associated_articles,
            class_name: :Article,

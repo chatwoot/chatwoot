@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe LlmFormatter::ArticleLlmFormatter do
+RSpec.describe LLMFormatter::ArticleLLMFormatter do
   let(:account) { create(:account) }
   let(:portal) { create(:portal, account: account) }
   let(:category) { create(:category, slug: 'test_category', portal: portal, account: account) }

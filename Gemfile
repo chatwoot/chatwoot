@@ -22,6 +22,7 @@ gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
 gem 'email-provider-info'
+gem "turbo-rails"
 # compress javascript config.assets.js_compressor
 gem 'uglifier'
 ##-- used for single column multiple binary flags in notification settings/feature flagging --##
@@ -190,13 +191,13 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
+# PDF parsing for document processing
+gem 'pdf-reader'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.7.0'
-
-# TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm', '>= 1.8.2'
+gem 'ruby_llm-agents', '~> 0.4.0'
 gem 'ruby_llm-schema'
 
 # OpenTelemetry for LLM observability

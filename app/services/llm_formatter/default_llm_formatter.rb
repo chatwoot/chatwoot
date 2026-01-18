@@ -1,4 +1,4 @@
-class LlmFormatter::DefaultLlmFormatter
+class LLMFormatter::DefaultLLMFormatter
   def initialize(record)
     @record = record
   end
