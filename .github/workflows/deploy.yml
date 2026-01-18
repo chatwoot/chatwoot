@@ -2,7 +2,7 @@ name: Deploy to Kubernetes (Production)
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   workflow_dispatch:
 
 env:
@@ -16,16 +16,16 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      
+
       - name: Login to Docker Registry
         uses: docker/login-action@v2
         with:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_PASSWORD }}
-      
+
       - name: Build and push Rails image
         uses: docker/build-push-action@v4
         with:
@@ -33,7 +33,7 @@ jobs:
           file: ./docker/dockerfiles/rails.Dockerfile
           push: true
           tags: ${{ env.DOCKER_REGISTRY }}/chatwoot-rails:v1.0.86
-      
+
       - name: Build and push Vite image
         uses: docker/build-push-action@v4
         with:
@@ -48,22 +48,22 @@ jobs:
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DO_TOKEN }}
-      
+
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
-          terraform_version: "1.5.0"
-      
+          terraform_version: '1.5.0'
+
       - name: Set up kubectl
         uses: azure/setup-kubectl@v3
         with:
           version: 'latest'
-      
+
       - name: Check for existing cluster
         id: check-cluster
         run: |
@@ -74,7 +74,7 @@ jobs:
           else
             echo "cluster_exists=false" >> $GITHUB_OUTPUT
           fi
-      
+
       - name: Create terraform.tfvars
         run: |
           cat > terraform/terraform.tfvars << EOL
@@ -82,25 +82,25 @@ jobs:
           region = "${{ secrets.REGION }}"
           environment = "${{ secrets.ENVIRONMENT }}"
           EOL
-      
+
       - name: Terraform Init
         run: |
           cd terraform
           terraform init
-      
+
       - name: Terraform Apply
         if: steps.check-cluster.outputs.cluster_exists == 'false'
         run: |
           cd terraform
           terraform apply -auto-approve
-      
+
       - name: Configure kubectl if cluster was just created
         if: steps.check-cluster.outputs.cluster_exists == 'false'
         run: |
           echo "Waiting for cluster to be ready after Terraform apply..."
           sleep 60
           doctl kubernetes cluster kubeconfig save chatwoot-cluster
-      
+
       - name: Create Kubernetes ConfigMap
         run: |
           kubectl delete configmap chatwoot-config --ignore-not-found=true -n default
@@ -129,6 +129,9 @@ jobs:
             AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
             AWS_REGION: "${{ secrets.AWS_REGION }}"
             OPENAI_API_KEY: "${{ secrets.OPENAI_API_KEY }}"
+            GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}"
+            ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"
+            ELEVENLABS_API_KEY: "${{ secrets.ELEVENLABS_API_KEY }}"
             FORCE_SSL: "${{ secrets.FORCE_SSL }}"
             CLERK_WEBHOOK_SECRET: "${{ secrets.PRODUCTION_CLERK_WEBHOOK_SECRET }}"
             ALOOSTUDIO_API_TOKEN: "${{ secrets.ALOOSTUDIO_API_TOKEN }}"
@@ -145,12 +148,12 @@ jobs:
             RAILS_INBOUND_EMAIL_SERVICE: "${{ secrets.RAILS_INBOUND_EMAIL_SERVICE }}"
             RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
             MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
-            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"   
+            MAILER_SENDER_EMAIL: "${{ secrets.MAILER_SENDER_EMAIL }}"
             ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
-            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"   
-            GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"   
-            GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"   
-            GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"   
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"
+            GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"
+            GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"
+            GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"
             FRONTEND_URL: "https://cx.aloochat.ai"
             SMTP_OPEN_TIMEOUT: "60"
             SMTP_READ_TIMEOUT: "60"
@@ -168,7 +171,7 @@ jobs:
             POSTHOG_API_HOST: "${{ secrets.POSTHOG_API_HOST }}"
           EOF
           kubectl apply -f k8s/production/configmap.yaml
-      
+
       - name: Create Kubernetes Secrets
         run: |
           kubectl delete secret chatwoot-secrets --ignore-not-found=true -n default
@@ -215,10 +218,10 @@ jobs:
             RAILS_INBOUND_EMAIL_PASSWORD: "${{ secrets.RAILS_INBOUND_EMAIL_PASSWORD }}"
             MAILGUN_INGRESS_SIGNING_KEY: "${{ secrets.MAILGUN_INGRESS_SIGNING_KEY }}"
             ALOOSTUDIO_BACKEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_BACKEND_URL }}"
-            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}" 
-            GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"   
-            GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"   
-            GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"   
+            ALOOSTUDIO_FRONTEND_URL: "${{ secrets.PRODUCTION_ALOOSTUDIO_FRONTEND_URL }}"
+            GOOGLE_OAUTH_CLIENT_ID: "${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}"
+            GOOGLE_OAUTH_CLIENT_SECRET: "${{ secrets.GOOGLE_OAUTH_CLIENT_SECRET }}"
+            GOOGLE_OAUTH_CALLBACK_URL: "${{ secrets.GOOGLE_OAUTH_CALLBACK_URL }}"
             FRONTEND_URL: "https://cx.aloochat.ai"
             SMTP_OPEN_TIMEOUT: "60"
             SMTP_READ_TIMEOUT: "60"
@@ -253,16 +256,16 @@ jobs:
           # Wait for all deployments to be ready
           # echo "Waiting for Redis deployment..."
           kubectl rollout status deployment/redis -n default --timeout=300s
-          
+
           echo "Waiting for Rails deployment..."
           kubectl rollout status deployment/chatwoot-rails -n default --timeout=300s
-          
+
           echo "Waiting for Vite deployment..."
           kubectl rollout status deployment/chatwoot-vite -n default --timeout=300s
-          
+
           echo "Waiting for Sidekiq deployment..."
           kubectl rollout status deployment/chatwoot-sidekiq -n default --timeout=300s
-          
+
           echo "Waiting for Mailhog deployment..."
           kubectl rollout status deployment/chatwoot-mailhog -n default --timeout=300s
 
