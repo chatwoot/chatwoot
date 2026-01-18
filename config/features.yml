@@ -222,3 +222,6 @@
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
+- name: aloo
+  display_name: Aloo AI
+  enabled: true
