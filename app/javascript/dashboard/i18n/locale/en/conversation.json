@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Loading Conversations",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
@@ -57,7 +58,7 @@
     },
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. To view it, please open it on the original platform.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
@@ -197,7 +198,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Show rich text editor",
       "TIP_EMOJI_ICON": "Show emoji selector",
       "TIP_ATTACH_ICON": "Attach files",
       "TIP_AUDIORECORDER_ICON": "Record audio",
@@ -276,6 +276,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -473,6 +483,29 @@
     "SUCCESS": "Payment link sent successfully",
     "ERROR": "Failed to generate payment link"
   },
+  "CART": {
+    "TITLE": "Create Cart",
+    "DESC": "Add products to create an itemized invoice for the customer",
+    "BUTTON_TEXT": "Create Cart",
+    "SELECT_PRODUCTS": "Select Products",
+    "SEARCH_PRODUCTS": "Search products...",
+    "LOADING_PRODUCTS": "Loading products...",
+    "NO_PRODUCTS": "No products found",
+    "CART_ITEMS": "Cart Items",
+    "CURRENCY": "Currency",
+    "SUBTOTAL": "Subtotal",
+    "TOTAL": "Total",
+    "INVOICE_TITLE": "Invoice",
+    "PAYMENT_ID": "Payment ID",
+    "SENDER": "Sender",
+    "COPY_LINK": "Copy Link",
+    "LINK_COPIED": "Payment link copied to clipboard",
+    "PAY_NOW": "Pay Now",
+    "SUBMIT": "Send Invoice",
+    "CANCEL": "Cancel",
+    "SUCCESS": "Cart invoice sent successfully",
+    "ERROR": "Failed to create cart invoice"
+  },
   "PAYMENT_LINKS": {
     "HEADER": "Payment Links",
     "DESCRIPTION": "View and manage all payment links created for your customers. Track payment statuses and access payment details.",
@@ -559,6 +592,64 @@
     },
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {from} - {to} of {count} payment links"
+    }
+  },
+  "CARTS_LIST": {
+    "HEADER": "Carts",
+    "DESCRIPTION": "View and manage all carts created for your customers. Track cart statuses and access details.",
+    "LOADING": "Loading carts...",
+    "EMPTY_STATE": "No carts found. Create a cart from a conversation to see it here.",
+    "TABLE": {
+      "CART_ID": "Cart ID",
+      "CONTACT": "Contact",
+      "ITEMS": "Items",
+      "ITEM": "item",
+      "ITEMS_COUNT": "items",
+      "TOTAL": "Total",
+      "STATUS": "Status",
+      "CREATED_BY": "Created By",
+      "CONVERSATION": "Conversation",
+      "ACTIONS": "Actions",
+      "COPY_URL": "Copy payment URL",
+      "VIEW_PAYMENT": "View payment page",
+      "NO_RESULTS_SEARCH": "No carts found matching your search",
+      "EXPANDED_ITEMS": {
+        "PRODUCT": "Product",
+        "QUANTITY": "Qty",
+        "UNIT_PRICE": "Unit Price",
+        "TOTAL": "Total"
+      }
+    },
+    "STATUS": {
+      "INITIATED": "Initiated",
+      "PENDING": "Pending",
+      "PAID": "Paid",
+      "FAILED": "Failed",
+      "EXPIRED": "Expired",
+      "CANCELLED": "Cancelled"
+    },
+    "HEADER_CONTROLS": {
+      "SEARCH_PLACEHOLDER": "Search carts by ID or contact name",
+      "ACTIONS": {
+        "SORT_BY": {
+          "LABEL": "Sort by",
+          "OPTIONS": {
+            "CREATED_AT": "Created Date",
+            "TOTAL": "Total",
+            "CONTACT_NAME": "Contact Name"
+          }
+        },
+        "ORDER": {
+          "LABEL": "Order",
+          "OPTIONS": {
+            "ASCENDING": "Ascending",
+            "DESCENDING": "Descending"
+          }
+        }
+      }
+    },
+    "PAGINATION_FOOTER": {
+      "SHOWING": "Showing {from} - {to} of {count} carts"
     }
   }
 }

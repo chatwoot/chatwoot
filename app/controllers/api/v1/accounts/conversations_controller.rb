@@ -3,7 +3,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include DateRangeHelper
   include HmacConcern
 
-  before_action :conversation, except: [:index, :meta, :search, :create, :filter]
+  before_action :conversation, except: [:index, :meta, :search, :create, :filter, :unread_counts, :kanban]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
 
   ATTACHMENT_RESULTS_PER_PAGE = 100
@@ -17,6 +17,13 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def meta
     result = conversation_finder.perform
     @conversations_count = result[:count]
+  end
+
+  def unread_counts
+    @unread_counts = Conversations::UnreadCountService.new(
+      account: Current.account,
+      user: Current.user
+    ).perform
   end
 
   def search
@@ -56,6 +63,21 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
          CustomExceptions::CustomFilter::InvalidQueryOperator,
          CustomExceptions::CustomFilter::InvalidValue => e
     render_could_not_create_error(e.message)
+  end
+
+  def kanban
+    @kanban_data = {}
+    per_page = (params[:per_page] || 15).to_i
+
+    %w[open pending snoozed resolved].each do |status|
+      finder = ConversationFinder.new(Current.user, params.merge(status: status))
+      result = finder.perform
+      @kanban_data[status] = {
+        conversations: result[:conversations],
+        count: result[:count][:all_count],
+        has_more: result[:conversations].size >= per_page
+      }
+    end
   end
 
   def mute
@@ -143,7 +165,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
     # rubocop:disable Rails/SkipsModelValidations
-    @conversation.update_column(:agent_last_seen_at, last_seen_at)
+    @conversation.update_columns(agent_last_seen_at: last_seen_at, has_unread_messages: false)
     @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
     # rubocop:enable Rails/SkipsModelValidations
   end
@@ -160,7 +182,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation
     @conversation ||= Current.account.conversations.find_by!(display_id: params[:id])
-    authorize @conversation.inbox, :show?
+    authorize @conversation, :show?
   end
 
   def inbox

@@ -100,3 +100,5 @@ plans/
 # Histoire deployment
 .netlify
 .histoire
+.pnpm-store/*
+local/

@@ -12,6 +12,10 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
+import {
+  handleVoiceCallCreated,
+  handleVoiceCallUpdated,
+} from 'dashboard/helper/voice';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -299,7 +303,7 @@ const actions = {
     }
   },
 
-  addMessage({ commit }, message) {
+  addMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
     if (message.message_type === MESSAGE_TYPE.INCOMING) {
       commit(types.SET_CONVERSATION_CAN_REPLY, {
@@ -308,10 +312,12 @@ const actions = {
       });
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
     }
+    handleVoiceCallCreated(message, rootGetters?.getCurrentUserID);
   },
 
-  updateMessage({ commit }, message) {
+  updateMessage({ commit, rootGetters }, message) {
     commit(types.ADD_MESSAGE, message);
+    handleVoiceCallUpdated(commit, message, rootGetters?.getCurrentUserID);
   },
 
   deleteMessage: async function deleteLabels(
@@ -506,6 +512,36 @@ const actions = {
     } catch (error) {
       // Handle error
     }
+  },
+
+  // Kanban View Actions
+  fetchKanbanData: async ({ commit }, params) => {
+    commit(types.SET_LIST_LOADING_STATUS);
+    try {
+      const {
+        data: { data },
+      } = await ConversationApi.kanban(params);
+      commit(types.SET_KANBAN_DATA, data);
+    } catch (error) {
+      // Handle error
+    } finally {
+      commit(types.CLEAR_LIST_LOADING_STATUS);
+    }
+  },
+
+  loadMoreKanbanColumn: async ({ commit }, { status, params }) => {
+    try {
+      const {
+        data: { data },
+      } = await ConversationApi.kanban(params);
+      commit(types.APPEND_KANBAN_CONVERSATIONS, { status, data: data[status] });
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  setConversationView: ({ commit }, view) => {
+    commit(types.SET_CONVERSATION_VIEW, view);
   },
 
   ...messageReadActions,

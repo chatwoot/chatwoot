@@ -13,10 +13,7 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def load_data
     @conversations_count = fetch_conversations_count
-    @resolved_count = fetch_resolved_count
-    @avg_resolution_time = fetch_average_time('conversation_resolved')
-    @avg_first_response_time = fetch_average_time('first_response')
-    @avg_reply_time = fetch_average_time('reply_time')
+    load_reporting_events_data
   end
 
   def fetch_conversations_count

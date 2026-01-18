@@ -164,6 +164,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   // eslint-disable-next-line class-methods-use-this
   fetchConversationStats = () => {
     emitter.emit('fetch_conversation_stats');
+    emitter.emit('fetch_unread_counts');
   };
 
   onContactDelete = data => {

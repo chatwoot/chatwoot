@@ -28,11 +28,11 @@
       "PLACEHOLDER": "Пароль",
       "ERROR": "Пароль слишком короткий.",
       "IS_INVALID_PASSWORD": "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву, 1 цифру и 1 специальный символ.",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "Длина не менее 6 символов",
+      "REQUIREMENTS_UPPERCASE": "Минимум одна заглавная буква",
+      "REQUIREMENTS_LOWERCASE": "Минимум одна строчная буква",
+      "REQUIREMENTS_NUMBER": "Минимум одно число",
+      "REQUIREMENTS_SPECIAL": "Минимум один специальный символ"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Подтвердите пароль",
@@ -40,7 +40,7 @@
       "ERROR": "Пароли не совпадают."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
+      "SUCCESS_MESSAGE": "Регистрация прошла успешно",
       "ERROR_MESSAGE": "Не удалось подключиться к Woot серверу. Пожалуйста, попробуйте еще раз."
     },
     "SUBMIT": "Создать новый аккаунт",

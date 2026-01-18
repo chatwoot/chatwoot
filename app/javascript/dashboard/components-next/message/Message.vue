@@ -28,6 +28,7 @@ import ImageBubble from './bubbles/Image.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
 import VideoBubble from './bubbles/Video.vue';
+import EmbedBubble from './bubbles/Embed.vue';
 import InstagramStoryBubble from './bubbles/InstagramStory.vue';
 import EmailBubble from './bubbles/Email/Index.vue';
 import UnsupportedBubble from './bubbles/Unsupported.vue';
@@ -38,6 +39,7 @@ import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
 import PaymentLinkBubble from './bubbles/PaymentLink.vue';
+import CartBubble from './bubbles/Cart.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -292,6 +294,10 @@ const componentToRender = computed(() => {
     return PaymentLinkBubble;
   }
 
+  if (props.contentType === CONTENT_TYPES.CART) {
+    return CartBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -304,7 +310,12 @@ const componentToRender = computed(() => {
     return DyteBubble;
   }
 
-  if (props.contentAttributes.imageType === 'story_mention') {
+  const instagramSharedTypes = [
+    ATTACHMENT_TYPES.STORY_MENTION,
+    ATTACHMENT_TYPES.IG_STORY,
+    ATTACHMENT_TYPES.IG_POST,
+  ];
+  if (instagramSharedTypes.includes(props.contentAttributes.imageType)) {
     return InstagramStoryBubble;
   }
 
@@ -317,6 +328,7 @@ const componentToRender = computed(() => {
       if (fileType === ATTACHMENT_TYPES.AUDIO) return AudioBubble;
       if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
+      if (fileType === ATTACHMENT_TYPES.EMBED) return EmbedBubble;
       if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
     }
     // Attachment content is the name of the contact
@@ -481,7 +493,7 @@ provideMessageContext({
   <div
     v-if="shouldRenderMessage"
     :id="`message${props.id}`"
-    class="flex w-full message-bubble-container mb-2"
+    class="flex mb-2 w-full message-bubble-container"
     :data-message-id="props.id"
     :class="[
       flexOrientationClass,

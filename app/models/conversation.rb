@@ -20,6 +20,7 @@
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  account_id             :integer          not null
+#  assignee_agent_bot_id  :bigint
 #  assignee_id            :integer
 #  campaign_id            :bigint
 #  contact_id             :bigint
@@ -40,6 +41,7 @@
 #  index_conversations_on_contact_inbox_id            (contact_inbox_id)
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
+#  index_conversations_on_identifier_and_account_id   (identifier,account_id)
 #  index_conversations_on_inbox_id                    (inbox_id)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
@@ -64,6 +66,7 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
+  before_validation :reset_agent_bot_when_assignee_present
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
@@ -75,6 +78,7 @@ class Conversation < ApplicationRecord
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
+  scope :with_unread_messages, -> { where(has_unread_messages: true) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
   scope :resolvable_not_waiting, lambda { |auto_resolve_after|
     return none if auto_resolve_after.to_i.zero?
@@ -97,6 +101,7 @@ class Conversation < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
+  belongs_to :assignee_agent_bot, class_name: 'AgentBot', optional: true
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
@@ -183,6 +188,18 @@ class Conversation < ApplicationRecord
     true
   end
 
+  # Virtual attribute till we switch completely to polymorphic assignee
+  def assignee_type
+    return 'AgentBot' if assignee_agent_bot_id.present?
+    return 'User' if assignee_id.present?
+
+    nil
+  end
+
+  def assigned_entity
+    assignee_agent_bot || assignee
+  end
+
   def tweet?
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
@@ -229,15 +246,24 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
+  def reset_agent_bot_when_assignee_present
+    return if assignee_id.blank?
+
+    self.assignee_agent_bot_id = nil
+  end
+
   def determine_conversation_status
     self.status = :resolved and return if contact.blocked?
 
-    # Message template hooks aren't executed for conversations from campaigns
-    # So making these conversations open for agent visibility
-    return if campaign.present?
+    return handle_campaign_status if campaign.present?
 
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
     self.status = :pending if inbox.active_bot?
+  end
+
+  def handle_campaign_status
+    # If campaign has no sender (bot-initiated) and inbox has active bot, let bot handle it
+    self.status = :pending if campaign.sender_id.nil? && inbox.active_bot?
   end
 
   def notify_conversation_creation
@@ -251,8 +277,8 @@ class Conversation < ApplicationRecord
   end
 
   def list_of_keys
-    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-       priority]
+    %w[team_id assignee_id assignee_agent_bot_id status snoozed_until custom_attributes label_list waiting_since
+       first_reply_created_at priority]
   end
 
   def allowed_keys?

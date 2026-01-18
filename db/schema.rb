@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_06_200933) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_catalog_settings", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.boolean "enabled", default: false, null: false
+    t.string "payment_provider"
+    t.string "currency", default: "SAR"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_catalog_settings_on_account_id", unique: true
   end
 
   create_table "account_payzah_settings", force: :cascade do |t|
@@ -414,6 +424,44 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
   end
 
+  create_table "cart_items", force: :cascade do |t|
+    t.bigint "cart_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity", default: 1, null: false
+    t.decimal "unit_price", precision: 10, scale: 2, null: false
+    t.decimal "total_price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["cart_id", "product_id"], name: "index_cart_items_on_cart_id_and_product_id", unique: true
+    t.index ["cart_id"], name: "index_cart_items_on_cart_id"
+    t.index ["product_id"], name: "index_cart_items_on_product_id"
+  end
+
+  create_table "carts", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "message_id"
+    t.bigint "contact_id", null: false
+    t.bigint "created_by_id", null: false
+    t.string "external_payment_id"
+    t.string "payment_url"
+    t.string "provider", null: false
+    t.decimal "subtotal", precision: 10, scale: 2, null: false
+    t.decimal "total", precision: 10, scale: 2, null: false
+    t.string "currency", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "payload", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_carts_on_account_id"
+    t.index ["contact_id"], name: "index_carts_on_contact_id"
+    t.index ["conversation_id"], name: "index_carts_on_conversation_id"
+    t.index ["created_by_id"], name: "index_carts_on_created_by_id"
+    t.index ["external_payment_id"], name: "index_carts_on_external_payment_id", unique: true
+    t.index ["message_id"], name: "index_carts_on_message_id"
+    t.index ["status"], name: "index_carts_on_status"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.integer "account_id", null: false
     t.integer "portal_id", null: false
@@ -527,6 +575,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
+  create_table "channel_tiktok", force: :cascade do |t|
+    t.integer "account_id", null: false
+    t.string "business_id", null: false
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.string "refresh_token", null: false
+    t.datetime "refresh_token_expires_at", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["business_id"], name: "index_channel_tiktok_on_business_id", unique: true
+  end
+
   create_table "channel_twilio_sms", force: :cascade do |t|
     t.string "phone_number"
     t.string "auth_token", null: false
@@ -607,15 +667,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.bigint "account_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "contacts_count", default: 0, null: false
+    t.index ["account_id", "domain"], name: "index_companies_on_account_and_domain", unique: true, where: "(domain IS NOT NULL)"
     t.index ["account_id"], name: "index_companies_on_account_id"
-    t.index ["domain", "account_id"], name: "index_companies_on_domain_and_account_id"
     t.index ["name", "account_id"], name: "index_companies_on_name_and_account_id"
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"
-    t.string "source_id", null: false
+    t.text "source_id", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "hmac_verified", default: false
@@ -697,7 +758,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
+    t.bigint "assignee_agent_bot_id"
+    t.boolean "has_unread_messages", default: false, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
+    t.index ["account_id", "has_unread_messages"], name: "index_conversations_on_account_has_unread", where: "(has_unread_messages = true)"
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
     t.index ["account_id"], name: "index_conversations_on_account_id"
@@ -706,6 +770,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.index ["contact_id"], name: "index_conversations_on_contact_id"
     t.index ["contact_inbox_id"], name: "index_conversations_on_contact_inbox_id"
     t.index ["first_reply_created_at"], name: "index_conversations_on_first_reply_created_at"
+    t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
+    t.index ["inbox_id", "has_unread_messages"], name: "index_conversations_on_inbox_has_unread", where: "(has_unread_messages = true)"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
@@ -983,7 +1049,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "private", default: false, null: false
     t.integer "status", default: 0
-    t.string "source_id"
+    t.text "source_id"
     t.integer "content_type", default: 0, null: false
     t.json "content_attributes", default: {}
     t.string "sender_type"
@@ -1130,6 +1196,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.index ["portal_id", "user_id"], name: "index_portals_members_on_portal_id_and_user_id", unique: true
     t.index ["portal_id"], name: "index_portals_members_on_portal_id"
     t.index ["user_id"], name: "index_portals_members_on_user_id"
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "title_en", null: false
+    t.string "title_ar"
+    t.text "description_en"
+    t.text "description_ar"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "title_en"], name: "index_products_on_account_id_and_title_en", unique: true
+    t.index ["account_id"], name: "index_products_on_account_id"
   end
 
   create_table "related_categories", force: :cascade do |t|
@@ -1293,6 +1372,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "webhook_type", default: 0
     t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.string "name"
     t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
   end
 
@@ -1312,17 +1392,26 @@ ActiveRecord::Schema[7.1].define(version: 2025_12_07_131320) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_catalog_settings", "accounts"
   add_foreign_key "account_payzah_settings", "accounts"
   add_foreign_key "account_tap_settings", "accounts"
   add_foreign_key "account_whatsapp_settings", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "cart_items", "carts"
+  add_foreign_key "cart_items", "products"
+  add_foreign_key "carts", "accounts"
+  add_foreign_key "carts", "contacts"
+  add_foreign_key "carts", "conversations"
+  add_foreign_key "carts", "messages"
+  add_foreign_key "carts", "users", column: "created_by_id"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
   add_foreign_key "payment_links", "conversations"
   add_foreign_key "payment_links", "messages"
   add_foreign_key "payment_links", "users", column: "created_by_id"
+  add_foreign_key "products", "accounts"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

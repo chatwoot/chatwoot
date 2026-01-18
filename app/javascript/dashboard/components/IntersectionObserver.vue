@@ -5,7 +5,7 @@ import { useIntersectionObserver } from '@vueuse/core';
 const { options } = defineProps({
   options: {
     type: Object,
-    default: () => ({ root: document, rootMargin: '100px 0 100px 0)' }),
+    default: () => ({ root: null, rootMargin: '100px 0px 100px 0px' }),
   },
 });
 

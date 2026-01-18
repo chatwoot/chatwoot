@@ -154,7 +154,7 @@ class PaymentLink < ApplicationRecord
     return if external_payment_id.present?
 
     loop do
-      self.external_payment_id = SecureRandom.hex(8)
+      self.external_payment_id = SecureRandom.hex(5)
       break unless PaymentLink.exists?(external_payment_id: external_payment_id)
     end
   end
