@@ -155,13 +155,28 @@ class Carts::CreateService
   end
 
   def build_message_content(cart)
-    lines = ["Invoice\n"]
+    lines = []
+    lines << "*🙏🏻 Thank you for shopping at #{account.name}. Kindly find your selected products & invoice* ##{cart.external_payment_id} 🧾:"
+    lines << '_________'
+    lines << ''
+
     cart.cart_items.includes(:product).each do |item|
-      lines << "#{item.product.title_en} x#{item.quantity}: #{item.total_price} #{currency}"
+      lines << "#{item.quantity}x - #{item.product.title_en} #{format_price(item.total_price)} #{currency}"
     end
-    lines << "\nTotal: #{cart.total} #{currency}"
-    lines << "\nPay here: #{cart.preview_url}"
+
+    lines << ''
+    lines << '_________'
+    lines << ''
+    lines << "*Total*: #{format_price(cart.total)} #{currency} *"
+    lines << '_________'
+    lines << ''
+    lines << "To pay, kindly click on the link 🔗 : #{cart.payment_url}"
+
     lines.join("\n")
+  end
+
+  def format_price(amount)
+    format('%.3f', amount)
   end
 
   def build_message_data(cart)
