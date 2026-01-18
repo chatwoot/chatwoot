@@ -85,7 +85,7 @@ RUN mkdir -p /app/log
 
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  SECRET_KEY_BASE=9aa605cfd1c4abf9acbfc59a254255fa10bfdd4fa53f483c470cec517f79fb868a6f0f8979f56818286795beaac3cdfbb627ebf91b4429b13bd966010df1f498 RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
