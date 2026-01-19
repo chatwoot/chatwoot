@@ -1,4 +1,4 @@
-class Whatsapp::CsatTemplateNameService
+class CsatTemplateNameService
   CSAT_BASE_NAME = 'customer_satisfaction_survey'.freeze
 
   # Generates template names like: customer_satisfaction_survey_{inbox_id}_{version_number}
