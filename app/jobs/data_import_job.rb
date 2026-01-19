@@ -81,7 +81,7 @@ class DataImportJob < ApplicationJob
   def sanitize_labels(labels)
     Array(labels)
       .map { |label| label.to_s.downcase.strip }
-      .select { |label| label.match?(RegexHelper::UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE) }
+      .grep(RegexHelper::UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE)
   end
 
   def update_data_import_status(processed_records, rejected_records)
