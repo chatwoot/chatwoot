@@ -320,6 +320,7 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     }
 
     recipients = (recipient_emails + admin_emails).uniq
+
     send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
