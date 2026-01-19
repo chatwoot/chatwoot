@@ -495,7 +495,7 @@ export const SDK_CSS = `
 
 .woot-greeting-footer-text {
   margin: 0;
-  font-size: 6px;
+  font-size: 10px;
   line-height: 1.4;
   color: #6b7280;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,

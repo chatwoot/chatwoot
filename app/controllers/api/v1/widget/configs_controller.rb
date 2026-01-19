@@ -1,5 +1,8 @@
 class Api::V1::Widget::ConfigsController < Api::V1::Widget::BaseController
   before_action :set_global_config
+  # skip_before_action :set_contact, only: [:show]
+
+  def show; end
 
   def create
     build_contact

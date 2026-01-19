@@ -18,9 +18,21 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
+const runSDK = async ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
+  }
+
+  let remoteConfig = {};
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/v1/widget/config?website_token=${websiteToken}`
+    );
+    const data = await response.json();
+    remoteConfig = data.website_channel_config || {};
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error('Chatwoot SDK: Failed to fetch remote config', e);
   }
 
   // if this is a Rails Turbo app
@@ -47,7 +59,11 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     restoreWidgetInDOM(event.newDocument.body)
   );
 
-  const chatwootSettings = window.chatwootSettings || {};
+  const chatwootSettings = {
+    ...remoteConfig,
+    ...(window.chatwootSettings || {}),
+  };
+
   let locale = chatwootSettings.locale;
   let baseDomain = chatwootSettings.baseDomain;
 
@@ -61,20 +77,30 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     hasLoaded: false,
     hideMessageBubble: chatwootSettings.hideMessageBubble || false,
     isOpen: false,
-    position: chatwootSettings.position === 'left' ? 'left' : 'right',
+    position:
+      chatwootSettings.position === 'left' ||
+        chatwootSettings.widget_position === 'left'
+        ? 'left'
+        : 'right',
     websiteToken,
     locale,
     useBrowserLanguage: chatwootSettings.useBrowserLanguage || false,
-    type: getBubbleView(chatwootSettings.type),
-    launcherTitle: chatwootSettings.launcherTitle || '',
+    type: getBubbleView(chatwootSettings.type || chatwootSettings.widget_type),
+    launcherTitle:
+      chatwootSettings.launcherTitle || chatwootSettings.launcher_title || '',
     showPopoutButton: chatwootSettings.showPopoutButton || false,
     showUnreadMessagesDialog: chatwootSettings.showUnreadMessagesDialog ?? true,
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
     darkMode: getDarkMode(chatwootSettings.darkMode),
-    avatarUrl: chatwootSettings.avatarUrl || '',
-    welcomeTitle: chatwootSettings.welcomeTitle || '',
-    welcomeDescription: chatwootSettings.welcomeDescription || '',
+    avatarUrl:
+      chatwootSettings.avatarUrl || chatwootSettings.avatar_url || '',
+    welcomeTitle:
+      chatwootSettings.welcomeTitle || chatwootSettings.welcome_title || '',
+    welcomeDescription:
+      chatwootSettings.welcomeDescription ||
+      chatwootSettings.welcome_tagline ||
+      '',
     availableMessage: chatwootSettings.availableMessage || '',
     unavailableMessage: chatwootSettings.unavailableMessage || '',
     enableFileUpload: chatwootSettings.enableFileUpload ?? true,

@@ -389,7 +389,7 @@ Rails.application.routes.draw do
 
       namespace :widget do
         resource :direct_uploads, only: [:create]
-        resource :config, only: [:create]
+        resource :config, only: [:create, :show]
         resources :campaigns, only: [:index]
         resources :events, only: [:create]
         resources :messages, only: [:index, :create, :update]

@@ -112,6 +112,8 @@ module Enterprise::Account::PlanUsageAndLimits
   def validate_limit_keys
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
     self[:limits] = {} if self[:limits].blank?
+    self[:limits]['agents'] = 50 if self[:limits]['agents'].blank?
+    self[:limits]['inboxes'] = 50 if self[:limits]['inboxes'].blank?
 
     limit_schema = {
       'type' => 'object',

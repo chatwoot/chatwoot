@@ -44,7 +44,7 @@ export default {
       return this.userInput.length > 0;
     },
     showTextUsButton() {
-      return this.userInput.length === 0;
+      return this.userInput.length === 0 && this.channelConfig.hasSmsInbox;
     },
     textUsButtonStyle() {
       return {

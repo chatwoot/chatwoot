@@ -477,9 +477,10 @@ export const IFrameHelper = {
     // Attach event handlers
     attachGreetingPreviewHandlers();
 
-    // Create input box (always shown)
+    // Create input box (conditionally shows "Text Us" button)
     createGreetingInputBox({
       widgetColor,
+      hasSmsInbox: channelConfig.hasSmsInbox || false,
     });
 
     const webWidgetMessageSent =

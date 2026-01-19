@@ -26,6 +26,9 @@ json.website_channel_config do
   json.working_hours_enabled @web_widget.inbox.working_hours_enabled
   json.avatar_name @web_widget.avatar_name
   json.greeting_message @web_widget.inbox.greeting_message
+  json.widget_position @web_widget.widget_position
+  json.widget_type @web_widget.widget_type
+  json.launcher_title @web_widget.launcher_title
 end
 
 json.contact do
