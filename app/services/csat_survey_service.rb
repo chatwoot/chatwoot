@@ -20,7 +20,7 @@ class CsatSurveyService
   delegate :inbox, :contact, to: :conversation
 
   def should_send_csat_survey?
-    conversation_allows_csat? && csat_enabled? && !csat_already_sent?
+    conversation_allows_csat? && csat_enabled? && !csat_already_sent? && csat_allowed_by_survey_rules?
   end
 
   def conversation_allows_csat?
@@ -37,6 +37,37 @@ class CsatSurveyService
 
   def within_messaging_window?
     conversation.can_reply?
+  end
+
+  def csat_allowed_by_survey_rules?
+    return true unless survey_rules_configured?
+
+    labels = conversation.label_list
+    return true if rule_values.empty?
+
+    case rule_operator
+    when 'contains'
+      rule_values.any? { |label| labels.include?(label) }
+    when 'does_not_contain'
+      rule_values.none? { |label| labels.include?(label) }
+    else
+      true
+    end
+  end
+
+  def survey_rules_configured?
+    return false if csat_config.blank?
+    return false if csat_config['survey_rules'].blank?
+
+    rule_values.any?
+  end
+
+  def rule_operator
+    csat_config.dig('survey_rules', 'operator') || 'contains'
+  end
+
+  def rule_values
+    csat_config.dig('survey_rules', 'values') || []
   end
 
   def whatsapp_channel?
@@ -111,6 +142,10 @@ class CsatSurveyService
       content: inbox.csat_config&.dig('message') || 'Please rate this conversation',
       content_type: :input_csat
     )
+  end
+
+  def csat_config
+    inbox.csat_config || {}
   end
 
   def send_twilio_whatsapp_template_survey

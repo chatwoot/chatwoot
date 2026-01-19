@@ -48,6 +48,21 @@ RSpec.describe Conversations::ResolutionJob do
     end
   end
 
+  # When a contact is deleted, there's a brief window (~50-150ms) where contact_id becomes nil
+  # but conversations still exist. If ResolutionJob runs during this window, muted? can crash
+  # trying to call blocked? on nil. Fixes # (issue).
+  it 'skips orphan conversations without a contact' do
+    account.update(auto_resolve_after: 14_400, auto_resolve_ignore_waiting: false) # 10 days in minutes
+    orphan_conversation = create(:conversation, account: account, last_activity_at: 13.days.ago, waiting_since: nil)
+    orphan_conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+    resolvable_conversation = create(:conversation, account: account, last_activity_at: 13.days.ago, waiting_since: nil)
+
+    described_class.perform_now(account: account)
+
+    expect(orphan_conversation.reload.status).to eq('open')
+    expect(resolvable_conversation.reload.status).to eq('resolved')
+  end
+
   it 'adds a label after resolution' do
     account.update(auto_resolve_label: 'auto-resolved', auto_resolve_after: 14_400)
     conversation = create(:conversation, account: account, last_activity_at: 13.days.ago, waiting_since: 13.days.ago)
