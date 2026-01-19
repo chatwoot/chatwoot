@@ -18,8 +18,7 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change",
-    "generate:favicons": "node script/generate_favicons.js"
+    "sync:i18n": "bin/sync_i18n_file_change"
   },
   "size-limit": [
     {
@@ -141,7 +140,6 @@
     "postcss": "^8.4.47",
     "postcss-preset-env": "^8.5.1",
     "prettier": "^3.3.3",
-    "sharp": "^0.33.0",
     "prosemirror-model": "^1.22.3",
     "size-limit": "^8.2.4",
     "tailwindcss": "^3.4.13",
