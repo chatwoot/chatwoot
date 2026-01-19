@@ -33,6 +33,7 @@
         avatarName: '<%= @web_widget.avatar_name %>',
         greetingMessage: <%= @web_widget.inbox.greeting_message.to_json.html_safe %>,
         greetingEnabled: <%= @web_widget.inbox.greeting_enabled %>,
+        hasSmsInbox: <%= @web_widget.account.inboxes.where(channel_type: ['Channel::Sms', 'Channel::TwilioSms']).exists? %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

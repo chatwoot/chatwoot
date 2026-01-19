@@ -93,22 +93,7 @@ export default {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
     widgetScript() {
-      let options = {
-        position: this.widgetBubblePosition,
-        type: this.widgetBubbleType,
-        launcherTitle: this.widgetBubbleLauncherTitle,
-      };
-      if (this.avatarUrl) {
-          options.avatarUrl = this.avatarUrl.replace(/^blob:/, '');
-      }
-      let script = this.inbox.web_widget_script;
-      return (
-        script.substring(0, 13) +
-        this.$t('INBOX_MGMT.WIDGET_BUILDER.SCRIPT_SETTINGS', {
-          options: JSON.stringify(options),
-        }) +
-        script.substring(13)
-      );
+      return this.inbox.web_widget_script;
     },
     getWidgetViewOptions() {
       return [
@@ -178,6 +163,9 @@ export default {
         dealer_name,
         dealer_tagline,
         avatar_name,
+        widget_position,
+        widget_type,
+        launcher_title,
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -189,25 +177,18 @@ export default {
       this.dealerTagline = dealer_tagline || '';
       this.avatarName = avatar_name || '';
 
-      const savedInformation = this.getSavedInboxInformation();
-      if (savedInformation) {
-        this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
-          if (item.id === savedInformation.position) {
-            item.checked = true;
-            this.widgetBubblePosition = item.id;
-          }
-          return item;
-        });
-        this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
-          if (item.id === savedInformation.type) {
-            item.checked = true;
-            this.widgetBubbleType = item.id;
-          }
-          return item;
-        });
-        this.widgetBubbleLauncherTitle =
-          savedInformation.launcherTitle || 'Chat with us';
-      }
+      this.widgetBubblePosition = widget_position || 'right';
+      this.widgetBubbleType = widget_type || 'standard';
+      this.widgetBubbleLauncherTitle = launcher_title || 'Chat with us';
+
+      this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+        item.checked = item.id === this.widgetBubblePosition;
+        return item;
+      });
+      this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+        item.checked = item.id === this.widgetBubbleType;
+        return item;
+      });
     },
     handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
@@ -264,6 +245,9 @@ export default {
             dealer_name: this.dealerName,
             dealer_tagline: this.dealerTagline,
             avatar_name: this.avatarName,
+            widget_position: this.widgetBubblePosition,
+            widget_type: this.widgetBubbleType,
+            launcher_title: this.widgetBubbleLauncherTitle,
           },
         };
         if (this.avatarFile) {
