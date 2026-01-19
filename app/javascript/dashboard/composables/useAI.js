@@ -8,22 +8,6 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
-import { useRoute } from 'vue-router';
-
-/**
- * Checks if an error message indicates an invalid API key.
- * @param {string} errorMessage - The error message to check.
- * @returns {boolean} True if the error is related to an invalid API key.
- */
-const isInvalidApiKeyError = errorMessage => {
-  if (!errorMessage) return false;
-  const lowerMessage = errorMessage.toLowerCase();
-  return (
-    lowerMessage.includes('incorrect api key') ||
-    lowerMessage.includes('invalid api key') ||
-    lowerMessage.includes('unauthorized')
-  );
-};
 
 /**
  * Cleans and normalizes a list of labels.
@@ -47,7 +31,6 @@ export function useAI() {
   const store = useStore();
   const getters = useStoreGetters();
   const { t } = useI18n();
-  const route = useRoute();
 
   /**
    * Computed property for UI flags.
@@ -149,18 +132,6 @@ export function useAI() {
   };
 
   /**
-   * Shows an error toast for invalid API key with a link to settings.
-   */
-  const showInvalidApiKeyError = () => {
-    const accountId = route.params?.accountId;
-    useAlert(t('INTEGRATION_SETTINGS.OPEN_AI.INVALID_API_KEY_ERROR'), {
-      type: 'link',
-      to: `/app/accounts/${accountId}/settings/integrations/openai`,
-      message: t('INTEGRATION_SETTINGS.OPEN_AI.GO_TO_SETTINGS'),
-    });
-  };
-
-  /**
    * Fetches label suggestions for the current conversation.
    * @returns {Promise<string[]>} An array of suggested labels.
    */
@@ -179,14 +150,7 @@ export function useAI() {
       } = result;
 
       return cleanLabels(labels);
-    } catch (error) {
-      const errorData = error.response?.data?.error;
-      const errorMessage = errorData || '';
-
-      // Show toast for invalid API key errors
-      if (isInvalidApiKeyError(errorMessage)) {
-        showInvalidApiKeyError();
-      }
+    } catch {
       return [];
     }
   };
@@ -209,17 +173,11 @@ export function useAI() {
       } = result;
       return generatedMessage;
     } catch (error) {
-      const errorData = error.response?.data?.error;
-      const errorMessage = errorData || '';
-
-      // Check if this is an invalid API key error
-      if (isInvalidApiKeyError(errorMessage)) {
-        showInvalidApiKeyError();
-      } else {
-        useAlert(
-          errorMessage || t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR')
-        );
-      }
+      const errorData = error.response.data.error;
+      const errorMessage =
+        errorData?.error?.message ||
+        t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
+      useAlert(errorMessage);
       return '';
     }
   };

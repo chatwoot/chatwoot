@@ -184,9 +184,7 @@
         "GENERATING": "Generating...",
         "CANCEL": "Cancel"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again",
-      "INVALID_API_KEY_ERROR": "Your OpenAI API key is invalid.",
-      "GO_TO_SETTINGS": "Update key"
+      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
