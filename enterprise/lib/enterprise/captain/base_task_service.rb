@@ -16,7 +16,7 @@ module Enterprise::Captain::BaseTaskService
   private
 
   def captain_enabled?
-    account.feature_enabled?('captain_integration')
+    account.feature_enabled?('captain_tasks')
   end
 
   def responses_available?
