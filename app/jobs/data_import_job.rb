@@ -33,9 +33,11 @@ class DataImportJob < ApplicationJob
 
     with_import_file do |file|
       csv_reader(file).each do |row|
-        current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
+        row_hash = row.to_h.with_indifferent_access
+        labels = extract_labels(row_hash)
+        current_contact = @contact_manager.build_contact(row_hash.except(:labels))
         if current_contact.valid?
-          contacts << current_contact
+          contacts << { contact: current_contact, labels: labels }
         else
           append_rejected_contact(row, current_contact, rejected_contacts)
         end
@@ -45,14 +47,33 @@ class DataImportJob < ApplicationJob
     [contacts, rejected_contacts]
   end
 
+  def extract_labels(row_hash)
+    return [] if row_hash[:labels].blank?
+
+    row_hash[:labels].to_s.split(';').map(&:strip).reject(&:blank?)
+  end
+
   def append_rejected_contact(row, contact, rejected_contacts)
     row['errors'] = contact.errors.full_messages.join(', ')
     rejected_contacts << row
   end
 
-  def import_contacts(contacts)
+  def import_contacts(contacts_with_labels)
+    contacts = contacts_with_labels.map { |item| item[:contact] }
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
+    apply_labels_to_contacts(contacts_with_labels)
+  end
+
+  def apply_labels_to_contacts(contacts_with_labels)
+    contacts_with_labels.each do |item|
+      contact = item[:contact]
+      labels = item[:labels]
+      # After bulk import with synchronize, contact.id is populated for successfully imported records
+      next unless contact.id.present? && labels.present?
+
+      contact.reload.add_labels(labels)
+    end
   end
 
   def update_data_import_status(processed_records, rejected_records)
