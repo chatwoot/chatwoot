@@ -4,47 +4,18 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { usePolicy } from 'dashboard/composables/usePolicy';
 
 export function useCaptain() {
   const store = useStore();
-  const { isCloudFeatureEnabled, currentAccount, isOnChatwootCloud } =
-    useAccount();
+  const { isCloudFeatureEnabled, currentAccount } = useAccount();
   const { isEnterprise } = useConfig();
   const uiFlags = useMapGetter('accounts/getUIFlags');
-  const { hasPremiumEnterprise } = usePolicy();
   const captainEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
   });
 
   const showCaptainTasks = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
-  });
-
-  const showCopilotOnEditor = computed(() => {
-    // Cloud: always show premium features
-    // After this, it might show a paywall or the feature
-    // Depending on the feature flag
-    if (isOnChatwootCloud.value) {
-      return true;
-    }
-
-    // Self-hosted with enterprise code
-    if (isEnterprise) {
-      // Enterprise license: check if feature is enabled for account
-      if (hasPremiumEnterprise.value) {
-        return captainEnabled;
-      }
-
-      // Community license with enterprise code: show feature
-      // if the feature is not configuired, it will ask the admin to configure
-      return true;
-    }
-
-    // Self-hosted without enterprise code
-    // We should the feature, since the community edition has the feature code
-    // If it's not configured, we'll ask the admin to configure
-    return true;
   });
 
   const captainLimits = computed(() => {
@@ -81,7 +52,6 @@ export function useCaptain() {
     documentLimits,
     responseLimits,
     showCaptainTasks,
-    showCopilotOnEditor,
     fetchLimits,
     isFetchingLimits,
   };
