@@ -17,6 +17,10 @@ export function useCaptain() {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
   });
 
+  const showCaptainTasks = computed(() => {
+    return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
+  });
+
   const showCopilotOnEditor = computed(() => {
     // Cloud: always show premium features
     // After this, it might show a paywall or the feature
@@ -76,6 +80,7 @@ export function useCaptain() {
     captainLimits,
     documentLimits,
     responseLimits,
+    showCaptainTasks,
     showCopilotOnEditor,
     fetchLimits,
     isFetchingLimits,
