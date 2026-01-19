@@ -60,6 +60,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'notion'
   end
 
+  def openai?
+    app_id == 'openai'
+  end
+
   def disable
     update(status: 'disabled')
   end

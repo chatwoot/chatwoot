@@ -96,6 +96,9 @@ class Integrations::LlmBaseService
     end
   end
 
+  RATE_LIMIT_ERRORS = [RubyLLM::RateLimitError].freeze
+  AUTH_ERRORS = [RubyLLM::UnauthorizedError, RubyLLM::PaymentRequiredError, RubyLLM::ForbiddenError].freeze
+
   def execute_ruby_llm_request(parsed_body)
     messages = parsed_body['messages']
     model = parsed_body['model']
@@ -104,9 +107,24 @@ class Integrations::LlmBaseService
       chat = context.chat(model: model)
       setup_chat_with_messages(chat, messages)
     end
+  rescue *RATE_LIMIT_ERRORS => e
+    handle_rate_limit_error(e, messages)
+  rescue *AUTH_ERRORS => e
+    handle_auth_error(e, messages)
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
     build_error_response_from_exception(e, messages)
+  end
+
+  def handle_rate_limit_error(error, messages)
+    Rails.logger.warn "[LLM] Rate limit error for hook #{hook.id}: #{error.message}"
+    build_error_response_from_exception(error, messages, error_type: 'rate_limit')
+  end
+
+  def handle_auth_error(error, messages)
+    Rails.logger.warn "[LLM] Auth error for hook #{hook.id}: #{error.class} - #{error.message}"
+    hook.authorization_error!
+    build_error_response_from_exception(error, messages, error_type: 'auth')
   end
 
   def setup_chat_with_messages(chat, messages)
@@ -163,7 +181,9 @@ class Integrations::LlmBaseService
     }
   end
 
-  def build_error_response_from_exception(error, messages)
-    { error: error.message, request_messages: messages }
+  def build_error_response_from_exception(error, messages, error_type: nil)
+    response = { error: error.message, request_messages: messages }
+    response[:error_type] = error_type if error_type
+    response
   end
 end
