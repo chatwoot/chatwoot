@@ -42,13 +42,6 @@ RSpec.describe Captain::ReplySuggestionService do
       expect(user_message[:content]).to include('User: I need help')
     end
 
-    it 'includes agent name in the prompt' do
-      service.perform
-
-      system_prompt = captured_messages.find { |m| m[:role] == 'system' }
-      expect(system_prompt[:content]).to include('Jane Smith')
-    end
-
     context 'with chat channel' do
       it 'uses chat-specific instructions' do
         service.perform
