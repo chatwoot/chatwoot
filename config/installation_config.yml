@@ -52,7 +52,7 @@
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
   value: true
-  display_title: 'Chatwoot Metadata'
+  display_title: 'EcoRay Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
 # ------- End of Branding Related Config ------- #
