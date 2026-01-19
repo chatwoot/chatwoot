@@ -186,15 +186,15 @@ RSpec.describe DataImportJob do
       it 'imports contacts with labels from CSV' do
         described_class.perform_now(labels_data_import)
 
-        john = Contact.find_by(email: 'john@example.com')
+        john = Contact.from_email('john@example.com')
         expect(john).to be_present
         expect(john.label_list).to contain_exactly('customer', 'vip')
 
-        jane = Contact.find_by(email: 'jane@example.com')
+        jane = Contact.from_email('jane@example.com')
         expect(jane).to be_present
         expect(jane.label_list).to contain_exactly('lead')
 
-        bob = Contact.find_by(email: 'bob@example.com')
+        bob = Contact.from_email('bob@example.com')
         expect(bob).to be_present
         expect(bob.label_list).to be_empty
       end
@@ -208,8 +208,23 @@ RSpec.describe DataImportJob do
 
         described_class.perform_now(whitespace_import)
 
-        contact = Contact.find_by(email: 'test@example.com')
+        contact = Contact.from_email('test@example.com')
         expect(contact.label_list).to contain_exactly('customer', 'vip', 'lead')
+      end
+
+      it 'skips invalid labels and still imports the contact' do
+        data_with_invalid_labels = [
+          %w[id name email phone_number labels],
+          ['1', 'Invalid Label User', 'invalidlabel@example.com', '+918080808084', 'vip customer|v|vip_customer']
+        ]
+
+        invalid_label_import = create(:data_import, import_file: generate_csv_file(data_with_invalid_labels))
+
+        expect { described_class.perform_now(invalid_label_import) }.not_to raise_error
+
+        contact = Contact.from_email('invalidlabel@example.com')
+        expect(contact).to be_present
+        expect(contact.label_list).to contain_exactly('vip_customer')
       end
     end
   end

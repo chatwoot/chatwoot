@@ -5,7 +5,7 @@ class DataImportJob < ApplicationJob
   queue_as :low
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
-  LABELS_DELIMITER = '|'
+  LABELS_DELIMITER = '|'.freeze
 
   def perform(data_import)
     @data_import = data_import
@@ -61,7 +61,7 @@ class DataImportJob < ApplicationJob
   end
 
   def import_contacts(contacts_with_labels)
-    contacts = contacts_with_labels.map { |item| item[:contact] }
+    contacts = contacts_with_labels.pluck(:contact)
     # <struct ActiveRecord::Import::Result failed_instances=[], num_inserts=1, ids=[444, 445], results=[]>
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
     apply_labels_to_contacts(contacts_with_labels)
@@ -70,12 +70,18 @@ class DataImportJob < ApplicationJob
   def apply_labels_to_contacts(contacts_with_labels)
     contacts_with_labels.each do |item|
       contact = item[:contact]
-      labels = item[:labels]
+      labels = sanitize_labels(item[:labels])
       # After bulk import with synchronize, contact.id is populated for successfully imported records
       next unless contact.id.present? && labels.present?
 
       contact.reload.add_labels(labels)
     end
+  end
+
+  def sanitize_labels(labels)
+    Array(labels)
+      .map { |label| label.to_s.downcase.strip }
+      .select { |label| label.match?(RegexHelper::UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE) }
   end
 
   def update_data_import_status(processed_records, rejected_records)
