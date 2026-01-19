@@ -57,6 +57,14 @@ export const useIntegrationHook = integrationId => {
     return integrationType.value === 'single';
   });
 
+  /**
+   * Whether any hook needs reauthorization (e.g., API key issues)
+   * @type {import('vue').ComputedRef<boolean>}
+   */
+  const hookNeedsReauthorization = computed(() => {
+    return integration.value.hooks?.some(hook => hook.reauthorization_required);
+  });
+
   return {
     integration,
     integrationType,
@@ -64,5 +72,6 @@ export const useIntegrationHook = integrationId => {
     isIntegrationSingle,
     isHookTypeInbox,
     hasConnectedHooks,
+    hookNeedsReauthorization,
   };
 };

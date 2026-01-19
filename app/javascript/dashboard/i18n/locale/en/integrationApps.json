@@ -55,6 +55,11 @@
     "DISCONNECT": {
       "BUTTON_TEXT": "Disconnect"
     },
+    "REAUTHORIZE": {
+      "BUTTON_TEXT": "Disconnect",
+      "DESCRIPTION": "Your API key may be invalid or your credit balance may be exhausted. Please disconnect and reconnect with a valid API key.",
+      "OPENAI_LINK": "Check your OpenAI dashboard"
+    },
     "SIDEBAR_DESCRIPTION": {
       "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }

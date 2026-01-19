@@ -8,6 +8,7 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
 
   def update
     @hook.update!(permitted_params.slice(:status, :settings))
+    @hook.reauthorized! if @hook.reauthorization_required?
   end
 
   def process_event
@@ -18,7 +19,7 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Base
     if response.nil?
       render json: { message: nil }
     elsif response[:error]
-      render json: { error: response[:error] }, status: :unprocessable_entity
+      render json: { error: response[:error], error_type: response[:error_type] }, status: :unprocessable_entity
     else
       render json: { message: response[:message] }
     end

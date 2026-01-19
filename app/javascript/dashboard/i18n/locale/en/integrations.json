@@ -184,7 +184,10 @@
         "GENERATING": "Generating...",
         "CANCEL": "Cancel"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "Could not process request. Check your API key, credits, or rate limits.",
+      "RATE_LIMIT_ERROR": "Rate limit exceeded. Check your OpenAI usage tier.",
+      "AUTH_ERROR": "Could not authenticate. Check your API key or credits.",
+      "GO_TO_SETTINGS": "Click here to update"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

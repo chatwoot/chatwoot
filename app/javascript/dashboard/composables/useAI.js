@@ -8,6 +8,7 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 /**
  * Cleans and normalizes a list of labels.
@@ -155,6 +156,8 @@ export function useAI() {
     }
   };
 
+  const accountId = computed(() => getters.getCurrentAccountId.value);
+
   /**
    * Processes an AI event, such as rephrasing content.
    * @param {string} [type='rephrase'] - The type of AI event to process.
@@ -173,11 +176,29 @@ export function useAI() {
       } = result;
       return generatedMessage;
     } catch (error) {
-      const errorData = error.response.data.error;
+      const errorData = error.response?.data;
       const errorMessage =
         errorData?.error?.message ||
+        errorData?.error ||
         t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
-      useAlert(errorMessage);
+
+      const errorType = errorData?.error_type;
+      if (errorType === 'rate_limit') {
+        useAlert(t('INTEGRATION_SETTINGS.OPEN_AI.RATE_LIMIT_ERROR'), {
+          duration: 5000,
+        });
+      } else if (errorType === 'auth') {
+        useAlert(t('INTEGRATION_SETTINGS.OPEN_AI.AUTH_ERROR'), {
+          type: 'link',
+          to: frontendURL(
+            `accounts/${accountId.value}/settings/integrations/openai`
+          ),
+          message: t('INTEGRATION_SETTINGS.OPEN_AI.GO_TO_SETTINGS'),
+          duration: 5000,
+        });
+      } else {
+        useAlert(errorMessage);
+      }
       return '';
     }
   };
