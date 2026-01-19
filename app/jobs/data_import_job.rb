@@ -5,6 +5,8 @@ class DataImportJob < ApplicationJob
   queue_as :low
   retry_on ActiveStorage::FileNotFoundError, wait: 1.minute, attempts: 3
 
+  LABELS_DELIMITER = '|'
+
   def perform(data_import)
     @data_import = data_import
     @contact_manager = DataImport::ContactManager.new(@data_import.account)
@@ -50,7 +52,7 @@ class DataImportJob < ApplicationJob
   def extract_labels(row_hash)
     return [] if row_hash[:labels].blank?
 
-    row_hash[:labels].to_s.split(';').map(&:strip).reject(&:blank?)
+    row_hash[:labels].to_s.split(LABELS_DELIMITER).map(&:strip).reject(&:blank?)
   end
 
   def append_rejected_contact(row, contact, rejected_contacts)

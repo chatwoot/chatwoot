@@ -176,7 +176,7 @@ RSpec.describe DataImportJob do
       let(:data_with_labels) do
         [
           %w[id name email phone_number labels],
-          ['1', 'John Doe', 'john@example.com', '+918080808080', 'customer;vip'],
+          ['1', 'John Doe', 'john@example.com', '+918080808080', 'customer|vip'],
           ['2', 'Jane Smith', 'jane@example.com', '+918080808081', 'lead'],
           ['3', 'Bob Wilson', 'bob@example.com', '+918080808082', '']
         ]
@@ -202,7 +202,7 @@ RSpec.describe DataImportJob do
       it 'handles labels with extra whitespace' do
         data_with_whitespace = [
           %w[id name email phone_number labels],
-          ['1', 'Test User', 'test@example.com', '+918080808083', ' customer ; vip ; lead ']
+          ['1', 'Test User', 'test@example.com', '+918080808083', ' customer | vip | lead ']
         ]
         whitespace_import = create(:data_import, import_file: generate_csv_file(data_with_whitespace))
 
