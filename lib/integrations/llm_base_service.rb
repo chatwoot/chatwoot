@@ -96,6 +96,10 @@ class Integrations::LlmBaseService
     end
   end
 
+  # User configuration errors that should not be reported to Sentry
+  # Only UnauthorizedError is included as it clearly indicates an invalid API key
+  USER_ERRORS = %w[RubyLLM::UnauthorizedError].freeze
+
   def execute_ruby_llm_request(parsed_body)
     messages = parsed_body['messages']
     model = parsed_body['model']
@@ -105,8 +109,13 @@ class Integrations::LlmBaseService
       setup_chat_with_messages(chat, messages)
     end
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: hook.account).capture_exception
+    # Don't report user configuration errors (invalid API key, etc.) to Sentry
+    ChatwootExceptionTracker.new(e, account: hook.account).capture_exception unless user_configuration_error?(e)
     build_error_response_from_exception(e, messages)
+  end
+
+  def user_configuration_error?(error)
+    USER_ERRORS.include?(error.class.name)
   end
 
   def setup_chat_with_messages(chat, messages)

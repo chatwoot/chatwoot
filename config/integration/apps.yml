@@ -46,7 +46,8 @@ openai:
         'label': 'API Key',
         'type': 'text',
         'name': 'api_key',
-        'validation': 'required',
+        'validation': 'required|matches:/^sk-/',
+        'validation-messages': { 'matches': 'API Key must start with sk-. Please enter a valid OpenAI API key.' },
       },
       {
         'label': 'Show label suggestions',
