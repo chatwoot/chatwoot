@@ -1,10 +1,12 @@
 class SearchService
+  RESULTS_PER_PAGE = 15
+
   pattr_initialize [:current_user!, :current_account!, :params!, :search_type!]
 
   def perform
     case search_type
     when 'Message'
-      { messages: filter_messages }
+      { messages: filter_messages, messages_count: messages_count }
     when 'Conversation'
       { conversations: filter_conversations }
     when 'Contact'
@@ -12,6 +14,14 @@ class SearchService
     else
       { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations }
     end
+  end
+
+  def current_page
+    params[:page].present? ? params[:page].to_i : 1
+  end
+
+  def total_pages
+    (messages_count.to_f / RESULTS_PER_PAGE).ceil
   end
 
   private
@@ -42,6 +52,12 @@ class SearchService
   end
 
   def filter_messages
+    messages_base_query.reorder('created_at DESC')
+                       .page(current_page)
+                       .per(RESULTS_PER_PAGE)
+  end
+
+  def messages_base_query
     query = current_account.messages.where(inbox_id: accessable_inbox_ids)
                            .where('messages.content ILIKE :search', search: "%#{search_query}%")
                            .where('created_at >= ?', 3.months.ago)
@@ -52,8 +68,11 @@ class SearchService
                    .where('conversations.assignee_id = ? OR contacts.assignee_id = ?', current_user.id, current_user.id)
     end
 
-    @messages = query.reorder('created_at DESC')
-                     .limit(10)
+    query
+  end
+
+  def messages_count
+    @messages_count ||= messages_base_query.count
   end
 
   def filter_contacts

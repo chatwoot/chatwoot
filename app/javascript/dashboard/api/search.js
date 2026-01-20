@@ -30,10 +30,11 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  messages({ q }) {
+  messages({ q, page = 1 }) {
     return axios.get(`${this.url}/messages`, {
       params: {
         q,
+        page,
       },
     });
   }

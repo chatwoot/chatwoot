@@ -5,6 +5,11 @@ export const initialState = {
   contactRecords: [],
   conversationRecords: [],
   messageRecords: [],
+  messageMeta: {
+    currentPage: 1,
+    totalCount: 0,
+    totalPages: 0,
+  },
   uiFlags: {
     isFetching: false,
     isSearchCompleted: false,
@@ -26,6 +31,9 @@ export const getters = {
   },
   getMessageRecords(state) {
     return state.messageRecords;
+  },
+  getMessageMeta(state) {
+    return state.messageMeta;
   },
   getUIFlags(state) {
     return state.uiFlags;
@@ -106,12 +114,12 @@ export const actions = {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async messageSearch({ commit }, { q }) {
-    commit(types.MESSAGE_SEARCH_SET, []);
+  async messageSearch({ commit }, { q, page = 1 }) {
     commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.messages({ q });
+      const { data } = await SearchAPI.messages({ q, page });
       commit(types.MESSAGE_SEARCH_SET, data.payload.messages);
+      commit(types.MESSAGE_SEARCH_SET_META, data.payload.meta);
     } catch (error) {
       // Ignore error
     } finally {
@@ -120,6 +128,11 @@ export const actions = {
   },
   async clearSearchResults({ commit }) {
     commit(types.MESSAGE_SEARCH_SET, []);
+    commit(types.MESSAGE_SEARCH_SET_META, {
+      current_page: 1,
+      total_count: 0,
+      total_pages: 0,
+    });
     commit(types.CONVERSATION_SEARCH_SET, []);
     commit(types.CONTACT_SEARCH_SET, []);
   },
@@ -137,6 +150,13 @@ export const mutations = {
   },
   [types.MESSAGE_SEARCH_SET](state, records) {
     state.messageRecords = records;
+  },
+  [types.MESSAGE_SEARCH_SET_META](state, meta) {
+    state.messageMeta = {
+      currentPage: meta.current_page,
+      totalCount: meta.total_count,
+      totalPages: meta.total_pages,
+    };
   },
   [types.SEARCH_CONVERSATIONS_SET_UI_FLAG](state, uiFlags) {
     state.uiFlags = { ...state.uiFlags, ...uiFlags };

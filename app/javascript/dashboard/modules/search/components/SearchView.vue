@@ -52,6 +52,10 @@
             :messages="messages"
             :query="query"
             :show-title="isSelectedTabAll"
+            :current-page="messageMeta.currentPage"
+            :total-count="messageMeta.totalCount"
+            :total-pages="messageMeta.totalPages"
+            @page-change="onMessagePageChange"
           />
 
           <search-result-conversations-list
@@ -111,6 +115,7 @@ export default {
       contactRecords: 'conversationSearch/getContactRecords',
       conversationRecords: 'conversationSearch/getConversationRecords',
       messageRecords: 'conversationSearch/getMessageRecords',
+      messageMeta: 'conversationSearch/getMessageMeta',
       uiFlags: 'conversationSearch/getUIFlags',
     }),
     contacts() {
@@ -163,7 +168,7 @@ export default {
         {
           key: 'messages',
           name: this.$t('SEARCH.TABS.MESSAGES'),
-          count: this.messages.length,
+          count: this.messageMeta.totalCount || this.messages.length,
         },
         {
           key: 'conversations',
@@ -235,6 +240,12 @@ export default {
     handleTabChange(tab) {
       this.selectedTab = tab;
       this.onSearch(this.query);
+    },
+    onMessagePageChange(page) {
+      this.$store.dispatch('conversationSearch/messageSearch', {
+        q: this.query,
+        page,
+      });
     },
     onBack() {
       if (window.history.length > 2) {

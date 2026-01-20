@@ -23,6 +23,14 @@
         </search-result-conversation-item>
       </li>
     </ul>
+    <table-footer
+      v-if="messages.length && totalPages > 1"
+      :current-page="currentPage"
+      :total-count="totalCount"
+      :page-size="pageSize"
+      class="mt-4"
+      @page-change="onPageChange"
+    />
   </search-result-section>
 </template>
 
@@ -31,12 +39,16 @@ import { mapGetters } from 'vuex';
 import SearchResultConversationItem from './SearchResultConversationItem.vue';
 import SearchResultSection from './SearchResultSection.vue';
 import MessageContent from './MessageContent.vue';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
+
+const PAGE_SIZE = 15;
 
 export default {
   components: {
     SearchResultConversationItem,
     SearchResultSection,
     MessageContent,
+    TableFooter,
   },
   props: {
     messages: {
@@ -55,17 +67,35 @@ export default {
       type: Boolean,
       default: true,
     },
+    currentPage: {
+      type: Number,
+      default: 1,
+    },
+    totalCount: {
+      type: Number,
+      default: 0,
+    },
+    totalPages: {
+      type: Number,
+      default: 0,
+    },
   },
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
     }),
+    pageSize() {
+      return PAGE_SIZE;
+    },
   },
   methods: {
     getName(message) {
       return message && message.sender && message.sender.name
         ? message.sender.name
         : this.$t('SEARCH.BOT_LABEL');
+    },
+    onPageChange(page) {
+      this.$emit('page-change', page);
     },
   },
 };
