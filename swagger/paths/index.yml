@@ -639,6 +639,28 @@
   get:
     $ref: './application/reports/conversation/agent.yml'
 
+# Channel summary report (Available in 4.10.0+)
+/api/v2/accounts/{account_id}/summary_reports/channel:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to filter by business hours.
+  get:
+    $ref: './application/reports/channel_summary.yml'
+
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
