@@ -36,6 +36,11 @@ class Captain::BaseTaskService
   end
 
   def make_api_call(model:, messages:)
+    # Community edition prerequisite checks
+    # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
+    return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
+    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
+
     instrumentation_params = build_instrumentation_params(model, messages)
 
     response = instrument_llm_call(instrumentation_params) do
@@ -124,6 +129,14 @@ class Captain::BaseTaskService
     end
 
     messages
+  end
+
+  def captain_tasks_enabled?
+    account.feature_enabled?('captain_tasks')
+  end
+
+  def api_key_configured?
+    api_key.present?
   end
 
   def api_key
