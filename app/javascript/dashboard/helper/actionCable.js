@@ -25,7 +25,9 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.contact_changed': this.onConversationContactChange,
       'presence.update': this.onPresenceUpdate,
       'contact.deleted': this.onContactDelete,
+      'contact.discarded': this.onContactDiscarded,
       'contact.updated': this.onContactUpdate,
+      'conversation.discarded': this.onConversationDiscarded,
       'conversation.mentioned': this.onConversationMentioned,
       'notification.created': this.onNotificationCreated,
       'notification.deleted': this.onNotificationDeleted,
@@ -174,8 +176,29 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.fetchConversationStats();
   };
 
+  onContactDiscarded = data => {
+    this.app.$store.dispatch(
+      'contacts/deleteContactThroughConversations',
+      data.id
+    );
+    this.forceUpdateConversationStats();
+  };
+
   onContactUpdate = data => {
     this.app.$store.dispatch('contacts/updateContact', data);
+  };
+
+  onConversationDiscarded = data => {
+    const { id } = data;
+    if (id) {
+      this.app.$store.commit('DELETE_CONVERSATION', id);
+      this.forceUpdateConversationStats();
+    }
+  };
+
+  forceUpdateConversationStats = () => {
+    this.app.$store.dispatch('conversationStats/forceGet', {});
+    this.app.$store.dispatch('notifications/unReadCount');
   };
 
   onNotificationCreated = data => {

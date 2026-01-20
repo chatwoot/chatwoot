@@ -88,7 +88,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def create
     ActiveRecord::Base.transaction do
-      @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
+      @contact = find_and_restore_discarded_contact || Current.account.contacts.new(permitted_params.except(:avatar_url))
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
@@ -109,7 +109,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
                           :unprocessable_entity)
     end
 
-    @contact.destroy!
+    ::DeleteObjectJob.perform_now(@contact, Current.user, request.ip)
     head :ok
   end
 
@@ -200,6 +200,26 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def fetch_contact
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
+  end
+
+  def find_and_restore_discarded_contact
+    discarded_contact = find_discarded_contact
+    return unless discarded_contact
+
+    discarded_contact.undiscard
+    discarded_contact.assign_attributes(permitted_params.except(:avatar_url).compact_blank)
+    discarded_contact
+  end
+
+  def find_discarded_contact
+    discarded_scope = Contact.unscoped.where(account_id: Current.account.id).discarded
+    attrs = permitted_params
+
+    contact = discarded_scope.find_by(identifier: attrs[:identifier]) if attrs[:identifier].present?
+    contact ||= discarded_scope.find_by('LOWER(email) = ?', attrs[:email].downcase) if attrs[:email].present?
+    contact ||= discarded_scope.find_by(phone_number: attrs[:phone_number]) if attrs[:phone_number].present?
+
+    contact
   end
 
   def process_avatar_from_url

@@ -155,6 +155,17 @@ class ActionCableListener < BaseListener
     broadcast(account, [account_token(account)], CONTACT_DELETED, contact.push_event_data)
   end
 
+  def contact_discarded(event)
+    contact, account = extract_contact_and_account(event)
+    broadcast(account, [account_token(account)], CONTACT_DISCARDED, contact.push_event_data)
+  end
+
+  def conversation_discarded(event)
+    conversation, account = extract_conversation_and_account(event)
+    tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
+    broadcast(account, tokens, CONVERSATION_DISCARDED, conversation.push_event_data)
+  end
+
   def conversation_mentioned(event)
     conversation, account = extract_conversation_and_account(event)
     user = event.data[:user]
@@ -200,7 +211,10 @@ class ActionCableListener < BaseListener
   end
 
   def contact_inbox_tokens(contact_inbox)
+    return [] if contact_inbox.nil?
+
     contact = contact_inbox.contact
+    return [] if contact.nil?
 
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
   end

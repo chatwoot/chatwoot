@@ -7,7 +7,7 @@ class Contacts::BulkDeleteService
   def perform
     return if @contact_ids.blank?
 
-    contacts.find_each(&:destroy!)
+    contacts.find_each(&:discard!)
   end
 
   private

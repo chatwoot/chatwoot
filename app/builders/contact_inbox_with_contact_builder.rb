@@ -64,6 +64,7 @@ class ContactInboxWithContactBuilder
     contact ||= find_contact_by_email(contact_attributes[:email])
     contact ||= find_contact_by_phone_number(contact_attributes[:phone_number])
     contact ||= find_contact_by_instagram_source_id(source_id) if instagram_channel?
+    contact ||= find_and_restore_discarded_contact
 
     contact
   end
@@ -106,5 +107,24 @@ class ContactInboxWithContactBuilder
     return if phone_number.blank?
 
     account.contacts.find_by(phone_number: phone_number)
+  end
+
+  def find_and_restore_discarded_contact
+    discarded_contact = find_discarded_contact
+    return unless discarded_contact
+
+    discarded_contact.undiscard
+    discarded_contact.update!(contact_attributes.compact_blank.except(:avatar_url))
+    discarded_contact
+  end
+
+  def find_discarded_contact
+    discarded_scope = Contact.unscoped.where(account_id: account.id).discarded
+
+    contact = discarded_scope.find_by(identifier: contact_attributes[:identifier]) if contact_attributes[:identifier].present?
+    contact ||= discarded_scope.find_by('LOWER(email) = ?', contact_attributes[:email].downcase) if contact_attributes[:email].present?
+    contact ||= discarded_scope.find_by(phone_number: contact_attributes[:phone_number]) if contact_attributes[:phone_number].present?
+
+    contact
   end
 end

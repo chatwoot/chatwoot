@@ -6,9 +6,25 @@ module Enterprise::Concerns::Contact
     after_commit :associate_company_from_email,
                  on: [:create, :update],
                  if: :should_associate_company?
+
+    # Adjust counter_cache on soft delete
+    after_discard :decrement_company_contacts_count
+    after_undiscard :increment_company_contacts_count
   end
 
   private
+
+  def decrement_company_contacts_count
+    return if company_id.blank?
+
+    Company.decrement_counter(:contacts_count, company_id)
+  end
+
+  def increment_company_contacts_count
+    return if company_id.blank?
+
+    Company.increment_counter(:contacts_count, company_id)
+  end
 
   def should_associate_company?
     # Only trigger if:

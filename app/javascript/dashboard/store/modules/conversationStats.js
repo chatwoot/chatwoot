@@ -45,6 +45,9 @@ export const actions = {
       debouncedFetchMetaData(commit, params);
     }
   },
+  forceGet: async ({ commit }, params) => {
+    await fetchMetaData(commit, params);
+  },
   set({ commit }, meta) {
     commit(types.SET_CONV_TAB_META, meta);
   },

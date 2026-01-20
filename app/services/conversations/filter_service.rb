@@ -25,7 +25,7 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    conversations = @account.conversations.includes(
+    conversations = @account.conversations.with_active_contact.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
 

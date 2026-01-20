@@ -46,13 +46,18 @@ class Contact < ApplicationRecord
   include AvailabilityStatusable
   include Labelable
   include LlmFormattable
+  include Discard::Model
+
+  default_scope -> { kept }
 
   validates :account_id, presence: true
-  validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
+  validates :email, allow_blank: true,
+                    uniqueness: { scope: [:account_id], case_sensitive: false, conditions: -> { kept } },
                     format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
-  validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
+  validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id], conditions: -> { kept } }
   validates :phone_number,
-            allow_blank: true, uniqueness: { scope: [:account_id] },
+            allow_blank: true,
+            uniqueness: { scope: [:account_id], conditions: -> { kept } },
             format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
 
   belongs_to :account
@@ -69,6 +74,7 @@ class Contact < ApplicationRecord
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
   after_destroy_commit :dispatch_destroy_event
+  after_discard :dispatch_discard_event
   before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
@@ -248,5 +254,12 @@ class Contact < ApplicationRecord
   def dispatch_destroy_event
     Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
   end
+
+  def dispatch_discard_event
+    # Cascade soft delete to conversations
+    conversations.find_each(&:discard)
+    Rails.configuration.dispatcher.dispatch(CONTACT_DISCARDED, Time.zone.now, contact: self)
+  end
 end
+Contact.include_mod_with('Audit::Contact')
 Contact.include_mod_with('Concerns::Contact')

@@ -183,6 +183,9 @@ gem 'omniauth-oauth2'
 
 gem 'audited', '~> 5.4', '>= 5.4.1'
 
+# Soft delete support
+gem 'discard', '~> 1.3'
+
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
 gem 'omniauth-saml'

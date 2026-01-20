@@ -1,8 +1,8 @@
-module Enterprise::Audit::Conversation
+module Enterprise::Audit::Contact
   extend ActiveSupport::Concern
 
   included do
-    audited only: [], on: [:destroy]
+    audited associated_with: :account, on: [:destroy]
 
     after_discard :create_discard_audit
   end
@@ -15,7 +15,7 @@ module Enterprise::Audit::Conversation
 
   def create_soft_delete_audit(action, changes)
     Enterprise::AuditLog.create!(
-      auditable_type: 'Conversation',
+      auditable_type: 'Contact',
       auditable_id: id,
       action: action,
       audited_changes: changes,

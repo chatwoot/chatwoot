@@ -42,13 +42,13 @@ class SearchService
 
   def conversation_base_query
     if account_user.administrator?
-      current_account.conversations
+      current_account.conversations.with_active_contact
     elsif account_user.supervisor?
       # Supervisor only sees conversations assigned to themselves or their subordinates
       supervisor_assignee_ids = account_user.all_subordinate_user_ids + [current_user.id]
-      current_account.conversations.where(assignee_id: supervisor_assignee_ids)
+      current_account.conversations.with_active_contact.where(assignee_id: supervisor_assignee_ids)
     else
-      current_account.conversations.where(inbox_id: accessable_inbox_ids)
+      current_account.conversations.with_active_contact.where(inbox_id: accessable_inbox_ids)
     end
   end
 
