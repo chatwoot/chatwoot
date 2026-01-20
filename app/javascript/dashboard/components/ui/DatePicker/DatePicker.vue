@@ -206,10 +206,14 @@ const emitDateRange = () => {
     emit('dateRangeChanged', [selectedStartDate.value, selectedEndDate.value]);
   }
 };
+
+const closeDatePicker = () => {
+  showDatePicker.value = false;
+};
 </script>
 
 <template>
-  <div class="relative font-inter">
+  <div v-on-clickaway="closeDatePicker" class="relative font-inter">
     <DatePickerButton
       :selected-start-date="selectedStartDate"
       :selected-end-date="selectedEndDate"

@@ -48,9 +48,11 @@ pt_BR:
       failed: Registro falhou
     assignment_policy:
       not_found: Política de atribuição não encontrada
+    attachments:
+      invalid: Anexo inválido
     saml:
       feature_not_enabled: SAML não está habilitado para esta conta
-      sso_not_enabled: SAML SSO is not enabled for this installation
+      sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
     data_import:
       data_type:
         invalid: Tipo de dado inválido
@@ -67,7 +69,10 @@ pt_BR:
       domain:
         invalid: must be a valid domain name
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: Especifique a ‘string’ de busca com o parâmetro q
+    messages:
+      search:
+        time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
     categories:
       locale:
         unique: deve ser único na categoria e no portal
@@ -109,12 +114,12 @@ pt_BR:
       invalid_credentials: Credenciais ou código de verificação inválidos
       feature_unavailable: O recurso MFA não está disponível. Por favor, configure as chaves de criptografia.
     topup:
-      credits_required: Credits amount is required
-      invalid_credits: Invalid credits amount
-      invalid_option: Invalid topup option
-      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
-      stripe_customer_not_configured: Stripe customer not configured
-      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+      credits_required: A quantidade de créditos é obrigatória
+      invalid_credits: Quantidade de créditos inválida
+      invalid_option: Opção de recarga inválida
+      plan_not_eligible: As recargas estão disponíveis apenas para planos pagos. Por favor, faça o upgrade do seu plano primeiro.
+      stripe_customer_not_configured: Cliente do Stripe não configurado
+      no_payment_method: Nenhum método de pagamento encontrado. Por favor, adicione um método de pagamento antes de realizar uma compra.
   profile:
     mfa:
       enabled: MFA habilitado com sucesso
@@ -190,8 +195,8 @@ pt_BR:
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
-      instagram_shared_story_content: 'Shared story'
-      instagram_shared_post_content: 'Shared post'
+      instagram_shared_story_content: 'Story compartilhado'
+      instagram_shared_post_content: 'Post compartilhado'
       deleted: Esta mensagem foi excluída
       whatsapp:
         list_button_label: 'Escolha um item'
@@ -329,7 +334,7 @@ pt_BR:
       pdf_processing_failed: 'Falha ao processar o documento PDF %{document_id}: %{error}'
       pdf_processing_success: 'Documento PDF processado com sucesso %{document_id}'
       faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
-      using_paginated_faq: ''
+      using_paginated_faq: 'Usando geração de FAQ''s paginada para o documento %{document_id}'
       using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
       response_creation_error: 'Error in creating response document: %{error}'
       missing_openai_file_id: 'O documento deve ter openai_file_id para processamento paginado'
