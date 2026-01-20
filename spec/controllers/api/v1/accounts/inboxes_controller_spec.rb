@@ -363,7 +363,8 @@ RSpec.describe 'Inboxes API', type: :request do
 
     context 'when it is an authenticated user' do
       let(:admin) { create(:user, account: account, role: :administrator) }
-      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com' } } }
+      let(:priority_group) { create(:priority_group, account: account) }
+      let(:valid_params) { { name: 'test', channel: { type: 'web_widget', website_url: 'test.com', priority_group_id: priority_group.id } } }
 
       it 'will not create inbox for agent' do
         agent = create(:user, account: account, role: :agent)

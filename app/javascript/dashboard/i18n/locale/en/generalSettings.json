@@ -72,6 +72,11 @@
         },
         "UPDATE_BUTTON": "Save Changes"
       },
+      "QUEUE_MESSAGE": {
+          "LABEL": "Custom queue message",
+          "HELP": "Message sent to the customer if conversation is in queue",
+          "PLACEHOLDER": "All agents are currently busy. We will connect you to a free agent as soon as one is available."
+      },
       "NAME": {
         "LABEL": "Account name",
         "PLACEHOLDER": "Your account name",
@@ -92,6 +97,9 @@
         "PLACEHOLDER": "Your company's support email",
         "ERROR": ""
       },
+      "QUEUE_ENABLED": "Enable queue",
+      "LIMIT_ENABLED": "Enable global chat limit",
+      "LIMIT_VALUE": "Enter the maximum number of active chats",
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
         "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."

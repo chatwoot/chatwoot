@@ -44,6 +44,7 @@ import {
   appendSignature,
   removeSignature,
   getEffectiveChannelType,
+  extractTextFromMarkdown,
 } from 'dashboard/helper/editorHelper';
 import { isFileTypeAllowedForChannel } from 'shared/helpers/FileHelper';
 
@@ -400,6 +401,19 @@ export default {
         !!this.quotedEmailText
       );
     },
+    showRichContentEditor() {
+      if (this.isOnPrivateNote || this.isRichEditorEnabled) {
+        return true;
+      }
+
+      return false;
+    },
+    // ensure that the signature is plain text depending on `showRichContentEditor`
+    signatureToApply() {
+      return this.showRichContentEditor
+        ? this.messageSignature
+        : extractTextFromMarkdown(this.messageSignature);
+    },
   },
   watch: {
     currentChat(conversation, oldConversation) {
@@ -568,14 +582,26 @@ export default {
       if (this.isPrivate) {
         return message;
       }
-
-      const effectiveChannelType = getEffectiveChannelType(
-        this.channelType,
-        this.inbox?.medium || ''
-      );
+      if (this.showRichContentEditor) {
+        const effectiveChannelType = getEffectiveChannelType(
+          this.channelType,
+          this.inbox?.medium || ''
+        );
+        return this.sendWithSignature
+          ? appendSignature(
+              message,
+              this.messageSignature,
+              effectiveChannelType
+            )
+          : removeSignature(
+              message,
+              this.messageSignature,
+              effectiveChannelType
+            );
+      }
       return this.sendWithSignature
-        ? appendSignature(message, this.messageSignature, effectiveChannelType)
-        : removeSignature(message, this.messageSignature, effectiveChannelType);
+        ? appendSignature(message, this.signatureToApply)
+        : removeSignature(message, this.signatureToApply);
     },
     removeFromDraft() {
       if (this.conversationIdByRoute) {
@@ -787,15 +813,19 @@ export default {
         // if signature is enabled, append it to the message
         // appendSignature ensures that the signature is not duplicated
         // so we don't need to check if the signature is already present
-        const effectiveChannelType = getEffectiveChannelType(
-          this.channelType,
-          this.inbox?.medium || ''
-        );
-        message = appendSignature(
-          message,
-          this.messageSignature,
-          effectiveChannelType
-        );
+        if (this.showRichContentEditor) {
+          const effectiveChannelType = getEffectiveChannelType(
+            this.channelType,
+            this.inbox?.medium || ''
+          );
+          message = appendSignature(
+            message,
+            this.messageSignature,
+            effectiveChannelType
+          );
+        } else {
+          message = appendSignature(message, this.signatureToApply);
+        }
       }
 
       const updatedMessage = replaceVariablesInMessage({
@@ -834,15 +864,19 @@ export default {
       this.message = '';
       if (this.sendWithSignature && !this.isPrivate) {
         // if signature is enabled, append it to the message
-        const effectiveChannelType = getEffectiveChannelType(
-          this.channelType,
-          this.inbox?.medium || ''
-        );
-        this.message = appendSignature(
-          this.message,
-          this.messageSignature,
-          effectiveChannelType
-        );
+        if (this.showRichContentEditor) {
+          const effectiveChannelType = getEffectiveChannelType(
+            this.channelType,
+            this.inbox?.medium || ''
+          );
+          this.message = appendSignature(
+            this.message,
+            this.messageSignature,
+            effectiveChannelType
+          );
+        } else {
+          this.message = appendSignature(this.message, this.signatureToApply);
+        }
       }
       this.attachedFiles = [];
       this.isRecordingAudio = false;

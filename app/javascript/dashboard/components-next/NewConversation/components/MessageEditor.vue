@@ -25,6 +25,7 @@ const modelValue = defineModel({
 <template>
   <div class="flex-1 h-full">
     <Editor
+      :key="editorKey"
       v-model="modelValue"
       :editor-key="editorKey"
       :placeholder="
