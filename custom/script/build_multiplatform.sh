@@ -42,10 +42,14 @@ echo -e "${GREEN}Current commit: $CURRENT_COMMIT${NC}"
 echo -e "${GREEN}CommMate SHA: $CURRENT_COMMIT_FULL${NC}"
 echo ""
 
-# Create manifest
+# Clean up any existing images/manifests with this version
 echo "Step 1: Creating manifest"
 echo "-----------------------------------"
-podman manifest create $IMAGE_NAME:$VERSION || podman manifest create $IMAGE_NAME:$VERSION --amend
+echo "Cleaning up any existing images/manifests..."
+podman manifest rm $IMAGE_NAME:$VERSION 2>/dev/null || true
+podman rmi -f $IMAGE_NAME:$VERSION 2>/dev/null || true
+podman rmi -f localhost/$IMAGE_NAME:$VERSION 2>/dev/null || true
+podman manifest create $IMAGE_NAME:$VERSION
 echo -e "${GREEN}✓ Manifest created${NC}"
 echo ""
 
