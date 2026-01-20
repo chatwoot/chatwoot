@@ -105,7 +105,6 @@ export default {
     shouldShowLabelSuggestions() {
       return (
         this.isOpen &&
-        this.isEnterprise &&
         this.isAIIntegrationEnabled &&
         !this.messageSentSinceOpened
       );
@@ -288,10 +287,6 @@ export default {
       this.labelSuggestions = [];
 
       if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      if (!this.isEnterprise) {
         return;
       }
 
