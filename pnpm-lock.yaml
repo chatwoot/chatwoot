@@ -14,7 +14,7 @@ importers:
   .:
     dependencies:
       '@amplitude/analytics-browser':
-        specifier: ^2.11.10
+        specifier: ^2.33.1
         version: 2.33.1
       '@breezystack/lamejs':
         specifier: ^1.2.7

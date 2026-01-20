@@ -31,6 +31,7 @@
     }
   ],
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.33.1",
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.3.5",
@@ -83,7 +84,6 @@
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "pinia": "^3.0.4",
-    "@amplitude/analytics-browser": "^2.11.10",
     "qrcode": "^1.5.4",
     "semver": "7.6.3",
     "snakecase-keys": "^8.0.1",
