@@ -1,6 +1,6 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import AILoader from './AILoader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -18,7 +18,7 @@ export default {
   emits: ['close', 'applyText'],
   setup() {
     const { formatMessage } = useMessageFormatter();
-    const { draftMessage, processEvent, recordAnalytics } = useAI();
+    const { draftMessage, processEvent, recordAnalytics } = useCaptain();
     return { draftMessage, processEvent, recordAnalytics, formatMessage };
   },
   data() {

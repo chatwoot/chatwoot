@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 /**
@@ -9,7 +9,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
  * @returns {Object} Copilot reply state and methods
  */
 export function useCopilotReply() {
-  const { processEvent, followUp } = useAI();
+  const { processEvent, followUp } = useCaptain();
   const { updateUISettings } = useUISettings();
 
   const showEditor = ref(false);

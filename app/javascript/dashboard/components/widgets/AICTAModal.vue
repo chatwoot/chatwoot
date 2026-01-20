@@ -3,7 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -16,7 +16,7 @@ export default {
 
   setup() {
     const { updateUISettings } = useUISettings();
-    const { recordAnalytics } = useAI();
+    const { recordAnalytics } = useCaptain();
     const v$ = useVuelidate();
 
     return { updateUISettings, v$, recordAnalytics };

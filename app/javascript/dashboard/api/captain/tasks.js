@@ -14,33 +14,6 @@ class TasksAPI extends ApiClient {
   }
 
   /**
-   * Processes an event using the Captain Tasks API.
-   * @param {Object} options - The options for the event.
-   * @param {string} [options.type='improve'] - The type of event to process.
-   * @param {string} [options.content] - The content of the event.
-   * @param {string} [options.conversationId] - The ID of the conversation to process the event for.
-   * @param {AbortSignal} [signal] - AbortSignal to cancel the request.
-   * @returns {Promise} A promise that resolves with the result of the event processing.
-   */
-  processEvent({ type = 'improve', content, conversationId }, signal) {
-    // Route to appropriate endpoint based on type
-    if (type === 'summarize') {
-      return this.summarize(conversationId, signal);
-    }
-
-    if (type === 'reply_suggestion') {
-      return this.replySuggestion(conversationId, signal);
-    }
-
-    if (type === 'label_suggestion') {
-      return this.labelSuggestion(conversationId, signal);
-    }
-
-    // All other types are rewrite operations
-    return this.rewrite({ content, operation: type, conversationId }, signal);
-  }
-
-  /**
    * Rewrites content with a specific operation.
    * @param {Object} options - The rewrite options.
    * @param {string} options.content - The content to rewrite.

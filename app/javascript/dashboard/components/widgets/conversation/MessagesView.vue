@@ -2,7 +2,7 @@
 import { ref, provide } from 'vue';
 // composable
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 // components
@@ -59,21 +59,14 @@ export default {
 
     useKeyboardEvents(keyboardEvents);
 
-    const {
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-    } = useAI();
+    const { captainTasksEnabled, getLabelSuggestions } = useCaptain();
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
       isPopOutReplyBox,
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
+      captainTasksEnabled,
+      getLabelSuggestions,
       conversationPanelRef,
     };
   },
@@ -101,9 +94,7 @@ export default {
     },
     shouldShowLabelSuggestions() {
       return (
-        this.isOpen &&
-        this.isAIIntegrationEnabled &&
-        !this.messageSentSinceOpened
+        this.isOpen && this.captainTasksEnabled && !this.messageSentSinceOpened
       );
     },
     inboxId() {
@@ -291,16 +282,11 @@ export default {
       const existingLabels = this.currentChat?.labels || [];
       if (existingLabels.length > 0) return;
 
-      // method available in mixin, need to ensure that integrations are present
-      await this.fetchIntegrationsIfRequired();
-
-      if (!this.isLabelSuggestionFeatureEnabled) {
+      if (!this.captainTasksEnabled) {
         return;
       }
 
-      this.labelSuggestions = await this.fetchLabelSuggestions({
-        conversationId: this.currentChat.id,
-      });
+      this.labelSuggestions = await this.getLabelSuggestions();
 
       // once the labels are fetched, we need to scroll to bottom
       // but we need to wait for the DOM to be updated

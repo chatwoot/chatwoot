@@ -4,7 +4,7 @@ import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import AICTAModal from './AICTAModal.vue';
 import AIAssistanceModal from './AIAssistanceModal.vue';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
@@ -23,7 +23,7 @@ export default {
   setup(props, { emit }) {
     const { uiSettings, updateUISettings } = useUISettings();
 
-    const { isAIIntegrationEnabled, draftMessage, recordAnalytics } = useAI();
+    const { captainTasksEnabled, draftMessage, recordAnalytics } = useCaptain();
 
     const { isAdmin } = useAdmin();
 
@@ -52,7 +52,7 @@ export default {
       initialMessage,
       initializeMessage,
       recordAnalytics,
-      isAIIntegrationEnabled,
+      captainTasksEnabled,
       draftMessage,
     };
   },
@@ -68,18 +68,18 @@ export default {
     isAICTAModalDismissed() {
       return this.uiSettings.is_open_ai_cta_modal_dismissed;
     },
-    // Display a AI CTA button for admins if the AI integration has not been added yet and the AI assistance modal has not been dismissed.
+    // Display a AI CTA button for admins if AI is not enabled and the AI assistance modal has not been dismissed.
     shouldShowAIAssistCTAButtonForAdmin() {
       return (
         this.isAdmin &&
-        !this.isAIIntegrationEnabled &&
+        !this.captainTasksEnabled &&
         !this.isAICTAModalDismissed &&
         this.isAChatwootInstance
       );
     },
     // Display a AI CTA button for agents and other admins who have not yet opened the AI assistance modal.
     shouldShowAIAssistCTAButton() {
-      return this.isAIIntegrationEnabled && !this.isAICTAModalDismissed;
+      return this.captainTasksEnabled && !this.isAICTAModalDismissed;
     },
   },
 
@@ -125,7 +125,7 @@ export default {
 
 <template>
   <div>
-    <div v-if="isAIIntegrationEnabled" class="relative">
+    <div v-if="captainTasksEnabled" class="relative">
       <AIAssistanceCTAButton
         v-if="shouldShowAIAssistCTAButton"
         @open="openAIAssist"
