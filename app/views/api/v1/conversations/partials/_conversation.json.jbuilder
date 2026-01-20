@@ -30,10 +30,20 @@ json.id conversation.display_id
 if conversation.messages.where(account_id: conversation.account_id).last.blank?
   json.messages []
 else
-  json.messages [
-    conversation.messages.where(account_id: conversation.account_id)
-                .includes([{ attachments: [{ file_attachment: [:blob] }] }]).last.try(:push_event_data)
-  ]
+  messages = conversation.messages.where(account_id: conversation.account_id)
+                         .includes(attachments: { file_attachment: :blob }, sender: { avatar_attachment: [:blob] })
+                         .order(:created_at)
+
+  json.messages do
+    if params[:include_messages] == 'true'
+      json.array! messages do |message|
+        json.partial!('api/v1/models/message', formats: [:json], message: message)
+      end
+    else
+      last_message = messages.last
+      json.array!([last_message&.push_event_data].compact)
+    end
+  end
 end
 
 json.account_id conversation.account_id
