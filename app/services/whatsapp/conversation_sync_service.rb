@@ -3,6 +3,8 @@ class Whatsapp::ConversationSyncService
 
   pattr_initialize [:inbox!, :params!]
 
+  MEDIA_TYPES = %w[image audio video document sticker voice].freeze
+
   def perform
     return unless valid_sync_event?
 
@@ -131,11 +133,11 @@ class Whatsapp::ConversationSyncService
     return conversation if conversation
 
     # Create new conversation
+    # Note: Status defaults to 'open' based on Conversation model's determine_conversation_status callback
     contact_inbox.conversations.create!(
       account: inbox.account,
       inbox: inbox,
       contact: contact_inbox.contact,
-      status: :resolved, # Historical conversations are resolved by default
       additional_attributes: {
         whatsapp_conversation_synced: true,
         whatsapp_conversation_sync_timestamp: Time.current.to_i
@@ -147,6 +149,7 @@ class Whatsapp::ConversationSyncService
     Rails.logger.debug { "[WHATSAPP] Creating echo message: #{echo_item}" }
     wa_id = echo_item[:to]
     message_id = echo_item[:id]
+    message_type = echo_item[:type]
     message_content = extract_message_content(echo_item)
 
     contact_inbox = find_contact_inbox(wa_id)
@@ -156,13 +159,13 @@ class Whatsapp::ConversationSyncService
 
     return if conversation.messages.find_by(source_id: message_id)
 
-    conversation.messages.create!(
+    message = conversation.messages.build(
       account: inbox.account,
       inbox: inbox,
       message_type: :outgoing,
       content: message_content,
       source_id: message_id,
-      sender: nil, # TODO: Echo messages don't have a specific sender, check this later
+      sender: nil,
       created_at: Time.zone.at(echo_item[:timestamp].to_i),
       additional_attributes: {
         whatsapp_message_synced: true,
@@ -170,42 +173,51 @@ class Whatsapp::ConversationSyncService
         whatsapp_sync_timestamp: Time.current.to_i
       }
     )
+
+    attach_media(message, echo_item, message_type) if MEDIA_TYPES.include?(message_type)
+    message.save!
   end
 
   def create_historical_message(conversation, message_item)
     message_content = extract_message_content(message_item)
-    message_type = determine_message_type(message_item)
+    msg_direction = determine_message_type(message_item)
+    media_type = message_item[:type]
 
-    conversation.messages.create!(
+    message = conversation.messages.build(
       account: inbox.account,
       inbox: inbox,
-      message_type: message_type,
+      message_type: msg_direction,
       content: message_content,
       source_id: message_item[:id],
-      sender: message_type == :incoming ? conversation.contact : nil,
-      created_at: Time.at(message_item[:timestamp].to_i),
+      sender: msg_direction == :incoming ? conversation.contact : nil,
+      created_at: Time.zone.at(message_item[:timestamp].to_i),
       additional_attributes: {
         whatsapp_message_synced: true,
         whatsapp_message_type: 'historical',
         whatsapp_sync_timestamp: Time.current.to_i
       }
     )
+
+    attach_media(message, message_item, media_type) if MEDIA_TYPES.include?(media_type)
+    message.save!
   end
 
   def extract_message_content(message_item)
-    # Extract content based on message type
+    # Extract content based on message type, including captions for media
     if message_item[:text]
       message_item[:text][:body]
     elsif message_item[:image]
-      'Image message'
+      message_item[:image][:caption]
     elsif message_item[:document]
-      'Document message'
+      message_item[:document][:caption] || message_item[:document][:filename]
     elsif message_item[:audio]
-      'Audio message'
+      message_item[:audio][:caption]
     elsif message_item[:video]
-      'Video message'
-    else
-      'Message content'
+      message_item[:video][:caption]
+    elsif message_item[:sticker]
+      nil
+    elsif message_item[:voice]
+      nil
     end
   end
 
@@ -217,5 +229,54 @@ class Whatsapp::ConversationSyncService
     else
       :incoming
     end
+  end
+
+  def attach_media(message, message_item, message_type)
+    attachment_payload = message_item[message_type.to_sym]
+    return unless attachment_payload&.dig(:id)
+
+    attachment_file = download_attachment_file(attachment_payload)
+    return if attachment_file.blank?
+
+    message.attachments.new(
+      account_id: message.account_id,
+      file_type: file_content_type(message_type),
+      file: {
+        io: attachment_file,
+        filename: attachment_payload[:filename] || attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      }
+    )
+  rescue Down::Error => e
+    Rails.logger.error "[WHATSAPP] Failed to download media attachment: #{e.message}"
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] Error attaching media: #{e.message}"
+  end
+
+  def download_attachment_file(attachment_payload)
+    media_id = attachment_payload[:id]
+    return unless media_id
+
+    url_response = HTTParty.get(
+      inbox.channel.media_url(media_id),
+      headers: inbox.channel.api_headers
+    )
+
+    if url_response.unauthorized?
+      inbox.channel.authorization_error!
+      return
+    end
+
+    return unless url_response.success?
+
+    Down.download(url_response.parsed_response['url'], headers: inbox.channel.api_headers)
+  end
+
+  def file_content_type(file_type)
+    return :image if %w[image sticker].include?(file_type)
+    return :audio if %w[audio voice].include?(file_type)
+    return :video if file_type == 'video'
+
+    :file
   end
 end
