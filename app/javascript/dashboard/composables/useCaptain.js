@@ -14,7 +14,7 @@ export function useCaptain() {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN);
   });
 
-  const showCaptainTasks = computed(() => {
+  const captainTasksEnabled = computed(() => {
     return isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN_TASKS);
   });
 
@@ -51,7 +51,7 @@ export function useCaptain() {
     captainLimits,
     documentLimits,
     responseLimits,
-    showCaptainTasks,
+    captainTasksEnabled,
     fetchLimits,
     isFetchingLimits,
   };
