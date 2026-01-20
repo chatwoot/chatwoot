@@ -89,8 +89,15 @@ class Captain::FollowUpService < Captain::BaseTaskService
       'event_name' => follow_up_context['event_name'],
       'original_context' => follow_up_context['original_context'],
       'last_response' => assistant_msg,
-      'conversation_history' => updated_history
+      'conversation_history' => updated_history,
+      'channel_type' => follow_up_context['channel_type']
     }
+  end
+
+  def instrumentation_metadata
+    {
+      channel_type: conversation&.inbox&.channel_type || follow_up_context['channel_type']
+    }.compact
   end
 
   def event_name

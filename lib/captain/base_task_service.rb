@@ -166,7 +166,8 @@ class Captain::BaseTaskService
       event_name: event_name,
       original_context: extract_original_context(messages),
       last_response: response[:message],
-      conversation_history: []
+      conversation_history: [],
+      channel_type: conversation&.inbox&.channel_type
     }
   end
 
