@@ -1,7 +1,6 @@
 <script>
 import { ref, provide } from 'vue';
 // composable
-import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
@@ -49,7 +48,6 @@ export default {
   setup() {
     const isPopOutReplyBox = ref(false);
     const conversationPanelRef = ref(null);
-    const { isEnterprise } = useConfig();
 
     const keyboardEvents = {
       Escape: {
@@ -71,7 +69,6 @@ export default {
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
-      isEnterprise,
       isPopOutReplyBox,
       isAIIntegrationEnabled,
       isLabelSuggestionFeatureEnabled,
