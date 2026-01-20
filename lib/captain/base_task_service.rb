@@ -96,8 +96,15 @@ class Captain::BaseTaskService
       feature_name: event_name,
       model: model,
       messages: messages,
-      temperature: nil
+      temperature: nil,
+      metadata: instrumentation_metadata
     }
+  end
+
+  def instrumentation_metadata
+    {
+      channel_type: conversation&.inbox&.channel_type
+    }.compact
   end
 
   def conversation_messages(start_from: 0)
