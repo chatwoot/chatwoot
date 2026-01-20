@@ -35,7 +35,7 @@ export const AUTOMATIONS = {
       {
         key: 'status',
         name: 'STATUS',
-        inputType: 'multi_select',
+        inputType: 'search_select',
         filterOperators: OPERATOR_TYPES_1,
       },
       {
