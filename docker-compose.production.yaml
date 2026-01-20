@@ -16,6 +16,7 @@ services:
       # With host network, use localhost to access host services
       - POSTGRES_HOST=${POSTGRES_HOST:-localhost}
       - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - REDIS_URL=${REDIS_URL:-redis://localhost:6379}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '7000', '-b', '0.0.0.0']
     restart: always
@@ -31,6 +32,7 @@ services:
       # With host network, use localhost to access host services
       - POSTGRES_HOST=${POSTGRES_HOST:-localhost}
       - POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      - REDIS_URL=${REDIS_URL:-redis://localhost:6379}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
