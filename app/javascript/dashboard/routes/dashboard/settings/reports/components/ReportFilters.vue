@@ -144,6 +144,7 @@
         </p>
         <woot-date-range-picker
           show-range
+          show-time
           :value="customDateRange"
           :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
           :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
@@ -250,7 +251,7 @@ export default {
         return getUnixTime(this.customDateTimeRange[1]);
       }
       if (this.isDateRangeSelected) {
-        return this.toCustomDate(this.customDateRange[1]);
+        return getUnixTime(this.customDateRange[1]);
       }
       return this.toCustomDate(new Date());
     },
@@ -259,7 +260,7 @@ export default {
         return getUnixTime(this.customDateTimeRange[0]);
       }
       if (this.isDateRangeSelected) {
-        return this.fromCustomDate(this.customDateRange[0]);
+        return getUnixTime(this.customDateRange[0]);
       }
       const dateRange = {
         0: 6,

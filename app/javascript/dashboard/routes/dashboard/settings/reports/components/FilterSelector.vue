@@ -7,6 +7,7 @@
       <woot-date-range-picker
         v-if="isDateRangeSelected"
         show-range
+        show-time
         class="no-margin auto-width"
         :value="customDateRange"
         :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
@@ -169,7 +170,7 @@ export default {
         return getUnixTimestamp(this.customDateTimeRange[1]);
       }
       if (this.isDateRangeSelected) {
-        return getUnixEndOfDay(this.customDateRange[1]);
+        return getUnixTimestamp(this.customDateRange[1]);
       }
       return getUnixEndOfDay(new Date());
     },
@@ -178,7 +179,7 @@ export default {
         return getUnixTimestamp(this.customDateTimeRange[0]);
       }
       if (this.isDateRangeSelected) {
-        return getUnixStartOfDay(this.customDateRange[0]);
+        return getUnixTimestamp(this.customDateRange[0]);
       }
 
       const { offset } = this.selectedDateRange;

@@ -44,6 +44,7 @@
               <woot-date-range-picker
                 v-if="isCustomDateRange"
                 show-range
+                show-time
                 class="!mb-[-1rem]"
                 :value="customDateRange"
                 :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
@@ -195,8 +196,8 @@ export default {
       let daysBefore;
 
       if (this.isCustomDateRange) {
-        to = endOfDay(this.customDateRange[1]);
-        const from = startOfDay(this.customDateRange[0]);
+        to = this.customDateRange[1];
+        const from = this.customDateRange[0];
         const diffInDays = Math.ceil((to - from) / (1000 * 60 * 60 * 24));
         daysBefore = diffInDays - 1;
       } else {
@@ -219,8 +220,8 @@ export default {
       let from;
 
       if (this.isCustomDateRange) {
-        to = endOfDay(this.customDateRange[1]);
-        from = startOfDay(this.customDateRange[0]);
+        to = this.customDateRange[1];
+        from = this.customDateRange[0];
       } else {
         // the data for the last 6 days won't ever change,
         // so there's no need to fetch it again

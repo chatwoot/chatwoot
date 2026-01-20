@@ -1,6 +1,7 @@
 <template>
   <div class="date-picker">
     <date-picker
+      :type="showTime ? 'datetime' : 'date'"
       :range="true"
       :confirm="true"
       :clearable="false"
@@ -8,6 +9,7 @@
       :confirm-text="confirmText"
       :placeholder="placeholder"
       :value="value"
+      :format="showTime ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'"
       @change="handleChange"
     />
   </div>
@@ -29,6 +31,10 @@ export default {
     value: {
       type: Array,
       default: () => [],
+    },
+    showTime: {
+      type: Boolean,
+      default: false,
     },
   },
   methods: {
