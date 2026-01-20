@@ -28,10 +28,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
 
   def download_via_media_api(attachment_payload)
     url_response = HTTParty.get(
-      inbox.channel.media_url(
-        attachment_payload[:id],
-        inbox.channel.provider_config['phone_number_id']
-      ),
+      inbox.channel.media_url(attachment_payload[:id]),
       headers: inbox.channel.api_headers
     )
     # This url response will be failure if the access token has expired.
