@@ -10,22 +10,25 @@ services:
   rails:
     <<: *base
     depends_on:
-      - postgres
       - redis
     ports:
-      - '127.0.0.1:3000:3000'
+      - '127.0.0.1:7000:7000'
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    command: ['bundle', 'exec', 'rails', 's', '-p', '7000', '-b', '0.0.0.0']
     restart: always
+    # Linux: Use Docker bridge network gateway to access host database
+    # Set POSTGRES_HOST=172.17.0.1 in .env file (or use host IP if different)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Works on newer Docker versions
+      # Alternative: If above doesn't work, use: "host.docker.internal:172.17.0.1"
 
   sidekiq:
     <<: *base
     depends_on:
-      - postgres
       - redis
     environment:
       - NODE_ENV=production
@@ -33,19 +36,25 @@ services:
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
+    # Linux: Use Docker bridge network gateway to access host database
+    # Set POSTGRES_HOST=172.17.0.1 in .env file (or use host IP if different)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # Works on newer Docker versions
+      # Alternative: If above doesn't work, use: "host.docker.internal:172.17.0.1"
 
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
+  # Commented out - using local database instead
+  # postgres:
+  #   image: pgvector/pgvector:pg16
+  #   restart: always
+  #   ports:
+  #     - '127.0.0.1:5432:5432'
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   environment:
+  #     - POSTGRES_DB=chatwoot
+  #     - POSTGRES_USER=postgres
+  #     # Please provide your own password.
+  #     - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
@@ -59,5 +68,5 @@ services:
 
 volumes:
   storage_data:
-  postgres_data:
+  # postgres_data:  # Not needed when using local database
   redis_data:
