@@ -23,6 +23,7 @@ import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vu
 import AudioRecorder from 'dashboard/components/widgets/WootWriter/AudioRecorder.vue';
 import { AUDIO_FORMATS } from 'shared/constants/messages';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
@@ -493,6 +494,7 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.on(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, this.addIntoEditor);
+    emitter.on(CMD_AI_ASSIST, this.executeCopilotAction);
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
@@ -503,6 +505,7 @@ export default {
       BUS_EVENTS.NEW_CONVERSATION_MODAL,
       this.onNewConversationModalActive
     );
+    emitter.off(CMD_AI_ASSIST, this.executeCopilotAction);
   },
   methods: {
     handleInsert(article) {

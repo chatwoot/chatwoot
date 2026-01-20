@@ -4,7 +4,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -146,7 +146,7 @@ export function useConversationHotKeys() {
     removeLabelFromConversation,
   } = useConversationLabels();
 
-  const { isAIIntegrationEnabled } = useAI();
+  const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
 
   const currentChat = useMapGetter('getSelectedChat');
@@ -381,7 +381,7 @@ export function useConversationHotKeys() {
       ...labelActions.value,
       ...assignPriorityActions.value,
     ];
-    if (isAIIntegrationEnabled.value) {
+    if (captainTasksEnabled.value) {
       return [...defaultConversationHotKeys, ...AIAssistActions.value];
     }
     return defaultConversationHotKeys;

@@ -12,7 +12,7 @@ RSpec.describe Captain::ReplySuggestionService do
   before do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     create(:message, conversation: conversation, message_type: :incoming, content: 'I need help')
-    allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+    allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
 
     mock_response = instance_double(RubyLLM::Message, content: 'Sure, I can help!', input_tokens: 50, output_tokens: 20)
     mock_chat = instance_double(RubyLLM::Chat)

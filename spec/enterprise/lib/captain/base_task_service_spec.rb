@@ -31,11 +31,12 @@ RSpec.describe Captain::BaseTaskService, type: :model do
     # Ensure captain is enabled by default for tests unless explicitly testing disabled state
     before do
       allow(account).to receive(:feature_enabled?).and_call_original
-      allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+      allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
     end
 
     context 'when usage limit is exceeded' do
       before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         allow(account).to receive(:usage_limits).and_return({
                                                               captain: { responses: { current_available: 0 } }
                                                             })
@@ -112,7 +113,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
 
     context 'when captain is disabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
       end
 
       context 'when on Chatwoot Cloud' do
@@ -150,7 +151,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
 
     context 'when captain is enabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+        allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
       end
 
       it 'proceeds with the task' do

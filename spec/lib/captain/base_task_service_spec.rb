@@ -25,7 +25,7 @@ RSpec.describe Captain::BaseTaskService do
     # Stub captain enabled check to allow OSS specs to test base functionality
     # without enterprise module interference
     allow(account).to receive(:feature_enabled?).and_call_original
-    allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+    allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
   end
 
   describe '#perform' do
@@ -121,6 +121,44 @@ RSpec.describe Captain::BaseTaskService do
       allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
       allow(mock_chat).to receive(:with_instructions)
       allow(mock_chat).to receive(:ask).and_return(mock_response)
+    end
+
+    context 'when captain_tasks is disabled' do
+      before do
+        allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(false)
+      end
+
+      it 'returns disabled error' do
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:error]).to eq(I18n.t('captain.disabled'))
+        expect(result[:error_code]).to eq(403)
+      end
+
+      it 'does not make API call' do
+        expect(Llm::Config).not_to receive(:with_api_key)
+        service.send(:make_api_call, model: model, messages: messages)
+      end
+    end
+
+    context 'when API key is not configured' do
+      before do
+        InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_API_KEY')&.destroy
+        # Clear memoized api_key
+        service.instance_variable_set(:@api_key, nil)
+      end
+
+      it 'returns api key missing error' do
+        result = service.send(:make_api_call, model: model, messages: messages)
+
+        expect(result[:error]).to eq(I18n.t('captain.api_key_missing'))
+        expect(result[:error_code]).to eq(401)
+      end
+
+      it 'does not make API call' do
+        expect(Llm::Config).not_to receive(:with_api_key)
+        service.send(:make_api_call, model: model, messages: messages)
+      end
     end
 
     it 'calls execute_ruby_llm_request with correct parameters' do

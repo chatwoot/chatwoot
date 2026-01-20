@@ -213,7 +213,7 @@ onMounted(() => {
     >
       <p
         v-dompurify-html="formatMessage(generatedContent, false)"
-        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4 underline decoration-n-iris-8 underline-offset-auto decoration-solid decoration-[10%]"
+        class="text-n-iris-12 text-sm prose-sm font-normal !mb-4"
       />
     </div>
     <div class="editor-root relative editor--copilot space-x-2">
