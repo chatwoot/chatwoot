@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'custom_exceptions/pdf_processing_error'
 
 RSpec.describe Captain::Llm::PdfProcessingService do
   let(:document) { create(:captain_document) }
@@ -28,13 +27,14 @@ RSpec.describe Captain::Llm::PdfProcessingService do
     context 'when uploading PDF to OpenAI' do
       let(:mock_client) { instance_double(OpenAI::Client) }
       let(:pdf_content) { 'PDF content' }
+      let(:blob_double) { instance_double(ActiveStorage::Blob) }
+      let(:pdf_file) { instance_double(ActiveStorage::Attachment) }
 
       before do
         allow(document).to receive(:openai_file_id).and_return(nil)
-
-        # Use a simple double for ActiveStorage since it's a complex Rails object
-        pdf_file = double('pdf_file', download: pdf_content) # rubocop:disable RSpec/VerifiedDoubles
         allow(document).to receive(:pdf_file).and_return(pdf_file)
+        allow(pdf_file).to receive(:blob).and_return(blob_double)
+        allow(blob_double).to receive(:open).and_yield(StringIO.new(pdf_content))
 
         allow(OpenAI::Client).to receive(:new).and_return(mock_client)
         # Use a simple double for OpenAI::Files as it may not be loaded
@@ -51,7 +51,7 @@ RSpec.describe Captain::Llm::PdfProcessingService do
       it 'raises error when upload fails' do
         allow(mock_client.files).to receive(:upload).and_return({ 'id' => nil })
 
-        expect { service.process }.to raise_error(CustomExceptions::PdfUploadError)
+        expect { service.process }.to raise_error(CustomExceptions::Pdf::UploadError)
       end
     end
   end

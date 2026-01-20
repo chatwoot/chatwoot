@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
     "CALL": "呼叫",
-    "CALL_UNDER_DEVELOPMENT": "呼叫功能正在开发中",
+    "CALL_INITIATED": "Calling the contact…",
+    "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "添加 Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Add TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "添加 LinkedIn"
           },
@@ -569,6 +573,27 @@
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
       "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
       "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
+    }
+  },
+  "CONTACTS_BULK_ACTIONS": {
+    "ASSIGN_LABELS": "分配标签",
+    "ASSIGN_LABELS_SUCCESS": "已成功分配标签.",
+    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
+    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
+    "NO_LABELS_FOUND": "No labels available yet.",
+    "SELECTED_COUNT": "{count} 已选择",
+    "CLEAR_SELECTION": "Clear selection",
+    "SELECT_ALL": "全选 ({count})",
+    "DELETE_CONTACTS": "删除",
+    "DELETE_SUCCESS": "Contacts deleted successfully.",
+    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_DIALOG": {
+      "TITLE": "Delete selected contacts",
+      "SINGULAR_TITLE": "Delete selected contact",
+      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
+      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
+      "CONFIRM_MULTIPLE": "Delete contacts",
+      "CONFIRM_SINGLE": "删除联系人"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

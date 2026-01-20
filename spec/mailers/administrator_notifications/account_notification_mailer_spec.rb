@@ -28,7 +28,7 @@ RSpec.describe AdministratorNotifications::AccountNotificationMailer do
 
   describe '#format_deletion_date' do
     it 'formats a valid date string' do
-      date_str = '2024-12-31T23:59:59Z'
+      date_str = '2024-12-31T12:00:00Z'
       formatted = described_class.new.send(:format_deletion_date, date_str)
       expect(formatted).to eq('December 31, 2024')
     end

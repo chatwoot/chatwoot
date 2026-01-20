@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Indlæser Samtaler",
     "CANNOT_REPLY": "Du kan ikke svare på grund af",
     "24_HOURS_WINDOW": "24 timers beskedvindue begrænsning",
+    "48_HOURS_WINDOW": "48 timers beskedvindue begrænsning",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Denne samtale er ikke tildelt dig. Vil du tildele denne samtale til dig selv?",
     "ASSIGN_TO_ME": "Tildel til mig",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Vis rig teksteditor",
       "TIP_EMOJI_ICON": "Vis emoji-vælger",
       "TIP_ATTACH_ICON": "Vedhæft filer",
       "TIP_AUDIORECORDER_ICON": "Optag lyd",
@@ -227,6 +227,13 @@
           "YES": "Send",
           "CANCEL": "Annuller"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privat Note: Kun synlig for dig og dit team",
@@ -268,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Kontakt",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

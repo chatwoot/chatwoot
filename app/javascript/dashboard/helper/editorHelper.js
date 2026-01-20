@@ -5,6 +5,72 @@ import {
 } from '@chatwoot/prosemirror-schema';
 import { replaceVariablesInMessage } from '@chatwoot/utils';
 import * as Sentry from '@sentry/vue';
+import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
+import camelcaseKeys from 'camelcase-keys';
+
+/**
+ * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
+ * Links will be converted to text, and not removed.
+ *
+ * @param {string} markdown - markdown text to be extracted
+ * @returns {string} - The extracted text.
+ */
+export function extractTextFromMarkdown(markdown) {
+  if (!markdown) return '';
+  return markdown
+    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+    .replace(/`.*?`/g, '') // Remove inline code
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
+    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n') // Trim each line & remove any lines only having spaces
+    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
+    .trim(); // Trim any extra space
+}
+
+/**
+ * Strip unsupported markdown formatting based on channel capabilities.
+ * Uses MARKDOWN_PATTERNS from editor constants.
+ *
+ * @param {string} markdown - markdown text to process
+ * @param {string} channelType - The channel type to check supported formatting
+ * @param {boolean} cleanWhitespace - Whether to clean up extra whitespace and blank lines (default: true for signatures)
+ * @returns {string} - The markdown with unsupported formatting removed
+ */
+export function stripUnsupportedMarkdown(
+  markdown,
+  channelType,
+  cleanWhitespace = true
+) {
+  if (!markdown) return '';
+
+  const { marks = [], nodes = [] } = FORMATTING[channelType] || {};
+  const supported = [...marks, ...nodes];
+
+  // Apply patterns from MARKDOWN_PATTERNS for unsupported types
+  const result = MARKDOWN_PATTERNS.reduce((text, { type, patterns }) => {
+    if (supported.includes(type)) return text;
+    return patterns.reduce(
+      (t, { pattern, replacement }) => t.replace(pattern, replacement),
+      text
+    );
+  }, markdown);
+
+  if (!cleanWhitespace) return result;
+
+  // Clean whitespace for signatures
+  return result
+    .split('\n')
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join('\n')
+    .replace(/\n{2,}/g, '\n')
+    .trim();
+}
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -68,14 +134,38 @@ export function findSignatureInBody(body, signature) {
 }
 
 /**
+ * Gets the effective channel type for formatting purposes.
+ * For Twilio channels, returns WhatsApp or Twilio based on medium.
+ *
+ * @param {string} channelType - The channel type
+ * @param {string} medium - Optional. The medium for Twilio channels (sms/whatsapp)
+ * @returns {string} - The effective channel type for formatting
+ */
+export function getEffectiveChannelType(channelType, medium) {
+  if (channelType === INBOX_TYPES.TWILIO) {
+    return medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP
+      ? INBOX_TYPES.WHATSAPP
+      : INBOX_TYPES.TWILIO;
+  }
+  return channelType;
+}
+
+/**
  * Appends the signature to the body, separated by the signature delimiter.
+ * Automatically strips unsupported formatting based on channel capabilities.
  *
  * @param {string} body - The body to append the signature to.
  * @param {string} signature - The signature to append.
+ * @param {string} channelType - Optional. The effective channel type to determine supported formatting.
+ *                               For Twilio channels, pass the result of getEffectiveChannelType().
  * @returns {string} - The body with the signature appended.
  */
-export function appendSignature(body, signature) {
-  const cleanedSignature = cleanSignature(signature);
+export function appendSignature(body, signature, channelType) {
+  // Strip only unsupported formatting based on channel capabilities
+  const preparedSignature = channelType
+    ? stripUnsupportedMarkdown(signature, channelType)
+    : signature;
+  const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
   if (findSignatureInBody(body, cleanedSignature) > -1) {
     return body;
@@ -86,16 +176,29 @@ export function appendSignature(body, signature) {
 
 /**
  * Removes the signature from the body, along with the signature delimiter.
+ * Tries multiple signature variants: original, channel-stripped, and fully stripped.
  *
  * @param {string} body - The body to remove the signature from.
  * @param {string} signature - The signature to remove.
+ * @param {string} channelType - Optional. The effective channel type for channel-specific stripping.
  * @returns {string} - The body with the signature removed.
  */
-export function removeSignature(body, signature) {
-  // this will find the index of the signature if it exists
-  // Regardless of extra spaces or new lines after the signature, the index will be the same if present
-  const cleanedSignature = cleanSignature(signature);
-  const signatureIndex = findSignatureInBody(body, cleanedSignature);
+export function removeSignature(body, signature, channelType) {
+  // Build unique list of signature variants to try
+  const channelStripped = channelType
+    ? cleanSignature(stripUnsupportedMarkdown(signature, channelType))
+    : null;
+  const signaturesToTry = [
+    cleanSignature(signature),
+    channelStripped,
+    cleanSignature(extractTextFromMarkdown(signature)),
+  ].filter((sig, i, arr) => sig && arr.indexOf(sig) === i); // Remove nulls and duplicates
+
+  // Find the first matching signature
+  const signatureIndex = signaturesToTry.reduce(
+    (index, sig) => (index === -1 ? findSignatureInBody(body, sig) : index),
+    -1
+  );
 
   // no need to trim the ends here, because it will simply be removed in the next method
   let newBody = body;
@@ -107,17 +210,12 @@ export function removeSignature(body, signature) {
     newBody = newBody.substring(0, signatureIndex).trimEnd();
   }
 
-  // let's find the delimiter and remove it
-  const delimiterIndex = newBody.lastIndexOf(SIGNATURE_DELIMITER);
-  if (
-    delimiterIndex !== -1 &&
-    delimiterIndex === newBody.length - SIGNATURE_DELIMITER.length // this will ensure the delimiter is at the end
-  ) {
+  // Remove delimiter if it's at the end
+  if (newBody.endsWith(SIGNATURE_DELIMITER)) {
     // if the delimiter is at the end, remove it
-    newBody = newBody.substring(0, delimiterIndex);
+    newBody = newBody.slice(0, -SIGNATURE_DELIMITER.length);
   }
 
-  // return the value
   return newBody;
 }
 
@@ -134,28 +232,6 @@ export function removeSignature(body, signature) {
 export function replaceSignature(body, oldSignature, newSignature) {
   const withoutSignature = removeSignature(body, oldSignature);
   return appendSignature(withoutSignature, newSignature);
-}
-
-/**
- * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
- * Links will be converted to text, and not removed.
- *
- * @param {string} markdown - markdown text to be extracted
- * @returns
- */
-export function extractTextFromMarkdown(markdown) {
-  return markdown
-    .replace(/```[\s\S]*?```/g, '') // Remove code blocks
-    .replace(/`.*?`/g, '') // Remove inline code
-    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images before removing links
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links but keep the text
-    .replace(/#+\s*|[*_-]{1,3}/g, '') // Remove headers, bold, italic, lists etc.
-    .split('\n')
-    .map(line => line.trim())
-    .filter(Boolean)
-    .join('\n') // Trim each line & remove any lines only having spaces
-    .replace(/\n{2,}/g, '\n') // Remove multiple consecutive newlines (blank lines)
-    .trim(); // Trim any extra space
 }
 
 /**
@@ -284,6 +360,47 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
 }
 
 /**
+ * Strips unsupported markdown formatting from content based on the editor schema.
+ * This ensures canned responses with rich formatting can be inserted into channels
+ * that don't support certain formatting (e.g., API channels don't support bold).
+ *
+ * @param {string} content - The markdown content to sanitize
+ * @param {Object} schema - The ProseMirror schema with supported marks and nodes
+ * @returns {string} - Content with unsupported formatting stripped
+ */
+export function stripUnsupportedFormatting(content, schema) {
+  if (!content || typeof content !== 'string') return content;
+  if (!schema) return content;
+
+  let sanitizedContent = content;
+
+  // Get supported marks and nodes from the schema
+  // Note: ProseMirror uses snake_case internally (code_block, bullet_list, etc.)
+  // but our FORMATTING constant uses camelCase (codeBlock, bulletList, etc.)
+  // We use camelcase-keys to normalize node names for comparison
+  const supportedMarks = Object.keys(schema.marks || {});
+  const nodeKeys = Object.keys(schema.nodes || {});
+  const nodeKeysObj = Object.fromEntries(nodeKeys.map(k => [k, true]));
+  const supportedNodes = Object.keys(camelcaseKeys(nodeKeysObj));
+
+  // Process each formatting type in order (codeBlock before code is important!)
+  MARKDOWN_PATTERNS.forEach(({ type, patterns }) => {
+    // Check if this format type is supported by the schema
+    const isMarkSupported = supportedMarks.includes(type);
+    const isNodeSupported = supportedNodes.includes(type);
+
+    // If not supported, strip the formatting
+    if (!isMarkSupported && !isNodeSupported) {
+      patterns.forEach(({ pattern, replacement }) => {
+        sanitizedContent = sanitizedContent.replace(pattern, replacement);
+      });
+    }
+  });
+
+  return sanitizedContent;
+}
+
+/**
  * Content Node Creation Helper Functions for
  * - mention
  * - canned response
@@ -313,8 +430,17 @@ const createNode = (editorView, nodeType, content) => {
 
       return mentionNode;
     }
-    case 'cannedResponse':
-      return new MessageMarkdownTransformer(messageSchema).parse(content);
+    case 'cannedResponse': {
+      // Strip unsupported formatting before parsing to ensure content can be inserted
+      // into channels that don't support certain markdown features (e.g., API channels)
+      const sanitizedContent = stripUnsupportedFormatting(
+        content,
+        state.schema
+      );
+      return new MessageMarkdownTransformer(state.schema).parse(
+        sanitizedContent
+      );
+    }
     case 'variable':
       return state.schema.text(`{{${content}}}`);
     case 'emoji':
@@ -389,3 +515,85 @@ export const getContentNode = (
     ? creator(editorView, content, from, to, variables)
     : { node: null, from, to };
 };
+
+/**
+ * Get the formatting configuration for a specific channel type.
+ * Returns the appropriate marks, nodes, and menu items for the editor.
+ *
+ * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
+ * @returns {Object} The formatting configuration with marks, nodes, and menu properties
+ */
+export function getFormattingForEditor(channelType) {
+  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+}
+
+/**
+ * Menu Positioning Helpers
+ * Handles floating menu bar positioning for text selection in the editor.
+ */
+
+const MENU_CONFIG = { H: 46, W: 300, GAP: 10 };
+
+/**
+ * Calculate selection coordinates with bias to handle line-wraps correctly.
+ * @param {EditorView} editorView - ProseMirror editor view
+ * @param {Selection} selection - Current text selection
+ * @param {DOMRect} rect - Container bounding rect
+ * @returns {{start: Object, end: Object, selTop: number, onTop: boolean}}
+ */
+export function getSelectionCoords(editorView, selection, rect) {
+  const start = editorView.coordsAtPos(selection.from, 1);
+  const end = editorView.coordsAtPos(selection.to, -1);
+
+  const selTop = Math.min(start.top, end.top);
+  const spaceAbove = selTop - rect.top;
+  const onTop =
+    spaceAbove > MENU_CONFIG.H + MENU_CONFIG.GAP || end.bottom > rect.bottom;
+
+  return { start, end, selTop, onTop };
+}
+
+/**
+ * Calculate anchor position based on selection visibility and RTL direction.
+ * @param {Object} coords - Selection coordinates from getSelectionCoords
+ * @param {DOMRect} rect - Container bounding rect
+ * @param {boolean} isRtl - Whether text direction is RTL
+ * @returns {number} Anchor x-position for menu
+ */
+export function getMenuAnchor(coords, rect, isRtl) {
+  const { start, end, onTop } = coords;
+
+  if (!onTop) return end.left;
+
+  // If start of selection is visible, align to text. Else stick to container edge.
+  if (start.top >= rect.top) return isRtl ? start.right : start.left;
+
+  return isRtl ? rect.right - MENU_CONFIG.GAP : rect.left + MENU_CONFIG.GAP;
+}
+
+/**
+ * Calculate final menu position (left, top) within container bounds.
+ * @param {Object} coords - Selection coordinates from getSelectionCoords
+ * @param {DOMRect} rect - Container bounding rect
+ * @param {boolean} isRtl - Whether text direction is RTL
+ * @returns {{left: number, top: number, width: number}}
+ */
+export function calculateMenuPosition(coords, rect, isRtl) {
+  const { start, end, selTop, onTop } = coords;
+
+  const anchor = getMenuAnchor(coords, rect, isRtl);
+
+  // Calculate Left: shift by width if RTL, then make relative to container
+  const rawLeft = (isRtl ? anchor - MENU_CONFIG.W : anchor) - rect.left;
+
+  // Ensure menu stays within container bounds
+  const left = Math.min(Math.max(0, rawLeft), rect.width - MENU_CONFIG.W);
+
+  // Calculate Top: align to selection or bottom of selection
+  const top = onTop
+    ? Math.max(-26, selTop - rect.top - MENU_CONFIG.H - MENU_CONFIG.GAP)
+    : Math.max(start.bottom, end.bottom) - rect.top + MENU_CONFIG.GAP;
+  return { left, top, width: MENU_CONFIG.W };
+}
+
+/* End Menu Positioning Helpers */

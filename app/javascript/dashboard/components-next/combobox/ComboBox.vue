@@ -96,6 +96,7 @@ watch(
         :label="selectedLabel"
         trailing-icon
         :disabled="disabled"
+        no-animation
         class="justify-between w-full !px-3 !py-2.5 text-n-slate-12 font-normal group-hover/combobox:border-n-slate-6 focus:outline-n-brand"
         :class="{
           focused: open,

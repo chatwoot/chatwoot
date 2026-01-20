@@ -1,0 +1,64 @@
+{
+  "YEAR_IN_REVIEW": {
+    "TITLE": "Year in Review",
+    "LOADING": "Caricamento del tuo Year in Review...",
+    "ERROR": "Impossibile caricare lo Year in Review",
+    "CLOSE": "Chiudi",
+    "CONVERSATIONS": {
+      "TITLE": "Hai gestito",
+      "SUBTITLE": "conversazioni",
+      "FALLBACK": "Quest’anno non contavano i numeri. Contava esserci.",
+      "COMPARISON": {
+        "0_50": "Ti sei fatto trovare pronto. È così che nasce ogni inbox che si rispetti.",
+        "50_100": "Hai tenuto le risposte in movimento e le conversazioni ben vive.",
+        "100_500": "Hai gestito un bel po’ di traffico senza perdere il controllo.",
+        "500_2000": "Tutto è andato avanti, anche mentre il volume saliva.",
+        "2000_10000": "Hai fatto passare un traffico da ora di punta senza sudare.",
+        "10000_PLUS": "Una città intera di clienti che bussa alla porta. Tu? Tutto liscio come niente."
+      }
+    },
+    "BUSIEST_DAY": {
+      "TITLE": "Il tuo giorno più intenso è stato",
+      "MESSAGE": "{count} conversazioni quel giorno.",
+      "COMPARISON": {
+        "0_5": "Un giro di riscaldamento. L’inbox quasi non se n’è accorta.",
+        "5_10": "Abbastanza azione da giustificare un secondo caffè.",
+        "10_25": "Il ritmo è salito e l’inbox è rimasta sull’attenti.",
+        "25_50": "Una vera corsa, ma senza neanche sudare.",
+        "50_100": "Caos controllato, gestito come fosse un martedì qualunque.",
+        "100_500": "Un incendio totale. Eppure le risposte continuavano a partire.",
+        "500_PLUS": "L’inbox ha perso ogni calma e non ha mai rallentato."
+      }
+    },
+    "PERSONALITY": {
+      "TITLE": "Il tuo stile di supporto è",
+      "MESSAGES": {
+        "SWIFT_HELPER": "In media hai risposto in {time}. Più veloce della maggior parte delle notifiche.",
+        "QUICK_RESPONDER": "In media hai risposto in {time}. L’inbox non ha quasi mai aspettato.",
+        "STEADY_SUPPORT": "In media hai risposto in {time}. Ritmo tranquillo, risposte solide.",
+        "THOUGHTFUL_ADVISOR": "In media hai risposto in {time}. Il tempo giusto per fare le cose per bene."
+      }
+    },
+    "THANK_YOU": {
+      "TITLE": "Congratulazioni per essere sopravvissuto all’inbox del {year}.",
+      "MESSAGE": "Grazie per la dedizione incredibile con cui hai supportato i clienti durante quest’anno. Il tuo lavoro ha fatto davvero la differenza e siamo felici di averti in questo viaggio. Rendiamo il {nextYear} ancora migliore, insieme!"
+    },
+    "SHARE_MODAL": {
+      "TITLE": "Condividi il tuo Year in Review",
+      "PREPARING": "Preparazione dell'immagine...",
+      "DOWNLOAD": "Scarica",
+      "SHARE_TITLE": "Il mio Year in Review {year}",
+      "SHARE_TEXT": "Dai un'occhiata al mio Year in Review {year} con Chatwoot!",
+      "BRANDING": "Realizzato con Chatwoot"
+    },
+    "BANNER": {
+      "TITLE": "Il tuo Year in Review {year} è qui",
+      "BUTTON": "Vedi il tuo impatto"
+    },
+    "NAVIGATION": {
+      "PREVIOUS": "Precedente",
+      "NEXT": "Successivo",
+      "SHARE": "Condividi conversazione"
+    }
+  }
+}

@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Conversaties laden",
     "CANNOT_REPLY": "Je kunt niet reageren omdat",
     "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "48_HOURS_WINDOW": "Beperking van 48-uur berichtenvenster",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
     "ASSIGN_TO_ME": "Aan mij toewijzen",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Meer lezen",
       "DISMISS_REPLY": "Antwoord afwijzen",
       "REPLYING_TO": "Antwoord op:",
-      "TIP_FORMAT_ICON": "Toon rich text editor",
       "TIP_EMOJI_ICON": "Toon emoji-kiezer",
       "TIP_ATTACH_ICON": "Bestanden toevoegen",
       "TIP_AUDIORECORDER_ICON": "Audio opnemen",
@@ -227,6 +227,13 @@
           "YES": "Verzenden",
           "CANCEL": "Annuleren"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "Privéopmerking: alleen zichtbaar voor jou en je team",
@@ -268,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

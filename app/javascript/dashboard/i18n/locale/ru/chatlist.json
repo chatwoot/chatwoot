@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "Общий контакт"
+      },
+      "embed": {
+        "CONTENT": "Embedded content"
       }
     },
     "CHAT_SORT_BY_FILTER": {
