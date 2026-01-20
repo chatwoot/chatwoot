@@ -90,18 +90,29 @@ export default {
         this.isLoading = false;
       }
     },
+    handleSubmit() {
+      if (this.searchTerm.trim()) {
+        const url = `/hc/${this.portalSlug}/${this.localeCode}/search?query=${encodeURIComponent(this.searchTerm)}`;
+        window.location.href = url;
+      }
+    },
   },
 };
 </script>
 
 <template>
   <div v-on-clickaway="closeSearch" class="relative w-full max-w-5xl my-4">
-    <PublicSearchInput
-      :search-term="searchTerm"
-      :search-placeholder="searchTranslations.searchPlaceholder"
-      @update:search-term="onUpdateSearchTerm"
-      @focus="openSearch"
-    />
+    <form @submit.prevent="handleSubmit">
+      <PublicSearchInput
+        :search-term="searchTerm"
+        :search-placeholder="searchTranslations.searchPlaceholder"
+        @update:search-term="onUpdateSearchTerm"
+        @focus="openSearch"
+      />
+      <button type="submit" class="sr-only">
+        {{ searchTranslations.submit || 'Search' }}
+      </button>
+    </form>
     <div
       v-if="shouldShowSearchBox"
       class="absolute w-full top-14"

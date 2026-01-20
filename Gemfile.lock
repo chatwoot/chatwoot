@@ -948,6 +948,9 @@ GEM
       i18n
     timeout (0.4.3)
     trailblazer-option (0.1.2)
+    turbo-rails (2.0.16)
+      actionpack (>= 7.1.0)
+      railties (>= 7.1.0)
     twilio-ruby (7.6.0)
       faraday (>= 0.9, < 3.0)
       jwt (>= 1.5, < 3.0)
@@ -1151,6 +1154,7 @@ DEPENDENCIES
   test-prof
   tidewave
   time_diff
+  turbo-rails
   twilio-ruby
   twitty (~> 0.1.5)
   tzinfo-data

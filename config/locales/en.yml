@@ -378,6 +378,13 @@ en:
       empty_placeholder: No results found.
       loading_placeholder: Searching...
       results_title: Search results
+      results: Search Results
+      results_for: "Search Results for '%{query}'"
+      no_results: "No results found for '%{query}'"
+      found_results:
+        one: Found 1 result
+        other: 'Found %{count} results'
+      submit: Search
     toc_header: 'On this page'
     hero:
       sub_title: Search for the articles here or browse the categories below.
@@ -393,6 +400,8 @@ en:
       others: others
       by: By
       no_articles: There are no articles here
+      previous: Previous
+      next: Next
     footer:
       made_with: Made with
     header:

@@ -40,6 +40,9 @@ importers:
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@11.10.0)(vue@3.5.12(typescript@5.6.2))
+      '@hotwired/turbo-rails':
+        specifier: ^8.0.13
+        version: 8.0.13
       '@iconify-json/material-symbols':
         specifier: ^1.2.10
         version: 1.2.10
@@ -187,9 +190,6 @@ importers:
       tinykeys:
         specifier: ^3.0.0
         version: 3.0.0
-      turbolinks:
-        specifier: ^5.2.0
-        version: 5.2.0
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -948,6 +948,13 @@ packages:
   '@histoire/vendors@0.17.17':
     resolution: {integrity: sha512-QZvmffdoJlLuYftPIkOU5Q2FPAdG2JjMuQ5jF7NmEl0n1XnmbMqtRkdYTZ4eF6CO1KLZ0Zyf6gBQvoT1uWNcjA==}
 
+  '@hotwired/turbo-rails@8.0.13':
+    resolution: {integrity: sha512-6SCnnOSzhtaJ0pNkAjncZxjtKsK3sP/vPEkCnTXBXSHkr+vF7DTZkOlwjhms1DbbQNTsjCsBoKvzSMbh/omSCQ==}
+
+  '@hotwired/turbo@8.0.13':
+    resolution: {integrity: sha512-M7qXUqcGab6G5PKOiwhgbByTtrPgKPFCTMNQ52QhzUEXEqmp0/ApEguUesh/FPiUjrmFec+3lq98KsWnYY2C7g==}
+    engines: {node: '>= 14'}
+
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
     engines: {node: '>=10.10.0'}
@@ -1120,6 +1127,9 @@ packages:
 
   '@rails/actioncable@6.1.3':
     resolution: {integrity: sha512-m02524MR9cTnUNfGz39Lkx9jVvuL0tle4O7YgvouJ7H83FILxzG1nQ5jw8pAjLAr9XQGu+P1sY4SKE3zyhCNjw==}
+
+  '@rails/actioncable@7.2.201':
+    resolution: {integrity: sha512-wsTdWoZ5EfG5k3t7ORdyQF0ZmDEgN4aVPCanHAiNEwCROqibSZMXXmCbH7IDJUVri4FOeAVwwbPINI7HVHPKBw==}
 
   '@rails/ujs@7.1.400':
     resolution: {integrity: sha512-YwvXm3BR5tn+VCAKYGycLejMRVZE3Ionj5gFjEeGXCZnI0Rpi+7dKpmyu90kdUY7dRUFpHTdu9zZceEzFLl38w==}
@@ -4371,9 +4381,6 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  turbolinks@5.2.0:
-    resolution: {integrity: sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==}
-
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
     engines: {node: '>= 0.8.0'}
@@ -5501,6 +5508,13 @@ snapshots:
 
   '@histoire/vendors@0.17.17': {}
 
+  '@hotwired/turbo-rails@8.0.13':
+    dependencies:
+      '@hotwired/turbo': 8.0.13
+      '@rails/actioncable': 7.2.201
+
+  '@hotwired/turbo@8.0.13': {}
+
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
       '@humanwhocodes/object-schema': 2.0.3
@@ -5714,6 +5728,8 @@ snapshots:
   '@radix-ui/colors@3.0.0': {}
 
   '@rails/actioncable@6.1.3': {}
+
+  '@rails/actioncable@7.2.201': {}
 
   '@rails/ujs@7.1.400': {}
 
@@ -9400,8 +9416,6 @@ snapshots:
   tslib@2.7.0: {}
 
   tslib@2.8.1: {}
-
-  turbolinks@5.2.0: {}
 
   type-check@0.4.0:
     dependencies:

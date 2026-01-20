@@ -353,6 +353,13 @@ es:
       empty_placeholder: No se encontraron resultados.
       loading_placeholder: Buscando...
       results_title: Buscar resultados
+      results: Resultados de búsqueda
+      results_for: "Resultados de búsqueda para '%{query}'"
+      no_results: "No se encontraron resultados para '%{query}'"
+      found_results:
+        one: Se encontró 1 resultado
+        other: "Se encontraron %{count} resultados"
+      submit: Buscar
     toc_header: 'En esta página'
     hero:
       sub_title: Busque aquí los artículos o busque las categorías de abajo.
