@@ -14,14 +14,15 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      # Linux: Use Docker bridge network gateway (172.17.0.1) to access host database
+      # Override in .env file if your Docker bridge network uses different IP
+      - POSTGRES_HOST=${POSTGRES_HOST:-172.17.0.1}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '7000', '-b', '0.0.0.0']
     restart: always
-    # Linux: Use Docker bridge network gateway to access host database
-    # Set POSTGRES_HOST=172.17.0.1 in .env file (or use host IP if different)
     extra_hosts:
       - "host.docker.internal:host-gateway"  # Works on newer Docker versions
-      # Alternative: If above doesn't work, use: "host.docker.internal:172.17.0.1"
 
   sidekiq:
     <<: *base
@@ -30,13 +31,14 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      # Linux: Use Docker bridge network gateway (172.17.0.1) to access host database
+      # Override in .env file if your Docker bridge network uses different IP
+      - POSTGRES_HOST=${POSTGRES_HOST:-172.17.0.1}
+      - POSTGRES_PORT=${POSTGRES_PORT:-5432}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-    # Linux: Use Docker bridge network gateway to access host database
-    # Set POSTGRES_HOST=172.17.0.1 in .env file (or use host IP if different)
     extra_hosts:
       - "host.docker.internal:host-gateway"  # Works on newer Docker versions
-      # Alternative: If above doesn't work, use: "host.docker.internal:172.17.0.1"
 
   # Commented out - using local database instead
   # postgres:
