@@ -63,6 +63,7 @@ class ConversationFinder
     set_assignee_type
 
     find_all_conversations
+    filter_orphan_conversations
     filter_by_status unless params[:q]
     filter_by_team
     filter_by_labels
@@ -164,6 +165,12 @@ class ConversationFinder
 
     @conversations = @conversations.joins(:contact_inbox)
     @conversations = @conversations.where(contact_inboxes: { source_id: params[:source_id] })
+  end
+
+  def filter_orphan_conversations
+    # Filter out conversations where the contact has been deleted
+    # Using INNER JOIN is most efficient - only returns conversations with existing contacts
+    @conversations = @conversations.joins(:contact)
   end
 
   def set_count_for_all_conversations
