@@ -438,8 +438,14 @@
       },
       "EVOLUTION": {
         "TITLE": "Evolution WhatsApp",
-        "DESCRIPTION": "Connect WhatsApp via Evolution API (Baileys)",
+        "DESCRIPTION": "Using WhatsApp with Evolution is the easiest way to start managing your client requests in a professional manner. All you need to do is scan the QR code below.",
         "ERROR_TITLE": "Error",
+        "WELCOME_DIALOG": {
+          "TITLE": "Welcome to CommMate!",
+          "DESCRIPTION": "CommMate allows for multi-channel support, providing a unified way to communicate with your clients through WhatsApp, Email, and Social Media.",
+          "INSTRUCTIONS": "To start using it now, scan the following QR code with your WhatsApp and add the members of your team on the next page.",
+          "CONTINUE": "Got it, let's start!"
+        },
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
           "PLACEHOLDER": "Enter inbox name (e.g., WhatsApp Support)",
@@ -581,7 +587,8 @@
     },
     "AGENTS": {
       "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "ADD_AGENTS": "Adding Agents to your Inbox...",
+      "ONBOARD_NEW_AGENT": "Onboard new agent"
     },
     "FINISH": {
       "TITLE": "Your Inbox is ready!",

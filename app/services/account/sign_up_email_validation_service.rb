@@ -13,7 +13,8 @@ class Account::SignUpEmailValidationService
 
     raise InvalidEmail.new({ valid: false, disposable: nil }) unless address.valid?
 
-    raise InvalidEmail.new({ domain_blocked: true }) if domain_blocked?
+    # CommMate: Skip domain blocking when personal emails are allowed
+    raise InvalidEmail.new({ domain_blocked: true }) if domain_blocked? && !allow_personal_email_signup?
 
     raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
 
@@ -32,5 +33,10 @@ class Account::SignUpEmailValidationService
     return [] if domains.blank?
 
     domains.split("\n").map(&:strip)
+  end
+
+  # CommMate: Check if personal email signup is allowed
+  def allow_personal_email_signup?
+    GlobalConfigService.load('COMMMATE_ALLOW_PERSONAL_EMAIL_SIGNUP', false) == true
   end
 end

@@ -19,7 +19,8 @@
       "ACTIONS": "Ações",
       "VERIFIED": "Verificado",
       "VERIFICATION_PENDING": "Verificação Pendente",
-      "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis"
+      "AVAILABLE_CUSTOM_ROLE": "Permissões de função personalizada disponíveis",
+      "AVAILABLE_PERMISSIONS": "Permissões adicionais"
     },
     "ADD": {
       "TITLE": "Adicionar agente a seu time",
@@ -38,6 +39,10 @@
         "EMAIL": {
           "LABEL": "Endereço de e-mail",
           "PLACEHOLDER": "Por favor, insira um endereço de e-mail do agente"
+        },
+        "PERMISSIONS": {
+          "LABEL": "Permissões Adicionais",
+          "DESC": "Conceda a este agente acesso a recursos específicos além da sua função base."
         },
         "SUBMIT": "Adicionar agente"
       },
@@ -81,6 +86,10 @@
           "PLACEHOLDER": "Por favor, selecione a disponibilidade do agente",
           "ERROR": "A disponibilidade é necessária"
         },
+        "PERMISSIONS": {
+          "LABEL": "Permissões Adicionais",
+          "DESC": "Conceda a este agente acesso a recursos específicos além da sua função base."
+        },
         "SUBMIT": "Editar agente"
       },
       "BUTTON_TEXT": "Alterar",
@@ -119,6 +128,26 @@
           "INPUT": "Pesquisar por agentes"
         }
       }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Gerenciar todas as conversas",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Gerenciar conversas não atribuídas",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar conversas em que participa",
+      "CONTACT_MANAGE": "Gerenciar contatos",
+      "REPORT_MANAGE": "Acessar relatórios e análises",
+      "KNOWLEDGE_BASE_MANAGE": "Gerenciar central de ajuda",
+      "CAMPAIGN_MANAGE": "Gerenciar campanhas",
+      "TEMPLATES_MANAGE": "Gerenciar modelos de WhatsApp",
+      "SETTINGS_MACROS_MANAGE": "Gerenciar macros públicos",
+      "SETTINGS_ACCOUNT_MANAGE": "Gerenciar configurações da conta",
+      "SETTINGS_AGENTS_MANAGE": "Gerenciar agentes",
+      "SETTINGS_TEAMS_MANAGE": "Gerenciar equipes",
+      "SETTINGS_INBOXES_MANAGE": "Gerenciar caixas de entrada",
+      "SETTINGS_LABELS_MANAGE": "Gerenciar etiquetas",
+      "SETTINGS_CUSTOM_ATTRIBUTES_MANAGE": "Gerenciar atributos personalizados",
+      "SETTINGS_AUTOMATION_MANAGE": "Gerenciar regras de automação",
+      "SETTINGS_AGENT_BOTS_MANAGE": "Gerenciar bots de agente",
+      "SETTINGS_INTEGRATIONS_MANAGE": "Gerenciar integrações"
     }
   }
 }

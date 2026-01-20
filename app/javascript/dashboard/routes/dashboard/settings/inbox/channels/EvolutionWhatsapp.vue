@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onBeforeUnmount } from 'vue';
+import { ref, computed, onBeforeUnmount, onMounted, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -10,14 +10,28 @@ import EvolutionAPI from 'dashboard/api/evolution';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import Modal from 'dashboard/components/Modal.vue';
 
 const { t } = useI18n();
 const route = useRoute();
 
 const POLL_INTERVAL = 5000;
 
+// CommMate: Read inbox_name from query params if provided (post-signup redirect)
+const initialInboxName = route.query.inbox_name
+  ? decodeURIComponent(route.query.inbox_name)
+  : '';
+
+// CommMate: Show welcome dialog on post-signup redirect
+const isPostSignupRedirect = route.query.auto_load_qr === '1';
+const showWelcomeDialog = ref(isPostSignupRedirect);
+
+const closeWelcomeDialog = () => {
+  showWelcomeDialog.value = false;
+};
+
 // Form state
-const inboxName = ref('');
+const inboxName = ref(initialInboxName);
 
 // UI state
 const isCreating = ref(false);
@@ -217,6 +231,18 @@ const proceedToAgents = async () => {
   }
 };
 
+// CommMate: Auto-load QR code on mount if coming from post-signup redirect
+onMounted(async () => {
+  const shouldAutoLoad =
+    route.query.auto_load_qr === '1' && inboxName.value.trim().length > 0;
+
+  if (shouldAutoLoad) {
+    // Wait for next tick to ensure the component is fully rendered
+    await nextTick();
+    loadQRCode();
+  }
+});
+
 // Cleanup on unmount
 onBeforeUnmount(() => {
   stopPolling();
@@ -408,5 +434,56 @@ onBeforeUnmount(() => {
         </div>
       </div>
     </form>
+
+    <!-- CommMate: Welcome Dialog for post-signup onboarding -->
+    <Modal
+      v-model:show="showWelcomeDialog"
+      :on-close="closeWelcomeDialog"
+      size="medium"
+    >
+      <div class="flex flex-col items-center p-6 text-center">
+        <!-- Welcome Icon -->
+        <div
+          class="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-woot-500/10"
+        >
+          <svg
+            class="h-8 w-8 text-woot-500"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+            />
+          </svg>
+        </div>
+
+        <!-- Title -->
+        <h2 class="mb-3 text-2xl font-semibold text-n-slate-12">
+          {{ $t('INBOX_MGMT.ADD.EVOLUTION.WELCOME_DIALOG.TITLE') }}
+        </h2>
+
+        <!-- Description -->
+        <p class="mb-6 max-w-md text-n-slate-11">
+          {{ $t('INBOX_MGMT.ADD.EVOLUTION.WELCOME_DIALOG.DESCRIPTION') }}
+        </p>
+
+        <!-- Instructions -->
+        <p class="mb-6 text-sm text-n-slate-10">
+          {{ $t('INBOX_MGMT.ADD.EVOLUTION.WELCOME_DIALOG.INSTRUCTIONS') }}
+        </p>
+
+        <!-- Continue Button -->
+        <NextButton
+          solid
+          blue
+          :label="$t('INBOX_MGMT.ADD.EVOLUTION.WELCOME_DIALOG.CONTINUE')"
+          @click="closeWelcomeDialog"
+        />
+      </div>
+    </Modal>
   </div>
 </template>

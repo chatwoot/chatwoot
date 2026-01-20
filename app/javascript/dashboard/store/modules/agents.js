@@ -57,6 +57,7 @@ export const actions = {
       const response = await AgentAPI.create(agentInfo);
       commit(types.default.ADD_AGENT, response.data);
       commit(types.default.SET_AGENT_CREATING_STATUS, false);
+      return response.data;
     } catch (error) {
       commit(types.default.SET_AGENT_CREATING_STATUS, false);
       throw error;

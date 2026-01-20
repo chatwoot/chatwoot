@@ -51,6 +51,7 @@ export const register = async creds => {
       user_full_name: creds.fullName.trim(),
       email: creds.email,
       password: creds.password,
+      locale: creds.locale || 'en',
       h_captcha_client_response: creds.hCaptchaClientResponse,
     });
     setAuthCredentials(response);

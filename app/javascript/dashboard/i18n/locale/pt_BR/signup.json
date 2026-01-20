@@ -28,11 +28,11 @@
       "PLACEHOLDER": "Senha",
       "ERROR": "A senha é muito curta.",
       "IS_INVALID_PASSWORD": "A senha deve conter pelo menos 1 letra maiúscula, 1 letra minúscula, 1 número e 1 caractere especial.",
-      "REQUIREMENTS_LENGTH": "At least 6 characters long",
-      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
-      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
-      "REQUIREMENTS_NUMBER": "At least one number",
-      "REQUIREMENTS_SPECIAL": "At least one special character"
+      "REQUIREMENTS_LENGTH": "Pelo menos 6 caracteres",
+      "REQUIREMENTS_UPPERCASE": "Pelo menos uma letra maiúscula",
+      "REQUIREMENTS_LOWERCASE": "Pelo menos uma letra minúscula",
+      "REQUIREMENTS_NUMBER": "Pelo menos um número",
+      "REQUIREMENTS_SPECIAL": "Pelo menos um caractere especial"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "Confirmar senha",
@@ -40,8 +40,8 @@
       "ERROR": "As senhas não coincidem."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successful",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+      "SUCCESS_MESSAGE": "Registro realizado com sucesso",
+      "ERROR_MESSAGE": "Não foi possível conectar ao servidor. Por favor, tente novamente."
     },
     "SUBMIT": "Criar conta",
     "HAVE_AN_ACCOUNT": "Já possui uma conta?"
