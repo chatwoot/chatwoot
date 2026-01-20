@@ -26,6 +26,6 @@ test:
 
 production:
   <<: *default
-  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_production') %>"
+  database: "<%= ENV.fetch('POSTGRES_DATABASE', 'chatwoot_dev') %>"
   username: "<%= ENV.fetch('POSTGRES_USERNAME', 'chatwoot_prod') %>"
   password: "<%= ENV.fetch('POSTGRES_PASSWORD', 'chatwoot_prod') %>"
