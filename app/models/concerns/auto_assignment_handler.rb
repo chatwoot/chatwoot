@@ -9,11 +9,13 @@ module AutoAssignmentHandler
   def run_auto_assignment_for_web_widget_inbox
     return if stop_auto_assignment_for_web_widget
 
-    # return unless should_run_auto_assignment?
-
     Rails.logger.info("member_ids_with_assignment_capacity, #{inbox.member_ids_with_assignment_capacity}")
 
-    ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+    ::AutoAssignment::AgentAssignmentService.new(
+      conversation: self,
+      allowed_agent_ids: inbox.member_ids_with_assignment_capacity,
+      send_customer_message: true
+    ).perform
   end
 
   private

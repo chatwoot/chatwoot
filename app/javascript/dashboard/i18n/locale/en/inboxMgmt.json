@@ -518,6 +518,12 @@
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "NO_AGENT_MESSAGE": {
+        "LABEL": "Send message to customer when no agent available",
+        "HELP_TEXT": "Send a custom message to the customer when no agent is available to handle the conversation",
+        "MESSAGE_LABEL": "Message to send",
+        "MESSAGE_PLACEHOLDER": "Enter the message to send to customer when no agent is available..."
+      },
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",

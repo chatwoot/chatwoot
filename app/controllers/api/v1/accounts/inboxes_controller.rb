@@ -168,8 +168,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
     @inbox.channel.save!
   end
 
-  def update_auto_assignment_config # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
-    if params[:assign_even_if_offline].blank? && params[:reopen_pending_conversations].blank? && params[:reassign_on_resolve].blank? && params[:auto_resolve_duplicate_email_conversations].blank? # rubocop:disable Layout/LineLength
+  def update_auto_assignment_config # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/MethodLength
+    if params[:assign_even_if_offline].blank? && params[:reopen_pending_conversations].blank? && params[:reassign_on_resolve].blank? && params[:auto_resolve_duplicate_email_conversations].blank? && params[:no_agent_message_enabled].blank? && !params.key?(:no_agent_message) # rubocop:disable Layout/LineLength
       return
     end
 
@@ -189,6 +189,12 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController #
       current_config['auto_resolve_duplicate_email_conversations'] =
         ActiveModel::Type::Boolean.new.cast(params[:auto_resolve_duplicate_email_conversations])
     end
+
+    if params[:no_agent_message_enabled].present?
+      current_config['no_agent_message_enabled'] = ActiveModel::Type::Boolean.new.cast(params[:no_agent_message_enabled])
+    end
+
+    current_config['no_agent_message'] = params[:no_agent_message] if params.key?(:no_agent_message)
 
     @inbox.auto_assignment_config = current_config
     @inbox.save!

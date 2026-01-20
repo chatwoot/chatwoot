@@ -98,6 +98,16 @@ class Inbox < ApplicationRecord
     (auto_assignment_config['auto_resolve_duplicate_email_conversations'].presence || false)
   end
 
+  # Helper method to check if no agent message is enabled
+  def no_agent_message_enabled?
+    auto_assignment_config&.dig('no_agent_message_enabled') == true
+  end
+
+  # Helper method to get the no agent message
+  def no_agent_message
+    auto_assignment_config&.dig('no_agent_message')
+  end
+
   # Helper method to check if agents should be prompted before sending CSAT on resolution
   def prompt_agent_for_csat?
     (csat_config['prompt_agent_for_csat'].presence || false)

@@ -3,7 +3,8 @@ class AutoAssignment::AgentAssignmentService
   # This is the list of agents from which an agent can be assigned to this conversation
   # examples: Agents with assignment capacity, Agents who are members of a team etc
   # suppress_no_agent_message: Skip activity message when no agent is available (used for background reassignment)
-  pattr_initialize [:conversation!, :allowed_agent_ids!, { suppress_no_agent_message: false }]
+  # send_customer_message: Send configurable outgoing message to customer when no agent available (only for web widget and manual triggers)
+  pattr_initialize [:conversation!, :allowed_agent_ids!, { suppress_no_agent_message: false, send_customer_message: false }]
 
   def find_assignee
     round_robin_manage_service.available_agent(allowed_agent_ids: allowed_online_agent_ids)
@@ -38,6 +39,9 @@ class AutoAssignment::AgentAssignmentService
         Conversations::ActivityMessageJob.set(wait: 15.seconds).perform_later(conversation,
                                                                               activity_message_params(content))
       end
+
+      # Send configurable outgoing message to customer if enabled (only when send_customer_message is true)
+      send_no_agent_customer_message if send_customer_message
     else
       # Assign conversation
       conversation.update(assignee: new_assignee)
@@ -101,5 +105,20 @@ class AutoAssignment::AgentAssignmentService
 
   def assign_even_if_offline_enabled?
     conversation.inbox.auto_assignment_config&.dig('assign_even_if_offline') == true
+  end
+
+  def send_no_agent_customer_message
+    inbox = conversation.inbox
+
+    return unless inbox.no_agent_message_enabled?
+
+    return if inbox.no_agent_message.blank?
+
+    conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :outgoing,
+      content: inbox.no_agent_message
+    )
   end
 end

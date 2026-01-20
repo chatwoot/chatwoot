@@ -84,6 +84,38 @@
         </p>
       </label>
 
+      <label class="w-3/4 settings-item">
+        <div class="flex items-center gap-2">
+          <input
+            id="noAgentMessageEnabled"
+            v-model="noAgentMessageEnabled"
+            type="checkbox"
+            @change="handleNoAgentMessageEnabled"
+          />
+          <label for="noAgentMessageEnabled">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.NO_AGENT_MESSAGE.LABEL') }}
+          </label>
+        </div>
+
+        <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.NO_AGENT_MESSAGE.HELP_TEXT') }}
+        </p>
+      </label>
+
+      <div v-if="noAgentMessageEnabled" class="w-3/4 settings-item">
+        <label>
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.NO_AGENT_MESSAGE.MESSAGE_LABEL') }}
+        </label>
+        <textarea
+          v-model="noAgentMessage"
+          class="w-full min-h-[80px] p-2 border border-slate-200 dark:border-slate-600 rounded-md dark:bg-slate-800"
+          :placeholder="
+            $t('INBOX_MGMT.SETTINGS_POPUP.NO_AGENT_MESSAGE.MESSAGE_PLACEHOLDER')
+          "
+          @blur="handleNoAgentMessageChange"
+        />
+      </div>
+
       <div v-if="isEnterprise" class="max-assignment-container">
         <woot-input
           v-model.trim="maxAssignmentLimit"
@@ -133,6 +165,8 @@ export default {
       enableAutoAssignment: false,
       assignEvenIfOffline: false,
       reassignOnResolve: false,
+      noAgentMessageEnabled: false,
+      noAgentMessage: '',
       maxAssignmentLimit: null,
     };
   },
@@ -164,6 +198,10 @@ export default {
         this.inbox?.auto_assignment_config?.assign_even_if_offline || false;
       this.reassignOnResolve =
         this.inbox?.auto_assignment_config?.reassign_on_resolve || false;
+      this.noAgentMessageEnabled =
+        this.inbox?.auto_assignment_config?.no_agent_message_enabled || false;
+      this.noAgentMessage =
+        this.inbox?.auto_assignment_config?.no_agent_message || '';
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
@@ -190,6 +228,12 @@ export default {
     handleReassignOnResolve() {
       this.updateInbox();
     },
+    handleNoAgentMessageEnabled() {
+      this.updateInbox();
+    },
+    handleNoAgentMessageChange() {
+      this.updateInbox();
+    },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
@@ -212,6 +256,8 @@ export default {
           enable_auto_assignment: this.enableAutoAssignment,
           assign_even_if_offline: this.assignEvenIfOffline,
           reassign_on_resolve: this.reassignOnResolve,
+          no_agent_message_enabled: this.noAgentMessageEnabled,
+          no_agent_message: this.noAgentMessage,
           auto_assignment_config: {
             max_assignment_limit: this.maxAssignmentLimit,
           },
