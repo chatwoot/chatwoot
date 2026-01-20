@@ -36,6 +36,7 @@ RSpec.describe Captain::BaseTaskService, type: :model do
 
     context 'when usage limit is exceeded' do
       before do
+        allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
         allow(account).to receive(:usage_limits).and_return({
                                                               captain: { responses: { current_available: 0 } }
                                                             })
