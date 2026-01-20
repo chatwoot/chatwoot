@@ -24,7 +24,8 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   def reply_suggestion
     result = Captain::ReplySuggestionService.new(
       account: Current.account,
-      conversation_display_id: params[:conversation_display_id]
+      conversation_display_id: params[:conversation_display_id],
+      user: Current.user
     ).perform
 
     render_result(result)
