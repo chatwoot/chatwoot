@@ -17,6 +17,7 @@ import Spinner from 'shared/components/Spinner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MfaVerification from 'dashboard/components/auth/MfaVerification.vue';
+import LanguageSelect from '../../components/Form/LanguageSelect.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -36,6 +37,7 @@ export default {
     SimpleDivider,
     MfaVerification,
     Icon,
+    LanguageSelect,
   },
   props: {
     ssoAuthToken: { type: String, default: '' },
@@ -67,6 +69,7 @@ export default {
       error: '',
       mfaRequired: false,
       mfaToken: null,
+      selectedLocale: this.getBrowserDefaultLocale(),
     };
   },
   validations() {
@@ -118,6 +121,32 @@ export default {
     }
   },
   methods: {
+    getBrowserDefaultLocale() {
+      const enabledLanguages = window.chatwootConfig?.enabledLanguages || [];
+      const browserLang = navigator.language || navigator.userLanguage || 'en';
+      const normalizedLang = browserLang.replace('-', '_');
+
+      // Try exact match first (e.g., pt_BR)
+      const exactMatch = enabledLanguages.find(
+        lang => lang.iso_639_1_code === normalizedLang
+      );
+      if (exactMatch) return exactMatch.iso_639_1_code;
+
+      // Try base language match (e.g., pt)
+      const baseLang = normalizedLang.split('_')[0];
+      const baseMatch = enabledLanguages.find(
+        lang => lang.iso_639_1_code === baseLang
+      );
+      if (baseMatch) return baseMatch.iso_639_1_code;
+
+      // Default to current i18n locale or English
+      return window.chatwootConfig?.selectedLocale || 'en';
+    },
+    onLocaleChange(locale) {
+      this.selectedLocale = locale;
+      // Update the page locale immediately
+      this.$root.$i18n.locale = locale;
+    },
     getTranslatedMessage(key) {
       // Avoid dynamic key warning by handling each case explicitly
       switch (key) {
@@ -219,123 +248,141 @@ export default {
 </script>
 
 <template>
-  <main
-    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
-  >
-    <section class="max-w-5xl mx-auto">
-      <img
-        :src="globalConfig.logo"
-        :alt="globalConfig.installationName"
-        class="block w-auto h-8 mx-auto dark:hidden"
-      />
-      <img
-        v-if="globalConfig.logoDark"
-        :src="globalConfig.logoDark"
-        :alt="globalConfig.installationName"
-        class="hidden w-auto h-8 mx-auto dark:block"
-      />
-      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
-        {{ replaceInstallationName($t('LOGIN.TITLE')) }}
-      </h2>
-      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
-        {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
-          {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
-        </router-link>
-      </p>
-    </section>
-
-    <!-- MFA Verification Section -->
-    <section v-if="mfaRequired" class="mt-11">
-      <MfaVerification
-        :mfa-token="mfaToken"
-        @verified="handleMfaVerified"
-        @cancel="handleMfaCancel"
-      />
-    </section>
-
-    <!-- Regular Login Section -->
-    <section
-      v-else
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
-      :class="{
-        'mb-8 mt-15': !showGoogleOAuth,
-        'animate-wiggle': loginApi.hasErrored,
-      }"
-    >
-      <div v-if="!email">
-        <div class="flex flex-col gap-4">
-          <GoogleOAuthButton v-if="showGoogleOAuth" />
-          <div v-if="showSamlLogin" class="text-center">
-            <router-link
-              to="/app/login/sso"
-              class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
-            >
-              <Icon
-                icon="i-lucide-lock-keyhole"
-                class="size-5 text-n-slate-11"
+  <div class="w-full h-full bg-n-background">
+    <div class="flex h-full min-h-screen items-center">
+      <div
+        class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
+      >
+        <div class="px-8 max-w-[560px] w-full overflow-auto">
+          <div class="mb-4 flex items-start justify-between">
+            <div>
+              <img
+                :src="globalConfig.logo"
+                :alt="globalConfig.installationName"
+                class="block w-auto h-8 dark:hidden"
               />
-              <span class="ml-2 text-base font-medium text-n-slate-12">
-                {{ $t('LOGIN.SAML.LABEL') }}
-              </span>
+              <img
+                v-if="globalConfig.logoDark"
+                :src="globalConfig.logoDark"
+                :alt="globalConfig.installationName"
+                class="hidden w-auto h-8 dark:block"
+              />
+              <h2
+                class="mt-6 text-3xl font-medium text-left mb-7 text-n-slate-12"
+              >
+                {{ replaceInstallationName($t('LOGIN.TITLE')) }}
+              </h2>
+            </div>
+            <div class="flex-shrink-0 w-40">
+              <LanguageSelect
+                v-model="selectedLocale"
+                @change="onLocaleChange"
+              />
+            </div>
+          </div>
+
+          <!-- MFA Verification Section -->
+          <section v-if="mfaRequired">
+            <MfaVerification
+              :mfa-token="mfaToken"
+              @verified="handleMfaVerified"
+              @cancel="handleMfaCancel"
+            />
+          </section>
+
+          <!-- Regular Login Section -->
+          <section
+            v-else
+            :class="{
+              'animate-wiggle': loginApi.hasErrored,
+            }"
+          >
+            <div v-if="!email">
+              <div class="flex flex-col gap-4">
+                <GoogleOAuthButton v-if="showGoogleOAuth" />
+                <div v-if="showSamlLogin" class="text-center">
+                  <router-link
+                    to="/app/login/sso"
+                    class="inline-flex justify-center w-full px-4 py-3 items-center bg-n-background dark:bg-n-solid-3 rounded-md shadow-sm ring-1 ring-inset ring-n-container dark:ring-n-container focus:outline-offset-0 hover:bg-n-alpha-2 dark:hover:bg-n-alpha-2"
+                  >
+                    <Icon
+                      icon="i-lucide-lock-keyhole"
+                      class="size-5 text-n-slate-11"
+                    />
+                    <span class="ml-2 text-base font-medium text-n-slate-12">
+                      {{ $t('LOGIN.SAML.LABEL') }}
+                    </span>
+                  </router-link>
+                </div>
+                <SimpleDivider
+                  v-if="showGoogleOAuth || showSamlLogin"
+                  :label="$t('COMMON.OR')"
+                  class="uppercase"
+                />
+              </div>
+              <form class="space-y-5" @submit.prevent="submitFormLogin">
+                <FormInput
+                  v-model="credentials.email"
+                  name="email_address"
+                  type="text"
+                  data-testid="email_input"
+                  :tabindex="1"
+                  required
+                  :label="$t('LOGIN.EMAIL.LABEL')"
+                  :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
+                  :has-error="v$.credentials.email.$error"
+                  @input="v$.credentials.email.$touch"
+                />
+                <FormInput
+                  v-model="credentials.password"
+                  type="password"
+                  name="password"
+                  data-testid="password_input"
+                  required
+                  :tabindex="2"
+                  :label="$t('LOGIN.PASSWORD.LABEL')"
+                  :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
+                  :has-error="v$.credentials.password.$error"
+                  @input="v$.credentials.password.$touch"
+                >
+                  <p v-if="!globalConfig.disableUserProfileUpdate">
+                    <router-link
+                      to="auth/reset/password"
+                      class="text-sm text-link"
+                      tabindex="4"
+                    >
+                      {{ $t('LOGIN.FORGOT_PASSWORD') }}
+                    </router-link>
+                  </p>
+                </FormInput>
+                <NextButton
+                  lg
+                  type="submit"
+                  data-testid="submit_button"
+                  class="w-full"
+                  :tabindex="3"
+                  :label="$t('LOGIN.SUBMIT')"
+                  :disabled="loginApi.showLoading"
+                  :is-loading="loginApi.showLoading"
+                />
+              </form>
+            </div>
+            <div v-else class="flex items-center justify-center">
+              <Spinner color-scheme="primary" size="" />
+            </div>
+          </section>
+
+          <div v-if="showSignupLink" class="px-1 text-sm text-n-slate-12 mt-4">
+            {{ $t('COMMON.OR') }}
+            <router-link
+              to="auth/signup"
+              class="lowercase text-link text-n-brand ml-1"
+            >
+              {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
             </router-link>
           </div>
-          <SimpleDivider
-            v-if="showGoogleOAuth || showSamlLogin"
-            :label="$t('COMMON.OR')"
-            class="uppercase"
-          />
         </div>
-        <form class="space-y-5" @submit.prevent="submitFormLogin">
-          <FormInput
-            v-model="credentials.email"
-            name="email_address"
-            type="text"
-            data-testid="email_input"
-            :tabindex="1"
-            required
-            :label="$t('LOGIN.EMAIL.LABEL')"
-            :placeholder="$t('LOGIN.EMAIL.PLACEHOLDER')"
-            :has-error="v$.credentials.email.$error"
-            @input="v$.credentials.email.$touch"
-          />
-          <FormInput
-            v-model="credentials.password"
-            type="password"
-            name="password"
-            data-testid="password_input"
-            required
-            :tabindex="2"
-            :label="$t('LOGIN.PASSWORD.LABEL')"
-            :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-            :has-error="v$.credentials.password.$error"
-            @input="v$.credentials.password.$touch"
-          >
-            <p v-if="!globalConfig.disableUserProfileUpdate">
-              <router-link
-                to="auth/reset/password"
-                class="text-sm text-link"
-                tabindex="4"
-              >
-                {{ $t('LOGIN.FORGOT_PASSWORD') }}
-              </router-link>
-            </p>
-          </FormInput>
-          <NextButton
-            lg
-            type="submit"
-            data-testid="submit_button"
-            class="w-full"
-            :tabindex="3"
-            :label="$t('LOGIN.SUBMIT')"
-            :disabled="loginApi.showLoading"
-            :is-loading="loginApi.showLoading"
-          />
-        </form>
       </div>
-      <div v-else class="flex items-center justify-center">
-        <Spinner color-scheme="primary" size="" />
-      </div>
-    </section>
-  </main>
+    </div>
+  </div>
 </template>

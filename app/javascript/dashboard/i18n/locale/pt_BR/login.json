@@ -2,7 +2,7 @@
   "LOGIN": {
     "TITLE": "Entrar no Chatwoot",
     "EMAIL": {
-      "LABEL": "e-mail",
+      "LABEL": "Email",
       "PLACEHOLDER": "nome{'@'}empresa.com.br",
       "ERROR": "Digite um endereço de endereço eletrônico válido"
     },
@@ -34,7 +34,7 @@
       },
       "SUBMIT": "Continuar com SSO",
       "API": {
-        "ERROR_MESSAGE": "SSO authentication failed. Please check your credentials and try again."
+        "ERROR_MESSAGE": "Falha na autenticação SSO. Verifique suas credenciais e tente novamente."
       }
     }
   }

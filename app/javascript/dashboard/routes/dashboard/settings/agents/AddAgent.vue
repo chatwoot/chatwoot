@@ -8,7 +8,7 @@ import { required, email } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { AVAILABLE_PERMISSIONS } from 'dashboard/constants/permissions';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'agentCreated']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -75,8 +75,12 @@ const addAgent = async () => {
         selectedRoleId.value === 'agent' ? selectedPermissions.value : [],
     };
 
-    await store.dispatch('agents/create', payload);
+    const createdAgent = await store.dispatch('agents/create', payload);
     useAlert(t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
+    // Emit the created agent so parent can update selection
+    if (createdAgent) {
+      emit('agentCreated', createdAgent);
+    }
     emit('close');
   } catch (error) {
     const {

@@ -94,6 +94,21 @@
   display_title: 'Attachment size limit (MB)'
   description: 'Maximum attachment size in MB allowed for uploads'
   locked: false
+# ------- CommMate Signup Config ------- #
+- name: COMMMATE_ALLOW_PERSONAL_EMAIL_SIGNUP
+  display_title: 'Allow Personal Email Signup (CommMate)'
+  value: false
+  description: 'Allow users to sign up with personal email addresses (gmail, outlook, etc). Disposable emails are still blocked.'
+  locked: false
+  type: boolean
+- name: COMMMATE_POST_SIGNUP_EVOLUTION_ONBOARDING
+  display_title: 'Post-Signup Evolution Onboarding (CommMate)'
+  value: false
+  description: 'Redirect new users to Evolution WhatsApp onboarding after signup. Requires Evolution API to be enabled.'
+  locked: false
+  type: boolean
+# ------- End of CommMate Signup Config ------- #
+
 # ------- End of Account Related Config ------- #
 
 # ------- Email Related Config ------- #

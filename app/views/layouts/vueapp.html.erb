@@ -46,6 +46,8 @@
         whatsappApiVersion: '<%= @global_config['WHATSAPP_API_VERSION'] %>',
         evolutionApiEnabled: '<%= @global_config['EVOLUTION_API_ENABLED'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
+        commmateAllowPersonalEmailSignup: '<%= @global_config['COMMMATE_ALLOW_PERSONAL_EMAIL_SIGNUP'] %>',
+        commmatePostSignupEvolutionOnboarding: '<%= @global_config['COMMMATE_POST_SIGNUP_EVOLUTION_ONBOARDING'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
         isMfaEnabled: '<%= Chatwoot.mfa_enabled? %>',
         <% if @global_config['IS_ENTERPRISE'] %>

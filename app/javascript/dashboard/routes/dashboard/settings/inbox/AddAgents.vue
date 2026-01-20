@@ -7,12 +7,14 @@ import InboxMembersAPI from '../../../../api/inboxMembers';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
+import AddAgent from '../agents/AddAgent.vue';
 import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     PageHeader,
     NextButton,
+    AddAgent,
   },
   validations: {
     selectedAgents: {
@@ -28,6 +30,7 @@ export default {
     return {
       selectedAgents: [],
       isCreating: false,
+      showAddAgentModal: false,
     };
   },
   computed: {
@@ -57,6 +60,20 @@ export default {
         useAlert(error.message);
       }
       this.isCreating = false;
+    },
+    openAddAgentModal() {
+      this.showAddAgentModal = true;
+    },
+    hideAddAgentModal() {
+      this.showAddAgentModal = false;
+    },
+    onAgentCreated(agent) {
+      // Add newly created agent to selection (append + dedupe by id)
+      const alreadySelected = this.selectedAgents.some(a => a.id === agent.id);
+      if (!alreadySelected) {
+        this.selectedAgents = [...this.selectedAgents, agent];
+      }
+      this.hideAddAgentModal();
     },
   },
 };
@@ -95,7 +112,7 @@ export default {
             </span>
           </label>
         </div>
-        <div class="w-full">
+        <div class="w-full flex gap-2 mt-4">
           <NextButton
             type="submit"
             :is-loading="isCreating"
@@ -103,8 +120,19 @@ export default {
             blue
             :label="$t('INBOX_MGMT.AGENTS.BUTTON_TEXT')"
           />
+          <NextButton
+            type="button"
+            faded
+            slate
+            :label="$t('INBOX_MGMT.AGENTS.ONBOARD_NEW_AGENT')"
+            @click="openAddAgentModal"
+          />
         </div>
       </div>
     </form>
+
+    <woot-modal v-model:show="showAddAgentModal" :on-close="hideAddAgentModal">
+      <AddAgent @close="hideAddAgentModal" @agent-created="onAgentCreated" />
+    </woot-modal>
   </div>
 </template>

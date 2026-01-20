@@ -44,7 +44,9 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: account_name, locale: I18n.locale)
+    # Use the passed locale if provided, otherwise fall back to I18n.locale
+    account_locale = @locale.presence || I18n.locale
+    @account = Account.create!(name: account_name, locale: account_locale)
     Current.account = @account
   end
 
@@ -72,6 +74,11 @@ class AccountBuilder
                      name: user_full_name)
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
+    # Set user's preferred locale in ui_settings if a locale was provided
+    if @locale.present?
+      @user.ui_settings ||= {}
+      @user.ui_settings['locale'] = @locale
+    end
     @user.save!
   end
 end

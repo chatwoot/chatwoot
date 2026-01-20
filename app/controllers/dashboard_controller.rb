@@ -81,7 +81,10 @@ class DashboardController < ActionController::Base
       AZURE_APP_ID: GlobalConfigService.load('AZURE_APP_ID', ''),
       GIT_SHA: GIT_HASH,
       ALLOWED_LOGIN_METHODS: allowed_login_methods,
-      EVOLUTION_API_ENABLED: GlobalConfigService.load('EVOLUTION_API_ENABLED', 'false')
+      EVOLUTION_API_ENABLED: GlobalConfigService.load('EVOLUTION_API_ENABLED', 'false'),
+      # CommMate flags
+      COMMMATE_ALLOW_PERSONAL_EMAIL_SIGNUP: GlobalConfigService.load('COMMMATE_ALLOW_PERSONAL_EMAIL_SIGNUP', 'false'),
+      COMMMATE_POST_SIGNUP_EVOLUTION_ONBOARDING: GlobalConfigService.load('COMMMATE_POST_SIGNUP_EVOLUTION_ONBOARDING', 'false')
     }
   end
 
