@@ -23,7 +23,6 @@ import { useI18n } from 'vue-i18n';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAlert } from 'dashboard/composables';
 import { vOnClickOutside } from '@vueuse/components';
 
@@ -112,7 +111,6 @@ const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
-const { captainTasksEnabled } = useCaptain();
 
 const effectiveChannelType = computed(() =>
   getEffectiveChannelType(props.channelType, props.medium)
@@ -132,10 +130,7 @@ const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
     ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
-  const formatting = getFormattingForEditor(
-    formatType,
-    captainTasksEnabled.value
-  );
+  const formatting = getFormattingForEditor(formatType);
 
   return formatting.menu;
 });
