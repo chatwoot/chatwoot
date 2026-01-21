@@ -30,6 +30,9 @@ describe ReportingEventListener do
       expect(created_event.user_id).to eq(user.id)
       expect(created_event.event_start_time).to be_within(1.second).of(conversation.created_at)
       expect(created_event.event_end_time).to be_within(1.second).of(conversation.created_at)
+      expect(created_event.from_state).to be_nil
+      expect(created_event.conversation_created_at).to be_within(1.second).of(conversation.created_at)
+      expect(created_event.channel_type).to eq(inbox.channel_type)
     end
 
     context 'when conversation has no assignee' do
@@ -43,6 +46,19 @@ describe ReportingEventListener do
         expect(created_event.user_id).to be_nil
       end
     end
+
+    context 'when conversation has team assigned' do
+      let(:team) { create(:team, account: account) }
+      let(:team_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user, team: team) }
+
+      it 'sets team_id on the event' do
+        event = Events::Base.new('conversation.created', Time.zone.now, conversation: team_conversation)
+        listener.conversation_created(event)
+
+        created_event = account.reporting_events.find_by(name: 'conversation_created', conversation_id: team_conversation.id)
+        expect(created_event.team_id).to eq(team.id)
+      end
+    end
   end
 
   describe '#conversation_resolved' do
@@ -51,6 +67,16 @@ describe ReportingEventListener do
       event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation)
       listener.conversation_resolved(event)
       expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 1
+    end
+
+    it 'sets from_state to handling' do
+      event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: conversation)
+      listener.conversation_resolved(event)
+
+      resolved_event = account.reporting_events.find_by(name: 'conversation_resolved')
+      expect(resolved_event.from_state).to eq('handling')
+      expect(resolved_event.conversation_created_at).to be_within(1.second).of(conversation.created_at)
+      expect(resolved_event.channel_type).to eq(inbox.channel_type)
     end
 
     context 'when business hours enabled for inbox' do
@@ -281,6 +307,9 @@ describe ReportingEventListener do
       listener.conversation_bot_handoff(event)
       expect(account.reporting_events.where(name: 'conversation_bot_handoff').count).to be 1
 
+      handoff_event = account.reporting_events.find_by(name: 'conversation_bot_handoff')
+      expect(handoff_event.from_state).to eq('bot_handling')
+
       # add extra handoff event for the same and ensure it's not created
       event = Events::Base.new('conversation.bot_handoff', Time.zone.now, conversation: conversation)
       listener.conversation_bot_handoff(event)
@@ -307,7 +336,7 @@ describe ReportingEventListener do
     context 'when conversation is opened for the first time' do
       let(:new_conversation) { create(:conversation, account: account, inbox: inbox, assignee: user) }
 
-      it 'creates conversation_opened event with value 0' do
+      it 'creates conversation_opened event with value 0 and nil from_state' do
         expect(account.reporting_events.where(name: 'conversation_opened').count).to be 0
         event = Events::Base.new('conversation.opened', Time.zone.now, conversation: new_conversation)
         listener.conversation_opened(event)
@@ -318,6 +347,7 @@ describe ReportingEventListener do
         expect(opened_event.value_in_business_hours).to eq 0
         expect(opened_event.event_start_time).to be_within(1.second).of(new_conversation.created_at)
         expect(opened_event.event_end_time).to be_within(1.second).of(new_conversation.updated_at)
+        expect(opened_event.from_state).to be_nil
       end
     end
 
@@ -367,6 +397,7 @@ describe ReportingEventListener do
         expect(reopened_event.inbox_id).to eq(inbox.id)
         expect(reopened_event.conversation_id).to eq(reopened_conversation.id)
         expect(reopened_event.user_id).to eq(user.id)
+        expect(reopened_event.from_state).to eq('resolved')
       end
 
       context 'when business hours enabled for inbox' do

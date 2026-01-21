@@ -7,12 +7,9 @@ class ReportingEventListener < BaseListener
     ReportingEvent.create!(
       name: 'conversation_created',
       value: 0,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
       event_start_time: conversation.created_at,
-      event_end_time: conversation.created_at
+      event_end_time: conversation.created_at,
+      **base_event_attributes(conversation, from_state: nil)
     )
   end
 
@@ -23,14 +20,10 @@ class ReportingEventListener < BaseListener
     reporting_event = ReportingEvent.new(
       name: 'conversation_resolved',
       value: time_to_resolve,
-      value_in_business_hours: business_hours(conversation.inbox, conversation.created_at,
-                                              conversation.updated_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
+      value_in_business_hours: business_hours(conversation.inbox, conversation.created_at, conversation.updated_at),
       event_start_time: conversation.created_at,
-      event_end_time: conversation.updated_at
+      event_end_time: conversation.updated_at,
+      **base_event_attributes(conversation, from_state: 'handling')
     )
 
     create_bot_resolved_event(conversation, reporting_event)
@@ -42,20 +35,14 @@ class ReportingEventListener < BaseListener
     conversation = message.conversation
     first_response_time = message.created_at.to_i - last_non_human_activity(conversation).to_i
 
-    reporting_event = ReportingEvent.new(
+    ReportingEvent.create!(
       name: 'first_response',
       value: first_response_time,
-      value_in_business_hours: business_hours(conversation.inbox, last_non_human_activity(conversation),
-                                              message.created_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: message.sender_id,
-      conversation_id: conversation.id,
+      value_in_business_hours: business_hours(conversation.inbox, last_non_human_activity(conversation), message.created_at),
       event_start_time: last_non_human_activity(conversation),
-      event_end_time: message.created_at
+      event_end_time: message.created_at,
+      **base_event_attributes(conversation, from_state: 'waiting', user_id: message.sender_id)
     )
-
-    reporting_event.save!
   end
 
   def reply_created(event)
@@ -65,21 +52,16 @@ class ReportingEventListener < BaseListener
 
     return if waiting_since.blank?
 
-    # When waiting_since is nil, set reply_time to 0
     reply_time = message.created_at.to_i - waiting_since.to_i
 
-    reporting_event = ReportingEvent.new(
+    ReportingEvent.create!(
       name: 'reply_time',
       value: reply_time,
       value_in_business_hours: business_hours(conversation.inbox, waiting_since, message.created_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
       event_start_time: waiting_since,
-      event_end_time: message.created_at
+      event_end_time: message.created_at,
+      **base_event_attributes(conversation, from_state: 'waiting')
     )
-    reporting_event.save!
   end
 
   def conversation_bot_handoff(event)
@@ -91,18 +73,14 @@ class ReportingEventListener < BaseListener
 
     time_to_handoff = conversation.updated_at.to_i - conversation.created_at.to_i
 
-    reporting_event = ReportingEvent.new(
+    ReportingEvent.create!(
       name: 'conversation_bot_handoff',
       value: time_to_handoff,
       value_in_business_hours: business_hours(conversation.inbox, conversation.created_at, conversation.updated_at),
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
       event_start_time: conversation.created_at,
-      event_end_time: conversation.updated_at
+      event_end_time: conversation.updated_at,
+      **base_event_attributes(conversation, from_state: 'bot_handling')
     )
-    reporting_event.save!
   end
 
   def conversation_opened(event)
@@ -114,36 +92,47 @@ class ReportingEventListener < BaseListener
       name: 'conversation_resolved'
     ).order(event_end_time: :desc).first
 
-    # For first-time openings, value is 0
-    # For reopenings, calculate time since resolution
+    # For first-time openings, value is 0, from_state is nil
+    # For reopenings, calculate time since resolution, from_state is 'resolved'
     if last_resolved_event
       time_since_resolved = conversation.updated_at.to_i - last_resolved_event.event_end_time.to_i
       business_hours_value = business_hours(conversation.inbox, last_resolved_event.event_end_time, conversation.updated_at)
       start_time = last_resolved_event.event_end_time
+      from_state = 'resolved'
     else
       time_since_resolved = 0
       business_hours_value = 0
       start_time = conversation.created_at
+      from_state = nil
     end
 
-    create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time)
+    create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time, from_state)
   end
 
   private
 
-  def create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time)
-    reporting_event = ReportingEvent.new(
+  def base_event_attributes(conversation, from_state:, user_id: nil)
+    {
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: user_id || conversation.assignee_id,
+      conversation_id: conversation.id,
+      conversation_created_at: conversation.created_at,
+      team_id: conversation.team_id,
+      channel_type: conversation.inbox.channel_type,
+      from_state: from_state
+    }
+  end
+
+  def create_conversation_opened_event(conversation, time_since_resolved, business_hours_value, start_time, from_state)
+    ReportingEvent.create!(
       name: 'conversation_opened',
       value: time_since_resolved,
       value_in_business_hours: business_hours_value,
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      user_id: conversation.assignee_id,
-      conversation_id: conversation.id,
       event_start_time: start_time,
-      event_end_time: conversation.updated_at
+      event_end_time: conversation.updated_at,
+      **base_event_attributes(conversation, from_state: from_state)
     )
-    reporting_event.save!
   end
 
   def create_bot_resolved_event(conversation, reporting_event)
@@ -153,6 +142,7 @@ class ReportingEventListener < BaseListener
 
     bot_resolved_event = reporting_event.dup
     bot_resolved_event.name = 'conversation_bot_resolved'
+    bot_resolved_event.from_state = 'bot_handling'
     bot_resolved_event.save!
   end
 end
