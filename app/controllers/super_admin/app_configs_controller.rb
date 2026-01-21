@@ -39,6 +39,8 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
 
   def allowed_configs
     mapping = {
+      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT CAPTAIN_EMBEDDING_MODEL CAPTAIN_FIRECRAWL_API_KEY
+                      CAPTAIN_CLOUD_PLAN_LIMITS],
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
       'shopify' => %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET],
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
