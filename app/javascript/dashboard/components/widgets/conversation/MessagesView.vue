@@ -2,7 +2,6 @@
 import { ref, provide } from 'vue';
 // composable
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
@@ -60,8 +59,11 @@ export default {
 
     useKeyboardEvents(keyboardEvents);
 
-    const { captainTasksEnabled, getLabelSuggestions } = useCaptain();
-    const { isLabelSuggestionFeatureEnabled } = useLabelSuggestions();
+    const {
+      captainTasksEnabled,
+      isLabelSuggestionFeatureEnabled,
+      getLabelSuggestions,
+    } = useLabelSuggestions();
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
