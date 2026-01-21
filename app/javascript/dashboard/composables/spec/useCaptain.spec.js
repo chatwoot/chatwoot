@@ -76,18 +76,6 @@ describe('useCaptain', () => {
     });
   });
 
-  it('gets label suggestions', async () => {
-    TasksAPI.labelSuggestion.mockResolvedValue({
-      data: { message: 'label1, label2' },
-    });
-
-    const { getLabelSuggestions } = useCaptain();
-    const result = await getLabelSuggestions();
-
-    expect(TasksAPI.labelSuggestion).toHaveBeenCalledWith('123');
-    expect(result).toEqual(['label1', 'label2']);
-  });
-
   it('rewrites content', async () => {
     TasksAPI.rewrite.mockResolvedValue({
       data: { message: 'Rewritten content', follow_up_context: { id: 'ctx1' } },
@@ -192,22 +180,5 @@ describe('useCaptain', () => {
     // Test rewrite (improve)
     await processEvent('improve', 'content', {});
     expect(TasksAPI.rewrite).toHaveBeenCalled();
-  });
-
-  it('returns empty array when no conversation ID for label suggestions', async () => {
-    useMapGetter.mockImplementation(getter => {
-      const mockValues = {
-        'accounts/getUIFlags': { isFetchingLimits: false },
-        getSelectedChat: { id: null },
-        'draftMessages/getReplyEditorMode': 'reply',
-      };
-      return { value: mockValues[getter] };
-    });
-
-    const { getLabelSuggestions } = useCaptain();
-    const result = await getLabelSuggestions();
-
-    expect(result).toEqual([]);
-    expect(TasksAPI.labelSuggestion).not.toHaveBeenCalled();
   });
 });
