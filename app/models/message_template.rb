@@ -81,7 +81,7 @@ class MessageTemplate < ApplicationRecord
   before_save :set_updated_by
 
   before_create :create_on_provider_platform, unless: :platform_template_id?
-  after_create :sync_templates_from_provider
+  after_create :sync_templates_from_provider_with_delay
   before_destroy :delete_on_provider_platform
   after_destroy :sync_templates_from_provider
 
@@ -121,7 +121,15 @@ class MessageTemplate < ApplicationRecord
     end
   end
 
+  def sync_templates_from_provider_with_delay
+    enqueue_template_sync(wait: 5.minutes)
+  end
+
   def sync_templates_from_provider
+    enqueue_template_sync
+  end
+
+  def enqueue_template_sync(wait: nil)
     return if skip_provider_sync
     return unless inbox&.channel
 
@@ -129,7 +137,11 @@ class MessageTemplate < ApplicationRecord
     # only whatsapp is supported for now
     return unless channel.is_a?(Channel::Whatsapp)
 
-    Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
+    if wait
+      Channels::Whatsapp::TemplatesSyncJob.set(wait: wait).perform_later(channel)
+    else
+      Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
+    end
   end
 
   def delete_on_provider_platform
