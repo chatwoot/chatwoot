@@ -24,7 +24,7 @@ class SankeyDataGenerator
   private
 
   def base_scope
-    ReportingEvent.where(account_id: @account_id).where('created_at >= ?', @days.days.ago)
+    ReportingEvent.where(account_id: @account_id).where('conversation_created_at >= ?', @days.days.ago)
   end
 
   def conversation_created
