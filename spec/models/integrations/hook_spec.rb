@@ -31,27 +31,6 @@ RSpec.describe Integrations::Hook do
     end
   end
 
-  describe 'process_event' do
-    let(:account) { create(:account) }
-    let(:params) { { event: 'rephrase', payload: { test: 'test' } } }
-
-    it 'returns no processor found for hooks with out processor defined' do
-      hook = create(:integrations_hook, account: account)
-      expect(hook.process_event(params)).to eq({ :error => 'No processor found' })
-    end
-
-    it 'returns results from procesor for openai hook' do
-      hook = create(:integrations_hook, :openai, account: account)
-
-      openai_double = double
-      allow(Integrations::Openai::ProcessorService).to receive(:new).and_return(openai_double)
-      allow(openai_double).to receive(:perform).and_return('test')
-      expect(hook.process_event(params)).to eq('test')
-      expect(Integrations::Openai::ProcessorService).to have_received(:new).with(event: params, hook: hook)
-      expect(openai_double).to have_received(:perform)
-    end
-  end
-
   describe 'scopes' do
     let(:account) { create(:account) }
     let(:inbox) { create(:inbox, account: account) }
