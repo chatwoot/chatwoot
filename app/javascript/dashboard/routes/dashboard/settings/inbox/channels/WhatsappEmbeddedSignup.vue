@@ -122,6 +122,17 @@ const completeSignupFlow = async businessDataParam => {
     authCode.value = null;
     handleSignupSuccess(responseData);
   } catch (error) {
+    // Handle rate limit errors (429)
+    if (error.response?.status === 429) {
+      const data = error.response.data;
+      const retryAfter = data.retry_after || 300;
+      const minutes = Math.ceil(retryAfter / 60);
+      handleSignupError({
+        error: t('INBOX_MGMT.ADD.WHATSAPP.RATE_LIMIT_ERROR', { minutes }),
+      });
+      return;
+    }
+
     const errorMessage =
       parseAPIErrorResponse(error) ||
       t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
