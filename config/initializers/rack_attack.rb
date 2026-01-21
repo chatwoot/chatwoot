@@ -178,6 +178,27 @@ class Rack::Attack
   ###----------Application API Throttling-----------###
   ###-----------------------------------------------###
 
+  ###-----------------------------------------------###
+  ###--------WhatsApp Authorization Throttling------###
+  ###-----------------------------------------------###
+
+  ## Prevent excessive WhatsApp connection attempts per account
+  ## Limit to 5 attempts per hour per account
+  throttle('whatsapp/authorization/account', limit: 5, period: 1.hour) do |req|
+    if req.path.match?(%r{/api/v1/accounts/\d+/whatsapp/authorization}) && req.post?
+      match_data = %r{/api/v1/accounts/(?<account_id>\d+)/whatsapp/authorization}.match(req.path)
+      match_data[:account_id] if match_data.present?
+    end
+  end
+
+  ## Prevent excessive WhatsApp connection attempts per IP (fallback)
+  ## Limit to 10 attempts per hour per IP
+  throttle('whatsapp/authorization/ip', limit: 10, period: 1.hour) do |req|
+    req.ip if req.path.match?(%r{/api/v1/accounts/\d+/whatsapp/authorization}) && req.post?
+  end
+
+  ###-----------------------------------------------###
+
   ## Prevent Abuse of Converstion Transcript APIs ###
   throttle('/api/v1/accounts/:account_id/conversations/:conversation_id/transcript', limit: 30, period: 1.hour) do |req|
     match_data = %r{/api/v1/accounts/(?<account_id>\d+)/conversations/(?<conversation_id>\d+)/transcript}.match(req.path)

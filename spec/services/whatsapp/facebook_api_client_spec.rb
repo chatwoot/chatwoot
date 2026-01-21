@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../../lib/custom_exceptions/whatsapp_rate_limit_error'
 
 describe Whatsapp::FacebookApiClient do
   let(:access_token) { 'test_access_token' }
@@ -228,6 +229,139 @@ describe Whatsapp::FacebookApiClient do
 
       it 'raises an error' do
         expect { api_client.unsubscribe_waba_webhook(waba_id) }.to raise_error(/Webhook unsubscription failed/)
+      end
+    end
+  end
+
+  describe 'rate limit error handling' do
+    let(:waba_id) { 'test_waba_id' }
+
+    context 'when Facebook returns error code 80008 (WhatsApp rate limit)' do
+      before do
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+          .with(query: { access_token: access_token })
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: 'There have been too many calls to this WhatsApp Business account.',
+                type: 'OAuthException',
+                code: 80_008,
+                fbtrace_id: 'test_trace_id'
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises a WhatsappRateLimitError' do
+        expect { api_client.fetch_phone_numbers(waba_id) }.to raise_error(WhatsappRateLimitError)
+      end
+
+      it 'includes the error code in the exception' do
+        api_client.fetch_phone_numbers(waba_id)
+      rescue WhatsappRateLimitError => e
+        expect(e.error_code).to eq(80_008)
+      end
+
+      it 'includes retry_after in the exception' do
+        api_client.fetch_phone_numbers(waba_id)
+      rescue WhatsappRateLimitError => e
+        expect(e.retry_after).to eq(300) # Default value
+      end
+    end
+
+    context 'when Facebook returns error code 80004 (Application rate limit)' do
+      before do
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+          .with(query: { access_token: access_token })
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: 'Application request limit reached',
+                type: 'OAuthException',
+                code: 80_004
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises a WhatsappRateLimitError' do
+        expect { api_client.fetch_phone_numbers(waba_id) }.to raise_error(WhatsappRateLimitError)
+      end
+    end
+
+    context 'when Facebook returns error code 4 (Too many calls)' do
+      before do
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+          .with(query: { access_token: access_token })
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: 'Too many calls',
+                type: 'OAuthException',
+                code: 4
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises a WhatsappRateLimitError' do
+        expect { api_client.fetch_phone_numbers(waba_id) }.to raise_error(WhatsappRateLimitError)
+      end
+    end
+
+    context 'when Facebook returns Retry-After header' do
+      before do
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+          .with(query: { access_token: access_token })
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: 'Rate limit exceeded',
+                type: 'OAuthException',
+                code: 80_008
+              }
+            }.to_json,
+            headers: {
+              'Content-Type' => 'application/json',
+              'Retry-After' => '600'
+            }
+          )
+      end
+
+      it 'uses the Retry-After header value' do
+        api_client.fetch_phone_numbers(waba_id)
+      rescue WhatsappRateLimitError => e
+        expect(e.retry_after).to eq(600)
+      end
+    end
+
+    context 'when Facebook returns a non-rate-limit error' do
+      before do
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+          .with(query: { access_token: access_token })
+          .to_return(
+            status: 400,
+            body: {
+              error: {
+                message: 'Invalid token',
+                type: 'OAuthException',
+                code: 190
+              }
+            }.to_json,
+            headers: { 'Content-Type' => 'application/json' }
+          )
+      end
+
+      it 'raises a standard error, not WhatsappRateLimitError' do
+        expect { api_client.fetch_phone_numbers(waba_id) }.to raise_error(RuntimeError)
+        expect { api_client.fetch_phone_numbers(waba_id) }.not_to raise_error(WhatsappRateLimitError)
       end
     end
   end

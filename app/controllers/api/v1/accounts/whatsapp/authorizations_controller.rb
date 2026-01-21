@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts::BaseController
   before_action :fetch_and_validate_inbox, if: -> { params[:inbox_id].present? }
+  before_action :check_connection_rate_limit, only: [:create]
 
   # POST /api/v1/accounts/:account_id/whatsapp/authorization
   # Handles both initial authorization and reauthorization
@@ -8,8 +9,10 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     log_whatsapp_configuration
     validate_embedded_signup_params!
     channel = process_embedded_signup
+    connection_tracker&.record_attempt!(success: true)
     render_success_response(channel.inbox)
   rescue StandardError => e
+    connection_tracker&.record_attempt!(success: false)
     render_error_response(e)
   end
 
@@ -97,6 +100,19 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   def render_error_response(error)
     Rails.logger.error "[WHATSAPP AUTHORIZATION] Embedded signup error: #{error.message}"
     Rails.logger.error error.backtrace.join("\n")
+
+    # Handle WhatsApp rate limit errors from Facebook API
+    if error.is_a?(WhatsappRateLimitError)
+      render json: {
+        success: false,
+        error: 'rate_limit_exceeded',
+        message: I18n.t('errors.whatsapp.facebook_rate_limit'),
+        retry_after: error.retry_after,
+        error_code: error.error_code
+      }, status: :too_many_requests
+      return
+    end
+
     render json: {
       success: false,
       error: error.message
@@ -112,5 +128,28 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
     return if missing_params.empty?
 
     raise ArgumentError, "Required parameters are missing: #{missing_params.join(', ')}"
+  end
+
+  def check_connection_rate_limit
+    return if connection_tracker.nil?
+    return if connection_tracker.can_attempt?
+
+    render json: {
+      error: 'rate_limit_exceeded',
+      message: I18n.t('errors.whatsapp.rate_limit_exceeded'),
+      status: connection_tracker.status
+    }, status: :too_many_requests
+  end
+
+  def connection_tracker
+    return @connection_tracker if defined?(@connection_tracker)
+
+    waba_id = params[:waba_id]
+    return nil if waba_id.blank?
+
+    @connection_tracker = Whatsapp::ConnectionAttemptTracker.new(
+      Current.account.id,
+      waba_id
+    )
   end
 end

@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative '../../../../../../lib/custom_exceptions/whatsapp_rate_limit_error'
 
 RSpec.describe 'WhatsApp Authorization API', type: :request do
   let(:account) { create(:account) }
@@ -489,6 +490,209 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'rate limiting' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:waba_id) { 'test_waba_id' }
+    let(:valid_params) do
+      {
+        code: 'test_code',
+        business_id: 'test_business_id',
+        waba_id: waba_id
+      }
+    end
+
+    before do
+      # Clear Redis keys before each test
+      Redis::Alfred.del("whatsapp:connection_attempts:#{account.id}:#{waba_id}")
+      Redis::Alfred.del("whatsapp:connection_failures:#{account.id}:#{waba_id}")
+    end
+
+    context 'when connection attempt tracker blocks the request' do
+      before do
+        # Simulate reaching the rate limit by recording max attempts
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        Whatsapp::ConnectionAttemptTracker::MAX_ATTEMPTS.times do
+          tracker.record_attempt!(success: false)
+        end
+      end
+
+      it 'returns 429 too many requests' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
+
+      it 'includes error details in the response' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        response_data = response.parsed_body
+        expect(response_data['error']).to eq('rate_limit_exceeded')
+        expect(response_data['status']).to be_a(Hash)
+        expect(response_data['status']['can_attempt']).to be false
+      end
+    end
+
+    context 'when in cooldown due to consecutive failures' do
+      before do
+        # Record 3 consecutive failures to trigger cooldown
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        3.times { tracker.record_attempt!(success: false) }
+      end
+
+      it 'returns 429 too many requests' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
+
+      it 'includes cooldown information in the response' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        response_data = response.parsed_body
+        expect(response_data['status']['in_cooldown']).to be true
+        expect(response_data['status']['cooldown_remaining']).to be > 0
+      end
+    end
+
+    context 'when Facebook API returns rate limit error' do
+      before do
+        embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+        allow(Whatsapp::EmbeddedSignupService).to receive(:new).and_return(embedded_signup_service)
+        allow(embedded_signup_service).to receive(:perform).and_raise(
+          WhatsappRateLimitError.new('Rate limit exceeded', retry_after: 600, error_code: 80_008)
+        )
+      end
+
+      it 'returns 429 too many requests' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:too_many_requests)
+      end
+
+      it 'includes retry_after in the response' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        response_data = response.parsed_body
+        expect(response_data['error']).to eq('rate_limit_exceeded')
+        expect(response_data['retry_after']).to eq(600)
+        expect(response_data['error_code']).to eq(80_008)
+      end
+
+      it 'records a failed attempt' do
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        initial_attempts = tracker.current_attempts
+
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(tracker.current_attempts).to eq(initial_attempts + 1)
+      end
+    end
+
+    context 'when request is successful' do
+      let(:whatsapp_channel) { create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false) }
+      let(:inbox) { create(:inbox, account: account, channel: whatsapp_channel) }
+
+      before do
+        embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
+        allow(Whatsapp::EmbeddedSignupService).to receive(:new).and_return(embedded_signup_service)
+        allow(embedded_signup_service).to receive(:perform).and_return(whatsapp_channel)
+        allow(whatsapp_channel).to receive(:inbox).and_return(inbox)
+
+        webhook_service = instance_double(Whatsapp::WebhookSetupService)
+        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+        allow(webhook_service).to receive(:perform)
+      end
+
+      it 'records a successful attempt' do
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        initial_attempts = tracker.current_attempts
+
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(tracker.current_attempts).to eq(initial_attempts + 1)
+        expect(tracker.consecutive_failures).to eq(0)
+      end
+
+      it 'clears consecutive failures after a success' do
+        # Record some failures first
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        2.times { tracker.record_attempt!(success: false) }
+        expect(tracker.consecutive_failures).to eq(2)
+
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(tracker.consecutive_failures).to eq(0)
+      end
+    end
+
+    context 'when request fails with a standard error' do
+      before do
+        allow(Whatsapp::EmbeddedSignupService).to receive(:new)
+          .and_raise(StandardError, 'Service error')
+      end
+
+      it 'records a failed attempt' do
+        tracker = Whatsapp::ConnectionAttemptTracker.new(account.id, waba_id)
+        initial_attempts = tracker.current_attempts
+        initial_failures = tracker.consecutive_failures
+
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(tracker.current_attempts).to eq(initial_attempts + 1)
+        expect(tracker.consecutive_failures).to eq(initial_failures + 1)
+      end
+    end
+
+    context 'when waba_id is not provided' do
+      it 'skips rate limiting and processes the request' do
+        post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+             params: {
+               code: 'test_code',
+               business_id: 'test_business_id'
+             },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        # Should fail due to missing waba_id, not rate limiting
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('waba_id')
       end
     end
   end

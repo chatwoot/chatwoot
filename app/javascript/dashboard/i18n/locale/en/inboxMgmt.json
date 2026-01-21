@@ -229,6 +229,17 @@
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
         "DESC": "Start supporting your customers via WhatsApp.",
+        "RATE_LIMIT_WARNING": {
+          "TITLE": "Connection Attempt Limits",
+          "DESCRIPTION": "WhatsApp Business API has rate limits. Please ensure your WhatsApp Business Account is properly configured before connecting.",
+          "TIPS": {
+            "TIP_1": "Verify your phone number is registered with WhatsApp Business",
+            "TIP_2": "Ensure your Meta Business account has admin access",
+            "TIP_3": "Have your verification PIN ready if prompted"
+          },
+          "FOOTER": "You can attempt to connect up to 5 times per hour. Multiple failed attempts may temporarily block your WhatsApp Business Account from connecting."
+        },
+        "RATE_LIMIT_ERROR": "Too many connection attempts. Please wait {minutes} minutes before trying again.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
