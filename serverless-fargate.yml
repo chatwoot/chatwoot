@@ -1,0 +1,255 @@
+service: chatwoot-fargate
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  region: ap-south-1
+
+resources:
+  Resources:
+    AlbSecurityGroup:
+      Type: AWS::EC2::SecurityGroup
+      Properties:
+        GroupDescription: Allow HTTP from internet to ALB
+        VpcId: vpc-07b87e35ae546a292
+        SecurityGroupIngress:
+          - IpProtocol: tcp
+            FromPort: 80
+            ToPort: 80
+            CidrIp: 0.0.0.0/0
+          - IpProtocol: tcp
+            FromPort: 443
+            ToPort: 443
+            CidrIp: 0.0.0.0/0
+        SecurityGroupEgress:
+          - IpProtocol: -1
+            CidrIp: 0.0.0.0/0
+
+    # ServiceSecurityGroup:
+    #   Type: AWS::EC2::SecurityGroup
+    #   Properties:
+    #     GroupDescription: Allow ALB to reach Fargate tasks
+    #     VpcId: vpc-07b87e35ae546a292
+    #     SecurityGroupIngress:
+    #       - IpProtocol: tcp
+    #         FromPort: 3000
+    #         ToPort: 3000
+    #         SourceSecurityGroupId: !Ref AlbSecurityGroup
+    #     SecurityGroupEgress:
+    #       - IpProtocol: -1
+    #         CidrIp: 0.0.0.0/0
+
+    LoadBalancer:
+      Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+      Properties:
+        Name: chatwoot-alb
+        Scheme: internet-facing
+        Type: application
+        IpAddressType: ipv4
+        SecurityGroups: [!Ref AlbSecurityGroup]
+        Subnets:
+          - subnet-0408fb91a0397bc9f
+          - subnet-081346fd9aa529611
+
+    TargetGroup:
+      Type: AWS::ElasticLoadBalancingV2::TargetGroup
+      Properties:
+        Name: chatwoot-targetgroup
+        VpcId: vpc-07b87e35ae546a292
+        TargetType: ip
+        Protocol: HTTP
+        Port: 3000
+        HealthCheckPath: /api
+        HealthCheckProtocol: HTTP
+        HealthCheckPort: traffic-port
+        HealthCheckIntervalSeconds: 300
+        HealthyThresholdCount: 2
+        UnhealthyThresholdCount: 10
+        Matcher: { HttpCode: "200-399" }
+
+    HttpListener:
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        LoadBalancerArn: !Ref LoadBalancer
+        Port: 80
+        Protocol: HTTP
+        DefaultActions:
+          - Type: redirect
+            RedirectConfig:
+              Protocol: HTTPS
+              Port: 443
+              StatusCode: HTTP_301
+
+    HttpsListener:
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        LoadBalancerArn: !Ref LoadBalancer
+        Port: 443
+        Protocol: HTTPS
+        Certificates:
+          - CertificateArn: arn:aws:acm:ap-south-1:864030831469:certificate/449652f3-e54d-46e9-b666-6a7854062500
+        DefaultActions:
+          - Type: forward
+            TargetGroupArn: !Ref TargetGroup
+
+    Cluster:
+      Type: AWS::ECS::Cluster
+      Properties:
+        ClusterName: chatwoot-cluster
+
+    TaskExecutionRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: { Service: ecs-tasks.amazonaws.com }
+              Action: sts:AssumeRole
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy
+
+    TaskRole:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Principal: { Service: ecs-tasks.amazonaws.com }
+              Action: sts:AssumeRole
+
+    TaskDefinition:
+      Type: AWS::ECS::TaskDefinition
+      Properties:
+        Family: chatwoot-task
+        Cpu: "4096" # 2 vCPU
+        Memory: "8192" # 4 GB
+        NetworkMode: awsvpc
+        RequiresCompatibilities: [FARGATE]
+        RuntimePlatform:
+          OperatingSystemFamily: LINUX
+          CpuArchitecture: X86_64
+        ExecutionRoleArn: !GetAtt TaskExecutionRole.Arn
+        TaskRoleArn: !GetAtt TaskRole.Arn
+        ContainerDefinitions:
+          - Name: chatwoot-express-app
+            Image: 864030831469.dkr.ecr.ap-south-1.amazonaws.com/chatwoot-web:latest
+            Essential: true
+            PortMappings:
+              - ContainerPort: 3000
+                Protocol: tcp
+            Environment:
+              - Name: PORT
+                Value: "3000"
+            LogConfiguration:
+              LogDriver: awslogs
+              Options:
+                awslogs-group: /ecs/chatwoot-fargate # have to create this manually first
+                awslogs-region: !Ref AWS::Region
+                awslogs-stream-prefix: app
+
+    Service:
+      Type: AWS::ECS::Service
+      DependsOn: 
+        - HttpListener
+        - HttpsListener
+      Properties:
+        ServiceName: chatwoot-service
+        Cluster: !Ref Cluster
+        TaskDefinition: !Ref TaskDefinition
+        DesiredCount: 2
+        LaunchType: FARGATE
+        HealthCheckGracePeriodSeconds: 300
+        LoadBalancers:
+          - TargetGroupArn: !Ref TargetGroup
+            ContainerName: chatwoot-express-app
+            ContainerPort: 3000
+        NetworkConfiguration:
+          AwsvpcConfiguration:
+            AssignPublicIp: ENABLED
+            SecurityGroups: [sg-0a43bf877c737e05a]
+            Subnets:
+              - subnet-0408fb91a0397bc9f
+              - subnet-081346fd9aa529611
+        DeploymentConfiguration:
+          MaximumPercent: 200
+          MinimumHealthyPercent: 100
+          DeploymentCircuitBreaker:
+            Enable: true
+            Rollback: true
+
+    # Auto Scaling Target - defines the scaling boundaries
+    AutoScalingTarget:
+      Type: AWS::ApplicationAutoScaling::ScalableTarget
+      DependsOn: Service
+      Properties:
+        MinCapacity: 2
+        MaxCapacity: 50
+        ScalableDimension: ecs:service:DesiredCount
+        ServiceNamespace: ecs
+        ResourceId: !Sub "service/chatwoot-cluster/chatwoot-service"
+        RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/aws-service-role/ecs.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_ECSService"
+
+    # # Auto Scaling Policy - scales based on ALB request count
+    # AutoScalingPolicy:
+    #   Type: AWS::ApplicationAutoScaling::ScalingPolicy
+    #   Properties:
+    #     PolicyName: ALBRequestCountScalingPolicy
+    #     ScalingTargetId: !Ref AutoScalingTarget
+    #     PolicyType: TargetTrackingScaling
+    #     TargetTrackingScalingPolicyConfiguration:
+    #       TargetValue: 500.0  # Target 1000 requests per target per 5 minutes
+    #       ScaleOutCooldown: 60  # Wait 60 seconds before scaling out again
+    #       ScaleInCooldown: 300  # Wait 5 minutes before scaling in
+    #       PredefinedMetricSpecification:
+    #         PredefinedMetricType: ALBRequestCountPerTarget
+    #         ResourceLabel: !Sub "${TargetGroup}/${LoadBalancer}"
+
+    # CPU Target Tracking Policy - scales to maintain 80% CPU utilization
+    CPUScalingPolicy:
+      Type: AWS::ApplicationAutoScaling::ScalingPolicy
+      Properties:
+        PolicyName: CPUTargetTrackingPolicy
+        ScalingTargetId: !Ref AutoScalingTarget
+        PolicyType: TargetTrackingScaling
+        TargetTrackingScalingPolicyConfiguration:
+          TargetValue: 65.0  # Target 80% CPU utilization
+          ScaleOutCooldown: 60  # Wait 60 seconds before scaling out again
+          ScaleInCooldown: 300  # Wait 5 minutes before scaling in
+          PredefinedMetricSpecification:
+            PredefinedMetricType: ECSServiceAverageCPUUtilization
+
+    # Memory Target Tracking Policy - scales to maintain 80% memory utilization
+    MemoryScalingPolicy:
+      Type: AWS::ApplicationAutoScaling::ScalingPolicy
+      Properties:
+        PolicyName: MemoryTargetTrackingPolicy
+        ScalingTargetId: !Ref AutoScalingTarget
+        PolicyType: TargetTrackingScaling
+        TargetTrackingScalingPolicyConfiguration:
+          TargetValue: 65.0  # Target 80% memory utilization
+          ScaleOutCooldown: 60  # Wait 60 seconds before scaling out again
+          ScaleInCooldown: 300  # Wait 5 minutes before scaling in
+          PredefinedMetricSpecification:
+            PredefinedMetricType: ECSServiceAverageMemoryUtilization
+
+    # CloudWatch Alarm for monitoring (optional but recommended)
+    # HighRequestCountAlarm:
+    #   Type: AWS::CloudWatch::Alarm
+    #   Properties:
+    #     AlarmName: !Sub "${AWS::StackName}-HighRequestCount"
+    #     AlarmDescription: "Scale out when ALB request count per target is high"
+    #     MetricName: RequestCountPerTarget
+    #     Namespace: AWS/ApplicationELB
+    #     Statistic: Average
+    #     Period: 300  # 5 minutes
+    #     EvaluationPeriods: 2
+    #     Threshold: 800  # Alert when approaching scaling threshold
+    #     ComparisonOperator: GreaterThanThreshold
+    #     Dimensions:
+    #       - Name: TargetGroup
+    #         Value: !GetAtt TargetGroup.TargetGroupArn
+    #       - Name: LoadBalancer
+    #         Value: !GetAtt LoadBalancer.LoadBalancerArn
+    #     AlarmActions: ['arn:aws:sns:us-east-1:864030831469:ecs-scaling-alerts']  # Add SNS topic ARN here if you want notifications
