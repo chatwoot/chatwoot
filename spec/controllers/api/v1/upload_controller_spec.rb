@@ -39,6 +39,11 @@ RSpec.describe 'Api::V1::Accounts::UploadController', type: :request do
       let(:valid_external_url) { 'http://example.com/image.jpg' }
 
       before do
+        allow(Resolv).to receive(:getaddresses).and_call_original
+        allow(Resolv).to receive(:getaddresses).with('example.com').and_return(['93.184.216.34'])
+        allow(Resolv).to receive(:getaddresses).with('error.example.com').and_return(['93.184.216.34'])
+        allow(Resolv).to receive(:getaddresses).with('nonexistent.example.com').and_return(['93.184.216.34'])
+
         stub_request(:get, valid_external_url)
           .to_return(status: 200, body: File.new(Rails.root.join('spec/assets/avatar.png')), headers: { 'Content-Type' => 'image/png' })
       end
