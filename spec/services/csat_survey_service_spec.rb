@@ -88,6 +88,25 @@ describe CsatSurveyService do
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
         expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
       end
+
+      context 'when survey rules block sending' do
+        before do
+          inbox.update(csat_config: {
+                         'survey_rules' => {
+                           'operator' => 'does_not_contain',
+                           'values' => ['bot-detectado']
+                         }
+                       })
+          conversation.update(label_list: ['bot-detectado'])
+        end
+
+        it 'does not send CSAT' do
+          service.perform
+
+          expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
+          expect(conversation.messages.where(content_type: :input_csat)).to be_empty
+        end
+      end
     end
 
     context 'when it is a WhatsApp channel' do
@@ -304,6 +323,29 @@ describe CsatSurveyService do
             hash_including(content: I18n.t('conversations.activity.csat.not_sent_due_to_messaging_window'))
           )
           expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
+        end
+      end
+
+      context 'when survey rules block sending' do
+        before do
+          whatsapp_inbox.update(csat_config: {
+                                  'template' => { 'name' => 'customer_survey_template', 'language' => 'en' },
+                                  'message' => 'Please rate your experience',
+                                  'survey_rules' => {
+                                    'operator' => 'does_not_contain',
+                                    'values' => ['bot-detectado']
+                                  }
+                                })
+          whatsapp_conversation.update(label_list: ['bot-detectado'])
+        end
+
+        it 'does not call WhatsApp template or create a CSAT message' do
+          expect(mock_provider_service).not_to receive(:get_template_status)
+          expect(mock_provider_service).not_to receive(:send_template)
+
+          whatsapp_service.perform
+
+          expect(whatsapp_conversation.messages.where(content_type: :input_csat)).to be_empty
         end
       end
     end

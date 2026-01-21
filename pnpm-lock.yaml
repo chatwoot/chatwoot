@@ -23,8 +23,8 @@ importers:
         specifier: 1.2.3
         version: 1.2.3
       '@chatwoot/prosemirror-schema':
-        specifier: 1.3.5
-        version: 1.3.5
+        specifier: 1.3.6
+        version: 1.3.6
       '@chatwoot/utils':
         specifier: ^0.0.51
         version: 0.0.51
@@ -40,6 +40,9 @@ importers:
       '@highlightjs/vue-plugin':
         specifier: ^2.1.0
         version: 2.1.0(highlight.js@11.10.0)(vue@3.5.12(typescript@5.6.2))
+      '@iconify-json/fluent':
+        specifier: ^1.2.32
+        version: 1.2.36
       '@iconify-json/material-symbols':
         specifier: ^1.2.10
         version: 1.2.10
@@ -454,8 +457,8 @@ packages:
   '@chatwoot/ninja-keys@1.2.3':
     resolution: {integrity: sha512-xM8d9P5ikDMZm2WbaCTk/TW5HFauylrU3cJ75fq5je6ixKwyhl/0kZbVN/vbbZN4+AUX/OaSIn6IJbtCgIF67g==}
 
-  '@chatwoot/prosemirror-schema@1.3.5':
-    resolution: {integrity: sha512-3Koj3jwO1qOxJG84D4FqPOJ6o8k6ehZi1zedO3vKRERATm2Cy1p+ET6FEvVYWUpoBvDwR6hNVScXrcNNVobhsA==}
+  '@chatwoot/prosemirror-schema@1.3.6':
+    resolution: {integrity: sha512-sHRtWqbtiow9mVF1ixim0eGUXfhGK5tuLOdF9Vf53aepjJ+ngEiNVkxQT6FohlEOd886ZsdQxMvmI92IDaUXAQ==}
 
   '@chatwoot/utils@0.0.51':
     resolution: {integrity: sha512-WlEmWfOTzR7YZRUWzn5Wpm15/BRudpwqoNckph8TohyDbiim1CP4UZGa+qjajxTbNGLLhtKlm0Xl+X16+5Wceg==}
@@ -960,6 +963,9 @@ packages:
   '@humanwhocodes/object-schema@2.0.3':
     resolution: {integrity: sha512-93zYdMES/c1D69yZiKDBj0V24vqNzB/koF26KPaagAfd3P/4gUlh3Dys5ogAK+Exi9QyzlD8x/08Zt7wIKcDcA==}
     deprecated: Use @eslint/object-schema instead
+
+  '@iconify-json/fluent@1.2.36':
+    resolution: {integrity: sha512-DhxwOu5Qiq09o2ehHeUK0I9lC01OeWFlxXP7pIslM0vbi8VuplrrJ7kMg21GJy87iOCevzxf6gTU7TLPGgSknw==}
 
   '@iconify-json/logos@1.2.10':
     resolution: {integrity: sha512-qxaXKJ6fu8jzTMPQdHtNxlfx6tBQ0jXRbHZIYy5Ilh8Lx9US9FsAdzZWUR8MXV8PnWTKGDFO4ZZee9VwerCyMA==}
@@ -4993,7 +4999,7 @@ snapshots:
       hotkeys-js: 3.8.7
       lit: 2.2.6
 
-  '@chatwoot/prosemirror-schema@1.3.5':
+  '@chatwoot/prosemirror-schema@1.3.6':
     dependencies:
       markdown-it-sup: 2.0.0
       prosemirror-commands: 1.6.0
@@ -5512,6 +5518,10 @@ snapshots:
   '@humanwhocodes/module-importer@1.0.1': {}
 
   '@humanwhocodes/object-schema@2.0.3': {}
+
+  '@iconify-json/fluent@1.2.36':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/logos@1.2.10':
     dependencies:
