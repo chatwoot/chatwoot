@@ -1,0 +1,95 @@
+name: chatwoot web deployment
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Image tag to publish (defaults to commit SHA)"
+        required: false
+        type: string
+      ecs_cluster:
+        description: "ECS cluster name"
+        required: false
+        type: string
+      ecs_service:
+        description: "ECS service name"
+        required: false
+        type: string
+      ecr_repository:
+        description: "ECR repository name"
+        required: false
+        type: string
+  push:
+    branches:
+      - bitespeed-develop
+    paths:
+      - "dockerfile.yml"
+      - "app/**"
+      - "lib/**"
+      - "config/**"
+      - "public/**"
+      - "package.json"
+      - "yarn.lock"
+
+env:
+  AWS_REGION: ${{ vars.AWS_REGION || 'ap-south-1' }}
+  ECR_REGISTRY: 864030831469.dkr.ecr.ap-south-1.amazonaws.com
+
+jobs:
+  deploy-chatwoot-web:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set deployment variables
+        run: |
+          echo "IMAGE_TAG=${{ github.event.inputs.image_tag || github.sha }}" >> $GITHUB_ENV
+          echo "ECR_REPOSITORY=${{ github.event.inputs.ecr_repository || vars.ECR_REPOSITORY || 'chatwoot-web' }}" >> $GITHUB_ENV
+          echo "ECS_CLUSTER=${{ github.event.inputs.ecs_cluster || vars.ECS_CLUSTER || 'chatwoot-cluster' }}" >> $GITHUB_ENV
+          echo "ECS_SERVICE=${{ github.event.inputs.ecs_service || vars.ECS_SERVICE || 'chatwoot-service' }}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build, tag, and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: dockerfile.yml
+          push: true
+          tags: |
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+            ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
+          cache-from: type=registry,ref=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:buildcache,mode=max
+
+      - name: Update ECS Service
+        run: |
+          aws ecs update-service \
+            --cluster "$ECS_CLUSTER" \
+            --service "$ECS_SERVICE" \
+            --force-new-deployment \
+            --region "${{ env.AWS_REGION }}"
+
+      - name: Deployment Summary
+        run: |
+          echo "✅ Deployed chatwoot-web"
+          echo "📦 Image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}"
+          echo "🏗️  Cluster: $ECS_CLUSTER"
+          echo "⚙️  Service: $ECS_SERVICE"

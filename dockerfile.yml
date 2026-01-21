@@ -1,0 +1,21 @@
+FROM chatwoot/chatwoot:v3.10.2
+
+COPY . /app
+
+# Install Node.js 20 and yarn
+RUN apk add --no-cache nodejs-current yarn
+
+# Install Node.js dependencies for frontend
+RUN yarn install
+
+# Install Ruby dependencies
+RUN bundle install
+
+# Compile frontend assets with your changes
+RUN RAILS_ENV=production bundle exec rake assets:precompile
+
+RUN chmod +x /app/docker/entrypoints/rails.sh
+
+ENTRYPOINT ["/app/docker/entrypoints/rails.sh"]
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
