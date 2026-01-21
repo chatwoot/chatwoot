@@ -20,18 +20,12 @@ db_namespace = namespace :db do
       unless ActiveRecord::Base.connection.table_exists? 'ar_internal_metadata'
         db_namespace['load_config'].invoke if ActiveRecord.schema_format == :ruby
         ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV.fetch('SCHEMA', nil))
-        db_namespace['seed'].invoke unless Rails.env.test?
+        db_namespace['seed'].invoke
       end
 
       db_namespace['migrate'].invoke
     rescue ActiveRecord::NoDatabaseError
-      if Rails.env.test?
-        db_namespace['create'].invoke
-        db_namespace['load_config'].invoke if ActiveRecord.schema_format == :ruby
-        ActiveRecord::Tasks::DatabaseTasks.load_schema_current(:ruby, ENV.fetch('SCHEMA', nil))
-      else
-        db_namespace['setup'].invoke
-      end
+      db_namespace['setup'].invoke
     end
   end
 end
