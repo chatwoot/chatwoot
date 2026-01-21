@@ -28,9 +28,6 @@ class Seeders::Reports::ConversationCreator
         conversation = build_conversation
         conversation.save!
 
-        # Trigger conversation_created event
-        trigger_conversation_created_event(conversation)
-
         add_labels_to_conversation(conversation)
 
         # Check if this is a bot inbox or human-only inbox
@@ -118,14 +115,6 @@ class Seeders::Reports::ConversationCreator
       captain_assistant: include_bot ? @captain_assistant : nil
     )
     message_creator.create_messages
-  end
-
-  def trigger_conversation_created_event(conversation)
-    event_data = { conversation: conversation }
-
-    ReportingEventListener.instance.conversation_created(
-      Events::Base.new('conversation_created', Time.current, event_data)
-    )
   end
 
   def inbox_has_captain?(inbox)
