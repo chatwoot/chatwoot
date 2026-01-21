@@ -10,6 +10,41 @@ describe ReportingEventListener do
                      account: account, inbox: inbox, conversation: conversation)
   end
 
+  describe '#conversation_created' do
+    it 'creates conversation_created event' do
+      expect(account.reporting_events.where(name: 'conversation_created').count).to be 0
+      event = Events::Base.new('conversation.created', Time.zone.now, conversation: conversation)
+      listener.conversation_created(event)
+      expect(account.reporting_events.where(name: 'conversation_created').count).to be 1
+    end
+
+    it 'sets correct attributes for conversation_created event' do
+      event = Events::Base.new('conversation.created', Time.zone.now, conversation: conversation)
+      listener.conversation_created(event)
+
+      created_event = account.reporting_events.find_by(name: 'conversation_created')
+      expect(created_event.value).to eq 0
+      expect(created_event.account_id).to eq(account.id)
+      expect(created_event.inbox_id).to eq(inbox.id)
+      expect(created_event.conversation_id).to eq(conversation.id)
+      expect(created_event.user_id).to eq(user.id)
+      expect(created_event.event_start_time).to be_within(1.second).of(conversation.created_at)
+      expect(created_event.event_end_time).to be_within(1.second).of(conversation.created_at)
+    end
+
+    context 'when conversation has no assignee' do
+      let(:unassigned_conversation) { create(:conversation, account: account, inbox: inbox, assignee: nil) }
+
+      it 'creates conversation_created event with nil user_id' do
+        event = Events::Base.new('conversation.created', Time.zone.now, conversation: unassigned_conversation)
+        listener.conversation_created(event)
+
+        created_event = account.reporting_events.find_by(name: 'conversation_created', conversation_id: unassigned_conversation.id)
+        expect(created_event.user_id).to be_nil
+      end
+    end
+  end
+
   describe '#conversation_resolved' do
     it 'creates conversation_resolved event' do
       expect(account.reporting_events.where(name: 'conversation_resolved').count).to be 0

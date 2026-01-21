@@ -1,6 +1,21 @@
 class ReportingEventListener < BaseListener
   include ReportingEventHelper
 
+  def conversation_created(event)
+    conversation = extract_conversation_and_account(event)[0]
+
+    ReportingEvent.create!(
+      name: 'conversation_created',
+      value: 0,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.created_at,
+      event_end_time: conversation.created_at
+    )
+  end
+
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
     time_to_resolve = conversation.updated_at.to_i - conversation.created_at.to_i
