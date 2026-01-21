@@ -95,7 +95,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                    inbox: inbox,
                                                    created_at: Time.zone.today)
               conversation.reload
-              conversation.update_column(:assignee_id, user.id)
+              conversation.update!(assignee_id: user.id)
               create_list(:message, 2, message_type: 'outgoing',
                                        account: account, inbox: inbox,
                                        conversation: conversation,
@@ -115,7 +115,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                    inbox: inbox,
                                                    created_at: Time.zone.today)
               conversation.reload
-              conversation.update_column(:assignee_id, user.id)
+              conversation.update!(assignee_id: user.id)
               create_list(:message, 1, message_type: 'outgoing',
                                        account: account, inbox: inbox,
                                        conversation: conversation,
@@ -236,7 +236,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                           inbox: inbox,
                                                           created_at: 2.days.ago)
             conversation_in_range.reload
-            conversation_in_range.update_column(:assignee_id, user.id)
+            conversation_in_range.update!(assignee_id: user.id)
             conversation_in_range.update_labels('label_1')
             conversation_in_range.label_list
             conversation_in_range.save!
@@ -253,7 +253,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                               inbox: inbox,
                                                               created_at: 1.week.ago)
             conversation_out_of_range.reload
-            conversation_out_of_range.update_column(:assignee_id, user.id)
+            conversation_out_of_range.update!(assignee_id: user.id)
             conversation_out_of_range.update_labels('label_1')
             conversation_out_of_range.label_list
             conversation_out_of_range.save!
@@ -297,7 +297,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                  inbox: inbox,
                                                  created_at: Time.zone.today)
             conversation.reload
-            conversation.update_column(:assignee_id, user.id)
+            conversation.update!(assignee_id: user.id)
             conversation.update_labels('label_1')
             conversation.label_list
             conversation.save!
@@ -356,7 +356,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
                                                  inbox: inbox,
                                                  created_at: test_date)
             conversation.reload
-            conversation.update_column(:assignee_id, user.id)
+            conversation.update!(assignee_id: user.id)
             conversation.update_labels(unique_label_name)
             conversation.label_list
             conversation.save!
