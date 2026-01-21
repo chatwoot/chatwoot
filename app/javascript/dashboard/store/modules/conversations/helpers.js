@@ -35,8 +35,61 @@ export const filterByUnattended = (
     : shouldFilter;
 };
 
+/**
+ * Validates if a conversation matches the current filter criteria for WebSocket events.
+ * This ensures conversations added/updated via WebSocket respect active filters.
+ *
+ * @param {Object} conversation - The conversation object
+ * @param {Object} filterState - The current filter state from the store
+ * @returns {boolean} - Whether the conversation should be shown
+ */
+export const isConversationMatchingFilters = (conversation, filterState) => {
+  const { chatStatusFilter, conversationReadStatusFilter, agentFilter } =
+    filterState;
+
+  // Check chat status filter (open/resolved/snoozed)
+  if (chatStatusFilter && chatStatusFilter !== 'all') {
+    if (conversation.status !== chatStatusFilter) {
+      return false;
+    }
+  }
+
+  // Check read status filter
+  if (conversationReadStatusFilter && conversationReadStatusFilter !== 'all') {
+    const isUnread = conversation.unread_count > 0;
+    if (conversationReadStatusFilter === 'unread' && !isUnread) {
+      return false;
+    }
+    if (conversationReadStatusFilter === 'read' && isUnread) {
+      return false;
+    }
+  }
+
+  // Check agent filter
+  if (agentFilter && agentFilter !== 'all') {
+    const assignee = conversation.meta?.assignee;
+    if (agentFilter === 'unassigned') {
+      if (assignee) {
+        return false;
+      }
+    } else if (!assignee || assignee.id !== Number(agentFilter)) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 export const applyPageFilters = (conversation, filters) => {
-  const { inboxId, status, labels = [], teamId, conversationType } = filters;
+  const {
+    inboxId,
+    status,
+    labels = [],
+    teamId,
+    conversationType,
+    conversationReadStatus,
+    assigneeId,
+  } = filters;
   const {
     status: chatStatus,
     inbox_id: chatInboxId,
@@ -58,6 +111,20 @@ export const applyPageFilters = (conversation, filters) => {
     firstReplyOn,
     waitingSince
   );
+
+  // Apply additional list filters that are controlled by the UI but were not
+  // previously part of applyPageFilters (read status + agent filter).
+  // This ensures list rendering stays correct without mutating the store list.
+  const agentFilter = assigneeId === undefined ? 'all' : String(assigneeId);
+  const chatStatusFilter = status || 'all';
+  const conversationReadStatusFilter = conversationReadStatus || 'all';
+  shouldFilter =
+    shouldFilter &&
+    isConversationMatchingFilters(conversation, {
+      chatStatusFilter,
+      conversationReadStatusFilter,
+      agentFilter,
+    });
 
   return shouldFilter;
 };

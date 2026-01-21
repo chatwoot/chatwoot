@@ -14,6 +14,7 @@ import {
   isOnUnattendedView,
   isOnCallingNudgesView,
 } from './helpers/actionHelpers';
+import { isConversationMatchingFilters } from './helpers';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -335,7 +336,13 @@ const actions = {
   },
 
   async addConversation({ commit, state, dispatch, rootState }, conversation) {
-    const { currentInbox, appliedFilters } = state;
+    const {
+      currentInbox,
+      appliedFilters,
+      chatStatusFilter,
+      conversationReadStatusFilter,
+      agentFilter,
+    } = state;
     const {
       inbox_id: inboxId,
       meta: { sender },
@@ -343,12 +350,20 @@ const actions = {
     const hasAppliedFilters = !!appliedFilters.length;
     const isMatchingInboxFilter =
       !currentInbox || Number(currentInbox) === inboxId;
+
+    // Check if conversation matches current filter criteria
+    const isMatchingCurrentFilters = isConversationMatchingFilters(
+      conversation,
+      { chatStatusFilter, conversationReadStatusFilter, agentFilter }
+    );
+
     if (
       !hasAppliedFilters &&
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
       !isOnCallingNudgesView(rootState) &&
-      isMatchingInboxFilter
+      isMatchingInboxFilter &&
+      isMatchingCurrentFilters
     ) {
       if (isOnFoldersView(rootState)) {
         const isConversationPartOfFolder =
@@ -380,10 +395,21 @@ const actions = {
     }
   },
 
-  async updateConversation({ commit, dispatch, rootState }, conversation) {
+  async updateConversation(
+    { commit, state, dispatch, rootState },
+    conversation
+  ) {
     const {
       meta: { sender },
     } = conversation;
+    const {
+      chatStatusFilter,
+      conversationReadStatusFilter,
+      agentFilter,
+      appliedFilters,
+      selectedChatId,
+    } = state;
+
     if (
       !isOnMentionsView(rootState) &&
       !isOnUnattendedView(rootState) &&
@@ -393,6 +419,32 @@ const actions = {
         const isConversationPartOfFolder =
           await checkIfConversationPartOfFolder(conversation, rootState);
         if (!isConversationPartOfFolder) {
+          return;
+        }
+      }
+
+      // Check if conversation matches current filter criteria
+      const hasAppliedFilters = !!appliedFilters.length;
+      const isMatchingCurrentFilters = isConversationMatchingFilters(
+        conversation,
+        { chatStatusFilter, conversationReadStatusFilter, agentFilter }
+      );
+
+      // If advanced filters are applied, skip filter validation as the filtering
+      // logic is handled differently. For basic filters, we still update the
+      // conversation in the store even if it no longer matches the active filters.
+      //
+      // Why: removing it from the store breaks the active conversation view
+      // (currentChat becomes empty), which collapses the conversation sidebar
+      // right after resolving a conversation.
+      //
+      // List visibility is handled by `applyPageFilters`, which now respects
+      // read-status and agent filters.
+      if (!hasAppliedFilters && !isMatchingCurrentFilters) {
+        // If it's not the currently selected chat, we can skip label/contact updates.
+        // We still keep the record updated to support deep links / active view.
+        commit(types.UPDATE_CONVERSATION, conversation);
+        if (selectedChatId !== conversation.id) {
           return;
         }
       }
