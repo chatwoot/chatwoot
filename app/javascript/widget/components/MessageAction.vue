@@ -84,6 +84,14 @@ export default {
           if (data.data?.whatsappUrl) {
             window.open(data.data?.whatsappUrl, '_blank');
           }
+        } else if (
+          this.channelConfig.needMoreHelpType === 'send_custom_message'
+        ) {
+          await this.sendMessage({
+            content: 'Need More Help',
+            selectedReply: tag.id,
+          });
+          await ContactsAPI.sendCustomNeedHelpMessage();
         }
       } catch (error) {
         // Ignore error

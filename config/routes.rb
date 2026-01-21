@@ -343,6 +343,7 @@ Rails.application.routes.draw do
             get :bot_config
             patch :update_bot_config
             post :send_main_menu_message
+            post :send_custom_need_help_message
           end
         end
         resources :inbox_members, only: [:index]

@@ -1,4 +1,4 @@
-class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
+class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController # rubocop:disable Metrics/ClassLength
   include WidgetHelper
 
   before_action :validate_hmac, only: [:set_user]
@@ -106,6 +106,27 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     else
       render json: { error: 'Failed to send main menu message' }, status: :internal_server_error
     end
+  end
+
+  def send_custom_need_help_message # rubocop:disable Metrics/AbcSize
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    custom_message = @web_widget.additional_attributes['need_more_help_custom_message']
+
+    return render json: { error: 'Custom message not configured' }, status: :bad_request if custom_message.blank?
+    return render json: { error: 'Conversation not found' }, status: :bad_request if conversation.blank?
+
+    message = conversation.messages.create!(
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      message_type: :outgoing,
+      content: custom_message,
+      sender: conversation.assignee || bot_user
+    )
+
+    render json: { success: true, message_id: message.id }
+  rescue StandardError => e
+    Rails.logger.error "Error sending custom need help message: #{e.message}"
+    render json: { error: 'Failed to send custom message' }, status: :internal_server_error
   end
 
   def get_checkout_url # rubocop:disable Naming/AccessorMethodName, Metrics/AbcSize, Metrics/MethodLength, Metrics/PerceivedComplexity

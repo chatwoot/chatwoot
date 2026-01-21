@@ -54,4 +54,7 @@ export default {
   sendMainMenuMessage() {
     return API.post(buildUrl('widget/contact/send_main_menu_message'));
   },
+  sendCustomNeedHelpMessage() {
+    return API.post(buildUrl('widget/contact/send_custom_need_help_message'));
+  },
 };

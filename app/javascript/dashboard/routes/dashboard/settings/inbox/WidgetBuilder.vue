@@ -240,6 +240,12 @@
               :items="needMoreHelpOptions"
               :action="handleNeedMoreHelpChange"
             />
+            <woot-input
+              v-if="needMoreHelpType === 'send_custom_message'"
+              v-model.trim="needMoreHelpCustomMessage"
+              :label="'Custom message to send'"
+              :placeholder="'Enter the message to send when user clicks Need More Help'"
+            />
             <input-radio-group
               name="widget-bubble-type"
               :label="
@@ -353,6 +359,7 @@ export default {
       faqs: [],
       backPopulateConversationMessages: true,
       needMoreHelpType: 'redirect_to_whatsapp',
+      needMoreHelpCustomMessage: '',
       needMoreHelpOptions: [],
       widgetBubblePositions: [
         {
@@ -601,6 +608,8 @@ export default {
       this.hideThatHelpedButton =
         additional_attributes?.message_action_settings
           ?.hide_that_helped_button || false;
+      this.needMoreHelpCustomMessage =
+        additional_attributes?.need_more_help_custom_message || '';
 
       this.setNeedMoreHelpOptionsData(
         need_more_help_type ?? 'need_more_help_type'
@@ -637,6 +646,11 @@ export default {
           id: 'assign_to_agent',
           title: 'Assign to Agent',
           checked: needMoreHelpType === 'assign_to_agent',
+        },
+        {
+          id: 'send_custom_message',
+          title: 'Send Custom Message',
+          checked: needMoreHelpType === 'send_custom_message',
         },
       ];
     },
@@ -753,6 +767,7 @@ export default {
               },
               default_country_code: this.defaultCountryCode,
               default_dial_code: this.defaultDialCode,
+              need_more_help_custom_message: this.needMoreHelpCustomMessage,
             },
           },
         });

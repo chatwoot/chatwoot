@@ -31,6 +31,7 @@
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
         faqs: <%= @web_widget.faqs.to_json.html_safe %>,
         needMoreHelpType: '<%= @web_widget.need_more_help_type %>',
+        needMoreHelpCustomMessage: '<%= @web_widget.additional_attributes['need_more_help_custom_message'] || '' %>',
         backPopulateConversation: <%= @web_widget.back_populates_conversation %>,
         chatOnWhatsappSettings: <%= (@web_widget.additional_attributes['chat_on_whatsapp_settings'] || { enabled: false, button_text: 'Send Us a Text on WhatsApp', default_text: 'Hey! I need help with something.', phone_number: '' }).to_json.html_safe %>,
         aiMessageSettings: <%= (@web_widget.additional_attributes['ai_message_settings'] || { show_indicators: true }).to_json.html_safe %>,
