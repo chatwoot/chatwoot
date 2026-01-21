@@ -13,6 +13,7 @@ class Seeders::Reports::ConversationCreator
     @teams = resources[:teams]
     @labels = resources[:labels]
     @agents = resources[:agents]
+    @captain_assistant = resources[:captain_assistant]
     @priorities = [nil, 'urgent', 'high', 'medium', 'low']
   end
 
@@ -27,8 +28,17 @@ class Seeders::Reports::ConversationCreator
         conversation = build_conversation
         conversation.save!
 
+        # Trigger conversation_created event
+        trigger_conversation_created_event(conversation)
+
         add_labels_to_conversation(conversation)
-        create_messages_for_conversation(conversation)
+
+        # Check if this is a bot inbox or human-only inbox
+        if inbox_has_captain?(conversation.inbox)
+          create_bot_conversation_flow(conversation, created_at)
+        else
+          create_human_conversation_flow(conversation)
+        end
 
         # Determine if should resolve but don't update yet
         should_resolve = rand > 0.3
@@ -100,13 +110,86 @@ class Seeders::Reports::ConversationCreator
     conversation.update_labels(labels_to_add.map(&:title))
   end
 
-  def create_messages_for_conversation(conversation)
+  def create_messages_for_conversation(conversation, include_bot: false)
     message_creator = Seeders::Reports::MessageCreator.new(
       account: @account,
       agents: @agents,
-      conversation: conversation
+      conversation: conversation,
+      captain_assistant: include_bot ? @captain_assistant : nil
     )
     message_creator.create_messages
+  end
+
+  def trigger_conversation_created_event(conversation)
+    event_data = { conversation: conversation }
+
+    ReportingEventListener.instance.conversation_created(
+      Events::Base.new('conversation_created', Time.current, event_data)
+    )
+  end
+
+  def inbox_has_captain?(inbox)
+    return false unless @captain_assistant && inbox.respond_to?(:captain_assistant)
+
+    inbox.captain_assistant.present?
+  end
+
+  def create_bot_conversation_flow(conversation, _created_at)
+    message_creator = Seeders::Reports::MessageCreator.new(
+      account: @account,
+      agents: @agents,
+      conversation: conversation,
+      captain_assistant: @captain_assistant
+    )
+
+    # Create initial customer message
+    message_creator.create_incoming_message
+
+    # Add delay for bot response
+    travel(rand((5.seconds)..(30.seconds)))
+
+    # Create bot response
+    message_creator.create_bot_message
+
+    # Randomly decide outcome: 30% bot resolves, 50% handoff to human, 20% abandoned
+    outcome = rand(100)
+
+    if outcome < 30
+      # Bot resolves - no more messages needed, will be resolved later
+      nil
+    elsif outcome < 80
+      # Bot hands off to human - use travel to move forward from current time
+      travel(rand((1.minute)..(10.minutes)))
+      trigger_bot_handoff_event(conversation)
+      # Continue with human agent messages
+      create_human_messages_after_handoff(message_creator)
+    end
+    # else: 20% abandoned - no further action
+  end
+
+  def create_human_conversation_flow(conversation)
+    create_messages_for_conversation(conversation)
+  end
+
+  def create_human_messages_after_handoff(message_creator)
+    # Create a few more human agent messages after handoff
+    message_count = rand(2..4)
+    message_count.times do |i|
+      travel(rand((1.minute)..(30.minutes)))
+      if i.even?
+        message_creator.create_incoming_message
+      else
+        message_creator.create_human_outgoing_message
+      end
+    end
+  end
+
+  def trigger_bot_handoff_event(conversation)
+    event_data = { conversation: conversation }
+
+    ReportingEventListener.instance.conversation_bot_handoff(
+      Events::Base.new('conversation_bot_handoff', Time.current, event_data)
+    )
   end
 
   def trigger_conversation_resolved_event(conversation)

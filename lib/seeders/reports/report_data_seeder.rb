@@ -8,7 +8,7 @@
 # to generate historical data with realistic timestamps.
 #
 # Usage:
-#   ACCOUNT_ID=1 ENABLE_ACCOUNT_SEEDING=true bundle exec rake db:seed:reports_data
+#   ENABLE_ACCOUNT_SEEDING=true bundle exec rake db:seed:reports_data
 #
 # This will create:
 #   - 1000 conversations with realistic message exchanges
@@ -25,29 +25,36 @@ require 'faker'
 require_relative 'conversation_creator'
 require_relative 'message_creator'
 
-# rubocop:disable Rails/Output
+# rubocop:disable Rails/Output, Metrics/ClassLength
 class Seeders::Reports::ReportDataSeeder
   include ActiveSupport::Testing::TimeHelpers
 
-  TOTAL_CONVERSATIONS = 1000
-  TOTAL_CONTACTS = 100
-  TOTAL_AGENTS = 20
-  TOTAL_TEAMS = 5
-  TOTAL_LABELS = 30
   TOTAL_INBOXES = 3
-  MESSAGES_PER_CONVERSATION = 5
-  START_DATE = 3.months.ago # rubocop:disable Rails/RelativeDateConstant
-  END_DATE = Time.current
 
-  def initialize(account:)
+  def initialize(account:, config: {})
     raise 'Account Seeding is not allowed.' unless ENV.fetch('ENABLE_ACCOUNT_SEEDING', !Rails.env.production?)
 
     @account = account
+    initialize_config(config)
     @teams = []
     @agents = []
     @labels = []
     @inboxes = []
     @contacts = []
+    @captain_assistant = nil
+  end
+
+  def initialize_config(config)
+    defaults = { total_conversations: 1000, total_contacts: 100, total_agents: 20,
+                 total_teams: 5, total_labels: 30, days_range: 90 }
+    config = defaults.merge(config)
+
+    @total_conversations = config[:total_conversations]
+    @total_contacts = config[:total_contacts]
+    @total_agents = config[:total_agents]
+    @total_teams = config[:total_teams]
+    @total_labels = config[:total_labels]
+    @days_range = config[:days_range]
   end
 
   def perform!
@@ -56,6 +63,7 @@ class Seeders::Reports::ReportDataSeeder
     # Clear existing data
     clear_existing_data
 
+    create_captain_assistant
     create_teams
     create_agents
     create_labels
@@ -78,26 +86,38 @@ class Seeders::Reports::ReportDataSeeder
     @account.contacts.destroy_all
     @account.agents.destroy_all
     @account.reporting_events.destroy_all
+    Captain::Assistant.where(account: @account).destroy_all if defined?(Captain::Assistant)
+  end
+
+  def create_captain_assistant
+    return unless defined?(Captain::Assistant)
+
+    @captain_assistant = Captain::Assistant.create!(
+      account: @account,
+      name: 'Support Bot',
+      description: 'AI assistant for customer support'
+    )
+    puts 'Created Captain assistant: Support Bot'
   end
 
   def create_teams
-    TOTAL_TEAMS.times do |i|
+    @total_teams.times do |i|
       team = @account.teams.create!(
         name: "#{Faker::Company.industry} Team #{i + 1}"
       )
       @teams << team
-      print "\rCreating teams: #{i + 1}/#{TOTAL_TEAMS}"
+      print "\rCreating teams: #{i + 1}/#{@total_teams}"
     end
 
     print "\n"
   end
 
   def create_agents
-    TOTAL_AGENTS.times do |i|
+    @total_agents.times do |i|
       user = create_single_agent(i)
       assign_agent_to_teams(user)
       @agents << user
-      print "\rCreating agents: #{i + 1}/#{TOTAL_AGENTS}"
+      print "\rCreating agents: #{i + 1}/#{@total_agents}"
     end
 
     print "\n"
@@ -134,22 +154,33 @@ class Seeders::Reports::ReportDataSeeder
   end
 
   def create_labels
-    TOTAL_LABELS.times do |i|
+    @total_labels.times do |i|
       label = @account.labels.create!(
         title: "Label-#{i + 1}-#{Faker::Lorem.word}",
         description: Faker::Company.catch_phrase,
         color: Faker::Color.hex_color
       )
       @labels << label
-      print "\rCreating labels: #{i + 1}/#{TOTAL_LABELS}"
+      print "\rCreating labels: #{i + 1}/#{@total_labels}"
     end
 
     print "\n"
   end
 
   def create_inboxes
-    TOTAL_INBOXES.times do |_i|
-      inbox = create_single_inbox
+    # Create inboxes: 2/3 with Captain (bot inboxes) and 1/3 without (human-only)
+    bot_inbox_count = (TOTAL_INBOXES * 2 / 3.0).ceil
+    human_inbox_count = TOTAL_INBOXES - bot_inbox_count
+
+    bot_inbox_count.times do |i|
+      inbox = create_web_inbox_with_captain("Support Bot Inbox #{i + 1}")
+      assign_agents_to_inbox(inbox)
+      @inboxes << inbox
+      print "\rCreating inboxes: #{@inboxes.size}/#{TOTAL_INBOXES}"
+    end
+
+    human_inbox_count.times do |i|
+      inbox = create_web_inbox("Human Support Inbox #{i + 1}")
       assign_agents_to_inbox(inbox)
       @inboxes << inbox
       print "\rCreating inboxes: #{@inboxes.size}/#{TOTAL_INBOXES}"
@@ -158,14 +189,27 @@ class Seeders::Reports::ReportDataSeeder
     print "\n"
   end
 
-  def create_single_inbox
+  def create_web_inbox_with_captain(name)
+    inbox = create_web_inbox(name)
+
+    if @captain_assistant && defined?(CaptainInbox)
+      CaptainInbox.create!(
+        captain_assistant: @captain_assistant,
+        inbox: inbox
+      )
+    end
+
+    inbox
+  end
+
+  def create_web_inbox(name)
     channel = Channel::WebWidget.create!(
       website_url: "https://#{Faker::Internet.domain_name}",
       account_id: @account.id
     )
 
     @account.inboxes.create!(
-      name: "#{Faker::Company.name} Website",
+      name: name,
       channel: channel
     )
   end
@@ -176,9 +220,10 @@ class Seeders::Reports::ReportDataSeeder
                          @agents
                        else
                          # Subsequent inboxes get random selection with some overlap
-                         min_agents = [@agents.size / TOTAL_INBOXES, 10].max
-                         max_agents = [(@agents.size * 0.8).to_i, 50].min
-                         @agents.sample(rand(min_agents..max_agents))
+                         min_agents = [(@agents.size / TOTAL_INBOXES), 1].max
+                         max_agents = [(@agents.size * 0.8).to_i, @agents.size].min
+                         sample_count = rand([min_agents, max_agents].min..[min_agents, max_agents].max)
+                         @agents.sample(sample_count)
                        end
 
     agents_to_assign.each do |agent|
@@ -187,7 +232,7 @@ class Seeders::Reports::ReportDataSeeder
   end
 
   def create_contacts
-    TOTAL_CONTACTS.times do |i|
+    @total_contacts.times do |i|
       contact = @account.contacts.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email,
@@ -202,7 +247,7 @@ class Seeders::Reports::ReportDataSeeder
       )
       @contacts << contact
 
-      print "\rCreating contacts: #{i + 1}/#{TOTAL_CONTACTS}"
+      print "\rCreating contacts: #{i + 1}/#{@total_contacts}"
     end
 
     print "\n"
@@ -216,19 +261,20 @@ class Seeders::Reports::ReportDataSeeder
         inboxes: @inboxes,
         teams: @teams,
         labels: @labels,
-        agents: @agents
+        agents: @agents,
+        captain_assistant: @captain_assistant
       }
     )
 
-    TOTAL_CONVERSATIONS.times do |i|
-      created_at = Faker::Time.between(from: START_DATE, to: END_DATE)
+    @total_conversations.times do |i|
+      created_at = Faker::Time.between(from: @days_range.days.ago, to: Time.current)
       conversation_creator.create_conversation(created_at: created_at)
 
-      completion_percentage = ((i + 1).to_f / TOTAL_CONVERSATIONS * 100).round
-      print "\rCreating conversations: #{i + 1}/#{TOTAL_CONVERSATIONS} (#{completion_percentage}%)"
+      completion_percentage = ((i + 1).to_f / @total_conversations * 100).round
+      print "\rCreating conversations: #{i + 1}/#{@total_conversations} (#{completion_percentage}%)"
     end
 
     print "\n"
   end
 end
-# rubocop:enable Rails/Output
+# rubocop:enable Rails/Output, Metrics/ClassLength

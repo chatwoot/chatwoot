@@ -8,10 +8,11 @@ class Seeders::Reports::MessageCreator
 
   MESSAGES_PER_CONVERSATION = 5
 
-  def initialize(account:, agents:, conversation:)
+  def initialize(account:, agents:, conversation:, captain_assistant: nil)
     @account = account
     @agents = agents
     @conversation = conversation
+    @captain_assistant = captain_assistant
   end
 
   def create_messages
@@ -35,6 +36,44 @@ class Seeders::Reports::MessageCreator
 
     handle_agent_reply_events(message, first_agent_reply)
     false # No longer first reply after any agent message
+  end
+
+  def create_incoming_message
+    @conversation.messages.create!(
+      account: @account,
+      inbox: @conversation.inbox,
+      message_type: :incoming,
+      content: generate_customer_message_content,
+      sender: @conversation.contact
+    )
+  end
+
+  def create_bot_message
+    return unless @captain_assistant
+
+    @conversation.messages.create!(
+      account: @account,
+      inbox: @conversation.inbox,
+      message_type: :outgoing,
+      content: generate_bot_response_content,
+      sender: @captain_assistant
+    )
+  end
+
+  def create_human_outgoing_message
+    sender = @conversation.assignee || @agents.sample
+
+    message = @conversation.messages.create!(
+      account: @account,
+      inbox: @conversation.inbox,
+      message_type: :outgoing,
+      content: generate_message_content,
+      sender: sender
+    )
+
+    # Trigger reply events for human messages after handoff
+    trigger_reply_event(message)
+    message
   end
 
   private
@@ -64,16 +103,6 @@ class Seeders::Reports::MessageCreator
     end
   end
 
-  def create_incoming_message
-    @conversation.messages.create!(
-      account: @account,
-      inbox: @conversation.inbox,
-      message_type: :incoming,
-      content: generate_message_content,
-      sender: @conversation.contact
-    )
-  end
-
   def create_outgoing_message
     sender = @conversation.assignee || @agents.sample
 
@@ -88,6 +117,39 @@ class Seeders::Reports::MessageCreator
 
   def generate_message_content
     Faker::Lorem.paragraph(sentence_count: rand(1..5))
+  end
+
+  def generate_customer_message_content
+    customer_messages = [
+      'Hi, I need help with my order.',
+      'Can you assist me with a billing issue?',
+      'I have a question about my account.',
+      "I'm having trouble logging in.",
+      'How do I change my password?',
+      'When will my order arrive?',
+      "I'd like to request a refund.",
+      'Can you help me update my shipping address?',
+      'I received the wrong item.',
+      'Is there a way to track my package?',
+      Faker::Lorem.paragraph(sentence_count: rand(1..3))
+    ]
+    customer_messages.sample
+  end
+
+  def generate_bot_response_content
+    bot_responses = [
+      "Hello! I'm here to help. Let me look into that for you.",
+      'Thank you for reaching out. I can assist you with this.',
+      'I understand your concern. Let me check our records.',
+      'Sure, I can help with that! Could you provide more details?',
+      "I've found some information that might help.",
+      'Let me connect you with a specialist who can better assist you.',
+      'Based on your question, here are some options available to you.',
+      'I can see your account details. Let me review this for you.',
+      "Thank you for your patience. I'm processing your request now.",
+      'Is there anything else I can help you with today?'
+    ]
+    bot_responses.sample
   end
 
   def handle_agent_reply_events(message, is_first_reply)
