@@ -124,7 +124,10 @@ const editorSchema = computed(() => {
   const formatType = props.isPrivate
     ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value;
-  const formatting = getFormattingForEditor(formatType, captainTasksEnabled);
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
