@@ -125,9 +125,11 @@ class MessageTemplate < ApplicationRecord
     return if skip_provider_sync
     return unless inbox&.channel
 
-    inbox.channel.sync_templates
-  rescue StandardError => e
-    Rails.logger.error "Failed to sync templates after creation: #{e.message}"
+    channel = inbox.channel
+    # only whatsapp is supported for now
+    return unless channel.is_a?(Channel::Whatsapp)
+
+    Channels::Whatsapp::TemplatesSyncJob.perform_later(channel)
   end
 
   def delete_on_provider_platform
