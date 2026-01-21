@@ -96,8 +96,6 @@ en:
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
       phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
-      rate_limit_exceeded: 'Too many connection attempts. Please wait before trying again.'
-      facebook_rate_limit: 'WhatsApp Business API rate limit exceeded. Please wait a few minutes before trying again.'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'

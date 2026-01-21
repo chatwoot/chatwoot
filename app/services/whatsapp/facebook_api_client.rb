@@ -1,10 +1,5 @@
 class Whatsapp::FacebookApiClient
   BASE_URI = 'https://graph.facebook.com'.freeze
-  # Facebook Graph API rate limit error codes
-  # 80008: WhatsApp Business Account rate limit
-  # 80004: Application rate limit
-  # 4: Too many calls
-  RATE_LIMIT_ERROR_CODES = [80_008, 80_004, 4].freeze
 
   def initialize(access_token = nil, account: nil)
     @access_token = access_token
@@ -115,38 +110,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def handle_response(response, error_message)
-    unless response.success?
-      # Check if this is a rate limit error
-      if rate_limit_error?(response)
-        retry_after = extract_retry_after(response)
-        error_code = extract_error_code(response)
-        raise ::WhatsappRateLimitError.new(
-          "#{error_message}: Rate limit exceeded",
-          retry_after: retry_after,
-          error_code: error_code
-        )
-      end
-
-      raise "#{error_message}: #{response.body}"
-    end
+    raise "#{error_message}: #{response.body}" unless response.success?
 
     response.parsed_response
-  end
-
-  def rate_limit_error?(response)
-    error_code = extract_error_code(response)
-    RATE_LIMIT_ERROR_CODES.include?(error_code)
-  end
-
-  def extract_retry_after(response)
-    # Try to get from header first, then default to 5 minutes
-    response.headers['Retry-After']&.to_i || 300
-  end
-
-  def extract_error_code(response)
-    body = response.body.is_a?(Hash) ? response.body : JSON.parse(response.body)
-    body.dig('error', 'code')
-  rescue JSON::ParserError, TypeError
-    nil
   end
 end

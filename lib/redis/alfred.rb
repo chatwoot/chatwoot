@@ -25,21 +25,6 @@ module Redis::Alfred
       $alfred.with { |conn| conn.del(key) }
     end
 
-    # alias for delete to match Redis native method name
-    def del(key)
-      delete(key)
-    end
-
-    # get time-to-live for a key in seconds
-    def ttl(key)
-      $alfred.with { |conn| conn.ttl(key) }
-    end
-
-    # execute multiple commands atomically
-    def multi(&)
-      $alfred.with { |conn| conn.multi(&) }
-    end
-
     # increment a key by 1. throws error if key value is incompatible
     # sets key to 0 before operation if key doesn't exist
     def incr(key)
