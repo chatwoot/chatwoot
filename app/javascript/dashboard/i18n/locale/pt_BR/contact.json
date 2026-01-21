@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "Criado",
     "NEW_MESSAGE": "Nova Mensagem",
     "CALL": "Chamada",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Efetuando chamada…",
+    "CALL_FAILED": "Não foi possível iniciar a chamada. Tente novamente.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Escolha uma caixa de entrada de voz"
     },
@@ -458,7 +458,7 @@
             "PLACEHOLDER": "Adicionar Instagram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Adicionar TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Adicionar LinkedIn"

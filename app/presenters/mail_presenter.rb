@@ -95,6 +95,7 @@ class MailPresenter < SimpleDelegator
       content_type: content_type,
       date: date,
       from: from,
+      headers: headers_data,
       html_content: html_content,
       in_reply_to: in_reply_to,
       message_id: message_id,
@@ -134,6 +135,16 @@ class MailPresenter < SimpleDelegator
 
   def original_sender
     from_email_address(@mail[:reply_to].try(:value)) || @mail['X-Original-Sender'].try(:value) || from_email_address(from.first)
+  end
+
+  def headers_data
+    headers = {
+      'x-original-from' => @mail['X-Original-From']&.value,
+      'x-original-sender' => @mail['X-Original-Sender']&.value,
+      'x-forwarded-for' => @mail['X-Forwarded-For']&.value
+    }.compact
+
+    headers.presence
   end
 
   def from_email_address(email)

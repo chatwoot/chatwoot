@@ -6,7 +6,6 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 const props = defineProps({
   hasErrors: { type: Boolean, default: false },
-  hasAttachments: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
   channelType: { type: String, default: '' },
@@ -24,14 +23,14 @@ const modelValue = defineModel({
 </script>
 
 <template>
-  <div class="flex-1 h-full" :class="[!hasAttachments && 'min-h-[200px]']">
+  <div class="flex-1 h-full">
     <Editor
-      :key="editorKey"
       v-model="modelValue"
+      :editor-key="editorKey"
       :placeholder="
         t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
       "
-      class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[200px]"
+      class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[12.5rem] [&_.ProseMirror-woot-style]:!min-h-[10rem] [&_.ProseMirror-menubar]:!pt-0 [&_.mention--box]:-top-[7.5rem] [&_.mention--box]:bottom-[unset]"
       :class="
         hasErrors
           ? '[&_.empty-node]:before:!text-n-ruby-9 [&_.empty-node]:dark:before:!text-n-ruby-9'

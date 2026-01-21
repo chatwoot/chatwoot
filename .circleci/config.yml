@@ -76,7 +76,7 @@ jobs:
             bundle install
 
       - node/install:
-          node-version: '23.7'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
@@ -117,7 +117,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '23.7'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
@@ -148,7 +148,7 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '23.7'
+          node-version: '24.13'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
@@ -218,6 +218,49 @@ jobs:
             source ~/.rvm/scripts/rvm
             bundle install
 
+      # Install and configure OpenSearch
+      - run:
+          name: Install OpenSearch
+          command: |
+            # Download and install OpenSearch 2.11.0 (compatible with Elasticsearch 7.x clients)
+            wget https://artifacts.opensearch.org/releases/bundle/opensearch/2.11.0/opensearch-2.11.0-linux-x64.tar.gz
+            tar -xzf opensearch-2.11.0-linux-x64.tar.gz
+            sudo mv opensearch-2.11.0 /opt/opensearch
+
+      - run:
+          name: Configure and Start OpenSearch
+          command: |
+            # Configure OpenSearch for single-node testing
+            cat > /opt/opensearch/config/opensearch.yml \<< EOF
+            cluster.name: chatwoot-test
+            node.name: node-1
+            network.host: 0.0.0.0
+            http.port: 9200
+            discovery.type: single-node
+            plugins.security.disabled: true
+            EOF
+
+            # Set ownership and permissions
+            sudo chown -R $USER:$USER /opt/opensearch
+
+            # Start OpenSearch in background
+            /opt/opensearch/bin/opensearch -d -p /tmp/opensearch.pid
+
+      - run:
+          name: Wait for OpenSearch to be ready
+          command: |
+            echo "Waiting for OpenSearch to start..."
+            for i in {1..30}; do
+              if curl -s http://localhost:9200/_cluster/health | grep -q '"status"'; then
+                echo "OpenSearch is ready!"
+                exit 0
+              fi
+              echo "Waiting... ($i/30)"
+              sleep 2
+            done
+            echo "OpenSearch failed to start"
+            exit 1
+
       # Configure environment and database
       - run:
           name: Database Setup and Configure Environment Variables
@@ -234,6 +277,7 @@ jobs:
             sed -i -e '/POSTGRES_USERNAME/ s/=.*/=chatwoot/' .env
             sed -i -e "/POSTGRES_PASSWORD/ s/=.*/=$pg_pass/" .env
             echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
+            echo -en "\nOPENSEARCH_URL=http://localhost:9200" >> ".env"
 
       # Database setup
       - run:

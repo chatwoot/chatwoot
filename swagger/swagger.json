@@ -3424,6 +3424,94 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/actions/contact_merge": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Contacts"
+        ],
+        "operationId": "contactMerge",
+        "summary": "Merge Contacts",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Merge two contacts into a single contact. The base contact remains and receives all\ndata from the mergee contact. After the merge, the mergee contact is permanently deleted.\n\nThis action is irreversible. All conversations, labels, and custom attributes from the\nmergee contact will be moved to the base contact.\n",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "base_contact_id",
+                  "mergee_contact_id"
+                ],
+                "properties": {
+                  "base_contact_id": {
+                    "type": "integer",
+                    "description": "ID of the contact that will remain after the merge and receive all data",
+                    "example": 1
+                  },
+                  "mergee_contact_id": {
+                    "type": "integer",
+                    "description": "ID of the contact that will be merged into the base contact and deleted",
+                    "example": 2
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Contacts merged successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/contact_base"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request - invalid contact IDs or contacts cannot be merged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "One or both contacts not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/automation_rules": {
       "parameters": [
         {
@@ -7782,6 +7870,82 @@
         }
       }
     },
+    "/api/v2/accounts/{account_id}/summary_reports/channel": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "business_hours",
+          "schema": {
+            "type": "boolean"
+          },
+          "description": "Whether to filter by business hours."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-channel-summary-report",
+        "summary": "Get conversation statistics grouped by channel type",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get conversation counts grouped by channel type and status for a given date range.\nReturns statistics for each channel type including open, resolved, pending, snoozed, and total conversation counts.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.10.0 and above. The date range is limited to a maximum of 6 months.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/channel_summary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Date range exceeds 6 months limit",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/accounts/{account_id}/conversations/{conversation_id}/messages": {
       "parameters": [
         {
@@ -11568,6 +11732,52 @@
                 "type": "number"
               }
             }
+          }
+        }
+      },
+      "channel_summary": {
+        "type": "object",
+        "description": "Channel summary report containing conversation counts grouped by channel type and status. Available in version 4.10.0+.",
+        "additionalProperties": {
+          "type": "object",
+          "description": "Conversation statistics for a specific channel type (e.g., Channel::WebWidget, Channel::Api)",
+          "properties": {
+            "open": {
+              "type": "number",
+              "description": "Number of open conversations"
+            },
+            "resolved": {
+              "type": "number",
+              "description": "Number of resolved conversations"
+            },
+            "pending": {
+              "type": "number",
+              "description": "Number of pending conversations"
+            },
+            "snoozed": {
+              "type": "number",
+              "description": "Number of snoozed conversations"
+            },
+            "total": {
+              "type": "number",
+              "description": "Total number of conversations"
+            }
+          }
+        },
+        "example": {
+          "Channel::WebWidget": {
+            "open": 10,
+            "resolved": 20,
+            "pending": 5,
+            "snoozed": 2,
+            "total": 37
+          },
+          "Channel::Api": {
+            "open": 5,
+            "resolved": 15,
+            "pending": 3,
+            "snoozed": 1,
+            "total": 24
           }
         }
       },

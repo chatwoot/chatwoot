@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Kontakt",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Eingehender Anruf",
+      "OUTGOING_CALL": "Ausgehender Anruf",
+      "CALL_IN_PROGRESS": "Anruf läuft",
+      "NOT_ANSWERED_YET": "Noch nicht beantwortet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

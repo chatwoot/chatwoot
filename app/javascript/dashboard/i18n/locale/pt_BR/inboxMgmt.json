@@ -58,11 +58,11 @@
         "DUPLICATE_INBOX_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada de canal do Instagram. Você não poderá mais enviar/receber mensagens do Instagram desta caixa de entrada."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Continuar com TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Conecte seu perfil do TikTok",
+        "HELP": "Para adicionar seu perfil do TikTok como um canal, é necessário autenticar seu perfil clicando em 'Continuar com TikTok'. ",
+        "ERROR_MESSAGE": "Ocorreu um erro ao conectar com o TikTok. Tente novamente",
+        "ERROR_AUTH": "Ocorreu um erro ao conectar com o TikTok. Tente novamente"
       },
       "TWITTER": {
         "HELP": "Para adicionar seu perfil do Twitter como um canal, você precisa autenticar seu perfil do Twitter clicando em 'Entrar com o Twitter' ",
@@ -389,10 +389,10 @@
           "ERROR_MESSAGE": "Não foi possível salvar o canal de e-mail"
         },
         "FINISH_MESSAGE": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "Sua caixa de entrada de e-mail foi criada com sucesso! É necessário configurar as credenciais de SMTP e IMAP para enviar e receber e-mails. Sem essas configurações, nenhum e-mail será processado.",
+        "FORWARDING_ADDRESS_LABEL": "Encaminhe os e-mails para este endereço:",
         "CONFIGURE_SMTP_IMAP_LINK": "Clique aqui",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " para configurar IMAP e SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Canal LINE",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Conecte sua conta do TikTok"
           },
           "VOICE": {
             "TITLE": "Voz",
@@ -722,7 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Use o token 'inbox_identifier' mostrado aqui para autenticar os seus clientes API.",
       "FORWARD_EMAIL_TITLE": "Encaminhar para o E-mail",
       "FORWARD_EMAIL_SUB_TEXT": "Comece a encaminhar seus e-mails para o seguinte endereço de e-mail.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "O encaminhamento de e-mails para sua caixa de entrada está desativado nesta instalação. Para utilizar esse recurso, ele deve ser habilitado pelo administrador. Entre em contato com um para prosseguir.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Permitir mensagens após a resolução da conversa",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Permite que os usuários finais enviem mensagens mesmo depois que a conversa for resolvida.",
       "WHATSAPP_SECTION_SUBHEADER": "Esta chave de API é usada para a integração com as APIs do WhatsApp.",
@@ -808,6 +808,35 @@
         "LABEL": "Mensagem",
         "PLACEHOLDER": "Digite uma mensagem para mostrar aos usuários com o formulário"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Texto do botão",
+        "PLACEHOLDER": "Por favor, avalie-nos"
+      },
+      "LANGUAGE": {
+        "LABEL": "Idioma",
+        "PLACEHOLDER": "Selecione o idioma do modelo"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Pré-visualização da mensagem",
+        "TOOLTIP": "Isso pode variar ligeiramente quando exibido na plataforma do WhatsApp."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Aprovado pelo WhatsApp",
+        "PENDING": "Aguardando aprovação do WhatsApp",
+        "REJECTED": "A Meta rejeitou o modelo",
+        "DEFAULT": "Precisa de aprovação do WhatsApp",
+        "NOT_FOUND": "O modelo não existe na plataforma da Meta."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "Modelo do WhatsApp criado com sucesso e enviado para aprovação",
+        "ERROR_MESSAGE": "Falha ao criar o modelo do WhatsApp"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Editar detalhes da pesquisa",
+        "DESCRIPTION": "Vamos excluir o modelo anterior e criar um que será enviado novamente para aprovação do WhatsApp",
+        "CONFIRM": "Criar novo modelo",
+        "CANCEL": "Voltar atrás"
+      },
       "SURVEY_RULE": {
         "LABEL": "Regra de pesquisa",
         "DESCRIPTION_PREFIX": "Enviar a pesquisa se a conversa",
@@ -819,6 +848,7 @@
         "SELECT_PLACEHOLDER": "selecionar etiquetas"
       },
       "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por conversa",
+      "WHATSAPP_NOTE": "Nota: Vamos criar um modelo e enviá-lo para aprovação do WhatsApp. Após a aprovação, as pesquisas serão enviadas apenas uma vez por conversa, conforme a regra da pesquisa.",
       "API": {
         "SUCCESS_MESSAGE": "Configurações de CSAT atualizadas com sucesso",
         "ERROR_MESSAGE": "Não foi possível atualizar as configurações do CSAT. Por favor, tente novamente mais tarde."

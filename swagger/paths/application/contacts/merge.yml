@@ -1,0 +1,55 @@
+tags:
+  - Contacts
+operationId: contactMerge
+summary: Merge Contacts
+security:
+  - userApiKey: []
+description: |
+  Merge two contacts into a single contact. The base contact remains and receives all
+  data from the mergee contact. After the merge, the mergee contact is permanently deleted.
+
+  This action is irreversible. All conversations, labels, and custom attributes from the
+  mergee contact will be moved to the base contact.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - base_contact_id
+          - mergee_contact_id
+        properties:
+          base_contact_id:
+            type: integer
+            description: ID of the contact that will remain after the merge and receive all data
+            example: 1
+          mergee_contact_id:
+            type: integer
+            description: ID of the contact that will be merged into the base contact and deleted
+            example: 2
+responses:
+  '200':
+    description: Contacts merged successfully
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_base'
+  '400':
+    description: Bad request - invalid contact IDs or contacts cannot be merged
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: One or both contacts not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

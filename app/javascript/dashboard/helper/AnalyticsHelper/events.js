@@ -88,6 +88,7 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SUMMARIZE: 'OpenAI: Used summarize',
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
+  IMPROVE: 'OpenAI: Used improve',
   FIX_SPELLING_AND_GRAMMAR: 'OpenAI: Used fix spelling and grammar',
   SHORTEN: 'OpenAI: Used shorten',
   EXPAND: 'OpenAI: Used expand',

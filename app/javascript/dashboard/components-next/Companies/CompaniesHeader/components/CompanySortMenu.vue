@@ -35,6 +35,10 @@ const sortMenus = [
     label: t('COMPANIES.SORT_BY.OPTIONS.CREATED_AT'),
     value: 'created_at',
   },
+  {
+    label: t('COMPANIES.SORT_BY.OPTIONS.CONTACTS_COUNT'),
+    value: 'contacts_count',
+  },
 ];
 
 const orderingMenus = [

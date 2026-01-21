@@ -58,11 +58,11 @@
         "DUPLICATE_INBOX_BANNER": "Questo account Instagram è stato migrato alla nuova Inbox del canale Instagram. Non sarai più in grado di inviare/ricevere messaggi Instagram da questa Inbox."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Continua con TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Connetti il tuo profilo TikTok",
+        "HELP": "Per aggiungere il tuo profilo TikTok come canale, devi autenticare il tuo profilo TikTok cliccando su 'Continua con TikTok' ",
+        "ERROR_MESSAGE": "Si è verificato un errore nella connessione a TikTok, riprova",
+        "ERROR_AUTH": "Si è verificato un errore nella connessione a TikTok, riprova"
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Collega il tuo account TikTok"
           },
           "VOICE": {
             "TITLE": "Voce",
@@ -690,7 +690,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script Messenger",
-      "MESSENGER_SUB_HEAD": "Posiziona questo pulsante all'interno del tuo tag body",
+      "MESSENGER_SUB_HEAD": "Incolla questo script alla fine del tag body",
       "ALLOWED_DOMAINS": {
         "TITLE": "Domini Consentiti",
         "SUBTITLE": "Aggiungi caratteri jolly o domini regolari separati da virgole (lasciare vuoto per consentire tutti), ad esempio *.chatwoot.dev, chatwoot.com.",
@@ -808,6 +808,35 @@
         "LABEL": "Messaggio",
         "PLACEHOLDER": "Inserisci un messaggio per mostrare gli utenti con il modulo"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Testo pulsante",
+        "PLACEHOLDER": "Lascia una valutazione"
+      },
+      "LANGUAGE": {
+        "LABEL": "Lingua",
+        "PLACEHOLDER": "Seleziona la lingua del modello"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Anteprima messaggio",
+        "TOOLTIP": "Può variare leggermente quando visualizzato sulle app di WhatsApp."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approvato da WhatsApp",
+        "PENDING": "In attesa di approvazione da WhatsApp",
+        "REJECTED": "Meta ha rifiutato il modello",
+        "DEFAULT": "Richiede l'approvazione di WhatsApp",
+        "NOT_FOUND": "Il modello non esiste nella piattaforma Meta."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "Modello WhatsApp creato con successo e inviato per l'approvazione",
+        "ERROR_MESSAGE": "Creazione del modello WhatsApp non riuscita"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Modifica dettagli sondaggio",
+        "DESCRIPTION": "Elimineremo il modello precedente e ne creeremo uno nuovo che verrà inviato di nuovo per l'approvazione da WhatsApp",
+        "CONFIRM": "Crea nuovo modello",
+        "CANCEL": "Torna indietro"
+      },
       "SURVEY_RULE": {
         "LABEL": "Regola sondaggio",
         "DESCRIPTION_PREFIX": "Invia il sondaggio se la conversazione",
@@ -819,6 +848,7 @@
         "SELECT_PLACEHOLDER": "seleziona etichette"
       },
       "NOTE": "Nota: I sondaggi CSAT vengono inviati solo una volta per conversazione",
+      "WHATSAPP_NOTE": "Nota: Creeremo un modello e lo invieremo a WhatsApp per l'approvazione. Dopo essere stati approvati, i sondaggi saranno inviati solo una volta per conversazione, in base alle regole dei sondaggi.",
       "API": {
         "SUCCESS_MESSAGE": "Impostazioni CSAT aggiornate correttamente",
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni CSAT. Riprova più tardi."
@@ -845,7 +875,7 @@
     "IMAP": {
       "TITLE": "IMAP",
       "SUBTITLE": "Imposta i dettagli IMAP",
-      "NOTE_TEXT": "Per abilitare SMTP, configurare IMAP.",
+      "NOTE_TEXT": "Prima di abilitare SMTP, configura IMAP.",
       "UPDATE": "Aggiorna impostazioni IMAP",
       "TOGGLE_AVAILABILITY": "Abilita la configurazione IMAP per questa Inbox",
       "TOGGLE_HELP": "Abilitare IMAP aiuterà l'utente a ricevere email",
@@ -854,7 +884,7 @@
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni IMAP"
       },
       "ADDRESS": {
-        "LABEL": "Indirizzo",
+        "LABEL": "Indirizzo server IMAP",
         "PLACE_HOLDER": "Indirizzo (ad esempio: imap.gmail.com)"
       },
       "PORT": {
@@ -862,8 +892,8 @@
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Accedi",
-        "PLACE_HOLDER": "Accedi"
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -886,7 +916,7 @@
         "ERROR_MESSAGE": "Impossibile aggiornare le impostazioni SMTP"
       },
       "ADDRESS": {
-        "LABEL": "Indirizzo",
+        "LABEL": "Indirizzo server SMTP",
         "PLACE_HOLDER": "Indirizzo (ad esempio: smtp.gmail.com)"
       },
       "PORT": {
@@ -894,8 +924,8 @@
         "PLACE_HOLDER": "Porta"
       },
       "LOGIN": {
-        "LABEL": "Accedi",
-        "PLACE_HOLDER": "Accedi"
+        "LABEL": "Indirizzo email",
+        "PLACE_HOLDER": "Indirizzo email"
       },
       "PASSWORD": {
         "LABEL": "Password",
@@ -908,7 +938,7 @@
       "ENCRYPTION": "Cifratura",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Apri modalità di verifica SSL",
+      "OPEN_SSL_VERIFY_MODE": "Modalità di verifica SSL",
       "AUTH_MECHANISM": "Autenticazione"
     },
     "NOTE": "Nota: ",

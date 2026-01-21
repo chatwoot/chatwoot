@@ -3,6 +3,7 @@ class Api::V1::Accounts::CompaniesController < Api::V1::Accounts::EnterpriseAcco
   sort_on :name, type: :string
   sort_on :domain, type: :string
   sort_on :created_at, type: :datetime
+  sort_on :contacts_count, internal_name: :order_on_contacts_count, type: :scope, scope_params: [:direction]
 
   RESULTS_PER_PAGE = 25
 

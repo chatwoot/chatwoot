@@ -441,7 +441,8 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     http-form_data (2.3.0)
-    httparty (0.21.0)
+    httparty (0.24.0)
+      csv
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
     httpclient (2.8.3)
@@ -555,7 +556,8 @@ GEM
       ruby2_keywords
     msgpack (1.8.0)
     multi_json (1.15.0)
-    multi_xml (0.6.0)
+    multi_xml (0.8.0)
+      bigdecimal (>= 3.1, < 5)
     multipart-post (2.3.0)
     mutex_m (0.3.0)
     neighbor (0.2.3)

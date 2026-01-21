@@ -808,6 +808,35 @@
         "LABEL": "הודעה",
         "PLACEHOLDER": "אנא הזן הודעה להצגה למשתמשים עם הטופס"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Button text",
+        "PLACEHOLDER": "Please rate us"
+      },
+      "LANGUAGE": {
+        "LABEL": "שפה",
+        "PLACEHOLDER": "Select template language"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Message preview",
+        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approved by WhatsApp",
+        "PENDING": "Pending WhatsApp approval",
+        "REJECTED": "Meta rejected the template",
+        "DEFAULT": "Needs WhatsApp approval",
+        "NOT_FOUND": "The template does not exist in the Meta platform."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
+        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "חזור"
+      },
       "SURVEY_RULE": {
         "LABEL": "כלל סקר",
         "DESCRIPTION_PREFIX": "שלח את הסקר אם השיחה",
@@ -819,6 +848,7 @@
         "SELECT_PLACEHOLDER": "בחר תוויות"
       },
       "NOTE": "הערה: סקרי CSAT נשלחים פעם אחת בלבד לכל שיחה",
+      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "הגדרות CSAT עודכנו בהצלחה",
         "ERROR_MESSAGE": "לא הצלחנו לעדכן את הגדרות CSAT. אנא נסה שוב מאוחר יותר."

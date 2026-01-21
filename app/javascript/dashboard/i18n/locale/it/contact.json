@@ -458,7 +458,7 @@
             "PLACEHOLDER": "Aggiungi Instagram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Aggiungi TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Aggiungi LinkedIn"
@@ -607,7 +607,7 @@
       "NO_INBOX_ALERT": "Non ci sono inbox disponibili per avviare una conversazione con questo contatto.",
       "CONTACT_SELECTOR": {
         "LABEL": "A:",
-        "TAG_INPUT_PLACEHOLDER": "Cerca un contatto con nome, email o numero di telefono",
+        "TAG_INPUT_PLACEHOLDER": "Cerca un contatto tramite nome, email o numero di telefono",
         "CONTACT_CREATING": "Creazione contatto..."
       },
       "INBOX_SELECTOR": {

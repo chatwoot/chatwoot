@@ -4,6 +4,7 @@ import {
   fileSizeInMegaBytes,
   checkFileSizeLimit,
   resolveMaximumFileUploadSize,
+  isFileTypeAllowedForChannel,
 } from '../FileHelper';
 
 describe('#File Helpers', () => {
@@ -59,6 +60,189 @@ describe('#File Helpers', () => {
     it('should parse numeric strings and numbers', () => {
       expect(resolveMaximumFileUploadSize('50')).toBe(50);
       expect(resolveMaximumFileUploadSize(75)).toBe(75);
+    });
+  });
+
+  describe('isFileTypeAllowedForChannel', () => {
+    describe('edge cases', () => {
+      it('should return false for null file', () => {
+        expect(isFileTypeAllowedForChannel(null)).toBe(false);
+      });
+
+      it('should return false for undefined file', () => {
+        expect(isFileTypeAllowedForChannel(undefined)).toBe(false);
+      });
+
+      it('should return false for file with zero size', () => {
+        const file = { name: 'test.png', type: 'image/png', size: 0 };
+        expect(isFileTypeAllowedForChannel(file)).toBe(false);
+      });
+    });
+
+    describe('wildcard MIME types', () => {
+      it('should allow image/png when image/* is allowed', () => {
+        const file = { name: 'test.png', type: 'image/png', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+
+      it('should allow image/jpeg when image/* is allowed', () => {
+        const file = { name: 'test.jpg', type: 'image/jpeg', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+
+      it('should allow audio/mp3 when audio/* is allowed', () => {
+        const file = { name: 'test.mp3', type: 'audio/mp3', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+
+      it('should allow video/mp4 when video/* is allowed', () => {
+        const file = { name: 'test.mp4', type: 'video/mp4', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('exact MIME types', () => {
+      it('should allow application/pdf when explicitly allowed', () => {
+        const file = { name: 'test.pdf', type: 'application/pdf', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+
+      it('should allow text/plain when explicitly allowed', () => {
+        const file = { name: 'test.txt', type: 'text/plain', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('file extensions', () => {
+      it('should allow .3gpp extension when explicitly allowed', () => {
+        const file = { name: 'test.3gpp', type: '', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('Instagram special handling', () => {
+      it('should use Instagram rules when isInstagramChannel is true', () => {
+        const file = { name: 'test.png', type: 'image/png', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+            isInstagramChannel: true,
+          })
+        ).toBe(true);
+      });
+
+      it('should use Instagram rules when conversationType is instagram_direct_message', () => {
+        const file = { name: 'test.png', type: 'image/png', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+            conversationType: 'instagram_direct_message',
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('disallowed file types', () => {
+      it('should reject executable files', () => {
+        const file = {
+          name: 'malware.exe',
+          type: 'application/x-msdownload',
+          size: 1000,
+        };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(false);
+      });
+
+      it('should reject unsupported file types', () => {
+        const file = {
+          name: 'test.xyz',
+          type: 'application/x-unknown',
+          size: 1000,
+        };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::WebWidget',
+          })
+        ).toBe(false);
+      });
+    });
+
+    describe('channel-specific rules', () => {
+      it('should allow WhatsApp-specific file types', () => {
+        const file = { name: 'test.pdf', type: 'application/pdf', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::Whatsapp',
+          })
+        ).toBe(true);
+      });
+
+      it('should allow Twilio WhatsApp-specific file types', () => {
+        const file = { name: 'test.pdf', type: 'application/pdf', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::TwilioSms',
+            medium: 'whatsapp',
+          })
+        ).toBe(true);
+      });
+    });
+
+    describe('private note file types', () => {
+      it('should allow broader file types for private notes', () => {
+        const file = {
+          name: 'test.pdf',
+          type: 'application/pdf',
+          size: 1000,
+        };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::Line',
+            isOnPrivateNote: true,
+          })
+        ).toBe(true);
+      });
+
+      it('should allow CSV files in private notes', () => {
+        const file = { name: 'data.csv', type: 'text/csv', size: 1000 };
+        expect(
+          isFileTypeAllowedForChannel(file, {
+            channelType: 'Channel::Line',
+            isOnPrivateNote: true,
+          })
+        ).toBe(true);
+      });
     });
   });
 });

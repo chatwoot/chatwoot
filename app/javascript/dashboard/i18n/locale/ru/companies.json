@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Имя",
         "DOMAIN": "Домен",
-        "CREATED_AT": "Дата создания"
+        "CREATED_AT": "Дата создания",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

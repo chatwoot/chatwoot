@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "联系人",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "来电",
+      "OUTGOING_CALL": "已拨出电话",
+      "CALL_IN_PROGRESS": "呼叫进行中",
+      "NOT_ANSWERED_YET": "尚未回复",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

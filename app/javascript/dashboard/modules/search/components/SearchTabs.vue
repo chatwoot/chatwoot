@@ -1,5 +1,8 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { computed, watch, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   tabs: {
@@ -14,6 +17,8 @@ const props = defineProps({
 
 const emit = defineEmits(['tabChange']);
 
+const { t } = useI18n();
+
 const activeTab = ref(props.selectedTab);
 
 watch(
@@ -25,24 +30,35 @@ watch(
   }
 );
 
-const onTabChange = index => {
+const tabBarTabs = computed(() => {
+  return props.tabs.map(tab => ({
+    label: tab.name,
+    count: tab.showBadge ? tab.count : null,
+  }));
+});
+
+const onTabChange = selectedTab => {
+  const index = props.tabs.findIndex(tab => tab.name === selectedTab.label);
   activeTab.value = index;
   emit('tabChange', props.tabs[index].key);
 };
 </script>
 
 <template>
-  <div class="mt-1 border-b border-n-weak">
-    <woot-tabs :index="activeTab" :border="false" @change="onTabChange">
-      <woot-tabs-item
-        v-for="(item, index) in tabs"
-        :key="item.key"
-        :index="index"
-        :name="item.name"
-        :count="item.count"
-        :show-badge="item.showBadge"
-        is-compact
-      />
-    </woot-tabs>
+  <div class="flex items-center justify-between mt-7 mb-4">
+    <TabBar
+      :tabs="tabBarTabs"
+      :initial-active-tab="activeTab"
+      @tab-changed="onTabChange"
+    />
+
+    <Button
+      :label="t('SEARCH.SORT_BY.RELEVANCE')"
+      sm
+      link
+      slate
+      class="hover:!no-underline pointer-events-none lg:inline-flex hidden"
+      icon="i-lucide-arrow-up-down"
+    />
   </div>
 </template>

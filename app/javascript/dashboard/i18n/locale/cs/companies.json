@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Název",
         "DOMAIN": "Domain",
-        "CREATED_AT": "Vytvořeno"
+        "CREATED_AT": "Vytvořeno",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

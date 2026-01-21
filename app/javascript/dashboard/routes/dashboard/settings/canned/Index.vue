@@ -6,6 +6,7 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref, defineOptions } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -16,6 +17,8 @@ defineOptions({
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+
+const { getPlainText } = useMessageFormatter();
 
 const showAddPopup = ref(false);
 const loading = ref({});
@@ -182,7 +185,7 @@ const tableHeaders = computed(() => {
               {{ cannedItem.short_code }}
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
-              {{ cannedItem.content }}
+              {{ getPlainText(cannedItem.content) }}
             </td>
             <td class="py-4 flex justify-end gap-1">
               <Button
