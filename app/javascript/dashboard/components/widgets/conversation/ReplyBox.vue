@@ -1217,6 +1217,12 @@ export default {
       :message="message"
       :portal-slug="connectedPortalSlug"
       :new-conversation-modal-active="newConversationModalActive"
+      allow-signature
+      allow-emoji
+      allow-ai-assist
+      allow-video-call
+      allow-audio-recorder
+      allow-file-upload
       @select-whatsapp-template="openWhatsappTemplateModal"
       @select-content-template="openContentTemplateModal"
       @replace-text="replaceText"

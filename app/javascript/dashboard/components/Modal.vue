@@ -15,6 +15,7 @@ const { modalType, closeOnBackdropClick, onClose } = defineProps({
 
 const emit = defineEmits(['close']);
 const show = defineModel('show', { type: Boolean, default: false });
+const teleportTarget = ref(null);
 
 const modalClassName = computed(() => {
   const modalClassNameMap = {
@@ -24,6 +25,24 @@ const modalClassName = computed(() => {
 
   return `modal-mask skip-context-menu ${modalClassNameMap[modalType] || ''}`;
 });
+
+const resolveTeleportTarget = () => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) {
+    // Look for the specific chatwoot-message-list custom element
+    const messageListElement = document.querySelector('chatwoot-message-list');
+    if (messageListElement?.shadowRoot) {
+      const modalRoot =
+        messageListElement.shadowRoot.querySelector('#cw-modal-root');
+      if (modalRoot) {
+        teleportTarget.value = modalRoot;
+        return;
+      }
+    }
+  }
+
+  teleportTarget.value = document.body;
+};
 
 // [TODO] Revisit this logic to use outside click directive
 const mousedDownOnBackdrop = ref(false);
@@ -58,6 +77,7 @@ useEventListener(document.body, 'mouseup', onMouseUp);
 useEventListener(document, 'keydown', onKeydown);
 
 onMounted(() => {
+  resolveTeleportTarget();
   if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
     // eslint-disable-next-line no-console
     console.warn(
@@ -68,36 +88,38 @@ onMounted(() => {
 </script>
 
 <template>
-  <transition name="modal-fade">
-    <div
-      v-if="show"
-      :class="modalClassName"
-      transition="modal"
-      @mousedown="handleMouseDown"
-    >
+  <Teleport v-if="teleportTarget" :to="teleportTarget">
+    <transition name="modal-fade">
       <div
-        class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
-        :class="{
-          'rounded-xl w-[37.5rem]': !fullWidth,
-          'items-center rounded-none flex h-full justify-center w-full':
-            fullWidth,
-          [size]: true,
-        }"
-        @mouse.stop
-        @mousedown="event => event.stopPropagation()"
+        v-if="show"
+        :class="modalClassName"
+        transition="modal"
+        @mousedown="handleMouseDown"
       >
-        <Button
-          v-if="showCloseButton"
-          ghost
-          slate
-          icon="i-lucide-x"
-          class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
-          @click="close"
-        />
-        <slot />
+        <div
+          class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
+          :class="{
+            'rounded-xl w-[37.5rem]': !fullWidth,
+            'items-center rounded-none flex h-full justify-center w-full':
+              fullWidth,
+            [size]: true,
+          }"
+          @mouse.stop
+          @mousedown="event => event.stopPropagation()"
+        >
+          <Button
+            v-if="showCloseButton"
+            ghost
+            slate
+            icon="i-lucide-x"
+            class="absolute z-10 ltr:right-2 rtl:left-2 top-2"
+            @click="close"
+          />
+          <slot />
+        </div>
       </div>
-    </div>
-  </transition>
+    </transition>
+  </Teleport>
 </template>
 
 <style lang="scss">

@@ -130,6 +130,11 @@ const props = defineProps({
   senderId: { type: Number, default: null },
   senderType: { type: String, default: null },
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
+  forceAlignTo: {
+    type: String,
+    default: null,
+    validator: value => value === null || ['left', 'right'].includes(value),
+  },
 });
 
 const emit = defineEmits(['retry']);
@@ -212,11 +217,15 @@ const isBotOrAgentMessage = computed(() => {
  * @returns {import('vue').ComputedRef<'left'|'right'|'center'>} The computed orientation
  */
 const orientation = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
+
+  if (props.forceAlignTo) {
+    return props.forceAlignTo === 'left' ? ORIENTATION.LEFT : ORIENTATION.RIGHT;
+  }
+
   if (isBotOrAgentMessage.value) {
     return ORIENTATION.RIGHT;
   }
-
-  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return ORIENTATION.CENTER;
 
   return ORIENTATION.LEFT;
 });
@@ -232,6 +241,10 @@ const flexOrientationClass = computed(() => {
 });
 
 const gridClass = computed(() => {
+  if (props.forceAlignTo) {
+    return 'grid gap-y-2';
+  }
+
   const map = {
     [ORIENTATION.LEFT]: 'grid grid-cols-1fr',
     [ORIENTATION.RIGHT]: 'grid grid-cols-[1fr_24px]',
@@ -241,6 +254,14 @@ const gridClass = computed(() => {
 });
 
 const gridTemplate = computed(() => {
+  if (props.forceAlignTo) {
+    return `
+      "avatar"
+      "bubble"
+      "meta"
+    `;
+  }
+
   const map = {
     [ORIENTATION.LEFT]: `
       "bubble"
@@ -263,7 +284,15 @@ const shouldGroupWithNext = computed(() => {
 
 const shouldShowAvatar = computed(() => {
   if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+  if (props.forceAlignTo) return true;
   if (orientation.value === ORIENTATION.LEFT) return false;
+
+  return true;
+});
+
+const shouldShowSenderName = computed(() => {
+  if (props.messageType === MESSAGE_TYPES.ACTIVITY) return false;
+  if (!props.forceAlignTo) return false;
 
   return true;
 });
@@ -455,7 +484,8 @@ const avatarTooltip = computed(() => {
 });
 
 const setupHighlightTimer = () => {
-  if (Number(route.query.messageId) !== Number(props.id)) {
+  // This is a defensive check, since in the ISOLATED shell mode, there might be no route.query
+  if (Number(route?.query?.messageId) !== Number(props.id)) {
     return;
   }
 
@@ -513,15 +543,23 @@ provideMessageContext({
       <div
         v-if="!shouldGroupWithNext && shouldShowAvatar"
         v-tooltip.left-end="avatarTooltip"
-        class="[grid-area:avatar] flex items-end"
+        class="[grid-area:avatar] flex items-end gap-2"
       >
         <Avatar v-bind="avatarInfo" :size="24" />
+        <span
+          v-if="shouldShowSenderName"
+          class="text-sm font-semibold text-n-slate-12 pb-0.5"
+        >
+          {{ avatarInfo.name }}
+        </span>
       </div>
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 justify-end':
+            !props.forceAlignTo && orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8':
+            !props.forceAlignTo && orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"

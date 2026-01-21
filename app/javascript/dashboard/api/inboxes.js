@@ -1,7 +1,13 @@
 /* global axios */
 import CacheEnabledApiClient from './CacheEnabledApiClient';
+import ApiClient from './ApiClient';
 
-class Inboxes extends CacheEnabledApiClient {
+// eslint-disable-next-line no-underscore-dangle
+const BaseClass = window.__WOOT_ISOLATED_SHELL__
+  ? ApiClient
+  : CacheEnabledApiClient;
+
+class Inboxes extends BaseClass {
   constructor() {
     super('inboxes', { accountScoped: true });
   }

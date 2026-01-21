@@ -9,6 +9,7 @@ import { useImageZoom } from 'dashboard/composables/useImageZoom';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { downloadFile } from '@chatwoot/utils';
 
+import WootModal from 'dashboard/components/Modal.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
@@ -168,7 +169,7 @@ onMounted(() => {
 
 <template>
   <TeleportWithDirection to="body">
-    <woot-modal
+    <WootModal
       v-model:show="show"
       full-width
       :show-close-button="false"
@@ -211,7 +212,7 @@ onMounted(() => {
           </div>
 
           <div
-            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
+            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12 hidden sm:block"
           >
             <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
           </div>
@@ -353,6 +354,6 @@ onMounted(() => {
           </div>
         </footer>
       </div>
-    </woot-modal>
+    </WootModal>
   </TeleportWithDirection>
 </template>

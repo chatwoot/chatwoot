@@ -8,7 +8,14 @@ import {
 } from '../store/utils/api';
 
 export default {
-  validityCheck() {
+  async validityCheck() {
+    if (this.hasAuthToken()) {
+      const urlData = endPoints('profileUpdate');
+      const response = await axios.get(urlData.url);
+      // to match the response signature of the validityCheck endpoint
+      return Promise.resolve({ data: { payload: response } });
+    }
+
     const urlData = endPoints('validityCheck');
     return axios.get(urlData.url);
   },
@@ -30,6 +37,10 @@ export default {
   },
   hasAuthCookie() {
     return !!Cookies.get('cw_d_session_info');
+  },
+  hasAuthToken() {
+    // eslint-disable-next-line no-underscore-dangle
+    return !!window.__WOOT_ACCESS_TOKEN__;
   },
   getAuthData() {
     if (this.hasAuthCookie()) {

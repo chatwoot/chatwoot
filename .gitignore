@@ -94,6 +94,10 @@ yarn-debug.log*
 .vscode
 .claude/settings.local.json
 .cursor
+
+# react component
+dist
+
 CLAUDE.local.md
 
 # Histoire deployment

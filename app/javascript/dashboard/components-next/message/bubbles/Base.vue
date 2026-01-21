@@ -19,25 +19,30 @@ const { variant, orientation, inReplyTo, shouldGroupWithNext } =
 const { t } = useI18n();
 
 const varaintBaseMap = {
-  [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
+  [MESSAGE_VARIANTS.AGENT]:
+    'bg-[rgb(var(--bubble-agent-bg))] text-[rgb(var(--bubble-agent-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-agent-border))]',
   [MESSAGE_VARIANTS.PRIVATE]:
-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
+    'bg-[rgb(var(--bubble-private-bg))] text-[rgb(var(--bubble-private-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-private-border))] [&_.prosemirror-mention-node]:font-semibold',
+  [MESSAGE_VARIANTS.USER]:
+    'bg-[rgb(var(--bubble-user-bg))] text-[rgb(var(--bubble-user-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-user-border))]',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
-  [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
-  [MESSAGE_VARIANTS.ERROR]: 'bg-n-ruby-4 text-n-ruby-12',
+  [MESSAGE_VARIANTS.BOT]:
+    'bg-[rgb(var(--bubble-bot-bg))] text-[rgb(var(--bubble-bot-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-bot-border))]',
+  [MESSAGE_VARIANTS.TEMPLATE]:
+    'bg-[rgb(var(--bubble-bot-bg))] text-[rgb(var(--bubble-bot-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-bot-border))]',
+  [MESSAGE_VARIANTS.ERROR]:
+    'bg-[rgb(var(--bubble-error-bg))] text-[rgb(var(--bubble-error-text))] border-[length:var(--bubble-border-width)] border-[rgb(var(--bubble-error-border))]',
   [MESSAGE_VARIANTS.EMAIL]: 'w-full',
   [MESSAGE_VARIANTS.UNSUPPORTED]:
-    'bg-n-solid-amber/70 border border-dashed border-n-amber-12 text-n-amber-12',
+    'bg-[rgb(var(--bubble-unsupported-bg))]/70 border border-dashed border-[rgb(var(--bubble-unsupported-border))] text-[rgb(var(--bubble-unsupported-text))]',
 };
 
 const orientationMap = {
   [ORIENTATION.LEFT]:
-    'left-bubble rounded-xl ltr:rounded-bl-sm rtl:rounded-br-sm',
+    'left-bubble rounded-[var(--bubble-radius)] ltr:rounded-bl-[var(--bubble-radius-sm)] rtl:rounded-br-[var(--bubble-radius-sm)]',
   [ORIENTATION.RIGHT]:
-    'right-bubble rounded-xl ltr:rounded-br-sm rtl:rounded-bl-sm',
-  [ORIENTATION.CENTER]: 'rounded-md',
+    'right-bubble rounded-[var(--bubble-radius)] ltr:rounded-br-[var(--bubble-radius-sm)] rtl:rounded-bl-[var(--bubble-radius-sm)]',
+  [ORIENTATION.CENTER]: 'rounded-[var(--bubble-radius-md)]',
 };
 
 const flexOrientationClass = computed(() => {
@@ -56,7 +61,7 @@ const messageClass = computed(() => {
   if (variant.value !== MESSAGE_VARIANTS.ACTIVITY) {
     classToApply.push(orientationMap[orientation.value]);
   } else {
-    classToApply.push('rounded-lg');
+    classToApply.push('rounded-[var(--bubble-radius-lg)]');
   }
 
   return classToApply;
@@ -74,6 +79,20 @@ const shouldShowMeta = computed(
     !shouldGroupWithNext.value &&
     variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
+
+const metaColorClass = computed(() => {
+  const metaClassMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.USER]: 'text-[rgb(var(--bubble-user-meta))]',
+    [MESSAGE_VARIANTS.PRIVATE]:
+      'text-[rgb(var(--bubble-private-meta))] opacity-50',
+    [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-meta))]',
+    [MESSAGE_VARIANTS.TEMPLATE]: 'text-[rgb(var(--bubble-bot-meta))]',
+    [MESSAGE_VARIANTS.EMAIL]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.ERROR]: 'text-[rgb(var(--bubble-error-meta))]',
+  };
+  return metaClassMap[variant.value] || 'text-[rgb(var(--bubble-agent-meta))]';
+});
 
 const replyToPreview = computed(() => {
   if (!inReplyTo) return '';
@@ -117,9 +136,7 @@ const replyToPreview = computed(() => {
       :class="[
         flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
-        variant === MESSAGE_VARIANTS.PRIVATE
-          ? 'text-n-amber-12/50'
-          : 'text-n-slate-11',
+        metaColorClass,
       ]"
       class="mt-2"
     />
