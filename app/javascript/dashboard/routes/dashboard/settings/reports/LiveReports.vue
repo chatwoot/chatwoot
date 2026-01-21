@@ -76,7 +76,6 @@
           :agents="agents"
           :agent-metrics="agentConversationMetric"
           :page-index="pageIndex"
-          :is-loading="uiFlags.isFetchingAgentConversationMetric"
         />
       </metric-card>
     </div>

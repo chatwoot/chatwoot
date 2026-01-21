@@ -13,6 +13,7 @@ class UnassignedConversationsAssignmentJob < ApplicationJob
     inbox = Inbox.find(inbox_id)
 
     unassigned_conversations = inbox.conversations.unassigned.order(created_at: :asc)
+    unassigned_conversations = unassigned_conversations.open if suppress_no_agent_message
 
     unassigned_conversations.each do |conversation|
       allowed_agent_ids = inbox.member_ids_with_assignment_capacity
