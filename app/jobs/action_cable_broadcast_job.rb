@@ -25,17 +25,9 @@ class ActionCableBroadcastJob < ApplicationJob
   def prepare_broadcast_data(event_name, data)
     return data unless CONVERSATION_UPDATE_EVENTS.include?(event_name)
 
-    account_id = data[:account_id]
-    display_id = data[:id]
-    return data if account_id.blank? || display_id.blank?
-
-    account = Account.find_by(id: account_id)
-    return data if account.blank?
-
-    conversation = account.conversations.find_by(display_id: display_id)
-    return data if conversation.blank?
-
-    conversation.push_event_data.merge(account_id: account_id)
+    account = Account.find(data[:account_id])
+    conversation = account.conversations.find_by!(display_id: data[:id])
+    conversation.push_event_data.merge(account_id: data[:account_id])
   end
 
   def broadcast_to_members(members, event_name, broadcast_data)
