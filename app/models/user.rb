@@ -137,7 +137,7 @@ class User < ApplicationRecord
   end
 
   def serializable_hash(options = nil)
-    super.merge(confirmed: confirmed?)
+    super(options).merge(confirmed: confirmed?)
   end
 
   def push_event_data

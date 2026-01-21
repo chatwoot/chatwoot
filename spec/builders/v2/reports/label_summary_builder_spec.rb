@@ -92,8 +92,10 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             # Create conversations with label_1
             3.times do
               conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
+                                                   inbox: inbox,
                                                    created_at: Time.zone.today)
+              conversation.reload
+              conversation.update_column(:assignee_id, user.id)
               create_list(:message, 2, message_type: 'outgoing',
                                        account: account, inbox: inbox,
                                        conversation: conversation,
@@ -110,8 +112,10 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             # Create conversations with label_2
             2.times do
               conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
+                                                   inbox: inbox,
                                                    created_at: Time.zone.today)
+              conversation.reload
+              conversation.update_column(:assignee_id, user.id)
               create_list(:message, 1, message_type: 'outgoing',
                                        account: account, inbox: inbox,
                                        conversation: conversation,
@@ -229,8 +233,10 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           perform_enqueued_jobs do
             # Conversation within range
             conversation_in_range = create(:conversation, account: account,
-                                                          inbox: inbox, assignee: user,
+                                                          inbox: inbox,
                                                           created_at: 2.days.ago)
+            conversation_in_range.reload
+            conversation_in_range.update_column(:assignee_id, user.id)
             conversation_in_range.update_labels('label_1')
             conversation_in_range.label_list
             conversation_in_range.save!
@@ -244,8 +250,10 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
             # Conversation outside range (too old)
             conversation_out_of_range = create(:conversation, account: account,
-                                                              inbox: inbox, assignee: user,
+                                                              inbox: inbox,
                                                               created_at: 1.week.ago)
+            conversation_out_of_range.reload
+            conversation_out_of_range.update_column(:assignee_id, user.id)
             conversation_out_of_range.update_labels('label_1')
             conversation_out_of_range.label_list
             conversation_out_of_range.save!
@@ -286,8 +294,10 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: Time.zone.today)
+            conversation.reload
+            conversation.update_column(:assignee_id, user.id)
             conversation.update_labels('label_1')
             conversation.label_list
             conversation.save!
@@ -343,20 +353,33 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account2,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: test_date)
+            conversation.reload
+            conversation.update_column(:assignee_id, user.id)
             conversation.update_labels(unique_label_name)
             conversation.label_list
             conversation.save!
 
-            # First resolution
-            conversation.resolved!
-
-            # Reopen conversation
-            conversation.open!
-
-            # Second resolution
-            conversation.resolved!
+            resolved_at = Time.zone.local(test_date.year, test_date.month, test_date.day, 10, 0, 0)
+            create(:reporting_event,
+                   account: account2,
+                   conversation: conversation,
+                   inbox: inbox,
+                   user: user,
+                   name: 'conversation_resolved',
+                   created_at: resolved_at,
+                   event_start_time: resolved_at - 1.hour,
+                   event_end_time: resolved_at)
+            create(:reporting_event,
+                   account: account2,
+                   conversation: conversation,
+                   inbox: inbox,
+                   user: user,
+                   name: 'conversation_resolved',
+                   created_at: resolved_at + 1.hour,
+                   event_start_time: resolved_at,
+                   event_end_time: resolved_at + 1.hour)
           end
         end
       end

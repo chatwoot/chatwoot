@@ -21,8 +21,10 @@ describe V2::ReportBuilder do
         perform_enqueued_jobs do
           10.times do
             conversation = create(:conversation, account: account,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: Time.zone.today)
+            conversation.reload
+            conversation.update_column(:assignee_id, user.id)
             create_list(:message, 5, message_type: 'outgoing',
                                      account: account, inbox: inbox,
                                      conversation: conversation, created_at: Time.zone.today + 2.hours)
@@ -37,8 +39,10 @@ describe V2::ReportBuilder do
 
           5.times do
             conversation = create(:conversation, account: account,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: (Time.zone.today - 2.days))
+            conversation.reload
+            conversation.update_column(:assignee_id, user.id)
             create_list(:message, 3, message_type: 'outgoing',
                                      account: account, inbox: inbox,
                                      conversation: conversation,
