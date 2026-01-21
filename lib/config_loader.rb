@@ -4,19 +4,7 @@ class ConfigLoader
     reconcile_only_new: true
   }.freeze
 
-  def self.processing?
-    Thread.current[:config_loader_processing] || @processing
-  end
-
-  def self.processing=(value)
-    Thread.current[:config_loader_processing] = value
-    @processing = value
-  end
-
   def process(options = {})
-    return if self.class.processing?
-
-    self.class.processing = true
     options = DEFAULT_OPTIONS.merge(options)
     # function of the "reconcile_only_new" flag
     # if true,
@@ -36,8 +24,6 @@ class ConfigLoader
 
     # default account based feature configs
     reconcile_feature_config
-  ensure
-    self.class.processing = false
   end
 
   def general_configs
