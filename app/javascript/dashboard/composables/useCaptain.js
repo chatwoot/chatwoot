@@ -13,20 +13,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import TasksAPI from 'dashboard/api/captain/tasks';
 
-/**
- * Cleans and normalizes a list of labels.
- * @param {string} labels - A comma-separated string of labels.
- * @returns {string[]} An array of cleaned and unique labels.
- */
-const cleanLabels = labels => {
-  return labels
-    .toLowerCase()
-    .split(',')
-    .filter(label => label.trim())
-    .map(label => label.trim())
-    .filter((label, index, self) => self.indexOf(label) === index);
-};
-
 export function useCaptain() {
   const store = useStore();
   const { t } = useI18n();
@@ -184,24 +170,6 @@ export function useCaptain() {
   };
 
   /**
-   * Gets label suggestions for the current conversation.
-   * @returns {Promise<string[]>} An array of suggested labels.
-   */
-  const getLabelSuggestions = async () => {
-    if (!conversationId.value) return [];
-
-    try {
-      const result = await TasksAPI.labelSuggestion(conversationId.value);
-      const {
-        data: { message: labels },
-      } = result;
-      return cleanLabels(labels);
-    } catch {
-      return [];
-    }
-  };
-
-  /**
    * Sends a follow-up message to refine a previous AI task result.
    * @param {Object} options - The follow-up options.
    * @param {Object} options.followUpContext - The follow-up context from a previous task.
@@ -264,7 +232,6 @@ export function useCaptain() {
     rewriteContent,
     summarizeConversation,
     getReplySuggestion,
-    getLabelSuggestions,
     followUp,
     processEvent,
 
