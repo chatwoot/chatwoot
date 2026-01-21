@@ -1,28 +1,15 @@
 class Whatsapp::HealthService
   BASE_URI = 'https://graph.facebook.com'.freeze
-  CACHE_TTL = 5.minutes
 
-  def initialize(channel, skip_cache: false)
+  def initialize(channel)
     @channel = channel
-    @access_token = channel&.provider_config&.dig('api_key')
+    @access_token = channel.provider_config['api_key']
     @api_version = GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
-    @skip_cache = skip_cache
   end
 
   def fetch_health_status
     validate_channel!
-
-    return fetch_phone_health_data if @skip_cache
-
-    cache_key = "whatsapp_health:channel:#{@channel.id}"
-    Rails.cache.fetch(cache_key, expires_in: CACHE_TTL) do
-      fetch_phone_health_data
-    end
-  end
-
-  # Class method to invalidate cache for a specific channel
-  def self.invalidate_cache(channel_id)
-    Rails.cache.delete("whatsapp_health:channel:#{channel_id}")
+    fetch_phone_health_data
   end
 
   private

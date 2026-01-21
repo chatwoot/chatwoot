@@ -239,7 +239,6 @@
           },
           "FOOTER": "You can attempt to connect up to 5 times per hour. Multiple failed attempts may temporarily block your WhatsApp Business Account from connecting."
         },
-        "RATE_LIMIT_ERROR": "Too many connection attempts. Please wait {minutes} minutes before trying again.",
         "PROVIDERS": {
           "LABEL": "API Provider",
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
