@@ -6,7 +6,7 @@ class Internal::RemoveOrphanConversationsService
     Conversation.transaction do
       orphan_conversations.find_in_batches(batch_size: 1000) do |batch|
         conversation_ids = batch.map(&:id)
-        Conversation.where(id: conversation_ids).delete_all
+        Conversation.where(id: conversation_ids).destroy_all
         Rails.logger.info "[RemoveOrphanConversationsService] Deleted #{batch.size} orphan conversations"
       end
     end
