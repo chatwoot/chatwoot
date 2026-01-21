@@ -132,7 +132,10 @@ const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
     ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
-  const formatting = getFormattingForEditor(formatType, captainTasksEnabled);
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
 
   return formatting.menu;
 });
@@ -902,7 +905,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       }
 
       .ProseMirror-copilot svg {
-        @apply fill-n-violet-9;
+        @apply fill-n-violet-9 text-n-violet-9 stroke-none;
       }
     }
   }
@@ -1045,7 +1048,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
         }
 
         .ProseMirror-copilot svg {
-          @apply fill-n-violet-9;
+          @apply fill-n-violet-9 text-n-violet-9 stroke-none;
         }
       }
 
