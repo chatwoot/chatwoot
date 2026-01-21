@@ -102,6 +102,9 @@
       },
       "contact": {
         "CONTENT": "Contatto condiviso"
+      },
+      "embed": {
+        "CONTENT": "Contenuto embeddato"
       }
     },
     "CHAT_SORT_BY_FILTER": {

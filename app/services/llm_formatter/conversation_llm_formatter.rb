@@ -26,16 +26,42 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   def build_messages(config = {})
     return "No messages in this conversation\n" if @record.messages.empty?
 
-    message_text = ''
-    messages = @record.messages.where.not(message_type: :activity).order(created_at: :asc)
+    messages = @record.messages.where.not(message_type: [:activity, :template])
 
-    messages.each do |message|
+    if config[:token_limit]
+      build_limited_messages(messages, config)
+    else
+      build_all_messages(messages, config)
+    end
+  end
+
+  def build_all_messages(messages, config)
+    message_text = ''
+    messages.order(created_at: :asc).each do |message|
       # Skip private messages unless explicitly included in config
       next if message.private? && !config[:include_private_messages]
 
       message_text << format_message(message)
     end
     message_text
+  end
+
+  def build_limited_messages(messages, config)
+    selected = []
+    character_count = 0
+
+    messages.reorder(created_at: :desc).each do |message|
+      # Skip private messages unless explicitly included in config
+      next if message.private? && !config[:include_private_messages]
+
+      formatted = format_message(message)
+      break if character_count + formatted.length > config[:token_limit]
+
+      selected.prepend(formatted)
+      character_count += formatted.length
+    end
+
+    selected.join
   end
 
   def format_message(message)

@@ -5,7 +5,7 @@ import {
   replaceSignature,
   cleanSignature,
   extractTextFromMarkdown,
-  stripUnsupportedSignatureMarkdown,
+  stripUnsupportedMarkdown,
   insertAtCursor,
   findNodeToInsertImage,
   setURLWithQueryAndSize,
@@ -145,25 +145,19 @@ describe('appendSignature', () => {
   });
 });
 
-describe('stripUnsupportedSignatureMarkdown', () => {
+describe('stripUnsupportedMarkdown', () => {
   const richSignature =
     '**Bold** _italic_ [link](http://example.com) ![](http://localhost:3000/image.png)';
 
   it('keeps all formatting for Email channel (supports image, link, strong, em)', () => {
-    const result = stripUnsupportedSignatureMarkdown(
-      richSignature,
-      'Channel::Email'
-    );
+    const result = stripUnsupportedMarkdown(richSignature, 'Channel::Email');
     expect(result).toContain('**Bold**');
     expect(result).toContain('_italic_');
     expect(result).toContain('[link](http://example.com)');
     expect(result).toContain('![](http://localhost:3000/image.png)');
   });
   it('strips images but keeps bold/italic for Api channel', () => {
-    const result = stripUnsupportedSignatureMarkdown(
-      richSignature,
-      'Channel::Api'
-    );
+    const result = stripUnsupportedMarkdown(richSignature, 'Channel::Api');
     expect(result).toContain('**Bold**');
     expect(result).toContain('_italic_');
     expect(result).toContain('link'); // link text kept
@@ -171,20 +165,14 @@ describe('stripUnsupportedSignatureMarkdown', () => {
     expect(result).not.toContain('![]('); // image removed
   });
   it('strips images but keeps bold/italic/link for Telegram channel', () => {
-    const result = stripUnsupportedSignatureMarkdown(
-      richSignature,
-      'Channel::Telegram'
-    );
+    const result = stripUnsupportedMarkdown(richSignature, 'Channel::Telegram');
     expect(result).toContain('**Bold**');
     expect(result).toContain('_italic_');
     expect(result).toContain('[link](http://example.com)');
     expect(result).not.toContain('![](');
   });
   it('strips all formatting for SMS channel', () => {
-    const result = stripUnsupportedSignatureMarkdown(
-      richSignature,
-      'Channel::Sms'
-    );
+    const result = stripUnsupportedMarkdown(richSignature, 'Channel::Sms');
     expect(result).toContain('Bold');
     expect(result).toContain('italic');
     expect(result).toContain('link');
@@ -194,8 +182,52 @@ describe('stripUnsupportedSignatureMarkdown', () => {
     expect(result).not.toContain('![](');
   });
   it('returns empty string for empty input', () => {
-    expect(stripUnsupportedSignatureMarkdown('', 'Channel::Api')).toBe('');
-    expect(stripUnsupportedSignatureMarkdown(null, 'Channel::Api')).toBe('');
+    expect(stripUnsupportedMarkdown('', 'Channel::Api')).toBe('');
+    expect(stripUnsupportedMarkdown(null, 'Channel::Api')).toBe('');
+  });
+
+  describe('with cleanWhitespace parameter', () => {
+    const textWithWhitespace =
+      '**Bold** text\n\nWith multiple\n\nLine breaks\n\n  And spaces  ';
+
+    it('cleans whitespace when cleanWhitespace=true (default)', () => {
+      const result = stripUnsupportedMarkdown(
+        textWithWhitespace,
+        'Channel::Api',
+        true
+      );
+      expect(result).toBe(
+        '**Bold** text\nWith multiple\nLine breaks\nAnd spaces'
+      );
+      expect(result).not.toContain('\n\n');
+      expect(result).not.toContain('  ');
+    });
+
+    it('preserves whitespace when cleanWhitespace=false', () => {
+      const result = stripUnsupportedMarkdown(
+        textWithWhitespace,
+        'Channel::Api',
+        false
+      );
+      expect(result).toContain('\n\n');
+      expect(result).toContain('  And spaces  ');
+      expect(result).toBe(
+        '**Bold** text\n\nWith multiple\n\nLine breaks\n\n  And spaces  '
+      );
+    });
+
+    it('strips formatting but preserves whitespace for messages', () => {
+      const messageWithFormatting = '**Bold**\n\n`code`\n\nNormal text';
+      const result = stripUnsupportedMarkdown(
+        messageWithFormatting,
+        'Channel::Sms',
+        false
+      );
+      expect(result).toBe('Bold\n\ncode\n\nNormal text');
+      expect(result).toContain('\n\n');
+      expect(result).not.toContain('**');
+      expect(result).not.toContain('`');
+    });
   });
 });
 
@@ -763,62 +795,6 @@ describe('getContentNode', () => {
 });
 
 describe('getFormattingForEditor', () => {
-  describe('channel-specific formatting', () => {
-    it('returns full formatting for Email channel', () => {
-      const result = getFormattingForEditor('Channel::Email');
-
-      expect(result).toEqual(FORMATTING['Channel::Email']);
-    });
-
-    it('returns full formatting for WebWidget channel', () => {
-      const result = getFormattingForEditor('Channel::WebWidget');
-
-      expect(result).toEqual(FORMATTING['Channel::WebWidget']);
-    });
-
-    it('returns limited formatting for WhatsApp channel', () => {
-      const result = getFormattingForEditor('Channel::Whatsapp');
-
-      expect(result).toEqual(FORMATTING['Channel::Whatsapp']);
-    });
-
-    it('returns no formatting for API channel', () => {
-      const result = getFormattingForEditor('Channel::Api');
-
-      expect(result).toEqual(FORMATTING['Channel::Api']);
-    });
-
-    it('returns limited formatting for FacebookPage channel', () => {
-      const result = getFormattingForEditor('Channel::FacebookPage');
-
-      expect(result).toEqual(FORMATTING['Channel::FacebookPage']);
-    });
-
-    it('returns no formatting for TwitterProfile channel', () => {
-      const result = getFormattingForEditor('Channel::TwitterProfile');
-
-      expect(result).toEqual(FORMATTING['Channel::TwitterProfile']);
-    });
-
-    it('returns no formatting for SMS channel', () => {
-      const result = getFormattingForEditor('Channel::Sms');
-
-      expect(result).toEqual(FORMATTING['Channel::Sms']);
-    });
-
-    it('returns limited formatting for Telegram channel', () => {
-      const result = getFormattingForEditor('Channel::Telegram');
-
-      expect(result).toEqual(FORMATTING['Channel::Telegram']);
-    });
-
-    it('returns formatting for Instagram channel', () => {
-      const result = getFormattingForEditor('Channel::Instagram');
-
-      expect(result).toEqual(FORMATTING['Channel::Instagram']);
-    });
-  });
-
   describe('context-specific formatting', () => {
     it('returns default formatting for Context::Default', () => {
       const result = getFormattingForEditor('Context::Default');
@@ -896,6 +872,22 @@ describe('stripUnsupportedFormatting', () => {
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
     });
 
+    it('preserves autolinks when schema supports links', () => {
+      const content = 'Check out <https://cegrafic.com/catalogo/>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves various URI scheme autolinks', () => {
+      const content =
+        'Email <mailto:user@example.com> or call <tel:+1234567890>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
+    it('preserves email autolinks', () => {
+      const content = 'Contact us at <support@chatwoot.com>';
+      expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
+    });
+
     it('preserves lists when schema supports them', () => {
       const content = '- item 1\n- item 2\n1. first\n2. second';
       expect(stripUnsupportedFormatting(content, fullSchema)).toBe(content);
@@ -965,6 +957,38 @@ describe('stripUnsupportedFormatting', () => {
           emptySchema
         )
       ).toBe('Check this link');
+    });
+
+    it('converts autolinks to plain URLs when schema does not support links', () => {
+      const content = 'Visit <https://cegrafic.com/catalogo/> for more info';
+      const expected = 'Visit https://cegrafic.com/catalogo/ for more info';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('handles multiple autolinks in content', () => {
+      const content = 'Check <https://example.com> and <https://test.com>';
+      const expected = 'Check https://example.com and https://test.com';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('converts URI scheme autolinks to plain text', () => {
+      const content =
+        'Email <mailto:support@example.com> or call <tel:+1234567890>';
+      const expected =
+        'Email mailto:support@example.com or call tel:+1234567890';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('converts email autolinks to plain text', () => {
+      const content = 'Reach us at <admin@chatwoot.com> for help';
+      const expected = 'Reach us at admin@chatwoot.com for help';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
+    });
+
+    it('handles mixed autolink types', () => {
+      const content = 'Visit <https://example.com> or email <info@example.com>';
+      const expected = 'Visit https://example.com or email info@example.com';
+      expect(stripUnsupportedFormatting(content, emptySchema)).toBe(expected);
     });
 
     it('strips bullet list markers', () => {

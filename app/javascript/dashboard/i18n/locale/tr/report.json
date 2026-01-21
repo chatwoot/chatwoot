@@ -40,7 +40,7 @@
         "DESC": "( Toplam )"
       },
       "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
+        "NAME": "Aktarım Sayısı",
         "DESC": "( Toplam )"
       },
       "REPLY_TIME": {
@@ -128,7 +128,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Temsilci Genel Bakış",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle temsilci performansını kolayca takip edin. Daha fazla bilgi için bir temsilcinin adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
@@ -264,12 +264,12 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Gelen Kutusu Genel Bakış",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle gelen kutunuzun performansını hızlıca tek bir yerden görüntüleyin. Daha fazla detay için bir gelen kutusunun adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_INBOX_REPORTS": "Gelen Kutu Raporlarını İndir",
     "FILTER_DROPDOWN_LABEL": "Gelen kutusu seç",
-    "ALL_INBOXES": "All Inboxes",
+    "ALL_INBOXES": "Tüm Gelen Kutuları",
     "SEARCH_INBOX": "Search Inbox",
     "METRICS": {
       "CONVERSATIONS": {
@@ -334,7 +334,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Ekip Genel Bakışı",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Konuşmalar, yanıt süreleri, çözüm süreleri ve çözülen vakalar gibi temel metriklerle ekibinizin performansına hızlı bir bakış edinin. Daha fazla detay için bir ekibin adına tıklayın.",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
     "DOWNLOAD_TEAM_REPORTS": "Ekip raporlarını indir",
@@ -434,11 +434,11 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
+    "HEADER": "Bot Raporları",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Konuşma sayısı",
-        "TOOLTIP": "Total number of conversations handled by the bot"
+        "TOOLTIP": "Bot tarafından gerçekleştirilen toplam konuşma sayısı"
       },
       "TOTAL_RESPONSES": {
         "LABEL": "Toplam yanıt",
@@ -446,11 +446,11 @@
       },
       "RESOLUTION_RATE": {
         "LABEL": "Çözüm Oranı",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+        "TOOLTIP": "Bot tarafından çözülen toplam konuşma sayısı / Bot tarafından işlenen toplam konuşma sayısı * 100"
       },
       "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+        "LABEL": "Temsilci Devir Oranı",
+        "TOOLTIP": "Temsilcilere devredilen toplam konuşma sayısı / Bot tarafından yönetilen toplam konuşma sayısı * 100"
       }
     }
   },
@@ -473,7 +473,7 @@
       "DOWNLOAD_REPORT": "Download report"
     },
     "RESOLUTION_HEATMAP": {
-      "HEADER": "Resolutions",
+      "HEADER": "Çözümler",
       "NO_CONVERSATIONS": "Hiç konuşma yok",
       "CONVERSATION": "{count} konuşma",
       "CONVERSATIONS": "{count} konuşmalar",
@@ -491,8 +491,8 @@
       }
     },
     "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
+      "ALL_TEAMS": "Tüm Ekipler",
+      "HEADER": "Ekipler tarafından yapılan konuşmalar",
       "LOADING_MESSAGE": "Loading team metrics...",
       "NO_TEAMS": "There is no data available",
       "TABLE_HEADER": {
@@ -520,7 +520,7 @@
   },
   "SLA_REPORTS": {
     "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
+    "NO_RECORDS": "SLA uygulanan konuşmalar mevcut değil.",
     "LOADING": "Loading SLA data...",
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
@@ -573,9 +573,9 @@
     "AGENT": "Kullanıcı",
     "TEAM": "Ekip",
     "LABEL": "Etiket",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "AVG_RESOLUTION_TIME": "Ort. Çözüm Süresi",
+    "AVG_FIRST_RESPONSE_TIME": "Ort. İlk Yanıt Süresi",
+    "AVG_REPLY_TIME": "Ort. Müşteri Bekleme Süresi",
     "RESOLUTION_COUNT": "Çözünürlük Sayısı",
     "CONVERSATIONS": "Konuşmaların sayısı"
   }

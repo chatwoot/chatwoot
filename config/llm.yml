@@ -1,0 +1,117 @@
+aproviders:
+  openai:
+    display_name: 'OpenAI'
+  anthropic:
+    display_name: 'Anthropic'
+  gemini:
+    display_name: 'Gemini'
+
+models:
+  gpt-4.1:
+    provider: openai
+    display_name: 'GPT-4.1'
+    credit_multiplier: 3
+  gpt-4.1-mini:
+    provider: openai
+    display_name: 'GPT-4.1 Mini'
+    credit_multiplier: 1
+  gpt-4.1-nano:
+    provider: openai
+    display_name: 'GPT-4.1 Nano'
+    credit_multiplier: 1
+  gpt-5.1:
+    provider: openai
+    display_name: 'GPT-5.1'
+    credit_multiplier: 2
+  gpt-5-mini:
+    provider: openai
+    display_name: 'GPT-5 Mini'
+    credit_multiplier: 1
+  gpt-5-nano:
+    provider: openai
+    display_name: 'GPT-5 Nano'
+    credit_multiplier: 1
+  gpt-5.2:
+    provider: openai
+    display_name: 'GPT-5.2'
+    credit_multiplier: 3
+  claude-haiku-4.5:
+    provider: anthropic
+    display_name: 'Claude Haiku 4.5'
+    coming_soon: true
+    credit_multiplier: 2
+  claude-sonnet-4.5:
+    provider: anthropic
+    display_name: 'Claude Sonnet 4.5'
+    coming_soon: true
+    credit_multiplier: 3
+  gemini-3-flash:
+    provider: gemini
+    display_name: 'Gemini 3 Flash'
+    coming_soon: true
+    credit_multiplier: 1
+  gemini-3-pro:
+    provider: gemini
+    display_name: 'Gemini 3 Pro'
+    coming_soon: true
+    credit_multiplier: 3
+  whisper-1:
+    provider: openai
+    display_name: 'Whisper'
+    credit_multiplier: 1
+  text-embedding-3-small:
+    provider: openai
+    display_name: 'Text Embedding 3 Small'
+    credit_multiplier: 1
+
+features:
+  editor:
+    models:
+      [
+        gpt-4.1-mini,
+        gpt-4.1-nano,
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-4.1-mini
+  assistant:
+    models:
+      [
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-5.1
+  copilot:
+    models:
+      [
+        gpt-5-mini,
+        gpt-4.1,
+        gpt-5.1,
+        gpt-5.2,
+        claude-haiku-4.5,
+        claude-sonnet-4.5,
+        gemini-3-flash,
+        gemini-3-pro,
+      ]
+    default: gpt-5.1
+  label_suggestion:
+    models:
+      [gpt-4.1-nano, gpt-4.1-mini, gpt-5-mini, gemini-3-flash, claude-haiku-4.5]
+    default: gpt-4.1-nano
+  audio_transcription:
+    models: [whisper-1]
+    default: whisper-1
+  help_center_search:
+    models: [text-embedding-3-small]
+    default: text-embedding-3-small

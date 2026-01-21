@@ -390,6 +390,20 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has muted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { mute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { mute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#unmute!' do
@@ -418,6 +432,22 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has unmuted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      let(:conversation) { create(:conversation) }
+
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { unmute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { unmute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#muted?' do
@@ -432,6 +462,16 @@ RSpec.describe Conversation do
 
     it 'returns false if conversation is not muted' do
       expect(muted?).to be(false)
+    end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'returns false' do
+        expect(muted?).to be(false)
+      end
     end
   end
 
@@ -977,6 +1017,71 @@ RSpec.describe Conversation do
       # if the event is created it should log zero value, we have handled that in the reporting_event_listener
       reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
       expect(reply_events.count).to eq(0)
+    end
+
+    context 'when AgentBot responds between customer messages' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      def create_bot_message(conversation, created_at: Time.current)
+        message = nil
+        perform_enqueued_jobs do
+          message = create(:message,
+                           message_type: 'outgoing',
+                           account: conversation.account,
+                           inbox: conversation.inbox,
+                           conversation: conversation,
+                           sender: agent_bot,
+                           created_at: created_at)
+        end
+        message
+      end
+
+      it 'calculates reply time from the most recent customer message after bot response' do
+        # Initial conversation: customer message -> agent first reply (to establish first_reply_created_at)
+        create_customer_message(conversation, created_at: 10.hours.ago)
+        create_agent_message(conversation, created_at: 9.hours.ago)
+
+        # Customer message 1
+        create_customer_message(conversation, created_at: 5.hours.ago)
+
+        # Bot responds
+        create_bot_message(conversation, created_at: 4.hours.ago)
+
+        # Customer message 2 (after bot response) - should reset waiting_since
+        create_customer_message(conversation, created_at: 2.hours.ago)
+
+        # Human agent replies - should create reply_time event from customer message 2
+        create_agent_message(conversation, created_at: 1.hour.ago)
+
+        reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+        expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
+        # Reply time should be 1 hour (from customer message 2 to agent reply)
+        expect(reply_events.first.value).to be_within(60).of(3600)
+      end
+
+      it 'handles multiple bot responses before customer messages again' do
+        # Initial conversation: customer message -> agent first reply
+        create_customer_message(conversation, created_at: 10.hours.ago)
+        create_agent_message(conversation, created_at: 9.hours.ago)
+
+        # Customer message 1
+        create_customer_message(conversation, created_at: 6.hours.ago)
+
+        # Bot responds multiple times
+        create_bot_message(conversation, created_at: 5.hours.ago)
+        create_bot_message(conversation, created_at: 4.hours.ago)
+
+        # Customer message 2 (after multiple bot responses) - should reset waiting_since
+        create_customer_message(conversation, created_at: 2.hours.ago)
+
+        # Human agent replies
+        create_agent_message(conversation, created_at: 1.hour.ago)
+
+        reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+        expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
+        # Reply time should be 1 hour (from customer message 2 to agent reply)
+        expect(reply_events.first.value).to be_within(60).of(3600)
+      end
     end
   end
 end
