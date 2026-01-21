@@ -31,7 +31,7 @@ class Whatsapp::FacebookUploadService
   end
 
   def upload_media_for_template(blob_id:, format:)
-    blob = ActiveStorage::Blob.find_by(id: blob_id)
+    blob = ActiveStorage::Blob.find_signed(blob_id)
     return { error: 'Media file not found' } unless blob
 
     validate_format!(blob.content_type, format)
