@@ -19,37 +19,36 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
   end
 
   def create_from_url
-    uri = parse_uri(params[:external_url])
-    return if performed?
-
-    fetch_and_process_file_from_uri(uri)
+    fetch_and_process_file_from_url(params[:external_url].to_s)
   end
 
-  def parse_uri(url)
+  def fetch_and_process_file_from_url(url)
     uri = URI.parse(url)
-    validate_uri(uri)
-    uri
-  rescue URI::InvalidURIError, SocketError, UrlSafetyValidator::UnsafeUrlError, Resolv::ResolvError
-    render_error('Invalid URL provided', :unprocessable_entity)
-    nil
-  end
+    filename = File.basename(uri.path)
+    response = nil
+    # ActiveStorage reads the IO more than once (checksum + upload), so we need a rewindable buffer.
+    # A Tempfile gives us that without loading the full response into memory like StringIO would if we did StringIO.new(response.body)
+    tempfile = Tempfile.new('chatwoot-external-upload')
 
-  def validate_uri(uri)
-    raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-
-    UrlSafetyValidator.validate!(uri.to_s)
-  end
-
-  def fetch_and_process_file_from_uri(uri)
-    uri.open do |file|
-      create_and_save_blob(file, File.basename(uri.path), file.content_type)
+    # Fetch via ssrf_filter which validates scheme/host, resolves DNS safely, and re-validates redirects.
+    SsrfFilter.get(url) do |res|
+      response = res
+      res.read_body { |chunk| tempfile.write(chunk) }
     end
-  rescue OpenURI::HTTPError => e
-    render_error("Failed to fetch file from URL: #{e.message}", :unprocessable_entity)
-  rescue SocketError
+
+    unless response.is_a?(Net::HTTPSuccess)
+      render_error("Failed to fetch file from URL: #{response.code} #{response.message}", :unprocessable_entity)
+      return
+    end
+
+    tempfile.rewind
+    create_and_save_blob(tempfile, filename, response['content-type'])
+  rescue SsrfFilter::Error, URI::InvalidURIError, SocketError, Resolv::ResolvError
     render_error('Invalid URL provided', :unprocessable_entity)
   rescue StandardError
     render_error('An unexpected error occurred', :internal_server_error)
+  ensure
+    tempfile&.close!
   end
 
   def create_and_save_blob(io, filename, content_type)
