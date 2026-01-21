@@ -3,9 +3,10 @@
 task before_assets_precompile: :environment do
   # run a command which starts your packaging
   system('pnpm install')
-  system('echo "-------------- Bulding SDK for Production --------------"')
+  system('echo "-------------- Building SDK for Production --------------"')
   system('pnpm run build:sdk')
-  system('echo "-------------- Bulding App for Production --------------"')
+  system('echo "-------------- Building Vite App for Production --------------"')
+  system('bin/vite build')
 end
 
 # every time you execute 'rake assets:precompile'

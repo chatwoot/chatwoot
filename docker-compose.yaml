@@ -8,8 +8,8 @@ services:
       args:
         BUNDLE_WITHOUT: ''
         EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
     tty: true
     stdin_open: true
     image: chatwoot:development
