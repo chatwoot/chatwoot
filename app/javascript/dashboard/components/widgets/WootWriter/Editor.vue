@@ -20,6 +20,7 @@ import CopilotMenuBar from './CopilotMenuBar.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
@@ -106,6 +107,7 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+const { captainTasksEnabled } = useCaptain();
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
@@ -122,7 +124,7 @@ const editorSchema = computed(() => {
   const formatType = props.isPrivate
     ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value;
-  const formatting = getFormattingForEditor(formatType);
+  const formatting = getFormattingForEditor(formatType, captainTasksEnabled);
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
@@ -130,7 +132,7 @@ const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
     ? PRIVATE_NOTE_FORMATTING
     : effectiveChannelType.value || DEFAULT_FORMATTING;
-  const formatting = getFormattingForEditor(formatType);
+  const formatting = getFormattingForEditor(formatType, captainTasksEnabled);
 
   return formatting.menu;
 });
