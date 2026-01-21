@@ -168,12 +168,16 @@ module DownloadReportTasks
   def self.download_heatmap_report(metric:, filename_prefix:, header_label:)
     data = collect_params(include_business_hours: false)
     account = data[:account]
+    inbox_id = prompt('Enter Inbox ID (optional)')
+    inbox = inbox_id.present? ? account.inboxes.find_by(id: inbox_id) : nil
+    abort "Error: Inbox with ID '#{inbox_id}' not found" if inbox_id.present? && inbox.nil?
 
     puts "\nGenerating #{filename_prefix.tr('_', ' ')} report..."
     report_params = data[:params].merge({
                                           metric: metric,
                                           group_by: 'hour',
-                                          type: :account
+                                          type: inbox.present? ? :inbox : :account,
+                                          id: inbox&.id
                                         })
     report = V2::Reports::Conversations::ReportBuilder.new(account, report_params).timeseries
     timezone = ActiveSupport::TimeZone[data[:params][:timezone_offset]]
@@ -189,7 +193,8 @@ module DownloadReportTasks
       ]
     end
 
-    filename = "#{account.id}_#{filename_prefix}_#{data[:start_date]}_#{data[:end_date]}.csv"
+    inbox_suffix = inbox.present? ? "_inbox_#{inbox.id}" : ''
+    filename = "#{account.id}_#{filename_prefix}#{inbox_suffix}_#{data[:start_date]}_#{data[:end_date]}.csv"
     save_csv(filename, headers, rows)
   end
 end
