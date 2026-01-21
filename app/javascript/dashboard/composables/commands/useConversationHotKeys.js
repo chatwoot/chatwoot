@@ -4,7 +4,7 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
-import { useAI } from 'dashboard/composables/useAI';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_EDITOR_MODES } from 'dashboard/components/widgets/WootWriter/constants';
@@ -102,8 +102,8 @@ const createNonDraftMessageAIAssistActions = (t, replyMode) => {
 const createDraftMessageAIAssistActions = t => {
   return [
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.REPHRASE'),
-      key: 'rephrase',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.CONFIDENT'),
+      key: 'confident',
       icon: ICON_AI_ASSIST,
     },
     {
@@ -112,28 +112,23 @@ const createDraftMessageAIAssistActions = t => {
       icon: ICON_AI_GRAMMAR,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.EXPAND'),
-      key: 'expand',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.PROFESSIONAL'),
+      key: 'professional',
       icon: ICON_AI_EXPAND,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SHORTEN'),
-      key: 'shorten',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.CASUAL'),
+      key: 'casual',
       icon: ICON_AI_SHORTEN,
     },
     {
       label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FRIENDLY'),
-      key: 'make_friendly',
+      key: 'friendly',
       icon: ICON_AI_ASSIST,
     },
     {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.MAKE_FORMAL'),
-      key: 'make_formal',
-      icon: ICON_AI_ASSIST,
-    },
-    {
-      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.SIMPLIFY'),
-      key: 'simplify',
+      label: t('INTEGRATION_SETTINGS.OPEN_AI.OPTIONS.STRAIGHTFORWARD'),
+      key: 'straightforward',
       icon: ICON_AI_ASSIST,
     },
   ];
@@ -151,7 +146,7 @@ export function useConversationHotKeys() {
     removeLabelFromConversation,
   } = useConversationLabels();
 
-  const { isAIIntegrationEnabled } = useAI();
+  const { captainTasksEnabled } = useCaptain();
   const { agentsList } = useAgentsList();
 
   const currentChat = useMapGetter('getSelectedChat');
@@ -386,7 +381,7 @@ export function useConversationHotKeys() {
       ...labelActions.value,
       ...assignPriorityActions.value,
     ];
-    if (isAIIntegrationEnabled.value) {
+    if (captainTasksEnabled.value) {
       return [...defaultConversationHotKeys, ...AIAssistActions.value];
     }
     return defaultConversationHotKeys;

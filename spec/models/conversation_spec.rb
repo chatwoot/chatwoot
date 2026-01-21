@@ -390,6 +390,20 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has muted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { mute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { mute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#unmute!' do
@@ -418,6 +432,22 @@ RSpec.describe Conversation do
         .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
                                                                     message_type: :activity, content: "#{user.name} has unmuted the conversation" }))
     end
+
+    context 'when contact is missing' do
+      let(:conversation) { create(:conversation) }
+
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'does not change conversation status' do
+        expect { unmute! }.not_to(change { conversation.reload.status })
+      end
+
+      it 'does not enqueue an activity message' do
+        expect { unmute! }.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+    end
   end
 
   describe '#muted?' do
@@ -432,6 +462,16 @@ RSpec.describe Conversation do
 
     it 'returns false if conversation is not muted' do
       expect(muted?).to be(false)
+    end
+
+    context 'when contact is missing' do
+      before do
+        conversation.update_columns(contact_id: nil, contact_inbox_id: nil) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'returns false' do
+        expect(muted?).to be(false)
+      end
     end
   end
 
