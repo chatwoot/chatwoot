@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_21_121101) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1114,7 +1114,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.float "value_in_business_hours"
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
+    t.datetime "conversation_created_at"
+    t.string "from_state"
+    t.bigint "team_id"
+    t.string "channel_type"
+    t.index ["account_id", "channel_type", "name", "created_at"], name: "idx_reporting_events_on_account_channel_name_created"
+    t.index ["account_id", "conversation_created_at", "name"], name: "idx_reporting_events_on_account_conv_created_at_name"
+    t.index ["account_id", "from_state", "name", "created_at"], name: "idx_reporting_events_on_account_from_state_name_created"
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
+    t.index ["account_id", "team_id", "name", "created_at"], name: "idx_reporting_events_on_account_team_name_created"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
