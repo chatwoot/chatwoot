@@ -2,16 +2,6 @@
 # No need to replicate the same values in two places
 
 # ------- Premium Features ------- #
-<<<<<<< HEAD
-captain:
-  name: 'Captain'
-  description: 'Enable AI-powered conversations with your customers.'
-  enabled: true
-  icon: 'icon-captain'
-  config_key: 'captain'
-  enterprise: false
-=======
->>>>>>> 70d09fcc66ee8f6799aedad25d21d4642ae4943f
 saml:
   name: 'SAML SSO'
   description: 'Configuration for controlling SAML Single Sign-On availability'
