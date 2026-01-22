@@ -9,14 +9,13 @@ import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import Icon from 'dashboard/components-next/icon/Icon.vue';
+import PasswordRequirements from './PasswordRequirements.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
 import * as CompanyEmailValidator from 'company-email-validator';
 
 const MIN_PASSWORD_LENGTH = 6;
-const SPECIAL_CHAR_REGEX = /[!@#$%^&*()_+\-=[\]{}|'"/\\.,`<>:;?~]/;
 
 const store = useStore();
 const { t } = useI18n();
@@ -72,50 +71,6 @@ const showGoogleOAuth = computed(
 );
 
 const isFormValid = computed(() => !v$.value.$invalid);
-
-const passwordRequirements = computed(() => {
-  const password = credentials.password || '';
-  return {
-    length: password.length >= MIN_PASSWORD_LENGTH,
-    uppercase: /[A-Z]/.test(password),
-    lowercase: /[a-z]/.test(password),
-    number: /[0-9]/.test(password),
-    special: SPECIAL_CHAR_REGEX.test(password),
-  };
-});
-
-const passwordRequirementItems = computed(() => {
-  const reqs = passwordRequirements.value;
-  return [
-    {
-      id: 'length',
-      met: reqs.length,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_LENGTH', {
-        min: MIN_PASSWORD_LENGTH,
-      }),
-    },
-    {
-      id: 'uppercase',
-      met: reqs.uppercase,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_UPPERCASE'),
-    },
-    {
-      id: 'lowercase',
-      met: reqs.lowercase,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_LOWERCASE'),
-    },
-    {
-      id: 'number',
-      met: reqs.number,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_NUMBER'),
-    },
-    {
-      id: 'special',
-      met: reqs.special,
-      label: t('REGISTER.PASSWORD.REQUIREMENTS_SPECIAL'),
-    },
-  ];
-});
 
 const performRegistration = async () => {
   isSignupInProgress.value = true;
@@ -187,29 +142,10 @@ const onRecaptchaVerified = token => {
           leave-from-class="opacity-100 scale-100 translate-x-0"
           leave-to-class="opacity-0 scale-90 translate-x-1"
         >
-          <div
+          <PasswordRequirements
             v-if="isPasswordFocused"
-            class="absolute top-0 z-50 w-64 text-xs rounded-lg px-4 py-3 bg-white dark:bg-n-solid-3 shadow-lg outline outline-1 outline-n-weak start-full ms-4"
-          >
-            <ul role="list" class="space-y-1.5">
-              <li
-                v-for="item in passwordRequirementItems"
-                :key="item.id"
-                class="inline-flex gap-1.5 items-start"
-              >
-                <Icon
-                  class="flex-none flex-shrink-0 w-3 mt-0.5"
-                  :icon="
-                    item.met ? 'i-lucide-circle-check-big' : 'i-lucide-circle'
-                  "
-                  :class="item.met ? 'text-n-teal-10' : 'text-n-slate-10'"
-                />
-                <span :class="item.met ? 'text-n-slate-11' : 'text-n-slate-10'">
-                  {{ item.label }}
-                </span>
-              </li>
-            </ul>
-          </div>
+            :password="credentials.password"
+          />
         </Transition>
       </div>
       <VueHcaptcha
