@@ -4,7 +4,7 @@ allOf:
     properties:
       latest_chatwoot_version:
         type: string
-        description: Latest version of Chatwoot available
+        description: Latest version of AlooChat available
         example: "3.0.0"
       subscribed_features:
         type: array

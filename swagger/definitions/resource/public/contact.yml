@@ -14,4 +14,4 @@ properties:
     description: Email of the contact
   pubsub_token:
     type: string
-    description: The token to be used to connect to chatwoot websocket
+    description: The token to be used to connect to aloochat websocket

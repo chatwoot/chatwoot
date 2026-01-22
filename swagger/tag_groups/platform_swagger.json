@@ -1,12 +1,12 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Chatwoot",
-    "description": "This is the API documentation for Chatwoot server.",
+    "title": "AlooChat",
+    "description": "This is the API documentation for AlooChat server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://www.aloochat.ai/terms-of-service/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "hello@aloochat.ai"
     },
     "license": {
       "name": "MIT License",
@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://app.chatwoot.com/"
+      "url": "https://cx.aloochat.ai/"
     }
   ],
   "paths": {
@@ -1755,7 +1755,7 @@
               "busy",
               "offline"
             ],
-            "description": "The availability status of the agent computed by Chatwoot."
+            "description": "The availability status of the agent computed by AlooChat."
           },
           "auto_offline": {
             "type": "boolean",
@@ -2283,7 +2283,7 @@
             "properties": {
               "latest_chatwoot_version": {
                 "type": "string",
-                "description": "Latest version of Chatwoot available",
+                "description": "Latest version of AlooChat available",
                 "example": "3.0.0"
               },
               "subscribed_features": {
@@ -2526,7 +2526,7 @@
           },
           "pubsub_token": {
             "type": "string",
-            "description": "The token to be used to connect to chatwoot websocket"
+            "description": "The token to be used to connect to aloochat websocket"
           }
         }
       },
@@ -3253,7 +3253,7 @@
                     "type": "object",
                     "description": "The processed param values for template variables in template",
                     "example": {
-                      "1": "Chatwoot"
+                      "1": "AlooChat"
                     }
                   }
                 }
@@ -3829,7 +3829,7 @@
           "custom_domain": {
             "type": "string",
             "description": "Custom domain to display help center.",
-            "example": "chatwoot.help"
+            "example": "help.aloochat.ai"
           },
           "header_text": {
             "type": "string",
@@ -3839,7 +3839,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://www.aloochat.ai/"
           },
           "name": {
             "type": "string",
@@ -5352,7 +5352,7 @@
         "schema": {
           "type": "string"
         },
-        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: AlooChat generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
       },
       "contact_sort_param": {
         "in": "query",

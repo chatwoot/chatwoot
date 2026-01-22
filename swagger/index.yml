@@ -3,14 +3,14 @@ info:
   title: AlooChat
   description: This is the API documentation for AlooChat server.
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://www.aloochat.ai/terms-of-service/
   contact:
     email: hello@aloochat.ai
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://cx.aloochat.ai/
 paths:
   $ref: ./paths/index.yml
 components:
