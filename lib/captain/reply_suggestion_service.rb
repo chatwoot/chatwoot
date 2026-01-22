@@ -38,3 +38,5 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
     'reply_suggestion'
   end
 end
+
+Captain::ReplySuggestionService.prepend_mod_with('Captain::ReplySuggestionService')
