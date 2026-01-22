@@ -53,12 +53,28 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result.strip).to eq('*bold _italic_*')
       end
 
-      it 'converts bullet lists' do
-        content = "- item 1\n- item 2"
+      it 'preserves unordered list with dash markers' do
+        content = "- item 1\n- item 2\n- item 3"
         result = described_class.new(content, channel_type).render
-        expect(result.strip).to include('- item 1')
-        expect(result.strip).to include('- item 2')
-        expect(result).to include("- item 1\n- item 2")
+        expect(result).to include('- item 1')
+        expect(result).to include('- item 2')
+        expect(result).to include('- item 3')
+      end
+
+      it 'converts asterisk unordered lists to dash markers' do
+        content = "* item 1\n* item 2\n* item 3"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('- item 1')
+        expect(result).to include('- item 2')
+        expect(result).to include('- item 3')
+      end
+
+      it 'preserves ordered list markers with numbering' do
+        content = "1. first step\n2. second step\n3. third step"
+        result = described_class.new(content, channel_type).render
+        expect(result).to include('1. first step')
+        expect(result).to include('2. second step')
+        expect(result).to include('3. third step')
       end
 
       it 'preserves newlines in plain text without list markers' do
@@ -432,6 +448,24 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
         expect(result).to include("Line 1\nLine 2\nLine 3")
       end
 
+      it 'preserves ordered list markers with numbering in Twilio WhatsApp' do
+        content = "1. first step\n2. second step\n3. third step"
+        channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+        result = described_class.new(content, channel_type, channel).render
+        expect(result).to include('1. first step')
+        expect(result).to include('2. second step')
+        expect(result).to include('3. third step')
+      end
+
+      it 'preserves unordered list markers in Twilio WhatsApp' do
+        content = "- item 1\n- item 2\n- item 3"
+        channel = instance_double(Channel::TwilioSms, whatsapp?: true)
+        result = described_class.new(content, channel_type, channel).render
+        expect(result).to include('- item 1')
+        expect(result).to include('- item 2')
+        expect(result).to include('- item 3')
+      end
+
       it 'backwards compatible when channel is not provided' do
         content = '**bold** _italic_'
         result = described_class.new(content, channel_type).render
@@ -483,12 +517,12 @@ RSpec.describe Messages::MarkdownRendererService, type: :service do
     context 'when testing all formatting types' do
       let(:channel_type) { 'Channel::Whatsapp' }
 
-      it 'handles ordered lists' do
+      it 'handles ordered lists with proper numbering' do
         content = "1. first\n2. second\n3. third"
         result = described_class.new(content, channel_type).render
-        expect(result).to include('first')
-        expect(result).to include('second')
-        expect(result).to include('third')
+        expect(result).to include('1. first')
+        expect(result).to include('2. second')
+        expect(result).to include('3. third')
       end
     end
 
