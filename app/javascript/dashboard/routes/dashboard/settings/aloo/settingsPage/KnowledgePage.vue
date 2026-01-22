@@ -3,7 +3,6 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import AddTextBlockDialog from './AddTextBlockDialog.vue';
 import AddWebsiteDialog from './AddWebsiteDialog.vue';
@@ -28,17 +27,6 @@ const textBlockDialogRef = ref(null);
 const websiteDialogRef = ref(null);
 
 const documents = computed(() => getters['alooDocuments/getRecords'].value);
-
-const stats = computed(() => {
-  const docs = documents.value;
-  return {
-    total: docs.length,
-    chunks: docs.reduce((sum, doc) => sum + (doc.chunk_count || 0), 0),
-    available: docs.filter(d => d.status === 'available').length,
-    processing: docs.filter(d => d.status === 'processing').length,
-    failed: docs.filter(d => d.status === 'failed').length,
-  };
-});
 
 onMounted(async () => {
   try {
@@ -240,369 +228,305 @@ const handleWebsiteSubmit = async ({
     </div>
 
     <template v-else>
-      <SettingsSection
-        :title="$t('ALOO.KNOWLEDGE.DOCUMENTS.TITLE')"
-        :sub-title="$t('ALOO.KNOWLEDGE.DOCUMENTS.DESCRIPTION')"
-      >
-        <div class="space-y-6">
-          <!-- Stats Summary Bar -->
+      <div class="space-y-6">
+        <!-- Input Cards -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- File Upload Card -->
           <div
-            v-if="documents.length"
-            class="flex items-center gap-6 px-4 py-3 bg-n-alpha-1 rounded-lg border border-n-weak"
+            class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
+            :class="[
+              isDragging
+                ? 'border-n-blue-7 bg-n-blue-2'
+                : 'border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1',
+              isUploading ? 'pointer-events-none opacity-60' : '',
+            ]"
+            @dragover="handleDragOver"
+            @dragleave="handleDragLeave"
+            @drop="handleDrop"
+            @click="fileInput?.click()"
           >
-            <div class="flex items-center gap-2">
-              <span class="i-lucide-files text-n-slate-9" />
-              <span class="text-sm text-n-slate-11">
-                <span class="font-medium text-n-slate-12">{{
-                  stats.total
-                }}</span>
-                {{ $t('ALOO.KNOWLEDGE.STATS.DOCUMENTS') }}
-              </span>
-            </div>
-            <div class="flex items-center gap-2">
-              <span class="i-lucide-puzzle text-n-slate-9" />
-              <span class="text-sm text-n-slate-11">
-                <span class="font-medium text-n-slate-12">{{
-                  stats.chunks
-                }}</span>
-                {{ $t('ALOO.KNOWLEDGE.STATS.CHUNKS') }}
-              </span>
-            </div>
-            <div v-if="stats.available" class="flex items-center gap-2">
-              <span class="i-lucide-check-circle text-n-green-9" />
-              <span class="text-sm text-n-slate-11">
-                <span class="font-medium text-n-green-11">{{
-                  stats.available
-                }}</span>
-                {{ $t('ALOO.KNOWLEDGE.STATS.READY') }}
-              </span>
-            </div>
-            <div v-if="stats.processing" class="flex items-center gap-2">
-              <span class="i-lucide-loader-2 text-n-blue-9 animate-spin" />
-              <span class="text-sm text-n-slate-11">
-                <span class="font-medium text-n-blue-11">{{
-                  stats.processing
-                }}</span>
-                {{ $t('ALOO.KNOWLEDGE.STATS.PROCESSING') }}
-              </span>
-            </div>
-            <div v-if="stats.failed" class="flex items-center gap-2">
-              <span class="i-lucide-x-circle text-n-ruby-9" />
-              <span class="text-sm text-n-slate-11">
-                <span class="font-medium text-n-ruby-11">{{
-                  stats.failed
-                }}</span>
-                {{ $t('ALOO.KNOWLEDGE.STATS.FAILED') }}
-              </span>
+            <input
+              ref="fileInput"
+              type="file"
+              class="hidden"
+              accept=".pdf,.txt,.md,.csv"
+              @change="handleFileSelect"
+            />
+            <div class="flex flex-col items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
+              >
+                <span
+                  v-if="isUploading"
+                  class="i-lucide-loader-2 text-2xl text-n-blue-9 animate-spin"
+                />
+                <span v-else class="i-lucide-upload text-2xl text-n-slate-9" />
+              </div>
+              <div>
+                <p class="text-sm font-medium text-n-slate-12">
+                  {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.UPLOAD_TITLE') }}
+                </p>
+                <p class="text-xs text-n-slate-10 mt-1">
+                  {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.DROP_OR_CLICK') }}
+                </p>
+              </div>
+              <p class="text-xs text-n-slate-9">
+                {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.ALLOWED_TYPES') }}
+              </p>
             </div>
           </div>
 
-          <!-- Input Cards -->
-          <div class="grid grid-cols-3 gap-4">
-            <!-- File Upload Card -->
-            <div
-              class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
-              :class="[
-                isDragging
-                  ? 'border-n-blue-7 bg-n-blue-2'
-                  : 'border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1',
-                isUploading ? 'pointer-events-none opacity-60' : '',
-              ]"
-              @dragover="handleDragOver"
-              @dragleave="handleDragLeave"
-              @drop="handleDrop"
-              @click="fileInput?.click()"
-            >
-              <input
-                ref="fileInput"
-                type="file"
-                class="hidden"
-                accept=".pdf,.txt,.md,.csv"
-                @change="handleFileSelect"
-              />
-              <div class="flex flex-col items-center gap-3">
-                <div
-                  class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-                >
-                  <span
-                    v-if="isUploading"
-                    class="i-lucide-loader-2 text-2xl text-n-blue-9 animate-spin"
-                  />
-                  <span
-                    v-else
-                    class="i-lucide-upload text-2xl text-n-slate-9"
-                  />
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-n-slate-12">
-                    {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.UPLOAD_TITLE') }}
-                  </p>
-                  <p class="text-xs text-n-slate-10 mt-1">
-                    {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.DROP_OR_CLICK') }}
-                  </p>
-                </div>
-                <p class="text-xs text-n-slate-9">
-                  {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.ALLOWED_TYPES') }}
+          <!-- Website URL Card -->
+          <div
+            class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+            @click="openWebsiteDialog"
+          >
+            <div class="flex flex-col items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
+              >
+                <span class="i-lucide-globe text-2xl text-n-slate-9" />
+              </div>
+              <div>
+                <p class="text-sm font-medium text-n-slate-12">
+                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
+                </p>
+                <p class="text-xs text-n-slate-10 mt-1">
+                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.CARD_DESCRIPTION') }}
                 </p>
               </div>
             </div>
-
-            <!-- Website URL Card -->
-            <div
-              class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
-              @click="openWebsiteDialog"
-            >
-              <div class="flex flex-col items-center gap-3">
-                <div
-                  class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-                >
-                  <span class="i-lucide-globe text-2xl text-n-slate-9" />
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-n-slate-12">
-                    {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
-                  </p>
-                  <p class="text-xs text-n-slate-10 mt-1">
-                    {{ $t('ALOO.KNOWLEDGE.WEBSITE.CARD_DESCRIPTION') }}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Text Block Card -->
-            <div
-              class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
-              @click="openTextBlockDialog"
-            >
-              <div class="flex flex-col items-center gap-3">
-                <div
-                  class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-                >
-                  <span class="i-lucide-align-left text-2xl text-n-slate-9" />
-                </div>
-                <div>
-                  <p class="text-sm font-medium text-n-slate-12">
-                    {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_TITLE') }}
-                  </p>
-                  <p class="text-xs text-n-slate-10 mt-1">
-                    {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_DESCRIPTION') }}
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
 
-          <!-- Document List -->
-          <div v-if="documents.length" class="space-y-2">
-            <h3 class="text-sm font-medium text-n-slate-12 mb-3">
-              {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.LIST_TITLE') }}
-            </h3>
-            <div
-              v-for="doc in documents"
-              :key="doc.id"
-              class="bg-n-alpha-1 rounded-lg border border-n-weak overflow-hidden"
-            >
-              <!-- Main Row -->
-              <div
-                class="flex items-center justify-between p-4 cursor-pointer hover:bg-n-alpha-2 transition-colors"
-                @click="toggleExpand(doc.id)"
-              >
-                <div class="flex items-center gap-3">
-                  <div
-                    class="w-10 h-10 rounded-lg bg-n-alpha-2 flex items-center justify-center"
-                  >
-                    <span
-                      :class="getDocumentIcon(doc)"
-                      class="text-xl text-n-slate-9"
-                    />
-                  </div>
-                  <div>
-                    <p class="text-sm font-medium text-n-slate-12">
-                      {{ doc.title }}
-                    </p>
-                    <p class="text-xs text-n-slate-10">
-                      {{ getDocumentMeta(doc) }}
-                      <span v-if="doc.chunk_count" class="ml-1">
-                        {{
-                          $t('ALOO.KNOWLEDGE.DOCUMENTS.CHUNK_COUNT', {
-                            count: doc.chunk_count,
-                          })
-                        }}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div class="flex items-center gap-3">
-                  <div
-                    class="flex items-center gap-1.5 px-2 py-1 rounded"
-                    :class="getStatusClass(doc.status)"
-                  >
-                    <span :class="getStatusIcon(doc.status)" class="text-sm" />
-                    <span class="text-xs font-medium">
-                      {{
-                        $t(
-                          `ALOO.DOCUMENTS.STATUS.${(doc.status || 'pending').toUpperCase()}`
-                        )
-                      }}
-                    </span>
-                  </div>
-                  <span
-                    class="i-lucide-chevron-down text-n-slate-9 transition-transform"
-                    :class="{ 'rotate-180': expandedDocId === doc.id }"
-                  />
-                </div>
-              </div>
-
-              <!-- Expanded Details -->
-              <div
-                v-if="expandedDocId === doc.id"
-                class="px-4 pb-4 pt-0 border-t border-n-weak bg-n-alpha-2"
-              >
-                <div class="pt-3 space-y-3">
-                  <!-- Source URL for websites -->
-                  <div v-if="doc.source_type === 'website' && doc.source_url">
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.SOURCE_URL') }}
-                    </p>
-                    <a
-                      :href="doc.source_url"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      class="text-sm text-n-blue-11 hover:underline flex items-center gap-1"
-                    >
-                      {{ doc.source_url }}
-                      <span class="i-lucide-external-link text-xs" />
-                    </a>
-                  </div>
-
-                  <!-- File info for files -->
-                  <div v-if="doc.source_type === 'file' && doc.filename">
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.FILENAME') }}
-                    </p>
-                    <p class="text-sm text-n-slate-12">{{ doc.filename }}</p>
-                  </div>
-
-                  <!-- Text content preview -->
-                  <div
-                    v-if="
-                      doc.source_type === 'text' && doc.text_content_preview
-                    "
-                  >
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_PREVIEW') }}
-                    </p>
-                    <p class="text-sm text-n-slate-11 italic line-clamp-3">
-                      {{
-                        $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_QUOTED', {
-                          content: doc.text_content_preview,
-                        })
-                      }}
-                    </p>
-                  </div>
-
-                  <!-- Scrape info for websites -->
-                  <div v-if="doc.source_type === 'website'">
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.SCRAPE_MODE') }}
-                    </p>
-                    <p class="text-sm text-n-slate-12">
-                      <template v-if="doc.selected_pages?.length">
-                        {{
-                          $t('ALOO.KNOWLEDGE.DETAILS.SELECTED_PAGES', {
-                            count: doc.selected_pages.length,
-                          })
-                        }}
-                      </template>
-                      <template v-else-if="doc.crawl_full_site">
-                        {{ $t('ALOO.KNOWLEDGE.DETAILS.FULL_SITE') }}
-                      </template>
-                      <template v-else>
-                        {{ $t('ALOO.KNOWLEDGE.DETAILS.SINGLE_PAGE') }}
-                      </template>
-                    </p>
-                  </div>
-
-                  <!-- Auto-refresh info for websites -->
-                  <div v-if="doc.source_type === 'website' && doc.auto_refresh">
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH') }}
-                    </p>
-                    <div class="flex items-center gap-2">
-                      <span
-                        class="i-lucide-refresh-cw text-n-green-9 text-sm"
-                      />
-                      <span class="text-sm text-n-slate-12">
-                        {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH_ENABLED') }}
-                      </span>
-                    </div>
-                    <p
-                      v-if="doc.next_refresh_at"
-                      class="text-xs text-n-slate-10 mt-1"
-                    >
-                      {{
-                        $t('ALOO.KNOWLEDGE.DETAILS.NEXT_REFRESH_DATE', {
-                          date: new Date(doc.next_refresh_at).toLocaleString(),
-                        })
-                      }}
-                    </p>
-                  </div>
-
-                  <!-- Created at -->
-                  <div>
-                    <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.ADDED') }}
-                    </p>
-                    <p class="text-sm text-n-slate-12">
-                      {{ new Date(doc.created_at).toLocaleString() }}
-                    </p>
-                  </div>
-
-                  <!-- Actions -->
-                  <div class="flex items-center gap-2 pt-2">
-                    <Button
-                      v-if="doc.status === 'failed'"
-                      icon="i-lucide-refresh-cw"
-                      xs
-                      faded
-                      @click.stop="reprocessDocument(doc.id)"
-                    >
-                      {{ $t('ALOO.ACTIONS.REPROCESS') }}
-                    </Button>
-                    <Button
-                      icon="i-lucide-trash-2"
-                      xs
-                      ruby
-                      faded
-                      @click.stop="deleteDocument(doc.id)"
-                    >
-                      {{ $t('ALOO.ACTIONS.DELETE') }}
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Empty State -->
+          <!-- Text Block Card -->
           <div
-            v-else
-            class="p-12 text-center bg-n-alpha-1 rounded-lg border border-n-weak"
+            class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+            @click="openTextBlockDialog"
           >
-            <div
-              class="w-16 h-16 rounded-full bg-n-alpha-2 flex items-center justify-center mx-auto mb-4"
-            >
-              <span class="i-lucide-book-open text-3xl text-n-slate-9" />
+            <div class="flex flex-col items-center gap-3">
+              <div
+                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
+              >
+                <span class="i-lucide-align-left text-2xl text-n-slate-9" />
+              </div>
+              <div>
+                <p class="text-sm font-medium text-n-slate-12">
+                  {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_TITLE') }}
+                </p>
+                <p class="text-xs text-n-slate-10 mt-1">
+                  {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_DESCRIPTION') }}
+                </p>
+              </div>
             </div>
-            <p class="text-sm font-medium text-n-slate-12 mb-1">
-              {{ $t('ALOO.DOCUMENTS.EMPTY_STATE.TITLE') }}
-            </p>
-            <p class="text-sm text-n-slate-10">
-              {{ $t('ALOO.DOCUMENTS.EMPTY_STATE.DESCRIPTION') }}
-            </p>
           </div>
         </div>
-      </SettingsSection>
+
+        <!-- Document List -->
+        <div v-if="documents.length" class="space-y-2">
+          <h3 class="text-sm font-medium text-n-slate-12 mb-3">
+            {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.LIST_TITLE') }}
+          </h3>
+          <div
+            v-for="doc in documents"
+            :key="doc.id"
+            class="bg-n-alpha-1 rounded-lg border border-n-weak overflow-hidden"
+          >
+            <!-- Main Row -->
+            <div
+              class="flex items-center justify-between p-4 cursor-pointer hover:bg-n-alpha-2 transition-colors"
+              @click="toggleExpand(doc.id)"
+            >
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-lg bg-n-alpha-2 flex items-center justify-center"
+                >
+                  <span
+                    :class="getDocumentIcon(doc)"
+                    class="text-xl text-n-slate-9"
+                  />
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-n-slate-12">
+                    {{ doc.title }}
+                  </p>
+                  <p class="text-xs text-n-slate-10">
+                    {{ getDocumentMeta(doc) }}
+                    <span v-if="doc.chunk_count" class="ml-1">
+                      {{
+                        $t('ALOO.KNOWLEDGE.DOCUMENTS.CHUNK_COUNT', {
+                          count: doc.chunk_count,
+                        })
+                      }}
+                    </span>
+                  </p>
+                </div>
+              </div>
+              <div class="flex items-center gap-3">
+                <div
+                  class="flex items-center gap-1.5 px-2 py-1 rounded"
+                  :class="getStatusClass(doc.status)"
+                >
+                  <span :class="getStatusIcon(doc.status)" class="text-sm" />
+                  <span class="text-xs font-medium">
+                    {{
+                      $t(
+                        `ALOO.DOCUMENTS.STATUS.${(doc.status || 'pending').toUpperCase()}`
+                      )
+                    }}
+                  </span>
+                </div>
+                <span
+                  class="i-lucide-chevron-down text-n-slate-9 transition-transform"
+                  :class="{ 'rotate-180': expandedDocId === doc.id }"
+                />
+              </div>
+            </div>
+
+            <!-- Expanded Details -->
+            <div
+              v-if="expandedDocId === doc.id"
+              class="px-4 pb-4 pt-0 border-t border-n-weak bg-n-alpha-2"
+            >
+              <div class="pt-3 space-y-3">
+                <!-- Source URL for websites -->
+                <div v-if="doc.source_type === 'website' && doc.source_url">
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.SOURCE_URL') }}
+                  </p>
+                  <a
+                    :href="doc.source_url"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-sm text-n-blue-11 hover:underline flex items-center gap-1"
+                  >
+                    {{ doc.source_url }}
+                    <span class="i-lucide-external-link text-xs" />
+                  </a>
+                </div>
+
+                <!-- File info for files -->
+                <div v-if="doc.source_type === 'file' && doc.filename">
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.FILENAME') }}
+                  </p>
+                  <p class="text-sm text-n-slate-12">{{ doc.filename }}</p>
+                </div>
+
+                <!-- Text content preview -->
+                <div
+                  v-if="doc.source_type === 'text' && doc.text_content_preview"
+                >
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_PREVIEW') }}
+                  </p>
+                  <p class="text-sm text-n-slate-11 italic line-clamp-3">
+                    {{
+                      $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_QUOTED', {
+                        content: doc.text_content_preview,
+                      })
+                    }}
+                  </p>
+                </div>
+
+                <!-- Scrape info for websites -->
+                <div v-if="doc.source_type === 'website'">
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.SCRAPE_MODE') }}
+                  </p>
+                  <p class="text-sm text-n-slate-12">
+                    <template v-if="doc.selected_pages?.length">
+                      {{
+                        $t('ALOO.KNOWLEDGE.DETAILS.SELECTED_PAGES', {
+                          count: doc.selected_pages.length,
+                        })
+                      }}
+                    </template>
+                    <template v-else-if="doc.crawl_full_site">
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.FULL_SITE') }}
+                    </template>
+                    <template v-else>
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.SINGLE_PAGE') }}
+                    </template>
+                  </p>
+                </div>
+
+                <!-- Auto-refresh info for websites -->
+                <div v-if="doc.source_type === 'website' && doc.auto_refresh">
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH') }}
+                  </p>
+                  <div class="flex items-center gap-2">
+                    <span class="i-lucide-refresh-cw text-n-green-9 text-sm" />
+                    <span class="text-sm text-n-slate-12">
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH_ENABLED') }}
+                    </span>
+                  </div>
+                  <p
+                    v-if="doc.next_refresh_at"
+                    class="text-xs text-n-slate-10 mt-1"
+                  >
+                    {{
+                      $t('ALOO.KNOWLEDGE.DETAILS.NEXT_REFRESH_DATE', {
+                        date: new Date(doc.next_refresh_at).toLocaleString(),
+                      })
+                    }}
+                  </p>
+                </div>
+
+                <!-- Created at -->
+                <div>
+                  <p class="text-xs text-n-slate-10 mb-1">
+                    {{ $t('ALOO.KNOWLEDGE.DETAILS.ADDED') }}
+                  </p>
+                  <p class="text-sm text-n-slate-12">
+                    {{ new Date(doc.created_at).toLocaleString() }}
+                  </p>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2 pt-2">
+                  <Button
+                    v-if="doc.status === 'failed'"
+                    icon="i-lucide-refresh-cw"
+                    xs
+                    faded
+                    @click.stop="reprocessDocument(doc.id)"
+                  >
+                    {{ $t('ALOO.ACTIONS.REPROCESS') }}
+                  </Button>
+                  <Button
+                    icon="i-lucide-trash-2"
+                    xs
+                    ruby
+                    faded
+                    @click.stop="deleteDocument(doc.id)"
+                  >
+                    {{ $t('ALOO.ACTIONS.DELETE') }}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty State -->
+        <div
+          v-else
+          class="p-12 text-center bg-n-alpha-1 rounded-lg border border-n-weak"
+        >
+          <div
+            class="w-16 h-16 rounded-full bg-n-alpha-2 flex items-center justify-center mx-auto mb-4"
+          >
+            <span class="i-lucide-book-open text-3xl text-n-slate-9" />
+          </div>
+          <p class="text-sm font-medium text-n-slate-12 mb-1">
+            {{ $t('ALOO.DOCUMENTS.EMPTY_STATE.TITLE') }}
+          </p>
+          <p class="text-sm text-n-slate-10">
+            {{ $t('ALOO.DOCUMENTS.EMPTY_STATE.DESCRIPTION') }}
+          </p>
+        </div>
+      </div>
 
       <!-- Dialogs -->
       <AddTextBlockDialog
