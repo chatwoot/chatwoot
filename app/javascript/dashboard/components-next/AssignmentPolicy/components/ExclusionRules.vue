@@ -119,7 +119,7 @@ onMounted(() => {
             )
           "
           :items="filteredTags"
-          class="[&>button]:!text-n-blue-text [&>div]:min-w-64"
+          class="[&>button]:!text-n-blue-11 [&>div]:min-w-64"
           @add="onClickAddTag"
         />
       </div>
