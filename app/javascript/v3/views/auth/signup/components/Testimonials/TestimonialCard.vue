@@ -1,21 +1,10 @@
 <script setup>
-import { computed } from 'vue';
-
-const props = defineProps({
+defineProps({
   reviewContent: { type: String, default: '' },
   authorImage: { type: String, default: '' },
   authorName: { type: String, default: '' },
   authorDesignation: { type: String, default: '' },
 });
-
-const authorInitials = computed(() =>
-  props.authorName
-    .split(' ')
-    .map(word => word[0])
-    .join('')
-    .toUpperCase()
-    .slice(0, 2)
-);
 </script>
 
 <template>
@@ -35,22 +24,11 @@ const authorInitials = computed(() =>
       {{ reviewContent }}
     </p>
     <div class="flex items-center mt-8">
-      <div
-        v-if="authorImage"
-        class="w-11 h-11 rounded-full overflow-hidden bg-n-blue-9 flex items-center justify-center"
-      >
-        <img
-          :src="authorImage"
-          :alt="authorName"
-          class="w-full h-full object-cover"
-        />
-      </div>
-      <div
-        v-else
-        class="w-11 h-11 rounded-full bg-n-blue-9 flex items-center justify-center text-white text-sm font-semibold"
-      >
-        {{ authorInitials }}
-      </div>
+      <img
+        :src="authorImage"
+        :alt="authorName"
+        class="w-11 h-11 rounded-full object-cover"
+      />
       <div class="ml-3">
         <div class="text-base font-medium text-n-slate-12">
           {{ authorName }}
