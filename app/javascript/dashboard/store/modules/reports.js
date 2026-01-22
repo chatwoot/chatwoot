@@ -2,7 +2,11 @@
 import * as types from '../mutation-types';
 import { STATUS } from '../constants';
 import Report from '../../api/reports';
-import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
+import {
+  downloadCsvFile,
+  downloadFile,
+  generateFileName,
+} from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
@@ -235,12 +239,18 @@ export const actions = {
       });
   },
   downloadConversationsSummaryReports(_, reportObj) {
-    return Report.getConversationsSummaryReports(reportObj)
+    return Report.getConversationsSummaryReports({
+      from: reportObj.from,
+      to: reportObj.to,
+      businessHours: reportObj.businessHours,
+      format: reportObj.format,
+    })
       .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+        downloadFile(reportObj.fileName, response.data, reportObj.format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'conversations_summary',
           businessHours: reportObj?.businessHours,
+          format: reportObj?.format,
         });
       })
       .catch(error => {

@@ -1,0 +1,27 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: 'Inboxes Report') do |sheet|
+  sheet.add_row [
+    I18n.t(
+      'reports.period',
+      since: Date.strptime(params[:since], '%s'),
+      until: Date.strptime(params[:until], '%s')
+    )
+  ]
+
+  sheet.add_row []
+
+  headers = [
+    I18n.t('reports.inbox_csv.inbox_name'),
+    I18n.t('reports.inbox_csv.inbox_type'),
+    I18n.t('reports.inbox_csv.conversations_count'),
+    I18n.t('reports.inbox_csv.avg_first_response_time'),
+    I18n.t('reports.inbox_csv.avg_resolution_time')
+  ]
+
+  sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')
+
+  @report_data.each do |row|
+    sheet.add_row row
+  end
+end

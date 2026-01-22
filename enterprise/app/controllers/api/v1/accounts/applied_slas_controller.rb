@@ -23,9 +23,19 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
 
   def download
     @missed_applied_slas = missed_applied_slas
-    response.headers['Content-Type'] = 'text/csv'
-    response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
-    render layout: false, formats: [:csv]
+    
+    respond_to do |format|
+      format.csv do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
+        render layout: false, formats: [:csv]
+      end
+      format.xlsx do
+        response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.xlsx'
+        render layout: false, formats: [:xlsx]
+      end
+    end
   end
 
   private
