@@ -4,9 +4,9 @@
     "title": "AlooChat",
     "description": "This is the API documentation for AlooChat server.",
     "version": "1.1.0",
-    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "termsOfService": "https://www.aloochat.ai/terms-of-service/",
     "contact": {
-      "email": "hello@chatwoot.com"
+      "email": "hello@aloochat.ai"
     },
     "license": {
       "name": "MIT License",
@@ -15,7 +15,7 @@
   },
   "servers": [
     {
-      "url": "https://app.chatwoot.com/"
+      "url": "https://cx.aloochat.ai/"
     }
   ],
   "paths": {
@@ -2367,9 +2367,9 @@
                     {
                       "id": 4,
                       "color": "#1F93FF",
-                      "custom_domain": "chatwoot.help",
+                      "custom_domain": "help.aloochat.ai",
                       "header_text": "Handbook",
-                      "homepage_link": "https://www.chatwoot.com",
+                      "homepage_link": "https://www.aloochat.ai",
                       "name": "Handbook",
                       "page_title": "Handbook",
                       "slug": "handbook",
@@ -2392,7 +2392,7 @@
                         "channel_type": "Channel::WebWidget",
                         "greeting_enabled": true,
                         "widget_color": "#1F93FF",
-                        "website_url": "chatwoot.com"
+                        "website_url": "aloochat.ai"
                       },
                       "logo": {
                         "id": 19399916,
@@ -2488,9 +2488,9 @@
                         }
                       ]
                     },
-                    "custom_domain": "chatwoot.help",
+                    "custom_domain": "help.aloochat.ai",
                     "header_text": "Handbook",
-                    "homepage_link": "https://www.chatwoot.com",
+                    "homepage_link": "https://www.aloochat.ai",
                     "name": "Handbook",
                     "slug": "handbook",
                     "page_title": "Handbook",
@@ -2498,7 +2498,7 @@
                     "inbox": {
                       "id": 123,
                       "name": "AlooChat",
-                      "website_url": "chatwoot.com",
+                      "website_url": "aloochat.ai",
                       "channel_type": "Channel::WebWidget",
                       "avatar_url": "https://example.com/avatar.png",
                       "widget_color": "#1F93FF",
@@ -2901,7 +2901,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
+        "description": "Creating a conversation in AlooChat requires a source id. \n\n Learn more about source_id: https://www.AlooChat.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
         "security": [
           {
             "userApiKey": []
@@ -8050,7 +8050,7 @@
           },
           "pubsub_token": {
             "type": "string",
-            "description": "The token to be used to connect to chatwoot websocket"
+            "description": "The token to be used to connect to aloochat websocket"
           }
         }
       },
@@ -9353,7 +9353,7 @@
           "custom_domain": {
             "type": "string",
             "description": "Custom domain to display help center.",
-            "example": "chatwoot.help"
+            "example": "help.aloochat.ai"
           },
           "header_text": {
             "type": "string",
@@ -9363,7 +9363,7 @@
           "homepage_link": {
             "type": "string",
             "description": "link to main dashboard",
-            "example": "https://www.chatwoot.com/"
+            "example": "https://www.aloochat.ai/"
           },
           "name": {
             "type": "string",

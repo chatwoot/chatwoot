@@ -1,16 +1,16 @@
 openapi: '3.0.4'
 info:
-  title: Chatwoot - Platform API
-  description: Platform API endpoints for Chatwoot
+  title: AlooChat - Platform API
+  description: Platform API endpoints for AlooChat
   version: 1.1.0
-  termsOfService: https://www.chatwoot.com/terms-of-service/
+  termsOfService: https://www.aloochat.ai/terms-of-service/
   contact:
-    email: hello@chatwoot.com
+    email: hello@aloochat.ai
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT
 servers:
-  - url: https://app.chatwoot.com/
+  - url: https://cx.aloochat.ai/
 tags:
   - name: Accounts
     description: Platform account management
