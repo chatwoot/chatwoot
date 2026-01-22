@@ -31,7 +31,7 @@ module Integrations::Slack::SlackMessageHelper
       message_type: :outgoing,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
-      content: Slack::Messages::Formatting.unescape(params[:event][:text] || ''),
+      content: Integrations::Slack::EmojiFormatter.format(Slack::Messages::Formatting.unescape(params[:event][:text] || '')),
       external_source_id_slack: params[:event][:ts],
       private: private_note?,
       sender: sender
