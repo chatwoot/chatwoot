@@ -12,6 +12,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isReplyRestricted: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 defineEmits(['toggleMode']);
@@ -24,11 +28,17 @@ const privateModeSize = useElementSize(wootEditorPrivateMode);
 
 /**
  * Computed boolean indicating if the editor is in private note mode
- * When disabled, always show NOTE mode regardless of actual mode prop
+ * When isReplyRestricted is true, force switch to private note
+ * Otherwise, respect the current mode prop
  * @type {ComputedRef<boolean>}
  */
 const isPrivate = computed(() => {
-  return props.disabled || props.mode === REPLY_EDITOR_MODES.NOTE;
+  if (props.isReplyRestricted) {
+    // Force switch to private note when replies are restricted
+    return true;
+  }
+  // Otherwise respect the current mode
+  return props.mode === REPLY_EDITOR_MODES.NOTE;
 });
 
 /**
@@ -60,9 +70,9 @@ const translateValue = computed(() => {
 <template>
   <button
     class="flex items-center w-auto h-8 transition-all border rounded-lg bg-n-input-background group relative duration-300 ease-in-out z-0 active:scale-[0.995] active:duration-75 !p-0"
-    :disabled="disabled"
+    :disabled="disabled || isReplyRestricted"
     :class="{
-      'cursor-not-allowed': disabled,
+      'cursor-not-allowed': disabled || isReplyRestricted,
     }"
     @click="$emit('toggleMode')"
   >
@@ -89,7 +99,7 @@ const translateValue = computed(() => {
     <div
       class="absolute shadow-sm rounded-lg h-8 w-[var(--chip-width)] ease-in-out translate-x-[var(--translate-x)] rtl:translate-x-[var(--rtl-translate-x)] outline outline-1 outline-n-container"
       :class="{
-        'transition-all duration-300': !disabled,
+        'transition-all duration-300': !disabled && !isReplyRestricted,
         'bg-n-surface-active': !isPrivate,
         'bg-n-solid-amber': isPrivate,
       }"

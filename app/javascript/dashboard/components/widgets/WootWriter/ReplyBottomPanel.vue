@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useMapGetter } from 'dashboard/composables/store';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useI18n } from 'vue-i18n';
@@ -12,7 +11,6 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
-import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
@@ -94,6 +92,7 @@ const props = defineProps({
     type: Number,
     required: true,
   },
+  // eslint-disable-next-line vue/no-unused-properties
   message: {
     type: String,
     default: '',
@@ -121,7 +120,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits([
-  'replaceText',
   'toggleInsertArticle',
   'selectWhatsappTemplate',
   'selectContentTemplate',
@@ -153,7 +151,6 @@ const keyboardEvents = {
 
 useKeyboardEvents(keyboardEvents);
 
-const uiFlags = useMapGetter('integrations/getUIFlags');
 const { isCloudFeatureEnabled } = useAccount();
 
 const {
@@ -246,10 +243,6 @@ const enableInsertArticleInReply = computed(() => {
   return props.portalSlug;
 });
 
-const isFetchingAppIntegrations = computed(() => {
-  return uiFlags.value.isFetching;
-});
-
 const quotedReplyToggleTooltip = computed(() => {
   return props.quotedReplyEnabled
     ? t('CONVERSATION.REPLYBOX.QUOTED_REPLY.DISABLE_TOOLTIP')
@@ -258,10 +251,6 @@ const quotedReplyToggleTooltip = computed(() => {
 
 const toggleMessageSignature = () => {
   setSignatureFlagForInbox(channelType.value, !sendWithSignature.value);
-};
-
-const replaceText = text => {
-  emit('replaceText', text);
 };
 
 const toggleInsertArticle = () => {
@@ -401,17 +390,6 @@ onMounted(() => {
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
-      />
-      <div
-        v-if="!isFetchingAppIntegrations"
-        class="h-3 border-r border-n-strong flex-shrink-0 rounded-full"
-      />
-      <AIAssistanceButton
-        v-if="!isFetchingAppIntegrations"
-        :conversation-id="conversationId"
-        :is-private-note="isOnPrivateNote"
-        :message="message"
-        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div

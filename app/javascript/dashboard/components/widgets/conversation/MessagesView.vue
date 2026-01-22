@@ -10,9 +10,8 @@ import {
   getCurrentInstance,
 } from 'vue';
 
-import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
+import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import {
@@ -48,14 +47,12 @@ const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
 const instance = getCurrentInstance();
-const { isEnterprise } = useConfig();
 
 const {
-  isAIIntegrationEnabled,
+  captainTasksEnabled,
   isLabelSuggestionFeatureEnabled,
-  fetchIntegrationsIfRequired,
-  fetchLabelSuggestions,
-} = useAI();
+  getLabelSuggestions,
+} = useLabelSuggestions();
 
 const isPopOutReplyBox = ref(false);
 const conversationPanelRef = ref(null);
@@ -99,8 +96,8 @@ const isOpen = computed(() => {
 const shouldShowLabelSuggestions = computed(() => {
   return (
     isOpen.value &&
-    isEnterprise &&
-    isAIIntegrationEnabled.value &&
+    captainTasksEnabled.value &&
+    isLabelSuggestionFeatureEnabled.value &&
     !messageSentSinceOpened.value
   );
 });
@@ -396,24 +393,15 @@ const fetchSuggestions = async () => {
     return;
   }
 
-  if (!isEnterprise) {
-    return;
-  }
-
   // Early exit if conversation already has labels - no need to suggest more
   const existingLabels = currentChat.value?.labels || [];
   if (existingLabels.length > 0) return;
 
-  // method available in mixin, need to ensure that integrations are present
-  await fetchIntegrationsIfRequired();
-
-  if (!isLabelSuggestionFeatureEnabled.value) {
+  if (!captainTasksEnabled.value && !isLabelSuggestionFeatureEnabled.value) {
     return;
   }
 
-  labelSuggestions.value = await fetchLabelSuggestions({
-    conversationId: currentChat.value.id,
-  });
+  labelSuggestions.value = await getLabelSuggestions();
 
   // once the labels are fetched, we need to scroll to bottom
   // but we need to wait for the DOM to be updated
