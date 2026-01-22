@@ -1,6 +1,7 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
+    "TRY_WOOT": "Get started with Chatwoot",
+    "SUBTITLE": "Modern customer support for teams that care.",
     "TITLE": "Register",
     "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
     "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
@@ -19,8 +20,8 @@
       "ERROR": "Full name is too short."
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
+      "LABEL": "Email address",
+      "PLACEHOLDER": "john{'@'}davis{'.'}com",
       "ERROR": "Please enter a valid work email address."
     },
     "PASSWORD": {
