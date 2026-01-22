@@ -1,6 +1,5 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { OVERVIEW_METRICS } from '../constants';
 import { useToggle } from '@vueuse/core';
 
 import MetricCard from './overview/MetricCard.vue';
@@ -9,6 +8,8 @@ import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
+import ReportsAPI from 'dashboard/api/reports';
+import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
 const { t } = useI18n();
 
 const uiFlags = useMapGetter('getOverviewUIFlags');
@@ -16,8 +17,19 @@ const agentStatus = useMapGetter('agents/getAgentStatus');
 const accountConversationMetric = useMapGetter('getAccountConversationMetric');
 const store = useStore();
 
-const accounti18nKey = 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS';
 const teams = useMapGetter('teams/getTeams');
+
+const downloadReports = async () => {
+  const { since, until, businessHours } = store.state.reports;
+
+  const response = await ReportsAPI.getOverviewReports({
+    since,
+    until,
+    businessHours,
+  });
+
+  downloadCsvFile('overview_summary', response.data);
+};
 
 const teamMenuList = computed(() => {
   return [
@@ -27,21 +39,40 @@ const teamMenuList = computed(() => {
 });
 
 const agentStatusMetrics = computed(() => {
-  let metric = {};
+  const metric = {};
+
+  const I18N_MAP = {
+    online: 'OVERVIEW_REPORTS.AGENT_STATUS.ONLINE',
+    offline: 'OVERVIEW_REPORTS.AGENT_STATUS.OFFLINE',
+    busy: 'OVERVIEW_REPORTS.AGENT_STATUS.BUSY',
+  };
+
   Object.keys(agentStatus.value).forEach(key => {
-    const metricName = t(
-      `OVERVIEW_REPORTS.AGENT_STATUS.${OVERVIEW_METRICS[key]}`
-    );
-    metric[metricName] = agentStatus.value[key];
+    const i18nKey = I18N_MAP[key];
+    if (!i18nKey) return;
+
+    metric[t(i18nKey)] = agentStatus.value[key];
   });
+
   return metric;
 });
+
 const conversationMetrics = computed(() => {
-  let metric = {};
+  const metric = {};
+
+  const I18N_MAP = {
+    open: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.OPEN',
+    resolved: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.RESOLVED',
+    pending: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.PENDING',
+  };
+
   Object.keys(accountConversationMetric.value).forEach(key => {
-    const metricName = t(`${accounti18nKey}.${OVERVIEW_METRICS[key]}`);
-    metric[metricName] = accountConversationMetric.value[key];
+    const i18nKey = I18N_MAP[key];
+    if (!i18nKey) return;
+
+    metric[t(i18nKey)] = accountConversationMetric.value[key];
   });
+
   return metric;
 });
 
@@ -74,6 +105,9 @@ onMounted(() => {
   fetchData();
   startRefetching();
 });
+defineExpose({
+  downloadReports,
+});
 </script>
 
 <template>
@@ -82,9 +116,11 @@ onMounted(() => {
       class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
     >
       <MetricCard
-        :header="t(`${accounti18nKey}.HEADER`)"
+        :header="t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.HEADER')"
         :is-loading="uiFlags.isFetchingAccountConversationMetric"
-        :loading-message="t(`${accounti18nKey}.LOADING_MESSAGE`)"
+        :loading-message="
+          t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
+        "
       >
         <template v-if="teams.length" #control>
           <div
