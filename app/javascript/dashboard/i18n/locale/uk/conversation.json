@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Натисніть тут для оновлення",
       "WHATSAPP_TEMPLATES": "Шаблони Whatsapp"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "На",
         "ADD_BCC": "Додати bcc",
