@@ -151,6 +151,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              post :update_contact
               get :inbox_assistant
               get :reporting_events if ChatwootApp.enterprise?
             end
