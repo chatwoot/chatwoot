@@ -205,6 +205,9 @@ importers:
       videojs-wavesurfer:
         specifier: 3.8.0
         version: 3.8.0
+      virtua:
+        specifier: ^0.47.1
+        version: 0.47.1(vue@3.5.12(typescript@5.6.2))
       vue:
         specifier: ^3.5.12
         version: 3.5.12(typescript@5.6.2)
@@ -232,9 +235,6 @@ importers:
       vue-upload-component:
         specifier: ^3.1.17
         version: 3.1.17
-      vue-virtual-scroller:
-        specifier: ^2.0.0-beta.8
-        version: 2.0.0-beta.8(vue@3.5.12(typescript@5.6.2))
       vue3-click-away:
         specifier: ^1.2.4
         version: 1.2.4
@@ -3308,9 +3308,6 @@ packages:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
 
-  mitt@2.1.0:
-    resolution: {integrity: sha512-ILj2TpLiysu2wkBbWjAmww7TkZb65aiQO+DkVdUTBpBXq+MHYiETENkKFMtsJZX1Lf4pe4QOrTSjIfUwN5lRdg==}
-
   mitt@3.0.1:
     resolution: {integrity: sha512-vKivATfr97l2/QBCYAkXYDbrIWPM2IIKEl7YPhjCvKlG3kE2gm+uBo6nEXK3M5/Ffh/FLpKExzOQ3JJoJGFKBw==}
 
@@ -4514,6 +4511,26 @@ packages:
   videojs-wavesurfer@3.8.0:
     resolution: {integrity: sha512-qHucCBiEW+4dZ0Zp1k4R1elprUOV+QDw87UDA9QRXtO7GK/MrSdoe/TMFxP9SLnJCiX9xnYdf4OQgrmvJ9UVVw==}
 
+  virtua@0.47.1:
+    resolution: {integrity: sha512-IGe/hnZJdywFtFqpmtvS25II/Ov7i4vWnyagdguxLPvM8bSLmfEZULChdmTYwfcWI2XnxX+VGV4GpgaOvGp+7g==}
+    peerDependencies:
+      react: '>=16.14.0'
+      react-dom: '>=16.14.0'
+      solid-js: '>=1.0'
+      svelte: '>=5.0'
+      vue: '>=3.2'
+    peerDependenciesMeta:
+      react:
+        optional: true
+      react-dom:
+        optional: true
+      solid-js:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+
   vite-node@2.0.1:
     resolution: {integrity: sha512-nVd6kyhPAql0s+xIVJzuF+RSRH8ZimNrm6U8ZvTA4MXv8CHI17TFaQwRaFiK75YX6XeFqZD4IoAaAfi9OR1XvQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4632,11 +4649,6 @@ packages:
     resolution: {integrity: sha512-+i/fjTqFBpaay9NP+lU7obBeNaw2DdFDFs4mqhsM0aEtKRdvIf7CfREAx2o2B4XDmPrBt1r7x1YCM3BOMLaUgQ==}
     engines: {node: '>= 14.18.1', npm: '>= 6.14.15'}
 
-  vue-observe-visibility@2.0.0-alpha.1:
-    resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
-    peerDependencies:
-      vue: ^3.0.0
-
   vue-resize@2.0.0-alpha.1:
     resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
     peerDependencies:
@@ -4649,11 +4661,6 @@ packages:
 
   vue-upload-component@3.1.17:
     resolution: {integrity: sha512-1orTC5apoFzBz4ku2HAydpviaAOck+ABc83rGypIK/Bgl+TqhtoWsQOhXqbb7vDv7pKlvRVWwml9PM224HyhkA==}
-
-  vue-virtual-scroller@2.0.0-beta.8:
-    resolution: {integrity: sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==}
-    peerDependencies:
-      vue: ^3.2.0
 
   vue3-click-away@1.2.4:
     resolution: {integrity: sha512-O9Z2KlvIhJT8OxaFy04eiZE9rc1Mk/bp+70dLok68ko3Kr8AW5dU+j8avSk4GDQu94FllSr4m5ul4BpzlKOw1A==}
@@ -8233,8 +8240,6 @@ snapshots:
 
   minipass@7.1.2: {}
 
-  mitt@2.1.0: {}
-
   mitt@3.0.1: {}
 
   mlly@1.8.0:
@@ -9581,6 +9586,10 @@ snapshots:
       video.js: 7.18.1
       wavesurfer.js: 7.8.6
 
+  virtua@0.47.1(vue@3.5.12(typescript@5.6.2)):
+    optionalDependencies:
+      vue: 3.5.12(typescript@5.6.2)
+
   vite-node@2.0.1(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0):
     dependencies:
       cac: 6.7.14
@@ -9701,10 +9710,6 @@ snapshots:
 
   vue-multiselect@3.1.0: {}
 
-  vue-observe-visibility@2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2)):
-    dependencies:
-      vue: 3.5.12(typescript@5.6.2)
-
   vue-resize@2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2)):
     dependencies:
       vue: 3.5.12(typescript@5.6.2)
@@ -9715,13 +9720,6 @@ snapshots:
       vue: 3.5.12(typescript@5.6.2)
 
   vue-upload-component@3.1.17: {}
-
-  vue-virtual-scroller@2.0.0-beta.8(vue@3.5.12(typescript@5.6.2)):
-    dependencies:
-      mitt: 2.1.0
-      vue: 3.5.12(typescript@5.6.2)
-      vue-observe-visibility: 2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2))
-      vue-resize: 2.0.0-alpha.1(vue@3.5.12(typescript@5.6.2))
 
   vue3-click-away@1.2.4: {}
 

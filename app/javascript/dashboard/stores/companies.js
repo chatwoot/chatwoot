@@ -27,5 +27,8 @@ export const useCompaniesStore = createStore({
         this.setUIFlag({ fetchingList: false });
       }
     },
+    clearRecords() {
+      this.records = [];
+    },
   }),
 });

@@ -8,6 +8,8 @@ import {
   resolveAgents,
 } from 'dashboard/routes/dashboard/settings/macros/macroHelper';
 
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+
 const props = defineProps({
   macro: {
     type: Object,
@@ -47,37 +49,34 @@ const resolvedMacro = computed(() => {
 
 <template>
   <div
-    class="macro-preview absolute border border-n-weak max-h-[22.5rem] z-50 w-64 rounded-md bg-n-alpha-3 backdrop-blur-[100px] shadow-lg bottom-8 right-8 overflow-y-auto p-4 text-left rtl:text-right"
+    class="macro-preview absolute w-72 outline outline-n-weak max-h-72 z-50 rounded-xl bg-n-alpha-3 backdrop-blur-[50px] shadow-lg overflow-y-auto px-3 py-2"
   >
-    <h6 class="mb-4 text-sm text-n-slate-12">
-      {{ macro.name }}
-    </h6>
+    <div class="flex items-center gap-3 h-9">
+      <Icon icon="i-lucide-zap" class="text-n-slate-11 size-4 text-base" />
+      <span class="text-sm font-medium text-n-slate-12">
+        {{ macro.name }}
+      </span>
+    </div>
+
     <div
       v-for="(action, i) in resolvedMacro"
       :key="i"
-      class="relative pl-4 macro-block"
+      class="relative ltr:pl-7 rtl:pr-7 py-3 after:content-[''] after:absolute ltr:after:left-1.5 rtl:after:right-1.5 after:w-px after:bg-n-strong"
+      :class="{
+        'after:top-1 after:h-3.5': resolvedMacro.length === 1,
+        'after:top-2 after:-bottom-5':
+          resolvedMacro.length > 1 && i !== resolvedMacro.length - 1,
+      }"
     >
       <div
-        v-if="i !== macro.actions.length - 1"
-        class="top-[0.390625rem] absolute -bottom-1 left-0 w-px bg-n-slate-6"
+        class="absolute ltr:left-[2.5px] rtl:right-[2.5px] top-[18px] w-2 h-2 rounded-full bg-n-surface-1 border-2 border-n-strong z-10"
       />
-      <div
-        class="absolute -left-[0.21875rem] top-[0.2734375rem] w-2 h-2 rounded-full bg-n-solid-1 border-2 border-solid border-n-weak dark:border-n-slate-6"
-      />
-      <p class="mb-1 text-xs text-n-slate-11">
+
+      <p class="mb-1 text-sm font-medium text-n-slate-11">
         {{ $t(`MACROS.ACTIONS.${action.actionName}`) }}
       </p>
-      <p class="text-n-slate-12 text-sm">{{ action.actionValue }}</p>
+
+      <p class="text-n-slate-12 text-sm font-420">{{ action.actionValue }}</p>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.macro-preview {
-  .macro-block {
-    &:not(:last-child) {
-      @apply pb-2;
-    }
-  }
-}
-</style>

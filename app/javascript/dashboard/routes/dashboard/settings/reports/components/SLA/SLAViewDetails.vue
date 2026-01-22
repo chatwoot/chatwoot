@@ -1,5 +1,5 @@
 <script>
-import SLAPopoverCard from 'dashboard/components/widgets/conversation/components/SLAPopoverCard.vue';
+import SLAPopoverCard from 'dashboard/components-next/Conversation/Sla/SLAPopoverCard.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {

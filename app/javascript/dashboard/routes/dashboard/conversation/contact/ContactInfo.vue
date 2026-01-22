@@ -1,11 +1,15 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { computed, watch } from 'vue';
+import { useToggle } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import ContactInfoRow from './ContactInfoRow.vue';
 import Avatar from 'next/avatar/Avatar.vue';
-import SocialIcons from './SocialIcons.vue';
+import Icon from 'next/icon/Icon.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
@@ -17,253 +21,217 @@ import {
   isAConversationRoute,
   isAInboxViewRoute,
   getConversationDashboardRoute,
-} from '../../../../helper/routeHelpers';
+} from 'dashboard/helper/routeHelpers';
 import { emitter } from 'shared/helpers/mitt';
 
-export default {
-  components: {
-    NextButton,
-    ContactInfoRow,
-    EditContact,
-    Avatar,
-    ComposeConversation,
-    SocialIcons,
-    ContactMergeModal,
-    VoiceCallButton,
+const props = defineProps({
+  contact: {
+    type: Object,
+    default: () => ({}),
   },
-  props: {
-    contact: {
-      type: Object,
-      default: () => ({}),
-    },
-    showAvatar: {
-      type: Boolean,
-      default: true,
-    },
+  showAvatar: {
+    type: Boolean,
+    default: true,
   },
-  emits: ['panelClose'],
-  setup() {
-    const { isAdmin } = useAdmin();
-    return {
-      isAdmin,
-    };
-  },
-  data() {
-    return {
-      showEditModal: false,
-      showMergeModal: false,
-      showDeleteModal: false,
-    };
-  },
-  computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
-    contactProfileLink() {
-      return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
-    },
-    additionalAttributes() {
-      return this.contact.additional_attributes || {};
-    },
-    location() {
-      const {
-        country = '',
-        city = '',
-        country_code: countryCode,
-      } = this.additionalAttributes;
-      const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+});
 
-      if (!cityAndCountry) {
-        return '';
-      }
-      return this.findCountryFlag(countryCode, cityAndCountry);
-    },
-    socialProfiles() {
-      const {
-        social_profiles: socialProfiles,
-        screen_name: twitterScreenName,
-        social_telegram_user_name: telegramUsername,
-      } = this.additionalAttributes;
-      return {
-        twitter: twitterScreenName,
-        telegram: telegramUsername,
-        ...(socialProfiles || {}),
-      };
-    },
-    // Delete Modal
-    confirmDeleteMessage() {
-      return ` ${this.contact.name}?`;
-    },
-  },
-  watch: {
-    'contact.id': {
-      handler(id) {
-        this.$store.dispatch('contacts/fetchContactableInbox', id);
-      },
-      immediate: true,
-    },
-  },
-  methods: {
-    dynamicTime,
-    toggleEditModal() {
-      this.showEditModal = !this.showEditModal;
-    },
-    openComposeConversationModal(toggleFn) {
-      toggleFn();
-      // Flag to prevent triggering drag n drop,
-      // When compose modal is active
-      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
-    },
-    closeComposeConversationModal() {
-      // Flag to enable drag n drop,
-      // When compose modal is closed
-      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
-    },
-    toggleDeleteModal() {
-      this.showDeleteModal = !this.showDeleteModal;
-    },
-    confirmDeletion() {
-      this.deleteContact(this.contact);
-      this.closeDelete();
-    },
-    closeDelete() {
-      this.showDeleteModal = false;
-      this.showEditModal = false;
-    },
-    findCountryFlag(countryCode, cityAndCountry) {
-      try {
-        if (!countryCode) {
-          return `${cityAndCountry} 🌎`;
-        }
+const emit = defineEmits(['panelClose']);
 
-        const code = countryCode?.toLowerCase();
-        return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
-      } catch (error) {
-        return '';
-      }
-    },
-    async deleteContact({ id }) {
-      try {
-        await this.$store.dispatch('contacts/delete', id);
-        this.$emit('panelClose');
-        useAlert(this.$t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+const route = useRoute();
+const router = useRouter();
+const store = useStore();
+const { t } = useI18n();
+const { isAdmin } = useAdmin();
 
-        if (isAConversationRoute(this.$route.name)) {
-          this.$router.push({
-            name: getConversationDashboardRoute(this.$route.name),
-          });
-        } else if (isAInboxViewRoute(this.$route.name)) {
-          this.$router.push({
-            name: 'inbox_view',
-          });
-        } else if (this.$route.name !== 'contacts_dashboard') {
-          this.$router.push({
-            name: 'contacts_dashboard',
-          });
-        }
-      } catch (error) {
-        useAlert(
-          error.message
-            ? error.message
-            : this.$t('DELETE_CONTACT.API.ERROR_MESSAGE')
-        );
-      }
-    },
-    closeMergeModal() {
-      this.showMergeModal = false;
-    },
-    openMergeModal() {
-      this.showMergeModal = true;
-    },
-  },
+const [showEditModal, toggleEditModal] = useToggle(false);
+const [showMergeModal, toggleMergeModal] = useToggle(false);
+const [showDeleteModal, toggleDeleteModal] = useToggle(false);
+
+const uiFlags = useMapGetter('contacts/getUIFlags');
+
+const contactProfileLink = computed(
+  () => `/app/accounts/${route.params.accountId}/contacts/${props.contact.id}`
+);
+
+const additionalAttributes = computed(
+  () => props.contact.additional_attributes || {}
+);
+
+const findCountryFlag = (countryCode, cityAndCountry) => {
+  try {
+    if (!countryCode) {
+      return `${cityAndCountry} 🌎`;
+    }
+
+    const code = countryCode?.toLowerCase();
+    return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
+  } catch (error) {
+    return '';
+  }
+};
+
+const deleteContact = async ({ id }) => {
+  try {
+    await store.dispatch('contacts/delete', id);
+    emit('panelClose');
+    useAlert(t('DELETE_CONTACT.API.SUCCESS_MESSAGE'));
+
+    if (isAConversationRoute(route.name)) {
+      router.push({
+        name: getConversationDashboardRoute(route.name),
+      });
+    } else if (isAInboxViewRoute(route.name)) {
+      router.push({
+        name: 'inbox_view',
+      });
+    } else if (route.name !== 'contacts_dashboard') {
+      router.push({
+        name: 'contacts_dashboard',
+      });
+    }
+  } catch (error) {
+    useAlert(
+      error.message ? error.message : t('DELETE_CONTACT.API.ERROR_MESSAGE')
+    );
+  }
+};
+
+const location = computed(() => {
+  const {
+    country = '',
+    city = '',
+    country_code: countryCode,
+  } = additionalAttributes.value;
+  const cityAndCountry = [city, country].filter(item => !!item).join(', ');
+
+  if (!cityAndCountry) {
+    return '';
+  }
+  return findCountryFlag(countryCode, cityAndCountry);
+});
+
+watch(
+  () => props.contact.id,
+  id => store.dispatch('contacts/fetchContactableInbox', id),
+  { immediate: true }
+);
+
+const openComposeConversationModal = toggleFn => {
+  toggleFn();
+  // Flag to prevent triggering drag n drop,
+  // When compose modal is active
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
+};
+
+const closeComposeConversationModal = () => {
+  // Flag to enable drag n drop,
+  // When compose modal is closed
+  emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
+};
+
+const closeDelete = () => {
+  toggleDeleteModal(false);
+  toggleEditModal(false);
+};
+
+const confirmDeletion = () => {
+  deleteContact(props.contact);
+  closeDelete();
+};
+
+const closeMergeModal = () => {
+  toggleMergeModal(false);
+};
+
+const openMergeModal = () => {
+  toggleMergeModal(true);
 };
 </script>
 
 <template>
-  <div class="relative items-center w-full p-4">
-    <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
-      <div class="flex flex-row justify-between">
+  <div class="relative items-center w-full px-4 pb-4 pt-3">
+    <div class="flex flex-col w-full gap-3 text-start">
+      <div class="flex flex-row gap-4 md:gap-8">
         <Avatar
           v-if="showAvatar"
           :src="contact.thumbnail"
           :name="contact.name"
           :status="contact.availability_status"
-          :size="48"
+          :size="64"
           hide-offline-status
-          rounded-full
         />
-      </div>
-
-      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
-          <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
-          >
-            {{ contact.name }}
-          </h3>
-          <div class="flex flex-row items-center gap-2">
-            <span
-              v-if="contact.created_at"
-              v-tooltip.left="
-                `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
-                  contact.created_at
-                )}`
-              "
-              class="i-lucide-info text-sm text-n-slate-10"
-            />
+        <div
+          v-if="showAvatar"
+          class="flex flex-col justify-center min-w-0 gap-1 flex-1"
+        >
+          <div class="flex items-center gap-1">
+            <h3
+              :title="contact.name"
+              class="flex-shrink text-heading-3 max-w-full min-w-0 my-0 capitalize break-words text-n-slate-12 line-clamp-2"
+            >
+              {{ contact.name }}
+            </h3>
+            <div class="w-px h-2 bg-n-strong rounded-md ltr:ml-1 rtl:mr-1" />
             <a
               :href="contactProfileLink"
               target="_blank"
               rel="noopener nofollow noreferrer"
-              class="leading-3"
+              class="flex-shrink-0 flex items-center"
             >
-              <span class="i-lucide-external-link text-sm text-n-slate-10" />
+              <Icon
+                icon="i-lucide-arrow-up-right"
+                class="size-4 text-n-slate-10 hover:text-n-slate-12 transition-colors"
+              />
             </a>
           </div>
+          <p v-if="contact" class="text-n-slate-11 text-body-main m-0 truncate">
+            {{ contact.email || contact.phone_number || '---' }}
+          </p>
         </div>
+      </div>
 
-        <p v-if="additionalAttributes.description" class="break-words mb-0.5">
+      <div class="flex flex-col items-start gap-3 min-w-0 w-full">
+        <p
+          v-if="additionalAttributes.description"
+          class="break-words text-body-para text-n-slate-11 mb-0"
+        >
           {{ additionalAttributes.description }}
         </p>
-        <div class="flex flex-col items-start w-full gap-2">
+        <div class="flex flex-col items-start w-full">
           <ContactInfoRow
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"
-            icon="mail"
-            emoji="✉️"
-            :title="$t('CONTACT_PANEL.EMAIL_ADDRESS')"
+            :title="t('CONTACT_PANEL.EMAIL_ADDRESS')"
             show-copy
+          />
+          <ContactInfoRow
+            :value="additionalAttributes.company_name"
+            :title="t('CONTACT_PANEL.COMPANY')"
           />
           <ContactInfoRow
             :href="contact.phone_number ? `tel:${contact.phone_number}` : ''"
             :value="contact.phone_number"
-            icon="call"
-            emoji="📞"
-            :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
+            :title="t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
           />
           <ContactInfoRow
             v-if="contact.identifier"
             :value="contact.identifier"
-            icon="contact-identify"
-            emoji="🪪"
-            :title="$t('CONTACT_PANEL.IDENTIFIER')"
-          />
-          <ContactInfoRow
-            :value="additionalAttributes.company_name"
-            icon="building-bank"
-            emoji="🏢"
-            :title="$t('CONTACT_PANEL.COMPANY')"
+            :title="t('CONTACT_PANEL.IDENTIFIER')"
           />
           <ContactInfoRow
             v-if="location || additionalAttributes.location"
             :value="location || additionalAttributes.location"
-            icon="map"
-            emoji="🌍"
-            :title="$t('CONTACT_PANEL.LOCATION')"
+            :title="t('CONTACT_PANEL.LOCATION')"
           />
-          <SocialIcons :social-profiles="socialProfiles" />
+          <ContactInfoRow
+            v-if="contact.created_at"
+            :value="dynamicTime(contact.created_at)"
+            :title="t('CONTACT_PANEL.CREATED_AT_LABEL')"
+          />
         </div>
       </div>
-      <div class="flex items-center w-full mt-0.5 gap-2">
+      <div class="flex items-center w-full mb-1 gap-3">
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal
@@ -271,11 +239,10 @@ export default {
         >
           <template #trigger="{ toggle }">
             <NextButton
-              v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
-              icon="i-ph-chat-circle-dots"
+              :label="t('CONTACT_PANEL.BUTTON_LABEL.NEW_MESSAGE')"
               slate
-              faded
               sm
+              class="!px-2"
               @click="openComposeConversationModal(toggle)"
             />
           </template>
@@ -283,46 +250,42 @@ export default {
         <VoiceCallButton
           :phone="contact.phone_number"
           :contact-id="contact.id"
-          icon="i-ri-phone-fill"
           size="sm"
-          :tooltip-label="$t('CONTACT_PANEL.CALL')"
+          :label="t('CONTACT_PANEL.BUTTON_LABEL.CALL')"
           slate
-          faded
+          class="!px-2"
         />
         <NextButton
-          v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          icon="i-ph-pencil-simple"
+          :label="t('CONTACT_PANEL.BUTTON_LABEL.EDIT')"
           slate
-          faded
           sm
-          @click="toggleEditModal"
+          class="!px-2"
+          @click="() => toggleEditModal()"
         />
+
         <NextButton
-          v-tooltip.top-end="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          icon="i-ph-arrows-merge"
+          :label="t('CONTACT_PANEL.BUTTON_LABEL.MERGE')"
           slate
-          faded
           sm
+          class="!px-2"
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
         />
         <NextButton
           v-if="isAdmin"
-          v-tooltip.top-end="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          icon="i-ph-trash"
+          :label="t('CONTACT_PANEL.BUTTON_LABEL.DELETE')"
           slate
-          faded
           sm
-          ruby
+          class="!px-2"
           :disabled="uiFlags.isDeleting"
-          @click="toggleDeleteModal"
+          @click="() => toggleDeleteModal()"
         />
       </div>
       <EditContact
         v-if="showEditModal"
         :show="showEditModal"
         :contact="contact"
-        @cancel="toggleEditModal"
+        @cancel="() => toggleEditModal()"
       />
       <ContactMergeModal
         v-if="showMergeModal"
@@ -336,11 +299,11 @@ export default {
       v-model:show="showDeleteModal"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
-      :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"
-      :message="$t('DELETE_CONTACT.CONFIRM.MESSAGE')"
-      :message-value="confirmDeleteMessage"
-      :confirm-text="$t('DELETE_CONTACT.CONFIRM.YES')"
-      :reject-text="$t('DELETE_CONTACT.CONFIRM.NO')"
+      :title="t('DELETE_CONTACT.CONFIRM.TITLE')"
+      :message="t('DELETE_CONTACT.CONFIRM.MESSAGE')"
+      :message-value="contact?.name || ''"
+      :confirm-text="t('DELETE_CONTACT.CONFIRM.YES')"
+      :reject-text="t('DELETE_CONTACT.CONFIRM.NO')"
     />
   </div>
 </template>

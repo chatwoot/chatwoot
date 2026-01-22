@@ -136,7 +136,7 @@ const getStatusTextColor = status => STATUS_COLORS[status] || 'text-n-slate-12';
 </script>
 
 <template>
-  <div class="gap-4 pt-8 mx-8">
+  <div class="gap-4 pt-8 mx-6">
     <div
       class="px-5 py-5 space-y-6 rounded-xl border shadow-sm border-n-weak bg-n-solid-2"
     >

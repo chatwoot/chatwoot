@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ConversationCard from 'dashboard/components-next/Conversation/ConversationCard/ConversationCard.vue';
@@ -13,11 +14,6 @@ const route = useRoute();
 const conversations = useMapGetter(
   'contactConversations/getAllConversationsByContactId'
 );
-const contactsById = useMapGetter('contacts/getContactById');
-const stateInbox = useMapGetter('inboxes/getInboxById');
-const accountLabels = useMapGetter('labels/getLabels');
-
-const accountLabelsValue = computed(() => accountLabels.value);
 
 const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const isFetching = computed(() => uiFlags.value.isFetching);
@@ -36,16 +32,17 @@ const contactConversations = computed(() =>
   </div>
   <div
     v-else-if="contactConversations.length > 0"
-    class="px-6 py-4 divide-y divide-n-strong [&>*:hover]:!border-y-transparent [&>*:hover+*]:!border-t-transparent"
+    class="px-6 pt-4 pb-6 divide-y divide-n-weak"
   >
     <ConversationCard
       v-for="conversation in contactConversations"
       :key="conversation.id"
-      :conversation="conversation"
-      :contact="contactsById(conversation.meta.sender.id)"
-      :state-inbox="stateInbox(conversation.inboxId)"
-      :account-labels="accountLabelsValue"
-      class="rounded-none hover:rounded-xl hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
+      :chat="useSnakeCase(conversation, { deep: true })"
+      enable-context-menu
+      compact
+      show-assignee
+      :allowed-context-menu-options="['open-new-tab', 'copy-link']"
+      :enable-selection="false"
     />
   </div>
   <p v-else class="px-6 py-10 text-sm leading-6 text-center text-n-slate-11">

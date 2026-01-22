@@ -141,6 +141,11 @@ export const responsesList = [
     id: 87,
     question: 'Why is my Messenger in Chatwoot deactivated?',
     status: 'pending',
+    documentable: {
+      id: 1,
+      type: 'Captain::Document',
+      name: 'Document 1',
+    },
     assistant: {
       account_id: 1,
       config: { product_name: 'Chatwoot' },
@@ -157,6 +162,11 @@ export const responsesList = [
     created_at: 1736283340,
     id: 88,
     question: 'How do I integrate WhatsApp with Chatwoot?',
+    documentable: {
+      id: 1,
+      type: 'User',
+      available_name: 'John Doe',
+    },
     assistant: {
       account_id: 2,
       config: { product_name: 'Chatwoot' },
@@ -173,6 +183,11 @@ export const responsesList = [
     created_at: 1736283350,
     id: 89,
     question: 'How can I reset my password in Chatwoot?',
+    documentable: {
+      id: 1,
+      type: 'Conversation',
+      display_id: '12345',
+    },
     assistant: {
       account_id: 3,
       config: { product_name: 'Chatwoot' },
@@ -189,6 +204,11 @@ export const responsesList = [
     created_at: 1736283360,
     id: 90,
     question: 'How do I enable dark mode in Chatwoot?',
+    documentable: {
+      id: 1,
+      type: 'Captain::Document',
+      name: 'Document 1',
+    },
     assistant: {
       account_id: 4,
       config: { product_name: 'Chatwoot' },
@@ -205,6 +225,11 @@ export const responsesList = [
     created_at: 1736283370,
     id: 91,
     question: 'How do I add a new team member in Chatwoot?',
+    documentable: {
+      id: 1,
+      type: 'User',
+      available_name: 'John Doe',
+    },
     assistant: {
       account_id: 5,
       config: { product_name: 'Chatwoot' },
@@ -221,6 +246,11 @@ export const responsesList = [
     created_at: 1736283380,
     id: 92,
     question: 'What are campaigns in Chatwoot?',
+    documentable: {
+      id: 1,
+      type: 'User',
+      available_name: 'John Doe',
+    },
     assistant: {
       account_id: 6,
       config: { product_name: 'Chatwoot' },

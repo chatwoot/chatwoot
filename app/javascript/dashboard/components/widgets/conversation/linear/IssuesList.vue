@@ -8,6 +8,7 @@ import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import LinearIssueItem from './LinearIssueItem.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import SidePanelEmptyState from 'dashboard/routes/dashboard/conversation/SidePanelEmptyState.vue';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 
@@ -85,34 +86,43 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>
-    <div class="px-4 pt-3 pb-2">
-      <NextButton
-        ghost
-        xs
-        icon="i-lucide-plus"
-        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
-        @click="openCreateModal"
-      />
-    </div>
-
+  <div class="mt-1 px-3">
     <div v-if="isLoading" class="flex justify-center p-8">
       <Spinner />
     </div>
 
-    <div v-else-if="!hasIssues" class="flex justify-center p-4">
-      <p class="text-sm text-n-slate-11">
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
-      </p>
+    <div v-else-if="!hasIssues" class="mt-2 w-full">
+      <SidePanelEmptyState
+        :message="$t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES')"
+      />
+      <NextButton
+        sm
+        slate
+        icon="i-lucide-plus"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
+        class="w-full mt-2"
+        @click="openCreateModal"
+      />
     </div>
 
     <div v-else class="max-h-[300px] overflow-y-auto">
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="px-4 pt-3 pb-4 border-b border-n-weak last:border-b-0"
+        class="border-b border-n-weak last:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
+      />
+    </div>
+
+    <div v-if="hasIssues" class="pt-3 w-full">
+      <NextButton
+        sm
+        slate
+        icon="i-lucide-plus"
+        class="w-full"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
+        @click="openCreateModal"
       />
     </div>
 

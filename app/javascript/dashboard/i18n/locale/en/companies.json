@@ -23,6 +23,9 @@
     "CONTACTS_COUNT": "{n} contact | {n} contacts",
     "EMPTY_STATE": {
       "TITLE": "No companies found"
+    },
+    "DROPDOWN_MENU": {
+      "EMPTY_STATE": "Start by searching to see results"
     }
   },
   "COMPANIES_LAYOUT": {

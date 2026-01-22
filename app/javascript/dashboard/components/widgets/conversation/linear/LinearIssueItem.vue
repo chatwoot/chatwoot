@@ -44,7 +44,7 @@ const unlinkIssue = () => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4">
+  <div class="flex flex-col gap-4 py-3">
     <div class="flex flex-col w-full">
       <IssueHeader
         :identifier="issue.identifier"
@@ -53,13 +53,13 @@ const unlinkIssue = () => {
         @unlink-issue="unlinkIssue"
       />
 
-      <h3 class="mt-2 text-sm font-medium text-n-slate-12">
+      <h3 class="mt-2 text-heading-3 text-n-slate-12">
         {{ issue.title }}
       </h3>
 
       <p
         v-if="issue.description"
-        class="mt-1 text-sm text-n-slate-11 line-clamp-3"
+        class="mt-1 text-body-para text-n-slate-11 line-clamp-3"
       >
         {{ issue.description }}
       </p>

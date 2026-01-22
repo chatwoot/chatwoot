@@ -1,133 +1,243 @@
 <script setup>
 import { computed, ref } from 'vue';
-import { getInboxIconByType } from 'dashboard/helper/inbox';
-import { useRouter, useRoute } from 'vue-router';
-import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
-import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
-
-import Icon from 'dashboard/components-next/icon/Icon.vue';
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-import CardMessagePreview from './CardMessagePreview.vue';
-import CardMessagePreviewWithMeta from './CardMessagePreviewWithMeta.vue';
-import CardPriorityIcon from './CardPriorityIcon.vue';
+import { useRouter } from 'vue-router';
+import { useBreakpoints } from '@vueuse/core';
+import { useMapGetter } from 'dashboard/composables/store';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
+import wootConstants from 'dashboard/constants/globals';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import ConversationContextMenu from 'dashboard/components/widgets/conversation/contextMenu/Index.vue';
+import ConversationCardExpanded from './ConversationCardExpanded.vue';
+import ConversationCardCompact from './ConversationCardCompact.vue';
 
 const props = defineProps({
-  conversation: {
-    type: Object,
-    required: true,
-  },
-  contact: {
-    type: Object,
-    required: true,
-  },
-  stateInbox: {
-    type: Object,
-    required: true,
-  },
-  accountLabels: {
-    type: Array,
-    required: true,
-  },
+  activeLabel: { type: String, default: '' },
+  chat: { type: Object, default: () => ({}) },
+  hideThumbnail: { type: Boolean, default: false },
+  teamId: { type: [String, Number], default: 0 },
+  foldersId: { type: [String, Number], default: 0 },
+  showAssignee: { type: Boolean, default: false },
+  conversationType: { type: String, default: '' },
+  selected: { type: Boolean, default: false },
+  compact: { type: Boolean, default: false },
+  enableContextMenu: { type: Boolean, default: false },
+  allowedContextMenuOptions: { type: Array, default: () => [] },
+  enableSelection: { type: Boolean, default: true },
+  isExpandedLayout: { type: Boolean, default: false },
+  isPreviousConversations: { type: Boolean, default: false },
 });
+
+const emit = defineEmits([
+  'contextMenuToggle',
+  'assignAgent',
+  'assignLabel',
+  'assignTeam',
+  'markAsUnread',
+  'markAsRead',
+  'assignPriority',
+  'updateConversationStatus',
+  'deleteConversation',
+  'selectConversation',
+  'deSelectConversation',
+]);
 
 const router = useRouter();
-const route = useRoute();
 
-const cardMessagePreviewWithMetaRef = ref(null);
+const breakpoints = useBreakpoints({
+  lg: wootConstants.LARGE_SCREEN_BREAKPOINT,
+});
+const isLargeScreen = breakpoints.greaterOrEqual('lg');
 
-const currentContact = computed(() => props.contact);
+// Show expanded only when: isExpandedLayout=true AND screen >= 1024px
+const showExpanded = computed(() => {
+  return props.isExpandedLayout && isLargeScreen.value;
+});
 
-const currentContactName = computed(() => currentContact.value?.name);
-const currentContactThumbnail = computed(() => currentContact.value?.thumbnail);
-const currentContactStatus = computed(
-  () => currentContact.value?.availabilityStatus
+const showContextMenu = ref(false);
+const contextMenu = ref({ x: null, y: null });
+
+const currentChat = useMapGetter('getSelectedChat');
+const inboxesList = useMapGetter('inboxes/getInboxes');
+const activeInbox = useMapGetter('getSelectedInbox');
+const accountId = useMapGetter('getCurrentAccountId');
+const contactGetter = useMapGetter('contacts/getContact');
+const inboxGetter = useMapGetter('inboxes/getInbox');
+
+const chatMetadata = computed(() => props.chat.meta || {});
+const assignee = computed(() => chatMetadata.value.assignee || {});
+const senderId = computed(() => chatMetadata.value.sender?.id);
+const currentContact = computed(() =>
+  senderId.value ? contactGetter.value(senderId.value) : {}
 );
+const hasActiveInbox = computed(() => activeInbox.value);
 
-const inbox = computed(() => props.stateInbox);
-
-const inboxName = computed(() => inbox.value?.name);
-
-const inboxIcon = computed(() => {
-  const { channelType, medium } = inbox.value;
-  return getInboxIconByType(channelType, medium);
+const isActiveChat = computed(() => currentChat.value.id === props.chat.id);
+const inbox = computed(() => {
+  const inboxId = props.chat.inbox_id;
+  return inboxId ? inboxGetter.value(inboxId) : {};
 });
 
-const lastActivityAt = computed(() => {
-  const timestamp = props.conversation?.timestamp;
-  return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
-});
+const showInboxName = computed(() => inboxesList.value.length > 1);
 
-const showMessagePreviewWithoutMeta = computed(() => {
-  const { labels = [] } = props.conversation;
-  return (
-    !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold && labels.length === 0
+const conversationPath = computed(() => {
+  return frontendURL(
+    conversationUrl({
+      accountId: accountId.value,
+      activeInbox: activeInbox.value,
+      id: props.chat.id,
+      label: props.activeLabel,
+      teamId: props.teamId,
+      conversationType: props.conversationType,
+      foldersId: props.foldersId,
+    })
   );
 });
 
 const onCardClick = e => {
-  const path = frontendURL(
-    conversationUrl({
-      accountId: route.params.accountId,
-      id: props.conversation.id,
-    })
-  );
+  const path = conversationPath.value;
+  if (!path) return;
 
   if (e.metaKey || e.ctrlKey) {
+    e.preventDefault();
     window.open(
-      window.chatwootConfig.hostURL + path,
+      `${window.chatwootConfig.hostURL}${path}`,
       '_blank',
-      'noopener noreferrer nofollow'
+      'noopener,noreferrer'
     );
     return;
   }
+
+  if (isActiveChat.value) return;
   router.push({ path });
+};
+
+const onSelectConversation = checked => {
+  if (checked) {
+    emit('selectConversation', props.chat.id, inbox.value.id);
+  } else {
+    emit('deSelectConversation', props.chat.id, inbox.value.id);
+  }
+};
+
+const openContextMenu = e => {
+  if (!props.enableContextMenu) return;
+  e.preventDefault();
+  emit('contextMenuToggle', true);
+  contextMenu.value.x = e.pageX || e.clientX;
+  contextMenu.value.y = e.pageY || e.clientY;
+  showContextMenu.value = true;
+};
+
+const closeContextMenu = () => {
+  emit('contextMenuToggle', false);
+  showContextMenu.value = false;
+  contextMenu.value.x = null;
+  contextMenu.value.y = null;
+};
+
+const onUpdateConversation = (status, snoozedUntil) => {
+  closeContextMenu();
+  emit('updateConversationStatus', props.chat.id, status, snoozedUntil);
+};
+
+const onAssignAgent = agent => {
+  emit('assignAgent', agent, [props.chat.id]);
+  closeContextMenu();
+};
+
+const onAssignLabel = label => {
+  emit('assignLabel', [label.title], [props.chat.id]);
+  closeContextMenu();
+};
+
+const onAssignTeam = team => {
+  emit('assignTeam', team, props.chat.id);
+  closeContextMenu();
+};
+
+const markAsUnread = () => {
+  emit('markAsUnread', props.chat.id);
+  closeContextMenu();
+};
+
+const markAsRead = () => {
+  emit('markAsRead', props.chat.id);
+  closeContextMenu();
+};
+
+const assignPriority = priority => {
+  emit('assignPriority', priority, props.chat.id);
+  closeContextMenu();
+};
+
+const deleteConversation = () => {
+  emit('deleteConversation', props.chat.id);
+  closeContextMenu();
 };
 </script>
 
 <template>
-  <div
-    role="button"
-    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
+  <!-- Expanded: Only when isExpandedLayout=true AND screen >= 1024px -->
+  <ConversationCardExpanded
+    v-if="showExpanded"
+    :chat="chat"
+    :current-contact="currentContact"
+    :assignee="assignee"
+    :inbox="inbox"
+    :selected="selected"
+    :is-active-chat="isActiveChat"
+    :show-assignee="showAssignee"
+    :show-inbox-name="showInboxName"
+    :is-inbox-view="hasActiveInbox && !isPreviousConversations"
+    @select-conversation="onSelectConversation"
+    @de-select-conversation="onSelectConversation"
     @click="onCardClick"
+    @contextmenu="openContextMenu"
+  />
+
+  <!-- Compact: All other cases (mobile OR isExpandedLayout=false) -->
+  <ConversationCardCompact
+    v-else
+    :chat="chat"
+    :current-contact="currentContact"
+    :assignee="assignee"
+    :inbox="inbox"
+    :selected="selected"
+    :is-active-chat="isActiveChat"
+    :compact="compact"
+    :show-assignee="showAssignee"
+    :show-inbox-name="showInboxName"
+    :hide-thumbnail="hideThumbnail"
+    :enable-selection="enableSelection"
+    :is-inbox-view="hasActiveInbox && !isPreviousConversations"
+    @select-conversation="onSelectConversation"
+    @click="onCardClick"
+    @contextmenu="openContextMenu"
+  />
+
+  <ContextMenu
+    v-if="showContextMenu"
+    :x="contextMenu.x"
+    :y="contextMenu.y"
+    @close="closeContextMenu"
   >
-    <Avatar
-      :name="currentContactName"
-      :src="currentContactThumbnail"
-      :size="24"
-      :status="currentContactStatus"
-      rounded-full
+    <ConversationContextMenu
+      :status="chat.status"
+      :inbox-id="inbox.id"
+      :priority="chat.priority"
+      :chat-id="chat.id"
+      :has-unread-messages="chat.unread_count > 0"
+      :conversation-url="conversationPath"
+      :allowed-options="allowedContextMenuOptions"
+      @update-conversation="onUpdateConversation"
+      @assign-agent="onAssignAgent"
+      @assign-label="onAssignLabel"
+      @assign-team="onAssignTeam"
+      @mark-as-unread="markAsUnread"
+      @mark-as-read="markAsRead"
+      @assign-priority="assignPriority"
+      @delete-conversation="deleteConversation"
+      @close="closeContextMenu"
     />
-    <div class="flex flex-col w-full gap-1 min-w-0">
-      <div class="flex items-center justify-between h-6 gap-2">
-        <h4 class="text-base font-medium truncate text-n-slate-12">
-          {{ currentContactName }}
-        </h4>
-        <div class="flex items-center gap-2">
-          <CardPriorityIcon :priority="conversation.priority || null" />
-          <div
-            v-tooltip.left="inboxName"
-            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-alpha-2 size-5"
-          >
-            <Icon
-              :icon="inboxIcon"
-              class="flex-shrink-0 text-n-slate-11 size-3"
-            />
-          </div>
-          <span class="text-sm text-n-slate-10">
-            {{ lastActivityAt }}
-          </span>
-        </div>
-      </div>
-      <CardMessagePreview
-        v-show="showMessagePreviewWithoutMeta"
-        :conversation="conversation"
-      />
-      <CardMessagePreviewWithMeta
-        v-show="!showMessagePreviewWithoutMeta"
-        ref="cardMessagePreviewWithMetaRef"
-        :conversation="conversation"
-        :account-labels="accountLabels"
-      />
-    </div>
-  </div>
+  </ContextMenu>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
@@ -19,28 +19,35 @@ const emit = defineEmits(['update', 'delete']);
 
 const attributeValue = ref(Boolean(props.attribute.value));
 
+const isAttributePresent = computed(() => {
+  return (
+    props.attribute.value !== undefined &&
+    props.attribute.value !== null &&
+    props.attribute.value !== ''
+  );
+});
+
 const handleChange = value => {
   emit('update', value);
+};
+
+const handleDelete = () => {
+  attributeValue.value = false;
+  emit('delete');
 };
 </script>
 
 <template>
-  <div
-    class="flex items-center w-full gap-2"
-    :class="{
-      'justify-start': isEditingView,
-      'justify-end': !isEditingView,
-    }"
-  >
+  <div class="flex items-center w-full gap-2 justify-end">
     <Switch v-model="attributeValue" @change="handleChange" />
     <Button
-      v-if="isEditingView"
-      variant="faded"
-      color="ruby"
+      v-if="isEditingView && isAttributePresent"
+      ghost
+      ruby
       icon="i-lucide-trash"
-      size="xs"
-      class="flex-shrink-0 opacity-0 group-hover/attribute:opacity-100 hover:no-underline"
-      @click="emit('delete')"
+      xs
+      class="flex-shrink-0 !size-5 !rounded"
+      @click="handleDelete"
     />
   </div>
 </template>

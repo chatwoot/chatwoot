@@ -320,4 +320,11 @@ export const actions = {
       }
     }
   },
+
+  updateContactLabels({ commit }, { contactId, labels }) {
+    commit(types.SET_CONTACT_ITEM, {
+      id: contactId,
+      labels,
+    });
+  },
 };

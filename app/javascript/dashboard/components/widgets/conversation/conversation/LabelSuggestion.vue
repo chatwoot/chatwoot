@@ -172,7 +172,6 @@ export default {
                 ? $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DESELECT')
                 : labelTooltip,
               delay: { show: 600, hide: 0 },
-              hideOnClick: true,
             }"
             class="label-suggestion--option !px-0"
             @click="pushOrAddLabel(label.title)"
@@ -188,7 +187,6 @@ export default {
             v-tooltip.top="{
               content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
               delay: { show: 600, hide: 0 },
-              hideOnClick: true,
             }"
             faded
             xs
@@ -214,7 +212,6 @@ export default {
             v-tooltip.top="{
               content: $t('LABEL_MGMT.SUGGESTIONS.TOOLTIP.DISMISS'),
               delay: { show: 600, hide: 0 },
-              hideOnClick: true,
             }"
             faded
             xs
@@ -230,7 +227,6 @@ export default {
           v-tooltip.top="{
             content: $t('LABEL_MGMT.SUGGESTIONS.POWERED_BY'),
             delay: { show: 600, hide: 0 },
-            hideOnClick: true,
           }"
           :size="16"
           name="chatwoot-ai"

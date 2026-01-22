@@ -115,7 +115,11 @@ const shouldGroupWithNext = (index, searchList) => {
     nextMessageType === MESSAGE_TYPES.TEMPLATE &&
     currentMessageType === MESSAGE_TYPES.TEMPLATE;
 
-  if (!hasSameSender || areBothTemplates) return false;
+  const areBothActivity =
+    nextMessageType === MESSAGE_TYPES.ACTIVITY &&
+    currentMessageType === MESSAGE_TYPES.ACTIVITY;
+
+  if (!hasSameSender || areBothTemplates || areBothActivity) return false;
 
   if (currentMessageType !== nextMessageType) return false;
 
@@ -160,10 +164,21 @@ const getInReplyToMessage = parentMessage => {
 
   return replyMessage ? useCamelCase(replyMessage) : null;
 };
+
+const getMessageSpacingClass = (message, messages, index) => {
+  // For non-activity messages, use groupWithNext logic
+  if (message.messageType !== MESSAGE_TYPES.ACTIVITY) {
+    return shouldGroupWithNext(index, messages) ? 'mb-1' : 'mb-6';
+  }
+
+  // For activity messages, check next message exists and is also an activity
+  const nextMessage = messages[index + 1];
+  return nextMessage?.messageType === MESSAGE_TYPES.ACTIVITY ? 'mb-2' : 'mb-6';
+};
 </script>
 
 <template>
-  <ul class="px-4 bg-n-background">
+  <ul class="px-4 bg-n-surface-1">
     <slot name="beforeAll" />
     <template v-for="(message, index) in allMessages" :key="message.id">
       <slot
@@ -178,6 +193,7 @@ const getInReplyToMessage = parentMessage => {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
+        :class="getMessageSpacingClass(message, allMessages, index)"
         @retry="emit('retry', message)"
       />
     </template>

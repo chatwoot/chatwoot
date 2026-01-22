@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+
 import { frontendURL } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { useInbox } from 'dashboard/composables/useInbox';

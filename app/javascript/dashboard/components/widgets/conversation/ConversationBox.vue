@@ -1,97 +1,88 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, computed, watch, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
 import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 
-export default {
-  components: {
-    ConversationHeader,
-    DashboardAppFrame,
-    EmptyState,
-    MessagesView,
+defineProps({
+  inboxId: {
+    type: [Number, String],
+    default: '',
+    required: false,
   },
-  props: {
-    inboxId: {
-      type: [Number, String],
-      default: '',
-      required: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
-    isContactPanelOpen: {
-      type: Boolean,
-      default: true,
-    },
-    isOnExpandedLayout: {
-      type: Boolean,
-      default: true,
-    },
+  isInboxView: {
+    type: Boolean,
+    default: false,
   },
-  data() {
-    return { activeIndex: 0 };
+  isOnExpandedLayout: {
+    type: Boolean,
+    default: true,
   },
-  computed: {
-    ...mapGetters({
-      currentChat: 'getSelectedChat',
-      dashboardApps: 'dashboardApps/getRecords',
-    }),
-    dashboardAppTabs() {
-      return [
-        {
-          key: 'messages',
-          index: 0,
-          name: this.$t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
-        },
-        ...this.dashboardApps.map((dashboardApp, index) => ({
-          key: `dashboard-${dashboardApp.id}`,
-          index: index + 1,
-          name: dashboardApp.title,
-        })),
-      ];
-    },
-    showContactPanel() {
-      return this.isContactPanelOpen && this.currentChat.id;
-    },
+});
+
+const { t } = useI18n();
+const store = useStore();
+
+const currentChat = useMapGetter('getSelectedChat');
+const dashboardApps = useMapGetter('dashboardApps/getRecords');
+
+const activeIndex = ref(0);
+
+const dashboardAppTabs = computed(() => [
+  {
+    key: 'messages',
+    index: 0,
+    name: t('CONVERSATION.DASHBOARD_APP_TAB_MESSAGES'),
   },
-  watch: {
-    'currentChat.inbox_id': {
-      immediate: true,
-      handler(inboxId) {
-        if (inboxId) {
-          this.$store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
-        }
-      },
-    },
-    'currentChat.id'() {
-      this.fetchLabels();
-      this.activeIndex = 0;
-    },
-  },
-  mounted() {
-    this.fetchLabels();
-    this.$store.dispatch('dashboardApps/get');
-  },
-  methods: {
-    fetchLabels() {
-      if (!this.currentChat.id) {
-        return;
-      }
-      this.$store.dispatch('conversationLabels/get', this.currentChat.id);
-    },
-    onDashboardAppTabChange(index) {
-      this.activeIndex = index;
-    },
-  },
+  ...dashboardApps.value.map((dashboardApp, index) => ({
+    key: `dashboard-${dashboardApp.id}`,
+    index: index + 1,
+    name: dashboardApp.title,
+  })),
+]);
+
+const fetchLabels = () => {
+  if (!currentChat.value.id) {
+    return;
+  }
+  store.dispatch('conversationLabels/get', currentChat.value.id);
 };
+
+const onDashboardAppTabChange = index => {
+  activeIndex.value = index;
+};
+
+watch(
+  () => currentChat.value.inbox_id,
+  inboxId => {
+    if (inboxId) {
+      store.dispatch('inboxAssignableAgents/fetch', [inboxId]);
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => currentChat.value.id,
+  () => {
+    fetchLabels();
+    activeIndex.value = 0;
+  }
+);
+
+onMounted(() => {
+  fetchLabels();
+  store.dispatch('dashboardApps/get');
+});
 </script>
 
 <template>
   <div
-    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-background relative"
+    class="conversation-details-wrap flex flex-col min-w-0 w-full bg-n-surface-1 relative"
     :class="{
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
@@ -99,12 +90,14 @@ export default {
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"
+      :is-on-expanded-view="isOnExpandedLayout"
       :show-back-button="isOnExpandedLayout && !isInboxView"
+      :class="{ 'border-b border-n-weak !pb-3': !dashboardApps.length }"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
       :index="activeIndex"
-      class="-mt-px border-t border-t-n-background"
+      class="h-10"
       @change="onDashboardAppTabChange"
     >
       <woot-tabs-item
@@ -114,7 +107,6 @@ export default {
         :name="tab.name"
         :show-badge="false"
         is-compact
-        class="[&_a]:pt-1"
       />
     </woot-tabs>
     <div v-show="!activeIndex" class="flex h-full min-h-0 m-0">

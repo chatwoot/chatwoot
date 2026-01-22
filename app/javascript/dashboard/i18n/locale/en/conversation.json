@@ -1,6 +1,6 @@
 {
   "CONVERSATION": {
-    "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "SELECT_A_CONVERSATION": "Select a conversation",
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
@@ -70,7 +70,8 @@
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CARD": {
       "SHOW_LABELS": "Show labels",
-      "HIDE_LABELS": "Hide labels"
+      "HIDE_LABELS": "Hide labels",
+      "LABELS_COUNT": "{count} labels"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -275,7 +276,7 @@
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contact",
+      "CONTACT": "Contact info",
       "COPILOT": "Copilot"
     },
     "VOICE_WIDGET": {
@@ -335,9 +336,12 @@
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
-    "SELF_ASSIGN": "Assign to me",
-    "TEAM_LABEL": "Assigned Team",
+    "ASSIGNEE_LABEL": "Agent",
+    "SELF_ASSIGN": "Self-assign",
+    "TEAM_LABEL": "Team",
+    "PARTICIPANTS_LABEL": "Participants",
+    "LABELS": "Labels",
+    "LABELS_EMPTY_STATE": "No labels added yet",
     "SELECT": {
       "PLACEHOLDER": "None"
     },
@@ -345,7 +349,7 @@
       "CONTACT_DETAILS": "Contact Details",
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Conversation Labels",
-      "CONVERSATION_INFO": "Conversation Information",
+      "CONVERSATION_INFO": "Conversation Attributes",
       "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Previous Conversations",
@@ -372,6 +376,9 @@
         "UNFULFILLED": "Unfulfilled"
       }
     }
+  },
+  "CONVERSATION_ATTRIBUTES": {
+    "NO_RECORDS_FOUND": "No conversation info found"
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
     "ADD_BUTTON_TEXT": "Create attribute",
@@ -410,10 +417,10 @@
     "ADD_PARTICIPANTS": "Select participants",
     "REMANING_PARTICIPANTS_TEXT": "+{count} others",
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
-    "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
-    "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!.",
+    "TOTAL_PARTICIPANT_TEXT": "{n} person participating | {n} people participating",
+    "NO_PARTICIPANTS_TEXT": "No participants",
     "WATCH_CONVERSATION": "Join conversation",
+    "JOIN": "Join",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {
       "ERROR_MESSAGE": "Could not update, try again!",

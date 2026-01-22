@@ -26,7 +26,7 @@ defineProps({
     class="relative flex flex-col items-center justify-center w-full h-full overflow-hidden"
   >
     <div
-      class="relative w-full max-w-[60rem] mx-auto overflow-hidden h-full max-h-[28rem]"
+      class="relative w-full max-w-5xl mx-auto overflow-hidden h-full max-h-[28rem]"
     >
       <div
         v-if="showBackdrop"
@@ -37,7 +37,7 @@ defineProps({
       <div
         class="flex flex-col items-center justify-end w-full h-full pb-20"
         :class="{
-          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent':
+          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-surface-1 from-40% to-transparent':
             showBackdrop,
         }"
       >

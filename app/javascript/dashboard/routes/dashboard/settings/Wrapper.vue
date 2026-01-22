@@ -19,7 +19,7 @@ const showSettingsHeader = computed(
 </script>
 
 <template>
-  <div class="flex flex-1 flex-col m-0 bg-n-background overflow-auto">
+  <div class="flex flex-1 flex-col m-0 bg-n-surface-1 overflow-auto">
     <div
       class="mx-auto w-full flex flex-col flex-1"
       :class="{ 'max-w-6xl': !fullWidth }"
@@ -34,7 +34,7 @@ const showSettingsHeader = computed(
         :class="{ 'max-w-6xl w-full mx-auto': fullWidth }"
       />
 
-      <router-view v-slot="{ Component }" class="px-5 flex-1 overflow-hidden">
+      <router-view v-slot="{ Component }" class="px-4 flex-1 overflow-hidden">
         <component :is="Component" v-if="!keepAlive" :key="$route.fullPath" />
         <keep-alive v-else>
           <component :is="Component" :key="$route.fullPath" />

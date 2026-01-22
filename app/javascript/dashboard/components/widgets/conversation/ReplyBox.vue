@@ -27,7 +27,6 @@ import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import {
   getMessageVariables,
   getUndefinedVariablesInMessage,
-  replaceVariablesInMessage,
 } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
@@ -802,32 +801,6 @@ export default {
       });
       this.hideContentTemplatesModal();
     },
-    replaceText(message) {
-      if (this.sendWithSignature && !this.private) {
-        // if signature is enabled, append it to the message
-        // appendSignature ensures that the signature is not duplicated
-        // so we don't need to check if the signature is already present
-        const effectiveChannelType = getEffectiveChannelType(
-          this.channelType,
-          this.inbox?.medium || ''
-        );
-        message = appendSignature(
-          message,
-          this.messageSignature,
-          effectiveChannelType
-        );
-      }
-
-      const updatedMessage = replaceVariablesInMessage({
-        message,
-        variables: this.messageVariables,
-      });
-
-      setTimeout(() => {
-        useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
-        this.message = updatedMessage;
-      }, 100);
-    },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
       // Clear attachments when switching between private note and reply modes
       // This is to prevent from breaking the upload rules
@@ -1304,7 +1277,6 @@ export default {
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
-        @replace-text="replaceText"
         @toggle-insert-article="toggleInsertArticle"
         @toggle-quoted-reply="toggleQuotedReply"
       />
@@ -1340,10 +1312,13 @@ export default {
 }
 
 .reply-box {
-  @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
+  transition: height 2s cubic-bezier(0.37, 0, 0.63, 1);
+  box-shadow: 0 2px 4px 0 rgba(27, 28, 29, 0.04);
+
+  @apply relative mb-3 mx-3 border border-n-weak rounded-xl bg-n-solid-1;
 
   &.is-private {
-    @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
+    @apply bg-n-amber-2 border-n-amber-5;
   }
 }
 
@@ -1352,7 +1327,7 @@ export default {
 }
 
 .reply-box__top {
-  @apply relative py-0 px-4 -mt-px;
+  @apply relative py-0 px-3 -mt-px;
 }
 
 .emoji-dialog {

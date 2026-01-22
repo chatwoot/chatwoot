@@ -9,6 +9,7 @@ import ListAttribute from 'dashboard/components-next/CustomAttributes/ListAttrib
 import CheckboxAttribute from 'dashboard/components-next/CustomAttributes/CheckboxAttribute.vue';
 import DateAttribute from 'dashboard/components-next/CustomAttributes/DateAttribute.vue';
 import OtherAttribute from 'dashboard/components-next/CustomAttributes/OtherAttribute.vue';
+import HelperTextPopup from 'dashboard/components/ui/HelperTextPopup.vue';
 
 const props = defineProps({
   attribute: {
@@ -75,11 +76,15 @@ const CurrentAttributeComponent = computed(() => {
 
 <template>
   <div
-    class="grid grid-cols-[140px,1fr] group/attribute items-center w-full gap-2"
+    class="grid grid-cols-[auto,auto] group/attribute items-center w-full gap-4"
     :class="isEditingView ? 'min-h-10' : 'min-h-11'"
   >
-    <div class="flex items-center justify-between truncate">
-      <span class="text-sm font-medium truncate text-n-slate-12">
+    <div class="flex items-center gap-1.5 min-w-0">
+      <HelperTextPopup
+        v-if="attribute.attributeDescription"
+        :message="attribute.attributeDescription"
+      />
+      <span class="text-body-main truncate text-n-slate-12">
         {{ attribute.attributeDisplayName }}
       </span>
     </div>

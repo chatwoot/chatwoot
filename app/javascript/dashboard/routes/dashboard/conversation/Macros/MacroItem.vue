@@ -5,6 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { CONVERSATION_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { useTrack } from 'dashboard/composables';
+import { useDropdownPosition } from 'dashboard/composables/useDropdownPosition';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MacroPreview from './MacroPreview.vue';
@@ -25,6 +26,10 @@ const { t } = useI18n();
 
 const isExecuting = ref(false);
 const showPreview = ref(false);
+const triggerRef = ref(null);
+const dropdownRef = ref(null);
+
+const { position } = useDropdownPosition(triggerRef, dropdownRef, showPreview);
 
 const executeMacro = async macro => {
   try {
@@ -53,38 +58,42 @@ const closeMacroPreview = () => {
 
 <template>
   <div
-    class="relative flex items-center justify-between leading-4 rounded-md h-10 pl-3 pr-2"
+    class="relative flex items-center justify-between leading-4 rounded-md h-10"
     :class="showPreview ? 'cursor-default' : 'drag-handle cursor-grab'"
   >
-    <span
-      class="overflow-hidden whitespace-nowrap text-ellipsis font-medium text-n-slate-12"
-    >
-      {{ macro.name }}
-    </span>
-    <div class="flex items-center gap-1 justify-end">
+    <div class="flex items-center justify-start gap-1">
       <NextButton
-        v-tooltip.left-start="$t('MACROS.EXECUTE.PREVIEW')"
+        ref="triggerRef"
+        v-tooltip.top-start="$t('MACROS.EXECUTE.PREVIEW')"
         icon="i-lucide-info"
         slate
-        faded
+        :variant="!showPreview ? 'ghost' : 'faded'"
         xs
+        class="[&>span]:size-3.5"
         @click="toggleMacroPreview"
       />
-      <NextButton
-        v-tooltip.left-start="$t('MACROS.EXECUTE.BUTTON_TOOLTIP')"
-        icon="i-lucide-play"
-        slate
-        faded
-        xs
-        :is-loading="isExecuting"
-        @click="executeMacro(macro)"
-      />
+      <span class="text-body-main text-n-slate-12 truncate">
+        {{ macro.name }}
+      </span>
     </div>
+
+    <NextButton
+      :label="$t('MACROS.EXECUTE.RUN')"
+      slate
+      link
+      sm
+      class="hover:!no-underline !text-n-slate-11 !py-2"
+      :is-loading="isExecuting"
+      @click="executeMacro(macro)"
+    />
     <transition name="menu-slide">
       <MacroPreview
         v-if="showPreview"
+        ref="dropdownRef"
         v-on-clickaway="closeMacroPreview"
         :macro="macro"
+        class="ltr:ml-8 rtl:mr-8 !-mt-8 ltr:left-1 rtl:right-1"
+        :class="position.class"
       />
     </transition>
   </div>

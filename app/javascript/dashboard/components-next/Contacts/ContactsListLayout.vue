@@ -65,7 +65,7 @@ const openFilter = () => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-surface"
   >
     <div class="flex flex-col w-full h-full transition-all duration-300">
       <ContactListHeaderWrapper
@@ -86,7 +86,7 @@ const openFilter = () => {
         @clear-filters="emit('clearFilters')"
       />
       <main class="flex-1 overflow-y-auto">
-        <div class="w-full mx-auto max-w-[60rem]">
+        <div class="w-full mx-auto">
           <ContactsActiveFiltersPreview
             v-if="showActiveFiltersPreview"
             :active-segment="activeSegment"
@@ -96,7 +96,7 @@ const openFilter = () => {
           <slot name="default" />
         </div>
       </main>
-      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0 px-4 pb-4">
+      <footer v-if="showPaginationFooter" class="sticky bottom-0 z-0">
         <PaginationFooter
           current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
           :current-page="currentPage"

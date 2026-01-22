@@ -1,8 +1,8 @@
 {
   "CONTACT_PANEL": {
     "NOT_AVAILABLE": "Not Available",
-    "EMAIL_ADDRESS": "Email Address",
-    "PHONE_NUMBER": "Phone number",
+    "EMAIL_ADDRESS": "Email",
+    "PHONE_NUMBER": "Phone",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -14,12 +14,20 @@
     "OS": "Operating System",
     "INITIATED_FROM": "Initiated from",
     "INITIATED_AT": "Initiated at",
+    "INITIATED_AT_DATE": "Date",
+    "INITIATED_AT_TIME": "Time",
     "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Created",
-    "NEW_MESSAGE": "New message",
-    "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL": "Call",
+    "BUTTON_LABEL": {
+      "NEW_MESSAGE": "Message",
+      "CALL": "Call",
+      "EDIT": "Edit",
+      "MERGE": "Merge",
+      "DELETE": "Delete"
+    },
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
     },
@@ -197,6 +205,7 @@
     }
   },
   "CUSTOM_ATTRIBUTES": {
+    "TITLE": "Custom Attributes",
     "BUTTON": "Add custom attribute",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "SHOW_MORE": "Show all attributes",
@@ -298,6 +307,7 @@
       "SEND_MESSAGE": "Send message",
       "BLOCK_CONTACT": "Block contact",
       "UNBLOCK_CONTACT": "Unblock contact",
+      "DISPLAY_PROPERTIES": "Display",
       "BREADCRUMB": {
         "CONTACTS": "Contacts"
       },
@@ -379,6 +389,17 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "DISPLAY_PROPERTIES": {
+      "TITLE": "Display Properties",
+      "DESCRIPTION": "Select up to three contact attributes to display.",
+      "SELECTED_ATTRIBUTES": "Selected attributes",
+      "OTHER_ATTRIBUTES": "Other attributes",
+      "NO_ATTRIBUTES": "No contact attributes added, you can add some to display.",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "YES": "Yes",
+      "NO": "No"
+    },
     "FILTER": {
       "NAME": "Name",
       "EMAIL": "Email",
@@ -412,6 +433,11 @@
     "CARD": {
       "OF": "of",
       "VIEW_DETAILS": "View details",
+      "ACTIONS": {
+        "SEND_MESSAGE": "Send message",
+        "VIEW_DETAILS": "View details",
+        "DELETE_CONTACT": "Delete contact"
+      },
       "EDIT_DETAILS_FORM": {
         "TITLE": "Edit contact details",
         "FORM": {
@@ -430,7 +456,7 @@
             "DUPLICATE": "This phone number is in use for another contact."
           },
           "CITY": {
-            "PLACEHOLDER": "Enter the city name"
+            "PLACEHOLDER": "Enter city"
           },
           "COUNTRY": {
             "PLACEHOLDER": "Select country"
@@ -439,12 +465,31 @@
             "PLACEHOLDER": "Enter the bio"
           },
           "COMPANY_NAME": {
-            "PLACEHOLDER": "Enter the company name"
+            "PLACEHOLDER": "Select Company"
           }
         },
         "UPDATE_BUTTON": "Update contact",
         "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."
+      },
+      "ADD_NOTE": {
+        "TITLE": "Add a quick note",
+        "PLACEHOLDER": "Type your note here and press cmd+enter to save",
+        "API": {
+          "SUCCESS_MESSAGE": "Contact note added successfully",
+          "ERROR_MESSAGE": "Unable to add contact note. Please try again later."
+        }
+      },
+      "LABELS": {
+        "ADD_BUTTON": "Add Labels"
+      },
+      "QUICK_OVERVIEW": {
+        "TITLE": "Quick Overview",
+        "BASIC_INFO": "Basic Info",
+        "LATEST_NOTE": "Note",
+        "LATEST_CONVERSATION": "Message",
+        "NO_NOTES": "No notes available",
+        "NO_CONVERSATIONS": "No previous conversations"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -540,7 +585,7 @@
         "PRIMARY": "Primary contact",
         "PRIMARY_HELP_LABEL": "To be saved",
         "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
+        "PARENT": "Contact to be merged",
         "PARENT_HELP_LABEL": "To be deleted",
         "EMPTY_STATE": "No contacts found",
         "PLACEHOLDER": "Search for primary contact",
@@ -564,7 +609,7 @@
         "COLLAPSE": "Collapse",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above.",
-        "CONVERSATION_EMPTY_STATE": "There are no notes yet. Use the Add note button to create one."
+        "CONVERSATION_EMPTY_STATE": "There are no notes yet."
       }
     },
     "EMPTY_STATE": {
@@ -583,7 +628,7 @@
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
+    "CLEAR_SELECTION": "Clear",
     "SELECT_ALL": "Select all ({count})",
     "DELETE_CONTACTS": "Delete",
     "DELETE_SUCCESS": "Contacts deleted successfully.",

@@ -29,12 +29,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'tabChange',
-  'localeChange',
-  'categoryChange',
-  'newArticle',
-]);
+const emit = defineEmits(['tabChange', 'localeChange', 'categoryChange']);
 
 const route = useRoute();
 const { t } = useI18n();
@@ -126,23 +121,21 @@ const handleCategoryAction = ({ value }) => {
   isCategoryMenuOpen.value = false;
 };
 
-const handleNewArticle = () => {
-  emit('newArticle');
-};
-
 const handleTabChange = value => {
   emit('tabChange', value);
 };
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2 lg:flex-row">
+  <div
+    class="flex flex-col items-start justify-between w-full gap-2 lg:flex-row"
+  >
     <TabBar
       :tabs="tabs"
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
     />
-    <div class="flex items-start justify-between w-full gap-2">
+    <div class="flex items-start justify-between lg:justify-end w-full gap-2">
       <div class="flex items-center gap-2">
         <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
@@ -159,7 +152,7 @@ const handleTabChange = value => {
               v-if="isLocaleMenuOpen"
               :menu-items="localeMenuItems"
               show-search
-              class="left-0 w-40 max-w-[300px] mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+              class="ltr:left-0 rtl:right-0 w-40 max-w-[300px] mt-2 overflow-y-auto top-full max-h-60"
               @action="handleLocaleAction"
             />
           </OnClickOutside>
@@ -180,18 +173,12 @@ const handleTabChange = value => {
               v-if="isCategoryMenuOpen"
               :menu-items="categoryMenuItems"
               show-search
-              class="left-0 w-48 mt-2 overflow-y-auto xl:right-0 top-full max-h-60"
+              class="ltr:right-0 rtl:left-0 w-48 mt-2 overflow-y-auto top-full max-h-60"
               @action="handleCategoryAction"
             />
           </OnClickOutside>
         </div>
       </div>
-      <Button
-        :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
-        icon="i-lucide-plus"
-        size="sm"
-        @click="handleNewArticle"
-      />
     </div>
   </div>
 </template>

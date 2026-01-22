@@ -77,7 +77,7 @@ watch(
     </template>
 
     <template #body>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4 pb-4">
         <InboxCard
           v-for="captainInbox in captainInboxes"
           :id="captainInbox.id"

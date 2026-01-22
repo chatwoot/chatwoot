@@ -125,7 +125,7 @@ export default {
 
 <template>
   <div
-    class="flex justify-between gap-2 h-[3.25rem] items-center ltr:pl-3 ltr:pr-2 rtl:pr-3 rtl:pl-2"
+    class="flex justify-between items-center h-[3.5rem] gap-2 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2"
   >
     <EditorModeToggle
       :mode="mode"
@@ -140,7 +140,7 @@ export default {
         </span>
       </div>
     </div>
-    <div v-if="captainTasksEnabled" class="flex items-center gap-2">
+    <div v-if="captainTasksEnabled" class="flex items-center gap-3">
       <div class="relative">
         <NextButton
           ghost
@@ -161,9 +161,9 @@ export default {
           @execute-copilot-action="handleCopilotAction"
         />
       </div>
+      <div class="w-px h-3 bg-n-strong rounded-lg" />
       <NextButton
         ghost
-        class="text-n-slate-11"
         sm
         icon="i-lucide-maximize-2"
         @click="$emit('togglePopout')"

@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { useTemplateRef, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { vOnClickOutside } from '@vueuse/components';
@@ -26,6 +26,7 @@ const { updateUISettings } = useUISettings();
 const chatStatusFilter = useMapGetter('getChatStatusFilter');
 const chatSortFilter = useMapGetter('getChatSortFilter');
 
+const filterContainerRef = useTemplateRef('filterContainerRef');
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const currentStatusFilter = computed(() => {
@@ -131,18 +132,21 @@ const handleSortChange = value => {
 </script>
 
 <template>
-  <div class="relative flex">
+  <div ref="filterContainerRef" class="relative flex">
     <NextButton
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
       icon="i-lucide-arrow-up-down"
       slate
-      faded
-      xs
+      sm
+      :variant="showActionsDropdown ? 'faded' : 'ghost'"
       @click="toggleDropdown()"
     />
     <div
       v-if="showActionsDropdown"
-      v-on-click-outside="() => toggleDropdown()"
+      v-on-click-outside="[
+        () => toggleDropdown(),
+        { ignore: [filterContainerRef] },
+      ]"
       class="mt-1 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4 absolute z-40 top-full"
       :class="{
         'ltr:left-0 rtl:right-0': !isOnExpandedLayout,

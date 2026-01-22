@@ -103,11 +103,11 @@ const STYLE_CONFIG = {
       solid:
         'bg-n-brand text-white hover:enabled:brightness-110 focus-visible:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-blue-text hover:enabled:bg-n-brand/20 focus-visible:bg-n-brand/20 outline-transparent',
-      outline: 'text-n-blue-text outline-n-brand',
+        'bg-n-brand/10 text-n-blue-11 hover:enabled:bg-n-brand/20 focus-visible:bg-n-brand/20 outline-transparent',
+      outline: 'text-n-blue-11 outline-n-brand',
       ghost:
-        'text-n-blue-text hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
-      link: 'text-n-blue-text hover:enabled:underline focus-visible:underline outline-transparent',
+        'text-n-blue-11 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+      link: 'text-n-blue-11 hover:enabled:underline focus-visible:underline outline-transparent',
     },
     ruby: {
       solid:
@@ -133,7 +133,7 @@ const STYLE_CONFIG = {
     },
     slate: {
       solid:
-        'bg-n-solid-3 dark:hover:enabled:bg-n-solid-2 dark:focus-visible:bg-n-solid-2 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 text-n-slate-12 outline-n-container',
+        'bg-n-button-color dark:hover:enabled:bg-n-solid-2 dark:focus-visible:bg-n-solid-2 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 text-n-slate-12 outline-n-container',
       faded:
         'bg-n-slate-9/10 text-n-slate-12 hover:enabled:bg-n-slate-9/20 focus-visible:bg-n-slate-9/20 outline-transparent',
       outline:
@@ -156,10 +156,10 @@ const STYLE_CONFIG = {
   },
   sizes: {
     regular: {
-      xs: 'h-6 px-2',
-      sm: 'h-8 px-3',
-      md: 'h-10 px-4',
-      lg: 'h-12 px-5',
+      xs: 'h-6 px-2 rounded-lg',
+      sm: 'h-8 px-3 rounded-lg',
+      md: 'h-10 px-4 rounded-[0.625rem]',
+      lg: 'h-12 px-5 rounded-[0.625rem]',
     },
     iconOnly: {
       xs: 'h-6 w-6 p-0',
@@ -175,10 +175,10 @@ const STYLE_CONFIG = {
     },
   },
   fontSize: {
-    xs: 'text-xs',
-    sm: 'text-sm',
-    md: 'text-sm font-medium',
-    lg: 'text-base',
+    xs: 'text-button-small',
+    sm: 'text-button',
+    md: 'text-button',
+    lg: 'text-base font-460',
   },
   clickAnimation: {
     xs: 'active:enabled:scale-[0.97]',
@@ -191,16 +191,16 @@ const STYLE_CONFIG = {
     center: 'justify-center',
     end: 'justify-end',
   },
-  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0 rounded-lg outline-1 outline disabled:opacity-50',
+  base: 'inline-flex items-center min-w-0 gap-2 transition-all duration-100 ease-out border-0  outline-1 outline -outline-offset-1 disabled:opacity-50',
 };
 
 const variantClasses = computed(() => {
   const variantMap = {
     ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
     link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-2`,
-    outline: STYLE_CONFIG.colors[computedColor.value].outline,
-    faded: STYLE_CONFIG.colors[computedColor.value].faded,
-    solid: STYLE_CONFIG.colors[computedColor.value].solid,
+    outline: `${STYLE_CONFIG.colors[computedColor.value].outline} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
+    faded: `${STYLE_CONFIG.colors[computedColor.value].faded} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
+    solid: `${STYLE_CONFIG.colors[computedColor.value].solid} shadow-[0_1px_2px_0_rgba(27,28,29,0.04)]`,
   };
 
   return variantMap[computedVariant.value];
@@ -234,6 +234,12 @@ const animationClasses = computed(() => {
     ? ''
     : STYLE_CONFIG.clickAnimation[computedSize.value];
 });
+
+const iconClasses = computed(() => {
+  return computedColor.value === 'slate' && !isIconOnly.value
+    ? 'text-n-slate-11'
+    : '';
+});
 </script>
 
 <template>
@@ -249,7 +255,7 @@ const animationClasses = computed(() => {
     }"
   >
     <slot v-if="(icon || $slots.icon) && !isLoading" name="icon">
-      <Icon :icon="icon" class="flex-shrink-0" />
+      <Icon :icon="icon" class="flex-shrink-0" :class="iconClasses" />
     </slot>
 
     <Spinner v-if="isLoading" class="!w-5 !h-5 flex-shrink-0" />

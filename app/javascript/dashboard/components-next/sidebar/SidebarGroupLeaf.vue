@@ -33,7 +33,7 @@ const shouldRenderComponent = computed(() => {
       :title="label"
       class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[9.438rem] hover:bg-gradient-to-r from-transparent via-n-slate-3/70 to-n-slate-3/70 group"
       :class="{
-        'text-n-blue-text bg-n-alpha-2 active': active,
+        'text-n-slate-12 bg-n-alpha-2 active': active,
       }"
     >
       <component
@@ -44,8 +44,10 @@ const shouldRenderComponent = computed(() => {
         :active
       />
       <template v-else>
-        <Icon v-if="icon" :icon="icon" class="size-4 inline-block" />
-        <div class="flex-1 truncate min-w-0">{{ label }}</div>
+        <span v-if="icon" class="size-4 grid place-content-center rounded-full">
+          <Icon :icon="icon" class="size-4 inline-block" />
+        </span>
+        <div class="flex-1 truncate min-w-0 text-sm">{{ label }}</div>
       </template>
     </component>
   </Policy>

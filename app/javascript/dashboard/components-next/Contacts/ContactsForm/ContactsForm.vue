@@ -4,11 +4,11 @@ import { useI18n } from 'vue-i18n';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
 import { splitName } from '@chatwoot/utils';
-import countries from 'shared/constants/countries.js';
 import Input from 'dashboard/components-next/input/Input.vue';
-import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import CountryDropdown from 'dashboard/components-next/Countries/CountryDropdown.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
+import CompaniesDropdown from 'dashboard/components-next/Companies/CompaniesDropdown.vue';
 
 const props = defineProps({
   contactData: {
@@ -124,10 +124,6 @@ const prepareStateBasedOnProps = () => {
   });
 };
 
-const countryOptions = computed(() =>
-  countries.map(({ name, id }) => ({ label: name, value: id }))
-);
-
 const editDetailsForm = computed(() =>
   Object.keys(FORM_CONFIG).map(key => ({
     key,
@@ -206,9 +202,14 @@ const getMessageType = key => {
     : 'info';
 };
 
-const handleCountrySelection = value => {
-  const selectedCountry = countries.find(option => option.id === value);
-  state.additionalAttributes.country = selectedCountry?.name || '';
+const handleCountryChange = country => {
+  state.additionalAttributes.countryCode = country?.id || '';
+  state.additionalAttributes.country = country?.name || '';
+  emit('update', state);
+};
+
+const handleCompanyChange = company => {
+  state.additionalAttributes.companyName = company?.name || '';
   emit('update', state);
 };
 
@@ -238,41 +239,49 @@ defineExpose({
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+  <div class="flex flex-col gap-6 w-full">
+    <div class="flex flex-col items-start gap-5 w-full">
+      <span class="text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
       </span>
       <div class="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         <template v-for="item in editDetailsForm" :key="item.key">
-          <ComboBox
+          <CountryDropdown
             v-if="item.key === 'COUNTRY'"
             v-model="state.additionalAttributes.countryCode"
-            :options="countryOptions"
             :placeholder="item.placeholder"
-            class="[&>div>button]:h-8"
             :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
-                !isDetailsView,
-              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
+              '[&>div>button]:h-8': !isDetailsView,
+              '[&_button]:!h-10 [&_button]:!rounded-[10px]': isDetailsView,
             }"
-            @update:model-value="handleCountrySelection"
+            @change="handleCountryChange"
           />
           <PhoneNumberInput
             v-else-if="item.key === 'PHONE_NUMBER'"
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :show-border="isDetailsView"
+            :compact="!isDetailsView"
+          />
+          <CompaniesDropdown
+            v-else-if="item.key === 'COMPANY_NAME'"
+            :placeholder="item.placeholder"
+            :selected-company-name="state.additionalAttributes.companyName"
+            :class="{
+              '[&>div>button]:h-8': !isDetailsView,
+              '[&_button]:!h-10 [&_button]:!rounded-[10px]': isDetailsView,
+            }"
+            @change="handleCompanyChange"
           />
           <Input
             v-else
             v-model="getFormBinding(item.key).value"
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
-            :custom-input-class="`h-8 !pt-1 !pb-1 ${
+            :custom-input-class="`!pt-1 !pb-1 ${
               !isDetailsView
-                ? '[&:not(.error,.focus)]:!outline-transparent'
-                : ''
+                ? '[&:not(.error,.focus)]:!outline-transparent h-8'
+                : 'h-10 !rounded-[10px]'
             }`"
             class="w-full"
             @input="
@@ -287,18 +296,19 @@ defineExpose({
         </template>
       </div>
     </div>
-    <div class="flex flex-col items-start gap-2">
-      <span class="py-1 text-sm font-medium text-n-slate-12">
+    <div class="flex flex-col items-start gap-5">
+      <span class="text-sm font-medium text-n-slate-12">
         {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
       </span>
       <div class="flex flex-wrap gap-2">
         <div
           v-for="item in socialProfilesForm"
           :key="item.key"
-          class="flex items-center h-8 gap-2 px-2 rounded-lg"
+          class="flex items-center h-8 gap-2 px-2 bg-n-alpha-2 dark:bg-n-solid-2"
           :class="{
-            'bg-n-alpha-2 dark:bg-n-solid-2': isDetailsView,
-            'bg-n-alpha-2 dark:bg-n-solid-3': !isDetailsView,
+            'rounded-[10px] outline-1 outline outline-n-weak -outline-offset-1 hover:outline-n-slate-6':
+              isDetailsView,
+            'rounded-lg': !isDetailsView,
           }"
         >
           <Icon

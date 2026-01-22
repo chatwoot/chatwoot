@@ -201,7 +201,7 @@ export default {
     },
     inboxIcon() {
       const { medium, channel_type: type } = this.inbox;
-      return getInboxIconByType(type, medium);
+      return getInboxIconByType(type, medium, 'line');
     },
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
@@ -509,7 +509,7 @@ export default {
       :header-title="inboxName"
     >
       <woot-tabs
-        class="[&_ul]:p-0"
+        class="[&_ul]:p-0 top-px relative"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -540,7 +540,7 @@ export default {
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
         class="mx-8 mt-5"
       />
-      <div v-if="selectedTabKey === 'inbox-settings'" class="mx-8">
+      <div v-if="selectedTabKey === 'inbox-settings'" class="mx-6">
         <SettingsSection
           :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"
           :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_SUB_TEXT')"
@@ -923,7 +923,7 @@ export default {
         </SettingsSection>
       </div>
 
-      <div v-if="selectedTabKey === 'collaborators'" class="mx-8">
+      <div v-if="selectedTabKey === 'collaborators'" class="mx-6">
         <CollaboratorsPage :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'configuration'">

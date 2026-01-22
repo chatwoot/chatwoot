@@ -24,7 +24,7 @@ const props = defineProps({
   },
   variant: {
     type: String,
-    default: 'faded',
+    default: 'solid',
   },
   label: {
     type: String,

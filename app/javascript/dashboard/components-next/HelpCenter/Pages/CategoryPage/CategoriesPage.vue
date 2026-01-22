@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { vOnClickOutside } from '@vueuse/components';
+import { useStoreGetters } from 'dashboard/composables/store.js';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -12,6 +14,7 @@ import CategoryHeaderControls from 'dashboard/components-next/HelpCenter/Pages/C
 import CategoryEmptyState from 'dashboard/components-next/HelpCenter/EmptyState/Category/CategoryEmptyState.vue';
 import EditCategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/EditCategoryDialog.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import CategoryDialog from 'dashboard/components-next/HelpCenter/Pages/CategoryPage/CategoryDialog.vue';
 
 const props = defineProps({
   categories: {
@@ -37,6 +40,36 @@ const { t } = useI18n();
 
 const editCategoryDialog = ref(null);
 const selectedCategory = ref(null);
+const isCreateCategoryDialogOpen = ref(false);
+
+const getters = useStoreGetters();
+
+const currentPortalSlug = computed(() => route.params.portalSlug);
+
+const currentPortal = computed(() => {
+  const slug = currentPortalSlug.value;
+  if (slug) return getters['portals/portalBySlug'].value(slug);
+  return getters['portals/allPortals'].value[0];
+});
+
+const currentPortalName = computed(() => currentPortal.value?.name);
+
+const activeLocale = computed(() => {
+  return props.allowedLocales.find(
+    locale => locale.code === route.params.locale
+  );
+});
+
+const activeLocaleName = computed(() => activeLocale.value?.name ?? '');
+const activeLocaleCode = computed(() => activeLocale.value?.code ?? '');
+
+const toggleCreateCategoryDialog = () => {
+  isCreateCategoryDialogOpen.value = !isCreateCategoryDialogOpen.value;
+};
+
+const closeCreateCategoryDialog = () => {
+  isCreateCategoryDialogOpen.value = false;
+};
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
 const isLoading = computed(() => props.isFetching || isSwitchingPortal.value);
@@ -101,7 +134,28 @@ const handleAction = ({ action, id, category: categoryData }) => {
 </script>
 
 <template>
-  <HelpCenterLayout :show-pagination-footer="false">
+  <HelpCenterLayout
+    :header-title="t('HELP_CENTER.CATEGORY_PAGE.HEADER')"
+    :create-button-label="
+      t('HELP_CENTER.CATEGORY_PAGE.CATEGORY_HEADER.NEW_CATEGORY')
+    "
+    :show-pagination-footer="false"
+    @create="toggleCreateCategoryDialog"
+  >
+    <template #modal="{ buttonRef }">
+      <CategoryDialog
+        v-if="isCreateCategoryDialogOpen"
+        v-on-click-outside="[
+          closeCreateCategoryDialog,
+          { ignore: [buttonRef] },
+        ]"
+        mode="create"
+        :portal-name="currentPortalName"
+        :active-locale-name="activeLocaleName"
+        :active-locale-code="activeLocaleCode"
+        @close="closeCreateCategoryDialog"
+      />
+    </template>
     <template #header-actions>
       <CategoryHeaderControls
         :categories="categories"

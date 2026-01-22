@@ -20,6 +20,11 @@ const props = defineProps({
     type: String,
     default: 'Delete',
   },
+  animationDirection: {
+    type: String,
+    default: 'horizontal',
+    validator: value => ['horizontal', 'vertical'].includes(value),
+  },
 });
 
 const emit = defineEmits(['bulkDelete']);
@@ -49,19 +54,41 @@ const bulkCheckboxState = computed({
     modelValue.value = newSelectedIds;
   },
 });
+
+const animationClasses = computed(() => {
+  if (props.animationDirection === 'vertical') {
+    return {
+      enterActive: 'transition-all duration-200 ease-out origin-bottom',
+      enterFrom: 'opacity-0 scale-95 translate-y-2',
+      enterTo: 'opacity-100 scale-100 translate-y-0',
+      leaveActive: 'transition-all duration-150 ease-in origin-bottom',
+      leaveFrom: 'opacity-100 scale-100 translate-y-0',
+      leaveTo: 'opacity-0 scale-95 translate-y-2',
+    };
+  }
+  return {
+    enterActive: 'transition-all duration-300 ease-out',
+    enterFrom: 'opacity-0 ltr:-translate-x-4 rtl:translate-x-4',
+    enterTo: 'opacity-100 translate-x-0',
+    leaveActive: 'transition-all duration-200 ease-in',
+    leaveFrom: 'opacity-100 translate-x-0',
+    leaveTo: 'opacity-0 ltr:-translate-x-4 rtl:translate-x-4',
+  };
+});
 </script>
 
 <template>
-  <transition
-    name="slide-fade"
-    enter-active-class="transition-all duration-300 ease-out"
-    enter-from-class="opacity-0 transform ltr:-translate-x-4 rtl:translate-x-4"
-    enter-to-class="opacity-100 transform translate-x-0"
-    leave-active-class="hidden opacity-0"
+  <Transition
+    :enter-active-class="animationClasses.enterActive"
+    :enter-from-class="animationClasses.enterFrom"
+    :enter-to-class="animationClasses.enterTo"
+    :leave-active-class="animationClasses.leaveActive"
+    :leave-from-class="animationClasses.leaveFrom"
+    :leave-to-class="animationClasses.leaveTo"
   >
     <div
       v-if="hasSelected"
-      class="flex items-center gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
+      class="flex items-center gap-3 py-2 ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container -outline-offset-1 shadow-sm origin-bottom"
     >
       <div class="flex items-center gap-3">
         <div class="flex items-center gap-1.5 min-w-0">
@@ -98,5 +125,5 @@ const bulkCheckboxState = computed({
     <div v-else class="flex items-center gap-3">
       <slot name="default-actions" />
     </div>
-  </transition>
+  </Transition>
 </template>

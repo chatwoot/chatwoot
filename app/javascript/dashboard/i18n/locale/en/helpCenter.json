@@ -496,6 +496,7 @@
     },
     "LOADING": "Loading...",
     "ARTICLES_PAGE": {
+      "HEADER": "Articles",
       "ARTICLE_CARD": {
         "CARD": {
           "VIEWS": "{count} view | {count} views",
@@ -529,7 +530,7 @@
         "LOCALE": {
           "ALL": "All locales"
         },
-        "NEW_ARTICLE": "New article"
+        "NEW_ARTICLE": "Create Article"
       },
       "EMPTY_STATE": {
         "ALL": {
@@ -560,8 +561,9 @@
       }
     },
     "CATEGORY_PAGE": {
+      "HEADER": "Categories",
       "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "New category",
+        "NEW_CATEGORY": "Create Category",
         "EDIT_CATEGORY": "Edit category",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
@@ -628,8 +630,9 @@
       }
     },
     "LOCALES_PAGE": {
+      "HEADER": "Locales",
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
+      "NEW_LOCALE_BUTTON_TEXT": "Create Locale",
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
         "CATEGORIES_COUNT": "{count} category | {count} categories",
@@ -839,7 +842,7 @@
       "STATUS": {
         "UPLOADED": "Ready",
         "PROCESSING": "Processing",
-        "PROCESSED": "Completed", 
+        "PROCESSED": "Completed",
         "FAILED": "Failed"
       }
     },

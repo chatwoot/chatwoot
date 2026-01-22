@@ -4,15 +4,15 @@ import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 import { useElementSize } from '@vueuse/core';
 import BackButton from '../BackButton.vue';
-import InboxName from '../InboxName.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MoreActions from './MoreActions.vue';
-import Avatar from 'next/avatar/Avatar.vue';
-import SLACardLabel from './components/SLACardLabel.vue';
+import SLACardLabel from 'dashboard/components-next/Conversation/Sla/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 const props = defineProps({
   chat: {
@@ -20,6 +20,10 @@ const props = defineProps({
     default: () => ({}),
   },
   showBackButton: {
+    type: Boolean,
+    default: false,
+  },
+  isOnExpandedView: {
     type: Boolean,
     default: false,
   },
@@ -31,6 +35,31 @@ const route = useRoute();
 const conversationHeader = ref(null);
 const { width } = useElementSize(conversationHeader);
 const { isAWebWidgetInbox } = useInbox();
+
+const { uiSettings } = useUISettings();
+
+const isSidePanelOpen = computed(
+  () =>
+    uiSettings.value.is_contact_sidebar_open ||
+    uiSettings.value.is_copilot_panel_open ||
+    false
+);
+
+// Responsive layout breakpoints based on view state
+// Expanded view + panel open = lg, Expanded view + panel closed = md
+// Normal view + panel open = xl, Normal view + panel closed = lg
+const isExpandedWithPanel = computed(
+  () => props.isOnExpandedView && isSidePanelOpen.value
+);
+const isExpandedWithoutPanel = computed(
+  () => props.isOnExpandedView && !isSidePanelOpen.value
+);
+const isNormalWithPanel = computed(
+  () => !props.isOnExpandedView && isSidePanelOpen.value
+);
+const isNormalWithoutPanel = computed(
+  () => !props.isOnExpandedView && !isSidePanelOpen.value
+);
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
@@ -80,78 +109,85 @@ const snoozedDisplayText = computed(() => {
   return t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
 });
 
-const inbox = computed(() => {
-  const { inbox_id: inboxId } = props.chat;
-  return store.getters['inboxes/getInbox'](inboxId);
-});
-
-const hasMultipleInboxes = computed(
-  () => store.getters['inboxes/getInboxes'].length > 1
-);
-
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
 </script>
 
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 py-2 border-b bg-n-background border-n-weak h-24 xl:h-12"
+    class="flex flex-col items-start gap-x-6 gap-y-2 w-full min-w-0 pt-3 pb-2 ltr:pl-4 rtl:pr-4 ltr:pr-1 rtl:pl-1"
+    :class="{
+      'md:flex-row md:items-center': isExpandedWithoutPanel,
+      'lg:flex-row lg:items-center':
+        isExpandedWithPanel || isNormalWithoutPanel,
+      'xl:flex-row xl:items-center': isNormalWithPanel,
+    }"
   >
     <div
-      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
+      class="flex items-center gap-2 min-w-0 w-full"
+      :class="{
+        'md:flex-1 md:basis-0': isExpandedWithoutPanel,
+        'lg:flex-1 lg:basis-0': isExpandedWithPanel || isNormalWithoutPanel,
+        'xl:flex-1 xl:basis-0': isNormalWithPanel,
+      }"
     >
-      <BackButton
-        v-if="showBackButton"
-        :back-url="backButtonUrl"
-        class="ltr:mr-2 rtl:ml-2"
-      />
-      <Avatar
-        :name="currentContact.name"
-        :src="currentContact.thumbnail"
-        :size="32"
-        :status="currentContact.availability_status"
-        hide-offline-status
-        rounded-full
-      />
-      <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
-      >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
-          <span
-            class="text-sm font-medium truncate leading-tight text-n-slate-12"
-          >
-            {{ currentContact.name }}
-          </span>
-          <fluent-icon
-            v-if="!isHMACVerified"
-            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-            size="14"
-            class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
-            icon="warning"
-          />
-        </div>
+      <BackButton v-if="showBackButton" :back-url="backButtonUrl" />
 
-        <div
-          class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
-        >
-          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
-          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
-            {{ snoozedDisplayText }}
-          </span>
-        </div>
+      <div class="flex items-center gap-1 min-w-0 ltr:mr-2 rtl:ml-2">
+        <span class="text-heading-2 text-n-slate-12 truncate min-w-0">
+          {{ currentContact.name }}
+        </span>
+        <Icon
+          v-if="!isHMACVerified"
+          v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+          icon="i-lucide-triangle-alert"
+          class="text-n-amber-10 size-3.5 shrink-0"
+        />
       </div>
     </div>
+
     <div
-      class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
+      class="flex items-center gap-2 min-w-0 w-full"
+      :class="{
+        'md:flex-1 md:basis-0 md:justify-end': isExpandedWithoutPanel,
+        'lg:flex-1 lg:basis-0 lg:justify-end':
+          isExpandedWithPanel || isNormalWithoutPanel,
+        'xl:flex-1 xl:basis-0 xl:justify-end': isNormalWithPanel,
+      }"
     >
+      <div
+        v-if="isSnoozed"
+        v-tooltip.top="{
+          content: snoozedDisplayText,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="flex items-center gap-1 min-w-0 shrink"
+      >
+        <Icon
+          icon="i-lucide-bell-off"
+          class="text-n-slate-11 size-3.5 shrink-0"
+        />
+        <span class="text-n-slate-11 text-label-small truncate min-w-0">
+          {{ snoozedDisplayText }}
+        </span>
+      </div>
+
+      <div v-if="isSnoozed" class="w-px h-3 rounded-lg bg-n-strong shrink-0" />
+
       <SLACardLabel
         v-if="hasSlaPolicyId"
         :chat="chat"
         show-extended-info
         :parent-width="width"
-        class="hidden md:flex"
+        class="p-1 shrink-0"
       />
-      <MoreActions :conversation-id="currentChat.id" />
+
+      <div
+        v-if="hasSlaPolicyId"
+        class="w-px h-3 rounded-lg bg-n-strong ltr:mx-2 rtl:mx-2 shrink-0"
+      />
+
+      <MoreActions :conversation-id="currentChat.id" class="shrink-0" />
     </div>
   </div>
 </template>

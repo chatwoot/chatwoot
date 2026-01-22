@@ -1,9 +1,10 @@
 <script setup>
+import { computed, useSlots } from 'vue';
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 
 const props = defineProps({
   title: {
@@ -11,10 +12,6 @@ const props = defineProps({
     required: true,
   },
   description: {
-    type: String,
-    required: true,
-  },
-  iconName: {
     type: String,
     default: '',
   },
@@ -30,52 +27,66 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  searchPlaceholder: {
+    type: String,
+    default: '',
+  },
 });
 
-const helpURL = getHelpUrlForFeature(props.featureName);
+const slots = useSlots();
 
-const openInNewTab = url => {
-  if (!url) return;
-  window.open(url, '_blank', 'noopener noreferrer');
-};
+const searchQuery = defineModel('searchQuery', { type: String, default: '' });
+
+const hasHeaderActions = computed(
+  () => props.searchPlaceholder || slots.actions
+);
+
+const helpURL = getHelpUrlForFeature(props.featureName);
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2">
+  <div class="flex flex-col items-start w-full">
     <BackButton
       v-if="backButtonLabel"
       compact
       :button-label="backButtonLabel"
+      class="my-1"
     />
-    <div class="flex items-center justify-between w-full gap-4">
-      <div class="flex items-center gap-3">
-        <div
-          v-if="iconName"
-          class="flex items-center w-10 h-10 p-1 rounded-full bg-n-blue-2"
+    <div
+      v-if="title"
+      class="flex items-center justify-between w-full gap-4 min-h-10"
+      :class="!hasHeaderActions ? 'mb-1' : 'mb-3'"
+    >
+      <h1 class="text-heading-1 text-n-slate-12">
+        {{ title }}
+      </h1>
+      <div v-if="searchPlaceholder || slots.actions" class="gap-3 flex">
+        <Input
+          v-if="searchPlaceholder"
+          v-model="searchQuery"
+          :placeholder="searchPlaceholder"
+          autofocus
+          class="w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
+          size="md"
+          type="search"
         >
-          <div
-            class="flex items-center justify-center w-full h-full rounded-full bg-n-blue-3"
-          >
-            <fluent-icon
-              size="14"
-              :icon="iconName"
-              type="outline"
-              class="flex-shrink-0 text-n-brand"
+          <template #prefix>
+            <Icon
+              icon="i-lucide-search"
+              class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2.5 rtl:right-2.5"
             />
-          </div>
-        </div>
-        <h1 class="text-xl font-medium tracking-tight text-n-slate-12">
-          {{ title }}
-        </h1>
-      </div>
-      <!-- Slot for additional actions on larger screens -->
-      <div class="hidden gap-2 sm:flex">
+          </template>
+        </Input>
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col w-full gap-3 text-n-slate-11">
+    <div
+      v-if="description || $slots.description || linkText || helpURL"
+      class="flex flex-col w-full gap-2 text-n-slate-11 my-3"
+    >
       <p
-        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
+        v-if="description || $slots.description"
+        class="mb-0 line-clamp-5 sm:line-clamp-none max-w-3xl text-body-main"
       >
         <slot name="description">{{ description }}</slot>
       </p>
@@ -85,30 +96,10 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-text hover:underline"
+          class="items-center gap-1 text-label inline-flex w-fit text-n-blue-11 hover:underline"
         >
           {{ linkText }}
-          <Icon
-            icon="i-lucide-chevron-right"
-            class="flex-shrink-0 text-n-blue-text size-4"
-          />
         </a>
-      </CustomBrandPolicyWrapper>
-    </div>
-    <div
-      class="flex flex-wrap items-start justify-start w-full gap-3 sm:hidden"
-    >
-      <slot name="actions" />
-      <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
-        <Button
-          v-if="helpURL && linkText"
-          blue
-          link
-          icon="i-lucide-chevron-right"
-          trailing-icon
-          :label="linkText"
-          @click="openInNewTab(helpURL)"
-        />
       </CustomBrandPolicyWrapper>
     </div>
   </div>

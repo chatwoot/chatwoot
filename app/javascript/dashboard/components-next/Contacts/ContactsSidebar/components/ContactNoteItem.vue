@@ -48,10 +48,26 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 border-b border-n-strong group/note">
-    <div class="flex items-center justify-between gap-2">
-      <div class="flex items-center gap-1.5 min-w-0">
+  <div class="flex flex-col gap-1.5 border-b border-n-strong group/note">
+    <div class="flex items-center justify-between w-full gap-1.5 min-w-0 h-9">
+      <div class="min-w-0 truncate text-n-slate-11 text-xs font-440">
+        {{ dynamicTime(note.createdAt) }}
+      </div>
+      <div class="flex items-center gap-1">
+        <Button
+          v-if="allowDelete"
+          ghost
+          ruby
+          size="xs"
+          icon="i-lucide-trash"
+          class="opacity-0 group-hover/note:opacity-100"
+          @click="handleDelete"
+        />
         <Avatar
+          v-tooltip.left="{
+            content: writtenBy,
+            delay: { show: 500, hide: 0 },
+          }"
           :name="note?.user?.name || 'Bot'"
           :src="
             note?.user?.name
@@ -61,30 +77,12 @@ onMounted(() => {
           :size="16"
           rounded-full
         />
-        <div class="min-w-0 truncate">
-          <span class="inline-flex items-center gap-1 text-sm text-n-slate-11">
-            <span class="font-medium text-n-slate-12">{{ writtenBy }}</span>
-            {{ t('CONTACTS_LAYOUT.SIDEBAR.NOTES.WROTE') }}
-            <span class="font-medium text-n-slate-12">
-              {{ dynamicTime(note.createdAt) }}
-            </span>
-          </span>
-        </div>
       </div>
-      <Button
-        v-if="allowDelete"
-        variant="faded"
-        color="ruby"
-        size="xs"
-        icon="i-lucide-trash"
-        class="opacity-0 group-hover/note:opacity-100"
-        @click="handleDelete"
-      />
     </div>
     <p
       ref="noteContentRef"
       v-dompurify-html="formatMessage(note.content || '')"
-      class="mb-0 prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
+      class="mb-0 text-body-main prose-sm prose-p:text-sm prose-p:leading-relaxed prose-p:mb-1 prose-p:mt-0 prose-ul:mb-1 prose-ul:mt-0 text-n-slate-12"
       :class="{
         'line-clamp-4': collapsible && !isExpanded && needsCollapse,
       }"
