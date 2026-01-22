@@ -186,6 +186,7 @@
       "MSG_INPUT": "برای رفتن به سرخط shift+enter و برای استفاده از پیام های ذخیره شده / را بزنید.",
       "PRIVATE_MSG_INPUT": "برای رفتن به سرخط shift+enter را بزنید. این پیام فقط به ایجنت ها نمایش داده میشود",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "امضای پیام پیکربندی نشده است، لطفاً آن را در تنظیمات نمایه پیکربندی کنید.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "برای به روز رسانی اینجا را کلیک کنید",
       "WHATSAPP_TEMPLATES": "قالب های واتساپ"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "برای ضمیمه کردن درگ و درآپ کنید",
       "START_AUDIO_RECORDING": "در حال شروع ضبط صدا",
       "STOP_AUDIO_RECORDING": "در حال توقف ضبط صدا",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "به",
         "ADD_BCC": "افزودن رونوشت",
