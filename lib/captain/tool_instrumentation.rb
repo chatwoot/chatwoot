@@ -45,8 +45,4 @@ module Captain::ToolInstrumentation
   def format_chat_messages(chat)
     chat.messages[0...-1].map { |m| { role: m.role.to_s, content: m.content.to_s } }.to_json
   end
-
-  def tracer
-    OpenTelemetry.tracer_provider.tracer('chatwoot')
-  end
 end
