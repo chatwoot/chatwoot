@@ -331,6 +331,9 @@ ru:
     copilot_message_required: Необходимо ввести сообщение
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Использование инструмента %{function_name}'
       completed_tool_call: 'Вызов инструмента %{function_name}'
