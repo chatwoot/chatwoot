@@ -374,10 +374,14 @@ class Message < ApplicationRecord
     send_update_event
   end
 
-  def send_reply
+  def send_reply  def send_reply
+    return ::SendReplyJob.perform_later(id) if attachments.blank?
+
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
-    attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+    seconds = (attachments.map(&:file).map(&:byte_size).sum() / 1024 / 1000).to_i.seconds # a second per 1MB
+    ::SendReplyJob.set(wait: seconds).perform_later(id)
+  end
   end
 
   def reopen_conversation
