@@ -1,0 +1,14 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: 'Conversation Traffic') do |sheet|
+  sheet.add_row [
+    I18n.t('reports.conversation_traffic_csv.timezone'),
+    @timezone
+  ]
+
+  sheet.add_row []
+
+  @report_data.each do |row|
+    sheet.add_row row
+  end
+end

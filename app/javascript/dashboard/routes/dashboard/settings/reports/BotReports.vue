@@ -8,7 +8,8 @@ import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './components/ReportHeader.vue';
 import ReportsAPI from 'dashboard/api/reports';
-import V4Button from 'dashboard/components-next/button/Button.vue';
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 
 export default {
   name: 'BotReports',
@@ -17,12 +18,14 @@ export default {
     ReportHeader,
     ReportFilterSelector,
     ReportContainer,
-    V4Button,
+    DownloadDropdown,
   },
   setup() {
     const downloadingReport = ref(false);
+    const { downloadOptions } = useReportDownloadOptions();
     return {
       downloadingReport,
+      downloadOptions,
     };
   },
   data() {
@@ -91,28 +94,45 @@ export default {
         reportType: 'bots',
       });
     },
-    async downloadReports() {
+    async downloadReports(option) {
       this.downloadingReport = true;
 
+      const format = option?.value || option || 'csv'; // Извлекаем формат из объекта опции
       const { from, to, groupBy, businessHours } = this;
-      const response = await ReportsAPI.getBotReports({
-        from,
-        to,
-        groupBy: groupBy?.period,
-        businessHours,
-      });
 
-      const blob = new Blob([response.data], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `bot_summary_${new Date().getTime()}.csv`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      try {
+        const response = await ReportsAPI.getBotReports({
+          from,
+          to,
+          groupBy: groupBy?.period,
+          businessHours,
+          format,
+        });
 
-      useTrack(REPORTS_EVENTS.DOWNLOAD_REPORT, { reportType: 'bots' });
+        const mimeTypes = {
+          csv: 'text/csv',
+          xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        };
+
+        const blob = new Blob([response.data], { type: mimeTypes[format] });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `bot_summary_${new Date().getTime()}.${format}`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+
+        useTrack(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'bots',
+          format: format,
+        });
+      } catch (error) {
+        useAlert(this.$t('BOT_REPORTS.DOWNLOAD_FAILED'));
+      } finally {
+        this.downloadingReport = false;
+      }
     },
   },
 };
@@ -120,12 +140,11 @@ export default {
 
 <template>
   <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')">
-    <V4Button
+    <DownloadDropdown
       :label="$t('BOT_REPORTS.DOWNLOAD')"
-      icon="i-ph-download-simple"
-      size="sm"
+      :options="downloadOptions"
       :loading="downloadingReport"
-      @click="downloadReports"
+      @select="downloadReports"
     />
   </ReportHeader>
 
