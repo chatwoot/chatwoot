@@ -106,68 +106,78 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div
-    class="pt-3 pb-2 px-2 relative z-10 after:absolute after:inset-x-0 after:-bottom-2.5 after:bg-gradient-to-b after:from-n-surface-1 after:from-40% after:to-transparent after:h-4 after:pointer-events-none after:z-10"
+  <Transition
+    enter-active-class="transition-all duration-200 ease-out origin-bottom"
+    enter-from-class="opacity-0 scale-95 translate-y-2"
+    enter-to-class="opacity-100 scale-100 translate-y-0"
+    leave-active-class="transition-all duration-150 ease-in origin-bottom"
+    leave-from-class="opacity-100 scale-100 translate-y-0"
+    leave-to-class="opacity-0 scale-95 translate-y-2"
   >
     <div
-      class="flex items-center justify-between p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak"
+      v-show="conversations.length > 0"
+      class="px-2 absolute bottom-4 left-1/2 -translate-x-1/2 z-30 w-full origin-bottom"
     >
-      <div class="ltr:ml-0.5 rtl:mr-0.5 flex items-center gap-1">
-        <label class="cursor-pointer flex items-center gap-1.5">
-          <Checkbox
-            v-model="allSelected"
-            :indeterminate="!allConversationsSelected"
+      <div
+        v-if="allConversationsSelected"
+        class="bg-n-amber-2 outline -outline-offset-1 outline-1 outline-n-amber-5 rounded-lg text-sm mb-2 py-1.5 px-2 text-n-amber-text"
+      >
+        {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
+      </div>
+      <div
+        class="flex items-center justify-between p-2 bg-n-button-color outline outline-1 -outline-offset-1 rounded-[10px] outline-n-weak shadow-[0_0_12px_0_rgba(27,40,59,0.08)]"
+      >
+        <div class="ltr:ml-0.5 rtl:mr-0.5 flex items-center gap-1">
+          <label class="cursor-pointer flex items-center gap-1.5">
+            <Checkbox
+              v-model="allSelected"
+              :indeterminate="!allConversationsSelected"
+            />
+            <span class="cursor-pointer">
+              {{
+                $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
+                  conversationCount: conversations.length,
+                })
+              }}
+            </span>
+          </label>
+          <div class="w-px h-3 bg-n-weak rounded-lg ltr:ml-1 rtl:mr-1" />
+          <NextButton
+            :label="$t('BULK_ACTION.CLEAR_SELECTION')"
+            ghost
+            class="!text-n-blue-11 !px-1 !h-6"
+            sm
+            @click="allSelected = false"
           />
-          <span class="cursor-pointer">
-            {{
-              $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
-                conversationCount: conversations.length,
-              })
-            }}
-          </span>
-        </label>
-        <div class="w-px h-3 bg-n-weak rounded-lg ltr:ml-1 rtl:mr-1" />
-        <NextButton
-          :label="$t('BULK_ACTION.CLEAR_SELECTION')"
-          ghost
-          class="!text-n-blue-11 !px-1 !h-6"
-          sm
-          @click="allSelected = false"
-        />
+        </div>
+        <div class="flex items-center gap-2">
+          <BulkLabelActions @assign="onAssignLabels" />
+          <BulkUpdateActions
+            :show-resolve="!showResolvedAction"
+            :show-reopen="!showOpenAction"
+            :show-snooze="!showSnoozedAction"
+            @update="onUpdateConversations"
+          />
+          <BulkAgentActions
+            :selected-inboxes="selectedInboxes"
+            :conversation-count="conversations.length"
+            @select="onAssignAgent"
+          />
+          <BulkTeamActions
+            :conversation-count="conversations.length"
+            @select="onAssignTeam"
+          />
+        </div>
       </div>
-      <div class="flex items-center gap-2">
-        <BulkLabelActions @assign="onAssignLabels" />
-        <BulkUpdateActions
-          :show-resolve="!showResolvedAction"
-          :show-reopen="!showOpenAction"
-          :show-snooze="!showSnoozedAction"
-          @update="onUpdateConversations"
+      <woot-modal
+        v-model:show="showCustomTimeSnoozeModal"
+        :on-close="hideCustomSnoozeModal"
+      >
+        <CustomSnoozeModal
+          @close="hideCustomSnoozeModal"
+          @choose-time="customSnoozeTime"
         />
-        <BulkAgentActions
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          @select="onAssignAgent"
-        />
-        <BulkTeamActions
-          :conversation-count="conversations.length"
-          @select="onAssignTeam"
-        />
-      </div>
+      </woot-modal>
     </div>
-    <div
-      v-if="allConversationsSelected"
-      class="bg-n-amber-2 outline -outline-offset-1 outline-1 outline-n-amber-5 rounded-lg text-sm mt-2 py-1.5 px-2 text-n-amber-text"
-    >
-      {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
-    </div>
-    <woot-modal
-      v-model:show="showCustomTimeSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <CustomSnoozeModal
-        @close="hideCustomSnoozeModal"
-        @choose-time="customSnoozeTime"
-      />
-    </woot-modal>
-  </div>
+  </Transition>
 </template>

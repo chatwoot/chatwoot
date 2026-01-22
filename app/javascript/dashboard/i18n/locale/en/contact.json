@@ -388,6 +388,17 @@
     "PAGINATION_FOOTER": {
       "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contact | Showing {startItem} - {endItem} of {totalItems} contacts"
     },
+    "DISPLAY_PROPERTIES": {
+      "TITLE": "Display Properties",
+      "DESCRIPTION": "Select up to three contact attributes to display.",
+      "SELECTED_ATTRIBUTES": "Selected attributes",
+      "OTHER_ATTRIBUTES": "Other attributes",
+      "NO_ATTRIBUTES": "No contact attributes available",
+      "CANCEL": "Cancel",
+      "SAVE": "Save",
+      "YES": "Yes",
+      "NO": "No"
+    },
     "FILTER": {
       "NAME": "Name",
       "EMAIL": "Email",
@@ -470,6 +481,14 @@
       },
       "LABELS": {
         "ADD_BUTTON": "Add Labels"
+      },
+      "QUICK_OVERVIEW": {
+        "TITLE": "Quick Overview",
+        "BASIC_INFO": "Basic Info",
+        "LATEST_NOTE": "Note",
+        "LATEST_CONVERSATION": "Message",
+        "NO_NOTES": "No notes available",
+        "NO_CONVERSATIONS": "No previous conversations"
       },
       "SOCIAL_MEDIA": {
         "TITLE": "Edit social links",
@@ -608,7 +627,7 @@
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
-    "CLEAR_SELECTION": "Clear selection",
+    "CLEAR_SELECTION": "Clear",
     "SELECT_ALL": "Select all ({count})",
     "DELETE_CONTACTS": "Delete",
     "DELETE_SUCCESS": "Contacts deleted successfully.",

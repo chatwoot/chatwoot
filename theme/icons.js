@@ -179,6 +179,11 @@ export const icons = {
     width: 14,
     height: 14,
   },
+  overview: {
+    body: `<g fill="none" stroke="currentColor"><path d="M3.33325 2V11.3333" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 2V7.33333" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/><path d="M12.6667 2V14" stroke="currentColor" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/></g>`,
+    width: 16,
+    height: 16,
+  },
 
   /** Conversation Status Starts */
   'status-empty': {

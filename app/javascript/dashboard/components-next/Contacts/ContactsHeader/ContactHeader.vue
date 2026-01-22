@@ -1,10 +1,12 @@
 <script setup>
+import { ref } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactSortMenu from './components/ContactSortMenu.vue';
 import ContactMoreActions from './components/ContactMoreActions.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import DisplayPropertiesModal from './components/DisplayPropertiesModal.vue';
 
 defineProps({
   showSearch: { type: Boolean, default: true },
@@ -29,12 +31,18 @@ const emit = defineEmits([
   'createSegment',
   'deleteSegment',
 ]);
+
+const displayPropertiesModalRef = ref(null);
+
+const openDisplayPropertiesModal = () => {
+  displayPropertiesModalRef.value?.dialogRef?.open();
+};
 </script>
 
 <template>
   <header class="sticky top-0 z-10">
     <div
-      class="flex items-start sm:items-center justify-between w-full py-6 px-6 gap-2 mx-auto max-w-[105rem] after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
+      class="flex items-start sm:items-center justify-between w-full py-4 px-6 gap-2 mx-auto after:absolute after:inset-x-0 after:-bottom-4 after:bg-gradient-to-b after:from-n-surface-1 after:from-10% after:dark:from-0% after:to-transparent after:h-4 after:pointer-events-none"
     >
       <span class="text-heading-1 truncate text-n-slate-12">
         {{ headerTitle }}
@@ -61,6 +69,13 @@ const emit = defineEmits([
         </div>
         <div class="flex items-center flex-shrink-0 gap-4">
           <div class="flex items-center gap-2">
+            <Button
+              icon="i-lucide-settings-2"
+              color="slate"
+              size="sm"
+              variant="ghost"
+              @click="openDisplayPropertiesModal"
+            />
             <div v-if="!isLabelView && !isActiveView" class="relative">
               <Button
                 id="toggleContactsFilterButton"
@@ -121,5 +136,6 @@ const emit = defineEmits([
         </div>
       </div>
     </div>
+    <DisplayPropertiesModal ref="displayPropertiesModalRef" />
   </header>
 </template>

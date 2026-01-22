@@ -85,7 +85,7 @@ const handleAssign = () => {
       ghost
       :class="{
         'bg-n-alpha-2': showDropdown,
-        '[&>span:nth-child(2)]:hidden sm:[&>span:nth-child(2)]:inline w-fit':
+        '[&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline w-fit':
           isTypeContact,
       }"
       :disabled="disabled"
@@ -93,10 +93,10 @@ const handleAssign = () => {
       @click="toggleDropdown()"
     />
     <Transition
-      enter-active-class="transition-all duration-150 ease-out origin-top"
+      enter-active-class="transition-all duration-150 ease-out origin-bottom"
       enter-from-class="opacity-0 scale-95"
       enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition-all duration-100 ease-in origin-top"
+      leave-active-class="transition-all duration-100 ease-in origin-bottom"
       leave-from-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-95"
     >
@@ -109,11 +109,11 @@ const handleAssign = () => {
         :menu-items="labelMenuItems"
         show-search
         :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-        class="top-8 w-60 max-h-80 overflow-y-auto"
+        class="bottom-8 w-60 max-h-80 overflow-y-auto"
         :class="{
           'ltr:-right-[6.5rem] rtl:-left-[6.5rem] ltr:2xl:right-0 rtl:2xl:left-0':
             !isTypeContact,
-          'ltr:right-0 rtl:left-0 mt-1': isTypeContact,
+          'ltr:right-0 rtl:left-0 mb-1': isTypeContact,
         }"
         @action="item => toggleLabelSelection(item.value)"
       >
@@ -138,7 +138,7 @@ const handleAssign = () => {
           >
             <NextButton
               sm
-              class="w-full"
+              class="w-full [&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline-flex"
               :label="t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')"
               :disabled="!selectedLabels.length"
               @click="handleAssign"

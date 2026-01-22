@@ -37,6 +37,6 @@ const iconName = computed(() => {
       delay: { show: 500, hide: 0 },
     }"
     :icon="iconName"
-    class="size-4"
+    class="size-4 flex-shrink-0"
   />
 </template>

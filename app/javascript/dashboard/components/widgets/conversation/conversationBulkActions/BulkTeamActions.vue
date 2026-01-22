@@ -83,10 +83,10 @@ onMounted(() => {
       @click="toggleDropdown()"
     />
     <Transition
-      enter-active-class="transition-all duration-150 ease-out origin-top"
+      enter-active-class="transition-all duration-150 ease-out origin-bottom"
       enter-from-class="opacity-0 scale-95"
       enter-to-class="opacity-100 scale-100"
-      leave-active-class="transition-all duration-100 ease-in origin-top"
+      leave-active-class="transition-all duration-100 ease-in origin-bottom"
       leave-from-class="opacity-100 scale-100"
       leave-to-class="opacity-0 scale-95"
     >
@@ -99,7 +99,7 @@ onMounted(() => {
         :menu-items="teamMenuItems"
         show-search
         :search-placeholder="t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-        class="ltr:-right-2 rtl:-left-2 top-8 w-60 max-h-80 overflow-y-auto"
+        class="ltr:-right-2 rtl:-left-2 bottom-8 w-60 max-h-80 overflow-y-auto"
         @action="handleSelectTeam"
       >
         <template #footer>

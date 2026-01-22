@@ -30,7 +30,6 @@ const route = useRoute();
 const uiFlags = useMapGetter('contacts/getUIFlags');
 const isUpdating = computed(() => uiFlags.value.isUpdating);
 const expandedCardId = ref(null);
-const hoveredAvatarId = ref(null);
 const selectedContactId = ref(null);
 const composeConversationRef = ref(null);
 const confirmDeleteContactDialogRef = ref(null);
@@ -88,16 +87,8 @@ const toggleExpanded = async id => {
 
 const isSelected = id => selectedIdsSet.value.has(id);
 
-const shouldShowSelection = id => {
-  return hoveredAvatarId.value === id || isSelected(id);
-};
-
 const handleSelect = (id, value) => {
   emit('toggleContact', { id, value });
-};
-
-const handleAvatarHover = (id, isHovered) => {
-  hoveredAvatarId.value = isHovered ? id : null;
 };
 
 const handleSendMessage = id => {
@@ -124,17 +115,16 @@ const handleDeleteContact = id => {
         :thumbnail="contact.thumbnail"
         :phone-number="contact.phoneNumber"
         :additional-attributes="contact.additionalAttributes"
+        :custom-attributes="contact.customAttributes"
         :availability-status="contact.availabilityStatus"
         :is-expanded="expandedCardId === contact.id"
         :is-updating="isUpdating"
-        :selectable="shouldShowSelection(contact.id)"
         :is-selected="isSelected(contact.id)"
         :labels="contact.labels || []"
         @toggle="toggleExpanded(contact.id)"
         @update-contact="updateContact"
         @show-contact="onClickViewDetails"
         @select="value => handleSelect(contact.id, value)"
-        @avatar-hover="value => handleAvatarHover(contact.id, value)"
         @send-message="handleSendMessage"
         @delete-contact="handleDeleteContact"
       />

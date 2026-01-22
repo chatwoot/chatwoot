@@ -80,53 +80,49 @@ const handleAssignLabels = labels => {
 </script>
 
 <template>
-  <div
-    class="sticky top-0 z-10 bg-gradient-to-b from-n-surface-1 from-90% to-transparent mx-6 3xl:mx-0 pt-1"
+  <BulkSelectBar
+    v-model="selectionModel"
+    :all-items="allItems"
+    :select-all-label="selectAllLabel"
+    :selected-count-label="selectedCountLabel"
+    animation-direction="vertical"
+    class="justify-between absolute bottom-20 left-1/2 -translate-x-1/2 z-30 lg:!w-[39rem] sm:!w-[calc(100%-6rem)] !w-[calc(100%-4rem)] max-w-4xl"
   >
-    <BulkSelectBar
-      v-model="selectionModel"
-      :all-items="allItems"
-      :select-all-label="selectAllLabel"
-      :selected-count-label="selectedCountLabel"
-      animation-direction="vertical"
-      class="justify-between"
-    >
-      <template #secondary-actions>
-        <Button
-          sm
-          ghost
-          :label="t('CONTACTS_BULK_ACTIONS.CLEAR_SELECTION')"
-          class="!px-1"
-          @click="emitClearSelection"
+    <template #secondary-actions>
+      <Button
+        sm
+        ghost
+        :label="t('CONTACTS_BULK_ACTIONS.CLEAR_SELECTION')"
+        class="!px-1"
+        @click="emitClearSelection"
+      />
+    </template>
+    <template #actions>
+      <div class="flex items-center gap-2 ml-auto">
+        <BulkLabelActions
+          type="contact"
+          :is-loading="isLoading"
+          :disabled="!selectedCount"
+          class="[&>button]:!text-n-blue-11 [&>button>span]:!text-n-blue-11 [&>button]:!px-2"
+          @assign="handleAssignLabels"
         />
-      </template>
-      <template #actions>
-        <div class="flex items-center gap-2 ml-auto">
-          <BulkLabelActions
-            type="contact"
+        <div class="w-px h-3 bg-n-weak rounded-lg" />
+        <Policy :permissions="['administrator']">
+          <Button
+            v-tooltip.bottom="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            sm
+            ghost
+            ruby
+            icon="i-lucide-trash"
+            :label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            :aria-label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
+            :disabled="!selectedCount || isLoading"
             :is-loading="isLoading"
-            :disabled="!selectedCount"
-            class="[&>button]:!text-n-blue-11 [&>button>span]:!text-n-blue-11 [&>button]:!px-2"
-            @assign="handleAssignLabels"
+            class="!px-2 [&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline-flex"
+            @click="emit('deleteSelected')"
           />
-          <div class="w-px h-3 bg-n-weak rounded-lg" />
-          <Policy :permissions="['administrator']">
-            <Button
-              v-tooltip.bottom="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
-              sm
-              ghost
-              ruby
-              icon="i-lucide-trash"
-              :label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
-              :aria-label="t('CONTACTS_BULK_ACTIONS.DELETE_CONTACTS')"
-              :disabled="!selectedCount || isLoading"
-              :is-loading="isLoading"
-              class="!px-2 [&>span:nth-child(2)]:hidden md:[&>span:nth-child(2)]:inline-flex"
-              @click="emit('deleteSelected')"
-            />
-          </Policy>
-        </div>
-      </template>
-    </BulkSelectBar>
-  </div>
+        </Policy>
+      </div>
+    </template>
+  </BulkSelectBar>
 </template>

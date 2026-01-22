@@ -404,12 +404,14 @@ onMounted(async () => {
       pageNumber.value
     );
   }
+  // Fetch agents list to show assignee previous conversation in contact card (expanded view)
+  await store.dispatch('agents/get');
 });
 </script>
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
+    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1 relative"
   >
     <ContactsListLayout
       :search-value="searchValue"
@@ -463,7 +465,7 @@ onMounted(async () => {
             {{ emptyStateMessage }}
           </span>
         </div>
-        <div v-else class="flex flex-col gap-4 px-6 pt-4 pb-6">
+        <div v-else class="flex flex-col gap-4 px-4 pt-4 pb-6">
           <ContactsList
             :contacts="contacts"
             :selected-contact-ids="selectedContactIds"

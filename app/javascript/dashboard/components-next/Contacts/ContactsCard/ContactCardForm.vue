@@ -1,16 +1,19 @@
 <script setup>
-import { computed, reactive, watch } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { required, email as emailValidator } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
-import { splitName } from '@chatwoot/utils';
-import Input from 'dashboard/components-next/input/Input.vue';
+import { useRouter } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import PhoneNumberInput from 'dashboard/components-next/phonenumberinput/PhoneNumberInput.vue';
-import CountryDropdown from 'dashboard/components-next/Countries/CountryDropdown.vue';
-import CompaniesDropdown from 'dashboard/components-next/Companies/CompaniesDropdown.vue';
-import AddContactNote from './AddContactNote.vue';
-import ContactLabels from 'dashboard/components-next/Contacts/ContactLabels/ContactLabels.vue';
+import Flag from 'dashboard/components-next/flag/Flag.vue';
+import ContactLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
+import countries from 'shared/constants/countries';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import CardContent from 'dashboard/components-next/Conversation/ConversationCard/CardContent.vue';
+import InboxName from 'dashboard/components-next/Conversation/InboxName.vue';
+import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import CardStatusIcon from 'dashboard/components-next/Conversation/ConversationCard/CardStatusIcon.vue';
+import { dynamicTime } from 'shared/helpers/timeHelper';
+import { getLastMessage } from 'dashboard/helper/conversationHelper';
 
 const props = defineProps({
   contactData: {
@@ -19,301 +22,349 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update']);
-
 const { t } = useI18n();
+const router = useRouter();
 
-const SOCIAL_CONFIG = {
-  LINKEDIN: 'i-woot-linkedin',
-  FACEBOOK: 'i-woot-facebook',
-  INSTAGRAM: 'i-woot-instagram',
-  TWITTER: 'i-woot-x',
-  GITHUB: 'i-woot-github',
-};
+const contactNotes = useMapGetter('contactNotes/getAllNotesByContactId');
+const contactConversations = useMapGetter(
+  'contactConversations/getAllConversationsByContactId'
+);
+const currentAccountId = useMapGetter('getCurrentAccountId');
+const currentUser = useMapGetter('getCurrentUser');
+const agentsList = useMapGetter('agents/getAgents');
+const inboxGetter = useMapGetter('inboxes/getInbox');
 
-const formState = reactive({
-  firstName: '',
-  lastName: '',
-  email: '',
-  phoneNumber: '',
-  city: '',
-  countryCode: '',
-  bio: '',
-  companyName: '',
-  companyId: null,
-  socialProfiles: {
-    facebook: '',
-    github: '',
-    instagram: '',
-    linkedin: '',
-    twitter: '',
-  },
+const countriesMap = computed(() => {
+  return countries.reduce((acc, country) => {
+    acc[country.code] = country;
+    acc[country.id] = country;
+    return acc;
+  }, {});
 });
 
-const validationRules = {
-  firstName: { required },
-  email: { email: emailValidator },
-};
+const countryDetails = computed(() => {
+  const attributes = props.contactData?.additionalAttributes || {};
+  const { country, countryCode, city } = attributes;
 
-const v$ = useVuelidate(validationRules, formState);
+  if (!country && !countryCode) return null;
 
-const isFormInvalid = computed(() => v$.value.$invalid);
+  const activeCountry =
+    countriesMap.value[country] || countriesMap.value[countryCode];
+  if (!activeCountry) return null;
 
-const prepareStateBasedOnProps = () => {
-  const {
-    name = '',
-    email: emailAddress = '',
-    phoneNumber: phone = '',
-    additionalAttributes = {},
-  } = props.contactData || {};
-
-  const { firstName: fName, lastName: lName } = splitName(name || '');
-  const {
-    description = '',
-    countryCode: country = '',
-    city: cityName = '',
-    socialProfiles: profiles = {},
-    companyName: company = '',
-  } = additionalAttributes || {};
-
-  formState.firstName = fName;
-  formState.lastName = lName;
-  formState.email = emailAddress;
-  formState.phoneNumber = phone || '';
-  formState.city = cityName;
-  formState.countryCode = country;
-  formState.bio = description;
-  formState.companyName = company;
-  formState.socialProfiles = { ...formState.socialProfiles, ...profiles };
-};
-
-const socialProfilesForm = computed(() =>
-  Object.entries(SOCIAL_CONFIG).map(([key, icon]) => ({
-    key,
-    placeholder: t(`CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.FORM.${key}.PLACEHOLDER`),
-    icon,
-  }))
-);
-
-const handleCompanyChange = company => {
-  formState.companyName = company?.name || '';
-};
-
-const handleUpdate = async () => {
-  const isFormValid = await v$.value.$validate();
-  if (!isFormValid) return;
-
-  const contactData = {
-    name: `${formState.firstName} ${formState.lastName}`.trim(),
-    email: formState.email,
-    phoneNumber: formState.phoneNumber,
-    additionalAttributes: {
-      description: formState.bio,
-      city: formState.city,
-      countryCode: formState.countryCode,
-      companyName: formState.companyName,
-      socialProfiles: formState.socialProfiles,
-    },
+  return {
+    countryCode: activeCountry.id,
+    city: city ? `${city},` : null,
+    name: activeCountry.name,
   };
-
-  emit('update', contactData);
-};
-
-const resetValidation = () => {
-  v$.value.$reset();
-};
-
-const resetForm = () => {
-  Object.assign(formState, {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    city: '',
-    countryCode: '',
-    bio: '',
-    companyName: '',
-    companyId: null,
-    socialProfiles: {
-      facebook: '',
-      github: '',
-      instagram: '',
-      linkedin: '',
-      twitter: '',
-    },
-  });
-};
-
-watch(
-  () => props.contactData?.id,
-  id => {
-    if (id) prepareStateBasedOnProps();
-  },
-  { immediate: true }
-);
-
-defineExpose({
-  resetValidation,
-  isFormInvalid,
-  resetForm,
-  handleUpdate,
 });
+
+const formattedLocation = computed(() => {
+  if (!countryDetails.value) return '';
+  return [countryDetails.value.city, countryDetails.value.name]
+    .filter(Boolean)
+    .join(' ');
+});
+
+const companyName = computed(() => {
+  const attributes = props.contactData?.additionalAttributes || {};
+  return attributes.companyName || '';
+});
+
+const contactLabels = computed(() => {
+  return props.contactData?.labels || [];
+});
+
+const latestNote = computed(() => {
+  if (!props.contactData?.id) return null;
+  const notes = contactNotes.value(props.contactData.id);
+  return notes && notes.length > 0 ? notes[0] : null;
+});
+
+const latestConversation = computed(() => {
+  if (!props.contactData?.id) return null;
+  const conversations = contactConversations.value(props.contactData.id);
+  return conversations && conversations.length > 0 ? conversations[0] : null;
+});
+
+const lastMessageInConversation = computed(() => {
+  if (!latestConversation.value) return null;
+  return getLastMessage(latestConversation.value);
+});
+
+const inbox = computed(() => {
+  const inboxId = latestConversation.value?.inboxId;
+  return inboxId ? inboxGetter.value(inboxId) : {};
+});
+
+const assignee = computed(() => {
+  if (!latestConversation.value?.meta?.assignee?.id) return null;
+  return agentsList.value?.find(
+    agent => agent.id === latestConversation.value.meta.assignee.id
+  );
+});
+
+const getWrittenBy = ({ user } = {}) => {
+  const currentUserId = currentUser.value?.id;
+  return user?.id === currentUserId
+    ? t('CONTACTS_LAYOUT.SIDEBAR.NOTES.YOU')
+    : user?.name || t('CONVERSATION.BOT');
+};
+
+const formatTimestamp = timestamp => {
+  if (!timestamp) return '';
+  return dynamicTime(timestamp);
+};
+
+const getConversationUrl = conversationId => {
+  if (!conversationId || !currentAccountId.value) return '#';
+  const url = `/app/accounts/${currentAccountId.value}/conversations/${conversationId}`;
+  return router.push(url);
+};
 </script>
 
 <template>
-  <div class="flex flex-col">
-    <AddContactNote :contact-id="contactData?.id" />
-
-    <div class="flex flex-col items-start gap-4 pt-2 pb-3">
-      <span
-        class="py-1 text-heading-3 text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
-      >
-        <Icon
-          icon="i-lucide-settings-2"
-          class="size-4 text-n-slate-11 hidden lg:block"
+  <div
+    class="flex flex-col gap-2 ltr:pl-2 rtl:pr-2 lg:ltr:pl-9 lg:rtl:pr-9 lg:before:content-[''] lg:before:absolute lg:before:ltr:left-[2.688rem] lg:before:rtl:right-[2.688rem] lg:before:top-0 lg:before:w-px lg:before:h-4 lg:before:bg-n-weak"
+  >
+    <div class="flex items-center gap-2 pb-2">
+      <Icon icon="i-woot-overview" class="size-4 text-n-slate-11" />
+      <h3 class="text-n-slate-11 text-body-main">
+        {{ t('CONTACTS_LAYOUT.CARD.QUICK_OVERVIEW.TITLE') }}
+      </h3>
+    </div>
+    <!-- Section 1: Basic Information -->
+    <div
+      class="hidden lg:flex rounded-xl bg-n-card w-auto outline outline-1 outline-n-container -outline-offset-1 p-3"
+    >
+      <div class="flex flex-wrap items-center gap-2 w-full">
+        <div class="flex items-center gap-1">
+          <Icon icon="i-lucide-circle-user" class="size-4 text-n-slate-11" />
+          <span class="text-label-small text-n-slate-11 m-0">
+            {{ t('CONTACTS_LAYOUT.CARD.QUICK_OVERVIEW.BASIC_INFO') }}
+          </span>
+        </div>
+        <div
+          v-if="contactData?.email"
+          class="h-3 w-px bg-n-strong rounded-lg"
         />
-        {{ t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.TITLE') }}
-      </span>
-
-      <div
-        class="lg:grid lg:grid-cols-[1fr_auto_1fr] flex flex-col items-start lg:items-center w-full gap-3 lg:px-6"
-      >
-        <div class="grid grid-cols-2 gap-2 min-w-0 w-full">
-          <Input
-            v-model="formState.firstName"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.FIRST_NAME.PLACEHOLDER'
-              )
-            "
-            :message-type="v$.firstName.$error ? 'error' : 'info'"
-            class="h-8 min-w-0"
-            @input="v$.firstName.$touch()"
-            @blur="v$.firstName.$touch()"
+        <!-- Email -->
+        <div v-if="contactData?.email" class="flex items-center gap-1">
+          <Icon
+            icon="i-woot-mail"
+            class="size-4 text-n-slate-11 flex-shrink-0"
           />
-          <Input
-            v-model="formState.lastName"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.LAST_NAME.PLACEHOLDER'
-              )
-            "
-            class="h-8 min-w-0"
-          />
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ contactData.email }}
+          </span>
         </div>
-
-        <div class="w-px h-3 bg-n-strong hidden lg:block" />
-
-        <div class="grid grid-cols-3 gap-3 min-w-0 w-full">
-          <CompaniesDropdown
-            v-model="formState.companyId"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.COMPANY_NAME.PLACEHOLDER'
-              )
-            "
-            :selected-company-name="formState.companyName"
-            class="min-w-0"
-            @change="handleCompanyChange"
-          />
-          <Input
-            v-model="formState.city"
-            :placeholder="
-              t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.CITY.PLACEHOLDER')
-            "
-            class="h-8 min-w-0"
-          />
-          <CountryDropdown
-            v-model="formState.countryCode"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.COUNTRY.PLACEHOLDER'
-              )
-            "
-            class="min-w-0"
-          />
-        </div>
-      </div>
-
-      <div
-        class="lg:grid lg:grid-cols-[1fr_auto_1fr] flex flex-col lg:items-center w-full gap-3 lg:px-6"
-      >
-        <div class="grid grid-cols-2 gap-2 min-w-0 w-full">
-          <Input
-            v-model="formState.email"
-            type="email"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.EMAIL_ADDRESS.PLACEHOLDER'
-              )
-            "
-            :message-type="v$.email.$error ? 'error' : 'info'"
-            class="h-8 min-w-0 [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8"
-            @input="v$.email.$touch()"
-            @blur="v$.email.$touch()"
-          >
-            <template #prefix>
-              <Icon
-                icon="i-woot-mail"
-                class="absolute -translate-y-1/2 text-n-slate-11 size-4 top-1/2 ltr:left-2.5 rtl:right-2.5"
-              />
-            </template>
-          </Input>
-          <PhoneNumberInput
-            v-model="formState.phoneNumber"
-            :placeholder="
-              t(
-                'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.PHONE_NUMBER.PLACEHOLDER'
-              )
-            "
-            class="min-w-0"
-          />
-        </div>
-
-        <div class="w-px h-3 bg-n-strong hidden lg:block" />
-
-        <Input
-          v-model="formState.bio"
-          :placeholder="
-            t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.BIO.PLACEHOLDER')
-          "
-          class="h-8 min-w-0"
+        <div
+          v-if="contactData?.phoneNumber"
+          class="h-3 w-px bg-n-strong rounded-lg"
         />
-      </div>
+        <!-- Phone Number -->
+        <div v-if="contactData?.phoneNumber" class="flex items-center gap-1">
+          <Icon
+            icon="i-lucide-phone"
+            class="size-3.5 text-n-slate-11 flex-shrink-0"
+          />
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ contactData.phoneNumber }}
+          </span>
+        </div>
+        <div v-if="companyName" class="h-3 w-px bg-n-strong rounded-lg" />
+        <!-- Company Name -->
+        <div v-if="companyName" class="flex items-center gap-1">
+          <Icon
+            icon="i-lucide-briefcase-business"
+            class="size-4 text-n-slate-11 flex-shrink-0"
+          />
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ companyName }}
+          </span>
+        </div>
+        <div v-if="countryDetails" class="h-3 w-px bg-n-strong rounded-lg" />
+        <!-- Location (Country & City) -->
+        <div v-if="countryDetails" class="flex items-center gap-1">
+          <Flag
+            :country="countryDetails.countryCode"
+            class="size-4 flex-shrink-0"
+          />
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ formattedLocation }}
+          </span>
+        </div>
+        <div
+          v-if="contactLabels.length > 0"
+          class="h-3 w-px bg-n-strong rounded-lg"
+        />
+        <!-- Labels -->
 
-      <div v-if="contactData?.id" class="lg:px-6">
-        <ContactLabels :contact-id="contactData.id" />
+        <ContactLabels
+          v-if="contactLabels.length > 0"
+          :labels="contactLabels"
+          disable-toggle
+          class="my-0 flex-1"
+        />
       </div>
     </div>
 
-    <div class="flex flex-col items-start gap-4 py-2">
-      <span
-        class="py-1 text-heading-3 text-n-slate-12 z-10 h-6 bg-n-surface-1 inline-flex items-center gap-2"
-      >
-        <Icon
-          icon="i-lucide-globe"
-          class="size-4 text-n-slate-11 hidden lg:block"
+    <!-- Section 2: Latest Contact Note -->
+    <div
+      class="flex flex-col rounded-xl bg-n-card outline outline-1 outline-n-container -outline-offset-1 p-3 gap-1.6 w-full gap-1.5"
+    >
+      <div class="flex items-center gap-2 py-1">
+        <div class="flex items-center gap-1.5">
+          <Icon icon="i-lucide-notebook-pen" class="size-3.5 text-n-slate-11" />
+          <span class="text-label-small text-n-slate-11 m-0">
+            {{ t('CONTACTS_LAYOUT.CARD.QUICK_OVERVIEW.LATEST_NOTE') }}
+          </span>
+        </div>
+        <template v-if="latestNote">
+          <div class="h-3 w-px bg-n-strong rounded-lg" />
+          <span class="text-label-small text-n-slate-11">
+            {{ formatTimestamp(latestNote.createdAt) }}
+          </span>
+        </template>
+      </div>
+
+      <div v-if="latestNote" class="flex items-center gap-1.5">
+        <Avatar
+          v-tooltip.left="{
+            content: getWrittenBy(latestNote),
+            delay: { show: 500, hide: 0 },
+          }"
+          :name="latestNote?.user?.name || 'Bot'"
+          :src="
+            latestNote?.user?.name
+              ? latestNote?.user?.thumbnail
+              : '/assets/images/chatwoot_bot.png'
+          "
+          :size="14"
+          rounded-full
         />
-        {{ t('CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.TITLE') }}
-      </span>
-      <div class="flex flex-wrap gap-2 lg:px-6">
-        <div
-          v-for="item in socialProfilesForm"
-          :key="item.key"
-          class="flex items-center h-8 gap-2 px-2 rounded-lg bg-n-alpha-2 outline-1 outline outline-n-weak -outline-offset-1 dark:bg-n-solid-2 hover:outline-n-slate-6 transition-all duration-150"
-        >
-          <Icon
-            :icon="item.icon"
-            class="flex-shrink-0 text-n-slate-11 size-5"
+        <p class="text-body-main text-n-slate-12 m-0 line-clamp-1">
+          {{ latestNote.content }}
+        </p>
+      </div>
+      <p v-else class="text-body-para text-n-slate-10 m-0 italic">
+        {{ t('CONTACTS_LAYOUT.CARD.QUICK_OVERVIEW.NO_NOTES') }}
+      </p>
+    </div>
+
+    <!-- Section 3: Latest Previous Conversation -->
+    <div
+      v-if="latestConversation"
+      class="flex flex-col rounded-xl bg-n-card outline outline-1 outline-n-container -outline-offset-1 p-3 gap-1.6 w-full gap-1.5 cursor-pointer"
+      @click="getConversationUrl(latestConversation.id)"
+    >
+      <div
+        class="flex justify-between gap-2 w-full min-w-0"
+        :class="
+          latestConversation?.labels?.length > 0
+            ? 'sm:flex-row flex-col items-start sm:items-center '
+            : 'flex-row items-center'
+        "
+      >
+        <div class="flex items-center gap-2 py-1 min-w-0 flex-shrink">
+          <div class="flex items-center gap-1.5 min-w-0">
+            <Icon
+              icon="i-lucide-message-circle"
+              class="size-3.5 text-n-slate-11"
+            />
+            <span class="text-label-small text-n-slate-11 m-0 truncate">
+              {{ t('CONTACTS_LAYOUT.CARD.QUICK_OVERVIEW.LATEST_CONVERSATION') }}
+            </span>
+          </div>
+          <div v-if="inbox?.id" class="h-3 w-px bg-n-strong rounded-lg" />
+          <div class="flex items-center gap-1 min-w-0">
+            <InboxName
+              v-if="inbox?.id"
+              :inbox="inbox"
+              class="gap-1 [&>span]:text-n-slate-11"
+            />
+            <div
+              v-if="latestConversation?.id"
+              class="flex items-center gap-1 min-w-0"
+            >
+              <Icon
+                icon="i-woot-hash"
+                class="size-3.5 text-n-slate-10 flex-shrink-0"
+              />
+              <span class="text-label-small truncate text-n-slate-11">
+                {{ latestConversation.id }}
+              </span>
+            </div>
+          </div>
+          <div
+            v-if="latestConversation?.createdAt"
+            class="h-3 w-px bg-n-strong rounded-lg"
           />
-          <input
-            v-model="formState.socialProfiles[item.key.toLowerCase()]"
-            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
-            :placeholder="item.placeholder"
-            :size="item.placeholder.length"
+          <span
+            v-if="latestConversation?.updatedAt"
+            class="text-label-small text-n-slate-11 truncate min-w-0"
+          >
+            {{ formatTimestamp(latestConversation.updatedAt) }}
+          </span>
+        </div>
+        <ContactLabels
+          v-if="latestConversation?.labels?.length > 0"
+          :labels="latestConversation.labels"
+          class="flex-1 min-w-0 sm:justify-end w-full sm:w-auto"
+          disable-toggle
+        >
+          <template #before>
+            <div data-before-slot class="flex items-center gap-1.5">
+              <CardPriorityIcon
+                v-if="latestConversation.priority"
+                :priority="latestConversation.priority"
+                class="flex-shrink-0"
+              />
+              <Avatar
+                v-if="assignee?.name"
+                v-tooltip.top="assignee.name"
+                :name="assignee.name"
+                :src="assignee.thumbnail"
+                :size="14"
+                :status="assignee.availabilityStatus"
+                hide-offline-status
+                rounded-full
+              />
+              <CardStatusIcon
+                v-if="latestConversation.status"
+                :status="latestConversation.status"
+              />
+              <div class="h-3 w-px bg-n-weak rounded-lg mx-1" />
+            </div>
+          </template>
+        </ContactLabels>
+        <div v-else class="flex items-center justify-end gap-1.5 flex-1">
+          <CardPriorityIcon
+            v-if="latestConversation.priority"
+            :priority="latestConversation.priority"
+            class="flex-shrink-0"
+          />
+          <Avatar
+            v-if="assignee?.name"
+            v-tooltip.top="assignee.name"
+            :name="assignee.name"
+            :src="assignee.thumbnail"
+            :size="14"
+            :status="assignee.availability_status"
+            hide-offline-status
+            rounded-full
+          />
+          <CardStatusIcon
+            v-if="latestConversation.status"
+            :status="latestConversation.status"
           />
         </div>
       </div>
+      <CardContent
+        v-if="lastMessageInConversation"
+        :last-message="lastMessageInConversation"
+        :unread-count="lastMessageInConversation?.conversation?.unreadCount"
+      />
     </div>
   </div>
 </template>

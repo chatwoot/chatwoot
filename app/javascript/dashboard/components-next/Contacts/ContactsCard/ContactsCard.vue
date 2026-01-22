@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useStore } from 'dashboard/composables/store';
 
 import ContactCardForm from 'dashboard/components-next/Contacts/ContactsCard/ContactCardForm.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -10,6 +11,7 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ContactLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Policy from 'dashboard/components/policy.vue';
+import ContactAttributeDisplay from './ContactAttributeDisplay.vue';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -18,28 +20,27 @@ const props = defineProps({
   email: { type: String, default: '' },
   labels: { type: Array, default: () => [] },
   additionalAttributes: { type: Object, default: () => ({}) },
+  customAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
   availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
-  isUpdating: { type: Boolean, default: false },
-  selectable: { type: Boolean, default: false },
   isSelected: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
   'toggle',
-  'updateContact',
   'showContact',
   'select',
-  'avatarHover',
   'sendMessage',
   'deleteContact',
 ]);
 
 const { t } = useI18n();
+const store = useStore();
 
-const contactCardFormRef = ref(null);
+const isPrefetching = ref(false);
+const hasPrefetched = ref(false);
 
 const getInitialContactData = () => ({
   id: props.id,
@@ -47,11 +48,10 @@ const getInitialContactData = () => ({
   email: props.email,
   phoneNumber: props.phoneNumber,
   additionalAttributes: props.additionalAttributes,
+  labels: props.labels,
 });
 
 const contactData = ref(getInitialContactData());
-
-const isFormInvalid = computed(() => contactCardFormRef.value?.isFormInvalid);
 
 const countriesMap = computed(() => {
   return countries.reduce((acc, country) => {
@@ -92,15 +92,6 @@ const formattedLocation = computed(() => {
     .join(' ');
 });
 
-const handleFormUpdate = updatedData => {
-  Object.assign(contactData.value, updatedData);
-  emit('updateContact', contactData.value);
-};
-
-const handleUpdateContact = () => {
-  contactCardFormRef.value?.handleUpdate();
-};
-
 const onClickExpand = () => {
   emit('toggle');
   contactData.value = getInitialContactData();
@@ -118,23 +109,51 @@ const toggleSelect = checked => {
   emit('select', checked);
 };
 
-const handleAvatarHover = isHovered => {
-  emit('avatarHover', isHovered);
+const prefetchContactData = async () => {
+  if (hasPrefetched.value || isPrefetching.value || !props.id) return;
+
+  isPrefetching.value = true;
+  try {
+    await Promise.all([
+      store.dispatch('contactNotes/get', { contactId: props.id }),
+      store.dispatch('contactConversations/get', props.id),
+    ]);
+    hasPrefetched.value = true;
+  } catch (error) {
+    // error
+  } finally {
+    isPrefetching.value = false;
+  }
+};
+
+const handleExpandHover = isHovered => {
+  if (isHovered && !props.isExpanded) {
+    prefetchContactData();
+  }
 };
 </script>
 
 <template>
   <div class="relative">
     <div
-      class="flex flex-col gap-2 pt-3 pb-2 lg:pb-3 lg:grid lg:gap-4 lg:items-center lg:rounded-lg lg:transition-all lg:duration-200 lg:grid-cols-[minmax(42%,1fr)_minmax(0,1fr)_minmax(0,1fr)]"
+      class="flex flex-col gap-2 p-2 lg:grid lg:gap-4 lg:items-center lg:rounded-lg lg:transition-all lg:duration-200 lg:grid-cols-[minmax(30%,1fr)_minmax(50%,1.5fr)_1fr]"
       :class="{ 'border-b border-n-weak lg:border-none': isExpanded }"
     >
       <div
         class="flex items-center gap-3 lg:gap-2"
         :class="{ 'lg:col-span-3': isExpanded }"
       >
+        <div class="flex-shrink-0 size-5 flex items-center justify-center">
+          <Checkbox
+            :model-value="isSelected"
+            @change="event => toggleSelect(event.target.checked)"
+          />
+        </div>
+
         <div
-          class="relative hidden lg:block size-5 rounded-md hover:bg-n-alpha-2 flex-shrink-0"
+          class="relative hidden lg:block size-4 rounded-md hover:bg-n-alpha-2 flex-shrink-0"
+          @mouseenter.passive="handleExpandHover(true)"
+          @mouseleave.passive="handleExpandHover(false)"
         >
           <Button
             icon="i-lucide-chevron-down"
@@ -142,37 +161,20 @@ const handleAvatarHover = isHovered => {
             slate
             sm
             no-animation
-            class="flex-shrink-0 !size-8 absolute -inset-1.5"
+            class="flex-shrink-0 !size-8 absolute -inset-2"
             :class="{ 'rotate-180': isExpanded }"
             @click="onClickExpand"
           />
         </div>
 
-        <div
-          class="flex-shrink-0 flex items-center"
-          @mouseenter="handleAvatarHover(true)"
-          @mouseleave="handleAvatarHover(false)"
-        >
+        <div class="flex-shrink-0 flex items-center">
           <Avatar
             :name="name"
             :src="thumbnail"
             :size="24"
             :status="availabilityStatus"
             hide-offline-status
-          >
-            <template v-if="selectable" #overlay="{ size }">
-              <label
-                class="flex items-center justify-center rounded-md cursor-pointer absolute inset-0 z-10 backdrop-blur-[2px]"
-                :style="{ width: `${size}px`, height: `${size}px` }"
-                @click.stop
-              >
-                <Checkbox
-                  :model-value="isSelected"
-                  @change="event => toggleSelect(event.target.checked)"
-                />
-              </label>
-            </template>
-          </Avatar>
+          />
         </div>
 
         <h4
@@ -229,7 +231,7 @@ const handleAvatarHover = isHovered => {
 
         <div
           v-if="companyName"
-          class="my-0 capitalize h-6 px-1 inline-flex items-center gap-1 rounded-md text-n-slate-12 max-w-40 min-w-0 outline outline-1 outline-n-weak"
+          class="my-0 capitalize h-6 px-1 inline-flex items-center gap-1 rounded-md text-n-slate-12 max-w-40 min-w-0 bg-n-label-color outline outline-1 outline-n-label-border -outline-offset-1"
           :class="{ 'lg:hidden': isExpanded }"
         >
           <Icon
@@ -240,25 +242,9 @@ const handleAvatarHover = isHovered => {
         </div>
 
         <div
-          v-if="countryDetails"
-          class="w-px h-3 bg-n-strong rounded-lg flex-shrink-0"
-          :class="{ 'lg:hidden': isExpanded }"
-        />
-
-        <span
-          v-if="countryDetails"
-          class="inline-flex items-center gap-2 min-w-0 text-n-slate-11"
-          :class="{ 'lg:hidden': isExpanded }"
-        >
-          <Flag
-            :country="countryDetails.countryCode"
-            class="size-3.5 flex-shrink-0"
-          />
-          <span class="truncate text-label-small">{{ formattedLocation }}</span>
-        </span>
-
-        <div
           class="relative lg:hidden size-5 rounded-md hover:bg-n-alpha-2 ltr:ml-auto rtl:mr-auto flex-shrink-0"
+          @mouseenter.passive="handleExpandHover(true)"
+          @mouseleave.passive="handleExpandHover(false)"
         >
           <Button
             icon="i-lucide-chevron-down"
@@ -315,6 +301,29 @@ const handleAvatarHover = isHovered => {
             {{ phoneNumber }}
           </span>
         </div>
+
+        <div
+          v-if="countryDetails"
+          class="w-px h-3 bg-n-strong rounded-lg flex-shrink-0"
+        />
+
+        <div
+          v-if="countryDetails"
+          v-tooltip.top="{
+            content: formattedLocation,
+            delay: { show: 500, hide: 0 },
+          }"
+          class="flex items-center gap-2 min-w-0 text-n-slate-11"
+        >
+          <Flag
+            :country="countryDetails.countryCode"
+            class="size-3.5 flex-shrink-0"
+          />
+          <span class="text-body-main text-n-slate-12 truncate">
+            {{ formattedLocation }}
+          </span>
+        </div>
+        <ContactAttributeDisplay :custom-attributes="customAttributes" />
       </div>
 
       <div class="flex flex-col gap-2 lg:hidden">
@@ -341,14 +350,6 @@ const handleAvatarHover = isHovered => {
           disable-toggle
           class="my-0 flex-1 justify-end"
         />
-        <Button
-          :label="t('CONTACTS_LAYOUT.CARD.VIEW_DETAILS')"
-          link
-          xs
-          slate
-          class="flex-shrink-0 hover:!no-underline"
-          @click="onClickViewDetails"
-        />
       </div>
     </div>
 
@@ -361,26 +362,10 @@ const handleAvatarHover = isHovered => {
     >
       <div class="min-h-0">
         <div
-          class="relative flex flex-col lg:pt-3 pb-3 overflow-visible transition-opacity duration-[600ms] ease-out"
+          class="relative flex flex-col pt-3 pb-4 lg:pt-[1.125rem] lg:pb-5 overflow-visible transition-opacity duration-[600ms] ease-out"
           :class="isExpanded ? 'opacity-100 delay-200' : 'opacity-0'"
         >
-          <ContactCardForm
-            ref="contactCardFormRef"
-            :contact-data="contactData"
-            class="lg:after:content-[''] lg:after:absolute lg:after:ltr:left-2 lg:after:rtl:right-2 lg:after:top-0 lg:after:w-px lg:after:bg-n-strong lg:after:bottom-11"
-            @update="handleFormUpdate"
-          />
-          <div
-            class="relative lg:ltr:pl-6 lg:rtl:pr-6 mt-6 mb-4 lg:before:block lg:before:content-[''] lg:before:absolute lg:ltr:before:left-2 lg:rtl:before:right-2 lg:before:top-1/2 lg:before:w-2 lg:before:h-px lg:before:bg-n-strong"
-          >
-            <Button
-              :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
-              size="sm"
-              :is-loading="isUpdating"
-              :disabled="isUpdating || isFormInvalid"
-              @click="handleUpdateContact"
-            />
-          </div>
+          <ContactCardForm :contact-data="contactData" />
         </div>
       </div>
     </div>
