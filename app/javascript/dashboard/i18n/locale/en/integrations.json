@@ -43,7 +43,8 @@
             "CONTACT_CREATED": "Contact created",
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
+            "CSAT_SURVEY_RESPONSE_CREATED": "CSAT Survey Response Created"
           }
         },
         "NAME": {

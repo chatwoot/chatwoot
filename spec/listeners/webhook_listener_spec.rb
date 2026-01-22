@@ -354,4 +354,27 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#csat_survey_response_created' do
+    let(:event_name) { :'csat_survey_response.created' }
+    let!(:csat_survey_response) { create(:csat_survey_response, account: account, conversation: conversation, contact: contact, message: message) }
+    let!(:csat_survey_response_event) do
+      Events::Base.new(event_name, Time.zone.now, csat_survey_response: csat_survey_response, message: message)
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.csat_survey_response_created(csat_survey_response_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['csat_survey_response_created'])
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, hash_including(event: 'csat_survey_response_created')).once
+        listener.csat_survey_response_created(csat_survey_response_event)
+      end
+    end
+  end
 end
