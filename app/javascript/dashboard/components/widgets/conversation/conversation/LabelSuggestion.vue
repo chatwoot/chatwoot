@@ -13,7 +13,7 @@ import { mapGetters } from 'vuex';
 // utils & constants
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { OPEN_AI_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { CAPTAIN_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 
 export default {
   name: 'LabelSuggestion',
@@ -114,7 +114,7 @@ export default {
 
       // dismiss this once the values are set
       this.isDismissed = true;
-      this.trackLabelEvent(OPEN_AI_EVENTS.DISMISS_LABEL_SUGGESTION);
+      this.trackLabelEvent(CAPTAIN_EVENTS.LABEL_SUGGESTION_DISMISSED);
     },
     isConversationDismissed() {
       return LocalStorage.getFlag(
@@ -132,7 +132,7 @@ export default {
         conversationId: this.conversationId,
         labels: labelsToAdd,
       });
-      this.trackLabelEvent(OPEN_AI_EVENTS.APPLY_LABEL_SUGGESTION);
+      this.trackLabelEvent(CAPTAIN_EVENTS.LABEL_SUGGESTION_APPLIED);
     },
     trackLabelEvent(event) {
       const payload = {

@@ -1271,7 +1271,7 @@ export default {
         key="copilot-bottom-panel"
         :is-generating-content="copilot.isButtonDisabled.value"
         @submit="onSubmitCopilotReply"
-        @cancel="copilot.toggleEditor"
+        @cancel="copilot.reset"
       />
       <ReplyBottomPanel
         v-else
