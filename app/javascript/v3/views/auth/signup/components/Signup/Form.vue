@@ -90,8 +90,10 @@ const performRegistration = async () => {
 };
 
 const submit = () => {
+  if (isSignupInProgress.value) return;
   v$.value.$touch();
   if (v$.value.$invalid) return;
+  isSignupInProgress.value = true;
   if (globalConfig.value.hCaptchaSiteKey) {
     hCaptcha.value.execute();
   } else {
@@ -102,6 +104,12 @@ const submit = () => {
 const onRecaptchaVerified = token => {
   credentials.hCaptchaClientResponse = token;
   performRegistration();
+};
+
+const onCaptchaError = () => {
+  isSignupInProgress.value = false;
+  credentials.hCaptchaClientResponse = '';
+  hCaptcha.value.reset();
 };
 </script>
 
@@ -154,6 +162,10 @@ const onRecaptchaVerified = token => {
         size="invisible"
         :sitekey="globalConfig.hCaptchaSiteKey"
         @verify="onRecaptchaVerified"
+        @error="onCaptchaError"
+        @expired="onCaptchaError"
+        @challenge-expired="onCaptchaError"
+        @closed="onCaptchaError"
       />
       <NextButton
         lg
