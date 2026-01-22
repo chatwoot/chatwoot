@@ -39,21 +39,7 @@
 #
 
 class Message < ApplicationRecord
-  # Use merge_mappings to keep Searchkick defaults while adding custom field types
-  # campaign_id needs keyword type to support both integer (internal campaigns) and string (API channels) values
-  if ChatwootApp.advanced_search_allowed?
-    searchkick callbacks: false,
-               merge_mappings: true,
-               mappings: {
-                 properties: {
-                   additional_attributes: {
-                     properties: {
-                       campaign_id: { type: 'keyword' }
-                     }
-                   }
-                 }
-               }
-  end
+  searchkick callbacks: false if ChatwootApp.advanced_search_allowed?
 
   include MessageFilterHelpers
   include Liquidable
