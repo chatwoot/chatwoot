@@ -33,7 +33,8 @@ const resizeContainers = () => {
     />
     <div
       v-show="!isLoading"
-      class="relative flex w-full max-w-[960px] bg-white dark:bg-n-solid-2 rounded-lg outline outline-1 outline-n-container shadow-sm"
+      class="relative flex max-w-[960px] bg-white dark:bg-n-solid-2 rounded-lg outline outline-1 outline-n-container shadow-sm"
+      :class="{ 'w-auto xl:w-full': isAChatwootInstance }"
     >
       <div class="flex-1 flex items-center justify-center py-10 px-10">
         <div class="max-w-[420px] w-full">

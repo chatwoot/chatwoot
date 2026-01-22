@@ -37,12 +37,12 @@ onBeforeMount(() => {
       :author-designation="testimonial.authorCompany"
     />
     <div class="absolute bottom-8 right-8 grid grid-cols-3 gap-1.5">
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
-      <span class="w-2 h-2 rounded-full bg-n-slate-7" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
+      <span class="w-2 h-2 rounded-full bg-n-gray-5" />
     </div>
   </div>
 </template>
