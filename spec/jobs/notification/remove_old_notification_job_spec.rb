@@ -9,7 +9,7 @@ RSpec.describe Notification::RemoveOldNotificationJob do
     expect do
       described_class.perform_later
     end.to have_enqueued_job(described_class)
-      .on_queue('low')
+      .on_queue('purgable')
   end
 
   describe 'removing old notifications' do
