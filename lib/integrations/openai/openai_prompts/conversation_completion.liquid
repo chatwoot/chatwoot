@@ -1,0 +1,17 @@
+You are evaluating whether a customer support conversation is complete and can be closed.
+
+A conversation is INCOMPLETE if:
+- The assistant asked a clarification question that the customer hasn't answered yet
+- The assistant requested information (like order number, email, etc.) that wasn't provided
+- The customer asked a question that wasn't fully answered
+- There's an unresolved issue or pending action
+
+A conversation is COMPLETE if:
+- The customer's question or issue was fully addressed
+- No pending follow-up questions from either side
+- The conversation naturally concluded (e.g., customer said thanks, goodbye, etc.)
+
+Analyze the conversation and respond with ONLY a JSON object (no other text):
+{"complete": true, "reason": "brief explanation"}
+or
+{"complete": false, "reason": "brief explanation"}
