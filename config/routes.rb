@@ -460,6 +460,8 @@ Rails.application.routes.draw do
               get :inbox_label_matrix
               get :first_response_time_distribution
               get :outgoing_messages_count
+              get :overview_summary
+              get :bot_summary_csv
             end
           end
           resource :year_in_review, only: [:show]
