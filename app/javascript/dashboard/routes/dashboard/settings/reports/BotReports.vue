@@ -1,4 +1,5 @@
 <script>
+import { ref } from 'vue';
 import { useAlert, useTrack } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
@@ -6,6 +7,8 @@ import { GROUP_BY_FILTER } from './constants';
 import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './components/ReportHeader.vue';
+import ReportsAPI from 'dashboard/api/reports';
+import V4Button from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'BotReports',
@@ -14,6 +17,13 @@ export default {
     ReportHeader,
     ReportFilterSelector,
     ReportContainer,
+    V4Button,
+  },
+  setup() {
+    const downloadingReport = ref(false);
+    return {
+      downloadingReport,
+    };
   },
   data() {
     return {
@@ -81,12 +91,44 @@ export default {
         reportType: 'bots',
       });
     },
+    async downloadReports() {
+      this.downloadingReport = true;
+
+      const { from, to, groupBy, businessHours } = this;
+      const response = await ReportsAPI.getBotReports({
+        from,
+        to,
+        groupBy: groupBy?.period,
+        businessHours,
+      });
+
+      const blob = new Blob([response.data], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `bot_summary_${new Date().getTime()}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+
+      useTrack(REPORTS_EVENTS.DOWNLOAD_REPORT, { reportType: 'bots' });
+    },
   },
 };
 </script>
 
 <template>
-  <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')" />
+  <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')">
+    <V4Button
+      :label="$t('BOT_REPORTS.DOWNLOAD')"
+      icon="i-ph-download-simple"
+      size="sm"
+      :loading="downloadingReport"
+      @click="downloadReports"
+    />
+  </ReportHeader>
+
   <div class="flex flex-col gap-4">
     <ReportFilterSelector
       :show-agents-filter="false"

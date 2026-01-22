@@ -55,6 +55,31 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getOverviewReports({ from: since, to: until, businessHours }) {
+    return axios.get(`${this.url}/overview_summary.csv`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
+      },
+      responseType: 'blob',
+    });
+  }
+
+  getBotReports({ from: since, to: until, groupBy, businessHours }) {
+    return axios.get(`${this.url}/bot_summary_csv.csv`, {
+      params: {
+        since,
+        until,
+        group_by: groupBy,
+        business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
+      },
+      responseType: 'blob',
+    });
+  }
+
   getAgentReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/agents`, {
       params: { since, until, business_hours: businessHours },
