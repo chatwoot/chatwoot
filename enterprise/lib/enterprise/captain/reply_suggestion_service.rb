@@ -1,5 +1,7 @@
 module Enterprise::Captain::ReplySuggestionService
   def make_api_call(model:, messages:)
+    return super unless use_search_tool?
+
     make_api_call_with_tools(
       model: model,
       messages: messages,
@@ -9,7 +11,13 @@ module Enterprise::Captain::ReplySuggestionService
 
   private
 
+  def use_search_tool?
+    ChatwootApp.chatwoot_cloud? || ChatwootApp.self_hosted_enterprise?
+  end
+
   def prompt_variables
+    return super unless use_search_tool?
+
     super.merge('has_search_tool' => true)
   end
 
