@@ -38,9 +38,14 @@ export function extractTextFromMarkdown(markdown) {
  *
  * @param {string} markdown - markdown text to process
  * @param {string} channelType - The channel type to check supported formatting
+ * @param {boolean} cleanWhitespace - Whether to clean up extra whitespace and blank lines (default: true for signatures)
  * @returns {string} - The markdown with unsupported formatting removed
  */
-export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
+export function stripUnsupportedMarkdown(
+  markdown,
+  channelType,
+  cleanWhitespace = true
+) {
   if (!markdown) return '';
 
   const { marks = [], nodes = [] } = FORMATTING[channelType] || {};
@@ -55,6 +60,9 @@ export function stripUnsupportedSignatureMarkdown(markdown, channelType) {
     );
   }, markdown);
 
+  if (!cleanWhitespace) return result;
+
+  // Clean whitespace for signatures
   return result
     .split('\n')
     .map(line => line.trim())
@@ -155,7 +163,7 @@ export function getEffectiveChannelType(channelType, medium) {
 export function appendSignature(body, signature, channelType) {
   // Strip only unsupported formatting based on channel capabilities
   const preparedSignature = channelType
-    ? stripUnsupportedSignatureMarkdown(signature, channelType)
+    ? stripUnsupportedMarkdown(signature, channelType)
     : signature;
   const cleanedSignature = cleanSignature(preparedSignature);
   // if signature is already present, return body
@@ -178,7 +186,7 @@ export function appendSignature(body, signature, channelType) {
 export function removeSignature(body, signature, channelType) {
   // Build unique list of signature variants to try
   const channelStripped = channelType
-    ? cleanSignature(stripUnsupportedSignatureMarkdown(signature, channelType))
+    ? cleanSignature(stripUnsupportedMarkdown(signature, channelType))
     : null;
   const signaturesToTry = [
     cleanSignature(signature),
@@ -511,12 +519,19 @@ export const getContentNode = (
 /**
  * Get the formatting configuration for a specific channel type.
  * Returns the appropriate marks, nodes, and menu items for the editor.
+ * TODO: We're hiding captain, enable it back when we add selection improvements
  *
  * @param {string} channelType - The channel type (e.g., 'Channel::FacebookPage', 'Channel::WebWidget')
  * @returns {Object} The formatting configuration with marks, nodes, and menu properties
  */
-export function getFormattingForEditor(channelType) {
-  return FORMATTING[channelType] || FORMATTING['Context::Default'];
+export function getFormattingForEditor(channelType, showCaptain = false) {
+  const formatting = FORMATTING[channelType] || FORMATTING['Context::Default'];
+  return {
+    ...formatting,
+    menu: showCaptain
+      ? formatting.menu
+      : formatting.menu.filter(item => item !== 'copilot'),
+  };
 }
 
 /**
