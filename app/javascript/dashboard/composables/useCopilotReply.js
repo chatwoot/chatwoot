@@ -72,6 +72,7 @@ export function useCopilotReply() {
   // Tracking state
   const currentAction = ref(null);
   const followUpCount = ref(0);
+  const trackedConversationId = ref(null);
 
   const conversationId = computed(() => currentChat.value?.id);
 
@@ -95,7 +96,7 @@ export function useCopilotReply() {
         CAPTAIN_EVENTS[eventKey],
         buildPayload(
           currentAction.value,
-          conversationId.value,
+          trackedConversationId.value,
           followUpCount.value
         )
       );
@@ -112,6 +113,7 @@ export function useCopilotReply() {
     followUpContext.value = null;
     currentAction.value = null;
     followUpCount.value = 0;
+    trackedConversationId.value = null;
   }
 
   /**
@@ -149,6 +151,7 @@ export function useCopilotReply() {
     isContentReady.value = false;
     currentAction.value = action;
     followUpCount.value = 0;
+    trackedConversationId.value = conversationId.value;
 
     try {
       const { message: content, followUpContext: newContext } =
@@ -165,7 +168,7 @@ export function useCopilotReply() {
           const eventKey = `${getEventPrefix(action)}_USED`;
           useTrack(
             CAPTAIN_EVENTS[eventKey],
-            buildPayload(action, conversationId.value)
+            buildPayload(action, trackedConversationId.value)
           );
         }
         isGenerating.value = false;
@@ -190,7 +193,7 @@ export function useCopilotReply() {
 
     // Track follow-up sent event
     useTrack(CAPTAIN_EVENTS.FOLLOW_UP_SENT, {
-      conversationId: conversationId.value,
+      conversationId: trackedConversationId.value,
     });
     followUpCount.value += 1;
 
@@ -233,7 +236,7 @@ export function useCopilotReply() {
         CAPTAIN_EVENTS[eventKey],
         buildPayload(
           currentAction.value,
-          conversationId.value,
+          trackedConversationId.value,
           followUpCount.value
         )
       );
@@ -245,6 +248,7 @@ export function useCopilotReply() {
     followUpContext.value = null;
     currentAction.value = null;
     followUpCount.value = 0;
+    trackedConversationId.value = null;
 
     return content;
   }
