@@ -94,7 +94,12 @@ class Aloo::ResponseService
 
   def trigger_voice_reply(message)
     return unless @assistant.voice_reply_enabled?
+    return unless incoming_message_has_audio?
 
     Aloo::VoiceReplyJob.perform_later(message.id)
+  end
+
+  def incoming_message_has_audio?
+    @message.attachments.exists?(file_type: 'audio')
   end
 end
