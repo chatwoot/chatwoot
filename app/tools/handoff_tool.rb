@@ -44,79 +44,40 @@ class HandoffTool < BaseTool
 
   private
 
-  def perform_handoff(reason:, priority:, summary:, preferred_team:)
+  def perform_handoff(reason:, priority:, summary:, preferred_team: nil) # rubocop:disable Lint/UnusedMethodArgument
     conversation = current_conversation
 
-    # Deactivate the AI bot for this conversation
-    deactivate_bot_for_conversation
+    # Request human assistance (flags conversation but AI continues responding)
+    request_human_assistance(reason: reason, priority: priority)
 
-    # Update conversation status to open for human agents
-    conversation.update!(
-      status: :open,
-      priority: map_priority(priority),
-      snoozed_until: nil
-    )
+    # Auto-elevate priority to high so agents see it at the top of their queues
+    # (unless already urgent, in which case keep it urgent)
+    effective_priority = conversation.priority == 'urgent' ? :urgent : :high
 
-    # Try to assign to an appropriate agent
-    assigned_agent = try_assign_agent(preferred_team)
+    # Update conversation priority (but NOT status - keep pending so AI continues)
+    # Also don't unsnooze - only update priority for visibility
+    conversation.update!(priority: effective_priority)
 
-    # Add internal note for the human agent
+    # Add internal note for the human agent explaining why help was requested
     add_handoff_note(reason: reason, summary: summary, priority: priority)
 
     {
-      handoff_completed: true,
+      human_assistance_requested: true,
       conversation_id: conversation.id,
-      assigned_agent: assigned_agent,
-      message: assigned_agent ? "Transferred to #{assigned_agent.name}" : 'Transferred to available agents'
+      message: 'Human assistance requested. An agent will take over when available. AI will continue responding in the meantime.'
     }
   end
 
-  def deactivate_bot_for_conversation
-    # If there's an agent bot inbox, mark it as inactive for this conversation
-    # This prevents the bot from responding to further messages
-    agent_bot_inbox = current_conversation.inbox.agent_bot_inbox
-    return unless agent_bot_inbox
-
-    # Store handoff state in conversation's custom attributes or context
+  # Flags conversation as needing human help WITHOUT stopping AI
+  # Sets human_assistance_requested flag instead of aloo_handoff_active
+  # AI continues responding while agents see "Help Requested" indicator
+  def request_human_assistance(reason:, priority:)
     current_conversation.update!(custom_attributes: current_conversation.custom_attributes.merge(
-      'aloo_handoff_at' => Time.current.iso8601,
-      'aloo_handoff_active' => true
+      'human_assistance_requested' => true,
+      'human_assistance_requested_at' => Time.current.iso8601,
+      'human_assistance_reason' => reason,
+      'human_assistance_priority' => priority
     ))
-  end
-
-  def try_assign_agent(preferred_team)
-    inbox = current_conversation.inbox
-
-    # Get available agents
-    available_agents = inbox.assignable_agents
-
-    return nil if available_agents.empty?
-
-    # If preferred team specified, try to find agent from that team
-    if preferred_team.present?
-      team_agent = find_agent_by_team(available_agents, preferred_team)
-      return assign_agent(team_agent) if team_agent
-    end
-
-    # Always assign to first available agent for explicit handoff
-    # Don't rely on auto-assignment which only works for online agents
-    assign_agent(available_agents.first)
-  end
-
-  def find_agent_by_team(agents, team_name)
-    # Find agents that belong to the specified team
-    team = current_account.teams.find_by('LOWER(name) = ?', team_name.downcase)
-    return nil unless team
-
-    team_member_ids = team.team_members.pluck(:user_id)
-    agents.find { |agent| team_member_ids.include?(agent.id) }
-  end
-
-  def assign_agent(agent)
-    return nil unless agent
-
-    current_conversation.update!(assignee: agent)
-    agent
   end
 
   def add_handoff_note(reason:, summary:, priority:)
@@ -138,9 +99,10 @@ class HandoffTool < BaseTool
   end
 
   def build_note_content(reason:, summary:, priority:)
-    parts = ["🤖 **AI Agent Handoff**\n"]
+    parts = ["🙋 **Human Assistance Requested**\n"]
     parts << "**Priority:** #{priority.capitalize}"
     parts << "**Reason:** #{reason}"
+    parts << '_AI is still responding while waiting for an agent to take over._'
     parts << "\n**Conversation Summary:**\n#{summary}" if summary.present?
     parts.join("\n")
   end

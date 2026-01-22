@@ -66,11 +66,27 @@ const hasAlooAssistant = computed(
   () => alooAssistant.value?.id && alooAssistant.value?.active
 );
 
+// Human assistance requested (customer asked for human, AI still responding)
+const isHumanAssistanceRequested = computed(
+  () =>
+    currentChat.value?.custom_attributes?.human_assistance_requested === true
+);
+
 // Show "Take Over" banner when Aloo AI is handling and user starts typing
 const showAlooTakeOverBanner = computed(() => {
   return (
     isAlooAIHandling.value &&
     isUserTyping.value &&
+    isCurrentUserHuman.value &&
+    !props.isOnPrivateNote
+  );
+});
+
+// Show "Human Assistance Requested" banner when flag is set and AI is still handling
+const showHumanAssistanceRequestedBanner = computed(() => {
+  return (
+    isHumanAssistanceRequested.value &&
+    isAlooAIHandling.value &&
     isCurrentUserHuman.value &&
     !props.isOnPrivateNote
   );
@@ -200,12 +216,51 @@ const onClickAlooAssignToAI = async () => {
     useAlert(t('CONVERSATION.ALOO.ASSIGN_TO_AI_ERROR'));
   }
 };
+
+// Take over from human assistance request: sets handoff flag, clears assistance request, assigns to current user
+const onClickTakeOverFromAssistanceRequest = async () => {
+  try {
+    // Set aloo_handoff_active and clear human_assistance_requested
+    await store.dispatch('updateCustomAttributes', {
+      conversationId: currentChat.value?.id,
+      customAttributes: {
+        ...currentChat.value?.custom_attributes,
+        aloo_handoff_active: true,
+        human_assistance_requested: false,
+        human_assistance_handled_at: new Date().toISOString(),
+      },
+    });
+    // Assign to current user
+    await selfAssignConversation();
+    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_SUCCESS'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.ALOO.TAKE_OVER_ERROR'));
+  }
+};
 </script>
 
 <template>
+  <!-- Aloo: Human assistance requested banner (customer asked for human, AI still responding) -->
+  <Banner
+    v-if="showHumanAssistanceRequestedBanner"
+    action-button-variant="ghost"
+    color-scheme="warning"
+    class="mx-2 mb-2 rounded-lg !py-3"
+    :banner-message="
+      $t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_BANNER_MESSAGE', {
+        assistantName: alooAssistant?.name,
+      })
+    "
+    has-action-button
+    action-button-icon="i-lucide-hand"
+    :action-button-label="
+      $t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_TAKE_OVER_BUTTON')
+    "
+    @primary-action="onClickTakeOverFromAssistanceRequest"
+  />
   <!-- Aloo: Informational banner when AI is handling and user starts typing -->
   <Banner
-    v-if="showAlooTakeOverBanner"
+    v-if="showAlooTakeOverBanner && !showHumanAssistanceRequestedBanner"
     color-scheme="primary"
     class="mx-2 mb-2 rounded-lg !py-3"
     :banner-message="

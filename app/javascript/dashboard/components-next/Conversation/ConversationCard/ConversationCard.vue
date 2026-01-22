@@ -4,6 +4,7 @@ import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { useRouter, useRoute } from 'vue-router';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper.js';
 import { dynamicTime, shortTimestamp } from 'shared/helpers/timeHelper';
+import { useI18n } from 'vue-i18n';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -29,6 +30,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { t } = useI18n();
 
 const router = useRouter();
 const route = useRoute();
@@ -63,6 +66,16 @@ const showMessagePreviewWithoutMeta = computed(() => {
     !cardMessagePreviewWithMetaRef.value?.hasSlaThreshold && labels.length === 0
   );
 });
+
+// Human assistance requested indicator
+const isHumanAssistanceRequested = computed(
+  () =>
+    props.conversation.custom_attributes?.human_assistance_requested === true
+);
+
+const humanAssistanceTooltip = computed(() =>
+  t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_REQUESTED_LIST_TOOLTIP')
+);
 
 const onCardClick = e => {
   const path = frontendURL(
@@ -103,6 +116,16 @@ const onCardClick = e => {
           {{ currentContactName }}
         </h4>
         <div class="flex items-center gap-2">
+          <span
+            v-if="isHumanAssistanceRequested"
+            v-tooltip.left="humanAssistanceTooltip"
+            class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-amber-3 size-5"
+          >
+            <Icon
+              icon="i-lucide-hand"
+              class="flex-shrink-0 text-n-amber-11 size-3"
+            />
+          </span>
           <CardPriorityIcon :priority="conversation.priority || null" />
           <div
             v-tooltip.left="inboxName"

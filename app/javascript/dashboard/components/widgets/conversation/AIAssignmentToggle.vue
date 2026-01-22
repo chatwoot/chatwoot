@@ -80,6 +80,7 @@ const takeOver = async () => {
       customAttributes: {
         ...props.chat.custom_attributes,
         aloo_handoff_active: true,
+        human_assistance_requested: false, // Clear the flag on takeover
       },
     });
     await store.dispatch('assignAgent', {
