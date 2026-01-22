@@ -51,12 +51,12 @@ RSpec.describe AgentBuilder, type: :model do
       end
     end
 
-    context 'when only email is provided' do
-      let(:params) { { email: email, inviter: current_user, account: account } }
+    context 'when name and email is provided' do
+      let(:params) { { name: 'NewUser', email: email, inviter: current_user, account: account } }
 
       it 'creates a user with default values' do
         user = agent_builder.perform
-        expect(user.name).to eq('')
+        expect(user.name).to eq('NewUser')
         expect(AccountUser.find_by(user: user).role).to eq('agent')
       end
     end

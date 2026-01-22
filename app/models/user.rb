@@ -75,6 +75,7 @@ class User < ApplicationRecord
   # work because :validatable in devise overrides this.
   # validates_uniqueness_of :email, scope: :account_id
 
+  validates :name, presence: true
   validates :email, presence: true
 
   serialize :otp_backup_codes, type: Array
