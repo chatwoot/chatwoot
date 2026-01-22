@@ -66,8 +66,9 @@ export function useBulkActionsHotKeys() {
   const prepareActions = actions => {
     return actions.map(action => ({
       ...action,
-      title: t(action.title),
-      section: t(action.section),
+      title: typeof action.title === 'string' ? t(action.title) : action.title,
+      section:
+        typeof action.section === 'string' ? t(action.section) : action.section,
     }));
   };
 
