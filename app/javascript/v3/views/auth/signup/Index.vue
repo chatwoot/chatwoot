@@ -51,7 +51,11 @@ const resizeContainers = () => {
               class="hidden w-auto h-7 dark:block"
             />
             <h2 class="mt-6 text-2xl font-semibold text-n-slate-12">
-              {{ $t('REGISTER.TRY_WOOT') }}
+              {{
+                isAChatwootInstance
+                  ? $t('REGISTER.GET_STARTED')
+                  : $t('REGISTER.TRY_WOOT')
+              }}
             </h2>
             <p class="mt-2 text-sm text-n-slate-11">
               {{ $t('REGISTER.HAVE_AN_ACCOUNT') }}{{ ' '
