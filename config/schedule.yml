@@ -67,9 +67,9 @@ periodic_assignment_job:
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
 
-# executed every 5 minutes
-# to auto-label conversations older than 5 minutes with no labels
-auto_label_pending_conversations_job:
-  cron: '*/5 * * * *'
-  class: 'Conversations::AutoLabelPendingConversationsJob'
-  queue: scheduled_jobs
+# executed weekly on Sunday at 3:00 AM UTC
+# to refresh website documents with auto_refresh enabled
+aloo_refresh_website_documents_job:
+  cron: '0 3 * * 0'
+  class: 'Aloo::RefreshWebsiteDocumentsJob'
+  queue: low

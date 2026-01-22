@@ -5,7 +5,7 @@ module Aloo
   # text-embedding-3-small uses 1536 dimensions
   EMBEDDING_DIMENSION = 1536
 
-  SUPPORTED_SOURCE_TYPES = %w[file website].freeze
+  SUPPORTED_SOURCE_TYPES = %w[file website text].freeze
 
   SUPPORTED_LANGUAGES = {
     'en' => { name: 'English', dialects: [] },

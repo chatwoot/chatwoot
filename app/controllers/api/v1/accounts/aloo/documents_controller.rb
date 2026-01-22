@@ -3,7 +3,7 @@
 class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :set_assistant
-  before_action :set_document, except: %i[index create]
+  before_action :set_document, except: %i[index create discover_pages]
 
   # Allowed file types for upload
   ALLOWED_CONTENT_TYPES = %w[
@@ -25,11 +25,26 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   end
 
   def create
-    if document_params[:source_url].present?
+    if document_params[:text_content].present?
+      create_text_document
+    elsif document_params[:source_url].present?
       create_website_document
     else
       create_file_document
     end
+  end
+
+  # POST /api/v1/accounts/:id/aloo/assistants/:assistant_id/documents/discover_pages
+  def discover_pages
+    url = params[:url]
+    raise ActionController::BadRequest, 'URL is required' if url.blank?
+
+    service = Aloo::SitemapDiscoveryService.new(url)
+    pages = service.discover
+
+    render json: { pages: pages }
+  rescue URI::InvalidURIError
+    raise ActionController::BadRequest, 'Invalid URL format'
   end
 
   def destroy
@@ -63,18 +78,44 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
     render json: document_json(@document), status: :created
   end
 
+  def create_text_document
+    raise ActionController::BadRequest, 'Title is required' if document_params[:title].blank?
+    raise ActionController::BadRequest, 'Content is required' if document_params[:text_content].blank?
+
+    @document = @assistant.documents.create!(
+      account: Current.account,
+      title: document_params[:title],
+      source_type: 'text',
+      text_content: document_params[:text_content],
+      metadata: {
+        character_count: document_params[:text_content].length
+      }
+    )
+
+    Aloo::ProcessDocumentJob.perform_later(@document.id)
+    render json: document_json(@document), status: :created
+  end
+
   def create_website_document
     validate_url!
+
+    selected_pages = document_params[:selected_pages]
+    auto_refresh = ActiveModel::Type::Boolean.new.cast(document_params[:auto_refresh])
 
     @document = @assistant.documents.create!(
       account: Current.account,
       title: document_params[:title] || extract_title_from_url,
       source_type: 'website',
       source_url: document_params[:source_url],
+      selected_pages: selected_pages.presence || [],
+      auto_refresh: auto_refresh,
       metadata: {
-        crawl_full_site: ActiveModel::Type::Boolean.new.cast(document_params[:crawl_full_site])
+        crawl_full_site: selected_pages.blank? && ActiveModel::Type::Boolean.new.cast(document_params[:crawl_full_site])
       }
     )
+
+    # Schedule initial refresh if auto_refresh is enabled
+    @document.schedule_next_refresh! if auto_refresh
 
     Aloo::ProcessDocumentJob.perform_later(@document.id)
     render json: document_json(@document), status: :created
@@ -123,7 +164,7 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
   end
 
   def document_params
-    params.permit(:title, :file, :source_url, :crawl_full_site)
+    params.permit(:title, :file, :source_url, :crawl_full_site, :text_content, :auto_refresh, selected_pages: [])
   end
 
   def validate_file!
@@ -157,7 +198,14 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
       crawl_full_site: document.metadata&.dig('crawl_full_site'),
       chunk_count: document.embeddings.count,
       created_at: document.created_at,
-      updated_at: document.updated_at
+      updated_at: document.updated_at,
+      # New fields for text source and auto-refresh
+      text_content_preview: document.text_content&.truncate(200),
+      character_count: document.metadata&.dig('character_count'),
+      selected_pages: document.selected_pages,
+      auto_refresh: document.auto_refresh,
+      last_refreshed_at: document.last_refreshed_at,
+      next_refresh_at: document.next_refresh_at
     }
   end
 

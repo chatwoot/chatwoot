@@ -6,11 +6,12 @@ module Aloo
     MAX_DEPTH = 2
     REQUEST_TIMEOUT = 30
 
-    attr_reader :base_url, :crawl_full_site, :visited_urls, :base_domain
+    attr_reader :base_url, :crawl_full_site, :selected_pages, :visited_urls, :base_domain
 
-    def initialize(url:, crawl_full_site: false)
+    def initialize(url:, crawl_full_site: false, selected_pages: nil)
       @base_url = url
       @crawl_full_site = crawl_full_site
+      @selected_pages = selected_pages
       @visited_urls = Set.new
       @base_domain = extract_domain(url)
     end
@@ -19,7 +20,10 @@ module Aloo
       pages = []
       errors = []
 
-      if crawl_full_site
+      if selected_pages.present?
+        # Scrape only user-selected pages
+        scrape_selected(pages, errors)
+      elsif crawl_full_site
         crawl_site(base_url, pages, errors, 0)
       else
         result = fetch_and_parse(base_url)
@@ -33,7 +37,30 @@ module Aloo
       { pages: pages, errors: errors }
     end
 
+    # Class method for direct selected pages scraping
+    def self.scrape_selected_pages(urls)
+      return { pages: [], errors: [] } if urls.blank?
+
+      service = new(url: urls.first, selected_pages: urls)
+      service.perform
+    end
+
     private
+
+    def scrape_selected(pages, errors)
+      selected_pages.take(MAX_PAGES).each do |url|
+        next if visited_urls.include?(url)
+
+        visited_urls.add(url)
+        result = fetch_and_parse(url)
+
+        if result[:error]
+          errors << { url: url, error: result[:error] }
+        else
+          pages << result
+        end
+      end
+    end
 
     def crawl_site(url, pages, errors, depth)
       return if depth > MAX_DEPTH

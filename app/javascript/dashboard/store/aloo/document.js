@@ -56,19 +56,42 @@ export default createStore({
         commit(mutationTypes.SET_UI_FLAG, { updatingItem: false });
       }
     },
-    async addWebsite({ commit }, { assistantId, url, title, crawlFullSite }) {
+    async addWebsite(
+      { commit },
+      { assistantId, url, title, crawlFullSite, selectedPages, autoRefresh }
+    ) {
       commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
       try {
         const response = await AlooDocumentAPI.addWebsite(assistantId, {
           url,
           title,
           crawlFullSite,
+          selectedPages,
+          autoRefresh,
         });
         commit(mutationTypes.ADD, response.data);
         return response.data;
       } finally {
         commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
       }
+    },
+    async addTextBlock({ commit }, { assistantId, title, content }) {
+      commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
+      try {
+        const response = await AlooDocumentAPI.addTextBlock(assistantId, {
+          title,
+          content,
+        });
+        commit(mutationTypes.ADD, response.data);
+        return response.data;
+      } finally {
+        commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
+      }
+    },
+    async discoverPages(_, { assistantId, url }) {
+      // Note: No commit needed, just return the discovered pages
+      const response = await AlooDocumentAPI.discoverPages(assistantId, url);
+      return response.data;
     },
   }),
 });

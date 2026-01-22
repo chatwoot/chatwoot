@@ -5,6 +5,8 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import AddTextBlockDialog from './AddTextBlockDialog.vue';
+import AddWebsiteDialog from './AddWebsiteDialog.vue';
 
 const props = defineProps({
   assistantId: {
@@ -19,12 +21,11 @@ const getters = useStoreGetters();
 
 const isLoading = ref(true);
 const isUploading = ref(false);
-const isAddingWebsite = ref(false);
 const isDragging = ref(false);
 const fileInput = ref(null);
-const websiteUrl = ref('');
-const crawlFullSite = ref(false);
 const expandedDocId = ref(null);
+const textBlockDialogRef = ref(null);
+const websiteDialogRef = ref(null);
 
 const documents = computed(() => getters['alooDocuments/getRecords'].value);
 
@@ -153,15 +154,22 @@ const getStatusIcon = status => {
 };
 
 const getDocumentIcon = doc => {
-  return doc.source_type === 'website'
-    ? 'i-lucide-globe'
-    : 'i-lucide-file-text';
+  const icons = {
+    website: 'i-lucide-globe',
+    text: 'i-lucide-align-left',
+    file: 'i-lucide-file-text',
+  };
+  return icons[doc.source_type] || icons.file;
 };
 
 const getDocumentMeta = doc => {
   if (doc.source_type === 'website') {
     const pages = doc.pages_scraped || 0;
     return `${pages} ${t('ALOO.KNOWLEDGE.WEBSITE.PAGES')}`;
+  }
+  if (doc.source_type === 'text') {
+    const chars = doc.character_count || 0;
+    return `${chars.toLocaleString()} ${t('ALOO.KNOWLEDGE.TEXT_BLOCK.CHARACTERS')}`;
   }
   return formatFileSize(doc.file_size);
 };
@@ -170,19 +178,46 @@ const toggleExpand = docId => {
   expandedDocId.value = expandedDocId.value === docId ? null : docId;
 };
 
-const addWebsite = async () => {
-  if (!websiteUrl.value) return;
+const openTextBlockDialog = () => {
+  textBlockDialogRef.value?.open();
+};
 
-  isAddingWebsite.value = true;
+const openWebsiteDialog = () => {
+  websiteDialogRef.value?.open();
+};
+
+const handleTextBlockSubmit = async ({ title, content }) => {
+  try {
+    await store.dispatch('alooDocuments/addTextBlock', {
+      assistantId: props.assistantId,
+      title,
+      content,
+    });
+    useAlert(t('ALOO.MESSAGES.TEXT_BLOCK_ADDED'));
+    await store.dispatch('alooDocuments/getDocuments', {
+      assistantId: props.assistantId,
+    });
+  } catch {
+    useAlert(t('ALOO.MESSAGES.ERROR'));
+    throw new Error('Failed to add text block');
+  }
+};
+
+const handleWebsiteSubmit = async ({
+  url,
+  title,
+  selectedPages,
+  autoRefresh,
+}) => {
   try {
     await store.dispatch('alooDocuments/addWebsite', {
       assistantId: props.assistantId,
-      url: websiteUrl.value,
-      crawlFullSite: crawlFullSite.value,
+      url,
+      title,
+      selectedPages,
+      autoRefresh,
     });
     useAlert(t('ALOO.MESSAGES.WEBSITE_ADDED'));
-    websiteUrl.value = '';
-    crawlFullSite.value = false;
     await store.dispatch('alooDocuments/getDocuments', {
       assistantId: props.assistantId,
     });
@@ -193,8 +228,7 @@ const addWebsite = async () => {
     } else {
       useAlert(t('ALOO.MESSAGES.ERROR'));
     }
-  } finally {
-    isAddingWebsite.value = false;
+    throw error;
   }
 };
 </script>
@@ -264,7 +298,7 @@ const addWebsite = async () => {
           </div>
 
           <!-- Input Cards -->
-          <div class="grid grid-cols-2 gap-4">
+          <div class="grid grid-cols-3 gap-4">
             <!-- File Upload Card -->
             <div
               class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
@@ -315,49 +349,44 @@ const addWebsite = async () => {
 
             <!-- Website URL Card -->
             <div
-              class="border-2 border-dashed rounded-xl p-6 border-n-weak"
-              @click.stop
+              class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+              @click="openWebsiteDialog"
             >
               <div class="flex flex-col items-center gap-3">
                 <div
                   class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
                 >
-                  <span
-                    v-if="isAddingWebsite"
-                    class="i-lucide-loader-2 text-2xl text-n-blue-9 animate-spin"
-                  />
-                  <span v-else class="i-lucide-globe text-2xl text-n-slate-9" />
+                  <span class="i-lucide-globe text-2xl text-n-slate-9" />
                 </div>
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
-                </p>
-                <div class="w-full space-y-2">
-                  <input
-                    v-model="websiteUrl"
-                    type="url"
-                    class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder-n-slate-9 text-sm"
-                    :placeholder="$t('ALOO.KNOWLEDGE.WEBSITE.URL_PLACEHOLDER')"
-                    @keyup.enter="addWebsite"
-                  />
-                  <label class="flex items-center gap-2">
-                    <input
-                      v-model="crawlFullSite"
-                      type="checkbox"
-                      class="rounded border-n-weak"
-                    />
-                    <span class="text-xs text-n-slate-10">
-                      {{ $t('ALOO.KNOWLEDGE.WEBSITE.CRAWL_FULL_SITE') }}
-                    </span>
-                  </label>
-                  <Button
-                    icon="i-lucide-plus"
-                    :is-loading="isAddingWebsite"
-                    :disabled="!websiteUrl"
-                    class="w-full"
-                    @click="addWebsite"
-                  >
-                    {{ $t('ALOO.KNOWLEDGE.WEBSITE.ADD') }}
-                  </Button>
+                <div>
+                  <p class="text-sm font-medium text-n-slate-12">
+                    {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
+                  </p>
+                  <p class="text-xs text-n-slate-10 mt-1">
+                    {{ $t('ALOO.KNOWLEDGE.WEBSITE.CARD_DESCRIPTION') }}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Text Block Card -->
+            <div
+              class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+              @click="openTextBlockDialog"
+            >
+              <div class="flex flex-col items-center gap-3">
+                <div
+                  class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
+                >
+                  <span class="i-lucide-align-left text-2xl text-n-slate-9" />
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-n-slate-12">
+                    {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_TITLE') }}
+                  </p>
+                  <p class="text-xs text-n-slate-10 mt-1">
+                    {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_DESCRIPTION') }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -394,8 +423,11 @@ const addWebsite = async () => {
                     <p class="text-xs text-n-slate-10">
                       {{ getDocumentMeta(doc) }}
                       <span v-if="doc.chunk_count" class="ml-1">
-                        · {{ doc.chunk_count }}
-                        {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.CHUNKS') }}
+                        {{
+                          $t('ALOO.KNOWLEDGE.DOCUMENTS.CHUNK_COUNT', {
+                            count: doc.chunk_count,
+                          })
+                        }}
                       </span>
                     </p>
                   </div>
@@ -451,16 +483,67 @@ const addWebsite = async () => {
                     <p class="text-sm text-n-slate-12">{{ doc.filename }}</p>
                   </div>
 
-                  <!-- Crawl info for websites -->
+                  <!-- Text content preview -->
+                  <div
+                    v-if="
+                      doc.source_type === 'text' && doc.text_content_preview
+                    "
+                  >
+                    <p class="text-xs text-n-slate-10 mb-1">
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_PREVIEW') }}
+                    </p>
+                    <p class="text-sm text-n-slate-11 italic line-clamp-3">
+                      {{
+                        $t('ALOO.KNOWLEDGE.DETAILS.CONTENT_QUOTED', {
+                          content: doc.text_content_preview,
+                        })
+                      }}
+                    </p>
+                  </div>
+
+                  <!-- Scrape info for websites -->
                   <div v-if="doc.source_type === 'website'">
                     <p class="text-xs text-n-slate-10 mb-1">
-                      {{ $t('ALOO.KNOWLEDGE.DETAILS.CRAWL_MODE') }}
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.SCRAPE_MODE') }}
                     </p>
                     <p class="text-sm text-n-slate-12">
+                      <template v-if="doc.selected_pages?.length">
+                        {{
+                          $t('ALOO.KNOWLEDGE.DETAILS.SELECTED_PAGES', {
+                            count: doc.selected_pages.length,
+                          })
+                        }}
+                      </template>
+                      <template v-else-if="doc.crawl_full_site">
+                        {{ $t('ALOO.KNOWLEDGE.DETAILS.FULL_SITE') }}
+                      </template>
+                      <template v-else>
+                        {{ $t('ALOO.KNOWLEDGE.DETAILS.SINGLE_PAGE') }}
+                      </template>
+                    </p>
+                  </div>
+
+                  <!-- Auto-refresh info for websites -->
+                  <div v-if="doc.source_type === 'website' && doc.auto_refresh">
+                    <p class="text-xs text-n-slate-10 mb-1">
+                      {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH') }}
+                    </p>
+                    <div class="flex items-center gap-2">
+                      <span
+                        class="i-lucide-refresh-cw text-n-green-9 text-sm"
+                      />
+                      <span class="text-sm text-n-slate-12">
+                        {{ $t('ALOO.KNOWLEDGE.DETAILS.AUTO_REFRESH_ENABLED') }}
+                      </span>
+                    </div>
+                    <p
+                      v-if="doc.next_refresh_at"
+                      class="text-xs text-n-slate-10 mt-1"
+                    >
                       {{
-                        doc.crawl_full_site
-                          ? $t('ALOO.KNOWLEDGE.DETAILS.FULL_SITE')
-                          : $t('ALOO.KNOWLEDGE.DETAILS.SINGLE_PAGE')
+                        $t('ALOO.KNOWLEDGE.DETAILS.NEXT_REFRESH_DATE', {
+                          date: new Date(doc.next_refresh_at).toLocaleString(),
+                        })
                       }}
                     </p>
                   </div>
@@ -520,6 +603,17 @@ const addWebsite = async () => {
           </div>
         </div>
       </SettingsSection>
+
+      <!-- Dialogs -->
+      <AddTextBlockDialog
+        ref="textBlockDialogRef"
+        @submit="handleTextBlockSubmit"
+      />
+      <AddWebsiteDialog
+        ref="websiteDialogRef"
+        :assistant-id="assistantId"
+        @submit="handleWebsiteSubmit"
+      />
     </template>
   </div>
 </template>
