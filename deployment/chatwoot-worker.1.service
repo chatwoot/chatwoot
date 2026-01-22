@@ -16,8 +16,8 @@ KillMode=mixed
 StandardInput=null
 SyslogIdentifier=%p
 
-MemoryMax=1.5G
-MemoryHigh=1.4G
+MemoryMax=1.2G
+MemoryHigh=infinity
 MemorySwapMax=0
 OOMPolicy=stop
 

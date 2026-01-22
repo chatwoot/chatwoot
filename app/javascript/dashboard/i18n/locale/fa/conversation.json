@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "در حال بارگیری گفتگو‌ها",
     "CANNOT_REPLY": "شما نمی‌توانید پاسخ بدهید به دلیل",
     "24_HOURS_WINDOW": "محدودیت ۲۴ ساعته پنجره پیام",
+    "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "این گفتگو به شما اختصاص داده نشده است. آیا می خواهید این گفتگو را به خودتان اختصاص دهید؟",
     "ASSIGN_TO_ME": "اختصاص به من",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "ادامه مطلب",
       "DISMISS_REPLY": "رد پاسخ",
       "REPLYING_TO": "در حال پاسخ دهی به:",
-      "TIP_FORMAT_ICON": "نمایش ویرایشگر متنی پیشرفته",
       "TIP_EMOJI_ICON": "انتخاب ایموجی",
       "TIP_ATTACH_ICON": "ضمیمه فایل",
       "TIP_AUDIORECORDER_ICON": "ضبط صدا",
@@ -227,6 +227,13 @@
           "YES": "ارسال",
           "CANCEL": "انصراف"
         }
+      },
+      "QUOTED_REPLY": {
+        "ENABLE_TOOLTIP": "Include quoted email thread",
+        "DISABLE_TOOLTIP": "Don't include quoted email thread",
+        "REMOVE_PREVIEW": "Remove quoted email thread",
+        "COLLAPSE": "Collapse preview",
+        "EXPAND": "Expand preview"
       }
     },
     "VISIBLE_TO_AGENTS": "یادداشت خصوصی: فقط برای شما و تیم شما قابل مشاهده است",
@@ -268,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "مخاطب",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

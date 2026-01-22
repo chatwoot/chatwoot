@@ -27,7 +27,12 @@
       "LABEL": "密码",
       "PLACEHOLDER": "密码",
       "ERROR": "密码太短了.",
-      "IS_INVALID_PASSWORD": "密码应至少应该包含：1个大写字母、1个小写字母、1个数字和1个特殊字符。"
+      "IS_INVALID_PASSWORD": "密码应至少应该包含：1个大写字母、1个小写字母、1个数字和1个特殊字符。",
+      "REQUIREMENTS_LENGTH": "At least 6 characters long",
+      "REQUIREMENTS_UPPERCASE": "At least one uppercase letter",
+      "REQUIREMENTS_LOWERCASE": "At least one lowercase letter",
+      "REQUIREMENTS_NUMBER": "At least one number",
+      "REQUIREMENTS_SPECIAL": "At least one special character"
     },
     "CONFIRM_PASSWORD": {
       "LABEL": "确认密码",
@@ -35,7 +40,7 @@
       "ERROR": "密码不匹配."
     },
     "API": {
-      "SUCCESS_MESSAGE": "注册成功",
+      "SUCCESS_MESSAGE": "Registration Successful",
       "ERROR_MESSAGE": "无法与 Woot 服务器建立连接。请重试。"
     },
     "SUBMIT": "创建新账户",

@@ -10,6 +10,12 @@ class Whatsapp::WebhookSetupService
     validate_parameters!
     # Skip registration for business app onboarding or if phone number is already verified
     register_phone_number unless @channel.provider_config['is_business_app_onboarding'] || phone_number_verified?
+
+    # Register phone number if either condition is met:
+    # 1. Phone number is not verified (code_verification_status != 'VERIFIED')
+    # 2. Phone number needs registration (pending provisioning state)
+    register_phone_number if !phone_number_verified? || phone_number_needs_registration?
+
     setup_webhook
   end
 
@@ -69,9 +75,44 @@ class Whatsapp::WebhookSetupService
   def phone_number_verified?
     phone_number_id = @channel.provider_config['phone_number_id']
 
-    @api_client.phone_number_verified?(phone_number_id)
+    # Check with WhatsApp API if the phone number code verification is complete
+    # This checks code_verification_status == 'VERIFIED'
+    verified = @api_client.phone_number_verified?(phone_number_id)
+    Rails.logger.info("[WHATSAPP] Phone number #{phone_number_id} code verification status: #{verified}")
+
+    verified
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Phone registration status check failed, but continuing: #{e.message}")
+    # If verification check fails, assume not verified to be safe
+    Rails.logger.error("[WHATSAPP] Phone verification status check failed: #{e.message}")
+    false
+  end
+
+  def phone_number_needs_registration?
+    # Check if phone is in pending provisioning state based on health data
+    # This is a separate check from phone_number_verified? which only checks code verification
+
+    phone_number_in_pending_state?
+
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Phone registration check failed: #{e.message}")
+    # Conservative approach: don't register if we can't determine the state
+    false
+  end
+
+  def phone_number_in_pending_state?
+    health_service = Whatsapp::HealthService.new(@channel)
+    health_data = health_service.fetch_health_status
+
+    # Check if phone number is in "not provisioned" state based on health indicators
+    # These conditions indicate the number is pending and needs registration:
+    # - platform_type: "NOT_APPLICABLE" means not fully set up
+    # - throughput.level: "NOT_APPLICABLE" means no messaging capacity assigned
+    health_data[:platform_type] == 'NOT_APPLICABLE' ||
+      health_data.dig(:throughput, :level) == 'NOT_APPLICABLE'
+
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Health status check failed: #{e.message}")
+    # If health check fails, assume registration is not needed to avoid errors
     false
   end
 end

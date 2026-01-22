@@ -1,33 +1,34 @@
 {
   "CONTENT_TEMPLATES": {
     "MODAL": {
-      "TITLE": "Twilio Templates",
-      "SUBTITLE": "Select the Twilio template you want to send",
-      "TEMPLATE_SELECTED_SUBTITLE": "Configure template: {templateName}"
+      "TITLE": "Twilio Şablonları",
+      "SUBTITLE": "Göndermek istediğiniz Twilio şablonunu seçin",
+      "TEMPLATE_SELECTED_SUBTITLE": "Şablonu yapılandır: {templateName}"
     },
     "PICKER": {
       "SEARCH_PLACEHOLDER": "Şablon Ara",
       "NO_TEMPLATES_FOUND": "İçin hiç şablon bulunamadı",
       "NO_CONTENT": "No content",
-      "HEADER": "Header",
-      "BODY": "Body",
-      "FOOTER": "Footer",
-      "BUTTONS": "Buttons",
+      "HEADER": "Başlık",
+      "BODY": "Gövde",
+      "FOOTER": "Altbilgi",
+      "BUTTONS": "Butonlar",
       "CATEGORY": "Kategori",
-      "MEDIA_CONTENT": "Media Content",
-      "MEDIA_CONTENT_FALLBACK": "media content",
-      "NO_TEMPLATES_AVAILABLE": "No Twilio templates available. Click refresh to sync templates from Twilio.",
-      "REFRESH_BUTTON": "Refresh templates",
-      "REFRESH_SUCCESS": "Templates refresh initiated. It may take a couple of minutes to update.",
-      "REFRESH_ERROR": "Failed to refresh templates. Please try again.",
+      "MEDIA_CONTENT": "Medya İçeriği",
+      "MEDIA_CONTENT_FALLBACK": "medya içeriği",
+      "NO_TEMPLATES_AVAILABLE": "Twilio şablonu mevcut değil. Twilio'dan şablonları senkronize etmek için yenile düğmesine tıklayın.",
+      "REFRESH_BUTTON": "Şablonları yenile",
+      "REFRESH_SUCCESS": "Şablonların yenilenmesi başlatıldı. Güncelleme birkaç dakika sürebilir.",
+      "REFRESH_ERROR": "Şablonları yenileme işlemi başarısız oldu. Lütfen tekrar deneyin.",
       "LABELS": {
         "LANGUAGE": "Dil",
         "TEMPLATE_BODY": "Şablon İçeriği",
         "CATEGORY": "Kategori"
       },
       "TYPES": {
-        "MEDIA": "Media",
-        "QUICK_REPLY": "Quick Reply",
+        "MEDIA": "Medya",
+        "QUICK_REPLY": "Hızlı Yanıt",
+        "CALL_TO_ACTION": "Call to Action",
         "TEXT": "Metin"
       }
     },
@@ -39,8 +40,8 @@
       "GO_BACK_LABEL": "Geri Git",
       "SEND_MESSAGE_LABEL": "Mesaj Gönder",
       "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun",
-      "MEDIA_HEADER_LABEL": "{type} Header",
-      "MEDIA_URL_LABEL": "Enter full media URL",
+      "MEDIA_HEADER_LABEL": "{type} Başlık",
+      "MEDIA_URL_LABEL": "Tam medya URL'sini girin",
       "MEDIA_URL_PLACEHOLDER": "https://example.com/image.jpg"
     },
     "FORM": {

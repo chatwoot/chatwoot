@@ -27,10 +27,10 @@
     "IN_A_FEW_HOURS": "Normalmente responde em algumas horas",
     "IN_A_DAY": "Normalmente responde em um dia",
     "BACK_IN_HOURS": "Estaremos de volta em {n} hora | Estaremos de volta em {n} horas",
-    "BACK_IN_MINUTES": "We will be back online in {time} minutes",
-    "BACK_AT_TIME": "We will be back online at {time}",
-    "BACK_ON_DAY": "We will be back online on {day}",
-    "BACK_TOMORROW": "We will be back online tomorrow",
+    "BACK_IN_MINUTES": "Estaremos de volta em {time} minutos",
+    "BACK_AT_TIME": "Estaremos de volta em {time}",
+    "BACK_ON_DAY": "Estaremos de volta em {day}",
+    "BACK_TOMORROW": "Estaremos de volta amanhã",
     "BACK_IN_SOME_TIME": "Estaremos disponíveis novamente em breve"
   },
   "DAY_NAMES": {

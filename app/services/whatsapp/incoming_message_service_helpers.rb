@@ -48,7 +48,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def processed_waid(waid)
-    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact(waid)
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).normalize_and_find_contact_by_provider(waid, :cloud)
   end
 
   def error_webhook_event?(message)

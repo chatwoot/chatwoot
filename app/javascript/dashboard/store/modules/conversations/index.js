@@ -6,6 +6,7 @@ import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { CONTENT_TYPES } from 'dashboard/components-next/message/constants.js';
 
 const state = {
   allConversations: [],
@@ -22,6 +23,10 @@ const state = {
   syncConversationsMessages: {},
   conversationFilters: {},
   copilotAssistant: {},
+};
+
+const getConversationById = _state => conversationId => {
+  return _state.allConversations.find(c => c.id === conversationId);
 };
 
 // mutations
@@ -194,7 +199,6 @@ export const mutations = {
       const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
       chat.unread_count = unreadCount;
       if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     }
@@ -225,7 +229,6 @@ export const mutations = {
       const { messages, ...updates } = conversation;
       allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
-        emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
       }
     } else {
@@ -270,6 +273,36 @@ export const mutations = {
     if (chat) {
       chat.meta.sender = payload;
     }
+  },
+
+  [types.UPDATE_CONVERSATION_CALL_STATUS](
+    _state,
+    { conversationId, callStatus }
+  ) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    chat.additional_attributes = {
+      ...chat.additional_attributes,
+      call_status: callStatus,
+    };
+  },
+
+  [types.UPDATE_MESSAGE_CALL_STATUS](_state, { conversationId, callStatus }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (!chat) return;
+
+    const lastCall = (chat.messages || []).findLast(
+      m => m.content_type === CONTENT_TYPES.VOICE_CALL
+    );
+
+    if (!lastCall) return;
+
+    lastCall.content_attributes ??= {};
+    lastCall.content_attributes.data = {
+      ...lastCall.content_attributes.data,
+      status: callStatus,
+    };
   },
 
   [types.SET_ACTIVE_INBOX](_state, inboxId) {

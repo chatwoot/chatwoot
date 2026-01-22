@@ -24,7 +24,7 @@
     "CREATE_NEW_ACCOUNT": "Ustvarite nov račun",
     "SUBMIT": "Prijava",
     "SAML": {
-      "LABEL": "Log in via SSO",
+      "LABEL": "Login via SSO",
       "TITLE": "Initiate Single Sign-on (SSO)",
       "SUBTITLE": "Enter your work email to access your organization",
       "BACK_TO_LOGIN": "Login via Password",

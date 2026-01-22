@@ -6,7 +6,7 @@ describe Widget::TokenService do
 
   describe 'inheritance' do
     it 'inherits from BaseTokenService' do
-      expect(described_class.superclass).to eq(BaseTokenService)
+      expect(described_class.superclass.name).to eq('BaseTokenService')
     end
   end
 

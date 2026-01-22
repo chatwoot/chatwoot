@@ -21,6 +21,9 @@ class Integrations::Hook < ApplicationRecord
   before_validation :ensure_hook_type
   after_create :trigger_setup_if_crm
 
+  # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
+  encrypts :access_token, deterministic: true if Chatwoot.encryption_configured?
+
   validates :account_id, presence: true
   validates :app_id, presence: true
   validates :inbox_id, presence: true, if: -> { hook_type == 'inbox' }
@@ -61,13 +64,10 @@ class Integrations::Hook < ApplicationRecord
     update(status: 'disabled')
   end
 
-  def process_event(event)
-    case app_id
-    when 'openai'
-      Integrations::Openai::ProcessorService.new(hook: self, event: event).perform if app_id == 'openai'
-    else
-      { error: 'No processor found' }
-    end
+  def process_event(_event)
+    # OpenAI integration migrated to Captain::EditorService
+    # Other integrations (slack, dialogflow, etc.) handled via HookJob
+    { error: 'No processor found' }
   end
 
   def feature_allowed?

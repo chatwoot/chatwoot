@@ -1,82 +1,99 @@
 class Voice::InboundCallBuilder
-  pattr_initialize [:account!, :inbox!, :from_number!, :to_number, :call_sid!]
+  attr_reader :account, :inbox, :from_number, :call_sid
 
-  attr_reader :conversation
-
-  def perform
-    contact = find_or_create_contact!
-    contact_inbox = find_or_create_contact_inbox!(contact)
-    @conversation = find_or_create_conversation!(contact, contact_inbox)
-    create_call_message_if_needed!
-    self
+  def self.perform!(account:, inbox:, from_number:, call_sid:)
+    new(account: account, inbox: inbox, from_number: from_number, call_sid: call_sid).perform!
   end
 
-  def twiml_response
-    response = Twilio::TwiML::VoiceResponse.new
-    response.say(message: 'Please wait while we connect you to an agent')
-    response.to_s
+  def initialize(account:, inbox:, from_number:, call_sid:)
+    @account = account
+    @inbox = inbox
+    @from_number = from_number
+    @call_sid = call_sid
+  end
+
+  def perform!
+    timestamp = current_timestamp
+
+    ActiveRecord::Base.transaction do
+      contact = ensure_contact!
+      contact_inbox = ensure_contact_inbox!(contact)
+      conversation = find_conversation || create_conversation!(contact, contact_inbox)
+      conversation.reload
+      update_conversation!(conversation, timestamp)
+      build_voice_message!(conversation, timestamp)
+      conversation
+    end
   end
 
   private
 
-  def find_or_create_conversation!(contact, contact_inbox)
-    account.conversations.find_or_create_by!(
-      account_id: account.id,
-      inbox_id: inbox.id,
-      identifier: call_sid
-    ) do |conv|
-      conv.contact_id = contact.id
-      conv.contact_inbox_id = contact_inbox.id
-      conv.additional_attributes = {
-        'call_direction' => 'inbound',
-        'call_status' => 'ringing'
-      }
+  def ensure_contact!
+    account.contacts.find_or_create_by!(phone_number: from_number) do |record|
+      record.name = from_number if record.name.blank?
     end
   end
 
-  def create_call_message!
-    content_attrs = call_message_content_attributes
+  def ensure_contact_inbox!(contact)
+    ContactInbox.find_or_create_by!(
+      contact_id: contact.id,
+      inbox_id: inbox.id
+    ) do |record|
+      record.source_id = from_number
+    end
+  end
 
-    @conversation.messages.create!(
-      account_id: account.id,
+  def find_conversation
+    return if call_sid.blank?
+
+    account.conversations.includes(:contact).find_by(identifier: call_sid)
+  end
+
+  def create_conversation!(contact, contact_inbox)
+    account.conversations.create!(
+      contact_inbox_id: contact_inbox.id,
       inbox_id: inbox.id,
-      message_type: :incoming,
-      sender: @conversation.contact,
-      content: 'Voice Call',
-      content_type: 'voice_call',
-      content_attributes: content_attrs
+      contact_id: contact.id,
+      status: :open,
+      identifier: call_sid
     )
   end
 
-  def create_call_message_if_needed!
-    return if @conversation.messages.voice_calls.exists?
+  def update_conversation!(conversation, timestamp)
+    attrs = {
+      'call_direction' => 'inbound',
+      'call_status' => 'ringing',
+      'conference_sid' => Voice::Conference::Name.for(conversation),
+      'meta' => { 'initiated_at' => timestamp }
+    }
 
-    create_call_message!
+    conversation.update!(
+      identifier: call_sid,
+      additional_attributes: attrs,
+      last_activity_at: current_time
+    )
   end
 
-  def call_message_content_attributes
-    {
-      data: {
+  def build_voice_message!(conversation, timestamp)
+    Voice::CallMessageBuilder.perform!(
+      conversation: conversation,
+      direction: 'inbound',
+      payload: {
         call_sid: call_sid,
         status: 'ringing',
-        conversation_id: @conversation.display_id,
-        call_direction: 'inbound',
+        conference_sid: conversation.additional_attributes['conference_sid'],
         from_number: from_number,
-        to_number: to_number,
-        meta: {
-          created_at: Time.current.to_i,
-          ringing_at: Time.current.to_i
-        }
-      }
-    }
+        to_number: inbox.channel&.phone_number
+      },
+      timestamps: { created_at: timestamp, ringing_at: timestamp }
+    )
   end
 
-  def find_or_create_contact!
-    account.contacts.find_by(phone_number: from_number) ||
-      account.contacts.create!(phone_number: from_number, name: 'Unknown Caller')
+  def current_timestamp
+    @current_timestamp ||= current_time.to_i
   end
 
-  def find_or_create_contact_inbox!(contact)
-    ContactInbox.where(contact_id: contact.id, inbox_id: inbox.id, source_id: from_number).first_or_create!
+  def current_time
+    @current_time ||= Time.zone.now
   end
 end
