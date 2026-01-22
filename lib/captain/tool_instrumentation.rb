@@ -21,7 +21,7 @@ module Captain::ToolInstrumentation
     response
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
-    response || yield
+    response
   end
 
   def record_generation(chat, message, model)
