@@ -223,7 +223,7 @@ const onRecaptchaVerified = token => {
         lg
         type="submit"
         data-testid="submit_button"
-        class="w-full"
+        class="w-full font-medium"
         :label="$t('REGISTER.SUBMIT')"
         :disabled="isSignupInProgress || !isFormValid"
         :is-loading="isSignupInProgress"
