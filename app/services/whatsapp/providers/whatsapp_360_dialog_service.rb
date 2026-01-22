@@ -50,6 +50,44 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     "#{api_base_path}/media/#{media_id}"
   end
 
+  # Upload media to 360Dialog Media API and return the media_id
+  # This is required because WhatsApp cannot reliably fetch from ActiveStorage URLs
+  def upload_media(attachment)
+    return nil unless attachment.file.attached?
+
+    attachment.file.open do |file|
+      response = HTTParty.post(
+        "#{api_base_path}/media",
+        headers: { 'D360-API-KEY' => whatsapp_channel.provider_config['api_key'] },
+        multipart: true,
+        body: { type: attachment.file.content_type, file: file }
+      )
+      return handle_360_media_upload_response(response)
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP 360] ❌ Media upload error: #{e.message}"
+    nil
+  end
+
+  def handle_360_media_upload_response(response)
+    return (Rails.logger.error("[WHATSAPP 360] ❌ Media upload failed: #{response.body}") || nil) unless response.success?
+
+    media_id = response.parsed_response['media'].first['id']
+    Rails.logger.info "[WHATSAPP 360] ✅ Media uploaded successfully, media_id: #{media_id}"
+    media_id
+  end
+
+  # Build media content with either media_id (preferred) or URL fallback
+  def build_media_content(attachment)
+    media_id = upload_media(attachment)
+    if media_id.present?
+      { 'id' => media_id }
+    else
+      Rails.logger.warn '[WHATSAPP 360] ⚠️ Falling back to URL-based media sending'
+      { 'link' => attachment.download_url }
+    end
+  end
+
   private
 
   def api_base_path
@@ -74,11 +112,9 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    type_content = {
-      'link': attachment.download_url
-    }
+    type_content = build_media_content(attachment)
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
-    type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content['filename'] = attachment.file.filename.to_s if type == 'document'
 
     response = HTTParty.post(
       "#{api_base_path}/messages",

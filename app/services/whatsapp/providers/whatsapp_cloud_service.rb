@@ -147,7 +147,37 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     url
   end
 
+  # Upload media to WhatsApp Media API and return the media_id
+  # This is required because WhatsApp cannot reliably fetch from ActiveStorage URLs
+  def upload_media(attachment)
+    return nil unless attachment.file.attached?
+
+    attachment.file.open do |file|
+      response = HTTParty.post(
+        "#{phone_id_path}/media",
+        headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" },
+        multipart: true,
+        body: { messaging_product: 'whatsapp', type: attachment.file.content_type, file: file }
+      )
+      return handle_media_upload_response(response, '[WHATSAPP]')
+    end
+  rescue StandardError => e
+    Rails.logger.error "[WHATSAPP] ❌ Media upload error: #{e.message}"
+    nil
+  end
+
   private
+
+  def handle_media_upload_response(response, log_prefix)
+    if response.success?
+      media_id = response.parsed_response['id']
+      Rails.logger.info "#{log_prefix} ✅ Media uploaded successfully, media_id: #{media_id}"
+      media_id
+    else
+      Rails.logger.error "#{log_prefix} ❌ Media upload failed: #{response.body}"
+      nil
+    end
+  end
 
   def csat_template_service
     @csat_template_service ||= Whatsapp::CsatTemplateService.new(whatsapp_channel)
@@ -185,11 +215,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   def send_attachment_message(phone_number, message)
     attachment = message.attachments.first
     type = %w[image audio video].include?(attachment.file_type) ? attachment.file_type : 'document'
-    type_content = {
-      'link': attachment.download_url
-    }
+    type_content = build_media_content(attachment)
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
-    type_content['filename'] = attachment.file.filename if type == 'document'
+    type_content['filename'] = attachment.file.filename.to_s if type == 'document'
     response = HTTParty.post(
       "#{phone_id_path}/messages",
       headers: api_headers,
@@ -203,6 +231,17 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  # Build media content with either media_id (preferred) or URL fallback
+  def build_media_content(attachment)
+    media_id = upload_media(attachment)
+    if media_id.present?
+      { 'id' => media_id }
+    else
+      Rails.logger.warn '[WHATSAPP] ⚠️ Falling back to URL-based media sending'
+      { 'link' => attachment.download_url }
+    end
   end
 
   def error_message(response)
