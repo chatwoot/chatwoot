@@ -7,10 +7,9 @@ import {
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
-import { useAlert, useTrack } from 'dashboard/composables';
+import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import TasksAPI from 'dashboard/api/captain/tasks';
 
 export function useCaptain() {
@@ -77,20 +76,6 @@ export function useCaptain() {
       error.response?.data?.error ||
       t('INTEGRATION_SETTINGS.OPEN_AI.GENERATE_ERROR');
     useAlert(errorMessage);
-  };
-
-  // === Analytics ===
-  /**
-   * Records analytics for AI-related events.
-   * @param {string} eventKey - The event key from CAPTAIN_EVENTS.
-   * @param {Object} payload - Additional data for the event.
-   * @returns {Promise<void>}
-   */
-  const recordAnalytics = async (eventKey, payload) => {
-    const event = CAPTAIN_EVENTS[eventKey];
-    if (event) {
-      useTrack(event, payload);
-    }
   };
 
   // === Task Methods ===
@@ -231,8 +216,5 @@ export function useCaptain() {
     getReplySuggestion,
     followUp,
     processEvent,
-
-    // Analytics
-    recordAnalytics,
   };
 }
