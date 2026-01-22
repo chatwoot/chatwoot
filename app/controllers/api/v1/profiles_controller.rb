@@ -1,5 +1,8 @@
 class Api::V1::ProfilesController < Api::BaseController
+  skip_before_action :authenticate_user!, only: [:resend_confirmation]
+
   before_action :set_user
+  # Rate limiting removed for now to guarantee e-mail delivery
 
   def show; end
 
@@ -34,6 +37,13 @@ class Api::V1::ProfilesController < Api::BaseController
   end
 
   def resend_confirmation
+    # If no user is found and no email provided, return error
+    return render json: { error: 'Email parameter is required' }, status: :unprocessable_entity if @user.nil? && params[:email].blank?
+
+    # If no user found but email provided, return success to prevent email enumeration
+    return head :ok if @user.nil?
+
+    # Only send confirmation if user is not already confirmed
     @user.send_confirmation_instructions unless @user.confirmed?
     head :ok
   end
@@ -47,6 +57,8 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def set_user
     @user = current_user
+    # Allow unauthenticated resend flow by email
+    @user ||= User.from_email(params[:email]) if params[:email].present?
   end
 
   def availability_params

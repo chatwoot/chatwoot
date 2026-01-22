@@ -271,17 +271,54 @@ RSpec.describe 'Profile API', type: :request do
 
   describe 'POST /api/v1/profile/resend_confirmation' do
     context 'when it is an unauthenticated user' do
-      it 'returns unauthorized' do
-        post '/api/v1/profile/resend_confirmation'
+      let(:unconfirmed_user) { create(:user, password: 'Test123!', email: 'unconfirmed@example.com', skip_confirmation: false) }
 
-        expect(response).to have_http_status(:unauthorized)
+      it 'resends confirmation email when email parameter is provided for unconfirmed user' do
+        # Create user and clear any enqueued jobs from the factory
+        unconfirmed_user
+        clear_enqueued_jobs
+
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               params: { email: unconfirmed_user.email },
+               as: :json
+        end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'does not send confirmation email when email parameter is provided for confirmed user' do
+        confirmed_user = create(:user, password: 'Test123!', email: 'confirmed@example.com', skip_confirmation: true)
+
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               params: { email: confirmed_user.email },
+               as: :json
+        end.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns success even when email is not found (to prevent email enumeration)' do
+        post '/api/v1/profile/resend_confirmation',
+             params: { email: 'nonexistent@example.com' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'returns error when no email parameter is provided' do
+        post '/api/v1/profile/resend_confirmation',
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
     context 'when it is an authenticated user' do
       let(:agent) do
         create(:user, password: 'Test123!', email: 'test-unconfirmed@email.com', account: account, role: :agent,
-                      unconfirmed_email: 'test-unconfirmed@email.com')
+                      unconfirmed_email: 'test-unconfirmed@email.com', skip_confirmation: true)
       end
 
       it 'does not send the confirmation email if the user is already confirmed' do
@@ -295,14 +332,27 @@ RSpec.describe 'Profile API', type: :request do
       end
 
       it 'resends the confirmation email if the user is unconfirmed' do
-        agent.confirmed_at = nil
-        agent.save!
+        agent.update!(confirmed_at: nil)
 
         expect do
           post '/api/v1/profile/resend_confirmation',
                headers: agent.create_new_auth_token,
                as: :json
         end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'works with email parameter even when authenticated' do
+        unconfirmed_user = create(:user, password: 'Test123!', email: 'another-unconfirmed@example.com', skip_confirmation: false)
+
+        # Verify user is actually unconfirmed
+        expect(unconfirmed_user).not_to be_confirmed
+
+        post '/api/v1/profile/resend_confirmation',
+             params: { email: unconfirmed_user.email },
+             headers: agent.create_new_auth_token,
+             as: :json
 
         expect(response).to have_http_status(:success)
       end

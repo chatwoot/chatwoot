@@ -91,3 +91,11 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
+
+export const resendConfirmation = async ({ email }) => {
+  try {
+    await wootAPI.post('/api/v1/profile/resend_confirmation', { email });
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+};

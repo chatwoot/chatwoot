@@ -1,6 +1,6 @@
 <script>
 // utils and composables
-import { login } from '../../api/auth';
+import { login, resendConfirmation } from '../../api/auth';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
@@ -64,6 +64,11 @@ export default {
         showLoading: false,
         hasErrored: false,
       },
+      resendConfirmation: {
+        isLoading: false,
+        cooldownSeconds: 0,
+        cooldownInterval: null,
+      },
       error: '',
       mfaRequired: false,
       mfaToken: null,
@@ -99,6 +104,35 @@ export default {
     showSamlLogin() {
       return this.allowedLoginMethods.includes('saml');
     },
+    shouldShowResendLink() {
+      return (
+        this.loginApi.hasErrored &&
+        this.loginApi.message &&
+        this.loginApi.message.toLowerCase().includes('confirmation')
+      );
+    },
+    resendLinkStyle() {
+      return {
+        color: 'rgb(21, 116, 231)',
+      };
+    },
+    isResendDisabled() {
+      return (
+        this.resendConfirmation.isLoading ||
+        this.resendConfirmation.cooldownSeconds > 0
+      );
+    },
+    resendButtonText() {
+      if (this.resendConfirmation.isLoading) {
+        return this.$t('LOGIN.RESEND_CONFIRMATION_SENDING');
+      }
+      if (this.resendConfirmation.cooldownSeconds > 0) {
+        return this.$t('LOGIN.RESEND_CONFIRMATION_COOLDOWN', {
+          seconds: this.resendConfirmation.cooldownSeconds,
+        });
+      }
+      return this.$t('LOGIN.RESEND_CONFIRMATION_LINK');
+    },
   },
   created() {
     if (this.ssoAuthToken) {
@@ -115,6 +149,11 @@ export default {
         const { query } = this.$route;
         this.$router.replace({ query: { ...query, error: undefined } });
       });
+    }
+  },
+  beforeUnmount() {
+    if (this.resendConfirmation.cooldownInterval) {
+      clearInterval(this.resendConfirmation.cooldownInterval);
     }
   },
   methods: {
@@ -203,6 +242,82 @@ export default {
 
       this.submitLogin();
     },
+    // Utility method for development logging
+    logDebug(message, data = {}) {
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.log(`[ResendConfirmation] ${message}`, {
+          ...data,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    },
+
+    logError(message, error) {
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.error(`[ResendConfirmation] ${message}`, {
+          error,
+          message: error?.message,
+          response: error?.response?.data,
+          status: error?.response?.status,
+          timestamp: new Date().toISOString(),
+        });
+      }
+    },
+
+    async resendVerificationEmail() {
+      if (this.isResendDisabled) {
+        this.logDebug('🚫 Resend disabled: cooldown or loading in progress');
+        return;
+      }
+
+      const emailParam = this.email
+        ? decodeURIComponent(this.email)
+        : this.credentials.email;
+
+      this.logDebug('📧 Starting resend confirmation process', {
+        email: emailParam,
+      });
+
+      this.resendConfirmation.isLoading = true;
+
+      try {
+        this.logDebug('🚀 Making API call...');
+
+        const response = await resendConfirmation({ email: emailParam });
+
+        this.logDebug('✅ API call successful', {
+          status: response?.status || 'success',
+          data: response?.data || 'no data',
+        });
+
+        useAlert(this.$t('LOGIN.RESEND_CONFIRMATION_SUCCESS'));
+        this.startCooldown();
+
+        this.logDebug('🎉 Process completed successfully');
+      } catch (error) {
+        this.logError('❌ API call failed', error);
+
+        const errorMessage =
+          error?.response?.data?.error ||
+          this.$t('LOGIN.RESEND_CONFIRMATION_ERROR');
+
+        useAlert(errorMessage, 'error');
+      } finally {
+        this.resendConfirmation.isLoading = false;
+        this.logDebug('✨ Loading state reset');
+      }
+    },
+    startCooldown() {
+      this.resendConfirmation.cooldownSeconds = 60;
+      this.resendConfirmation.cooldownInterval = setInterval(() => {
+        this.resendConfirmation.cooldownSeconds -= 1;
+        if (this.resendConfirmation.cooldownSeconds <= 0) {
+          clearInterval(this.resendConfirmation.cooldownInterval);
+          this.resendConfirmation.cooldownInterval = null;
+        }
+      }, 1000);
     handleMfaVerified() {
       // MFA verification successful, continue with login
       this.handleImpersonation();
@@ -263,6 +378,24 @@ export default {
         'animate-wiggle': loginApi.hasErrored,
       }"
     >
+      <!-- Banner for unconfirmed account -->
+      <p
+        v-if="shouldShowResendLink"
+        class="mb-6 p-4 rounded bg-yellow-50 dark:bg-n-solid-4 text-n-slate-12 dark:text-n-slate-2 text-sm"
+      >
+        {{ $t('LOGIN.EMAIL_UNCONFIRMED_MESSAGE') }}
+        <button
+          type="button"
+          class="ml-1 font-medium transition-opacity duration-200"
+          :style="resendLinkStyle"
+          :disabled="isResendDisabled"
+          :class="{ 'opacity-50 cursor-not-allowed': isResendDisabled }"
+          @click="resendVerificationEmail"
+        >
+          {{ resendButtonText }}
+        </button>
+      </p>
+
       <div v-if="!email">
         <div class="flex flex-col gap-4">
           <GoogleOAuthButton v-if="showGoogleOAuth" />
