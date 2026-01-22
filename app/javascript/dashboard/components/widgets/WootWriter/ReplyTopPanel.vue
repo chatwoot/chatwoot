@@ -140,7 +140,7 @@ export default {
         </span>
       </div>
     </div>
-    <div v-if="captainTasksEnabled" class="flex items-center gap-2">
+    <div v-if="captainTasksEnabled" class="flex items-center gap-3">
       <div class="relative">
         <NextButton
           ghost
@@ -161,6 +161,7 @@ export default {
           @execute-copilot-action="handleCopilotAction"
         />
       </div>
+      <div class="w-px h-3 bg-n-strong rounded-lg" />
       <NextButton
         ghost
         sm
