@@ -6,6 +6,8 @@
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Не удалось загрузить данные. Пожалуйста, попробуйте позже.",
     "SUMMARY_FETCHING_FAILED": "Не удалось загрузить сводку. Пожалуйста, попробуйте позже.",
+    "DOWNLOAD_AS_XLSX": "Скачать в XLSX",
+    "DOWNLOAD_AS_CSV": "Скачать в CSV",
     "METRICS": {
       "AGENT_CHAT_DURATION": {
         "NAME": "Средняя длительность диалогов",
@@ -154,7 +156,7 @@
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
-    "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
+    "DOWNLOAD_AGENT_REPORTS": "Скачать отчёт по агентам",
     "FILTER_DROPDOWN_LABEL": "Выбрать Агента",
     "FILTERS": {
       "INPUT_PLACEHOLDER": {

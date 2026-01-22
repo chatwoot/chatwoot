@@ -21,8 +21,16 @@ class CSATReportsAPI extends ApiClient {
     });
   }
 
-  download({ from, to, user_ids, inbox_ids, team_ids, rating } = {}) {
-    return axios.get(`${this.url}/download`, {
+  download({
+    from,
+    to,
+    user_ids,
+    inbox_ids,
+    team_ids,
+    rating,
+    format = 'csv',
+  } = {}) {
+    return axios.get(`${this.url}/download.${format}`, {
       params: {
         since: from,
         until: to,
@@ -32,6 +40,7 @@ class CSATReportsAPI extends ApiClient {
         team_ids,
         rating,
       },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }
 

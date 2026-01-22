@@ -75,30 +75,63 @@ describe('#SLAReports API', () => {
         }
       );
     });
-    it('#download', () => {
-      SLAReportsAPI.download({
-        from: 1622485800,
-        to: 1623695400,
-        assigned_agent_id: 1,
-        inbox_id: 1,
-        team_id: 1,
-        sla_policy_id: 1,
-        label_list: ['label1'],
+    describe('#download', () => {
+      it('downloads CSV by default', () => {
+        SLAReportsAPI.download({
+          from: 1622485800,
+          to: 1623695400,
+          assigned_agent_id: 1,
+          inbox_id: 1,
+          team_id: 1,
+          sla_policy_id: 1,
+          label_list: ['label1'],
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v1/applied_slas/download.csv',
+          {
+            params: {
+              since: 1622485800,
+              until: 1623695400,
+              assigned_agent_id: 1,
+              inbox_id: 1,
+              team_id: 1,
+              sla_policy_id: 1,
+              label_list: ['label1'],
+            },
+            responseType: undefined,
+          }
+        );
       });
-      expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/applied_slas/download',
-        {
-          params: {
-            since: 1622485800,
-            until: 1623695400,
-            assigned_agent_id: 1,
-            inbox_id: 1,
-            team_id: 1,
-            sla_policy_id: 1,
-            label_list: ['label1'],
-          },
-        }
-      );
+
+      it('downloads XLSX when format is xlsx', () => {
+        SLAReportsAPI.download({
+          from: 1622485800,
+          to: 1623695400,
+          assigned_agent_id: 1,
+          inbox_id: 1,
+          team_id: 1,
+          sla_policy_id: 1,
+          label_list: ['label1'],
+          format: 'xlsx',
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v1/applied_slas/download.xlsx',
+          {
+            params: {
+              since: 1622485800,
+              until: 1623695400,
+              assigned_agent_id: 1,
+              inbox_id: 1,
+              team_id: 1,
+              sla_policy_id: 1,
+              label_list: ['label1'],
+            },
+            responseType: 'blob',
+          }
+        );
+      });
     });
   });
 });

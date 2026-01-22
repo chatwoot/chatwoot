@@ -7,22 +7,25 @@ import ResolutionHeatmapContainer from './components/heatmaps/ResolutionHeatmapC
 import AgentLiveReportContainer from './components/AgentLiveReportContainer.vue';
 import TeamLiveReportContainer from './components/TeamLiveReportContainer.vue';
 import StatsLiveReportsContainer from './components/StatsLiveReportsContainer.vue';
-import V4Button from 'dashboard/components-next/button/Button.vue';
+
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 
 const overviewReportsRef = ref(null);
+const { downloadOptions } = useReportDownloadOptions();
 
-const onDownloadClick = () => {
-  overviewReportsRef.value.downloadReports();
+const handleDownload = option => {
+  const format = option?.value || option || 'csv';
+  overviewReportsRef.value?.downloadReports(format);
 };
 </script>
 
 <template>
   <ReportHeader :header-title="$t('OVERVIEW_REPORTS.HEADER')">
-    <V4Button
+    <DownloadDropdown
       :label="$t('OVERVIEW_REPORTS.DOWNLOAD')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="onDownloadClick"
+      :options="downloadOptions"
+      @select="handleDownload"
     />
   </ReportHeader>
 

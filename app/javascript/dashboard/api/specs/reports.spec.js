@@ -66,48 +66,169 @@ describe('#Reports API', () => {
       });
     });
 
-    it('#getAgentReports', () => {
-      reportsAPI.getAgentReports({
-        from: 1621103400,
-        to: 1621621800,
-        businessHours: true,
+    describe('#getAgentReports', () => {
+      it('calls API with csv format by default', () => {
+        reportsAPI.getAgentReports({
+          from: 1621103400,
+          to: 1621621800,
+          businessHours: true,
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/agents.csv',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: true,
+            },
+            responseType: undefined,
+          }
+        );
       });
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/agents', {
-        params: {
-          since: 1621103400,
-          until: 1621621800,
-          business_hours: true,
-        },
+
+      it('calls API with xlsx format', () => {
+        reportsAPI.getAgentReports({
+          from: 1621103400,
+          to: 1621621800,
+          businessHours: true,
+          format: 'xlsx',
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/agents.xlsx',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: true,
+            },
+            responseType: 'blob',
+          }
+        );
       });
     });
 
-    it('#getLabelReports', () => {
-      reportsAPI.getLabelReports({ from: 1621103400, to: 1621621800 });
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/labels', {
-        params: {
-          since: 1621103400,
-          until: 1621621800,
-        },
+    describe('#getLabelReports', () => {
+      it('calls API with csv format by default', () => {
+        reportsAPI.getLabelReports({
+          from: 1621103400,
+          to: 1621621800,
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/labels.csv',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: undefined,
+          }
+        );
+      });
+
+      it('calls API with xlsx format', () => {
+        reportsAPI.getLabelReports({
+          from: 1621103400,
+          to: 1621621800,
+          format: 'xlsx',
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/labels.xlsx',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: 'blob',
+          }
+        );
       });
     });
 
-    it('#getInboxReports', () => {
-      reportsAPI.getInboxReports({ from: 1621103400, to: 1621621800 });
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/inboxes', {
-        params: {
-          since: 1621103400,
-          until: 1621621800,
-        },
+    describe('#getInboxReports', () => {
+      it('calls API with csv format by default', () => {
+        reportsAPI.getInboxReports({
+          from: 1621103400,
+          to: 1621621800,
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/inboxes.csv',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: undefined,
+          }
+        );
+      });
+
+      it('calls API with xlsx format', () => {
+        reportsAPI.getInboxReports({
+          from: 1621103400,
+          to: 1621621800,
+          format: 'xlsx',
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/inboxes.xlsx',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: 'blob',
+          }
+        );
       });
     });
 
-    it('#getTeamReports', () => {
-      reportsAPI.getTeamReports({ from: 1621103400, to: 1621621800 });
-      expect(axiosMock.get).toHaveBeenCalledWith('/api/v2/reports/teams', {
-        params: {
-          since: 1621103400,
-          until: 1621621800,
-        },
+    describe('#getTeamReports', () => {
+      it('calls API with csv format by default', () => {
+        reportsAPI.getTeamReports({
+          from: 1621103400,
+          to: 1621621800,
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/teams.csv',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: undefined,
+          }
+        );
+      });
+
+      it('calls API with xlsx format', () => {
+        reportsAPI.getTeamReports({
+          from: 1621103400,
+          to: 1621621800,
+          format: 'xlsx',
+        });
+
+        expect(axiosMock.get).toHaveBeenCalledWith(
+          '/api/v2/reports/teams.xlsx',
+          {
+            params: {
+              since: 1621103400,
+              until: 1621621800,
+              business_hours: undefined,
+            },
+            responseType: 'blob',
+          }
+        );
       });
     });
 
