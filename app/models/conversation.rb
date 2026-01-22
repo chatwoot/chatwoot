@@ -224,6 +224,11 @@ class Conversation < ApplicationRecord
     custom_attributes&.dig('aloo_handoff_active') == true
   end
 
+  # Check if customer has requested human assistance (AI continues responding)
+  def human_assistance_requested?
+    custom_attributes&.dig('human_assistance_requested') == true
+  end
+
   # Get the Aloo assistant for this conversation's inbox
   def aloo_assistant
     inbox&.aloo_assistant

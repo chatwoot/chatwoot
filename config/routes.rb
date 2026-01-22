@@ -88,6 +88,9 @@ Rails.application.routes.draw do
                 get :voice_usage
               end
               resources :documents, only: [:index, :show, :create, :destroy] do
+                collection do
+                  post :discover_pages
+                end
                 member do
                   post :reprocess
                 end

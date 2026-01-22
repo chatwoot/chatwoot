@@ -228,8 +228,8 @@
         "TITLE": "AI Agent Capabilities",
         "DESCRIPTION": "Control what actions the AI agent can perform during conversations",
         "HANDOFF": {
-          "LABEL": "Handoff to Human",
-          "DESCRIPTION": "Allow the AI to transfer conversations to human agents when needed"
+          "LABEL": "Request Human Help",
+          "DESCRIPTION": "Allow the AI to flag conversations for human assistance. Agents are notified and can take over while the AI continues responding."
         },
         "RESOLVE": {
           "LABEL": "Resolve Conversations",
@@ -290,17 +290,57 @@
         "DROP_OR_CLICK": "Drop file here or click to browse",
         "ALLOWED_TYPES": "PDF, TXT, MD, CSV (max 10MB)",
         "CHUNKS": "chunks",
+        "CHUNK_COUNT": "· {count} chunks",
         "LIST_TITLE": "Documents"
+      },
+      "TEXT_BLOCK": {
+        "TITLE": "Add Text Block",
+        "CARD_TITLE": "Add Text Block",
+        "CARD_DESCRIPTION": "Add custom text content",
+        "TITLE_LABEL": "Title",
+        "TITLE_PLACEHOLDER": "Enter a title for this content",
+        "CONTENT_LABEL": "Content",
+        "CONTENT_PLACEHOLDER": "Enter your text content here...\n\nThis can include FAQs, product information, policies, or any other text you want the assistant to know about.",
+        "ADD": "Add Text Block",
+        "CHARACTERS": "characters",
+        "CHARACTER_COUNT": "{current} / {max}",
+        "OVER_LIMIT": "Content exceeds maximum length"
       },
       "WEBSITE": {
         "TITLE": "Add Website",
+        "MODAL_TITLE": "Add Website",
+        "CARD_DESCRIPTION": "Scrape content from a URL",
+        "URL_LABEL": "Website URL",
         "URL_PLACEHOLDER": "https://example.com",
         "ADD": "Add Website",
         "CRAWL_FULL_SITE": "Crawl full website",
         "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
         "PAGES": "pages",
         "INVALID_URL": "Please enter a valid URL",
-        "DUPLICATE_URL": "This URL has already been added"
+        "DUPLICATE_URL": "This URL has already been added",
+        "STEP_1_TITLE": "Enter Website URL",
+        "STEP_1_DESCRIPTION": "Enter the website URL to discover available pages",
+        "STEP_2_TITLE": "Select Pages",
+        "STEP_2_DESCRIPTION": "Choose which pages to include in the knowledge base",
+        "STEP_3_TITLE": "Configure Options",
+        "STEP_3_DESCRIPTION": "Set title and refresh preferences",
+        "DISCOVER_PAGES": "Discover Pages",
+        "DISCOVERING": "Discovering pages...",
+        "SELECT_ALL": "Select All",
+        "DESELECT_ALL": "Deselect All",
+        "PAGES_SELECTED": "{count} of {total} pages selected",
+        "MAX_PAGES_WARNING": "Maximum 50 pages can be selected",
+        "NO_PAGES_FOUND": "No pages found. Try a different URL.",
+        "IMPORTANT": "Important",
+        "TITLE_LABEL": "Custom Title (optional)",
+        "TITLE_PLACEHOLDER": "Leave empty to use domain name",
+        "AUTO_REFRESH": "Auto-refresh weekly",
+        "AUTO_REFRESH_DESC": "Automatically re-scrape selected pages every week to keep content up-to-date",
+        "SUMMARY": "Summary",
+        "PAGES_TO_SCRAPE": "{count} pages to scrape",
+        "WEEKLY_REFRESH": "Weekly auto-refresh enabled",
+        "BACK": "Back",
+        "NEXT": "Next"
       },
       "STATS": {
         "DOCUMENTS": "documents",
@@ -312,10 +352,18 @@
       "DETAILS": {
         "SOURCE_URL": "Source URL",
         "FILENAME": "Filename",
+        "CONTENT_PREVIEW": "Content Preview",
+        "CONTENT_QUOTED": "\"{content}\"",
+        "SCRAPE_MODE": "Scrape Mode",
         "CRAWL_MODE": "Crawl Mode",
         "FULL_SITE": "Full website crawl",
         "SINGLE_PAGE": "Single page only",
-        "ADDED": "Added"
+        "SELECTED_PAGES": "{count} selected pages",
+        "ADDED": "Added",
+        "AUTO_REFRESH": "Auto-Refresh",
+        "AUTO_REFRESH_ENABLED": "Weekly refresh enabled",
+        "NEXT_REFRESH": "Next refresh",
+        "NEXT_REFRESH_DATE": "Next refresh: {date}"
       }
     },
     "MEMORIES": {
@@ -399,6 +447,7 @@
       "DOCUMENT_DELETED": "Document deleted successfully",
       "DOCUMENT_REPROCESSING": "Document reprocessing started",
       "WEBSITE_ADDED": "Website added and queued for processing",
+      "TEXT_BLOCK_ADDED": "Text block added and queued for processing",
       "INBOX_ASSIGNED": "Inbox assigned successfully",
       "INBOX_UNASSIGNED": "Inbox unassigned successfully",
       "ERROR": "An error occurred. Please try again."

@@ -61,7 +61,13 @@ module Aloo
         extract_file_content
       when 'website'
         extract_website_content
+      when 'text'
+        extract_text_content
       end
+    end
+
+    def extract_text_content
+      @document.text_content
     end
 
     def extract_file_content
@@ -81,10 +87,14 @@ module Aloo
     def extract_website_content
       return nil if @document.source_url.blank?
 
-      crawl_full_site = ActiveModel::Type::Boolean.new.cast(@document.metadata['crawl_full_site'])
+      # Determine scraping mode: selected pages, crawl full site, or single page
+      selected_pages = @document.selected_pages
+      crawl_full_site = selected_pages.blank? && ActiveModel::Type::Boolean.new.cast(@document.metadata['crawl_full_site'])
+
       scraper = Aloo::WebScrapingService.new(
         url: @document.source_url,
-        crawl_full_site: crawl_full_site
+        crawl_full_site: crawl_full_site,
+        selected_pages: selected_pages.presence
       )
 
       result = scraper.perform

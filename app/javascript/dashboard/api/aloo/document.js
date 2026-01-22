@@ -32,11 +32,32 @@ class AlooDocument extends ApiClient {
     );
   }
 
-  addWebsite(assistantId, { url, title, crawlFullSite }) {
+  // Add a text block document
+  addTextBlock(assistantId, { title, content }) {
+    return axios.post(`${this.url}/${assistantId}/documents`, {
+      title,
+      text_content: content,
+    });
+  }
+
+  // Discover available pages from a website URL
+  discoverPages(assistantId, url) {
+    return axios.post(`${this.url}/${assistantId}/documents/discover_pages`, {
+      url,
+    });
+  }
+
+  // Add website with selected pages (legacy: crawlFullSite for backward compatibility)
+  addWebsite(
+    assistantId,
+    { url, title, crawlFullSite, selectedPages, autoRefresh }
+  ) {
     return axios.post(`${this.url}/${assistantId}/documents`, {
       source_url: url,
       title,
       crawl_full_site: crawlFullSite,
+      selected_pages: selectedPages,
+      auto_refresh: autoRefresh,
     });
   }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_16_153047) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_22_100000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -238,8 +238,15 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_16_153047) do
     t.string "error_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "text_content"
+    t.jsonb "selected_pages", default: []
+    t.boolean "auto_refresh", default: false
+    t.datetime "last_refreshed_at"
+    t.datetime "next_refresh_at"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
     t.index ["aloo_assistant_id"], name: "index_aloo_documents_on_aloo_assistant_id"
+    t.index ["auto_refresh"], name: "index_aloo_documents_on_auto_refresh"
+    t.index ["next_refresh_at"], name: "index_aloo_documents_on_next_refresh_at", where: "(auto_refresh = true)"
   end
 
   create_table "aloo_embeddings", force: :cascade do |t|

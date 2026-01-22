@@ -10,6 +10,7 @@ import Avatar from 'next/avatar/Avatar.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import AIAgentBadge from './AIAgentBadge.vue';
 import AIAssignmentToggle from './AIAssignmentToggle.vue';
+import HumanAssistanceRequestedBadge from './HumanAssistanceRequestedBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
@@ -109,6 +110,14 @@ const isAlooAIHandling = computed(() => {
     !assignedAgent.value
   );
 });
+
+// Human assistance requested (customer asked for human, AI still responding)
+const isHumanAssistanceRequested = computed(
+  () => props.chat.custom_attributes?.human_assistance_requested === true
+);
+const humanAssistanceReason = computed(
+  () => props.chat.custom_attributes?.human_assistance_reason || ''
+);
 </script>
 
 <template>
@@ -151,6 +160,14 @@ const isAlooAIHandling = computed(() => {
             :agent-name="
               isAlooAIHandling ? alooAssistant?.name : assignedAgent?.name
             "
+          />
+          <HumanAssistanceRequestedBadge
+            v-if="
+              isHumanAssistanceRequested &&
+              !isAlooHandoffActive &&
+              !assignedAgent
+            "
+            :reason="humanAssistanceReason"
           />
           <AIAssignmentToggle
             v-if="alooAssistant?.active"
