@@ -1,10 +1,6 @@
 class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
   prepend Captain::Tools::Instrumentation
 
-  def self.name
-    'search_documentation'
-  end
-
   description 'Search and retrieve documentation/FAQs from knowledge base'
 
   param :query, desc: 'Search Query', required: true
@@ -13,6 +9,10 @@ class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
     @account = account
     @assistant = assistant
     super()
+  end
+
+  def name
+    'search_documentation'
   end
 
   def execute(query:)
