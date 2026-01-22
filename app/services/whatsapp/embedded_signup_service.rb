@@ -97,5 +97,8 @@ class Whatsapp::EmbeddedSignupService
 
     Rails.logger.info("[WHATSAPP] Initiating conversation history sync for channel #{channel.id}")
     client.request_history_sync(phone_id)
+  rescue StandardError => e
+    # Sync failures should not block channel creation - it's a nice-to-have feature
+    Rails.logger.warn("[WHATSAPP] Sync features failed for channel #{channel.id}, continuing: #{e.message}")
   end
 end

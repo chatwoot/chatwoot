@@ -234,3 +234,6 @@
   display_name: CSAT Review Notes
   enabled: false
   premium: true
+- name: captain_tasks
+  display_name: Captain Tasks
+  enabled: true

@@ -10,6 +10,12 @@ class Whatsapp::WebhookSetupService
     validate_parameters!
     # Skip registration for business app onboarding or if phone number is already verified
     register_phone_number unless @channel.provider_config['is_business_app_onboarding'] || phone_number_verified?
+
+    # Register phone number if either condition is met:
+    # 1. Phone number is not verified (code_verification_status != 'VERIFIED')
+    # 2. Phone number needs registration (pending provisioning state)
+    register_phone_number if !phone_number_verified? || phone_number_needs_registration?
+
     setup_webhook
   end
 
