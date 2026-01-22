@@ -1121,6 +1121,12 @@ export default {
     onSubmitCopilotReply() {
       this.message = this.copilot.accept();
     },
+    onAcceptAndSendCopilotReply() {
+      this.message = this.copilot.accept();
+      this.$nextTick(() => {
+        this.onSendReply();
+      });
+    },
   },
 };
 </script>
@@ -1271,6 +1277,7 @@ export default {
         key="copilot-bottom-panel"
         :is-generating-content="copilot.isButtonDisabled.value"
         @submit="onSubmitCopilotReply"
+        @accept-and-send="onAcceptAndSendCopilotReply"
         @cancel="copilot.toggleEditor"
       />
       <ReplyBottomPanel
