@@ -1,5 +1,5 @@
 class Notification::RemoveOldNotificationJob < ApplicationJob
-  queue_as :low
+  queue_as :purgable
 
   NOTIFICATION_LIMIT = 300
   OLD_NOTIFICATION_THRESHOLD = 1.month

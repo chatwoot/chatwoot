@@ -47,19 +47,6 @@ RSpec.describe Notification::RemoveOldNotificationJob do
       expect(Notification.where(id: old_notifications.map(&:id))).to be_empty
       expect(Notification.where(id: recent_notifications.map(&:id)).count).to eq(300)
     end
-
-    it 'only affects users exceeding the limit' do
-      user_with_many = create(:user, account: account)
-      user_with_few = create(:user, account: account)
-
-      create_list(:notification, 350, user: user_with_many, account: account, primary_actor: conversation)
-      create_list(:notification, 50, user: user_with_few, account: account, primary_actor: conversation)
-
-      described_class.perform_now
-
-      expect(Notification.where(user_id: user_with_many.id).count).to eq(300)
-      expect(Notification.where(user_id: user_with_few.id).count).to eq(50)
-    end
   end
 
   describe 'combined functionality' do

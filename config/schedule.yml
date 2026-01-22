@@ -65,4 +65,4 @@ periodic_assignment_job:
 remove_old_notification_job:
   cron: '30 22 * * *'
   class: 'Notification::RemoveOldNotificationJob'
-  queue: low
+  queue: purgable
