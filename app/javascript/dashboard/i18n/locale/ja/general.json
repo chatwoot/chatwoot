@@ -8,6 +8,8 @@
     "CLOSE": "閉じる",
     "BETA": "ベータ版",
     "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
+    "ACCEPT": "Accept",
+    "DISCARD": "破棄",
     "PREFERRED": "Preferred"
   }
 }
