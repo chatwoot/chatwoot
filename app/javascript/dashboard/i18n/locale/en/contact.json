@@ -307,6 +307,7 @@
       "SEND_MESSAGE": "Send message",
       "BLOCK_CONTACT": "Block contact",
       "UNBLOCK_CONTACT": "Unblock contact",
+      "DISPLAY_PROPERTIES": "Display",
       "BREADCRUMB": {
         "CONTACTS": "Contacts"
       },
@@ -393,7 +394,7 @@
       "DESCRIPTION": "Select up to three contact attributes to display.",
       "SELECTED_ATTRIBUTES": "Selected attributes",
       "OTHER_ATTRIBUTES": "Other attributes",
-      "NO_ATTRIBUTES": "No contact attributes available",
+      "NO_ATTRIBUTES": "No contact attributes added, you can add some to display.",
       "CANCEL": "Cancel",
       "SAVE": "Save",
       "YES": "Yes",

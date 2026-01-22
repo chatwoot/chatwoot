@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 
-import ContactCardForm from 'dashboard/components-next/Contacts/ContactsCard/ContactCardForm.vue';
+import ContactCardOverview from 'dashboard/components-next/Contacts/ContactsCard/ContactCardOverview.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
@@ -365,7 +365,7 @@ const handleExpandHover = isHovered => {
           class="relative flex flex-col pt-3 pb-4 lg:pt-[1.125rem] lg:pb-5 overflow-visible transition-opacity duration-[600ms] ease-out"
           :class="isExpanded ? 'opacity-100 delay-200' : 'opacity-0'"
         >
-          <ContactCardForm :contact-data="contactData" />
+          <ContactCardOverview :contact-data="contactData" />
         </div>
       </div>
     </div>
