@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
+import { useEventListener } from '@vueuse/core';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
@@ -42,6 +43,12 @@ const emit = defineEmits([
 ]);
 
 const { t } = useI18n();
+
+const attachmentId = ref(0);
+const generateUid = () => {
+  attachmentId.value += 1;
+  return `attachment-${attachmentId.value}`;
+};
 
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
@@ -163,6 +170,24 @@ const keyboardEvents = {
   },
 };
 useKeyboardEvents(keyboardEvents);
+
+const onPaste = e => {
+  if (!props.isEmailOrWebWidgetInbox) return;
+
+  const files = e.clipboardData?.files;
+  if (!files?.length) return;
+
+  // Filter valid files (non-zero size)
+  Array.from(files)
+    .filter(file => file.size > 0)
+    .forEach(file => {
+      const { name, type, size } = file;
+      // Add unique ID for clipboard-pasted files
+      onFileUpload({ file, name, type, size, id: generateUid() });
+    });
+};
+
+useEventListener(document, 'paste', onPaste);
 </script>
 
 <template>

@@ -88,6 +88,7 @@ export const OPEN_AI_EVENTS = Object.freeze({
   SUMMARIZE: 'OpenAI: Used summarize',
   REPLY_SUGGESTION: 'OpenAI: Used reply suggestion',
   REPHRASE: 'OpenAI: Used rephrase',
+  IMPROVE: 'OpenAI: Used improve',
   FIX_SPELLING_AND_GRAMMAR: 'OpenAI: Used fix spelling and grammar',
   SHORTEN: 'OpenAI: Used shorten',
   EXPAND: 'OpenAI: Used expand',
@@ -130,4 +131,10 @@ export const LINEAR_EVENTS = Object.freeze({
   CREATE_ISSUE: 'Created a linear issue',
   LINK_ISSUE: 'Linked a linear issue',
   UNLINK_ISSUE: 'Unlinked a linear issue',
+});
+
+export const YEAR_IN_REVIEW_EVENTS = Object.freeze({
+  MODAL_OPENED: 'Year in Review: Modal opened',
+  NEXT_CLICKED: 'Year in Review: Next clicked',
+  SHARE_CLICKED: 'Year in Review: Share clicked',
 });
