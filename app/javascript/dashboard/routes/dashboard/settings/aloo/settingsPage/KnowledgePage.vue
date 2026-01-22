@@ -228,12 +228,12 @@ const handleWebsiteSubmit = async ({
     </div>
 
     <template v-else>
-      <div class="space-y-6">
-        <!-- Input Cards -->
-        <div class="grid grid-cols-3 gap-4">
-          <!-- File Upload Card -->
+      <div class="pt-6 space-y-6">
+        <!-- Input Buttons -->
+        <div class="flex items-start gap-3">
+          <!-- File Upload -->
           <div
-            class="relative border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer"
+            class="flex flex-col items-start gap-2 w-32 px-4 py-3 border border-dashed rounded-lg transition-all cursor-pointer"
             :class="[
               isDragging
                 ? 'border-n-blue-7 bg-n-blue-2'
@@ -252,72 +252,36 @@ const handleWebsiteSubmit = async ({
               accept=".pdf,.txt,.md,.csv"
               @change="handleFileSelect"
             />
-            <div class="flex flex-col items-center gap-3">
-              <div
-                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-              >
-                <span
-                  v-if="isUploading"
-                  class="i-lucide-loader-2 text-2xl text-n-blue-9 animate-spin"
-                />
-                <span v-else class="i-lucide-upload text-2xl text-n-slate-9" />
-              </div>
-              <div>
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.UPLOAD_TITLE') }}
-                </p>
-                <p class="text-xs text-n-slate-10 mt-1">
-                  {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.DROP_OR_CLICK') }}
-                </p>
-              </div>
-              <p class="text-xs text-n-slate-9">
-                {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.ALLOWED_TYPES') }}
-              </p>
-            </div>
+            <span
+              v-if="isUploading"
+              class="i-lucide-loader-2 text-xl text-n-blue-9 animate-spin"
+            />
+            <span v-else class="i-lucide-upload text-xl text-n-slate-9" />
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('ALOO.KNOWLEDGE.DOCUMENTS.UPLOAD_TITLE') }}
+            </span>
           </div>
 
-          <!-- Website URL Card -->
+          <!-- Website URL -->
           <div
-            class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+            class="flex flex-col items-start gap-2 group w-32 px-4 py-3 border border-dashed rounded-lg transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
             @click="openWebsiteDialog"
           >
-            <div class="flex flex-col items-center gap-3">
-              <div
-                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-              >
-                <span class="i-lucide-globe text-2xl text-n-slate-9" />
-              </div>
-              <div>
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
-                </p>
-                <p class="text-xs text-n-slate-10 mt-1">
-                  {{ $t('ALOO.KNOWLEDGE.WEBSITE.CARD_DESCRIPTION') }}
-                </p>
-              </div>
-            </div>
+            <span class="i-lucide-globe text-xl text-n-slate-9" />
+            <span class="text-sm font-medium text-n-slate-12">
+              {{ $t('ALOO.KNOWLEDGE.WEBSITE.TITLE') }}
+            </span>
           </div>
 
-          <!-- Text Block Card -->
+          <!-- Text Block -->
           <div
-            class="border-2 border-dashed rounded-xl p-6 text-center transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
+            class="flex flex-col items-start gap-2 w-32 px-4 py-3 border border-dashed rounded-lg transition-all cursor-pointer border-n-weak hover:border-n-blue-7 hover:bg-n-alpha-1"
             @click="openTextBlockDialog"
           >
-            <div class="flex flex-col items-center gap-3">
-              <div
-                class="w-12 h-12 rounded-full bg-n-alpha-2 flex items-center justify-center"
-              >
-                <span class="i-lucide-align-left text-2xl text-n-slate-9" />
-              </div>
-              <div>
-                <p class="text-sm font-medium text-n-slate-12">
-                  {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_TITLE') }}
-                </p>
-                <p class="text-xs text-n-slate-10 mt-1">
-                  {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_DESCRIPTION') }}
-                </p>
-              </div>
-            </div>
+            <span class="i-lucide-align-left text-xl text-n-slate-9" />
+            <span class="text-xs font-medium text-n-slate-12">
+              {{ $t('ALOO.KNOWLEDGE.TEXT_BLOCK.CARD_TITLE') }}
+            </span>
           </div>
         </div>
 
