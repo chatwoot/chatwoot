@@ -145,7 +145,29 @@
         "EXPAND": "Expandir",
         "MAKE_FRIENDLY": "Alterar o tom de mensagem para amigável",
         "MAKE_FORMAL": "Usar tom formal",
-        "SIMPLIFY": "Simplificar"
+        "SIMPLIFY": "Simplificar",
+        "CONFIDENT": "Use um tom confiante",
+        "PROFESSIONAL": "Use um tom profissional",
+        "CASUAL": "Use um tom casual",
+        "STRAIGHTFORWARD": "Use um tom direto"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Melhorar resposta",
+        "IMPROVE_REPLY_SELECTION": "Melhorar a seleção",
+        "CHANGE_TONE": {
+          "TITLE": "Alterar tom",
+          "OPTIONS": {
+            "PROFESSIONAL": "Profissional",
+            "CASUAL": "Casual",
+            "STRAIGHTFORWARD": "Direto",
+            "CONFIDENT": "Confiante",
+            "FRIENDLY": "Amigável"
+          }
+        },
+        "GRAMMAR": "Corrigir gramática e ortografia",
+        "SUGGESTION": "Sugerir uma resposta",
+        "SUMMARIZE": "Resumir a conversa",
+        "ASK_COPILOT": "Perguntar ao Copiloto"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Conteúdo do rascunho",
