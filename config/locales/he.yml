@@ -331,6 +331,9 @@ he:
     copilot_message_required: הודעה נדרשת
     copilot_error: 'אנא חבר עוזר לתיבת דואר נכנס זו כדי להשתמש ב-Copilot'
     copilot_limit: 'נגמרו לך זיכויי Copilot. אתה יכול לקנות זיכויים נוספים מסעיף החיובים.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'משתמש בכלי %{function_name}'
       completed_tool_call: 'הושלם קריאת כלי %{function_name}'
