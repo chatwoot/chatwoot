@@ -17,12 +17,14 @@
 # Output: <account_id>_<type>_<start_date>_<end_date>.csv
 
 require 'csv'
+require_relative '../../app/helpers/timezone_helper'
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/ModuleLength
 module DownloadReportTasks
+  extend TimezoneHelper
   def self.prompt(message)
     print "#{message}: "
     $stdin.gets.chomp
@@ -180,7 +182,7 @@ module DownloadReportTasks
                                           id: inbox&.id
                                         })
     report = V2::Reports::Conversations::ReportBuilder.new(account, report_params).timeseries
-    timezone = ActiveSupport::TimeZone[data[:params][:timezone_offset]]
+    timezone = ActiveSupport::TimeZone[timezone_name_from_offset(data[:params][:timezone_offset])]
 
     headers = ['Date', 'Hour', header_label]
     rows = report.map do |row|
