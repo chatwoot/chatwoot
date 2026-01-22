@@ -228,8 +228,8 @@
         "TITLE": "AI Agent Capabilities",
         "DESCRIPTION": "Control what actions the AI agent can perform during conversations",
         "HANDOFF": {
-          "LABEL": "Handoff to Human",
-          "DESCRIPTION": "Allow the AI to transfer conversations to human agents when needed"
+          "LABEL": "Request Human Help",
+          "DESCRIPTION": "Allow the AI to flag conversations for human assistance. Agents are notified and can take over while the AI continues responding."
         },
         "RESOLVE": {
           "LABEL": "Resolve Conversations",
