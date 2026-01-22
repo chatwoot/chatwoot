@@ -60,9 +60,9 @@ periodic_assignment_job:
   class: 'AutoAssignment::PeriodicAssignmentJob'
   queue: scheduled_jobs
 
-# executed every 60 minutes
+# executed every 12 hours
 # to remove orphan conversations without contact
 remove_orphan_conversations_job:
-  cron: '0 * * * *'
+  cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
