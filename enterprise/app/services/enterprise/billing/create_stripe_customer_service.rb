@@ -13,8 +13,9 @@ class Enterprise::Billing::CreateStripeCustomerService
         items: [{ price: price_id, quantity: default_quantity }]
       }
     )
-    account.update!(
-      custom_attributes: {
+    # Merge new attributes with existing ones, removing the is_creating_customer flag
+    new_attributes = account.custom_attributes.except('is_creating_customer').merge(
+      {
         stripe_customer_id: customer_id,
         stripe_price_id: subscription['plan']['id'],
         stripe_product_id: subscription['plan']['product'],
@@ -22,6 +23,7 @@ class Enterprise::Billing::CreateStripeCustomerService
         subscribed_quantity: subscription['quantity']
       }
     )
+    account.update!(custom_attributes: new_attributes)
   end
 
   private
