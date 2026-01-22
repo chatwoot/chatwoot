@@ -11,6 +11,10 @@ class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
     super()
   end
 
+  def name
+    'search_documentation'
+  end
+
   def execute(query:)
     Rails.logger.info { "#{self.class.name}: #{query}" }
 
