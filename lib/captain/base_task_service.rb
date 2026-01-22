@@ -61,7 +61,7 @@ class Captain::BaseTaskService
 
     instrumentation_params = build_instrumentation_params(model, messages)
 
-    response = instrument_llm_call(instrumentation_params) do
+    response = instrument_tool_session(instrumentation_params) do
       execute_ruby_llm_request_with_tools(model: model, messages: messages, tools: tools)
     end
 
@@ -70,6 +70,27 @@ class Captain::BaseTaskService
     else
       response
     end
+  end
+
+  # Custom instrumentation for tool flows - outputs just the message (not full hash)
+  def instrument_tool_session(params)
+    return yield unless ChatwootApp.otel_enabled?
+
+    response = nil
+    tracer.in_span(params[:span_name]) do |span|
+      span.set_attribute('langfuse.user.id', params[:account_id].to_s) if params[:account_id]
+      span.set_attribute('langfuse.tags', [params[:feature_name]].to_json)
+      span.set_attribute('langfuse.observation.input', params[:messages].to_json)
+
+      response = yield
+
+      # Output just the message for cleaner Langfuse display
+      span.set_attribute('langfuse.observation.output', response[:message] || response.to_json)
+    end
+    response
+  rescue StandardError => e
+    ChatwootExceptionTracker.new(e, account: account).capture_exception
+    response || yield
   end
 
   def execute_ruby_llm_request(model:, messages:)
@@ -98,6 +119,9 @@ class Captain::BaseTaskService
       system_msg = messages.find { |m| m[:role] == 'system' }
       chat.with_instructions(system_msg[:content]) if system_msg
 
+      # Record generation span with tool context
+      chat.on_end_message { |message| record_generation(chat, message, model) }
+
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?
 
@@ -108,6 +132,30 @@ class Captain::BaseTaskService
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     { error: e.message, request_messages: messages }
+  end
+
+  def record_generation(chat, message, model)
+    return unless ChatwootApp.otel_enabled?
+    return unless message.respond_to?(:role) && message.role.to_s == 'assistant'
+
+    tracer.in_span("llm.#{event_name}.generation") do |span|
+      span.set_attribute('gen_ai.system', 'openai')
+      span.set_attribute('gen_ai.request.model', model)
+      span.set_attribute('gen_ai.usage.input_tokens', message.input_tokens)
+      span.set_attribute('gen_ai.usage.output_tokens', message.output_tokens) if message.respond_to?(:output_tokens)
+      span.set_attribute('langfuse.observation.input', format_chat_messages(chat))
+      span.set_attribute('langfuse.observation.output', message.content.to_s) if message.respond_to?(:content)
+    end
+  rescue StandardError => e
+    Rails.logger.warn "Failed to record generation: #{e.message}"
+  end
+
+  def format_chat_messages(chat)
+    chat.messages[0...-1].map { |m| { role: m.role.to_s, content: m.content.to_s } }.to_json
+  end
+
+  def tracer
+    OpenTelemetry.tracer_provider.tracer('chatwoot')
   end
 
   def add_messages_if_needed(chat, conversation_messages)
@@ -214,5 +262,4 @@ class Captain::BaseTaskService
     user_msg ? user_msg[:content] : nil
   end
 end
-
 Captain::BaseTaskService.prepend_mod_with('Captain::BaseTaskService')

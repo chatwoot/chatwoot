@@ -1,4 +1,6 @@
 class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
+  prepend Captain::Tools::Instrumentation
+
   description 'Search and retrieve documentation/FAQs from knowledge base'
 
   param :query, desc: 'Search Query', required: true
