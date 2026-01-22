@@ -8,6 +8,8 @@
     "CLOSE": "Kapat",
     "BETA": "Beta",
     "BETA_DESCRIPTION": "Bu özellik beta aşamasındadır ve geliştirdikçe değişiklik gösterebilir.",
+    "ACCEPT": "Accept",
+    "DISCARD": "Yoksay",
     "PREFERRED": "Preferred"
   }
 }
