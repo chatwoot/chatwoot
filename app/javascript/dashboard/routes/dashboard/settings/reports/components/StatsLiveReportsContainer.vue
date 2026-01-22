@@ -9,7 +9,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
 import ReportsAPI from 'dashboard/api/reports';
-import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
+import { downloadFile } from 'dashboard/helper/downloadHelper';
 const { t } = useI18n();
 
 const uiFlags = useMapGetter('getOverviewUIFlags');
@@ -19,16 +19,21 @@ const store = useStore();
 
 const teams = useMapGetter('teams/getTeams');
 
-const downloadReports = async () => {
+const downloadReports = async (format = 'csv') => {
   const { since, until, businessHours } = store.state.reports;
 
   const response = await ReportsAPI.getOverviewReports({
     since,
     until,
     businessHours,
+    format, // передаем формат в API
   });
 
-  downloadCsvFile('overview_summary', response.data);
+  downloadFile(
+    `overview_summary_${new Date().getTime()}.${format}`,
+    response.data,
+    format
+  );
 };
 
 const teamMenuList = computed(() => {

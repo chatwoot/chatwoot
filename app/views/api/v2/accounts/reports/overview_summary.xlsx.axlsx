@@ -1,0 +1,40 @@
+wb = xlsx_package.workbook
+styles = wb.styles
+header_style = styles.add_style(b: true, bg_color: 'E8E8E8')
+
+agent_statuses = %w[online offline busy]
+
+wb.add_worksheet(name: 'Overview Report') do |sheet|
+  sheet.add_row [
+    I18n.t('reports.overview_csv.period'),
+    I18n.t('reports.overview.open_conversations'),
+    nil, nil, nil,
+    I18n.t('reports.overview.agent_status'),
+    nil, nil,
+    I18n.t('reports.overview_csv.resolutions_count'),
+    I18n.t('reports.overview_csv.avg_resolution_time')
+  ], style: header_style
+
+  sheet.add_row [
+    nil,
+    I18n.t('reports.overview_csv.open'),
+    I18n.t('reports.overview_csv.unattended'),
+    I18n.t('reports.overview_csv.unassigned'),
+    I18n.t('reports.overview_csv.waiting'),
+    "#{I18n.t('reports.overview_csv.status')} (online)",
+    "#{I18n.t('reports.overview_csv.status')} (offline)",
+    "#{I18n.t('reports.overview_csv.status')} (busy)",
+    nil, nil
+  ], style: header_style
+
+  sheet.add_row [
+    "#{@date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S')} - #{@date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S')}",
+    @conversation_metrics[:open],
+    @conversation_metrics[:unattended],
+    @conversation_metrics[:unassigned] || 0,
+    @conversation_metrics[:waiting],
+    *agent_statuses.map { |s| @agent_status[s] || 0 },
+    @summary[:resolutions_count],
+    Reports::TimeFormatPresenter.new(@summary[:avg_resolution_time]).format
+  ]
+end

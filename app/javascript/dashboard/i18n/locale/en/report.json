@@ -6,6 +6,8 @@
     "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
+    "DOWNLOAD_AS_XLSX": "Download as XLSX",
+    "DOWNLOAD_AS_CSV": "Download as CSV",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",

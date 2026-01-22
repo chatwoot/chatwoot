@@ -1,5 +1,6 @@
 <script>
-import V4Button from 'dashboard/components-next/button/Button.vue';
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 import { useAlert, useTrack } from 'dashboard/composables';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
@@ -24,7 +25,11 @@ export default {
     ReportHeader,
     ReportFilterSelector,
     ReportContainer,
-    V4Button,
+    DownloadDropdown,
+  },
+  setup() {
+    const { downloadOptions } = useReportDownloadOptions();
+    return { downloadOptions };
   },
   data() {
     return {
@@ -76,16 +81,20 @@ export default {
         businessHours,
       };
     },
-    downloadConversationReports() {
+    downloadConversationReports(option) {
       const { from, to } = this;
+      // Извлекаем значение формата из объекта опции
+      const format = option?.value || option || 'csv';
       const fileName = generateFileName({
         type: 'conversation',
         to,
         businessHours: this.businessHours,
+        format,
       });
       this.$store.dispatch('downloadConversationsSummaryReports', {
         from,
         to,
+        format,
         fileName,
         businessHours: this.businessHours,
       });
@@ -108,11 +117,10 @@ export default {
 
 <template>
   <ReportHeader :header-title="$t('REPORT.HEADER')">
-    <V4Button
+    <DownloadDropdown
       :label="$t('REPORT.DOWNLOAD_CONVERSATION_REPORTS')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadConversationReports"
+      :options="downloadOptions"
+      @select="downloadConversationReports"
     />
   </ReportHeader>
   <div class="flex flex-col gap-3">
