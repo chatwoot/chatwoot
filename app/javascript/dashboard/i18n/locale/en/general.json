@@ -9,6 +9,8 @@
     "BETA": "Beta",
     "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
     "ACCEPT": "Accept",
+    "ACCEPT_SUGGESTION": "Accept Suggestion",
+    "ACCEPT_AND_SEND": "Accept and Send",
     "DISCARD": "Discard",
     "PREFERRED": "Preferred"
   }
