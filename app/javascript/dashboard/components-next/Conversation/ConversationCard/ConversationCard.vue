@@ -73,6 +73,14 @@ const isHumanAssistanceRequested = computed(
     props.conversation.custom_attributes?.human_assistance_requested === true
 );
 
+// Check if a human is handling the conversation (handoff active or has human assignee)
+const isHumanHandling = computed(() => {
+  return (
+    props.conversation.custom_attributes?.aloo_handoff_active === true ||
+    props.conversation.meta?.assignee != null
+  );
+});
+
 const humanAssistanceTooltip = computed(() =>
   t('CONVERSATION.ALOO.HUMAN_ASSISTANCE_REQUESTED_LIST_TOOLTIP')
 );
@@ -117,7 +125,7 @@ const onCardClick = e => {
         </h4>
         <div class="flex items-center gap-2">
           <span
-            v-if="isHumanAssistanceRequested"
+            v-if="isHumanAssistanceRequested && !isHumanHandling"
             v-tooltip.left="humanAssistanceTooltip"
             class="flex items-center justify-center flex-shrink-0 rounded-full bg-n-amber-3 size-5"
           >

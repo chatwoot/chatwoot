@@ -162,7 +162,11 @@ const humanAssistanceReason = computed(
             "
           />
           <HumanAssistanceRequestedBadge
-            v-if="isHumanAssistanceRequested"
+            v-if="
+              isHumanAssistanceRequested &&
+              !isAlooHandoffActive &&
+              !assignedAgent
+            "
             :reason="humanAssistanceReason"
           />
           <AIAssignmentToggle
