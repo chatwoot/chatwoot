@@ -8,12 +8,14 @@ module Captain::ToolInstrumentation
     return yield unless ChatwootApp.otel_enabled?
 
     response = nil
+    executed = false
     tracer.in_span(params[:span_name]) do |span|
       span.set_attribute('langfuse.user.id', params[:account_id].to_s) if params[:account_id]
       span.set_attribute('langfuse.tags', [params[:feature_name]].to_json)
       span.set_attribute('langfuse.observation.input', params[:messages].to_json)
 
       response = yield
+      executed = true
 
       # Output just the message for cleaner Langfuse display
       span.set_attribute('langfuse.observation.output', response[:message] || response.to_json)
@@ -21,7 +23,7 @@ module Captain::ToolInstrumentation
     response
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
-    response
+    executed ? response : yield
   end
 
   def record_generation(chat, message, model)
