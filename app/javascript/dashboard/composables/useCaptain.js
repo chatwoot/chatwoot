@@ -10,7 +10,7 @@ import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import TasksAPI from 'dashboard/api/captain/tasks';
 
 export function useCaptain() {
@@ -82,17 +82,14 @@ export function useCaptain() {
   // === Analytics ===
   /**
    * Records analytics for AI-related events.
-   * @param {string} type - The type of event.
+   * @param {string} eventKey - The event key from CAPTAIN_EVENTS.
    * @param {Object} payload - Additional data for the event.
    * @returns {Promise<void>}
    */
-  const recordAnalytics = async (type, payload) => {
-    const event = OPEN_AI_EVENTS[type.toUpperCase()];
+  const recordAnalytics = async (eventKey, payload) => {
+    const event = CAPTAIN_EVENTS[eventKey];
     if (event) {
-      useTrack(event, {
-        type,
-        ...payload,
-      });
+      useTrack(event, payload);
     }
   };
 

@@ -23,8 +23,8 @@ vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
   return actual;
 });
 vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
-  OPEN_AI_EVENTS: {
-    TEST_EVENT: 'open_ai_test_event',
+  CAPTAIN_EVENTS: {
+    TEST_EVENT: 'captain_test_event',
   },
 }));
 
@@ -70,8 +70,7 @@ describe('useCaptain', () => {
 
     await recordAnalytics('TEST_EVENT', { data: 'test' });
 
-    expect(analyticsHelper.track).toHaveBeenCalledWith('open_ai_test_event', {
-      type: 'TEST_EVENT',
+    expect(analyticsHelper.track).toHaveBeenCalledWith('captain_test_event', {
       data: 'test',
     });
   });
