@@ -119,24 +119,27 @@ describe('useMacros', () => {
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('add_label')).toHaveLength(mockLabels.length);
     expect(getMacroDropdownValues('assign_team')).toHaveLength(
-      mockTeams.length
-    );
+      mockTeams.length + 1
+    ); // +1 for "None"
     expect(getMacroDropdownValues('assign_agent')).toHaveLength(
-      mockAgents.length + 1
-    ); // +1 for "Self"
+      mockAgents.length + 2
+    ); // +2 for "None" and "Self"
   });
 
-  it('returns teams for assign_team and send_email_to_team types', () => {
+  it('returns teams with "None" option for assign_team and teams only for send_email_to_team', () => {
     const { getMacroDropdownValues } = useMacros();
-    expect(getMacroDropdownValues('assign_team')).toEqual(mockTeams);
+    const assignTeamResult = getMacroDropdownValues('assign_team');
+    expect(assignTeamResult[0]).toEqual({ id: 'nil', name: 'AUTOMATION.NONE_OPTION' });
+    expect(assignTeamResult.slice(1)).toEqual(mockTeams);
     expect(getMacroDropdownValues('send_email_to_team')).toEqual(mockTeams);
   });
 
-  it('returns agents with "Self" option for assign_agent type', () => {
+  it('returns agents with "None" and "Self" options for assign_agent type', () => {
     const { getMacroDropdownValues } = useMacros();
     const result = getMacroDropdownValues('assign_agent');
-    expect(result[0]).toEqual({ id: 'self', name: 'Self' });
-    expect(result.slice(1)).toEqual(mockAgents);
+    expect(result[0]).toEqual({ id: 'nil', name: 'AUTOMATION.NONE_OPTION' });
+    expect(result[1]).toEqual({ id: 'self', name: 'Self' });
+    expect(result.slice(2)).toEqual(mockAgents);
   });
 
   it('returns formatted labels for add_label and remove_label types', () => {
@@ -172,8 +175,11 @@ describe('useMacros', () => {
 
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('add_label')).toEqual([]);
-    expect(getMacroDropdownValues('assign_team')).toEqual([]);
+    expect(getMacroDropdownValues('assign_team')).toEqual([
+      { id: 'nil', name: 'AUTOMATION.NONE_OPTION' },
+    ]);
     expect(getMacroDropdownValues('assign_agent')).toEqual([
+      { id: 'nil', name: 'AUTOMATION.NONE_OPTION' },
       { id: 'self', name: 'Self' },
     ]);
   });
