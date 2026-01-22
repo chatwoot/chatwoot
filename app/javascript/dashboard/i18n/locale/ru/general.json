@@ -8,6 +8,8 @@
     "CLOSE": "Закрыть",
     "BETA": "Бета",
     "BETA_DESCRIPTION": "Эта функция находится в бета-версии и может измениться по мере её улучшения.",
+    "ACCEPT": "Accept",
+    "DISCARD": "Сбросить",
     "PREFERRED": "Preferred"
   }
 }
