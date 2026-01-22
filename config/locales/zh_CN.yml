@@ -331,6 +331,9 @@ zh_CN:
     copilot_message_required: 消息是必填项
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: '使用工具 %{function_name}'
       completed_tool_call: '%{function_name} 工具调用完成'
