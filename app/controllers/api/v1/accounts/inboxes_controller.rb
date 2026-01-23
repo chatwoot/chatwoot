@@ -47,9 +47,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     inbox_params = permitted_params.except(:channel, :csat_config)
     inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
     @inbox.update!(inbox_params)
-    inbox_params = permitted_params.except(:channel, :csat_config)
-    inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
-    @inbox.update!(inbox_params)
     update_inbox_working_hours
     update_channel if channel_update_required?
   end
