@@ -5,10 +5,11 @@ class ReportingEventListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     return if conversation.resolved_at.blank?
 
-    start_time = conversation.created_at
+    first_incoming_message = conversation.messages.incoming.order(:created_at).first
+    start_time = first_incoming_message&.created_at || conversation.created_at
+
     end_time = conversation.resolved_at
-    time_to_resolve = end_time - start_time
-    return if time_to_resolve <= 0
+    time_to_resolve = [end_time - start_time, 0].max
 
     create_conversation_resolved_events(conversation, start_time, end_time, time_to_resolve)
   end
@@ -126,7 +127,11 @@ class ReportingEventListener < BaseListener
   end
 
   def create_conversation_resolved_events(conversation, start_time, end_time, time_to_resolve)
-    user_ids = conversation.conversation_participants.where.not(user_id: nil).distinct.pluck(:user_id)
+    user_ids = conversation.conversation_participants.where.not(user_id: nil)
+                           .where('created_at >= ?', start_time).distinct.pluck(:user_id)
+
+    user_ids << conversation.assignee_id if user_ids.empty? && conversation.assignee_id.present?
+    user_ids.uniq!
 
     user_ids.each do |user_id|
       build_conversation_resolved_event(conversation, user_id, start_time, end_time, time_to_resolve)
@@ -188,11 +193,7 @@ class ReportingEventListener < BaseListener
     return false unless message.message_type == 'outgoing'
     return false unless message.sender_type == 'User'
 
-    participant = ConversationParticipant.find_by(
-      conversation_id: conversation.id,
-      user_id: message.sender_id,
-      left_at: nil
-    )
+    participant = ConversationParticipant.find_by(conversation_id: conversation.id, user_id: message.sender_id, left_at: nil)
     return false unless participant
 
     return false if ReportingEvent.exists?(
