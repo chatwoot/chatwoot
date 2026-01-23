@@ -70,9 +70,9 @@ const isFormComplete = computed(() =>
   visibleAttributes.value.every(attribute => {
     const value = formValues[attribute.value];
 
-    // For checkbox attributes, only check if the key exists (matches composable logic)
+    // For checkbox attributes, ensure the agent has explicitly selected a value
     if (attribute.type === ATTRIBUTE_TYPES.CHECKBOX) {
-      return attribute.value in formValues;
+      return formValues[attribute.value] !== null;
     }
 
     // For other attribute types, check for valid non-empty values
