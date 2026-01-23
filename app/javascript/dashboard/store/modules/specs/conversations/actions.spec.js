@@ -435,7 +435,7 @@ describe('#actions', () => {
       expect(commit).toHaveBeenCalledTimes(2);
       expect(commit.mock.calls).toEqual([
         ['SET_LIST_LOADING_STATUS'],
-        ['SET_ALL_CONVERSATION', dataReceived.payload],
+        ['SET_ALL_CONVERSATION', { records: dataReceived.payload, page: 1 }],
       ]);
     });
   });

@@ -31,33 +31,47 @@ const getConversationById = _state => conversationId => {
 
 // mutations
 export const mutations = {
-  [types.SET_ALL_CONVERSATION](_state, conversationList) {
-    const newAllConversations = [..._state.allConversations];
-    conversationList.forEach(conversation => {
-      const indexInCurrentList = newAllConversations.findIndex(
-        c => c.id === conversation.id
-      );
-      if (indexInCurrentList < 0) {
-        newAllConversations.push(conversation);
-      } else if (conversation.id !== _state.selectedChatId) {
-        // If the conversation is already in the list, replace it
-        // Added this to fix the issue of the conversation not being updated
-        // When reconnecting to the websocket. If the selectedChatId is not the same as
-        // the conversation.id in the store, replace the existing conversation with the new one
-        newAllConversations[indexInCurrentList] = conversation;
-      } else {
-        // If the conversation is already in the list and selectedChatId is the same,
-        // replace all data except the messages array, attachments, dataFetched, allMessagesLoaded
-        const existingConversation = newAllConversations[indexInCurrentList];
-        newAllConversations[indexInCurrentList] = {
-          ...conversation,
-          allMessagesLoaded: existingConversation.allMessagesLoaded,
-          messages: existingConversation.messages,
-          dataFetched: existingConversation.dataFetched,
-        };
+  [types.SET_ALL_CONVERSATION](_state, payload) {
+    const { records: conversationList = [], page: incomingPage = 1 } =
+      Array.isArray(payload)
+        ? { records: payload, page: 1 }
+        : { records: payload?.records || [], page: payload?.page ?? 1 };
+
+    const pageNumber = Number(incomingPage) || 1;
+    const previousConversations = _state.allConversations;
+    const existingConversationMap = new Map(
+      previousConversations.map(conversation => [conversation.id, conversation])
+    );
+    const idsInCurrentPage = new Set(
+      conversationList.map(conversation => conversation.id)
+    );
+
+    const retainedConversations = previousConversations.filter(
+      conversation => !idsInCurrentPage.has(conversation.id)
+    );
+
+    const mergedPageConversations = conversationList.map(conversation => {
+      const existingConversation = existingConversationMap.get(conversation.id);
+      if (!existingConversation) {
+        return conversation;
       }
+
+      if (conversation.id !== _state.selectedChatId) {
+        return conversation;
+      }
+
+      return {
+        ...conversation,
+        allMessagesLoaded: existingConversation.allMessagesLoaded,
+        messages: existingConversation.messages,
+        dataFetched: existingConversation.dataFetched,
+      };
     });
-    _state.allConversations = newAllConversations;
+
+    _state.allConversations =
+      pageNumber === 1
+        ? [...mergedPageConversations, ...retainedConversations]
+        : [...retainedConversations, ...mergedPageConversations];
   },
   [types.EMPTY_ALL_CONVERSATION](_state) {
     _state.allConversations = [];
