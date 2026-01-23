@@ -8,7 +8,7 @@
     {% if message.text_content %}
       {{message.text_content}}
     {% else %}
-      <em>Content not loaded</em>
+      Message content not available
     {% endif %}
   </blockquote>
 
@@ -21,7 +21,7 @@
     </ul>
   {% endif %}
 {% else %}
-  <p><em>Message content not available</em></p>
+  <p>Message content not available</p>
 {% endif %}
 
 <p>

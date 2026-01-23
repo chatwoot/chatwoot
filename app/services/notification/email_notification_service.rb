@@ -7,7 +7,7 @@ class Notification::EmailNotificationService
     # don't send emails if user is not confirmed
     return if notification.user.confirmed_at.nil?
     return unless user_subscribed_to_notification?
-    # don't send emails for failed messages or messages with null content
+    # don't send emails for failed messages
     return if message_failed?
 
     # TODO : Clean up whatever happening over here
