@@ -2,7 +2,6 @@
 import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useConfig } from 'dashboard/composables/useConfig';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -13,12 +12,18 @@ const { accountId } = useAccount();
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
-const { isEnterprise } = useConfig();
 
 const showAutoResolutionConfig = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
     FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
+  );
+});
+
+const showRequiredAttributes = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.CONVERSATION_REQUIRED_ATTRIBUTES
   );
 });
 </script>
@@ -36,7 +41,7 @@ const showAutoResolutionConfig = computed(() => {
     <template #body>
       <div class="flex flex-col gap-6">
         <AutoResolve v-if="showAutoResolutionConfig" />
-        <ConversationRequiredAttributes v-if="isEnterprise" />
+        <ConversationRequiredAttributes :is-enabled="showRequiredAttributes" />
       </div>
     </template>
   </SettingsLayout>

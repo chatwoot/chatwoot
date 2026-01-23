@@ -1,52 +1,74 @@
 import { useConversationRequiredAttributes } from '../useConversationRequiredAttributes';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useConfig } from 'dashboard/composables/useConfig';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/useAccount');
-vi.mock('dashboard/composables/useConfig');
+
+const defaultAttributes = [
+  {
+    attributeKey: 'priority',
+    attributeDisplayName: 'Priority',
+    attributeDisplayType: 'list',
+    attributeValues: ['High', 'Medium', 'Low'],
+  },
+  {
+    attributeKey: 'category',
+    attributeDisplayName: 'Category',
+    attributeDisplayType: 'text',
+    attributeValues: [],
+  },
+  {
+    attributeKey: 'is_urgent',
+    attributeDisplayName: 'Is Urgent',
+    attributeDisplayType: 'checkbox',
+    attributeValues: [],
+  },
+];
 
 describe('useConversationRequiredAttributes', () => {
-  let mockUseMapGetter;
-  let mockUseAccount;
-
   beforeEach(() => {
-    mockUseMapGetter = vi.fn();
-    mockUseAccount = vi.fn();
+    useMapGetter.mockImplementation(getter => {
+      if (getter === 'accounts/isFeatureEnabledonAccount') {
+        return { value: () => true };
+      }
+      if (getter === 'attributes/getConversationAttributes') {
+        return { value: defaultAttributes };
+      }
+      return { value: null };
+    });
 
-    useMapGetter.mockImplementation(mockUseMapGetter);
-    useAccount.mockImplementation(mockUseAccount);
-    useConfig.mockReturnValue({ isEnterprise: true });
+    useAccount.mockReturnValue({
+      currentAccount: {
+        value: {
+          settings: {
+            conversation_required_attributes: [
+              'priority',
+              'category',
+              'is_urgent',
+            ],
+          },
+        },
+      },
+      accountId: { value: 1 },
+    });
   });
 
   const setupMocks = (
-    requiredAttributes = ['priority', 'category', 'is_urgent']
+    requiredAttributes = ['priority', 'category', 'is_urgent'],
+    { attributes = defaultAttributes, featureEnabled = true } = {}
   ) => {
-    mockUseMapGetter.mockReturnValue({
-      value: [
-        {
-          attributeKey: 'priority',
-          attributeDisplayName: 'Priority',
-          attributeDisplayType: 'list',
-          attributeValues: ['High', 'Medium', 'Low'],
-        },
-        {
-          attributeKey: 'category',
-          attributeDisplayName: 'Category',
-          attributeDisplayType: 'text',
-          attributeValues: [],
-        },
-        {
-          attributeKey: 'is_urgent',
-          attributeDisplayName: 'Is Urgent',
-          attributeDisplayType: 'checkbox',
-          attributeValues: [],
-        },
-      ],
+    useMapGetter.mockImplementation(getter => {
+      if (getter === 'accounts/isFeatureEnabledonAccount') {
+        return { value: () => featureEnabled };
+      }
+      if (getter === 'attributes/getConversationAttributes') {
+        return { value: attributes };
+      }
+      return { value: null };
     });
 
-    mockUseAccount.mockReturnValue({
+    useAccount.mockReturnValue({
       currentAccount: {
         value: {
           settings: {
@@ -54,6 +76,7 @@ describe('useConversationRequiredAttributes', () => {
           },
         },
       },
+      accountId: { value: 1 },
     });
   };
 
@@ -77,13 +100,10 @@ describe('useConversationRequiredAttributes', () => {
     });
 
     it('should return empty array when account settings is null', () => {
-      mockUseMapGetter.mockReturnValue({ value: [] });
-      mockUseAccount.mockReturnValue({
-        currentAccount: {
-          value: {
-            settings: null,
-          },
-        },
+      setupMocks([], { attributes: [] });
+      useAccount.mockReturnValue({
+        currentAccount: { value: { settings: null } },
+        accountId: { value: 1 },
       });
 
       const { requiredAttributeKeys } = useConversationRequiredAttributes();
@@ -111,8 +131,8 @@ describe('useConversationRequiredAttributes', () => {
 
     it('should filter out deleted attributes that no longer exist', () => {
       // Mock with only 2 attributes available but 3 required
-      mockUseMapGetter.mockReturnValue({
-        value: [
+      setupMocks(['priority', 'category', 'is_urgent'], {
+        attributes: [
           {
             attributeKey: 'priority',
             attributeDisplayName: 'Priority',
@@ -126,20 +146,6 @@ describe('useConversationRequiredAttributes', () => {
             attributeValues: [],
           },
         ],
-      });
-
-      mockUseAccount.mockReturnValue({
-        currentAccount: {
-          value: {
-            settings: {
-              conversation_required_attributes: [
-                'priority',
-                'category',
-                'is_urgent',
-              ],
-            },
-          },
-        },
       });
 
       const { requiredAttributes } = useConversationRequiredAttributes();
@@ -252,9 +258,8 @@ describe('useConversationRequiredAttributes', () => {
     });
 
     it('should handle falsy values correctly for non-checkbox attributes', () => {
-      // Mock different attributes for this test
-      mockUseMapGetter.mockReturnValue({
-        value: [
+      setupMocks(['score', 'status_flag'], {
+        attributes: [
           {
             attributeKey: 'score',
             attributeDisplayName: 'Score',
@@ -268,16 +273,6 @@ describe('useConversationRequiredAttributes', () => {
             attributeValues: [],
           },
         ],
-      });
-
-      mockUseAccount.mockReturnValue({
-        currentAccount: {
-          value: {
-            settings: {
-              conversation_required_attributes: ['score', 'status_flag'],
-            },
-          },
-        },
       });
 
       const { checkMissingAttributes } = useConversationRequiredAttributes();

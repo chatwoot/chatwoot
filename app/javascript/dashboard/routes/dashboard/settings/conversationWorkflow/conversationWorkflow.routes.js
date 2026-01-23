@@ -10,12 +10,6 @@ export default {
       children: [
         {
           path: '',
-          redirect: to => {
-            return { name: 'conversation_workflow_index', params: to.params };
-          },
-        },
-        {
-          path: 'index',
           name: 'conversation_workflow_index',
           component: ConversationWorkflowIndex,
           meta: {
