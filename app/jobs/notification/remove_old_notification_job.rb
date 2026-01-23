@@ -30,14 +30,20 @@ class Notification::RemoveOldNotificationJob < ApplicationJob
   end
 
   def trim_notifications_for_user(user_id)
-    # Keep the most recent NOTIFICATION_LIMIT notifications, delete the rest
-    keep_ids = Notification.where(user_id: user_id)
-                           .order(created_at: :desc)
-                           .limit(NOTIFICATION_LIMIT)
-                           .pluck(:id)
+    # Find the cutoff timestamp (the NOTIFICATION_LIMIT-th most recent notification)
+    cutoff_time = Notification.where(user_id: user_id)
+                              .order(created_at: :desc)
+                              .offset(NOTIFICATION_LIMIT)
+                              .limit(1)
+                              .pick(:created_at)
 
+    return unless cutoff_time
+
+    # Delete notifications older than the cutoff
+    # This avoids race conditions: notifications created after finding the cutoff
+    # will have timestamps >= cutoff_time and won't be incorrectly deleted
     Notification.where(user_id: user_id)
-                .where.not(id: keep_ids)
+                .where('created_at < ?', cutoff_time)
                 .delete_all
   end
 end
