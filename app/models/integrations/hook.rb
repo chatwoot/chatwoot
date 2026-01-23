@@ -86,10 +86,7 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    return if app.blank?
-    return unless new_record? || hook_type.blank?
-
-    self.hook_type = app.params[:hook_type]
+    self.hook_type = app.params[:hook_type] if app.present?
   end
 
   def validate_settings_json_schema
