@@ -86,7 +86,11 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    self.hook_type = app.params[:hook_type] if app.present?
+    return unless app.present?
+    return unless new_record?
+
+    # hook_type is readonly; only set it on create to avoid update-time errors in Rails 7.1+
+    self.hook_type = app.params[:hook_type]
   end
 
   def validate_settings_json_schema
