@@ -86,7 +86,7 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    return unless app.present?
+    return if app.blank?
     return unless new_record?
 
     # hook_type is readonly; only set it on create to avoid update-time errors in Rails 7.1+
