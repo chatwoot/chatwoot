@@ -151,6 +151,11 @@
       "TIME_RANGE_SEPARATOR": "—"
     }
   },
+  "ALL_METRICS_REPORTS": {
+    "HEADER": "Все метрики диалогов",
+    "DESCRIPTION":"Получите обзор работы вашей команды с основными метриками, такими как время ответа, время решения проблем, количество решённых случаев и тд.",
+    "DOWNLOAD": "Скачать отчёт по всем диалогам"
+  },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",

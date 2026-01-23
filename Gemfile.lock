@@ -699,7 +699,7 @@ GEM
       rack (< 4)
     rack-cors (2.0.0)
       rack (>= 2.0.0)
-    rack-mini-profiler (3.2.0)
+    rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
     rack-protection (4.2.1)
       base64 (>= 0.1.0)

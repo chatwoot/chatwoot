@@ -1,0 +1,80 @@
+<%
+def tf(value)
+  return nil if value.blank?
+  Reports::TimeFormatPresenter.new(value).format
+end
+
+def meaningful_keys(rows, field)
+  rows
+    .flat_map { |r| r[field]&.select { |_, v| v.present? }&.keys || [] }
+    .uniq
+    .sort
+end
+
+max_agents = @report_data.map { |r| r[:agents]&.size || 0 }.max || 0
+max_labels = @report_data.map { |r| r[:labels]&.size || 0 }.max || 0
+
+all_chat_custom_attrs     = meaningful_keys(@report_data, :custom_attributes)
+all_contact_custom_attrs  = meaningful_keys(@report_data, :contact_custom_attributes)
+all_contact_attrs         = meaningful_keys(@report_data, :contact_additional_attributes)
+
+headers = []
+headers << t('reports.conversation_details_csv.conversation_id')
+headers << t('reports.conversation_details_csv.created_at')
+headers << t('reports.conversation_details_csv.inbox_name')
+headers << t('reports.conversation_details_csv.team_name')
+headers << t('reports.conversation_details_csv.contact_email')
+
+max_agents.times do |i|
+  headers << t('reports.conversation_details_csv.agent_nick', index: i + 1)
+end
+
+headers << t('reports.conversation_details_csv.duration')
+headers << t('reports.conversation_details_csv.first_response_time')
+headers << t('reports.conversation_details_csv.avg_response_time')
+headers << t('reports.conversation_details_csv.csat_score')
+headers << t('reports.conversation_details_csv.csat_feedback')
+
+max_labels.times do |i|
+  headers << t('reports.conversation_details_csv.label', index: i + 1)
+end
+
+headers << t('reports.conversation_details_csv.contact_name')
+
+all_chat_custom_attrs.each     { |attr| headers << t('reports.conversation_details_csv.chat_custom', attr: attr) }
+all_contact_custom_attrs.each  { |attr| headers << t('reports.conversation_details_csv.contact_custom', attr: attr) }
+all_contact_attrs.each         { |attr| headers << t('reports.conversation_details_csv.contact_additional', attr: attr) }
+
+csv_data = CSV.generate(force_quotes: true) do |csv|
+  csv << headers
+
+  @report_data.each do |row|
+    csv << [
+      row[:conversation_id],
+      row[:created_at]&.strftime('%Y-%m-%d %H:%M:%S'),
+      row[:inbox_name],
+      row[:team_name],
+      row[:contact_email],
+
+      *Array.new(max_agents) { |i| row[:agents]&.[](i) },
+
+      tf(row[:duration]),
+      tf(row[:first_response_time]),
+      tf(row[:avg_response_time]),
+
+      row[:csat_score],
+      row[:csat_feedback],
+
+      *Array.new(max_labels) { |i| row[:labels]&.[](i) },
+
+      row[:contact_name],
+
+      *all_chat_custom_attrs.map    { |attr| row[:custom_attributes]&.[](attr) },
+      *all_contact_custom_attrs.map { |attr| row[:contact_custom_attributes]&.[](attr) },
+      *all_contact_attrs.map        { |attr| row[:contact_additional_attributes]&.[](attr) }
+    ]
+  end
+end
+%>
+
+<%= raw csv_data %>

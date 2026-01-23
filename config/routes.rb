@@ -462,6 +462,7 @@ Rails.application.routes.draw do
               get :outgoing_messages_count
               get :overview_summary
               get :bot_summary_download
+              get :all_conversation_metrics_download
             end
           end
           resource :year_in_review, only: [:show]
