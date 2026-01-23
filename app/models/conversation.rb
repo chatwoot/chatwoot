@@ -97,6 +97,10 @@ class Conversation < ApplicationRecord
     ).sort_on_last_user_message_at
   }
 
+  scope :ordered_for_inbox, lambda {
+    order(Arel.sql('COALESCE(priority, 0) DESC, COALESCE(last_activity_at) ASC'))
+  }
+
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
