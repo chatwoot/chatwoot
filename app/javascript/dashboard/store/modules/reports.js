@@ -226,12 +226,14 @@ export const actions = {
       });
   },
   downloadAgentReports(_, reportObj) {
-    return Report.getAgentReports(reportObj)
+    const format = reportObj.format || 'csv';
+    return Report.getAgentReports({ ...reportObj, format })
       .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+        downloadFile(reportObj.fileName, response.data, format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'agent',
           businessHours: reportObj?.businessHours,
+          format,
         });
       })
       .catch(error => {
@@ -239,18 +241,19 @@ export const actions = {
       });
   },
   downloadConversationsSummaryReports(_, reportObj) {
+    const format = reportObj.format || 'csv';
     return Report.getConversationsSummaryReports({
       from: reportObj.from,
       to: reportObj.to,
       businessHours: reportObj.businessHours,
-      format: reportObj.format,
+      format,
     })
       .then(response => {
-        downloadFile(reportObj.fileName, response.data, reportObj.format);
+        downloadFile(reportObj.fileName, response.data, format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'conversations_summary',
           businessHours: reportObj?.businessHours,
-          format: reportObj?.format,
+          format,
         });
       })
       .catch(error => {
@@ -258,12 +261,14 @@ export const actions = {
       });
   },
   downloadLabelReports(_, reportObj) {
-    return Report.getLabelReports(reportObj)
+    const format = reportObj.format || 'csv';
+    return Report.getLabelReports({ ...reportObj, format })
       .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+        downloadFile(reportObj.fileName, response.data, format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'label',
           businessHours: reportObj?.businessHours,
+          format,
         });
       })
       .catch(error => {
@@ -271,12 +276,14 @@ export const actions = {
       });
   },
   downloadInboxReports(_, reportObj) {
-    return Report.getInboxReports(reportObj)
+    const format = reportObj.format || 'csv';
+    return Report.getInboxReports({ ...reportObj, format })
       .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+        downloadFile(reportObj.fileName, response.data, format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'inbox',
           businessHours: reportObj?.businessHours,
+          format,
         });
       })
       .catch(error => {
@@ -284,12 +291,14 @@ export const actions = {
       });
   },
   downloadTeamReports(_, reportObj) {
-    return Report.getTeamReports(reportObj)
+    const format = reportObj.format || 'csv';
+    return Report.getTeamReports({ ...reportObj, format })
       .then(response => {
-        downloadCsvFile(reportObj.fileName, response.data);
+        downloadFile(reportObj.fileName, response.data, format);
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
           reportType: 'team',
           businessHours: reportObj?.businessHours,
+          format,
         });
       })
       .catch(error => {
@@ -297,7 +306,7 @@ export const actions = {
       });
   },
   downloadAccountConversationHeatmap(_, reportObj) {
-    Report.getConversationTrafficCSV({ daysBefore: reportObj.daysBefore })
+    Report.getConversationTrafficReports({ daysBefore: reportObj.daysBefore })
       .then(response => {
         downloadCsvFile(
           generateFileName({

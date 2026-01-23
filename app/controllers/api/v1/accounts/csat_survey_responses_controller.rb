@@ -31,6 +31,11 @@ class Api::V1::Accounts::CsatSurveyResponsesController < Api::V1::Accounts::Base
         response.headers['Content-Disposition'] = 'attachment; filename=csat_report.xlsx'
         render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:xlsx]
       end
+      format.any do
+        response.headers['Content-Type'] = 'text/csv'
+        response.headers['Content-Disposition'] = 'attachment; filename=csat_report.csv'
+        render layout: false, template: 'api/v1/accounts/csat_survey_responses/download', formats: [:csv]
+      end
     end
   end
 
