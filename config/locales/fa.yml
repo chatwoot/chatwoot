@@ -48,8 +48,11 @@ fa:
       failed: ثبت نام ناموفق بود
     assignment_policy:
       not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: نوع داده نامعتبر است
@@ -62,6 +65,14 @@ fa:
         invalid: ایمیل نامعتبر است
       phone_number:
         invalid: باید در قالب e164 باشد
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: باید منحصر به فرد در دسته‌بندی و پورتال باشد
@@ -73,6 +84,7 @@ fa:
       token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
       invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
       phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Failed to reauthorize WhatsApp. Please try again.'
         not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
@@ -101,6 +113,13 @@ fa:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -176,6 +195,8 @@ fa:
     messages:
       instagram_story_content: '%{story_sender} در داستان به شما اشاره کرده: '
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: این پیام حذف شد
       whatsapp:
         list_button_label: 'Choose an item'
@@ -185,6 +206,8 @@ fa:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود'
         contact_resolved: 'گفتگو توسط %{contact_name} حل شد'

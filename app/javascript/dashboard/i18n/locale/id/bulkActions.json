@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Tidak ada label ditemukan untuk",
+      "NO_LABELS_FOUND": "Tidak ada label",
       "ASSIGN_SELECTED_LABELS": "Tugaskan label terpilih",
       "ASSIGN_SUCCESFUL": "Label berhasil ditugaskan.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

@@ -1,26 +1,26 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Canlı sohbet kampanyaları",
+      "NEW_CAMPAIGN": "Kampanya Oluştur",
       "CARD": {
         "STATUS": {
           "ENABLED": "Etkin",
           "DISABLED": "Devre dışı"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_BY": "Tarafından gönderildi",
+          "SENT_BY": "Gönderen",
           "BOT": "Bot",
           "FROM": "dan",
           "URL": "URL:"
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Canlı sohbet kampanyası mevcut değil",
+        "SUBTITLE": "Proaktif mesajlar kullanarak müşterilerinizle iletişim kurun. Başlamak için 'Kampanya Oluştur' butonuna tıklayın."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Canlı sohbet kampanyası oluşturun",
         "CANCEL_BUTTON_TEXT": "İptal Et",
         "CREATE_BUTTON_TEXT": "Yarat",
         "FORM": {
@@ -41,7 +41,7 @@
           },
           "SENT_BY": {
             "LABEL": "Tarafından gönderildi",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "Lütfen göndereni seçin",
             "ERROR": "Gönderen bilgisi gerekli"
           },
           "END_POINT": {
@@ -55,25 +55,25 @@
             "ERROR": "Yayın süresi seçiniz"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "Diğer tercihler",
             "ENABLED": "Kampanyayı başlat",
             "TRIGGER_ONLY_BUSINESS_HOURS": "Sadece çalışma saatleri içerisinde tetikle"
           },
           "BUTTONS": {
-            "CREATE": "Yarat",
+            "CREATE": "Oluştur",
             "CANCEL": "İptal Et"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Canlı sohbet kampanyası başarıyla oluşturuldu",
             "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "Canlı sohbet kampanyasını düzenle",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "Canlı sohbet kampanyası başarıyla güncellendi",
             "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
           }
         }
@@ -81,7 +81,7 @@
     },
     "SMS": {
       "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "NEW_CAMPAIGN": "Kampanya oluştur",
       "EMPTY_STATE": {
         "TITLE": "No SMS campaigns are available",
         "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
@@ -89,7 +89,7 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Tamamlandı",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Planlanmış"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
@@ -99,7 +99,7 @@
       "CREATE": {
         "TITLE": "Create SMS campaign",
         "CANCEL_BUTTON_TEXT": "İptal Et",
-        "CREATE_BUTTON_TEXT": "Yarat",
+        "CREATE_BUTTON_TEXT": "Oluştur",
         "FORM": {
           "TITLE": {
             "LABEL": "Başlık",
@@ -127,11 +127,11 @@
             "ERROR": "Planlanan zaman seçimi gerekli"
           },
           "BUTTONS": {
-            "CREATE": "Yarat",
+            "CREATE": "Oluştur",
             "CANCEL": "İptal Et"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "SUCCESS_MESSAGE": "SMS kampanyası başarıyla oluşturuldu",
             "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin."
           }
         }
@@ -147,7 +147,7 @@
       "CARD": {
         "STATUS": {
           "COMPLETED": "Tamamlandı",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Planlanmış"
         },
         "CAMPAIGN_DETAILS": {
           "SENT_FROM": "Sent from",
@@ -191,7 +191,7 @@
             "ERROR": "Planlanan zaman seçimi gerekli"
           },
           "BUTTONS": {
-            "CREATE": "Yarat",
+            "CREATE": "Oluştur",
             "CANCEL": "İptal Et"
           },
           "API": {
@@ -203,7 +203,7 @@
     },
     "CONFIRM_DELETE": {
       "TITLE": "Silmek istediğinizden emin misiniz?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "Silme işlemi kalıcıdır ve geri alınamaz.",
       "CONFIRM": "Sil",
       "API": {
         "SUCCESS_MESSAGE": "Kampanya başarıyla silindi",

@@ -1,0 +1,12 @@
+json.id reporting_event.id
+json.name reporting_event.name
+json.value reporting_event.value
+json.value_in_business_hours reporting_event.value_in_business_hours
+json.event_start_time reporting_event.event_start_time
+json.event_end_time reporting_event.event_end_time
+json.account_id reporting_event.account_id
+json.inbox_id reporting_event.inbox_id
+json.user_id reporting_event.user_id
+json.conversation_id reporting_event.conversation_id
+json.created_at reporting_event.created_at
+json.updated_at reporting_event.updated_at

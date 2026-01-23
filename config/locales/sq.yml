@@ -48,8 +48,11 @@ sq:
       failed: Signup failed
     assignment_policy:
       not_found: Nuk u gjet politika e caktimit
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: Invalid data type
@@ -62,6 +65,14 @@ sq:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+    companies:
+      domain:
+        invalid: must be a valid domain name
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: should be unique in the category and portal
@@ -73,6 +84,7 @@ sq:
       token_exchange_failed: 'Dështoi shkëmbimi i kodit për tokenin e aksesit. Ju lutemi, provoni përsëri.'
       invalid_token_permissions: 'Tokeni i aksesit nuk ka lejet e nevojshme për WhatsApp.'
       phone_info_fetch_failed: 'Dështoi marrja e informacionit të numrit të telefonit. Ju lutemi, provoni përsëri.'
+      phone_number_already_exists: 'Channel already exists for this phone number: %{phone_number}, please contact support if the error persists'
       reauthorization:
         generic: 'Dështoi riautorizimi i WhatsApp-it. Ju lutemi, provoni përsëri.'
         not_supported: 'Riautorizimi nuk mbështetet për këtë lloj kanali të WhatsApp-it.'
@@ -101,6 +113,13 @@ sq:
       invalid_token: Invalid or expired MFA token
       invalid_credentials: Invalid credentials or verification code
       feature_unavailable: MFA feature is not available. Please configure encryption keys.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -176,6 +195,8 @@ sq:
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: This message was deleted
       whatsapp:
         list_button_label: 'Zgjidhni një element'
@@ -185,6 +206,8 @@ sq:
       captain:
         resolved: 'Biseda u shënua si e zgjidhur nga %{user_name} për shkak të mungesës së aktivitetit'
         open: 'Biseda u shënua si e hapur nga %{user_name}'
+      agent_bot:
+        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
       status:
         resolved: 'Conversation was marked resolved by %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
