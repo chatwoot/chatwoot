@@ -167,102 +167,68 @@ defineExpose({ open, close });
         class="flex flex-col gap-2"
       >
         <div class="flex justify-between items-center">
-          <label
-            class="text-sm font-medium"
-            :class="
-              v$[attribute.value].$error ? 'text-n-ruby-11' : 'text-n-slate-12'
-            "
-          >
+          <label class="mb-0.5 text-sm font-medium text-n-slate-12">
             {{ attribute.label }}
           </label>
         </div>
 
         <template v-if="attribute.type === ATTRIBUTE_TYPES.TEXT">
-          <div>
-            <TextArea
-              v-model="formValues[attribute.value]"
-              class="w-full"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
-              @blur="v$[attribute.value].$touch"
-            />
-            <span
-              v-if="v$[attribute.value].$error"
-              class="block w-full text-sm font-normal text-n-ruby-11 mt-1"
-            >
-              {{ getErrorMessage(attribute.value) }}
-            </span>
-          </div>
+          <TextArea
+            v-model="formValues[attribute.value]"
+            class="w-full"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.TEXT)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.NUMBER">
-          <div>
-            <Input
-              v-model="formValues[attribute.value]"
-              type="number"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.NUMBER)"
-              @blur="v$[attribute.value].$touch"
-            />
-            <span
-              v-if="v$[attribute.value].$error"
-              class="block w-full text-sm font-normal text-n-ruby-11 mt-1"
-            >
-              {{ getErrorMessage(attribute.value) }}
-            </span>
-          </div>
+          <Input
+            v-model="formValues[attribute.value]"
+            type="number"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.NUMBER)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LINK">
-          <div>
-            <Input
-              v-model="formValues[attribute.value]"
-              type="url"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
-              @blur="v$[attribute.value].$touch"
-            />
-            <span
-              v-if="v$[attribute.value].$error"
-              class="block w-full text-sm font-normal text-n-ruby-11 mt-1"
-            >
-              {{ getErrorMessage(attribute.value) }}
-            </span>
-          </div>
+          <Input
+            v-model="formValues[attribute.value]"
+            type="url"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LINK)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.DATE">
-          <div>
-            <Input
-              v-model="formValues[attribute.value]"
-              type="date"
-              size="md"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
-              @blur="v$[attribute.value].$touch"
-            />
-            <span
-              v-if="v$[attribute.value].$error"
-              class="block w-full text-sm font-normal text-n-ruby-11 mt-1"
-            >
-              {{ getErrorMessage(attribute.value) }}
-            </span>
-          </div>
+          <Input
+            v-model="formValues[attribute.value]"
+            type="date"
+            size="md"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.DATE)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            @blur="v$[attribute.value].$touch"
+          />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.LIST">
-          <div>
-            <ComboBox
-              v-model="formValues[attribute.value]"
-              :options="comboBoxOptions[attribute.value]"
-              :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
-              class="w-full"
-            />
-            <span
-              v-if="v$[attribute.value].$error"
-              class="block w-full text-sm font-normal text-n-ruby-11 mt-1"
-            >
-              {{ getErrorMessage(attribute.value) }}
-            </span>
-          </div>
+          <ComboBox
+            v-model="formValues[attribute.value]"
+            :options="comboBoxOptions[attribute.value]"
+            :placeholder="getPlaceholder(ATTRIBUTE_TYPES.LIST)"
+            :message="getErrorMessage(attribute.value)"
+            :message-type="v$[attribute.value].$error ? 'error' : 'info'"
+            :has-error="v$[attribute.value].$error"
+            class="w-full"
+          />
         </template>
 
         <template v-else-if="attribute.type === ATTRIBUTE_TYPES.CHECKBOX">
