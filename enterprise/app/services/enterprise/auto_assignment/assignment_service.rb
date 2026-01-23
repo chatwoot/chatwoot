@@ -14,13 +14,26 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   # Extend agent finding to add capacity checks
-  def find_available_agent
-    agents = filter_agents_by_rate_limit(inbox.available_agents)
+  def find_available_agent(conversation = nil)
+    agents = filter_agents_by_team(inbox.available_agents, conversation)
+    return nil if agents.nil?
+
+    agents = filter_agents_by_rate_limit(agents)
     agents = filter_agents_by_capacity(agents) if capacity_filtering_enabled?
     return nil if agents.empty?
 
     selector = policy&.balanced? ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
+  end
+
+  def filter_agents_by_team(agents, conversation)
+    return agents if conversation&.team_id.blank?
+
+    team = conversation.team
+    return nil if team.allow_auto_assign.blank?
+
+    team_member_ids = team.members.ids
+    agents.where(user_id: team_member_ids)
   end
 
   def filter_agents_by_capacity(agents)
