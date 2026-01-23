@@ -25,25 +25,33 @@ class Api::V1::Accounts::AppliedSlasController < Api::V1::Accounts::EnterpriseAc
     @missed_applied_slas = missed_applied_slas
 
     respond_to do |format|
-      format.csv do
-        response.headers['Content-Type'] = 'text/csv'
-        response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
-        render layout: false, formats: [:csv]
-      end
-      format.xlsx do
-        response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-        response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.xlsx'
-        render layout: false, formats: [:xlsx]
-      end
-      format.any do
-        response.headers['Content-Type'] = 'text/csv'
-        response.headers['Content-Disposition'] = 'attachment; filename=breached_conversation.csv'
-        render layout: false, formats: [:csv]
-      end
+      format.csv  { render_csv }
+      format.xlsx { render_xlsx }
+      format.any  { render_csv }
     end
   end
 
   private
+
+  def render_csv
+    csv_headers('breached_conversation.csv')
+    render layout: false, formats: [:csv]
+  end
+
+  def render_xlsx
+    xlsx_headers('breached_conversation.xlsx')
+    render layout: false, formats: [:xlsx]
+  end
+
+  def csv_headers(filename)
+    response.headers['Content-Type'] = 'text/csv'
+    response.headers['Content-Disposition'] = "attachment; filename=#{filename}"
+  end
+
+  def xlsx_headers(filename)
+    response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    response.headers['Content-Disposition'] = "attachment; filename=#{filename}"
+  end
 
   def total_applied_slas
     @total_applied_slas ||= @applied_slas.count
