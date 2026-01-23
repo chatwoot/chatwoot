@@ -445,6 +445,7 @@ Rails.application.routes.draw do
               get :bot_metrics
               get :overview_summary
               get :bot_summary_download
+              get :all_metrics_download
             end
           end
           resource :year_in_review, only: [:show]
