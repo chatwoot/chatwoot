@@ -524,6 +524,16 @@
         "MESSAGE_LABEL": "Message to send",
         "MESSAGE_PLACEHOLDER": "Enter the message to send to customer when no agent is available..."
       },
+      "ASSIGNMENT_ELIGIBILITY": {
+        "TITLE": "Assignment Eligibility",
+        "SUB_TEXT": "Control which agents can receive chat assignments. Agents not marked as eligible can still view conversations but won't be auto-assigned new chats.",
+        "ELIGIBLE": "Eligible for assignment",
+        "VIEW_ONLY": "View only",
+        "BADGE_ASSIGNABLE": "Can be assigned",
+        "BADGE_VIEW_ONLY": "View only",
+        "UPDATE_SUCCESS": "Assignment eligibility updated successfully",
+        "UPDATE_ERROR": "Could not update assignment eligibility. Please try again."
+      },
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",

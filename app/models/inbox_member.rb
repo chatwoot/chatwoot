@@ -2,11 +2,12 @@
 #
 # Table name: inbox_members
 #
-#  id         :integer          not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  inbox_id   :integer          not null
-#  user_id    :integer          not null
+#  id                    :integer          not null, primary key
+#  assignment_eligible   :boolean          default(TRUE), not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  inbox_id              :integer          not null
+#  user_id               :integer          not null
 #
 # Indexes
 #
@@ -22,10 +23,20 @@ class InboxMember < ApplicationRecord
   belongs_to :user
   belongs_to :inbox
 
-  after_create :add_agent_to_round_robin
+  scope :assignment_eligible, -> { where(assignment_eligible: true) }
+
   after_destroy :remove_agent_from_round_robin
+  after_save :update_round_robin_queue
 
   private
+
+  def update_round_robin_queue
+    if assignment_eligible? && (saved_change_to_assignment_eligible? || previously_new_record?)
+      add_agent_to_round_robin
+    elsif !assignment_eligible? && saved_change_to_assignment_eligible?
+      remove_agent_from_round_robin
+    end
+  end
 
   def add_agent_to_round_robin
     ::AutoAssignment::InboxRoundRobinService.new(inbox: inbox).add_agent_to_queue(user_id)

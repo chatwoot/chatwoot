@@ -210,7 +210,7 @@ class Inbox < ApplicationRecord
   end
 
   def member_ids_with_assignment_capacity
-    members.ids
+    inbox_members.assignment_eligible.pluck(:user_id)
   end
 
   def csat_expiry_enabled?

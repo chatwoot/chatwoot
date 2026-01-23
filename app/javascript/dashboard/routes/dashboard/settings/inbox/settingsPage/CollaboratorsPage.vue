@@ -28,6 +28,69 @@
     </settings-section>
 
     <settings-section
+      v-if="savedAgents.length > 0"
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.TITLE')"
+      :sub-title="
+        $t('INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.SUB_TEXT')
+      "
+    >
+      <div class="agent-eligibility-list">
+        <div
+          v-for="agent in savedAgents"
+          :key="agent.id"
+          class="agent-eligibility-item"
+        >
+          <div class="agent-info">
+            <thumbnail
+              :src="agent.thumbnail"
+              :username="agent.name"
+              size="32px"
+            />
+            <div class="agent-details">
+              <span class="agent-name">{{ agent.name }}</span>
+              <span class="agent-email">{{ agent.email }}</span>
+            </div>
+          </div>
+          <div class="eligibility-controls">
+            <span
+              class="agent-status-badge"
+              :class="{
+                'agent-status-badge--eligible':
+                  agent.assignment_eligible !== false,
+                'agent-status-badge--view-only':
+                  agent.assignment_eligible === false,
+              }"
+            >
+              {{
+                agent.assignment_eligible !== false
+                  ? $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.BADGE_ASSIGNABLE'
+                    )
+                  : $t(
+                      'INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.BADGE_VIEW_ONLY'
+                    )
+              }}
+            </span>
+            <label class="toggle-switch">
+              <input
+                type="checkbox"
+                :checked="agent.assignment_eligible !== false"
+                :disabled="eligibilityUpdating[agent.id]"
+                @change="
+                  handleAssignmentEligibilityChange(
+                    agent,
+                    $event.target.checked
+                  )
+                "
+              />
+              <span class="toggle-slider" />
+            </label>
+          </div>
+        </div>
+      </div>
+    </settings-section>
+
+    <settings-section
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.AGENT_ASSIGNMENT_SUB_TEXT')"
     >
@@ -146,10 +209,13 @@ import { minValue } from 'vuelidate/lib/validators';
 import alertMixin from 'shared/mixins/alertMixin';
 import configMixin from 'shared/mixins/configMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import InboxMembersAPI from 'dashboard/api/inboxMembers';
 
 export default {
   components: {
     SettingsSection,
+    Thumbnail,
   },
   mixins: [alertMixin, configMixin],
   props: {
@@ -161,6 +227,7 @@ export default {
   data() {
     return {
       selectedAgents: [],
+      savedAgents: [],
       isAgentListUpdating: false,
       enableAutoAssignment: false,
       assignEvenIfOffline: false,
@@ -168,6 +235,7 @@ export default {
       noAgentMessageEnabled: false,
       noAgentMessage: '',
       maxAssignmentLimit: null,
+      eligibilityUpdating: {},
     };
   },
   computed: {
@@ -215,6 +283,7 @@ export default {
           data: { payload: inboxMembers },
         } = response;
         this.selectedAgents = inboxMembers;
+        this.savedAgents = [...inboxMembers];
       } catch (error) {
         //  Handle error
       }
@@ -234,14 +303,51 @@ export default {
     handleNoAgentMessageChange() {
       this.updateInbox();
     },
+    async handleAssignmentEligibilityChange(agent, isEligible) {
+      this.$set(this.eligibilityUpdating, agent.id, true);
+      try {
+        await InboxMembersAPI.updateAssignmentEligibility({
+          inboxId: this.inbox.id,
+          userId: agent.id,
+          assignmentEligible: isEligible,
+        });
+        // Update local state for savedAgents
+        const agentIndex = this.savedAgents.findIndex(a => a.id === agent.id);
+        if (agentIndex !== -1) {
+          this.$set(this.savedAgents, agentIndex, {
+            ...this.savedAgents[agentIndex],
+            assignment_eligible: isEligible,
+          });
+        }
+        this.showAlert(
+          this.$t(
+            'INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.UPDATE_SUCCESS'
+          )
+        );
+      } catch (error) {
+        this.showAlert(
+          this.$t(
+            'INBOX_MGMT.SETTINGS_POPUP.ASSIGNMENT_ELIGIBILITY.UPDATE_ERROR'
+          )
+        );
+      } finally {
+        this.$set(this.eligibilityUpdating, agent.id, false);
+      }
+    },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
       try {
-        await this.$store.dispatch('inboxMembers/create', {
+        const response = await this.$store.dispatch('inboxMembers/create', {
           inboxId: this.inbox.id,
           agentList,
         });
+        const {
+          data: { payload: inboxMembers },
+        } = response;
+        // Update savedAgents with the response from server (includes assignment_eligible)
+        this.savedAgents = inboxMembers;
+        this.selectedAgents = inboxMembers;
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -289,5 +395,150 @@ export default {
 .max-assignment-container {
   padding-top: var(--space-slab);
   padding-bottom: var(--space-slab);
+}
+
+.agent-eligibility-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  @apply border border-solid border-slate-50 dark:border-slate-700/30;
+  border-radius: var(--border-radius-normal);
+  overflow: hidden;
+}
+
+.agent-eligibility-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-small) var(--space-normal);
+  @apply border-b border-solid border-slate-50 dark:border-slate-700/30;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.agent-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-small);
+  flex: 1;
+  min-width: 0;
+}
+
+.agent-details {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.agent-name {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  color: var(--s-900);
+
+  .dark & {
+    color: var(--s-100);
+  }
+}
+
+.agent-email {
+  font-size: var(--font-size-mini);
+  color: var(--s-600);
+
+  .dark & {
+    color: var(--s-400);
+  }
+}
+
+.eligibility-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-normal);
+  flex-shrink: 0;
+}
+
+.agent-status-badge {
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  padding: var(--space-micro) var(--space-small);
+  border-radius: var(--border-radius-small);
+  white-space: nowrap;
+
+  &--eligible {
+    background-color: var(--g-100);
+    color: var(--g-800);
+
+    .dark & {
+      background-color: var(--g-800);
+      color: var(--g-100);
+    }
+  }
+
+  &--view-only {
+    background-color: var(--s-200);
+    color: var(--s-700);
+
+    .dark & {
+      background-color: var(--s-700);
+      color: var(--s-200);
+    }
+  }
+}
+
+// Toggle switch styles
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  cursor: pointer;
+
+  input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+
+    &:checked + .toggle-slider {
+      background-color: var(--g-500);
+    }
+
+    &:checked + .toggle-slider::before {
+      transform: translateX(18px);
+    }
+
+    &:disabled + .toggle-slider {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.toggle-slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--s-300);
+  border-radius: 22px;
+  transition: 0.3s;
+
+  .dark & {
+    background-color: var(--s-600);
+  }
+
+  &::before {
+    position: absolute;
+    content: '';
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: 0.3s;
+  }
 }
 </style>

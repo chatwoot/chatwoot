@@ -195,6 +195,9 @@ Rails.application.routes.draw do
               delete :destroy
               patch :update
             end
+            member do
+              patch :update_assignment_eligibility
+            end
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :response_sources, only: [:create] do

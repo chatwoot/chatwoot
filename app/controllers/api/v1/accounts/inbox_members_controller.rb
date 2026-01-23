@@ -4,7 +4,7 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
 
   def show
     authorize @inbox, :show?
-    fetch_updated_agents
+    fetch_updated_agents_with_eligibility
   end
 
   def create
@@ -12,13 +12,13 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     ActiveRecord::Base.transaction do
       agents_to_be_added_ids.map { |user_id| @inbox.add_member(user_id) }
     end
-    fetch_updated_agents
+    fetch_updated_agents_with_eligibility
   end
 
   def update
     authorize @inbox, :update?
     update_agents_list
-    fetch_updated_agents
+    fetch_updated_agents_with_eligibility
   end
 
   def destroy
@@ -29,10 +29,22 @@ class Api::V1::Accounts::InboxMembersController < Api::V1::Accounts::BaseControl
     head :ok
   end
 
+  def update_assignment_eligibility
+    authorize @inbox, :update?
+    @member = @inbox.inbox_members.find_by(user_id: params[:user_id])
+    if @member.nil?
+      render json: { error: 'Agent is not a member of this inbox' }, status: :not_found
+      return
+    end
+    @member.update!(assignment_eligible: params[:assignment_eligible])
+    render json: { user_id: @member.user_id, assignment_eligible: @member.assignment_eligible }
+  end
+
   private
 
-  def fetch_updated_agents
+  def fetch_updated_agents_with_eligibility
     @agents = Current.account.users.where(id: @inbox.members.select(:user_id))
+    @inbox_members_map = @inbox.inbox_members.index_by(&:user_id)
   end
 
   def update_agents_list

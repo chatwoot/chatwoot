@@ -3,7 +3,7 @@
   <div class="bg-white dark:bg-slate-900">
     <!-- Show restriction notice for Ugoo account agents -->
     <div
-      v-if="showAssignmentRestriction"
+      v-if="canViewAssignedAgent && showAssignmentRestriction"
       class="p-3 bg-yellow-50 border-l-4 border-yellow-400 mb-4"
     >
       <div class="flex">
@@ -28,7 +28,7 @@
       </div>
     </div>
 
-    <div class="multiselect-wrap--small">
+    <div v-if="canViewAssignedAgent" class="multiselect-wrap--small">
       <contact-details-item
         compact
         :title="$t('CONVERSATION_SIDEBAR.ASSIGNEE_LABEL')"
@@ -274,6 +274,12 @@ export default {
         this.currentUser.role === 'administrator' ||
         !this.currentAccount?.custom_attributes?.restrict_agent_assignment
       );
+    },
+    canViewAssignedAgent() {
+      // Check if current user is in the assignable agents list
+      // (which only includes assignment_eligible members)
+      const assignableAgents = this.assignableAgents || [];
+      return assignableAgents.some(agent => agent.id === this.currentUser.id);
     },
   },
   methods: {
