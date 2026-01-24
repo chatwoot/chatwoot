@@ -18,7 +18,7 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
-  before_validation :ensure_hook_type
+  before_validation :ensure_hook_type, on: :create
   after_create :trigger_setup_if_crm
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
@@ -87,9 +87,7 @@ class Integrations::Hook < ApplicationRecord
 
   def ensure_hook_type
     return if app.blank?
-    return unless new_record?
 
-    # hook_type is readonly; only set it on create to avoid update-time errors in Rails 7.1+
     self.hook_type = app.params[:hook_type]
   end
 
