@@ -27,6 +27,7 @@ import {
   showGreetingInputBox,
   hideGreetingInputBox,
   updateWidgetPosition,
+  updateWidgetType,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -204,6 +205,8 @@ export const IFrameHelper = {
         channelConfig: {
           position: configPosition,
           widget_position: widgetPosition,
+          widget_type: widgetType,
+          widgetType: widgetTypeAlt,
           avatarUrl,
           avatarName,
           welcomeTitle,
@@ -232,8 +235,18 @@ export const IFrameHelper = {
         greetingMessage ||
         greetingMessageAlt ||
         window.$chatwoot.greetingMessage;
-      window.$chatwoot.launcherTitle =
+
+      const newLauncherTitle =
         launcherTitle || launcherTitleAlt || window.$chatwoot.launcherTitle;
+      if (newLauncherTitle !== window.$chatwoot.launcherTitle) {
+        window.$chatwoot.launcherTitle = newLauncherTitle;
+        setBubbleText(newLauncherTitle);
+      }
+
+      const newWidgetType = widgetType || widgetTypeAlt;
+      if (newWidgetType && newWidgetType !== window.$chatwoot.type) {
+        updateWidgetType(newWidgetType);
+      }
 
       updateWidgetPosition(position);
 

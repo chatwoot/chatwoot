@@ -497,3 +497,33 @@ export const updateWidgetPosition = position => {
     }
   });
 };
+
+export const updateWidgetType = type => {
+  if (!chatBubble || !window.$chatwoot) return;
+
+  const isExpanded = isExpandedView(type);
+  const currentIsExpanded = isExpandedView(window.$chatwoot.type);
+
+  window.$chatwoot.type = type;
+
+  if (isExpanded !== currentIsExpanded) {
+    const existingTextNode = chatBubble.querySelector(
+      '#woot-widget--expanded__text'
+    );
+
+    if (isExpanded) {
+      if (!existingTextNode) {
+        const textNode = document.createElement('div');
+        textNode.id = 'woot-widget--expanded__text';
+        textNode.innerText = window.$chatwoot.launcherTitle || '';
+        chatBubble.appendChild(textNode);
+      }
+      chatBubble.classList.add('woot-widget--expanded');
+    } else {
+      if (existingTextNode) {
+        existingTextNode.remove();
+      }
+      chatBubble.classList.remove('woot-widget--expanded');
+    }
+  }
+};
