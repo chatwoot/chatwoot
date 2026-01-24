@@ -119,7 +119,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         let(:created_issue) { { data: { identifier: 'ENG-123', title: 'Sample Issue' } } }
 
         it 'returns the created issue' do
-          allow(processor_service).to receive(:create_issue).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
                params: issue_params,
@@ -128,14 +128,10 @@ RSpec.describe 'Linear Integration API', type: :request do
 
           expect(response).to have_http_status(:ok)
           expect(response.body).to include('Sample Issue')
-          expect(processor_service).to have_received(:create_issue) do |params, user|
-            expect(params.to_h).to eq(issue_params.stringify_keys)
-            expect(user).to eq(agent)
-          end
         end
 
         it 'creates activity message when conversation is provided' do
-          allow(processor_service).to receive(:create_issue).and_return(created_issue)
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(created_issue)
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
@@ -149,16 +145,12 @@ RSpec.describe 'Linear Integration API', type: :request do
                     message_type: :activity,
                     content: "Linear issue ENG-123 was created by #{agent.name}"
                   })
-          expect(processor_service).to have_received(:create_issue) do |params, user|
-            expect(params.to_h).to eq(issue_params.stringify_keys)
-            expect(user).to eq(agent)
-          end
         end
       end
 
       context 'when issue creation fails' do
         it 'returns error message and does not create activity message' do
-          allow(processor_service).to receive(:create_issue).and_return(error: 'error message')
+          allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys, agent).and_return(error: 'error message')
 
           expect do
             post "/api/v1/accounts/#{account.id}/integrations/linear/create_issue",
@@ -169,10 +161,6 @@ RSpec.describe 'Linear Integration API', type: :request do
 
           expect(response).to have_http_status(:unprocessable_entity)
           expect(response.body).to include('error message')
-          expect(processor_service).to have_received(:create_issue) do |params, user|
-            expect(params.to_h).to eq(issue_params.stringify_keys)
-            expect(user).to eq(agent)
-          end
         end
       end
     end

@@ -28,7 +28,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    issue = linear_processor_service.create_issue(permitted_params, Current.user)
+    issue = linear_processor_service.create_issue(permitted_params.to_h.stringify_keys, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
