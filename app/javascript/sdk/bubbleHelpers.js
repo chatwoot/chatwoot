@@ -481,6 +481,8 @@ export const removeUnreadClass = () => {
 };
 
 export const updateWidgetPosition = position => {
+  if (!position) return;
+
   const elements = [
     bubbleHolder,
     chatBubble,
