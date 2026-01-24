@@ -179,6 +179,7 @@ export const IFrameHelper = {
         channelConfig: {
           position: configPosition,
           widget_position: widgetPosition,
+          widgetPosition: widgetPositionCamel,
           widget_type: widgetType,
           widgetType: widgetTypeAlt,
           avatarUrl,
@@ -196,10 +197,12 @@ export const IFrameHelper = {
 
       // Update position BEFORE onLoad so bubble is created with correct position
       const position =
-        configPosition || widgetPosition || window.$chatwoot.position;
-      if (position !== window.$chatwoot.position) {
-        window.$chatwoot.position = position;
-      }
+        configPosition ||
+        widgetPosition ||
+        widgetPositionCamel ||
+        window.$chatwoot.position;
+      // Normalize position to 'left' or 'right'
+      window.$chatwoot.position = position === 'left' ? 'left' : 'right';
 
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
@@ -253,8 +256,9 @@ export const IFrameHelper = {
         updateWidgetType(newWidgetType);
       }
 
-      // Update position classes in case bubble was already created with old position
-      updateWidgetPosition(position);
+      // Update position classes - always call to ensure position is applied
+      // This handles cases where bubble was created before position was updated
+      updateWidgetPosition(window.$chatwoot.position);
 
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
