@@ -693,7 +693,9 @@ RSpec.describe 'Conversations API', type: :request do
       it 'throttles updates within an hour when there are no unread messages' do
         conversation.update!(agent_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older than agent_last_seen_at (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
         conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
         initial_last_seen = conversation.agent_last_seen_at
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
@@ -722,7 +724,10 @@ RSpec.describe 'Conversations API', type: :request do
       it 'updates both if one timestamp is old even when the other is recent' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: 2.hours.ago, assignee_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older than assignee_last_seen_at (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
         conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
         initial_agent_last_seen = conversation.agent_last_seen_at
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
@@ -738,7 +743,10 @@ RSpec.describe 'Conversations API', type: :request do
       it 'throttles only when both timestamps are recent and no unread messages' do
         conversation.update!(assignee_id: agent.id, agent_last_seen_at: 30.minutes.ago, assignee_last_seen_at: 30.minutes.ago)
         # Ensure all messages are older (no unread messages)
+        # rubocop:disable Rails/SkipsModelValidations
         conversation.messages.update_all(created_at: 1.hour.ago)
+        # rubocop:enable Rails/SkipsModelValidations
+
         initial_agent_last_seen = conversation.agent_last_seen_at
         initial_assignee_last_seen = conversation.assignee_last_seen_at
 
