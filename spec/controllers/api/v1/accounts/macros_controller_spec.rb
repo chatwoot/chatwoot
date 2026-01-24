@@ -338,7 +338,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
     let(:inbox) { create(:inbox, account: account) }
     let(:contact) { create(:contact, account: account, identifier: '123') }
     let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :open) }
-    let(:team) { create(:team, account: account, allow_auto_assign: false) }
+    let(:team) { create(:team, account: account) }
     let(:user_1) { create(:user, role: 0) }
 
     before do
