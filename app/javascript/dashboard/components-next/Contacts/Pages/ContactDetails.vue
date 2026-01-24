@@ -118,6 +118,13 @@ const handleAvatarDelete = async () => {
     );
   }
 };
+
+// CommMate: Open preference link in new tab
+const openPreferenceLink = () => {
+  if (props.selectedContact?.preferenceLink) {
+    window.open(props.selectedContact.preferenceLink, '_blank');
+  }
+};
 </script>
 
 <template>
@@ -167,13 +174,22 @@ const handleAvatarDelete = async () => {
         is-details-view
         @update="handleFormUpdate"
       />
-      <Button
-        :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
-        size="sm"
-        :is-loading="isUpdating"
-        :disabled="isUpdating || isFormInvalid"
-        @click="updateContact"
-      />
+      <div class="flex items-center gap-2">
+        <Button
+          :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
+          size="sm"
+          :is-loading="isUpdating"
+          :disabled="isUpdating || isFormInvalid"
+          @click="updateContact"
+        />
+        <Button
+          v-if="selectedContact?.preferenceLink"
+          :label="t('CONTACTS_LAYOUT.DETAILS.MANAGE_PREFERENCES')"
+          size="sm"
+          ghost
+          @click="openPreferenceLink"
+        />
+      </div>
     </div>
     <Policy :permissions="['administrator']">
       <div

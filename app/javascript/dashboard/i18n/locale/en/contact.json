@@ -479,6 +479,7 @@
       "LAST_ACTIVITY": "Last active {date}",
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Delete contact",
+      "MANAGE_PREFERENCES": "Manage preferences",
       "DELETE_DIALOG": {
         "TITLE": "Confirm Deletion",
         "DESCRIPTION": "Are you sure you want to delete this contact?",

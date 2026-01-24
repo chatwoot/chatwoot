@@ -64,6 +64,25 @@ export const CHATWOOT_VARIABLES: ChatwootVariable[] = [
     descriptionPtBr: 'Número de telefone do contato',
     category: 'contact',
   },
+  // CommMate: Preference management links
+  {
+    key: 'contact.preference_link',
+    liquidSyntax: '{{contact.preference_link}}',
+    labelEn: 'Preferences Link',
+    labelPtBr: 'Link de Preferências',
+    descriptionEn: 'Link for contact to manage campaign subscriptions',
+    descriptionPtBr: 'Link para o contato gerenciar assinaturas de campanhas',
+    category: 'contact',
+  },
+  {
+    key: 'contact.unsubscribe_all_link',
+    liquidSyntax: '{{contact.unsubscribe_all_link}}',
+    labelEn: 'Unsubscribe All Link',
+    labelPtBr: 'Link de Cancelar Todas Assinaturas',
+    descriptionEn: 'Direct link to unsubscribe from all campaigns',
+    descriptionPtBr: 'Link direto para cancelar todas as assinaturas',
+    category: 'contact',
+  },
 
   // Agent variables (campaign sender)
   {

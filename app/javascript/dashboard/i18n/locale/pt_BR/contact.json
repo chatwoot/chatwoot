@@ -478,6 +478,7 @@
       "LAST_ACTIVITY": "Última atividade {date}",
       "DELETE_CONTACT_DESCRIPTION": "Excluir permanentemente este contato. Esta ação é irreversível",
       "DELETE_CONTACT": "Excluir contato",
+      "MANAGE_PREFERENCES": "Gerenciar preferências",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar exclusão",
         "DESCRIPTION": "Tem certeza de que deseja excluir este contato?",

@@ -1,0 +1,32 @@
+<div class="preferences-card">
+  <div class="status-page">
+    <div class="status-icon neutral">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11.5V14m0-2.5v-6a1.5 1.5 0 113 0m-3 6a1.5 1.5 0 00-3 0v2a7.5 7.5 0 0015 0v-5a1.5 1.5 0 00-3 0m-6-3V11m0-5.5v-1a1.5 1.5 0 013 0v1m0 0V11m0-5.5a1.5 1.5 0 013 0v3m0 0V11" />
+      </svg>
+    </div>
+
+    <h1 class="status-title">
+      <%= t('public_preferences.unsubscribed_all_title') %>
+    </h1>
+
+    <p class="status-message">
+      <%= t('public_preferences.unsubscribed_all_message') %>
+    </p>
+
+    <p class="status-note">
+      <%= t('public_preferences.unsubscribed_all_note') %>
+    </p>
+
+    <div class="action-links">
+      <p class="card-subtitle"><%= @account&.name %></p>
+      <a href="<%= public_preferences_path(token: params[:token]) %>" class="link">
+        <%= t('public_preferences.manage_preferences_again') %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<p class="contact-info">
+  <%= contact_identifier_text(@contact) %>
+</p>

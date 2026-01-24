@@ -108,3 +108,41 @@ en:
   super_admin:
     title: "CommMate Super Admin"
 
+  # CommMate: Public Contact Preferences
+  public_preferences:
+    page_title: "Communication Preferences - %{account}"
+    title: "Communication Preferences"
+    description: "Select the topics you want to receive communications about. Unselect to stop receiving communications from a topic."
+    save_button: "Save Preferences"
+    preferences_saved: "Your preferences have been saved!"
+    no_subscriptions_available: "No subscription options are currently available."
+    unsubscribe_all_hint: "Want to stop all communications?"
+    unsubscribe_all_button: "Unsubscribe from All"
+    unsubscribe_all_confirm: "Are you sure you want to unsubscribe from all communications?"
+    contact_info: "Managing preferences for: %{identifier}"
+    subscribed_title: "Successfully Subscribed!"
+    subscribed_message: "You have been subscribed to %{label}."
+    unsubscribed_title: "Successfully Unsubscribed"
+    unsubscribed_message: "You have been unsubscribed from %{label}."
+    unsubscribed_all_title: "We're sad to see you go"
+    unsubscribed_all_message: "You have been unsubscribed from all communications."
+    unsubscribed_all_note: "You can subscribe again at any time by visiting your preferences page."
+    resubscribe: "Subscribe again"
+    manage_all_preferences: "Manage all preferences"
+    manage_preferences_again: "Manage preferences"
+    footer:
+      powered_by: "Powered by CommMate"
+    errors:
+      expired_title: "Link Expired"
+      expired: "This link has expired. Please request a new preferences link."
+      invalid_title: "Invalid Link"
+      invalid: "This link is not valid. Please check the URL and try again."
+      contact_not_found_title: "Contact Not Found"
+      contact_not_found: "We couldn't find your contact information. Please contact support."
+      label_not_found_title: "Subscription Not Found"
+      label_not_found: "The subscription you're looking for is no longer available."
+      account_unavailable_title: "Account No Longer Available"
+      account_unavailable: "This organization is no longer using our service. Please contact them directly for assistance."
+      generic_title: "Something Went Wrong"
+      generic: "An error occurred. Please try again or contact support."
+

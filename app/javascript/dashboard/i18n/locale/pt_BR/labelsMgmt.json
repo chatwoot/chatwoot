@@ -34,6 +34,9 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Exibir etiqueta na barra lateral"
       },
+      "AVAILABLE_FOR_CAMPAIGNS": {
+        "LABEL": "Disponível para campanhas"
+      },
       "EDIT": "Alterar",
       "CREATE": "Criar",
       "DELETE": "Excluir",

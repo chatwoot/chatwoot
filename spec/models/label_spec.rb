@@ -55,4 +55,34 @@ RSpec.describe Label do
       label.update(description: 'new-description')
     end
   end
+
+  # CommMate: Tests for campaign labels
+  describe '.campaign_labels scope' do
+    let(:account) { create(:account) }
+    let!(:campaign_label) { create(:label, account: account, available_for_campaigns: true) }
+    let!(:non_campaign_label) { create(:label, account: account, available_for_campaigns: false) }
+
+    it 'returns only labels with available_for_campaigns true' do
+      campaign_labels = account.labels.campaign_labels
+      expect(campaign_labels).to include(campaign_label)
+      expect(campaign_labels).not_to include(non_campaign_label)
+    end
+
+    it 'returns empty when no campaign labels exist' do
+      campaign_label.destroy
+      expect(account.labels.campaign_labels).to be_empty
+    end
+  end
+
+  describe 'available_for_campaigns attribute' do
+    it 'defaults to false' do
+      label = create(:label)
+      expect(label.available_for_campaigns).to be false
+    end
+
+    it 'can be set to true' do
+      label = create(:label, available_for_campaigns: true)
+      expect(label.available_for_campaigns).to be true
+    end
+  end
 end
