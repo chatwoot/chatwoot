@@ -289,6 +289,10 @@
       "TEXT": "Mark offline automatically",
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard."
     },
+    "SET_CALL_AVAILABILITY": {
+      "TEXT": "Available for calls",
+      "INFO_TEXT": "Toggle off to stop receiving incoming calls while staying online for chat."
+    },
     "DOCS": "Read docs"
   },
   "BILLING_SETTINGS": {

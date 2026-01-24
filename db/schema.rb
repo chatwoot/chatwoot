@@ -38,6 +38,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_11_27_142957) do
     t.integer "availability", default: 0, null: false
     t.boolean "auto_offline", default: true, null: false
     t.bigint "custom_role_id"
+    t.boolean "call_available", default: true, null: false
     t.index ["account_id", "user_id"], name: "uniq_user_id_per_account_id", unique: true
     t.index ["account_id"], name: "index_account_users_on_account_id"
     t.index ["custom_role_id"], name: "index_account_users_on_custom_role_id"

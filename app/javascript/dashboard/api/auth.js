@@ -81,6 +81,12 @@ export default {
     });
   },
 
+  updateCallAvailability(accountId, callAvailable = true) {
+    return axios.post(endPoints('callAvailability').url, {
+      profile: { account_id: accountId, call_available: callAvailable },
+    });
+  },
+
   deleteAvatar() {
     return axios.delete(endPoints('deleteAvatar').url);
   },

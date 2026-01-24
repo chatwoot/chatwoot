@@ -43,6 +43,34 @@
           @input="updateAutoOffline"
         />
       </woot-dropdown-item>
+      <woot-dropdown-item
+        v-if="showCallAvailabilityToggle"
+        class="m-0 flex items-center justify-between p-2"
+      >
+        <div class="flex items-center">
+          <fluent-icon
+            v-tooltip.right-start="
+              $t('SIDEBAR.SET_CALL_AVAILABILITY.INFO_TEXT')
+            "
+            icon="info"
+            size="14"
+            class="mt-px"
+          />
+
+          <span
+            class="my-0 mx-1 text-xs font-medium text-slate-600 dark:text-slate-100"
+          >
+            {{ $t('SIDEBAR.SET_CALL_AVAILABILITY.TEXT') }}
+          </span>
+        </div>
+
+        <woot-switch
+          size="small"
+          class="mt-px mx-1 mb-0"
+          :value="currentUserCallAvailable"
+          @input="updateCallAvailability"
+        />
+      </woot-dropdown-item>
       <woot-dropdown-divider />
     </template>
   </woot-dropdown-menu>
@@ -82,10 +110,26 @@ export default {
       getCurrentUserAvailability: 'getCurrentUserAvailability',
       currentAccountId: 'getCurrentAccountId',
       currentUserAutoOffline: 'getCurrentUserAutoOffline',
+      currentUserCallAvailable: 'getCurrentUserCallAvailable',
       currentRole: 'getCurrentRole',
+      currentUserId: 'getCurrentUserID',
     }),
     currentAccount() {
       return this.$store.getters['accounts/getAccount'](this.currentAccountId);
+    },
+    isCallingEnabled() {
+      return !!this.currentAccount?.custom_attributes?.call_config;
+    },
+    isCurrentUserCallingAgent() {
+      const callingSettings =
+        this.currentAccount?.custom_attributes?.calling_settings;
+      if (!callingSettings) return false;
+
+      const selectedAgents = callingSettings.selectedAgents || [];
+      return selectedAgents.some(agent => agent.id === this.currentUserId);
+    },
+    showCallAvailabilityToggle() {
+      return this.isCallingEnabled && this.isCurrentUserCallingAgent;
     },
     isAdmin() {
       return this.currentRole === 'administrator';
@@ -148,6 +192,12 @@ export default {
       this.$store.dispatch('updateAutoOffline', {
         accountId: this.currentAccountId,
         autoOffline,
+      });
+    },
+    updateCallAvailability(callAvailable) {
+      this.$store.dispatch('updateCallAvailability', {
+        accountId: this.currentAccountId,
+        callAvailable,
       });
     },
     changeAvailabilityStatus(availability) {

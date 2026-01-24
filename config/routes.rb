@@ -308,6 +308,7 @@ Rails.application.routes.draw do
         member do
           post :availability
           post :auto_offline
+          post :call_availability
           put :set_active_account
           post :resend_confirmation
         end

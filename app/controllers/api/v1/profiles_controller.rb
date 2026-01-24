@@ -46,6 +46,11 @@ class Api::V1::ProfilesController < Api::BaseController
     account_user.update!(availability: availability_params[:availability])
   end
 
+  def call_availability
+    account_user = @user.account_users.find_by!(account_id: call_availability_params[:account_id])
+    account_user.update!(call_available: call_availability_params[:call_available])
+  end
+
   def set_active_account
     @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
     head :ok
@@ -68,6 +73,10 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def auto_offline_params
     params.require(:profile).permit(:account_id, :auto_offline)
+  end
+
+  def call_availability_params
+    params.require(:profile).permit(:account_id, :call_available)
   end
 
   def profile_params
