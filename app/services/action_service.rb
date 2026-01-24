@@ -79,7 +79,54 @@ class ActionService
     end
   end
 
+  def update_contact_attribute(params) # rubocop:disable Metrics/CyclomaticComplexity
+    return if params.blank?
+
+    attribute_data = params[0]
+    return unless attribute_data.is_a?(Hash)
+
+    attribute_key = attribute_data['attribute_key'] || attribute_data[:attribute_key]
+    attribute_value = attribute_data['attribute_value'] || attribute_data[:attribute_value]
+
+    return if attribute_key.blank?
+    return unless valid_contact_attribute?(attribute_key)
+
+    contact = @conversation.contact
+    return if contact.blank?
+
+    custom_attributes = contact.custom_attributes.merge({ attribute_key => attribute_value })
+    contact.update!(custom_attributes: custom_attributes)
+  end
+
+  def update_conversation_attribute(params)
+    return if params.blank?
+
+    attribute_data = params[0]
+    return unless attribute_data.is_a?(Hash)
+
+    attribute_key = attribute_data['attribute_key'] || attribute_data[:attribute_key]
+    attribute_value = attribute_data['attribute_value'] || attribute_data[:attribute_value]
+
+    return if attribute_key.blank?
+    return unless valid_conversation_attribute?(attribute_key)
+
+    custom_attributes = @conversation.custom_attributes.merge({ attribute_key => attribute_value })
+    @conversation.update!(custom_attributes: custom_attributes)
+  end
+
   private
+
+  def valid_contact_attribute?(attribute_key)
+    @account.custom_attribute_definitions
+            .where(attribute_model: 'contact_attribute')
+            .exists?(attribute_key: attribute_key)
+  end
+
+  def valid_conversation_attribute?(attribute_key)
+    @account.custom_attribute_definitions
+            .where(attribute_model: 'conversation_attribute')
+            .exists?(attribute_key: attribute_key)
+  end
 
   def agent_belongs_to_inbox?(agent_ids)
     member_ids = @conversation.inbox.members.pluck(:user_id)

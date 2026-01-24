@@ -40,7 +40,8 @@ class AutomationRule < ApplicationRecord
 
   def actions_attributes
     %w[send_message add_label remove_label send_email_to_team assign_team assign_agent send_webhook_event mute_conversation
-       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript].freeze
+       send_attachment change_status resolve_conversation snooze_conversation change_priority send_email_transcript
+       update_contact_attribute update_conversation_attribute].freeze
   end
 
   def file_base_data

@@ -96,6 +96,12 @@
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
+    <automation-action-custom-attribute-input
+      v-if="inputType === 'custom_attribute_input'"
+      v-model="action_params"
+      :custom-attributes="customAttributes"
+      :attribute-type="attributeType"
+    />
     <p
       v-if="v.action_params.$dirty && v.action_params.$error"
       class="filter-error"
@@ -108,11 +114,13 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import AutomationActionCustomAttributeInput from './AutomationActionCustomAttributeInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    AutomationActionCustomAttributeInput,
     WootMessageEditor,
   },
   props: {
@@ -143,6 +151,14 @@ export default {
     isMacro: {
       type: Boolean,
       default: false,
+    },
+    customAttributes: {
+      type: Array,
+      default: () => [],
+    },
+    attributeType: {
+      type: String,
+      default: '',
     },
   },
   computed: {

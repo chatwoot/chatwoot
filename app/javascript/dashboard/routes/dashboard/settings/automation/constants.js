@@ -113,6 +113,16 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'update_contact_attribute',
+        name: 'Update contact attribute',
+        attributeI18nKey: 'UPDATE_CONTACT_ATTRIBUTE',
+      },
+      {
+        key: 'update_conversation_attribute',
+        name: 'Update conversation attribute',
+        attributeI18nKey: 'UPDATE_CONVERSATION_ATTRIBUTE',
+      },
     ],
   },
   conversation_created: {
@@ -243,6 +253,16 @@ export const AUTOMATIONS = {
         key: 'send_attachment',
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
+      },
+      {
+        key: 'update_contact_attribute',
+        name: 'Update contact attribute',
+        attributeI18nKey: 'UPDATE_CONTACT_ATTRIBUTE',
+      },
+      {
+        key: 'update_conversation_attribute',
+        name: 'Update conversation attribute',
+        attributeI18nKey: 'UPDATE_CONVERSATION_ATTRIBUTE',
       },
     ],
   },
@@ -389,6 +409,16 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'update_contact_attribute',
+        name: 'Update contact attribute',
+        attributeI18nKey: 'UPDATE_CONTACT_ATTRIBUTE',
+      },
+      {
+        key: 'update_conversation_attribute',
+        name: 'Update conversation attribute',
+        attributeI18nKey: 'UPDATE_CONVERSATION_ATTRIBUTE',
+      },
     ],
   },
   conversation_opened: {
@@ -522,6 +552,16 @@ export const AUTOMATIONS = {
         name: 'Send Attachment',
         attributeI18nKey: 'SEND_ATTACHMENT',
       },
+      {
+        key: 'update_contact_attribute',
+        name: 'Update contact attribute',
+        attributeI18nKey: 'UPDATE_CONTACT_ATTRIBUTE',
+      },
+      {
+        key: 'update_conversation_attribute',
+        name: 'Update conversation attribute',
+        attributeI18nKey: 'UPDATE_CONVERSATION_ATTRIBUTE',
+      },
     ],
   },
 };
@@ -615,5 +655,17 @@ export const AUTOMATION_ACTION_TYPES = [
     key: 'add_sla',
     label: 'Add SLA',
     inputType: 'search_select',
+  },
+  {
+    key: 'update_contact_attribute',
+    label: 'Update contact attribute',
+    inputType: 'custom_attribute_input',
+    attributeType: 'contact_attribute',
+  },
+  {
+    key: 'update_conversation_attribute',
+    label: 'Update conversation attribute',
+    inputType: 'custom_attribute_input',
+    attributeType: 'conversation_attribute',
   },
 ];

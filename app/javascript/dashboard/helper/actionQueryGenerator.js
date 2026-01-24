@@ -17,7 +17,19 @@ const formatArray = params => {
   return params;
 };
 
+const isCustomAttributeAction = actionName => {
+  return (
+    actionName === 'update_contact_attribute' ||
+    actionName === 'update_conversation_attribute'
+  );
+};
+
 const generatePayloadForObject = item => {
+  // Handle custom attribute actions - keep the object format
+  if (isCustomAttributeAction(item.action_name)) {
+    item.action_params = [item.action_params];
+    return item.action_params;
+  }
   if (item.action_params.id) {
     item.action_params = [item.action_params.id];
   } else {

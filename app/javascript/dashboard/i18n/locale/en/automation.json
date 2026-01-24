@@ -93,7 +93,9 @@
     "ACTION": {
       "DELETE_MESSAGE": "You need to have atleast one action to save",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams",
+      "CUSTOM_ATTRIBUTE_PLACEHOLDER": "Select attribute",
+      "CUSTOM_ATTRIBUTE_VALUE_PLACEHOLDER": "Enter value"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activate Automation Rule",

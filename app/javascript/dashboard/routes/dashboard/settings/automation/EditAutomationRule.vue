@@ -103,6 +103,8 @@
               :action-types="automationActionTypes"
               :dropdown-values="getActionDropdownValues(action.action_name)"
               :show-action-input="showActionInput(action.action_name)"
+              :custom-attributes="allCustomAttributes"
+              :attribute-type="getActionAttributeType(action.action_name)"
               :v="$v.automation.actions.$each[i]"
               :initial-file-name="getFileName(action, automation.files)"
               @resetAction="resetAction(i)"
@@ -184,7 +186,6 @@ export default {
       show: true,
       automation: null,
       showDeleteConfirmationModal: false,
-      allCustomAttributes: [],
       mode: 'edit',
       isSubmitting: false,
     };
@@ -194,6 +195,9 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    allCustomAttributes() {
+      return this.$store.getters['attributes/getAttributes'];
+    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -210,8 +214,8 @@ export default {
     },
   },
   mounted() {
+    this.$store.dispatch('attributes/get');
     this.manifestCustomAttributes();
-    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
     this.formatAutomation(this.selectedResponse);
   },
   methods: {

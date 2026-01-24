@@ -110,6 +110,10 @@
               :show-action-input="
                 showActionInput(automation.actions[i].action_name)
               "
+              :custom-attributes="allCustomAttributes"
+              :attribute-type="
+                getActionAttributeType(automation.actions[i].action_name)
+              "
               :v="$v.automation.actions.$each[i]"
               @resetAction="resetAction(i)"
               @removeAction="removeAction(i)"
@@ -201,7 +205,6 @@ export default {
         ],
       },
       showDeleteConfirmationModal: false,
-      allCustomAttributes: [],
       mode: 'create',
       isSubmitting: false,
     };
@@ -211,6 +214,9 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    allCustomAttributes() {
+      return this.$store.getters['attributes/getAttributes'];
+    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -233,7 +239,7 @@ export default {
     this.$store.dispatch('teams/get');
     this.$store.dispatch('labels/get');
     this.$store.dispatch('campaigns/get');
-    this.allCustomAttributes = this.$store.getters['attributes/getAttributes'];
+    this.$store.dispatch('attributes/get');
     this.manifestCustomAttributes();
   },
   methods: {

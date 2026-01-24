@@ -176,12 +176,21 @@ export default {
       return !(type === 'is_present' || type === 'is_not_present');
     },
     showActionInput(action) {
-      if (action === 'send_email_to_team' || action === 'send_message')
+      if (
+        action === 'send_email_to_team' ||
+        action === 'send_message' ||
+        action === 'update_contact_attribute' ||
+        action === 'update_conversation_attribute'
+      )
         return false;
       const type = this.automationActionTypes.find(
         i => i.key === action
       ).inputType;
       return !!type;
+    },
+    getActionAttributeType(action) {
+      const actionType = this.automationActionTypes.find(i => i.key === action);
+      return actionType?.attributeType || '';
     },
     resetAction(index) {
       this.automation.actions[index].action_params = [];
@@ -242,6 +251,9 @@ export default {
           ].filter(item => [...params[0].team_ids].includes(item.id)),
           message: params[0].message,
         };
+      } else if (inputType === 'custom_attribute_input') {
+        // For custom attribute actions, params is [{attribute_key, attribute_value}]
+        actionParams = params[0] || { attribute_key: '', attribute_value: '' };
       } else actionParams = [...params];
       return actionParams;
     },
