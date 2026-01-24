@@ -2,7 +2,8 @@
 import { ref, computed, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required, url } from '@vuelidate/validators';
+import { required, url, helpers } from '@vuelidate/validators';
+import { getRegexp } from 'shared/helpers/Validators';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
@@ -41,6 +42,12 @@ const validationRules = computed(() => {
       rules[attribute.value] = {};
     } else {
       rules[attribute.value] = { required };
+      if (attribute.regexPattern) {
+        rules[attribute.value].regexValidation = helpers.withParams(
+          { regexCue: attribute.regexCue },
+          value => !value || getRegexp(attribute.regexPattern).test(value)
+        );
+      }
     }
   });
   return rules;
@@ -52,13 +59,14 @@ const getErrorMessage = attributeKey => {
   const field = v$.value[attributeKey];
   if (!field || !field.$error) return '';
 
-  const attribute = visibleAttributes.value.find(
-    attr => attr.value === attributeKey
-  );
-  if (!attribute) return '';
-
   if (field.url && field.url.$invalid) {
     return t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_URL');
+  }
+  if (field.regexValidation && field.regexValidation.$invalid) {
+    return (
+      field.regexValidation.$params?.regexCue ||
+      t('CUSTOM_ATTRIBUTES.VALIDATIONS.INVALID_INPUT')
+    );
   }
   if (field.required && field.required.$invalid) {
     return t('CUSTOM_ATTRIBUTES.VALIDATIONS.REQUIRED');
