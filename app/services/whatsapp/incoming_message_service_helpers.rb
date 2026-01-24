@@ -66,7 +66,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   def find_message_by_source_id(source_id)
     return unless source_id
 
-    @message = Message.find_by(source_id: source_id)
+    @message = inbox.messages.find_by(source_id: source_id)
   end
 
   def cache_message_source_id_in_redis
@@ -77,7 +77,7 @@ module Whatsapp::IncomingMessageServiceHelpers
   end
 
   def clear_message_source_id_from_redis
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: @processed_params[:messages].first[:id])
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: "#{inbox.id}_#{@processed_params[:messages].first[:id]}")
     ::Redis::Alfred.delete(key)
   end
 
@@ -88,7 +88,7 @@ module Whatsapp::IncomingMessageServiceHelpers
     Redis::Alfred.set(key, true, nx: true, ex: 1.day)
   end
 
-  def with_contact_lock(phone, timeout: 5.seconds)
+  def with_contact_lock(phone, timeout: 5.seconds, lock_ttl: 30.seconds)
     raise ArgumentError, 'A block is required for with_contact_lock' unless block_given?
     return yield if phone.blank?
 
@@ -97,7 +97,7 @@ module Whatsapp::IncomingMessageServiceHelpers
     lock_acquired = false
 
     while (Time.now.to_i - start_time) < timeout
-      if Redis::Alfred.set(key, 1, nx: true, ex: timeout)
+      if Redis::Alfred.set(key, 1, nx: true, ex: lock_ttl)
         lock_acquired = true
         break
       end

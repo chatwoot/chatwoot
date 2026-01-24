@@ -125,12 +125,10 @@ describe Whatsapp::IncomingMessageService do
         message_source_key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: "#{whatsapp_channel.inbox.id}_#{params[:messages].first[:id]}")
         lock_cleared_at_depth = nil
 
-        # Allow all Redis::Alfred calls (contact lock uses different keys)
         allow(Redis::Alfred).to receive(:set).and_call_original
-        allow(Redis::Alfred).to receive(:delete).and_call_original
-
-        # Stub message lock specifically
         allow(Redis::Alfred).to receive(:set).with(message_source_key, true, nx: true, ex: 1.day).and_return(true)
+
+        allow(Redis::Alfred).to receive(:delete).and_call_original
         allow(Redis::Alfred).to receive(:delete).with(message_source_key) do
           lock_cleared_at_depth = ActiveRecord::Base.connection.open_transactions
         end
@@ -488,9 +486,9 @@ describe Whatsapp::IncomingMessageService do
                                     ] }] }.with_indifferent_access
 
         expect(Message.find_by(source_id: 'wamid.SDFADSf23sfasdafasdfa')).not_to be_present
-        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: 'wamid.SDFADSf23sfasdafasdfa')
+        key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: "#{whatsapp_channel.inbox.id}_wamid.SDFADSf23sfasdafasdfa")
 
-        Redis::Alfred.setex(key, true)
+        Redis::Alfred.set(key, true, nx: true, ex: 1.day)
         expect(Redis::Alfred.get(key)).to be_truthy
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
