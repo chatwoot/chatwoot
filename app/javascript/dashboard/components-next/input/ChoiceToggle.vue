@@ -23,7 +23,7 @@ const handleSelect = value => {
 
 <template>
   <div
-    class="flex gap-4 items-center px-4 py-2.5 w-full rounded-lg divide-x transition-colors bg-bg-n-solid-1 outline outline-1 outline-n-weak dark:bg-n-solid-1 hover:outline-n-slate-6 focus-within:outline-n-brand divide-n-weak"
+    class="flex gap-4 items-center px-4 py-2.5 w-full rounded-lg divide-x transition-colors bg-n-solid-1 outline outline-1 outline-n-weak hover:outline-n-slate-6 focus-within:outline-n-brand divide-n-weak"
   >
     <div
       v-for="option in options"
