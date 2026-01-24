@@ -338,7 +338,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
     let(:inbox) { create(:inbox, account: account) }
     let(:contact) { create(:contact, account: account, identifier: '123') }
     let(:conversation) { create(:conversation, inbox: inbox, account: account, status: :open) }
-    let(:team) { create(:team, account: account) }
+    let(:team) { create(:team, account: account, allow_auto_assign: false) }
     let(:user_1) { create(:user, role: 0) }
 
     before do
@@ -388,7 +388,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                  headers: administrator.create_new_auth_token
           end
 
-          expect(conversation.reload.assignee).to eq(user_1)
+          expect(conversation.reload.assignee_id).to eq(user_1.id)
         end
 
         it 'Assign the agent when he is not inbox member' do
@@ -402,7 +402,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                  headers: administrator.create_new_auth_token
           end
 
-          expect(conversation.reload.assignee).to be_nil
+          expect(conversation.reload.assignee_id).to be_nil
         end
 
         it 'Assign the labels' do
