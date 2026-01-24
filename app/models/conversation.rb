@@ -167,6 +167,10 @@ class Conversation < ApplicationRecord
     agent_last_seen_at.present? ? messages.created_since(agent_last_seen_at) : messages
   end
 
+  def assignee_unread_messages
+    assignee_last_seen_at.present? ? messages.created_since(assignee_last_seen_at) : messages
+  end
+
   def unread_incoming_messages
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
