@@ -92,9 +92,13 @@ export default {
     },
   },
   mounted() {
-    const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
+    const { websiteToken, locale, widgetColor, widgetPosition } =
+      window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    if (widgetPosition) {
+      this.setAppConfig({ position: widgetPosition });
+    }
     setHeader(window.authToken);
 
     if (this.isIFrame) {
