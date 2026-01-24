@@ -62,6 +62,7 @@ export default {
         { key: 'twitter', prefixURL: 'https://twitter.com/' },
         { key: 'linkedin', prefixURL: 'https://linkedin.com/' },
         { key: 'github', prefixURL: 'https://github.com/' },
+        { key: 'tiktok', prefixURL: 'https://tiktok.com/@' },
       ],
     };
   },

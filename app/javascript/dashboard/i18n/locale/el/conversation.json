@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Φόρτωση Συζητήσεων",
     "CANNOT_REPLY": "Δεν μπορείτε να απαντήσετε εξαιτίας",
     "24_HOURS_WINDOW": "του περιορισμού των 24 ωρών",
+    "48_HOURS_WINDOW": "του περιορισμού των 48 ωρών",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Αυτή η συνομιλία δεν έχει ανατεθεί σε εσάς. Θα θέλατε να αντιστοιχίσετε αυτή τη συνομιλία στον εαυτό σας;",
     "ASSIGN_TO_ME": "Ανάθεση σε μένα",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Read more",
       "DISMISS_REPLY": "Dismiss reply",
       "REPLYING_TO": "Replying to:",
-      "TIP_FORMAT_ICON": "Προβολή επεξεργαστή εμπλουτισμένου κειμένου",
       "TIP_EMOJI_ICON": "Προβολή επιλογέα emoji",
       "TIP_ATTACH_ICON": "Επισύναψη αρχείων",
       "TIP_AUDIORECORDER_ICON": "Εγγραφή ήχου",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Επαφές",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Incoming call",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

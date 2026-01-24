@@ -11,7 +11,7 @@ services:
       dockerfile: .devcontainer/Dockerfile
       args:
         VARIANT: 'ubuntu-22.04'
-        NODE_VERSION: '23.7.0'
+        NODE_VERSION: '24.13.0'
         RUBY_VERSION: '3.4.4'
         # On Linux, you may need to update USER_UID and USER_GID below if not your local UID is not 1000.
         USER_UID: '1000'

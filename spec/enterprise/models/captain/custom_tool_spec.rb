@@ -102,8 +102,9 @@ RSpec.describe Captain::CustomTool, type: :model do
         enabled_tool = create(:captain_custom_tool, account: account, enabled: true)
         disabled_tool = create(:captain_custom_tool, account: account, enabled: false)
 
-        expect(described_class.enabled).to include(enabled_tool)
-        expect(described_class.enabled).not_to include(disabled_tool)
+        enabled_ids = described_class.enabled.pluck(:id)
+        expect(enabled_ids).to include(enabled_tool.id)
+        expect(enabled_ids).not_to include(disabled_tool.id)
       end
     end
   end
@@ -324,6 +325,98 @@ RSpec.describe Captain::CustomTool, type: :model do
 
         result = tool.format_response(raw_response)
         expect(result).to eq('Response: plain text response')
+      end
+    end
+
+    describe '#build_metadata_headers' do
+      let(:tool) { create(:captain_custom_tool, account: account, slug: 'custom_test_tool') }
+      let(:conversation) { create(:conversation, account: account) }
+      let(:contact) { conversation.contact }
+
+      let(:state) do
+        {
+          account_id: account.id,
+          assistant_id: 123,
+          conversation: {
+            id: conversation.id,
+            display_id: conversation.display_id
+          },
+          contact: {
+            id: contact.id,
+            email: contact.email,
+            phone_number: contact.phone_number
+          }
+        }
+      end
+
+      it 'includes account and assistant metadata' do
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Account-Id']).to eq(account.id.to_s)
+        expect(headers['X-Chatwoot-Assistant-Id']).to eq('123')
+      end
+
+      it 'includes tool slug' do
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Tool-Slug']).to eq('custom_test_tool')
+      end
+
+      it 'includes conversation metadata when present' do
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Conversation-Id']).to eq(conversation.id.to_s)
+        expect(headers['X-Chatwoot-Conversation-Display-Id']).to eq(conversation.display_id.to_s)
+      end
+
+      it 'includes contact metadata when present' do
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Id']).to eq(contact.id.to_s)
+        expect(headers['X-Chatwoot-Contact-Email']).to eq(contact.email)
+      end
+
+      it 'handles missing conversation gracefully' do
+        state[:conversation] = nil
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Conversation-Id']).to be_nil
+        expect(headers['X-Chatwoot-Conversation-Display-Id']).to be_nil
+        expect(headers['X-Chatwoot-Account-Id']).to eq(account.id.to_s)
+      end
+
+      it 'handles missing contact gracefully' do
+        state[:contact] = nil
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers['X-Chatwoot-Contact-Id']).to be_nil
+        expect(headers['X-Chatwoot-Contact-Email']).to be_nil
+        expect(headers['X-Chatwoot-Account-Id']).to eq(account.id.to_s)
+      end
+
+      it 'handles empty state' do
+        headers = tool.build_metadata_headers({})
+
+        expect(headers).to be_a(Hash)
+        expect(headers['X-Chatwoot-Tool-Slug']).to eq('custom_test_tool')
+      end
+
+      it 'omits contact email header when email is blank' do
+        state[:contact][:email] = ''
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers).not_to have_key('X-Chatwoot-Contact-Email')
+      end
+
+      it 'omits contact phone header when phone number is blank' do
+        state[:contact][:phone_number] = ''
+
+        headers = tool.build_metadata_headers(state)
+
+        expect(headers).not_to have_key('X-Chatwoot-Contact-Phone')
       end
     end
 

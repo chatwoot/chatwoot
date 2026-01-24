@@ -172,7 +172,7 @@
 - name: channel_voice
   display_name: Voice Channel
   enabled: false
-  chatwoot_internal: true
+  premium: true
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
@@ -227,3 +227,13 @@
   enabled: false
   premium: true
   chatwoot_internal: true
+- name: channel_tiktok
+  display_name: TikTok Channel
+  enabled: true
+- name: csat_review_notes
+  display_name: CSAT Review Notes
+  enabled: false
+  premium: true
+- name: captain_tasks
+  display_name: Captain Tasks
+  enabled: true
