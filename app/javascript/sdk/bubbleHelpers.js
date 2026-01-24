@@ -479,3 +479,21 @@ export const removeUnreadClass = () => {
   const holderEl = document.querySelector('.woot-widget-holder');
   removeClasses(holderEl, 'has-unread-view');
 };
+
+export const updateWidgetPosition = position => {
+  const elements = [
+    bubbleHolder,
+    chatBubble,
+    closeBubble,
+    widgetHolder,
+    greetingPreview,
+    greetingInputBox,
+  ];
+
+  elements.forEach(elm => {
+    if (elm) {
+      removeClasses(elm, 'woot-elements--left woot-elements--right');
+      addClasses(elm, `woot-elements--${position}`);
+    }
+  });
+};

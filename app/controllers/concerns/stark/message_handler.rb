@@ -13,11 +13,14 @@ module Stark
       process_action(event_data[:message], response['action']) if response['action'].present?
     end
 
-    def create_bot_response_message(conversation, content, attachments = nil, metadata = {})
+    def create_bot_response_message(conversation, contents, attachments = nil, metadata = {})
+      contents = Array(contents)
       if instagram_channel?(conversation) && attachments.is_a?(Array) && attachments.any?
 
-        # 1. Send main content only once
-        if content.present?
+        # 1. Send all content chunks
+        contents.each do |content|
+          next if content.blank?
+
           conversation.messages.create!(
             content: content,
             message_type: :outgoing,
@@ -71,8 +74,10 @@ module Stark
         end
 
       else
-        # Non-Instagram: default behavior
-        create_text_message(conversation, content, metadata) if content.present?
+        # Non-Instagram or no attachments: default behavior
+        contents.each do |content|
+          create_text_message(conversation, content, metadata) if content.present?
+        end
         create_attachment_messages(conversation, attachments) if attachments.is_a?(Array)
       end
     end

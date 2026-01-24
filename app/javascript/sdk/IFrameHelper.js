@@ -26,6 +26,7 @@ import {
   createGreetingInputBox,
   showGreetingInputBox,
   hideGreetingInputBox,
+  updateWidgetPosition,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -198,6 +199,43 @@ export const IFrameHelper = {
         channelConfig: message.config.channelConfig,
       });
       IFrameHelper.toggleCloseButton();
+
+      const {
+        channelConfig: {
+          position: configPosition,
+          widget_position: widgetPosition,
+          avatarUrl,
+          avatarName,
+          welcomeTitle,
+          welcome_title: welcomeTitleAlt,
+          welcomeTagline,
+          welcome_tagline: welcomeTaglineAlt,
+          greetingMessage,
+          greeting_message: greetingMessageAlt,
+          launcherTitle,
+          launcher_title: launcherTitleAlt,
+        },
+      } = message.config;
+
+      const position =
+        configPosition || widgetPosition || window.$chatwoot.position;
+      window.$chatwoot.position = position;
+      window.$chatwoot.avatarUrl = avatarUrl || window.$chatwoot.avatarUrl;
+      window.$chatwoot.avatarName = avatarName || window.$chatwoot.avatarName;
+      window.$chatwoot.welcomeTitle =
+        welcomeTitle || welcomeTitleAlt || window.$chatwoot.welcomeTitle;
+      window.$chatwoot.welcomeDescription =
+        welcomeTagline ||
+        welcomeTaglineAlt ||
+        window.$chatwoot.welcomeDescription;
+      window.$chatwoot.greetingMessage =
+        greetingMessage ||
+        greetingMessageAlt ||
+        window.$chatwoot.greetingMessage;
+      window.$chatwoot.launcherTitle =
+        launcherTitle || launcherTitleAlt || window.$chatwoot.launcherTitle;
+
+      updateWidgetPosition(position);
 
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
