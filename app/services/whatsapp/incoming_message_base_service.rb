@@ -184,6 +184,7 @@ class Whatsapp::IncomingMessageBaseService
       status: outgoing_echo ? :delivered : :sent,
       sender: outgoing_echo ? nil : @contact,
       source_id: (source_id || message[:id]).to_s,
+      content_attributes: outgoing_echo ? { external_echo: true } : {},
       in_reply_to_external_id: @in_reply_to_external_id
     )
   end
