@@ -174,6 +174,33 @@ export const IFrameHelper = {
       updateAuthCookie(message.config.authToken, window.$chatwoot.baseDomain);
       window.$chatwoot.hasLoaded = true;
       const campaignsSnoozedTill = Cookies.get('cw_snooze_campaigns_till');
+
+      const {
+        channelConfig: {
+          position: configPosition,
+          widget_position: widgetPosition,
+          widget_type: widgetType,
+          widgetType: widgetTypeAlt,
+          avatarUrl,
+          avatarName,
+          welcomeTitle,
+          welcome_title: welcomeTitleAlt,
+          welcomeTagline,
+          welcome_tagline: welcomeTaglineAlt,
+          greetingMessage,
+          greeting_message: greetingMessageAlt,
+          launcherTitle,
+          launcher_title: launcherTitleAlt,
+        },
+      } = message.config;
+
+      // Update position BEFORE onLoad so bubble is created with correct position
+      const position =
+        configPosition || widgetPosition || window.$chatwoot.position;
+      if (position !== window.$chatwoot.position) {
+        window.$chatwoot.position = position;
+      }
+
       IFrameHelper.sendMessage('config-set', {
         locale: window.$chatwoot.locale,
         position: window.$chatwoot.position,
@@ -201,28 +228,6 @@ export const IFrameHelper = {
       });
       IFrameHelper.toggleCloseButton();
 
-      const {
-        channelConfig: {
-          position: configPosition,
-          widget_position: widgetPosition,
-          widget_type: widgetType,
-          widgetType: widgetTypeAlt,
-          avatarUrl,
-          avatarName,
-          welcomeTitle,
-          welcome_title: welcomeTitleAlt,
-          welcomeTagline,
-          welcome_tagline: welcomeTaglineAlt,
-          greetingMessage,
-          greeting_message: greetingMessageAlt,
-          launcherTitle,
-          launcher_title: launcherTitleAlt,
-        },
-      } = message.config;
-
-      const position =
-        configPosition || widgetPosition || window.$chatwoot.position;
-      window.$chatwoot.position = position;
       window.$chatwoot.avatarUrl = avatarUrl || window.$chatwoot.avatarUrl;
       window.$chatwoot.avatarName = avatarName || window.$chatwoot.avatarName;
       window.$chatwoot.welcomeTitle =
@@ -248,6 +253,7 @@ export const IFrameHelper = {
         updateWidgetType(newWidgetType);
       }
 
+      // Update position classes in case bubble was already created with old position
       updateWidgetPosition(position);
 
       if (window.$chatwoot.user) {
