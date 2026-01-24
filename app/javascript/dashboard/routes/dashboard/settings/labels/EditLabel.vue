@@ -25,6 +25,7 @@ export default {
       title: '',
       description: '',
       showOnSidebar: true,
+      availableForCampaigns: false,
       color: '',
     };
   },
@@ -54,6 +55,7 @@ export default {
       this.title = this.selectedResponse.title;
       this.description = this.selectedResponse.description;
       this.showOnSidebar = this.selectedResponse.show_on_sidebar;
+      this.availableForCampaigns = this.selectedResponse.available_for_campaigns;
       this.color = this.selectedResponse.color;
     },
     editLabel() {
@@ -64,6 +66,7 @@ export default {
           description: this.description,
           title: this.title.toLowerCase(),
           show_on_sidebar: this.showOnSidebar,
+          available_for_campaigns: this.availableForCampaigns,
         })
         .then(() => {
           useAlert(this.$t('LABEL_MGMT.EDIT.API.SUCCESS_MESSAGE'));
@@ -111,6 +114,12 @@ export default {
         <input v-model="showOnSidebar" type="checkbox" :value="true" />
         <label for="conversation_creation">
           {{ $t('LABEL_MGMT.FORM.SHOW_ON_SIDEBAR.LABEL') }}
+        </label>
+      </div>
+      <div class="flex items-center w-full gap-2">
+        <input v-model="availableForCampaigns" type="checkbox" :value="true" />
+        <label for="available_for_campaigns">
+          {{ $t('LABEL_MGMT.FORM.AVAILABLE_FOR_CAMPAIGNS.LABEL') }}
         </label>
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">

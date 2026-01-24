@@ -17,7 +17,7 @@ const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
-  labels: useMapGetter('labels/getLabels'),
+  campaignLabels: useMapGetter('labels/getCampaignLabels'),
   inboxes: useMapGetter('inboxes/getWhatsAppInboxes'),
   getFilteredWhatsAppTemplates: useMapGetter(
     'inboxes/getFilteredWhatsAppTemplates'
@@ -61,7 +61,7 @@ const mapToOptions = (items, valueKey, labelKey) =>
   })) ?? [];
 
 const audienceList = computed(() =>
-  mapToOptions(formState.labels.value, 'id', 'title')
+  mapToOptions(formState.campaignLabels.value, 'id', 'title')
 );
 
 const inboxOptions = computed(() =>

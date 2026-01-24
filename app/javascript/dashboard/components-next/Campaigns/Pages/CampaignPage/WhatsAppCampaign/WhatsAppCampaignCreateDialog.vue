@@ -34,7 +34,7 @@ const store = useStore();
 
 // Store getters
 const uiFlags = useMapGetter('campaigns/getUIFlags');
-const labels = useMapGetter('labels/getLabels');
+const campaignLabels = useMapGetter('labels/getCampaignLabels');
 const inboxes = useMapGetter('inboxes/getWhatsAppInboxes');
 const getFilteredWhatsAppTemplates = useMapGetter(
   'inboxes/getFilteredWhatsAppTemplates'
@@ -85,7 +85,7 @@ const currentDateTime = computed(() => {
 
 const audienceOptions = computed(
   () =>
-    labels.value?.map(label => ({
+    campaignLabels.value?.map(label => ({
       value: label.id,
       label: label.title,
     })) ?? []

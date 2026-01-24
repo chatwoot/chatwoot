@@ -34,6 +34,9 @@
       "SHOW_ON_SIDEBAR": {
         "LABEL": "Show label on sidebar"
       },
+      "AVAILABLE_FOR_CAMPAIGNS": {
+        "LABEL": "Available for campaigns"
+      },
       "EDIT": "Edit",
       "CREATE": "Create",
       "DELETE": "Delete",

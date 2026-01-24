@@ -53,4 +53,31 @@ describe ContactDrop do
       expect(contact_drop.custom_attribute).to eq({})
     end
   end
+
+  # CommMate: Tests for preference links
+  context 'when generating preference links' do
+    describe '#preference_link' do
+      it 'generates a valid preference URL with token' do
+        link = contact_drop.preference_link
+        expect(link).to include('/preferences/')
+        expect(link).to include('eyJ') # JWT token prefix
+      end
+
+      it 'generates different tokens for different contacts' do
+        other_contact = create(:contact, account: contact.account)
+        other_drop = described_class.new(other_contact)
+
+        expect(contact_drop.preference_link).not_to eq(other_drop.preference_link)
+      end
+    end
+
+    describe '#unsubscribe_all_link' do
+      it 'generates a valid unsubscribe all URL with token' do
+        link = contact_drop.unsubscribe_all_link
+        expect(link).to include('/preferences/')
+        expect(link).to include('unsubscribe_all=true')
+        expect(link).to include('eyJ') # JWT token prefix
+      end
+    end
+  end
 end

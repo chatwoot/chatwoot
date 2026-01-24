@@ -317,3 +317,41 @@ pt_BR:
   info:
     message: "Informação do CommMate"
 
+  # CommMate: Preferências Públicas de Contato
+  public_preferences:
+    page_title: "Preferências de Comunicação - %{account}"
+    title: "Preferências de Comunicação"
+    description: "Selecione os tópicos sobre os quais você deseja receber comunicações. Desmarque para parar de receber comunicações de um tópico."
+    save_button: "Salvar Preferências"
+    preferences_saved: "Suas preferências foram salvas!"
+    no_subscriptions_available: "Nenhuma opção de assinatura está disponível no momento."
+    unsubscribe_all_hint: "Quer parar de receber todas as comunicações?"
+    unsubscribe_all_button: "Cancelar Todas as Assinaturas"
+    unsubscribe_all_confirm: "Tem certeza de que deseja cancelar todas as comunicações?"
+    contact_info: "Gerenciando preferências de: %{identifier}"
+    subscribed_title: "Inscrito com Sucesso!"
+    subscribed_message: "Você foi inscrito em %{label}."
+    unsubscribed_title: "Cancelado com Sucesso"
+    unsubscribed_message: "Você foi removido de %{label}."
+    unsubscribed_all_title: "Sentiremos sua falta"
+    unsubscribed_all_message: "Você foi removido de todas as comunicações."
+    unsubscribed_all_note: "Você pode se inscrever novamente a qualquer momento visitando sua página de preferências."
+    resubscribe: "Inscrever-se novamente"
+    manage_all_preferences: "Gerenciar todas as preferências"
+    manage_preferences_again: "Gerenciar preferências"
+    footer:
+      powered_by: "Desenvolvido por CommMate"
+    errors:
+      expired_title: "Link Expirado"
+      expired: "Este link expirou. Por favor, solicite um novo link de preferências."
+      invalid_title: "Link Inválido"
+      invalid: "Este link não é válido. Por favor, verifique a URL e tente novamente."
+      contact_not_found_title: "Contato Não Encontrado"
+      contact_not_found: "Não foi possível encontrar suas informações de contato. Por favor, entre em contato com o suporte."
+      label_not_found_title: "Assinatura Não Encontrada"
+      label_not_found: "A assinatura que você está procurando não está mais disponível."
+      account_unavailable_title: "Conta Não Disponível"
+      account_unavailable: "Esta organização não está mais utilizando nosso serviço. Por favor, entre em contato diretamente com eles para assistência."
+      generic_title: "Algo Deu Errado"
+      generic: "Ocorreu um erro. Por favor, tente novamente ou entre em contato com o suporte."
+

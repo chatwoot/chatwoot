@@ -560,6 +560,14 @@ Rails.application.routes.draw do
     end
   end
 
+  # CommMate: Public contact preferences pages (campaign subscription management)
+  # Note: JWT tokens contain periods (.) which Rails interprets as format separators,
+  # so we need a constraint to allow any characters except forward slash in the token
+  get 'preferences/:token', to: 'public/api/v1/preferences#show', as: :public_preferences,
+                            defaults: { format: 'html' }, constraints: { token: %r{[^/]+} }
+  post 'preferences/:token', to: 'public/api/v1/preferences#update',
+                             defaults: { format: 'html' }, constraints: { token: %r{[^/]+} }
+
   get 'hc/:slug', to: 'public/api/v1/portals#show'
   get 'hc/:slug/sitemap.xml', to: 'public/api/v1/portals#sitemap'
   get 'hc/:slug/:locale', to: 'public/api/v1/portals#show'

@@ -23,4 +23,24 @@ class ContactDrop < BaseDrop
     custom_attributes = @obj.try(:custom_attributes) || {}
     custom_attributes.transform_keys(&:to_s)
   end
+
+  # CommMate: Preference management links for campaigns
+  def preference_link
+    return '' if @obj.blank?
+
+    token = ContactPreferenceTokenService.generate_for_contact(@obj)
+    "#{base_url}/preferences/#{token}"
+  end
+
+  def unsubscribe_all_link
+    return '' if @obj.blank?
+
+    "#{preference_link}?unsubscribe_all=true"
+  end
+
+  private
+
+  def base_url
+    ENV.fetch('FRONTEND_URL', '')
+  end
 end

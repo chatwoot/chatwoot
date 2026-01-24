@@ -29,6 +29,7 @@ class Api::V1::Accounts::LabelsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.require(:label).permit(:title, :description, :color, :show_on_sidebar)
+    # CommMate: Added :available_for_campaigns for campaign preferences
+    params.require(:label).permit(:title, :description, :color, :show_on_sidebar, :available_for_campaigns)
   end
 end

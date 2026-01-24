@@ -1,0 +1,84 @@
+<div class="preferences-card">
+  <div class="card-header">
+    <h1 class="card-title"><%= t('public_preferences.title') %></h1>
+    <p class="card-subtitle"><%= @account&.name %></p>
+  </div>
+
+  <div class="card-body">
+    <% if @success %>
+      <div class="alert alert-success">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+        <span><%= t('public_preferences.preferences_saved') %></span>
+      </div>
+    <% end %>
+
+    <p class="card-description">
+      <%= t('public_preferences.description') %>
+    </p>
+
+    <% if @campaign_labels.any? %>
+      <%= form_tag public_preferences_path(token: params[:token]), method: :post do %>
+        <div class="form-group">
+          <% @campaign_labels.each do |label| %>
+            <label class="checkbox-item">
+              <input 
+                type="checkbox" 
+                name="labels[]" 
+                value="<%= label.title %>"
+                <%= 'checked' if @contact_labels.include?(label.title) %>
+              >
+              <span class="label-color" style="background-color: <%= label.color %>;"></span>
+              <div class="checkbox-content">
+                <div class="checkbox-label">
+                  <% if label.description.present? %>
+                    <span class="checkbox-text"><%= label.description %></span>
+                  <% else %>
+                    <span class="checkbox-text muted"><%= label.title.titleize %></span>
+                  <% end %>
+                  <span class="info-tooltip">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span class="tooltip-text"><%= label.title.titleize %></span>
+                  </span>
+                </div>
+              </div>
+            </label>
+          <% end %>
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+          <%= t('public_preferences.save_button') %>
+        </button>
+      <% end %>
+
+      <div class="divider"></div>
+
+      <div class="unsubscribe-section">
+        <p class="unsubscribe-hint"><%= t('public_preferences.unsubscribe_all_hint') %></p>
+        <%= form_tag public_preferences_path(token: params[:token]), method: :post do %>
+          <%= hidden_field_tag :unsubscribe_all, true %>
+          <button type="submit" class="btn btn-danger">
+            <%= t('public_preferences.unsubscribe_all_button') %>
+          </button>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+        </svg>
+        <p><%= t('public_preferences.no_subscriptions_available') %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<p class="contact-info">
+  <%= contact_identifier_text(@contact) %>
+</p>

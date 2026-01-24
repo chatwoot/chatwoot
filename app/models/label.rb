@@ -2,14 +2,15 @@
 #
 # Table name: labels
 #
-#  id              :bigint           not null, primary key
-#  color           :string           default("#1f93ff"), not null
-#  description     :text
-#  show_on_sidebar :boolean
-#  title           :string
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  account_id      :bigint
+#  id                      :bigint           not null, primary key
+#  available_for_campaigns :boolean          default(FALSE)
+#  color                   :string           default("#1f93ff"), not null
+#  description             :text
+#  show_on_sidebar         :boolean
+#  title                   :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  account_id              :bigint
 #
 # Indexes
 #
@@ -29,6 +30,9 @@ class Label < ApplicationRecord
 
   after_update_commit :update_associated_models
   default_scope { order(:title) }
+
+  # CommMate: Scope for labels available in campaign preferences
+  scope :campaign_labels, -> { where(available_for_campaigns: true) }
 
   before_validation do
     self.title = title.downcase if attribute_present?('title')

@@ -8,8 +8,8 @@
 
 ## 📊 Summary
 
-**Total Modified Files:** 37 files  
-**Total Lines Changed:** ~1200 lines across all files (including i18n translations)
+**Total Modified Files:** 51 files  
+**Total Lines Changed:** ~1700 lines across all files (including i18n translations)
 
 CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Branding (logo, version display)
@@ -18,6 +18,7 @@ CommMate maintains minimal modifications to Chatwoot core, focusing on:
 - Version tracking
 - WhatsApp Templates CRUD (feat/whatsapp-templates-crud)
 - Evolution WhatsApp Inbox Integration (feat/evolution-baileys-inbox)
+- Contact Preferences Feature (public subscription management)
 
 ---
 
@@ -604,6 +605,303 @@ Enables WhatsApp communication via Evolution API (Baileys provider only).
 
 ---
 
+### Contact Preferences Feature (14 files)
+
+These modifications implement the public contact preferences system for campaign subscription management.
+
+#### db/migrate/20260124163545_add_available_for_campaigns_to_labels.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Add `available_for_campaigns` flag to labels for campaign preferences  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Adds `available_for_campaigns` boolean column to `labels` table
+- Default value: false
+
+---
+
+#### app/models/label.rb
+
+**Lines Modified:** ~5 lines  
+**Reason:** Add campaign_labels scope for preference management  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Updated schema comment to include `available_for_campaigns`
+- Added `scope :campaign_labels` for filtering labels available in campaigns
+
+---
+
+#### app/controllers/api/v1/accounts/labels_controller.rb
+
+**Lines Modified:** ~3 lines  
+**Reason:** Allow setting available_for_campaigns attribute  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `:available_for_campaigns` to `permitted_params`
+
+---
+
+#### app/views/api/v1/accounts/labels/*.json.jbuilder (4 files)
+
+**Files:** index, show, create, update  
+**Lines Modified:** 1 line each  
+**Reason:** Expose available_for_campaigns in API responses  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `json.available_for_campaigns` to each view
+
+---
+
+#### app/services/contact_preference_token_service.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Generate secure JWT tokens for public preference pages  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- 30-day token expiry
+- Token includes contact_id and account_id
+- Decode method with error handling for expired/invalid tokens
+
+---
+
+#### app/drops/contact_drop.rb
+
+**Lines Modified:** ~20 lines  
+**Reason:** Add preference_link and unsubscribe_all_link Liquid variables  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `preference_link` method for full preferences URL
+- Added `unsubscribe_all_link` method for direct unsubscribe URL
+- Added `base_url` private helper
+
+---
+
+#### app/controllers/public/api/v1/preferences_controller.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Handle public preference page requests  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Token validation and contact lookup
+- Show full preferences page
+- Handle single subscribe/unsubscribe actions via query params
+- Handle unsubscribe_all action
+- Comprehensive error handling (expired, invalid, not found)
+
+---
+
+#### app/views/layouts/preferences.html.erb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Standalone mobile-friendly layout for preference pages  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Dark/light mode support
+- Mobile-friendly responsive design
+- Custom CSS for preference components
+
+---
+
+#### app/views/public/api/v1/preferences/*.html.erb (5 files)
+
+**Files:** show, subscribe, unsubscribe, unsubscribe_all, error  
+**Lines Modified:** ~300 lines total (NEW)  
+**Reason:** Public preference page views  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Full preferences page with label checkboxes
+- Subscribe/unsubscribe confirmation pages
+- Unsubscribe all confirmation page
+- Error page with multiple error types
+
+---
+
+#### config/routes.rb
+
+**Lines Modified:** ~3 lines  
+**Reason:** Add public preferences routes  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- GET `/preferences/:token` for show action
+- POST `/preferences/:token` for update action
+
+---
+
+#### app/javascript/dashboard/routes/dashboard/settings/labels/AddLabel.vue
+
+**Lines Modified:** ~10 lines  
+**Reason:** Add Available for campaigns checkbox  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `availableForCampaigns` data property
+- Added to store dispatch
+- Added checkbox in template
+
+---
+
+#### app/javascript/dashboard/routes/dashboard/settings/labels/EditLabel.vue
+
+**Lines Modified:** ~10 lines  
+**Reason:** Add Available for campaigns checkbox  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `availableForCampaigns` data property
+- Added to setFormValues
+- Added to store dispatch
+- Added checkbox in template
+
+---
+
+#### app/javascript/dashboard/components-next/whatsapp/chatwootVariables.ts
+
+**Lines Modified:** ~20 lines  
+**Reason:** Add preference_link and unsubscribe_all_link to template variables  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `contact.preference_link` variable
+- Added `contact.unsubscribe_all_link` variable
+
+---
+
+#### custom/locales/en_custom.yml & pt_BR_custom.yml
+
+**Lines Modified:** ~80 lines total  
+**Reason:** Add preference page translations  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `public_preferences` section with all UI strings
+- Error messages for all error types
+- Both English and Portuguese translations
+
+---
+
+#### app/javascript/dashboard/i18n/locale/en/labelsMgmt.json & pt_BR/labelsMgmt.json
+
+**Lines Modified:** ~6 lines total  
+**Reason:** Add label form translation  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `AVAILABLE_FOR_CAMPAIGNS.LABEL` translation
+
+---
+
+#### spec/services/contact_preference_token_service_spec.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Unit tests for JWT token service  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Tests for token generation
+- Tests for token decoding (valid, expired, invalid)
+- Tests for `generate_for_contact` class method
+
+---
+
+#### spec/controllers/public/api/v1/preferences_controller_spec.rb
+
+**Lines Modified:** Entire file (NEW)  
+**Reason:** Unit tests for preferences controller  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Tests for `contact_identifier_text` helper
+- Tests for `find_campaign_label` method
+- Tests for `error_status_for` method
+- Tests for locale detection
+
+---
+
+#### spec/drops/contact_drop_spec.rb (modified)
+
+**Lines Modified:** ~20 lines  
+**Reason:** Add tests for preference link methods  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Tests for `preference_link` method
+- Tests for `unsubscribe_all_link` method
+
+---
+
+#### spec/models/label_spec.rb (modified)
+
+**Lines Modified:** ~20 lines  
+**Reason:** Add tests for campaign labels  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Tests for `campaign_labels` scope
+- Tests for `available_for_campaigns` attribute
+
+---
+
+#### app/javascript/dashboard/store/modules/labels.js
+
+**Lines Modified:** ~5 lines  
+**Reason:** Add getCampaignLabels getter for campaign audience selection  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `getCampaignLabels` getter to filter labels by `available_for_campaigns: true`
+
+---
+
+#### app/views/api/v1/models/_contact.json.jbuilder
+
+**Lines Modified:** 1 line  
+**Reason:** Expose preference_link in contact API responses  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `json.preference_link ContactPreferenceTokenService.generate_preference_url(resource)`
+
+---
+
+#### app/javascript/dashboard/components-next/Contacts/Pages/ContactDetails.vue
+
+**Lines Modified:** ~15 lines  
+**Reason:** Add "Manage Preferences" button for agents  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Added `openPreferenceLink` method
+- Added "Manage Preferences" button next to "Update Contact" (ghost variant, matching Evolution settings style)
+
+---
+
+#### Campaign Forms (3 files)
+
+**Files Modified:**
+- `app/javascript/dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignCreateDialog.vue`
+- `app/javascript/dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsAppCampaign/WhatsAppCampaignForm.vue`
+- `app/javascript/dashboard/components-next/Campaigns/Pages/CampaignPage/SMSCampaign/SMSCampaignForm.vue`
+
+**Lines Modified:** ~6 lines total  
+**Reason:** Filter campaign audience to only show campaign-enabled labels  
+**Last Modified:** January 24, 2026
+
+**Changes Made:**
+- Changed label getter from `labels/getLabels` to `labels/getCampaignLabels`
+- Audience dropdown now only shows labels with `available_for_campaigns: true`
+
+---
+
 ### Configuration (2 files, now 3 files)
 
 #### 14. config/routes.rb
@@ -915,6 +1213,32 @@ After merging a new Chatwoot version, test:
 - [ ] Verify phone number displays in send message flow
 - [ ] Test translations in PT-BR locale
 
+### Contact Preferences Feature
+- [ ] Navigate to Settings > Labels
+- [ ] Create a new label with "Available for campaigns" checked
+- [ ] Edit an existing label and toggle "Available for campaigns"
+- [ ] Verify label appears in API response with `available_for_campaigns` field
+- [ ] Create a contact with email or phone number
+- [ ] Navigate to contact details page
+- [ ] Verify "Manage Preferences" button appears next to "Update Contact"
+- [ ] Click "Manage Preferences" and verify preference page opens in new tab
+- [ ] Use `{{contact.preference_link}}` in a WhatsApp template or message
+- [ ] Verify the link generates correctly with JWT token
+- [ ] Open preference link in browser
+- [ ] Verify full preferences page displays with campaign labels
+- [ ] Select/deselect labels and save preferences
+- [ ] Verify contact labels updated in Chatwoot
+- [ ] Test subscribe link with `?add=<label_id>` parameter
+- [ ] Test unsubscribe link with `?remove=<label_id>` parameter
+- [ ] Test unsubscribe all with `?unsubscribe_all=true` parameter
+- [ ] Verify "Unsubscribe from All" button works on full preferences page
+- [ ] Wait 31 days (or manipulate token) and verify expired link shows error
+- [ ] Test with deleted contact - verify appropriate error
+- [ ] Test with deleted label - verify label skipped gracefully
+- [ ] Test translations in PT-BR locale
+- [ ] Verify mobile-friendly layout on phone screens
+- [ ] Verify dark mode support
+
 ---
 
 ## 📝 Maintenance Notes
@@ -946,36 +1270,39 @@ After merging a new Chatwoot version, test:
 - `custom/docs/UPGRADE-PROCEDURE.md` - Detailed upgrade steps
 - `custom/docs/MAINTENANCE-CHECKLIST.md` - Maintenance procedures
 - `custom/docs/USER-ROLES.md` - Custom roles documentation
+- `custom/docs/CONTACT-PREFERENCES.md` - Contact preferences feature (security, API, testing)
 
 ---
 
 ## 📊 Statistics
 
-- **Total Files Modified:** 37
-- **Controllers:** 2 (1 core + 1 Evolution)
-- **Services:** 3 (Evolution API client, provisioner, send service)
-- **Models/Concerns:** 1 (Evolution inbox concern)
+- **Total Files Modified:** 59
+- **Controllers:** 3 (1 core + 1 Evolution + 1 Preferences)
+- **Services:** 4 (Evolution API client, provisioner, send service, preference token)
+- **Models/Concerns:** 2 (Evolution inbox concern, Label model)
 - **Jobs:** 1 modified (send_reply_job)
-- **Views:** 5 (4 core + 1 inbox_slim)
+- **Views:** 11 (4 core + 1 inbox_slim + 1 preferences layout + 5 preferences pages)
 - **Dashboards:** 1
 - **Policies:** 1
-- **Frontend Components:** 14 (7 Evolution Vue components + 7 helper/card updates)
-- **JavaScript:** 7 (including 4 for WhatsApp Templates)
+- **Frontend Components:** 19 (7 Evolution Vue + 7 helper/card + 2 Label forms + 3 Campaign forms)
+- **JavaScript/Store:** 9 (4 WhatsApp Templates + 1 chatwootVariables + 1 labels store)
 - **Config:** 2
-- **Migrations:** 2
+- **Migrations:** 3 (2 roles + 1 labels)
 - **Docker:** 1
-- **i18n Locale Files:** 2 (EN and PT-BR inboxMgmt.json)
+- **i18n Locale Files:** 4 (EN and PT-BR for inboxMgmt.json + labelsMgmt.json)
+- **Custom Locale Files:** 2 (EN and PT-BR custom.yml)
 - **New Backend Services:** 2 (WhatsApp Templates CRUD)
 - **New Frontend Components:** 5 (WhatsApp Templates UI)
+- **Spec Files:** 4 (2 new + 2 modified for preference tests)
 
-**Maintenance Burden:** Low (19 files, ~100 lines modified)  
+**Maintenance Burden:** Low-Medium (~59 files, ~1850 lines)  
 **Upgrade Complexity:** Low (most conflicts are trivial)  
-**Expected Upgrade Time:** 45-75 minutes
+**Expected Upgrade Time:** 60-90 minutes
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** January 11, 2026  
+**Document Version:** 1.1  
+**Last Updated:** January 24, 2026  
 **Next Review:** After next Chatwoot upgrade  
 **Maintainer:** CommMate Team
 

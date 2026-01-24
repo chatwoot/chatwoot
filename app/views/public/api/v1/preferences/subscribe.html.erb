@@ -1,0 +1,33 @@
+<div class="preferences-card">
+  <div class="status-page">
+    <div class="status-icon success">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+
+    <h1 class="status-title">
+      <%= t('public_preferences.subscribed_title') %>
+    </h1>
+
+    <p class="status-message">
+      <%= t('public_preferences.subscribed_message', label: @label.description.presence || @label.title.titleize) %>
+    </p>
+
+    <div class="label-badge">
+      <span class="color-dot" style="background-color: <%= @label.color %>;"></span>
+      <span class="label-name"><%= @label.title.titleize %></span>
+    </div>
+
+    <div class="action-links">
+      <p class="card-subtitle"><%= @account&.name %></p>
+      <a href="<%= public_preferences_path(token: params[:token]) %>" class="link">
+        <%= t('public_preferences.manage_all_preferences') %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<p class="contact-info">
+  <%= contact_identifier_text(@contact) %>
+</p>

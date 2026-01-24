@@ -1,0 +1,36 @@
+<div class="preferences-card">
+  <div class="status-page">
+    <div class="status-icon warning">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+
+    <h1 class="status-title">
+      <%= t('public_preferences.unsubscribed_title') %>
+    </h1>
+
+    <p class="status-message">
+      <%= t('public_preferences.unsubscribed_message', label: @label.description.presence || @label.title.titleize) %>
+    </p>
+
+    <div class="label-badge strikethrough">
+      <span class="color-dot" style="background-color: <%= @label.color %>;"></span>
+      <span class="label-name"><%= @label.title.titleize %></span>
+    </div>
+
+    <div class="action-links">
+      <p class="card-subtitle"><%= @account&.name %></p>
+      <a href="<%= public_preferences_path(token: params[:token], add: @label.id) %>" class="link">
+        <%= t('public_preferences.resubscribe') %>
+      </a>
+      <a href="<%= public_preferences_path(token: params[:token]) %>" class="link" style="opacity: 0.7;">
+        <%= t('public_preferences.manage_all_preferences') %>
+      </a>
+    </div>
+  </div>
+</div>
+
+<p class="contact-info">
+  <%= contact_identifier_text(@contact) %>
+</p>
