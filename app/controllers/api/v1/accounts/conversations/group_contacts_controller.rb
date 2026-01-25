@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::GroupContactsController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_group_conversation, only: [:create, :update, :destroy]
+  before_action :validate_contact_ids, only: [:create, :update, :destroy]
 
   def show
     @group_contacts = @conversation.group_contacts.includes(:contact)
@@ -31,6 +32,12 @@ class Api::V1::Accounts::Conversations::GroupContactsController < Api::V1::Accou
 
   def ensure_group_conversation
     render json: { error: 'Conversation must be a group' }, status: :unprocessable_entity unless @conversation.group?
+  end
+
+  def validate_contact_ids
+    return if params[:contact_ids].is_a?(Array)
+
+    render json: { error: 'contact_ids must be an array' }, status: :unprocessable_entity
   end
 
   def contacts_to_be_added_ids
