@@ -158,7 +158,7 @@ const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
           class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
         >
           <span v-if="isGroupConversation" class="text-n-slate-11">
-            {{ $tc('CONVERSATION.GROUP.MEMBER_COUNT', groupMemberCount) }}
+            {{ $t('CONVERSATION.GROUP.MEMBER_COUNT', groupMemberCount) }}
           </span>
           <span
             v-if="isGroupConversation && hasMultipleInboxes"

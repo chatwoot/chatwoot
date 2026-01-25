@@ -46,7 +46,7 @@ const memberCount = computed(() => {
           </h3>
         </div>
         <p class="text-sm text-n-slate-11 mb-2">
-          {{ $tc('CONVERSATION.GROUP.MEMBER_COUNT', memberCount) }}
+          {{ $t('CONVERSATION.GROUP.MEMBER_COUNT', memberCount) }}
         </p>
       </div>
 
