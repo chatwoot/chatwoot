@@ -177,9 +177,7 @@ class ActionCableListener < BaseListener
   def contact_deleted(event)
     contact_data = event.data[:contact_data]
     account = Account.find_by(id: contact_data[:account_id])
-    return if account.blank?
-
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact_data)
+    broadcast(account, [account_token(account)], CONTACT_DELETED, contact_data) if account.present?
   end
 
   def conversation_mentioned(event)
@@ -204,25 +202,20 @@ class ActionCableListener < BaseListener
   end
 
   def user_tokens(account, agents)
-    agent_tokens = agents.pluck(:pubsub_token)
-    admin_tokens = account.administrators.pluck(:pubsub_token)
-    (agent_tokens + admin_tokens).uniq
+    (agents.pluck(:pubsub_token) + account.administrators.pluck(:pubsub_token)).uniq
   end
 
   def contact_tokens(contact_inbox, message)
-    return [] if message.private?
-    return [] if message.activity?
-    return [] if contact_inbox.nil?
+    return [] if message.private? || message.activity?
 
     contact_inbox_tokens(contact_inbox)
   end
 
   def contact_inbox_tokens(contact_inbox)
     return [] if contact_inbox.nil?
+    return [contact_inbox.pubsub_token] unless contact_inbox.hmac_verified?
 
-    contact = contact_inbox.contact
-
-    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token)
   end
 
   def broadcast(account, tokens, event_name, data)
