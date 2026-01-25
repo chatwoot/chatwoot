@@ -276,7 +276,14 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "GROUP": "Group"
+    },
+    "GROUP": {
+      "MEMBERS": "Group Members",
+      "PRIMARY_CONTACT": "Primary contact",
+      "MEMBER_COUNT": "{count} member | {count} members",
+      "SEPARATOR": "•"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Incoming call",

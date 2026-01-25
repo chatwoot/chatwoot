@@ -1,0 +1,39 @@
+tags:
+  - Conversations
+operationId: remove-group-contacts
+summary: Remove Group Contacts
+description: Remove contacts from a group conversation
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/conversation_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - contact_ids
+        properties:
+          contact_ids:
+            type: array
+            items:
+              type: integer
+            description: IDs of contacts to be removed from the group
+            example: [1, 2]
+responses:
+  '200':
+    description: Success
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Conversation must be a group
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

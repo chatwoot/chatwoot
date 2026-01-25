@@ -4,3 +4,15 @@ properties:
     type: object
     description: Custom attributes of the conversation
     example: {}
+  group:
+    type: boolean
+    description: Whether this is a group conversation
+    example: false
+  group_source_id:
+    type: string
+    description: External identifier for the group (e.g., from WhatsApp or Telegram)
+    example: "ext-group-123"
+  group_title:
+    type: string
+    description: Title/name of the group conversation
+    example: "Support Group"

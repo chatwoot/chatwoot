@@ -5228,6 +5228,284 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/group_contacts": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "$ref": "#/components/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "get-conversation-group-contacts",
+        "summary": "List Group Contacts",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get all additional contacts in a group conversation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group_contacts": {
+                      "type": "array",
+                      "description": "Array of group contacts",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Id of the group contact association"
+                          },
+                          "contact_id": {
+                            "type": "integer",
+                            "description": "Id of the contact"
+                          },
+                          "contact": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "add-group-contacts",
+        "summary": "Add Group Contacts",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Add contacts to a group conversation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "contact_ids"
+                ],
+                "properties": {
+                  "contact_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "IDs of contacts to be added to the group",
+                    "example": [1, 2, 3]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group_contacts": {
+                      "type": "array",
+                      "description": "Array of created group contacts",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Id of the group contact association"
+                          },
+                          "contact_id": {
+                            "type": "integer",
+                            "description": "Id of the contact"
+                          },
+                          "contact": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Conversation must be a group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-group-contacts",
+        "summary": "Update Group Contacts",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Update contacts in a group conversation. Adds new contacts and removes contacts not in the list.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "contact_ids"
+                ],
+                "properties": {
+                  "contact_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "IDs of contacts that should be in the group. Contacts not in this list will be removed.",
+                    "example": [1, 2, 3]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "group_contacts": {
+                      "type": "array",
+                      "description": "Array of all group contacts after update",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "Id of the group contact association"
+                          },
+                          "contact_id": {
+                            "type": "integer",
+                            "description": "Id of the contact"
+                          },
+                          "contact": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Conversation must be a group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "remove-group-contacts",
+        "summary": "Remove Group Contacts",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Remove contacts from a group conversation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "contact_ids"
+                ],
+                "properties": {
+                  "contact_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "IDs of contacts to be removed from the group",
+                    "example": [1, 2]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Conversation must be a group",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/reporting_events": {
       "parameters": [
         {

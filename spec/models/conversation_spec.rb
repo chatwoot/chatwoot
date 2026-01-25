@@ -18,6 +18,57 @@ RSpec.describe Conversation do
     it { is_expected.to belong_to(:assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
+    it { is_expected.to have_many(:group_contacts) }
+    it { is_expected.to have_many(:additional_contacts).through(:group_contacts) }
+  end
+
+  describe 'group conversation methods' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account, group: true) }
+    let(:primary_contact) { conversation.contact }
+    let(:additional_contact) { create(:contact, account: account) }
+
+    before do
+      create(:group_contact, conversation: conversation, contact: additional_contact)
+    end
+
+    describe '#all_contacts' do
+      it 'returns primary contact and all group contacts' do
+        contacts = conversation.all_contacts
+        expect(contacts).to include(primary_contact)
+        expect(contacts).to include(additional_contact)
+        expect(contacts.count).to eq(2)
+      end
+    end
+
+    describe '#includes_contact?' do
+      it 'returns true for primary contact' do
+        expect(conversation.includes_contact?(primary_contact)).to be true
+      end
+
+      it 'returns true for group contact' do
+        expect(conversation.includes_contact?(additional_contact)).to be true
+      end
+
+      it 'returns false for contact not in group' do
+        other_contact = create(:contact, account: account)
+        expect(conversation.includes_contact?(other_contact)).to be false
+      end
+    end
+
+    describe 'scopes' do
+      it 'returns only group conversations with group_conversations scope' do
+        non_group_conversation = create(:conversation, account: account, group: false)
+        expect(described_class.group_conversations).to include(conversation)
+        expect(described_class.group_conversations).not_to include(non_group_conversation)
+      end
+
+      it 'returns only non-group conversations with non_group_conversations scope' do
+        non_group_conversation = create(:conversation, account: account, group: false)
+        expect(described_class.non_group_conversations).to include(non_group_conversation)
+        expect(described_class.non_group_conversations).not_to include(conversation)
+      end
+    end
   end
 
   describe 'concerns' do

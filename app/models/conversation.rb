@@ -97,6 +97,9 @@ class Conversation < ApplicationRecord
     ).sort_on_last_user_message_at
   }
 
+  scope :group_conversations, -> { where(group: true) }
+  scope :non_group_conversations, -> { where(group: false) }
+
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
@@ -110,6 +113,8 @@ class Conversation < ApplicationRecord
   has_many :messages, dependent: :destroy_async, autosave: true
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :conversation_participants, dependent: :destroy_async
+  has_many :group_contacts, dependent: :destroy_async
+  has_many :additional_contacts, through: :group_contacts, source: :contact
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
@@ -213,6 +218,16 @@ class Conversation < ApplicationRecord
 
   def dispatch_conversation_updated_event(previous_changes = nil)
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
+  def all_contacts
+    Contact.where(id: [contact_id] + group_contacts.pluck(:contact_id))
+  end
+
+  def includes_contact?(target_contact)
+    return true if contact_id == target_contact.id
+
+    group_contacts.exists?(contact_id: target_contact.id)
   end
 
   private

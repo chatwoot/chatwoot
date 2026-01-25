@@ -17,6 +17,10 @@ class Conversations::EventDataPresenter < SimpleDelegator
       first_reply_created_at: first_reply_created_at,
       priority: priority,
       waiting_since: waiting_since.to_i,
+      group: group,
+      group_source_id: group_source_id,
+      group_title: group_title,
+      group_contacts: push_group_contacts,
       **push_timestamps
     }
   end
@@ -46,6 +50,12 @@ class Conversations::EventDataPresenter < SimpleDelegator
       created_at: created_at.to_i,
       updated_at: updated_at.to_f
     }
+  end
+
+  def push_group_contacts
+    return [] unless group?
+
+    group_contacts.includes(:contact).map { |gc| gc.contact.push_event_data }
   end
 end
 Conversations::EventDataPresenter.prepend_mod_with('Conversations::EventDataPresenter')

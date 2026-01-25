@@ -49,7 +49,7 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def permitted_params
-    params.permit(:content, :echo_id)
+    params.permit(:content, :echo_id, :sender_identifier)
   end
 
   def set_message
@@ -59,12 +59,23 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   def message_params
     {
       account_id: @conversation.account_id,
-      sender: @contact_inbox.contact,
+      sender: resolve_sender,
       content: permitted_params[:content],
       inbox_id: @conversation.inbox_id,
       echo_id: permitted_params[:echo_id],
       message_type: :incoming
     }
+  end
+
+  def resolve_sender
+    return @contact_inbox.contact if permitted_params[:sender_identifier].blank?
+    return @contact_inbox.contact unless @conversation.group?
+
+    sender = @conversation.account.contacts.find_by(identifier: permitted_params[:sender_identifier])
+    return @contact_inbox.contact if sender.blank?
+    return @contact_inbox.contact unless @conversation.includes_contact?(sender)
+
+    sender
   end
 
   def check_csat_locked
