@@ -291,6 +291,38 @@
         "SUCCESS_MESSAGE": "Campaign deleted successfully",
         "ERROR_MESSAGE": "There was an error. Please try again."
       }
+    },
+    "NO_INBOX": {
+      "CREATE_INBOX_BUTTON": "Create Inbox",
+      "LIVE_CHAT": {
+        "TITLE": "No Website Inbox Configured",
+        "DESCRIPTION": "Live chat campaigns require a Website inbox. Create a Website inbox to start sending proactive messages to visitors on your website."
+      },
+      "SMS": {
+        "TITLE": "No SMS Inbox Configured",
+        "DESCRIPTION": "SMS campaigns require an SMS or Twilio SMS inbox. Create an SMS inbox to start sending text message campaigns to your contacts."
+      },
+      "WHATSAPP": {
+        "TITLE": "No WhatsApp Cloud Inbox Configured",
+        "DESCRIPTION": "WhatsApp campaigns require a WhatsApp Cloud API or Twilio WhatsApp inbox. Evolution WhatsApp inboxes are not supported for campaigns. Create a compatible WhatsApp inbox to start sending template messages to your contacts."
+      }
+    },
+    "GETTING_STARTED": {
+      "TITLE": "Get Started with Campaigns",
+      "DESCRIPTION": "Campaigns allow you to send proactive messages to your contacts. To create campaigns, you need to set up at least one compatible inbox.",
+      "CREATE_INBOX_BUTTON": "Create Inbox",
+      "LIVE_CHAT": {
+        "TITLE": "Live Chat Campaigns",
+        "DESCRIPTION": "Send proactive messages to website visitors using a Website inbox."
+      },
+      "SMS": {
+        "TITLE": "SMS Campaigns",
+        "DESCRIPTION": "Send text message campaigns using an SMS or Twilio inbox."
+      },
+      "WHATSAPP": {
+        "TITLE": "WhatsApp Campaigns",
+        "DESCRIPTION": "Send WhatsApp template messages using a WhatsApp Cloud API or Twilio WhatsApp inbox. Evolution WhatsApp is not supported."
+      }
     }
   }
 }

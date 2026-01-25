@@ -291,6 +291,38 @@
         "SUCCESS_MESSAGE": "Campanha excluída com sucesso",
         "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
       }
+    },
+    "NO_INBOX": {
+      "CREATE_INBOX_BUTTON": "Criar Caixa de Entrada",
+      "LIVE_CHAT": {
+        "TITLE": "Nenhuma Caixa de Entrada de Website Configurada",
+        "DESCRIPTION": "Campanhas de chat ao vivo requerem uma caixa de entrada de Website. Crie uma caixa de entrada de Website para começar a enviar mensagens proativas aos visitantes do seu site."
+      },
+      "SMS": {
+        "TITLE": "Nenhuma Caixa de Entrada SMS Configurada",
+        "DESCRIPTION": "Campanhas SMS requerem uma caixa de entrada SMS ou Twilio SMS. Crie uma caixa de entrada SMS para começar a enviar campanhas de mensagens de texto para seus contatos."
+      },
+      "WHATSAPP": {
+        "TITLE": "Nenhuma Caixa de Entrada do WhatsApp Cloud Configurada",
+        "DESCRIPTION": "Campanhas do WhatsApp requerem uma caixa de entrada do WhatsApp Cloud API ou Twilio WhatsApp. Caixas de entrada Evolution WhatsApp não são suportadas para campanhas. Crie uma caixa de entrada compatível do WhatsApp para começar a enviar mensagens de modelo para seus contatos."
+      }
+    },
+    "GETTING_STARTED": {
+      "TITLE": "Comece com Campanhas",
+      "DESCRIPTION": "Campanhas permitem que você envie mensagens proativas para seus contatos. Para criar campanhas, você precisa configurar pelo menos uma caixa de entrada compatível.",
+      "CREATE_INBOX_BUTTON": "Criar Caixa de Entrada",
+      "LIVE_CHAT": {
+        "TITLE": "Campanhas de Chat ao Vivo",
+        "DESCRIPTION": "Envie mensagens proativas para visitantes do site usando uma caixa de entrada de Website."
+      },
+      "SMS": {
+        "TITLE": "Campanhas SMS",
+        "DESCRIPTION": "Envie campanhas de mensagens de texto usando uma caixa de entrada SMS ou Twilio."
+      },
+      "WHATSAPP": {
+        "TITLE": "Campanhas do WhatsApp",
+        "DESCRIPTION": "Envie mensagens de modelo do WhatsApp usando uma caixa de entrada do WhatsApp Cloud API ou Twilio WhatsApp. Evolution WhatsApp não é suportado."
+      }
     }
   }
 }

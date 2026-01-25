@@ -11,9 +11,14 @@ import LiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/Ca
 import EditLiveChatCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/LiveChatCampaign/EditLiveChatCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import LiveChatCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/LiveChatCampaignEmptyState.vue';
+import CampaignNoInboxState from 'dashboard/components-next/Campaigns/EmptyState/CampaignNoInboxState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
+
+// CommMate: Check for website inboxes
+const websiteInboxes = useMapGetter('inboxes/getWebsiteInboxes');
+const hasWebsiteInboxes = computed(() => websiteInboxes.value?.length > 0);
 
 const editLiveChatCampaignDialogRef = ref(null);
 const confirmDeleteCampaignDialogRef = ref(null);
@@ -43,7 +48,15 @@ const handleDelete = campaign => {
 </script>
 
 <template>
+  <!-- CommMate: Show no-inbox state if no website inboxes configured -->
+  <CampaignNoInboxState
+    v-if="!hasWebsiteInboxes"
+    :title="t('CAMPAIGN.NO_INBOX.LIVE_CHAT.TITLE')"
+    :description="t('CAMPAIGN.NO_INBOX.LIVE_CHAT.DESCRIPTION')"
+    icon="i-lucide-message-circle"
+  />
   <CampaignLayout
+    v-else
     :header-title="t('CAMPAIGN.LIVE_CHAT.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.LIVE_CHAT.NEW_CAMPAIGN')"
     @click="toggleLiveChatCampaignDialog()"

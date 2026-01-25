@@ -11,9 +11,18 @@ import WhatsAppCampaignCreateDialog from 'dashboard/components-next/Campaigns/Pa
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import CampaignDetailsDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/CampaignDetailsDialog.vue';
 import WhatsAppCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsAppCampaignEmptyState.vue';
+import CampaignNoInboxState from 'dashboard/components-next/Campaigns/EmptyState/CampaignNoInboxState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
+
+// CommMate: Check for WhatsApp Cloud API inboxes (Evolution WhatsApp not supported for campaigns)
+const whatsAppInboxes = useMapGetter('inboxes/getWhatsAppInboxes');
+const hasWhatsAppCloudInboxes = computed(() =>
+  whatsAppInboxes.value?.some(
+    inbox => inbox.provider === 'whatsapp_cloud' || inbox.provider === 'twilio'
+  )
+);
 
 const selectedCampaign = ref(null);
 const [showDeliveryReportDialog, toggleDeliveryReportDialog] = useToggle();
@@ -53,7 +62,15 @@ const handleCloseDetails = () => {
 </script>
 
 <template>
+  <!-- CommMate: Show no-inbox state if no WhatsApp Cloud API inboxes configured -->
+  <CampaignNoInboxState
+    v-if="!hasWhatsAppCloudInboxes"
+    :title="t('CAMPAIGN.NO_INBOX.WHATSAPP.TITLE')"
+    :description="t('CAMPAIGN.NO_INBOX.WHATSAPP.DESCRIPTION')"
+    icon="i-ri-whatsapp-line"
+  />
   <CampaignLayout
+    v-else
     :header-title="t('CAMPAIGN.WHATSAPP.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.WHATSAPP.NEW_CAMPAIGN')"
     @click="handleCreateCampaign"

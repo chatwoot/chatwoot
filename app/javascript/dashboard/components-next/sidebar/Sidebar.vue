@@ -59,8 +59,12 @@ const userPermissions = computed(() =>
 );
 
 // CommMate: Helper to check if user has permission to view a menu item
+// During loading (when accountId or user data is not available), default to showing menus
+// to prevent flickering. The router will handle actual permission checks.
 const hasMenuPermission = permissions => {
   if (!permissions || permissions.length === 0) return true;
+  // If user data is still loading (no accountId or no user accounts), show menus by default
+  if (!accountId.value || !currentUser.value?.accounts?.length) return true;
   return hasPermissions(permissions, userPermissions.value);
 };
 
@@ -123,6 +127,67 @@ const whatsAppCloudInboxes = computed(() =>
     )
     .sort((a, b) => a.name.localeCompare(b.name))
 );
+
+// CommMate: Filter inboxes by type for campaign menu visibility
+const websiteInboxes = computed(() =>
+  inboxes.value.filter(inbox => inbox.channel_type === INBOX_TYPES.WEB)
+);
+const smsInboxes = computed(() =>
+  inboxes.value.filter(
+    inbox =>
+      inbox.channel_type === INBOX_TYPES.SMS ||
+      (inbox.channel_type === INBOX_TYPES.TWILIO && inbox.medium === 'sms')
+  )
+);
+const whatsAppInboxes = computed(() =>
+  inboxes.value.filter(inbox => inbox.channel_type === INBOX_TYPES.WHATSAPP)
+);
+const hasCampaignInboxes = computed(
+  () =>
+    websiteInboxes.value.length > 0 ||
+    smsInboxes.value.length > 0 ||
+    whatsAppInboxes.value.length > 0
+);
+
+// CommMate: Build campaign menu children based on available inboxes
+const campaignMenuChildren = computed(() => {
+  const children = [];
+
+  if (websiteInboxes.value.length > 0) {
+    children.push({
+      name: 'Live chat',
+      label: t('SIDEBAR.LIVE_CHAT'),
+      to: accountScopedRoute('campaigns_livechat_index'),
+    });
+  }
+
+  if (smsInboxes.value.length > 0) {
+    children.push({
+      name: 'SMS',
+      label: t('SIDEBAR.SMS'),
+      to: accountScopedRoute('campaigns_sms_index'),
+    });
+  }
+
+  if (whatsAppInboxes.value.length > 0) {
+    children.push({
+      name: 'WhatsApp',
+      label: t('SIDEBAR.WHATSAPP'),
+      to: accountScopedRoute('campaigns_whatsapp_index'),
+    });
+  }
+
+  // If no campaign-compatible inboxes, show getting started
+  if (children.length === 0) {
+    children.push({
+      name: 'Getting Started',
+      label: t('SIDEBAR.GETTING_STARTED'),
+      to: accountScopedRoute('campaigns_getting_started'),
+    });
+  }
+
+  return children;
+});
 
 const closeMobileSidebar = () => {
   if (!props.isMobileSidebarOpen) return;
@@ -453,30 +518,14 @@ const menuItems = computed(() => {
           },
         ]
       : []),
-    // CommMate: Campaigns requires campaign_manage permission
+    // CommMate: Campaigns requires campaign_manage permission and filters by available inboxes
     ...(hasMenuPermission(['administrator', 'campaign_manage'])
       ? [
           {
             name: 'Campaigns',
             label: t('SIDEBAR.CAMPAIGNS'),
             icon: 'i-lucide-megaphone',
-            children: [
-              {
-                name: 'Live chat',
-                label: t('SIDEBAR.LIVE_CHAT'),
-                to: accountScopedRoute('campaigns_livechat_index'),
-              },
-              {
-                name: 'SMS',
-                label: t('SIDEBAR.SMS'),
-                to: accountScopedRoute('campaigns_sms_index'),
-              },
-              {
-                name: 'WhatsApp',
-                label: t('SIDEBAR.WHATSAPP'),
-                to: accountScopedRoute('campaigns_whatsapp_index'),
-              },
-            ],
+            children: campaignMenuChildren.value,
           },
         ]
       : []),

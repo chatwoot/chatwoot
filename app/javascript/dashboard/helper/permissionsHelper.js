@@ -16,8 +16,24 @@ export const getCurrentAccount = ({ accounts } = {}, accountId = null) => {
 };
 
 export const getUserPermissions = (user, accountId) => {
+  // CommMate: Handle case where accountId is not yet available (route transitions)
+  // Return empty array which will be treated as "no restrictions" by hasMenuPermission
+  if (!accountId || !user?.accounts?.length) {
+    // If user has only one account and is admin, assume admin permissions
+    // This prevents menu flickering during initial load
+    if (user?.accounts?.length === 1 && user.accounts[0].role === 'administrator') {
+      return ['administrator'];
+    }
+    return [];
+  }
+  
   const currentAccount = getCurrentAccount(user, accountId) || {};
-  return currentAccount.permissions || [];
+  const permissions = currentAccount.permissions || [];
+  // CommMate: Include 'administrator' in permissions if user has administrator role
+  if (currentAccount.role === 'administrator' && !permissions.includes('administrator')) {
+    return ['administrator', ...permissions];
+  }
+  return permissions;
 };
 
 export const getUserRole = (user, accountId) => {

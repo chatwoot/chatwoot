@@ -10,9 +10,14 @@ import CampaignList from 'dashboard/components-next/Campaigns/Pages/CampaignPage
 import SMSCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/SMSCampaign/SMSCampaignDialog.vue';
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import SMSCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/SMSCampaignEmptyState.vue';
+import CampaignNoInboxState from 'dashboard/components-next/Campaigns/EmptyState/CampaignNoInboxState.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
+
+// CommMate: Check for SMS inboxes
+const smsInboxes = useMapGetter('inboxes/getSMSInboxes');
+const hasSMSInboxes = computed(() => smsInboxes.value?.length > 0);
 
 const selectedCampaign = ref(null);
 const [showSMSCampaignDialog, toggleSMSCampaignDialog] = useToggle();
@@ -35,7 +40,15 @@ const handleDelete = campaign => {
 </script>
 
 <template>
+  <!-- CommMate: Show no-inbox state if no SMS inboxes configured -->
+  <CampaignNoInboxState
+    v-if="!hasSMSInboxes"
+    :title="t('CAMPAIGN.NO_INBOX.SMS.TITLE')"
+    :description="t('CAMPAIGN.NO_INBOX.SMS.DESCRIPTION')"
+    icon="i-lucide-smartphone"
+  />
   <CampaignLayout
+    v-else
     :header-title="t('CAMPAIGN.SMS.HEADER_TITLE')"
     :button-label="t('CAMPAIGN.SMS.NEW_CAMPAIGN')"
     @click="toggleSMSCampaignDialog()"
