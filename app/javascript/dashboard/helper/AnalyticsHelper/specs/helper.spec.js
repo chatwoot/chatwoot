@@ -1,12 +1,15 @@
 import helperObject, { AnalyticsHelper } from '../';
 
-vi.mock('posthog-js', () => ({
-  default: {
-    init: vi.fn(),
-    identify: vi.fn(),
-    capture: vi.fn(),
-    group: vi.fn(),
-  },
+vi.mock('@amplitude/analytics-browser', () => ({
+  init: vi.fn(),
+  setUserId: vi.fn(),
+  identify: vi.fn(),
+  setGroup: vi.fn(),
+  groupIdentify: vi.fn(),
+  track: vi.fn(),
+  Identify: vi.fn(() => ({
+    set: vi.fn(),
+  })),
 }));
 
 describe('helperObject', () => {
@@ -22,12 +25,12 @@ describe('AnalyticsHelper', () => {
   });
 
   describe('init', () => {
-    it('should initialize posthog with the correct token', async () => {
+    it('should initialize amplitude with the correct token', async () => {
       await analyticsHelper.init();
       expect(analyticsHelper.analytics).not.toBe(null);
     });
 
-    it('should not initialize posthog if token is not provided', async () => {
+    it('should not initialize amplitude if token is not provided', async () => {
       analyticsHelper = new AnalyticsHelper();
       await analyticsHelper.init();
       expect(analyticsHelper.analytics).toBe(null);
@@ -36,10 +39,15 @@ describe('AnalyticsHelper', () => {
 
   describe('identify', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { identify: vi.fn(), group: vi.fn() };
+      analyticsHelper.analytics = {
+        setUserId: vi.fn(),
+        identify: vi.fn(),
+        setGroup: vi.fn(),
+        groupIdentify: vi.fn(),
+      };
     });
 
-    it('should call identify on posthog with correct arguments', () => {
+    it('should call setUserId and identify on amplitude with correct arguments', () => {
       analyticsHelper.identify({
         id: 123,
         email: 'test@example.com',
@@ -49,19 +57,18 @@ describe('AnalyticsHelper', () => {
         account_id: 1,
       });
 
-      expect(analyticsHelper.analytics.identify).toHaveBeenCalledWith('123', {
-        email: 'test@example.com',
-        name: 'Test User',
-        avatar: 'avatar_url',
-      });
-      expect(analyticsHelper.analytics.group).toHaveBeenCalledWith(
-        'company',
-        '1',
-        { name: 'Account 1' }
+      expect(analyticsHelper.analytics.setUserId).toHaveBeenCalledWith(
+        'user-123'
       );
+      expect(analyticsHelper.analytics.identify).toHaveBeenCalled();
+      expect(analyticsHelper.analytics.setGroup).toHaveBeenCalledWith(
+        'company',
+        'account-1'
+      );
+      expect(analyticsHelper.analytics.groupIdentify).toHaveBeenCalled();
     });
 
-    it('should call identify on posthog without group', () => {
+    it('should call identify on amplitude without group', () => {
       analyticsHelper.identify({
         id: 123,
         email: 'test@example.com',
@@ -71,10 +78,10 @@ describe('AnalyticsHelper', () => {
         account_id: 5,
       });
 
-      expect(analyticsHelper.analytics.group).not.toHaveBeenCalled();
+      expect(analyticsHelper.analytics.setGroup).not.toHaveBeenCalled();
     });
 
-    it('should not call analytics.page if analytics is null', () => {
+    it('should not call analytics methods if analytics is null', () => {
       analyticsHelper.analytics = null;
       analyticsHelper.identify({});
       expect(analyticsHelper.analytics).toBe(null);
@@ -83,27 +90,27 @@ describe('AnalyticsHelper', () => {
 
   describe('track', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { capture: vi.fn() };
+      analyticsHelper.analytics = { track: vi.fn() };
       analyticsHelper.user = { id: 123 };
     });
 
-    it('should call capture on posthog with correct arguments', () => {
+    it('should call track on amplitude with correct arguments', () => {
       analyticsHelper.track('Test Event', { prop1: 'value1', prop2: 'value2' });
-      expect(analyticsHelper.analytics.capture).toHaveBeenCalledWith(
+      expect(analyticsHelper.analytics.track).toHaveBeenCalledWith(
         'Test Event',
         { prop1: 'value1', prop2: 'value2' }
       );
     });
 
-    it('should call capture on posthog with default properties', () => {
+    it('should call track on amplitude with default properties', () => {
       analyticsHelper.track('Test Event');
-      expect(analyticsHelper.analytics.capture).toHaveBeenCalledWith(
+      expect(analyticsHelper.analytics.track).toHaveBeenCalledWith(
         'Test Event',
         {}
       );
     });
 
-    it('should not call capture on posthog if analytics is not initialized', () => {
+    it('should not call track on amplitude if analytics is not initialized', () => {
       analyticsHelper.analytics = null;
       analyticsHelper.track('Test Event', { prop1: 'value1', prop2: 'value2' });
       expect(analyticsHelper.analytics).toBe(null);
@@ -112,24 +119,25 @@ describe('AnalyticsHelper', () => {
 
   describe('page', () => {
     beforeEach(() => {
-      analyticsHelper.analytics = { capture: vi.fn() };
+      analyticsHelper.analytics = { track: vi.fn() };
     });
 
-    it('should call the capture method for pageview with the correct arguments', () => {
-      const params = {
-        name: 'Test page',
-        url: '/test',
+    it('should call the track method for pageview with the correct arguments', () => {
+      const pageName = 'home';
+      const properties = {
+        path: '/test',
+        name: 'home',
       };
-      analyticsHelper.page(params);
-      expect(analyticsHelper.analytics.capture).toHaveBeenCalledWith(
+      analyticsHelper.page(pageName, properties);
+      expect(analyticsHelper.analytics.track).toHaveBeenCalledWith(
         '$pageview',
-        params
+        { pageName: 'home', path: '/test', name: 'home' }
       );
     });
 
-    it('should not call analytics.capture if analytics is null', () => {
+    it('should not call analytics.track if analytics is null', () => {
       analyticsHelper.analytics = null;
-      analyticsHelper.page();
+      analyticsHelper.page('home');
       expect(analyticsHelper.analytics).toBe(null);
     });
   });
