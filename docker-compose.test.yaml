@@ -49,6 +49,8 @@ services:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=
+      # PostgreSQL schema (default: public)
+      - POSTGRES_SCHEMA=public
 
   redis:
     image: redis:alpine
