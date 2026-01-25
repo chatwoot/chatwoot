@@ -196,8 +196,11 @@ class ActionCableListener < BaseListener
   end
 
   def typing_event_listener_tokens(account, conversation, user)
-    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
-    (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
+    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox&.pubsub_token : user.pubsub_token
+    contact_inbox_token = conversation.contact_inbox&.pubsub_token
+    tokens = user_tokens(account, conversation.inbox.members)
+    tokens += [contact_inbox_token] if contact_inbox_token.present?
+    tokens - [current_user_token].compact
   end
 
   def user_tokens(account, agents)
@@ -215,6 +218,8 @@ class ActionCableListener < BaseListener
   end
 
   def contact_inbox_tokens(contact_inbox)
+    return [] if contact_inbox.nil?
+
     contact = contact_inbox.contact
 
     contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]

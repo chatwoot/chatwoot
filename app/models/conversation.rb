@@ -64,7 +64,8 @@ class Conversation < ApplicationRecord
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
-  validates :contact_id, presence: true
+  validates :contact_id, presence: true, unless: :group?
+  validates :contact_inbox_id, presence: true, unless: :group?
   before_validation :validate_additional_attributes
   before_validation :reset_agent_bot_when_assignee_present
   validates :additional_attributes, jsonb_attributes_length: true
@@ -104,8 +105,8 @@ class Conversation < ApplicationRecord
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
   belongs_to :assignee_agent_bot, class_name: 'AgentBot', optional: true
-  belongs_to :contact
-  belongs_to :contact_inbox
+  belongs_to :contact, optional: true
+  belongs_to :contact_inbox, optional: true
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
 
@@ -267,7 +268,7 @@ class Conversation < ApplicationRecord
   end
 
   def determine_conversation_status
-    self.status = :resolved and return if contact.blocked?
+    self.status = :resolved and return if contact&.blocked?
 
     return handle_campaign_status if campaign.present?
 

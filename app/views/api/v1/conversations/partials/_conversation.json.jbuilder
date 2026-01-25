@@ -3,8 +3,10 @@
 # Everywhere else we use conversation builder in partials folder
 
 json.meta do
-  json.sender do
-    json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+  if conversation.contact.present?
+    json.sender do
+      json.partial! 'api/v1/models/contact', formats: [:json], resource: conversation.contact
+    end
   end
   json.channel conversation.inbox.try(:channel_type)
   if conversation.assigned_entity.is_a?(AgentBot)
