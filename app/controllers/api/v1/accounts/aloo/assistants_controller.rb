@@ -97,24 +97,26 @@ class Api::V1::Accounts::Aloo::AssistantsController < Api::V1::Accounts::BaseCon
   def assign_inbox
     inbox = Current.account.inboxes.find(params[:inbox_id])
 
-    # Remove existing assignment if any
-    Aloo::AssistantInbox.find_by(inbox: inbox)&.destroy
+    ActiveRecord::Base.transaction do
+      # Remove existing assignment if any
+      Aloo::AssistantInbox.find_by(inbox: inbox)&.destroy!
 
-    # Create new assignment
-    Aloo::AssistantInbox.create!(
-      assistant: @assistant,
-      inbox: inbox,
-      active: true
-    )
+      # Create new assignment
+      Aloo::AssistantInbox.create!(
+        assistant: @assistant,
+        inbox: inbox,
+        active: true
+      )
+    end
 
-    render json: { message: 'Assistant assigned to inbox' }
+    render json: assistant_json(@assistant.reload)
   end
 
   # DELETE /api/v1/accounts/:account_id/aloo/assistants/:id/unassign_inbox
   def unassign_inbox
     inbox = Current.account.inboxes.find(params[:inbox_id])
-    Aloo::AssistantInbox.find_by(assistant: @assistant, inbox: inbox)&.destroy
-    render json: { message: 'Assistant unassigned from inbox' }
+    Aloo::AssistantInbox.find_by(assistant: @assistant, inbox: inbox)&.destroy!
+    render json: assistant_json(@assistant.reload)
   end
 
   # GET /api/v1/accounts/:account_id/aloo/assistants/:id/voices

@@ -252,4 +252,179 @@ RSpec.describe 'Aloo Assistants API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/aloo/assistants/{id}/assign_inbox' do
+    let!(:assistant) { create(:aloo_assistant, account: account) }
+    let!(:inbox) { create(:inbox, account: account) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+             params: { inbox_id: inbox.id },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'assigns the assistant to an inbox' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+               headers: administrator.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+        end.to change(Aloo::AssistantInbox, :count).by(1)
+
+        expect(response).to have_http_status(:ok)
+
+        json_response = response.parsed_body
+        expect(json_response['id']).to eq(assistant.id)
+        expect(json_response['assigned_inboxes']).to be_an(Array)
+        expect(json_response['assigned_inboxes'].map { |i| i['id'] }).to include(inbox.id)
+      end
+
+      it 'replaces existing assistant assignment on the same inbox' do
+        other_assistant = create(:aloo_assistant, account: account)
+        create(:aloo_assistant_inbox, assistant: other_assistant, inbox: inbox)
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+               headers: administrator.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+        end.not_to change(Aloo::AssistantInbox, :count)
+
+        expect(response).to have_http_status(:ok)
+
+        # Verify old assignment is removed and new one is created
+        expect(Aloo::AssistantInbox.find_by(inbox: inbox).assistant).to eq(assistant)
+        expect(other_assistant.reload.inboxes).not_to include(inbox)
+      end
+
+      it 'returns the full assistant object with assigned_inboxes' do
+        post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+             headers: administrator.create_new_auth_token,
+             params: { inbox_id: inbox.id },
+             as: :json
+
+        expect(response).to have_http_status(:ok)
+
+        json_response = response.parsed_body
+        expect(json_response).to include(
+          'id' => assistant.id,
+          'name' => assistant.name,
+          'personality' => be_present,
+          'features' => be_present,
+          'assigned_inboxes' => be_an(Array)
+        )
+      end
+
+      it 'returns not found for non-existent inbox' do
+        post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+             headers: administrator.create_new_auth_token,
+             params: { inbox_id: 999_999 },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it 'returns not found for inbox from another account' do
+        other_account = create(:account)
+        other_inbox = create(:inbox, account: other_account)
+
+        post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+             headers: administrator.create_new_auth_token,
+             params: { inbox_id: other_inbox.id },
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/assign_inbox",
+             headers: agent.create_new_auth_token,
+             params: { inbox_id: inbox.id },
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
+  describe 'DELETE /api/v1/accounts/{account.id}/aloo/assistants/{id}/unassign_inbox' do
+    let!(:assistant) { create(:aloo_assistant, account: account) }
+    let!(:inbox) { create(:inbox, account: account) }
+    let!(:assistant_inbox) { create(:aloo_assistant_inbox, assistant: assistant, inbox: inbox) }
+
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+               params: { inbox_id: inbox.id },
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated administrator' do
+      it 'removes the assistant from the inbox' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+                 headers: administrator.create_new_auth_token,
+                 params: { inbox_id: inbox.id },
+                 as: :json
+        end.to change(Aloo::AssistantInbox, :count).by(-1)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns the full assistant object with updated assigned_inboxes' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+               headers: administrator.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+
+        json_response = response.parsed_body
+        expect(json_response['id']).to eq(assistant.id)
+        expect(json_response['assigned_inboxes']).to be_an(Array)
+        expect(json_response['assigned_inboxes'].map { |i| i['id'] }).not_to include(inbox.id)
+      end
+
+      it 'succeeds even if no assignment exists' do
+        assistant_inbox.destroy!
+
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+               headers: administrator.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns not found for non-existent inbox' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+               headers: administrator.create_new_auth_token,
+               params: { inbox_id: 999_999 },
+               as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}/unassign_inbox",
+               headers: agent.create_new_auth_token,
+               params: { inbox_id: inbox.id },
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end
