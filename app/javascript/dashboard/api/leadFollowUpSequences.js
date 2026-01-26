@@ -35,6 +35,12 @@ class LeadFollowUpSequencesAPI extends ApiClient {
       follow_up_ids: followUpIds,
     });
   }
+
+  getEnrollmentTimeline(sequenceId, enrollmentId) {
+    return axios.get(
+      `${this.url}/${sequenceId}/enrollments/${enrollmentId}/timeline`
+    );
+  }
 }
 
 export default new LeadFollowUpSequencesAPI();

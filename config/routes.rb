@@ -105,6 +105,7 @@ Rails.application.routes.draw do
               post :deactivate
               get :enrolled_conversations
               post :cancel_follow_ups
+              get 'enrollments/:enrollment_id/timeline', action: :enrollment_timeline, as: :enrollment_timeline
             end
             collection do
               get :available_templates
@@ -228,6 +229,7 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
+              get :copilot_events
               get :inbox_assistant
               get :reporting_events if ChatwootApp.enterprise?
             end
@@ -354,6 +356,11 @@ Rails.application.routes.draw do
 
           namespace :notion do
             resource :authorization, only: [:create]
+            resources :databases, only: [:index, :show] do
+              member do
+                post :query
+              end
+            end
           end
 
           namespace :whatsapp do

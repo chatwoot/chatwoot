@@ -1,6 +1,6 @@
 class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::BaseController
   before_action :set_inbox, only: [:index, :create, :available_templates]
-  before_action :set_sequence, only: [:show, :update, :destroy, :activate, :deactivate, :enrolled_conversations]
+  before_action :set_sequence, only: [:show, :update, :destroy, :activate, :deactivate, :enrolled_conversations, :cancel_follow_ups, :enrollment_timeline]
 
   def index
     @sequences = Current.account.lead_follow_up_sequences.includes(:inbox)
@@ -120,31 +120,41 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
   end
 
   def cancel_follow_ups
-    follow_up_ids = params[:follow_up_ids] || []
+    enrollment_ids = params[:follow_up_ids] || params[:enrollment_ids] || []
 
-    if follow_up_ids.empty?
-      return render json: { error: 'No follow-up IDs provided' }, status: :bad_request
+    if enrollment_ids.empty?
+      return render json: { error: 'No enrollment IDs provided' }, status: :bad_request
     end
 
-    follow_ups = @sequence.conversation_follow_ups.where(id: follow_up_ids)
+    enrollments = @sequence.sequence_enrollments.where(id: enrollment_ids)
     cancelled_count = 0
 
-    follow_ups.each do |follow_up|
-      if follow_up.status == 'active'
-        follow_up.cancel_job!
-        follow_up.mark_as_cancelled!('Manually cancelled by user')
+    enrollments.each do |enrollment|
+      if enrollment.status == 'active'
+        # Cancel the active follow_up job if exists
+        follow_up = enrollment.active_follow_up
+        if follow_up
+          follow_up.cancel_job!
+          follow_up.mark_as_cancelled!('Manually cancelled by user')
+        end
+
+        # Cancel the enrollment
+        enrollment.cancel!('Manually cancelled by user')
         cancelled_count += 1
       end
     end
 
+    # Update stats
+    @sequence.update_stats!
+
     render json: {
       success: true,
       cancelled_count: cancelled_count,
-      message: "Successfully cancelled #{cancelled_count} follow-up(s)"
+      message: "Successfully cancelled #{cancelled_count} enrollment(s)"
     }
   rescue StandardError => e
-    Rails.logger.error "Error cancelling follow-ups: #{e.message}"
-    render json: { error: 'Failed to cancel follow-ups' }, status: :internal_server_error
+    Rails.logger.error "Error cancelling enrollments: #{e.message}"
+    render json: { error: 'Failed to cancel enrollments' }, status: :internal_server_error
   end
 
   def enrolled_conversations
@@ -152,54 +162,96 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
     per_page = [params[:per_page]&.to_i || 50, 100].min
     status_filter = params[:status]
 
-    follow_ups = @sequence.conversation_follow_ups
-                          .includes(conversation: :contact)
-                          .order(created_at: :desc)
+    # Use sequence_enrollments instead of conversation_follow_ups
+    enrollments = @sequence.sequence_enrollments
+                           .includes(conversation: :contact, active_follow_up: [])
+                           .order(enrolled_at: :desc)
 
-    follow_ups = follow_ups.where(status: status_filter) if status_filter.present?
+    enrollments = enrollments.where(status: status_filter) if status_filter.present?
 
-    total_count = follow_ups.count
-    follow_ups = follow_ups.limit(per_page).offset((page - 1) * per_page)
+    total_count = enrollments.count
+    enrollments = enrollments.limit(per_page).offset((page - 1) * per_page)
 
     render json: {
       total_count: total_count,
       total_steps: @sequence.enabled_steps.size,
-      enrolled_conversations: follow_ups.map do |follow_up|
-        current_step_data = @sequence.enabled_steps[follow_up.current_step]
+      enrolled_conversations: enrollments.map do |enrollment|
+        # Skip enrollments with missing conversations
+        next unless enrollment.conversation
+
+        # Get active_follow_up for next_action_at if exists
+        follow_up = enrollment.active_follow_up
+        current_step_data = @sequence.enabled_steps[enrollment.current_step]
+
         {
-          id: follow_up.id,
-          conversation_id: follow_up.conversation.id,
-          display_id: follow_up.conversation.display_id,
-          status: follow_up.status,
-          current_step: follow_up.current_step,
+          id: enrollment.id,
+          enrollment_id: enrollment.id,
+          conversation_id: enrollment.conversation.id,
+          display_id: enrollment.conversation.display_id,
+          status: enrollment.status,
+          current_step: enrollment.current_step,
           current_step_type: current_step_data&.dig('type'),
           current_step_name: current_step_data&.dig('name'),
-          next_action_at: follow_up.next_action_at,
-          created_at: follow_up.created_at,
-          updated_at: follow_up.updated_at,
-          metadata: follow_up.metadata,
+          next_action_at: follow_up&.next_action_at,
+          enrolled_at: enrollment.enrolled_at,
+          completed_at: enrollment.completed_at,
+          completion_reason: enrollment.completion_reason,
+          created_at: enrollment.created_at,
+          updated_at: enrollment.updated_at,
+          metadata: enrollment.metadata,
           contact: {
-            id: follow_up.conversation.contact&.id,
-            name: follow_up.conversation.contact&.name,
-            phone_number: follow_up.conversation.contact&.phone_number
+            id: enrollment.conversation.contact&.id,
+            name: enrollment.conversation.contact&.name,
+            phone_number: enrollment.conversation.contact&.phone_number
           },
-          conversation_status: follow_up.conversation.status
+          conversation_status: enrollment.conversation.status
         }
-      end,
+      end.compact,
       page: page,
       per_page: per_page,
       total_pages: (total_count / per_page.to_f).ceil,
       status_counts: {
-        active: @sequence.conversation_follow_ups.where(status: 'active').count,
-        paused: @sequence.conversation_follow_ups.where(status: 'paused').count,
-        completed: @sequence.conversation_follow_ups.where(status: 'completed').count,
-        cancelled: @sequence.conversation_follow_ups.where(status: 'cancelled').count,
-        failed: @sequence.conversation_follow_ups.where(status: 'failed').count
+        active: @sequence.sequence_enrollments.active.count,
+        completed: @sequence.sequence_enrollments.completed.count,
+        cancelled: @sequence.sequence_enrollments.cancelled.count,
+        failed: @sequence.sequence_enrollments.failed.count
       }
     }
   rescue StandardError => e
     Rails.logger.error "Error fetching enrolled conversations: #{e.message}"
     render json: { error: 'Failed to fetch enrolled conversations' }, status: :internal_server_error
+  end
+
+  # Get timeline of events for a specific enrollment
+  def enrollment_timeline
+    enrollment = @sequence.sequence_enrollments.find(params[:enrollment_id])
+
+    events = enrollment.enrollment_events
+                      .order(occurred_at: :desc)
+                      .map do |event|
+      {
+        id: event.id,
+        event_type: event.event_type,
+        step_id: event.step_id,
+        step_index: event.step_index,
+        step_name: event.metadata&.dig('step_name'),
+        occurred_at: event.occurred_at,
+        description: event.description,
+        metadata: event.metadata,
+        created_at: event.created_at
+      }
+    end
+
+    render json: {
+      enrollment_id: enrollment.id,
+      conversation_id: enrollment.conversation_id,
+      events: events
+    }
+  rescue ActiveRecord::RecordNotFound
+    render json: { error: 'Enrollment not found' }, status: :not_found
+  rescue StandardError => e
+    Rails.logger.error "Error fetching enrollment timeline: #{e.message}"
+    render json: { error: 'Failed to fetch enrollment timeline' }, status: :internal_server_error
   end
 
   private
@@ -217,7 +269,8 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
       :name,
       :description,
       :active,
-      :inbox_id
+      :inbox_id,
+      :source_type
     )
 
     # Extract complex nested structures using to_unsafe_h to bypass strong parameters
@@ -225,6 +278,8 @@ class Api::V1::Accounts::LeadFollowUpSequencesController < Api::V1::Accounts::Ba
     permitted[:steps] = raw_params[:steps].map(&:to_unsafe_h) if raw_params[:steps].present?
     permitted[:trigger_conditions] = raw_params[:trigger_conditions].to_unsafe_h if raw_params[:trigger_conditions].present?
     permitted[:settings] = raw_params[:settings].to_unsafe_h if raw_params[:settings].present?
+    permitted[:source_config] = raw_params[:source_config].to_unsafe_h if raw_params[:source_config].present?
+    permitted[:first_contact_config] = raw_params[:first_contact_config].to_unsafe_h if raw_params[:first_contact_config].present?
 
     permitted
   end

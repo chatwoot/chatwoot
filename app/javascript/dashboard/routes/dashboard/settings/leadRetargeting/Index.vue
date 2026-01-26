@@ -1,5 +1,12 @@
 <script setup>
-import { computed, onMounted, onActivated, onBeforeUnmount, ref, watch } from 'vue';
+import {
+  computed,
+  onMounted,
+  onActivated,
+  onBeforeUnmount,
+  ref,
+  watch,
+} from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -45,7 +52,7 @@ onActivated(() => {
 // También refetch cuando la ruta cambie a esta vista (fallback)
 watch(
   () => route.name,
-  (newName) => {
+  newName => {
     if (newName === 'copilots_list') {
       fetchSequences();
     }
@@ -149,16 +156,24 @@ const confirmDeletion = async () => {
       <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <tr>
-            <th class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11">
+            <th
+              class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            >
               {{ t('LEAD_RETARGETING.LIST.TABLE_HEADER.NAME') }}
             </th>
-            <th class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11">
+            <th
+              class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            >
               {{ t('LEAD_RETARGETING.LIST.TABLE_HEADER.STATUS') }}
             </th>
-            <th class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11">
-              {{ t('LEAD_RETARGETING.LIST.TABLE_HEADER.INBOX') }}
+            <th
+              class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            >
+              {{ t('LEAD_RETARGETING.LIST.TABLE_HEADER.SOURCE') }}
             </th>
-            <th class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11">
+            <th
+              class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
+            >
               {{ t('LEAD_RETARGETING.LIST.TABLE_HEADER.STEPS') }}
             </th>
           </tr>
@@ -167,24 +182,35 @@ const confirmDeletion = async () => {
           <tr v-for="sequence in sequences" :key="sequence.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="block font-medium">{{ sequence.name }}</span>
-              <p v-if="sequence.description" class="mb-0 text-sm text-n-slate-11">
+              <p
+                v-if="sequence.description"
+                class="mb-0 text-sm text-n-slate-11"
+              >
                 {{ sequence.description }}
               </p>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <div class="flex flex-col gap-1 items-start">
                 <span
+                  class="inline-flex px-2 py-1 text-xs rounded-full"
                   :class="[
-                    'inline-flex px-2 py-1 text-xs rounded-full',
                     sequence.active
                       ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                      : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                      : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300',
                   ]"
                 >
-                  {{ sequence.active ? t('LEAD_RETARGETING.STATUS.ACTIVE') : t('LEAD_RETARGETING.STATUS.INACTIVE') }}
+                  {{
+                    sequence.active
+                      ? t('LEAD_RETARGETING.STATUS.ACTIVE')
+                      : t('LEAD_RETARGETING.STATUS.INACTIVE')
+                  }}
                 </span>
                 <span
-                  v-if="!sequence.active && sequence.metadata?.auto_deactivation_reason === 'all_conversations_completed'"
+                  v-if="
+                    !sequence.active &&
+                    sequence.metadata?.auto_deactivation_reason ===
+                      'all_conversations_completed'
+                  "
                   class="inline-flex items-center gap-1 text-xs text-n-teal-11"
                 >
                   <i class="i-lucide-check-circle text-xs" />
@@ -193,12 +219,22 @@ const confirmDeletion = async () => {
               </div>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              {{ sequence.inbox.name }}
+              <div v-if="sequence.source_type === 'notion_database'" class="flex items-center gap-2">
+                <i class="i-lucide-database text-n-purple-11" />
+                <span class="text-sm">{{ sequence.source_config?.notion_database_name || 'Notion Database' }}</span>
+              </div>
+              <div v-else>
+                {{ sequence.inbox?.name || '-' }}
+              </div>
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               {{ sequence.steps.length }}
-              <span v-if="sequence.stats.total_enrolled" class="text-n-slate-11">
-                ({{ sequence.stats.total_enrolled }} {{ t('LEAD_RETARGETING.LIST.ENROLLED') }})
+              <span
+                v-if="sequence.stats.total_enrolled"
+                class="text-n-slate-11"
+              >
+                ({{ sequence.stats.total_enrolled }}
+                {{ t('LEAD_RETARGETING.LIST.ENROLLED') }})
               </span>
             </td>
             <td class="py-4 min-w-xs">
@@ -220,11 +256,17 @@ const confirmDeletion = async () => {
                   @click="goToEdit(sequence.id)"
                 />
                 <Button
-                  v-tooltip.top="sequence.active ? t('LEAD_RETARGETING.LIST.DEACTIVATE') : t('LEAD_RETARGETING.LIST.ACTIVATE')"
+                  v-tooltip.top="
+                    sequence.active
+                      ? t('LEAD_RETARGETING.LIST.DEACTIVATE')
+                      : t('LEAD_RETARGETING.LIST.ACTIVATE')
+                  "
                   :icon="sequence.active ? 'i-lucide-pause' : 'i-lucide-play'"
                   xs
                   faded
-                  :class="sequence.active ? 'text-orange-600' : 'text-green-600'"
+                  :class="
+                    sequence.active ? 'text-orange-600' : 'text-green-600'
+                  "
                   @click="toggleActive(sequence)"
                 />
                 <Button
@@ -247,7 +289,11 @@ const confirmDeletion = async () => {
     ref="dialogRef"
     type="alert"
     :title="t('LEAD_RETARGETING.DELETE.CONFIRM.TITLE')"
-    :description="t('LEAD_RETARGETING.DELETE.CONFIRM.MESSAGE', { name: sequenceToDelete?.name || '' })"
+    :description="
+      t('LEAD_RETARGETING.DELETE.CONFIRM.MESSAGE', {
+        name: sequenceToDelete?.name || '',
+      })
+    "
     :confirm-button-label="t('LEAD_RETARGETING.DELETE.CONFIRM.YES')"
     :cancel-button-label="t('LEAD_RETARGETING.DELETE.CONFIRM.NO')"
     @confirm="confirmDeletion"

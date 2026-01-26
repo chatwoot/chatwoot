@@ -87,6 +87,13 @@ class Conversation < ApplicationRecord
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
   enum conversation_type: { default: 0, whatsapp_group: 1 }
+  enum source_type: {
+    incoming: 0,        # Normal incoming conversations
+    campaign: 1,        # Campaign-initiated conversations
+    notion_lead: 2,     # Leads from Notion databases
+    api: 3,             # API-initiated conversations
+    bulk_created: 4     # Bulk created conversations
+  }
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
@@ -129,6 +136,8 @@ class Conversation < ApplicationRecord
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
   has_one :conversation_follow_up, dependent: :destroy
+  has_many :sequence_enrollments, dependent: :destroy
+  has_many :enrollment_events, dependent: :destroy
   has_one :meta_campaign_interaction, dependent: :destroy
 
   before_save :ensure_snooze_until_reset

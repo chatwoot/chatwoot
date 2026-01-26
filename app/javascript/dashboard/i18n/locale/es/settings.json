@@ -822,7 +822,7 @@
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "STATUS": "Estado",
-        "INBOX": "Bandeja",
+        "SOURCE": "Origen",
         "STEPS": "Pasos"
       },
       "API": {
@@ -917,6 +917,58 @@
       "DATE_VALUE_REQUIRED": "Por favor ingresa un número de días válido",
       "LABELS_REQUIRED": "Por favor selecciona al menos una etiqueta"
     },
+    "SHOW": {
+      "HEADER": "Detalle de Copilot",
+      "BACK_TO_LIST": "Volver a la lista",
+      "AUTO_DEACTIVATED_DESC": "Auto-desactivado: Todas las conversaciones completadas",
+      "AUTO_DEACTIVATED_AT": "Auto-desactivado el {date}",
+      "EDIT": "Editar",
+      "TOTAL_STATS": "Total",
+      "ENROLLED_CONVERSATIONS": "Conversaciones Enrolladas",
+      "STATUS": {
+        "active": "Activo",
+        "paused": "Pausado",
+        "completed": "Completado",
+        "cancelled": "Cancelado",
+        "failed": "Fallido"
+      },
+      "NEXT_ACTION": {
+        "NOT_SCHEDULED": "No programado",
+        "PENDING": "Pendiente",
+        "IN_MINS": "En {count}min",
+        "IN_HOURS": "En {count}h",
+        "IN_DAYS": "En {count}d"
+      },
+      "STOP_REASONS": {
+        "CONTACT_REPLIED": "Contacto respondió",
+        "CONVERSATION_RESOLVED": "Conversación resuelta",
+        "ALL_STEPS_COMPLETED": "Todos los pasos completados",
+        "CONDITION_MET": "Condición cumplida",
+        "COPILOT_DEACTIVATED": "Copilot desactivado",
+        "MANUALLY_CANCELLED": "Cancelado manualmente",
+        "MANUALLY_STOPPED": "Detenido manualmente"
+      },
+      "ENROLLMENT": {
+        "NO_PHONE": "Sin número",
+        "FIRST_TIME": "Primera vez",
+        "LAST_COMPLETION": "Última completación: {date}"
+      },
+      "ENROLLED_TABLE": {
+        "CONTACT": "Contacto",
+        "CONV_ID": "Conv. ID",
+        "STATUS": "Estado",
+        "STEP": "Paso",
+        "NEXT_ACTION": "Próxima Acción",
+        "STOP_REASON": "Razón de Detención",
+        "RE_ENROLLMENTS": "Re-enrolamientos",
+        "ENROLLED": "Enrolado",
+        "SELECTED_COUNT": "{count} seleccionado(s)",
+        "CANCEL_SELECTED": "Cancelar Seleccionados",
+        "CLEAR_FILTER": "Limpiar filtro",
+        "NO_CONVERSATIONS_FOUND": "No hay conversaciones con este estado",
+        "NO_CONVERSATIONS_ENROLLED": "No hay conversaciones enrolladas"
+      }
+    },
     "STEPS": {
       "WAIT": {
         "ADD": "Esperar",
@@ -1006,7 +1058,62 @@
         "URL_PLACEHOLDER": "https://ejemplo.com/webhook",
         "METHOD": "Método HTTP",
         "VARIABLES_HINT": "Puedes usar variables como {{contact.name}}, {{conversation.id}}, etc."
+      },
+      "FIRST_CONTACT": {
+        "ADD": "Primer Contacto",
+        "DEFAULT_NAME": "Mensaje de bienvenida (Notion)",
+        "CHANNEL": "Canal de Comunicación",
+        "INBOX": "Bandeja de Entrada",
+        "SELECT_INBOX": "Selecciona una bandeja...",
+        "TEMPLATE": "Plantilla de WhatsApp",
+        "SELECT_TEMPLATE": "Selecciona una plantilla...",
+        "PARAMS": "Parámetros de la Plantilla",
+        "SMS_CONTEXT": "Contexto para el SMS",
+        "SMS_CONTEXT_HELP": "El IA generará un mensaje SMS basado en este contexto y los datos del contacto.",
+        "PREVIEW": "Vista previa del mensaje"
+      },
+      "CONDITION": {
+        "ADD": "Condición",
+        "DEFAULT_NAME": "Condición de rama"
+      },
+      "SEND_EMAIL": {
+        "ADD": "Enviar Email",
+        "DEFAULT_NAME": "Enviar correo electrónico",
+        "SENDER_EMAIL": "Email del emisor (opcional)",
+        "SENDER_EMAIL_PLACEHOLDER": "Ej: soporte@tuempresa.com",
+        "SUBJECT": "Asunto del correo (opcional)",
+        "SUBJECT_PLACEHOLDER": "Si se deja en blanco, la IA generará el asunto...",
+        "CONTENT": "Contenido del correo (opcional)",
+        "CONTENT_PLACEHOLDER": "Si se deja en blanco, la IA generará el contenido...",
+        "VARIABLES_HINT": "Puedes usar variables como {{contact.name}}, {{contact.email}}, {{conversation.id}}, etc."
       }
+    },
+    "TIMELINE": {
+      "LOADING": "Cargando eventos...",
+      "EMPTY_STATE": "No hay eventos de copilots para esta conversación",
+      "JUST_NOW": "Hace un momento",
+      "AGO": "Hace"
+    },
+    "EVENTS": {
+      "enrolled": "Inscrito en el copilot",
+      "step_executed": "Paso ejecutado: {name}",
+      "step_failed": "El paso falló",
+      "message_sent": "Mensaje enviado vía {channel}",
+      "template_sent": "Plantilla '{name}' enviada",
+      "ai_response_received": "Respuesta de IA recibida",
+      "sms_sent": "SMS enviado",
+      "label_added": "Etiquetas añadidas: {labels}",
+      "label_removed": "Etiquetas eliminadas: {labels}",
+      "agent_assigned": "Agente asignado: {name}",
+      "team_assigned": "Equipo asignado: {name}",
+      "pipeline_status_updated": "Estado del embudo actualizado a: {name}",
+      "webhook_called": "Webhook llamado",
+      "completed": "Copilot completado",
+      "cancelled": "Copilot cancelado",
+      "failed": "Copilot fallido",
+      "re_enrolled": "Re-inscrito en el copilot",
+      "paused": "Copilot pausado",
+      "resumed": "Copilot reanudado"
     }
   }
 }

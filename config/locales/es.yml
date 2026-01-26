@@ -219,6 +219,9 @@ es:
       sla:
         added: '%{user_name} agregó la política de SLA %{sla_name}'
         removed: '%{user_name} eliminó la política de SLA %{sla_name}'
+      pipeline_status:
+        updated: '%{user_name} cambió el estado del embudo a %{status_name}'
+        unknown: 'Desconocido'
       linear:
         issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
         issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
@@ -389,7 +392,7 @@ es:
       one: '%{count} segundo'
       other: '%{count} segundos'
   automation:
-    system_name: 'Automation System'
+    system_name: 'Sistema de Automatización'
   crm:
     no_message: 'No messages in conversation'
     attachment: '[Attachment: %{type}]'

@@ -1,6 +1,7 @@
 class ConversationFollowUp < ApplicationRecord
   belongs_to :conversation
   belongs_to :lead_follow_up_sequence
+  belongs_to :sequence_enrollment, optional: true
 
   validates :conversation_id, uniqueness: true
   validates :status, presence: true, inclusion: { in: %w[active paused completed cancelled failed] }
@@ -14,7 +15,7 @@ class ConversationFollowUp < ApplicationRecord
   scope :ready_to_reactivate, lambda {
     base_conditions = where(status: 'completed')
                       .where('completed_at < ?', REACTIVATION_DELAY.ago)
-                      .where("metadata->>'completion_reason' = ?", 'Contact replied')
+                      .where(completion_reason: 'Contact replied')
 
     base_conditions.where(processing_started_at: nil)
                    .or(
@@ -83,41 +84,38 @@ class ConversationFollowUp < ApplicationRecord
   end
 
   def schedule_job!(execute_at = nil)
-    # Cancelar job anterior si existe
-    cancel_job!
+    # Refactor: Dispatcher handles scheduled jobs, but we handle immediate jobs for UX speed.
+    
+    # 1. Update the execution time in DB
+    target_time = execute_at || next_action_at
+    if execute_at
+      update!(next_action_at: execute_at)
+      target_time = execute_at
+    end
 
-    # Usar next_action_at si no se especifica tiempo
-    execute_at ||= next_action_at
-
-    return unless execute_at
-
-    # Si el tiempo es presente o pasado, ejecutar inmediatamente
-    if execute_at <= Time.current
-      job = ProcessSingleFollowUpJob.perform_later(id)
-      update_column(:sidekiq_job_id, job.provider_job_id) if job.provider_job_id
-      Rails.logger.info "Queued immediate job for follow-up #{id}"
+    # 2. Check for immediate execution
+    if target_time && target_time <= Time.current
+      # Try to acquire the lock ATOMICALLY to avoid race conditions with Dispatcher
+      # We only enqueue if WE successfully set processing_started_at
+      locked = ConversationFollowUp.where(id: id, processing_started_at: nil)
+                                   .update_all(processing_started_at: Time.current)
+      
+      if locked == 1
+        Rails.logger.info "Acquired lock for immediate execution of follow-up #{id}"
+        ProcessSingleFollowUpJob.perform_later(id)
+      else
+        Rails.logger.info "Could not acquire lock for follow-up #{id} (already processing?), skipping immediate enqueue."
+      end
     else
-      # Si es futuro, programar para ese tiempo
-      job = ProcessSingleFollowUpJob.set(wait_until: execute_at).perform_later(id)
-      update_column(:sidekiq_job_id, job.provider_job_id)
-      Rails.logger.info "Scheduled job #{job.provider_job_id} for follow-up #{id} at #{execute_at}"
+      Rails.logger.info "Follow-up #{id} scheduled for future: #{target_time}. Dispatcher will handle it."
     end
   end
 
   def cancel_job!
+    # Refactor: We no longer manage individual Sidekiq jobs.
+    # Just clearing the ID for legacy compatibility / cleanup.
     return unless sidekiq_job_id.present?
-
-    # Buscar y eliminar el job programado de Sidekiq
-    scheduled_set = Sidekiq::ScheduledSet.new
-    job = scheduled_set.find_job(sidekiq_job_id)
-    job&.delete
-
-    Rails.logger.info "Cancelled job #{sidekiq_job_id} for follow-up #{id}"
-
-    update_column(:sidekiq_job_id, nil)
-  rescue StandardError => e
-    Rails.logger.error "Failed to cancel job #{sidekiq_job_id}: #{e.message}"
-    # Limpiar el ID de todos modos ya que el job probablemente ya no existe
+    
     update_column(:sidekiq_job_id, nil)
   end
 end

@@ -3,6 +3,7 @@ class LeadRetargeting::SendFollowUpService
     @follow_up = conversation_follow_up
     @conversation = conversation_follow_up.conversation
     @sequence = conversation_follow_up.lead_follow_up_sequence
+    @enrollment = conversation_follow_up.sequence_enrollment
     @account = @conversation.account
     @inbox = @conversation.inbox
     @contact = @conversation.contact
@@ -25,8 +26,12 @@ class LeadRetargeting::SendFollowUpService
     result = execute_step(current_step)
 
     if result[:success]
+      # Create event for successful step execution
+      create_step_event(current_step, 'step_executed', result[:metadata] || {})
       advance_to_next_step
     else
+      # Create event for failed step
+      create_step_event(current_step, 'step_failed', { error_message: result[:error] })
       handle_step_failure(current_step, result[:error])
     end
   end
@@ -35,6 +40,8 @@ class LeadRetargeting::SendFollowUpService
 
   def execute_step(step)
     case step['type']
+    when 'first_contact'
+      execute_first_contact_step(step)
     when 'wait'
       execute_wait_step(step)
     when 'send_message'
@@ -51,6 +58,8 @@ class LeadRetargeting::SendFollowUpService
       execute_condition_step(step)
     when 'webhook'
       execute_webhook_step(step)
+    when 'send_email'
+      execute_email_step(step)
     when 'change_priority'
       execute_change_priority_step(step)
     when 'update_pipeline_status'
@@ -64,7 +73,29 @@ class LeadRetargeting::SendFollowUpService
     { success: false, error: e.message }
   end
 
+  # Create an event for step execution
+  def create_step_event(step, event_type, additional_metadata = {})
+    return unless @enrollment
+
+    @enrollment.create_event(
+      event_type: event_type,
+      step_id: step['id'],
+      step_index: @follow_up.current_step,
+      metadata: {
+        step_name: step['name'],
+        step_type: step['type']
+      }.merge(additional_metadata)
+    )
+  end
+
   def execute_wait_step(_step)
+    { success: true }
+  end
+
+  def execute_first_contact_step(_step)
+    # El first_contact ya fue ejecutado al crear la conversación
+    # Este método solo confirma que se completó
+    Rails.logger.info "First contact step already executed for conversation #{@conversation.id}"
     { success: true }
   end
 
@@ -166,16 +197,61 @@ class LeadRetargeting::SendFollowUpService
     headers = render_hash_values(config['headers'] || {}, context)
     payload = render_hash_values(config['payload'] || {}, context)
 
-    response = HTTParty.send(
-      config['method'].downcase.to_sym,
+    # Enqueue async job instead of blocking
+    Webhooks::SequenceExecutionJob.perform_later(
       url,
-      headers: headers,
-      body: payload.to_json
+      config['method'],
+      headers,
+      payload
     )
 
-    raise "Webhook failed: #{response.code} - #{response.body}" unless response.success?
-
     { success: true }
+  end
+
+  def execute_email_step(step)
+    # Validate contact has email before proceeding
+    unless @contact.email.present?
+      Rails.logger.warn "Cannot send email to contact #{@contact.id}: no email address"
+      return {
+        success: false,
+        error: "Contact has no email address",
+        metadata: { contact_id: @contact.id, contact_name: @contact.name }
+      }
+    end
+
+    # 1. Obtener el agent bot del inbox
+    agent_bot = @inbox.agent_bot
+
+    if agent_bot.present?
+      # Si hay un bot, lanzamos el webhook (similar a AI SMS)
+      idempotency_key = generate_idempotency_key(step, suffix: 'email')
+
+      config = step['config']
+      sender_email = config['sender_email'].presence || @account.support_email
+
+      payload = build_ai_webhook_payload(
+        step: step,
+        agent_bot: agent_bot,
+        event_type: 'lead_followup.email_request',
+        message_channel: 'email',
+        context: nil,
+        variables: {
+          sender_email: sender_email,
+          subject: config['subject'],
+          content: config['content']
+        }
+      )
+
+      begin
+        send_agent_bot_webhook(agent_bot, payload, idempotency_key)
+        return { success: true }
+      rescue StandardError => e
+        Rails.logger.error "AI Email message failed: #{e.message}"
+        return { success: false, error: "Email webhook failed: #{e.message}" }
+      end
+    else
+      return { success: false, error: "No agent bot found for this inbox" }
+    end
   end
 
   def execute_change_priority_step(step)
@@ -407,8 +483,6 @@ class LeadRetargeting::SendFollowUpService
       case config['delay_type']
       when 'minutes'
         Time.current + delay.minutes
-      when 'hours'
-        Time.current + delay.hours
       when 'days'
         Time.current + delay.days
       else
@@ -500,6 +574,13 @@ class LeadRetargeting::SendFollowUpService
   def complete_follow_up(reason)
     @follow_up.cancel_job!
     @follow_up.mark_as_completed!(reason)
+
+    # Update enrollment if exists
+    if @enrollment
+      @enrollment.update!(current_step: @follow_up.current_step)
+      @enrollment.complete!(reason)
+    end
+
     update_sequence_stats
     auto_deactivate_sequence_if_completed
 
@@ -509,29 +590,26 @@ class LeadRetargeting::SendFollowUpService
   def cancel_follow_up(reason)
     @follow_up.cancel_job!
     @follow_up.mark_as_cancelled!(reason)
+
+    # Update enrollment if exists
+    if @enrollment
+      @enrollment.update!(current_step: @follow_up.current_step)
+      @enrollment.cancel!(reason)
+    end
+
     update_sequence_stats
 
     Rails.logger.info "Cancelled follow-up #{@follow_up.id}: #{reason}"
   end
 
   def update_sequence_stats
-    stats = {
-      total_enrolled: @sequence.conversation_follow_ups.count,
-      total_completed: @sequence.conversation_follow_ups.where(status: 'completed').count,
-      total_cancelled: @sequence.conversation_follow_ups.where(status: 'cancelled').count,
-      total_active: @sequence.conversation_follow_ups.where(status: 'active').count
-    }
-
-    if stats[:total_enrolled].positive?
-      stats[:completion_rate] = (stats[:total_completed].to_f / stats[:total_enrolled] * 100).round(2)
-    end
-
-    @sequence.update_column(:stats, stats)
+    # Use new enrollment-based stats
+    @sequence.update_stats!
   end
 
   def auto_deactivate_sequence_if_completed
-    # Verificar si aún quedan follow-ups activos en esta secuencia
-    active_count = @sequence.conversation_follow_ups.where(status: 'active').count
+    # Verificar si aún quedan enrollments activos en esta secuencia
+    active_count = @sequence.sequence_enrollments.active.count
 
     # Si no quedan follow-ups activos y el copilot está activo, desactivarlo automáticamente
     if active_count.zero? && @sequence.active?
@@ -665,7 +743,8 @@ class LeadRetargeting::SendFollowUpService
     { success: false, error: e.message }
   end
 
-  def build_ai_webhook_payload(step:, agent_bot:, event_type:, message_channel:, context:, variables:)
+  def build_ai_webhook_payload(step:, agent_bot: nil, event_type:, message_channel:, context:, variables:)
+   _agent_bot = agent_bot # Silenciar warning de rubocop si no se usa
     context_obj = build_variable_context
 
     # Renderizar el contexto con variables (si existe)

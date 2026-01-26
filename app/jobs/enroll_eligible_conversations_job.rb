@@ -98,79 +98,64 @@ class EnrollEligibleConversationsJob < ApplicationJob
   def enroll_conversation(conversation, sequence, first_step)
     existing_follow_up = conversation.conversation_follow_up
 
-    # Si existe un follow-up en estado terminal, reactivarlo (mantener historial)
-    if existing_follow_up && %w[cancelled completed failed].include?(existing_follow_up.status)
-      Rails.logger.info "Re-activating follow-up #{existing_follow_up.id} (status: #{existing_follow_up.status}) for conversation #{conversation.id}"
+    # Calculate re-enrollment logic
+    re_enrollment_count = conversation.sequence_enrollments
+                                     .where(lead_follow_up_sequence: sequence)
+                                     .count
 
-      # Para re-enrollments, calcular wait time desde NOW, no desde last_chat_message_at
-      # Esto asegura que la secuencia comience desde cero
-      next_action_at = if first_step['type'] == 'wait'
+    # Create new enrollment session
+    enrollment = SequenceEnrollment.create!(
+      conversation: conversation,
+      lead_follow_up_sequence: sequence,
+      enrolled_at: Time.current,
+      status: 'active',
+      current_step: 0,
+      metadata: {
+        enrolled_via: 'auto_enroll_on_sequence_activation',
+        re_enrollment_count: re_enrollment_count
+      }
+    )
+
+    # Calculate next action time
+    next_action_at = if first_step['type'] == 'wait'
+                       if existing_follow_up && %w[cancelled completed failed].include?(existing_follow_up.status)
                          calculate_wait_time_from_now(first_step)
                        else
-                         Time.current
+                         calculate_wait_time(conversation, first_step)
                        end
-
-      # Preservar historial en metadata
-      previous_metadata = existing_follow_up.metadata || {}
-      re_enrollment_count = (previous_metadata['re_enrollment_count'] || 0) + 1
-
-      # Construir nueva metadata sin los campos de ejecución anterior
-      new_metadata = {
-        enrolled_at: previous_metadata['enrolled_at'] || existing_follow_up.created_at,
-        enrolled_via: 'auto_enroll_on_sequence_activation',
-        re_enrolled_at: Time.current,
-        previous_status: existing_follow_up.status,
-        previous_completion: existing_follow_up.completed_at,
-        re_enrollment_count: re_enrollment_count,
-        last_enrollment_via: 'auto_enroll_on_sequence_activation'
-      }
-
-      # Si había reset_count, preservarlo
-      if previous_metadata['reset_count']
-        new_metadata[:reset_count] = previous_metadata['reset_count']
-      end
-
-      existing_follow_up.update!(
-        lead_follow_up_sequence: sequence,
-        current_step: 0,
-        next_action_at: next_action_at,
-        status: 'active',
-        completed_at: nil,
-        processing_started_at: nil, # Limpiar processing flag
-        metadata: new_metadata
-      )
-
-      existing_follow_up.schedule_job!
-      Rails.logger.info "Re-enrolled conversation #{conversation.id} (re-enrollment ##{re_enrollment_count}), next_action_at: #{next_action_at}, first_step: #{first_step['type']}"
-      return
-    elsif existing_follow_up
-      # Si existe un follow-up activo, no podemos enrolar
-      Rails.logger.warn "Conversation #{conversation.id} already has an active follow-up #{existing_follow_up.id}, skipping enrollment"
-      return
-    end
-
-    # Crear nuevo solo si no existe ningún follow-up previo
-    next_action_at = if first_step['type'] == 'wait'
-                       calculate_wait_time(conversation, first_step)
                      else
                        Time.current
                      end
 
-    follow_up = ConversationFollowUp.create!(
-      conversation: conversation,
+    # Si existe un follow-up previo, actualizarlo. Si no, crear uno nuevo.
+    follow_up = existing_follow_up || conversation.build_conversation_follow_up
+
+    follow_up.update!(
       lead_follow_up_sequence: sequence,
+      sequence_enrollment: enrollment,
       current_step: 0,
       next_action_at: next_action_at,
       status: 'active',
+      completed_at: nil,
+      processing_started_at: nil,
+      metadata: (follow_up.metadata || {}).merge({
+        last_enrolled_at: Time.current,
+        re_enrollment_count: re_enrollment_count,
+        last_enrollment_via: 'auto_enroll_on_sequence_activation'
+      })
+    )
+
+    # Create enrollment event
+    enrollment.create_event(
+      event_type: 'enrolled',
       metadata: {
-        enrolled_at: Time.current,
-        enrolled_via: 'auto_enroll_on_sequence_activation',
-        re_enrollment_count: 0
+        source: 'auto_enroll_on_sequence_activation',
+        re_enrollment: re_enrollment_count > 0
       }
     )
 
     follow_up.schedule_job!
-    Rails.logger.info "Enrolled new conversation #{conversation.id}"
+    Rails.logger.info "Enrolled conversation #{conversation.id} in sequence #{sequence.id} (Enrollment: #{enrollment.id})"
   end
 
   def calculate_wait_time(conversation, step)

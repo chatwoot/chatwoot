@@ -943,6 +943,58 @@
       "DATE_VALUE_REQUIRED": "Please enter a valid number of days",
       "LABELS_REQUIRED": "Please select at least one label"
     },
+    "SHOW": {
+      "HEADER": "Copilot Detail",
+      "BACK_TO_LIST": "Back to list",
+      "AUTO_DEACTIVATED_DESC": "Auto-deactivated: All conversations completed",
+      "AUTO_DEACTIVATED_AT": "Auto-deactivated on {date}",
+      "EDIT": "Edit",
+      "TOTAL_STATS": "Total",
+      "ENROLLED_CONVERSATIONS": "Enrolled Conversations",
+      "STATUS": {
+        "active": "Active",
+        "paused": "Paused",
+        "completed": "Completed",
+        "cancelled": "Cancelled",
+        "failed": "Failed"
+      },
+      "NEXT_ACTION": {
+        "NOT_SCHEDULED": "Not scheduled",
+        "PENDING": "Pending",
+        "IN_MINS": "In {count}min",
+        "IN_HOURS": "In {count}h",
+        "IN_DAYS": "In {count}d"
+      },
+      "STOP_REASONS": {
+        "CONTACT_REPLIED": "Contact replied",
+        "CONVERSATION_RESOLVED": "Conversation resolved",
+        "ALL_STEPS_COMPLETED": "All steps completed",
+        "CONDITION_MET": "Condition met",
+        "COPILOT_DEACTIVATED": "Copilot deactivated",
+        "MANUALLY_CANCELLED": "Manually cancelled",
+        "MANUALLY_STOPPED": "Manually stopped"
+      },
+      "ENROLLMENT": {
+        "NO_PHONE": "No number",
+        "FIRST_TIME": "First time",
+        "LAST_COMPLETION": "Last completion: {date}"
+      },
+      "ENROLLED_TABLE": {
+        "CONTACT": "Contact",
+        "CONV_ID": "Conv. ID",
+        "STATUS": "Status",
+        "STEP": "Step",
+        "NEXT_ACTION": "Next Action",
+        "STOP_REASON": "Stop Reason",
+        "RE_ENROLLMENTS": "Re-enrollments",
+        "ENROLLED": "Enrolled",
+        "SELECTED_COUNT": "{count} selected",
+        "CANCEL_SELECTED": "Cancel Selected",
+        "CLEAR_FILTER": "Clear filter",
+        "NO_CONVERSATIONS_FOUND": "No conversations found with this status",
+        "NO_CONVERSATIONS_ENROLLED": "No conversations enrolled yet"
+      }
+    },
     "STEPS": {
       "WAIT": {
         "ADD": "Wait",
@@ -1032,7 +1084,62 @@
         "URL_PLACEHOLDER": "https://example.com/webhook",
         "METHOD": "HTTP Method",
         "VARIABLES_HINT": "You can use variables like {{contact.name}}, {{conversation.id}}, etc."
+      },
+      "FIRST_CONTACT": {
+        "ADD": "First Contact",
+        "DEFAULT_NAME": "Welcome message (Notion)",
+        "CHANNEL": "Communication Channel",
+        "INBOX": "Inbox",
+        "SELECT_INBOX": "Select an inbox...",
+        "TEMPLATE": "WhatsApp Template",
+        "SELECT_TEMPLATE": "Select a template...",
+        "PARAMS": "Template Parameters",
+        "SMS_CONTEXT": "SMS Context",
+        "SMS_CONTEXT_HELP": "The AI will generate an SMS message based on this context and contact data.",
+        "PREVIEW": "Message Preview"
+      },
+      "CONDITION": {
+        "ADD": "Condition",
+        "DEFAULT_NAME": "Condition branch"
+      },
+      "SEND_EMAIL": {
+        "ADD": "Send Email",
+        "DEFAULT_NAME": "Send email message",
+        "SENDER_EMAIL": "Sender Email (optional)",
+        "SENDER_EMAIL_PLACEHOLDER": "e.g., support@yourcompany.com",
+        "SUBJECT": "Email Subject (optional)",
+        "SUBJECT_PLACEHOLDER": "If left blank, AI will generate the subject...",
+        "CONTENT": "Email Content (optional)",
+        "CONTENT_PLACEHOLDER": "If left blank, AI will generate the content...",
+        "VARIABLES_HINT": "You can use variables like {{contact.name}}, {{contact.email}}, {{conversation.id}}, etc."
       }
+    },
+    "TIMELINE": {
+      "LOADING": "Loading events...",
+      "EMPTY_STATE": "There are no copilot events for this conversation",
+      "JUST_NOW": "Just now",
+      "AGO": "Ago"
+    },
+    "EVENTS": {
+      "enrolled": "Enrolled in copilot",
+      "step_executed": "Step executed: {name}",
+      "step_failed": "Step failed",
+      "message_sent": "Message sent via {channel}",
+      "template_sent": "Template '{name}' sent",
+      "ai_response_received": "AI response received",
+      "sms_sent": "SMS sent",
+      "label_added": "Labels added: {labels}",
+      "label_removed": "Labels removed: {labels}",
+      "agent_assigned": "Agent assigned: {name}",
+      "team_assigned": "Team assigned: {name}",
+      "pipeline_status_updated": "Pipeline status updated to: {name}",
+      "webhook_called": "Webhook called",
+      "completed": "Copilot completed",
+      "cancelled": "Copilot cancelled",
+      "failed": "Copilot failed",
+      "re_enrolled": "Re-enrolled in copilot",
+      "paused": "Copilot paused",
+      "resumed": "Copilot resumed"
     }
   }
 }

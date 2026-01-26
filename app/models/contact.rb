@@ -78,6 +78,13 @@ class Contact < ApplicationRecord
   before_save :sync_contact_attributes
 
   enum contact_type: { visitor: 0, lead: 1, customer: 2 }
+  enum source_type: {
+    organic: 0,         # Organic/natural contact creation
+    notion_import: 1,   # Imported from Notion database
+    manual: 2,          # Manually created
+    api: 3,             # Created via API
+    campaign: 4         # Created via campaign
+  }, _prefix: :contact_source
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(

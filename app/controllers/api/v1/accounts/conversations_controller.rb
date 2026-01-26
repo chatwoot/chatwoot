@@ -36,6 +36,35 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def show; end
 
+  def copilot_events
+    events = @conversation.enrollment_events
+                          .includes(:sequence_enrollment, :lead_follow_up_sequence)
+                          .order(occurred_at: :desc)
+                          .limit(100)
+
+    render json: {
+      conversation_id: @conversation.id,
+      events: events.map do |event|
+        {
+          id: event.id,
+          event_type: event.event_type,
+          step_id: event.step_id,
+          step_index: event.step_index,
+          step_name: event.metadata&.dig('step_name'),
+          occurred_at: event.occurred_at,
+          description: event.description,
+          metadata: event.metadata,
+          copilot_name: event.lead_follow_up_sequence&.name,
+          enrollment_id: event.sequence_enrollment_id,
+          created_at: event.created_at
+        }
+      end
+    }
+  rescue StandardError => e
+    Rails.logger.error "Error fetching copilot events: #{e.message}"
+    render json: { error: 'Failed to fetch copilot events' }, status: :internal_server_error
+  end
+
   def create
     ActiveRecord::Base.transaction do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
