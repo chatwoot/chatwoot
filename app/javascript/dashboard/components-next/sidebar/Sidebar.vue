@@ -1,6 +1,6 @@
 <script setup>
-import { h, ref, computed, onMounted } from 'vue';
-import { provideSidebarContext } from './provider';
+import { h, ref, computed, onMounted, onUnmounted } from 'vue';
+import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -8,6 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
+import { useWindowSize } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -42,6 +43,10 @@ const { t } = useI18n();
 const isACustomBrandedInstance = useMapGetter(
   'globalConfig/isACustomBrandedInstance'
 );
+const isRTL = useMapGetter('accounts/isRTL');
+
+const { width: windowWidth } = useWindowSize();
+const isMobile = computed(() => windowWidth.value < 768);
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -58,9 +63,80 @@ const expandedItem = ref(null);
 const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
 };
+
+const {
+  sidebarWidth,
+  isCollapsed,
+  setSidebarWidth,
+  snapToCollapsed,
+  snapToExpanded,
+  COLLAPSED_THRESHOLD,
+} = useSidebarResize();
+
+// On mobile, sidebar is always expanded (flyout mode)
+const isEffectivelyCollapsed = computed(
+  () => !isMobile.value && isCollapsed.value
+);
+
+// Resize handle logic
+const isResizing = ref(false);
+
 provideSidebarContext({
   expandedItem,
   setExpandedItem,
+  isCollapsed: isEffectivelyCollapsed,
+  sidebarWidth,
+  isResizing,
+});
+const startX = ref(0);
+const startWidth = ref(0);
+
+const onResizeStart = event => {
+  isResizing.value = true;
+  startX.value = event.clientX;
+  startWidth.value = sidebarWidth.value;
+  document.body.style.cursor = 'col-resize';
+  document.body.style.userSelect = 'none';
+};
+
+const onResizeMove = event => {
+  if (!isResizing.value) return;
+
+  const delta = isRTL.value
+    ? startX.value - event.clientX
+    : event.clientX - startX.value;
+  setSidebarWidth(startWidth.value + delta);
+};
+
+const onResizeEnd = () => {
+  if (!isResizing.value) return;
+
+  isResizing.value = false;
+  document.body.style.cursor = '';
+  document.body.style.userSelect = '';
+
+  // Snap to collapsed state if below threshold
+  if (sidebarWidth.value < COLLAPSED_THRESHOLD) {
+    snapToCollapsed();
+  }
+};
+
+const onResizeHandleDoubleClick = () => {
+  if (isCollapsed.value) {
+    snapToExpanded();
+  } else {
+    snapToCollapsed();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('mousemove', onResizeMove);
+  document.addEventListener('mouseup', onResizeEnd);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('mousemove', onResizeMove);
+  document.removeEventListener('mouseup', onResizeEnd);
 });
 
 const inboxes = useMapGetter('inboxes/getInboxes');
@@ -598,27 +674,47 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 transition-transform duration-200 ease-in-out md:static w-[200px] basis-[200px] md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:static md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0 ltr:border-r rtl:border-l border-n-weak"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
         'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
+        'transition-[width] duration-200 ease-out': !isResizing,
       },
     ]"
+    :style="isMobile ? undefined : { width: `${sidebarWidth}px` }"
   >
-    <section class="grid gap-2 mt-1 mb-4">
-      <div class="flex gap-2 items-center px-2 min-w-0">
-        <div class="grid flex-shrink-0 place-content-center size-6">
-          <Logo class="size-4" />
-        </div>
-        <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
-        <SidebarAccountSwitcher
-          class="flex-grow -mx-1 min-w-0"
-          @show-create-account-modal="emit('showCreateAccountModal')"
-        />
+    <section
+      class="grid"
+      :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
+    >
+      <div
+        class="flex gap-2 items-center px-2 min-w-0"
+        :class="{ 'justify-center': isEffectivelyCollapsed }"
+      >
+        <template v-if="isEffectivelyCollapsed">
+          <SidebarAccountSwitcher
+            is-collapsed
+            @show-create-account-modal="emit('showCreateAccountModal')"
+          />
+        </template>
+        <template v-else>
+          <div class="grid flex-shrink-0 place-content-center size-6">
+            <Logo class="size-4" />
+          </div>
+          <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
+          <SidebarAccountSwitcher
+            class="flex-grow -mx-1 min-w-0"
+            @show-create-account-modal="emit('showCreateAccountModal')"
+          />
+        </template>
       </div>
-      <div class="flex gap-2 px-2">
+      <div
+        class="flex gap-2"
+        :class="isEffectivelyCollapsed ? 'flex-col items-center' : 'px-2'"
+      >
         <RouterLink
+          v-if="!isEffectivelyCollapsed"
           :to="{ name: 'search' }"
           class="flex gap-2 items-center px-2 py-1 w-full h-7 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out"
         >
@@ -632,21 +728,39 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
+        <RouterLink
+          v-else
+          :to="{ name: 'search' }"
+          class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2"
+          :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
+        >
+          <span class="i-lucide-search size-4 text-n-slate-10" />
+        </RouterLink>
         <ComposeConversation align-position="right" @close="onComposeClose">
           <template #trigger="{ toggle }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
-              class="!h-7 !outline-n-weak !text-n-slate-11"
+              :class="
+                isEffectivelyCollapsed
+                  ? '!size-8 !outline-n-weak !text-n-slate-11'
+                  : '!h-7 !outline-n-weak !text-n-slate-11'
+              "
               @click="onComposeOpen(toggle)"
             />
           </template>
         </ComposeConversation>
       </div>
     </section>
-    <nav class="grid overflow-y-scroll flex-grow gap-2 px-2 pb-5 no-scrollbar">
-      <ul class="flex flex-col gap-1.5 m-0 list-none">
+    <nav
+      class="grid overflow-y-scroll flex-grow gap-2 pb-5 no-scrollbar min-w-0"
+      :class="isEffectivelyCollapsed ? 'px-1' : 'px-2'"
+    >
+      <ul
+        class="flex flex-col gap-1 m-0 list-none min-w-0"
+        :class="{ 'items-center': isEffectivelyCollapsed }"
+      >
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"
@@ -661,15 +775,32 @@ const menuItems = computed(() => {
         class="pointer-events-none absolute inset-x-0 -top-[1.938rem] h-8 bg-gradient-to-t from-n-background to-transparent"
       />
       <SidebarChangelogCard
-        v-if="isOnChatwootCloud && !isACustomBrandedInstance"
+        v-if="
+          isOnChatwootCloud &&
+          !isACustomBrandedInstance &&
+          !isEffectivelyCollapsed
+        "
       />
       <div
-        class="p-1 flex-shrink-0 flex w-full justify-between z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        class="p-1 flex-shrink-0 flex w-full z-10 gap-2 items-center border-t border-n-weak shadow-[0px_-2px_4px_0px_rgba(27,28,29,0.02)]"
+        :class="isEffectivelyCollapsed ? 'justify-center' : 'justify-between'"
       >
         <SidebarProfileMenu
+          :is-collapsed="isEffectivelyCollapsed"
           @open-key-shortcut-modal="emit('openKeyShortcutModal')"
         />
       </div>
     </section>
+    <!-- Resize Handle (desktop only) -->
+    <div
+      class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-50 ltr:right-0 rtl:left-0 group"
+      @mousedown="onResizeStart"
+      @dblclick="onResizeHandleDoubleClick"
+    >
+      <div
+        class="absolute top-0 h-full w-px ltr:right-0 rtl:left-0 bg-transparent group-hover:bg-n-brand transition-colors"
+        :class="{ 'bg-n-brand': isResizing }"
+      />
+    </div>
   </aside>
 </template>
