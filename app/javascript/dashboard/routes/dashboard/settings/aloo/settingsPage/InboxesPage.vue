@@ -74,6 +74,8 @@ const toggleInbox = async inboxId => {
       assignedInboxIds.value.push(inboxId);
       useAlert(t('ALOO.MESSAGES.INBOX_ASSIGNED'));
     }
+    // Refresh inboxes store to keep aloo_assistant data in sync
+    await store.dispatch('inboxes/get');
   } catch (error) {
     useAlert(t('ALOO.MESSAGES.ERROR'));
   }

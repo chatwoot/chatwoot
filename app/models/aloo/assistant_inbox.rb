@@ -16,5 +16,14 @@ module Aloo
 
     # Delegate account to assistant
     delegate :account, :account_id, to: :assistant
+
+    # Invalidate inbox cache when assignment changes
+    after_commit :invalidate_inbox_cache
+
+    private
+
+    def invalidate_inbox_cache
+      inbox.account.update_cache_key('inbox')
+    end
   end
 end
