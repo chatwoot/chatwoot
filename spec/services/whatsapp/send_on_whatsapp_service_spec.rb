@@ -135,7 +135,7 @@ describe Whatsapp::SendOnWhatsappService do
           processed_params: { 'body' => { 'last_name' => 'Dale', 'ticket_id' => '2332' } }
         }
 
-        stub_request(:post, "https://graph.facebook.com/v13.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
+        stub_request(:post, "https://graph.facebook.com/v20.0/#{whatsapp_cloud_channel.provider_config['phone_number_id']}/messages")
           .with(
             :headers => {
               'Accept' => '*/*',
