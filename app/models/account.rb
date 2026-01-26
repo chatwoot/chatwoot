@@ -28,6 +28,19 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include RubyLLM::Agents::LLMTenant
+
+  llm_tenant(
+    id: :id,
+    name: :name,
+    budget: true,
+    limits: {
+      daily_cost: 50.0,
+      monthly_cost: 1000.0
+    },
+    enforcement: :soft,
+    inherit_global: true
+  )
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',

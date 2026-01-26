@@ -12,12 +12,7 @@ RubyLLM::Agents.configure do |config|
   # Enable multi-tenancy to isolate budget tracking, execution logging,
   # and circuit breakers by account (tenant)
   config.multi_tenancy_enabled = true
-
-  # Tenant resolver returns the current account ID for scoping
-  # Uses Aloo::Current.account which is set before agent execution
-  config.tenant_resolver = lambda {
-    Aloo::Current.account&.id&.to_s
-  }
+  # Tenant resolution now handled by Account model via LLMTenant concern
 
   # ============================================
   # Model Defaults
