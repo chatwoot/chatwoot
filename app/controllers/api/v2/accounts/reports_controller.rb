@@ -10,24 +10,19 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: data
   end
 
-  def all_metrics_download
-    filter_params = {
-      since: params[:since],
-      until: params[:until],
-      user_ids: params[:user_ids],
-      inbox_ids: params[:inbox_ids],
-      team_ids: params[:team_ids]
-    }.compact
-  
-    @report_data = V2::Reports::AllMetricsBuilder.new(Current.account, filter_params).build
-  
+  def all_conversation_metrics_download
+    filter_params = { since: params[:since],  until: params[:until], user_ids: params[:user_ids], inbox_ids: params[:inbox_ids],
+                      team_ids: params[:team_ids] }.compact
+
+    @report_data = V2::Reports::AllConversationMetricsBuilder.new(Current.account, filter_params).build
+
     respond_to do |format|
-      format.csv { generate_csv('all_metrics', 'api/v2/accounts/reports/all_metrics') }
-      format.xlsx { generate_xlsx('all_metrics', 'api/v2/accounts/reports/all_metrics') }
-      format.any { generate_csv('all_metrics', 'api/v2/accounts/reports/all_metrics') }
+      format.csv { generate_csv('all_conversation_metrics', 'api/v2/accounts/reports/all_conversation_metrics') }
+      format.xlsx { generate_xlsx('all_conversation_metrics', 'api/v2/accounts/reports/all_conversation_metrics') }
+      format.any { generate_csv('all_conversation_metrics', 'api/v2/accounts/reports/all_conversation_metrics') }
     end
   end
-  
+
   def summary
     render json: build_summary(:summary)
   end
@@ -142,13 +137,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   private
 
-  def all_metrics_params
-    {
-      since: params[:since],
-      until: params[:until],
-      timezone_offset: params[:timezone_offset],
-      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
-    }
+  def all_conversation_metrics_params
+    { since: params[:since],  until: params[:until], timezone_offset: params[:timezone_offset],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours]) }
   end
 
   def generate_csv(filename, template)
@@ -176,22 +167,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def overview_summary_params
-    {
-      type: :account,
-      since: params[:since],
-      until: params[:until],
-      timezone_offset: params[:timezone_offset],
-      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
-    }
+    { type: :account, since: params[:since], until: params[:until], timezone_offset: params[:timezone_offset],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours]) }
   end
 
   def common_params
-    {
-      type: params[:type].to_sym,
-      id: params[:id],
-      group_by: params[:group_by],
-      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
-    }
+    { type: params[:type].to_sym,  id: params[:id], group_by: params[:group_by],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours]) }
   end
 
   def current_summary_params

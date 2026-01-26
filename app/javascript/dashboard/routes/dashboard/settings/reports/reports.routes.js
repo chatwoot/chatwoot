@@ -33,7 +33,7 @@ const meta = {
 const oldReportRoutes = [
   {
     path: 'all-metrics',
-    name: 'all_metrics_reports',
+    name: 'all_conversation_metrics_reports',
     meta,
     component: AllMetricsReports,
   },
