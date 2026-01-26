@@ -240,7 +240,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_082941) do
     t.datetime "updated_at", null: false
     t.text "text_content"
     t.jsonb "selected_pages", default: []
-    t.boolean "auto_refresh", default: false
+    t.boolean "auto_refresh", default: false, null: false
     t.datetime "last_refreshed_at"
     t.datetime "next_refresh_at"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
@@ -299,15 +299,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_082941) do
     t.index ["account_id"], name: "index_applied_slas_on_account_id"
     t.index ["conversation_id"], name: "index_applied_slas_on_conversation_id"
     t.index ["sla_policy_id"], name: "index_applied_slas_on_sla_policy_id"
-  end
-
-  create_table "article_embeddings", force: :cascade do |t|
-    t.bigint "article_id", null: false
-    t.text "term", null: false
-    t.vector "embedding", limit: 1536
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["embedding"], name: "index_article_embeddings_on_embedding", using: :ivfflat
   end
 
   create_table "articles", force: :cascade do |t|
@@ -435,97 +426,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_082941) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "captain_assistant_responses", force: :cascade do |t|
-    t.string "question", null: false
-    t.text "answer", null: false
-    t.vector "embedding", limit: 1536
-    t.bigint "assistant_id", null: false
-    t.bigint "documentable_id"
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 1, null: false
-    t.string "documentable_type"
-    t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
-    t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
-    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
-    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
-    t.index ["status"], name: "index_captain_assistant_responses_on_status"
-  end
-
-  create_table "captain_assistants", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "account_id", null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "config", default: {}, null: false
-    t.jsonb "response_guidelines", default: []
-    t.jsonb "guardrails", default: []
-    t.index ["account_id"], name: "index_captain_assistants_on_account_id"
-  end
-
-  create_table "captain_custom_tools", force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.string "slug", null: false
-    t.string "title", null: false
-    t.text "description"
-    t.string "http_method", default: "GET", null: false
-    t.text "endpoint_url", null: false
-    t.text "request_template"
-    t.text "response_template"
-    t.string "auth_type", default: "none"
-    t.jsonb "auth_config", default: {}
-    t.jsonb "param_schema", default: []
-    t.boolean "enabled", default: true, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id", "slug"], name: "index_captain_custom_tools_on_account_id_and_slug", unique: true
-    t.index ["account_id"], name: "index_captain_custom_tools_on_account_id"
-  end
-
-  create_table "captain_documents", force: :cascade do |t|
-    t.string "name"
-    t.string "external_link", null: false
-    t.text "content"
-    t.bigint "assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
-    t.jsonb "metadata", default: {}
-    t.index ["account_id"], name: "index_captain_documents_on_account_id"
-    t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
-    t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
-    t.index ["status"], name: "index_captain_documents_on_status"
-  end
-
-  create_table "captain_inboxes", force: :cascade do |t|
-    t.bigint "captain_assistant_id", null: false
-    t.bigint "inbox_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
-    t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
-    t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
-  end
-
-  create_table "captain_scenarios", force: :cascade do |t|
-    t.string "title"
-    t.text "description"
-    t.text "instruction"
-    t.jsonb "tools", default: []
-    t.boolean "enabled", default: true, null: false
-    t.bigint "assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_captain_scenarios_on_account_id"
-    t.index ["assistant_id", "enabled"], name: "index_captain_scenarios_on_assistant_id_and_enabled"
-    t.index ["assistant_id"], name: "index_captain_scenarios_on_assistant_id"
-    t.index ["enabled"], name: "index_captain_scenarios_on_enabled"
   end
 
   create_table "cart_items", force: :cascade do |t|
@@ -885,29 +785,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_082941) do
     t.index ["team_id"], name: "index_conversations_on_team_id"
     t.index ["uuid"], name: "index_conversations_on_uuid", unique: true
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
-  end
-
-  create_table "copilot_messages", force: :cascade do |t|
-    t.bigint "copilot_thread_id", null: false
-    t.bigint "account_id", null: false
-    t.jsonb "message", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "message_type", default: 0
-    t.index ["account_id"], name: "index_copilot_messages_on_account_id"
-    t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
-  end
-
-  create_table "copilot_threads", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "assistant_id"
-    t.index ["account_id"], name: "index_copilot_threads_on_account_id"
-    t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
-    t.index ["user_id"], name: "index_copilot_threads_on_user_id"
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
