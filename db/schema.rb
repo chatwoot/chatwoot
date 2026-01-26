@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_22_100000) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_26_082941) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -240,7 +240,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_22_100000) do
     t.datetime "updated_at", null: false
     t.text "text_content"
     t.jsonb "selected_pages", default: []
-    t.boolean "auto_refresh", default: false
+    t.boolean "auto_refresh", default: false, null: false
     t.datetime "last_refreshed_at"
     t.datetime "next_refresh_at"
     t.index ["account_id"], name: "index_aloo_documents_on_account_id"
@@ -446,7 +446,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_22_100000) do
     t.bigint "conversation_id", null: false
     t.bigint "message_id"
     t.bigint "contact_id", null: false
-    t.bigint "created_by_id", null: false
+    t.bigint "created_by_id"
     t.string "external_payment_id"
     t.string "payment_url"
     t.string "provider", null: false
