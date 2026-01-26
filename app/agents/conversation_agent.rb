@@ -11,6 +11,9 @@
 #   result = ConversationAgent.call(message: "What is your refund policy?")
 #
 class ConversationAgent < ApplicationAgent
+  include Guardrails
+  include CatalogSupport
+
   description 'Responds to customer messages using knowledge base and tools'
 
   model 'gemini-2.5-flash'
@@ -29,6 +32,8 @@ class ConversationAgent < ApplicationAgent
   def system_prompt
     parts = []
     parts << base_instructions
+    parts << operational_rules_section
+    parts << guardrails_section
     parts << custom_instructions_section
     parts << personality_section
     parts << greeting_instructions
@@ -103,9 +108,20 @@ class ConversationAgent < ApplicationAgent
   end
 
   def language_section
-    return nil if current_assistant&.language_instruction.blank?
+    <<~PROMPT
+      ## Language Rules
+      - ALWAYS respond in the same language the user is writing in
+      - If the user writes in English, respond in English
+      - If the user writes in Arabic, respond in Arabic
+      - If the user switches languages mid-conversation, follow their lead
+      #{configured_dialect_instruction}
+    PROMPT
+  end
 
-    current_assistant.language_instruction
+  def configured_dialect_instruction
+    return '' if current_assistant&.language_instruction.blank?
+
+    "\n- When responding in Arabic: #{current_assistant.language_instruction}"
   end
 
   def greeting_instructions
@@ -135,52 +151,6 @@ class ConversationAgent < ApplicationAgent
     end
   end
 
-  def catalog_instructions
-    return nil unless catalog_access_enabled?
-
-    products_list = build_products_list
-
-    <<~PROMPT
-      ## Product Catalog & Shopping
-
-      #{products_list}
-
-      When customers ask about products or want to buy something:
-
-      1. **Recommend Products**: Use the product information above to suggest relevant items
-      2. **Get Details**: Use the product_details tool when customers want more info about a specific product
-      3. **Create Cart**: When the customer wants to buy, use the create_cart tool with product IDs and quantities
-      4. **Payment Link**: After creating a cart, a payment link is automatically sent to the customer
-
-      **IMPORTANT - Handling Follow-up References:**
-      When a customer says "it", "this one", "that product", "add to cart", or similar phrases without specifying which product:
-      - Look at your previous messages in the conversation history
-      - Find the product ID you mentioned most recently
-      - Use that product ID for the cart or follow-up action
-      - Do NOT ask "which product?" if you already discussed one
-
-      Example flows:
-
-      Flow 1 - Explicit reference:
-      - Customer: "I want to buy coffee"
-      - You: "Here's our Premium Coffee (ID: 5) - 45 SAR. Would you like to order?"
-      - Customer: "I'll take 2"
-      - You: Use create_cart with product_id: 5, quantity: 2
-
-      Flow 2 - Implicit "it" reference:
-      - Customer: "Tell me about product 123"
-      - You: Use product_details tool, then describe "Product X (ID: 123) - 30 SAR..."
-      - Customer: "Add it to my cart"
-      - You: Use create_cart with product_id: 123 (from your previous message)
-
-      Flow 3 - "Send link" request:
-      - Customer: "I want the premium beans"
-      - You: "Great choice! Premium Beans (ID: 7) - 50 SAR. Want me to create a cart?"
-      - Customer: "Yes, send me the payment link"
-      - You: Use create_cart with product_id: 7
-    PROMPT
-  end
-
   def conversation_context_info
     return nil unless current_conversation
 
@@ -201,30 +171,6 @@ class ConversationAgent < ApplicationAgent
 
   def first_message?
     messages.empty?
-  end
-
-  def catalog_enabled?
-    current_account&.catalog_settings&.enabled?
-  end
-
-  def catalog_access_enabled?
-    catalog_enabled? && current_assistant&.feature_catalog_access_enabled?
-  end
-
-  def build_products_list
-    products = current_account.products.limit(30)
-    return 'No products available in the catalog yet.' if products.empty?
-
-    currency = current_account.catalog_settings&.currency || 'SAR'
-
-    lines = ["Available Products (#{currency}):"]
-    products.each do |product|
-      title = product.title_en.presence || product.title_ar
-      price = format('%.2f', product.price)
-      lines << "- #{title} (ID: #{product.id}) - #{price} #{currency}"
-    end
-
-    lines.join("\n")
   end
 
   def business_name
