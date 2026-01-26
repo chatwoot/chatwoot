@@ -2,16 +2,19 @@ require 'rails_helper'
 
 RSpec.describe V2::Reports::LabelSummaryBuilder do
   include ActiveJob::TestHelper
+  self.use_transactional_tests = false
 
-  let_it_be(:account) { create(:account) }
-  let_it_be(:label_1) { create(:label, title: 'label_1', account: account) }
-  let_it_be(:label_2) { create(:label, title: 'label_2', account: account) }
-  let_it_be(:label_3) { create(:label, title: 'label_3', account: account) }
-
-  before do
-    allow(ActionCableBroadcastJob).to receive(:perform_later)
-    allow(ActionCableBroadcastJob).to receive(:perform_now)
+  def truncate_test_data
+    connection = ActiveRecord::Base.connection
+    connection.truncate_tables(*connection.tables)
   end
+
+  before { truncate_test_data }
+
+  let(:account) { create(:account) }
+  let!(:label_1) { create(:label, title: 'label_1', account: account) }
+  let!(:label_2) { create(:label, title: 'label_2', account: account) }
+  let!(:label_3) { create(:label, title: 'label_3', account: account) }
 
   let(:params) do
     {
@@ -97,7 +100,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             # Create conversations with label_1
             3.times do
               conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
+                                                   inbox: inbox,
                                                    created_at: Time.zone.today)
               create_list(:message, 2, message_type: 'outgoing',
                                        account: account, inbox: inbox,
@@ -115,7 +118,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
             # Create conversations with label_2
             2.times do
               conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
+                                                   inbox: inbox,
                                                    created_at: Time.zone.today)
               create_list(:message, 1, message_type: 'outgoing',
                                        account: account, inbox: inbox,
@@ -234,7 +237,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           perform_enqueued_jobs do
             # Conversation within range
             conversation_in_range = create(:conversation, account: account,
-                                                          inbox: inbox, assignee: user,
+                                                          inbox: inbox,
                                                           created_at: 2.days.ago)
             conversation_in_range.update_labels('label_1')
             conversation_in_range.label_list
@@ -249,7 +252,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
             # Conversation outside range (too old)
             conversation_out_of_range = create(:conversation, account: account,
-                                                              inbox: inbox, assignee: user,
+                                                              inbox: inbox,
                                                               created_at: 1.week.ago)
             conversation_out_of_range.update_labels('label_1')
             conversation_out_of_range.label_list
@@ -291,7 +294,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: Time.zone.today)
             conversation.update_labels('label_1')
             conversation.label_list
@@ -328,8 +331,8 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       let(:account2_builder) do
         described_class.new(account: account2, params: {
                               business_hours: false,
-                              since: test_date.to_time.to_i.to_s,
-                              until: test_date.end_of_day.to_time.to_i.to_s,
+                              since: test_date.in_time_zone.to_i.to_s,
+                              until: test_date.end_of_day.in_time_zone.to_i.to_s,
                               timezone_offset: 0
                             })
       end
@@ -348,33 +351,22 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
           perform_enqueued_jobs do
             conversation = create(:conversation, account: account2,
-                                                 inbox: inbox, assignee: user,
+                                                 inbox: inbox,
                                                  created_at: test_date)
             conversation.update_labels(unique_label_name)
             conversation.label_list
             conversation.save!
 
-            # Create reporting events directly to avoid after_commit ordering issues in tests.
-            resolved_at = Time.zone.local(test_date.year, test_date.month, test_date.day, 10, 0, 0)
-            create(:reporting_event,
-                   account: account2,
-                   conversation: conversation,
-                   inbox: inbox,
-                   user: user,
-                   name: 'conversation_resolved',
-                   created_at: resolved_at,
-                   event_start_time: resolved_at - 1.hour,
-                   event_end_time: resolved_at)
-            create(:reporting_event,
-                   account: account2,
-                   conversation: conversation,
-                   inbox: inbox,
-                   user: user,
-                   name: 'conversation_resolved',
-                   created_at: resolved_at + 1.hour,
-                   event_start_time: resolved_at,
-                   event_end_time: resolved_at + 1.hour)
+            # First resolution
+            conversation.resolved!
+
+            # Reopen conversation
+            conversation.open!
+
+            # Second resolution
+            conversation.resolved!
           end
+          perform_enqueued_jobs
         end
       end
 

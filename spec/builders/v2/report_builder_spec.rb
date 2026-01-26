@@ -1,60 +1,62 @@
 require 'rails_helper'
 
-describe V2::ReportBuilder do
+RSpec.describe V2::ReportBuilder do
   include ActiveJob::TestHelper
-  let_it_be(:account) { create(:account) }
-  let_it_be(:label_1) { create(:label, title: 'Label_1', account: account) }
-  let_it_be(:label_2) { create(:label, title: 'Label_2', account: account) }
+  self.use_transactional_tests = false
+
+  def truncate_test_data
+    connection = ActiveRecord::Base.connection
+    connection.truncate_tables(*connection.tables)
+  end
+
+  before { truncate_test_data }
+
+  let(:account) { create(:account) }
+  let!(:label_1) { create(:label, title: 'Label_1', account: account) }
+  let!(:label_2) { create(:label, title: 'Label_2', account: account) }
 
   describe '#timeseries' do
-    # Use before_all to share expensive setup across all tests in this describe block
-    # This runs once instead of 21 times, dramatically speeding up the suite
-    before_all do
-      RSpec::Mocks.with_temporary_scope do
-        allow(ActionCableBroadcastJob).to receive(:perform_later)
-        allow(ActionCableBroadcastJob).to receive(:perform_now)
+    before do
+      travel_to(Time.zone.today) do
+        user = create(:user, account: account)
+        inbox = create(:inbox, account: account)
+        create(:inbox_member, user: user, inbox: inbox)
 
-        travel_to(Time.zone.today) do
-          user = create(:user, account: account)
-          inbox = create(:inbox, account: account)
-          create(:inbox_member, user: user, inbox: inbox)
+        gravatar_url = 'https://www.gravatar.com'
+        stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
 
-          gravatar_url = 'https://www.gravatar.com'
-          stub_request(:get, /#{gravatar_url}.*/).to_return(status: 404)
+        perform_enqueued_jobs do
+          10.times do
+            conversation = create(:conversation, account: account,
+                                                 inbox: inbox,
+                                                 created_at: Time.zone.today)
+            create_list(:message, 5, message_type: 'outgoing',
+                                     account: account, inbox: inbox,
+                                     conversation: conversation, created_at: Time.zone.today + 2.hours)
+            create_list(:message, 2, message_type: 'incoming',
+                                     account: account, inbox: inbox,
+                                     conversation: conversation,
+                                     created_at: Time.zone.today + 3.hours)
+            conversation.update_labels('label_1')
+            conversation.label_list
+            conversation.save!
+          end
 
-          perform_enqueued_jobs do
-            10.times do
-              conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
-                                                   created_at: Time.zone.today)
-              create_list(:message, 5, message_type: 'outgoing',
-                                       account: account, inbox: inbox,
-                                       conversation: conversation, created_at: Time.zone.today + 2.hours)
-              create_list(:message, 2, message_type: 'incoming',
-                                       account: account, inbox: inbox,
-                                       conversation: conversation,
-                                       created_at: Time.zone.today + 3.hours)
-              conversation.update_labels('label_1')
-              conversation.label_list
-              conversation.save!
-            end
-
-            5.times do
-              conversation = create(:conversation, account: account,
-                                                   inbox: inbox, assignee: user,
-                                                   created_at: (Time.zone.today - 2.days))
-              create_list(:message, 3, message_type: 'outgoing',
-                                       account: account, inbox: inbox,
-                                       conversation: conversation,
-                                       created_at: (Time.zone.today - 2.days))
-              create_list(:message, 1, message_type: 'incoming',
-                                       account: account, inbox: inbox,
-                                       conversation: conversation,
-                                       created_at: (Time.zone.today - 2.days))
-              conversation.update_labels('label_2')
-              conversation.label_list
-              conversation.save!
-            end
+          5.times do
+            conversation = create(:conversation, account: account,
+                                                 inbox: inbox,
+                                                 created_at: (Time.zone.today - 2.days))
+            create_list(:message, 3, message_type: 'outgoing',
+                                     account: account, inbox: inbox,
+                                     conversation: conversation,
+                                     created_at: (Time.zone.today - 2.days))
+            create_list(:message, 1, message_type: 'incoming',
+                                     account: account, inbox: inbox,
+                                     conversation: conversation,
+                                     created_at: (Time.zone.today - 2.days))
+            conversation.update_labels('label_2')
+            conversation.label_list
+            conversation.save!
           end
         end
       end
