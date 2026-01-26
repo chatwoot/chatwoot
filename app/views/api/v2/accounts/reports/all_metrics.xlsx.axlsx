@@ -1,0 +1,80 @@
+wb = xlsx_package.workbook
+
+def meaningful_keys(rows, field)
+  rows
+    .flat_map { |r| r[field]&.select { |_, v| v.present? }&.keys || [] }
+    .uniq
+    .sort
+end
+
+max_agents = @report_data.map { |r| r[:agents].size }.max || 0
+max_labels = @report_data.map { |r| r[:labels].size }.max || 0
+
+all_chat_custom_attrs     = meaningful_keys(@report_data, :custom_attributes)
+all_contact_custom_attrs  = meaningful_keys(@report_data, :contact_custom_attributes)
+all_contact_attrs         = meaningful_keys(@report_data, :contact_additional_attributes)
+
+headers = []
+headers << 'ID чата'
+headers << 'Дата и время начала'
+headers << 'Источник'
+headers << 'Группа'
+headers << 'Почта клиента'
+
+max_agents.times do |i|
+  headers << "Ник оператора #{i + 1}"
+end
+
+headers << 'Продолжительность (сек)'
+headers << 'Время первого ответа (сек)'
+headers << 'Среднее время ответа (сек)'
+headers << 'Оценка чата (CSAT)'
+headers << 'Комментарий к оценке'
+
+max_labels.times do |i|
+  headers << "Категория #{i + 1}"
+end
+
+headers << 'Имя клиента'
+
+all_chat_custom_attrs.each do |attr|
+  headers << "Chat custom: #{attr}"
+end
+
+all_contact_custom_attrs.each do |attr|
+  headers << "Contact custom: #{attr}"
+end
+
+all_contact_attrs.each do |attr|
+  headers << "Contact additional: #{attr}"
+end
+
+wb.add_worksheet(name: 'Отчёт') do |sheet|
+  sheet.add_row headers
+
+  @report_data.each do |row|
+    sheet.add_row [
+      row[:conversation_id],
+      row[:created_at]&.strftime('%Y-%m-%d %H:%M:%S'),
+      row[:inbox_name],
+      row[:team_name],
+      row[:contact_email],
+
+      *Array.new(max_agents) { |i| row[:agents][i] },
+
+      row[:duration],
+      row[:first_response_time],
+      row[:avg_response_time],
+      row[:csat_score],
+      row[:csat_feedback],
+
+      *Array.new(max_labels) { |i| row[:labels][i] },
+
+      row[:contact_name],
+
+      *all_chat_custom_attrs.map    { |attr| row[:custom_attributes]&.[](attr) },
+      *all_contact_custom_attrs.map { |attr| row[:contact_custom_attributes]&.[](attr) },
+      *all_contact_attrs.map        { |attr| row[:contact_additional_attributes]&.[](attr) }
+    ]
+  end
+end
