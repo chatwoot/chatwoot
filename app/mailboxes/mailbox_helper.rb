@@ -24,6 +24,9 @@ module MailboxHelper
   def add_attachments_to_message
     return if @message.blank?
 
+    # Load email content once for all attachment processing
+    load_email_content
+
     # ensure we don't add more than the permitted number of attachments
     all_attachments = processed_mail.attachments.last(Message::NUMBER_OF_PERMITTED_ATTACHMENTS)
     grouped_attachments = group_attachments(all_attachments)
@@ -38,11 +41,30 @@ module MailboxHelper
     # If the email lacks a text body or if inline attachments aren't images,
     # treat them as standard attachments for processing.
     inline_attachments = attachments.select do |attachment|
-      mail_content.present? && attachment[:original].inline? && attachment[:original].content_type.to_s.start_with?('image/')
+      inline_attachment?(attachment)
     end
 
     regular_attachments = attachments - inline_attachments
     { inline: inline_attachments, regular: regular_attachments }
+  end
+
+  def inline_attachment?(attachment)
+    # Only process images as potential inline attachments
+    return false unless mail_content.present? && attachment[:original].content_type.to_s.start_with?('image/')
+
+    # Check if attachment is explicitly marked as inline
+    return true if attachment[:original].inline?
+
+    # For Outlook compatibility: if not marked as inline but has CID and is referenced in body
+    cid = attachment[:original].cid
+    cid.present? && body_references_cid?(cid)
+  end
+
+  def body_references_cid?(cid)
+    # Check if CID is referenced in HTML content
+    return true if @html_content.present? && @html_content.include?("cid:#{cid}")
+
+    false
   end
 
   def process_regular_attachments(attachments)
@@ -58,11 +80,6 @@ module MailboxHelper
 
   def process_inline_attachments(attachments)
     Rails.logger.info "[MailboxHelper] Processing inline attachments for message with ID: #{processed_mail.message_id}"
-
-    # create an instance variable here, the `embed_inline_image_source`
-    # updates them directly. And then the value is eventaully used to update the message content
-    @html_content = processed_mail.serialized_data[:html_content][:full]
-    @text_content = processed_mail.serialized_data[:text_content][:reply]
 
     attachments.each do |mail_attachment|
       embed_inline_image_source(mail_attachment)
@@ -117,6 +134,11 @@ module MailboxHelper
 
     @contact = @contact_inbox.contact
     Rails.logger.info "[MailboxHelper] Contact created with ID: #{@contact.id} for inbox with ID: #{@inbox.id}"
+  end
+
+  def load_email_content
+    @html_content = processed_mail.serialized_data[:html_content][:full]
+    @text_content = processed_mail.serialized_data[:text_content][:reply]
   end
 
   def mail_content

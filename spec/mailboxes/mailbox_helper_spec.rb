@@ -77,4 +77,29 @@ RSpec.describe MailboxHelper do
       expect(text_content).to include(Rails.application.routes.url_helpers.url_for(mail_attachment[:blob]))
     end
   end
+
+  describe '#add_attachments_to_message' do
+    let(:mail) { create_inbound_email_from_fixture('cid_inline_images_without_disposition.eml').mail }
+    let(:processed_mail) { MailPresenter.new(mail) }
+    let(:conversation) { create(:conversation) }
+    let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
+
+    before do
+      helper_instance.send(:create_message)
+    end
+
+    it 'detects inline image attachment by cid reference when Content-Disposition is missing' do
+      allow(Rails.application.routes.url_helpers).to receive(:url_for).and_return('/fake-image-url')
+      helper_instance.send(:add_attachments_to_message)
+
+      message = conversation.messages[0]
+
+      expect(message.attachments.count).to eq(0)
+
+      html_content = message.content_attributes[:email][:html_content][:full]
+
+      expect(html_content).to include('/fake-image-url"')
+      expect(html_content).not_to include('cid:')
+    end
+  end
 end
