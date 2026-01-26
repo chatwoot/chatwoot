@@ -210,6 +210,101 @@ RSpec.describe 'Aloo Assistants API', type: :request do
         expect(response).to have_http_status(:ok)
       end
     end
+
+    context 'when it is an authenticated agent' do
+      it 'returns unauthorized' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when assistant belongs to another account' do
+      let(:other_account) { create(:account) }
+      let!(:other_assistant) { create(:aloo_assistant, account: other_account) }
+
+      it 'returns not found' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{other_assistant.id}",
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when assistant does not exist' do
+      it 'returns not found' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/999999",
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+
+    context 'when assistant has associated records' do
+      let!(:inbox) { create(:inbox, account: account) }
+      let!(:assistant_inbox) { create(:aloo_assistant_inbox, assistant: assistant, inbox: inbox) }
+      let!(:document) { create(:aloo_document, assistant: assistant, account: account) }
+      let!(:embedding) { create(:aloo_embedding, assistant: assistant, account: account, document: document) }
+      let!(:voice_usage_record) { create(:aloo_voice_usage_record, assistant: assistant, account: account) }
+      let!(:conversation) { create(:conversation, account: account) }
+      let!(:message) { create(:message, conversation: conversation, sender: assistant, account: account, message_type: :outgoing) }
+
+      it 'destroys associated assistant_inboxes but keeps the inbox' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to change(Aloo::AssistantInbox, :count).by(-1)
+           .and not_change(Inbox, :count)
+
+        expect(response).to have_http_status(:ok)
+        expect(Inbox.exists?(inbox.id)).to be true
+      end
+
+      it 'destroys associated documents' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to change(Aloo::Document, :count).by(-1)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'destroys associated embeddings' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to change(Aloo::Embedding, :count).by(-1)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'destroys associated voice_usage_records' do
+        expect do
+          delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+                 headers: administrator.create_new_auth_token,
+                 as: :json
+        end.to change(Aloo::VoiceUsageRecord, :count).by(-1)
+
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'nullifies sender_id on associated messages' do
+        delete "/api/v1/accounts/#{account.id}/aloo/assistants/#{assistant.id}",
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(Message.exists?(message.id)).to be true
+        expect(message.reload.sender_id).to be_nil
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/aloo/assistants/{id}' do
