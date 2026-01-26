@@ -165,6 +165,7 @@ en:
       contact_email: 'Contact email'
       agent_nick: 'Operator name %{index}'
       duration: 'Duration'
+      agent_chat_duration: "Agent Chat Duration"
       first_response_time: 'First Response Time'
       avg_response_time: 'AVG Response Time'
       csat_score: 'Conv Score (CSAT)'

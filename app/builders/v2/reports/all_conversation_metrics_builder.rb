@@ -70,6 +70,7 @@ class V2::Reports::AllConversationMetricsBuilder
       duration: conversation_duration(conversation),
       first_response_time: first_response_time(conversation),
       avg_response_time: avg_response_time(conversation),
+      agent_chat_duration: agent_chat_duration(conversation),
       csat_score: conversation.csat_survey_response&.rating,
       csat_feedback: clean(conversation.csat_survey_response&.feedback_message),
       labels: conversation.cached_label_list_array.map { |l| clean(l) },
@@ -88,7 +89,6 @@ class V2::Reports::AllConversationMetricsBuilder
                   .unscope(:order)
                   .distinct
                   .pluck(:sender_id)
-
     User.where(id: agent_ids).pluck(:name).map { |n| clean(n) }
   end
 
@@ -104,10 +104,21 @@ class V2::Reports::AllConversationMetricsBuilder
     reporting_average('reply_time', conversation.id)
   end
 
+  def agent_chat_duration(conversation)
+    reporting_sum('agent_chat_duration', conversation.id)
+  end
+
   def reporting_average(event_name, conversation_id)
     account.reporting_events
            .where(name: event_name, conversation_id: conversation_id)
            .average(average_value_key)
+           &.round
+  end
+
+  def reporting_sum(event_name, conversation_id)
+    account.reporting_events
+           .where(name: event_name, conversation_id: conversation_id)
+           .sum(average_value_key)
            &.round
   end
 
