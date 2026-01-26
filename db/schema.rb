@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_26_161342) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1278,6 +1278,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.string "routed_to"
     t.json "classification_result"
     t.string "tenant_id"
+    t.string "execution_type", default: "chat"
     t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
     t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
     t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
@@ -1286,6 +1287,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.index ["chosen_model_id"], name: "index_ruby_llm_agents_executions_on_chosen_model_id"
     t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
     t.index ["duration_ms"], name: "index_ruby_llm_agents_executions_on_duration_ms"
+    t.index ["execution_type"], name: "index_ruby_llm_agents_executions_on_execution_type"
     t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
     t.index ["request_id"], name: "index_ruby_llm_agents_executions_on_request_id"
     t.index ["response_cache_key"], name: "index_ruby_llm_agents_executions_on_response_cache_key"
