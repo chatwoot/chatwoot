@@ -50,23 +50,27 @@ class Aloo::ResponseService
   end
 
   def send_whatsapp_typing_indicator
+    channel = whatsapp_cloud_channel
+    return unless channel
+
+    phone_number = @conversation.contact_inbox.source_id
+    return if phone_number.blank?
+
+    Rails.logger.info "[ALOO] Sending WhatsApp typing indicator to #{phone_number}"
+    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
+    service.send_typing_indicator(phone_number, message_id: @message.source_id)
+  rescue StandardError => e
+    Rails.logger.error "[ALOO] Failed to send WhatsApp typing indicator: #{e.message}"
+  end
+
+  def whatsapp_cloud_channel
     inbox = @conversation.inbox
     return unless inbox.channel_type == 'Channel::Whatsapp'
 
     channel = inbox.channel
     return unless channel.respond_to?(:provider_name) && channel.provider_name == 'whatsapp_cloud'
 
-    phone_number = @conversation.contact_inbox.source_id
-    return if phone_number.blank?
-
-    whatsapp_message_id = @message.source_id
-
-    Rails.logger.info "[ALOO] Sending WhatsApp typing indicator to #{phone_number}"
-
-    service = Whatsapp::Providers::WhatsappCloudService.new(whatsapp_channel: channel)
-    service.send_typing_indicator(phone_number, message_id: whatsapp_message_id)
-  rescue StandardError => e
-    Rails.logger.error "[ALOO] Failed to send WhatsApp typing indicator: #{e.message}"
+    channel
   end
 
   def generate_response
