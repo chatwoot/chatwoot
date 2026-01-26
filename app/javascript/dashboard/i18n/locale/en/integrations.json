@@ -734,6 +734,10 @@
           "PLACEHOLDER": "Enter the URL of the document",
           "ERROR": "Please provide a valid URL for the document"
         },
+        "EXCLUDE_PATHS": {
+          "LABEL": "Exclude Paths (Optional)",
+          "PLACEHOLDER": "^/news/.*$"
+        },
         "PDF_FILE": {
           "LABEL": "PDF File",
           "CHOOSE_FILE": "Choose PDF file",
