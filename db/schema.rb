@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_105500) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -766,6 +766,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_105500) do
     t.text "cached_label_list"
     t.bigint "assignee_agent_bot_id"
     t.boolean "has_unread_messages", default: false, null: false
+    t.datetime "last_triaged_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "has_unread_messages"], name: "index_conversations_on_account_has_unread", where: "(has_unread_messages = true)"
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"

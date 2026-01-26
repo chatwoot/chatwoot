@@ -11,7 +11,7 @@
 #
 class ConversationTriageAgent < ApplicationAgent
   description 'Analyzes conversations and suggests appropriae labels/team assignments'
-  model 'gemini-2.5-flash-lite'
+  model 'gemini-2.5-flash'
   temperature 0.3
   version '1.0'
 

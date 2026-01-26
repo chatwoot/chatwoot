@@ -39,21 +39,44 @@ RSpec.describe HandoffTool, :aloo do
         expect(result[:success]).to be true
       end
 
-      it 'deactivates bot for conversation' do
-        # The handoff flag is only set when agent_bot_inbox exists (legacy behavior)
-        # Create an agent_bot_inbox to test this path
-        agent_bot = create(:agent_bot, account: account)
-        create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot)
-
+      it 'sets human_assistance_requested flag (NOT aloo_handoff_active)' do
         tool.execute(reason: 'Customer requested human')
 
-        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be true
+        # AI should only request assistance, not trigger full handoff
+        # Full handoff (aloo_handoff_active) can only be triggered by human agent
+        expect(conversation.reload.custom_attributes['human_assistance_requested']).to be true
+        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be_nil
       end
 
-      it 'updates conversation status to open' do
+      it 'does NOT set aloo_handoff_active (AI cannot hand off on its own)' do
         tool.execute(reason: 'Customer requested human')
 
-        expect(conversation.reload.status).to eq('open')
+        # This is critical: AI must NOT be able to stop itself from responding
+        # Only human agents can trigger true handoff via AgentHandoffService
+        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be_nil
+      end
+
+      it 'records assistance request timestamp' do
+        freeze_time do
+          tool.execute(reason: 'Customer requested human')
+
+          expect(conversation.reload.custom_attributes['human_assistance_requested_at']).to eq(Time.current.iso8601)
+        end
+      end
+
+      it 'records assistance request reason' do
+        tool.execute(reason: 'Customer needs refund')
+
+        expect(conversation.reload.custom_attributes['human_assistance_reason']).to eq('Customer needs refund')
+      end
+
+      it 'keeps conversation status unchanged (AI continues responding)' do
+        original_status = conversation.status
+
+        tool.execute(reason: 'Customer requested human')
+
+        # Status should not change to open - AI continues in pending state
+        expect(conversation.reload.status).to eq(original_status)
       end
 
       it 'adds handoff note as private message' do
@@ -72,44 +95,41 @@ RSpec.describe HandoffTool, :aloo do
         end
       end
 
-      it 'defaults invalid priority to normal' do
+      it 'defaults invalid priority to normal and elevates to high' do
         tool.execute(reason: 'Test', priority: 'super-urgent')
 
-        expect(conversation.reload.priority).to eq('medium')
+        # Invalid priority defaults to 'normal', then elevated to 'high' for visibility
+        expect(conversation.reload.priority).to eq('high')
       end
     end
 
-    context 'with preferred_team' do
-      let(:team) { create(:team, name: 'Billing', account: account) }
-      let(:agent) { create(:user, account: account, role: :agent) }
-
-      before do
-        create(:team_member, team: team, user: agent)
-        create(:inbox_member, inbox: inbox, user: agent)
-      end
-
-      it 'tries to assign agent from team' do
+    context 'with preferred_team parameter' do
+      # NOTE: preferred_team is accepted but not currently used for assignment
+      # AI cannot assign agents - it can only request human assistance
+      it 'accepts preferred_team without error' do
         result = tool.execute(reason: 'Billing issue', preferred_team: 'Billing')
-
-        expect(result[:data][:assigned_agent]).to eq(agent)
-      end
-
-      it 'handles team not found' do
-        result = tool.execute(reason: 'Test', preferred_team: 'NonexistentTeam')
 
         expect(result[:success]).to be true
       end
+
+      it 'does not assign conversation to any agent' do
+        tool.execute(reason: 'Billing issue', preferred_team: 'Billing')
+
+        # AI cannot assign agents - only request assistance
+        expect(conversation.reload.assignee).to be_nil
+      end
     end
 
-    context 'with auto_assignment enabled' do
+    context 'regardless of auto_assignment setting' do
       before do
         inbox.update!(enable_auto_assignment: true)
       end
 
-      it 'does not manually assign' do
-        result = tool.execute(reason: 'Test')
+      it 'does not assign any agent (AI cannot assign)' do
+        tool.execute(reason: 'Test')
 
-        expect(result[:data][:assigned_agent]).to be_nil
+        # AI can only request human assistance, not assign
+        expect(conversation.reload.assignee).to be_nil
       end
     end
 

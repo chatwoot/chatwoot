@@ -17,7 +17,7 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
   end
 
   describe 'handoff initiation' do
-    let(:handoff_tool_call) { instance_double('RubyLLM::ToolCall', name: 'handoff') }
+    let(:handoff_tool_call) { { 'name' => 'handoff' } }
     let(:agent_result) do
       instance_double(
         'RubyLLM::Agents::Result',
@@ -115,14 +115,8 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
     end
   end
 
-  describe 'handoff to specific team' do
-    let(:billing_team) { create(:team, name: 'Billing', account: account) }
-    let(:billing_agent) { create(:user, account: account, role: :agent) }
-
+  describe 'AI cannot trigger true handoff' do
     before do
-      create(:team_member, team: billing_team, user: billing_agent)
-      create(:inbox_member, inbox: inbox, user: billing_agent)
-
       Aloo::Current.account = account
       Aloo::Current.assistant = assistant
       Aloo::Current.conversation = conversation
@@ -132,33 +126,62 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
       Aloo::Current.reset
     end
 
-    it 'assigns to team agent when team specified' do
+    it 'AI tool only requests assistance, does not set aloo_handoff_active' do
       tool = HandoffTool.new
 
-      result = tool.execute(
+      tool.execute(
+        reason: 'Customer needs help',
+        priority: 'normal'
+      )
+
+      # AI can only request assistance - cannot trigger true handoff
+      expect(conversation.reload.custom_attributes['human_assistance_requested']).to be true
+      expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be_nil
+    end
+
+    it 'AI tool does not assign conversation to any agent' do
+      tool = HandoffTool.new
+
+      tool.execute(
         reason: 'Billing question',
         priority: 'normal',
         preferred_team: 'Billing'
       )
 
-      expect(result[:data][:assigned_agent]).to eq(billing_agent)
+      # AI cannot assign agents
+      expect(conversation.reload.assignee).to be_nil
     end
 
-    it 'creates handoff note with team info' do
+    it 'creates assistance request note' do
       tool = HandoffTool.new
 
       expect do
         tool.execute(
           reason: 'Billing dispute',
           priority: 'high',
-          summary: 'Customer disputing charge',
-          preferred_team: 'Billing'
+          summary: 'Customer disputing charge'
         )
       end.to change { conversation.messages.where(private: true).count }.by(1)
 
       note = conversation.messages.where(private: true).last
       expect(note.content).to include('Billing dispute')
       expect(note.content).to include('High')
+    end
+  end
+
+  describe 'only human agent can trigger true handoff' do
+    it 'sets aloo_handoff_active when human agent sends message' do
+      # Agent sends a message to AI-handled conversation
+      message = create(:message,
+                       conversation: conversation,
+                       message_type: :outgoing,
+                       sender: agent,
+                       content: 'Let me help you')
+
+      Aloo::AgentHandoffService.new(message).perform
+
+      expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be true
+      expect(conversation.reload.assignee).to eq(agent)
     end
   end
 end
