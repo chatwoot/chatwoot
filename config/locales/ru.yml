@@ -129,6 +129,23 @@ ru:
   reports:
     period: Отчётный период с %{since} по %{until}
     utc_warning: Отчёт создан в часовом поясе UTC
+    conversation_details_csv:
+      conversation_id: 'ID чата'
+      created_at: 'Дата и время начала'
+      inbox_name: 'Источник'
+      team_name: 'Группа'
+      contact_email: 'Почта клиента'
+      agent_nick: 'Ник оператора %{index}'
+      duration: 'Продолжительность'
+      first_response_time: 'Время первого ответа'
+      avg_response_time: 'Среднее время ответа'
+      csat_score: 'Оценка чата (CSAT)'
+      csat_feedback: 'Комментарий к оценке'
+      label: 'Категория %{index}'
+      contact_name: 'Имя клиента'
+      chat_custom: 'Кастом инфо о чате: %{attr}'
+      contact_custom: 'Кастом инфо о контакте: %{attr}'
+      contact_additional: 'Дополнительная инфо: %{attr}'
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Назначенные диалоги

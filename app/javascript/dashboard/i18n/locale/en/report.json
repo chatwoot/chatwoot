@@ -126,6 +126,11 @@
       "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
+  "ALL_METRICS_REPORTS": {
+    "HEADER": "All chats metrics",
+    "DESCRIPTION": "Easily track agent performance with key metrics.",
+    "DOWNLOAD": "Download All Chat Reports"
+  },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",

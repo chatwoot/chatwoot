@@ -379,7 +379,7 @@ const menuItems = computed(() => {
         {
           name: 'Reports All Metrics',
           label: t('SIDEBAR.REPORTS_ALL_METRICS'),
-          to: accountScopedRoute('all_metrics_reports'),
+          to: accountScopedRoute('all_conversation_metrics_reports'),
         },
         {
           name: 'Report Overview',

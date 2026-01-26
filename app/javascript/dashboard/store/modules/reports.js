@@ -250,7 +250,7 @@ export const actions = {
         downloadFile(reportObj.fileName, response.data, format);
 
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
-          reportType: 'all_metrics',
+          reportType: 'all_conversation_metrics',
           businessHours: reportObj?.businessHours,
           format,
           hasFilters: !!(

@@ -55,7 +55,10 @@ const handleDownload = async format => {
   );
   const link = document.createElement('a');
   link.href = url;
-  link.setAttribute('download', `all_metrics_${Date.now()}.${format}`);
+  link.setAttribute(
+    'download',
+    `all_conversation_metrics_${Date.now()}.${format}`
+  );
   document.body.appendChild(link);
   link.click();
 
