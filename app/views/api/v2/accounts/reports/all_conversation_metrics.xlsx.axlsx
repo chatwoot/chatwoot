@@ -32,6 +32,7 @@ end
 headers << t('reports.conversation_details_csv.duration')
 headers << t('reports.conversation_details_csv.first_response_time')
 headers << t('reports.conversation_details_csv.avg_response_time')
+headers << t('reports.conversation_details_csv.agent_chat_duration')
 headers << t('reports.conversation_details_csv.csat_score')
 headers << t('reports.conversation_details_csv.csat_feedback')
 
@@ -61,6 +62,7 @@ xlsx_package.workbook.add_worksheet(name: t('reports.period', since: '', until: 
       tf(row[:duration]),
       tf(row[:first_response_time]),
       tf(row[:avg_response_time]),
+      tf(row[:agent_chat_duration]),
 
       row[:csat_score],
       row[:csat_feedback],
