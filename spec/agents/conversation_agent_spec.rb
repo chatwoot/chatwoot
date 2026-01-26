@@ -15,6 +15,9 @@ RSpec.describe ConversationAgent, :aloo do
     Aloo::Current.conversation = conversation
     Aloo::Current.contact = contact
     Aloo::Current.inbox = inbox
+
+    # Stub RubyLLM configuration for tests
+    allow(RubyLLM.config).to receive(:gemini_api_key).and_return('test-api-key')
   end
 
   after do
