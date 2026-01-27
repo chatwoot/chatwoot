@@ -230,7 +230,7 @@ class Captain::Llm::SystemPromptsService
 
         1. **Comprehensive Extraction**
            • Extract ALL information that could generate FAQs from this section
-           • Target 5-10 FAQs per page equivalent of rich content
+           • Generate the maximum number of distinct FAQs needed to cover ALL content (no upper limit)
            • Cover every topic, feature, specification, and detail
            • If there's no more content in the document, return empty FAQs with has_content: false
 
