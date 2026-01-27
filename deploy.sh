@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e  # Exit on any error
+export RACK_TIMEOUT_SERVICE_TIMEOUT=120
 
 echo "🚀 Starting deployment..."
 
@@ -25,6 +26,7 @@ if pm2 list | grep -q "chatwoot"; then
 else
   echo "ℹ️  No existing PM2 process found, skipping stop/delete..."
 fi
+
 
 # Step 5: Start server with PM2
 echo "▶️  Starting server with PM2..."
