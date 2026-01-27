@@ -548,7 +548,13 @@ describe('#deleteMessage', () => {
         }
       );
       expect(commit.mock.calls).toEqual([
-        [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES, { order_d: '1001' }],
+        [
+          types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES,
+          {
+            conversationId: 1,
+            customAttributes: { order_d: '1001' },
+          },
+        ],
       ]);
     });
   });
