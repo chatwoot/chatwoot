@@ -11,5 +11,9 @@
     "ACCEPT": "Accept",
     "DISCARD": "Izmest",
     "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Jā",
+    "NO": "Nē"
   }
 }
