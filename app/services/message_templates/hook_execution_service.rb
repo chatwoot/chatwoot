@@ -49,6 +49,11 @@ class MessageTemplates::HookExecutionService
 
   # TODO: we should be able to reduce this logic once we have a toggle for email collect messages
   def should_send_email_collect?
+    # Don't send email collect if a human agent has already replied
+    # It breaks UX if an automated template shows up during a human conversation
+    # The agent can manually collect email if needed
+    return false if conversation.messages.outgoing.exists?(private: false, sender_type: 'User')
+
     !contact_has_email? && inbox.web_widget? && !email_collect_was_sent?
   end
 
