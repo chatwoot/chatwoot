@@ -9,7 +9,7 @@ FactoryBot.define do
 
     trait :dialogflow do
       app_id { 'dialogflow' }
-      settings { { project_id: 'test', credentials: {}, region: 'global' } }
+      settings { { project_id: 'test', credentials: {}, region: 'global', language_code: 'en-US' } }
     end
 
     trait :dyte do

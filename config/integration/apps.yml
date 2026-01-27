@@ -91,6 +91,7 @@ dialogflow:
           'project_id': { 'type': 'string' },
           'credentials': { 'type': 'object' },
           'region': { 'type': 'string' },
+          'language_code': { 'type': 'string' },
         },
       'required': ['project_id', 'credentials'],
       'additionalProperties': false,
@@ -126,8 +127,40 @@ dialogflow:
           { 'label': 'EU-W2 - London, England', 'value': 'europe-west2' },
         ],
       },
+      {
+        'label': 'Language Code',
+        'type': 'select',
+        'name': 'language_code',
+        'default': 'en-US',
+        'help': 'Language code for Dialogflow agent. Use "auto" to detect from contact language.',
+        'options': [
+          { 'label': 'Auto-detect from contact', 'value': 'auto' },
+          { 'label': 'English (US)', 'value': 'en-US' },
+          { 'label': 'English (UK)', 'value': 'en-GB' },
+          { 'label': 'Spanish (Spain)', 'value': 'es-ES' },
+          { 'label': 'Spanish (Latin America)', 'value': 'es-419' },
+          { 'label': 'French', 'value': 'fr-FR' },
+          { 'label': 'German', 'value': 'de-DE' },
+          { 'label': 'Portuguese (Brazil)', 'value': 'pt-BR' },
+          { 'label': 'Portuguese (Portugal)', 'value': 'pt-PT' },
+          { 'label': 'Italian', 'value': 'it-IT' },
+          { 'label': 'Japanese', 'value': 'ja-JP' },
+          { 'label': 'Korean', 'value': 'ko-KR' },
+          { 'label': 'Chinese (Simplified)', 'value': 'zh-CN' },
+          { 'label': 'Chinese (Traditional)', 'value': 'zh-TW' },
+          { 'label': 'Hindi', 'value': 'hi-IN' },
+          { 'label': 'Arabic', 'value': 'ar-SA' },
+          { 'label': 'Russian', 'value': 'ru-RU' },
+          { 'label': 'Dutch', 'value': 'nl-NL' },
+          { 'label': 'Polish', 'value': 'pl-PL' },
+          { 'label': 'Turkish', 'value': 'tr-TR' },
+          { 'label': 'Thai', 'value': 'th-TH' },
+          { 'label': 'Vietnamese', 'value': 'vi-VN' },
+          { 'label': 'Indonesian', 'value': 'id-ID' },
+        ],
+      },
     ]
-  visible_properties: ['project_id', 'region']
+  visible_properties: ['project_id', 'region', 'language_code']
 google_translate:
   id: google_translate
   logo: google-translate.png
