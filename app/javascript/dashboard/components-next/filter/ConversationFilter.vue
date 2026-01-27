@@ -48,8 +48,8 @@ const currentUser = useMapGetter('getCurrentUser');
 const isPartnerFilter = computed(() => {
   return userACL.value.time_privado;
 });
-const verTodasConversas = computed(() => {
-  return userACL.value.ver_todas_conversas;
+const verConversasNaoVinculadasAMim = computed(() => {
+  return userACL.value.ver_conversas_nao_vinculadas_a_mim;
 });
 
 const resetFilter = () => {
@@ -66,7 +66,7 @@ const resetFilter = () => {
   }
 
   // Verificar assignee_id (independente)
-  if (!verTodasConversas.value) {
+  if (!verConversasNaoVinculadasAMim.value) {
     filtersToAdd.push({
       attributeKey: 'assignee_id',
       filterOperator: 'equal_to',
@@ -91,7 +91,7 @@ const removeFilter = index => {
     return;
   }
   if (
-    !verTodasConversas.value &&
+    !verConversasNaoVinculadasAMim.value &&
     filters.value[index].attributeKey === 'assignee_id'
   ) {
     return;
@@ -207,7 +207,7 @@ onMounted(() => {
     ensureTeamFilter()
   }
   // Sempre ter um filtro de agente atribuido com o valor inicial sendo o usuário logado caso ele NAO TENHA a acl de ver_todas_conversas
-  if (!verTodasConversas.value) {
+  if (!verConversasNaoVinculadasAMim.value) {
     ensureAssigneeFilter()
   }
 

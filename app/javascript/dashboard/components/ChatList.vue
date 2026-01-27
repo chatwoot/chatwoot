@@ -210,8 +210,8 @@ const assigneeTabItems = computed(() => {
     count: conversationStats.value[countKey] || 0,
   }));
 
-  const ver_todas_conversas = userACL.value.ver_todas_conversas
-  if (!ver_todas_conversas) {
+  const ver_conversas_nao_vinculadas_a_mim = userACL.value.ver_conversas_nao_vinculadas_a_mim
+  if (!ver_conversas_nao_vinculadas_a_mim) {
     return allTabs.filter(tab => tab.key === wootConstants.ASSIGNEE_TYPE.ME)
   }
   return allTabs

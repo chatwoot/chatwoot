@@ -26,13 +26,13 @@ const aclLabels = {
     'time_privado': 'time privado',
     'side_panel': 'painel lateral',
     'direcionar_conversa': 'direcionar conversa',
-    'ver_todas_conversas': 'ver todas conversas'
+    'ver_conversas_nao_vinculadas_a_mim': 'ver conversas não vinculadas a mim'
 }
 const aclDescriptions = {
     'time_privado': 'Quando esse checkbox está marcado, o usuário pode fazer filtros SEM que o filtro de time seja obrigatório.',
     'side_panel': 'Habilita a visualização completa das opções no menu lateral esquerdo quando está marcado.',
     'direcionar_conversa': 'Habilita as ações de conversa para atribuição a equipes ou usuários quando está marcado.',
-    'ver_todas_conversas': 'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.'
+    'ver_conversas_nao_vinculadas_a_mim': 'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.'
 }
 
 function openEditPopup(agent) {

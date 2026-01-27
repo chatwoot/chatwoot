@@ -31,7 +31,8 @@ const state = {
     currentUserACL: {
         time_privado: false,
         direcionar_conversa: false,
-        side_panel: false
+        side_panel: false,
+        ver_conversas_nao_vinculadas_a_mim: false
     },
     editingACL: {
 
