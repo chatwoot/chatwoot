@@ -16,6 +16,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
+import SidebarChangelogButton from './SidebarChangelogButton.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
@@ -796,6 +797,13 @@ const menuItems = computed(() => {
           isOnChatwootCloud &&
           !isACustomBrandedInstance &&
           !isEffectivelyCollapsed
+        "
+      />
+      <SidebarChangelogButton
+        v-if="
+          isOnChatwootCloud &&
+          !isACustomBrandedInstance &&
+          isEffectivelyCollapsed
         "
       />
       <div
