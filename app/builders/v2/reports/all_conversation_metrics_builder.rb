@@ -1,30 +1,83 @@
+require 'cgi'
+
 class V2::Reports::AllConversationMetricsBuilder
+  BATCH_SIZE = 500
+
   attr_reader :account, :params
 
   def initialize(account, params = {})
     @account = account
     @params = params
+    @reporting_events_cache = {}
+    @participating_agents_cache = {}
+    @clean_cache = {}
   end
 
   def build
+    result = []
+
     conversations_scope
-      .includes(
-        :inbox,
-        :contact,
-        :team,
-        :csat_survey_response
-      )
-      .find_each(batch_size: 100)
-      .map { |conversation| build_conversation_row(conversation) }
+      .includes(:inbox, :contact, :team, :csat_survey_response)
+      .find_in_batches(batch_size: BATCH_SIZE) do |batch|
+        preload_batch_data(batch.map(&:id))
+        batch.each { |conversation| result << build_conversation_row(conversation) }
+      end
+
+    result
+  end
+
+  def build_streaming
+    conversations_scope
+      .includes(:inbox, :contact, :team, :csat_survey_response)
+      .find_in_batches(batch_size: BATCH_SIZE) do |batch|
+        preload_batch_data(batch.map(&:id))
+        batch.each { |conversation| yield build_conversation_row(conversation) }
+      end
   end
 
   private
 
+  def preload_batch_data(conversation_ids)
+    return if conversation_ids.empty?
+
+    preload_reporting_events_batch(conversation_ids)
+    preload_participating_agents_batch(conversation_ids)
+  end
+
+  def preload_reporting_events_batch(conversation_ids)
+    events = account.reporting_events
+                    .where(conversation_id: conversation_ids)
+                    .where(name: %w[conversation_resolved first_response reply_time agent_chat_duration])
+                    .select(:conversation_id, :name, average_value_key)
+                    .group_by { |e| [e.conversation_id, e.name] }
+
+    @reporting_events_cache.merge!(events)
+  end
+
+  def preload_participating_agents_batch(conversation_ids)
+    participants = ConversationParticipant
+                   .joins(:user)
+                   .where(conversation_id: conversation_ids)
+                   .pluck(:conversation_id, 'users.id', 'users.name')
+
+    return if participants.empty?
+
+    participants
+      .group_by(&:first)
+      .each do |conv_id, records|
+        @participating_agents_cache[conv_id] = records.map(&:third).uniq.compact
+      end
+  end
+
   def conversations_scope
-    scope = account.conversations
-    scope = apply_basic_filters(scope)
-    scope = apply_time_filters(scope)
-    apply_user_filter(scope)
+    @conversations_scope ||= begin
+      scope = account.conversations
+                     .select(:id, :display_id, :created_at, :inbox_id, :team_id,
+                             :contact_id, :custom_attributes, :cached_label_list)
+      scope = apply_basic_filters(scope)
+      scope = apply_time_filters(scope)
+      apply_user_filter(scope)
+    end
   end
 
   def apply_basic_filters(scope)
@@ -43,9 +96,8 @@ class V2::Reports::AllConversationMetricsBuilder
     return scope if params[:user_ids].blank?
 
     scope
-      .joins(:messages)
-      .merge(Message.unscoped)
-      .where(messages: { sender_type: 'User', sender_id: params[:user_ids] })
+      .joins(:conversation_participants)
+      .where(conversation_participants: { user_id: params[:user_ids] })
       .distinct
   end
 
@@ -66,13 +118,15 @@ class V2::Reports::AllConversationMetricsBuilder
   end
 
   def extra_fields(conversation)
+    csat = conversation.csat_survey_response
+
     {
       duration: conversation_duration(conversation),
       first_response_time: first_response_time(conversation),
       avg_response_time: avg_response_time(conversation),
       agent_chat_duration: agent_chat_duration(conversation),
-      csat_score: conversation.csat_survey_response&.rating,
-      csat_feedback: clean(conversation.csat_survey_response&.feedback_message),
+      csat_score: csat&.rating,
+      csat_feedback: csat ? clean(csat.feedback_message) : nil,
       labels: conversation.cached_label_list_array.map { |l| clean(l) },
       custom_attributes: clean_hash(conversation.custom_attributes || {}),
       contact_additional_attributes: clean_hash(conversation.contact.additional_attributes || {}),
@@ -81,60 +135,51 @@ class V2::Reports::AllConversationMetricsBuilder
   end
 
   def participating_agents(conversation)
-    agent_ids =
-      conversation.messages
-                  .outgoing
-                  .where(sender_type: 'User')
-                  .reselect(:sender_id)
-                  .unscope(:order)
-                  .distinct
-                  .pluck(:sender_id)
-    User.where(id: agent_ids).pluck(:name).map { |n| clean(n) }
+    @participating_agents_cache[conversation.id] || []
   end
 
   def conversation_duration(conversation)
-    reporting_average('conversation_resolved', conversation.id)
+    reporting_average_cached('conversation_resolved', conversation.id)
   end
 
   def first_response_time(conversation)
-    reporting_average('first_response', conversation.id)
+    reporting_average_cached('first_response', conversation.id)
   end
 
   def avg_response_time(conversation)
-    reporting_average('reply_time', conversation.id)
+    reporting_average_cached('reply_time', conversation.id)
   end
 
   def agent_chat_duration(conversation)
-    reporting_sum('agent_chat_duration', conversation.id)
+    reporting_sum_cached('agent_chat_duration', conversation.id)
   end
 
-  def reporting_average(event_name, conversation_id)
-    account.reporting_events
-           .where(name: event_name, conversation_id: conversation_id)
-           .average(average_value_key)
-           &.round
+  def reporting_average_cached(event_name, conversation_id)
+    events = @reporting_events_cache[[conversation_id, event_name]] || []
+    return nil if events.empty?
+
+    values = events.filter_map { |e| e.send(average_value_key) }
+    return nil if values.empty?
+
+    (values.sum.to_f / values.size).round
   end
 
-  def reporting_sum(event_name, conversation_id)
-    account.reporting_events
-           .where(name: event_name, conversation_id: conversation_id)
-           .sum(average_value_key)
-           &.round
+  def reporting_sum_cached(event_name, conversation_id)
+    events = @reporting_events_cache[[conversation_id, event_name]] || []
+    return nil if events.empty?
+
+    events.sum { |e| e.send(average_value_key) || 0 }.round
   end
 
   def average_value_key
-    ActiveModel::Type::Boolean.new.cast(params[:business_hours]) ? :value_in_business_hours : :value
+    @average_value_key ||= ActiveModel::Type::Boolean.new.cast(params[:business_hours]) ? :value_in_business_hours : :value
   end
 
   def clean(value)
     return nil if value.nil?
 
-    value.to_s
-         .gsub('&quot;', '"')
-         .gsub('&amp;', '&')
-         .gsub('&lt;', '<')
-         .gsub('&gt;', '>')
-         .gsub('&apos;', "'")
+    key = value.to_s
+    @clean_cache[key] ||= CGI.unescapeHTML(key)
   end
 
   def clean_hash(value)

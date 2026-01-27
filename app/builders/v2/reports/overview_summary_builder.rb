@@ -1,4 +1,3 @@
-# app/builders/v2/reports/overview_summary_builder.rb
 class V2::Reports::OverviewSummaryBuilder
   attr_reader :account
 

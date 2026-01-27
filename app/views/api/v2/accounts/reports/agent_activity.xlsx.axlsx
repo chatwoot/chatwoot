@@ -1,0 +1,30 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: 'Agent Activity Report') do |sheet|
+  sheet.add_row [I18n.t('reports.period', since: @since, until: @until)]
+  sheet.add_row []
+
+  headers = [
+    I18n.t('reports.agent_activity_csv.agent_name'),
+    I18n.t('reports.agent_activity_csv.email'),
+    I18n.t('reports.agent_activity_csv.total_active_hours'),
+    I18n.t('reports.agent_activity_csv.online_hours'),
+    I18n.t('reports.agent_activity_csv.busy_hours'),
+    I18n.t('reports.agent_activity_csv.offline_hours'),
+    I18n.t('reports.agent_activity_csv.current_status')
+  ]
+
+  sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')
+
+  @agents.each do |agent|
+    sheet.add_row [
+      agent[:name],
+      agent[:email],
+      (agent[:total_duration] / 3600.0).round(2),
+      (agent[:online_duration] / 3600.0).round(2),
+      (agent[:busy_duration] / 3600.0).round(2),
+      (agent[:offline_duration] / 3600.0).round(2),
+      agent[:current_status]
+    ]
+  end
+end
