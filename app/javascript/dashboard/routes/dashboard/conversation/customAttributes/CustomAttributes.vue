@@ -76,10 +76,7 @@ const toggleButtonText = computed(() =>
 const filteredCustomAttributes = computed(() =>
   attributes.value.map(attribute => {
     // Check if the attribute key exists in customAttributes
-    const hasValue = Object.hasOwnProperty.call(
-      customAttributes.value,
-      attribute.attribute_key
-    );
+    const hasValue = attribute.attribute_key in customAttributes.value;
 
     return {
       ...attribute,

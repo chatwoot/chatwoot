@@ -32,6 +32,7 @@ import ConversationBulkActions from './widgets/conversation/conversationBulkActi
 import IntersectionObserver from './IntersectionObserver.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -46,6 +47,7 @@ import {
 } from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useEventListener } from '@vueuse/core';
+import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 
 import { emitter } from 'shared/helpers/mitt';
 
@@ -87,6 +89,7 @@ const router = useRouter();
 const route = useRoute();
 const store = useStore();
 
+const resolveAttributesModalRef = ref(null);
 const conversationListRef = ref(null);
 const conversationDynamicScroller = ref(null);
 
@@ -129,6 +132,7 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
+const getConversationById = useMapGetter('getConversationById');
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -152,6 +156,8 @@ const {
   filteri18nKey: 'FILTER',
   attributeModel: 'conversation_attribute',
 });
+
+const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 // computed
 const intersectionObserverOptions = computed(() => {
@@ -729,22 +735,76 @@ async function onAssignTeam(team, conversationId = null) {
   }
 }
 
-function toggleConversationStatus(conversationId, status, snoozedUntil) {
-  store
-    .dispatch('toggleStatus', {
-      conversationId,
-      status,
+function toggleConversationStatus(
+  conversationId,
+  status,
+  snoozedUntil,
+  customAttributes = null
+) {
+  const payload = {
+    conversationId,
+    status,
+    snoozedUntil,
+  };
+
+  if (customAttributes) {
+    payload.customAttributes = customAttributes;
+  }
+
+  store.dispatch('toggleStatus', payload).then(() => {
+    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  });
+}
+
+function handleResolveConversation(conversationId, status, snoozedUntil) {
+  if (status !== wootConstants.STATUS_TYPE.RESOLVED) {
+    toggleConversationStatus(conversationId, status, snoozedUntil);
+    return;
+  }
+
+  // Check for required attributes before resolving
+  const conversation = getConversationById.value(conversationId);
+  const currentCustomAttributes = conversation?.custom_attributes || {};
+  const { hasMissing, missing } = checkMissingAttributes(
+    currentCustomAttributes
+  );
+
+  if (hasMissing) {
+    // Pass conversation context through the modal's API
+    const conversationContext = {
+      id: conversationId,
       snoozedUntil,
-    })
-    .then(() => {
-      useAlert(t('CONVERSATION.CHANGE_STATUS'));
-    });
+    };
+    resolveAttributesModalRef.value?.open(
+      missing,
+      currentCustomAttributes,
+      conversationContext
+    );
+  } else {
+    toggleConversationStatus(conversationId, status, snoozedUntil);
+  }
+}
+
+function handleResolveWithAttributes({ attributes, context }) {
+  if (context) {
+    const existingConversation = getConversationById.value(context.id);
+    const currentCustomAttributes =
+      existingConversation?.custom_attributes || {};
+    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+
+    toggleConversationStatus(
+      context.id,
+      wootConstants.STATUS_TYPE.RESOLVED,
+      context.snoozedUntil,
+      mergedAttributes
+    );
+  }
 }
 
 function allSelectedConversationsStatus(status) {
   if (!selectedConversations.value.length) return false;
   return selectedConversations.value.every(item => {
-    return store.getters.getConversationById(item)?.status === status;
+    return getConversationById.value(item)?.status === status;
   });
 }
 
@@ -799,7 +859,7 @@ provide('deSelectConversation', deSelectConversation);
 provide('assignAgent', onAssignAgent);
 provide('assignTeam', onAssignTeam);
 provide('assignLabels', onAssignLabels);
-provide('updateConversationStatus', toggleConversationStatus);
+provide('updateConversationStatus', handleResolveConversation);
 provide('toggleContextMenu', onContextMenuToggle);
 provide('markAsUnread', markAsUnread);
 provide('markAsRead', markAsRead);
@@ -895,7 +955,7 @@ watch(conversationFilters, (newVal, oldVal) => {
 
     <p
       v-if="!chatListLoading && !conversationList.length"
-      class="flex items-center justify-center p-4 overflow-auto"
+      class="flex overflow-auto justify-center items-center p-4"
     >
       {{ $t('CHAT_LIST.LIST.404') }}
     </p>
@@ -915,14 +975,14 @@ watch(conversationFilters, (newVal, oldVal) => {
     />
     <div
       ref="conversationListRef"
-      class="flex-1 overflow-hidden conversations-list hover:overflow-y-auto"
+      class="overflow-hidden flex-1 conversations-list hover:overflow-y-auto"
       :class="{ 'overflow-hidden': isContextMenuOpen }"
     >
       <DynamicScroller
         ref="conversationDynamicScroller"
         :items="conversationList"
         :min-item-size="24"
-        class="w-full h-full overflow-auto"
+        class="overflow-auto w-full h-full"
       >
         <template #default="{ item, index, active }">
           <!--
@@ -997,5 +1057,9 @@ watch(conversationFilters, (newVal, oldVal) => {
         @close="closeAdvanceFiltersModal"
       />
     </TeleportWithDirection>
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="handleResolveWithAttributes"
+    />
   </div>
 </template>
