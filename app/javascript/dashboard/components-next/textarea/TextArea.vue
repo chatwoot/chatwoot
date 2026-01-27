@@ -32,7 +32,7 @@ const props = defineProps({
   allowSignature: { type: Boolean, default: false }, // allowSignature is a kill switch, ensuring no signature methods are triggered except when this flag is true
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'blur', 'focus']);
 
 const textareaRef = ref(null);
 const isFocused = ref(false);
@@ -96,15 +96,17 @@ const handleInput = event => {
   }
 };
 
-const handleFocus = () => {
+const handleFocus = event => {
   if (!props.disabled) {
     isFocused.value = true;
+    emit('focus', event);
   }
 };
 
-const handleBlur = () => {
+const handleBlur = event => {
   if (!props.disabled) {
     isFocused.value = false;
+    emit('blur', event);
   }
 };
 

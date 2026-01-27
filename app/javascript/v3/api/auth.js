@@ -4,7 +4,10 @@ import {
   clearLocalStorageOnLogout,
 } from 'dashboard/store/utils/api';
 import wootAPI from './apiClient';
-import { getLoginRedirectURL } from '../helpers/AuthHelper';
+import {
+  getLoginRedirectURL,
+  getCredentialsFromEmail,
+} from '../helpers/AuthHelper';
 
 export const login = async ({
   ssoAccountId,
@@ -46,9 +49,10 @@ export const login = async ({
 
 export const register = async creds => {
   try {
+    const { fullName, accountName } = getCredentialsFromEmail(creds.email);
     const response = await wootAPI.post('api/v1/accounts.json', {
-      account_name: creds.accountName.trim(),
-      user_full_name: creds.fullName.trim(),
+      account_name: accountName,
+      user_full_name: fullName,
       email: creds.email,
       password: creds.password,
       h_captcha_client_response: creds.hCaptchaClientResponse,

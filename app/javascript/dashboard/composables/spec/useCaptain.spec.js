@@ -8,7 +8,6 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useI18n } from 'vue-i18n';
 import TasksAPI from 'dashboard/api/captain/tasks';
-import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/useAccount');
@@ -23,8 +22,8 @@ vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
   return actual;
 });
 vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
-  OPEN_AI_EVENTS: {
-    TEST_EVENT: 'open_ai_test_event',
+  CAPTAIN_EVENTS: {
+    TEST_EVENT: 'captain_test_event',
   },
 }));
 
@@ -63,29 +62,6 @@ describe('useCaptain', () => {
     expect(captainTasksEnabled.value).toBe(true);
     expect(currentChat.value).toEqual({ id: '123' });
     expect(draftMessage.value).toBe('Draft message');
-  });
-
-  it('records analytics correctly', async () => {
-    const { recordAnalytics } = useCaptain();
-
-    await recordAnalytics('TEST_EVENT', { data: 'test' });
-
-    expect(analyticsHelper.track).toHaveBeenCalledWith('open_ai_test_event', {
-      type: 'TEST_EVENT',
-      data: 'test',
-    });
-  });
-
-  it('gets label suggestions', async () => {
-    TasksAPI.labelSuggestion.mockResolvedValue({
-      data: { message: 'label1, label2' },
-    });
-
-    const { getLabelSuggestions } = useCaptain();
-    const result = await getLabelSuggestions();
-
-    expect(TasksAPI.labelSuggestion).toHaveBeenCalledWith('123');
-    expect(result).toEqual(['label1', 'label2']);
   });
 
   it('rewrites content', async () => {
@@ -192,22 +168,5 @@ describe('useCaptain', () => {
     // Test rewrite (improve)
     await processEvent('improve', 'content', {});
     expect(TasksAPI.rewrite).toHaveBeenCalled();
-  });
-
-  it('returns empty array when no conversation ID for label suggestions', async () => {
-    useMapGetter.mockImplementation(getter => {
-      const mockValues = {
-        'accounts/getUIFlags': { isFetchingLimits: false },
-        getSelectedChat: { id: null },
-        'draftMessages/getReplyEditorMode': 'reply',
-      };
-      return { value: mockValues[getter] };
-    });
-
-    const { getLabelSuggestions } = useCaptain();
-    const result = await getLabelSuggestions();
-
-    expect(result).toEqual([]);
-    expect(TasksAPI.labelSuggestion).not.toHaveBeenCalled();
   });
 });

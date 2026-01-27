@@ -38,6 +38,7 @@ Do NOT use the context to fill in gaps or add information the agent didn't inclu
 - Keep the improved message at a similar length to the draft (brief stays brief)
 - Preserve any markdown formatting
 - Block quotes (lines starting with `>`) contain quoted customer text—keep this unchanged, only improve the agent's reply
+- If the message contains a signature block (text after a `--` line), preserve the signature exactly as written without any modification. Do not add a signature if one is not already present.
 - Output in the same language as the draft
 - Output only the improved message, no commentary
 
