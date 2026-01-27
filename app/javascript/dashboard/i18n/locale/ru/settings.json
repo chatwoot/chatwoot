@@ -379,7 +379,8 @@
     },
     "DOCS": "Открыть документацию",
     "SECURITY": "Безопасность",
-    "CAPTAIN_AI": "Капитан"
+    "CAPTAIN_AI": "Капитан",
+    "CONVERSATION_WORKFLOW": "Conversation Workflow"
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
@@ -552,6 +553,58 @@
       "INFO_SECTION": {
         "TITLE": "Информация о поставщике услуг SAML",
         "TOOLTIP": "Скопируйте эти значения и настройте их в вашем поставщике идентификации для установления соединения SAML"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Conversation Workflows",
+        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributes required on resolution",
+      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
+      "ADD": {
+        "TITLE": "Add Attributes",
+        "SEARCH_PLACEHOLDER": "Поиск по атрибутам"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
+      },
+      "MODAL": {
+        "TITLE": "Решить разговор",
+        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "ACTIONS": {
+          "RESOLVE": "Решить разговор",
+          "CANCEL": "Отменить"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Write a note...",
+          "NUMBER": "Enter a number",
+          "LINK": "Add a link",
+          "DATE": "Pick a date",
+          "LIST": "Выберите параметр"
+        },
+        "CHECKBOX": {
+          "YES": "Да",
+          "NO": "Нет"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use required attributes",
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_NOW": "Обновить сейчас",
+        "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
       }
     }
   },
