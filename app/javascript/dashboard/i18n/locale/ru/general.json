@@ -11,5 +11,9 @@
     "ACCEPT": "Accept",
     "DISCARD": "Сбросить",
     "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Да",
+    "NO": "Нет"
   }
 }
