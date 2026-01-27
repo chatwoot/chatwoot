@@ -11,5 +11,9 @@
     "ACCEPT": "Accept",
     "DISCARD": "Descartar",
     "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "Si",
+    "NO": "No"
   }
 }
