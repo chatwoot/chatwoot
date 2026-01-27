@@ -259,8 +259,10 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
       reader = PDF::Reader.new(file)
       reader.pages.each { |page| pages << page.text }
     end
+    Rails.logger.info "Extracted #{pages} pages from PDF"
     pages
   rescue StandardError => e
+    Rails.logger.info "Extracted #{pages} pages from PDF"
     Rails.logger.error I18n.t('captain.documents.page_processing_error', start: 0, end: 0, error: e.message)
     []
   end
