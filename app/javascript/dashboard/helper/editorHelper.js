@@ -8,6 +8,7 @@ import * as Sentry from '@sentry/vue';
 import { FORMATTING, MARKDOWN_PATTERNS } from 'dashboard/constants/editor';
 import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import camelcaseKeys from 'camelcase-keys';
+import { Fragment, Slice } from 'prosemirror-model';
 
 /**
  * Extract text from markdown, and remove all images, code blocks, links, headers, bold, italic, lists etc.
@@ -604,3 +605,78 @@ export function calculateMenuPosition(coords, rect, isRtl) {
 }
 
 /* End Menu Positioning Helpers */
+
+/**
+ * Clipboard Handling Functions
+ * Custom clipboard parsers and serializers for proper newline handling.
+ * Based on ProseMirror best practices from prosemirror-view/src/clipboard.ts
+ *
+ * Default ProseMirror behavior:
+ * - Paste: splits by \n+ and creates paragraph for each line (no hard breaks)
+ * - Copy: uses textBetween with "\n\n" (no distinction between hard break and paragraph)
+ *
+ * Our custom behavior:
+ * - Paste: single \n → hard_break, double \n\n → paragraph break
+ * - Copy: hard_break → \n, paragraph → \n\n
+ */
+
+/**
+ * Parses plain text from clipboard into ProseMirror document structure.
+ * Single \n → hard_break, double \n\n → paragraph break.
+ *
+ * @param {string} text - Plain text from clipboard
+ * @param {ResolvedPos} $context - Resolved position where paste occurs
+ * @returns {Slice|null} ProseMirror Slice or null if schema lacks required nodes
+ */
+export function parseClipboardText(text, $context) {
+  const schema = $context.parent.type.schema;
+  const { hard_break: hardBreak, paragraph } = schema.nodes;
+
+  if (!hardBreak || !paragraph) return null;
+
+  // Normalize all line endings to \n first
+  const normalized = text.replace(/\r\n?/g, '\n');
+  const content = [];
+
+  // Split by double+ newlines for paragraphs
+  normalized.split(/\n{2,}/).forEach(block => {
+    if (!block.trim()) return;
+
+    // Split by single newlines for hard breaks within paragraph
+    const lines = block.split('\n');
+    const inlineContent = [];
+
+    lines.forEach((line, i) => {
+      if (line) inlineContent.push(schema.text(line));
+      if (i < lines.length - 1) inlineContent.push(hardBreak.create());
+    });
+
+    if (inlineContent.length) {
+      content.push(paragraph.create(null, inlineContent));
+    }
+  });
+
+  return new Slice(
+    Fragment.from(content.length ? content : [paragraph.create()]),
+    0,
+    0
+  );
+}
+
+/**
+ * Serializes ProseMirror content to plain text for clipboard.
+ * hard_break → \n, paragraph break → \n\n
+ * https://discuss.prosemirror.net/t/parsing-single-line-breaks-into-hard-line-breaks-instead-of-paragraphs/4824/2
+ *
+ * @param {Slice} slice - ProseMirror Slice to serialize
+ * @param {EditorView} view - Editor view instance
+ * @returns {string} Plain text with proper newlines
+ */
+export function serializeClipboardText(slice, view) {
+  const { hard_break: hardBreak } = view.state.schema.nodes;
+  return slice.content.textBetween(0, slice.content.size, '\n\n', node =>
+    hardBreak && node.type === hardBreak ? '\n' : ''
+  );
+}
+
+/* End Clipboard Handling Functions */
