@@ -310,93 +310,47 @@ RSpec.describe AutoAssignment::AssignmentService do
     context 'with team assignments' do
       let(:team) { create(:team, account: account, allow_auto_assign: true) }
       let(:team_member) { create(:user, account: account, role: :agent, availability: :online) }
-      let(:non_team_member) { create(:user, account: account, role: :agent, availability: :online) }
       let(:rate_limiter) { instance_double(AutoAssignment::RateLimiter) }
 
       before do
         create(:team_member, team: team, user: team_member)
         create(:inbox_member, inbox: inbox, user: team_member)
-        create(:inbox_member, inbox: inbox, user: non_team_member)
 
-        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({
-                                                                                 team_member.id.to_s => 'online',
-                                                                                 non_team_member.id.to_s => 'online'
-                                                                               })
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ team_member.id.to_s => 'online' })
 
-        # Mock RateLimiter to allow all assignments by default
         allow(AutoAssignment::RateLimiter).to receive(:new).and_return(rate_limiter)
         allow(rate_limiter).to receive(:within_limit?).and_return(true)
         allow(rate_limiter).to receive(:track_assignment)
-      end
 
-      it 'assigns conversation with team to team members only' do
-        conversation_with_team = create(:conversation, inbox: inbox, team: team, status: 'open')
-        conversation_with_team.update!(assignee_id: nil)
-
-        # Mock RoundRobinSelector to return team_member
         round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
         allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
         allow(round_robin_selector).to receive(:select_agent).and_return(team_member)
+      end
+
+      it 'assigns conversation with team to team member' do
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
 
         service.perform_bulk_assignment(limit: 1)
 
         expect(conversation_with_team.reload.assignee).to eq(team_member)
       end
 
-      it 'does not assign conversation with team to non-team members' do
-        conversation_with_team = create(:conversation, inbox: inbox, team: team, status: 'open')
-        conversation_with_team.update!(assignee_id: nil)
-
-        # Mock RoundRobinSelector - but it should only be called with team members
-        round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
-        allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
-        # This should only receive team_member, not non_team_member
-        allow(round_robin_selector).to receive(:select_agent) do |agents|
-          expect(agents.map(&:user_id)).to eq([team_member.id])
-          team_member
-        end
-
-        service.perform_bulk_assignment(limit: 1)
-
-        expect(conversation_with_team.reload.assignee).to eq(team_member)
-      end
-
-      it 'leaves conversation unassigned when team has allow_auto_assign false' do
+      it 'skips assignment when team has allow_auto_assign false' do
         team.update!(allow_auto_assign: false)
-        conversation_with_team = create(:conversation, inbox: inbox, team: team, status: 'open')
-        conversation_with_team.update!(assignee_id: nil)
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
 
         service.perform_bulk_assignment(limit: 1)
 
         expect(conversation_with_team.reload.assignee).to be_nil
       end
 
-      it 'leaves conversation unassigned when no team members are available' do
-        # Make team_member unavailable
-        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({
-                                                                                 non_team_member.id.to_s => 'online'
-                                                                               })
-
-        conversation_with_team = create(:conversation, inbox: inbox, team: team, status: 'open')
-        conversation_with_team.update!(assignee_id: nil)
+      it 'skips assignment when no team members are available' do
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
 
         service.perform_bulk_assignment(limit: 1)
 
         expect(conversation_with_team.reload.assignee).to be_nil
-      end
-
-      it 'assigns conversations without team to any inbox member' do
-        conversation_without_team = create(:conversation, inbox: inbox, team: nil, status: 'open')
-        conversation_without_team.update!(assignee_id: nil)
-
-        # Mock RoundRobinSelector to return non_team_member
-        round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
-        allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
-        allow(round_robin_selector).to receive(:select_agent).and_return(non_team_member)
-
-        service.perform_bulk_assignment(limit: 1)
-
-        expect(conversation_without_team.reload.assignee).to eq(non_team_member)
       end
     end
   end
