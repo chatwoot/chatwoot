@@ -11,5 +11,9 @@
     "ACCEPT": "Accept",
     "DISCARD": "Discard",
     "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "예",
+    "NO": "아니오"
   }
 }
