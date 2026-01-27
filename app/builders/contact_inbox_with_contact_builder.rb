@@ -15,7 +15,17 @@ class ContactInboxWithContactBuilder
 
   def find_or_create_contact_and_contact_inbox
     @contact_inbox = inbox.contact_inboxes.find_by(source_id: source_id) if source_id.present?
-    return @contact_inbox if @contact_inbox
+
+    # Verify contact exists and is not discarded before returning
+    if @contact_inbox && @contact_inbox.contact.present?
+      return @contact_inbox
+    elsif @contact_inbox
+      # Contact inbox exists but contact is missing or discarded - restore or create new contact
+      @contact = find_and_restore_discarded_contact || create_contact
+      @contact_inbox.update!(contact: @contact)
+      update_contact_avatar(@contact) unless @contact.avatar.attached?
+      return @contact_inbox
+    end
 
     ActiveRecord::Base.transaction(requires_new: true) do
       build_contact_with_contact_inbox
