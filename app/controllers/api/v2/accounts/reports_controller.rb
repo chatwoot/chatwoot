@@ -32,22 +32,15 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def agent_activity
-    since = params[:since].presence&.to_i
-    until_ = params[:until].presence&.to_i
-    if since.nil? || until_.nil?
-      render json: { error: 'since and until are required' }, status: :unprocessable_entity
-      return
+    return render_missing_params_error unless valid_agent_activity_params?
+
+    build_agent_activity_data
+
+    respond_to do |format|
+      format.csv  { generate_csv('agent_activity_report', 'api/v2/accounts/reports/agent_activity') }
+      format.xlsx { generate_xlsx('agent_activity_report', 'api/v2/accounts/reports/agent_activity') }
+      format.any  { generate_csv('agent_activity_report', 'api/v2/accounts/reports/agent_activity') }
     end
-    builder = V2::Reports::AgentActivityBuilder.new(
-      Current.account,
-      agent_activity_params
-    )
-
-    @since = Time.zone.at(since)
-    @until = Time.zone.at(until_)
-
-    @agents = builder.call
-    generate_csv('agent_activity_report', 'api/v2/accounts/reports/agent_activity')
   end
 
   def bot_summary_download
@@ -156,16 +149,26 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   private
 
+  def valid_agent_activity_params?
+    return true if params[:since].presence&.to_i && params[:until].presence&.to_i
+
+    render json: { error: 'since and until are required' }, status: :unprocessable_entity
+    false
+  end
+
+  def build_agent_activity_data
+    since = params[:since].to_i
+    until_ = params[:until].to_i
+
+    builder = V2::Reports::AgentActivityBuilder.new(Current.account, agent_activity_params)
+
+    @since = Time.zone.at(since)
+    @until = Time.zone.at(until_)
+    @agents = builder.call
+  end
+
   def agent_activity_params
-    params.permit(
-      :since,
-      :until,
-      :timezone_offset,
-      :hide_inactive,
-      team_ids: [],
-      user_ids: [],
-      inbox_ids: []
-    )
+    params.permit(:since, :until, :timezone_offset, :hide_inactive, team_ids: [], user_ids: [], inbox_ids: [])
   end
 
   def all_conversation_metrics_params
@@ -220,21 +223,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def conversation_params
-    {
-      type: params[:type].to_sym,
-      user_id: params[:user_id],
-      page: params[:page].presence || 1
-    }
+    { ype: params[:type].to_sym, user_id: params[:user_id], page: params[:page].presence || 1 }
   end
 
   def range
-    {
-      current: { since: params[:since], until: params[:until] },
-      previous: {
-        since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
-        until: params[:since]
-      }
-    }
+    { current: { since: params[:since], until: params[:until] },
+      previous: { since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s, until: params[:since] }  }
   end
 
   def build_summary(method)

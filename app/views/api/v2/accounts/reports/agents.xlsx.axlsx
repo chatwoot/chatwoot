@@ -10,7 +10,8 @@ wb.add_worksheet(name: 'Agents Report') do |sheet|
     I18n.t('reports.agent_csv.avg_first_response_time'),
     I18n.t('reports.agent_csv.avg_resolution_time'),
     I18n.t('reports.agent_csv.avg_customer_waiting_time'),
-    I18n.t('reports.agent_csv.resolution_count')
+    I18n.t('reports.agent_csv.resolution_count'),
+    I18n.t('reports.agent_csv.agent_chat_duration')
   ]
 
   sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')

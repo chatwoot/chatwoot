@@ -193,7 +193,7 @@ ru:
       open: Открытые
       unattended: Без ответа
       unassigned: Не назначены
-      waiting: В ожидании
+      pending: В ожидании
       status: Статус
       count: Количество
       data: Дата

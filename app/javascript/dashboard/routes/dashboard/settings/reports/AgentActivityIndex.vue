@@ -4,12 +4,14 @@ import { useStore } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 
 import ReportHeader from './components/ReportHeader.vue';
-import V4Button from 'dashboard/components-next/button/Button.vue';
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
 import AgentActivityFilters from './components/AgentActivityFilters.vue';
 import AgentActivityTimeline from './components/AgentActivityTimeline.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 
 const { t } = useI18n();
 const store = useStore();
+const { downloadOptions } = useReportDownloadOptions();
 
 const now = Date.now();
 
@@ -39,7 +41,7 @@ const fetch = () => {
   });
 };
 
-const onDownloadClick = () => {
+const handleDownload = format => {
   const { since, until } = filters.value;
 
   if (since == null || until == null) return;
@@ -52,6 +54,7 @@ const onDownloadClick = () => {
     teamIds: filters.value.teamIds,
     inboxIds: filters.value.inboxIds,
     timezoneOffset: new Date().getTimezoneOffset() * -60,
+    format,
   });
 };
 
@@ -78,11 +81,10 @@ watch(filters, fetch, { deep: true, immediate: true });
     :header-title="t('AGENT_ACTIVITY_REPORTS.HEADER')"
     :header-description="t('AGENT_ACTIVITY_REPORTS.DESCRIPTION')"
   >
-    <V4Button
-      :label="t('AGENT_ACTIVITY_REPORTS.CSV_DOWNLOAD')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="onDownloadClick"
+    <DownloadDropdown
+      :label="t('AGENT_ACTIVITY_REPORTS.DOWNLOAD')"
+      :options="downloadOptions"
+      @select="handleDownload"
     />
   </ReportHeader>
 

@@ -196,6 +196,30 @@ en:
       avg_resolution_time: Avg resolution time
       avg_reply_time: Avg reply time
       resolution_count: Resolution Count
+    overview:
+      open_conversations: Open conversations
+      agent_status: Agent Status
+      resolutions: Resolutions
+      by_agents: Conversations by agents
+      by_teams: Conversations by teams
+    overview_csv:
+      period: Report Period
+      open: Open
+      unattended: Unnatended
+      unassigned: Unassigned
+      pending: Pending
+      status: Status
+      count: Count
+      data: Data
+      no_data: No Data
+      hour: Hour
+      agent: Agent
+      team: Team
+      resolutions_count: Resolution Count
+      avg_resolution_time: AVG Resolution Time Count
+    metrics:
+      resolutions_count: Resolution Count
+      avg_resolution_time: AVG Resolution Time Count
     team_csv:
       team_name: Team name
       conversations_count: Conversations count
