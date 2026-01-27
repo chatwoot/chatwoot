@@ -201,8 +201,7 @@ module Aloo
     end
 
     def create_embeddings(chunks)
-      embedding_service = EmbeddingService.new(account: @account)
-      embedding_service.batch_embed_and_store(texts: chunks, document: @document)
+      Aloo::Embedding.create_from_chunks(chunks: chunks, document: @document)
     end
 
     def mark_failed(error_message)

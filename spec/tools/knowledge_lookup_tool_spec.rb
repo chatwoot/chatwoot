@@ -29,31 +29,44 @@ RSpec.describe KnowledgeLookupTool, :aloo do
 
   describe '#execute' do
     let(:tool) { described_class.new }
-    let(:vector_service) { instance_double(Aloo::VectorSearchService) }
+    let(:document) { create(:aloo_document, :available, title: 'Return Policy', assistant: assistant, account: account) }
+    let(:mock_embeddings) { [] }
 
     before do
-      allow(Aloo::VectorSearchService).to receive(:new).and_return(vector_service)
-      allow(vector_service).to receive(:search).and_return([])
+      allow(Aloo::Embedding).to receive(:search).and_return(mock_embeddings)
     end
 
     it 'searches the knowledge base with query' do
-      expect(vector_service).to receive(:search).with('return policy', limit: 5, source_types: nil)
+      expect(Aloo::Embedding).to receive(:search).with(
+        'return policy',
+        assistant: assistant,
+        limit: 5,
+        source_types: nil
+      ).and_return([])
 
       tool.execute(query: 'return policy')
     end
 
     it 'passes source_types filter when provided' do
-      expect(vector_service).to receive(:search).with('test', limit: 5, source_types: ['file'])
+      expect(Aloo::Embedding).to receive(:search).with(
+        'test',
+        assistant: assistant,
+        limit: 5,
+        source_types: ['file']
+      ).and_return([])
 
       tool.execute(query: 'test', source_types: ['file'])
     end
 
     context 'with results' do
+      let(:embedding1) { create(:aloo_embedding, document: document, content: 'Returns within 30 days', assistant: assistant, account: account) }
+      let(:faq_doc) { create(:aloo_document, :available, title: 'FAQ', assistant: assistant, account: account) }
+      let(:embedding2) { create(:aloo_embedding, document: faq_doc, content: 'See our return policy', assistant: assistant, account: account) }
+
       before do
-        allow(vector_service).to receive(:search).and_return([
-                                                               { document_title: 'Return Policy', content: 'Returns within 30 days' },
-                                                               { document_title: 'FAQ', content: 'See our return policy' }
-                                                             ])
+        allow(Aloo::Embedding).to receive(:search).and_return([embedding1, embedding2])
+        allow(embedding1).to receive(:similarity).and_return(0.9)
+        allow(embedding2).to receive(:similarity).and_return(0.8)
       end
 
       it 'formats results correctly' do
@@ -78,7 +91,7 @@ RSpec.describe KnowledgeLookupTool, :aloo do
 
     context 'when error occurs' do
       before do
-        allow(vector_service).to receive(:search).and_raise(StandardError, 'Search failed')
+        allow(Aloo::Embedding).to receive(:search).and_raise(StandardError, 'Search failed')
       end
 
       it 'returns error response' do

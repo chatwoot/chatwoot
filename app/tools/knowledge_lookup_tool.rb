@@ -27,15 +27,16 @@ class KnowledgeLookupTool < BaseTool
   private
 
   def search_knowledge_base(query, source_types)
-    service = Aloo::VectorSearchService.new(
+    Aloo::Embedding.search(
+      query,
       assistant: current_assistant,
-      account: current_account
+      limit: 5,
+      source_types: source_types
     )
-    service.search(query, limit: 5, source_types: source_types)
   end
 
-  def format_response(results)
-    if results.empty?
+  def format_response(embeddings)
+    if embeddings.empty?
       return {
         success: true,
         message: 'No relevant information found in the knowledge base.',
@@ -43,14 +44,14 @@ class KnowledgeLookupTool < BaseTool
       }
     end
 
-    formatted = results.map.with_index do |result, index|
-      "[#{index + 1}] #{result[:document_title]}\n#{result[:content]}"
+    formatted = embeddings.map.with_index do |embedding, index|
+      "[#{index + 1}] #{embedding.document&.title}\n#{embedding.content}"
     end
 
     {
       success: true,
       message: "## Knowledge Base Results\n\n#{formatted.join("\n\n---\n\n")}",
-      results: results
+      results: embeddings.map { |e| { content: e.content, document_title: e.document&.title, similarity: e.similarity } }
     }
   end
 end

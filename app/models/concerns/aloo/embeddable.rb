@@ -12,7 +12,7 @@ module Aloo
       scope :without_embedding, -> { where(embedding: nil) }
 
       # Semantic search using cosine similarity
-      scope :semantic_search, ->(query_embedding, limit: 10) {
+      scope :semantic_search, lambda { |query_embedding, limit: 10|
         with_embedding
           .nearest_neighbors(:embedding, query_embedding, distance: 'cosine')
           .limit(limit)
@@ -34,8 +34,8 @@ module Aloo
       content = embedding_content
       return if content.blank?
 
-      response = RubyLLM.embed(content, model: 'text-embedding-3-small')
-      update!(embedding: response.vectors.first)
+      result = ::Embedders::DocumentEmbedder.call(text: content, tenant: account)
+      update!(embedding: result.vector)
     end
 
     # Calculate similarity to another embedding

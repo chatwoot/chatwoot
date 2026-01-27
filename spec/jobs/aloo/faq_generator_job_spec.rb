@@ -77,7 +77,7 @@ RSpec.describe Aloo::FaqGeneratorJob, type: :job do
 
       before do
         allow(FaqGeneratorAgent).to receive(:call).and_return(agent_result)
-        allow_any_instance_of(Aloo::EmbeddingService).to receive(:generate_embedding)
+        allow(Aloo::Embedding).to receive(:embed_text)
           .and_return(Array.new(1536) { 0.0 })
         allow_any_instance_of(Aloo::MemorySearchService).to receive(:find_duplicate).and_return(nil)
       end
@@ -92,9 +92,9 @@ RSpec.describe Aloo::FaqGeneratorJob, type: :job do
       end
 
       it 'creates FAQ memory records' do
-        expect {
+        expect do
           described_class.new.perform(conversation.id)
-        }.to change { Aloo::Memory.where(memory_type: 'faq').count }.by(2)
+        end.to change { Aloo::Memory.where(memory_type: 'faq').count }.by(2)
       end
 
       it 'marks conversation as processed' do
@@ -138,9 +138,9 @@ RSpec.describe Aloo::FaqGeneratorJob, type: :job do
       end
 
       it 'updates existing FAQ observation count' do
-        expect {
+        expect do
           described_class.new.perform(conversation.id)
-        }.to change { existing_faq.reload.observation_count }.by(1)
+        end.to change { existing_faq.reload.observation_count }.by(1)
       end
     end
   end

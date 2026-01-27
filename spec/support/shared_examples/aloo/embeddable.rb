@@ -47,30 +47,32 @@ RSpec.shared_examples 'embeddable' do
     end
 
     describe '#generate_embedding!' do
-      let(:mock_vectors) { Array.new(1536) { rand(-1.0..1.0) } }
-      let(:mock_result) { instance_double('RubyLLM::Embedding', vectors: mock_vectors) }
+      let(:mock_vector) { Array.new(1536) { rand(-1.0..1.0) } }
+      let(:mock_embedder_result) { double('Embedder::Result', vector: mock_vector, success?: true) }
+      let(:document_embedder_class) { double('DocumentEmbedder') }
 
       before do
-        allow(RubyLLM).to receive(:embed).and_return(mock_result)
+        stub_const('Embedders::DocumentEmbedder', document_embedder_class)
+        allow(document_embedder_class).to receive(:call).and_return(mock_embedder_result)
       end
 
-      it 'calls RubyLLM.embed with embedding_content' do
+      it 'calls DocumentEmbedder with embedding_content' do
         content = subject.embedding_content
         subject.generate_embedding!
 
-        expect(RubyLLM).to have_received(:embed).with(content, model: 'text-embedding-3-small')
+        expect(document_embedder_class).to have_received(:call).with(text: content, tenant: subject.account)
       end
 
       it 'stores the resulting vector' do
         subject.generate_embedding!
-        expect(subject.embedding).to eq(mock_vectors.first)
+        expect(subject.embedding).to eq(mock_vector)
       end
 
       it 'does nothing when content is blank' do
         allow(subject).to receive(:embedding_content).and_return('')
         subject.generate_embedding!
 
-        expect(RubyLLM).not_to have_received(:embed)
+        expect(document_embedder_class).not_to have_received(:call)
       end
     end
   end
