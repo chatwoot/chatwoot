@@ -331,9 +331,9 @@ it:
     copilot_message_required: Messaggio richiesto
     copilot_error: 'Connetti un assistente a questa Inbox per usare Copilot'
     copilot_limit: 'Hai terminato i crediti Copilot. Puoi acquistare altri crediti dalla sezione fatturazione.'
-    upgrade: 'Upgrade your plan to enable Captain AI'
-    disabled: 'Captain AI is disabled for this account.'
-    api_key_missing: 'Captain AI API key is not configured.'
+    upgrade: 'Aggiorna il piano per attivare Captain AI'
+    disabled: 'Captain AI è disattivato per questo account.'
+    api_key_missing: 'La chiave API di Captain AI non è configurata.'
     copilot:
       using_tool: 'Utilizzando tool %{function_name}'
       completed_tool_call: 'Tool %{function_name} utilizzato'
