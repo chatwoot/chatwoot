@@ -19,9 +19,14 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
   def should_run_processor?(message)
     # Primary check: if conversation is assigned, don't process regardless of status
     return false if current_conversation.assignee_id.present?
+
+    stark_disabled_until = current_conversation.additional_attributes['stark_disabled_until']
+    return false if stark_disabled_until.present? && Time.current.to_i < stark_disabled_until.to_i
+
     # Secondary checks from parent class
     return false if message.private?
     return false unless processable_message?(message)
+
     # Status check: only process if pending (maintains existing behavior for unassigned)
     # return false unless current_conversation.pending?
 
@@ -40,6 +45,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     # Double-check assignment before making API call (conversation might have been assigned since initial check)
     current_conversation.reload
     return if current_conversation.assignee_id.present?
+
     # return unless current_conversation.pending?
 
     response = get_stark_response(current_conversation, event_data[:message].content, event_data[:message])

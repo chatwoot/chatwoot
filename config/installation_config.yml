@@ -405,6 +405,12 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+#------- Stark Related Config ------- #
+- name: STARK_DISABLE_DURATION_HOURS
+  display_title: 'Stark Disable Duration (Hours)'
+  value: ''
+  locked: false
+  description: 'The amount of time(in hours) that Stark remains disabled after a human agent sends a message.'
 
 # ------- Follow Up Job Config ------- #
 - name: FOLLOW_UP_FIRST_DELAY_HOURS
