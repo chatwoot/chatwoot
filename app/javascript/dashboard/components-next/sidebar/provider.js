@@ -1,10 +1,10 @@
-import { inject, provide, ref, computed, watch } from 'vue';
+import { inject, provide, ref, computed } from 'vue';
 import { usePolicy } from 'dashboard/composables/usePolicy';
 import { useRouter } from 'vue-router';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 const SidebarControl = Symbol('SidebarControl');
 
-const SIDEBAR_WIDTH_KEY = 'chatwoot_sidebar_width';
 const DEFAULT_WIDTH = 200;
 const MIN_WIDTH = 56;
 const COLLAPSED_THRESHOLD = 160;
@@ -15,32 +15,34 @@ const activePopover = ref(null);
 let globalCloseTimeout = null;
 
 export function useSidebarResize() {
-  const storedWidth = localStorage.getItem(SIDEBAR_WIDTH_KEY);
-  const sidebarWidth = ref(
-    storedWidth ? parseInt(storedWidth, 10) : DEFAULT_WIDTH
-  );
-  const isCollapsed = computed(() => sidebarWidth.value < COLLAPSED_THRESHOLD);
+  const { uiSettings, updateUISettings } = useUISettings();
 
-  watch(sidebarWidth, newWidth => {
-    localStorage.setItem(SIDEBAR_WIDTH_KEY, newWidth.toString());
-  });
+  const sidebarWidth = ref(uiSettings.value.sidebar_width || DEFAULT_WIDTH);
+  const isCollapsed = computed(() => sidebarWidth.value < COLLAPSED_THRESHOLD);
 
   const setSidebarWidth = width => {
     sidebarWidth.value = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, width));
   };
 
+  const saveWidth = () => {
+    updateUISettings({ sidebar_width: sidebarWidth.value });
+  };
+
   const snapToCollapsed = () => {
     sidebarWidth.value = MIN_WIDTH;
+    updateUISettings({ sidebar_width: MIN_WIDTH });
   };
 
   const snapToExpanded = () => {
     sidebarWidth.value = DEFAULT_WIDTH;
+    updateUISettings({ sidebar_width: DEFAULT_WIDTH });
   };
 
   return {
     sidebarWidth,
     isCollapsed,
     setSidebarWidth,
+    saveWidth,
     snapToCollapsed,
     snapToExpanded,
     MIN_WIDTH,

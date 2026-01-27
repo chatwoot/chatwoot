@@ -68,6 +68,7 @@ const {
   sidebarWidth,
   isCollapsed,
   setSidebarWidth,
+  saveWidth,
   snapToCollapsed,
   snapToExpanded,
   COLLAPSED_THRESHOLD,
@@ -123,7 +124,11 @@ const onResizeEnd = () => {
   Object.assign(document.body.style, { cursor: '', userSelect: '' });
 
   // Snap to collapsed state if below threshold
-  if (sidebarWidth.value < COLLAPSED_THRESHOLD) snapToCollapsed();
+  if (sidebarWidth.value < COLLAPSED_THRESHOLD) {
+    snapToCollapsed();
+  } else {
+    saveWidth();
+  }
 };
 
 const onResizeHandleDoubleClick = () => {
@@ -688,8 +693,11 @@ const menuItems = computed(() => {
       :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
     >
       <div
-        class="flex gap-2 items-center px-1 min-w-0"
-        :class="{ 'justify-center': isEffectivelyCollapsed }"
+        class="flex gap-2 items-center min-w-0"
+        :class="{
+          'justify-center px-1': isEffectivelyCollapsed,
+          'px-2': !isEffectivelyCollapsed,
+        }"
       >
         <template v-if="isEffectivelyCollapsed">
           <SidebarAccountSwitcher
@@ -794,7 +802,7 @@ const menuItems = computed(() => {
     </section>
     <!-- Resize Handle (desktop only) -->
     <div
-      class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-50 ltr:right-0 rtl:left-0 group"
+      class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-40 ltr:right-0 rtl:left-0 group"
       @mousedown="onResizeStart"
       @touchstart="onResizeStart"
       @dblclick="onResizeHandleDoubleClick"
