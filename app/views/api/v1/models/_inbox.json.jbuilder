@@ -49,6 +49,7 @@ json.reply_time resource.channel.try(:reply_time)
 json.widget_position resource.channel.try(:widget_position)
 json.widget_type resource.channel.try(:widget_type)
 json.launcher_title resource.channel.try(:launcher_title)
+json.google_analytics_token resource.channel.try(:google_analytics_token)
 if resource.web_widget?
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)

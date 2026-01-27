@@ -37,7 +37,7 @@ class Channel::WebWidget < ApplicationRecord
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
                     :continuity_via_email, :hmac_mandatory,
                     :dealer_name, :dealer_tagline, :avatar_name,:allowed_domains,
-                    :widget_position, :widget_type, :launcher_title,
+                    :widget_position, :widget_type, :launcher_title, :google_analytics_token,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,

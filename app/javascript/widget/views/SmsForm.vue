@@ -7,6 +7,7 @@ import PhoneInput from 'widget/components/Form/PhoneInput.vue';
 import { createInput, FormKit } from '@formkit/vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { trackEvent } from 'widget/helpers/analyticsHelper';
 
 const SMS_STORAGE_KEY = 'chatwoot_sms_state';
 
@@ -25,6 +26,7 @@ export default {
     return {
       phoneNumber: '',
       message: '',
+      hasTrackedInteraction: false,
     };
   },
   computed: {
@@ -53,6 +55,14 @@ export default {
           }
         });
       }
+    },
+    phoneNumber() {
+      this.trackInteraction();
+      this.trackInput();
+    },
+    message() {
+      this.trackInteraction();
+      this.trackInput();
     },
   },
   mounted() {
@@ -109,6 +119,22 @@ export default {
       // Clear stored SMS state when canceling
       LocalStorage.remove(SMS_STORAGE_KEY);
       this.replaceRoute('home');
+    },
+    trackInteraction() {
+      if (!this.hasTrackedInteraction && (this.phoneNumber || this.message)) {
+        trackEvent('phone_number_form_interaction');
+        this.hasTrackedInteraction = true;
+      }
+    },
+    trackInput() {
+      if (this.inputTimeout) {
+        clearTimeout(this.inputTimeout);
+      }
+      this.inputTimeout = setTimeout(() => {
+        if (this.phoneNumber || this.message) {
+          trackEvent('phone_number_form_input');
+        }
+      }, 500);
     },
   },
 };

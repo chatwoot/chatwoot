@@ -14,6 +14,7 @@ import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
 import { createTemporaryMessage, getNonDeletedMessages } from './helpers';
 import { emitter } from 'shared/helpers/mitt';
 import Cookies from 'js-cookie';
+import { trackEvent } from 'widget/helpers/analyticsHelper';
 export const actions = {
   createConversation: async ({ commit, dispatch }, params) => {
     commit('setConversationUIFlag', { isCreating: true });
@@ -28,6 +29,7 @@ export const actions = {
         sameSite: 'Lax',
       });
       emitter.emit(ON_CONVERSATION_CREATED);
+      trackEvent('conversation_initiated');
     } catch (error) {
       // Ignore error
     } finally {
@@ -52,6 +54,7 @@ export const actions = {
         expires: 365,
         sameSite: 'Lax',
       });
+      trackEvent('message_sent');
     } catch (error) {
       commit('pushMessageToConversation', { ...message, status: 'failed' });
       commit('updateMessageMeta', {

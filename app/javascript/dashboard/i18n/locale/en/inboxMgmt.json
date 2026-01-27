@@ -990,6 +990,10 @@
         "AVATAR_NAME": {
           "LABEL": "Avatar Name",
           "PLACE_HOLDER": "Enter the avatar name (eg: Samantha)"
+        },
+        "GA_TOKEN": {
+          "LABEL": "Google Analytics Measurement ID",
+          "PLACE_HOLDER": "Enter your GA Measurement ID (eg: G-XXXXXXX)"
         }
       },
       "WIDGET_SCREEN": {

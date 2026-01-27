@@ -18,6 +18,6 @@ class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :website_token, event_info: {})
+    params.permit(:name, :website_token, :locale, :format, event_info: {}, event: {})
   end
 end
