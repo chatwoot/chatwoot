@@ -1,9 +1,13 @@
 class Api::V1::Accounts::Conversations::GroupContactsController < Api::V1::Accounts::Conversations::BaseController
+  RESULTS_PER_PAGE = 100
+
   before_action :ensure_group_conversation, only: [:create, :update, :destroy]
   before_action :validate_contact_ids, only: [:create, :update, :destroy]
+  before_action :set_current_page, only: [:show]
 
   def show
-    @group_contacts = @conversation.group_contacts.includes(:contact)
+    @total_count = @conversation.group_contacts.count
+    @group_contacts = @conversation.group_contacts.includes(:contact).page(@current_page).per(RESULTS_PER_PAGE)
   end
 
   def create
@@ -50,5 +54,9 @@ class Api::V1::Accounts::Conversations::GroupContactsController < Api::V1::Accou
 
   def current_group_contact_ids
     @current_group_contact_ids ||= @conversation.group_contacts.pluck(:contact_id)
+  end
+
+  def set_current_page
+    @current_page = params[:page] || 1
   end
 end

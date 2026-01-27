@@ -21,7 +21,7 @@ RSpec.describe 'Conversation GroupContacts API', type: :request do
       let(:contact1) { create(:contact, account: account) }
       let(:contact2) { create(:contact, account: account) }
 
-      it 'returns all the group contacts for the conversation' do
+      it 'returns paginated group contacts with meta information' do
         create(:group_contact, conversation: conversation, contact: contact1, account: account)
         create(:group_contact, conversation: conversation, contact: contact2, account: account)
         get api_v1_account_conversation_group_contacts_url(account_id: account.id, conversation_id: conversation.display_id),
@@ -30,7 +30,25 @@ RSpec.describe 'Conversation GroupContacts API', type: :request do
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body.length).to eq(2)
+        expect(response_body['meta']['count']).to eq(2)
+        expect(response_body['meta']['current_page']).to eq(1)
+        expect(response_body['payload'].length).to eq(2)
+      end
+
+      it 'returns correct page of results when page parameter is provided' do
+        contacts = create_list(:contact, 101, account: account)
+        contacts.each { |contact| create(:group_contact, conversation: conversation, contact: contact, account: account) }
+
+        get api_v1_account_conversation_group_contacts_url(account_id: account.id, conversation_id: conversation.display_id),
+            params: { page: 2 },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        response_body = response.parsed_body
+        expect(response_body['meta']['count']).to eq(101)
+        expect(response_body['meta']['current_page']).to eq(2)
+        expect(response_body['payload'].length).to eq(1)
       end
     end
   end

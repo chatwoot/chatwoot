@@ -283,7 +283,11 @@
       "MEMBERS": "Group Members",
       "PRIMARY_CONTACT": "Primary contact",
       "MEMBER_COUNT": "{n} member | {n} members",
-      "SEPARATOR": "•"
+      "SEPARATOR": "•",
+      "VIEW_ALL_MEMBERS": "View all {count} members",
+      "SEARCH_MEMBERS": "Search members...",
+      "NO_MEMBERS_FOUND": "No members found",
+      "LOAD_MORE": "Load more"
     },
     "VOICE_WIDGET": {
       "INCOMING_CALL": "Incoming call",
