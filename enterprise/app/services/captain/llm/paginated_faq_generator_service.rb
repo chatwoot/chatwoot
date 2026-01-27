@@ -16,10 +16,13 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     @total_pages_processed = 0
     @iterations_completed = 0
     @model = LlmConstants::PDF_PROCESSING_MODEL
+    @pdf_pages = []
+    @total_pages = 0
   end
 
   def generate
-    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
+    validate_pdf_presence!
+    load_pdf_pages
 
     generate_paginated_faqs
   end
@@ -31,6 +34,9 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
 
     # Stop if we've processed the maximum pages specified
     return false if @max_pages && @total_pages_processed >= @max_pages
+
+    # Stop if we've reached the end of available PDF pages
+    return false if @total_pages.positive? && @total_pages_processed >= @total_pages
 
     # Stop if the last chunk returned no FAQs (likely no more content)
     return false if last_chunk_result[:faqs].empty?
@@ -69,8 +75,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     current_page = 1
 
     loop do
+      break if @total_pages.positive? && current_page > @total_pages
+
       end_page = calculate_end_page(current_page)
-      chunk_result = process_chunk_and_update_state(current_page, end_page, all_faqs)
+      chunk_text = chunk_text_for(current_page, end_page)
+      chunk_result = process_chunk_and_update_state(current_page, end_page, all_faqs, chunk_text)
 
       break unless should_continue_processing?(chunk_result)
 
@@ -82,22 +91,26 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
 
   def calculate_end_page(current_page)
     end_page = current_page + @pages_per_chunk - 1
-    @max_pages && end_page > @max_pages ? @max_pages : end_page
+    end_page = @max_pages if @max_pages && end_page > @max_pages
+    end_page = @total_pages if @total_pages.positive? && end_page > @total_pages
+    end_page
   end
 
-  def process_chunk_and_update_state(current_page, end_page, all_faqs)
-    chunk_result = process_page_chunk(current_page, end_page)
+  def process_chunk_and_update_state(current_page, end_page, all_faqs, chunk_text)
+    chunk_result = process_page_chunk(current_page, end_page, chunk_text)
     chunk_faqs = chunk_result[:faqs]
 
     all_faqs.concat(chunk_faqs)
-    @total_pages_processed = end_page
+    @total_pages_processed = [end_page, @total_pages].reject(&:zero?).min || end_page
     @iterations_completed += 1
 
     chunk_result
   end
 
-  def process_page_chunk(start_page, end_page)
-    params = build_chunk_parameters(start_page, end_page)
+  def process_page_chunk(start_page, end_page, chunk_text)
+    return { faqs: [], has_content: false } if chunk_text.blank?
+
+    params = build_chunk_parameters(start_page, end_page, chunk_text)
 
     instrumentation_params = build_instrumentation_params(params, start_page, end_page)
 
@@ -112,28 +125,28 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     { faqs: [], has_content: false }
   end
 
-  def build_chunk_parameters(start_page, end_page)
+  def build_chunk_parameters(start_page, end_page, chunk_text)
     {
       model: @model,
       response_format: { type: 'json_object' },
       messages: [
         {
+          role: 'system',
+          content: page_chunk_prompt(start_page, end_page)
+        },
+        {
           role: 'user',
-          content: build_user_content(start_page, end_page)
+          content: build_user_content(chunk_text, start_page, end_page)
         }
       ]
     }
   end
 
-  def build_user_content(start_page, end_page)
+  def build_user_content(chunk_text, start_page, end_page)
     [
       {
-        type: 'file',
-        file: { file_id: @document.openai_file_id }
-      },
-      {
         type: 'text',
-        text: page_chunk_prompt(start_page, end_page)
+        text: "Content from pages #{start_page}-#{end_page}:\n\n#{chunk_text}"
       }
     ]
   end
@@ -221,5 +234,48 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
         iteration: @iterations_completed + 1
       }
     }
+  end
+
+  def validate_pdf_presence!
+    return if @document&.pdf_file&.attached?
+
+    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.pdf_file_missing')
+  end
+
+  def load_pdf_pages
+    return if @pdf_pages.present?
+
+    require_pdf_reader!
+    @pdf_pages = extract_pdf_pages
+    @total_pages = @pdf_pages.length
+
+    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.pdf_content_missing') if @total_pages.zero?
+  end
+
+  def extract_pdf_pages
+    pages = []
+    @document.pdf_file.blob.open do |file|
+      reader = PDF::Reader.new(file)
+      reader.pages.each { |page| pages << page.text }
+    end
+    pages
+  rescue StandardError => e
+    Rails.logger.error I18n.t('captain.documents.page_processing_error', start: 0, end: 0, error: e.message)
+    []
+  end
+
+  def require_pdf_reader!
+    require 'pdf-reader'
+  rescue LoadError => e
+    Rails.logger.error "pdf-reader gem missing: #{e.message}"
+    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.pdf_content_missing')
+  end
+
+  def chunk_text_for(start_page, end_page)
+    return '' if @pdf_pages.empty?
+
+    slice = @pdf_pages[(start_page - 1)..(end_page - 1)]
+    slice = Array(slice).compact
+    slice.join("\n\n")
   end
 end

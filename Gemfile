@@ -154,6 +154,7 @@ gem 'procore-sift'
 gem 'email_reply_trimmer'
 
 gem 'html2text'
+gem 'pdf-reader'
 
 # to calculate working hours
 gem 'working_hours'

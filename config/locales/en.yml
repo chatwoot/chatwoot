@@ -361,6 +361,8 @@ en:
       pdf_upload_success: 'PDF uploaded successfully with file_id: %{file_id}'
       pdf_processing_failed: 'Failed to process PDF document %{document_id}: %{error}'
       pdf_processing_success: 'Successfully processed PDF document %{document_id}'
+      pdf_file_missing: 'PDF file is required to generate FAQs'
+      pdf_content_missing: 'Unable to read content from the PDF for FAQ generation'
       faq_generation_complete: 'FAQ generation complete. Total FAQs created: %{count}'
       using_paginated_faq: 'Using paginated FAQ generation for document %{document_id}'
       using_standard_faq: 'Using standard FAQ generation for document %{document_id}'
