@@ -50,6 +50,26 @@ describe ActionService do
       action_service.assign_agent(['nil'])
       expect(conversation.reload.assignee).to be_nil
     end
+
+    context 'when agent is confirmed' do
+      it 'assigns the agent to the conversation' do
+        inbox_member
+        action_service.assign_agent([agent.id])
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+
+    context 'when agent is unconfirmed' do
+      let(:unconfirmed_agent) { create(:user, account: account, role: :agent, skip_confirmation: false) }
+      let(:unconfirmed_inbox_member) { create(:inbox_member, inbox: conversation.inbox, user: unconfirmed_agent) }
+
+      it 'does not assign unconfirmed agent to the conversation' do
+        unconfirmed_inbox_member
+        original_assignee = conversation.assignee
+        action_service.assign_agent([unconfirmed_agent.id])
+        expect(conversation.reload.assignee).to eq(original_assignee)
+      end
+    end
   end
 
   describe '#assign_team' do
