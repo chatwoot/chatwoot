@@ -688,7 +688,7 @@ const menuItems = computed(() => {
       :class="isEffectivelyCollapsed ? 'mt-3 mb-6 gap-4' : 'mt-1 mb-4 gap-2'"
     >
       <div
-        class="flex gap-2 items-center px-2 min-w-0"
+        class="flex gap-2 items-center px-1 min-w-0"
         :class="{ 'justify-center': isEffectivelyCollapsed }"
       >
         <template v-if="isEffectivelyCollapsed">
@@ -730,22 +730,24 @@ const menuItems = computed(() => {
         <RouterLink
           v-else
           :to="{ name: 'search' }"
-          class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2"
+          class="flex items-center justify-center size-8 rounded-lg outline outline-1 outline-n-weak bg-n-button-color transition-all duration-100 ease-out hover:bg-n-alpha-2 dark:hover:bg-n-slate-9/30"
           :title="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         >
-          <span class="i-lucide-search size-4 text-n-slate-10" />
+          <span class="i-lucide-search size-4 text-n-slate-11" />
         </RouterLink>
         <ComposeConversation align-position="right" @close="onComposeClose">
-          <template #trigger="{ toggle }">
+          <template #trigger="{ toggle, isOpen }">
             <Button
               icon="i-lucide-pen-line"
               color="slate"
               size="sm"
-              :class="
+              class="dark:hover:!bg-n-slate-9/30"
+              :class="[
                 isEffectivelyCollapsed
                   ? '!size-8 !outline-n-weak !text-n-slate-11'
-                  : '!h-7 !outline-n-weak !text-n-slate-11'
-              "
+                  : '!h-7 !outline-n-weak !text-n-slate-11',
+                { '!bg-n-alpha-2 dark:!bg-n-slate-9/30': isOpen },
+              ]"
               @click="onComposeOpen(toggle)"
             />
           </template>
