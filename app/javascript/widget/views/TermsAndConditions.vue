@@ -6,6 +6,7 @@ import CustomButton from 'shared/components/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { trackEvent } from 'widget/helpers/analyticsHelper';
 
 const SMS_STORAGE_KEY = 'chatwoot_sms_state';
 
@@ -116,6 +117,7 @@ export default {
           timestamp: Date.now(),
         };
         LocalStorage.set(SMS_STORAGE_KEY, smsState);
+        trackEvent('phone_number_form_completed');
       } catch (error) {
         // Keep button in "Sending..." state on error
         // Error is silently handled - user can retry by refreshing

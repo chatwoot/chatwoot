@@ -80,6 +80,7 @@ export default {
       dealerTagline: '',
       avatarName: '',
       welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
+      googleAnalyticsToken: '',
     };
   },
   computed: {
@@ -163,6 +164,7 @@ export default {
         dealer_name,
         dealer_tagline,
         avatar_name,
+        google_analytics_token,
         widget_position,
         widget_type,
         launcher_title,
@@ -176,6 +178,7 @@ export default {
       this.dealerName = dealer_name || '';
       this.dealerTagline = dealer_tagline || '';
       this.avatarName = avatar_name || '';
+      this.googleAnalyticsToken = google_analytics_token || '';
 
       this.widgetBubblePosition = widget_position || 'right';
       this.widgetBubbleType = widget_type || 'standard';
@@ -248,6 +251,7 @@ export default {
             widget_position: this.widgetBubblePosition,
             widget_type: this.widgetBubbleType,
             launcher_title: this.widgetBubbleLauncherTitle,
+            google_analytics_token: this.googleAnalyticsToken,
           },
         };
         if (this.avatarFile) {
@@ -412,6 +416,17 @@ export default {
               :placeholder="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.PLACE_HOLDER'
+                )
+              "
+            />
+            <woot-input
+              v-model="googleAnalyticsToken"
+              :label="
+                $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.GA_TOKEN.LABEL')
+              "
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.GA_TOKEN.PLACE_HOLDER'
                 )
               "
             />

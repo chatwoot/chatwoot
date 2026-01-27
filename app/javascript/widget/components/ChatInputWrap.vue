@@ -6,6 +6,8 @@ import { useAttachments } from '../composables/useAttachments';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import { trackEvent } from 'widget/helpers/analyticsHelper';
+
 
 export default {
   name: 'ChatInputWrap',
@@ -116,6 +118,7 @@ export default {
     },
     handleTextUsClick() {
       // Navigate to SMS form
+      trackEvent('text_us_button_click');
       this.replaceRoute('sms-form');
     },
   },

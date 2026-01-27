@@ -23,6 +23,7 @@ import { useAvailability } from 'widget/composables/useAvailability';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { loadGA, trackEvent } from 'widget/helpers/analyticsHelper';
 
 const SMS_STORAGE_KEY = 'chatwoot_sms_state';
 
@@ -100,6 +101,11 @@ export default {
       this.setAppConfig({ position: widgetPosition });
     }
     setHeader(window.authToken);
+
+    const { googleAnalyticsToken } = window.chatwootWebChannel;
+    if (googleAnalyticsToken) {
+      loadGA(googleAnalyticsToken);
+    }
 
     if (this.isIFrame) {
       this.registerListeners();
@@ -487,6 +493,9 @@ export default {
             }
           }
 
+          if (message.isOpen) {
+            trackEvent('widget_impression');
+          }
           this.$store.dispatch('appConfig/toggleWidgetOpen', message.isOpen);
 
           // Clear flag after navigation (if it was set)

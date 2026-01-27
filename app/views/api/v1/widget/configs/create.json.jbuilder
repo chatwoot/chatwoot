@@ -29,6 +29,7 @@ json.website_channel_config do
   json.widget_position @web_widget.widget_position
   json.widget_type @web_widget.widget_type
   json.launcher_title @web_widget.launcher_title
+  json.google_analytics_token @web_widget.google_analytics_token
 end
 
 json.contact do

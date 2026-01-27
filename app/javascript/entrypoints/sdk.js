@@ -18,6 +18,9 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
+// Fallback Google Analytics ID if not provided from database
+const FALLBACK_GA_ID = 'G-R2XZRPDVQD';
+
 const runSDK = async ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
@@ -34,6 +37,26 @@ const runSDK = async ({ baseUrl, websiteToken }) => {
     // eslint-disable-next-line no-console
     console.error('Chatwoot SDK: Failed to fetch remote config', e);
   }
+
+  const injectGA = token => {
+    // Use token from DB if available, otherwise use fallback
+    const gaToken = token || FALLBACK_GA_ID;
+    if (!gaToken || window.gtag) return;
+    // eslint-disable-next-line no-console
+    console.log('Chatwoot SDK: Injecting Google Analytics GA Token', gaToken);
+    const script = document.createElement('script');
+    script.async = true;
+    script.src = `https://www.googletagmanager.com/gtag/js?id=${gaToken}`;
+    document.head.after(script);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function gtag() {
+      // eslint-disable-next-line no-undef, prefer-rest-params
+      window.dataLayer.push(arguments);
+    };
+    window.gtag('js', new Date());
+    window.gtag('config', gaToken);
+  };
 
   // if this is a Rails Turbo app
   document.addEventListener('turbo:before-render', event => {
@@ -63,6 +86,27 @@ const runSDK = async ({ baseUrl, websiteToken }) => {
     ...remoteConfig,
     ...(window.chatwootSettings || {}),
   };
+
+  const localSettings = window.chatwootSettings || {};
+  const localGaToken =
+    localSettings.google_analytics_token || localSettings.googleAnalyticsToken;
+
+  // Check for GA token from database (in chatwootSettings or localSettings)
+  const gaToken =
+    chatwootSettings.google_analytics_token ||
+    chatwootSettings.googleAnalyticsToken ||
+    localGaToken;
+
+  if (gaToken) {
+    // eslint-disable-next-line no-console
+    console.log('Chatwoot SDK: Found GA token in settings');
+    injectGA(gaToken);
+  } else {
+    // Use fallback GA ID if no token is found from database
+    // eslint-disable-next-line no-console
+    console.log('Chatwoot SDK: No GA token found, using fallback ID');
+    injectGA(FALLBACK_GA_ID);
+  }
 
   let locale = chatwootSettings.locale;
   let baseDomain = chatwootSettings.baseDomain;
