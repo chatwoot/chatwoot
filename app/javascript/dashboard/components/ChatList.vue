@@ -130,8 +130,7 @@ const labels = useMapGetter('labels/getLabels');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 // We can't useFunctionGetter here since it needs to be called on setup?
 const getTeamFn = useMapGetter('teams/getTeam');
-
-const showOnlyMineTab = ref(false)
+const userACL = useMapGetter('acl/getUserACL')
 
 useChatListKeyboardEvents(conversationListRef);
 const {
@@ -211,7 +210,8 @@ const assigneeTabItems = computed(() => {
     count: conversationStats.value[countKey] || 0,
   }));
 
-  if (showOnlyMineTab.value) {
+  const ver_todas_conversas = userACL.value.ver_todas_conversas
+  if (!ver_todas_conversas) {
     return allTabs.filter(tab => tab.key === wootConstants.ASSIGNEE_TYPE.ME)
   }
   return allTabs
@@ -815,12 +815,6 @@ provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
 
-watch(teamsList, (newTeamsList) => {
-  const userTeams = newTeamsList.filter(t => t.is_member)
-  const regexPrivado = /\bprivado\b/i;
-  const isUserPrivateTeam = userTeams.some(team => regexPrivado.test(team.name))
-  showOnlyMineTab.value = isUserPrivateTeam
-}, {immediate: true})
 
 watch(activeTeam, () => resetAndFetchData());
 
