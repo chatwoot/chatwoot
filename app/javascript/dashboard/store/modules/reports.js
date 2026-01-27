@@ -282,8 +282,8 @@ export const actions = {
     const format = reportObj.format || 'csv';
 
     const params = {
-      from: reportObj.from,
-      to: reportObj.to,
+      since: reportObj.since,
+      until: reportObj.until,
       businessHours: reportObj.businessHours,
       format,
     };
