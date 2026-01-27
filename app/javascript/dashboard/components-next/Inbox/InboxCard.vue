@@ -148,7 +148,12 @@ const contextMenuActions = {
   },
 };
 
-onBeforeMount(contextMenuActions.close);
+// Reset context menu state on mount without emitting events
+// to prevent event storm when multiple cards mount simultaneously
+onBeforeMount(() => {
+  isContextMenuOpen.value = false;
+  contextMenuPosition.value = { x: null, y: null };
+});
 </script>
 
 <template>
