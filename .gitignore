@@ -101,3 +101,4 @@ CLAUDE.local.md
 .histoire
 .pnpm-store/*
 local/
+sw.js
