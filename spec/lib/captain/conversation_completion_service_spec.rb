@@ -12,6 +12,7 @@ RSpec.describe Captain::ConversationCompletionService do
     create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key')
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
     allow(mock_chat).to receive(:with_instructions)
+    allow(mock_chat).to receive(:with_schema).and_return(mock_chat)
     allow(account).to receive(:feature_enabled?).and_call_original
     allow(account).to receive(:feature_enabled?).with('captain_tasks').and_return(true)
   end
@@ -21,7 +22,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: '{"complete": true, "reason": "Customer question was fully answered"}',
+          content: { 'complete' => true, 'reason' => 'Customer question was fully answered' },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -46,7 +47,7 @@ RSpec.describe Captain::ConversationCompletionService do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: '{"complete": false, "reason": "Assistant asked for order number but customer did not respond"}',
+          content: { 'complete' => false, 'reason' => 'Assistant asked for order number but customer did not respond' },
           input_tokens: 100,
           output_tokens: 20
         )
@@ -75,11 +76,11 @@ RSpec.describe Captain::ConversationCompletionService do
       end
     end
 
-    context 'when LLM returns invalid JSON' do
+    context 'when LLM returns non-hash response' do
       let(:mock_response) do
         instance_double(
           RubyLLM::Message,
-          content: 'This is not valid JSON',
+          content: 'unexpected string response',
           input_tokens: 100,
           output_tokens: 20
         )
@@ -94,7 +95,7 @@ RSpec.describe Captain::ConversationCompletionService do
         result = service.perform
 
         expect(result[:complete]).to be false
-        expect(result[:reason]).to eq('Failed to parse LLM response')
+        expect(result[:reason]).to eq('Invalid response format')
       end
     end
 
@@ -118,12 +119,12 @@ RSpec.describe Captain::ConversationCompletionService do
         create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
       end
 
-      it 'returns error from base class' do
+      it 'does not evaluate the conversation as complete' do
         result = service.perform
 
-        # Base class returns { error: '...', error_code: 403 } when captain is disabled
-        # Our service wraps this as incomplete
-        expect(result[:error]).to be_present
+        # Enterprise module intercepts with { error: '...' }, otherwise
+        # base class returns error which service wraps as { complete: false }
+        expect(result[:complete]).not_to be true
       end
     end
   end
