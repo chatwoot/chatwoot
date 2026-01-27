@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router';
 import { useSidebarContext } from './provider';
 import { useMapGetter } from 'dashboard/composables/store';
 import Icon from 'next/icon/Icon.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
@@ -21,6 +22,7 @@ const expandedSubGroup = ref(null);
 const popoverRef = ref(null);
 const topPosition = ref(0);
 const isRTL = useMapGetter('accounts/isRTL');
+const skipTransition = ref(true);
 
 const toggleSubGroup = name => {
   expandedSubGroup.value = expandedSubGroup.value === name ? null : name;
@@ -30,6 +32,29 @@ const navigateAndClose = to => {
   router.push(to);
   emit('close');
 };
+
+const isActive = child => props.activeChild?.name === child.name;
+
+const getAccessibleSubChildren = children =>
+  children.filter(c => isAllowed(c.to));
+
+const renderIcon = icon => ({
+  component: typeof icon === 'object' ? icon : Icon,
+  props: typeof icon === 'string' ? { icon } : null,
+});
+
+const transition = computed(() =>
+  skipTransition.value
+    ? {}
+    : {
+        enterActiveClass: 'transition-all duration-200 ease-out',
+        enterFromClass: 'opacity-0 -translate-y-2 max-h-0',
+        enterToClass: 'opacity-100 translate-y-0 max-h-96',
+        leaveActiveClass: 'transition-all duration-150 ease-in',
+        leaveFromClass: 'opacity-100 translate-y-0 max-h-96',
+        leaveToClass: 'opacity-0 -translate-y-2 max-h-0',
+      }
+);
 
 const accessibleChildren = computed(() => {
   return props.children.filter(child => {
@@ -42,37 +67,48 @@ const accessibleChildren = computed(() => {
 
 onMounted(async () => {
   await nextTick();
-  // Position the popover based on the trigger's position
-  if (props.triggerRect) {
-    const viewportHeight = window.innerHeight;
-    const popoverHeight = popoverRef.value?.offsetHeight || 300;
-    let top = props.triggerRect.top;
 
-    // If popover would go below viewport, adjust upward
-    if (top + popoverHeight > viewportHeight - 20) {
-      top = Math.max(20, viewportHeight - popoverHeight - 20);
+  // Auto-expand subgroup if active child is inside it
+  if (props.activeChild) {
+    const parentGroup = props.children.find(child =>
+      child.children?.some(subChild => subChild.name === props.activeChild.name)
+    );
+    if (parentGroup) {
+      expandedSubGroup.value = parentGroup.name;
     }
-    topPosition.value = top;
   }
+
+  if (!props.triggerRect) return;
+
+  const viewportHeight = window.innerHeight;
+  const popoverHeight = popoverRef.value?.offsetHeight || 300;
+  const { top: triggerTop } = props.triggerRect;
+
+  // Adjust position if popover would overflow viewport
+  topPosition.value =
+    triggerTop + popoverHeight > viewportHeight - 20
+      ? Math.max(20, viewportHeight - popoverHeight - 20)
+      : triggerTop;
+
+  await nextTick();
+  skipTransition.value = false;
 });
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection>
     <div
       ref="popoverRef"
       class="fixed z-[100] min-w-[200px] max-w-[280px]"
-      :dir="isRTL ? 'rtl' : 'ltr'"
       :style="{
-        left: isRTL ? 'auto' : `${sidebarWidth + 8}px`,
-        right: isRTL ? `${sidebarWidth + 8}px` : 'auto',
+        [isRTL ? 'right' : 'left']: `${sidebarWidth + 8}px`,
         top: `${topPosition}px`,
       }"
       @mouseenter="emit('mouseenter')"
       @mouseleave="emit('mouseleave')"
     >
       <div
-        class="bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak rounded-xl shadow-lg py-2 px-2"
+        class="bg-n-alpha-3 backdrop-blur-[100px] border w-56 border-n-weak rounded-xl shadow-lg py-2 px-2"
       >
         <div
           class="px-2 py-1.5 text-xs font-medium text-n-slate-11 uppercase tracking-wider border-b border-n-weak mb-1"
@@ -86,7 +122,7 @@ onMounted(async () => {
             <!-- SubGroup with children -->
             <li v-if="child.children" class="py-0.5">
               <button
-                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-n-slate-11 hover:bg-n-alpha-2 text-left rtl:text-right"
+                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-n-slate-11 hover:bg-n-alpha-2 transition-colors duration-150 ease-out text-left rtl:text-right"
                 @click="toggleSubGroup(child.name)"
               >
                 <Icon
@@ -96,65 +132,57 @@ onMounted(async () => {
                 />
                 <span class="flex-1 truncate text-sm">{{ child.label }}</span>
                 <span
-                  class="size-3 transition-transform"
-                  :class="[
-                    isRTL ? 'i-lucide-chevron-left' : 'i-lucide-chevron-right',
-                    { 'rotate-90': expandedSubGroup === child.name },
-                  ]"
+                  class="size-3 transition-transform i-lucide-chevron-down"
+                  :class="{
+                    'rotate-180': expandedSubGroup === child.name,
+                  }"
                 />
               </button>
-              <ul
-                v-if="expandedSubGroup === child.name"
-                class="m-0 p-0 list-none ltr:pl-4 rtl:pr-4 mt-1"
-              >
-                <li
-                  v-for="subChild in child.children.filter(c =>
-                    isAllowed(c.to)
-                  )"
-                  :key="subChild.name"
-                  class="py-0.5"
+              <Transition v-bind="transition">
+                <ul
+                  v-if="expandedSubGroup === child.name"
+                  class="m-0 p-0 list-none ltr:pl-4 rtl:pr-4 mt-1 overflow-hidden"
                 >
-                  <button
-                    class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right"
-                    :class="{
-                      'text-n-slate-12 bg-n-alpha-2':
-                        activeChild?.name === subChild.name,
-                      'text-n-slate-11 hover:bg-n-alpha-2':
-                        activeChild?.name !== subChild.name,
-                    }"
-                    @click="navigateAndClose(subChild.to)"
+                  <li
+                    v-for="subChild in getAccessibleSubChildren(child.children)"
+                    :key="subChild.name"
+                    class="py-0.5"
                   >
-                    <component
-                      :is="
-                        typeof subChild.icon === 'object' ? subChild.icon : Icon
-                      "
-                      v-if="subChild.icon"
-                      :icon="
-                        typeof subChild.icon === 'string' ? subChild.icon : null
-                      "
-                      class="size-4 flex-shrink-0"
-                    />
-                    <span class="flex-1 truncate">{{ subChild.label }}</span>
-                  </button>
-                </li>
-              </ul>
+                    <button
+                      class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
+                      :class="{
+                        'text-n-slate-12 bg-n-alpha-2': isActive(subChild),
+                        'text-n-slate-11 hover:bg-n-alpha-2':
+                          !isActive(subChild),
+                      }"
+                      @click="navigateAndClose(subChild.to)"
+                    >
+                      <component
+                        :is="renderIcon(subChild.icon).component"
+                        v-if="subChild.icon"
+                        v-bind="renderIcon(subChild.icon).props"
+                        class="size-4 flex-shrink-0"
+                      />
+                      <span class="flex-1 truncate">{{ subChild.label }}</span>
+                    </button>
+                  </li>
+                </ul>
+              </Transition>
             </li>
             <!-- Direct child item -->
             <li v-else class="py-0.5">
               <button
-                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right"
+                class="flex items-center gap-2 px-2 py-1.5 w-full rounded-lg text-sm text-left rtl:text-right transition-colors duration-150 ease-out"
                 :class="{
-                  'text-n-slate-12 bg-n-alpha-2':
-                    activeChild?.name === child.name,
-                  'text-n-slate-11 hover:bg-n-alpha-2':
-                    activeChild?.name !== child.name,
+                  'text-n-slate-12 bg-n-alpha-2': isActive(child),
+                  'text-n-slate-11 hover:bg-n-alpha-2': !isActive(child),
                 }"
                 @click="navigateAndClose(child.to)"
               >
                 <component
-                  :is="typeof child.icon === 'object' ? child.icon : Icon"
+                  :is="renderIcon(child.icon).component"
                   v-if="child.icon"
-                  :icon="typeof child.icon === 'string' ? child.icon : null"
+                  v-bind="renderIcon(child.icon).props"
                   class="size-4 flex-shrink-0"
                 />
                 <span class="flex-1 truncate">{{ child.label }}</span>
@@ -164,5 +192,5 @@ onMounted(async () => {
         </ul>
       </div>
     </div>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
