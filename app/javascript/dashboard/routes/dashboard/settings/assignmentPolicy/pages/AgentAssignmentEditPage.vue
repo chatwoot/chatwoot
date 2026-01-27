@@ -58,13 +58,25 @@ const dismissInboxLinkPrompt = () => {
   });
 };
 
-const breadcrumbItems = computed(() => [
-  {
-    label: t(`${BASE_KEY}.INDEX.HEADER.TITLE`),
-    routeName: 'agent_assignment_policy_index',
-  },
-  { label: t(`${BASE_KEY}.EDIT.HEADER.TITLE`) },
-]);
+const breadcrumbItems = computed(() => {
+  if (inboxIdFromQuery.value) {
+    return [
+      {
+        label: t('INBOX_MGMT.SETTINGS'),
+        routeName: 'settings_inbox_show',
+        params: { inboxId: inboxIdFromQuery.value },
+      },
+      { label: t(`${BASE_KEY}.EDIT.HEADER.TITLE`) },
+    ];
+  }
+  return [
+    {
+      label: t(`${BASE_KEY}.INDEX.HEADER.TITLE`),
+      routeName: 'agent_assignment_policy_index',
+    },
+    { label: t(`${BASE_KEY}.EDIT.HEADER.TITLE`) },
+  ];
+});
 
 const buildInboxList = allInboxes =>
   allInboxes?.map(({ name, id, email, phoneNumber, channelType, medium }) => ({
@@ -108,8 +120,18 @@ const handleDeleteInbox = async inboxId => {
   }
 };
 
-const handleBreadcrumbClick = ({ routeName }) =>
-  router.push({ name: routeName });
+const handleBreadcrumbClick = ({ routeName, params }) => {
+  if (params) {
+    const accountId = route.params.accountId;
+    const inboxId = params.inboxId;
+    // Navigate using explicit path to ensure tab parameter is included
+    router.push(
+      `/app/accounts/${accountId}/settings/inboxes/${inboxId}/collaborators`
+    );
+  } else {
+    router.push({ name: routeName });
+  }
+};
 
 const handleNavigateToInbox = inbox => {
   router.push({

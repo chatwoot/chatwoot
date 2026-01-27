@@ -266,10 +266,12 @@ const setDefaults = () => {
   fetchAttachedAgents();
   if (showAdvancedAssignmentUI.value) {
     fetchAssignmentPolicy();
+    fetchAvailablePolicies();
   }
 };
 
-watch(() => props.inbox, setDefaults, { deep: true });
+// Watch only inbox.id to avoid unnecessary refetches when other properties change
+watch(() => props.inbox.id, setDefaults);
 
 onMounted(() => {
   setDefaults();
@@ -324,78 +326,182 @@ onMounted(() => {
           {{ $t('INBOX_MGMT.ASSIGNMENT.DESCRIPTION') }}
         </p>
 
-        <div v-if="enableAutoAssignment" class="mt-4">
-          <!-- Policy Card - When policy is attached -->
-          <div
-            v-if="showAdvancedAssignmentUI && assignmentPolicy"
-            class="relative p-6 rounded-xl border border-dashed border-n-weak"
-          >
-            <button
-              type="button"
-              class="absolute top-4 right-4 p-2 text-n-slate-10 hover:text-n-ruby-11 hover:bg-n-ruby-3 dark:hover:bg-n-ruby-4 rounded-lg transition-colors"
-              @click="confirmDeletePolicy"
+        <Transition
+          enter-active-class="transition-all duration-200 ease-out"
+          enter-from-class="opacity-0 -translate-y-2"
+          enter-to-class="opacity-100 translate-y-0"
+          leave-active-class="transition-all duration-150 ease-in"
+          leave-from-class="opacity-100 translate-y-0"
+          leave-to-class="opacity-0 -translate-y-2"
+        >
+          <div v-if="enableAutoAssignment" class="mt-4">
+            <!-- Policy Card - When policy is attached -->
+            <div
+              v-if="showAdvancedAssignmentUI && assignmentPolicy"
+              class="relative p-6 rounded-xl border border-dashed border-n-weak"
             >
-              <i class="i-lucide-trash-2 text-base" />
-            </button>
-
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+              <button
+                type="button"
+                class="absolute top-4 right-4 p-2 text-n-slate-10 hover:text-n-ruby-11 hover:bg-n-ruby-3 dark:hover:bg-n-ruby-4 rounded-lg transition-colors"
+                @click="confirmDeletePolicy"
               >
-                <i class="i-lucide-zap text-xl text-n-slate-11" />
-              </div>
-              <div class="flex-grow pr-10">
-                <div class="flex items-center gap-2 mb-1">
-                  <h4 class="text-base font-medium text-n-slate-12">
-                    {{ assignmentPolicy.name }}
-                  </h4>
+                <i class="i-lucide-trash-2 text-base" />
+              </button>
+
+              <div class="flex items-start gap-4">
+                <div
+                  class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                >
+                  <i class="i-lucide-zap text-xl text-n-slate-11" />
                 </div>
-                <p class="text-sm text-n-slate-11 mb-4">
-                  {{ $t('INBOX_MGMT.ASSIGNMENT.POLICY_LABEL') }}
-                </p>
+                <div class="flex-grow pr-10">
+                  <div class="flex items-center gap-2 mb-1">
+                    <h4 class="text-base font-medium text-n-slate-12">
+                      {{ assignmentPolicy.name }}
+                    </h4>
+                  </div>
+                  <p class="text-sm text-n-slate-11 mb-4">
+                    {{ $t('INBOX_MGMT.ASSIGNMENT.POLICY_LABEL') }}
+                  </p>
 
-                <ul class="space-y-2 mb-6">
-                  <li class="flex items-center gap-2">
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
-                    />
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ assignmentOrderLabel }}
-                    </span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
-                    />
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ assignmentMethodLabel }}
-                    </span>
-                  </li>
-                </ul>
+                  <ul class="space-y-2 mb-6">
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                      />
+                      <span class="text-sm font-medium text-n-slate-12">
+                        {{ assignmentOrderLabel }}
+                      </span>
+                    </li>
+                    <li class="flex items-center gap-2">
+                      <span
+                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
+                      />
+                      <span class="text-sm font-medium text-n-slate-12">
+                        {{ assignmentMethodLabel }}
+                      </span>
+                    </li>
+                  </ul>
 
-                <div class="pt-4 border-t border-n-weak">
-                  <button
-                    type="button"
-                    class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 dark:text-n-blue-10 hover:text-n-blue-12 dark:hover:text-n-blue-9 transition-colors"
-                    @click="navigateToAssignmentPolicyEdit"
-                  >
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.CUSTOMIZE_POLICY') }}
-                    <i class="i-lucide-arrow-right text-sm" />
-                  </button>
+                  <div class="pt-4 border-t border-n-weak">
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 dark:text-n-blue-10 hover:text-n-blue-12 dark:hover:text-n-blue-9 transition-colors"
+                      @click="navigateToAssignmentPolicyEdit"
+                    >
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.CUSTOMIZE_POLICY') }}
+                      <i class="i-lucide-arrow-right text-sm" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- Default Policy - When no custom policy attached but feature enabled -->
-          <div
-            v-else-if="
-              showAdvancedAssignmentUI && !assignmentPolicy && !isLoadingPolicy
-            "
-            class="rounded-xl border border-dashed border-n-weak"
-          >
-            <!-- Default Policy Header -->
-            <div class="p-6 pb-4">
+            <!-- Default Policy - When no custom policy attached but feature enabled -->
+            <div
+              v-else-if="
+                showAdvancedAssignmentUI &&
+                !assignmentPolicy &&
+                !isLoadingPolicy
+              "
+              class="rounded-xl border border-dashed border-n-weak"
+            >
+              <!-- Default Policy Header -->
+              <div class="p-6 pb-4">
+                <div class="flex items-start gap-4">
+                  <div
+                    class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
+                  >
+                    <i class="i-lucide-zap text-xl text-n-slate-11" />
+                  </div>
+                  <div class="flex-grow">
+                    <h4 class="text-base font-medium text-n-slate-12 mb-1">
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_LINKED') }}
+                    </h4>
+                    <p class="text-sm text-n-slate-11">
+                      {{
+                        $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_DESCRIPTION')
+                      }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="mt-5 flex items-center gap-3">
+                  <div
+                    v-if="!isLoadingPolicies && availablePolicies.length > 0"
+                    v-on-click-outside="closePolicyDropdown"
+                    class="relative"
+                  >
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-n-brand hover:bg-n-brand/90 rounded-lg transition-colors"
+                      @click="togglePolicyDropdown"
+                    >
+                      <i class="i-lucide-link text-sm" />
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.LINK_EXISTING_POLICY') }}
+                      <i
+                        class="i-lucide-chevron-down text-sm transition-transform"
+                        :class="{ 'rotate-180': showPolicyDropdown }"
+                      />
+                    </button>
+
+                    <DropdownMenu
+                      v-if="showPolicyDropdown"
+                      class="top-full left-0 mt-2 min-w-72"
+                      :menu-items="policyMenuItems"
+                      :is-searching="isLoadingPolicies"
+                      @action="handlePolicyMenuAction"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-n-slate-12 bg-n-slate-3 dark:bg-n-slate-4 hover:bg-n-slate-4 dark:hover:bg-n-slate-5 rounded-lg transition-colors"
+                    @click="navigateToCreatePolicy"
+                  >
+                    <i class="i-lucide-plus text-sm" />
+                    {{ $t('INBOX_MGMT.ASSIGNMENT.CREATE_NEW_POLICY') }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Default Rules Info -->
+              <div class="px-6 py-4 bg-n-alpha-1 border-t border-n-weak">
+                <div class="flex items-start gap-3">
+                  <i class="i-lucide-info text-base text-n-slate-10 mt-0.5" />
+                  <div>
+                    <p class="text-sm text-n-slate-11 mb-2">
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.CURRENT_BEHAVIOR') }}
+                    </p>
+                    <ul class="space-y-1">
+                      <li class="flex items-center gap-2">
+                        <span
+                          class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                        />
+                        <span class="text-sm text-n-slate-11">
+                          {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
+                        </span>
+                      </li>
+                      <li class="flex items-center gap-2">
+                        <span
+                          class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                        />
+                        <span class="text-sm text-n-slate-11">
+                          {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
+                        </span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Default Rules Card - Feature not enabled (no advanced_assignment) -->
+            <div
+              v-else-if="!showAdvancedAssignmentUI"
+              class="p-6 rounded-xl border border-dashed border-n-weak"
+            >
               <div class="flex items-start gap-4">
                 <div
                   class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
@@ -404,140 +510,53 @@ onMounted(() => {
                 </div>
                 <div class="flex-grow">
                   <h4 class="text-base font-medium text-n-slate-12 mb-1">
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_LINKED') }}
+                    {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_TITLE') }}
                   </h4>
-                  <p class="text-sm text-n-slate-11">
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_POLICY_DESCRIPTION') }}
+                  <p class="text-sm text-n-slate-11 mb-4">
+                    {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_DESCRIPTION') }}
                   </p>
-                </div>
-              </div>
 
-              <!-- Action Buttons -->
-              <div class="mt-5 flex items-center gap-3">
-                <div v-on-click-outside="closePolicyDropdown" class="relative">
-                  <button
-                    type="button"
-                    class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-n-brand hover:bg-n-brand/90 rounded-lg transition-colors"
-                    @click="togglePolicyDropdown"
-                  >
-                    <i class="i-lucide-link text-sm" />
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.LINK_EXISTING_POLICY') }}
-                    <i
-                      class="i-lucide-chevron-down text-sm transition-transform"
-                      :class="{ 'rotate-180': showPolicyDropdown }"
-                    />
-                  </button>
-
-                  <DropdownMenu
-                    v-if="showPolicyDropdown"
-                    class="top-full left-0 mt-2 min-w-72"
-                    :menu-items="policyMenuItems"
-                    :is-searching="isLoadingPolicies"
-                    @action="handlePolicyMenuAction"
-                  />
-                </div>
-
-                <button
-                  type="button"
-                  class="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-n-slate-12 bg-n-slate-3 dark:bg-n-slate-4 hover:bg-n-slate-4 dark:hover:bg-n-slate-5 rounded-lg transition-colors"
-                  @click="navigateToCreatePolicy"
-                >
-                  <i class="i-lucide-plus text-sm" />
-                  {{ $t('INBOX_MGMT.ASSIGNMENT.CREATE_NEW_POLICY') }}
-                </button>
-              </div>
-            </div>
-
-            <!-- Default Rules Info -->
-            <div class="px-6 py-4 bg-n-alpha-1 border-t border-n-weak">
-              <div class="flex items-start gap-3">
-                <i class="i-lucide-info text-base text-n-slate-10 mt-0.5" />
-                <div>
-                  <p class="text-sm text-n-slate-11 mb-2">
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.CURRENT_BEHAVIOR') }}
-                  </p>
-                  <ul class="space-y-1">
+                  <ul class="space-y-2 mb-6">
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm text-n-slate-11">
+                      <span class="text-sm font-medium text-n-slate-12">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
                       </span>
                     </li>
                     <li class="flex items-center gap-2">
                       <span
-                        class="w-1 h-1 rounded-full bg-n-slate-10 flex-shrink-0"
+                        class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
                       />
-                      <span class="text-sm text-n-slate-11">
+                      <span class="text-sm font-medium text-n-slate-12">
                         {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
                       </span>
                     </li>
                   </ul>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Default Rules Card - Feature not enabled (no advanced_assignment) -->
-          <div
-            v-else-if="!showAdvancedAssignmentUI"
-            class="p-6 rounded-xl border border-dashed border-n-weak"
-          >
-            <div class="flex items-start gap-4">
-              <div
-                class="flex-shrink-0 w-12 h-12 rounded-xl bg-n-slate-3 dark:bg-n-slate-4 flex items-center justify-center"
-              >
-                <i class="i-lucide-zap text-xl text-n-slate-11" />
-              </div>
-              <div class="flex-grow">
-                <h4 class="text-base font-medium text-n-slate-12 mb-1">
-                  {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_TITLE') }}
-                </h4>
-                <p class="text-sm text-n-slate-11 mb-4">
-                  {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULES_DESCRIPTION') }}
-                </p>
-
-                <ul class="space-y-2 mb-6">
-                  <li class="flex items-center gap-2">
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
-                    />
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_1') }}
-                    </span>
-                  </li>
-                  <li class="flex items-center gap-2">
-                    <span
-                      class="w-1.5 h-1.5 rounded-full bg-n-slate-11 flex-shrink-0"
-                    />
-                    <span class="text-sm font-medium text-n-slate-12">
-                      {{ $t('INBOX_MGMT.ASSIGNMENT.DEFAULT_RULE_2') }}
-                    </span>
-                  </li>
-                </ul>
-
-                <!-- Upgrade prompt when advanced_assignment is not enabled -->
-                <div
-                  v-if="!hasAdvancedAssignment"
-                  class="pt-4 border-t border-n-weak"
-                >
-                  <p class="text-sm text-n-slate-11 mb-2">
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
-                  </p>
-                  <button
-                    type="button"
-                    class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 dark:text-n-blue-10 hover:text-n-blue-12 dark:hover:text-n-blue-9 transition-colors"
-                    @click="navigateToBilling"
+                  <!-- Upgrade prompt when advanced_assignment is not enabled -->
+                  <div
+                    v-if="!hasAdvancedAssignment"
+                    class="pt-4 border-t border-n-weak"
                   >
-                    {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS') }}
-                    <i class="i-lucide-arrow-right text-sm" />
-                  </button>
+                    <p class="text-sm text-n-slate-11 mb-2">
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_PROMPT') }}
+                    </p>
+                    <button
+                      type="button"
+                      class="inline-flex items-center gap-1.5 text-sm font-medium text-n-blue-11 dark:text-n-blue-10 hover:text-n-blue-12 dark:hover:text-n-blue-9 transition-colors"
+                      @click="navigateToBilling"
+                    >
+                      {{ $t('INBOX_MGMT.ASSIGNMENT.UPGRADE_TO_BUSINESS') }}
+                      <i class="i-lucide-arrow-right text-sm" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
+        </Transition>
       </template>
 
       <!-- Old UI for non-assignment_v2 -->
