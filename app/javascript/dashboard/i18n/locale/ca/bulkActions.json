@@ -22,6 +22,10 @@
       "UPDATE_SUCCESFUL": "L'estat de les converses s'ha actualitzat correctament.",
       "UPDATE_FAILED": "No s'han pogut actualitzar les converses. Torna-ho a provar."
     },
+    "RESOLVE": {
+      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
+      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+    },
     "LABELS": {
       "ASSIGN_LABELS": "Assignar etiquetes",
       "NO_LABELS_FOUND": "No s'han trobat etiquetes",
