@@ -126,6 +126,23 @@
       "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
+  "AGENT_ACTIVITY_REPORTS": {
+    "HEADER": "Agent Activity",
+    "DESCRIPTION": "Tracking agent activity by time",
+    "TIMEZONE_DESCRIPTION": "All reports are displayed in your local time.",
+    "OFFLINE": "Offline",
+    "HIDE_INACTIVE": "Hide inactive",
+    "CSV_DOWNLOAD": "Download agent activity reports",
+    "BUSY": "Busy",
+    "ONLINE": "Online",
+    "DATE_RANGE": "{start} — {end}",
+    "PREVIOUS": "←",
+    "NEXT": "→",
+     "STATUS_WITH_DURATION": "{status}: {duration}",
+    "FILTERS": {
+      "TIME_RANGE_SEPARATOR": "—"
+    }
+  },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
     "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",

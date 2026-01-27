@@ -18,6 +18,25 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: build_summary(:bot_summary)
   end
 
+  def agent_activity
+    since = params[:since].presence&.to_i
+    until_ = params[:until].presence&.to_i
+    if since.nil? || until_.nil?
+      render json: { error: 'since and until are required' }, status: :unprocessable_entity
+      return
+    end
+    builder = V2::Reports::AgentActivityBuilder.new(
+      Current.account,
+      agent_activity_params
+    )
+
+    @since = Time.zone.at(since)
+    @until = Time.zone.at(until_)
+
+    @agents = builder.call
+    generate_csv('agent_activity_report', 'api/v2/accounts/reports/agent_activity')
+  end
+
   def agents
     @report_data = generate_agents_report
     generate_csv('agents_report', 'api/v2/accounts/reports/agents')
@@ -63,6 +82,18 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def agent_activity_params
+    params.permit(
+      :since,
+      :until,
+      :timezone_offset,
+      :hide_inactive,
+      team_ids: [],
+      user_ids: [],
+      inbox_ids: []
+    )
+  end
 
   def generate_csv(filename, template)
     response.headers['Content-Type'] = 'text/csv'

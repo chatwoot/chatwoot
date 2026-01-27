@@ -24,10 +24,31 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
     render_report_with(V2::Reports::ChannelSummaryBuilder)
   end
 
+  def agent_activity
+    builder = V2::Reports::AgentActivityBuilder.new(
+      Current.account,
+      agent_activity_params
+    )
+
+    render json: builder.call
+  end
+
   private
 
   def check_authorization
     authorize :report, :view?
+  end
+
+  def agent_activity_params
+    params.permit(
+      :since,
+      :until,
+      :timezone_offset,
+      :hide_inactive,
+      user_ids: [],
+      team_ids: [],
+      inbox_ids: []
+    )
   end
 
   def prepare_builder_params
