@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
   }, via: [:get, :post]
 
+  # Resend ActionMailbox ingress
+  mount ActionMailbox::Resend::Engine, at: '/rails/action_mailbox/resend'
+
   ## renders the frontend paths only if its not an api only server
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false))
     root to: 'api#index'
