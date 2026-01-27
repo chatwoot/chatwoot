@@ -136,7 +136,8 @@ class CsatTemplateManagementService
         template_exists: true,
         template_name: template_name,
         status: status_result[:template][:status],
-        template_id: status_result[:template][:id]
+        template_id: status_result[:template][:id],
+        business_account_id: @inbox.channel.provider_config['business_account_id']
       }
     else
       {

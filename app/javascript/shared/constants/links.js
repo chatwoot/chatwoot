@@ -9,3 +9,5 @@ export const REPLY_POLICY = {
 };
 
 export const CHANGELOG_API_URL = 'https://hub.2.chatwoot.com/changelogs';
+
+export const META_BUSINESS_URL = 'https://business.facebook.com';

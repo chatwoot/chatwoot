@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 
 import ButtonV4 from 'next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { META_BUSINESS_URL } from 'shared/constants/links';
 
 const props = defineProps({
   healthData: {
@@ -109,12 +110,11 @@ const handleGoToSettings = () => {
 
   if (businessId) {
     // WhatsApp Business Manager URL with specific business ID and phone numbers tab
-    const whatsappBusinessUrl = `https://business.facebook.com/latest/whatsapp_manager/phone_numbers/?business_id=${businessId}&tab=phone-numbers`;
+    const whatsappBusinessUrl = `${META_BUSINESS_URL}/latest/whatsapp_manager/phone_numbers/?business_id=${businessId}&tab=phone-numbers`;
     window.open(whatsappBusinessUrl, '_blank');
   } else {
     // Fallback to general WhatsApp Business Manager if business_id is not available
-    const fallbackUrl = 'https://business.facebook.com/';
-    window.open(fallbackUrl, '_blank');
+    window.open(META_BUSINESS_URL, '_blank');
   }
 };
 

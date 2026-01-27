@@ -825,7 +825,8 @@
         "PENDING": "Pending WhatsApp approval",
         "REJECTED": "Meta rejected the template",
         "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "NOT_FOUND": "The template does not exist in the Meta platform.",
+        "VIEW_TEMPLATE": "View in WhatsApp Manager"
       },
       "TEMPLATE_CREATION": {
         "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",

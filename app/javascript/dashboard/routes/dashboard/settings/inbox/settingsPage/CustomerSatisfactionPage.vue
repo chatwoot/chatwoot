@@ -5,6 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
+import { META_BUSINESS_URL } from 'shared/constants/links';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
@@ -90,6 +91,21 @@ const messagePreviewData = computed(() => ({
 const shouldShowTemplateStatus = computed(
   () => templateStatus.value && !templateLoading.value
 );
+
+const templateDetailsUrl = computed(() => {
+  if (
+    !isAWhatsAppChannel.value ||
+    !templateStatus.value?.template_exists ||
+    !templateStatus.value?.template_id ||
+    !templateStatus.value?.business_account_id
+  ) {
+    return null;
+  }
+
+  const businessId = templateStatus.value.business_account_id;
+  const templateId = templateStatus.value.template_id;
+  return `${META_BUSINESS_URL}/latest/whatsapp_manager/template_details?business_id=${businessId}&id=${templateId}`;
+});
 
 const templateApprovalStatus = computed(() => {
   const statusMap = {
@@ -488,6 +504,15 @@ const handleConfirmTemplateUpdate = async () => {
                 >
                   {{ templateApprovalStatus.text }}
                 </span>
+                <a
+                  v-if="templateDetailsUrl"
+                  :href="templateDetailsUrl"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="text-sm font-medium text-n-blue-text hover:underline"
+                >
+                  {{ $t('INBOX_MGMT.CSAT.TEMPLATE_STATUS.VIEW_TEMPLATE') }}
+                </a>
               </div>
             </div>
 
