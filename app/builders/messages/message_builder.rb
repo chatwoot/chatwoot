@@ -13,6 +13,7 @@ class Messages::MessageBuilder
     @account = conversation.account
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
+    @attachment_ids = params[:attachment_ids]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
@@ -48,6 +49,11 @@ class Messages::MessageBuilder
   end
 
   def process_attachments
+    process_regular_attachments
+    process_reusable_attachments
+  end
+
+  def process_regular_attachments
     return if @attachments.blank?
 
     @attachments.each do |uploaded_attachment|
@@ -63,6 +69,22 @@ class Messages::MessageBuilder
                              else
                                file_type(uploaded_attachment&.content_type)
                              end
+    end
+  end
+
+  def process_reusable_attachments
+    return if @attachment_ids.blank?
+
+    reusable_attachments = @account.reusable_attachments.where(id: @attachment_ids)
+    reusable_attachments.each do |reusable_attachment|
+      next unless reusable_attachment.file.attached?
+
+      attachment = @message.attachments.build(
+        account_id: @message.account_id,
+        file: reusable_attachment.file.blob
+      )
+      attachment.file_type = reusable_attachment.file_type
+      attachment.extension = reusable_attachment.extension
     end
   end
 
