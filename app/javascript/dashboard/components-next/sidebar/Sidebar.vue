@@ -91,20 +91,28 @@ provideSidebarContext({
   isResizing,
 });
 
+// Get clientX from mouse or touch event
+const getClientX = event =>
+  event.touches ? event.touches[0].clientX : event.clientX;
+
 const onResizeStart = event => {
   isResizing.value = true;
-  startX.value = event.clientX;
+  startX.value = getClientX(event);
   startWidth.value = sidebarWidth.value;
-  document.body.style.cursor = 'col-resize';
-  document.body.style.userSelect = 'none';
+  Object.assign(document.body.style, {
+    cursor: 'col-resize',
+    userSelect: 'none',
+  });
+  // Prevent default to avoid scrolling on touch
+  event.preventDefault();
 };
 
 const onResizeMove = event => {
   if (!isResizing.value) return;
 
   const delta = isRTL.value
-    ? startX.value - event.clientX
-    : event.clientX - startX.value;
+    ? startX.value - getClientX(event)
+    : getClientX(event) - startX.value;
   setSidebarWidth(startWidth.value + delta);
 };
 
@@ -112,23 +120,22 @@ const onResizeEnd = () => {
   if (!isResizing.value) return;
 
   isResizing.value = false;
-  document.body.style.cursor = '';
-  document.body.style.userSelect = '';
+  Object.assign(document.body.style, { cursor: '', userSelect: '' });
 
   // Snap to collapsed state if below threshold
   if (sidebarWidth.value < COLLAPSED_THRESHOLD) snapToCollapsed();
 };
 
 const onResizeHandleDoubleClick = () => {
-  if (isCollapsed.value) {
-    snapToExpanded();
-  } else {
-    snapToCollapsed();
-  }
+  if (isCollapsed.value) snapToExpanded();
+  else snapToCollapsed();
 };
 
+// Support both mouse and touch events
 useEventListener(document, 'mousemove', onResizeMove);
 useEventListener(document, 'mouseup', onResizeEnd);
+useEventListener(document, 'touchmove', onResizeMove, { passive: false });
+useEventListener(document, 'touchend', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
@@ -787,6 +794,7 @@ const menuItems = computed(() => {
     <div
       class="hidden md:block absolute top-0 h-full w-1 cursor-col-resize z-50 ltr:right-0 rtl:left-0 group"
       @mousedown="onResizeStart"
+      @touchstart="onResizeStart"
       @dblclick="onResizeHandleDoubleClick"
     >
       <div
