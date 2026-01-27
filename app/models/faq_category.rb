@@ -1,11 +1,13 @@
 class FaqCategory < ApplicationRecord
+  include Events::Types
+
   belongs_to :account
   belongs_to :parent, class_name: 'FaqCategory', optional: true
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
 
   has_many :children, class_name: 'FaqCategory', foreign_key: :parent_id, dependent: :destroy
-  has_many :faq_items, dependent: :destroy
+  has_many :faq_items, dependent: nil # Handled manually to send bulk webhook
   has_many :inbox_faq_categories, dependent: :destroy
   has_many :inboxes, through: :inbox_faq_categories
 
@@ -18,6 +20,9 @@ class FaqCategory < ApplicationRecord
   # Validate max depth of 2 levels
   validate :validate_max_depth
 
+  before_destroy :destroy_faq_items_with_skip_callbacks
+  after_destroy_commit :dispatch_bulk_faq_deleted_event
+
   private
 
   def validate_max_depth
@@ -26,5 +31,33 @@ class FaqCategory < ApplicationRecord
     if parent&.parent_id.present?
       errors.add(:parent_id, 'cannot have more than 2 levels of nesting')
     end
+  end
+
+  def destroy_faq_items_with_skip_callbacks
+    @cached_deleted_faq_items = faq_items.pluck(:id, :faq_category_id).map do |item_id, cat_id|
+      { id: item_id, faq_category_id: cat_id }
+    end
+    @cached_account = account
+
+    faq_items.find_each do |item|
+      item.skip_catalog_callbacks = true
+      item.destroy
+    end
+  end
+
+  def dispatch_bulk_faq_deleted_event
+    return if @cached_deleted_faq_items.blank?
+
+    Rails.configuration.dispatcher.dispatch(
+      FAQ_CATALOG_UPDATED,
+      Time.zone.now,
+      account: @cached_account,
+      added_count: 0,
+      updated_count: 0,
+      deleted_count: @cached_deleted_faq_items.size,
+      added_faq_items: [],
+      updated_faq_items: [],
+      deleted_faq_items: @cached_deleted_faq_items
+    )
   end
 end

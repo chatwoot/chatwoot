@@ -61,4 +61,10 @@ module Events::Types
 
   # copilot events
   COPILOT_MESSAGE_CREATED = 'copilot.message.created'
+
+  # FAQ Catalog events (bulk)
+  FAQ_CATALOG_UPDATED = 'faq_catalog.updated'
+
+  # Product Catalog events (bulk)
+  PRODUCT_CATALOG_UPDATED = 'product_catalog.updated'
 end

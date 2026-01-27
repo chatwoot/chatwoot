@@ -1,4 +1,6 @@
 class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseController
+  include Events::Types
+
   before_action :product_catalog, except: [:index, :create, :bulk_upload, :bulk_delete, :export, :export_all, :download_export, :download_template]
   before_action :check_authorization
   before_action :check_rate_limit, only: [:bulk_upload, :export_all]
@@ -159,8 +161,8 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
       return
     end
 
-    # Delete products
-    Current.account.product_catalogs.where(id: ids).destroy_all
+    deleted_product_ids, deleted_count = destroy_products_with_skip_callbacks(ids)
+    dispatch_bulk_delete_event(deleted_product_ids, deleted_count)
 
     head :ok
   end
@@ -375,5 +377,33 @@ class Api::V1::Accounts::ProductCatalogsController < Api::V1::Accounts::BaseCont
         current_operation: lock_info&.dig(:operation_type)
       }, status: :too_many_requests
     end
+  end
+
+  def destroy_products_with_skip_callbacks(ids)
+    products_to_delete = Current.account.product_catalogs.where(id: ids)
+    deleted_product_ids = products_to_delete.pluck(:product_id)
+
+    deleted_count = 0
+    products_to_delete.find_each do |product|
+      product.skip_catalog_callbacks = true
+      product.destroy
+      deleted_count += 1
+    end
+
+    [deleted_product_ids, deleted_count]
+  end
+
+  def dispatch_bulk_delete_event(deleted_product_ids, deleted_count)
+    Rails.configuration.dispatcher.dispatch(
+      PRODUCT_CATALOG_UPDATED,
+      Time.zone.now,
+      account: Current.account,
+      added_count: 0,
+      updated_count: 0,
+      deleted_count: deleted_count,
+      added_product_ids: [],
+      updated_product_ids: [],
+      deleted_product_ids: deleted_product_ids
+    )
   end
 end

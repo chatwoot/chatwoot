@@ -41,6 +41,7 @@
 #
 class ProductCatalog < ApplicationRecord
   include PgSearch::Model
+  include Events::Types
 
   # Disable Single Table Inheritance (STI) to allow 'type' column for product type
   self.inheritance_column = :_type_disabled
@@ -77,6 +78,13 @@ class ProductCatalog < ApplicationRecord
   validates :listPrice, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
 
   validate :validate_payment_options
+
+  # Skip callbacks for bulk operations (handled separately in jobs/controllers)
+  attr_accessor :skip_catalog_callbacks
+
+  after_create_commit :dispatch_create_event, unless: :skip_catalog_callbacks
+  after_update_commit :dispatch_update_event, unless: :skip_catalog_callbacks
+  after_destroy_commit :dispatch_destroy_event, unless: :skip_catalog_callbacks
 
   scope :by_industry, ->(industry) { where(industry: industry) }
   scope :by_type, ->(type) { where(type: type) }
@@ -115,6 +123,32 @@ class ProductCatalog < ApplicationRecord
     return if invalid_options.empty?
 
     errors.add(:payment_options, "contains invalid options: #{invalid_options.join(', ')}")
+  end
+
+  def dispatch_product_event(target_account:, added: 0, updated: 0, deleted: 0, added_ids: [], updated_ids: [], deleted_ids: [])
+    Rails.configuration.dispatcher.dispatch(
+      PRODUCT_CATALOG_UPDATED,
+      Time.zone.now,
+      account: target_account,
+      added_count: added,
+      updated_count: updated,
+      deleted_count: deleted,
+      added_product_ids: added_ids,
+      updated_product_ids: updated_ids,
+      deleted_product_ids: deleted_ids
+    )
+  end
+
+  def dispatch_create_event
+    dispatch_product_event(target_account: account, added: 1, added_ids: [product_id])
+  end
+
+  def dispatch_update_event
+    dispatch_product_event(target_account: account, updated: 1, updated_ids: [product_id])
+  end
+
+  def dispatch_destroy_event
+    dispatch_product_event(target_account: account, deleted: 1, deleted_ids: [product_id])
   end
 end
 

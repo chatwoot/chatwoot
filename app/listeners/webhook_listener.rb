@@ -108,6 +108,58 @@ class WebhookListener < BaseListener
     deliver_account_webhooks(payload, account, idempotency_key)
   end
 
+  # FAQ catalog bulk event
+  def faq_catalog_updated(event)
+    account = event.data[:account]
+    added_count = event.data[:added_count] || 0
+    updated_count = event.data[:updated_count] || 0
+    deleted_count = event.data[:deleted_count] || 0
+    added_faq_items = event.data[:added_faq_items] || []
+    updated_faq_items = event.data[:updated_faq_items] || []
+    deleted_faq_items = event.data[:deleted_faq_items] || []
+
+    idempotency_key = SecureRandom.uuid
+    payload = {
+      event: __method__.to_s,
+      timestamp: Time.zone.now.iso8601,
+      account: account.webhook_data,
+      added_count: added_count,
+      updated_count: updated_count,
+      deleted_count: deleted_count,
+      added_faq_items: added_faq_items,
+      updated_faq_items: updated_faq_items,
+      deleted_faq_items: deleted_faq_items,
+      idempotency_key: idempotency_key
+    }
+    deliver_account_webhooks(payload, account, idempotency_key)
+  end
+
+  # Product catalog bulk event
+  def product_catalog_updated(event)
+    account = event.data[:account]
+    added_count = event.data[:added_count] || 0
+    updated_count = event.data[:updated_count] || 0
+    deleted_count = event.data[:deleted_count] || 0
+    added_product_ids = event.data[:added_product_ids] || []
+    updated_product_ids = event.data[:updated_product_ids] || []
+    deleted_product_ids = event.data[:deleted_product_ids] || []
+
+    idempotency_key = SecureRandom.uuid
+    payload = {
+      event: __method__.to_s,
+      timestamp: Time.zone.now.iso8601,
+      account: account.webhook_data,
+      added_count: added_count,
+      updated_count: updated_count,
+      deleted_count: deleted_count,
+      added_product_ids: added_product_ids,
+      updated_product_ids: updated_product_ids,
+      deleted_product_ids: deleted_product_ids,
+      idempotency_key: idempotency_key
+    }
+    deliver_account_webhooks(payload, account, idempotency_key)
+  end
+
   private
 
   def handle_typing_status(event_name, event)
