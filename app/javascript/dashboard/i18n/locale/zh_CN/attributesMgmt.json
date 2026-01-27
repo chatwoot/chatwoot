@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "启用正则表达式验证"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {
