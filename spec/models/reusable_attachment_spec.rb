@@ -118,9 +118,11 @@ RSpec.describe ReusableAttachment do
       expect(json[:description]).to eq('Test description')
       expect(json[:file_type]).to eq('file')
       expect(json[:extension]).to eq('pdf')
-      expect(json[:file_url]).to be_present
-      expect(json[:download_url]).to be_present
-      expect(json[:file_size]).to be_present
+      expect(json).to include(
+        file_url: be_present,
+        download_url: be_present,
+        file_size: be_present
+      )
     end
   end
 end
