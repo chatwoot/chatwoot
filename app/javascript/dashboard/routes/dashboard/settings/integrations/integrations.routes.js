@@ -6,6 +6,7 @@ import Index from './Index.vue';
 import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
+import Tiendanube from './Tiendanube.vue';
 import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
@@ -83,13 +84,23 @@ export default {
           props: route => ({ code: route.query.code }),
         },
         {
-          path: 'linear',
-          name: 'settings_integrations_linear',
-          component: Linear,
+          path: 'tiendanube',
+          name: 'settings_integrations_tiendanube',
+          component: Tiendanube,
           meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+         path: 'linear',
+         name: 'settings_integrations_linear',
+         component: Linear,
+         meta: {
+           permissions: ['administrator'],
+         },
+         props: route => ({ code: route.query.code }),
         },
         {
           path: 'notion',

@@ -41,6 +41,9 @@ class Integrations::App
     when 'slack'
       client_id = GlobalConfigService.load('SLACK_CLIENT_ID', nil)
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
+    when 'tiendanube'
+      app_id = GlobalConfigService.load('TIENDANUBE_CLIENT_ID', nil)
+      "#{params[:action]}?state=#{encode_state}&redirect_uri=#{self.class.tiendanube_integration_url}&client_id=#{app_id}"
     when 'linear'
       build_linear_action
     else
@@ -52,6 +55,8 @@ class Integrations::App
     case params[:id]
     when 'slack'
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
+    when 'tiendanube'
+      GlobalConfigService.load('TIENDANUBE_CLIENT_SECRET', nil).present?
     when 'linear'
       account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
@@ -99,6 +104,10 @@ class Integrations::App
 
   def self.linear_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
+  end
+
+  def self.tiendanube_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/settings/integrations/tiendanube"
   end
 
   class << self

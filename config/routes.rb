@@ -335,6 +335,12 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :tiendanube, controller: 'tiendanube', only: [:destroy] do
+              collection do
+                post :auth
+                get :orders
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -582,6 +588,10 @@ Rails.application.routes.draw do
       post 'voice/status/:phone', to: 'voice#status', as: :voice_status
       post 'voice/conference_status/:phone', to: 'voice#conference_status', as: :voice_conference_status
     end
+  end
+
+  namespace :tiendanube do
+    resource :callback, only: [:show]
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'

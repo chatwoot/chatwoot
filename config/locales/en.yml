@@ -337,6 +337,10 @@ en:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    tiendanube:
+      name: 'Tiendanube'
+      short_description: 'Integracion Tiendanube'
+      description: 'Una breve descripcion de la integracion con tiendanube'
     leadsquared:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
