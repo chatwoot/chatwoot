@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sitemapindex>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <% @portal.articles.where(status: :published).each do |article| %>
-    <sitemap>
+    <url>
       <loc><%= @help_center_url %><%= generate_article_link(@portal.slug, article.slug, false, false) %></loc>
-      <lastmod><%= article.updated_at.strftime("%Y-%m-%d") %></lastmod>
-    </sitemap>
+      <lastmod><%= article.updated_at.to_date.iso8601 %></lastmod>
+    </url>
   <% end %>
-</sitemapindex>
+</urlset>
