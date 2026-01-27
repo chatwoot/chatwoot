@@ -230,10 +230,6 @@
 - name: channel_tiktok
   display_name: TikTok Channel
   enabled: true
-- name: advanced_assignment
-  display_name: Advanced Assignment
-  enabled: true
-  premium: true
 - name: csat_review_notes
   display_name: CSAT Review Notes
   enabled: false
@@ -241,3 +237,12 @@
 - name: captain_tasks
   display_name: Captain Tasks
   enabled: true
+  enabled: true
+- name: conversation_required_attributes
+  display_name: Required Conversation Attributes
+  enabled: false
+  premium: true
+- name: advanced_assignment
+  display_name: Advanced Assignment
+  enabled: true
+  premium: true
