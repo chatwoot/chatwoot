@@ -768,7 +768,8 @@
     },
     "ASSIGNMENT": {
       "TITLE": "Conversation Assignment",
-      "DESCRIPTION": "Configure how conversations are assigned to agents",
+      "DESCRIPTION": "Automatically assign incoming conversations to available agents based on assignment policies",
+      "ENABLE_AUTO_ASSIGNMENT": "Enable automatic conversation assignment",
       "DEFAULT_RULES_TITLE": "Default assignment rules",
       "DEFAULT_RULES_DESCRIPTION": "Using the default assignment behavior for all conversations",
       "DEFAULT_RULE_1": "Earliest created conversations first",
