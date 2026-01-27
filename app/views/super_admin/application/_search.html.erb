@@ -1,6 +1,6 @@
-<form class="search" role="search">
-  <label class="search__label" for="search">
-    <svg class="search__eyeglass-icon" role="img">
+<form class="relative flex items-center" role="search">
+  <label class="absolute left-3 text-n-slate-10" for="search">
+    <svg class="w-4 h-4" role="img">
       <title>
         <%= t("administrate.search.label", resource: resource_name) %>
       </title>
@@ -8,17 +8,19 @@
     </svg>
   </label>
 
-  <input class="search__input"
+  <input class="h-9 w-[200px] pl-9 pr-8 text-sm text-n-slate-12 bg-n-solid-2 border border-n-weak rounded-lg focus:ring-2 focus:ring-woot-500 focus:border-woot-500 outline-none placeholder:text-n-slate-10"
          id="search"
          type="search"
          name="search"
          placeholder="<%= t("administrate.search.label", resource: resource_name) %>"
          value="<%= search_term %>">
 
-  <%= link_to clear_search_params, class: "search__clear-link" do %>
-    <svg class="search__clear-icon" role="img">
-      <title><%= t("administrate.search.clear") %></title>
-      <use xlink:href="#icon-cancel" />
-    </svg>
+  <% if search_term.present? %>
+    <%= link_to clear_search_params, class: "absolute right-2 text-n-slate-10 hover:text-n-slate-12" do %>
+      <svg class="w-4 h-4" role="img">
+        <title><%= t("administrate.search.clear") %></title>
+        <use xlink:href="#icon-cancel" />
+      </svg>
+    <% end %>
   <% end %>
 </form> 
