@@ -75,6 +75,8 @@ onMounted(async () => {
     );
     if (parentGroup) {
       expandedSubGroup.value = parentGroup.name;
+      // Wait for the subgroup expansion to render before measuring height
+      await nextTick();
     }
   }
 
