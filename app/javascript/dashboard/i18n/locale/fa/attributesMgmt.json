@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "فعال سازی بررسی رجکس"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {
