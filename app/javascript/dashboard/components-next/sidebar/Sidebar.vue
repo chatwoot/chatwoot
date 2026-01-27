@@ -1,5 +1,5 @@
 <script setup>
-import { h, ref, computed, onMounted, onUnmounted } from 'vue';
+import { h, ref, computed, onMounted } from 'vue';
 import { provideSidebarContext, useSidebarResize } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
@@ -8,7 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowSize, useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 
@@ -80,6 +80,8 @@ const isEffectivelyCollapsed = computed(
 
 // Resize handle logic
 const isResizing = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
 
 provideSidebarContext({
   expandedItem,
@@ -88,8 +90,6 @@ provideSidebarContext({
   sidebarWidth,
   isResizing,
 });
-const startX = ref(0);
-const startWidth = ref(0);
 
 const onResizeStart = event => {
   isResizing.value = true;
@@ -116,9 +116,7 @@ const onResizeEnd = () => {
   document.body.style.userSelect = '';
 
   // Snap to collapsed state if below threshold
-  if (sidebarWidth.value < COLLAPSED_THRESHOLD) {
-    snapToCollapsed();
-  }
+  if (sidebarWidth.value < COLLAPSED_THRESHOLD) snapToCollapsed();
 };
 
 const onResizeHandleDoubleClick = () => {
@@ -129,15 +127,8 @@ const onResizeHandleDoubleClick = () => {
   }
 };
 
-onMounted(() => {
-  document.addEventListener('mousemove', onResizeMove);
-  document.addEventListener('mouseup', onResizeEnd);
-});
-
-onUnmounted(() => {
-  document.removeEventListener('mousemove', onResizeMove);
-  document.removeEventListener('mouseup', onResizeEnd);
-});
+useEventListener(document, 'mousemove', onResizeMove);
+useEventListener(document, 'mouseup', onResizeEnd);
 
 const inboxes = useMapGetter('inboxes/getInboxes');
 const labels = useMapGetter('labels/getLabelsOnSidebar');
@@ -674,12 +665,13 @@ const menuItems = computed(() => {
       closeMobileSidebar,
       { ignore: ['#mobile-sidebar-launcher'] },
     ]"
-    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:static md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:-translate-x-0 ltr:border-r rtl:border-l border-n-weak"
+    class="bg-n-background flex flex-col text-sm pb-0.5 fixed top-0 ltr:left-0 rtl:right-0 h-full z-40 w-[200px] md:w-auto md:relative md:flex-shrink-0 md:ltr:translate-x-0 md:rtl:translate-x-0 ltr:border-r rtl:border-l border-n-weak"
     :class="[
       {
         'shadow-lg md:shadow-none': isMobileSidebarOpen,
         'ltr:-translate-x-full rtl:translate-x-full': !isMobileSidebarOpen,
-        'transition-[width] duration-200 ease-out': !isResizing,
+        'transition-transform duration-200 ease-out md:transition-[width]':
+          !isResizing,
       },
     ]"
     :style="isMobile ? undefined : { width: `${sidebarWidth}px` }"
