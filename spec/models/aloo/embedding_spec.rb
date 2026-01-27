@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require Rails.root.join('spec/support/shared_examples/aloo/embeddable')
 
 RSpec.describe Aloo::Embedding do
   subject(:embedding) { build(:aloo_embedding) }
@@ -23,10 +22,6 @@ RSpec.describe Aloo::Embedding do
   describe 'concerns' do
     it 'includes AccountScoped' do
       expect(described_class.ancestors).to include(Aloo::AccountScoped)
-    end
-
-    it 'includes Embeddable' do
-      expect(described_class.ancestors).to include(Aloo::Embeddable)
     end
   end
 
@@ -167,46 +162,6 @@ RSpec.describe Aloo::Embedding do
       described_class.reembed_document(document: document, chunks: new_chunks)
 
       expect(document.embeddings.count).to eq(3)
-    end
-  end
-
-  describe '#embedding_content' do
-    it 'returns the content' do
-      embedding.content = 'Some content'
-
-      expect(embedding.embedding_content).to eq('Some content')
-    end
-  end
-
-  describe '#to_context_format' do
-    it 'returns content' do
-      embedding.content = 'Documentation content'
-
-      expect(embedding.to_context_format).to eq('Documentation content')
-    end
-  end
-
-  describe '#source_info' do
-    let(:document) { create(:aloo_document, title: 'User Guide', source_url: 'https://example.com/guide') }
-    let(:embedding) { create(:aloo_embedding, document: document, metadata: { 'chunk_index' => 5 }) }
-
-    it 'returns document metadata' do
-      info = embedding.source_info
-
-      expect(info[:document_title]).to eq('User Guide')
-      expect(info[:document_url]).to eq('https://example.com/guide')
-      expect(info[:chunk_index]).to eq(5)
-    end
-
-    context 'without document' do
-      let(:embedding) { create(:aloo_embedding, :without_document) }
-
-      it 'returns nil for document fields' do
-        info = embedding.source_info
-
-        expect(info[:document_title]).to be_nil
-        expect(info[:document_url]).to be_nil
-      end
     end
   end
 

@@ -5,7 +5,8 @@ module Aloo
     self.table_name = 'aloo_embeddings'
 
     include Aloo::AccountScoped
-    include Aloo::Embeddable
+
+    has_neighbors :embedding
 
     EMBEDDING_MODEL = 'text-embedding-3-small'
     BATCH_SIZE = 100
@@ -16,11 +17,8 @@ module Aloo
 
     validates :content, presence: true
 
+    scope :with_embedding, -> { where.not(embedding: nil) }
     scope :for_search, -> { with_embedding }
-
-    # ─────────────────────────────────────────────────────────────────
-    # Class methods for embedding generation
-    # ─────────────────────────────────────────────────────────────────
 
     # Generate embedding vector for any text (queries, memories, etc.)
     # @param text [String] Text to embed
@@ -124,39 +122,12 @@ module Aloo
       create_from_chunks(chunks: chunks, document: document)
     end
 
-    # ─────────────────────────────────────────────────────────────────
-    # Instance methods
-    # ─────────────────────────────────────────────────────────────────
-
-    # For Embeddable concern - content to embed
-    def embedding_content
-      content
-    end
-
-    # Build display format for context
-    def to_context_format
-      embedding_content
-    end
-
-    # Get source info
-    def source_info
-      {
-        document_title: document&.title,
-        document_url: document&.source_url,
-        chunk_index: metadata['chunk_index']
-      }
-    end
-
     # Get similarity score (only valid after nearest_neighbors query)
     def similarity
       return nil unless respond_to?(:neighbor_distance) && neighbor_distance
 
       1.0 - neighbor_distance
     end
-
-    # ─────────────────────────────────────────────────────────────────
-    # Private class methods
-    # ─────────────────────────────────────────────────────────────────
 
     def self.truncate_text(text)
       return '' if text.blank?
