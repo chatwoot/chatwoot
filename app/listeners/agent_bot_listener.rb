@@ -56,6 +56,11 @@ class AgentBotListener < BaseListener
     conversation = message.conversation
     case agent_bot.bot_type
     when 'stark'
+      if message.outgoing? && message.sender.is_a?(User)
+        disable_stark_for(conversation)
+        return
+      end
+
       return unless message.incoming?
 
       process_stark_bot_event(event.name, agent_bot, message, conversation)
@@ -74,7 +79,7 @@ class AgentBotListener < BaseListener
   def process_stark_bot_event(event, agent_bot, message, conversation)
     return if agent_bot.outgoing_url.blank?
     return unless message.present? && conversation.present?
-  
+
     message_type = conversation.additional_attributes['type']
     # Check if the message_type is 'feed_comment' or 'instagram_comment', and skip job execution if true
     return if message_type == 'feed_comments' || message_type == 'instagram_comments'
@@ -86,5 +91,12 @@ class AgentBotListener < BaseListener
     return if agent_bot.outgoing_url.blank?
 
     AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload)
+  end
+
+  def disable_stark_for(conversation)
+    conversation.cancel_existing_follow_up_job
+    config_value = InstallationConfig.find_by(name: 'STARK_DISABLE_DURATION_HOURS')&.value
+    duration = (config_value || 24).to_i.hours
+    conversation.update!(additional_attributes: conversation.additional_attributes.merge('stark_disabled_until' => duration.from_now.to_i))
   end
 end
