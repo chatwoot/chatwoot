@@ -146,28 +146,28 @@
         "MAKE_FRIENDLY": "Cambia il tono del messaggio in amichevole",
         "MAKE_FORMAL": "Usa un tono formale",
         "SIMPLIFY": "Semplifica",
-        "CONFIDENT": "Use confident tone",
-        "PROFESSIONAL": "Use professional tone",
-        "CASUAL": "Use casual tone",
-        "STRAIGHTFORWARD": "Use straightforward tone"
+        "CONFIDENT": "Usa un tono sicuro",
+        "PROFESSIONAL": "Usa un tono professionale",
+        "CASUAL": "Usa un tono informale",
+        "STRAIGHTFORWARD": "Usa un tono diretto"
       },
       "REPLY_OPTIONS": {
-        "IMPROVE_REPLY": "Improve reply",
-        "IMPROVE_REPLY_SELECTION": "Improve the selection",
+        "IMPROVE_REPLY": "Migliora la risposta",
+        "IMPROVE_REPLY_SELECTION": "Migliora il testo selezionato",
         "CHANGE_TONE": {
-          "TITLE": "Change tone",
+          "TITLE": "Cambia tono",
           "OPTIONS": {
             "PROFESSIONAL": "Professionale",
-            "CASUAL": "Casual",
-            "STRAIGHTFORWARD": "Straightforward",
-            "CONFIDENT": "Confident",
+            "CASUAL": "Informale",
+            "STRAIGHTFORWARD": "Diretto",
+            "CONFIDENT": "Sicuro",
             "FRIENDLY": "Amichevole"
           }
         },
-        "GRAMMAR": "Fix grammar & spelling",
-        "SUGGESTION": "Suggest a reply",
-        "SUMMARIZE": "Summarize the conversation",
-        "ASK_COPILOT": "Ask Copilot"
+        "GRAMMAR": "Correggi grammatica e ortografia",
+        "SUGGESTION": "Suggerisci una risposta",
+        "SUMMARIZE": "Riassumi la conversazione",
+        "ASK_COPILOT": "Chiedi a Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Contenuti in bozza",
