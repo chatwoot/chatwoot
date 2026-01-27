@@ -29,13 +29,15 @@ class Api::V1::Accounts::UploadController < Api::V1::Accounts::BaseController
     uri = URI.parse(url)
     validate_uri(uri)
     uri
-  rescue URI::InvalidURIError, SocketError
+  rescue URI::InvalidURIError, SocketError, UrlSafetyValidator::UnsafeUrlError, Resolv::ResolvError
     render_error('Invalid URL provided', :unprocessable_entity)
     nil
   end
 
   def validate_uri(uri)
     raise URI::InvalidURIError unless uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
+
+    UrlSafetyValidator.validate!(uri.to_s)
   end
 
   def fetch_and_process_file_from_uri(uri)
