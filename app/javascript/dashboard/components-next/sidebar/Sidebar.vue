@@ -93,7 +93,7 @@ const exibirAcl = computed(() => {
 
 //let partnerUser = ref(false)
 const canViewSidePanel = computed(() => {
-  return userACL.value?.time_privado ?? true;
+  return userACL.value?.painel_lateral ?? true;
 });
 
 watch(userACL, (newAcl) => {

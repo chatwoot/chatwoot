@@ -25,12 +25,14 @@ const editingACL = ref({})
 const aclLabels = {
     'time_privado': 'time privado',
     'side_panel': 'painel lateral',
-    'direcionar_conversa': 'direcionar conversa'
+    'direcionar_conversa': 'direcionar conversa',
+    'ver_todas_conversas': 'ver todas conversas'
 }
 const aclDescriptions = {
-    'time_privado': 'Habilita a visualização de todas as opções de filtros disponíveis para equipes quando ativado.',
-    'side_panel': 'Habilita a visualização completa das opções no menu lateral esquerdo quando ativado.',
-    'direcionar_conversa': 'Habilita as ações de conversa para atribuição a equipes ou usuários quando ativado.'
+    'time_privado': 'Quando esse checkbox está marcado, o usuário pode fazer filtros SEM que o filtro de time seja obrigatório.',
+    'side_panel': 'Habilita a visualização completa das opções no menu lateral esquerdo quando está marcado.',
+    'direcionar_conversa': 'Habilita as ações de conversa para atribuição a equipes ou usuários quando está marcado.',
+    'ver_todas_conversas': 'Quando esse checkbox está marcado, o usuário pode ver todas as conversas, mesmo as que não estão atribuidas a ele.'
 }
 
 function openEditPopup(agent) {
@@ -158,8 +160,10 @@ onMounted(() => {
                     <span class="i-lucide-x text-lg"></span>
                 </button>
             </div>
+            <p class="text-xs text-n-slate-10 mb-2">
+                Quando uma opção está marcada, o usuário tem a permissão correspondente. Para remover a permissão, basta desmarcar a caixa.
+            </p>
             <div class="mb-4">
-                <p>Editar acl modal</p>
                 <p v-if="selectedAgent" class="text-sm text-n-slate-11">
                     Editando permissões para: {{ selectedAgent.name }}
                 </p>
