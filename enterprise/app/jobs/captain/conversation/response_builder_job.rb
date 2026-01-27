@@ -78,7 +78,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def handoff_requested?
-    @response['response'] == 'conversation_handoff'
+    @response['action'] == 'handoff'
   end
 
   def process_action(action)
@@ -97,9 +97,10 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message(
-      @assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff')
-    )
+    handoff_message = @response&.dig('response').presence ||
+                      @assistant.config['handoff_message'].presence ||
+                      I18n.t('conversations.captain.handoff')
+    create_outgoing_message(handoff_message)
   end
 
   def create_messages

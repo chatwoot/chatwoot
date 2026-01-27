@@ -251,7 +251,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           closed_all_day: true,
           open_all_day: false
         )
-        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'action' => 'handoff' })
       end
 
       it 'sends out of office message after handoff' do
@@ -275,7 +275,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           open_all_day: true,
           closed_all_day: false
         )
-        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'action' => 'handoff' })
       end
 
       it 'does not send out of office message after handoff' do
@@ -321,7 +321,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           closed_all_day: true,
           open_all_day: false
         )
-        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'response' => 'conversation_handoff' })
+        allow(mock_llm_chat_service).to receive(:generate_response).and_return({ 'action' => 'handoff' })
       end
 
       it 'does not send out of office message' do

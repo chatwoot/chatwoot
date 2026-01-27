@@ -148,8 +148,9 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         result = service.generate_response(message_history: message_history)
 
         expect(result).to eq({
-                               'response' => 'conversation_handoff',
-                               'reasoning' => 'Error occurred: Test error'
+                               'response' => 'Transferring to another agent for further assistance.',
+                               'reasoning' => 'Error occurred: Test error',
+                               'action' => 'handoff'
                              })
       end
 
@@ -169,7 +170,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           result = service.generate_response(message_history: message_history)
 
           expect(result).to eq({
-                                 'response' => 'conversation_handoff',
+                                 'response' => 'Transferring to another agent for further assistance.',
+                                 'action' => 'handoff',
                                  'reasoning' => 'Error occurred: Test error'
                                })
         end
