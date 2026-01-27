@@ -58,6 +58,7 @@
       }
     },
     "DATE_RANGE_OPTIONS": {
+      "TODAY": "Today",
       "LAST_7_DAYS": "Last 7 days",
       "LAST_14_DAYS": "Last 14 days",
       "LAST_30_DAYS": "Last 30 days",

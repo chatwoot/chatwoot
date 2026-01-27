@@ -52,6 +52,12 @@ export const GROUP_BY_OPTIONS = {
 };
 
 export const DATE_RANGE_OPTIONS = {
+  TODAY: {
+    id: 'TODAY',
+    translationKey: 'REPORT.DATE_RANGE_OPTIONS.TODAY',
+    offset: 0,
+    groupByOptions: [GROUP_BY_OPTIONS.DAY],
+  },
   LAST_7_DAYS: {
     id: 'LAST_7_DAYS',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.LAST_7_DAYS',
