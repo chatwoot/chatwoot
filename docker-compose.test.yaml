@@ -45,10 +45,11 @@ services:
       - '5432:5432'
     volumes:
       - postgres:/data/postgres
+    env_file: .env
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_DB=${POSTGRES_DATABASE:-chatwoot}
+      - POSTGRES_USER=${POSTGRES_USERNAME:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
 
   redis:
     image: redis:alpine
