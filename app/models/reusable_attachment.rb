@@ -52,7 +52,7 @@ class ReusableAttachment < ApplicationRecord
     file.blob.byte_size if file.attached?
   end
 
-  def as_json(options = {})
+  def as_json(*)
     {
       id: id,
       name: name,
