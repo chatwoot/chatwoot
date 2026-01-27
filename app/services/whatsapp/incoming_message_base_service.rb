@@ -18,7 +18,7 @@ class Whatsapp::IncomingMessageBaseService
 
   # Returns messages array for both regular messages and echo events
   def messages_data
-    @processed_params[:messages] || @processed_params[:message_echoes]
+    @processed_params&.dig(:messages) || @processed_params&.dig(:message_echoes)
   end
 
   private
