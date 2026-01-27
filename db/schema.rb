@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_161342) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_26_235112) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1304,7 +1304,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_161342) do
     t.index ["workflow_type"], name: "index_ruby_llm_agents_executions_on_workflow_type"
   end
 
-  create_table "ruby_llm_agents_tenant_budgets", force: :cascade do |t|
+  create_table "ruby_llm_agents_tenants", force: :cascade do |t|
     t.string "tenant_id", null: false
     t.decimal "daily_limit", precision: 12, scale: 6
     t.decimal "monthly_limit", precision: 12, scale: 6
@@ -1313,7 +1313,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_161342) do
     t.string "enforcement", default: "soft"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenant_budgets_on_tenant_id", unique: true
+    t.string "tenant_record_type"
+    t.bigint "tenant_record_id"
+    t.string "name"
+    t.integer "daily_token_limit"
+    t.integer "monthly_token_limit"
+    t.integer "daily_execution_limit"
+    t.integer "monthly_execution_limit"
+    t.boolean "inherit_global_defaults", default: true
+    t.boolean "active", default: true
+    t.json "metadata", default: {}, null: false
+    t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
+    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
+    t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
   end
 
   create_table "sla_events", force: :cascade do |t|

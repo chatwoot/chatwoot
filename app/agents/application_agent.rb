@@ -63,4 +63,16 @@ class ApplicationAgent < RubyLLM::Agents::Base
   def current_inbox
     Aloo::Current.inbox
   end
+
+  # Override resolve_tenant to automatically use Current.account when no explicit tenant is passed
+  def resolve_tenant
+    tenant = @options[:tenant] || Current.account
+    return nil unless tenant
+
+    if tenant.respond_to?(:llm_tenant_id)
+      { id: tenant.llm_tenant_id, object: tenant }
+    elsif tenant.is_a?(Hash)
+      tenant
+    end
+  end
 end
