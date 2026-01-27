@@ -379,7 +379,8 @@
     },
     "DOCS": "阅读文档",
     "SECURITY": "安全",
-    "CAPTAIN_AI": "Captain"
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Conversation Workflow"
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Captain Settings",
@@ -552,6 +553,58 @@
       "INFO_SECTION": {
         "TITLE": "Service Provider Information",
         "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Conversation Workflows",
+        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributes required on resolution",
+      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
+      "NO_ATTRIBUTES": "No attributes added yet",
+      "ADD": {
+        "TITLE": "Add Attributes",
+        "SEARCH_PLACEHOLDER": "搜索属性"
+      },
+      "SAVE": {
+        "SUCCESS": "Required attributes updated",
+        "ERROR": "Could not update required attributes, please try again"
+      },
+      "MODAL": {
+        "TITLE": "解决会话",
+        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "ACTIONS": {
+          "RESOLVE": "解决会话",
+          "CANCEL": "取消"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Write a note...",
+          "NUMBER": "Enter a number",
+          "LINK": "Add a link",
+          "DATE": "Pick a date",
+          "LIST": "Select an option"
+        },
+        "CHECKBOX": {
+          "YES": "是",
+          "NO": "否"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Upgrade to use required attributes",
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "UPGRADE_NOW": "立即升级",
+        "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
+        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "ASK_ADMIN": "请联系您的管理员进行升级。"
       }
     }
   },
