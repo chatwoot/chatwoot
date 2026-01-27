@@ -62,5 +62,11 @@ module.exports = {
       max_memory_restart: '1G',
     },
   ],
+  env: {
+    RACK_TIMEOUT_SERVICE_TIMEOUT: '120',
+    RACK_TIMEOUT_WAIT_TIMEOUT: '120',
+    RAILS_MAX_THREADS: '5',
+    RAILS_ENV: 'production',
+  },
 };
 
