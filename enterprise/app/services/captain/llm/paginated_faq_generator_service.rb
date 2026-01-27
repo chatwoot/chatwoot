@@ -121,6 +121,7 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     result = parse_chunk_response(response)
     { faqs: result['faqs'] || [], has_content: result['has_content'] != false }
   rescue OpenAI::Error, Faraday::Error => e
+    Rails.logger.error "Error backtrace: #{e.backtrace}"
     Rails.logger.error I18n.t('captain.documents.page_processing_error', start: start_page, end: end_page, error: e.message)
     { faqs: [], has_content: false }
   end

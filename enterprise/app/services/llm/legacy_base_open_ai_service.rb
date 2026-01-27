@@ -26,7 +26,12 @@ class Llm::LegacyBaseOpenAiService
 
   def uri_base
     endpoint = InstallationConfig.find_by(name: 'CAPTAIN_OPEN_AI_ENDPOINT')&.value
-    endpoint.presence || 'https://api.openai.com/'
+    normalized_endpoint = endpoint.presence || 'https://api.openai.com/v1'
+
+    # Ensure we only include a single /v1 suffix so the OpenAI gem hits the right path.
+    normalized_endpoint = normalized_endpoint.chomp('/')
+    normalized_endpoint = normalized_endpoint.sub(%r{/v1\z}, '')
+    "#{normalized_endpoint}/v1"
   end
 
   def setup_model
