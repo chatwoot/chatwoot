@@ -7,7 +7,7 @@
 #
 # For all other LLM operations, use Llm::BaseAiService with RubyLLM instead.
 class Llm::LegacyBaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4.1-mini'
+  DEFAULT_MODEL = 'llama3.1:8b' #'gpt-4.1-mini'
 
   attr_reader :client, :model
 
