@@ -11,5 +11,9 @@
     "ACCEPT": "Accept",
     "DISCARD": "בטל",
     "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "כן",
+    "NO": "לא"
   }
 }
