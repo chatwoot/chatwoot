@@ -113,6 +113,8 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
     params = build_chunk_parameters(start_page, end_page, chunk_text)
 
     instrumentation_params = build_instrumentation_params(params, start_page, end_page)
+    Rails.logger.info "Instrumentation params: #{instrumentation_params}"
+    Rails.logger.info "Params: #{params}"
 
     response = instrument_llm_call(instrumentation_params) do
       @client.chat(parameters: params)
