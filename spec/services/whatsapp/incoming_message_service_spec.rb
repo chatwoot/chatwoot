@@ -518,5 +518,137 @@ describe Whatsapp::IncomingMessageService do
         expect(existing_contact.name).to eq(phone_number) # Should not change
       end
     end
+
+    context 'when message contains ad referral data' do
+      it 'extracts and stores WhatsApp ad metadata in conversation additional_attributes' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Ad User' }, 'wa_id' => '1234567890' }],
+          'messages' => [{
+            'from' => '1234567890',
+            'id' => 'ad_message_123',
+            'text' => { 'body' => 'I saw your ad' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'referral' => {
+              'source_type' => 'ad',
+              'source_id' => 'ad_campaign_123',
+              'source_url' => 'https://example.com/ad',
+              'headline' => 'Amazing Product!',
+              'body' => 'Get 50% off today',
+              'media_type' => 'image',
+              'media_url' => 'https://example.com/image.jpg',
+              'ctwa_clid' => 'click_id_abc123'
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        
+        conversation = whatsapp_channel.inbox.conversations.last
+        attrs = conversation.additional_attributes
+
+        expect(attrs['ad_source']).to eq('whatsapp_ad')
+        expect(attrs['ad_source_id']).to eq('ad_campaign_123')
+        expect(attrs['ad_source_type']).to eq('ad')
+        expect(attrs['ad_source_url']).to eq('https://example.com/ad')
+        expect(attrs['ad_headline']).to eq('Amazing Product!')
+        expect(attrs['ad_body']).to eq('Get 50% off today')
+        expect(attrs['ad_media_type']).to eq('image')
+        expect(attrs['ad_media_url']).to eq('https://example.com/image.jpg')
+        expect(attrs['ad_ctwa_clid']).to eq('click_id_abc123')
+      end
+
+      it 'extracts context data when present' do
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Context User' }, 'wa_id' => '9876543210' }],
+          'messages' => [{
+            'from' => '9876543210',
+            'id' => 'context_message_456',
+            'text' => { 'body' => 'Hello from product' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'context' => {
+              'from' => 'source_contact_123',
+              'referred_product' => {
+                'product_retailer_id' => 'product_xyz_789'
+              }
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        
+        conversation = whatsapp_channel.inbox.conversations.last
+        attrs = conversation.additional_attributes
+
+        expect(attrs['referral_from']).to eq('source_contact_123')
+        expect(attrs['referred_product_id']).to eq('product_xyz_789')
+      end
+
+      it 'does not update existing conversation if ad data already present' do
+        # Create existing contact and conversation with ad data
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '5555555555')
+        conversation = create(:conversation,
+                             inbox: whatsapp_channel.inbox,
+                             contact_inbox: contact_inbox,
+                             additional_attributes: { 'ad_source' => 'existing_ad' })
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'Existing User' }, 'wa_id' => '5555555555' }],
+          'messages' => [{
+            'from' => '5555555555',
+            'id' => 'new_message_789',
+            'text' => { 'body' => 'Follow up message' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'referral' => {
+              'source_id' => 'new_ad_campaign_456'
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        
+        conversation.reload
+        # Should keep original ad source data
+        expect(conversation.additional_attributes['ad_source']).to eq('existing_ad')
+        expect(conversation.additional_attributes['ad_source_id']).to be_nil
+      end
+
+      it 'updates existing conversation without ad data when referral is present' do
+        # Create existing contact and conversation without ad data
+        contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: '6666666666')
+        conversation = create(:conversation,
+                             inbox: whatsapp_channel.inbox,
+                             contact_inbox: contact_inbox,
+                             additional_attributes: { 'some_key' => 'some_value' })
+
+        params = {
+          'contacts' => [{ 'profile' => { 'name' => 'New Ad User' }, 'wa_id' => '6666666666' }],
+          'messages' => [{
+            'from' => '6666666666',
+            'id' => 'message_with_referral',
+            'text' => { 'body' => 'Message from ad' },
+            'timestamp' => '1633034394',
+            'type' => 'text',
+            'referral' => {
+              'source_id' => 'campaign_789',
+              'source_type' => 'ad'
+            }
+          }]
+        }.with_indifferent_access
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+        
+        conversation.reload
+        attrs = conversation.additional_attributes
+        
+        # Should add new ad data while preserving existing attributes
+        expect(attrs['some_key']).to eq('some_value')
+        expect(attrs['ad_source']).to eq('whatsapp_ad')
+        expect(attrs['ad_source_id']).to eq('campaign_789')
+        expect(attrs['ad_source_type']).to eq('ad')
+      end
+    end
   end
 end

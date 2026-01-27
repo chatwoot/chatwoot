@@ -351,5 +351,121 @@ describe Messages::Instagram::MessageBuilder do
       expect(message.content).to eq('This story is no longer available.')
       expect(message.attachments.count).to eq(0)
     end
+
+    context 'when message contains ad referral data' do
+      it 'extracts and stores Instagram ad metadata in conversation additional_attributes' do
+        ad_messaging = dm_params.deep_dup
+        ad_messaging[:entry][0]['messaging'][0][:referral] = {
+          'source' => 'SHORTLINK',
+          'type' => 'OPEN_THREAD',
+          'ref' => 'campaign_123',
+          'referer_uri' => 'https://www.instagram.com/ads/campaign_123',
+          'is_guest_user' => false,
+          'ads_context_data' => {
+            'ad_id' => 'ad_456',
+            'ad_title' => 'Summer Sale',
+            'photo_url' => 'https://example.com/ad_photo.jpg',
+            'product_id' => 'product_789'
+          }
+        }
+
+        messaging = ad_messaging[:entry][0]['messaging'][0]
+        create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+        described_class.new(messaging, instagram_inbox).perform
+
+        conversation = instagram_inbox.conversations.last
+        attrs = conversation.additional_attributes
+
+        expect(attrs['ad_source']).to eq('instagram_ad')
+        expect(attrs['ad_source_id']).to eq('SHORTLINK')
+        expect(attrs['ad_source_type']).to eq('OPEN_THREAD')
+        expect(attrs['ad_ref']).to eq('campaign_123')
+        expect(attrs['ad_referer_uri']).to eq('https://www.instagram.com/ads/campaign_123')
+        expect(attrs['ad_is_guest_user']).to eq(false)
+        expect(attrs['ad_id']).to eq('ad_456')
+        expect(attrs['ad_title']).to eq('Summer Sale')
+        expect(attrs['photo_url']).to eq('https://example.com/ad_photo.jpg')
+        expect(attrs['product_id']).to eq('product_789')
+      end
+
+      it 'extracts referral data from postback' do
+        postback_messaging = dm_params.deep_dup
+        postback_messaging[:entry][0]['messaging'][0][:postback] = {
+          'referral' => {
+            'source' => 'ADS',
+            'type' => 'ADS',
+            'ref' => 'ad_ref_xyz',
+            'referer_uri' => 'https://www.instagram.com/ads/promo'
+          }
+        }
+
+        messaging = postback_messaging[:entry][0]['messaging'][0]
+        create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+        described_class.new(messaging, instagram_inbox).perform
+
+        conversation = instagram_inbox.conversations.last
+        attrs = conversation.additional_attributes
+
+        expect(attrs['ad_source']).to eq('instagram_ad')
+        expect(attrs['ad_source_id']).to eq('ADS')
+        expect(attrs['ad_source_type']).to eq('ADS')
+        expect(attrs['ad_ref']).to eq('ad_ref_xyz')
+        expect(attrs['ad_referer_uri']).to eq('https://www.instagram.com/ads/promo')
+      end
+
+      it 'does not update existing conversation if ad data already present' do
+        # Create existing conversation with ad data
+        messaging = dm_params[:entry][0]['messaging'][0]
+        contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+        conversation = create(:conversation,
+                             inbox: instagram_inbox,
+                             contact: contact,
+                             additional_attributes: { 'ad_source' => 'existing_instagram_ad' })
+
+        # Try to update with new ad data
+        ad_messaging = dm_params.deep_dup
+        ad_messaging[:entry][0]['messaging'][0][:referral] = {
+          'source' => 'NEW_SOURCE',
+          'ref' => 'new_campaign'
+        }
+
+        new_messaging = ad_messaging[:entry][0]['messaging'][0]
+        described_class.new(new_messaging, instagram_inbox).perform
+
+        conversation.reload
+        # Should keep original ad source data
+        expect(conversation.additional_attributes['ad_source']).to eq('existing_instagram_ad')
+        expect(conversation.additional_attributes['ad_ref']).to be_nil
+      end
+
+      it 'updates existing conversation without ad data when referral is present' do
+        # Create existing conversation without ad data
+        messaging = dm_params[:entry][0]['messaging'][0]
+        contact = create_instagram_contact_for_sender(messaging['sender']['id'], instagram_inbox)
+        conversation = create(:conversation,
+                             inbox: instagram_inbox,
+                             contact: contact,
+                             additional_attributes: { 'some_key' => 'some_value' })
+
+        # Send message with ad referral
+        ad_messaging = dm_params.deep_dup
+        ad_messaging[:entry][0]['messaging'][0][:referral] = {
+          'source' => 'AD_SOURCE',
+          'ref' => 'campaign_abc'
+        }
+
+        new_messaging = ad_messaging[:entry][0]['messaging'][0]
+        described_class.new(new_messaging, instagram_inbox).perform
+
+        conversation.reload
+        attrs = conversation.additional_attributes
+
+        # Should add new ad data while preserving existing attributes
+        expect(attrs['some_key']).to eq('some_value')
+        expect(attrs['ad_source']).to eq('instagram_ad')
+        expect(attrs['ad_source_id']).to eq('AD_SOURCE')
+        expect(attrs['ad_ref']).to eq('campaign_abc')
+      end
+    end
   end
 end
