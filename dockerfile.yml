@@ -1,5 +1,10 @@
 FROM chatwoot/chatwoot:v3.10.2
 
+# Ensure deterministic asset compilation in build stage
+ENV RAILS_ENV=production \
+    NODE_ENV=production \
+    SECRET_KEY_BASE=dummy
+
 COPY . /app
 
 # Install Node.js 20 and yarn
@@ -12,7 +17,7 @@ RUN yarn install
 RUN bundle install
 
 # Compile frontend assets with your changes
-RUN RAILS_ENV=production bundle exec rake assets:precompile
+RUN bundle exec rake assets:precompile
 
 RUN chmod +x /app/docker/entrypoints/rails.sh
 
