@@ -26,14 +26,13 @@ const props = defineProps({
 
 const emit = defineEmits(['applyFilter', 'updateFolder', 'close']);
 const { filterTypes } = useConversationFilterContext();
-const teams = useMapGetter('teams/getMyTeams')
-const userACL = useMapGetter('acl/getUserACL')
+const teams = useMapGetter('teams/getMyTeams');
+
 const filters = defineModel({
   type: Array,
   default: [],
 });
 const folderNameLocal = ref(props.folderName);
-
 
 const DEFAULT_FILTER = {
   attributeKey: 'status',
@@ -44,28 +43,57 @@ const DEFAULT_FILTER = {
 
 const { t } = useI18n();
 const store = useStore();
+const userACL = useMapGetter('acl/getUserACL');
+const currentUser = useMapGetter('getCurrentUser');
 const isPartnerFilter = computed(() => {
-  const userACLTimePrivado = userACL.value.time_privado
-  return userACLTimePrivado
-})
+  return userACL.value.time_privado;
+});
+const verTodasConversas = computed(() => {
+  return userACL.value.ver_todas_conversas;
+});
 
 const resetFilter = () => {
+  const filtersToAdd = [];
+
+  // Verificar team_id (independente)
   if (!isPartnerFilter.value) {
-    filters.value = [
-      {
-        attributeKey: 'team_id',
-        filterOperator: 'equal_to',
-        values: filters.value[0]?.values || {},
-        queryOperator: 'and'
-      }
-    ]
-  } else {
+    filtersToAdd.push({
+      attributeKey: 'team_id',
+      filterOperator: 'equal_to',
+      values: filters.value[0]?.values || {},
+      queryOperator: 'and',
+    });
+  }
+
+  // Verificar assignee_id (independente)
+  if (!verTodasConversas.value) {
+    filtersToAdd.push({
+      attributeKey: 'assignee_id',
+      filterOperator: 'equal_to',
+      values: { id: currentUser.value.id, name: currentUser.value.name },
+      queryOperator: 'and',
+    });
+  }
+
+  // Se não tem filtros obrigatórios, usar o padrão
+  if (filtersToAdd.length === 0) {
     filters.value = [{ ...DEFAULT_FILTER }];
+  } else {
+    filters.value = filtersToAdd;
   }
 };
 
 const removeFilter = index => {
-  if (!isPartnerFilter.value && filters.value[index].attributeKey === 'team_id') {
+  if (
+    !isPartnerFilter.value &&
+    filters.value[index].attributeKey === 'team_id'
+  ) {
+    return;
+  }
+  if (
+    !verTodasConversas.value &&
+    filters.value[index].attributeKey === 'assignee_id'
+  ) {
     return;
   }
   if (filters.value.length === 1) {
@@ -116,37 +144,74 @@ const filterModalHeaderTitle = computed(() => {
     : t('FILTER.EDIT_CUSTOM_FILTER');
 });
 
-onBeforeUnmount(() => emit('close'));
-onMounted(() => {
-  // Garantir que vai chamar a fetch das acls
-  //store.dispatch('acl/fetchAcl')
-  // Se for usuário parceiro, garante que o primeiro filtro seja o team_id
-  console.log("isPartnerFilter no ConversationFilter = ", isPartnerFilter.value)
-  if (!isPartnerFilter.value) {
-    console.log("isPartnerFilter no ConversationFilter = ", isPartnerFilter.value)
+function ensureTeamFilter() {
     // Ve se já tem um filtro de team_id
-    const existingTeamFilter = filters.value.find(f => f.attributeKey === 'team_id')
-    
+    const existingTeamFilter = filters.value.find(
+      f => f.attributeKey === 'team_id'
+    );
+
     if (!existingTeamFilter) {
       // Se não existe, adiciona com o primeiro time do usuario
-      const userTeams = teams.value
-      const defaultTeam = userTeams.length > 0 ? {id: userTeams[0].id, name: userTeams[0].name } : {}
+      const userTeams = teams.value;
 
-      filters.value = [{
-        attributeKey: 'team_id',
-        filterOperator: 'equal_to',
-        values: defaultTeam,
-        queryOperator: 'and',
-      }, ...filters.value]
+      if (userTeams.length === 0) {
+        console.warn('Usuário não tem times disponíveis');
+      } else {
+        const defaultTeam = { id: userTeams[0].id, name: userTeams[0].name };
+        // Usar unshift para adicionar no início sem substituir o array
+        filters.value.unshift({
+          attributeKey: 'team_id',
+          filterOperator: 'equal_to',
+          values: defaultTeam,
+          queryOperator: 'and',
+        });
+      }
     } else if (existingTeamFilter && existingTeamFilter !== filters.value[0]) {
-      filters.value = [
-        existingTeamFilter,
-        ...filters.value.filter(f => f.attributeKey !== 'team_id')
-      ]
+      // Mover team_id para primeira posição
+      const index = filters.value.indexOf(existingTeamFilter);
+      filters.value.splice(index, 1);
+      filters.value.unshift(existingTeamFilter);
     }
+}
+
+function ensureAssigneeFilter() {
+    const existingAssigneeFilter = filters.value.find(
+      f => f.attributeKey === 'assignee_id'
+    );
+    const userFilter = {
+      attributeKey: 'assignee_id',
+      filterOperator: 'equal_to',
+      values: { id: currentUser.value.id, name: currentUser.value.name },
+      queryOperator: 'and',
+    };
+
+    if (!existingAssigneeFilter) {
+      // se nao existe esse filtro ainda, adiciona como primeiro
+      // Usar unshift para adicionar no início sem substituir o array
+      filters.value.unshift(userFilter);
+    } else if (existingAssigneeFilter !== filters.value[0]) {
+      // Mover assignee_id para primeira posição
+      const index = filters.value.indexOf(existingAssigneeFilter);
+      filters.value.splice(index, 1);
+      filters.value.unshift(userFilter);
+    }
+}
+
+onBeforeUnmount(() => emit('close'));
+onMounted(() => {
+  if (filters.value.length === 0) {
+    filters.value = [{...DEFAULT_FILTER}]
+  }
+  // Sempre ter um filtro de times com o valor inicial pro primeiro time do usuário caso ele NAO TENHA a acl de time_privado
+  if (!isPartnerFilter.value) {
+    ensureTeamFilter()
+  }
+  // Sempre ter um filtro de agente atribuido com o valor inicial sendo o usuário logado caso ele NAO TENHA a acl de ver_todas_conversas
+  if (!verTodasConversas.value) {
+    ensureAssigneeFilter()
   }
 
-})
+});
 const outsideClickHandler = [
   () => emit('close'),
   { ignore: ['#toggleConversationFilterButton'] },
