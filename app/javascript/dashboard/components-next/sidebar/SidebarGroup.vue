@@ -167,6 +167,13 @@ const hasActiveChild = computed(() => {
   return activeChild.value !== undefined;
 });
 
+const handleCollapsedClick = () => {
+  if (hasChildren.value && hasAccessibleChildren.value) {
+    const firstItem = accessibleItems.value[0];
+    router.push(firstItem.to);
+  }
+};
+
 const toggleTrigger = () => {
   if (
     hasAccessibleChildren.value &&
@@ -232,6 +239,7 @@ watch(
             'text-n-slate-11 hover:bg-n-alpha-2': !isActive && !hasActiveChild,
           }"
           :title="label"
+          @click="hasChildren ? handleCollapsedClick() : undefined"
         >
           <Icon v-if="icon" :icon="icon" class="size-4" />
         </component>
