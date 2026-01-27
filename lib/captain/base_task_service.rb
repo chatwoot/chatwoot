@@ -35,7 +35,7 @@ class Captain::BaseTaskService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(model:, messages:)
+  def make_api_call(model:, messages:, schema: nil)
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
@@ -44,7 +44,7 @@ class Captain::BaseTaskService
     instrumentation_params = build_instrumentation_params(model, messages)
 
     response = instrument_llm_call(instrumentation_params) do
-      execute_ruby_llm_request(model: model, messages: messages)
+      execute_ruby_llm_request(model: model, messages: messages, schema: schema)
     end
 
     # Build follow-up context for client-side refinement, when applicable
@@ -55,11 +55,12 @@ class Captain::BaseTaskService
     end
   end
 
-  def execute_ruby_llm_request(model:, messages:)
+  def execute_ruby_llm_request(model:, messages:, schema: nil)
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
       chat = context.chat(model: model)
       system_msg = messages.find { |m| m[:role] == 'system' }
       chat.with_instructions(system_msg[:content]) if system_msg
+      chat.with_schema(schema) if schema
 
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?

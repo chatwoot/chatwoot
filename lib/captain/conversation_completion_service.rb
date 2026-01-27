@@ -1,4 +1,14 @@
 class Captain::ConversationCompletionService < Captain::BaseTaskService
+  RESPONSE_SCHEMA = {
+    type: 'object',
+    properties: {
+      complete: { type: 'boolean', description: 'Whether the conversation is complete and can be closed' },
+      reason: { type: 'string', description: 'Brief explanation of why the conversation is complete or incomplete' }
+    },
+    required: %w[complete reason],
+    additionalProperties: false
+  }.freeze
+
   pattr_initialize [:account!, :conversation_display_id!]
 
   def perform
@@ -10,7 +20,8 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
       messages: [
         { role: 'system', content: prompt_from_file('conversation_completion') },
         { role: 'user', content: content }
-      ]
+      ],
+      schema: RESPONSE_SCHEMA
     )
 
     return default_incomplete_response(response[:error]) if response[:error].present?
@@ -29,13 +40,12 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def parse_response(message)
-    json = JSON.parse(message, symbolize_names: true)
+    return default_incomplete_response('Invalid response format') unless message.is_a?(Hash)
+
     {
-      complete: json[:complete] == true,
-      reason: json[:reason] || 'No reason provided'
+      complete: message['complete'] == true,
+      reason: message['reason'] || 'No reason provided'
     }
-  rescue JSON::ParserError
-    default_incomplete_response('Failed to parse LLM response')
   end
 
   def default_incomplete_response(reason)
