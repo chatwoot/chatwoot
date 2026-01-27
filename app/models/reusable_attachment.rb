@@ -13,8 +13,6 @@
 #
 
 class ReusableAttachment < ApplicationRecord
-  include FileTypeHelper
-
   belongs_to :account
   has_one_attached :file
 
@@ -36,7 +34,8 @@ class ReusableAttachment < ApplicationRecord
   end
 
   def download_url
-    file.blob.url if file.attached?
+    ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
+    file.attached? ? file.blob.url : nil
   end
 
   def thumb_url
@@ -46,6 +45,8 @@ class ReusableAttachment < ApplicationRecord
       file.representation(resize_to_limit: [250, 250]),
       only_path: false
     )
+  rescue ActiveStorage::UnrepresentableError
+    nil
   end
 
   def file_size
@@ -73,8 +74,26 @@ class ReusableAttachment < ApplicationRecord
   def set_file_metadata
     return unless file.attached?
 
-    self.file_type = file_type(file.content_type) if file_type.nil?
+    if read_attribute(:file_type).nil?
+      self.file_type = detect_file_type(file.content_type)
+    end
     self.extension = file.filename.extension if extension.blank?
+  end
+
+  def detect_file_type(content_type)
+    return :image if image_content_type?(content_type)
+    return :video if video_content_type?(content_type)
+    return :audio if content_type&.include?('audio/')
+
+    :file
+  end
+
+  def image_content_type?(content_type)
+    %w[image/jpeg image/png image/gif image/bmp image/webp image].include?(content_type)
+  end
+
+  def video_content_type?(content_type)
+    %w[video/ogg video/mp4 video/webm video/quicktime video].include?(content_type)
   end
 
   def acceptable_file_size
