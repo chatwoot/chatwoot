@@ -44,7 +44,7 @@
   }
 
   .multiselect__content-wrapper {
-    @apply bg-n-alpha-black2 text-n-slate-12 backdrop-blur-[100px] border-0 border-none outline outline-1 outline-n-weak rounded-b-lg;
+    @apply bg-n-alpha-black2 dark:bg-n-solid-2 text-n-slate-12 backdrop-blur-[100px] border-0 border-none outline outline-1 outline-n-weak rounded-b-lg;
   }
 
   .multiselect__content {
