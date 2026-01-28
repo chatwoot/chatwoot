@@ -165,6 +165,10 @@ Rails.application.routes.draw do
             end
           end
 
+          resource :message_status, only: [], controller: 'message_status' do
+            post :status, path: '', action: :status
+          end
+
           resources :companies, only: [:index, :show, :create, :update, :destroy] do
             collection do
               get :search
