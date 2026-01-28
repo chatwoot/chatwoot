@@ -4,29 +4,33 @@
 #   POSTGRES_STATEMENT_TIMEOUT=600s NEW_RELIC_AGENT_ENABLED=false bundle exec rake download_report:agent
 #   POSTGRES_STATEMENT_TIMEOUT=600s NEW_RELIC_AGENT_ENABLED=false bundle exec rake download_report:inbox
 #   POSTGRES_STATEMENT_TIMEOUT=600s NEW_RELIC_AGENT_ENABLED=false bundle exec rake download_report:label
+#   POSTGRES_STATEMENT_TIMEOUT=600s NEW_RELIC_AGENT_ENABLED=false bundle exec rake download_report:conversation_heatmap
+#   POSTGRES_STATEMENT_TIMEOUT=600s NEW_RELIC_AGENT_ENABLED=false bundle exec rake download_report:resolution_heatmap
 #
 # The task will prompt for:
 #   - Account ID
 #   - Start Date (YYYY-MM-DD)
 #   - End Date (YYYY-MM-DD)
 #   - Timezone Offset (e.g., 0, 5.5, -5)
-#   - Business Hours (y/n) - whether to use business hours for time metrics
+#   - Business Hours (y/n) - whether to use business hours for time metrics (skipped for heatmap tasks)
 #
 # Output: <account_id>_<type>_<start_date>_<end_date>.csv
 
 require 'csv'
+require_relative '../../app/helpers/timezone_helper'
 
 # rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/AbcSize
 # rubocop:disable Metrics/MethodLength
 # rubocop:disable Metrics/ModuleLength
 module DownloadReportTasks
+  extend TimezoneHelper
   def self.prompt(message)
     print "#{message}: "
     $stdin.gets.chomp
   end
 
-  def self.collect_params
+  def self.collect_params(include_business_hours: true)
     account_id = prompt('Enter Account ID')
     abort 'Error: Account ID is required' if account_id.blank?
 
@@ -42,8 +46,11 @@ module DownloadReportTasks
     timezone_offset = prompt('Enter Timezone Offset (e.g., 0, 5.5, -5)')
     timezone_offset = timezone_offset.blank? ? 0 : timezone_offset.to_f
 
-    business_hours = prompt('Use Business Hours? (y/n)')
-    business_hours = business_hours.downcase == 'y'
+    business_hours = false
+    if include_business_hours
+      business_hours = prompt('Use Business Hours? (y/n)')
+      business_hours = business_hours.downcase == 'y'
+    end
 
     begin
       tz = ActiveSupport::TimeZone[timezone_offset]
@@ -159,6 +166,39 @@ module DownloadReportTasks
     filename = "#{account.id}_label_#{data[:start_date]}_#{data[:end_date]}.csv"
     save_csv(filename, headers, rows)
   end
+
+  def self.download_heatmap_report(metric:, filename_prefix:, header_label:)
+    data = collect_params(include_business_hours: false)
+    account = data[:account]
+    inbox_id = prompt('Enter Inbox ID (optional)')
+    inbox = inbox_id.present? ? account.inboxes.find_by(id: inbox_id) : nil
+    abort "Error: Inbox with ID '#{inbox_id}' not found" if inbox_id.present? && inbox.nil?
+
+    puts "\nGenerating #{filename_prefix.tr('_', ' ')} report..."
+    report_params = data[:params].merge({
+                                          metric: metric,
+                                          group_by: 'hour',
+                                          type: inbox.present? ? :inbox : :account,
+                                          id: inbox&.id
+                                        })
+    report = V2::Reports::Conversations::ReportBuilder.new(account, report_params).timeseries
+    timezone = ActiveSupport::TimeZone[timezone_name_from_offset(data[:params][:timezone_offset])]
+
+    headers = ['Date', 'Hour', header_label]
+    rows = report.map do |row|
+      time = timezone.at(row[:timestamp])
+      hour = time.hour
+      [
+        time.to_date.to_s,
+        "#{hour}:00 - #{hour + 1}:00",
+        row[:value]
+      ]
+    end
+
+    inbox_suffix = inbox.present? ? "_inbox_#{inbox.id}" : ''
+    filename = "#{account.id}_#{filename_prefix}#{inbox_suffix}_#{data[:start_date]}_#{data[:end_date]}.csv"
+    save_csv(filename, headers, rows)
+  end
 end
 # rubocop:enable Metrics/CyclomaticComplexity
 # rubocop:enable Metrics/AbcSize
@@ -179,5 +219,23 @@ namespace :download_report do
   desc 'Download label summary report as CSV'
   task label: :environment do
     DownloadReportTasks.download_label_report
+  end
+
+  desc 'Download conversation heatmap report as CSV'
+  task conversation_heatmap: :environment do
+    DownloadReportTasks.download_heatmap_report(
+      metric: 'conversations_count',
+      filename_prefix: 'conversation_heatmap',
+      header_label: 'Conversations'
+    )
+  end
+
+  desc 'Download resolution heatmap report as CSV'
+  task resolution_heatmap: :environment do
+    DownloadReportTasks.download_heatmap_report(
+      metric: 'resolutions_count',
+      filename_prefix: 'resolution_heatmap',
+      header_label: 'Resolutions'
+    )
   end
 end
