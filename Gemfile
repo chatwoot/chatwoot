@@ -3,8 +3,10 @@ source 'https://rubygems.org'
 ruby '3.4.4'
 
 ##-- base gems for rails --##
-gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+
+gem 'rack-cors', require: 'rack/cors'
+gem 'rails', '~> 7.2.0'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -31,7 +33,9 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'commonmarker'
+# ref: https://github.com/gjtorikian/commonmarker/issues/358
+# can upgrade one this issue is fixed
+gem 'commonmarker', '~> 0.23.11'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # used in swagger build
@@ -49,9 +53,7 @@ gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-# original gem isn't maintained actively
-# we wanted updated version of faraday which is a dependency for slack-ruby-client
-gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
@@ -89,9 +91,9 @@ gem 'jwt'
 gem 'pundit'
 
 # super admin
-gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate'
+gem 'administrate-field-active_storage'
+gem 'administrate-field-belongs_to_search'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -131,7 +133,7 @@ gem 'sentry-sidekiq', '>= 5.19.0', require: false
 ##-- background job processing --##
 gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.12.0'
+gem 'sidekiq-cron', '>= 2.3.1'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
 
@@ -262,6 +264,7 @@ group :development, :test do
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-rspec_rails', require: false
   gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
