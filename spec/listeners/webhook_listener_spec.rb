@@ -15,6 +15,55 @@ describe WebhookListener do
   let!(:conversation_created_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation) }
   let!(:contact_event) { Events::Base.new(event_name, Time.zone.now, contact: contact) }
 
+  describe 'filter events by inbox' do
+    context 'with events containing inbox hash' do
+      let(:event_name) { :'message.created' }
+
+      it 'triggers webhook when inbox matches' do
+        webhook = create(:webhook, account: account, inbox: inbox)
+        expect(WebhookJob).to receive(:perform_later)
+          .with(webhook.url, message.webhook_data.merge(event: 'message_created')).once
+
+        listener.message_created(message_created_event)
+      end
+
+      it 'does not trigger webhook when inbox does not match' do
+        another_inbox = create(:inbox, account: account)
+        create(:webhook, account: account, inbox: another_inbox, url: 'https://different.webhook.com')
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+
+        listener.message_created(message_created_event)
+      end
+    end
+
+    context 'with events containing inbox_id' do
+      let(:event_name) { :'conversation.typing_on' }
+      let(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user) }
+
+      it 'triggers webhook when inbox_id matches' do
+        webhook = create(:webhook, account: account, inbox: inbox, subscriptions: ['conversation_typing_on'])
+        payload = {
+          event: 'conversation_typing_on',
+          user: user.webhook_data,
+          inbox_id: inbox.id,
+          conversation: conversation.webhook_data,
+          is_private: false
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.conversation_typing_on(typing_event)
+      end
+
+      it 'does not trigger webhook when inbox_id does not match' do
+        another_inbox = create(:inbox, account: account)
+        create(:webhook, account: account, inbox: another_inbox, subscriptions: ['conversation_typing_on'], url: 'https://different.webhook.com')
+
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.conversation_typing_on(typing_event)
+      end
+    end
+  end
+
   describe '#message_created' do
     let(:event_name) { :'message.created' }
 
@@ -298,6 +347,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_on',
           user: user.webhook_data,
+          inbox_id: inbox.id,
           conversation: conversation.webhook_data,
           is_private: false
         }
@@ -317,6 +367,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_on',
           user: user.webhook_data,
+          inbox_id: api_inbox.id,
           conversation: api_conversation.webhook_data,
           is_private: false
         }
@@ -345,6 +396,7 @@ describe WebhookListener do
         payload = {
           event: 'conversation_typing_off',
           user: user.webhook_data,
+          inbox_id: inbox.id,
           conversation: conversation.webhook_data,
           is_private: false
         }

@@ -101,6 +101,7 @@ class WebhookListener < BaseListener
     payload = {
       event: event_name,
       user: user.webhook_data,
+      inbox_id: inbox.id,
       conversation: conversation.webhook_data,
       is_private: event.data[:is_private] || false
     }
@@ -110,6 +111,9 @@ class WebhookListener < BaseListener
   def deliver_account_webhooks(payload, account)
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
+
+      inbox_id = payload[:inbox_id] || payload.dig(:inbox, :id)
+      next if inbox_id.present? && webhook.inbox_id.present? && webhook.inbox_id != inbox_id
 
       WebhookJob.perform_later(webhook.url, payload)
     end
