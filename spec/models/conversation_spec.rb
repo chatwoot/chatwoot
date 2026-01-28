@@ -697,6 +697,18 @@ RSpec.describe Conversation do
   describe 'custom sort option' do
     include ActiveJob::TestHelper
 
+    let(:conversation_ids) do
+      [
+        conversation_1.id,
+        conversation_2.id,
+        conversation_3.id,
+        conversation_4.id,
+        conversation_5.id,
+        conversation_6.id,
+        conversation_7.id
+      ]
+    end
+
     let!(:conversation_7) { create(:conversation, created_at: DateTime.now - 6.days, last_activity_at: DateTime.now - 13.days) }
     let!(:conversation_6) { create(:conversation, created_at: DateTime.now - 7.days, last_activity_at: DateTime.now - 10.days) }
     let!(:conversation_5) { create(:conversation, created_at: DateTime.now - 8.days, last_activity_at: DateTime.now - 12.days, priority: :urgent) }
@@ -714,12 +726,12 @@ RSpec.describe Conversation do
       end
 
       it 'returns the list in ascending order by default' do
-        records = described_class.sort_on_created_at
+        records = described_class.where(id: conversation_ids).sort_on_created_at
         expect(records.map(&:id)).to eq created_desc_order.reverse
       end
 
       it 'returns the list in descending order if desc is passed as sort direction' do
-        records = described_class.sort_on_created_at(:desc)
+        records = described_class.where(id: conversation_ids).sort_on_created_at(:desc)
         expect(records.map(&:id)).to eq created_desc_order
       end
     end
@@ -733,12 +745,12 @@ RSpec.describe Conversation do
       end
 
       it 'returns the list in descending order by default' do
-        records = described_class.sort_on_last_activity_at
+        records = described_class.where(id: conversation_ids).sort_on_last_activity_at
         expect(records.map(&:id)).to eq last_activity_asc_order.reverse
       end
 
       it 'returns the list in asc order if asc is passed as sort direction' do
-        records = described_class.sort_on_last_activity_at(:asc)
+        records = described_class.where(id: conversation_ids).sort_on_last_activity_at(:asc)
         expect(records.map(&:id)).to eq last_activity_asc_order
       end
     end
@@ -751,7 +763,7 @@ RSpec.describe Conversation do
       end
 
       it 'sort conversations with latest resolved conversation at first' do
-        records = described_class.sort_on_last_activity_at
+        records = described_class.where(id: conversation_ids).sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_3.id)
 
@@ -765,14 +777,14 @@ RSpec.describe Conversation do
             content: 'Conversation was marked resolved by system due to days of inactivity'
           )
         end
-        records = described_class.sort_on_last_activity_at
+        records = described_class.where(id: conversation_ids).sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_1.id)
       end
 
       it 'Sort conversations with latest message' do
         create(:message, conversation_id: conversation_3.id, message_type: :incoming, created_at: DateTime.now)
-        records = described_class.sort_on_last_activity_at
+        records = described_class.where(id: conversation_ids).sort_on_last_activity_at
 
         expect(records.first.id).to eq(conversation_3.id)
       end
@@ -781,10 +793,10 @@ RSpec.describe Conversation do
     describe 'sort_on_priority' do
       it 'return list with the following order urgent > high > medium > low > nil by default' do
         # ensure they are not pre-sorted
-        records = described_class.sort_on_created_at
+        records = described_class.where(id: conversation_ids).sort_on_created_at
         expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
 
-        records = described_class.sort_on_priority
+        records = described_class.where(id: conversation_ids).sort_on_priority
         expect(records.pluck(:priority)).to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
         expect(records.pluck(:id)).to eq(
           [
@@ -796,10 +808,10 @@ RSpec.describe Conversation do
 
       it 'return list with the following order low > medium > high > urgent > nil by default' do
         # ensure they are not pre-sorted
-        records = described_class.sort_on_created_at
+        records = described_class.where(id: conversation_ids).sort_on_created_at
         expect(records.pluck(:priority)).not_to eq(['urgent', 'urgent', 'high', 'medium', 'low', nil, nil])
 
-        records = described_class.sort_on_priority(:asc)
+        records = described_class.where(id: conversation_ids).sort_on_priority(:asc)
         expect(records.pluck(:priority)).to eq(['low', 'medium', 'high', 'urgent', 'urgent', nil, nil])
         expect(records.pluck(:id)).to eq(
           [
@@ -810,12 +822,12 @@ RSpec.describe Conversation do
       end
 
       it 'sorts conversation with last_activity for the same priority' do
-        records = described_class.where(priority: 'urgent').sort_on_priority
+        records = described_class.where(priority: 'urgent').where(id: conversation_ids).sort_on_priority
         # ensure that the conversation 4 last_activity_at is more recent than conversation 5
         expect(conversation_4.last_activity_at > conversation_5.last_activity_at).to be(true)
         expect(records.pluck(:priority, :id)).to eq([['urgent', conversation_4.id], ['urgent', conversation_5.id]])
 
-        records = described_class.where(priority: nil).sort_on_priority
+        records = described_class.where(priority: nil).where(id: conversation_ids).sort_on_priority
         # ensure that the conversation 6 last_activity_at is more recent than conversation 7
         expect(conversation_6.last_activity_at > conversation_7.last_activity_at).to be(true)
         expect(records.pluck(:priority, :id)).to eq([[nil, conversation_6.id], [nil, conversation_7.id]])
@@ -824,7 +836,7 @@ RSpec.describe Conversation do
 
     describe 'sort_on_waiting_since' do
       it 'returns the list in ascending order by default' do
-        records = described_class.sort_on_waiting_since
+        records = described_class.where(id: conversation_ids).sort_on_waiting_since
         expect(records.map(&:id)).to eq [
           conversation_4.id, conversation_5.id, conversation_6.id, conversation_7.id, conversation_3.id, conversation_1.id,
           conversation_2.id
@@ -832,7 +844,7 @@ RSpec.describe Conversation do
       end
 
       it 'returns the list in desc order if asc is passed as sort direction' do
-        records = described_class.sort_on_waiting_since(:desc)
+        records = described_class.where(id: conversation_ids).sort_on_waiting_since(:desc)
         expect(records.map(&:id)).to eq [
           conversation_2.id, conversation_1.id, conversation_3.id, conversation_7.id, conversation_6.id, conversation_5.id,
           conversation_4.id
@@ -919,6 +931,11 @@ RSpec.describe Conversation do
 
     before do
       create(:inbox_member, user: agent, inbox: inbox)
+      ConversationParticipant.create!(
+        conversation: conversation,
+        user: agent,
+        created_at: conversation_start_time
+      )
       # rubocop:disable Rails/SkipsModelValidations
       conversation.update_column(:waiting_since, nil)
       conversation.update_column(:created_at, conversation_start_time)
@@ -1044,7 +1061,6 @@ RSpec.describe Conversation do
         # Customer message 1
         create_customer_message(conversation, created_at: 5.hours.ago)
 
-        # Bot responds
         create_bot_message(conversation, created_at: 4.hours.ago)
 
         # Customer message 2 (after bot response) - should reset waiting_since
@@ -1054,9 +1070,12 @@ RSpec.describe Conversation do
         create_agent_message(conversation, created_at: 1.hour.ago)
 
         reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+
         expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
         # Reply time should be 1 hour (from customer message 2 to agent reply)
-        expect(reply_events.first.value).to be_within(60).of(3600)
+
+        last_reply_event = reply_events.order(event_end_time: :desc).first
+        expect(last_reply_event.value).to be_within(60).of(3600) # 1 hour
       end
 
       it 'handles multiple bot responses before customer messages again' do
@@ -1067,7 +1086,6 @@ RSpec.describe Conversation do
         # Customer message 1
         create_customer_message(conversation, created_at: 6.hours.ago)
 
-        # Bot responds multiple times
         create_bot_message(conversation, created_at: 5.hours.ago)
         create_bot_message(conversation, created_at: 4.hours.ago)
 
@@ -1078,9 +1096,12 @@ RSpec.describe Conversation do
         create_agent_message(conversation, created_at: 1.hour.ago)
 
         reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+
         expect(reply_events.count).to eq(1) # Only the second agent reply creates a reply_time event
         # Reply time should be 1 hour (from customer message 2 to agent reply)
-        expect(reply_events.first.value).to be_within(60).of(3600)
+
+        last_reply_event = reply_events.order(event_end_time: :desc).first
+        expect(last_reply_event.value).to be_within(60).of(3600) # 1 hour
       end
     end
   end

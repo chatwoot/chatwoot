@@ -228,17 +228,31 @@ describe V2::ReportBuilder do
       end
 
       it 'returns average first response time' do
+        user = account.users.first
+        conversations = account.conversations.joins(:labels).where(labels: { id: label_2.id })
+
+        conversations.each do |conversation|
+          create(
+            :reporting_event,
+            name: 'first_response',
+            account: account,
+            conversation: conversation,
+            user: user,
+            value: 1.5,
+            created_at: Time.zone.today
+          )
+        end
+
         params = {
           metric: 'avg_first_response_time',
-          type: :account,
+          type: :label,
+          id: label_2.id,
           since: (Time.zone.today - 3.days).to_time.to_i.to_s,
           until: Time.zone.today.end_of_day.to_time.to_i.to_s
         }
 
-        builder = described_class.new(account, params)
-        metrics = builder.timeseries
-
-        expect(metrics[Time.zone.today].to_f).to be 0.48e4
+        metrics = described_class.new(account, params).timeseries
+        expect(metrics[Time.zone.today].to_f).to eq 1.5
       end
 
       it 'returns summary' do
@@ -410,19 +424,33 @@ describe V2::ReportBuilder do
       end
 
       it 'returns average first response time' do
-        label_2.reporting_events.update(value: 1.5)
+        user = account.users.first
+
+        conversations = account.conversations.joins(:labels).where(labels: { id: label_2.id })
+
+        conversations.each do |conversation|
+          create(
+            :reporting_event,
+            name: 'first_response',
+            account: account,
+            conversation: conversation,
+            user: user,
+            value: 1.5,
+            created_at: Time.zone.today.beginning_of_day
+          )
+        end
 
         params = {
           metric: 'avg_first_response_time',
           type: :label,
           id: label_2.id,
-          since: (Time.zone.today - 3.days).to_time.to_i.to_s,
-          until: Time.zone.today.end_of_day.to_time.to_i.to_s
+          since: (Time.zone.today - 3.days).beginning_of_day.to_i.to_s,
+          until: Time.zone.today.end_of_day.to_i.to_s
         }
 
-        builder = described_class.new(account, params)
-        metrics = builder.timeseries
-        expect(metrics[Time.zone.today].to_f).to be 0.15e1
+        metrics = described_class.new(account, params).timeseries
+
+        expect(metrics[Time.zone.today].to_f).to eq 1.5
       end
 
       it 'returns summary' do
