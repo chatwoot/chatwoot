@@ -34,7 +34,7 @@ const signatureImage =
       <div class="mt-12">
         <img
           :src="signatureImage"
-          alt="Chatwoot Team Signature"
+          alt="Daxow Team Signature"
           class="w-auto h-8 md:h-10"
         />
       </div>

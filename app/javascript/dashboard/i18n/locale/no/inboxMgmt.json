@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Velg kanal",
-        "BODY": "Velg tilbyderen du vil integrere med Chatwoot."
+        "BODY": "Velg tilbyderen du vil integrere med Daxow."
       },
       "INBOX": {
         "TITLE": "Opprett innboks",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Angi navnet på nettsiden (f. eks.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Ved å logge inn får vi bare tilgang til meldingene til siden. Dine private meldinger vil aldri bli lest av Chatwoot.",
+        "HELP": "PS: Ved å logge inn får vi bare tilgang til meldingene til siden. Dine private meldinger vil aldri bli lest av Daxow.",
         "CHOOSE_PAGE": "Velg side",
         "CHOOSE_PLACEHOLDER": "Velg en side fra listen",
         "INBOX_NAME": "Navn på innboks",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Choose a channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Daxow supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Innboksdetaljer",
-        "DESC": "Fra listen under, velg facebook-siden du vil koble til Chatwoot. Du kan også gi innboksen et egendefinert navn for bedre identifisering."
+        "DESC": "Fra listen under, velg facebook-siden du vil koble til Daxow. Du kan også gi innboksen et egendefinert navn for bedre identifisering."
       },
       "FINISH": {
         "TITLE": "Den satt!",
-        "DESC": "Du er ferdig med å integrere din facebook-side med Chatwoot. Neste gang en kunde sender en melding fra siden din vil samtalen vises automatisk i innboksen din.<br>Vi gir deg også et widget skript som du enkelt kan legge til på nettstedet ditt. Når dette er direkte på din nettside kan kunder sende deg meldinger fra nettstedet ditt uten hjelp av eksterne verktøy og samtalen vil vises her, i Chatwoot.<br>Kult, eller hva? Vel, vi prøver :)"
+        "DESC": "Du er ferdig med å integrere din facebook-side med Daxow. Neste gang en kunde sender en melding fra siden din vil samtalen vises automatisk i innboksen din.<br>Vi gir deg også et widget skript som du enkelt kan legge til på nettstedet ditt. Når dette er direkte på din nettside kan kunder sende deg meldinger fra nettstedet ditt uten hjelp av eksterne verktøy og samtalen vil vises her, i Daxow.<br>Kult, eller hva? Vel, vi prøver :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Drevet av Chatwoot",
+      "BRANDING_TEXT": "Drevet av Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -29,7 +29,7 @@ const getMessage = overrides => {
 
   return {
     id: 5272,
-    content: 'Hey, how are ya, I had a few questions about Chatwoot?',
+    content: 'Hey, how are ya, I had a few questions about Daxow?',
     inboxId: 475,
     conversationId: 43,
     messageType: 0,
@@ -174,7 +174,7 @@ const location = computed(() =>
       getAttachment('location', null, {
         coordinatesLat: 37.7937545,
         coordinatesLong: -122.3997472,
-        fallbackTitle: 'Chatwoot Inc',
+        fallbackTitle: 'Daxow Inc',
       }),
     ],
     ...baseSenderData.value,

@@ -11,7 +11,7 @@ import CreateAssistantDialog from 'dashboard/components-next/captain/pageCompone
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const dialogType = ref('');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
@@ -59,7 +59,7 @@ const handleAfterCreate = newAssistant => {
         :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
         :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
         :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
-        :hide-actions="!isOnChatwootCloud"
+        :hide-actions="!isOnDaxowCloud"
         fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
         fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
         learn-more-url="https://chwt.app/captain-assistant"

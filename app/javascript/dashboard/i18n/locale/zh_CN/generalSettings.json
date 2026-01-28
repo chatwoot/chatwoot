@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "您现在可以在您的自定义域名的电子邮件中接收消息。"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
+    "UPDATE_CHATWOOT": "Daxow 有可用更新{latestDaxowVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
-    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
-    "UPGRADE": "升级以继续使用 Chatwoot",
-    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
+    "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Daxow",
+    "UPGRADE": "升级以继续使用 Daxow",
+    "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Daxow",
     "OPEN_BILLING": "查看计费"
   },
   "FORMS": {

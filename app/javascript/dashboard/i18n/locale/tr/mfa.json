@@ -98,7 +98,7 @@
       "BACKUP_TITLE": "Yedek Kod Kullanma",
       "BACKUP_DESC": "Kimlik doğrulayıcı uygulamanıza erişiminiz yoksa, 2FA kurarken kaydettiğiniz yedek kodlardan birini kullanabilirsiniz. Her kod yalnızca bir kez kullanılabilir.",
       "CONTACT_TITLE": "Daha Fazla Yardıma mı İhtiyacınız Var?",
-      "CONTACT_DESC_CLOUD": "Hem kimlik doğrulayıcı uygulamanıza hem de yedek kodlarınıza erişiminizi kaybettiyseniz, yardım için Chatwoot destek ekibiyle iletişime geçin.",
+      "CONTACT_DESC_CLOUD": "Hem kimlik doğrulayıcı uygulamanıza hem de yedek kodlarınıza erişiminizi kaybettiyseniz, yardım için Daxow destek ekibiyle iletişime geçin.",
       "CONTACT_DESC_SELF_HOSTED": "Hem kimlik doğrulayıcı uygulamanıza hem de yedek kodlarınıza erişiminizi kaybettiyseniz, yardım için yöneticinizle iletişime geçin."
     },
     "VERIFICATION_FAILED": "Doğrulama başarısız oldu. Lütfen tekrar deneyin."

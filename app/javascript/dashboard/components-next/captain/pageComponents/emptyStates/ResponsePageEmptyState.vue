@@ -26,7 +26,7 @@ const emit = defineEmits(['click', 'clearFilters']);
 const isApproved = computed(() => props.variant === 'approved');
 const isPending = computed(() => props.variant === 'pending');
 
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 const { replaceInstallationName } = useBranding();
 
 const onClick = () => {
@@ -46,7 +46,7 @@ const onClearFilters = () => {
     fallback-thumbnail="/assets/images/dashboard/captain/faqs-light.svg"
     fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-dark.svg"
     learn-more-url="https://chwt.app/captain-faq"
-    :hide-actions="!isOnChatwootCloud"
+    :hide-actions="!isOnDaxowCloud"
     class="mb-8"
   />
   <EmptyStateLayout

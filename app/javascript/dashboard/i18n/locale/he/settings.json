@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "ממשק",
-        "NOTE": "התאם אישית את המראה והתחושה של לוח המחוונים שלך ב-Chatwoot.",
+        "NOTE": "התאם אישית את המראה והתחושה של לוח המחוונים שלך ב-Daxow.",
         "FONT_SIZE": {
           "TITLE": "גודל גופן",
           "NOTE": "התאם את גודל הטקסט ברחבי לוח המחוונים בהתבסס על ההעדפה שלך.",
@@ -464,7 +464,7 @@
       "SP_ENTITY_ID": {
         "LABEL": "מזהה ישות SP",
         "HELP": "Unique identifier for this application as a service provider (auto-generated).",
-        "TOOLTIP": "Unique identifier for Chatwoot as the Service Provider - Configure this in your IdP settings"
+        "TOOLTIP": "Unique identifier for Daxow as the Service Provider - Configure this in your IdP settings"
       },
       "IDP_ENTITY_ID": {
         "LABEL": "מזהה ישות של ספק הזהויות",
@@ -507,7 +507,7 @@
     }
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Chatwoot. נא ליצור חשבון חדש כדי להמשיך.",
+    "NO_ACCOUNT_WARNING": "אה הו! לא הצלחנו למצוא חשבונות Daxow. נא ליצור חשבון חדש כדי להמשיך.",
     "NEW_ACCOUNT": "חשבון חדש",
     "SELECTOR_SUBTITLE": "צור חשבון חדש",
     "API": {

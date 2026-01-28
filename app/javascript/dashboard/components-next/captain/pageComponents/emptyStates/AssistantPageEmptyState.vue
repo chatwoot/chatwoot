@@ -7,7 +7,7 @@ import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/Featur
 import { assistantsList } from 'dashboard/components-next/captain/pageComponents/emptyStates/captainEmptyStateContent.js';
 
 const emit = defineEmits(['click']);
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const onClick = () => {
   emit('click');
@@ -22,7 +22,7 @@ const onClick = () => {
     fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-dark.svg"
     learn-more-url="https://chwt.app/captain-assistant"
     class="mb-8"
-    :hide-actions="!isOnChatwootCloud"
+    :hide-actions="!isOnDaxowCloud"
   />
   <EmptyStateLayout
     :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.TITLE')"

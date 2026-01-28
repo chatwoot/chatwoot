@@ -16,7 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change']);
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const PROVIDER_ICONS = {
   openai: 'i-ri-openai-fill',
@@ -142,7 +142,7 @@ const selectModel = model => {
             <span v-if="model.coming_soon" class="text-xs text-n-slate-11">
               {{ t('CAPTAIN_SETTINGS.MODEL_CONFIG.COMING_SOON') }}
             </span>
-            <span v-else-if="isOnChatwootCloud" class="text-xs text-n-slate-11">
+            <span v-else-if="isOnDaxowCloud" class="text-xs text-n-slate-11">
               {{ getCreditLabel(model) }}
             </span>
           </div>

@@ -26,7 +26,7 @@ const { accountId, currentAccount } = useAccount();
 const { isEnterprise } = useConfig();
 const { isAdmin } = useAdmin();
 
-const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+const isOnDaxowCloud = useMapGetter('globalConfig/isOnDaxowCloud');
 
 const testLimit = ({ allowed, consumed }) => {
   return consumed > allowed;
@@ -86,7 +86,7 @@ const isLimitExceeded = computed(() => {
 const shouldShowUpgradePage = computed(() => {
   // Skip upgrade page in Billing, Inbox, and Agent pages
   if (props.bypassUpgradePage) return false;
-  if (!isOnChatwootCloud.value) return false;
+  if (!isOnDaxowCloud.value) return false;
   if (isTrialAccount.value) return false;
   return isLimitExceeded.value;
 });

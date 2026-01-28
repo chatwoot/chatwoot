@@ -6,11 +6,11 @@
     "DESCRIPTION": "审核日志保存您账户中的活动记录，允许您跟踪和审计您的账户、团队或服务。",
     "LEARN_MORE": "了解更多关于审计日志的信息",
     "SEARCH_404": "没有任何项目符合此查询",
-    "SIDEBAR_TXT": "<p><b>审计日志</b></p><p>审计日志是 Chatwoot 系统中事件和操作的痕迹。</p>",
+    "SIDEBAR_TXT": "<p><b>审计日志</b></p><p>审计日志是 Daxow 系统中事件和操作的痕迹。</p>",
     "LIST": {
       "404": "此账户中没有可用的审计日志。",
       "TITLE": "管理审计日志",
-      "DESC": "审计日志是 Chatwoot 系统中事件和操作的痕迹。",
+      "DESC": "审计日志是 Daxow 系统中事件和操作的痕迹。",
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",

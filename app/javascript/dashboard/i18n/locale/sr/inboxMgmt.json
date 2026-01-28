@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Izaberite kanal",
-        "BODY": "Izaberte provajdera kojeg želite da integrišete sa Chatwoot-om."
+        "BODY": "Izaberte provajdera kojeg želite da integrišete sa Daxow-om."
       },
       "INBOX": {
         "TITLE": "Napravi prijemno sanduče",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Unesite naziv vašeg veb sajta (npr.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Chatwoot vašim privatnim porukama nikada ne može pristupiti.",
+        "HELP": "PS: Prihvatanjem, mi imamo pristup samo tvojim porukama Stranice. Daxow vašim privatnim porukama nikada ne može pristupiti.",
         "CHOOSE_PAGE": "Izaberite stranicu",
         "CHOOSE_PLACEHOLDER": "Izaberite stranicu iz spiska",
         "INBOX_NAME": "Naziv prijemnog sandučeta",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Izaberite kanal",
-        "DESC": "Chatwoot podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod.",
+        "DESC": "Daxow podržava vidžete ćaskanja, Fejbuk Mesindžer, Tviter profile, WhatsApp, E-poštu, itd., kao kanale. Ako želite da izgradite proizvoljan kanal, možete kreirati ga korišćenjem API kanala. Da bi ste počeli, izaberite jedan od kanala ispod.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalji prijemnog sandučeta",
-        "DESC": "Iz padajućeg menija ispod, izaberite Fejsbuk stranicu koju želite da povežete sa Chatwoot-om. Takođe možete navesti proizvoljan naziv prijemnog sandučeta za bolju identifikaciju."
+        "DESC": "Iz padajućeg menija ispod, izaberite Fejsbuk stranicu koju želite da povežete sa Daxow-om. Takođe možete navesti proizvoljan naziv prijemnog sandučeta za bolju identifikaciju."
       },
       "FINISH": {
         "TITLE": "Uspeli ste!",
-        "DESC": "Uspešno ste završili integraciju vaše Fejsbuk stranice sa Chatwoo-om. Kada potrošač sledeći put pošalje poruku na tvojoj stranici, razgovor će se automatski pojaviti u prijemnom sandučetu.<br>Takođe vam pružamo skriptu za vidžet koju možete jednostavno dodati na veb sajt. Onda kada je postavljen na veb sajt, potrošači mogu da vam pošalju poruku direktno sa veb sajta bez pomoći eksternih alata i razgovor će se pojaviti ovde, na Chatwoot-u.<br>Kul, zar ne? Pa, svakako se trudimo da bude :)"
+        "DESC": "Uspešno ste završili integraciju vaše Fejsbuk stranice sa Chatwoo-om. Kada potrošač sledeći put pošalje poruku na tvojoj stranici, razgovor će se automatski pojaviti u prijemnom sandučetu.<br>Takođe vam pružamo skriptu za vidžet koju možete jednostavno dodati na veb sajt. Onda kada je postavljen na veb sajt, potrošači mogu da vam pošalju poruku direktno sa veb sajta bez pomoći eksternih alata i razgovor će se pojaviti ovde, na Daxow-u.<br>Kul, zar ne? Pa, svakako se trudimo da bude :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Ćao",
         "AGENT_MESSAGE": "Zdravo"
       },
-      "BRANDING_TEXT": "Pokreće Chatwoot",
+      "BRANDING_TEXT": "Pokreće Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings ={options};"
     },
     "EMAIL_PROVIDERS": {

@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrationen",
-    "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
+    "DESCRIPTION": "Daxow integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
     "LEARN_MORE": "Mehr über Integrationen erfahren",
     "LOADING": "Integrationen werden abgerufen",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Mehr über Webhooks erfahren",
       "FORM": {
         "CANCEL": "Stornieren",
-        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Chatwoot-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
+        "DESC": "Webhook-Ereignisse bieten Ihnen Echtzeitinformationen darüber, was in Ihrem Daxow-Konto passiert. Bitte geben Sie eine gültige URL ein, um einen Rückruf zu konfigurieren.",
         "SUBSCRIPTIONS": {
           "LABEL": "Events",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Neuen Webhook hinzufügen",
       "LOADING": "Angehängte Webhooks abrufen",
       "SEARCH_404": "Es gibt keine Elemente, die dieser Abfrage entsprechen",
-      "SIDEBAR_TXT": "<p> <b> Webhooks </b> </p> <p> Webhooks sind HTTP-Rückrufe, die für jedes Konto definiert werden können. Sie werden durch Ereignisse wie die Erstellung von Nachrichten in Chatwoot ausgelöst. Sie können mehr als einen Webhook für dieses Konto erstellen. <br /> <br /> Um einen <b> Webhook </b> zu erstellen, klicken Sie auf die Schaltfläche <b> Neuen Webhook hinzufügen </b>. Sie können auch vorhandene Webhooks entfernen, indem Sie auf die Schaltfläche Löschen klicken. </p>",
+      "SIDEBAR_TXT": "<p> <b> Webhooks </b> </p> <p> Webhooks sind HTTP-Rückrufe, die für jedes Konto definiert werden können. Sie werden durch Ereignisse wie die Erstellung von Nachrichten in Daxow ausgelöst. Sie können mehr als einen Webhook für dieses Konto erstellen. <br /> <br /> Um einen <b> Webhook </b> zu erstellen, klicken Sie auf die Schaltfläche <b> Neuen Webhook hinzufügen </b>. Sie können auch vorhandene Webhooks entfernen, indem Sie auf die Schaltfläche Löschen klicken. </p>",
       "LIST": {
         "404": "Für dieses Konto sind keine Webhooks konfiguriert.",
         "TITLE": "Webhooks verwalten",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Slack-Integration verwenden",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "ausgewählt"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Einen Kanal auswählen",
         "UPDATE": "Aktualisieren",
         "BUTTON_TEXT": "Kanal verbinden",
-        "DESCRIPTION": "Ihr Slack-Arbeitsbereich ist jetzt mit Chatwoot verbunden. Die Integration ist jedoch derzeit inaktiv. Um die Integration zu aktivieren und einen Kanal mit Chatwoot zu verbinden, klicken Sie bitte auf den untenstehenden Button.\n\n**Hinweis:** Wenn Sie versuchen, einen privaten Kanal zu verbinden, fügen Sie die Chatwoot-App dem Slack-Kanal hinzu, bevor Sie diesen Schritt fortsetzen.",
+        "DESCRIPTION": "Ihr Slack-Arbeitsbereich ist jetzt mit Daxow verbunden. Die Integration ist jedoch derzeit inaktiv. Um die Integration zu aktivieren und einen Kanal mit Daxow zu verbinden, klicken Sie bitte auf den untenstehenden Button.\n\n**Hinweis:** Wenn Sie versuchen, einen privaten Kanal zu verbinden, fügen Sie die Daxow-App dem Slack-Kanal hinzu, bevor Sie diesen Schritt fortsetzen.",
         "ATTENTION_REQUIRED": "Achtung",
         "EXPIRED": "Ihre Slack-Integration ist abgelaufen. Um weiterhin Nachrichten auf Slack zu erhalten, löschen Sie bitte die Integration und verbinden Sie Ihren Arbeitsbereich erneut."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Dashboard-Apps",
       "HEADER_BTN_TXT": "Eine neue Dashboard-App hinzufügen",
-      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Chatwoot-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Chatwoot einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
+      "SIDEBAR_TXT": "<p><b>Dashboard Apps</b></p><p>Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Daxow-Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese in das Dashboard einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.</p><p>Wenn Sie Ihre Anwendung über das Dashboard in Daxow einbetten, erhält Ihre Anwendung den Kontext der Unterhaltung und des Kontakts als Fensterereignis. Implementieren Sie einen Listener für das Nachrichtenereignis auf Ihrer Seite, um den Kontext zu erhalten. </p><p>Um eine neue Dashboard-App hinzuzufügen, klicken Sie auf die Schaltfläche „Neue Dashboard-App hinzufügen“.</p>",
       "DESCRIPTION": "Dashboard-Apps ermöglichen es Unternehmen, eine Anwendung in das Dashboard einzubetten, um den Kontext für Kundendienstmitarbeiter bereitzustellen. Mit dieser Funktion können Sie eine Anwendung unabhängig erstellen und diese einbetten, um Benutzerinformationen, ihre Bestellungen oder ihren bisherigen Zahlungsverlauf bereitzustellen.",
       "LEARN_MORE": "Mehr über Dashboard-Apps erfahren",
       "LIST": {

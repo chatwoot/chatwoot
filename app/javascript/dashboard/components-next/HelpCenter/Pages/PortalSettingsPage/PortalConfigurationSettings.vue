@@ -57,7 +57,7 @@ const SSL_STATUS = {
 };
 
 const { t } = useI18n();
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const addCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
@@ -170,7 +170,7 @@ const onClickSend = email => {
             </span>
           </div>
           <span
-            v-if="!isLive && isOnChatwootCloud"
+            v-if="!isLive && isOnDaxowCloud"
             class="text-sm text-n-slate-11"
           >
             {{
@@ -183,7 +183,7 @@ const onClickSend = email => {
         <div class="flex items-center">
           <div v-if="customDomainAddress" class="flex items-center gap-3">
             <div
-              v-if="statusText && isOnChatwootCloud"
+              v-if="statusText && isOnDaxowCloud"
               v-tooltip="verificationErrors"
               class="flex items-center gap-3 flex-shrink-0"
             >
@@ -199,7 +199,7 @@ const onClickSend = email => {
               </span>
             </div>
             <div
-              v-if="statusText && isOnChatwootCloud"
+              v-if="statusText && isOnDaxowCloud"
               class="w-px h-3 bg-n-weak"
             />
             <Button
@@ -214,9 +214,9 @@ const onClickSend = email => {
               class="hover:!no-underline flex-shrink-0"
               @click="addCustomDomainDialogRef.dialogRef.open()"
             />
-            <div v-if="isOnChatwootCloud" class="w-px h-3 bg-n-weak" />
+            <div v-if="isOnDaxowCloud" class="w-px h-3 bg-n-weak" />
             <Button
-              v-if="isOnChatwootCloud"
+              v-if="isOnDaxowCloud"
               slate
               sm
               link

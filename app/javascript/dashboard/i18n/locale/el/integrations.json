@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Ενοποιήσεις",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Daxow integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Άκυρο",
-        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Chatwoot. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
+        "DESC": "Τα συμβάντα Webhook μας εφοδιάζουν με πληροφορίες πραγματικού χρόνου σχετικά με το τι συμβαίνει στο λογαριασμό σας στο Daxow. Παρακαλώ εισάγετε ένα έγκυρο URL στην σχετική ρύθμιση.",
         "SUBSCRIPTIONS": {
           "LABEL": "Συμβάντα",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Προσθήκη Webhook",
       "LOADING": "Λήψη σχετικών webhooks",
       "SEARCH_404": "Δεν υπάρχουν δεδομένα που να ταιριάζουν με αυτό το ερώτημα",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Τα Webhooks είναι κλήσεις HTTP οι οποίες μπορούν να οριστούν για κάθε λογαριασμό. Ενεργοποιούνται από τα συμβάντα στο Chatwoot όπως για παράδειγμα την έναρξη μια συνομιλίας. Μπορείτε να δημιουργείσετε πάνω από ένα για τον λογαριασμό σας. <br /><br /> Για την δημιουργία ενός <b>webhook</b>, Πατήστε στο κουμπί <b>Προσθήκη webhook</b>. Μπορείτε επίσης να αφαιρέσετε ένα υπάρχων webhook πατώντας στο σχετική κουμπί Διαγραφή.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Τα Webhooks είναι κλήσεις HTTP οι οποίες μπορούν να οριστούν για κάθε λογαριασμό. Ενεργοποιούνται από τα συμβάντα στο Daxow όπως για παράδειγμα την έναρξη μια συνομιλίας. Μπορείτε να δημιουργείσετε πάνω από ένα για τον λογαριασμό σας. <br /><br /> Για την δημιουργία ενός <b>webhook</b>, Πατήστε στο κουμπί <b>Προσθήκη webhook</b>. Μπορείτε επίσης να αφαιρέσετε ένα υπάρχων webhook πατώντας στο σχετική κουμπί Διαγραφή.</p>",
       "LIST": {
         "404": "Δεν έχουν δημιουργηθεί webhooks για αυτόν το λογαριασμό.",
         "TITLE": "Διαχείριση webhooks",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Χρήση Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Ενημέρωση",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with Daxow. However, the integration is currently inactive. To activate the integration and connect a channel to Daxow, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Daxow app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Εφαρμογές Dashboard",
       "HEADER_BTN_TXT": "Προσθήκη νέας εφαρμογής Dashboard",
-      "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Chatwoot για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Chatwoot, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
+      "SIDEBAR_TXT": "<p><b>Εφαρμογές Dashboard</b></p><p>Οι εφαρμογές Dashboard επιτρέπουν σε οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στο ταμπλό Daxow για να παρέχουν το πλαίσιο για τους πράκτορες υποστήριξης πελατών. Αυτό το χαρακτηριστικό σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που μέσα στον πίνακα ελέγχου για να παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.</p><p>Όταν ενσωματώσετε την εφαρμογή σας χρησιμοποιώντας το Dashboard στο Daxow, η εφαρμογή σας θα πάρει το πλαίσιο της συνομιλίας και θα επικοινωνήσει ως ένα παράθυρο εκδήλωσης. Εφαρμόστε έναν ακροατή για το γεγονός του μηνύματος στη σελίδα σας για να λάβετε το πλαίσιο.</p><p>Για να προσθέσετε μια νέα εφαρμογή ταμπλό, κάντε κλικ στο κουμπί 'Προσθήκη μιας νέας εφαρμογής Dashboard'.</p>",
       "DESCRIPTION": "Οι εφαρμογές Dashboard επιτρέπουν στους οργανισμούς να ενσωματώσουν μια εφαρμογή μέσα στον πίνακα ελέγχου για να παρέχουν το περιεχόμενο για τους πράκτορες υποστήριξης πελατών. Αυτή η λειτουργία σας επιτρέπει να δημιουργήσετε μια εφαρμογή ανεξάρτητα και ενσωματωμένη που θα παρέχει πληροφορίες χρήστη, τις παραγγελίες τους, ή το ιστορικό προηγούμενων πληρωμών τους.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {

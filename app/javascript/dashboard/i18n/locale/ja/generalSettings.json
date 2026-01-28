@@ -123,10 +123,10 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "カスタムドメインでのメール受信が有効になりました。"
       }
     },
-    "UPDATE_CHATWOOT": "Chatwootのアップデート {latestChatwootVersion} が利用可能です。インスタンスを更新してください。",
+    "UPDATE_CHATWOOT": "Daxowのアップデート {latestDaxowVersion} が利用可能です。インスタンスを更新してください。",
     "LEARN_MORE": "詳細を見る",
-    "PAYMENT_PENDING": "お支払いが保留中です。支払い情報を更新してChatwootの利用を継続してください。",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
+    "PAYMENT_PENDING": "お支払いが保留中です。支払い情報を更新してDaxowの利用を継続してください。",
+    "UPGRADE": "Upgrade to continue using Daxow",
     "LIMITS_UPGRADE": "アカウントの使用制限を超えました。プランをアップグレードして利用を続けてください。",
     "OPEN_BILLING": "請求情報を開く"
   },

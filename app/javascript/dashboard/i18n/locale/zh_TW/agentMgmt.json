@@ -93,7 +93,7 @@
         "ADMIN_RESET_BUTTON": "重置密碼",
         "ADMIN_SUCCESS_MESSAGE": "一封包含重置密碼說明的電子郵件已發送給客服",
         "SUCCESS_MESSAGE": "客服密碼重置成功",
-        "ERROR_MESSAGE": "無法連接 Chatwoot 伺服器，請稍後再試"
+        "ERROR_MESSAGE": "無法連接 Daxow 伺服器，請稍後再試"
       }
     },
     "SEARCH": {

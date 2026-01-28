@@ -18,7 +18,7 @@ import CaptainPaywall from 'next/captain/pageComponents/Paywall.vue';
 const { t } = useI18n();
 const { captainEnabled } = useCaptain();
 const { isEnterprise, enterprisePlanName } = useConfig();
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const captainConfigStore = useCaptainConfigStore();
 const { uiFlags } = storeToRefs(captainConfigStore);
@@ -61,7 +61,7 @@ const featureToggles = computed(() => [
 
 const shouldShowFeature = feature => {
   // Cloud will always see these features as long as captain is enabled
-  if (isOnChatwootCloud.value && captainEnabled) {
+  if (isOnDaxowCloud.value && captainEnabled) {
     return true;
   }
 
@@ -76,7 +76,7 @@ const shouldShowFeature = feature => {
 
 const isFeatureAccessible = feature => {
   // Cloud will always see these features as long as captain is enabled
-  if (isOnChatwootCloud.value && captainEnabled) {
+  if (isOnDaxowCloud.value && captainEnabled) {
     return true;
   }
 

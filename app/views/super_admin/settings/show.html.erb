@@ -16,7 +16,7 @@
   <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
     <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
     <strong class="font-bold">Alert!</strong>
-    <span class="block sm:inline">Unauthorized premium changes detected in Chatwoot. To keep using them, please upgrade your plan.
+    <span class="block sm:inline">Unauthorized premium changes detected in Daxow. To keep using them, please upgrade your plan.
       Contact for help :</span><span class="inline rounded-full bg-red-200 px-2  text-white  ml-2">sales@chatwoot.com</span>
     </div>
   <% end %>
@@ -25,7 +25,7 @@
     <%= javascript_include_tag "secretField" %>
     <div class="flex items-center mb-6">
       <h4 class="text-sm font-medium leading-5 h-5 text-n-slate-12 mr-4">Installation Identifier</h4>
-      <div data-secret-text="<%= ChatwootHub.installation_identifier %>" class="cell-data__secret-field text-sm leading-5 h-5 text-n-slate-11">
+      <div data-secret-text="<%= DaxowHub.installation_identifier %>" class="cell-data__secret-field text-sm leading-5 h-5 text-n-slate-11">
         <span data-secret-masked="true" class="select-none"></span>
         <button type="button" onclick="toggleSecretField(event)" data-secret-toggler class="inline-flex items-center justify-center h-5 w-5 p-0 rounded text-n-slate-11 hover:text-n-slate-12 transition-colors focus:outline-none">
           <svg width="20" height="20" class="w-5 h-5 fill-current">
@@ -39,7 +39,7 @@
         </button>
       </div>
     </div>
-    <% if ChatwootApp.enterprise? %>
+    <% if DaxowApp.enterprise? %>
       <div class="flex p-4 outline outline-1 outline-n-container rounded-lg items-start md:items-center shadow-sm flex-col md:flex-row">
         <div class="flex flex-col flex-grow gap-1">
           <div class="flex items-center gap-2">
@@ -51,7 +51,7 @@
           </div>
           <p class="text-n-slate-11 m-0 text-sm"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
         </div>
-        <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer">
+        <a href="<%= DaxowHub.billing_url %>" target="_blank" rel="noopener noreferrer">
           <button class="mt-4 md:mt-0 flex gap-1 items-center bg-transparent shadow-sm h-9 hover:text-n-slate-12 hover:bg-slate-50 outline outline-1 outline-n-container rounded text-n-slate-11 font-medium p-2 focus:outline-none">
             <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
             <span class="px-1">Manage</span>
@@ -60,7 +60,7 @@
       </div>
     <% end %>
 
-    <% if ChatwootHub.pricing_plan != 'community' &&  User.count > ChatwootHub.pricing_plan_quantity %>
+    <% if DaxowHub.pricing_plan != 'community' &&  User.count > DaxowHub.pricing_plan_quantity %>
     <div role="alert">
       <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
         <p>You have <%= User.count %> agents. Please add more licenses to add more users.</p>
@@ -80,7 +80,7 @@
           <span class="px-1">Community Support</span>
         </button>
       </a>
-      <% if ChatwootHub.pricing_plan !='community' %>
+      <% if DaxowHub.pricing_plan !='community' %>
         <button class="ml-4 flex gap-1 items-center bg-transparent h-9 hover:text-n-slate-12 hover:bg-slate-50 border border-solid border-slate-100 rounded text-n-slate-11 font-medium p-2 focus:outline-none" onclick="window.$chatwoot.toggle('open')">
           <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.209 3.103c-.495-1.004-1.926-1.004-2.421 0L8.43 7.88l-5.273.766c-1.107.161-1.55 1.522-.748 2.303l3.815 3.72-.9 5.25c-.19 1.103.968 1.944 1.959 1.424l4.715-2.48 4.716 2.48c.99.52 2.148-.32 1.96-1.424l-.902-5.25 3.816-3.72c.8-.78.359-2.142-.748-2.303l-5.273-.766-2.358-4.777ZM9.74 8.615l2.258-4.576 2.259 4.576a1.35 1.35 0 0 0 1.016.738l5.05.734-3.654 3.562a1.35 1.35 0 0 0-.388 1.195l.862 5.03-4.516-2.375a1.35 1.35 0 0 0-1.257 0l-4.516 2.374.862-5.029a1.35 1.35 0 0 0-.388-1.195l-3.654-3.562 5.05-.734c.44-.063.82-.34 1.016-.738ZM1.164 3.782a.75.75 0 0 0 .118 1.054l2.5 2a.75.75 0 1 0 .937-1.172l-2.5-2a.75.75 0 0 0-1.055.118Z" fill="currentColor"/><path d="M22.836 18.218a.75.75 0 0 0-.117-1.054l-2.5-2a.75.75 0 0 0-.938 1.172l2.5 2a.75.75 0 0 0 1.055-.117ZM1.282 17.164a.75.75 0 1 0 .937 1.172l2.5-2a.75.75 0 0 0-.937-1.172l-2.5 2ZM22.836 3.782a.75.75 0 0 1-.117 1.054l-2.5 2a.75.75 0 0 1-.938-1.172l2.5-2a.75.75 0 0 1 1.055.118Z"  fill="currentColor"/></svg>
           <span class="px-1">Chat Support</span>
@@ -101,7 +101,7 @@
           </div>
           <% if !attrs[:enabled] %>
           <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
-            <% if ChatwootApp.enterprise? %>
+            <% if DaxowApp.enterprise? %>
               <%= render 'upgrade_button_enterprise' %>
             <% else %>
               <%= render 'upgrade_button_community' %>

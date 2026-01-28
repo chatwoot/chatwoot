@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integracje",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Daxow integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Anuluj",
-        "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Chatwoot. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
+        "DESC": "Webhooki dostarczają informacje o tym, co dzieje się w Twoim koncie Daxow. Wprowadź poprawny adres URL, aby skonfigurować webhook.",
         "SUBSCRIPTIONS": {
           "LABEL": "Wydarzenia",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Dodaj nowy webhook",
       "LOADING": "Pobieranie webhooków",
       "SEARCH_404": "Brak wyników pasujących do wyszukiwania",
-      "SIDEBAR_TXT": "<p><b>Webhooki</b> </p> <p>Webhooki są wywołaniami zwrotnymi HTTP, które mogą być zdefiniowane dla każdego konta. Są wywoływane przez zdarzenia takie jak utworzenie wiadomości w Chatwoot. Możesz utworzyć więcej niż jeden webhook dla tego konta. <br /><br /> Aby utworzyć <b>webhook</b>, kliknij przycisk <b>Dodaj nowy webhook</b>. Możesz również usunąć istniejący webhook, klikając przycisk Usuń.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooki</b> </p> <p>Webhooki są wywołaniami zwrotnymi HTTP, które mogą być zdefiniowane dla każdego konta. Są wywoływane przez zdarzenia takie jak utworzenie wiadomości w Daxow. Możesz utworzyć więcej niż jeden webhook dla tego konta. <br /><br /> Aby utworzyć <b>webhook</b>, kliknij przycisk <b>Dodaj nowy webhook</b>. Możesz również usunąć istniejący webhook, klikając przycisk Usuń.</p>",
       "LIST": {
         "404": "Brak skonfigurowanych webhooków dla tego konta.",
         "TITLE": "Zarządzaj webhookami",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Aktualizuj",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with Daxow. However, the integration is currently inactive. To activate the integration and connect a channel to Daxow, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Daxow app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikacje na pulpicie",
       "HEADER_BTN_TXT": "Dodaj nową aplikację na pulpicie",
-      "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Chatwoot w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Chatwoot, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikacje na pulpicie</b></p><p>Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu Daxow w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.</p><p>Kiedy osadzisz swoją aplikację za pomocą pulpitu Daxow, Twoja aplikacja otrzyma kontekst rozmowy i kontaktu jako zdarzenie okna. W swojej stronie zaimplementuj nasłuchiwanie zdarzenia wiadomości, aby otrzymać kontekst.</p><p>Aby dodać nową aplikację na pulpicie, kliknij przycisk 'Dodaj nową aplikację na pulpicie'.</p>",
       "DESCRIPTION": "Aplikacje na pulpicie umożliwiają organizacjom osadzenie aplikacji wewnątrz panelu w celu dostarczenia kontekstu dla agentów obsługi klienta. Ta funkcja umożliwia tworzenie niezależnej aplikacji i osadzanie jej w celu dostarczania informacji o użytkowniku, jego zamówieniach lub historii płatności.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {

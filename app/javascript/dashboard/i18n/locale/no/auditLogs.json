@@ -6,11 +6,11 @@
     "DESCRIPTION": "Audit Logs maintain a record of activities in your account, allowing you to track and audit your account, team, or services.",
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Det finnes ingen elementer som samsvarer med denne spørringen",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Daxow System. </p>",
     "LIST": {
       "404": "There are no Audit Logs available in this account.",
       "TITLE": "Manage Audit Logs",
-      "DESC": "Audit Logs are trails for events and actions in a Chatwoot System.",
+      "DESC": "Audit Logs are trails for events and actions in a Daxow System.",
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",

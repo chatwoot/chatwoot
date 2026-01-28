@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "选择频道",
-        "BODY": "选择你想要与Chatwoot 集成的提供商。"
+        "BODY": "选择你想要与Daxow 集成的提供商。"
       },
       "INBOX": {
         "TITLE": "新增收件箱",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "选择一个通道",
-        "DESC": "Chatwoot支持实时聊天小部件、Facebook Messenger、Twitter个人资料、WhatsApp、电子邮件等作为通道。如果您想构建自定义通道，可以使用API通道创建。要开始，请从下面的通道中选择一个。",
+        "DESC": "Daxow支持实时聊天小部件、Facebook Messenger、Twitter个人资料、WhatsApp、电子邮件等作为通道。如果您想构建自定义通道，可以使用API通道创建。要开始，请从下面的通道中选择一个。",
         "TITLE_NEXT": "完成设置",
         "TITLE_FINISH": "搞定！",
         "CHANNEL": {
@@ -500,7 +500,7 @@
       },
       "FINISH": {
         "TITLE": "搞定！",
-        "DESC": "您已成功地将您的Facebook页面与Chatwoot集成。下次客户消息您的页面时，对话将自动出现在收件箱中。<br>我们还为您提供了一个小部件脚本，您可以轻松地添加到您的网站。在您的网站上登录后，客户可以在没有任何外部工具帮助的情况下从您的网站向您发送消息，对话将会在这里出现在Chatwoot上。<br>酷，对吧？我们肯定试着是 :)"
+        "DESC": "您已成功地将您的Facebook页面与Daxow集成。下次客户消息您的页面时，对话将自动出现在收件箱中。<br>我们还为您提供了一个小部件脚本，您可以轻松地添加到您的网站。在您的网站上登录后，客户可以在没有任何外部工具帮助的情况下从您的网站向您发送消息，对话将会在这里出现在Daxow上。<br>酷，对吧？我们肯定试着是 :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "选择您的电子邮件提供商",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "嗨",
         "AGENT_MESSAGE": "您好"
       },
-      "BRANDING_TEXT": "由 Chatwoot 支持",
+      "BRANDING_TEXT": "由 Daxow 支持",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

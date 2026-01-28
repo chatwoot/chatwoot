@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrasi",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Daxow integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Batalkan",
-        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Chatwoot Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
+        "DESC": "Acara Webhook memberi Anda informasi realtime tentang apa yang terjadi di akun Daxow Anda. Harap masukkan URL yang valid untuk mengkonfigurasi callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Acara",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Tambah webhook baru",
       "LOADING": "Mengambil webhook terlampir",
       "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
-      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Chatwoot. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook adalah callback HTTP yang dapat ditentukan untuk setiap akun. Mereka dipicu oleh peristiwa seperti pembuatan pesan di Daxow. Anda dapat menambah lebih dari satu webhook untuk akun ini. <br /><br /> Untuk menambahkan <b>webhook</b>, klik tombol <b>Tambahkan webhook baru</b>. Anda juga dapat menghapus webhook yang ada dengan mengklik tombol Hapus.</p>",
       "LIST": {
         "404": "Tidak ada webhook yang dikonfigurasi untuk akun ini.",
         "TITLE": "Kelola webhook",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "selected"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
         "UPDATE": "Perbarui",
         "BUTTON_TEXT": "Connect channel",
-        "DESCRIPTION": "Your Slack workspace is now linked with Chatwoot. However, the integration is currently inactive. To activate the integration and connect a channel to Chatwoot, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Chatwoot app to the Slack channel before proceeding with this step.",
+        "DESCRIPTION": "Your Slack workspace is now linked with Daxow. However, the integration is currently inactive. To activate the integration and connect a channel to Daxow, please click the button below.\n\n**Note:** If you are attempting to connect a private channel, add the Daxow app to the Slack channel before proceeding with this step.",
         "ATTENTION_REQUIRED": "Attention required",
         "EXPIRED": "Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplikasi Dasbor",
       "HEADER_BTN_TXT": "Tambahkan aplikasi dasbor baru",
-      "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor Chatwoot untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di Chatwoot, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
+      "SIDEBAR_TXT": "<p><b>Aplikasi Dasbor</b></p><p>Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor Daxow untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya di dalam dasbor untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.</p><p>Ketika Anda menyematkan aplikasi Anda menggunakan dasbor di Daxow, aplikasi Anda akan mendapatkan konteks percakapan dan kontak sebagai acara window. Implementasikan penerima untuk acara pesan di halaman Anda untuk menerima konteks.</p><p>Untuk menambahkan aplikasi dasbor baru, klik tombol 'Tambahkan aplikasi dasbor baru'.</p>",
       "DESCRIPTION": "Aplikasi Dasbor memungkinkan organisasi untuk menyematkan aplikasi di dalam dasbor untuk menyediakan konteks bagi agen dukungan pelanggan. Fitur ini memungkinkan Anda membuat aplikasi secara independen dan menyematkannya untuk menyediakan informasi pengguna, pesanan, atau riwayat pembayaran sebelumnya.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {

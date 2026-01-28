@@ -19,14 +19,14 @@ const props = defineProps({
 
 const { t } = useI18n();
 const store = useStore();
-const { isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
+const { isCloudFeatureEnabled, isOnDaxowCloud } = useAccount();
 const { formatMessage } = useMessageFormatter();
 
 const isFeatureEnabled = computed(() =>
   isCloudFeatureEnabled('csat_review_notes')
 );
 const showPaywall = computed(
-  () => !isFeatureEnabled.value && isOnChatwootCloud.value
+  () => !isFeatureEnabled.value && isOnDaxowCloud.value
 );
 
 const reviewNotes = ref(props.response.csat_review_notes || '');

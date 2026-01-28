@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Choose Channel",
-        "BODY": "Choose the provider you want to integrate with Chatwoot."
+        "BODY": "Choose the provider you want to integrate with Daxow."
       },
       "INBOX": {
         "TITLE": "Create Inbox",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Daxow.",
         "CHOOSE_PAGE": "Choose Page",
         "CHOOSE_PLACEHOLDER": "Select a page from the list",
         "INBOX_NAME": "Meno schránky",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Vybrať kanál",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Daxow supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Detaily schránky",
-        "DESC": "Z rozbaľovacieho zoznamu nižšie vyberte stránku na Facebooku, ktorú chcete pripojiť k službe Chatwoot. Pre lepšiu identifikáciu môžete schránke zadať aj vlastný názov."
+        "DESC": "Z rozbaľovacieho zoznamu nižšie vyberte stránku na Facebooku, ktorú chcete pripojiť k službe Daxow. Pre lepšiu identifikáciu môžete schránke zadať aj vlastný názov."
       },
       "FINISH": {
         "TITLE": "Podarilo sa!",
-        "DESC": "Úspešne ste dokončili integráciu svojej stránky na Facebooku s Chatwoot. Pri ďalšej správe od zákazníka sa konverzácia automaticky zobrazí na vašej stránke.<br>Poskytujeme vám aj skript widgetu, ktorý môžete jednoducho pridať na svoju webovú stránku. Keď bude na vašej webovej stránke funkčný, zákazníci vám môžu posielať správy priamo z vašej webovej stránky bez pomoci akéhokoľvek externého nástroja a konverzácia sa objaví priamo tu, na Chatwoot.<br>Cool, čo? No, určite sa o to snažíme :)"
+        "DESC": "Úspešne ste dokončili integráciu svojej stránky na Facebooku s Daxow. Pri ďalšej správe od zákazníka sa konverzácia automaticky zobrazí na vašej stránke.<br>Poskytujeme vám aj skript widgetu, ktorý môžete jednoducho pridať na svoju webovú stránku. Keď bude na vašej webovej stránke funkčný, zákazníci vám môžu posielať správy priamo z vašej webovej stránky bez pomoci akéhokoľvek externého nástroja a konverzácia sa objaví priamo tu, na Daxow.<br>Cool, čo? No, určite sa o to snažíme :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Používame Chatwoot",
+      "BRANDING_TEXT": "Používame Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

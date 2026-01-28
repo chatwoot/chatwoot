@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Tagad Jūs varat saņemt e-pasta ziņojumus savā pielāgotajā domēnā."
       }
     },
-    "UPDATE_CHATWOOT": "Ir pieejams Chatwoot {latestChatwootVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
+    "UPDATE_CHATWOOT": "Ir pieejams Daxow {latestDaxowVersion} jauninājums. Lūdzu, atjauniniet savu programmatūru.",
     "LEARN_MORE": "Uzzināt vairāk",
-    "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Chatwoot",
-    "UPGRADE": "Modernizējieties, lai turpinātu lietot Chatwoot",
-    "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Chatwoot",
+    "PAYMENT_PENDING": "Jūsu maksājums tiek gaidīts. Lūdzu, atjauniniet savu maksājumu informāciju, lai turpinātu lietot Daxow",
+    "UPGRADE": "Modernizējieties, lai turpinātu lietot Daxow",
+    "LIMITS_UPGRADE": "Jūsu konts ir pārsniedzis lietošanas ierobežojumus. Lūdzu, uzlabojiet savu abonementu, lai turpinātu izmantot Daxow",
     "OPEN_BILLING": "Atvērt norēķinus"
   },
   "FORMS": {

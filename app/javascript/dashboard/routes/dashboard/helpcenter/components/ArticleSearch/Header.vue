@@ -6,7 +6,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 defineProps({
   title: {
     type: String,
-    default: 'Chatwoot',
+    default: 'Daxow',
   },
 });
 

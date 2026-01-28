@@ -13,7 +13,7 @@ const { t } = useI18n();
 const store = useStore();
 const route = useRoute();
 const router = useRouter();
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const { updateUISettings } = useUISettings();
 
@@ -29,7 +29,7 @@ const getDefaultLocale = slug => {
 };
 
 const fetchSSLStatus = () => {
-  if (!isOnChatwootCloud.value) return;
+  if (!isOnDaxowCloud.value) return;
 
   const { portalSlug } = route.params;
   store.dispatch('portals/sslStatus', {
@@ -141,8 +141,8 @@ const handleUpdatePortal = updatePortalSettings;
 const handleUpdatePortalConfiguration = portalObj => {
   updatePortalSettings(portalObj);
 
-  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds (only on Chatwoot cloud)
-  if (portalObj?.custom_domain && isOnChatwootCloud.value) {
+  // If custom domain is added or updated, fetch SSL status after a delay of 5 seconds (only on Daxow cloud)
+  if (portalObj?.custom_domain && isOnDaxowCloud.value) {
     setTimeout(() => {
       fetchSSLStatus();
     }, SSL_STATUS_FETCH_INTERVAL);

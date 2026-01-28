@@ -6,11 +6,11 @@
     "DESCRIPTION": "Os logs de auditoria mantêm um registo das atividades na sua conta, permitindo-lhe acompanhar e auditar a sua conta, equipa ou serviços.",
     "LEARN_MORE": "Saber mais sobre os logs de auditoria",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
-    "SIDEBAR_TXT": "<p><b>Logs de auditoria</b> </p><p> Logs de auditoria são registos de eventos e ações de um Sistema de Chatwoot. </p>",
+    "SIDEBAR_TXT": "<p><b>Logs de auditoria</b> </p><p> Logs de auditoria são registos de eventos e ações de um Sistema de Daxow. </p>",
     "LIST": {
       "404": "Não há logs de auditoria referentes a esta conta.",
       "TITLE": "Gerir logs de auditoria",
-      "DESC": "Logs de auditoria são registos de eventos e ações do Sistema Chatwoot.",
+      "DESC": "Logs de auditoria são registos de eventos e ações do Sistema Daxow.",
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Horário",

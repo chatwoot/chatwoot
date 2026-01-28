@@ -98,7 +98,7 @@
       "BACKUP_TITLE": "Utilizzando un Codice di Backup",
       "BACKUP_DESC": "Se non hai accesso alla tua app di autenticazione, puoi usare uno dei codici di backup salvati durante la configurazione 2FA. Ogni codice può essere utilizzato una sola volta.",
       "CONTACT_TITLE": "Serve Più Aiuto?",
-      "CONTACT_DESC_CLOUD": "Se hai perso l'accesso sia alla tua app di autenticazione che ai codici di backup, contatta il supporto di Chatwoot per ricevere assistenza.",
+      "CONTACT_DESC_CLOUD": "Se hai perso l'accesso sia alla tua app di autenticazione che ai codici di backup, contatta il supporto di Daxow per ricevere assistenza.",
       "CONTACT_DESC_SELF_HOSTED": "Se hai perso l'accesso sia alla tua app di autenticazione che ai codici di backup, contatta il tuo amministratore per ricevere assistenza."
     },
     "VERIFICATION_FAILED": "Verifica non riuscita. Riprova."

@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Wählen Sie Kanal",
-        "BODY": "Wählen Sie den Anbieter, den Sie in Chatwoot integrieren möchten."
+        "BODY": "Wählen Sie den Anbieter, den Sie in Daxow integrieren möchten."
       },
       "INBOX": {
         "TITLE": "Posteingang erstellen",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Geben Sie den Namen Ihrer Website ein (zum Beispiel: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Chatwoot niemals zugreifen.",
+        "HELP": "PS: Durch die Anmeldung erhalten wir nur Zugriff auf die Nachrichten Ihrer Seite. Auf Ihre privaten Nachrichten kann Daxow niemals zugreifen.",
         "CHOOSE_PAGE": "Seite auswählen",
         "CHOOSE_PLACEHOLDER": "Wähle eine Seite aus der Liste",
         "INBOX_NAME": "Posteingang-Name",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Wählen Sie einen Kanal",
-        "DESC": "Chatwoot unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus.",
+        "DESC": "Daxow unterstützt Live-Chat-Widgets, Facebook Messenger, Twitter-Profile, WhatsApp, E-Mails usw. als Kanäle. Wenn Sie einen benutzerdefinierten Kanal erstellen möchten, können Sie ihn mithilfe des API-Kanals erstellen. Wählen Sie zunächst einen der folgenden Kanäle aus.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Posteingangsdetails",
-        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Chatwoot herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
+        "DESC": "Wählen Sie aus der Dropdown-Liste die Facebook-Seite aus, zu der Sie eine Verbindung zu Daxow herstellen möchten. Sie können Ihrem Posteingang auch einen benutzerdefinierten Namen geben, um ihn besser identifizieren zu können."
       },
       "FINISH": {
         "TITLE": "Geschafft!",
-        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Chatwoot erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Chatwoot angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
+        "DESC": "Sie haben die Integration Ihrer Facebook-Seite in Daxow erfolgreich abgeschlossen. Wenn ein Kunde das nächste Mal eine Nachricht an Ihre Seite sendet, wird die Konversation automatisch in Ihrem Posteingang angezeigt. <br> Wir stellen Ihnen außerdem ein Widget-Skript zur Verfügung, das Sie ganz einfach zu Ihrer Website hinzufügen können. Sobald dies auf Ihrer Website live ist, können Kunden Ihnen ohne Hilfe eines externen Tools direkt von Ihrer Website aus eine Nachricht senden, und die Konversation wird direkt hier auf Daxow angezeigt. <br> Cool, oder? Nun, wir versuchen es auf jeden Fall :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Wählen Sie Ihren E-Mail-Anbieter",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hallo"
       },
-      "BRANDING_TEXT": "Unterstützt von Chatwoot",
+      "BRANDING_TEXT": "Unterstützt von Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

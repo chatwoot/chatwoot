@@ -5,7 +5,7 @@ const categories = [
     id: 1,
     title: 'Getting started',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
+      'Learn how to use Daxow effectively and make the most of its features to enhance customer support and engagement.',
     articlesCount: 5,
     slug: 'getting-started',
     icon: '🚀',

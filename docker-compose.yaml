@@ -12,7 +12,7 @@ services:
         RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
-    image: chatwoot:development
+    image: daxow:development
     env_file: .env
 
   rails:
@@ -20,7 +20,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
+    image: daxow-rails:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -45,7 +45,7 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
+    image: daxow-rails:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -66,7 +66,7 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+    image: daxow-vite:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules

@@ -6,11 +6,11 @@
     "DESCRIPTION": "יומני ביקורת מתחזקים רישום של פעילויות בחשבונך, ומאפשרים לך לעקוב ולבקר את חשבונך, הצוות או השירותים שלך.",
     "LEARN_MORE": "למד עוד על יומני ביקורת",
     "SEARCH_404": "אין פריטים התואמים לשאילתה זו",
-    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Chatwoot System. </p>",
+    "SIDEBAR_TXT": "<p><b>Audit Logs</b> </p><p> Audit Logs are trails for events and actions in a Daxow System. </p>",
     "LIST": {
       "404": "אין יומני ביקורת זמינים בחשבון זה.",
       "TITLE": "נהל יומני ביקורת",
-      "DESC": "יומני ביקורת הם תיעוד לאירועים ופעולות במערכת Chatwoot.",
+      "DESC": "יומני ביקורת הם תיעוד לאירועים ופעולות במערכת Daxow.",
       "TABLE_HEADER": {
         "ACTIVITY": "משתמש",
         "TIME": "פעולה",

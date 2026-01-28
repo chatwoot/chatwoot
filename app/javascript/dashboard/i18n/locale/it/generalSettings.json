@@ -123,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Puoi ricevere email nel tuo dominio personalizzato ora."
       }
     },
-    "UPDATE_CHATWOOT": "È disponibile un aggiornamento {latestChatwootVersion} per Chatwoot. Aggiorna la tua istanza.",
+    "UPDATE_CHATWOOT": "È disponibile un aggiornamento {latestDaxowVersion} per Daxow. Aggiorna la tua istanza.",
     "LEARN_MORE": "Scopri di più",
-    "PAYMENT_PENDING": "Il tuo pagamento è in sospeso. Aggiorna le informazioni di pagamento per continuare a utilizzare Chatwoot",
-    "UPGRADE": "Aggiorna per continuare a usare Chatwoot",
-    "LIMITS_UPGRADE": "Il tuo account ha superato i limiti di utilizzo, aggiorna il tuo piano per continuare a utilizzare Chatwoot",
+    "PAYMENT_PENDING": "Il tuo pagamento è in sospeso. Aggiorna le informazioni di pagamento per continuare a utilizzare Daxow",
+    "UPGRADE": "Aggiorna per continuare a usare Daxow",
+    "LIMITS_UPGRADE": "Il tuo account ha superato i limiti di utilizzo, aggiorna il tuo piano per continuare a utilizzare Daxow",
     "OPEN_BILLING": "Apri fatturazione"
   },
   "FORMS": {

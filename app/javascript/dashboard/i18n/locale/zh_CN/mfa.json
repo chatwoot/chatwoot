@@ -98,7 +98,7 @@
       "BACKUP_TITLE": "使用备份代码",
       "BACKUP_DESC": "如果您无法访问身份验证器应用程序，你可以使用此前保存的备份代码替代，每个代码只能使用一次。",
       "CONTACT_TITLE": "需要更多帮助吗？",
-      "CONTACT_DESC_CLOUD": "如果您无法访问身份验证器应用程序和备份代码，请联系Chatwoot 支持寻求帮助。",
+      "CONTACT_DESC_CLOUD": "如果您无法访问身份验证器应用程序和备份代码，请联系Daxow 支持寻求帮助。",
       "CONTACT_DESC_SELF_HOSTED": "如果您无法访问身份验证器应用程序和备份代码，请联系您的管理员寻求帮助。"
     },
     "VERIFICATION_FAILED": "验证失败。请重试。"

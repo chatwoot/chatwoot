@@ -6,11 +6,11 @@
     "DESCRIPTION": "Los registros de auditoría mantienen un historial de actividades en su cuenta, permitiéndole rastrear y auditar su cuenta, equipo o servicios.",
     "LEARN_MORE": "Aprende más sobre los registros de auditoria",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta",
-    "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Chatwoot </p>",
+    "SIDEBAR_TXT": "<p><b>Registros de auditoría</b> </p><p> Registros de auditoría son pistas para eventos y acciones en un Sistema de Daxow </p>",
     "LIST": {
       "404": "No hay registros de auditoría disponibles en esta cuenta.",
       "TITLE": "Administrar registros de auditoría",
-      "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Chatwoot.",
+      "DESC": "Los registros de auditoría son pistas para eventos y acciones en un sistema de Daxow.",
       "TABLE_HEADER": {
         "ACTIVITY": "User",
         "TIME": "Action",

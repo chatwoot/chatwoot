@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integracions",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Daxow integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Cancel·la",
-        "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Chatwoot. Introduïu una URL vàlid per configurar un callback.",
+        "DESC": "Els esdeveniments de Webhook us proporcionen informació en temps real sobre el que passa al vostre compte de Daxow. Introduïu una URL vàlid per configurar un callback.",
         "SUBSCRIPTIONS": {
           "LABEL": "Esdeveniments",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Afegeix un nou webhook",
       "LOADING": "S'estan recollint els webhooks adjunts",
       "SEARCH_404": "No hi ha articles que coincideixin amb aquesta consulta",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Els webhooks són callbacks HTTP que es poden definir per a cada compte. Es produeixen per esdeveniments com la creació de missatges a Chatwoot. Podeu crear més d'un webhook per a aquest compte. <br /><br /> Per crear un <b>webhook</b>, feu clic al botó <b> Afegir nou webhook </b>. També podeu eliminar qualsevol webhook existent fent clic al botó Elimina.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Els webhooks són callbacks HTTP que es poden definir per a cada compte. Es produeixen per esdeveniments com la creació de missatges a Daxow. Podeu crear més d'un webhook per a aquest compte. <br /><br /> Per crear un <b>webhook</b>, feu clic al botó <b> Afegir nou webhook </b>. També podeu eliminar qualsevol webhook existent fent clic al botó Elimina.</p>",
       "LIST": {
         "404": "No hi ha cap webhooks configurat per a aquest compte.",
         "TITLE": "Gestiona els webhooks",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Com utilitzar la integració de Slack?",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "seleccionat"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Selecciona el canal",
         "UPDATE": "Actualitza",
         "BUTTON_TEXT": "Connecta el canal",
-        "DESCRIPTION": "El teu espai de treball de Slack ara està enllaçat amb Chatwoot. Tanmateix, actualment la integració està inactiva. Per activar la integració i connectar un canal a Chatwoot, feu clic al botó següent.\n\n**Nota:** si estas intentant connectar un canal privat, afegeix l'aplicació Chatwoot al canal de Slack abans de continuar amb aquest pas.",
+        "DESCRIPTION": "El teu espai de treball de Slack ara està enllaçat amb Daxow. Tanmateix, actualment la integració està inactiva. Per activar la integració i connectar un canal a Daxow, feu clic al botó següent.\n\n**Nota:** si estas intentant connectar un canal privat, afegeix l'aplicació Daxow al canal de Slack abans de continuar amb aquest pas.",
         "ATTENTION_REQUIRED": "Es requereix atenció",
         "EXPIRED": "La teva integració de Slack ha caducat. Per continuar rebent missatges a Slack, suprimeix la integració i torna a connectar el vostre espai de treball."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Aplicacions del tauler de control",
       "HEADER_BTN_TXT": "Afegeix una aplicació de tauler nova",
-      "SIDEBAR_TXT": "<p><b>Aplicacions del tauler de control</b></p><p>Les aplicacions del tauler de control permeten a les organitzacions incrustar una aplicació dins del tauler de control de Chatwoot per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i inserir-la dins del tauler per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anteriors.</p><p>Quan incrusteu la teva aplicació mitjançant el tauler de control de Chatwoot, la teva aplicació obté el context de la conversa i el contacte com a esdeveniment de finestra. Implementa un oient per a l'esdeveniment del missatge a la teva pàgina per rebre el context.</p><p>Per afegir una aplicació de tauler nova, feu clic al botó \"Afegeix una aplicació de tauler nova\".</p>",
+      "SIDEBAR_TXT": "<p><b>Aplicacions del tauler de control</b></p><p>Les aplicacions del tauler de control permeten a les organitzacions incrustar una aplicació dins del tauler de control de Daxow per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i inserir-la dins del tauler per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anteriors.</p><p>Quan incrusteu la teva aplicació mitjançant el tauler de control de Daxow, la teva aplicació obté el context de la conversa i el contacte com a esdeveniment de finestra. Implementa un oient per a l'esdeveniment del missatge a la teva pàgina per rebre el context.</p><p>Per afegir una aplicació de tauler nova, feu clic al botó \"Afegeix una aplicació de tauler nova\".</p>",
       "DESCRIPTION": "Les aplicacions del tauler permeten a les organitzacions incrustar una aplicació dins del tauler per proporcionar el context als agents d'atenció al client. Aquesta funció et permet crear una aplicació de manera independent i incorporar-la per proporcionar informació de l'usuari, les seves comandes o el seu historial de pagaments anterior.",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {

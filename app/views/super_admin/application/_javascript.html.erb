@@ -33,15 +33,15 @@ window.chatwootSettings = {
   s.parentNode.insertBefore(g,s);
   g.onload=function(){
     window.chatwootSDK.run({
-      websiteToken: '<%= ChatwootHub.support_config[:support_website_token] %>',
-      baseUrl: '<%= ChatwootHub.support_config[:support_script_url] %>'
+      websiteToken: '<%= DaxowHub.support_config[:support_website_token] %>',
+      baseUrl: '<%= DaxowHub.support_config[:support_script_url] %>'
     })
   }
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
-    identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
+  window.$chatwoot.setUser('<%= DaxowHub.installation_identifier %>', {
+    identifier_hash: '<%= DaxowHub.support_config[:support_identifier_hash] %>',
     email: '<%= SuperAdmin.first.email %>',
     name: '<%= SuperAdmin.first.name %>'
   });

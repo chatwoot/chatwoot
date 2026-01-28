@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "集成设置",
-    "DESCRIPTION": "Chatwoot 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
+    "DESCRIPTION": "Daxow 集成了多种工具和服务，以提高团队效率。浏览以下列表以配置您喜欢的应用程序。",
     "LEARN_MORE": "了解更多关于集成的信息",
     "LOADING": "正在获取集成",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "了解更多关于 Webhooks 的信息",
       "FORM": {
         "CANCEL": "取消",
-        "DESC": "Webhook 事件为您提供了有关 Chatwoot 账户中发生的事情的实时信息。请输入一个有效的 URL 来配置回调。",
+        "DESC": "Webhook 事件为您提供了有关 Daxow 账户中发生的事情的实时信息。请输入一个有效的 URL 来配置回调。",
         "SUBSCRIPTIONS": {
           "LABEL": "事件",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "添加新的 Webhook",
       "LOADING": "正在获取已添加的 Webhooks",
       "SEARCH_404": "没有任何项目符合此查询",
-      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义。它们由诸如在 Chatwoot 中创建消息等事件触发。您可以为此账户创建多个 Webhooks。<br /><br /> 要创建一个 <b>Webhook</b>，点击 <b>添加新的 Webhook</b> 按钮。您也可以通过点击删除按钮删除任何现有的 Webhook。</p>",
+      "SIDEBAR_TXT": "<p><b>Webhooks</b> </p> <p>Webhooks 是 HTTP 回调，可以为每个账户定义。它们由诸如在 Daxow 中创建消息等事件触发。您可以为此账户创建多个 Webhooks。<br /><br /> 要创建一个 <b>Webhook</b>，点击 <b>添加新的 Webhook</b> 按钮。您也可以通过点击删除按钮删除任何现有的 Webhook。</p>",
       "LIST": {
         "404": "此账户没有配置 Webhooks。",
         "TITLE": "管理 Webhooks",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "使用 Slack 集成？",
-        "BODY": "通过此集成，所有传入的对话将同步到您的 Slack 工作区中的 ***{selectedChannelName}*** 频道。您可以直接在频道中管理所有客户对话，再也不会错过任何消息。\n\n以下是该集成的主要功能：\n\n**从 Slack 回复对话：** 要在 ***{selectedChannelName}*** Slack 频道中回复对话，只需输入您的消息并将其作为线程发送。这将通过 Chatwoot 创建对客户的回复。就是这么简单！\n\n**创建私密笔记：** 如果您想创建私密笔记而不是回复，请在消息开头加上 ***`note:`***。这将确保您的消息保持私密，不会对客户可见。\n\n**关联客服资料：** 如果在 Slack 上回复的人拥有与 Chatwoot 中相同电子邮件的客服资料，回复将自动与该客服资料关联。这意味着您可以轻松跟踪谁在何时说了什么。另一方面，如果回复者没有关联的客服资料，回复将显示为机器人资料。",
+        "BODY": "通过此集成，所有传入的对话将同步到您的 Slack 工作区中的 ***{selectedChannelName}*** 频道。您可以直接在频道中管理所有客户对话，再也不会错过任何消息。\n\n以下是该集成的主要功能：\n\n**从 Slack 回复对话：** 要在 ***{selectedChannelName}*** Slack 频道中回复对话，只需输入您的消息并将其作为线程发送。这将通过 Daxow 创建对客户的回复。就是这么简单！\n\n**创建私密笔记：** 如果您想创建私密笔记而不是回复，请在消息开头加上 ***`note:`***。这将确保您的消息保持私密，不会对客户可见。\n\n**关联客服资料：** 如果在 Slack 上回复的人拥有与 Daxow 中相同电子邮件的客服资料，回复将自动与该客服资料关联。这意味着您可以轻松跟踪谁在何时说了什么。另一方面，如果回复者没有关联的客服资料，回复将显示为机器人资料。",
         "SELECTED": "已选择"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "选择一个频道",
         "UPDATE": "更新",
         "BUTTON_TEXT": "连接频道",
-        "DESCRIPTION": "您的 Slack 工作区现已与 Chatwoot 连接。但是，集成当前处于非活动状态。要激活集成并将频道连接到 Chatwoot，请点击下面的按钮。\n\n**注意：** 如果您尝试连接私有频道，请在进行此步骤之前将 Chatwoot 应用添加到 Slack 频道。",
+        "DESCRIPTION": "您的 Slack 工作区现已与 Daxow 连接。但是，集成当前处于非活动状态。要激活集成并将频道连接到 Daxow，请点击下面的按钮。\n\n**注意：** 如果您尝试连接私有频道，请在进行此步骤之前将 Daxow 应用添加到 Slack 频道。",
         "ATTENTION_REQUIRED": "需要关注",
         "EXPIRED": "您的 Slack 集成已过期。要继续在 Slack 上接收消息，请删除该集成并重新连接您的工作区。"
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "仪表板应用",
       "HEADER_BTN_TXT": "添加新的仪表板应用",
-      "SIDEBAR_TXT": "<p><b>仪表板应用</b></p><p>仪表板应用允许组织将应用程序嵌入 Chatwoot 仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。</p><p>当您使用 Chatwoot 仪表板嵌入应用程序时，您的应用程序将作为窗口事件获取对话和联系人的上下文信息。在您的页面上实现消息事件的监听器以接收上下文信息。</p><p>要添加新的仪表板应用，请点击“添加新的仪表板应用”按钮。</p>",
+      "SIDEBAR_TXT": "<p><b>仪表板应用</b></p><p>仪表板应用允许组织将应用程序嵌入 Daxow 仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。</p><p>当您使用 Daxow 仪表板嵌入应用程序时，您的应用程序将作为窗口事件获取对话和联系人的上下文信息。在您的页面上实现消息事件的监听器以接收上下文信息。</p><p>要添加新的仪表板应用，请点击“添加新的仪表板应用”按钮。</p>",
       "DESCRIPTION": "仪表板应用允许组织将应用程序嵌入仪表板中，以便为客服人员提供上下文信息。此功能允许您独立创建应用程序并将其嵌入仪表板中，以提供用户信息、他们的订单或以前的付款历史记录。",
       "LEARN_MORE": "了解更多关于仪表板应用的信息",
       "LIST": {

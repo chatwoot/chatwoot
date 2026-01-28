@@ -6,7 +6,7 @@ const categories = [
     id: 'getting-started',
     title: '🚀 Getting started',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
+      'Learn how to use Daxow effectively and make the most of its features to enhance customer support and engagement.',
     articlesCount: '2',
     articles: [
       {
@@ -34,7 +34,7 @@ const categories = [
     id: 'marketing',
     title: 'Marketing',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support.',
+      'Learn how to use Daxow effectively and make the most of its features to enhance customer support.',
     articlesCount: '4',
     articles: [
       {
@@ -134,7 +134,7 @@ const categories = [
     id: 'roadmap',
     title: '🛣️ Roadmap',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
+      'Learn how to use Daxow effectively and make the most of its features to enhance customer support and engagement.',
     articlesCount: '3',
     articles: [
       {
@@ -171,7 +171,7 @@ const categories = [
     id: 'finance',
     title: '💰 Finance',
     description:
-      'Learn how to use Chatwoot effectively and make the most of its features to enhance customer support and engagement.',
+      'Learn how to use Daxow effectively and make the most of its features to enhance customer support and engagement.',
     articlesCount: '2',
     articles: [
       {

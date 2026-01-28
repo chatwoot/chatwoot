@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrációk",
-    "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
+    "DESCRIPTION": "Daxow integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
     "LOADING": "Fetching integrations",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Learn more about webhooks",
       "FORM": {
         "CANCEL": "Mégse",
-        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Chatwoot fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
+        "DESC": "Webhook események valós idejű információt adnak arról, hogy mi történik a Daxow fiókodban. Kérünk a visszahívás beállításánál egy helyes URL-t adj meg.",
         "SUBSCRIPTIONS": {
           "LABEL": "Események",
           "EVENTS": {
@@ -64,7 +64,7 @@
       "HEADER_BTN_TXT": "Új webhook hozzáadása",
       "LOADING": "Kapcsolódó Webhookok betöltése",
       "SEARCH_404": "Nincs megfelelő elem",
-      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. Chatwoot események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b>-ok</p><p>A Webhook-ok HTTP visszahívások, melyek minden fiókhoz bállíthatóak. Daxow események, például beérkező üzenetek aktiválhatják a webhookokat. Több webhookot is beállíthatsz a fiókodhoz. <br /><br /> Egy <b>webhook</b> létrehozásához kattints a <b>Webhook hozzáadása</b> gombra. Le is törölheted a létrejött webhookokat a Törlés gombra kattintva.</p>",
       "LIST": {
         "404": "Nincs a fiókhoz rendelt Webhook.",
         "TITLE": "Webhook kezelés",
@@ -111,14 +111,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
-        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
+        "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Daxow. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Daxow under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
         "SELECTED": "kiválasztás"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Csatorna kiválasztása",
         "UPDATE": "Frissítés",
         "BUTTON_TEXT": "Csatlakozás a csatornához",
-        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a Chatwoot-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy Chatwoot-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a Chatwoot alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
+        "DESCRIPTION": "A Slack munkaterülete mostantól összekapcsolódik a Daxow-tal. Az integráció azonban jelenleg inaktív. Az aktiválásához és egy Daxow-hoz való csatlakoztatásához kattintson az alábbi gombra.\n\n**Figyelem:** Ha egy privát csatornát próbál csatlakoztatni, akkor a Daxow alkalmazást adja hozzá a Slack-csatornához, mielőtt ezt a lépést folytatná.",
         "ATTENTION_REQUIRED": "Figyelem szükséges",
         "EXPIRED": "A Slack integráció lejárt. Ha továbbra is szeretne üzeneteket kapni a Slacken, törölje az integrációt, és csatlakoztassa újra a munkaterületét."
       },
@@ -198,7 +198,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Kezdőlap applikációi",
       "HEADER_BTN_TXT": "Új kezdőlapi applikáció hozzáadása",
-      "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a Chatwoot irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a Chatwoot irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
+      "SIDEBAR_TXT": "<p><b>Irányítópult-alkalmazások</b></p><p>Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást a Daxow irányítópultjába, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ezzel a funkcióval önállóan hozhat létre alkalmazást, és beágyazhatja azt az irányítópultba, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.</p><p>Ha beágyazza alkalmazását a Daxow irányítópultjával, az alkalmazás ablakeseményként kapja meg a beszélgetés és a kapcsolatfelvétel kontextusát. Helyezzen el egy figyelőt az üzeneteseményhez az oldalon, hogy megkapja a kontextust.</p><p>Új irányítópult-alkalmazás hozzáadásához kattintson az „Új irányítópult-alkalmazás hozzáadása” gombra.</p>",
       "DESCRIPTION": "Az irányítópult-alkalmazások segítségével a szervezetek beágyazhatnak egy alkalmazást az irányítópultba, hogy kontextust biztosítsanak az ügyfélszolgálati ügynökök számára. Ez a funkció lehetővé teszi, hogy önállóan hozzon létre egy alkalmazást, és beágyazza azt, hogy megadja a felhasználói információkat, rendeléseiket vagy korábbi fizetési előzményeiket.\n",
       "LEARN_MORE": "Learn more about Dashboard Apps",
       "LIST": {

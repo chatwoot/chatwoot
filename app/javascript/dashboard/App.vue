@@ -49,7 +49,7 @@ export default {
   },
   data() {
     return {
-      latestChatwootVersion: null,
+      latestDaxowVersion: null,
       reconnectService: null,
     };
   },
@@ -105,12 +105,12 @@ export default {
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
       });
-      const { locale, latest_chatwoot_version: latestChatwootVersion } =
+      const { locale, latest_chatwoot_version: latestDaxowVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       // If user locale is set, use it; otherwise use account locale
       this.setLocale(this.uiSettings?.locale || locale);
-      this.latestChatwootVersion = latestChatwootVersion;
+      this.latestDaxowVersion = latestDaxowVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);
       window.reconnectService = this.reconnectService;
@@ -134,7 +134,7 @@ export default {
     class="flex flex-col w-full h-screen min-h-0"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
-    <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
+    <UpdateBanner :latest-chatwoot-version="latestDaxowVersion" />
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />

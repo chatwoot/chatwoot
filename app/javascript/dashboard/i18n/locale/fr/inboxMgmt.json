@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Choisir un canal",
-        "BODY": "Choisissez le fournisseur que vous souhaitez intégrer avec Chatwoot."
+        "BODY": "Choisissez le fournisseur que vous souhaitez intégrer avec Daxow."
       },
       "INBOX": {
         "TITLE": "Créer une boîte de réception",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Entrez le nom de votre boîte de réception (ex: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Chatwoot.",
+        "HELP": "PS : En vous connectant, nous avons seulement accès aux messages de votre page. Vos messages privés ne peuvent jamais être consultés par Daxow.",
         "CHOOSE_PAGE": "Choisir la page",
         "CHOOSE_PLACEHOLDER": "Sélectionnez une page dans la liste",
         "INBOX_NAME": "Nom de la boîte de réception",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Choisir un canal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Daxow supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Détails de la boîte de réception",
-        "DESC": "Dans le menu déroulant ci-dessous, sélectionnez la page Facebook que vous voulez connecter à Chatwoot. Vous pouvez également donner un nom personnalisé à votre boîte de réception pour une meilleure identification."
+        "DESC": "Dans le menu déroulant ci-dessous, sélectionnez la page Facebook que vous voulez connecter à Daxow. Vous pouvez également donner un nom personnalisé à votre boîte de réception pour une meilleure identification."
       },
       "FINISH": {
         "TITLE": "Mission accomplie !",
-        "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Chatwoot. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Chatwoot.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
+        "DESC": "Vous avez terminé avec succès l’intégration de votre page Facebook avec Daxow. La prochaine fois qu’un client enverra un message à votre page, la conversation apparaîtra automatiquement dans votre boîte de réception.<br>Nous fournissons également un script de widget que vous pouvez facilement ajouter à votre site Web. Une fois que cela est configuré sur votre site web, les clients peuvent vous envoyer des messages directement depuis votre site Web sans l'aide d'un outil externe et la conversation apparaîtra ici, sur Daxow.<br>Cool, hein ? Eh bien, nous essayons de l'être :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Sélectionnez votre fournisseur de messagerie",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Salut",
         "AGENT_MESSAGE": "Bonjour"
       },
-      "BRANDING_TEXT": "Propulsé par Chatwoot",
+      "BRANDING_TEXT": "Propulsé par Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

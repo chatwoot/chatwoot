@@ -98,7 +98,7 @@
       "BACKUP_TITLE": "Using a Backup Code",
       "BACKUP_DESC": "If you don't have access to your authenticator app, you can use one of the backup codes you saved when setting up 2FA. Each code can only be used once.",
       "CONTACT_TITLE": "Need More Help?",
-      "CONTACT_DESC_CLOUD": "If you've lost access to both your authenticator app and backup codes, please reach out to Chatwoot support for assistance.",
+      "CONTACT_DESC_CLOUD": "If you've lost access to both your authenticator app and backup codes, please reach out to Daxow support for assistance.",
       "CONTACT_DESC_SELF_HOSTED": "If you've lost access to both your authenticator app and backup codes, please contact your administrator for assistance."
     },
     "VERIFICATION_FAILED": "Verification failed. Please try again."

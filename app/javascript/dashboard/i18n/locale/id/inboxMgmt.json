@@ -13,7 +13,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Pilih Channel",
-        "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+        "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Daxow."
       },
       "INBOX": {
         "TITLE": "Buat Kotak Masuk",
@@ -39,7 +39,7 @@
         "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
       },
       "FB": {
-        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
+        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Daxow.",
         "CHOOSE_PAGE": "Pilih Halaman",
         "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
         "INBOX_NAME": "Nama Kotak Masuk",
@@ -438,7 +438,7 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
+        "DESC": "Daxow supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below.",
         "TITLE_NEXT": "Complete the setup",
         "TITLE_FINISH": "Voilà!",
         "CHANNEL": {
@@ -496,11 +496,11 @@
       },
       "DETAILS": {
         "TITLE": "Detail Kotak Masuk",
-        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Chatwoot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
+        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Daxow. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
       },
       "FINISH": {
         "TITLE": "Berhasil!",
-        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Chatwoot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Chatwoot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
+        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Daxow. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Daxow. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Pilih penyedia email Anda",
@@ -1021,7 +1021,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hallo"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
+      "BRANDING_TEXT": "Powered by Daxow",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

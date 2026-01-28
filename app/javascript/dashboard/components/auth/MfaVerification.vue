@@ -21,7 +21,7 @@ const props = defineProps({
 const emit = defineEmits(['verified', 'cancel']);
 
 const { t } = useI18n();
-const { isOnChatwootCloud } = useAccount();
+const { isOnDaxowCloud } = useAccount();
 
 const OTP = 'otp';
 const BACKUP = 'backup';
@@ -44,7 +44,7 @@ const canSubmit = computed(() =>
 );
 
 const contactDescKey = computed(() =>
-  isOnChatwootCloud.value ? 'CONTACT_DESC_CLOUD' : 'CONTACT_DESC_SELF_HOSTED'
+  isOnDaxowCloud.value ? 'CONTACT_DESC_CLOUD' : 'CONTACT_DESC_SELF_HOSTED'
 );
 
 const focusInput = i => otpInputRefs.value[i]?.focus();

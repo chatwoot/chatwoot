@@ -6,11 +6,11 @@
     "DESCRIPTION": "Audita žurnāli saglabā ierakstus par jūsu konta darbību aktivitātēm, ļaujot jums izsekot un pārbaudīt savu kontu, komandu vai pakalpojumus.",
     "LEARN_MORE": "Uzzināt vairāk par audita žurnāliem",
     "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-    "SIDEBAR_TXT": "<p><b>Audita Žurnāls</b> </p><p> Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā. </p>",
+    "SIDEBAR_TXT": "<p><b>Audita Žurnāls</b> </p><p> Audita Žurnāli ir notikumu un darbību pēdas Daxow sistēmā. </p>",
     "LIST": {
       "404": "Šajā kontā nav pieejami Audita Žurnāli.",
       "TITLE": "Pārvaldīt Audita Žurnālus",
-      "DESC": "Audita Žurnāli ir notikumu un darbību pēdas Chatwoot sistēmā.",
+      "DESC": "Audita Žurnāli ir notikumu un darbību pēdas Daxow sistēmā.",
       "TABLE_HEADER": {
         "ACTIVITY": "Lietotājs",
         "TIME": "Darbība",
