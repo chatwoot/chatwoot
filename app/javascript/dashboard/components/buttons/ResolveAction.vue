@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
@@ -17,13 +18,16 @@ import {
 
 import ButtonGroup from 'dashboard/components-next/buttonGroup/ButtonGroup.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 const store = useStore();
 const getters = useStoreGetters();
 const { t } = useI18n();
+const { checkMissingAttributes } = useConversationRequiredAttributes();
 
 const arrowDownButtonRef = ref(null);
 const isLoading = ref(false);
+const resolveAttributesModalRef = ref(null);
 
 const [showActionsDropdown, toggleDropdown] = useToggle();
 const closeDropdown = () => toggleDropdown(false);
@@ -77,19 +81,36 @@ const openSnoozeModal = () => {
   ninja.open({ parent: 'snooze_conversation' });
 };
 
-const toggleStatus = (status, snoozedUntil) => {
+const toggleStatus = (status, snoozedUntil, customAttributes = null) => {
   closeDropdown();
   isLoading.value = true;
-  store
-    .dispatch('toggleStatus', {
-      conversationId: currentChat.value.id,
-      status,
-      snoozedUntil,
-    })
-    .then(() => {
-      useAlert(t('CONVERSATION.CHANGE_STATUS'));
-      isLoading.value = false;
-    });
+
+  const payload = {
+    conversationId: currentChat.value.id,
+    status,
+    snoozedUntil,
+  };
+
+  if (customAttributes) {
+    payload.customAttributes = customAttributes;
+  }
+
+  store.dispatch('toggleStatus', payload).then(() => {
+    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+    isLoading.value = false;
+  });
+};
+
+const handleResolveWithAttributes = ({ attributes, context }) => {
+  if (context) {
+    const currentCustomAttributes = currentChat.value.custom_attributes || {};
+    const mergedAttributes = { ...currentCustomAttributes, ...attributes };
+    toggleStatus(
+      wootConstants.STATUS_TYPE.RESOLVED,
+      context.snoozedUntil,
+      mergedAttributes
+    );
+  }
 };
 
 const onCmdOpenConversation = () => {
@@ -97,7 +118,24 @@ const onCmdOpenConversation = () => {
 };
 
 const onCmdResolveConversation = () => {
-  toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+  const currentCustomAttributes = currentChat.value.custom_attributes || {};
+  const { hasMissing, missing } = checkMissingAttributes(
+    currentCustomAttributes
+  );
+
+  if (hasMissing) {
+    const conversationContext = {
+      id: currentChat.value.id,
+      snoozedUntil: null,
+    };
+    resolveAttributesModalRef.value?.open(
+      missing,
+      currentCustomAttributes,
+      conversationContext
+    );
+  } else {
+    toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+  }
 };
 
 const keyboardEvents = {
@@ -107,13 +145,13 @@ const keyboardEvents = {
   },
   'Alt+KeyE': {
     action: async () => {
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+      onCmdResolveConversation();
     },
   },
   '$mod+Alt+KeyE': {
     action: async event => {
       const { all, activeIndex, lastIndex } = getConversationParams();
-      await toggleStatus(wootConstants.STATUS_TYPE.RESOLVED);
+      onCmdResolveConversation();
 
       if (activeIndex < lastIndex) {
         all[activeIndex + 1].click();
@@ -133,9 +171,9 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
 </script>
 
 <template>
-  <div class="relative flex items-center justify-end resolve-actions">
+  <div class="flex relative justify-end items-center resolve-actions">
     <ButtonGroup
-      class="rounded-lg shadow outline-1 outline flex-shrink-0"
+      class="flex-shrink-0 rounded-lg shadow outline-1 outline"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
       <Button
@@ -212,5 +250,9 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         </WootDropdownItem>
       </WootDropdownMenu>
     </div>
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="handleResolveWithAttributes"
+    />
   </div>
 </template>

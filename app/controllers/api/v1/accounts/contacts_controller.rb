@@ -24,13 +24,11 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def search
     render json: { error: 'Specify search string with parameter q' }, status: :unprocessable_entity if params[:q].blank? && return
 
-    contacts = resolved_contacts.where(
-      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search
-        OR contacts.additional_attributes->>\'company_name\' ILIKE :search',
+    contacts = Current.account.contacts.where(
+      'name ILIKE :search OR email ILIKE :search OR phone_number ILIKE :search OR contacts.identifier LIKE :search',
       search: "%#{params[:q].strip}%"
     )
-    @contacts = fetch_contacts(contacts)
-    @contacts_count = @contacts.total_count
+    @contacts = fetch_contacts_with_has_more(contacts)
   end
 
   def import
@@ -141,6 +139,24 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       .includes(includes_hash)
       .page(@current_page)
       .per(RESULTS_PER_PAGE)
+  end
+
+  def fetch_contacts_with_has_more(contacts)
+    includes_hash = { avatar_attachment: [:blob] }
+    includes_hash[:contact_inboxes] = { inbox: :channel } if @include_contact_inboxes
+
+    # Calculate offset manually to fetch one extra record for has_more check
+    offset = (@current_page.to_i - 1) * RESULTS_PER_PAGE
+    results = filtrate(contacts)
+              .includes(includes_hash)
+              .offset(offset)
+              .limit(RESULTS_PER_PAGE + 1)
+              .to_a
+
+    @has_more = results.size > RESULTS_PER_PAGE
+    results = results.first(RESULTS_PER_PAGE) if @has_more
+    @contacts_count = results.size
+    results
   end
 
   def build_contact_inbox
