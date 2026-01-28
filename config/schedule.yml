@@ -66,3 +66,10 @@ remove_old_notification_job:
   cron: '30 22 * * *'
   class: 'Notification::RemoveOldNotificationJob'
   queue: purgable
+
+# executed every 12 hours
+# to remove orphan conversations without contact
+remove_orphan_conversations_job:
+  cron: '0 */12 * * *'
+  class: 'Internal::RemoveOrphanConversationsJob'
+  queue: housekeeping
