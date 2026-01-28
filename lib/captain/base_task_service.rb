@@ -43,23 +43,15 @@ class Captain::BaseTaskService
     return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
 
     instrumentation_params = build_instrumentation_params(model, messages)
+    instrumentation_method = tools.any? ? :instrument_tool_session : :instrument_llm_call
 
-    response = if tools.any?
-                 instrument_tool_session(instrumentation_params) do
-                   execute_ruby_llm_request(model: model, messages: messages, tools: tools)
-                 end
-               else
-                 instrument_llm_call(instrumentation_params) do
-                   execute_ruby_llm_request(model: model, messages: messages)
-                 end
-               end
-
-    # Build follow-up context for client-side refinement, when applicable
-    if build_follow_up_context? && response[:message].present?
-      response.merge(follow_up_context: build_follow_up_context(messages, response))
-    else
-      response
+    response = send(instrumentation_method, instrumentation_params) do
+      execute_ruby_llm_request(model: model, messages: messages, tools: tools)
     end
+
+    return response unless build_follow_up_context? && response[:message].present?
+
+    response.merge(follow_up_context: build_follow_up_context(messages, response))
   end
 
   def execute_ruby_llm_request(model:, messages:, tools: [])
