@@ -208,6 +208,9 @@
   display_name: SAML
   enabled: false
   premium: true
+- name: template_builder
+  display_name: Template Builder
+  enabled: false
 - name: advanced_search_indexing
   display_name: Advanced Search Indexing
   enabled: false

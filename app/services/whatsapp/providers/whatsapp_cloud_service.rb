@@ -35,7 +35,17 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+
+    return if templates.blank?
+
+    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc)
+
+    return true unless whatsapp_channel.account.feature_enabled?('template_builder')
+
+    Whatsapp::TemplateSyncService.new(
+      channel: whatsapp_channel,
+      templates: templates
+    ).call
   end
 
   def fetch_whatsapp_templates(url)
@@ -203,5 +213,44 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     )
 
     process_response(response, message)
+  end
+
+  def create_message_template(template_params)
+    response = HTTParty.post(
+      "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
+      headers: api_headers,
+      body: template_params.to_json
+    )
+    parsed_response = response.parsed_response
+
+    return parsed_response if response.success? && parsed_response['error'].blank?
+
+    handle_template_error(response, parsed_response)
+  end
+
+  def delete_message_template(whatsapp_template_id, template_name)
+    params = { name: template_name, hsm_id: whatsapp_template_id }
+
+    response = HTTParty.delete(
+      "#{api_base_path}/v18.0/#{whatsapp_channel.provider_config['business_account_id']}/message_templates",
+      headers: api_headers,
+      query: params
+    )
+    parsed_response = response.parsed_response
+
+    return parsed_response if response.success? && parsed_response['error'].blank?
+
+    handle_template_error(response, parsed_response)
+  end
+
+  def handle_template_error(response, parsed_response)
+    error = parsed_response['error'] || {}
+    error_message =
+      error['error_user_msg'] ||
+      error['error_user_title'] ||
+      error['message'] ||
+      'Template operation failed on meta'
+    Rails.logger.error "WhatsApp API error: #{response.code} - #{error}"
+    raise StandardError, error_message
   end
 end

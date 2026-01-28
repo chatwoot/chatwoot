@@ -551,6 +551,12 @@ const menuItems = computed(() => {
           to: accountScopedRoute('canned_list'),
         },
         {
+          name: 'Settings Templates',
+          label: t('SIDEBAR.TEMPLATES'),
+          icon: 'i-lucide-file-text',
+          to: accountScopedRoute('templates_list'),
+        },
+        {
           name: 'Settings Integrations',
           label: t('SIDEBAR.INTEGRATIONS'),
           icon: 'i-lucide-blocks',

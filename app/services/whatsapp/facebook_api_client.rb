@@ -82,6 +82,17 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Webhook unsubscription failed')
   end
 
+  def upload_media_for_template(blob_id:, format:)
+    credentials = {
+      app_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
+      access_token: build_app_access_token,
+      api_base: BASE_URI,
+      api_version: @api_version
+    }
+    upload_service = Whatsapp::FacebookUploadService.new(facebook_credentials: credentials)
+    upload_service.upload_media_for_template(blob_id: blob_id, format: format)
+  end
+
   private
 
   def request_headers

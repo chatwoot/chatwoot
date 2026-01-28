@@ -960,6 +960,32 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.index ["user_id"], name: "index_mentions_on_user_id"
   end
 
+  create_table "message_templates", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "inbox_id"
+    t.string "name", limit: 512, null: false
+    t.integer "category", default: 0, null: false
+    t.string "language", limit: 10, default: "en", null: false
+    t.string "channel_type", limit: 50, null: false
+    t.integer "status", default: 0
+    t.integer "parameter_format"
+    t.string "platform_template_id", limit: 255
+    t.jsonb "content", default: {}, null: false
+    t.jsonb "metadata", default: {}
+    t.bigint "created_by_id"
+    t.bigint "updated_by_id"
+    t.datetime "last_synced_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "name", "language", "channel_type"], name: "idx_on_account_id_name_language_channel_type_99a8ab867f", unique: true
+    t.index ["account_id"], name: "index_message_templates_on_account_id"
+    t.index ["channel_type"], name: "index_message_templates_on_channel_type"
+    t.index ["created_by_id"], name: "index_message_templates_on_created_by_id"
+    t.index ["inbox_id"], name: "index_message_templates_on_inbox_id"
+    t.index ["status"], name: "index_message_templates_on_status"
+    t.index ["updated_by_id"], name: "index_message_templates_on_updated_by_id"
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -1230,7 +1256,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
