@@ -1,7 +1,8 @@
 <script setup>
 import { computed, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useConfig } from 'dashboard/composables/useConfig';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 import BaseInfo from 'dashboard/components-next/AssignmentPolicy/components/BaseInfo.vue';
 import RadioCard from 'dashboard/components-next/AssignmentPolicy/components/RadioCard.vue';
 import FairDistribution from 'dashboard/components-next/AssignmentPolicy/components/FairDistribution.vue';
@@ -23,7 +24,6 @@ const props = defineProps({
     default: () => ({
       name: '',
       description: '',
-      enabled: false,
       assignmentOrder: ROUND_ROBIN,
       conversationPriority: EARLIEST_CREATED,
       fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -61,18 +61,24 @@ const emit = defineEmits([
   'submit',
   'addInbox',
   'deleteInbox',
+  'navigateToInbox',
   'validationChange',
 ]);
 
 const { t } = useI18n();
-const { isEnterprise } = useConfig();
+const route = useRoute();
+
+const accountId = computed(() => Number(route.params.accountId));
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 const BASE_KEY = 'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY';
 
 const state = reactive({
   name: '',
   description: '',
-  enabled: false,
+  enabled: true,
   assignmentOrder: ROUND_ROBIN,
   conversationPriority: EARLIEST_CREATED,
   fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -83,20 +89,42 @@ const validationState = ref({
   isValid: false,
 });
 
-const createOption = (type, key, stateKey) => ({
+const createOption = (
+  type,
+  key,
+  stateKey,
+  disabled = false,
+  disabledMessage = ''
+) => ({
   key,
   label: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.LABEL`),
   description: t(`${BASE_KEY}.FORM.${type}.${key.toUpperCase()}.DESCRIPTION`),
   isActive: state[stateKey] === key,
+  disabled,
+  disabledMessage,
 });
 
 const assignmentOrderOptions = computed(() => {
-  const options = OPTIONS.ORDER.filter(
-    key => isEnterprise || key !== 'balanced'
+  const hasAdvancedAssignment = isFeatureEnabledonAccount.value(
+    accountId.value,
+    'advanced_assignment'
   );
-  return options.map(key =>
-    createOption('ASSIGNMENT_ORDER', key, 'assignmentOrder')
-  );
+
+  return OPTIONS.ORDER.map(key => {
+    const isBalanced = key === 'balanced';
+    const disabled = isBalanced && !hasAdvancedAssignment;
+    const disabledMessage = disabled
+      ? t(`${BASE_KEY}.FORM.ASSIGNMENT_ORDER.BALANCED.PREMIUM_MESSAGE`)
+      : '';
+
+    return createOption(
+      'ASSIGNMENT_ORDER',
+      key,
+      'assignmentOrder',
+      disabled,
+      disabledMessage
+    );
+  });
 });
 
 const assignmentPriorityOptions = computed(() =>
@@ -131,7 +159,7 @@ const resetForm = () => {
   Object.assign(state, {
     name: '',
     description: '',
-    enabled: false,
+    enabled: true,
     assignmentOrder: ROUND_ROBIN,
     conversationPriority: EARLIEST_CREATED,
     fairDistributionLimit: DEFAULT_FAIR_DISTRIBUTION_LIMIT,
@@ -162,15 +190,10 @@ defineExpose({
       <BaseInfo
         v-model:policy-name="state.name"
         v-model:description="state.description"
-        v-model:enabled="state.enabled"
         :name-label="t(`${BASE_KEY}.FORM.NAME.LABEL`)"
         :name-placeholder="t(`${BASE_KEY}.FORM.NAME.PLACEHOLDER`)"
         :description-label="t(`${BASE_KEY}.FORM.DESCRIPTION.LABEL`)"
         :description-placeholder="t(`${BASE_KEY}.FORM.DESCRIPTION.PLACEHOLDER`)"
-        :status-label="t(`${BASE_KEY}.FORM.STATUS.LABEL`)"
-        :status-placeholder="
-          t(`${BASE_KEY}.FORM.STATUS.${state.enabled ? 'ACTIVE' : 'INACTIVE'}`)
-        "
         @validation-change="handleValidationChange"
       />
 
@@ -193,6 +216,8 @@ defineExpose({
                 :label="option.label"
                 :description="option.description"
                 :is-active="option.isActive"
+                :disabled="option.disabled"
+                :disabled-message="option.disabledMessage"
                 @select="state[section.key] = $event"
               />
             </div>
@@ -251,6 +276,7 @@ defineExpose({
         :is-fetching="isInboxLoading"
         :empty-state-message="t(`${BASE_KEY}.FORM.INBOXES.EMPTY_STATE`)"
         @delete="$emit('deleteInbox', $event)"
+        @navigate="$emit('navigateToInbox', $event)"
       />
     </div>
   </form>

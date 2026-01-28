@@ -19,6 +19,7 @@ module Enterprise::AutoAssignment::AssignmentService
     agents = filter_agents_by_capacity(agents) if capacity_filtering_enabled?
     return nil if agents.empty?
 
+    # Use balanced selector only if advanced_assignment feature is enabled
     selector = policy&.balanced? ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
   end
@@ -31,7 +32,7 @@ module Enterprise::AutoAssignment::AssignmentService
   end
 
   def capacity_filtering_enabled?
-    account.feature_enabled?('assignment_v2') &&
+    account.feature_enabled?('advanced_assignment') &&
       account.account_users.joins(:agent_capacity_policy).exists?
   end
 

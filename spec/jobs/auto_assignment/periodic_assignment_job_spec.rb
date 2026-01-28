@@ -14,13 +14,13 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
   describe '#perform' do
     context 'when account has assignment_v2 feature enabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+        account.enable_features('assignment_v2')
+        account.save!
         allow(Account).to receive(:find_in_batches).and_yield([account])
       end
 
-      context 'when inbox has auto_assignment_v2 enabled' do
+      context 'when inbox has assignment policy or auto assignment enabled' do
         before do
-          allow(inbox).to receive(:auto_assignment_v2_enabled?).and_return(true)
           inbox_relation = instance_double(ActiveRecord::Relation)
           allow(account).to receive(:inboxes).and_return(inbox_relation)
           allow(inbox_relation).to receive(:joins).with(:assignment_policy).and_return(inbox_relation)
@@ -41,8 +41,8 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
           policy2 = create(:assignment_policy, account: account2)
           create(:inbox_assignment_policy, inbox: inbox2, assignment_policy: policy2)
 
-          allow(account2).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
-          allow(inbox2).to receive(:auto_assignment_v2_enabled?).and_return(true)
+          account2.enable_features('assignment_v2')
+          account2.save!
 
           inbox_relation2 = instance_double(ActiveRecord::Relation)
           allow(account2).to receive(:inboxes).and_return(inbox_relation2)
@@ -58,9 +58,10 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         end
       end
 
-      context 'when inbox does not have auto_assignment_v2 enabled' do
+      context 'when inbox does not have assignment policy or auto assignment enabled' do
         before do
-          allow(inbox).to receive(:auto_assignment_v2_enabled?).and_return(false)
+          inbox.update!(enable_auto_assignment: false)
+          InboxAssignmentPolicy.where(inbox: inbox).destroy_all
         end
 
         it 'does not queue assignment job' do
@@ -73,7 +74,6 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
     context 'when account does not have assignment_v2 feature enabled' do
       before do
-        allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(false)
         allow(Account).to receive(:find_in_batches).and_yield([account])
       end
 
@@ -90,11 +90,11 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         # Create multiple accounts
         5.times do |_i|
           acc = create(:account)
+          acc.enable_features('assignment_v2')
+          acc.save!
           inb = create(:inbox, account: acc, enable_auto_assignment: true)
           policy = create(:assignment_policy, account: acc)
           create(:inbox_assignment_policy, inbox: inb, assignment_policy: policy)
-          allow(acc).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
-          allow(inb).to receive(:auto_assignment_v2_enabled?).and_return(true)
 
           inbox_relation = instance_double(ActiveRecord::Relation)
           allow(acc).to receive(:inboxes).and_return(inbox_relation)
