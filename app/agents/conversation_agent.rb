@@ -60,13 +60,11 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    available_tools = [KnowledgeLookupTool]
+    available_tools = [KnowledgeLookupTool, SendAttachmentTool, PrivateNoteTool]
     available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
     available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
     available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?
     available_tools << LabelsTool if current_assistant&.feature_labels_enabled?
-    available_tools << AssignTool if current_assistant&.feature_handoff_enabled?
-    available_tools << PrivateNoteTool
 
     if catalog_access_enabled?
       available_tools << ProductDetailsTool
@@ -110,10 +108,13 @@ class ConversationAgent < ApplicationAgent
   def language_section
     <<~PROMPT
       ## Language Rules
-      - ALWAYS respond in the same language the user is writing in
-      - If the user writes in English, respond in English
-      - If the user writes in Arabic, respond in Arabic
-      - If the user switches languages mid-conversation, follow their lead
+      - CRITICAL: Respond ENTIRELY in the same language as the user's LAST message
+      - Do NOT mix languages within your response
+      - If the user writes in English, respond fully in English
+      - If the user writes in Arabic, respond fully in Arabic
+      - If the user switches languages, immediately adapt to their new language
+      - Exception: Technical terms, brand names, product names, or keywords that have no natural translation may remain in their original language
+      - When in doubt about a translation, keep the original term rather than providing an incorrect translation
       #{configured_dialect_instruction}
     PROMPT
   end
