@@ -169,6 +169,10 @@
   display_title: 'Azure App Secret'
   locked: false
   type: secret
+- name: AZURE_TENANT_ID
+  display_title: 'Azure Tenant ID'
+  description: 'Optional Tenant ID for single-tenant app registrations. Leave empty for multi-tenant applications.'
+  locked: false
 # End of Microsoft Email Channel Config
 
 # MARK: Captain Config
