@@ -47,6 +47,12 @@ class Rack::Attack
 
   Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
+  # Safelist health check endpoint so it never touches Redis for throttle tracking.
+  # This keeps /health fully dependency-free for ALB liveness checks.
+  Rack::Attack.safelist('health check') do |req|
+    req.path == '/health'
+  end
+
   ### Throttle Spammy Clients ###
 
   # If any single client IP is making tons of requests, then they're
