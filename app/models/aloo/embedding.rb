@@ -28,7 +28,8 @@ module Aloo
     def self.embed_text(text, account:)
       return nil if text.blank?
 
-      result = Embedders::DocumentEmbedder.call(text: text, tenant: account)
+      truncated = truncate_text(text)
+      result = Embedders::DocumentEmbedder.call(text: truncated, tenant: account)
       result.vector
     rescue RubyLLM::Error => e
       Rails.logger.error("[Aloo::Embedding] Embedding failed: #{e.message}")
@@ -166,16 +167,44 @@ module Aloo
     def self.sanitize_content(text)
       return '' if text.blank?
 
-      text
-        .gsub(/!\[.*?\]\(.*?\)/, '')                                      # Remove markdown images
-        .gsub(%r{https?://[^\s)]+\.(?:png|jpg|jpeg|gif|svg|webp)[^\s]*}i, '') # Remove full image URLs
-        .gsub(/[^\s()\[\]]+\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?[^\s)]*)?/i, '') # Remove partial image URLs
-        .gsub(/[\u{1F300}-\u{1F9FF}]/, '')                                # Remove emojis
-        .gsub(/^[ \t]+|[ \t]+$/, '')                                      # Remove leading/trailing whitespace on each line
-        .gsub(/[ \t]{2,}/, ' ')                                           # Collapse multiple spaces/tabs to single
-        .gsub(/\n{3,}/, "\n\n")                                           # Collapse 3+ newlines to 2
+      sanitized = text
+                  .gsub(/!\[.*?\]\(.*?\)/, '')                                       # Remove markdown images
+                  .gsub(%r{https?://[^\s)]+\.(?:png|jpg|jpeg|gif|svg|webp)[^\s]*}i, '') # Remove full image URLs
+                  .gsub(/[^\s()\[\]]+\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?[^\s)]*)?/i, '') # Remove partial image URLs
+                  .gsub(/\[[\s\n]*\]\([^)]*\)/, '')                                  # Remove empty markdown links
+                  .gsub(/\[([^\]]*)\]\(\.[^)]*\)/m, '\1')                            # Convert relative links to plain text
+                  .gsub(/\]\(\.[^)]*\)/, '')                                         # Remove broken link endings
+                  .gsub(/^\[?\s*\)/, '')                                             # Remove orphan ) at line start
+                  .gsub(/\[\s*$/, '')                                                # Remove orphan [ at line end
+                  .gsub(/[\u{1F300}-\u{1F9FF}]/, '')                                 # Remove emojis
+                  .gsub(/^[ \t]+|[ \t]+$/, '')                                       # Remove leading/trailing whitespace on each line
+                  .gsub(/[ \t]{2,}/, ' ')                                            # Collapse multiple spaces/tabs to single
+                  .gsub(/\n{3,}/, "\n\n")                                            # Collapse 3+ newlines to 2
+
+      # Remove duplicate consecutive lines and collapse resulting empty lines
+      deduplicate_lines(sanitized)
+        .gsub(/\n{3,}/, "\n\n")
         .strip
     end
     private_class_method :sanitize_content
+
+    # Remove duplicate consecutive non-empty lines while preserving structure
+    def self.deduplicate_lines(text)
+      lines = text.split("\n")
+      result = []
+      last_content_line = nil
+
+      lines.each do |line|
+        if line.strip.empty?
+          result << line
+        elsif line != last_content_line
+          result << line
+          last_content_line = line
+        end
+      end
+
+      result.join("\n")
+    end
+    private_class_method :deduplicate_lines
   end
 end

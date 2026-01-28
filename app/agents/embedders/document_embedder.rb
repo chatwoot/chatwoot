@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # Single embedder for all embedding operations (single text or batch)
+# Preprocessing (sanitization, truncation) is handled by Aloo::Embedding
 # Usage:
 #   Embedders::DocumentEmbedder.call(text: "single text", tenant: account)
 #   Embedders::DocumentEmbedder.call(texts: ["text1", "text2"], tenant: account)
@@ -12,14 +13,6 @@ class Embedders::DocumentEmbedder < RubyLLM::Agents::Embedder
 
   description 'Generates embeddings for knowledge base documents and search queries'
   version '1.0'
-
-  MAX_TEXT_LENGTH = 8000
-
-  def preprocess(text)
-    return '' if text.blank?
-
-    text.to_s.truncate(MAX_TEXT_LENGTH, omission: '')
-  end
 
   def resolve_tenant
     tenant = @options[:tenant] || Current.account
