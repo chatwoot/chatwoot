@@ -140,6 +140,10 @@ GEM
       actionmailbox (>= 7.1.0)
       aws-sdk-s3 (~> 1, >= 1.123.0)
       aws-sdk-sns (~> 1, >= 1.61.0)
+    aws-actionmailer-ses (1.0.0)
+      actionmailer (>= 7.1.0)
+      aws-sdk-ses (~> 1, >= 1.50.0)
+      aws-sdk-sesv2 (~> 1, >= 1.34.0)
     aws-eventstream (1.4.0)
     aws-partitions (1.1198.0)
     aws-sdk-core (3.240.0)
@@ -156,6 +160,12 @@ GEM
     aws-sdk-s3 (1.208.0)
       aws-sdk-core (~> 3, >= 3.234.0)
       aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.5)
+    aws-sdk-ses (1.93.0)
+      aws-sdk-core (~> 3, >= 3.239.1)
+      aws-sigv4 (~> 1.5)
+    aws-sdk-sesv2 (1.92.0)
+      aws-sdk-core (~> 3, >= 3.239.1)
       aws-sigv4 (~> 1.5)
     aws-sdk-sns (1.70.0)
       aws-sdk-core (~> 3, >= 3.188.0)
@@ -1028,6 +1038,7 @@ DEPENDENCIES
   attr_extras
   audited (~> 5.4, >= 5.4.1)
   aws-actionmailbox-ses (~> 0)
+  aws-actionmailer-ses (~> 1)
   aws-sdk-s3
   azure-storage-blob!
   barnes
