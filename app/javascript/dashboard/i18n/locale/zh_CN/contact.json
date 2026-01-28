@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
       "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
       "ACTIVE_EMPTY_STATE_TITLE": "目前没有联系人在线 🌙"
-    }
+    },
+    "LOAD_MORE": "加载更多"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "分配标签",
