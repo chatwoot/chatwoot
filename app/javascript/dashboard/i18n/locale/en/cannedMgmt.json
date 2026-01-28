@@ -31,6 +31,16 @@
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
         },
+        "ATTACHMENTS": {
+          "LABEL": "Attachments",
+          "ADD_FILE": "Add images",
+          "UPLOADING": "Uploading...",
+          "FILES_SELECTED": "{count} file(s) selected",
+          "NEW_FILES": "new file(s) selected",
+          "EXISTING": "Existing files:",
+          "REMOVE": "Remove file",
+          "UPLOAD_ERROR": "Failed to upload file. Please try again."
+        },
         "SUBMIT": "Submit"
       },
       "API": {
@@ -51,6 +61,16 @@
           "LABEL": "Message",
           "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
           "ERROR": "Message is required."
+        },
+        "ATTACHMENTS": {
+          "LABEL": "Attachments",
+          "ADD_FILE": "Add images",
+          "UPLOADING": "Uploading...",
+          "FILES_SELECTED": "{count} file(s) selected",
+          "NEW_FILES": "new file(s) selected",
+          "EXISTING": "Existing files:",
+          "REMOVE": "Remove file",
+          "UPLOAD_ERROR": "Failed to upload file. Please try again."
         },
         "SUBMIT": "Submit"
       },

@@ -221,6 +221,7 @@ const tableHeaders = computed(() => {
         :id="activeResponse.id"
         :edshort-code="activeResponse.short_code"
         :edcontent="activeResponse.content"
+        :ed-attachments="activeResponse.attachments || []"
         :on-close="hideEditPopup"
       />
     </woot-modal>
