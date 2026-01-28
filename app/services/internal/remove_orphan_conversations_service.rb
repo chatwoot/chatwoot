@@ -1,5 +1,5 @@
 class Internal::RemoveOrphanConversationsService
-  def initialize(account: nil, days: 7)
+  def initialize(account: nil, days: 1)
     @account = account
     @days = days
   end
