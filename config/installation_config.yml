@@ -407,6 +407,11 @@
 # ------- End of Instagram Channel Related Config ------- #
 
 # ------- TikTok Channel Related Config ------- #
+- name: TIKTOK_API_VERSION
+  display_title: 'TikTok API Version'
+  description: 'Configure this if you want to use a different TikTok API version. Make sure its prefixed with `v`'
+  value: 'v1.3'
+  locked: false
 - name: TIKTOK_APP_ID
   display_title: 'TikTok App ID'
   locked: false
