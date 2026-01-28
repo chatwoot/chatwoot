@@ -380,7 +380,7 @@
     "DOCS": "Leggi i documenti",
     "SECURITY": "Sicurezza",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Workflow Conversazione"
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Impostazioni Captain",
@@ -559,34 +559,34 @@
   "CONVERSATION_WORKFLOW": {
     "INDEX": {
       "HEADER": {
-        "TITLE": "Conversation Workflows",
-        "DESCRIPTION": "Configure rules and required fields for conversation resolution."
+        "TITLE": "Workflow Conversazione",
+        "DESCRIPTION": "Configura regole e campi obbligatori per la risoluzione delle conversazioni."
       }
     },
     "REQUIRED_ATTRIBUTES": {
-      "TITLE": "Attributes required on resolution",
-      "DESCRIPTION": "When resolving a conversation, agents will be prompted to fill these attributes if they haven't yet.",
-      "NO_ATTRIBUTES": "No attributes added yet",
+      "TITLE": "Attributi richiesti per la risoluzione",
+      "DESCRIPTION": "Quando si risolve una conversazione, agli operatori verrà chiesto di compilare questi attributi se non sono ancora stati compilati.",
+      "NO_ATTRIBUTES": "Nessun attributo aggiunto",
       "ADD": {
-        "TITLE": "Add Attributes",
+        "TITLE": "Aggiungi Attributi",
         "SEARCH_PLACEHOLDER": "Cerca attributi"
       },
       "SAVE": {
-        "SUCCESS": "Required attributes updated",
-        "ERROR": "Could not update required attributes, please try again"
+        "SUCCESS": "Attributi richiesti aggiornati",
+        "ERROR": "Impossibile aggiornare gli attributi richiesti, riprova"
       },
       "MODAL": {
         "TITLE": "Risolvi la conversazione",
-        "DESCRIPTION": "Please fill in the following custom attributes before resolving this conversation",
+        "DESCRIPTION": "Inserisci i seguenti attributi personalizzati prima di risolvere questa conversazione",
         "ACTIONS": {
           "RESOLVE": "Risolvi la conversazione",
           "CANCEL": "Annulla"
         },
         "PLACEHOLDERS": {
-          "TEXT": "Write a note...",
-          "NUMBER": "Enter a number",
-          "LINK": "Add a link",
-          "DATE": "Pick a date",
+          "TEXT": "Scrivi una nota...",
+          "NUMBER": "Inserisci un numero",
+          "LINK": "Aggiungi un link",
+          "DATE": "Scegli una data",
           "LIST": "Seleziona un'opzione"
         },
         "CHECKBOX": {
@@ -595,15 +595,15 @@
         }
       },
       "PAYWALL": {
-        "TITLE": "Upgrade to use required attributes",
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the Business and Enterprise plans.",
-        "UPGRADE_PROMPT": "Upgrade your plan to prompt agents to fill required attributes before conversation resolution.",
+        "TITLE": "Aggiorna per utilizzare gli attributi richiesti",
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani Business e Enterprise.",
+        "UPGRADE_PROMPT": "Aggiorna il tuo piano per chiedere agli operatori di compilare gli attributi richiesti prima della risoluzione della conversazione.",
         "UPGRADE_NOW": "Aggiorna ora",
         "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
       },
       "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "The required conversation attributes feature is available on the paid plans.",
-        "UPGRADE_PROMPT": "Upgrade to a paid plan to enforce required attributes before conversation resolution.",
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Passa a un piano a pagamento per imporre gli attributi richiesti prima della risoluzione della conversazione.",
         "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
       }
     }
