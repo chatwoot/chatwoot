@@ -3,7 +3,7 @@
     "HEADER": "Conversas",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_AGENT_REPORTS": "Baixar relatórios de agentes",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Baixar relatórios de conversas",
     "DATA_FETCHING_FAILED": "Falha ao buscar dados, tente novamente mais tarde.",
     "SUMMARY_FETCHING_FAILED": "Não foi possível obter o resumo. Tente novamente mais tarde.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Relatórios CSAT",
-    "NO_RECORDS": "Não há respostas de pesquisa em CSAT disponíveis.",
+    "NO_RECORDS": "Ainda não há respostas",
+    "NO_RECORDS_DESCRIPTION": "As respostas da pesquisa de CSAT aparecerão aqui assim que os clientes começarem a fornecer feedback.",
     "DOWNLOAD": "Baixar relatórios de CSAT",
     "DOWNLOAD_FAILED": "Falha ao baixar Relatórios CSAT",
     "FILTERS": {
+      "ADD_FILTER": "Adicionar filtro",
+      "CLEAR_ALL": "Limpar tudo",
+      "NO_FILTER": "Não há filtros disponíveis",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Pesquisar agentes",
+        "INBOXES": "Pesquisar caixas de entrada",
+        "TEAMS": "Pesquisar times",
+        "RATINGS": "Pesquisar avaliações"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Escolher agentes"
+        "LABEL": "Agente"
+      },
+      "INBOXES": {
+        "LABEL": "Caixa de Entrada"
+      },
+      "TEAMS": {
+        "LABEL": "Time"
+      },
+      "RATINGS": {
+        "LABEL": "Classificação"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contato",
-        "AGENT_NAME": "Agente atribuído",
+        "AGENT_NAME": "Agente",
         "RATING": "Classificação",
-        "FEEDBACK_TEXT": "Comentário do feedback"
-      }
+        "FEEDBACK_TEXT": "Comentário do feedback",
+        "CONVERSATION": "Conversas",
+        "CUSTOMER": "Cliente",
+        "RESPONSE": "Resposta",
+        "HANDLED_BY": "Atendido por"
+      },
+      "UNKNOWN_CUSTOMER": "Cliente desconhecido"
     },
+    "NO_AGENT": "Nenhum agente atribuído",
+    "NO_FEEDBACK": "Nenhum feedback fornecido",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Total de respostas",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Taxa de resposta",
         "TOOLTIP": "Número total de respostas / Número total de mensagens CSAT de pesquisa enviadas * 100"
+      },
+      "RATING_DISTRIBUTION": "Distribuição de avaliações"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Notas da avaliação",
+      "PLACEHOLDER": "Adicione notas sobre esta avaliação...",
+      "SAVE": "Salvar",
+      "CANCEL": "Cancelar",
+      "SAVING": "Salvando...",
+      "SAVED": "Notas salvas com sucesso",
+      "SAVE_ERROR": "Falha ao salvar as notas",
+      "UPDATED_BY": "Atualizado por {name} {time}",
+      "UPDATED_BY_LABEL": "Atualizado por",
+      "PAYWALL": {
+        "TITLE": "Faça o upgrade para adicionar notas de avaliação",
+        "AVAILABLE_ON": "O recurso de notas de avaliação está disponível apenas nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Adicione contexto interno a cada resposta de CSAT com notas de avaliação. Registre o que realmente aconteceu, identifique padrões mais rapidamente e tome decisões melhores a partir do seu feedback.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
       }
     }
   },

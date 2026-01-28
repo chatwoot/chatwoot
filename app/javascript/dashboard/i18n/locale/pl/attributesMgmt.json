@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Włącz walidację regex"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {

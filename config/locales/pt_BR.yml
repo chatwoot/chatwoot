@@ -69,7 +69,7 @@ pt_BR:
       domain:
         invalid: must be a valid domain name
       search:
-        query_missing: Especifique a ‘string’ de busca com o parâmetro q
+        query_missing: Especifique a string de busca com o parâmetro q
     messages:
       search:
         time_range_limit_exceeded: 'A pesquisa está limitada aos últimos %{days} dias'
@@ -120,6 +120,8 @@ pt_BR:
       plan_not_eligible: As recargas estão disponíveis apenas para planos pagos. Por favor, faça o upgrade do seu plano primeiro.
       stripe_customer_not_configured: Cliente do Stripe não configurado
       no_payment_method: Nenhum método de pagamento encontrado. Por favor, adicione um método de pagamento antes de realizar uma compra.
+    reports:
+      date_range_too_long: O intervalo de datas não pode exceder 6 meses
   profile:
     mfa:
       enabled: MFA habilitado com sucesso
@@ -156,6 +158,14 @@ pt_BR:
       avg_resolution_time: Tempo médio de resolução
       resolution_count: Contagem de Resolução
       avg_customer_waiting_time: Tempo médio de espera do cliente
+    conversation_csv:
+      conversations_count: Conversas
+      incoming_messages_count: Mensagens Recebidas
+      outgoing_messages_count: Mensagens enviadas
+      avg_first_response_time: Tempo médio de primeira resposta
+      avg_resolution_time: Tempo médio de resolução
+      resolution_count: Quantidade de resoluções
+      avg_customer_waiting_time: Tempo médio de espera do cliente
     conversation_traffic_csv:
       timezone: Fuso horário
     sla_csv:
@@ -178,6 +188,7 @@ pt_BR:
         rating: Classificação
         feedback: Comentário de Feedback
         recorded_at: Data de gravação
+        review_notes: Notas de Avaliação
   notifications:
     notification_title:
       conversation_creation: ''
@@ -320,6 +331,9 @@ pt_BR:
     copilot_message_required: A mensagem é obrigatória
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
+    upgrade: 'Atualize seu plano para habilitar o Capitão AI'
+    disabled: 'O Capitão AI está desativado para esta conta.'
+    api_key_missing: 'A chave de API do Capitão AI não está configurada.'
     copilot:
       using_tool: 'Usando a ferramenta %{function_name}'
       completed_tool_call: 'Uso da ferramenta %{function_name} concluída'

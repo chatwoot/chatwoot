@@ -18,8 +18,8 @@
     "CREATED_AT_LABEL": "Створено",
     "NEW_MESSAGE": "Нове повідомлення",
     "CALL": "Дзвінок",
-    "CALL_INITIATED": "Calling the contact…",
-    "CALL_FAILED": "Unable to start the call. Please try again.",
+    "CALL_INITIATED": "Викликаємо контакт…",
+    "CALL_FAILED": "Не можливо розпочати виклик. Будь ласка, спробуйте пізніше.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Оберіть голосову теку"
     },
@@ -458,7 +458,7 @@
             "PLACEHOLDER": "Add Instagram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "Додати TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "Add LinkedIn"
@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Немає контактів, які відповідають вашому пошуку 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Призначити мітки",

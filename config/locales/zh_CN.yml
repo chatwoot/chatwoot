@@ -120,6 +120,8 @@ zh_CN:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +158,14 @@ zh_CN:
       avg_resolution_time: 平均解决时间
       resolution_count: 已解决的数量
       avg_customer_waiting_time: 平均客户等待时间
+    conversation_csv:
+      conversations_count: 会话
+      incoming_messages_count: 收到的消息
+      outgoing_messages_count: 发送的消息
+      avg_first_response_time: 平均首次响应时间
+      avg_resolution_time: 平均解决时间
+      resolution_count: Resolution count
+      avg_customer_waiting_time: 平均客户等待时间
     conversation_traffic_csv:
       timezone: 时区
     sla_csv:
@@ -178,6 +188,7 @@ zh_CN:
         rating: 评分
         feedback: 意见反馈
         recorded_at: 录制日期
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '在 %{inbox_name} 中创建了一个对话 (#%{display_id})'
@@ -320,6 +331,9 @@ zh_CN:
     copilot_message_required: 消息是必填项
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: '使用工具 %{function_name}'
       completed_tool_call: '%{function_name} 工具调用完成'

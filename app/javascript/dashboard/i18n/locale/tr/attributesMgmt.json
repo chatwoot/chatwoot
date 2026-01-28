@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Düzenli ifade doğrulamasını aç"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {

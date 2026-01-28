@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "טען עוד"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "הקצה תוויות",

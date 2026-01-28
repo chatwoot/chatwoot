@@ -186,6 +186,7 @@
       "MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Pradėkite nuo „/“, kad pasirinktumėte Atsakymo Ruošinį.",
       "PRIVATE_MSG_INPUT": "Spauksite Shift + Enter, pradėjimui iš naujos eilutės. Tai bus matoma tik Agentams",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Pranešimo parašas nesukonfigūruotas, sukonfigūruokite jį profilio nustatymuose.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Spausti čia kad atnaujinti",
       "WHATSAPP_TEMPLATES": "Whatsapp Šablonai"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Norėdami pridėti, vilkite ir numeskite čia",
       "START_AUDIO_RECORDING": "Pradėti audio įrašymą",
       "STOP_AUDIO_RECORDING": "Baigti audio įrašymą",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "Kam",
         "ADD_BCC": "Pridėti bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Failas viršija {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB priedo apribojimą",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nepavyko išsiųsti šio pranešimo, bandykite dar kartą vėliau",
     "SENT_BY": "Siuntėjas:",
     "BOT": "Botas",

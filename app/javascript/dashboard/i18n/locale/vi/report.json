@@ -3,7 +3,7 @@
     "HEADER": "Các cuộc hội thoại",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
-    "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo tổng đài viên",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Báo cáo CSAT",
-    "NO_RECORDS": "Không có phản hồi báo cáo CSAT có sẵn.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Tải về các báo cáo CSAT",
     "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
+      "ADD_FILTER": "Thêm bộ lọc",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Tìm kiếm nhân viên",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Tìm kiếm nhóm",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Chọn tổng đài viên"
+        "LABEL": "Nhà cung cấp"
+      },
+      "INBOXES": {
+        "LABEL": "Hộp thư đến"
+      },
+      "TEAMS": {
+        "LABEL": "Nhóm"
+      },
+      "RATINGS": {
+        "LABEL": "Đánh giá"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Liên hệ",
-        "AGENT_NAME": "Đại lý được phân công",
+        "AGENT_NAME": "Nhà cung cấp",
         "RATING": "Đánh giá",
-        "FEEDBACK_TEXT": "Bình luận phản hồi"
-      }
+        "FEEDBACK_TEXT": "Bình luận phản hồi",
+        "CONVERSATION": "Cuộc hội thoại",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Tổng số phản hồi",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Tỷ lệ phản hồi",
         "TOOLTIP": "Tổng số phản hồi / Tổng số tin nhắn khảo sát CSAT đã gửi * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Save",
+      "CANCEL": "Huỷ",
+      "SAVING": "Đang lưu...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

@@ -58,11 +58,11 @@
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Продовжити в TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Приєднайте ваш профіль TikTok",
+        "HELP": "Щоб додати ваш профіль TikTok як канал потрібно аутентифікувати його клацнувши 'Продовжити в TikTok' ",
+        "ERROR_MESSAGE": "При спробі під'єднатися до TikTok виникла помилка, будь ласка, спробуйте пізніше",
+        "ERROR_AUTH": "При спробі під'єднатися до TikTok виникла помилка, будь ласка, спробуйте пізніше"
       },
       "TWITTER": {
         "HELP": "Щоб додати свій профіль у Twitter як канал, вам потрібно авторизувати свій профіль у Twitter, натиснувши кнопку \"Увійти через Twitter\" ",
@@ -389,10 +389,10 @@
           "ERROR_MESSAGE": "Ми не змогли зберегти email канал"
         },
         "FINISH_MESSAGE": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "Джерело для вашої поштової скриньки успішно створене! Вам потрібно налаштувати дані IMAP та SMTP щоб отримувати та надсилати листи. Без цих налаштувань ваші листи не будуть оброблятися.",
+        "FORWARDING_ADDRESS_LABEL": "Перенаправляти листи на цю адресу:",
         "CONFIGURE_SMTP_IMAP_LINK": "Натисніть тут",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " налаштувати параметри IMAP та SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE Канал",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Під'єднати ваш обліковий запис TikTok"
           },
           "VOICE": {
             "TITLE": "Voice",
@@ -722,7 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Використовуйте токен `inbox_identifier`, показаний тут для аутентифікації ваших API клієнтів.",
       "FORWARD_EMAIL_TITLE": "Переслати на ел. пошту",
       "FORWARD_EMAIL_SUB_TEXT": "Почніть перенаправляти листи до наступної адреси електронної пошти.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Перенаправлення листів до теки \"Вхідні\" наразі відключено для цієї інсталяції. Щоб використовувати цю функцію вона має бути увімкнена адміністратором. Будь ласка, зверніться до нього.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Дозволити повідомлення після закінчення розмови",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Дозволити кінцевим користувачам надсилати повідомлення навіть після закриття розмови.",
       "WHATSAPP_SECTION_SUBHEADER": "Цей ключ API використовується для інтеграції з API WhatsApp.",
@@ -809,32 +809,32 @@
         "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Текст кнопки",
+        "PLACEHOLDER": "Будь ласка, оцініть нас"
       },
       "LANGUAGE": {
         "LABEL": "Мова",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "Виберіть мову шаблону"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Попередній перегляд повідомлення",
+        "TOOLTIP": "Це може дещо відрізнятися від того що відображає платформа WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Підтверджено WhatsApp",
+        "PENDING": "Очікує підтвердження WhatsApp",
+        "REJECTED": "Шаблон відхилено Meta",
+        "DEFAULT": "Потребує підтвердження WhatsApp",
+        "NOT_FOUND": "Цей шаблон не існує на платформі Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Шаблон WhatsApp успішно створено та надіслано на підтвердження",
+        "ERROR_MESSAGE": "Не вдалося створити шаблон WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "Редагувати деталі опитування",
+        "DESCRIPTION": "Попередній шаблон буде видалено та створено новий, який буде надіслано у WhatsApp для підтвердження",
+        "CONFIRM": "Створити новий шаблон",
         "CANCEL": "Повернутися назад"
       },
       "SURVEY_RULE": {
@@ -848,7 +848,7 @@
         "SELECT_PLACEHOLDER": "select labels"
       },
       "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Примітка: Ми створимо шаблон та надішлемо його у WhatsApp для підтвердження. Після підтвердження опитування буде надіслано лише раз на одну розмову та раз на одне правило опитування.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."

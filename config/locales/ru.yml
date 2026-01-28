@@ -120,6 +120,8 @@ ru:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA успешно включен
@@ -156,6 +158,14 @@ ru:
       avg_resolution_time: Среднее время завершения
       resolution_count: Количество завершенных
       avg_customer_waiting_time: Среднее время ожидания клиента
+    conversation_csv:
+      conversations_count: Диалоги
+      incoming_messages_count: Входящие сообщения
+      outgoing_messages_count: Исходящие сообщения
+      avg_first_response_time: Среднее время первого ответа
+      avg_resolution_time: Среднее время завершения
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Среднее время ожидания клиента
     conversation_traffic_csv:
       timezone: Часовой пояс
     sla_csv:
@@ -178,6 +188,7 @@ ru:
         rating: Оценка
         feedback: Комментарий к отзыву
         recorded_at: Дата записи
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'В %{inbox_name} создана беседа (#%{display_id})'
@@ -320,6 +331,9 @@ ru:
     copilot_message_required: Необходимо ввести сообщение
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Использование инструмента %{function_name}'
       completed_tool_call: 'Вызов инструмента %{function_name}'

@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
       "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "Ielādēt vairāk"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Piešķirt Etiķetes",

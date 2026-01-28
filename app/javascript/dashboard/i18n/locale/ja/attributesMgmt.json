@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "正規表現の検証を有効にする"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Pre-chat",
+          "RESOLUTION": "Resolution"
         }
       },
       "API": {

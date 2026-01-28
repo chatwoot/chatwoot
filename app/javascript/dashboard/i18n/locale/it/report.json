@@ -3,7 +3,7 @@
     "HEADER": "Conversazioni",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
-    "DOWNLOAD_AGENT_REPORTS": "Scarica report operatori",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Scarica report conversazioni",
     "DATA_FETCHING_FAILED": "Impossibile recuperare i dati, riprova più tardi.",
     "SUMMARY_FETCHING_FAILED": "Impossibile recuperare il riepilogo, riprova più tardi.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Report CSAT",
-    "NO_RECORDS": "Non ci sono risposte ai sondaggi CSAT disponibili.",
+    "NO_RECORDS": "Ancora nessuna risposta",
+    "NO_RECORDS_DESCRIPTION": "Le risposte dei sondaggi CSAT appariranno qui appena i clienti inizieranno a fornire feedback.",
     "DOWNLOAD": "Scarica report CSAT",
     "DOWNLOAD_FAILED": "Download dei report CSAT non riuscito",
     "FILTERS": {
+      "ADD_FILTER": "Aggiungi filtro",
+      "CLEAR_ALL": "Rimuovi tutto",
+      "NO_FILTER": "Nessun filtro disponibile",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Cerca operatori",
+        "INBOXES": "Ricerca Inbox",
+        "TEAMS": "Cerca team",
+        "RATINGS": "Cerca valutazioni"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Scegli Operatori"
+        "LABEL": "Operatore"
+      },
+      "INBOXES": {
+        "LABEL": "Inbox"
+      },
+      "TEAMS": {
+        "LABEL": "Team"
+      },
+      "RATINGS": {
+        "LABEL": "Valutazione"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contatto",
-        "AGENT_NAME": "Operatore assegnato",
+        "AGENT_NAME": "Operatore",
         "RATING": "Valutazione",
-        "FEEDBACK_TEXT": "Commento del feedback"
-      }
+        "FEEDBACK_TEXT": "Commento del feedback",
+        "CONVERSATION": "Conversazione",
+        "CUSTOMER": "Cliente",
+        "RESPONSE": "Risposta",
+        "HANDLED_BY": "Gestito da"
+      },
+      "UNKNOWN_CUSTOMER": "Cliente sconosciuto"
     },
+    "NO_AGENT": "Nessun operatore assegnato",
+    "NO_FEEDBACK": "Nessun feedback fornito",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Risposte totali",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Tasso di risposta",
         "TOOLTIP": "Numero totale di risposte / Numero totale di messaggi di sondaggio CSAT inviati * 100"
+      },
+      "RATING_DISTRIBUTION": "Distribuzione del rating"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Note revisione",
+      "PLACEHOLDER": "Aggiungi note revisione su questa valutazione...",
+      "SAVE": "Salva",
+      "CANCEL": "Annulla",
+      "SAVING": "Salvataggio...",
+      "SAVED": "Note salvate correttamente",
+      "SAVE_ERROR": "Impossibile salvare le note",
+      "UPDATED_BY": "Aggiornato da {name} {time}",
+      "UPDATED_BY_LABEL": "Aggiornato da",
+      "PAYWALL": {
+        "TITLE": "Aggiorna per aggiungere note revisione",
+        "AVAILABLE_ON": "La funzionalità note revisione è disponibile solo nei piani Business e Enterprise.",
+        "UPGRADE_PROMPT": "Aggiungi note di revisione interne a ogni risposta CSAT. Comprendi meglio cosa è successo davvero, individua i pattern più rapidamente e prendi decisioni migliori a partire dal feedback.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
       }
     }
   },

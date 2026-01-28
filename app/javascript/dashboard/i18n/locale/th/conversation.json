@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ เริ่มต้นด้วย '/' เพื่อเลือกคำตอบสำเร็จรูป",
       "PRIVATE_MSG_INPUT": "Shift + enter สำหรับบรรทัดใหม่ สิ่งนี้จะปรากฏแก่พนักงานเท่านั้น",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "ข้อความลายเซ็นต์ไม่ได้ถูกตั้งค่า โปรดปรับแต่งในหน้าตั้งค่าข้อมูลส่วนตัว",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "คลิกที่นี่เพื่ออัปเดต",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "ลากเเละปล่อยที่นี่เพื่อเพิ่ม",
       "START_AUDIO_RECORDING": "เริ่มบันทึกเสียง",
       "STOP_AUDIO_RECORDING": "หยุดบันทึกเสียง",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "เพิ่ม BCC",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ไฟล์ของคุณมีขนาดเกิน {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
     "BOT": "บอท",

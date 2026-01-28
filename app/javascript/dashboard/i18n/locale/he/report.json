@@ -3,7 +3,7 @@
     "HEADER": "שיחות",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
-    "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "אחזור הנתונים נכשל, אנא נסה שוב מאוחר יותר.",
     "SUMMARY_FETCHING_FAILED": "אחזור הסיכום נכשל, אנא נסה שוב מאוחר יותר.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "דוחות CSAT",
-    "NO_RECORDS": "אין תשובות לסקר CSAT זמינות.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "הורד דוחות CSAT",
     "DOWNLOAD_FAILED": "הורדת דוחות CSAT נכשלה",
     "FILTERS": {
+      "ADD_FILTER": "הוסף מסנן",
+      "CLEAR_ALL": "נקה הכל",
+      "NO_FILTER": "אין מסננים זמינים",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "חפש סוכנים",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "חפש צוותים",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "בחר סוכנים"
+        "LABEL": "סוכן"
+      },
+      "INBOXES": {
+        "LABEL": "תיבת הדואר הנכנס"
+      },
+      "TEAMS": {
+        "LABEL": "צוות"
+      },
+      "RATINGS": {
+        "LABEL": "דירוג"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "איש קשר",
-        "AGENT_NAME": "סוכן מוקצה",
+        "AGENT_NAME": "סוכן",
         "RATING": "דירוג",
-        "FEEDBACK_TEXT": "הערת משוב"
-      }
+        "FEEDBACK_TEXT": "הערת משוב",
+        "CONVERSATION": "שיחה",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "תגובה",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "סה\"כ תגובות",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "שיעור תגובה",
         "TOOLTIP": "מספר כולל של תגובות / מספר כולל של הודעות סקר CSAT שנשלחו * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "שמור",
+      "CANCEL": "ביטול",
+      "SAVING": "שומר...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "שדרג עכשיו",
+        "CANCEL_ANYTIME": "תוכל לשנות או לבטל את התוכנית שלך בכל עת"
       }
     }
   },

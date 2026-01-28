@@ -378,7 +378,57 @@
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
     "DOCS": "Ler documentos",
-    "SECURITY": "Segurança"
+    "SECURITY": "Segurança",
+    "CAPTAIN_AI": "Capitão",
+    "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Configurações do Capitão",
+    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Capitão. O Capitão utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Capitão realizar, dependendo do modelo selecionado.",
+    "LOADING": "Carregando configurações do Capitão...",
+    "LINK_TEXT": "Saiba mais sobre os Créditos do Capitão",
+    "NOT_ENABLED": "O Capitão não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Capitão.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configuração do Modelo",
+      "DESCRIPTION": "Selecione modelos de IA para diferentes recursos.",
+      "SELECT_MODEL": "Selecionar modelo",
+      "CREDITS_PER_MESSAGE": "{credits} crédito/mensagem",
+      "COMING_SOON": "Em breve",
+      "EDITOR": {
+        "TITLE": "Recursos do Editor",
+        "DESCRIPTION": "Potencializa a escrita inteligente, correções gramaticais, ajustes de tom e aprimoramento de conteúdo no editor de mensagens."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Gerencia respostas automatizadas, resumos de conversas e sugestões inteligentes de resposta para interações com clientes."
+      },
+      "COPILOT": {
+        "TITLE": "Copiloto",
+        "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante as conversas."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funcionalidades",
+      "DESCRIPTION": "Ative ou desative recursos com tecnologia de IA.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcrição de Áudio",
+        "DESCRIPTION": "Converte automaticamente mensagens de voz e gravações de chamadas em transcrições de texto pesquisáveis."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Indexação de Pesquisa da Central de Ajuda",
+        "DESCRIPTION": "Use IA para realizar buscas com reconhecimento de contexto nos artigos da sua central de ajuda."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Sugestão de Etiquetas",
+        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para as conversas, com base na análise de conteúdo e no contexto.",
+        "MODEL_TITLE": "Modelo de Sugestão de Etiquetas",
+        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar as conversas e sugerir etiquetas apropriadas"
+      }
+    },
+    "API": {
+      "SUCCESS": "Configurações do Capitão atualizadas com sucesso.",
+      "ERROR": "Falha ao atualizar as configurações do Capitão. Por favor, tente novamente."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Cobrança",
@@ -503,6 +553,58 @@
       "INFO_SECTION": {
         "TITLE": "Service Provider Information",
         "TOOLTIP": "Copy these values and configure them in your Identity Provider to establish the SAML connection"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Fluxos de Conversa",
+        "DESCRIPTION": "Configure regras e campos obrigatórios para a resolução de conversas."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Atributos obrigatórios para resolução",
+      "DESCRIPTION": "Ao resolver uma conversa, os agentes serão solicitados a preencher esses atributos caso ainda não o tenham feito.",
+      "NO_ATTRIBUTES": "Nenhum atributo adicionado ainda",
+      "ADD": {
+        "TITLE": "Adicionar Atributos",
+        "SEARCH_PLACEHOLDER": "Pesquisar atributos"
+      },
+      "SAVE": {
+        "SUCCESS": "Atributos obrigatórios atualizados",
+        "ERROR": "Não foi possível atualizar os atributos obrigatórios. Por favor, tente novamente"
+      },
+      "MODAL": {
+        "TITLE": "Resolver conversa",
+        "DESCRIPTION": "Por favor, preencha os seguintes atributos personalizados antes de resolver esta conversa",
+        "ACTIONS": {
+          "RESOLVE": "Resolver conversa",
+          "CANCEL": "Cancelar"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Escreva uma nota...",
+          "NUMBER": "Insira um número",
+          "LINK": "Adicione um link",
+          "DATE": "Selecione uma data",
+          "LIST": "Selecione uma opção"
+        },
+        "CHECKBOX": {
+          "YES": "Sim",
+          "NO": "Não"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Atualize para usar os atributos obrigatórios",
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios da conversa está disponível nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Atualize seu plano para solicitar que os agentes preencham os atributos obrigatórios antes da resolução da conversa.",
+        "UPGRADE_NOW": "Atualizar agora",
+        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos pagos.",
+        "UPGRADE_PROMPT": "Atualize para um plano pago para exigir atributos obrigatórios antes da resolução da conversa.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
       }
     }
   },

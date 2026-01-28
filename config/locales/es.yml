@@ -120,6 +120,8 @@ es:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +158,14 @@ es:
       avg_resolution_time: Tiempo promedio de resolución
       resolution_count: Número de resoluciones
       avg_customer_waiting_time: Tiempo promedio de espera del cliente
+    conversation_csv:
+      conversations_count: Conversaciones
+      incoming_messages_count: Mensajes recibidos
+      outgoing_messages_count: Mensajes enviados
+      avg_first_response_time: Promedio de tiempo de la primera respuesta
+      avg_resolution_time: Tiempo promedio de resolución
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Tiempo promedio de espera del cliente
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
@@ -178,6 +188,7 @@ es:
         rating: Calificación
         feedback: Comentario de opinión
         recorded_at: Fecha registrada
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Una conversación (#%{display_id}) ha sido creada en %{inbox_name}'
@@ -320,6 +331,9 @@ es:
     copilot_message_required: El mensaje es obligatorio
     copilot_error: 'Conecte un asistente a esta bandeja de entrada para utilizar Copilot'
     copilot_limit: 'Te quedaste sin créditos de Copilot. Puedes comprar más créditos desde la sección de facturación.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'

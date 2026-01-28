@@ -3,7 +3,7 @@
     "HEADER": "会話データ",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
-    "DOWNLOAD_AGENT_REPORTS": "担当者レポートをダウンロード",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "データの取得に失敗しました。後でもう一度お試しください。",
     "SUMMARY_FETCHING_FAILED": "サマリーの取得に失敗しました。後でもう一度お試しください。",
     "METRICS": {
@@ -402,12 +402,31 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSATレポート",
-    "NO_RECORDS": "CSATアンケートの回答はありません。",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "CSATレポートをダウンロード",
     "DOWNLOAD_FAILED": "CSATレポートのダウンロードに失敗しました",
     "FILTERS": {
+      "ADD_FILTER": "フィルターを追加",
+      "CLEAR_ALL": "すべてクリア",
+      "NO_FILTER": "利用可能なフィルターがありません",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "担当者を検索",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "チームを検索",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "担当者を選択"
+        "LABEL": "担当者"
+      },
+      "INBOXES": {
+        "LABEL": "受信トレイ"
+      },
+      "TEAMS": {
+        "LABEL": "チーム"
+      },
+      "RATINGS": {
+        "LABEL": "評価"
       }
     },
     "TABLE": {
@@ -415,9 +434,16 @@
         "CONTACT_NAME": "連絡先",
         "AGENT_NAME": "担当者",
         "RATING": "評価",
-        "FEEDBACK_TEXT": "フィードバックコメント"
-      }
+        "FEEDBACK_TEXT": "フィードバックコメント",
+        "CONVERSATION": "会話",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "回答",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "総回答数",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "回答率",
         "TOOLTIP": "回答数 / 送信されたCSATアンケートメッセージ数 × 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "保存",
+      "CANCEL": "キャンセル",
+      "SAVING": "保存中...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "今すぐアップグレード",
+        "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
       }
     }
   },

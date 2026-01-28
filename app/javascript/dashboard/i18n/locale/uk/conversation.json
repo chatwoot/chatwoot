@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + Enter для нового рядка. Для вибору швидкої відповіді, уведіть '/'.",
       "PRIVATE_MSG_INPUT": "Shift + Enter для нового рядка. Видиме лише для співробітників",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Не налаштовано підпис повідомлення, будь ласка, налаштуйте його в налаштуваннях профілю.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Натисніть тут для оновлення",
       "WHATSAPP_TEMPLATES": "Шаблони Whatsapp"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Перетягніть сюди, щоб прикріпити",
       "START_AUDIO_RECORDING": "Почати аудіозапис",
       "STOP_AUDIO_RECORDING": "Зупинити аудіозапис",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "На",
         "ADD_BCC": "Додати bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Файл перевищує максимальний розмір вкладень {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} МБ",
+    "FILE_TYPE_NOT_SUPPORTED": "Тип файлу {fileName} не підтримується у цій розмові",
     "MESSAGE_ERROR": "Не вдалося надіслати повідомлення, будь ласка, повторіть спробу пізніше",
     "SENT_BY": "Надіслав:",
     "BOT": "Бот",
@@ -281,10 +283,10 @@
       "OUTGOING_CALL": "Outgoing call",
       "CALL_IN_PROGRESS": "Call in progress",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
-      "REJECT_CALL": "Reject",
-      "JOIN_CALL": "Join call",
-      "END_CALL": "End call"
+      "HANDLED_IN_ANOTHER_TAB": "Оброблюється в іншій вкладці",
+      "REJECT_CALL": "Відхилити",
+      "JOIN_CALL": "Доєднатися до виклику",
+      "END_CALL": "Завершити виклик"
     }
   },
   "EMAIL_TRANSCRIPT": {

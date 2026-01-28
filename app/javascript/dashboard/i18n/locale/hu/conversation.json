@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + enter új sorért. Kezdj a '/'-el mentett válasz kiválasztásához.",
       "PRIVATE_MSG_INPUT": "Shift + enter új sorért. Ezt csak ügynökök láthatják",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Üzenet aláírása nem változott, kérlek, változtasd meg a profilod beállításaiban. ",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Frissítéshez kattints ide",
       "WHATSAPP_TEMPLATES": "Whatsapp sablonok"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Helyezd ide a csatolmányt",
       "START_AUDIO_RECORDING": "Hangfelvétel indítása",
       "STOP_AUDIO_RECORDING": "Hangfelvétel leállítása",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "Címzett",
         "ADD_BCC": "Titkos másolat hozzáadása",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "A file mérete meghaladja a {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} limitet",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nem tudsz üzenetet küldeni, kérlek, próbáld újra",
     "SENT_BY": "Küldő:",
     "BOT": "Bot",

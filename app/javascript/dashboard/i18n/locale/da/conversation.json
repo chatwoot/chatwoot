@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + enter for ny linje. Start med '/' for at vælge et standardsvar.",
       "PRIVATE_MSG_INPUT": "Shift + enter for ny linje. Dette vil kun være synligt for Agenter",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Beskedsignatur er ikke konfigureret, konfigurer den i profilindstillinger.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klik her for at opdatere",
       "WHATSAPP_TEMPLATES": "Whatsapp Skabeloner"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Træk og slip her for at vedhæfte",
       "START_AUDIO_RECORDING": "Start lydoptagelse",
       "STOP_AUDIO_RECORDING": "Stop lydoptagelse",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Tilføj bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} for vedhæftede filer",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Kunne ikke sende denne besked, prøv igen senere",
     "SENT_BY": "Sendt af:",
     "BOT": "Bot",

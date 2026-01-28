@@ -186,6 +186,7 @@
       "MSG_INPUT": "输入“/”开始选择快捷回复",
       "PRIVATE_MSG_INPUT": "Shift + 输入新行。这只对客服可见",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "未设置消息签名，请在个人资料中进行设置。",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "点击此处更新",
       "WHATSAPP_TEMPLATES": "Whatsapp 模板列表"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "拖放到此处添加附件",
       "START_AUDIO_RECORDING": "开始录音",
       "STOP_AUDIO_RECORDING": "停止录音",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "发给",
         "ADD_BCC": "添加密送",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "对话成功删除",
     "FAIL_DELETE_CONVERSATION": "无法删除对话！请重试",
     "FILE_SIZE_LIMIT": "文件超过了 {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB 的附件限制",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "无法发送此消息，请稍后再试",
     "SENT_BY": "发送人：",
     "BOT": "机器人",

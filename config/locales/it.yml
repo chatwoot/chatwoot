@@ -120,6 +120,8 @@ it:
       plan_not_eligible: Le ricariche sono disponibili solo per i piani a pagamento. Si prega di aggiornare il piano prima.
       stripe_customer_not_configured: Cliente Stripe non configurato
       no_payment_method: Nessun metodo di pagamento trovato. Aggiungi un metodo di pagamento prima di effettuare un acquisto.
+    reports:
+      date_range_too_long: L'intervallo di date non può superare i 6 mesi
   profile:
     mfa:
       enabled: MFA attivata con successo
@@ -156,6 +158,14 @@ it:
       avg_resolution_time: Tempo medio di risoluzione
       resolution_count: Conteggio risoluzioni
       avg_customer_waiting_time: Tempo medio di attesa cliente
+    conversation_csv:
+      conversations_count: Conversazioni
+      incoming_messages_count: Messaggi in arrivo
+      outgoing_messages_count: Messaggi in uscita
+      avg_first_response_time: Tempo medio di prima risposta
+      avg_resolution_time: Tempo medio di risoluzione
+      resolution_count: Conteggio risoluzioni
+      avg_customer_waiting_time: Tempo medio di attesa cliente
     conversation_traffic_csv:
       timezone: Fuso Orario
     sla_csv:
@@ -178,6 +188,7 @@ it:
         rating: Valutazione
         feedback: Commento di Feedback
         recorded_at: Data di registrazione
+        review_notes: Note Revisione
   notifications:
     notification_title:
       conversation_creation: 'Una conversazione (#%{display_id}) è stata creata in %{inbox_name}'
@@ -320,6 +331,9 @@ it:
     copilot_message_required: Messaggio richiesto
     copilot_error: 'Connetti un assistente a questa Inbox per usare Copilot'
     copilot_limit: 'Hai terminato i crediti Copilot. Puoi acquistare altri crediti dalla sezione fatturazione.'
+    upgrade: 'Aggiorna il piano per attivare Captain AI'
+    disabled: 'Captain AI è disattivato per questo account.'
+    api_key_missing: 'La chiave API di Captain AI non è configurata.'
     copilot:
       using_tool: 'Utilizzando tool %{function_name}'
       completed_tool_call: 'Tool %{function_name} utilizzato'

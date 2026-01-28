@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
       "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "さらに読み込む"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",

@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + enter za novi red. Počni sa '/' da bi ste izabrali brzi odgovor.",
       "PRIVATE_MSG_INPUT": "Shift + enter za novi red. Ovo će biti vidljivo samo agentima",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Potpis poruke nije podešen, molim vas podesite ga u podešavanjima profila.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Kliknite ovde da izmenite",
       "WHATSAPP_TEMPLATES": "Whatsapp šabloni"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Prevuci i pusti za dodavanje",
       "START_AUDIO_RECORDING": "Pokreni snimanje zvuka",
       "STOP_AUDIO_RECORDING": "Zaustavi snimanje zvuka",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Dodaj bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
     "BOT": "Bot",

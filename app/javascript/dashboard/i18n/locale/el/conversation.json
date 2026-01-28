@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + enter για νέα γραμμή. Ξεκινήστε με '/' για να επιλέξτε Τυποποιημένη Απάντηση.",
       "PRIVATE_MSG_INPUT": "Shift + enter για νέα γραμμή. Το κείμενο θα μπορούν να το δουν μόνο οι υπόλοιποι πράκτορες.",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Δεν έχει ρυθμιστεί η υπογραφή μηνύματος, παρακαλώ ρυθμίστε την στις ρυθμίσεις προφίλ.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Πατήστε εδώ για ενημέρωση",
       "WHATSAPP_TEMPLATES": "Πρότυπα Whatsapp"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Σύρετε και αφήστε εδώ για επισύναψη",
       "START_AUDIO_RECORDING": "Έναρξη ηχογράφησης",
       "STOP_AUDIO_RECORDING": "Διακοπή ηχογράφησης",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "TO",
         "ADD_BCC": "Προσθήκη bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
     "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
     "BOT": "Bot",

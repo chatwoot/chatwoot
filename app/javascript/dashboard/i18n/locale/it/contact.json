@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nessun contatto corrisponde alla tua ricerca 🔍",
       "LIST_EMPTY_STATE_TITLE": "Nessun contatto disponibile in questa vista 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nessun contatto attivo al momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Carica altro"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assegna Etichette",

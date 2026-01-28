@@ -120,6 +120,8 @@ lv:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +158,14 @@ lv:
       avg_resolution_time: Vidējais atrisināšanas laiks
       resolution_count: Atrisināšanas Skaits
       avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
+    conversation_csv:
+      conversations_count: Sarunas
+      incoming_messages_count: Saņemtās ziņas
+      outgoing_messages_count: Nosūtītās ziņas
+      avg_first_response_time: Vidējais pirmās reakcijas laiks
+      avg_resolution_time: Vidējais atrisināšanas laiks
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Vidējais klientu gaidīšanas laiks
     conversation_traffic_csv:
       timezone: Laika zona
     sla_csv:
@@ -178,6 +188,7 @@ lv:
         rating: Vērtējums
         feedback: Atsauksmes Komentārs
         recorded_at: Reģistrētais datums
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'Saruna (#%{display_id}) ir izveidota mapē %{inbox_name}'
@@ -320,6 +331,9 @@ lv:
     copilot_message_required: Nepieciešams ziņojums
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'

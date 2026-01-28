@@ -3,7 +3,7 @@
     "HEADER": "会话",
     "LOADING_CHART": "正在载入图表数据...",
     "NO_ENOUGH_DATA": "我们没有收到足够的数据点来生成报告，请稍后再试。",
-    "DOWNLOAD_AGENT_REPORTS": "下载客服报表",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "数据获取失败，请稍后再试。",
     "SUMMARY_FETCHING_FAILED": "摘要获取失败，请稍后再试。",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT 报告",
-    "NO_RECORDS": "没有可用的 CSAT 调查回复。",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "下载 CSAT 报告",
     "DOWNLOAD_FAILED": "下载 CSAT 报告失败",
     "FILTERS": {
+      "ADD_FILTER": "添加过滤器",
+      "CLEAR_ALL": "清除全部",
+      "NO_FILTER": "没有可用的过滤器",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "搜索客服代表",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "查找团队",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "选择客服"
+        "LABEL": "客服"
+      },
+      "INBOXES": {
+        "LABEL": "收件箱"
+      },
+      "TEAMS": {
+        "LABEL": "团队"
+      },
+      "RATINGS": {
+        "LABEL": "评分"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "联系人",
-        "AGENT_NAME": "分配的客服",
+        "AGENT_NAME": "客服",
         "RATING": "评分",
-        "FEEDBACK_TEXT": "反馈评论"
-      }
+        "FEEDBACK_TEXT": "反馈评论",
+        "CONVERSATION": "会话",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "回复",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "总回复数",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "回复率",
         "TOOLTIP": "总回复数 / 发送的 CSAT 调查消息总数 * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "保存",
+      "CANCEL": "取消",
+      "SAVING": "保存中...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "立即升级",
+        "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
       }
     }
   },

@@ -378,7 +378,57 @@
       "INFO_SHORT": "Imposta automaticamente offline quando non stai usando l'app."
     },
     "DOCS": "Leggi i documenti",
-    "SECURITY": "Sicurezza"
+    "SECURITY": "Sicurezza",
+    "CAPTAIN_AI": "Captain",
+    "CONVERSATION_WORKFLOW": "Workflow Conversazione"
+  },
+  "CAPTAIN_SETTINGS": {
+    "TITLE": "Impostazioni Captain",
+    "DESCRIPTION": "Configura i tuoi modelli AI e le funzionalità di Captain. La fatturazione di Captain si basa sui crediti, che ti verranno scalati per ogni azione di Captain in base al modello selezionato.",
+    "LOADING": "Caricamento configurazione Captain...",
+    "LINK_TEXT": "Scopri di più sui Crediti Captain",
+    "NOT_ENABLED": "Captain non è abilitato per il tuo account. Aggiorna il tuo piano per accedere alle funzionalità Captain.",
+    "MODEL_CONFIG": {
+      "TITLE": "Configurazione Modello",
+      "DESCRIPTION": "Seleziona modelli AI per le varie funzionalità.",
+      "SELECT_MODEL": "Seleziona modello",
+      "CREDITS_PER_MESSAGE": "{credits} crediti/messaggio",
+      "COMING_SOON": "In arrivo",
+      "EDITOR": {
+        "TITLE": "Funzionalità Editor",
+        "DESCRIPTION": "Permette smart compose, correzioni grammaticali, gestione del tono di voce e miglioramento del contenuto nell'editor dei messaggi."
+      },
+      "ASSISTANT": {
+        "TITLE": "Assistente",
+        "DESCRIPTION": "Gestisce risposte automatizzate, riassunti delle conversazioni e suggerimenti di risposta intelligenti per le interazioni con i clienti."
+      },
+      "COPILOT": {
+        "TITLE": "Co-pilot",
+        "DESCRIPTION": "Fornisce suggerimenti contestuali in tempo reale, consigli sulla knowledge base e insight proattivi durante le conversazioni."
+      }
+    },
+    "FEATURES": {
+      "TITLE": "Funzionalità",
+      "DESCRIPTION": "Abilita o disabilita le funzionalità AI.",
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Trascrizione Audio",
+        "DESCRIPTION": "Converte automaticamente i messaggi vocali e le registrazioni delle chiamate in trascrizioni di testo ricercabili."
+      },
+      "HELP_CENTER_SEARCH": {
+        "TITLE": "Indicizzazione Ricerca Help Center",
+        "DESCRIPTION": "Usa l'AI per effettuare una ricerca contestualizzata tra gli articoli dell'help center."
+      },
+      "LABEL_SUGGESTION": {
+        "TITLE": "Suggerimento Etichette",
+        "DESCRIPTION": "Suggerisce automaticamente etichette e tag rilevanti per le conversazioni in base all'analisi e al contesto dei contenuti.",
+        "MODEL_TITLE": "Modello Di Suggerimento Etichette",
+        "MODEL_DESCRIPTION": "Seleziona il modello AI da utilizzare per analizzare le conversazioni e suggerire etichette appropriate"
+      }
+    },
+    "API": {
+      "SUCCESS": "Impostazioni Captain aggiornate con successo.",
+      "ERROR": "Impossibile aggiornare le impostazioni Captain. Per favore riprova."
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatturazione",
@@ -503,6 +553,58 @@
       "INFO_SECTION": {
         "TITLE": "Informazioni sul Service Provider",
         "TOOLTIP": "Copia questi valori e configurali nel tuo Identity Provider per stabilire la connessione SAML"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "TITLE": "Workflow Conversazione",
+        "DESCRIPTION": "Configura regole e campi obbligatori per la risoluzione delle conversazioni."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Attributi richiesti per la risoluzione",
+      "DESCRIPTION": "Quando si risolve una conversazione, agli operatori verrà chiesto di compilare questi attributi se non sono ancora stati compilati.",
+      "NO_ATTRIBUTES": "Nessun attributo aggiunto",
+      "ADD": {
+        "TITLE": "Aggiungi Attributi",
+        "SEARCH_PLACEHOLDER": "Cerca attributi"
+      },
+      "SAVE": {
+        "SUCCESS": "Attributi richiesti aggiornati",
+        "ERROR": "Impossibile aggiornare gli attributi richiesti, riprova"
+      },
+      "MODAL": {
+        "TITLE": "Risolvi la conversazione",
+        "DESCRIPTION": "Inserisci i seguenti attributi personalizzati prima di risolvere questa conversazione",
+        "ACTIONS": {
+          "RESOLVE": "Risolvi la conversazione",
+          "CANCEL": "Annulla"
+        },
+        "PLACEHOLDERS": {
+          "TEXT": "Scrivi una nota...",
+          "NUMBER": "Inserisci un numero",
+          "LINK": "Aggiungi un link",
+          "DATE": "Scegli una data",
+          "LIST": "Seleziona un'opzione"
+        },
+        "CHECKBOX": {
+          "YES": "Sì",
+          "NO": "No"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Aggiorna per utilizzare gli attributi richiesti",
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani Business e Enterprise.",
+        "UPGRADE_PROMPT": "Aggiorna il tuo piano per chiedere agli operatori di compilare gli attributi richiesti prima della risoluzione della conversazione.",
+        "UPGRADE_NOW": "Aggiorna ora",
+        "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "AVAILABLE_ON": "La funzionalità Attributi di Conversazione Richiesti è disponibile solo nei piani a pagamento.",
+        "UPGRADE_PROMPT": "Passa a un piano a pagamento per imporre gli attributi richiesti prima della risoluzione della conversazione.",
+        "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
       }
     }
   },

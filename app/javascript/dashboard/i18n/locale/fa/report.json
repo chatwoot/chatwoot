@@ -3,7 +3,7 @@
     "HEADER": "گفتگوها",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
-    "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "خطا در دریافت اطلاعات، لطفا بعدا دوباره تلاش کنید.",
     "SUMMARY_FETCHING_FAILED": "خطا در دریافت خلاصه، لطفا بعدا دوباره تلاش کنید.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "گزارشات رضایت مشتری",
-    "NO_RECORDS": "هیچ پاسخ برای نظرسنجی رضایت مشتری در دسترس نیست.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "دانلود گزارش CSAT",
     "DOWNLOAD_FAILED": "خطا در دانلود گزارش های CSAT",
     "FILTERS": {
+      "ADD_FILTER": "افزودن فیلتر",
+      "CLEAR_ALL": "حذف همه",
+      "NO_FILTER": "هیچ فیلتری موجود نیست",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "جستجوی اپراتور",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "جستجوی تیم",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "اپراتور را انتخاب کنید"
+        "LABEL": "ایجنت"
+      },
+      "INBOXES": {
+        "LABEL": "صندوق ورودی"
+      },
+      "TEAMS": {
+        "LABEL": "تیم‌"
+      },
+      "RATINGS": {
+        "LABEL": "رتبه"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "مخاطب",
-        "AGENT_NAME": "ایجنت تعیین شده",
+        "AGENT_NAME": "ایجنت",
         "RATING": "رتبه",
-        "FEEDBACK_TEXT": "نظر ثبت شده"
-      }
+        "FEEDBACK_TEXT": "نظر ثبت شده",
+        "CONVERSATION": "گفتگو",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "مجموع پاسخ ها",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "نرخ پاسخ",
         "TOOLTIP": "تعداد کل پاسخ ها / تعداد کل پیام های نظرسنجی رضایت مشتری ارسال شده از 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "ذخیره",
+      "CANCEL": "انصراف",
+      "SAVING": "در حال ذخیره...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "حالا ارتقا دهید",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

@@ -145,7 +145,29 @@
         "EXPAND": "Espandi",
         "MAKE_FRIENDLY": "Cambia il tono del messaggio in amichevole",
         "MAKE_FORMAL": "Usa un tono formale",
-        "SIMPLIFY": "Semplifica"
+        "SIMPLIFY": "Semplifica",
+        "CONFIDENT": "Usa un tono sicuro",
+        "PROFESSIONAL": "Usa un tono professionale",
+        "CASUAL": "Usa un tono informale",
+        "STRAIGHTFORWARD": "Usa un tono diretto"
+      },
+      "REPLY_OPTIONS": {
+        "IMPROVE_REPLY": "Migliora la risposta",
+        "IMPROVE_REPLY_SELECTION": "Migliora il testo selezionato",
+        "CHANGE_TONE": {
+          "TITLE": "Cambia tono",
+          "OPTIONS": {
+            "PROFESSIONAL": "Professionale",
+            "CASUAL": "Informale",
+            "STRAIGHTFORWARD": "Diretto",
+            "CONFIDENT": "Sicuro",
+            "FRIENDLY": "Amichevole"
+          }
+        },
+        "GRAMMAR": "Correggi grammatica e ortografia",
+        "SUGGESTION": "Suggerisci una risposta",
+        "SUMMARIZE": "Riassumi la conversazione",
+        "ASK_COPILOT": "Chiedi a Copilot"
       },
       "ASSISTANCE_MODAL": {
         "DRAFT_TITLE": "Contenuti in bozza",
@@ -406,6 +428,7 @@
       "CANCEL_ANYTIME": "Puoi modificare o annullare il tuo piano in qualsiasi momento"
     },
     "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Captain AI è disponibile solo nei piani Enterprise.",
       "UPGRADE_PROMPT": "Aggiorna il tuo piano per ottenere l'accesso ai nostri assistenti, copilot e altro ancora.",
       "ASK_ADMIN": "Contatta il tuo amministratore per l'aggiornamento."
     },

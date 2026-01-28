@@ -186,6 +186,7 @@
       "MSG_INPUT": "Premi MAIUSC + INVIO per andare a capo. Digita '/' per inserire una Risposta Predefinita.",
       "PRIVATE_MSG_INPUT": "Premi MAIUSC + INVIO per andare a capo. Sarà visibile solo agli Operatori",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del messaggio non è configurata, configurala nelle impostazioni del profilo.",
+      "COPILOT_MSG_INPUT": "Dai ulteriori istruzioni a Copilot o fai un’altra richiesta. Premi Invio per inviare il messaggio successivo",
       "CLICK_HERE": "Clicca qui per aggiornare",
       "WHATSAPP_TEMPLATES": "Modelli Whatsapp"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Trascina qui per allegare",
       "START_AUDIO_RECORDING": "Avvia registrazione audio",
       "STOP_AUDIO_RECORDING": "Interrompi registrazione audio",
-      "": "",
+      "COPILOT_THINKING": "Copilot sta pensando",
       "EMAIL_HEAD": {
         "TO": "A",
         "ADD_BCC": "Aggiungi Ccn",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Conversazione eliminata con successo",
     "FAIL_DELETE_CONVERSATION": "Impossibile eliminare la conversazione! Riprova",
     "FILE_SIZE_LIMIT": "Il file supera il limite di {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB per l'allegato",
+    "FILE_TYPE_NOT_SUPPORTED": "I file di tipo {fileName} non sono supportati in questa conversazione",
     "MESSAGE_ERROR": "Impossibile inviare questo messaggio, riprova più tardi",
     "SENT_BY": "Inviato da:",
     "BOT": "Bot",

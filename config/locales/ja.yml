@@ -120,6 +120,8 @@ ja:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +158,14 @@ ja:
       avg_resolution_time: 解決までの平均時間
       resolution_count: 処理件数
       avg_customer_waiting_time: お客様の平均待ち時間
+    conversation_csv:
+      conversations_count: 会話データ
+      incoming_messages_count: 受信メッセージ
+      outgoing_messages_count: 送信メッセージ
+      avg_first_response_time: 初回応答の平均時間
+      avg_resolution_time: 解決までの平均時間
+      resolution_count: Resolution count
+      avg_customer_waiting_time: お客様の平均待ち時間
     conversation_traffic_csv:
       timezone: タイムゾーン
     sla_csv:
@@ -178,6 +188,7 @@ ja:
         rating: 評価
         feedback: フィードバックコメント
         recorded_at: 記録日
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: '会話 (#%{display_id}) が %{inbox_name} で作成されました'
@@ -320,6 +331,9 @@ ja:
     copilot_message_required: メッセージは必須です
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'

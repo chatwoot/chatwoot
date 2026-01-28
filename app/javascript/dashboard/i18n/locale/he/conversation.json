@@ -186,6 +186,7 @@
       "MSG_INPUT": "Shift + Enter עבור שורה חדשה. התחל עם '/' כדי לבחור תגובה מוכנה.",
       "PRIVATE_MSG_INPUT": "Shift + Enter עבור שורה חדשה. זה יהיה גלוי רק לסוכנים",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "חתימת הודעה אינה מוגדרת, נא הגדר אותה בהגדרות הפרופיל.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "לחץ כאן כדי לעדכן",
       "WHATSAPP_TEMPLATES": "תבניות וואטסאפ"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "גרור ושחרר כאן להוספת קובץ מצורף",
       "START_AUDIO_RECORDING": "התחל הקלטת אודיו",
       "STOP_AUDIO_RECORDING": "עצור הקלטת אודיו",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "אל",
         "ADD_BCC": "הוסף bcc",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "השיחה נמחקה בהצלחה",
     "FAIL_DELETE_CONVERSATION": "לא ניתן למחוק את השיחה! נסה שוב",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
     "BOT": "בוט",

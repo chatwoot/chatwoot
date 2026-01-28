@@ -69,7 +69,7 @@ ko:
       domain:
         invalid: must be a valid domain name
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: 매개변수 q를 사용하여 검색 문자열을 지정하세요
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
@@ -120,6 +120,8 @@ ko:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA enabled successfully
@@ -156,6 +158,14 @@ ko:
       avg_resolution_time: Avg resolution time
       resolution_count: 해결 수
       avg_customer_waiting_time: Avg customer waiting time
+    conversation_csv:
+      conversations_count: 대화
+      incoming_messages_count: 수신 메시지
+      outgoing_messages_count: 발신 메시지
+      avg_first_response_time: Avg first response time
+      avg_resolution_time: Avg resolution time
+      resolution_count: Resolution count
+      avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Timezone
     sla_csv:
@@ -178,6 +188,7 @@ ko:
         rating: Rating
         feedback: Feedback Comment
         recorded_at: Recorded date
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
@@ -320,6 +331,9 @@ ko:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'Using tool %{function_name}'
       completed_tool_call: 'Completed %{function_name} tool call'

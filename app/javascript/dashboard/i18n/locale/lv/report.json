@@ -3,7 +3,7 @@
     "HEADER": "Sarunas",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-    "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Neizdevās izgūt datus. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "SUMMARY_FETCHING_FAILED": "Neizdevās izgūt kopsavilkumu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Pārskati",
-    "NO_RECORDS": "CSAT aptaujas atbildes nav pieejamas.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Lejupielādēt CSAT Pārskatus",
     "DOWNLOAD_FAILED": "Neizdevās lejupielādēt CSAT Pārskatus",
     "FILTERS": {
+      "ADD_FILTER": "Pievienot filtru",
+      "CLEAR_ALL": "Notīrīt visu",
+      "NO_FILTER": "Nav pieejami filtri",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Meklēt aģentus",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Meklēt komandas",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Izvēlieties Aģentus"
+        "LABEL": "Aģents"
+      },
+      "INBOXES": {
+        "LABEL": "Iesūtne"
+      },
+      "TEAMS": {
+        "LABEL": "Komanda"
+      },
+      "RATINGS": {
+        "LABEL": "Vērtējums"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Kontaktpersona",
-        "AGENT_NAME": "Piešķirtais aģents",
+        "AGENT_NAME": "Aģents",
         "RATING": "Vērtējums",
-        "FEEDBACK_TEXT": "Atsauksmes komentārs"
-      }
+        "FEEDBACK_TEXT": "Atsauksmes komentārs",
+        "CONVERSATION": "Saruna",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Atbilde",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Kopējais atbilžu skaits",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Atbildes ātrums",
         "TOOLTIP": "Kopējais atbilžu skaits / Kopējais nosūtīto CSAT aptaujas ziņojumu skaits * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Saglabāt",
+      "CANCEL": "Atcelt",
+      "SAVING": "Notiek saglabāšana...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+        "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
       }
     }
   },

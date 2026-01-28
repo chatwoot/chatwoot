@@ -3,7 +3,7 @@
     "HEADER": "Konuşmalar",
     "LOADING_CHART": "Grafik verileri yükleniyor...",
     "NO_ENOUGH_DATA": "Rapor oluşturmak için yeterli veri yok, Lütfen daha sonra tekrar deneyin.",
-    "DOWNLOAD_AGENT_REPORTS": "Etken raporları indir",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Veri çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
     "SUMMARY_FETCHING_FAILED": "Özet çekme başarısız oldu, lütfen daha sonra tekrar deneyin.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Raporları",
-    "NO_RECORDS": "Mevcut CSAT anket yanıtları yok.",
+    "NO_RECORDS": "Henüz yanıt yok",
+    "NO_RECORDS_DESCRIPTION": "Müşteriler geri bildirim vermeye başladığında CSAT anket yanıtları burada görünecektir.",
     "DOWNLOAD": "CSAT Raporlarını İndir",
     "DOWNLOAD_FAILED": "CSAT Raporlarını İndirme Başarısız Oldu",
     "FILTERS": {
+      "ADD_FILTER": "Filtre Ekle",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Temsilci ara",
+        "INBOXES": "Gelen kutularını ara",
+        "TEAMS": "Takım ara",
+        "RATINGS": "Değerlendirmelerde ara"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Temsilcileri Seç"
+        "LABEL": "Kullanıcı"
+      },
+      "INBOXES": {
+        "LABEL": "Gelen Kutusu"
+      },
+      "TEAMS": {
+        "LABEL": "Ekip"
+      },
+      "RATINGS": {
+        "LABEL": "Değerlendirme"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "İletişim",
-        "AGENT_NAME": "Atanan temsilci",
+        "AGENT_NAME": "Kullanıcı",
         "RATING": "Değerlendirme",
-        "FEEDBACK_TEXT": "Geri bildirim yorumu"
-      }
+        "FEEDBACK_TEXT": "Geri bildirim yorumu",
+        "CONVERSATION": "Sohbet",
+        "CUSTOMER": "Müşteri",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "İlgilenen"
+      },
+      "UNKNOWN_CUSTOMER": "Bilinmeyen müşteri"
     },
+    "NO_AGENT": "Atanmış temsilci yok",
+    "NO_FEEDBACK": "Geri bildirim sağlanmadı",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Toplam yanıtlar",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Yanıt oranı",
         "TOOLTIP": "Toplam yanıtların toplamı / Gönderilen CSAT anketi mesajlarının toplamı * 100"
+      },
+      "RATING_DISTRIBUTION": "Derecelendirme dağılımı"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "İnceleme notları",
+      "PLACEHOLDER": "Bu derecelendirmeyle ilgili yorum notları ekleyin...",
+      "SAVE": "Kaydet",
+      "CANCEL": "İptal Et",
+      "SAVING": "Kaydediliyor...",
+      "SAVED": "Notlar başarıyla kaydedildi",
+      "SAVE_ERROR": "Notlar kaydedilemedi",
+      "UPDATED_BY": "{name} tarafından {time} tarihinde güncellendi",
+      "UPDATED_BY_LABEL": "Güncelleyen",
+      "PAYWALL": {
+        "TITLE": "İnceleme notları eklemek için yükseltin",
+        "AVAILABLE_ON": "İnceleme notları özelliği yalnızca Business ve Enterprise planlarında mevcuttur.",
+        "UPGRADE_PROMPT": "İnceleme notları ile her CSAT yanıtına dahili bağlam ekleyin. Gerçekte ne yaşandığını kayıt altına alın, kalıpları daha hızlı tespit edin ve geri bildirimlerinizden yola çıkarak daha iyi kararlar alın.",
+        "UPGRADE_NOW": "Şimdi yükselt",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

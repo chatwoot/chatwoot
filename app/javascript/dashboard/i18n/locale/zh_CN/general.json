@@ -7,6 +7,13 @@
     },
     "CLOSE": "关闭",
     "BETA": "测试版",
-    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it."
+    "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
+    "ACCEPT": "Accept",
+    "DISCARD": "丢弃",
+    "PREFERRED": "Preferred"
+  },
+  "CHOICE_TOGGLE": {
+    "YES": "是",
+    "NO": "否"
   }
 }

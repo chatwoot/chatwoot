@@ -28,7 +28,7 @@
       "TYPES": {
         "MEDIA": "Media",
         "QUICK_REPLY": "Quick Reply",
-        "CALL_TO_ACTION": "Call to Action",
+        "CALL_TO_ACTION": "Виклик до дії",
         "TEXT": "Текст"
       }
     },

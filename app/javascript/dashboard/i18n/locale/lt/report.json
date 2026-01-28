@@ -3,7 +3,7 @@
     "HEADER": "Pokalbiai",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
-    "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Nepavyko gauti duomenų, bandykite dar kartą vėliau.",
     "SUMMARY_FETCHING_FAILED": "Nepavyko gauti suvestinės, bandykite dar kartą vėliau.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "CSAT Ataskaitas",
-    "NO_RECORDS": "Nėra CSAT apklausos atsakymų.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Parsisiųsti CSAT ataskaitas",
     "DOWNLOAD_FAILED": "Nepavyko parsisiųsti CSAT ataskaitų",
     "FILTERS": {
+      "ADD_FILTER": "Pridėti Filtrą",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Ieškoti agentų",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Ieškoti komandų",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Pasirinkti Agentus"
+        "LABEL": "Agentas"
+      },
+      "INBOXES": {
+        "LABEL": "Gautų laiškų aplankas"
+      },
+      "TEAMS": {
+        "LABEL": "Komanda"
+      },
+      "RATINGS": {
+        "LABEL": "Reitingas"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Kontaktas",
-        "AGENT_NAME": "Priskirtas agentas",
+        "AGENT_NAME": "Agentas",
         "RATING": "Reitingas",
-        "FEEDBACK_TEXT": "Facebook komentaras"
-      }
+        "FEEDBACK_TEXT": "Facebook komentaras",
+        "CONVERSATION": "Pokalbis",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Iš viso atsakymų",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Atsakymo įvertinimas",
         "TOOLTIP": "Bendras atsakymų skaičius / Bendras skaičius išsiųstų CSAT apklausų pranešimų * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Išsaugoti",
+      "CANCEL": "Atšaukti",
+      "SAVING": "Išsaugoma...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

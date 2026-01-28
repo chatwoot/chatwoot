@@ -120,6 +120,8 @@ he:
       plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
       stripe_customer_not_configured: Stripe customer not configured
       no_payment_method: No payment methods found. Please add a payment method before making a purchase.
+    reports:
+      date_range_too_long: Date range cannot exceed 6 months
   profile:
     mfa:
       enabled: MFA הופעל בהצלחה
@@ -156,6 +158,14 @@ he:
       avg_resolution_time: זמן פתרון ממוצע
       resolution_count: ספירת פתרונות
       avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
+    conversation_csv:
+      conversations_count: שיחות
+      incoming_messages_count: הודעות נכנסות
+      outgoing_messages_count: הודעות יוצאות
+      avg_first_response_time: זמן תגובה ראשון ממוצע
+      avg_resolution_time: זמן פתרון ממוצע
+      resolution_count: Resolution count
+      avg_customer_waiting_time: זמן המתנה ממוצע של לקוח
     conversation_traffic_csv:
       timezone: אזור זמן
     sla_csv:
@@ -178,6 +188,7 @@ he:
         rating: דירוג
         feedback: הערת משוב
         recorded_at: תאריך הקלטה
+        review_notes: Review Notes
   notifications:
     notification_title:
       conversation_creation: 'שיחה (#%{display_id}) נוצרה ב-%{inbox_name}'
@@ -320,6 +331,9 @@ he:
     copilot_message_required: הודעה נדרשת
     copilot_error: 'אנא חבר עוזר לתיבת דואר נכנס זו כדי להשתמש ב-Copilot'
     copilot_limit: 'נגמרו לך זיכויי Copilot. אתה יכול לקנות זיכויים נוספים מסעיף החיובים.'
+    upgrade: 'Upgrade your plan to enable Captain AI'
+    disabled: 'Captain AI is disabled for this account.'
+    api_key_missing: 'Captain AI API key is not configured.'
     copilot:
       using_tool: 'משתמש בכלי %{function_name}'
       completed_tool_call: 'הושלם קריאת כלי %{function_name}'

@@ -186,6 +186,7 @@
       "MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Beginnen Sie mit '/', um eine vordefinierte Antwort auszuwählen.",
       "PRIVATE_MSG_INPUT": "Umschalt + Eingabetaste für neue Zeile. Dies ist nur für Agenten sichtbar",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Die Nachrichtensignatur ist nicht konfiguriert, bitte konfigurieren Sie sie in den Profileinstellungen.",
+      "COPILOT_MSG_INPUT": "Give copilot additional prompts, or ask anything else... Press enter to send follow-up",
       "CLICK_HERE": "Klicken Sie hier, um zu aktualisieren",
       "WHATSAPP_TEMPLATES": "WhatsApp-Vorlagen"
     },
@@ -205,7 +206,7 @@
       "DRAG_DROP": "Zum Anhängen hierher ziehen und ablegen",
       "START_AUDIO_RECORDING": "Audioaufzeichnung starten",
       "STOP_AUDIO_RECORDING": "Audioaufzeichnung stoppen",
-      "": "",
+      "COPILOT_THINKING": "Copilot is thinking",
       "EMAIL_HEAD": {
         "TO": "An",
         "ADD_BCC": "BCC hinzufügen",
@@ -247,6 +248,7 @@
     "SUCCESS_DELETE_CONVERSATION": "Unterhaltung erfolgreich gelöscht",
     "FAIL_DELETE_CONVERSATION": "Unterhaltung konnte nicht gelöscht werden! Erneut versuchen",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
+    "FILE_TYPE_NOT_SUPPORTED": "This {fileName} file type is not supported in this conversation",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
     "BOT": "Bot",

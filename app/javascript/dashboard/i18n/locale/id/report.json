@@ -3,7 +3,7 @@
     "HEADER": "Percakapan",
     "LOADING_CHART": "Memuat data grafik...",
     "NO_ENOUGH_DATA": "Kami belum menerima cukup data untuk membuat laporan, Silakan coba lagi nanti.",
-    "DOWNLOAD_AGENT_REPORTS": "Unduh laporan agen",
+    "DOWNLOAD_CONVERSATION_REPORTS": "Download conversation reports",
     "DATA_FETCHING_FAILED": "Gagal mengambil data, silakan coba lagi nanti.",
     "SUMMARY_FETCHING_FAILED": "Gagal mengambil ringkasan, silakan coba lagi nanti.",
     "METRICS": {
@@ -402,22 +402,48 @@
   },
   "CSAT_REPORTS": {
     "HEADER": "Laporan CSAT",
-    "NO_RECORDS": "Tidak ada respons survey CSAT yang tersedia.",
+    "NO_RECORDS": "No responses yet",
+    "NO_RECORDS_DESCRIPTION": "CSAT survey responses will appear here once customers start providing feedback.",
     "DOWNLOAD": "Unduh Laporan CSAT",
     "DOWNLOAD_FAILED": "Gagal mengunduh Laporan CSAT",
     "FILTERS": {
+      "ADD_FILTER": "Tambah filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Mencari Agen",
+        "INBOXES": "Search inboxes",
+        "TEAMS": "Mencari tim",
+        "RATINGS": "Search ratings"
+      },
       "AGENTS": {
-        "PLACEHOLDER": "Pilih Agen"
+        "LABEL": "Agen"
+      },
+      "INBOXES": {
+        "LABEL": "Kotak masuk"
+      },
+      "TEAMS": {
+        "LABEL": "Tim"
+      },
+      "RATINGS": {
+        "LABEL": "Penilaian"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Kontak",
-        "AGENT_NAME": "Agen yang ditugaskan",
+        "AGENT_NAME": "Agen",
         "RATING": "Peringkat",
-        "FEEDBACK_TEXT": "Komentar umpan balik"
-      }
+        "FEEDBACK_TEXT": "Komentar umpan balik",
+        "CONVERSATION": "Percakapan",
+        "CUSTOMER": "Customer",
+        "RESPONSE": "Response",
+        "HANDLED_BY": "Handled by"
+      },
+      "UNKNOWN_CUSTOMER": "Unknown customer"
     },
+    "NO_AGENT": "No assigned agent",
+    "NO_FEEDBACK": "No feedback provided",
     "METRIC": {
       "TOTAL_RESPONSES": {
         "LABEL": "Total respons",
@@ -430,6 +456,25 @@
       "RESPONSE_RATE": {
         "LABEL": "Peringkat respons",
         "TOOLTIP": "Total jumlah respons / Total jumlah pesan survey CSAT yang terkirim * 100"
+      },
+      "RATING_DISTRIBUTION": "Rating distribution"
+    },
+    "REVIEW_NOTES": {
+      "TITLE": "Review notes",
+      "PLACEHOLDER": "Add review notes about this rating...",
+      "SAVE": "Simpan",
+      "CANCEL": "Batalkan",
+      "SAVING": "Menyimpan...",
+      "SAVED": "Notes saved successfully",
+      "SAVE_ERROR": "Failed to save notes",
+      "UPDATED_BY": "Updated by {name} {time}",
+      "UPDATED_BY_LABEL": "Updated by",
+      "PAYWALL": {
+        "TITLE": "Upgrade to add review notes",
+        "AVAILABLE_ON": "The review notes feature is only available in the Business and Enterprise plans.",
+        "UPGRADE_PROMPT": "Add internal context to every CSAT response with review notes. Capture what really happened, spot patterns faster, and make better decisions from your feedback.",
+        "UPGRADE_NOW": "Upgrade now",
+        "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
       }
     }
   },

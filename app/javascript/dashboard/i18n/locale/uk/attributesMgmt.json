@@ -63,6 +63,10 @@
         },
         "ENABLE_REGEX": {
           "LABEL": "Увімкнути перевірку регулярного виразу"
+        },
+        "BADGES": {
+          "PRE_CHAT": "Пре-чат",
+          "RESOLUTION": "Вирішення"
         }
       },
       "API": {
@@ -131,8 +135,8 @@
       }
     },
     "BADGES": {
-      "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "PRE_CHAT": "Пре-чат",
+      "RESOLUTION": "Вирішення"
     }
   }
 }
