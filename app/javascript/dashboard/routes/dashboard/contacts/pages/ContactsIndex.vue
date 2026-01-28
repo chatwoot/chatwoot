@@ -460,7 +460,7 @@ onMounted(async () => {
       @load-more="loadMoreSearchResults"
     >
       <div
-        v-if="isFetchingList && !hasContacts"
+        v-if="isFetchingList && !(isSearchView && hasContacts)"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
