@@ -17,6 +17,8 @@ class Conversations::AutoAssignService
   def perform
     return unless should_process?
 
+    conversation.update_column(:last_triaged_at, Time.current)
+
     suggestions = fetch_suggestions
     return if suggestions.nil?
 
@@ -31,10 +33,25 @@ class Conversations::AutoAssignService
 
   def should_process?
     return false unless conversation.open?
+    return false if stale_conversation?
     return false unless threshold_met?
+    return false if recently_triaged?
     return if labels.empty? && teams.empty?
 
     true
+  end
+
+  def stale_conversation?
+    last_message = conversation.messages.last
+    return true if last_message.nil?
+
+    last_message.created_at < 1.hour.ago
+  end
+
+  def recently_triaged?
+    return false if conversation.last_triaged_at.nil?
+
+    conversation.last_triaged_at > 30.minutes.ago
   end
 
   def threshold_met?
