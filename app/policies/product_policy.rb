@@ -8,14 +8,14 @@ class ProductPolicy < ApplicationPolicy
   end
 
   def create?
-    @account_user.administrator?
+    true
   end
 
   def update?
-    @account_user.administrator?
+    true
   end
 
   def destroy?
-    @account_user.administrator?
+    true
   end
 end
