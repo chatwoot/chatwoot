@@ -2,25 +2,14 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
-import { subDays, fromUnixTime } from 'date-fns';
-import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 import {
   buildFilterList,
   buildRatingsList,
-  getActiveFilter,
   getFilterType,
 } from './CsatFilterHelpers';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
-import ActiveFilterChip from '../Filters/v3/ActiveFilterChip.vue';
 import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
-import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
-import {
-  parseReportURLParams,
-  parseFilterURLParams,
-  generateCompleteURLParams,
-} from '../../helpers/reportFilterHelper';
-import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
+import ReportFilterSelector from '../FilterSelector.vue';
 
 const props = defineProps({
   showTeamFilter: {
@@ -33,29 +22,20 @@ const emit = defineEmits(['filterChange']);
 
 const { t } = useI18n();
 const store = useStore();
-const route = useRoute();
-const router = useRouter();
-
-// Initialize from URL params immediately
-const urlParams = parseReportURLParams(route.query);
-const urlFilters = parseFilterURLParams(route.query);
-
-const initialDateRange =
-  urlParams.from && urlParams.to
-    ? [fromUnixTime(urlParams.from), fromUnixTime(urlParams.to)]
-    : [subDays(new Date(), 6), new Date()];
 
 const showDropdownMenu = ref(false);
-const showSubDropdownMenu = ref(false);
-const activeFilterType = ref('');
-const customDateRange = ref(initialDateRange);
-const selectedDateRange = ref(urlParams.range || DATE_RANGE_TYPES.LAST_7_DAYS);
-
+const from = ref(0);
+const to = ref(0);
+const businessHours = ref(false);
+const timeRange = ref({
+  since: '00:00',
+  until: '23:59',
+});
 const appliedFilters = ref({
-  user_ids: urlFilters.agent_id,
-  inbox_id: urlFilters.inbox_id,
-  team_id: urlFilters.team_id,
-  rating: urlFilters.rating,
+  user_ids: [],
+  inbox_id: [],
+  team_id: [],
+  rating: null,
 });
 
 const agents = computed(() => store.getters['agents/getAgents']);
@@ -63,9 +43,6 @@ const inboxes = computed(() => store.getters['inboxes/getInboxes']);
 const teams = computed(() => store.getters['teams/getTeams']);
 
 const ratings = computed(() => buildRatingsList(t));
-
-const from = computed(() => getUnixStartOfDay(customDateRange.value[0]));
-const to = computed(() => getUnixEndOfDay(customDateRange.value[1]));
 
 const getFilterSource = type => {
   const sources = {
@@ -81,7 +58,16 @@ const getFilterOptions = type => {
   if (type === 'ratings') {
     return ratings.value;
   }
-  return buildFilterList(getFilterSource(type), type);
+
+  const options = buildFilterList(getFilterSource(type), type);
+  const filterKey = getFilterType(type, 'typeToKey');
+  const selectedIds = appliedFilters.value[filterKey] || [];
+
+  if (Array.isArray(selectedIds) && selectedIds.length > 0) {
+    return options.filter(option => !selectedIds.includes(option.id));
+  }
+
+  return options;
 };
 
 const filterListMenuItems = computed(() => {
@@ -111,79 +97,91 @@ const filterListMenuItems = computed(() => {
     });
   }
 
-  const activeFilterKeys = Object.keys(appliedFilters.value).filter(
-    key => appliedFilters.value[key]
-  );
-  const activeFilterTypes = activeFilterKeys.map(key =>
-    getFilterType(key, 'keyToType')
-  );
-
-  return filterTypes
-    .filter(({ type }) => !activeFilterTypes.includes(type))
-    .map(({ id, name, type }) => ({
-      id,
-      name,
-      type,
-      options: getFilterOptions(type),
-    }));
+  return filterTypes.map(({ id, name, type }) => ({
+    id,
+    name,
+    type,
+    options: getFilterOptions(type),
+  }));
 });
 
-const activeFilters = computed(() => {
-  const activeKeys = Object.keys(appliedFilters.value).filter(
-    key => appliedFilters.value[key]
-  );
+const selectedItemsChips = computed(() => {
+  const chips = [];
 
-  return activeKeys.map(key => {
-    const filterType = getFilterType(key, 'keyToType');
-    const items = getFilterSource(filterType);
-    const item = getActiveFilter(items, filterType, appliedFilters.value[key]);
-    const displayName =
-      item?.name || item?.title || `ID: ${appliedFilters.value[key]}`;
+  if (appliedFilters.value.user_ids?.length > 0) {
+    appliedFilters.value.user_ids.forEach(userId => {
+      const agent = agents.value.find(a => a.id === userId);
+      if (agent) {
+        chips.push({
+          id: userId,
+          name: agent.name,
+          type: 'agents',
+          filterKey: 'user_ids',
+        });
+      }
+    });
+  }
 
-    return {
-      id: item?.id || appliedFilters.value[key],
-      name: displayName,
-      type: filterType,
-      options: getFilterOptions(filterType),
-    };
-  });
+  if (appliedFilters.value.inbox_id?.length > 0) {
+    appliedFilters.value.inbox_id.forEach(inboxId => {
+      const inbox = inboxes.value.find(i => i.id === inboxId);
+      if (inbox) {
+        chips.push({
+          id: inboxId,
+          name: inbox.name,
+          type: 'inboxes',
+          filterKey: 'inbox_id',
+        });
+      }
+    });
+  }
+
+  if (appliedFilters.value.team_id?.length > 0) {
+    appliedFilters.value.team_id.forEach(teamId => {
+      const team = teams.value.find(item => item.id === teamId);
+      if (team) {
+        chips.push({
+          id: teamId,
+          name: team.name,
+          type: 'teams',
+          filterKey: 'team_id',
+        });
+      }
+    });
+  }
+
+  if (appliedFilters.value.rating !== null) {
+    const rating = ratings.value.find(
+      r => r.id === appliedFilters.value.rating
+    );
+    if (rating) {
+      chips.push({
+        id: appliedFilters.value.rating,
+        name: rating.name,
+        type: 'ratings',
+        filterKey: 'rating',
+      });
+    }
+  }
+
+  return chips;
 });
 
 const hasActiveFilters = computed(() =>
-  Object.values(appliedFilters.value).some(value => value !== null)
+  Object.values(appliedFilters.value).some(value =>
+    Array.isArray(value) ? value.length > 0 : value !== null
+  )
 );
 
-const isAllFilterSelected = computed(() => !filterListMenuItems.value.length);
-
-const updateURLParams = () => {
-  const params = generateCompleteURLParams({
-    from: from.value,
-    to: to.value,
-    range: selectedDateRange.value,
-    filters: {
-      agent_id: appliedFilters.value.user_ids,
-      inbox_id: appliedFilters.value.inbox_id,
-      team_id: appliedFilters.value.team_id,
-      rating: appliedFilters.value.rating,
-    },
-  });
-  router.replace({ query: params });
-};
-
 const emitChange = () => {
-  updateURLParams();
   emit('filterChange', {
     from: from.value,
     to: to.value,
-    selectedAgents: appliedFilters.value.user_ids
-      ? [{ id: appliedFilters.value.user_ids }]
-      : [],
-    selectedInbox: appliedFilters.value.inbox_id
-      ? { id: appliedFilters.value.inbox_id }
-      : null,
-    selectedTeam: appliedFilters.value.team_id
-      ? { id: appliedFilters.value.team_id }
-      : null,
+    businessHours: businessHours.value,
+    timeRange: timeRange.value,
+    selectedAgents: appliedFilters.value.user_ids.map(id => ({ id })),
+    selectedInboxes: appliedFilters.value.inbox_id.map(id => ({ id })),
+    selectedTeams: appliedFilters.value.team_id.map(id => ({ id })),
     selectedRating: appliedFilters.value.rating
       ? { value: appliedFilters.value.rating }
       : null,
@@ -194,56 +192,59 @@ const closeDropdown = () => {
   showDropdownMenu.value = false;
 };
 
-const closeActiveFilterDropdown = () => {
-  activeFilterType.value = '';
-  showSubDropdownMenu.value = false;
-};
-
-const resetDropdown = () => {
-  closeDropdown();
-  closeActiveFilterDropdown();
-};
-
 const addFilter = item => {
   const { type, id } = item;
   const filterKey = getFilterType(type, 'typeToKey');
-  appliedFilters.value[filterKey] = id;
-  emitChange();
-  resetDropdown();
+
+  if (type === 'ratings') {
+    appliedFilters.value[filterKey] = id;
+    emitChange();
+    closeDropdown();
+  } else {
+    if (!appliedFilters.value[filterKey]) {
+      appliedFilters.value[filterKey] = [];
+    }
+
+    if (!appliedFilters.value[filterKey].includes(id)) {
+      appliedFilters.value[filterKey].push(id);
+      emitChange();
+    }
+  }
 };
 
-const removeFilter = type => {
-  const filterKey = getFilterType(type, 'typeToKey');
-  appliedFilters.value[filterKey] = null;
+const removeItem = (filterKey, itemId) => {
+  if (filterKey === 'rating') {
+    appliedFilters.value[filterKey] = null;
+  } else {
+    const index = appliedFilters.value[filterKey].indexOf(itemId);
+    if (index !== -1) {
+      appliedFilters.value[filterKey].splice(index, 1);
+    }
+  }
+
   emitChange();
 };
 
 const clearAllFilters = () => {
   appliedFilters.value = {
-    user_ids: null,
-    inbox_id: null,
-    team_id: null,
+    user_ids: [],
+    inbox_id: [],
+    team_id: [],
     rating: null,
   };
   emitChange();
-  resetDropdown();
+  closeDropdown();
 };
 
 const showDropdown = () => {
-  showSubDropdownMenu.value = false;
   showDropdownMenu.value = !showDropdownMenu.value;
 };
 
-const openActiveFilterDropdown = filterType => {
-  closeDropdown();
-  activeFilterType.value = filterType;
-  showSubDropdownMenu.value = !showSubDropdownMenu.value;
-};
-
-const onDateRangeChange = value => {
-  const [startDate, endDate, rangeType] = value;
-  customDateRange.value = [startDate, endDate];
-  selectedDateRange.value = rangeType || DATE_RANGE_TYPES.CUSTOM_RANGE;
+const onDateFilterChange = updatedFilter => {
+  from.value = updatedFilter.from;
+  to.value = updatedFilter.to;
+  businessHours.value = updatedFilter.businessHours;
+  timeRange.value = updatedFilter.timeRange;
   emitChange();
 };
 
@@ -253,49 +254,51 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <WootDatePicker
-      v-model:date-range="customDateRange"
-      v-model:range-type="selectedDateRange"
-      @date-range-changed="onDateRangeChange"
+  <div class="flex flex-col w-full gap-3">
+    <ReportFilterSelector
+      show-time-range-filter
+      @filter-change="onDateFilterChange"
     />
 
     <div
       class="flex flex-col flex-wrap items-start gap-2 md:items-center md:flex-nowrap md:flex-row"
     >
-      <div v-if="hasActiveFilters" class="flex flex-wrap gap-2 md:flex-nowrap">
-        <ActiveFilterChip
-          v-for="filter in activeFilters"
-          v-bind="filter"
-          :key="filter.type"
-          :placeholder="
-            $t(
-              `CSAT_REPORTS.FILTERS.INPUT_PLACEHOLDER.${filter.type.toUpperCase()}`
-            )
-          "
-          :active-filter-type="activeFilterType"
-          :show-menu="showSubDropdownMenu"
-          enable-search
-          @toggle-dropdown="openActiveFilterDropdown"
-          @close-dropdown="closeActiveFilterDropdown"
-          @add-filter="addFilter"
-          @remove-filter="removeFilter"
-        />
+      <div v-if="hasActiveFilters" class="flex flex-wrap gap-2">
+        <button
+          v-for="chip in selectedItemsChips"
+          :key="`${chip.filterKey}-${chip.id}`"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium rounded-full bg-n-25 dark:bg-n-700 text-n-900 dark:text-n-25 hover:bg-n-50 dark:hover:bg-n-600 transition-colors"
+          @click="removeItem(chip.filterKey, chip.id)"
+        >
+          <span>{{ chip.name }}</span>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="w-4 h-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
+          </svg>
+        </button>
       </div>
 
       <div
-        v-if="hasActiveFilters && !isAllFilterSelected"
+        v-if="hasActiveFilters"
         class="w-full h-px border md:w-px md:h-5 border-n-weak"
       />
 
       <div class="flex items-center gap-2">
         <AddFilterChip
-          v-if="!isAllFilterSelected"
           placeholder-i18n-key="CSAT_REPORTS.FILTERS.INPUT_PLACEHOLDER"
           :name="$t('CSAT_REPORTS.FILTERS.ADD_FILTER')"
           :menu-option="filterListMenuItems"
           :show-menu="showDropdownMenu"
           :empty-state-message="$t('CSAT_REPORTS.FILTERS.NO_FILTER')"
+          enable-search
           @toggle-dropdown="showDropdown"
           @close-dropdown="closeDropdown"
           @add-filter="addFilter"
