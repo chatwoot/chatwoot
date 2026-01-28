@@ -1,12 +1,8 @@
 module Enterprise::Captain::ReplySuggestionService
-  def make_api_call(model:, messages:)
+  def make_api_call(model:, messages:, tools: [])
     return super unless use_search_tool?
 
-    make_api_call_with_tools(
-      model: model,
-      messages: messages,
-      tools: [build_search_tool]
-    )
+    super(model: model, messages: messages, tools: [build_search_tool])
   end
 
   private

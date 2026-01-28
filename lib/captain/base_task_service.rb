@@ -36,7 +36,7 @@ class Captain::BaseTaskService
     "#{endpoint}/v1"
   end
 
-  def make_api_call(model:, messages:)
+  def make_api_call(model:, messages:, tools: [])
     # Community edition prerequisite checks
     # Enterprise module handles these with more specific error messages (cloud vs self-hosted)
     return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
@@ -44,9 +44,15 @@ class Captain::BaseTaskService
 
     instrumentation_params = build_instrumentation_params(model, messages)
 
-    response = instrument_llm_call(instrumentation_params) do
-      execute_ruby_llm_request(model: model, messages: messages)
-    end
+    response = if tools.any?
+                 instrument_tool_session(instrumentation_params) do
+                   execute_ruby_llm_request(model: model, messages: messages, tools: tools)
+                 end
+               else
+                 instrument_llm_call(instrumentation_params) do
+                   execute_ruby_llm_request(model: model, messages: messages)
+                 end
+               end
 
     # Build follow-up context for client-side refinement, when applicable
     if build_follow_up_context? && response[:message].present?
@@ -56,44 +62,10 @@ class Captain::BaseTaskService
     end
   end
 
-  def make_api_call_with_tools(model:, messages:, tools:)
-    return { error: I18n.t('captain.disabled'), error_code: 403 } unless captain_tasks_enabled?
-    return { error: I18n.t('captain.api_key_missing'), error_code: 401 } unless api_key_configured?
-
-    instrumentation_params = build_instrumentation_params(model, messages)
-
-    response = instrument_tool_session(instrumentation_params) do
-      execute_ruby_llm_request_with_tools(model: model, messages: messages, tools: tools)
-    end
-
-    if build_follow_up_context? && response[:message].present?
-      response.merge(follow_up_context: build_follow_up_context(messages, response))
-    else
-      response
-    end
-  end
-
-  def execute_ruby_llm_request(model:, messages:)
+  def execute_ruby_llm_request(model:, messages:, tools: [])
     Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
-      chat = context.chat(model: model)
-      system_msg = messages.find { |m| m[:role] == 'system' }
-      chat.with_instructions(system_msg[:content]) if system_msg
+      chat = build_chat(context, model: model, messages: messages, tools: tools)
 
-      conversation_messages = messages.reject { |m| m[:role] == 'system' }
-      return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?
-
-      add_messages_if_needed(chat, conversation_messages)
-      response = chat.ask(conversation_messages.last[:content])
-      build_ruby_llm_response(response, messages)
-    end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: account).capture_exception
-    { error: e.message, request_messages: messages }
-  end
-
-  def execute_ruby_llm_request_with_tools(model:, messages:, tools:)
-    Llm::Config.with_api_key(api_key, api_base: api_base) do |context|
-      chat = build_chat_with_tools(context, model, messages, tools)
       conversation_messages = messages.reject { |m| m[:role] == 'system' }
       return { error: 'No conversation messages provided', error_code: 400, request_messages: messages } if conversation_messages.empty?
 
@@ -105,12 +77,16 @@ class Captain::BaseTaskService
     { error: e.message, request_messages: messages }
   end
 
-  def build_chat_with_tools(context, model, messages, tools)
+  def build_chat(context, model:, messages:, tools: [])
     chat = context.chat(model: model)
-    tools.each { |tool| chat = chat.with_tool(tool) }
     system_msg = messages.find { |m| m[:role] == 'system' }
     chat.with_instructions(system_msg[:content]) if system_msg
-    chat.on_end_message { |message| record_generation(chat, message, model) }
+
+    if tools.any?
+      tools.each { |tool| chat = chat.with_tool(tool) }
+      chat.on_end_message { |message| record_generation(chat, message, model) }
+    end
+
     chat
   end
 
