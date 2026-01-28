@@ -20,6 +20,7 @@ module Tiktok::MessagingHelpers
     {
       # TODO: Remove this once we show the social_tiktok_user_name in the UI instead of the username
       username: from,
+      social_profiles: { tiktok: from },
       social_tiktok_user_id: from_id,
       social_tiktok_user_name: from
     }
