@@ -283,6 +283,7 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "AUDIO_UNAVAILABLE": "This audio is no longer available.",
       "LOADING_FAILED": "Loading failed"
     }
   },
