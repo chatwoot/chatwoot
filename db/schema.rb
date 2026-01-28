@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_27_171221) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -220,7 +220,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.boolean "voice_output_enabled", default: false
     t.jsonb "voice_config", default: {}
     t.text "custom_instructions"
-    t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name", unique: true
+    t.index ["account_id", "name"], name: "index_aloo_assistants_on_account_id_and_name"
     t.index ["account_id"], name: "index_aloo_assistants_on_account_id"
     t.index ["voice_enabled"], name: "index_aloo_assistants_on_voice_enabled"
     t.index ["voice_input_enabled"], name: "index_aloo_assistants_on_voice_input_enabled"
@@ -254,7 +254,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.bigint "aloo_document_id"
     t.bigint "account_id", null: false
     t.text "content", null: false
-    t.text "question"
     t.vector "embedding", limit: 1536
     t.jsonb "metadata", default: {}
     t.datetime "created_at", null: false
@@ -1278,6 +1277,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.string "routed_to"
     t.json "classification_result"
     t.string "tenant_id"
+    t.string "execution_type", default: "chat"
     t.index ["agent_type", "agent_version"], name: "idx_on_agent_type_agent_version_6719e42ac5"
     t.index ["agent_type", "created_at"], name: "index_ruby_llm_agents_executions_on_agent_type_and_created_at"
     t.index ["agent_type", "status"], name: "index_ruby_llm_agents_executions_on_agent_type_and_status"
@@ -1286,6 +1286,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.index ["chosen_model_id"], name: "index_ruby_llm_agents_executions_on_chosen_model_id"
     t.index ["created_at"], name: "index_ruby_llm_agents_executions_on_created_at"
     t.index ["duration_ms"], name: "index_ruby_llm_agents_executions_on_duration_ms"
+    t.index ["execution_type"], name: "index_ruby_llm_agents_executions_on_execution_type"
     t.index ["parent_execution_id"], name: "index_ruby_llm_agents_executions_on_parent_execution_id"
     t.index ["request_id"], name: "index_ruby_llm_agents_executions_on_request_id"
     t.index ["response_cache_key"], name: "index_ruby_llm_agents_executions_on_response_cache_key"
@@ -1302,7 +1303,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.index ["workflow_type"], name: "index_ruby_llm_agents_executions_on_workflow_type"
   end
 
-  create_table "ruby_llm_agents_tenant_budgets", force: :cascade do |t|
+  create_table "ruby_llm_agents_tenants", force: :cascade do |t|
     t.string "tenant_id", null: false
     t.decimal "daily_limit", precision: 12, scale: 6
     t.decimal "monthly_limit", precision: 12, scale: 6
@@ -1311,7 +1312,19 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
     t.string "enforcement", default: "soft"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenant_budgets_on_tenant_id", unique: true
+    t.string "tenant_record_type"
+    t.bigint "tenant_record_id"
+    t.string "name"
+    t.integer "daily_token_limit"
+    t.integer "monthly_token_limit"
+    t.integer "daily_execution_limit"
+    t.integer "monthly_execution_limit"
+    t.boolean "inherit_global_defaults", default: true
+    t.boolean "active", default: true
+    t.json "metadata", default: {}, null: false
+    t.index ["active"], name: "index_ruby_llm_agents_tenants_on_active"
+    t.index ["tenant_id"], name: "index_ruby_llm_agents_tenants_on_tenant_id", unique: true
+    t.index ["tenant_record_type", "tenant_record_id"], name: "idx_tenant_budgets_on_tenant_record"
   end
 
   create_table "sla_events", force: :cascade do |t|
@@ -1466,65 +1479,3 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_26_121840) do
   end
 
   add_foreign_key "account_catalog_settings", "accounts"
-  add_foreign_key "account_payzah_settings", "accounts"
-  add_foreign_key "account_tap_settings", "accounts"
-  add_foreign_key "account_whatsapp_settings", "accounts"
-  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "aloo_assistant_inboxes", "aloo_assistants"
-  add_foreign_key "aloo_assistant_inboxes", "inboxes"
-  add_foreign_key "aloo_assistants", "accounts"
-  add_foreign_key "aloo_documents", "accounts"
-  add_foreign_key "aloo_documents", "aloo_assistants"
-  add_foreign_key "aloo_embeddings", "accounts"
-  add_foreign_key "aloo_embeddings", "aloo_assistants"
-  add_foreign_key "aloo_embeddings", "aloo_documents"
-  add_foreign_key "aloo_voice_usage_records", "accounts"
-  add_foreign_key "aloo_voice_usage_records", "aloo_assistants"
-  add_foreign_key "aloo_voice_usage_records", "messages"
-  add_foreign_key "cart_items", "carts"
-  add_foreign_key "cart_items", "products"
-  add_foreign_key "carts", "accounts"
-  add_foreign_key "carts", "contacts"
-  add_foreign_key "carts", "conversations"
-  add_foreign_key "carts", "messages"
-  add_foreign_key "inboxes", "portals"
-  add_foreign_key "payment_links", "accounts"
-  add_foreign_key "payment_links", "contacts"
-  add_foreign_key "payment_links", "conversations"
-  add_foreign_key "payment_links", "messages"
-  add_foreign_key "payment_links", "users", column: "created_by_id"
-  add_foreign_key "products", "accounts"
-  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "parent_execution_id", on_delete: :nullify
-  add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "root_execution_id", on_delete: :nullify
-  add_foreign_key "users", "users", column: "human_agent_id"
-  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("accounts").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
-  end
-
-  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("conversations").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
-  end
-
-  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
-      on("accounts").
-      name("camp_dpid_before_insert").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
-  end
-
-  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("campaigns").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
-  end
-
-end

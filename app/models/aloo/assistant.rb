@@ -79,7 +79,7 @@ module Aloo
       'MSA' => { name: 'Modern Standard', prompt: 'Respond in Modern Standard Arabic (فصحى). Use formal Arabic.' }
     }.freeze
 
-    validates :name, presence: true, uniqueness: { scope: :account_id }
+    validates :name, presence: true
     validates :tone, inclusion: { in: TONES }
     validates :formality, inclusion: { in: FORMALITY_LEVELS }
     validates :empathy_level, inclusion: { in: EMPATHY_LEVELS }

@@ -114,8 +114,7 @@ module Aloo
         return existing
       end
 
-      embedding_service = EmbeddingService.new(account: @account)
-      embedding_vector = embedding_service.generate_embedding(content)
+      embedding_vector = Aloo::Embedding.embed_text(content, account: @account)
 
       @assistant.memories.create!(
         account: @account,

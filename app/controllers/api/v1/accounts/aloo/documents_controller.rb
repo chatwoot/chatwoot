@@ -100,7 +100,7 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
     validate_url!
 
     selected_pages = document_params[:selected_pages]
-    auto_refresh = ActiveModel::Type::Boolean.new.cast(document_params[:auto_refresh])
+    auto_refresh = ActiveModel::Type::Boolean.new.cast(document_params[:auto_refresh]) || false
 
     @document = @assistant.documents.create!(
       account: Current.account,

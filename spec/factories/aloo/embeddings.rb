@@ -17,11 +17,6 @@ FactoryBot.define do
       document { nil }
     end
 
-    trait :faq_format do
-      question { Faker::Lorem.question }
-      content { Faker::Lorem.paragraph }
-    end
-
     trait :with_source_url do
       association :document, factory: [:aloo_document, :website, :available]
     end

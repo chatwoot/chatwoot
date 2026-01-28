@@ -7,25 +7,25 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
 
   let(:account) { create(:account) }
   let(:assistant) { create(:aloo_assistant, account: account) }
-  let(:document) { create(:aloo_document, assistant: assistant, account: account, :with_file) }
+  let(:document) { create(:aloo_document, :with_file, assistant: assistant, account: account) }
 
   describe '#perform' do
     context 'when document not found' do
       it 'returns early' do
-        expect {
+        expect do
           described_class.new.perform(999_999)
-        }.not_to raise_error
+        end.not_to raise_error
       end
     end
 
     context 'when processing file' do
       before do
-        allow_any_instance_of(Aloo::EmbeddingService).to receive(:batch_embed_and_store)
+        allow(Aloo::Embedding).to receive(:create_from_chunks)
           .and_return([])
       end
 
       context 'with text file' do
-        let(:document) { create(:aloo_document, assistant: assistant, account: account, :with_file) }
+        let(:document) { create(:aloo_document, :with_file, assistant: assistant, account: account) }
 
         it 'extracts content' do
           described_class.new.perform(document.id)
@@ -34,8 +34,8 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
         end
 
         it 'creates chunks' do
-          allow_any_instance_of(Aloo::EmbeddingService).to receive(:batch_embed_and_store) do |_service, texts:, **_opts|
-            expect(texts).to be_an(Array)
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            expect(chunks).to be_an(Array)
             []
           end
 
@@ -72,7 +72,7 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
       before do
         stub_request(:get, document.source_url)
           .to_return(body: '<html><body><main>Website content</main></body></html>', status: 200)
-        allow_any_instance_of(Aloo::EmbeddingService).to receive(:batch_embed_and_store).and_return([])
+        allow(Aloo::Embedding).to receive(:create_from_chunks).and_return([])
       end
 
       it 'calls WebScrapingService' do
@@ -102,9 +102,9 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
       end
 
       it 'marks document as failed' do
-        expect {
+        expect do
           described_class.new.perform(document.id)
-        }.to raise_error(StandardError)
+        end.to raise_error(StandardError)
 
         expect(document.reload.status).to eq('failed')
       end
