@@ -86,8 +86,8 @@ export default {
       from,
       to,
       selectedAgents,
-      selectedInbox,
-      selectedTeam,
+      selectedInboxes,
+      selectedTeams,
       selectedRating,
     }) {
       // do not track filter change on inital load
@@ -100,10 +100,21 @@ export default {
 
       this.from = from;
       this.to = to;
-      this.userIds = selectedAgents.map(el => el.id);
-      this.inboxIds = selectedInbox?.map(el => el.id);
-      this.teamIds = selectedTeam?.map(el => el.id);
-      this.rating = selectedRating?.value;
+
+      const normalizeArray = value => {
+        if (Array.isArray(value)) {
+          return value;
+        }
+        if (value) {
+          return [value];
+        }
+        return [];
+      };
+
+      this.userIds = normalizeArray(selectedAgents).map(el => el.id);
+      this.inboxIds = normalizeArray(selectedInboxes).map(el => el.id);
+      this.teamIds = normalizeArray(selectedTeams).map(el => el.id);
+      this.rating = selectedRating?.value ?? null;
 
       this.getAllData();
     },
