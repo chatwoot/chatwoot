@@ -307,6 +307,7 @@ const componentToRender = computed(() => {
   const instagramSharedTypes = [
     ATTACHMENT_TYPES.STORY_MENTION,
     ATTACHMENT_TYPES.IG_STORY,
+    ATTACHMENT_TYPES.IG_STORY_REPLY,
     ATTACHMENT_TYPES.IG_POST,
   ];
   if (instagramSharedTypes.includes(props.contentAttributes.imageType)) {
