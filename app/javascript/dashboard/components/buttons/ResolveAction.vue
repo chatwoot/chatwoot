@@ -45,9 +45,7 @@ const isSnoozed = computed(
   () => currentChat.value.status === wootConstants.STATUS_TYPE.SNOOZED
 );
 
-const showAdditionalActions = computed(
-  () => !isPending.value && !isSnoozed.value
-);
+const showAdditionalActions = computed(() => isOpen.value || isResolved.value);
 
 const showOpenButton = computed(() => {
   return isPending.value || isSnoozed.value;
@@ -139,7 +137,6 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
       class="rounded-lg shadow outline-1 outline flex-shrink-0"
       :class="!showOpenButton ? 'outline-n-container' : 'outline-transparent'"
     >
-      <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
       <!-- <Button
         v-if="isOpen"
         :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
@@ -179,8 +176,7 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         :is-loading="isLoading"
         @click="onCmdOpenConversation"
       />
-      <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
-      <!-- <Button
+      <Button
         v-if="showAdditionalActions"
         ref="arrowDownButtonRef"
         icon="i-lucide-chevron-down"
@@ -191,40 +187,70 @@ useEmitter(CMD_RESOLVE_CONVERSATION, onCmdResolveConversation);
         color="slate"
         trailing-icon
         @click="openDropdown"
-      /> -->
+      />
     </ButtonGroup>
-    <!-- TODO: Voltar ao normal, para aparecerem novamente as outras opçoes -->
-    <!-- <div
+    <div
       v-if="showActionsDropdown"
       v-on-clickaway="closeDropdown"
       class="border rounded-lg shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-10 bg-n-alpha-3 backdrop-blur-[100px] absolute block left-auto top-full mt-0.5 start-0 xl:start-auto xl:end-0 max-w-[12.5rem] min-w-[9.75rem] [&_ul>li]:mb-0"
     >
       <WootDropdownMenu class="mb-0">
-        <WootDropdownItem v-if="!isPending">
-          <Button
-            :label="t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL')"
-            ghost
-            slate
-            sm
-            start
-            icon="i-lucide-alarm-clock-minus"
-            class="w-full"
-            @click="() => openSnoozeModal()"
-          />
-        </WootDropdownItem>
-        <WootDropdownItem v-if="!isPending">
-          <Button
-            :label="t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING')"
-            ghost
-            slate
-            sm
-            start
-            icon="i-lucide-circle-dot-dashed"
-            class="w-full"
-            @click="() => toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
-          />
-        </WootDropdownItem>
+        <!-- Opções quando status = OPEN -->
+        <template v-if="isOpen">
+          <WootDropdownItem>
+            <Button
+              :label="t('CONVERSATION.HEADER.RESOLVE_ACTION')"
+              ghost
+              slate
+              sm
+              start
+              icon="i-lucide-check-circle"
+              class="w-full"
+              @click="onCmdResolveConversation"
+            />
+          </WootDropdownItem>
+          <WootDropdownItem>
+            <Button
+              :label="t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL')"
+              ghost
+              slate
+              sm
+              start
+              icon="i-lucide-alarm-clock-minus"
+              class="w-full"
+              @click="openSnoozeModal()"
+            />
+          </WootDropdownItem>
+        </template>
+
+        <!-- Opções quando status = RESOLVED -->
+        <template v-if="isResolved">
+          <WootDropdownItem>
+            <Button
+              :label="t('CONVERSATION.RESOLVE_DROPDOWN.MARK_PENDING')"
+              ghost
+              slate
+              sm
+              start
+              icon="i-lucide-circle-dot-dashed"
+              class="w-full"
+              @click="toggleStatus(wootConstants.STATUS_TYPE.PENDING)"
+            />
+          </WootDropdownItem>
+          <WootDropdownItem>
+            <Button
+              :label="t('CONVERSATION.RESOLVE_DROPDOWN.SNOOZE_UNTIL')"
+              ghost
+              slate
+              sm
+              start
+              icon="i-lucide-alarm-clock-minus"
+              class="w-full"
+              @click="openSnoozeModal()"
+            />
+          </WootDropdownItem>
+        </template>
       </WootDropdownMenu>
-    </div> -->
+    </div>
   </div>
 </template>
