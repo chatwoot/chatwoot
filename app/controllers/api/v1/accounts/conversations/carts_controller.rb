@@ -1,4 +1,7 @@
 class Api::V1::Accounts::Conversations::CartsController < Api::V1::Accounts::Conversations::BaseController
+  skip_before_action :conversation
+  before_action :set_conversation
+
   def create
     cart = Carts::CreateService.new(
       conversation: @conversation,
@@ -41,5 +44,10 @@ class Api::V1::Accounts::Conversations::CartsController < Api::V1::Accounts::Con
         }
       end
     }
+  end
+
+  def set_conversation
+    @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
+    authorize Cart, :create?
   end
 end

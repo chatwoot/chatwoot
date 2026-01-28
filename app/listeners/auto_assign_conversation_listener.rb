@@ -6,6 +6,7 @@ class AutoAssignConversationListener < BaseListener
     conversation = message.conversation
 
     return unless message.incoming?
+    return unless conversation.open?
 
     AutoAssignConversationJob.perform_later(conversation.id)
   end

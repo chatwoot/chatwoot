@@ -1,16 +1,15 @@
 # frozen_string_literal: true
 
 class Conversations::AutoAssignService
+  MIN_MESSAGES = 3
+  MAX_MESSAGES = 10
+
   attr_reader :conversation, :account, :labels, :teams
 
   def initialize(conversation)
     @conversation = conversation
     @account = conversation.account
-    existing_labels = conversation.label_list.map(&:downcase)
-    @labels = account.labels
-                     .with_auto_assign_enabled
-                     .where.not('LOWER(title) IN (?)', existing_labels.presence || [''])
-                     .as_json(only: [:id, :title, :description])
+    @labels = account.labels.with_auto_assign_enabled.as_json(only: [:id, :title, :description])
     @teams = account.teams.with_auto_assign_enabled.as_json(only: [:id, :name, :description])
   end
 
@@ -26,7 +25,7 @@ class Conversations::AutoAssignService
     apply_team(suggestions['team_id']) if suggestions['team_id'].present? && should_apply_team?
   rescue StandardError => e
     Rails.logger.error("Auto-classification failed for conversation #{conversation.id}: #{e.message}")
-    raise # Re-raise for job retry
+    raise
   end
 
   private
@@ -35,7 +34,7 @@ class Conversations::AutoAssignService
     return false unless conversation.open?
     return false unless threshold_met?
     return false if recently_triaged?
-    return if labels.empty? && teams.empty?
+    return false if labels.empty? && teams.empty?
 
     true
   end
@@ -50,16 +49,14 @@ class Conversations::AutoAssignService
     message_threshold = 3
     time_threshold = 5.minutes
 
-    # 3+ messages always triggers
-    return true if conversation.messages.incoming.count >= message_threshold
+    message_count = conversation.messages.incoming.count
+    conversation_age = Time.current - conversation.created_at
 
-    # 5-minute threshold only applies if conversation has no labels
-    conversation.label_list.empty? && conversation.created_at <= time_threshold.ago
+    message_count >= message_threshold || (conversation_age >= time_threshold && conversation.label_list.empty?)
   end
 
   def should_apply_label?
-    max_auto_labels = 3
-    conversation.label_list.size < max_auto_labels
+    conversation.label_list.empty?
   end
 
   def should_apply_team?

@@ -1,4 +1,7 @@
 class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accounts::Conversations::BaseController
+  skip_before_action :conversation
+  before_action :set_conversation
+
   def create
     payment_link = PaymentLinks::CreateService.new(
       conversation: @conversation,
@@ -29,5 +32,10 @@ class Api::V1::Accounts::Conversations::PaymentLinksController < Api::V1::Accoun
 
   def permitted_params
     params.permit(:amount, :currency, :provider)
+  end
+
+  def set_conversation
+    @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_id])
+    authorize PaymentLink, :create?
   end
 end

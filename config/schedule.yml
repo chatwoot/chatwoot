@@ -54,13 +54,6 @@ bulk_auto_assignment_job:
   class: 'Inboxes::BulkAutoAssignmentJob'
   queue: scheduled_jobs
 
-# executed every 5 minutes
-# to auto-label conversations older than 5 minutes with no labels
-auto_label_pending_conversations_job:
-  cron: '*/5 * * * *'
-  class: 'Conversations::AutoLabelPendingConversationsJob'
-  queue: scheduled_jobs
-
 # executed every 30 minutes for assignment_v2
 periodic_assignment_job:
   cron: '*/30 * * * *'
