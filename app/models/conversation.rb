@@ -105,6 +105,9 @@ class Conversation < ApplicationRecord
   belongs_to :contact_inbox
   belongs_to :team, optional: true
   belongs_to :campaign, optional: true
+  belongs_to :cached_last_message, class_name: 'Message', optional: true, foreign_key: 'last_message_id'
+  belongs_to :cached_last_incoming_message, class_name: 'Message', optional: true, foreign_key: 'last_incoming_message_id'
+  belongs_to :cached_last_non_activity_message, class_name: 'Message', optional: true, foreign_key: 'last_non_activity_message_id'
 
   has_many :mentions, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async, autosave: true

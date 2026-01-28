@@ -133,6 +133,7 @@ class Message < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
+  after_create_commit :update_conversation_cached_message_ids
 
   after_update_commit :dispatch_update_event
   after_commit :reindex_for_search, if: :should_index?, on: [:create, :update]
@@ -421,6 +422,15 @@ class Message < ApplicationRecord
 
   def reindex_for_search
     reindex(mode: :async)
+  end
+
+  def update_conversation_cached_message_ids
+    updates = { last_message_id: id }
+    updates[:last_incoming_message_id] = id if incoming?
+    updates[:last_non_activity_message_id] = id unless activity?
+    # rubocop:disable Rails/SkipsModelValidations
+    conversation.update_columns(updates)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 end
 
