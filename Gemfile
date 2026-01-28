@@ -197,7 +197,7 @@ gem 'pdf-reader'
 gem 'iso-639'
 gem 'ruby-openai'
 gem 'ruby_llm', '>= 1.8.2'
-gem 'ruby_llm-agents', '~> 1.3'
+gem 'ruby_llm-agents', '~> 1.3.1'
 gem 'ruby_llm-schema'
 
 # OpenTelemetry for LLM observability
