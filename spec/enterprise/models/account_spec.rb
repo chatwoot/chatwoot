@@ -70,12 +70,41 @@ RSpec.describe Account, type: :model do
       ## Responses
       it 'incrementing responses updates usage_limits' do
         account.increment_response_usage
+        account.reload
 
         responses_limits = account.usage_limits[:captain][:responses]
 
         expect(account.custom_attributes['captain_responses_usage']).to eq 1
         expect(responses_limits[:consumed]).to eq 1
         expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - 1
+      end
+
+      it 'handles concurrent increments without losing updates' do
+        concurrent_calls = 50
+
+        ready = Concurrent::CountDownLatch.new(concurrent_calls)
+        start = Concurrent::CountDownLatch.new(1)
+
+        threads = Array.new(concurrent_calls) do
+          Thread.new do
+            thread_count = described_class.find(account.id)
+            ready.count_down
+            start.wait
+
+            thread_count.increment_response_usage
+          end
+        end
+        ready.wait
+
+        start.count_down
+        threads.each(&:join)
+
+        account.reload
+
+        expect(account.custom_attributes['captain_responses_usage']).to eq concurrent_calls
+        responses_limits = account.usage_limits[:captain][:responses]
+        expect(responses_limits[:consumed]).to eq concurrent_calls
+        expect(responses_limits[:current_available]).to eq captain_limits[:startups][:responses] - concurrent_calls
       end
 
       it 'reseting responses limits updates usage_limits' do
