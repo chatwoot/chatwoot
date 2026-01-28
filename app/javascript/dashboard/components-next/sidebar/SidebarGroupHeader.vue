@@ -26,7 +26,7 @@ const count = computed(() =>
 <template>
   <component
     :is="to ? 'router-link' : 'div'"
-    class="flex items-center gap-2 px-2 py-1.5 rounded-lg h-8 min-w-0"
+    class="flex items-center gap-2 px-1.5 py-1 rounded-lg h-8 min-w-0"
     role="button"
     draggable="false"
     :to="to"
@@ -45,7 +45,7 @@ const count = computed(() =>
         class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
       />
     </div>
-    <div class="flex items-center gap-1.5 flex-grow min-w-0">
+    <div class="flex items-center gap-1.5 flex-grow min-w-0 flex-1">
       <span
         class="truncate"
         :class="{
