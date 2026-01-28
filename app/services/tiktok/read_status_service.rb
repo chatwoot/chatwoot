@@ -4,9 +4,9 @@ class Tiktok::ReadStatusService
   pattr_initialize [:channel!, :content!]
 
   def perform
-    return if channel.blank? || content.blank? || outbound_event?
+    return if channel.blank? || content.blank? || outbound_event? || conversation.blank?
 
-    ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, last_read_timestamp) if conversation.present?
+    ::Conversations::UpdateMessageStatusJob.perform_later(conversation.id, last_read_timestamp)
   end
 
   def conversation
