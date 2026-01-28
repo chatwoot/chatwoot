@@ -1,9 +1,10 @@
 class Whatsapp::ChannelCreationService
-  def initialize(account, waba_info, phone_info, access_token)
+  def initialize(account, waba_info, phone_info, access_token, is_business_app_onboarding = false)
     @account = account
     @waba_info = waba_info
     @phone_info = phone_info
     @access_token = access_token
+    @is_business_app_onboarding = is_business_app_onboarding
   end
 
   def perform
@@ -52,7 +53,8 @@ class Whatsapp::ChannelCreationService
       api_key: @access_token,
       phone_number_id: @phone_info[:phone_number_id],
       business_account_id: @waba_info[:waba_id],
-      source: 'embedded_signup'
+      source: 'embedded_signup',
+      is_business_app_onboarding: @is_business_app_onboarding
     }
   end
 

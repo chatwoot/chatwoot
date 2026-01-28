@@ -82,6 +82,14 @@ class Whatsapp::FacebookApiClient
     handle_response(response, 'Webhook unsubscription failed')
   end
 
+  def request_state_sync(phone_number_id)
+    request_smb_app_data(phone_number_id, 'smb_app_state_sync')
+  end
+
+  def request_history_sync(phone_number_id)
+    request_smb_app_data(phone_number_id, 'history')
+  end
+
   private
 
   def request_headers
@@ -95,6 +103,19 @@ class Whatsapp::FacebookApiClient
     app_id = GlobalConfigService.load('WHATSAPP_APP_ID', '')
     app_secret = GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
     "#{app_id}|#{app_secret}"
+  end
+
+  # Internal helper to POST smb_app_data sync requests
+  def request_smb_app_data(phone_number_id, sync_type)
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/smb_app_data",
+      headers: request_headers,
+      body: {
+        messaging_product: 'whatsapp',
+        sync_type: sync_type
+      }.to_json
+    )
+    handle_response(response, "SMB #{sync_type} request failed")
   end
 
   def handle_response(response, error_message)
