@@ -149,6 +149,41 @@ ru:
       avg_resolution_time: Среднее время завершения
       avg_reply_time: Среднее время ответа
       resolution_count: Количество завершенных
+    overview:
+      open_conversations: Открытые диалоги
+      agent_status: Статус агентов
+      conversation_traffic: Трафик диалогов
+      resolutions: Резолюции
+      by_agents: Диалоги по агентам
+      by_teams: Диалоги по командам
+    overview_csv:
+      period: Период отчёта
+      open: Открытые
+      unattended: Без ответа
+      unassigned: Не назначены
+      waiting: В ожидании
+      status: Статус
+      count: Количество
+      data: Дата
+      no_data: Нет данных
+      hour: Час
+      agent: Агент
+      team: Команда
+      resolutions_count: Количество резолюций
+      avg_resolution_time: Среднее время резолюции
+    metrics:
+      resolutions_count: Количество резолюций
+      avg_resolution_time: Среднее время резолюции
+    bot_csv:
+      period: Период отчёта
+      conversation_count: Всего диалогов
+      message_count: Всего ответов
+      resolution_rate: Процент резолюций
+      handoff_rate: Процент передачи
+      resolutions_count: Количество резолюций
+      handoffs_count: Количество передач
+      bot_resolutions_chart: График резолюций бота
+      bot_handoffs_chart: График передач бота      
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед

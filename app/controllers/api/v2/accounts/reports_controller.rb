@@ -18,6 +18,35 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: build_summary(:bot_summary)
   end
 
+  def bot_summary_csv
+    result =
+      V2::Reports::BotSummaryBuilder
+      .new(Current.account, params)
+      .build
+
+    @date_range           = result[:date_range]
+    @bot_metrics          = result[:bot_metrics]
+    @bot_summary          = result[:bot_summary]
+    @bot_resolutions_data = result[:bot_resolutions_data]
+    @bot_handoffs_data    = result[:bot_handoffs_data]
+
+    generate_csv 'bot_summary', 'api/v2/accounts/reports/bot_summary'
+  end
+
+  def overview_summary
+    result =
+      V2::Reports::OverviewSummaryBuilder
+      .new(Current.account)
+      .build
+
+    @conversation_metrics = result[:conversation_metrics]
+    @agent_status         = result[:agent_status]
+    @summary              = result[:summary]
+    @date_range           = result[:date_range]
+
+    generate_csv 'overview_summary', 'api/v2/accounts/reports/overview_summary'
+  end
+
   def agents
     @report_data = generate_agents_report
     generate_csv('agents_report', 'api/v2/accounts/reports/agents')
@@ -72,6 +101,24 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def check_authorization
     authorize :report, :view?
+  end
+
+  def with_params(temp_params)
+    original_params = params
+    self.params = temp_params
+    yield
+  ensure
+    self.params = original_params
+  end
+
+  def overview_summary_params
+    {
+      type: :account,
+      since: params[:since],
+      until: params[:until],
+      timezone_offset: params[:timezone_offset],
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+    }
   end
 
   def common_params
