@@ -26,7 +26,7 @@ class Tiktok::AuthClient
     end
 
     # https://business-api.tiktok.com/portal/docs?id=1832184159540418
-    def obtain_short_term_access_token(auth_code) # rubocop:disable Metrics/MethodLength
+    def obtain_short_term_access_token(auth_code) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
       endpoint = "#{api_base_url}/tt_user/oauth2/token/"
       headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
       body = {
