@@ -10,22 +10,22 @@ defineProps({
 
 <template>
   <div
-    class="bg-n-alpha-2 divide-y divide-n-strong text-n-slate-12 rounded-xl max-w-80"
+    class="rounded-xl divide-y bg-n-alpha-2 divide-n-strong text-n-slate-12 max-w-80"
   >
     <div class="px-3 py-2.5">
-      <img :src="message.image_url" class="max-h-44 rounded-lg w-full" />
-      <div class="pt-2.5 flex flex-col gap-2">
+      <img :src="message.image_url" class="w-full max-h-44 rounded-lg" />
+      <div class="flex flex-col gap-2 pt-2.5">
         <h6 class="font-semibold">{{ message.title }}</h6>
         <span
           v-dompurify-html="message.content"
-          class="prose prose-bubble text-sm"
+          class="text-sm prose prose-bubble"
         />
       </div>
     </div>
-    <div class="p-3 flex items-center justify-center">
+    <div class="flex justify-center items-center p-3">
       <Button label="Call us to order" link class="hover:!no-underline" />
     </div>
-    <div class="p-3 flex items-center justify-center">
+    <div class="flex justify-center items-center p-3">
       <Button label="Visit our store" link class="hover:!no-underline" />
     </div>
   </div>
