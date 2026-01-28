@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Немає контактів, які відповідають вашому пошуку 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
-    }
+    },
+    "LOAD_MORE": "Load more"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Призначити мітки",
