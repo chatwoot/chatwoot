@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, watch, ref, nextTick } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -49,10 +49,14 @@ const handleCreateClose = () => {
   selectedInbox.value = null;
 };
 
-onMounted(() =>
-  store.dispatch('captainInboxes/get', {
-    assistantId: assistantId.value,
-  })
+watch(
+  assistantId,
+  newId => {
+    store.dispatch('captainInboxes/get', {
+      assistantId: newId,
+    });
+  },
+  { immediate: true }
 );
 </script>
 

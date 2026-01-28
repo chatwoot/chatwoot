@@ -48,6 +48,8 @@ ta:
       failed: உள்நுழையும் முயறிசி தோல்வி அடைந்துள்ளது
     assignment_policy:
       not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: SAML feature not enabled for this account
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -68,6 +70,9 @@ ta:
         invalid: must be a valid domain name
       search:
         query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: should be unique in the category and portal

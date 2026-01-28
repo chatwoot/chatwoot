@@ -86,12 +86,6 @@ conversations:
     filter_operators:
       - "equal_to"
       - "not_equal_to"
-  country_code:
-    attribute_type: "additional_attributes"
-    data_type: "text"
-    filter_operators:
-      - "equal_to"
-      - "not_equal_to"
   referer:
     attribute_type: "additional_attributes"
     data_type: "link"

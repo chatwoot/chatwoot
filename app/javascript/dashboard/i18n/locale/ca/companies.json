@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "Nom",
         "DOMAIN": "Domini",
-        "CREATED_AT": "Creat per"
+        "CREATED_AT": "Creat per",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

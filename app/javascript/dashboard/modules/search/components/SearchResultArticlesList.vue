@@ -34,18 +34,19 @@ const accountId = useMapGetter('getCurrentAccountId');
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
-    <ul v-if="articles.length" class="space-y-1.5 list-none">
+    <ul v-if="articles.length" class="space-y-3 list-none">
       <li v-for="article in articles" :key="article.id">
         <SearchResultArticleItem
           :id="article.id"
           :title="article.title"
           :description="article.description"
           :content="article.content"
-          :portal-slug="article.portal_slug"
+          :portal-slug="article.portalSlug"
           :locale="article.locale"
           :account-id="accountId"
-          :category="article.category_name"
+          :category="article.categoryName"
           :status="article.status"
+          :updated-at="article.updatedAt"
         />
       </li>
     </ul>

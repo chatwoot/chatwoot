@@ -48,6 +48,8 @@ it:
       failed: Registrazione non riuscita
     assignment_policy:
       not_found: Policy di assegnazione non trovata
+    attachments:
+      invalid: Allegato non valido
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
       sso_not_enabled: SAML SSO non è abilitato per questa installazione
@@ -67,7 +69,10 @@ it:
       domain:
         invalid: deve essere un dominio valido
       search:
-        query_missing: Specify search string with parameter q
+        query_missing: Specifica la stringa di ricerca con parametro q
+    messages:
+      search:
+        time_range_limit_exceeded: 'La ricerca è limitata agli ultimi %{days} giorni'
     categories:
       locale:
         unique: deve essere unico nella categoria e nel portale

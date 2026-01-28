@@ -176,7 +176,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
      { csat_config: [:display_type, :message, :button_text, :language,
                      { survey_rules: [:operator, { values: [] }],
-                       template: [:name, :template_id, :created_at, :language] }] }]
+                       template: [:name, :template_id, :friendly_name, :content_sid, :approval_sid, :created_at, :language, :status] }] }]
   end
 
   def permitted_params(channel_attributes = [])

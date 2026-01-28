@@ -1,4 +1,24 @@
 class Twilio::SendOnTwilioService < Base::SendOnChannelService
+  def send_csat_template_message(phone_number:, content_sid:, content_variables: {})
+    send_params = {
+      to: phone_number,
+      content_sid: content_sid
+    }
+
+    send_params[:content_variables] = content_variables.to_json if content_variables.present?
+    send_params[:status_callback] = channel.send(:twilio_delivery_status_index_url) if channel.respond_to?(:twilio_delivery_status_index_url, true)
+
+    # Add messaging service or from number
+    send_params = send_params.merge(channel.send(:send_message_from))
+
+    twilio_message = channel.send(:client).messages.create(**send_params)
+
+    { success: true, message_id: twilio_message.sid }
+  rescue Twilio::REST::TwilioError, Twilio::REST::RestError => e
+    Rails.logger.error "Failed to send Twilio template message: #{e.message}"
+    { success: false, error: e.message }
+  end
+
   private
 
   def channel_class

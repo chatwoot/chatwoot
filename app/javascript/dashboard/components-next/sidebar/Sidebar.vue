@@ -1,12 +1,11 @@
 <script setup>
-import { h, computed, onMounted } from 'vue';
+import { h, ref, computed, onMounted } from 'vue';
 import { provideSidebarContext } from './provider';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useKbd } from 'dashboard/composables/utils/useKbd';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
-import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
 import { emitter } from 'shared/helpers/mitt';
@@ -16,7 +15,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
 import SidebarProfileMenu from './SidebarProfileMenu.vue';
 import SidebarChangelogCard from './SidebarChangelogCard.vue';
-import YearInReviewBanner from '../year-in-review/YearInReviewBanner.vue';
 import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
@@ -55,14 +53,7 @@ const toggleShortcutModalFn = show => {
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
-// We're using localStorage to store the expanded item in the sidebar
-// This helps preserve context when navigating between portal and dashboard layouts
-// and also when the user refreshes the page
-const expandedItem = useStorage(
-  'next-sidebar-expanded-item',
-  null,
-  sessionStorage
-);
+const expandedItem = ref(null);
 
 const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
@@ -493,6 +484,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('general_settings_index'),
         },
+        // {
+        //   name: 'Settings Captain',
+        //   label: t('SIDEBAR.CAPTAIN_AI'),
+        //   icon: 'i-woot-captain',
+        //   to: accountScopedRoute('captain_settings_index'),
+        // },
         {
           name: 'Settings Agents',
           label: t('SIDEBAR.AGENTS'),
@@ -532,7 +529,7 @@ const menuItems = computed(() => {
         {
           name: 'Settings Automation',
           label: t('SIDEBAR.AUTOMATION'),
-          icon: 'i-lucide-workflow',
+          icon: 'i-lucide-repeat',
           to: accountScopedRoute('automation_list'),
         },
         {
@@ -576,6 +573,12 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.SLA'),
           icon: 'i-lucide-clock-alert',
           to: accountScopedRoute('sla_list'),
+        },
+        {
+          name: 'Conversation Workflow',
+          label: t('SIDEBAR.CONVERSATION_WORKFLOW'),
+          icon: 'i-lucide-workflow',
+          to: accountScopedRoute('conversation_workflow_index'),
         },
         {
           name: 'Settings Security',
@@ -658,12 +661,11 @@ const menuItems = computed(() => {
       </ul>
     </nav>
     <section
-      class="flex flex-col flex-shrink-0 relative gap-1 justify-between items-center"
+      class="flex relative flex-col flex-shrink-0 gap-1 justify-between items-center"
     >
       <div
         class="pointer-events-none absolute inset-x-0 -top-[31px] h-8 bg-gradient-to-t from-n-solid-2 to-transparent"
       />
-      <YearInReviewBanner />
       <SidebarChangelogCard
         v-if="isOnChatwootCloud && !isACustomBrandedInstance"
       />

@@ -19,7 +19,7 @@ class Whatsapp::CsatTemplateService
   end
 
   def delete_template(template_name = nil)
-    template_name ||= Whatsapp::CsatTemplateNameService.csat_template_name(@whatsapp_channel.inbox.id)
+    template_name ||= CsatTemplateNameService.csat_template_name(@whatsapp_channel.inbox.id)
     response = HTTParty.delete(
       "#{business_account_path}/message_templates?name=#{template_name}",
       headers: api_headers
@@ -51,7 +51,7 @@ class Whatsapp::CsatTemplateService
 
   def generate_template_name(base_name)
     current_template_name = current_template_name_from_config
-    Whatsapp::CsatTemplateNameService.generate_next_template_name(base_name, @whatsapp_channel.inbox.id, current_template_name)
+    CsatTemplateNameService.generate_next_template_name(base_name, @whatsapp_channel.inbox.id, current_template_name)
   end
 
   def current_template_name_from_config

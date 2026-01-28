@@ -82,6 +82,7 @@ export default {
     const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
     this.setLocale(locale);
     this.setWidgetColor(widgetColor);
+    this.setWidgetColorVariable(widgetColor);
     setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
@@ -114,6 +115,14 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    setWidgetColorVariable(widgetColor) {
+      if (widgetColor) {
+        document.documentElement.style.setProperty(
+          '--widget-color',
+          widgetColor
+        );
+      }
+    },
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;

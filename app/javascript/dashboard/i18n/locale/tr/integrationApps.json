@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Bağlantıyı Kes"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
+      "DIALOGFLOW": "Dialogflow, konuşmaya dayalı arayüzler oluşturmak için kullanılan bir doğal dil işleme platformudur. Bu platformu {installationName} ile entegre etmek, botların önce sorguları ele almasını ve gerektiğinde temsilcilere aktarmasını sağlar. Sıkça sorulan soruları yanıtlayarak potansiyel müşterileri nitelendirmeye ve temsilci iş yükünü azaltmaya yardımcı olur. Dialogflow eklemek için, Google Console'da bir Hizmet Hesabı (Service Account) oluşturun ve kimlik bilgilerini paylaşın. Detaylar için belgelere bakın"
     }
   }
 }

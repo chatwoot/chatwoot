@@ -201,4 +201,24 @@ describe('#actions', () => {
       );
     });
   });
+
+  describe('#downloadConversationsSummaryReports', () => {
+    it('open CSV download prompt if API is success', async () => {
+      const data = `Conversations,Messages received,Messages sent,Avg first response time,Avg resolution time,Resolution count,Avg customer waiting time
+      217,323,623,23 hours 22 minutes,179 days 18 hours,30,48 days 4 hours`;
+      axios.get.mockResolvedValue({ data });
+      const param = {
+        from: 1631039400,
+        to: 1635013800,
+        fileName: 'conversations-summary-report-24-10-2021.csv',
+      };
+      actions.downloadConversationsSummaryReports(1, param);
+      await flushPromises();
+
+      expect(DownloadHelper.downloadCsvFile).toBeCalledWith(
+        param.fileName,
+        data
+      );
+    });
+  });
 });

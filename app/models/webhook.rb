@@ -5,7 +5,7 @@
 #  id            :bigint           not null, primary key
 #  name          :string
 #  subscriptions :jsonb
-#  url           :string
+#  url           :text
 #  webhook_type  :integer          default("account_type")
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null

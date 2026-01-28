@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Contatos",
       "COPILOT": "Copiloto"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Chamada recebida",
+      "OUTGOING_CALL": "Chamada realizada",
+      "CALL_IN_PROGRESS": "Chamada em andamento",
+      "NOT_ANSWERED_YET": "Ainda não respondido",
+      "HANDLED_IN_ANOTHER_TAB": "Sendo atendida em outra aba",
+      "REJECT_CALL": "Recusar",
+      "JOIN_CALL": "Entrar na chamada",
+      "END_CALL": "Encerrar chamada"
     }
   },
   "EMAIL_TRANSCRIPT": {

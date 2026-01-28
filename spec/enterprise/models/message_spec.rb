@@ -14,8 +14,9 @@ RSpec.describe Message do
 
     create(:message, message_type: :outgoing, conversation: conversation, sender: captain_assistant)
 
+    # Captain::Assistant responses clear waiting_since (like AgentBot)
     expect(conversation.first_reply_created_at).to be_nil
-    expect(conversation.waiting_since).to be_within(0.000001.seconds).of(conversation.created_at)
+    expect(conversation.waiting_since).to be_nil
 
     create(:message, message_type: :outgoing, conversation: conversation)
 

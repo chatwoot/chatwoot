@@ -30,7 +30,6 @@ module Integrations::LlmInstrumentation
     result = nil
     executed = false
     tracer.in_span(params[:span_name]) do |span|
-      set_request_attributes(span, params)
       set_metadata_attributes(span, params)
 
       # By default, the input and output of a trace are set from the root observation

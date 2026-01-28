@@ -223,6 +223,8 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
+channel_summary:
+  $ref: './resource/reports/channel_summary.yml'
 
 contact_detail:
   $ref: ./resource/contact_detail.yml

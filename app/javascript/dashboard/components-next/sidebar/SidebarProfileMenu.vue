@@ -1,13 +1,11 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 import Auth from 'dashboard/api/auth';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
-import { useUISettings } from 'dashboard/composables/useUISettings';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import YearInReviewModal from 'dashboard/components-next/year-in-review/YearInReviewModal.vue';
 
 import {
   DropdownContainer,
@@ -24,7 +22,6 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const { uiSettings } = useUISettings();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
@@ -33,29 +30,6 @@ const globalConfig = useMapGetter('globalConfig/get');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
-
-const showYearInReviewModal = ref(false);
-
-const bannerClosedKey = computed(() => {
-  return `yir_closed_${accountId.value}_2025`;
-});
-
-const isBannerClosed = computed(() => {
-  return uiSettings.value?.[bannerClosedKey.value] === true;
-});
-
-const showYearInReviewMenuItem = computed(() => {
-  return isBannerClosed.value;
-});
-
-const openYearInReviewModal = () => {
-  showYearInReviewModal.value = true;
-  emit('close');
-};
-
-const closeYearInReviewModal = () => {
-  showYearInReviewModal.value = false;
-};
 
 const showChatSupport = computed(() => {
   return (
@@ -68,13 +42,6 @@ const showChatSupport = computed(() => {
 
 const menuItems = computed(() => {
   return [
-    {
-      show: showYearInReviewMenuItem.value,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.YEAR_IN_REVIEW'),
-      icon: 'i-lucide-gift',
-      click: openYearInReviewModal,
-    },
     {
       show: showChatSupport.value,
       showOnCustomBrandedInstance: false,
@@ -190,9 +157,4 @@ const allowedMenuItems = computed(() => {
       </template>
     </DropdownBody>
   </DropdownContainer>
-
-  <YearInReviewModal
-    :show="showYearInReviewModal"
-    @close="closeYearInReviewModal"
-  />
 </template>
