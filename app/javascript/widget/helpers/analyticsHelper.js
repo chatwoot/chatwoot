@@ -1,10 +1,7 @@
-// Fallback Google Analytics ID if not provided from database
-const FALLBACK_GA_ID = 'G-R2XZRPDVQD';
-
 export const loadGA = id => {
-  // Use fallback ID if no ID is provided
-  const gaId = id || FALLBACK_GA_ID;
-  if (!gaId) return;
+  // Only load GA if ID is provided from database/settings
+  if (!id) return;
+  const gaId = id;
 
   const script = document.createElement('script');
   script.async = true;

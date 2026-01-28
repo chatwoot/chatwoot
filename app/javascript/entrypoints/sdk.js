@@ -18,9 +18,6 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-// Fallback Google Analytics ID if not provided from database
-const FALLBACK_GA_ID = 'G-R2XZRPDVQD';
-
 const runSDK = async ({ baseUrl, websiteToken }) => {
   if (window.$chatwoot) {
     return;
@@ -39,9 +36,9 @@ const runSDK = async ({ baseUrl, websiteToken }) => {
   }
 
   const injectGA = token => {
-    // Use token from DB if available, otherwise use fallback
-    const gaToken = token || FALLBACK_GA_ID;
-    if (!gaToken || window.gtag) return;
+    // Only inject GA if token is provided from database/settings
+    if (!token || window.gtag) return;
+    const gaToken = token;
     // eslint-disable-next-line no-console
     console.log('Chatwoot SDK: Injecting Google Analytics GA Token', gaToken);
     const script = document.createElement('script');
@@ -102,10 +99,8 @@ const runSDK = async ({ baseUrl, websiteToken }) => {
     console.log('Chatwoot SDK: Found GA token in settings');
     injectGA(gaToken);
   } else {
-    // Use fallback GA ID if no token is found from database
     // eslint-disable-next-line no-console
-    console.log('Chatwoot SDK: No GA token found, using fallback ID');
-    injectGA(FALLBACK_GA_ID);
+    console.log('Chatwoot SDK: No GA token found in database/settings');
   }
 
   let locale = chatwootSettings.locale;
