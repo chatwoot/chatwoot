@@ -11,7 +11,7 @@ module Captain::ChatHelper
     add_messages_to_chat(chat)
     with_agent_session do
       last_content = conversation_messages.last[:content]
-      text, attachments = extract_text_and_attachments(last_content)
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(last_content)
 
       response = attachments.any? ? chat.ask(text, with: attachments) : chat.ask(text)
       build_response(response)
@@ -71,19 +71,10 @@ module Captain::ChatHelper
 
   def add_messages_to_chat(chat)
     conversation_messages[0...-1].each do |msg|
-      text, attachments = extract_text_and_attachments(msg[:content])
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(msg[:content])
       content = attachments.any? ? RubyLLM::Content.new(text, attachments) : text
       chat.add_message(role: msg[:role].to_sym, content: content)
     end
-  end
-
-  def extract_text_and_attachments(content)
-    return [content, []] unless content.is_a?(Array)
-
-    text_parts = content.select { |part| part[:type] == 'text' }.pluck(:text)
-    image_urls = content.select { |part| part[:type] == 'image_url' }.filter_map { |part| part.dig(:image_url, :url) }
-
-    [text_parts.join(' ').presence, image_urls]
   end
 
   def instrumentation_params(chat = nil)
