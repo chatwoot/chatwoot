@@ -516,6 +516,10 @@ const languages = [
     id: 'pt',
   },
   {
+    name: 'Portuguese (Brazil)',
+    id: 'pt_BR',
+  },
+  {
     name: 'Punjabi',
     id: 'pa',
   },
