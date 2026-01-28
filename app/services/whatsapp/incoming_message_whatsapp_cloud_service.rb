@@ -9,6 +9,24 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
   end
 
   def download_attachment_file(attachment_payload)
+    # Try direct URL from webhook first (new WhatsApp Cloud API format)
+    direct_url = attachment_payload[:url] || attachment_payload['url']
+    if direct_url.present?
+      file = download_from_direct_url(direct_url)
+      return file if file.present?
+    end
+
+    # Fallback to Media API
+    download_via_media_api(attachment_payload)
+  end
+
+  def download_from_direct_url(url)
+    Down.download(url, headers: inbox.channel.api_headers)
+  rescue Down::Error
+    nil
+  end
+
+  def download_via_media_api(attachment_payload)
     url_response = HTTParty.get(
       inbox.channel.media_url(attachment_payload[:id]),
       headers: inbox.channel.api_headers

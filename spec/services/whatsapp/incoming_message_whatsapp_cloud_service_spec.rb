@@ -55,6 +55,69 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when attachment payload includes direct url' do
+      let(:direct_url) { 'https://lookaside.fbsbx.com/whatsapp_business/attachments/?mid=123&ext=456' }
+      let(:params_with_direct_url) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                messages: [{
+                  from: '2423423243',
+                  image: {
+                    id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                    mime_type: 'image/jpeg',
+                    sha256: '29ed500fa64eb55fc19dc4124acb300e5dcca0f822a301ae99944db',
+                    caption: 'Check out my product!',
+                    url: direct_url
+                  },
+                  timestamp: '1664799904', type: 'image'
+                }]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      it 'downloads attachment using direct url without calling media api' do
+        stub_request(:get, direct_url).to_return(
+          status: 200,
+          body: File.read('spec/assets/sample.png')
+        )
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params_with_direct_url).perform
+
+        expect_conversation_created
+        expect_contact_name
+        expect_message_content
+        expect_message_has_attachment
+        expect(a_request(:get, whatsapp_channel.media_url(
+                                 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                                 whatsapp_channel.provider_config['phone_number_id']
+                               ))).not_to have_been_made
+      end
+
+      it 'falls back to media api when direct url download fails' do
+        stub_request(:get, direct_url).to_return(status: 500)
+        stub_media_url_request
+        stub_sample_png_request
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params_with_direct_url).perform
+
+        expect_conversation_created
+        expect_contact_name
+        expect_message_content
+        expect_message_has_attachment
+        expect(a_request(:get, whatsapp_channel.media_url(
+                                 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+                                 whatsapp_channel.provider_config['phone_number_id']
+                               ))).to have_been_made
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {
