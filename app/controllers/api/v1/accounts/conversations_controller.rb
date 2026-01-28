@@ -182,6 +182,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def conversation
     @conversation ||= Current.account.conversations.find_by!(display_id: params[:id])
+    # Return 404 if conversation has no valid contact or contact_inbox
+    raise ActiveRecord::RecordNotFound if @conversation.contact.blank?
+
     authorize @conversation, :show?
   end
 
