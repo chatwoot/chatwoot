@@ -45,7 +45,7 @@ class KnowledgeLookupTool < BaseTool
     end
 
     formatted = embeddings.map.with_index do |embedding, index|
-      "[#{index + 1}] #{embedding.document&.title}\n#{embedding.content}"
+      "[#{index + 1}] #{embedding.to_llm}"
     end
 
     {

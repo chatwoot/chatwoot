@@ -11,6 +11,7 @@ module Aloo
     EMBEDDING_MODEL = 'text-embedding-3-small'
     BATCH_SIZE = 100
     MAX_TEXT_LENGTH = 8000
+    MIN_CONTENT_LENGTH = 20
 
     belongs_to :assistant, class_name: 'Aloo::Assistant', foreign_key: 'aloo_assistant_id', inverse_of: :embeddings
     belongs_to :document, class_name: 'Aloo::Document', foreign_key: 'aloo_document_id', optional: true, inverse_of: :embeddings
@@ -45,11 +46,19 @@ module Aloo
       assistant = document.assistant
       embeddings = []
 
-      chunks.each_slice(BATCH_SIZE).with_index do |batch, batch_index|
-        result = Embedders::DocumentEmbedder.call(texts: batch, tenant: account)
+      # Sanitize and filter out empty/too-short chunks, preserving original indices
+      sanitized_chunks = chunks.each_with_index.filter_map do |text, index|
+        sanitized = sanitize_content(text)
+        [sanitized, index] if sanitized.length >= MIN_CONTENT_LENGTH
+      end
 
-        batch.each_with_index do |text, index|
-          chunk_index = (batch_index * BATCH_SIZE) + index
+      return [] if sanitized_chunks.empty?
+
+      sanitized_chunks.each_slice(BATCH_SIZE) do |batch_with_indices|
+        texts = batch_with_indices.map(&:first)
+        result = Embedders::DocumentEmbedder.call(texts: texts, tenant: account)
+
+        batch_with_indices.each_with_index do |(text, original_index), batch_index|
           truncated = truncate_text(text)
 
           embedding = create!(
@@ -57,9 +66,9 @@ module Aloo
             assistant: assistant,
             document: document,
             content: truncated,
-            embedding: result.vectors[index],
+            embedding: result.vectors[batch_index],
             metadata: {
-              chunk_index: chunk_index,
+              chunk_index: original_index,
               token_count: estimate_tokens(truncated),
               model: EMBEDDING_MODEL
             }
@@ -129,6 +138,13 @@ module Aloo
       1.0 - neighbor_distance
     end
 
+    # Format embedding for LLM context
+    # @return [String] Formatted string with source and content
+    def to_llm
+      title = document&.title || 'Unknown Source'
+      "Source: #{title}\n#{content}"
+    end
+
     def self.truncate_text(text)
       return '' if text.blank?
 
@@ -142,5 +158,24 @@ module Aloo
       (text.length / 4.0).ceil
     end
     private_class_method :estimate_tokens
+
+    # Sanitize content for embedding and storage
+    # Removes noise that doesn't contribute to semantic meaning
+    # @param text [String] Raw text content
+    # @return [String] Cleaned text
+    def self.sanitize_content(text)
+      return '' if text.blank?
+
+      text
+        .gsub(/!\[.*?\]\(.*?\)/, '')                                      # Remove markdown images
+        .gsub(%r{https?://[^\s)]+\.(?:png|jpg|jpeg|gif|svg|webp)[^\s]*}i, '') # Remove full image URLs
+        .gsub(/[^\s()\[\]]+\.(?:png|jpg|jpeg|gif|svg|webp)(?:\?[^\s)]*)?/i, '') # Remove partial image URLs
+        .gsub(/[\u{1F300}-\u{1F9FF}]/, '')                                # Remove emojis
+        .gsub(/^[ \t]+|[ \t]+$/, '')                                      # Remove leading/trailing whitespace on each line
+        .gsub(/[ \t]{2,}/, ' ')                                           # Collapse multiple spaces/tabs to single
+        .gsub(/\n{3,}/, "\n\n")                                           # Collapse 3+ newlines to 2
+        .strip
+    end
+    private_class_method :sanitize_content
   end
 end

@@ -84,7 +84,7 @@ RSpec.describe Aloo::Embedding do
     end
 
     it 'creates embeddings for each chunk' do
-      chunks = ['Chunk 1', 'Chunk 2', 'Chunk 3']
+      chunks = ['This is test chunk number one', 'This is test chunk number two', 'This is test chunk number three']
 
       expect do
         described_class.create_from_chunks(chunks: chunks, document: document)
@@ -92,7 +92,7 @@ RSpec.describe Aloo::Embedding do
     end
 
     it 'assigns sequential chunk indices' do
-      chunks = ['Chunk 1', 'Chunk 2', 'Chunk 3']
+      chunks = ['This is test chunk number one', 'This is test chunk number two', 'This is test chunk number three']
 
       embeddings = described_class.create_from_chunks(chunks: chunks, document: document)
 
@@ -100,7 +100,7 @@ RSpec.describe Aloo::Embedding do
     end
 
     it 'stores metadata with model info' do
-      chunks = ['Test chunk']
+      chunks = ['This is a test chunk for metadata']
       batch_result = double('Embedder::Result', vectors: [mock_vector], success?: true)
       allow(embedder_class).to receive(:call).and_return(batch_result)
 
@@ -157,7 +157,7 @@ RSpec.describe Aloo::Embedding do
     end
 
     it 'creates new embeddings' do
-      new_chunks = ['New content 1', 'New content 2', 'New content 3']
+      new_chunks = ['This is new content chunk one', 'This is new content chunk two', 'This is new content chunk three']
 
       described_class.reembed_document(document: document, chunks: new_chunks)
 
