@@ -3,6 +3,7 @@
 - audit_logs
 - response_bot
 - sla
-- captain_integration
 - custom_roles
+- captain_integration
 - csat_review_notes
+- conversation_required_attributes

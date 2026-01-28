@@ -4,7 +4,6 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
-import SectionLayout from './SectionLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
@@ -125,81 +124,90 @@ const toggleAutoResolve = async () => {
 </script>
 
 <template>
-  <SectionLayout
-    :title="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.TITLE')"
-    :description="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE')"
-    :hide-content="!isEnabled"
-    with-border
+  <div
+    class="flex flex-col w-full outline-1 outline outline-n-container rounded-xl bg-n-solid-2 divide-y divide-n-weak"
   >
-    <template #headerActions>
-      <div class="flex justify-end">
-        <Switch v-model="isEnabled" @change="toggleAutoResolve" />
-      </div>
-    </template>
-
-    <form class="grid gap-5" @submit.prevent="handleSubmit">
-      <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.LABEL')"
-        :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.HELP')"
-      >
-        <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
-          <!-- allow 10 mins to 999 days -->
-          <DurationInput
-            v-model="duration"
-            v-model:unit="unit"
-            min="0"
-            max="1438560"
-            class="w-full"
-          />
+    <div class="flex flex-col gap-2 items-start px-5 py-4">
+      <div class="flex justify-between items-center w-full">
+        <h3 class="text-base font-medium text-n-slate-12">
+          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.TITLE') }}
+        </h3>
+        <div class="flex justify-end">
+          <Switch v-model="isEnabled" @change="toggleAutoResolve" />
         </div>
-      </WithLabel>
-      <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.LABEL')"
-        :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.HELP')"
-      >
-        <TextArea
-          v-model="message"
-          class="w-full"
-          :placeholder="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')
-          "
-        />
-      </WithLabel>
-      <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.PREFERENCES')">
-        <div
-          class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
+      </div>
+      <p class="mb-0 text-sm text-n-slate-11">
+        {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE') }}
+      </p>
+    </div>
+
+    <div v-if="isEnabled" class="px-5 py-4">
+      <form class="grid gap-5" @submit.prevent="handleSubmit">
+        <WithLabel
+          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.LABEL')"
+          :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.HELP')"
         >
-          <div class="p-3 h-12 flex items-center justify-between">
-            <span>
-              {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL') }}
-            </span>
-            <Switch v-model="ignoreWaiting" />
-          </div>
-          <div class="p-3 h-12 flex items-center justify-between">
-            <span>
-              {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL') }}
-            </span>
-            <SingleSelect
-              v-model="labelToApply"
-              :options="labelOptions"
-              :placeholder="
-                $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')
-              "
-              placeholder-icon="i-lucide-chevron-down"
-              placeholder-trailing-icon
-              variant="faded"
+          <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
+            <!-- allow 10 mins to 999 days -->
+            <DurationInput
+              v-model="duration"
+              v-model:unit="unit"
+              min="0"
+              max="1438560"
+              class="w-full"
             />
           </div>
+        </WithLabel>
+        <WithLabel
+          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.LABEL')"
+          :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.HELP')"
+        >
+          <TextArea
+            v-model="message"
+            class="w-full"
+            :placeholder="
+              t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')
+            "
+          />
+        </WithLabel>
+        <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.PREFERENCES')">
+          <div
+            class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
+          >
+            <div class="p-3 h-12 flex items-center justify-between">
+              <span>
+                {{
+                  t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL')
+                }}
+              </span>
+              <Switch v-model="ignoreWaiting" />
+            </div>
+            <div class="p-3 h-12 flex items-center justify-between">
+              <span>
+                {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL') }}
+              </span>
+              <SingleSelect
+                v-model="labelToApply"
+                :options="labelOptions"
+                :placeholder="
+                  $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')
+                "
+                placeholder-icon="i-lucide-chevron-down"
+                placeholder-trailing-icon
+                variant="faded"
+              />
+            </div>
+          </div>
+        </WithLabel>
+        <div class="flex gap-2">
+          <NextButton
+            blue
+            type="submit"
+            :is-loading="isSubmitting"
+            :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"
+          />
         </div>
-      </WithLabel>
-      <div class="flex gap-2">
-        <NextButton
-          blue
-          type="submit"
-          :is-loading="isSubmitting"
-          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"
-        />
-      </div>
-    </form>
-  </SectionLayout>
+      </form>
+    </div>
+  </div>
 </template>
