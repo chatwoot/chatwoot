@@ -3,6 +3,7 @@ class Messages::NewMessageNotificationService
 
   def perform
     return unless message.notifiable?
+    return if message.status == 'failed'
 
     notify_conversation_assignee
     notify_participating_users
