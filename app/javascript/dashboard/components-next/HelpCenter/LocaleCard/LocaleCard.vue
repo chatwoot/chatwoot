@@ -60,7 +60,7 @@ const handleAction = ({ action, value }) => {
         </span>
         <span
           v-if="isDefault"
-          class="bg-n-alpha-2 h-6 inline-flex items-center justify-center rounded-md text-xs border-px border-transparent text-n-blue-text px-2 py-0.5"
+          class="bg-n-alpha-2 h-6 inline-flex items-center justify-center rounded-md text-xs border-px border-transparent text-n-blue-11 px-2 py-0.5"
         >
           {{ $t('HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DEFAULT') }}
         </span>
