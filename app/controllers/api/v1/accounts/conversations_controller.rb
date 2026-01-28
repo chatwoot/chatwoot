@@ -110,6 +110,15 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
+    # High-traffic accounts generate excessive DB writes when agents frequently switch between conversations.
+    # Throttle last_seen updates to once per hour when there are no unread messages to reduce DB load.
+    # Always update immediately if there are unread messages to maintain accurate read/unread state.
+    return update_last_seen_on_conversation(DateTime.now.utc, true) if assignee? && @conversation.assignee_unread_messages.any?
+    return update_last_seen_on_conversation(DateTime.now.utc, false) if !assignee? && @conversation.unread_messages.any?
+
+    # No unread messages - apply throttling to limit DB writes
+    return unless should_update_last_seen?
+
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
 
@@ -142,10 +151,23 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen_on_conversation(last_seen_at, update_assignee)
+    updates = { agent_last_seen_at: last_seen_at }
+    updates[:assignee_last_seen_at] = last_seen_at if update_assignee.present?
+
     # rubocop:disable Rails/SkipsModelValidations
-    @conversation.update_column(:agent_last_seen_at, last_seen_at)
-    @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
+    @conversation.update_columns(updates)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def should_update_last_seen?
+    # Update if at least one relevant timestamp is older than 1 hour or not set
+    # This prevents redundant DB writes when agents repeatedly view the same conversation
+    agent_needs_update = @conversation.agent_last_seen_at.blank? || @conversation.agent_last_seen_at < 1.hour.ago
+    return agent_needs_update unless assignee?
+
+    # For assignees, check both timestamps - update if either is old
+    assignee_needs_update = @conversation.assignee_last_seen_at.blank? || @conversation.assignee_last_seen_at < 1.hour.ago
+    agent_needs_update || assignee_needs_update
   end
 
   def set_conversation_status

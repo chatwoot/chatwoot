@@ -51,7 +51,6 @@ class Messages::SearchDataPresenter < SimpleDelegator
 
   def additional_attributes_data
     {
-      campaign_id: additional_attributes&.dig('campaign_id'),
       automation_rule_id: content_attributes&.dig('automation_rule_id')
     }
   end
