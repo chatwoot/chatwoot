@@ -1,6 +1,9 @@
 class Account::ContactsExportJob < ApplicationJob
   queue_as :low
 
+  LABELS_COLUMN = 'labels'.freeze
+  LABELS_DELIMITER = '|'.freeze
+
   def perform(account_id, user_id, column_names, params)
     @account = Account.find(account_id)
     @params = params
@@ -17,11 +20,17 @@ class Account::ContactsExportJob < ApplicationJob
     csv_data = CSV.generate do |csv|
       csv << headers
       contacts.each do |contact|
-        csv << headers.map { |header| contact.send(header) }
+        csv << headers.map { |header| value_for_header(contact, header) }
       end
     end
 
     attach_export_file(csv_data)
+  end
+
+  def value_for_header(contact, header)
+    return contact.label_list.join(LABELS_DELIMITER) if header == LABELS_COLUMN
+
+    contact.send(header)
   end
 
   def contacts
@@ -36,7 +45,11 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def valid_headers(column_names)
-    (column_names.presence || default_columns) & Contact.column_names
+    requested_headers = column_names.presence || default_columns
+
+    requested_headers.select do |header|
+      header == LABELS_COLUMN || Contact.column_names.include?(header)
+    end.uniq
   end
 
   def attach_export_file(csv_data)
@@ -60,6 +73,6 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def default_columns
-    %w[id name email phone_number]
+    %w[id name email phone_number labels]
   end
 end

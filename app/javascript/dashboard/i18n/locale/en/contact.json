@@ -318,7 +318,7 @@
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
+          "DESCRIPTION": "Import contacts through a CSV file. You can include a 'labels' column in your CSV with vertical line '|'-separated labels for each contact.",
           "DOWNLOAD_LABEL": "Download a sample csv.",
           "LABEL": "CSV File:",
           "CHOOSE_FILE": "Choose file",
