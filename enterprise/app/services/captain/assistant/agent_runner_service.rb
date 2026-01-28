@@ -73,7 +73,16 @@ class Captain::Assistant::AgentRunnerService
 
   # Response formatting methods
   def process_agent_result(result)
-    Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
+    # DEBUG LOGGING - remove after investigation
+    Rails.logger.info "[Captain V2 DEBUG] result.output class: #{result.output.class.name}"
+    Rails.logger.info "[Captain V2 DEBUG] result.output value: #{result.output.inspect}"
+
+    if result.output.is_a?(String)
+      Rails.logger.warn '[Captain V2 DEBUG] Output is STRING not Hash - schema may not be applied!'
+      Rails.logger.warn "[Captain V2 DEBUG] String content: #{result.output}"
+    end
+    # END DEBUG LOGGING
+
     response = format_response(result.output)
 
     # Extract agent name from context
@@ -83,7 +92,15 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def format_response(output)
-    return output.with_indifferent_access if output.is_a?(Hash)
+    if output.is_a?(Hash)
+      Rails.logger.info "[Captain V2 DEBUG] format_response: Hash with keys #{output.keys}"
+      return output.with_indifferent_access
+    end
+
+    # DEBUG LOGGING - remove after investigation
+    Rails.logger.warn "[Captain V2 DEBUG] format_response: Non-hash output, type=#{output.class.name}"
+    Rails.logger.warn "[Captain V2 DEBUG] format_response: content=#{output}"
+    # END DEBUG LOGGING
 
     # Fallback for backwards compatibility
     {
