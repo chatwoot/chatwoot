@@ -31,9 +31,6 @@ class Conversations::AutoAssignService
   private
 
   def should_process?
-    # TODO: Re-enable when API quotas are resolved
-    return false
-
     return false unless conversation.open?
     return false unless threshold_met?
     return false if recently_triaged?
