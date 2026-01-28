@@ -162,6 +162,10 @@ const variant = computed(() => {
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
 
+  if (props.contentAttributes?.externalEcho) {
+    return MESSAGE_VARIANTS.AGENT;
+  }
+
   const isBot = !props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT;
   if (isBot && props.messageType === MESSAGE_TYPES.OUTGOING) {
     return MESSAGE_VARIANTS.BOT;
@@ -424,6 +428,13 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
+  if (props.contentAttributes?.externalEcho) {
+    return {
+      name: t('CONVERSATION.NATIVE_APP'),
+      src: '',
+    };
+  }
+
   // If no sender, return bot info
   if (!props.sender) {
     return {
@@ -536,6 +547,12 @@ provideMessageContext({
         :error="contentAttributes.externalError"
         @retry="emit('retry')"
       />
+      <p
+        v-if="contentAttributes.externalEcho && !shouldGroupWithNext"
+        class="[grid-area:meta] text-xs text-n-slate-11 ltr:text-right rtl:text-left"
+      >
+        {{ t('CONVERSATION.NATIVE_APP_ADVISORY') }}
+      </p>
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
