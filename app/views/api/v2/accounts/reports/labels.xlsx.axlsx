@@ -1,0 +1,28 @@
+wb = xlsx_package.workbook
+
+wb.add_worksheet(name: 'Labels Report') do |sheet|
+  sheet.add_row [
+    I18n.t(
+      'reports.period',
+      since: Date.strptime(params[:since], '%s'),
+      until: Date.strptime(params[:until], '%s')
+    )
+  ]
+
+  sheet.add_row []
+
+  headers = [
+    I18n.t('reports.label_csv.label_title'),
+    I18n.t('reports.label_csv.conversations_count'),
+    I18n.t('reports.label_csv.avg_first_response_time'),
+    I18n.t('reports.label_csv.avg_resolution_time'),
+    I18n.t('reports.label_csv.avg_reply_time'),
+    I18n.t('reports.label_csv.resolution_count')
+  ]
+
+  sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')
+
+  @report_data.each do |row|
+    sheet.add_row row
+  end
+end

@@ -48,21 +48,50 @@ describe('#Reports API', () => {
         }
       );
     });
-    it('#download', () => {
+    it('#download csv (default)', () => {
       csatReportsAPI.download({
         from: 1622485800,
         to: 1623695400,
         user_ids: 1,
       });
+
       expect(axiosMock.get).toHaveBeenCalledWith(
-        '/api/v1/csat_survey_responses/download',
+        '/api/v1/csat_survey_responses/download.csv',
         {
           params: {
             since: 1622485800,
             until: 1623695400,
             user_ids: 1,
             sort: '-created_at',
+            inbox_id: undefined,
+            team_id: undefined,
+            rating: undefined,
           },
+          responseType: undefined,
+        }
+      );
+    });
+    it('#download xlsx', () => {
+      csatReportsAPI.download({
+        from: 1622485800,
+        to: 1623695400,
+        user_ids: 1,
+        format: 'xlsx',
+      });
+
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/csat_survey_responses/download.xlsx',
+        {
+          params: {
+            since: 1622485800,
+            until: 1623695400,
+            user_ids: 1,
+            sort: '-created_at',
+            inbox_id: undefined,
+            team_id: undefined,
+            rating: undefined,
+          },
+          responseType: 'blob',
         }
       );
     });

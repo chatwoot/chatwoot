@@ -3,13 +3,13 @@ import ReportFilterSelector from './FilterSelector.vue';
 import { formatTime } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Table from 'dashboard/components/table/Table.vue';
-import { generateFileName } from 'dashboard/helper/downloadHelper';
 import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
 } from '@tanstack/vue-table';
 import { computed, onMounted, ref, h } from 'vue';
+import ReportsAPI from 'dashboard/api/reports';
 
 const props = defineProps({
   type: {
@@ -149,29 +149,41 @@ const table = useVueTable({
   getCoreRowModel: getCoreRowModel(),
 });
 
-// downloadReports method is not used in this component
-// but it is exposed to be used in the parent component
-const downloadReports = () => {
-  const dispatchMethods = {
-    agent: 'downloadAgentReports',
-    label: 'downloadLabelReports',
-    inbox: 'downloadInboxReports',
-    team: 'downloadTeamReports',
+const downloadReports = async (format = 'csv') => {
+  const params = {
+    from: from.value,
+    to: to.value,
+    businessHours: businessHours.value,
+    format,
   };
-  if (dispatchMethods[props.type]) {
-    const fileName = generateFileName({
-      type: props.type,
-      to: to.value,
-      businessHours: businessHours.value,
-    });
-    const params = {
-      from: from.value,
-      to: to.value,
-      fileName,
-      businessHours: businessHours.value,
-    };
-    store.dispatch(dispatchMethods[props.type], params);
+
+  let response;
+
+  if (props.type === 'agent') {
+    response = await ReportsAPI.getAgentReports(params);
+  } else if (props.type === 'label') {
+    response = await ReportsAPI.getLabelReports(params);
+  } else if (props.type === 'inbox') {
+    response = await ReportsAPI.getInboxReports(params);
+  } else if (props.type === 'team') {
+    response = await ReportsAPI.getTeamReports(params);
   }
+
+  const fileName = `${props.type}_report_${Date.now()}.${format}`;
+  const mimeType =
+    format === 'xlsx'
+      ? 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      : 'text/csv';
+
+  const blob = new Blob([response.data], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
 };
 
 defineExpose({ downloadReports });

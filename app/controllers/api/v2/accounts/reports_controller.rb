@@ -20,27 +20,52 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def agents
     @report_data = generate_agents_report
-    generate_csv('agents_report', 'api/v2/accounts/reports/agents')
+
+    respond_to do |format|
+      format.csv  { generate_csv('agents_report', 'api/v2/accounts/reports/agents') }
+      format.xlsx { generate_xlsx('agents_report', 'api/v2/accounts/reports/agents') }
+      format.any  { generate_csv('agents_report', 'api/v2/accounts/reports/agents') }
+    end
   end
 
   def inboxes
     @report_data = generate_inboxes_report
-    generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes')
+
+    respond_to do |format|
+      format.csv  { generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes') }
+      format.xlsx { generate_xlsx('inboxes_report', 'api/v2/accounts/reports/inboxes') }
+      format.any  { generate_csv('inboxes_report', 'api/v2/accounts/reports/inboxes') }
+    end
   end
 
   def labels
     @report_data = generate_labels_report
-    generate_csv('labels_report', 'api/v2/accounts/reports/labels')
+
+    respond_to do |format|
+      format.csv  { generate_csv('labels_report', 'api/v2/accounts/reports/labels') }
+      format.xlsx { generate_xlsx('labels_report', 'api/v2/accounts/reports/labels') }
+      format.any  { generate_csv('labels_report', 'api/v2/accounts/reports/labels') }
+    end
   end
 
   def teams
     @report_data = generate_teams_report
-    generate_csv('teams_report', 'api/v2/accounts/reports/teams')
+
+    respond_to do |format|
+      format.csv  { generate_csv('teams_report', 'api/v2/accounts/reports/teams') }
+      format.xlsx { generate_xlsx('teams_report', 'api/v2/accounts/reports/teams') }
+      format.any  { generate_csv('teams_report', 'api/v2/accounts/reports/teams') }
+    end
   end
 
   def conversations_summary
     @report_data = generate_conversations_report
-    generate_csv('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary')
+
+    respond_to do |format|
+      format.csv  { generate_csv('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary') }
+      format.xlsx { generate_xlsx('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary') }
+      format.any  { generate_csv('conversations_summary_report', 'api/v2/accounts/reports/conversations_summary') }
+    end
   end
 
   def conversation_traffic
@@ -48,7 +73,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     timezone_offset = (params[:timezone_offset] || 0).to_f
     @timezone = ActiveSupport::TimeZone[timezone_offset]
 
-    generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic')
+    respond_to do |format|
+      format.csv  { generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic') }
+      format.xlsx { generate_xlsx('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic') }
+      format.any  { generate_csv('conversation_traffic_reports', 'api/v2/accounts/reports/conversation_traffic') }
+    end
   end
 
   def conversations
@@ -70,6 +99,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render layout: false, template: template, formats: [:csv]
   end
 
+  def generate_xlsx(filename, template)
+    response.headers['Content-Type'] = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    response.headers['Content-Disposition'] = "attachment; filename=#{filename}.xlsx"
+    render layout: false, template: template, formats: [:xlsx]
+  end
+
   def check_authorization
     authorize :report, :view?
   end
@@ -84,28 +119,15 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def current_summary_params
-    common_params.merge({
-                          since: range[:current][:since],
-                          until: range[:current][:until],
-                          timezone_offset: params[:timezone_offset]
-                        })
+    common_params.merge({ since: range[:current][:since], until: range[:current][:until], timezone_offset: params[:timezone_offset] })
   end
 
   def previous_summary_params
-    common_params.merge({
-                          since: range[:previous][:since],
-                          until: range[:previous][:until],
-                          timezone_offset: params[:timezone_offset]
-                        })
+    common_params.merge({ since: range[:previous][:since], until: range[:previous][:until], timezone_offset: params[:timezone_offset] })
   end
 
   def report_params
-    common_params.merge({
-                          metric: params[:metric],
-                          since: params[:since],
-                          until: params[:until],
-                          timezone_offset: params[:timezone_offset]
-                        })
+    common_params.merge({ metric: params[:metric], since: params[:since], until: params[:until], timezone_offset: params[:timezone_offset] })
   end
 
   def conversation_params
@@ -118,10 +140,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def range
     {
-      current: {
-        since: params[:since],
-        until: params[:until]
-      },
+      current: { since: params[:since], until: params[:until] },
       previous: {
         since: (params[:since].to_i - (params[:until].to_i - params[:since].to_i)).to_s,
         until: params[:since]

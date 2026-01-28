@@ -48,46 +48,19 @@ class ReportsAPI extends ApiClient {
 
   getConversationMetric(type = 'account', page = 1) {
     return axios.get(`${this.url}/conversations`, {
-      params: {
-        type,
-        page,
-      },
+      params: { type, page },
     });
   }
 
-  getAgentReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/agents`, {
+  getConversationsSummaryReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+  }) {
+    return axios.get(`${this.url}/conversations_summary.${format}`, {
       params: { since, until, business_hours: businessHours },
-    });
-  }
-
-  getConversationsSummaryReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/conversations_summary`, {
-      params: { since, until, business_hours: businessHours },
-    });
-  }
-
-  getConversationTrafficCSV({ daysBefore = 6 } = {}) {
-    return axios.get(`${this.url}/conversation_traffic`, {
-      params: { timezone_offset: getTimeOffset(), days_before: daysBefore },
-    });
-  }
-
-  getLabelReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/labels`, {
-      params: { since, until, business_hours: businessHours },
-    });
-  }
-
-  getInboxReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/inboxes`, {
-      params: { since, until, business_hours: businessHours },
-    });
-  }
-
-  getTeamReports({ from: since, to: until, businessHours }) {
-    return axios.get(`${this.url}/teams`, {
-      params: { since, until, business_hours: businessHours },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }
 
@@ -106,6 +79,60 @@ class ReportsAPI extends ApiClient {
         group_by: groupBy,
         business_hours: businessHours,
       },
+    });
+  }
+
+  getAgentReports({ from: since, to: until, businessHours, format = 'csv' }) {
+    return axios.get(`${this.url}/agents.${format}`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+      },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
+    });
+  }
+
+  getConversationTrafficReports({ daysBefore = 6, format = 'csv' } = {}) {
+    return axios.get(`${this.url}/conversation_traffic.${format}`, {
+      params: {
+        timezone_offset: getTimeOffset(),
+        days_before: daysBefore,
+      },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
+    });
+  }
+
+  getLabelReports({ from: since, to: until, businessHours, format = 'csv' }) {
+    return axios.get(`${this.url}/labels.${format}`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+      },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
+    });
+  }
+
+  getInboxReports({ from: since, to: until, businessHours, format = 'csv' }) {
+    return axios.get(`${this.url}/inboxes.${format}`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+      },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
+    });
+  }
+
+  getTeamReports({ from: since, to: until, businessHours, format = 'csv' }) {
+    return axios.get(`${this.url}/teams.${format}`, {
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+      },
+      responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }
 }
