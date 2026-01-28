@@ -573,7 +573,8 @@
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contato corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "Não há contatos disponíveis nesta visualização 📋",
       "ACTIVE_EMPTY_STATE_TITLE": "Nenhum contato está ativo no momento 🌙"
-    }
+    },
+    "LOAD_MORE": "Carregar mais"
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Atribuir rótulo",
