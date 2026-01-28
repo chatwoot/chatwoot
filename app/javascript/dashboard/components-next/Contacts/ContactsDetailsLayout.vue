@@ -73,7 +73,7 @@ const closeMobileSidebar = () => {
 
 <template>
   <section
-    class="flex w-full h-full overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full overflow-hidden justify-evenly bg-n-surface-1"
   >
     <div
       class="flex flex-col w-full h-full transition-all duration-300 ltr:2xl:ml-56 rtl:2xl:mr-56"

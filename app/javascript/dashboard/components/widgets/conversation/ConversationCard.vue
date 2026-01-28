@@ -236,9 +236,8 @@ const deleteConversation = () => {
   <div
     class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full py-0 border-t-0 border-b-0 border-l-0 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
-      'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
-        isActiveChat,
-      'bg-n-slate-2 dark:bg-n-slate-3': selected,
+      'active animate-card-select bg-n-background border-n-weak': isActiveChat,
+      'bg-n-slate-2': selected,
       'px-0': compact,
       'px-3': !compact,
     }"

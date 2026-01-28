@@ -78,7 +78,7 @@ const showPagination = computed(() => {
 
 <template>
   <section
-    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-background"
+    class="flex w-full h-full gap-4 overflow-hidden justify-evenly bg-n-surface-1"
   >
     <div class="flex flex-col w-full h-full transition-all duration-300">
       <ContactListHeaderWrapper

@@ -28,7 +28,7 @@ export default {
 
 <template>
   <div
-    class="items-center justify-center hidden w-full h-full text-center bg-n-background lg:flex"
+    class="items-center justify-center hidden w-full h-full text-center bg-n-surface-1 lg:flex"
   >
     <div v-if="uiFlags.isFetching" class="flex justify-center my-4">
       <Spinner class="text-n-brand" />
