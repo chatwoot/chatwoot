@@ -76,4 +76,4 @@ properties:
             type: object
             description: The processed param values for template variables in template
             example:
-              1: 'Chatwoot'
+              1: 'AlooChat'

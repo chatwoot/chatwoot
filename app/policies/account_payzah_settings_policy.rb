@@ -1,6 +1,6 @@
 class AccountPayzahSettingsPolicy < ApplicationPolicy
   def show?
-    @account_user.administrator?
+    true
   end
 
   def create?

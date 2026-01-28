@@ -7,7 +7,7 @@ properties:
   custom_domain:
     type: string
     description: Custom domain to display help center.
-    example: chatwoot.help
+    example: help.aloochat.ai
   header_text:
     type: string
     description: Help center header
