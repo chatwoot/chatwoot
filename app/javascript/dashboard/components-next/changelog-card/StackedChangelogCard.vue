@@ -34,7 +34,7 @@ const handleImgClick = () => {
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-background text-n-slate-12"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-card text-n-slate-12"
     :class="{
       'animate-fade-out pointer-events-none': isDismissing,
       'hover:shadow': isActive,

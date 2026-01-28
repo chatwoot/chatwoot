@@ -48,7 +48,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-n-solid-blue text-n-blue-11 py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.START_FLOW') }}
         </span>
@@ -102,7 +102,7 @@ export default {
     <div class="macro__node">
       <div>
         <span
-          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+          class="bg-n-solid-blue text-n-blue-11 py-1 px-1.5 leading-none text-sm rounded-md"
         >
           {{ $t('MACROS.EDITOR.END_FLOW') }}
         </span>

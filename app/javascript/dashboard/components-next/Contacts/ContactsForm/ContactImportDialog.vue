@@ -73,7 +73,7 @@ defineExpose({ dialogRef });
           target="_blank"
           rel="noopener noreferrer"
           download="import-contacts-sample.csv"
-          class="text-n-blue-text"
+          class="text-n-blue-11"
         >
           {{
             t('CONTACTS_LAYOUT.HEADER.ACTIONS.IMPORT_CONTACT.DOWNLOAD_LABEL')

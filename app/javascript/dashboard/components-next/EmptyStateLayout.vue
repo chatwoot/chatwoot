@@ -37,7 +37,7 @@ defineProps({
       <div
         class="flex flex-col items-center justify-end w-full h-full pb-20"
         :class="{
-          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-background from-25% dark:from-n-background to-transparent':
+          'absolute inset-x-0 bottom-0 bg-gradient-to-t from-n-surface-1 from-25% to-transparent':
             showBackdrop,
         }"
       >
@@ -48,14 +48,12 @@ defineProps({
           }"
         >
           <div class="flex flex-col items-center justify-center gap-3">
-            <h2
-              class="text-3xl font-medium text-center text-n-slate-12 font-interDisplay"
-            >
+            <h2 class="text-3xl font-medium text-center text-n-slate-12">
               {{ title }}
             </h2>
             <p
               v-if="subtitle"
-              class="max-w-xl text-base text-center text-n-slate-11 font-interDisplay tracking-[0.3px]"
+              class="max-w-xl text-base text-center text-n-slate-11 tracking-[0.3px]"
             >
               {{ subtitle }}
             </p>

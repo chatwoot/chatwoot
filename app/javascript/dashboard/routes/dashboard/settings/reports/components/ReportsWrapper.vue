@@ -1,5 +1,5 @@
 <template>
-  <div class="reports--wrapper overflow-auto bg-n-background w-full px-6">
+  <div class="reports--wrapper overflow-auto bg-n-surface-1 w-full px-6">
     <div class="max-w-[60rem] mx-auto pb-12">
       <router-view />
     </div>
