@@ -377,6 +377,11 @@ const menuItems = computed(() => {
       icon: 'i-lucide-chart-spline',
       children: [
         {
+          name: 'Reports All Metrics',
+          label: t('SIDEBAR.REPORTS_ALL_METRICS'),
+          to: accountScopedRoute('all_conversation_metrics_reports'),
+        },
+        {
           name: 'Report Overview',
           label: t('SIDEBAR.REPORTS_OVERVIEW'),
           to: accountScopedRoute('account_overview_reports'),

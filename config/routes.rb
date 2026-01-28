@@ -443,6 +443,7 @@ Rails.application.routes.draw do
               get :conversations_summary
               get :conversation_traffic
               get :bot_metrics
+              get :all_conversation_metrics_download
             end
           end
           resource :year_in_review, only: [:show]

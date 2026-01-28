@@ -46,6 +46,53 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getAllMetricsReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+    userIds,
+    inboxIds,
+    teamIds,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (userIds && userIds.length > 0) {
+      params.user_ids = userIds;
+    }
+    if (inboxIds && inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+    if (teamIds && teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+
+    return axios.get(
+      `${this.url}/all_conversation_metrics_download.${format}`,
+      {
+        params,
+        responseType: format === 'xlsx' ? 'blob' : undefined,
+        paramsSerializer: requestParams => {
+          const searchParams = new URLSearchParams();
+          Object.keys(requestParams).forEach(key => {
+            const value = requestParams[key];
+            if (Array.isArray(value)) {
+              value.forEach(item => searchParams.append(`${key}[]`, item));
+            } else if (value !== undefined && value !== null) {
+              searchParams.append(key, value);
+            }
+          });
+          return searchParams.toString();
+        },
+      }
+    );
+  }
+
   getConversationMetric(type = 'account', page = 1) {
     return axios.get(`${this.url}/conversations`, {
       params: {

@@ -2,7 +2,11 @@
 import * as types from '../mutation-types';
 import { STATUS } from '../constants';
 import Report from '../../api/reports';
-import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
+import {
+  downloadCsvFile,
+  downloadFile,
+  generateFileName,
+} from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 import { clampDataBetweenTimeline } from 'shared/helpers/ReportsDataHelper';
@@ -219,6 +223,45 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_TEAM_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  downloadAllMetricsReports(_, reportObj) {
+    const format = reportObj.format || 'csv';
+
+    const params = {
+      from: reportObj.from,
+      to: reportObj.to,
+      businessHours: reportObj.businessHours,
+      format,
+    };
+
+    if (reportObj.userIds && reportObj.userIds.length > 0) {
+      params.userIds = reportObj.userIds;
+    }
+    if (reportObj.inboxIds && reportObj.inboxIds.length > 0) {
+      params.inboxIds = reportObj.inboxIds;
+    }
+    if (reportObj.teamIds && reportObj.teamIds.length > 0) {
+      params.teamIds = reportObj.teamIds;
+    }
+
+    return Report.getAllMetricsReports(params)
+      .then(response => {
+        downloadFile(reportObj.fileName, response.data, format);
+
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'all_conversation_metrics',
+          businessHours: reportObj?.businessHours,
+          format,
+          hasFilters: !!(
+            reportObj.userIds ||
+            reportObj.inboxIds ||
+            reportObj.teamIds
+          ),
+        });
+      })
+      .catch(error => {
+        console.error(error);
       });
   },
   downloadAgentReports(_, reportObj) {

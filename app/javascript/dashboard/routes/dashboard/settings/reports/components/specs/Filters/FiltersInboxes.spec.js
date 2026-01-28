@@ -54,12 +54,14 @@ describe('ReportsFiltersInboxes.vue', () => {
       },
     });
 
-    const selectedInbox = { id: 1, name: 'Inbox 1' };
-    await wrapper.setData({ selectedOption: selectedInbox });
+    const selectedInboxes = [{ id: 1, name: 'Inbox 1' }];
 
+    await wrapper.setData({ selectedOptions: selectedInboxes });
     await wrapper.vm.handleInput();
 
     expect(wrapper.emitted('inboxFilterSelection')).toBeTruthy();
-    expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([selectedInbox]);
+    expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([
+      selectedInboxes,
+    ]);
   });
 });

@@ -46,7 +46,7 @@ describe('ReportsFiltersTeams.vue', () => {
     expect(teamsModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "team-filter-selection" event when handleInput is called', async () => {
+  it('emits "teamFilterSelection" event when handleInput is called', async () => {
     const wrapper = shallowMount(ReportsFiltersTeams, {
       global: {
         plugins: [store],
@@ -54,12 +54,12 @@ describe('ReportsFiltersTeams.vue', () => {
       },
     });
 
-    await wrapper.setData({ selectedOption: { id: 1, name: 'Team 1' } });
+    const selectedTeams = [{ id: 1, name: 'Team 1' }];
+
+    await wrapper.setData({ selectedOptions: selectedTeams });
     await wrapper.vm.handleInput();
 
     expect(wrapper.emitted('teamFilterSelection')).toBeTruthy();
-    expect(wrapper.emitted('teamFilterSelection')[0]).toEqual([
-      { id: 1, name: 'Team 1' },
-    ]);
+    expect(wrapper.emitted('teamFilterSelection')[0]).toEqual([selectedTeams]);
   });
 });
