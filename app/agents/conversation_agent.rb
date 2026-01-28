@@ -60,13 +60,11 @@ class ConversationAgent < ApplicationAgent
   end
 
   def tools
-    available_tools = [KnowledgeLookupTool]
+    available_tools = [KnowledgeLookupTool, SendAttachmentTool, PrivateNoteTool]
     available_tools << HandoffTool if current_assistant&.feature_handoff_enabled?
     available_tools << ResolveTool if current_assistant&.feature_resolve_enabled?
     available_tools << SnoozeTool if current_assistant&.feature_snooze_enabled?
     available_tools << LabelsTool if current_assistant&.feature_labels_enabled?
-    available_tools << AssignTool if current_assistant&.feature_handoff_enabled?
-    available_tools << PrivateNoteTool
 
     if catalog_access_enabled?
       available_tools << ProductDetailsTool

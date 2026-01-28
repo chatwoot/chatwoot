@@ -100,6 +100,7 @@ class Aloo::ResponseService
         content: result.content,
         message_type: :outgoing,
         private: false,
+        attachments: resolve_attachments(result),
         content_attributes: {
           'aloo_generated' => true,
           'aloo_assistant_id' => @assistant.id,
@@ -109,6 +110,12 @@ class Aloo::ResponseService
         }
       }
     ).perform
+  end
+
+  def resolve_attachments(result)
+    return [] unless result.respond_to?(:tool_calls)
+
+    Aloo::AttachmentResolver.new(result.tool_calls).resolve
   end
 
   def update_conversation_status
