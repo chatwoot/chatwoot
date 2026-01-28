@@ -12,11 +12,13 @@ defineProps({
 
 const emit = defineEmits(['retry']);
 
-const { orientation, status, createdAt } = useMessageContext();
+const { orientation, status, createdAt, content } = useMessageContext();
 
 const { t } = useI18n();
 
-const canRetry = computed(() => !hasOneDayPassed(createdAt.value));
+const canRetry = computed(() => {
+  return !hasOneDayPassed(createdAt.value) && content.value !== null;
+});
 </script>
 
 <template>

@@ -7,6 +7,8 @@ class Notification::EmailNotificationService
     # don't send emails if user is not confirmed
     return if notification.user.confirmed_at.nil?
     return unless user_subscribed_to_notification?
+    # don't send emails for failed messages
+    return if message_failed?
 
     # TODO : Clean up whatever happening over here
     # Segregate the mailers properly
@@ -21,5 +23,12 @@ class Notification::EmailNotificationService
     return true if notification_setting.public_send("email_#{notification.notification_type}?")
 
     false
+  end
+
+  def message_failed?
+    return false unless notification.secondary_actor.is_a?(Message)
+
+    message = notification.secondary_actor
+    message.status == 'failed'
   end
 end
