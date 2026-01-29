@@ -150,7 +150,7 @@ ru:
       contact_email: 'Почта клиента'
       agent_nick: 'Ник оператора %{index}'
       duration: 'Длительность диалога'
-      agent_chat_duration: "Общее время чата агентов"
+      chat_resolution: "Общее время до решения"
       first_response_time: 'Время первого ответа'
       avg_response_time: 'Среднее время ответа'
       csat_score: 'Оценка чата (CSAT)'
@@ -160,6 +160,8 @@ ru:
       chat_custom: 'Кастом инфо о чате: %{attr}'
       contact_custom: 'Кастом инфо о контакте: %{attr}'
       contact_additional: 'Дополнительная инфо: %{attr}'
+      agent_chat_duration: 'Общее время длительности чата агентов'
+      agent_chat_duration_individual: 'Длительность диалога оператора %{index}'
     agent_csv:
       agent_name: Имя оператора
       conversations_count: Назначенные диалоги

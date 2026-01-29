@@ -1,6 +1,5 @@
 def tf(value)
   return nil if value.blank?
-
   Reports::TimeFormatPresenter.new(value).format
 end
 
@@ -27,9 +26,10 @@ headers << t('reports.conversation_details_csv.contact_email')
 
 max_agents.times do |i|
   headers << t('reports.conversation_details_csv.agent_nick', index: i + 1)
+  headers << t('reports.conversation_details_csv.agent_chat_duration_individual', index: i + 1)
 end
 
-headers << t('reports.conversation_details_csv.duration')
+headers << t('reports.conversation_details_csv.chat_resolution')
 headers << t('reports.conversation_details_csv.first_response_time')
 headers << t('reports.conversation_details_csv.avg_response_time')
 headers << t('reports.conversation_details_csv.agent_chat_duration')
@@ -42,38 +42,38 @@ end
 
 headers << t('reports.conversation_details_csv.contact_name')
 
-all_chat_custom_attrs.each     { |attr| headers << t('reports.conversation_details_csv.chat_custom', attr: attr) }
-all_contact_custom_attrs.each  { |attr| headers << t('reports.conversation_details_csv.contact_custom', attr: attr) }
-all_contact_attrs.each         { |attr| headers << t('reports.conversation_details_csv.contact_additional', attr: attr) }
+all_chat_custom_attrs.each { |attr| headers << t('reports.conversation_details_csv.chat_custom', attr: attr) }
+all_contact_custom_attrs.each { |attr| headers << t('reports.conversation_details_csv.contact_custom', attr: attr) }
+all_contact_attrs.each { |attr| headers << t('reports.conversation_details_csv.contact_additional', attr: attr) }
 
 xlsx_package.workbook.add_worksheet(name: t('reports.period', since: '', until: '')) do |sheet|
   sheet.add_row headers
 
   @report_data.each do |row|
+    agents_and_durations = []
+    max_agents.times do |i|
+      agents_and_durations << row[:agents]&.[](i)
+      agents_and_durations << tf(row[:agent_chat_durations]&.[](i))
+    end
+
     sheet.add_row [
       row[:conversation_id],
       row[:created_at]&.strftime('%Y-%m-%d %H:%M:%S'),
       row[:inbox_name],
       row[:team_name],
       row[:contact_email],
-
-      *Array.new(max_agents) { |i| row[:agents]&.[](i) },
-
-      tf(row[:duration]),
+      *agents_and_durations,
+      tf(row[:chat_resolution]),
       tf(row[:first_response_time]),
       tf(row[:avg_response_time]),
       tf(row[:agent_chat_duration]),
-
       row[:csat_score],
       row[:csat_feedback],
-
       *Array.new(max_labels) { |i| row[:labels]&.[](i) },
-
       row[:contact_name],
-
-      *all_chat_custom_attrs.map    { |attr| row[:custom_attributes]&.[](attr) },
+      *all_chat_custom_attrs.map { |attr| row[:custom_attributes]&.[](attr) },
       *all_contact_custom_attrs.map { |attr| row[:contact_custom_attributes]&.[](attr) },
-      *all_contact_attrs.map        { |attr| row[:contact_additional_attributes]&.[](attr) }
+      *all_contact_attrs.map { |attr| row[:contact_additional_attributes]&.[](attr) }
     ]
   end
 end

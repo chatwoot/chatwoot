@@ -27,9 +27,10 @@ headers << t('reports.conversation_details_csv.contact_email')
 
 max_agents.times do |i|
   headers << t('reports.conversation_details_csv.agent_nick', index: i + 1)
+  headers << t('reports.conversation_details_csv.agent_chat_duration_individual', index: i + 1)
 end
 
-headers << t('reports.conversation_details_csv.duration')
+headers << t('reports.conversation_details_csv.chat_resolution')
 headers << t('reports.conversation_details_csv.first_response_time')
 headers << t('reports.conversation_details_csv.avg_response_time')
 headers << t('reports.conversation_details_csv.agent_chat_duration')
@@ -50,6 +51,12 @@ csv_data = CSV.generate(force_quotes: true) do |csv|
   csv << headers
 
   @report_data.each do |row|
+    agents_and_durations = []
+    max_agents.times do |i|
+      agents_and_durations << row[:agents]&.[](i)
+      agents_and_durations << tf(row[:agent_chat_durations]&.[](i))
+    end
+
     csv << [
       row[:conversation_id],
       row[:created_at]&.strftime('%Y-%m-%d %H:%M:%S'),
@@ -57,9 +64,9 @@ csv_data = CSV.generate(force_quotes: true) do |csv|
       row[:team_name],
       row[:contact_email],
 
-      *Array.new(max_agents) { |i| row[:agents]&.[](i) },
+      *agents_and_durations,
 
-      tf(row[:duration]),
+      tf(row[:chat_resolution]),
       tf(row[:first_response_time]),
       tf(row[:avg_response_time]),
       tf(row[:agent_chat_duration]),

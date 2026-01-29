@@ -10,6 +10,8 @@ class V2::Reports::AllConversationMetricsBuilder
     @params = params
     @reporting_events_cache = {}
     @participating_agents_cache = {}
+    @agent_chat_durations_cache = {}
+    @user_names_cache = {}
     @clean_cache = {}
   end
 
@@ -41,32 +43,89 @@ class V2::Reports::AllConversationMetricsBuilder
     return if conversation_ids.empty?
 
     preload_reporting_events_batch(conversation_ids)
+    preload_agent_chat_durations_batch(conversation_ids)
     preload_participating_agents_batch(conversation_ids)
   end
 
   def preload_reporting_events_batch(conversation_ids)
     events = account.reporting_events
                     .where(conversation_id: conversation_ids)
-                    .where(name: %w[conversation_resolved first_response reply_time agent_chat_duration])
+                    .where(name: %w[conversation_resolved first_response reply_time])
                     .select(:conversation_id, :name, average_value_key)
                     .group_by { |e| [e.conversation_id, e.name] }
 
     @reporting_events_cache.merge!(events)
   end
 
+  def preload_agent_chat_durations_batch(conversation_ids)
+    events = fetch_agent_chat_duration_events(conversation_ids)
+    cache_user_names(events)
+    cache_agent_chat_durations(events)
+  end
+
+  def fetch_agent_chat_duration_events(conversation_ids)
+    account.reporting_events
+           .where(conversation_id: conversation_ids, name: 'agent_chat_duration')
+           .select(:conversation_id, :user_id, average_value_key)
+  end
+
+  def cache_user_names(events)
+    user_ids = events.filter_map(&:user_id).uniq
+    return if user_ids.empty?
+
+    User.where(id: user_ids).pluck(:id, :name).each do |user_id, name|
+      @user_names_cache[user_id] = name
+    end
+  end
+
+  def cache_agent_chat_durations(events)
+    events.each do |event|
+      key = [event.conversation_id, event.user_id]
+      @agent_chat_durations_cache[key] ||= []
+      @agent_chat_durations_cache[key] << event
+    end
+  end
+
   def preload_participating_agents_batch(conversation_ids)
-    participants = ConversationParticipant
-                   .joins(:user)
-                   .where(conversation_id: conversation_ids)
-                   .pluck(:conversation_id, 'users.id', 'users.name')
+    participants = fetch_conversation_participants(conversation_ids)
+    participants_by_conv = participants.group_by(&:first)
 
-    return if participants.empty?
+    conversation_ids.each do |conv_id|
+      agents = collect_agents_for_conversation(conv_id, participants_by_conv)
+      @participating_agents_cache[conv_id] = agents.uniq { |a| a[:id] }.compact
+    end
+  end
 
-    participants
-      .group_by(&:first)
-      .each do |conv_id, records|
-        @participating_agents_cache[conv_id] = records.map(&:third).uniq.compact
-      end
+  def fetch_conversation_participants(conversation_ids)
+    ConversationParticipant.joins(:user).where(conversation_id: conversation_ids).pluck(:conversation_id, 'users.id', 'users.name')
+  end
+
+  def collect_agents_for_conversation(conv_id, participants_by_conv)
+    agents = []
+    agents += extract_agents_from_participants(conv_id, participants_by_conv)
+    agents += extract_agents_from_chat_durations(conv_id, agents)
+    agents
+  end
+
+  def extract_agents_from_participants(conv_id, participants_by_conv)
+    return [] unless participants_by_conv[conv_id]
+
+    participants_by_conv[conv_id].map { |r| { id: r[1], name: r[2] } }
+  end
+
+  def extract_agents_from_chat_durations(conv_id, existing_agents)
+    agents = []
+
+    @agent_chat_durations_cache.each_key do |key|
+      next unless key[0] == conv_id
+
+      user_id = key[1]
+      next if existing_agents.any? { |a| a[:id] == user_id }
+
+      agents << { id: user_id, name: @user_names_cache[user_id] }
+    end
+
+    agents
   end
 
   def conversations_scope
@@ -113,7 +172,8 @@ class V2::Reports::AllConversationMetricsBuilder
       team_name: clean(conversation.team&.name),
       contact_email: clean(conversation.contact.email),
       contact_name: clean(conversation.contact.name),
-      agents: participating_agents(conversation)
+      agents: participating_agents_names(conversation),
+      agent_chat_durations: agent_chat_durations_by_agent(conversation)
     }
   end
 
@@ -121,10 +181,10 @@ class V2::Reports::AllConversationMetricsBuilder
     csat = conversation.csat_survey_response
 
     {
-      duration: conversation_duration(conversation),
+      chat_resolution: conversation_duration(conversation),
       first_response_time: first_response_time(conversation),
       avg_response_time: avg_response_time(conversation),
-      agent_chat_duration: agent_chat_duration(conversation),
+      agent_chat_duration: total_agent_chat_duration(conversation),
       csat_score: csat&.rating,
       csat_feedback: csat ? clean(csat.feedback_message) : nil,
       labels: conversation.cached_label_list_array.map { |l| clean(l) },
@@ -134,8 +194,30 @@ class V2::Reports::AllConversationMetricsBuilder
     }
   end
 
-  def participating_agents(conversation)
-    @participating_agents_cache[conversation.id] || []
+  def participating_agents_names(conversation)
+    agents = @participating_agents_cache[conversation.id] || []
+    agents.map { |a| a[:name] || "User #{a[:id]}" }
+  end
+
+  def agent_chat_durations_by_agent(conversation)
+    agents = @participating_agents_cache[conversation.id] || []
+    agents.map do |agent|
+      agent_chat_duration_for_user(conversation.id, agent[:id])
+    end
+  end
+
+  def agent_chat_duration_for_user(conversation_id, user_id)
+    events = @agent_chat_durations_cache[[conversation_id, user_id]] || []
+    return nil if events.empty?
+
+    events.sum { |e| e.send(average_value_key) || 0 }.round
+  end
+
+  def total_agent_chat_duration(conversation)
+    total = @agent_chat_durations_cache.select { |key, _| key[0] == conversation.id }.values
+                                       .flatten.sum { |event| event.send(average_value_key) || 0 }.round
+
+    total.positive? ? total : nil
   end
 
   def conversation_duration(conversation)
@@ -150,10 +232,6 @@ class V2::Reports::AllConversationMetricsBuilder
     reporting_average_cached('reply_time', conversation.id)
   end
 
-  def agent_chat_duration(conversation)
-    reporting_sum_cached('agent_chat_duration', conversation.id)
-  end
-
   def reporting_average_cached(event_name, conversation_id)
     events = @reporting_events_cache[[conversation_id, event_name]] || []
     return nil if events.empty?
@@ -162,13 +240,6 @@ class V2::Reports::AllConversationMetricsBuilder
     return nil if values.empty?
 
     (values.sum.to_f / values.size).round
-  end
-
-  def reporting_sum_cached(event_name, conversation_id)
-    events = @reporting_events_cache[[conversation_id, event_name]] || []
-    return nil if events.empty?
-
-    events.sum { |e| e.send(average_value_key) || 0 }.round
   end
 
   def average_value_key

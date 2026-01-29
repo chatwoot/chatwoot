@@ -140,7 +140,7 @@
     "TIMEZONE_DESCRIPTION": "All reports are displayed in your local time.",
     "OFFLINE": "Offline",
     "HIDE_INACTIVE": "Hide inactive",
-    "CSV_DOWNLOAD": "Download agent activity reports",
+    "DOWNLOAD": "Download agent activity reports",
     "BUSY": "Busy",
     "ONLINE": "Online",
     "DATE_RANGE": "{start} — {end}",

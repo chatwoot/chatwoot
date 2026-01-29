@@ -165,7 +165,7 @@ en:
       contact_email: 'Contact email'
       agent_nick: 'Operator name %{index}'
       duration: 'Duration'
-      agent_chat_duration: "Agent Chat Duration"
+      chat_resolution: "Chat Resolution"
       first_response_time: 'First Response Time'
       avg_response_time: 'AVG Response Time'
       csat_score: 'Conv Score (CSAT)'
@@ -175,6 +175,8 @@ en:
       chat_custom: 'Chat custom: %{attr}'
       contact_custom: 'Contact custom: %{attr}'
       contact_additional: 'Contact additional: %{attr}'
+      agent_chat_duration: 'Agent chat duration'
+      agent_chat_duration_individual: 'Agent chat duration %{index}'
     agent_csv:
       agent_name: Agent name
       conversations_count: Assigned conversations
