@@ -11,8 +11,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def all_conversation_metrics_download
-    filter_params = { since: params[:since],  until: params[:until], user_ids: params[:user_ids], inbox_ids: params[:inbox_ids],
-                      team_ids: params[:team_ids] }.compact
+    filter_params = build_filter_params
+
+    return handle_email_delivery(filter_params) if params[:send_email] == 'true'
 
     @report_data = V2::Reports::AllConversationMetricsBuilder.new(Current.account, filter_params).build
 
@@ -148,6 +149,19 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def build_filter_params
+    { since: params[:since], until: params[:until], user_ids: params[:user_ids], inbox_ids: params[:inbox_ids], team_ids: params[:team_ids] }.compact
+  end
+
+  def handle_email_delivery(filter_params)
+    recipient_email = params[:email].presence || current_user.email
+
+    Reports::AllMetricsJob.perform_later(Current.account.id,  current_user.id,
+                                         filter_params.merge(format: params[:format] || 'csv', email: recipient_email))
+
+    render json: { message: I18n.t('reports.email_delivery.queued'), status: 'queued', email: recipient_email }, status: :accepted
+  end
 
   def valid_agent_activity_params?
     return true if params[:since].presence&.to_i && params[:until].presence&.to_i

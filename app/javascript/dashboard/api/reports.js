@@ -54,13 +54,20 @@ class ReportsAPI extends ApiClient {
     userIds,
     inboxIds,
     teamIds,
+    sendEmail = false,
+    email,
   } = {}) {
     const params = {
       since,
       until,
       business_hours: businessHours,
       timezone_offset: getTimeOffset(),
+      send_email: sendEmail,
     };
+
+    if (email) {
+      params.email = email;
+    }
 
     if (userIds && userIds.length > 0) {
       params.user_ids = userIds;
@@ -76,7 +83,7 @@ class ReportsAPI extends ApiClient {
       `${this.url}/all_conversation_metrics_download.${format}`,
       {
         params,
-        responseType: format === 'xlsx' ? 'blob' : undefined,
+        responseType: sendEmail ? 'json' : 'blob',
         paramsSerializer: requestParams => {
           const searchParams = new URLSearchParams();
           Object.keys(requestParams).forEach(key => {

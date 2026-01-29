@@ -280,12 +280,14 @@ export const actions = {
   },
   downloadAllMetricsReports(_, reportObj) {
     const format = reportObj.format || 'csv';
+    const sendEmail = reportObj.sendEmail || false;
 
     const params = {
       since: reportObj.since,
       until: reportObj.until,
       businessHours: reportObj.businessHours,
       format,
+      sendEmail,
     };
 
     if (reportObj.userIds && reportObj.userIds.length > 0) {
@@ -300,6 +302,9 @@ export const actions = {
 
     return Report.getAllMetricsReports(params)
       .then(response => {
+        if (sendEmail) {
+          return { success: true, message: response.data.message };
+        }
         downloadFile(reportObj.fileName, response.data, format);
 
         AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
@@ -312,9 +317,12 @@ export const actions = {
             reportObj.teamIds
           ),
         });
+
+        return { success: true };
       })
       .catch(error => {
         console.error(error);
+        throw error;
       });
   },
   downloadAgentReports(_, reportObj) {

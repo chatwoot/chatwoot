@@ -146,7 +146,7 @@
     "DATE_RANGE": "{start} — {end}",
     "PREVIOUS": "←",
     "NEXT": "→",
-     "STATUS_WITH_DURATION": "{status}: {duration}",
+    "STATUS_WITH_DURATION": "{status}: {duration}",
     "FILTERS": {
       "TIME_RANGE_SEPARATOR": "—"
     }
@@ -154,7 +154,9 @@
   "ALL_METRICS_REPORTS": {
     "HEADER": "All chats metrics",
     "DESCRIPTION": "Easily track agent performance with key metrics.",
-    "DOWNLOAD": "Download All Chat Reports"
+    "DOWNLOAD": "Download All Chat Reports",
+    "SEND_TO_EMAIL": "Send to Email",
+    "EMAIL_HINT": "Leave empty to send to your account email"
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
@@ -510,7 +512,7 @@
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
-    "DOWNLOAD":"Download Bot Reports",
+    "DOWNLOAD": "Download Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
@@ -533,7 +535,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
-    "DOWNLOAD":"Download Overview Reports",
+    "DOWNLOAD": "Download Overview Reports",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",
