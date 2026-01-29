@@ -37,4 +37,86 @@ RSpec.describe AppliedSla, type: :model do
       expect(applied_sla.sla_status).to eq 'active'
     end
   end
+
+  describe '#frt_due_at' do
+    it 'returns nil when first_response_time_threshold is blank' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(first_response_time_threshold: nil)
+
+      expect(applied_sla.frt_due_at).to be_nil
+    end
+
+    it 'returns deadline based on conversation created_at' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(first_response_time_threshold: 3600, only_during_business_hours: false)
+
+      expected_deadline = applied_sla.conversation.created_at.to_i + 3600
+      expect(applied_sla.frt_due_at).to eq(expected_deadline)
+    end
+  end
+
+  describe '#nrt_due_at' do
+    it 'returns nil when next_response_time_threshold is blank' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(next_response_time_threshold: nil)
+
+      expect(applied_sla.nrt_due_at).to be_nil
+    end
+
+    it 'returns nil when waiting_since is blank' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(next_response_time_threshold: 1800)
+      applied_sla.conversation.update!(waiting_since: nil)
+
+      expect(applied_sla.nrt_due_at).to be_nil
+    end
+
+    it 'returns deadline based on waiting_since' do
+      applied_sla = create(:applied_sla)
+      waiting_since = 2.hours.ago
+      applied_sla.sla_policy.update!(next_response_time_threshold: 1800, only_during_business_hours: false)
+      applied_sla.conversation.update!(waiting_since: waiting_since)
+
+      expected_deadline = waiting_since.to_i + 1800
+      expect(applied_sla.nrt_due_at).to eq(expected_deadline)
+    end
+  end
+
+  describe '#rt_due_at' do
+    it 'returns nil when resolution_time_threshold is blank' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(resolution_time_threshold: nil)
+
+      expect(applied_sla.rt_due_at).to be_nil
+    end
+
+    it 'returns deadline based on conversation created_at' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(resolution_time_threshold: 7200, only_during_business_hours: false)
+
+      expected_deadline = applied_sla.conversation.created_at.to_i + 7200
+      expect(applied_sla.rt_due_at).to eq(expected_deadline)
+    end
+  end
+
+  describe '#calculate_due_at' do
+    it 'uses BusinessHoursService when only_during_business_hours is true' do
+      account = create(:account)
+      inbox = create(:inbox, account: account, working_hours_enabled: true)
+      sla_policy = create(:sla_policy, account: account, first_response_time_threshold: 3600, only_during_business_hours: true)
+      conversation = create(:conversation, account: account, inbox: inbox)
+      applied_sla = create(:applied_sla, sla_policy: sla_policy, conversation: conversation, account: account)
+
+      expect(Sla::BusinessHoursService).to receive(:new).and_call_original
+      applied_sla.frt_due_at
+    end
+
+    it 'does not use BusinessHoursService when only_during_business_hours is false' do
+      applied_sla = create(:applied_sla)
+      applied_sla.sla_policy.update!(first_response_time_threshold: 3600, only_during_business_hours: false)
+
+      expect(Sla::BusinessHoursService).not_to receive(:new)
+      applied_sla.frt_due_at
+    end
+  end
 end

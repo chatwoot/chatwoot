@@ -75,7 +75,7 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def last_incoming_message_id
-    conversation.messages.where(account: conversation.account_id).where(message_type: :incoming).last&.id
+    Message.where(account_id: conversation.account_id, conversation_id: conversation.id, message_type: :incoming).last&.id
   end
 
   def create_sla_event(event_type, meta)
