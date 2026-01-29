@@ -46,9 +46,9 @@ class Sla::EvaluateAppliedSlaService
 
   def frt_was_hit?
     return false if applied_sla.frt_due_at.blank?
+    return false if conversation.first_reply_created_at.blank?
 
-    conversation.first_reply_created_at.present? &&
-      conversation.first_reply_created_at.to_i <= applied_sla.frt_due_at
+    conversation.first_reply_created_at.to_i <= applied_sla.frt_due_at
   end
 
   def handle_missed_sla(type)
@@ -75,7 +75,7 @@ class Sla::EvaluateAppliedSlaService
   end
 
   def last_incoming_message_id
-    conversation.messages.where(message_type: :incoming).last&.id
+    conversation.messages.where(account: conversation.account_id).where(message_type: :incoming).last&.id
   end
 
   def create_sla_event(event_type, meta)
