@@ -22,7 +22,10 @@ RSpec.describe AppliedSla, type: :model do
           sla_first_response_time_threshold: applied_sla.sla_policy.first_response_time_threshold,
           sla_next_response_time_threshold: applied_sla.sla_policy.next_response_time_threshold,
           sla_only_during_business_hours: applied_sla.sla_policy.only_during_business_hours,
-          sla_resolution_time_threshold: applied_sla.sla_policy.resolution_time_threshold
+          sla_resolution_time_threshold: applied_sla.sla_policy.resolution_time_threshold,
+          sla_frt_due_at: applied_sla.frt_due_at,
+          sla_nrt_due_at: applied_sla.nrt_due_at,
+          sla_rt_due_at: applied_sla.rt_due_at
         }
       )
     end

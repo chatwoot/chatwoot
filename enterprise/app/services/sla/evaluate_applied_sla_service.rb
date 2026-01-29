@@ -2,106 +2,101 @@ class Sla::EvaluateAppliedSlaService
   pattr_initialize [:applied_sla!]
 
   def perform
-    check_sla_thresholds
+    check_frt
+    check_nrt
+    check_rt
 
-    # We will calculate again in the next iteration
-    return unless applied_sla.conversation.resolved?
+    return unless conversation.resolved?
 
-    # after conversation is resolved, we will check if the SLA was hit or missed
-    handle_hit_sla(applied_sla)
+    handle_hit_sla
   end
 
   private
 
-  def check_sla_thresholds
-    [:first_response_time_threshold, :next_response_time_threshold, :resolution_time_threshold].each do |threshold|
-      next if applied_sla.sla_policy.send(threshold).blank?
+  delegate :conversation, :sla_policy, to: :applied_sla
 
-      send("check_#{threshold}", applied_sla, applied_sla.conversation, applied_sla.sla_policy)
+  def check_frt
+    return if sla_policy.first_response_time_threshold.blank?
+    return if frt_was_hit?
+    return if within_threshold?(applied_sla.frt_due_at)
+
+    handle_missed_sla('frt')
+  end
+
+  def check_nrt
+    return if sla_policy.next_response_time_threshold.blank?
+    return if conversation.first_reply_created_at.blank?
+    return if conversation.waiting_since.blank?
+    return if within_threshold?(applied_sla.nrt_due_at)
+
+    handle_missed_sla('nrt')
+  end
+
+  def check_rt
+    return if sla_policy.resolution_time_threshold.blank?
+    return if conversation.resolved?
+    return if within_threshold?(applied_sla.rt_due_at)
+
+    handle_missed_sla('rt')
+  end
+
+  def within_threshold?(due_at)
+    Time.zone.now.to_i < due_at
+  end
+
+  def frt_was_hit?
+    return false if applied_sla.frt_due_at.blank?
+
+    conversation.first_reply_created_at.present? &&
+      conversation.first_reply_created_at.to_i <= applied_sla.frt_due_at
+  end
+
+  def handle_missed_sla(type)
+    meta = type == 'nrt' ? { message_id: last_incoming_message_id } : {}
+    return if already_missed?(type, meta)
+
+    create_sla_event(type, meta)
+    log_miss(type)
+    applied_sla.update!(sla_status: 'active_with_misses') unless applied_sla.active_with_misses?
+  end
+
+  def handle_hit_sla
+    if applied_sla.active?
+      applied_sla.update!(sla_status: 'hit')
+      log_result('hit')
+    else
+      applied_sla.update!(sla_status: 'missed')
+      log_result('missed')
     end
   end
 
-  def still_within_threshold?(threshold)
-    Time.zone.now.to_i < threshold
-  end
-
-  def check_first_response_time_threshold(applied_sla, conversation, sla_policy)
-    threshold = conversation.created_at.to_i + sla_policy.first_response_time_threshold.to_i
-    return if first_reply_was_within_threshold?(conversation, threshold)
-    return if still_within_threshold?(threshold)
-
-    handle_missed_sla(applied_sla, 'frt')
-  end
-
-  def first_reply_was_within_threshold?(conversation, threshold)
-    conversation.first_reply_created_at.present? && conversation.first_reply_created_at.to_i <= threshold
-  end
-
-  def check_next_response_time_threshold(applied_sla, conversation, sla_policy)
-    # still waiting for first reply, so covered under first response time threshold
-    return if conversation.first_reply_created_at.blank?
-    # Waiting on customer response, no need to check next response time threshold
-    return if conversation.waiting_since.blank?
-
-    threshold = conversation.waiting_since.to_i + sla_policy.next_response_time_threshold.to_i
-    return if still_within_threshold?(threshold)
-
-    handle_missed_sla(applied_sla, 'nrt')
-  end
-
-  def get_last_message_id(conversation)
-    # TODO: refactor the method to fetch last message without reply
-    conversation.messages.where(message_type: :incoming).last&.id
-  end
-
-  def already_missed?(applied_sla, type, meta = {})
+  def already_missed?(type, meta)
     SlaEvent.exists?(applied_sla: applied_sla, event_type: type, meta: meta)
   end
 
-  def check_resolution_time_threshold(applied_sla, conversation, sla_policy)
-    return if conversation.resolved?
-
-    threshold = conversation.created_at.to_i + sla_policy.resolution_time_threshold.to_i
-    return if still_within_threshold?(threshold)
-
-    handle_missed_sla(applied_sla, 'rt')
+  def last_incoming_message_id
+    conversation.messages.where(message_type: :incoming).last&.id
   end
 
-  def handle_missed_sla(applied_sla, type, meta = {})
-    meta = { message_id: get_last_message_id(applied_sla.conversation) } if type == 'nrt'
-    return if already_missed?(applied_sla, type, meta)
-
-    create_sla_event(applied_sla, type, meta)
-    Rails.logger.warn "SLA #{type} missed for conversation #{applied_sla.conversation.id} " \
-                      "in account #{applied_sla.account_id} " \
-                      "for sla_policy #{applied_sla.sla_policy.id}"
-
-    applied_sla.update!(sla_status: 'active_with_misses') if applied_sla.sla_status != 'active_with_misses'
-  end
-
-  def handle_hit_sla(applied_sla)
-    if applied_sla.active?
-      applied_sla.update!(sla_status: 'hit')
-      Rails.logger.info "SLA hit for conversation #{applied_sla.conversation.id} " \
-                        "in account #{applied_sla.account_id} " \
-                        "for sla_policy #{applied_sla.sla_policy.id}"
-    else
-      applied_sla.update!(sla_status: 'missed')
-      Rails.logger.info "SLA missed for conversation #{applied_sla.conversation.id} " \
-                        "in account #{applied_sla.account_id} " \
-                        "for sla_policy #{applied_sla.sla_policy.id}"
-    end
-  end
-
-  def create_sla_event(applied_sla, event_type, meta = {})
+  def create_sla_event(event_type, meta)
     SlaEvent.create!(
       applied_sla: applied_sla,
-      conversation: applied_sla.conversation,
+      conversation: conversation,
       event_type: event_type,
       meta: meta,
       account: applied_sla.account,
-      inbox: applied_sla.conversation.inbox,
-      sla_policy: applied_sla.sla_policy
+      inbox: conversation.inbox,
+      sla_policy: sla_policy
     )
+  end
+
+  def log_miss(type)
+    Rails.logger.warn "SLA #{type} missed for conversation #{conversation.id} " \
+                      "in account #{applied_sla.account_id} for sla_policy #{sla_policy.id}"
+  end
+
+  def log_result(result)
+    Rails.logger.info "SLA #{result} for conversation #{conversation.id} " \
+                      "in account #{applied_sla.account_id} for sla_policy #{sla_policy.id}"
   end
 end
