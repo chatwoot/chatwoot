@@ -174,6 +174,7 @@ export default {
         linkedin: socialProfiles.linkedin || '',
         github: socialProfiles.github || '',
         instagram: socialProfiles.instagram || '',
+        tiktok: socialProfiles.tiktok || '',
       };
     },
     getContactObject() {
