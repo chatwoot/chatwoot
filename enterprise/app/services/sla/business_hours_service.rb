@@ -10,7 +10,11 @@ class Sla::BusinessHoursService
   private
 
   def should_apply_business_hours?
-    inbox.working_hours_enabled? && inbox.working_hours.any?
+    inbox.working_hours_enabled? && open_days?
+  end
+
+  def open_days?
+    inbox.working_hours.exists?(closed_all_day: false)
   end
 
   def calculate_deadline_with_business_hours
