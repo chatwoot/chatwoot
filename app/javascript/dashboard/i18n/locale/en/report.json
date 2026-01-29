@@ -480,6 +480,7 @@
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
+    "DOWNLOAD":"Download Bot Reports",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
@@ -502,6 +503,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Overview",
     "LIVE": "Live",
+    "DOWNLOAD":"Download Overview Reports",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",

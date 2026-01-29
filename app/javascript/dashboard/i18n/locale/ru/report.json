@@ -435,6 +435,7 @@
   },
   "BOT_REPORTS": {
     "HEADER": "Отчеты о боте",
+    "DOWNLOAD":"Скачать отчёты о ботах",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Количество диалогов",
@@ -457,6 +458,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Обзор",
     "LIVE": "Онлайн",
+    "DOWNLOAD":"Скачать отчёты по обзору",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Открытые диалоги",
       "LOADING_MESSAGE": "Загрузка метрик диалогов...",
