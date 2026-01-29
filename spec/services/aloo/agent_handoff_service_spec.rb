@@ -44,10 +44,10 @@ RSpec.describe Aloo::AgentHandoffService do
         expect(conversation.reload.custom_attributes['aloo_handoff_triggered_by']).to eq('agent_message')
       end
 
-      it 'assigns conversation to the agent' do
+      it 'does not assign conversation to the agent' do
         described_class.new(message).perform
 
-        expect(conversation.reload.assignee).to eq(agent)
+        expect(conversation.reload.assignee).to be_nil
       end
     end
 

@@ -48,13 +48,10 @@ module Aloo
       attrs['aloo_handoff_at'] = Time.current.iso8601
       attrs['aloo_handoff_triggered_by'] = 'agent_message'
 
-      # Assign conversation to the sender
-      @conversation.update!(
-        custom_attributes: attrs,
-        assignee: @sender
-      )
+      # Flag conversation as needing human attention (but don't reassign — AI keeps responding)
+      @conversation.update!(custom_attributes: attrs)
 
-      Rails.logger.info "[Aloo::AgentHandoffService] Handed off conversation #{@conversation.id} to agent #{@sender.id}"
+      Rails.logger.info "[Aloo::AgentHandoffService] Flagged conversation #{@conversation.id} for human attention (triggered by agent #{@sender.id})"
     end
   end
 end
