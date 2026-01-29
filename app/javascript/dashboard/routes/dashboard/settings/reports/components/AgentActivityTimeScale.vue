@@ -64,9 +64,7 @@ const STEP_CANDIDATES = [
 
 const step = computed(() => {
   if (!width.value) return STEP_CANDIDATES.at(-1);
-
   const maxTicks = Math.max(1, Math.floor(width.value / DENSITY_PX));
-
   return (
     STEP_CANDIDATES.find(s => duration.value / s <= maxTicks) ??
     STEP_CANDIDATES.at(-1)
@@ -75,15 +73,12 @@ const step = computed(() => {
 
 const ticks = computed(() => {
   if (!width.value || !props.start || !props.end) return [];
-
   const result = [];
   let t = Math.floor(props.start / step.value) * step.value;
-
   while (t <= props.end) {
     if (t >= props.start) result.push(t);
     t += step.value;
   }
-
   return result;
 });
 
@@ -96,39 +91,42 @@ const formatTick = ts => {
     return d.toLocaleTimeString('ru', {
       hour: '2-digit',
       minute: '2-digit',
+      timeZone: 'UTC',
     });
   }
-
   if (step.value <= MS.hour) {
     return d.toLocaleTimeString('ru', {
       hour: '2-digit',
       minute: '2-digit',
+      timeZone: 'UTC',
     });
   }
-
   if (step.value <= MS.day) {
     return d.toLocaleString('ru', {
       day: '2-digit',
       month: 'short',
       hour: '2-digit',
+      timeZone: 'UTC',
     });
   }
-
   if (step.value <= MS.month) {
     return d.toLocaleDateString('ru', {
       day: '2-digit',
       month: 'short',
+      timeZone: 'UTC',
     });
   }
-
   if (step.value <= MS.year) {
     return d.toLocaleDateString('ru', {
       month: 'short',
       year: 'numeric',
+      timeZone: 'UTC',
     });
   }
-
-  return d.getFullYear();
+  return d.toLocaleDateString('ru', {
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 };
 </script>
 

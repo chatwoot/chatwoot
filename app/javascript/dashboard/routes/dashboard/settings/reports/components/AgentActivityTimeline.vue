@@ -87,6 +87,7 @@ const formatDate = ts =>
     day: '2-digit',
     month: 'short',
     year: 'numeric',
+    timeZone: 'UTC',
   });
 
 const dateLabel = computed(() => {

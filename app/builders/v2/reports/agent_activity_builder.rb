@@ -5,7 +5,7 @@ class V2::Reports::AgentActivityBuilder
     @account = account
     @params = params
     @timezone_offset = (params[:timezone_offset] || 0).to_f
-    @timezone = ActiveSupport::TimeZone[@timezone_offset]&.name || 'UTC'
+    @timezone = 'UTC'
   end
 
   def call
