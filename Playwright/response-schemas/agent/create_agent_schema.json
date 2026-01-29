@@ -1,0 +1,55 @@
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "integer"
+        },
+        "account_id": {
+            "type": "integer"
+        },
+        "availability_status": {
+            "type": "string"
+        },
+        "auto_offline": {
+            "type": "boolean"
+        },
+        "confirmed": {
+            "type": "boolean"
+        },
+        "email": {
+            "type": "string"
+        },
+        "provider": {
+            "type": "string"
+        },
+        "available_name": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "role": {
+            "type": "string"
+        },
+        "thumbnail": {
+            "type": "string"
+        },
+        "custom_role_id": {
+            "type": "null"
+        }
+    },
+    "required": [
+        "id",
+        "account_id",
+        "availability_status",
+        "auto_offline",
+        "confirmed",
+        "email",
+        "provider",
+        "available_name",
+        "name",
+        "role",
+        "thumbnail",
+        "custom_role_id"
+    ]
+}
