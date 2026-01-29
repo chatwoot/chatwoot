@@ -44,7 +44,7 @@ class ConversationAgent < ApplicationAgent
   end
 
   def user_prompt
-    message
+    message.is_a?(String) ? message : message.content
   end
 
   def messages
