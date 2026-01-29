@@ -26,7 +26,7 @@ const downloadReports = async (format = 'csv') => {
     since,
     until,
     businessHours,
-    format, // передаем формат в API
+    format,
   });
 
   downloadFile(

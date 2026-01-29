@@ -5,6 +5,10 @@ import ReportsFiltersAgents from './Filters/Agents.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
 import ReportsFiltersTimeRange from './Filters/TimeRange.vue';
+import {
+  applyTimeUTC,
+  dateToUTCTimestamp,
+} from 'dashboard/helper/DateTimeUTCHelper';
 
 const emit = defineEmits(['filtersChange']);
 
@@ -16,19 +20,13 @@ const selectedAgents = ref([]);
 const selectedInbox = ref([]);
 const selectedTeam = ref([]);
 
-const applyTime = (timestamp, time) => {
-  if (timestamp == null) return null;
-
-  const d = new Date(timestamp);
-  const [h, m] = time.split(':').map(Number);
-  d.setHours(h, m, 0, 0);
-  return Math.floor(d.getTime() / 1000);
-};
-
 const emitChange = () => {
+  const sinceUTC = applyTimeUTC(since.value, timeFrom.value);
+  const untilUTC = applyTimeUTC(until.value, timeTo.value);
+
   emit('filtersChange', {
-    since: applyTime(since.value, timeFrom.value),
-    until: applyTime(until.value, timeTo.value),
+    since: sinceUTC ? Math.floor(sinceUTC / 1000) : null,
+    until: untilUTC ? Math.floor(untilUTC / 1000) : null,
     userIds: selectedAgents.value.map(agent => agent.id),
     teamIds: selectedTeam.value.map(team => team.id),
     inboxIds: selectedInbox.value.map(inbox => inbox.id),
@@ -38,9 +36,10 @@ const emitChange = () => {
 const onDateChange = payload => {
   const [start, end] = Array.isArray(payload) ? payload : [payload, payload];
 
-  since.value = start instanceof Date ? start.getTime() : null;
-  until.value =
-    (end ?? start) instanceof Date ? (end ?? start).getTime() : null;
+  since.value = start instanceof Date ? dateToUTCTimestamp(start) : null;
+
+  const endDate = end ?? start;
+  until.value = endDate instanceof Date ? dateToUTCTimestamp(endDate) : null;
 
   emitChange();
 };

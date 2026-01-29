@@ -148,7 +148,8 @@
     "NEXT": "→",
     "STATUS_WITH_DURATION": "{status}: {duration}",
     "FILTERS": {
-      "TIME_RANGE_SEPARATOR": "—"
+      "TIME_RANGE_SEPARATOR": "—",
+      "TIME_ZONE_UTC": "UTC"
     }
   },
   "ALL_METRICS_REPORTS": {

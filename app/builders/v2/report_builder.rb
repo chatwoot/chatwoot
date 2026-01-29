@@ -10,8 +10,8 @@ class V2::ReportBuilder
     @account = account
     @params = params
 
-    timezone_offset = (params[:timezone_offset] || 0).to_f
-    @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
+    (params[:timezone_offset] || 0).to_f
+    @timezone = 'UTC'
   end
 
   def timeseries
