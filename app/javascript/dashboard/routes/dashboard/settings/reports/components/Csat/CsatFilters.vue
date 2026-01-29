@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'vuex';
-import { getUnixStartOfDay, getUnixEndOfDay } from 'helpers/DateHelper';
 import {
   buildFilterList,
   buildRatingsList,
@@ -10,7 +9,7 @@ import {
 } from './CsatFilterHelpers';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import AddFilterChip from '../Filters/v3/AddFilterChip.vue';
-import WootDatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
+import ReportFilterSelector from '../FilterSelector.vue';
 
 const props = defineProps({
   showTeamFilter: {
@@ -25,7 +24,13 @@ const { t } = useI18n();
 const store = useStore();
 
 const showDropdownMenu = ref(false);
-const customDateRange = ref([new Date(), new Date()]);
+const from = ref(0);
+const to = ref(0);
+const businessHours = ref(false);
+const timeRange = ref({
+  since: '00:00',
+  until: '23:59',
+});
 const appliedFilters = ref({
   user_ids: [],
   inbox_id: [],
@@ -38,9 +43,6 @@ const inboxes = computed(() => store.getters['inboxes/getInboxes']);
 const teams = computed(() => store.getters['teams/getTeams']);
 
 const ratings = computed(() => buildRatingsList(t));
-
-const from = computed(() => getUnixStartOfDay(customDateRange.value[0]));
-const to = computed(() => getUnixEndOfDay(customDateRange.value[1]));
 
 const getFilterSource = type => {
   const sources = {
@@ -175,9 +177,11 @@ const emitChange = () => {
   emit('filterChange', {
     from: from.value,
     to: to.value,
+    businessHours: businessHours.value,
+    timeRange: timeRange.value,
     selectedAgents: appliedFilters.value.user_ids.map(id => ({ id })),
-    selectedInbox: appliedFilters.value.inbox_id.map(id => ({ id })),
-    selectedTeam: appliedFilters.value.team_id.map(id => ({ id })),
+    selectedInboxes: appliedFilters.value.inbox_id.map(id => ({ id })),
+    selectedTeams: appliedFilters.value.team_id.map(id => ({ id })),
     selectedRating: appliedFilters.value.rating
       ? { value: appliedFilters.value.rating }
       : null,
@@ -236,8 +240,11 @@ const showDropdown = () => {
   showDropdownMenu.value = !showDropdownMenu.value;
 };
 
-const onDateRangeChange = value => {
-  customDateRange.value = value;
+const onDateFilterChange = updatedFilter => {
+  from.value = updatedFilter.from;
+  to.value = updatedFilter.to;
+  businessHours.value = updatedFilter.businessHours;
+  timeRange.value = updatedFilter.timeRange;
   emitChange();
 };
 
@@ -247,8 +254,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col flex-wrap w-full gap-3 md:flex-row">
-    <WootDatePicker @date-range-changed="onDateRangeChange" />
+  <div class="flex flex-col w-full gap-3">
+    <ReportFilterSelector
+      show-time-range-filter
+      @filter-change="onDateFilterChange"
+    />
 
     <div
       class="flex flex-col flex-wrap items-start gap-2 md:items-center md:flex-nowrap md:flex-row"

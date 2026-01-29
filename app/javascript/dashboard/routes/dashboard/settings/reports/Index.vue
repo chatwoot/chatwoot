@@ -37,6 +37,10 @@ export default {
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
+      timeRange: {
+        since: '00:00',
+        until: '23:59',
+      },
     };
   },
   methods: {
@@ -72,18 +76,18 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const { from, to, groupBy, businessHours, timeRange } = this;
 
       return {
         from,
         to,
         groupBy: groupBy?.period,
         businessHours,
+        timeRange,
       };
     },
     downloadConversationReports(option) {
-      const { from, to } = this;
-      // Извлекаем значение формата из объекта опции
+      const { from, to, timeRange } = this;
       const format = option?.value || option || 'csv';
       const fileName = generateFileName({
         type: 'conversation',
@@ -97,17 +101,19 @@ export default {
         format,
         fileName,
         businessHours: this.businessHours,
+        timeRange,
       });
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({ from, to, groupBy, businessHours, timeRange }) {
       this.from = from;
       this.to = to;
       this.groupBy = groupBy;
       this.businessHours = businessHours;
+      this.timeRange = timeRange;
       this.fetchAllData();
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: { from, to, groupBy, businessHours, timeRange },
         reportType: 'conversations',
       });
     },
@@ -127,6 +133,7 @@ export default {
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter
+      show-time-range-filter
       @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />

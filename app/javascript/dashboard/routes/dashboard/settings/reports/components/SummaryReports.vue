@@ -43,6 +43,10 @@ const store = useStore();
 const from = ref(0);
 const to = ref(0);
 const businessHours = ref(false);
+const timeRange = ref({
+  since: '00:00',
+  until: '23:59',
+});
 import { useI18n } from 'vue-i18n';
 import SummaryReportLink from './SummaryReportLink.vue';
 
@@ -63,10 +67,18 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
+const typeHeaders = {
+  agent: t('SUMMARY_REPORTS.AGENT'),
+  label: t('SUMMARY_REPORTS.LABEL'),
+  inbox: t('SUMMARY_REPORTS.INBOX'),
+  team: t('SUMMARY_REPORTS.TEAM'),
+  account: t('SUMMARY_REPORTS.ACCOUNT'),
+};
+
 const columns = computed(() => {
   const baseColumns = [
     columnHelper.accessor('name', {
-      header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
+      header: typeHeaders[props.type] || typeHeaders.account,
       width: 300,
       cell: cellProps => h(SummaryReportLink, cellProps),
     }),
@@ -151,6 +163,8 @@ const fetchAllData = () => {
     since: from.value,
     until: to.value,
     businessHours: businessHours.value,
+    timeSince: timeRange.value.since,
+    timeUntil: timeRange.value.until,
   });
 };
 
@@ -160,6 +174,7 @@ const onFilterChange = updatedFilter => {
   from.value = updatedFilter.from;
   to.value = updatedFilter.to;
   businessHours.value = updatedFilter.businessHours;
+  timeRange.value = updatedFilter.timeRange;
   fetchAllData();
 };
 
@@ -179,6 +194,8 @@ const downloadReports = async (format = 'csv') => {
     from: from.value,
     to: to.value,
     businessHours: businessHours.value,
+    timeSince: timeRange.value.since,
+    timeUntil: timeRange.value.until,
     format,
   };
 
@@ -215,7 +232,10 @@ defineExpose({ downloadReports });
 </script>
 
 <template>
-  <ReportFilterSelector @filter-change="onFilterChange" />
+  <ReportFilterSelector
+    show-time-range-filter
+    @filter-change="onFilterChange"
+  />
   <div
     class="flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >

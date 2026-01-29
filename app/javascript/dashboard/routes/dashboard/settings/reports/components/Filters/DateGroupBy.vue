@@ -3,6 +3,7 @@ import { GROUP_BY_OPTIONS } from '../../constants';
 
 export default {
   name: 'ReportsFiltersDateGroupBy',
+
   props: {
     validGroupOptions: {
       type: Array,
@@ -13,34 +14,61 @@ export default {
       default: () => GROUP_BY_OPTIONS.DAY,
     },
   },
+
   emits: ['onGroupingChange'],
+
   data() {
     return {
       currentSelectedFilter: null,
     };
   },
+
   computed: {
+    effectiveGroupOptions() {
+      return this.validGroupOptions;
+    },
+
     translatedOptions() {
-      return this.validGroupOptions.map(option => ({
+      const translations = {
+        HOUR: this.$t('REPORT.GROUPING_OPTIONS.HOUR'),
+        DAY: this.$t('REPORT.GROUPING_OPTIONS.DAY'),
+        WEEK: this.$t('REPORT.GROUPING_OPTIONS.WEEK'),
+        MONTH: this.$t('REPORT.GROUPING_OPTIONS.MONTH'),
+        YEAR: this.$t('REPORT.GROUPING_OPTIONS.YEAR'),
+      };
+
+      return this.effectiveGroupOptions.map(option => ({
         ...option,
-        groupBy: this.$t(option.translationKey),
+        groupBy: translations[option.id] || option.id,
       }));
     },
   },
+
   watch: {
     selectedOption: {
-      handler() {
-        this.currentSelectedFilter = {
-          ...this.selectedOption,
-          groupBy: this.$t(this.selectedOption.translationKey),
-        };
+      handler(newOption) {
+        if (newOption) {
+          const translations = {
+            HOUR: this.$t('REPORT.GROUPING_OPTIONS.HOUR'),
+            DAY: this.$t('REPORT.GROUPING_OPTIONS.DAY'),
+            WEEK: this.$t('REPORT.GROUPING_OPTIONS.WEEK'),
+            MONTH: this.$t('REPORT.GROUPING_OPTIONS.MONTH'),
+            YEAR: this.$t('REPORT.GROUPING_OPTIONS.YEAR'),
+          };
+
+          this.currentSelectedFilter = {
+            ...newOption,
+            groupBy: translations[newOption.id] || newOption.id,
+          };
+        }
       },
       immediate: true,
     },
   },
+
   methods: {
     changeFilterSelection(selectedFilter) {
-      this.groupByOptions = this.$emit('onGroupingChange', selectedFilter);
+      this.$emit('onGroupingChange', selectedFilter);
     },
   },
 };

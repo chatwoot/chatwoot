@@ -9,6 +9,7 @@ import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './ReportHeader.vue';
 
 const GROUP_BY_OPTIONS = {
+  HOUR: [{ id: 5, groupByKey: 'REPORT.GROUPING_OPTIONS.HOUR' }],
   DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
   WEEK: [
     { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
@@ -149,7 +150,6 @@ export default {
       }
     },
     onDateRangeChange({ from, to, groupBy }) {
-      // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
         useTrack(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
@@ -189,6 +189,8 @@ export default {
     },
     fetchFilterItems(groupBy) {
       switch (groupBy) {
+        case GROUP_BY_FILTER[5].period:
+          return GROUP_BY_OPTIONS.HOUR.map(this.translateOptions);
         case GROUP_BY_FILTER[2].period:
           return GROUP_BY_OPTIONS.WEEK.map(this.translateOptions);
         case GROUP_BY_FILTER[3].period:
@@ -200,7 +202,20 @@ export default {
       }
     },
     translateOptions(opts) {
-      return { id: opts.id, groupBy: this.$t(opts.groupByKey) };
+      const translations = {
+        'REPORT.GROUPING_OPTIONS.HOUR': this.$t('REPORT.GROUPING_OPTIONS.HOUR'),
+        'REPORT.GROUPING_OPTIONS.DAY': this.$t('REPORT.GROUPING_OPTIONS.DAY'),
+        'REPORT.GROUPING_OPTIONS.WEEK': this.$t('REPORT.GROUPING_OPTIONS.WEEK'),
+        'REPORT.GROUPING_OPTIONS.MONTH': this.$t(
+          'REPORT.GROUPING_OPTIONS.MONTH'
+        ),
+        'REPORT.GROUPING_OPTIONS.YEAR': this.$t('REPORT.GROUPING_OPTIONS.YEAR'),
+      };
+
+      return {
+        id: opts.id,
+        groupBy: translations[opts.groupByKey] || opts.groupByKey,
+      };
     },
     onBusinessHoursToggle(value) {
       this.businessHours = value;

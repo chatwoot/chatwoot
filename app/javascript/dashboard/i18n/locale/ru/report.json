@@ -76,11 +76,18 @@
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Группировать по",
     "DURATION_FILTER_LABEL": "Продолжительность",
     "GROUPING_OPTIONS": {
+      "HOUR": "Час",
       "DAY": "День",
       "WEEK": "Неделя",
       "MONTH": "Месяц",
       "YEAR": "Год"
     },
+    "GROUP_BY_HOUR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Час"
+      }
+    ],
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -605,7 +612,7 @@
     }
   },
   "SUMMARY_REPORTS": {
-    "INBOX": "Электронная почта",
+    "INBOX": "Источник",
     "AGENT": "Оператор",
     "TEAM": "Команда",
     "LABEL": "Метка",

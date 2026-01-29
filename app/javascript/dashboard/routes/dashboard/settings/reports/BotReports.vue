@@ -97,7 +97,7 @@ export default {
     async downloadReports(option) {
       this.downloadingReport = true;
 
-      const format = option?.value || option || 'csv'; // Извлекаем формат из объекта опции
+      const format = option?.value || option || 'csv';
       const { from, to, groupBy, businessHours } = this;
 
       try {
@@ -152,6 +152,7 @@ export default {
     <ReportFilterSelector
       :show-agents-filter="false"
       show-group-by-filter
+      show-time-range-filter
       :show-business-hours-switch="false"
       @filter-change="onFilterChange"
     />
