@@ -145,6 +145,23 @@ en:
   reports:
     period: Reporting period %{since} to %{until}
     utc_warning: The report generated is in UTC timezone
+    conversation_details_csv:
+      conversation_id: 'conversation ID'
+      created_at: 'Start date'
+      inbox_name: 'Inbox'
+      team_name: 'Team'
+      contact_email: 'Contact email'
+      agent_nick: 'Operator name %{index}'
+      duration: 'Duration'
+      first_response_time: 'First Response Time'
+      avg_response_time: 'AVG Response Time'
+      csat_score: 'Conv Score (CSAT)'
+      csat_feedback: 'Feedback'
+      label: 'Category %{index}'
+      contact_name: 'Contact name'
+      chat_custom: 'Chat custom: %{attr}'
+      contact_custom: 'Contact custom: %{attr}'
+      contact_additional: 'Contact additional: %{attr}'
     agent_csv:
       agent_name: Agent name
       conversations_count: Assigned conversations

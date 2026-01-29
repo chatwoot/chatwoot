@@ -14,6 +14,7 @@ import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
 import LabelReportsShow from './LabelReportsShow.vue';
 
+import AllMetricsReports from './AllMetricsReports.vue';
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
 import LabelReports from './LabelReports.vue';
@@ -30,6 +31,12 @@ const meta = {
 };
 
 const oldReportRoutes = [
+  {
+    path: 'all-metrics',
+    name: 'all_conversation_metrics_reports',
+    meta,
+    component: AllMetricsReports,
+  },
   {
     path: 'agent',
     name: 'agent_reports',
