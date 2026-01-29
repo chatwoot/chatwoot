@@ -108,7 +108,7 @@ const replyToPreview = computed(() => {
       class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"
       @click="scrollToMessage"
     >
-      <span
+      <div
         v-dompurify-html="replyToPreview"
         class="prose prose-bubble line-clamp-2"
       />
