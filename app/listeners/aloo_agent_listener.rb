@@ -72,11 +72,8 @@ class AlooAgentListener < BaseListener
     assistant = message.inbox.aloo_assistant
     return false unless assistant&.active?
 
-    # Check if handoff is active
-    conversation = message.conversation
-    return false if conversation.custom_attributes&.dig('aloo_handoff_active')
-
     # Check if conversation has a human assignee (don't interrupt)
+    conversation = message.conversation
     return false if conversation.assignee.present? && !assignee_is_bot?(conversation)
 
     true
@@ -112,7 +109,6 @@ class AlooAgentListener < BaseListener
     return false unless assistant.voice_transcription_enabled?
 
     conversation = message.conversation
-    return false if conversation.custom_attributes&.dig('aloo_handoff_active')
     return false if conversation.assignee.present? && !assignee_is_bot?(conversation)
 
     true

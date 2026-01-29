@@ -66,13 +66,14 @@ RSpec.describe AlooAgentListener do
       end
     end
 
-    context 'when handoff is active' do
+    context 'when handoff is active but no human assignee' do
       before do
         conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
       end
 
-      it 'does not enqueue job' do
-        expect(Aloo::ResponseJob).not_to receive(:perform_later)
+      it 'still enqueues job (AI keeps responding until human assigned)' do
+        expect(Aloo::ResponseJob).to receive(:perform_later)
+          .with(conversation.id, message.id)
 
         listener.message_created(event)
       end
