@@ -1,67 +1,59 @@
 <script setup>
 import { ref } from 'vue';
-import DatePicker from 'dashboard/components/ui/DatePicker/DatePicker.vue';
+import ReportFilterSelector from 'dashboard/routes/dashboard/settings/reports/components/FilterSelector.vue';
 import ReportsFiltersAgents from './Filters/Agents.vue';
 import ReportsFiltersInboxes from './Filters/Inboxes.vue';
 import ReportsFiltersTeams from './Filters/Teams.vue';
-import ReportsFiltersTimeRange from './Filters/TimeRange.vue';
-import {
-  applyTimeUTC,
-  dateToUTCTimestamp,
-} from 'dashboard/helper/DateTimeUTCHelper';
 
 const emit = defineEmits(['filtersChange']);
 
-const since = ref(null);
-const until = ref(null);
-const timeFrom = ref('00:00');
-const timeTo = ref('23:59');
 const selectedAgents = ref([]);
 const selectedInbox = ref([]);
 const selectedTeam = ref([]);
 
-const emitChange = () => {
-  const sinceUTC = applyTimeUTC(since.value, timeFrom.value);
-  const untilUTC = applyTimeUTC(until.value, timeTo.value);
+const filterData = ref({
+  from: 0,
+  to: 0,
+  businessHours: false,
+  timeRange: {
+    since: '00:00',
+    until: '23:59',
+  },
+});
 
+const emitChange = () => {
   emit('filtersChange', {
-    since: sinceUTC ? Math.floor(sinceUTC / 1000) : null,
-    until: untilUTC ? Math.floor(untilUTC / 1000) : null,
+    since: filterData.value.from,
+    until: filterData.value.to,
     userIds: selectedAgents.value.map(agent => agent.id),
     teamIds: selectedTeam.value.map(team => team.id),
     inboxIds: selectedInbox.value.map(inbox => inbox.id),
+    businessHours: filterData.value.businessHours,
+    timeRange: filterData.value.timeRange,
   });
 };
 
-const onDateChange = payload => {
-  const [start, end] = Array.isArray(payload) ? payload : [payload, payload];
-
-  since.value = start instanceof Date ? dateToUTCTimestamp(start) : null;
-
-  const endDate = end ?? start;
-  until.value = endDate instanceof Date ? dateToUTCTimestamp(endDate) : null;
-
-  emitChange();
-};
-
-const onTimeRangeChanged = ({ since: s, until: u }) => {
-  timeFrom.value = s;
-  timeTo.value = u;
+const onFilterChange = updatedFilter => {
+  filterData.value = {
+    from: updatedFilter.from,
+    to: updatedFilter.to,
+    businessHours: updatedFilter.businessHours,
+    timeRange: updatedFilter.timeRange,
+  };
   emitChange();
 };
 </script>
 
 <template>
-  <div
-    class="p-4 rounded-xl bg-n-solid-2 outline outline-1 outline-n-container flex flex-col gap-3"
-  >
-    <div class="flex items-center gap-3 flex-wrap">
-      <DatePicker @date-range-changed="onDateChange" />
+  <div class="flex flex-col gap-3">
+    <ReportFilterSelector
+      show-time-range-filter
+      @filter-change="onFilterChange"
+    />
 
-      <ReportsFiltersTimeRange @time-range-changed="onTimeRangeChanged" />
-    </div>
-
-    <div class="flex items-center gap-3 flex-wrap">
+    <div
+      class="rounded-xl outline outline-1 outline-n-container flex items-center gap-3 flex-wrap"
+    >
       <ReportsFiltersAgents
         @agents-filter-selection="
           selectedAgents = [...$event];

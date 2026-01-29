@@ -2,9 +2,6 @@
 import { computed } from 'vue';
 import { useMemoize } from '@vueuse/core';
 
-import format from 'date-fns/format';
-import getDay from 'date-fns/getDay';
-
 import { getQuantileIntervals } from '@chatwoot/utils';
 
 import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
@@ -51,7 +48,14 @@ const quantileRange = computed(() => {
 });
 
 function formatDate(dateString) {
-  return format(new Date(dateString), 'MMM d, yyyy');
+  const date = new Date(dateString);
+  const year = date.getUTCFullYear();
+  const month = date.toLocaleString('en-US', {
+    month: 'short',
+    timeZone: 'UTC',
+  });
+  const day = date.getUTCDate();
+  return `${month} ${day}, ${year}`;
 }
 
 const DAYS_OF_WEEK = [
@@ -65,8 +69,7 @@ const DAYS_OF_WEEK = [
 ];
 
 function getDayOfTheWeek(date) {
-  const dayIndex = getDay(date);
-
+  const dayIndex = date.getUTCDay();
   return DAYS_OF_WEEK[dayIndex];
 }
 

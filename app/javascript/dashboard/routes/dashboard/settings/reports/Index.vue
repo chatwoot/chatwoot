@@ -2,7 +2,7 @@
 import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
 import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 import { useAlert, useTrack } from 'dashboard/composables';
-import ReportFilters from './components/ReportFilters.vue';
+import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
@@ -14,6 +14,7 @@ const REPORTS_KEYS = {
   INCOMING_MESSAGES: 'incoming_messages_count',
   OUTGOING_MESSAGES: 'outgoing_messages_count',
   FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  RESOLUTION_TIME_WITHOUT_BOT: 'avg_resolution_time_without_bot',
   RESOLUTION_TIME: 'avg_resolution_time',
   RESOLUTION_COUNT: 'resolutions_count',
   REPLY_TIME: 'reply_time',
@@ -23,7 +24,7 @@ export default {
   name: 'ConversationReports',
   components: {
     ReportHeader,
-    ReportFilters,
+    ReportFilterSelector,
     ReportContainer,
     DownloadDropdown,
   },
@@ -37,6 +38,10 @@ export default {
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
       businessHours: false,
+      timeRange: {
+        since: '00:00',
+        until: '23:59',
+      },
     };
   },
   methods: {
@@ -58,6 +63,7 @@ export default {
         'OUTGOING_MESSAGES',
         'FIRST_RESPONSE_TIME',
         'RESOLUTION_TIME',
+        'RESOLUTION_TIME_WITHOUT_BOT',
         'RESOLUTION_COUNT',
         'REPLY_TIME',
       ].forEach(async key => {
@@ -72,18 +78,18 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const { from, to, groupBy, businessHours, timeRange } = this;
 
       return {
         from,
         to,
         groupBy: groupBy?.period,
         businessHours,
+        timeRange,
       };
     },
     downloadConversationReports(option) {
-      const { from, to } = this;
-      // Извлекаем значение формата из объекта опции
+      const { from, to, timeRange } = this;
       const format = option?.value || option || 'csv';
       const fileName = generateFileName({
         type: 'conversation',
@@ -97,17 +103,19 @@ export default {
         format,
         fileName,
         businessHours: this.businessHours,
+        timeRange,
       });
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({ from, to, groupBy, businessHours, timeRange }) {
       this.from = from;
       this.to = to;
       this.groupBy = groupBy;
       this.businessHours = businessHours;
+      this.timeRange = timeRange;
       this.fetchAllData();
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: { from, to, groupBy, businessHours, timeRange },
         reportType: 'conversations',
       });
     },
@@ -123,10 +131,11 @@ export default {
       @select="downloadConversationReports"
     />
   </ReportHeader>
-  <div class="flex flex-col">
-    <ReportFilters
-      :show-entity-filter="false"
-      show-group-by
+  <div class="flex flex-col gap-3">
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      show-time-range-filter
       @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />

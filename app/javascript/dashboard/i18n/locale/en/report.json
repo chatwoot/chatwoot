@@ -76,11 +76,18 @@
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "Group By",
     "DURATION_FILTER_LABEL": "Duration",
     "GROUPING_OPTIONS": {
+      "HOUR": "Hour",
       "DAY": "Day",
       "WEEK": "Week",
       "MONTH": "Month",
       "YEAR": "Year"
     },
+    "GROUP_BY_HOUR_OPTIONS": [
+      {
+        "id": 1,
+        "groupBy": "Hour"
+      }
+    ],
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,

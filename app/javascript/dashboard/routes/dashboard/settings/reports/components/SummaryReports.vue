@@ -1,14 +1,13 @@
 <script setup>
-import OverviewReportFilters from './OverviewReportFilters.vue';
-import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import ReportFilterSelector from './FilterSelector.vue';
 import { formatTime } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
 import Table from 'dashboard/components/table/Table.vue';
 import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
 } from '@tanstack/vue-table';
 import { computed, onMounted, ref, h } from 'vue';
 import ReportsAPI from 'dashboard/api/reports';
@@ -38,6 +37,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showCsatScore: {
+    type: Boolean,
+    default: false,
+  },
+  customHeaderClass: {
+    type: String,
+    default: '',
+  },
+  customCellClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const store = useStore();
@@ -45,18 +56,16 @@ const store = useStore();
 const from = ref(0);
 const to = ref(0);
 const businessHours = ref(false);
+const selectedAgents = ref([]);
+const selectedInboxes = ref([]);
+const selectedTeams = ref([]);
+const selectedLabels = ref([]);
+const timeRange = ref({
+  since: '00:00',
+  until: '23:59',
+});
 import { useI18n } from 'vue-i18n';
 import SummaryReportLink from './SummaryReportLink.vue';
-
-const flagMap = {
-  agent: 'isFetchingAgentSummaryReports',
-  inbox: 'isFetchingInboxSummaryReports',
-  team: 'isFetchingTeamSummaryReports',
-  label: 'isFetchingLabelSummaryReports',
-};
-
-const uiFlags = useMapGetter('summaryReports/getUIFlags');
-const isLoading = computed(() => uiFlags.value[flagMap[props.type]] ?? false);
 
 const rowItems = useMapGetter([props.getterKey]) || [];
 const reportMetrics = useMapGetter([props.summaryKey]) || [];
@@ -75,45 +84,119 @@ const defaulSpanRender = cellProps =>
     cellProps.getValue()
   );
 
+const typeHeaders = {
+  agent: t('SUMMARY_REPORTS.AGENT'),
+  label: t('SUMMARY_REPORTS.LABEL'),
+  inbox: t('SUMMARY_REPORTS.INBOX'),
+  team: t('SUMMARY_REPORTS.TEAM'),
+  account: t('SUMMARY_REPORTS.ACCOUNT'),
+};
+
+const parseFormattedValue = value => {
+  if (!value || value === '--') return 0;
+  if (typeof value === 'string') {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  }
+  return value;
+};
+
 const columns = computed(() => {
   const baseColumns = [
     columnHelper.accessor('name', {
-      header: t(`SUMMARY_REPORTS.${props.type.toUpperCase()}`),
+      header: typeHeaders[props.type] || typeHeaders.account,
       width: 300,
-      cell: cellProps => h(SummaryReportLink, cellProps),
+      cell: cellProps =>
+        h(SummaryReportLink, {
+          ...cellProps,
+          class: props.customCellClass || '',
+        }),
+      enableSorting: true,
     }),
     columnHelper.accessor('conversationsCount', {
       header: t('SUMMARY_REPORTS.CONVERSATIONS'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = parseFormattedValue(rowA.original.conversationsCount);
+        const b = parseFormattedValue(rowB.original.conversationsCount);
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgFirstResponseTime', {
       header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgFirstResponseTimeRaw || 0;
+        const b = rowB.original.avgFirstResponseTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgResolutionTime', {
       header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgResolutionTimeRaw || 0;
+        const b = rowB.original.avgResolutionTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgReplyTime', {
       header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgReplyTimeRaw || 0;
+        const b = rowB.original.avgReplyTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('resolutionsCount', {
       header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = parseFormattedValue(rowA.original.resolutionsCount);
+        const b = parseFormattedValue(rowB.original.resolutionsCount);
+        return a - b;
+      },
     }),
   ];
+
   if (props.showAgentChatDuration) {
     baseColumns.push(
       columnHelper.accessor('agentChatDuration', {
         header: t('SUMMARY_REPORTS.AGENT_CHAT_DURATION'),
         width: 220,
         cell: defaulSpanRender,
+        enableSorting: true,
+        sortingFn: (rowA, rowB) => {
+          const a = rowA.original.agentChatDurationRaw || 0;
+          const b = rowB.original.agentChatDurationRaw || 0;
+          return a - b;
+        },
+      })
+    );
+  }
+
+  if (props.showCsatScore) {
+    baseColumns.push(
+      columnHelper.accessor('csatSatisfactionScore', {
+        header: t('SUMMARY_REPORTS.CSAT_SATISFACTION_SCORE'),
+        width: 200,
+        cell: defaulSpanRender,
+        enableSorting: true,
+        sortingFn: (rowA, rowB) => {
+          const a = rowA.original.csatSatisfactionScoreRaw || 0;
+          const b = rowB.original.csatSatisfactionScoreRaw || 0;
+          return a - b;
+        },
       })
     );
   }
@@ -125,8 +208,26 @@ const renderAvgTime = value => (value ? formatTime(value) : '--');
 
 const renderCount = value => (value ? value.toLocaleString() : '--');
 
-const tableData = computed(() =>
-  rowItems.value.map(row => {
+const renderCsatScore = value => (value ? `${value}%` : '--');
+
+const hasActiveFilters = computed(() => {
+  return (
+    selectedAgents.value.length > 0 ||
+    selectedInboxes.value.length > 0 ||
+    selectedTeams.value.length > 0 ||
+    selectedLabels.value.length > 0
+  );
+});
+
+const tableData = computed(() => {
+  let filteredRows = rowItems.value;
+
+  if (hasActiveFilters.value) {
+    const metricsIds = reportMetrics.value.map(m => m.id);
+    filteredRows = rowItems.value.filter(row => metricsIds.includes(row.id));
+  }
+
+  return filteredRows.map(row => {
     const rowMetrics = getMetrics(row.id);
 
     const {
@@ -136,6 +237,7 @@ const tableData = computed(() =>
       avgReplyTime,
       resolvedConversationsCount,
       agentChatDuration,
+      csatSatisfactionScore,
     } = rowMetrics;
 
     const baseRow = {
@@ -147,36 +249,38 @@ const tableData = computed(() =>
       avgReplyTime: renderAvgTime(avgReplyTime),
       avgResolutionTime: renderAvgTime(avgResolutionTime),
       resolutionsCount: renderCount(resolvedConversationsCount),
+      avgFirstResponseTimeRaw: avgFirstResponseTime || 0,
+      avgReplyTimeRaw: avgReplyTime || 0,
+      avgResolutionTimeRaw: avgResolutionTime || 0,
     };
 
     if (props.showAgentChatDuration) {
       baseRow.agentChatDuration = renderAvgTime(agentChatDuration);
+      baseRow.agentChatDurationRaw = agentChatDuration || 0;
+    }
+
+    if (props.showCsatScore) {
+      baseRow.csatSatisfactionScore = renderCsatScore(csatSatisfactionScore);
+      baseRow.csatSatisfactionScoreRaw = csatSatisfactionScore || 0;
     }
 
     return baseRow;
-  })
-);
-
-const fetchReportsWithRetry = async () => {
-  const params = {
-    since: from.value,
-    until: to.value,
-    businessHours: businessHours.value,
-  };
-  try {
-    await store.dispatch(props.actionKey, params);
-  } catch {
-    try {
-      await store.dispatch(props.actionKey, params);
-    } catch {
-      useAlert(t('REPORT.SUMMARY_FETCHING_FAILED'));
-    }
-  }
-};
+  });
+});
 
 const fetchAllData = () => {
   store.dispatch(props.fetchItemsKey);
-  fetchReportsWithRetry();
+  store.dispatch(props.actionKey, {
+    since: from.value,
+    until: to.value,
+    businessHours: businessHours.value,
+    userIds: selectedAgents.value.map(agent => agent.id),
+    inboxIds: selectedInboxes.value.map(inbox => inbox.id),
+    teamIds: selectedTeams.value.map(team => team.id),
+    labelIds: selectedLabels.value.map(label => label.id),
+    timeSince: timeRange.value.since,
+    timeUntil: timeRange.value.until,
+  });
 };
 
 onMounted(() => fetchAllData());
@@ -185,6 +289,11 @@ const onFilterChange = updatedFilter => {
   from.value = updatedFilter.from;
   to.value = updatedFilter.to;
   businessHours.value = updatedFilter.businessHours;
+  selectedAgents.value = updatedFilter.selectedAgents || [];
+  selectedInboxes.value = updatedFilter.selectedInbox || [];
+  selectedTeams.value = updatedFilter.selectedTeam || [];
+  selectedLabels.value = updatedFilter.selectedLabel || [];
+  timeRange.value = updatedFilter.timeRange;
   fetchAllData();
 };
 
@@ -195,8 +304,9 @@ const table = useVueTable({
   get columns() {
     return columns.value;
   },
-  enableSorting: false,
+  enableSorting: true,
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 });
 
 const downloadReports = async (format = 'csv') => {
@@ -204,6 +314,12 @@ const downloadReports = async (format = 'csv') => {
     from: from.value,
     to: to.value,
     businessHours: businessHours.value,
+    userIds: selectedAgents.value.map(agent => agent.id),
+    inboxIds: selectedInboxes.value.map(inbox => inbox.id),
+    teamIds: selectedTeams.value.map(team => team.id),
+    labelIds: selectedLabels.value.map(label => label.id),
+    timeSince: timeRange.value.since,
+    timeUntil: timeRange.value.until,
     format,
   };
 
@@ -240,28 +356,21 @@ defineExpose({ downloadReports });
 </script>
 
 <template>
-  <OverviewReportFilters
-    :disabled="isLoading"
+  <ReportFilterSelector
+    show-time-range-filter
+    show-agents-filter
+    show-inbox-filter
+    show-team-filter
+    show-labels-filter
     @filter-change="onFilterChange"
   />
   <div
-    class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
+    class="flex-1 overflow-hidden px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
-    <Table :table="table" />
-    <Transition
-      enter-active-class="transition-opacity duration-300 ease-out"
-      leave-active-class="transition-opacity duration-200 ease-in"
-      enter-from-class="opacity-0"
-      enter-to-class="opacity-100"
-      leave-from-class="opacity-100"
-      leave-to-class="opacity-0"
-    >
-      <div
-        v-if="isLoading"
-        class="absolute inset-0 flex justify-center pt-[12.5rem] bg-n-solid-1/70 rounded-xl pointer-events-none"
-      >
-        <Spinner :size="32" class="text-n-brand" />
-      </div>
-    </Transition>
+    <Table
+      :table="table"
+      :custom-header-class="customHeaderClass"
+      :custom-cell-class="customCellClass"
+    />
   </div>
 </template>

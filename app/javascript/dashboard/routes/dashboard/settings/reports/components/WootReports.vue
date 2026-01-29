@@ -1,11 +1,33 @@
 <script>
 import V4Button from 'dashboard/components-next/button/Button.vue';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useTrack } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
+import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './ReportHeader.vue';
+
+const GROUP_BY_OPTIONS = {
+  HOUR: [
+    { id: 5, groupByKey: 'REPORT.GROUPING_OPTIONS.HOUR' },
+  ],
+  DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
+  WEEK: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+  ],
+  MONTH: [
+    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+  ],
+  YEAR: [
+    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
+    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
+    { id: 4, groupByKey: 'REPORT.GROUPING_OPTIONS.YEAR' },
+  ],
+};
 
 export default {
   components: {
@@ -50,19 +72,12 @@ export default {
       to: 0,
       selectedFilter: this.selectedItem,
       groupBy: GROUP_BY_FILTER[1],
+      groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
+      selectedGroupByFilter: null,
       businessHours: false,
     };
   },
   computed: {
-    filterType() {
-      const pluralMap = {
-        agent: 'agents',
-        team: 'teams',
-        inbox: 'inboxes',
-        label: 'labels',
-      };
-      return pluralMap[this.type] || this.type;
-    },
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
@@ -136,29 +151,83 @@ export default {
         this.$store.dispatch(dispatchMethods[type], params);
       }
     },
-    onFilterChange(payload) {
-      const { from, to, businessHours, groupBy } = payload;
+    onDateRangeChange({ from, to, groupBy }) {
+      if (this.from !== 0 && this.to !== 0) {
+        useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+          filterType: 'date',
+          reportType: this.type,
+        });
+      }
+
       this.from = from;
       this.to = to;
-      this.businessHours = businessHours;
-
-      if (groupBy) {
-        this.groupBy = groupBy;
+      this.groupByfilterItemsList = this.fetchFilterItems(groupBy);
+      const filterItems = this.groupByfilterItemsList.filter(
+        item => item.id === this.groupBy.id
+      );
+      if (filterItems.length > 0) {
+        this.selectedGroupByFilter = filterItems[0];
       } else {
-        this.groupBy = GROUP_BY_FILTER[1];
+        this.selectedGroupByFilter = this.groupByfilterItemsList[0];
+        this.groupBy = GROUP_BY_FILTER[this.selectedGroupByFilter.id];
       }
-
-      // Get filter value directly from filterType key
-      const filterValue = payload[this.filterType];
-      if (filterValue) {
-        this.selectedFilter = Array.isArray(filterValue)
-          ? filterValue[0]
-          : filterValue;
-      } else {
-        this.selectedFilter = null;
-      }
-
       this.fetchAllData();
+    },
+    onFilterChange(payload) {
+      if (payload) {
+        this.selectedFilter = payload;
+        this.fetchAllData();
+      }
+    },
+    onGroupByFilterChange(payload) {
+      this.groupBy = GROUP_BY_FILTER[payload.id];
+      this.fetchAllData();
+
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'groupBy',
+        filterValue: this.groupBy?.period,
+        reportType: this.type,
+      });
+    },
+    fetchFilterItems(groupBy) {
+      switch (groupBy) {
+        case GROUP_BY_FILTER[5].period:
+          return GROUP_BY_OPTIONS.HOUR.map(this.translateOptions);
+        case GROUP_BY_FILTER[2].period:
+          return GROUP_BY_OPTIONS.WEEK.map(this.translateOptions);
+        case GROUP_BY_FILTER[3].period:
+          return GROUP_BY_OPTIONS.MONTH.map(this.translateOptions);
+        case GROUP_BY_FILTER[4].period:
+          return GROUP_BY_OPTIONS.YEAR.map(this.translateOptions);
+        default:
+          return GROUP_BY_OPTIONS.DAY.map(this.translateOptions);
+      }
+    },
+    translateOptions(opts) {
+      const translations = {
+        'REPORT.GROUPING_OPTIONS.HOUR': this.$t('REPORT.GROUPING_OPTIONS.HOUR'),
+        'REPORT.GROUPING_OPTIONS.DAY': this.$t('REPORT.GROUPING_OPTIONS.DAY'),
+        'REPORT.GROUPING_OPTIONS.WEEK': this.$t('REPORT.GROUPING_OPTIONS.WEEK'),
+        'REPORT.GROUPING_OPTIONS.MONTH': this.$t(
+          'REPORT.GROUPING_OPTIONS.MONTH'
+        ),
+        'REPORT.GROUPING_OPTIONS.YEAR': this.$t('REPORT.GROUPING_OPTIONS.YEAR'),
+      };
+
+      return {
+        id: opts.id,
+        groupBy: translations[opts.groupByKey] || opts.groupByKey,
+      };
+    },
+    onBusinessHoursToggle(value) {
+      this.businessHours = value;
+      this.fetchAllData();
+
+      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+        filterType: 'businessHours',
+        filterValue: value,
+        reportType: this.type,
+      });
     },
   },
 };
@@ -173,12 +242,17 @@ export default {
       @click="downloadReports"
     />
   </ReportHeader>
-
   <ReportFilters
     v-if="filterItemsList"
-    :filter-type="filterType"
-    :selected-item="selectedFilter"
+    :type="type"
+    :filter-items-list="filterItemsList"
+    :group-by-filter-items-list="groupByfilterItemsList"
+    :selected-group-by-filter="selectedGroupByFilter"
+    :current-filter="selectedFilter"
+    @date-range-change="onDateRangeChange"
     @filter-change="onFilterChange"
+    @group-by-filter-change="onGroupByFilterChange"
+    @business-hours-toggle="onBusinessHoursToggle"
   />
   <ReportContainer
     v-if="filterItemsList.length"

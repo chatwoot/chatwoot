@@ -26,9 +26,15 @@ export const GROUP_BY_FILTER = {
   2: { id: 2, period: 'week' },
   3: { id: 3, period: 'month' },
   4: { id: 4, period: 'year' },
+  5: { id: 5, period: 'hour' },
 };
 
 export const GROUP_BY_OPTIONS = {
+  HOUR: {
+    id: 'HOUR',
+    period: 'hour',
+    translationKey: 'REPORT.GROUPING_OPTIONS.HOUR',
+  },
   DAY: {
     id: 'DAY',
     period: 'day',
@@ -56,7 +62,7 @@ export const DATE_RANGE_OPTIONS = {
     id: 'TODAY',
     translationKey: 'REPORT.DATE_RANGE_OPTIONS.TODAY',
     offset: 0,
-    groupByOptions: [GROUP_BY_OPTIONS.DAY],
+    groupByOptions: [GROUP_BY_OPTIONS.HOUR, GROUP_BY_OPTIONS.DAY],
   },
   LAST_7_DAYS: {
     id: 'LAST_7_DAYS',
