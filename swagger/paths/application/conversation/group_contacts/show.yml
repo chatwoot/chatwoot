@@ -1,0 +1,43 @@
+tags:
+  - Conversations
+operationId: get-conversation-group-contacts
+summary: List Group Contacts
+description: Get all additional contacts in a group conversation
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/conversation_id'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            group_contacts:
+              type: array
+              description: Array of group contacts
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Id of the group contact association
+                  contact_id:
+                    type: integer
+                    description: Id of the contact
+                  contact:
+                    $ref: '#/components/schemas/contact'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

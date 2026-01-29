@@ -143,6 +143,22 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CONVERSATION_CONTACT_CHANGED, conversation.push_event_data)
   end
 
+  def conversation_contact_added(event)
+    conversation, account = extract_conversation_and_account(event)
+    contact = event.data[:contact]
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, CONVERSATION_CONTACT_ADDED, conversation.push_event_data.merge(added_contact: contact.push_event_data))
+  end
+
+  def conversation_contact_removed(event)
+    conversation, account = extract_conversation_and_account(event)
+    contact = event.data[:contact]
+    tokens = user_tokens(account, conversation.inbox.members)
+
+    broadcast(account, tokens, CONVERSATION_CONTACT_REMOVED, conversation.push_event_data.merge(removed_contact: contact.push_event_data))
+  end
+
   def contact_created(event)
     contact, account = extract_contact_and_account(event)
     broadcast(account, [account_token(account)], CONTACT_CREATED, contact.push_event_data)
@@ -161,9 +177,7 @@ class ActionCableListener < BaseListener
   def contact_deleted(event)
     contact_data = event.data[:contact_data]
     account = Account.find_by(id: contact_data[:account_id])
-    return if account.blank?
-
-    broadcast(account, [account_token(account)], CONTACT_DELETED, contact_data)
+    broadcast(account, [account_token(account)], CONTACT_DELETED, contact_data) if account.present?
   end
 
   def conversation_mentioned(event)
@@ -180,28 +194,28 @@ class ActionCableListener < BaseListener
   end
 
   def typing_event_listener_tokens(account, conversation, user)
-    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
-    (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
+    current_user_token = user.is_a?(Contact) ? conversation.contact_inbox&.pubsub_token : user.pubsub_token
+    contact_inbox_token = conversation.contact_inbox&.pubsub_token
+    tokens = user_tokens(account, conversation.inbox.members)
+    tokens += [contact_inbox_token] if contact_inbox_token.present?
+    tokens - [current_user_token].compact
   end
 
   def user_tokens(account, agents)
-    agent_tokens = agents.pluck(:pubsub_token)
-    admin_tokens = account.administrators.pluck(:pubsub_token)
-    (agent_tokens + admin_tokens).uniq
+    (agents.pluck(:pubsub_token) + account.administrators.pluck(:pubsub_token)).uniq
   end
 
   def contact_tokens(contact_inbox, message)
-    return [] if message.private?
-    return [] if message.activity?
-    return [] if contact_inbox.nil?
+    return [] if message.private? || message.activity?
 
     contact_inbox_tokens(contact_inbox)
   end
 
   def contact_inbox_tokens(contact_inbox)
-    contact = contact_inbox.contact
+    return [] if contact_inbox.nil?
+    return [contact_inbox.pubsub_token] unless contact_inbox.hmac_verified?
 
-    contact_inbox.hmac_verified? ? contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token) : [contact_inbox.pubsub_token]
+    contact_inbox.contact.contact_inboxes.where(hmac_verified: true).filter_map(&:pubsub_token)
   end
 
   def broadcast(account, tokens, event_name, data)

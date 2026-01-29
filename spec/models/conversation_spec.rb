@@ -13,11 +13,129 @@ RSpec.describe Conversation do
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:inbox) }
-    it { is_expected.to belong_to(:contact) }
-    it { is_expected.to belong_to(:contact_inbox) }
+    it { is_expected.to belong_to(:contact).optional }
+    it { is_expected.to belong_to(:contact_inbox).optional }
     it { is_expected.to belong_to(:assignee).optional }
     it { is_expected.to belong_to(:team).optional }
     it { is_expected.to belong_to(:campaign).optional }
+    it { is_expected.to have_many(:group_contacts) }
+    it { is_expected.to have_many(:additional_contacts).through(:group_contacts) }
+  end
+
+  describe 'group conversation methods' do
+    let(:account) { create(:account) }
+    let(:conversation) { create(:conversation, account: account, group: true) }
+    let(:primary_contact) { conversation.contact }
+    let(:additional_contact) { create(:contact, account: account) }
+
+    before do
+      create(:group_contact, conversation: conversation, contact: additional_contact)
+    end
+
+    describe '#all_contacts' do
+      it 'returns primary contact and all group contacts' do
+        contacts = conversation.all_contacts
+        expect(contacts).to include(primary_contact)
+        expect(contacts).to include(additional_contact)
+        expect(contacts.count).to eq(2)
+      end
+    end
+
+    describe '#includes_contact?' do
+      it 'returns true for primary contact' do
+        expect(conversation.includes_contact?(primary_contact)).to be true
+      end
+
+      it 'returns true for group contact' do
+        expect(conversation.includes_contact?(additional_contact)).to be true
+      end
+
+      it 'returns false for contact not in group' do
+        other_contact = create(:contact, account: account)
+        expect(conversation.includes_contact?(other_contact)).to be false
+      end
+    end
+
+    describe 'scopes' do
+      it 'returns only group conversations with group_conversations scope' do
+        non_group_conversation = create(:conversation, account: account, group: false)
+        expect(described_class.group_conversations).to include(conversation)
+        expect(described_class.group_conversations).not_to include(non_group_conversation)
+      end
+
+      it 'returns only non-group conversations with non_group_conversations scope' do
+        non_group_conversation = create(:conversation, account: account, group: false)
+        expect(described_class.non_group_conversations).to include(non_group_conversation)
+        expect(described_class.non_group_conversations).not_to include(conversation)
+      end
+    end
+
+    describe 'contact_id validation' do
+      let(:inbox) { create(:inbox, account: account) }
+
+      it 'allows group conversations without a contact_id' do
+        group_conversation = described_class.new(
+          account: account,
+          inbox: inbox,
+          group: true,
+          group_title: 'Test Group'
+        )
+        expect(group_conversation).to be_valid
+      end
+
+      it 'requires contact_id for non-group conversations' do
+        non_group_conversation = described_class.new(
+          account: account,
+          inbox: inbox,
+          group: false
+        )
+        expect(non_group_conversation).not_to be_valid
+        expect(non_group_conversation.errors[:contact_id]).to include("can't be blank")
+      end
+
+      it 'promotes first added contact to primary when group has no primary contact' do
+        group_conversation = described_class.create!(
+          account: account,
+          inbox: inbox,
+          group: true,
+          group_title: 'WhatsApp Group'
+        )
+
+        member1 = create(:contact, account: account)
+        member2 = create(:contact, account: account)
+
+        # First contact becomes primary (GroupContact is destroyed after promotion)
+        GroupContact.create!(conversation: group_conversation, contact: member1)
+        group_conversation.reload
+
+        expect(group_conversation.contact).to eq(member1)
+        expect(group_conversation.group_contacts.count).to eq(0)
+
+        # Second contact becomes a group_contact (conversation now has primary)
+        GroupContact.create!(conversation: group_conversation, contact: member2)
+        group_conversation.reload
+
+        expect(group_conversation.group_contacts.count).to eq(1)
+        expect(group_conversation.all_contacts).to contain_exactly(member1, member2)
+      end
+
+      it 'prevents adding primary contact as group_contact' do
+        contact = create(:contact, account: account)
+        contact_inbox = create(:contact_inbox, contact: contact, inbox: inbox)
+        group_conversation = described_class.create!(
+          account: account,
+          inbox: inbox,
+          contact: contact,
+          contact_inbox: contact_inbox,
+          group: true,
+          group_title: 'WhatsApp Group'
+        )
+
+        group_contact = GroupContact.new(conversation: group_conversation, contact: contact)
+        expect(group_contact).not_to be_valid
+        expect(group_contact.errors[:contact]).to include('is already the primary contact')
+      end
+    end
   end
 
   describe 'concerns' do
@@ -589,7 +707,11 @@ RSpec.describe Conversation do
         updated_at: conversation.updated_at.to_f,
         waiting_since: conversation.waiting_since.to_i,
         priority: nil,
-        unread_count: 0
+        unread_count: 0,
+        group: false,
+        group_source_id: nil,
+        group_title: nil,
+        group_contacts: []
       }
     end
 

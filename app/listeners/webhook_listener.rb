@@ -91,6 +91,22 @@ class WebhookListener < BaseListener
     handle_typing_status(__method__.to_s, event)
   end
 
+  def conversation_contact_added(event)
+    conversation = event.data[:conversation]
+    contact = event.data[:contact]
+    inbox = conversation.inbox
+    payload = conversation.webhook_data.merge(event: __method__.to_s, contact: contact.webhook_data)
+    deliver_webhook_payloads(payload, inbox)
+  end
+
+  def conversation_contact_removed(event)
+    conversation = event.data[:conversation]
+    contact = event.data[:contact]
+    inbox = conversation.inbox
+    payload = conversation.webhook_data.merge(event: __method__.to_s, contact: contact.webhook_data)
+    deliver_webhook_payloads(payload, inbox)
+  end
+
   private
 
   def handle_typing_status(event_name, event)

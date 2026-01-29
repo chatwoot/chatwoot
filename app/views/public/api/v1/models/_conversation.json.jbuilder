@@ -10,3 +10,6 @@ json.messages do
   end
 end
 json.contact resource.contact
+json.group resource.group
+json.group_source_id resource.group_source_id
+json.group_title resource.group_title

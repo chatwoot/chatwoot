@@ -71,6 +71,15 @@ const currentContact = computed(() => {
     : {};
 });
 
+const isGroupConversation = computed(() => props.chat.group === true);
+
+const displayName = computed(() => {
+  if (isGroupConversation.value && props.chat.group_title) {
+    return props.chat.group_title;
+  }
+  return currentContact.value.name;
+});
+
 const isActiveChat = computed(() => {
   return currentChat.value.id === props.chat.id;
 });
@@ -249,8 +258,17 @@ const deleteConversation = () => {
       @mouseenter="onThumbnailHover"
       @mouseleave="onThumbnailLeave"
     >
+      <!-- Group conversation icon -->
+      <div
+        v-if="!hideThumbnail && isGroupConversation"
+        class="flex items-center justify-center w-8 h-8 rounded-full bg-n-alpha-2"
+        :class="!showInboxName ? 'mt-4' : 'mt-8'"
+      >
+        <span class="i-lucide-users text-sm text-n-slate-11" />
+      </div>
+      <!-- Regular contact avatar -->
       <Avatar
-        v-if="!hideThumbnail"
+        v-else-if="!hideThumbnail"
         :name="currentContact.name"
         :src="currentContact.thumbnail"
         :size="32"
@@ -306,10 +324,13 @@ const deleteConversation = () => {
         </div>
       </div>
       <h4
-        class="conversation--user text-sm my-0 mx-2 capitalize pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
-        :class="hasUnread ? 'font-semibold' : 'font-medium'"
+        class="conversation--user text-sm my-0 mx-2 pt-0.5 text-ellipsis overflow-hidden whitespace-nowrap flex-1 min-w-0 ltr:pr-16 rtl:pl-16 text-n-slate-12"
+        :class="[
+          hasUnread ? 'font-semibold' : 'font-medium',
+          isGroupConversation ? '' : 'capitalize',
+        ]"
       >
-        {{ currentContact.name }}
+        {{ displayName }}
       </h4>
       <VoiceCallStatus
         v-if="voiceCallData.status"

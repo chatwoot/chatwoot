@@ -8681,6 +8681,39 @@
               "type": "object",
               "description": "SLA event objects"
             }
+          },
+          "group": {
+            "type": "boolean",
+            "description": "Whether this is a group conversation"
+          },
+          "group_title": {
+            "type": "string",
+            "description": "Title/name of the group conversation"
+          },
+          "group_source_id": {
+            "type": "string",
+            "description": "External identifier for the group (e.g., from WhatsApp or Telegram)"
+          },
+          "group_contacts": {
+            "type": "array",
+            "description": "Additional contacts in the group conversation (excluding primary contact)",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Id of the group contact association"
+                },
+                "contact_id": {
+                  "type": "integer",
+                  "description": "Id of the contact"
+                },
+                "contact": {
+                  "type": "object",
+                  "description": "Contact details"
+                }
+              }
+            }
           }
         }
       },
@@ -9732,6 +9765,39 @@
           "contact": {
             "type": "object",
             "description": "The contact information associated to the conversation"
+          },
+          "group": {
+            "type": "boolean",
+            "description": "Whether this is a group conversation"
+          },
+          "group_title": {
+            "type": "string",
+            "description": "Title/name of the group conversation"
+          },
+          "group_source_id": {
+            "type": "string",
+            "description": "External identifier for the group (e.g., from WhatsApp or Telegram)"
+          },
+          "group_contacts": {
+            "type": "array",
+            "description": "Additional contacts in the group conversation (excluding primary contact)",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Id of the group contact association"
+                },
+                "contact_id": {
+                  "type": "integer",
+                  "description": "Id of the contact"
+                },
+                "contact": {
+                  "type": "object",
+                  "description": "Contact details"
+                }
+              }
+            }
           }
         }
       },
@@ -11218,6 +11284,11 @@
             "type": "string",
             "description": "Temporary identifier which will be passed back via websockets",
             "example": "1234567890"
+          },
+          "sender_identifier": {
+            "type": "string",
+            "description": "External identifier of the message sender. Used in group conversations to attribute messages to specific contacts.",
+            "example": "contact-123"
           }
         }
       },
@@ -11270,6 +11341,21 @@
             "type": "object",
             "description": "Custom attributes of the conversation",
             "example": {}
+          },
+          "group": {
+            "type": "boolean",
+            "description": "Whether this is a group conversation",
+            "example": false
+          },
+          "group_source_id": {
+            "type": "string",
+            "description": "External identifier for the group (e.g., from WhatsApp or Telegram)",
+            "example": "ext-group-123"
+          },
+          "group_title": {
+            "type": "string",
+            "description": "Title/name of the group conversation",
+            "example": "Support Group"
           }
         }
       },

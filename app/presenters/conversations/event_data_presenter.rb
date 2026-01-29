@@ -13,10 +13,8 @@ class Conversations::EventDataPresenter < SimpleDelegator
       status: status,
       custom_attributes: custom_attributes,
       snoozed_until: snoozed_until,
-      unread_count: unread_incoming_messages.count,
-      first_reply_created_at: first_reply_created_at,
-      priority: priority,
-      waiting_since: waiting_since.to_i,
+      **push_status_data,
+      **push_group_data,
       **push_timestamps
     }
   end
@@ -29,11 +27,20 @@ class Conversations::EventDataPresenter < SimpleDelegator
 
   def push_meta
     {
-      sender: contact.push_event_data,
+      sender: contact&.push_event_data,
       assignee: assigned_entity&.push_event_data,
       assignee_type: assignee_type,
       team: team&.push_event_data,
       hmac_verified: contact_inbox&.hmac_verified
+    }
+  end
+
+  def push_status_data
+    {
+      unread_count: unread_incoming_messages.count,
+      first_reply_created_at: first_reply_created_at,
+      priority: priority,
+      waiting_since: waiting_since.to_i
     }
   end
 
@@ -46,6 +53,23 @@ class Conversations::EventDataPresenter < SimpleDelegator
       created_at: created_at.to_i,
       updated_at: updated_at.to_f
     }
+  end
+
+  def push_group_data
+    {
+      group: group,
+      group_source_id: group_source_id,
+      group_title: group_title,
+      group_contacts: push_group_contacts
+    }
+  end
+
+  def push_group_contacts
+    return [] unless group?
+
+    group_contacts.includes(:contact).map do |gc|
+      { id: gc.id, contact_id: gc.contact_id, contact: gc.contact.push_event_data }
+    end
   end
 end
 Conversations::EventDataPresenter.prepend_mod_with('Conversations::EventDataPresenter')

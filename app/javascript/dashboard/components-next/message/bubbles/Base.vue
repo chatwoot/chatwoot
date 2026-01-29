@@ -14,8 +14,14 @@ const props = defineProps({
   hideMeta: { type: Boolean, default: false },
 });
 
-const { variant, orientation, inReplyTo, shouldGroupWithNext } =
-  useMessageContext();
+const {
+  variant,
+  orientation,
+  inReplyTo,
+  shouldGroupWithNext,
+  isGroupConversation,
+  sender,
+} = useMessageContext();
 const { t } = useI18n();
 
 const varaintBaseMap = {
@@ -75,6 +81,18 @@ const shouldShowMeta = computed(
     variant.value !== MESSAGE_VARIANTS.ACTIVITY
 );
 
+// Show sender name for incoming messages in group conversations
+const shouldShowSenderName = computed(() => {
+  return (
+    isGroupConversation?.value &&
+    orientation.value === ORIENTATION.LEFT &&
+    sender?.value?.name &&
+    variant.value === MESSAGE_VARIANTS.USER
+  );
+});
+
+const senderName = computed(() => sender?.value?.name || '');
+
 const replyToPreview = computed(() => {
   if (!inReplyTo) return '';
 
@@ -102,6 +120,13 @@ const replyToPreview = computed(() => {
       },
     ]"
   >
+    <!-- Sender name header for group conversations -->
+    <div
+      v-if="shouldShowSenderName"
+      class="text-xs font-semibold text-n-blue-11 mb-1 capitalize"
+    >
+      {{ senderName }}
+    </div>
     <div
       v-if="inReplyTo"
       class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"
