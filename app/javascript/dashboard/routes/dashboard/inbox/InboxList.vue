@@ -222,7 +222,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="flex w-full h-full bg-n-solid-1">
+  <section class="flex w-full h-full bg-n-surface-1">
     <div
       class="flex flex-col h-full w-full lg:min-w-[340px] lg:max-w-[340px] ltr:border-r rtl:border-l border-n-weak"
       :class="!currentConversationId ? 'flex' : 'hidden xl:flex'"
@@ -244,7 +244,7 @@ onMounted(() => {
           class="inbox-card rounded-none hover:rounded-lg hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3"
           :class="
             currentConversationId === notificationItem.primaryActor?.id
-              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 rounded-lg active'
+              ? 'bg-n-alpha-1 dark:bg-n-alpha-3 !rounded-lg active'
               : ''
           "
           @mark-notification-as-read="markNotificationAsRead"
