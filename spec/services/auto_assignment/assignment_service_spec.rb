@@ -306,5 +306,52 @@ RSpec.describe AutoAssignment::AssignmentService do
         end
       end
     end
+
+    context 'with team assignments' do
+      let(:team) { create(:team, account: account, allow_auto_assign: true) }
+      let(:team_member) { create(:user, account: account, role: :agent, availability: :online) }
+      let(:rate_limiter) { instance_double(AutoAssignment::RateLimiter) }
+
+      before do
+        create(:team_member, team: team, user: team_member)
+        create(:inbox_member, inbox: inbox, user: team_member)
+
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ team_member.id.to_s => 'online' })
+
+        allow(AutoAssignment::RateLimiter).to receive(:new).and_return(rate_limiter)
+        allow(rate_limiter).to receive(:within_limit?).and_return(true)
+        allow(rate_limiter).to receive(:track_assignment)
+
+        round_robin_selector = instance_double(AutoAssignment::RoundRobinSelector)
+        allow(AutoAssignment::RoundRobinSelector).to receive(:new).and_return(round_robin_selector)
+        allow(round_robin_selector).to receive(:select_agent).and_return(team_member)
+      end
+
+      it 'assigns conversation with team to team member' do
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
+
+        service.perform_bulk_assignment(limit: 1)
+
+        expect(conversation_with_team.reload.assignee).to eq(team_member)
+      end
+
+      it 'skips assignment when team has allow_auto_assign false' do
+        team.update!(allow_auto_assign: false)
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
+
+        service.perform_bulk_assignment(limit: 1)
+
+        expect(conversation_with_team.reload.assignee).to be_nil
+      end
+
+      it 'skips assignment when no team members are available' do
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({})
+        conversation_with_team = create(:conversation, inbox: inbox, team: team, assignee: nil)
+
+        service.perform_bulk_assignment(limit: 1)
+
+        expect(conversation_with_team.reload.assignee).to be_nil
+      end
+    end
   end
 end

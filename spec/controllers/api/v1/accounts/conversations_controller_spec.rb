@@ -330,6 +330,7 @@ RSpec.describe 'Conversations API', type: :request do
       context 'when it is an authenticated user who has access to the inbox' do
         before do
           create(:inbox_member, user: agent, inbox: inbox)
+          create(:team_member, user: agent, team: team)
         end
 
         it 'creates a new conversation' do
