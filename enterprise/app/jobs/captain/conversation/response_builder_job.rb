@@ -10,6 +10,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
     Current.executed_by = @assistant
 
+    Rails.logger.info "Captain::Conversation::ResponseBuilderJob: captain_v2_enabled? #{captain_v2_enabled?}"
     if captain_v2_enabled?
       generate_response_with_v2
     else
@@ -40,6 +41,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     @response = Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
       message_history: collect_previous_messages
     )
+    Rails.logger.info "Captain::Conversation::ResponseBuilderJob: @response #{@response}"
     process_response
   end
 
