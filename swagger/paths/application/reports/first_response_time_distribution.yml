@@ -1,0 +1,24 @@
+tags:
+  - Reports
+operationId: get-first-response-time-distribution
+summary: Get first response time distribution by channel
+security:
+  - userApiKey: []
+description: |
+  Get the distribution of first response times grouped by channel type.
+  Returns conversation counts in different time buckets (0-1h, 1-4h, 4-8h, 8-24h, 24h+) for each channel type.
+
+  **Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/first_response_time_distribution'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
