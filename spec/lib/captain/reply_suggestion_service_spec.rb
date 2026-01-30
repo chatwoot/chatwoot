@@ -19,6 +19,8 @@ RSpec.describe Captain::ReplySuggestionService do
     mock_context = instance_double(RubyLLM::Context, chat: mock_chat)
 
     allow(Llm::Config).to receive(:with_api_key).and_yield(mock_context)
+    allow(mock_chat).to receive(:with_tool).and_return(mock_chat)
+    allow(mock_chat).to receive(:on_end_message).and_return(mock_chat)
     allow(mock_chat).to receive(:with_instructions) { |msg| captured_messages << { role: 'system', content: msg } }
     allow(mock_chat).to receive(:add_message) { |args| captured_messages << args }
     allow(mock_chat).to receive(:ask) do |msg|

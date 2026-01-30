@@ -22,7 +22,7 @@ defineProps({
       />
     </div>
     <div class="flex gap-2">
-      <Button :label="buttonText" slate class="!text-n-blue-text w-full" />
+      <Button :label="buttonText" slate class="!text-n-blue-11 w-full" />
     </div>
   </div>
 </template>

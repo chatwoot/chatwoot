@@ -121,9 +121,19 @@ export const mutations = {
     chat.priority = priority;
   },
 
-  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](_state, custom_attributes) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.custom_attributes = custom_attributes;
+  [types.UPDATE_CONVERSATION_CUSTOM_ATTRIBUTES](
+    _state,
+    { conversationId, customAttributes }
+  ) {
+    const conversation = _state.allConversations.find(
+      c => c.id === conversationId
+    );
+    if (conversation) {
+      conversation.custom_attributes = {
+        ...conversation.custom_attributes,
+        ...customAttributes,
+      };
+    }
   },
 
   [types.CHANGE_CONVERSATION_STATUS](

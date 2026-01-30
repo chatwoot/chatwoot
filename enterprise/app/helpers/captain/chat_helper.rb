@@ -10,7 +10,10 @@ module Captain::ChatHelper
 
     add_messages_to_chat(chat)
     with_agent_session do
-      response = chat.ask(conversation_messages.last[:content])
+      last_content = conversation_messages.last[:content]
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(last_content)
+
+      response = attachments.any? ? chat.ask(text, with: attachments) : chat.ask(text)
       build_response(response)
     end
   rescue StandardError => e
@@ -68,7 +71,9 @@ module Captain::ChatHelper
 
   def add_messages_to_chat(chat)
     conversation_messages[0...-1].each do |msg|
-      chat.add_message(role: msg[:role].to_sym, content: msg[:content])
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(msg[:content])
+      content = attachments.any? ? RubyLLM::Content.new(text, attachments) : text
+      chat.add_message(role: msg[:role].to_sym, content: content)
     end
   end
 

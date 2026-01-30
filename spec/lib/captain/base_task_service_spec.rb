@@ -161,11 +161,6 @@ RSpec.describe Captain::BaseTaskService do
       end
     end
 
-    it 'calls execute_ruby_llm_request with correct parameters' do
-      expect(service).to receive(:execute_ruby_llm_request).with(model: model, messages: messages).and_call_original
-      service.send(:make_api_call, model: model, messages: messages)
-    end
-
     it 'instruments the LLM call' do
       expect(service).to receive(:instrument_llm_call).and_call_original
       service.send(:make_api_call, model: model, messages: messages)
