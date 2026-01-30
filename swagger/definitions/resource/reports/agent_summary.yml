@@ -1,0 +1,39 @@
+type: array
+description: Agent summary report containing conversation statistics grouped by agent.
+items:
+  type: object
+  properties:
+    id:
+      type: number
+      description: The agent (user) ID
+    conversations_count:
+      type: number
+      description: Number of conversations assigned to the agent during the date range
+    resolved_conversations_count:
+      type: number
+      description: Number of conversations resolved by the agent during the date range
+    avg_resolution_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) to resolve conversations. Null if no data available.
+    avg_first_response_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) for the first response. Null if no data available.
+    avg_reply_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) between replies. Null if no data available.
+example:
+  - id: 1
+    conversations_count: 150
+    resolved_conversations_count: 120
+    avg_resolution_time: 3600
+    avg_first_response_time: 300
+    avg_reply_time: 600
+  - id: 2
+    conversations_count: 75
+    resolved_conversations_count: 60
+    avg_resolution_time: 1800
+    avg_first_response_time: 180
+    avg_reply_time: 420

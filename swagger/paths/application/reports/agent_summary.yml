@@ -1,0 +1,23 @@
+tags:
+  - Reports
+operationId: get-agent-summary-report
+summary: Get conversation statistics grouped by agent
+security:
+  - userApiKey: []
+description: |
+  Get conversation statistics grouped by agent for a given date range.
+  Returns metrics for each agent including conversation counts, resolution counts,
+  average first response time, average resolution time, and average reply time.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/agent_summary'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
