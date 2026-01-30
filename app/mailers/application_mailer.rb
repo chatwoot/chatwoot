@@ -101,4 +101,12 @@ class ApplicationMailer < ActionMailer::Base
     # https://guides.rubyonrails.org/i18n.html#managing-the-locale-across-requests
     I18n.with_locale(locale, &)
   end
+
+  # Get SuperAdmin emails for a specific account - used when account is suspended
+  # Returns only SuperAdmins who are associated with the given account
+  def super_admin_emails(account)
+    return [] unless account
+
+    account.users.where(type: 'SuperAdmin').pluck(:email).compact
+  end
 end

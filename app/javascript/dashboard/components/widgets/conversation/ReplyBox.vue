@@ -144,6 +144,7 @@ export default {
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      currentAccount: 'getCurrentAccount',
     }),
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -236,6 +237,8 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
+      // Disable send button if account is suspended
+      if (this.currentAccount?.status === 'suspended') return true;
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 

@@ -10,9 +10,10 @@ class AdministratorNotifications::ConversationHandoffMailer < AdministratorNotif
 
     subject = "Conversation Handoff for account #{@account.name} on platform #{@conversation.inbox.name}"
 
+    # If account is suspended, send to SuperAdmins only (handled in send_notification)
     send_notification(
       subject,
-      to: admin_emails,
+      to: @account.suspended? ? super_admin_emails(@account) : admin_emails,
       action_url: @action_url,
       meta: {
         conversation_id: @conversation.display_id,

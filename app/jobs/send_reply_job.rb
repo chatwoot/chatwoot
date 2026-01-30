@@ -17,6 +17,10 @@ class SendReplyJob < ApplicationJob
 
   def perform(message_id)
     message = Message.find(message_id)
+    
+    # Block email sending if account is suspended
+    return if message.account.suspended?
+
     channel_name = message.conversation.inbox.channel.class.to_s
 
     # Special handling for FacebookPage (needs to check conversation type)

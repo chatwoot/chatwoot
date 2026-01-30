@@ -4,6 +4,8 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
 
     @agents = team.team_members
     @conversation = conversation
+    @account = conversation.account
+    ensure_current_account(@account)
     @custom_message = message
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
 
@@ -15,8 +17,17 @@ class TeamNotifications::AutomationNotificationMailer < ApplicationMailer
   def send_an_email_to_team
     subject = 'This email has been sent via automation rule actions.'
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    @agent_emails = @agents.collect(&:user).pluck(:email)
-    send_mail_with_liquid(to: @agent_emails, subject: subject) and return
+    
+    # If account is suspended, send to SuperAdmins only
+    recipients = if @account.suspended?
+                   super_admin_emails(@account)
+                 else
+                   @agents.collect(&:user).pluck(:email)
+                 end
+    
+    return if recipients.blank?
+    
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   def liquid_droppables

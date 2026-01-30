@@ -1,10 +1,18 @@
 class AgentNotifications::MonthlyImpactReportMailer < ApplicationMailer
   def monthly_report(account:, start_date:, end_date:, metrics:)
     return unless smtp_config_set_or_development?
-    return if account.users.blank?
 
     @account = account
     ensure_current_account(@account)
+    
+    # If account is suspended, send to SuperAdmins only
+    if @account.suspended?
+      recipients = super_admin_emails(@account)
+      return if recipients.blank?
+    else
+      return if account.users.blank?
+      recipients = account.users.pluck(:email)
+    end
 
     @start_date = start_date
     @end_date = end_date
@@ -50,16 +58,12 @@ class AgentNotifications::MonthlyImpactReportMailer < ApplicationMailer
     subject = "Cruise Control Impact Monthly Report - #{@start_date.strftime('%m/%d')} - #{@end_date.strftime('%m/%d')}"
 
     send_mail_with_liquid(
-      to: agent_emails,
+      to: recipients,
       subject: subject
     )
   end
 
   private
-
-  def agent_emails
-    @account.users.pluck(:email)
-  end
 
   def liquid_droppables
     super.merge!(

@@ -68,6 +68,8 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
 
   def suspend
     requested_resource.suspended!
+    # Disconnect all bots from all inboxes when account is disabled
+    requested_resource.agent_bot_inboxes.destroy_all
     ActionCable.server.broadcast("account_#{requested_resource.id}", { event: 'page:reload', data: {} })
     # rubocop:disable Rails/I18nLocaleTexts
     redirect_back(fallback_location: [namespace, requested_resource], notice: 'Account disabled')

@@ -7,6 +7,7 @@ class Email::SendOnEmailService < Base::SendOnChannelService
 
   def perform_reply
     return unless message.email_notifiable_message?
+    return if message.account.suspended?
 
     reply_mail = ConversationReplyMailer.with(account: message.account).email_reply(message).deliver_now
     Rails.logger.info("Email message #{message.id} sent with source_id: #{reply_mail.message_id}")
