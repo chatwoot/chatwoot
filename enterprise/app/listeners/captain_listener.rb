@@ -4,6 +4,7 @@ class CaptainListener < BaseListener
   def conversation_resolved(event)
     conversation = extract_conversation_and_account(event)[0]
     assistant = conversation.inbox.captain_assistant
+    Rails.logger.info "CaptainListener: conversation.inbox.captain_active? #{conversation.inbox.captain_active?}"
 
     return unless conversation.inbox.captain_active?
 

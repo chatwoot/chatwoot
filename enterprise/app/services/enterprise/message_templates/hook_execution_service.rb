@@ -3,7 +3,10 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def trigger_templates
     super
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: should_process_captain_response? #{should_process_captain_response?}"
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: inbox.captain_active? #{inbox.captain_active?}"
     return unless should_process_captain_response?
+
     return perform_handoff unless inbox.captain_active?
 
     schedule_captain_response
@@ -50,6 +53,10 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def should_process_captain_response?
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: conversation.pending? #{conversation.pending?}"
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: message.incoming? #{message.incoming?}"
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: inbox.captain_assistant.present? #{inbox.captain_assistant.present?}"
+    Rails.logger.info "Enterprise::MessageTemplates::HookExecutionService: result #{conversation.pending? && message.incoming? && inbox.captain_assistant.present?}"
     conversation.pending? && message.incoming? && inbox.captain_assistant.present?
   end
 
