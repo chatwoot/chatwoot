@@ -20,6 +20,7 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
 } from '@tanstack/vue-table';
 
 const { pageIndex } = defineProps({
@@ -46,6 +47,7 @@ const uiFlags = useMapGetter('csat/getUIFlags');
 const isLoading = computed(() => uiFlags.value.isFetching);
 
 const expandedRows = ref({});
+const sorting = ref([]);
 
 const toggleRow = id => {
   expandedRows.value = {
@@ -67,6 +69,7 @@ const tableData = computed(() => {
     csatReviewNotes: response.csat_review_notes,
     createdAgo: dynamicTime(response.created_at),
     createdAt: messageStamp(response.created_at, 'LLL d yyyy, h:mm a'),
+    createdAtTimestamp: new Date(response.created_at).getTime(),
     _original: response,
   }));
 });
@@ -81,18 +84,40 @@ const columns = computed(() => {
   const baseColumns = [
     columnHelper.accessor('contact', {
       header: t('CSAT_REPORTS.TABLE.HEADER.CONTACT_NAME'),
+      sortingFn: (rowA, rowB) => {
+        const nameA = rowA.original.contact?.name?.toLowerCase() || '';
+        const nameB = rowB.original.contact?.name?.toLowerCase() || '';
+        return nameA.localeCompare(nameB);
+      },
+      enableSorting: true,
     }),
     columnHelper.accessor('rating', {
       header: t('CSAT_REPORTS.TABLE.HEADER.RATING'),
       size: 120,
+      sortingFn: (rowA, rowB) => {
+        return rowA.original.rating - rowB.original.rating;
+      },
+      enableSorting: true,
     }),
     columnHelper.accessor('feedbackText', {
       header: t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
       size: 500,
+      sortingFn: (rowA, rowB) => {
+        const textA = rowA.original.feedbackText.toLowerCase();
+        const textB = rowB.original.feedbackText.toLowerCase();
+        return textA.localeCompare(textB);
+      },
+      enableSorting: true,
     }),
     columnHelper.accessor('assignedAgent', {
       header: t('CSAT_REPORTS.TABLE.HEADER.HANDLED_BY'),
       size: 160,
+      sortingFn: (rowA, rowB) => {
+        const nameA = rowA.original.assignedAgent?.name?.toLowerCase() || '';
+        const nameB = rowB.original.assignedAgent?.name?.toLowerCase() || '';
+        return nameA.localeCompare(nameB);
+      },
+      enableSorting: true,
     }),
   ];
 
@@ -101,6 +126,7 @@ const columns = computed(() => {
       columnHelper.accessor('actions', {
         header: '',
         size: 50,
+        enableSorting: false,
       })
     );
   }
@@ -123,8 +149,9 @@ const table = useVueTable({
     return columns.value;
   },
   manualPagination: true,
-  enableSorting: false,
+  enableSorting: true,
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
   get rowCount() {
     return metrics.value.totalResponseCount;
   },
@@ -132,12 +159,24 @@ const table = useVueTable({
     get pagination() {
       return paginationParams.value;
     },
+    get sorting() {
+      return sorting.value;
+    },
   },
   onPaginationChange: updater => {
     const newPagination = updater(paginationParams.value);
     emit('pageChange', newPagination.pageIndex);
   },
+  onSortingChange: updater => {
+    sorting.value = updater(sorting.value);
+  },
 });
+
+const getSortIcon = header => {
+  const sorted = header.column.getIsSorted();
+  if (!sorted) return 'i-lucide-arrow-up-down';
+  return sorted === 'asc' ? 'i-lucide-arrow-up' : 'i-lucide-arrow-down';
+};
 </script>
 
 <template>
@@ -157,56 +196,78 @@ const table = useVueTable({
                 width: header.getSize() ? `${header.getSize()}px` : 'auto',
               }"
               class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
+              :class="{
+                'cursor-pointer select-none hover:bg-n-slate-2 dark:hover:bg-n-solid-3 transition-colors':
+                  header.column.getCanSort(),
+              }"
+              @click="
+                header.column.getCanSort() &&
+                header.column.getToggleSortingHandler()?.($event)
+              "
             >
-              {{ header.column.columnDef.header }}
+              <div class="flex items-center gap-2">
+                <span>{{ header.column.columnDef.header }}</span>
+                <i
+                  v-if="header.column.getCanSort()"
+                  class="size-4 block text-n-slate-10"
+                  :class="[
+                    getSortIcon(header),
+                    {
+                      'text-n-slate-12': header.column.getIsSorted(),
+                    },
+                  ]"
+                />
+              </div>
             </th>
           </tr>
         </thead>
         <tbody class="divide-y divide-n-container">
-          <template v-for="row in tableData" :key="row.id">
+          <template v-for="row in table.getRowModel().rows" :key="row.id">
             <tr
               class="group hover:bg-n-slate-2 dark:hover:bg-n-solid-3 transition-colors"
               :class="{
-                'bg-n-slate-2 dark:bg-n-solid-3': isRowExpanded(row.id),
+                'bg-n-slate-2 dark:bg-n-solid-3': isRowExpanded(
+                  row.original.id
+                ),
                 'cursor-pointer': showExpandableRows,
               }"
-              @click="showExpandableRows && toggleRow(row.id)"
+              @click="showExpandableRows && toggleRow(row.original.id)"
             >
               <td class="py-4 px-5">
                 <CsatContactCell
-                  :contact="row.contact"
-                  :conversation-id="row.conversationId"
-                  :created-ago="row.createdAgo"
-                  :created-at="row.createdAt"
+                  :contact="row.original.contact"
+                  :conversation-id="row.original.conversationId"
+                  :created-ago="row.original.createdAgo"
+                  :created-at="row.original.createdAt"
                 />
               </td>
               <td class="py-4 px-5">
                 <div
                   class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg"
                   :style="{
-                    backgroundColor: `${getRatingData(row.rating).color}20`,
+                    backgroundColor: `${getRatingData(row.original.rating).color}20`,
                   }"
                 >
                   <span class="text-sm font-medium text-n-slate-12 truncate">
-                    {{ $t(getRatingData(row.rating).translationKey) }}
+                    {{ $t(getRatingData(row.original.rating).translationKey) }}
                   </span>
                 </div>
               </td>
               <td class="py-4 px-5">
                 <span
-                  v-if="!row.feedbackText"
+                  v-if="!row.original.feedbackText"
                   class="text-n-slate-10 italic text-sm"
                 >
                   {{ $t('CSAT_REPORTS.NO_FEEDBACK') }}
                 </span>
                 <div v-else class="text-sm text-n-slate-12">
-                  <ShowMore :text="row.feedbackText" :limit="100" />
+                  <ShowMore :text="row.original.feedbackText" :limit="100" />
                 </div>
               </td>
               <td class="py-4 px-5">
                 <UserAvatarWithName
-                  v-if="row.assignedAgent"
-                  :user="row.assignedAgent"
+                  v-if="row.original.assignedAgent"
+                  :user="row.original.assignedAgent"
                   :size="28"
                 />
                 <span v-else class="text-n-slate-10 text-sm italic">
@@ -220,7 +281,7 @@ const table = useVueTable({
                   <i
                     class="size-4 block transition-transform duration-200"
                     :class="
-                      isRowExpanded(row.id)
+                      isRowExpanded(row.original.id)
                         ? 'i-lucide-chevron-up'
                         : 'i-lucide-chevron-down'
                     "
@@ -229,11 +290,11 @@ const table = useVueTable({
               </td>
             </tr>
             <tr
-              v-if="showExpandableRows && isRowExpanded(row.id)"
+              v-if="showExpandableRows && isRowExpanded(row.original.id)"
               class="!border-t-0"
             >
               <td colspan="5" class="p-0 !border-t-0">
-                <CsatExpandedRow :response="row._original" />
+                <CsatExpandedRow :response="row.original._original" />
               </td>
             </tr>
           </template>

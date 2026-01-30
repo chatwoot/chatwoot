@@ -7,6 +7,7 @@ import {
   useVueTable,
   createColumnHelper,
   getCoreRowModel,
+  getSortedRowModel,
 } from '@tanstack/vue-table';
 import { computed, onMounted, ref, h } from 'vue';
 import ReportsAPI from 'dashboard/api/reports';
@@ -75,37 +76,76 @@ const typeHeaders = {
   account: t('SUMMARY_REPORTS.ACCOUNT'),
 };
 
+const parseFormattedValue = value => {
+  if (!value || value === '--') return 0;
+  if (typeof value === 'string') {
+    return parseFloat(value.replace(/,/g, '')) || 0;
+  }
+  return value;
+};
+
 const columns = computed(() => {
   const baseColumns = [
     columnHelper.accessor('name', {
       header: typeHeaders[props.type] || typeHeaders.account,
       width: 300,
       cell: cellProps => h(SummaryReportLink, cellProps),
+      enableSorting: true,
     }),
     columnHelper.accessor('conversationsCount', {
       header: t('SUMMARY_REPORTS.CONVERSATIONS'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = parseFormattedValue(rowA.original.conversationsCount);
+        const b = parseFormattedValue(rowB.original.conversationsCount);
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgFirstResponseTime', {
       header: t('SUMMARY_REPORTS.AVG_FIRST_RESPONSE_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgFirstResponseTimeRaw || 0;
+        const b = rowB.original.avgFirstResponseTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgResolutionTime', {
       header: t('SUMMARY_REPORTS.AVG_RESOLUTION_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgResolutionTimeRaw || 0;
+        const b = rowB.original.avgResolutionTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('avgReplyTime', {
       header: t('SUMMARY_REPORTS.AVG_REPLY_TIME'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = rowA.original.avgReplyTimeRaw || 0;
+        const b = rowB.original.avgReplyTimeRaw || 0;
+        return a - b;
+      },
     }),
     columnHelper.accessor('resolutionsCount', {
       header: t('SUMMARY_REPORTS.RESOLUTION_COUNT'),
       width: 200,
       cell: defaulSpanRender,
+      enableSorting: true,
+      sortingFn: (rowA, rowB) => {
+        const a = parseFormattedValue(rowA.original.resolutionsCount);
+        const b = parseFormattedValue(rowB.original.resolutionsCount);
+        return a - b;
+      },
     }),
   ];
   if (props.showAgentChatDuration) {
@@ -114,6 +154,12 @@ const columns = computed(() => {
         header: t('SUMMARY_REPORTS.AGENT_CHAT_DURATION'),
         width: 220,
         cell: defaulSpanRender,
+        enableSorting: true,
+        sortingFn: (rowA, rowB) => {
+          const a = rowA.original.agentChatDurationRaw || 0;
+          const b = rowB.original.agentChatDurationRaw || 0;
+          return a - b;
+        },
       })
     );
   }
@@ -147,10 +193,14 @@ const tableData = computed(() =>
       avgReplyTime: renderAvgTime(avgReplyTime),
       avgResolutionTime: renderAvgTime(avgResolutionTime),
       resolutionsCount: renderCount(resolvedConversationsCount),
+      avgFirstResponseTimeRaw: avgFirstResponseTime || 0,
+      avgReplyTimeRaw: avgReplyTime || 0,
+      avgResolutionTimeRaw: avgResolutionTime || 0,
     };
 
     if (props.showAgentChatDuration) {
       baseRow.agentChatDuration = renderAvgTime(agentChatDuration);
+      baseRow.agentChatDurationRaw = agentChatDuration || 0;
     }
 
     return baseRow;
@@ -185,8 +235,9 @@ const table = useVueTable({
   get columns() {
     return columns.value;
   },
-  enableSorting: false,
+  enableSorting: true,
   getCoreRowModel: getCoreRowModel(),
+  getSortedRowModel: getSortedRowModel(),
 });
 
 const downloadReports = async (format = 'csv') => {
