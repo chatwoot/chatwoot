@@ -67,12 +67,21 @@ export const validateLoggedInRoutes = (to, user) => {
     return validateActiveAccountRoutes(to, user);
   }
 
-  // If the current account is not active, then redirect the user to the suspended screen
+  // If the current account is not active (suspended/disabled)
+  const isSuperAdmin = user?.type === 'SuperAdmin';
+
+  if (isSuperAdmin) {
+    // SuperAdmin users can access suspended accounts with read-only features
+    // (conversations visible, send button disabled, bots disconnected)
+    return validateActiveAccountRoutes(to, user);
+  }
+
+  // Non-SuperAdmin users (agents, administrators) see the suspended screen
   if (to.name !== 'account_suspended') {
     return `accounts/${to.params.accountId}/suspended`;
   }
 
-  // Proceed to the route if none of the above conditions are met
+  // Proceed to the suspended route if none of the above conditions are met
   return null;
 };
 

@@ -6,7 +6,16 @@ class AdministratorNotifications::BaseMailer < ApplicationMailer
     @action_url = action_url
     @meta = meta || {}
 
-    send_mail_with_liquid(to: to || admin_emails, subject: subject) and return
+    # If account is suspended, send to SuperAdmins only
+    recipients = if Current.account&.suspended?
+                   super_admin_emails(Current.account)
+                 else
+                   to || admin_emails
+                 end
+    
+    return if recipients.blank?
+
+    send_mail_with_liquid(to: recipients, subject: subject) and return
   end
 
   # Helper method to generate inbox URL

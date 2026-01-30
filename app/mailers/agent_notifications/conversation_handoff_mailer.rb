@@ -4,7 +4,15 @@ class AgentNotifications::ConversationHandoffMailer < ApplicationMailer
 
     @account = conversation.account
     ensure_current_account(@account)
-    return if @account.agents.blank?
+    
+    # If account is suspended, send to SuperAdmins only
+    if @account.suspended?
+      recipients = super_admin_emails(@account)
+      return if recipients.blank?
+    else
+      return if @account.agents.blank?
+      recipients = @account.agents.pluck(:email)
+    end
 
     @conversation   = conversation
     @action_url     = conversation_url(@conversation)
@@ -13,16 +21,12 @@ class AgentNotifications::ConversationHandoffMailer < ApplicationMailer
     subject = "Conversation Handoff on account #{@account.name} on platform #{conversation.inbox.name}"
 
     send_mail_with_liquid(
-      to: agents_emails,
+      to: recipients,
       subject: subject
     )
   end
 
   private
-
-  def agents_emails
-    Current.account.agents.pluck(:email)
-  end
 
   def liquid_droppables
     super.merge!({

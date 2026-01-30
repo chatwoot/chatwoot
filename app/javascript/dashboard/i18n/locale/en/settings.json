@@ -256,7 +256,8 @@
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Disabled",
-      "MESSAGE": "Your account is disabled. Please reach out to the support team for more information."
+      "MESSAGE": "Your account is disabled. Please reach out to the support team for more information.",
+      "SUPER_ADMIN_MESSAGE": "This account is currently disabled. You have read-only access as a SuperAdmin. Send messages and other write operations are disabled."
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",

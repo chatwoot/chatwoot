@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
   before_action :ensure_api_inbox, only: :update
+  before_action :check_account_status, only: [:create]
 
   def index
     @messages = message_finder.perform
@@ -76,5 +77,12 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def ensure_api_inbox
     # Only API inboxes can update messages
     render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
+  end
+
+  # Check if account is suspended and block message creation
+  def check_account_status
+    return if Current.account.active?
+
+    render json: { error: 'Account is disabled. Messages cannot be sent.' }, status: :forbidden
   end
 end
