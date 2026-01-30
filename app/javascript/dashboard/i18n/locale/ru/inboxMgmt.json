@@ -58,11 +58,11 @@
         "DUPLICATE_INBOX_BANNER": "Этот аккаунт Instagram был перенесен в новый почтовый ящик Instagram. Вы больше не сможете отправлять и получать сообщения Instagram из этого ящика."
       },
       "TIKTOK": {
-        "CONTINUE_WITH_TIKTOK": "Continue with TikTok",
-        "CONNECT_YOUR_TIKTOK_PROFILE": "Connect your TikTok Profile",
-        "HELP": "To add your TikTok profile as a channel, you need to authenticate your TikTok Profile by clicking on 'Continue with TikTok' ",
-        "ERROR_MESSAGE": "There was an error connecting to TikTok, please try again",
-        "ERROR_AUTH": "There was an error connecting to TikTok, please try again"
+        "CONTINUE_WITH_TIKTOK": "Продолжить в TikTok",
+        "CONNECT_YOUR_TIKTOK_PROFILE": "Подключить ваш профиль TikTok",
+        "HELP": "Чтобы добавить ваш профиль TikTok в качестве источника, вам нужно авторизоваться в вашем профиле TikTok, нажав на 'Продолжить в TikTok' ",
+        "ERROR_MESSAGE": "Произошла ошибка при подключении к TikTok, попробуйте еще раз",
+        "ERROR_AUTH": "Произошла ошибка при подключении к TikTok, попробуйте еще раз"
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
@@ -389,10 +389,10 @@
           "ERROR_MESSAGE": "Не удалось сохранить источник"
         },
         "FINISH_MESSAGE": "Начните пересылать свои письма на этот email.",
-        "FINISH_MESSAGE_NO_FORWARDING": "Your email inbox has been created successfully! You need to configure SMTP and IMAP credentials to send and receive emails. Without these settings, no emails will be processed.",
-        "FORWARDING_ADDRESS_LABEL": "Forward emails to this address:",
+        "FINISH_MESSAGE_NO_FORWARDING": "Ваш почтовый ящик был успешно создан! Вам необходимо настроить учетные данные SMTP и IMAP для отправки и получения писем. Без этих настроек письма обрабатываться не будут.",
+        "FORWARDING_ADDRESS_LABEL": "Пересылайте письма на этот адрес:",
         "CONFIGURE_SMTP_IMAP_LINK": "Нажмите здесь",
-        "CONFIGURE_SMTP_IMAP_TEXT": " to configure IMAP and SMTP settings"
+        "CONFIGURE_SMTP_IMAP_TEXT": " чтобы настроить параметры IMAP и SMTP"
       },
       "LINE_CHANNEL": {
         "TITLE": "Канал LINE",
@@ -480,7 +480,7 @@
           },
           "TIKTOK": {
             "TITLE": "TikTok",
-            "DESCRIPTION": "Connect your TikTok account"
+            "DESCRIPTION": "Подключите ваш аккаунт TikTok"
           },
           "VOICE": {
             "TITLE": "Голосовая связь",
@@ -722,7 +722,7 @@
       "INBOX_IDENTIFIER_SUB_TEXT": "Используйте токен `inbox_identifier` для аутентификации ваших клиентов API.",
       "FORWARD_EMAIL_TITLE": "Переслать на Email",
       "FORWARD_EMAIL_SUB_TEXT": "Начните пересылать свои письма на этот email.",
-      "FORWARD_EMAIL_NOT_CONFIGURED": "Forwarding emails to your inbox is currently disabled on this installation. To use this feature, it must be enabled by your administrator. Please get in touch with them to proceed.",
+      "FORWARD_EMAIL_NOT_CONFIGURED": "Пересылка писем в этот почтовый ящик в данной установке отключена. Чтобы использовать эту функцию, администратор должен включить её. Пожалуйста, свяжитесь с ним для продолжения.",
       "ALLOW_MESSAGES_AFTER_RESOLVED": "Разрешить отправлять сообщения после завершения диалога",
       "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Разрешить пользователям отправлять сообщения даже после того, как диалог будет завершен.",
       "WHATSAPP_SECTION_SUBHEADER": "Этот ключ API используется для интеграции с API WhatsApp.",
@@ -809,32 +809,32 @@
         "PLACEHOLDER": "Добавьте сообщение, которое будет отображено в форме обратной связи"
       },
       "BUTTON_TEXT": {
-        "LABEL": "Button text",
-        "PLACEHOLDER": "Please rate us"
+        "LABEL": "Текст кнопки",
+        "PLACEHOLDER": "Пожалуйста, оцените нас"
       },
       "LANGUAGE": {
         "LABEL": "Язык",
-        "PLACEHOLDER": "Select template language"
+        "PLACEHOLDER": "Выберите язык шаблона"
       },
       "MESSAGE_PREVIEW": {
-        "LABEL": "Message preview",
-        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+        "LABEL": "Предварительный просмотр сообщения",
+        "TOOLTIP": "Отображение может немного отличаться на платформе WhatsApp."
       },
       "TEMPLATE_STATUS": {
-        "APPROVED": "Approved by WhatsApp",
-        "PENDING": "Pending WhatsApp approval",
-        "REJECTED": "Meta rejected the template",
-        "DEFAULT": "Needs WhatsApp approval",
-        "NOT_FOUND": "The template does not exist in the Meta platform."
+        "APPROVED": "Одобрено WhatsApp",
+        "PENDING": "Ожидает одобрения WhatsApp",
+        "REJECTED": "Шаблон отклонён Meta",
+        "DEFAULT": "Требуется одобрение WhatsApp",
+        "NOT_FOUND": "Шаблон не существует на платформе Meta."
       },
       "TEMPLATE_CREATION": {
-        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
-        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+        "SUCCESS_MESSAGE": "Шаблон WhatsApp успешно создан и отправлен на одобрение",
+        "ERROR_MESSAGE": "Не удалось создать шаблон WhatsApp"
       },
       "TEMPLATE_UPDATE_DIALOG": {
-        "TITLE": "Edit survey details",
-        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
-        "CONFIRM": "Create new template",
+        "TITLE": "Редактировать детали опроса",
+        "DESCRIPTION": "Мы удалим предыдущий шаблон и создадим новый, который будет повторно отправлен на одобрение WhatsApp",
+        "CONFIRM": "Создать новый шаблон",
         "CANCEL": "Вернуться"
       },
       "SURVEY_RULE": {
@@ -848,7 +848,7 @@
         "SELECT_PLACEHOLDER": "Выбрать метки"
       },
       "NOTE": "Примечание: опросы CSAT отправляются только один раз для диалога",
-      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
+      "WHATSAPP_NOTE": "Примечание: мы создадим шаблон и отправим его на одобрение WhatsApp. После одобрения опрос будет отправляться только один раз для каждого диалога в соответствии с правилом опроса.",
       "API": {
         "SUCCESS_MESSAGE": "Настройки CSAT успешно обновлены",
         "ERROR_MESSAGE": "Не удалось обновить CSAT настройки. Повторите попытку позже."
