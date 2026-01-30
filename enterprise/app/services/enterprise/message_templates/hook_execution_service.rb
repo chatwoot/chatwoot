@@ -9,6 +9,7 @@ module Enterprise::MessageTemplates::HookExecutionService
 
     return perform_handoff unless inbox.captain_active?
 
+    Rails.logger.info 'Enterprise::MessageTemplates::HookExecutionService: schedule_captain_response called!!!!!!!'
     schedule_captain_response
   end
 
