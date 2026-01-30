@@ -444,6 +444,7 @@ Rails.application.routes.draw do
               get :conversations_summary
               get :conversation_traffic
               get :bot_metrics
+              get :inbox_label_matrix
             end
           end
           resource :year_in_review, only: [:show]
