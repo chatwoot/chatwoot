@@ -88,8 +88,11 @@ class Aloo::ResponseService
     return if handoff_triggered?(result)
 
     message = create_message(result)
+    return unless message&.persisted?
+
+    dispatch_reply(message)
     update_conversation_status
-    trigger_voice_reply(message) if message&.persisted?
+    trigger_voice_reply(message)
   end
 
   def handoff_triggered?(result)
@@ -114,6 +117,11 @@ class Aloo::ResponseService
         }
       }
     ).perform
+  end
+
+  def dispatch_reply(message)
+    wait_time = message.attachments.present? ? 2.seconds : 0
+    ::SendReplyJob.set(wait: wait_time).perform_later(message.id)
   end
 
   def resolve_attachments(result)
