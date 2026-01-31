@@ -35,6 +35,13 @@ class Captain::Assistant < ApplicationRecord
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
   has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
+  has_many :assistant_mcp_servers,
+           class_name: 'Captain::AssistantMcpServer',
+           foreign_key: :captain_assistant_id,
+           inverse_of: :assistant,
+           dependent: :destroy
+  has_many :mcp_servers,
+           through: :assistant_mcp_servers
 
   store_accessor :config, :temperature, :feature_faq, :feature_memory, :product_name
 
@@ -55,6 +62,9 @@ class Captain::Assistant < ApplicationRecord
 
     custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
     tools.concat(custom_tools)
+
+    mcp_tools = mcp_servers.enabled.flat_map(&:to_tool_metadata)
+    tools.concat(mcp_tools)
 
     tools
   end
