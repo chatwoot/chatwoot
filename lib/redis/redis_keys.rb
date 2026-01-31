@@ -49,4 +49,14 @@ module Redis::RedisKeys
   # Track conversation assignments to agents for rate limiting
   ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::CONVERSATION::%<conversation_id>d'.freeze
   ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
+
+  ## SocialWise Flow Debounce Keys
+  # Store pending messages for debounced processing
+  SOCIALWISE_DEBOUNCE_MESSAGES = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::MESSAGES'.freeze
+  # Track when first message in window arrived
+  SOCIALWISE_DEBOUNCE_FIRST_AT = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::FIRST_AT'.freeze
+  # Track when last message arrived (reset timer)
+  SOCIALWISE_DEBOUNCE_LAST_AT = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::LAST_AT'.freeze
+  # Lock for processing debounced messages
+  SOCIALWISE_DEBOUNCE_LOCK = 'SOCIALWISE_DEBOUNCE::%<conversation_id>d::LOCK'.freeze
 end

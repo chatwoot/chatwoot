@@ -216,6 +216,64 @@ leadsquared:
   action: /leadsquared
   hook_type: account
   allow_multiple_hooks: false
+
+socialwise_chatwit:
+  id: socialwise_chatwit
+  logo: socialwise.png
+  i18n_key: socialwise_chatwit
+  action: /socialwise_chatwit
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'enabled': { 'type': 'boolean' },
+          'endpoint': { 'type': 'string' },
+          'access_token': { 'type': 'string' },
+          'language': { 'type': 'string' },
+          'webhook_enhancement_enabled': { 'type': 'boolean' },
+        },
+      'required': [],
+      'additionalProperties': true,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Enabled',
+        'type': 'checkbox',
+        'name': 'enabled',
+        'default': true,
+      },
+      {
+        'label': 'Endpoint URL',
+        'type': 'text',
+        'name': 'endpoint',
+        'help': 'Leave empty to use default SocialWise Flow endpoint',
+      },
+      {
+        'label': 'Access Token',
+        'type': 'text',
+        'name': 'access_token',
+        'help': 'Optional access token for authentication',
+      },
+      {
+        'label': 'Language',
+        'type': 'text',
+        'name': 'language',
+        'default': 'pt-BR',
+        'help': 'Language code (e.g., pt-BR, en-US)',
+      },
+      {
+        'label': 'Enable Webhook Enhancement',
+        'type': 'checkbox',
+        'name': 'webhook_enhancement_enabled',
+        'default': true,
+        'help': 'Enrich webhook payloads with SocialWise data',
+      },
+    ]
+  visible_properties: ['enabled', 'endpoint', 'language', 'webhook_enhancement_enabled']
   settings_json_schema:
     {
       'type': 'object',

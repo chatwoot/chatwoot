@@ -328,6 +328,8 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            # SocialWise Flow Integration
+            resource :socialwise_chatwit, controller: 'socialwise_chatwit', only: [:create, :update, :destroy]
           end
           resources :working_hours, only: [:update]
 
