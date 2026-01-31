@@ -383,6 +383,12 @@ class Message < ApplicationRecord
     Rails.logger.info '[MESSAGE] ✅ Passed nil sender check'
     Rails.logger.info "[MESSAGE]    - sender class: #{sender&.class&.name}, sender id: #{sender&.id}, is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
 
+    # Skip sending reply for AI-generated messages since they're dispatched explicitly by ResponseService
+    if sender.is_a?(User) && sender.is_ai?
+      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - AI-generated message #{id} from AI agent #{sender.id} (dispatched by ResponseService)"
+      return
+    end
+
     Rails.logger.info "[MESSAGE] 📤 ENQUEUEING SendReplyJob for message #{id}"
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
