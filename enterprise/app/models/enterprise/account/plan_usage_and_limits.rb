@@ -1,4 +1,6 @@
 module Enterprise::Account::PlanUsageAndLimits
+  include Concerns::AccountLimitValidation
+
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
@@ -16,9 +18,17 @@ module Enterprise::Account::PlanUsageAndLimits
   end
 
   def increment_response_usage
-    current_usage = custom_attributes[CAPTAIN_RESPONSES_USAGE].to_i || 0
-    custom_attributes[CAPTAIN_RESPONSES_USAGE] = current_usage + 1
-    save
+    increment_sql = <<~SQL.squish
+      custom_attributes = jsonb_set(
+        custom_attributes,
+        '{#{CAPTAIN_RESPONSES_USAGE}}',
+        to_jsonb(COALESCE((custom_attributes->>'#{CAPTAIN_RESPONSES_USAGE}')::int, 0) + 1),
+        true
+      )
+    SQL
+    # Skipping validations is safe: no validations on custom_attributes,
+    updated = self.class.where(id: id).update_all(increment_sql) # rubocop:disable Rails/SkipsModelValidations
+    reload if updated.positive?
   end
 
   def reset_response_usage
@@ -107,24 +117,5 @@ module Enterprise::Account::PlanUsageAndLimits
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
-  end
-
-  def validate_limit_keys
-    errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
-    self[:limits] = {} if self[:limits].blank?
-
-    limit_schema = {
-      'type' => 'object',
-      'properties' => {
-        'inboxes' => { 'type': 'number' },
-        'agents' => { 'type': 'number' },
-        'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' }
-      },
-      'required' => [],
-      'additionalProperties' => false
-    }
-
-    errors.add(:limits, ': Invalid data') unless JSONSchemer.schema(limit_schema).valid?(self[:limits])
   end
 end
