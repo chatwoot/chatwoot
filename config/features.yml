@@ -159,6 +159,10 @@
   display_name: Shopify Integration
   enabled: false
   chatwoot_internal: true
+- name: tiendanube_integration
+  display_name: Tiendanube Integration
+  enabled: false
+  chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false

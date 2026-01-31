@@ -352,7 +352,8 @@
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "TIENDANUBE_ORDERS": "Tiendanube Orders"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
@@ -372,6 +373,11 @@
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
         "UNFULFILLED": "Unfulfilled"
       }
+    },
+    "TIENDANUBE": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_TIENDANUBE_ORDERS": "No orders found"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

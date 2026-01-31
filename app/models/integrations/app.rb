@@ -56,6 +56,8 @@ class Integrations::App
       account.feature_enabled?('linear_integration') && GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
       shopify_enabled?(account)
+    when 'tiendanube'
+      tiendanube_enabled?(account)
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
     when 'notion'
@@ -125,5 +127,9 @@ class Integrations::App
 
   def notion_enabled?(account)
     account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
+  end
+
+  def tiendanube_enabled?(account)
+    account.feature_enabled?('tiendanube_integration') && GlobalConfigService.load('TIENDANUBE_CLIENT_ID', nil).present?
   end
 end
