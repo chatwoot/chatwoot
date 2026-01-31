@@ -107,7 +107,6 @@ class Aloo::ResponseService
         content: result.content,
         message_type: :outgoing,
         private: false,
-        attachments: resolve_attachments(result),
         content_attributes: {
           'aloo_generated' => true,
           'aloo_assistant_id' => @assistant.id,
@@ -120,14 +119,7 @@ class Aloo::ResponseService
   end
 
   def dispatch_reply(message)
-    wait_time = message.attachments.present? ? 2.seconds : 0
-    ::SendReplyJob.set(wait: wait_time).perform_later(message.id)
-  end
-
-  def resolve_attachments(result)
-    return [] unless result.respond_to?(:tool_calls)
-
-    Aloo::AttachmentResolver.new(result.tool_calls).resolve
+    ::SendReplyJob.perform_later(message.id)
   end
 
   def update_conversation_status
