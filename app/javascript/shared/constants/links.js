@@ -8,4 +8,4 @@ export const REPLY_POLICY = {
   TIKTOK: 'https://business-api.tiktok.com/portal/docs?id=1832184236919810',
 };
 
-export const CHANGELOG_API_URL = 'https://hub.2.chatwoot.com/changelogs';
+export const CHANGELOG_API_URL = 'https://hub.2.hupa.app/changelogs';
