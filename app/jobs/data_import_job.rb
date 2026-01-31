@@ -23,6 +23,7 @@ class DataImportJob < ApplicationJob
     contacts, rejected_contacts = parse_csv_and_build_contacts
 
     import_contacts(contacts)
+    add_labels_to_contacts
     update_data_import_status(contacts.length, rejected_contacts.length)
     save_failed_records_csv(rejected_contacts)
   end
@@ -30,12 +31,16 @@ class DataImportJob < ApplicationJob
   def parse_csv_and_build_contacts
     contacts = []
     rejected_contacts = []
-
+@contacts_with_labels = []
+    
     with_import_file do |file|
       csv_reader(file).each do |row|
         current_contact = @contact_manager.build_contact(row.to_h.with_indifferent_access)
         if current_contact.valid?
           contacts << current_contact
+                # Store labels mapping for later processing
+          labels = parse_labels(row['labels'])
+          @contacts_with_labels << { contact: current_contact, labels: labels } if labels.present?
         else
           append_rejected_contact(row, current_contact, rejected_contacts)
         end
@@ -55,6 +60,45 @@ class DataImportJob < ApplicationJob
     Contact.import(contacts, synchronize: contacts, on_duplicate_key_ignore: true, track_validation_failures: true, validate: true, batch_size: 1000)
   end
 
+def add_labels_to_contacts
+    return if @contacts_with_labels.blank?
+
+    @contacts_with_labels.each do |item|
+      contact = item[:contact]
+      labels = item[:labels]
+      next if labels.blank?
+
+      # Find the saved contact after import
+      saved_contact = find_saved_contact(contact)
+      next unless saved_contact
+
+      saved_contact.add_labels(labels)
+    end
+  end
+
+  def find_saved_contact(contact)
+    # Try to find by identifier first (most reliable)
+    return @data_import.account.contacts.find_by(identifier: contact.identifier) if contact.identifier.present?
+
+    # Try by email
+    return @data_import.account.contacts.from_email(contact.email) if contact.email.present?
+
+    # Try by phone number
+    if contact.phone_number.present?
+      formatted_phone = contact.phone_number.start_with?('+') ? contact.phone_number : "+#{contact.phone_number}"
+      return @data_import.account.contacts.find_by(phone_number: formatted_phone)
+    end
+
+    nil
+  end
+
+  def parse_labels(labels_string)
+    return [] if labels_string.blank?
+
+    labels_string.to_s.split(',').map(&:strip).reject(&:blank?)
+  end
+
+  
   def update_data_import_status(processed_records, rejected_records)
     @data_import.update!(status: :completed, processed_records: processed_records, total_records: processed_records + rejected_records)
   end
