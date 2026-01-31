@@ -383,12 +383,6 @@ class Message < ApplicationRecord
     Rails.logger.info '[MESSAGE] ✅ Passed nil sender check'
     Rails.logger.info "[MESSAGE]    - sender class: #{sender&.class&.name}, sender id: #{sender&.id}, is_ai: #{sender.is_a?(User) ? sender.is_ai? : 'N/A'}"
 
-    # Skip sending reply for AI-generated messages since they're handled by RequestAiResponseJob
-    if sender.is_a?(User) && sender.is_ai?
-      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - AI-generated message #{id} from AI agent #{sender.id}"
-      return
-    end
-
     Rails.logger.info "[MESSAGE] 📤 ENQUEUEING SendReplyJob for message #{id}"
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
@@ -422,8 +416,8 @@ class Message < ApplicationRecord
 
   def reset_for_aloo_ai_handling
     attrs = conversation.custom_attributes&.dup || {}
-    attrs['aloo_handoff_active'] = false
-    attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
+    attrs.delete('aloo_handoff_active')
+    attrs['human_assistance_requested'] = false
     conversation.update!(custom_attributes: attrs, assignee_id: nil)
   end
 

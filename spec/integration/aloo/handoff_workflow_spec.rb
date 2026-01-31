@@ -52,13 +52,13 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
     # The status change is tested in spec/tools/handoff_tool_spec.rb
   end
 
-  describe 'handoff flag management' do
-    context 'when handoff is active' do
+  describe 'human assignee as handoff gate' do
+    context 'when human agent is assigned' do
       before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(assignee: agent)
       end
 
-      it 'blocks AI responses when handoff active' do
+      it 'blocks AI responses when human assigned' do
         allow(ConversationAgent).to receive(:call)
 
         message = create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
@@ -69,7 +69,7 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
         AlooAgentListener.instance.message_created(event)
       end
 
-      it 'clears handoff flag when conversation reopened' do
+      it 'clears assignee when conversation reopened from resolved' do
         event = Events::Base.new(
           'conversation.status_changed',
           Time.zone.now,
@@ -79,11 +79,11 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
 
         AlooAgentListener.instance.conversation_status_changed(event)
 
-        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be false
+        expect(conversation.reload.assignee).to be_nil
       end
 
-      it 'allows AI responses after handoff cleared' do
-        # First, clear the handoff
+      it 'allows AI responses after assignee cleared on reopen' do
+        # First, reopen to clear assignee
         clear_event = Events::Base.new(
           'conversation.status_changed',
           Time.zone.now,
@@ -126,7 +126,7 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
       Aloo::Current.reset
     end
 
-    it 'AI tool only requests assistance, does not set aloo_handoff_active' do
+    it 'AI tool only requests assistance, does not assign a human' do
       tool = HandoffTool.new
 
       tool.execute(
@@ -134,9 +134,9 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
         priority: 'normal'
       )
 
-      # AI can only request assistance - cannot trigger true handoff
+      # AI can only request assistance - cannot assign humans
       expect(conversation.reload.custom_attributes['human_assistance_requested']).to be true
-      expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be_nil
+      expect(conversation.reload.assignee).to be_nil
     end
 
     it 'AI tool does not assign conversation to any agent' do
@@ -169,19 +169,16 @@ RSpec.describe 'Aloo Handoff Workflow', type: :integration do
     end
   end
 
-  describe 'only human agent can trigger true handoff' do
-    it 'sets aloo_handoff_active when human agent sends message' do
-      # Agent sends a message to AI-handled conversation
-      message = create(:message,
-                       conversation: conversation,
-                       message_type: :outgoing,
-                       sender: agent,
-                       content: 'Let me help you')
+  describe 'only human self-assignment stops AI' do
+    it 'AI stops responding when human agent assigns themselves' do
+      conversation.update!(assignee: agent)
 
-      Aloo::AgentHandoffService.new(message).perform
+      message = create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
+      event = Events::Base.new('message.created', Time.zone.now, message: message)
 
-      expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be true
-      expect(conversation.reload.assignee).to eq(agent)
+      expect(Aloo::ResponseJob).not_to receive(:perform_later)
+
+      AlooAgentListener.instance.message_created(event)
     end
   end
 end

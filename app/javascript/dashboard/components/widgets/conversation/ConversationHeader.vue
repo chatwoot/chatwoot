@@ -99,16 +99,9 @@ const isAssignedToAI = computed(() => assignedAgent.value?.is_ai === true);
 
 // Aloo AI Assistant handling
 const alooAssistant = computed(() => props.chat.aloo_assistant);
-const isAlooHandoffActive = computed(
-  () => props.chat.custom_attributes?.aloo_handoff_active === true
-);
 const isAlooAIHandling = computed(() => {
-  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
-  return (
-    alooAssistant.value?.active &&
-    !isAlooHandoffActive.value &&
-    !assignedAgent.value
-  );
+  // AI is handling if: inbox has active Aloo assistant AND no human assignee
+  return alooAssistant.value?.active && !assignedAgent.value;
 });
 
 // Human assistance requested (customer asked for human, AI still responding)
@@ -162,11 +155,7 @@ const humanAssistanceReason = computed(
             "
           />
           <HumanAssistanceRequestedBadge
-            v-if="
-              isHumanAssistanceRequested &&
-              !isAlooHandoffActive &&
-              !assignedAgent
-            "
+            v-if="isHumanAssistanceRequested && !assignedAgent"
             :reason="humanAssistanceReason"
           />
           <AIAssignmentToggle

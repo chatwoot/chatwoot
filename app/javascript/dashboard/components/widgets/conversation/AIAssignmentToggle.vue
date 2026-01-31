@@ -28,17 +28,9 @@ const hasAlooAssistant = computed(
   () => alooAssistant.value?.id && alooAssistant.value?.active
 );
 const assignedAgent = computed(() => props.chat.meta?.assignee);
-const isAlooHandoffActive = computed(
-  () => props.chat.custom_attributes?.aloo_handoff_active === true
-);
-
 const isAlooAIHandling = computed(() => {
-  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
-  return (
-    alooAssistant.value?.active &&
-    !isAlooHandoffActive.value &&
-    !assignedAgent.value
-  );
+  // AI is handling if: inbox has active Aloo assistant AND no human assignee
+  return alooAssistant.value?.active && !assignedAgent.value;
 });
 
 // Toggle button state
@@ -55,13 +47,6 @@ const buttonIcon = computed(() =>
 // Actions
 const assignToAI = async () => {
   try {
-    await store.dispatch('updateCustomAttributes', {
-      conversationId: props.chat.id,
-      customAttributes: {
-        ...props.chat.custom_attributes,
-        aloo_handoff_active: false,
-      },
-    });
     await store.dispatch('assignAgent', {
       conversationId: props.chat.id,
       agentId: null,
@@ -75,14 +60,16 @@ const assignToAI = async () => {
 const takeOver = async () => {
   try {
     const currentUser = store.getters.getCurrentUser;
-    await store.dispatch('updateCustomAttributes', {
-      conversationId: props.chat.id,
-      customAttributes: {
-        ...props.chat.custom_attributes,
-        aloo_handoff_active: true,
-        human_assistance_requested: false, // Clear the flag on takeover
-      },
-    });
+    // Clear human_assistance_requested on takeover
+    if (props.chat.custom_attributes?.human_assistance_requested) {
+      await store.dispatch('updateCustomAttributes', {
+        conversationId: props.chat.id,
+        customAttributes: {
+          ...props.chat.custom_attributes,
+          human_assistance_requested: false,
+        },
+      });
+    }
     await store.dispatch('assignAgent', {
       conversationId: props.chat.id,
       agentId: currentUser.id,

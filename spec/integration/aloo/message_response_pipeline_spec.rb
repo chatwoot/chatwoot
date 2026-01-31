@@ -99,18 +99,6 @@ RSpec.describe 'Aloo Message Response Pipeline', type: :integration do
   end
 
   describe 'message not processed when' do
-    it 'handoff is active' do
-      conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
-      message = create(:message, conversation: conversation, message_type: :incoming, content: 'Hello')
-      event = Events::Base.new('message.created', Time.zone.now, message: message)
-
-      expect {
-        perform_enqueued_jobs do
-          AlooAgentListener.instance.message_created(event)
-        end
-      }.not_to change { conversation.messages.where(message_type: :outgoing).count }
-    end
-
     it 'human agent is assigned' do
       agent = create(:user, account: account)
       conversation.update!(assignee: agent)

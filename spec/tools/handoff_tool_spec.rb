@@ -52,7 +52,7 @@ RSpec.describe HandoffTool, :aloo do
         tool.execute(reason: 'Customer requested human')
 
         # This is critical: AI must NOT be able to stop itself from responding
-        # Only human agents can trigger true handoff via AgentHandoffService
+        # Only human self-assignment can stop AI from responding
         expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be_nil
       end
 

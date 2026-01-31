@@ -51,16 +51,9 @@ const isCurrentUserHuman = computed(() => !currentUser.value?.is_ai);
 
 // Aloo AI Assistant handling
 const alooAssistant = computed(() => currentChat.value?.aloo_assistant);
-const isAlooHandoffActive = computed(
-  () => currentChat.value?.custom_attributes?.aloo_handoff_active === true
-);
 const isAlooAIHandling = computed(() => {
-  // AI is handling if: inbox has active Aloo assistant AND handoff is not active AND no human assignee
-  return (
-    alooAssistant.value?.active &&
-    !isAlooHandoffActive.value &&
-    !assignedAgent.value
-  );
+  // AI is handling if: inbox has active Aloo assistant AND no human assignee
+  return alooAssistant.value?.active && !assignedAgent.value;
 });
 const hasAlooAssistant = computed(
   () => alooAssistant.value?.id && alooAssistant.value?.active
@@ -92,13 +85,9 @@ const showHumanAssistanceRequestedBanner = computed(() => {
   );
 });
 
-// Show "Return to AI" banner when human is handling (has assignee or handoff active)
+// Show "Return to AI" banner when human is handling (has human assignee)
 const isHumanHandling = computed(() => {
-  // Human is handling if: there's a handoff flag OR there's a human assignee
-  return (
-    isAlooHandoffActive.value ||
-    (assignedAgent.value && !assignedAgent.value.is_ai)
-  );
+  return assignedAgent.value && !assignedAgent.value.is_ai;
 });
 
 const showAlooReturnToAIBanner = computed(() => {
@@ -179,19 +168,9 @@ const onClickBotHandoff = async () => {
   }
 };
 
-// Aloo: Return conversation to AI (clear handoff flag, unassign)
+// Aloo: Return conversation to AI (unassign human)
 const onClickAlooReturnToAI = async () => {
   try {
-    // Clear the handoff flag to let AI respond again
-    await store.dispatch('updateCustomAttributes', {
-      conversationId: currentChat.value?.id,
-      customAttributes: {
-        ...currentChat.value?.custom_attributes,
-        aloo_handoff_active: false,
-        aloo_handoff_cleared_at: new Date().toISOString(),
-      },
-    });
-    // Unassign the conversation
     assignedAgent.value = null;
     useAlert(t('CONVERSATION.ALOO.RETURN_TO_AI_SUCCESS'));
   } catch (error) {
@@ -199,17 +178,9 @@ const onClickAlooReturnToAI = async () => {
   }
 };
 
-// Aloo: Assign conversation to AI (clear handoff flag, unassign)
+// Aloo: Assign conversation to AI (unassign human)
 const onClickAlooAssignToAI = async () => {
   try {
-    await store.dispatch('updateCustomAttributes', {
-      conversationId: currentChat.value?.id,
-      customAttributes: {
-        ...currentChat.value?.custom_attributes,
-        aloo_handoff_active: false,
-      },
-    });
-    // Unassign the conversation to let AI handle it
     assignedAgent.value = null;
     useAlert(t('CONVERSATION.ALOO.ASSIGN_TO_AI_SUCCESS'));
   } catch (error) {
@@ -217,20 +188,18 @@ const onClickAlooAssignToAI = async () => {
   }
 };
 
-// Take over from human assistance request: sets handoff flag, clears assistance request, assigns to current user
+// Take over from human assistance request: clears assistance request, assigns to current user
 const onClickTakeOverFromAssistanceRequest = async () => {
   try {
-    // Set aloo_handoff_active and clear human_assistance_requested
     await store.dispatch('updateCustomAttributes', {
       conversationId: currentChat.value?.id,
       customAttributes: {
         ...currentChat.value?.custom_attributes,
-        aloo_handoff_active: true,
         human_assistance_requested: false,
         human_assistance_handled_at: new Date().toISOString(),
       },
     });
-    // Assign to current user
+    // Assign to current user (this alone stops AI from responding)
     await selfAssignConversation();
     useAlert(t('CONVERSATION.ALOO.TAKE_OVER_SUCCESS'));
   } catch (error) {

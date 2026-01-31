@@ -66,9 +66,9 @@ RSpec.describe AlooAgentListener do
       end
     end
 
-    context 'when handoff is active but no human assignee' do
+    context 'when human_assistance_requested but no human assignee' do
       before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(custom_attributes: { 'human_assistance_requested' => true })
       end
 
       it 'still enqueues job (AI keeps responding until human assigned)' do
@@ -154,12 +154,14 @@ RSpec.describe AlooAgentListener do
   end
 
   describe '#conversation_status_changed' do
-    context 'when reopened from handoff' do
+    context 'when reopened from resolved' do
+      let(:agent) { create(:user, account: account) }
+
       before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(assignee: agent, custom_attributes: { 'human_assistance_requested' => true })
       end
 
-      it 'clears handoff flag' do
+      it 'clears assignee' do
         event = Events::Base.new(
           'conversation.status_changed',
           Time.zone.now,
@@ -169,10 +171,10 @@ RSpec.describe AlooAgentListener do
 
         listener.conversation_status_changed(event)
 
-        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be false
+        expect(conversation.reload.assignee).to be_nil
       end
 
-      it 'sets cleared_at timestamp' do
+      it 'clears human_assistance_requested' do
         event = Events::Base.new(
           'conversation.status_changed',
           Time.zone.now,
@@ -180,11 +182,9 @@ RSpec.describe AlooAgentListener do
           changed_attributes: { 'status' => %w[resolved open] }
         )
 
-        freeze_time do
-          listener.conversation_status_changed(event)
+        listener.conversation_status_changed(event)
 
-          expect(conversation.reload.custom_attributes['aloo_handoff_cleared_at']).to eq(Time.current.iso8601)
-        end
+        expect(conversation.reload.custom_attributes['human_assistance_requested']).to be false
       end
     end
 
@@ -204,11 +204,13 @@ RSpec.describe AlooAgentListener do
     end
 
     context 'when status not changed to open' do
+      let(:agent) { create(:user, account: account) }
+
       before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(assignee: agent)
       end
 
-      it 'does not clear handoff flag' do
+      it 'does not clear assignee' do
         event = Events::Base.new(
           'conversation.status_changed',
           Time.zone.now,
@@ -218,7 +220,7 @@ RSpec.describe AlooAgentListener do
 
         listener.conversation_status_changed(event)
 
-        expect(conversation.reload.custom_attributes['aloo_handoff_active']).to be true
+        expect(conversation.reload.assignee).to eq(agent)
       end
     end
 

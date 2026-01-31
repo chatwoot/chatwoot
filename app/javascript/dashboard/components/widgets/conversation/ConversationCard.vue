@@ -124,10 +124,7 @@ const isHumanAssistanceRequested = computed(
 
 // Check if a human is handling the conversation (handoff active or has human assignee)
 const isHumanHandling = computed(() => {
-  return (
-    props.chat.custom_attributes?.aloo_handoff_active === true ||
-    props.chat.meta?.assignee != null
-  );
+  return props.chat.meta?.assignee != null;
 });
 
 const messagePreviewClass = computed(() => {

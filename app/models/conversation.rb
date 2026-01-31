@@ -219,11 +219,6 @@ class Conversation < ApplicationRecord
       .last(limit)
   end
 
-  # Check if AI handoff to human is active
-  def aloo_handoff_active?
-    custom_attributes&.dig('aloo_handoff_active') == true
-  end
-
   # Check if customer has requested human assistance (AI continues responding)
   def human_assistance_requested?
     custom_attributes&.dig('human_assistance_requested') == true
