@@ -47,7 +47,8 @@ module CatalogSupport
     products.each do |product|
       title = product.title_en.presence || product.title_ar
       price = format('%.2f', product.price)
-      lines << "- #{title} (ID: #{product.id}) - #{price} #{currency}"
+      stock_info = product.stock.nil? ? 'In Stock' : "#{product.stock} left"
+      lines << "- #{title} (ID: #{product.id}) - #{price} #{currency} [#{stock_info}]"
     end
 
     lines.join("\n")
