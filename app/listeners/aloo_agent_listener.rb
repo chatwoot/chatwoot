@@ -79,10 +79,8 @@ class AlooAgentListener < BaseListener
     true
   end
 
-  def assignee_is_bot?(_conversation)
-    # Check if the assignee is the aloo assistant (not a human)
-    # For now, we don't assign aloo to conversations, so any assignee means human
-    false
+  def assignee_is_bot?(conversation)
+    conversation.assignee&.try(:is_ai?) || false
   end
 
   def reset_for_ai_handling(conversation)
@@ -90,8 +88,8 @@ class AlooAgentListener < BaseListener
     return unless assistant&.active?
 
     attrs = conversation.custom_attributes&.dup || {}
-    attrs['aloo_handoff_active'] = false
-    attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
+    attrs.delete('aloo_handoff_active')
+    attrs['human_assistance_requested'] = false
 
     conversation.update!(custom_attributes: attrs, assignee: nil)
   end

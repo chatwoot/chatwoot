@@ -69,13 +69,9 @@ module Aloo
       assistant = conversation.inbox.aloo_assistant
 
       return unless assistant&.active?
-      return if handoff_active?(conversation)
+      return if conversation.assignee.present? && !conversation.assignee.try(:is_ai?)
 
       Aloo::ResponseJob.perform_later(conversation.id, @message.id)
-    end
-
-    def handoff_active?(conversation)
-      conversation.custom_attributes&.dig('aloo_handoff_active') == true
     end
   end
 end

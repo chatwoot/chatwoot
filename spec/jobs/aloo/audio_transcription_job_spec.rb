@@ -145,7 +145,7 @@ RSpec.describe Aloo::AudioTranscriptionJob, type: :job do
       before do
         allow(Aloo::AudioTranscriptionService).to receive(:new).and_return(service)
         allow(service).to receive(:perform).and_return({ success: true, transcription: 'Hello' })
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(assignee: create(:user, account: account))
       end
 
       it 'does not trigger AI response' do

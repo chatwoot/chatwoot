@@ -42,9 +42,11 @@ RSpec.describe Aloo::ResponseJob, type: :job do
       end
     end
 
-    context 'when handoff is active' do
+    context 'when human agent is assigned' do
+      let(:agent) { create(:user, account: account) }
+
       before do
-        conversation.update!(custom_attributes: { 'aloo_handoff_active' => true })
+        conversation.update!(assignee: agent)
       end
 
       it 'returns early' do

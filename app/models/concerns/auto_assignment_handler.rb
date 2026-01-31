@@ -25,11 +25,8 @@ module AutoAssignmentHandler
 
   def should_run_auto_assignment?
     return false unless inbox.enable_auto_assignment?
+    return false if inbox.active_aloo_assistant?
 
-    # Don't auto-assign when Aloo AI should handle the conversation
-    return false if inbox.active_aloo_assistant? && !aloo_handoff_active?
-
-    # run only if assignee is blank or doesn't have access to inbox
     assignee.blank? || inbox.members.exclude?(assignee)
   end
 end

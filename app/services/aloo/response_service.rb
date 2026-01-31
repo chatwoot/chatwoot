@@ -21,7 +21,11 @@ class Aloo::ResponseService
   private
 
   def processable?
-    @assistant&.active? && !@conversation.aloo_handoff_active? && @message.incoming?
+    @assistant&.active? && !human_assigned? && @message.incoming?
+  end
+
+  def human_assigned?
+    @conversation.assignee.present? && !@conversation.assignee.try(:is_ai?)
   end
 
   def with_context

@@ -422,8 +422,8 @@ class Message < ApplicationRecord
 
   def reset_for_aloo_ai_handling
     attrs = conversation.custom_attributes&.dup || {}
-    attrs['aloo_handoff_active'] = false
-    attrs['aloo_handoff_cleared_at'] = Time.current.iso8601
+    attrs.delete('aloo_handoff_active')
+    attrs['human_assistance_requested'] = false
     conversation.update!(custom_attributes: attrs, assignee_id: nil)
   end
 
