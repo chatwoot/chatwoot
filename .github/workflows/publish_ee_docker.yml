@@ -7,12 +7,6 @@
 name: Publish Chatwoot EE docker images
 
 on:
-  push:
-    branches:
-      - develop
-      - master
-    tags:
-      - v*
   workflow_dispatch:
 
 env:
