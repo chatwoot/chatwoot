@@ -70,6 +70,7 @@ class CreateCartTool < BaseTool
 
       product = current_account.products.find_by(id: product_id)
       raise ArgumentError, "Product with ID #{product_id} not found" unless product
+      raise ArgumentError, "'#{product.title_en}' is out of stock (#{product.stock} available, requested #{quantity})" unless product.in_stock?(quantity.to_i)
 
       { product_id: product_id.to_i, quantity: quantity.to_i }
     end

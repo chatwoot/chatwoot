@@ -30,7 +30,7 @@ class Api::V1::Accounts::ProductsController < Api::V1::Accounts::BaseController
   end
 
   def product_params
-    params.require(:product).permit(:title_en, :title_ar, :description_en, :description_ar, :price)
+    params.require(:product).permit(:title_en, :title_ar, :description_en, :description_ar, :price, :stock)
   end
 
   def process_attached_image

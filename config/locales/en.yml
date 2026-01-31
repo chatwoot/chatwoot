@@ -51,6 +51,8 @@ en:
   errors:
     validations:
       presence: must not be blank
+    products:
+      out_of_stock: "'%{title}' is out of stock"
     webhook:
       invalid: Invalid events
     signup:

@@ -50,6 +50,7 @@ class Cart < ApplicationRecord
   before_validation :generate_external_payment_id
   before_validation :calculate_totals
   after_update :sync_message_status, if: :saved_change_to_status?
+  after_update :restore_stock_on_terminal_status, if: :saved_change_to_status?
 
   enum status: {
     initiated: 0,
@@ -164,6 +165,14 @@ class Cart < ApplicationRecord
 
     self.subtotal = cart_items.sum { |item| item.unit_price.to_d * item.quantity.to_i }
     self.total = subtotal
+  end
+
+  def restore_stock_on_terminal_status
+    return unless failed? || cancelled? || expired?
+
+    cart_items.includes(:product).find_each do |item|
+      item.product.restore_stock!(item.quantity)
+    end
   end
 
   def sync_message_status

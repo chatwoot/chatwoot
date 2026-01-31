@@ -67,6 +67,7 @@ class Carts::CreateService
       product = Product.find_by(id: item[:product_id], account_id: account.id)
       raise ArgumentError, "Product #{item[:product_id]} not found" unless product
       raise ArgumentError, 'Quantity must be positive' if item[:quantity].to_i <= 0
+      raise ArgumentError, I18n.t('errors.products.out_of_stock', title: product.title_en) unless product.in_stock?(item[:quantity].to_i)
     end
   end
 
@@ -98,6 +99,7 @@ class Carts::CreateService
     end
 
     cart.save!
+    deduct_stock_for_items!
     cart
   end
 
@@ -204,6 +206,13 @@ class Carts::CreateService
         }
       end
     }
+  end
+
+  def deduct_stock_for_items!
+    items.each do |item|
+      product = Product.find(item[:product_id])
+      product.deduct_stock!(item[:quantity].to_i) unless product.stock.nil?
+    end
   end
 
   def customer_data

@@ -237,6 +237,11 @@ onMounted(() => {
                     {{ t('CATALOG.TABLE.PRICE') }}
                   </th>
                   <th
+                    class="w-px py-3 text-xs font-semibold tracking-wide text-left uppercase ltr:pr-4 rtl:pl-4 text-n-slate-11"
+                  >
+                    {{ t('CATALOG.TABLE.STOCK') }}
+                  </th>
+                  <th
                     class="w-px py-3 text-xs font-semibold tracking-wide text-right uppercase text-n-slate-11"
                   >
                     {{ t('CATALOG.TABLE.ACTIONS') }}
@@ -269,6 +274,11 @@ onMounted(() => {
                   <td class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap">
                     <span class="font-medium text-n-slate-12">
                       {{ formatPrice(product.price) }}
+                    </span>
+                  </td>
+                  <td class="py-4 ltr:pr-4 rtl:pl-4 whitespace-nowrap">
+                    <span class="font-medium text-n-slate-12">
+                      {{ product.stock != null ? product.stock : '∞' }}
                     </span>
                   </td>
                   <td class="py-4">
