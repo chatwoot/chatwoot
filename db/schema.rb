@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_31_000002) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -293,6 +293,43 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  create_table "captain_agent_runs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id"
+    t.bigint "inbox_id"
+    t.bigint "conversation_id"
+    t.string "trigger"
+    t.string "status", default: "started", null: false
+    t.string "idempotency_key"
+    t.jsonb "metadata", default: {}
+    t.datetime "started_at"
+    t.datetime "finished_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["idempotency_key"], name: "index_captain_agent_runs_on_idempotency_key", unique: true
+  end
+
+  create_table "captain_assistant_mcp_servers", force: :cascade do |t|
+    t.bigint "captain_assistant_id", null: false
+    t.bigint "captain_mcp_server_id", null: false
+    t.jsonb "tool_filters", default: {}
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["captain_assistant_id", "captain_mcp_server_id"], name: "idx_captain_assistant_mcp_server_unique", unique: true
+    t.index ["captain_assistant_id"], name: "index_captain_assistant_mcp_servers_on_captain_assistant_id"
+    t.index ["captain_mcp_server_id"], name: "index_captain_assistant_mcp_servers_on_captain_mcp_server_id"
+  end
+
+  create_table "captain_assistant_mcp_tools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.bigint "captain_mcp_tool_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assistant_id", "captain_mcp_tool_id"], name: "idx_captain_assistant_mcp_tools_unique", unique: true
+  end
+
   create_table "captain_assistant_responses", force: :cascade do |t|
     t.string "question", null: false
     t.text "answer", null: false
@@ -358,6 +395,24 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["status"], name: "index_captain_documents_on_status"
   end
 
+  create_table "captain_followups", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "conversation_id", null: false
+    t.bigint "captain_assistant_id", null: false
+    t.datetime "scheduled_at", null: false
+    t.string "status", default: "pending", null: false
+    t.string "cancel_reason"
+    t.jsonb "payload"
+    t.string "idempotency_key"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_followups_on_account_id"
+    t.index ["captain_assistant_id"], name: "index_captain_followups_on_captain_assistant_id"
+    t.index ["conversation_id", "status"], name: "index_captain_followups_on_conversation_id_and_status"
+    t.index ["conversation_id"], name: "index_captain_followups_on_conversation_id"
+    t.index ["scheduled_at"], name: "index_captain_followups_on_scheduled_at"
+  end
+
   create_table "captain_inboxes", force: :cascade do |t|
     t.bigint "captain_assistant_id", null: false
     t.bigint "inbox_id", null: false
@@ -366,6 +421,38 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
     t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
+  end
+
+  create_table "captain_mcp_servers", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.text "description"
+    t.string "url", null: false
+    t.string "auth_type", default: "none"
+    t.jsonb "auth_config", default: {}
+    t.boolean "enabled", default: true, null: false
+    t.string "status", default: "disconnected"
+    t.text "last_error"
+    t.datetime "last_connected_at"
+    t.jsonb "cached_tools", default: []
+    t.datetime "cache_refreshed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "enabled"], name: "index_captain_mcp_servers_on_account_id_and_enabled"
+    t.index ["account_id", "slug"], name: "index_captain_mcp_servers_on_account_id_and_slug", unique: true
+    t.index ["account_id"], name: "index_captain_mcp_servers_on_account_id"
+  end
+
+  create_table "captain_mcp_tools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "captain_mcp_server_id", null: false
+    t.string "tool_name", null: false
+    t.jsonb "tool_schema", default: {}
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["captain_mcp_server_id", "tool_name"], name: "idx_captain_mcp_tools_unique_tool", unique: true
   end
 
   create_table "captain_scenarios", force: :cascade do |t|
@@ -1180,6 +1267,17 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.index ["name"], name: "index_tags_on_name", unique: true
   end
 
+  create_table "team_chat_messages", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.text "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_team_chat_messages_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_team_chat_messages_on_account_id"
+    t.index ["user_id"], name: "index_team_chat_messages_on_user_id"
+  end
+
   create_table "team_members", force: :cascade do |t|
     t.bigint "team_id", null: false
     t.bigint "user_id", null: false
@@ -1231,7 +1329,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
     t.text "message_signature"
     t.string "otp_secret"
     t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: false
+    t.boolean "otp_required_for_login", default: false, null: false
     t.text "otp_backup_codes"
     t.index ["email"], name: "index_users_on_email"
     t.index ["otp_required_for_login"], name: "index_users_on_otp_required_for_login"
@@ -1271,7 +1369,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "captain_followups", "accounts"
+  add_foreign_key "captain_followups", "captain_assistants"
+  add_foreign_key "captain_followups", "conversations"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "team_chat_messages", "accounts"
+  add_foreign_key "team_chat_messages", "users"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).
