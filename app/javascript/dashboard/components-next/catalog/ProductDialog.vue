@@ -39,6 +39,7 @@ const form = ref({
   description_en: '',
   description_ar: '',
   price: '',
+  stock: '',
 });
 
 const imageFile = ref(null);
@@ -87,6 +88,7 @@ const resetForm = () => {
     description_en: '',
     description_ar: '',
     price: '',
+    stock: '',
   };
   imageFile.value = null;
   imagePreviewUrl.value = '';
@@ -103,6 +105,7 @@ const populateForm = () => {
       description_en: props.product.description_en || '',
       description_ar: props.product.description_ar || '',
       price: props.product.price || '',
+      stock: props.product.stock != null ? props.product.stock : '',
     };
     existingImageUrl.value = props.product.image_url || '';
     imageFile.value = null;
@@ -158,6 +161,8 @@ const handleSubmit = async () => {
     isUploading.value = false;
   }
 
+  const stockValue = form.value.stock === '' ? null : Number(form.value.stock);
+
   emit('submit', {
     product: {
       title_en: form.value.title_en,
@@ -165,6 +170,7 @@ const handleSubmit = async () => {
       description_en: form.value.description_en,
       description_ar: form.value.description_ar,
       price: Number(form.value.price),
+      stock: stockValue,
     },
     blobId,
   });
@@ -286,6 +292,16 @@ watch(
         :placeholder="t('CATALOG.FORM.DESCRIPTION_AR.PLACEHOLDER')"
         rows="3"
         dir="rtl"
+      />
+
+      <!-- Stock -->
+      <Input
+        v-model="form.stock"
+        type="number"
+        :label="t('CATALOG.FORM.STOCK.LABEL')"
+        :placeholder="t('CATALOG.FORM.STOCK.PLACEHOLDER')"
+        min="0"
+        step="1"
       />
 
       <!-- Price and Currency Row -->

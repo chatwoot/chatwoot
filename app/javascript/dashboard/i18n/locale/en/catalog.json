@@ -16,6 +16,7 @@
       "IMAGE": "Image",
       "TITLE": "Title",
       "PRICE": "Price",
+      "STOCK": "Stock",
       "ACTIONS": "Actions"
     },
     "ACTIONS": {
@@ -47,6 +48,10 @@
       "PRICE": {
         "LABEL": "Price",
         "PLACEHOLDER": "0.00"
+      },
+      "STOCK": {
+        "LABEL": "Stock",
+        "PLACEHOLDER": "Leave empty for unlimited"
       },
       "CURRENCY": {
         "LABEL": "Currency",
