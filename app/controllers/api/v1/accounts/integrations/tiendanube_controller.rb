@@ -24,19 +24,14 @@ class Api::V1::Accounts::Integrations::TiendanubeController < Api::V1::Accounts:
     # Try to fetch from cache first
     cache_key = "tiendanube_orders_#{Current.account.id}_#{params[:contact_id]}"
     cached_orders = Rails.cache.read(cache_key)
-    
-    if cached_orders
-      return render json: { orders: cached_orders, cached: true }
-    end
+    return render json: { orders: cached_orders, cached: true } if cached_orders
 
     customers = fetch_customers
     return render json: { orders: [] } if customers.empty?
 
     orders = fetch_orders(customers.first['id'])
-    
     # Cache orders for 5 minutes
     Rails.cache.write(cache_key, orders, expires_in: 5.minutes)
-    
     render json: { orders: orders, cached: false }
   rescue StandardError => e
     Rails.logger.error("Tiendanube orders error: #{e.message}")
@@ -46,7 +41,7 @@ class Api::V1::Accounts::Integrations::TiendanubeController < Api::V1::Accounts:
   def destroy
     # Clear all cached orders for this account
     clear_account_cache
-    
+
     @hook.destroy!
     head :ok
   rescue StandardError => e
@@ -94,7 +89,6 @@ class Api::V1::Accounts::Integrations::TiendanubeController < Api::V1::Accounts:
     orders = response['orders'] || []
     # Limit to 20 orders as per challenge requirements
     orders = orders.first(20)
-    
     orders.map do |order|
       order.merge('admin_url' => "https://#{@hook.reference_id}.mitiendanube.com/admin/orders/#{order['id']}")
     end

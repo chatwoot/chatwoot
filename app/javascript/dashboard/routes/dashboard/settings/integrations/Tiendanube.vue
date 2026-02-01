@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -8,8 +9,6 @@ import {
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import integrationAPI from 'dashboard/api/integrations';
-
-import Input from 'dashboard/components-next/input/Input.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -20,13 +19,17 @@ defineProps({
   },
 });
 
+const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
 const integrationLoaded = ref(false);
 const storeId = ref('');
 const isSubmitting = ref(false);
 const storeIdError = ref('');
-const integration = useFunctionGetter('integrations/getIntegration', 'tiendanube');
+const integration = useFunctionGetter(
+  'integrations/getIntegration',
+  'tiendanube'
+);
 const uiFlags = useMapGetter('integrations/getUIFlags');
 
 const integrationAction = computed(() => {
@@ -58,8 +61,9 @@ const handleStoreIdSubmit = async () => {
   try {
     storeIdError.value = '';
     if (!validateStoreId(storeId.value)) {
-      storeIdError.value =
-        'Please enter a valid Tiendanube store ID';
+      storeIdError.value = t(
+        'INTEGRATION_SETTINGS.TIENDANUBE.STORE_ID.VALIDATION_ERROR'
+      );
       return;
     }
 
@@ -130,7 +134,7 @@ onMounted(() => {
         <template #description>
           <div class="flex flex-col gap-4 mt-4">
             <p class="text-sm text-n-slate-11 mb-2">
-              Access order details and customer data from your Tiendanube store.
+              {{ $t('INTEGRATION_SETTINGS.TIENDANUBE.STORE_ID.DESCRIPTION') }}
             </p>
             <div class="flex flex-col gap-2">
               <label class="text-sm font-medium text-n-slate-12">
@@ -139,7 +143,9 @@ onMounted(() => {
               <input
                 v-model="storeId"
                 type="text"
-                :placeholder="$t('INTEGRATION_SETTINGS.TIENDANUBE.STORE_ID.PLACEHOLDER')"
+                :placeholder="
+                  $t('INTEGRATION_SETTINGS.TIENDANUBE.STORE_ID.PLACEHOLDER')
+                "
                 class="w-full px-3 py-2 text-sm border rounded-md bg-n-alpha-3 border-n-weak text-n-slate-12 placeholder-n-slate-9 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <p v-if="!storeIdError" class="text-xs text-n-slate-11">

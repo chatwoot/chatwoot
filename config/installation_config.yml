@@ -379,6 +379,19 @@
   type: secret
 # ------- End of Shopify Related Config ------- #
 
+# ------- Tiendanube Integration Config ------- #
+- name: TIENDANUBE_CLIENT_ID
+  display_title: 'Tiendanube Client ID'
+  description: 'The Client ID (App ID) from your Tiendanube Partners account'
+  locked: false
+  type: secret
+- name: TIENDANUBE_CLIENT_SECRET
+  display_title: 'Tiendanube Client Secret'
+  description: 'The Client Secret from your Tiendanube Partners account'
+  locked: false
+  type: secret
+# ------- End of Tiendanube Related Config ------- #
+
 # ------- Instagram Channel Related Config ------- #
 - name: INSTAGRAM_APP_ID
   display_title: 'Instagram App ID'

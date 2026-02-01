@@ -11,26 +11,35 @@ RSpec.describe Tiendanube::CallbacksController, type: :controller do
   before do
     allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_ID', nil).and_return(client_id)
     allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_SECRET', nil).and_return(client_secret)
-    allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('http://localhost:3000')
+  end
+
+  around do |example|
+    with_modified_env FRONTEND_URL: 'http://localhost:3000', HELPCENTER_URL: 'http://localhost:3000' do
+      example.run
+    end
   end
 
   describe 'GET #show' do
     context 'with valid OAuth callback' do
       let(:state) { JWT.encode({ sub: account.id, iat: Time.current.to_i }, client_secret, 'HS256') }
+      let(:parsed_body) do
+        {
+          'access_token' => access_token,
+          'user_id' => user_id,
+          'scope' => 'read_customers read_orders'
+        }
+      end
       let(:oauth_response) do
-        double(
-          response: double(
-            parsed: {
-              'access_token' => access_token,
-              'user_id' => user_id,
-              'scope' => 'read_customers read_orders'
-            }
-          )
+        instance_double(
+          OAuth2::AccessToken,
+          response: instance_double(OAuth2::Response, parsed: parsed_body)
         )
       end
+      let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode, get_token: oauth_response) }
+      let(:oauth_client) { instance_double(OAuth2::Client, auth_code: auth_code_strategy) }
 
       before do
-        allow_any_instance_of(OAuth2::Client).to receive_message_chain(:auth_code, :get_token).and_return(oauth_response)
+        allow(controller).to receive(:oauth_client).and_return(oauth_client)
       end
 
       it 'creates a new integration hook' do
@@ -63,9 +72,12 @@ RSpec.describe Tiendanube::CallbacksController, type: :controller do
 
     context 'when OAuth exchange fails' do
       let(:state) { JWT.encode({ sub: account.id, iat: Time.current.to_i }, client_secret, 'HS256') }
+      let(:auth_code_strategy) { instance_double(OAuth2::Strategy::AuthCode) }
+      let(:oauth_client) { instance_double(OAuth2::Client, auth_code: auth_code_strategy) }
 
       before do
-        allow_any_instance_of(OAuth2::Client).to receive_message_chain(:auth_code, :get_token).and_raise(StandardError, 'OAuth error')
+        allow(controller).to receive(:oauth_client).and_return(oauth_client)
+        allow(auth_code_strategy).to receive(:get_token).and_raise(StandardError, 'OAuth error')
       end
 
       it 'redirects with error' do

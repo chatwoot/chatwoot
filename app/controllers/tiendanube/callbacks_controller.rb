@@ -12,13 +12,14 @@ class Tiendanube::CallbacksController < ApplicationController
     handle_response
   rescue StandardError => e
     Rails.logger.error("Tiendanube callback error: #{e.message}")
-    redirect_to "#{redirect_uri}?error=true"
+    redirect_to "#{redirect_uri}?error=true", allow_other_host: true
   end
 
   private
 
   def verify_account!
     @account_id = verify_tiendanube_token(params[:state])
+    raise StandardError, 'Invalid state parameter' if @account_id.blank?
     raise StandardError, 'Invalid state parameter' if account.blank?
   end
 
@@ -33,7 +34,7 @@ class Tiendanube::CallbacksController < ApplicationController
       }
     )
 
-    redirect_to tiendanube_integration_url
+    redirect_to tiendanube_integration_url, allow_other_host: true
   end
 
   def parsed_body
@@ -65,7 +66,7 @@ class Tiendanube::CallbacksController < ApplicationController
   end
 
   def redirect_uri
-    return tiendanube_integration_url if account
+    return tiendanube_integration_url if @account_id.present? && account
 
     ENV.fetch('FRONTEND_URL', nil)
   end

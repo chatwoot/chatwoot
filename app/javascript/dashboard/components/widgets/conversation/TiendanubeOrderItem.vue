@@ -34,7 +34,11 @@ const formatDate = dateString => {
           rel="noopener noreferrer"
           class="text-n-brand font-semibold hover:underline"
         >
-          Order #{{ order.number || order.id }}
+          {{
+            $t('CONVERSATION_SIDEBAR.TIENDANUBE.ORDER_NUMBER', {
+              number: order.number || order.id,
+            })
+          }}
         </a>
         <div class="text-xs text-n-slate-11 mt-1">
           {{ formatDate(order.created_at) }}
@@ -58,13 +62,21 @@ const formatDate = dateString => {
         v-if="order.payment_status"
         class="px-2 py-1 rounded-full bg-n-alpha-5 text-n-slate-12"
       >
-        Payment: {{ order.payment_status }}
+        {{
+          $t('CONVERSATION_SIDEBAR.TIENDANUBE.PAYMENT_LABEL', {
+            status: order.payment_status,
+          })
+        }}
       </span>
       <span
         v-if="order.shipping_status"
         class="px-2 py-1 rounded-full bg-n-alpha-5 text-n-slate-12"
       >
-        Shipping: {{ order.shipping_status }}
+        {{
+          $t('CONVERSATION_SIDEBAR.TIENDANUBE.SHIPPING_LABEL', {
+            status: order.shipping_status,
+          })
+        }}
       </span>
     </div>
   </div>

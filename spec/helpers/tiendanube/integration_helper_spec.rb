@@ -6,8 +6,17 @@ RSpec.describe Tiendanube::IntegrationHelper, type: :helper do
   let(:client_secret) { 'test_client_secret' }
 
   before do
-    allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_ID', nil).and_return(client_id)
-    allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_SECRET', nil).and_return(client_secret)
+    stub_client_id = client_id
+    stub_client_secret_val = client_secret
+    allow(GlobalConfigService).to receive(:load) do |key, default_val|
+      case key
+      when 'TIENDANUBE_CLIENT_ID' then stub_client_id
+      when 'TIENDANUBE_CLIENT_SECRET' then stub_client_secret_val
+      else default_val
+      end
+    end
+    helper.instance_variable_set(:@client_id, nil)
+    helper.instance_variable_set(:@client_secret, nil)
   end
 
   describe '#generate_tiendanube_token' do
@@ -23,10 +32,14 @@ RSpec.describe Tiendanube::IntegrationHelper, type: :helper do
       expect(decoded.first['sub']).to eq(account.id)
     end
 
-    it 'returns nil when client secret is blank' do
-      allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_SECRET', nil).and_return(nil)
-      token = helper.generate_tiendanube_token(account.id)
-      expect(token).to be_nil
+    context 'when client secret is blank' do
+      let(:client_secret) { nil }
+
+      it 'returns nil' do
+        helper.instance_variable_set(:@client_secret, nil)
+        token = helper.generate_tiendanube_token(account.id)
+        expect(token).to be_nil
+      end
     end
   end
 
@@ -47,10 +60,14 @@ RSpec.describe Tiendanube::IntegrationHelper, type: :helper do
       expect(account_id).to be_nil
     end
 
-    it 'returns nil when client secret is blank' do
-      allow(GlobalConfigService).to receive(:load).with('TIENDANUBE_CLIENT_SECRET', nil).and_return(nil)
-      account_id = helper.verify_tiendanube_token('some_token')
-      expect(account_id).to be_nil
+    context 'when client secret is blank' do
+      let(:client_secret) { nil }
+
+      it 'returns nil' do
+        helper.instance_variable_set(:@client_secret, nil)
+        account_id = helper.verify_tiendanube_token('some_token')
+        expect(account_id).to be_nil
+      end
     end
   end
 end

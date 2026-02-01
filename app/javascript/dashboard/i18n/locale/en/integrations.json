@@ -25,6 +25,8 @@
         "LABEL": "Store ID",
         "PLACEHOLDER": "123456",
         "HELP": "Enter your Tiendanube store ID (numeric value)",
+        "DESCRIPTION": "Access order details and customer data from your Tiendanube store.",
+        "VALIDATION_ERROR": "Please enter a valid Tiendanube store ID",
         "CANCEL": "Cancel",
         "SUBMIT": "Connect Store"
       },

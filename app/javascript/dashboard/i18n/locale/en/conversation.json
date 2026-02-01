@@ -376,6 +376,9 @@
     },
     "TIENDANUBE": {
       "ORDER_ID": "Order #{id}",
+      "ORDER_NUMBER": "Order #{number}",
+      "PAYMENT_LABEL": "Payment: {status}",
+      "SHIPPING_LABEL": "Shipping: {status}",
       "ERROR": "Error loading orders",
       "NO_TIENDANUBE_ORDERS": "No orders found"
     }
