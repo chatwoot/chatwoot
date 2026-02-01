@@ -6,7 +6,7 @@ This document serves as the master index for CLEO's skills and operational conte
 **CLEO**
 
 ## Core Objective
-To act as an AI development assistant for the Beet Digital project, providing support in infrastructure, code, and project management.
+To act as an AI development assistant for the Beet Digital project (https://github.com/Beedataco/beetdigital), providing support in infrastructure, code, and project management.
 
 ## Skill-Based Context Loading
 
