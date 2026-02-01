@@ -147,7 +147,7 @@
       "TITLE": "Knowledge Base Documents",
       "UPLOAD": "Upload Document",
       "DROP_FILES": "Drop files here or click to upload",
-      "SUPPORTED_FORMATS": "Supported: PDF, TXT, CSV, MD",
+      "SUPPORTED_FORMATS": "Supported: PDF, TXT, CSV, MD, XLSX, XLS, DOCX, DOC, PPTX",
       "MAX_SIZE": "Max 10MB per file",
       "EMPTY_STATE": {
         "TITLE": "No documents uploaded",
@@ -288,7 +288,7 @@
         "UPLOAD_TITLE": "Upload File",
         "UPLOAD": "Upload Document",
         "DROP_OR_CLICK": "Drop file here or click to browse",
-        "ALLOWED_TYPES": "PDF, TXT, MD, CSV (max 10MB)",
+        "ALLOWED_TYPES": "PDF, TXT, MD, CSV, XLSX, XLS, DOCX, DOC, PPTX (max 10MB)",
         "CHUNKS": "chunks",
         "CHUNK_COUNT": "· {count} chunks",
         "LIST_TITLE": "Documents"

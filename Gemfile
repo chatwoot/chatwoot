@@ -193,6 +193,10 @@ gem 'pgvector'
 gem 'reverse_markdown'
 # PDF parsing for document processing
 gem 'pdf-reader'
+# Office document parsing
+gem 'roo', '~> 2.10'
+gem 'roo-xls', '~> 1.2'
+gem 'docx', '~> 0.8'
 
 gem 'iso-639'
 gem 'ruby-openai'

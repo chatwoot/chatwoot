@@ -25,12 +25,27 @@ const acceptedTypes = [
   'text/plain',
   'text/csv',
   'text/markdown',
+  'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  'application/vnd.ms-excel',
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+  'application/msword',
+  'application/vnd.openxmlformats-officedocument.presentationml.presentation',
 ];
-const acceptedExtensions = '.pdf,.txt,.csv,.md';
+const acceptedExtensions = '.pdf,.txt,.csv,.md,.xlsx,.xls,.docx,.doc,.pptx';
 
 const isAcceptedExtension = filename => {
   const ext = filename.split('.').pop().toLowerCase();
-  return ['pdf', 'txt', 'csv', 'md'].includes(ext);
+  return [
+    'pdf',
+    'txt',
+    'csv',
+    'md',
+    'xlsx',
+    'xls',
+    'docx',
+    'doc',
+    'pptx',
+  ].includes(ext);
 };
 
 const addDocument = file => {
