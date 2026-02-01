@@ -49,6 +49,69 @@ RSpec.describe Aloo::ProcessDocumentJob, type: :job do
         end
       end
 
+      context 'with xlsx file' do
+        let(:document) { create(:aloo_document, :with_xlsx, assistant: assistant, account: account) }
+
+        it 'extracts spreadsheet content and marks as available' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined).to include('Name')
+            expect(combined).to include('Test Item')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
+      context 'with xls file' do
+        let(:document) { create(:aloo_document, :with_xls, assistant: assistant, account: account) }
+
+        it 'extracts spreadsheet content and marks as available' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined).to include('Name')
+            expect(combined).to include('Test Item')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
+      context 'with docx file' do
+        let(:document) { create(:aloo_document, :with_docx, assistant: assistant, account: account) }
+
+        it 'extracts document content and marks as available' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined).to include('Test document content for processing.')
+            expect(combined).to include('Second paragraph of test content.')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
+      context 'with pptx file' do
+        let(:document) { create(:aloo_document, :with_pptx, assistant: assistant, account: account) }
+
+        it 'extracts slide content and marks as available' do
+          allow(Aloo::Embedding).to receive(:create_from_chunks) do |chunks:, **_opts|
+            combined = chunks.join("\n")
+            expect(combined).to include('Test Slide Content')
+            []
+          end
+
+          described_class.new.perform(document.id)
+          expect(document.reload.status).to eq('available')
+        end
+      end
+
       context 'with unsupported type' do
         before do
           document.file.attach(

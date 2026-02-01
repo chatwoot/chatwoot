@@ -241,6 +241,9 @@ GEM
     digest-crc (0.6.5)
       rake (>= 12.0.0, < 14.0.0)
     docile (1.4.1)
+    docx (0.10.0)
+      nokogiri (~> 1.13, >= 1.13.0)
+      rubyzip (>= 2.0, < 4)
     domain_name (0.5.20190701)
       unf (>= 0.0.5, < 1.0.0)
     dotenv (3.1.2)
@@ -790,6 +793,13 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.4.4)
+    roo (2.10.1)
+      nokogiri (~> 1)
+      rubyzip (>= 1.3.0, < 3.0.0)
+    roo-xls (1.2.0)
+      nokogiri
+      roo (>= 2.0.0, < 3)
+      spreadsheet (> 0.9.0)
     rotp (6.3.0)
     rspec-core (3.13.0)
       rspec-support (~> 3.13.0)
@@ -840,6 +850,7 @@ GEM
     rubocop-rspec (3.6.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
+    ruby-ole (1.2.13.1)
     ruby-openai (7.3.1)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -873,6 +884,7 @@ GEM
     ruby_llm-schema (0.2.5)
     ruby_parser (3.20.0)
       sexp_processor (~> 4.16)
+    rubyzip (2.4.1)
     sass (3.7.4)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
@@ -956,6 +968,10 @@ GEM
       hashie
       version_gem (~> 1.1, >= 1.1.1)
     sorbet-runtime (0.5.11934)
+    spreadsheet (1.3.4)
+      bigdecimal
+      logger
+      ruby-ole
     spring (4.1.1)
     spring-watcher-listen (2.1.0)
       listen (>= 2.7, < 4.0)
@@ -1091,6 +1107,7 @@ DEPENDENCIES
   devise-secure_password!
   devise-two-factor (>= 5.0.0)
   devise_token_auth (>= 1.2.3)
+  docx (~> 0.8)
   dotenv-rails (>= 3.0.0)
   down
   elastic-apm
@@ -1163,6 +1180,8 @@ DEPENDENCIES
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
+  roo (~> 2.10)
+  roo-xls (~> 1.2)
   rspec-rails (>= 6.1.5)
   rspec_junit_formatter
   rubocop

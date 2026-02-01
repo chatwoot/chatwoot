@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'shellwords'
+
 module Aloo
   class ProcessDocumentJob < ApplicationJob
     queue_as :low
@@ -14,7 +16,12 @@ module Aloo
       'application/pdf' => :process_pdf,
       'text/plain' => :process_text,
       'text/markdown' => :process_text,
-      'text/csv' => :process_csv
+      'text/csv' => :process_csv,
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => :process_xlsx,
+      'application/vnd.ms-excel' => :process_xls,
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => :process_docx,
+      'application/msword' => :process_doc,
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation' => :process_pptx
     }.freeze
 
     # Process an uploaded document and create embeddings
@@ -153,6 +160,118 @@ module Aloo
     rescue StandardError => e
       Rails.logger.error("[Aloo::ProcessDocumentJob] CSV processing failed: #{e.message}")
       nil
+    end
+
+    def process_xlsx
+      require 'roo'
+
+      tempfile = download_to_tempfile
+      spreadsheet = Roo::Excelx.new(tempfile.path)
+      extract_spreadsheet_text(spreadsheet)
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::ProcessDocumentJob] XLSX processing failed: #{e.message}")
+      nil
+    ensure
+      tempfile&.close
+      tempfile&.unlink
+    end
+
+    def process_xls
+      require 'roo'
+      require 'roo-xls'
+
+      tempfile = download_to_tempfile
+      spreadsheet = Roo::Excel.new(tempfile.path)
+      extract_spreadsheet_text(spreadsheet)
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::ProcessDocumentJob] XLS processing failed: #{e.message}")
+      nil
+    ensure
+      tempfile&.close
+      tempfile&.unlink
+    end
+
+    def extract_spreadsheet_text(spreadsheet)
+      sheets = []
+      spreadsheet.sheets.each do |sheet_name|
+        spreadsheet.default_sheet = sheet_name
+        rows = []
+        first_row = spreadsheet.first_row
+        last_row = spreadsheet.last_row
+        next unless first_row && last_row
+
+        (first_row..last_row).each do |row_idx|
+          row = (spreadsheet.first_column..spreadsheet.last_column).map { |col_idx| spreadsheet.cell(row_idx, col_idx).to_s }
+          rows << row.join(' | ')
+        end
+        sheets << "## Sheet: #{sheet_name}\n#{rows.join("\n")}" if rows.any?
+      end
+      sheets.join("\n\n---\n\n")
+    end
+
+    def process_docx
+      require 'docx'
+
+      tempfile = download_to_tempfile
+      doc = Docx::Document.open(tempfile.path)
+      paragraphs = doc.paragraphs.map(&:text).reject(&:blank?)
+      paragraphs.join("\n\n")
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::ProcessDocumentJob] DOCX processing failed: #{e.message}")
+      nil
+    ensure
+      tempfile&.close
+      tempfile&.unlink
+    end
+
+    def process_doc
+      tempfile = download_to_tempfile
+
+      if system('which antiword > /dev/null 2>&1')
+        output = `antiword #{Shellwords.escape(tempfile.path)} 2>&1`
+        return output if $CHILD_STATUS.success? && output.present?
+      end
+
+      Rails.logger.warn('[Aloo::ProcessDocumentJob] .doc format requires antiword to be installed')
+      nil
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::ProcessDocumentJob] DOC processing failed: #{e.message}")
+      nil
+    ensure
+      tempfile&.close
+      tempfile&.unlink
+    end
+
+    def process_pptx
+      require 'zip'
+      require 'nokogiri'
+
+      tempfile = download_to_tempfile
+      slides = extract_pptx_slides(tempfile.path)
+      slides.join("\n\n---\n\n")
+    rescue StandardError => e
+      Rails.logger.error("[Aloo::ProcessDocumentJob] PPTX processing failed: #{e.message}")
+      nil
+    ensure
+      tempfile&.close
+      tempfile&.unlink
+    end
+
+    def extract_pptx_slides(path)
+      slides = []
+      Zip::File.open(path) do |zip|
+        entries = zip.glob('ppt/slides/slide*.xml').sort_by { |e| e.name[/slide(\d+)\.xml/, 1].to_i }
+        entries.each_with_index do |entry, idx|
+          texts = extract_pptx_slide_text(entry)
+          slides << "## Slide #{idx + 1}\n#{texts.join(' ')}" if texts.any?
+        end
+      end
+      slides
+    end
+
+    def extract_pptx_slide_text(entry)
+      xml = Nokogiri::XML(entry.get_input_stream.read)
+      xml.xpath('//a:t', 'a' => 'http://schemas.openxmlformats.org/drawingml/2006/main').map(&:text)
     end
 
     def download_to_tempfile

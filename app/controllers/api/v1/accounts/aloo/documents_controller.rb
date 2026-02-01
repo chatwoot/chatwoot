@@ -11,6 +11,11 @@ class Api::V1::Accounts::Aloo::DocumentsController < Api::V1::Accounts::BaseCont
     text/plain
     text/markdown
     text/csv
+    application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
+    application/vnd.ms-excel
+    application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    application/msword
+    application/vnd.openxmlformats-officedocument.presentationml.presentation
   ].freeze
 
   MAX_FILE_SIZE = 10.megabytes

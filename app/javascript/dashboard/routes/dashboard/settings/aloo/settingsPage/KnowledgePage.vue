@@ -249,7 +249,7 @@ const handleWebsiteSubmit = async ({
               ref="fileInput"
               type="file"
               class="hidden"
-              accept=".pdf,.txt,.md,.csv"
+              accept=".pdf,.txt,.md,.csv,.xlsx,.xls,.docx,.doc,.pptx"
               @change="handleFileSelect"
             />
             <span

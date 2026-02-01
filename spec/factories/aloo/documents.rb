@@ -52,5 +52,45 @@ FactoryBot.define do
         )
       end
     end
+
+    trait :with_xlsx do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.xlsx').open,
+          filename: 'test_document.xlsx',
+          content_type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+      end
+    end
+
+    trait :with_xls do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.xls').open,
+          filename: 'test_document.xls',
+          content_type: 'application/vnd.ms-excel'
+        )
+      end
+    end
+
+    trait :with_docx do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.docx').open,
+          filename: 'test_document.docx',
+          content_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+        )
+      end
+    end
+
+    trait :with_pptx do
+      after(:build) do |document|
+        document.file.attach(
+          io: Rails.root.join('spec/fixtures/files/test_document.pptx').open,
+          filename: 'test_document.pptx',
+          content_type: 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+        )
+      end
+    end
   end
 end
