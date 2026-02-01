@@ -1,0 +1,7 @@
+# Cambia esto por el ID de tu proyecto en GCP
+gcp_project_id = "tu-gcp-project-id"
+
+# (Opcional) Puedes sobreescribir otras variables aquí si lo deseas
+# gcp_region     = "us-east1"
+# node_count     = 3
+# db_password    = "una-contraseña-muy-segura"
