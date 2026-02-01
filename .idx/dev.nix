@@ -1,7 +1,11 @@
 {pkgs}: {
   channel = "stable-24.05";
   packages = [
+    pkgs.pnpm
     pkgs.nodejs_20
+    pkgs.ruby_3_2
+    pkgs.bundler
+    pkgs.rbenv
     pkgs.sudo
     pkgs.google-cloud-sdk
     pkgs.gh
