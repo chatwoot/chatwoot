@@ -33,15 +33,7 @@ module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleL
   end
 
   def email_rate_limit
-    # Per-account override takes priority
-    return self[:limits]['emails'].to_i if self[:limits]['emails'].present?
-
-    # Enterprise plan-based limit
-    plan_limit = plan_email_limit
-    return plan_limit if plan_limit.present?
-
-    # Fall through to OSS: GlobalConfig → ChatwootApp.max_limit
-    super
+    account_limit || plan_email_limit || global_limit || default_limit
   end
 
   def subscribed_features
