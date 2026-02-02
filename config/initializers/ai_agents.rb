@@ -14,7 +14,6 @@ Rails.application.config.after_initialize do
         # api_base = "#{api_endpoint.chomp('/')}/v1"
         api_base = api_endpoint
         config.openai_api_base = api_base
-        config.deepseek_api_key = api_base
         config.ollama_api_base = api_base
       end
       config.default_model = model

@@ -29,9 +29,9 @@ class Llm::LegacyBaseOpenAiService
     normalized_endpoint = endpoint.presence || 'https://api.openai.com'
 
     # Ensure we only include a single /v1 suffix so the OpenAI gem hits the right path.
-    # normalized_endpoint = normalized_endpoint.chomp('/')
-    # normalized_endpoint = normalized_endpoint.sub(%r{/v1\z}, '')
-    # "#{normalized_endpoint}/v1"
+    normalized_endpoint = normalized_endpoint.chomp('/')
+    normalized_endpoint = normalized_endpoint.sub(%r{/v1\z}, '')
+    "#{normalized_endpoint}/v1"
   end
 
   def setup_model

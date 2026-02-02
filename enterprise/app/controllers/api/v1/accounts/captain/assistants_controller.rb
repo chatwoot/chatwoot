@@ -24,10 +24,18 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def playground
-    response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      additional_message: params[:message_content],
-      message_history: message_history
-    )
+    # response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+    #   additional_message: params[:message_content],
+    #   message_history: message_history
+    # )
+    response = if captain_v2_enabled?
+                 generate_response_with_v2
+               else
+                 Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                   additional_message: params[:message_content],
+                   message_history: message_history
+                 )
+               end
 
     render json: response
   end
@@ -69,5 +77,19 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def message_history
     (playground_params[:message_history] || []).map { |message| { role: message[:role], content: message[:content] } }
+  end
+
+  def generate_response_with_v2
+    # Add current message to history for v2 service
+    full_message_history = message_history.dup
+    full_message_history << { role: 'user', content: params[:message_content] } if params[:message_content].present?
+
+    Captain::Assistant::AgentRunnerService.new(assistant: @assistant).generate_response(
+      message_history: full_message_history
+    )
+  end
+
+  def captain_v2_enabled?
+    Current.account.feature_enabled?('captain_integration_v2')
   end
 end
