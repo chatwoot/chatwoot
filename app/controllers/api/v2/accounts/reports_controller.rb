@@ -78,6 +78,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: builder.build
   end
 
+  def outgoing_messages_count
+    builder = V2::Reports::OutgoingMessagesCountBuilder.new(Current.account, outgoing_messages_count_params)
+    render json: builder.build
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -167,6 +172,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def first_response_time_distribution_params
     {
+      since: params[:since],
+      until: params[:until]
+    }
+  end
+
+  def outgoing_messages_count_params
+    {
+      group_by: params[:group_by],
       since: params[:since],
       until: params[:until]
     }
