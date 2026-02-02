@@ -167,6 +167,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
+      status: @outgoing_echo ? :delivered : :sent,
       source_id: message_identifier,
       content: message_content,
       sender: @outgoing_echo ? nil : contact,
@@ -175,6 +176,8 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
       }
     }
 
+    params[:content_attributes][:external_echo] = true if @outgoing_echo
+
     # CHATWIT: Add postback/quick_reply payload to content_attributes
     # This enables SocialWise Flow to receive the button ID for intent detection
     if parser.postback?
@@ -182,7 +185,6 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     elsif parser.quick_reply?
       params[:content_attributes][:quick_reply_payload] = parser.quick_reply_payload
     end
-
     params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
     params
   end
