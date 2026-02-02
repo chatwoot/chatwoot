@@ -5,12 +5,12 @@ class Whatsapp::EmbeddedSignupService
     @business_id = params[:business_id]
     @waba_id = params[:waba_id]
     @phone_number_id = params[:phone_number_id]
+    @is_business_app_onboarding = params[:is_business_app_onboarding]
     @inbox_id = inbox_id
   end
 
   def perform
     validate_parameters!
-
     access_token = exchange_code_for_token
     phone_info = fetch_phone_info(access_token)
     validate_token_access(access_token)
@@ -53,7 +53,9 @@ class Whatsapp::EmbeddedSignupService
       ).perform(access_token, phone_info)
     else
       waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
-      Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
+      channel = Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token, @is_business_app_onboarding).perform
+      enable_sync_features(channel, access_token) if channel && @is_business_app_onboarding
+      channel
     end
   end
 
@@ -84,5 +86,19 @@ class Whatsapp::EmbeddedSignupService
     return if missing_params.empty?
 
     raise ArgumentError, "Required parameters are missing: #{missing_params.join(', ')}"
+  end
+
+  def enable_sync_features(channel, access_token)
+    client   = Whatsapp::FacebookApiClient.new(access_token)
+    phone_id = channel.provider_config['phone_number_id']
+
+    Rails.logger.info("[WHATSAPP] Initiating contact sync for channel #{channel.id}")
+    client.request_state_sync(phone_id)
+
+    Rails.logger.info("[WHATSAPP] Initiating conversation history sync for channel #{channel.id}")
+    client.request_history_sync(phone_id)
+  rescue StandardError => e
+    # Sync failures should not block channel creation - it's a nice-to-have feature
+    Rails.logger.warn("[WHATSAPP] Sync features failed for channel #{channel.id}, continuing: #{e.message}")
   end
 end
