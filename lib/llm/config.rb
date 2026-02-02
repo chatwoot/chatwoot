@@ -34,6 +34,8 @@ module Llm::Config
       RubyLLM.configure do |config|
         config.openai_api_key = system_api_key if system_api_key.present?
         config.openai_api_base = openai_endpoint.chomp('/') if openai_endpoint.present?
+        config.provider = :ollama
+        config.ollama_url = 'http://127.0.0.1:11434'
         config.logger = Rails.logger
       end
     end
