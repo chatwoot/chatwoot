@@ -2,15 +2,11 @@ module Concerns::Agentable
   extend ActiveSupport::Concern
 
   def agent
-    model = RubyLLM::Model.new(
-      provider: :ollama,
-      name: agent_model # e.g. "llama3.1:8b"
-    )
     Agents::Agent.new(
       name: agent_name,
       instructions: ->(context) { agent_instructions(context) },
       tools: agent_tools,
-      model: model,
+      model: agent_model,
       temperature: temperature.to_f || 0.7,
       response_schema: agent_response_schema
     )
