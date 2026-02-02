@@ -62,6 +62,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: bot_metrics
   end
 
+  def inbox_label_matrix
+    builder = V2::Reports::InboxLabelMatrixBuilder.new(
+      account: Current.account,
+      params: inbox_label_matrix_params
+    )
+    render json: builder.build
+  end
+
+  def first_response_time_distribution
+    builder = V2::Reports::FirstResponseTimeDistributionBuilder.new(
+      account: Current.account,
+      params: first_response_time_distribution_params
+    )
+    render json: builder.build
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -138,5 +154,21 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def conversation_metrics
     V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics
+  end
+
+  def inbox_label_matrix_params
+    {
+      since: params[:since],
+      until: params[:until],
+      inbox_ids: params[:inbox_ids],
+      label_ids: params[:label_ids]
+    }
+  end
+
+  def first_response_time_distribution_params
+    {
+      since: params[:since],
+      until: params[:until]
+    }
   end
 end

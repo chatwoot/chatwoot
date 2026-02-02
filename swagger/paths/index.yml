@@ -653,13 +653,122 @@
       schema:
         type: string
       description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/channel_summary.yml'
+
+# Inbox summary report
+/api/v2/accounts/{account_id}/summary_reports/inbox:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
     - in: query
       name: business_hours
       schema:
         type: boolean
-      description: Whether to filter by business hours.
+      description: Whether to calculate metrics using business hours only.
   get:
-    $ref: './application/reports/channel_summary.yml'
+    $ref: './application/reports/inbox_summary.yml'
+
+# Agent summary report
+/api/v2/accounts/{account_id}/summary_reports/agent:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
+  get:
+    $ref: './application/reports/agent_summary.yml'
+
+# Team summary report
+/api/v2/accounts/{account_id}/summary_reports/team:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: business_hours
+      schema:
+        type: boolean
+      description: Whether to calculate metrics using business hours only.
+  get:
+    $ref: './application/reports/team_summary.yml'
+
+# First response time distribution report
+/api/v2/accounts/{account_id}/reports/first_response_time_distribution:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/first_response_time_distribution.yml'
+
+# Inbox-label matrix report
+/api/v2/accounts/{account_id}/reports/inbox_label_matrix:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+    - in: query
+      name: inbox_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific inbox IDs.
+    - in: query
+      name: label_ids
+      schema:
+        type: array
+        items:
+          type: integer
+      description: Filter by specific label IDs.
+  get:
+    $ref: './application/reports/inbox_label_matrix.yml'
 
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:

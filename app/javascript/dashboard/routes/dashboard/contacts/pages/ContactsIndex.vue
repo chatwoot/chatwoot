@@ -36,6 +36,9 @@ const meta = useMapGetter('contacts/getMeta');
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
 const pageNumber = computed(() => Number(route.query?.page) || 1);
+// For infinite scroll in search, track page internally
+const searchPageNumber = ref(1);
+const isLoadingMore = ref(false);
 
 const parseSortSettings = (sortString = '') => {
   const hasDescending = sortString.startsWith('-');
@@ -62,6 +65,8 @@ const isFetchingList = computed(
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
+const hasMore = computed(() => meta.value?.hasMore ?? false);
+const isSearchView = computed(() => !!searchQuery.value);
 
 const selectedContactIds = ref([]);
 const isBulkActionLoading = ref(false);
@@ -212,8 +217,11 @@ const fetchActiveContacts = async (page = 1) => {
   updatePageParam(page);
 };
 
-const searchContacts = debounce(async (value, page = 1) => {
-  clearSelection();
+const searchContacts = debounce(async (value, page = 1, append = false) => {
+  if (!append) {
+    clearSelection();
+    searchPageNumber.value = 1;
+  }
   await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
 
@@ -227,8 +235,26 @@ const searchContacts = debounce(async (value, page = 1) => {
   await store.dispatch('contacts/search', {
     ...getCommonFetchParams(page),
     search: encodeURIComponent(value),
+    append,
   });
+  searchPageNumber.value = page;
 }, DEBOUNCE_DELAY);
+
+const loadMoreSearchResults = async () => {
+  if (!hasMore.value || isLoadingMore.value) return;
+
+  isLoadingMore.value = true;
+  const nextPage = searchPageNumber.value + 1;
+
+  await store.dispatch('contacts/search', {
+    ...getCommonFetchParams(nextPage),
+    search: encodeURIComponent(searchValue.value),
+    append: true,
+  });
+
+  searchPageNumber.value = nextPage;
+  isLoadingMore.value = false;
+};
 
 const fetchContactsBasedOnContext = async page => {
   clearSelection();
@@ -409,28 +435,32 @@ onMounted(async () => {
 
 <template>
   <div
-    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-background"
+    class="flex flex-col justify-between flex-1 h-full m-0 overflow-auto bg-n-surface-1"
   >
     <ContactsListLayout
       :search-value="searchValue"
       :header-title="headerTitle"
       :current-page="currentPage"
       :total-items="totalItems"
-      :show-pagination-footer="!isFetchingList && hasContacts"
+      :show-pagination-footer="!isFetchingList && hasContacts && !isSearchView"
       :active-sort="sortState.activeSort"
       :active-ordering="sortState.activeOrdering"
       :active-segment="activeSegment"
       :segments-id="activeSegmentId"
       :is-fetching-list="isFetchingList"
       :has-applied-filters="hasAppliedFilters"
+      :use-infinite-scroll="isSearchView"
+      :has-more="hasMore"
+      :is-loading-more="isLoadingMore"
       @update:current-page="fetchContactsBasedOnContext"
       @search="searchContacts"
       @update:sort="handleSort"
       @apply-filter="fetchSavedOrAppliedFilteredContact"
       @clear-filters="fetchContacts"
+      @load-more="loadMoreSearchResults"
     >
       <div
-        v-if="isFetchingList"
+        v-if="isFetchingList && !(isSearchView && hasContacts)"
         class="flex items-center justify-center py-10 text-n-slate-11"
       >
         <Spinner />
