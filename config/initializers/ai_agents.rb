@@ -13,12 +13,11 @@ Rails.application.config.after_initialize do
       if api_endpoint.present?
         endpoint = api_endpoint.chomp('/')
         api_base = endpoint.end_with?('/v1') ? endpoint : "#{endpoint}/v1"
-        # config.openai_api_base = api_base
+        config.openai_api_base = api_base
         config.ollama_api_base = api_base
       end
       config.default_model = model
-      config.provider = :ollama
-      config.ollama_api_base = 'http://127.0.0.1:11434'
+      config.default_provider = :ollama
       config.debug = true
     end
   end
