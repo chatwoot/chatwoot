@@ -74,6 +74,14 @@ class Captain::Assistant::AgentRunnerService
   # Response formatting methods
   def process_agent_result(result)
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
+
+    # Check for errors in the result
+    if result.error
+      Rails.logger.error "[Captain V2] Agent error: #{result.error.class} - #{result.error.message}"
+      ChatwootExceptionTracker.new(result.error, account: @assistant.account).capture_exception
+      return error_response(result.error.message)
+    end
+
     response = format_response(result.output)
 
     # Extract agent name from context

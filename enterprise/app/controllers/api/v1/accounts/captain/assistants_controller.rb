@@ -80,12 +80,10 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   end
 
   def generate_response_with_v2
-    # Add current message to history for v2 service
-    full_message_history = message_history.dup
-    full_message_history << { role: 'user', content: params[:message_content] } if params[:message_content].present?
-
+    # The frontend already includes the current message in message_history,
+    # so we can use it directly. The v2 service will extract the last user message.
     Captain::Assistant::AgentRunnerService.new(assistant: @assistant).generate_response(
-      message_history: full_message_history
+      message_history: message_history
     )
   end
 
