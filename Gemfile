@@ -196,6 +196,7 @@ gem 'ai-agents', '>= 0.7.0'
 # TODO: Move this gem as a dependency of ai-agents
 gem 'ruby_llm', '>= 1.8.2'
 gem 'ruby_llm-schema'
+gem 'ruby-mcp-client'
 
 # OpenTelemetry for LLM observability
 gem 'opentelemetry-sdk'

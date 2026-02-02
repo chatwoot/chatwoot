@@ -1,13 +1,14 @@
-require 'net/http'
-require 'json'
+require 'ipaddr'
+require 'resolv'
 require 'uri'
 
+require 'mcp_client'
+require 'captain/mcp/errors'
+
 class Captain::Mcp::ClientService
-  MCP_PROTOCOL_VERSION = '2024-11-05'.freeze
-  CLIENT_NAME = 'chatwoot-captain'.freeze
   READ_TIMEOUT = 30
-  OPEN_TIMEOUT = 10
-  MAX_RESPONSE_SIZE = 1.megabyte
+  RETRIES = 0
+  RETRY_BACKOFF = 1
 
   PRIVATE_IP_RANGES = [
     IPAddr.new('127.0.0.0/8'),
@@ -24,167 +25,93 @@ class Captain::Mcp::ClientService
 
   def initialize(mcp_server)
     @mcp_server = mcp_server
-    @message_id = 0
-    @session_endpoint = nil
+    @client = nil
   end
 
   def connect
     @mcp_server.update!(status: 'connecting')
-
-    establish_session
-    initialize_protocol
-
+    ensure_public_host!
+    @client = build_client
     @mcp_server.mark_connected!
     Result.success
-  rescue StandardError => e
-    Rails.logger.error("MCP connection error for #{@mcp_server.slug}: #{e.class} - #{e.message}")
-    @mcp_server.mark_error!(e.message)
-    Result.failure(e.message)
+  rescue MCPClient::Errors::MCPError, StandardError => e
+    handle_connection_error(e)
   end
 
   def disconnect
-    @session_endpoint = nil
+    @client&.cleanup
+    @client = nil
     @mcp_server.mark_disconnected!
   end
 
   def call_tool(tool_name, arguments = {})
-    ensure_connected!
-
-    response = send_request('tools/call', {
-                              name: tool_name,
-                              arguments: arguments
-                            })
-
-    raise Captain::Mcp::ToolExecutionError, response['error']['message'] if response['error']
-
-    format_tool_result(response['result'])
+    client = ensure_client!
+    result = client.call_tool(tool_name, arguments)
+    format_tool_result(result)
+  rescue MCPClient::Errors::ToolCallError => e
+    raise Captain::Mcp::ToolExecutionError, e.message
+  rescue MCPClient::Errors::ConnectionError, MCPClient::Errors::TransportError => e
+    raise Captain::Mcp::ConnectionError, e.message
+  rescue MCPClient::Errors::MCPError => e
+    raise Captain::Mcp::Error, e.message
   end
 
   def list_tools
-    ensure_connected!
-
-    response = send_request('tools/list', {})
-    response.dig('result', 'tools') || []
+    client = ensure_client!
+    tools = client.list_tools(cache: false)
+    tools.map { |tool| serialize_tool(tool) }
+  rescue MCPClient::Errors::ConnectionError, MCPClient::Errors::TransportError => e
+    raise Captain::Mcp::ConnectionError, e.message
+  rescue MCPClient::Errors::MCPError => e
+    raise Captain::Mcp::Error, e.message
   end
 
   private
 
-  def establish_session
-    uri = URI.parse(@mcp_server.url)
-    check_private_ip!(uri.host)
-
-    http = build_http_client(uri)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    apply_authentication(request)
-    request['Accept'] = 'text/event-stream'
-
-    response = http.request(request)
-
-    raise Captain::Mcp::ConnectionError, "Failed to establish SSE connection: HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
-
-    parse_session_endpoint(response)
-  end
-
-  def parse_session_endpoint(response)
-    @session_endpoint = @mcp_server.url
-
-    if response['x-mcp-session-url']
-      @session_endpoint = response['x-mcp-session-url']
-    elsif response.body.present?
-      response.body.each_line do |line|
-        next unless line.start_with?('data:')
-
-        data = begin
-          JSON.parse(line.sub('data:', '').strip)
-        rescue StandardError
-          nil
-        end
-        @session_endpoint = data['endpoint'] if data&.dig('endpoint')
-        break
-      end
-    end
-  end
-
-  def initialize_protocol
-    response = send_request('initialize', {
-                              protocolVersion: MCP_PROTOCOL_VERSION,
-                              capabilities: {
-                                tools: {}
-                              },
-                              clientInfo: {
-                                name: CLIENT_NAME,
-                                version: Chatwoot.config[:version] || '1.0.0'
-                              }
-                            })
-
-    raise Captain::Mcp::ProtocolError, "Initialize failed: #{response['error']['message']}" if response['error']
-
-    send_notification('notifications/initialized', {})
-  end
-
-  def ensure_connected!
-    return if @session_endpoint.present?
+  def ensure_client!
+    return @client if @client
 
     result = connect
     raise Captain::Mcp::ConnectionError, result.error unless result.success?
+
+    @client
   end
 
-  def send_request(method, params)
-    uri = URI.parse(@session_endpoint)
-    check_private_ip!(uri.host)
-
-    http = build_http_client(uri)
-    request = build_json_rpc_request(uri, method, params)
-
-    response = http.request(request)
-
-    raise Captain::Mcp::ProtocolError, "Request failed: HTTP #{response.code}" unless response.is_a?(Net::HTTPSuccess)
-
-    validate_response_size!(response)
-    JSON.parse(response.body)
-  end
-
-  def send_notification(method, params)
-    uri = URI.parse(@session_endpoint)
-    http = build_http_client(uri)
-
-    request = Net::HTTP::Post.new(uri.request_uri)
-    apply_authentication(request)
-    request['Content-Type'] = 'application/json'
-    request.body = {
-      jsonrpc: '2.0',
-      method: method,
-      params: params
-    }.to_json
-
-    http.request(request)
-  end
-
-  def build_json_rpc_request(uri, method, params)
-    request = Net::HTTP::Post.new(uri.request_uri)
-    apply_authentication(request)
-    request['Content-Type'] = 'application/json'
-    request.body = {
-      jsonrpc: '2.0',
-      id: next_message_id,
-      method: method,
-      params: params
-    }.to_json
-    request
-  end
-
-  def build_http_client(uri)
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = uri.scheme == 'https'
-    http.read_timeout = READ_TIMEOUT
-    http.open_timeout = OPEN_TIMEOUT
-    http.max_retries = 0
-    http
-  end
-
-  def apply_authentication(request)
+  def build_client
     headers = @mcp_server.build_auth_headers
-    headers.each { |key, value| request[key] = value }
+    auth_config = @mcp_server.auth_config || {}
+    options = {
+      headers: headers,
+      read_timeout: READ_TIMEOUT,
+      retries: RETRIES,
+      retry_backoff: RETRY_BACKOFF,
+      logger: Rails.logger
+    }
+
+    transport = auth_config['transport'] || ENV.fetch('MCP_TRANSPORT', nil)
+    options[:transport] = transport.to_sym if transport.present?
+
+    endpoint = auth_config['rpc_endpoint'] || ENV.fetch('MCP_RPC_ENDPOINT', nil)
+    options[:endpoint] = endpoint if endpoint.present?
+
+    MCPClient.connect(@mcp_server.url, **options, &method(:configure_faraday))
+  end
+
+  def configure_faraday(faraday)
+    if ENV['MCP_SSL_VERIFY'].to_s == 'false'
+      faraday.ssl.verify = false
+    else
+      faraday.ssl.verify = true
+      ca_file = ENV.fetch('MCP_SSL_CA_FILE', nil)
+      faraday.ssl.ca_file = ca_file if ca_file.present?
+    end
+  end
+
+  def ensure_public_host!
+    uri = URI.parse(@mcp_server.url)
+    return if uri.host.blank?
+
+    check_private_ip!(uri.host)
   end
 
   def check_private_ip!(hostname)
@@ -197,24 +124,23 @@ class Captain::Mcp::ClientService
     raise Captain::Mcp::ConnectionError, "DNS resolution failed: #{e.message}"
   end
 
-  def validate_response_size!(response)
-    content_length = response['content-length']&.to_i
-    if content_length && content_length > MAX_RESPONSE_SIZE
-      raise Captain::Mcp::ProtocolError, "Response size #{content_length} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
-    end
-
-    return unless response.body && response.body.bytesize > MAX_RESPONSE_SIZE
-
-    raise Captain::Mcp::ProtocolError, "Response body size #{response.body.bytesize} bytes exceeds maximum allowed #{MAX_RESPONSE_SIZE} bytes"
-  end
-
-  def next_message_id
-    @message_id += 1
+  def serialize_tool(tool)
+    {
+      'name' => tool.name,
+      'description' => tool.description,
+      'inputSchema' => tool.schema,
+      'outputSchema' => tool.output_schema,
+      'annotations' => tool.annotations
+    }.compact
   end
 
   def format_tool_result(result)
-    content = result['content'] || []
+    return result if result.is_a?(String)
+    return result.to_json unless result.is_a?(Hash)
+
+    content = result['content'] || result[:content] || []
     content.filter_map do |item|
+      item = item.transform_keys(&:to_s) if item.is_a?(Hash)
       case item['type']
       when 'text'
         item['text']
@@ -226,6 +152,12 @@ class Captain::Mcp::ClientService
         item.to_json
       end
     end.join("\n")
+  end
+
+  def handle_connection_error(error)
+    Rails.logger.error("MCP connection error for #{@mcp_server.slug}: #{error.class} - #{error.message}")
+    @mcp_server.mark_error!(error.message)
+    Result.failure(error.message)
   end
 
   class Result

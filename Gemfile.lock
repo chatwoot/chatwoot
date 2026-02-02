@@ -810,6 +810,10 @@ GEM
     rubocop-rspec (3.6.0)
       lint_roller (~> 1.1)
       rubocop (~> 1.72, >= 1.72.1)
+    ruby-mcp-client (0.9.1)
+      faraday (~> 2.0)
+      faraday-follow_redirects (~> 0.3)
+      faraday-retry (~> 2.0)
     ruby-openai (7.3.1)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -1124,6 +1128,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-mcp-client
   ruby-openai
   ruby_llm (>= 1.8.2)
   ruby_llm-schema
