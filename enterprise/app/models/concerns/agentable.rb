@@ -8,8 +8,7 @@ module Concerns::Agentable
       tools: agent_tools,
       model: agent_model,
       temperature: temperature.to_f || 0.7,
-      response_schema: agent_response_schema,
-      provider: :ollama
+      response_schema: agent_response_schema
     )
   end
 
