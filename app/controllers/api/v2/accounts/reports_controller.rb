@@ -78,7 +78,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: builder.build
   end
 
+  OUTGOING_MESSAGES_ALLOWED_GROUP_BY = %w[agent team inbox label].freeze
+
   def outgoing_messages_count
+    return head :unprocessable_entity unless OUTGOING_MESSAGES_ALLOWED_GROUP_BY.include?(params[:group_by])
+
     builder = V2::Reports::OutgoingMessagesCountBuilder.new(Current.account, outgoing_messages_count_params)
     render json: builder.build
   end

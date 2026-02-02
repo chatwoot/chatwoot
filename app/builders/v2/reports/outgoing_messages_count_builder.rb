@@ -14,16 +14,14 @@ class V2::Reports::OutgoingMessagesCountBuilder
   private
 
   def base_messages
-    scope = account.messages.outgoing.unscope(:order).where(created_at: range)
-    scope = scope.where.not(sender_type: ['AgentBot', 'Captain::Assistant']) if params[:group_by].to_s == 'agent'
-    scope
+    account.messages.outgoing.unscope(:order).where(created_at: range)
   end
 
   def build_by_agent
     counts = base_messages
-             .joins('INNER JOIN conversations ON messages.conversation_id = conversations.id')
-             .where.not(conversations: { assignee_id: nil })
-             .group('conversations.assignee_id')
+             .where(sender_type: 'User')
+             .where.not(sender_id: nil)
+             .group(:sender_id)
              .count
 
     user_names = account.users.where(id: counts.keys).index_by(&:id)

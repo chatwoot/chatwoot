@@ -329,11 +329,19 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
         conv_agent2 = create(:conversation, account: account, inbox: inbox2, assignee: agent2)
         conv_team = create(:conversation, account: account, inbox: inbox, team: team)
 
-        create_list(:message, 3, account: account, conversation: conv_agent, inbox: inbox, message_type: :outgoing)
-        create_list(:message, 2, account: account, conversation: conv_agent2, inbox: inbox2, message_type: :outgoing)
+        create_list(:message, 3, account: account, conversation: conv_agent, inbox: inbox, message_type: :outgoing, sender: agent)
+        create_list(:message, 2, account: account, conversation: conv_agent2, inbox: inbox2, message_type: :outgoing, sender: agent2)
         create_list(:message, 4, account: account, conversation: conv_team, inbox: inbox, message_type: :outgoing)
         # incoming message should not be counted
         create(:message, account: account, conversation: conv_agent, inbox: inbox, message_type: :incoming)
+      end
+
+      it 'returns unprocessable_entity for invalid group_by' do
+        get "/api/v2/accounts/#{account.id}/reports/outgoing_messages_count",
+            params: { group_by: 'invalid', since: since_epoch, until: until_epoch },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'returns outgoing message counts grouped by agent' do
@@ -399,7 +407,7 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
 
       it 'excludes bot messages when grouped by agent' do
         bot = create(:agent_bot)
-        bot_conversation = create(:conversation, account: account, inbox: inbox, assignee: agent)
+        bot_conversation = create(:conversation, account: account, inbox: inbox)
         create(:message, account: account, conversation: bot_conversation, inbox: inbox,
                          message_type: :outgoing, sender: bot)
 
@@ -409,7 +417,7 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
 
         data = response.parsed_body
         agent_entry = data.find { |e| e['id'] == agent.id }
-        # 3 from before block; bot message excluded
+        # 3 from before block; bot message excluded (sender_type != 'User')
         expect(agent_entry['outgoing_messages_count']).to eq(3)
       end
     end
