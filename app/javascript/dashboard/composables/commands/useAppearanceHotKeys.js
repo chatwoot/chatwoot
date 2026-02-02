@@ -5,6 +5,7 @@ import {
   ICON_LIGHT_MODE,
   ICON_DARK_MODE,
   ICON_SYSTEM_MODE,
+  ICON_ROCKET,
 } from 'dashboard/helper/commandbar/icons';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
@@ -20,6 +21,16 @@ const getThemeOptions = t => [
     key: 'dark',
     label: t('COMMAND_BAR.COMMANDS.DARK_MODE'),
     icon: ICON_DARK_MODE,
+  },
+  {
+    key: 'heycommerce-light',
+    label: `${t('COMMAND_BAR.COMMANDS.HEYCOMMERCE_MODE')} (Light)`,
+    icon: ICON_ROCKET,
+  },
+  {
+    key: 'heycommerce-dark',
+    label: `${t('COMMAND_BAR.COMMANDS.HEYCOMMERCE_MODE')} (Dark)`,
+    icon: ICON_ROCKET,
   },
   {
     key: 'auto',

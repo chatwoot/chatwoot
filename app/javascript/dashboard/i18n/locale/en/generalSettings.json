@@ -238,6 +238,7 @@
       "LIGHT_MODE": "Light",
       "DARK_MODE": "Dark",
       "SYSTEM_MODE": "System",
+      "HEYCOMMERCE_MODE": "HeyCommerce",
       "SNOOZE_NOTIFICATION": "Snooze Notification"
     }
   },

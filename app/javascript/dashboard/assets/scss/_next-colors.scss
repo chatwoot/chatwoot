@@ -1,5 +1,6 @@
 // scss-lint:disable PropertySortOrder
 @layer base {
+
   // NEXT COLORS START
   :root {
     // slate
@@ -93,6 +94,7 @@
     --gray-10: 131 131 131;
     --gray-11: 100 100 100;
     --gray-12: 32 32 32;
+    --brand: 31 147 255;
 
     --background-color: 253 253 253;
     --text-blue: 8 109 224;
@@ -208,6 +210,7 @@
     --gray-10: 123 123 123;
     --gray-11: 180 180 180;
     --gray-12: 238 238 238;
+    --brand: 31 147 255;
 
     --background-color: 18 18 19;
     --border-strong: 52 52 52;
@@ -230,5 +233,131 @@
     --border-container: 236, 236, 236, 0;
     --white-alpha: 255, 255, 255, 0.1;
   }
+
+  .heycommerce {
+    --brand: 233 71 113;
+    --alpha-1: 233, 71, 113, 0.1;
+    --text-blue: 233 71 113;
+    --border-blue: 233, 71, 113, 0.5;
+  }
+
+  .heycommerce.dark {
+    // Inherit all dark mode colors
+    --slate-1: 17 17 19;
+    --slate-2: 24 25 27;
+    --slate-3: 33 34 37;
+    --slate-4: 39 42 45;
+    --slate-5: 46 49 53;
+    --slate-6: 54 58 63;
+    --slate-7: 67 72 78;
+    --slate-8: 90 97 105;
+    --slate-9: 105 110 119;
+    --slate-10: 119 123 132;
+    --slate-11: 176 180 186;
+    --slate-12: 237 238 240;
+
+    --iris-1: 19 19 30;
+    --iris-2: 23 22 37;
+    --iris-3: 32 34 72;
+    --iris-4: 38 42 101;
+    --iris-5: 48 51 116;
+    --iris-6: 61 62 130;
+    --iris-7: 74 74 149;
+    --iris-8: 89 88 177;
+    --iris-9: 91 91 214;
+    --iris-10: 84 114 228;
+    --iris-11: 158 177 255;
+    --iris-12: 224 223 254;
+
+    --blue-1: 10 17 28;
+    --blue-2: 15 24 38;
+    --blue-3: 15 39 72;
+    --blue-4: 10 49 99;
+    --blue-5: 18 61 117;
+    --blue-6: 29 84 134;
+    --blue-7: 40 89 156;
+    --blue-8: 48 106 186;
+    --blue-9: 39 129 246;
+    --blue-10: 21 116 231;
+    --blue-11: 126 182 255;
+    --blue-12: 205 227 255;
+
+    --ruby-1: 25 17 19;
+    --ruby-2: 30 21 23;
+    --ruby-3: 58 20 30;
+    --ruby-4: 78 19 37;
+    --ruby-5: 94 26 46;
+    --ruby-6: 111 37 57;
+    --ruby-7: 136 52 71;
+    --ruby-8: 179 68 90;
+    --ruby-9: 229 70 102;
+    --ruby-10: 236 90 114;
+    --ruby-11: 255 148 157;
+    --ruby-12: 254 210 225;
+
+    --amber-1: 22 18 12;
+    --amber-2: 29 24 15;
+    --amber-3: 48 32 8;
+    --amber-4: 63 39 0;
+    --amber-5: 77 48 0;
+    --amber-6: 92 61 5;
+    --amber-7: 113 79 25;
+    --amber-8: 143 100 36;
+    --amber-9: 255 197 61;
+    --amber-10: 255 214 10;
+    --amber-11: 255 202 22;
+    --amber-12: 255 231 179;
+
+    --teal-1: 13 21 20;
+    --teal-2: 17 28 27;
+    --teal-3: 13 45 42;
+    --teal-4: 2 59 55;
+    --teal-5: 8 72 67;
+    --teal-6: 20 87 80;
+    --teal-7: 28 105 97;
+    --teal-8: 32 126 115;
+    --teal-9: 18 165 148;
+    --teal-10: 14 179 158;
+    --teal-11: 11 216 182;
+    --teal-12: 173 240 221;
+
+    --gray-1: 17 17 17;
+    --gray-2: 25 25 25;
+    --gray-3: 34 34 34;
+    --gray-4: 42 42 42;
+    --gray-5: 49 49 49;
+    --gray-6: 58 58 58;
+    --gray-7: 72 72 72;
+    --gray-8: 96 96 96;
+    --gray-9: 110 110 110;
+    --gray-10: 123 123 123;
+    --gray-11: 180 180 180;
+    --gray-12: 238 238 238;
+
+    // Override with HeyCommerce pink brand
+    --brand: 233 71 113;
+
+    --background-color: 18 18 19;
+    --border-strong: 52 52 52;
+    --border-weak: 38 38 42;
+    --solid-1: 23 23 26;
+    --solid-2: 29 30 36;
+    --solid-3: 44 45 54;
+    --solid-active: 53 57 66;
+    --solid-amber: 42 37 30;
+    --solid-blue: 16 49 91;
+    --solid-iris: 38 42 101;
+    --text-blue: 233 71 113;
+
+    --alpha-1: 233, 71, 113, 0.15;
+    --alpha-2: 139, 147, 182, 0.15;
+    --alpha-3: 36, 38, 45, 0.9;
+    --black-alpha-1: 0, 0, 0, 0.3;
+    --black-alpha-2: 0, 0, 0, 0.2;
+    --border-blue: 233, 71, 113, 0.5;
+    --border-container: 236, 236, 236, 0;
+    --white-alpha: 255, 255, 255, 0.1;
+  }
 }
+
 // NEXT COLORS END
