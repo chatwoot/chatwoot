@@ -263,7 +263,7 @@ export default {
     <div
       v-if="shouldShowHeaderMessage"
       v-dompurify-html="formatMessage(headerMessage, false)"
-      class="mb-4 text-base leading-5 text-n-slate-12 [&>p>.link]:text-n-blue-text [&>p>.link]:hover:underline"
+      class="mb-4 text-base leading-5 text-n-slate-12 [&>p>.link]:text-n-blue-11 [&>p>.link]:hover:underline"
     />
     <!-- Why do the v-bind shenanigan? Because Formkit API is really bad.
     If we just pass the options as is even with null or undefined or false,
