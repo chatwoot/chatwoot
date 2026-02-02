@@ -286,6 +286,13 @@
       "REJECT_CALL": "Reject",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call"
+    },
+    "WHATSAPP_INTERACTIVE_MESSAGE": "WhatsApp Interactive Message",
+    "WHATSAPP_INTERACTIVE_IMAGE": "WhatsApp Header Image",
+    "WHATSAPP_INTERACTIVE_FALLBACK_TITLE": "WhatsApp Interactive Message",
+    "RICH_MESSAGE": {
+      "RICH_MESSAGE_FALLBACK_TITLE": "Rich Message",
+      "DEBUG_INFO": "Debug Info"
     }
   },
   "EMAIL_TRANSCRIPT": {

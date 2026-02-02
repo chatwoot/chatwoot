@@ -153,8 +153,43 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id
+      in_reply_to_external_id: @in_reply_to_external_id,
+      content_attributes: extract_interactive_data(message)
     )
+  end
+
+  # Extracts button_reply and list_reply data from WhatsApp interactive messages
+  # This data is stored in content_attributes for use by SocialWise Flow and other integrations
+  def extract_interactive_data(message)
+    return {} unless message[:type] == 'interactive'
+
+    interactive_data = {}
+
+    # Extract button reply data
+    if message.dig(:interactive, :button_reply)
+      button_reply = message[:interactive][:button_reply]
+      interactive_data[:button_reply] = {
+        id: button_reply[:id],
+        title: button_reply[:title]
+      }
+      interactive_data[:interaction_type] = 'button_reply'
+    end
+
+    # Extract list reply data
+    if message.dig(:interactive, :list_reply)
+      list_reply = message[:interactive][:list_reply]
+      interactive_data[:list_reply] = {
+        id: list_reply[:id],
+        title: list_reply[:title],
+        description: list_reply[:description]
+      }
+      interactive_data[:interaction_type] = 'list_reply'
+    end
+
+    # Store the full interactive payload for debugging/future use
+    interactive_data[:interactive_payload] = message[:interactive] if interactive_data.any?
+
+    interactive_data
   end
 
   def attach_contact(contact)

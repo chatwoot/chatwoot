@@ -38,6 +38,9 @@ import LocationBubble from './bubbles/Location.vue';
 import CSATBubble from './bubbles/CSAT.vue';
 import FormBubble from './bubbles/Form.vue';
 import VoiceCallBubble from './bubbles/VoiceCall.vue';
+// SocialWise/Chatwit Rich Message Components
+import WhatsAppInteractiveBubble from './bubbles/WhatsAppInteractive.vue';
+import RichCardsBubble from './bubbles/RichCards.vue';
 
 import MessageError from './MessageError.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
@@ -298,6 +301,29 @@ const componentToRender = computed(() => {
 
   if (props.contentAttributes.type === 'dyte') {
     return DyteBubble;
+  }
+
+  // SocialWise/Chatwit: WhatsApp Interactive messages (buttons, lists, templates)
+  if (props.contentType === CONTENT_TYPES.INTEGRATIONS) {
+    // Check if it has WhatsApp interactive or template payload
+    if (
+      props.contentAttributes?.whatsapp_interactive_payload ||
+      props.contentAttributes?.interactive ||
+      props.contentAttributes?.whatsapp_template_payload ||
+      props.contentAttributes?.template
+    ) {
+      return WhatsAppInteractiveBubble;
+    }
+    // Fallback for other integrations
+    return TextBubble;
+  }
+
+  // SocialWise/Chatwit: Rich Cards (Instagram/Facebook templates)
+  if (props.contentType === CONTENT_TYPES.CARDS) {
+    if (props.contentAttributes?.items?.length > 0) {
+      return RichCardsBubble;
+    }
+    return TextBubble;
   }
 
   const instagramSharedTypes = [

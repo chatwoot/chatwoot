@@ -285,6 +285,13 @@
       "REJECT_CALL": "Recusar",
       "JOIN_CALL": "Entrar na chamada",
       "END_CALL": "Encerrar chamada"
+    },
+    "WHATSAPP_INTERACTIVE_MESSAGE": "Mensagem Interativa do WhatsApp",
+    "WHATSAPP_INTERACTIVE_IMAGE": "Imagem de Cabeçalho do WhatsApp",
+    "WHATSAPP_INTERACTIVE_FALLBACK_TITLE": "Mensagem Interativa do WhatsApp",
+    "RICH_MESSAGE": {
+      "RICH_MESSAGE_FALLBACK_TITLE": "Mensagem Rica",
+      "DEBUG_INFO": "Informações de Debug"
     }
   },
   "EMAIL_TRANSCRIPT": {

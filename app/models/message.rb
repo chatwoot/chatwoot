@@ -375,6 +375,10 @@ class Message < ApplicationRecord
   end
 
   def send_reply
+    # Skip sending reply if message is marked to skip (e.g., for rich messages handled by specialized services like SocialWise Flow)
+    # This prevents duplicate messages when the service handles sending directly via WhatsApp API
+    return if additional_attributes&.dig('skip_send_reply')
+
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)

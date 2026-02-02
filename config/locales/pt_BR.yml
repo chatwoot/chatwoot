@@ -316,6 +316,10 @@ pt_BR:
       name: 'LeadSquared'
       short_description: 'Sincronize seus contatos e conversas com LeadSquared CRM.'
       description: 'Sincronize seus contatos e conversas com LeadSquared CRM. Essa integração cria automaticamente leads em LeadSquared quando novos contatos são adicionados, e registra a atividade de conversação para fornecer à sua equipe de vendas um contexto completo.'
+    socialwise_flow:
+      name: 'SocialWise Flow'
+      short_description: 'Automatize com mensagens ricas nos canais Meta.'
+      description: 'Conecte o SocialWise Flow como um bot para automatizar respostas com mensagens ricas pré-configuradas (botões, cabeçalhos, rodapés, imagens) no WhatsApp, Instagram e Facebook.'
   captain:
     copilot_message_required: A mensagem é obrigatória
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'

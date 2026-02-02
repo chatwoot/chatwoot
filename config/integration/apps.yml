@@ -217,128 +217,43 @@ leadsquared:
   hook_type: account
   allow_multiple_hooks: false
 
-socialwise_chatwit:
-  id: socialwise_chatwit
-  logo: socialwise.png
-  i18n_key: socialwise_chatwit
-  action: /socialwise_chatwit
-  hook_type: account
-  allow_multiple_hooks: false
+socialwise_flow:
+  id: socialwise_flow
+  logo: socialwise-flow.png
+  i18n_key: socialwise_flow
+  action: /socialwise_flow
+  hook_type: inbox
+  allow_multiple_hooks: true
   settings_json_schema:
     {
       'type': 'object',
       'properties':
         {
-          'enabled': { 'type': 'boolean' },
           'endpoint': { 'type': 'string' },
           'access_token': { 'type': 'string' },
-          'language': { 'type': 'string' },
-          'webhook_enhancement_enabled': { 'type': 'boolean' },
+          'language': { 'type': 'string' }
         },
       'required': [],
-      'additionalProperties': true,
-    }
-  settings_form_schema:
-    [
-      {
-        'label': 'Enabled',
-        'type': 'checkbox',
-        'name': 'enabled',
-        'default': true,
-      },
-      {
-        'label': 'Endpoint URL',
-        'type': 'text',
-        'name': 'endpoint',
-        'help': 'Leave empty to use default SocialWise Flow endpoint',
-      },
-      {
-        'label': 'Access Token',
-        'type': 'text',
-        'name': 'access_token',
-        'help': 'Optional access token for authentication',
-      },
-      {
-        'label': 'Language',
-        'type': 'text',
-        'name': 'language',
-        'default': 'pt-BR',
-        'help': 'Language code (e.g., pt-BR, en-US)',
-      },
-      {
-        'label': 'Enable Webhook Enhancement',
-        'type': 'checkbox',
-        'name': 'webhook_enhancement_enabled',
-        'default': true,
-        'help': 'Enrich webhook payloads with SocialWise data',
-      },
-    ]
-  visible_properties: ['enabled', 'endpoint', 'language', 'webhook_enhancement_enabled']
-  settings_json_schema:
-    {
-      'type': 'object',
-      'properties':
-        {
-          'access_key': { 'type': 'string' },
-          'secret_key': { 'type': 'string' },
-          'endpoint_url': { 'type': 'string' },
-          'app_url': { 'type': 'string' },
-          'timezone': { 'type': 'string' },
-          'enable_conversation_activity': { 'type': 'boolean' },
-          'enable_transcript_activity': { 'type': 'boolean' },
-          'conversation_activity_score': { 'type': 'string' },
-          'transcript_activity_score': { 'type': 'string' },
-          'conversation_activity_code': { 'type': 'integer' },
-          'transcript_activity_code': { 'type': 'integer' },
-        },
-      'required': ['access_key', 'secret_key'],
       'additionalProperties': false,
     }
   settings_form_schema:
     [
       {
-        'label': 'Access Key',
+        'label': 'Endpoint',
         'type': 'text',
-        'name': 'access_key',
-        'validation': 'required',
+        'name': 'endpoint',
+        'help': 'Ex.: https://socialwise.witdev.com.br/api/integrations/webhooks/socialwiseflow',
       },
       {
-        'label': 'Secret Key',
+        'label': 'Access Token (opcional)',
         'type': 'text',
-        'name': 'secret_key',
-        'validation': 'required',
+        'name': 'access_token',
       },
       {
-        'label': 'Push Conversation Activity',
-        'type': 'checkbox',
-        'name': 'enable_conversation_activity',
-        'help': 'Enable this option to push an activity when a conversation is created',
-      },
-      {
-        'label': 'Conversation Activity Score',
-        'type': 'number',
-        'name': 'conversation_activity_score',
-        'help': 'Score to assign to the conversation created activity, default is 0',
-      },
-      {
-        'label': 'Push Transcript Activity',
-        'type': 'checkbox',
-        'name': 'enable_transcript_activity',
-        'help': 'Enable this option to push an activity when a transcript is created',
-      },
-      {
-        'label': 'Transcript Activity Score',
-        'type': 'number',
-        'name': 'transcript_activity_score',
-        'help': 'Score to assign to the conversation transcript activity, default is 0',
+        'label': 'Idioma',
+        'type': 'text',
+        'name': 'language',
+        'default': 'pt-BR',
       },
     ]
-  visible_properties:
-    [
-      'access_key',
-      'endpoint_url',
-      'enable_conversation_activity',
-      'enable_transcript_activity',
-      'conversation_activity_score',
-      'transcript_activity_score',
-    ]
+  visible_properties: ['endpoint', 'language']

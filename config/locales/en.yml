@@ -341,10 +341,10 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
-    socialwise_chatwit:
+    socialwise_flow:
       name: 'SocialWise Flow'
-      short_description: 'Intelligent message flow with debounce and webhook integration.'
-      description: 'Enable SocialWise Flow to intelligently process incoming messages with debounce functionality. This integration concatenates multiple messages before sending to your webhook, providing better context for automated responses and reducing API calls.'
+      short_description: 'Automate with rich messages across Meta channels.'
+      description: 'Connect SocialWise Flow as a bot to automate responses with prebuilt rich messages (buttons, headers, footers, images) on WhatsApp, Instagram, and Facebook.'
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'

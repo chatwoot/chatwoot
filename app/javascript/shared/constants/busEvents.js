@@ -13,4 +13,7 @@ export const BUS_EVENTS = {
   NEW_CONVERSATION_MODAL: 'newConversationModal',
   INSERT_INTO_RICH_EDITOR: 'insertIntoRichEditor',
   INSERT_INTO_NORMAL_EDITOR: 'insertIntoNormalEditor',
+  // Rich message events (SocialWise/Chatwit)
+  RICH_POSTBACK: 'RICH_POSTBACK',
+  RICH_CARDS_FALLBACK: 'RICH_CARDS_FALLBACK',
 };

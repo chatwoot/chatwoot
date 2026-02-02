@@ -1,6 +1,7 @@
 # Chatwit 4.10 - Development Guidelines
 
-> **IMPORTANTE:** Este projeto é o **Chatwit 4.10**, um fork customizado do Chatwoot 4.10.1 com integrações SocialWise Enterprise.
+> **IMPORTANTE:** Este projeto é o **Chatwit 4.10**, um fork customizado do Chatwoot 4.10.1 com integrações SocialWise Enterprise
+DOCUEMNTAR TUDOS AJUSTES EM chatwitdocs
 
 ---
 
@@ -22,8 +23,9 @@ Migrar todas as funcionalidades customizadas do **fork Chatwoot v4.4 (SocialWise
 | Etapa | Descrição | Status | Documentação |
 |-------|-----------|--------|--------------|
 | 1 | SocialWise Flow (debounce, webhook, mensagens ricas) | ✅ Completa | `chatwitdocs/migration-etapa1.md` |
-| 2 | Stickers (rotas, frontend, upload) | ⏸️ Pendente | - |
-| 3 | UI/UX customizações | ⏸️ Pendente | - |
+| 2 | Rich Messages Rendering (WhatsApp/Instagram templates, botões, imagens) | ✅ Completa | `chatwitdocs/migration-etapa2.md` |
+| 3 | Stickers (rotas, frontend, upload) | ⏸️ Pendente | - |
+| 4 | UI/UX customizações | ⏸️ Pendente | - |
 
 ### ARQUIVOS CRÍTICOS DE REFERÊNCIA
 
@@ -200,15 +202,26 @@ Practical checklist for any change impacting core logic or public APIs
 
 ## Histórico de Migração
 
+### 2026-02-01 - Etapa 2: Rich Messages Rendering
+- Renderização visual de templates WhatsApp com imagem e botões
+- Renderização de cards Instagram/Facebook (carrosséis, quick replies)
+- Componentes Vue: `WhatsAppInteractive.vue`, `RichCards.vue`
+- Service mapper: `WhatsappRendererMapper.rb`
+- Roteamento de content_type 'integrations' e 'cards' no Message.vue
+- **Arquivos principais:**
+  - `app/javascript/dashboard/components-next/message/bubbles/WhatsAppInteractive.vue`
+  - `app/javascript/dashboard/components-next/message/bubbles/RichCards.vue`
+  - `app/services/messages/whatsapp_renderer_mapper.rb`
+
 ### 2026-01-30 - Etapa 1: SocialWise Flow
-- Integração do motor de fluxo com debounce
+- Integração do motor de fluxo com debounce para envio ao webhook SocialWise
 - Suporte a WhatsApp, Instagram e Facebook
-- Enriquecimento de payload de webhook
-- Mensagens ricas (cards, botões, quick replies)
+- Processamento de respostas do SocialWise (mensagens interativas, templates)
+- hook_type: inbox para conectar à caixa de entrada
 - **Arquivos principais:**
   - `lib/integrations/socialwise_flow/processor_service.rb`
   - `app/jobs/socialwise_debounce_job.rb`
-  - `config/integration/apps.yml` (socialwise_chatwit)
+  - `config/integration/apps.yml` (socialwise_flow)
 
 ---
 

@@ -5,22 +5,72 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
   # Override perform to add debounce logic
   def perform
+    Rails.logger.info '[SOCIALWISE-FLOW] === ProcessorService.perform called ==='
     message = event_data[:message]
-    return unless should_run_processor?(message)
+    Rails.logger.info "[SOCIALWISE-FLOW] Processing message ID: #{message&.id}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Hook ID: #{hook&.id}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Hook settings: #{hook&.settings&.except('access_token')}"
 
-    # Check if debounce is enabled
+    unless should_run_processor?(message)
+      Rails.logger.info '[SOCIALWISE-FLOW] should_run_processor? returned false, aborting'
+      return
+    end
+
+    Rails.logger.info '[SOCIALWISE-FLOW] should_run_processor? returned true, continuing'
+
+    # Check if this is an interactive reply (button click or list selection)
+    # Interactive replies should ALWAYS be processed immediately, never debounced
+    if interactive_reply?(message)
+      Rails.logger.info '[SOCIALWISE-FLOW] Interactive reply detected (button/list click) - processing immediately, skipping debounce'
+      process_content(message)
+      Rails.logger.info '[SOCIALWISE-FLOW] === ProcessorService.perform completed (immediate - interactive reply) ==='
+      return
+    end
+
+    # Check if debounce is enabled for regular text messages
     debounce_ms = debounce_duration_ms
+    Rails.logger.info "[SOCIALWISE-FLOW] Debounce MS: #{debounce_ms}"
+
     if debounce_ms.positive?
+      Rails.logger.info '[SOCIALWISE-FLOW] Debounce enabled, enqueueing for debounce'
       enqueue_for_debounce(message, debounce_ms)
     else
       # No debounce, process immediately
+      Rails.logger.info '[SOCIALWISE-FLOW] No debounce, processing immediately'
       process_content(message)
     end
+    Rails.logger.info '[SOCIALWISE-FLOW] === ProcessorService.perform completed ==='
   rescue StandardError => e
+    Rails.logger.error "[SOCIALWISE-FLOW] ProcessorService.perform ERROR: #{e.class}: #{e.message}"
+    Rails.logger.error "[SOCIALWISE-FLOW] Backtrace: #{e.backtrace.first(5).join('\n')}"
     ChatwootExceptionTracker.new(e, account: hook&.account).capture_exception
   end
 
   private
+
+  # Check if the message is an interactive reply (button click or list selection)
+  # These should be processed immediately without debounce because:
+  # 1. Button clicks are deliberate user actions that expect immediate response
+  # 2. There's no need to wait for more messages after a button click
+  # 3. The interaction context (button_id) needs to be sent immediately
+  def interactive_reply?(message)
+    content_attrs = message.content_attributes
+    return false if content_attrs.blank?
+
+    # Check for button_reply or list_reply in content_attributes
+    # These are set by extract_interactive_data in incoming_message_base_service.rb
+    has_button_reply = content_attrs['button_reply'].present? || content_attrs[:button_reply].present?
+    has_list_reply = content_attrs['list_reply'].present? || content_attrs[:list_reply].present?
+
+    is_interactive = has_button_reply || has_list_reply
+
+    if is_interactive
+      interaction_type = content_attrs['interaction_type'] || content_attrs[:interaction_type]
+      Rails.logger.info "[SOCIALWISE-FLOW] Detected interactive reply: type=#{interaction_type}"
+    end
+
+    is_interactive
+  end
 
   # Get debounce duration from ENV variable (default: 0 = disabled)
   def debounce_duration_ms
@@ -93,11 +143,128 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
 
   # Expose should_run_processor? and process_content for use by DebounceProcessorService
   def should_run_processor?(message)
-    return if message.private?
-    return unless processable_message?(message)
-    return unless conversation.pending?
+    Rails.logger.info '[SOCIALWISE-FLOW] === CHECKING SHOULD_RUN_PROCESSOR ==='
+    Rails.logger.info "[SOCIALWISE-FLOW] Message ID: #{message.id}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Message private?: #{message.private?}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Message reportable?: #{message.reportable?}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Message outgoing?: #{message.outgoing?}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Message content_type: #{message.content_type}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Conversation ID: #{message.conversation&.id}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Conversation status: #{message.conversation&.status}"
+    Rails.logger.info "[SOCIALWISE-FLOW] Event name: #{event_name}"
 
+    if message.private?
+      Rails.logger.info '[SOCIALWISE-FLOW] BLOCKED: Message is private'
+      return
+    end
+
+    unless processable_message?(message)
+      Rails.logger.info '[SOCIALWISE-FLOW] BLOCKED: Message is not processable'
+      return
+    end
+
+    # Accept pending OR open conversations without agent replies
+    # This allows the bot to respond to auto-assigned conversations
+    unless bot_should_respond?
+      Rails.logger.info "[SOCIALWISE-FLOW] BLOCKED: Bot should not respond (status: #{conversation.status}, has_agent_reply: #{has_agent_reply?})"
+      return
+    end
+
+    Rails.logger.info '[SOCIALWISE-FLOW] PASSED: All checks passed, will process message'
     true
+  end
+
+  # Check if bot should respond to this conversation
+  # Returns true if:
+  # - Conversation is pending (original behavior, ignores handoff flag as it's a new/reopened conversation)
+  # - Conversation is open but has NO agent replies yet AND no handoff has occurred
+  def bot_should_respond?
+    Rails.logger.info "[SOCIALWISE-FLOW] Checking bot_should_respond: status=#{conversation.status}, has_agent_reply=#{has_agent_reply?}, handoff_completed=#{handoff_completed?}"
+
+    # Pending conversations always get bot responses (new or reopened conversations)
+    return true if conversation.pending?
+
+    # Open conversations only get bot responses if:
+    # 1. No human agent has replied yet, AND
+    # 2. No handoff action has been executed
+    return true if conversation.open? && !has_agent_reply? && !handoff_completed?
+
+    false
+  end
+
+  # Check if handoff has been completed for this conversation
+  # This flag is set when process_action receives 'handoff' action
+  def handoff_completed?
+    conversation.additional_attributes&.dig('socialwise_handoff_at').present?
+  end
+
+  # Check if conversation has any outgoing messages from agents (not from bot)
+  def has_agent_reply?
+    # Check for outgoing messages that are NOT from the bot (have a sender that is a User)
+    conversation.messages.outgoing.where(sender_type: 'User').exists?
+  end
+
+  # Override process_action to mark handoff in additional_attributes
+  # This ensures bot stops responding after handoff even if no human has replied yet
+  def process_action(message, action)
+    Rails.logger.info "[SOCIALWISE-FLOW] Processing action: #{action}"
+
+    case action
+    when 'handoff'
+      Rails.logger.info '[SOCIALWISE-FLOW] Executing handoff action'
+
+      # Mark handoff in additional_attributes BEFORE calling bot_handoff!
+      # This ensures the flag is set even if bot_handoff! fails
+      mark_handoff_completed(message.conversation)
+
+      # Call native bot_handoff! which changes status to open and dispatches event
+      message.conversation.bot_handoff!
+
+      Rails.logger.info "[SOCIALWISE-FLOW] Handoff completed - conversation status: #{message.conversation.reload.status}"
+    when 'resolve'
+      Rails.logger.info '[SOCIALWISE-FLOW] Executing resolve action'
+
+      # Clear handoff flag when resolving (allows bot to work if conversation reopens)
+      clear_handoff_flag(message.conversation)
+
+      message.conversation.resolved!
+
+      Rails.logger.info "[SOCIALWISE-FLOW] Resolve completed - conversation status: #{message.conversation.reload.status}"
+    else
+      Rails.logger.warn "[SOCIALWISE-FLOW] Unknown action: #{action}"
+    end
+  end
+
+  # Mark that handoff has been completed for this conversation
+  # Uses additional_attributes to avoid affecting SLA metrics (first_reply_created_at)
+  def mark_handoff_completed(conv)
+    Rails.logger.info "[SOCIALWISE-FLOW] Marking handoff completed for conversation #{conv.id}"
+
+    current_attrs = conv.additional_attributes || {}
+    updated_attrs = current_attrs.merge(
+      'socialwise_handoff_at' => Time.current.iso8601,
+      'socialwise_handoff_by' => 'bot'
+    )
+
+    conv.update!(additional_attributes: updated_attrs)
+
+    Rails.logger.info "[SOCIALWISE-FLOW] Handoff flag set: socialwise_handoff_at=#{updated_attrs['socialwise_handoff_at']}"
+  end
+
+  # Clear handoff flag when conversation is resolved
+  # This allows bot to work again if conversation is reopened in the future
+  def clear_handoff_flag(conv)
+    Rails.logger.info "[SOCIALWISE-FLOW] Clearing handoff flag for conversation #{conv.id}"
+
+    current_attrs = conv.additional_attributes || {}
+
+    # Only update if flag exists
+    return unless current_attrs['socialwise_handoff_at'].present?
+
+    updated_attrs = current_attrs.except('socialwise_handoff_at', 'socialwise_handoff_by')
+    conv.update!(additional_attributes: updated_attrs)
+
+    Rails.logger.info '[SOCIALWISE-FLOW] Handoff flag cleared'
   end
 
   def conversation
