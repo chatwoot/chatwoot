@@ -13,7 +13,8 @@ end
 
 # Velma : Determined protector
 # used in rack attack
-$velma = ConnectionPool.new(size: 5, timeout: 1) do
+velma_size = ENV.fetch('REDIS_VELMA_SIZE', 10)
+$velma = ConnectionPool.new(size: velma_size, timeout: 1) do
   config = Rails.env.test? ? MockRedis.new : Redis.new(Redis::Config.app)
   Redis::Namespace.new('velma', redis: config, warning: true)
 end

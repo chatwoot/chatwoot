@@ -57,9 +57,9 @@ describe Whatsapp::SendOnWhatsappService do
       it 'calls channel.send_message when with in 24 hour limit' do
         # to handle the case of 24 hour window limit.
         create(:message, message_type: :incoming, content: 'test',
-                         conversation: conversation)
+                         conversation: conversation, account: conversation.account)
         message = create(:message, message_type: :outgoing, content: 'test',
-                                   conversation: conversation)
+                                   conversation: conversation, account: conversation.account)
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
@@ -88,7 +88,8 @@ describe Whatsapp::SendOnWhatsappService do
         message = create(:message,
                          additional_attributes: { template_params: invalid_template_params },
                          conversation: conversation,
-                         message_type: :outgoing)
+                         message_type: :outgoing,
+                         account: conversation.account)
 
         described_class.new(message: message).perform
 
@@ -98,7 +99,8 @@ describe Whatsapp::SendOnWhatsappService do
 
       it 'calls channel.send_template when after 24 hour limit' do
         message = create(:message, message_type: :outgoing, content: 'Your package has been shipped. It will be delivered in 3 business days.',
-                                   conversation: conversation, additional_attributes: { template_params: template_params })
+                                   conversation: conversation, additional_attributes: { template_params: template_params },
+                                   account: conversation.account)
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
@@ -112,7 +114,8 @@ describe Whatsapp::SendOnWhatsappService do
 
       it 'calls channel.send_template if template_params are present' do
         message = create(:message, additional_attributes: { template_params: template_params },
-                                   content: 'Your package will be delivered in 3 business days.', conversation: conversation, message_type: :outgoing)
+                                   content: 'Your package will be delivered in 3 business days.', conversation: conversation, message_type: :outgoing,
+                                   account: conversation.account)
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(
             headers: headers,
@@ -148,7 +151,8 @@ describe Whatsapp::SendOnWhatsappService do
           ).to_return(status: 200, body: success_response, headers: { 'content-type' => 'application/json' })
         message = create(:message,
                          additional_attributes: { template_params: named_template_params },
-                         content: 'Your package will be delivered in 3 business days.', conversation: cloud_conversation, message_type: :outgoing)
+                         content: 'Your package will be delivered in 3 business days.', conversation: cloud_conversation, message_type: :outgoing,
+                         account: cloud_conversation.account)
 
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
@@ -192,7 +196,7 @@ describe Whatsapp::SendOnWhatsappService do
         }
 
         message = create(:message, additional_attributes: { template_params: empty_template_params },
-                                   conversation: conversation, message_type: :outgoing)
+                                   conversation: conversation, message_type: :outgoing, account: conversation.account)
 
         stub_request(:post, 'https://waba.360dialog.io/v1/messages')
           .with(

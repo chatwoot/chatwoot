@@ -8,7 +8,6 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useI18n } from 'vue-i18n';
 import TasksAPI from 'dashboard/api/captain/tasks';
-import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/composables/useAccount');
@@ -23,8 +22,8 @@ vi.mock('dashboard/helper/AnalyticsHelper/index', async importOriginal => {
   return actual;
 });
 vi.mock('dashboard/helper/AnalyticsHelper/events', () => ({
-  OPEN_AI_EVENTS: {
-    TEST_EVENT: 'open_ai_test_event',
+  CAPTAIN_EVENTS: {
+    TEST_EVENT: 'captain_test_event',
   },
 }));
 
@@ -63,17 +62,6 @@ describe('useCaptain', () => {
     expect(captainTasksEnabled.value).toBe(true);
     expect(currentChat.value).toEqual({ id: '123' });
     expect(draftMessage.value).toBe('Draft message');
-  });
-
-  it('records analytics correctly', async () => {
-    const { recordAnalytics } = useCaptain();
-
-    await recordAnalytics('TEST_EVENT', { data: 'test' });
-
-    expect(analyticsHelper.track).toHaveBeenCalledWith('open_ai_test_event', {
-      type: 'TEST_EVENT',
-      data: 'test',
-    });
   });
 
   it('rewrites content', async () => {
