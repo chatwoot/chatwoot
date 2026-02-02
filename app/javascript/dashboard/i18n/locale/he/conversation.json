@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "איש קשר",
       "COPILOT": "טייס משנה"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "שיחה נכנסת",
+      "OUTGOING_CALL": "שיחה יוצאת",
+      "CALL_IN_PROGRESS": "שיחה מתבצעת",
+      "NOT_ANSWERED_YET": "עדיין לא נענה",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.9.1",
+  "version": "4.10.1",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -31,14 +31,16 @@
     }
   ],
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.11.10",
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
-    "@chatwoot/prosemirror-schema": "1.2.6",
+    "@chatwoot/prosemirror-schema": "1.3.6",
     "@chatwoot/utils": "^0.0.51",
     "@formkit/core": "^1.6.7",
     "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@highlightjs/vue-plugin": "^2.1.0",
+    "@iconify-json/fluent": "^1.2.32",
     "@iconify-json/material-symbols": "^1.2.10",
     "@lk77/vue3-color": "^3.0.6",
     "@radix-ui/colors": "^3.0.0",
@@ -83,7 +85,6 @@
     "mitt": "^3.0.1",
     "opus-recorder": "^8.0.5",
     "pinia": "^3.0.4",
-    "posthog-js": "^1.260.2",
     "qrcode": "^1.5.4",
     "semver": "7.6.3",
     "snakecase-keys": "^8.0.1",
@@ -111,13 +112,13 @@
     "wavesurfer.js": "7.8.6"
   },
   "devDependencies": {
-    "@egoist/tailwindcss-icons": "^1.8.1",
+    "@egoist/tailwindcss-icons": "^1.9.0",
     "@histoire/plugin-vue": "0.17.15",
-    "@iconify-json/logos": "^1.2.3",
-    "@iconify-json/lucide": "^1.2.68",
-    "@iconify-json/ph": "^1.2.1",
-    "@iconify-json/ri": "^1.2.3",
-    "@iconify-json/teenyicons": "^1.2.1",
+    "@iconify-json/logos": "^1.2.10",
+    "@iconify-json/lucide": "^1.2.82",
+    "@iconify-json/ph": "^1.2.2",
+    "@iconify-json/ri": "^1.2.6",
+    "@iconify-json/teenyicons": "^1.2.2",
     "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
     "@size-limit/file": "^8.2.4",
     "@vitest/coverage-v8": "3.0.5",
@@ -148,7 +149,7 @@
     "vitest": "3.0.5"
   },
   "engines": {
-    "node": "23.x",
+    "node": "24.x",
     "pnpm": "10.x"
   },
   "husky": {

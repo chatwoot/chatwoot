@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
+ActiveRecord::Schema[7.1].define(version: 2026_01_30_061021) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -733,11 +733,15 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.bigint "assigned_agent_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "csat_review_notes"
+    t.datetime "review_notes_updated_at"
+    t.bigint "review_notes_updated_by_id"
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
     t.index ["conversation_id"], name: "index_csat_survey_responses_on_conversation_id"
     t.index ["message_id"], name: "index_csat_survey_responses_on_message_id", unique: true
+    t.index ["review_notes_updated_by_id"], name: "index_csat_survey_responses_on_review_notes_updated_by_id"
   end
 
   create_table "custom_attribute_definitions", force: :cascade do |t|
@@ -1111,6 +1115,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
+    t.index ["account_id", "name", "inbox_id", "created_at"], name: "index_reporting_events_for_response_distribution"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
@@ -1239,7 +1244,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_11_19_161025) do
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
-    t.string "url"
+    t.text "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "webhook_type", default: 0

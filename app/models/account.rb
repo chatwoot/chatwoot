@@ -28,6 +28,7 @@ class Account < ApplicationRecord
   include Reportable
   include Featurable
   include CacheKeys
+  include CaptainFeaturable
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
@@ -41,6 +42,30 @@ class Account < ApplicationRecord
         'conversation_required_attributes': {
           'type': %w[array null],
           'items': { 'type': 'string' }
+        },
+        'captain_models': {
+          'type': %w[object null],
+          'properties': {
+            'editor': { 'type': %w[string null] },
+            'assistant': { 'type': %w[string null] },
+            'copilot': { 'type': %w[string null] },
+            'label_suggestion': { 'type': %w[string null] },
+            'audio_transcription': { 'type': %w[string null] },
+            'help_center_search': { 'type': %w[string null] }
+          },
+          'additionalProperties': false
+        },
+        'captain_features': {
+          'type': %w[object null],
+          'properties': {
+            'editor': { 'type': %w[boolean null] },
+            'assistant': { 'type': %w[boolean null] },
+            'copilot': { 'type': %w[boolean null] },
+            'label_suggestion': { 'type': %w[boolean null] },
+            'audio_transcription': { 'type': %w[boolean null] },
+            'help_center_search': { 'type': %w[boolean null] }
+          },
+          'additionalProperties': false
         }
       },
     'required': [],
@@ -59,7 +84,9 @@ class Account < ApplicationRecord
                  attribute_resolver: ->(record) { record.settings }
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
-  store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
+
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
+  store_accessor :settings, :captain_models, :captain_features
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async

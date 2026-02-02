@@ -1,7 +1,7 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Gelen kutuları",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "DESCRIPTION": "Kanal, müşterinizin sizinle iletişim kurmak için seçtiği yöntemdir. Gelen kutusu (inbox) ise belirli bir kanal üzerinden gerçekleşen etkileşimleri yönettiğiniz yerdir. Gelen kutusu; e-posta, canlı sohbet ve sosyal medya gibi farklı kaynaklardan gelen iletişimleri içerebilir.",
     "LEARN_MORE": "Learn more about inboxes",
     "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
     "CLICK_TO_RECONNECT": "Click here to reconnect.",
@@ -808,6 +808,35 @@
         "LABEL": "Mesaj",
         "PLACEHOLDER": "Form ile kullanıcılara göstermek için bir mesaj girin"
       },
+      "BUTTON_TEXT": {
+        "LABEL": "Button text",
+        "PLACEHOLDER": "Please rate us"
+      },
+      "LANGUAGE": {
+        "LABEL": "Dil",
+        "PLACEHOLDER": "Select template language"
+      },
+      "MESSAGE_PREVIEW": {
+        "LABEL": "Message preview",
+        "TOOLTIP": "This may vary slightly when rendered on WhatsApp's platform."
+      },
+      "TEMPLATE_STATUS": {
+        "APPROVED": "Approved by WhatsApp",
+        "PENDING": "Pending WhatsApp approval",
+        "REJECTED": "Meta rejected the template",
+        "DEFAULT": "Needs WhatsApp approval",
+        "NOT_FOUND": "The template does not exist in the Meta platform."
+      },
+      "TEMPLATE_CREATION": {
+        "SUCCESS_MESSAGE": "WhatsApp template created successfully and sent for approval",
+        "ERROR_MESSAGE": "Failed to create WhatsApp template"
+      },
+      "TEMPLATE_UPDATE_DIALOG": {
+        "TITLE": "Edit survey details",
+        "DESCRIPTION": "We will delete the previous template and make a new one which will be sent again for WhatsApp approval",
+        "CONFIRM": "Create new template",
+        "CANCEL": "Geri git"
+      },
       "SURVEY_RULE": {
         "LABEL": "Anket kuralı",
         "DESCRIPTION_PREFIX": "Sohbet olursa anketi gönder",
@@ -819,6 +848,7 @@
         "SELECT_PLACEHOLDER": "etiketleri seç"
       },
       "NOTE": "Not: CSAT anketleri, konuşma başına yalnızca bir kez gönderilir",
+      "WHATSAPP_NOTE": "Note: We will create a template and send it for WhatsApp approval. After being approved, surveys will be sent only once per conversation as per the survey rule.",
       "API": {
         "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
         "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."

@@ -6,7 +6,8 @@
       "OPTIONS": {
         "NAME": "الاسم",
         "DOMAIN": "النطاق",
-        "CREATED_AT": "تم إنشاؤها في"
+        "CREATED_AT": "تم إنشاؤها في",
+        "CONTACTS_COUNT": "Contacts count"
       }
     },
     "ORDER": {

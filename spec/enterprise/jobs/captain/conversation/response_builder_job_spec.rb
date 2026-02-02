@@ -28,7 +28,7 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
 
       it 'uses Captain::Llm::AssistantChatService' do
-        expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant, conversation_id: conversation.id)
+        expect(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant, conversation_id: conversation.display_id)
         expect(Captain::Assistant::AgentRunnerService).not_to receive(:new)
 
         described_class.perform_now(conversation, assistant)

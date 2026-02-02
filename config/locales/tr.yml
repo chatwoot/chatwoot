@@ -20,9 +20,9 @@ tr:
   hello: 'Merhaba Dünya'
   inbox:
     reauthorization:
-      success: 'Channel reauthorized successfully'
-      not_required: 'Reauthorization is not required for this inbox'
-      invalid_channel: 'Invalid channel type for reauthorization'
+      success: 'Kanal başarıyla yeniden yetkilendirildi'
+      not_required: 'Bu gelen kutusu için yeniden yetkilendirme gerekmez'
+      invalid_channel: 'Yeniden yetkilendirme için geçersiz kanal türü'
   auth:
     saml:
       invalid_email: 'Lütfen geçerli bir e-posta adresi girin'
@@ -30,9 +30,9 @@ tr:
   messages:
     reset_password_success: Parola sıfırlama isteği başarılı. Talimatlar için postanızı kontrol edin.
     reset_password_failure: Belirtilen e-postaya sahip herhangi bir kullanıcı bulamadık.
-    reset_password_saml_user: This account uses SAML authentication. Password reset is not available. Please contact your administrator.
-    login_saml_user: This account uses SAML authentication. Please sign in through your organization's SAML provider.
-    saml_not_available: SAML authentication is not available in this installation.
+    reset_password_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Şifre sıfırlama mevcut değildir. Lütfen yöneticinizle iletişime geçin.
+    login_saml_user: Bu hesap SAML kimlik doğrulaması kullanmaktadır. Lütfen kuruluşunuzun SAML sağlayıcısı aracılığıyla oturum açın.
+    saml_not_available: SAML kimlik doğrulaması bu kurulumda mevcut değildir.
     inbox_deletetion_response: Gelen kutusu silme isteğiniz bir süre sonra işleme alınacaktır.
   errors:
     validations:
@@ -41,15 +41,17 @@ tr:
       invalid: Hatalı işlem
     signup:
       disposable_email: Tek kullanımlık e-postalara izin vermiyoruz
-      blocked_domain: This domain is not allowed. If you believe this is a mistake, please contact support.
+      blocked_domain: Bu alan adına izin verilmiyor. Bunun bir hata olduğunu düşünüyorsanız, lütfen destek ile iletişime geçin.
       invalid_email: Geçersiz bir e-posta girdiniz
       email_already_exists: '%{email} ile zaten bir hesaba kaydoldunuz'
       invalid_params: 'Hata, lütfen kayıt olma parametrelerini kontrol edin ve tekrar deneyin'
       failed: Kayıt başarısız oldu
     assignment_policy:
       not_found: Assignment policy not found
+    attachments:
+      invalid: Invalid attachment
     saml:
-      feature_not_enabled: SAML feature not enabled for this account
+      feature_not_enabled: Bu hesap için SAML özelliği etkinleştirilmemiş
       sso_not_enabled: SAML SSO bu kurulum için etkinleştirilmemiş
     data_import:
       data_type:
@@ -65,9 +67,12 @@ tr:
         invalid: e164 formatında olmalı
     companies:
       domain:
-        invalid: must be a valid domain name
+        invalid: geçerli bir alan adı olmalıdır
       search:
         query_missing: q parametresiyle arama dizesini belirtin
+    messages:
+      search:
+        time_range_limit_exceeded: 'Arama son %{days} gün ile sınırlıdır'
     categories:
       locale:
         unique: kategori ve portalde tekil olmalı
@@ -76,13 +81,13 @@ tr:
     slack:
       invalid_channel_id: 'Geçersiz Slack kanalı. Lütfen tekrar deneyin'
     whatsapp:
-      token_exchange_failed: 'Failed to exchange code for access token. Please try again.'
-      invalid_token_permissions: 'The access token does not have the required permissions for WhatsApp.'
-      phone_info_fetch_failed: 'Failed to fetch phone number information. Please try again.'
+      token_exchange_failed: 'Erişim tokeni için kod değişimi başarısız oldu. Lütfen tekrar deneyin.'
+      invalid_token_permissions: 'Erişim tokeni WhatsApp için gerekli izinlere sahip değildir.'
+      phone_info_fetch_failed: 'Telefon numarası bilgisi alınamadı. Lütfen tekrar deneyin.'
       phone_number_already_exists: 'Bu telefon numarası için zaten bir kanal mevcut: %{phone_number}, hata devam ederse lütfen destek ile iletişime geçin'
       reauthorization:
-        generic: 'Failed to reauthorize WhatsApp. Please try again.'
-        not_supported: 'Reauthorization is not supported for this type of WhatsApp channel.'
+        generic: 'WhatsApp''ı yeniden yetkilendirme işlemi başarısız oldu. Lütfen tekrar deneyin.'
+        not_supported: 'Bu tür WhatsApp kanalları için yeniden yetkilendirme desteklenmemektedir.'
     inboxes:
       imap:
         socket_error: Lütfen ağ bağlantınızı, IMAP adresini kontrol edin ve tekrar deneyin.
@@ -129,7 +134,7 @@ tr:
       conversations_count: Assigned conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
-      resolution_count: Çözünürlük Sayısı
+      resolution_count: Çözüm Sayısı
       avg_customer_waiting_time: Avg customer waiting time
     inbox_csv:
       inbox_name: Inbox adı
@@ -149,7 +154,7 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
-      resolution_count: Çözünürlük Sayısı
+      resolution_count: Çözüm Sayısı
       avg_customer_waiting_time: Avg customer waiting time
     conversation_traffic_csv:
       timezone: Zaman dilimi
@@ -175,15 +180,15 @@ tr:
         recorded_at: Kaydedilen tarih
   notifications:
     notification_title:
-      conversation_creation: 'A conversation (#%{display_id}) has been created in %{inbox_name}'
-      conversation_assignment: 'A conversation (#%{display_id}) has been assigned to you'
-      assigned_conversation_new_message: 'A new message is created in conversation (#%{display_id})'
-      conversation_mention: 'You have been mentioned in conversation (#%{display_id})'
-      sla_missed_first_response: 'SLA target first response missed for conversation (#%{display_id})'
-      sla_missed_next_response: 'SLA target next response missed for conversation (#%{display_id})'
-      sla_missed_resolution: 'SLA target resolution missed for conversation (#%{display_id})'
-    attachment: 'Attachment'
-    no_content: 'No content'
+      conversation_creation: '%{inbox_name} kutusunda (#%{display_id}) numaralı bir konuşma oluşturuldu.'
+      conversation_assignment: '(#%{display_id}) numaralı bir konuşma size atandı'
+      assigned_conversation_new_message: '(#%{display_id}) numaralı konuşmada yeni bir mesaj oluşturuldu'
+      conversation_mention: '(#%{display_id}) numaralı konuşmada sizden bahsedildi'
+      sla_missed_first_response: '(#%{display_id}) numaralı konuşmada ilk yanıt SLA hedefi aşıldı'
+      sla_missed_next_response: '(#%{display_id}) numaralı konuşmada sonraki yanıt SLA hedefi aşıldı'
+      sla_missed_resolution: '(#%{display_id}) numaralı konuşmada çözüm SLA hedefi aşıldı'
+    attachment: 'Ek'
+    no_content: 'İçerik yok'
   conversations:
     captain:
       handoff: 'Daha fazla yardım için başka bir temsilciye aktarılıyor.'
@@ -202,7 +207,7 @@ tr:
         resolved: 'Konuşma, %{user_name} tarafından etkinlik olmadığı için çözüldü olarak işaretlendi'
         open: 'Konuşma, %{user_name} tarafından açık olarak işaretlendi'
       agent_bot:
-        error_moved_to_open: 'Conversation was marked open by system due to an error with the agent bot.'
+        error_moved_to_open: 'Temsilci botta meydana gelen bir hata nedeniyle konuşma, sistem tarafından açık olarak işaretlendi.'
       status:
         resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
         contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'
@@ -241,7 +246,7 @@ tr:
         not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle otomatik çözüm mesajı gönderilmedi'
       muted: '%{user_name}, sohbeti sessize aldı'
       unmuted: '%{user_name} konuşmanın sesini açtı'
-      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+      auto_resolution_message: 'Bir süredir aktif olmayan konuşmayı sonlandırıyoruz. Daha fazla yardıma ihtiyacınız varsa lütfen yeni bir konuşma başlatın.'
     templates:
       greeting_message_body: '%{account_name} genellikle birkaç saat içinde yanıt verir.'
       ways_to_reach_you_message_body: 'Ekibin size ulaşması için bir bilgi verin.'
@@ -270,39 +275,39 @@ tr:
     #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Panel Uygulamaları'
-      description: 'Dashboard Apps allow you to create and embed applications that display user information, orders, or payment history, providing more context to your customer support agents.'
+      description: 'Panel Uygulamaları, kullanıcı bilgilerini, siparişleri veya ödeme geçmişini gösteren uygulamalar oluşturmanıza ve bunları panelinize eklemenize olanak tanır. Bu sayede müşteri destek temsilcileriniz daha fazla bağlam bilgisine sahip olur.'
     dyte:
       name: 'Dyte'
       short_description: 'Müşterilerle doğrudan Chatwoot üzerinden video/sesli arama başlatın.'
-      description: 'Dyte is a product that integrates audio and video functionalities into your application. With this integration, your agents can start video/voice calls with your customers directly from Chatwoot.'
+      description: 'Dyte, uygulamanıza ses ve video işlevselliklerini entegre eden bir üründür. Bu entegrasyon sayesinde temsilcileriniz, Chatwoot üzerinden müşterilerinizle doğrudan video veya sesli görüşme başlatabilir.'
       meeting_name: '%{agent_name} bir toplantı başlattı'
     slack:
       name: 'Slack'
       short_description: 'Doğrudan Slack''te bildirimler alın ve konuşmalara yanıt verin.'
-      description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
+      description: "Chatwoot’u Slack ile entegre ederek ekibinizin senkronize çalışmasını sağlayın. Bu entegrasyon sayesinde yeni konuşmalar için bildirim alabilir ve onlara doğrudan Slack arayüzünden yanıt verebilirsiniz."
     webhooks:
       name: 'Webhooks'
-      description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'
+      description: 'Webhook etkinlikleri, Chatwoot hesabınızdaki faaliyetlerle ilgili gerçek zamanlı güncellemeler sağlar. Tercih ettiğiniz etkinliklere abone olabilir ve Chatwoot size bu güncellemelerle HTTP geri çağrıları (callback) gönderecektir.'
     dialogflow:
       name: 'Dialogflow botu'
       short_description: 'Temsilcilere aktarmadan önce ilk soruları yanıtlayacak sohbet botları oluşturun.'
-      description: 'Build chatbots with Dialogflow and easily integrate them into your inbox. These bots can handle initial queries before transferring them to a customer service agent.'
+      description: 'Dialogflow ile sohbet botları oluşturun ve bunları gelen kutunuza kolayca entegre edin. Bu botlar, müşteri hizmetleri temsilcisine yönlendirmeden önce ilk soruları karşılayabilir.'
     google_translate:
       name: 'Google Çeviri'
       short_description: 'Müşteri mesajlarını temsilciler için otomatik olarak çevirin.'
-      description: "Integrate Google Translate to help agents easily translate customer messages. This integration automatically detects the language and converts it to the agent's or admin's preferred language."
+      description: "Google Translate’i entegre ederek temsilcilerin müşteri mesajlarını kolayca çevirmesine yardımcı olun. Bu entegrasyon, mesajın dilini otomatik olarak algılar ve temsilcinin veya yöneticinin tercih ettiği dile çevirir."
     openai:
       name: 'OpenAI'
       short_description: 'Yapay zekâ destekli yanıt önerileri, özetleme ve mesaj geliştirme.'
-      description: 'Leverage the power of large language models from OpenAI with the features such as reply suggestions, summarization, message rephrasing, spell-checking, and label classification.'
+      description: 'OpenAI’nin büyük dil modellerinin gücünden, yanıt önerileri, özetleme, mesaj yeniden ifade etme, yazım denetimi ve etiket sınıflandırma gibi özelliklerle yararlanın.'
     linear:
       name: 'Linear'
       short_description: 'Linear sorunlarını doğrudan sohbetlerden oluşturun ve bağlayın.'
       description: 'Create issues in Linear directly from your conversation window. Alternatively, link existing Linear issues for a more streamlined and efficient issue tracking process.'
     notion:
       name: 'Notion'
-      short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
+      short_description: 'Veritabanlarını, dokümanları ve sayfaları doğrudan Captain ile entegre edin.'
+      description: 'Captain''ın veritabanlarınız, dokümanlarınız ve sayfalarınızdaki içeriklere erişebilmesi ve bunları kullanarak daha bağlamsal bir müşteri desteği sunan akıllı yanıtlar oluşturabilmesi için Notion çalışma alanınızı bağlayın.'
     shopify:
       name: 'Shopify'
       short_description: 'Shopify mağazanızdan sipariş detaylarına ve müşteri verilerine erişin.'
@@ -395,8 +400,8 @@ tr:
       one: '%{count} hour'
       other: '%{count} hours'
     minutes:
-      one: '%{count} minute'
-      other: '%{count} minutes'
+      one: '%{count} dakika'
+      other: '%{count} dakika'
     seconds:
       one: '%{count} second'
       other: '%{count} seconds'
@@ -423,13 +428,13 @@ tr:
       Döküm:
       %{format_messages}
   agent_capacity_policy:
-    inbox_already_assigned: 'Inbox has already been assigned to this policy'
+    inbox_already_assigned: 'Gelen Kutusu bu politikaya zaten atanmış'
   portals:
     send_instructions:
       email_required: 'E-posta gereklidir'
       invalid_email_format: 'Geçersiz e-posta formatı'
       custom_domain_not_configured: 'Özel alan adı yapılandırılmadı'
-      instructions_sent_successfully: 'Instructions sent successfully'
+      instructions_sent_successfully: 'Talimatlar başarıyla gönderildi'
       subject: '%{custom_domain} kurulumunu tamamlayın'
     ssl_status:
       custom_domain_not_configured: 'Özel alan adı yapılandırılmamış'

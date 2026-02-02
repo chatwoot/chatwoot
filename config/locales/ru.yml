@@ -48,6 +48,8 @@ ru:
       failed: Ошибка регистрации
     assignment_policy:
       not_found: Политика назначения не найдена
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
       sso_not_enabled: SAML SSO is not enabled for this installation
@@ -68,6 +70,9 @@ ru:
         invalid: должно быть корректным доменным именем
       search:
         query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
