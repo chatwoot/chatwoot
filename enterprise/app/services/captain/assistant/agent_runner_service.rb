@@ -19,12 +19,16 @@ class Captain::Assistant::AgentRunnerService
 
   def generate_response(message_history: [])
     agents = build_and_wire_agents
+    Rails.logger.info "Agents: #{agents}"
     context = build_context(message_history)
+    Rails.logger.info "Context: #{context}"
     message_to_process = extract_last_user_message(message_history)
+    Rails.logger.info "Message to process: #{message_to_process}"
     runner = Agents::Runner.with_agents(*agents)
+    Rails.logger.info "Runner: #{runner}"
     runner = add_callbacks_to_runner(runner) if @callbacks.any?
     result = runner.run(message_to_process, context: context, max_turns: 100)
-
+    Rails.logger.info "Result: #{result}"
     process_agent_result(result)
   rescue StandardError => e
     # when running the agent runner service in a rake task, the conversation might not have an account associated
