@@ -196,4 +196,103 @@ RSpec.describe Api::V2::Accounts::ReportsController, type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/{account.id}/reports/inbox_label_matrix' do
+    let!(:inbox_one) { create(:inbox, account: account, name: 'Email Support') }
+    let!(:label_one) { create(:label, account: account, title: 'bug') }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/inbox_label_matrix"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/inbox_label_matrix",
+            headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      before do
+        c1 = create(:conversation, account: account, inbox: inbox_one, created_at: 2.days.ago)
+        c1.update(label_list: [label_one.title])
+      end
+
+      it 'returns the inbox label matrix' do
+        get "/api/v2/accounts/#{account.id}/reports/inbox_label_matrix",
+            params: { since: 1.week.ago.to_i.to_s, until: Time.current.to_i.to_s },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+
+        body = response.parsed_body
+        expect(body['inboxes']).to be_an(Array)
+        expect(body['labels']).to be_an(Array)
+        expect(body['matrix']).to be_an(Array)
+      end
+
+      it 'filters by inbox_ids and label_ids' do
+        get "/api/v2/accounts/#{account.id}/reports/inbox_label_matrix",
+            params: { inbox_ids: [inbox_one.id], label_ids: [label_one.id] },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+
+        body = response.parsed_body
+        expect(body['inboxes'].length).to eq(1)
+        expect(body['labels'].length).to eq(1)
+      end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/{account.id}/reports/first_response_time_distribution' do
+    let!(:web_widget_inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
+
+    context 'when unauthenticated' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/first_response_time_distribution"
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as agent' do
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/first_response_time_distribution",
+            headers: agent.create_new_auth_token, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when authenticated as admin' do
+      before do
+        create(:reporting_event, account: account, inbox: web_widget_inbox, name: 'first_response',
+                                 value: 1_800, created_at: 2.days.ago)
+      end
+
+      it 'returns the first response time distribution' do
+        get "/api/v2/accounts/#{account.id}/reports/first_response_time_distribution",
+            params: { since: 1.week.ago.to_i.to_s, until: Time.current.to_i.to_s },
+            headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+
+        body = response.parsed_body
+        expect(body).to be_a(Hash)
+        expect(body['Channel::WebWidget']).to include('0-1h', '1-4h', '4-8h', '8-24h', '24h+')
+      end
+
+      it 'returns correct counts in buckets' do
+        get "/api/v2/accounts/#{account.id}/reports/first_response_time_distribution",
+            params: { since: 1.week.ago.to_i.to_s, until: Time.current.to_i.to_s },
+            headers: admin.create_new_auth_token, as: :json
+
+        body = response.parsed_body
+        expect(body['Channel::WebWidget']['0-1h']).to eq(1)
+      end
+    end
+  end
 end
