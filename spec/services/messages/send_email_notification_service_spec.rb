@@ -99,6 +99,20 @@ describe Messages::SendEmailNotificationService do
         end
       end
 
+      context 'when account email rate limit is exceeded' do
+        let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account, continuity_via_email: true)) }
+        let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+
+        before do
+          conversation.contact.update!(email: 'test@example.com')
+          allow_any_instance_of(Account).to receive(:within_email_rate_limit?).and_return(false) # rubocop:disable RSpec/AnyInstance
+        end
+
+        it 'does not enqueue job' do
+          expect { service.perform }.not_to have_enqueued_job(ConversationReplyEmailJob)
+        end
+      end
+
       context 'when channel does not support email notifications' do
         let(:inbox) { create(:inbox, account: account, channel: create(:channel_sms, account: account)) }
         let(:conversation) { create(:conversation, account: account, inbox: inbox) }

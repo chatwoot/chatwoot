@@ -13,6 +13,7 @@ class Messages::SendEmailNotificationService
     return unless Redis::Alfred.set(conversation_mail_key, message.id, nx: true, ex: 1.hour.to_i)
 
     ConversationReplyEmailJob.set(wait: 2.minutes).perform_later(conversation.id, message.id)
+    message.account.increment_email_sent_count
   end
 
   private
@@ -20,6 +21,7 @@ class Messages::SendEmailNotificationService
   def should_send_email_notification?
     return false unless message.email_notifiable_message?
     return false if message.conversation.contact.email.blank?
+    return false unless message.account.within_email_rate_limit?
 
     email_reply_enabled?
   end
