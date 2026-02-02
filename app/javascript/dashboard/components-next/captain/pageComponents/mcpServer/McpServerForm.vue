@@ -36,6 +36,8 @@ const initialState = {
   url: '',
   auth_type: 'none',
   auth_config: {},
+  transport: 'auto',
+  rpc_endpoint: '',
   enabled: true,
 };
 
@@ -50,20 +52,17 @@ watch(
       state.url = newServer.url || '';
       state.auth_type = newServer.auth_type || 'none';
       state.auth_config = newServer.auth_config || {};
+      state.transport = newServer.auth_config?.transport || 'auto';
+      state.rpc_endpoint = newServer.auth_config?.rpc_endpoint || '';
       state.enabled = newServer.enabled ?? true;
     }
   },
   { immediate: true }
 );
 
-const httpsUrl = value => {
-  if (!value) return true;
-  return value.startsWith('https://');
-};
-
 const validationRules = {
   name: { required },
-  url: { required, url, httpsUrl },
+  url: { required, url },
   auth_type: { required },
 };
 
@@ -76,6 +75,25 @@ const authTypeOptions = computed(() => [
   {
     value: 'api_key',
     label: t('CAPTAIN_SETTINGS.MCP_SERVERS.AUTH_TYPES.API_KEY'),
+  },
+]);
+
+const transportOptions = computed(() => [
+  {
+    value: 'auto',
+    label: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.AUTO'),
+  },
+  {
+    value: 'streamable_http',
+    label: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.STREAMABLE_HTTP'),
+  },
+  {
+    value: 'sse',
+    label: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.SSE'),
+  },
+  {
+    value: 'http',
+    label: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.HTTP'),
   },
 ]);
 
@@ -102,7 +120,6 @@ const getErrorMessage = field => {
     url: {
       required: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.URL.ERROR'),
       url: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.URL.INVALID'),
-      httpsUrl: t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.URL.HTTPS_REQUIRED'),
     },
   };
 
@@ -115,6 +132,7 @@ const getErrorMessage = field => {
 const formErrors = computed(() => ({
   name: getErrorMessage('name'),
   url: getErrorMessage('url'),
+  rpc_endpoint: '',
 }));
 
 const handleAuthConfigChange = (key, value) => {
@@ -135,8 +153,20 @@ const handleSubmit = async () => {
     enabled: state.enabled,
   };
 
+  const authConfig = {
+    transport: state.transport,
+  };
+
+  if (state.rpc_endpoint) {
+    authConfig.rpc_endpoint = state.rpc_endpoint;
+  }
+
   if (state.auth_type !== 'none') {
-    submitData.auth_config = state.auth_config;
+    Object.assign(authConfig, state.auth_config);
+  }
+
+  if (Object.keys(authConfig).length > 0) {
+    submitData.auth_config = authConfig;
   }
 
   emit('submit', submitData);
@@ -175,6 +205,35 @@ const handleSubmit = async () => {
       <template #message>
         <span v-if="!formErrors.url" class="text-xs text-n-slate-10">
           {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.URL.HINT') }}
+        </span>
+      </template>
+    </Input>
+
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.LABEL') }}
+      </label>
+      <ComboBox
+        v-model="state.transport"
+        :options="transportOptions"
+        :placeholder="
+          t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.TRANSPORT.PLACEHOLDER')
+        "
+      />
+    </div>
+
+    <Input
+      v-model="state.rpc_endpoint"
+      :label="t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.RPC_ENDPOINT.LABEL')"
+      :placeholder="
+        t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.RPC_ENDPOINT.PLACEHOLDER')
+      "
+      :message="formErrors.rpc_endpoint"
+      :message-type="formErrors.rpc_endpoint ? 'error' : ''"
+    >
+      <template #message>
+        <span v-if="!formErrors.rpc_endpoint" class="text-xs text-n-slate-10">
+          {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.RPC_ENDPOINT.HINT') }}
         </span>
       </template>
     </Input>

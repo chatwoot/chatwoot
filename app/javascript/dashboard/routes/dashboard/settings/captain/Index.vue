@@ -7,6 +7,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useCaptainConfigStore } from 'dashboard/store/captain/preferences';
+import { useMapGetter } from 'dashboard/composables/store';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -14,6 +16,7 @@ import SectionLayout from '../account/components/SectionLayout.vue';
 import ModelSelector from './components/ModelSelector.vue';
 import FeatureToggle from './components/FeatureToggle.vue';
 import CaptainPaywall from 'next/captain/pageComponents/Paywall.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const { captainEnabled } = useCaptain();
@@ -22,8 +25,13 @@ const { isOnChatwootCloud } = useAccount();
 
 const captainConfigStore = useCaptainConfigStore();
 const { uiFlags } = storeToRefs(captainConfigStore);
+const currentAccountId = useMapGetter('getCurrentAccountId');
 
 const isLoading = computed(() => uiFlags.value.isFetching);
+
+const mcpServersUrl = computed(() =>
+  frontendURL(`accounts/${currentAccountId.value}/settings/captain/mcp-servers`)
+);
 
 const modelFeatures = computed(() => [
   {
@@ -171,6 +179,41 @@ onMounted(() => {
               @change="handleFeatureToggle"
               @model-change="handleModelChange"
             />
+          </div>
+        </SectionLayout>
+
+        <!-- MCP Servers Section -->
+        <SectionLayout
+          :title="t('CAPTAIN_SETTINGS.MCP_SERVERS.SECTION_TITLE')"
+          :description="t('CAPTAIN_SETTINGS.MCP_SERVERS.SECTION_DESCRIPTION')"
+          with-border
+        >
+          <div
+            class="flex items-center justify-between p-4 rounded-lg bg-n-alpha-2 border border-n-container"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-10 h-10 rounded-xl bg-n-alpha-3 flex items-center justify-center"
+              >
+                <i class="i-lucide-plug text-xl text-n-slate-11" />
+              </div>
+              <div>
+                <h4 class="text-sm font-medium text-n-slate-12">
+                  {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.CARD_TITLE') }}
+                </h4>
+                <p class="text-xs text-n-slate-11">
+                  {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.CARD_DESCRIPTION') }}
+                </p>
+              </div>
+            </div>
+            <router-link :to="mcpServersUrl">
+              <Button
+                :label="t('CAPTAIN_SETTINGS.MCP_SERVERS.CONFIGURE')"
+                color="slate"
+                variant="faded"
+                icon="i-lucide-settings"
+              />
+            </router-link>
           </div>
         </SectionLayout>
       </div>

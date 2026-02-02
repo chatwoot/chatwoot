@@ -255,7 +255,10 @@ const handleQuickConnect = () => {
         <i
           class="i-lucide-alert-circle text-n-ruby-11 text-base mt-0.5 shrink-0"
         />
-        <p class="text-sm text-n-ruby-11">
+        <p
+          class="text-sm text-n-ruby-11 line-clamp-2"
+          :title="server.last_error"
+        >
           {{ server.last_error }}
         </p>
       </div>

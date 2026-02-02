@@ -5,6 +5,8 @@ json.payload do
 end
 
 json.meta do
-  json.total_count @mcp_servers.count
-  json.page 1
+  json.total_count @mcp_servers.total_count
+  json.current_page @mcp_servers.current_page
+  json.per_page @mcp_servers.limit_value
+  json.total_pages @mcp_servers.total_pages
 end

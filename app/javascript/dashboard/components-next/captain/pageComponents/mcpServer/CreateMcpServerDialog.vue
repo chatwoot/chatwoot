@@ -73,7 +73,7 @@ defineExpose({ dialogRef });
     ref="dialogRef"
     width="xl"
     :title="$t(`${i18nKey}.TITLE`)"
-    :description="$t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.DESCRIPTION')"
+    :description="$t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.HELP_TEXT')"
     :show-cancel-button="false"
     :show-confirm-button="false"
     @close="handleClose"

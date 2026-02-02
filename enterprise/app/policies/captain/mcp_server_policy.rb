@@ -1,10 +1,10 @@
 class Captain::McpServerPolicy < ApplicationPolicy
   def index?
-    true
+    @account_user.administrator?
   end
 
   def show?
-    true
+    @account_user.administrator?
   end
 
   def create?

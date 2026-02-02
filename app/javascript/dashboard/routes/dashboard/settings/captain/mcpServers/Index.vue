@@ -98,7 +98,7 @@ onMounted(() => {
       <BaseSettingsHeader
         :title="t('CAPTAIN_SETTINGS.MCP_SERVERS.TITLE')"
         :description="t('CAPTAIN_SETTINGS.MCP_SERVERS.DESCRIPTION')"
-        icon-name="i-lucide-plug"
+        icon-name="link"
         feature-name="captain_mcp"
       >
         <template #actions>

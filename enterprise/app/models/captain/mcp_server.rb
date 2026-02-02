@@ -135,9 +135,9 @@ class Captain::McpServer < ApplicationRecord
   end
 
   def validate_url_scheme(uri)
-    return if uri.scheme == 'https'
+    return if %w[http https].include?(uri.scheme)
 
-    errors.add(:url, 'must use HTTPS protocol')
+    errors.add(:url, 'must use HTTP or HTTPS protocol')
   end
 
   def validate_url_host(uri)

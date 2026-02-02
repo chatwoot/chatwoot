@@ -433,6 +433,11 @@
     "MCP_SERVERS": {
       "TITLE": "MCP Servers",
       "DESCRIPTION": "Connect to Model Context Protocol (MCP) servers to extend your AI agents with external tools and capabilities.",
+      "SECTION_TITLE": "External Tools",
+      "SECTION_DESCRIPTION": "Extend your AI agents with tools from external MCP servers.",
+      "CARD_TITLE": "MCP Servers",
+      "CARD_DESCRIPTION": "Connect to external tool providers via Model Context Protocol",
+      "CONFIGURE": "Configure",
       "LOADING": "Loading MCP servers...",
       "NOT_ENABLED": "MCP servers are not enabled for your account.",
       "ADD_NEW": "Add MCP Server",
@@ -480,7 +485,7 @@
         "ERROR_MESSAGE": "Failed to delete MCP server. Please try again."
       },
       "FORM": {
-        "DESCRIPTION": "Configure the connection details for your MCP server.",
+        "HELP_TEXT": "Configure the connection details for your MCP server.",
         "NAME": {
           "LABEL": "Server name",
           "PLACEHOLDER": "My MCP Server",
@@ -492,11 +497,24 @@
         },
         "URL": {
           "LABEL": "Server URL",
-          "PLACEHOLDER": "https://mcp.example.com/sse",
-          "HINT": "The SSE endpoint URL for the MCP server (must use HTTPS)",
+          "PLACEHOLDER": "https://mcp.example.com/mcp",
+          "HINT": "The MCP server endpoint URL (HTTP or HTTPS)",
           "ERROR": "Please enter a valid URL",
           "INVALID": "Please enter a valid URL",
-          "HTTPS_REQUIRED": "URL must use HTTPS protocol"
+          "HTTPS_REQUIRED": "URL must use HTTP or HTTPS protocol"
+        },
+        "TRANSPORT": {
+          "LABEL": "Transport",
+          "PLACEHOLDER": "Auto-detect transport",
+          "AUTO": "Auto-detect",
+          "STREAMABLE_HTTP": "Streamable HTTP (/mcp)",
+          "SSE": "SSE (/sse)",
+          "HTTP": "HTTP JSON-RPC"
+        },
+        "RPC_ENDPOINT": {
+          "LABEL": "RPC endpoint (optional)",
+          "PLACEHOLDER": "/rpc",
+          "HINT": "Override the JSON-RPC endpoint path if your server uses a custom route."
         },
         "AUTH_TYPE": {
           "LABEL": "Authentication type",
