@@ -17,6 +17,8 @@ Rails.application.config.after_initialize do
         config.ollama_api_base = api_base
       end
       config.default_model = model
+      config.provider = :ollama
+      config.ollama_url = 'http://127.0.0.1:11434'
       config.debug = true
     end
   end
