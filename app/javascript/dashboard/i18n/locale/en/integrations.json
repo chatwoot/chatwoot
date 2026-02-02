@@ -877,6 +877,51 @@
         }
       }
     },
+    "MCP_SERVERS": {
+      "HEADER": "MCP Servers",
+      "DESCRIPTION": "Attach MCP servers to allow this assistant to use external tools.",
+      "ADD_NEW": "Attach MCP Server",
+      "FORM_DESCRIPTION": "Select an MCP server to attach to this assistant.",
+      "FORM": {
+        "MCP_SERVER": {
+          "LABEL": "MCP server",
+          "PLACEHOLDER": "Select MCP server",
+          "ERROR": "MCP server selection is required"
+        }
+      },
+      "TOOLS": {
+        "TITLE": "Allowed tools",
+        "DESCRIPTION": "Select which tools this assistant can use from the MCP server.",
+        "SELECT_ALL": "Select all",
+        "EMPTY": "No tools found for this server. Connect and refresh tools first."
+      },
+      "EMPTY": {
+        "TITLE": "No MCP servers attached",
+        "DESCRIPTION": "Attach an MCP server to enable external tools for this assistant."
+      },
+      "CREATE": {
+        "TITLE": "Attach MCP Server",
+        "SUCCESS_MESSAGE": "MCP server attached successfully",
+        "ERROR_MESSAGE": "Failed to attach MCP server"
+      },
+      "DETACH": "Detach",
+      "DELETE": {
+        "TITLE": "Delete MCP Server",
+        "DESCRIPTION": "Are you sure you want to delete this MCP server? This will disconnect it from all assistants.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "MCP server deleted successfully",
+        "ERROR_MESSAGE": "Failed to delete MCP server"
+      }
+    },
+    "ASSISTANT_MCP_SERVERS": {
+      "DELETE": {
+        "TITLE": "Detach MCP Server",
+        "DESCRIPTION": "Are you sure you want to detach this MCP server from the assistant?",
+        "CONFIRM": "Detach",
+        "SUCCESS_MESSAGE": "MCP server detached successfully",
+        "ERROR_MESSAGE": "Failed to detach MCP server"
+      }
+    },
     "RESPONSES": {
       "HEADER": "FAQs",
       "PENDING_FAQS": "Pending FAQs",

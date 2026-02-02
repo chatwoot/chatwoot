@@ -52,4 +52,17 @@ class Captain::AssistantMcpServer < ApplicationRecord
 
     included && !excluded
   end
+
+  def to_tool_metadata
+    (filtered_tools || []).map do |tool|
+      {
+        id: "#{mcp_server.slug}_#{tool['name']}",
+        title: tool['name'].to_s.titleize,
+        description: tool['description'],
+        mcp: true,
+        mcp_server_id: mcp_server.id,
+        mcp_tool_name: tool['name']
+      }
+    end
+  end
 end

@@ -59,6 +59,7 @@ import captainScenarios from './captain/scenarios';
 import captainTools from './captain/tools';
 import captainCustomTools from './captain/customTools';
 import captainMcpServers from './captain/mcpServers';
+import captainAssistantMcpServers from './captain/assistantMcpServers';
 
 const plugins = [];
 
@@ -123,6 +124,7 @@ export default createStore({
     captainTools,
     captainCustomTools,
     captainMcpServers,
+    captainAssistantMcpServers,
   },
   plugins,
 });

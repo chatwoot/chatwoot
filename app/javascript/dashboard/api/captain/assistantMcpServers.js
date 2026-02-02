@@ -10,12 +10,18 @@ class CaptainAssistantMcpServersAPI extends ApiClient {
     return `${this.baseUrl()}/captain/assistants/${assistantId}/mcp_servers`;
   }
 
-  get(assistantId) {
+  get({ assistantId } = {}) {
     return axios.get(this.getUrl(assistantId));
   }
 
-  create(assistantId, data) {
-    return axios.post(this.getUrl(assistantId), data);
+  create({ assistantId, mcpServerId, enabled = true, toolFilters = {} } = {}) {
+    return axios.post(this.getUrl(assistantId), {
+      assistant_mcp_server: {
+        captain_mcp_server_id: mcpServerId,
+        enabled,
+        tool_filters: toolFilters,
+      },
+    });
   }
 
   update(assistantId, id, data) {
