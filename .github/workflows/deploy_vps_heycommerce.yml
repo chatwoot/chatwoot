@@ -73,6 +73,18 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -p ${{ secrets.SSH_PORT || 22 }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Create app directory on VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -p $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            $SSH_USER@$SSH_HOST \
+            "mkdir -p ~/chatwoot-heycommerce"
+
       - name: Copy docker-compose to VPS
         env:
           SSH_HOST: ${{ secrets.SSH_HOST }}
