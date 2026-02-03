@@ -2,12 +2,12 @@
 import { ref } from 'vue';
 import { useAlert, useTrack } from 'dashboard/composables';
 import BotMetrics from './components/BotMetrics.vue';
+import BotSummaryTable from './components/BotSummaryTable.vue';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './components/ReportHeader.vue';
-import ReportsAPI from 'dashboard/api/reports';
 import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
 import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
 
@@ -15,6 +15,7 @@ export default {
   name: 'BotReports',
   components: {
     BotMetrics,
+    BotSummaryTable,
     ReportHeader,
     ReportFilterSelector,
     ReportContainer,
@@ -22,9 +23,11 @@ export default {
   },
   setup() {
     const downloadingReport = ref(false);
+    const botSummaryTableRef = ref(null);
     const { downloadOptions } = useReportDownloadOptions();
     return {
       downloadingReport,
+      botSummaryTableRef,
       downloadOptions,
     };
   },
@@ -33,6 +36,7 @@ export default {
       from: 0,
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
+      selectedInbox: [],
       reportKeys: {
         BOT_RESOLUTION_COUNT: 'bot_resolutions_count',
         BOT_HANDOFF_COUNT: 'bot_handoffs_count',
@@ -45,6 +49,7 @@ export default {
       return {
         from: this.from,
         to: this.to,
+        inboxId: this.selectedInbox.length > 0 ? this.selectedInbox : undefined,
       };
     },
   },
@@ -66,6 +71,7 @@ export default {
           await this.$store.dispatch('fetchAccountReport', {
             metric: this.reportKeys[key],
             ...this.getRequestPayload(),
+            inboxIds: this.selectedInbox,
           });
         } catch {
           useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
@@ -73,65 +79,46 @@ export default {
       });
     },
     getRequestPayload() {
-      const { from, to, groupBy, businessHours } = this;
+      const { from, to, groupBy, businessHours, selectedInbox } = this;
 
-      return {
+      const payload = {
         from,
         to,
         groupBy: groupBy?.period,
         businessHours,
       };
+
+      if (selectedInbox && selectedInbox.length > 0) {
+        payload.inboxId = selectedInbox;
+      }
+
+      return payload;
     },
-    onFilterChange({ from, to, groupBy, businessHours }) {
+    onFilterChange({ from, to, groupBy, businessHours, selectedInbox }) {
       this.from = from;
       this.to = to;
       this.groupBy = groupBy;
       this.businessHours = businessHours;
+      this.selectedInbox = selectedInbox
+        ? selectedInbox.map(inbox => inbox.id || inbox)
+        : [];
       this.fetchAllData();
 
       useTrack(REPORTS_EVENTS.FILTER_REPORT, {
-        filterValue: { from, to, groupBy, businessHours },
+        filterValue: {
+          from,
+          to,
+          groupBy,
+          businessHours,
+          selectedInbox: this.selectedInbox,
+        },
         reportType: 'bots',
       });
     },
     async downloadReports(option) {
-      this.downloadingReport = true;
-
-      const format = option?.value || option || 'csv';
-      const { from, to, groupBy, businessHours } = this;
-
-      try {
-        const response = await ReportsAPI.getBotReports({
-          from,
-          to,
-          groupBy: groupBy?.period,
-          businessHours,
-          format,
-        });
-
-        const mimeTypes = {
-          csv: 'text/csv',
-          xlsx: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        };
-
-        const blob = new Blob([response.data], { type: mimeTypes[format] });
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `bot_summary_${new Date().getTime()}.${format}`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(url);
-
-        useTrack(REPORTS_EVENTS.DOWNLOAD_REPORT, {
-          reportType: 'bots',
-          format: format,
-        });
-      } catch (error) {
-        useAlert(this.$t('BOT_REPORTS.DOWNLOAD_FAILED'));
-      } finally {
-        this.downloadingReport = false;
+      if (this.$refs.botSummaryTableRef) {
+        const format = option?.value || option || 'csv';
+        await this.$refs.botSummaryTableRef.downloadReports(format);
       }
     },
   },
@@ -151,6 +138,7 @@ export default {
   <div class="flex flex-col gap-4">
     <ReportFilterSelector
       :show-agents-filter="false"
+      show-inbox-filter
       show-group-by-filter
       show-time-range-filter
       :show-business-hours-switch="false"
@@ -158,11 +146,22 @@ export default {
     />
 
     <BotMetrics :filters="requestPayload" />
+
     <ReportContainer
       account-summary-key="getBotSummary"
       summary-fetching-key="getBotSummaryFetchingStatus"
       :group-by="groupBy"
       :report-keys="reportKeys"
+      :selected-inbox="selectedInbox"
+    />
+
+    <BotSummaryTable
+      ref="botSummaryTableRef"
+      :from="from"
+      :to="to"
+      :group-by="groupBy"
+      :business-hours="businessHours"
+      :selected-inbox="selectedInbox"
     />
   </div>
 </template>

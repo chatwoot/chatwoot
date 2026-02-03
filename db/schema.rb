@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_02_141507) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -680,6 +680,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
   create_table "conversation_queues", force: :cascade do |t|
     t.bigint "conversation_id", null: false
     t.bigint "account_id", null: false
+    t.bigint "inbox_id"
     t.datetime "queued_at", null: false
     t.datetime "assigned_at"
     t.datetime "left_at"
@@ -687,7 +688,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "inbox_id"
     t.index ["account_id", "status", "position"], name: "idx_on_account_id_status_position_c5e04b77ac"
     t.index ["account_id", "status", "queued_at"], name: "idx_on_account_id_status_queued_at_960ec2cf36"
     t.index ["account_id"], name: "index_conversation_queues_on_account_id"
@@ -774,11 +774,11 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.text "feedback_message"
     t.bigint "contact_id", null: false
     t.bigint "assigned_agent_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.text "csat_review_notes"
     t.datetime "review_notes_updated_at"
     t.bigint "review_notes_updated_by_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.index ["account_id"], name: "index_csat_survey_responses_on_account_id"
     t.index ["assigned_agent_id"], name: "index_csat_survey_responses_on_assigned_agent_id"
     t.index ["contact_id"], name: "index_csat_survey_responses_on_contact_id"
@@ -1182,8 +1182,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
     t.float "value_in_business_hours"
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
+    t.bigint "agent_bot_id"
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
+    t.index ["agent_bot_id"], name: "index_reporting_events_on_agent_bot_id"
     t.index ["conversation_id"], name: "index_reporting_events_on_conversation_id"
     t.index ["created_at"], name: "index_reporting_events_on_created_at"
     t.index ["inbox_id"], name: "index_reporting_events_on_inbox_id"
@@ -1342,6 +1344,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_01_20_121402) do
   add_foreign_key "agent_activity_logs", "users"
   add_foreign_key "conversation_queues", "accounts"
   add_foreign_key "conversation_queues", "conversations"
+  add_foreign_key "conversation_queues", "inboxes"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "inboxes", "priority_groups"
   add_foreign_key "priority_groups", "accounts"

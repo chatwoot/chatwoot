@@ -45,7 +45,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def bot_summary_download
-    result = V2::Reports::BotSummaryBuilder.new(Current.account, params).build
+    result = V2::Reports::BotSummaryBuilder.new(Current.account, bot_params).build
 
     @date_range           = result[:date_range]
     @bot_metrics          = result[:bot_metrics]
@@ -144,7 +144,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def bot_metrics
-    bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, params).metrics
+    bot_metrics = V2::Reports::BotMetricsBuilder.new(Current.account, bot_metrics_params).metrics
     render json: bot_metrics
   end
 
@@ -190,6 +190,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours]) }
   end
 
+  def bot_metrics_params
+    params.permit(:since, :until, inbox_ids: [])
+  end
+
+  def bot_params
+    params.permit(:since, :until, :group_by, :business_hours, inbox_ids: [])
+  end
+
   def generate_csv(filename, template)
     response.headers['Content-Type'] = 'text/csv'
     response.headers['Content-Disposition'] = "attachment; filename=#{filename}.csv"
@@ -225,19 +233,22 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def current_summary_params
-    common_params.merge({ since: range[:current][:since], until: range[:current][:until], timezone_offset: params[:timezone_offset] })
+    common_params.merge({ since: range[:current][:since], until: range[:current][:until], timezone_offset: params[:timezone_offset],
+                          inbox_ids: params[:inbox_ids]&.reject(&:blank?) })
   end
 
   def previous_summary_params
-    common_params.merge({ since: range[:previous][:since], until: range[:previous][:until], timezone_offset: params[:timezone_offset] })
+    common_params.merge({ since: range[:previous][:since], until: range[:previous][:until], timezone_offset: params[:timezone_offset],
+                          inbox_ids: params[:inbox_ids]&.reject(&:blank?) })
   end
 
   def report_params
-    common_params.merge({ metric: params[:metric], since: params[:since], until: params[:until], timezone_offset: params[:timezone_offset] })
+    common_params.merge({ metric: params[:metric], since: params[:since],  until: params[:until], timezone_offset: params[:timezone_offset],
+                          inbox_ids: params[:inbox_ids]&.reject(&:blank?) })
   end
 
   def conversation_params
-    { ype: params[:type].to_sym, user_id: params[:user_id], page: params[:page].presence || 1 }
+    { type: params[:type].to_sym, user_id: params[:user_id], page: params[:page].presence || 1 }
   end
 
   def range

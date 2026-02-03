@@ -477,6 +477,13 @@
   "BOT_REPORTS": {
     "HEADER": "Отчеты о боте",
     "DOWNLOAD": "Скачать отчёты о ботах",
+    "TABLE": {
+      "CONVERSATIONS": "Количество диалогов",
+      "BOT_NAME": "Бот",
+      "AVG_FIRST_RESPONSE_TIME": "Среднее время первого ответа",
+      "AVG_REPLY_TIME": "Среднее время ответа",
+      "AVG_RESOLUTION_TIME": "Среднее время разрешения"
+    },
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Количество диалогов",

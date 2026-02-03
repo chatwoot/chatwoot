@@ -29,7 +29,7 @@ class V2::Reports::BotSummaryBuilder
 
   def bot_metrics
     V2::Reports::BotMetricsBuilder
-      .new(account, since_until_params)
+      .new(account, since_until_params_with_inboxes)
       .metrics
   end
 
@@ -63,14 +63,20 @@ class V2::Reports::BotSummaryBuilder
       since: params[:since],
       until: params[:until],
       group_by: params[:group_by] || 'day',
-      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+      business_hours: ActiveModel::Type::Boolean.new.cast(params[:business_hours]),
+      inbox_ids: inbox_ids
     }
   end
 
-  def since_until_params
+  def since_until_params_with_inboxes
     {
       since: params[:since],
-      until: params[:until]
+      until: params[:until],
+      inbox_ids: inbox_ids
     }
+  end
+
+  def inbox_ids
+    @inbox_ids ||= params[:inbox_ids]&.reject(&:blank?)
   end
 end

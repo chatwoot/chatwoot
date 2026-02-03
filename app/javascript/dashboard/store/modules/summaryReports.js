@@ -22,6 +22,11 @@ const typeMap = {
     apiMethod: 'getLabelReports',
     mutationKey: 'setLabelSummaryReport',
   },
+  bot: {
+    flagKey: 'isFetchingBotSummaryReports',
+    apiMethod: 'getBotSummaryReports',
+    mutationKey: 'setBotSummaryReport',
+  },
 };
 
 async function fetchSummaryReports(type, params, { commit }) {
@@ -44,11 +49,13 @@ export const initialState = {
   agentSummaryReports: [],
   teamSummaryReports: [],
   labelSummaryReports: [],
+  botSummaryReports: [],
   uiFlags: {
     isFetchingInboxSummaryReports: false,
     isFetchingAgentSummaryReports: false,
     isFetchingTeamSummaryReports: false,
     isFetchingLabelSummaryReports: false,
+    isFetchingBotSummaryReports: false,
   },
 };
 
@@ -64,6 +71,9 @@ export const getters = {
   },
   getLabelSummaryReports(state) {
     return state.labelSummaryReports;
+  },
+  getBotSummaryReports(state) {
+    return state.botSummaryReports;
   },
   getUIFlags(state) {
     return state.uiFlags;
@@ -86,6 +96,9 @@ export const actions = {
   fetchLabelSummaryReports({ commit }, params) {
     return fetchSummaryReports('label', params, { commit });
   },
+  fetchBotSummaryReports({ commit }, params) {
+    return fetchSummaryReports('bot', params, { commit });
+  },
 };
 
 export const mutations = {
@@ -100,6 +113,9 @@ export const mutations = {
   },
   setLabelSummaryReport(state, data) {
     state.labelSummaryReports = data;
+  },
+  setBotSummaryReport(state, data) {
+    state.botSummaryReports = data;
   },
   setUIFlags(state, uiFlag) {
     state.uiFlags = { ...state.uiFlags, ...uiFlag };

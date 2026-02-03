@@ -16,34 +16,42 @@ class ReportsAPI extends ApiClient {
     id,
     groupBy,
     businessHours,
+    inboxIds,
   }) {
-    return axios.get(`${this.url}`, {
-      params: {
-        metric,
-        since: from,
-        until: to,
-        type,
-        id,
-        group_by: groupBy,
-        business_hours: businessHours,
-        timezone_offset: getTimeOffset(),
-      },
-    });
+    const params = {
+      metric,
+      since: from,
+      until: to,
+      type,
+      id,
+      group_by: groupBy,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    return axios.get(`${this.url}`, { params });
   }
 
-  // eslint-disable-next-line default-param-last
-  getSummary(since, until, type = 'account', id, groupBy, businessHours) {
-    return axios.get(`${this.url}/summary`, {
-      params: {
-        since,
-        until,
-        type,
-        id,
-        group_by: groupBy,
-        business_hours: businessHours,
-        timezone_offset: getTimeOffset(),
-      },
-    });
+  getSummary(since, until, type, id, groupBy, businessHours, inboxIds) {
+    const params = {
+      since,
+      until,
+      type: type || 'account',
+      id,
+      group_by: groupBy,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    return axios.get(`${this.url}/summary`, { params });
   }
 
   getAllMetricsReports({
@@ -118,10 +126,14 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getBotMetrics({ from, to } = {}) {
-    return axios.get(`${this.url}/bot_metrics`, {
-      params: { since: from, until: to },
-    });
+  getBotMetrics({ from, to, inboxId } = {}) {
+    const params = { since: from, until: to };
+
+    if (inboxId && inboxId.length > 0) {
+      params['inbox_ids[]'] = inboxId;
+    }
+
+    return axios.get(`${this.url}/bot_metrics`, { params });
   }
 
   getAgentActivityCSV({
@@ -169,16 +181,20 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getBotSummary({ from, to, groupBy, businessHours } = {}) {
-    return axios.get(`${this.url}/bot_summary`, {
-      params: {
-        since: from,
-        until: to,
-        type: 'account',
-        group_by: groupBy,
-        business_hours: businessHours,
-      },
-    });
+  getBotSummary({ from, to, groupBy, businessHours, inboxId } = {}) {
+    const params = {
+      since: from,
+      until: to,
+      type: 'account',
+      group_by: groupBy,
+      business_hours: businessHours,
+    };
+
+    if (inboxId && inboxId.length > 0) {
+      params['inbox_ids[]'] = inboxId;
+    }
+
+    return axios.get(`${this.url}/bot_summary`, { params });
   }
 
   getOverviewReports({
@@ -204,15 +220,22 @@ class ReportsAPI extends ApiClient {
     groupBy,
     businessHours,
     format = 'csv',
+    inboxId,
   }) {
+    const params = {
+      since,
+      until,
+      group_by: groupBy,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (inboxId && inboxId.length > 0) {
+      params['inbox_ids[]'] = inboxId;
+    }
+
     return axios.get(`${this.url}/bot_summary_download.${format}`, {
-      params: {
-        since,
-        until,
-        group_by: groupBy,
-        business_hours: businessHours,
-        timezone_offset: getTimeOffset(),
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }

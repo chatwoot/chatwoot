@@ -522,6 +522,13 @@
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
     "DOWNLOAD": "Download Bot Reports",
+    "TABLE": {
+      "CONVERSATIONS": "Conversations",
+      "BOT_NAME": "Bot",
+      "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+      "AVG_REPLY_TIME": "Avg. Reply Time",
+      "AVG_RESOLUTION_TIME": "Avg. Resolution Time"
+    },
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",
