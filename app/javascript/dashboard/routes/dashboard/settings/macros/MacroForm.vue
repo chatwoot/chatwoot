@@ -58,6 +58,15 @@ export default {
       visibility: {
         required,
       },
+      description: {
+        requiredIfGlobal(value) {
+          // Description is required only for global macros
+          if (this.macro.visibility === 'global') {
+            return !!value && value.trim().length > 0;
+          }
+          return true;
+        },
+      },
     },
   },
   methods: {
@@ -71,6 +80,16 @@ export default {
     },
     updateVisibility(value) {
       this.macro.visibility = value;
+      // Reset AI enabled when switching to personal
+      if (value === 'personal') {
+        this.macro.ai_enabled = false;
+      }
+    },
+    updateDescription(value) {
+      this.macro.description = value;
+    },
+    updateAiEnabled(value) {
+      this.macro.ai_enabled = value;
     },
     appendNode() {
       this.macro.actions.push({
@@ -125,8 +144,12 @@ export default {
       <MacroProperties
         :macro-name="macro.name"
         :macro-visibility="macro.visibility"
+        :macro-description="macro.description"
+        :macro-ai-enabled="macro.ai_enabled"
         @update:name="updateName"
         @update:visibility="updateVisibility"
+        @update:description="updateDescription"
+        @update:ai-enabled="updateAiEnabled"
         @submit="submit"
       />
     </div>

@@ -28,7 +28,12 @@ class Macro < ApplicationRecord
 
   enum visibility: { personal: 0, global: 1 }
 
+  validates :description, presence: true, if: :global?
+
   validate :json_actions_format
+
+  scope :ai_enabled, -> { where(ai_enabled: true) }
+  scope :ai_available, -> { global.ai_enabled.where.not(description: [nil, '']) }
 
   ACTIONS_ATTRS = %w[send_message add_label assign_team assign_agent mute_conversation change_status remove_label remove_assigned_team
                      resolve_conversation snooze_conversation change_priority send_email_transcript send_attachment

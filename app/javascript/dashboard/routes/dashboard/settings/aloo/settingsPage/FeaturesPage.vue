@@ -47,6 +47,12 @@ const features = [
     label: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.LABEL',
     description: 'ALOO.SETTINGS.FEATURES.CATALOG_ACCESS.DESCRIPTION',
   },
+  {
+    key: 'macros_enabled',
+    adminKey: 'feature_macros',
+    label: 'ALOO.SETTINGS.FEATURES.MACROS.LABEL',
+    description: 'ALOO.SETTINGS.FEATURES.MACROS.DESCRIPTION',
+  },
 ];
 
 const updateFeature = (adminKey, value) => {

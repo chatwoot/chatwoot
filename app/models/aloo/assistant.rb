@@ -151,6 +151,11 @@ module Aloo
       admin_config['feature_catalog_access'] != false
     end
 
+    # Macros tool feature flag
+    def feature_macros_enabled?
+      admin_config['feature_macros'] != false
+    end
+
     # Full system prompt combining base + personality + guardrails
     def full_system_prompt
       [

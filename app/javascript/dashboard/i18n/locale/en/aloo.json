@@ -246,6 +246,10 @@
         "CATALOG_ACCESS": {
           "LABEL": "Catalog Access",
           "DESCRIPTION": "Allow the AI to access product information and create shopping carts for customers"
+        },
+        "MACROS": {
+          "LABEL": "Execute Macros",
+          "DESCRIPTION": "Allow the AI to trigger predefined macros/workflows during conversations"
         }
       },
       "VOICE": {

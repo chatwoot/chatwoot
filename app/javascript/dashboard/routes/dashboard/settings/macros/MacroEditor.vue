@@ -86,6 +86,8 @@ const initNewMacro = () => {
   mode.value = 'CREATE';
   macro.value = {
     name: '',
+    description: '',
+    ai_enabled: false,
     actions: [
       {
         action_name: 'assign_team',

@@ -38,6 +38,7 @@ class ConversationAgent < ApplicationAgent
     parts << personality_section
     parts << greeting_instructions
     parts << catalog_instructions
+    parts << macros_section
     parts << language_section
     parts << conversation_context_info
     parts.compact.join("\n\n")
@@ -70,6 +71,8 @@ class ConversationAgent < ApplicationAgent
       available_tools << ProductDetailsTool
       available_tools << CreateCartTool
     end
+
+    available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
 
     available_tools
   end
@@ -178,5 +181,29 @@ class ConversationAgent < ApplicationAgent
     current_assistant&.description.presence ||
       current_conversation&.inbox&.business_name.presence ||
       'our company'
+  end
+
+  def macros_available?
+    available_macros.exists?
+  end
+
+  def available_macros
+    current_account&.macros&.ai_available || Macro.none
+  end
+
+  def macros_section
+    return nil unless current_assistant&.feature_macros_enabled? && macros_available?
+
+    macro_list = available_macros.select(:id, :name, :description).map do |macro|
+      "- ID: #{macro.id} | #{macro.name}: #{macro.description}"
+    end.join("\n")
+
+    <<~PROMPT
+      ## Available Macros
+      You can trigger these predefined workflows when appropriate using the execute_macro tool:
+      #{macro_list}
+
+      Only trigger a macro when it clearly matches the customer's needs.
+    PROMPT
   end
 end

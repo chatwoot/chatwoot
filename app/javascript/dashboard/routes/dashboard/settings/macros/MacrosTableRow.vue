@@ -35,7 +35,17 @@ const visibilityLabel = computed(() => {
 
 <template>
   <tr>
-    <td class="py-4 ltr:pr-4 rtl:pl-4 truncate">{{ macro.name }}</td>
+    <td class="py-4 ltr:pr-4 rtl:pl-4 truncate">
+      <div class="flex items-center gap-2">
+        <span>{{ macro.name }}</span>
+        <span
+          v-if="macro.ai_enabled"
+          class="px-1.5 py-0.5 text-xs font-medium rounded bg-n-teal-3 text-n-teal-11"
+        >
+          {{ $t('MACROS.LIST.AI_BADGE') }}
+        </span>
+      </div>
+    </td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
       <div v-if="macro.created_by" class="flex items-center">
         <Avatar :name="createdByName" :size="24" rounded-full />
