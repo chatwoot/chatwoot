@@ -39,6 +39,19 @@ class Captain::AssistantMcpServer < ApplicationRecord
     all_tools.select { |tool| matches_filters?(tool) }
   end
 
+  def to_tool_metadata
+    (filtered_tools || []).map do |tool|
+      {
+        id: "#{mcp_server.slug}_#{tool['name']}",
+        title: tool['name'].to_s.titleize,
+        description: tool['description'],
+        mcp: true,
+        mcp_server_id: mcp_server.id,
+        mcp_tool_name: tool['name']
+      }
+    end
+  end
+
   private
 
   def matches_filters?(tool)
@@ -51,18 +64,5 @@ class Captain::AssistantMcpServer < ApplicationRecord
     excluded = exclude_list.present? && exclude_list.include?(tool['name'])
 
     included && !excluded
-  end
-
-  def to_tool_metadata
-    (filtered_tools || []).map do |tool|
-      {
-        id: "#{mcp_server.slug}_#{tool['name']}",
-        title: tool['name'].to_s.titleize,
-        description: tool['description'],
-        mcp: true,
-        mcp_server_id: mcp_server.id,
-        mcp_tool_name: tool['name']
-      }
-    end
   end
 end

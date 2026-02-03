@@ -6,7 +6,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   before_action :set_mcp_server, only: [:show, :update, :destroy, :connect, :disconnect, :refresh]
 
   def index
-    @mcp_servers = account_mcp_servers.enabled.order(created_at: :desc).page(params[:page]).per(RESULTS_PER_PAGE)
+    @mcp_servers = account_mcp_servers.order(created_at: :desc).page(params[:page]).per(RESULTS_PER_PAGE)
   end
 
   def show; end

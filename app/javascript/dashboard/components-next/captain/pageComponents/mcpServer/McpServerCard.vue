@@ -109,10 +109,12 @@ const timestamp = computed(() => {
 });
 
 const authTypeLabel = computed(() => {
-  if (props.server.auth_type === 'none') return null;
-  return t(
-    `CAPTAIN_SETTINGS.MCP_SERVERS.AUTH_TYPES.${props.server.auth_type.toUpperCase()}`
-  );
+  const labels = {
+    bearer: t('CAPTAIN_SETTINGS.MCP_SERVERS.AUTH_TYPES.BEARER'),
+    api_key: t('CAPTAIN_SETTINGS.MCP_SERVERS.AUTH_TYPES.API_KEY'),
+  };
+
+  return labels[props.server.auth_type] || null;
 });
 
 const handleAction = ({ action }) => {

@@ -4,6 +4,7 @@ json.name mcp_server.name
 json.description mcp_server.description
 json.url mcp_server.url
 json.auth_type mcp_server.auth_type
+json.auth_config mcp_server.auth_config
 json.enabled mcp_server.enabled
 json.status mcp_server.status
 json.last_error mcp_server.last_error

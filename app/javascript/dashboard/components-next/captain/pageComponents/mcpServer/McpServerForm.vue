@@ -9,6 +9,7 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 const props = defineProps({
   mode: {
@@ -194,6 +195,20 @@ const handleSubmit = async () => {
       "
       rows="2"
     />
+
+    <div
+      class="flex items-center justify-between gap-4 rounded-lg border border-n-slate-6 bg-n-slate-2 p-3"
+    >
+      <div class="flex flex-col gap-1">
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.ENABLED.LABEL') }}
+        </span>
+        <span class="text-xs text-n-slate-10">
+          {{ t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.ENABLED.HINT') }}
+        </span>
+      </div>
+      <Switch v-model="state.enabled" />
+    </div>
 
     <Input
       v-model="state.url"

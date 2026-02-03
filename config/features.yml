@@ -218,6 +218,10 @@
   # Once the migration is done, this feature can be removed
   display_name: Reply Mailer Migration
   enabled: false
+- name: captain_mcp
+  display_name: Captain MCP
+  enabled: false
+  premium: true
   chatwoot_internal: true
 - name: quoted_email_reply
   display_name: Quoted Email Reply

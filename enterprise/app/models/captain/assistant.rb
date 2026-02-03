@@ -63,7 +63,10 @@ class Captain::Assistant < ApplicationRecord
     custom_tools = account.captain_custom_tools.enabled.map(&:to_tool_metadata)
     tools.concat(custom_tools)
 
-    mcp_tools = assistant_mcp_servers.enabled.flat_map(&:to_tool_metadata)
+    mcp_tools = assistant_mcp_servers.enabled
+                                     .joins(:mcp_server)
+                                     .merge(Captain::McpServer.enabled)
+                                     .flat_map(&:to_tool_metadata)
     tools.concat(mcp_tools)
 
     tools

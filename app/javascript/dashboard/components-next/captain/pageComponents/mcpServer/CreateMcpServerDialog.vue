@@ -26,9 +26,22 @@ const store = useStore();
 
 const dialogRef = ref(null);
 
-const i18nKey = computed(
-  () => `CAPTAIN_SETTINGS.MCP_SERVERS.${props.type.toUpperCase()}`
-);
+const dialogCopy = computed(() => {
+  const copyMap = {
+    create: {
+      title: t('CAPTAIN_SETTINGS.MCP_SERVERS.CREATE.TITLE'),
+      successMessage: t('CAPTAIN_SETTINGS.MCP_SERVERS.CREATE.SUCCESS_MESSAGE'),
+      errorMessage: t('CAPTAIN_SETTINGS.MCP_SERVERS.CREATE.ERROR_MESSAGE'),
+    },
+    edit: {
+      title: t('CAPTAIN_SETTINGS.MCP_SERVERS.EDIT.TITLE'),
+      successMessage: t('CAPTAIN_SETTINGS.MCP_SERVERS.EDIT.SUCCESS_MESSAGE'),
+      errorMessage: t('CAPTAIN_SETTINGS.MCP_SERVERS.EDIT.ERROR_MESSAGE'),
+    },
+  };
+
+  return copyMap[props.type] || copyMap.create;
+});
 
 const updateServer = serverDetails =>
   store.dispatch('captainMcpServers/update', {
@@ -47,12 +60,12 @@ const handleSubmit = async serverData => {
     } else {
       result = await createServer(serverData);
     }
-    useAlert(t(`${i18nKey.value}.SUCCESS_MESSAGE`));
+    useAlert(dialogCopy.value.successMessage);
     emit('created', result);
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      parseAPIErrorResponse(error) || t(`${i18nKey.value}.ERROR_MESSAGE`);
+      parseAPIErrorResponse(error) || dialogCopy.value.errorMessage;
     useAlert(errorMessage);
   }
 };
@@ -72,7 +85,7 @@ defineExpose({ dialogRef });
   <Dialog
     ref="dialogRef"
     width="xl"
-    :title="$t(`${i18nKey}.TITLE`)"
+    :title="dialogCopy.title"
     :description="$t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.HELP_TEXT')"
     :show-cancel-button="false"
     :show-confirm-button="false"
