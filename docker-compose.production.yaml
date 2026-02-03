@@ -1,63 +1,174 @@
-version: '3'
+version: "3.7"
 
 services:
-  base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
-    volumes:
-      - storage_data:/app/storage
-
-  rails:
-    <<: *base
-    depends_on:
-      - postgres
-      - redis
-    ports:
-      - '127.0.0.1:3000:3000'
+  chatwoot_app:
+    image: ghcr.io/heycommerce-mkt/chatwoot:production
+    command: ["sh", "-c", "cp -ru /app/public/assets/* /app/public/ 2>/dev/null || true && bundle exec rails server -b 0.0.0.0 -p 3000"]
+    networks:
+      - network_public
     environment:
-      - NODE_ENV=production
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
       - RAILS_ENV=production
-      - INSTALLATION_ENV=docker
-    entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
-    restart: always
-
-  sidekiq:
-    <<: *base
-    depends_on:
-      - postgres
-      - redis
-    environment:
       - NODE_ENV=production
-      - RAILS_ENV=production
-      - INSTALLATION_ENV=docker
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-    restart: always
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
+      - TZ=America/Sao_Paulo
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - ACTIVE_STORAGE_SERVICE=local
+      - FORCE_SSL=true
+      - ENABLE_ACCOUNT_SIGNUP=false
+      - RAILS_MAX_THREADS=5
+      - WEB_CONCURRENCY=3
+      - RAILS_LOG_TO_STDOUT=true
+      - CRM_URL=${CRM_URL}
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      # ===== SSO =====
+      - SSO_ENABLED=${SSO_ENABLED:-true}
+      - SSO_PROVIDER=${SSO_PROVIDER:-custom}
+      - SSO_SECRET_KEY=${SSO_SECRET_KEY}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 4096M
+        reservations:
+          cpus: "1.0"
+          memory: 2048M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        delay: 5s
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.chatwoot_app.rule=Host(`chat.crm-heycommerce.com`)
+        - traefik.http.routers.chatwoot_app.entrypoints=websecure
+        - traefik.http.routers.chatwoot_app.priority=1
+        - traefik.http.routers.chatwoot_app.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.chatwoot_app.service=chatwoot_app
+        - traefik.http.services.chatwoot_app.loadbalancer.server.port=3000
+        - traefik.http.services.chatwoot_app.loadbalancer.passHostHeader=true
+        - traefik.http.routers.chatwoot_app.middlewares=chatwoot_headers
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Proto=https
+        - traefik.http.middlewares.chatwoot_headers.headers.customrequestheaders.X-Forwarded-Port=443
+
+  chatwoot_worker:
+    image: ghcr.io/heycommerce-mkt/chatwoot:production
+    command: ["sh", "-c", "cp -ru /app/public/assets/* /app/public/ 2>/dev/null || true && bundle exec sidekiq -C config/sidekiq.yml"]
+    networks:
+      - network_public
     environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
-
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RAILS_ENV=production
+      - NODE_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_ADDRESS=${SMTP_ADDRESS}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USERNAME=${SMTP_USERNAME}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_AUTHENTICATION=plain
+      - SMTP_ENABLE_STARTTLS_AUTO=true
+      - ACTIVE_STORAGE_SERVICE=local
+      - TZ=America/Sao_Paulo
+      - RAILS_LOG_TO_STDOUT=true
+      - SIDEKIQ_CONCURRENCY=8
+      # ===== SSO =====
+      - SSO_ENABLED=${SSO_ENABLED:-true}
+      - SSO_PROVIDER=${SSO_PROVIDER:-custom}
+      - SSO_SECRET_KEY=${SSO_SECRET_KEY}
     volumes:
-      - redis_data:/data
-    ports:
-      - '127.0.0.1:6379:6379'
+      - chatwoot_storage:/app/storage
+      - chatwoot_public:/app/public
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 2048M
+        reservations:
+          cpus: "0.5"
+          memory: 1024M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+      rollback_config:
+        parallelism: 1
+        delay: 5s
+
+  chatwoot_rails_migrations:
+    image: ghcr.io/heycommerce-mkt/chatwoot:production
+    command: ["bundle", "exec", "rails", "db:chatwoot_prepare"]
+    networks:
+      - network_public
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DATABASE=chatwoot
+      - POSTGRES_USERNAME=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_URL=redis://redis:6379/0
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - RAILS_ENV=production
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      - FRONTEND_URL=${FRONTEND_URL}
+      - TZ=America/Sao_Paulo
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      placement:
+        constraints:
+          - node.role == manager
 
 volumes:
-  storage_data:
-  postgres_data:
-  redis_data:
+  chatwoot_storage:
+    external: true
+    name: chatwoot_storage
+  chatwoot_public:
+    external: true
+    name: chatwoot_public
+
+networks:
+  network_public:
+    external: true
+    name: network_public

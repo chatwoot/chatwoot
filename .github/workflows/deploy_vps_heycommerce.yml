@@ -1,0 +1,276 @@
+name: Deploy HeyCommerce Chatwoot to VPS
+
+on:
+  push:
+    branches:
+      - production
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: heycommerce-mkt/chatwoot
+
+jobs:
+  # Job 1: Build e push da imagem Docker para GHCR
+  build:
+    name: Build and Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      image-tag: ${{ steps.meta.outputs.tags }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=ref,event=branch
+            type=sha,prefix={{branch}}-
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/cliente-heycommerce' }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          platforms: linux/amd64
+
+  # Job 2: Deploy via SSH (apenas cliente-heycommerce)
+  deploy:
+    name: Deploy to Production VPS
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/production'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.SSH_PORT || 22 }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Copy docker-compose to VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          scp -i ~/.ssh/deploy_key \
+            -P $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            docker-compose.production.yaml \
+            $SSH_USER@$SSH_HOST:~/chatwoot-heycommerce/
+          echo "✅ docker-compose.production.yaml copied to VPS"
+
+      - name: Copy .env file to VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          # Criar .env temporário com variáveis de produção
+          cat > .env.production << EOF
+          SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+          FRONTEND_URL=${{ secrets.FRONTEND_URL }}
+          POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_HOST=postgres
+          POSTGRES_PORT=5432
+          POSTGRES_USERNAME=postgres
+          REDIS_URL=redis://redis:6379
+          REDIS_PASSWORD=${{ secrets.REDIS_PASSWORD }}
+          RAILS_ENV=production
+          NODE_ENV=production
+          INSTALLATION_ENV=docker
+          RAILS_LOG_TO_STDOUT=true
+          LOG_LEVEL=info
+          ENABLE_ACCOUNT_SIGNUP=false
+          MAILER_SENDER_EMAIL=${{ secrets.MAILER_SENDER_EMAIL }}
+          SMTP_ADDRESS=${{ secrets.SMTP_ADDRESS }}
+          SMTP_PORT=${{ secrets.SMTP_PORT }}
+          SMTP_USERNAME=${{ secrets.SMTP_USERNAME }}
+          SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }}
+          SMTP_DOMAIN=${{ secrets.SMTP_DOMAIN }}
+          SMTP_AUTHENTICATION=plain
+          SMTP_ENABLE_STARTTLS_AUTO=true
+          ACTIVE_STORAGE_SERVICE=local
+          # Variáveis SSO (Hardcoded conforme solicitado)
+          SSO_ENABLED=true
+          SSO_PROVIDER=custom
+          SSO_SECRET_KEY=650104abea44f187db645f220a030c84a11c92a1cb574ee3848463a9c88ac413
+          EOF
+          
+          scp -i ~/.ssh/deploy_key \
+            -P $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            .env.production \
+            $SSH_USER@$SSH_HOST:~/chatwoot-heycommerce/.env
+          
+          rm .env.production
+          echo "✅ .env file copied to VPS"
+
+      - name: Login to GHCR on VPS
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -p $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            $SSH_USER@$SSH_HOST \
+            "echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin"
+          echo "✅ Logged in to GHCR on VPS"
+
+      - name: Deploy Chatwoot HeyCommerce
+        env:
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PORT: ${{ secrets.SSH_PORT || 22 }}
+          IMAGE_TAG: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+        run: |
+          ssh -i ~/.ssh/deploy_key \
+            -p $SSH_PORT \
+            -o StrictHostKeyChecking=no \
+            $SSH_USER@$SSH_HOST \
+            "export IMAGE_TAG='$IMAGE_TAG' && bash -s" << 'ENDSSH'
+          set -e
+          echo "========================================="
+          echo "Deploying Chatwoot HeyCommerce to Swarm"
+          echo "Image: $IMAGE_TAG"
+          echo "========================================="
+
+          # Criar diretório se não existir
+          mkdir -p ~/chatwoot-heycommerce
+          cd ~/chatwoot-heycommerce
+
+          # Verificar se docker-compose.production.yaml existe
+          if [ ! -f docker-compose.production.yaml ]; then
+            echo "ERROR: docker-compose.production.yaml not found!"
+            exit 1
+          fi
+
+          # Verificar se .env existe
+          if [ ! -f .env ]; then
+            echo "ERROR: .env file not found!"
+            exit 1
+          fi
+
+          # Carregar variáveis do .env
+          export $(cat .env | grep -v '^#' | xargs)
+
+          # Pull da nova imagem
+          echo "Pulling latest image..."
+          docker pull $IMAGE_TAG
+
+          # Criar cópia temporária do docker-compose
+          cp docker-compose.production.yaml docker-compose.deploy.yaml
+
+          # Atualizar imagem para a versão correta da branch
+          echo "Updating image tags to: $IMAGE_TAG"
+          sed -i "s|ghcr.io/heycommerce-mkt/chatwoot:production|$IMAGE_TAG|g" docker-compose.deploy.yaml
+
+          echo "✓ docker-compose.deploy.yaml prepared"
+
+          # Limpar conteúdo do volume chatwoot_public (assets compilados do frontend)
+          echo "========================================="
+          echo "Cleaning chatwoot_public volume contents..."
+          echo "========================================="
+          
+          # Usar container temporário para limpar volume
+          echo "Running cleanup container..."
+          docker run --rm \
+            -v chatwoot_public:/data \
+            alpine:latest \
+            sh -c "rm -rf /data/* /data/.[!.]* /data/..?* 2>/dev/null || true && echo '✓ Volume contents cleared'"
+
+          echo "✓ chatwoot_public volume cleaned"
+
+          # Deploy da stack no Swarm
+          echo "========================================="
+          echo "Deploying stack to Docker Swarm..."
+          echo "========================================="
+          
+          # Usar docker stack deploy com --with-registry-auth
+          docker stack deploy -c docker-compose.deploy.yaml chatwoot --with-registry-auth
+
+          # Aguardar serviços iniciarem
+          echo "Waiting for services to start..."
+          sleep 15
+
+          # Verificar status dos serviços
+          echo "========================================="
+          echo "Service Status:"
+          echo "========================================="
+          docker service ls | grep chatwoot
+
+          # Forçar update dos serviços para garantir nova imagem
+          echo "========================================="
+          echo "Force updating services..."
+          echo "========================================="
+          docker service update --force chatwoot_chatwoot_app
+          docker service update --force chatwoot_chatwoot_worker
+
+          # Aguardar convergência
+          echo "Waiting for services to converge..."
+          sleep 10
+
+          # Limpar arquivo temporário
+          rm -f docker-compose.deploy.yaml
+          echo "✓ Temporary files cleaned up"
+
+          echo "========================================="
+          echo "✅ Deployment completed successfully!"
+          echo "========================================="
+
+          # Verificar status final
+          docker service ps chatwoot_chatwoot_app --no-trunc
+          docker service ps chatwoot_chatwoot_worker --no-trunc
+          ENDSSH
+
+      - name: Cleanup SSH key
+        if: always()
+        run: |
+          rm -f ~/.ssh/deploy_key
+          echo "SSH key cleaned up"
+
+  # Job 3: Notificação de sucesso
+  notify:
+    name: Notify Deployment
+    runs-on: ubuntu-latest
+    needs: [build, deploy]
+    if: always() && github.ref == 'refs/heads/production'
+    steps:
+      - name: Deployment Status
+        run: |
+          if [[ "${{ needs.deploy.result }}" == "success" ]]; then
+            echo "✅ Deploy do Chatwoot HeyCommerce realizado com sucesso!"
+            echo "🌐 Acesse: ${{ secrets.FRONTEND_URL }}"
+            echo "📦 Imagem: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cliente-heycommerce"
+          else
+            echo "❌ Deploy falhou!"
+            exit 1
+          fi
