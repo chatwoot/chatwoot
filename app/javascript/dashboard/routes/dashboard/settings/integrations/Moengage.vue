@@ -7,7 +7,8 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
-import { useAlert, copy } from 'dashboard/composables';
+import { useAlert } from 'dashboard/composables';
+import { copyTextToClipboard } from 'shared/helpers/clipboard';
 
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -118,7 +119,7 @@ const handleDisconnect = async () => {
 };
 
 const copyWebhookUrl = async () => {
-  await copy(webhookUrl.value);
+  await copyTextToClipboard(webhookUrl.value);
   useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.WEBHOOK_URL_COPIED'));
 };
 
