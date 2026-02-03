@@ -264,16 +264,27 @@ export const mutations = {
     });
   },
   [types.default.UPDATE_MOENGAGE_HOOK]: ($state, data) => {
-    $state.records = $state.records.map(record => {
-      if (record.id === 'moengage') {
-        return {
-          ...record,
-          enabled: true,
-          hooks: [data],
-        };
-      }
-      return record;
-    });
+    const moengageExists = $state.records.some(r => r.id === 'moengage');
+
+    if (moengageExists) {
+      $state.records = $state.records.map(record => {
+        if (record.id === 'moengage') {
+          return {
+            ...record,
+            enabled: true,
+            hooks: [data],
+          };
+        }
+        return record;
+      });
+    } else {
+      // Add moengage to records if it doesn't exist
+      $state.records.push({
+        id: 'moengage',
+        enabled: true,
+        hooks: [data],
+      });
+    }
   },
 };
 
