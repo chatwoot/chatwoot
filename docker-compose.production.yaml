@@ -52,13 +52,13 @@ services:
           cpus: "2.0"
           memory: 4096M
         reservations:
-          cpus: "1.0"
-          memory: 2048M
+          cpus: "0.2"
+          memory: 512M
       update_config:
         parallelism: 1
         delay: 10s
         failure_action: rollback
-        order: start-first
+        order: stop-first    # Importante: Para primeiro, libera recurso, depois sobe o novo
       rollback_config:
         parallelism: 1
         delay: 5s
@@ -122,12 +122,13 @@ services:
           cpus: "1.0"
           memory: 2048M
         reservations:
-          cpus: "0.5"
-          memory: 1024M
+          cpus: "0.1"
+          memory: 256M
       update_config:
         parallelism: 1
         delay: 10s
         failure_action: rollback
+        order: stop-first
       rollback_config:
         parallelism: 1
         delay: 5s
