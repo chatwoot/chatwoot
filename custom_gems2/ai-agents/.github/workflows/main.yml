@@ -1,0 +1,32 @@
+name: Ruby
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Test & Lint
+    strategy:
+      matrix:
+        ruby:
+          - "3.4"
+          - "3.3"
+          - "3.2"
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run RSpec tests
+        run: bundle exec rspec
+      - name: Run RuboCop
+        run: bundle exec rubocop
+        continue-on-error: true

@@ -1,0 +1,72 @@
+// Ruby red color scheme for AI Agents documentation
+// Inspired by Ruby's signature red color
+
+// Define red color variables
+$red-000: #fff5f5;
+$red-100: #fed7d7;
+$red-200: #feb2b2;
+$red-300: #fc8181;
+$red-400: #e53e3e;
+$red-500: #d30001; // Primary Ruby red
+$red-600: #b30001;
+$red-700: #930001;
+$red-800: #730001;
+$red-900: #530001;
+
+// Grey colors with subtle reddish tint for text and backgrounds
+$grey-dk-000: #959396;
+$grey-dk-100: #5c5962;
+$grey-dk-200: #44434d;
+$grey-dk-250: #302d36;
+$grey-dk-300: #27262b;
+
+$grey-lt-000: #faf6f6; // Very slightly reddish background
+$grey-lt-100: #f7f2f2; // Very subtle reddish tint
+$grey-lt-200: #f4efef; // Very subtle reddish tint
+$grey-lt-300: #f0e8e8; // Very subtle reddish tint
+
+// Override theme variables
+$link-color: $red-500;
+$btn-primary-color: $red-500;
+$base-button-color: #f7f7f7;
+
+// Navigation
+$nav-child-link-color: $grey-dk-100;
+$nav-list-item-color: $grey-dk-100;
+$nav-list-item-active-color: $red-500;
+
+// Sidebar background
+$sidebar-color: $grey-lt-100; // Subtle reddish tint for sidebar
+
+// Search
+$search-active-color: $red-500;
+$search-background-color: $grey-lt-000;
+
+// Code
+$code-background-color: $grey-lt-000;
+$code-border-color: $grey-lt-300;
+
+// Tables
+$table-background-color: $grey-lt-000;
+$border-color: $grey-lt-300;
+
+// Buttons
+$btn-outline-color: $red-500;
+
+// Focus states
+$focus-color: $red-400;
+
+// Feedback states
+$feedback-color: $grey-lt-300;
+
+// Headings
+$h1-color: $grey-dk-300;
+$h2-color: $grey-dk-300;
+$h3-color: $grey-dk-200;
+$h4-color: $grey-dk-200;
+$h5-color: $grey-dk-200;
+$h6-color: $grey-dk-200;
+
+// Body text
+$body-text-color: $grey-dk-100;
+$body-heading-color: $grey-dk-300;

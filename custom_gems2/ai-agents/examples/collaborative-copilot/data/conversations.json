@@ -1,0 +1,170 @@
+{
+  "CONV-001": {
+    "id": "CONV-001",
+    "contact_id": "CONTACT-123",
+    "status": "open",
+    "subject": "Login Issues",
+    "created_at": "2024-01-15T10:30:00Z",
+    "messages": [
+      {
+        "role": "customer",
+        "content": "I can't log into my account! This is frustrating.",
+        "timestamp": "2024-01-15T10:30:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I'm sorry to hear you're having trouble. Let me help you with that.",
+        "timestamp": "2024-01-15T10:32:00Z"
+      },
+      {
+        "role": "customer", 
+        "content": "I've tried resetting my password 3 times already!",
+        "timestamp": "2024-01-15T10:35:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I understand your frustration. Let me check your account status first. Can you confirm your email address?",
+        "timestamp": "2024-01-15T10:36:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "Yes, it's john.smith@example.com",
+        "timestamp": "2024-01-15T10:37:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "Thank you. I can see your account is active. The issue might be browser-related. Have you tried clearing your cache?",
+        "timestamp": "2024-01-15T10:38:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "No, I haven't. How do I do that?",
+        "timestamp": "2024-01-15T10:39:00Z"
+      }
+    ],
+    "tags": ["login", "password-reset", "frustrated-customer", "browser-cache"]
+  },
+  "CONV-002": {
+    "id": "CONV-002", 
+    "contact_id": "CONTACT-456",
+    "status": "resolved",
+    "subject": "Billing Question",
+    "created_at": "2024-01-10T14:20:00Z",
+    "messages": [
+      {
+        "role": "customer",
+        "content": "Why was I charged twice this month?",
+        "timestamp": "2024-01-10T14:20:00Z"
+      },
+      {
+        "role": "agent", 
+        "content": "Let me check your billing history for you.",
+        "timestamp": "2024-01-10T14:22:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "I see charges for $29.99 on both January 5th and January 10th",
+        "timestamp": "2024-01-10T14:23:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I found the issue - there was a duplicate charge due to a payment processing error. I've processed a refund for the January 10th charge.",
+        "timestamp": "2024-01-10T14:25:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "How long will the refund take?",
+        "timestamp": "2024-01-10T14:26:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "Refunds typically appear in 3-5 business days. You'll receive an email confirmation shortly.",
+        "timestamp": "2024-01-10T14:27:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "Thank you so much! That resolves it.",
+        "timestamp": "2024-01-10T14:28:00Z"
+      }
+    ],
+    "tags": ["billing", "refund", "resolved", "duplicate-charge"],
+    "resolution": "Processed refund for duplicate charge - $29.99 refunded"
+  },
+  "CONV-003": {
+    "id": "CONV-003",
+    "contact_id": "CONTACT-123", 
+    "status": "resolved",
+    "subject": "Feature Request",
+    "created_at": "2024-01-05T09:15:00Z",
+    "messages": [
+      {
+        "role": "customer",
+        "content": "Can you add dark mode to the app?",
+        "timestamp": "2024-01-05T09:15:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "That's a great suggestion! I'll pass it to our product team.",
+        "timestamp": "2024-01-05T09:17:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "Is there any timeline for when this might be available?",
+        "timestamp": "2024-01-05T09:18:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I don't have a specific timeline, but I've added your request to our feature backlog with high priority since it's been requested by multiple users.",
+        "timestamp": "2024-01-05T09:20:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "Great! I'll keep an eye out for updates.",
+        "timestamp": "2024-01-05T09:21:00Z"
+      }
+    ],
+    "tags": ["feature-request", "dark-mode", "product-feedback"],
+    "resolution": "Forwarded to product team - added to high priority backlog"
+  },
+  "CONV-004": {
+    "id": "CONV-004",
+    "contact_id": "CONTACT-789",
+    "status": "escalated",
+    "subject": "API Integration Problems",
+    "created_at": "2024-01-12T11:00:00Z",
+    "messages": [
+      {
+        "role": "customer",
+        "content": "Our API integration is failing with 500 errors intermittently",
+        "timestamp": "2024-01-12T11:00:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I'm sorry to hear about the API issues. Can you provide more details about when these errors occur?",
+        "timestamp": "2024-01-12T11:02:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "It happens about 20% of the time when we call the /users endpoint. Here's the error: Internal Server Error",
+        "timestamp": "2024-01-12T11:04:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "Thank you for the details. This sounds like it needs investigation by our engineering team. Let me escalate this to them.",
+        "timestamp": "2024-01-12T11:06:00Z"
+      },
+      {
+        "role": "customer",
+        "content": "Please do, this is affecting our production system",
+        "timestamp": "2024-01-12T11:07:00Z"
+      },
+      {
+        "role": "agent",
+        "content": "I've created a high-priority ticket (ENG-445) and our engineering team will investigate immediately. You should hear back within 2 hours.",
+        "timestamp": "2024-01-12T11:10:00Z"
+      }
+    ],
+    "tags": ["api", "500-error", "production-issue", "escalated", "engineering"],
+    "escalation_ticket": "ENG-445"
+  }
+}

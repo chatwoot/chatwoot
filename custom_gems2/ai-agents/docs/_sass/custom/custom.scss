@@ -1,0 +1,93 @@
+// Self-hosted Inter Variable font
+@font-face {
+  font-family: "Inter";
+  src: url("/assets/fonts/InterVariable.woff2") format("woff2-variations");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  font-named-instance: "Regular";
+}
+
+// Override font variables
+$body-font-family:
+  "Inter",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Helvetica,
+  Arial,
+  sans-serif;
+$mono-font-family: "SF Mono", Monaco, Inconsolata, "Roboto Mono", monospace;
+
+// Apply Inter to all text elements
+body {
+  font-family: $body-font-family;
+  font-feature-settings:
+    "cv02", "cv03", "cv04", "cv11"; // Display-like features
+}
+
+// Ensure headings use Inter as well
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: $body-font-family;
+}
+
+// Custom logo styling
+.site-logo {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+
+  .site-logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .site-logo-image {
+    width: 32px;
+    height: 32px;
+    margin-right: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .site-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--body-heading-color);
+  }
+}
+
+// Note callout styling
+.note {
+  padding: 1rem;
+  margin: 1rem 0;
+  background-color: #faf6f6;
+  border: 1px solid #f0e8e8;
+  border-left: 4px solid #d30001;
+  border-radius: 6px;
+  position: relative;
+
+  &::before {
+    content: "NOTE";
+    font-weight: 600;
+    font-size: 0.75rem;
+    color: #d30001;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

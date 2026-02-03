@@ -23,7 +23,7 @@ GIT
       railties (>= 5.0.0, < 8.0.0)
 
 PATH
-  remote: custom_gems/ai-agents
+  remote: custom_gems2/ai-agents
   specs:
     ai-agents (0.8.0)
       ruby_llm (~> 1.9.1)
