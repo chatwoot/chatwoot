@@ -54,13 +54,13 @@ class MonthlyReports::SendMonthlyReportJob < ApplicationJob
       # Clean up the temporary chart file
       File.delete(chart_path) if File.exist?(chart_path)
     else
-      SlackNotifierService.call(text: message)
+       SlackNotifierService.call(text: message, is_impact_report: true)
     end
   end
 
   def send_slack_message_with_chart(message, chart_path)
     slack_token = ENV['SLACK_BOT_TOKEN']
-    channel = ENV['SLACK_DEFAULT_CHANNEL']
+    channel = ENV['SLACK_IMPACT_REPORT_CHANNEL']
     
     unless slack_token.present?
       Rails.logger.error("SLACK_BOT_TOKEN is missing in environment variables")
@@ -68,7 +68,7 @@ class MonthlyReports::SendMonthlyReportJob < ApplicationJob
     end
     
     unless channel.present?
-      Rails.logger.error("SLACK_DEFAULT_CHANNEL is missing in environment variables")
+      Rails.logger.error("SLACK_IMPACT_REPORT_CHANNEL is missing in environment variables")
       return
     end
 
@@ -90,10 +90,12 @@ class MonthlyReports::SendMonthlyReportJob < ApplicationJob
       Rails.logger.info("Monthly report chart uploaded to Slack successfully")
     rescue Slack::Web::Api::Errors::SlackError => e
       Rails.logger.error("Failed to upload chart to Slack: #{e.message}")
-      SlackNotifierService.call(text: message)
+      # SlackNotifierService.call(text: message, channel: channel)
+      SlackNotifierService.call(text: message, is_impact_report: true)
     rescue => e
       Rails.logger.error("Failed to send Slack message with chart: #{e.message}")
-      SlackNotifierService.call(text: message)
+      # SlackNotifierService.call(text: message, channel: channel)
+      SlackNotifierService.call(text: message, is_impact_report: true)
     end
   end
 end

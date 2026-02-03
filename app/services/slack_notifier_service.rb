@@ -1,12 +1,16 @@
 class SlackNotifierService
     SLACK_API_URL = "https://slack.com/api/chat.postMessage".freeze
   
-    def self.call(text:, channel: nil)
-        new(text: text, channel: channel).call
+    def self.call(text:, channel: nil, is_impact_report: false)
+        new(text: text, channel: channel, is_impact_report: is_impact_report).call
     end
 
-    def initialize(text:, channel: nil)
-      @channel = channel.presence || ENV['SLACK_DEFAULT_CHANNEL']
+    def initialize(text:, channel: nil, is_impact_report: false)
+      @channel = if is_impact_report
+                   ENV['SLACK_IMPACT_REPORT_CHANNEL']
+                 else
+                   channel.presence || ENV['SLACK_DEFAULT_CHANNEL']
+                 end
       @text = text
       @slack_token = ENV['SLACK_BOT_TOKEN']
     end
