@@ -187,13 +187,13 @@ const initializeMoengageIntegration = async () => {
   await store.dispatch('integrations/get');
   await store.dispatch('inboxes/get');
 
-  // Fetch MoEngage-specific data to get webhook_url
-  if (isConnected.value) {
-    await store.dispatch('integrations/fetchMoengage');
-  }
+  // Always try to fetch MoEngage-specific data to get webhook_url
+  // This will return the full hook data including webhook_url if connected
+  const hookData = await store.dispatch('integrations/fetchMoengage');
 
-  if (currentHook.value?.settings) {
-    const settings = currentHook.value.settings;
+  // Update form data from fetched hook or from existing hook in store
+  const settings = hookData?.settings || currentHook.value?.settings;
+  if (settings) {
     formData.value = {
       workspace_id: settings.workspace_id || '',
       data_center: settings.data_center || '01',

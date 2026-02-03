@@ -268,6 +268,7 @@ export const mutations = {
       if (record.id === 'moengage') {
         return {
           ...record,
+          enabled: true,
           hooks: [data],
         };
       }
