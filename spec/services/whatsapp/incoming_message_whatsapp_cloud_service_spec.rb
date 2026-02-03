@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Whatsapp::IncomingMessageWhatsappCloudService do
   describe '#perform' do
     let!(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', sync_templates: false, validate_provider_config: false) }
+    let(:sender_number) { '2423423243' }
     let(:params) do
       {
         phone_number: whatsapp_channel.phone_number,
@@ -10,9 +11,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         entry: [{
           changes: [{
             value: {
-              contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+              contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
               messages: [{
-                from: '2423423243',
+                from: sender_number,
                 image: {
                   id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
                   mime_type: 'image/jpeg',
@@ -48,7 +49,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect_contact_name
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
         expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be false
         expect(whatsapp_channel.authorization_error_count).to eq(1)
@@ -63,9 +64,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           entry: [{
             changes: [{
               value: {
-                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: '2423423243' }],
+                contacts: [{ profile: { name: 'Sojan Jose' }, wa_id: sender_number }],
                 messages: [{
-                  from: '2423423243',
+                  from: sender_number,
                   image: {
                     id: 'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
                     mime_type: 'image/jpeg',
@@ -88,7 +89,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       it 'with attachment errors' do
         described_class.new(inbox: whatsapp_channel.inbox, params: error_params).perform
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
-        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect_contact_name
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
@@ -98,7 +99,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         described_class.new(inbox: whatsapp_channel.inbox, params: { phone_number: whatsapp_channel.phone_number,
                                                                      object: 'whatsapp_business_account', entry: {} }).perform
         expect(whatsapp_channel.inbox.conversations.count).to eq(0)
-        expect(Contact.all.first).to be_nil
+        expect(Contact.find_by(phone_number: contact_phone_number)).to be_nil
         expect(whatsapp_channel.inbox.messages.count).to eq(0)
       end
     end
@@ -136,7 +137,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
   end
 
   def expect_contact_name
-    expect(Contact.all.first.name).to eq('Sojan Jose')
+    expect(contact_from_number&.name).to eq('Sojan Jose')
   end
 
   def expect_message_content
@@ -145,5 +146,13 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
   def expect_message_has_attachment
     expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
+  end
+
+  def contact_phone_number
+    "+#{sender_number}"
+  end
+
+  def contact_from_number
+    Contact.find_by(phone_number: contact_phone_number)
   end
 end

@@ -15,7 +15,7 @@ class Seeders::Reports::MessageCreator
   end
 
   def create_messages
-    message_count = rand(MESSAGES_PER_CONVERSATION..MESSAGES_PER_CONVERSATION + 5)
+    message_count = rand(MESSAGES_PER_CONVERSATION..(MESSAGES_PER_CONVERSATION + 5))
     first_agent_reply = true
 
     message_count.times do |i|

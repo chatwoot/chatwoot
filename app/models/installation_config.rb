@@ -19,6 +19,11 @@ class InstallationConfig < ApplicationRecord
   # https://discuss.rubyonrails.org/t/cve-2022-32224-possible-rce-escalation-bug-with-serialized-columns-in-active-record/81017
   # FIX ME : fixes breakage of installation config. we need to migrate.
   # Fix configuration in application.rb
+  #
+  # Note: This whole thing is because we store the installation config serialized in YAML in Database
+  # This serialized version stores HashWithIndifferentAccess, We could avoid all this complexity if we store the value as JSONB
+  # We could also avoid this issue if we migrate the installation config to JSONB
+  # We should do this migration at some point in time.
   serialize :serialized_value, coder: YAML, type: ActiveSupport::HashWithIndifferentAccess
 
   before_validation :set_lock
