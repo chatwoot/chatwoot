@@ -84,27 +84,11 @@ const selectedInboxId = computed({
 });
 
 const openConnectDialog = () => {
-  if (dialogRef.value) {
-    dialogRef.value.open();
-  }
-};
-
-const closeConnectDialog = () => {
-  if (dialogRef.value) {
-    dialogRef.value.close();
-  }
+  dialogRef.value?.open();
 };
 
 const openDisconnectDialog = () => {
-  if (disconnectDialogRef.value) {
-    disconnectDialogRef.value.open();
-  }
-};
-
-const closeDisconnectDialog = () => {
-  if (disconnectDialogRef.value) {
-    disconnectDialogRef.value.close();
-  }
+  disconnectDialogRef.value?.open();
 };
 
 const handleConnect = async () => {
@@ -117,7 +101,7 @@ const handleConnect = async () => {
   try {
     await store.dispatch('integrations/createMoengage', formData.value);
     useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.SAVE_SUCCESS'));
-    closeConnectDialog();
+    dialogRef.value?.close();
   } catch (error) {
     useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.SAVE_ERROR'));
   } finally {
@@ -129,7 +113,7 @@ const handleDisconnect = async () => {
   try {
     await store.dispatch('integrations/deleteMoengage');
     useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.DISCONNECT_SUCCESS'));
-    closeDisconnectDialog();
+    disconnectDialogRef.value?.close();
     router.push({ name: 'settings_applications' });
   } catch (error) {
     useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.DISCONNECT_ERROR'));
@@ -253,7 +237,6 @@ onMounted(() => {
         :title="$t('INTEGRATION_SETTINGS.MOENGAGE.CONNECT_TITLE')"
         :is-loading="isSubmitting"
         @confirm="handleConnect"
-        @close="closeConnectDialog"
       >
         <div class="flex flex-col gap-4">
           <Input
