@@ -42,6 +42,7 @@ class AgentActivityLog < ApplicationRecord
   def self.close_open_logs(account_id, user_id, ended_at)
     where(account_id: account_id, user_id: user_id, ended_at: nil)
       .find_each do |log|
+        Rails.logger.debug { "[AgentActivity] close_open_log log_id=#{log.id} status=#{log.status}" }
         log.update!(ended_at: ended_at)
       end
   end
