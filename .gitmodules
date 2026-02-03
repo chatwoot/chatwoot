@@ -1,0 +1,3 @@
+[submodule "custom_gems/ai-agents"]
+	path = custom_gems/ai-agents
+	url = https://github.com/chatwoot/ai-agents.git
