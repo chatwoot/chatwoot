@@ -35,6 +35,7 @@ class ReportingEvent < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :inbox, optional: true
   belongs_to :conversation, optional: true
+  belongs_to :agent_bot, optional: true
 
   # Scopes for filtering
   scope :filter_by_date_range, lambda { |range|
@@ -47,6 +48,10 @@ class ReportingEvent < ApplicationRecord
 
   scope :filter_by_user_id, lambda { |user_id|
     where(user_id: user_id) if user_id.present?
+  }
+
+  scope :filter_by_agent_bot_id, lambda { |agent_bot_id|
+    where(agent_bot_id: agent_bot_id) if agent_bot_id.present?
   }
 
   scope :filter_by_name, lambda { |name|

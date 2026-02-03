@@ -45,6 +45,22 @@ class SummaryReportsAPI extends ApiClient {
       },
     });
   }
+
+  getBotSummaryReports({ since, until, businessHours, inboxId } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (inboxId && inboxId.length > 0) {
+      params['inbox_ids[]'] = inboxId;
+    }
+
+    return axios.get(`${this.url}/bot`, {
+      params,
+    });
+  }
 }
 
 export default new SummaryReportsAPI();
