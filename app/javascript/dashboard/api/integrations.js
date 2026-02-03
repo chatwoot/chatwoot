@@ -39,6 +39,10 @@ class IntegrationsAPI extends ApiClient {
     });
   }
 
+  getMoengage() {
+    return axios.get(`${this.baseUrl()}/integrations/moengage`);
+  }
+
   createMoengage(settings) {
     return axios.post(`${this.baseUrl()}/integrations/moengage`, {
       hook: { settings },

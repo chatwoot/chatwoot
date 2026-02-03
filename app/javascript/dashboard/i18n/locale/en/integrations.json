@@ -513,7 +513,16 @@
         "DEFAULT_INBOX_HELP": "Inbox to create conversations in",
         "DEFAULT_INBOX_PLACEHOLDER": "Select an inbox",
         "AUTO_CREATE_CONTACT": "Auto-create contacts from MoEngage data",
+        "ENABLE_AI_RESPONSE": "Enable AI proactive outreach",
+        "ENABLE_AI_RESPONSE_HELP": "When enabled, Aloo will automatically send a personalized message to customers based on the MoEngage event (e.g., abandoned cart). Requires an active Aloo assistant on the inbox.",
         "VALIDATION_ERROR": "Please fill in all required fields"
+      },
+      "SETTINGS": {
+        "TITLE": "Integration Settings",
+        "AI_SETTINGS_TITLE": "AI Proactive Outreach",
+        "AI_SETTINGS_DESCRIPTION": "When a MoEngage event triggers a conversation, Aloo can automatically send a personalized outreach message to the customer.",
+        "UPDATE_SUCCESS": "Settings updated successfully",
+        "UPDATE_ERROR": "Failed to update settings"
       },
       "DELETE": {
         "TITLE": "Disconnect MoEngage Integration",

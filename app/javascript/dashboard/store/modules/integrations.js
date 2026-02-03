@@ -138,6 +138,27 @@ export const actions = {
     }
   },
 
+  fetchMoengage: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isFetchingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.getMoengage();
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      // If 404, the integration doesn't exist - that's ok
+      if (error.response?.status !== 404) {
+        throw error;
+      }
+      return null;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isFetchingMoengage: false,
+      });
+    }
+  },
+
   createMoengage: async ({ commit }, settings) => {
     commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
       isCreatingMoengage: true,

@@ -383,7 +383,7 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
-            resource :moengage, controller: 'moengage', only: [:create, :update, :destroy] do
+            resource :moengage, controller: 'moengage', only: [:show, :create, :update, :destroy] do
               member do
                 post :regenerate_token
               end

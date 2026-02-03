@@ -1,14 +1,4 @@
 class Integrations::Moengage::WebhookProcessorService
-  # MoEngage Connector Campaigns allow fully customizable payloads.
-  # These are suggested event names that Chatwoot will recognize.
-  SUPPORTED_EVENTS = %w[
-    cart_abandoned
-    checkout_abandoned
-    browse_abandoned
-    custom_event
-    campaign_triggered
-  ].freeze
-
   def initialize(hook:, payload:)
     @hook = hook
     @payload = payload.with_indifferent_access
@@ -17,13 +7,13 @@ class Integrations::Moengage::WebhookProcessorService
   end
 
   def perform
-    return unless valid_event?
+    return unless valid_payload?
 
     find_or_create_contact
     return unless @contact
 
     create_conversation_with_context
-    trigger_ai_response if inbox_has_ai_agent?
+    trigger_ai_response if should_trigger_ai?
 
     log_success
   rescue StandardError => e
@@ -35,9 +25,13 @@ class Integrations::Moengage::WebhookProcessorService
 
   attr_reader :hook, :payload, :account, :settings
 
-  def valid_event?
-    event_name = payload[:event_name] || payload[:event_type]
-    SUPPORTED_EVENTS.include?(event_name) || payload[:campaign].present?
+  # Accept any payload that has an event name or campaign - MoEngage allows custom events
+  def valid_payload?
+    event_name.present? || payload[:campaign].present?
+  end
+
+  def event_name
+    payload[:event_name] || payload[:event_type]
   end
 
   def find_or_create_contact
@@ -162,10 +156,10 @@ class Integrations::Moengage::WebhookProcessorService
   end
 
   def build_event_context
-    event_name = payload[:event_name] || 'Campaign Triggered'
+    display_name = event_name.presence || 'Campaign Triggered'
     event_attrs = payload[:event_attributes] || {}
 
-    parts = ["MoEngage Event: #{event_name.to_s.titleize}"]
+    parts = ["MoEngage Event: #{display_name.to_s.titleize}"]
 
     parts << "Product: #{event_attrs[:product_name]}" if event_attrs[:product_name].present?
     parts << "Cart Value: #{event_attrs[:cart_value]}" if event_attrs[:cart_value].present?
@@ -176,6 +170,14 @@ class Integrations::Moengage::WebhookProcessorService
 
   def inbox
     @inbox ||= account.inboxes.find(settings[:default_inbox_id])
+  end
+
+  def should_trigger_ai?
+    ai_response_enabled? && inbox_has_ai_agent?
+  end
+
+  def ai_response_enabled?
+    settings[:enable_ai_response] == true
   end
 
   def inbox_has_ai_agent?

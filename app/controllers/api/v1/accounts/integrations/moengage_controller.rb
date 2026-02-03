@@ -1,8 +1,12 @@
 class Api::V1::Accounts::Integrations::MoengageController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
-  before_action :fetch_hook, only: [:update, :destroy, :regenerate_token]
+  before_action :fetch_hook, only: [:show, :update, :destroy, :regenerate_token]
 
   rescue_from ArgumentError, with: :render_argument_error
+
+  def show
+    render json: hook_response(@hook)
+  end
 
   def create
     @hook = Integrations::Moengage::HookBuilder.new(
