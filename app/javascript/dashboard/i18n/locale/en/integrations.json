@@ -511,6 +511,7 @@
         "DATA_CENTER_HELP": "Select your MoEngage data center (check your dashboard URL)",
         "DEFAULT_INBOX": "Default Inbox",
         "DEFAULT_INBOX_HELP": "Inbox to create conversations in",
+        "DEFAULT_INBOX_PLACEHOLDER": "Select an inbox",
         "AUTO_CREATE_CONTACT": "Auto-create contacts from MoEngage data",
         "VALIDATION_ERROR": "Please fill in all required fields"
       },

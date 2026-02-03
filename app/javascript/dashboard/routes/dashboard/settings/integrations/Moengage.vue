@@ -14,7 +14,6 @@ import Spinner from 'shared/components/Spinner.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import Select from 'dashboard/components-next/select/Select.vue';
 
 const { t } = useI18n();
 const store = useStore();
@@ -64,13 +63,6 @@ const dataCenterOptions = [
   { value: '05', label: 'DC-05 (Singapore)' },
   { value: '06', label: 'DC-06 (Indonesia)' },
 ];
-
-const inboxOptions = computed(() =>
-  inboxes.value.map(inbox => ({
-    value: inbox.id,
-    label: inbox.name,
-  }))
-);
 
 const openConnectDialog = () => {
   if (dialogRef.value) {
@@ -257,23 +249,54 @@ onMounted(() => {
             message-type="info"
           />
 
-          <Select
-            v-model="formData.data_center"
-            :label="$t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DATA_CENTER')"
-            :options="dataCenterOptions"
-            :message="$t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DATA_CENTER_HELP')"
-            message-type="info"
-          />
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DATA_CENTER') }}
+            </label>
+            <select
+              v-model="formData.data_center"
+              class="px-3 py-2 text-sm bg-n-solid-3 border border-n-weak rounded text-n-slate-12"
+            >
+              <option
+                v-for="option in dataCenterOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
+            <span class="text-xs text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DATA_CENTER_HELP') }}
+            </span>
+          </div>
 
-          <Select
-            v-model="formData.default_inbox_id"
-            :label="$t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DEFAULT_INBOX')"
-            :options="inboxOptions"
-            :message="
-              $t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DEFAULT_INBOX_HELP')
-            "
-            message-type="info"
-          />
+          <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DEFAULT_INBOX') }}
+            </label>
+            <select
+              v-model="formData.default_inbox_id"
+              class="px-3 py-2 text-sm bg-n-solid-3 border border-n-weak rounded text-n-slate-12"
+            >
+              <option :value="null" disabled>
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.FORM.DEFAULT_INBOX_PLACEHOLDER'
+                  )
+                }}
+              </option>
+              <option
+                v-for="inbox in inboxes"
+                :key="inbox.id"
+                :value="inbox.id"
+              >
+                {{ inbox.name }}
+              </option>
+            </select>
+            <span class="text-xs text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.FORM.DEFAULT_INBOX_HELP') }}
+            </span>
+          </div>
 
           <div class="flex items-center gap-2">
             <input
