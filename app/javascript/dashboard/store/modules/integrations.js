@@ -16,6 +16,8 @@ const state = {
     isCreatingSlack: false,
     isUpdatingSlack: false,
     isFetchingSlackChannels: false,
+    isCreatingMoengage: false,
+    isUpdatingMoengage: false,
   },
 };
 
@@ -135,6 +137,80 @@ export const actions = {
       throw new Error(error);
     }
   },
+
+  createMoengage: async ({ commit }, settings) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isCreatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.createMoengage(settings);
+      commit(types.default.ADD_INTEGRATION, {
+        id: 'moengage',
+        enabled: true,
+        hooks: [response.data],
+      });
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isCreatingMoengage: false,
+      });
+    }
+  },
+
+  updateMoengage: async ({ commit }, settings) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isUpdatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.updateMoengage(settings);
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isUpdatingMoengage: false,
+      });
+    }
+  },
+
+  deleteMoengage: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true });
+    try {
+      await IntegrationsAPI.deleteMoengage();
+      commit(types.default.DELETE_INTEGRATION, {
+        id: 'moengage',
+        enabled: false,
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
+    }
+  },
+
+  regenerateMoengageToken: async ({ commit }) => {
+    commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+      isUpdatingMoengage: true,
+    });
+    try {
+      const response = await IntegrationsAPI.regenerateMoengageToken();
+      commit(types.default.UPDATE_MOENGAGE_HOOK, response.data);
+      return response.data;
+    } catch (error) {
+      throwErrorMessage(error);
+      throw error;
+    } finally {
+      commit(types.default.SET_INTEGRATIONS_UI_FLAG, {
+        isUpdatingMoengage: false,
+      });
+    }
+  },
 };
 
 export const mutations = {
@@ -161,6 +237,17 @@ export const mutations = {
         return {
           ...record,
           hooks: record.hooks.filter(hook => hook.id !== hookId),
+        };
+      }
+      return record;
+    });
+  },
+  [types.default.UPDATE_MOENGAGE_HOOK]: ($state, data) => {
+    $state.records = $state.records.map(record => {
+      if (record.id === 'moengage') {
+        return {
+          ...record,
+          hooks: [data],
         };
       }
       return record;

@@ -38,6 +38,28 @@ class IntegrationsAPI extends ApiClient {
       shop_domain: shopDomain,
     });
   }
+
+  createMoengage(settings) {
+    return axios.post(`${this.baseUrl()}/integrations/moengage`, {
+      hook: { settings },
+    });
+  }
+
+  updateMoengage(settings) {
+    return axios.patch(`${this.baseUrl()}/integrations/moengage`, {
+      hook: { settings },
+    });
+  }
+
+  deleteMoengage() {
+    return axios.delete(`${this.baseUrl()}/integrations/moengage`);
+  }
+
+  regenerateMoengageToken() {
+    return axios.post(
+      `${this.baseUrl()}/integrations/moengage/regenerate_token`
+    );
+  }
 }
 
 export default new IntegrationsAPI();

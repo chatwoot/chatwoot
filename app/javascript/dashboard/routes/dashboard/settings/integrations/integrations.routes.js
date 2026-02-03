@@ -10,6 +10,7 @@ import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
 import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
+import Moengage from './Moengage.vue';
 import WhatsappSettings from './WhatsappSettings.vue';
 import PayzahSettings from './PayzahSettings.vue';
 import TapSettings from './TapSettings.vue';
@@ -112,6 +113,15 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ error: route.query.error }),
+        },
+        {
+          path: 'moengage',
+          name: 'settings_integrations_moengage',
+          component: Moengage,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
         },
         {
           path: 'whatsapp',

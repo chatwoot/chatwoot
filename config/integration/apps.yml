@@ -284,3 +284,37 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+
+moengage:
+  id: moengage
+  logo: moengage.png
+  i18n_key: moengage
+  action: /moengage
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'workspace_id': { 'type': 'string' },
+          'webhook_token': { 'type': 'string' },
+          'data_api_key': { 'type': 'string' },
+          'data_center': { 'type': 'string' },
+          'webhook_secret': { 'type': 'string' },
+          'default_inbox_id': { 'type': 'integer' },
+          'auto_create_contact': { 'type': 'boolean' },
+          'enable_ai_response': { 'type': 'boolean' },
+          'ai_agent_id': { 'type': 'integer' },
+        },
+      'required': ['workspace_id', 'default_inbox_id'],
+      'additionalProperties': false,
+    }
+  visible_properties:
+    [
+      'workspace_id',
+      'data_center',
+      'default_inbox_id',
+      'auto_create_contact',
+      'enable_ai_response',
+    ]

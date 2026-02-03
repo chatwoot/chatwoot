@@ -383,6 +383,11 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
+            resource :moengage, controller: 'moengage', only: [:create, :update, :destroy] do
+              member do
+                post :regenerate_token
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -628,6 +633,7 @@ Rails.application.routes.draw do
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'webhooks/clerk', to: 'api/v1/webhooks/clerk#create'
   post 'webhooks/tiktok', to: 'webhooks/tiktok#events'
+  post 'webhooks/moengage/:webhook_token', to: 'webhooks/moengage#process_payload'
 
   namespace :twitter do
   end

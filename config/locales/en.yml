@@ -329,6 +329,10 @@ en:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+    moengage:
+      name: 'MoEngage'
+      short_description: 'Marketing automation integration for event-triggered conversations.'
+      description: 'Connect MoEngage to receive marketing automation events and trigger AI-powered customer conversations. Perfect for abandoned cart recovery, re-engagement campaigns, and personalized outreach.'
   captain:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'

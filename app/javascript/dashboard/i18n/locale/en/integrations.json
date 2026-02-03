@@ -487,6 +487,37 @@
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
       }
+    },
+    "MOENGAGE": {
+      "TITLE": "MoEngage",
+      "DESCRIPTION": "Connect MoEngage to receive marketing automation events and trigger AI-powered customer conversations.",
+      "WEBHOOK_URL": "Webhook URL",
+      "WEBHOOK_URL_HELP": "Use this URL in your MoEngage Connector Campaign configuration. This URL is unique to your integration.",
+      "COPY_WEBHOOK_URL": "Copy URL",
+      "WEBHOOK_URL_COPIED": "Webhook URL copied to clipboard",
+      "REGENERATE_TOKEN": "Regenerate Token",
+      "REGENERATE_TOKEN_CONFIRM": "Are you sure? You will need to update your MoEngage Connector Campaign with the new URL.",
+      "TOKEN_REGENERATED": "Webhook token regenerated successfully",
+      "SAVE_SUCCESS": "MoEngage integration saved successfully",
+      "SAVE_ERROR": "Failed to save MoEngage integration",
+      "DISCONNECT_SUCCESS": "MoEngage integration disconnected successfully",
+      "DISCONNECT_ERROR": "Failed to disconnect MoEngage integration",
+      "CONNECT_TITLE": "Connect MoEngage",
+      "FORM": {
+        "WORKSPACE_ID": "Workspace ID",
+        "WORKSPACE_ID_PLACEHOLDER": "Your MoEngage Workspace ID",
+        "WORKSPACE_ID_HELP": "Found in MoEngage Dashboard → Settings → Account → APIs",
+        "DATA_CENTER": "Data Center",
+        "DATA_CENTER_HELP": "Select your MoEngage data center (check your dashboard URL)",
+        "DEFAULT_INBOX": "Default Inbox",
+        "DEFAULT_INBOX_HELP": "Inbox to create conversations in",
+        "AUTO_CREATE_CONTACT": "Auto-create contacts from MoEngage data",
+        "VALIDATION_ERROR": "Please fill in all required fields"
+      },
+      "DELETE": {
+        "TITLE": "Disconnect MoEngage Integration",
+        "MESSAGE": "Are you sure you want to disconnect the MoEngage integration? This will stop all MoEngage webhooks from creating conversations."
+      }
     }
   },
   "CAPTAIN": {
