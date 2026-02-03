@@ -70,6 +70,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: builder.build
   end
 
+  def first_response_time_distribution
+    builder = V2::Reports::FirstResponseTimeDistributionBuilder.new(
+      account: Current.account,
+      params: first_response_time_distribution_params
+    )
+    render json: builder.build
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -154,6 +162,13 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
       until: params[:until],
       inbox_ids: params[:inbox_ids],
       label_ids: params[:label_ids]
+    }
+  end
+
+  def first_response_time_distribution_params
+    {
+      since: params[:since],
+      until: params[:until]
     }
   end
 end

@@ -29,6 +29,7 @@ class Account < ApplicationRecord
   include Featurable
   include CacheKeys
   include CaptainFeaturable
+  include AccountEmailRateLimitable
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',

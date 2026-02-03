@@ -7890,14 +7890,6 @@
             "type": "string"
           },
           "description": "The timestamp from where report should stop (Unix timestamp)."
-        },
-        {
-          "in": "query",
-          "name": "business_hours",
-          "schema": {
-            "type": "boolean"
-          },
-          "description": "Whether to filter by business hours."
         }
       ],
       "get": {
@@ -7929,6 +7921,342 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/summary_reports/inbox": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "business_hours",
+          "schema": {
+            "type": "boolean"
+          },
+          "description": "Whether to calculate metrics using business hours only."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-inbox-summary-report",
+        "summary": "Get conversation statistics grouped by inbox",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get conversation statistics grouped by inbox for a given date range.\nReturns metrics for each inbox including conversation counts, resolution counts,\naverage first response time, average resolution time, and average reply time.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inbox_summary"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/summary_reports/agent": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "business_hours",
+          "schema": {
+            "type": "boolean"
+          },
+          "description": "Whether to calculate metrics using business hours only."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-agent-summary-report",
+        "summary": "Get conversation statistics grouped by agent",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get conversation statistics grouped by agent for a given date range.\nReturns metrics for each agent including conversation counts, resolution counts,\naverage first response time, average resolution time, and average reply time.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/agent_summary"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/summary_reports/team": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "business_hours",
+          "schema": {
+            "type": "boolean"
+          },
+          "description": "Whether to calculate metrics using business hours only."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-team-summary-report",
+        "summary": "Get conversation statistics grouped by team",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get conversation statistics grouped by team for a given date range.\nReturns metrics for each team including conversation counts, resolution counts,\naverage first response time, average resolution time, and average reply time.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/team_summary"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/first_response_time_distribution": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-first-response-time-distribution",
+        "summary": "Get first response time distribution by channel",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get the distribution of first response times grouped by channel type.\nReturns conversation counts in different time buckets (0-1h, 1-4h, 4-8h, 8-24h, 24h+) for each channel type.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/first_response_time_distribution"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v2/accounts/{account_id}/reports/inbox_label_matrix": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/account_id"
+        },
+        {
+          "in": "query",
+          "name": "since",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should start (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "until",
+          "schema": {
+            "type": "string"
+          },
+          "description": "The timestamp from where report should stop (Unix timestamp)."
+        },
+        {
+          "in": "query",
+          "name": "inbox_ids",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "description": "Filter by specific inbox IDs."
+        },
+        {
+          "in": "query",
+          "name": "label_ids",
+          "schema": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "description": "Filter by specific label IDs."
+        }
+      ],
+      "get": {
+        "tags": [
+          "Reports"
+        ],
+        "operationId": "get-inbox-label-matrix",
+        "summary": "Get inbox-label matrix report",
+        "security": [
+          {
+            "userApiKey": []
+          }
+        ],
+        "description": "Get a matrix showing the count of conversations for each inbox-label combination.\nReturns a list of inboxes, labels, and a 2D matrix where each cell contains the count of conversations\nin a specific inbox that have a specific label applied.\n\n**Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.\n",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inbox_label_matrix"
                 }
               }
             }
@@ -11780,6 +12108,302 @@
             "total": 24
           }
         }
+      },
+      "first_response_time_distribution": {
+        "type": "object",
+        "description": "First response time distribution report grouped by channel type. Shows the count of conversations with first response times in different time buckets.",
+        "additionalProperties": {
+          "type": "object",
+          "description": "First response time distribution for a specific channel type (e.g., Channel::WebWidget, Channel::Api)",
+          "properties": {
+            "0-1h": {
+              "type": "number",
+              "description": "Number of conversations with first response time less than 1 hour"
+            },
+            "1-4h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 1-4 hours"
+            },
+            "4-8h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 4-8 hours"
+            },
+            "8-24h": {
+              "type": "number",
+              "description": "Number of conversations with first response time between 8-24 hours"
+            },
+            "24h+": {
+              "type": "number",
+              "description": "Number of conversations with first response time greater than 24 hours"
+            }
+          }
+        },
+        "example": {
+          "Channel::WebWidget": {
+            "0-1h": 150,
+            "1-4h": 80,
+            "4-8h": 45,
+            "8-24h": 30,
+            "24h+": 15
+          },
+          "Channel::Api": {
+            "0-1h": 75,
+            "1-4h": 40,
+            "4-8h": 20,
+            "8-24h": 10,
+            "24h+": 5
+          }
+        }
+      },
+      "inbox_label_matrix": {
+        "type": "object",
+        "description": "Inbox-label matrix report showing the count of conversations for each inbox-label combination.",
+        "properties": {
+          "inboxes": {
+            "type": "array",
+            "description": "List of inboxes included in the report",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "The inbox ID"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The inbox name"
+                }
+              }
+            }
+          },
+          "labels": {
+            "type": "array",
+            "description": "List of labels included in the report",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number",
+                  "description": "The label ID"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "The label title"
+                }
+              }
+            }
+          },
+          "matrix": {
+            "type": "array",
+            "description": "2D array where matrix[i][j] represents the count of conversations in inboxes[i] with labels[j]",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        },
+        "example": {
+          "inboxes": [
+            {
+              "id": 1,
+              "name": "Website Chat"
+            },
+            {
+              "id": 2,
+              "name": "Email Support"
+            }
+          ],
+          "labels": [
+            {
+              "id": 1,
+              "title": "bug"
+            },
+            {
+              "id": 2,
+              "title": "feature-request"
+            },
+            {
+              "id": 3,
+              "title": "urgent"
+            }
+          ],
+          "matrix": [
+            [
+              10,
+              5,
+              3
+            ],
+            [
+              8,
+              12,
+              2
+            ]
+          ]
+        }
+      },
+      "inbox_summary": {
+        "type": "array",
+        "description": "Inbox summary report containing conversation statistics grouped by inbox.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The inbox ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations created in the inbox during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved in the inbox during the date range"
+            },
+            "avg_resolution_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 150,
+            "resolved_conversations_count": 120,
+            "avg_resolution_time": 3600,
+            "avg_first_response_time": 300,
+            "avg_reply_time": 600
+          },
+          {
+            "id": 2,
+            "conversations_count": 75,
+            "resolved_conversations_count": 60,
+            "avg_resolution_time": 1800,
+            "avg_first_response_time": 180,
+            "avg_reply_time": 420
+          }
+        ]
+      },
+      "agent_summary": {
+        "type": "array",
+        "description": "Agent summary report containing conversation statistics grouped by agent.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The agent (user) ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations assigned to the agent during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved by the agent during the date range"
+            },
+            "avg_resolution_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 150,
+            "resolved_conversations_count": 120,
+            "avg_resolution_time": 3600,
+            "avg_first_response_time": 300,
+            "avg_reply_time": 600
+          },
+          {
+            "id": 2,
+            "conversations_count": 75,
+            "resolved_conversations_count": 60,
+            "avg_resolution_time": 1800,
+            "avg_first_response_time": 180,
+            "avg_reply_time": 420
+          }
+        ]
+      },
+      "team_summary": {
+        "type": "array",
+        "description": "Team summary report containing conversation statistics grouped by team.",
+        "items": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "number",
+              "description": "The team ID"
+            },
+            "conversations_count": {
+              "type": "number",
+              "description": "Number of conversations assigned to the team during the date range"
+            },
+            "resolved_conversations_count": {
+              "type": "number",
+              "description": "Number of conversations resolved by the team during the date range"
+            },
+            "avg_resolution_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) to resolve conversations. Null if no data available."
+            },
+            "avg_first_response_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) for the first response. Null if no data available."
+            },
+            "avg_reply_time": {
+              "type": "number",
+              "nullable": true,
+              "description": "Average time (in seconds) between replies. Null if no data available."
+            }
+          }
+        },
+        "example": [
+          {
+            "id": 1,
+            "conversations_count": 250,
+            "resolved_conversations_count": 200,
+            "avg_resolution_time": 2800,
+            "avg_first_response_time": 240,
+            "avg_reply_time": 500
+          },
+          {
+            "id": 2,
+            "conversations_count": 180,
+            "resolved_conversations_count": 150,
+            "avg_resolution_time": 2400,
+            "avg_first_response_time": 200,
+            "avg_reply_time": 450
+          }
+        ]
       },
       "contact_detail": {
         "type": "object",

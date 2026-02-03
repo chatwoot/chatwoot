@@ -1,0 +1,39 @@
+type: array
+description: Team summary report containing conversation statistics grouped by team.
+items:
+  type: object
+  properties:
+    id:
+      type: number
+      description: The team ID
+    conversations_count:
+      type: number
+      description: Number of conversations assigned to the team during the date range
+    resolved_conversations_count:
+      type: number
+      description: Number of conversations resolved by the team during the date range
+    avg_resolution_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) to resolve conversations. Null if no data available.
+    avg_first_response_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) for the first response. Null if no data available.
+    avg_reply_time:
+      type: number
+      nullable: true
+      description: Average time (in seconds) between replies. Null if no data available.
+example:
+  - id: 1
+    conversations_count: 250
+    resolved_conversations_count: 200
+    avg_resolution_time: 2800
+    avg_first_response_time: 240
+    avg_reply_time: 500
+  - id: 2
+    conversations_count: 180
+    resolved_conversations_count: 150
+    avg_resolution_time: 2400
+    avg_first_response_time: 200
+    avg_reply_time: 450

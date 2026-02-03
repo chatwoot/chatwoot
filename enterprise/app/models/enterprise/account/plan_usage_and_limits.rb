@@ -1,4 +1,4 @@
-module Enterprise::Account::PlanUsageAndLimits
+module Enterprise::Account::PlanUsageAndLimits # rubocop:disable Metrics/ModuleLength
   CAPTAIN_RESPONSES = 'captain_responses'.freeze
   CAPTAIN_DOCUMENTS = 'captain_documents'.freeze
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
@@ -30,6 +30,10 @@ module Enterprise::Account::PlanUsageAndLimits
     # this will ensure that the document count is always accurate
     custom_attributes[CAPTAIN_DOCUMENTS_USAGE] = captain_documents.count
     save
+  end
+
+  def email_rate_limit
+    account_limit || plan_email_limit || global_limit || default_limit
   end
 
   def subscribed_features
@@ -66,6 +70,16 @@ module Enterprise::Account::PlanUsageAndLimits
       current_available: (total_count - consumed).clamp(0, total_count),
       consumed: consumed
     }
+  end
+
+  def plan_email_limit
+    config = InstallationConfig.find_by(name: 'ACCOUNT_EMAILS_PLAN_LIMITS')&.value
+    return nil if config.blank? || plan_name.blank?
+
+    parsed = config.is_a?(String) ? JSON.parse(config) : config
+    parsed[plan_name.downcase]&.to_i
+  rescue StandardError
+    nil
   end
 
   def default_captain_limits
@@ -119,7 +133,8 @@ module Enterprise::Account::PlanUsageAndLimits
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' }
+        'captain_documents' => { 'type': 'number' },
+        'emails' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false

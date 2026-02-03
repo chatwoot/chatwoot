@@ -225,6 +225,16 @@ agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
 channel_summary:
   $ref: './resource/reports/channel_summary.yml'
+first_response_time_distribution:
+  $ref: './resource/reports/first_response_time_distribution.yml'
+inbox_label_matrix:
+  $ref: './resource/reports/inbox_label_matrix.yml'
+inbox_summary:
+  $ref: './resource/reports/inbox_summary.yml'
+agent_summary:
+  $ref: './resource/reports/agent_summary.yml'
+team_summary:
+  $ref: './resource/reports/team_summary.yml'
 
 contact_detail:
   $ref: ./resource/contact_detail.yml

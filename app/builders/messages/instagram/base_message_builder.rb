@@ -158,6 +158,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: message_type,
+      status: @outgoing_echo ? :delivered : :sent,
       source_id: message_identifier,
       content: message_content,
       sender: @outgoing_echo ? nil : contact,
@@ -166,6 +167,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
       }
     }
 
+    params[:content_attributes][:external_echo] = true if @outgoing_echo
     params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
     params
   end
