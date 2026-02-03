@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   agent: {
     type: Object,
@@ -28,7 +29,6 @@ const visibleIntervals = computed(() => {
   if (!props.agent?.timeline || !Array.isArray(props.agent.timeline)) {
     return [];
   }
-
   return props.agent.timeline
     .map(item => ({
       status: item.status,
@@ -51,14 +51,25 @@ const timeToPercent = time => {
 
 const formatDuration = seconds => {
   if (!seconds) return '0min';
-
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
-
   if (hours > 0) {
     return minutes > 0 ? `${hours}h ${minutes}min` : `${hours}h`;
   }
   return `${minutes}min`;
+};
+
+const formatTimeUTC = timestamp => {
+  const date = new Date(timestamp);
+  return date.toLocaleString( {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    timeZone: 'UTC',
+  });
 };
 
 const summary = computed(() => ({
@@ -84,7 +95,6 @@ const summary = computed(() => ({
       >
         {{ agent.name.charAt(0).toUpperCase() }}
       </div>
-
       <div class="min-w-0">
         <div class="text-sm font-medium truncate">
           {{ agent.name }}
@@ -94,7 +104,6 @@ const summary = computed(() => ({
         </div>
       </div>
     </div>
-
     <div class="flex-1">
       <div class="relative h-4 bg-n-solid-3 rounded overflow-hidden">
         <div
@@ -109,10 +118,9 @@ const summary = computed(() => ({
               timeToPercent(interval.since) +
               '%',
           }"
-          :title="`${interval.status}: ${new Date(interval.since).toLocaleTimeString()} - ${new Date(interval.until).toLocaleTimeString()}`"
+          :title="`${interval.status}: ${formatTimeUTC(interval.since)} - ${formatTimeUTC(interval.until)} UTC`"
         />
       </div>
-
       <div class="flex gap-4 text-xs text-n-slate-11 mt-1">
         <span v-if="agent.online_duration > 0" class="flex items-center gap-1">
           <span class="w-2 h-2 rounded-full bg-green-500" />
