@@ -514,7 +514,7 @@
         "DEFAULT_INBOX_PLACEHOLDER": "Select an inbox",
         "AUTO_CREATE_CONTACT": "Auto-create contacts from MoEngage data",
         "ENABLE_AI_RESPONSE": "Enable AI proactive outreach",
-        "ENABLE_AI_RESPONSE_HELP": "When enabled, Aloo will automatically send a personalized message to customers based on the MoEngage event (e.g., abandoned cart). Requires an active Aloo assistant on the inbox.",
+        "ENABLE_AI_RESPONSE_HELP": "When enabled, Aloo will automatically send a personalized message to customers based on the MoEngage event (e.g., abandoned cart).",
         "VALIDATION_ERROR": "Please fill in all required fields"
       },
       "SETTINGS": {
@@ -522,7 +522,28 @@
         "AI_SETTINGS_TITLE": "AI Proactive Outreach",
         "AI_SETTINGS_DESCRIPTION": "When a MoEngage event triggers a conversation, Aloo can automatically send a personalized outreach message to the customer.",
         "UPDATE_SUCCESS": "Settings updated successfully",
-        "UPDATE_ERROR": "Failed to update settings"
+        "UPDATE_ERROR": "Failed to update settings",
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "DOCS": {
+        "TITLE": "Webhook Payload Documentation",
+        "DESCRIPTION": "Configure your MoEngage Connector Campaign to send webhooks in the following JSON format.",
+        "PAYLOAD_STRUCTURE": "Payload Structure",
+        "FIELDS": {
+          "EVENT_NAME": "Event name (e.g., cart_abandoned, browse_abandoned, or any custom event)",
+          "CUSTOMER": "Customer information for contact matching/creation",
+          "EMAIL": "Email address (used to find existing contact)",
+          "PHONE": "Phone number (used to find existing contact)",
+          "CUSTOMER_ID": "MoEngage customer ID (used as identifier)",
+          "FIRST_NAME": "Customer's first name (used in personalized messages)",
+          "LAST_NAME": "Customer's last name",
+          "EVENT_ATTRIBUTES": "Event-specific data to include in the AI message",
+          "CAMPAIGN": "Campaign information from MoEngage"
+        },
+        "EXAMPLE_TITLE": "Example Payload",
+        "COPY_EXAMPLE": "Copy Example",
+        "EXAMPLE_COPIED": "Example copied to clipboard"
       },
       "DELETE": {
         "TITLE": "Disconnect MoEngage Integration",

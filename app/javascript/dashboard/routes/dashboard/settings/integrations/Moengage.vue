@@ -157,6 +157,88 @@ const regenerateToken = async () => {
 };
 
 const isUpdatingSettings = ref(false);
+const showDocs = ref(false);
+
+const toggleDocs = () => {
+  showDocs.value = !showDocs.value;
+};
+
+const examplePayload = `{
+  "event_name": "cart_abandoned",
+  "customer": {
+    "email": "john@example.com",
+    "phone": "+1234567890",
+    "customer_id": "cust_123",
+    "first_name": "John",
+    "last_name": "Doe"
+  },
+  "event_attributes": {
+    "product_name": "Wireless Headphones",
+    "cart_value": "$199.99",
+    "items_count": 2
+  },
+  "campaign": {
+    "id": "camp_123",
+    "name": "Cart Recovery"
+  }
+}`;
+
+const copyExamplePayload = async () => {
+  await copyTextToClipboard(examplePayload);
+  useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.EXAMPLE_COPIED'));
+};
+
+const payloadFields = computed(() => [
+  {
+    key: 'event_name',
+    name: 'event_name',
+    description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.EVENT_NAME'),
+  },
+  {
+    key: 'customer',
+    name: 'customer',
+    description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.CUSTOMER'),
+    children: [
+      {
+        key: 'email',
+        name: 'email',
+        description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.EMAIL'),
+      },
+      {
+        key: 'phone',
+        name: 'phone',
+        description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.PHONE'),
+      },
+      {
+        key: 'customer_id',
+        name: 'customer_id',
+        description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.CUSTOMER_ID'),
+      },
+      {
+        key: 'first_name',
+        name: 'first_name',
+        description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.FIRST_NAME'),
+      },
+      {
+        key: 'last_name',
+        name: 'last_name',
+        description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.LAST_NAME'),
+      },
+    ],
+  },
+  {
+    key: 'event_attributes',
+    name: 'event_attributes',
+    description: t(
+      'INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.EVENT_ATTRIBUTES'
+    ),
+  },
+  {
+    key: 'campaign',
+    name: 'campaign',
+    description: t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.FIELDS.CAMPAIGN'),
+  },
+]);
 
 const toggleAiResponse = async newValue => {
   isUpdatingSettings.value = true;
@@ -320,7 +402,11 @@ onMounted(() => {
                 }}
               </p>
               <p class="text-sm text-n-slate-12">
-                {{ formData.auto_create_contact ? 'Enabled' : 'Disabled' }}
+                {{
+                  formData.auto_create_contact
+                    ? $t('INTEGRATION_SETTINGS.MOENGAGE.SETTINGS.ENABLED')
+                    : $t('INTEGRATION_SETTINGS.MOENGAGE.SETTINGS.DISABLED')
+                }}
               </p>
             </div>
           </div>
@@ -346,6 +432,101 @@ onMounted(() => {
               :disabled="isUpdatingSettings"
               @update:model-value="toggleAiResponse"
             />
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-if="isConnected"
+        class="p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+      >
+        <div
+          class="flex items-center justify-between cursor-pointer"
+          @click="toggleDocs"
+        >
+          <div>
+            <h4 class="text-base font-medium text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.TITLE') }}
+            </h4>
+            <p class="text-sm text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.DESCRIPTION') }}
+            </p>
+          </div>
+          <span
+            class="text-n-slate-11 transition-transform"
+            :class="{ 'rotate-180': showDocs }"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </span>
+        </div>
+
+        <div v-if="showDocs" class="mt-4 flex flex-col gap-4">
+          <div>
+            <h5 class="text-sm font-medium text-n-slate-12 mb-2">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.PAYLOAD_STRUCTURE') }}
+            </h5>
+            <div class="text-xs space-y-2">
+              <div
+                v-for="field in payloadFields"
+                :key="field.key"
+                class="flex flex-col"
+              >
+                <div class="flex items-start gap-2">
+                  <code
+                    class="text-n-slate-12 bg-n-solid-3 px-1 rounded shrink-0"
+                  >
+                    {{ field.name }}
+                  </code>
+                  <span class="text-n-slate-11">{{ field.description }}</span>
+                </div>
+                <div v-if="field.children" class="ml-6 mt-1 space-y-1">
+                  <div
+                    v-for="child in field.children"
+                    :key="child.key"
+                    class="flex items-start gap-2"
+                  >
+                    <code
+                      class="text-n-slate-12 bg-n-solid-3 px-1 rounded shrink-0"
+                    >
+                      {{ child.name }}
+                    </code>
+                    <span class="text-n-slate-11">{{ child.description }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <h5 class="text-sm font-medium text-n-slate-12">
+                {{ $t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.EXAMPLE_TITLE') }}
+              </h5>
+              <Button
+                faded
+                slate
+                size="small"
+                :label="$t('INTEGRATION_SETTINGS.MOENGAGE.DOCS.COPY_EXAMPLE')"
+                @click="copyExamplePayload"
+              />
+            </div>
+            <pre
+              class="text-xs bg-n-solid-3 border border-n-weak rounded p-3 overflow-x-auto text-n-slate-12"
+            >
+              {{ examplePayload }}
+            </pre>
           </div>
         </div>
       </div>
