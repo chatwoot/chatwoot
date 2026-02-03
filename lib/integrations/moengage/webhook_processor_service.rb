@@ -23,7 +23,7 @@ class Integrations::Moengage::WebhookProcessorService
     return unless @contact
 
     create_conversation_with_context
-    trigger_ai_response if ai_response_enabled?
+    trigger_ai_response if inbox_has_ai_agent?
 
     log_success
   rescue StandardError => e
@@ -178,15 +178,17 @@ class Integrations::Moengage::WebhookProcessorService
     @inbox ||= account.inboxes.find(settings[:default_inbox_id])
   end
 
-  def ai_response_enabled?
-    settings[:enable_ai_response] && settings[:ai_agent_id].present?
+  def inbox_has_ai_agent?
+    inbox.agent_bot_inbox&.active? && inbox.agent_bot.present?
   end
 
   def trigger_ai_response
-    agent_bot = account.agent_bots.find_by(id: settings[:ai_agent_id])
+    agent_bot = inbox.agent_bot
     return unless agent_bot
 
-    @conversation.update!(assignee_agent_bot: agent_bot, assignee: nil)
+    # Trigger the agent bot webhook with conversation_opened event
+    payload_data = @conversation.webhook_data.merge(event: 'conversation_opened')
+    AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload_data)
   rescue StandardError => e
     Rails.logger.error("MoEngage AI response trigger failed: #{e.message}")
   end
