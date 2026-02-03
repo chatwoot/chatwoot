@@ -179,18 +179,35 @@ class Integrations::Moengage::WebhookProcessorService
   end
 
   def inbox_has_ai_agent?
-    inbox.agent_bot_inbox&.active? && inbox.agent_bot.present?
+    inbox.active_aloo_assistant? || (inbox.agent_bot_inbox&.active? && inbox.agent_bot.present?)
   end
 
   def trigger_ai_response
+    if inbox.active_aloo_assistant?
+      trigger_aloo_proactive_outreach
+    elsif inbox.agent_bot.present?
+      trigger_agent_bot_webhook
+    end
+  rescue StandardError => e
+    Rails.logger.error("MoEngage AI response trigger failed: #{e.message}")
+  end
+
+  def trigger_aloo_proactive_outreach
+    event_context = {
+      event_name: payload[:event_name],
+      event_attributes: payload[:event_attributes],
+      campaign: payload[:campaign],
+      customer: payload[:customer]
+    }
+    Aloo::ProactiveOutreachJob.perform_later(@conversation.id, event_context)
+  end
+
+  def trigger_agent_bot_webhook
     agent_bot = inbox.agent_bot
     return unless agent_bot
 
-    # Trigger the agent bot webhook with conversation_opened event
     payload_data = @conversation.webhook_data.merge(event: 'conversation_opened')
     AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload_data)
-  rescue StandardError => e
-    Rails.logger.error("MoEngage AI response trigger failed: #{e.message}")
   end
 
   def log_success
