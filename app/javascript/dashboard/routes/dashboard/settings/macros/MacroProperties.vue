@@ -15,8 +15,27 @@ export default {
       type: String,
       default: 'global',
     },
+    macroDescription: {
+      type: String,
+      default: '',
+    },
+    macroAiEnabled: {
+      type: Boolean,
+      default: false,
+    },
   },
-  emits: ['update:name', 'update:visibility', 'submit'],
+  emits: [
+    'update:name',
+    'update:visibility',
+    'update:description',
+    'update:aiEnabled',
+    'submit',
+  ],
+  computed: {
+    isGlobalMacro() {
+      return this.macroVisibility === 'global';
+    },
+  },
   methods: {
     isActive(key) {
       return this.macroVisibility === key
@@ -28,6 +47,16 @@ export default {
     },
     onUpdateVisibility(value) {
       this.$emit('update:visibility', value);
+      // Reset AI enabled when switching to personal
+      if (value === 'personal') {
+        this.$emit('update:aiEnabled', false);
+      }
+    },
+    onUpdateDescription(event) {
+      this.$emit('update:description', event.target.value);
+    },
+    onUpdateAiEnabled(event) {
+      this.$emit('update:aiEnabled', event.target.checked);
     },
   },
 };
@@ -47,7 +76,26 @@ export default {
         @update:model-value="onUpdateName"
       />
     </div>
-    <div class="mt-2">
+    <div class="mt-3">
+      <label class="block text-sm font-medium leading-[1.8] text-n-slate-12">
+        {{ $t('MACROS.ADD.FORM.DESCRIPTION.LABEL') }}
+      </label>
+      <textarea
+        :value="macroDescription"
+        :placeholder="$t('MACROS.ADD.FORM.DESCRIPTION.PLACEHOLDER')"
+        class="w-full px-3 py-2 text-sm border rounded-md resize-none bg-white dark:bg-n-solid-3 border-n-weak dark:border-n-strong text-n-slate-12 placeholder:text-n-slate-10 focus:outline-none focus:ring-1 focus:ring-n-brand focus:border-n-brand"
+        :class="{ 'border-n-ruby-9': v$.macro.description?.$error }"
+        rows="3"
+        @input="onUpdateDescription"
+      />
+      <p v-if="v$.macro.description?.$error" class="mt-1 text-xs text-n-ruby-9">
+        {{ $t('MACROS.ADD.FORM.DESCRIPTION.ERROR') }}
+      </p>
+      <p v-else class="mt-1 text-xs text-n-slate-11">
+        {{ $t('MACROS.ADD.FORM.DESCRIPTION.HELP_TEXT') }}
+      </p>
+    </div>
+    <div class="mt-3">
       <p class="block m-0 text-sm font-medium leading-[1.8] text-n-slate-12">
         {{ $t('MACROS.EDITOR.VISIBILITY.LABEL') }}
       </p>
@@ -101,6 +149,22 @@ export default {
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>
+    </div>
+    <div v-if="isGlobalMacro" class="mt-3">
+      <label class="flex items-center gap-3 cursor-pointer">
+        <input
+          type="checkbox"
+          :checked="macroAiEnabled"
+          class="w-4 h-4 rounded border-n-weak text-n-brand focus:ring-n-brand focus:ring-offset-0"
+          @change="onUpdateAiEnabled"
+        />
+        <span class="text-sm font-medium text-n-slate-12">
+          {{ $t('MACROS.ADD.FORM.AI_ENABLED.LABEL') }}
+        </span>
+      </label>
+      <p class="mt-1 text-xs text-n-slate-11 ml-7">
+        {{ $t('MACROS.ADD.FORM.AI_ENABLED.HELP_TEXT') }}
+      </p>
     </div>
     <div class="mt-auto w-full">
       <NextButton
