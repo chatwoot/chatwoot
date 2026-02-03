@@ -1,49 +1,42 @@
 class Webhooks::MoengageEventsJob < ApplicationJob
   queue_as :default
 
-  def perform(params = {})
-    return unless params[:webhook_token]
+  def perform(event_log_id)
+    @event_log = MoengageWebhookEventLog.find_by(id: event_log_id)
+    return unless @event_log
+    return if @event_log.success? # Already processed
 
-    hook = find_hook(params[:webhook_token])
+    @start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
-    if hook_is_inactive?(hook)
-      log_inactive_hook(hook, params)
-      return
-    end
-
-    process_webhook(hook, params)
+    process_webhook
+  rescue StandardError => e
+    mark_failed(e.message)
+    raise
   end
 
   private
 
-  def find_hook(webhook_token)
-    Integrations::Hook.where(app_id: 'moengage', status: :enabled)
-                      .where("settings->>'webhook_token' = ?", webhook_token)
-                      .first
+  def process_webhook
+    service = Integrations::Moengage::WebhookProcessorService.new(
+      hook: @event_log.hook,
+      payload: @event_log.payload.with_indifferent_access,
+      event_log: @event_log
+    )
+    service.perform
   end
 
-  def hook_is_inactive?(hook)
-    return true if hook.blank?
-    return true unless hook.account.active?
-
-    false
+  def mark_failed(error_message)
+    @event_log.update(
+      status: :failed,
+      error_message: error_message,
+      processing_time_ms: calculate_processing_time
+    )
   end
 
-  def log_inactive_hook(hook, params)
-    message = if hook&.id
-                "Account #{hook.account.id} is not active for hook #{hook.id}"
-              else
-                "Hook not found for webhook_token: #{params[:webhook_token]}"
-              end
-    Rails.logger.warn("MoEngage event discarded: #{message}")
-  end
+  def calculate_processing_time
+    return nil unless @start_time
 
-  def process_webhook(hook, params)
-    payload = params.except(:webhook_token, :controller, :action)
-
-    Integrations::Moengage::WebhookProcessorService.new(
-      hook: hook,
-      payload: payload
-    ).perform
+    elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - @start_time
+    (elapsed * 1000).round
   end
 end

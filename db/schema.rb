@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_03_100000) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_03_175048) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1059,6 +1059,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_100000) do
     t.index ["source_id"], name: "index_messages_on_source_id"
   end
 
+  create_table "moengage_webhook_event_logs", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "hook_id", null: false
+    t.string "event_name"
+    t.integer "status", default: 0, null: false
+    t.jsonb "payload", default: {}
+    t.jsonb "response_data", default: {}
+    t.text "error_message"
+    t.bigint "contact_id"
+    t.bigint "conversation_id"
+    t.integer "processing_time_ms"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "created_at"], name: "index_moengage_webhook_event_logs_on_account_id_and_created_at"
+    t.index ["account_id"], name: "index_moengage_webhook_event_logs_on_account_id"
+    t.index ["contact_id"], name: "index_moengage_webhook_event_logs_on_contact_id"
+    t.index ["conversation_id"], name: "index_moengage_webhook_event_logs_on_conversation_id"
+    t.index ["hook_id", "created_at"], name: "index_moengage_webhook_event_logs_on_hook_id_and_created_at"
+    t.index ["hook_id"], name: "index_moengage_webhook_event_logs_on_hook_id"
+    t.index ["status", "created_at"], name: "index_moengage_webhook_event_logs_on_status_and_created_at"
+  end
+
   create_table "notes", force: :cascade do |t|
     t.text "content", null: false
     t.bigint "account_id", null: false
@@ -1506,6 +1528,10 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_100000) do
   add_foreign_key "carts", "conversations"
   add_foreign_key "carts", "messages"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "moengage_webhook_event_logs", "accounts"
+  add_foreign_key "moengage_webhook_event_logs", "contacts"
+  add_foreign_key "moengage_webhook_event_logs", "conversations"
+  add_foreign_key "moengage_webhook_event_logs", "integrations_hooks", column: "hook_id"
   add_foreign_key "payment_links", "accounts"
   add_foreign_key "payment_links", "contacts"
   add_foreign_key "payment_links", "conversations"

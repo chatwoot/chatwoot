@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { format } from 'date-fns';
 import {
   useFunctionGetter,
   useMapGetter,
@@ -9,6 +10,7 @@ import {
 } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import IntegrationsAPI from 'dashboard/api/integrations';
 
 import Integration from './Integration.vue';
 import Spinner from 'shared/components/Spinner.vue';
@@ -264,6 +266,80 @@ watch(currentHook, newHook => {
       newHook.settings.enable_ai_response ?? false;
   }
 });
+
+// Webhook Event Logs
+const showLogs = ref(false);
+const eventLogs = ref([]);
+const logsLoading = ref(false);
+const logsMeta = ref({
+  total_count: 0,
+  page: 1,
+  per_page: 10,
+  total_pages: 0,
+});
+const selectedLogPayload = ref(null);
+const payloadDialogRef = ref(null);
+
+const fetchEventLogs = async (page = 1) => {
+  logsLoading.value = true;
+  try {
+    const response = await IntegrationsAPI.getMoengageWebhookEventLogs({
+      page,
+      perPage: 10,
+    });
+    eventLogs.value = response.data.payload;
+    logsMeta.value = response.data.meta;
+  } catch (error) {
+    useAlert(t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.FETCH_ERROR'));
+  } finally {
+    logsLoading.value = false;
+  }
+};
+
+const toggleLogs = () => {
+  showLogs.value = !showLogs.value;
+  if (showLogs.value && eventLogs.value.length === 0) {
+    fetchEventLogs();
+  }
+};
+
+const refreshLogs = () => {
+  fetchEventLogs(logsMeta.value.page);
+};
+
+const goToPage = page => {
+  if (page >= 1 && page <= logsMeta.value.total_pages) {
+    fetchEventLogs(page);
+  }
+};
+
+const formatDate = dateString => {
+  if (!dateString) return '-';
+  return format(new Date(dateString), 'MMM d, yyyy h:mm a');
+};
+
+const getStatusClass = status => {
+  const classes = {
+    success: 'bg-g-50 text-g-800 dark:bg-g-800 dark:text-g-100',
+    failed: 'bg-r-50 text-r-800 dark:bg-r-800 dark:text-r-100',
+    pending: 'bg-y-50 text-y-800 dark:bg-y-800 dark:text-y-100',
+    skipped: 'bg-n-50 text-n-800 dark:bg-n-800 dark:text-n-100',
+  };
+  return classes[status] || classes.pending;
+};
+
+const viewPayload = log => {
+  selectedLogPayload.value = log;
+  payloadDialogRef.value?.open();
+};
+
+const formatJson = obj => {
+  try {
+    return JSON.stringify(obj, null, 2);
+  } catch {
+    return String(obj);
+  }
+};
 
 const initializeMoengageIntegration = async () => {
   await store.dispatch('integrations/get');
@@ -530,6 +606,310 @@ onMounted(() => {
           </div>
         </div>
       </div>
+
+      <!-- Webhook Event Logs Section -->
+      <div
+        v-if="isConnected"
+        class="p-6 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
+      >
+        <div
+          class="flex items-center justify-between cursor-pointer"
+          @click="toggleLogs"
+        >
+          <div>
+            <h4 class="text-base font-medium text-n-slate-12">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TITLE') }}
+            </h4>
+            <p class="text-sm text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.DESCRIPTION') }}
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <Button
+              v-if="showLogs"
+              faded
+              slate
+              size="small"
+              :label="$t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.REFRESH')"
+              @click.stop="refreshLogs"
+            />
+            <span
+              class="text-n-slate-11 transition-transform"
+              :class="{ 'rotate-180': showLogs }"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </span>
+          </div>
+        </div>
+
+        <div v-if="showLogs" class="mt-4">
+          <div v-if="logsLoading" class="flex justify-center py-8">
+            <Spinner size="" color-scheme="primary" />
+          </div>
+
+          <div v-else-if="eventLogs.length === 0" class="py-8 text-center">
+            <p class="text-sm text-n-slate-11">
+              {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.EMPTY') }}
+            </p>
+          </div>
+
+          <div v-else>
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-n-weak">
+                <thead>
+                  <tr>
+                    <th
+                      class="py-3 ltr:pr-4 rtl:pl-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.EVENT') }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.STATUS')
+                      }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.CONTACT')
+                      }}
+                    </th>
+                    <th
+                      class="py-3 px-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.TIME') }}
+                    </th>
+                    <th
+                      class="py-3 ltr:pl-4 rtl:pr-4 text-left text-xs font-semibold text-n-slate-11 uppercase tracking-wider"
+                    >
+                      {{
+                        $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.ACTIONS')
+                      }}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-n-weak">
+                  <tr v-for="log in eventLogs" :key="log.id">
+                    <td
+                      class="py-3 ltr:pr-4 rtl:pl-4 text-sm text-n-slate-12 font-mono"
+                    >
+                      {{ log.event_name || '-' }}
+                    </td>
+                    <td class="py-3 px-4">
+                      <span
+                        class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
+                        :class="getStatusClass(log.status)"
+                      >
+                        {{
+                          $t(
+                            `INTEGRATION_SETTINGS.MOENGAGE.LOGS.STATUS.${log.status.toUpperCase()}`
+                          )
+                        }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-4 text-sm text-n-slate-12">
+                      <span v-if="log.contact_id">#{{ log.contact_id }}</span>
+                      <span v-else class="text-n-slate-11">-</span>
+                    </td>
+                    <td class="py-3 px-4 text-sm text-n-slate-11">
+                      {{ formatDate(log.created_at) }}
+                    </td>
+                    <td class="py-3 ltr:pl-4 rtl:pr-4">
+                      <Button
+                        faded
+                        slate
+                        size="small"
+                        :label="
+                          $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.VIEW_PAYLOAD')
+                        "
+                        @click="viewPayload(log)"
+                      />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div
+              v-if="logsMeta.total_pages > 1"
+              class="flex items-center justify-between mt-4 pt-4 border-t border-n-weak"
+            >
+              <p class="text-sm text-n-slate-11">
+                {{
+                  $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAGINATION.SHOWING', {
+                    from: (logsMeta.page - 1) * logsMeta.per_page + 1,
+                    to: Math.min(
+                      logsMeta.page * logsMeta.per_page,
+                      logsMeta.total_count
+                    ),
+                    total: logsMeta.total_count,
+                  })
+                }}
+              </p>
+              <div class="flex items-center gap-2">
+                <Button
+                  faded
+                  slate
+                  size="small"
+                  :disabled="logsMeta.page <= 1"
+                  :label="
+                    $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAGINATION.PREVIOUS')
+                  "
+                  @click="goToPage(logsMeta.page - 1)"
+                />
+                <span class="text-sm text-n-slate-11">
+                  {{ logsMeta.page }} / {{ logsMeta.total_pages }}
+                </span>
+                <Button
+                  faded
+                  slate
+                  size="small"
+                  :disabled="logsMeta.page >= logsMeta.total_pages"
+                  :label="
+                    $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAGINATION.NEXT')
+                  "
+                  @click="goToPage(logsMeta.page + 1)"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Payload Detail Dialog -->
+      <Dialog
+        ref="payloadDialogRef"
+        :title="$t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.TITLE')"
+        :show-confirm-button="false"
+        :cancel-button-label="
+          $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.CLOSE')
+        "
+      >
+        <div v-if="selectedLogPayload" class="flex flex-col gap-4">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.EVENT') }}
+              </p>
+              <p class="text-sm text-n-slate-12 font-mono">
+                {{ selectedLogPayload.event_name || '-' }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.STATUS') }}
+              </p>
+              <span
+                class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium"
+                :class="getStatusClass(selectedLogPayload.status)"
+              >
+                {{
+                  $t(
+                    `INTEGRATION_SETTINGS.MOENGAGE.LOGS.STATUS.${selectedLogPayload.status.toUpperCase()}`
+                  )
+                }}
+              </span>
+            </div>
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.CONTACT') }}
+              </p>
+              <p class="text-sm text-n-slate-12">
+                {{ selectedLogPayload.contact_id || '-' }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.CONVERSATION'
+                  )
+                }}
+              </p>
+              <p class="text-sm text-n-slate-12">
+                {{ selectedLogPayload.conversation_id || '-' }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{
+                  $t(
+                    'INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.PROCESSING_TIME'
+                  )
+                }}
+              </p>
+              <p class="text-sm text-n-slate-12">
+                {{
+                  selectedLogPayload.processing_time_ms
+                    ? `${selectedLogPayload.processing_time_ms}ms`
+                    : '-'
+                }}
+              </p>
+            </div>
+            <div>
+              <p class="text-xs text-n-slate-11 mb-1">
+                {{ $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.TABLE.TIME') }}
+              </p>
+              <p class="text-sm text-n-slate-12">
+                {{ formatDate(selectedLogPayload.created_at) }}
+              </p>
+            </div>
+          </div>
+
+          <div v-if="selectedLogPayload.error_message">
+            <p class="text-xs text-n-slate-11 mb-1">
+              {{
+                $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.ERROR')
+              }}
+            </p>
+            <p class="text-sm text-r-600 bg-r-50 dark:bg-r-900 p-2 rounded">
+              {{ selectedLogPayload.error_message }}
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs text-n-slate-11 mb-1">
+              {{
+                $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.PAYLOAD')
+              }}
+            </p>
+            <pre
+              class="text-xs bg-n-solid-3 border border-n-weak rounded p-3 overflow-x-auto text-n-slate-12 max-h-64"
+              >{{ formatJson(selectedLogPayload.payload) }}</pre
+            >
+          </div>
+
+          <div
+            v-if="Object.keys(selectedLogPayload.response_data || {}).length"
+          >
+            <p class="text-xs text-n-slate-11 mb-1">
+              {{
+                $t('INTEGRATION_SETTINGS.MOENGAGE.LOGS.PAYLOAD_DIALOG.RESPONSE')
+              }}
+            </p>
+            <pre
+              class="text-xs bg-n-solid-3 border border-n-weak rounded p-3 overflow-x-auto text-n-slate-12"
+              >{{ formatJson(selectedLogPayload.response_data) }}</pre
+            >
+          </div>
+        </div>
+      </Dialog>
 
       <Dialog
         ref="dialogRef"

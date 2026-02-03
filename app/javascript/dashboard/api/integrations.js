@@ -64,6 +64,23 @@ class IntegrationsAPI extends ApiClient {
       `${this.baseUrl()}/integrations/moengage/regenerate_token`
     );
   }
+
+  getMoengageWebhookEventLogs({
+    page = 1,
+    perPage = 25,
+    status,
+    eventName,
+  } = {}) {
+    const params = new URLSearchParams();
+    params.append('page', page);
+    params.append('per_page', perPage);
+    if (status) params.append('status', status);
+    if (eventName) params.append('event_name', eventName);
+
+    return axios.get(
+      `${this.baseUrl()}/integrations/moengage/webhook_event_logs?${params.toString()}`
+    );
+  }
 }
 
 export default new IntegrationsAPI();

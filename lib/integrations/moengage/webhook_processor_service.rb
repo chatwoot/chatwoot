@@ -1,16 +1,25 @@
 class Integrations::Moengage::WebhookProcessorService
-  def initialize(hook:, payload:)
+  def initialize(hook:, payload:, event_log: nil)
     @hook = hook
     @payload = payload.with_indifferent_access
     @account = hook.account
     @settings = hook.settings.with_indifferent_access
+    @event_log = event_log
   end
 
   def perform
-    return unless valid_payload?
+    @start_time = Process.clock_gettime(Process::CLOCK_MONOTONIC)
+
+    unless valid_payload?
+      log_skipped('Invalid payload: missing event_name or campaign')
+      return
+    end
 
     find_or_create_contact
-    return unless @contact
+    unless @contact
+      log_skipped('Contact not found and auto_create_contact is disabled')
+      return
+    end
 
     create_conversation_with_context
     trigger_ai_response if should_trigger_ai?
@@ -23,7 +32,7 @@ class Integrations::Moengage::WebhookProcessorService
 
   private
 
-  attr_reader :hook, :payload, :account, :settings
+  attr_reader :hook, :payload, :account, :settings, :event_log
 
   # Accept any payload that has an event name or campaign - MoEngage allows custom events
   def valid_payload?
@@ -213,16 +222,55 @@ class Integrations::Moengage::WebhookProcessorService
   end
 
   def log_success
+    update_event_log(
+      status: :success,
+      response_data: {
+        contact_id: @contact&.id,
+        conversation_id: @conversation&.id,
+        ai_triggered: should_trigger_ai?
+      }
+    )
+
     Rails.logger.info(
       "MoEngage webhook processed: event=#{payload[:event_name]} " \
       "contact=#{@contact&.id} conversation=#{@conversation&.id}"
     )
   end
 
+  def log_skipped(reason)
+    update_event_log(status: :skipped, error_message: reason)
+
+    Rails.logger.info("MoEngage webhook skipped: #{reason}")
+  end
+
   def log_error(error)
+    update_event_log(status: :failed, error_message: error.message)
+
     Rails.logger.error(
       "MoEngage webhook error: #{error.message} " \
       "payload=#{payload.to_json}"
     )
+  end
+
+  def update_event_log(status:, response_data: {}, error_message: nil)
+    return unless event_log
+
+    event_log.update(
+      status: status,
+      response_data: response_data,
+      error_message: error_message,
+      contact: @contact,
+      conversation: @conversation,
+      processing_time_ms: calculate_processing_time
+    )
+  rescue StandardError => e
+    Rails.logger.error("Failed to update MoEngage event log: #{e.message}")
+  end
+
+  def calculate_processing_time
+    return nil unless @start_time
+
+    elapsed = Process.clock_gettime(Process::CLOCK_MONOTONIC) - @start_time
+    (elapsed * 1000).round
   end
 end

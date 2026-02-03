@@ -548,6 +548,41 @@
       "DELETE": {
         "TITLE": "Disconnect MoEngage Integration",
         "MESSAGE": "Are you sure you want to disconnect the MoEngage integration? This will stop all MoEngage webhooks from creating conversations."
+      },
+      "LOGS": {
+        "TITLE": "Webhook Event Logs",
+        "DESCRIPTION": "View recent webhook events received from MoEngage and their processing status.",
+        "REFRESH": "Refresh",
+        "EMPTY": "No webhook events recorded yet. Events will appear here once MoEngage sends webhooks to your integration.",
+        "FETCH_ERROR": "Failed to fetch webhook event logs",
+        "VIEW_PAYLOAD": "View Details",
+        "TABLE": {
+          "EVENT": "Event",
+          "STATUS": "Status",
+          "CONTACT": "Contact",
+          "TIME": "Time",
+          "ACTIONS": "Actions"
+        },
+        "STATUS": {
+          "SUCCESS": "Success",
+          "FAILED": "Failed",
+          "PENDING": "Pending",
+          "SKIPPED": "Skipped"
+        },
+        "PAGINATION": {
+          "SHOWING": "Showing {from} to {to} of {total} events",
+          "PREVIOUS": "Previous",
+          "NEXT": "Next"
+        },
+        "PAYLOAD_DIALOG": {
+          "TITLE": "Webhook Event Details",
+          "CLOSE": "Close",
+          "CONVERSATION": "Conversation",
+          "PROCESSING_TIME": "Processing Time",
+          "ERROR": "Error Message",
+          "PAYLOAD": "Request Payload",
+          "RESPONSE": "Response Data"
+        }
       }
     }
   },

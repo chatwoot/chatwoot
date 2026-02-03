@@ -386,6 +386,7 @@ Rails.application.routes.draw do
             resource :moengage, controller: 'moengage', only: [:show, :create, :update, :destroy] do
               member do
                 post :regenerate_token
+                get :webhook_event_logs
               end
             end
           end
