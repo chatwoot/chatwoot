@@ -17,7 +17,6 @@ Rails.application.config.after_initialize do
         config.ollama_api_base = api_base
       end
       config.default_model = model
-      config.default_provider = :ollama
       config.debug = true
     end
   end
