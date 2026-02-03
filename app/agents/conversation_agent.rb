@@ -72,7 +72,7 @@ class ConversationAgent < ApplicationAgent
       available_tools << CreateCartTool
     end
 
-    available_tools << ExecuteMacroTool if macros_available?
+    available_tools << ExecuteMacroTool if current_assistant&.feature_macros_enabled? && macros_available?
 
     available_tools
   end
@@ -192,7 +192,7 @@ class ConversationAgent < ApplicationAgent
   end
 
   def macros_section
-    return nil unless macros_available?
+    return nil unless current_assistant&.feature_macros_enabled? && macros_available?
 
     macro_list = available_macros.select(:id, :name, :description).map do |macro|
       "- ID: #{macro.id} | #{macro.name}: #{macro.description}"
