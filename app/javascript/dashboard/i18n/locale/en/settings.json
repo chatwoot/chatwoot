@@ -536,7 +536,8 @@
           "API_KEY": {
             "LABEL": "API key",
             "PLACEHOLDER": "Enter your API key"
-          }
+          },
+          "CREDENTIALS_CONFIGURED": "Credentials are already configured. Leave empty to keep existing credentials."
         },
         "GENERIC_ERROR": "Please check this field",
         "CANCEL": "Cancel",

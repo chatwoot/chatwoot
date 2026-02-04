@@ -73,6 +73,8 @@ es:
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+    captain:
+      mcp_not_enabled: 'Los servidores MCP no están habilitados para esta cuenta'
     categories:
       locale:
         unique: debe ser único en la categoría y el portal
@@ -346,6 +348,8 @@ es:
       chunk_generated: 'Chunk generated %{chunk_faqs} FAQs. Total so far: %{total_faqs}'
       page_processing_error: 'Error processing pages %{start}-%{end}: %{error}'
     custom_tool:
+      slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
+    mcp_server:
       slug_generation_failed: 'Unable to generate unique slug after 5 attempts'
   public_portal:
     search:

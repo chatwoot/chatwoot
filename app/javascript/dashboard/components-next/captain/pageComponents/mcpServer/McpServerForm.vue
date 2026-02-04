@@ -44,6 +44,13 @@ const initialState = {
 
 const state = reactive({ ...initialState });
 
+// Track if credentials exist on server (for edit mode hints)
+const hasExistingCredentials = computed(() => {
+  if (props.mode !== 'edit') return false;
+  const config = props.server?.auth_config || {};
+  return config.has_token || config.has_key;
+});
+
 watch(
   () => props.server,
   newServer => {
@@ -52,7 +59,11 @@ watch(
       state.description = newServer.description || '';
       state.url = newServer.url || '';
       state.auth_type = newServer.auth_type || 'none';
-      state.auth_config = newServer.auth_config || {};
+      // Don't copy masked credential flags (has_token, has_key) to auth_config
+      // Only copy non-sensitive config like header_name
+      state.auth_config = {
+        header_name: newServer.auth_config?.header_name || '',
+      };
       state.transport = newServer.auth_config?.transport || 'auto';
       state.rpc_endpoint = newServer.auth_config?.rpc_endpoint || '';
       state.enabled = newServer.enabled ?? true;
@@ -283,7 +294,20 @@ const handleSubmit = async () => {
           )
         "
         @update:model-value="handleAuthConfigChange('token', $event)"
-      />
+      >
+        <template #message>
+          <span
+            v-if="hasExistingCredentials && !state.auth_config.token"
+            class="text-xs text-n-slate-10"
+          >
+            {{
+              t(
+                'CAPTAIN_SETTINGS.MCP_SERVERS.FORM.AUTH_CONFIG.CREDENTIALS_CONFIGURED'
+              )
+            }}
+          </span>
+        </template>
+      </Input>
     </div>
 
     <!-- API Key Auth -->
@@ -313,7 +337,20 @@ const handleSubmit = async () => {
           t('CAPTAIN_SETTINGS.MCP_SERVERS.FORM.AUTH_CONFIG.API_KEY.PLACEHOLDER')
         "
         @update:model-value="handleAuthConfigChange('key', $event)"
-      />
+      >
+        <template #message>
+          <span
+            v-if="hasExistingCredentials && !state.auth_config.key"
+            class="text-xs text-n-slate-10"
+          >
+            {{
+              t(
+                'CAPTAIN_SETTINGS.MCP_SERVERS.FORM.AUTH_CONFIG.CREDENTIALS_CONFIGURED'
+              )
+            }}
+          </span>
+        </template>
+      </Input>
     </div>
 
     <div class="flex justify-end gap-2 pt-4 mt-2 border-t border-n-slate-6">
