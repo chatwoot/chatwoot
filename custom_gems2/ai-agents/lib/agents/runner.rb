@@ -182,12 +182,15 @@ module Agents
           save_conversation_state(chat, context_wrapper, current_agent)
 
           begin
+            Rails.logger.info "Context#{current_turn} result: #{context_wrapper.context.inspect}"
+            Rails.logger.info "Response#{current_turn} is a halt: #{response.content.inspect}"
             result = RunResult.new(
               output: response.content,
               messages: Helpers::MessageExtractor.extract_messages(chat, current_agent),
               usage: context_wrapper.usage,
               context: context_wrapper.context
             )
+            Rails.logger.info "Result#{current_turn} is a halt: #{result.inspect}"
           rescue StandardError => e
             Rails.logger.info "Error in RunResult: #{e.inspect}"
             Rails.logger.info "Context#{current_turn} error: #{context_wrapper.context.inspect}"
