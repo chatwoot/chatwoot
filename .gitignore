@@ -42,6 +42,7 @@ public/assets/manifest*.js
 public/assets/*.js.gz
 public/assets/secretField*
 public/assets/.sprockets-manifest-*.json
+public/brand-assets
 
 # VIM files
 *.swp

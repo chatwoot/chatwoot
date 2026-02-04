@@ -50,7 +50,7 @@ defineProps({
   }
 
   &:hover {
-    @apply bg-n-brand text-white;
+    @apply bg-n-brand text-n-brand-contrast;
   }
 }
 

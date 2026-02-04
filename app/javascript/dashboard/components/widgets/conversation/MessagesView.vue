@@ -20,7 +20,6 @@ import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
 
 // utils
 import { emitter } from 'shared/helpers/mitt';
-import { getTypingUsersText } from '../../../helper/commons';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
@@ -124,8 +123,21 @@ export default {
     typingUserNames() {
       const userList = this.typingUsersList;
       if (this.isAnyoneTyping) {
-        const [i18nKey, params] = getTypingUsersText(userList);
-        return this.$t(i18nKey, params);
+        const count = userList.length;
+        const [firstUser, secondUser] = userList;
+        if (count === 1) {
+          return this.$t('TYPING.ONE', { user: firstUser.name });
+        }
+        if (count === 2) {
+          return this.$t('TYPING.TWO', {
+            user: firstUser.name,
+            secondUser: secondUser.name,
+          });
+        }
+        return this.$t('TYPING.MULTIPLE', {
+          user: firstUser.name,
+          count: count - 1,
+        });
       }
 
       return '';
@@ -230,11 +242,10 @@ export default {
     unreadMessageLabel() {
       const count =
         this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
-      const label =
-        this.unreadMessageCount > 1
-          ? 'CONVERSATION.UNREAD_MESSAGES'
-          : 'CONVERSATION.UNREAD_MESSAGE';
-      return `${count} ${this.$t(label)}`;
+      if (this.unreadMessageCount > 1) {
+        return `${count} ${this.$t('CONVERSATION.UNREAD_MESSAGES')}`;
+      }
+      return `${count} ${this.$t('CONVERSATION.UNREAD_MESSAGE')}`;
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -483,7 +494,7 @@ export default {
           class="list-none flex justify-center items-center"
         >
           <span
-            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+            class="shadow-lg rounded-full bg-n-brand text-n-brand-contrast text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
           >
             {{ unreadMessageLabel }}
           </span>

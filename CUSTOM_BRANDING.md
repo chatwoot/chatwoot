@@ -10,6 +10,8 @@ Export environment variables and run rake task with `bundle exec rails branding:
 ```bash
 INSTALLATION_NAME="Chatwoot" \
 BRAND_NAME="My Company" \
+BRAND_COLOR="#1f93ff" \
+FAVICON="https://example.com/favicon.png" \
 LOGO_THUMBNAIL="https://example.com/logo-thumbnail.svg" \
 LOGO="https://example.com/logo.svg" \
 bundle exec rails branding:update
@@ -24,9 +26,15 @@ bundle exec rails branding:update
 | `BRAND_URL`          | `https://www.chatwoot.com`                  | The URL used in emails under the section “Powered By”.                |
 | `WIDGET_BRAND_URL`   | `https://www.chatwoot.com`                  | The URL used in the widget under the section “Powered By”.            |
 | `BRAND_NAME`         | `Chatwoot`                                  | The name used in emails and the widget.                               |
+| `BRAND_COLOR`        | `#1f93ff`                                   | Primary brand color used to generate the dashboard palette.           |
+| `FAVICON`            | `/brand-assets/favicon.png`                | Favicon used across the app.                                          |
 | `TERMS_URL`          | `https://www.chatwoot.com/terms-of-service` | The terms of service URL displayed on the Signup Page.                |
 | `PRIVACY_URL`        | `https://www.chatwoot.com/privacy-policy`   | The privacy policy URL displayed in the app.                          |
 | `DISPLAY_MANIFEST`   | `true`                                      | Display default Chatwoot metadata like favicons and upgrade warnings. |
+> [!NOTE]
+> If `LOGO`, `LOGO_DARK`, or `LOGO_THUMBNAIL` are remote URLs, Chatwoot downloads them
+> to `public/brand-assets` during `branding:update` and stores the local paths.
+> The thumbnail is also copied to common favicon files when it is a PNG.
 
 ## Favicon and other assets
 

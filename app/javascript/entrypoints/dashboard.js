@@ -28,6 +28,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { initializeBrandColors } from 'dashboard/helper/brandColors';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
@@ -98,6 +99,10 @@ app.component('fluent-icon', FluentIcon);
 
 app.directive('resize', vResizeObserver);
 app.directive('on-clickaway', onClickaway);
+
+const brandColor =
+  window.chatwootConfig?.brandColor || window.globalConfig?.BRAND_COLOR;
+initializeBrandColors(brandColor);
 
 // load common helpers into js
 commonHelpers();

@@ -963,7 +963,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       @apply h-8 px-3;
 
       &[type='submit'] {
-        @apply bg-n-brand text-white hover:bg-n-brand/90;
+        @apply bg-n-brand text-n-brand-contrast hover:bg-n-brand/90;
       }
 
       &[type='button'] {

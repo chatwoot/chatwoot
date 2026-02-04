@@ -30,6 +30,10 @@
   value: '/brand-assets/logo_dark.svg'
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
+- name: FAVICON
+  value: '/brand-assets/favicon.png'
+  display_title: 'Favicon'
+  description: 'Main favicon used across the app'
 - name: BRAND_URL
   value: 'https://www.chatwoot.com'
   display_title: 'Brand URL'
@@ -42,6 +46,10 @@
   value: 'Chatwoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
+- name: BRAND_COLOR
+  value: '#1f93ff'
+  display_title: 'Brand Primary Color'
+  description: 'Primary brand color used to generate the dashboard palette'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
   display_title: 'Terms URL'
