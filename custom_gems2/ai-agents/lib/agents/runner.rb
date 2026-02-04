@@ -172,8 +172,11 @@ module Agents
 
           # Reconfigure existing chat for new agent - preserves conversation history automatically
           configure_chat_for_agent(chat, current_agent, context_wrapper, replace: true)
+          Rails.logger.info "Runner Line 175"
           agent_headers = Helpers::Headers.normalize(current_agent.headers)
+          Rails.logger.info "Runner Line 177"
           current_headers = Helpers::Headers.merge(agent_headers, runtime_headers)
+          Rails.logger.info "Runner Line 179"
           apply_headers(chat, current_headers)
           Rails.logger.info "Runner Line 177"
           # Force the new agent to respond to the conversation context
