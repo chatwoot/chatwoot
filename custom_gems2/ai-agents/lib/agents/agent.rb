@@ -203,6 +203,7 @@ module Agents
       # TODO: Add string interpolation support for instructions
       # Allow instructions like "You are helping %{customer_name}" that automatically
       # get state values injected from context[:state] using Ruby's % formatting
+      Rails.logger.info "Instructions: #{instructions}"
       case instructions
       when String
         instructions
