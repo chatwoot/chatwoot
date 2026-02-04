@@ -2,6 +2,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   RESULTS_PER_PAGE = 15
 
   before_action :current_account
+  before_action :check_captain_mcp_feature
   before_action -> { check_authorization(Captain::McpServer) }
   before_action :set_mcp_server, only: [:show, :update, :destroy, :connect, :disconnect, :refresh]
 
@@ -16,7 +17,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   end
 
   def update
-    @mcp_server.update!(mcp_server_params)
+    @mcp_server.update!(merged_update_params)
   end
 
   def destroy
@@ -47,6 +48,12 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
 
   private
 
+  def check_captain_mcp_feature
+    return if Current.account.feature_enabled?('captain_mcp')
+
+    render json: { error: I18n.t('errors.captain.mcp_not_enabled') }, status: :forbidden
+  end
+
   def set_mcp_server
     @mcp_server = account_mcp_servers.find(params[:id])
   end
@@ -64,5 +71,22 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
       :enabled,
       auth_config: {}
     )
+  end
+
+  def merged_update_params
+    update_params = mcp_server_params.to_h
+    return update_params unless update_params.key?(:auth_config)
+
+    # Preserve existing credentials if not provided in update
+    existing_config = @mcp_server.auth_config || {}
+    new_config = update_params[:auth_config]
+
+    # Keep existing token if new one not provided
+    new_config['token'] = existing_config['token'] if existing_config['token'].present? && new_config['token'].blank?
+    # Keep existing key if new one not provided
+    new_config['key'] = existing_config['key'] if existing_config['key'].present? && new_config['key'].blank?
+
+    update_params[:auth_config] = new_config
+    update_params
   end
 end

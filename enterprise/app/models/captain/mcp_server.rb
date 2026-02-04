@@ -30,6 +30,11 @@ class Captain::McpServer < ApplicationRecord
 
   self.table_name = 'captain_mcp_servers'
 
+  # Security note: auth_config contains sensitive credentials (tokens, API keys).
+  # Credentials are masked in API responses (see _mcp_server.json.jbuilder).
+  # For encryption at rest, consider migrating auth_config to a text column
+  # and using: encrypts :auth_config, type: :json if Chatwoot.encryption_configured?
+
   NAME_PREFIX = 'mcp'.freeze
   NAME_SEPARATOR = '_'.freeze
 
@@ -121,7 +126,7 @@ class Captain::McpServer < ApplicationRecord
     return if url.blank?
 
     uri = parse_url
-    return errors.add(:url, 'must be a valid URL') unless uri
+    return errors.add(:url, I18n.t('captain.mcp_server.errors.url_must_be_valid')) unless uri
 
     validate_url_scheme(uri)
     validate_url_host(uri)
@@ -137,17 +142,17 @@ class Captain::McpServer < ApplicationRecord
   def validate_url_scheme(uri)
     return if %w[http https].include?(uri.scheme)
 
-    errors.add(:url, 'must use HTTP or HTTPS protocol')
+    errors.add(:url, I18n.t('captain.mcp_server.errors.url_must_use_http'))
   end
 
   def validate_url_host(uri)
     if uri.host.blank?
-      errors.add(:url, 'must have a valid hostname')
+      errors.add(:url, I18n.t('captain.mcp_server.errors.url_must_have_hostname'))
       return
     end
 
     if uri.host == FRONTEND_HOST
-      errors.add(:url, 'cannot point to the application itself')
+      errors.add(:url, I18n.t('captain.mcp_server.errors.url_cannot_be_self'))
       return
     end
 
@@ -155,19 +160,18 @@ class Captain::McpServer < ApplicationRecord
       matched = pattern.is_a?(Regexp) ? uri.host =~ pattern : uri.host.downcase == pattern
       next unless matched
 
-      errors.add(:url, 'cannot use disallowed hostname')
+      errors.add(:url, I18n.t('captain.mcp_server.errors.url_disallowed_hostname'))
       break
     end
   end
 
   def validate_not_ip_address(uri)
-    if /\A\d+\.\d+\.\d+\.\d+\z/.match?(uri.host)
-      errors.add(:url, 'cannot be an IP address, must be a hostname')
-      return
-    end
+    return if uri.host.blank?
 
-    return unless uri.host&.include?(':')
-
-    errors.add(:url, 'cannot be an IP address, must be a hostname')
+    # Use IPAddr to properly detect all IP formats (decimal, octal, hex, IPv6)
+    IPAddr.new(uri.host)
+    errors.add(:url, I18n.t('captain.mcp_server.errors.url_cannot_be_ip'))
+  rescue IPAddr::InvalidAddressError
+    # Not an IP address, which is what we want - hostname is valid
   end
 end
