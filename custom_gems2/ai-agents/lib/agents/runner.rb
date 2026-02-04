@@ -133,6 +133,7 @@ module Agents
 
           # Validate that the target agent is in our registry
           # This prevents handoffs to agents that weren't explicitly provided
+          Rails.logger.info "Runner LIne 136"
           unless registry[next_agent.name]
             save_conversation_state(chat, context_wrapper, current_agent)
             error = AgentNotFoundError.new("Handoff failed: Agent '#{next_agent.name}' not found in registry")
@@ -144,6 +145,7 @@ module Agents
               context: context_wrapper.context,
               error: error
             )
+            Rails.logger.info "Runner LIne 148"
 
             # Emit agent complete and run complete events with error
             context_wrapper.callback_manager.emit_agent_complete(current_agent.name, result, error, context_wrapper)
@@ -151,6 +153,7 @@ module Agents
 
             return result
           end
+          Rails.logger.info "Runner Line 156"
 
           # Save current conversation state before switching
           save_conversation_state(chat, context_wrapper, current_agent)
@@ -160,27 +163,30 @@ module Agents
 
           # Emit agent handoff event
           context_wrapper.callback_manager.emit_agent_handoff(current_agent.name, next_agent.name, "handoff")
+          Rails.logger.info "Runner Line 166"
 
           # Switch to new agent - store agent name for persistence
           current_agent = next_agent
           context_wrapper.context[:current_agent] = next_agent.name
+          Rails.logger.info "Runner Line 171"
 
           # Reconfigure existing chat for new agent - preserves conversation history automatically
           configure_chat_for_agent(chat, current_agent, context_wrapper, replace: true)
           agent_headers = Helpers::Headers.normalize(current_agent.headers)
           current_headers = Helpers::Headers.merge(agent_headers, runtime_headers)
           apply_headers(chat, current_headers)
-
+          Rails.logger.info "Runner Line 177"
           # Force the new agent to respond to the conversation context
           # This ensures the user gets a response from the new agent
           input = nil
+          Rails.logger.info "Runner Line 183"
           next
         end
 
         # Handle non-handoff halts - return the halt content as final response
         if response.is_a?(RubyLLM::Tool::Halt)
           save_conversation_state(chat, context_wrapper, current_agent)
-
+          Rails.logger.info "Runner Line 189"
           begin
             Rails.logger.info "Context#{current_turn} result: #{context_wrapper.context.inspect}"
             Rails.logger.info "Response#{current_turn} is a halt: #{response.content.inspect}"
@@ -202,7 +208,7 @@ module Agents
 
           return result
         end
-
+        Rails.logger.info "Runner Line 211"
         Rails.logger.info "Response#{current_turn} is a tool call: #{response.tool_call?}"
         # If tools were called, continue the loop to let them execute
         next if response.tool_call?
