@@ -105,10 +105,28 @@ class Captain::Assistant < ApplicationRecord
   end
 
   def agent_tools
-    [
+    tools = [
       self.class.resolve_tool_class('faq_lookup').new(self),
       self.class.resolve_tool_class('handoff').new(self)
     ]
+
+    # Add custom tools
+    account.captain_custom_tools.enabled.each do |custom_tool|
+      tools << custom_tool.tool(self)
+    end
+
+    # Add MCP tools from attached, enabled, connected servers
+    assistant_mcp_servers.enabled
+                         .joins(:mcp_server)
+                         .merge(Captain::McpServer.enabled.connected)
+                         .each do |ams|
+      ams.filtered_tools.each do |tool_def|
+        tool_instance = ams.mcp_server.build_tool_instance(self, tool_def['name'])
+        tools << tool_instance if tool_instance
+      end
+    end
+
+    tools
   end
 
   def prompt_context
