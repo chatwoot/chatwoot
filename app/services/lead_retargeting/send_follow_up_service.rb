@@ -793,7 +793,7 @@ class LeadRetargeting::SendFollowUpService
   end
 
   def send_agent_bot_webhook(agent_bot, payload, idempotency_key)
-    AgentBots::WebhookJob.perform_now(
+    AgentBots::WebhookJob.perform_later(
       agent_bot.outgoing_url,
       payload,
       :lead_followup_ai_webhook,
@@ -827,7 +827,8 @@ class LeadRetargeting::SendFollowUpService
   end
 
   def generate_idempotency_key(step, suffix: nil)
-    base = "#{@follow_up.id}-#{step['id']}-#{@follow_up.current_step}-#{Time.current.to_i}"
+    retry_count = @follow_up.metadata&.dig('retry_count') || 0
+    base = "#{@follow_up.id}-#{step['id']}-#{@follow_up.current_step}-#{retry_count}"
     data = suffix ? "#{base}-#{suffix}" : base
     Digest::SHA256.hexdigest(data)
   end

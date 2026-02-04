@@ -90,3 +90,31 @@ cleanup_temp_uploads_job:
   cron: '0 2 * * *'
   class: 'CleanupTempUploadsJob'
   queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# removes old notifications (>1 month) and trims to 300 per user
+remove_old_notification_job:
+  cron: '30 22 * * *'
+  class: 'Notification::RemoveOldNotificationJob'
+  queue: purgable
+
+# executed every 12 hours
+# to remove orphan conversations without contact
+remove_orphan_conversations_job:
+  cron: '0 */12 * * *'
+  class: 'Internal::RemoveOrphanConversationsJob'
+  queue: housekeeping
+
+# executed daily at 2330 UTC
+# to purge QR codes from appointments ending today
+purge_expired_appointment_qr_codes_job:
+  cron: '30 23 * * *'
+  class: 'PurgeExpiredAppointmentQrCodesJob'
+  queue: housekeeping
+
+# executed every 5 minutes
+# to cleanup stale bulk processing requests stuck in PENDING/PROCESSING
+cleanup_stale_bulk_requests_job:
+  cron: '*/5 * * * *'
+  class: 'CleanupStaleBulkRequestsJob'
+  queue: scheduled_jobs

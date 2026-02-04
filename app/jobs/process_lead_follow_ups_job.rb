@@ -8,9 +8,9 @@ class ProcessLeadFollowUpsJob < ApplicationJob
   def perform
     # 1. Liberar zombies (jobs que crashearon y se quedaron marcados)
     release_zombies
-    
+
     # 2. Reservar lote de follow-ups pendientes
-    
+
     # Busca registros activos, con fecha cumplida, y que NO estén ya siendo procesados
     # Usamos bloqueos explícitos para concurrencia
     reserved_ids = reserve_pending_follow_ups
@@ -31,19 +31,18 @@ class ProcessLeadFollowUpsJob < ApplicationJob
     # Utilizamos UPDATE ... RETURNING para atomicidad (Postgres)
     # Esto marca los registros como "en proceso" y nos devuelve los IDs en un solo paso atómico.
     # Evita condiciones de carrera entre múltiples dispatchers (si hubieran).
-    
     ConversationFollowUp
       .where(status: 'active')
       .where('next_action_at <= ?', Time.current)
       .where(processing_started_at: nil)
       .limit(BATCH_SIZE)
       .update_all(processing_started_at: Time.current)
-      
+
     # Nota: update_all en Rails < 7 no devuelve los IDs por defecto con RETURNING en todos los adaptadores,
     # pero como estamos en un job periódico, podemos simplemente consultar los que acabamos de marcar
     # con un pequeño margen de error aceptable, o confiar en que processing_started_at es muy reciente.
     # Para mayor solidez en PG, lo ideal es una raw query con RETURNING id, pero esto es suficiente para v1.
-    
+
     ConversationFollowUp
       .where(status: 'active')
       .where('processing_started_at >= ?', 1.minute.ago)
@@ -58,7 +57,7 @@ class ProcessLeadFollowUpsJob < ApplicationJob
                       .where(status: 'active')
                       .where('processing_started_at < ?', TIMEOUT_THRESHOLD.ago)
                       .update_all(processing_started_at: nil)
-    
+
     if zombies_count > 0
       Rails.logger.warn "Dispatcher: Released #{zombies_count} zombie locks."
     end

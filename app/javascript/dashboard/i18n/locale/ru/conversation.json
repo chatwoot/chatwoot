@@ -32,6 +32,7 @@
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
+    "48_HOURS_WINDOW": "Ограничение на 48 часа",
     "API_HOURS_WINDOW": "Вы можете ответить на этот диалог только в течение {hours} часов",
     "NOT_ASSIGNED_TO_YOU": "Этот диалог вам не назначен. Вы хотите назначить этот диалог себе?",
     "ASSIGN_TO_ME": "Назначить мне",
@@ -196,7 +197,6 @@
       "INSERT_READ_MORE": "Читать далее",
       "DISMISS_REPLY": "Удалить ответ",
       "REPLYING_TO": "Ответить:",
-      "TIP_FORMAT_ICON": "Показать редактор текста",
       "TIP_EMOJI_ICON": "Показать emoji панель",
       "TIP_ATTACH_ICON": "Прикрепить файлы",
       "TIP_AUDIORECORDER_ICON": "Записать аудио",
@@ -275,6 +275,16 @@
     "SIDEBAR": {
       "CONTACT": "Контакт",
       "COPILOT": "Copilot"
+    },
+    "VOICE_WIDGET": {
+      "INCOMING_CALL": "Входящий звонок",
+      "OUTGOING_CALL": "Исходящий звонок",
+      "CALL_IN_PROGRESS": "Идёт звонок",
+      "NOT_ANSWERED_YET": "Пока нет ответа",
+      "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
+      "REJECT_CALL": "Reject",
+      "JOIN_CALL": "Join call",
+      "END_CALL": "End call"
     }
   },
   "EMAIL_TRANSCRIPT": {

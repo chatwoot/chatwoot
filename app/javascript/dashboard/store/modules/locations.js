@@ -126,10 +126,11 @@ export const mutations = {
     $state.userLocations = data;
   },
   [types.default.SET_LOCATIONS_META]($state, meta) {
+    const { count = 0, current_page = 1, total_pages = 1 } = meta || {};
     $state.meta = {
-      count: meta.count,
-      currentPage: meta.current_page,
-      totalPages: meta.total_pages,
+      count,
+      currentPage: current_page,
+      totalPages: total_pages,
     };
   },
   [types.default.CLEAR_LOCATIONS]($state) {

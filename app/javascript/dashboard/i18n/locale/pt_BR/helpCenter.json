@@ -848,7 +848,7 @@
       "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
       "UPLOAD_TITLE": "Upload PDF Document",
       "DRAG_DROP": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
-      "SELECT_FILE": "",
+      "SELECT_FILE": "Selecionar Arquivo PDF",
       "UPLOADING": "Processing document...",
       "UPLOAD_SUCCESS": "Document processed successfully!",
       "UPLOAD_ERROR": "Failed to upload document. Please try again.",

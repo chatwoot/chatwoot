@@ -8,13 +8,25 @@ module Featurable
 
   FEATURE_LIST = YAML.safe_load(Rails.root.join('config/features.yml').read).freeze
 
-  FEATURES = FEATURE_LIST.each_with_object({}) do |feature, result|
-    result[result.keys.size + 1] = "feature_#{feature['name']}".to_sym
-  end
+  all_features_mapped = FEATURE_LIST.each_with_index.map do |feature, index|
+    [index + 1, "feature_#{feature['name']}".to_sym]
+  end.to_h
+
+  # We split at 63 because 64 is the sign bit in some implementations, 
+  # and staying safe avoids range issues.
+  FEATURES_1 = all_features_mapped.select { |k, _v| k <= 63 }
+  FEATURES_2 = all_features_mapped.select { |k, _v| k > 63 }.transform_keys { |k| k - 63 }
 
   included do
     include FlagShihTzu
-    has_flags FEATURES.merge(column: 'feature_flags').merge(QUERY_MODE)
+    has_flags FEATURES_1.merge(column: 'feature_flags').merge(QUERY_MODE)
+
+    # Only load second column flags if the database column actually exists
+    # This prevents failures during the migration process itself
+    # Always load second column flags if defined in configuration
+    if FEATURES_2.present?
+      has_flags FEATURES_2.merge(column: 'feature_flags_2').merge(QUERY_MODE)
+    end
 
     before_create :enable_default_features
   end

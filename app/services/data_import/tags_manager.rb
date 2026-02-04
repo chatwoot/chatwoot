@@ -42,7 +42,7 @@ class DataImport::TagsManager
     return @account.contacts.from_email(params[:email]) if params[:email].present?
     return @account.contacts.find_by(phone_number: formatted_phone(params[:phone_number])) if params[:phone_number].present?
 
-    []
+    nil
   end
 
   def formatted_phone(phone_number)

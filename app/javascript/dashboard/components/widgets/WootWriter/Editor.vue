@@ -16,13 +16,16 @@ import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
 import TagTools from '../conversation/TagTools.vue';
+import CopilotMenuBar from './CopilotMenuBar.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
+import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useTrack } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
+import { vOnClickOutside } from '@vueuse/components';
 
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -54,6 +57,8 @@ import {
   getFormattingForEditor,
   getSelectionCoords,
   calculateMenuPosition,
+  getEffectiveChannelType,
+  stripUnsupportedFormatting,
 } from 'dashboard/helper/editorHelper';
 import {
   hasPressedEnterAndNotCmdOrShift,
@@ -81,6 +86,7 @@ const props = defineProps({
   // are triggered except when this flag is true
   allowSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
   showImageResizeToolbar: { type: Boolean, default: false }, // A kill switch to show or hide the image toolbar
   focusOnMount: { type: Boolean, default: true },
 });
@@ -97,34 +103,52 @@ const emit = defineEmits([
   'focus',
   'input',
   'update:modelValue',
+  'executeCopilotAction',
 ]);
 
 const { t } = useI18n();
+const { captainTasksEnabled } = useCaptain();
 
 const TYPING_INDICATOR_IDLE_TIME = 4000;
 const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
+const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
+
+const effectiveChannelType = computed(() =>
+  getEffectiveChannelType(props.channelType, props.medium)
+);
 
 const editorSchema = computed(() => {
   if (!props.channelType) return messageSchema;
 
-  const formatType = props.isPrivate ? DEFAULT_FORMATTING : props.channelType;
-  const formatting = getFormattingForEditor(formatType);
+  const formatType = props.isPrivate
+    ? PRIVATE_NOTE_FORMATTING
+    : effectiveChannelType.value;
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
   return buildMessageSchema(formatting.marks, formatting.nodes);
 });
 
 const editorMenuOptions = computed(() => {
   const formatType = props.isPrivate
-    ? DEFAULT_FORMATTING
-    : props.channelType || DEFAULT_FORMATTING;
-  const formatting = getFormattingForEditor(formatType);
+    ? PRIVATE_NOTE_FORMATTING
+    : effectiveChannelType.value || DEFAULT_FORMATTING;
+  const formatting = getFormattingForEditor(
+    formatType,
+    captainTasksEnabled.value
+  );
+
   return formatting.menu;
 });
 
 const createState = (content, placeholder, plugins = [], methods = {}) => {
   const schema = editorSchema.value;
+  // Strip unsupported formatting before parsing to prevent "Token type not supported" errors
+  const sanitizedContent = stripUnsupportedFormatting(content, schema);
   return EditorState.create({
-    doc: new MessageMarkdownTransformer(schema).parse(content),
+    doc: new MessageMarkdownTransformer(schema).parse(sanitizedContent),
     plugins: buildEditor({
       schema,
       placeholder,
@@ -173,6 +197,21 @@ const sizes = MESSAGE_EDITOR_IMAGE_RESIZES;
 const editorRoot = useTemplateRef('editorRoot');
 const imageUpload = useTemplateRef('imageUpload');
 const editor = useTemplateRef('editor');
+
+const handleCopilotAction = actionKey => {
+  if (actionKey === 'improve_selection' && editorView?.state) {
+    const { from, to } = editorView.state.selection;
+    const selectedText = editorView.state.doc.textBetween(from, to).trim();
+
+    if (from !== to && selectedText) {
+      emit('executeCopilotAction', 'improve', selectedText);
+    }
+  } else {
+    emit('executeCopilotAction', actionKey);
+  }
+
+  showSelectionMenu.value = false;
+};
 
 const contentFromEditor = () => {
   return MessageMarkdownSerializer.serialize(editorView.state.doc);
@@ -301,8 +340,13 @@ function isBodyEmpty(content) {
 
   // if the signature is present, we need to remove it before checking
   // note that we don't update the editorView, so this is safe
+  // Use effective channel type to match how signature was appended
   const bodyWithoutSignature = props.signature
-    ? removeSignatureHelper(content, props.signature)
+    ? removeSignatureHelper(
+        content,
+        props.signature,
+        effectiveChannelType.value
+      )
     : content;
 
   // trimming should remove all the whitespaces, so we can check the length
@@ -351,13 +395,23 @@ function openFileBrowser() {
   imageUpload.value.click();
 }
 
+function handleCopilotClick() {
+  showSelectionMenu.value = !showSelectionMenu.value;
+}
+
+function handleClickOutside(event) {
+  // Check if the clicked element or its parents have the ignored class
+  if (event.target.closest('.ProseMirror-copilot')) return;
+  showSelectionMenu.value = false;
+}
+
 function reloadState(content = props.modelValue) {
   const unrefContent = unref(content);
   state = createState(
     unrefContent,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -370,7 +424,11 @@ function addSignature() {
   // see if the content is empty, if it is before appending the signature
   // we need to add a paragraph node and move the cursor at the start of the editor
   const contentWasEmpty = isBodyEmpty(content);
-  content = appendSignature(content, props.signature);
+  content = appendSignature(
+    content,
+    props.signature,
+    effectiveChannelType.value
+  );
   // need to reload first, ensuring that the editorView is updated
   reloadState(content);
 
@@ -382,7 +440,11 @@ function addSignature() {
 function removeSignature() {
   if (!props.signature) return;
   let content = props.modelValue;
-  content = removeSignatureHelper(content, props.signature);
+  content = removeSignatureHelper(
+    content,
+    props.signature,
+    effectiveChannelType.value
+  );
   // reload the state, ensuring that the editorView is updated
   reloadState(content);
 }
@@ -571,7 +633,12 @@ function insertContentIntoEditor(content, defaultFrom = 0) {
   const from = defaultFrom || editorView.state.selection.from || 0;
   // Use the editor's current schema to ensure compatibility with buildMessageSchema
   const currentSchema = editorView.state.schema;
-  let node = new MessageMarkdownTransformer(currentSchema).parse(content);
+  // Strip unsupported formatting before parsing to ensure content can be inserted
+  // into channels that don't support certain markdown features (e.g., API channels)
+  const sanitizedContent = stripUnsupportedFormatting(content, currentSchema);
+  let node = new MessageMarkdownTransformer(currentSchema).parse(
+    sanitizedContent
+  );
 
   insertNodeIntoEditor(node, from, undefined);
 }
@@ -655,11 +722,18 @@ function createEditorView() {
         typingIndicator.stop();
         emit('blur');
       },
-      paste: (_view, event) => {
+      paste: (view, event) => {
         if (props.disabled) return;
-        const data = event.clipboardData.files;
-        if (data.length > 0) {
-          event.preventDefault();
+        const { files } = event.clipboardData;
+        if (!files.length) return;
+        event.preventDefault();
+        // Paste text content alongside files (e.g., spreadsheet data from Numbers app)
+        // Numbers app includes invalid 0-byte attachments with text, so we paste the text here
+        // while ReplyBox filters and handles valid file attachments
+        const text = event.clipboardData.getData('text/plain');
+        if (text) {
+          view.dispatch(view.state.tr.insertText(text));
+          emitOnChange();
         }
       },
     },
@@ -726,7 +800,7 @@ onMounted(() => {
     props.modelValue,
     props.placeholder,
     plugins.value,
-    { onImageUpload: openFileBrowser },
+    { onImageUpload: openFileBrowser, onCopilotClick: handleCopilotClick },
     editorMenuOptions.value
   );
 
@@ -770,6 +844,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       v-if="showToolsMenu"
       :search-key="toolSearchKey"
       @select-tool="content => insertSpecialContent('tool', content)"
+    />
+    <CopilotMenuBar
+      v-if="showSelectionMenu"
+      v-on-click-outside="handleClickOutside"
+      :has-selection="isTextSelected"
+      :show-selection-menu="showSelectionMenu"
+      :show-general-menu="false"
+      @execute-copilot-action="handleCopilotAction"
     />
     <input
       ref="imageUpload"
@@ -824,6 +906,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
           @apply size-full;
         }
       }
+
+      .ProseMirror-copilot svg {
+        @apply fill-n-violet-9 text-n-violet-9 stroke-none;
+      }
     }
   }
 
@@ -831,6 +917,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     max-height: none !important;
     min-height: 0 !important;
     padding: 0 !important;
+    display: none !important;
   }
 
   > .ProseMirror {
@@ -961,6 +1048,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
         .ProseMirror-icon {
           @apply p-0.5 flex-shrink-0;
+        }
+
+        .ProseMirror-copilot svg {
+          @apply fill-n-violet-9 text-n-violet-9 stroke-none;
         }
       }
 

@@ -61,6 +61,14 @@ export default defineConfig({
             }
           : {}),
         inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
+        ...(!isLibraryMode && {
+          manualChunks(id) {
+            if (id.includes('node_modules')) {
+              return id.split('node_modules/')[1].split('/')[0];
+            }
+            return undefined;
+          },
+        }),
       },
     },
     lib: isLibraryMode

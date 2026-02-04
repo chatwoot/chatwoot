@@ -44,6 +44,7 @@ import contentTemplates from './contentTemplates.json';
 import mfa from './mfa.json';
 import customerMgmt from './customerMgmt.json';
 import knowledgeBase from './knowledgeBase.json';
+import yearInReview from './yearInReview.json';
 
 export default {
   ...advancedFilters,
@@ -90,6 +91,12 @@ export default {
   ...whatsappTemplates,
   ...contentTemplates,
   ...mfa,
+  ...customerMgmt,
+  ...knowledgeBase,
+  ...yearInReview,
+  ...customerMgmt,
+  ...knowledgeBase,
+  ...yearInReview,
   ...customerMgmt,
   ...knowledgeBase,
 };

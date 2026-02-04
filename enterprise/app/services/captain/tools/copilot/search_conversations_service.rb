@@ -4,9 +4,9 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   end
   description 'Search conversations based on parameters'
 
-  param :status, type: :string, desc: 'Status of the conversation'
+  param :status, type: :string, desc: 'Status of the conversation (open, resolved, pending, snoozed). Leave empty to search all statuses.'
   param :contact_id, type: :number, desc: 'Contact id'
-  param :priority, type: :string, desc: 'Priority of conversation'
+  param :priority, type: :string, desc: 'Priority of conversation (low, medium, high, urgent). Leave empty to search all priorities.'
   param :labels, type: :string, desc: 'Labels available'
 
   def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
@@ -19,7 +19,7 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
 
     <<~RESPONSE
       #{total_count > 100 ? "Found #{total_count} conversations (showing first 100)" : "Total number of conversations: #{total_count}"}
-      #{conversations.map { |conversation| conversation.to_llm_text(include_contact_details: true) }.join("\n---\n")}
+      #{conversations.map { |conversation| conversation.to_llm_text(include_contact_details: true, include_private_messages: true) }.join("\n---\n")}
     RESPONSE
   end
 
@@ -34,10 +34,18 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   def get_conversations(status, contact_id, priority, labels)
     conversations = permissible_conversations
     conversations = conversations.where(contact_id: contact_id) if contact_id.present?
-    conversations = conversations.where(status: status) if status.present?
-    conversations = conversations.where(priority: priority) if priority.present?
+    conversations = conversations.where(status: status) if valid_status?(status)
+    conversations = conversations.where(priority: priority) if valid_priority?(priority)
     conversations = conversations.tagged_with(labels, any: true) if labels.present?
     conversations
+  end
+
+  def valid_status?(status)
+    status.present? && Conversation.statuses.key?(status)
+  end
+
+  def valid_priority?(priority)
+    priority.present? && Conversation.priorities.key?(priority)
   end
 
   def permissible_conversations

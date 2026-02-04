@@ -2,38 +2,52 @@
 
 module Integrations::LlmInstrumentationHelpers
   include Integrations::LlmInstrumentationConstants
+  include Integrations::LlmInstrumentationCompletionHelpers
+
+  def determine_provider(model_name)
+    return 'openai' if model_name.blank?
+
+    model = model_name.to_s.downcase
+
+    LlmConstants::PROVIDER_PREFIXES.each do |provider, prefixes|
+      return provider if prefixes.any? { |prefix| model.start_with?(prefix) }
+    end
+
+    'openai'
+  end
 
   private
 
-  def set_completion_attributes(span, result)
-    set_completion_message(span, result)
-    set_usage_metrics(span, result)
-    set_error_attributes(span, result)
+  def setup_span_attributes(span, params)
+    set_request_attributes(span, params)
+    set_prompt_messages(span, params[:messages])
+    set_metadata_attributes(span, params)
   end
 
-  def set_completion_message(span, result)
-    message = result[:message] || result.dig('choices', 0, 'message', 'content')
-    return if message.blank?
-
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, 'assistant')
-    span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, message)
+  def record_completion(span, result)
+    if result.respond_to?(:content)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_ROLE, result.role.to_s) if result.respond_to?(:role)
+      span.set_attribute(ATTR_GEN_AI_COMPLETION_CONTENT, result.content.to_s)
+    elsif result.is_a?(Hash)
+      set_completion_attributes(span, result)
+    end
   end
 
-  def set_usage_metrics(span, result)
-    usage = result[:usage] || result['usage']
-    return if usage.blank?
-
-    span.set_attribute(ATTR_GEN_AI_USAGE_INPUT_TOKENS, usage['prompt_tokens']) if usage['prompt_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_OUTPUT_TOKENS, usage['completion_tokens']) if usage['completion_tokens']
-    span.set_attribute(ATTR_GEN_AI_USAGE_TOTAL_TOKENS, usage['total_tokens']) if usage['total_tokens']
+  def set_request_attributes(span, params)
+    provider = determine_provider(params[:model])
+    span.set_attribute(ATTR_GEN_AI_PROVIDER, provider)
+    span.set_attribute(ATTR_GEN_AI_REQUEST_MODEL, params[:model])
+    span.set_attribute(ATTR_GEN_AI_REQUEST_TEMPERATURE, params[:temperature]) if params[:temperature]
   end
 
-  def set_error_attributes(span, result)
-    error = result[:error] || result['error']
-    return if error.blank?
+  def set_prompt_messages(span, messages)
+    messages.each_with_index do |msg, idx|
+      role = msg[:role] || msg['role']
+      content = msg[:content] || msg['content']
 
-    span.set_attribute(ATTR_GEN_AI_RESPONSE_ERROR, error.to_json)
-    span.status = OpenTelemetry::Trace::Status.error(error.to_s.truncate(1000))
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_ROLE, idx), role)
+      span.set_attribute(format(ATTR_GEN_AI_PROMPT_CONTENT, idx), content.to_s)
+    end
   end
 
   def set_metadata_attributes(span, params)

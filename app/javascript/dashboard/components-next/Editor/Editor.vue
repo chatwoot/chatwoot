@@ -5,6 +5,7 @@ import WootEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 
 const props = defineProps({
   modelValue: { type: String, default: '' },
+  editorKey: { type: String, default: '' },
   label: { type: String, default: '' },
   placeholder: { type: String, default: '' },
   focusOnMount: { type: Boolean, default: false },
@@ -24,6 +25,7 @@ const props = defineProps({
   allowSignature: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   channelType: { type: String, default: '' },
+  medium: { type: String, default: '' },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -95,6 +97,7 @@ watch(
       ]"
     >
       <WootEditor
+        :editor-id="editorKey"
         :model-value="modelValue"
         :placeholder="placeholder"
         :focus-on-mount="focusOnMount"
@@ -106,6 +109,7 @@ watch(
         :allow-signature="allowSignature"
         :send-with-signature="sendWithSignature"
         :channel-type="channelType"
+        :medium="medium"
         @input="handleInput"
         @focus="handleFocus"
         @blur="handleBlur"
@@ -149,6 +153,13 @@ watch(
             @apply text-n-slate-11 dark:text-n-slate-11;
           }
         }
+      }
+
+      .ProseMirror-menubar {
+        width: fit-content !important;
+        position: relative !important;
+        top: unset !important;
+        @apply ltr:left-[-0.188rem] rtl:right-[-0.188rem] !important;
       }
     }
   }

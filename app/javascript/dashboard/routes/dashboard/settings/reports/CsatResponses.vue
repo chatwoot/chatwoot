@@ -3,7 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert, useTrack } from 'dashboard/composables';
 import CsatMetrics from './components/CsatMetrics.vue';
 import CsatTable from './components/CsatTable.vue';
-import ReportFilterSelector from './components/FilterSelector.vue';
+import CsatFilters from './components/Csat/CsatFilters.vue';
 import { generateFileName } from '../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
@@ -15,7 +15,7 @@ export default {
   components: {
     CsatMetrics,
     CsatTable,
-    ReportFilterSelector,
+    CsatFilters,
     ReportHeader,
     V4Button,
   },
@@ -90,7 +90,7 @@ export default {
       selectedTeam,
       selectedRating,
     }) {
-      // do not track filter change on inital load
+      // do not track filter change on initial load
       if (this.from !== 0 && this.to !== 0) {
         useTrack(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
@@ -121,16 +121,11 @@ export default {
     />
   </ReportHeader>
 
-  <div class="flex flex-col gap-4">
-    <ReportFilterSelector
-      show-agents-filter
-      show-inbox-filter
-      show-rating-filter
+  <div class="flex flex-col gap-6">
+    <CsatFilters
       :show-team-filter="isTeamsEnabled"
-      :show-business-hours-switch="false"
       @filter-change="onFilterChange"
     />
-
     <CsatMetrics :filters="requestPayload" />
     <CsatTable :page-index="pageIndex" @page-change="onPageNumberChange" />
   </div>

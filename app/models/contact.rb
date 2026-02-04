@@ -195,11 +195,9 @@ class Contact < ApplicationRecord
   end
 
   def self.resolved_contacts(use_crm_v2: false)
-    if use_crm_v2
-      where(contact_type: 'lead')
-    else
-      where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
-    end
+    return where(contact_type: 'lead') if use_crm_v2
+
+    where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
   end
 
   def discard_invalid_attrs
@@ -259,7 +257,13 @@ class Contact < ApplicationRecord
   end
 
   def dispatch_destroy_event
-    Rails.configuration.dispatcher.dispatch(CONTACT_DELETED, Time.zone.now, contact: self)
+    # Pass serialized data instead of ActiveRecord object to avoid DeserializationError
+    # when the async EventDispatcherJob runs after the contact has been deleted
+    Rails.configuration.dispatcher.dispatch(
+      CONTACT_DELETED,
+      Time.zone.now,
+      contact_data: push_event_data.merge(account_id: account_id)
+    )
   end
 
   def dispatch_discard_event

@@ -48,8 +48,11 @@ it:
       failed: Registrazione non riuscita
     assignment_policy:
       not_found: Policy di assegnazione non trovata
+    attachments:
+      invalid: Allegato non valido
     saml:
       feature_not_enabled: Funzionalità SAML non attiva per questo account
+      sso_not_enabled: SAML SSO non è abilitato per questa installazione
     data_import:
       data_type:
         invalid: Tipo di dato non valido
@@ -65,6 +68,11 @@ it:
     companies:
       domain:
         invalid: deve essere un dominio valido
+      search:
+        query_missing: Specifica la stringa di ricerca con parametro q
+    messages:
+      search:
+        time_range_limit_exceeded: 'La ricerca è limitata agli ultimi %{days} giorni'
     categories:
       locale:
         unique: deve essere unico nella categoria e nel portale
@@ -105,6 +113,13 @@ it:
       invalid_token: Token MFA non valido o scaduto
       invalid_credentials: Credenziali o codice di verifica non validi
       feature_unavailable: MFA non disponibile. Configura le chiavi di cifratura.
+    topup:
+      credits_required: Quantità crediti richiesta
+      invalid_credits: Quantità crediti non valida
+      invalid_option: Opzione di ricarica non valida
+      plan_not_eligible: Le ricariche sono disponibili solo per i piani a pagamento. Si prega di aggiornare il piano prima.
+      stripe_customer_not_configured: Cliente Stripe non configurato
+      no_payment_method: Nessun metodo di pagamento trovato. Aggiungi un metodo di pagamento prima di effettuare un acquisto.
   profile:
     mfa:
       enabled: MFA attivata con successo
@@ -180,6 +195,8 @@ it:
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
+      instagram_shared_story_content: 'Storia condivisa'
+      instagram_shared_post_content: 'Post condiviso'
       deleted: Questo messaggio è stato eliminato
       whatsapp:
         list_button_label: 'Scegli un elemento'

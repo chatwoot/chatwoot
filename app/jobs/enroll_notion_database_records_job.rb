@@ -127,19 +127,18 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
       updates[:email] = contact_email if contact_email.present?
       updates[:name] = contact_name if contact_name.present? && existing_contact.name == 'Unknown'
 
+      updates[:source_type] = 'notion_import'
+
       # Merge custom attributes
-      if custom_attrs.present?
-        merged_attrs = (existing_contact.custom_attributes || {}).merge(custom_attrs).merge(
-          source_type: 'notion_import',
-          source_metadata: {
-            notion_database_id: sequence.source_config['notion_database_id'],
-            notion_record_id: record[:id],
-            imported_at: Time.current.iso8601,
-            sequence_id: sequence.id
-          }
-        )
-        updates[:custom_attributes] = merged_attrs
-      end
+      merged_attrs = (existing_contact.custom_attributes || {}).merge(custom_attrs).merge(
+        source_metadata: {
+          notion_database_id: sequence.source_config['notion_database_id'],
+          notion_record_id: record[:id],
+          imported_at: Time.current.iso8601,
+          sequence_id: sequence.id
+        }
+      )
+      updates[:custom_attributes] = merged_attrs
 
       if updates.any?
         existing_contact.update!(updates)
@@ -159,9 +158,9 @@ class EnrollNotionDatabaseRecordsJob < ApplicationJob
     contact_attributes = {
       name: contact_name,
       phone_number: cleaned_phone,
-      contact_type: 'notion_import',
+      contact_type: 'lead',
+      source_type: 'notion_import',
       custom_attributes: custom_attrs.merge(
-        source_type: 'notion_import',
         source_metadata: {
           notion_database_id: sequence.source_config['notion_database_id'],
           notion_record_id: record[:id],

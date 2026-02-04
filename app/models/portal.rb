@@ -53,7 +53,7 @@ class Portal < ApplicationRecord
       file_type: logo.content_type,
       account_id: account_id,
       file_url: url_for(logo),
-      blob_id: logo.blob_id,
+      blob_id: logo.blob.signed_id,
       filename: logo.filename.to_s
     }
   end

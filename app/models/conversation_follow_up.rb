@@ -85,7 +85,7 @@ class ConversationFollowUp < ApplicationRecord
 
   def schedule_job!(execute_at = nil)
     # Refactor: Dispatcher handles scheduled jobs, but we handle immediate jobs for UX speed.
-    
+
     # 1. Update the execution time in DB
     target_time = execute_at || next_action_at
     if execute_at
@@ -99,7 +99,7 @@ class ConversationFollowUp < ApplicationRecord
       # We only enqueue if WE successfully set processing_started_at
       locked = ConversationFollowUp.where(id: id, processing_started_at: nil)
                                    .update_all(processing_started_at: Time.current)
-      
+
       if locked == 1
         Rails.logger.info "Acquired lock for immediate execution of follow-up #{id}"
         ProcessSingleFollowUpJob.perform_later(id)
@@ -115,7 +115,7 @@ class ConversationFollowUp < ApplicationRecord
     # Refactor: We no longer manage individual Sidekiq jobs.
     # Just clearing the ID for legacy compatibility / cleanup.
     return unless sidekiq_job_id.present?
-    
+
     update_column(:sidekiq_job_id, nil)
   end
 end

@@ -96,8 +96,16 @@ FactoryBot.define do
       channel_whatsapp.define_singleton_method(:sync_templates) { nil } unless options.sync_templates
       channel_whatsapp.define_singleton_method(:validate_provider_config) { nil } unless options.validate_provider_config
       if channel_whatsapp.provider == 'whatsapp_cloud'
-        channel_whatsapp.provider_config = channel_whatsapp.provider_config.merge({ 'api_key' => 'test_key', 'phone_number_id' => '123456789',
-                                                                                    'business_account_id' => '123456789' })
+        # Add 'source' => 'embedded_signup' to skip after_commit :setup_webhooks callback in tests
+        # The callback is for manual setup flow; embedded signup handles webhook setup explicitly
+        # Only set source if not already provided (allows tests to override)
+        default_config = {
+          'api_key' => 'test_key',
+          'phone_number_id' => '123456789',
+          'business_account_id' => '123456789'
+        }
+        default_config['source'] = 'embedded_signup' unless channel_whatsapp.provider_config.key?('source')
+        channel_whatsapp.provider_config = channel_whatsapp.provider_config.merge(default_config)
       end
     end
 

@@ -36,7 +36,16 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   def resource_params
     permitted_params = super
     permitted_params[:limits] = permitted_params[:limits].to_h.compact
-    permitted_params[:selected_feature_flags] = params[:enabled_features].keys.map(&:to_sym) if params[:enabled_features].present?
+
+    # Split feature flags between the two columns
+    if params[:enabled_features].present?
+      enabled_flags = params[:enabled_features].keys.map(&:to_sym)
+      flags_1 = enabled_flags.select { |flag| Account.flag_mapping['feature_flags'].key?(flag) }
+      flags_2 = enabled_flags.select { |flag| Account.flag_mapping['feature_flags_2'].key?(flag) }
+
+      permitted_params[:selected_feature_flags] = flags_1
+      permitted_params[:selected_feature_flags_2] = flags_2
+    end
 
     # Process nested account addresses attributes
     if permitted_params[:account_addresses_attributes].present?

@@ -24,11 +24,11 @@ class ProcessSingleFollowUpJob < ApplicationJob
 
   rescue StandardError => e
     Rails.logger.error "Failed to process follow-up #{follow_up_id}: #{e.message}"
-    
+
     if follow_up
       # Liberar el lock antes de decidir qué hacer
       follow_up.update_column(:processing_started_at, nil)
-      
+
       handle_job_failure(follow_up, e)
     end
   end

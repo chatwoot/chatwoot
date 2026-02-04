@@ -26,4 +26,12 @@ class AppointmentPolicy < ApplicationPolicy
   def filter?
     true
   end
+
+  def search?
+    true
+  end
+
+  def filter?
+    true
+  end
 end

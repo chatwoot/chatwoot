@@ -48,8 +48,11 @@ ru:
       failed: Ошибка регистрации
     assignment_policy:
       not_found: Политика назначения не найдена
+    attachments:
+      invalid: Invalid attachment
     saml:
       feature_not_enabled: Функция SAML не включена для этой учетной записи
+      sso_not_enabled: SAML SSO is not enabled for this installation
     data_import:
       data_type:
         invalid: Недопустимый тип данных
@@ -65,6 +68,11 @@ ru:
     companies:
       domain:
         invalid: должно быть корректным доменным именем
+      search:
+        query_missing: Specify search string with parameter q
+    messages:
+      search:
+        time_range_limit_exceeded: 'Search is limited to the last %{days} days'
     categories:
       locale:
         unique: Должны быть уникальными в категории и портале
@@ -105,6 +113,13 @@ ru:
       invalid_token: Недопустимый или просроченный MFA токен
       invalid_credentials: Неверные учетные данные или проверочный код
       feature_unavailable: Функция MFA недоступна. Пожалуйста, настройте ключи шифрования.
+    topup:
+      credits_required: Credits amount is required
+      invalid_credits: Invalid credits amount
+      invalid_option: Invalid topup option
+      plan_not_eligible: Top-ups are only available for paid plans. Please upgrade your plan first.
+      stripe_customer_not_configured: Stripe customer not configured
+      no_payment_method: No payment methods found. Please add a payment method before making a purchase.
   profile:
     mfa:
       enabled: MFA успешно включен
@@ -180,6 +195,8 @@ ru:
     messages:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
+      instagram_shared_story_content: 'Shared story'
+      instagram_shared_post_content: 'Shared post'
       deleted: Это сообщение было удалено
       whatsapp:
         list_button_label: 'Выберите элемент'

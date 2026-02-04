@@ -1,6 +1,7 @@
 module Captain::ChatHelper
   include Integrations::LlmInstrumentation
   include Captain::ChatResponseHelper
+  include Captain::ChatGenerationRecorder
 
   def request_chat_completion
     log_chat_completion_request
@@ -21,20 +22,18 @@ module Captain::ChatHelper
 
   def build_chat
     llm_chat = chat(model: @model, temperature: temperature)
-    llm_chat.with_params(response_format: { type: 'json_object' })
+    llm_chat = llm_chat.with_params(response_format: { type: 'json_object' })
 
     llm_chat = setup_tools(llm_chat)
-    setup_system_instructions(llm_chat)
+    llm_chat = setup_system_instructions(llm_chat)
     setup_event_handlers(llm_chat)
-
-    llm_chat
   end
 
-  def setup_tools(chat)
+  def setup_tools(llm_chat)
     @tools&.each do |tool|
-      chat.with_tool(tool)
+      llm_chat = llm_chat.with_tool(tool)
     end
-    chat
+    llm_chat
   end
 
   def setup_system_instructions(chat)
@@ -44,8 +43,11 @@ module Captain::ChatHelper
   end
 
   def setup_event_handlers(chat)
-    chat.on_new_message { start_llm_turn_span(instrumentation_params(chat)) }
-    chat.on_end_message { |message| end_llm_turn_span(message) }
+    # NOTE: We only use on_end_message to record the generation with token counts.
+    # RubyLLM callbacks fire after chunks arrive, not around the API call, so
+    # span timing won't reflect actual API latency. But Langfuse calculates costs
+    # from model + token counts, so this is sufficient for cost tracking.
+    chat.on_end_message { |message| record_llm_generation(chat, message) }
     chat.on_tool_call { |tool_call| handle_tool_call(tool_call) }
     chat.on_tool_result { |result| handle_tool_result(result) }
 

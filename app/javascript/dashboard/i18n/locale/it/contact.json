@@ -18,7 +18,8 @@
     "CREATED_AT_LABEL": "Creato il",
     "NEW_MESSAGE": "Nuovo messaggio",
     "CALL": "Chiama",
-    "CALL_UNDER_DEVELOPMENT": "Le chiamate sono in fase di sviluppo",
+    "CALL_INITIATED": "Chiamando il contatto…",
+    "CALL_FAILED": "Impossibile avviare la chiamata. Riprova.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Scegli una inbox vocale"
     },
@@ -456,6 +457,9 @@
           "INSTAGRAM": {
             "PLACEHOLDER": "Aggiungi Instagram"
           },
+          "TIKTOK": {
+            "PLACEHOLDER": "Aggiungi TikTok"
+          },
           "LINKEDIN": {
             "PLACEHOLDER": "Aggiungi LinkedIn"
           },
@@ -603,7 +607,7 @@
       "NO_INBOX_ALERT": "Non ci sono inbox disponibili per avviare una conversazione con questo contatto.",
       "CONTACT_SELECTOR": {
         "LABEL": "A:",
-        "TAG_INPUT_PLACEHOLDER": "Cerca un contatto con nome, email o numero di telefono",
+        "TAG_INPUT_PLACEHOLDER": "Cerca un contatto tramite nome, email o numero di telefono",
         "CONTACT_CREATING": "Creazione contatto..."
       },
       "INBOX_SELECTOR": {

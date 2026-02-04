@@ -105,6 +105,9 @@ CLAUDE.local.md
 
 local/
 
+# pnpm store (local cache)
+.pnpm-store/
+
 # Local Docker configuration changes
 docker-compose.yaml
 

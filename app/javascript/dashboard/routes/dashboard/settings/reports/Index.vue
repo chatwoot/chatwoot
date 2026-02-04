@@ -76,14 +76,14 @@ export default {
         businessHours,
       };
     },
-    downloadAgentReports() {
+    downloadConversationReports() {
       const { from, to } = this;
       const fileName = generateFileName({
-        type: 'agent',
+        type: 'conversation',
         to,
         businessHours: this.businessHours,
       });
-      this.$store.dispatch('downloadAgentReports', {
+      this.$store.dispatch('downloadConversationsSummaryReports', {
         from,
         to,
         fileName,
@@ -109,10 +109,10 @@ export default {
 <template>
   <ReportHeader :header-title="$t('REPORT.HEADER')">
     <V4Button
-      :label="$t('REPORT.DOWNLOAD_AGENT_REPORTS')"
+      :label="$t('REPORT.DOWNLOAD_CONVERSATION_REPORTS')"
       icon="i-ph-download-simple"
       size="sm"
-      @click="downloadAgentReports"
+      @click="downloadConversationReports"
     />
   </ReportHeader>
   <div class="flex flex-col gap-3">

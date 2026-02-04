@@ -49,7 +49,6 @@ class WorkingHour < ApplicationRecord
   def self.today
     # While getting the day of the week, consider the timezone as well. `first` would
     # return the first working hour from the list of working hours available per week.
-
     inbox = first.workable
     find_by(day_of_week: Time.zone.now.in_time_zone(inbox.timezone).to_date.wday)
   end

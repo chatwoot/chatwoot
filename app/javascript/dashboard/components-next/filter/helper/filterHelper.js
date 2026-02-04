@@ -13,7 +13,6 @@ export const CONVERSATION_ATTRIBUTES = {
   LABELS: 'labels',
   CONVERSATION_TYPE: 'conversation_type',
   BROWSER_LANGUAGE: 'browser_language',
-  COUNTRY_CODE: 'country_code',
   REFERER: 'referer',
   CREATED_AT: 'created_at',
   LAST_ACTIVITY_AT: 'last_activity_at',
