@@ -39,8 +39,8 @@ export default {
       message: '',
       formValues: {},
       labels: {
-        emailAddress: 'EMAIL_ADDRESS',
-        fullName: 'FULL_NAME',
+        email: 'EMAIL',
+        name: 'NAME',
         phoneNumber: 'PHONE_NUMBER',
       },
     };
@@ -91,13 +91,13 @@ export default {
         isUserPhoneNumberAvailable
       );
       return this.preChatFields.filter(field => {
-        if (isUserEmailAvailable && field.name === 'emailAddress') {
+        if (isUserEmailAvailable && field.name === 'email') {
           return false;
         }
         if (isUserPhoneNumberAvailable && field.name === 'phoneNumber') {
           return false;
         }
-        if (isUserNameAvailable && field.name === 'fullName') {
+        if (isUserNameAvailable && field.name === 'name') {
           return false;
         }
         return true;
@@ -178,7 +178,7 @@ export default {
     getValidation({ type, name, field_type, regex_pattern }) {
       let regex = regex_pattern ? getRegexp(regex_pattern) : null;
       const validations = {
-        emailAddress: 'email',
+        email: 'email',
         phoneNumber: ['startsWithPlus', 'isValidPhoneNumber'],
         url: 'url',
         date: 'date',
@@ -232,11 +232,11 @@ export default {
       return {};
     },
     onSubmit() {
-      const { emailAddress, fullName, phoneNumber, message } = this.formValues;
+      const { email, name, phoneNumber, message } = this.formValues;
       this.$emit('submitPreChat', {
-        fullName,
+        name,
         phoneNumber,
-        emailAddress,
+        email,
         message,
         activeCampaignId: this.activeCampaign.id,
         conversationCustomAttributes: this.conversationCustomAttributes,

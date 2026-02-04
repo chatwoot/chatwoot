@@ -4,7 +4,7 @@ export default {
     pre_chat_fields: [
       {
         label: 'Email Address',
-        name: 'emailAddress',
+        name: 'email',
         type: 'email',
         field_type: 'standard',
         required: false,
@@ -14,7 +14,7 @@ export default {
       },
       {
         label: 'Full Name',
-        name: 'fullName',
+        name: 'name',
         type: 'text',
         field_type: 'standard',
         required: false,
