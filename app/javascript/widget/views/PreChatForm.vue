@@ -34,8 +34,8 @@ export default {
     },
 
     onSubmit({
-      name,
-      email,
+      first_name,
+      user_email,
       message,
       activeCampaignId,
       phoneNumber,
@@ -49,8 +49,8 @@ export default {
         });
         this.$store.dispatch('contacts/update', {
           user: {
-            email: email,
-            name: name,
+            email: user_email,
+            name: first_name,
             phone_number: phoneNumber,
           },
         });
@@ -58,8 +58,8 @@ export default {
         this.clearConversations();
         this.clearConversationAttributes();
         this.$store.dispatch('conversation/createConversation', {
-          name: name,
-          email: email,
+          first_name: first_name,
+          user_email: user_email,
           message: message,
           phoneNumber: phoneNumber,
           customAttributes: conversationCustomAttributes,

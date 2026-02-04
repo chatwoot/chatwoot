@@ -87,10 +87,10 @@ class Channel::WebWidget < ApplicationRecord
       pre_chat_message: 'Share your queries or comments here.',
       pre_chat_fields: [
         {
-          'field_type': 'standard', 'label': 'Email Id', 'name': 'email', 'type': 'email', 'required': true, 'enabled': false
+          'field_type': 'standard', 'label': 'Email Id', 'name': 'user_email', 'type': 'email', 'required': true, 'enabled': false
         },
         {
-          'field_type': 'standard', 'label': 'Full name', 'name': 'name', 'type': 'text', 'required': false, 'enabled': false
+          'field_type': 'standard', 'label': 'Full name', 'name': 'first_name', 'type': 'text', 'required': false, 'enabled': false
         },
         {
           'field_type': 'standard', 'label': 'Phone number', 'name': 'phoneNumber', 'type': 'text', 'required': false, 'enabled': false
