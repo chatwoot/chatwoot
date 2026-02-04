@@ -119,10 +119,14 @@ module Agents
                    context_wrapper.callback_manager.emit_agent_thinking(current_agent.name, "(continuing conversation)")
                    chat.complete
                  end
+        Rails.logger.info "Result#{current_turn}: #{result.inspect}"
         response = result
+        Rails.logger.info "Response#{current_turn}: #{response.inspect}"
         track_usage(response, context_wrapper)
 
         # Check for handoff via RubyLLM's halt mechanism
+        Rails.logger.info "Response#{current_turn} is a halt: #{response.is_a?(RubyLLM::Tool::Halt)}"
+        Rails.logger.info "Context#{current_turn} pending handoff: #{context_wrapper.context[:pending_handoff].inspect}"
         if response.is_a?(RubyLLM::Tool::Halt) && context_wrapper.context[:pending_handoff]
           handoff_info = context_wrapper.context.delete(:pending_handoff)
           next_agent = handoff_info[:target_agent]
@@ -191,8 +195,11 @@ module Agents
           return result
         end
 
+        Rails.logger.info "Response#{current_turn} is a tool call: #{response.tool_call?}"
         # If tools were called, continue the loop to let them execute
         next if response.tool_call?
+
+        Rails.logger.info "Response#{current_turn} is not a tool call"
 
         # If no tools were called, we have our final response
 
@@ -209,7 +216,7 @@ module Agents
         # Emit agent complete and run complete events
         context_wrapper.callback_manager.emit_agent_complete(current_agent.name, result, nil, context_wrapper)
         context_wrapper.callback_manager.emit_run_complete(current_agent.name, result, context_wrapper)
-
+        Rails.logger.info "Response#{current_turn} is a final response: #{result.inspect}"
         return result
       end
     rescue MaxTurnsExceeded => e
@@ -244,7 +251,8 @@ module Agents
       # Emit agent complete and run complete events with error
       context_wrapper.callback_manager.emit_agent_complete(current_agent.name, result, e, context_wrapper)
       context_wrapper.callback_manager.emit_run_complete(current_agent.name, result, context_wrapper)
-
+      Rails.logger.info "Error in run: #{e.inspect}"
+      Rails.logger.info "Context#{current_turn} error: #{context_wrapper.context.inspect}"
       result
     end
 
