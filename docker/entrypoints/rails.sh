@@ -30,5 +30,36 @@ do
   sleep 2;
 done
 
+if [ "$RAILS_ENV" = "production" ]; then
+  if [ -z "$NODE_OPTIONS" ]; then
+    export NODE_OPTIONS="--max-old-space-size=4096"
+  fi
+
+  if ! command -v npm >/dev/null 2>&1; then
+    if [ -f /usr/local/lib/node_modules/npm/bin/npm-cli.js ]; then
+      ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm
+      ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+    fi
+  fi
+
+  if ! command -v pnpm >/dev/null 2>&1; then
+    if command -v npm >/dev/null 2>&1; then
+      echo "pnpm missing, installing with npm..."
+      npm install -g pnpm@10.2.0
+    fi
+  fi
+
+  if [ ! -f /app/public/vite/manifest.json ]; then
+    echo "Vite manifest missing, precompiling assets..."
+    bundle exec rails assets:precompile
+  fi
+
+  if [ -f /app/public/vite/.vite/manifest.json ]; then
+    if [ ! -f /app/public/vite/manifest.json ]; then
+      cp /app/public/vite/.vite/manifest.json /app/public/vite/manifest.json
+    fi
+  fi
+fi
+
 # Execute the main process of the container
 exec "$@"
