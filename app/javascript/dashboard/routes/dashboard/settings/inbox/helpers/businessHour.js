@@ -141,9 +141,75 @@ export const timeSlotTransform = timeSlots => {
   });
 };
 
+const getTimezoneOffset = tz => {
+  try {
+    const formatter = new Intl.DateTimeFormat('en-US', {
+      timeZone: tz,
+      timeZoneName: 'shortOffset',
+    });
+    const parts = formatter.formatToParts(new Date());
+    const offsetPart = parts.find(part => part.type === 'timeZoneName');
+    return offsetPart ? offsetPart.value : '';
+  } catch {
+    return '';
+  }
+};
+
+const getTimezoneOffsetMinutes = tz => {
+  try {
+    const now = new Date();
+    const utcDate = new Date(now.toLocaleString('en-US', { timeZone: 'UTC' }));
+    const tzDate = new Date(now.toLocaleString('en-US', { timeZone: tz }));
+    return (tzDate - utcDate) / 60000;
+  } catch {
+    return 0;
+  }
+};
+
+const getTimezoneLongName = (tz, locale) => {
+  try {
+    const formatter = new Intl.DateTimeFormat(locale, {
+      timeZone: tz,
+      timeZoneName: 'long',
+    });
+    const parts = formatter.formatToParts(new Date());
+    const namePart = parts.find(part => part.type === 'timeZoneName');
+    return namePart ? namePart.value : tz;
+  } catch {
+    return tz;
+  }
+};
+
+const formatTimezoneName = tz => {
+  // Convert "America/Mexico_City" to "Mexico City"
+  const city = tz.split('/').pop().replace(/_/g, ' ');
+  return city;
+};
+
+// Original function using static timezones.json (for backwards compatibility)
 export const timeZoneOptions = () => {
   return Object.keys(timeZoneData).map(key => ({
     label: key,
     value: timeZoneData[key],
   }));
+};
+
+// Dynamic IANA timezone options with real-time offsets
+export const dynamicTimeZoneOptions = () => {
+  const timeZones = Intl.supportedValuesOf('timeZone');
+
+  const options = timeZones.map(tz => {
+    const offset = getTimezoneOffset(tz);
+    const city = formatTimezoneName(tz);
+    return {
+      label: `${city} (${offset})`,
+      value: tz,
+      offsetMinutes: getTimezoneOffsetMinutes(tz),
+    };
+  });
+
+  // Sort by offset (west to east)
+  options.sort((a, b) => a.offsetMinutes - b.offsetMinutes);
+
+  return options.map(({ label, value }) => ({ label, value }));
 };

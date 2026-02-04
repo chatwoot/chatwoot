@@ -27,6 +27,10 @@ json.status @account.status
 json.pinecone_index @account.pinecone_index
 json.cache_keys @account.cache_keys
 
+json.business_hours_enabled resource.business_hours_enabled
+json.business_hours_timezone resource.business_hours_timezone
+json.business_hours resource.business_hours_schedule
+
 if @account.account_addresses.any?
   json.account_address do
     address = @account.account_addresses.first

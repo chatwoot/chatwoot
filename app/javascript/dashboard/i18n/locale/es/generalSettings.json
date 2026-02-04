@@ -122,6 +122,28 @@
         "INBOUND_EMAIL_ENABLED": "Continuidad de la conversación con emails está habilitada para su cuenta.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Ahora puede recibir emails en su dominio personalizado."
       },
+      "BUSINESS_HOURS": {
+        "TITLE": "Horario de atención",
+        "NOTE": "Configura el horario de atención de tu negocio. Esta información ayuda a los agentes de IA a proporcionar información precisa sobre disponibilidad a los clientes.",
+        "ENABLE": "Habilitar horario de atención",
+        "TIMEZONE": "Zona horaria",
+        "WEEKLY_SCHEDULE": "Horario semanal",
+        "DAYS": {
+          "SUNDAY": "Domingo",
+          "MONDAY": "Lunes",
+          "TUESDAY": "Martes",
+          "WEDNESDAY": "Miércoles",
+          "THURSDAY": "Jueves",
+          "FRIDAY": "Viernes",
+          "SATURDAY": "Sábado"
+        },
+        "UPDATE_BUTTON": "Guardar horario",
+        "ERROR": "Por favor corrige los errores en el horario antes de guardar",
+        "API": {
+          "SUCCESS": "Horario de atención actualizado correctamente",
+          "ERROR": "Error al actualizar el horario de atención"
+        }
+      },
       "ACCOUNT_ADDRESS": {
         "TITLE": "Dirección de la empresa",
         "NOTE": "Configura la información de dirección física de tu empresa. Esta información puede usarse en plantillas y comunicaciones.",

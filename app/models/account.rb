@@ -87,6 +87,7 @@ class Account < ApplicationRecord
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
+  store_accessor :settings, :business_hours_enabled, :business_hours_timezone
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -136,6 +137,7 @@ class Account < ApplicationRecord
   has_many :webhooks, dependent: :destroy_async
   has_many :whatsapp_channels, dependent: :destroy_async, class_name: '::Channel::Whatsapp'
   has_many :working_hours, dependent: :destroy_async
+  has_many :business_working_hours, class_name: 'WorkingHour', as: :workable, dependent: :destroy_async
   has_many :marketing_campaigns, dependent: :destroy_async
   has_many :pipeline_statuses, dependent: :destroy_async
   has_many :product_catalogs, dependent: :destroy_async
@@ -212,6 +214,31 @@ class Account < ApplicationRecord
     return nil unless feature_enabled?(:whatsapp_groups)
 
     @whatsapp_groups_inbox ||= Whatsapp::GroupsInboxService.new(account: self).find_or_create_groups_inbox
+  end
+
+  def business_hours_open?
+    return true unless business_hours_enabled
+
+    tz = business_hours_timezone || 'UTC'
+    current_time = Time.current.in_time_zone(tz)
+    today_hours = business_working_hours.find_by(day_of_week: current_time.wday)
+    return true unless today_hours
+
+    today_hours.open_now?
+  end
+
+  def business_hours_schedule
+    business_working_hours.order(:day_of_week).map do |wh|
+      {
+        day_of_week: wh.day_of_week,
+        open_hour: wh.open_hour,
+        open_minutes: wh.open_minutes,
+        close_hour: wh.close_hour,
+        close_minutes: wh.close_minutes,
+        closed_all_day: wh.closed_all_day,
+        open_all_day: wh.open_all_day
+      }
+    end
   end
 
   private

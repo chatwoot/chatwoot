@@ -30,7 +30,7 @@ class WorkingHour < ApplicationRecord
   before_validation :ensure_open_all_day_hours
   before_save :assign_account
 
-  validates :workable_type, presence: true, inclusion: { in: %w[Inbox AccountUser] }
+  validates :workable_type, presence: true, inclusion: { in: %w[Inbox AccountUser Account] }
   validates :workable_id,   presence: true
 
   validates :open_hour,     presence: true, unless: :closed_all_day?
@@ -56,15 +56,16 @@ class WorkingHour < ApplicationRecord
   def open_at?(time)
     return false if closed_all_day?
 
-    open_time = Time.zone.now.in_time_zone(workable.timezone).change({ hour: open_hour, min: open_minutes })
-    close_time = Time.zone.now.in_time_zone(workable.timezone).change({ hour: close_hour, min: close_minutes })
+    tz = workable_timezone
+    open_time = Time.zone.now.in_time_zone(tz).change({ hour: open_hour, min: open_minutes })
+    close_time = Time.zone.now.in_time_zone(tz).change({ hour: close_hour, min: close_minutes })
 
     time.between?(open_time, close_time)
   end
 
   def open_now?
-    inbox_time = Time.zone.now.in_time_zone(workable.timezone)
-    open_at?(inbox_time)
+    current_time = Time.zone.now.in_time_zone(workable_timezone)
+    open_at?(current_time)
   end
 
   def closed_now?
@@ -73,8 +74,16 @@ class WorkingHour < ApplicationRecord
 
   private
 
+  def workable_timezone
+    if workable.is_a?(Account)
+      workable.business_hours_timezone || 'UTC'
+    else
+      workable.timezone
+    end
+  end
+
   def assign_account
-    self.account_id = workable.account_id
+    self.account_id = workable.is_a?(Account) ? workable.id : workable.account_id
   end
 
   def close_after_open

@@ -122,6 +122,28 @@
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "You can receive emails in your custom domain now."
       },
+      "BUSINESS_HOURS": {
+        "TITLE": "Business hours",
+        "NOTE": "Configure your business working hours. This information helps AI agents provide accurate availability information to customers.",
+        "ENABLE": "Enable business hours",
+        "TIMEZONE": "Timezone",
+        "WEEKLY_SCHEDULE": "Weekly schedule",
+        "DAYS": {
+          "SUNDAY": "Sunday",
+          "MONDAY": "Monday",
+          "TUESDAY": "Tuesday",
+          "WEDNESDAY": "Wednesday",
+          "THURSDAY": "Thursday",
+          "FRIDAY": "Friday",
+          "SATURDAY": "Saturday"
+        },
+        "UPDATE_BUTTON": "Save business hours",
+        "ERROR": "Please fix the schedule errors before saving",
+        "API": {
+          "SUCCESS": "Business hours updated successfully",
+          "ERROR": "Failed to update business hours"
+        }
+      },
       "ACCOUNT_ADDRESS": {
         "TITLE": "Company address",
         "NOTE": "Configure the physical address information for your company. This information can be used in templates and communications.",

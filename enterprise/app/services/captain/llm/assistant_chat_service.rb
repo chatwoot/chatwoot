@@ -28,7 +28,10 @@ class Captain::Llm::AssistantChatService < Llm::BaseAiService
   private
 
   def build_tools
-    [Captain::Tools::SearchDocumentationService.new(@assistant, user: nil)]
+    [
+      Captain::Tools::SearchDocumentationService.new(@assistant, user: nil),
+      Captain::Tools::BusinessHoursLookupTool.new(@assistant)
+    ]
   end
 
   def system_message
