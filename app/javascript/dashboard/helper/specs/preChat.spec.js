@@ -24,7 +24,7 @@ describe('#Pre chat Helpers', () => {
       ).toEqual([
         {
           label: 'Email Address',
-          name: 'emailAddress',
+          name: 'email',
           placeholder: 'Please enter your email address',
           type: 'email',
           field_type: 'standard',
@@ -33,7 +33,7 @@ describe('#Pre chat Helpers', () => {
         },
         {
           label: 'Full Name',
-          name: 'fullName',
+          name: 'name',
           placeholder: 'Please enter your full name',
           type: 'text',
           field_type: 'standard',

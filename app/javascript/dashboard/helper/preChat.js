@@ -4,12 +4,12 @@ const defaultTranslations = Object.fromEntries(
 ).en;
 
 export const standardFieldKeys = {
-  emailAddress: {
-    key: 'EMAIL_ADDRESS',
+  email: {
+    key: 'EMAIL',
     label: 'Email Id',
     placeholder: 'Please enter your email address',
   },
-  fullName: {
+  name: {
     key: 'FULL_NAME',
     label: 'Full Name',
     placeholder: 'Please enter your full name',
