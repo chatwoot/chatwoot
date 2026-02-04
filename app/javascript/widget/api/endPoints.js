@@ -8,8 +8,8 @@ const createConversation = params => {
     url: `/api/v1/widget/conversations${search}`,
     params: {
       contact: {
-        name: params.name,
-        email: params.email,
+        name: params.first_name,
+        email: params.user_email,
         phone_number: params.phoneNumber,
       },
       message: {
