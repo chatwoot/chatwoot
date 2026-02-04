@@ -181,13 +181,18 @@ module Agents
         if response.is_a?(RubyLLM::Tool::Halt)
           save_conversation_state(chat, context_wrapper, current_agent)
 
-          result = RunResult.new(
-            output: response.content,
-            messages: Helpers::MessageExtractor.extract_messages(chat, current_agent),
-            usage: context_wrapper.usage,
-            context: context_wrapper.context
-          )
-
+          begin
+            result = RunResult.new(
+              output: response.content,
+              messages: Helpers::MessageExtractor.extract_messages(chat, current_agent),
+              usage: context_wrapper.usage,
+              context: context_wrapper.context
+            )
+          rescue StandardError => e
+            Rails.logger.info "Error in RunResult: #{e.inspect}"
+            Rails.logger.info "Context#{current_turn} error: #{context_wrapper.context.inspect}"
+            raise e
+          end
           # Emit agent complete and run complete events
           context_wrapper.callback_manager.emit_agent_complete(current_agent.name, result, nil, context_wrapper)
           context_wrapper.callback_manager.emit_run_complete(current_agent.name, result, context_wrapper)
