@@ -158,6 +158,14 @@ ru:
       avg_customer_waiting_time: Среднее время ожидания клиента
     conversation_traffic_csv:
       timezone: Часовой пояс
+    conversation_csv:
+      conversations_count: Количество чатов
+      incoming_messages_count: Сообщений получено
+      outgoing_messages_count: Сообщений отправлено
+      avg_first_response_time: Среднее время ответа
+      avg_resolution_time: Среднее время решения
+      resolution_count: Количество решенных
+      avg_customer_waiting_time: Среднее время ожидания клиента
     sla_csv:
       conversation_id: ID диалога
       sla_policy_breached: Политика SLA
@@ -178,6 +186,7 @@ ru:
         rating: Оценка
         feedback: Комментарий к отзыву
         recorded_at: Дата записи
+        review_notes: Ревью
   notifications:
     notification_title:
       conversation_creation: 'В %{inbox_name} создана беседа (#%{display_id})'

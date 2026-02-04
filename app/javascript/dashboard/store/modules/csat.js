@@ -1,7 +1,7 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
 import CSATReports from '../../api/csatReports';
-import { downloadCsvFile } from '../../helper/downloadHelper';
+import { downloadFile } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { REPORTS_EVENTS } from '../../helper/AnalyticsHelper/events';
 
@@ -112,9 +112,10 @@ export const actions = {
   },
   downloadCSATReports(_, params) {
     return CSATReports.download(params).then(response => {
-      downloadCsvFile(params.fileName, response.data);
+      downloadFile(params.fileName, response.data, params.format);
       AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
         reportType: 'csat',
+        format: params.format,
       });
     });
   },

@@ -1,5 +1,4 @@
 <script>
-import V4Button from 'dashboard/components-next/button/Button.vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import SLAMetrics from './components/SLA/SLAMetrics.vue';
@@ -7,14 +6,21 @@ import SLATable from './components/SLA/SLATable.vue';
 import SLAReportFilters from './components/SLA/SLAReportFilters.vue';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
 import ReportHeader from './components/ReportHeader.vue';
+import DownloadDropdown from 'dashboard/components/DownloadDropdown.vue';
+import { useReportDownloadOptions } from 'dashboard/composables/useReportDownloadOptions';
+
 export default {
   name: 'SLAReports',
   components: {
-    V4Button,
+    DownloadDropdown,
     ReportHeader,
     SLAMetrics,
     SLATable,
     SLAReportFilters,
+  },
+  setup() {
+    const { downloadOptions } = useReportDownloadOptions();
+    return { downloadOptions };
   },
   data() {
     return {
@@ -65,11 +71,17 @@ export default {
       this.fetchSLAReports();
       this.fetchSLAMetrics();
     },
-    downloadReports() {
+    downloadReports(option) {
       const type = 'sla';
+      const format = option?.value || option || 'csv';
       try {
         this.$store.dispatch('slaReports/download', {
-          fileName: generateFileName({ type, to: this.activeFilter.to }),
+          format,
+          fileName: generateFileName({
+            type,
+            to: this.activeFilter.to,
+            format,
+          }),
           ...this.activeFilter,
         });
       } catch (error) {
@@ -82,11 +94,10 @@ export default {
 
 <template>
   <ReportHeader :header-title="$t('SLA_REPORTS.HEADER')">
-    <V4Button
+    <DownloadDropdown
       :label="$t('SLA_REPORTS.DOWNLOAD_SLA_REPORTS')"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadReports"
+      :options="downloadOptions"
+      @select="downloadReports"
     />
   </ReportHeader>
   <div class="flex flex-col flex-1 gap-6">
