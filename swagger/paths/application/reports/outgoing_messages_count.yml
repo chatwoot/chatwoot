@@ -1,0 +1,36 @@
+tags:
+  - Reports
+operationId: get-outgoing-messages-count
+summary: Get outgoing messages count grouped by entity
+security:
+  - userApiKey: []
+description: |
+  Get the count of outgoing messages grouped by a specified entity (agent, team, inbox, or label).
+  When grouped by agent, messages sent by bots (AgentBot, Captain::Assistant) are excluded.
+
+  **Note:** This API endpoint is available only in Chatwoot version 4.11.0 and above.
+parameters:
+  - in: query
+    name: group_by
+    required: true
+    schema:
+      type: string
+      enum:
+        - agent
+        - team
+        - inbox
+        - label
+    description: The entity to group outgoing message counts by.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/outgoing_messages_count'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

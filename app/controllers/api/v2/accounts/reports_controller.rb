@@ -78,6 +78,15 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: builder.build
   end
 
+  OUTGOING_MESSAGES_ALLOWED_GROUP_BY = %w[agent team inbox label].freeze
+
+  def outgoing_messages_count
+    return head :unprocessable_entity unless OUTGOING_MESSAGES_ALLOWED_GROUP_BY.include?(params[:group_by])
+
+    builder = V2::Reports::OutgoingMessagesCountBuilder.new(Current.account, outgoing_messages_count_params)
+    render json: builder.build
+  end
+
   private
 
   def generate_csv(filename, template)
@@ -167,6 +176,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def first_response_time_distribution_params
     {
+      since: params[:since],
+      until: params[:until]
+    }
+  end
+
+  def outgoing_messages_count_params
+    {
+      group_by: params[:group_by],
       since: params[:since],
       until: params[:until]
     }
