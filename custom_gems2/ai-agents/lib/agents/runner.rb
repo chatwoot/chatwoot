@@ -418,17 +418,31 @@ module Agents
     def configure_chat_for_agent(chat, agent, context_wrapper, replace: false)
       # Get system prompt (may be dynamic)
       system_prompt = agent.get_system_prompt(context_wrapper)
+      Rails.logger.info "Runner Line 421"
+      Rails.logger.info "System Prompt: #{system_prompt.inspect}"
 
       # Combine all tools - both handoff and regular tools need wrapping
       all_tools = build_agent_tools(agent, context_wrapper)
-
+      Rails.logger.info "Runner Line 425"
+      Rails.logger.info "All Tools: #{all_tools.inspect}"
       # Switch model if different (important for handoffs between agents using different models)
+      Rails.logger.info "Runner Line 427"
+      Rails.logger.info "Model: #{agent.model.inspect}"
       chat.with_model(agent.model) if replace
+      Rails.logger.info "Runner Line 429"
 
       # Configure chat with instructions, temperature, tools, and schema
+      Rails.logger.info "Runner Line 431"
+      Rails.logger.info "System Prompt: #{system_prompt.inspect}"
       chat.with_instructions(system_prompt, replace: replace) if system_prompt
+      Rails.logger.info "Runner Line 433"
+      Rails.logger.info "Temperature: #{agent.temperature.inspect}"
       chat.with_temperature(agent.temperature) if agent.temperature
+      Rails.logger.info "Runner Line 435"
+      Rails.logger.info "All Tools: #{all_tools.inspect}"
       chat.with_tools(*all_tools, replace: replace)
+      Rails.logger.info "Runner Line 437"
+      Rails.logger.info "Response Schema: #{agent.response_schema.inspect}"
       chat.with_schema(agent.response_schema) if agent.response_schema
 
       chat
