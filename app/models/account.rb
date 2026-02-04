@@ -119,6 +119,7 @@ class Account < ApplicationRecord
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
   after_destroy :remove_account_sequences
+  after_update :handle_status_change, if: :saved_change_to_status?
 
   def agents
     users.where(account_users: { role: :agent })
@@ -194,6 +195,14 @@ class Account < ApplicationRecord
   def remove_account_sequences
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS camp_dpid_seq_#{id}")
     ActiveRecord::Base.connection.exec_query("drop sequence IF EXISTS conv_dpid_seq_#{id}")
+  end
+
+  def handle_status_change
+    if suspended?
+      # Disconnect all bots from all inboxes when account is disabled
+      agent_bot_inboxes.destroy_all
+    end
+    ActionCable.server.broadcast("account_#{id}", { event: 'page:reload', data: {} })
   end
 end
 

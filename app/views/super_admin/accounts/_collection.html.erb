@@ -95,21 +95,19 @@ to display a collection of resources in an HTML table.
           ) if authorized_action? resource, :edit%></td>
         <% end %>
         
-        <!-- Custom Disable/Suspend Button -->
+        <!-- Custom Status Dropdown -->
         <% if collection_presenter.resource_name.to_s == 'account' %>
-          <td>
-            <% if resource.active? %>
-              <%= link_to(
-                "Disable",
-                [:suspend, namespace, resource],
-                method: :post,
-                class: "text-color-red",
-                data: { confirm: "Are you sure you want to disable this account?" }
-              ) %>
-            <% else %>
-               <span class="text-slate-400">Disabled</span>
-            <% end %>
-          </td>
+          <td><%= form_with(model: [namespace, resource], local: true, html: { onclick: "event.stopPropagation();", style: "display: inline-block; width: fit-content; margin: 0; padding: 0;" }) do |f| -%>
+              <%= f.select :status, 
+                  options_for_select([["Active", "active"], ["Disable", "suspended"]], resource.status), 
+                  {}, 
+                  { onchange: "event.stopPropagation(); if(confirm('Are you sure you want to change the status?')) { this.form.submit() } else { this.value = '#{resource.status}' }", 
+                    onclick: "event.stopPropagation();",
+                    class: "status-select",
+                    style: "border: 1px solid #ced4da; border-radius: 4px; padding: 0 2px; background-color: #fff; font-size: 11px; height: 22px; line-height: 18px; width: 82px; vertical-align: middle; margin: 0; appearance: auto;" 
+                  } 
+              -%>
+            <% end -%></td>
         <% end %>
 
         <% if existing_action? collection_presenter.resource_name, :destroy %>
