@@ -428,7 +428,7 @@ module Agents
       # Switch model if different (important for handoffs between agents using different models)
       Rails.logger.info "Runner Line 427"
       Rails.logger.info "Model: #{agent.model.inspect}"
-      chat.with_model(agent.model) if replace
+      # chat.with_model(agent.model) if replace
       Rails.logger.info "Runner Line 429"
 
       # Configure chat with instructions, temperature, tools, and schema
