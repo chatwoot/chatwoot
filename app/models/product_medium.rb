@@ -59,8 +59,25 @@ class ProductMedium < ApplicationRecord
   scope :images, -> { where(file_type: 'IMAGE') }
   scope :videos, -> { where(file_type: 'VIDEO') }
 
+  # S3 upload status scopes
+  scope :pending_upload, -> { where(s3_status: 'pending') }
+  scope :upload_on_going, -> { where(s3_status: 'on_going') }
+  scope :upload_failed, -> { where(s3_status: 'failed') }
+  scope :uploaded_to_s3, -> { where(s3_status: 'completed') }
+
   before_validation :set_file_type_from_extension, if: -> { file_type.blank? && file_name.present? }
+  before_validation :store_original_url, on: :create
   before_save :ensure_only_one_primary_per_type, if: -> { is_primary_changed? && is_primary? }
+  after_destroy :cleanup_s3_file
+
+  # Returns presigned S3 URL if uploaded, otherwise returns original URL
+  def accessible_url
+    if s3_status == 'completed' && s3_key.present?
+      ProductCatalogs::PresignedUrlService.new.generate_url(s3_key) || file_url
+    else
+      file_url
+    end
+  end
 
   private
 
@@ -111,6 +128,16 @@ class ProductMedium < ApplicationRecord
       file_type: file_type,
       is_primary: true
     ).where.not(id: id).update_all(is_primary: false)
+  end
+
+  def store_original_url
+    self.original_url ||= file_url
+  end
+
+  def cleanup_s3_file
+    return if s3_key.blank?
+
+    ProductCatalogs::S3CleanupService.new.delete_file(s3_key)
   end
 end
 

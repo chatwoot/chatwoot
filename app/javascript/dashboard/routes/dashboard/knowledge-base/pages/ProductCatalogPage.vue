@@ -71,6 +71,9 @@
         @download-complete="handleExportDownloadComplete"
       />
 
+      <!-- Media Specifications Notice -->
+      <MediaSpecsNotice class="mb-6" />
+
       <div v-if="!hasNoProducts || activeProcessing || searchQuery || isSearching" class="space-y-6">
 
         <!-- Search Bar and Bulk Actions -->
@@ -281,6 +284,7 @@ import ConfirmDeleteDialog from 'dashboard/components-next/KnowledgeBase/Pages/P
 import ProcessingStatus from 'dashboard/components-next/KnowledgeBase/Pages/ProductCatalogPage/ProcessingStatus.vue';
 import MediaDrawer from 'dashboard/components-next/KnowledgeBase/Pages/ProductCatalogPage/MediaDrawer.vue';
 import ProductCatalogEmptyState from 'dashboard/components-next/KnowledgeBase/Pages/ProductCatalogPage/ProductCatalogEmptyState.vue';
+import MediaSpecsNotice from 'dashboard/components-next/KnowledgeBase/Pages/ProductCatalogPage/MediaSpecsNotice.vue';
 import ProductCatalogAPI from 'dashboard/api/productCatalog';
 
 const { t } = useI18n();

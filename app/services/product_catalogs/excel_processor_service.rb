@@ -119,7 +119,7 @@ class ProductCatalogs::ExcelProcessorService
     conn.exec("SET maintenance_work_mem TO '256MB'") # More memory for index building
     conn.exec("SET work_mem TO '64MB'")             # More memory for sorting/hashing
 
-    xlsx.each_row_streaming do |row|
+    xlsx.each_row_streaming(pad_cells: true) do |row|
       # Skip header row
       if row_index == 0
         row_index += 1
@@ -169,17 +169,21 @@ class ProductCatalogs::ExcelProcessorService
         @bulk_request.increment!(:processed_records, buffer.size)
         buffer.clear
 
-        # Update progress less frequently (only on batch completion)
+        # Update progress (0-50% for Excel phase)
         @bulk_request.update!(
           total_records: row_index - 1,
-          progress: ((row_index - 1).to_f / [row_index - 1, 1].max * 50).round(2),
+          progress: 25.0, # Mid-point of Excel phase
           updated_at: Time.current
         )
         last_update_time = Time.current
         Rails.logger.info("ExcelProcessor: Batch done. Total: #{row_index - 1}, Progress: #{@bulk_request.progress}%")
-      elsif Time.current - last_update_time > 30.seconds
-        # Touch updated_at less frequently (every 30s instead of 10s)
-        @bulk_request.update_column(:updated_at, Time.current)
+      elsif Time.current - last_update_time > 2.seconds
+        # Update progress every 2 seconds for better UX
+        @bulk_request.update!(
+          total_records: row_index - 1,
+          progress: [((row_index - 1) * 0.5).round(2), 49.0].min, # Estimate progress up to 49%
+          updated_at: Time.current
+        )
         last_update_time = Time.current
       end
     end
@@ -190,9 +194,14 @@ class ProductCatalogs::ExcelProcessorService
       @bulk_request.increment!(:processed_records, buffer.size)
     end
 
-    # Final update
+    # Final update - set progress to 50% (Excel phase complete)
     total = row_index - 1
-    @bulk_request.update!(total_records: total)
+    @bulk_request.update!(
+      total_records: total,
+      progress: 50.0,
+      updated_at: Time.current
+    )
+    Rails.logger.info("ExcelProcessor: Excel phase complete. Total: #{total}, Progress: 50%")
 
     total
   ensure
@@ -271,10 +280,20 @@ class ProductCatalogs::ExcelProcessorService
       # Create temporary table with same structure (no ON COMMIT DROP)
       conn.exec("CREATE TEMP TABLE #{temp_table} (LIKE product_catalogs INCLUDING DEFAULTS)")
 
-      # COPY data into temporary table
-      conn.copy_data("COPY #{temp_table} (#{column_list}) FROM STDIN WITH (FORMAT csv)") do
+      # COPY data into temporary table using TEXT format
+      # \N represents NULL in text format (more reliable than CSV for NULL handling)
+      conn.copy_data("COPY #{temp_table} (#{column_list}) FROM STDIN WITH (FORMAT text)") do
         rows.each do |tuple|
-          conn.put_copy_data(CSV.generate_line(tuple, force_quotes: true))
+          # Convert to tab-separated values with \N for NULL
+          line = tuple.map do |v|
+            if v.nil?
+              '\N'
+            else
+              # Escape special characters for COPY text format
+              v.to_s.gsub('\\', '\\\\').gsub("\t", '\\t').gsub("\n", '\\n').gsub("\r", '\\r')
+            end
+          end.join("\t") + "\n"
+          conn.put_copy_data(line)
         end
       end
 

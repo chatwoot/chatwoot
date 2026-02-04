@@ -80,6 +80,10 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
     total_products = products.count
     processed = 0
     @media_errors = []
+    last_progress_update = Time.current
+
+    # Calculate update frequency: for small batches update more often
+    update_frequency = [total_products / 20, 10].max.clamp(1, 100)
 
     products.find_each do |product|
       # Check if bulk request status is still valid for processing
@@ -90,32 +94,38 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
         break
       end
 
-      begin
-        create_media_for_product(product)
-      rescue StandardError => e
-        # Track media creation errors with detailed information
+      # Process media and collect per-URL errors
+      product_media_errors = create_media_for_product(product)
+
+      # If there were errors for this product, add them to the report
+      if product_media_errors.any?
         @media_errors << {
           product_id: product.product_id,
           product_name: product.productName,
-          error: e.message,
-          photo_urls: product.photo_urls.first(3).join(', '),  # First 3 photo URLs
-          pdf_urls: product.pdf_urls.first(3).join(', '),      # First 3 PDF URLs
-          video_urls: product.video_urls.first(3).join(', ')   # First 3 video URLs
+          media_errors: product_media_errors
         }
       end
 
       processed += 1
 
-      # Update progress from 50% to 100% every 100 products (less frequent for better performance)
-      # Also update updated_at to keep the job alive in cleanup checks
-      if processed % 100 == 0
+      # Update progress from 50% to 100% based on dynamic frequency or every 2 seconds
+      should_update = (processed % update_frequency == 0) || (Time.current - last_progress_update > 2.seconds)
+      if should_update
         progress = 50 + (processed.to_f / total_products * 50).round(2)
         @bulk_request.update!(
           progress: progress,
           updated_at: Time.current
         )
+        last_progress_update = Time.current
+        Rails.logger.info("Media processing progress: #{processed}/#{total_products} (#{progress}%)")
       end
     end
+
+    # Final progress update to 100%
+    @bulk_request.update!(
+      progress: 100.0,
+      updated_at: Time.current
+    )
 
     # Save media errors to bulk request
     if @media_errors.any?
@@ -123,101 +133,280 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
       @bulk_request.update!(error_details: existing_errors + @media_errors)
     end
 
-    { success: @media_errors.empty?, error: @media_errors.any? ? "#{@media_errors.count} products had media errors" : nil }
+    total_url_errors = @media_errors.sum { |e| e[:media_errors]&.size || 0 }
+    {
+      success: @media_errors.empty?,
+      error: @media_errors.any? ? "#{@media_errors.count} products with media errors (#{total_url_errors} failed URLs)" : nil
+    }
   rescue StandardError => e
     { success: false, error: e.message }
   end
 
   def create_media_for_product(product)
-    # Clear existing media to avoid duplicates on re-upload
-    product.product_media.destroy_all
+    # Clear existing media (S3 cleanup handled by after_destroy callback)
+    product.all_product_media.destroy_all
 
     display_order = 0
+    url_errors = []
 
-    # Create ProductMedia for photos
+    # Process photos
     Rails.logger.info "Processing #{product.photo_urls.length} photo URLs for product #{product.product_id}"
     product.photo_urls.each_with_index do |url, index|
-      Rails.logger.info "Processing photo #{index + 1}/#{product.photo_urls.length}: #{url}"
-      filename = extract_filename_from_url(url, 'photo', index)
-      Rails.logger.info "Extracted filename: #{filename}"
+      break if cancelled?
 
-      begin
-        media = product.product_media.create!(
-          file_type: :image,
-          file_url: url,
-          file_name: filename,
-          is_primary: index.zero?, # First photo is primary
-          display_order: display_order,
-          user_id: @user.id,
-          last_updated_by_id: @user.id
-        )
-        Rails.logger.info "Successfully created IMAGE media with ID=#{media.id}"
-      rescue ActiveRecord::RecordInvalid => e
-        Rails.logger.error "Failed to create IMAGE media: #{e.message}"
-        Rails.logger.error "Validation errors: #{e.record.errors.full_messages.join(', ')}"
-        raise
+      result = process_single_media_url(product, url, 'photo', index, display_order)
+      if result[:success]
+        display_order += 1
+      else
+        url_errors << result[:error]
       end
-
-      display_order += 1
     end
 
-    # Create ProductMedia for videos
+    # Process videos
     product.video_urls.each_with_index do |url, index|
-      product.product_media.create!(
-        file_type: :video,
-        file_url: url,
-        file_name: extract_filename_from_url(url, 'video', index),
-        display_order: display_order,
-        user_id: @user.id,
-        last_updated_by_id: @user.id
-      )
-      display_order += 1
+      break if cancelled?
+
+      result = process_single_media_url(product, url, 'video', index, display_order)
+      if result[:success]
+        display_order += 1
+      else
+        url_errors << result[:error]
+      end
     end
 
-    # Create ProductMedia for PDFs
+    # Process PDFs/documents
     product.pdf_urls.each_with_index do |url, index|
-      product.product_media.create!(
-        file_type: :document,
-        file_url: url,
-        file_name: extract_filename_from_url(url, 'document', index),
-        display_order: display_order,
-        user_id: @user.id,
-        last_updated_by_id: @user.id
-      )
-      display_order += 1
+      break if cancelled?
+
+      result = process_single_media_url(product, url, 'document', index, display_order)
+      if result[:success]
+        display_order += 1
+      else
+        url_errors << result[:error]
+      end
+    end
+
+    url_errors
+  end
+
+  def process_single_media_url(product, url, media_type, index, display_order)
+    Rails.logger.info "Processing #{media_type} #{index + 1}: #{url}"
+
+    # Validate URL format
+    validation_error = validate_media_url(url, media_type)
+    if validation_error
+      return { success: false, error: build_media_error(media_type, url, index, validation_error) }
+    end
+
+    filename = extract_filename_from_url(url, media_type == 'photo' ? 'photo' : media_type, index)
+    file_type = media_type == 'photo' ? :image : media_type.to_sym
+
+    media = product.all_product_media.create!(
+      file_type: file_type,
+      file_url: url,
+      file_name: filename,
+      is_primary: media_type == 'photo' && index.zero?,
+      display_order: display_order,
+      user_id: @user.id,
+      last_updated_by_id: @user.id
+    )
+    Rails.logger.info "Successfully created #{media_type.upcase} media with ID=#{media.id}"
+
+    # Upload to S3 and check result
+    s3_error = upload_media_to_s3(media)
+    if s3_error
+      return { success: false, error: build_media_error(media_type, url, index, s3_error) }
+    end
+
+    { success: true }
+  rescue ActiveRecord::RecordInvalid => e
+    error_msg = e.record.errors.full_messages.join(', ')
+    Rails.logger.error "Failed to create #{media_type.upcase} media: #{error_msg}"
+    { success: false, error: build_media_error(media_type, url, index, humanize_validation_error(error_msg)) }
+  rescue StandardError => e
+    Rails.logger.error "Unexpected error processing #{media_type}: #{e.message}"
+    { success: false, error: build_media_error(media_type, url, index, e.message) }
+  end
+
+  def validate_media_url(url, media_type)
+    return 'URL is empty' if url.blank?
+
+    # Remove query parameters for validation
+    clean_url = url.to_s.split('?').first
+
+    begin
+      uri = URI.parse(clean_url)
+      return 'URL must start with http:// or https://' unless %w[http https].include?(uri.scheme)
+      return 'URL does not have a valid domain' if uri.host.blank?
+    rescue URI::InvalidURIError
+      return 'Invalid URL format'
+    end
+
+    # Validate extension
+    filename = File.basename(uri.path)
+    if filename.include?('.')
+      extension = filename[filename.rindex('.')..-1].downcase
+      unless valid_extension_for_prefix?(extension, media_type == 'photo' ? 'photo' : media_type)
+        valid_exts = valid_extensions_for_type(media_type)
+        return "Extension '#{extension}' not supported for #{media_type_label(media_type)}. Valid extensions: #{valid_exts.join(', ')}"
+      end
+    end
+
+    nil
+  end
+
+  def build_media_error(media_type, url, index, error_message)
+    {
+      media_type: media_type_label(media_type),
+      url: truncate_url(url),
+      position: index + 1,
+      error: error_message
+    }
+  end
+
+  def media_type_label(media_type)
+    case media_type
+    when 'photo' then 'Photo'
+    when 'video' then 'Video'
+    when 'document' then 'Document'
+    else media_type.capitalize
     end
   end
 
+  def valid_extensions_for_type(media_type)
+    case media_type
+    when 'photo' then %w[.jpg .jpeg .png .gif .webp .svg]
+    when 'video' then %w[.mp4 .avi .mov .wmv .flv .webm]
+    when 'document' then %w[.pdf .doc .docx .xls .xlsx .txt]
+    else []
+    end
+  end
+
+  def humanize_validation_error(error_msg)
+    # Convert technical validation errors to user-friendly messages
+    human_message = case error_msg
+                    when /file.?url.*blank/i
+                      'File URL is empty'
+                    when /file.?url.*invalid/i
+                      'File URL is invalid'
+                    when /file.?name.*blank/i
+                      'Could not extract filename from URL'
+                    when /file.?type.*blank/i
+                      'Could not determine file type'
+                    else
+                      nil
+                    end
+    human_message ? "#{human_message} (#{error_msg})" : error_msg
+  end
+
+  def truncate_url(url, max_length: 80)
+    return url if url.to_s.length <= max_length
+
+    "#{url.to_s[0, max_length - 3]}..."
+  end
+
+  def upload_media_to_s3(media)
+    media.update!(s3_status: 'on_going')
+
+    s3_key = ProductCatalogs::S3KeyGeneratorService.new(
+      account_id: @account.id,
+      product_id: media.product_catalog.product_id || media.product_catalog.id,
+      file_type: media.file_type,
+      filename: media.file_name
+    ).generate
+
+    result = ProductCatalogs::S3StreamingUploaderService.new(
+      url: media.original_url || media.file_url,
+      s3_key: s3_key,
+      file_type: media.file_type
+    ).upload
+
+    if result.success
+      media.update!(
+        s3_key: result.s3_key,
+        s3_status: 'completed',
+        s3_error: nil,
+        s3_uploaded_at: Time.current,
+        file_size: result.file_size,
+        mime_type: result.mime_type
+      )
+      Rails.logger.info("Successfully uploaded media #{media.id} to S3: #{result.s3_key}")
+      nil # No error
+    else
+      media.update!(s3_status: 'failed', s3_error: result.error)
+      Rails.logger.error("Failed to upload media #{media.id} to S3: #{result.error}")
+      humanize_s3_error(result.error)
+    end
+  rescue StandardError => e
+    Rails.logger.error("Exception uploading media #{media.id} to S3: #{e.message}")
+    media.update!(s3_status: 'failed', s3_error: e.message)
+    humanize_s3_error(e.message)
+  end
+
+  def humanize_s3_error(error_msg)
+    human_message = case error_msg.to_s.downcase
+                    when /timeout|timed out/
+                      'File download timed out. Please verify the URL is accessible'
+                    when /404|not found/
+                      'File not found at the provided URL'
+                    when /403|forbidden|access denied/
+                      'Access denied to file. Please verify the URL is public'
+                    when /401|unauthorized/
+                      'URL requires authentication. Please use a public URL'
+                    when /connection refused|connection reset/
+                      'Could not connect to server. Please verify the URL is correct'
+                    when /ssl|certificate/
+                      'SSL certificate error. Please verify the URL uses valid HTTPS'
+                    when /too large|size limit|file.*large/
+                      'File is too large to be processed'
+                    when /invalid.*content|content.?type/
+                      'File content type does not match the extension'
+                    else
+                      'Failed to upload file'
+                    end
+    "#{human_message} (#{error_msg.to_s.truncate(100)})"
+  end
+
+  def cancelled?
+    @bulk_request.reload
+    !%w[PENDING PROCESSING].include?(@bulk_request.status.upcase)
+  end
+
   def extract_filename_from_url(url, default_prefix, index)
-    # Try to extract filename from URL
     require 'uri'
     require 'cgi'
 
-    uri = URI.parse(url)
+    # Remove query parameters first (everything after ?)
+    clean_url = url.to_s.split('?').first
+
+    # Parse the clean URL
+    uri = URI.parse(clean_url)
     path = uri.path
+
+    # Get basename
     filename = File.basename(path)
 
     # URL decode the filename (e.g., "Desktop%20-%203.jpg" -> "Desktop - 3.jpg")
     filename = CGI.unescape(filename) if filename.present?
 
-    # Check if filename has a valid extension for the file type
-    if filename.present? && has_valid_extension?(filename, default_prefix)
-      filename
-    else
-      # Use default naming with appropriate extension
-      "#{default_prefix}_#{index + 1}.#{default_extension_for_prefix(default_prefix)}"
+    # Extract extension using last index of '.'
+    if filename.present? && filename.include?('.')
+      last_dot_index = filename.rindex('.')
+      extension = filename[last_dot_index..].downcase
+
+      if valid_extension_for_prefix?(extension, default_prefix)
+        return filename
+      end
     end
+
+    # Fallback to default naming
+    "#{default_prefix}_#{index + 1}.#{default_extension_for_prefix(default_prefix)}"
   rescue StandardError => e
-    # If URL parsing fails, use default naming
     Rails.logger.warn("Failed to extract filename from URL: #{url} - #{e.message}")
     "#{default_prefix}_#{index + 1}.#{default_extension_for_prefix(default_prefix)}"
   end
 
-  def has_valid_extension?(filename, prefix)
-    return false unless filename.include?('.')
-
-    extension = File.extname(filename).downcase
-
+  def valid_extension_for_prefix?(extension, prefix)
     valid_extensions = case prefix
                        when 'photo'
                          %w[.jpg .jpeg .png .gif .webp .svg]
@@ -228,7 +417,6 @@ class ProductCatalogs::ProcessBulkUploadJob < ApplicationJob
                        else
                          []
                        end
-
     valid_extensions.include?(extension)
   end
 

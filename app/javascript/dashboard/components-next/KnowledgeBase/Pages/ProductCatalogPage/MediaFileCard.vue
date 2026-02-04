@@ -6,31 +6,64 @@
   >
     <!-- Icon/Thumbnail -->
     <div class="flex-shrink-0">
+      <!-- Image thumbnail with lazy loading -->
       <div
-        v-if="media.file_type === 'IMAGE' && media.thumbnail_url"
-        class="w-16 h-16 rounded-lg overflow-hidden bg-n-slate-3"
+        v-if="media.file_type === 'image' && media.file_url && !hasError"
+        class="w-16 h-16 rounded-lg overflow-hidden bg-n-slate-3 relative"
       >
+        <!-- Loading placeholder -->
+        <div
+          v-if="isLoading"
+          class="absolute inset-0 bg-n-slate-3 animate-pulse"
+        />
         <img
-          :src="media.thumbnail_url"
+          :src="media.file_url"
           :alt="media.file_name"
+          loading="lazy"
           class="w-full h-full object-cover"
+          @load="isLoading = false"
+          @error="handleImageError"
         />
       </div>
+      <!-- Video thumbnail with preview -->
+      <div
+        v-else-if="media.file_type === 'video' && media.file_url && !hasError"
+        class="w-16 h-16 rounded-lg overflow-hidden bg-n-slate-3 relative"
+      >
+        <!-- Loading placeholder -->
+        <div
+          v-if="isLoading"
+          class="absolute inset-0 bg-n-slate-3 animate-pulse"
+        />
+        <video
+          :src="media.file_url"
+          preload="metadata"
+          muted
+          class="w-full h-full object-cover"
+          @loadedmetadata="handleVideoLoaded"
+          @error="handleVideoError"
+        />
+        <!-- Play icon overlay -->
+        <div class="absolute inset-0 flex items-center justify-center bg-black/20">
+          <i class="i-lucide-play w-6 h-6 text-white" />
+        </div>
+      </div>
+      <!-- Fallback icon for documents or failed loads -->
       <div
         v-else
         class="w-16 h-16 rounded-lg flex items-center justify-center"
         :class="{
-          'bg-n-blue-3': media.file_type === 'IMAGE',
-          'bg-n-purple-3': media.file_type === 'VIDEO',
-          'bg-n-orange-3': media.file_type === 'DOCUMENT'
+          'bg-n-blue-3': media.file_type === 'image',
+          'bg-n-purple-3': media.file_type === 'video',
+          'bg-n-orange-3': media.file_type === 'document'
         }"
       >
         <i
           class="w-8 h-8"
           :class="{
-            'i-lucide-image text-n-blue-11': media.file_type === 'IMAGE',
-            'i-lucide-video text-n-purple-11': media.file_type === 'VIDEO',
-            'i-lucide-file-text text-n-orange-11': media.file_type === 'DOCUMENT'
+            'i-lucide-image text-n-blue-11': media.file_type === 'image',
+            'i-lucide-video text-n-purple-11': media.file_type === 'video',
+            'i-lucide-file-text text-n-orange-11': media.file_type === 'document'
           }"
         />
       </div>
@@ -75,7 +108,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 const props = defineProps({
   media: {
@@ -89,6 +122,31 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['click', 'set-primary']);
+
+// Loading state for thumbnails
+const isLoading = ref(true);
+const hasError = ref(false);
+
+// Handle image load error - fall back to icon
+const handleImageError = () => {
+  isLoading.value = false;
+  hasError.value = true;
+};
+
+// Handle video metadata loaded - seek to 1 second for better preview
+const handleVideoLoaded = (event) => {
+  isLoading.value = false;
+  // Seek to 1 second for a better preview frame (avoids black frames)
+  if (event.target.duration > 1) {
+    event.target.currentTime = 1;
+  }
+};
+
+// Handle video error - fall back to icon
+const handleVideoError = () => {
+  isLoading.value = false;
+  hasError.value = true;
+};
 
 // Show the most recent date (updated_at if exists and different from created_at, otherwise created_at)
 const mostRecentDate = computed(() => {

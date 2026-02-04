@@ -95,7 +95,7 @@ class ProductCatalogs::ExcelExporterService
     last_progress_report = 0
 
     # Report initial progress
-    report_progress(on_progress, 0, @total_count, 0, "Iniciando exportación...")
+    report_progress(on_progress, 0, @total_count, 0, "Starting export...")
 
     @products.find_each(batch_size: CHUNK_SIZE) do |product|
       # Start a new file if needed
@@ -126,7 +126,7 @@ class ProductCatalogs::ExcelExporterService
           # Report progress - file completed
           progress = (total_processed.to_f / @total_count * 100).round(2)
           report_progress(on_progress, total_processed, @total_count, progress,
-                          "Archivo #{file_number} completado (#{file_size_kb} KB). Guardando...")
+                          "File #{file_number} completed (#{file_size_kb} KB). Saving...")
 
           on_file_complete.call(io.string, file_number, total_processed, progress_info)
           file_number += 1
@@ -136,7 +136,7 @@ class ProductCatalogs::ExcelExporterService
         @logger.info "[ExcelExporter] Creating file #{file_number}..."
         report_progress(on_progress, total_processed, @total_count,
                         (total_processed.to_f / @total_count * 100).round(2),
-                        "Creando archivo #{file_number}...")
+                        "Creating file #{file_number}...")
 
         file_start_time = Time.current
         io = StringIO.new

@@ -19,7 +19,8 @@ json.product_media @product_catalog.product_media.ordered do |media|
   json.id media.id
   json.file_type media.file_type
   json.file_name media.file_name
-  json.file_url media.file_url
+  json.file_url media.accessible_url
+  json.s3_status media.s3_status
   json.thumbnail_url media.thumbnail_url
   json.mime_type media.mime_type
   json.file_size media.file_size

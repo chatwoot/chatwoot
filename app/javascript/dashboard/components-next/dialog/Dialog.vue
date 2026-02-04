@@ -80,6 +80,9 @@ const open = () => {
 };
 
 const close = () => {
+  // Prevent closing while loading
+  if (props.isLoading) return;
+
   emit('close');
   dialogRef.value?.close();
 };
@@ -100,7 +103,8 @@ defineExpose({ open, close });
         maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
-      @close="close"
+      @close.prevent="close"
+      @cancel.prevent="close"
     >
       <OnClickOutside @trigger="close">
         <form
@@ -133,6 +137,7 @@ defineExpose({ open, close });
                 :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
                 class="w-full"
                 type="button"
+                :disabled="isLoading"
                 @click="close"
               />
               <Button

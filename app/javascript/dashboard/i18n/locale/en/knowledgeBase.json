@@ -75,6 +75,7 @@
         "TYPE": "Type",
         "INDUSTRY": "Industry",
         "PRICE": "Price",
+        "PRICE_UNDEFINED": "Undefined",
         "MEDIA": "Media",
         "ACTIONS": "Actions",
         "HIDE_PRODUCT": "Hide product",
@@ -151,7 +152,26 @@
         "OF": "of",
         "RESULTS": "results"
       },
-      "UPLOAD_HISTORY": "Upload History"
+      "UPLOAD_HISTORY": "Upload History",
+      "MEDIA_SPECS": {
+        "TITLE": "Media File Requirements",
+        "DESCRIPTION": "Click to view allowed file types and size limits",
+        "DIALOG_TITLE": "Allowed Media Specifications",
+        "DIALOG_DESCRIPTION": "These are the file requirements for media to be compatible",
+        "TABLE": {
+          "FILE_TYPE": "File Type",
+          "EXTENSIONS": "Allowed Extensions",
+          "MAX_SIZE": "Max Size"
+        },
+        "TYPES": {
+          "IMAGE": "Images",
+          "VIDEO": "Videos",
+          "DOCUMENT": "Documents",
+          "AUDIO": "Audio"
+        },
+        "CLOSE": "Close",
+        "NOTE": "Files exceeding these limits will fail to upload. Make sure your media URLs point to files that meet these requirements."
+      }
     },
     "UPLOAD_HISTORY": {
       "HEADER_TITLE": "Upload History",

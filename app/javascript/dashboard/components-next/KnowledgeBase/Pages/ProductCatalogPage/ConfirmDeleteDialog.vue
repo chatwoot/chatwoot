@@ -5,13 +5,14 @@
     :title="dialogTitle"
     :description="dialogDescription"
     :confirm-button-label="$t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.CONFIRM')"
+    :is-loading="isDeleting"
     @confirm="handleDialogConfirm"
     @close="emit('close')"
   />
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
@@ -32,6 +33,7 @@ const emit = defineEmits(['close', 'deleted']);
 const { t } = useI18n();
 const store = useStore();
 const dialogRef = ref(null);
+const isDeleting = ref(false);
 
 const isMultipleDelete = computed(() => props.selectedProductIds && props.selectedProductIds.length > 0);
 
@@ -68,6 +70,11 @@ const deleteMultipleProducts = async ids => {
 };
 
 const handleDialogConfirm = async () => {
+  // Prevent multiple clicks
+  if (isDeleting.value) return;
+
+  isDeleting.value = true;
+
   try {
     const currentMeta = store.getters['productCatalogs/getMeta'];
     const currentPage = currentMeta.current_page;
@@ -78,6 +85,8 @@ const handleDialogConfirm = async () => {
     if (isMultipleDelete.value) {
       if (!props.selectedProductIds || props.selectedProductIds.length === 0) {
         useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.ERROR'));
+        isDeleting.value = false;
+        await nextTick();
         dialogRef.value?.close();
         emit('close');
         return;
@@ -87,6 +96,8 @@ const handleDialogConfirm = async () => {
     } else {
       if (!props.selectedProduct?.id) {
         useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.ERROR'));
+        isDeleting.value = false;
+        await nextTick();
         dialogRef.value?.close();
         emit('close');
         return;
@@ -102,12 +113,18 @@ const handleDialogConfirm = async () => {
 
     await store.dispatch('productCatalogs/get', { page: targetPage, per_page: 50 });
 
+    // Reset loading state and wait for Vue to update before closing
+    isDeleting.value = false;
+    await nextTick();
     dialogRef.value?.close();
-    emit('deleted'); // Emit 'deleted' instead of 'close' when products are actually deleted
+    emit('deleted');
     emit('close');
   } catch (error) {
     console.error('Error deleting product(s):', error);
     useAlert(t('KNOWLEDGE_BASE.PRODUCT_CATALOG.DELETE.ERROR'));
+    // Reset loading state and wait for Vue to update before closing
+    isDeleting.value = false;
+    await nextTick();
     dialogRef.value?.close();
     emit('close');
   }

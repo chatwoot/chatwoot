@@ -62,24 +62,32 @@ class ProductCatalogs::MediaProcessorService
     url = media_url.is_a?(Hash) ? media_url['url'] || media_url[:url] : media_url
     return if url.blank?
 
+    # Remove query parameters first (everything after ?)
+    clean_url = url.to_s.split('?').first
+
     # Validate URL
-    uri = URI.parse(url)
+    uri = URI.parse(clean_url)
     return unless %w[http https].include?(uri.scheme)
 
-    # Extract file extension
-    extension = File.extname(uri.path).delete('.').downcase
-    file_type = determine_file_type(extension)
+    # Extract filename and URL decode it
+    filename = CGI.unescape(File.basename(uri.path))
 
-    # Validate extension
+    # Extract extension using last index of '.'
+    extension = if filename.include?('.')
+                  filename[filename.rindex('.') + 1..].downcase
+                else
+                  ''
+                end
+
+    file_type = determine_file_type(extension)
     validate_extension!(extension, file_type)
 
-    # For now, we'll just store the URL directly without downloading
-    # In production, you might want to download and store in S3/Azure
-    product.product_media.create!(
+    # Use all_product_media to create records (product_media only returns completed uploads)
+    product.all_product_media.create!(
       file_type: file_type,
-      file_name: File.basename(uri.path),
-      file_url: url,
-      file_size: nil, # Would be set if downloading
+      file_name: filename,
+      file_url: url, # Keep original URL with params for downloading
+      file_size: nil,
       mime_type: determine_mime_type(extension),
       display_order: index,
       is_primary: index.zero?,

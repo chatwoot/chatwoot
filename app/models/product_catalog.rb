@@ -68,7 +68,12 @@ class ProductCatalog < ApplicationRecord
   belongs_to :bulk_processing_request, optional: true
   belongs_to :user, optional: true
   belongs_to :last_updated_by, class_name: 'User', optional: true
-  has_many :product_media, dependent: :destroy
+
+  # Internal association - includes all media regardless of s3_status (for jobs/internal use)
+  has_many :all_product_media, class_name: 'ProductMedium', dependent: :destroy
+
+  # Public association - only returns media with completed S3 uploads (for API responses)
+  has_many :product_media, -> { where(s3_status: 'completed') }, class_name: 'ProductMedium'
 
   validates :account_id, presence: true
   validates :industry, presence: true
@@ -85,6 +90,7 @@ class ProductCatalog < ApplicationRecord
   after_create_commit :dispatch_create_event, unless: :skip_catalog_callbacks
   after_update_commit :dispatch_update_event, unless: :skip_catalog_callbacks
   after_destroy_commit :dispatch_destroy_event, unless: :skip_catalog_callbacks
+  before_destroy :cleanup_s3_folder
 
   scope :by_industry, ->(industry) { where(industry: industry) }
   scope :by_type, ->(type) { where(type: type) }
@@ -149,6 +155,10 @@ class ProductCatalog < ApplicationRecord
 
   def dispatch_destroy_event
     dispatch_product_event(target_account: account, deleted: 1, deleted_ids: [product_id])
+  end
+
+  def cleanup_s3_folder
+    ProductCatalogs::S3CleanupService.new.delete_product_folder(account_id, product_id || id)
   end
 end
 

@@ -182,6 +182,8 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
+
 const props = defineProps({
   products: {
     type: Array,
@@ -214,8 +216,12 @@ const toggleProductSelection = (productId) => {
   emit('update:selected-product-ids', newSelection);
 };
 
+const { t } = useI18n();
+
 const formatPrice = (price) => {
-  if (!price) return '-';
+  if (price === null || price === undefined || price === '') {
+    return t('KNOWLEDGE_BASE.PRODUCT_CATALOG.TABLE.PRICE_UNDEFINED');
+  }
   const formatted = new Intl.NumberFormat('es-MX', {
     style: 'currency',
     currency: 'MXN',

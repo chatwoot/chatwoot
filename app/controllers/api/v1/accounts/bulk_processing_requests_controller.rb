@@ -35,15 +35,34 @@ class Api::V1::Accounts::BulkProcessingRequestsController < Api::V1::Accounts::B
   def download_errors
     # Use CSVSafe to prevent CSV injection (formula injection in Excel)
     csv_data = CSVSafe.generate do |csv|
-      csv << ['Row', 'Product ID', 'Product Name', 'Error']
+      csv << ['Row', 'Product ID', 'Product Name', 'Error Type', 'URL', 'Error', 'Technical Details']
 
       (@bulk_processing_request.error_details || []).each do |error|
-        csv << [
-          error['row'],
-          error['product_id'] || 'N/A',
-          error['product_name'] || 'N/A',
-          error['error']
-        ]
+        # Handle nested media_errors structure
+        if error['media_errors'].present? && error['media_errors'].is_a?(Array)
+          error['media_errors'].each do |media_error|
+            csv << [
+              error['row'],
+              error['product_id'] || 'N/A',
+              error['product_name'] || 'N/A',
+              "Media (#{media_error['media_type'] || 'Unknown'} ##{media_error['position'] || '?'})",
+              media_error['url'] || 'N/A',
+              media_error['error'] || 'Unknown error',
+              media_error['technical_error'] || ''
+            ]
+          end
+        else
+          # Handle legacy flat error structure or general errors
+          csv << [
+            error['row'],
+            error['product_id'] || 'N/A',
+            error['product_name'] || 'N/A',
+            'General',
+            '',
+            error['error'] || 'Unknown error',
+            ''
+          ]
+        end
       end
     end
 

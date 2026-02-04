@@ -32,13 +32,13 @@
             </h4>
             <div class="bg-n-slate-2 rounded-xl overflow-hidden aspect-video flex items-center justify-center">
               <img
-                v-if="media.file_type === 'IMAGE'"
+                v-if="media.file_type === 'image'"
                 :src="media.file_url"
                 :alt="media.file_name"
                 class="w-full h-full object-contain"
               />
               <video
-                v-else-if="media.file_type === 'VIDEO'"
+                v-else-if="media.file_type === 'video'"
                 :src="media.file_url"
                 controls
                 class="w-full h-full"
@@ -84,9 +84,9 @@
                   <i
                     class="w-3.5 h-3.5"
                     :class="{
-                      'i-lucide-image': media.file_type === 'IMAGE',
-                      'i-lucide-video': media.file_type === 'VIDEO',
-                      'i-lucide-file-text': media.file_type === 'DOCUMENT'
+                      'i-lucide-image': media.file_type === 'image',
+                      'i-lucide-video': media.file_type === 'video',
+                      'i-lucide-file-text': media.file_type === 'document'
                     }"
                   />
                   {{ media.file_type }}

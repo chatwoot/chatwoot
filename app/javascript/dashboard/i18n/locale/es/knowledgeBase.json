@@ -75,6 +75,7 @@
         "TYPE": "Tipo",
         "INDUSTRY": "Industria",
         "PRICE": "Precio",
+        "PRICE_UNDEFINED": "Indefinido",
         "MEDIA": "Multimedia",
         "ACTIONS": "Acciones",
         "HIDE_PRODUCT": "Ocultar producto",
@@ -151,7 +152,26 @@
         "OF": "de",
         "RESULTS": "resultados"
       },
-      "UPLOAD_HISTORY": "Historial de Cargas"
+      "UPLOAD_HISTORY": "Historial de Cargas",
+      "MEDIA_SPECS": {
+        "TITLE": "Requisitos de Archivos Multimedia",
+        "DESCRIPTION": "Haz clic para ver los tipos de archivo y tamaños permitidos",
+        "DIALOG_TITLE": "Especificaciones de Multimedia Permitidas",
+        "DIALOG_DESCRIPTION": "Estos son los requisitos de archivo para que el multimedia sea compatible",
+        "TABLE": {
+          "FILE_TYPE": "Tipo de Archivo",
+          "EXTENSIONS": "Extensiones Permitidas",
+          "MAX_SIZE": "Tamaño Máximo"
+        },
+        "TYPES": {
+          "IMAGE": "Imágenes",
+          "VIDEO": "Videos",
+          "DOCUMENT": "Documentos",
+          "AUDIO": "Audio"
+        },
+        "CLOSE": "Cerrar",
+        "NOTE": "Los archivos que excedan estos límites no se podrán subir. Asegúrate de que las URLs de tus multimedia apunten a archivos que cumplan con estos requisitos."
+      }
     },
     "UPLOAD_HISTORY": {
       "HEADER_TITLE": "Historial de Cargas",
