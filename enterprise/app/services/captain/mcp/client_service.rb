@@ -11,14 +11,16 @@ class Captain::Mcp::ClientService
   RETRY_BACKOFF = 1
 
   PRIVATE_IP_RANGES = [
-    IPAddr.new('127.0.0.0/8'),
-    IPAddr.new('10.0.0.0/8'),
-    IPAddr.new('172.16.0.0/12'),
-    IPAddr.new('192.168.0.0/16'),
-    IPAddr.new('169.254.0.0/16'),
-    IPAddr.new('::1'),
-    IPAddr.new('fc00::/7'),
-    IPAddr.new('fe80::/10')
+    IPAddr.new('0.0.0.0/8'),       # Current network
+    IPAddr.new('127.0.0.0/8'),     # Loopback
+    IPAddr.new('10.0.0.0/8'),      # Private class A
+    IPAddr.new('172.16.0.0/12'),   # Private class B
+    IPAddr.new('192.168.0.0/16'),  # Private class C
+    IPAddr.new('169.254.0.0/16'), # Link-local
+    IPAddr.new('::1/128'),         # IPv6 loopback
+    IPAddr.new('fc00::/7'),        # IPv6 unique local
+    IPAddr.new('fe80::/10'),       # IPv6 link-local
+    IPAddr.new('::ffff:0:0/96')   # IPv4-mapped IPv6 addresses
   ].freeze
 
   attr_reader :mcp_server
@@ -94,17 +96,13 @@ class Captain::Mcp::ClientService
     endpoint = auth_config['rpc_endpoint'] || ENV.fetch('MCP_RPC_ENDPOINT', nil)
     options[:endpoint] = endpoint if endpoint.present?
 
-    MCPClient.connect(@mcp_server.url, **options, &method(:configure_faraday))
+    MCPClient.connect(@mcp_server.url, **options) { |faraday| configure_faraday(faraday) }
   end
 
   def configure_faraday(faraday)
-    if ENV['MCP_SSL_VERIFY'].to_s == 'false'
-      faraday.ssl.verify = false
-    else
-      faraday.ssl.verify = true
-      ca_file = ENV.fetch('MCP_SSL_CA_FILE', nil)
-      faraday.ssl.ca_file = ca_file if ca_file.present?
-    end
+    faraday.ssl.verify = ENV['MCP_SSL_VERIFY'].to_s != 'false'
+    ca_file = ENV.fetch('MCP_SSL_CA_FILE', nil)
+    faraday.ssl.ca_file = ca_file if ca_file.present? && faraday.ssl.verify
   end
 
   def ensure_public_host!
@@ -139,19 +137,17 @@ class Captain::Mcp::ClientService
     return result.to_json unless result.is_a?(Hash)
 
     content = result['content'] || result[:content] || []
-    content.filter_map do |item|
-      item = item.transform_keys(&:to_s) if item.is_a?(Hash)
-      case item['type']
-      when 'text'
-        item['text']
-      when 'image'
-        "[Image: #{item['mimeType']}]"
-      when 'resource'
-        "[Resource: #{item.dig('resource', 'uri')}]"
-      else
-        item.to_json
-      end
-    end.join("\n")
+    content.filter_map { |item| format_content_item(item) }.join("\n")
+  end
+
+  def format_content_item(item)
+    item = item.transform_keys(&:to_s) if item.is_a?(Hash)
+    case item['type']
+    when 'text' then item['text']
+    when 'image' then "[Image: #{item['mimeType']}]"
+    when 'resource' then "[Resource: #{item.dig('resource', 'uri')}]"
+    else item.to_json
+    end
   end
 
   def handle_connection_error(error)

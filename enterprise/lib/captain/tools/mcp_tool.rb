@@ -12,6 +12,13 @@ class Captain::Tools::McpTool < Agents::Tool
     @mcp_server.enabled? && @mcp_server.connection_connected?
   end
 
+  # Override execute to support both RubyLLM and Agents framework calling patterns.
+  # RubyLLM calls: execute(**params) - no tool_context
+  # Agents framework calls: execute(tool_context, **params) - with tool_context
+  def execute(tool_context = nil, **params)
+    perform(tool_context, **params)
+  end
+
   def perform(_tool_context, **params)
     return 'MCP server is disabled' unless @mcp_server.enabled?
 

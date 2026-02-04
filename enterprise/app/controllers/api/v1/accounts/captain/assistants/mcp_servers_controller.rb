@@ -1,5 +1,6 @@
 class Api::V1::Accounts::Captain::Assistants::McpServersController < Api::V1::Accounts::BaseController
   before_action :current_account
+  before_action :check_captain_mcp_feature
   before_action :set_assistant
   before_action -> { check_authorization(@assistant) }
   before_action :set_assistant_mcp_server, only: [:update, :destroy]
@@ -24,6 +25,12 @@ class Api::V1::Accounts::Captain::Assistants::McpServersController < Api::V1::Ac
   end
 
   private
+
+  def check_captain_mcp_feature
+    return if Current.account.feature_enabled?('captain_mcp')
+
+    render json: { error: I18n.t('errors.captain.mcp_not_enabled') }, status: :forbidden
+  end
 
   def set_assistant
     @assistant = Current.account.captain_assistants.find(params[:assistant_id])
