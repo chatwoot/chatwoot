@@ -29,8 +29,6 @@ RUN apk update && apk add --no-cache \
   tar \
   build-base \
   tzdata \
-  yaml-dev \
-  pkgconf \
   postgresql-dev \
   postgresql-client \
   git \

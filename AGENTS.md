@@ -104,7 +104,7 @@ app/controllers/api/v1/accounts/integrations/socialwise_*.rb  # Controllers
 - **Test JS**: `pnpm test` or `pnpm test:watch`
 - **Ruby Version**: Manage Ruby via `rbenv` (`eval "$(rbenv init -)"` antes de `bundle`/`rspec`)
 - **rbenv setup**: Before running any `bundle` or `rspec` commands, init rbenv in your shell (`eval "$(rbenv init -)"`) so the correct Ruby/Bundler versions are used
-- Always prefer `bundle exec` for Ruby CLI tasks
+- Always prefer `bundle exec` for Ruby CLI tasks (rspec, rake, rubocop, etc.)
 - **Test env**: Specs should run without `.env`. If present, temporarily rename it (e.g., `.env` -> `.env.bak`) while running specs and restore afterward.
 
 ### Testes Ruby (IMPORTANTE: rodar dentro do Docker)
