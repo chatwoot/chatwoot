@@ -18,7 +18,7 @@ class Integrations::Hook < ApplicationRecord
   include Reauthorizable
 
   attr_readonly :app_id, :account_id, :inbox_id, :hook_type
-  before_validation :ensure_hook_type, on: :create
+  before_validation :ensure_hook_type
   after_create :trigger_setup_if_crm
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
@@ -86,9 +86,7 @@ class Integrations::Hook < ApplicationRecord
   end
 
   def ensure_hook_type
-    return if app.blank?
-
-    self.hook_type = app.params[:hook_type]
+    self.hook_type = app.params[:hook_type] if app.present?
   end
 
   def validate_settings_json_schema
