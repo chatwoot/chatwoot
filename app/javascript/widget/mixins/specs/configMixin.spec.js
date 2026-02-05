@@ -5,7 +5,7 @@ import { reactive } from 'vue';
 const preChatFields = [
   {
     label: 'Email Id',
-    name: 'user_email',
+    name: 'emailAddress',
     type: 'email',
     field_type: 'standard',
     required: false,
@@ -13,7 +13,7 @@ const preChatFields = [
   },
   {
     label: 'Full name',
-    name: 'first_name',
+    name: 'fullName',
     type: 'text',
     field_type: 'standard',
     required: true,
