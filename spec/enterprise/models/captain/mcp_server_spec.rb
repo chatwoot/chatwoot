@@ -194,12 +194,14 @@ RSpec.describe Captain::McpServer, type: :model do
       expect(metadata.length).to eq(2)
 
       first_tool = metadata.first
-      expect(first_tool[:id]).to eq("#{server.slug}_search_docs")
-      expect(first_tool[:title]).to eq('Search Docs')
-      expect(first_tool[:description]).to eq('Search documentation')
-      expect(first_tool[:mcp]).to be true
-      expect(first_tool[:mcp_server_id]).to eq(server.id)
-      expect(first_tool[:mcp_tool_name]).to eq('search_docs')
+      expect(first_tool).to include(
+        id: "#{server.slug}_search_docs",
+        title: 'Search Docs',
+        description: 'Search documentation',
+        mcp: true,
+        mcp_server_id: server.id,
+        mcp_tool_name: 'search_docs'
+      )
     end
 
     it 'returns empty array when no cached tools' do

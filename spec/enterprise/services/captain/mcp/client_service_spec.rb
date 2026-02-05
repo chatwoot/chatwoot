@@ -1,5 +1,20 @@
 require 'rails_helper'
 
+# Mock interfaces for external MCP library
+module MockMcpClient
+  def list_tools(**_options); end
+  def call_tool(_name, _args = {}); end
+  def cleanup; end
+end
+
+module MockMcpTool
+  def name; end
+  def description; end
+  def schema; end
+  def output_schema; end
+  def annotations; end
+end
+
 RSpec.describe Captain::Mcp::ClientService do
   let(:account) { create(:account) }
   let(:mcp_server) { create(:captain_mcp_server, account: account) }
@@ -9,7 +24,7 @@ RSpec.describe Captain::Mcp::ClientService do
     context 'when connection succeeds' do
       before do
         allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
-        allow(MCPClient).to receive(:connect).and_return(double('client', list_tools: []))
+        allow(MCPClient).to receive(:connect).and_return(instance_double(MockMcpClient, list_tools: []))
       end
 
       it 'returns success result' do
@@ -91,7 +106,7 @@ RSpec.describe Captain::Mcp::ClientService do
   end
 
   describe '#disconnect' do
-    let(:mock_client) { double('client', cleanup: nil) }
+    let(:mock_client) { instance_double(MockMcpClient, cleanup: nil, list_tools: []) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -112,14 +127,14 @@ RSpec.describe Captain::Mcp::ClientService do
 
   describe '#list_tools' do
     let(:mock_tool) do
-      double('tool',
-             name: 'search_docs',
-             description: 'Search documentation',
-             schema: { 'type' => 'object', 'properties' => { 'query' => { 'type' => 'string' } } },
-             output_schema: nil,
-             annotations: nil)
+      instance_double(MockMcpTool,
+                      name: 'search_docs',
+                      description: 'Search documentation',
+                      schema: { 'type' => 'object', 'properties' => { 'query' => { 'type' => 'string' } } },
+                      output_schema: nil,
+                      annotations: nil)
     end
-    let(:mock_client) { double('client', list_tools: [mock_tool]) }
+    let(:mock_client) { instance_double(MockMcpClient, list_tools: [mock_tool]) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -148,7 +163,7 @@ RSpec.describe Captain::Mcp::ClientService do
   end
 
   describe '#call_tool' do
-    let(:mock_client) { double('client') }
+    let(:mock_client) { instance_double(MockMcpClient, list_tools: []) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -229,7 +244,7 @@ RSpec.describe Captain::Mcp::ClientService do
 
     it 'allows public IP addresses' do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
-      allow(MCPClient).to receive(:connect).and_return(double('client', list_tools: []))
+      allow(MCPClient).to receive(:connect).and_return(instance_double(MockMcpClient, list_tools: []))
 
       result = service.connect
       expect(result).to be_success
