@@ -99,6 +99,25 @@ class Conversation < ApplicationRecord
     ).sort_on_last_user_message_at
   }
 
+  scope :filter_by_label_ids, lambda { |label_ids, account_id|
+    return all if label_ids.blank?
+
+    label_ids = label_ids.reject(&:blank?)
+    return all if label_ids.empty?
+
+    tag_ids = ReportingEvent.tag_ids_for_labels(label_ids, account_id)
+    return none if tag_ids.empty?
+
+    joins(:taggings)
+      .where(
+        taggings: {
+          taggable_type: 'Conversation',
+          context: 'labels',
+          tag_id: tag_ids
+        }
+      )
+      .distinct
+  }
   belongs_to :account
   belongs_to :inbox
   belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations

@@ -213,8 +213,8 @@ export default {
       this.emitChange();
     },
 
-    handleLabelsFilterSelection(selectedLabel) {
-      this.selectedLabel = selectedLabel;
+    handleLabelsFilterSelection(selectedLabels) {
+      this.selectedLabel = selectedLabels;
       this.emitChange();
     },
 

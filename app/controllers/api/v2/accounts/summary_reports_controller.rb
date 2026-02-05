@@ -62,7 +62,8 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
       business_hours: ActiveModel::Type::Boolean.new.cast(permitted_params[:business_hours]),
       inbox_ids: permitted_params[:inbox_ids],
       user_ids: permitted_params[:user_ids],
-      team_ids: permitted_params[:team_ids]
+      team_ids: permitted_params[:team_ids],
+      label_ids: permitted_params[:label_ids]
     }
   end
 
@@ -72,7 +73,7 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
   end
 
   def permitted_params
-    params.permit(:since, :until, :business_hours, inbox_ids: [], user_ids: [], team_ids: [])
+    params.permit(:since, :until, :business_hours, inbox_ids: [], user_ids: [], team_ids: [], label_ids: [])
   end
 
   def date_range_too_long?
