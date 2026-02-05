@@ -44,6 +44,9 @@ const store = useStore();
 const from = ref(0);
 const to = ref(0);
 const businessHours = ref(false);
+const selectedAgents = ref([]);
+const selectedInboxes = ref([]);
+const selectedTeams = ref([]);
 const timeRange = ref({
   since: '00:00',
   until: '23:59',
@@ -171,8 +174,23 @@ const renderAvgTime = value => (value ? formatTime(value) : '--');
 
 const renderCount = value => (value ? value.toLocaleString() : '--');
 
-const tableData = computed(() =>
-  rowItems.value.map(row => {
+const hasActiveFilters = computed(() => {
+  return (
+    selectedAgents.value.length > 0 ||
+    selectedInboxes.value.length > 0 ||
+    selectedTeams.value.length > 0
+  );
+});
+
+const tableData = computed(() => {
+  let filteredRows = rowItems.value;
+
+  if (hasActiveFilters.value) {
+    const metricsIds = reportMetrics.value.map(m => m.id);
+    filteredRows = rowItems.value.filter(row => metricsIds.includes(row.id));
+  }
+
+  return filteredRows.map(row => {
     const rowMetrics = getMetrics(row.id);
 
     const {
@@ -204,8 +222,8 @@ const tableData = computed(() =>
     }
 
     return baseRow;
-  })
-);
+  });
+});
 
 const fetchAllData = () => {
   store.dispatch(props.fetchItemsKey);
@@ -213,6 +231,9 @@ const fetchAllData = () => {
     since: from.value,
     until: to.value,
     businessHours: businessHours.value,
+    userIds: selectedAgents.value.map(agent => agent.id),
+    inboxIds: selectedInboxes.value.map(inbox => inbox.id),
+    teamIds: selectedTeams.value.map(team => team.id),
     timeSince: timeRange.value.since,
     timeUntil: timeRange.value.until,
   });
@@ -224,6 +245,9 @@ const onFilterChange = updatedFilter => {
   from.value = updatedFilter.from;
   to.value = updatedFilter.to;
   businessHours.value = updatedFilter.businessHours;
+  selectedAgents.value = updatedFilter.selectedAgents || [];
+  selectedInboxes.value = updatedFilter.selectedInbox || [];
+  selectedTeams.value = updatedFilter.selectedTeam || [];
   timeRange.value = updatedFilter.timeRange;
   fetchAllData();
 };
@@ -245,6 +269,9 @@ const downloadReports = async (format = 'csv') => {
     from: from.value,
     to: to.value,
     businessHours: businessHours.value,
+    userIds: selectedAgents.value.map(agent => agent.id),
+    inboxIds: selectedInboxes.value.map(inbox => inbox.id),
+    teamIds: selectedTeams.value.map(team => team.id),
     timeSince: timeRange.value.since,
     timeUntil: timeRange.value.until,
     format,
@@ -285,6 +312,9 @@ defineExpose({ downloadReports });
 <template>
   <ReportFilterSelector
     show-time-range-filter
+    show-agents-filter
+    show-inbox-filter
+    show-team-filter
     @filter-change="onFilterChange"
   />
   <div

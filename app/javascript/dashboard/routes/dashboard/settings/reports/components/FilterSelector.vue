@@ -119,6 +119,16 @@ export default {
         ? this.selectedGroupByFilter
         : this.validGroupOptions[0];
     },
+
+    hasOtherFilters() {
+      return (
+        this.showAgentsFilter ||
+        this.showLabelsFilter ||
+        this.showTeamFilter ||
+        this.showInboxFilter ||
+        this.showRatingFilter
+      );
+    },
   },
 
   mounted() {
@@ -128,11 +138,11 @@ export default {
   methods: {
     getUnixWithTime(date, time) {
       const [hours, minutes] = time.split(':').map(Number);
-      
+
       const year = date.getFullYear();
       const month = date.getMonth();
       const day = date.getDate();
-      
+
       const utcTimestamp = Date.UTC(year, month, day, hours, minutes, 0, 0);
 
       return Math.floor(utcTimestamp / 1000);
@@ -232,35 +242,49 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-3 md:flex-row">
+  <div class="flex flex-col gap-3">
+    <div class="flex flex-col justify-between gap-3 md:flex-row">
+      <div
+        class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
+      >
+        <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
+
+        <WootDateRangePicker
+          v-if="isDateRangeSelected"
+          show-range
+          class="no-margin auto-width"
+          :value="customDateRange"
+          :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
+          :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
+          @change="onCustomDateRangeChange"
+        />
+
+        <ReportsFiltersDateGroupBy
+          v-if="showGroupByFilter && isGroupByPossible"
+          :valid-group-options="validGroupOptions"
+          :selected-option="selectedGroupByFilter"
+          :selected-date-range="selectedDateRange"
+          @on-grouping-change="onGroupingChange"
+        />
+
+        <ReportsFiltersTimeRange
+          v-if="showTimeRangeFilter"
+          @time-range-changed="handleTimeRangeChange"
+        />
+      </div>
+
+      <div v-if="showBusinessHoursSwitch" class="flex items-center">
+        <span class="mx-2 text-sm whitespace-nowrap">
+          {{ $t('REPORT.BUSINESS_HOURS') }}
+        </span>
+        <ToggleSwitch v-model="businessHoursSelected" @change="emitChange" />
+      </div>
+    </div>
+
     <div
+      v-if="hasOtherFilters"
       class="w-full grid gap-y-2 gap-x-1.5 grid-cols-[repeat(auto-fill,minmax(250px,1fr))]"
     >
-      <ReportsFiltersDateRange @on-range-change="onDateRangeChange" />
-
-      <WootDateRangePicker
-        v-if="isDateRangeSelected"
-        show-range
-        class="no-margin auto-width"
-        :value="customDateRange"
-        :confirm-text="$t('REPORT.CUSTOM_DATE_RANGE.CONFIRM')"
-        :placeholder="$t('REPORT.CUSTOM_DATE_RANGE.PLACEHOLDER')"
-        @change="onCustomDateRangeChange"
-      />
-
-      <ReportsFiltersDateGroupBy
-        v-if="showGroupByFilter && isGroupByPossible"
-        :valid-group-options="validGroupOptions"
-        :selected-option="selectedGroupByFilter"
-        :selected-date-range="selectedDateRange"
-        @on-grouping-change="onGroupingChange"
-      />
-
-      <ReportsFiltersTimeRange
-        v-if="showTimeRangeFilter"
-        @time-range-changed="handleTimeRangeChange"
-      />
-
       <ReportsFiltersAgents
         v-if="showAgentsFilter"
         @agents-filter-selection="handleAgentsFilterSelection"
@@ -285,13 +309,6 @@ export default {
         v-if="showRatingFilter"
         @rating-filter-selection="handleRatingFilterSelection"
       />
-    </div>
-
-    <div v-if="showBusinessHoursSwitch" class="flex items-center">
-      <span class="mx-2 text-sm whitespace-nowrap">
-        {{ $t('REPORT.BUSINESS_HOURS') }}
-      </span>
-      <ToggleSwitch v-model="businessHoursSelected" @change="emitChange" />
     </div>
   </div>
 </template>

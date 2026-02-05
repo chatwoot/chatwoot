@@ -6,44 +6,120 @@ class SummaryReportsAPI extends ApiClient {
     super('summary_reports', { accountScoped: true, apiVersion: 'v2' });
   }
 
-  getTeamReports({ since, until, businessHours } = {}) {
-    return axios.get(`${this.url}/team`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
-    });
+  getTeamReports({
+    since,
+    until,
+    businessHours,
+    userIds,
+    inboxIds,
+    teamIds,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params['user_ids[]'] = userIds;
+    }
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    if (teamIds && teamIds.length > 0) {
+      params['team_ids[]'] = teamIds;
+    }
+
+    return axios.get(`${this.url}/team`, { params });
   }
 
-  getAgentReports({ since, until, businessHours } = {}) {
-    return axios.get(`${this.url}/agent`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
-    });
+  getAgentReports({
+    since,
+    until,
+    businessHours,
+    userIds,
+    inboxIds,
+    teamIds,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params['user_ids[]'] = userIds;
+    }
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    if (teamIds && teamIds.length > 0) {
+      params['team_ids[]'] = teamIds;
+    }
+
+    return axios.get(`${this.url}/agent`, { params });
   }
 
-  getInboxReports({ since, until, businessHours } = {}) {
-    return axios.get(`${this.url}/inbox`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
-    });
+  getInboxReports({
+    since,
+    until,
+    businessHours,
+    userIds,
+    inboxIds,
+    teamIds,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params['user_ids[]'] = userIds;
+    }
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    if (teamIds && teamIds.length > 0) {
+      params['team_ids[]'] = teamIds;
+    }
+
+    return axios.get(`${this.url}/inbox`, { params });
   }
 
-  getLabelReports({ since, until, businessHours } = {}) {
-    return axios.get(`${this.url}/label`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
-    });
+  getLabelReports({
+    since,
+    until,
+    businessHours,
+    userIds,
+    inboxIds,
+    teamIds,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params['user_ids[]'] = userIds;
+    }
+
+    if (inboxIds && inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+
+    if (teamIds && teamIds.length > 0) {
+      params['team_ids[]'] = teamIds;
+    }
+
+    return axios.get(`${this.url}/label`, { params });
   }
 
   getBotSummaryReports({ since, until, businessHours, inboxId } = {}) {

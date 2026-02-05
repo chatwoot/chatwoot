@@ -2,21 +2,29 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   attr_reader :account, :params
 
   # rubocop:disable Lint/MissingSuper
-  # the parent class has no initialize
   def initialize(account:, params:)
     @account = account
     @params = params
-
     (params[:timezone_offset] || 0).to_f
     @timezone = 'UTC'
   end
   # rubocop:enable Lint/MissingSuper
 
   def build
-    labels = account.labels.to_a
-    return [] if labels.empty?
-
     report_data = collect_report_data
+    
+    all_label_names = [
+      report_data[:conversation_counts].keys,
+      report_data[:resolved_counts].keys,
+      report_data[:resolution_metrics].keys,
+      report_data[:first_response_metrics].keys,
+      report_data[:reply_metrics].keys
+    ].flatten.compact.uniq
+
+    return [] if all_label_names.empty?
+
+    labels = account.labels.where(title: all_label_names).to_a
+    
     labels.map { |label| build_label_report(label, report_data) }
   end
 
@@ -54,7 +62,9 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def build_conversation_filter
     conversation_filter = { account_id: account.id }
     conversation_filter[:created_at] = range if range.present?
-
+    conversation_filter[:assignee_id] = params[:user_ids]&.reject(&:blank?) if params[:user_ids].present?
+    conversation_filter[:inbox_id] = params[:inbox_ids]&.reject(&:blank?) if params[:inbox_ids].present?
+    conversation_filter[:team_id] = params[:team_ids]&.reject(&:blank?) if params[:team_ids].present?
     conversation_filter
   end
 
@@ -63,20 +73,22 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   end
 
   def fetch_resolved_counts
-    # Count resolution events, not conversations currently in resolved status
-    # Filter by reporting_event.created_at, not conversation.created_at
     reporting_event_filter = { name: 'conversation_resolved', account_id: account.id }
     reporting_event_filter[:created_at] = range if range.present?
 
-    ReportingEvent
+    scope = ReportingEvent
       .joins(conversation: { taggings: :tag })
       .where(
         reporting_event_filter.merge(
           taggings: { taggable_type: 'Conversation', context: 'labels' }
         )
       )
-      .group('tags.name')
-      .count
+    
+    scope = scope.where(user_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = scope.joins(:conversation).where(conversations: { team_id: params[:team_ids]&.reject(&:blank?) }) if params[:team_ids].present?
+    
+    scope.group('tags.name').count
   end
 
   def fetch_counts(conversation_filter)
@@ -94,13 +106,18 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   end
 
   def fetch_metrics(conversation_filter, event_name, use_business_hours)
-    ReportingEvent
+    scope = ReportingEvent
       .joins(conversation: { taggings: :tag })
       .where(
         conversations: conversation_filter,
         name: event_name,
         taggings: { taggable_type: 'Conversation', context: 'labels' }
       )
+    
+    scope = scope.where(user_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    
+    scope
       .group('tags.name')
       .order('tags.name')
       .select(
