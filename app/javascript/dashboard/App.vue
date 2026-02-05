@@ -19,6 +19,8 @@ import {
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { computed } from 'vue';
+import { useOutlitUser } from '@outlit/browser/vue';
 
 export default {
   name: 'App',
@@ -38,6 +40,22 @@ export default {
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
     const { uiSettings } = useUISettings();
+
+    const outlitUser = computed(() => {
+      const user = store.getters.getCurrentUser;
+      if (!user?.email) return null;
+      return {
+        email: user.email,
+        userId: String(user.id),
+        traits: {
+          name: user.name,
+          avatar: user.avatar_url,
+        },
+      };
+    });
+    if (window.globalConfig?.OUTLIT_PUBLIC_KEY) {
+      useOutlitUser(outlitUser);
+    }
 
     return {
       router,

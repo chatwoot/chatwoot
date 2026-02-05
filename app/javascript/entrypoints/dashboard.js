@@ -28,6 +28,7 @@ import {
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { OutlitPlugin } from '@outlit/browser/vue';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
@@ -91,6 +92,18 @@ app.use(FloatingVue, {
   disposeTimeout: 5000000,
 });
 app.use(hljsVuePlugin);
+
+const outlitPublicKey = window.globalConfig?.OUTLIT_PUBLIC_KEY;
+if (outlitPublicKey) {
+  app.use(OutlitPlugin, {
+    publicKey: outlitPublicKey,
+    trackPageviews: true,
+    trackForms: false,
+    trackEngagement: true,
+    autoIdentify: false,
+    trackCalendarEmbeds: false,
+  });
+}
 
 app.component('multiselect', Multiselect);
 app.component('woot-wizard', WootWizard);
