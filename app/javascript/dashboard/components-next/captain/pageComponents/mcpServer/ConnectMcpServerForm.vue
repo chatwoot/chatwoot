@@ -173,7 +173,7 @@ watch(
         {{ t('CAPTAIN.MCP_SERVERS.TOOLS.EMPTY') }}
       </div>
 
-      <div v-else class="flex flex-col gap-2">
+      <div v-else class="flex flex-col gap-2 max-h-64 overflow-y-auto">
         <div
           v-for="tool in availableTools"
           :key="tool.name"
