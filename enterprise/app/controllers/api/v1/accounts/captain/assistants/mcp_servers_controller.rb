@@ -10,6 +10,7 @@ class Api::V1::Accounts::Captain::Assistants::McpServersController < Api::V1::Ac
   end
 
   def create
+    validate_mcp_server_account!
     @assistant_mcp_server = @assistant.assistant_mcp_servers.create!(assistant_mcp_server_params)
     render :show
   end
@@ -40,11 +41,16 @@ class Api::V1::Accounts::Captain::Assistants::McpServersController < Api::V1::Ac
     @assistant_mcp_server = @assistant.assistant_mcp_servers.find(params[:id])
   end
 
+  def validate_mcp_server_account!
+    server_id = params.dig(:assistant_mcp_server, :captain_mcp_server_id)
+    Current.account.captain_mcp_servers.find(server_id)
+  end
+
   def assistant_mcp_server_params
     params.require(:assistant_mcp_server).permit(
       :captain_mcp_server_id,
       :enabled,
-      tool_filters: {}
+      tool_filters: { include: [], exclude: [] }
     )
   end
 end

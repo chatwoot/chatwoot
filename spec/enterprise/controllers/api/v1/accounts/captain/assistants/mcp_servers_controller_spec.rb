@@ -154,13 +154,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants::McpServers', type: :requ
           }
         end
 
-        it 'returns not found or unprocessable entity status' do
+        it 'returns not found status' do
           post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/mcp_servers",
                params: invalid_attributes,
                headers: admin.create_new_auth_token,
                as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:not_found)
         end
       end
     end
