@@ -154,6 +154,7 @@ class Contact < ApplicationRecord
       email: email,
       id: id,
       identifier: identifier,
+      labels: label_list,
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,

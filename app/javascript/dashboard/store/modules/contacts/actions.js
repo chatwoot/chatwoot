@@ -263,12 +263,50 @@ export const actions = {
     });
   },
 
-  updateContact: async ({ commit }, updateObj) => {
+  updateContact: async ({ commit, rootState }, updateObj) => {
     commit(types.SET_CONTACT_UI_FLAG, { isUpdating: true });
     try {
       commit(types.EDIT_CONTACT, updateObj);
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
+
+      // Heycommerce: Update labels in all conversations of this contact
+      console.log('[DEBUG] updateContact called with:', updateObj);
+
+      if (updateObj.labels !== undefined) {
+        const { allConversations } = rootState.conversations;
+        const contactId = updateObj.id;
+
+        console.log('[DEBUG] Contact ID:', contactId);
+        console.log('[DEBUG] All conversations:', allConversations);
+        console.log('[DEBUG] Total conversations:', allConversations.length);
+
+        // Find all conversations for this contact and update their labels
+        let updatedCount = 0;
+        allConversations.forEach(conversation => {
+          if (conversation.meta?.sender?.id === contactId) {
+            console.log('[DEBUG] Found conversation:', conversation.id, 'for contact:', contactId);
+            console.log('[DEBUG] Current labels:', conversation.meta?.sender?.labels);
+            console.log('[DEBUG] New labels:', updateObj.labels);
+
+            commit(
+              types.UPDATE_CONVERSATION_CONTACT,
+              {
+                conversationId: conversation.id,
+                id: contactId,
+                labels: updateObj.labels,
+              },
+              { root: true }
+            );
+            updatedCount++;
+          }
+        });
+
+        console.log('[DEBUG] Total conversations updated:', updatedCount);
+      } else {
+        console.log('[DEBUG] No labels in updateObj, skipping conversation update');
+      }
     } catch (error) {
+      console.error('[DEBUG] Error in updateContact:', error);
       commit(types.SET_CONTACT_UI_FLAG, { isUpdating: false });
     }
   },

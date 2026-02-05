@@ -175,6 +175,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onContactUpdate = data => {
+    console.log('[DEBUG] ActionCable: contact.updated received:', data);
     this.app.$store.dispatch('contacts/updateContact', data);
   };
 
