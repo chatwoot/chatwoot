@@ -1,4 +1,6 @@
 import * as amplitude from '@amplitude/analytics-browser';
+import { track as outlitTrack } from '@outlit/browser';
+import { toSnakeCase } from 'shared/helpers/outlitHelper';
 
 /**
  * AnalyticsHelper class to initialize and track user analytics
@@ -73,10 +75,15 @@ export class AnalyticsHelper {
    * @param {Object} [properties={}] - event properties
    */
   track(eventName, properties = {}) {
-    if (!this.analytics) {
-      return;
+    if (this.analytics) {
+      this.analytics.track(eventName, properties);
     }
-    this.analytics.track(eventName, properties);
+
+    try {
+      outlitTrack(toSnakeCase(eventName), properties);
+    } catch (e) {
+      // Outlit not initialized — ignore
+    }
   }
 
   /**
