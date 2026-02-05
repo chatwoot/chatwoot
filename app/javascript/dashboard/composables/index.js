@@ -1,24 +1,14 @@
 import { emitter } from 'shared/helpers/mitt';
-import { user as outlitUser } from '@outlit/browser';
 import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
-import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 /**
  * Custom hook to track events
  */
-export const useTrack = (eventName, properties = {}) => {
+export const useTrack = (...args) => {
   try {
-    analyticsHelper.track(eventName, properties);
+    return analyticsHelper.track(...args);
   } catch (error) {
     // Ignore this, tracking is not mission critical
-  }
-
-  try {
-    if (eventName === CONVERSATION_EVENTS.SENT_MESSAGE) {
-      outlitUser().activate({ channelType: properties.channelType });
-    }
-  } catch (error) {
-    // Outlit not initialized — ignore
   }
 
   return null;

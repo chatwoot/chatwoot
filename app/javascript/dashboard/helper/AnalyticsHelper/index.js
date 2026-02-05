@@ -1,6 +1,7 @@
 import * as amplitude from '@amplitude/analytics-browser';
-import { track as outlitTrack } from '@outlit/browser';
+import { track as outlitTrack, user as outlitUser } from '@outlit/browser';
 import { toSnakeCase } from 'shared/helpers/outlitHelper';
+import { CONVERSATION_EVENTS } from './events';
 
 /**
  * AnalyticsHelper class to initialize and track user analytics
@@ -81,6 +82,9 @@ export class AnalyticsHelper {
 
     try {
       outlitTrack(toSnakeCase(eventName), properties);
+      if (eventName === CONVERSATION_EVENTS.SENT_MESSAGE) {
+        outlitUser().activate({ channelType: properties.channelType });
+      }
     } catch (e) {
       // Outlit not initialized — ignore
     }
