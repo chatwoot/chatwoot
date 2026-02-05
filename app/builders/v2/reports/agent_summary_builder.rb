@@ -18,18 +18,46 @@ class V2::Reports::AgentSummaryBuilder < V2::Reports::BaseSummaryBuilder
   end
 
   def fetch_conversations_count
-    account.conversations.where(created_at: range).group('assignee_id').count
+    scope = account.conversations.where(created_at: range)
+    scope = scope.where(assignee_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = scope.where(team_id: params[:team_ids]&.reject(&:blank?)) if params[:team_ids].present?
+    scope.group('assignee_id').count
   end
 
   def fetch_agent_chat_duration
-    account.reporting_events
+    scope = account.reporting_events
            .where(name: :agent_chat_duration, created_at: range)
-           .group(:user_id)
-           .average(:value)
+           .filter_by_user_id(params[:user_ids]&.reject(&:blank?))
+    
+    scope = scope.filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = filter_by_team(scope) if params[:team_ids].present?
+    
+    scope.group(:user_id).average(:value)
   end
 
   def prepare_report
-    account.account_users.map do |account_user|
+    scope = account.account_users
+    
+    if params[:user_ids].present? && params[:user_ids].reject(&:blank?).any?
+      scope = scope.where(user_id: params[:user_ids].reject(&:blank?))
+    else
+      if params[:inbox_ids].present? || params[:team_ids].present?
+        all_user_ids = [
+          conversations_count.keys,
+          resolved_count.keys,
+          avg_resolution_time.keys,
+          avg_first_response_time.keys,
+          avg_reply_time.keys,
+          agent_chat_duration.keys
+        ].flatten.compact.uniq
+        
+        return [] if all_user_ids.empty?
+        scope = scope.where(user_id: all_user_ids)
+      end
+    end
+    
+    scope.map do |account_user|
       build_agent_stats(account_user)
     end
   end

@@ -11,17 +11,69 @@ class V2::Reports::InboxSummaryBuilder < V2::Reports::BaseSummaryBuilder
   attr_reader :conversations_count, :resolved_count,
               :avg_resolution_time, :avg_first_response_time, :avg_reply_time
 
-  def load_data
-    @conversations_count = fetch_conversations_count
-    load_reporting_events_data
+  def fetch_conversations_count
+    filtered_conversations.group(:inbox_id).count
   end
 
-  def fetch_conversations_count
-    account.conversations.where(created_at: range).group(group_by_key).count
+  def filtered_conversations
+    scope = account.conversations.where(created_at: range)
+    scope = scope.where(assignee_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = scope.where(team_id: params[:team_ids]&.reject(&:blank?)) if params[:team_ids].present?
+    scope
+  end
+
+  def load_reporting_events_data
+    results = filtered_reporting_events
+              .select(
+                "reporting_events.inbox_id as inbox_id",
+                "COUNT(CASE WHEN reporting_events.name = 'conversation_resolved' THEN 1 END) as resolved_count",
+                "AVG(CASE WHEN reporting_events.name = 'conversation_resolved' THEN reporting_events.#{average_value_key} END) as avg_resolution_time",
+                "AVG(CASE WHEN reporting_events.name = 'first_response' THEN reporting_events.#{average_value_key} END) as avg_first_response_time",
+                "AVG(CASE WHEN reporting_events.name = 'reply_time' THEN reporting_events.#{average_value_key} END) as avg_reply_time"
+              )
+              .group('reporting_events.inbox_id')
+              .index_by(&:inbox_id)
+
+    @resolved_count = results.transform_values(&:resolved_count)
+    @avg_resolution_time = results.transform_values(&:avg_resolution_time)
+    @avg_first_response_time = results.transform_values(&:avg_first_response_time)
+    @avg_reply_time = results.transform_values(&:avg_reply_time)
+  end
+
+  def filtered_reporting_events
+    scope = reporting_events
+    scope = scope.filter_by_user_id(params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = filter_by_team(scope) if params[:team_ids].present?
+    scope
+  end
+
+  def filter_by_team(scope)
+    scope.joins(:conversation).where(conversations: { team_id: params[:team_ids]&.reject(&:blank?) })
   end
 
   def prepare_report
-    account.inboxes.map do |inbox|
+    scope = account.inboxes
+    
+    if params[:inbox_ids].present? && params[:inbox_ids].reject(&:blank?).any?
+      scope = scope.where(id: params[:inbox_ids].reject(&:blank?))
+    else
+      if params[:user_ids].present? || params[:team_ids].present?
+        all_inbox_ids = [
+          conversations_count.keys,
+          resolved_count.keys,
+          avg_resolution_time.keys,
+          avg_first_response_time.keys,
+          avg_reply_time.keys
+        ].flatten.compact.uniq
+
+        return [] if all_inbox_ids.empty?
+        scope = scope.where(id: all_inbox_ids)
+      end
+    end
+    
+    scope.map do |inbox|
       build_inbox_stats(inbox)
     end
   end

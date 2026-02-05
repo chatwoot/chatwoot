@@ -15,10 +15,9 @@ class V2::Reports::BaseSummaryBuilder
   end
 
   def load_reporting_events_data
-    # Extract the column name for indexing (e.g., 'conversations.team_id' -> 'team_id')
     index_key = group_by_key.to_s.split('.').last
 
-    results = reporting_events
+    results = filtered_reporting_events
               .select(
                 "#{group_by_key} as #{index_key}",
                 "COUNT(CASE WHEN name = 'conversation_resolved' THEN 1 END) as resolved_count",
@@ -37,6 +36,26 @@ class V2::Reports::BaseSummaryBuilder
 
   def reporting_events
     @reporting_events ||= account.reporting_events.where(created_at: range)
+  end
+
+  def filtered_reporting_events
+    scope = reporting_events
+    scope = scope.filter_by_user_id(params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = filter_by_team(scope) if params[:team_ids].present?
+    scope
+  end
+
+  def filtered_conversations
+    scope = account.conversations.where(created_at: range)
+    scope = scope.where(assignee_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
+    scope = scope.where(team_id: params[:team_ids]&.reject(&:blank?)) if params[:team_ids].present?
+    scope
+  end
+
+  def filter_by_team(scope)
+    scope.joins(:conversation).where(conversations: { team_id: params[:team_ids]&.reject(&:blank?) })
   end
 
   def fetch_conversations_count
