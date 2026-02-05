@@ -57,4 +57,35 @@ class ReportingEvent < ApplicationRecord
   scope :filter_by_name, lambda { |name|
     where(name: name) if name.present?
   }
+  scope :filter_by_label_ids, lambda { |label_ids, account_id|
+    return all if label_ids.blank?
+
+    label_ids = label_ids.reject(&:blank?)
+    return all if label_ids.empty?
+
+    tag_ids = tag_ids_for_labels(label_ids, account_id)
+    return none if tag_ids.empty?
+
+    with_conversation_labels(tag_ids)
+  }
+
+  def self.tag_ids_for_labels(label_ids, account_id)
+    ActsAsTaggableOn::Tag
+      .joins('INNER JOIN labels ON labels.title = tags.name')
+      .where(labels: { id: label_ids, account_id: account_id })
+      .pluck(:id)
+  end
+
+  def self.with_conversation_labels(tag_ids)
+    joins(<<~SQL.squish)
+      INNER JOIN conversations#{' '}
+        ON conversations.id = reporting_events.conversation_id
+      INNER JOIN taggings#{' '}
+        ON taggings.taggable_id = conversations.id#{' '}
+        AND taggings.taggable_type = 'Conversation'#{' '}
+        AND taggings.context = 'labels'
+        AND taggings.tag_id IN (#{sanitize_sql(tag_ids.join(','))})
+    SQL
+      .distinct
+  end
 end

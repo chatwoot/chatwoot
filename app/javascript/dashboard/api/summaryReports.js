@@ -13,6 +13,7 @@ class SummaryReportsAPI extends ApiClient {
     userIds,
     inboxIds,
     teamIds,
+    labelIds,
   } = {}) {
     const params = {
       since,
@@ -30,6 +31,10 @@ class SummaryReportsAPI extends ApiClient {
 
     if (teamIds && teamIds.length > 0) {
       params['team_ids[]'] = teamIds;
+    }
+
+    if (labelIds && labelIds.length > 0) {
+      params['label_ids[]'] = labelIds;
     }
 
     return axios.get(`${this.url}/team`, { params });
@@ -42,6 +47,7 @@ class SummaryReportsAPI extends ApiClient {
     userIds,
     inboxIds,
     teamIds,
+    labelIds,
   } = {}) {
     const params = {
       since,
@@ -59,6 +65,10 @@ class SummaryReportsAPI extends ApiClient {
 
     if (teamIds && teamIds.length > 0) {
       params['team_ids[]'] = teamIds;
+    }
+
+    if (labelIds && labelIds.length > 0) {
+      params['label_ids[]'] = labelIds;
     }
 
     return axios.get(`${this.url}/agent`, { params });
@@ -71,6 +81,7 @@ class SummaryReportsAPI extends ApiClient {
     userIds,
     inboxIds,
     teamIds,
+    labelIds,
   } = {}) {
     const params = {
       since,
@@ -88,6 +99,10 @@ class SummaryReportsAPI extends ApiClient {
 
     if (teamIds && teamIds.length > 0) {
       params['team_ids[]'] = teamIds;
+    }
+
+    if (labelIds && labelIds.length > 0) {
+      params['label_ids[]'] = labelIds;
     }
 
     return axios.get(`${this.url}/inbox`, { params });
@@ -100,6 +115,7 @@ class SummaryReportsAPI extends ApiClient {
     userIds,
     inboxIds,
     teamIds,
+    labelIds,
   } = {}) {
     const params = {
       since,
@@ -117,6 +133,10 @@ class SummaryReportsAPI extends ApiClient {
 
     if (teamIds && teamIds.length > 0) {
       params['team_ids[]'] = teamIds;
+    }
+
+    if (labelIds && labelIds.length > 0) {
+      params['label_ids[]'] = labelIds;
     }
 
     return axios.get(`${this.url}/label`, { params });

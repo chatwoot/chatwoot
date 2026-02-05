@@ -6,7 +6,7 @@ export default {
   emits: ['labelsFilterSelection'],
   data() {
     return {
-      selectedOption: null,
+      selectedOptions: [],
     };
   },
   computed: {
@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     handleInput() {
-      this.$emit('labelsFilterSelection', this.selectedOption);
+      this.$emit('labelsFilterSelection', this.selectedOptions);
     },
   },
 };
@@ -28,14 +28,21 @@ export default {
 <template>
   <div class="multiselect-wrap--small">
     <multiselect
-      v-model="selectedOption"
+      v-model="selectedOptions"
       class="no-margin"
-      :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
-      label="title"
-      track-by="id"
       :options="options"
+      track-by="id"
+      label="title"
+      multiple
+      :close-on-select="false"
+      :clear-on-select="false"
+      hide-selected
       :option-height="24"
       :show-labels="false"
+      :placeholder="$t('LABEL_REPORTS.FILTER_DROPDOWN_LABEL')"
+      selected-label
+      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+      :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
       @update:model-value="handleInput"
     >
       <template #singleLabel="props">

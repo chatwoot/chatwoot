@@ -47,6 +47,7 @@ const businessHours = ref(false);
 const selectedAgents = ref([]);
 const selectedInboxes = ref([]);
 const selectedTeams = ref([]);
+const selectedLabels = ref([]);
 const timeRange = ref({
   since: '00:00',
   until: '23:59',
@@ -178,7 +179,8 @@ const hasActiveFilters = computed(() => {
   return (
     selectedAgents.value.length > 0 ||
     selectedInboxes.value.length > 0 ||
-    selectedTeams.value.length > 0
+    selectedTeams.value.length > 0 ||
+    selectedLabels.value.length > 0
   );
 });
 
@@ -234,6 +236,7 @@ const fetchAllData = () => {
     userIds: selectedAgents.value.map(agent => agent.id),
     inboxIds: selectedInboxes.value.map(inbox => inbox.id),
     teamIds: selectedTeams.value.map(team => team.id),
+    labelIds: selectedLabels.value.map(label => label.id),
     timeSince: timeRange.value.since,
     timeUntil: timeRange.value.until,
   });
@@ -248,6 +251,7 @@ const onFilterChange = updatedFilter => {
   selectedAgents.value = updatedFilter.selectedAgents || [];
   selectedInboxes.value = updatedFilter.selectedInbox || [];
   selectedTeams.value = updatedFilter.selectedTeam || [];
+  selectedLabels.value = updatedFilter.selectedLabel || [];
   timeRange.value = updatedFilter.timeRange;
   fetchAllData();
 };
@@ -272,6 +276,7 @@ const downloadReports = async (format = 'csv') => {
     userIds: selectedAgents.value.map(agent => agent.id),
     inboxIds: selectedInboxes.value.map(inbox => inbox.id),
     teamIds: selectedTeams.value.map(team => team.id),
+    labelIds: selectedLabels.value.map(label => label.id),
     timeSince: timeRange.value.since,
     timeUntil: timeRange.value.until,
     format,
@@ -315,6 +320,7 @@ defineExpose({ downloadReports });
     show-agents-filter
     show-inbox-filter
     show-team-filter
+    show-labels-filter
     @filter-change="onFilterChange"
   />
   <div

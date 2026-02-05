@@ -10,7 +10,7 @@ class V2::Reports::BaseSummaryBuilder
 
   def load_data
     @conversations_count = fetch_conversations_count
-    @agent_chat_duration = respond_to?(:fetch_agent_chat_duration) ? fetch_agent_chat_duration : nil
+    @agent_chat_duration = fetch_agent_chat_duration if respond_to?(:fetch_agent_chat_duration, true)
     load_reporting_events_data
   end
 
@@ -18,13 +18,7 @@ class V2::Reports::BaseSummaryBuilder
     index_key = group_by_key.to_s.split('.').last
 
     results = filtered_reporting_events
-              .select(
-                "#{group_by_key} as #{index_key}",
-                "COUNT(CASE WHEN name = 'conversation_resolved' THEN 1 END) as resolved_count",
-                "AVG(CASE WHEN name = 'conversation_resolved' THEN #{average_value_key} END) as avg_resolution_time",
-                "AVG(CASE WHEN name = 'first_response' THEN #{average_value_key} END) as avg_first_response_time",
-                "AVG(CASE WHEN name = 'reply_time' THEN #{average_value_key} END) as avg_reply_time"
-              )
+              .select(*reporting_events_select_fields)
               .group(group_by_key)
               .index_by { |record| record.public_send(index_key) }
 
@@ -34,28 +28,113 @@ class V2::Reports::BaseSummaryBuilder
     @avg_reply_time = results.transform_values(&:avg_reply_time)
   end
 
+  def reporting_events_select_fields
+    index_key = group_by_key.to_s.split('.').last
+    [
+      "#{group_by_key} as #{index_key}",
+      "COUNT(CASE WHEN reporting_events.name = 'conversation_resolved' THEN 1 END) as resolved_count",
+      avg_resolution_time_sql,
+      avg_first_response_time_sql,
+      avg_reply_time_sql
+    ]
+  end
+
+  def avg_resolution_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'conversation_resolved' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_resolution_time"
+  end
+
+  def avg_first_response_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'first_response' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_first_response_time"
+  end
+
+  def avg_reply_time_sql
+    "AVG(CASE WHEN reporting_events.name = 'reply_time' " \
+      "THEN reporting_events.#{average_value_key} END) as avg_reply_time"
+  end
+
   def reporting_events
     @reporting_events ||= account.reporting_events.where(created_at: range)
   end
 
   def filtered_reporting_events
-    scope = reporting_events
-    scope = scope.filter_by_user_id(params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
-    scope = scope.filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
-    scope = filter_by_team(scope) if params[:team_ids].present?
-    scope
+    apply_filters(reporting_events)
   end
 
   def filtered_conversations
-    scope = account.conversations.where(created_at: range)
-    scope = scope.where(assignee_id: params[:user_ids]&.reject(&:blank?)) if params[:user_ids].present?
-    scope = scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?)) if params[:inbox_ids].present?
-    scope = scope.where(team_id: params[:team_ids]&.reject(&:blank?)) if params[:team_ids].present?
-    scope
+    apply_conversation_filters(account.conversations.where(created_at: range))
+  end
+
+  def apply_filters(scope)
+    scope = apply_user_filter(scope)
+    scope = apply_inbox_filter(scope)
+    scope = apply_label_filter(scope)
+    apply_team_filter(scope)
+  end
+
+  def apply_user_filter(scope)
+    return scope if params[:user_ids].blank?
+
+    scope.filter_by_user_id(params[:user_ids]&.reject(&:blank?))
+  end
+
+  def apply_inbox_filter(scope)
+    return scope if params[:inbox_ids].blank?
+
+    scope.filter_by_inbox_id(params[:inbox_ids]&.reject(&:blank?))
+  end
+
+  def apply_label_filter(scope)
+    return scope if params[:label_ids].blank?
+
+    scope.filter_by_label_ids(params[:label_ids], account.id)
+  end
+
+  def apply_team_filter(scope)
+    return scope if params[:team_ids].blank?
+
+    filter_by_team(scope)
+  end
+
+  def apply_conversation_filters(scope)
+    scope = apply_conversation_user_filter(scope)
+    scope = apply_conversation_inbox_filter(scope)
+    scope = apply_conversation_team_filter(scope)
+    apply_conversation_label_filter(scope)
+  end
+
+  def apply_conversation_user_filter(scope)
+    return scope if params[:user_ids].blank?
+
+    scope.where(assignee_id: params[:user_ids]&.reject(&:blank?))
+  end
+
+  def apply_conversation_inbox_filter(scope)
+    return scope if params[:inbox_ids].blank?
+
+    scope.where(inbox_id: params[:inbox_ids]&.reject(&:blank?))
+  end
+
+  def apply_conversation_team_filter(scope)
+    return scope if params[:team_ids].blank?
+
+    scope.where(team_id: params[:team_ids]&.reject(&:blank?))
+  end
+
+  def apply_conversation_label_filter(scope)
+    return scope if params[:label_ids].blank?
+
+    scope.filter_by_label_ids(params[:label_ids], account.id)
   end
 
   def filter_by_team(scope)
     scope.joins(:conversation).where(conversations: { team_id: params[:team_ids]&.reject(&:blank?) })
+  end
+
+  def cross_filters?(exclude_param = nil)
+    filter_params = [:user_ids, :inbox_ids, :team_ids, :label_ids] - Array(exclude_param)
+    filter_params.any? { |param| params[param].present? && params[param].reject(&:blank?).any? }
   end
 
   def fetch_conversations_count
@@ -71,6 +150,10 @@ class V2::Reports::BaseSummaryBuilder
   end
 
   def average_value_key
-    ActiveModel::Type::Boolean.new.cast(params[:business_hours]).present? ? :value_in_business_hours : :value
+    use_business_hours? ? :value_in_business_hours : :value
+  end
+
+  def use_business_hours?
+    ActiveModel::Type::Boolean.new.cast(params[:business_hours])
   end
 end
