@@ -132,6 +132,7 @@ const onFilterChange = updatedFilter => {
       </label>
     </div>
 
+    <!-- Нижняя строка: Фильтры -->
     <div class="flex items-center gap-3">
       <ReportsFiltersAgents
         @agents-filter-selection="

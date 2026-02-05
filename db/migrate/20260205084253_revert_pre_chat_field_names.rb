@@ -1,4 +1,4 @@
-class RenamePreChatFieldNames < ActiveRecord::Migration[7.1]
+class RevertPreChatFieldNames < ActiveRecord::Migration[7.1]
   def up
     Channel::WebWidget.find_each do |channel|
       next if channel.pre_chat_form_options.blank?
@@ -10,11 +10,11 @@ class RenamePreChatFieldNames < ActiveRecord::Migration[7.1]
 
       fields.each do |field|
         case field['name']
-        when 'email'
-          field['name'] = 'user_email'
+        when 'user_email'
+          field['name'] = 'emailAddress'
           modified = true
-        when 'name'
-          field['name'] = 'first_name'
+        when 'first_name'
+          field['name'] = 'fullName'
           modified = true
         end
       end

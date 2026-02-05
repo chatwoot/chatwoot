@@ -482,7 +482,7 @@ export const inboxes = [
     pre_chat_form_options: {
       pre_chat_fields: [
         {
-          name: 'user_email',
+          name: 'emailAddress',
           type: 'email',
           label: 'Email Id',
           enabled: false,
@@ -490,7 +490,7 @@ export const inboxes = [
           field_type: 'standard',
         },
         {
-          name: 'first_name',
+          name: 'fullName',
           type: 'text',
           label: 'Full name',
           enabled: false,
