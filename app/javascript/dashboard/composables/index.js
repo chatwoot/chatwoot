@@ -1,7 +1,6 @@
 import { emitter } from 'shared/helpers/mitt';
-import { track as outlitTrack, user as outlitUser } from '@outlit/browser';
+import { user as outlitUser } from '@outlit/browser';
 import analyticsHelper from 'dashboard/helper/AnalyticsHelper/index';
-import { toSnakeCase } from 'shared/helpers/outlitHelper';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 /**
@@ -15,7 +14,6 @@ export const useTrack = (eventName, properties = {}) => {
   }
 
   try {
-    outlitTrack(toSnakeCase(eventName), properties);
     if (eventName === CONVERSATION_EVENTS.SENT_MESSAGE) {
       outlitUser().activate({ channelType: properties.channelType });
     }
