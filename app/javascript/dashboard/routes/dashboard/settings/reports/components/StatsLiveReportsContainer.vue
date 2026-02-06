@@ -1,34 +1,33 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { useToggle } from '@vueuse/core';
-
 import MetricCard from './overview/MetricCard.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
-import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import ReportsFiltersTeams from 'dashboard/routes/dashboard/settings/reports/components/Filters/Teams.vue';
+import ReportsFiltersAgents from 'dashboard/routes/dashboard/settings/reports/components/Filters/Agents.vue';
+import ReportsFiltersInboxes from 'dashboard/routes/dashboard/settings/reports/components/Filters/Inboxes.vue';
 import { useI18n } from 'vue-i18n';
 import ReportsAPI from 'dashboard/api/reports';
 import { downloadFile } from 'dashboard/helper/downloadHelper';
-const { t } = useI18n();
 
+const { t } = useI18n();
 const uiFlags = useMapGetter('getOverviewUIFlags');
 const agentStatus = useMapGetter('agents/getAgentStatus');
 const accountConversationMetric = useMapGetter('getAccountConversationMetric');
 const store = useStore();
 
 const teams = useMapGetter('teams/getTeams');
+const agents = useMapGetter('agents/getAgents');
+const inboxes = useMapGetter('inboxes/getInboxes');
 
 const downloadReports = async (format = 'csv') => {
   const { since, until, businessHours } = store.state.reports;
-
   const response = await ReportsAPI.getOverviewReports({
     since,
     until,
     businessHours,
     format,
   });
-
   downloadFile(
     `overview_summary_${new Date().getTime()}.${format}`,
     response.data,
@@ -36,73 +35,74 @@ const downloadReports = async (format = 'csv') => {
   );
 };
 
-const teamMenuList = computed(() => {
-  return [
-    { label: t('OVERVIEW_REPORTS.TEAM_CONVERSATIONS.ALL_TEAMS'), value: null },
-    ...teams.value.map(team => ({ label: team.name, value: team.id })),
-  ];
-});
-
 const agentStatusMetrics = computed(() => {
   const metric = {};
-
-  const I18N_MAP = {
-    online: 'OVERVIEW_REPORTS.AGENT_STATUS.ONLINE',
-    offline: 'OVERVIEW_REPORTS.AGENT_STATUS.OFFLINE',
-    busy: 'OVERVIEW_REPORTS.AGENT_STATUS.BUSY',
+  const statusMap = {
+    online: t('OVERVIEW_REPORTS.AGENT_STATUS.ONLINE'),
+    offline: t('OVERVIEW_REPORTS.AGENT_STATUS.OFFLINE'),
+    busy: t('OVERVIEW_REPORTS.AGENT_STATUS.BUSY'),
   };
 
   Object.keys(agentStatus.value).forEach(key => {
-    const i18nKey = I18N_MAP[key];
-    if (!i18nKey) return;
-
-    metric[t(i18nKey)] = agentStatus.value[key];
+    if (statusMap[key]) {
+      metric[statusMap[key]] = agentStatus.value[key];
+    }
   });
-
   return metric;
 });
 
 const conversationMetrics = computed(() => {
   const metric = {};
-
-  const I18N_MAP = {
-    open: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.OPEN',
-    resolved: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.RESOLVED',
-    pending: 'OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.PENDING',
+  const conversationMap = {
+    open: t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.OPEN'),
+    resolved: t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.RESOLVED'),
+    pending: t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.PENDING'),
   };
 
   Object.keys(accountConversationMetric.value).forEach(key => {
-    const i18nKey = I18N_MAP[key];
-    if (!i18nKey) return;
-
-    metric[t(i18nKey)] = accountConversationMetric.value[key];
+    if (conversationMap[key]) {
+      metric[conversationMap[key]] = accountConversationMetric.value[key];
+    }
   });
-
   return metric;
 });
 
-const selectedTeam = ref(null);
-const selectedTeamLabel = computed(() => {
-  const team =
-    teamMenuList.value.find(
-      menuItem => menuItem.value === selectedTeam.value
-    ) || {};
-  return team.label;
-});
+const selectedTeams = ref([]);
+const selectedAgents = ref([]);
+const selectedInboxes = ref([]);
+
 const fetchData = () => {
   const params = {};
-  if (selectedTeam.value) {
-    params.team_id = selectedTeam.value;
+
+  if (selectedTeams.value.length > 0) {
+    params.team_ids = selectedTeams.value.map(team => team.id);
   }
+
+  if (selectedAgents.value.length > 0) {
+    params.user_ids = selectedAgents.value.map(agent => agent.id);
+  }
+
+  if (selectedInboxes.value.length > 0) {
+    params.inbox_ids = selectedInboxes.value.map(inbox => inbox.id);
+  }
+
   store.dispatch('fetchAccountConversationMetric', params);
 };
 
 const { startRefetching } = useLiveRefresh(fetchData);
-const [showDropdown, toggleDropdown] = useToggle();
 
-const handleAction = ({ value }) => {
-  toggleDropdown(false);
-  selectedTeam.value = value;
+const handleTeamFilterSelection = selectedTeamsList => {
+  selectedTeams.value = selectedTeamsList;
+  fetchData();
+};
+
+const handleAgentsFilterSelection = selectedAgentsList => {
+  selectedAgents.value = selectedAgentsList;
+  fetchData();
+};
+
+const handleInboxFilterSelection = selectedInboxesList => {
+  selectedInboxes.value = selectedInboxesList;
   fetchData();
 };
 
@@ -110,13 +110,14 @@ onMounted(() => {
   fetchData();
   startRefetching();
 });
+
 defineExpose({
   downloadReports,
 });
 </script>
 
 <template>
-  <div class="flex flex-col items-center md:flex-row gap-4">
+  <div class="flex flex-col items-stretch md:flex-row gap-4">
     <div
       class="flex-1 w-full max-w-full md:w-[65%] md:max-w-[65%] conversation-metric"
     >
@@ -126,26 +127,21 @@ defineExpose({
         :loading-message="
           t('OVERVIEW_REPORTS.ACCOUNT_CONVERSATIONS.LOADING_MESSAGE')
         "
+        :use-grid-layout="false"
       >
-        <template v-if="teams.length" #control>
-          <div
-            v-on-clickaway="() => toggleDropdown(false)"
-            class="relative flex items-center group z-50"
-          >
-            <Button
-              sm
-              slate
-              faded
-              :label="selectedTeamLabel"
-              class="capitalize rounded-md group-hover:bg-n-alpha-2"
-              @click="toggleDropdown()"
+        <template #control>
+          <div class="flex gap-2 flex-wrap">
+            <ReportsFiltersTeams
+              v-if="teams.length"
+              @team-filter-selection="handleTeamFilterSelection"
             />
-            <DropdownMenu
-              v-if="showDropdown"
-              :menu-items="teamMenuList"
-              class="mt-1 ltr:right-0 rtl:left-0 xl:ltr:right-0 xl:rtl:left-0 top-full"
-              label-class="capitalize"
-              @action="handleAction($event)"
+            <ReportsFiltersAgents
+              v-if="agents.length"
+              @agents-filter-selection="handleAgentsFilterSelection"
+            />
+            <ReportsFiltersInboxes
+              v-if="inboxes.length"
+              @inbox-filter-selection="handleInboxFilterSelection"
             />
           </div>
         </template>

@@ -9,7 +9,8 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
       open: @conversations.open.count,
       unattended: @conversations.open.unattended.count,
       unassigned: @conversations.open.unassigned.count,
-      pending: @conversations.pending.count
+      pending: @conversations.pending.count,
+      resolved: @conversations.resolved.count
     }
   end
 
@@ -46,19 +47,33 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
     @group_scope = permitted_params[:group_by]
   end
 
-  def team
-    return unless permitted_params[:team_id]
+  def team_ids
+    return [] unless permitted_params[:team_ids].present?
 
-    @team ||= Current.account.teams.find(permitted_params[:team_id])
+    permitted_params[:team_ids].reject(&:blank?)
+  end
+
+  def user_ids
+    return [] unless permitted_params[:user_ids].present?
+
+    permitted_params[:user_ids].reject(&:blank?)
+  end
+
+  def inbox_ids
+    return [] unless permitted_params[:inbox_ids].present?
+
+    permitted_params[:inbox_ids].reject(&:blank?)
   end
 
   def load_conversations
     scope = Current.account.conversations
-    scope = scope.where(team_id: team.id) if team.present?
+    scope = scope.where(team_id: team_ids) if team_ids.present?
+    scope = scope.where(assignee_id: user_ids) if user_ids.present?
+    scope = scope.where(inbox_id: inbox_ids) if inbox_ids.present?
     @conversations = scope
   end
 
   def permitted_params
-    params.permit(:team_id, :group_by)
+    params.permit(:team_id, :group_by, team_ids: [], user_ids: [], inbox_ids: [])
   end
 end
