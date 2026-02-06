@@ -192,7 +192,7 @@
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
-        "SOCIAL_PROFILES": "Social Profiles"
+        "SOCIAL_PROFILES": "Perfis Sociais"
       }
     }
   },
@@ -338,7 +338,7 @@
           "LABEL": "Classificar por",
           "OPTIONS": {
             "NAME": "Nome",
-            "EMAIL": "e-mail",
+            "EMAIL": "E-mail",
             "PHONE_NUMBER": "Número de telefone",
             "COMPANY": "Empresa",
             "COUNTRY": "País/região",
@@ -380,7 +380,7 @@
     },
     "FILTER": {
       "NAME": "Nome",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de telefone",
       "IDENTIFIER": "Identificador",
       "COUNTRY": "País/região",
@@ -579,21 +579,21 @@
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Atribuir rótulo",
     "ASSIGN_LABELS_SUCCESS": "Rótulos atribuídos com sucesso.",
-    "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
-    "NO_LABELS_FOUND": "No labels available yet.",
+    "ASSIGN_LABELS_FAILED": "Falha ao atribuir etiquetas",
+    "DESCRIPTION": "Selecione as etiquetas que deseja adicionar aos contatos selecionados.",
+    "NO_LABELS_FOUND": "Nenhuma etiqueta disponível ainda.",
     "SELECTED_COUNT": "{count} selecionado",
-    "CLEAR_SELECTION": "Clear selection",
+    "CLEAR_SELECTION": "Limpar seleção",
     "SELECT_ALL": "Selecionar todos ({count})",
     "DELETE_CONTACTS": "Excluir",
-    "DELETE_SUCCESS": "Contacts deleted successfully.",
-    "DELETE_FAILED": "Failed to delete contacts.",
+    "DELETE_SUCCESS": "Contatos excluídos com sucesso.",
+    "DELETE_FAILED": "Falha ao excluir os contatos.",
     "DELETE_DIALOG": {
-      "TITLE": "Delete selected contacts",
-      "SINGULAR_TITLE": "Delete selected contact",
-      "DESCRIPTION": "This will permanently delete {count} selected contacts. This action cannot be undone.",
-      "SINGULAR_DESCRIPTION": "This will permanently delete the selected contact. This action cannot be undone.",
-      "CONFIRM_MULTIPLE": "Delete contacts",
+      "TITLE": "Excluir os contatos selecionados",
+      "SINGULAR_TITLE": "Excluir o contato selecionado",
+      "DESCRIPTION": "Isso excluirá permanentemente {count} contatos selecionados. Esta ação não pode ser desfeita.",
+      "SINGULAR_DESCRIPTION": "Isso excluirá permanentemente o contato selecionado. Esta ação não pode ser desfeita.",
+      "CONFIRM_MULTIPLE": "Excluir contatos",
       "CONFIRM_SINGLE": "Excluir contato"
     }
   },
