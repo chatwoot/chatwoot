@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Огляд Агентів",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_AGENT_REPORTS": "Завантажити звіти агентів",
     "FILTER_DROPDOWN_LABEL": "Виберіть агента",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Пошук агентів"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_LABEL_REPORTS": "Завантажити звіти по міткам",
     "FILTER_DROPDOWN_LABEL": "Виберіть Мітку",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Пошук міток"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Вибрати \"Вхідний\" канал",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Огляд команди",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Завантаження даних діаграми...",
     "NO_ENOUGH_DATA": "Ми не отримали достатньо даних для генерації звіту. Будь ласка, спробуйте ще раз пізніше.",
     "DOWNLOAD_TEAM_REPORTS": "Завантажити звіти команд",
     "FILTER_DROPDOWN_LABEL": "Оберіть команду",
+    "FILTERS": {
+      "ADD_FILTER": "Додати фільтр",
+      "CLEAR_ALL": "Очистити все",
+      "NO_FILTER": "Немає доступних фільтрів",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Пошук команд"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Бесіди",
