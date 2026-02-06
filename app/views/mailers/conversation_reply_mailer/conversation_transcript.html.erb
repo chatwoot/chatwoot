@@ -5,17 +5,17 @@
       <% if message.conversation.inbox&.inbox_type == 'Email' %>
         <div style="font-size: 90%; color: #899096; line-height: 16px">
           <% if message.content_attributes.dig(:email, :from).present? %>
-            <div>From: <%= message.content_attributes.dig(:email, :from).join(", ") %></div>
+            <div>De: <%= message.content_attributes.dig(:email, :from).join(", ") %></div>
           <% else %>
-            <div>From: <%= message.sender&.try(:email) %></div>
+            <div>De: <%= message.sender&.try(:email) %></div>
           <% end %>
 
           <% if message.content_attributes.dig(:email, :subject).present? %>
-            <div>Subject: <%= message.content_attributes.dig(:email, :subject) %></div>
+            <div>Assunto: <%= message.content_attributes.dig(:email, :subject) %></div>
           <% end %>
 
           <% if message.content_attributes[:to_emails].present? %>
-            <div>To: <%= message.content_attributes[:to_emails].join(", ") %></div>
+            <div>Para: <%= message.content_attributes[:to_emails].join(", ") %></div>
           <% end %>
           <% if message.content_attributes[:cc_emails].present? %>
             <div>CC: <%= message.content_attributes[:cc_emails].join(", ") %></div>
@@ -33,7 +33,7 @@
         <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
       <% end %>
       <% if message.attachments.present? %>
-        <p>Attachments:</p>
+        <p>Anexos:</p>
         <% message.attachments.each do |attachment| %>
           <p><a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a></p>
         <% end %>
