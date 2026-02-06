@@ -185,12 +185,14 @@ en:
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
       agent_chat_duration: Avg chat duration
+      csat_score: CSAT Score
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      csat_score: CSAT Score
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
@@ -198,6 +200,7 @@ en:
       avg_resolution_time: Avg resolution time
       avg_reply_time: Avg reply time
       resolution_count: Resolution Count
+      csat_score: CSAT Score
     overview:
       open_conversations: Open conversations
       agent_status: Agent Status
@@ -229,6 +232,7 @@ en:
       avg_resolution_time: Avg resolution time
       resolution_count: Resolution Count
       avg_customer_waiting_time: Avg customer waiting time
+      csat_score: CSAT Score
     conversation_csv:
       conversations_count: Conversations
       incoming_messages_count: Messages received

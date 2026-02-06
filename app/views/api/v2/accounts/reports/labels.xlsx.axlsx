@@ -17,7 +17,8 @@ wb.add_worksheet(name: 'Labels Report') do |sheet|
     I18n.t('reports.label_csv.avg_first_response_time'),
     I18n.t('reports.label_csv.avg_resolution_time'),
     I18n.t('reports.label_csv.avg_reply_time'),
-    I18n.t('reports.label_csv.resolution_count')
+    I18n.t('reports.label_csv.resolution_count'),
+    I18n.t('reports.label_csv.csat_score')
   ]
 
   sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')

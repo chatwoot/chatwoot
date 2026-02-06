@@ -16,6 +16,14 @@ const props = defineProps({
     type: String,
     default: 'relaxed',
   },
+  customHeaderClass: {
+    type: String,
+    default: '',
+  },
+  customCellClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const isRelaxed = computed(() => props.type === 'relaxed');
@@ -41,7 +49,7 @@ const headerClass = computed(() =>
             width: `${header.getSize()}px`,
           }"
           class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
-          :class="headerClass"
+          :class="[headerClass, customHeaderClass]"
           @click="header.column.getCanSort() && header.column.toggleSorting()"
         >
           <div
@@ -52,7 +60,11 @@ const headerClass = computed(() =>
               :render="header.column.columnDef.header"
               :props="header.getContext()"
             />
-            <SortButton v-if="header.column.getCanSort()" :header="header" />
+            <SortButton
+              v-if="header.column.getCanSort()"
+              :header="header"
+              class="w-3 h-3 flex-shrink-0"
+            />
           </div>
         </th>
       </tr>
@@ -63,7 +75,7 @@ const headerClass = computed(() =>
         <td
           v-for="cell in row.getVisibleCells()"
           :key="cell.id"
-          :class="isRelaxed ? 'py-4 px-5' : 'py-2 px-5'"
+          :class="[isRelaxed ? 'py-4 px-5' : 'py-2 px-5', customCellClass]"
         >
           <FlexRender
             :render="cell.column.columnDef.cell"

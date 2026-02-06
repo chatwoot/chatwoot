@@ -37,6 +37,18 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showCsatScore: {
+    type: Boolean,
+    default: false,
+  },
+  customHeaderClass: {
+    type: String,
+    default: '',
+  },
+  customCellClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const store = useStore();
@@ -93,7 +105,11 @@ const columns = computed(() => {
     columnHelper.accessor('name', {
       header: typeHeaders[props.type] || typeHeaders.account,
       width: 300,
-      cell: cellProps => h(SummaryReportLink, cellProps),
+      cell: cellProps =>
+        h(SummaryReportLink, {
+          ...cellProps,
+          class: props.customCellClass || '',
+        }),
       enableSorting: true,
     }),
     columnHelper.accessor('conversationsCount', {
@@ -152,6 +168,7 @@ const columns = computed(() => {
       },
     }),
   ];
+
   if (props.showAgentChatDuration) {
     baseColumns.push(
       columnHelper.accessor('agentChatDuration', {
@@ -168,12 +185,30 @@ const columns = computed(() => {
     );
   }
 
+  if (props.showCsatScore) {
+    baseColumns.push(
+      columnHelper.accessor('csatSatisfactionScore', {
+        header: t('SUMMARY_REPORTS.CSAT_SATISFACTION_SCORE'),
+        width: 200,
+        cell: defaulSpanRender,
+        enableSorting: true,
+        sortingFn: (rowA, rowB) => {
+          const a = rowA.original.csatSatisfactionScoreRaw || 0;
+          const b = rowB.original.csatSatisfactionScoreRaw || 0;
+          return a - b;
+        },
+      })
+    );
+  }
+
   return baseColumns;
 });
 
 const renderAvgTime = value => (value ? formatTime(value) : '--');
 
 const renderCount = value => (value ? value.toLocaleString() : '--');
+
+const renderCsatScore = value => (value ? `${value}%` : '--');
 
 const hasActiveFilters = computed(() => {
   return (
@@ -202,6 +237,7 @@ const tableData = computed(() => {
       avgReplyTime,
       resolvedConversationsCount,
       agentChatDuration,
+      csatSatisfactionScore,
     } = rowMetrics;
 
     const baseRow = {
@@ -221,6 +257,11 @@ const tableData = computed(() => {
     if (props.showAgentChatDuration) {
       baseRow.agentChatDuration = renderAvgTime(agentChatDuration);
       baseRow.agentChatDurationRaw = agentChatDuration || 0;
+    }
+
+    if (props.showCsatScore) {
+      baseRow.csatSatisfactionScore = renderCsatScore(csatSatisfactionScore);
+      baseRow.csatSatisfactionScoreRaw = csatSatisfactionScore || 0;
     }
 
     return baseRow;
@@ -326,6 +367,10 @@ defineExpose({ downloadReports });
   <div
     class="flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
-    <Table :table="table" />
+    <Table
+      :table="table"
+      :custom-header-class="customHeaderClass"
+      :custom-cell-class="customCellClass"
+    />
   </div>
 </template>

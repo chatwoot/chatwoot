@@ -16,7 +16,8 @@ wb.add_worksheet(name: 'Inboxes Report') do |sheet|
     I18n.t('reports.inbox_csv.inbox_type'),
     I18n.t('reports.inbox_csv.conversations_count'),
     I18n.t('reports.inbox_csv.avg_first_response_time'),
-    I18n.t('reports.inbox_csv.avg_resolution_time')
+    I18n.t('reports.inbox_csv.avg_resolution_time'),
+    I18n.t('reports.inbox_csv.csat_score')
   ]
 
   sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')

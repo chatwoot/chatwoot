@@ -31,5 +31,6 @@ const handleDownload = format => {
     fetch-items-key="labels/get"
     summary-key="summaryReports/getLabelSummaryReports"
     type="label"
+    show-csat-score
   />
 </template>

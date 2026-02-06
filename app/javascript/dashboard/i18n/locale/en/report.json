@@ -673,6 +673,7 @@
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
     "RESOLUTION_COUNT": "Resolution Count",
     "CONVERSATIONS": "No. of conversations",
-    "AGENT_CHAT_DURATION": "Avg chat duration"
+    "AGENT_CHAT_DURATION": "Avg chat duration",
+    "CSAT_SATISFACTION_SCORE": "Satisfaction score"
   }
 }

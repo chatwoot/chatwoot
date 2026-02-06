@@ -151,7 +151,16 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   private
 
   def build_filter_params
-    { since: params[:since], until: params[:until], user_ids: params[:user_ids], inbox_ids: params[:inbox_ids], team_ids: params[:team_ids] }.compact
+    { 
+      since: params[:since], 
+      until: params[:until], 
+      user_ids: params[:user_ids], 
+      inbox_ids: params[:inbox_ids], 
+      team_ids: params[:team_ids],
+      label_ids: params[:label_ids],
+      time_since: params[:time_since],
+      time_until: params[:time_until]
+    }.compact
   end
 
   def handle_email_delivery(filter_params)
@@ -183,6 +192,20 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def agent_activity_params
     params.permit(:since, :until, :timezone_offset, :hide_inactive, team_ids: [], user_ids: [], inbox_ids: [])
+  end
+
+  def summary_report_params
+    params.permit(
+      :since, 
+      :until, 
+      :business_hours, 
+      :time_since, 
+      :time_until,
+      user_ids: [], 
+      inbox_ids: [], 
+      team_ids: [], 
+      label_ids: []
+    )
   end
 
   def all_conversation_metrics_params

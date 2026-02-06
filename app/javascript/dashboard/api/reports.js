@@ -240,14 +240,58 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getAgentReports({ from: since, to: until, businessHours, format = 'csv' }) {
+  getAgentReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+    userIds,
+    inboxIds,
+    teamIds,
+    labelIds,
+    timeSince,
+    timeUntil,
+  }) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params.user_ids = userIds;
+    }
+    if (inboxIds && inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+    if (teamIds && teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+    if (labelIds && labelIds.length > 0) {
+      params.label_ids = labelIds;
+    }
+    if (timeSince) {
+      params.time_since = timeSince;
+    }
+    if (timeUntil) {
+      params.time_until = timeUntil;
+    }
+
     return axios.get(`${this.url}/agents.${format}`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
+      paramsSerializer: requestParams => {
+        const searchParams = new URLSearchParams();
+        Object.keys(requestParams).forEach(key => {
+          const value = requestParams[key];
+          if (Array.isArray(value)) {
+            value.forEach(item => searchParams.append(`${key}[]`, item));
+          } else if (value !== undefined && value !== null) {
+            searchParams.append(key, value);
+          }
+        });
+        return searchParams.toString();
+      },
     });
   }
 
@@ -261,36 +305,168 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getLabelReports({ from: since, to: until, businessHours, format = 'csv' }) {
+  getLabelReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+    userIds,
+    inboxIds,
+    teamIds,
+    labelIds,
+    timeSince,
+    timeUntil,
+  }) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params.user_ids = userIds;
+    }
+    if (inboxIds && inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+    if (teamIds && teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+    if (labelIds && labelIds.length > 0) {
+      params.label_ids = labelIds;
+    }
+    if (timeSince) {
+      params.time_since = timeSince;
+    }
+    if (timeUntil) {
+      params.time_until = timeUntil;
+    }
+
     return axios.get(`${this.url}/labels.${format}`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
+      paramsSerializer: requestParams => {
+        const searchParams = new URLSearchParams();
+        Object.keys(requestParams).forEach(key => {
+          const value = requestParams[key];
+          if (Array.isArray(value)) {
+            value.forEach(item => searchParams.append(`${key}[]`, item));
+          } else if (value !== undefined && value !== null) {
+            searchParams.append(key, value);
+          }
+        });
+        return searchParams.toString();
+      },
     });
   }
 
-  getInboxReports({ from: since, to: until, businessHours, format = 'csv' }) {
+  getInboxReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+    userIds,
+    inboxIds,
+    teamIds,
+    labelIds,
+    timeSince,
+    timeUntil,
+  }) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params.user_ids = userIds;
+    }
+    if (inboxIds && inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+    if (teamIds && teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+    if (labelIds && labelIds.length > 0) {
+      params.label_ids = labelIds;
+    }
+    if (timeSince) {
+      params.time_since = timeSince;
+    }
+    if (timeUntil) {
+      params.time_until = timeUntil;
+    }
+
     return axios.get(`${this.url}/inboxes.${format}`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
+      paramsSerializer: requestParams => {
+        const searchParams = new URLSearchParams();
+        Object.keys(requestParams).forEach(key => {
+          const value = requestParams[key];
+          if (Array.isArray(value)) {
+            value.forEach(item => searchParams.append(`${key}[]`, item));
+          } else if (value !== undefined && value !== null) {
+            searchParams.append(key, value);
+          }
+        });
+        return searchParams.toString();
+      },
     });
   }
 
-  getTeamReports({ from: since, to: until, businessHours, format = 'csv' }) {
+  getTeamReports({
+    from: since,
+    to: until,
+    businessHours,
+    format = 'csv',
+    userIds,
+    inboxIds,
+    teamIds,
+    labelIds,
+    timeSince,
+    timeUntil,
+  }) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+    };
+
+    if (userIds && userIds.length > 0) {
+      params.user_ids = userIds;
+    }
+    if (inboxIds && inboxIds.length > 0) {
+      params.inbox_ids = inboxIds;
+    }
+    if (teamIds && teamIds.length > 0) {
+      params.team_ids = teamIds;
+    }
+    if (labelIds && labelIds.length > 0) {
+      params.label_ids = labelIds;
+    }
+    if (timeSince) {
+      params.time_since = timeSince;
+    }
+    if (timeUntil) {
+      params.time_until = timeUntil;
+    }
+
     return axios.get(`${this.url}/teams.${format}`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
+      paramsSerializer: requestParams => {
+        const searchParams = new URLSearchParams();
+        Object.keys(requestParams).forEach(key => {
+          const value = requestParams[key];
+          if (Array.isArray(value)) {
+            value.forEach(item => searchParams.append(`${key}[]`, item));
+          } else if (value !== undefined && value !== null) {
+            searchParams.append(key, value);
+          }
+        });
+        return searchParams.toString();
+      },
     });
   }
 }

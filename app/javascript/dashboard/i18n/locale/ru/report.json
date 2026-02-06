@@ -628,6 +628,7 @@
     "AVG_REPLY_TIME": "Среднее время ожидания клиента",
     "RESOLUTION_COUNT": "Количество завершенных",
     "CONVERSATIONS": "Количество диалогов",
-    "AGENT_CHAT_DURATION": "Среднее время длительности чатов"
+    "AGENT_CHAT_DURATION": "Среднее время длительности чатов",
+    "CSAT_SATISFACTION_SCORE": "Оценка CSAT"
   }
 }

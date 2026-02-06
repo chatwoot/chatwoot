@@ -32,5 +32,8 @@ const handleDownload = format => {
     summary-key="summaryReports/getAgentSummaryReports"
     type="agent"
     show-agent-chat-duration
+    show-csat-score
+    custom-header-class="text-xxs px-1 py-1"
+    custom-cell-class="text-xs px-1 py-1"
   />
 </template>

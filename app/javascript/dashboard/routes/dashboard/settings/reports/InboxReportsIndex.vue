@@ -31,5 +31,6 @@ const handleDownload = format => {
     fetch-items-key="inboxes/get"
     summary-key="summaryReports/getInboxSummaryReports"
     type="inbox"
+    show-csat-score
   />
 </template>
