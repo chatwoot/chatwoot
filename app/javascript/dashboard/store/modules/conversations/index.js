@@ -91,6 +91,13 @@ export const mutations = {
     chat.messages = data;
   },
 
+  [types.SET_CHAT_DATA_FETCHED](_state, conversationId) {
+    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    if (chat) {
+      chat.dataFetched = true;
+    }
+  },
+
   [types.SET_CURRENT_CHAT_WINDOW](_state, activeChat) {
     if (activeChat) {
       _state.selectedChatId = activeChat.id;
