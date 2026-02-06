@@ -554,92 +554,111 @@ onUnmounted(() => {
       @click="openNewCategory()"
       @close="showCategoryForm = false"
     >
-      <!-- Category Form Dropdown (appears below New Category button) -->
+      <!-- Category Form Modal -->
       <template #action>
-        <div
-          v-if="showCategoryForm"
-          class="w-[calc(100vw-2rem)] sm:w-96 max-w-96 z-50 absolute top-10 right-0 bg-n-alpha-3 backdrop-blur-[100px] p-4 sm:p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-4"
-        >
-          <div class="flex items-start justify-between">
-            <h3 class="text-base font-medium text-n-slate-12">
-              {{ editingCategory ? t('KNOWLEDGE_BASE.FAQ.CATEGORIES.EDIT') : t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NEW') }}
-            </h3>
-            <button class="text-n-slate-11 hover:text-n-slate-12" @click="showCategoryForm = false">
-              <i class="i-lucide-x w-5 h-5" />
-            </button>
+        <Teleport to="body">
+          <div
+            v-if="showCategoryForm"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            @click.self="showCategoryForm = false"
+          >
+            <div
+              class="w-full max-w-md bg-n-solid-1 rounded-xl border border-n-weak shadow-xl flex flex-col max-h-[90vh] overflow-hidden"
+              @click.stop
+            >
+              <div class="flex items-center justify-between p-4 sm:p-6 border-b border-n-weak shrink-0">
+                <h3 class="text-base font-medium text-n-slate-12">
+                  {{ editingCategory ? t('KNOWLEDGE_BASE.FAQ.CATEGORIES.EDIT') : t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NEW') }}
+                </h3>
+                <button class="p-1 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 rounded-lg" @click="showCategoryForm = false">
+                  <i class="i-lucide-x w-5 h-5" />
+                </button>
+              </div>
+              <div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4">
+                <Input v-model="categoryForm.name" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME_PLACEHOLDER')" />
+                <Input v-model="categoryForm.description" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION_PLACEHOLDER')" />
+                <div>
+                  <label class="block text-sm font-medium text-n-slate-12 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.CATEGORIES.PARENT') }}</label>
+                  <select v-model="categoryForm.parent_id" class="w-full h-10 px-3 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12">
+                    <option :value="null">{{ t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NO_PARENT') }}</option>
+                    <option v-for="cat in flatCategories.filter(c => c.level === 0 && c.id !== editingCategory?.id)" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="flex gap-3 p-4 sm:p-6 border-t border-n-weak shrink-0">
+                <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showCategoryForm = false" />
+                <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!categoryForm.name" class="flex-1" @click="saveCategory" />
+              </div>
+            </div>
           </div>
-          <Input v-model="categoryForm.name" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NAME_PLACEHOLDER')" />
-          <Input v-model="categoryForm.description" :label="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.CATEGORIES.DESCRIPTION_PLACEHOLDER')" />
-          <div>
-            <label class="block text-sm font-medium text-n-slate-12 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.CATEGORIES.PARENT') }}</label>
-            <select v-model="categoryForm.parent_id" class="w-full h-10 px-3 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12">
-              <option :value="null">{{ t('KNOWLEDGE_BASE.FAQ.CATEGORIES.NO_PARENT') }}</option>
-              <option v-for="cat in flatCategories.filter(c => c.level === 0 && c.id !== editingCategory?.id)" :key="cat.id" :value="cat.id">{{ cat.name }}</option>
-            </select>
-          </div>
-          <div class="flex gap-3">
-            <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showCategoryForm = false" />
-            <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!categoryForm.name" class="flex-1" @click="saveCategory" />
-          </div>
-        </div>
+        </Teleport>
       </template>
 
       <template #header-actions>
-        <!-- New FAQ Button with Dropdown -->
-        <div class="relative">
-          <button
-            class="h-8 px-3 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2"
-            @click="openNewFaq()"
-          >
-            <i class="i-lucide-plus w-4 h-4" />
-            {{ t('KNOWLEDGE_BASE.FAQ.NEW_FAQ') }}
-          </button>
-          <!-- FAQ Form Dropdown -->
+        <!-- New FAQ Button -->
+        <button
+          class="h-8 px-3 bg-n-blue-9 text-white rounded-lg hover:bg-n-blue-10 transition-colors text-sm font-medium flex items-center gap-2"
+          @click="openNewFaq()"
+        >
+          <i class="i-lucide-plus w-4 h-4" />
+          {{ t('KNOWLEDGE_BASE.FAQ.NEW_FAQ') }}
+        </button>
+
+        <!-- FAQ Form Modal -->
+        <Teleport to="body">
           <div
             v-if="showFaqForm"
-            class="w-[calc(100vw-2rem)] sm:w-[28rem] max-w-[28rem] z-50 absolute top-10 right-0 bg-n-alpha-3 backdrop-blur-[100px] p-4 sm:p-6 rounded-xl border border-n-weak shadow-md flex flex-col gap-4"
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50"
+            @click.self="showFaqForm = false"
           >
-            <div class="flex items-start justify-between">
-              <h3 class="text-base font-medium text-n-slate-12">
-                {{ editingFaq ? t('KNOWLEDGE_BASE.FAQ.ITEMS.EDIT') : t('KNOWLEDGE_BASE.FAQ.ITEMS.NEW') }}
-              </h3>
-              <button class="text-n-slate-11 hover:text-n-slate-12" @click="showFaqForm = false">
-                <i class="i-lucide-x w-5 h-5" />
-              </button>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-n-slate-12 mb-1">
-                {{ t('KNOWLEDGE_BASE.FAQ.ITEMS.CATEGORY') }}
-                <span class="text-n-ruby-11">*</span>
-              </label>
-              <select v-model="faqForm.faq_category_id" class="w-full h-10 px-3 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12" required>
-                <option :value="null" disabled>{{ t('KNOWLEDGE_BASE.FAQ.ITEMS.SELECT_CATEGORY') }}</option>
-                <option v-for="cat in flatCategories" :key="cat.id" :value="cat.id">{{ cat.level > 0 ? '— ' : '' }}{{ cat.name }}</option>
-              </select>
-            </div>
-            <div class="flex gap-2 border-b border-n-weak">
-              <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'es' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'es'">Español</button>
-              <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'en' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'en'">English</button>
-            </div>
-            <div>
-              <Input v-model="currentQuestion" :label="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION_PLACEHOLDER')" :maxlength="256" />
-              <p class="mt-1 text-xs" :class="currentQuestion.length > 256 ? 'text-n-ruby-11' : 'text-n-slate-10'">
-                {{ currentQuestion.length }}/256
-              </p>
-            </div>
-            <div>
-              <label class="block text-sm font-medium text-n-slate-12 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER') }}</label>
-              <textarea v-model="currentAnswer" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER_PLACEHOLDER')" rows="12" class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 resize-y min-h-[200px]" maxlength="2048" />
-              <p class="mt-1 text-xs" :class="currentAnswer.length > 2048 ? 'text-n-ruby-11' : 'text-n-slate-10'">
-                {{ currentAnswer.length }}/2048
-              </p>
-            </div>
-            <div class="flex gap-3">
-              <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showFaqForm = false" />
-              <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!faqForm.faq_category_id || (!faqForm.translations.es?.question && !faqForm.translations.en?.question) || currentQuestion.length > 256 || currentAnswer.length > 2048" class="flex-1" @click="saveFaq" />
+            <div
+              class="w-full max-w-lg bg-n-solid-1 rounded-xl border border-n-weak shadow-xl flex flex-col max-h-[90vh] overflow-hidden"
+              @click.stop
+            >
+              <div class="flex items-center justify-between p-4 sm:p-6 border-b border-n-weak shrink-0">
+                <h3 class="text-base font-medium text-n-slate-12">
+                  {{ editingFaq ? t('KNOWLEDGE_BASE.FAQ.ITEMS.EDIT') : t('KNOWLEDGE_BASE.FAQ.ITEMS.NEW') }}
+                </h3>
+                <button class="p-1 text-n-slate-11 hover:text-n-slate-12 hover:bg-n-alpha-2 rounded-lg" @click="showFaqForm = false">
+                  <i class="i-lucide-x w-5 h-5" />
+                </button>
+              </div>
+              <div class="flex-1 overflow-y-auto p-4 sm:p-6 flex flex-col gap-4">
+                <div>
+                  <label class="block text-sm font-medium text-n-slate-12 mb-1">
+                    {{ t('KNOWLEDGE_BASE.FAQ.ITEMS.CATEGORY') }}
+                    <span class="text-n-ruby-11">*</span>
+                  </label>
+                  <select v-model="faqForm.faq_category_id" class="w-full h-10 px-3 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12" required>
+                    <option :value="null" disabled>{{ t('KNOWLEDGE_BASE.FAQ.ITEMS.SELECT_CATEGORY') }}</option>
+                    <option v-for="cat in flatCategories" :key="cat.id" :value="cat.id">{{ cat.level > 0 ? '— ' : '' }}{{ cat.name }}</option>
+                  </select>
+                </div>
+                <div class="flex gap-2 border-b border-n-weak">
+                  <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'es' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'es'">Español</button>
+                  <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'en' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'en'">English</button>
+                </div>
+                <div>
+                  <Input v-model="currentQuestion" :label="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION_PLACEHOLDER')" :maxlength="256" />
+                  <p class="mt-1 text-xs" :class="currentQuestion.length > 256 ? 'text-n-ruby-11' : 'text-n-slate-10'">
+                    {{ currentQuestion.length }}/256
+                  </p>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-n-slate-12 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER') }}</label>
+                  <textarea v-model="currentAnswer" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER_PLACEHOLDER')" rows="8" class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 resize-y min-h-[120px]" maxlength="2048" />
+                  <p class="mt-1 text-xs" :class="currentAnswer.length > 2048 ? 'text-n-ruby-11' : 'text-n-slate-10'">
+                    {{ currentAnswer.length }}/2048
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-3 p-4 sm:p-6 border-t border-n-weak shrink-0">
+                <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showFaqForm = false" />
+                <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!faqForm.faq_category_id || (!faqForm.translations.es?.question && !faqForm.translations.en?.question) || currentQuestion.length > 256 || currentAnswer.length > 2048" class="flex-1" @click="saveFaq" />
+              </div>
             </div>
           </div>
-        </div>
+        </Teleport>
       </template>
 
       <!-- Loading -->
