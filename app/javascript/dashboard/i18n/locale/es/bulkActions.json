@@ -23,8 +23,8 @@
       "UPDATE_FAILED": "No se han podido actualizar las conversaciones. Inténtalo de nuevo."
     },
     "RESOLVE": {
-      "ALL_MISSING_ATTRIBUTES": "Cannot resolve conversations due to missing required attributes",
-      "PARTIAL_SUCCESS": "Some conversations need required attributes before resolving and were skipped"
+      "ALL_MISSING_ATTRIBUTES": "No se pueden resolver las conversaciones debido a la falta de atributos requeridos",
+      "PARTIAL_SUCCESS": "Algunas conversaciones requieren atributos obligatorios antes de resolverse y se omitieron"
     },
     "LABELS": {
       "ASSIGN_LABELS": "Asignar etiqueta",
