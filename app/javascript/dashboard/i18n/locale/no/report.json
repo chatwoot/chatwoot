@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_AGENT_REPORTS": "Last ned agentrapporter",
     "FILTER_DROPDOWN_LABEL": "Velg agent",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Søk etter agenter"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_LABEL_REPORTS": "Download label reports",
     "FILTER_DROPDOWN_LABEL": "Select Label",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Search labels"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Laster inn diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke mottatt nok data for å generere rapporten, vennligst prøv igjen senere.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
     "FILTER_DROPDOWN_LABEL": "Select Team",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Søk blant grupper"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Samtaler",
