@@ -131,18 +131,16 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
       context 'when the original message exists in Chatwoot' do
         it 'sets in_reply_to to reference the existing message' do
-          # Create a conversation first
+          # Create a conversation and the original message that will be replied to first
           contact = create(:contact, phone_number: '+16503071063', account: whatsapp_channel.account)
           contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '16503071063')
           conversation = create(:conversation, contact: contact, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox)
 
-          # Create the original message that will be replied to
           original_message = create(:message,
                                     conversation: conversation,
                                     source_id: 'wamid.ORIGINAL_MESSAGE_ID',
                                     content: 'Original message')
 
-          # Process the reply message
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           reply_message = whatsapp_channel.inbox.messages.last
@@ -154,7 +152,6 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
       context 'when the original message does not exist in Chatwoot' do
         it 'does not set in_reply_to (discards the reply reference)' do
-          # Process the reply message without creating the original message first
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           reply_message = whatsapp_channel.inbox.messages.last
