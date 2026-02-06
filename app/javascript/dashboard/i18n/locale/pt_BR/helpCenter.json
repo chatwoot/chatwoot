@@ -70,11 +70,11 @@
           "SEARCH_PLACEHOLDER": "Pesquisar autor"
         },
         "META_TITLE": {
-          "LABEL": "Meta title",
+          "LABEL": "Meta título",
           "PLACEHOLDER": "Adicionar um meta title"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Meta description",
+          "LABEL": "Meta descrição",
           "PLACEHOLDER": "Adicione suas meta descriptions para melhorar os resultados de SEO..."
         },
         "META_TAGS": {
@@ -672,7 +672,7 @@
         "ARTICLE_PROPERTIES": "Propriedades do artigo",
         "META_DESCRIPTION": "Meta descrição",
         "META_DESCRIPTION_PLACEHOLDER": "Adicionar meta descrição",
-        "META_TITLE": "Meta title",
+        "META_TITLE": "Meta título",
         "META_TITLE_PLACEHOLDER": "Adicionar meta título",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Adicionar meta tags"
@@ -742,7 +742,7 @@
           "LABEL": "Widget de chat ao vivo",
           "PLACEHOLDER": "Selecionar widget de chat ao vivo",
           "HELP_TEXT": "Selecione um widget de chat ao vivo que aparecerá no centro de ajuda",
-          "NONE_OPTION": "No widget"
+          "NONE_OPTION": "Sem widget"
         },
         "BRAND_COLOR": {
           "LABEL": "Cor da Marca"
@@ -810,55 +810,55 @@
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
+      "TITLE": "Enviar Documento PDF",
+      "DESCRIPTION": "Envie um documento PDF para gerar FAQs automaticamente com IA",
       "DRAG_DROP_TEXT": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "SELECT_FILE": "Selecionar Arquivo PDF",
+      "ADDITIONAL_CONTEXT_LABEL": "Contexto Adicional (Opcional)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Forneça qualquer contexto ou instruções adicionais para a geração de FAQs...",
       "UPLOADING": "Enviando...",
-      "UPLOAD": "Upload & Process",
+      "UPLOAD": "Enviar e Processar",
       "CANCEL": "Cancelar",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
+      "ERROR_INVALID_TYPE": "Por favor, selecione um arquivo PDF válido",
+      "ERROR_FILE_TOO_LARGE": "O tamanho do arquivo deve ser menor que 512MB",
       "ERROR_UPLOAD_FAILED": "Falha ao carregar o arquivo PDF. Por favor, tente novamente."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
+      "TITLE": "Documentos PDF",
+      "DESCRIPTION": "Gerencie os documentos PDF enviados e gere FAQs a partir deles",
+      "UPLOAD_PDF": "Enviar PDF",
+      "UPLOAD_FIRST_PDF": "Envie seu primeiro PDF",
+      "UPLOADED_BY": "Enviado por",
+      "GENERATE_FAQS": "Gerar FAQs",
       "GENERATING": "Gerando...",
       "CONFIRM_DELETE": "Tem certeza que deseja excluir {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Nenhum documento PDF ainda",
+        "DESCRIPTION": "Envie documentos PDF para gerar FAQs automaticamente com IA"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "Pronto",
+        "PROCESSING": "Processando",
         "PROCESSED": "Concluído",
-        "FAILED": "Failed"
+        "FAILED": "Falha"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
+      "TITLE": "Geração de Conteúdo",
+      "DESCRIPTION": "Envie documentos PDF para gerar conteúdo de FAQ automaticamente com IA",
+      "UPLOAD_TITLE": "Enviar Documento PDF",
       "DRAG_DROP": "Arraste e solte seu arquivo PDF aqui, clique para selecionar",
       "SELECT_FILE": "Selecionar Arquivo PDF",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
+      "UPLOADING": "Processando documento...",
+      "UPLOAD_SUCCESS": "Documento processado com sucesso!",
+      "UPLOAD_ERROR": "Falha ao enviar o documento. Tente novamente.",
       "INVALID_FILE_TYPE": "Por favor, selecione um arquivo PDF válido",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
+      "FILE_TOO_LARGE": "O tamanho do arquivo deve ser menor que 512MB",
+      "GENERATED_CONTENT": "Conteúdo gerado do FAQ",
+      "PUBLISH_SELECTED": "Publicar Selecionados",
+      "PUBLISHING": "Publicando...",
+      "FROM_DOCUMENT": "A partir do documento",
+      "NO_CONTENT": "Nenhum conteúdo gerado disponível. Envie um documento PDF para começar.",
       "LOADING": "Carregando conteúdo gerado..."
     }
   }
