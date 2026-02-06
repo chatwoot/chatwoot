@@ -7,7 +7,7 @@
         "NAME": "Nombre",
         "DOMAIN": "Dominio",
         "CREATED_AT": "Creado el",
-        "CONTACTS_COUNT": "Contacts count"
+        "CONTACTS_COUNT": "Número de contactos"
       }
     },
     "ORDER": {
