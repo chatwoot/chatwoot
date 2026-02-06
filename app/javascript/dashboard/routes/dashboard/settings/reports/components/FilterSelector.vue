@@ -143,7 +143,9 @@ export default {
       const month = date.getMonth();
       const day = date.getDate();
 
-      const utcTimestamp = Date.UTC(year, month, day, hours, minutes, 0, 0);
+      const localDate = new Date(year, month, day, hours, minutes, 0, 0);
+
+      const utcTimestamp = localDate.getTime();
 
       return Math.floor(utcTimestamp / 1000);
     },

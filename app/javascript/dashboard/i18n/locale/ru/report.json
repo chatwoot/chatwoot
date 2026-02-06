@@ -513,7 +513,8 @@
       "OPEN": "Открытых",
       "UNATTENDED": "Неотвеченные",
       "UNASSIGNED": "Неназначен",
-      "PENDING": "В ожидании"
+      "PENDING": "В ожидании",
+      "RESOLVED": "Решенных"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Трафик сообщений",

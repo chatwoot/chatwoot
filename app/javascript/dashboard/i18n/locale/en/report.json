@@ -558,7 +558,8 @@
       "OPEN": "Open",
       "UNATTENDED": "Unattended",
       "UNASSIGNED": "Unassigned",
-      "PENDING": "Pending"
+      "PENDING": "Pending",
+      "RESOLVED": "Resolved"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
