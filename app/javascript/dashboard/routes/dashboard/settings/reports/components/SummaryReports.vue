@@ -1,5 +1,5 @@
 <script setup>
-import ReportFilterSelector from './FilterSelector.vue';
+import OverviewReportFilters from './OverviewReportFilters.vue';
 import { formatTime } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import Table from 'dashboard/components/table/Table.vue';
@@ -178,7 +178,7 @@ defineExpose({ downloadReports });
 </script>
 
 <template>
-  <ReportFilterSelector @filter-change="onFilterChange" />
+  <OverviewReportFilters @filter-change="onFilterChange" />
   <div
     class="flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
