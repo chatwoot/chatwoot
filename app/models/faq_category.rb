@@ -1,6 +1,9 @@
 class FaqCategory < ApplicationRecord
   include Events::Types
 
+  # Limits
+  MAX_CATEGORIES_PER_ACCOUNT = 250
+
   belongs_to :account
   belongs_to :parent, class_name: 'FaqCategory', optional: true
   belongs_to :created_by, class_name: 'User', optional: true
@@ -19,6 +22,7 @@ class FaqCategory < ApplicationRecord
 
   # Validate max depth of 2 levels
   validate :validate_max_depth
+  validate :validate_categories_per_account_limit, on: :create
 
   before_destroy :destroy_faq_items_with_skip_callbacks
   after_destroy_commit :dispatch_bulk_faq_deleted_event
@@ -31,6 +35,15 @@ class FaqCategory < ApplicationRecord
     if parent&.parent_id.present?
       errors.add(:parent_id, 'cannot have more than 2 levels of nesting')
     end
+  end
+
+  def validate_categories_per_account_limit
+    return if account_id.blank?
+
+    current_count = FaqCategory.where(account_id: account_id).count
+    return unless current_count >= MAX_CATEGORIES_PER_ACCOUNT
+
+    errors.add(:account, "already has #{MAX_CATEGORIES_PER_ACCOUNT} categories (maximum limit)")
   end
 
   def destroy_faq_items_with_skip_callbacks

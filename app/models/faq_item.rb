@@ -1,12 +1,19 @@
 class FaqItem < ApplicationRecord
   include Events::Types
 
+  # Limits
+  MAX_QUESTION_LENGTH = 256
+  MAX_ANSWER_LENGTH = 2048
+  MAX_ITEMS_PER_CATEGORY = 200
+
   belongs_to :account
   belongs_to :faq_category, optional: true
   belongs_to :created_by, class_name: 'User', optional: true
   belongs_to :updated_by, class_name: 'User', optional: true
 
   validate :has_at_least_one_translation
+  validate :validate_translation_lengths
+  validate :validate_items_per_category_limit, on: :create
 
   # Skip callbacks for bulk operations (handled separately in controllers)
   attr_accessor :skip_catalog_callbacks
@@ -38,6 +45,34 @@ class FaqItem < ApplicationRecord
     return if translations.present? && translations.values.any? { |t| t['question'].present? }
 
     errors.add(:translations, 'must have at least one question')
+  end
+
+  def validate_translation_lengths
+    return if translations.blank?
+
+    translations.each do |locale, content|
+      next unless content.is_a?(Hash)
+
+      question = content['question'].to_s
+      answer = content['answer'].to_s
+
+      if question.length > MAX_QUESTION_LENGTH
+        errors.add(:translations, "question in #{locale} exceeds #{MAX_QUESTION_LENGTH} characters")
+      end
+
+      if answer.length > MAX_ANSWER_LENGTH
+        errors.add(:translations, "answer in #{locale} exceeds #{MAX_ANSWER_LENGTH} characters")
+      end
+    end
+  end
+
+  def validate_items_per_category_limit
+    return if faq_category_id.blank?
+
+    current_count = FaqItem.where(faq_category_id: faq_category_id).count
+    return unless current_count >= MAX_ITEMS_PER_CATEGORY
+
+    errors.add(:faq_category_id, "category already has #{MAX_ITEMS_PER_CATEGORY} FAQs (maximum limit)")
   end
 
   def faq_item_payload

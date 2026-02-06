@@ -621,14 +621,22 @@ onUnmounted(() => {
               <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'es' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'es'">Español</button>
               <button :class="['px-4 py-2 text-sm font-medium border-b-2 -mb-px', activeLanguage === 'en' ? 'border-n-blue-9 text-n-blue-11' : 'border-transparent text-n-slate-11']" @click="activeLanguage = 'en'">English</button>
             </div>
-            <Input v-model="currentQuestion" :label="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION_PLACEHOLDER')" />
+            <div>
+              <Input v-model="currentQuestion" :label="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION')" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.QUESTION_PLACEHOLDER')" :maxlength="256" />
+              <p class="mt-1 text-xs" :class="currentQuestion.length > 256 ? 'text-n-ruby-11' : 'text-n-slate-10'">
+                {{ currentQuestion.length }}/256
+              </p>
+            </div>
             <div>
               <label class="block text-sm font-medium text-n-slate-12 mb-1">{{ t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER') }}</label>
-              <textarea v-model="currentAnswer" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER_PLACEHOLDER')" rows="12" class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 resize-y min-h-[200px]" />
+              <textarea v-model="currentAnswer" :placeholder="t('KNOWLEDGE_BASE.FAQ.ITEMS.ANSWER_PLACEHOLDER')" rows="12" class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 resize-y min-h-[200px]" maxlength="2048" />
+              <p class="mt-1 text-xs" :class="currentAnswer.length > 2048 ? 'text-n-ruby-11' : 'text-n-slate-10'">
+                {{ currentAnswer.length }}/2048
+              </p>
             </div>
             <div class="flex gap-3">
               <Button variant="outline" :label="t('KNOWLEDGE_BASE.FAQ.CANCEL')" class="flex-1" @click="showFaqForm = false" />
-              <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!faqForm.faq_category_id || (!faqForm.translations.es?.question && !faqForm.translations.en?.question)" class="flex-1" @click="saveFaq" />
+              <Button :label="t('KNOWLEDGE_BASE.FAQ.SAVE')" :is-loading="isSaving" :disabled="!faqForm.faq_category_id || (!faqForm.translations.es?.question && !faqForm.translations.en?.question) || currentQuestion.length > 256 || currentAnswer.length > 2048" class="flex-1" @click="saveFaq" />
             </div>
           </div>
         </div>
