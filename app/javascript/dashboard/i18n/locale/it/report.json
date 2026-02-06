@@ -133,6 +133,11 @@
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
     "DOWNLOAD_AGENT_REPORTS": "Scarica report operatori",
     "FILTER_DROPDOWN_LABEL": "Seleziona Operatore",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Cerca operatori"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
     "DOWNLOAD_LABEL_REPORTS": "Scarica report etichette",
     "FILTER_DROPDOWN_LABEL": "Seleziona etichetta",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Cerca etichette"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Seleziona Inbox",
     "ALL_INBOXES": "Tutte le Inbox",
     "SEARCH_INBOX": "Ricerca Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Ricerca Inbox"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Panoramica Team",
-    "DESCRIPTION": "Ottieni un'istantanea delle prestazioni del tuo team con metriche essenziali, tra cui conversazioni, tempi di risposta, tempi di risoluzione e casi risolti. Fare clic su un nome del team per maggiori dettagli.",
+    "DESCRIPTION": "Ottieni un'istantanea delle performance dei tuo team con metriche essenziali, tra cui conversazioni, tempi di risposta, tempi di risoluzione e casi risolti. Fai clic su un team per maggiori dettagli.",
     "LOADING_CHART": "Caricamento dati grafici...",
     "NO_ENOUGH_DATA": "Non ci sono abbastanza dati per generare il report, riprova più tardi.",
     "DOWNLOAD_TEAM_REPORTS": "Scarica report del team",
     "FILTER_DROPDOWN_LABEL": "Seleziona Team",
+    "FILTERS": {
+      "ADD_FILTER": "Aggiungi filtro",
+      "CLEAR_ALL": "Rimuovi tutto",
+      "NO_FILTER": "Nessun filtro disponibile",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Cerca team"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversazioni",
