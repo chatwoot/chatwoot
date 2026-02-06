@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
     "FILTER_DROPDOWN_LABEL": "Seleccionar agente",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Buscar agentes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_LABEL_REPORTS": "Descargar reportes de etiquetas",
     "FILTER_DROPDOWN_LABEL": "Seleecionar etiqueta",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Buscar etiquetas"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Seleccione una bandeja de entrada",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Vista general del equipo",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Descargar informes del equipo",
     "FILTER_DROPDOWN_LABEL": "Seleccionar equipo",
+    "FILTERS": {
+      "ADD_FILTER": "Añadir Filtro",
+      "CLEAR_ALL": "Limpiar todo",
+      "NO_FILTER": "No hay filtros disponibles",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Buscar equipos"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
