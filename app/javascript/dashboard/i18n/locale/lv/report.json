@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Aģentu Pārskats",
-    "DESCRIPTION": "Ērti izsekojiet aģenta darbībai, izmantojot galvenos rādītājus, piemēram, sarunas, atbildes laikus, atrisināšanas laikus un atrisinātos gadījumus. Noklikšķiniet uz aģenta vārda, lai uzzinātu vairāk.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
     "FILTER_DROPDOWN_LABEL": "Izvēlieties Aģentu",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Meklēt aģentus"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_LABEL_REPORTS": "Lejupielādēt etiķešu pārskatus",
     "FILTER_DROPDOWN_LABEL": "Izvēlieties Etiķeti",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Meklēt etiķetes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Izvēlieties Iesūtni",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Komandas Pārskats",
-    "DESCRIPTION": "Iegūstiet pārskatu par savas komandas veiktspēju, izmantojot būtiskus rādītājus, tostarp sarunas, atbildes laikus, atrisināšanas laikus un atrisinātos gadījumus. Lai iegūtu sīkāku informāciju, noklikšķiniet uz komandas nosaukuma.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_TEAM_REPORTS": "Lejupielādēt komandas pārskatus",
     "FILTER_DROPDOWN_LABEL": "Izvēlieties Komandu",
+    "FILTERS": {
+      "ADD_FILTER": "Pievienot filtru",
+      "CLEAR_ALL": "Notīrīt visu",
+      "NO_FILTER": "Nav pieejami filtri",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Meklēt komandas"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Sarunas",
