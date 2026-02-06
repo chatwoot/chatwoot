@@ -11,6 +11,13 @@ import {
 } from '../helpers/reportFilterHelper';
 import { DATE_RANGE_TYPES } from 'dashboard/components/ui/DatePicker/helpers/DatePickerHelper';
 
+defineProps({
+  disabled: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const emit = defineEmits(['filterChange']);
 
 const route = useRoute();
@@ -79,7 +86,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-3 md:flex-row">
+  <div
+    class="flex flex-col justify-between gap-3 md:flex-row"
+    :class="{ 'pointer-events-none opacity-50': disabled }"
+  >
     <div class="flex flex-col flex-wrap items-start gap-2 md:flex-row">
       <WootDatePicker
         v-model:date-range="customDateRange"
