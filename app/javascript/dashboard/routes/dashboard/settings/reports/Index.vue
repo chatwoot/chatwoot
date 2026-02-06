@@ -1,7 +1,7 @@
 <script>
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import { useAlert, useTrack } from 'dashboard/composables';
-import ReportFilterSelector from './components/FilterSelector.vue';
+import ReportFilters from './components/ReportFilters.vue';
 import { GROUP_BY_FILTER } from './constants';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import { generateFileName } from 'dashboard/helper/downloadHelper';
@@ -22,7 +22,7 @@ export default {
   name: 'ConversationReports',
   components: {
     ReportHeader,
-    ReportFilterSelector,
+    ReportFilters,
     ReportContainer,
     V4Button,
   },
@@ -115,10 +115,10 @@ export default {
       @click="downloadConversationReports"
     />
   </ReportHeader>
-  <div class="flex flex-col gap-3">
-    <ReportFilterSelector
-      :show-agents-filter="false"
-      show-group-by-filter
+  <div class="flex flex-col">
+    <ReportFilters
+      :show-entity-filter="false"
+      show-group-by
       @filter-change="onFilterChange"
     />
     <ReportContainer :group-by="groupBy" />

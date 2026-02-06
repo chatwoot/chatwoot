@@ -23,7 +23,6 @@ const onClickApply = () => {
     />
     <NextButton
       sm
-      ghost
       :label="$t('DATE_PICKER.APPLY_BUTTON')"
       @click="onClickApply"
     />
