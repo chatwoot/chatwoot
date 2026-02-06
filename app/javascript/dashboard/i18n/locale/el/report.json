@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Επισκόπηση Πρακτόρων",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_AGENT_REPORTS": "Κατέβασμα αναφορών πράκτορα",
     "FILTER_DROPDOWN_LABEL": "Επιλογή πράκτορα",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Αναζήτηση πράκτορων"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_LABEL_REPORTS": "Λήψη αναφορών ετικέτας",
     "FILTER_DROPDOWN_LABEL": "Επιλογή Ετικέτας",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Αναζήτηση ετικετών"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Επιλογή Εισερχομένων",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Επισκόπηση Ομάδας",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Φόρτωση δεδομένων γραφήματος...",
     "NO_ENOUGH_DATA": "Δεν έχουν ληφθεί αρκετά σημεία δεδομένων για την δημιουργία της αναφοράς, Παρακαλώ προσπαθήστε αργότερα.",
     "DOWNLOAD_TEAM_REPORTS": "Λήψη αναφορών ομάδας",
     "FILTER_DROPDOWN_LABEL": "Επιλογή Ομάδας",
+    "FILTERS": {
+      "ADD_FILTER": "Add filter",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Αναζήτηση ομάδων"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Συζητήσεις",
