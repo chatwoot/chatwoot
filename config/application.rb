@@ -33,6 +33,13 @@ if ENV.fetch('JUDOSCALE_URL', false).present?
   require 'judoscale-sidekiq'
 end
 
+# Opt in to RubyLLM's new (v1.7+) acts_as API so the legacy
+# deprecation warning is no longer emitted on boot.
+# Chatwoot does not use acts_as_chat / acts_as_message / acts_as_tool_call,
+# so this is a no-op beyond silencing the warning and future-proofing
+# against the removal of the legacy API in RubyLLM 2.0.
+RubyLLM.configure { |c| c.use_new_acts_as = true }
+
 module Chatwoot
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
