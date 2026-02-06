@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
-    "DESCRIPTION": "Легко отслеживайте эффективность работы агентов с помощью ключевых метрик, таких как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя агента, чтобы узнать подробности.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
     "FILTER_DROPDOWN_LABEL": "Выбрать Агента",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Поиск агентов"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_LABEL_REPORTS": "Скачать отчет по меткам",
     "FILTER_DROPDOWN_LABEL": "Выбрать метку",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Поиск меток"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Выбрать \"Входящий\" канал",
     "ALL_INBOXES": "Все входящие",
     "SEARCH_INBOX": "Поиск входящих",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Обзор команды",
-    "DESCRIPTION": "Получите обзор работы вашей команды с основными метриками, такими как количество бесед, время ответа, время решения проблем и количество решённых случаев. Нажмите на имя команды для подробностей.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_TEAM_REPORTS": "Скачать отчет по команде",
     "FILTER_DROPDOWN_LABEL": "Выберите команду",
+    "FILTERS": {
+      "ADD_FILTER": "Добавить фильтр",
+      "CLEAR_ALL": "Очистить всё",
+      "NO_FILTER": "Нет доступных фильтров",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Поиск команд"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Диалоги",
