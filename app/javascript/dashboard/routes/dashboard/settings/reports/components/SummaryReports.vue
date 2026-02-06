@@ -1,5 +1,5 @@
 <script setup>
-import ReportFilterSelector from './FilterSelector.vue';
+import OverviewReportFilters from './OverviewReportFilters.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import { formatTime } from '@chatwoot/utils';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -203,7 +203,10 @@ defineExpose({ downloadReports });
 </script>
 
 <template>
-  <ReportFilterSelector :disabled="isLoading" @filter-change="onFilterChange" />
+  <OverviewReportFilters
+    :disabled="isLoading"
+    @filter-change="onFilterChange"
+  />
   <div
     class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
