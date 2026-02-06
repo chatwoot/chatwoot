@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "担当者概要",
-    "DESCRIPTION": "会話、応答時間、解決までの時間、解決済み案件などの主要な指標で担当者のパフォーマンスを簡単に追跡できます。詳細は担当者名をクリックしてください。",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_AGENT_REPORTS": "担当者レポートをダウンロード",
     "FILTER_DROPDOWN_LABEL": "担当者を選択",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "担当者を検索"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_LABEL_REPORTS": "ラベルレポートをダウンロード",
     "FILTER_DROPDOWN_LABEL": "ラベルを選択",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "ラベルを検索"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "受信トレイを選択",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "チーム概要",
-    "DESCRIPTION": "会話、応答時間、解決までの時間、解決済み案件などの重要な指標でチームのパフォーマンスのスナップショットを取得します。 詳細はチーム名をクリックしてください。",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_TEAM_REPORTS": "チームレポートをダウンロード",
     "FILTER_DROPDOWN_LABEL": "チームを選択",
+    "FILTERS": {
+      "ADD_FILTER": "フィルターを追加",
+      "CLEAR_ALL": "すべてクリア",
+      "NO_FILTER": "利用可能なフィルターがありません",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "チームを検索"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "会話データ",
