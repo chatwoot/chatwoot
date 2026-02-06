@@ -9,7 +9,7 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
   private
 
   attr_reader :conversations_count, :resolved_count,
-              :avg_resolution_time, :avg_first_response_time, :avg_reply_time
+              :avg_resolution_time, :avg_first_response_time, :avg_reply_time, :csat_satisfaction_score
 
   def fetch_conversations_count
     filtered_conversations.group(:team_id).count
@@ -125,7 +125,8 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_count.keys,
       avg_resolution_time.keys,
       avg_first_response_time.keys,
-      avg_reply_time.keys
+      avg_reply_time.keys,
+      csat_satisfaction_score.keys
     ].flatten.compact.uniq
   end
 
@@ -136,8 +137,28 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_conversations_count: resolved_count[team.id] || 0,
       avg_resolution_time: avg_resolution_time[team.id],
       avg_first_response_time: avg_first_response_time[team.id],
-      avg_reply_time: avg_reply_time[team.id]
+      avg_reply_time: avg_reply_time[team.id],
+      csat_satisfaction_score: csat_satisfaction_score[team.id] || 0
     }
+  end
+
+  def apply_csat_filters(scope)
+    scope = scope.joins(:conversation)
+    scope = scope.where(conversations: { team_id: params[:team_ids].reject(&:blank?) }) if params[:team_ids].present?
+    scope = scope.where(assigned_agent_id: params[:user_ids].reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(conversations: { inbox_id: params[:inbox_ids].reject(&:blank?) }) if params[:inbox_ids].present?
+    
+    if params[:label_ids].present?
+      tag_ids = ReportingEvent.tag_ids_for_labels(params[:label_ids].reject(&:blank?), account.id)
+      scope = scope.joins('INNER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\' AND taggings.context = \'labels\'')
+                   .where(taggings: { tag_id: tag_ids }) unless tag_ids.empty?
+    end
+    
+    scope
+  end
+
+  def csat_group_by_key
+    'conversations.team_id'
   end
 
   def group_by_key

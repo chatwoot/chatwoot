@@ -13,8 +13,9 @@ class V2::Reports::BotSummaryReportBuilder < V2::Reports::BaseSummaryBuilder
               :bot_chat_duration, :bot_handoffs_count
 
   def load_data
-    super
+    @conversations_count = fetch_conversations_count
     @bot_handoffs_count = fetch_bot_handoffs_count
+    load_reporting_events_data
   end
 
   def fetch_conversations_count

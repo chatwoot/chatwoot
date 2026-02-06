@@ -32,5 +32,6 @@ const handleDownload = format => {
     fetch-items-key="teams/get"
     summary-key="summaryReports/getTeamSummaryReports"
     type="team"
+    show-csat-score
   />
 </template>

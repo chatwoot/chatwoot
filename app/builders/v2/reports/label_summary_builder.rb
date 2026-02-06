@@ -21,7 +21,8 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_counts: fetch_event_counts('conversation_resolved'),
       resolution_times: fetch_event_averages('conversation_resolved'),
       first_response_times: fetch_event_averages('first_response'),
-      reply_times: fetch_event_averages('reply_time')
+      reply_times: fetch_event_averages('reply_time'),
+      csat_scores: fetch_csat_scores
     }
   end
 
@@ -45,6 +46,49 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def fetch_event_averages(event_name)
     value_column = use_business_hours? ? 'value_in_business_hours' : 'value'
     base_events_scope(event_name).group('tags.name').average("reporting_events.#{value_column}").transform_values(&:to_f)
+  end
+
+  def fetch_csat_scores
+    scope = base_csat_scope
+    
+    scope.select('tags.name', csat_select_fields)
+         .group('tags.name')
+         .each_with_object({}) do |record, hash|
+      total = record.total_count.to_f
+      sum = record.rating_sum.to_f
+      
+      hash[record.name] = total > 0 ? ((sum / total) * 20).round(2) : 0
+    end
+  end
+
+  def base_csat_scope
+    scope = CsatSurveyResponse
+            .joins(conversation: { taggings: :tag })
+            .where(created_at: range, conversations: base_conversation_filters, taggings: { taggable_type: 'Conversation', context: 'labels' })
+    scope = apply_csat_reporting_filters(scope)
+    scope = apply_label_filter_to_csat(scope) if params[:label_ids].present?
+    scope
+  end
+
+  def apply_csat_reporting_filters(scope)
+    scope = scope.where(assigned_agent_id: params[:user_ids].reject(&:blank?)) if params[:user_ids].present?
+    scope = scope.where(conversations: { inbox_id: params[:inbox_ids].reject(&:blank?) }) if params[:inbox_ids].present?
+    scope = scope.where(conversations: { team_id: params[:team_ids].reject(&:blank?) }) if params[:team_ids].present?
+    scope
+  end
+
+  def apply_label_filter_to_csat(scope)
+    tag_ids = ReportingEvent.tag_ids_for_labels(params[:label_ids].reject(&:blank?), account.id)
+    return scope.none if tag_ids.empty?
+
+    scope.where(tags: { id: tag_ids })
+  end
+
+  def csat_select_fields
+    <<-SQL.squish
+      COUNT(*) as total_count,
+      SUM(rating) as rating_sum
+    SQL
   end
 
   def base_taggings_scope
@@ -118,7 +162,8 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_conversations_count: metrics[:resolved_counts][label.title] || 0,
       avg_resolution_time: metrics[:resolution_times][label.title] || 0,
       avg_first_response_time: metrics[:first_response_times][label.title] || 0,
-      avg_reply_time: metrics[:reply_times][label.title] || 0
+      avg_reply_time: metrics[:reply_times][label.title] || 0,
+      csat_satisfaction_score: metrics[:csat_scores][label.title] || 0
     }
   end
 

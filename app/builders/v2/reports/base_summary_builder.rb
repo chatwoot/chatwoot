@@ -12,6 +12,7 @@ class V2::Reports::BaseSummaryBuilder
     @conversations_count = fetch_conversations_count
     @agent_chat_duration = fetch_agent_chat_duration if respond_to?(:fetch_agent_chat_duration, true)
     load_reporting_events_data
+    load_csat_data
   end
 
   def load_reporting_events_data
@@ -135,6 +136,52 @@ class V2::Reports::BaseSummaryBuilder
   def cross_filters?(exclude_param = nil)
     filter_params = [:user_ids, :inbox_ids, :team_ids, :label_ids] - Array(exclude_param)
     filter_params.any? { |param| params[param].present? && params[param].reject(&:blank?).any? }
+  end
+  
+  def load_csat_data
+    @csat_satisfaction_score = fetch_csat_satisfaction_score
+  end
+
+  def fetch_csat_satisfaction_score
+    scope = filtered_csat_responses
+            .select(csat_group_by_field, csat_select_fields)
+            .group(csat_group_by_key)
+
+    scope.each_with_object({}) do |record, hash|
+      key = record.public_send(csat_group_key_name)
+      total = record.total_count.to_f
+      positive = record.positive_count.to_f
+      
+      hash[key] = total > 0 ? ((positive / total) * 100).round(2) : 0
+    end
+  end
+
+  def filtered_csat_responses
+    scope = account.csat_survey_responses.where(created_at: range).where.not(rating: nil)
+    apply_csat_filters(scope)
+  end
+
+  def apply_csat_filters(scope)
+    scope
+  end
+
+  def csat_select_fields
+    <<-SQL.squish
+      COUNT(*) as total_count,
+      COUNT(CASE WHEN rating IN (4, 5) THEN 1 END) as positive_count
+    SQL
+  end  
+
+  def csat_group_by_key
+    # Override this method
+  end
+
+  def csat_group_by_field
+    csat_group_by_key
+  end
+
+  def csat_group_key_name
+    csat_group_by_key.to_s.split('.').last.to_sym
   end
 
   def fetch_conversations_count
