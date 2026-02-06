@@ -4,7 +4,6 @@ class Messages::InReplyToMessageBuilder
   delegate :conversation, to: :message
 
   def perform
-    Rails.logger.info "Performing in reply to message builder for message: #{@message.id}, in_reply_to: #{@in_reply_to}, in_reply_to_external_id: #{@in_reply_to_external_id}"
     set_in_reply_to_attribute if @in_reply_to.present? || @in_reply_to_external_id.present?
   end
 
