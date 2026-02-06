@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Tổng quan đại lý",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_AGENT_REPORTS": "Tải xuống báo cáo đại lý",
     "FILTER_DROPDOWN_LABEL": "Chọn đại lý",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Tìm kiếm nhân viên"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_LABEL_REPORTS": "Tải xuống báo cáo nhãn",
     "FILTER_DROPDOWN_LABEL": "Chọn Nhãn",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Tìm nhãn"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Chọn Hộp thư đến",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Tổng quan nhóm",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_TEAM_REPORTS": "Tải xuống báo cáo nhóm",
     "FILTER_DROPDOWN_LABEL": "Chọn nhóm",
+    "FILTERS": {
+      "ADD_FILTER": "Thêm bộ lọc",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Tìm kiếm nhóm"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Các cuộc hội thoại",
