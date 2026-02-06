@@ -12,7 +12,7 @@
     "DELETE": {
       "TITLE": {
         "INBOX": "Confirmar exclusão",
-        "ACCOUNT": "Desconectado"
+        "ACCOUNT": "Desconectar"
       },
       "MESSAGE": {
         "INBOX": "Você tem certeza que deseja excluir?",
