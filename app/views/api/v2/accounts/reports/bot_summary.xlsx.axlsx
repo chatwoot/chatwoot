@@ -2,32 +2,33 @@ wb = xlsx_package.workbook
 
 wb.add_worksheet(name: 'Bot Report') do |sheet|
   sheet.add_row [
-    "#{@date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S')} - #{@date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S')}"
+    I18n.t('reports.period', 
+      since: @date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S'),
+      until: @date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S')
+    )
   ]
 
   sheet.add_row []
 
   headers = [
-    I18n.t('reports.bot_csv.period'),
-    I18n.t('reports.bot_csv.conversation_count'),
-    I18n.t('reports.bot_csv.message_count'),
-    I18n.t('reports.bot_csv.resolution_rate'),
-    I18n.t('reports.bot_csv.handoff_rate'),
-    I18n.t('reports.bot_csv.resolutions_count'),
-    I18n.t('reports.bot_csv.handoffs_count')
+    I18n.t('reports.bot_csv.bot_name'),
+    I18n.t('reports.bot_csv.conversations_count'),
+    I18n.t('reports.bot_csv.avg_first_response_time'),
+    I18n.t('reports.bot_csv.avg_reply_time'),
+    I18n.t('reports.bot_csv.avg_resolution_time')
   ]
 
   sheet.add_row headers, style: wb.styles.add_style(b: true, bg_color: 'E8E8E8')
 
-  sheet.add_row [
-    "#{@date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S')} - #{@date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S')}",
-    @bot_metrics[:conversation_count],
-    @bot_metrics[:message_count],
-    "#{@bot_metrics[:resolution_rate]}%",
-    "#{@bot_metrics[:handoff_rate]}%",
-    @bot_summary[:bot_resolutions_count],
-    @bot_summary[:bot_handoffs_count]
-  ]
+  @report_data.each do |bot_data|
+    sheet.add_row [
+      bot_data[:name],
+      bot_data[:conversations_count],
+      bot_data[:avg_first_response_time]&.round(2),
+      bot_data[:avg_reply_time]&.round(2),
+      bot_data[:avg_resolution_time]&.round(2)
+    ]
+  end
 
   sheet.add_row []
 end

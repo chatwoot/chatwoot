@@ -186,6 +186,12 @@ en:
       avg_customer_waiting_time: Avg customer waiting time
       agent_chat_duration: Avg chat duration
       csat_score: CSAT Score
+    bot_csv:
+      bot_name: Bot
+      conversations_count: Conversation Count
+      avg_first_response_time: Avg first response time
+      avg_reply_time: Avg reply time
+      avg_resolution_time: Avg resolution time
     inbox_csv:
       inbox_name: Inbox name
       inbox_type: Inbox type

@@ -45,14 +45,9 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def bot_summary_download
-    result = V2::Reports::BotSummaryBuilder.new(Current.account, bot_params).build
-
-    @date_range           = result[:date_range]
-    @bot_metrics          = result[:bot_metrics]
-    @bot_summary          = result[:bot_summary]
-    @bot_resolutions_data = result[:bot_resolutions_data]
-    @bot_handoffs_data    = result[:bot_handoffs_data]
-
+    @report_data = generate_bots_report
+    @date_range = format_date_range
+  
     respond_to do |format|
       format.csv  { generate_csv('bot_summary', 'api/v2/accounts/reports/bot_summary') }
       format.xlsx { generate_xlsx('bot_summary', 'api/v2/accounts/reports/bot_summary') }
@@ -217,8 +212,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     params.permit(:since, :until, inbox_ids: [])
   end
 
-  def bot_params
-    params.permit(:since, :until, :group_by, :business_hours, inbox_ids: [])
+  def bot_summary_download_params
+    {
+      since: params[:since],
+      until: params[:until],
+      inbox_ids: params[:inbox_ids]&.reject(&:blank?)
+    }
   end
 
   def generate_csv(filename, template)

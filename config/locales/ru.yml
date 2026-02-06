@@ -212,15 +212,11 @@ ru:
       resolutions_count: Количество резолюций
       avg_resolution_time: Среднее время резолюции
     bot_csv:
-      period: Период отчёта
-      conversation_count: Всего диалогов
-      message_count: Всего ответов
-      resolution_rate: Процент резолюций
-      handoff_rate: Процент передачи
-      resolutions_count: Количество резолюций
-      handoffs_count: Количество передач
-      bot_resolutions_chart: График резолюций бота
-      bot_handoffs_chart: График передач бота      
+      bot_name: Бот
+      conversations_count: Количество диалогов
+      avg_first_response_time: Среднее время первого ответа
+      avg_reply_time: Среднее время ожидания клиента
+      avg_resolution_time: Среднее время завершения    
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
