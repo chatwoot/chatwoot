@@ -211,11 +211,20 @@ defineExpose({ downloadReports });
     class="relative flex-1 overflow-auto px-2 py-2 mt-5 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2"
   >
     <Table :table="table" />
-    <div
-      v-if="isLoading"
-      class="absolute inset-0 flex justify-center pt-[200px] bg-n-alpha-1 rounded-xl"
+    <Transition
+      enter-active-class="transition-opacity duration-300 ease-out"
+      leave-active-class="transition-opacity duration-200 ease-in"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
     >
-      <Spinner :size="32" class="text-n-brand" />
-    </div>
+      <div
+        v-if="isLoading"
+        class="absolute inset-0 flex justify-center pt-[12.5rem] bg-n-solid-1/70 rounded-xl pointer-events-none"
+      >
+        <Spinner :size="32" class="text-n-brand" />
+      </div>
+    </Transition>
   </div>
 </template>
