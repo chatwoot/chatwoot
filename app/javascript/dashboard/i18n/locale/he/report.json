@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "סקירה כללית של סוכנים",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
     "FILTER_DROPDOWN_LABEL": "בחר סוכן",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "חפש סוכנים"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_LABEL_REPORTS": "הורד דוחות תווית",
     "FILTER_DROPDOWN_LABEL": "בחר תווית",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "חפש תוויות"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "בחר תיבת דואר",
     "ALL_INBOXES": "כל תיבות הדואר הנכנס",
     "SEARCH_INBOX": "חפש תיבת דואר נכנס",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "סקירת צוות",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_TEAM_REPORTS": "הורד דוחות צוות",
     "FILTER_DROPDOWN_LABEL": "תבחר קבוצה",
+    "FILTERS": {
+      "ADD_FILTER": "הוסף מסנן",
+      "CLEAR_ALL": "נקה הכל",
+      "NO_FILTER": "אין מסננים זמינים",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "חפש צוותים"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "שיחות",
