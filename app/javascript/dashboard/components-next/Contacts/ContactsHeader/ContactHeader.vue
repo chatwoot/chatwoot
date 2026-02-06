@@ -106,6 +106,17 @@ const emit = defineEmits([
               :active-ordering="activeOrdering"
               @update:sort="emit('update:sort', $event)"
             />
+            <Button
+              :label="
+                $t(
+                  'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ADD_CONTACT'
+                )
+              "
+              icon="i-lucide-plus"
+              color="blue"
+              size="sm"
+              @click="emit('add')"
+            />
             <ContactMoreActions
               @add="emit('add')"
               @import="emit('import')"
