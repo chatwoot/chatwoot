@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Agentų apžvalga",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
     "FILTER_DROPDOWN_LABEL": "Pasirinkti agentą",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Ieškoti agentų"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_LABEL_REPORTS": "Parsisiųsti etiketės ataskaitas",
     "FILTER_DROPDOWN_LABEL": "Pažymėti Etiketę",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Ieškoti etikečių"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Pasirinkti gautų laiškų aplanką",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Komandos apžvalga",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_TEAM_REPORTS": "Parsisiųsti komandos ataskaitas",
     "FILTER_DROPDOWN_LABEL": "Pasirinkite komandą",
+    "FILTERS": {
+      "ADD_FILTER": "Pridėti Filtrą",
+      "CLEAR_ALL": "Clear all",
+      "NO_FILTER": "No filters available",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Ieškoti komandų"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Pokalbiai",
