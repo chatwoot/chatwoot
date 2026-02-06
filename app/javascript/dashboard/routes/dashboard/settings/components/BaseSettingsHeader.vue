@@ -65,7 +65,6 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           v-if="searchPlaceholder"
           v-model="searchQuery"
           :placeholder="searchPlaceholder"
-          autofocus
           class="w-56 min-w-0 hidden sm:flex [&>input]:ltr:!pl-8 [&>input]:rtl:!pr-8 [&>input]:!rounded-[0.625rem]"
           size="md"
           type="search"
