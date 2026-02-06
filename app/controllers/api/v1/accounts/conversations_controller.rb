@@ -70,8 +70,10 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def transcript
     render json: { error: 'email param missing' }, status: :unprocessable_entity and return if params[:email].blank?
+    return head :too_many_requests unless @conversation.account.within_email_rate_limit?
 
     ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, params[:email])&.deliver_later
+    @conversation.account.increment_email_sent_count
     head :ok
   end
 
