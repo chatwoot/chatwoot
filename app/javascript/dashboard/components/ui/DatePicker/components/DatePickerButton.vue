@@ -36,15 +36,15 @@ const formatDateRange = computed(() => {
     return 'Select a date range';
   }
 
-  const now = new Date();
-  const bothCurrentYear =
-    isSameYear(startDate, now) && isSameYear(endDate, now);
+  const crossesYears = !isSameYear(startDate, endDate);
 
-  if (bothCurrentYear) {
-    return `${format(startDate, 'MMM d')} - ${format(endDate, 'MMM d')}`;
+  // Always show years when crossing year boundaries
+  if (crossesYears) {
+    return `${format(startDate, 'MMM d, yyyy')} - ${format(endDate, 'MMM d, yyyy')}`;
   }
 
-  return `${format(startDate, 'MMM d yyyy')} - ${format(endDate, 'MMM d yyyy')}`;
+  // For same year, always show the year for clarity
+  return `${format(startDate, 'MMM d')} - ${format(endDate, 'MMM d, yyyy')}`;
 });
 
 const activeDateRange = computed(
