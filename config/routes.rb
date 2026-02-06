@@ -445,6 +445,8 @@ Rails.application.routes.draw do
               get :conversation_traffic
               get :bot_metrics
               get :inbox_label_matrix
+              get :first_response_time_distribution
+              get :outgoing_messages_count
             end
           end
           resource :year_in_review, only: [:show]
