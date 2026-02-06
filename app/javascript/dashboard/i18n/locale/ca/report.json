@@ -128,11 +128,16 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Visió general dels agents",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent's name to learn more.",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_AGENT_REPORTS": "Descarregar Informes d'Agent",
     "FILTER_DROPDOWN_LABEL": "Seleccionar Agent",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "AGENTS": "Cerca agents"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
@@ -201,6 +206,11 @@
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_LABEL_REPORTS": "Descarregar Informes d'etiquetes",
     "FILTER_DROPDOWN_LABEL": "Selecciona l'etiqueta",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "LABELS": "Cerca etiquetes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
@@ -271,6 +281,11 @@
     "FILTER_DROPDOWN_LABEL": "Selecciona Safata d'entrada",
     "ALL_INBOXES": "All Inboxes",
     "SEARCH_INBOX": "Search Inbox",
+    "FILTERS": {
+      "INPUT_PLACEHOLDER": {
+        "INBOXES": "Search inboxes"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
@@ -334,11 +349,19 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Visió general de l'equip",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
+    "DESCRIPTION": "Get a snapshot of your team's performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "S'estan carregant dades del gràfic...",
     "NO_ENOUGH_DATA": "No hem rebut suficients punts de dades per generar l'informe. Torneu-ho a provar més endavant.",
     "DOWNLOAD_TEAM_REPORTS": "Descarregar Informes d'equip",
     "FILTER_DROPDOWN_LABEL": "Selecciona equip",
+    "FILTERS": {
+      "ADD_FILTER": "Afegeix un filtre",
+      "CLEAR_ALL": "Esborrar tot",
+      "NO_FILTER": "No hi ha filtres disponibles",
+      "INPUT_PLACEHOLDER": {
+        "TEAMS": "Cerca equips"
+      }
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Converses",
