@@ -209,7 +209,7 @@ const downloadReports = async (format = 'csv') => {
     params.inboxId = props.selectedInbox;
   }
 
-  const response = await ReportsAPI.getBotSummaryReports(params);
+  const response = await ReportsAPI.getBotReports(params);
 
   const fileName = `bot_summary_report_${Date.now()}.${format}`;
   const mimeType =

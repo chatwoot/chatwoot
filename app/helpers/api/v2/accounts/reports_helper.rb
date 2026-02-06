@@ -52,6 +52,13 @@ module Api::V2::Accounts::ReportsHelper
     end
   end
 
+  def generate_bots_report
+    V2::Reports::BotSummaryReportBuilder.new(
+      account: Current.account,
+      params: build_params_for_bots
+    ).build
+  end
+
   def generate_conversations_report
     builder = V2::Reports::Conversations::MetricBuilder.new(Current.account, build_params(type: :account))
     summary = builder.summary
@@ -72,6 +79,14 @@ module Api::V2::Accounts::ReportsHelper
       label_ids: params[:label_ids]&.reject(&:blank?),
       time_since: params[:time_since],
       time_until: params[:time_until]
+    }.compact
+  end
+
+  def build_params_for_bots
+    {
+      since: params[:since],
+      until: params[:until],
+      inbox_ids: params[:inbox_ids]&.reject(&:blank?)
     }.compact
   end
 
@@ -115,5 +130,12 @@ module Api::V2::Accounts::ReportsHelper
 
   def format_csat_score(score)
     score ? "#{score}%" : '--'
+  end
+
+  def format_date_range
+    {
+      since: Time.zone.at(params[:since].to_i),
+      until: Time.zone.at(params[:until].to_i)
+    }
   end
 end
