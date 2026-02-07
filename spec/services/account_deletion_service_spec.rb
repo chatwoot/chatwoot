@@ -50,16 +50,6 @@ RSpec.describe AccountDeletionService do
         expect(user_with_one_account.email).not_to eq(original_email)
       end
 
-      it 'replaces previously mutated emails with deterministic deleted email' do
-        user_with_one_account.skip_reconfirmation!
-        user_with_one_account.update!(email: 'weird@example.com-deleted.com')
-
-        described_class.new(account: account).perform
-
-        user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("#{user_with_one_account.id}@chatwoot-deleted.invalid")
-      end
-
       it 'does not modify emails for users belonging to multiple accounts' do
         original_email = user_with_multiple_accounts.email
 

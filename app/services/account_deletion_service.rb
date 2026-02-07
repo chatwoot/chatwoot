@@ -42,7 +42,7 @@ class AccountDeletionService
 
       soft_deleted_users << user_info
 
-      Rails.logger.info("Deleted user #{user.id} with email #{original_email}")
+      Rails.logger.info("Soft deleted user #{user.id} with email #{original_email}")
     end
   end
 
