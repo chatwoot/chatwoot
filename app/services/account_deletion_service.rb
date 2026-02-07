@@ -66,8 +66,21 @@ class AccountDeletionService
 
   def email_with_suffix(email, suffix)
     email_limit = User.columns_hash['email']&.limit || 255
-    truncated_email = email.to_s.first(email_limit - suffix.length)
-    "#{truncated_email}#{suffix}"
+    max_email_length = email_limit - suffix.length
+    local_part, domain = email.to_s.split('@', 2)
+
+    if domain.blank?
+      truncated_email = local_part.to_s.first(max_email_length)
+      return "#{truncated_email}#{suffix}"
+    end
+
+    # Preserve @domain when truncating to stay within the column limit.
+    max_domain_length = [max_email_length - 2, 1].max
+    truncated_domain = domain.first(max_domain_length)
+    max_local_length = [max_email_length - truncated_domain.length - 1, 1].max
+    truncated_local = local_part.first(max_local_length)
+
+    "#{truncated_local}@#{truncated_domain}#{suffix}"
   end
 
   def email_taken_by_other_user?(email, user_id)

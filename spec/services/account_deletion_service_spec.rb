@@ -75,6 +75,7 @@ RSpec.describe AccountDeletionService do
         local_part = 'a' * 64
         domain_prefix = 'b' * (email_limit - local_part.length - 5)
         max_length_email = "#{local_part}@#{domain_prefix}.com"
+        user_with_one_account.skip_reconfirmation!
         user_with_one_account.update!(email: max_length_email)
 
         described_class.new(account: account).perform
@@ -82,6 +83,19 @@ RSpec.describe AccountDeletionService do
         user_with_one_account.reload
         expect(user_with_one_account.email.length).to be <= email_limit
         expect(user_with_one_account.email).to include('@')
+      end
+
+      it 'preserves the domain when truncating long local-part emails' do
+        email_limit = User.columns_hash['email']&.limit || 255
+        long_local_email = "#{'a' * 244}@x.com"
+        user_with_one_account.skip_reconfirmation!
+        user_with_one_account.update!(email: long_local_email)
+
+        described_class.new(account: account).perform
+
+        user_with_one_account.reload
+        expect(user_with_one_account.email.length).to be <= email_limit
+        expect(user_with_one_account.email).to end_with('@x.com-deleted.com')
       end
 
       it 'does not modify emails for users belonging to multiple accounts' do
