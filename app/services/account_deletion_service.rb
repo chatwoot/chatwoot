@@ -1,5 +1,5 @@
 class AccountDeletionService
-  SOFT_DELETE_EMAIL_DOMAIN = '@deleted.com'.freeze
+  SOFT_DELETE_EMAIL_DOMAIN = '@chatwoot-deleted.invalid'.freeze
 
   attr_reader :account, :soft_deleted_users
 
@@ -48,7 +48,7 @@ class AccountDeletionService
 
   def soft_deleted_email_for(user)
     loop do
-      candidate = "#{SecureRandom.uuid}#{SOFT_DELETE_EMAIL_DOMAIN}"
+      candidate = "deleted-user-#{user.id}-#{SecureRandom.hex(6)}#{SOFT_DELETE_EMAIL_DOMAIN}"
       return candidate unless email_taken_by_other_user?(candidate, user.id)
     end
   end
