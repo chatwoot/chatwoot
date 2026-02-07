@@ -46,56 +46,18 @@ RSpec.describe AccountDeletionService do
 
         # Reload the user to get the updated email
         user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("#{original_email}-deleted.com")
+        expect(user_with_one_account.email).to end_with('@deleted.com')
+        expect(user_with_one_account.email).not_to eq(original_email)
       end
 
-      it 'keeps only one deleted suffix when email already has deleted suffixes' do
-        original_email = user_with_one_account.email
-        user_with_one_account.update!(email: "#{original_email}-deleted.com-deleted.com")
+      it 'retries with a new random email if generated one is already taken' do
+        create(:user, email: 'existing@deleted.com')
+        allow(SecureRandom).to receive(:uuid).and_return('existing', 'unique')
 
         described_class.new(account: account).perform
 
         user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("#{original_email}-deleted.com")
-      end
-
-      it 'appends numeric deleted suffix when deleted email is already taken' do
-        original_email = user_with_one_account.email
-        create(:user, email: "#{original_email}-deleted.com")
-        create(:user, email: "#{original_email}-1deleted.com")
-
-        described_class.new(account: account).perform
-
-        user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("#{original_email}-2deleted.com")
-      end
-
-      it 'soft deletes long emails without exceeding the column length limit' do
-        email_limit = User.columns_hash['email']&.limit || 255
-        local_part = 'a' * 64
-        domain_prefix = 'b' * (email_limit - local_part.length - 5)
-        max_length_email = "#{local_part}@#{domain_prefix}.com"
-        user_with_one_account.skip_reconfirmation!
-        user_with_one_account.update!(email: max_length_email)
-
-        described_class.new(account: account).perform
-
-        user_with_one_account.reload
-        expect(user_with_one_account.email.length).to be <= email_limit
-        expect(user_with_one_account.email).to include('@')
-      end
-
-      it 'preserves the domain when truncating long local-part emails' do
-        email_limit = User.columns_hash['email']&.limit || 255
-        long_local_email = "#{'a' * 244}@x.com"
-        user_with_one_account.skip_reconfirmation!
-        user_with_one_account.update!(email: long_local_email)
-
-        described_class.new(account: account).perform
-
-        user_with_one_account.reload
-        expect(user_with_one_account.email.length).to be <= email_limit
-        expect(user_with_one_account.email).to end_with('@x.com-deleted.com')
+        expect(user_with_one_account.email).to eq('unique@deleted.com')
       end
 
       it 'does not modify emails for users belonging to multiple accounts' do

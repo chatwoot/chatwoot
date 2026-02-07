@@ -1,6 +1,5 @@
 class AccountDeletionService
-  SOFT_DELETE_EMAIL_SUFFIX = '-deleted.com'.freeze
-  SOFT_DELETE_EMAIL_REGEX = /(?:-\d*deleted\.com)+\z/
+  SOFT_DELETE_EMAIL_DOMAIN = '@deleted.com'.freeze
 
   attr_reader :account, :soft_deleted_users
 
@@ -48,40 +47,10 @@ class AccountDeletionService
   end
 
   def soft_deleted_email_for(user)
-    original_email = normalized_email(user.email)
-    attempt = 0
-
     loop do
-      suffix = attempt.zero? ? SOFT_DELETE_EMAIL_SUFFIX : "-#{attempt}deleted.com"
-      candidate = email_with_suffix(original_email, suffix)
+      candidate = "#{SecureRandom.uuid}#{SOFT_DELETE_EMAIL_DOMAIN}"
       return candidate unless email_taken_by_other_user?(candidate, user.id)
-
-      attempt += 1
     end
-  end
-
-  def normalized_email(email)
-    email.to_s.sub(SOFT_DELETE_EMAIL_REGEX, '')
-  end
-
-  def email_with_suffix(email, suffix)
-    email_limit = User.columns_hash['email']&.limit || 255
-    max_email_length = email_limit - suffix.length
-    local_part, domain = email.to_s.split('@', 2)
-
-    if domain.blank?
-      truncated_email = local_part.to_s.first(max_email_length)
-      return "#{truncated_email}#{suffix}"
-    end
-
-    available_local_length = max_email_length - domain.length - 1
-    if available_local_length.positive?
-      truncated_local = local_part.first(available_local_length)
-      return "#{truncated_local}@#{domain}#{suffix}"
-    end
-
-    truncated_domain = domain.first([max_email_length - 2, 1].max)
-    "a@#{truncated_domain}#{suffix}"
   end
 
   def email_taken_by_other_user?(email, user_id)
