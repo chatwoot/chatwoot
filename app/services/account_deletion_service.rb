@@ -1,4 +1,7 @@
 class AccountDeletionService
+  SOFT_DELETE_EMAIL_SUFFIX = '-deleted.com'.freeze
+  SOFT_DELETE_EMAIL_REGEX = /(?:-\d*deleted\.com)+\z/
+
   attr_reader :account, :soft_deleted_users
 
   def initialize(account:)
@@ -25,15 +28,11 @@ class AccountDeletionService
 
   def soft_delete_orphaned_users
     account.users.each do |user|
-      # Find all account_users for this user excluding the current account
-      other_accounts = user.account_users.where.not(account_id: account.id).count
+      # Skip users who are still associated with another account.
+      next if user.account_users.where.not(account_id: account.id).exists?
 
-      # If user has no other accounts, soft delete them
-      next unless other_accounts.zero?
-
-      # Soft delete user by appending -deleted.com to email
       original_email = user.email
-      user.email = "#{original_email}-deleted.com"
+      user.email = soft_deleted_email_for(user)
       user.skip_reconfirmation!
       user.save!
 
@@ -46,5 +45,32 @@ class AccountDeletionService
 
       Rails.logger.info("Soft deleted user #{user.id} with email #{original_email}")
     end
+  end
+
+  def soft_deleted_email_for(user)
+    original_email = normalized_email(user.email)
+    attempt = 0
+
+    loop do
+      suffix = attempt.zero? ? SOFT_DELETE_EMAIL_SUFFIX : "-#{attempt}deleted.com"
+      candidate = email_with_suffix(original_email, suffix)
+      return candidate unless email_taken_by_other_user?(candidate, user.id)
+
+      attempt += 1
+    end
+  end
+
+  def normalized_email(email)
+    email.to_s.sub(SOFT_DELETE_EMAIL_REGEX, '')
+  end
+
+  def email_with_suffix(email, suffix)
+    email_limit = User.columns_hash['email']&.limit || 255
+    truncated_email = email.to_s.first(email_limit - suffix.length)
+    "#{truncated_email}#{suffix}"
+  end
+
+  def email_taken_by_other_user?(email, user_id)
+    User.where.not(id: user_id).exists?(email: email)
   end
 end

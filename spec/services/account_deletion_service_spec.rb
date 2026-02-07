@@ -49,6 +49,41 @@ RSpec.describe AccountDeletionService do
         expect(user_with_one_account.email).to eq("#{original_email}-deleted.com")
       end
 
+      it 'keeps only one deleted suffix when email already has deleted suffixes' do
+        original_email = user_with_one_account.email
+        user_with_one_account.update!(email: "#{original_email}-deleted.com-deleted.com")
+
+        described_class.new(account: account).perform
+
+        user_with_one_account.reload
+        expect(user_with_one_account.email).to eq("#{original_email}-deleted.com")
+      end
+
+      it 'appends numeric deleted suffix when deleted email is already taken' do
+        original_email = user_with_one_account.email
+        create(:user, email: "#{original_email}-deleted.com")
+        create(:user, email: "#{original_email}-1deleted.com")
+
+        described_class.new(account: account).perform
+
+        user_with_one_account.reload
+        expect(user_with_one_account.email).to eq("#{original_email}-2deleted.com")
+      end
+
+      it 'soft deletes long emails without exceeding the column length limit' do
+        email_limit = User.columns_hash['email']&.limit || 255
+        local_part = 'a' * 64
+        domain_prefix = 'b' * (email_limit - local_part.length - 5)
+        max_length_email = "#{local_part}@#{domain_prefix}.com"
+        user_with_one_account.update!(email: max_length_email)
+
+        described_class.new(account: account).perform
+
+        user_with_one_account.reload
+        expect(user_with_one_account.email.length).to be <= email_limit
+        expect(user_with_one_account.email).to include('@')
+      end
+
       it 'does not modify emails for users belonging to multiple accounts' do
         original_email = user_with_multiple_accounts.email
 
