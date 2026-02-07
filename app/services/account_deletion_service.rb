@@ -42,18 +42,11 @@ class AccountDeletionService
 
       soft_deleted_users << user_info
 
-      Rails.logger.info("Soft deleted user #{user.id} with email #{original_email}")
+      Rails.logger.info("Deleted user #{user.id} with email #{original_email}")
     end
   end
 
   def soft_deleted_email_for(user)
-    loop do
-      candidate = "deleted-user-#{user.id}-#{SecureRandom.hex(6)}#{SOFT_DELETE_EMAIL_DOMAIN}"
-      return candidate unless email_taken_by_other_user?(candidate, user.id)
-    end
-  end
-
-  def email_taken_by_other_user?(email, user_id)
-    User.where.not(id: user_id).exists?(email: email)
+    "#{user.id}#{SOFT_DELETE_EMAIL_DOMAIN}"
   end
 end

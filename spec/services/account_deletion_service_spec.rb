@@ -46,19 +46,18 @@ RSpec.describe AccountDeletionService do
 
         # Reload the user to get the updated email
         user_with_one_account.reload
-        expect(user_with_one_account.email).to end_with('@chatwoot-deleted.invalid')
-        expect(user_with_one_account.email).to start_with("deleted-user-#{user_with_one_account.id}-")
+        expect(user_with_one_account.email).to eq("#{user_with_one_account.id}@chatwoot-deleted.invalid")
         expect(user_with_one_account.email).not_to eq(original_email)
       end
 
-      it 'retries with a new random email if generated one is already taken' do
-        create(:user, email: "deleted-user-#{user_with_one_account.id}-collision123abc@chatwoot-deleted.invalid")
-        allow(SecureRandom).to receive(:hex).with(6).and_return('collision123abc', 'unique456def')
+      it 'replaces previously mutated emails with deterministic deleted email' do
+        user_with_one_account.skip_reconfirmation!
+        user_with_one_account.update!(email: 'weird@example.com-deleted.com')
 
         described_class.new(account: account).perform
 
         user_with_one_account.reload
-        expect(user_with_one_account.email).to eq("deleted-user-#{user_with_one_account.id}-unique456def@chatwoot-deleted.invalid")
+        expect(user_with_one_account.email).to eq("#{user_with_one_account.id}@chatwoot-deleted.invalid")
       end
 
       it 'does not modify emails for users belonging to multiple accounts' do
