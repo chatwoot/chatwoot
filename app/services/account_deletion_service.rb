@@ -74,13 +74,14 @@ class AccountDeletionService
       return "#{truncated_email}#{suffix}"
     end
 
-    # Preserve @domain when truncating to stay within the column limit.
-    max_domain_length = [max_email_length - 2, 1].max
-    truncated_domain = domain.first(max_domain_length)
-    max_local_length = [max_email_length - truncated_domain.length - 1, 1].max
-    truncated_local = local_part.first(max_local_length)
+    available_local_length = max_email_length - domain.length - 1
+    if available_local_length.positive?
+      truncated_local = local_part.first(available_local_length)
+      return "#{truncated_local}@#{domain}#{suffix}"
+    end
 
-    "#{truncated_local}@#{truncated_domain}#{suffix}"
+    truncated_domain = domain.first([max_email_length - 2, 1].max)
+    "a@#{truncated_domain}#{suffix}"
   end
 
   def email_taken_by_other_user?(email, user_id)
