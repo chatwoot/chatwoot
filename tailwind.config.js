@@ -43,6 +43,12 @@ const tailwindConfig = {
         inter: ['Inter', ...defaultSansFonts],
         interDisplay: ['InterDisplay', ...defaultSansFonts],
       },
+      fontWeight: {
+        420: '420',
+        440: '440',
+        460: '460',
+        520: '520',
+      },
       typography: {
         bubble: {
           css: {
@@ -187,6 +193,7 @@ const tailwindConfig = {
       lg: '1024px',
       xl: '1280px',
       '2xl': '1536px',
+      '3xl': '1900px',
     },
     fontSize: {
       ...defaultTheme.fontSize,
@@ -259,6 +266,7 @@ const tailwindConfig = {
           'ph',
           'material-symbols',
           'teenyicons',
+          'fluent',
         ]),
       },
     }),

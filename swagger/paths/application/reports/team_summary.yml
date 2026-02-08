@@ -1,0 +1,23 @@
+tags:
+  - Reports
+operationId: get-team-summary-report
+summary: Get conversation statistics grouped by team
+security:
+  - userApiKey: []
+description: |
+  Get conversation statistics grouped by team for a given date range.
+  Returns metrics for each team including conversation counts, resolution counts,
+  average first response time, average resolution time, and average reply time.
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/team_summary'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

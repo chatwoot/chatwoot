@@ -45,14 +45,19 @@ export const handleContactOperationErrors = error => {
 };
 
 export const actions = {
-  search: async ({ commit }, { search, page, sortAttr, label }) => {
+  search: async (
+    { commit },
+    { search, page, sortAttr, label, append = false }
+  ) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
       } = await ContactAPI.search(search, page, sortAttr, label);
-      commit(types.CLEAR_CONTACTS);
-      commit(types.SET_CONTACTS, payload);
+      if (!append) {
+        commit(types.CLEAR_CONTACTS);
+      }
+      commit(append ? types.APPEND_CONTACTS : types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     } catch (error) {

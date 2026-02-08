@@ -1,3 +1,5 @@
+import DOMPurify from 'dompurify';
+
 // Quote detection strategies
 const QUOTE_INDICATORS = [
   '.gmail_quote_container',
@@ -29,7 +31,7 @@ export class EmailQuoteExtractor {
   static extractQuotes(htmlContent) {
     // Create a temporary DOM element to parse HTML
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlContent;
+    tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
 
     // Remove elements matching class selectors
     QUOTE_INDICATORS.forEach(selector => {
@@ -56,7 +58,7 @@ export class EmailQuoteExtractor {
    */
   static hasQuotes(htmlContent) {
     const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlContent;
+    tempDiv.innerHTML = DOMPurify.sanitize(htmlContent);
 
     // Check for class-based quotes
     // eslint-disable-next-line no-restricted-syntax

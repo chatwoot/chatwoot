@@ -158,6 +158,10 @@ class Inbox < ApplicationRecord
     channel_type == 'Channel::Whatsapp'
   end
 
+  def twilio_whatsapp?
+    channel_type == 'Channel::TwilioSms' && channel.medium == 'whatsapp'
+  end
+
   def assignable_agents
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
