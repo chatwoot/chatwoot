@@ -23,22 +23,45 @@ class Seeders::AccountSeeder
     set_up_users
     seed_labels
     seed_canned_responses
+    seed_macros
     seed_inboxes
     seed_contacts
+    seed_portals
+    seed_captain_assistants
+    finalize_seeding
   end
 
   def set_up_account
+    # Delete all existing data before seeding
+    @account.macros.destroy_all
+    @account.canned_responses.destroy_all
     @account.teams.destroy_all
     @account.conversations.destroy_all
     @account.labels.destroy_all
+    @account.portals.destroy_all
     @account.inboxes.destroy_all
     @account.contacts.destroy_all
     @account.custom_roles.destroy_all if @account.respond_to?(:custom_roles)
+
+    # Delete Captain Assistants if Enterprise feature is available
+    return unless defined?(Captain::Assistant)
+
+    Captain::Assistant.where(account_id: @account.id).destroy_all
   end
 
   def seed_teams
-    @account_data['teams'].each do |team_name|
-      @account.teams.create!(name: team_name)
+    @account_data['teams'].each do |team_data|
+      if team_data.is_a?(String)
+        # Support legacy format (just team name)
+        @account.teams.create!(name: team_data)
+      else
+        # New format with name and description
+        @account.teams.create!(
+          name: team_data['name'],
+          description: team_data['description'],
+          allow_auto_assign: team_data['allow_auto_assign'] != false
+        )
+      end
     end
   end
 
@@ -103,9 +126,68 @@ class Seeders::AccountSeeder
     @account.custom_roles.find_by(name: role_name)
   end
 
-  def seed_canned_responses(count: 50)
-    count.times do
-      @account.canned_responses.create(content: Faker::Quote.fortune_cookie, short_code: Faker::Alphanumeric.alpha(number: 10))
+  def seed_canned_responses
+    return unless @account_data['canned_responses'].present?
+
+    @account_data['canned_responses'].each do |response|
+      @account.canned_responses.create!(response)
+    end
+  end
+
+  def seed_macros
+    return unless @account_data['macros'].present?
+
+    @account_data['macros'].each do |macro_data|
+      created_by = User.from_email(macro_data['created_by']) if macro_data['created_by'].present?
+      actions = macro_data['actions'].map do |action|
+        process_macro_action(action)
+      end.compact # Remove nil actions (when team/agent not found)
+
+      # Only create macro if there are valid actions
+      if actions.any?
+        @account.macros.create!(
+          name: macro_data['name'],
+          visibility: macro_data['visibility'] || 'global',
+          created_by: created_by,
+          actions: actions
+        )
+      else
+        Rails.logger.warn("Macro '#{macro_data['name']}' has no valid actions, skipping")
+      end
+    end
+  end
+
+  def seed_portals
+    return unless @account_data['portals'].present?
+
+    @account_data['portals'].each do |portal_data|
+      portal = @account.portals.create!(
+        name: portal_data['name'],
+        slug: portal_data['slug'],
+        page_title: portal_data['page_title'],
+        header_text: portal_data['header_text'],
+        color: portal_data['color'],
+        config: portal_data['config']
+      )
+
+      seed_portal_categories(portal, portal_data['categories']) if portal_data['categories'].present?
+    end
+  end
+
+  def seed_captain_assistants
+    return unless @account_data['captain_assistants'].present?
+    return unless defined?(Captain::Assistant)
+
+    @account_data['captain_assistants'].each do |assistant_data|
+      assistant = Captain::Assistant.create!(
+        account: @account,
+        name: assistant_data['name'],
+        description: assistant_data['description'],
+        config: assistant_data['config'] || {}
+      )
+
+      seed_captain_documents(assistant, assistant_data['documents']) if assistant_data['documents'].present?
+      seed_captain_scenarios(assistant, assistant_data['scenarios']) if assistant_data['scenarios'].present?
     end
   end
 
@@ -154,5 +236,107 @@ class Seeders::AccountSeeder
 
   def seed_inboxes
     Seeders::InboxSeeder.new(account: @account, company_data: @account_data[:company]).perform!
+  end
+
+  def process_macro_action(action)
+    processed_action = { 'action_name' => action['action_name'] }
+
+    case action['action_name']
+    when 'assign_team'
+      team = @account.teams.find_by('name LIKE ?', "%#{action['action_params'][0]}%")
+      if team
+        processed_action['action_params'] = [team.id]
+      else
+        Rails.logger.warn("Macro: Team not found matching '#{action['action_params'][0]}', skipping assign_team action")
+        return nil # Skip this action
+      end
+    when 'assign_agent'
+      user = User.from_email(action['action_params'][0])
+      if user
+        processed_action['action_params'] = [user.id]
+      else
+        Rails.logger.warn("Macro: User not found '#{action['action_params'][0]}', skipping assign_agent action")
+        return nil # Skip this action
+      end
+    else
+      processed_action['action_params'] = action['action_params']
+    end
+
+    processed_action
+  end
+
+  def seed_portal_categories(portal, categories_data)
+    categories_data.each do |category_data|
+      category = portal.categories.create!(
+        account: @account,
+        name: category_data['name'],
+        slug: category_data['slug'],
+        description: category_data['description'],
+        locale: category_data['locale'] || 'en',
+        position: category_data['position']
+      )
+
+      seed_category_articles(portal, category, category_data['articles']) if category_data['articles'].present?
+    end
+  end
+
+  def seed_category_articles(portal, category, articles_data)
+    articles_data.each do |article_data|
+      author = User.from_email(article_data['author']) if article_data['author'].present?
+      author ||= @account.users.administrators.first
+
+      portal.articles.create!(
+        account: @account,
+        category: category,
+        author: author,
+        title: article_data['title'],
+        description: article_data['description'],
+        content: article_data['content'],
+        status: article_data['status'] || 'published',
+        locale: article_data['locale'] || 'en'
+      )
+    end
+  end
+
+  def seed_captain_documents(assistant, documents_data)
+    documents_data.each do |doc_data|
+      Captain::Document.create!(
+        account: @account,
+        assistant: assistant,
+        name: doc_data['name'],
+        external_link: doc_data['external_link'],
+        content: doc_data['content'],
+        status: doc_data['status'] || 'available'
+      )
+    end
+  end
+
+  def seed_captain_scenarios(assistant, scenarios_data)
+    scenarios_data.each do |scenario_data|
+      Captain::Scenario.create!(
+        account: @account,
+        assistant: assistant,
+        title: scenario_data['title'],
+        description: scenario_data['description'],
+        instruction: scenario_data['instruction'],
+        enabled: scenario_data['enabled'] != false
+      )
+    end
+  end
+
+  def finalize_seeding
+    # Reload account to ensure all associations are fresh
+    @account.reload
+
+    # Reset cache keys for labels, inboxes, teams
+    @account.reset_cache_keys if @account.respond_to?(:reset_cache_keys)
+
+    # Clear any Rails cache related to this account
+    Rails.cache.delete("account/#{@account.id}")
+
+    # Force reload of all account users to refresh their associations
+    @account.account_users.each(&:reload)
+
+    Rails.logger.info("Seed completed for account #{@account.id} - #{@account.name}")
   end
 end

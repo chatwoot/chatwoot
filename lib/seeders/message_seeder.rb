@@ -6,7 +6,7 @@ module Seeders::MessageSeeder
       conversation: conversation,
       message_type: :template,
       content_type: :input_email,
-      content: 'Get notified by email'
+      content: 'Want us to email you a copy of your quote?'
     )
   end
 
@@ -17,7 +17,7 @@ module Seeders::MessageSeeder
       conversation: conversation,
       message_type: :template,
       content_type: :input_csat,
-      content: 'Please rate the support'
+      content: 'How would you rate your experience with Paperlayer today?'
     )
   end
 
@@ -41,18 +41,18 @@ module Seeders::MessageSeeder
   def self.sample_card_item
     {
       media_url: 'https://i.imgur.com/d8Djr4k.jpg',
-      title: 'Acme Shoes 2.0',
-      description: 'Move with Acme Shoe 2.0',
+      title: 'Premium Copy Paper - 20lb',
+      description: 'Bright white, 500 sheets per ream. Perfect for everyday printing.',
       actions: [
         {
           type: 'link',
-          text: 'View More',
-          uri: 'http://acme-shoes.inc'
+          text: 'View Details',
+          uri: 'http://paperlayer.com/products/copy-paper'
         },
         {
           type: 'postback',
-          text: 'Add to cart',
-          payload: 'ITEM_SELECTED'
+          text: 'Request Quote',
+          payload: 'QUOTE_REQUESTED'
         }
       ]
     }
@@ -64,14 +64,14 @@ module Seeders::MessageSeeder
       inbox: conversation.inbox,
       conversation: conversation,
       message_type: :template,
-      content: 'Your favorite food',
+      content: 'What type of paper are you interested in?',
       content_type: 'input_select',
       content_attributes: {
         items: [
-          { title: '🌯 Burito', value: 'Burito' },
-          { title: '🍝 Pasta', value: 'Pasta' },
-          { title: ' 🍱 Sushi', value: 'Sushi' },
-          { title: ' 🥗 Salad', value: 'Salad' }
+          { title: '📄 Copy Paper (20lb)', value: 'copy-paper-20' },
+          { title: '📋 Cardstock (110lb)', value: 'cardstock-110' },
+          { title: '🎨 Colored Paper', value: 'colored-paper' },
+          { title: '✨ Premium (32lb)', value: 'premium-32' }
         ]
       }
     )
@@ -92,14 +92,20 @@ module Seeders::MessageSeeder
   def self.sample_form
     {
       items: [
-        { name: 'email', placeholder: 'Please enter your email', type: 'email', label: 'Email', required: 'required',
-          pattern_error: 'Please fill this field', pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$' },
-        { name: 'text_area', placeholder: 'Please enter text', type: 'text_area', label: 'Large Text', required: 'required',
-          pattern_error: 'Please fill this field' },
-        { name: 'text', placeholder: 'Please enter text', type: 'text', label: 'text', default: 'defaut value', required: 'required',
-          pattern: '^[a-zA-Z ]*$', pattern_error: 'Only alphabets are allowed' },
-        { name: 'select', label: 'Select Option', type: 'select', options: [{ label: '🌯 Burito', value: 'Burito' },
-                                                                            { label: '🍝 Pasta', value: 'Pasta' }] }
+        { name: 'company', placeholder: 'Your company name', type: 'text', label: 'Company Name', required: 'required',
+          pattern_error: 'Please enter your company name' },
+        { name: 'email', placeholder: 'your.email@company.com', type: 'email', label: 'Email Address', required: 'required',
+          pattern_error: 'Please enter a valid email', pattern: '^[^\s@]+@[^\s@]+\.[^\s@]+$' },
+        { name: 'quantity', placeholder: 'e.g., 50 cases', type: 'text', label: 'Quantity Needed', required: 'required',
+          pattern_error: 'Please specify quantity' },
+        { name: 'paper_type', label: 'Paper Type', type: 'select', options: [
+          { label: '📄 Copy Paper (20lb)', value: 'copy-20' },
+          { label: '📋 Cardstock (110lb)', value: 'cardstock-110' },
+          { label: '🎨 Colored Paper', value: 'colored' },
+          { label: '✨ Premium (32lb)', value: 'premium-32' }
+        ] },
+        { name: 'requirements', placeholder: 'Any special requirements or delivery instructions', type: 'text_area',
+          label: 'Additional Notes', pattern_error: 'Please fill this field' }
       ]
     }
   end
@@ -110,12 +116,14 @@ module Seeders::MessageSeeder
       inbox: conversation.inbox,
       conversation: conversation,
       message_type: :template,
-      content: 'Tech Companies',
+      content: 'Helpful Resources',
       content_type: 'article',
       content_attributes: {
         items: [
-          { title: 'Acme Hardware', description: 'Hardware reimagined', link: 'http://acme-hardware.inc' },
-          { title: 'Acme Search', description: 'The best Search Engine', link: 'http://acme-search.inc' }
+          { title: 'Paper Weight Guide', description: 'Understanding paper weights and their best uses',
+            link: 'http://paperlayer.com/help/paper-weights' },
+          { title: 'Bulk Order Discounts', description: 'Learn about our volume pricing tiers', link: 'http://paperlayer.com/help/bulk-pricing' },
+          { title: 'Custom Printing Options', description: 'Letterhead, envelopes, and branded materials', link: 'http://paperlayer.com/help/custom-printing' }
         ]
       }
     )

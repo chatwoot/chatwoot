@@ -1,188 +1,107 @@
 company:
-  name: 'PaperLayer'
-  domain: 'paperlayer.test'
+  name: 'Paperlayer'
+  domain: 'paperlayer.com'
+
 users:
-  - name: 'Michael Scott'
+  # Sales Team
+  - name: 'Marcus Chen'
     gender: male
-    email: 'michael_scott@paperlayer.test'
+    email: 'marcus@paperlayer.com'
     team:
-      - 'sales'
-      - 'management'
-      - 'administration'
-      - 'warehouse'
+      - 'Sales'
     role: 'administrator'
-  - name: 'David Wallace'
-    gender: male
-    email: 'david@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Deangelo Vickers'
-    gender: male
-    email: 'deangelo@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Jo Bennett'
+  - name: 'Emily Rodriguez'
     gender: female
-    email: 'jo@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Josh Porter'
-    gender: male
-    email: 'josh@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Charles Miner'
-    gender: male
-    email: 'charles@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Ed Truck'
-    gender: male
-    email: 'ed@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Dan Gore'
-    gender: male
-    email: 'dan@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Craig D'
-    gender: male
-    email: 'craig@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Troy Underbridge'
-    gender: male
-    email: 'troy@paperlayer.test'
-    team:
-      - 'Management'
-  - name: 'Karen Filippelli'
-    gender: female
-    email: 'karn@paperlayer.test'
+    email: 'emily@paperlayer.com'
     team:
       - 'Sales'
     custom_role: 'Sales Representative'
-  - name: 'Danny Cordray'
-    gender: female
-    email: 'danny@paperlayer.test'
+  - name: 'David Kim'
+    gender: male
+    email: 'david@paperlayer.com'
     team:
       - 'Sales'
+    custom_role: 'Sales Representative'
+
+  # Customer Support Team
+  - name: 'Jennifer Williams'
+    gender: female
+    email: 'jennifer@paperlayer.com'
+    team:
+      - 'Customer Support'
+    role: 'administrator'
+  - name: 'Alex Thompson'
+    gender: male
+    email: 'alex@paperlayer.com'
+    team:
+      - 'Customer Support'
     custom_role: 'Customer Support Lead'
-  - name: 'Ben Nugent'
-    gender: male
-    email: 'ben@paperlayer.test'
+  - name: 'Rachel Green'
+    gender: female
+    email: 'rachel@paperlayer.com'
     team:
-      - 'Sales'
+      - 'Customer Support'
     custom_role: 'Junior Agent'
-  - name: 'Todd Packer'
+
+  # Operations Team
+  - name: 'Tom Anderson'
     gender: male
-    email: 'todd@paperlayer.test'
+    email: 'tom@paperlayer.com'
+    team:
+      - 'Operations'
+    role: 'administrator'
+  - name: 'Lisa Martinez'
+    gender: female
+    email: 'lisa@paperlayer.com'
+    team:
+      - 'Operations'
+    custom_role: 'Escalation Handler'
+
+  # Additional Team Members
+  - name: 'Sarah Johnson'
+    gender: female
+    email: 'sarah@paperlayer.com'
+    role: 'administrator'
+  - name: 'James Wilson'
+    gender: male
+    email: 'james@paperlayer.com'
     team:
       - 'Sales'
     custom_role: 'Sales Representative'
-  - name: 'Cathy Simms'
+  - name: 'Maria Garcia'
     gender: female
-    email: 'cathy@paperlayer.test'
+    email: 'maria@paperlayer.com'
     team:
-      - 'Administration'
+      - 'Customer Support'
+  - name: 'Robert Taylor'
+    gender: male
+    email: 'robert@paperlayer.com'
+    team:
+      - 'Operations'
+  - name: 'Linda Brown'
+    gender: female
+    email: 'linda@paperlayer.com'
+    team:
+      - 'Customer Support'
     custom_role: 'Knowledge Manager'
-  - name: 'Hunter Jo'
+  - name: 'Kevin Zhang'
     gender: male
-    email: 'hunter@paperlayer.test'
+    email: 'kevin@paperlayer.com'
     team:
-      - 'Administration'
+      - 'Sales'
     custom_role: 'Analytics Specialist'
-  - name: 'Rolando Silva'
-    gender: male
-    email: 'rolando@paperlayer.test'
-    team:
-      - 'Administration'
-    custom_role: 'Junior Agent'
-  - name: 'Stephanie Wilson'
-    gender: female
-    email: 'stephanie@paperlayer.test'
-    team:
-      - 'Administration'
-    custom_role: 'Escalation Handler'
-  - name: 'Jordan Garfield'
-    gender: male
-    email: 'jorodan@paperlayer.test'
-    team:
-      - 'Administration'
-  - name: 'Ronni Carlo'
-    gender: male
-    email: 'ronni@paperlayer.test'
-    team:
-      - 'Administration'
-  - name: 'Lonny Collins'
-    gender: female
-    email: 'lonny@paperlayer.test'
-    team:
-      - 'Warehouse'
-    custom_role: 'Customer Support Lead'
-  - name: 'Madge Madsen'
-    gender: female
-    email: 'madge@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Glenn Max'
-    gender: female
-    email: 'glenn@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Jerry DiCanio'
-    gender: male
-    email: 'jerry@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Phillip Martin'
-    gender: male
-    email: 'phillip@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Michael Josh'
-    gender: male
-    email: 'michale_josh@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Matt Hudson'
-    gender: male
-    email: 'matt@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Gideon'
-    gender: male
-    email: 'gideon@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Bruce'
-    gender: male
-    email: 'bruce@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Frank'
-    gender: male
-    email: 'frank@paperlayer.test'
-    team:
-      - 'Warehouse'
-  - name: 'Louanne Kelley'
-    gender: female
-    email: 'louanne@paperlayer.test'
-  - name: 'Devon White'
-    gender: male
-    email: 'devon@paperlayer.test'
-    custom_role: 'Escalation Handler'
-  - name: 'Kendall'
-    gender: male
-    email: 'kendall@paperlayer.test'
-  - email: 'sadiq@paperlayer.test'
-    name: 'Sadiq'
-    gender: male
+
 teams:
-  - '💰 Sales'
-  - '💼 Management'
-  - '👩‍💼 Administration'
-  - '🚛 Warehouse'
+  - name: '💰 Sales'
+    description: 'Handles all sales inquiries, quotes, and bulk order requests'
+    allow_auto_assign: true
+  - name: '💬 Customer Support'
+    description: 'Provides customer service, product assistance, and order support'
+    allow_auto_assign: true
+  - name: '🚛 Operations'
+    description: 'Manages shipping, logistics, delivery issues, and order fulfillment'
+    allow_auto_assign: true
+
 custom_roles:
   - name: 'Customer Support Lead'
     description: 'Lead support agent with full conversation and contact management'
@@ -216,265 +135,1185 @@ custom_roles:
       - 'conversation_unassigned_manage'
       - 'conversation_participating_manage'
       - 'contact_manage'
+
 labels:
-    - title: 'billing'
-      color: '#28AD21'
-      show_on_sidebar: true
-    - title: 'software'
-      color: '#8F6EF2'
-      show_on_sidebar: true
-    - title: 'delivery'
-      color: '#A2FDD5'
-      show_on_sidebar: true
-    - title: 'ops-handover'
-      color: '#A53326'
-      show_on_sidebar: true
-    - title: 'premium-customer'
-      color: '#6FD4EF'
-      show_on_sidebar: true
-    - title: 'lead'
-      color: '#F161C8'
-      show_on_sidebar: true
+  - title: 'bulk-order'
+    color: '#00C875'
+    description: 'Large volume paper orders'
+    show_on_sidebar: true
+  - title: 'custom-printing'
+    color: '#784BD1'
+    description: 'Custom letterhead and printing requests'
+    show_on_sidebar: true
+  - title: 'urgent'
+    color: '#E2445C'
+    description: 'Rush delivery needed'
+    show_on_sidebar: true
+  - title: 'pricing-inquiry'
+    color: '#FDAB3D'
+    description: 'Quote requests and pricing questions'
+    show_on_sidebar: true
+  - title: 'delivery-issue'
+    color: '#9CD326'
+    description: 'Shipping and delivery concerns'
+    show_on_sidebar: true
+  - title: 'product-question'
+    color: '#579BFC'
+    description: 'Questions about paper types and products'
+    show_on_sidebar: true
+
+canned_responses:
+  - short_code: 'welcome'
+    content: 'Thank you for contacting Paperlayer! We''re committed to providing the highest quality paper products for your business. How can I help you today?'
+  - short_code: 'bulk'
+    content: 'For bulk orders over 100 reams, we offer competitive wholesale pricing. Let me get you a custom quote. Could you share your estimated monthly paper needs?'
+  - short_code: 'pricing'
+    content: 'Our standard pricing for premium white copy paper (20lb, 8.5x11) is $45 per case (10 reams). We offer volume discounts: 10% off for 50-99 cases, 15% off for 100-249 cases, and 20% off for 250+ cases.'
+  - short_code: 'delivery'
+    content: 'We offer same-day delivery for local orders (within 50 miles) placed before noon, and 2-3 business days for standard shipping. Rush delivery is available for an additional fee.'
+  - short_code: 'custom'
+    content: 'We provide custom letterhead printing services with a minimum order of 5 reams. Typical turnaround is 5-7 business days. Would you like to discuss your design requirements?'
+  - short_code: 'stock'
+    content: 'We carry a full range of paper products: copy paper (20lb-32lb), cardstock (65lb-110lb), colored paper, glossy photo paper, and specialty papers. What type are you interested in?'
+  - short_code: 'closing'
+    content: 'Thank you for choosing Paperlayer! Is there anything else I can help you with today?'
+  - short_code: 'followup'
+    content: 'I wanted to follow up on your recent inquiry. Have you had a chance to review our quote?'
+  - short_code: 'tracking'
+    content: 'I can help you track your order. Could you please provide your order number?'
+  - short_code: 'samples'
+    content: 'We''d be happy to send you paper samples! What types of paper are you interested in testing?'
+  - short_code: 'weights'
+    content: '20lb is our standard weight for everyday printing. 24lb is heavier and more professional. 28lb is perfect for presentations. 32lb is our premium weight for executive communications.'
+  - short_code: 'discounts'
+    content: 'We offer tiered volume discounts: 50-99 cases (10% off), 100-249 cases (15% off), 250+ cases (20% off). Plus, you get a dedicated account manager with orders over 100 cases!'
+  - short_code: 'rush'
+    content: 'We can expedite your order! Same-day delivery is available for orders placed before noon within 50 miles. Express next-day delivery is also available. Additional fees apply.'
+  - short_code: 'recycled'
+    content: 'Yes! Our Eco-Friendly line features 30% post-consumer recycled content and is FSC certified. It''s only $3 more per case than standard paper - great for sustainability!'
+  - short_code: 'colors'
+    content: 'We stock pastels (Ivory, Pink, Blue, Green, Yellow) and brights (Red, Orange, Purple). Custom colors are available for bulk orders. What are you looking for?'
+
+macros:
+  - name: 'Handle Bulk Order Inquiry'
+    visibility: 'global'
+    created_by: 'marcus@paperlayer.com'
+    actions:
+      - action_name: 'add_label'
+        action_params: ['bulk-order']
+      - action_name: 'assign_team'
+        action_params: ['Sales']
+      - action_name: 'send_message'
+        action_params: ['For bulk orders over 100 reams, we offer competitive wholesale pricing. Let me get you a custom quote. Could you share your estimated monthly paper needs?']
+  - name: 'Handle Urgent Order'
+    visibility: 'global'
+    created_by: 'tom@paperlayer.com'
+    actions:
+      - action_name: 'add_label'
+        action_params: ['urgent']
+      - action_name: 'change_priority'
+        action_params: ['urgent']
+      - action_name: 'assign_team'
+        action_params: ['Operations']
+      - action_name: 'send_message'
+        action_params: ['I see you need this urgently. We offer same-day delivery for orders placed before noon. Let me check our inventory and get this expedited for you.']
+  - name: 'Handle Custom Printing Request'
+    visibility: 'global'
+    created_by: 'jennifer@paperlayer.com'
+    actions:
+      - action_name: 'add_label'
+        action_params: ['custom-printing']
+      - action_name: 'assign_team'
+        action_params: ['Customer Support']
+      - action_name: 'send_message'
+        action_params: ['We provide custom letterhead printing services with a minimum order of 5 reams. Typical turnaround is 5-7 business days. Would you like to discuss your design requirements?']
+  - name: 'Route to Sales Team'
+    visibility: 'global'
+    created_by: 'marcus@paperlayer.com'
+    actions:
+      - action_name: 'add_label'
+        action_params: ['pricing-inquiry']
+      - action_name: 'assign_team'
+        action_params: ['Sales']
+      - action_name: 'send_message'
+        action_params: ['I''d be happy to provide pricing information. To give you the most accurate quote, could you let me know: 1) Paper type/weight you need, 2) Quantity required, 3) Delivery location?']
+  - name: 'Escalate to Operations'
+    visibility: 'global'
+    created_by: 'tom@paperlayer.com'
+    actions:
+      - action_name: 'add_label'
+        action_params: ['delivery-issue']
+      - action_name: 'assign_team'
+        action_params: ['Operations']
+      - action_name: 'change_priority'
+        action_params: ['high']
+  - name: 'Close with Satisfaction Check'
+    visibility: 'global'
+    created_by: 'sarah@paperlayer.com'
+    actions:
+      - action_name: 'send_message'
+        action_params: ['Thank you for choosing Paperlayer! Is there anything else I can help you with today?']
+      - action_name: 'resolve_conversation'
+
+portals:
+  - name: 'Paperlayer Help Center'
+    slug: 'paperlayer-help'
+    page_title: 'Paperlayer - Help & Support'
+    header_text: 'How can we help you with your paper needs?'
+    color: '#0066CC'
+    config:
+      allowed_locales: ['en']
+      default_locale: 'en'
+    categories:
+      - name: 'Getting Started'
+        slug: 'getting-started'
+        description: 'Learn the basics of ordering from Paperlayer'
+        locale: 'en'
+        position: 1
+        articles:
+          - title: 'How to Place Your First Order'
+            author: 'sarah@paperlayer.com'
+            description: 'Step-by-step guide to placing your first paper order'
+            status: 'published'
+            locale: 'en'
+            content: |
+              # How to Place Your First Order
+
+              Welcome to Paperlayer! We're excited to help you with your paper needs.
+
+              ## Step 1: Browse Our Products
+              Visit our product catalog to explore our wide range:
+              - Copy Paper (20lb, 24lb, 28lb, 32lb)
+              - Cardstock (65lb, 80lb, 110lb)
+              - Specialty Papers (colored, glossy, recycled)
+
+              ## Step 2: Request a Quote
+              Contact our sales team via:
+              - Live chat on our website
+              - Email: sales@paperlayer.com
+              - Phone: 1-800-PAPER-01
+
+              ## Step 3: Review and Approve
+              Our team will send you a detailed quote within 24 hours.
+
+              ## Step 4: Place Your Order
+              Once approved, we'll process your order and provide tracking.
+
+              ## Step 5: Delivery
+              - Standard: 2-3 business days (FREE over $100)
+              - Same-day: Available for local orders before noon
+
+          - title: 'Understanding Paper Weights'
+            author: 'sarah@paperlayer.com'
+            description: 'Learn about different paper weights and their best uses'
+            status: 'published'
+            locale: 'en'
+            content: |
+              # Understanding Paper Weights
+
+              Paper weight can be confusing. Let us help you choose the right weight.
+
+              ## Copy Paper Weights
+
+              ### 20lb (75 gsm) - Standard
+              - Most common for everyday printing
+              - Great for internal documents
+              - Economical for high-volume
+
+              ### 24lb (90 gsm) - Premium
+              - Heavier feel, more professional
+              - Ideal for presentations, resumes
+              - Less see-through than 20lb
+
+              ### 28lb (105 gsm) - Super Premium
+              - Excellent for important documents
+              - Professional brochures
+              - High-quality letterhead
+
+              ### 32lb (120 gsm) - Ultra Premium
+              - Luxury feel and appearance
+              - Executive communications
+              - Certificates and awards
+
+              ## Cardstock Weights
+
+              ### 65lb (176 gsm) - Light
+              - Greeting cards, postcards
+
+              ### 80lb (216 gsm) - Medium
+              - Business cards, invitations
+
+              ### 110lb (298 gsm) - Heavy
+              - Premium business cards
+              - High-end invitations
+
+      - name: 'Products & Pricing'
+        slug: 'products-pricing'
+        description: 'Information about our paper products and pricing'
+        locale: 'en'
+        position: 2
+        articles:
+          - title: 'Copy Paper Product Line'
+            author: 'marcus@paperlayer.com'
+            description: 'Complete guide to our copy paper offerings'
+            status: 'published'
+            locale: 'en'
+            content: |
+              # Copy Paper Product Line
+
+              Paperlayer offers premium paper products for your business.
+
+              ## Standard Copy Paper
+              **Premium White - 20lb**
+              - Price: $45 per case (10 reams)
+              - Brightness: 92
+              - Size: 8.5" x 11"
+              - Sheets: 500 per ream
+
+              **Premium White - 24lb**
+              - Price: $52 per case
+              - Brightness: 94
+              - More professional feel
+
+              ## Premium Copy Paper
+              **Ultra White - 28lb**
+              - Price: $65 per case
+              - Brightness: 96
+              - Perfect for presentations
+
+              **Executive White - 32lb**
+              - Price: $78 per case
+              - Brightness: 98
+              - Luxury weight
+
+              ## Recycled Paper
+              **Eco-Friendly - 20lb**
+              - Price: $48 per case
+              - 30% post-consumer content
+              - FSC certified
+
+              ## Volume Discounts
+              - 50-99 cases: 10% off
+              - 100-249 cases: 15% off
+              - 250+ cases: 20% off
+
+          - title: 'Bulk Order Discounts'
+            author: 'emily@paperlayer.com'
+            description: 'Learn about our volume pricing tiers'
+            status: 'published'
+            locale: 'en'
+            content: |
+              # Bulk Order Discounts
+
+              The more you order, the more you save!
+
+              ## Discount Tiers
+
+              ### Tier 1: 50-99 Cases
+              - **10% discount**
+              - Perfect for medium offices
+
+              ### Tier 2: 100-249 Cases
+              - **15% discount**
+              - Dedicated account manager
+              - Quarterly supply option
+
+              ### Tier 3: 250+ Cases
+              - **20% discount**
+              - Priority customer service
+              - Free delivery
+              - Flexible payment terms
+
+              ## Example Savings
+              **100 cases of Premium White 20lb**
+              - Regular: $4,500
+              - With 15% discount: $3,825
+              - **You save: $675!**
+
+      - name: 'Shipping & Delivery'
+        slug: 'shipping-delivery'
+        description: 'Delivery options and tracking information'
+        locale: 'en'
+        position: 3
+        articles:
+          - title: 'Delivery Options & Times'
+            author: 'tom@paperlayer.com'
+            description: 'Choose the delivery option that works for you'
+            status: 'published'
+            locale: 'en'
+            content: |
+              # Delivery Options & Times
+
+              ## Standard Delivery (FREE)
+              - **Timeframe:** 2-3 business days
+              - **Cost:** FREE over $100
+              - **Coverage:** Within 200 miles
+
+              ## Express Delivery
+              - **Timeframe:** Next business day
+              - **Cost:** $25 flat fee
+              - **Cutoff:** Order by 3 PM
+
+              ## Same-Day Delivery
+              - **Timeframe:** Within 6 hours
+              - **Cost:** $50 flat fee
+              - **Coverage:** Within 50 miles
+              - **Cutoff:** Order by 12 PM noon
+
+              ## Tracking
+              All orders include:
+              - Real-time tracking number
+              - Email notifications
+              - Delivery confirmation
+
+captain_assistants:
+  - name: 'Paper Expert'
+    description: 'AI assistant specialized in helping customers with all their paper product needs'
+    config:
+      temperature: 0.7
+      feature_faq: true
+      feature_memory: true
+      product_name: 'Paperlayer Paper Products'
+    scenarios:
+      - title: 'Product Recommendations'
+        description: 'Help customers choose the right paper products'
+        enabled: true
+        instruction: |
+          When a customer asks about which paper to use, ask clarifying questions:
+          1. What will they use it for? (everyday printing, presentations, letterhead, etc.)
+          2. What's their volume?
+          3. Any special requirements? (recycled, brightness, specific sizes)
+
+          Then recommend appropriate products:
+          - 20lb for everyday use
+          - 24lb for professional documents
+          - 28lb for presentations
+          - 32lb for executive communications
+          - Cardstock for business cards
+
+          Always mention relevant discounts and offer to connect with sales for quotes.
+
+      - title: 'Bulk Order Processing'
+        description: 'Guide customers through bulk order process'
+        enabled: true
+        instruction: |
+          For bulk order inquiries:
+          1. Determine their quantity needs
+          2. Explain discount tiers: 10% (50-99), 15% (100-249), 20% (250+)
+          3. Calculate estimated savings
+          4. Explain benefits (account manager, flexible terms)
+          5. Offer to connect with bulk sales team
+          6. Add the 'bulk-order' label
+
+      - title: 'Shipping Questions'
+        description: 'Answer delivery and shipping questions'
+        enabled: true
+        instruction: |
+          When customers ask about shipping:
+          1. Standard: 2-3 days (FREE over $100)
+          2. Express: Next day ($25)
+          3. Same-day: 6 hours, order by noon ($50)
+          4. Bulk freight: 3-5 days for 100+ cases
+
+          Mention tracking is included.
+          For urgent needs, emphasize same-day delivery within 50 miles.
+
+    documents:
+      - name: 'General FAQs'
+        external_link: 'https://paperlayer.com/faq/general'
+        status: 'available'
+        content: |
+          # Frequently Asked Questions
+
+          ## What are your business hours?
+          Monday-Friday: 8 AM - 6 PM EST
+          Saturday: 9 AM - 2 PM EST
+          Sunday: Closed
+
+          ## Do you offer free shipping?
+          Yes! Free standard shipping on orders over $100 within 200 miles.
+
+          ## What payment methods do you accept?
+          - Credit cards (Visa, MC, AmEx, Discover)
+          - Purchase orders (established accounts)
+          - ACH/Wire transfer
+          - Net 30 terms (qualified businesses)
+
+          ## Can I return paper products?
+          Yes, unopened reams can be returned within 30 days.
+
+          ## What makes Paperlayer different?
+          - Expert advice on paper selection
+          - Personal service from dedicated account managers
+          - Local delivery and same-day service
+          - Competitive pricing with volume discounts
+
+      - name: 'Product Specifications'
+        external_link: 'https://paperlayer.com/faq/products'
+        status: 'available'
+        content: |
+          # Product Specifications FAQs
+
+          ## What does paper brightness mean?
+          Brightness is measured 0-100. Higher = whiter, brighter.
+          - 92: Standard brightness
+          - 94-96: Premium brightness
+          - 98+: Ultra-premium brightness
+
+          ## What's the difference between 20lb and 24lb?
+          The number refers to the weight of 500 sheets.
+          - 20lb: Standard, economical
+          - 24lb: Heavier, more professional
+          - 28lb: Premium for presentations
+          - 32lb: Luxury for executive use
+
+          ## Is your paper acid-free?
+          Yes, all our copy paper is acid-free for archival quality.
+
+          ## Do you carry recycled paper?
+          Yes! Our Eco-Friendly line: 30% post-consumer recycled, FSC certified.
+
+          ## What sizes do you offer?
+          - Letter: 8.5" x 11" (most common)
+          - Legal: 8.5" x 14"
+          - Tabloid: 11" x 17"
+          - Custom sizes for bulk orders
+
+          ## Can I get colored paper?
+          Yes! Pastels: Ivory, Pink, Blue, Green, Yellow
+          Brights: Red, Orange, Purple
+          Custom colors for bulk orders
+
+      - name: 'Bulk Ordering Guide'
+        external_link: 'https://paperlayer.com/guides/bulk-orders'
+        status: 'available'
+        content: |
+          # Bulk Ordering Guide
+
+          ## Benefits of Bulk Orders
+
+          ### Cost Savings
+          - 50-99 cases: Save 10%
+          - 100-249 cases: Save 15%
+          - 250+ cases: Save 20%
+
+          ### Additional Perks
+          - Dedicated account manager
+          - Priority customer service
+          - Flexible payment terms (Net 30/60/90)
+          - Free delivery on orders over 100 cases
+          - Scheduled recurring deliveries
+
+          ## How to Place a Bulk Order
+
+          1. Contact our bulk sales team
+             - Email: bulk@paperlayer.com
+             - Phone: 1-800-BULK-PAPER
+
+          2. Discuss your needs
+             - Types of paper needed
+             - Estimated volume
+             - Delivery schedule
+
+          3. Receive custom quote within 24 hours
+
+          4. Review and sign agreement
+             - No long-term contracts required
+             - Flexible terms available
+
+          ## Storage Tips
+          - Store in cool, dry place (60-70°F)
+          - Keep away from direct sunlight
+          - Maintain 40-60% humidity
+          - Store flat, not on edge
+
 contacts:
-    - name: "Lorrie Trosdall"
-      email: "ltrosdall0@bravesites.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::WebWidget
-          messages:
+  # Bulk Order Customers
+  - name: "David Wallace"
+    email: "david@techcorp.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: high
+        assignee: marcus@paperlayer.com
+        labels:
+          - bulk-order
+          - pricing-inquiry
+        messages:
           - message_type: incoming
-            content: Hi, I'm having trouble logging in to my account.
+            content: "Hi, I need a quote for 200 cases of copy paper for our corporate offices. What kind of pricing can you offer?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Hi! Sorry to hear that. Can you please provide me with your username and email address so I can look into it for you?
-    - name: "Tiffanie Cloughton"
-      email: "tcloughton1@newyorker.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::FacebookPage
-          messages:
+            sender: marcus@paperlayer.com
+            content: "Great! For 200 cases, you qualify for our 15% volume discount. That brings the price down to $38.25 per case. Would you like me to prepare a formal quote?"
           - message_type: incoming
-            content: Hi, I need some help with my billing statement.
-          - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Hello! I'd be happy to assist you with that. Can you please tell me which billing statement you're referring to?
-    - name: "Melonie Keatch"
-      email: "mkeatch2@reuters.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::TwitterProfile
-          messages:
+            content: "Yes please. How soon can you deliver to multiple locations?"
+
+  - name: "Sarah Mitchell"
+    email: "sarah.mitchell@globalent.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "sarah.mitchell@globalent.com"
+        priority: medium
+        assignee: emily@paperlayer.com
+        labels:
+          - bulk-order
+        messages:
           - message_type: incoming
-            content: Hi, I think I accidentally deleted some important files. Can you help me recover them?
+            content: "We're opening 5 new offices and need to set up recurring paper orders. Can you help with bulk pricing?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Of course! Can you please tell me what type of files they were and where they were located on your device?
-    - name: "Olin Canniffe"
-      email: "ocanniffe3@feedburner.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Whatsapp
-          source_id: "123456723"
-          messages:
+            sender: emily@paperlayer.com
+            content: "Absolutely! For recurring orders over 250 cases, you get 20% off plus a dedicated account manager. When would be a good time to discuss the details?"
+
+  # Custom Printing Requests
+  - name: "Jessica Turner"
+    email: "j.turner@summit.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: alex@paperlayer.com
+        labels:
+          - custom-printing
+        messages:
           - message_type: incoming
-            content: Hi, I'm having trouble connecting to the internet.
+            content: "Do you offer custom letterhead printing? We need about 10 reams with our company logo."
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Have you tried restarting your modem/router? If that doesn't work, please let me know and I can provide further assistance.
-    - name: "Viviene Corp"
-      email: "vcorp4@instagram.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::Sms
-          source_id: "+1234567"
-          messages:
+            sender: alex@paperlayer.com
+            content: "Yes! We can do custom letterhead with a minimum order of 5 reams. For 10 reams on 28lb premium paper, it would be around $200. Turnaround is 5-7 business days. Do you have your design file ready?"
+
+  - name: "Michael Stevens"
+    email: "mstevens@brightfuture.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: urgent
+        assignee: jennifer@paperlayer.com
+        labels:
+          - custom-printing
+          - urgent
+        messages:
           - message_type: incoming
-            content: Hi, I'm having trouble with the mobile app. It keeps crashing.
+            content: "We have a trade show next week and need 1000 business cards ASAP. Can you rush this?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Can you please try uninstalling and reinstalling the app and see if that helps? If not, please let me know and I can look into it further.
-    - name: "Drake Pittway"
-      email: "dpittway5@chron.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Line
-          messages:
+            sender: jennifer@paperlayer.com
+            content: "For rush orders, we can turn it around in 2-3 business days for an additional $50 rush fee. Would that work for your timeline?"
+
+  # Urgent Delivery
+  - name: "Ryan Howard"
+    email: "ryan@metrosolutions.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: urgent
+        assignee: tom@paperlayer.com
+        labels:
+          - urgent
+          - delivery-issue
+        messages:
           - message_type: incoming
-            content: Hi, I'm trying to update my account information but it won't save.
+            content: "EMERGENCY! We ran out of paper and have a big presentation tomorrow morning. Can you deliver today?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Sorry for the inconvenience. Can you please provide me with the specific information you're trying to update and the error message you're receiving?
-    - name: "Klaus Crawley"
-      email: "kcrawley6@narod.ru"
-      gender: 'male'
-      conversations:
-        - channel: Channel::WebWidget
-          messages:
+            sender: tom@paperlayer.com
+            content: "Yes, we can do same-day delivery within 50 miles if you order before noon. What's your location and how many reams do you need?"
           - message_type: incoming
-            content: Hi, I need some help setting up my new device.
-          - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: No problem! Can you please tell me the make and model of your device and what specifically you need help with?
-    - name: "Bing Cusworth"
-      email: "bcusworth7@arstechnica.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::TwitterProfile
-          messages:
+            content: "We're downtown and need 50 reams of premium white paper. How much for rush delivery?"
+
+  - name: "Amanda Foster"
+    email: "afoster@pacificgroup.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: urgent
+        assignee: lisa@paperlayer.com
+        labels:
+          - urgent
+        messages:
           - message_type: incoming
-            content: Hi, I accidentally placed an order for the wrong item. Can I cancel it?
+            content: "Can you deliver 30 reams by end of day? We have an urgent project."
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Can you please provide me with your order number and I'll see if I can cancel it for you?
-    - name: "Claus Jira"
-      email: "cjira8@comcast.net"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Whatsapp
-          source_id: "12323432"
-          messages:
+            sender: lisa@paperlayer.com
+            content: "Yes! For same-day delivery, there's a $50 rush fee. I'll get this processed immediately. What's your delivery address?"
+
+  # Product Questions
+  - name: "Laura Chen"
+    email: "laura@alliancepartners.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: rachel@paperlayer.com
+        labels:
+          - product-question
+        messages:
           - message_type: incoming
-            content: Hi, I'm having trouble with my email. I can't seem to send or receive any messages.
+            content: "What's the difference between 20lb and 24lb paper? Which one is better for presentations?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Can you please tell me what email client you're using and if you're receiving any error messages?
-    - name: "Quent Dalliston"
-      email: "qdalliston9@zimbio.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Whatsapp
-          source_id: "12342234324"
-          messages:
+            sender: rachel@paperlayer.com
+            content: "20lb is our standard weight for everyday printing. 24lb is heavier with a more professional feel and less see-through. For presentations, I'd definitely recommend 24lb or even 28lb for the best impression!"
+
+  - name: "Daniel Park"
+    email: "dpark@premierservices.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "dpark@premierservices.com"
+        assignee: alex@paperlayer.com
+        labels:
+          - product-question
+          - pricing-inquiry
+        messages:
           - message_type: incoming
-            content: Hi, I need some help resetting my password.
+            content: "Do you have recycled paper options? We're trying to go green and need eco-friendly supplies."
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Sure! Can you please provide me with your username or email address and I'll send you a password reset link?
-    - name: "Coreen Mewett"
-      email: "cmewetta@home.pl"
-      gender: 'female'
-      conversations:
-        - channel: Channel::FacebookPage
-          messages:
+            sender: alex@paperlayer.com
+            content: "Yes! Our Eco-Friendly line is 30% post-consumer recycled content and FSC certified. It's $48 per case, just $3 more than standard paper. Great choice for sustainability!"
+
+  # Delivery Issues
+  - name: "Karen Williams"
+    email: "kwilliams@apexindustries.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "kwilliams@apexindustries.com"
+        priority: high
+        assignee: tom@paperlayer.com
+        labels:
+          - delivery-issue
+        messages:
           - message_type: incoming
-            content: Hi, I think someone may have hacked into my account. What should I do?
+            content: "My order #12345 hasn't arrived yet. It was supposed to be here yesterday. Can you check the status?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Please change your password immediately and enable two-factor authentication if you haven't already done so. I can also assist you in reviewing your account activity if needed.
-    - name: "Benyamin Janeway"
-      email: "bjanewayb@ustream.tv"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Line
-          messages:
+            sender: tom@paperlayer.com
+            content: "I apologize for the delay. Let me track that order for you right away and find out what happened."
+
+  - name: "Christopher Lee"
+    email: "clee@horizontech.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: lisa@paperlayer.com
+        labels:
+          - delivery-issue
+        messages:
           - message_type: incoming
-            content: Hi, I have a question about your product features.
+            content: "What are your delivery hours? We have limited receiving times at our warehouse."
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: Sure thing! What specific feature are you interested in learning more about?
-    - name: "Cordell Dalinder"
-      email: "cdalinderc@msn.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::Email
-          source_id: "cdalinderc@msn.test"
-          messages:
+            sender: lisa@paperlayer.com
+            content: "Our standard delivery window is 9 AM - 5 PM. We can accommodate specific time windows with advance notice. What times work best for you?"
           - message_type: incoming
-            content: Hi, I need help setting up my new printer.
-          - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: No problem! Can you please provide me with the make and model of your printer and what type of device you'll be connecting it to?
-    - name: "Merrile Petruk"
-      email: "mpetrukd@wunderground.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::Email
-          source_id: "mpetrukd@wunderground.test"
-          priority: urgent
-          messages:
+            content: "10 AM - 2 PM would be ideal for us."
+
+  # Pricing Inquiries
+  - name: "Patricia Harris"
+    email: "pharris@fusioncons.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: marcus@paperlayer.com
+        labels:
+          - pricing-inquiry
+        messages:
           - message_type: incoming
-            content: Hi, I'm having trouble accessing a file that I shared with someone.
+            content: "Can you send me your current price list for all paper weights and types?"
           - message_type: outgoing
-            sender: michael_scott@paperlayer.test
-            content: I'm sorry to hear that. Can you please tell me which file you're having trouble accessing and who you shared it with? I'll do my best to help you regain access.
-    - name: "Nathaniel Vannuchi"
-      email: "nvannuchie@photobucket.test"
-      gender: 'male'
-      conversations:
-        - channel: Channel::FacebookPage
-          priority: high
-          messages:
-            - message_type: incoming
-              content: "Hey there,I need some help with billing, my card is not working on the website."
-    - name: "Olia Olenchenko"
-      email: "oolenchenkof@bluehost.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::WebWidget
-          priority: high
-          assignee: michael_scott@paperlayer.test
-          messages:
-            - message_type: incoming
-              content: "Billing section is not working, it throws some error."
-    - name: "Elisabeth Derington"
-      email: "ederingtong@printfriendly.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::Whatsapp
-          priority: high
-          source_id: "1223423567"
-          labels:
-            - billing
-            - delivery
-            - ops-handover
-            - premium-customer
-          messages:
-            - message_type: incoming
-              content: "Hey \n I didn't get the product delivered, but it shows it is delivered to my address. Please check"
-    - name: "Willy Castelot"
-      email: "wcasteloth@exblog.jp"
-      gender: 'male'
-      conversations:
-        - channel: Channel::WebWidget
-          priority: medium
-          labels:
-            - software
-            - ops-handover
-          messages:
-            - message_type: incoming
-              content: "Hey there, \n I need some help with the product, my button is not working on the website."
-    - name: "Ophelia Folkard"
-      email: "ofolkardi@taobao.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::WebWidget
-          priority: low
-          assignee: michael_scott@paperlayer.test
-          labels:
-            - billing
-            - software
-            - lead
-          messages:
-            - message_type: incoming
-              content: "Hey, \n My card is not working on your website. Please help"
-    - name: "Candice Matherson"
-      email: "cmathersonj@va.test"
-      gender: 'female'
-      conversations:
-        - channel: Channel::Email
-          priority: urgent
-          source_id: "cmathersonj@va.test"
-          assignee: michael_scott@paperlayer.test
-          labels:
-            - billing
-            - lead
-          messages:
-            - message_type: incoming
-              content: "Hey, \n I'm looking for some help to figure out if it is the right product for me."
-            - message_type: outgoing
-              sender: michael_scott@paperlayer.test
-              content: Welcome to PaperLayer. Our Team will be getting back you shortly.
-            - message_type: outgoing
-              sender: michael_scott@paperlayer.test
-              content: How may i help you ?
-              sender: michael_scott@paperlayer.test
+            sender: marcus@paperlayer.com
+            content: "Of course! I'll email you our comprehensive price list. Are you interested in standard sizes or do you need custom dimensions as well?"
+
+  - name: "Robert Johnson"
+    email: "rjohnson@nexushold.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "rjohnson@nexushold.com"
+        assignee: emily@paperlayer.com
+        labels:
+          - pricing-inquiry
+          - bulk-order
+        messages:
+          - message_type: incoming
+            content: "What kind of discount can you offer for an annual contract of 500+ cases?"
+          - message_type: outgoing
+            sender: emily@paperlayer.com
+            content: "For annual contracts of 500+ cases, you qualify for our top tier 20% discount, plus free delivery, dedicated account manager, and flexible payment terms. I'd love to discuss this further!"
+
+  # Mixed Scenarios
+  - name: "Elizabeth Brown"
+    email: "ebrown@zenithpartners.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: medium
+        assignee: david@paperlayer.com
+        labels:
+          - product-question
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "I need colored paper for our marketing materials. What colors do you stock?"
+          - message_type: outgoing
+            sender: david@paperlayer.com
+            content: "We stock pastels (Ivory, Pink, Blue, Green, Yellow) and brights (Red, Orange, Purple). For bulk orders, we can also do custom colors. What quantities are you looking at?"
+
+  - name: "James Martinez"
+    email: "jmartinez@atlasgroup.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: jennifer@paperlayer.com
+        messages:
+          - message_type: incoming
+            content: "Do you offer volume discounts? We typically order 50-100 cases per quarter."
+          - message_type: outgoing
+            sender: jennifer@paperlayer.com
+            content: "Yes! For 50-99 cases you get 10% off, and for 100-249 cases you get 15% off. With your quarterly volume, you'd qualify for our 10-15% tier. Would you like to discuss a recurring order setup?"
+
+  - name: "Nancy Taylor"
+    email: "ntaylor@infinitysol.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "ntaylor@infinitysol.com"
+        priority: low
+        assignee: rachel@paperlayer.com
+        labels:
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "What's the shelf life of paper? We're considering buying in bulk but worried about storage."
+          - message_type: outgoing
+            sender: rachel@paperlayer.com
+            content: "Paper stored properly in a cool, dry place will last indefinitely! Just keep it at 60-70°F with 40-60% humidity, away from direct sunlight. Many of our customers stock 6-12 months worth with no issues."
+
+  - name: "Steven Clark"
+    email: "sclark@eclipseent.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: high
+        assignee: marcus@paperlayer.com
+        labels:
+          - bulk-order
+          - urgent
+        messages:
+          - message_type: incoming
+            content: "We need 150 cases delivered next week. Can you handle that volume on short notice?"
+          - message_type: outgoing
+            sender: marcus@paperlayer.com
+            content: "Absolutely! We have that in stock. For 150 cases, you get our 15% volume discount. With express delivery, we can have it there within 2-3 business days. Shall I prepare the quote?"
+
+  - name: "Michelle Adams"
+    email: "madams@quantumlabs.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: alex@paperlayer.com
+        labels:
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "Can you help with envelope printing to match our custom letterhead?"
+          - message_type: outgoing
+            sender: alex@paperlayer.com
+            content: "Yes! We can print envelopes to match your letterhead design. Minimum order is 500 envelopes. Would you like me to send you pricing and design specifications?"
+
+  # UNASSIGNED CONVERSATIONS
+  - name: "Brian Cooper"
+    email: "bcooper@techstart.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: medium
+        labels:
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "Hi! I'm looking for a quote on 75 cases of 24lb paper. What's your best price?"
+
+  - name: "Samantha Lee"
+    email: "slee@innovatecorp.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        labels:
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "Do you have any paper options that are certified sustainable or eco-friendly?"
+
+  - name: "Timothy Davis"
+    email: "tdavis@startupventures.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "tdavis@startupventures.com"
+        priority: high
+        labels:
+          - bulk-order
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "We're a fast-growing startup and need to set up a regular paper supply. What kind of programs do you have for recurring orders?"
+
+  - name: "Angela White"
+    email: "awhite@designstudio.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        labels:
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "I need 2000 business cards printed on thick cardstock. What's your turnaround time and pricing?"
+
+  - name: "Victor Santos"
+    email: "vsantos@manufacturingco.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: urgent
+        labels:
+          - urgent
+          - delivery-issue
+        messages:
+          - message_type: incoming
+            content: "URGENT: Our shipment was supposed to arrive yesterday but we haven't received it. Order #78934. Can someone check on this ASAP?"
+
+  - name: "Rebecca Martinez"
+    email: "rmartinez@consultingfirm.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "rmartinez@consultingfirm.com"
+        messages:
+          - message_type: incoming
+            content: "What's the difference between your standard brightness and premium brightness paper? Is it worth the extra cost?"
+
+  - name: "Gregory Moore"
+    email: "gmoore@lawfirm.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: medium
+        labels:
+          - custom-printing
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "We need custom letterhead for our law firm - very professional looking. Can you provide samples of your premium paper stock?"
+
+  - name: "Diana Foster"
+    email: "dfoster@realestate.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        messages:
+          - message_type: incoming
+            content: "I need colored paper for flyers - bright colors that will stand out. What do you have available?"
+
+  # MORE ASSIGNED CONVERSATIONS
+  - name: "Andrew Phillips"
+    email: "aphillips@financecorp.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: marcus@paperlayer.com
+        priority: high
+        labels:
+          - bulk-order
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "We need 300 cases for Q2. Can you provide a detailed quote including delivery to 3 different office locations?"
+          - message_type: outgoing
+            sender: marcus@paperlayer.com
+            content: "Absolutely! For 300 cases you qualify for our top 20% discount. I'll prepare a detailed quote for multi-location delivery. Can you provide the three delivery addresses?"
+
+  - name: "Monica Richardson"
+    email: "mrichardson@healthcare.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "mrichardson@healthcare.com"
+        assignee: jennifer@paperlayer.com
+        labels:
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "We're a medical practice and print a lot of patient forms. What paper weight would you recommend for forms that need to go through a printer and be easy to write on?"
+          - message_type: outgoing
+            sender: jennifer@paperlayer.com
+            content: "For medical forms, I'd recommend our 24lb paper. It's heavy enough to feel professional and prevents bleed-through when writing, but still feeds smoothly through printers. Would you like to order some samples to test?"
+
+  - name: "Kenneth Baker"
+    email: "kbaker@schooldistrict.edu"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: emily@paperlayer.com
+        priority: medium
+        labels:
+          - bulk-order
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "Our school district needs to order paper for the upcoming semester. We're looking at around 400 cases. Do you offer educational discounts?"
+          - message_type: outgoing
+            sender: emily@paperlayer.com
+            content: "Yes! For educational institutions, we offer our standard 20% bulk discount on 250+ cases, plus we can provide flexible payment terms. I'd love to discuss your specific needs - when does your semester start?"
+
+  - name: "Brenda Hayes"
+    email: "bhayes@printshop.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: david@paperlayer.com
+        labels:
+          - bulk-order
+        messages:
+          - message_type: incoming
+            content: "We're a print shop and go through A LOT of paper. Need to set up weekly deliveries. Can you handle that?"
+          - message_type: outgoing
+            sender: david@paperlayer.com
+            content: "Absolutely! We have several print shops as clients with scheduled weekly deliveries. What's your typical weekly volume? We can set up automatic ordering and delivery to keep you stocked."
+
+  - name: "Frank Wright"
+    email: "fwright@architectfirm.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "fwright@architectfirm.com"
+        assignee: alex@paperlayer.com
+        labels:
+          - product-question
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "Do you carry 11x17 paper for architectural drawings? We need something heavier than standard copy paper."
+          - message_type: outgoing
+            sender: alex@paperlayer.com
+            content: "Yes! We carry 11x17 in both 28lb and 32lb weights, which are perfect for architectural prints. The 32lb gives an extra professional feel. Would you like pricing for both options?"
+
+  - name: "Dorothy Collins"
+    email: "dcollins@nonprofitorg.org"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: rachel@paperlayer.com
+        priority: low
+        labels:
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "We're a nonprofit organization. Do you offer any special pricing for nonprofits?"
+          - message_type: outgoing
+            sender: rachel@paperlayer.com
+            content: "Yes! We support nonprofits with special pricing. Our bulk discounts apply, and for registered 501(c)(3) organizations, we can offer an additional 5% off. What's your typical monthly paper usage?"
+
+  # MORE UNASSIGNED
+  - name: "Peter Nelson"
+    email: "pnelson@marketingagency.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: medium
+        labels:
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "We need to print glossy marketing materials. Do you offer photo paper or glossy cardstock?"
+
+  - name: "Catherine Brooks"
+    email: "cbrooks@accounting.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "cbrooks@accounting.com"
+        labels:
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "For tax documents and client files, what paper do you recommend? We need something that feels professional and will last."
+
+  - name: "Raymond Scott"
+    email: "rscott@insurance.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        messages:
+          - message_type: incoming
+            content: "Just wanted to say we received our last order and the quality was excellent! Looking to reorder the same 100 cases."
+
+  - name: "Helen Garcia"
+    email: "hgarcia@eventplanning.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: urgent
+        labels:
+          - urgent
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "We have an event in 4 days and need 500 programs printed on nice cardstock. Is this possible?"
+
+  - name: "Albert Turner"
+    email: "aturner@construction.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        labels:
+          - delivery-issue
+        messages:
+          - message_type: incoming
+            content: "Can you deliver to a construction site? We need paper for our on-site office but the address might be tricky."
+
+  - name: "Sandra Mitchell"
+    email: "smitchell@retailchain.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::Email
+        source_id: "smitchell@retailchain.com"
+        priority: high
+        labels:
+          - bulk-order
+        messages:
+          - message_type: incoming
+            content: "We have 12 retail locations and need coordinated delivery to all of them. Can you handle multi-location deliveries?"
+
+  - name: "Walter Campbell"
+    email: "wcampbell@engineering.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        messages:
+          - message_type: incoming
+            content: "Looking for paper that works well with laser printers - we print thousands of engineering specs daily."
+
+  - name: "Donna Kelly"
+    email: "dkelly@university.edu"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        priority: medium
+        labels:
+          - bulk-order
+          - pricing-inquiry
+        messages:
+          - message_type: incoming
+            content: "Our university bookstore wants to stock Paperlayer products. Do you have a wholesale program?"
+
+  - name: "Carl Rodriguez"
+    email: "crodriguez@government.gov"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "crodriguez@government.gov"
+        labels:
+          - bulk-order
+        messages:
+          - message_type: incoming
+            content: "Government agency here - we need to submit purchase orders through our procurement system. Do you accept government POs?"
+
+  - name: "Patricia Evans"
+    email: "pevans@photography.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        labels:
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "I'm a photographer and need high-quality photo paper for client prints. What options do you have?"
+
+  - name: "Joshua King"
+    email: "jking@techsupport.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: lisa@paperlayer.com
+        priority: medium
+        labels:
+          - delivery-issue
+        messages:
+          - message_type: incoming
+            content: "We ordered 2 days ago and need to change the delivery address. Order #89432. Is it too late?"
+          - message_type: outgoing
+            sender: lisa@paperlayer.com
+            content: "Let me check on that order for you right away. If it hasn't shipped yet, we can update the address. One moment please."
+
+  - name: "Betty Lewis"
+    email: "blewis@bookpublisher.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: marcus@paperlayer.com
+        labels:
+          - bulk-order
+          - product-question
+        messages:
+          - message_type: incoming
+            content: "We're a book publisher looking for high-quality paper for limited edition prints. Need something special - recommendations?"
+          - message_type: outgoing
+            sender: marcus@paperlayer.com
+            content: "For limited edition book printing, I'd recommend our 32lb Ultra Premium paper with 98 brightness. It has a luxurious feel perfect for collectors' editions. We also offer cream-colored options if you prefer that classic book aesthetic."
+
+  - name: "Donald Harris"
+    email: "dharris@franchise.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::Email
+        source_id: "dharris@franchise.com"
+        assignee: emily@paperlayer.com
+        priority: high
+        labels:
+          - bulk-order
+        messages:
+          - message_type: incoming
+            content: "We're opening 5 franchise locations next month. Need to coordinate bulk orders for all locations. Can we get one invoice?"
+          - message_type: outgoing
+            sender: emily@paperlayer.com
+            content: "Absolutely! We handle multi-location franchises regularly. We can coordinate all deliveries and provide one consolidated invoice. Plus you'll qualify for our 20% bulk discount. Let's discuss your specific needs for each location."
+
+  - name: "Barbara Parker"
+    email: "bparker@dentaloffice.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: jennifer@paperlayer.com
+        messages:
+          - message_type: incoming
+            content: "Our dental office goes through about 10 cases per month. Can we set up automatic monthly delivery?"
+          - message_type: outgoing
+            sender: jennifer@paperlayer.com
+            content: "Perfect! We can absolutely set up recurring monthly deliveries. With 10 cases per month, you qualify for our 10% volume discount. I'll set this up for you - what date works best for delivery each month?"
+
+  - name: "Ronald Adams"
+    email: "radams@cardealer.com"
+    gender: 'male'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: david@paperlayer.com
+        labels:
+          - custom-printing
+        messages:
+          - message_type: incoming
+            content: "We need custom printed paper for vehicle contracts - need company logo watermarked. Can you do this?"
+          - message_type: outgoing
+            sender: david@paperlayer.com
+            content: "Yes! We can do custom watermarked paper for your contracts. For legal documents, I'd recommend 28lb weight. Minimum order is 10 reams. Would you like to discuss your logo specifications?"
+
+  - name: "Sharon Thomas"
+    email: "sthomas@advertising.com"
+    gender: 'female'
+    conversations:
+      - channel: Channel::WebWidget
+        assignee: alex@paperlayer.com
+        priority: high
+        labels:
+          - custom-printing
+          - urgent
+        messages:
+          - message_type: incoming
+            content: "Client presentation tomorrow! Need 200 color copies on premium paper. Too late?"
+          - message_type: outgoing
+            sender: alex@paperlayer.com
+            content: "We can help! If you can get your files to us by 2 PM today, we can have 200 color copies on 32lb premium paper ready for pickup tomorrow morning. Would that work?"
