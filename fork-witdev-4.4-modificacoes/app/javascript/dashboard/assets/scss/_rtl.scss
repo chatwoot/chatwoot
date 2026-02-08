@@ -1,0 +1,204 @@
+.app-rtl--wrapper {
+  direction: rtl;
+
+  // Woot Tabs
+  .tabs-title {
+    &:first-child {
+      margin-left: var(--space-small);
+      margin-right: unset;
+    }
+
+    &:last-child {
+      margin-left: unset;
+      margin-right: var(--space-small);
+    }
+  }
+
+  // woot tables
+  table,
+  thead,
+  th {
+    text-align: right;
+  }
+
+  // Table footer
+  .footer {
+    .page-meta {
+      direction: initial;
+    }
+  }
+
+  // Wizard box
+  .wizard-box {
+    direction: initial;
+  }
+
+  // Conversation details
+  .conversation-details-wrap {
+    .conversation-panel {
+      // Message text
+      .text-content {
+        p {
+          unicode-bidi: plaintext;
+        }
+
+        ul {
+          padding-left: unset;
+          padding-right: var(--space-two);
+        }
+
+        li {
+          text-align: right;
+        }
+      }
+
+      // Message items and actions
+      li {
+        &.right {
+          .sender--info {
+            padding: var(--space-small) var(--space-smaller)
+              var(--space-smaller) 0;
+          }
+
+          .context-menu-wrap {
+            margin-left: 0;
+            margin-right: auto;
+          }
+        }
+      }
+    }
+
+    // Conversation footer
+    .conversation-footer {
+      .preview-item {
+        direction: initial;
+      }
+    }
+
+    // Custom attributes section in conversation sidebar
+    .conversation-sidebar-wrap .checkbox-wrap {
+      .checkbox {
+        margin-left: var(--space-small);
+      }
+    }
+  }
+
+  // Conversation list
+  .conversations-list-wrap {
+    border-right: 0;
+
+    .conversation {
+      .conversation--meta {
+        left: $space-normal;
+        right: unset;
+
+        .unread {
+          margin-left: unset;
+          margin-right: auto;
+        }
+      }
+
+      .assignee-label {
+        margin-left: 0;
+        margin-right: var(--space-one);
+      }
+
+      .show-more--button {
+        margin: unset;
+        transform: rotate(180deg);
+      }
+    }
+
+    // Basic filter dropdown
+    .basic-filter {
+      left: 0;
+      right: unset;
+    }
+
+    // Bulk actions
+    .bulk-action__container {
+      .triangle {
+        left: var(--triangle-position);
+        right: unset;
+      }
+
+      .bulk-action__agents {
+        left: var(--space-small);
+        right: unset;
+      }
+
+      .labels-container {
+        left: var(--space-small);
+        right: unset;
+
+        .label-checkbox {
+          margin: 0 0 0 var(--space-one);
+        }
+      }
+
+      .actions-container {
+        left: var(--space-small);
+        right: unset;
+      }
+
+      .bulk-action__teams {
+        left: var(--space-small);
+        right: unset;
+      }
+    }
+  }
+
+  // Contact notes
+  .card.note-wrap {
+    .time-stamp {
+      unicode-bidi: plaintext;
+    }
+  }
+
+  // Toggle switch
+  .toggle-button {
+    &.small {
+      span {
+        &.active {
+          transform: translate(var(--space-minus-small), var(--space-zero));
+        }
+      }
+    }
+
+    span {
+      --minus-space-one-point-five: -0.9375rem;
+
+      &.active {
+        transform: translate(
+          var(--minus-space-one-point-five),
+          var(--space-zero)
+        );
+      }
+    }
+  }
+
+  // Modal
+  .modal-container {
+    text-align: right;
+
+    .modal-footer {
+      button {
+        margin-left: 0;
+        margin-right: var(--space-small);
+      }
+    }
+  }
+
+  // Other changes
+  .colorpicker--chrome {
+    direction: initial;
+  }
+
+  .mention--box {
+    direction: initial;
+  }
+
+  .contact--form .input-group {
+    direction: initial;
+  }
+}

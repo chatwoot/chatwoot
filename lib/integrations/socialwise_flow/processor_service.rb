@@ -57,15 +57,28 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     content_attrs = message.content_attributes
     return false if content_attrs.blank?
 
-    # Check for button_reply or list_reply in content_attributes
+    # Check for button_reply or list_reply in content_attributes (WhatsApp)
     # These are set by extract_interactive_data in incoming_message_base_service.rb
     has_button_reply = content_attrs['button_reply'].present? || content_attrs[:button_reply].present?
     has_list_reply = content_attrs['list_reply'].present? || content_attrs[:list_reply].present?
 
-    is_interactive = has_button_reply || has_list_reply
+    # CHATWIT: Check for quick_reply or postback in content_attributes (Instagram/Facebook)
+    # These are set by message_params in instagram/base_message_builder.rb and facebook/message_builder.rb
+    has_quick_reply = content_attrs['quick_reply_payload'].present? || content_attrs[:quick_reply_payload].present?
+    has_postback = content_attrs['postback_payload'].present? || content_attrs[:postback_payload].present?
+
+    is_interactive = has_button_reply || has_list_reply || has_quick_reply || has_postback
 
     if is_interactive
-      interaction_type = content_attrs['interaction_type'] || content_attrs[:interaction_type]
+      interaction_type = if has_button_reply
+                           'button_reply'
+                         elsif has_list_reply
+                           'list_reply'
+                         elsif has_quick_reply
+                           'quick_reply'
+                         elsif has_postback
+                           'postback'
+                         end
       Rails.logger.info "[SOCIALWISE-FLOW] Detected interactive reply: type=#{interaction_type}"
     end
 
@@ -1561,8 +1574,12 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
     # Obter payload enriquecido do serviço compartilhado
     enhanced = Integrations::Socialwise::WebhookEnhancerService.enhance_payload(webhook_payload, hook.account)
 
+    # CHATWIT: Extract Instagram/Facebook interaction data directly from message
+    # This ensures quick_reply/postback payloads are sent even without socialwise_chatwit integration
+    interaction_data = extract_interaction_data(message)
+
     # Construir payload final para SocialWise Flow
-    {
+    payload = {
       session_id: session_id,
       message: message_content,
       channel_type: inbox.channel_type,
@@ -1576,6 +1593,52 @@ class Integrations::SocialwiseFlow::ProcessorService < Integrations::BotProcesso
         inbox_id: inbox.id
       }
     }
+
+    # Add interaction data if present (quick_reply, postback, button_reply, list_reply)
+    payload.merge!(interaction_data) if interaction_data.present?
+
+    payload
+  end
+
+  # CHATWIT: Extract interaction data from message content_attributes
+  # Supports both WhatsApp (button_reply/list_reply) and Instagram/Facebook (quick_reply/postback)
+  def extract_interaction_data(message)
+    return {} unless message&.content_attributes.is_a?(Hash)
+
+    content_attrs = message.content_attributes.with_indifferent_access
+    data = {}
+
+    # WhatsApp button/list replies (already handled in incoming_message_base_service)
+    if content_attrs[:button_reply].present?
+      data[:button_id] = content_attrs[:button_reply][:id]
+      data[:button_title] = content_attrs[:button_reply][:title]
+      data[:interaction_type] = 'button_reply'
+      Rails.logger.info "[SOCIALWISE-FLOW] Extracted WhatsApp button_reply: #{data.inspect}"
+    end
+
+    if content_attrs[:list_reply].present?
+      data[:list_id] = content_attrs[:list_reply][:id]
+      data[:list_title] = content_attrs[:list_reply][:title]
+      data[:list_description] = content_attrs[:list_reply][:description]
+      data[:interaction_type] = 'list_reply'
+      Rails.logger.info "[SOCIALWISE-FLOW] Extracted WhatsApp list_reply: #{data.inspect}"
+    end
+
+    # Instagram/Facebook quick_reply
+    if content_attrs[:quick_reply_payload].present?
+      data[:quick_reply_payload] = content_attrs[:quick_reply_payload]
+      data[:interaction_type] = 'quick_reply'
+      Rails.logger.info "[SOCIALWISE-FLOW] Extracted Instagram/Facebook quick_reply_payload: #{data[:quick_reply_payload]}"
+    end
+
+    # Instagram/Facebook postback
+    if content_attrs[:postback_payload].present?
+      data[:postback_payload] = content_attrs[:postback_payload]
+      data[:interaction_type] = 'postback'
+      Rails.logger.info "[SOCIALWISE-FLOW] Extracted Instagram/Facebook postback_payload: #{data[:postback_payload]}"
+    end
+
+    data
   end
 
   # API call methods for WhatsApp reactions and messages

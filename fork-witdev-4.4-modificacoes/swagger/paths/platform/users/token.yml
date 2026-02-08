@@ -1,0 +1,42 @@
+tags:
+  - Users
+operationId: post-user-token
+summary: Get User Access Token
+description: Get the access token of a user
+security:
+  - platformAppApiKey: []
+responses:
+  200:
+    description: Success
+    schema:
+      type: object
+      properties:
+        access_token:
+          type: string
+          description: Access token of the user
+        expiry:
+          type: [integer, "null"]
+          description: Expiry timestamp
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: User ID
+            name:
+              type: string
+              description: User's full name
+            display_name:
+              type: string
+              description: User's display name
+            email:
+              type: string
+              description: User's email address
+            pubsub_token:
+              type: string
+              description: User's pubsub token
+  401:
+    description: Unauthorized
+  404:
+    description: The given user does not exist
+    

@@ -1,0 +1,23 @@
+tags:
+  - Automation Rule
+operationId: get-account-automation-rule
+summary: List all automation rules in an account
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - $ref: '#/components/parameters/page'
+description: Get details of automation rules in an Account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/automation_rule'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

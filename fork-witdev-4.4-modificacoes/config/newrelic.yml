@@ -1,0 +1,63 @@
+#
+# This file configures the New Relic Agent.  New Relic monitors Ruby, Java,
+# .NET, PHP, Python, Node, and Go applications with deep visibility and low
+# overhead.  For more information, visit www.newrelic.com.
+#
+#
+# For full documentation of agent configuration options, please refer to
+# https://docs.newrelic.com/docs/agents/ruby-agent/installation-configuration/ruby-agent-configuration
+
+common: &default_settings
+  # Required license key associated with your New Relic account.
+  license_key: <%= ENV['NEW_RELIC_LICENSE_KEY'] %>
+
+  # Your application name. Renaming here affects where data displays in New
+  # Relic.  For more details, see https://docs.newrelic.com/docs/apm/new-relic-apm/maintenance/renaming-applications
+  app_name:  <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %>
+
+  distributed_tracing:
+    enabled: true
+
+  # To disable the agent regardless of other settings, uncomment the following:
+  agent_enabled: <%= ENV['NEW_RELIC_LICENSE_KEY'].present? && ENV.fetch('NEW_RELIC_AGENT_ENABLED', true)  %>
+
+  # Logging level for log/newrelic_agent.log
+  log_level: <%= ENV.fetch('NEW_RELIC_LOG_LEVEL', 'info')  %>
+
+  application_logging:
+    # If `true`, all logging-related features for the agent can be enabled or disabled
+    # independently. If `false`, all logging-related features are disabled.
+    enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_ENABLED', false) %>
+    forwarding:
+      # If `true`, the agent captures log records emitted by this application
+      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_FORWARDING_ENABLED', true) == "false" ? false : true %>
+      # Defines the maximum number of log records to buffer in memory at a time.
+      max_samples_stored: 30000
+    metrics:
+      # If `true`, the agent captures metrics related to logging for this application.
+      enabled: true
+    local_decorating:
+      # If `true`, the agent decorates logs with metadata to link to entities, hosts, traces, and spans.
+      # This requires a log forwarder to send your log files to New Relic.
+      # This should not be used when forwarding is enabled.
+      enabled: <%= ENV.fetch('NEW_RELIC_APPLICATION_LOGGING_DECORATING_ENABLED', false) %>
+
+
+# Environment-specific settings are in this section.
+# RAILS_ENV or RACK_ENV (as appropriate) is used to determine the environment.
+# If your application has other named environments, configure them here.
+development:
+  <<: *default_settings
+  app_name: <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %> (Development)
+
+test:
+  <<: *default_settings
+  # It doesn't make sense to report to New Relic from automated test runs.
+  monitor_mode: false
+
+staging:
+  <<: *default_settings
+  app_name: <%= ENV.fetch('NEW_RELIC_APP_NAME', 'Chatwoot')  %> (Staging)
+
+production:
+  <<: *default_settings

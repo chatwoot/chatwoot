@@ -1,0 +1,127 @@
+openapi: '3.0.4'
+info:
+  title: Chatwoot
+  description: This is the API documentation for Chatwoot server.
+  version: 1.1.0
+  termsOfService: https://www.chatwoot.com/terms-of-service/
+  contact:
+    email: hello@chatwoot.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://app.chatwoot.com/
+paths:
+  $ref: ./paths/index.yml
+components:
+  schemas:
+    $ref: ./definitions/index.yml
+  parameters:
+    $ref: ./parameters/index.yml
+  securitySchemes:
+    userApiKey:
+      type: apiKey
+      in: header
+      name: api_access_token
+      description: This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user.
+    agentBotApiKey:
+      type: apiKey
+      in: header
+      name: api_access_token
+      description: This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis.
+    platformAppApiKey:
+      type: apiKey
+      in: header
+      name: api_access_token
+      description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
+tags:
+  - name: Accounts
+    description: Account management APIs
+  - name: Account Users
+    description: Account user management APIs
+  - name: AgentBots
+    description: Bot integrations
+  - name: Users
+    description: User management APIs
+  - name: Account AgentBots
+    description: Account-specific Agent Bots
+  - name: Agents
+    description: Agent management APIs
+  - name: Canned Responses
+    description: Pre-defined responses for common queries
+  - name: Contacts
+    description: Contact management APIs
+  - name: Contact Labels
+    description: Manage contact labels
+  - name: Conversation Assignments
+    description: Manage conversation assignments
+  - name: Conversation Labels
+    description: Manage conversation labels
+  - name: Conversations
+    description: Conversation management APIs
+  - name: Custom Attributes
+    description: Custom fields for contacts and conversations
+  - name: Custom Filters
+    description: Saved filters for conversations
+  - name: Inboxes
+    description: Communication channels setup
+  - name: Integrations
+    description: Third-party integrations
+  - name: Messages
+    description: Message management APIs
+  - name: Profile
+    description: User profile APIs
+  - name: Reports
+    description: Analytics and reporting APIs
+  - name: Teams
+    description: Team management APIs
+  - name: Webhooks
+    description: Event notification webhooks
+  - name: Automation Rule
+    description: Workflow automation rules
+  - name: Help Center
+    description: Knowledge base management
+  - name: Contacts API
+    description: Public contact APIs
+  - name: Conversations API
+    description: Public conversation APIs
+  - name: Messages API
+    description: Public message APIs
+  - name: CSAT Survey Page
+    description: Customer satisfaction survey
+x-tagGroups:
+  - name: Platform
+    tags:
+      - Accounts
+      - Account Users
+      - AgentBots
+      - Users
+  - name: Application
+    tags:
+      - Account AgentBots
+      - Agents
+      - Canned Responses
+      - Contacts
+      - Contact Labels
+      - Conversation Assignments
+      - Conversation Labels
+      - Conversations
+      - Custom Attributes
+      - Custom Filters
+      - Inboxes
+      - Integrations
+      - Messages
+      - Profile
+      - Reports
+      - Teams
+      - Webhooks
+      - Automation Rule
+      - Help Center
+  - name: Client
+    tags:
+      - Contacts API
+      - Conversations API
+      - Messages API
+  - name: Others
+    tags:
+      - CSAT Survey Page

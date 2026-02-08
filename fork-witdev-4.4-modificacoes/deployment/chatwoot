@@ -1,0 +1,6 @@
+# give chatwoot user permission to start/stop/restart chatwoot systemd service
+
+%chatwoot ALL=NOPASSWD: /bin/systemctl start chatwoot.target
+%chatwoot ALL=NOPASSWD: /bin/systemctl stop chatwoot.target
+%chatwoot ALL=NOPASSWD: /bin/systemctl restart chatwoot.target
+%chatwoot ALL=NOPASSWD: /usr/local/bin/cwctl

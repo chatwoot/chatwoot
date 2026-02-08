@@ -1,0 +1,31 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Name of the account
+    example: 'My Account'
+  locale:
+    type: string
+    description: The locale of the account
+    example: 'en'
+  domain:
+    type: string
+    description: The domain of the account
+    example: 'example.com'
+  support_email:
+    type: string
+    description: The support email of the account
+    example: 'support@example.com'
+  status:
+    type: string
+    enum: ['active', 'suspended']
+    description: The status of the account
+    example: 'active'
+  limits:
+    type: object
+    description: The limits of the account
+    example: {}
+  custom_attributes:
+    type: object
+    description: The custom attributes of the account
+    example: {}

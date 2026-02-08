@@ -1,0 +1,34 @@
+<div class="field-unit__label">
+  <%= f.label field.attribute %>
+</div>
+<div class="field-unit__field feature-container">
+  <% regular_features, premium_features = SuperAdmin::AccountFeaturesHelper.filtered_features(field.data).partition { |key_array, _val| !SuperAdmin::AccountFeaturesHelper.account_premium_features.include?(key_array.first) } %>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% regular_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
+        <span class="text-sm text-slate-700"><%= display_name %></span>
+        <span><%= check_box "enabled_features", "feature_#{feature_key}", { checked: val, class: "h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600" }, true, false %></span>
+      </div>
+    <% end %>
+  </div>
+
+  <hr class="my-8 boshadow-sm outline outline-1 outline-n-container">
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    <% premium_features.each do |key_array, val| %>
+      <% feature_key, display_name = key_array %>
+      <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
+        <div class="flex items-center gap-2">
+          <span class="text-amber-500">
+            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M480 224l-186.828 7.487L401.688 64l-59.247-32L256 208 169.824 32l-59.496 32 108.5 167.487L32 224v64l185.537-10.066L113.65 448l55.969 32L256 304l86.381 176 55.949-32-103.867-170.066L480 288z" fill="currentColor"/></svg>
+          </span>
+          <span class="text-sm text-slate-700"><%= display_name %></span>
+        </div>
+        <% should_disable = ChatwootHub.pricing_plan == 'community' %>
+        <span><%= check_box "enabled_features", "feature_#{feature_key}", { checked: val, disabled: should_disable, class: "h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600" }, true, false %></span>
+      </div>
+    <% end %>
+  </div>
+</div>

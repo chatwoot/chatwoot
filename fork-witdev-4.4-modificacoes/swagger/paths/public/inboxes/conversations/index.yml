@@ -1,0 +1,22 @@
+tags:
+  - Conversations API
+operationId: list-all-contact-conversations
+summary: List all conversations
+description: List all conversations for the contact
+security: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of conversations'
+          items:
+            $ref: '#/components/schemas/public_conversation'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

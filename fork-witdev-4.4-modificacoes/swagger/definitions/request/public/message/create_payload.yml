@@ -1,0 +1,10 @@
+type: object
+properties:
+  content:
+    type: string
+    description: Content for the message
+    example: 'Hello, how can I help you?'
+  echo_id:
+    type: string
+    description: Temporary identifier which will be passed back via websockets
+    example: '1234567890'

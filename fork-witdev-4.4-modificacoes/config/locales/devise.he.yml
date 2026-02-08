@@ -1,0 +1,63 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+he:
+  devise:
+    confirmations:
+      confirmed: "כתובת המייל שלך אושרה בהצלחה."
+      send_instructions: "אתה תקבל הוראות לאישרור המייל לתיבת המייל שלך תוך כמה דקות."
+      send_paranoid_instructions: "אם המייל שלך רשום אצלינו, אתה תקבל מייל עם הוראות לאישרור כתובת המייל שלך תוך כמה דקות."
+    failure:
+      already_authenticated: "אתה כבר רשום."
+      inactive: "החשבון שלך עוד לא הופעל."
+      invalid: "%{authentication_keys}/סיסמה או חשבון לא חוקיים עדיין לא אומתו."
+      locked: "החשבון שלך נעול."
+      last_attempt: "יש לך עוד ניסיון אחד לפני שהחשבון שלך יינעל."
+      not_found_in_database: "%{authentication_keys} או סיסמה לא חוקיים."
+      timeout: "פג תוקף ההפעלה שלך. אנא היכנס שוב כדי להמשיך."
+      unauthenticated: "עליך להיכנס או להירשם לפני שתמשיך."
+      unconfirmed: "עליך לאשר את כתובת הדוא\"ל שלך לפני שתמשיך."
+    mailer:
+      confirmation_instructions:
+        subject: "הוראות אישור"
+      reset_password_instructions:
+        subject: "הוראות לאפס סיסמה"
+      unlock_instructions:
+        subject: "הוראות לביטול הנעילה"
+      password_change:
+        subject: "סיסמא שונתה"
+    omniauth_callbacks:
+      failure: "Could not authenticate you from %{kind} because \"%{reason}\"."
+      success: "אושרה בהצלחה מחשבון %{kind}."
+    passwords:
+      no_token: "אינך יכול לגשת לדף זה מבלי להגיע ממייל לאיפוס סיסמה. אם אתה מגיע ממייל לאיפוס סיסמה, אנא ודא שהשתמשת בכתובת האתר המלאה שסופקה."
+      send_instructions: "\"תוך מספר דקות תקבל אימייל עם הוראות כיצד לאפס את הסיסמה שלך\"."
+      send_paranoid_instructions: "אם כתובת הדוא\"ל שלך קיימת במסד הנתונים שלנו, תקבל קישור לשחזור סיסמה לכתובת הדוא\"ל שלך תוך מספר דקות."
+      updated: "הסיסמה שלך שונתה בהצלחה. אתה מחובר עכשיו."
+      updated_not_active: "הסיסמה שלך שונתה בהצלחה."
+    registrations:
+      destroyed: "ביי! חשבונך בוטל בהצלחה. אנחנו מקווים לראות אותך שוב בקרוב."
+      signed_up: "ברוך הבא! נרשמת בהצלחה."
+      signed_up_but_inactive: "נרשמת בהצלחה. עם זאת, לא הצלחנו להיכנס לך מכיוון שחשבונך עדיין לא הופעל."
+      signed_up_but_locked: "נרשמת בהצלחה. עם זאת, לא הצלחנו להיכנס לך מכיוון שהחשבון שלך נעול."
+      signed_up_but_unconfirmed: "הודעה עם קישור אישור נשלחה לכתובת האימייל שלך. אנא עקוב אחר הקישור כדי להפעיל את חשבונך."
+      update_needs_confirmation: "עדכנת את חשבונך בהצלחה, אך עלינו לאמת את כתובת הדוא\"ל החדשה שלך. אנא בדוק את הדוא\"ל שלך ופעל על קישור האישור כדי לאשר את כתובת הדוא\"ל החדשה שלך."
+      updated: "החשבון שלך עודכן בהצלחה."
+    sessions:
+      signed_in: "נכנס בהצלחה."
+      signed_out: "יצא בהצלחה."
+      already_signed_out: "יצא בהצלחה."
+    unlocks:
+      send_instructions: "תקבל מייל עם הוראות כיצד לבטל את נעילת חשבונך בעוד מספר דקות."
+      send_paranoid_instructions: "אם החשבון שלך קיים, תקבל דוא\"ל עם הוראות כיצד לבטל את הנעילה שלו תוך מספר דקות."
+      unlocked: "חשבונך בוטלה בהצלחה. אנא היכנס כדי להמשיך."
+  errors:
+    messages:
+      already_confirmed: "was already confirmed, please try signing in"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "has expired, please request a new one"
+      not_found: "not found"
+      not_locked: "was not locked"
+      not_saved:
+        one: "1 error prohibited this %{resource} from being saved:"
+        two: "%{count} errors prohibited this %{resource} from being saved:"
+        many: "%{count} errors prohibited this %{resource} from being saved:"
+        other: "%{count} errors prohibited this %{resource} from being saved:"

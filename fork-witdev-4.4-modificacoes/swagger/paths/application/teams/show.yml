@@ -1,0 +1,26 @@
+tags:
+  - Teams
+operationId: get-details-of-a-single-team
+summary: Get a team details
+security:
+  - userApiKey: []
+description: Get the details of a team in the account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/team'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given team ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

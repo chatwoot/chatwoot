@@ -1,0 +1,39 @@
+tags:
+  - Automation Rule
+operationId: update-automation-rule-in-account
+summary: Update automation rule in Account
+description: Update a automation rule in account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the automation rule to be updated.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/automation_rule_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/automation_rule'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Rule not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

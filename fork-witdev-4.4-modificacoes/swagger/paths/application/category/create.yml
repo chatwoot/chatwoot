@@ -1,0 +1,26 @@
+tags:
+  - Help Center
+operationId: add-new-category-to-account
+summary: Add a new category
+description: Add a new category to portal
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/category_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/category'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

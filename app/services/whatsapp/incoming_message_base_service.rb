@@ -32,6 +32,13 @@ class Whatsapp::IncomingMessageBaseService
     set_contact
     return unless @contact
 
+    # Early rejection for blocked contacts - discard message completely
+    if @contact.blocked?
+      Rails.logger.info("[WHATSAPP] Discarding message from blocked contact: #{@contact.id}")
+      clear_message_source_id_from_redis
+      return
+    end
+
     ActiveRecord::Base.transaction do
       set_conversation
       create_messages

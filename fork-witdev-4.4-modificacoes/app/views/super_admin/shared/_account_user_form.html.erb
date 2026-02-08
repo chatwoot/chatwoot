@@ -1,0 +1,54 @@
+<%#
+# Account User Form Partial
+
+This partial renders the account user creation form.
+Used by both account and user show pages.
+
+## Local variables:
+
+- `page`: The Administrate page object (Account or User)
+- `namespace`: The current namespace (usually :super_admin)
+- `resource_type`: Either 'account' or 'user' to determine hidden field
+%>
+
+<section class="main-content__body">
+  <% account_user_page = Administrate::Page::Form.new(AccountUserDashboard.new, AccountUser.new) %>
+  <%= form_for([namespace, account_user_page.resource], html: { class: "form" }) do |f| %>
+    <% if account_user_page.resource.errors.any? %>
+      <div id="error_explanation">
+        <h2>
+          <%= t(
+            "administrate.form.errors",
+            pluralized_errors: pluralize(
+              account_user_page.resource.errors.count,
+              t("administrate.form.error")
+            ),
+            resource_name: display_resource_name(account_user_page.resource_name)
+          ) %>
+        </h2>
+
+        <ul>
+          <% account_user_page.resource.errors.full_messages.each do |message| %>
+            <li class="flash-error"><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <% account_user_page.attributes.each do |title, attributes| -%>
+      <% attributes.each do |attribute| %>
+        <% if attribute.name == resource_type %>
+          <%= f.hidden_field("#{resource_type}_id", value: page.resource.id) %>
+        <% else %>
+          <div class="field-unit field-unit--<%= attribute.html_class %> field-unit--<%= requireness(attribute) %>">
+            <%= render_field attribute, f: f %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end -%>
+
+    <div class="form-actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</section>

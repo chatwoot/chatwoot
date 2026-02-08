@@ -1,0 +1,40 @@
+tags:
+  - Agents
+operationId: update-agent-in-account
+summary: Update Agent in Account
+description: Update an Agent in Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the agent to be updated.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/agent_update_payload'
+responses:
+  200:
+    description: Success
+    content:
+      application/json:
+        schema:
+          description: 'The updated agent'
+          $ref: '#/components/schemas/agent'
+  404:
+    description: Agent not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  403:
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

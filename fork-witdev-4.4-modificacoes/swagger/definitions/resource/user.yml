@@ -1,0 +1,78 @@
+type: object
+properties:
+  id:
+    type: number
+  access_token:
+    type: string
+  account_id:
+    type: number
+  available_name:
+    type: string
+  avatar_url:
+    type: string
+  confirmed:
+    type: boolean
+  display_name:
+    type: string
+    nullable: true
+  message_signature:
+    type: string
+    nullable: true
+  email:
+    type: string
+  hmac_identifier:
+    type: string
+  inviter_id:
+    type: number
+  name:
+    type: string
+  provider:
+    type: string
+  pubsub_token:
+    type: string
+  role:
+    type: string
+    enum: ['agent', 'administrator']
+  ui_settings:
+    type: object
+  uid:
+    type: string
+  type:
+    type: string
+    nullable: true
+  custom_attributes:
+    type: object
+    description: Available for users who are created through platform APIs and has custom attributes associated.
+  accounts:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: number
+        name:
+          type: string
+        status:
+          type: string
+        active_at:
+          type: string
+          format: date-time
+        role:
+          type: string
+          enum: ['administrator', 'agent']
+        permissions:
+          type: array
+          items:
+            type: string
+        availability:
+          type: string
+        availability_status:
+          type: string
+        auto_offline:
+          type: boolean
+        custom_role_id:
+          type: number
+          nullable: true
+        custom_role:
+          type: object
+          nullable: true

@@ -1,0 +1,51 @@
+<%#
+# Javascript Partial
+
+This partial imports the necessary javascript on each page.
+By default, it includes the application JS,
+but each page can define additional JS sources
+by providing a `content_for(:javascript)` block.
+%>
+
+<% Administrate::Engine.javascripts.each do |js_path| %>
+  <%= javascript_include_tag js_path %>
+<% end %>
+
+<%= yield :javascript %>
+
+<% if Rails.env.test? %>
+  <%= javascript_tag do %>
+    $.fx.off = true;
+    $.ajaxSetup({ async: false });
+  <% end %>
+<% end %>
+
+<script>
+window.chatwootSettings = {
+  hideMessageBubble: true,
+};
+
+(function(d,t) {
+  var BASE_URL = '';
+  var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+  g.src= BASE_URL + "/packs/js/sdk.js";
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g,s);
+  g.onload=function(){
+    window.chatwootSDK.run({
+      websiteToken: '<%= ChatwootHub.support_config[:support_website_token] %>',
+      baseUrl: '<%= ChatwootHub.support_config[:support_script_url] %>'
+    })
+  }
+})(document,"script");
+
+window.addEventListener('chatwoot:ready', function() {
+  window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
+    identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
+    email: '<%= SuperAdmin.first.email %>',
+    name: '<%= SuperAdmin.first.name %>'
+  });
+})
+
+</script>

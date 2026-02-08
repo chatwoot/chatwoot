@@ -1,0 +1,26 @@
+tags:
+  - AgentBots
+operationId: update-an-agent-bot
+summary: Update an agent bot
+description: Update an agent bot's attributes
+security:
+  - platformAppApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/platform_agent_bot_create_update_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/agent_bot'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

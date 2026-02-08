@@ -1,0 +1,10 @@
+type: object
+properties:
+  meta:
+    $ref: '#/components/schemas/contact_meta'
+    description: Metadata about the contact list response
+  payload:
+    type: array
+    items:
+      $ref: '#/components/schemas/contact_list_item'
+    description: List of contacts 

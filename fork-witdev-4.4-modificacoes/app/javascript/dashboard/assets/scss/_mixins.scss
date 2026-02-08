@@ -1,0 +1,101 @@
+@import 'dashboard/assets/scss/variables';
+
+$spinner-before-border-color: rgba(255, 255, 255, 0.7);
+
+// input form
+@mixin ghost-input() {
+  box-shadow: none;
+  border-color: transparent;
+
+  &:active,
+  &:hover,
+  &:focus {
+    border-color: transparent;
+    box-shadow: none;
+  }
+}
+
+@mixin color-spinner() {
+  @keyframes spinner {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  &::before {
+    animation: spinner .9s linear infinite;
+    border: 2px solid $spinner-before-border-color;
+    border-radius: 50%;
+    border-top-color: lighten($color-woot, 10%);
+    box-sizing: border-box;
+    content: '';
+    height: $space-medium;
+    left: 50%;
+    margin-left: -$space-one;
+    margin-top: -$space-one;
+    position: absolute;
+    top: 50%;
+    width: $space-medium;
+  }
+}
+
+// --------------------------------------------------------
+// arrows
+// --------------------------------------------------------
+// $direction: top, left, right, bottom, top-left, top-right, bottom-left, bottom-right
+// $color: hex, rgb or rbga
+// $size: px or em
+// @example
+// .element{
+//     @include arrow(top, #000, 50px);
+// }
+@mixin arrow($direction, $color, $size) {
+  display: block;
+  height: 0;
+  width: 0;
+  content: '';
+
+  @if $direction == 'top' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction == 'right' {
+    border-bottom: $size solid transparent;
+    border-left: $size solid $color;
+    border-top: $size solid transparent;
+  }
+
+  @else if $direction == 'bottom' {
+    border-left: $size solid transparent;
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'left' {
+    border-bottom: $size solid transparent;
+    border-right: $size solid $color;
+    border-top: $size solid transparent;
+  }
+
+  @else if $direction == 'top-left' {
+    border-right: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'top-right' {
+    border-left: $size solid transparent;
+    border-top: $size solid $color;
+  }
+
+  @else if $direction == 'bottom-left' {
+    border-bottom: $size solid $color;
+    border-right: $size solid transparent;
+  }
+
+  @else if $direction == 'bottom-right' {
+    border-bottom: $size solid $color;
+    border-left: $size solid transparent;
+  }
+}

@@ -1,0 +1,35 @@
+get:
+  tags:
+    - Contact
+  operationId: contactableInboxesGet
+  description: Get List of contactable Inboxes
+  summary: Get Contactable Inboxes
+  security:
+    - userApiKey: []
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the contact
+      required: true
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contactable_inboxes_response'
+    '401':
+      description: Authentication error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '422':
+      description: Incorrect payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

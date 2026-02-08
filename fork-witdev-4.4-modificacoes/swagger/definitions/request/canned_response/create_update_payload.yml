@@ -1,0 +1,10 @@
+type: object
+properties:
+  content:
+    type: string
+    description: Message content for canned response
+    example: 'Hello, {{contact.name}}! Welcome to our service.'
+  short_code:
+    type: string
+    description: Short Code for quick access of the canned response
+    example: 'welcome'

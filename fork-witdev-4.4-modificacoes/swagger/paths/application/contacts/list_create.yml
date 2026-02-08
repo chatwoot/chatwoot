@@ -1,0 +1,55 @@
+get:
+  tags:
+    - Contacts
+  operationId: contactList
+  description: Listing all the resolved contacts with pagination (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
+  summary: List Contacts
+  security:
+    - userApiKey: []
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/contact_sort_param'
+    - $ref: '#/components/parameters/page'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contacts_list_response'
+    '400':
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+post:
+  tags:
+    - Contacts
+  operationId: contactCreate
+  description: Create a new Contact
+  summary: Create Contact
+  security:
+    - userApiKey: []
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_create_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/extended_contact'
+    '400':
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

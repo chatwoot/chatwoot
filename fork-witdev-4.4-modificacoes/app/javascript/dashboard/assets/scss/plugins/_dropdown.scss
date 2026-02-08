@@ -1,0 +1,7 @@
+.dropdown-pane {
+  @apply border rounded-lg hidden relative invisible shadow-lg border-n-strong dark:border-n-strong box-content p-2 w-fit z-[9999];
+
+  &.dropdown-pane--open {
+    @apply bg-n-alpha-3 backdrop-blur-[100px] absolute  block visible;
+  }
+}

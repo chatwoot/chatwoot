@@ -1,0 +1,25 @@
+tags:
+  - Messages API
+operationId: create-a-message
+summary: Create a message
+description: Create a message
+security: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/public_message_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/public_message'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -1,0 +1,30 @@
+type: object
+properties:
+  name:
+    type: string
+    description: The name of the agent bot
+    example: 'My Agent Bot'
+  description:
+    type: string
+    description: The description of the agent bot
+    example: 'This is a sample agent bot'
+  outgoing_url:
+    type: string
+    description: The webhook URL for the bot
+    example: 'https://example.com/webhook'
+  avatar:
+    type: string
+    format: binary
+    description: Send the form data with the avatar image binary or use the avatar_url
+  avatar_url:
+    type: string
+    description: The url to a jpeg, png file for the agent bot avatar
+    example: https://example.com/avatar.png
+  bot_type:
+    type: integer
+    description: The type of the bot (0 for webhook)
+    example: 0
+  bot_config:
+    type: object
+    description: The configuration for the bot
+    example: {}

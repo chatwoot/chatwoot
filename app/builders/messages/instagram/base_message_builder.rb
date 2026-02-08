@@ -80,7 +80,14 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def message_content
-    @messaging[:message][:text]
+    # CHATWIT: Use parser to extract content from postback or regular message
+    parser = Integrations::Instagram::MessageParser.new(@messaging)
+
+    if parser.postback?
+      parser.postback_title || parser.postback_payload
+    else
+      @messaging[:message][:text]
+    end
   end
 
   def story_reply_attributes
@@ -135,6 +142,8 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def message_params
+    parser = Integrations::Instagram::MessageParser.new(@messaging)
+
     params = {
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
@@ -146,6 +155,14 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
         in_reply_to_external_id: message_reply_attributes
       }
     }
+
+    # CHATWIT: Add postback/quick_reply payload to content_attributes
+    # This enables SocialWise Flow to receive the button ID for intent detection
+    if parser.postback?
+      params[:content_attributes][:postback_payload] = parser.postback_payload
+    elsif parser.quick_reply?
+      params[:content_attributes][:quick_reply_payload] = parser.quick_reply_payload
+    end
 
     params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
     params

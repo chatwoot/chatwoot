@@ -21,6 +21,12 @@ class Instagram::BaseMessageText < Instagram::WebhooksBaseService
 
     ensure_contact(contact_id) if contacts_first_message?(contact_id)
 
+    # Early rejection for blocked contacts - discard message completely
+    if @contact_inbox&.contact&.blocked?
+      Rails.logger.info("[INSTAGRAM] Discarding message from blocked contact: #{@contact_inbox.contact.id}")
+      return
+    end
+
     create_message
   end
 

@@ -1,0 +1,97 @@
+@import 'vue-datepicker-next/scss/index';
+
+.date-picker {
+  // To be removed one SLA reports date picker is created
+  &.small {
+    .mx-input {
+      @apply h-8 text-sm;
+    }
+  }
+
+  &.no-margin {
+    .mx-input {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  &:not(.auto-width) {
+    .mx-datepicker-range {
+      @apply w-[320px];
+    }
+  }
+
+  .mx-datepicker {
+    @apply w-full;
+  }
+
+  .mx-input {
+    @apply h-[2.5rem] flex border border-solid border-n-weak rounded-md shadow-none;
+  }
+
+  .mx-input:disabled,
+  .mx-input[readonly] {
+    @apply bg-white dark:bg-slate-900 cursor-pointer;
+  }
+
+  .mx-icon-calendar {
+    @apply dark:text-slate-500;
+  }
+}
+
+.mx-datepicker-main {
+  @apply border-0 bg-n-solid-2 rounded-xl;
+
+  .cell {
+    &.disabled {
+      @apply bg-slate-25 dark:bg-slate-900 text-slate-200 dark:text-slate-300;
+    }
+
+    &:hover,
+    &.hover-in-range,
+    &.in-range {
+      @apply bg-slate-75 dark:bg-slate-700 text-slate-900 dark:text-slate-100;
+    }
+  }
+
+  .mx-calendar+.mx-calendar {
+    @apply border-l border-n-weak;
+  }
+
+  .mx-datepicker-footer {
+    @apply border border-n-weak;
+  }
+
+  .mx-time {
+    @apply border-0 bg-white dark:bg-slate-800;
+
+    .mx-time-header {
+      @apply border-0;
+    }
+
+    .mx-time-item {
+      &.disabled {
+        @apply bg-slate-25 dark:bg-slate-900;
+      }
+
+      &:hover {
+        @apply bg-slate-75 dark:bg-slate-700;
+      }
+    }
+  }
+
+  .today {
+    @apply font-semibold;
+  }
+}
+
+.mx-datepicker-popup {
+  @apply z-[99999];
+}
+
+.mx-datepicker-inline {
+  @apply w-full;
+
+  .mx-calendar {
+    @apply w-full;
+  }
+}

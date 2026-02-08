@@ -1,0 +1,32 @@
+type: object
+properties:
+  id:
+    type: number
+    description: ID of the agent bot
+  name:
+    type: string
+    description: The name of the agent bot
+  description:
+    type: string
+    description: The description about the agent bot
+  thumbnail:
+    type: string
+    description: The thumbnail of the agent bot
+  outgoing_url:
+    type: string
+    description: The webhook URL for the bot
+  bot_type:
+    type: string
+    description: The type of the bot
+  bot_config:
+    type: object
+    description: The configuration of the bot
+  account_id:
+    type: number
+    description: Account ID if it's an account specific bot
+  access_token:
+    type: string
+    description: The access token for the bot
+  system_bot:
+    type: boolean
+    description: Whether the bot is a system bot

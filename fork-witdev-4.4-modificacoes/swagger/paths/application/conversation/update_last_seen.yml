@@ -1,0 +1,29 @@
+post:
+  tags:
+    - Conversations
+  operationId: conversationUpdateLastSeen
+  summary: Update Last Seen
+  security:
+    - userApiKey: []
+  description: Updates the last seen of the conversation so that conversations will have the bubbles in the agents screen
+  parameters:
+    - name: id
+      in: path
+      type: number
+      description: ID of the conversation
+      required: true
+  responses:
+    '200':
+      description: Success
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

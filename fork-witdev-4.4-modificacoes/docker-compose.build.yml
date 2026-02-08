@@ -1,0 +1,12 @@
+services:
+  chatwoot-enterprise:
+    build:
+      context: .
+      dockerfile: Dockerfile.enterprise
+      args:
+        RAILS_ENV: production
+        BUNDLE_WITHOUT: "development:test"
+        NODE_OPTIONS: "--max-old-space-size=4096 --openssl-legacy-provider"
+        RAILS_SERVE_STATIC_FILES: "true"
+    image: witrocha/chatwit:v4.3.0
+    container_name: chatwoot-enterprise-build 

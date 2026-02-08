@@ -1,0 +1,94 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - name: id
+    in: path
+    required: true
+    schema:
+      type: number
+    description: ID of the contact
+
+get:
+  tags:
+    - Contacts
+  operationId: contactDetails
+  summary: Show Contact
+  security:
+    - userApiKey: []
+  description: Get a contact belonging to the account using ID
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_show_response'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+put:
+  tags:
+    - Contacts
+  operationId: contactUpdate
+  summary: Update Contact
+  security:
+    - userApiKey: []
+  description: Update a contact belonging to the account using ID
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/contact_update_payload'
+  responses:
+    '204':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_base'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+delete:
+  tags:
+    - Contacts
+  operationId: contactDelete
+  summary: Delete Contact
+  security:
+    - userApiKey: []
+  description: Delete a contact belonging to the account using ID
+  responses:
+    '200':
+      description: Success
+    '401':
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '404':
+      description: Contact not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

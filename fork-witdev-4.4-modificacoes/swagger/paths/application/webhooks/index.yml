@@ -1,0 +1,23 @@
+tags:
+  - Webhooks
+operationId: list-all-webhooks
+summary: List all webhooks
+security:
+  - userApiKey: []
+description: List all webhooks in the account
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          description: 'Array of webhook objects'
+          items:
+            $ref: '#/components/schemas/webhook'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

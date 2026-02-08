@@ -1,0 +1,41 @@
+tags:
+  - Conversations
+operationId: toggle-status-of-a-conversation
+summary: Toggle Status
+description: Toggles the status of the conversation between open and resolved
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - status
+        properties:
+          status:
+            type: string
+            enum: ['open', 'resolved', 'pending']
+            description: The status of the conversation
+            example: open
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_status_toggle'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

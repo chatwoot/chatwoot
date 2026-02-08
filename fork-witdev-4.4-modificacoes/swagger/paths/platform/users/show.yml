@@ -1,0 +1,26 @@
+tags:
+  - Users
+operationId: get-details-of-a-user
+summary: Get an user details
+description: Get the details of an user
+security:
+  - platformAppApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/user'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The given user does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

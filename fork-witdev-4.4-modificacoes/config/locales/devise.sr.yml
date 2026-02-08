@@ -1,0 +1,62 @@
+#Additional translations at https://github.com/plataformatec/devise/wiki/I18n
+sr-Latn:
+  devise:
+    confirmations:
+      confirmed: "Vaša adresa e-pošte je uspešno potvrđena."
+      send_instructions: "Za nekoliko minuta ćete dobiti e-poruku sa uputstvom kako da potvrdite vašu adresu e-pošte."
+      send_paranoid_instructions: "Ako vaša adresa e-pošte postoji u našoj bazi podataka, za nekoliko minuta ćete dobiti e-poruku sa uputstvom kako da potvrdite vašu adresu e-pošte."
+    failure:
+      already_authenticated: "Već ste prijavljeni."
+      inactive: "Vaš nalog još uvek nije aktiviran."
+      invalid: "Neispravan %{authentication_keys}/lozinka ili nalog još uvek nije potvrđen."
+      locked: "Vaš nalog je zaključan."
+      last_attempt: "Imate još jedan pokušaj pre nego što se nalog zaključa."
+      not_found_in_database: "Neispravan %{authentication_keys} ili lozinka."
+      timeout: "Vaša sesija je istekla. Molim vas prijavite se ponovo da bi ste nastavili."
+      unauthenticated: "Morate se prijaviti ili registrovati pre nego što nastavite."
+      unconfirmed: "Morate da potvrdite vašu adresu e-pošte pre nego što nastavite."
+    mailer:
+      confirmation_instructions:
+        subject: "Uputstvo za potvrdu"
+      reset_password_instructions:
+        subject: "Uputstvo za resetovanje lozinke"
+      unlock_instructions:
+        subject: "Uputstvo za otključavanje"
+      password_change:
+        subject: "Lozinka je promenjena"
+    omniauth_callbacks:
+      failure: "Nismo mogli da vas autentifikujemo sa %{kind} zbog \"%{reason}\"."
+      success: "Uspešna autentifikacija sa %{kind} naloga."
+    passwords:
+      no_token: "Ne možete da pristupite ovoj stranici bez dolaska iz e-poruke za resetovanje lozinke. Ako ste došli iz e-poruke za resetovanje lozinke, proverite da ste koristili kompletnu adresu koja vam je dostavljena."
+      send_instructions: "Za nekoliko minuta ćete dobiti e-poruku sa uputstvom kako da resetujete vašu lozinku."
+      send_paranoid_instructions: "Ako vaša adresa e-pošte postoji u našoj bazi podataka, za nekoliko minuta ćete dobiti vezu za povraćaj lozinke na adresu vaše e-pošte."
+      updated: "Vaša lozinka je uspešno promenjena. Sada ste odjavljeni."
+      updated_not_active: "Vaša lozinka je uspešno promenjena."
+    registrations:
+      destroyed: "Zbogom! Vaš nalog je uspešno poništen. Nadamo se da ćemo vas videti ponovo."
+      signed_up: "Dobrodošli! Uspešno ste se registrovali."
+      signed_up_but_inactive: "Uspešno ste se registrovali. Međutim, nismo mogli da vas prijavimo jer vaš nalog još uvek nije aktiviran."
+      signed_up_but_locked: "Uspešno ste se registrovali. Međutim, nismo mogli da vas prijavimo jer je vaš nalog zaključan."
+      signed_up_but_unconfirmed: "Poruka sa vezom za potvrdu je poslata na adresu vaše e-pošte. Molim vas ispratite vezu da bi ste aktivirali vaš nalog."
+      update_needs_confirmation: "Vaš nalog je uspešno izmenjen, ali moramo da potvrdimo vašu novu adresu e-pošte. Molim vas proverite vašu e-poštu i ispratite vezu za potvrdu da bi ste potvrdili vašu novu adresu e-pošte."
+      updated: "Vaš nalog je uspešno izmenjen."
+    sessions:
+      signed_in: "Uspešno ste se prijavili."
+      signed_out: "Uspešno ste se odjavili."
+      already_signed_out: "Uspešno ste se odjavili."
+    unlocks:
+      send_instructions: "Za nekoliko minuta ćete dobiti e-poruku sa uputstvom kako da otključate vaš nalog."
+      send_paranoid_instructions: "Ako vaš nalog postoji, za nekoliko minuta ćete dobiti e-poruku sa uputstvom kako da ga otključate."
+      unlocked: "Vaš nalog je uspešno otključan. Molim vas prijavite se da bi ste nastavili."
+  errors:
+    messages:
+      already_confirmed: "je već potvrđen, molim vas pokušajte da se prijavite"
+      confirmation_period_expired: "mora da bude potvrđen za %{period}, molim vas zahtevajte novu"
+      expired: "je istekao, molim vas zahtevajte novu"
+      not_found: "nije pronađen"
+      not_locked: "nije zaključan"
+      not_saved:
+        one: "1 greška je sprečila da ovaj %{resource} bude sačuvan:"
+        few: "%{count} grešaka je sprečilo da ovaj %{resource} bude sačuvan:"
+        other: "%{count} grešaka je sprečilo da ovaj %{resource} bude sačuvan:"

@@ -1,0 +1,49 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Name of the account
+    example: 'My Account'
+  locale:
+    type: string
+    description: The locale of the account
+    example: 'en'
+  domain:
+    type: string
+    description: The domain of the account
+    example: 'example.com'
+  support_email:
+    type: string
+    description: The support email of the account
+    example: 'support@example.com'
+  # Settings parameters (stored in settings JSONB column)
+  auto_resolve_after:
+    type: integer
+    minimum: 10
+    maximum: 1439856
+    nullable: true
+    description: Auto resolve conversations after specified minutes
+    example: 1440
+  auto_resolve_message:
+    type: string
+    nullable: true
+    description: Message to send when auto resolving
+    example: "This conversation has been automatically resolved due to inactivity"
+  auto_resolve_ignore_waiting:
+    type: boolean
+    nullable: true
+    description: Whether to ignore waiting conversations for auto resolve
+    example: false
+  # Custom attributes parameters (stored in custom_attributes JSONB column)
+  industry:
+    type: string
+    description: Industry type
+    example: "Technology"
+  company_size:
+    type: string
+    description: Company size
+    example: "50-100"
+  timezone:
+    type: string
+    description: Account timezone
+    example: "UTC"

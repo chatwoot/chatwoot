@@ -1,0 +1,72 @@
+type: object
+properties:
+  id:
+    type: number
+    description: The ID of the message
+  content:
+    type: string
+    description: The text content of the message
+  account_id:
+    type: number
+    description: The ID of the account
+  inbox_id:
+    type: number
+    description: The ID of the inbox
+  conversation_id:
+    type: number
+    description: The ID of the conversation
+  message_type:
+    type: integer
+    enum: [0, 1, 2]
+    description: The type of the message
+  created_at:
+    type: integer
+    description: The time at which message was created
+  updated_at:
+    type: integer
+    description: The time at which message was updated
+  private:
+    type: boolean
+    description: The flags which shows whether the message is private or not
+  status:
+    type: string
+    enum: ["sent", "delivered", "read", "failed"]
+    description: The status of the message
+  source_id:
+    type: string
+    description: The source ID of the message
+  content_type:
+    type: string
+    enum: ["text", "input_select", "cards", "form"]
+    description: The type of the template message
+  content_attributes:
+    type: object
+    description: The content attributes for each content_type
+  sender_type:
+    type: string
+    enum: ["contact", "agent", "agent_bot"]
+    description: The type of the sender
+  sender_id:
+    type: number
+    description: The ID of the sender
+  external_source_ids:
+    type: object
+    description: The external source IDs of the message
+  additional_attributes:
+    type: object
+    description: The additional attributes of the message
+  processed_message_content:
+    type: string
+    description: The processed message content
+  sentiment:
+    type: object
+    description: The sentiment of the message
+  conversation:
+    type: object
+    description: The conversation object
+  attachment:
+    type: object
+    description: The file object attached to the image
+  sender:
+    type: object
+    description: User/Agent/AgentBot object

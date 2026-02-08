@@ -1,0 +1,48 @@
+# https://github.com/ondrejbartas/sidekiq-cron
+# use https://crontab.guru/ to validate
+# validations for this file exist in /spec/configs/schedule_spec.rb
+
+# executed At 12:00 on every day-of-month.
+internal_check_new_versions_job:
+  cron: '0 12 */1 * *'
+  class: 'Internal::CheckNewVersionsJob'
+  queue: scheduled_jobs
+# # executed At every 5th minute..
+trigger_scheduled_items_job:
+  cron: '*/5 * * * *'
+  class: 'TriggerScheduledItemsJob'
+  queue: scheduled_jobs
+
+# executed At every minute..
+trigger_imap_email_inboxes_job:
+  cron: '*/1 * * * *'
+  class: 'Inboxes::FetchImapEmailInboxesJob'
+  queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# which is our lowest traffic time
+remove_stale_contact_inboxes_job.rb:
+  cron: '30 22 * * *'
+  class: 'Internal::RemoveStaleContactInboxesJob'
+  queue: scheduled_jobs
+
+# executed daily at 2230 UTC
+# which is our lowest traffic time
+remove_stale_redis_keys_job.rb:
+  cron: '30 22 * * *'
+  class: 'Internal::RemoveStaleRedisKeysJob'
+  queue: scheduled_jobs
+
+#executed daily at 0430 UTC
+# which will be IST 10:00 AM
+process_stale_contacts_job:
+  cron: '30 04 * * *'
+  class: 'Internal::ProcessStaleContactsJob'
+  queue: housekeeping
+
+# executed daily at 0100 UTC
+# to delete accounts marked for deletion
+delete_accounts_job:
+  cron: '0 1 * * *'
+  class: 'Internal::DeleteAccountsJob'
+  queue: scheduled_jobs

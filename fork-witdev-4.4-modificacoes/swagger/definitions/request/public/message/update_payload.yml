@@ -1,0 +1,30 @@
+type: object
+properties:
+  submitted_values:
+    type: object
+    description: Replies to the Bot Message Types
+    properties:
+      name:
+        type: string
+        description: The name of the submiitted value
+        example: 'My Name'
+      title:
+        type: string
+        description: The title of the submitted value
+        example: 'My Title'
+      value:
+        type: string
+        description: The value of the submitted value
+        example: 'value'
+      csat_survey_response:
+        type: object
+        description: The CSAT survey response
+        properties:
+          feedback_message:
+            type: string
+            description: The feedback message of the CSAT survey response
+            example: 'Great service!'
+          rating:
+            type: integer
+            description: The rating of the CSAT survey response
+            example: 5

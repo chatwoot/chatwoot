@@ -1,0 +1,21 @@
+// loader class
+.spinner {
+  @include color-spinner();
+  @apply inline-block h-6 py-0 px-6 relative align-middle w-6;
+
+  &.message {
+    @apply bg-white dark:bg-slate-800 rounded-full left-0 my-3 mx-auto p-4 top-0;
+
+    &::before {
+      @apply -ml-3 -mt-3;
+    }
+  }
+
+  &.small {
+    @apply h-4 w-4;
+
+    &::before {
+      @apply h-4 -mt-2 w-4;
+    }
+  }
+}

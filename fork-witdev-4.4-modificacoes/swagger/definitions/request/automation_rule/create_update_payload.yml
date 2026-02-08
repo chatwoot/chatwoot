@@ -1,0 +1,41 @@
+type: object
+properties:
+  name:
+    type: string
+    description: Rule name
+    example: Add label on message create event
+  description:
+    type: string
+    description: The description about the automation and actions
+    example: Add label support and sales on message create event if incoming message content contains text help
+  event_name:
+    type: string
+    enum:
+      - conversation_created
+      - conversation_updated
+      - message_created
+    example: message_created
+    description: The event when you want to execute the automation actions
+  active:
+    type: boolean
+    description: Enable/disable automation rule
+  actions:
+    type: array
+    description: Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.
+    items:
+      type: object
+      example:
+        action_name: add_label
+        action_params:
+          - support
+  conditions:
+    type: array
+    description: Array of conditions on which conversation filter would work, e.g message content contains text help.
+    items:
+      type: object
+      example:
+        attribute_key: content
+        filter_operator: contains
+        query_operator: OR
+        values:
+          - help

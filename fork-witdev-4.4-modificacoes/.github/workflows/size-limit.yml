@@ -1,0 +1,47 @@
+name: Run Size Limit Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  test:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 23
+          cache: 'pnpm'
+
+      - name: pnpm
+        run: pnpm install
+
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
+
+      - name: setup env
+        run: |
+          cp .env.example .env
+
+      - name: Run asset compile
+        run: bundle exec rake assets:precompile
+        env:
+          RAILS_ENV: production
+
+      - name: Size Check
+        run: pnpm run size

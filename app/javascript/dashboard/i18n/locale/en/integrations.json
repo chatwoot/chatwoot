@@ -55,6 +55,12 @@
           "PLACEHOLDER": "Example: {webhookExampleURL}",
           "ERROR": "Please enter a valid URL"
         },
+        "ACCESS_TOKEN": {
+          "LABEL": "Include Access Token (SocialWise Integration)",
+          "HELP": "When enabled, includes the account administrator's API access token in the webhook payload for SocialWise integration",
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled"
+        },
         "EDIT_SUBMIT": "Update webhook",
         "ADD_SUBMIT": "Create webhook"
       },

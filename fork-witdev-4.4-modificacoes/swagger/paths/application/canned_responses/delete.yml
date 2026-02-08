@@ -1,0 +1,29 @@
+tags:
+  - Canned Responses
+operationId: delete-canned-response-from-account
+summary: Remove a Canned Response from Account
+description: Remove a Canned Response from Account
+security:
+  - userApiKey: []
+parameters:
+  - in: path
+    name: id
+    schema:
+      type: integer
+    required: true
+    description: The ID of the canned response to be deleted
+responses:
+  '200':
+    description: Success
+  '404':
+    description: Canned Response not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '403':
+    description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

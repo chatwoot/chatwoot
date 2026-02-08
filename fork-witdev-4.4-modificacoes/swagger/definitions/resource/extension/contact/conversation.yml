@@ -1,0 +1,53 @@
+type: object
+properties:
+  meta:
+    type: object
+    properties:
+      sender:
+        type: object
+        properties:
+          additional_attributes:
+            type: object
+            description: The additional attributes of the sender
+          availability_status:
+            type: string
+            description: The availability status of the sender
+          email:
+            type: string
+            description: The email of the sender
+          id:
+            type: number
+            description: ID fo the sender
+          name:
+            type: string
+            description: The name of the sender
+          phone_number:
+            type: string
+            description: The phone number of the sender
+          blocked:
+            type: boolean
+            description: Whether the sender is blocked
+          identifier:
+            type: string
+            description: The identifier of the sender
+          thumbnail:
+            type: string
+            description: Avatar URL of the contact
+          custom_attributes:
+            type: object
+            description: The custom attributes of the sender
+          last_activity_at:
+            type: number
+            description: The last activity at of the sender
+          created_at:
+            type: number
+            description: The created at of the sender
+
+      channel:
+        type: string
+        description: Channel Type
+      assignee:
+        $ref: '#/components/schemas/user'
+      hmac_verified:
+        type: boolean
+        description: Whether the hmac is verified

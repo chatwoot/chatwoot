@@ -1,0 +1,104 @@
+parameters:
+  - $ref: '#/components/parameters/account_id'
+
+get:
+  tags:
+    - Conversations
+  operationId: conversationList
+  description: List all the conversations with pagination
+  summary: Conversations List
+  security:
+    - userApiKey: []
+  parameters:
+    - name: assignee_type
+      in: query
+      schema:
+        type: string
+        enum: ['me', 'unassigned', 'all', 'assigned']
+        default: 'all'
+      description: Filter conversations by assignee type.
+    - name: status
+      in: query
+      schema:
+        type: string
+        enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
+        default: 'open'
+      description: Filter by conversation status.
+    - name: q
+      in: query
+      schema:
+        type: string
+      description: Filters conversations with messages containing the search term
+    - name: inbox_id
+      in: query
+      schema:
+        type: integer
+    - name: team_id
+      in: query
+      schema:
+        type: integer
+    - name: labels
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+    - name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: paginate through conversations
+
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/conversation_list'
+    '400':
+      description: Bad Request Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+
+post:
+  tags:
+    - Conversations
+  operationId: newConversation
+  summary: Create New Conversation
+  description: "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel"
+  security:
+    - userApiKey: []
+    - agentBotApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_create_payload'
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: number
+                description: ID of the conversation
+              account_id:
+                type: number
+                description: Account Id
+              inbox_id:
+                type: number
+                description: ID of the inbox
+    '403':
+      description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

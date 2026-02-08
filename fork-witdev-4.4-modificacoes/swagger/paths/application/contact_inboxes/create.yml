@@ -1,0 +1,51 @@
+post:
+  tags:
+    - Contact
+  operationId: contactInboxCreation
+  description: Create a contact inbox record for an inbox
+  summary: Create contact inbox
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: id
+      in: path
+      schema:
+        type: number
+      description: ID of the contact
+      required: true
+  security:
+    - userApiKey: []
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - inbox_id
+          properties:
+            inbox_id:
+              type: number
+              description: The ID of the inbox
+              example: 1
+            source_id:
+              type: string
+              description: Contact Inbox Source Id
+  responses:
+    '200':
+      description: Success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/contact_inboxes'
+    '401':
+      description: Authentication error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '422':
+      description: Incorrect payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

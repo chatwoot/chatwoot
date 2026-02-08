@@ -1,0 +1,3 @@
+backend: RAILS_ENV=test bin/rails s -p 5050
+vite: bin/vite dev
+worker: RAILS_ENV=test dotenv bundle exec sidekiq -C config/sidekiq.yml

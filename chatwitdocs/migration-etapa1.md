@@ -630,6 +630,28 @@ end
 
 ## Histórico de Alterações
 
+### 2026-02-05 (Atualização 7) - Correção: Instagram quick_reply payload perdido
+- **CRIADO:** `lib/integrations/instagram/message_parser.rb` - Parser para extrair payload de quick_reply/postback
+- **ADICIONADO:** Métodos `postback_payload`, `quick_reply_payload`, `postback?`, `quick_reply?` em `lib/integrations/facebook/message_parser.rb`
+- **CORRIGIDO:** `app/builders/messages/facebook/message_builder.rb` - Salva `quick_reply_payload` e `postback_payload` em `content_attributes`
+- **CORRIGIDO:** `app/builders/messages/instagram/base_message_builder.rb` - Salva `quick_reply_payload` e `postback_payload` em `content_attributes`
+- **ADICIONADO:** Método `extract_interaction_data` em `processor_service.rb` para extrair dados de interação e incluir no payload do SocialWise
+- **ATUALIZADO:** Método `interactive_reply?` agora detecta `quick_reply` e `postback` do Instagram/Facebook
+- **DOCUMENTAÇÃO:** `chatwitdocs/instagram-quick-reply-payload-fix.md`
+
+**Problema corrigido:** O payload do botão quick_reply do Instagram (`quick_reply.payload`) não era salvo na mensagem, e portanto não era enviado ao SocialWise Flow. O motor de IA recebia apenas o texto genérico ("Saber Mais") sem o ID do botão.
+
+**Payload após correção:**
+```json
+{
+  "session_id": "1002859634954741",
+  "message": "Saber Mais",
+  "channel_type": "Channel::Instagram",
+  "quick_reply_payload": "ig_btn_xxx",
+  "interaction_type": "quick_reply"
+}
+```
+
 ### 2026-02-02 (Atualização 6) - Melhoria: Cliques de botão sem debounce
 - **ADICIONADO:** Método `interactive_reply?` no `processor_service.rb`
 - **FUNCIONALIDADE:** Cliques de botão e seleções de lista são processados imediatamente, sem debounce

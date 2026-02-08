@@ -1,0 +1,48 @@
+type: object
+properties:
+  additional_attributes:
+    type: object
+    description: The object containing additional attributes related to the contact
+    properties:
+      city:
+        type: string
+        description: City of the contact
+      country:
+        type: string
+        description: Country of the contact
+      country_code:
+        type: string
+        description: Country code of the contact
+      created_at_ip:
+        type: string
+        description: IP address when the contact was created
+  custom_attributes:
+    type: object
+    description: The custom attributes of the contact
+  email:
+    type: string
+    description: The email address of the contact
+  id:
+    type: integer
+    description: The ID of the contact
+  identifier:
+    type: string
+    description: The identifier of the contact
+    nullable: true
+  name:
+    type: string
+    description: The name of the contact
+  phone_number:
+    type: string
+    description: The phone number of the contact
+    nullable: true
+  thumbnail:
+    type: string
+    description: The thumbnail of the contact
+  blocked:
+    type: boolean
+    description: Whether the contact is blocked
+  type:
+    type: string
+    description: The type of entity
+    enum: ["contact"] 

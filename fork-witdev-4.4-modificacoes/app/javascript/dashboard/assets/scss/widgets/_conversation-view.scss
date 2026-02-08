@@ -1,0 +1,261 @@
+// scss-lint:disable MergeableSelector
+
+@tailwind utilities;
+@layer utilities {
+  .custom-gradient {
+    background-image: linear-gradient(
+      -180deg,
+      transparent 3%,
+      rgb(76 81 85) 130%
+    );
+  }
+
+  .bubble-with-types {
+    @apply py-2 text-sm font-normal bg-woot-500 dark:bg-woot-500 relative px-4 m-0 text-white dark:text-white;
+
+    .message-text__wrap {
+      @apply relative;
+
+      .link {
+        @apply text-white dark:text-white underline;
+      }
+    }
+
+    .image,
+    .video {
+      @apply cursor-pointer relative;
+
+      .modal-container {
+        @apply text-center;
+      }
+
+      .modal-image {
+        @apply max-h-[76vh] max-w-[76vw];
+      }
+
+      .modal-video {
+        @apply max-h-[76vh] max-w-[76vw];
+      }
+
+      &::before {
+        @apply custom-gradient bottom-0 h-[20%] content-[''] left-0 absolute w-full opacity-80;
+      }
+    }
+  }
+}
+
+.conversation-panel {
+  @apply flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4;
+}
+
+.conversation-panel > li {
+  @apply flex flex-shrink-0 flex-grow-0 flex-auto max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0;
+
+  &.unread--toast {
+    + .right {
+      @apply mb-1;
+    }
+
+    + .left {
+      @apply mb-0;
+    }
+
+    span {
+      @apply shadow-lg rounded-full bg-woot-500 dark:bg-woot-500 text-white dark:text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5;
+    }
+  }
+
+  .bubble {
+    @apply bubble-with-types text-left break-words;
+
+    .aplayer {
+      @apply shadow-none;
+      font-family: inherit;
+    }
+  }
+
+  &.left {
+    .bubble {
+      @apply rounded-r-lg rounded-l mr-auto break-words;
+
+      &:not(.is-unsupported) {
+        @apply border border-slate-50 dark:border-slate-700 bg-white dark:bg-slate-700 text-black-900 dark:text-slate-50;
+      }
+
+      &.is-image {
+        @apply rounded-lg;
+      }
+
+      .link {
+        @apply text-woot-600 dark:text-woot-600;
+      }
+
+      .file {
+        .attachment-name {
+          @apply text-slate-700 dark:text-woot-300;
+        }
+
+        .icon-wrap {
+          @apply text-woot-600 dark:text-woot-600;
+        }
+
+        .download {
+          @apply text-woot-600 dark:text-woot-600;
+        }
+      }
+    }
+
+    + .right {
+      @apply mt-2.5;
+
+      .bubble {
+        @apply rounded-tr-lg;
+      }
+    }
+
+    + .unread--toast {
+      + .right {
+        @apply mt-2.5;
+
+        .bubble {
+          @apply rounded-tr-lg;
+        }
+      }
+
+      + .left {
+        @apply mt-0;
+      }
+    }
+  }
+
+  &.right {
+    @apply justify-end;
+
+    .wrap {
+      @apply flex items-end mr-4 text-right;
+
+      .sender--info {
+        @apply pt-2 pb-1 pr-0 pl-2;
+      }
+    }
+
+    .bubble {
+      @apply ml-auto break-words rounded-l-lg rounded-r;
+
+      &.is-private {
+        @apply text-black-900 dark:text-white relative border border-solid bg-yellow-100 dark:bg-yellow-700 border-yellow-200 dark:border-yellow-600/25;
+
+        blockquote {
+          @apply border-slate-400 dark:border-slate-400 text-slate-800 dark:text-slate-300;
+
+          p {
+            @apply text-slate-600 dark:text-slate-300;
+          }
+        }
+      }
+
+      &.is-image {
+        @apply rounded-lg;
+
+        .message__mail-head {
+          @apply px-4 py-2;
+        }
+      }
+    }
+
+    + .left {
+      @apply mt-2.5;
+
+      .bubble {
+        @apply rounded-tl-lg;
+      }
+    }
+
+    + .unread--toast {
+      + .left {
+        @apply rounded-lg;
+
+        .bubble {
+          @apply rounded-tl-lg;
+        }
+      }
+
+      + .right {
+        @apply mt-0;
+      }
+    }
+  }
+
+  &.center {
+    @apply items-center justify-center;
+  }
+
+  .wrap {
+    max-width: Min(31rem, 84%);
+    @apply my-0 mx-4;
+
+    .sender--name {
+      @apply text-xs mb-1;
+    }
+  }
+
+  .sender--thumbnail {
+    @apply h-3 mr-3 mt-0.5 w-3 rounded-full;
+  }
+
+  .activity-wrap {
+    @apply flex justify-center text-sm my-1 mx-0 py-1 pr-0.5 pl-2.5 bg-slate-50 dark:bg-slate-600 text-slate-800 dark:text-slate-100 rounded-md border border-slate-100 dark:border-slate-600 border-solid;
+
+    .is-text {
+      @apply inline-flex items-center text-start 2xl:flex;
+    }
+  }
+}
+
+.activity-wrap .message-text__wrap {
+  .text-content p {
+    @apply mb-0;
+  }
+}
+
+.conversation-footer {
+  @apply flex relative flex-col;
+}
+
+.left .bubble .text-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-slate-800 dark:text-slate-100;
+  }
+
+  a {
+    @apply text-woot-500 dark:text-woot-500 underline;
+  }
+
+  p:last-child {
+    @apply mb-0;
+  }
+}
+
+.right .bubble .text-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-white dark:text-white;
+  }
+
+  a {
+    @apply text-white dark:text-white underline;
+  }
+
+  p:last-child {
+    @apply mb-0;
+  }
+}

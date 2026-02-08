@@ -1,0 +1,25 @@
+tags:
+  - Conversations API
+operationId: create-a-conversation
+summary: Create a conversation
+description: Create a conversation
+security: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/public_conversation_create_payload'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/public_conversation'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

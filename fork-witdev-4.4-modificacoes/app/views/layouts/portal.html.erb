@@ -1,0 +1,160 @@
+<%#
+# Application Layout
+
+This view template is used as the layout
+for every page that Administrate generates.
+
+By default, it renders:
+- Navigation
+- Content for a search bar
+  (if provided by a `content_for` block in a nested page)
+- Flashes
+- Links to stylesheets and JavaScripts
+- The appearance dropdown styles are added to the top to prevent FOUC
+%>
+
+<!DOCTYPE html>
+<html lang="<%= I18n.locale %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1">
+    <meta name= "turbolinks-cache-control" content= "no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <%= vite_client_tag %>
+    <%= vite_javascript_tag 'portal' %>
+    <style>
+      .appearance-menu[data-current-theme="system"] .check-mark-icon:is(.light-theme, .dark-theme),
+      .appearance-menu[data-current-theme="dark"] .check-mark-icon:is(.light-theme, .system-theme),
+      .appearance-menu[data-current-theme="light"] .check-mark-icon:is(.dark-theme, .system-theme) {
+        display: none;
+      }
+    </style>
+    <%= csrf_meta_tags %>
+    <% if content_for?(:head) %>
+      <%= yield(:head) %>
+    <% else %>
+      <title><%= @portal.page_title%></title>
+    <% end %>
+    
+    <% if @portal.logo.present? %>
+      <link rel="icon" href="<%= url_for(@portal.logo) %>">
+    <% end %>
+
+    <% unless @theme_from_params.blank? %>
+    <%# this adds the theme from params, ensuring that there a localstorage value set %>
+    <%# this will further trigger the next script to ensure color mode is toggled without a FOUC %>
+    <script>localStorage.theme = '<%= @theme_from_params %>';</script>
+    <% end %>
+
+    <script>
+      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        // we can use document.body here but that would mean pushing this script inside the body
+        // since the body is not created yet. This is done to avoid FOUC, at a tiny cost of Time to Interactive
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('light')
+      }
+    </script>
+  </head>
+  <body>
+    <div id="portal" class="antialiased">
+      <main class="flex flex-col min-h-screen bg-white main-content dark:bg-slate-900" role="main">
+        <% if !@is_plain_layout_enabled %>
+          <%= render "public/api/v1/portals/header", portal: @portal %>
+        <% end %>
+        <%= yield %>
+        <% if !(@is_plain_layout_enabled || @portal.account.feature_enabled?('disable_branding')) %>
+          <%= render "public/api/v1/portals/footer" %>
+        <% end %>
+      </main>
+    </div>
+    <% if @article.present? %>
+    <script>
+      (function() {
+        let viewTracked = false;
+        const trackView = function() {
+          if (!viewTracked) {
+            viewTracked = true;
+            const img = new Image();
+            img.src = '<%= request.base_url %>/hc/<%= @portal.slug %>/articles/<%= @article.slug %>.png';
+          }
+        };
+        
+        const addTrackingListeners = function() {
+          const events = ['mouseenter', 'touchstart', 'focus'];
+          events.forEach(event => {
+            document.body.addEventListener(event, function() {
+              setTimeout(trackView, 5000);
+            }, { once: true });
+          });
+        };
+        addTrackingListeners();
+      })();
+    </script>
+    <% end %>
+  </body>
+  <style>
+  html.dark {
+    --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'dark') %>;
+    --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('dark') %>;
+    --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'dark') %>;
+  }
+
+  html.light {
+    --dynamic-portal-bg: <%= generate_portal_bg(@portal.color, 'light') %>;
+    --dynamic-portal-bg-gradient: <%= generate_gradient_to_bottom('light') %>;
+    --dynamic-hover-bg-color: <%= generate_portal_hover_color(@portal.color , 'light') %>;
+  }
+
+  /* Portal background */
+  #portal-bg {
+    background: var(--dynamic-portal-bg);
+  }
+  /* Portal background gradient */
+  #portal-bg-gradient {
+    background-image: var(--dynamic-portal-bg-gradient);
+  }
+  /* Category block item hover color */
+  #category-item:hover {
+    background-color: var(--dynamic-hover-bg-color);
+  }
+
+  /* Header section */
+  #header-action-button:hover,
+  #toggle-appearance:hover,
+  #toggle-theme-button:hover {
+    color: var(--dynamic-hover-color);
+    stroke: var(--dynamic-hover-color);
+  }
+  #category-block:hover {
+    border-color: var(--dynamic-hover-color);
+  }
+  #category-block:hover #category-name  {
+    color: var(--dynamic-hover-color);
+  }
+  </style>
+
+  <script>
+    window.portalConfig = {
+      portalSlug: '<%= @portal.slug %>',
+      portalColor: '<%= @portal.color %>',
+      theme: '<%= @theme_from_params %>',
+      customDomain: '<%= @portal.custom_domain %>',
+      hostURL: '<%= ENV.fetch('FRONTEND_URL', '') %>',
+      localeCode: '<%= @locale %>',
+      searchTranslations: {
+        searchPlaceholder: '<%= I18n.t('public_portal.search.search_placeholder') %>',
+        emptyPlaceholder: '<%= I18n.t('public_portal.search.empty_placeholder') %>',
+        loadingPlaceholder: '<%= I18n.t('public_portal.search.loading_placeholder') %>',
+        resultsTitle: '<%= I18n.t('public_portal.search.results_title') %>',
+      },
+      isPlainLayoutEnabled: '<%= @is_plain_layout_enabled %>',
+      tocHeader: '<%= I18n.t('public_portal.toc_header') %>'
+    };
+  </script>
+  <% if @portal.channel_web_widget.present? && !@is_plain_layout_enabled %>
+  <%= @portal.channel_web_widget.web_widget_script.html_safe %>
+  <% end %>
+</html>

@@ -1,0 +1,146 @@
+<section class="main-content__body">
+  <hr/>
+  <div class="bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+      <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/>
+      </svg>
+      Backup & Restore da Conta
+    </h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Seção de Backup -->
+      <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+        <h4 class="text-md font-medium text-blue-900 mb-2 flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"/>
+          </svg>
+          Criar Backup
+        </h4>
+        <p class="text-sm text-blue-700 mb-4">
+          Gera um backup completo de todos os dados desta conta incluindo contatos, conversas, mensagens, configurações e muito mais.
+        </p>
+        
+        <div class="bg-white p-3 rounded border border-blue-200 mb-4">
+          <h5 class="text-sm font-medium text-gray-900 mb-2">O backup inclui:</h5>
+          <ul class="text-xs text-gray-600 space-y-1">
+            <li>• <strong>Dados da conta:</strong> configurações, usuários, times</li>
+            <li>• <strong>Contatos:</strong> informações e atributos personalizados</li>
+            <li>• <strong>Conversas:</strong> histórico completo de conversas</li>
+            <li>• <strong>Mensagens:</strong> todas as mensagens e anexos</li>
+            <li>• <strong>Inboxes:</strong> canais e configurações</li>
+            <li>• <strong>Automações:</strong> regras, macros e workflows</li>
+            <li>• <strong>Base de conhecimento:</strong> artigos e categorias</li>
+            <li>• <strong>Configurações:</strong> labels, webhooks, integrações</li>
+          </ul>
+        </div>
+        
+        <%= link_to backup_super_admin_account_path(page.resource), 
+            method: :get,
+            class: "inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500",
+            confirm: "Tem certeza que deseja criar um backup completo desta conta? Isso pode levar alguns minutos para contas com muitos dados.",
+            onclick: "this.innerHTML='<svg class=\\'animate-spin -ml-1 mr-3 h-4 w-4 text-white\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\'><circle class=\\'opacity-25\\' cx=\\'12\\' cy=\\'12\\' r=\\'10\\' stroke=\\'currentColor\\' stroke-width=\\'4\\'></circle><path class=\\'opacity-75\\' fill=\\'currentColor\\' d=\\'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\\'></path></svg>Gerando Backup...'; this.disabled=true;" do %>
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z"/>
+          </svg>
+          Gerar Backup Completo
+        <% end %>
+        
+        <div class="mt-3 text-xs text-blue-600">
+          <strong>Atenção:</strong> O arquivo será baixado em formato JSON.
+        </div>
+      </div>
+      
+      <!-- Seção de Restore -->
+      <div class="p-4 bg-orange-50 rounded-lg border border-orange-200">
+        <h4 class="text-md font-medium text-orange-900 mb-2 flex items-center">
+          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M3 17a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zM6.293 13.293a1 1 0 010 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 14.586V7a1 1 0 10-2 0v7.586L7.707 13.293a1 1 0 00-1.414 0z"/>
+          </svg>
+          Restaurar Backup
+        </h4>
+        <p class="text-sm text-orange-700 mb-4">
+          Restaura todos os dados de um backup anterior. <strong class="text-red-600">CUIDADO:</strong> Esta ação irá substituir TODOS os dados atuais da conta.
+        </p>
+        
+        <div class="bg-red-50 border border-red-200 rounded p-3 mb-4">
+          <div class="flex">
+            <svg class="w-5 h-5 text-red-400 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"/>
+            </svg>
+            <div class="text-xs text-red-700">
+              <strong>AVISO IMPORTANTE:</strong>
+              <ul class="mt-1 space-y-1">
+                <li>• Todos os dados atuais serão REMOVIDOS permanentemente</li>
+                <li>• Esta ação não pode ser desfeita</li>
+                <li>• Faça um backup antes de restaurar se necessário</li>
+                <li>• O processo pode levar vários minutos</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <%= form_with url: restore_super_admin_account_path(page.resource), 
+            method: :post, 
+            multipart: true,
+            class: "space-y-3",
+            id: "restore-form" do |f| %>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2" for="backup_file">
+              Selecionar arquivo de backup (JSON)
+            </label>
+            <%= f.file_field :backup_file, 
+                accept: ".json",
+                required: true,
+                class: "block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-medium file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100" %>
+          </div>
+          
+          <div class="flex items-center space-x-2">
+            <input type="checkbox" id="confirm_restore" required class="h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded">
+            <label for="confirm_restore" class="text-sm text-gray-700">
+              Confirmo que entendo que esta ação irá <strong>apagar todos os dados atuais</strong> e não pode ser desfeita
+            </label>
+          </div>
+          
+          <%= f.submit "Restaurar Backup", 
+              class: "inline-flex items-center px-4 py-2 bg-orange-600 text-white text-sm font-medium rounded-md hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed",
+              id: "restore-button",
+              confirm: "ÚLTIMA CONFIRMAÇÃO: Tem ABSOLUTA certeza que deseja restaurar o backup? Todos os dados atuais serão perdidos PERMANENTEMENTE!",
+              onclick: "if(this.form.checkValidity()) { this.innerHTML='<svg class=\\'animate-spin -ml-1 mr-3 h-4 w-4 text-white\\' fill=\\'none\\' viewBox=\\'0 0 24 24\\'><circle class=\\'opacity-25\\' cx=\\'12\\' cy=\\'12\\' r=\\'10\\' stroke=\\'currentColor\\' stroke-width=\\'4\\'></circle><path class=\\'opacity-75\\' fill=\\'currentColor\\' d=\\'M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z\\'></path></svg>Restaurando...'; this.disabled=true; }" %>
+        <% end %>
+      </div>
+    </div>
+    
+    <!-- Informações adicionais -->
+    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+      <h5 class="text-sm font-medium text-gray-900 mb-2">📋 Informações Importantes</h5>
+      <div class="text-xs text-gray-600 space-y-1">
+        <p><strong>Formato do backup:</strong> JSON estruturado com versionamento</p>
+        <p><strong>Compatibilidade:</strong> Backups são compatíveis apenas com a mesma versão do sistema</p>
+        <p><strong>Segurança:</strong> Backups contêm dados sensíveis - mantenha-os seguros</p>
+        <p><strong>Tamanho:</strong> Arquivos podem ser grandes dependendo da quantidade de dados</p>
+        <p><strong>Tempo:</strong> Operações podem levar de alguns segundos a vários minutos</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const form = document.getElementById('restore-form');
+  const checkbox = document.getElementById('confirm_restore');
+  const button = document.getElementById('restore-button');
+  
+  function updateButtonState() {
+    const fileSelected = form.querySelector('input[type="file"]').files.length > 0;
+    const confirmed = checkbox.checked;
+    button.disabled = !(fileSelected && confirmed);
+  }
+  
+  form.querySelector('input[type="file"]').addEventListener('change', updateButtonState);
+  checkbox.addEventListener('change', updateButtonState);
+  
+  // Desabilita o botão inicialmente
+  updateButtonState();
+});
+</script> 

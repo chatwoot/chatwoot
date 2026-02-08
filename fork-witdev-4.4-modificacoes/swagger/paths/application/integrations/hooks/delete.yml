@@ -1,0 +1,25 @@
+tags:
+  - Integrations
+operationId: delete-an-integration-hook
+summary: Delete an Integration Hook
+description: Delete an Integration Hook
+security:
+  - userApiKey: []
+parameters:
+  - $ref: '#/components/parameters/account_id'
+  - $ref: '#/components/parameters/hook_id'
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: The hook does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

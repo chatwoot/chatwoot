@@ -1,0 +1,65 @@
+openapi: '3.0.4'
+info:
+  title: Chatwoot - Application API
+  description: Application API endpoints for Chatwoot
+  version: 1.1.0
+  termsOfService: https://www.chatwoot.com/terms-of-service/
+  contact:
+    email: hello@chatwoot.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://app.chatwoot.com/
+tags:
+  - name: Account AgentBots
+    description: Manage agent bots within accounts
+  - name: Agents
+    description: Manage agents
+  - name: Canned Responses
+    description: Manage canned responses
+  - name: Contacts
+    description: Manage contacts
+  - name: Contact Labels
+    description: Manage contact labels
+  - name: Conversation Assignments
+    description: Manage conversation assignments
+  - name: Conversation Labels
+    description: Manage conversation labels
+  - name: Conversations
+    description: Manage conversations
+  - name: Custom Attributes
+    description: Manage custom attributes
+  - name: Custom Filters
+    description: Manage custom filters
+  - name: Inboxes
+    description: Manage inboxes
+  - name: Integrations
+    description: Manage integrations
+  - name: Messages
+    description: Manage messages
+  - name: Profile
+    description: Manage user profile
+  - name: Reports
+    description: Generate reports
+  - name: Teams
+    description: Manage teams
+  - name: Webhooks
+    description: Manage webhooks
+  - name: Automation Rule
+    description: Manage automation rules
+  - name: Help Center
+    description: Manage help center
+paths:
+  $ref: ../paths/index.yml
+components:
+  schemas:
+    $ref: ../definitions/index.yml
+  parameters:
+    $ref: ../parameters/index.yml
+  securitySchemes:
+    userApiKey:
+      type: apiKey
+      in: header
+      name: api_access_token
+      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels. 

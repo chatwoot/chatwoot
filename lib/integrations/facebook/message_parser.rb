@@ -67,6 +67,28 @@ class Integrations::Facebook::MessageParser
   def in_reply_to_external_id
     @messaging.dig('message', 'reply_to', 'mid')
   end
+
+  # CHATWIT: Added methods for postback/quick_reply payload extraction
+  # These are used by MessageBuilder to include payload in content_attributes
+  def postback_payload
+    @messaging&.dig('postback', 'payload')
+  end
+
+  def postback_title
+    @messaging&.dig('postback', 'title')
+  end
+
+  def quick_reply_payload
+    @messaging&.dig('message', 'quick_reply', 'payload')
+  end
+
+  def postback?
+    @messaging&.key?('postback')
+  end
+
+  def quick_reply?
+    @messaging&.dig('message', 'quick_reply').present?
+  end
 end
 
 # Sample Response

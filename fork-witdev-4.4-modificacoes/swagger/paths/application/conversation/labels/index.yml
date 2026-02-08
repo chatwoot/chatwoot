@@ -1,0 +1,26 @@
+tags:
+  - Conversations
+operationId: list-all-labels-of-a-conversation
+summary: List Labels
+security:
+  - userApiKey: []
+description: Lists all the labels of a conversation
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/conversation_labels'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
