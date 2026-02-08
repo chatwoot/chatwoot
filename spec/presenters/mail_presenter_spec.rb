@@ -200,6 +200,16 @@ RSpec.describe MailPresenter do
         end
       end
 
+      let(:mail_with_malformed_reply_to_without_original_sender) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+        end
+      end
+
       it 'returns nil for original_sender and sender_name when from header is malformed' do
         presenter = described_class.new(mail_with_malformed_from)
 
@@ -214,6 +224,13 @@ RSpec.describe MailPresenter do
 
         expect { presenter.original_sender }.not_to raise_error
         expect(presenter.original_sender).to eq('forwarded@example.com')
+      end
+
+      it 'falls back to from header when reply_to is malformed and X-Original-Sender is absent' do
+        presenter = described_class.new(mail_with_malformed_reply_to_without_original_sender)
+
+        expect { presenter.original_sender }.not_to raise_error
+        expect(presenter.original_sender).to eq('sender@example.com')
       end
 
       it 'returns false for notification_email_from_chatwoot? when sender cannot be parsed' do
