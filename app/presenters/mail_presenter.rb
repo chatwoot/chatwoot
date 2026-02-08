@@ -136,8 +136,7 @@ class MailPresenter < SimpleDelegator
   def original_sender
     from_email_address(@mail[:reply_to].try(:value)) ||
       @mail['X-Original-Sender'].try(:value) ||
-      from_email_address(@mail[:from].try(:value)) ||
-      from_email_address(Array.wrap(@mail.from).first)
+      from_email_address(@mail[:from].try(:value))
   end
 
   def headers_data
