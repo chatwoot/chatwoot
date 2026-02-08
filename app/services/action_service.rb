@@ -78,8 +78,11 @@ class ActionService
     emails = emails[0].gsub(/\s+/, '').split(',')
 
     emails.each do |email|
+      break unless @account.within_email_rate_limit?
+
       email = parse_email_variables(@conversation, email)
       ConversationReplyMailer.with(account: @conversation.account).conversation_transcript(@conversation, email)&.deliver_later
+      @account.increment_email_sent_count
     end
   end
 
