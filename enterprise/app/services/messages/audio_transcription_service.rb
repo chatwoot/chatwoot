@@ -111,7 +111,9 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
 
   def supported_audio_format?
     extension = audio_blob.filename.extension_without_delimiter.to_s.downcase
-    SUPPORTED_AUDIO_EXTENSIONS.include?(extension)
+    return SUPPORTED_AUDIO_EXTENSIONS.include?(extension) if extension.present?
+
+    audio_blob.content_type.to_s.start_with?('audio/')
   end
 
   def supported_audio_size?
