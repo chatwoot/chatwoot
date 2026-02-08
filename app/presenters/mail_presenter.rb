@@ -130,7 +130,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def sender_name
-    Mail::Address.new((@mail[:reply_to] || @mail[:from]).value).name
+    parse_mail_address((@mail[:reply_to] || @mail[:from]).value)&.name
   end
 
   def original_sender
@@ -148,7 +148,7 @@ class MailPresenter < SimpleDelegator
   end
 
   def from_email_address(email)
-    Mail::Address.new(email).address
+    parse_mail_address(email)&.address
   end
 
   def email_forwarded_for
@@ -179,6 +179,14 @@ class MailPresenter < SimpleDelegator
   end
 
   private
+
+  def parse_mail_address(email)
+    return if email.blank?
+
+    Mail::Address.new(email)
+  rescue Mail::Field::ParseError, Mail::Field::IncompleteParseError
+    nil
+  end
 
   def auto_submitted?
     @mail['Auto-Submitted'].present? && @mail['Auto-Submitted'].value != 'no'

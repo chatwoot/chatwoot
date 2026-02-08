@@ -178,5 +178,50 @@ RSpec.describe MailPresenter do
         expect(decorated_mail.serialized_data[:auto_reply]).to be_falsey
       end
     end
+
+    describe 'malformed sender headers' do
+      let(:mail_with_malformed_from) do
+        Mail.new do
+          header['From'] = 'Kevin McDonald <info@example.com'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+        end
+      end
+
+      let(:mail_with_malformed_reply_to) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+          header['X-Original-Sender'] = 'forwarded@example.com'
+        end
+      end
+
+      it 'returns nil for original_sender and sender_name when from header is malformed' do
+        presenter = described_class.new(mail_with_malformed_from)
+
+        expect { presenter.original_sender }.not_to raise_error
+        expect { presenter.sender_name }.not_to raise_error
+        expect(presenter.original_sender).to be_nil
+        expect(presenter.sender_name).to be_nil
+      end
+
+      it 'falls back to X-Original-Sender when reply_to header is malformed' do
+        presenter = described_class.new(mail_with_malformed_reply_to)
+
+        expect { presenter.original_sender }.not_to raise_error
+        expect(presenter.original_sender).to eq('forwarded@example.com')
+      end
+
+      it 'returns false for notification_email_from_chatwoot? when sender cannot be parsed' do
+        presenter = described_class.new(mail_with_malformed_from)
+
+        expect { presenter.notification_email_from_chatwoot? }.not_to raise_error
+        expect(presenter.notification_email_from_chatwoot?).to be(false)
+      end
+    end
   end
 end
