@@ -45,14 +45,20 @@ module Concerns::McpToolable
     end
   end
 
+  # RubyLLM::Parameter only supports simple scalar types (string, integer, number, boolean).
+  # Complex types like array/object produce invalid JSON schemas (e.g. array missing `items`).
+  # Coerce unsupported types to string so the LLM receives a valid schema.
+  SUPPORTED_PARAM_TYPES = %w[string integer number boolean].freeze
+
   def extract_param_definitions(tool_def)
     properties = tool_def.dig('inputSchema', 'properties') || {}
     required_params = tool_def.dig('inputSchema', 'required') || []
 
     properties.map do |param_name, param_schema|
+      raw_type = param_schema['type'] || 'string'
       {
         name: param_name.to_sym,
-        type: param_schema['type'] || 'string',
+        type: SUPPORTED_PARAM_TYPES.include?(raw_type) ? raw_type : 'string',
         desc: param_schema['description'] || param_name,
         required: required_params.include?(param_name)
       }

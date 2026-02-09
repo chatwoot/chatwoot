@@ -31,7 +31,11 @@ class Captain::McpServer < ApplicationRecord
 
   self.table_name = 'captain_mcp_servers'
 
-  encrypts :auth_config, type: :json if Chatwoot.encryption_configured?
+  if Chatwoot.encryption_configured?
+    encrypts :auth_config, type: :json
+  else
+    serialize :auth_config, coder: JSON
+  end
 
   NAME_PREFIX = 'mcp'.freeze
   NAME_SEPARATOR = '_'.freeze
