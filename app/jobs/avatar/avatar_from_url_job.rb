@@ -27,7 +27,9 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
       content_type: avatar_file.content_type
     )
 
-  rescue Down::NotFound, Down::Error => e
+  rescue Down::NotFound
+    Rails.logger.info "AvatarFromUrlJob: avatar not found at #{avatar_url}"
+  rescue Down::Error => e
     Rails.logger.error "AvatarFromUrlJob error for #{avatar_url}: #{e.class} - #{e.message}"
   ensure
     update_avatar_sync_attributes(avatarable, avatar_url)
