@@ -9,14 +9,13 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 import VideoCallButton from '../VideoCallButton.vue';
-import AIAssistanceButton from '../AIAssistanceButton.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { mapGetters } from 'vuex';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   name: 'ReplyBottomPanel',
-  components: { NextButton, FileUpload, VideoCallButton, AIAssistanceButton },
+  components: { NextButton, FileUpload, VideoCallButton },
   mixins: [inboxMixin],
   props: {
     isNote: {
@@ -98,6 +97,7 @@ export default {
       type: Number,
       required: true,
     },
+    // eslint-disable-next-line vue/no-unused-properties
     message: {
       type: String,
       default: '',
@@ -381,13 +381,6 @@ export default {
           !isOnPrivateNote
         "
         :conversation-id="conversationId"
-      />
-      <AIAssistanceButton
-        v-if="allowAiAssist && !isFetchingAppIntegrations"
-        :conversation-id="conversationId"
-        :is-private-note="isOnPrivateNote"
-        :message="message"
-        @replace-text="replaceText"
       />
       <transition name="modal-fade">
         <div

@@ -7,6 +7,7 @@ import { emitter } from 'shared/helpers/mitt';
 import { useMessageContext } from '../provider.js';
 import { useI18n } from 'vue-i18n';
 
+import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { MESSAGE_VARIANTS, ORIENTATION } from '../constants';
 
@@ -99,7 +100,7 @@ const replyToPreview = computed(() => {
 
   const { content, attachments } = inReplyTo.value;
 
-  if (content) return content;
+  if (content) return new MessageFormatter(content).formattedMessage;
   if (attachments?.length) {
     const firstAttachment = attachments[0];
     const fileType = firstAttachment.fileType ?? firstAttachment.file_type;
@@ -126,9 +127,10 @@ const replyToPreview = computed(() => {
       class="p-2 -mx-1 mb-2 rounded-lg cursor-pointer bg-n-alpha-black1"
       @click="scrollToMessage"
     >
-      <span class="break-all line-clamp-2">
-        {{ replyToPreview }}
-      </span>
+      <div
+        v-dompurify-html="replyToPreview"
+        class="prose prose-bubble line-clamp-2"
+      />
     </div>
     <slot />
     <MessageMeta

@@ -42,6 +42,10 @@ class Messages::MarkdownRenderers::InstagramRenderer < Messages::MarkdownRendere
     cr
   end
 
+  def code_block(node)
+    out(node.string_content)
+  end
+
   def softbreak(_node)
     out("\n")
   end

@@ -23,8 +23,8 @@ class Twilio::TemplateProcessorService
 
   def build_content_variables(template)
     case template['template_type']
-    when 'text', 'quick_reply'
-      convert_text_template(template_params) # Text and quick reply templates use body variables
+    when 'text', 'quick_reply', 'call_to_action'
+      convert_text_template(template_params) # Text, quick reply and call-to-action templates use body variables
     when 'media'
       convert_media_template(template_params)
     else

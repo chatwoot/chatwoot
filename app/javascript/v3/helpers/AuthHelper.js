@@ -22,6 +22,21 @@ const getSSOAccountPath = ({ ssoAccountId, user }) => {
   return accountPath;
 };
 
+const capitalize = str =>
+  str
+    .split(/[._-]+/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+
+export const getCredentialsFromEmail = email => {
+  const [localPart, domain] = email.split('@');
+  const namePart = localPart.split('+')[0];
+  return {
+    fullName: capitalize(namePart),
+    accountName: capitalize(domain.split('.')[0]),
+  };
+};
+
 export const getLoginRedirectURL = ({
   ssoAccountId,
   ssoConversationId,

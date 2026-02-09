@@ -150,8 +150,6 @@ const derivedAttributes = computed(() =>
   <SettingsLayout
     :is-loading="uiFlags.isFetching"
     :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
-    :no-records-found="!attributes.length"
-    :no-records-message="$t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404')"
   >
     <template #header>
       <BaseSettingsHeader
@@ -177,7 +175,7 @@ const derivedAttributes = computed(() =>
           class="max-w-xl"
           @tab-changed="onClickTabChange"
         />
-        <div class="grid gap-3">
+        <div v-if="derivedAttributes.length" class="grid gap-3">
           <AttributeListItem
             v-for="attribute in derivedAttributes"
             :key="attribute.id"
@@ -187,6 +185,12 @@ const derivedAttributes = computed(() =>
             @delete="handleDeleteAttribute"
           />
         </div>
+        <p
+          v-else
+          class="flex-1 py-20 text-n-slate-12 flex items-center justify-center text-base"
+        >
+          {{ $t('ATTRIBUTES_MGMT.LIST.EMPTY_RESULT.404') }}
+        </p>
       </div>
     </template>
     <AddAttribute

@@ -38,6 +38,7 @@ class ConversationReplyMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     init_conversation_attributes(message.conversation)
+
     @message = message
     prepare_mail(true)
   end

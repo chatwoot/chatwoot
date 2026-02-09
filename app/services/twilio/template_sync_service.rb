@@ -63,6 +63,8 @@ class Twilio::TemplateSyncService
       'media'
     elsif template_types.include?('twilio/quick-reply')
       'quick_reply'
+    elsif template_types.include?('twilio/call-to-action')
+      'call_to_action'
     elsif template_types.include?('twilio/catalog')
       'catalog'
     else
@@ -107,6 +109,8 @@ class Twilio::TemplateSyncService
       template_types['twilio/media']['body']
     elsif template_types['twilio/quick-reply']
       template_types['twilio/quick-reply']['body']
+    elsif template_types['twilio/call-to-action']
+      template_types['twilio/call-to-action']['body']
     elsif template_types['twilio/catalog']
       template_types['twilio/catalog']['body']
     else
