@@ -615,24 +615,39 @@ describe('#mutations', () => {
   });
 
   describe('#SET_ALL_MESSAGES_LOADED', () => {
-    it('should set allMessagesLoaded to true on selected chat', () => {
+    it('should set allMessagesLoaded to true on the conversation by ID', () => {
       const state = {
-        allConversations: [{ id: 1, allMessagesLoaded: false }],
-        selectedChatId: 1,
+        allConversations: [{ id: 1, allMessagesLoaded: false }, { id: 2 }],
       };
-      mutations[types.SET_ALL_MESSAGES_LOADED](state);
+      mutations[types.SET_ALL_MESSAGES_LOADED](state, 1);
       expect(state.allConversations[0].allMessagesLoaded).toBe(true);
+      expect(state.allConversations[1].allMessagesLoaded).toBeUndefined();
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = { allConversations: [{ id: 1 }] };
+      mutations[types.SET_ALL_MESSAGES_LOADED](state, 999);
+      expect(state.allConversations[0].allMessagesLoaded).toBeUndefined();
     });
   });
 
   describe('#CLEAR_ALL_MESSAGES_LOADED', () => {
-    it('should set allMessagesLoaded to false on selected chat', () => {
+    it('should set allMessagesLoaded to false on the conversation by ID', () => {
       const state = {
-        allConversations: [{ id: 1, allMessagesLoaded: true }],
-        selectedChatId: 1,
+        allConversations: [
+          { id: 1, allMessagesLoaded: true },
+          { id: 2, allMessagesLoaded: true },
+        ],
       };
-      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state);
+      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state, 1);
       expect(state.allConversations[0].allMessagesLoaded).toBe(false);
+      expect(state.allConversations[1].allMessagesLoaded).toBe(true);
+    });
+
+    it('should do nothing if conversation is not found', () => {
+      const state = { allConversations: [{ id: 1, allMessagesLoaded: true }] };
+      mutations[types.CLEAR_ALL_MESSAGES_LOADED](state, 999);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(true);
     });
   });
 
@@ -840,6 +855,34 @@ describe('#mutations', () => {
 
       mutations[types.UPDATE_CONVERSATION](state, conversation);
       expect(state.allConversations[0].status).toEqual('resolved');
+    });
+
+    it('should preserve dataFetched and allMessagesLoaded during update', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            status: 'open',
+            updated_at: 100,
+            messages: [{ id: 'msg1' }],
+            dataFetched: true,
+            allMessagesLoaded: true,
+          },
+        ],
+      };
+
+      const conversation = {
+        id: 1,
+        status: 'resolved',
+        updated_at: 200,
+        messages: [{ id: 'msg2' }],
+      };
+
+      mutations[types.UPDATE_CONVERSATION](state, conversation);
+      expect(state.allConversations[0].status).toEqual('resolved');
+      expect(state.allConversations[0].dataFetched).toBe(true);
+      expect(state.allConversations[0].allMessagesLoaded).toBe(true);
+      expect(state.allConversations[0].messages).toEqual([{ id: 'msg1' }]);
     });
   });
 

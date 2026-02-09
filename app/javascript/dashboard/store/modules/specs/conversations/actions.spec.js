@@ -729,7 +729,7 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED],
+        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
         [types.SET_CHAT_DATA_FETCHED, 42],
       ]);
       expect(localDispatch).toHaveBeenCalledWith('fetchPreviousMessages', {
@@ -751,7 +751,7 @@ describe('#addMentions', () => {
 
       expect(localCommit.mock.calls).toEqual([
         [types.SET_CURRENT_CHAT_WINDOW, data],
-        [types.CLEAR_ALL_MESSAGES_LOADED],
+        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
       ]);
       expect(localDispatch).not.toHaveBeenCalled();
     });
