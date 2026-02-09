@@ -5,14 +5,14 @@
 {% if message %}
   <p><b>{{message.sender_display_name}}</b> wrote:</p>
   <blockquote style="box-sizing:border-box; padding:8px 16px; margin:0 0 20px; font-size:14px; border-left:5px solid #eeeeee">
-    {% if message.text_content %}
+    {% if message.text_content.size > 0 %}
       {{message.text_content}}
     {% else %}
       Message content not available
     {% endif %}
   </blockquote>
 
-  {% if message.attachments %}
+  {% if message.attachments.size > 0 %}
     <p><b>Attachments:</b></p>
     <ul>
       {% for attachment in message.attachments %}

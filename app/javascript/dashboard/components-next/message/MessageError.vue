@@ -12,12 +12,15 @@ defineProps({
 
 const emit = defineEmits(['retry']);
 
-const { orientation, status, createdAt, content } = useMessageContext();
+const { orientation, status, createdAt, content, attachments } =
+  useMessageContext();
 
 const { t } = useI18n();
 
 const canRetry = computed(() => {
-  return !hasOneDayPassed(createdAt.value) && content.value !== null;
+  const hasContent = content.value !== null;
+  const hasAttachments = attachments.value && attachments.value.length > 0;
+  return !hasOneDayPassed(createdAt.value) && (hasContent || hasAttachments);
 });
 </script>
 
