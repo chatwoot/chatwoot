@@ -29,6 +29,7 @@ class Account < ApplicationRecord
   include Featurable
   include CacheKeys
   include CaptainFeaturable
+  include AccountEmailRateLimitable
 
   SETTINGS_PARAMS_SCHEMA = {
     'type': 'object',
@@ -85,7 +86,7 @@ class Account < ApplicationRecord
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
-  store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
 
   has_many :account_users, dependent: :destroy_async
