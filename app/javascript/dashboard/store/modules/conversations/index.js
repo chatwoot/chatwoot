@@ -276,7 +276,7 @@ export const mutations = {
 
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
-    const [chat] = _state.allConversations.filter(c => c.id === payload.id);
+    const chat = getConversationById(_state)(payload.id);
     if (chat) {
       chat.meta.assignee = payload.assignee;
     }
