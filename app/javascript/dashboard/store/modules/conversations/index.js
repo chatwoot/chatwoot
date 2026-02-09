@@ -98,7 +98,7 @@ export const mutations = {
   },
 
   [types.ASSIGN_AGENT](_state, { conversationId, assignee }) {
-    const [chat] = _state.allConversations.filter(c => c.id === conversationId);
+    const chat = getConversationById(_state)(conversationId);
     if (chat) {
       chat.meta.assignee = assignee;
     }
