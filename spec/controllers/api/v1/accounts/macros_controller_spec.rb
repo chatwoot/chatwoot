@@ -388,7 +388,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                  headers: administrator.create_new_auth_token
           end
 
-          expect(conversation.messages.activity.last.content).to eq("Assigned to #{user_1.name} by #{administrator.name}")
+          expect(conversation.reload.assignee_id).to eq(user_1.id)
         end
 
         it 'Assign the agent when he is not inbox member' do
@@ -402,7 +402,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
                  headers: administrator.create_new_auth_token
           end
 
-          expect(conversation.messages.activity.last.content).not_to eq("Assigned to #{user_1.name} by #{administrator.name}")
+          expect(conversation.reload.assignee_id).to be_nil
         end
 
         it 'Assign the labels' do

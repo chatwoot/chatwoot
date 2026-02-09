@@ -279,10 +279,10 @@ jobs:
             echo -en "\nINSTALLATION_ENV=circleci" >> ".env"
             echo -en "\nOPENSEARCH_URL=http://localhost:9200" >> ".env"
 
-      # Database setup
+      # Database setup (match GitHub Actions flow)
       - run:
-          name: Run DB migrations
-          command: bundle exec rails db:chatwoot_prepare
+          name: Create database + load schema
+          command: bundle exec rake db:create db:schema:load
 
       # Run backend tests (parallelized)
       - run:
