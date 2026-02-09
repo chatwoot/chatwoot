@@ -288,6 +288,25 @@ RSpec.describe MessageTemplates::HookExecutionService do
 
       expect(MessageTemplates::Template::EmailCollect).not_to have_received(:new)
     end
+
+    it 'does not send out of office template after handoff on campaign conversations when quota is exceeded' do
+      account.update!(
+        limits: { 'captain_responses' => 100 },
+        custom_attributes: account.custom_attributes.merge('captain_responses_usage' => 100)
+      )
+      inbox.update!(
+        working_hours_enabled: true,
+        out_of_office_message: 'We are currently closed'
+      )
+      inbox.working_hours.find_by(day_of_week: Time.current.in_time_zone(inbox.timezone).wday).update!(
+        closed_all_day: true,
+        open_all_day: false
+      )
+
+      expect do
+        create(:message, conversation: campaign_conversation, message_type: :incoming)
+      end.not_to(change { campaign_conversation.messages.template.count })
+    end
   end
 
   context 'when Captain quota is exceeded and handoff happens' do

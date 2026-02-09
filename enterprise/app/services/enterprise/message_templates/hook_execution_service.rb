@@ -68,6 +68,8 @@ module Enterprise::MessageTemplates::HookExecutionService
   end
 
   def send_out_of_office_message_after_handoff
+    return if conversation.campaign.present?
+
     ::MessageTemplates::Template::OutOfOffice.perform_if_applicable(conversation)
   end
 
