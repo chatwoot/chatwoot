@@ -19,7 +19,7 @@ import CaptainPaywall from 'next/captain/pageComponents/Paywall.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
-const { captainEnabled } = useCaptain();
+const { captainEnabled, captainMcpEnabled } = useCaptain();
 const { isEnterprise, enterprisePlanName } = useConfig();
 const { isOnChatwootCloud } = useAccount();
 
@@ -69,7 +69,7 @@ const featureToggles = computed(() => [
 
 const shouldShowFeature = feature => {
   // Cloud will always see these features as long as captain is enabled
-  if (isOnChatwootCloud.value && captainEnabled) {
+  if (isOnChatwootCloud.value && captainEnabled.value) {
     return true;
   }
 
@@ -84,7 +84,7 @@ const shouldShowFeature = feature => {
 
 const isFeatureAccessible = feature => {
   // Cloud will always see these features as long as captain is enabled
-  if (isOnChatwootCloud.value && captainEnabled) {
+  if (isOnChatwootCloud.value && captainEnabled.value) {
     return true;
   }
 
@@ -184,6 +184,7 @@ onMounted(() => {
 
         <!-- MCP Servers Section -->
         <SectionLayout
+          v-if="captainMcpEnabled"
           :title="t('CAPTAIN_SETTINGS.MCP_SERVERS.SECTION_TITLE')"
           :description="t('CAPTAIN_SETTINGS.MCP_SERVERS.SECTION_DESCRIPTION')"
           with-border

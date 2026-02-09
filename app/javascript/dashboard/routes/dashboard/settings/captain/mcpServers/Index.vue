@@ -17,7 +17,7 @@ import Policy from 'dashboard/components/policy.vue';
 
 const { t } = useI18n();
 const store = useStore();
-const { captainEnabled } = useCaptain();
+const { captainMcpEnabled } = useCaptain();
 const { isEnterprise, enterprisePlanName } = useConfig();
 const { isOnChatwootCloud } = useAccount();
 
@@ -33,7 +33,7 @@ const selectedServer = ref(null);
 const dialogType = ref('');
 
 const isFeatureAccessible = computed(() => {
-  if (isOnChatwootCloud.value && captainEnabled) return true;
+  if (isOnChatwootCloud.value && captainMcpEnabled.value) return true;
   return isEnterprise && enterprisePlanName === 'enterprise';
 });
 
@@ -115,7 +115,7 @@ onMounted(() => {
     </template>
     <template #body>
       <div
-        v-if="captainEnabled && isFeatureAccessible"
+        v-if="captainMcpEnabled && isFeatureAccessible"
         class="flex flex-col gap-4"
       >
         <div

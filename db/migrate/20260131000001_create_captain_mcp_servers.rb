@@ -7,7 +7,7 @@ class CreateCaptainMcpServers < ActiveRecord::Migration[7.1]
       t.text :description
       t.string :url, null: false
       t.string :auth_type, default: 'none'
-      t.jsonb :auth_config, default: {}
+      t.text :auth_config
       t.boolean :enabled, default: true, null: false
       t.string :status, default: 'disconnected'
       t.text :last_error

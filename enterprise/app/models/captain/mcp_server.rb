@@ -3,7 +3,7 @@
 # Table name: captain_mcp_servers
 #
 #  id                 :bigint           not null, primary key
-#  auth_config        :jsonb
+#  auth_config        :text
 #  auth_type          :string           default("none")
 #  cached_tools       :jsonb
 #  cache_refreshed_at :datetime
@@ -27,13 +27,11 @@
 #
 class Captain::McpServer < ApplicationRecord
   include Concerns::McpToolable
+  include Enterprise::Audit::CaptainMcpServer if defined?(Enterprise::Audit::CaptainMcpServer)
 
   self.table_name = 'captain_mcp_servers'
 
-  # Security note: auth_config contains sensitive credentials (tokens, API keys).
-  # Credentials are masked in API responses (see _mcp_server.json.jbuilder).
-  # For encryption at rest, consider migrating auth_config to a text column
-  # and using: encrypts :auth_config, type: :json if Chatwoot.encryption_configured?
+  encrypts :auth_config, type: :json if Chatwoot.encryption_configured?
 
   NAME_PREFIX = 'mcp'.freeze
   NAME_SEPARATOR = '_'.freeze

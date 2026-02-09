@@ -1,21 +1,21 @@
 require 'rails_helper'
 
-# Mock interfaces for external MCP library
-module MockMcpClient
-  def list_tools(**_options); end
-  def call_tool(_name, _args = {}); end
-  def cleanup; end
-end
-
-module MockMcpTool
-  def name; end
-  def description; end
-  def schema; end
-  def output_schema; end
-  def annotations; end
-end
-
 RSpec.describe Captain::Mcp::ClientService do
+  # Mock interfaces scoped inside the describe block to avoid polluting the global namespace
+  mock_mcp_client = Module.new do
+    def list_tools(**_options); end
+    def call_tool(_name, _args = {}); end
+    def cleanup; end
+  end
+
+  mock_mcp_tool = Module.new do
+    def name; end
+    def description; end
+    def schema; end
+    def output_schema; end
+    def annotations; end
+  end
+
   let(:account) { create(:account) }
   let(:mcp_server) { create(:captain_mcp_server, account: account) }
   let(:service) { described_class.new(mcp_server) }
@@ -24,7 +24,7 @@ RSpec.describe Captain::Mcp::ClientService do
     context 'when connection succeeds' do
       before do
         allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
-        allow(MCPClient).to receive(:connect).and_return(instance_double(MockMcpClient, list_tools: []))
+        allow(MCPClient).to receive(:connect).and_return(instance_double(mock_mcp_client, list_tools: []))
       end
 
       it 'returns success result' do
@@ -106,7 +106,7 @@ RSpec.describe Captain::Mcp::ClientService do
   end
 
   describe '#disconnect' do
-    let(:mock_client) { instance_double(MockMcpClient, cleanup: nil, list_tools: []) }
+    let(:mock_client) { instance_double(mock_mcp_client, cleanup: nil, list_tools: []) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -127,14 +127,14 @@ RSpec.describe Captain::Mcp::ClientService do
 
   describe '#list_tools' do
     let(:mock_tool) do
-      instance_double(MockMcpTool,
+      instance_double(mock_mcp_tool,
                       name: 'search_docs',
                       description: 'Search documentation',
                       schema: { 'type' => 'object', 'properties' => { 'query' => { 'type' => 'string' } } },
                       output_schema: nil,
                       annotations: nil)
     end
-    let(:mock_client) { instance_double(MockMcpClient, list_tools: [mock_tool]) }
+    let(:mock_client) { instance_double(mock_mcp_client, list_tools: [mock_tool]) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -163,7 +163,7 @@ RSpec.describe Captain::Mcp::ClientService do
   end
 
   describe '#call_tool' do
-    let(:mock_client) { instance_double(MockMcpClient, list_tools: []) }
+    let(:mock_client) { instance_double(mock_mcp_client, list_tools: []) }
 
     before do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
@@ -242,12 +242,144 @@ RSpec.describe Captain::Mcp::ClientService do
       end
     end
 
+    describe 'Carrier-grade NAT (RFC 6598)' do
+      it 'blocks CGN addresses' do
+        allow(Resolv).to receive(:getaddress).and_return('100.64.0.1')
+
+        result = service.connect
+        expect(result).not_to be_success
+        expect(result.error).to include('private IP')
+      end
+
+      it 'blocks upper end of CGN range' do
+        allow(Resolv).to receive(:getaddress).and_return('100.127.255.254')
+
+        result = service.connect
+        expect(result).not_to be_success
+      end
+    end
+
+    describe 'cloud metadata endpoint IPs' do
+      it 'blocks AWS/GCP metadata endpoint' do
+        allow(Resolv).to receive(:getaddress).and_return('169.254.169.254')
+
+        result = service.connect
+        expect(result).not_to be_success
+        expect(result.error).to include('private IP')
+      end
+    end
+
+    describe 'IPv6 private addresses' do
+      let(:ipv6_private_ips) do
+        [
+          '::1',            # IPv6 loopback
+          'fc00::1',        # IPv6 unique local
+          'fe80::1'         # IPv6 link-local
+        ]
+      end
+
+      it 'blocks all IPv6 private address ranges' do
+        ipv6_private_ips.each do |ip|
+          allow(Resolv).to receive(:getaddress).and_return(ip)
+
+          result = service.connect
+          expect(result).not_to be_success, "Expected #{ip} to be blocked"
+        end
+      end
+    end
+
+    describe 'IPv4-mapped IPv6 addresses' do
+      it 'blocks IPv4-mapped IPv6 loopback' do
+        allow(Resolv).to receive(:getaddress).and_return('::ffff:127.0.0.1')
+
+        result = service.connect
+        expect(result).not_to be_success
+        expect(result.error).to include('private IP')
+      end
+
+      it 'blocks IPv4-mapped IPv6 private addresses' do
+        allow(Resolv).to receive(:getaddress).and_return('::ffff:192.168.1.1')
+
+        result = service.connect
+        expect(result).not_to be_success
+      end
+    end
+
+    describe 'DNS rebinding prevention' do
+      it 'does not connect to MCP server when hostname resolves to private IP' do
+        allow(Resolv).to receive(:getaddress).and_return('10.0.0.1')
+
+        expect(MCPClient).not_to receive(:connect)
+        service.connect
+      end
+    end
+
     it 'allows public IP addresses' do
       allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
-      allow(MCPClient).to receive(:connect).and_return(instance_double(MockMcpClient, list_tools: []))
+      allow(MCPClient).to receive(:connect).and_return(instance_double(mock_mcp_client, list_tools: []))
 
       result = service.connect
       expect(result).to be_success
+    end
+  end
+
+  describe 'response size limits' do
+    let(:mock_client) { instance_double(mock_mcp_client, list_tools: []) }
+
+    before do
+      allow(Resolv).to receive(:getaddress).and_return('203.0.113.1')
+      allow(MCPClient).to receive(:connect).and_return(mock_client)
+    end
+
+    it 'returns response as-is when within size limit' do
+      allow(mock_client).to receive(:call_tool).and_return('Normal response')
+
+      result = service.call_tool('test_tool', {})
+      expect(result).to eq('Normal response')
+    end
+
+    it 'truncates responses exceeding MAX_RESPONSE_SIZE' do
+      oversized_text = 'x' * (described_class::MAX_RESPONSE_SIZE + 1000)
+      allow(mock_client).to receive(:call_tool).and_return(oversized_text)
+
+      result = service.call_tool('test_tool', {})
+      expect(result.bytesize).to eq(described_class::MAX_RESPONSE_SIZE)
+    end
+  end
+
+  describe 'audit logging' do
+    let(:mcp_server) { create(:captain_mcp_server, account: account) }
+
+    it 'creates audit record on create' do
+      expect(mcp_server.audits.count).to eq(1)
+      expect(mcp_server.audits.last.action).to eq('create')
+    end
+
+    it 'creates audit record on update' do
+      mcp_server.update!(name: 'Updated Server Name')
+      expect(mcp_server.audits.where(action: 'update').count).to eq(1)
+    end
+
+    it 'creates audit record on destroy' do
+      mcp_server.destroy!
+      expect(mcp_server.audits.where(action: 'destroy').count).to eq(1)
+    end
+
+    it 'excludes auth_config from audited changes' do
+      mcp_server.update!(auth_type: 'bearer', auth_config: { 'token' => 'secret_value' })
+      audit = mcp_server.audits.where(action: 'update').last
+
+      expect(audit.audited_changes.keys).not_to include('auth_config')
+    end
+  end
+
+  describe 'encryption', if: Chatwoot.respond_to?(:encryption_configured?) && Chatwoot.encryption_configured? do
+    it 'round-trips auth_config through encryption' do
+      config = { 'token' => 'my-secret-token', 'header_name' => 'Authorization' }
+      server = create(:captain_mcp_server, account: account, auth_type: 'bearer', auth_config: config)
+
+      server.reload
+      expect(server.auth_config).to eq(config)
     end
   end
 end

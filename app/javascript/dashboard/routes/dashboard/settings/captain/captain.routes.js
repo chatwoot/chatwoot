@@ -39,7 +39,7 @@ export default {
           component: McpServersIndex,
           meta: {
             permissions: ['administrator'],
-            featureFlag: FEATURE_FLAGS.CAPTAIN,
+            featureFlag: FEATURE_FLAGS.CAPTAIN_MCP,
             installationTypes: [
               INSTALLATION_TYPES.ENTERPRISE,
               INSTALLATION_TYPES.CLOUD,

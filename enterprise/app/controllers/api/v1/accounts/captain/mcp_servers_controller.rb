@@ -74,7 +74,7 @@ class Api::V1::Accounts::Captain::McpServersController < Api::V1::Accounts::Base
   end
 
   def merged_update_params
-    update_params = mcp_server_params.to_h
+    update_params = mcp_server_params.to_h.with_indifferent_access
     return update_params unless update_params.key?(:auth_config)
 
     # Preserve existing credentials if not provided in update

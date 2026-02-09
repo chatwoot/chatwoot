@@ -9,6 +9,7 @@ class Captain::Mcp::ClientService
   READ_TIMEOUT = 30
   RETRIES = 0
   RETRY_BACKOFF = 1
+  MAX_RESPONSE_SIZE = 1.megabyte
 
   PRIVATE_IP_RANGES = [
     IPAddr.new('0.0.0.0/8'),       # Current network
@@ -17,6 +18,7 @@ class Captain::Mcp::ClientService
     IPAddr.new('172.16.0.0/12'),   # Private class B
     IPAddr.new('192.168.0.0/16'),  # Private class C
     IPAddr.new('169.254.0.0/16'), # Link-local
+    IPAddr.new('100.64.0.0/10'),  # Carrier-grade NAT (RFC 6598)
     IPAddr.new('::1/128'),         # IPv6 loopback
     IPAddr.new('fc00::/7'),        # IPv6 unique local
     IPAddr.new('fe80::/10'),       # IPv6 link-local
@@ -133,11 +135,23 @@ class Captain::Mcp::ClientService
   end
 
   def format_tool_result(result)
+    formatted = format_tool_content(result)
+    truncate_response(formatted)
+  end
+
+  def format_tool_content(result)
     return result if result.is_a?(String)
     return result.to_json unless result.is_a?(Hash)
 
     content = result['content'] || result[:content] || []
     content.filter_map { |item| format_content_item(item) }.join("\n")
+  end
+
+  def truncate_response(text)
+    return text if text.bytesize <= MAX_RESPONSE_SIZE
+
+    Rails.logger.warn("MCP response truncated from #{text.bytesize} bytes to #{MAX_RESPONSE_SIZE} bytes for #{@mcp_server.slug}")
+    text.truncate_bytes(MAX_RESPONSE_SIZE, omission: '')
   end
 
   def format_content_item(item)
