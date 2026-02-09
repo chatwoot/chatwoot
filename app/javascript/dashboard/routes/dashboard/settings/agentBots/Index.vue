@@ -129,7 +129,6 @@ onMounted(() => {
                     :name="bot.name"
                     :src="bot.thumbnail"
                     :size="40"
-                    rounded-full
                     class="flex-shrink-0"
                   />
                   <div class="min-w-0">

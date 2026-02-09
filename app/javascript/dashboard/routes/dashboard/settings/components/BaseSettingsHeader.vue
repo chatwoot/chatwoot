@@ -54,8 +54,8 @@ const helpURL = getHelpUrlForFeature(props.featureName);
     />
     <div
       v-if="title"
-      class="flex items-center justify-between w-full gap-4 min-h-10"
-      :class="!hasHeaderActions ? 'mb-1' : 'mb-3'"
+      class="flex items-end justify-between w-full gap-4 min-h-10"
+      :class="!hasHeaderActions ? 'mb-1' : 'mb-2'"
     >
       <h1 class="text-heading-1 text-n-slate-12">
         {{ title }}
@@ -76,12 +76,14 @@ const helpURL = getHelpUrlForFeature(props.featureName);
             />
           </template>
         </Input>
-        <slot name="actions" />
+        <div class="md:block hidden">
+          <slot name="actions" />
+        </div>
       </div>
     </div>
     <div
       v-if="description || $slots.description || linkText || helpURL"
-      class="flex flex-col w-full gap-2 text-n-slate-11 my-3"
+      class="flex flex-col w-full gap-1.5 text-n-slate-11 my-1"
     >
       <p
         v-if="description || $slots.description"
@@ -104,6 +106,9 @@ const helpURL = getHelpUrlForFeature(props.featureName);
           />
         </a>
       </CustomBrandPolicyWrapper>
+    </div>
+    <div class="md:hidden block">
+      <slot name="actions" />
     </div>
   </div>
 </template>
