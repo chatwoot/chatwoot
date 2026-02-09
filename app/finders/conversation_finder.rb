@@ -180,7 +180,7 @@ class ConversationFinder
                 params[:status] != 'all'
 
     all_count = if use_cache
-                  status = params[:status] || DEFAULT_STATUS
+                  status = params[:status].presence_in(Conversation.statuses.keys) || DEFAULT_STATUS
                   current_account.public_send("#{status}_conversations_count")
                 else
                   @conversations.count
