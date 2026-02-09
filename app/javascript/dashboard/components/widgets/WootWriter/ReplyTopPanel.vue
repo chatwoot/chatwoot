@@ -23,6 +23,10 @@ export default {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
     },
+    disablePopout: {
+      type: Boolean,
+      default: false,
+    },
     isReplyRestricted: {
       type: Boolean,
       default: false,

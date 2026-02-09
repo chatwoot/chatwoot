@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
+import { useGallery } from '../useGallery';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 
@@ -13,7 +14,7 @@ defineProps({
   },
 });
 const hasError = ref(false);
-const showGallery = ref(false);
+const { showGallery, toggleGallery, isGalleryAllowed } = useGallery();
 
 const { filteredCurrentChatAttachments } = useMessageContext();
 
@@ -25,7 +26,7 @@ const handleError = () => {
 <template>
   <div
     class="size-[72px] overflow-hidden contain-content rounded-xl cursor-pointer"
-    @click="showGallery = true"
+    @click="toggleGallery(true)"
   >
     <div
       v-if="hasError"
@@ -42,7 +43,7 @@ const handleError = () => {
     />
   </div>
   <GalleryView
-    v-if="showGallery"
+    v-if="showGallery && isGalleryAllowed"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"

@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useMessageContext } from '../provider.js';
+import { MESSAGE_VARIANTS } from '../constants';
 
 defineProps({
   icon: { type: [String, Object], required: true },
@@ -20,16 +21,39 @@ defineProps({
   },
 });
 
-const { sender } = useMessageContext();
+const { sender, variant } = useMessageContext();
 const { t } = useI18n();
 
 const senderName = computed(() => {
   return sender?.value?.name || '';
 });
+
+const primaryTextClass = computed(() => {
+  const classMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'text-[rgb(var(--bubble-agent-text))]',
+    [MESSAGE_VARIANTS.USER]: 'text-[rgb(var(--bubble-user-text))]',
+    [MESSAGE_VARIANTS.PRIVATE]: 'text-[rgb(var(--bubble-private-text))]',
+    [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-text))]',
+  };
+  return classMap[variant.value] || 'text-[rgb(var(--bubble-agent-text))]';
+});
+
+const secondaryTextClass = computed(() => {
+  const classMap = {
+    [MESSAGE_VARIANTS.AGENT]: 'text-[rgb(var(--bubble-agent-meta))]',
+    [MESSAGE_VARIANTS.USER]: 'text-[rgb(var(--bubble-user-meta))]',
+    [MESSAGE_VARIANTS.PRIVATE]: 'text-[rgb(var(--bubble-private-meta))]',
+    [MESSAGE_VARIANTS.BOT]: 'text-[rgb(var(--bubble-bot-meta))]',
+  };
+  return classMap[variant.value] || 'text-[rgb(var(--bubble-agent-meta))]';
+});
 </script>
 
 <template>
-  <BaseBubble class="overflow-hidden p-3" data-bubble-name="attachment">
+  <BaseBubble
+    class="overflow-hidden p-[var(--bubble-padding-y)]"
+    data-bubble-name="attachment"
+  >
     <div class="grid gap-4 min-w-64">
       <div class="grid gap-3">
         <div
@@ -41,7 +65,11 @@ const senderName = computed(() => {
           </slot>
         </div>
         <div class="space-y-1 overflow-hidden">
-          <div v-if="senderName" class="text-n-slate-12 text-sm truncate">
+          <div
+            v-if="senderName"
+            class="text-sm truncate"
+            :class="primaryTextClass"
+          >
             {{
               t(senderTranslationKey, {
                 sender: senderName,
@@ -49,10 +77,18 @@ const senderName = computed(() => {
             }}
           </div>
           <slot>
-            <div v-if="title" class="truncate text-sm text-n-slate-12">
+            <div
+              v-if="title"
+              class="truncate text-sm"
+              :class="primaryTextClass"
+            >
               {{ title }}
             </div>
-            <div v-if="content" class="truncate text-sm text-n-slate-11">
+            <div
+              v-if="content"
+              class="truncate text-sm"
+              :class="secondaryTextClass"
+            >
               {{ content }}
             </div>
           </slot>

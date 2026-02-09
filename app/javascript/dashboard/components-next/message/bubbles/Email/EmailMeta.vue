@@ -1,12 +1,30 @@
 <script setup>
 import { computed } from 'vue';
-import { MESSAGE_STATUS } from '../../constants';
+import { MESSAGE_STATUS, MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 
-const { contentAttributes, status, sender } = useMessageContext();
+const { contentAttributes, status, sender, messageType } = useMessageContext();
 
 const hasError = computed(() => {
   return status.value === MESSAGE_STATUS.FAILED;
+});
+
+const isIncoming = computed(() => {
+  return messageType.value === MESSAGE_TYPES.INCOMING;
+});
+
+const secondaryTextClass = computed(() => {
+  if (hasError.value) return 'text-[rgb(var(--bubble-error-meta))]';
+  return isIncoming.value
+    ? 'text-[rgb(var(--bubble-user-meta))]'
+    : 'text-[rgb(var(--bubble-agent-meta))]';
+});
+
+const primaryTextClass = computed(() => {
+  if (hasError.value) return 'text-[rgb(var(--bubble-error-text))]';
+  return isIncoming.value
+    ? 'text-[rgb(var(--bubble-user-text))]'
+    : 'text-[rgb(var(--bubble-agent-text))]';
 });
 
 const fromEmail = computed(() => {
@@ -68,13 +86,10 @@ const showMeta = computed(() => {
   <section
     v-show="showMeta"
     class="space-y-1 rtl:pl-9 ltr:pr-9 text-sm break-words"
-    :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
+    :class="secondaryTextClass"
   >
     <template v-if="showMeta">
-      <div
-        v-if="fromEmail[0]"
-        :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'"
-      >
+      <div v-if="fromEmail[0]" :class="primaryTextClass">
         <template v-if="senderName">
           <span>
             {{ senderName }}

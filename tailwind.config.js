@@ -29,11 +29,14 @@ const tailwindConfig = {
     './app/javascript/portal/**/*.vue',
     './app/javascript/shared/**/*.vue',
     './app/javascript/survey/**/*.vue',
+    './app/javascript/ui/**/*.vue',
     './app/javascript/dashboard/components-next/**/*.vue',
     './app/javascript/dashboard/helper/**/*.js',
     './app/javascript/dashboard/composables/**/*.js',
     './app/javascript/dashboard/components-next/**/*.js',
     './app/javascript/dashboard/routes/dashboard/**/**/*.js',
+    './app/javascript/react-components/**/*.{js,jsx,vue}',
+    './app/javascript/dashboard/assets/scss/**/*.scss',
     './app/views/**/*.html.erb',
   ],
   theme: {
@@ -52,7 +55,7 @@ const tailwindConfig = {
       typography: {
         bubble: {
           css: {
-            color: 'rgb(var(--slate-12))',
+            color: 'inherit', // Inherit from parent bubble for theme customization
             lineHeight: '1.6',
             fontSize: '14px',
             '*': {
@@ -63,17 +66,17 @@ const tailwindConfig = {
             overflowWrap: 'anywhere',
 
             strong: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
             },
 
             b: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
             },
 
             h1: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1.25rem',
               '&:first-child': {
@@ -81,7 +84,7 @@ const tailwindConfig = {
               },
             },
             h2: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
@@ -89,7 +92,7 @@ const tailwindConfig = {
               },
             },
             h3: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               fontWeight: '700',
               fontSize: '1rem',
               '&:first-child': {
@@ -101,7 +104,7 @@ const tailwindConfig = {
               marginBottom: '1.5em',
             },
             a: {
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               textDecoration: 'underline',
             },
             ul: {
@@ -164,7 +167,7 @@ const tailwindConfig = {
             },
             th: {
               padding: '0.75em',
-              color: 'rgb(var(--slate-12))',
+              color: 'inherit',
               border: `none`,
               textAlign: 'start',
               fontWeight: '600',

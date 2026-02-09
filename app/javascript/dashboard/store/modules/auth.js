@@ -53,6 +53,9 @@ export const getters = {
   },
 
   getCurrentAccountId(_, __, rootState) {
+    // eslint-disable-next-line no-underscore-dangle
+    if (window.__WOOT_ACCOUNT_ID__) return window.__WOOT_ACCOUNT_ID__;
+
     if (rootState.route.params && rootState.route.params.accountId) {
       return Number(rootState.route.params.accountId);
     }
@@ -114,7 +117,7 @@ export const actions = {
     }
   },
   async setUser({ commit, dispatch }) {
-    if (authAPI.hasAuthCookie()) {
+    if (authAPI.hasAuthCookie() || authAPI.hasAuthToken()) {
       await dispatch('validityCheck');
     } else {
       commit(types.CLEAR_USER);

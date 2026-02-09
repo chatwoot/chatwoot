@@ -22,9 +22,13 @@ import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
+const uiMode = process.env.BUILD_MODE === 'ui';
+const reactComponentMode = process.env.BUILD_MODE === 'react-components';
 const isTestMode = process.env.TEST === 'true';
+const buildTime = new Date().toTimeString().slice(0, 5);
 
 const vueOptions = {
   template: {
@@ -38,38 +42,86 @@ let plugins = [ruby(), vue(vueOptions)];
 
 if (isLibraryMode) {
   plugins = [];
+} else if (uiMode) {
+  plugins = [vue()];
+} else if (reactComponentMode) {
+  plugins = [vue({ ...vueOptions, customElement: true }), react()];
 } else if (isTestMode) {
   plugins = [vue(vueOptions)];
 }
 
+let lib;
+let rollupOptions = {};
+
+if (isLibraryMode) {
+  lib = {
+    entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
+    formats: ['iife'], // IIFE format for single file
+    name: 'sdk',
+  };
+} else if (uiMode) {
+  lib = {
+    entry: path.resolve(__dirname, './app/javascript/entrypoints/ui.js'),
+    formats: ['iife'], // IIFE format for single file
+    name: 'ui',
+  };
+} else if (reactComponentMode) {
+  lib = {
+    entry: path.resolve(
+      __dirname,
+      './app/javascript/react-components/src/index.jsx'
+    ),
+    formats: ['es', 'cjs'], // ES modules and CommonJS only
+    fileName: format => `react-components.${format}.js`,
+  };
+
+  rollupOptions = {
+    external: ['react', 'react-dom'],
+  };
+}
+
+const chunkBuilder = chunkInfo => {
+  if (chunkInfo.name === 'sdk') {
+    return 'js/sdk.js';
+  }
+
+  if (chunkInfo.name === 'ui') {
+    return `js/ui.js`;
+  }
+
+  // For react components, we need to return different names but can't access format here
+  // So we'll handle this differently
+  return '[name].js';
+};
+
 export default defineConfig({
   plugins: plugins,
+  define: {
+    'import.meta.env.VITE_BUILD_TIME': JSON.stringify(buildTime),
+    'process.env.NODE_ENV': JSON.stringify('production'),
+  },
   build: {
     rollupOptions: {
+      ...rollupOptions,
       output: {
+        ...rollupOptions.output,
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
-        ...(isLibraryMode
+        ...(isLibraryMode || uiMode
           ? {
               dir: 'public/packs',
-              entryFileNames: chunkInfo => {
-                if (chunkInfo.name === 'sdk') {
-                  return 'js/sdk.js';
-                }
-                return '[name].js';
-              },
+              entryFileNames: chunkBuilder,
             }
           : {}),
-        inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
+        ...(reactComponentMode
+          ? {
+              dir: 'public/packs',
+            }
+          : {}),
+        inlineDynamicImports: isLibraryMode || uiMode || reactComponentMode, // Disable code-splitting for SDK
       },
     },
-    lib: isLibraryMode
-      ? {
-          entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['iife'], // IIFE format for single file
-          name: 'sdk',
-        }
-      : undefined,
+    lib,
   },
   resolve: {
     alias: {
