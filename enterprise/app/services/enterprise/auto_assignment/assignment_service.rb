@@ -26,16 +26,6 @@ module Enterprise::AutoAssignment::AssignmentService
     selector.select_agent(agents)
   end
 
-  def filter_agents_by_team(agents, conversation)
-    return agents if conversation&.team_id.blank?
-
-    team = conversation.team
-    return nil if team.blank? || team.allow_auto_assign.blank?
-
-    team_member_ids = team.members.ids
-    agents.where(user_id: team_member_ids)
-  end
-
   def filter_agents_by_capacity(agents)
     return agents unless capacity_filtering_enabled?
 
