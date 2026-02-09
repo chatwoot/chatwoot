@@ -1,10 +1,10 @@
 # #
 # # This action will publish Chatwoot CE docker image.
-# # This is set to run against merges to develop, master
-# # and when tags are created.
+# # Runs on develop, master, and version tags.
 # #
 
 name: Publish Chatwoot CE docker images
+
 on:
   push:
     branches:
@@ -17,8 +17,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     env:
-      GIT_REF: ${{ github.head_ref || github.ref_name }} # ref_name to get tags/branches
+      GIT_REF: ${{ github.head_ref || github.ref_name }}
+      SHORT_SHA: ${{ github.sha }}
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -36,18 +39,25 @@ jobs:
 
       - name: Set Chatwoot edition
         run: |
-          echo -en '\nENV CW_EDITION="ce"' >> docker/Dockerfile
+          echo -e '\nENV CW_EDITION="ce"' >> docker/Dockerfile
 
-      - name: set docker tag
+      # -----------------------------
+      # Docker tags (GC-safe)
+      # -----------------------------
+      - name: Set docker tags
         run: |
-          echo "DOCKER_TAG=registry.314ecorp.tech/chatwoot:$GIT_REF" >> $GITHUB_ENV
+          SHA_TAG="${GIT_REF}-${SHORT_SHA::7}"
 
-      - name: replace docker tag if master
-        if: github.ref_name == 'master'
-        run: |
-          echo "DOCKER_TAG=registry.314ecorp.tech/chatwoot:latest" >> $GITHUB_ENV
+          TAGS="registry.314ecorp.tech/chatwoot:${GIT_REF},registry.314ecorp.tech/chatwoot:${SHA_TAG}"
 
-      - name: Login to DockerHub
+          # If master → also push latest
+          if [ "${GIT_REF}" = "master" ]; then
+            TAGS="$TAGS,registry.314ecorp.tech/chatwoot:latest"
+          fi
+
+          echo "DOCKER_TAGS=$TAGS" >> $GITHUB_ENV
+
+      - name: Login to registry
         uses: docker/login-action@v1
         with:
           registry: registry.314ecorp.tech
@@ -61,4 +71,4 @@ jobs:
           file: docker/Dockerfile
           platforms: linux/amd64
           push: true
-          tags: ${{ env.DOCKER_TAG }}
+          tags: ${{ env.DOCKER_TAGS }}
