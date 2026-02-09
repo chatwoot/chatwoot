@@ -8,12 +8,17 @@ class AccountCatalogSettings < ApplicationRecord
 
   validates :account_id, presence: true, uniqueness: true
   validates :payment_provider, inclusion: { in: PAYMENT_PROVIDERS }, allow_nil: true
+  validate :validate_order_notification_emails
   validate :validate_currency_for_provider
 
   after_save :sync_currency_to_account
 
   def catalog_configured?
     enabled?
+  end
+
+  def notification_email_list
+    order_notification_email.to_s.split(',').map(&:strip).reject(&:blank?)
   end
 
   def available_currencies
@@ -25,6 +30,16 @@ class AccountCatalogSettings < ApplicationRecord
   end
 
   private
+
+  def validate_order_notification_emails
+    return if order_notification_email.blank?
+
+    notification_email_list.each do |email|
+      next if email.match?(URI::MailTo::EMAIL_REGEXP)
+
+      errors.add(:order_notification_email, "contains invalid email: #{email}")
+    end
+  end
 
   def validate_currency_for_provider
     return if currency.blank?

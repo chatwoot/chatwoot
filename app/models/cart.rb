@@ -51,6 +51,7 @@ class Cart < ApplicationRecord
   before_validation :calculate_totals
   after_update :sync_message_status, if: :saved_change_to_status?
   after_update :restore_stock_on_terminal_status, if: :saved_change_to_status?
+  after_update :send_order_notification_email, if: :became_paid?
 
   enum status: {
     initiated: 0,
@@ -184,5 +185,19 @@ class Cart < ApplicationRecord
     message.update!(
       content_attributes: message.content_attributes.merge('data' => updated_data)
     )
+  end
+
+  def became_paid?
+    saved_change_to_status? && paid?
+  end
+
+  def send_order_notification_email
+    emails = account.catalog_settings&.notification_email_list
+    return if emails.blank?
+
+    AdministratorNotifications::AccountNotificationMailer
+      .with(account: account)
+      .order_paid(self, emails)
+      .deliver_later
   end
 end

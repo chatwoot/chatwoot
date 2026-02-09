@@ -63,7 +63,32 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
     send_notification(subject, action_url: action_url, meta: meta)
   end
 
+  def order_paid(cart, to_email)
+    subject = "New Order Paid - ##{cart.external_payment_id}"
+    action_url = "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{Current.account.id}/carts"
+
+    send_notification(subject, to: to_email, action_url: action_url, meta: order_paid_meta(cart))
+  end
+
   private
+
+  def order_paid_meta(cart)
+    {
+      'order_id' => cart.external_payment_id,
+      'contact_name' => cart.contact&.name.to_s,
+      'contact_phone' => cart.contact&.phone_number.to_s,
+      'total' => cart.total.to_s,
+      'currency' => cart.currency,
+      'paid_at' => cart.paid_at&.strftime('%B %d, %Y %H:%M') || Time.current.strftime('%B %d, %Y %H:%M'),
+      'items' => format_cart_items(cart)
+    }
+  end
+
+  def format_cart_items(cart)
+    cart.cart_items.includes(:product).map do |item|
+      "#{item.quantity}x #{item.product.title_en} — #{item.unit_price} #{cart.currency}"
+    end.join(', ')
+  end
 
   def format_deletion_date(deletion_date_str)
     return 'Unknown' if deletion_date_str.blank?
