@@ -11,7 +11,12 @@ export function useAccount() {
    * Computed property for the current account ID.
    * @type {import('vue').ComputedRef<number>}
    */
-  const route = useRoute();
+  // In the isolated shell (react-components / Web Component context),
+  // vue-router is not available. Fall back to the global variable.
+  // eslint-disable-next-line no-underscore-dangle
+  const isIsolatedShell = !!window.__WOOT_ISOLATED_SHELL__;
+  const route = isIsolatedShell ? null : useRoute();
+
   const store = useStore();
   const getAccountFn = useMapGetter('accounts/getAccount');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
@@ -20,6 +25,10 @@ export function useAccount() {
   );
 
   const accountId = computed(() => {
+    if (isIsolatedShell) {
+      // eslint-disable-next-line no-underscore-dangle
+      return Number(window.__WOOT_ACCOUNT_ID__);
+    }
     return Number(route.params.accountId);
   });
   const currentAccount = computed(() => getAccountFn.value(accountId.value));
