@@ -289,6 +289,124 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when email_thread_contact_scoping is enabled' do
+      let(:channel_account) { channel.account }
+      let!(:contact_a) { create(:contact, email: 'contact_a@gmail.com', account: channel_account) }
+      let!(:contact_b) { create(:contact, email: 'contact_b@gmail.com', account: channel_account) }
+
+      before do
+        create(:contact_inbox, contact: contact_a, inbox: inbox)
+        create(:contact_inbox, contact: contact_b, inbox: inbox)
+        channel_account.enable_features!('email_thread_contact_scoping')
+      end
+
+      context 'when different contacts reply to the same in_reply_to thread' do
+        let!(:existing_conversation) do
+          create(:conversation, account: channel_account, inbox: inbox, contact: contact_a,
+                                additional_attributes: { 'in_reply_to' => 'newsletter-message-id@example.com', 'source' => 'email' })
+        end
+
+        it 'creates a new conversation for a different contact' do
+          reply_from_b = create_inbound_email_from_mail(
+            from: 'contact_b@gmail.com', to: inbox.channel.email, subject: 'Re: Newsletter',
+            in_reply_to: 'newsletter-message-id@example.com'
+          )
+
+          expect do
+            class_instance.process(reply_from_b.mail, channel)
+          end.to change(Conversation, :count).by(1)
+
+          new_conversation = Conversation.last
+          expect(new_conversation.id).not_to eq(existing_conversation.id)
+          expect(new_conversation.contact_id).to eq(contact_b.id)
+        end
+
+        it 'appends to the existing conversation for the same contact' do
+          reply_from_a = create_inbound_email_from_mail(
+            from: 'contact_a@gmail.com', to: inbox.channel.email, subject: 'Re: Newsletter',
+            in_reply_to: 'newsletter-message-id@example.com'
+          )
+
+          expect do
+            class_instance.process(reply_from_a.mail, channel)
+          end.not_to change(Conversation, :count)
+
+          expect(existing_conversation.reload.messages.count).to eq(1)
+        end
+      end
+
+      context 'when different contacts reply to a thread matched by message source_id' do
+        let!(:existing_conversation) do
+          create(:conversation, account: channel_account, inbox: inbox, contact: contact_a)
+        end
+        let!(:outgoing_message) do
+          create(:message, conversation: existing_conversation, inbox: inbox, account: channel_account,
+                           message_type: 'outgoing', source_id: 'outgoing-msg-id@example.com')
+        end
+
+        it 'creates a new conversation for a different contact' do
+          reply_from_b = create_inbound_email_from_mail(
+            from: 'contact_b@gmail.com', to: inbox.channel.email, subject: 'Re: Hello',
+            in_reply_to: 'outgoing-msg-id@example.com'
+          )
+
+          expect do
+            class_instance.process(reply_from_b.mail, channel)
+          end.to change(Conversation, :count).by(1)
+        end
+      end
+
+      context 'when different contacts reply to a thread matched by references' do
+        let!(:existing_conversation) do
+          create(:conversation, account: channel_account, inbox: inbox, contact: contact_a)
+        end
+        let!(:referenced_message) do
+          create(:message, conversation: existing_conversation, inbox: inbox, account: channel_account,
+                           message_type: 'outgoing', source_id: 'ref-msg-id@example.com')
+        end
+
+        it 'creates a new conversation for a different contact' do
+          reply_from_b = create_inbound_email_from_mail(
+            from: 'contact_b@gmail.com', to: inbox.channel.email, subject: 'Re: Hello',
+            references: ['ref-msg-id@example.com']
+          )
+
+          expect do
+            class_instance.process(reply_from_b.mail, channel)
+          end.to change(Conversation, :count).by(1)
+        end
+      end
+    end
+
+    context 'when email_thread_contact_scoping is disabled' do
+      let(:channel_account) { channel.account }
+      let!(:contact_a) { create(:contact, email: 'contact_a@gmail.com', account: channel_account) }
+      let!(:contact_b) { create(:contact, email: 'contact_b@gmail.com', account: channel_account) }
+
+      before do
+        create(:contact_inbox, contact: contact_a, inbox: inbox)
+        create(:contact_inbox, contact: contact_b, inbox: inbox)
+      end
+
+      context 'when different contacts reply to the same in_reply_to thread' do
+        let!(:existing_conversation) do
+          create(:conversation, account: channel_account, inbox: inbox, contact: contact_a,
+                                additional_attributes: { 'in_reply_to' => 'newsletter-message-id@example.com', 'source' => 'email' })
+        end
+
+        it 'appends to the existing conversation (backward compatible)' do
+          reply_from_b = create_inbound_email_from_mail(
+            from: 'contact_b@gmail.com', to: inbox.channel.email, subject: 'Re: Newsletter',
+            in_reply_to: 'newsletter-message-id@example.com'
+          )
+
+          expect do
+            class_instance.process(reply_from_b.mail, channel)
+          end.not_to change(Conversation, :count)
+        end
+      end
+    end
+
     context 'when references contain both message and fallback patterns' do
       let(:agent_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
       let(:reply_mail_with_multiple_references) do

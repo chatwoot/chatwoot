@@ -108,6 +108,75 @@ RSpec.describe Mailbox::ConversationFinderStrategies::NewConversationStrategy do
       end
     end
 
+    context 'when email_thread_contact_scoping is enabled' do
+      let!(:contact_a) { create(:contact, email: 'contact_a@example.com', account: account) }
+      let!(:contact_b) { create(:contact, email: 'contact_b@example.com', account: account) }
+
+      before do
+        create(:contact_inbox, contact: contact_a, inbox: email_channel.inbox)
+        create(:contact_inbox, contact: contact_b, inbox: email_channel.inbox)
+        account.enable_features!('email_thread_contact_scoping')
+      end
+
+      context 'when different contacts reply to the same in_reply_to thread' do
+        let!(:existing_conversation) do
+          create(:conversation, account: account, inbox: email_channel.inbox, contact: contact_a,
+                                additional_attributes: { 'in_reply_to' => '<newsletter@example.com>' })
+        end
+
+        it 'builds a new conversation for a different contact' do
+          mail.from = 'contact_b@example.com'
+          mail['In-Reply-To'] = '<newsletter@example.com>'
+
+          strategy = described_class.new(mail)
+          conversation = strategy.find
+
+          expect(conversation).to be_a(Conversation)
+          expect(conversation.new_record?).to be(true)
+          expect(conversation.contact).to eq(contact_b)
+        end
+
+        it 'returns existing conversation for the same contact' do
+          mail.from = 'contact_a@example.com'
+          mail['In-Reply-To'] = '<newsletter@example.com>'
+
+          strategy = described_class.new(mail)
+          conversation = strategy.find
+
+          expect(conversation).to eq(existing_conversation)
+          expect(conversation.persisted?).to be(true)
+        end
+      end
+    end
+
+    context 'when email_thread_contact_scoping is disabled' do
+      let!(:contact_a) { create(:contact, email: 'contact_a@example.com', account: account) }
+      let!(:contact_b) { create(:contact, email: 'contact_b@example.com', account: account) }
+
+      before do
+        create(:contact_inbox, contact: contact_a, inbox: email_channel.inbox)
+        create(:contact_inbox, contact: contact_b, inbox: email_channel.inbox)
+      end
+
+      context 'when different contacts reply to the same in_reply_to thread' do
+        let!(:existing_conversation) do
+          create(:conversation, account: account, inbox: email_channel.inbox, contact: contact_a,
+                                additional_attributes: { 'in_reply_to' => '<newsletter@example.com>' })
+        end
+
+        it 'returns existing conversation for a different contact (backward compatible)' do
+          mail.from = 'contact_b@example.com'
+          mail['In-Reply-To'] = '<newsletter@example.com>'
+
+          strategy = described_class.new(mail)
+          conversation = strategy.find
+
+          expect(conversation).to eq(existing_conversation)
+          expect(conversation.persisted?).to be(true)
+        end
+      end
+    end
+
     context 'when channel is not found' do
       before do
         mail.to = ['nonexistent@example.com']
