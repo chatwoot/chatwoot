@@ -241,3 +241,6 @@
   display_name: Required Conversation Attributes
   enabled: false
   premium: true
+- name: email_thread_contact_scoping
+  display_name: Email Thread Contact Scoping
+  enabled: false
