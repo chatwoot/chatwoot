@@ -47,7 +47,7 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   def bot_summary_download
     @report_data = generate_bots_report
     @date_range = format_date_range
-  
+
     respond_to do |format|
       format.csv  { generate_csv('bot_summary', 'api/v2/accounts/reports/bot_summary') }
       format.xlsx { generate_xlsx('bot_summary', 'api/v2/accounts/reports/bot_summary') }
@@ -56,7 +56,12 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def overview_summary
-    result = V2::Reports::OverviewSummaryBuilder.new(Current.account).build
+    filter_params = build_filter_params.merge(overview_summary_params)
+
+    Rails.logger.info "1PARAMS: #{params[:since]}, #{params[:until]}, offset: #{params[:timezone_offset]}"
+    Rails.logger.info "1UTC TIME: #{Time.at(params[:since].to_i).utc} - #{Time.at(params[:until].to_i).utc}"
+
+    result = V2::Reports::OverviewSummaryBuilder.new(Current.account, filter_params).build
 
     @conversation_metrics = result[:conversation_metrics]
     @agent_status         = result[:agent_status]
@@ -146,11 +151,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   private
 
   def build_filter_params
-    { 
-      since: params[:since], 
-      until: params[:until], 
-      user_ids: params[:user_ids], 
-      inbox_ids: params[:inbox_ids], 
+    {
+      since: params[:since],
+      until: params[:until],
+      user_ids: params[:user_ids],
+      inbox_ids: params[:inbox_ids],
       team_ids: params[:team_ids],
       label_ids: params[:label_ids],
       time_since: params[:time_since],
@@ -191,14 +196,14 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
 
   def summary_report_params
     params.permit(
-      :since, 
-      :until, 
-      :business_hours, 
-      :time_since, 
+      :since,
+      :until,
+      :business_hours,
+      :time_since,
       :time_until,
-      user_ids: [], 
-      inbox_ids: [], 
-      team_ids: [], 
+      user_ids: [],
+      inbox_ids: [],
+      team_ids: [],
       label_ids: []
     )
   end

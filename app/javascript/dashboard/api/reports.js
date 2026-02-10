@@ -200,16 +200,37 @@ class ReportsAPI extends ApiClient {
   getOverviewReports({
     from: since,
     to: until,
-    businessHours,
+    teamIds = [],
+    userIds = [],
+    inboxIds = [],
+    timeSince,
+    timeUntil,
     format = 'csv',
   }) {
+    const params = {
+      since,
+      until,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (teamIds.length > 0) {
+      params['team_ids[]'] = teamIds;
+    }
+    if (userIds.length > 0) {
+      params['user_ids[]'] = userIds;
+    }
+    if (inboxIds.length > 0) {
+      params['inbox_ids[]'] = inboxIds;
+    }
+    if (timeSince) {
+      params.time_since = timeSince;
+    }
+    if (timeUntil) {
+      params.time_until = timeUntil;
+    }
+
     return axios.get(`${this.url}/overview_summary.${format}`, {
-      params: {
-        since,
-        until,
-        business_hours: businessHours,
-        timezone_offset: getTimeOffset(),
-      },
+      params,
       responseType: format === 'xlsx' ? 'blob' : undefined,
     });
   }

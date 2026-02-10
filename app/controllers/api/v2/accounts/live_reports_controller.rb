@@ -70,10 +70,17 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
     scope = scope.where(team_id: team_ids) if team_ids.present?
     scope = scope.where(assignee_id: user_ids) if user_ids.present?
     scope = scope.where(inbox_id: inbox_ids) if inbox_ids.present?
+    
+    if permitted_params[:since].present? && permitted_params[:until].present?
+      since = Time.zone.at(permitted_params[:since].to_i)
+      until_time = Time.zone.at(permitted_params[:until].to_i)
+      scope = scope.where(created_at: since..until_time)
+    end
+    
     @conversations = scope
   end
 
   def permitted_params
-    params.permit(:team_id, :group_by, team_ids: [], user_ids: [], inbox_ids: [])
+    params.permit(:team_id, :group_by, :since, :until, team_ids: [], user_ids: [], inbox_ids: [])
   end
 end

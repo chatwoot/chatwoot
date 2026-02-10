@@ -219,6 +219,7 @@ en:
       unattended: Unnatended
       unassigned: Unassigned
       pending: Pending
+      resolved: Resolved
       status: Status
       count: Count
       data: Data
