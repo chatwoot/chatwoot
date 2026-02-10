@@ -32,6 +32,13 @@
       "ERROR": "Failed to update catalog settings. Please try again."
     }
   },
+  "STOREFRONT_LINK": {
+    "BUTTON_TEXT": "Send storefront link",
+    "MESSAGE_PREFIX": "Browse our products and place your order here:",
+    "SUCCESS": "Storefront link sent successfully.",
+    "ERROR": "Failed to generate storefront link. Please try again.",
+    "NO_CONTACT": "No contact found for this conversation."
+  },
   "CATALOG_SEND": {
     "TITLE": "Send Catalog Items",
     "DESC": "Select products to send to the customer.",
