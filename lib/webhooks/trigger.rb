@@ -38,6 +38,7 @@ class Webhooks::Trigger
     when :agent_bot_webhook
       conversation = message.conversation
       return unless conversation&.pending?
+      return if conversation&.account&.keep_pending_on_bot_failure
 
       conversation.open!
       create_agent_bot_error_activity(conversation)
