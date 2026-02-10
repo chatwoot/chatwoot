@@ -16,13 +16,13 @@ class ConversationAgent < ApplicationAgent
 
   description 'Responds to customer messages using knowledge base and tools'
 
-  model 'gemini-2.5-flash'
+  model 'gpt-4.1'
   temperature 0.7
   version '1.0'
   timeout 60
 
   reliability do
-    fallback_models ['gpt-4.1-mini', 'claude-haiku-4-5']
+    fallback_models ['gemini-2.5-flash', 'claude-haiku-4-5']
   end
 
   param :message, required: true
