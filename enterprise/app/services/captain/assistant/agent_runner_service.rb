@@ -54,6 +54,7 @@ class Captain::Assistant::AgentRunnerService
     end
 
     {
+      session_id: "#{@assistant.account_id}_#{@conversation&.display_id}",
       conversation_history: conversation_history,
       state: build_state
     }
@@ -135,19 +136,22 @@ class Captain::Assistant::AgentRunnerService
       runner,
       tracer: OpentelemetryConfig.tracer,
       trace_name: 'llm.captain_v2',
-      span_attributes: span_attributes
+      span_attributes: {
+        ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json
+      },
+      attribute_provider: ->(context_wrapper) { dynamic_trace_attributes(context_wrapper) }
     )
   end
 
-  def span_attributes
+  def dynamic_trace_attributes(context_wrapper)
+    state = context_wrapper&.context&.dig(:state) || {}
+    conversation = state[:conversation] || {}
     {
-      ATTR_LANGFUSE_SESSION_ID => "#{@assistant.account_id}_#{@conversation&.display_id}",
-      ATTR_LANGFUSE_USER_ID => @assistant.account_id.to_s,
-      ATTR_LANGFUSE_TAGS => ['captain_v2'].to_json,
-      format(ATTR_LANGFUSE_METADATA, 'assistant_id') => @assistant.id.to_s,
-      format(ATTR_LANGFUSE_METADATA, 'conversation_id') => @conversation&.id.to_s,
-      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => @conversation&.display_id.to_s
-    }
+      ATTR_LANGFUSE_USER_ID => state[:account_id],
+      format(ATTR_LANGFUSE_METADATA, 'assistant_id') => state[:assistant_id],
+      format(ATTR_LANGFUSE_METADATA, 'conversation_id') => conversation[:id],
+      format(ATTR_LANGFUSE_METADATA, 'conversation_display_id') => conversation[:display_id]
+    }.compact.transform_values(&:to_s)
   end
 
   def add_callbacks_to_runner(runner)
