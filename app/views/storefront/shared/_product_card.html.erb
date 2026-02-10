@@ -41,7 +41,7 @@
       <%= form_tag storefront_cart_add_item_path(@account, token: storefront_token_param),
                    method: :post,
                    class: 'mt-2',
-                   data: { controller: 'add-to-cart', action: 'submit->add-to-cart#submit' } do %>
+                   data: { add_to_cart: true } do %>
         <input type="hidden" name="product_id" value="<%= product.id %>" />
         <input type="hidden" name="quantity" value="1" />
         <button type="submit"

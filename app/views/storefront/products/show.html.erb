@@ -60,26 +60,26 @@
       <%= form_tag storefront_cart_add_item_path(@account, token: storefront_token_param),
                    method: :post,
                    class: 'mt-6',
-                   data: { controller: 'add-to-cart', action: 'submit->add-to-cart#submit' } do %>
+                   data: { add_to_cart: true } do %>
         <input type="hidden" name="product_id" value="<%= @product.id %>" />
 
         <%# Quantity selector %>
         <div class="flex items-center gap-3 mb-4">
           <span class="text-sm font-medium text-slate-700 dark:text-slate-300">Quantity:</span>
-          <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden">
+          <div class="flex items-center border border-slate-300 dark:border-slate-600 rounded-lg overflow-hidden" data-qty-stepper>
             <button type="button"
                     class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    data-action="click->add-to-cart#decrement">
+                    data-qty-dec>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
               </svg>
             </button>
             <input type="number" name="quantity" value="1" min="1" max="99"
                    class="w-12 h-10 text-center text-sm font-medium text-slate-900 dark:text-white bg-transparent border-x border-slate-300 dark:border-slate-600 focus:outline-none"
-                   data-add-to-cart-target="quantity" />
+                   data-qty-input />
             <button type="button"
                     class="w-10 h-10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
-                    data-action="click->add-to-cart#increment">
+                    data-qty-inc>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
               </svg>
