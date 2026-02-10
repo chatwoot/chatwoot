@@ -93,6 +93,30 @@ describe Linear do
     end
     let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
+    context 'when description contains double quotes' do
+      it 'produces valid GraphQL by escaping the quotes' do
+        allow(linear_client).to receive(:post) do |payload|
+          expect(payload[:query]).to include('description: "the sender is \\"Bot\\"')
+          instance_double(HTTParty::Response, success?: true,
+                                              parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+        end
+
+        linear_client.create_issue(params.merge(description: 'the sender is "Bot"'))
+      end
+    end
+
+    context 'when description contains backslashes' do
+      it 'produces valid GraphQL by escaping the backslashes' do
+        allow(linear_client).to receive(:post) do |payload|
+          expect(payload[:query]).to include('description: "path\\\\to\\\\file"')
+          instance_double(HTTParty::Response, success?: true,
+                                              parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+        end
+
+        linear_client.create_issue(params.merge(description: 'path\\to\\file'))
+      end
+    end
+
     context 'when the API response is success' do
       before do
         stub_request(:post, url)
@@ -213,6 +237,18 @@ describe Linear do
     let(:title) { 'Title' }
     let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
+    context 'when title contains double quotes' do
+      it 'produces valid GraphQL by escaping the quotes' do
+        allow(linear_client).to receive(:post) do |payload|
+          expect(payload[:query]).to include('title: "say \\"hello\\"')
+          instance_double(HTTParty::Response, success?: true,
+                                              parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
+        end
+
+        linear_client.link_issue(link, issue_id, 'say "hello"')
+      end
+    end
+
     context 'when the API response is success' do
       before do
         stub_request(:post, url)
@@ -331,6 +367,18 @@ describe Linear do
 
   context 'when querying issues' do
     let(:term) { 'term' }
+
+    context 'when search term contains double quotes' do
+      it 'produces valid GraphQL by escaping the quotes' do
+        allow(linear_client).to receive(:post) do |payload|
+          expect(payload[:query]).to include('term: "find \\"Bot\\"')
+          instance_double(HTTParty::Response, success?: true,
+                                              parsed_response: { 'data' => { 'searchIssues' => { 'nodes' => [] } } })
+        end
+
+        linear_client.search_issue('find "Bot"')
+      end
+    end
 
     context 'when the API response is success' do
       before do

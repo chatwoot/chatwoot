@@ -44,6 +44,12 @@ const emit = defineEmits([
 
 const { t } = useI18n();
 
+const attachmentId = ref(0);
+const generateUid = () => {
+  attachmentId.value += 1;
+  return `attachment-${attachmentId.value}`;
+};
+
 const uploadAttachment = ref(null);
 const isEmojiPickerOpen = ref(false);
 
@@ -176,7 +182,8 @@ const onPaste = e => {
     .filter(file => file.size > 0)
     .forEach(file => {
       const { name, type, size } = file;
-      onFileUpload({ file, name, type, size });
+      // Add unique ID for clipboard-pasted files
+      onFileUpload({ file, name, type, size, id: generateUid() });
     });
 };
 

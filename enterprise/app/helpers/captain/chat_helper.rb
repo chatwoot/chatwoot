@@ -1,6 +1,7 @@
 module Captain::ChatHelper
   include Integrations::LlmInstrumentation
   include Captain::ChatResponseHelper
+  include Captain::ChatGenerationRecorder
 
   def request_chat_completion
     log_chat_completion_request
@@ -9,7 +10,10 @@ module Captain::ChatHelper
 
     add_messages_to_chat(chat)
     with_agent_session do
-      response = chat.ask(conversation_messages.last[:content])
+      last_content = conversation_messages.last[:content]
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(last_content)
+
+      response = attachments.any? ? chat.ask(text, with: attachments) : chat.ask(text)
       build_response(response)
     end
   rescue StandardError => e
@@ -42,8 +46,11 @@ module Captain::ChatHelper
   end
 
   def setup_event_handlers(chat)
-    chat.on_new_message { start_llm_turn_span(instrumentation_params(chat)) }
-    chat.on_end_message { |message| end_llm_turn_span(message) }
+    # NOTE: We only use on_end_message to record the generation with token counts.
+    # RubyLLM callbacks fire after chunks arrive, not around the API call, so
+    # span timing won't reflect actual API latency. But Langfuse calculates costs
+    # from model + token counts, so this is sufficient for cost tracking.
+    chat.on_end_message { |message| record_llm_generation(chat, message) }
     chat.on_tool_call { |tool_call| handle_tool_call(tool_call) }
     chat.on_tool_result { |result| handle_tool_result(result) }
 
@@ -64,7 +71,9 @@ module Captain::ChatHelper
 
   def add_messages_to_chat(chat)
     conversation_messages[0...-1].each do |msg|
-      chat.add_message(role: msg[:role].to_sym, content: msg[:content])
+      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(msg[:content])
+      content = attachments.any? ? RubyLLM::Content.new(text, attachments) : text
+      chat.add_message(role: msg[:role].to_sym, content: content)
     end
   end
 
