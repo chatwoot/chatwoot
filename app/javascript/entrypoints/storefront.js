@@ -1,3 +1,5 @@
+import '../storefront/application.scss';
+
 /**
  * Storefront JavaScript — vanilla JS, no framework dependencies.
  * Handles: add-to-cart, quantity stepper, cart badge updates.

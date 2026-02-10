@@ -1,10 +1,9 @@
-class Storefront::BaseController < ApplicationController
+# rubocop:disable Rails/ApplicationController
+class Storefront::BaseController < ActionController::Base
   include StorefrontAuth
 
   layout 'storefront'
 
-  # Skip Devise token auth — storefront uses its own token system
-  skip_before_action :set_current_user
   skip_before_action :verify_authenticity_token
 
   private
@@ -19,3 +18,4 @@ class Storefront::BaseController < ApplicationController
     render 'storefront/catalog_disabled', layout: 'storefront', status: :not_found
   end
 end
+# rubocop:enable Rails/ApplicationController

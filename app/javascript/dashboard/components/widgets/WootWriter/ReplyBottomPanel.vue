@@ -443,7 +443,7 @@ export default {
         :conversation-id="conversationId"
       />
       <StorefrontLinkButton
-        v-if="!isOnPrivateNote && showCartButton"
+        v-if="!isOnPrivateNote && catalogSettings?.enabled"
         :conversation-id="conversationId"
       />
       <AIAssistanceButton
