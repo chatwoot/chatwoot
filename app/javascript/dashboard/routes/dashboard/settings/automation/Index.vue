@@ -64,7 +64,7 @@ const hideAddPopup = () => {
 };
 
 const openEditPopup = response => {
-  selectedAutomation.value = response;
+  selectedAutomation.value = { ...response };
   editDialogRef.value?.open();
 };
 const hideEditPopup = () => {

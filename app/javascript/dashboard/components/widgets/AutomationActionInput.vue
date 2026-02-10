@@ -133,6 +133,7 @@ export default {
           :model-value="actionNameAsSelectModel"
           :options="actionTypesAsOptions"
           :dropdown-max-height="dropdownMaxHeight"
+          disable-deselect
           class="flex-shrink-0"
           @update:model-value="onActionNameChange"
         />

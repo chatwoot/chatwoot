@@ -12,6 +12,7 @@ import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 const {
   options,
   disableSearch,
+  disableDeselect,
   placeholderIcon,
   placeholder,
   placeholderTrailingIcon,
@@ -45,6 +46,10 @@ const {
   dropdownMaxHeight: {
     type: String,
     default: 'max-h-80',
+  },
+  disableDeselect: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -84,7 +89,7 @@ const toggleSelected = option => {
   };
 
   if (selected.value && selected.value.id === optionToToggle.id) {
-    selected.value = null;
+    if (!disableDeselect) selected.value = null;
   } else {
     selected.value = optionToToggle;
   }
