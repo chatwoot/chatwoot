@@ -212,14 +212,17 @@ const actions = {
         conversationId,
         agentId,
       });
-      dispatch('setCurrentChatAssignee', response.data);
+      dispatch('setCurrentChatAssignee', {
+        conversationId,
+        assignee: response.data,
+      });
     } catch (error) {
       // Handle error
     }
   },
 
-  setCurrentChatAssignee({ commit }, assignee) {
-    commit(types.ASSIGN_AGENT, assignee);
+  setCurrentChatAssignee({ commit }, { conversationId, assignee }) {
+    commit(types.ASSIGN_AGENT, { conversationId, assignee });
   },
 
   assignTeam: async ({ dispatch }, { conversationId, teamId }) => {

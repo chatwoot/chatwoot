@@ -108,9 +108,11 @@ export const mutations = {
     }
   },
 
-  [types.ASSIGN_AGENT](_state, assignee) {
-    const [chat] = getSelectedChatConversation(_state);
-    chat.meta.assignee = assignee;
+  [types.ASSIGN_AGENT](_state, { conversationId, assignee }) {
+    const chat = getConversationById(_state)(conversationId);
+    if (chat) {
+      chat.meta.assignee = assignee;
+    }
   },
 
   [types.ASSIGN_TEAM](_state, { team, conversationId }) {
@@ -285,8 +287,10 @@ export const mutations = {
 
   // Update assignee on action cable message
   [types.UPDATE_ASSIGNEE](_state, payload) {
-    const [chat] = _state.allConversations.filter(c => c.id === payload.id);
-    chat.meta.assignee = payload.assignee;
+    const chat = getConversationById(_state)(payload.id);
+    if (chat) {
+      chat.meta.assignee = payload.assignee;
+    }
   },
 
   [types.UPDATE_CONVERSATION_CONTACT](_state, { conversationId, ...payload }) {

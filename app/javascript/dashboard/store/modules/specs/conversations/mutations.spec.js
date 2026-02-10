@@ -699,15 +699,22 @@ describe('#mutations', () => {
   });
 
   describe('#ASSIGN_AGENT', () => {
-    it('should assign agent to selected conversation', () => {
+    it('should assign agent to the correct conversation by ID', () => {
       const assignee = { id: 1, name: 'Agent' };
       const state = {
-        allConversations: [{ id: 1, meta: {} }],
-        selectedChatId: 1,
+        allConversations: [
+          { id: 1, meta: {} },
+          { id: 2, meta: {} },
+        ],
+        selectedChatId: 2,
       };
 
-      mutations[types.ASSIGN_AGENT](state, assignee);
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee,
+      });
       expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+      expect(state.allConversations[1].meta.assignee).toBeUndefined();
     });
   });
 
