@@ -50,6 +50,13 @@
 - Prefer `with_modified_env` (from spec helpers) over stubbing `ENV` directly in specs
 - Specs in parallel/reloading environments: prefer comparing `error.class.name` over constant class equality when asserting raised errors
 
+## Codex Worktree Workflow
+
+- Use a separate git worktree + branch per task to keep changes isolated.
+- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
+- The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
+- Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
+
 ## Commit Messages
 
 - Prefer Conventional Commits: `type(scope): subject` (scope optional)
