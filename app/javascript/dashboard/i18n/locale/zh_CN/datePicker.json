@@ -1,8 +1,8 @@
 {
   "DATE_PICKER": {
-    "PREVIOUS_PERIOD": "Previous period",
-    "NEXT_PERIOD": "Next period",
-    "WEEK_NUMBER": "Week #{weekNumber}",
+    "PREVIOUS_PERIOD": "上一个周期",
+    "NEXT_PERIOD": "下一个周期",
+    "WEEK_NUMBER": "周#{weekNumber}",
     "APPLY_BUTTON": "应用",
     "CLEAR_BUTTON": "清除",
     "DATE_RANGE_INPUT": {
@@ -16,7 +16,7 @@
       "LAST_3_MONTHS": "最近3个月",
       "LAST_6_MONTHS": "最近6个月",
       "LAST_YEAR": "最近一年",
-      "THIS_WEEK": "This week",
+      "THIS_WEEK": "本周",
       "MONTH_TO_DATE": "This month",
       "CUSTOM_RANGE": "自定义日期范围"
     }
