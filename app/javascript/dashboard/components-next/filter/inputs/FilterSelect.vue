@@ -91,7 +91,7 @@ const updateSelected = newValue => {
       :class="dropdownPosition"
       strong
     >
-      <DropdownSection class="[&>ul]:max-h-80">
+      <DropdownSection class="[&>ul]:max-h-72">
         <DropdownItem
           v-for="option in options"
           :key="option.value"

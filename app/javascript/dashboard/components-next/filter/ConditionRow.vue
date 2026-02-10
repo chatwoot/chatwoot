@@ -138,7 +138,11 @@ const validate = () => {
   return !validationError.value;
 };
 
-defineExpose({ validate });
+const resetValidation = () => {
+  showErrors.value = false;
+};
+
+defineExpose({ validate, resetValidation });
 </script>
 
 <template>
@@ -173,11 +177,13 @@ defineExpose({ validate });
           v-if="inputType === 'multiSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-72"
         />
         <SingleSelect
           v-else-if="inputType === 'searchSelect'"
           v-model="values"
           :options="currentFilter.options"
+          dropdown-max-height="max-h-64"
         />
         <SingleSelect
           v-else-if="inputType === 'booleanSelect'"
