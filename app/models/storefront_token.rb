@@ -14,7 +14,9 @@ class StorefrontToken < ApplicationRecord
   end
 
   def touch_last_used!
+    # rubocop:disable Rails/SkipsModelValidations
     update_column(:last_used_at, Time.current)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private

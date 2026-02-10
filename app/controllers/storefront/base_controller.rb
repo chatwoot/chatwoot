@@ -5,7 +5,7 @@ class Storefront::BaseController < ApplicationController
 
   # Skip Devise token auth — storefront uses its own token system
   skip_before_action :set_current_user
-  skip_before_action :verify_authenticity_token, only: [:add_item, :update_item, :remove_item]
+  skip_before_action :verify_authenticity_token
 
   private
 
