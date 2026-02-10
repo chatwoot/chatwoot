@@ -21,7 +21,9 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
   def event_name
     metric_to_event_name = {
       avg_first_response_time: :first_response,
-      avg_resolution_time: :conversation_resolved,
+      avg_first_response_from_open_time: :first_response_from_open,
+      avg_resolution_time: :resolution_time_without_bot,
+      avg_resolution_time_without_bot: :resolution_time_without_bot,
       reply_time: :reply_time,
       agent_chat_duration: :agent_chat_duration
     }
