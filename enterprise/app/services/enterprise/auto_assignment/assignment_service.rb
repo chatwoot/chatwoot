@@ -20,7 +20,7 @@ module Enterprise::AutoAssignment::AssignmentService
     return nil if agents.empty?
 
     # Use balanced selector only if advanced_assignment feature is enabled
-    selector = policy&.balanced? ? balanced_selector : round_robin_selector
+    selector = policy&.balanced? && account.feature_enabled?('advanced_assignment') ? balanced_selector : round_robin_selector
     selector.select_agent(agents)
   end
 
