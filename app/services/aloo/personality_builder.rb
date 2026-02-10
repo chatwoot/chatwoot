@@ -53,11 +53,6 @@ module Aloo
         sections << @assistant.personality_description
       end
 
-      if @assistant.language_instruction.present?
-        sections << "\n## Language"
-        sections << @assistant.language_instruction
-      end
-
       sections.compact.join("\n")
     end
   end

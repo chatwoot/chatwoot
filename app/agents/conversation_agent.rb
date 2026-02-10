@@ -32,6 +32,7 @@ class ConversationAgent < ApplicationAgent
   def system_prompt
     parts = []
     parts << base_instructions
+    parts << language_section
     parts << operational_rules_section
     parts << guardrails_section
     parts << custom_instructions_section
@@ -39,7 +40,6 @@ class ConversationAgent < ApplicationAgent
     parts << greeting_instructions
     parts << catalog_instructions
     parts << macros_section
-    parts << language_section
     parts << conversation_context_info
     parts.compact.join("\n\n")
   end
@@ -110,22 +110,33 @@ class ConversationAgent < ApplicationAgent
 
   def language_section
     <<~PROMPT
-      ## Language Rules
-      - CRITICAL: Respond ENTIRELY in the same language as the user's LAST message
-      - Do NOT mix languages within your response
-      - If the user writes in English, respond fully in English
-      - If the user writes in Arabic, respond fully in Arabic
-      - If the user switches languages, immediately adapt to their new language
-      - Exception: Technical terms, brand names, product names, or keywords that have no natural translation may remain in their original language
-      - When in doubt about a translation, keep the original term rather than providing an incorrect translation
-      #{configured_dialect_instruction}
+      <LANGUAGE_RULES>
+      ## LANGUAGE (HIGHEST PRIORITY — OVERRIDES ALL OTHER INSTRUCTIONS)
+      1. DETECT the language of the user's LAST message
+      2. RESPOND ENTIRELY in that same language — no exceptions
+      3. If the user switches languages, switch with them immediately
+      4. Do NOT mix languages within your response
+      5. Only exception: brand names, product names, or technical terms with no natural translation
+      #{preferred_language_instruction}
+      </LANGUAGE_RULES>
     PROMPT
   end
 
-  def configured_dialect_instruction
-    return '' if current_assistant&.language_instruction.blank?
+  def preferred_language_instruction
+    parts = []
 
-    "\n- When responding in Arabic: #{current_assistant.language_instruction}"
+    if current_assistant&.language.present? && current_assistant.language != 'en'
+      parts << "6. Your preferred/default language is #{current_assistant.language_name} — use it when the user's language is ambiguous"
+    end
+
+    if current_assistant&.language == 'ar' && current_assistant&.dialect.present?
+      dialect_prompt = Aloo::Assistant::ARABIC_DIALECTS.dig(current_assistant.dialect, :prompt)
+      parts << "7. When responding in Arabic: #{dialect_prompt}" if dialect_prompt
+    end
+
+    return '' if parts.empty?
+
+    "\n#{parts.join("\n")}"
   end
 
   def greeting_instructions
