@@ -10,22 +10,21 @@ module CatalogSupport
     return nil unless catalog_access_enabled?
 
     <<~PROMPT
-      ## Product Catalog & Shopping
+      #{section_header('PRODUCT CATALOG & SHOPPING')}
 
       #{build_products_list}
 
-      When customers ask about products or want to buy something:
-      1. *Recommend Products*: Use the product information above to suggest relevant items
-      2. *Get Details*: Use the product_details tool when customers want more info
-      3. *Create Cart*: Use create_cart tool with product IDs and quantities
-      4. *Payment Link*: After creating a cart, a payment link is automatically sent
+      Rules:
 
-      *Handling Follow-up References:*
-      When a customer says "it", "this one", "that product", or "add to cart" without specifying:
-      - Look at your previous messages in the conversation history
-      - Find the product ID you mentioned most recently
-      - Use that product ID for the cart or follow-up action
-      - Do NOT ask "which product?" if you already discussed one
+      1. Recommend relevant products when appropriate
+      2. Use product_details tool for detailed inquiries
+      3. Use create_cart tool with product IDs and quantities
+      4. After cart creation, a payment link is automatically sent
+
+      Handling follow-ups:
+
+      * If the user says "this", "it", or "that product", refer to the MOST RECENTLY mentioned product
+      * Do NOT ask which product if context already exists
     PROMPT
   end
 

@@ -1,85 +1,98 @@
 # frozen_string_literal: true
 
-# Provides guardrails and operational rules for conversation agents
+# Provides core guardrails and operational rules for conversation agents
 module Guardrails
   extend ActiveSupport::Concern
 
   private
 
+  def grounding_rules_section
+    <<~PROMPT
+      #{section_header('GROUNDING RULES (CRITICAL)')}
+
+      You must ONLY respond based on:
+
+      * Conversation history
+      * Knowledge base results from the knowledge_lookup tool
+      * Tool execution results
+
+      Rules:
+
+      * Do NOT use general knowledge or assumptions
+      * Do NOT invent, guess, or fabricate information
+      * Share only information that can be verified from approved sources
+      * If information is not found, clearly state it is unavailable and offer to check with a human agent
+      * NEVER hallucinate
+    PROMPT
+  end
+
   def operational_rules_section
     <<~PROMPT
-      <OPERATIONAL_RULES>
-      ## CRITICAL MEMORY RULE
-      You have access to the FULL conversation history in the messages. ALWAYS check it before claiming you don't know something.
-      - If information was mentioned in ANY previous message, you MUST acknowledge it
-      - The conversation history is your primary source of context - use it
+      #{section_header('OPERATIONAL RULES')}
 
-      ## INFORMATION SOURCES (in priority order)
-      1. Conversation history (in messages)
-      2. Knowledge base results (from knowledge_lookup tool)
+      ## Conversation Context
+
+      * You have access to the FULL conversation history
+      * ALWAYS review it before responding
+      * If information appeared earlier, you MUST acknowledge and use it
+
+      ## Information Sources (priority order)
+
+      1. Conversation history
+      2. Knowledge base (knowledge_lookup)
       3. Tool execution results
 
-      ## TOOL USAGE
-      - BEFORE refusing a request, check all available tools first
-      - Use knowledge_lookup to search for information before saying you don't know
-      - Tools may be combined for complex tasks
-      - If all tools are exhausted and you still cannot help, offer to hand off to a human agent
-      </OPERATIONAL_RULES>
+      ## Tool Usage
+
+      * Use knowledge_lookup BEFORE answering factual, policy, pricing, or product-related questions
+      * Do NOT use tools for greetings, confirmations, or casual replies
+      * BEFORE refusing a request, ensure all relevant tools have been checked
+      * If all tools are exhausted, offer a human handoff
+      * NEVER mention tool names, internal logic, or execution steps
     PROMPT
   end
 
-  def guardrails_section
+  def brevity_section
     <<~PROMPT
-      <GUARDRAILS>
-      ## BREVITY (HIGHEST PRIORITY)
-      - Keep responses SHORT and FOCUSED - 1-3 sentences for simple tasks
-      - NO verbose explanations or step-by-step breakdowns
-      - NO internal details (tool names, step numbers, execution info)
-      - Get straight to the point - no filler phrases
-      - After tool execution: just confirm the result, don't explain the process
+      #{section_header('BREVITY RULES')}
 
-      ## GROUNDING RULE (CRITICAL)
-      You must ONLY respond based on:
-      - Conversation history
-      - Knowledge base results (from knowledge_lookup tool)
-      - Tool execution results
-
-      Do NOT use general knowledge, assumptions, or external information.
-      If the knowledge base does not contain the information, clearly state it is unavailable.
-      Do NOT invent, assume, or fabricate answers.
-
-      ## HUMAN-LIKE RESPONSES
-      - Speak naturally and conversationally
-      - Do NOT begin with "Certainly!", "Absolutely!", "Of course!", or similar phrases
-      - Begin responses naturally and directly
-      - Avoid robotic or overly formal tones
-
-      ## NO PLACEHOLDERS
-      - Never use placeholders like [Your Name], [Customer Name], or [Company]
-      - Use real names if available, otherwise use neutral phrasing
-      #{channel_formatting_rules}
-      </GUARDRAILS>
+      * Keep responses short and focused
+      * 1–3 sentences for simple requests
+      * No verbose explanations unless explicitly requested
+      * No filler phrases or unnecessary apologies
+      * After tool usage, confirm the result briefly
     PROMPT
   end
 
-  def channel_formatting_rules
-    return '' unless whatsapp_channel?
+  def placeholder_safety_section
+    <<~PROMPT
+      #{section_header('PLACEHOLDER SAFETY')}
 
-    <<~RULES
+      * Never expose raw placeholders to users
+      * If a variable is missing or empty, omit it naturally from the response
+    PROMPT
+  end
 
-      ## WHATSAPP FORMATTING
+  def channel_formatting_section
+    return nil unless whatsapp_channel?
+
+    <<~PROMPT
+      #{section_header('WHATSAPP FORMATTING RULES')}
+
       Allowed:
-      - *text* for bold
-      - _text_ for italic
-      - Plain URLs
-      - • for bullet points
+
+      * *bold* using single asterisks
+      * *italic* using underscores
+      * Plain URLs
+      * • bullet points
 
       Forbidden:
-      - **text** (double asterisks)
-      - ## headers (markdown)
-      - [text](url) links
-      - HTML tags
-    RULES
+
+      * **double asterisks**
+      * Markdown headers (##)
+      * Markdown links [text](url)
+      * HTML tags
+    PROMPT
   end
 
   def whatsapp_channel?

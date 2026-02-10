@@ -41,7 +41,6 @@ module Aloo
     def build
       sections = []
 
-      sections << '## Communication Style'
       sections << TONE_PROMPTS[@assistant.tone]
       sections << FORMALITY_PROMPTS[@assistant.formality]
       sections << EMPATHY_PROMPTS[@assistant.empathy_level]
