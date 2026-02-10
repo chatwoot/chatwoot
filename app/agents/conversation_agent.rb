@@ -12,6 +12,7 @@
 #
 class ConversationAgent < ApplicationAgent
   include Guardrails
+  include ResponsePolicies
   include CatalogSupport
 
   description 'Responds to customer messages using knowledge base and tools'
@@ -30,18 +31,7 @@ class ConversationAgent < ApplicationAgent
   MAX_CONVERSATION_HISTORY = 20
 
   def system_prompt
-    parts = []
-    parts << base_instructions
-    parts << language_section
-    parts << operational_rules_section
-    parts << guardrails_section
-    parts << custom_instructions_section
-    parts << personality_section
-    parts << greeting_instructions
-    parts << catalog_instructions
-    parts << macros_section
-    parts << conversation_context_info
-    parts.compact.join("\n\n")
+    (core_prompt_sections + policy_prompt_sections + content_prompt_sections).compact.join("\n\n")
   end
 
   def user_prompt
@@ -83,13 +73,49 @@ class ConversationAgent < ApplicationAgent
   # System Prompt Sections
   # ============================================
 
+  def section_header(title)
+    separator = '=' * 24
+    underline = '=' * title.length
+    "#{separator}\n#{title}\n#{underline}"
+  end
+
+  def core_prompt_sections
+    [base_instructions, priority_order_section, language_section,
+     grounding_rules_section, operational_rules_section]
+  end
+
+  def policy_prompt_sections
+    [disagreement_section, uncertainty_section, clarification_section,
+     policy_boundaries_section, negative_capability_section, brevity_section,
+     response_shape_section, human_communication_section,
+     placeholder_safety_section, channel_formatting_section]
+  end
+
+  def content_prompt_sections
+    [custom_instructions_section, personality_section, catalog_instructions,
+     macros_section, conversation_closing_section, risk_awareness_section,
+     human_handoff_section, conversation_context_info]
+  end
+
   def base_instructions
     <<~PROMPT
       You are a customer support assistant for #{business_name}.
 
-      Before answering any question, use the knowledge_lookup tool to find accurate information. Only share what you find - if no relevant information exists, let the customer know honestly rather than guessing.
+      Your responsibility is to assist customers clearly, accurately, and efficiently using only approved and verified information.
 
-      Keep responses helpful, accurate, and concise.
+      You operate inside a Chatwoot-style conversational support system.
+    PROMPT
+  end
+
+  def priority_order_section
+    <<~PROMPT
+      #{section_header('PRIORITY ORDER (STRICT)')}
+
+      1. LANGUAGE RULES
+      2. GROUNDING RULES
+      3. OPERATIONAL RULES
+      4. BREVITY
+      5. STYLE & PERSONALITY
     PROMPT
   end
 
@@ -97,7 +123,8 @@ class ConversationAgent < ApplicationAgent
     return nil if current_assistant&.custom_instructions.blank?
 
     <<~PROMPT
-      ## Business Instructions
+      #{section_header('BUSINESS INSTRUCTIONS')}
+
       #{current_assistant.custom_instructions}
     PROMPT
   end
@@ -105,20 +132,27 @@ class ConversationAgent < ApplicationAgent
   def personality_section
     return nil unless current_assistant
 
-    Aloo::PersonalityBuilder.new(current_assistant).build
+    personality = Aloo::PersonalityBuilder.new(current_assistant).build
+    greeting = greeting_instructions
+
+    parts = []
+    parts << section_header('COMMUNICATION STYLE')
+    parts << ''
+    parts << personality
+    parts << greeting if greeting
+    parts.compact.join("\n")
   end
 
   def language_section
     <<~PROMPT
-      <LANGUAGE_RULES>
-      ## LANGUAGE (HIGHEST PRIORITY — OVERRIDES ALL OTHER INSTRUCTIONS)
-      1. DETECT the language of the user's LAST message
-      2. RESPOND ENTIRELY in that same language — no exceptions
-      3. If the user switches languages, switch with them immediately
-      4. Do NOT mix languages within your response
-      5. Only exception: brand names, product names, or technical terms with no natural translation
+      #{section_header('LANGUAGE RULES (HIGHEST PRIORITY)')}
+
+      1. Detect the language of the user's LAST message
+      2. Respond entirely in the SAME language
+      3. If the user switches languages, switch immediately
+      4. Do NOT mix languages in a single response
+      5. Exceptions: brand names, product names, technical terms with no natural translation
       #{preferred_language_instruction}
-      </LANGUAGE_RULES>
     PROMPT
   end
 
@@ -126,7 +160,7 @@ class ConversationAgent < ApplicationAgent
     parts = []
 
     if current_assistant&.language.present? && current_assistant.language != 'en'
-      parts << "6. Your preferred/default language is #{current_assistant.language_name} — use it when the user's language is ambiguous"
+      parts << "6. If the user's language is ambiguous, default to #{current_assistant.language_name}"
     end
 
     if current_assistant&.language == 'ar' && current_assistant&.dialect.present?
@@ -206,15 +240,19 @@ class ConversationAgent < ApplicationAgent
     return nil unless current_assistant&.feature_macros_enabled? && macros_available?
 
     macro_list = available_macros.select(:id, :name, :description).map do |macro|
-      "- ID: #{macro.id} | #{macro.name}: #{macro.description}"
+      "* #{macro.id} | #{macro.name}: #{macro.description}"
     end.join("\n")
 
     <<~PROMPT
-      ## Available Macros
-      You can trigger these predefined workflows when appropriate using the execute_macro tool:
-      #{macro_list}
+      #{section_header('MACROS / AUTOMATIONS')}
 
-      Only trigger a macro when it clearly matches the customer's needs.
+      * Trigger execute_macro ONLY when the user's intent is clear and unambiguous
+      * Never trigger macros on partial or unclear requests
+      * If intent is unclear, ask a short clarification question
+
+      Available Macros:
+
+      #{macro_list}
     PROMPT
   end
 end
