@@ -144,13 +144,13 @@ RSpec.describe Concerns::Agentable do
     it 'returns default model when config not found' do
       allow(InstallationConfig).to receive(:find_by).and_return(nil)
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1')
     end
 
     it 'returns default model when config value is nil' do
       allow(mock_installation_config).to receive(:value).and_return(nil)
 
-      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1-mini')
+      expect(dummy_instance.send(:agent_model)).to eq('gpt-4.1')
     end
   end
 
