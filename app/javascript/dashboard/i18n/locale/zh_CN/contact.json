@@ -18,7 +18,7 @@
     "CREATED_AT_LABEL": "创建时间",
     "NEW_MESSAGE": "新消息",
     "CALL": "呼叫",
-    "CALL_INITIATED": "Calling the contact…",
+    "CALL_INITIATED": "正在接通…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
     "VOICE_INBOX_PICKER": {
       "TITLE": "选择一个语音收件箱"
@@ -458,7 +458,7 @@
             "PLACEHOLDER": "添加 Instagram"
           },
           "TIKTOK": {
-            "PLACEHOLDER": "Add TikTok"
+            "PLACEHOLDER": "添加TikTok"
           },
           "LINKEDIN": {
             "PLACEHOLDER": "添加 LinkedIn"
