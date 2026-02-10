@@ -1,4 +1,6 @@
 class Carts::CreateService
+  include PaymentCustomerSanitizable
+
   attr_reader :conversation, :user, :items, :currency, :account, :catalog_settings
 
   def initialize(conversation:, items:, user: Current.user)
@@ -205,7 +207,7 @@ class Carts::CreateService
 
   def customer_data
     @customer_data ||= {
-      name: conversation.contact&.name,
+      name: sanitize_customer_name(conversation.contact&.name),
       email: conversation.contact&.email,
       phone: conversation.contact&.phone_number
     }.compact
