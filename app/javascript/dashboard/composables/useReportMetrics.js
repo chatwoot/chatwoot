@@ -35,6 +35,8 @@ export function useReportMetrics(
   const isAverageMetricType = key => {
     return [
       'avg_first_response_time',
+      'avg_first_response_from_open_time',
+      'avg_resolution_time_without_bot',
       'avg_resolution_time',
       'reply_time',
       'agent_chat_duration',
