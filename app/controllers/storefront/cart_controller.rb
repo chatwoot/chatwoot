@@ -10,48 +10,20 @@ class Storefront::CartController < Storefront::BaseController
 
   # POST /store/:account_id/cart/items
   def add_item
-    product = @account.products.find(params[:product_id])
-    qty = params[:quantity].to_i.clamp(1, 99)
-
-    cart_data = session_cart
-    cart_data[product.id.to_s] = (cart_data[product.id.to_s].to_i + qty).clamp(1, 99)
-    save_session_cart(cart_data)
-
-    respond_to do |format|
-      format.json { render json: { cart_count: cart_count, message: 'Added' } }
-      format.html { redirect_to storefront_cart_path(@account, token: storefront_token_param) }
-    end
+    add_product_to_session_cart
+    respond_with_cart('Added')
   end
 
   # PATCH /store/:account_id/cart/items/:id
   def update_item
-    cart_data = session_cart
-    qty = params[:quantity].to_i
-
-    if qty <= 0
-      cart_data.delete(params[:id].to_s)
-    else
-      cart_data[params[:id].to_s] = qty.clamp(1, 99)
-    end
-
-    save_session_cart(cart_data)
-
-    respond_to do |format|
-      format.json { render json: { cart_count: cart_count, message: 'Updated' } }
-      format.html { redirect_to storefront_cart_path(@account, token: storefront_token_param) }
-    end
+    update_session_cart_item
+    respond_with_cart('Updated')
   end
 
   # DELETE /store/:account_id/cart/items/:id
   def remove_item
-    cart_data = session_cart
-    cart_data.delete(params[:id].to_s)
-    save_session_cart(cart_data)
-
-    respond_to do |format|
-      format.json { render json: { cart_count: cart_count, message: 'Removed' } }
-      format.html { redirect_to storefront_cart_path(@account, token: storefront_token_param) }
-    end
+    remove_session_cart_item
+    respond_with_cart('Removed')
   end
 
   private
@@ -70,6 +42,34 @@ class Storefront::CartController < Storefront::BaseController
 
   def cart_count
     session_cart.values.sum(&:to_i)
+  end
+
+  def respond_with_cart(message)
+    respond_to do |format|
+      format.json { render json: { cart_count: cart_count, message: message } }
+      format.html { redirect_to storefront_cart_path(@account, token: storefront_token_param) }
+    end
+  end
+
+  def add_product_to_session_cart
+    product = @account.products.find(params[:product_id])
+    qty = params[:quantity].to_i.clamp(1, 99)
+    cart_data = session_cart
+    cart_data[product.id.to_s] = (cart_data[product.id.to_s].to_i + qty).clamp(1, 99)
+    save_session_cart(cart_data)
+  end
+
+  def update_session_cart_item
+    cart_data = session_cart
+    qty = params[:quantity].to_i
+    qty <= 0 ? cart_data.delete(params[:id].to_s) : cart_data[params[:id].to_s] = qty.clamp(1, 99)
+    save_session_cart(cart_data)
+  end
+
+  def remove_session_cart_item
+    cart_data = session_cart
+    cart_data.delete(params[:id].to_s)
+    save_session_cart(cart_data)
   end
 
   def load_cart_items
