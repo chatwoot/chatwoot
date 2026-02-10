@@ -461,6 +461,13 @@ Rails.application.routes.draw do
       namespace :ai do
         resource :handoff, only: [:create]
         post 'whatsapp_template', to: 'whatsapp_template#create'
+
+        # Payment gateway endpoints for AlooStudio
+        scope :payments do
+          get 'config', to: 'payments#config'
+          post 'create_link', to: 'payments#create_link'
+          get 'status', to: 'payments#status'
+        end
       end
     end
 
