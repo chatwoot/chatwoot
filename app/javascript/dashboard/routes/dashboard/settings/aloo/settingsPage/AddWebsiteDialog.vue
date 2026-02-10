@@ -27,9 +27,14 @@ const autoRefresh = ref(false);
 const isDiscovering = ref(false);
 const isSubmitting = ref(false);
 const discoveryError = ref('');
+const editingDocument = ref(null);
+// Stores the previously selected page URLs so we can re-select them after discovery
+const previousSelectedPages = ref([]);
 
 const discoveredPages = ref([]);
 const selectedPageUrls = ref(new Set());
+
+const isEditMode = computed(() => !!editingDocument.value);
 
 // Computed properties
 const isValidUrl = computed(() => {
@@ -75,6 +80,7 @@ const stepDescription = computed(() => {
 
 // Methods
 const open = () => {
+  editingDocument.value = null;
   currentStep.value = 1;
   websiteUrl.value = '';
   customTitle.value = '';
@@ -84,6 +90,22 @@ const open = () => {
   discoveryError.value = '';
   discoveredPages.value = [];
   selectedPageUrls.value = new Set();
+  previousSelectedPages.value = [];
+  dialogRef.value?.open();
+};
+
+const openForEdit = document => {
+  editingDocument.value = document;
+  currentStep.value = 1;
+  websiteUrl.value = document.source_url || '';
+  customTitle.value = document.title || '';
+  autoRefresh.value = document.auto_refresh || false;
+  isDiscovering.value = false;
+  isSubmitting.value = false;
+  discoveryError.value = '';
+  discoveredPages.value = [];
+  selectedPageUrls.value = new Set();
+  previousSelectedPages.value = document.selected_pages || [];
   dialogRef.value?.open();
 };
 
@@ -114,10 +136,18 @@ const discoverPages = async () => {
       return;
     }
 
-    // Pre-select important pages
-    selectedPageUrls.value = new Set(
-      discoveredPages.value.filter(p => p.important).map(p => p.url)
-    );
+    // In edit mode, re-select the pages that were previously selected
+    if (isEditMode.value && previousSelectedPages.value.length > 0) {
+      const prevSet = new Set(previousSelectedPages.value);
+      selectedPageUrls.value = new Set(
+        discoveredPages.value.filter(p => prevSet.has(p.url)).map(p => p.url)
+      );
+    } else {
+      // In create mode, pre-select important pages
+      selectedPageUrls.value = new Set(
+        discoveredPages.value.filter(p => p.important).map(p => p.url)
+      );
+    }
 
     // Ensure at least some pages are selected
     if (selectedPageUrls.value.size === 0 && discoveredPages.value.length > 0) {
@@ -176,25 +206,40 @@ const handleSubmit = async () => {
       ? websiteUrl.value
       : `https://${websiteUrl.value}`;
 
-    await emit('submit', {
-      url,
-      title: customTitle.value.trim() || undefined,
-      selectedPages: Array.from(selectedPageUrls.value),
-      autoRefresh: autoRefresh.value,
-    });
+    if (isEditMode.value) {
+      await emit('submit', {
+        id: editingDocument.value.id,
+        url,
+        title: customTitle.value.trim() || undefined,
+        selectedPages: Array.from(selectedPageUrls.value),
+        autoRefresh: autoRefresh.value,
+        isEdit: true,
+      });
+    } else {
+      await emit('submit', {
+        url,
+        title: customTitle.value.trim() || undefined,
+        selectedPages: Array.from(selectedPageUrls.value),
+        autoRefresh: autoRefresh.value,
+      });
+    }
     close();
   } finally {
     isSubmitting.value = false;
   }
 };
 
-defineExpose({ open, close });
+defineExpose({ open, openForEdit, close });
 </script>
 
 <template>
   <Dialog
     ref="dialogRef"
-    :title="$t('ALOO.KNOWLEDGE.WEBSITE.MODAL_TITLE')"
+    :title="
+      isEditMode
+        ? $t('ALOO.KNOWLEDGE.WEBSITE.EDIT_TITLE')
+        : $t('ALOO.KNOWLEDGE.WEBSITE.MODAL_TITLE')
+    "
     :show-confirm-button="false"
     :show-cancel-button="false"
     width="2xl"
@@ -235,8 +280,14 @@ defineExpose({ open, close });
         <input
           v-model="websiteUrl"
           type="url"
-          class="w-full px-3 py-2 rounded-lg border border-n-weak bg-n-alpha-1 text-n-slate-12 placeholder-n-slate-9 text-sm focus:outline-none focus:ring-2 focus:ring-n-blue-7 focus:border-transparent"
+          class="w-full px-3 py-2 rounded-lg border border-n-weak text-sm focus:outline-none focus:ring-2 focus:ring-n-blue-7 focus:border-transparent"
+          :class="
+            isEditMode
+              ? 'bg-n-alpha-2 text-n-slate-10 cursor-not-allowed'
+              : 'bg-n-alpha-1 text-n-slate-12 placeholder-n-slate-9'
+          "
           :placeholder="$t('ALOO.KNOWLEDGE.WEBSITE.URL_PLACEHOLDER')"
+          :readonly="isEditMode"
           @keyup.enter="discoverPages"
         />
         <p v-if="discoveryError" class="mt-2 text-sm text-n-ruby-11">
@@ -414,7 +465,11 @@ defineExpose({ open, close });
           <Button
             v-else
             color="blue"
-            :label="$t('ALOO.KNOWLEDGE.WEBSITE.ADD')"
+            :label="
+              isEditMode
+                ? $t('ALOO.ACTIONS.SAVE')
+                : $t('ALOO.KNOWLEDGE.WEBSITE.ADD')
+            "
             :is-loading="isSubmitting"
             :disabled="!canSubmit"
             @click="handleSubmit"

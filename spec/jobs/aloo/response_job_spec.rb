@@ -13,6 +13,9 @@ RSpec.describe Aloo::ResponseJob, type: :job do
 
   before do
     create(:aloo_assistant_inbox, assistant: assistant, inbox: inbox)
+    # Mock Redis lock so all existing tests acquire the lock by default
+    allow(Redis::Alfred).to receive(:set).and_return(true)
+    allow(Redis::Alfred).to receive(:delete)
   end
 
   describe '#perform' do
@@ -155,6 +158,90 @@ RSpec.describe Aloo::ResponseJob, type: :job do
         expect do
           described_class.new.perform(conversation.id, message.id)
         end.to raise_error(StandardError)
+      end
+    end
+
+    describe 'Redis dedup lock' do
+      context 'when lock is already held by another AI system' do
+        before do
+          allow(Redis::Alfred).to receive(:set).and_return(false)
+        end
+
+        it 'skips processing and does not call ResponseService' do
+          service = instance_double(Aloo::ResponseService)
+          allow(Aloo::ResponseService).to receive(:new).and_return(service)
+
+          described_class.new.perform(conversation.id, message.id)
+
+          expect(Aloo::ResponseService).not_to have_received(:new)
+        end
+
+        it 'does not create any outgoing messages' do
+          expect do
+            described_class.new.perform(conversation.id, message.id)
+          end.not_to(change { conversation.messages.where(message_type: :outgoing).count })
+        end
+
+        it 'does not clean up the lock it did not acquire' do
+          described_class.new.perform(conversation.id, message.id)
+
+          expect(Redis::Alfred).not_to have_received(:delete)
+        end
+      end
+
+      context 'when lock is acquired' do
+        let(:agent_result) do
+          instance_double(
+            'RubyLLM::Agents::Result',
+            success?: true,
+            content: 'AI response',
+            input_tokens: 10,
+            output_tokens: 5,
+            total_cost: 0.0001,
+            tool_calls: []
+          )
+        end
+
+        before do
+          allow(ConversationAgent).to receive(:call).and_return(agent_result)
+        end
+
+        it 'acquires the lock with the correct key and parameters' do
+          described_class.new.perform(conversation.id, message.id)
+
+          expected_key = "ai_response_lock:msg_#{message.id}"
+          expect(Redis::Alfred).to have_received(:set).with(expected_key, 'aloo_local', nx: true, ex: 300)
+        end
+
+        it 'uses source_id for lock key when present' do
+          message.update!(source_id: 'wamid.abc123')
+
+          described_class.new.perform(conversation.id, message.id)
+
+          expect(Redis::Alfred).to have_received(:set).with('ai_response_lock:wamid.abc123', 'aloo_local', nx: true, ex: 300)
+        end
+
+        it 'cleans up the lock after successful processing' do
+          described_class.new.perform(conversation.id, message.id)
+
+          expected_key = "ai_response_lock:msg_#{message.id}"
+          expect(Redis::Alfred).to have_received(:delete).with(expected_key)
+        end
+      end
+
+      context 'when processing raises an error' do
+        before do
+          allow(ConversationAgent).to receive(:call).and_raise(StandardError, 'Boom')
+        end
+
+        it 'cleans up the lock even after an error' do
+          expect do
+            described_class.new.perform(conversation.id, message.id)
+          end.to raise_error(StandardError, 'Boom')
+
+          expected_key = "ai_response_lock:msg_#{message.id}"
+          expect(Redis::Alfred).to have_received(:delete).with(expected_key)
+        end
       end
     end
   end

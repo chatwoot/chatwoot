@@ -389,6 +389,12 @@ class Message < ApplicationRecord
       return
     end
 
+    # Skip for Aloo::Assistant - Aloo::ResponseService dispatches replies explicitly
+    if sender.is_a?(Aloo::Assistant)
+      Rails.logger.info "[MESSAGE] ⚠️ SKIPPING - Aloo::Assistant message #{id} from assistant #{sender.id} (dispatched by ResponseService)"
+      return
+    end
+
     Rails.logger.info "[MESSAGE] 📤 ENQUEUEING SendReplyJob for message #{id}"
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit

@@ -306,6 +306,7 @@
         "CONTENT_LABEL": "Content",
         "CONTENT_PLACEHOLDER": "Enter your text content here...\n\nThis can include FAQs, product information, policies, or any other text you want the assistant to know about.",
         "ADD": "Add Text Block",
+        "EDIT_TITLE": "Edit Text Block",
         "CHARACTERS": "characters",
         "CHARACTER_COUNT": "{current} / {max}",
         "OVER_LIMIT": "Content exceeds maximum length"
@@ -317,6 +318,7 @@
         "URL_LABEL": "Website URL",
         "URL_PLACEHOLDER": "https://example.com",
         "ADD": "Add Website",
+        "EDIT_TITLE": "Edit Website",
         "CRAWL_FULL_SITE": "Crawl full website",
         "CRAWL_DESCRIPTION": "When enabled, will crawl all pages on the same domain (up to 50 pages)",
         "PAGES": "pages",
@@ -452,6 +454,7 @@
       "DOCUMENT_REPROCESSING": "Document reprocessing started",
       "WEBSITE_ADDED": "Website added and queued for processing",
       "TEXT_BLOCK_ADDED": "Text block added and queued for processing",
+      "DOCUMENT_UPDATED": "Document updated and queued for reprocessing",
       "INBOX_ASSIGNED": "Inbox assigned successfully",
       "INBOX_UNASSIGNED": "Inbox unassigned successfully",
       "ERROR": "An error occurred. Please try again."
