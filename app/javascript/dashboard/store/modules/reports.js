@@ -367,6 +367,36 @@ export const actions = {
         console.error(error);
       });
   },
+  downloadOverviewReports(_, reportObj) {
+    const format = reportObj.format || 'csv';
+    return Report.getOverviewReports({
+      from: reportObj.from,
+      to: reportObj.to,
+      teamIds: reportObj.teamIds ?? [],
+      userIds: reportObj.userIds ?? [],
+      inboxIds: reportObj.inboxIds ?? [],
+      timeSince: reportObj.timeSince,
+      timeUntil: reportObj.timeUntil,
+      format,
+    })
+      .then(response => {
+        downloadFile(reportObj.fileName, response.data, format);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'overview_summary',
+          format,
+          hasFilters: !!(
+            reportObj.userIds ||
+            reportObj.inboxIds ||
+            reportObj.teamIds ||
+            reportObj.timeSince ||
+            reportObj.timeUntil
+          ),
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
   downloadLabelReports(_, reportObj) {
     const format = reportObj.format || 'csv';
     return Report.getLabelReports({ ...reportObj, format })

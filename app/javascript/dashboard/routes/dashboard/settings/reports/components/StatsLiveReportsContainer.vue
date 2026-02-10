@@ -3,9 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import MetricCard from './overview/MetricCard.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
-import ReportsFiltersTeams from 'dashboard/routes/dashboard/settings/reports/components/Filters/Teams.vue';
-import ReportsFiltersAgents from 'dashboard/routes/dashboard/settings/reports/components/Filters/Agents.vue';
-import ReportsFiltersInboxes from 'dashboard/routes/dashboard/settings/reports/components/Filters/Inboxes.vue';
+import FilterSelector from 'dashboard/routes/dashboard/settings/reports/components/FilterSelector.vue';
 import { useI18n } from 'vue-i18n';
 import ReportsAPI from 'dashboard/api/reports';
 import { downloadFile } from 'dashboard/helper/downloadHelper';
@@ -16,18 +14,47 @@ const agentStatus = useMapGetter('agents/getAgentStatus');
 const accountConversationMetric = useMapGetter('getAccountConversationMetric');
 const store = useStore();
 
-const teams = useMapGetter('teams/getTeams');
-const agents = useMapGetter('agents/getAgents');
-const inboxes = useMapGetter('inboxes/getInboxes');
+const selectedTeams = ref([]);
+const selectedAgents = ref([]);
+const selectedInboxes = ref([]);
+const dateFilter = ref({
+  from: null,
+  to: null,
+});
+const timeRange = ref({
+  since: '00:00',
+  until: '23:59',
+});
 
 const downloadReports = async (format = 'csv') => {
-  const { since, until, businessHours } = store.state.reports;
-  const response = await ReportsAPI.getOverviewReports({
-    since,
-    until,
-    businessHours,
+  const params = {
+    from: dateFilter.value.from,
+    to: dateFilter.value.to,
     format,
-  });
+  };
+
+  if (selectedTeams.value.length > 0) {
+    params.teamIds = selectedTeams.value.map(team => team.id);
+  }
+
+  if (selectedAgents.value.length > 0) {
+    params.userIds = selectedAgents.value.map(agent => agent.id);
+  }
+
+  if (selectedInboxes.value.length > 0) {
+    params.inboxIds = selectedInboxes.value.map(inbox => inbox.id);
+  }
+
+  if (timeRange.value.since !== '00:00') {
+    params.timeSince = timeRange.value.since;
+  }
+
+  if (timeRange.value.until !== '23:59') {
+    params.timeUntil = timeRange.value.until;
+  }
+
+  const response = await ReportsAPI.getOverviewReports(params);
+
   downloadFile(
     `overview_summary_${new Date().getTime()}.${format}`,
     response.data,
@@ -67,10 +94,6 @@ const conversationMetrics = computed(() => {
   return metric;
 });
 
-const selectedTeams = ref([]);
-const selectedAgents = ref([]);
-const selectedInboxes = ref([]);
-
 const fetchData = () => {
   const params = {};
 
@@ -86,23 +109,41 @@ const fetchData = () => {
     params.inbox_ids = selectedInboxes.value.map(inbox => inbox.id);
   }
 
+  if (dateFilter.value.from) {
+    params.since = dateFilter.value.from;
+  }
+
+  if (dateFilter.value.to) {
+    params.until = dateFilter.value.to;
+  }
+
   store.dispatch('fetchAccountConversationMetric', params);
 };
 
 const { startRefetching } = useLiveRefresh(fetchData);
 
-const handleTeamFilterSelection = selectedTeamsList => {
-  selectedTeams.value = selectedTeamsList;
-  fetchData();
-};
+const handleFilterChange = filters => {
+  dateFilter.value = {
+    from: filters.from,
+    to: filters.to,
+  };
 
-const handleAgentsFilterSelection = selectedAgentsList => {
-  selectedAgents.value = selectedAgentsList;
-  fetchData();
-};
+  if (filters.selectedTeam) {
+    selectedTeams.value = filters.selectedTeam;
+  }
 
-const handleInboxFilterSelection = selectedInboxesList => {
-  selectedInboxes.value = selectedInboxesList;
+  if (filters.selectedAgents) {
+    selectedAgents.value = filters.selectedAgents;
+  }
+
+  if (filters.selectedInbox) {
+    selectedInboxes.value = filters.selectedInbox;
+  }
+
+  if (filters.timeRange) {
+    timeRange.value = filters.timeRange;
+  }
+
   fetchData();
 };
 
@@ -130,19 +171,17 @@ defineExpose({
         :use-grid-layout="false"
       >
         <template #control>
-          <div class="flex gap-2 flex-wrap">
-            <ReportsFiltersTeams
-              v-if="teams.length"
-              @team-filter-selection="handleTeamFilterSelection"
-            />
-            <ReportsFiltersAgents
-              v-if="agents.length"
-              @agents-filter-selection="handleAgentsFilterSelection"
-            />
-            <ReportsFiltersInboxes
-              v-if="inboxes.length"
-              @inbox-filter-selection="handleInboxFilterSelection"
-            />
+          <div class="flex gap-2 flex-wrap w-full">
+            <div class="w-full">
+              <FilterSelector
+                show-time-range-filter
+                show-agents-filter
+                show-inbox-filter
+                show-team-filter
+                :show-business-hours-switch="false"
+                @filter-change="handleFilterChange"
+              />
+            </div>
           </div>
         </template>
         <div
