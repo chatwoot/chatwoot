@@ -22,12 +22,6 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
-PATH
-  remote: ../ai-agents
-  specs:
-    ai-agents (0.9.0)
-      ruby_llm (~> 1.9.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -132,6 +126,8 @@ GEM
       jbuilder (~> 2)
       rails (>= 4.2, < 7.2)
       selectize-rails (~> 0.6)
+    ai-agents (0.9.0)
+      ruby_llm (~> 1.9.1)
     annotaterb (4.20.0)
       activerecord (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -302,7 +298,6 @@ GEM
       railties (>= 5.0.0)
     faker (3.2.0)
       i18n (>= 1.8.11, < 2)
-    faraday (2.14.1)
     faraday (2.14.1)
       faraday-net_http (>= 2.0, < 3.5)
       json
@@ -1029,7 +1024,7 @@ DEPENDENCIES
   administrate (>= 0.20.1)
   administrate-field-active_storage (>= 1.0.3)
   administrate-field-belongs_to_search (>= 0.9.0)
-  ai-agents!
+  ai-agents
   annotaterb
   attr_extras
   audited (~> 5.4, >= 5.4.1)
