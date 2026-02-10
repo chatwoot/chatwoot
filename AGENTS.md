@@ -148,6 +148,13 @@ bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER  # Teste individual
 - Prefer `with_modified_env` over stubbing `ENV` in specs
 - Specs in parallel: prefer `error.class.name` over constant equality
 
+## Codex Worktree Workflow
+
+- Use a separate git worktree + branch per task to keep changes isolated.
+- Keep Codex-specific local setup under `.codex/` and use `Procfile.worktree` for worktree process orchestration.
+- The setup workflow in `.codex/environments/environment.toml` should dynamically generate per-worktree DB/port values (Rails, Vite, Redis DB index) to avoid collisions.
+- Start each worktree with its own Overmind socket/title so multiple instances can run at the same time.
+
 ## Commit Messages
 
 - Conventional Commits: `type(scope): subject`
