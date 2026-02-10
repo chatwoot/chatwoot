@@ -46,6 +46,7 @@ const {
 
 const open = () => {
   automation.value = structuredClone(START_VALUE);
+  manifestCustomAttributes();
   formRef.value?.open();
 };
 const close = () => formRef.value?.close();
@@ -61,7 +62,6 @@ onMounted(() => {
   store.dispatch('teams/get');
   store.dispatch('labels/get');
   store.dispatch('campaigns/get');
-  manifestCustomAttributes();
 });
 
 defineExpose({ open, close });

@@ -117,36 +117,38 @@ const filterTypes = computed(() => {
 
   const attributes = getTranslatedAttributes(props.automationTypes, event);
 
-  return attributes
-    .filter(attr => !attr.disabled)
-    .map(attr => {
-      const mappedInputType = INPUT_TYPE_MAP[attr.inputType] || 'plainText';
-      const options = props.getConditionDropdownValues(attr.key) || [];
+  return attributes.map(attr => {
+    if (attr.disabled) {
+      return { value: attr.key, label: attr.name, disabled: true };
+    }
 
-      const filterOperators = (attr.filterOperators || []).map(op => {
-        const enriched = operators.value[op.value];
-        if (enriched) return enriched;
-        return {
-          value: op.value,
-          label: t(`FILTER.OPERATOR_LABELS.${op.value}`),
-          hasInput: true,
-          inputOverride: null,
-          icon: h('span', { class: 'i-ph-equals-bold !text-n-blue-11' }),
-        };
-      });
+    const mappedInputType = INPUT_TYPE_MAP[attr.inputType] || 'plainText';
+    const options = props.getConditionDropdownValues(attr.key) || [];
 
+    const filterOperators = (attr.filterOperators || []).map(op => {
+      const enriched = operators.value[op.value];
+      if (enriched) return enriched;
       return {
-        attributeKey: attr.key,
-        value: attr.key,
-        attributeName: attr.name,
-        label: attr.name,
-        inputType: mappedInputType,
-        options,
-        filterOperators,
-        dataType: 'text',
-        attributeModel: attr.customAttributeType || 'standard',
+        value: op.value,
+        label: t(`FILTER.OPERATOR_LABELS.${op.value}`),
+        hasInput: true,
+        inputOverride: null,
+        icon: h('span', { class: 'i-ph-equals-bold !text-n-blue-11' }),
       };
     });
+
+    return {
+      attributeKey: attr.key,
+      value: attr.key,
+      attributeName: attr.name,
+      label: attr.name,
+      inputType: mappedInputType,
+      options,
+      filterOperators,
+      dataType: 'text',
+      attributeModel: attr.customAttributeType || 'standard',
+    };
+  });
 });
 
 const automationRuleEvents = computed(() =>

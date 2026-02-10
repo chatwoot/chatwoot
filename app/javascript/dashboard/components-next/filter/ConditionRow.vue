@@ -50,12 +50,12 @@ const currentFilter = computed(() =>
 );
 
 const getOperator = (filter, selectedOperator) => {
-  const operatorFromOptions = filter.filterOperators.find(
+  const operatorFromOptions = filter?.filterOperators?.find(
     operator => operator.value === selectedOperator
   );
 
   if (!operatorFromOptions) {
-    return filter.filterOperators[0];
+    return filter?.filterOperators?.[0];
   }
 
   return operatorFromOptions;
@@ -170,9 +170,9 @@ defineExpose({ validate, resetValidation });
       <FilterSelect
         v-model="filterOperator"
         variant="ghost"
-        :options="currentFilter.filterOperators"
+        :options="currentFilter?.filterOperators"
       />
-      <template v-if="currentOperator.hasInput">
+      <template v-if="currentOperator?.hasInput">
         <MultiSelect
           v-if="inputType === 'multiSelect'"
           v-model="values"
