@@ -7,6 +7,11 @@ const create = (accountId, { contactId, conversationId }) => {
   });
 };
 
+const preview = accountId => {
+  return axios.post(`/api/v1/accounts/${accountId}/storefront_links/preview`);
+};
+
 export default {
   create,
+  preview,
 };

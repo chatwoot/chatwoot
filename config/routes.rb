@@ -295,7 +295,9 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
-          resources :storefront_links, only: [:create]
+          resources :storefront_links, only: [:create] do
+            post :preview, on: :collection
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

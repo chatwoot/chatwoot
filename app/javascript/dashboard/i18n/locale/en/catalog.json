@@ -6,6 +6,8 @@
       "SEARCH_PLACEHOLDER": "Search products..."
     },
     "ADD_PRODUCT": "Add Product",
+    "PREVIEW_STOREFRONT": "Preview Storefront",
+    "PREVIEW_ERROR": "Failed to open storefront preview. Make sure the catalog is enabled.",
     "EMPTY_STATE": {
       "TITLE": "No products yet",
       "SUBTITLE": "Create your first product to start building your catalog",
