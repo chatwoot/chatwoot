@@ -134,9 +134,9 @@ class MailPresenter < SimpleDelegator
   end
 
   def original_sender
-    from_email_address(@mail[:reply_to].try(:value)) ||
+    parse_mail_address(@mail[:reply_to].try(:value))&.address ||
       @mail['X-Original-Sender'].try(:value) ||
-      from_email_address(@mail[:from].try(:value))
+      parse_mail_address(@mail[:from].try(:value))&.address
   end
 
   def headers_data
@@ -147,10 +147,6 @@ class MailPresenter < SimpleDelegator
     }.compact
 
     headers.presence
-  end
-
-  def from_email_address(email)
-    parse_mail_address(email)&.address
   end
 
   def email_forwarded_for
@@ -177,7 +173,8 @@ class MailPresenter < SimpleDelegator
 
   def notification_email_from_chatwoot?
     # notification emails are send via mailer sender email address. so it should match
-    original_sender == Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+    configured_sender = Mail::Address.new(ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')).address
+    original_sender.to_s.casecmp?(configured_sender)
   end
 
   private

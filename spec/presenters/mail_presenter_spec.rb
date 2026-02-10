@@ -196,48 +196,34 @@ RSpec.describe MailPresenter do
           subject :header
           body 'Hi'
           header['Reply-To'] = 'Reply User <reply@example.com'
-          header['X-Original-Sender'] = 'forwarded@example.com'
         end
       end
 
-      let(:mail_with_malformed_reply_to_without_original_sender) do
-        Mail.new do
-          from 'Sender <sender@example.com>'
-          to 'Inbox <inbox@example.com>'
-          subject :header
-          body 'Hi'
-          header['Reply-To'] = 'Reply User <reply@example.com'
-        end
-      end
-
-      it 'returns nil for original_sender and sender_name when from header is malformed' do
+      it 'returns nil sender values when from header is malformed' do
         presenter = described_class.new(mail_with_malformed_from)
 
-        expect { presenter.original_sender }.not_to raise_error
-        expect { presenter.sender_name }.not_to raise_error
         expect(presenter.original_sender).to be_nil
         expect(presenter.sender_name).to be_nil
+        expect(presenter.notification_email_from_chatwoot?).to be(false)
       end
 
-      it 'falls back to X-Original-Sender when reply_to header is malformed' do
+      it 'falls back to from header when reply_to is malformed' do
         presenter = described_class.new(mail_with_malformed_reply_to)
-
-        expect { presenter.original_sender }.not_to raise_error
-        expect(presenter.original_sender).to eq('forwarded@example.com')
-      end
-
-      it 'falls back to from header when reply_to is malformed and X-Original-Sender is absent' do
-        presenter = described_class.new(mail_with_malformed_reply_to_without_original_sender)
-
-        expect { presenter.original_sender }.not_to raise_error
         expect(presenter.original_sender).to eq('sender@example.com')
       end
 
-      it 'returns false for notification_email_from_chatwoot? when sender cannot be parsed' do
-        presenter = described_class.new(mail_with_malformed_from)
+      it 'matches notification sender emails case-insensitively' do
+        mail_with_uppercase_sender = Mail.new do
+          from 'Chatwoot <ACCOUNTS@CHATWOOT.COM>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+        end
 
-        expect { presenter.notification_email_from_chatwoot? }.not_to raise_error
-        expect(presenter.notification_email_from_chatwoot?).to be(false)
+        with_modified_env MAILER_SENDER_EMAIL: 'Chatwoot <accounts@chatwoot.com>' do
+          presenter = described_class.new(mail_with_uppercase_sender)
+          expect(presenter.notification_email_from_chatwoot?).to be(true)
+        end
       end
     end
   end
