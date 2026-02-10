@@ -770,6 +770,23 @@
   get:
     $ref: './application/reports/inbox_label_matrix.yml'
 
+# Outgoing messages count report
+/api/v2/accounts/{account_id}/reports/outgoing_messages_count:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - in: query
+      name: since
+      schema:
+        type: string
+      description: The timestamp from where report should start (Unix timestamp).
+    - in: query
+      name: until
+      schema:
+        type: string
+      description: The timestamp from where report should stop (Unix timestamp).
+  get:
+    $ref: './application/reports/outgoing_messages_count.yml'
+
 # Conversations Messages
 /accounts/{account_id}/conversations/{conversation_id}/messages:
   parameters:
