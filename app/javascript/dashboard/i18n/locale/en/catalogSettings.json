@@ -20,6 +20,11 @@
         "DESCRIPTION": "Select the currency for your catalog products.",
         "PAYZAH_NOTE": "Payzah only supports KWD currency."
       },
+      "ORDER_NOTIFICATION_EMAIL": {
+        "TITLE": "Order Notification Email",
+        "DESCRIPTION": "Enter email addresses (comma-separated) to receive a notification when an order is paid. Leave empty to disable.",
+        "PLACEHOLDER": "orders{'@'}example.com, admin{'@'}example.com"
+      },
       "SAVE": "Save Settings"
     },
     "API": {

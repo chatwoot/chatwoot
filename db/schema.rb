@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_03_100000) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_09_101309) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -35,6 +35,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_03_100000) do
     t.string "currency", default: "SAR"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "order_notification_email"
     t.index ["account_id"], name: "index_account_catalog_settings_on_account_id", unique: true
   end
 

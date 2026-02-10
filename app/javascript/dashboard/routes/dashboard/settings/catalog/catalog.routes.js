@@ -7,7 +7,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/catalog'),
       meta: {
-        permissions: ['administrator'],
+        permissions: ['administrator', 'agent'],
       },
       component: SettingsWrapper,
       children: [
@@ -16,7 +16,7 @@ export default {
           name: 'catalog_settings_index',
           component: Index,
           meta: {
-            permissions: ['administrator'],
+            permissions: ['administrator', 'agent'],
           },
         },
       ],
