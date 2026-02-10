@@ -4,10 +4,11 @@ class Carts::CreateService
   # @param conversation [Conversation] The conversation to create the cart for
   # @param items [Array<Hash>] Array of {product_id:, quantity:} hashes
   # @param creator [User, Aloo::Assistant] The user or assistant creating the cart
-  def initialize(conversation:, items:, creator: Current.user)
+  def initialize(conversation:, items:, creator: Current.user, send_message: true)
     @conversation = conversation
     @creator = creator
     @items = items
+    @send_message = send_message
     @account = conversation.account
     @catalog_settings = account.catalog_settings
     @currency = @catalog_settings&.currency || 'SAR'
@@ -30,8 +31,10 @@ class Carts::CreateService
         update_with_tap_data(cart, response)
       end
 
-      message = create_message(cart)
-      cart.update!(message: message)
+      if @send_message
+        message = create_message(cart)
+        cart.update!(message: message)
+      end
 
       Rails.logger.info("Cart created successfully: #{cart.id}")
       cart

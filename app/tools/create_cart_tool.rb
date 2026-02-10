@@ -8,12 +8,12 @@
 #   response = chat.ask("Create a cart with 2 units of product ID 5")
 #
 class CreateCartTool < BaseTool
-  description 'Create a shopping cart with products and send a payment link to the customer. ' \
+  description 'Create a shopping cart with products and generate a payment link. ' \
               'Use this when: ' \
               '1) The customer confirms they want to purchase specific products, ' \
               '2) You have the product IDs from a previous product_search, ' \
               '3) The customer has indicated quantities. ' \
-              'The payment link will be automatically sent to the customer in the conversation. ' \
+              'The payment link will NOT be sent automatically — you MUST include the payment_url from the response in your reply to the customer. ' \
               'Always confirm the order details before creating the cart.'
 
   param :items, type: :string, desc: 'JSON array of items: [{"product_id": 1, "quantity": 2}]', required: true
@@ -80,7 +80,8 @@ class CreateCartTool < BaseTool
     Carts::CreateService.new(
       conversation: current_conversation,
       creator: current_assistant,
-      items: items
+      items: items,
+      send_message: false
     ).perform
   end
 
@@ -101,7 +102,7 @@ class CreateCartTool < BaseTool
           total_price: item.total_price.to_f
         }
       end,
-      message: 'Cart created and payment link sent to customer'
+      message: 'Cart created successfully. Include the payment_url in your message to the customer.'
     }
   end
 end
