@@ -8,9 +8,9 @@
     "CLOSE": "关闭",
     "BETA": "测试版",
     "BETA_DESCRIPTION": "This feature is in beta and may change as we improve it.",
-    "ACCEPT": "Accept",
+    "ACCEPT": "确认",
     "DISCARD": "丢弃",
-    "PREFERRED": "Preferred"
+    "PREFERRED": "首选"
   },
   "CHOICE_TOGGLE": {
     "YES": "是",
