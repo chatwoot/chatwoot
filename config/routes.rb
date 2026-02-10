@@ -48,6 +48,20 @@ Rails.application.routes.draw do
   # Public cart preview page
   get 'cart/:id', to: 'cart#show', as: :cart_preview
 
+  # Public storefront
+  scope '/store/:account_id', as: :storefront, module: :storefront do
+    get '/', to: 'products#index', as: :products
+    get '/products/:id', to: 'products#show', as: :product
+
+    get '/cart', to: 'cart#show', as: :cart
+    post '/cart/items', to: 'cart#add_item', as: :cart_add_item
+    patch '/cart/items/:id', to: 'cart#update_item', as: :cart_update_item
+    delete '/cart/items/:id', to: 'cart#remove_item', as: :cart_remove_item
+
+    get '/checkout', to: 'checkout#show', as: :checkout
+    post '/checkout', to: 'checkout#create', as: :checkout_create
+  end
+
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
@@ -281,6 +295,9 @@ Rails.application.routes.draw do
           end
           resources :labels, only: [:index, :show, :create, :update, :destroy]
           resources :products, only: [:index, :show, :create, :update, :destroy]
+          resources :storefront_links, only: [:create] do
+            post :preview, on: :collection
+          end
 
           resources :notifications, only: [:index, :update, :destroy] do
             collection do

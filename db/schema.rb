@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_02_09_101309) do
+ActiveRecord::Schema[7.1].define(version: 2026_02_10_112714) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1362,6 +1362,22 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_09_101309) do
     t.index ["account_id"], name: "index_sla_policies_on_account_id"
   end
 
+  create_table "storefront_tokens", force: :cascade do |t|
+    t.string "token", null: false
+    t.bigint "account_id", null: false
+    t.bigint "contact_id", null: false
+    t.bigint "conversation_id"
+    t.datetime "expires_at"
+    t.datetime "last_used_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "contact_id"], name: "index_storefront_tokens_on_account_id_and_contact_id"
+    t.index ["account_id"], name: "index_storefront_tokens_on_account_id"
+    t.index ["contact_id"], name: "index_storefront_tokens_on_contact_id"
+    t.index ["conversation_id"], name: "index_storefront_tokens_on_conversation_id"
+    t.index ["token"], name: "index_storefront_tokens_on_token", unique: true
+  end
+
   create_table "taggings", id: :serial, force: :cascade do |t|
     t.integer "tag_id"
     t.string "taggable_type"
@@ -1515,6 +1531,9 @@ ActiveRecord::Schema[7.1].define(version: 2026_02_09_101309) do
   add_foreign_key "products", "accounts"
   add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "parent_execution_id", on_delete: :nullify
   add_foreign_key "ruby_llm_agents_executions", "ruby_llm_agents_executions", column: "root_execution_id", on_delete: :nullify
+  add_foreign_key "storefront_tokens", "accounts"
+  add_foreign_key "storefront_tokens", "contacts"
+  add_foreign_key "storefront_tokens", "conversations"
   add_foreign_key "users", "users", column: "human_agent_id"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
