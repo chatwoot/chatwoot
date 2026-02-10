@@ -101,7 +101,7 @@ Rails.application.routes.draw do
                 post :preview_voice
                 get :voice_usage
               end
-              resources :documents, only: [:index, :show, :create, :destroy] do
+              resources :documents, only: [:index, :show, :create, :update, :destroy] do
                 collection do
                   post :discover_pages
                 end

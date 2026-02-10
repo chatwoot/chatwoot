@@ -174,38 +174,76 @@ const openWebsiteDialog = () => {
   websiteDialogRef.value?.open();
 };
 
-const handleTextBlockSubmit = async ({ title, content }) => {
+const canEditDocument = doc => {
+  return (
+    (doc.source_type === 'text' || doc.source_type === 'website') &&
+    (doc.status === 'available' || doc.status === 'failed')
+  );
+};
+
+const editDocument = doc => {
+  if (doc.source_type === 'text') {
+    textBlockDialogRef.value?.open(doc);
+  } else if (doc.source_type === 'website') {
+    websiteDialogRef.value?.openForEdit(doc);
+  }
+};
+
+const handleTextBlockSubmit = async ({ id, title, content, isEdit }) => {
   try {
-    await store.dispatch('alooDocuments/addTextBlock', {
-      assistantId: props.assistantId,
-      title,
-      content,
-    });
-    useAlert(t('ALOO.MESSAGES.TEXT_BLOCK_ADDED'));
+    if (isEdit) {
+      await store.dispatch('alooDocuments/updateTextBlock', {
+        assistantId: props.assistantId,
+        documentId: id,
+        title,
+        content,
+      });
+      useAlert(t('ALOO.MESSAGES.DOCUMENT_UPDATED'));
+    } else {
+      await store.dispatch('alooDocuments/addTextBlock', {
+        assistantId: props.assistantId,
+        title,
+        content,
+      });
+      useAlert(t('ALOO.MESSAGES.TEXT_BLOCK_ADDED'));
+    }
     await store.dispatch('alooDocuments/getDocuments', {
       assistantId: props.assistantId,
     });
   } catch {
     useAlert(t('ALOO.MESSAGES.ERROR'));
-    throw new Error('Failed to add text block');
+    throw new Error('Failed to save text block');
   }
 };
 
 const handleWebsiteSubmit = async ({
+  id,
   url,
   title,
   selectedPages,
   autoRefresh,
+  isEdit,
 }) => {
   try {
-    await store.dispatch('alooDocuments/addWebsite', {
-      assistantId: props.assistantId,
-      url,
-      title,
-      selectedPages,
-      autoRefresh,
-    });
-    useAlert(t('ALOO.MESSAGES.WEBSITE_ADDED'));
+    if (isEdit) {
+      await store.dispatch('alooDocuments/updateWebsite', {
+        assistantId: props.assistantId,
+        documentId: id,
+        title,
+        selectedPages,
+        autoRefresh,
+      });
+      useAlert(t('ALOO.MESSAGES.DOCUMENT_UPDATED'));
+    } else {
+      await store.dispatch('alooDocuments/addWebsite', {
+        assistantId: props.assistantId,
+        url,
+        title,
+        selectedPages,
+        autoRefresh,
+      });
+      useAlert(t('ALOO.MESSAGES.WEBSITE_ADDED'));
+    }
     await store.dispatch('alooDocuments/getDocuments', {
       assistantId: props.assistantId,
     });
@@ -449,6 +487,15 @@ const handleWebsiteSubmit = async ({
 
                 <!-- Actions -->
                 <div class="flex items-center gap-2 pt-2">
+                  <Button
+                    v-if="canEditDocument(doc)"
+                    icon="i-lucide-pencil"
+                    xs
+                    faded
+                    @click.stop="editDocument(doc)"
+                  >
+                    {{ $t('ALOO.ACTIONS.EDIT') }}
+                  </Button>
                   <Button
                     v-if="doc.status === 'failed'"
                     icon="i-lucide-refresh-cw"
