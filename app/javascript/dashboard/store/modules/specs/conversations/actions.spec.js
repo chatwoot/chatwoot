@@ -716,6 +716,64 @@ describe('#addMentions', () => {
     });
   });
 
+  describe('#setActiveChat', () => {
+    it('should commit SET_CHAT_DATA_FETCHED with conversation ID after fetch', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn().mockResolvedValue();
+      const data = { id: 42, messages: [{ id: 100 }] };
+
+      await actions.setActiveChat(
+        { commit: localCommit, dispatch: localDispatch },
+        { data, after: 99 }
+      );
+
+      expect(localCommit.mock.calls).toEqual([
+        [types.SET_CURRENT_CHAT_WINDOW, data],
+        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
+        [types.SET_CHAT_DATA_FETCHED, 42],
+      ]);
+      expect(localDispatch).toHaveBeenCalledWith('fetchPreviousMessages', {
+        after: 99,
+        before: 100,
+        conversationId: 42,
+      });
+    });
+
+    it('should not dispatch fetchPreviousMessages if dataFetched is already set', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn();
+      const data = { id: 42, messages: [{ id: 100 }], dataFetched: true };
+
+      await actions.setActiveChat(
+        { commit: localCommit, dispatch: localDispatch },
+        { data }
+      );
+
+      expect(localCommit.mock.calls).toEqual([
+        [types.SET_CURRENT_CHAT_WINDOW, data],
+        [types.CLEAR_ALL_MESSAGES_LOADED, 42],
+      ]);
+      expect(localDispatch).not.toHaveBeenCalled();
+    });
+
+    it('should commit SET_CHAT_DATA_FETCHED by ID, not mutate the data object directly (race condition fix)', async () => {
+      const localCommit = vi.fn();
+      const localDispatch = vi.fn().mockResolvedValue();
+      const data = { id: 42, messages: [{ id: 100 }] };
+
+      await actions.setActiveChat(
+        { commit: localCommit, dispatch: localDispatch },
+        { data }
+      );
+
+      // The action must NOT set dataFetched on the data object directly
+      expect(data.dataFetched).toBeUndefined();
+
+      // Instead it commits a mutation that finds the conversation by ID in the store
+      expect(localCommit).toHaveBeenCalledWith(types.SET_CHAT_DATA_FETCHED, 42);
+    });
+  });
+
   describe('#getInboxCaptainAssistantById', () => {
     it('fetches inbox assistant by id', async () => {
       axios.get.mockResolvedValue({
