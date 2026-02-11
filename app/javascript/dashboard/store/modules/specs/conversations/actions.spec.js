@@ -90,11 +90,6 @@ describe('#actions', () => {
   });
 
   describe('#updateConversation', () => {
-    beforeEach(() => {
-      commit.mockClear();
-      dispatch.mockClear();
-    });
-
     it('sends setContact action and update_conversation mutation', () => {
       const conversation = {
         id: 1,
@@ -103,12 +98,7 @@ describe('#actions', () => {
         labels: ['support'],
       };
       actions.updateConversation(
-        {
-          commit,
-          rootState: { route: { name: 'home' } },
-          dispatch,
-          state: { allConversations: [{ id: 1 }], appliedFilters: [] },
-        },
+        { commit, rootState: { route: { name: 'home' } }, dispatch },
         conversation
       );
       expect(commit.mock.calls).toEqual([
@@ -127,26 +117,6 @@ describe('#actions', () => {
           },
         ],
       ]);
-    });
-
-    it('doesnot update unknown conversations in participating view', () => {
-      const conversation = {
-        id: 1,
-        messages: [],
-        meta: { sender: { id: 1, name: 'john-doe' } },
-        labels: ['support'],
-      };
-      actions.updateConversation(
-        {
-          commit,
-          rootState: { route: { name: 'conversation_participating' } },
-          dispatch,
-          state: { allConversations: [], appliedFilters: [] },
-        },
-        conversation
-      );
-      expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([]);
     });
   });
 

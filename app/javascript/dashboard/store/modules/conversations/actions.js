@@ -393,19 +393,10 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch, state, rootState }, conversation) {
+  updateConversation({ commit, dispatch }, conversation) {
     const {
       meta: { sender },
     } = conversation;
-
-    const hasConversationInList = state.allConversations.some(
-      existingConversation => existingConversation.id === conversation.id
-    );
-    const isOnParticipatingRoute = isOnParticipatingView(rootState);
-
-    // Avoid realtime upserts in participating view where list membership
-    // should come from participating query results.
-    if (!hasConversationInList && isOnParticipatingRoute) return;
 
     commit(types.UPDATE_CONVERSATION, conversation);
 
