@@ -88,6 +88,7 @@ class Account < ApplicationRecord
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label
   store_accessor :settings, :captain_models, :captain_features
+  store_accessor :settings, :reporting_timezone
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
