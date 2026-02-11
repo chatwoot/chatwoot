@@ -60,6 +60,7 @@ import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHe
 import { conversationListPageURL } from '../helper/URLHelper';
 import {
   isOnMentionsView,
+  isOnParticipatingView,
   isOnUnattendedView,
 } from '../store/modules/conversations/helpers/actionHelpers';
 import {
@@ -664,6 +665,8 @@ function redirectToConversationList() {
   let conversationType = '';
   if (isOnMentionsView({ route: { name } })) {
     conversationType = 'mention';
+  } else if (isOnParticipatingView({ route: { name } })) {
+    conversationType = 'participating';
   } else if (isOnUnattendedView({ route: { name } })) {
     conversationType = 'unattended';
   }

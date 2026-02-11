@@ -393,10 +393,29 @@ const actions = {
     }
   },
 
-  updateConversation({ commit, dispatch }, conversation) {
+  updateConversation({ commit, dispatch, state, rootState }, conversation) {
     const {
       meta: { sender },
     } = conversation;
+
+    const hasConversationInList = state.allConversations.some(
+      existingConversation => existingConversation.id === conversation.id
+    );
+    const hasAppliedFilters = !!state.appliedFilters.length;
+    const isSpecialConversationView =
+      isOnFoldersView(rootState) ||
+      isOnMentionsView(rootState) ||
+      isOnParticipatingView(rootState) ||
+      isOnUnattendedView(rootState);
+
+    // Avoid realtime upserts in filtered/special views where list membership
+    // should come from dedicated query results.
+    if (
+      !hasConversationInList &&
+      (hasAppliedFilters || isSpecialConversationView)
+    )
+      return;
+
     commit(types.UPDATE_CONVERSATION, conversation);
 
     dispatch('conversationLabels/setConversationLabel', {
