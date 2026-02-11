@@ -40,7 +40,7 @@ class V2::Reports::BaseSummaryBuilder
     dimension_type = dimension_type_to_rollup
 
     # Fetch rollup data grouped by dimension_id
-    rollup_rows = ReportingEventRollup.where(
+    rollup_rows = ReportingEventsRollup.where(
       account_id: account.id,
       dimension_type: dimension_type,
       date: range.first..range.last

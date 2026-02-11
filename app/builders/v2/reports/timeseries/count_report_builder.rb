@@ -28,7 +28,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
     dimension_type = dimension_type_to_rollup
     dimension_id = dimension_id_for_rollup
 
-    rollup_rows = ReportingEventRollup.where(
+    rollup_rows = ReportingEventsRollup.where(
       account_id: account.id,
       metric: metric,
       dimension_type: dimension_type,
@@ -50,7 +50,7 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
     dimension_type = dimension_type_to_rollup
     dimension_id = dimension_id_for_rollup
 
-    ReportingEventRollup.where(
+    ReportingEventsRollup.where(
       account_id: account.id,
       metric: metric,
       dimension_type: dimension_type,

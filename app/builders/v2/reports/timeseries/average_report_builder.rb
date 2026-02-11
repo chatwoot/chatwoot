@@ -27,7 +27,7 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     dimension_id = dimension_id_for_rollup
     metric = metric_to_rollup_metric(params[:metric])
 
-    rollup_rows = ReportingEventRollup.where(
+    rollup_rows = ReportingEventsRollup.where(
       account_id: account.id,
       metric: metric,
       dimension_type: dimension_type,
@@ -47,14 +47,14 @@ class V2::Reports::Timeseries::AverageReportBuilder < V2::Reports::Timeseries::B
     dimension_id = dimension_id_for_rollup
     metric = metric_to_rollup_metric(params[:metric])
 
-    result = ReportingEventRollup.where(
+    result = ReportingEventsRollup.where(
       account_id: account.id,
       metric: metric,
       dimension_type: dimension_type,
       dimension_id: dimension_id,
       date: range.first..range.last
     ).pluck(Arel.sql('SUM(count), SUM(sum_value)'))
-                                 .first
+                                  .first
 
     return nil if result.blank? || result[0].to_i.zero?
 
