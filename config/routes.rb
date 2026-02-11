@@ -464,7 +464,7 @@ Rails.application.routes.draw do
 
         # Payment gateway endpoints for AlooStudio
         scope :payments do
-          get 'config', to: 'payments#config'
+          get 'config', to: 'payments#check_config'
           post 'create_link', to: 'payments#create_link'
           get 'status', to: 'payments#status'
         end
