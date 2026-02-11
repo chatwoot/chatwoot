@@ -35,7 +35,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   end
 
   def transcript
-    return head :too_many_requests unless conversation.present?
+    return head :too_many_requests if conversation.blank?
     return head :payment_required unless conversation.account.email_transcript_enabled?
     return head :too_many_requests unless conversation.account.within_email_rate_limit?
 
