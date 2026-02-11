@@ -10,6 +10,7 @@ class V2::Reports::BaseSummaryBuilder
   private
 
   def use_rollup?
+    # TODO: Remove this override before merging. This is only for validation via comparison rake task.
     # If use_rollup is explicitly set in params, respect that
     return params[:use_rollup] if params.key?(:use_rollup)
 
