@@ -1,5 +1,6 @@
 class V2::Reports::BaseSummaryBuilder
   include DateRangeHelper
+  include V2::Reports::Concerns::RollupConditions
 
   def build
     load_data
@@ -10,7 +11,7 @@ class V2::Reports::BaseSummaryBuilder
 
   def load_data
     @conversations_count = fetch_conversations_count
-    load_reporting_events_data
+    use_rollup? ? load_rollup_data : load_reporting_events_data
   end
 
   def load_reporting_events_data
@@ -32,6 +33,44 @@ class V2::Reports::BaseSummaryBuilder
     @avg_resolution_time = results.transform_values(&:avg_resolution_time)
     @avg_first_response_time = results.transform_values(&:avg_first_response_time)
     @avg_reply_time = results.transform_values(&:avg_reply_time)
+  end
+
+  def load_rollup_data
+    group_by_key.to_s.split('.').last
+    dimension_type = dimension_type_to_rollup
+
+    # Fetch rollup data grouped by dimension_id
+    rollup_rows = ReportingEventRollup.where(
+      account_id: account.id,
+      dimension_type: dimension_type,
+      date: range.first..range.last
+    ).group(:dimension_id).select(
+      'dimension_id',
+      'SUM(CASE WHEN metric = \'resolutions_count\' THEN count ELSE 0 END) as resolved_count',
+      'SUM(CASE WHEN metric = \'resolution_time\' THEN count ELSE 0 END) as resolution_count',
+      'SUM(CASE WHEN metric = \'resolution_time\' THEN sum_value ELSE 0 END) as resolution_sum_value',
+      'SUM(CASE WHEN metric = \'first_response\' THEN count ELSE 0 END) as first_response_count',
+      'SUM(CASE WHEN metric = \'first_response\' THEN sum_value ELSE 0 END) as first_response_sum_value',
+      'SUM(CASE WHEN metric = \'reply_time\' THEN count ELSE 0 END) as reply_count',
+      'SUM(CASE WHEN metric = \'reply_time\' THEN sum_value ELSE 0 END) as reply_sum_value'
+    )
+
+    # Convert to the expected format
+    results = {}
+    rollup_rows.each do |row|
+      results[row.dimension_id] = row
+    end
+
+    @resolved_count = results.transform_values { |r| r.resolved_count.to_i }
+    @avg_resolution_time = results.transform_values do |r|
+      r.resolution_count.to_i.zero? ? nil : (r.resolution_sum_value.to_f / r.resolution_count.to_i)
+    end
+    @avg_first_response_time = results.transform_values do |r|
+      r.first_response_count.to_i.zero? ? nil : (r.first_response_sum_value.to_f / r.first_response_count.to_i)
+    end
+    @avg_reply_time = results.transform_values do |r|
+      r.reply_count.to_i.zero? ? nil : (r.reply_sum_value.to_f / r.reply_count.to_i)
+    end
   end
 
   def reporting_events

@@ -1,5 +1,15 @@
 class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
   def timeseries
+    use_rollup? ? rollup_timeseries : raw_timeseries
+  end
+
+  def aggregate_value
+    use_rollup? ? rollup_aggregate_value : raw_aggregate_value
+  end
+
+  private
+
+  def raw_timeseries
     grouped_count.each_with_object([]) do |element, arr|
       event_date, event_count = element
 
@@ -11,11 +21,85 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
     end
   end
 
-  def aggregate_value
+  def rollup_timeseries
+    metric = metric_to_rollup_metric(params[:metric])
+    return [] if metric.blank?
+
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+
+    rollup_rows = ReportingEventRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: range.first..range.last
+    )
+
+    group_and_aggregate_rollup_counts(rollup_rows)
+  end
+
+  def raw_aggregate_value
     object_scope.count
   end
 
-  private
+  def rollup_aggregate_value
+    metric = metric_to_rollup_metric(params[:metric])
+    return 0 if metric.blank?
+
+    dimension_type = dimension_type_to_rollup
+    dimension_id = dimension_id_for_rollup
+
+    ReportingEventRollup.where(
+      account_id: account.id,
+      metric: metric,
+      dimension_type: dimension_type,
+      dimension_id: dimension_id,
+      date: range.first..range.last
+    ).sum(:count).to_i
+  end
+
+  def dimension_id_for_rollup
+    case params[:type].to_s
+    when 'account'
+      account.id
+    when 'agent'
+      params[:id].to_i
+    when 'inbox'
+      params[:id].to_i
+    when 'team'
+      params[:id].to_i
+    end
+  end
+
+  def group_and_aggregate_rollup_counts(rollup_rows)
+    grouped_data = {}
+
+    rollup_rows.each do |row|
+      date_key = case group_by
+                 when 'day'
+                   row.date
+                 when 'week'
+                   row.date.beginning_of_week(:monday)
+                 when 'month'
+                   row.date.beginning_of_month
+                 when 'year'
+                   row.date.beginning_of_year
+                 else
+                   row.date
+                 end
+
+      grouped_data[date_key] ||= 0
+      grouped_data[date_key] += row.count
+    end
+
+    grouped_data.each_with_object([]) do |(date_key, count), arr|
+      arr << {
+        value: count,
+        timestamp: date_key.in_time_zone(timezone).to_i
+      }
+    end.sort_by { |h| h[:timestamp] }
+  end
 
   def metric
     @metric ||= params[:metric]
