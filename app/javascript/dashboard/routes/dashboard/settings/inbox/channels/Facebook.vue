@@ -270,7 +270,7 @@ export default {
                 :options="comboBoxPageOptions"
                 :placeholder="$t('INBOX_MGMT.ADD.FB.PICK_A_VALUE')"
                 :has-error="v$.selectedPage.$error"
-                class="[&>div>button]:!bg-n-alpha-black2 mt-0.5"
+                class="[&>div>button]:!bg-n-alpha-black2 mt-1"
                 @update:model-value="setPageName"
               />
               <span v-if="v$.selectedPage.$error" class="message mt-0.5">
