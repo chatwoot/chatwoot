@@ -112,7 +112,7 @@ module ReportingEvents::RollupService
 
     def upsert_rollup(dimension_type, dimension_id, metric, metric_data)
       # rubocop:disable Rails/SkipsModelValidations
-      ReportingEventRollup.upsert(
+      ReportingEventsRollup.upsert(
         {
           account_id: @account.id,
           date: event_date,
@@ -127,9 +127,9 @@ module ReportingEvents::RollupService
         },
         unique_by: [:account_id, :date, :dimension_type, :dimension_id, :metric],
         on_duplicate: Arel.sql(
-          'count = count + EXCLUDED.count, ' \
-          'sum_value = sum_value + EXCLUDED.sum_value, ' \
-          'sum_value_business_hours = sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
+          'count = reporting_events_rollups.count + EXCLUDED.count, ' \
+          'sum_value = reporting_events_rollups.sum_value + EXCLUDED.sum_value, ' \
+          'sum_value_business_hours = reporting_events_rollups.sum_value_business_hours + EXCLUDED.sum_value_business_hours, ' \
           'updated_at = EXCLUDED.updated_at'
         )
       )
