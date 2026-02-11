@@ -92,43 +92,68 @@ const formData = computed(() => ({
 const handleBreadcrumbClick = ({ routeName }) =>
   router.push({ name: routeName });
 
-const handleDeleteUser = agentId => {
-  store.dispatch('agentCapacityPolicies/removeUser', {
-    policyId: selectedPolicyId.value,
-    userId: agentId,
-  });
+const handleDeleteUser = async agentId => {
+  try {
+    await store.dispatch('agentCapacityPolicies/removeUser', {
+      policyId: selectedPolicyId.value,
+      userId: agentId,
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.AGENT_API.REMOVE.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.AGENT_API.REMOVE.ERROR_MESSAGE`));
+  }
 };
 
-const handleAddUser = agent => {
-  store.dispatch('agentCapacityPolicies/addUser', {
-    policyId: selectedPolicyId.value,
-    userData: { id: agent.id, capacity: 20 },
-  });
+const handleAddUser = async agent => {
+  try {
+    await store.dispatch('agentCapacityPolicies/addUser', {
+      policyId: selectedPolicyId.value,
+      userData: { id: agent.id, capacity: 20 },
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.AGENT_API.ADD.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.AGENT_API.ADD.ERROR_MESSAGE`));
+  }
 };
 
-const handleDeleteInboxLimit = limitId => {
-  store.dispatch('agentCapacityPolicies/deleteInboxLimit', {
-    policyId: selectedPolicyId.value,
-    limitId,
-  });
+const handleDeleteInboxLimit = async limitId => {
+  try {
+    await store.dispatch('agentCapacityPolicies/deleteInboxLimit', {
+      policyId: selectedPolicyId.value,
+      limitId,
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.DELETE.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.DELETE.ERROR_MESSAGE`));
+  }
 };
 
-const handleAddInboxLimit = limit => {
-  store.dispatch('agentCapacityPolicies/createInboxLimit', {
-    policyId: selectedPolicyId.value,
-    limitData: {
-      inboxId: limit.inboxId,
-      conversationLimit: limit.conversationLimit,
-    },
-  });
+const handleAddInboxLimit = async limit => {
+  try {
+    await store.dispatch('agentCapacityPolicies/createInboxLimit', {
+      policyId: selectedPolicyId.value,
+      limitData: {
+        inboxId: limit.inboxId,
+        conversationLimit: limit.conversationLimit,
+      },
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.ADD.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.ADD.ERROR_MESSAGE`));
+  }
 };
 
-const handleLimitChange = limit => {
-  store.dispatch('agentCapacityPolicies/updateInboxLimit', {
-    policyId: selectedPolicyId.value,
-    limitId: limit.id,
-    limitData: { conversationLimit: limit.conversationLimit },
-  });
+const handleLimitChange = async limit => {
+  try {
+    await store.dispatch('agentCapacityPolicies/updateInboxLimit', {
+      policyId: selectedPolicyId.value,
+      limitId: limit.id,
+      limitData: { conversationLimit: limit.conversationLimit },
+    });
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.UPDATE.SUCCESS_MESSAGE`));
+  } catch {
+    useAlert(t(`${BASE_KEY}.EDIT.INBOX_LIMIT_API.UPDATE.ERROR_MESSAGE`));
+  }
 };
 
 const handleSubmit = async formState => {

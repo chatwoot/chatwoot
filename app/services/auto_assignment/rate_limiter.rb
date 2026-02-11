@@ -8,8 +8,6 @@ class AutoAssignment::RateLimiter
   end
 
   def track_assignment(conversation)
-    return unless enabled?
-
     assignment_key = build_assignment_key(conversation.id)
     Redis::Alfred.set(assignment_key, conversation.id.to_s, ex: window)
   end
@@ -24,11 +22,11 @@ class AutoAssignment::RateLimiter
   private
 
   def enabled?
-    limit.present? && limit.positive?
+    config.present? && limit.positive?
   end
 
   def limit
-    config&.fair_distribution_limit&.to_i || Math
+    config&.fair_distribution_limit.present? ? config.fair_distribution_limit.to_i : Float::INFINITY
   end
 
   def window

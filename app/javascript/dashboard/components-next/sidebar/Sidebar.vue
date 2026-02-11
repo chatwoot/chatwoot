@@ -8,6 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
 import { vOnClickOutside } from '@vueuse/components';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useWindowSize, useEventListener } from '@vueuse/core';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
@@ -49,6 +50,18 @@ const isRTL = useMapGetter('accounts/isRTL');
 
 const { width: windowWidth } = useWindowSize();
 const isMobile = computed(() => windowWidth.value < 768);
+
+const accountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const hasAdvancedAssignment = computed(() => {
+  return isFeatureEnabledonAccount.value(
+    accountId.value,
+    FEATURE_FLAGS.ADVANCED_ASSIGNMENT
+  );
+});
 
 const toggleShortcutModalFn = show => {
   if (show) {
@@ -584,12 +597,16 @@ const menuItems = computed(() => {
           icon: 'i-lucide-users',
           to: accountScopedRoute('settings_teams_list'),
         },
-        {
-          name: 'Settings Agent Assignment',
-          label: t('SIDEBAR.AGENT_ASSIGNMENT'),
-          icon: 'i-lucide-user-cog',
-          to: accountScopedRoute('assignment_policy_index'),
-        },
+        ...(hasAdvancedAssignment.value
+          ? [
+              {
+                name: 'Settings Agent Assignment',
+                label: t('SIDEBAR.AGENT_ASSIGNMENT'),
+                icon: 'i-lucide-user-cog',
+                to: accountScopedRoute('assignment_policy_index'),
+              },
+            ]
+          : []),
         {
           name: 'Settings Inboxes',
           label: t('SIDEBAR.INBOXES'),

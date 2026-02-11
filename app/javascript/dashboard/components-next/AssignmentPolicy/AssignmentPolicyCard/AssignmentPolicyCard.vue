@@ -15,7 +15,6 @@ const props = defineProps({
   assignmentOrder: { type: String, default: '' },
   conversationPriority: { type: String, default: '' },
   assignedInboxCount: { type: Number, default: 0 },
-  enabled: { type: Boolean, default: false },
   inboxes: { type: Array, default: () => [] },
   isFetchingInboxes: { type: Boolean, default: false },
 });
@@ -65,22 +64,6 @@ const handleFetchInboxes = () => {
             {{ name }}
           </h3>
           <div class="flex items-center gap-2">
-            <div class="flex items-center rounded-md bg-n-alpha-2 h-6 px-2">
-              <span
-                class="text-xs"
-                :class="enabled ? 'text-n-teal-11' : 'text-n-slate-12'"
-              >
-                {{
-                  enabled
-                    ? t(
-                        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.ACTIVE'
-                      )
-                    : t(
-                        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.INACTIVE'
-                      )
-                }}
-              </span>
-            </div>
             <CardPopover
               :title="
                 t(
