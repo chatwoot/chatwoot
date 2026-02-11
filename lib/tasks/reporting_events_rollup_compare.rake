@@ -42,22 +42,21 @@ namespace :reporting_events_rollup do
     puts "✓ Timezone: #{account.reporting_timezone}"
     puts ''
 
-    # 3. GENERATE WEEKLY DATE RANGES FOR PAST 6 MONTHS
+    # 3. GENERATE DAILY DATE RANGES FOR PAST 6 MONTHS
     tz = ActiveSupport::TimeZone[account.reporting_timezone]
     end_date = Time.current.in_time_zone(tz).to_date
     start_date = end_date - 6.months
 
-    # Generate week ranges (Monday to Sunday)
-    weeks = []
-    current_date = start_date.beginning_of_week(:monday)
+    # Generate daily ranges
+    days = []
+    current_date = start_date
     while current_date <= end_date
-      week_end = [current_date.end_of_week(:sunday), end_date].min
-      weeks << { start: current_date, end: week_end }
-      current_date = week_end + 1.day
+      days << { start: current_date, end: current_date }
+      current_date += 1.day
     end
 
-    total_weeks = weeks.size
-    puts "Generated #{total_weeks} weekly periods from #{weeks.first[:start]} to #{weeks.last[:end]}"
+    total_days = days.size
+    puts "Generated #{total_days} daily periods from #{days.first[:start]} to #{days.last[:end]}"
     puts ''
 
     # 4. DISCOVER ENTITIES TO COMPARE
@@ -100,11 +99,11 @@ namespace :reporting_events_rollup do
     dimension_types.each do |dimension|
       puts "Comparing #{dimension[:name]} summaries..."
 
-      weeks.each_with_index do |week, week_index|
-        # Build base params for this week
+      days.each_with_index do |day, day_index|
+        # Build base params for this day
         base_params = {
-          since: week[:start].to_s,
-          until: week[:end].to_s,
+          since: day[:start].to_s,
+          until: day[:end].to_s,
           type: dimension[:name],
           timezone_offset: tz.utc_offset / 3600.0,
           business_hours: false
@@ -123,7 +122,7 @@ namespace :reporting_events_rollup do
           raw_entity = raw_results.find { |r| r[:id] == entity_id }
           rollup_entity = rollup_results.find { |r| r[:id] == entity_id }
 
-          # Skip if both are nil (entity had no activity this week)
+          # Skip if both are nil (entity had no activity this day)
           next if raw_entity.nil? && rollup_entity.nil?
 
           # Handle case where one is nil but the other isn't
@@ -131,7 +130,7 @@ namespace :reporting_events_rollup do
             mismatches << {
               dimension: dimension[:name],
               entity_id: entity_id,
-              week: "#{week[:start]} to #{week[:end]}",
+              date: day[:start].to_s,
               issue: raw_entity.nil? ? 'Raw data missing' : 'Rollup data missing',
               raw: raw_entity,
               rollup: rollup_entity
@@ -148,7 +147,7 @@ namespace :reporting_events_rollup do
           mismatches << {
             dimension: dimension[:name],
             entity_id: entity_id,
-            week: "#{week[:start]} to #{week[:end]}",
+            date: day[:start].to_s,
             differences: comparison[:differences],
             raw: raw_entity,
             rollup: rollup_entity
@@ -156,8 +155,8 @@ namespace :reporting_events_rollup do
         end
 
         # Progress update
-        progress = ((week_index + 1).to_f / total_weeks * 100).round(1)
-        print "\r  Week #{week_index + 1}/#{total_weeks} (#{week[:start]} to #{week[:end]}) | #{progress}%    "
+        progress = ((day_index + 1).to_f / total_days * 100).round(1)
+        print "\r  Day #{day_index + 1}/#{total_days} (#{day[:start]}) | #{progress}%    "
         $stdout.flush
       end
 
@@ -185,7 +184,7 @@ namespace :reporting_events_rollup do
       puts ''
 
       mismatches.each_with_index do |mismatch, index|
-        puts "#{index + 1}. #{mismatch[:dimension].upcase} ID: #{mismatch[:entity_id]} | Week: #{mismatch[:week]}"
+        puts "#{index + 1}. #{mismatch[:dimension].upcase} ID: #{mismatch[:entity_id]} | Date: #{mismatch[:date]}"
 
         if mismatch[:issue]
           puts "   Issue: #{mismatch[:issue]}"
