@@ -401,20 +401,11 @@ const actions = {
     const hasConversationInList = state.allConversations.some(
       existingConversation => existingConversation.id === conversation.id
     );
-    const hasAppliedFilters = !!state.appliedFilters.length;
-    const isSpecialConversationView =
-      isOnFoldersView(rootState) ||
-      isOnMentionsView(rootState) ||
-      isOnParticipatingView(rootState) ||
-      isOnUnattendedView(rootState);
+    const isOnParticipatingRoute = isOnParticipatingView(rootState);
 
-    // Avoid realtime upserts in filtered/special views where list membership
-    // should come from dedicated query results.
-    if (
-      !hasConversationInList &&
-      (hasAppliedFilters || isSpecialConversationView)
-    )
-      return;
+    // Avoid realtime upserts in participating view where list membership
+    // should come from participating query results.
+    if (!hasConversationInList && isOnParticipatingRoute) return;
 
     commit(types.UPDATE_CONVERSATION, conversation);
 
