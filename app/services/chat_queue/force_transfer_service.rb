@@ -21,7 +21,7 @@ class ChatQueue::ForceTransferService
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       message_type: :activity,
-      content: "Нет доступных операторов для перевода"
+      content: 'Нет доступных операторов для перевода'
     )
   end
 
@@ -37,11 +37,11 @@ class ChatQueue::ForceTransferService
       }
     end
 
-    min_load = agents_with_load.map { |h| h[:active_count] }.min
+    min_load = agents_with_load.pluck(:active_count).min
 
     least_loaded = agents_with_load.select { |h| h[:active_count] == min_load }
-  
-    least_loaded.min_by { |h| h[:last_assigned_at] || Time.at(0) }[:agent]
+
+    least_loaded.min_by { |h| h[:last_assigned_at] || Time.zone.at(0) }[:agent]
   end
 
   def fetch_available_agents
@@ -63,9 +63,7 @@ class ChatQueue::ForceTransferService
   def agent_has_access?(agent)
     inbox_ids = InboxMember.where(user_id: agent.id).pluck(:inbox_id)
 
-    has_inbox = inbox_ids.include?(conversation.inbox_id)
-
-    has_inbox
+    inbox_ids.include?(conversation.inbox_id)
   end
 
   def active_conversations_count(agent_id)
@@ -123,7 +121,7 @@ class ChatQueue::ForceTransferService
       "At: #{Time.current}"
     )
   end
-  
+
   def send_transfer_notification(target_agent)
     conversation.messages.create!(
       account_id: conversation.account_id,
@@ -154,7 +152,6 @@ class ChatQueue::ForceTransferService
       .where(account_id: conversation.account.id, assignee_id: agent_id)
       .order(updated_at: :desc)
       .limit(1)
-      .pluck(:updated_at)
-      .first
-  end  
+      .pick(:updated_at)
+  end
 end

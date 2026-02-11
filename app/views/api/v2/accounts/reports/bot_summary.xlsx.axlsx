@@ -2,10 +2,9 @@ wb = xlsx_package.workbook
 
 wb.add_worksheet(name: 'Bot Report') do |sheet|
   sheet.add_row [
-    I18n.t('reports.period', 
-      since: @date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S'),
-      until: @date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S')
-    )
+    I18n.t('reports.period',
+           since: @date_range[:since]&.strftime('%Y-%m-%d %H:%M:%S'),
+           until: @date_range[:until]&.strftime('%Y-%m-%d %H:%M:%S'))
   ]
 
   sheet.add_row []

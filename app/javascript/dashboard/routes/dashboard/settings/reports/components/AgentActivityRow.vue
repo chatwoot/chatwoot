@@ -61,7 +61,7 @@ const formatDuration = seconds => {
 
 const formatTimeUTC = timestamp => {
   const date = new Date(timestamp);
-  return date.toLocaleString( {
+  return date.toLocaleString({
     day: '2-digit',
     month: 'short',
     year: 'numeric',

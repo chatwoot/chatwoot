@@ -1,5 +1,6 @@
 def tf(value)
   return nil if value.blank?
+
   Reports::TimeFormatPresenter.new(value).format
 end
 

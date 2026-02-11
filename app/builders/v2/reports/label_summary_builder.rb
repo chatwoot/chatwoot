@@ -50,14 +50,14 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def fetch_csat_scores
     scope = base_csat_scope
-    
+
     scope.select('tags.name', csat_select_fields)
          .group('tags.name')
          .each_with_object({}) do |record, hash|
       total = record.total_count.to_f
       sum = record.rating_sum.to_f
-      
-      hash[record.name] = total > 0 ? ((sum / total) * 20).round(2) : 0
+
+      hash[record.name] = total.positive? ? ((sum / total) * 20).round(2) : 0
     end
   end
 

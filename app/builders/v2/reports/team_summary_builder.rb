@@ -144,17 +144,46 @@ class V2::Reports::TeamSummaryBuilder < V2::Reports::BaseSummaryBuilder
 
   def apply_csat_filters(scope)
     scope = scope.joins(:conversation)
-    scope = scope.where(conversations: { team_id: params[:team_ids].reject(&:blank?) }) if params[:team_ids].present?
-    scope = scope.where(assigned_agent_id: params[:user_ids].reject(&:blank?)) if params[:user_ids].present?
-    scope = scope.where(conversations: { inbox_id: params[:inbox_ids].reject(&:blank?) }) if params[:inbox_ids].present?
-    
-    if params[:label_ids].present?
-      tag_ids = ReportingEvent.tag_ids_for_labels(params[:label_ids].reject(&:blank?), account.id)
-      scope = scope.joins('INNER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\' AND taggings.context = \'labels\'')
-                   .where(taggings: { tag_id: tag_ids }) unless tag_ids.empty?
-    end
-    
-    scope
+    scope = apply_csat_team_filter(scope)
+    scope = apply_csat_user_filter(scope)
+    scope = apply_csat_inbox_filter(scope)
+    apply_csat_label_filter(scope)
+  end
+
+  def apply_csat_team_filter(scope)
+    return scope if params[:team_ids].blank?
+
+    scope.where(conversations: { team_id: params[:team_ids].reject(&:blank?) })
+  end
+
+  def apply_csat_user_filter(scope)
+    return scope if params[:user_ids].blank?
+
+    scope.where(assigned_agent_id: params[:user_ids].reject(&:blank?))
+  end
+
+  def apply_csat_inbox_filter(scope)
+    return scope if params[:inbox_ids].blank?
+
+    scope.where(conversations: { inbox_id: params[:inbox_ids].reject(&:blank?) })
+  end
+
+  def apply_csat_label_filter(scope)
+    return scope if params[:label_ids].blank?
+
+    tag_ids = ReportingEvent.tag_ids_for_labels(params[:label_ids].reject(&:blank?), account.id)
+    return scope if tag_ids.empty?
+
+    scope.joins(conversation_labels_join_clause).where(taggings: { tag_id: tag_ids })
+  end
+
+  def conversation_labels_join_clause
+    <<~SQL.squish
+      INNER JOIN taggings
+        ON taggings.taggable_id = conversations.id
+        AND taggings.taggable_type = 'Conversation'
+        AND taggings.context = 'labels'
+    SQL
   end
 
   def csat_group_by_key

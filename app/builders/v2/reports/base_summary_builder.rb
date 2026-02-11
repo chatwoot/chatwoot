@@ -137,7 +137,7 @@ class V2::Reports::BaseSummaryBuilder
     filter_params = [:user_ids, :inbox_ids, :team_ids, :label_ids] - Array(exclude_param)
     filter_params.any? { |param| params[param].present? && params[param].reject(&:blank?).any? }
   end
-  
+
   def load_csat_data
     @csat_satisfaction_score = fetch_csat_satisfaction_score
   end
@@ -151,8 +151,8 @@ class V2::Reports::BaseSummaryBuilder
       key = record.public_send(csat_group_key_name)
       total = record.total_count.to_f
       positive = record.positive_count.to_f
-      
-      hash[key] = total > 0 ? ((positive / total) * 100).round(2) : 0
+
+      hash[key] = total.positive? ? ((positive / total) * 100).round(2) : 0
     end
   end
 
@@ -170,7 +170,7 @@ class V2::Reports::BaseSummaryBuilder
       COUNT(*) as total_count,
       COUNT(CASE WHEN rating IN (4, 5) THEN 1 END) as positive_count
     SQL
-  end  
+  end
 
   def csat_group_by_key
     # Override this method
