@@ -134,9 +134,11 @@ class MailPresenter < SimpleDelegator
   end
 
   def original_sender
-    parse_mail_address(@mail[:reply_to].try(:value))&.address ||
-      parse_mail_address(@mail['X-Original-Sender'].try(:value))&.address ||
-      parse_mail_address(@mail[:from].try(:value))&.address
+    [
+      @mail[:reply_to]&.value,
+      @mail['X-Original-Sender']&.value,
+      @mail[:from]&.value
+    ].filter_map { |raw| parse_mail_address(raw)&.address }.first
   end
 
   def headers_data
