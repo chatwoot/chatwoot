@@ -20,6 +20,7 @@ class ReportingEventListener < BaseListener
 
     create_bot_resolved_event(conversation, reporting_event)
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def first_reply_created(event)
@@ -41,6 +42,7 @@ class ReportingEventListener < BaseListener
     )
 
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def reply_created(event)
@@ -65,6 +67,7 @@ class ReportingEventListener < BaseListener
       event_end_time: message.created_at
     )
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def conversation_bot_handoff(event)
@@ -88,6 +91,7 @@ class ReportingEventListener < BaseListener
       event_end_time: conversation.updated_at
     )
     reporting_event.save!
+    ReportingEvents::RollupService.perform(reporting_event)
   end
 
   def conversation_opened(event)
@@ -139,5 +143,6 @@ class ReportingEventListener < BaseListener
     bot_resolved_event = reporting_event.dup
     bot_resolved_event.name = 'conversation_bot_resolved'
     bot_resolved_event.save!
+    ReportingEvents::RollupService.new(bot_resolved_event).perform
   end
 end
