@@ -24,12 +24,14 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
     return nil unless @channel # No valid channel found
     return nil unless incoming_email_from_valid_email? # Skip edge cases
 
+    # Resolve contact first so we can scope conversation lookup by contact
+    find_or_create_contact
+
     # Check if conversation already exists by in_reply_to
     existing_conversation = find_conversation_by_in_reply_to
     return existing_conversation if existing_conversation
 
-    # Prepare contact (persisted) and build conversation (not persisted)
-    find_or_create_contact
+    # Build conversation (not persisted)
     build_conversation
   end
 
@@ -78,6 +80,8 @@ class Mailbox::ConversationFinderStrategies::NewConversationStrategy < Mailbox::
   def find_conversation_by_in_reply_to
     return if in_reply_to.blank?
 
-    @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
+    conversations = @account.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to)
+    conversations = conversations.where(contact_id: @contact.id) if @account.feature_enabled?('email_thread_contact_scoping')
+    conversations.first
   end
 end

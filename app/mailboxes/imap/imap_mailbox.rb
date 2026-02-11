@@ -44,9 +44,13 @@ class Imap::ImapMailbox
 
     message = @inbox.messages.find_by(source_id: in_reply_to)
     if message.nil?
-      @inbox.conversations.find_by("additional_attributes->>'in_reply_to' = ?", in_reply_to)
+      conversations = @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to)
+      conversations = conversations.where(contact_id: @contact.id) if @account.feature_enabled?('email_thread_contact_scoping')
+      conversations.first
     else
-      @inbox.conversations.find(message.conversation_id)
+      conversation = @inbox.conversations.find_by(id: message.conversation_id)
+      return nil if conversation && @account.feature_enabled?('email_thread_contact_scoping') && conversation.contact_id != @contact.id
+      conversation
     end
   end
 
@@ -56,12 +60,19 @@ class Imap::ImapMailbox
     message = find_message_by_references
     if message.present?
       conversation = @inbox.conversations.find_by(id: message.conversation_id)
-      return conversation if conversation.present?
+      if conversation.present?
+        return nil if @account.feature_enabled?('email_thread_contact_scoping') && conversation.contact_id != @contact.id
+        return conversation
+      end
     end
 
     # FALLBACK_PATTERN use to find a conversation that is started by an agent (no incoming message yet)
     conversation_id = find_conversation_by_references
-    @inbox.conversations.find_by(uuid: conversation_id) if conversation_id.present?
+    if conversation_id.present?
+      conversation = @inbox.conversations.find_by(uuid: conversation_id)
+      return nil if conversation && @account.feature_enabled?('email_thread_contact_scoping') && conversation.contact_id != @contact.id
+      conversation
+    end
   end
 
   def in_reply_to
