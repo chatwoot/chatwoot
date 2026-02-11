@@ -19,16 +19,19 @@ class CreateReportingEventsRollup < ActiveRecord::Migration[7.1]
     add_index :reporting_events_rollups,
               [:account_id, :date, :dimension_type, :dimension_id, :metric],
               unique: true,
-              name: 'index_rollup_unique_key'
+              name: 'index_rollup_unique_key',
+              algorithm: :concurrently
 
     # Query index for timeseries (date range scans)
     add_index :reporting_events_rollups,
               [:account_id, :metric, :date],
-              name: 'index_rollup_timeseries'
+              name: 'index_rollup_timeseries',
+              algorithm: :concurrently
 
     # Query index for summaries (dimension scans)
     add_index :reporting_events_rollups,
               [:account_id, :dimension_type, :date],
-              name: 'index_rollup_summary'
+              name: 'index_rollup_summary',
+              algorithm: :concurrently
   end
 end

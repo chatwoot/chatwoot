@@ -21,7 +21,7 @@
 #  index_rollup_unique_key  (account_id,date,dimension_type,dimension_id,metric) UNIQUE
 #
 
-class ReportingEventRollup < ApplicationRecord
+class ReportingEventsRollup < ApplicationRecord
   belongs_to :account
 
   # Store string values directly in the database for better readability and debugging
