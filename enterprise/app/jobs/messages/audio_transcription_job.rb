@@ -10,10 +10,6 @@ class Messages::AudioTranscriptionJob < ApplicationJob
     }
 
     Rails.logger.warn("Discarding audio transcription job due to bad request: #{log_context}")
-
-    next unless defined?(NewRelic::Agent)
-
-    NewRelic::Agent.notice_error(error, custom_params: log_context)
   end
   retry_on ActiveStorage::FileNotFoundError, wait: 2.seconds, attempts: 3
 
