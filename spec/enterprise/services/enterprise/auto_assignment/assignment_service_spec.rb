@@ -16,8 +16,9 @@ RSpec.describe Enterprise::AutoAssignment::AssignmentService, type: :service do
     # Link inbox to assignment policy
     create(:inbox_assignment_policy, inbox: inbox, assignment_policy: assignment_policy)
 
-    allow(account).to receive(:feature_enabled?).and_return(false)
-    allow(account).to receive(:feature_enabled?).with('assignment_v2').and_return(true)
+    # Enable assignment_v2 (base) and advanced_assignment (premium) features
+    account.enable_features('assignment_v2')
+    account.save!
 
     # Set agents as online
     OnlineStatusTracker.update_presence(account.id, 'User', agent1.id)
