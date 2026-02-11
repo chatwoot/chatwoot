@@ -241,3 +241,6 @@
   display_name: Required Conversation Attributes
   enabled: false
   premium: true
+- name: reporting_events_rollup
+  display_name: Reporting Events Rollup
+  enabled: false
