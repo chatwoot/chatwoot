@@ -42,10 +42,10 @@ namespace :reporting_events_rollup do
     puts "✓ Timezone: #{account.reporting_timezone}"
     puts ''
 
-    # 3. GENERATE DAILY DATE RANGES FOR PAST 6 MONTHS
+    # 3. GENERATE DAILY DATE RANGES FOR PAST 1 YEAR
     tz = ActiveSupport::TimeZone[account.reporting_timezone]
     end_date = Time.current.in_time_zone(tz).to_date
-    start_date = end_date - 6.months
+    start_date = end_date - 1.year
 
     # Generate daily ranges
     days = []
