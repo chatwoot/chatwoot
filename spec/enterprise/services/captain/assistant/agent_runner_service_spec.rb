@@ -75,6 +75,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
     it 'runs agent with extracted user message and context' do
       expected_context = {
+        session_id: "#{account.id}_#{conversation.display_id}",
         conversation_history: [
           { role: :user, content: 'Hello there', agent_name: nil },
           { role: :assistant, content: 'Hi! How can I help you?', agent_name: 'Assistant' },
