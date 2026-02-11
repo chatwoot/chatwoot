@@ -694,7 +694,8 @@
         "CREATE_BUTTON": "Criar política",
         "API": {
           "SUCCESS_MESSAGE": "Política de atribuição criada com sucesso",
-          "ERROR_MESSAGE": "Falha ao criar a política de atribuição"
+          "ERROR_MESSAGE": "Falha ao criar a política de atribuição",
+          "INBOX_LINKED": "Inbox has been linked to the policy"
         }
       },
       "EDIT": {
@@ -707,6 +708,12 @@
           "DESCRIPTION": "A caixa de entrada {inboxName} já está vinculada a outra política. Tem certeza de que deseja vinculá-la a esta política? Ela será desvinculada da outra.",
           "CONFIRM_BUTTON_LABEL": "Continuar",
           "CANCEL_BUTTON_LABEL": "Cancelar"
+        },
+        "INBOX_LINK_PROMPT": {
+          "TITLE": "Link inbox to policy",
+          "DESCRIPTION": "Would you like to link this inbox to the assignment policy?",
+          "LINK_BUTTON": "Link inbox",
+          "CANCEL_BUTTON": "Skip"
         },
         "API": {
           "SUCCESS_MESSAGE": "Política de atribuição atualizada com sucesso",
@@ -746,7 +753,9 @@
           },
           "BALANCED": {
             "LABEL": "Balanceado",
-            "DESCRIPTION": "Atribuir conversas com base na capacidade disponível."
+            "DESCRIPTION": "Atribuir conversas com base na capacidade disponível.",
+            "PREMIUM_MESSAGE": "Upgrade to access balanced assignment and agent capacity management.",
+            "PREMIUM_BADGE": "Premium"
           }
         },
         "ASSIGNMENT_PRIORITY": {
@@ -831,6 +840,20 @@
           "REMOVE": {
             "SUCCESS_MESSAGE": "Agente removido da política com sucesso",
             "ERROR_MESSAGE": "Falha ao remover o agente da política"
+          }
+        },
+        "INBOX_LIMIT_API": {
+          "ADD": {
+            "SUCCESS_MESSAGE": "Inbox limit added successfully",
+            "ERROR_MESSAGE": "Failed to add inbox limit"
+          },
+          "UPDATE": {
+            "SUCCESS_MESSAGE": "Inbox limit updated successfully",
+            "ERROR_MESSAGE": "Failed to update inbox limit"
+          },
+          "DELETE": {
+            "SUCCESS_MESSAGE": "Inbox limit deleted successfully",
+            "ERROR_MESSAGE": "Failed to delete inbox limit"
           }
         }
       },
