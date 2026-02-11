@@ -1,160 +1,108 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Erro interno do servidor (500)</title>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Something went wrong</title>
   <style>
-  body {
-    background: linear-gradient(135deg, #003C56 0%, #007298 50%, #008BBA 100%);
-    color: #FFFFFF;
-    text-align: center;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .container {
-    width: 95%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  .dialog {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 20px;
-    padding: 40px 30px;
-    box-shadow: 0 8px 32px rgba(0, 60, 86, 0.3);
-    margin-bottom: 30px;
-  }
-
-  .logos {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-bottom: 30px;
-    flex-wrap: wrap;
-  }
-
-  .logo-chatwit {
-    width: 200px;
-    height: auto;
-    filter: brightness(0) invert(1);
-  }
-
-  .logo-witdev {
-    width: 150px;
-    height: auto;
-  }
-
-  .powered-by {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-    margin: 10px 0;
-  }
-
-  h1 {
-    font-size: 2.5em;
-    color: #FFFFFF;
-    margin-bottom: 20px;
-    font-weight: 300;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  .error-code {
-    font-size: 6em;
-    font-weight: bold;
-    color: #008BBA;
-    margin: 20px 0;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  p {
-    font-size: 1.2em;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.9);
-    margin: 20px 0;
-  }
-
-  .info-box {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
-    padding: 25px;
-    margin-top: 20px;
-  }
-
-  .back-button {
-    display: inline-block;
-    padding: 12px 30px;
-    background: linear-gradient(45deg, #007298, #008BBA);
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    font-weight: 500;
-    margin-top: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 139, 186, 0.3);
-  }
-
-  .back-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 139, 186, 0.4);
-  }
-
-  @media (max-width: 768px) {
-    .logos {
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      display: flex;
       flex-direction: column;
-      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Tahoma, Arial, sans-serif;
+      background: rgba(39, 129, 246, 0.05);
+      color: rgb(28, 32, 36);
+      padding: 2rem 1.5rem;
+      -webkit-font-smoothing: antialiased;
     }
-    
-    .logo-chatwit {
-      width: 150px;
+    .page {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 28rem;
     }
-    
-    .logo-witdev {
-      width: 120px;
+    .error-number {
+      font-size: 8rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(180deg, rgb(207, 74, 34) 0%, rgb(247, 164, 120) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1.5rem;
     }
-    
-    .error-code {
-      font-size: 4em;
-    }
-    
     h1 {
-      font-size: 2em;
+      font-size: 1.5rem;
+      font-weight: 600;
+      line-height: 1.3;
+      text-align: center;
+      margin-bottom: 0.5rem;
     }
-  }
+    .description {
+      font-size: 0.9375rem;
+      color: rgb(96, 100, 108);
+      line-height: 1.6;
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      background: rgb(39, 129, 246);
+      color: #fff;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      padding: 0.75rem 2rem;
+      border-radius: 0.625rem;
+      text-decoration: none;
+      transition: background 0.15s ease;
+    }
+    .btn:hover { background: rgb(16, 115, 233); }
+    .btn svg { width: 1.125rem; height: 1.125rem; }
+    .divider {
+      width: 3rem;
+      height: 2px;
+      background: rgb(224, 225, 230);
+      border-radius: 1px;
+      margin: 2.5rem 0;
+    }
+    .help {
+      font-size: 0.8125rem;
+      color: rgb(139, 141, 152);
+      text-align: center;
+      line-height: 1.5;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { background: rgb(17, 17, 19); color: rgb(237, 238, 240); }
+      .error-number { background: linear-gradient(180deg, rgb(255, 148, 114) 0%, rgb(148, 52, 27) 100%); -webkit-background-clip: text; background-clip: text; }
+      .description { color: rgb(176, 180, 186); }
+      .divider { background: rgb(46, 49, 53); }
+      .help { color: rgb(105, 110, 119); }
+    }
+    @media (max-width: 480px) {
+      .error-number { font-size: 5rem; }
+      h1 { font-size: 1.25rem; }
+    }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <div class="logos">
-      <img src="/brand-assets/logo.svg" alt="Chatwit" class="logo-chatwit">
-      <div style="display: flex; flex-direction: column; align-items: center;">
-        <div class="powered-by">Powered by</div>
-        <img src="/brand-assets/logo-witdev.png" alt="WitDev" class="logo-witdev">
-      </div>
-    </div>
-
-    <div class="dialog">
-      <div class="error-code">500</div>
-      <h1>Erro interno do servidor</h1>
-      <p>Algo deu errado no nosso servidor. Estamos trabalhando para resolver este problema.</p>
-      <p>Tente novamente em alguns minutos ou entre em contato com o suporte se o problema persistir.</p>
-    </div>
-    
-    <div class="info-box">
-      <p>Se voce e o proprietario da aplicacao, verifique os logs para mais informacoes.</p>
-      <a href="/" class="back-button">Voltar ao Inicio</a>
-    </div>
+  <div class="page">
+    <div class="error-number">500</div>
+    <h1>Something went wrong</h1>
+    <p class="description">An unexpected error occurred. Please refresh the page or try again shortly.</p>
+    <a href="/" class="btn">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>
+      Back to home
+    </a>
+    <div class="divider"></div>
+    <p class="help">If the problem persists, please try again in a few minutes.</p>
   </div>
 </body>
 </html>
