@@ -1,4 +1,6 @@
 name: Run Chatwoot CE spec
+permissions:
+  contents: read
 on:
   push:
     branches:
@@ -8,11 +10,58 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
-    runs-on: ubuntu-22.04
+  # Separate linting jobs for faster feedback
+  lint-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run Rubocop
+        run: bundle exec rubocop --parallel
+
+  lint-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install pnpm dependencies
+        run: pnpm i
+      - name: Run ESLint
+        run: pnpm run eslint
+
+  # Frontend tests run in parallel with backend
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+      - name: Install pnpm dependencies
+        run: pnpm i
+      - name: Run frontend tests
+        run: pnpm run test:coverage
+
+  # Backend tests with parallelization
+  backend-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ci_node_total: [16]
+        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+
     services:
       postgres:
-        image: pgvector/pgvector:pg15
+        image: pgvector/pgvector:pg16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ''
@@ -20,8 +69,6 @@ jobs:
           POSTGRES_HOST_AUTH_METHOD: trust
         ports:
           - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        # tmpfs makes DB faster by using RAM
         options: >-
           --mount type=tmpfs,destination=/var/lib/postgresql/data
           --health-cmd pg_isready
@@ -29,7 +76,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       redis:
-        image: redis
+        image: redis:alpine
         ports:
           - 6379:6379
         options: --entrypoint redis-server
@@ -43,11 +90,11 @@ jobs:
 
       - uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+          bundler-cache: true
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 23
+          node-version: 24
           cache: 'pnpm'
 
       - name: Install pnpm dependencies
@@ -64,19 +111,36 @@ jobs:
       - name: Seed database
         run: bundle exec rake db:schema:load
 
-      - name: Run frontend tests
-        run: pnpm run test:coverage
-
-      # Run rails tests
-      - name: Run backend tests
+      - name: Run backend tests (parallelized)
         run: |
-          bundle exec rspec --profile=10 --format documentation
+          # Get all spec files and split them using round-robin distribution
+          # This ensures slow tests are distributed evenly across all nodes
+          SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
+          TESTS=""
+
+          for i in "${!SPEC_FILES[@]}"; do
+            # Assign spec to this node if: index % total == node_index
+            if [ $(( i % ${{ matrix.ci_node_total }} )) -eq ${{ matrix.ci_node_index }} ]; then
+              TESTS="$TESTS ${SPEC_FILES[$i]}"
+            fi
+          done
+
+          if [ -n "$TESTS" ]; then
+            bundle exec rspec --profile=10 --format progress --format json --out tmp/rspec_results.json $TESTS
+          fi
         env:
           NODE_OPTIONS: --openssl-legacy-provider
 
-      - name: Upload rails log folder
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: rails-log-folder
+          name: rspec-results-${{ matrix.ci_node_index }}
+          path: tmp/rspec_results.json
+
+      - name: Upload rails log folder
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: rails-log-folder-${{ matrix.ci_node_index }}
           path: log

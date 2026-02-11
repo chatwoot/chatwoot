@@ -24,7 +24,7 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "NO_LABELS_FOUND": "Không tìm thấy nhãn nào cho",
+      "NO_LABELS_FOUND": "Không tìm thấy nhãn",
       "ASSIGN_SELECTED_LABELS": "Gán các nhãn đã chọn",
       "ASSIGN_SUCCESFUL": "Các nhãn được gán thành công.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again."

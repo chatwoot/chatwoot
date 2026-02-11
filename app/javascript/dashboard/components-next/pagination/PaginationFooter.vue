@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 
@@ -24,6 +25,7 @@ const props = defineProps({
 });
 const emit = defineEmits(['update:currentPage']);
 const { t } = useI18n();
+const { formatCompactNumber, formatFullNumber } = useNumberFormatter();
 
 const totalPages = computed(() =>
   Math.ceil(props.totalItems / props.itemsPerPage)
@@ -43,27 +45,33 @@ const changePage = newPage => {
 };
 
 const currentPageInformation = computed(() => {
+  const translationKey = props.currentPageInfo || 'PAGINATION_FOOTER.SHOWING';
   return t(
-    props.currentPageInfo ? props.currentPageInfo : 'PAGINATION_FOOTER.SHOWING',
+    translationKey,
     {
-      startItem: startItem.value,
-      endItem: endItem.value,
-      totalItems: props.totalItems,
-    }
+      startItem: formatFullNumber(startItem.value),
+      endItem: formatFullNumber(endItem.value),
+      totalItems: formatCompactNumber(props.totalItems),
+    },
+    Number(props.totalItems)
   );
 });
 
 const pageInfo = computed(() => {
-  return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
-    currentPage: '',
-    totalPages: totalPages.value,
-  });
+  return t(
+    'PAGINATION_FOOTER.CURRENT_PAGE_INFO',
+    {
+      currentPage: '',
+      totalPages: formatCompactNumber(totalPages.value),
+    },
+    Number(totalPages.value)
+  );
 });
 </script>
 
 <template>
   <div
-    class="flex justify-between h-12 w-full max-w-[calc(60rem-3px)] outline outline-n-container outline-1 -outline-offset-1 mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-background before:from-10% before:dark:from-0% before:to-transparent before:h-4 before:pointer-events-none"
+    class="flex justify-between h-12 w-full max-w-[calc(60rem-3px)] outline outline-n-container outline-1 -outline-offset-1 mx-auto bg-n-solid-2 rounded-xl py-2 ltr:pl-4 rtl:pr-4 ltr:pr-3 rtl:pl-3 items-center before:absolute before:inset-x-0 before:-top-4 before:bg-gradient-to-t before:from-n-surface-1 before:from-10% before:dark:from-0% before:to-transparent before:h-4 before:pointer-events-none"
   >
     <div class="flex items-center gap-3">
       <span class="min-w-0 text-sm font-normal line-clamp-1 text-n-slate-11">
@@ -91,9 +99,11 @@ const pageInfo = computed(() => {
       />
       <div class="inline-flex items-center gap-2 text-sm text-n-slate-11">
         <span class="px-3 tabular-nums py-0.5 bg-n-alpha-black2 rounded-md">
-          {{ currentPage }}
+          {{ formatFullNumber(currentPage) }}
         </span>
-        <span class="truncate">{{ pageInfo }}</span>
+        <span class="truncate">
+          {{ pageInfo }}
+        </span>
       </div>
       <Button
         icon="i-lucide-chevron-right"

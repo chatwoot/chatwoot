@@ -160,8 +160,8 @@
         },
         "SEND_CNAME_INSTRUCTIONS": {
           "API": {
-            "SUCCESS_MESSAGE": "CNAME instructions sent successfully",
-            "ERROR_MESSAGE": "Error while sending CNAME instructions"
+            "SUCCESS_MESSAGE": "Инструкции CNAME успешно отправлены",
+            "ERROR_MESSAGE": "Ошибка при отправке инструкций CNAME"
           }
         }
       },
@@ -703,7 +703,7 @@
         "LABEL": "Метка",
         "PLACEHOLDER": "руководство пользователя",
         "ERROR": "Необходимо указать метку",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "FORMAT_ERROR": "Пожалуйста, введите правильное короткое имя, например: user-guide"
       }
     },
     "PORTAL_SETTINGS": {
@@ -732,7 +732,7 @@
         "HOME_PAGE_LINK": {
           "LABEL": "Ссылка на домашнюю страницу",
           "PLACEHOLDER": "Ссылка на главную страницу портала",
-          "ERROR": "Enter a valid URL. The Home page link must start with 'http://' or 'https://'."
+          "ERROR": "Введите правильный URL. Ссылка на главную страницу должна начинаться с 'http://' или 'https://'."
         },
         "SLUG": {
           "LABEL": "Метка",
@@ -742,7 +742,7 @@
           "LABEL": "Виджет онлайн чата",
           "PLACEHOLDER": "Выберите виджет онлайн чата",
           "HELP_TEXT": "Выберите виджет онлайн-чата, который появится в вашем центре помощи",
-          "NONE_OPTION": "No widget"
+          "NONE_OPTION": "Нет виджета"
         },
         "BRAND_COLOR": {
           "LABEL": "Цвет бренда"
@@ -754,14 +754,14 @@
           "HEADER": "Свой домен",
           "LABEL": "Свой домен:",
           "DESCRIPTION": "Вы можете разместить ваш портал на собственном домене. Например, если ваш сайт — yourdomain.com, и вы хотите, чтобы ваш портал был доступен по адресу docs.yourdomain.com, просто введите это в это поле.",
-          "STATUS_DESCRIPTION": "Your custom portal will start working as soon as it is verified.",
+          "STATUS_DESCRIPTION": "Ваш портал начнет работать, как только он будет проверен.",
           "PLACEHOLDER": "Пользовательский домен портала",
           "EDIT_BUTTON": "Редактировать",
           "ADD_BUTTON": "Добавить пользовательский домен",
           "STATUS": {
             "LIVE": "Онлайн",
-            "PENDING": "Awaiting verification",
-            "ERROR": "Verification failed"
+            "PENDING": "Ожидание проверки",
+            "ERROR": "Проверка не удалась"
           },
           "DIALOG": {
             "ADD_HEADER": "Добавить пользовательский домен",
@@ -771,17 +771,17 @@
             "LABEL": "Свой домен",
             "PLACEHOLDER": "Пользовательский домен портала",
             "ERROR": "Требуется пользовательский домен",
-            "FORMAT_ERROR": "Please enter a valid domain URL e.g. docs.yourdomain.com"
+            "FORMAT_ERROR": "Пожалуйста, введите корректный URL домена, например docs.yourdomain.com"
           },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "Настройка DNS",
             "DESCRIPTION": "Войдите в учетную запись с вашим DNS провайдером и добавьте запись CNAME для поддомена, указывающего на chatwoot.help",
-            "COPY": "Successfully copied CNAME",
+            "COPY": "CNAME успешно скопирован",
             "SEND_INSTRUCTIONS": {
-              "HEADER": "Send instructions",
-              "DESCRIPTION": "If you would prefer to have someone from your development team to handle this step, you can enter email address below, and we will send them the required instructions.",
-              "PLACEHOLDER": "Enter their email",
-              "ERROR": "Enter a valid email address",
+              "HEADER": "Отправить инструкции",
+              "DESCRIPTION": "Если вы предпочитаете иметь кого-то из вашей команды разработчиков, вы можете ввести адрес электронной почты ниже, и мы отправим им необходимые инструкции.",
+              "PLACEHOLDER": "Введите их email",
+              "ERROR": "Введите правильный адрес электронной почты",
               "SEND_BUTTON": "Отправить"
             }
           }
@@ -810,56 +810,56 @@
       }
     },
     "PDF_UPLOAD": {
-      "TITLE": "Upload PDF Document",
-      "DESCRIPTION": "Upload a PDF document to automatically generate FAQs using AI",
-      "DRAG_DROP_TEXT": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "ADDITIONAL_CONTEXT_LABEL": "Additional Context (Optional)",
-      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Provide any additional context or instructions for FAQ generation...",
+      "TITLE": "Загрузить PDF документ",
+      "DESCRIPTION": "Загрузить PDF документ для автоматической генерации FAQ с помощью ИИ",
+      "DRAG_DROP_TEXT": "Перетащите ваш PDF файл сюда или нажмите кнопку \"Выбрать\"",
+      "SELECT_FILE": "Выбрать PDF файл",
+      "ADDITIONAL_CONTEXT_LABEL": "Дополнительный контекст (Опционально)",
+      "ADDITIONAL_CONTEXT_PLACEHOLDER": "Предоставьте любой дополнительный контекст или инструкции для генерации FAQ...",
       "UPLOADING": "Загружаем...",
-      "UPLOAD": "Upload & Process",
+      "UPLOAD": "Загрузить и обработать",
       "CANCEL": "Отменить",
-      "ERROR_INVALID_TYPE": "Please select a valid PDF file",
-      "ERROR_FILE_TOO_LARGE": "File size must be less than 512MB",
-      "ERROR_UPLOAD_FAILED": "Failed to upload PDF. Please try again."
+      "ERROR_INVALID_TYPE": "Пожалуйста, выберите корректный файл PDF",
+      "ERROR_FILE_TOO_LARGE": "Размер файла должен быть меньше 512MB",
+      "ERROR_UPLOAD_FAILED": "Не удалось загрузить PDF. Пожалуйста, попробуйте еще раз."
     },
     "PDF_DOCUMENTS": {
-      "TITLE": "PDF Documents",
-      "DESCRIPTION": "Manage uploaded PDF documents and generate FAQs from them",
-      "UPLOAD_PDF": "Upload PDF",
-      "UPLOAD_FIRST_PDF": "Upload your first PDF",
-      "UPLOADED_BY": "Uploaded by",
-      "GENERATE_FAQS": "Generate FAQs",
+      "TITLE": "PDF документы",
+      "DESCRIPTION": "Управление загруженными документами PDF и сгенерированными FAQ",
+      "UPLOAD_PDF": "Загрузить PDF",
+      "UPLOAD_FIRST_PDF": "Загрузите первый PDF",
+      "UPLOADED_BY": "Загружен",
+      "GENERATE_FAQS": "Сгенерировать FAQ",
       "GENERATING": "Создание...",
-      "CONFIRM_DELETE": "Are you sure you want to delete {filename}?",
+      "CONFIRM_DELETE": "Вы уверены, что хотите удалить {filename}?",
       "EMPTY_STATE": {
-        "TITLE": "No PDF documents yet",
-        "DESCRIPTION": "Upload PDF documents to automatically generate FAQs using AI"
+        "TITLE": "Документов PDF пока нет",
+        "DESCRIPTION": "Загрузите PDF документы для автоматического сгенерированные FAQ с помощью ИИ"
       },
       "STATUS": {
-        "UPLOADED": "Ready",
-        "PROCESSING": "Processing",
+        "UPLOADED": "Готово",
+        "PROCESSING": "Обрабатывается",
         "PROCESSED": "Выполнено",
-        "FAILED": "Failed"
+        "FAILED": "Не удалось"
       }
     },
     "CONTENT_GENERATION": {
-      "TITLE": "Content Generation",
-      "DESCRIPTION": "Upload PDF documents to automatically generate FAQ content using AI",
-      "UPLOAD_TITLE": "Upload PDF Document",
-      "DRAG_DROP": "Drag and drop your PDF file here, or click to select",
-      "SELECT_FILE": "Select PDF File",
-      "UPLOADING": "Processing document...",
-      "UPLOAD_SUCCESS": "Document processed successfully!",
-      "UPLOAD_ERROR": "Failed to upload document. Please try again.",
-      "INVALID_FILE_TYPE": "Please select a valid PDF file",
-      "FILE_TOO_LARGE": "File size must be less than 512MB",
-      "GENERATED_CONTENT": "Generated FAQ Content",
-      "PUBLISH_SELECTED": "Publish Selected",
-      "PUBLISHING": "Publishing...",
-      "FROM_DOCUMENT": "From document",
-      "NO_CONTENT": "No generated content available. Upload a PDF document to get started.",
-      "LOADING": "Loading generated content..."
+      "TITLE": "Генерация контента",
+      "DESCRIPTION": "Загрузите PDF документы для автоматического генерации FAQ с помощью ИИ",
+      "UPLOAD_TITLE": "Загрузить PDF документ",
+      "DRAG_DROP": "Перетащите ваш PDF файл сюда или нажмите кнопку \"Выбрать\"",
+      "SELECT_FILE": "Выбрать PDF файл",
+      "UPLOADING": "Обработка документа...",
+      "UPLOAD_SUCCESS": "Документ успешно обработан!",
+      "UPLOAD_ERROR": "Не удалось загрузить документ. Пожалуйста, попробуйте еще раз.",
+      "INVALID_FILE_TYPE": "Пожалуйста, выберите корректный файл PDF",
+      "FILE_TOO_LARGE": "Размер файла должен быть меньше 512MB",
+      "GENERATED_CONTENT": "Генерировать FAQ контент",
+      "PUBLISH_SELECTED": "Опубликовать выбранные",
+      "PUBLISHING": "Публикация...",
+      "FROM_DOCUMENT": "Из документа",
+      "NO_CONTENT": "Сгенерированный контент недоступен. Загрузите документ PDF, чтобы начать.",
+      "LOADING": "Загрузка сгенерированного контента..."
     }
   }
 }

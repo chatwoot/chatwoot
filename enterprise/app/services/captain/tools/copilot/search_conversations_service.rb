@@ -1,26 +1,15 @@
-class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::BaseService
-  def name
-    'search_conversations'
+class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::BaseTool
+  def self.name
+    'search_conversation'
   end
+  description 'Search conversations based on parameters'
 
-  def description
-    'Search conversations based on parameters'
-  end
+  param :status, type: :string, desc: 'Status of the conversation (open, resolved, pending, snoozed). Leave empty to search all statuses.'
+  param :contact_id, type: :number, desc: 'Contact id'
+  param :priority, type: :string, desc: 'Priority of conversation (low, medium, high, urgent). Leave empty to search all priorities.'
+  param :labels, type: :string, desc: 'Labels available'
 
-  def parameters
-    {
-      type: 'object',
-      properties: properties,
-      required: []
-    }
-  end
-
-  def execute(arguments)
-    status = arguments['status']
-    contact_id = arguments['contact_id']
-    priority = arguments['priority']
-    labels = arguments['labels']
-
+  def execute(status: nil, contact_id: nil, priority: nil, labels: nil)
     conversations = get_conversations(status, contact_id, priority, labels)
 
     return 'No conversations found' unless conversations.exists?
@@ -30,7 +19,7 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
 
     <<~RESPONSE
       #{total_count > 100 ? "Found #{total_count} conversations (showing first 100)" : "Total number of conversations: #{total_count}"}
-      #{conversations.map { |conversation| conversation.to_llm_text(include_contact_details: true) }.join("\n---\n")}
+      #{conversations.map { |conversation| conversation.to_llm_text(include_contact_details: true, include_private_messages: true) }.join("\n---\n")}
     RESPONSE
   end
 
@@ -45,10 +34,18 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   def get_conversations(status, contact_id, priority, labels)
     conversations = permissible_conversations
     conversations = conversations.where(contact_id: contact_id) if contact_id.present?
-    conversations = conversations.where(status: status) if status.present?
-    conversations = conversations.where(priority: priority) if priority.present?
+    conversations = conversations.where(status: status) if valid_status?(status)
+    conversations = conversations.where(priority: priority) if valid_priority?(priority)
     conversations = conversations.tagged_with(labels, any: true) if labels.present?
     conversations
+  end
+
+  def valid_status?(status)
+    status.present? && Conversation.statuses.key?(status)
+  end
+
+  def valid_priority?(priority)
+    priority.present? && Conversation.priorities.key?(priority)
   end
 
   def permissible_conversations
@@ -57,14 +54,5 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
       @user,
       @assistant.account
     ).perform
-  end
-
-  def properties
-    {
-      contact_id: { type: 'number', description: 'Filter conversations by contact ID' },
-      status: { type: 'string', enum: %w[open resolved pending snoozed], description: 'Filter conversations by status' },
-      priority: { type: 'string', enum: %w[low medium high urgent], description: 'Filter conversations by priority' },
-      labels: { type: 'array', items: { type: 'string' }, description: 'Filter conversations by labels' }
-    }
   end
 end

@@ -11,7 +11,7 @@ class Integrations::GoogleTranslate::ProcessorService
 
     response = client.translate_text(
       contents: [content],
-      target_language_code: target_language,
+      target_language_code: bcp47_language_code,
       parent: "projects/#{hook.settings['project_id']}",
       mime_type: mime_type
     )
@@ -22,6 +22,10 @@ class Integrations::GoogleTranslate::ProcessorService
   end
 
   private
+
+  def bcp47_language_code
+    target_language.tr('_', '-')
+  end
 
   def email_channel?
     message&.inbox&.email?

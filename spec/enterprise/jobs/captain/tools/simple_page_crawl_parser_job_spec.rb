@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
   describe '#perform' do
     let(:assistant) { create(:captain_assistant) }
-    let(:page_link) { 'https://example.com/page' }
+    let(:page_link) { 'https://example.com/page/' }
     let(:page_title) { 'Example Page Title' }
     let(:content) { 'Some page content here' }
     let(:crawler) { instance_double(Captain::Tools::SimplePageCrawlService) }
@@ -24,7 +24,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
         end.to change(assistant.documents, :count).by(1)
 
         document = assistant.documents.last
-        expect(document.external_link).to eq(page_link)
+        expect(document.external_link).to eq('https://example.com/page')
         expect(document.name).to eq(page_title)
         expect(document.content).to eq(content)
         expect(document.status).to eq('available')
@@ -33,7 +33,7 @@ RSpec.describe Captain::Tools::SimplePageCrawlParserJob, type: :job do
       it 'updates existing document if one exists' do
         existing_document = create(:captain_document,
                                    assistant: assistant,
-                                   external_link: page_link,
+                                   external_link: 'https://example.com/page',
                                    name: 'Old Title',
                                    content: 'Old content')
 

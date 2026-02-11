@@ -234,6 +234,7 @@
     "CONTACT_SUPPORT": "Contate o suporte",
     "SELECTOR_SUBTITLE": "Selecione uma conta da lista a seguir",
     "PROFILE_SETTINGS": "Configurações do Perfil",
+    "YEAR_IN_REVIEW": "Retrospectiva do Ano",
     "KEYBOARD_SHORTCUTS": "Atalhos do teclado",
     "APPEARANCE": "Alterar Tema",
     "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
@@ -251,6 +252,12 @@
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
       "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
+    },
+    "NO_ACCOUNTS": {
+      "TITLE": "No account found",
+      "MESSAGE_CLOUD": "You are not part of any accounts right now. If you think this is a mistake, please reach out to our support team.",
+      "MESSAGE_SELF_HOSTED": "You are not part of any accounts right now. Please reach out to your administrator.",
+      "LOGOUT": "Encerrar sessão"
     }
   },
   "COMPONENTS": {
@@ -300,10 +307,17 @@
     "SETTINGS": "Configurações",
     "CONTACTS": "Contatos",
     "ACTIVE": "Ativo",
+    "COMPANIES": "Empresas",
+    "ALL_COMPANIES": "Todas as empresas",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
+    "CAPTAIN_TOOLS": "Ferramentas",
+    "CAPTAIN_SCENARIOS": "Cenários",
+    "CAPTAIN_PLAYGROUND": "Playground",
+    "CAPTAIN_INBOXES": "Caixas de Entrada",
+    "CAPTAIN_SETTINGS": "Configurações",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -387,19 +401,44 @@
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",
-      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais."
+      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais.",
+      "REFRESH_CREDITS": "Atualizar"
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",
       "DESCRIPTION": "Você está com algum problema de cobrança? Nós estamos aqui para ajudar.",
       "BUTTON_TXT": "Fale conosco no chat"
     },
-    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente."
+    "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente.",
+    "TOPUP": {
+      "BUY_CREDITS": "Comprar mais créditos",
+      "MODAL_TITLE": "Comprar Créditos de IA",
+      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Capitão AI.",
+      "CREDITS": "CRÉDITOS",
+      "ONE_TIME": "única vez",
+      "POPULAR": "Mais populares",
+      "NOTE_TITLE": "Nota:",
+      "NOTE_DESCRIPTION": "Créditos são adicionados imediatamente e expiram em 6 meses. Uma assinatura ativa é necessária para usar créditos. Créditos adquiridos são consumidos após seus créditos do plano mensal.",
+      "CANCEL": "Cancelar",
+      "PURCHASE": "Comprar Créditos",
+      "LOADING": "Carregando opções...",
+      "FETCH_ERROR": "Falha ao carregar opções de crédito. Por favor, tente novamente.",
+      "PURCHASE_ERROR": "Falha ao processar a compra. Por favor, tente novamente.",
+      "PURCHASE_SUCCESS": "Foram adicionados {credits} créditos com sucesso à sua conta",
+      "CONFIRM": {
+        "TITLE": "Confirmar compra",
+        "DESCRIPTION": "Você está prestes a comprar {credits} créditos por {amount}.",
+        "INSTANT_DEDUCTION_NOTE": "Seu cartão salvo será cobrado imediatamente após a confirmação.",
+        "GO_BACK": "Voltar",
+        "CONFIRM_PURCHASE": "Confirmar compra"
+      }
+    }
   },
   "SECURITY_SETTINGS": {
     "TITLE": "Segurança",
     "DESCRIPTION": "Gerencie as configurações de segurança da sua conta.",
     "LINK_TEXT": "Saiba mais sobre o SAML SSO",
+    "SAML_DISABLED_MESSAGE": "O SSO via SAML está desativado no momento. Entre em contato com o administrador para habilitar esse recurso.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",

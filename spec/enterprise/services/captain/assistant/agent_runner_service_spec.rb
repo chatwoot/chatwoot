@@ -90,7 +90,8 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(mock_runner).to receive(:run).with(
         'I need help with my account',
-        context: expected_context
+        context: expected_context,
+        max_turns: 100
       )
 
       service.generate_response(message_history: message_history)

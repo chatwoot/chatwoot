@@ -2,6 +2,8 @@ module Enterprise::Concerns::Account
   extend ActiveSupport::Concern
 
   included do
+    store_accessor :settings, :conversation_required_attributes
+
     has_many :sla_policies, dependent: :destroy_async
     has_many :applied_slas, dependent: :destroy_async
     has_many :custom_roles, dependent: :destroy_async
@@ -13,6 +15,7 @@ module Enterprise::Concerns::Account
     has_many :captain_custom_tools, dependent: :destroy_async, class_name: 'Captain::CustomTool'
 
     has_many :copilot_threads, dependent: :destroy_async
+    has_many :companies, dependent: :destroy_async
     has_many :voice_channels, dependent: :destroy_async, class_name: '::Channel::Voice'
 
     has_one :saml_settings, dependent: :destroy_async, class_name: 'AccountSamlSettings'

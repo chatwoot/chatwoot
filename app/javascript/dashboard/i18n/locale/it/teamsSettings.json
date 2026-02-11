@@ -1,10 +1,10 @@
 {
   "TEAMS_SETTINGS": {
     "NEW_TEAM": "Crea un nuovo team",
-    "HEADER": "Teams",
-    "LOADING": "Fetching teams",
-    "DESCRIPTION": "Teams allow you to organize agents into groups based on their responsibilities. An agent can belong to multiple teams. When working collaboratively, you can assign conversations to specific teams.",
-    "LEARN_MORE": "Learn more about teams",
+    "HEADER": "Team",
+    "LOADING": "Caricamento team",
+    "DESCRIPTION": "I Team ti permettono di organizzare gli operatori in gruppi in base alle loro responsabilità. Un operatore può appartenere a più team. Quando si lavora in collaborazione, è possibile assegnare conversazioni a team specifici.",
+    "LEARN_MORE": "Scopri di più sui team",
     "LIST": {
       "404": "Non ci sono team creati su questo account.",
       "EDIT_TEAM": "Modifica team",
@@ -16,17 +16,17 @@
         "DESC": "Aggiungi un titolo e una descrizione al tuo nuovo team."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Aggiungi agenti al team",
-        "TITLE": "Aggiungi agenti al team - {teamName}",
-        "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione."
+        "BUTTON_TEXT": "Aggiungi operatori al team",
+        "TITLE": "Aggiungi operatori al team - {teamName}",
+        "DESC": "Aggiungi operatori al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione."
       },
       "WIZARD_CREATE": {
         "TITLE": "Crea",
-        "BODY": "Crea un nuovo team di agenti."
+        "BODY": "Crea un nuovo team di operatori."
       },
       "WIZARD_ADD_AGENTS": {
-        "TITLE": "Aggiungi agenti",
-        "BODY": "Aggiungi agenti al team."
+        "TITLE": "Aggiungi Operatori",
+        "BODY": "Aggiungi operatori al team."
       },
       "WIZARD_FINISH": {
         "TITLE": "Termina",
@@ -40,9 +40,9 @@
         "BUTTON_TEXT": "Aggiorna il team"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Aggiorna agenti nel team",
-        "TITLE": "Aggiungi agenti al team - {teamName}",
-        "DESC": "Aggiungi agenti al tuo team appena creato. Tutti gli agenti aggiunti verranno avvisati quando una conversazione viene assegnata a questo team."
+        "BUTTON_TEXT": "Aggiorna operatori nel team",
+        "TITLE": "Aggiungi operatori al team - {teamName}",
+        "DESC": "Aggiungi operatori al tuo team appena creato. Tutti gli operatori aggiunti verranno avvisati quando una conversazione viene assegnata a questo team."
       },
       "EDIT_WIZARD_DETAILS": {
         "TITLE": "Dettagli del team",
@@ -50,13 +50,13 @@
         "BODY": "Cambia nome, descrizione e altri dettagli."
       },
       "EDIT_WIZARD_AGENTS": {
-        "TITLE": "Modifica agenti",
+        "TITLE": "Modifica Operatori",
         "ROUTE": "settings_teams_edit_members",
-        "BODY": "Modifica agenti nel tuo team."
+        "BODY": "Modifica gli operatori nel tuo team."
       },
       "EDIT_WIZARD_FINISH": {
         "TITLE": "Termina",
-        "ROUTE": "settings_teams_edit_finisch",
+        "ROUTE": "settings_teams_edit_finish",
         "BODY": "Sei pronto per iniziare!"
       }
     },
@@ -64,22 +64,22 @@
       "ERROR_MESSAGE": "Impossibile salvare i dettagli del team. Riprova."
     },
     "AGENTS": {
-      "AGENT": "AGENTE",
+      "AGENT": "OPERATORE",
       "EMAIL": "EMAIL",
-      "BUTTON_TEXT": "Aggiungi agenti",
-      "ADD_AGENTS": "Aggiunta di agenti al tuo team...",
+      "BUTTON_TEXT": "Aggiungi operatori",
+      "ADD_AGENTS": "Aggiungendo gli Operatori al tuo Team...",
       "SELECT": "seleziona",
-      "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "{selected} su {total} agenti selezionati."
+      "SELECT_ALL": "seleziona tutti gli operatori",
+      "SELECTED_COUNT": "{selected} su {total} operatori selezionati."
     },
     "ADD": {
-      "TITLE": "Aggiungi agenti al team - {teamName}",
-      "DESC": "Aggiungi agenti al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
+      "TITLE": "Aggiungi operatori al team - {teamName}",
+      "DESC": "Aggiungi operatori al tuo team appena creato. Questo ti permette di collaborare come team alle conversazioni, ricevere una notifica sui nuovi eventi nella stessa conversazione.",
       "SELECT": "seleziona",
-      "SELECT_ALL": "seleziona tutti gli agenti",
-      "SELECTED_COUNT": "{selected} su {total} agenti selezionati.",
-      "BUTTON_TEXT": "Aggiungi agenti",
-      "AGENT_VALIDATION_ERROR": "Seleziona almeno un agente."
+      "SELECT_ALL": "seleziona tutti gli operatori",
+      "SELECTED_COUNT": "{selected} su {total} operatori selezionati.",
+      "BUTTON_TEXT": "Aggiungi operatori",
+      "AGENT_VALIDATION_ERROR": "Seleziona almeno un operatore."
     },
     "FINISH": {
       "TITLE": "Il tuo team è pronto!",
@@ -93,7 +93,7 @@
         "ERROR_MESSAGE": "Impossibile eliminare il team. Riprova."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure you want to delete the team?",
+        "TITLE": "Sei sicuro di voler eliminare il team?",
         "PLACE_HOLDER": "Digita {teamName} per confermare",
         "MESSAGE": "L'eliminazione del team rimuoverà l'assegnazione del team dalle conversazioni assegnate a questo team.",
         "YES": "Elimina ",
@@ -106,10 +106,10 @@
       "CREATE": "Crea un nuovo team",
       "NAME": {
         "LABEL": "Nome del team",
-        "PLACEHOLDER": "Esempio: Vendite, Assistenza clienti"
+        "PLACEHOLDER": "Esempio: Vendite, Assistenza Clienti"
       },
       "DESCRIPTION": {
-        "LABEL": "Descrizione team",
+        "LABEL": "Descrizione Team",
         "PLACEHOLDER": "Breve descrizione di questo team."
       },
       "AUTO_ASSIGN": {

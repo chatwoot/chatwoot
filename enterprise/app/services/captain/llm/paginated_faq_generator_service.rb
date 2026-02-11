@@ -1,4 +1,6 @@
-class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
+class Captain::Llm::PaginatedFaqGeneratorService < Llm::LegacyBaseOpenAiService
+  include Integrations::LlmInstrumentation
+
   # Default pages per chunk - easily configurable
   DEFAULT_PAGES_PER_CHUNK = 10
   MAX_ITERATIONS = 20 # Safety limit to prevent infinite loops
@@ -13,11 +15,11 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
     @max_pages = options[:max_pages] # Optional limit from UI
     @total_pages_processed = 0
     @iterations_completed = 0
-    @model = OpenAiConstants::PDF_PROCESSING_MODEL
+    @model = LlmConstants::PDF_PROCESSING_MODEL
   end
 
   def generate
-    raise CustomExceptions::PdfFaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
+    raise CustomExceptions::Pdf::FaqGenerationError, I18n.t('captain.documents.missing_openai_file_id') if @document&.openai_file_id.blank?
 
     generate_paginated_faqs
   end
@@ -43,7 +45,19 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
   private
 
   def generate_standard_faqs
-    response = @client.chat(parameters: standard_chat_parameters)
+    params = standard_chat_parameters
+    instrumentation_params = {
+      span_name: 'llm.faq_generation',
+      account_id: @document&.account_id,
+      feature_name: 'faq_generation',
+      model: @model,
+      messages: params[:messages]
+    }
+
+    response = instrument_llm_call(instrumentation_params) do
+      @client.chat(parameters: params)
+    end
+
     parse_response(response)
   rescue OpenAI::Error => e
     Rails.logger.error I18n.t('captain.documents.openai_api_error', error: e.message)
@@ -84,7 +98,13 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
 
   def process_page_chunk(start_page, end_page)
     params = build_chunk_parameters(start_page, end_page)
-    response = @client.chat(parameters: params)
+
+    instrumentation_params = build_instrumentation_params(params, start_page, end_page)
+
+    response = instrument_llm_call(instrumentation_params) do
+      @client.chat(parameters: params)
+    end
+
     result = parse_chunk_response(response)
     { faqs: result['faqs'] || [], has_content: result['has_content'] != false }
   rescue OpenAI::Error => e
@@ -180,21 +200,26 @@ class Captain::Llm::PaginatedFaqGeneratorService < Llm::BaseOpenAiService
   def similarity_score(str1, str2)
     words1 = str1.downcase.split(/\W+/).reject(&:empty?)
     words2 = str2.downcase.split(/\W+/).reject(&:empty?)
-
     common_words = words1 & words2
     total_words = (words1 + words2).uniq.size
-
     return 0 if total_words.zero?
 
     common_words.size.to_f / total_words
   end
 
-  def determine_stop_reason(last_chunk_result)
-    return 'Maximum iterations reached' if @iterations_completed >= MAX_ITERATIONS
-    return 'Maximum pages processed' if @max_pages && @total_pages_processed >= @max_pages
-    return 'No content found in last chunk' if last_chunk_result[:faqs].empty?
-    return 'End of document reached' if last_chunk_result[:has_content] == false
-
-    'Unknown'
+  def build_instrumentation_params(params, start_page, end_page)
+    {
+      span_name: 'llm.paginated_faq_generation',
+      account_id: @document&.account_id,
+      feature_name: 'paginated_faq_generation',
+      model: @model,
+      messages: params[:messages],
+      metadata: {
+        document_id: @document&.id,
+        start_page: start_page,
+        end_page: end_page,
+        iteration: @iterations_completed + 1
+      }
+    }
   end
 end
