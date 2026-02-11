@@ -101,8 +101,8 @@ namespace :reporting_events_rollup do
       puts "Comparing #{dimension[:name]} summaries..."
 
       weeks.each_with_index do |week, week_index|
-        # Build params for this week
-        params = {
+        # Build base params for this week
+        base_params = {
           since: week[:start].to_s,
           until: week[:end].to_s,
           type: dimension[:name],
@@ -110,13 +110,13 @@ namespace :reporting_events_rollup do
           business_hours: false
         }
 
-        # Get raw data (disable rollup temporarily)
-        raw_results = with_rollup_disabled(account) do
-          dimension[:builder].new(account, params).build
-        end
+        # Get raw data (explicitly disable rollup)
+        raw_params = base_params.merge(use_rollup: false)
+        raw_results = dimension[:builder].new(account: account, params: raw_params).build
 
-        # Get rollup data (with rollup enabled)
-        rollup_results = dimension[:builder].new(account, params).build
+        # Get rollup data (explicitly enable rollup)
+        rollup_params = base_params.merge(use_rollup: true)
+        rollup_results = dimension[:builder].new(account: account, params: rollup_params).build
 
         # Compare results
         dimension[:entities].each do |entity_id|
@@ -213,15 +213,6 @@ namespace :reporting_events_rollup do
       puts '🎉 All comparisons passed! Rollup data matches raw data perfectly.'
       puts ''
     end
-  end
-
-  # Helper: Temporarily disable rollup for an account
-  def with_rollup_disabled(account)
-    original_flag = account.feature_enabled?('reporting_events_rollup')
-    account.disable_features!('reporting_events_rollup') if original_flag
-    result = yield
-    account.enable_features!('reporting_events_rollup') if original_flag
-    result
   end
 
   # Helper: Compare two metric hashes
