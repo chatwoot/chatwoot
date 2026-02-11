@@ -49,8 +49,18 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     return transcribed_text if transcribed_text.present?
 
     temp_file_path = fetch_audio_file
-    transcribed_text = transcribe_with_openai(temp_file_path)
-    return '' if transcribed_text.blank?
+    transcribed_text = nil
+
+    File.open(temp_file_path, 'rb') do |file|
+      response = @client.audio.transcribe(
+        parameters: {
+          model: WHISPER_MODEL,
+          file: file,
+          temperature: 0.4
+        }
+      )
+      transcribed_text = response['text']
+    end
 
     update_transcription(transcribed_text)
     transcribed_text
@@ -78,32 +88,5 @@ class Messages::AudioTranscriptionService< Llm::LegacyBaseOpenAiService
     return unless ChatwootApp.advanced_search_allowed?
 
     message.reindex
-  end
-
-  def transcribe_with_openai(temp_file_path)
-    File.open(temp_file_path, 'rb') do |file|
-      response = @client.audio.transcribe(
-        parameters: {
-          model: WHISPER_MODEL,
-          file: file,
-          temperature: 0.4
-        }
-      )
-
-      response['text']
-    end
-  rescue Faraday::BadRequestError => e
-    Rails.logger.warn("Audio transcription request failed with bad request: #{bad_request_log_context(e)}")
-    nil
-  end
-
-  def bad_request_log_context(error)
-    {
-      attachment_id: attachment.id,
-      message_id: message&.id,
-      account_id: account&.id,
-      status_code: error.response&.dig(:status),
-      error_message: error.message
-    }
   end
 end
