@@ -36,6 +36,9 @@ const props = defineProps({
   },
   focusOnMount: { type: Boolean, default: false },
   allowCreate: { type: Boolean, default: false },
+  // Skip label-based dedup when the consumer already filters menuItems by ID.
+  // Prevents removing all same-name items when one is selected (e.g. duplicate agent names).
+  skipLabelDedup: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -74,11 +77,11 @@ const showInput = computed(() =>
 const showDropdownMenu = computed(() =>
   props.mode === MODE.SINGLE && tags.value.length >= 1
     ? false
-    : props.showDropdown
+    : props.showDropdown && isFocused.value
 );
 
-const filteredMenuItems = computed(() =>
-  buildTagMenuItems({
+const filteredMenuItems = computed(() => {
+  const items = buildTagMenuItems({
     mode: props.mode,
     tags: tags.value,
     menuItems: props.menuItems,
@@ -86,8 +89,14 @@ const filteredMenuItems = computed(() =>
     isLoading: props.isLoading,
     type: props.type,
     isNewTagInValidType: isNewTagInValidType.value,
-  })
-);
+    allowCreate: props.allowCreate,
+    skipLabelDedup: props.skipLabelDedup,
+  });
+  if (props.type !== INPUT_TYPES.TEXT) return items;
+  const query = newTag.value?.trim()?.toLowerCase();
+  if (!query) return items;
+  return items.filter(item => item.label?.toLowerCase().includes(query));
+});
 
 const emitDataOnAdd = value => {
   const matchingMenuItem = findMatchingMenuItem(props.menuItems, value);
@@ -112,10 +121,13 @@ const addTag = async () => {
     return;
   }
 
-  if (
-    [INPUT_TYPES.EMAIL, INPUT_TYPES.TEL].includes(props.type) ||
-    props.allowCreate
-  ) {
+  const isValidatedType = [INPUT_TYPES.EMAIL, INPUT_TYPES.TEL].includes(
+    props.type
+  );
+
+  if (!isValidatedType && !props.allowCreate && props.showDropdown) return;
+
+  if (isValidatedType || props.allowCreate) {
     if (!(await v$.value.$validate())) return;
     emitDataOnAdd(trimmedTag);
   }
@@ -125,28 +137,31 @@ const addTag = async () => {
 const removeTag = index => {
   tags.value.splice(index, 1);
   modelValue.value = tags.value;
-  emit('remove');
+  emit('remove', index);
 };
 
 const handleDropdownAction = async ({
   email: emailAddress,
   phoneNumber,
+  label,
   ...rest
 }) => {
   if (props.mode === MODE.SINGLE && tags.value.length >= 1) return;
   if (!props.showDropdown) return;
 
-  const isEmail = props.type === 'email';
-  newTag.value = isEmail ? emailAddress : phoneNumber;
+  const isEmail = props.type === INPUT_TYPES.EMAIL;
+  const tagValue = isEmail ? emailAddress : phoneNumber || label;
 
-  if (!(await v$.value.$validate())) return;
+  if (isEmail || props.type === INPUT_TYPES.TEL) {
+    newTag.value = tagValue;
+    if (!(await v$.value.$validate())) return;
+  }
 
-  const payload = isEmail
-    ? { email: emailAddress, ...rest }
-    : { phoneNumber, ...rest };
-
-  emit('add', payload);
-  updateValueAndFocus(emailAddress);
+  emit(
+    'add',
+    isEmail ? { email: emailAddress, ...rest } : { phoneNumber, label, ...rest }
+  );
+  updateValueAndFocus(tagValue);
 };
 
 const handleFocus = () => {
@@ -163,7 +178,7 @@ const handleKeydown = event => {
 };
 
 const handleClickOutside = () => {
-  if (tags.value.length) isFocused.value = false;
+  isFocused.value = false;
   emit('onClickOutside');
 };
 
