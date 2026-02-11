@@ -3,6 +3,7 @@ class AutoAssignment::AssignmentService
 
   def perform_bulk_assignment(limit: 100)
     return 0 unless inbox.auto_assignment_v2_enabled?
+    return 0 unless inbox.enable_auto_assignment?
 
     assigned_count = 0
 
@@ -32,7 +33,9 @@ class AutoAssignment::AssignmentService
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    scope = if assignment_config['conversation_priority'].to_s == 'longest_waiting'
+    # Apply conversation priority using assignment policy if available
+    policy = inbox.assignment_policy
+    scope = if policy&.longest_waiting?
               scope.reorder(last_activity_at: :asc, created_at: :asc)
             else
               scope.reorder(created_at: :asc)
@@ -80,10 +83,6 @@ class AutoAssignment::AssignmentService
 
   def round_robin_selector
     @round_robin_selector ||= AutoAssignment::RoundRobinSelector.new(inbox: inbox)
-  end
-
-  def assignment_config
-    @assignment_config ||= inbox.auto_assignment_config || {}
   end
 end
 
