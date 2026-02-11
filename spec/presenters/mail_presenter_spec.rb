@@ -199,6 +199,28 @@ RSpec.describe MailPresenter do
         end
       end
 
+      let(:mail_with_original_sender_header) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+          header['X-Original-Sender'] = 'Forwarded Sender <forwarded.sender@example.com>'
+        end
+      end
+
+      let(:mail_with_invalid_original_sender_header) do
+        Mail.new do
+          from 'Sender <sender@example.com>'
+          to 'Inbox <inbox@example.com>'
+          subject :header
+          body 'Hi'
+          header['Reply-To'] = 'Reply User <reply@example.com'
+          header['X-Original-Sender'] = 'not an email address'
+        end
+      end
+
       it 'returns nil sender values when from header is malformed' do
         presenter = described_class.new(mail_with_malformed_from)
 
@@ -209,6 +231,16 @@ RSpec.describe MailPresenter do
 
       it 'falls back to from header when reply_to is malformed' do
         presenter = described_class.new(mail_with_malformed_reply_to)
+        expect(presenter.original_sender).to eq('sender@example.com')
+      end
+
+      it 'uses parsed X-Original-Sender value when available' do
+        presenter = described_class.new(mail_with_original_sender_header)
+        expect(presenter.original_sender).to eq('forwarded.sender@example.com')
+      end
+
+      it 'falls back to from when X-Original-Sender is invalid' do
+        presenter = described_class.new(mail_with_invalid_original_sender_header)
         expect(presenter.original_sender).to eq('sender@example.com')
       end
 
