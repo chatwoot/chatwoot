@@ -48,36 +48,53 @@ class Api::V2::Accounts::LiveReportsController < Api::V1::Accounts::BaseControll
   end
 
   def team_ids
-    return [] unless permitted_params[:team_ids].present?
+    return [] if permitted_params[:team_ids].blank?
 
     permitted_params[:team_ids].reject(&:blank?)
   end
 
   def user_ids
-    return [] unless permitted_params[:user_ids].present?
+    return [] if permitted_params[:user_ids].blank?
 
     permitted_params[:user_ids].reject(&:blank?)
   end
 
   def inbox_ids
-    return [] unless permitted_params[:inbox_ids].present?
+    return [] if permitted_params[:inbox_ids].blank?
 
     permitted_params[:inbox_ids].reject(&:blank?)
   end
 
   def load_conversations
     scope = Current.account.conversations
-    scope = scope.where(team_id: team_ids) if team_ids.present?
-    scope = scope.where(assignee_id: user_ids) if user_ids.present?
-    scope = scope.where(inbox_id: inbox_ids) if inbox_ids.present?
-    
-    if permitted_params[:since].present? && permitted_params[:until].present?
-      since = Time.zone.at(permitted_params[:since].to_i)
-      until_time = Time.zone.at(permitted_params[:until].to_i)
-      scope = scope.where(created_at: since..until_time)
-    end
-    
-    @conversations = scope
+    scope = apply_team_filter(scope)
+    scope = apply_user_filter(scope)
+    scope = apply_inbox_filter(scope)
+    @conversations = apply_date_filter(scope)
+  end
+
+  def apply_team_filter(scope)
+    team_ids.present? ? scope.where(team_id: team_ids) : scope
+  end
+
+  def apply_user_filter(scope)
+    user_ids.present? ? scope.where(assignee_id: user_ids) : scope
+  end
+
+  def apply_inbox_filter(scope)
+    inbox_ids.present? ? scope.where(inbox_id: inbox_ids) : scope
+  end
+
+  def apply_date_filter(scope)
+    return scope unless date_range_present?
+
+    since = Time.zone.at(permitted_params[:since].to_i)
+    until_time = Time.zone.at(permitted_params[:until].to_i)
+    scope.where(created_at: since..until_time)
+  end
+
+  def date_range_present?
+    permitted_params[:since].present? && permitted_params[:until].present?
   end
 
   def permitted_params

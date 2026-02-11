@@ -143,16 +143,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     conversation = Current.account.conversations.find_by!(display_id: params[:id])
     authorize conversation, :update?
 
-    result = Conversations::ChangeInbox.call(
-      conversation: conversation,
-      inbox_id: params[:inbox_id]
-    )
+    result = Conversations::ChangeInbox.call(conversation: conversation, inbox_id: params[:inbox_id])
 
-    render json: {
-      success: true,
-      inbox_id: result.inbox.id,
-      website_token: result.inbox.channel.website_token
-    }
+    render json: { success: true,  inbox_id: result.inbox.id,  website_token: result.inbox.channel.website_token }
   end
 
   private
@@ -229,12 +222,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def build_contact_inbox
     return if @inbox.blank? || @contact.blank?
 
-    ContactInboxBuilder.new(
-      contact: @contact,
-      inbox: @inbox,
-      source_id: params[:source_id],
-      hmac_verified: hmac_verified?
-    ).perform
+    ContactInboxBuilder.new(contact: @contact,  inbox: @inbox, source_id: params[:source_id],  hmac_verified: hmac_verified?).perform
   end
 
   def conversation_finder

@@ -90,8 +90,8 @@ class Account < ApplicationRecord
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
 
-  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, 
-                            :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting,
+                 :auto_resolve_message_agent, :auto_resolve_message_client, :auto_resolve_split_reasons
 
   store_accessor :settings, :audio_transcriptions, :auto_resolve_label, :conversation_required_attributes
   store_accessor :settings, :captain_models, :captain_features

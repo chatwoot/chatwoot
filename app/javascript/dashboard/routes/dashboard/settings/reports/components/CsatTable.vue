@@ -202,7 +202,7 @@ const getSortIcon = header => {
               }"
               @click="
                 header.column.getCanSort() &&
-                header.column.getToggleSortingHandler()?.($event)
+                  header.column.getToggleSortingHandler()?.($event)
               "
             >
               <div class="flex items-center gap-2">
