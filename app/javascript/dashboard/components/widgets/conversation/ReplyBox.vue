@@ -429,7 +429,6 @@ export default {
         this.setCCAndToEmailsFromLastChat();
         // Reset Copilot editor state (includes cancelling ongoing generation)
         this.copilot.reset();
-        this.copilotAcceptedMessages = {};
       }
 
       if (this.isOnPrivateNote) {
