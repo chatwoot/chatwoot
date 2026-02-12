@@ -13,6 +13,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import TagInput from 'dashboard/components-next/taginput/TagInput.vue';
 import assignmentPoliciesAPI from 'dashboard/api/assignmentPolicies';
 import { useI18n } from 'vue-i18n';
 
@@ -29,7 +30,7 @@ const router = useRouter();
 const { t } = useI18n();
 const { isEnterprise } = useConfig();
 
-const selectedAgents = ref([]);
+const selectedAgentIds = ref([]);
 const isAgentListUpdating = ref(false);
 const enableAutoAssignment = ref(false);
 const maxAssignmentLimit = ref(null);
@@ -43,6 +44,33 @@ const showPolicyDropdown = ref(false);
 const isLinkingPolicy = ref(false);
 
 const agentList = computed(() => store.getters['agents/getAgents']);
+
+const selectedAgentNames = computed(() =>
+  selectedAgentIds.value.map(
+    id => agentList.value.find(a => a.id === id)?.name ?? ''
+  )
+);
+
+const agentMenuItems = computed(() =>
+  agentList.value
+    .filter(({ id }) => !selectedAgentIds.value.includes(id))
+    .map(({ id, name, thumbnail, avatar_url }) => ({
+      label: name,
+      value: id,
+      action: 'select',
+      thumbnail: { name, src: thumbnail || avatar_url || '' },
+    }))
+);
+
+const handleAgentAdd = ({ value }) => {
+  if (!selectedAgentIds.value.includes(value)) {
+    selectedAgentIds.value.push(value);
+  }
+};
+
+const handleAgentRemove = index => {
+  selectedAgentIds.value.splice(index, 1);
+};
 
 const isFeatureEnabled = feature => {
   const accountId = Number(route.params.accountId);
@@ -124,7 +152,7 @@ const fetchAttachedAgents = async () => {
     const {
       data: { payload: inboxMembers },
     } = response;
-    selectedAgents.value = inboxMembers;
+    selectedAgentIds.value = inboxMembers.map(m => m.id);
   } catch (error) {
     //  Handle error
   }
@@ -234,12 +262,11 @@ const handleToggleAutoAssignment = async val => {
 };
 
 const updateAgents = async () => {
-  const agentListIds = selectedAgents.value.map(el => el.id);
   isAgentListUpdating.value = true;
   try {
     await store.dispatch('inboxMembers/create', {
       inboxId: props.inbox.id,
-      agentList: agentListIds,
+      agentList: selectedAgentIds.value,
     });
     useAlert(t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
   } catch (error) {
@@ -340,21 +367,20 @@ onMounted(() => {
       :help-text="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
       class="[&>div]:!items-start"
     >
-      <multiselect
-        v-model="selectedAgents"
-        :options="agentList"
-        track-by="id"
-        label="name"
-        multiple
-        :close-on-select="false"
-        :clear-on-select="false"
-        hide-selected
-        placeholder="Pick some"
-        selected-label
-        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        class="!mb-0"
-      />
+      <div
+        class="rounded-xl outline outline-1 -outline-offset-1 outline-n-weak hover:outline-n-strong px-2 py-2"
+      >
+        <TagInput
+          :model-value="selectedAgentNames"
+          :placeholder="$t('INBOX_MGMT.ADD.AGENTS.PICK_AGENTS')"
+          :menu-items="agentMenuItems"
+          show-dropdown
+          skip-label-dedup
+          :focus-on-mount="false"
+          @add="handleAgentAdd"
+          @remove="handleAgentRemove"
+        />
+      </div>
 
       <template #extra>
         <div class="grid grid-cols-1 lg:grid-cols-8">
