@@ -51,7 +51,7 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
   end
 
   def update_settings
-    permitted = params.permit(:default_event_type_uri, :default_event_type_name)
+    permitted = params.permit(:default_event_type_uri, :default_event_type_name, calendly_templates: %i[booked rescheduled canceled])
     @hook.settings.merge!(permitted.to_h)
     @hook.save!
     render json: @hook.settings, status: :ok

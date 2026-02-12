@@ -38,13 +38,17 @@ class Webhooks::CalendlyController < ActionController::API
     hook = find_hook_for_event
     raise 'No matching Calendly hook found' if hook.blank?
 
-    signing_key = hook.settings['signing_key']
+    signing_key = resolve_signing_key(hook)
     raise 'No signing key configured' if signing_key.blank?
 
     expected = OpenSSL::HMAC.hexdigest('SHA256', signing_key, "#{timestamp}.#{raw_body}")
     return if ActiveSupport::SecurityUtils.secure_compare(expected, received_signature)
 
     raise 'Invalid webhook signature'
+  end
+
+  def resolve_signing_key(hook)
+    hook.settings['signing_key'].presence || GlobalConfigService.load('CALENDLY_WEBHOOK_SIGNING_KEY', nil)
   end
 
   def find_hook_for_event

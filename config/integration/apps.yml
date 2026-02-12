@@ -229,6 +229,17 @@ calendly:
           'signing_key': { 'type': 'string' },
           'refresh_token': { 'type': 'string' },
           'token_expires_at': { 'type': 'string' },
+          'calendly_templates':
+            {
+              'type': 'object',
+              'properties':
+                {
+                  'booked': { 'type': ['string', 'null'] },
+                  'rescheduled': { 'type': ['string', 'null'] },
+                  'canceled': { 'type': ['string', 'null'] },
+                },
+              'additionalProperties': false,
+            },
         },
       'required': [],
       'additionalProperties': false,

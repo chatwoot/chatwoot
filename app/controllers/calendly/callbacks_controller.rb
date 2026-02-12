@@ -15,7 +15,7 @@ class Calendly::CallbacksController < ApplicationController
   def setup_integration(token_data)
     api_client = build_temp_api_client(token_data)
     user_info = api_client.current_user
-    signing_key = SecureRandom.hex(32)
+    signing_key = calendly_signing_key
 
     webhook = register_webhook(api_client, user_info, signing_key)
     create_hook(token_data, user_info, webhook, signing_key)
@@ -98,5 +98,9 @@ class Calendly::CallbacksController < ApplicationController
 
   def base_url
     ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  end
+
+  def calendly_signing_key
+    GlobalConfigService.load('CALENDLY_WEBHOOK_SIGNING_KEY', nil) || SecureRandom.hex(32)
   end
 end
