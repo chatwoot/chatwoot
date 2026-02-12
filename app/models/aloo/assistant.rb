@@ -156,6 +156,9 @@ module Aloo
       admin_config['feature_macros'] != false
     end
 
+    # Calendly tool feature flag
+    def feature_calendly_enabled? = admin_config['feature_calendly'] != false
+
     # Full system prompt combining base + personality + guardrails
     def full_system_prompt
       [
