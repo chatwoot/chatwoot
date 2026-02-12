@@ -61,11 +61,13 @@ class Api::V1::Accounts::Integrations::CalendlyController < Api::V1::Accounts::B
 
   def destroy
     delete_webhook_subscription
+    @hook.reauthorized!
     @hook.destroy!
     head :ok
   rescue StandardError => e
     Rails.logger.error("Calendly disconnect error: #{e.message}")
     # Still destroy the hook even if webhook deletion fails
+    @hook.reauthorized!
     @hook.destroy!
     head :ok
   end

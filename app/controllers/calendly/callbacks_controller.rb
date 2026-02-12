@@ -43,6 +43,7 @@ class Calendly::CallbacksController < ApplicationController
   end
 
   def create_hook(token_data, user_info, webhook, signing_key)
+    destroy_existing_hook!
     account.hooks.create!(
       access_token: token_data['access_token'],
       status: 'enabled',
@@ -54,6 +55,14 @@ class Calendly::CallbacksController < ApplicationController
         'signing_key' => signing_key
       )
     )
+  end
+
+  def destroy_existing_hook!
+    existing = account.hooks.find_by(app_id: 'calendly')
+    return unless existing
+
+    existing.reauthorized!
+    existing.destroy!
   end
 
   def build_token_settings(token_data)
