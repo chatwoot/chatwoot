@@ -376,7 +376,8 @@
       "PREVIOUS_CONVERSATION": "Previous Conversations",
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
-      "SHOPIFY_ORDERS": "Shopify Orders"
+      "SHOPIFY_ORDERS": "Shopify Orders",
+      "CALENDLY_MEETINGS": "Calendly Meetings"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
@@ -396,6 +397,22 @@
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
         "UNFULFILLED": "Unfulfilled"
       }
+    },
+    "CALENDLY": {
+      "SCHEDULE_MEETING": "Schedule a meeting",
+      "SELECT_EVENT_TYPE": "Select event type",
+      "NO_EVENT_TYPES": "No event types available",
+      "EVENT_TYPES_ERROR": "Failed to load event types",
+      "SCHEDULING_MESSAGE": "Book a {name} meeting: {url}",
+      "LINK_SENT": "Scheduling link sent",
+      "LINK_ERROR": "Failed to create scheduling link",
+      "NO_EMAIL": "Contact has no email address",
+      "NO_EVENTS": "No upcoming meetings",
+      "ERROR": "Failed to load meetings",
+      "CANCEL_EVENT": "Cancel meeting",
+      "CANCEL_SUCCESS": "Meeting canceled",
+      "CANCEL_ERROR": "Failed to cancel meeting",
+      "DURATION": "{duration} min"
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
