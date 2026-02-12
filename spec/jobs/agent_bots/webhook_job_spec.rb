@@ -40,11 +40,11 @@ RSpec.describe AgentBots::WebhookJob do
     allow(Webhooks::Trigger).to receive(:execute).and_raise(retryable_error)
     trigger_instance = instance_double(Webhooks::Trigger, handle_failure: true)
     allow(Webhooks::Trigger).to receive(:new).and_return(trigger_instance)
-    allow(Rails.logger).to receive(:warn)
+    allow(Rails.logger).to receive(:info)
 
     expect(Webhooks::Trigger).to receive(:execute).exactly(3).times
     expect(trigger_instance).to receive(:handle_failure).with(instance_of(RestClient::InternalServerError)).once
-    expect(Rails.logger).to receive(:warn).with(/Retryable webhook failure/).exactly(3).times
+    expect(Rails.logger).to receive(:info).with(/AgentBots::WebhookJob/).twice
 
     perform_enqueued_jobs { job }
   end
