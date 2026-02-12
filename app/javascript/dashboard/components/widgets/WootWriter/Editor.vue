@@ -401,10 +401,6 @@ function openFileBrowser() {
 
 function handleCopilotClick() {
   const isOpening = !showSelectionMenu.value;
-  useTrack(CAPTAIN_EVENTS.EDITOR_AI_BUTTON_CLICKED, {
-    conversationId: props.conversationId,
-    entryPoint: 'inline',
-  });
   if (isOpening) {
     useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
       conversationId: props.conversationId,

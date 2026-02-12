@@ -86,7 +86,6 @@ export const PORTALS_EVENTS = Object.freeze({
 
 export const CAPTAIN_EVENTS = Object.freeze({
   // Editor funnel events
-  EDITOR_AI_BUTTON_CLICKED: 'Captain: Editor AI button clicked',
   EDITOR_AI_MENU_OPENED: 'Captain: Editor AI menu opened',
   GENERATION_FAILED: 'Captain: Generation failed',
   AI_ASSISTED_MESSAGE_SENT: 'Captain: AI-assisted message sent',

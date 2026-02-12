@@ -76,10 +76,6 @@ export default {
 
     const toggleCopilotMenu = () => {
       const isOpening = !showCopilotMenu.value;
-      useTrack(CAPTAIN_EVENTS.EDITOR_AI_BUTTON_CLICKED, {
-        conversationId: props.conversationId,
-        entryPoint: 'top_panel',
-      });
       if (isOpening) {
         useTrack(CAPTAIN_EVENTS.EDITOR_AI_MENU_OPENED, {
           conversationId: props.conversationId,
