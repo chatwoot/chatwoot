@@ -15,7 +15,6 @@ const props = defineProps({
   assignmentOrder: { type: String, default: '' },
   conversationPriority: { type: String, default: '' },
   assignedInboxCount: { type: Number, default: 0 },
-  enabled: { type: Boolean, default: false },
   inboxes: { type: Array, default: () => [] },
   isFetchingInboxes: { type: Boolean, default: false },
 });
@@ -64,36 +63,16 @@ const handleFetchInboxes = () => {
           <h3 class="text-heading-2 text-n-slate-12 line-clamp-1">
             {{ name }}
           </h3>
-          <div class="flex items-center gap-2">
-            <div class="flex items-center rounded-md bg-n-alpha-2 h-6 px-2">
-              <span
-                class="text-label-small"
-                :class="enabled ? 'text-n-teal-11' : 'text-n-slate-12'"
-              >
-                {{
-                  enabled
-                    ? t(
-                        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.ACTIVE'
-                      )
-                    : t(
-                        'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.INACTIVE'
-                      )
-                }}
-              </span>
-            </div>
-            <CardPopover
-              :title="
-                t(
-                  'ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.POPOVER'
-                )
-              "
-              icon="i-lucide-inbox"
-              :count="assignedInboxCount"
-              :items="inboxes"
-              :is-fetching="isFetchingInboxes"
-              @fetch="handleFetchInboxes"
-            />
-          </div>
+          <CardPopover
+            :title="
+              t('ASSIGNMENT_POLICY.AGENT_ASSIGNMENT_POLICY.INDEX.CARD.POPOVER')
+            "
+            icon="i-lucide-inbox"
+            :count="assignedInboxCount"
+            :items="inboxes"
+            :is-fetching="isFetchingInboxes"
+            @fetch="handleFetchInboxes"
+          />
         </div>
         <div class="flex items-center gap-2">
           <Button
