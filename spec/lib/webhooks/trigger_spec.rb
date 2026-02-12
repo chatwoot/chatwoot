@@ -77,6 +77,40 @@ describe Webhooks::Trigger do
       let!(:pending_conversation) { create(:conversation, inbox: inbox, status: :pending, account: account) }
       let!(:pending_message) { create(:message, account: account, inbox: inbox, conversation: pending_conversation) }
 
+      it 'raises 500 errors for retry and does not reopen conversation immediately' do
+        payload = { event: 'message_created', id: pending_message.id }
+
+        expect(RestClient::Request).to receive(:execute)
+          .with(
+            method: :post,
+            url: url,
+            payload: payload.to_json,
+            headers: { content_type: :json, accept: :json },
+            timeout: webhook_timeout
+          ).and_raise(RestClient::InternalServerError.new(nil, 500)).once
+
+        expect { trigger.execute(url, payload, webhook_type) }.to raise_error(RestClient::InternalServerError)
+        expect(pending_conversation.reload.status).to eq('pending')
+        expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+      end
+
+      it 'raises 429 errors for retry and does not reopen conversation immediately' do
+        payload = { event: 'message_created', id: pending_message.id }
+
+        expect(RestClient::Request).to receive(:execute)
+          .with(
+            method: :post,
+            url: url,
+            payload: payload.to_json,
+            headers: { content_type: :json, accept: :json },
+            timeout: webhook_timeout
+          ).and_raise(RestClient::TooManyRequests.new(nil, 429)).once
+
+        expect { trigger.execute(url, payload, webhook_type) }.to raise_error(RestClient::TooManyRequests)
+        expect(pending_conversation.reload.status).to eq('pending')
+        expect(Conversations::ActivityMessageJob).not_to have_been_enqueued
+      end
+
       it 'reopens conversation and enqueues activity message if pending' do
         payload = { event: 'message_created', id: pending_message.id }
 
@@ -165,6 +199,22 @@ describe Webhooks::Trigger do
         expect(activity_message.message_type).to eq('activity')
         expect(activity_message.content).to eq(agent_bot_error_content)
       end
+    end
+
+    it 'handles 500 without raising for non-agent webhooks' do
+      payload = { event: 'message_created', conversation: { id: conversation.id }, id: message.id }
+
+      expect(RestClient::Request).to receive(:execute)
+        .with(
+          method: :post,
+          url: url,
+          payload: payload.to_json,
+          headers: { content_type: :json, accept: :json },
+          timeout: webhook_timeout
+        ).and_raise(RestClient::InternalServerError.new(nil, 500)).once
+
+      expect { trigger.execute(url, payload, webhook_type) }.not_to raise_error
+      expect(message.reload.status).to eq('failed')
     end
   end
 

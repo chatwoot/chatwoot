@@ -13,9 +13,17 @@ class Webhooks::Trigger
 
   def execute
     perform_request
+  rescue RestClient::TooManyRequests, RestClient::InternalServerError => e
+    raise if @webhook_type == :agent_bot_webhook
+
+    handle_failure(e)
   rescue StandardError => e
-    handle_error(e)
-    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{e.message}"
+    handle_failure(e)
+  end
+
+  def handle_failure(error)
+    handle_error(error)
+    Rails.logger.warn "Exception: Invalid webhook URL #{@url} : #{error.message}"
   end
 
   private
