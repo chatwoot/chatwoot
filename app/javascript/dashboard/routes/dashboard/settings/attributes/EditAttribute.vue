@@ -223,7 +223,7 @@ export default {
             {{ $t('ATTRIBUTES_MGMT.EDIT.TYPE.LIST.LABEL') }}
           </label>
           <div
-            class="rounded-xl border px-3 py-2"
+            class="rounded-xl border px-2 py-2"
             :class="isTagInputInvalid ? 'border-n-ruby-9' : 'border-n-weak'"
           >
             <TagInput

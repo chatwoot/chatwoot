@@ -103,7 +103,7 @@ export default {
           <label :class="{ error: v$.selectedAgentIds.$error }">
             {{ $t('INBOX_MGMT.ADD.AGENTS.TITLE') }}
             <div
-              class="rounded-xl outline outline-1 -outline-offset-1 outline-n-weak hover:outline-n-strong px-3 py-2"
+              class="rounded-xl outline outline-1 -outline-offset-1 outline-n-weak hover:outline-n-strong px-2 py-2"
             >
               <TagInput
                 :model-value="selectedAgentNames"
